@@ -58,6 +58,12 @@
 // House style: ESM, esc() all interpolation, soft-fail-never-throw, offline-testable.
 //
 //   import { EMETER, SPECTRO_CHROME, THE_PAIR, disclaimer, claimsCheck, THE_LINE_HTML } from './the-line.mjs';
+//   import { FDA_GUIDANCE, GENERAL_WELLNESS, guidance, GUIDANCE_HTML } from './the-line.mjs';
+//
+// ⚠️ CITATION CURRENCY. The two cases are 1948 and 1971 and are stable. The FDA guidance is not:
+// it was reissued on 6 January 2026 and superseded the 2019 version this file used to rest on
+// implicitly. Every guidance fact below carries an issue date, a docket and the date it was last
+// read off fda.gov (GUIDANCE_CHECKED). Re-read before you bump that date.
 
 /** esc — every value interpolated into HTML goes through this. */
 export const esc = (s) => String(s == null ? '' : s)
@@ -130,6 +136,217 @@ export const THE_PAIR = Object.freeze([
   }),
 ]);
 
+
+// ────────────────────────────────────────────────────────────────────────────────────────────────
+// ⭐ THE CURRENT GUIDANCE, DATED — added 2026-09-09.
+//
+// WHY THIS EXISTS NOW. Everything above is case law from 1948 and 1971, and case law does not go
+// stale quietly. Guidance does. This module had been resting implicitly on the FDA's 2019 General
+// Wellness guidance, and that document was superseded on 6 January 2026 while nothing here noticed.
+// A citation with no date cannot be audited, so every entry below carries its issue date, its
+// docket, its CDRH copy-request number and the date the fact was checked against fda.gov.
+//
+// ⚠️ THE SUBSTANCE DID NOT MOVE, AND THIS MODULE DOES NOT PRETEND IT DID. The two-factor test and
+// the two categories of general wellness intended use read in the 2026 document exactly as they did
+// before. FDA's own town-hall deck states the purpose of the reissue in one line — to clarify how
+// non-invasive sensing can be considered a general wellness product — and that is a clarification
+// about wearables, not a change to the intended-use doctrine the rest of this file encodes. If a
+// later reader is tempted to narrate a doctrinal shift here, there was none. The fix was the date.
+//
+// ⭐ AND THE AFFIRMATIVE HALF, WHICH THIS MODULE HAD NEVER CARRIED. Every other line in this file is
+// a negation. The General Wellness guidance is the one federal document that says, in FDA's own
+// words, what a surface like this one is ALLOWED to be about — relaxation and stress management,
+// sleep management, mental acuity, physical fitness — and it lists, as its own worked example,
+// "[c]laims to increase, improve, or enhance the flow of qi 'energy'". A library that teaches
+// practice, grades its evidence and refuses to promise an outcome is not near the line. It is
+// inside a category the agency wrote down.
+// ────────────────────────────────────────────────────────────────────────────────────────────────
+
+/** The day every fact in FDA_GUIDANCE was last read off fda.gov. Bump it only after re-reading. */
+export const GUIDANCE_CHECKED = '2026-09-09';
+
+/**
+ * General Wellness: Policy for Low Risk Devices — the guidance this library actually sits under.
+ *
+ * Verified 2026-09-09 against the guidance PDF itself (fda.gov/media/90652/download), not against a
+ * summary: the cover page reads "Document issued on January 6, 2026. This document supersedes
+ * 'General Wellness: Policy for Low Risk Devices' issued on September 27, 2019."
+ */
+export const GENERAL_WELLNESS = Object.freeze({
+  id: 'general-wellness',
+  title: 'General Wellness: Policy for Low Risk Devices — Guidance for Industry and Food and Drug Administration Staff',
+  status: 'final',
+  issued: '2026-01-06',
+  supersedes: '“General Wellness: Policy for Low Risk Devices” issued on September 27, 2019',
+  docket: 'FDA-2014-N-1039',
+  // The number FDA asks you to quote when requesting a copy from CDRH-Guidance@fda.hhs.gov.
+  documentNumber: '1300013',
+  office: 'Center for Devices and Radiological Health — Digital Health Center of Excellence',
+  url: 'https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-wellness-policy-low-risk-devices',
+  pdf: 'https://www.fda.gov/media/90652/download',
+  checked: '2026-09-09',
+  // From CDRH's own 11 February 2026 town-hall deck (fda.gov/media/100032/download), verbatim.
+  lineage: Object.freeze([
+    'Draft Guidance published on January 20, 2015',
+    'Final Guidance published on July 29, 2016',
+    'Final Guidance published on September 27, 2019, to clarify, per the Cures Act, that software functions intended for maintaining or encouraging a healthy lifestyle are not devices',
+    'Final Guidance published on January 6, 2026, to clarify how non-invasive sensing can be considered a general wellness product',
+  ]),
+  whatChanged:
+    'Final Guidance published on January 6, 2026, to clarify how non-invasive sensing can be '
+    + 'considered a general wellness product.',
+  substanceUnchanged:
+    'The two-factor test and the two categories of general wellness intended use are unchanged from '
+    + 'the superseded 2019 document. Nothing in the 2026 revision alters the intended-use doctrine '
+    + 'this module encodes.',
+  // Verbatim from §III. Do not paraphrase these strings.
+  twoFactors: Object.freeze([
+    'are intended for only general wellness use, as defined in this guidance',
+    'present a low risk to the safety of users and other persons',
+  ]),
+  categories: Object.freeze([
+    'an intended use that relates to maintaining or encouraging a general state of health or a healthy activity',
+    'an intended use that relates the role of healthy lifestyle with helping to reduce the risk or impact of certain chronic diseases or conditions and where it is well understood and accepted that healthy lifestyle choices may play an important role in health outcomes for the disease or condition',
+  ]),
+  /** §III's list of what the first category of general wellness claims may relate to. Verbatim. */
+  firstCategoryClaims: Object.freeze([
+    'weight management',
+    'physical fitness, including products intended for recreational use',
+    'relaxation or stress management',
+    'mental acuity',
+    'self-esteem (e.g., devices with a cosmetic function that make claims related only to self-esteem)',
+    'sleep management',
+    'sexual function',
+  ]),
+  /**
+   * FDA's own worked example, and the reason this object is worth having rather than a link.
+   * A traditional-practice library reads its own vocabulary back out of a federal guidance document.
+   */
+  qiExample: 'Claims to increase, improve, or enhance the flow of qi “energy”',
+  /**
+   * ⭐ The sentence in the guidance that is closest to this library's whole posture, verbatim.
+   * Being inside the policy is not a finding that anything works — which is exactly what we say.
+   */
+  notAnEfficacyFinding:
+    'A product’s inclusion under the general wellness policy in this guidance does not establish '
+    + 'that it has been shown to be safe and/or effective for its intended use.',
+});
+
+/**
+ * Clinical Decision Support Software. Reported to the operator as law-firm-sourced and unverified.
+ * ✅ CONFIRMED on fda.gov 2026-09-09 — the cover page reads "Document issued on January 29, 2026.
+ * This document supersedes 'Clinical Decision Support Software' issued on January 6, 2026." The
+ * January reissue was itself reissued three weeks later; both dates are real and the later one wins.
+ *
+ * ⚠️ It is NOT this library's guidance, and the entry says so in `appliesToUs`. CDS is about software
+ * that tells a health care professional what to do about a specific patient. Nothing on these
+ * surfaces does that, and the day something here starts to, this is the document it answers to.
+ */
+export const CLINICAL_DECISION_SUPPORT = Object.freeze({
+  id: 'clinical-decision-support',
+  title: 'Clinical Decision Support Software — Guidance for Industry and Food and Drug Administration Staff',
+  status: 'final',
+  issued: '2026-01-29',
+  supersedes: '“Clinical Decision Support Software” issued on January 6, 2026',
+  docket: 'FDA-2017-D-6569',
+  documentNumber: 'GUI01400062',
+  office: 'CDRH, CBER, CDER, and the Office of Combination Products',
+  url: 'https://www.fda.gov/regulatory-information/search-fda-guidance-documents/clinical-decision-support-software',
+  pdf: 'https://www.fda.gov/media/109618/download',
+  checked: '2026-09-09',
+  verified: true,
+  appliesToUs:
+    'No. CDS is software that supports a clinician’s decision about an identified patient, under '
+    + 'section 520(o)(1)(E) of the FD&C Act. This library publishes research and teaches practice; it '
+    + 'does not read a patient’s record and it does not recommend a clinical action. Recorded here '
+    + 'so that the day anything here starts to, the document it answers to is already named.',
+});
+
+/**
+ * Software as a Medical Device (SaMD): Clinical Evaluation — reported as withdrawn, and it is.
+ * ✅ CONFIRMED on fda.gov 2026-09-09 in CDRH's own "Withdrawn or Expired Guidance" table: issue date
+ * 12/08/2017, withdrawal date 01/06/2026 — the same day the General Wellness guidance was reissued.
+ *
+ * Carried because a withdrawn guidance is a live hazard for a corpus: it stays online, it still
+ * reads authoritative, and a reader who cites it is citing something FDA has said no longer
+ * represents its thinking. Naming it here is cheaper than catching it in prose later.
+ */
+export const SAMD_CLINICAL_EVALUATION = Object.freeze({
+  id: 'samd-clinical-evaluation',
+  title: 'Software as a Medical Device (SaMD): Clinical Evaluation — Guidance for Industry and Food and Drug Administration Staff',
+  status: 'withdrawn',
+  issued: '2017-12-08',
+  withdrawn: '2026-01-06',
+  office: 'Center for Devices and Radiological Health',
+  url: 'https://www.fda.gov/medical-devices/guidance-documents-medical-devices-and-radiation-emitting-products/withdrawn-or-expired-guidance',
+  checked: '2026-09-09',
+  verified: true,
+  note:
+    'Withdrawn guidance stays reachable online and still reads authoritative. CDRH says withdrawn '
+    + 'documents "no longer represent FDA’s current thinking and are presented for historical '
+    + 'purposes only." Do not cite it as current.',
+});
+
+/** Every guidance document this module tracks, current first, withdrawn last. */
+export const FDA_GUIDANCE = Object.freeze([
+  GENERAL_WELLNESS, CLINICAL_DECISION_SUPPORT, SAMD_CLINICAL_EVALUATION,
+]);
+
+/**
+ * guidance(id) — one tracked document, or null. Never throws, never guesses: an id that is not in
+ * the list returns null rather than the nearest match, because the nearest match to a regulatory
+ * citation is a wrong regulatory citation.
+ */
+export function guidance(id) {
+  const key = String(id == null ? '' : id).trim().toLowerCase();
+  if (!key) return null;
+  return FDA_GUIDANCE.find((g) => g.id === key) || null;
+}
+
+/** The tracked documents FDA has withdrawn — the list a citation pass should check prose against. */
+export function withdrawnGuidance() {
+  return FDA_GUIDANCE.filter((g) => g.status === 'withdrawn');
+}
+
+/**
+ * GUIDANCE_HTML() — the dated citations, rendered, so the page states which document it rests on
+ * and when that was last checked. A reader who wants to audit us can, in one click.
+ */
+export function GUIDANCE_HTML() {
+  const rows = FDA_GUIDANCE.map((g) => {
+    const when = g.status === 'withdrawn'
+      ? `issued ${esc(g.issued)} · <b>withdrawn ${esc(g.withdrawn)}</b>`
+      : `issued ${esc(g.issued)}`;
+    const sup = g.supersedes ? `<br><span class="prov">supersedes ${esc(g.supersedes)}</span>` : '';
+    const doc = g.docket
+      ? `<br><span class="prov">docket ${esc(g.docket)} · document ${esc(g.documentNumber)}</span>` : '';
+    return `<tr>
+    <td><a href="${esc(g.url)}">${esc(g.title)}</a>${sup}${doc}</td>
+    <td>${when}<br><span class="prov">checked ${esc(g.checked)}</span></td>
+  </tr>`;
+  }).join('');
+  return `<section class="guidance">
+  <h2>The guidance this rests on, with its dates</h2>
+  <p>The two cases above are from 1948 and 1971 and they do not move. Guidance does, quietly, and a
+  citation with no date on it cannot be audited. So:</p>
+  <table>
+    <tr><th>document</th><th>dates</th></tr>
+    ${rows}
+  </table>
+  <p><b>The substance did not change.</b> ${esc(GENERAL_WELLNESS.substanceUnchanged)}
+  FDA states the purpose of the reissue in one line: <q>${esc(GENERAL_WELLNESS.whatChanged)}</q></p>
+  <h3>And the half of the doctrine that is not a prohibition</h3>
+  <p>Everything else on this page is a negation. This is the one federal document that says what a
+  surface like this one is <i>allowed</i> to be about. A general wellness product, in the guidance's
+  own two factors, is one that ${esc(GENERAL_WELLNESS.twoFactors.join('; and '))}. The first category
+  of such claims may relate to: ${esc(GENERAL_WELLNESS.firstCategoryClaims.join(', '))}.</p>
+  <p>Among FDA's own worked examples in that category: <q>${esc(GENERAL_WELLNESS.qiExample)}</q></p>
+  <p class="prov">And the sentence closest to this library's whole posture, which is the agency's,
+  not ours: <q>${esc(GENERAL_WELLNESS.notAnEfficacyFinding)}</q> Being inside the policy is not a
+  finding that anything works. We say the same thing, and we grade our weakest entries weak.</p>
+</section>`;
+}
+
 /** Disclaimers per surface. Each is a plain string; callers esc() when embedding. */
 const DISCLAIMERS = Object.freeze({
   entrainment:
@@ -199,14 +416,20 @@ export const CONSULT = Object.freeze({
  * The compact banner for pages that are not primarily about the library — one line, always the same
  * words, so it is recognisable rather than read anew each time.
  */
-export function consultBanner(context = 'exams', { also = [] } = {}) {
+export function consultBanner(context = 'exams', opts) {
+  // ⚠️ `= {}` as a destructuring default fires only for `undefined`. `consultBanner('exams', null)`
+  // destructured null and threw a TypeError out of a module whose whole contract is soft-fail —
+  // and this banner is the safety copy, so the failure mode was a page rendering with no
+  // disclaimer on it. Normalise first, destructure never.
+  const o = (opts && typeof opts === 'object') ? opts : {};
+  const also = Array.isArray(o.also) ? o.also : (o.also == null ? [] : [o.also]);
   // ⭐ `also` exists because some surfaces sit under TWO doctrines at once. A colour exam is an
   // instrument that produces a number about a person — the `exams` wording, which says who is allowed
   // to interpret it — AND it is a coloured light on a screen, which is the exact article that was
   // condemned in United States v. Ghadiali. Both sentences have to appear, and neither substitutes
   // for the other. Unknown contexts fall back to the strictest wording rather than to nothing, and a
   // context repeated in `also` is dropped rather than printed twice.
-  const extra = (Array.isArray(also) ? also : [also])
+  const extra = also
     .map((c) => String(c == null ? '' : c).trim().toLowerCase())
     .filter((c) => c && c !== String(context || '').trim().toLowerCase() && DISCLAIMERS[c]);
   const seen = new Set();
@@ -412,6 +635,7 @@ public record, not our opinion of it.</p>
 ${THE_LINE_HTML(c)}
 ${THE_PAIR_HTML()}
 ${FAILED_DEFENCES_HTML()}
+${GUIDANCE_HTML()}
 <section>
   <h3>The same page, from another surface’s point of view</h3>
   <p class="prov">The doctrine does not change; the sentence a given surface has to avoid does.
@@ -430,6 +654,8 @@ export function handler(req, res, context = 'entrainment') {
     precedent: EMETER,
     counterfactual: SPECTRO_CHROME,
     pair: THE_PAIR,
+    guidance: FDA_GUIDANCE,
+    guidanceChecked: GUIDANCE_CHECKED,
   }, null, 2));
 }
 
@@ -439,11 +665,16 @@ if (isMain) {
   console.log('\nclaimsCheck("cures insomnia") ->', JSON.stringify(claimsCheck('cures insomnia')));
   console.log('claimsCheck("restores your energy field") ->', JSON.stringify(claimsCheck('restores your energy field')));
   for (const p of THE_PAIR) console.log(`\n[${p.label} ${p.year} — ${p.outcome}] ${p.cite}\n  ${p.sentence}`);
+  console.log(`\nFDA guidance, checked ${GUIDANCE_CHECKED}:`);
+  for (const g of FDA_GUIDANCE) {
+    console.log(`  [${g.status}] ${g.title}\n    issued ${g.issued}${g.withdrawn ? ` · withdrawn ${g.withdrawn}` : ''}`);
+  }
 }
 
 export default THE_LINE_HTML;
 export const THE_LINE = Object.freeze({
   EMETER, SPECTRO_CHROME, THE_PAIR, FAILED_DEFENCES, PAGE_CONTEXTS,
+  FDA_GUIDANCE, GENERAL_WELLNESS, CLINICAL_DECISION_SUPPORT, SAMD_CLINICAL_EVALUATION, GUIDANCE_CHECKED,
   disclaimer, consultBanner, claimsCheck, THE_LINE_HTML, THE_PAIR_HTML, FAILED_DEFENCES_HTML,
-  theLinePageHTML, handler,
+  guidance, withdrawnGuidance, GUIDANCE_HTML, theLinePageHTML, handler,
 });
