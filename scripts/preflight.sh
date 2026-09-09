@@ -94,11 +94,26 @@ fi
 
 # --- 5. tests pass ----------------------------------------------------
 
-if npm test --silent >/dev/null 2>&1; then
-  pass "npm test — all tutorial + welcomer + watcher suites pass"
+# Run ONCE and keep the output. The previous version ran the whole suite, threw the
+# output away, and then ran it a SECOND time to show `tail -30` — which is ~22 minutes of
+# CI on a failure, and `tail -30` shows the summary counts rather than the failing tests.
+# That is why a red CI could report "cancelled 3" without ever naming the three.
+TEST_LOG="$(mktemp -t preflight-tests.XXXXXX)"
+if npm test >"$TEST_LOG" 2>&1; then
+  pass "npm test — full suite"
+  rm -f "$TEST_LOG"
 else
   errfail "npm test — test failures"
-  npm test 2>&1 | tail -30 >&2
+  {
+    echo "--- failing / cancelled tests -------------------------------------------"
+    # `not ok` covers failures AND cancellations; node --test exits 1 on either.
+    grep -E "^not ok " "$TEST_LOG" | head -40 || true
+    # A cancelled test is often only identifiable from the surrounding diagnostic.
+    grep -B2 -A6 -E "^ +(error|failureType): .*cancel" "$TEST_LOG" | head -40 || true
+    echo "--- summary --------------------------------------------------------------"
+    grep -E "^# (tests|pass|fail|cancelled|skipped|todo|duration_ms)" "$TEST_LOG" | tail -8 || true
+    echo "--- full log kept at: $TEST_LOG"
+  } >&2
 fi
 
 # --- 6. npm audit (critical fails; high warns) ------------------------
