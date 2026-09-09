@@ -77,7 +77,7 @@ test('the exam is registered, is a perception exam, and is not experiential-self
 test('⭐ the experiential exams are flagged and the behavioural ones are not', () => {
   // The VVIQ asks how vivid an image WAS; the Thread Protocol asks how much each of sixteen stimuli
   // did to you. Both are reports of an experience, so both print the covariate.
-  assert.deepEqual(experientialExams().map((e) => e.id).sort(), ['thread', 'vviq']);
+  assert.deepEqual(experientialExams().map((e) => e.id).sort(), ['absorption', 'thread', 'vviq']);
   // Said explicitly, because the interesting half is the exams that are EXEMPT and why: the grapheme
   // test is scored on reproducing a colour, not on reporting a feeling.
   assert.equal(examById('grapheme').experientialSelfReport, false);

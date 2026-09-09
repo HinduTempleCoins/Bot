@@ -56,6 +56,11 @@ import {
   EXAM_ID as SUGG_ID, buildForm as suggForm, scoreForm as scoreSugg,
   resultCopy as suggCopy, covariateNote, suggestibilityPageHTML,
 } from './exam-suggestibility.mjs';
+import {
+  EXAM_ID as ABS_ID, buildForm as absForm, scoreForm as scoreAbs,
+  resultCopy as absCopy, absorptionPageHTML,
+} from './exam-absorption.mjs';
+import { covariateHTML } from './exam-suggestibility.mjs';
 import { the256PageHTML, handler as the256Handler, ROUTE as THE_256_ROUTE } from './the-256.mjs';
 import { theLinePageHTML, PAGE_CONTEXTS as LINE_CONTEXTS, handler as theLineHandler } from './the-line.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
@@ -322,7 +327,7 @@ function chamberShell(title, body, session = null) {
 export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
-  '/exams/thread', '/exams/who-says', '/the-256', '/the-line',
+  '/exams/thread', '/exams/who-says', '/exams/absorption', '/the-256', '/the-line',
   // The interaction corpus. Spread rather than listed, so a substance or pair page cannot be added to
   // the dataset and then be reachable-but-unlisted — which is how a good page stays undiscovered.
   // interactions.mjs refuses to generate a page it has nothing to put on, so everything here is real.
@@ -937,6 +942,78 @@ export async function handler(req, res) {
         daysSinceFirst: stored.sitting.daysSinceFirst,
         result: { score: result.score, answered: result.answered, byFacet: result.byFacet, probes: result.probes },
         copy: suggCopy(result, { n: counts[SUGG_ID] || 0, priorScore }),
+      }));
+    }
+
+    // ── /exams/absorption — absorption, written from scratch (R8) ─────────────────────────────────
+    // Nothing to license and nothing to fall back on: the TAS is licensed and the licence has been
+    // enforced, MODTAS inherits it, a paraphrase is a derivative work, and the IPIP has no Absorption
+    // scale among its 463. So the items are ours. Claim class ②, our own norms, and no percentile at
+    // all below a hundred takers — `resultCopy()` enforces that and does not take the count on trust.
+    //
+    // It is a DIFFERENT construct from /exams/suggestibility and the two say so to each other, so the
+    // expectancy covariate prints beside this result without being circular.
+    if (path === '/exams/absorption') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(absorptionPageHTML());
+    }
+
+    if (path === '/api/exams/absorption/form') {
+      const seed = `${Date.now()}:${Math.random()}`;
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({ ok: true, form: absForm({ seed }) }));
+    }
+
+    if (path === '/api/exams/absorption' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No participant key was sent, so there is nothing to attach this to. Nothing was saved.' }));
+      }
+      const card = validateStateCard(body.stateCard || {});
+      if (!card.ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: card.errors[0], errors: card.errors }));
+      }
+      const result = scoreAbs(body.answers, body.timing);
+      if (result.score.total == null) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No item was answered, so there is nothing to score. Nothing was saved.' }));
+      }
+      const prior = history(pid, ABS_ID);
+      const priorScore = prior.length ? (prior[prior.length - 1].score || {}).total : null;
+      const stored = appendSitting({
+        pid, exam: ABS_ID,
+        score: result.score,
+        answered: result.answered,
+        byFacet: result.byFacet,
+        perItem: result.perItem,
+        passages: result.passages,
+        allSameAnswer: result.allSameAnswer,
+        stateCard: card.card,
+      });
+      if (!stored.ok) {
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'Could not store the sitting. Nothing was saved — please try again.' }));
+      }
+      const counts = completionCounts();
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true,
+        sessionNumber: stored.sitting.sessionNumber,
+        daysSinceFirst: stored.sitting.daysSinceFirst,
+        result: { score: result.score, answered: result.answered, byFacet: result.byFacet, passages: result.passages },
+        copy: absCopy(result, {
+          n: counts[ABS_ID] || 0,
+          distribution: distribution(ABS_ID, 'total'),
+          priorScore,
+        }),
+        // A different construct, so printing the expectancy index beside it is a disclosure and not
+        // a tautology. The absorption page says how the two differ, in both directions.
+        covariate: covariateHTML(covariateFor(pid, 'the absorption index')),
       }));
     }
 
