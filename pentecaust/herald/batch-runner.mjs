@@ -41,6 +41,35 @@ export function rank(leads = []) {
  * Returns `{ ok, cap, batch, skipped, health }`. `batch` entries carry the rendered subject and body
  * so a human can read the actual messages before anything is sent — which is the point.
  */
+
+/**
+ * Why an address cannot be delivered to, or null if it looks deliverable.
+ *
+ * Deliberately CONSERVATIVE: this rejects only what is structurally impossible or unambiguously
+ * machine-generated. It is not a spam filter and it is not a guess about whether a person reads the
+ * inbox — a false positive here silently drops a real recipient, which is worse than a bounce.
+ */
+export function addressProblem(email) {
+  const e = String(email == null ? '' : email).trim().toLowerCase();
+  if (!e) return 'no email';
+  const at = e.lastIndexOf('@');
+  const local = e.slice(0, at);
+  const domain = e.slice(at + 1);
+  // RFC-ish, and deliberately not the full grammar — the full grammar accepts things no MTA will.
+  if (!/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*$/.test(local)) {
+    return 'local-part is not a deliverable address';
+  }
+  // ⚠️ NOT a length rule. `x@gmail.com` is a perfectly deliverable address and an earlier draft of
+  // this function rejected it — a false positive here silently drops a real person, which is worse
+  // than the bounce it was trying to avoid. Only punctuation-only local-parts are impossible.
+  if (/^[-._]+$/.test(local)) return 'degenerate local-part — this would hard-bounce';
+  if (!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/.test(domain)) return 'domain has no valid TLD — this would hard-bounce';
+  // A 24+ hex local-part is a machine identifier, not a person. Sending to one earns a complaint and
+  // reaches nobody.
+  if (/^[0-9a-f]{24,}$/.test(local)) return 'hash local-part — machine-generated, not a person';
+  return null;
+}
+
 export function planDay({
   leads = [], render = null, warmupDay = 0, warmup = {}, suppression = null,
   postalAddress = '', unsubscribeUrl = '', senderName = '', region = 'US',
@@ -57,6 +86,13 @@ export function planDay({
     const email = low(lead.email);
     const skip = (why) => skipped.push({ id: lead.id, email, why });
     if (!email || !email.includes('@')) { skip('no email'); continue; }
+    // ⚠️ `.includes('@')` is not a validity check. The live holder list contains `-@be.annes.trinkets`
+    // — degenerate local-part, no valid TLD — and it sorted into the FIRST BATCH OF TEN, because junk
+    // addresses sort high. Two bad rows out of 829 is 0.24% overall and 10–20% of day one, at exactly
+    // the moment a warming domain cannot absorb a bounce. Reject them here, where the day is planned,
+    // rather than discovering them from a bounce webhook after the reputation damage is done.
+    const undeliverable = addressProblem(email);
+    if (undeliverable) { skip(undeliverable); continue; }
     if (seen.has(email)) { skip('the same address is already in this batch'); continue; }
     if (NOT_A_FIRST_TOUCH.has(low(lead.stage))) { skip(`stage is ${low(lead.stage)} — not a first touch`); continue; }
 
