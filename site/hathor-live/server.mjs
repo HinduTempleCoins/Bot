@@ -57,6 +57,7 @@ import {
   resultCopy as suggCopy, covariateNote, suggestibilityPageHTML,
 } from './exam-suggestibility.mjs';
 import { the256PageHTML, handler as the256Handler, ROUTE as THE_256_ROUTE } from './the-256.mjs';
+import { theLinePageHTML, PAGE_CONTEXTS as LINE_CONTEXTS, handler as theLineHandler } from './the-line.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
@@ -320,7 +321,7 @@ function chamberShell(title, body, session = null) {
 export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
-  '/exams/thread', '/the-256',
+  '/exams/thread', '/the-256', '/the-line',
   // The interaction corpus. Spread rather than listed, so a substance or pair page cannot be added to
   // the dataset and then be reachable-but-unlisted — which is how a good page stays undiscovered.
   // interactions.mjs refuses to generate a page it has nothing to put on, so everything here is real.
@@ -740,6 +741,24 @@ export async function handler(req, res) {
         // an image WAS and the only evidence is the taker's own say-so. The covariate goes beside it.
         covariate: covariateFor(pid, 'the mind’s-eye questionnaire'),
       }));
+    }
+
+    // ── /the-line — two lamps, and where the line actually is ─────────────────────────────────────
+    // ⭐ THE_PAIR and SPECTRO_CHROME have existed since PR #986 as data structures reachable by a
+    // developer and by nobody else. This route is what makes them reachable by a reader. The pair is
+    // the clearest statement of the intended-use doctrine in this repo: two devices, both found to
+    // have NO medical value, one released to its church and one condemned — and the only variable
+    // that moved was the sentence on the label.
+    if (path === '/the-line') {
+      const want = String(url.searchParams.get('context') || 'colour').toLowerCase();
+      const context = LINE_CONTEXTS.includes(want) ? want : 'colour';
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(theLinePageHTML(context));
+    }
+
+    if (path === '/api/the-line') {
+      const want = String(url.searchParams.get('context') || 'colour').toLowerCase();
+      return theLineHandler(req, res, LINE_CONTEXTS.includes(want) ? want : 'colour');
     }
 
     // ── /the-256 — Ifá's structure, taught, and its content refused (R2) ──────────────────────────

@@ -446,7 +446,16 @@ export function retestPair(first, second, { unit = '', sem = null } = {}) {
 
 // ── the page shell ───────────────────────────────────────────────────────────────────────────────
 
-export function examShell(title, body, { extraCSS = '', extraJS = '', extraHead = '' } = {}) {
+/**
+ * ⭐ `alsoDisclaim` — for a page that sits under more than one doctrine at once.
+ *
+ * A colour exam is two things simultaneously: an INSTRUMENT that produces a number about a person
+ * (the `exams` wording, which says who is allowed to interpret it), and a COLOURED LIGHT ON A SCREEN
+ * — which is the exact article that was condemned in United States v. Ghadiali, 165 F.2d 957
+ * (3d Cir. 1948). The `colour` context disclaims measurement and restoration BY NAME, in the register
+ * of the condemned label itself, and it is not interchangeable with the exams wording. So both print.
+ */
+export function examShell(title, body, { extraCSS = '', extraJS = '', extraHead = '', alsoDisclaim = [] } = {}) {
   // `extraHead` is for a page that needs its own canonical/OG/Twitter tags — a shareable result card.
   // When one is supplied it OWNS the description and robots tags, because emitting both sets would
   // hand a crawler two contradictory descriptions and let it pick.
@@ -489,11 +498,11 @@ ${head}
     padding:10px 14px;margin:0 0 18px;background:var(--mk-panel);font-size:14px}
   .consult p{margin:4px 0}
   ${extraCSS}</style></head><body><div class=wrap>
-${consultBanner('exams')}
+${consultBanner('exams', { also: alsoDisclaim })}
 ${body}
 <footer class=muted style="margin-top:44px;font-size:13px;border-top:1px solid var(--mk-border);padding-top:14px">
   ${esc(CONSULT.line)}<br>
-  <a href="/exams">Temple Exams</a> · <a href="/40hz">the entrainment library</a> · <a href="/reports">the report archive</a><br>
+  <a href="/exams">Temple Exams</a> · <a href="/40hz">the entrainment library</a> · <a href="/reports">the report archive</a> · <a href="/the-line">where the line is</a><br>
   No account, no name, no email. Nothing here goes on the chain. Nothing here pays anything, and that is on purpose.
 </footer>
 </div>${extraJS ? `<script>${extraJS}</script>` : ''}</body></html>`;

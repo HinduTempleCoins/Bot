@@ -199,9 +199,21 @@ export const CONSULT = Object.freeze({
  * The compact banner for pages that are not primarily about the library — one line, always the same
  * words, so it is recognisable rather than read anew each time.
  */
-export function consultBanner(context = 'exams') {
+export function consultBanner(context = 'exams', { also = [] } = {}) {
+  // ⭐ `also` exists because some surfaces sit under TWO doctrines at once. A colour exam is an
+  // instrument that produces a number about a person — the `exams` wording, which says who is allowed
+  // to interpret it — AND it is a coloured light on a screen, which is the exact article that was
+  // condemned in United States v. Ghadiali. Both sentences have to appear, and neither substitutes
+  // for the other. Unknown contexts fall back to the strictest wording rather than to nothing, and a
+  // context repeated in `also` is dropped rather than printed twice.
+  const extra = (Array.isArray(also) ? also : [also])
+    .map((c) => String(c == null ? '' : c).trim().toLowerCase())
+    .filter((c) => c && c !== String(context || '').trim().toLowerCase() && DISCLAIMERS[c]);
+  const seen = new Set();
+  const lines = extra.filter((c) => (seen.has(c) ? false : seen.add(c)))
+    .map((c) => `\n  <p>${esc(disclaimer(c))}</p>`).join('');
   return `<aside class="consult" role="note">
-  <p><b>${esc(CONSULT.short)}</b> ${esc(disclaimer(context))}</p>
+  <p><b>${esc(CONSULT.short)}</b> ${esc(disclaimer(context))}</p>${lines}
   <p class="muted">${esc(CONSULT.notALab)}</p>
 </aside>`;
 }
@@ -292,6 +304,123 @@ export function THE_LINE_HTML(context = 'entrainment') {
 </section>`;
 }
 
+/**
+ * ⭐ THE_PAIR_HTML() — the two sentences side by side, which is the only way either case teaches.
+ *
+ * Until now THE_PAIR existed only as a data structure, reachable by a developer and by nobody else.
+ * The pair is the clearest statement of the intended-use doctrine in this repo — two devices, both
+ * found to have no medical value, one released to its church and one condemned, and the only variable
+ * that moved was the sentence — so a reader has to be able to get at it.
+ */
+export function THE_PAIR_HTML() {
+  const rows = THE_PAIR.map((p) => `<tr>
+    <td><b>${esc(p.label)}</b><br><span class="prov">${esc(p.cite)}</span></td>
+    <td>${esc(String(p.year))}</td>
+    <td><q>${esc(p.sentence)}</q></td>
+    <td><b>${esc(p.outcome)}</b><br><span class="prov">${esc(p.why)}</span></td>
+  </tr>`).join('');
+  return `<section class="the-pair">
+  <h2>Two lamps</h2>
+  <p>Both devices were held to have <b>no medical value</b>. One went home to its church under a
+  court-ordered disclaimer; the other's owner was convicted on twelve counts, and his literature was
+  destroyed. <b>The devices are not what differ. The sentences differ.</b></p>
+  <table>
+    <tr><th>device</th><th>year</th><th>the sentence</th><th>outcome</th></tr>
+    ${rows}
+  </table>
+  <p>That is the intended-use doctrine with the abstraction taken out of it, and it is worth more than
+  any amount of general caution because it is <i>specific</i>: it names the exact register of sentence
+  — measurement, restoration, equilibrium, attunement — that converts a description into a claim.</p>
+</section>`;
+}
+
+/**
+ * ⭐ The three defences that failed, and they are the ones a project like this one would reach for
+ * first. Worth rendering rather than leaving in a comment, because "we are religious" is exactly the
+ * reflex this page exists to correct.
+ */
+export const FAILED_DEFENCES = Object.freeze([
+  {
+    defence: 'He was religious, and it is in the record.',
+    what: SPECTRO_CHROME.religionInTheRecord,
+    lesson: 'A religious frame is not a shield you can raise after the fact over a sentence that '
+      + 'promises a cure. It has to be what the practice actually was.',
+  },
+  {
+    defence: 'He argued free speech — that he was only lecturing.',
+    what: 'The 1943 opinion rejected it: the court held the lecture was the practice.',
+    lesson: 'Describing an intended use is not saved by calling the description a lecture.',
+  },
+  {
+    defence: 'He was sincere, and nobody suggested otherwise.',
+    what: 'Sincerity was never the question. The question was the claim, and the claim was an '
+      + 'efficacy claim.',
+    lesson: 'A court may not decide whether a religious practice is true. It may regulate a medical '
+      + 'promise. Those are different questions and only the second one was ever asked.',
+  },
+]);
+
+export function FAILED_DEFENCES_HTML() {
+  return `<section class="failed-defences">
+  <h3>And the part that should stop anyone reaching for the religious frame as a shield</h3>
+  <ul>${FAILED_DEFENCES.map((d) => `<li><b>${esc(d.defence)}</b><br>${esc(d.what)}<br>
+    <span class="prov">${esc(d.lesson)}</span></li>`).join('')}</ul>
+</section>`;
+}
+
+/** The contexts a reader may ask /the-line to show. An allow-list, not a filter. */
+export const PAGE_CONTEXTS = Object.freeze(['colour', 'entrainment', 'practices', 'preparations', 'reports', 'exams']);
+
+/**
+ * theLinePageHTML(context) — the whole thing as a standalone page.
+ *
+ * Self-contained: no external stylesheet, no script, nothing to load. It carries the CONSULT banner
+ * like every other page in this directory, and it renders the pair, the failed defences and the
+ * disclaimer for whichever surface the reader arrived from.
+ */
+export function theLinePageHTML(context = 'colour') {
+  const c = PAGE_CONTEXTS.includes(String(context || '').toLowerCase())
+    ? String(context).toLowerCase() : 'colour';
+  const others = PAGE_CONTEXTS.filter((x) => x !== c)
+    .map((x) => `<a href="/the-line?context=${esc(x)}">${esc(x)}</a>`).join(' · ');
+  return `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Two lamps — where the line is</title>
+<meta name=robots content="index,follow">
+<meta name=description content="Two devices, both found to have no medical value. One released, one condemned. The sentences differ.">
+<style>
+  :root{--bg:#0e0b14;--panel:#161020;--text:#efe9f7;--muted:#a99fc0;--border:#2c2338;--accent:#e2b857}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 -apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  main{max-width:800px;margin:0 auto;padding:28px 18px 80px}
+  h1{font-size:1.7rem;margin:0 0 6px} h2{font-size:1.2rem;margin:28px 0 8px} h3{font-size:1.05rem;margin:22px 0 6px}
+  a{color:var(--accent)}
+  .prov,.muted{color:var(--muted);font-size:13px}
+  blockquote,q{color:var(--muted)}
+  blockquote{margin:10px 0;padding:8px 14px;border-left:3px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+  td,th{border-bottom:1px solid var(--border);padding:8px 6px;text-align:left;vertical-align:top}
+  ul li{margin:10px 0}
+  .consult{border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:8px;
+    padding:10px 14px;margin:0 0 18px;background:var(--panel);font-size:14px}
+  .consult p{margin:4px 0}
+  section{border-top:1px solid var(--border);margin-top:26px;padding-top:6px}
+</style></head><body><main>
+${consultBanner(c)}
+<h1>Two lamps</h1>
+<p class="muted">Where the line actually is, according to the two cases that drew it. This page is the
+public record, not our opinion of it.</p>
+${THE_LINE_HTML(c)}
+${THE_PAIR_HTML()}
+${FAILED_DEFENCES_HTML()}
+<section>
+  <h3>The same page, from another surface’s point of view</h3>
+  <p class="prov">The doctrine does not change; the sentence a given surface has to avoid does.
+  ${others}</p>
+  <p class="prov">${esc(CONSULT.notALab)}</p>
+</section>
+</main></body></html>`;
+}
+
 /** handler(req,res) — serve the framing as JSON, for other surfaces that need it. */
 export function handler(req, res, context = 'entrainment') {
   res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
@@ -313,3 +442,8 @@ if (isMain) {
 }
 
 export default THE_LINE_HTML;
+export const THE_LINE = Object.freeze({
+  EMETER, SPECTRO_CHROME, THE_PAIR, FAILED_DEFENCES, PAGE_CONTEXTS,
+  disclaimer, consultBanner, claimsCheck, THE_LINE_HTML, THE_PAIR_HTML, FAILED_DEFENCES_HTML,
+  theLinePageHTML, handler,
+});

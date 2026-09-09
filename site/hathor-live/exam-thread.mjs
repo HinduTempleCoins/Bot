@@ -812,7 +812,12 @@ ${colourLimits}
   }
 })();`;
 
-  return examShell(exam.name || 'The Thread Protocol', body, { extraCSS: css, extraJS: js });
+  // The colour run shows sixteen coloured fields; the rhythm run does not. Only the colour one takes
+  // the `colour` disclaimer, because a disclaimer printed where it does not apply teaches a reader to
+  // skip disclaimers.
+  return examShell(exam.name || 'The Thread Protocol', body, {
+    extraCSS: css, extraJS: js, alsoDisclaim: s.id === 'colour' ? ['colour'] : [],
+  });
 }
 
 export default {
