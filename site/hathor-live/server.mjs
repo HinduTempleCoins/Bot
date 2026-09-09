@@ -56,6 +56,7 @@ import {
   EXAM_ID as SUGG_ID, buildForm as suggForm, scoreForm as scoreSugg,
   resultCopy as suggCopy, covariateNote, suggestibilityPageHTML,
 } from './exam-suggestibility.mjs';
+import { the256PageHTML, handler as the256Handler, ROUTE as THE_256_ROUTE } from './the-256.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
@@ -318,7 +319,7 @@ function chamberShell(title, body, session = null) {
 export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
-  '/exams/thread',
+  '/exams/thread', '/the-256',
 ];
 
 export async function handler(req, res) {
@@ -730,6 +731,23 @@ export async function handler(req, res) {
         // an image WAS and the only evidence is the taker's own say-so. The covariate goes beside it.
         covariate: covariateFor(pid, 'the mind’s-eye questionnaire'),
       }));
+    }
+
+    // ── /the-256 — Ifá's structure, taught, and its content refused (R2) ──────────────────────────
+    // ⭐ THE REFUSAL IS THE CONTENT. The page casts eight binary marks into one of 256 unlabelled
+    // addresses and then declines to say what is there — because a page that casts eight bits and
+    // prints an odu name HAS PERFORMED A DIVINATION, however carefully it is hedged. The rule is
+    // `integrations/cosmologies.mjs`'s own: copyright expiry is not consent. `assertNoContent()` runs
+    // at that module's load, so a build that ever acquires a name table refuses to start.
+    if (path === THE_256_ROUTE) {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(the256PageHTML());
+    }
+
+    if (path === '/api/the-256/cast') {
+      // There is no branch on the address in this handler or in the module behind it: every cast gets
+      // the same sentence back. One address must not produce different words from another.
+      return the256Handler(req, res);
     }
 
     // ── /exams/thread — the Thread Protocol (R1) ──────────────────────────────────────────────────
