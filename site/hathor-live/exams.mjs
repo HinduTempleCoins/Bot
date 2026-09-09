@@ -536,7 +536,7 @@ ${consultBanner('exams', { also: alsoDisclaim })}
 ${body}
 <footer class=muted style="margin-top:44px;font-size:13px;border-top:1px solid var(--mk-border);padding-top:14px">
   ${esc(CONSULT.line)}<br>
-  <a href="/exams">Temple Exams</a> · <a href="/40hz">the entrainment library</a> · <a href="/reports">the report archive</a> · <a href="/the-line">where the line is</a><br>
+  <a href="/exams">Temple Exams</a> · <a href="/40hz">the entrainment library</a> · <a href="/dreams">the dream journal</a> · <a href="/reports">the report archive</a> · <a href="/the-line">where the line is</a><br>
   No account, no name, no email. Nothing here goes on the chain. Nothing here pays anything, and that is on purpose.
 </footer>
 </div>${extraJS ? `<script>${extraJS}</script>` : ''}</body></html>`;

@@ -12,8 +12,11 @@ import {
   REALITY_CHECKS, REALITY_CHECK_STATUSES, realityCheck, realityCheckStatus, folkloreChecks,
 } from './practices.mjs';
 import { GAMMA_PAGE } from './gamma.mjs';
+import { claimsCheck } from './the-line.mjs';
+import { baselineNote } from './placebo-baseline.mjs';
+import { melanopicEDI } from '../../integrations/light-signal.mjs';
 
-const GRADES = ['strong', 'moderate', 'promising', 'weak', 'traditional'];
+const GRADES = ['strong', 'moderate', 'promising', 'mixed', 'weak', 'traditional', 'not-supported'];
 
 test('every practice is well formed and uses a known grade', () => {
   assert.ok(PRACTICES.length >= 8);
@@ -286,4 +289,176 @@ test('sleep paralysis is taught with prevalence and with how it ends', () => {
 test('WILD points the reader at the sleep-paralysis entry BEFORE the attempt', () => {
   const w = PRACTICES.find((x) => x.id === 'wild');
   assert.match(w.caution, /sleep-paralysis entry|before your first attempt/i);
+});
+
+// ── R4: light, graded ────────────────────────────────────────────────────────────────────────────
+//
+// The shelf where the grading matters most, because this is the domain in which a project of this
+// shape has already been prosecuted once. Six entries, six grades, and the NOT-SUPPORTED row sits in
+// the same list as the strong ones rather than in a footnote.
+
+test('the light family exists, carries the colour disclaimer context, and has six graded entries', () => {
+  const fam = PRACTICE_FAMILIES.find((f) => f.id === 'light');
+  assert.ok(fam, 'the light family must exist');
+  assert.equal(fam.disclaimerContext, 'colour',
+    'this family sits under the Ghadiali doctrine and must print the colour wording');
+  assert.equal(byFamily('light').length, 6);
+});
+
+test('each light entry carries its OWN grade, and the six are not all the same', () => {
+  const grades = {
+    'iprgc-circadian': 'strong',
+    'bright-light-sad': 'strong',
+    'light-preventing-sad': 'weak',
+    'blue-enriched-alertness': 'moderate',
+    'transcranial-pbm': 'mixed',
+    'colour-matched-to-organ': 'not-supported',
+  };
+  for (const [id, g] of Object.entries(grades)) {
+    assert.equal(practiceGrade(id), g, `${id} should be graded ${g}`);
+  }
+  assert.equal(new Set(Object.values(grades)).size, 5, 'five distinct grades across six entries');
+});
+
+test('⭐ the SAD entry prints the NULL half, not only the 0.84', () => {
+  const p = PRACTICES.find((x) => x.id === 'bright-light-sad');
+  // The positive half.
+  assert.match(p.evidence, /0\.84/, 'Golden 2005 bright light in SAD');
+  assert.match(p.evidence, /−0\.37|-0\.37/, 'Pjrek 2020 SMD — the smaller, newer estimate');
+  assert.match(p.evidence, /1\.42/, 'Pjrek response risk ratio');
+  // The null half, each row named. Dropping any of these is the failure this test exists to catch.
+  assert.match(p.evidence, /−0\.01|-0\.01/, 'the adjunct row in non-seasonal depression');
+  assert.match(p.evidence, /no differences among the 3 groups/, 'Eastman’s own sentence, verbatim');
+  assert.match(p.evidence, /neither main effects of treatment nor interactions/, 'Flory 2010, verbatim');
+  assert.match(p.evidence, /no significant group × time effect/i, 'the 2024 JAMA Psychiatry null');
+  assert.match(p.evidence, /NO Cochrane review/, 'the structural absence must be stated');
+  // And the honest reading of the disagreement.
+  assert.match(p.note, /factor of two/, 'the magnitude dispute is the headline, not a footnote');
+});
+
+test('⭐ morning-versus-evening is reported as criterion-dependent, not as folklore', () => {
+  const p = PRACTICES.find((x) => x.id === 'bright-light-sad');
+  assert.match(p.note, /WITH NO OTHER GROUP DIFFERENCES/,
+    'Terman’s own abstract sentence must be quoted, because it is the inconvenient half');
+  assert.match(p.note, /[Ss]tringent remission criteria/);
+  assert.match(p.note, /CRITERION-DEPENDENT/);
+});
+
+test('⭐ the dose is given in melanopic terms as well as lux, and the device spread is stated', () => {
+  const p = PRACTICES.find((x) => x.id === 'bright-light-sad');
+  const prose = p.steps.join(' ');
+  assert.match(prose, /10,000 lux/);
+  assert.match(prose, /2,500 lux/);
+  // Oldham et al. measured 24 commercial devices. Two boxes both labelled "10,000 lux" differ by
+  // more than a factor of two in the quantity the receptor answers to. That is the whole reason a
+  // colour name is not a dose.
+  assert.match(prose, /0\.52/);
+  assert.match(prose, /1\.11/);
+  assert.match(prose, /factor of two/);
+  assert.match(prose, /SEVEN of the 24/);
+});
+
+test('preventing SAD is graded weak and says why weak is not the same as not-supported', () => {
+  const p = PRACTICES.find((x) => x.id === 'light-preventing-sad');
+  assert.equal(p.grade, 'weak');
+  assert.match(p.summary + p.evidence, /46 people/);
+  assert.match(p.evidence, /3745 citations/);
+  assert.match(p.evidence, /very low-quality evidence/i);
+  assert.match(p.note, /not-supported means the claim has been examined/);
+});
+
+test('⛔ the chromotherapy claims are graded NOT SUPPORTED, in the same list as the strong ones', () => {
+  const p = PRACTICES.find((x) => x.id === 'colour-matched-to-organ');
+  assert.equal(p.grade, 'not-supported');
+  assert.equal(p.family, 'light', 'it must sit in the same family, not in a footnote');
+  assert.match(p.evidence, /165 F\.2d 957/);
+  assert.match(p.evidence, /twelve counts/);
+  // And the near-miss is stated fairly rather than triumphantly.
+  assert.match(p.steps.join(' '), /real variable and the wrong reason/);
+  // The symbolic system is NOT gated. It is a claim about tissue that is refused, not a body of
+  // knowledge. This assertion exists so a future edit cannot quietly turn a claims grade into a
+  // scope guard.
+  assert.match(p.steps.join(' '), /symbolic correspondence system/i);
+  assert.match(p.steps.join(' '), /in scope in full/i);
+});
+
+test('the photobiomodulation entry refuses to become a scope guard on neurostim build detail', () => {
+  const p = PRACTICES.find((x) => x.id === 'transcranial-pbm');
+  assert.equal(p.grade, 'mixed');
+  assert.match(p.note, /construction, current regulation, failure modes/);
+  assert.match(p.note, /in scope in full detail/);
+  assert.match(p.note, /CLAIMS constraint/);
+});
+
+test('the light entries reuse light-signal.mjs rather than restating its numbers', () => {
+  const light = byFamily('light');
+  const prose = light.map((p) => `${p.summary} ${p.evidence} ${p.steps.join(' ')} ${p.note || ''}`).join(' ');
+  // The consensus thresholds live in integrations/light-signal.mjs with their source. This shelf
+  // points at them; it does not re-key them, because two copies of a number drift.
+  assert.match(prose, /integrations\/light-signal\.mjs/);
+  assert.match(prose, /250 lx mEDI/);
+});
+
+test('⭐ claimsCheck over every light-entry field, and every flag is a known, inspected one', () => {
+  // The rule is REPORT, not silence. claimsCheck cannot see negation and cannot see quotation
+  // marks, so it fires on (a) a factual statement about what the literature contains, (b) the
+  // sentence that routes a reader to a clinician, (c) the prohibition itself, and (d) the verbatim
+  // condemned label, which is the exhibit the matcher was built from. All four are correct
+  // behaviour by the matcher and correct prose by us. Pinned exactly, so a NEW claim fails here.
+  const expected = new Set([
+    'bright-light-sad|evidence|treatment for',
+    'bright-light-sad|steps|diagnosis',
+    'transcranial-pbm|note|treats',
+    'transcranial-pbm|steps|treats',
+    'colour-matched-to-organ|evidence|Restoration Of The Human Radio-Active And Radio-Emanative Equilibrium',
+    'colour-matched-to-organ|evidence|Attuned Color Waves',
+  ]);
+  const found = new Set();
+  for (const p of byFamily('light')) {
+    const fields = {
+      name: p.name, summary: p.summary, evidence: p.evidence,
+      note: p.note || '', caution: p.caution || '', steps: p.steps.join(' '),
+    };
+    for (const [field, text] of Object.entries(fields)) {
+      for (const hit of claimsCheck(text).hits) found.add(`${p.id}|${field}|${hit.phrase}`);
+    }
+  }
+  assert.deepEqual([...found].sort(), [...expected].sort(),
+    'a new claimsCheck flag appeared, or a known one vanished — inspect it, do not silence it');
+});
+
+test('every light entry is classified by comparator — the test that broke main last time', () => {
+  for (const p of byFamily('light')) {
+    const note = baselineNote(p.id);
+    assert.equal(note.known, true, `${p.id} has no comparator classification`);
+    assert.ok(note.why.length > 40, `${p.id}: the comparator needs a real why`);
+  }
+  // And the one that is honestly unclassifiable says so rather than guessing.
+  assert.equal(baselineNote('transcranial-pbm').comparator, 'unstated');
+  assert.match(baselineNote('transcranial-pbm').note, /genuine absence of a common design/);
+});
+
+test('⚠️ null is not zero and not undefined — the trap found five times in this repo', () => {
+  // `Number(null) === 0` would make a missing lux reading classify as darkness, and `= {}` as a
+  // destructuring default fires only for `undefined`, so an explicit `null` sails past it. Both are
+  // exercised with an EXPLICIT null rather than by omitting the argument.
+  assert.equal(practiceGrade(null), null);
+  assert.deepEqual(byFamily(null), []);
+  assert.doesNotThrow(() => baselineNote(null));
+  assert.equal(baselineNote(null).known, false);
+  assert.equal(melanopicEDI(null, 'led-4000k').ok, false, 'a null lux must not become 0 lux');
+  assert.equal(melanopicEDI(null, 'led-4000k').mEDI, null);
+  // 0 stays valid: it is a real measurement of darkness, not a missing one.
+  assert.equal(melanopicEDI(0, 'led-4000k').ok, true);
+  assert.equal(melanopicEDI(0, 'led-4000k').mEDI, 0);
+});
+
+test('the light shelf appears on the /40hz page with its own colour disclaimer', () => {
+  assert.match(GAMMA_PAGE, /Light as an intervention/);
+  // the `colour` disclaimer wording, printed for this family specifically
+  assert.match(GAMMA_PAGE, /no colour is matched to a condition/);
+  for (const p of byFamily('light')) {
+    assert.ok(GAMMA_PAGE.includes(p.name.replace(/&/g, '&amp;')), `${p.id} missing from /40hz`);
+  }
+  assert.match(GAMMA_PAGE, /g-not-supported/, 'the not-supported grade must render as its own class');
 });

@@ -299,6 +299,42 @@ export const PRACTICE_COMPARATORS = Object.freeze({
     note: 'Listed as unstated rather than guessed. The result being reported is a NULL, and a null is weakened by a weak comparator rather than strengthened, so this gap matters less than it would the other way round.',
   }),
 
+  // ── the light family (R4), added 2026-09-09 ───────────────────────────────────────────────────
+  // ⭐ This family is the one where the comparator line does the most work, because the grade and the
+  // design point in different directions for two of the six entries. "Strong" and "placebo-controlled"
+  // is the ordinary case; "strong" sitting on top of a design whose own best trial found NO difference
+  // in mean scores is the case a reader needs told.
+  'iprgc-circadian': Object.freeze({
+    comparator: 'within-subject',
+    why: 'The human action spectra (Thapan, Arendt & Skene 2001; Brainard et al. 2001) are within-subject dose-response designs: the same people, multiple wavelengths and irradiances, melatonin measured against their own baseline. The cell-physiology papers (Berson et al. 2002; Hattar et al. 2002) are existence demonstrations with no comparison group, and none is required.',
+    note: '⭐ Asking what an action spectrum was "compared against" is close to a category error: the comparison is between wavelengths inside one person, and the finding is that the curve peaks where neither rods nor cones do. Two laboratories measured it independently in the same year and got the same peak. That convergence is the control.',
+  }),
+  'bright-light-sad': Object.freeze({
+    comparator: 'placebo',
+    why: 'Pjrek et al. (2020) restricted inclusion to randomised single- or double-blind trials of ≥1,000 lx against dim light (≤400 lx) or sham/low-density negative ion generators — an inert arm, delivered with the same attention. Eastman et al. (1998) used sham negative-ion generators against ~6,000 lux. Legenbauer et al. (2024) used 100-lux red light through the same apparatus.',
+    note: '⚠️ Inert-controlled and STILL not blindable, which is the design problem this family cannot solve. A person can usually tell whether the lamp in front of them is bright. That is why the field reached for negative-ion generators as a sham in the first place, and it is why Eastman’s own trial reports no difference in mean depression scores between light and placebo — the separation appears only under strict remission criteria, and only after three weeks. There is no untreated arm in the pooled evidence, so nothing here says how much of the placebo arm’s own improvement was the winter ending.',
+  }),
+  'light-preventing-sad': Object.freeze({
+    comparator: 'no-treatment',
+    why: 'The single eligible trial in Cochrane CD011269.pub3 compared bright light against NO light in people with a history of SAD who were symptom-free at baseline. An untreated arm is the cheapest honest control and it is the one that was used.',
+    note: '⭐ The comparator is respectable and the evidence is still very low quality, which is the useful lesson: design and evidence are different axes. A good comparator in a single 46-person trial at high risk of performance, detection and attrition bias buys almost nothing. Cochrane graded it very low and declined a conclusion.',
+  }),
+  'blue-enriched-alertness': Object.freeze({
+    comparator: 'active-comparator',
+    why: 'Chellappa et al. (2011) compared blue-enriched 6500 K light against 2500 K and 3000 K light in a balanced within-subject crossover. Light against light, with no dark arm and nobody left alone.',
+    note: 'So the licensed statement is "the blue-enriched condition differed from the warmer ones", and NOT "a lamp beats no lamp". Anyone reading a desk-lamp claim off this study is reading past its design.',
+  }),
+  'transcranial-pbm': Object.freeze({
+    comparator: 'unstated',
+    why: 'The pooled trials do not share a design. Lee, Ding & Chan (2023) report that placebo control across the reviewed human studies was absent or inadequate, alongside heterogeneous dosimetry — wavelength, power density, duration and site all varying between studies. Assigning ONE comparator to that set would be inventing a uniformity the literature does not have.',
+    note: 'Listed as unstated rather than guessed, and for a different reason from the usual one: not a gap in our reading, but a genuine absence of a common design. When somebody classifies the trials individually this entry should be replaced by that table.',
+  }),
+  'colour-matched-to-organ': Object.freeze({
+    comparator: 'none',
+    why: 'There is no controlled trial of colour matched to organ, of the four-gas theory, or of astrological colour timing. Not a weak comparison group — no comparison group, because there is no trial.',
+    note: '⭐ The record here is legal rather than experimental: United States v. Ghadiali, 165 F.2d 957 (3d Cir. 1948), conviction on twelve counts affirmed, certiorari denied. A courtroom is not a study design, and the reason this row reads "none" is that the claim was never tested — it was prosecuted.',
+  }),
+
   // ── the verification family, added with the dream work ────────────────────────────────────────
   // These two are the reason "no comparator" is not automatically a criticism. They are EXISTENCE
   // demonstrations, not efficacy trials: the claim is "this happened at all", and the evidence is a
