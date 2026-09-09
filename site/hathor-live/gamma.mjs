@@ -51,6 +51,7 @@
 //   import { GAMMA_PAGE } from './gamma.mjs'
 
 import { THE_LINE_HTML } from './the-line.mjs';
+import { baselineHTML, PLACEBO_BASELINE_HTML } from './placebo-baseline.mjs';
 
 import { themeCSS, esc } from '../../integrations/melek-theme.mjs';
 import { SESSIONS, CATEGORIES, byCategory, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
@@ -184,6 +185,12 @@ ol li,ul li{margin:8px 0}
 .pcaution{font-size:.9rem;color:#e0796f;margin:.3rem 0}
 .pcite{font-size:.82rem;margin:.4rem 0 0}
 .warn-lite{border-left:3px solid #c2554d;padding-left:.9rem;opacity:.9}
+/* The placebo-baseline note under each practice: what the comparison group actually was. */
+.baseline-note{border-left:3px solid var(--mk-lavender,#8f86c8);padding:.45rem 0 .45rem .8rem;margin:.5rem 0;font-size:.85rem;opacity:.82}
+.baseline-note p{margin:.22rem 0}
+.placebo-baseline table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.6rem 0}
+.placebo-baseline th,.placebo-baseline td{border:1px solid var(--line,#2a2a33);padding:.35rem .5rem;text-align:left;vertical-align:top}
+.placebo-baseline caption{text-align:left;font-size:.85rem;opacity:.7;padding-bottom:.3rem}
 </style></head><body><div class=wrap>
 
 <div class=hero>
@@ -287,6 +294,12 @@ all. They are graded on the same scale, for the same reason: this corner is thic
 instruction and thin with evidence, and the useful thing is saying which is which.</p>
 <p class=warn-lite><strong>None of this is a treatment for insomnia.</strong> Sleep that stays broken for
 weeks is a clinical matter, not a technique problem.</p>
+
+<div id=placebo-baseline>${PLACEBO_BASELINE_HTML()}</div>
+<p class=muted>Each practice below carries the design its evidence came from, under its evidence
+paragraph. That line is about the COMPARISON GROUP, not the effect size — the grade beside the name
+is the effect size.</p>
+
 ${PRACTICE_FAMILIES.map((f) => `
 <section class=pfam>
   <h3>${esc(f.name)}</h3>
@@ -301,6 +314,7 @@ ${PRACTICE_FAMILIES.map((f) => `
     <p class=psum>${esc(p.summary)}</p>
     <ol class=psteps>${p.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
     <p class=pev><strong>Evidence.</strong> ${esc(p.evidence)}</p>
+    ${baselineHTML(p.id)}
     ${p.note ? `<p class=pnote>${esc(p.note)}</p>` : ''}
     ${p.caution ? `<p class=pcaution><strong>Caution.</strong> ${esc(p.caution)}</p>` : ''}
     <p class=pcite>${p.citations.map((c) => `<a href="${esc(c.url)}" rel="noopener" target="_blank">${esc(c.label)}</a>`).join(' &middot; ')}</p>

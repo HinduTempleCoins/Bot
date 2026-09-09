@@ -19,6 +19,7 @@ import { GAMMA_PAGE } from './gamma.mjs';
 import { METRONOME_PAGE } from './metronome.mjs';
 import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
 import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
+import { handler as placeboBaselineHandler, baselineNote, coverage as baselineCoverage } from './placebo-baseline.mjs';
 import { buildFeed, renderRss, renderAtom, renderJsonFeed, fetchAuthorPosts } from '../../integrations/chain-feed.mjs';
 import {
   REPORTS_PAGE, validateReport, publicReports, reportStats,
@@ -464,18 +465,28 @@ export async function handler(req, res) {
     }
 
     // The no-hardware practices, so Hathor can teach one in chat without the page.
+    //
+    // Each practice now ships its BASELINE alongside its grade. The grade is the effect size; the
+    // baseline is what the effect was measured against, and without it "moderate" is unreadable —
+    // a technique that beat another technique and a technique that beat an untreated arm are not
+    // making the same claim. Hathor answers with both or it is answering with half.
     if (path === '/api/practices') {
       res.writeHead(200, { 'content-type': 'application/json' });
       return res.end(JSON.stringify({
         families: PRACTICE_FAMILIES,
+        coverage: baselineCoverage(PRACTICES.map((x) => x.id)),
         practices: PRACTICES.map((x) => ({
           id: x.id, family: x.family, name: x.name, grade: x.grade, minutes: x.minutes,
           summary: x.summary, steps: x.steps, evidence: x.evidence,
+          baseline: baselineNote(x.id),
           note: x.note || '', caution: x.caution || '', citations: x.citations,
           url: `${BASE_URL}/40hz#${encodeURIComponent(x.id)}`,
         })),
       }));
     }
+
+    // The placebo-baseline framing on its own, for any surface that needs it without the 40Hz page.
+    if (path === '/api/placebo-baseline') return placeboBaselineHandler(req, res);
 
     // ── /chamber ──────────────────────────────────────────────────────────────────────────────────
     // The Chamber: the same session delivered in a headset, a folded phone viewer, a 3D scene, or a
