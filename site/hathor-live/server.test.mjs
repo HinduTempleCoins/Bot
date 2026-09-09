@@ -321,6 +321,49 @@ test('a VVIQ submission with a key scores, stores and reports the pair honestly'
   __setExamIO(null);
 });
 
+// ── /the-256 — the refusal IS the content (R2) ────────────────────────────────────────────────────
+
+test('GET /the-256 teaches the structure and refuses the content in the same breath', async () => {
+  const { res, o } = cap();
+  await handler(req('/the-256'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /2<sup>8<\/sup> = 256/);
+  assert.match(o.body, /has performed a divination/);
+  assert.match(o.body, /Copyright expiry is not consent/);
+  assert.match(o.body, /508 U\.S\. 520 \(1993\)/);
+  assert.match(o.body, /00146/);
+  assert.match(o.body, /class="consult"/);
+  // The grid is 256 unlabelled cells.
+  assert.equal((o.body.match(/<i class="cell/g) || []).length, 256);
+});
+
+test('⛔ the cast endpoint hands back an address and nothing that could be read as an answer', async () => {
+  const seen = new Set();
+  for (let i = 0; i < 25; i += 1) {
+    const { res, o } = cap();
+    await handler(req('/api/the-256/cast'), res);
+    assert.equal(o.code, 200);
+    const d = JSON.parse(o.body);
+    assert.deepEqual(Object.keys(d.cast).sort(), ['address', 'addressSpace', 'bits', 'marks']);
+    assert.ok(Number.isInteger(d.cast.address) && d.cast.address >= 0 && d.cast.address < 256);
+    seen.add(d.says);
+  }
+  // ⭐ One sentence, at every address. There is no branch on the cast anywhere in the path.
+  assert.equal(seen.size, 1);
+  assert.match([...seen][0], /neither of those is software/);
+});
+
+test('the comparative table is served and the geomancy link is marked contested, not asserted', async () => {
+  const { res, o } = cap();
+  await handler(req('/the-256'), res);
+  assert.match(o.body, /I Ching/);
+  assert.match(o.body, /Dilog[úu]n/);
+  assert.match(o.body, /ʿilm al-raml/);
+  assert.match(o.body, /contested/);
+  assert.ok(!/derived from Arabic geomancy/i.test(o.body));
+});
+
 // ── Temple Exams: the Thread Protocol (R1) ────────────────────────────────────────────────────────
 
 test('GET /exams/thread states the attribution and the refusal before anything else', async () => {

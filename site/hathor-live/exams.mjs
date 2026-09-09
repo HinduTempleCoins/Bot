@@ -526,6 +526,14 @@ ${cards}
 </div>
 
 <div class=card>
+  <h2 style="margin-top:0">And one page that measures nothing at all</h2>
+  <p><a href="/the-256">The 256</a> — If\u00e1's divination system has a structure that is public,
+  well described and genuinely remarkable: eight binary marks, 2\u2078 = 256 addresses, and several
+  hundred memorised verses at each. The page demonstrates the structure and then <b>declines to
+  divine</b>, and the declining is the teaching. It makes no claim about you whatsoever.</p>
+</div>
+
+<div class=card>
   <h2 style="margin-top:0">Who you are to us</h2>
   <p>Nobody. There is no account, no name, no email address and no password. Your browser makes a
   random key, keeps it, and that key is the only thing that links one sitting of yours to the next —
