@@ -462,6 +462,11 @@ export function suggestibilityPageHTML() {
     public domain and is this project’s standing fallback for licensed instruments — and its index of 274
     labels across 463 scales has no Absorption entry at all. So these twelve items are ours, written from
     scratch for a construct we describe in our own words.</span></li>
+    <li><b>And absorption is a different construct, measured separately.</b><span class=muted>This index is
+    about what a CUE does to you — how far you produce the experience a situation implies you should be
+    having. Being taken over by something actually in front of you, with nobody having said anything about
+    it, is a different disposition and it has its own exam, written from scratch for the same reason this
+    one was. <a href="/exams/absorption">Being taken</a>.</span></li>
     <li><b>It is short, and short means noisy.</b><span class=muted>Twelve items and two probes. The
     best-characterised instrument in this domain retests at r = .56 over two months on its objective scale.
     Nothing here is a category and nothing here is a type.</span></li>

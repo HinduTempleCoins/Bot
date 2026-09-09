@@ -315,6 +315,40 @@ export const EXAMS = Object.freeze([
     ],
   },
   {
+    id: 'absorption',
+    kind: PERCEPTION,
+    claimClass: 'percentile',
+    // ⭐ It IS an experiential self-report, and unlike the expectancy index it is not circular to
+    // print the covariate beside it: expectancy uptake and absorption are different constructs, and
+    // that is the whole reason both exist. See DIFFERENCE in exam-absorption.mjs.
+    experientialSelfReport: true,
+    name: 'Being taken',
+    route: '/exams/absorption',
+    duration: '6–8 minutes',
+    measures: 'How completely a thing in front of you can take your attention over — attentional narrowing, imaginative involvement, responsiveness to engrossing stimuli, and what happens to time and to the sense of being a separate observer while it lasts.',
+    why: 'The construct this battery keeps running into, and there was nothing to administer. The '
+      + 'Tellegen Absorption Scale is licensed through the University of Minnesota Press and the '
+      + 'licence has been ENFORCED — a research site removed its copy at the publisher’s request. '
+      + 'MODTAS is a rescaling of the same items and inherits it. A paraphrase of a licensed item set is '
+      + 'a derivative work. And the IPIP, this project’s standing public-domain fallback, has no '
+      + 'Absorption scale among its 274 labels and 463 scales. Nothing to license and nothing to fall '
+      + 'back on, so the fifteen items are ours, written from the published description of the construct '
+      + 'rather than from the instrument, with our own norms and no percentile until a hundred people '
+      + 'have sat it.',
+    neverSay: 'You are a high-absorption type.',
+    retestDays: 14,
+    citations: [
+      'Tellegen, A. & Atkinson, G. (1974), Openness to absorbing and self-altering experiences ("absorption"), a trait related to hypnotic susceptibility, J Abnorm Psychol 83(3):268–277, doi:10.1037/h0036681 — the construct. The scale published with it is LICENSED and is NOT reproduced here, in whole, in part, or in paraphrase.',
+      'Roche, S.M. & McConkey, K.M. (1990), Absorption: Nature, assessment, and correlates, J Pers Soc Psychol 59(1):91–101, doi:10.1037/0022-3514.59.1.91.',
+      'Council, J.R., Kirsch, I. & Hafner, L.P. (1986), Expectancy versus absorption in the prediction of hypnotic responding, J Pers Soc Psychol 50(1):182–189, doi:10.1037/0022-3514.50.1.182 — the context critique.',
+      'Nadon, R., Hoyt, I.P., Register, P.A. & Kihlstrom, J.F. (1991), Absorption and hypnotizability: context effects reexamined, J Pers Soc Psychol 60(1):144–153, doi:10.1037/0022-3514.60.1.144 — N = 475 and N = 434, the pushback. We cite the exchange, not one side.',
+      'Glisky, M.L., Tataryn, D.J., Tobias, B.A., Kihlstrom, J.F. & McConkey, K.M. (1991), Absorption, openness to experience, and hypnotizability, J Pers Soc Psychol 60(2):263–272, doi:10.1037/0022-3514.60.2.263.',
+      'O’Grady, K.E. (1980), The absorption scale: A factor-analytic assessment, Int J Clin Exp Hypn 28(3):281–288, doi:10.1080/00207148008409853; and Radtke, H.L. & Stam, H.J. (1991), Int J Clin Exp Hypn 39(1):39–56, doi:10.1080/00207149108409617 — why the factor structure of the established instrument is still disputed.',
+      'Studerus, E., Gamma, A., Kometer, M. & Vollenweider, F.X. (2012), Prediction of psilocybin response in healthy volunteers, PLoS ONE 7(2):e30800, doi:10.1371/journal.pone.0030800 — 23 studies, 409 administrations, 261 volunteers; and Haijen, E.C.H.M. et al. (2018), Front Pharmacol 9:897, doi:10.3389/fphar.2018.00897.',
+      'Lush, P., Moga, G., McLatchie, N. & Dienes, Z. (2018), Neurosci Conscious 2018(1):niy006, doi:10.1093/nc/niy006 — CC BY-NC, NOT used here. Its r(66) = .56 objective retest is the ceiling on what anything in this domain may claim.',
+    ],
+  },
+  {
     id: 'suggestibility',
     kind: PERCEPTION,
     claimClass: 'percentile',
