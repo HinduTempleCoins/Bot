@@ -1,7 +1,7 @@
 // batch-runner.test.mjs — OFFLINE. No transport is imported; the sender is always injected.
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { planDay, runDay, rank, rampSchedule, NOT_A_FIRST_TOUCH, handler } from './batch-runner.mjs';
+import { planDay, runDay, rank, rampSchedule, NOT_A_FIRST_TOUCH, handler, addressProblem } from './batch-runner.mjs';
 
 const OK = { postalAddress: '1 Test St, Dallas TX 75201', unsubscribeUrl: 'https://x.example/u', senderName: 'Ryan' };
 const leads = (n, extra = {}) => Array.from({ length: n }, (_, i) => ({ id: `l${i}`, email: `p${i}@e.example`, name: `P${i}`, stage: 'new', reach: n - i, ...extra }));
@@ -165,4 +165,52 @@ test('handler answers and shows the ramp', () => {
   assert.equal(jj.ok, true);
   assert.equal(jj.defaults.dryRun, true);
   assert.equal(jj.ramp[0].cap, 10);
+});
+
+// ⚠️ REGRESSION TESTS FOR A LIVE DATA DEFECT, not a style check.
+//
+// `.includes('@')` was the only address check, and the live holder list contains
+// `-@be.annes.trinkets` (degenerate local-part, no valid TLD) and a 32-hex machine identifier.
+// Both sorted into the FIRST BATCH OF TEN — junk sorts high — so two bad rows out of 829 (0.24%
+// overall) would have been 10–20% of day one, at exactly the moment a warming domain cannot absorb
+// a bounce.
+test('⚠️ addressProblem rejects what would hard-bounce, including the two real live rows', () => {
+  assert.ok(addressProblem('-@be.annes.trinkets'), 'the live malformed holder row must be caught');
+  assert.match(addressProblem('-@be.annes.trinkets'), /degenerate/);
+  assert.match(addressProblem('75b6a20df0014dbc8cf4d074eeeea6c5@stacks.vk-portal.net'), /hash local-part/);
+  assert.ok(addressProblem('x@y'), 'a domain with no valid TLD must be caught');
+  assert.ok(addressProblem('..@x.com'));
+});
+
+// ⭐ The more important direction. A false positive here silently drops a real recipient, which is
+// worse than the bounce it avoids — an earlier draft rejected `x@gmail.com` on a length rule.
+test('⭐ addressProblem does NOT reject deliverable addresses — false positives are worse than bounces', () => {
+  for (const good of ['x@gmail.com', 'a@b.co', 'ab@adambarratt.com', 'joe+tag@sub.example.org',
+    'first.last@mail.example.co.uk', "o'brien@example.com", 'no-reply@example.com']) {
+    assert.equal(addressProblem(good), null, `rejected a deliverable address: ${good}`);
+  }
+});
+
+test('addressProblem never throws and treats junk as undeliverable', () => {
+  for (const v of [null, undefined, 0, '', [], {}, NaN]) {
+    assert.doesNotThrow(() => addressProblem(v));
+    assert.ok(addressProblem(v), 'junk must not read as deliverable');
+  }
+});
+
+test('planDay skips an undeliverable address with its reason, and still plans the rest', () => {
+  const leads = [
+    { id: 'a', email: '-@be.annes.trinkets' },
+    { id: 'b', email: 'real@example.com' },
+    { id: 'c', email: '75b6a20df0014dbc8cf4d074eeeea6c5@stacks.example.net' },
+    { id: 'd', email: 'alsoreal@example.org' },
+  ];
+  const plan = planDay({
+    leads, render: () => ({ ok: true, subject: 's', body: 'b' }),
+    warmupDay: 0, postalAddress: '1 Temple Rd', unsubscribeUrl: 'mailto:x@y.com', senderName: 'X',
+  });
+  assert.equal(plan.counts.eligible, 2, 'the two real addresses must still go');
+  const reasons = plan.skipped.map((s) => s.why).join(' | ');
+  assert.match(reasons, /degenerate/);
+  assert.match(reasons, /hash local-part/);
 });
