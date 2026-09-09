@@ -321,6 +321,86 @@ test('a VVIQ submission with a key scores, stores and reports the pair honestly'
   __setExamIO(null);
 });
 
+// ── /the-line — the pair, made reachable to a reader ──────────────────────────────────────────────
+
+test('GET /the-line serves both precedents, both sentences, and the failed defences', async () => {
+  const { res, o } = cap();
+  await handler(req('/the-line'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /Two lamps/);
+  assert.match(o.body, /333 F\. Supp\. 357/);
+  assert.match(o.body, /165 F\.2d 957/);
+  assert.match(o.body, /Attuned Color Waves/);            // the condemned label, verbatim
+  assert.match(o.body, /not medically or scientifically useful/);  // the ordered disclaimer, verbatim
+  assert.match(o.body, /The devices are not what differ/);
+  assert.match(o.body, /He was religious, and it is in the record/);
+  assert.match(o.body, /class="consult"/);
+  // Self-contained: nothing to load, no script.
+  assert.ok(!/<script/i.test(o.body));
+});
+
+test('the context query is an allow-list and junk falls back rather than erroring', async () => {
+  for (const ctx of ['colour', 'entrainment', 'practices', 'exams']) {
+    const { res, o } = cap();
+    await handler(req(`/the-line?context=${ctx}`), res);
+    assert.equal(o.code, 200, ctx);
+  }
+  const { res, o } = cap();
+  await handler(req('/the-line?context=%3Cscript%3Ealert(1)%3C/script%3E'), res);
+  assert.equal(o.code, 200);
+  assert.ok(!o.body.includes('<script>alert'));
+  assert.match(o.body, /no colour is matched to a condition/, 'junk falls back to the colour context');
+});
+
+test('/api/the-line serves the pair as JSON for other surfaces', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/the-line?context=colour'), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.equal(d.pair.length, 2);
+  assert.equal(d.pair[0].outcome, 'released');
+  assert.equal(d.pair[1].outcome, 'condemned');
+  assert.match(d.disclaimer, /no colour is matched to a condition/);
+});
+
+test('⭐ the colour surfaces render the colour context, and the non-colour ones do not', async () => {
+  const banner = (body) => String(body).split('</aside>')[0];
+
+  for (const path of ['/exams/colour-naming', '/exams/thread?set=colour']) {
+    const { res, o } = cap();
+    await handler(req(path), res);
+    assert.equal(o.code, 200, path);
+    assert.match(banner(o.body), /no colour is matched to a condition/, path);
+    // AND the exams wording, which says who may interpret a number. Neither substitutes for the other.
+    assert.match(banner(o.body), /that reading is theirs to make, not ours/, path);
+  }
+
+  // A disclaimer printed where it does not apply teaches a reader to skip disclaimers.
+  for (const path of ['/exams/vviq', '/exams/thread?set=rhythm', '/exams/human-or-model']) {
+    const { res, o } = cap();
+    await handler(req(path), res);
+    assert.ok(!/no colour is matched to a condition/.test(banner(o.body)), path);
+  }
+});
+
+test('the entrainment library carries the colour doctrine too — half that page is light', async () => {
+  const { res, o } = cap();
+  await handler(req('/40hz'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.body, /no colour is matched to a condition/);
+  assert.match(o.body, /href="\/the-line\?context=colour"/);
+  assert.match(o.body, /five coloured glass slides/);
+});
+
+test('every exam page links to where the line is', async () => {
+  for (const path of ['/exams', '/exams/vviq', '/the-256']) {
+    const { res, o } = cap();
+    await handler(req(path), res);
+    assert.match(o.body, /href="\/the-line"/, path);
+  }
+});
+
 // ── /the-256 — the refusal IS the content (R2) ────────────────────────────────────────────────────
 
 test('GET /the-256 teaches the structure and refuses the content in the same breath', async () => {

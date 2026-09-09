@@ -431,7 +431,10 @@ ${stateCardHTML({ formId: 'statecard' })}
   };
 })();`;
 
-  return examShell(exam.name || 'What you call a colour', body, { extraJS: js });
+  // The colour context as well as the exams one. This page shows coloured light on a screen, which is
+  // the article United States v. Ghadiali condemned, so it disclaims measurement and restoration by
+  // name — in the register of the condemned label — as well as saying who may interpret a score.
+  return examShell(exam.name || 'What you call a colour', body, { extraJS: js, alsoDisclaim: ['colour'] });
 }
 
 export default {

@@ -50,7 +50,7 @@
 //
 //   import { GAMMA_PAGE } from './gamma.mjs'
 
-import { THE_LINE_HTML } from './the-line.mjs';
+import { THE_LINE_HTML, disclaimer, esc as lineEsc } from './the-line.mjs';
 import { baselineHTML, PLACEBO_BASELINE_HTML } from './placebo-baseline.mjs';
 
 import { themeCSS, esc } from '../../integrations/melek-theme.mjs';
@@ -729,6 +729,15 @@ replication failed — treat that use as experimental.</p>
 })();
 </script>
 ${THE_LINE_HTML('entrainment')}
+<section class="the-line">
+  <h2>And this page is half light</h2>
+  <p>${lineEsc(disclaimer('colour'))}</p>
+  <p>The coloured-light half of this page is the exact article that a federal court condemned in 1948
+  — a cabinet, a bulb and five coloured glass slides — while the E-Meter, found equally useless, went
+  home to its church. Both cases are set out side by side on
+  <a href="/the-line?context=colour">Two lamps</a>, including the three defences Ghadiali raised and
+  lost, because "we are religious" is exactly the reflex that page exists to correct.</p>
+</section>
 
 </div></body></html>`;
 

@@ -9,6 +9,8 @@ import assert from 'node:assert/strict';
 
 import {
   esc, EMETER, SPECTRO_CHROME, THE_PAIR, disclaimer, CONTEXTS, claimsCheck, THE_LINE_HTML, handler,
+  CONSULT, consultBanner, THE_PAIR_HTML, FAILED_DEFENCES, FAILED_DEFENCES_HTML,
+  theLinePageHTML, PAGE_CONTEXTS,
 } from './the-line.mjs';
 
 // --- the precedent -----------------------------------------------------------
@@ -365,4 +367,104 @@ test('handler serves the pair alongside the single precedent', async () => {
   assert.equal(json.counterfactual.cite, SPECTRO_CHROME.cite);
   assert.equal(json.pair.length, 2);
   assert.equal(json.precedent.cite, EMETER.cite);
+});
+
+// ── ⭐ THE PAIR, MADE REACHABLE TO A READER (PR: wire the `colour` context) ───────────────────────
+//
+// SPECTRO_CHROME and THE_PAIR landed in #986 as data structures. A frozen constant nobody can read is
+// not a published doctrine, and the pair is the clearest statement of the intended-use rule in this
+// repo. These tests pin that it is now on a page, and that the colour surfaces carry the `colour`
+// wording rather than only the general one.
+
+test('consultBanner can carry a second doctrine, and drops duplicates and junk', () => {
+  const both = consultBanner('exams', { also: ['colour'] });
+  // The exams wording (who may interpret a number) AND the colour wording (no colour matched to a
+  // condition). Neither substitutes for the other.
+  assert.match(both, /that reading is theirs to make, not ours/);
+  assert.match(both, /no colour is matched to a condition/);
+  assert.equal((both.match(/<p>/g) || []).length, 2, 'one line per doctrine, plus the notALab muted line');
+
+  // A repeat of the primary context is dropped rather than printed twice.
+  const dup = consultBanner('colour', { also: ['colour'] });
+  assert.equal((dup.match(/no colour is matched to a condition/g) || []).length, 1);
+
+  // Unknown contexts are dropped, not rendered as the strict fallback — a surface that asks for
+  // nonsense should get the doctrine it named, not an extra paragraph it did not ask for.
+  const junk = consultBanner('exams', { also: ['nonsense', '', null, 'colour', 'colour'] });
+  assert.equal((junk.match(/no colour is matched to a condition/g) || []).length, 1);
+  assert.doesNotThrow(() => consultBanner('exams', { also: 'colour' }));
+  assert.doesNotThrow(() => consultBanner('exams', { also: null }));
+  // The default is unchanged: no `also` means exactly one doctrine, as before.
+  assert.equal((consultBanner('exams').match(/<p>/g) || []).length, 1);
+});
+
+test('⭐ THE_PAIR_HTML renders both sentences side by side, with the outcomes', () => {
+  const html = THE_PAIR_HTML();
+  assert.match(html, /Two lamps/);
+  assert.ok(html.includes(esc(EMETER.orderedDisclaimer)));
+  assert.ok(html.includes(esc(SPECTRO_CHROME.labelClaim)));
+  assert.match(html, /released/);
+  assert.match(html, /condemned/);
+  assert.match(html, /The devices are not what differ. The sentences differ/);
+  // Both citations reach the reader.
+  assert.ok(html.includes(esc(EMETER.cite)));
+  assert.ok(html.includes(esc(SPECTRO_CHROME.cite)));
+  // The em dashes and quotation marks in the condemned label must not smuggle markup.
+  assert.ok(!/<script/i.test(html));
+});
+
+test('the three failed defences are rendered, not left in a comment', () => {
+  assert.equal(FAILED_DEFENCES.length, 3);
+  const html = FAILED_DEFENCES_HTML();
+  assert.match(html, /He was religious, and it is in the record/);
+  assert.match(html, /only lecturing/);
+  assert.match(html, /Sincerity was never the question/);
+  assert.match(html, /the lecture was the practice/);
+  // The operative rule, stated where the reflex is.
+  assert.match(THE_PAIR_HTML() + html, /A court may not decide whether a religious practice is true/);
+});
+
+test('the standalone page carries the banner, the pair and the defences', () => {
+  const html = theLinePageHTML('colour');
+  assert.match(html, /<title>/);
+  assert.match(html, /class="consult"/);
+  assert.ok(html.includes(CONSULT.short));
+  assert.ok(html.includes(CONSULT.notALab));
+  assert.match(html, /no colour is matched to a condition/);
+  assert.match(html, /Two lamps/);
+  assert.ok(html.includes(esc(SPECTRO_CHROME.labelClaim)));
+  assert.match(html, /He was religious/);
+  // Self-contained: no external stylesheet, no script, nothing to load.
+  assert.ok(!/<script/i.test(html));
+  assert.ok(!/https?:\/\//.test(html.replace(/<a href="\/[^"]*"/g, '')));
+});
+
+test('the page context is an allow-list — junk falls back to colour rather than erroring', () => {
+  for (const c of PAGE_CONTEXTS) {
+    const html = theLinePageHTML(c);
+    assert.ok(html.includes(esc(disclaimer(c))), c);
+  }
+  const junk = theLinePageHTML('<script>alert(1)</script>');
+  assert.ok(!junk.includes('<script>alert'));
+  assert.ok(junk.includes(esc(disclaimer('colour'))));
+  assert.doesNotThrow(() => theLinePageHTML(null));
+  assert.doesNotThrow(() => theLinePageHTML(undefined));
+});
+
+test('claimsCheck over the new prose, and every flag is inspected', () => {
+  const flagged = [];
+  for (const d of FAILED_DEFENCES) {
+    for (const [k, v] of Object.entries(d)) {
+      const c = claimsCheck(v);
+      if (!c.ok) flagged.push({ k, v, hits: c.hits });
+    }
+  }
+  // ONE flag, and it is correct behaviour. The line is "a religious frame is not a shield you can
+  // raise after the fact over a sentence that promises a cure" — the word "cure" appears inside a
+  // statement of the RULE AGAINST making one. The matcher has no model of negation, which this
+  // module's own test file already documents, so the right response is to inspect the flag rather
+  // than reword the rule to please a regex.
+  assert.equal(flagged.length, 1, JSON.stringify(flagged, null, 2));
+  assert.match(flagged[0].v, /is not a shield you can raise after the fact/);
+  assert.deepEqual(flagged[0].hits.map((h) => h.why), ['asserts a cure']);
 });
