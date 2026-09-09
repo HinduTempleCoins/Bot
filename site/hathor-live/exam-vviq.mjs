@@ -420,6 +420,16 @@ ${stateCardHTML({ formId: 'statecard' })}
         h+='<h3>Landmarks, not verdicts</h3>';
         h+=d.copy.landmarks.map(function(l){return '<p>'+esc(l.text)+'<br><span class=prov>'+esc(l.source)+'</span></p>';}).join('');
         if(d.copy.retest&&d.copy.retest.text) h+='<h3>The second sitting</h3><p>'+esc(d.copy.retest.text)+'</p>';
+        // \u2b50 The expectancy covariate (R7). This questionnaire's datum is what you SAY you saw, and
+        // Lush et al. (2020) found that the capacity to produce a task-implied experience predicts
+        // experiential change on standard laboratory measures. So it is printed here, beside the score,
+        // rather than left out.
+        if(d.covariate){
+          h+='<h3>'+esc(d.covariate.headline||'')+'</h3>';
+          h+=(d.covariate.lines||[]).map(function(l){return '<p>'+esc(l)+'</p>';}).join('');
+          if(!d.covariate.hasIndex) h+='<p><a href="/exams/suggestibility">Sit the expectancy index</a></p>';
+          h+='<p class=prov>'+esc(d.covariate.source||'')+'</p>';
+        }
         h+='<p class=prov>Sitting '+d.sessionNumber+'.</p>';
         box.innerHTML=h; box.scrollIntoView({behavior:'smooth'});
         $('progress').textContent='done';

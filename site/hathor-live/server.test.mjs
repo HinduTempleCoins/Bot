@@ -321,6 +321,111 @@ test('a VVIQ submission with a key scores, stores and reports the pair honestly'
   __setExamIO(null);
 });
 
+// ── Temple Exams: the expectancy index, and the covariate it prints elsewhere (R7) ────────────────
+
+test('GET /exams/suggestibility names its refusals and does not call itself hypnotisability', async () => {
+  const { res, o } = cap();
+  await handler(req('/exams/suggestibility'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /Tellegen Absorption Scale/);
+  assert.match(o.body, /NOT a hypnotisability scale/);
+  assert.match(o.body, /never be worded as/);
+  assert.match(o.body, /You are highly hypnotisable\./);   // only inside the never-worded-as line
+  assert.match(o.body, /class="consult"/);
+});
+
+test('the expectancy form serves twelve items and two probes, and hides which probe suggests', async () => {
+  const { res, o } = cap();
+  await handler(req('/api/exams/suggestibility/form'), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  assert.equal(d.form.items.length, 12);
+  assert.equal(d.form.probes.length, 2);
+  assert.ok(!JSON.stringify(d.form.probes).includes('suggests'),
+    'telling the browser which passage is the suggestion would wreck the difference');
+});
+
+test('an expectancy submission scores, stores, and never writes the raw key', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const answers = { e1: 3, e2: 2, e3: 4, c1: 1, c2: 2, c3: 3, d1: 4, d2: 4, d3: 2, s1: 1, s2: 3, s3: 0 };
+  const { res, o } = cap();
+  await handler(req('/api/exams/suggestibility', 'POST',
+    { key: '0123456789ABCDEFGHJKMNPQR', answers, probes: { suggested: 62, unsuggested: 31 } }), res);
+  assert.equal(o.code, 200);
+  const d = JSON.parse(o.body);
+  // 3+2+4 + 1+2+3 + 4+4+2 + 1+3+0 = 9 + 6 + 10 + 4 = 29
+  assert.equal(d.result.score.total, 29);
+  assert.deepEqual(d.result.byFacet, { expectancy: 9, control: 6, described: 10, social: 4 });
+  assert.equal(d.result.score.probeDifference, 31);
+  assert.match(d.copy.headline, /Expectancy uptake 29 of 48/);
+  const said = [d.copy.headline, ...d.copy.lines].join(' ');
+  assert.ok(!/you are highly hypnotisable/i.test(said), said);
+  assert.match(buf, /"exam":"suggestibility"/);
+  assert.ok(!buf.includes('0123456789ABCDEFGHJKMNPQR'), 'the raw participant key must never be written');
+  __setExamIO(null);
+});
+
+test('a submission with no key is refused and nothing is stored', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const { res, o } = cap();
+  await handler(req('/api/exams/suggestibility', 'POST', { answers: { e1: 1 } }), res);
+  assert.equal(o.code, 400);
+  assert.equal(buf, '');
+  __setExamIO(null);
+});
+
+test('⭐ R7 END TO END: the VVIQ result carries the taker\'s expectancy index beside it', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const KEY = 'ZZZZZ11111ZZZZZ22222ZZZZZ';
+
+  // First sitting: the VVIQ, with no expectancy index on file yet.
+  const answers = {};
+  for (const s of ['person', 'sunrise', 'shop', 'country']) for (let i = 1; i <= 4; i += 1) answers[`${s}.${i}`] = 3;
+  let c = cap();
+  await handler(req('/api/exams/vviq', 'POST', { key: KEY, answers }), c.res);
+  let d = JSON.parse(c.o.body);
+  assert.equal(d.result.score.total, 48);
+  assert.equal(d.covariate.hasIndex, false, 'nothing on file yet, and it must say so rather than assume');
+  assert.match(d.covariate.headline, /have not sat/);
+  assert.match(d.covariate.source, /10\.1038\/s41467-020-18591-6/);
+
+  // Now sit the expectancy index under the same key.
+  const sugg = {}; for (const k of ['e1', 'e2', 'e3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3', 's1', 's2', 's3']) sugg[k] = 3;
+  c = cap();
+  await handler(req('/api/exams/suggestibility', 'POST', { key: KEY, answers: sugg, probes: { suggested: 80, unsuggested: 20 } }), c.res);
+  assert.equal(JSON.parse(c.o.body).result.score.total, 36);
+
+  // And take the VVIQ again. The covariate is now printed beside it.
+  c = cap();
+  await handler(req('/api/exams/vviq', 'POST', { key: KEY, answers }), c.res);
+  d = JSON.parse(c.o.body);
+  assert.equal(d.covariate.hasIndex, true);
+  assert.equal(d.covariate.total, 36);
+  assert.match(d.covariate.headline, /Expectancy uptake: 36 of 48/);
+  // n is 1, far below 100, so there is a raw score and NO percentile.
+  assert.equal(d.covariate.percentile, null);
+  assert.match(d.covariate.lines.join(' '), /too few to place you among them/);
+  assert.match(d.covariate.lines.join(' '), /report more of everything/);
+  __setExamIO(null);
+});
+
+test('the covariate does not appear on the exams whose datum is a behaviour', async () => {
+  let buf = '';
+  __setExamIO({ read: () => buf, append: (_p, line) => { buf += line; return true; } });
+  const { res, o } = cap();
+  await handler(req('/api/exams/colour-naming', 'POST',
+    { key: '0123456789ABCDEFGHJKMNPQR', responses: [{ hex: '#ff0000', name: 'red' }] }), res);
+  const d = JSON.parse(o.body);
+  assert.equal(o.code, 200);
+  assert.equal(d.covariate, undefined,
+    'typing a word for a swatch is a behaviour, and blanket-flagging it would be theatre');
+  __setExamIO(null);
+});
+
 // ── Temple Exams: X7, human or model ──────────────────────────────────────────────────────────────
 
 test('GET /exams/human-or-model states the design and the never-worded-as before anything else', async () => {
