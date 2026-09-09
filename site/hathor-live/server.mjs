@@ -63,6 +63,8 @@ import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
 import { handler as interactionsHandler, interactionPaths } from '../../integrations/interactions.mjs';
 import { whoSaysHTML, handler as whoSaysHandler } from './who-says.mjs';
+import { dissociationHTML, handler as dissociationHandler } from './dissociation.mjs';
+import { divinationHTML, handler as divinationHandler } from './divination-structures.mjs';
 
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -322,7 +324,7 @@ function chamberShell(title, body, session = null) {
 export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
-  '/exams/thread', '/exams/who-says', '/the-256', '/the-line',
+  '/exams/thread', '/exams/who-says', '/dissociation', '/divination-structures', '/the-256', '/the-line',
   // The interaction corpus. Spread rather than listed, so a substance or pair page cannot be added to
   // the dataset and then be reachable-but-unlisted — which is how a good page stays undiscovered.
   // interactions.mjs refuses to generate a page it has nothing to put on, so everything here is real.
@@ -561,6 +563,20 @@ export async function handler(req, res) {
     }
 
     if (path === '/api/who-says') return whoSaysHandler(req, res);
+
+    // ── R9 — dissociation: an explainer, and the refusal to instrument it ─────────────────────────
+    if (path === '/dissociation') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(examShell('Dissociation', dissociationHTML()));
+    }
+    if (path === '/api/dissociation') return dissociationHandler(req, res);
+
+    // ── R11 — four divination systems compared by architecture ────────────────────────────────────
+    if (path === '/divination-structures') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(examShell('Divination structures', divinationHTML()));
+    }
+    if (path === '/api/divination-structures') return divinationHandler(req, res);
 
     if (path === '/api/exams') {
       // Completion counts are the ONLY aggregate this endpoint serves, and they count people rather
