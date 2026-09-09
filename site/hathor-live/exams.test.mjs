@@ -221,3 +221,27 @@ test('every registered exam has a route, and the index links all of them', () =>
     assert.ok(html.includes(`href="${e.route}"`), `${e.id} is not linked from the index`);
   }
 });
+
+// The operator asked for "Consult Your Doctor … on Every Page or as Often as Possible." Pasting it into
+// each page would work until somebody adds exam number six. It lives in examShell() instead, so a new
+// exam cannot ship without it, and this test is what makes that true rather than merely intended.
+test('⭐ every page built on examShell carries the consult referral — a new exam cannot omit it', async () => {
+  const { examShell } = await import('./exams.mjs');
+  const html = examShell('Anything', '<h1>Anything</h1>');
+  assert.match(html, /Consult your doctor/, 'the shell dropped the referral');
+  assert.match(html, /not a laboratory result/, 'the shell dropped the not-a-lab line');
+});
+
+test('the referral is above the content, not buried at the bottom', async () => {
+  const { examShell } = await import('./exams.mjs');
+  const html = examShell('T', '<h1>MARKER</h1>');
+  assert.ok(html.indexOf('Consult your doctor') < html.indexOf('MARKER'),
+    'a disclaimer under the fold is a disclaimer nobody reads');
+});
+
+test('the footer repeats the referral, so it is present at the decision point too', async () => {
+  const { examShell } = await import('./exams.mjs');
+  const html = examShell('T', '<p>x</p>');
+  const foot = html.slice(html.indexOf('<footer'));
+  assert.match(foot, /Consult your doctor/);
+});

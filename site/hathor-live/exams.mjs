@@ -37,6 +37,7 @@
 
 import { esc, themeCSS } from '../../integrations/melek-theme.mjs';
 import { KINDS, isPayableKind } from '../../integrations/token-exams.mjs';
+import { consultBanner, CONSULT } from './the-line.mjs';
 
 export { esc, KINDS, isPayableKind };
 
@@ -353,9 +354,14 @@ ${head}
     background:var(--mk-bg);border:1px dashed var(--mk-border);border-radius:8px;padding:9px 11px;
     display:inline-block;word-break:break-all}
   table{width:100%;border-collapse:collapse;font-size:14px} td,th{border-bottom:1px solid var(--mk-border);padding:6px 4px;text-align:left}
+  .consult{border:1px solid var(--mk-border);border-left:3px solid var(--mk-text-muted);border-radius:8px;
+    padding:10px 14px;margin:0 0 18px;background:var(--mk-panel);font-size:14px}
+  .consult p{margin:4px 0}
   ${extraCSS}</style></head><body><div class=wrap>
+${consultBanner('exams')}
 ${body}
 <footer class=muted style="margin-top:44px;font-size:13px;border-top:1px solid var(--mk-border);padding-top:14px">
+  ${esc(CONSULT.line)}<br>
   <a href="/exams">Temple Exams</a> · <a href="/40hz">the entrainment library</a> · <a href="/reports">the report archive</a><br>
   No account, no name, no email. Nothing here goes on the chain. Nothing here pays anything, and that is on purpose.
 </footer>

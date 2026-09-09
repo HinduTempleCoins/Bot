@@ -164,3 +164,62 @@ test('handler defaults its context rather than serving nothing', () => {
   handler({}, { writeHead() {}, end(b) { body = b; } });
   assert.equal(JSON.parse(body).context, 'entrainment');
 });
+
+// ── "Consult your doctor" — the affirmative half ───────────────────────────────────────────────────
+//
+// Every other line in this module is a NEGATION: not a device, not advice, does not diagnose. Those
+// keep the surface on the right side of the intended-use line and are useless to a reader holding a
+// number. These tests exist because the operator asked for the referral to be everywhere, and because
+// the export is deliberately formatted to be clinically legible — which is exactly what invites the
+// mistake that it IS a clinical result.
+
+test('the exams context exists and routes interpretation to a clinician', async () => {
+  const { CONTEXTS, disclaimer } = await import('./the-line.mjs');
+  assert.ok(CONTEXTS.includes('exams'), 'the exam battery had no context of its own');
+  const d = disclaimer('exams');
+  assert.match(d, /clinician/i, 'must name who does the interpreting');
+  assert.match(d, /not.*diagnos/i);
+  assert.match(d, /reference group/i, 'a score is meaningless without its reference class');
+});
+
+test('CONSULT says the affirmative thing, not only the negative one', async () => {
+  const { CONSULT } = await import('./the-line.mjs');
+  assert.match(CONSULT.short, /consult your doctor/i);
+  assert.match(CONSULT.line, /bring|take this record/i, 'the record must be described as portable');
+  assert.match(CONSULT.full, /before changing anything/i);
+});
+
+test('⭐ the export is explicitly NOT a lab result — legible like one, never claiming to be one', async () => {
+  const { CONSULT } = await import('./the-line.mjs');
+  assert.match(CONSULT.notALab, /not a laboratory result/i);
+  assert.match(CONSULT.notALab, /no specimen/i, 'the reason must be given, not just asserted');
+  assert.match(CONSULT.notALab, /sleep diary|blood-pressure/i, 'name the category it actually belongs to');
+});
+
+test('the banner carries both halves and escapes its content', async () => {
+  const { consultBanner } = await import('./the-line.mjs');
+  const h = consultBanner('exams');
+  assert.match(h, /Consult your doctor/);
+  assert.match(h, /not a laboratory result/);
+  assert.match(h, /role="note"/);
+  assert.ok(!/<script/i.test(h));
+});
+
+test('an unknown context still yields a banner, falling back strictly rather than to nothing', async () => {
+  const { consultBanner } = await import('./the-line.mjs');
+  for (const c of [undefined, null, '', 'nonsense', 0, {}]) {
+    const h = consultBanner(c);
+    assert.match(h, /Consult your doctor/, `context ${JSON.stringify(c)} produced no referral`);
+  }
+});
+
+test('the referral text itself passes claimsCheck — it must not become the claim it prevents', async () => {
+  const { CONSULT, claimsCheck, disclaimer } = await import('./the-line.mjs');
+  // "diagnoses" appears in the disclaimers as a NEGATION, so those are expected to trip the linter.
+  // CONSULT is prose we author freely, so it must be clean.
+  for (const [k, v] of Object.entries(CONSULT)) {
+    const r = claimsCheck(v);
+    assert.equal(r.ok, true, `CONSULT.${k} contains a claim phrase: ${JSON.stringify(r.hits)}`);
+  }
+  assert.ok(disclaimer('exams'));
+});
