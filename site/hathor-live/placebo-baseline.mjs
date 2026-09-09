@@ -298,6 +298,34 @@ export const PRACTICE_COMPARATORS = Object.freeze({
     why: 'Baird et al. (2019) describe a "blinded randomized-controlled design" for the 8-week course but the abstract does not name the control condition, and we have not read the methods section.',
     note: 'Listed as unstated rather than guessed. The result being reported is a NULL, and a null is weakened by a weak comparator rather than strengthened, so this gap matters less than it would the other way round.',
   }),
+
+  // ── the verification family, added with the dream work ────────────────────────────────────────
+  // These two are the reason "no comparator" is not automatically a criticism. They are EXISTENCE
+  // demonstrations, not efficacy trials: the claim is "this happened at all", and the evidence is a
+  // physiological record, not a difference between groups. Asking what they were compared against is
+  // a category error, and saying so is more useful than filing them under a design they never had.
+  'lrlr-signalling': Object.freeze({
+    comparator: 'none',
+    why: 'LaBerge, Nagel, Dement & Zarcone (1981) verified prearranged eye signals during polysomnographically unequivocal REM in five selected subjects. There is no comparison group because none is required: a voluntary signal either appears in the EOG during verified REM or it does not.',
+    note: '⭐ An existence proof, and the strongest evidence in this catalogue for anything — because it does not depend on report at all. This is what separates lucid dreaming from every other entry here: the datum crossed out of the dream and onto an instrument. Five selected subjects establishes that it CAN happen, not how often or in whom.',
+  }),
+  'two-way-dialogue': Object.freeze({
+    comparator: 'none',
+    why: 'Konkoly et al. (2021), 36 participants across four independent laboratories, 158 trials in signal-verified lucid REM. Again an existence demonstration: a sleeping brain perceived an external signal, computed on it, and answered.',
+    note: '⚠️ The honest number is the silence. 29 correct (18.4%), 5 incorrect, 28 ambiguous, and 96 NO RESPONSE (60.8%). Four labs replicating an effect that fails to appear three times in five is a real result and a hard ceiling. Any protocol claiming a richer channel than this owes an explanation.',
+  }),
+
+  'galantamine': Object.freeze({
+    comparator: 'placebo',
+    why: 'LaBerge, LaMarca & Baird (2018), PLOS ONE 13(8):e0201246 — double-blind, placebo-controlled, crossover, N=121, with a dose–response relationship.',
+    note: '⭐ THE ONLY INERT-CONTROLLED ENTRY IN THE LUCID FAMILY. Every induction technique in this catalogue is compared against another technique or against nothing at all; this is the one place a placebo arm exists, and it is a pill rather than a practice — which is exactly why it was blindable. Still no untreated arm, so natural variation in lucid frequency sits inside both arms equally.',
+  }),
+
+  'sleep-paralysis': Object.freeze({
+    comparator: 'observational',
+    why: 'Sharpless & Barber (2011) aggregated 35 studies, total N=36,533, reporting lifetime prevalence. This is an epidemiological estimate, not a trial of anything.',
+    note: 'Nothing is being tested, so nothing is being controlled. It is here because it is a thing that HAPPENS to people attempting WILD, and a prevalence figure is the right kind of evidence for that claim — the wrong kind would be a comparator.',
+  }),
 });
 
 /**
