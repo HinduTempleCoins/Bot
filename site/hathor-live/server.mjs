@@ -42,6 +42,11 @@ import {
   EXAM_ID as NAMING_ID, buildSwatches, summariseNaming,
   resultCopy as namingCopy, colourNamingPageHTML,
 } from './exam-colour-naming.mjs';
+import {
+  EXAM_ID as HOM_ID, buildTrials as homTrials, scoreSitting as scoreHom,
+  resultCopy as homCopy, shareQuery as homShareQuery, shareCardSVG as homCardSVG,
+  sharePageHTML as homSharePageHTML, humanOrModelPageHTML,
+} from './exam-human-or-model.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
@@ -761,6 +766,101 @@ export async function handler(req, res) {
     if (path === '/metronome') {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
       return res.end(METRONOME_PAGE);
+    }
+
+    // ── /exams/human-or-model — X7, the Voight-Kampff, part one ───────────────────────────────────
+    // The institute-native exam: this project runs an AI witness that posts publicly on the chain, so
+    // it is the one exam in the battery whose stimulus set the project generates itself, at no
+    // licensing cost, refreshable every time the models change. Scoring is d′ and CALIBRATION — the
+    // contribution is the calibration curve, because the near-universal finding is that people's
+    // confidence in this ability is not justified. The result reports a measurement and never an
+    // identity, and the debrief is rendered above anything clickable.
+    if (path === '/exams/human-or-model') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(humanOrModelPageHTML());
+    }
+
+    // The SHARE surfaces. They carry six numbers and the stimulus generation date — no participant
+    // key, no participant id, no sitting timestamp, nothing that could be traced to a person. The
+    // moving-target limit travels with the link, because a 2026 result pasted into a feed will still
+    // be sitting there in 2028 and must not read as a 2028 claim.
+    if (path === '/exams/human-or-model/result') {
+      const q = Object.fromEntries(url.searchParams.entries());
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(homSharePageHTML(q, { baseUrl: BASE_URL }));
+    }
+
+    if (path === '/exams/human-or-model/card.svg') {
+      const q = Object.fromEntries(url.searchParams.entries());
+      res.writeHead(200, { 'content-type': 'image/svg+xml; charset=utf-8', 'cache-control': 'public, max-age=300' });
+      return res.end(homCardSVG(q));
+    }
+
+    // The seed is the ANSWER KEY, statelessly: the client posts it back and the server rebuilds the
+    // identical trial order and side assignment from it. Nothing about which passage is which is ever
+    // sent to the browser before the sitting is scored.
+    if (path === '/api/exams/human-or-model/trials') {
+      const seed = `${Date.now()}:${Math.random()}`;
+      const built = homTrials({ seed });
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({
+        ok: true, seed: built.seed, kind: built.kind, setNote: built.setNote, trials: built.trials,
+      }));
+    }
+
+    if (path === '/api/exams/human-or-model' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No participant key was sent, so there is nothing to attach this to. Nothing was saved.' }));
+      }
+      const card = validateStateCard(body.stateCard || {});
+      if (!card.ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: card.errors[0], errors: card.errors }));
+      }
+      const result = scoreHom({ seed: body.seed, responses: body.responses });
+      if (!result.graded.n && !result.recognisedTrials) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No pair was judged, so there is nothing to score. Nothing was saved.' }));
+      }
+      const prior = history(pid, HOM_ID);
+      const priorScore = prior.length ? (prior[prior.length - 1].score || {}).dPrime : null;
+      const stored = appendSitting({
+        pid, exam: HOM_ID,
+        score: result.score,
+        trialsAnswered: result.trialsAnswered,
+        recognisedTrials: result.recognisedTrials,
+        dropped: result.dropped,
+        // Per-trial rows keep the confidence and the outcome, which is what a calibration analysis
+        // across takers needs. They do not keep the passages — the corpus is the corpus.
+        perTrial: result.perTrial.map((t) => ({
+          id: t.id, correct: t.correct, confidence: t.confidence, recognised: t.recognised,
+        })),
+        // The vintage is stored WITH the sitting, so a score from an old stimulus set can never be
+        // silently pooled with a score from a new one when this is analysed later.
+        stimulusVintage: result.vintage ? { newest: result.vintage.newest, models: result.vintage.models } : null,
+        stateCard: card.card,
+      });
+      if (!stored.ok) {
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'Could not store the sitting. Nothing was saved — please try again.' }));
+      }
+      const counts = completionCounts();
+      const copy = homCopy(result, { n: counts[HOM_ID] || 0, priorScore });
+      const q = copy.share ? homShareQuery(copy.share) : '';
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true,
+        sessionNumber: stored.sitting.sessionNumber,
+        daysSinceFirst: stored.sitting.daysSinceFirst,
+        result: { score: result.score, graded: { n: result.graded.n, correct: result.graded.correct } },
+        copy,
+        shareUrl: q ? `${BASE_URL}/exams/human-or-model/result?${q}` : '',
+      }));
     }
 
     if (path === '/40hz') {

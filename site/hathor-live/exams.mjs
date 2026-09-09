@@ -43,6 +43,34 @@ export { esc, KINDS, isPayableKind };
 /** The kind every exam in this file is, and the only kind it may be. */
 export const PERCEPTION = 'perception';
 
+// ── OPERATOR CORRECTION, 2026-09-08: THE BAR IS TRUTH, NOT MODESTY ──────────────────────────────
+//
+// Rule 1 below ("report the measurement, not the category") has been over-applied, and the operator
+// retired the over-application in his own words: "we don't mind the Quizes telling People they are
+// 'Special', but we want it to be as True as Possible, like Perfect Pitch, the Jung Tests, or even
+// Medical and Competency or IQ Type Tests."
+//
+// WHERE THE EVIDENCE SUPPORTS A CATEGORICAL CLAIM, MAKE IT PLAINLY. A grapheme–colour consistency
+// score below the published threshold IS the finding that somebody is a synaesthete; hedging that
+// into meaninglessness is the error, not the safeguard. The same holds for absolute pitch, for
+// colour-vision deficiency, and for aphantasia at the extremes.
+//
+// AND THE SAFETY GATE'S RULE IS NARROWER THAN IT LOOKS. ".local/TEMPLE_EXAMS_SAFETY_GATE.md"'s
+// "never worded as a clearance" is about PHOTOSENSITIVE EPILEPSY — a medical-risk claim that
+// transfers a liability this project cannot carry. It is NOT a general ban on telling a person a
+// true thing about their own perception, and the next agent to read it that way is reading it past
+// its subject.
+//
+// What still stands, unchanged: no percentile below MIN_N_FOR_RANK, the self-selection caveat every
+// time, a debrief on the same screen as the result, and no score that buys anything.
+//
+// A worked example of the distinction is in exam-human-or-model.mjs, which STILL refuses the
+// category — but for an empirical reason (the target moves; the effect is mostly about the models,
+// not the taker), not because a strong true claim is forbidden.
+//
+// The wording of rule 1 below is left as it stands rather than rewritten in passing: it is printed
+// on every result page in this battery and its revision is the operator's call, not a side effect of
+// shipping one exam.
 /**
  * The four wording rules, kept as data so a result screen can render them rather than a developer
  * remembering them. They are printed on every result page in this battery.
@@ -149,6 +177,24 @@ export const EXAMS = Object.freeze([
       'Marks, D.F. (1995) — VVIQ-2, which reversed the scale direction.',
       'Zeman et al. (2020), Cortex 130:426–440 — the imagery-extremes study.',
       'Zeman, A. (2024), Trends in Cognitive Sciences 28(5) — the current review.',
+    ],
+  },
+  {
+    id: 'human-or-model',
+    kind: PERCEPTION,
+    name: 'Human or model',
+    route: '/exams/human-or-model',
+    duration: '8–12 minutes',
+    measures: 'Whether you can tell a passage written by a person from one written by a model — and, from the confidence you attach to each answer, whether your belief that you can is justified.',
+    why: 'The institute-native one. This project runs an AI witness that posts publicly on the chain, so it is the single exam in the battery whose stimulus set it can generate itself, at no licensing cost, and refresh every time the models change. Four higher-ranked exams are blocked on whether we may lawfully display somebody else’s photographs; this one is blocked on nothing.',
+    neverSay: 'You scored in the replicant range.',
+    retestDays: 30,
+    citations: [
+      'Jones CR & Bergen BK (2026), Large language models pass a standard three-party Turing test, PNAS 123(21), doi:10.1073/pnas.2524472123 — GPT-4.5 with a persona prompt judged human 73% of the time; preprint arXiv:2503.23674 (2025).',
+      'National Research Council (2003), The Polygraph and Lie Detection, National Academies Press — why the apparatus half of the Voight-Kampff was always wrong.',
+      'Macmillan NA & Creelman CD (2005), Detection Theory: A User’s Guide, 2nd ed. — d′ = √2·z(pc) for two-alternative forced choice, and the extreme-cell correction.',
+      'Murphy AH (1973), Journal of Applied Meteorology 12(4):595–600 — the Brier-score decomposition the calibration curve is read against.',
+      'Philip K. Dick (1968), Do Androids Dream of Electric Sheep? — the hook, and never the frame of the result.',
     ],
   },
   {
@@ -268,12 +314,18 @@ export function retestPair(first, second, { unit = '', sem = null } = {}) {
 
 // ── the page shell ───────────────────────────────────────────────────────────────────────────────
 
-export function examShell(title, body, { extraCSS = '', extraJS = '' } = {}) {
+export function examShell(title, body, { extraCSS = '', extraJS = '', extraHead = '' } = {}) {
+  // `extraHead` is for a page that needs its own canonical/OG/Twitter tags — a shareable result card.
+  // When one is supplied it OWNS the description and robots tags, because emitting both sets would
+  // hand a crawler two contradictory descriptions and let it pick.
+  const head = extraHead
+    ? String(extraHead)
+    : `<meta name=robots content="index,follow">
+<meta name=description content="Temple Exams — instruments, not diagnoses. No account, no name, no score that buys anything.">`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)} — Temple Exams</title>
-<meta name=robots content="index,follow">
-<meta name=description content="Temple Exams — instruments, not diagnoses. No account, no name, no score that buys anything.">
+${head}
 <style>${themeCSS({ context: 'temple' })}
   body{margin:0;font:16px/1.65 -apple-system,Segoe UI,Roboto,Arial,sans-serif;
     background:var(--mk-bg);color:var(--mk-text)}
