@@ -28,7 +28,7 @@ import { readReports, appendReport } from './reports-store.mjs';
 import { chamberPlan, chamberScene, CHAMBER_TIERS } from './chamber.mjs';
 import { EXAMS, FRAMING as EXAM_FRAMING, BROWSER_LIMITS as EXAM_BROWSER_LIMITS, examsIndexHTML } from './exams.mjs';
 import { participantId } from './participant-key.mjs';
-import { completionCounts, forget as forgetParticipant, appendSitting, history } from './exams-store.mjs';
+import { completionCounts, forget as forgetParticipant, appendSitting, history, distribution } from './exams-store.mjs';
 import { validateStateCard } from './state-card.mjs';
 import {
   EXAM_ID as GRAPHEME_ID, buildTrials as graphemeTrials, scoreSitting as scoreGrapheme,
@@ -47,6 +47,10 @@ import {
   resultCopy as homCopy, shareQuery as homShareQuery, shareCardSVG as homCardSVG,
   sharePageHTML as homSharePageHTML, humanOrModelPageHTML,
 } from './exam-human-or-model.mjs';
+import {
+  EXAM_ID as SUGG_ID, buildForm as suggForm, scoreForm as scoreSugg,
+  resultCopy as suggCopy, covariateNote, suggestibilityPageHTML,
+} from './exam-suggestibility.mjs';
 import { themeCSS } from '../../integrations/melek-theme.mjs';
 import { sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
@@ -308,7 +312,7 @@ function chamberShell(title, body, session = null) {
 // endpoint is not a page), and so are the feeds, which are syndication rather than sitemap entries.
 export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
-  '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming',
+  '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
 ];
 
 export async function handler(req, res) {
@@ -554,6 +558,24 @@ export async function handler(req, res) {
         : { ok: false, error: 'Could not write the deletion. Nothing was deleted — please try again.' }));
     }
 
+    // ⭐ THE EXPECTANCY COVARIATE (R7). Lush et al. (2020), Nat Commun 11(1):4853,
+    // doi:10.1038/s41467-020-18591-6 — trait phenomenological control predicts experiential change on
+    // the rubber-hand illusion and mirror synaesthesia. So every exam in this battery whose datum is a
+    // REPORT of an experience (exams.mjs `experientialSelfReport`) prints the taker's expectancy index
+    // beside its own result. This closure is the single place that assembles it, so the two exams that
+    // need it cannot drift apart. It reads the participant's OWN history only — there is no path here
+    // that reads one person's record on behalf of another.
+    const covariateFor = (pid, examName) => {
+      const own = history(pid, SUGG_ID);
+      const total = own.length ? ((own[own.length - 1].score || {}).total ?? null) : null;
+      return covariateNote({
+        total,
+        n: completionCounts()[SUGG_ID] || 0,
+        distribution: distribution(SUGG_ID, 'total'),
+        examName,
+      });
+    };
+
     // ── /exams/grapheme — the grapheme–colour consistency test ────────────────────────────────────
     // The methodological exemplar: its validity criterion IS its own test–retest behaviour, so it
     // needs no norms, no calibration and no comparison group. The result is a SCORE with a cited
@@ -688,6 +710,70 @@ export async function handler(req, res) {
         daysSinceFirst: stored.sitting.daysSinceFirst,
         result: { score: result.score, answered: result.answered, byScenario: result.byScenario },
         copy: vviqCopy(result, { n: counts[VVIQ_ID] || 0, priorScore }),
+        // The VVIQ is the clearest experiential self-report in the battery: every item asks how vivid
+        // an image WAS and the only evidence is the taker's own say-so. The covariate goes beside it.
+        covariate: covariateFor(pid, 'the mind’s-eye questionnaire'),
+      }));
+    }
+
+    // ── /exams/suggestibility — the expectancy index (R7) ─────────────────────────────────────────
+    // Not a hypnotisability scale, not the TAS, and carrying no lineage from either. It exists to be
+    // PRINTED BESIDE other results: `covariateFor()` above is its real consumer. Its own result screen
+    // says, in its own copy, that a twelve-item index is a noisy one.
+    if (path === '/exams/suggestibility') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(suggestibilityPageHTML());
+    }
+
+    if (path === '/api/exams/suggestibility/form') {
+      const seed = `${Date.now()}:${Math.random()}`;
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({ ok: true, form: suggForm({ seed }) }));
+    }
+
+    if (path === '/api/exams/suggestibility' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No participant key was sent, so there is nothing to attach this to. Nothing was saved.' }));
+      }
+      const card = validateStateCard(body.stateCard || {});
+      if (!card.ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: card.errors[0], errors: card.errors }));
+      }
+      const result = scoreSugg(body.answers, body.probes);
+      if (result.score.total == null) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No item was answered, so there is nothing to score. Nothing was saved.' }));
+      }
+      const prior = history(pid, SUGG_ID);
+      const priorScore = prior.length ? (prior[prior.length - 1].score || {}).total : null;
+      const stored = appendSitting({
+        pid, exam: SUGG_ID,
+        score: result.score,
+        answered: result.answered,
+        byFacet: result.byFacet,
+        perItem: result.perItem,
+        probes: result.probes,
+        allSameAnswer: result.allSameAnswer,
+        stateCard: card.card,
+      });
+      if (!stored.ok) {
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'Could not store the sitting. Nothing was saved — please try again.' }));
+      }
+      const counts = completionCounts();
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true,
+        sessionNumber: stored.sitting.sessionNumber,
+        daysSinceFirst: stored.sitting.daysSinceFirst,
+        result: { score: result.score, answered: result.answered, byFacet: result.byFacet, probes: result.probes },
+        copy: suggCopy(result, { n: counts[SUGG_ID] || 0, priorScore }),
       }));
     }
 
