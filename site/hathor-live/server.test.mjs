@@ -461,3 +461,17 @@ test('a naming submission stores the words exactly as typed and never the raw ke
   assert.ok(!/you have|your eyes are/i.test(d.copy.lines.join(' ')));
   __setExamIO(null);
 });
+
+test('GET /metronome serves the metronome, and it is listed in the sitemap', async () => {
+  const { res, o } = cap();
+  await handler(req('/metronome'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /<title>Metronome/);
+  assert.ok(!/setInterval\s*\(/.test(o.body), 'the metronome must never call setInterval');
+
+  const { res: r2, o: o2 } = cap();
+  await handler(req('/sitemap.xml'), r2);
+  assert.equal(o2.code, 200);
+  assert.match(o2.body, /\/metronome/);
+});

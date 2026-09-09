@@ -16,6 +16,7 @@
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { GAMMA_PAGE } from './gamma.mjs';
+import { METRONOME_PAGE } from './metronome.mjs';
 import { SESSIONS, CATEGORIES, totalSeconds, peakHz, photicRisk } from './sessions.mjs';
 import { PRACTICES, PRACTICE_FAMILIES } from './practices.mjs';
 import { buildFeed, renderRss, renderAtom, renderJsonFeed, fetchAuthorPosts } from '../../integrations/chain-feed.mjs';
@@ -306,7 +307,7 @@ function chamberShell(title, body, session = null) {
 // the real, currently-served, indexable PAGE routes. /api/* is excluded (robots Disallows it and a JSON
 // endpoint is not a page), and so are the feeds, which are syndication rather than sitemap entries.
 export const SITEMAP_PATHS = [
-  '/', '/40hz', '/studio', '/reports', '/chamber',
+  '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming',
 ];
 
@@ -760,6 +761,11 @@ export async function handler(req, res) {
         daysSinceFirst: stored.sitting.daysSinceFirst,
         copy: namingCopy(summary, { n: counts[NAMING_ID] || 0 }),
       }));
+    }
+
+    if (path === '/metronome') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(METRONOME_PAGE);
     }
 
     // ── /exams/human-or-model — X7, the Voight-Kampff, part one ───────────────────────────────────
