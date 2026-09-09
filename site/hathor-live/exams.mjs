@@ -290,6 +290,31 @@ export const EXAMS = Object.freeze([
     ],
   },
   {
+    id: 'thread',
+    kind: PERCEPTION,
+    claimClass: 'within-person',
+    // \u2b50 The purest case in the battery: sixteen sliders, each answering "how much did that do to
+    // you?". The expectancy covariate belongs beside this result as much as beside the VVIQ.
+    experientialSelfReport: true,
+    name: 'The Thread Protocol',
+    route: '/exams/thread',
+    duration: '10\u201314 minutes',
+    measures: 'Whether your response across an enumerated set of sixteen rhythms \u2014 or sixteen hues \u2014 has a shape, and whether that shape comes back when the set is presented again without warning.',
+    why: 'The design is not ours. In the Egyptian zar the thread \u2014 khayt \u2014 is the distinctive drum '
+      + 'rhythm of each spirit, and the kodia performs each in turn and watches for a differential '
+      + 'reaction. A fixed stimulus set, serial presentation, a response criterion, classification by '
+      + 'maximal differential response: a within-person psychophysical protocol built centuries before '
+      + 'anybody wrote a method section. We borrow the method and not the cosmology.',
+    neverSay: 'This is your Thread.',
+    retestDays: 14,
+    citations: [
+      'El Hadidi, H. (2016), Zar: Spirit Possession, Music, and Healing Rituals in Egypt, American University in Cairo Press, doi:10.5743/cairo/9789774166976.001.0001 \u2014 the scholarly source for the khayt material. [PARTIALLY VERIFIED: not read in full.]',
+      'Boddy, J. (1989), Wombs and Alien Spirits: Women, Men, and the Z\u0101r Cult in Northern Sudan, University of Wisconsin Press, ISBN 9780299123147 \u2014 the standard ethnography. Boddy reads possession as an allegorical discourse on women\u2019s subordination; this project\u2019s own corpus holds the Threads to be real entities. The disagreement is stated rather than smoothed over.',
+      'Eagleman, D.M. et al. (2007), J Neurosci Methods 159(1):139\u2013145 \u2014 the repeat-without-warning design this exam borrows its scoring logic from.',
+      'Rouget, G. (1985), Music and Trance, University of Chicago Press \u2014 why a stimulus does not cause a state, and why this exam claims no mechanism.',
+    ],
+  },
+  {
     id: 'suggestibility',
     kind: PERCEPTION,
     claimClass: 'percentile',

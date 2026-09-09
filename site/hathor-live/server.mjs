@@ -49,6 +49,10 @@ import {
   sharePageHTML as homSharePageHTML, humanOrModelPageHTML,
 } from './exam-human-or-model.mjs';
 import {
+  EXAM_ID as THREAD_ID, buildRun as threadRun, scoreSitting as scoreThread,
+  resultCopy as threadCopy, threadPageHTML, setById as threadSet, BLOCKS as THREAD_BLOCKS,
+} from './exam-thread.mjs';
+import {
   EXAM_ID as SUGG_ID, buildForm as suggForm, scoreForm as scoreSugg,
   resultCopy as suggCopy, covariateNote, suggestibilityPageHTML,
 } from './exam-suggestibility.mjs';
@@ -314,6 +318,7 @@ function chamberShell(title, body, session = null) {
 export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
+  '/exams/thread',
 ];
 
 export async function handler(req, res) {
@@ -724,6 +729,95 @@ export async function handler(req, res) {
         // The VVIQ is the clearest experiential self-report in the battery: every item asks how vivid
         // an image WAS and the only evidence is the taker's own say-so. The covariate goes beside it.
         covariate: covariateFor(pid, 'the mind’s-eye questionnaire'),
+      }));
+    }
+
+    // ── /exams/thread — the Thread Protocol (R1) ──────────────────────────────────────────────────
+    // A within-person differential-response exam over an enumerated stimulus set, rebuilt from the
+    // zar kodia's diagnostic procedure: she performs each spirit's khayt in turn and watches for a
+    // reaction. We borrow the METHOD. The result names a STIMULUS and never a spirit — not out of
+    // politeness, but because no instrument can identify one and the statement would be false.
+    if (path === '/exams/thread') {
+      const set = threadSet(url.searchParams.get('set')) ? url.searchParams.get('set') : 'rhythm';
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(threadPageHTML({ set }));
+    }
+
+    if (path === '/api/exams/thread/run') {
+      const set = threadSet(url.searchParams.get('set')) ? url.searchParams.get('set') : 'rhythm';
+      const seed = `${Date.now()}:${Math.random()}`;
+      const run = threadRun({ set, seed });
+      // The running order carries a `block` field because the scoring needs it. It is never rendered,
+      // and the page is deliberately not told which presentation is a repeat: warning somebody turns
+      // a reproduction test into a memory test, and the reproduction is the whole instrument.
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({ ok: true, run }));
+    }
+
+    if (path === '/api/exams/thread' && method === 'POST') {
+      const raw = await readBody(req);
+      let body = {};
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+      const pid = participantId(body.key);
+      if (!pid) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'No participant key was sent, so there is nothing to attach this to. Nothing was saved.' }));
+      }
+      const card = validateStateCard(body.stateCard || {});
+      if (!card.ok) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: card.errors[0], errors: card.errors }));
+      }
+      const set = threadSet(body.set) ? String(body.set) : 'rhythm';
+      // The permutation seed is derived from the HASHED participant id and the set, never from the
+      // raw key, and it never leaves the server. It exists so a person who reloads their result sees
+      // the same p rather than a number that wanders.
+      const result = scoreThread({
+        set,
+        responses: body.responses,
+        blocks: Number(body.blocks) || THREAD_BLOCKS,
+        seed: `${pid}:${set}`,
+      });
+      if (!result.ok || result.completeBlocks < 2) {
+        res.writeHead(400, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({
+          ok: false,
+          error: 'Fewer than two complete blocks came back, so there is nothing to compare a block '
+            + 'against and the repeat statistic — which is the instrument — cannot be computed. Nothing was saved.',
+        }));
+      }
+      const prior = history(pid, THREAD_ID).filter((h) => h.set === set);
+      const priorScore = prior.length ? (prior[prior.length - 1].score || {}).meanR : null;
+      const stored = appendSitting({
+        pid, exam: THREAD_ID,
+        set,
+        score: result.score,
+        order: result.order,
+        profiles: result.profiles,
+        valenceProfile: result.valenceProfile,
+        repeat: result.repeat,
+        peak: result.peak,
+        repeats: result.repeats,
+        answered: result.answered,
+        stateCard: card.card,
+      });
+      if (!stored.ok) {
+        res.writeHead(503, { 'content-type': 'application/json' });
+        return res.end(JSON.stringify({ ok: false, error: 'Could not store the sitting. Nothing was saved — please try again.' }));
+      }
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true,
+        sessionNumber: stored.sitting.sessionNumber,
+        daysSinceFirst: stored.sitting.daysSinceFirst,
+        result: {
+          set: result.set, score: result.score, repeats: result.repeats,
+          repeat: result.repeat, peak: result.peak, answered: result.answered, expected: result.expected,
+        },
+        copy: threadCopy(result, { priorScore }),
+        // Sixteen "how much did that do to you?" sliders is the purest experiential self-report in
+        // the battery, so the R7 covariate prints beside it.
+        covariate: covariateFor(pid, 'the Thread Protocol'),
       }));
     }
 
