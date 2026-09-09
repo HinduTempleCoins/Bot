@@ -18,6 +18,7 @@
 
 export const PRACTICE_FAMILIES = [
   { id: 'onset', name: 'Getting to sleep', blurb: 'What to do with a mind that will not stop. The folk answer is wrong and the literature says what to do instead.' },
+  { id: 'verified', name: 'How we know it is real', blurb: 'Lucidity is the one inner state that has been made objectively verifiable. Two experiments did that, and everything else on this page rests on them.' },
   { id: 'lucid', name: 'Lucid dreaming', blurb: 'The induction family. Two techniques have real comparative data behind them; the rest are tradition.' },
   { id: 'recall', name: 'Dream recall', blurb: 'The single strongest predictor of whether any induction technique works for you.' },
   { id: 'clinical', name: 'Where it is actually used', blurb: 'The one application with clinical standing: nightmares. Plus what the meditation evidence really shows.' },
@@ -68,6 +69,78 @@ export const PRACTICES = [
       'at all; that prediction was not supported either. So the honest summary is that it neither helped ' +
       'nor measurably hurt — it simply did not do the thing it is famous for. Imagery, in the same study, did.',
     citations: [{ label: 'Harvey & Payne 2002', url: 'https://pubmed.ncbi.nlm.nih.gov/11863237/' }],
+  },
+
+  // ── how we know it is real ─────────────────────────────────────────────────────────────────────
+  //
+  // ⭐ This section is the foundation and it was missing. Every induction technique below is a claim
+  // about a private event, and private events are normally unfalsifiable. Lucid dreaming is the
+  // exception: in 1981 it was made into a MEASUREMENT, and in 2021 into a two-way conversation.
+  {
+    id: 'lrlr-signalling',
+    family: 'verified',
+    name: 'LRLR — the eye-signal paradigm that made lucidity a measurement',
+    grade: 'strong',
+    minutes: 0,
+    summary:
+      'During REM sleep the body is paralysed but the eyes are not. A lucid dreamer who has agreed in ' +
+      'advance to look hard left-right-left-right can therefore send a signal OUT of the dream and onto ' +
+      'the polygraph, timestamped, while the EEG independently confirms REM. That is why lucid dreaming ' +
+      'is a scientific object rather than a claim.',
+    steps: [
+      'Before sleep, the dreamer and the experimenter agree a signal — the standard one is two full left-right eye sweeps, LRLR.',
+      'The sleeper is recorded with EOG (eye movement), EEG (brain state) and EMG (muscle tone) simultaneously.',
+      'On becoming lucid, the dreamer performs the agreed eye movements as a deliberate dream action.',
+      'The signal appears in the EOG trace during unambiguous REM, with the chin EMG flat. The dreamer was asleep, and reported it deliberately.',
+      'Because the signal is timestamped, anything else the dreamer does can now be timed against physiology — this is the technique every lab result on this page depends on.',
+    ],
+    evidence:
+      'La Berge, Nagel, Dement and Zarcone (1981, Perceptual and Motor Skills 52:727-732) verified lucid ' +
+      'dreaming in five selected subjects who signalled by prearranged dream actions during unequivocal ' +
+      'REM sleep. Keith Hearne had recorded ocular signalling from a lucid dreamer independently in 1975 ' +
+      'at the University of Hull; LaBerge’s group published the peer-reviewed paradigm. The eyes work ' +
+      'because REM atonia spares the extraocular muscles — the one motor channel a dreaming body leaves open.',
+    citations: [
+      { label: 'La Berge et al. 1981, Perceptual and Motor Skills — DOI 10.2466/pms.1981.52.3.727', url: 'https://doi.org/10.2466/pms.1981.52.3.727' },
+      { label: 'PubMed 24171230', url: 'https://pubmed.ncbi.nlm.nih.gov/24171230/' },
+    ],
+    note:
+      'The honest framing: this proves the dreamer was awake INSIDE sleep and could act on a prior ' +
+      'intention. It does not adjudicate what the dream is, and no experiment on this page does.',
+  },
+  {
+    id: 'two-way-dialogue',
+    family: 'verified',
+    name: 'Two-way dialogue during REM — Konkoly et al. 2021',
+    grade: 'strong',
+    minutes: 0,
+    summary:
+      'Four independent laboratories, working separately and converging, put questions to sleeping ' +
+      'people and got answers back. Arithmetic, yes/no, sensory discrimination — answered from inside ' +
+      'verified REM sleep, in real time, by eye movements and facial muscles.',
+    steps: [
+      'The dreamer signals lucidity with the LRLR paradigm above. The lab confirms REM from the EEG.',
+      'The experimenter speaks a question aloud — for example a small addition or subtraction with an answer between 1 and 6, or a yes/no question.',
+      'The dreamer answers by counting out eye movements, or by contracting the smile muscle for yes and the frown muscle for no.',
+      'On waking, the dreamer usually reports having received the question inside the dream — sometimes as a voice from outside, sometimes woven into the dream scene, sometimes with details that diverge from the recording.',
+    ],
+    evidence:
+      'Konkoly and colleagues (2021, Current Biology 31:1417-1427.e6) ran 36 participants across four ' +
+      'laboratories in the USA, Germany, France and the Netherlands, including one participant with ' +
+      'narcolepsy type 1. Six participants achieved documented two-way exchanges. Across 158 trials in ' +
+      'signal-verified lucid REM: 29 correct (18.4%), 5 incorrect (3.2%), 28 ambiguous (17.7%) and 96 with ' +
+      'no response (60.8%). The low response rate is the honest headline — most questions got nothing. ' +
+      'But 29 correct against 5 incorrect is not noise, and the four labs used different methods and ' +
+      'different populations and all four got it.',
+    citations: [
+      { label: 'Konkoly et al. 2021, Current Biology — DOI 10.1016/j.cub.2021.01.026', url: 'https://doi.org/10.1016/j.cub.2021.01.026' },
+      { label: 'Open access — PMC8162929', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8162929/' },
+    ],
+    note:
+      'What this established, stated precisely: a sleeping brain can perceive an external signal, ' +
+      'comprehend it, compute on it and issue a voluntary motor response — all while asleep and ' +
+      'dreaming. It is an interface, not a seance, and the paper claims nothing more than that. What ' +
+      'a person MEETS in a dream is not a question this experiment is able to ask.',
   },
 
   // ── lucid dreaming ─────────────────────────────────────────────────────────────────────────────
@@ -151,19 +224,118 @@ export const PRACTICES = [
     grade: 'weak',
     minutes: 2,
     summary:
-      'DILD is not a technique — it is the CATEGORY of becoming lucid from inside a dream. Reality testing is ' +
-      'the daytime habit meant to produce it: checking, repeatedly, whether you are awake.',
+      'DILD is not a technique — it is the CATEGORY of becoming lucid from inside a dream. Reality ' +
+      'testing is the daytime habit meant to produce it: checking, repeatedly, whether you are awake. ' +
+      'Graded weak because the trial that isolated it found it did almost nothing on its own; it works ' +
+      'as the daytime half of MILD, which is a different claim from the one it is usually sold with.',
     steps: [
-      'Several times a day, genuinely ask whether you are dreaming — genuinely, not as a formality.',
-      'Test it physically. Read text, look away, read it again (it changes in dreams). Try to push a finger through your palm. Pinch your nose shut and try to breathe in.',
+      'Several times a day, genuinely ask whether you are dreaming — genuinely, not as a formality. A check performed without doubt trains nothing.',
+      'Use a check that has actually been tested. See REALITY_CHECKS on this page: the re-reading test is the one with data behind it, and the light switch is not.',
       'Pair the check with things that recur in your dreams, so the habit fires where it is needed.',
+      'Treat it as the daytime component of MILD rather than as a standalone method — that is the combination the trials actually tested.',
     ],
     evidence:
-      'Reality testing is the most widely taught technique and among the least well supported on its own. ' +
-      'In the International Lucid Dream Induction Study it was a component of the combinations tested rather ' +
-      'than the active ingredient, and reviews of induction techniques repeatedly find single daytime methods ' +
-      'underperform the night-time memory techniques. Graded weak alone, useful as a component.',
-    citations: [{ label: 'Induction techniques: systematic review 2023', url: 'https://pubmed.ncbi.nlm.nih.gov/36408823/' }],
+      'Aspy, Delfabbro, Proeve and Mohr (2017, Dreaming 27(3):206-231 — the National Australian Lucid ' +
+      'Dream Induction Study, N=169) compared reality testing, WBTB and MILD in combination. The ' +
+      'combination worked; the paper’s own emphasis is that MILD carried it, and the strongest single ' +
+      'predictor was how fast the participant fell asleep after finishing MILD. Among those who fell ' +
+      'asleep within five minutes of the technique, lucid dreams followed on almost 46% of attempts. ' +
+      'Stumbrys et al. (2012, Consciousness and Cognition 21:1456-1475) reviewed 35 studies and ' +
+      'concluded that NONE of the induction techniques were verified to induce lucid dreams reliably ' +
+      'and consistently — a verdict that still stands and that this library is not going to soften.',
+    citations: [
+      { label: 'Aspy et al. 2017, Dreaming — DOI 10.1037/drm0000059', url: 'https://doi.org/10.1037/drm0000059' },
+      { label: 'Stumbrys et al. 2012 systematic review — DOI 10.1016/j.concog.2012.07.003', url: 'https://doi.org/10.1016/j.concog.2012.07.003' },
+      { label: 'Induction techniques: systematic review 2023', url: 'https://pubmed.ncbi.nlm.nih.gov/36408823/' },
+    ],
+    note:
+      'The 46% figure is a percentage of ATTEMPTS by a self-selected subgroup, not a success rate for ' +
+      'the technique. It is quoted everywhere without that qualifier. Ours carries it.',
+  },
+  {
+    id: 'galantamine',
+    family: 'lucid',
+    name: 'Galantamine — the strongest drug evidence, and its real cautions',
+    grade: 'moderate',
+    minutes: 0,
+    summary:
+      'An acetylcholinesterase inhibitor, licensed for Alzheimer’s disease, that raised lucid-dream ' +
+      'frequency in a double-blind placebo-controlled crossover trial in a clean dose-response. It is ' +
+      'the best pharmacological result in the field — and it is a real drug with a real label, which is ' +
+      'the half that gets left out.',
+    steps: [
+      'What was studied: 121 participants, 0 mg / 4 mg / 8 mg galantamine hydrobromide, counterbalanced order, three consecutive nights, taken at a middle-of-night waking after about 4.5 hours of sleep.',
+      'What it produced: at least one lucid dream on 14% of placebo nights, 27% at 4 mg (OR 2.29) and 42% at 8 mg (OR 4.46). Dream recall, sensory vividness and scene complexity also rose.',
+      'READ THIS BEFORE THE HEADLINE NUMBER: the "placebo" arm was not nothing. Every arm did a wake-back-to-bed plus MILD. The 42% is galantamine ON TOP of a technique that already works — not galantamine alone.',
+      'The setting was an eight-day residential lucid-dreaming workshop, in participants selected for high dream recall and strong motivation. Those numbers do not transfer to an unselected person at home.',
+      'The authors themselves screened OUT asthma, beta-blocker use, cardiac arrhythmia and severe mental illness before enrolling. Take their exclusion list as the minimum, not as a formality.',
+    ],
+    evidence:
+      'LaBerge, LaMarca and Baird (2018, PLOS ONE 13(8):e0201246): double-blind, placebo-controlled, ' +
+      'crossover, N=121, dose-related increase in lucid dreaming. Side effects were reported by 14 ' +
+      'participants (12%) on an active dose — mild gastrointestinal upset, nausea (n=5), difficulty ' +
+      'falling back to sleep (n=5), next-day fatigue — against 3% on placebo. This is one trial, from ' +
+      'one institute, with a self-report outcome and a highly selected sample. It has not been ' +
+      'independently replicated. Moderate is the correct grade and it is not modesty.',
+    citations: [
+      { label: 'LaBerge, LaMarca & Baird 2018, PLOS ONE — DOI 10.1371/journal.pone.0201246', url: 'https://doi.org/10.1371/journal.pone.0201246' },
+      { label: 'FDA-approved label (galantamine), DailyMed', url: 'https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=e80ec152-3616-4a13-9266-715550a8c398' },
+    ],
+    caution:
+      'Galantamine is a cholinesterase inhibitor and the label’s warnings apply to anyone taking it, ' +
+      'not only to Alzheimer’s patients. CARDIAC: vagotonic effects on the sinoatrial and ' +
+      'atrioventricular nodes — bradycardia and AV block are foreseeable, and syncope in the trials rose ' +
+      'with dose (0.7% placebo, 0.4% at 4 mg twice daily, 1.3% at 8 mg twice daily, 2.2% at 12 mg twice ' +
+      'daily). Anyone on a beta-blocker or with a conduction problem is stacking two things that slow ' +
+      'the same node. RESPIRATORY: use caution in severe asthma or obstructive pulmonary disease. ' +
+      'NEUROLOGIC: cholinesterase inhibitors carry a seizure risk and can worsen extrapyramidal ' +
+      'disorders. GI: monitor for ulcer symptoms and bleeding, especially alongside NSAIDs. ' +
+      'GENITOURINARY: bladder outflow obstruction. ANAESTHESIA: it exaggerates succinylcholine-type ' +
+      'neuromuscular blockade — tell an anaesthetist. RENAL/HEPATIC: not recommended with creatinine ' +
+      'clearance under 9 mL/min or Child-Pugh 10-15. Common adverse reactions at treatment doses: ' +
+      'nausea 20.7% (placebo 5.5%), vomiting 10.5% (2.3%), dizziness 7.5% (3.4%).',
+    note:
+      'INTERACTIONS, stated because withholding them is the harm. Cholinergic burden is additive: ' +
+      'galantamine plus another cholinesterase inhibitor (donepezil, rivastigmine, pyridostigmine) or a ' +
+      'direct cholinergic agonist (bethanechol) stacks the same effect. It works AGAINST anticholinergics ' +
+      'and they work against it — which includes a great many antihistamines, tricyclics, and the ' +
+      'deliriant plants (Datura, Brugmansia, Atropa) documented elsewhere in this library. CYP2D6 and ' +
+      'CYP3A4 inhibitors raise galantamine exposure: paroxetine by about 40%; ketoconazole about 30% AUC; ' +
+      'erythromycin about 10%; amitriptyline, fluoxetine, fluvoxamine and quinidine reduce clearance by ' +
+      '25-33%. See integrations/interactions.mjs for the structured interaction record; this entry is the ' +
+      'narrative half and the two must not disagree.',
+  },
+  {
+    id: 'sleep-paralysis',
+    family: 'lucid',
+    name: 'Sleep paralysis — what it is, how common, and how it ends',
+    grade: 'strong',
+    minutes: 0,
+    summary:
+      'REM atonia persisting into waking awareness. You are awake, you cannot move, and roughly a third ' +
+      'of episodes come with a felt presence in the room. It is frightening, it is harmless, it ends by ' +
+      'itself, and it is the single most likely thing to happen to someone practising WILD. Teaching ' +
+      'WILD without teaching this would be the omission that does the damage.',
+    steps: [
+      'What is happening: the muscle paralysis that keeps you from acting out dreams has outlasted the dream. Breathing is automatic and unaffected — the diaphragm is not part of REM atonia. The chest pressure people report is a perception, not a restriction.',
+      'What it feels like: inability to move or speak, often a presence in the room, sometimes a weight on the chest, sometimes vivid hypnagogic figures. Cultures name the figure differently — the Old Hag, the kanashibari, the jinn — and the phenomenology is remarkably stable across all of them.',
+      'How it ends: on its own, in seconds to a couple of minutes, always. Trying to force a large movement tends to prolong the panic; moving one finger or one toe, or slowing the breath, usually breaks it faster.',
+      'If you are practising WILD deliberately, expect it, and decide in advance that you will stay still and watch rather than fight. The people who describe it as a doorway and the people who describe it as an assault are in the same physiological state.',
+      'When it is NOT just this: recurrent sleep paralysis with daytime sleep attacks, cataplexy or hypnagogic hallucinations can be narcolepsy. That is a diagnosis and it is made by a clinician, not by a web page.',
+    ],
+    evidence:
+      'Sharpless and Barber (2011, Sleep Medicine Reviews 15:311-315) aggregated 35 studies, total ' +
+      'N=36,533: at least one lifetime episode in 7.6% of the general population, 28.3% of students and ' +
+      '31.9% of psychiatric patients (34.6% among those with panic disorder). It is common, and it is ' +
+      'commonest in exactly the population that reads pages like this one.',
+    citations: [
+      { label: 'Sharpless & Barber 2011 — DOI 10.1016/j.smrv.2011.01.007', url: 'https://doi.org/10.1016/j.smrv.2011.01.007' },
+      { label: 'PubMed 21571556', url: 'https://pubmed.ncbi.nlm.nih.gov/21571556/' },
+    ],
+    caution:
+      'Frequent, distressing episodes, or episodes with daytime sleepiness or cataplexy, belong with a ' +
+      'sleep clinician. Knowing the physiology reduces the fear; it does not make recurrent paralysis a ' +
+      'thing to manage alone.',
   },
   {
     id: 'wild',
@@ -186,7 +358,9 @@ export const PRACTICES = [
     citations: [{ label: 'Induction techniques: systematic review 2023', url: 'https://pubmed.ncbi.nlm.nih.gov/36408823/' }],
     caution:
       'Sleep paralysis is a normal and harmless part of this transition and can be genuinely frightening the ' +
-      'first time. It ends on its own. Knowing that in advance is most of the remedy.',
+      'first time. It ends on its own. Knowing that in advance is most of the remedy — read the ' +
+      'sleep-paralysis entry BEFORE your first attempt, not after it. It carries the prevalence figures, ' +
+      'the reason your breathing is never actually restricted, and what shortens an episode.',
   },
 
   // ── dream recall ───────────────────────────────────────────────────────────────────────────────
@@ -452,6 +626,135 @@ export const PRACTICES = [
       'meditation, only on the claim that taking it up will make you lucid.',
   },
 ];
+
+// ── REALITY CHECKS, GRADED ONE BY ONE ───────────────────────────────────────────────────────────
+//
+// ⭐ Reality testing is taught as a single thing with a menu of interchangeable checks. It is not.
+// The checks have wildly different evidential status and nobody grades them, so this file does.
+//
+// The finding that matters: the RE-READING test has data — self-published, un-peer-reviewed data, but
+// real data with a sample size. The LIGHT SWITCH, the most confidently repeated check in the whole
+// community, rests on a single n=8 questionnaire from 1981 whose only published follow-up found the
+// OPPOSITE. Everything else is untested. Saying so is the product.
+//
+// `status` values, most to least supported:
+//   'tested'     — a study with a sample exists, even if it is weak or not peer-reviewed
+//   'contested'  — a study exists AND a published follow-up contradicts it
+//   'extrapolated' — untested itself; rides on the mechanism of something that was tested
+//   'folklore'   — widely taught, no study of any kind, and we are not going to pretend otherwise
+export const REALITY_CHECKS = Object.freeze([
+  {
+    id: 're-reading',
+    name: 'Read text, look away, read it again',
+    status: 'tested',
+    how: 'Find short writing. Read it. Look away and repeat it to yourself twice. Read it again and see whether it says the same thing. If it changed, you are dreaming.',
+    verdict:
+      'The best-supported check there is, and the support is thinner than its reputation. LaBerge, ' +
+      'Steiner and Giguère ran it with 46 subjects (27 men, 19 women): 38 (83%) reported the writing ' +
+      'changed on the first re-reading; of the 8 who reported no change, 7 tried a second re-reading and ' +
+      '6 of those (86%) reported a change. Across two re-readings only 1 subject of 46 (2%) reported no ' +
+      'change at all. ⚠️ It was published in NightLight, the Lucidity Institute’s own subscriber ' +
+      'newsletter — NOT peer-reviewed, no control condition, self-report from participants who knew the ' +
+      'hypothesis. The authors themselves note the design confounds order with intention. Believe the ' +
+      'direction; do not quote the percentage as if it came from a journal.',
+    citations: [
+      { label: 'LaBerge, Steiner & Giguère, "To sleep, perchance to read", NightLight 8(1&2), 1996 — non-peer-reviewed newsletter', url: 'https://www.mindfulluciddreaming.com/post/2018/07/16/to-sleep-perchance-to-read' },
+      { label: 'LaBerge, Lucid Dreaming (1985) — where the re-reading test was first proposed', url: 'https://www.lucidity.com/LucidDreamingFAQ2.html' },
+    ],
+  },
+  {
+    id: 'digital-clock',
+    name: 'Look at a digital clock, look away, look again',
+    status: 'extrapolated',
+    how: 'Check the time. Look away. Check again. In a dream the numbers are commonly reported to be different, garbled, or not numbers at all.',
+    verdict:
+      'No study has ever isolated clocks. It is the re-reading test wearing a different hat — a clock ' +
+      'face is text — so it inherits that mechanism and none of its evidence. Reasonable to use, ' +
+      'dishonest to cite. Graded extrapolated for exactly that reason.',
+    citations: [
+      { label: 'LaBerge, Steiner & Giguère 1996 (the text result it borrows from)', url: 'https://www.mindfulluciddreaming.com/post/2018/07/16/to-sleep-perchance-to-read' },
+    ],
+  },
+  {
+    id: 'light-switch',
+    name: 'Flip a light switch',
+    status: 'contested',
+    how: 'The claim as taught: light switches do not work in dreams, so try one, and if the light does not come on you are dreaming.',
+    verdict:
+      '⭐ THE ANSWER IS NOT "FOLKLORE", AND IT IS NOT "IT WORKS" EITHER. There is exactly one primary ' +
+      'source: Keith Hearne (1981, Journal of Mental Imagery 5(2):97-100) asked eight lucid dreamers — ' +
+      'self-selected correspondents of his own, naive to the purpose — to try switching on a light. Six ' +
+      'reported it would not work properly, one could not find the switch, and one could do it only ' +
+      'after covering her eyes and abolishing the imagery first. Hearne proposed a CEILING on dream ' +
+      'image brightness that the dream then rationalises around. That is n=8, uncontrolled, from a ' +
+      'journal that no longer publishes. ⛔ And the only published follow-up found the opposite: Moss ' +
+      '(1989, same journal, 13(2):135-137) reported a single subject who logged 70 lucid dreams over ' +
+      'three months and completed the light-switch task in 11 of 15 dreams where he attempted it, with ' +
+      'brightness in five of them exceeding any previous level. So the check is CONTESTED, not ' +
+      'established, and the confident version of it circulating online cites neither paper. Do not rely ' +
+      'on a light switch to tell you whether you are awake.',
+    citations: [
+      { label: 'Hearne 1981, Journal of Mental Imagery 5(2):97-100 (full PDF)', url: 'https://www.keithhearne.com/wp-content/uploads/2010/06/LIGHT-SWITCH-EFFECT.pdf' },
+      { label: 'Moss 1989, Journal of Mental Imagery 13(2):135-137 — record only; full text not retrievable', url: 'https://psycnet.apa.org/record/1990-21675-001' },
+    ],
+    note:
+      'What SURVIVES the contradiction is more interesting than the check: Hearne’s subjects did not ' +
+      'report darkness, they reported flickering, filaments glowing dull orange, lights coming on ' +
+      'somewhere other than where they pointed. Something about dream luminance resists being driven ' +
+      'upward on demand. That is a testable claim about dream imagery and nobody has tested it since 1989.',
+  },
+  {
+    id: 'nose-pinch',
+    name: 'Pinch your nose shut and try to breathe in',
+    status: 'folklore',
+    how: 'Hold your nostrils closed with one hand, close your mouth, and try to inhale. In a dream, the breath is commonly reported to come anyway.',
+    verdict:
+      'No study, at any sample size, ever. Widely taught and mechanistically the most attractive of the ' +
+      'untested checks — it does not depend on reading, which means it survives the poor visual acuity ' +
+      'and unstable detail that dreams are known for, and it gives an unambiguous yes/no. Attractive ' +
+      'reasoning is not evidence. Folklore, and useful folklore, and labelled.',
+    citations: [
+      { label: 'Stumbrys et al. 2012 — the review that found no induction technique reliably verified', url: 'https://doi.org/10.1016/j.concog.2012.07.003' },
+    ],
+  },
+  {
+    id: 'hand-through-palm',
+    name: 'Push a finger through your palm',
+    status: 'folklore',
+    how: 'Press the index finger of one hand into the opposite palm, expecting it to pass through.',
+    verdict:
+      'No study of any kind. It is taught constantly. The one thing in its favour is that it requires ' +
+      'you to hold an EXPECTATION while checking, and expectation is the part of reality testing that ' +
+      'the MILD literature suggests is doing the work. That is an argument, not a result.',
+    citations: [
+      { label: 'Stumbrys et al. 2012 systematic review', url: 'https://doi.org/10.1016/j.concog.2012.07.003' },
+    ],
+  },
+  {
+    id: 'count-fingers',
+    name: 'Count your fingers',
+    status: 'folklore',
+    how: 'Look at your hands and count. The claim is that dream hands have the wrong number of fingers, or that the count changes.',
+    verdict:
+      'No study. The oldest and most-repeated check in the community and there is nothing behind it but ' +
+      'accumulated anecdote. Included so the list is complete and so nobody has to wonder whether we ' +
+      'left it out because it works.',
+    citations: [
+      { label: 'Stumbrys et al. 2012 systematic review', url: 'https://doi.org/10.1016/j.concog.2012.07.003' },
+    ],
+  },
+]);
+
+export const REALITY_CHECK_STATUSES = Object.freeze(['tested', 'contested', 'extrapolated', 'folklore']);
+
+/** realityCheck(id) — soft lookup. Returns null for anything unknown; never throws. */
+export const realityCheck = (id) => REALITY_CHECKS.find((c) => c.id === id) || null;
+
+/** realityCheckStatus(id) — the grade alone, or null. */
+export const realityCheckStatus = (id) => (realityCheck(id) || {}).status || null;
+
+/** folkloreChecks() — the ones with no study behind them at all. The honest half of the menu. */
+export const folkloreChecks = () => REALITY_CHECKS.filter((c) => c.status === 'folklore');
 
 export const byFamily = (id) => PRACTICES.filter((p) => p.family === id);
 export const practiceGrade = (id) => (PRACTICES.find((p) => p.id === id) || {}).grade || null;
