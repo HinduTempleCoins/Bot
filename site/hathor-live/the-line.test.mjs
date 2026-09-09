@@ -8,7 +8,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  esc, EMETER, disclaimer, CONTEXTS, claimsCheck, THE_LINE_HTML, handler,
+  esc, EMETER, SPECTRO_CHROME, THE_PAIR, disclaimer, CONTEXTS, claimsCheck, THE_LINE_HTML, handler,
 } from './the-line.mjs';
 
 // --- the precedent -----------------------------------------------------------
@@ -222,4 +222,147 @@ test('the referral text itself passes claimsCheck — it must not become the cla
     assert.equal(r.ok, true, `CONSULT.${k} contains a claim phrase: ${JSON.stringify(r.hits)}`);
   }
   assert.ok(disclaimer('exams'));
+});
+
+
+// --- the counterfactual: Spectro-Chrome ---------------------------------------
+//
+// These exist because the pair is the argument. A single precedent that says "released" teaches the
+// wrong lesson on its own, and the case that says "condemned" happens to be a coloured lamp — which is
+// the exact article this library is about to write a colour paper around.
+
+test('the Spectro-Chrome citation is the Third Circuit affirmance, with its cert denial', () => {
+  assert.equal(SPECTRO_CHROME.case, 'United States v. Ghadiali');
+  assert.match(SPECTRO_CHROME.cite, /165 F\.2d 957 \(3d Cir\. 1948\)/);
+  assert.match(SPECTRO_CHROME.cert, /334 U\.S\. 821 \(1948\)/);
+  assert.match(SPECTRO_CHROME.statute, /Federal Food, Drug, and Cosmetic Act/);
+});
+
+test('the condemned label claim is pinned verbatim — it is the exhibit, not a paraphrase', () => {
+  assert.equal(
+    SPECTRO_CHROME.labelClaim,
+    'Measurement And Restoration Of The Human Radio-Active And Radio-Emanative Equilibrium '
+    + 'By Attuned Color Waves — No Diagnosis — No Drugs — No Manipulation — No Surgery',
+  );
+});
+
+test('the precedent object and its related-cases list are both frozen', () => {
+  assert.throws(() => { SPECTRO_CHROME.cite = 'nonsense'; }, TypeError);
+  assert.throws(() => { SPECTRO_CHROME.related.push('made up'); }, TypeError);
+});
+
+test('the related cases carry the Delaware line, including the 1943 free-speech holding', () => {
+  const joined = SPECTRO_CHROME.related.join(' | ');
+  assert.match(joined, /175 A\. 315/);
+  assert.match(joined, /292 U\.S\. 653 \(1934\)/);
+  assert.match(joined, /48 F\. Supp\. 789 \(D\. Del\. 1943\)/);
+  assert.match(joined, /lecturing/i);
+});
+
+test('religion is recorded as present-but-unreached, not as a defence that worked', () => {
+  assert.match(SPECTRO_CHROME.religionInTheRecord, /Parsee Zoroastrian/);
+  assert.match(SPECTRO_CHROME.religionInTheRecord, /never reached religion/i);
+});
+
+test('⭐ THE_PAIR is released-then-condemned, and the two cases disagree in outcome', () => {
+  assert.equal(THE_PAIR.length, 2);
+  assert.deepEqual(THE_PAIR.map((p) => p.outcome), ['released', 'condemned']);
+  assert.equal(THE_PAIR[0].cite, EMETER.cite);
+  assert.equal(THE_PAIR[1].cite, SPECTRO_CHROME.cite);
+  for (const p of THE_PAIR) assert.throws(() => { p.outcome = 'x'; }, TypeError);
+});
+
+test('⭐ the pair is the argument, and the linter can tell the two sentences apart', () => {
+  // Both trip claimsCheck, because it is a word matcher and cannot see negation — the same limitation
+  // the existing "disclaimers are not claims in disguise" test documents. So this asserts the SHAPE of
+  // the hits, which is where the released and the condemned sentence actually differ:
+  //   the ordered disclaimer trips only on words it is NEGATING (diagnosis, treatment, prevention);
+  //   the condemned label trips on an affirmative claim of restoration, which no disclaimer contains.
+  const released = THE_PAIR.find((p) => p.outcome === 'released');
+  const condemned = THE_PAIR.find((p) => p.outcome === 'condemned');
+
+  const releasedWhys = claimsCheck(released.sentence).hits.map((h) => h.why);
+  assert.ok(releasedWhys.length > 0, 'the matcher is word-based; the denial contains the words');
+  assert.ok(!releasedWhys.some((w) => /restoration|rebalancing|Spectro-Chrome/i.test(w)),
+    'the ordered disclaimer must not trip an affirmative-effect pattern');
+
+  const condemnedWhys = claimsCheck(condemned.sentence).hits.map((h) => h.why);
+  assert.ok(condemnedWhys.some((w) => /restoration or rebalancing/i.test(w)),
+    'the condemned label asserts restoration of the body, and the linter must see it');
+  assert.ok(condemnedWhys.some((w) => /Spectro-Chrome label claim, verbatim/i.test(w)),
+    '"attuned color waves" is pinned as its own pattern');
+});
+
+// --- the colour context -------------------------------------------------------
+
+test('there is a colour context, and it disclaims measurement and restoration by name', () => {
+  assert.ok(CONTEXTS.includes('colour'));
+  const d = disclaimer('colour');
+  assert.match(d, /measures? or restores?/i);
+  assert.match(d, /no colou?r is matched to a condition/i);
+  // Same shape rule as the sibling disclaimers: negated words are allowed, asserted effects are not.
+  assert.doesNotMatch(d, /\bclinically proven\b/i);
+  assert.doesNotMatch(d, /\bwill (fix|repair|restore)\b/i);
+  assert.doesNotMatch(d, /\battuned colou?r waves?\b/i);
+});
+
+// --- the Ghadiali claim patterns ----------------------------------------------
+
+test('the Spectro-Chrome vocabulary is linted, not just the modern vocabulary', () => {
+  const shouldTrip = [
+    'restores the body',
+    'rebalances your energy',
+    'balances the system',
+    'normalises your field',
+    'delivered by attuned color waves',
+    'attuned colour wave sessions',
+    'colour therapy for insomnia',
+    'the healing frequency for anxiety',
+  ];
+  for (const s2 of shouldTrip) {
+    assert.equal(claimsCheck(s2).ok, false, `should have flagged: ${s2}`);
+  }
+});
+
+test('describing the history is not making the claim — the linter must not eat the scholarship', () => {
+  const shouldPass = [
+    'Babbitt published Principles of Light and Color in 1878.',
+    'Blue light suppresses melatonin, and the action spectrum peaks near 460 to 480 nm.',
+    'The Cochrane review found the evidence limited and of very low quality.',
+    'Ghadiali read Babbitt in a Theosophical Society library in Bombay.',
+    'Bright light was compared with dawn simulation in seasonal affective disorder.',
+  ];
+  for (const s2 of shouldPass) {
+    const r = claimsCheck(s2);
+    assert.equal(r.ok, true, `false positive on: ${s2} -> ${JSON.stringify(r.hits)}`);
+  }
+});
+
+// --- the rendered block and the handler ---------------------------------------
+
+test('the block renders both precedents and both quoted sentences', () => {
+  const html = THE_LINE_HTML('colour');
+  assert.match(html, /United States v\. Ghadiali/);
+  assert.match(html, /165 F\.2d 957/);
+  assert.match(html, /Attuned Color Waves/);
+  assert.match(html, /333 F\. Supp\. 357/);
+  assert.match(html, /the sentences differ/i);
+});
+
+test('the block still escapes — the em dashes in the label must not smuggle markup', () => {
+  const html = THE_LINE_HTML('colour');
+  assert.ok(!/<script/i.test(html));
+  // The label contains no angle brackets, but the escaping habit is what is under test.
+  assert.equal(esc(SPECTRO_CHROME.labelClaim), SPECTRO_CHROME.labelClaim);
+});
+
+test('handler serves the pair alongside the single precedent', async () => {
+  let body = '';
+  const res = { writeHead() {}, end(b) { body = b; } };
+  handler({}, res, 'colour');
+  const json = JSON.parse(body);
+  assert.equal(json.context, 'colour');
+  assert.equal(json.counterfactual.cite, SPECTRO_CHROME.cite);
+  assert.equal(json.pair.length, 2);
+  assert.equal(json.precedent.cite, EMETER.cite);
 });
