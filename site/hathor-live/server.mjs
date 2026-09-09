@@ -78,6 +78,7 @@ import { handler as interactionsHandler, interactionPaths } from '../../integrat
 import { whoSaysHTML, handler as whoSaysHandler } from './who-says.mjs';
 import { dissociationHTML, handler as dissociationHandler } from './dissociation.mjs';
 import { divinationHTML, handler as divinationHandler } from './divination-structures.mjs';
+import { formConstantsHTML, handler as formConstantsHandler } from './form-constants.mjs';
 
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -338,7 +339,7 @@ export const SITEMAP_PATHS = [
   '/', '/40hz', '/metronome', '/studio', '/reports', '/chamber',
   '/exams', '/exams/grapheme', '/exams/vviq', '/exams/colour-naming', '/exams/suggestibility',
   '/exams/thread', '/exams/who-says', '/exams/absorption',
-  '/dissociation', '/divination-structures', '/the-256', '/the-line',
+  '/dissociation', '/divination-structures', '/form-constants', '/the-256', '/the-line',
   '/dreams',
   // The interaction corpus. Spread rather than listed, so a substance or pair page cannot be added to
   // the dataset and then be reachable-but-unlisted — which is how a good page stays undiscovered.
@@ -592,6 +593,13 @@ export async function handler(req, res) {
       return res.end(examShell('Divination structures', divinationHTML()));
     }
     if (path === '/api/divination-structures') return divinationHandler(req, res);
+
+    // ── the form constants — what flicker actually produces, and whose the meaning is ─────────────
+    if (path === '/form-constants') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(examShell('The form constants', formConstantsHTML()));
+    }
+    if (path === '/api/form-constants') return formConstantsHandler(req, res);
 
     // ── /dreams — R1, the dream journal ───────────────────────────────────────────────────────────
     // Grade ③, within-person. NO share card, NO percentile, NO interpretation, export only. The
