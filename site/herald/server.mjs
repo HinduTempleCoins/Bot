@@ -54,6 +54,11 @@ import { makeSignerBroadcaster, signerConfigured } from '../../pentecaust/herald
 // both already existed with nothing between them; rss.mjs is the bridge, and it emits ordinary `tag`
 // events so every existing recipe, dedupe window and action path works on a feed item unchanged.
 import { handler as rssHandler, pollAll as rssPollAll } from '../../pentecaust/herald/rss.mjs';
+// Sign in to Herald with the login Pentecaust already has. Herald is on a different registrable domain,
+// so a pentecaust.com cookie never reaches it, and registering herald's callback with Google/Discord/
+// GitHub needs the operator's provider consoles. So all OAuth stays there and Herald takes a signed,
+// single-use, audience-bound ticket instead.
+import { handler as ssoHandler, sessionFromCookie as heraldSession } from '../../pentecaust/sso.mjs';
 import { evaluate as iftttEvaluate, liveRecipes } from '../../pentecaust/herald/ifttt-triggers.mjs';
 import { executeAll as iftttExecuteAll } from '../../pentecaust/herald/ifttt-executor.mjs';
 setCrosspostBroadcaster(makeSignerBroadcaster());
@@ -127,6 +132,11 @@ const STYLE = `<style>
  a{color:inherit;text-decoration:none} .wrap{max-width:960px;margin:0 auto;padding:0 18px}
  header{padding:26px 0 8px;border-bottom:1px solid var(--line);margin-bottom:20px}
  .brand{font-weight:800;font-size:26px;color:var(--gold)} .brand b{color:var(--fg)}
+  .authbar{margin-left:auto;display:inline-flex;gap:8px;align-items:center;font-size:13px}
+  .authbar .btn{font:inherit;font-weight:700;border:1px solid var(--bd);border-radius:8px;padding:5px 10px;text-decoration:none;color:var(--fg)}
+  .authbar .btn.primary{background:var(--gold);color:#12161c;border-color:var(--gold)}
+  header{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  header .lead{flex-basis:100%}
  .alpha{font-size:11px;font-weight:700;color:#1a1305;background:var(--gold);border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle}
  .lead{color:var(--mut);max-width:640px;margin:10px 0 0}
  h2{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin:26px 0 10px}
@@ -156,7 +166,7 @@ function pageShell(title, inner, desc = '') {
 </div></body></html>`;
 }
 
-export function homePage() {
+export function homePage(who = '') {
   const groups = CAPABILITIES.map(([group, items]) => `<h2>${esc(group)}</h2><div class=grid>${
     items.map(([t, d, m, href]) => {
       const inner = `<div class=t>${esc(t)}</div><div class=d>${esc(d)}</div><div class=m>${esc(m)}</div>`;
@@ -170,7 +180,12 @@ export function homePage() {
         <p class=lead style="margin:0 0 10px">The scoreboard: real people driven to our own sites, down to the ones who claim an account. Reach is /go clicks to melek.salon signup, KulaSwap and the miner pool; signups come from the invite tree.</p>
         ${funnelHtml}</div>`
     : '';
-  const body = `<header><span class=brand>◇ <b>Herald</b></span><span class=alpha>ALPHA</span>
+  // Signed-in state is rendered SERVER-side from the cookie, so the header is correct on first paint
+  // instead of flickering through a wrong state while a fetch resolves.
+  const authBar = who
+    ? `<span class=authbar>Signed in as <b>@${esc(who)}</b> <a class=btn href="/auth/logout">Log out</a></span>`
+    : '<span class=authbar><a class="btn primary" href="/auth/login">Sign in with MELEK</a></span>';
+  const body = `<header><span class=brand>◇ <b>Herald</b></span><span class=alpha>ALPHA</span>${authBar}
     <p class=lead>The <b>user-acquisition</b> engine of the MELEK ecosystem — it drives real people to our own
     sites (MELEK social, KulaSwap DeFi, the PRANA miner pool), <b>executed</b> (not just tracked) by Hathor.
     One AI growth team; these are its tools.</p></header>${funnelSection}${groups}`;
@@ -409,7 +424,15 @@ const MOUNTS = [
   { rewrite: null, fn: dispatchHandler, match: (p) => p === '/api/dispatch' || p === '/api/inbox' },
   // crosspost: POST is gated on HERALD_CROSSPOST_SECRET and fails closed; preview + history are open
   // because formatting signs nothing. /api/signer reports readiness and never the token.
-  { rewrite: null, fn: crosspostHandler, match: (p) => p === '/api/crosspost' || p === '/api/crossposts' || p === '/api/crosspost/preview' },
+  { rewrite: null, fn: ssoHandler, match: (p) => p === '/auth/login' || p === '/auth/callback' || p === '/auth/me' || p === '/auth/logout' },
+  // A signed-in operator is the HUMAN path to crossposting; HERALD_CROSSPOST_SECRET stays the MACHINE
+  // path for a cron or another service. Either proves authority, and with neither the route still fails
+  // closed exactly as before — the session does not widen access, it just stops requiring a shared
+  // secret from someone who already logged in.
+  { rewrite: null, fn: (req, res) => {
+      const who = heraldSession((req.headers && req.headers.cookie) || '');
+      return crosspostHandler(req, res, who ? { authorizedAs: who.account } : {});
+    }, match: (p) => p === '/api/crosspost' || p === '/api/crossposts' || p === '/api/crosspost/preview' },
   { rewrite: null, fn: (req, res) => { res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify(signerConfigured())); }, match: (p) => p === '/api/signer' },
   // A feed item fires through the SAME path a manual event does: evaluate against the live recipes,
   // then execute. No second matching implementation, so a recipe cannot behave differently by source.
@@ -442,7 +465,10 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'application/xml' });
       return res.end(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${BASE_URL}/</loc></url><url><loc>${BASE_URL}/prompts</loc></url><url><loc>${BASE_URL}/monetize</loc></url><url><loc>${BASE_URL}/advertise</loc></url><url><loc>${BASE_URL}/outreach</loc></url></urlset>`);
     }
-    if (path === '/') return send(res, homePage());
+    if (path === '/') {
+      const who = heraldSession((req.headers && req.headers.cookie) || '');
+      return send(res, homePage(who ? who.account : ''));
+    }
     if (path === '/prompts') return send(res, promptsPage());
     if (path === '/monetize') return send(res, monetizePage(url.searchParams));
     if (path === '/advertise') return send(res, advertisePage(url.searchParams));

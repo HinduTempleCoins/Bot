@@ -238,7 +238,12 @@ export async function handler(req, res, opts = {}) {
     }
 
     if (method === 'POST' && path === '/api/crosspost') {
-      if (!crosspostAuthOk(req)) return sendJson(res, 401, { ok: false, reason: 'crosspost requires HERALD_CROSSPOST_SECRET' });
+      // Two ways to prove authority, neither of which widens access on its own:
+      //   opts.authorizedAs — a signed-in operator (the human path, set by the site from its session)
+      //   the shared secret  — a cron or another service (the machine path)
+      // With neither, this still fails closed.
+      const who = opts && opts.authorizedAs ? String(opts.authorizedAs) : '';
+      if (!who && !crosspostAuthOk(req)) return sendJson(res, 401, { ok: false, reason: 'sign in, or send HERALD_CROSSPOST_SECRET' });
       const b = await readBody(req);
       if (!b || typeof b !== 'object') return sendJson(res, 400, { ok: false, reason: 'bad-body' });
       if (!b.author || !b.permlink || !b.title) return sendJson(res, 422, { ok: false, reason: 'author, permlink and title are required' });
