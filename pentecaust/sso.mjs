@@ -35,7 +35,11 @@ export function allowedOrigins() {
 
 let _secret = null;
 function secret() {
-  const s = env('PENTECAUST_SESSION_SECRET', '') || env('SSO_SECRET', '');
+  // SSO_SECRET is checked FIRST and is the one to set. Cross-site tickets are a different trust
+  // boundary from a single site's session cookie: compromising one should not mint the other, and the
+  // two services need a shared value that is not Pentecaust's session key. PENTECAUST_SESSION_SECRET
+  // remains a fallback so a single-host setup works with no extra config.
+  const s = env('SSO_SECRET', '') || env('PENTECAUST_SESSION_SECRET', '');
   if (s) return s;
   // No shared secret ⇒ a per-process random one. Signing still works, verification across a restart or
   // across the two services does not — which fails CLOSED (nobody gets in) rather than open.

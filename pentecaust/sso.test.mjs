@@ -123,3 +123,21 @@ test('a bad ticket at the callback is a 401 and sets NO cookie', async () => {
   assert.equal(o.code, 401);
   assert.equal(o.headers['set-cookie'], undefined, 'a failed redemption must not leave a session behind');
 });
+
+test('SSO_SECRET is its own trust boundary and takes precedence over the session secret', async () => {
+  // A cross-site ticket and a single site's session cookie are different trust boundaries. If they
+  // shared a key, anyone who could mint one could mint the other.
+  const keep = process.env.SSO_SECRET;
+  process.env.SSO_SECRET = 'dedicated-sso-secret';
+  const fresh = await import(`./sso.mjs?bust=${Date.now()}`);
+  fresh.__resetSpent();
+  const t = fresh.mintTicket('hathor', AUD);
+  assert.equal(fresh.redeemTicket(t, AUD).ok, true, 'signs and verifies under the dedicated secret');
+  // …and the module is genuinely NOT using the session secret any more: a ticket explicitly signed
+  // with that value no longer verifies.
+  fresh.__resetSpent();
+  const underSessionSecret = fresh.mintTicket('hathor', AUD, { secret: process.env.PENTECAUST_SESSION_SECRET });
+  assert.equal(fresh.redeemTicket(underSessionSecret, AUD).ok, false,
+    'once SSO_SECRET is set, the session secret must not mint a valid ticket');
+  if (keep === undefined) delete process.env.SSO_SECRET; else process.env.SSO_SECRET = keep;
+});
