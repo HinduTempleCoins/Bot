@@ -68,7 +68,7 @@ const shell = (title, desc, body, canon = '') => `<!doctype html><html lang="en"
 <link rel="canonical" href="${esc(BASE_URL)}${esc(canon)}">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}">
 <meta property="og:type" content="website"><meta property="og:url" content="${esc(BASE_URL)}${esc(canon)}">
-${STYLE}</head><body><div class="w">${body}
+${STYLE}<script defer src="https://analytics.soapbox.community/b.js"></script><noscript><img src="https://analytics.soapbox.community/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class="w">${body}
 <p class="foot">Reachability probed ${esc(PROBED_ON)} by HTTPS GET from outside the network.
 "Live" means a 200 was returned on that date and nothing else. Re-probe before quoting it.</p>
 </div></body></html>`;
