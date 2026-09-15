@@ -21,7 +21,8 @@
 
 import { createServer } from 'node:http';
 
-import { createForum, FORUM_TOKEN } from '../../integrations/forum/forum-core.mjs';
+import fs from 'node:fs';
+import { createForum, FORUM_TOKEN, makeJsonlStore } from '../../integrations/forum/forum-core.mjs';
 import {
   forumRegistry, listCategories, boardsInCategory, categoryName,
   boardSitemapEntries, FLAGSHIP_BOARDS,
@@ -29,6 +30,7 @@ import {
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt, submitIndexNow } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags, breadcrumbJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
+import { renderForumRelated } from '../../integrations/soapbox/interlink.mjs';
 
 const PORT = +(process.env.PORT || 8403);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -137,7 +139,14 @@ function collectionPageLd(name, description, url) {
 // The board network is data-driven: the registry (integrations/forum/boards.mjs) tells the engine which
 // board ids are valid (static + programmatic city/game/travel/biz) and their titles. Thread/reply/merit
 // logic is untouched — the registry is metadata + routing only.
-export const forum = createForum({ registry: forumRegistry() });
+// ⚠️ PERSISTENCE. The engine has always shipped makeJsonlStore and this server never used it, so the
+// forum ran on the in-memory default: deterministic seed threads survived a restart only because they
+// were re-created from code, and any REAL post a member made was lost the moment the unit bounced.
+// Set FORUM_DATA to a writable path to keep them. Falls back to memory when unset so tests and local
+// runs are unchanged.
+const FORUM_DATA = process.env.FORUM_DATA || '';
+const forumStore = FORUM_DATA ? makeJsonlStore(FORUM_DATA, fs) : undefined;
+export const forum = createForum({ registry: forumRegistry(), store: forumStore });
 
 // Programmatic boards seeded with real content (for the sitemap + a "flagship renders threads" demo).
 export const SEEDED_PROGRAMMATIC = ['city/austin-tx', 'game/minecraft', 'travel/paris'];
@@ -146,6 +155,9 @@ let _seeded = false;
 export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
   if (_seeded) return;
   _seeded = true;
+  // With a durable store the seed must run EXACTLY once, or every restart appends another copy of
+  // the same threads. An empty ledger is the only safe signal that this is a first boot.
+  try { if (forumStore && forumStore.all().length > 0) return; } catch { /* soft-fail → seed */ }
   const HR = 60 * 60 * 1000;
   const DAY = 24 * HR;
   // Bootstrap: give the seed accounts merit so they clear the new-account gate (also demonstrates merit).
@@ -157,7 +169,7 @@ export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
   await forum.grantAllotment('hathor', { now: now + 30 * DAY });
   const t1 = await forum.createThread({ board: 'announcements', author: 'hathor', title: 'Welcome to the MELEK Forum', body: 'This forum runs on the MELEK chain. Posts are on-chain comments; standing is scarce, peer-awarded FORUM merit — it can never be bought or self-minted.', now });
   const t2 = await forum.createThread({ board: 'economy', author: 'kalivankush', title: 'How FORUM merit differs from stake', body: 'A whale\'s stake buys zero merit here. You can only send merit you were given. Discuss.', now: now + HR });
-  await forum.createThread({ board: 'library', author: 'hathor', title: 'Library of Ashurbanipal — scope & safety', body: 'Reference and harm-reduction only: history, ethnobotany, pharmacology, dose ranges, interactions, testing, set/setting/aftercare. No synthesis or extraction recipes.', now: now + 2 * HR });
+  await forum.createThread({ board: 'library', author: 'hathor', title: 'Library of Ashurbanipal — scope & safety', body: 'History, ethnobotany, pharmacology, dose ranges, drug interactions and contraindications, testing, set and setting, aftercare, emergency guidance, documented traditional preparation, and the religious and legal exemptions \u2014 with citations. Built to go past the reference sites rather than beneath them: withholding preparation, dose and route detail from someone who is going to proceed anyway is the harm this library exists to prevent.', now: now + 2 * HR });
   if (t1.ok) await forum.reply({ threadId: t1.thread.id, author: 'kalivankush', body: 'Glad to be here. The merit model is the interesting part.', now: now + 3 * HR });
   if (t2.ok) {
     const r = await forum.reply({ threadId: t2.thread.id, author: 'hathor', body: 'Exactly — it is Sybil-resistant and non-plutocratic by construction.', now: now + 4 * HR });
@@ -199,6 +211,12 @@ async function seedHathorLaunch(now, HR, DAY) {
     ['announcements', 'How sign-in will work (and why it is not open yet)', 'Posting here is keyless: when it opens, you will sign each post in your own browser through MELEK-Signer, and this site will never hold your keys. We are finishing that flow before we open the doors, so no accounts can log in just yet. Read freely in the meantime.'],
     ['library', 'The Library of Ashurbanipal is open', 'The ecosystem\'s reference wiki is live at wiki.soapbox.community — cited articles on the chains, the plant-medicine and harm-reduction corpus, the ancient mysteries, and a growing Glossaries section. It is the place to learn what MELEK and SoapBox are. Start there.'],
     ['economy', 'FORUM merit: standing you earn, never buy', 'A whale\'s stake buys zero standing here. Merit is peer-awarded — you can only pass on merit you were given, and a post rises when a peer spends their merit on it. It is Sybil-resistant and non-plutocratic by construction. That is the whole idea.'],
+    ['library', 'Free money that is actually free, and the loans that are not', 'The benefits shelf at benefits.soapbox.community classifies 121 US programmes by MECHANISM — grant, loan, cost-share, tax credit, insurance, or a free service — so nothing is ever called free money that is not. The house rule: never call a loan free money, and always name the free or cheaper path you have not been told about. Where a middleman charges for something free, the entry says so by name.'],
+    ['general', 'USDA will pay most of the cost of a greenhouse', 'The EQIP Seasonal High Tunnel (practice 325) covers up to 75% of estimated costs. A historically underserved producer — beginning, veteran, socially disadvantaged or limited-resource — gets the applicable rate plus not less than 25 percentage points, capped at 90% (7 CFR 1466.23(b)(3)), AND may receive an advance payment of at least 50% and up to 100% BEFORE building (1466.24(d)(1)). NRCS is required to tell them about the advance at enrollment (1466.5(d)). If nobody did, ask in writing. The one thing that kills the payment: starting work before the contract is signed.'],
+    ['general', 'The EIN is free. The D-U-N-S number is free.', 'Business credit has eight real steps and two of them are free while being widely sold: the EIN from the IRS, and the D-U-N-S number from Dun & Bradstreet. People are charged $75-$300 for a form that takes fifteen minutes. The ladder is at business.soapbox.community, along with the categories that are outright fraud — CPN numbers, synthetic identities, bought or rented tradelines, aged shelf corporations, guaranteed PAYDEX. Every one of those is sold around the single step nobody can sell you: three to six months of on-time payments.'],
+    ['library', 'The Temple Plate: food sorted by what it interacts with', 'MyPlate already covers macronutrients and it is free, so restating it adds nothing. What no official plate does is tell you which tier your medicine, your fast or your preparation takes off the table, and name the mechanism. The ferment tier is set apart deliberately: aged cheese, cured meat, soy sauce, miso, yeast extract, unpasteurised beer. Nutritionally a rounding error, and the one tier that can put someone on an MAOI in hospital — tyramine from bacterial decarboxylation, absorbed intact when gut and liver MAO-A are blocked. plate.soapbox.community.'],
+    ['general', 'Turn a Roku on with no remote, from any phone', 'Every Roku on your network exposes an open, unauthenticated HTTP API on port 8060 — no app, no account, no pairing. POST /keypress/PowerOn, POST /launch/41468 for Tubi. It is the only major TV platform with an open local API; Samsung, LG, Vizio, Fire TV and Android TV all need their vendor app or an on-screen pairing code, and no web page can do that for you. remote.soapbox.community, and it says which brands it cannot help with.'],
+    ['development', 'Two ports, one hostname: the bug that hides behind a 200', 'Fifteen surfaces in this network shared default ports. The failure is nasty because it looks like success: farm.soapbox.community returned HTTP 200 for months while serving the Herald site, and the real KULA Farm was unreachable at any hostname. A status-code check cannot see it. Check the page TITLE. And pin PORT and BASE_URL explicitly in every unit — a unit that pins neither lets the code fall back to localhost, which then lands in your public sitemap and gets fed to search engines.'],
     ['announcements', 'MELEK, PRANA, KULA — the three chains', 'MELEK is the social chain you post and curate on. PRANA is the proof-of-work compute chain you mine with a laptop — its mining does useful AI work. KULA is the DeFi layer that ties value across the two. Together with the apps, they are SoapBox. More in the Library.'],
   ];
   let t = now;
@@ -395,7 +413,8 @@ export async function boardPage(id, { now } = {}) {
     <p class=muted>${esc(meta.desc)}</p>
     ${links}
     ${READONLY ? '' : `<p><a class="btn primary" href="${P(`/post?board=${meta.id}`)}">＋ New thread</a></p>`}
-    <div class=card>${rows}</div>`;
+    <div class=card>${rows}</div>
+    ${renderForumRelated(meta.id)}`;
   return {
     meta,
     html: page(`${meta.title} — ${SITE_NAME}`, body, {

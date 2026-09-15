@@ -12,6 +12,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { layout, renderWiki, esc, slugify, titleize } from './render.mjs';
 import { groupArticles } from './categories.mjs';
+import { renderWikiRelated } from '../../integrations/soapbox/interlink.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
@@ -96,7 +97,7 @@ function articlePage(slug) {
   };
   const datePublished = articleDate(a.file);
   if (datePublished) jsonld.datePublished = datePublished;
-  const body = `<p class=muted><a href="/">← Library</a></p><h1>${esc(a.title)}</h1>${flagBlock}${html}${footnotes}`;
+  const body = `<p class=muted><a href="/">← Library</a></p><h1>${esc(a.title)}</h1>${flagBlock}${html}${footnotes}${renderWikiRelated({ articleSlug: slug })}`;
   return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld, ogType: 'article', body }) };
 }
 
@@ -187,7 +188,8 @@ function categoryPage(id) {
   }
   const body = `<h1>${esc(g.name)}</h1><p class=muted>${esc(g.blurb || '')}</p>
     <ul style="line-height:1.9">${g.items.map((a) => `<li><a href="/wiki/${esc(a.slug)}">${esc(a.title)}</a></li>`).join('')}</ul>
-    <p><a href="/categories">All contents</a></p>`;
+    <p><a href="/categories">All contents</a></p>
+    ${renderWikiRelated({ categoryId: id })}`;
   return { html: layout({ title: g.name, canonical: `${BASE_URL}/category/${id}`, body }), code: 200 };
 }
 
