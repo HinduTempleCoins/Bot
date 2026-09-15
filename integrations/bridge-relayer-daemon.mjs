@@ -49,7 +49,22 @@ async function main() {
       if (r && r.submitted && r.submitted.length) {
         for (const s of r.submitted) process.stdout.write(`[bridge-daemon] attested ref=${(s.depositRef || '').slice(0, 14)} -> ${(s.txHash || '').slice(0, 14)}\n`);
       }
-      if (r && r.failed && r.failed.length) process.stderr.write(`[bridge-daemon] ${r.failed.length} failed this tick (will retry)\n`);
+      if (r && r.failed && r.failed.length) {
+        // Print WHY, not just how many. The runner has recorded a reason per item all along;
+        // logging only the count meant a bridge could retry-fail every 20s for a day and leave
+        // nothing in the journal to diagnose it with. Distinct reasons only, so a stuck item
+        // does not flood the log with the same line forever.
+        const byReason = new Map();
+        for (const f of r.failed) {
+          const why = String((f && f.reason) || 'unknown').slice(0, 300);
+          if (!byReason.has(why)) byReason.set(why, []);
+          byReason.get(why).push(String((f && f.ref) != null ? f.ref : '?').slice(0, 16));
+        }
+        process.stderr.write(`[bridge-daemon] ${r.failed.length} failed this tick (will retry)\n`);
+        for (const [why, items] of byReason) {
+          process.stderr.write(`[bridge-daemon]   ${items.length}x ${why} (${items.slice(0, 3).join(', ')})\n`);
+        }
+      }
     } catch (e) { process.stderr.write(`[bridge-daemon] tick error: ${e.message}\n`); }
   };
   await loop();
