@@ -3,7 +3,7 @@
 // daily-spin engine (integrations/games/daily-spin.mjs): a free once-a-day wheel that awards
 // NON-CASHABLE, fixed-value internal PLAY points.
 //
-//   PORT=8189 BASE_URL=https://spin.soapbox.community node site/spin/server.mjs
+//   PORT=8402 BASE_URL=https://spin.soapbox.community node site/spin/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /             the wheel UI — spin button, prize segments, today's result, streak, PLAY balance
@@ -26,7 +26,7 @@ import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../int
 import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
-const PORT = +(process.env.PORT || 8189);
+const PORT = +(process.env.PORT || 8402);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';

@@ -4,7 +4,7 @@
 // self-contained shunting-yard evaluator that only understands numbers and a fixed operator/function
 // set. No external network at runtime, no CDN, no tracker, no account required.
 //
-//   PORT=8211 BASE_URL=https://calculator.soapbox.community node site/calculator/server.mjs
+//   PORT=8400 BASE_URL=https://calculator.soapbox.community node site/calculator/server.mjs
 //   → serves the calculator at  /
 //
 // ── STEALTH FUNNEL (mundane-app-suite-stealth-funnel) ──────────────────────────────────────────────
@@ -28,7 +28,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 
-const PORT = +(process.env.PORT || 8211);
+const PORT = +(process.env.PORT || 8400);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Calculator';

@@ -3,7 +3,7 @@
 // (integrations/forum/forum-core.mjs): categorised boards, threads, threaded replies, scarce peer-merit
 // standing (integrations/peer-merit.mjs), and portable-identity signatures (integrations/persona-card.mjs).
 //
-//   PORT=8200 BASE_URL=https://forum.soapbox.community node site/forum/server.mjs
+//   PORT=8403 BASE_URL=https://forum.soapbox.community node site/forum/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /             portal home — categories + boards + recent threads
@@ -30,7 +30,7 @@ import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt, submitIndexNow }
 import { headTags, breadcrumbJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
-const PORT = +(process.env.PORT || 8200);
+const PORT = +(process.env.PORT || 8403);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 // BASE_PATH lets the forum mount under a sub-path (e.g. /forum) behind a shared gateway. '' by default.
