@@ -86,8 +86,15 @@ test('a category page shows exactly its own surfaces', () => {
   assert.equal(categoryPage('nope'), null);
 });
 
-test('the streaming reality is stated, not glossed', () => {
-  const html = categoryPage('media');
-  assert.match(html, /Built, not deployed/);
-  assert.match(html, /DNS and vhost were never created/i);
+test('an undeployed surface is stated plainly wherever one exists', () => {
+  // stream/player/cams were dark when this was written and are live now, so the media category no
+  // longer carries the label. The property under test is that the label appears where it is TRUE —
+  // asserted against whichever category still has a built surface, rather than a hardcoded one.
+  const cat = CATEGORIES.map((c) => c.id).find((id) => SURFACES.some((s) => s.cat === id && s.state === 'built'));
+  if (!cat) {
+    assert.equal(built().length, 0, 'no built surfaces left — nothing to label');
+    return;
+  }
+  const html = categoryPage(cat);
+  assert.match(html, /Built, not deployed/, `${cat} has a built surface and must say so`);
 });

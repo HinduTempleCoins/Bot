@@ -162,44 +162,76 @@ export function llmsTxt({ name, baseUrl, summary = '', links = [] } = {}) {
 // Every PUBLIC subdomain, used to build the top-level sitemap-index. soapy.blog (admin) is
 // deliberately ABSENT — it is never crawled and never listed anywhere.
 export const PUBLIC_SITES = [
-  // ⚠️ REACHABILITY-GATED, rebuilt 2026-09-14. This list feeds the top-level sitemap-index, which is
-  // what points a crawler at the network. A host listed here that does NOT resolve teaches every
-  // crawler that we serve dead URLs, and `data.soapbox.community` sat here doing exactly that —
-  // it was in the registry and returned 000 on probe. Only add a host after it answers 200.
+  // ⚠️ DERIVED from portfolio.mjs live() — do not hand-edit. Rebuilt 2026-09-15 from a probe of every
+  // candidate host, run FROM THE DEPLOY BOX (a Codespace resolver negative-caches and reported 26 live
+  // sites as dead tonight; the box is the only honest vantage point).
   //
-  // Source of truth for what exists and what state it is in: integrations/soapbox/portfolio.mjs.
-  // Keep the two in step; the test asserts every entry here is `live` there.
+  // This feeds the sitemap-index and the apex bracket, so it is wrong in two directions: a stale entry
+  // teaches crawlers we serve dead URLs — data.soapbox.community sat here returning 000 — and a missing
+  // one hides a live site from the front door.
   //
-  // soapy.blog and every other admin surface is deliberately ABSENT and must stay absent.
+  // Admin surfaces (soapy.blog, admin., console., analytics.) are deliberately ABSENT and must stay so.
+  // Regenerate with scratchpad/derive-public.mjs after re-probing; never by hand.
   { slug: 'soapbox', url: 'https://soapbox.community', name: 'SoapBox' },
-  { slug: 'search', url: 'https://search.soapbox.community', name: 'SoapBox Search' },
-  { slug: 'directory', url: 'https://directory.soapbox.community', name: 'SoapBox Directory' },
-  { slug: 'wiki', url: 'https://wiki.soapbox.community', name: 'Library of Ashurbanipal' },
-  { slug: 'law', url: 'https://law.soapbox.community', name: 'SoapBox Law' },
-  { slug: 'politics', url: 'https://politics.soapbox.community', name: 'SoapBox Politics' },
-  { slug: 'oversight', url: 'https://oversight.soapbox.community', name: 'SoapBox Oversight' },
-  { slug: 'hemp', url: 'https://hemp.soapbox.community', name: 'SoapBox Hemp' },
-  { slug: 'stocks', url: 'https://stocks.soapbox.community', name: 'SoapBox Stocks' },
-  { slug: 'shopping', url: 'https://shopping.soapbox.community', name: 'SoapBox Shopping' },
-  { slug: 'travel', url: 'https://travel.soapbox.community', name: 'SoapBox Travel' },
-  { slug: 'home', url: 'https://home.soapbox.community', name: 'SoapBox Home' },
-  { slug: 'coupons', url: 'https://coupons.soapbox.community', name: 'SoapBox Coupons' },
   { slug: 'abuck', url: 'https://abuck.soapbox.community', name: 'A Buck' },
-  { slug: 'grants', url: 'https://grants.soapbox.community', name: 'SoapBox Grants' },
-  { slug: 'credentials', url: 'https://credentials.soapbox.community', name: 'SoapBox Credentials' },
-  { slug: 'herald', url: 'https://herald.soapbox.community', name: 'Herald' },
-  { slug: 'genai', url: 'https://genai.soapbox.community', name: 'Creation Studio' },
   { slug: 'arcade', url: 'https://arcade.soapbox.community', name: 'Arcade' },
-  { slug: 'tunein', url: 'https://tunein.soapbox.community', name: 'Tune In' },
-  { slug: 'seeds', url: 'https://seeds.soapbox.community', name: 'SEED' },
-  { slug: 'farm', url: 'https://farm.soapbox.community', name: 'KULA Farm' },
-  { slug: 'melek', url: 'https://melek.salon', name: 'MELEK' },
-  { slug: 'witness', url: 'https://witness.melek.salon', name: 'Witness School' },
-  { slug: 'hathor', url: 'https://hathor.live', name: 'Hathor' },
-  { slug: 'tokens', url: 'https://tokens.alpha.melek.salon', name: 'Tokens' },
+  { slug: 'benefits', url: 'https://benefits.soapbox.community', name: 'Benefits Navigator' },
+  { slug: 'business', url: 'https://business.soapbox.community', name: 'Business Credit' },
+  { slug: 'calculator', url: 'https://calculator.soapbox.community', name: 'Free Online Calculator' },
+  { slug: 'cams', url: 'https://cams.soapbox.community', name: 'Live Cams' },
+  { slug: 'comms', url: 'https://comms.soapbox.community', name: 'Comms' },
   { slug: 'congress', url: 'https://alpha.congress.ink', name: 'Congress.ink' },
+  { slug: 'convert', url: 'https://convert.soapbox.community', name: 'Free Unit & Currency Converter' },
+  { slug: 'costofliving', url: 'https://costofliving.soapbox.community', name: 'SoapBox Cost of Living' },
+  { slug: 'coupons', url: 'https://coupons.soapbox.community', name: 'Coupons' },
+  { slug: 'credentials', url: 'https://credentials.soapbox.community', name: 'Credentials' },
+  { slug: 'credit', url: 'https://credit.soapbox.community', name: 'Credit Help' },
+  { slug: 'data', url: 'https://data.soapbox.community', name: 'Global Markets' },
+  { slug: 'diagram', url: 'https://diagram.soapbox.community', name: 'Free Online Flowchart & Diagram Maker' },
+  { slug: 'directory', url: 'https://directory.soapbox.community', name: 'Directory' },
   { slug: 'dudael', url: 'https://dudael.com', name: 'Dudael' },
+  { slug: 'farm', url: 'https://farm.soapbox.community', name: 'KULA Farm' },
+  { slug: 'flashlight', url: 'https://flashlight.soapbox.community', name: 'Free Online Flashlight' },
+  { slug: 'forum', url: 'https://forum.soapbox.community', name: 'SoapBox Forum' },
+  { slug: 'gambling', url: 'https://gambling.soapbox.community', name: 'Gambling Education' },
+  { slug: 'games', url: 'https://games.soapbox.community', name: 'Games' },
+  { slug: 'genai', url: 'https://genai.soapbox.community', name: 'Creation Studio' },
+  { slug: 'grants', url: 'https://grants.soapbox.community', name: 'Grant Aggregator' },
+  { slug: 'habits', url: 'https://habits.soapbox.community', name: 'Free Habit & Streak Tracker' },
+  { slug: 'hathor', url: 'https://hathor.live', name: 'Hathor' },
+  { slug: 'health-providers', url: 'https://health-providers.soapbox.community', name: 'SoapBox Health Providers' },
+  { slug: 'hemp', url: 'https://hemp.soapbox.community', name: 'Hemp' },
+  { slug: 'herald', url: 'https://herald.soapbox.community', name: 'Herald' },
+  { slug: 'hierophant', url: 'https://hierophant.soapbox.community', name: 'The Hierophant' },
+  { slug: 'home', url: 'https://home.soapbox.community', name: 'Home Goods' },
+  { slug: 'idlegames', url: 'https://idlegames.soapbox.community', name: 'Idle-Time Games' },
+  { slug: 'insurance', url: 'https://insurance.soapbox.community', name: 'Insurance' },
+  { slug: 'jobs', url: 'https://jobs.soapbox.community', name: 'Jobs' },
+  { slug: 'karma', url: 'https://karma.melek.salon', name: 'Karma' },
+  { slug: 'kula-paper', url: 'https://kula-paper.melek.salon', name: 'The KULA Paper' },
+  { slug: 'law', url: 'https://law.soapbox.community', name: 'Law' },
+  { slug: 'melek', url: 'https://melek.salon', name: 'MELEK' },
+  { slug: 'move', url: 'https://move.melek.salon', name: 'MELEK Move' },
+  { slug: 'oversight', url: 'https://oversight.soapbox.community', name: 'Oversight' },
+  { slug: 'politics', url: 'https://politics.soapbox.community', name: 'Politics' },
+  { slug: 'prana-paper', url: 'https://prana-paper.melek.salon', name: 'The PRANA Paper' },
+  { slug: 'search', url: 'https://search.soapbox.community', name: 'Search' },
+  { slug: 'seeds', url: 'https://seeds.soapbox.community', name: 'SEED' },
+  { slug: 'shop', url: 'https://shop.melek.salon', name: 'MELEK Seed Shop' },
+  { slug: 'shopping', url: 'https://shopping.soapbox.community', name: 'Shopping' },
+  { slug: 'software-reviews', url: 'https://software-reviews.soapbox.community', name: 'SoapBox Software Reviews' },
+  { slug: 'spin', url: 'https://spin.soapbox.community', name: 'SoapBox Daily Spin' },
+  { slug: 'stocks', url: 'https://stocks.soapbox.community', name: 'Stocks' },
+  { slug: 'stream', url: 'https://stream.soapbox.community', name: 'SoapBox Stream' },
+  { slug: 'timer', url: 'https://timer.soapbox.community', name: 'Free Focus Timer, Stopwatch & Countdown' },
+  { slug: 'tokens', url: 'https://tokens.alpha.melek.salon', name: 'Tokens' },
+  { slug: 'tools', url: 'https://tools.soapbox.community', name: 'Tools hub' },
+  { slug: 'travel', url: 'https://travel.soapbox.community', name: 'Travel' },
+  { slug: 'tunein', url: 'https://tunein.soapbox.community', name: 'Tune In' },
   { slug: 'vankushfamily', url: 'https://vankushfamily.com', name: 'Van Kush Family' },
+  { slug: 'weather', url: 'https://weather.soapbox.community', name: 'Free Weather App' },
+  { slug: 'wiki', url: 'https://wiki.soapbox.community', name: 'Library of Ashurbanipal' },
+  { slug: 'witness', url: 'https://witness.melek.salon', name: 'Witness School' },
 ];
 
 /** The top-level sitemap-index over all PUBLIC sites (admin can never appear). */
