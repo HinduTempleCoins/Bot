@@ -97,3 +97,31 @@ test('a malformed body is a 400, and every write refuses an anonymous caller', a
   assert.equal(o.code, 400);
   assert.equal((await call(null, 'POST', '/groups', { name: 'X Group' }, opts)).code, 401);
 });
+
+test('⭐ a group linked to a Team shares the Team\'s chat — one conversation, not two', async () => {
+  // Teams are the chat primitive; Groups are the content primitive. A clan that gets a public feed
+  // must not acquire a second, empty chat room — nobody migrates and both rooms die.
+  const opts = memOpts();
+  const id = (await call('alice', 'POST', '/groups', { name: 'Clan Feed' }, opts)).body.group.id;
+
+  const before = await call('alice', 'GET', `/groups/${id}/me`, null, opts);
+  assert.equal(before.body.channel, `group:${id}`, 'unlinked, a group owns its own channel');
+  assert.equal(before.body.team, null);
+
+  assert.equal((await call('alice', 'POST', `/groups/${id}/team`, { team: 'night-hawks' }, opts)).body.ok, true);
+  const after = await call('alice', 'GET', `/groups/${id}/me`, null, opts);
+  assert.equal(after.body.channel, 'team:night-hawks', 'linked, the chat IS the team chat');
+  assert.equal(after.body.team, 'night-hawks');
+
+  // unlinking returns it to its own channel
+  await call('alice', 'POST', `/groups/${id}/team`, { team: '' }, opts);
+  assert.equal((await call('alice', 'GET', `/groups/${id}/me`, null, opts)).body.channel, `group:${id}`);
+});
+
+test('⚠️ only owner/admin may relink a group to a different Team', async () => {
+  const opts = memOpts();
+  const id = (await call('alice', 'POST', '/groups', { name: 'Clan Feed' }, opts)).body.group.id;
+  await call('mallory', 'POST', `/groups/${id}/join`, {}, opts);
+  const attempt = await call('mallory', 'POST', `/groups/${id}/team`, { team: 'mallorys-clan' }, opts);
+  assert.notEqual(attempt.body.ok, true, 'a member repointing the chat would hijack the conversation');
+});

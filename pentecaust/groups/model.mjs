@@ -102,8 +102,44 @@ function canManage(group, actor, target) {
   return ar > rank(roleOf(group, target));
 }
 
-// The chat-channel id a group's group-chat lives under (pentecaust/messaging.mjs readChannel(`group:<id>`)).
-export function groupChannelId(id) { return `group:${String(id || '')}`; }
+// The chat-channel id a group's chat lives under.
+//
+// ⭐ TEAMS ARE THE CHAT LAYER AND THEY INTEGRATE HERE RATHER THAN BEING REPLACED.
+// Teams/Clans (pentecaust/model.mjs) are the chat-first primitive — small rosters, succession,
+// motd. Groups are the content-first primitive — a feed, HIVE roles, an on-chain community. The
+// design doc calls them siblings, not tiers, and step 5 of its roadmap is "a Team can spin up a
+// companion Group for its public feed". This is that link, in the one place it actually matters:
+//
+//   UNLINKED group → its own channel, `group:<id>`.
+//   LINKED group   → the TEAM's channel, `team:<teamId>` — so the clan keeps ONE conversation
+//                    instead of acquiring a second, empty one the moment it gets a public feed.
+//
+// Splitting a clan's chat in two is the failure this avoids; nobody migrates, and both rooms die.
+export function groupChannelId(idOrGroup) {
+  if (idOrGroup && typeof idOrGroup === 'object') {
+    return idOrGroup.team ? `team:${String(idOrGroup.team)}` : `group:${String(idOrGroup.id || '')}`;
+  }
+  return `group:${String(idOrGroup || '')}`;
+}
+
+/**
+ * Link a group to a Team so they share one chat. Owner/admin only, same rank rule as everything else.
+ * ⚠️ The team id is NOT validated against the Teams store here — this module has no business reading
+ * another subsystem's file, and an id that points at nothing degrades to an empty channel rather than
+ * to an error. The surface that has both stores is where a real existence check belongs.
+ */
+export function setTeam(id, actor, teamId, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file);
+  const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
+  const t = teamId == null || teamId === '' ? null : slug(String(teamId));
+  if (t !== null && !t) return { ok: false, reason: 'invalid team id' };
+  group.team = t;
+  saveStore(fs, file, store);
+  return { ok: true, group: view(group) };
+}
 
 // The category / tag a post carries to belong to this group.
 //   • If the group has a provisioned on-chain community account, that account IS the category (HIVE model).
@@ -117,6 +153,7 @@ export function groupCategory(group) {
 export function view(group) {
   if (!group) return null;
   return {
+    team: group.team || null,
     id: group.id, name: group.name, about: group.about || '', kind: group.kind,
     joinPolicy: group.joinPolicy, owner: group.owner, account: group.account || null,
     tag: group.tag || null, category: groupCategory(group),
