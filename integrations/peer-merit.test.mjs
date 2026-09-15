@@ -188,3 +188,15 @@ test('a broken store (throws on every op) is absorbed, never propagated', async 
     await m.rank();
   });
 });
+
+// ⛔ The header used to claim SENDABLE_FRACTION_OF_RECEIVED = 0 was "the strictest Bitcointalk-faithful
+// setting". It is not: Bitcointalk grants one sMerit per TWO merits received, so the faithful value is
+// 0.5. The difference is the whole mechanism — at 0 the faucet holder is the only source of award power
+// that will ever exist, and members can receive status but never confer it.
+test('the sendable fraction is surfaced in params, because it decides who can confer status', () => {
+  const pm = createPeerMerit({ store: makeMemoryStore(), now: () => 0 });
+  const p = pm.config;
+  assert.equal(typeof p.sendableFractionOfReceived, 'number');
+  assert.ok(p.sendableFractionOfReceived >= 0 && p.sendableFractionOfReceived < 1,
+    'merit must never be able to inflate');
+});

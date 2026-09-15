@@ -19,10 +19,25 @@
 //
 // DESIGN NOTES on sendable-vs-received: `received` is the pure score — it never funds your own sends,
 // so accumulating a high score does NOT let you mint more outgoing merit (keeps it scarce and
-// non-plutocratic). By default receiving merit gives you ZERO new sendable (SENDABLE_FRACTION_OF_RECEIVED
-// = 0), so the ONLY source of sendable is the faucet — the strictest Bitcointalk-faithful setting. An
-// operator may set a small fraction (e.g. 0.1) to let well-regarded members re-circulate a sliver of
-// what they earn; it is a constant, documented, and capped below 1 so merit can never inflate.
+// non-plutocratic).
+//
+// ⛔ CORRECTION (verified 2026-09-15). This file used to call SENDABLE_FRACTION_OF_RECEIVED = 0 "the
+// strictest Bitcointalk-faithful setting". That is NOT what Bitcointalk does. Their published rule is
+// that a member receives ONE sMerit for every TWO merits awarded to him, and he then spends it as he
+// sees fit — "in this way, it is the community that decides on the bulk of the awards". The faithful
+// value is therefore 0.5, not 0.
+//
+// ⚠️ AND THE DIFFERENCE IS THE WHOLE MECHANISM, not a tuning detail:
+//   0    → the faucet is the ONLY source of sendable merit. Whoever controls the faucet controls all
+//          award power forever. Members can receive status but can never confer it. That is a
+//          CENTRALLY ADMINISTERED honours list wearing a peer-merit costume.
+//   0.5  → being well-regarded makes you a merit SOURCE. Award power flows outward from whoever the
+//          community already trusts, which is the property that made the original work.
+//
+// The default is left at 0 because changing it silently would rewrite the economics of every existing
+// balance, and that is the operator's call, not a library's. `sendableFractionOfReceived` is reported
+// in config() so the choice is visible rather than buried. Any value is capped below 1 so merit can
+// never inflate.
 //
 // HOUSE STYLE: ESM .mjs, soft-fail-never-throw, deterministic (pass `now` in — pure logic never calls
 // Date.now(); only the store/CLI may). esc() all rendered output. Mirrors karma/index.mjs store shape:
