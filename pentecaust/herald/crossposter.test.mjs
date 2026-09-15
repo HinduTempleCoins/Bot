@@ -123,3 +123,66 @@ test('verifyPost: bad input + network error → soft-fail, never throws', async 
   assert.match(r.reason, /verify error/);
   __setFetch(null);
 });
+
+// ── the HTTP surface this module never had ──────────────────────────────────────────────────────────
+// 182 lines that formatted posts correctly and were imported by nothing. Tests below cover the gate,
+// because a route that broadcasts to four public chains must not be reachable by an anonymous caller.
+import { handler as cpHandler, __setBroadcaster as cpSetBroadcaster } from './crossposter.mjs';
+const httpCap = () => { const o = { code: 0, body: '' }; return { res: { writeHead: (c) => { o.code = c; }, end: (b) => { o.body = b || ''; } }, o }; };
+const getReq = (url) => ({ method: 'GET', url });
+const postReq = (url, body, secret) => ({ method: 'POST', url, body, headers: secret ? { 'x-herald-crosspost-secret': secret } : {} });
+const SRC = { author: 'hathor', permlink: 'hello-melek', title: 'Hello', tags: ['melek', 'intro'],
+  canonicalUrl: 'https://melek.salon/@hathor/hello-melek', bodyMarkdown: 'Body.', targetChains: ['melek'] };
+
+test('⚠️ POST /api/crosspost fails CLOSED when no secret is configured', async () => {
+  const before = process.env.HERALD_CROSSPOST_SECRET;
+  delete process.env.HERALD_CROSSPOST_SECRET;
+  let broadcast = false;
+  cpSetBroadcaster(async () => { broadcast = true; return { ok: true, txid: 't' }; });
+  const { res, o } = httpCap();
+  await cpHandler(postReq('/api/crosspost', SRC), res);
+  assert.equal(o.code, 401, 'an unconfigured box must refuse, not broadcast');
+  assert.equal(broadcast, false, 'nothing may reach a public chain through an open door');
+  cpSetBroadcaster(null);
+  if (before === undefined) delete process.env.HERALD_CROSSPOST_SECRET; else process.env.HERALD_CROSSPOST_SECRET = before;
+});
+
+test('a wrong secret is refused; the right one posts through the injected broadcaster', async () => {
+  const before = process.env.HERALD_CROSSPOST_SECRET;
+  process.env.HERALD_CROSSPOST_SECRET = 'right-secret';
+  const file = `/tmp/crosspost-http-${process.pid}.json`;
+  const store = { read: () => null, write: () => {} };
+
+  let { res, o } = httpCap();
+  await cpHandler(postReq('/api/crosspost', SRC, 'wrong-secret'), res, { fs: store, file });
+  assert.equal(o.code, 401);
+
+  const ops = [];
+  cpSetBroadcaster(async (chain, op) => { ops.push({ chain, op }); return { ok: true, txid: 'tx1' }; });
+  ({ res, o } = httpCap());
+  await cpHandler(postReq('/api/crosspost', SRC, 'right-secret'), res, { fs: store, file });
+  assert.equal(o.code, 200);
+  assert.equal(JSON.parse(o.body).results.melek.ok, true);
+  assert.equal(ops.length, 1);
+  assert.equal(ops[0].op.author, 'hathor');
+  cpSetBroadcaster(null);
+  if (before === undefined) delete process.env.HERALD_CROSSPOST_SECRET; else process.env.HERALD_CROSSPOST_SECRET = before;
+});
+
+test('preview formats without a secret — it signs nothing', async () => {
+  const { res, o } = httpCap();
+  await cpHandler(getReq('/api/crosspost/preview?chain=hive&author=hathor&permlink=p&title=T&tags=a,b,c,d,e,f,g&url=https://x.test/p&body=Hi'), res);
+  assert.equal(o.code, 200);
+  const j = JSON.parse(o.body);
+  assert.equal(j.tags.length, 5, 'hive caps at 5 tags');
+  assert.match(j.body, /x\.test\/p/, 'the canonical backlink is always appended');
+});
+
+test('a missing required field is a 422, not a half-formed broadcast', async () => {
+  const before = process.env.HERALD_CROSSPOST_SECRET;
+  process.env.HERALD_CROSSPOST_SECRET = 's';
+  const { res, o } = httpCap();
+  await cpHandler(postReq('/api/crosspost', { author: 'hathor' }, 's'), res);
+  assert.equal(o.code, 422);
+  if (before === undefined) delete process.env.HERALD_CROSSPOST_SECRET; else process.env.HERALD_CROSSPOST_SECRET = before;
+});

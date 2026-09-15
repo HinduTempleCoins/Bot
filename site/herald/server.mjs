@@ -45,6 +45,12 @@ import { join as _join, dirname as _dirname } from 'node:path';
 // seam), Telegram, Discord, generic webhook, and an in-app inbox; every channel unconfigured → soft no-op,
 // and it NEVER signs, pays, or broadcasts (reward/post triggers are Signer-only).
 import { handler as dispatchHandler, notifier as dispatchNotifier } from '../../pentecaust/herald/dispatcher.mjs';
+// crossposter: 182 lines that formatted posts correctly and were imported by nothing. It refuses to
+// broadcast without an injected broadcaster (BRIEF.md §7 — this repo holds no WIF), so the missing piece
+// was a broadcaster that DELEGATES to MELEK-Signer rather than one that signs.
+import { handler as crosspostHandler, __setBroadcaster as setCrosspostBroadcaster } from '../../pentecaust/herald/crossposter.mjs';
+import { makeSignerBroadcaster, signerConfigured } from '../../pentecaust/herald/signer-broadcast.mjs';
+setCrosspostBroadcaster(makeSignerBroadcaster());
 // The ad-auction sells PREMIUM featured slots by sealed-bid second-price (Vickrey) auction — the auction-house
 // side of the ad network (ad-network.mjs is the remnant/click side). Stateful (auctions live in a store), so
 // we hold a singleton and mount its handler. Auctions touch ONLY premium slots — organic ranking is never
@@ -395,6 +401,10 @@ const MOUNTS = [
   { rewrite: null, fn: (req, res) => iftttHandler(req, res, { notify: dispatchNotifier }), match: (p) => p === '/ifttt' || p === '/api/ifttt/recipes' || p === '/api/ifttt/evaluate' },
   // dispatcher: the trigger execution rail. Native paths (its own /health stays owned by the server above).
   { rewrite: null, fn: dispatchHandler, match: (p) => p === '/api/dispatch' || p === '/api/inbox' },
+  // crosspost: POST is gated on HERALD_CROSSPOST_SECRET and fails closed; preview + history are open
+  // because formatting signs nothing. /api/signer reports readiness and never the token.
+  { rewrite: null, fn: crosspostHandler, match: (p) => p === '/api/crosspost' || p === '/api/crossposts' || p === '/api/crosspost/preview' },
+  { rewrite: null, fn: (req, res) => { res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify(signerConfigured())); }, match: (p) => p === '/api/signer' },
   // campaign-sender: one-click unsubscribe + subscribe/webhook/lists/stats (native paths; /health owned above).
   { rewrite: null, fn: senderHandler, match: (p) => p.startsWith('/u/') || p === '/unsubscribe'
     || p === '/api/subscribe' || p === '/api/webhook' || p === '/api/lists' || p === '/api/stats' },
