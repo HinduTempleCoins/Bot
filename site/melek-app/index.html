@@ -1,0 +1,467 @@
+<title>MELEK Offers Shell</title>
+<style>
+  :root{
+    --bg:#f2f3f5; --card:#fff; --ink:#0b0b0c; --dim:#6b6f76; --line:#e6e8eb;
+    --gold:#d4a534; --cta:#111; --cta-ink:#ffd76a; --dot:#ff3b30; --radius:18px;
+  }
+  :root:not([data-theme="light"]){}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#0e0f11; --card:#17191d; --ink:#f2f3f5; --dim:#9aa0a8; --line:#24272c;
+    --cta:#ffd76a; --cta-ink:#0b0b0c;
+  }}
+  :root[data-theme="dark"]{--bg:#0e0f11;--card:#17191d;--ink:#f2f3f5;--dim:#9aa0a8;--line:#24272c;--cta:#ffd76a;--cta-ink:#0b0b0c;}
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding-bottom:78px}
+  .wrap{max-width:520px;margin:0 auto}
+
+  header{position:sticky;top:0;z-index:20;background:var(--bg);padding-block:10px 0;border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;gap:14px;padding:0 16px}
+  .bar h1{font-size:22px;font-weight:700;margin:0;flex:1;letter-spacing:-.4px}
+  .ic{width:26px;height:26px;flex:0 0 auto;opacity:.75;cursor:pointer}
+  /* swipeable category strip — the load-bearing pattern */
+  nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:10px 12px 0}
+  nav::-webkit-scrollbar{display:none}
+  nav button{flex:0 0 auto;background:none;border:0;color:var(--dim);font:inherit;padding:2px 12px 10px;
+    display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;border-bottom:3px solid transparent}
+  nav button .g{font-size:19px;line-height:1}
+  nav button[aria-selected="true"]{color:var(--ink);font-weight:700;border-bottom-color:var(--ink)}
+
+  main{padding:16px}
+  .banner{background:linear-gradient(135deg,#1b1d22,#2a2d34);color:#fff;border-radius:var(--radius);
+    padding:18px 44px 18px 18px;position:relative;margin-bottom:18px}
+  .banner b{display:block;font-size:19px;margin-bottom:4px}
+  .banner span{color:#c9ccd2;font-size:14px}
+  .banner .x{position:absolute;top:12px;right:14px;color:#c9ccd2;cursor:pointer;font-size:17px}
+  .sec{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 12px}
+  .sec h2{font-size:19px;font-weight:700;margin:0;letter-spacing:-.3px}
+  .all{background:var(--line);border:0;color:var(--ink);font:600 13px/1 inherit;padding:9px 15px;border-radius:999px;cursor:pointer}
+
+  /* ONE card component — every vertical reuses it */
+  .card{background:var(--card);border-radius:var(--radius);padding:18px;margin-bottom:14px;border:1px solid var(--line)}
+  .card .brand{font-weight:800;font-size:17px;letter-spacing:-.3px;margin-bottom:9px;display:flex;align-items:center;gap:9px}
+  .card .brand .m{width:26px;height:26px;border-radius:8px;background:#000;display:grid;place-items:center;flex:0 0 auto}
+  .card .brand .m i{width:11px;height:11px;border-radius:50%;border:2px solid var(--gold);display:block}
+  .card h3{font-size:17px;font-weight:700;margin:0 0 8px;letter-spacing:-.2px}
+  .card p{color:var(--dim);margin:0 0 14px}
+  .card ul{color:var(--dim);margin:0 0 14px;padding-left:19px}
+  .card li{margin:3px 0}
+  .rows{border-top:1px solid var(--line);margin:0 0 14px;padding-top:12px}
+  .row{display:flex;justify-content:space-between;padding:4px 0;color:var(--dim)}
+  .row b{color:var(--ink)}
+  .det{display:inline-block;color:var(--ink);text-decoration:underline;font-size:14px;margin-bottom:14px;cursor:pointer}
+  .cta{display:block;width:100%;background:var(--cta);color:var(--cta-ink);border:0;border-radius:999px;
+    padding:15px;font:700 16px/1 inherit;cursor:pointer}
+
+  /* full-screen comparison sheet */
+  dialog{border:0;padding:0;background:var(--bg);color:var(--ink);width:100%;max-width:520px;height:100%;max-height:100%}
+  dialog::backdrop{background:#000a}
+  .sheet{padding:16px}
+  .shead{display:flex;align-items:center;gap:12px;padding:6px 0 14px}
+  .shead .x{font-size:22px;cursor:pointer;background:none;border:0;color:var(--ink)}
+  .shead h2{flex:1;text-align:center;font-size:20px;margin:0 30px 0 0;letter-spacing:-.3px}
+  .disc{color:var(--dim);font-size:13px;text-align:center;margin:0 0 16px}
+
+  footer{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);
+    display:flex;justify-content:space-around;padding:11px 0 max(11px,env(safe-area-inset-bottom))}
+  footer div{position:relative;font-size:21px;opacity:.55;cursor:pointer}
+  footer div[aria-current]{opacity:1}
+  footer .b{position:absolute;top:-2px;right:-5px;width:8px;height:8px;background:var(--dot);border-radius:50%}
+  /* the opportunity ledger — dollar + time per action */
+  .led{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+  .led .top{display:flex;align-items:flex-start;gap:12px;padding:16px}
+  .led .av{width:38px;height:38px;border-radius:12px;background:#000;display:grid;place-items:center;flex:0 0 auto;font-size:17px}
+  .led .av i{width:14px;height:14px;border-radius:50%;border:2.5px solid var(--gold);display:block}
+  .led .t{flex:1;font-weight:600;letter-spacing:-.1px}
+  .led .amt{font-weight:800;font-size:19px;white-space:nowrap;letter-spacing:-.4px}
+  .led .bot{border-top:1px solid var(--line);padding:12px 16px;color:var(--dim);font-size:14px;display:flex;justify-content:space-between}
+  .hero{margin:2px 2px 18px}
+  .hero h2{font-size:30px;line-height:1.12;letter-spacing:-1px;margin:0 0 16px;font-weight:800}
+  .hero h2 em{font-style:normal}
+  .hero .sm{font-size:17px;font-weight:600;color:var(--dim)}
+  .split{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:flex;gap:18px;align-items:center}
+  .ring{width:104px;height:104px;flex:0 0 auto;border-radius:50%;
+    background:conic-gradient(#14d6b0 0 57%,#6472d6 57% 91%,#8fb4f2 91% 98%,#cfd3d9 98% 100%);
+    display:grid;place-items:center}
+  .ring::after{content:'';width:62px;height:62px;border-radius:50%;background:var(--card)}
+  .keys{flex:1;font-size:14px}
+  .keys div{display:flex;align-items:center;gap:8px;padding:3px 0}
+  .keys i{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+  .keys span{flex:1;color:var(--dim)}
+  .keys b{letter-spacing:-.2px}
+  .conn{background:var(--card);border:1px solid var(--line);border-top:0;border-radius:0 0 var(--radius) var(--radius);
+    margin:-1px 0 18px;padding:15px 18px;font-weight:700}
+  .conn a{display:block;color:var(--dim);font-weight:400;text-decoration:underline;margin-top:3px;cursor:pointer}
+  .chip{display:inline-block;background:#d8f7ef;color:#08604e;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:600;margin-top:8px}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip{background:#0d3b31;color:#7ceccf}}
+  .bring{background:linear-gradient(135deg,#0f1a17,#13312a);color:#fff;border-radius:var(--radius);padding:18px;margin:6px 0 20px}
+  .bring b{display:block;font-size:18px;margin-bottom:5px;letter-spacing:-.3px}
+  .bring p{color:#a9d8c9;margin:0 0 14px;font-size:14px}
+  .bring .steps{display:flex;gap:8px;text-align:center;font-size:12px;color:#a9d8c9}
+  .bring .steps div{flex:1;background:#ffffff14;border-radius:12px;padding:10px 6px}
+  .bring .steps b{font-size:19px;margin:0 0 3px;color:#fff}
+  .bal{background:linear-gradient(140deg,#111,#2a2010);color:#fff;border-radius:var(--radius);padding:20px;margin-bottom:16px}
+  .two{display:flex;gap:14px;text-align:center}
+  .two > div{flex:1}
+  .two .n{font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1.05}
+  .two .gold .n{color:var(--gold)}
+  .two .teal .n{color:#44e3bd}
+  .two .u{font-size:11px;color:#c9bfa4;letter-spacing:1.6px;text-transform:uppercase;margin-top:6px}
+  .two .w{font-size:12px;color:#9a937f;margin-top:5px}
+  .bal .sub{color:#c9bfa4;font-size:13px;margin-top:14px;border-top:1px solid #ffffff1f;padding-top:12px;text-align:center}
+  .pays{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap}
+  .pays i{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.6px;border-radius:5px;padding:3px 6px}
+  .pays .m{background:#3a2e0e;color:var(--gold)}
+  .pays .t{background:#0d3b31;color:#44e3bd}
+  .earn{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px}
+  .earn a{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-decoration:none;color:var(--ink)}
+  .earn a b{display:block;font-size:15px;margin-bottom:2px}
+  .earn a span{color:var(--dim);font-size:13px}
+  .earn a em{display:block;font-style:normal;color:var(--gold);font-weight:800;margin-top:6px;font-size:15px}
+  .mall{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .item .art{height:76px;display:grid;place-items:center;font-size:30px;background:linear-gradient(135deg,#f0f1f4,#e2e4e9)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .item .art{background:linear-gradient(135deg,#22252a,#1a1d21)}}
+  .item .b{padding:12px}
+  .item .b b{display:block;font-size:14px;margin-bottom:3px}
+  .item .b span{color:var(--dim);font-size:12px}
+  .item .b em{display:block;font-style:normal;font-weight:800;color:var(--gold);margin-top:7px}
+  .task{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:11px;display:flex;gap:14px;align-items:flex-start}
+  .task .ico{width:40px;height:40px;border-radius:50%;background:#0f3b2e;color:#44e3bd;display:grid;place-items:center;flex:0 0 auto;font-size:18px}
+  .task .bd{flex:1}
+  .task .bd b{display:block;font-size:16px;margin-bottom:3px}
+  .task .bd span{color:var(--dim);font-size:14px}
+  .task .bd em{font-style:normal;display:inline-block;margin-top:8px;font-size:11px;font-weight:800;letter-spacing:.6px;border-radius:5px;padding:4px 7px}
+  .task .free{background:#0d3b31;color:#44e3bd}
+  .task .no{background:#3b1414;color:#ff8f8f}
+  .task .heavy{background:#3a2e0e;color:var(--gold)}
+  .opps{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 12px}
+  .opps h3{font-size:20px;margin:0;letter-spacing:-.3px}
+  .filt{width:38px;height:38px;border-radius:50%;background:var(--line);display:grid;place-items:center;cursor:pointer}
+  .tot{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:18px;text-align:center}
+  .tot b{display:block;font-size:34px;letter-spacing:-1px;margin-bottom:2px}
+  .tot span{color:var(--dim);font-size:14px}
+  .note{color:var(--dim);font-size:13px;text-align:center;padding:18px 8px 4px}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="bar">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    <h1 id="title">Products &amp; Offers</h1>
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0-6 6v4l-2 3h16l-2-3V9a6 6 0 0 0-6-6z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+  </div>
+  <nav id="tabs" role="tablist"></nav>
+</header>
+
+<main id="view"></main>
+
+<dialog id="sheet"><div class="sheet">
+  <div class="shead"><button class="x" onclick="sheet.close()">✕</button><h2 id="sheetTitle"></h2></div>
+  <p class="disc">Free things first, always. Where a partner pays us a referral, the card says so — and you still keep everything they pay you.</p>
+  <div id="sheetBody"></div>
+</div></dialog>
+
+<p class="note">Design shell — structure only. Cards are the same component with different data.</p>
+</div>
+
+<footer>
+  <div>⌂</div><div aria-current="true">💲</div><div>🏦</div><div>🎁<span class="b"></span></div><div>👤<span class="b"></span></div>
+</footer>
+
+<script>
+const VERTICALS = [
+  { id:'creds', g:'🎓', label:'Credentials', title:'Credentials',
+    banner:{t:'The maze, made legible', s:'92 credentials across 14 industries. Which are free, who accredits them, what they are actually worth.'},
+    sections:[
+      { h:'Free, and they carry real weight', all:true, cards:[
+        { brand:'Modern States — Freshman Year for Free', h:'They pay your exam fee', p:'Free online courses that prepare you for CLEP exams — and Modern States pays the exam voucher AND the proctor fee. Pass the CLEP and the credit is accepted at a great many colleges.', rows:[['Cost','$0'],['You get','College credit']], det:true, cta:'Start free' },
+        { brand:'ISC2 Certified in Cybersecurity (CC)', h:'Free training and a free exam', p:'An entry-level cybersecurity certification with official training and the exam both free through ISC2\'s One Million Certified programme.', rows:[['Cost','$0'],['Issuer','ISC2']], det:true, cta:'Start free' },
+        { brand:'Saylor Academy', h:'Free courses, ACE-recommended credit', p:'Free self-paced college-level courses. Pass the final and many carry ACE- or NCCRS-recommended college credit.', rows:[['Cost','$0'],['You get','ACE/NCCRS credit recommendation']], det:true, cta:'Start free' },
+        { brand:'freeCodeCamp', h:'Free, project-based, and the portfolio is the point', p:'Completely free web-development and data certifications. Not accredited — but the projects are the thing an employer actually looks at.', rows:[['Cost','$0'],['Honest note','Portfolio value, not accreditation']], det:true, cta:'Start free' },
+        { brand:'ACE Credit Recommendation', h:'How the free courses turn into credit', p:'ACE reviews non-college courses and exams and recommends college credit. Its transcript is the mechanism by which Saylor, Sophia and Study.com credit reaches a registrar. Free to understand; know it before you pay anyone.', cta:'How it works' },
+      ]},
+      { h:'Check before you pay anyone', all:true, cards:[
+        { brand:'CHEA', h:'Is the accreditor real?', p:'The Council for Higher Education Accreditation lists recognised accreditors. If a school or certificate names an accreditor that is not here or in the Department of Education database, that is the answer.', cta:'Look it up free' },
+        { brand:'US Dept. of Education — DAPIP', h:'The federal accreditation database', p:'The government\'s own list of accredited institutions and programmes. Free, authoritative, and the first place to check any claim.', cta:'Search free' },
+      ]},
+      { h:'Who pays for training', cards:[
+        { brand:'WIOA · American Job Centers', h:'The government may pay the tuition', p:'Workforce Innovation and Opportunity Act funding covers training toward in-demand credentials, through your local American Job Center. Free to apply. Most people looking at a certificate have never been told this exists.', cta:'Find my Job Center' },
+      ]},
+      { h:'Issued by the Temple', cards:[
+        { brand:'MELEK credentials', mark:true, h:'Anchored on-chain, verifiable forever', p:'Complete a Temple programme and the credential is issued, hashed, and the hash written to MELEK mainnet — id, issuer, programme and date only, never your identity. Anyone can verify it against the chain without asking us, and nobody can quietly alter or revoke it.', rows:[['Cost','$0'],['Verification','Public, permanent']], det:true, cta:'See the programmes' },
+      ]},
+    ]},
+  { id:'credit', g:'📈', label:'Credit', title:'Credit',
+    banner:{t:'The parts that are free, done free', s:'Others put these behind a subscription. We are a 501(c)(3), so we do not have to.'},
+    tasks:[
+      { i:'🏠', t:'Homebuying plan', d:'Your route to a mortgage, with the free doors first — FHA tiers at 580 and 500, USDA 502 Direct with no down payment, state down-payment assistance, free HUD-approved counselling, and the clergy housing allowance under IRC § 107.', tag:'FREE', cls:'free' },
+      { i:'✉️', t:'Dispute inaccuracies', d:'Generate the § 611 dispute, the § 1681i(a)(6)(B)(iii) Method of Verification demand, and the § 1681s-2(b) furnisher dispute. Track the 30-day clock. A 501(c)(3) is excluded from the definition of a credit repair organisation at 15 U.S.C. § 1679a(3)(B)(i), so this is free here and always will be.', tag:'FREE · NO CHARGE EVER', cls:'free' },
+      { i:'🛡️', t:'Get your data off the broker sites', d:'Find where your address and phone are listed and send the deletion demands yourself. State privacy laws give you the right; removal services charge a yearly fee for letters you can send for nothing.', tag:'FREE', cls:'free' },
+      { i:'✅', t:'Credit tasks', d:'The specific next actions for your file, in order of how much each one moves. Earns MOVE.', tag:'FREE', cls:'free' },
+      { i:'👥', t:'Refer someone', d:'When they claim their first zone.', tag:'EARNS MOVE', cls:'free' },
+      { i:'🏘️', t:'Rent and bill reporting', d:'Getting rent and utilities onto your report means becoming a furnisher to the bureaus — which carries accuracy and dispute-investigation duties under 15 U.S.C. § 1681s-2. Doable, not quick. Until then we will tell you which existing services do it and what they cost.', tag:'HEAVIER THAN IT LOOKS', cls:'heavy' },
+      { i:'⛔', t:'Credit builder loans — we will not offer these', d:'A credit-builder loan is a loan. Offering one means state lending licensure. We will list who does it and what it costs, and we will never originate one.', tag:'WE DO NOT DO THIS', cls:'no' },
+      { i:'⛔', t:'Cash advances — we will not offer these', d:'Same answer, and a shorter one: it is lending. We will point you at the free emergency assistance first, because that is usually the better answer anyway.', tag:'WE DO NOT DO THIS', cls:'no' },
+    ],
+    sections:[]},
+  { id:'rewards', g:'🪙', label:'Rewards', title:'Rewards',
+    banner:{t:'Earn by moving. Spend in the mall.', s:'Steps, streaks, referrals and daily play all earn the same balance.'},
+    rewards:{
+      melek:'341.20', bal:'12,480', unit:'MOVE',
+      sub:'WALKING PAYS BOTH. Steps and zone claims earn MELEK on chain and MOVE in the app. Everything else on this screen earns MOVE only.',
+      ways:[
+        { t:'Walk', d:'Every 1,000 steps', v:'+20', both:true },
+        { t:'Claim a zone', d:'Once per hour', v:'+50', both:true },
+        { t:'Complete a route', d:'Finish a mapped walk', v:'+3,000', both:true },
+        { t:'Daily streak', d:'7 days in a row', v:'+500' },
+        { t:'Refer a friend', d:'When they claim their first zone', v:'+2,000' },
+        { t:'Play a listed game', d:'Reach the stated milestone', v:'+1,500' },
+        { t:'Finish a lesson', d:'Library or tutorial', v:'+300' },
+        { t:'Log a workout', d:'Any recorded activity', v:'+100' },
+      ],
+      mall:[
+        { i:'🎁', t:'$5 gift card', d:'Major retailers', p:'25,000' },
+        { i:'🎧', t:'Headphones', d:'Limited stock', p:'90,000' },
+        { i:'🎮', t:'Game credit', d:'Listed titles', p:'15,000' },
+        { i:'☕', t:'Coffee', d:'Participating shops', p:'8,000' },
+        { i:'👕', t:'Temple tee', d:'Ships free', p:'40,000' },
+        { i:'🎟', t:'Raffle entry', d:'Weekly draw', p:'1,000' },
+      ],
+    },
+    sections:[]},
+  { id:'today', g:'⚡', label:'Today', title:'Earn today',
+    banner:{t:'What you can earn right now', s:'Every item priced, every item timed. Free things first.'},
+    ledger:[
+      { t:'Walk 2,000 steps and claim a zone', amt:'87.75 MELEK', y:0, free:true, time:'20 min', mark:true, tag:'FREE', chip:'Every hour, all year' },
+      { t:'File the FAFSA — you may qualify for a Pell Grant', amt:'up to $7,395', y:7395, free:true, icon:'🎓', time:'45 min', tag:'FREE · NO COMMISSION', chip:'That figure is the Pell maximum' },
+      { t:'Search your state’s unclaimed property office', amt:'free to search', y:0, free:true, icon:'🔎', time:'5 min', tag:'FREE · NO COMMISSION', chip:'Finders charge a % for this' },
+      { t:'Open a Bank On certified account — no overdraft fees', amt:'$237/yr', y:237, free:true, icon:'🏦', time:'15 min', tag:'FREE · NO COMMISSION', chip:'Avg. overdraft fees avoided' },
+      { t:'Refer a friend to MELEK', amt:'$55.00', y:55, mark:true, time:'1 min', tag:'REFERRAL' },
+      { t:'Play a listed game to the reward milestone', amt:'$350.00', y:350, icon:'🎮', time:'1 min to start', tag:'PARTNER · WE ARE PAID' },
+      { t:'Take a survey with a listed panel', amt:'$11.13', y:11.13, icon:'📝', time:'12 min', tag:'PARTNER · WE ARE PAID' },
+      { t:'Sign up to drive or task this week', amt:'$150.00', y:150, icon:'🚗', time:'20 min', tag:'PARTNER · WE ARE PAID' },
+    ],
+    sections:[]},
+  { id:'earn', g:'💲', label:'Earn More', title:'Products & Offers',
+    banner:{t:'Turn spare time into money', s:'Gig work, surveys, cashback — and MELEK Move.'},
+    sections:[
+      { h:'Income opportunities', all:true, cards:[
+        { brand:'MELEK Move', mark:true, h:'Get paid to walk', p:'Your steps weight an hourly pool. No survey, no shift, no shopping — just walking. Claim the zone you are standing in.',
+          rows:[['This hour’s pool','87.75 MELEK'],['Payout','Hourly'],['Cost to join','$0']], cta:'Let’s get walking' },
+        { brand:'Rover', h:'Make money loving pets on Rover', p:'Get paid to play with pets. Rover promotes you to the nation’s largest network of pet owners.', cta:'Let’s get walking' },
+        { brand:'TaskRabbit', h:'Make your skills pay off with TaskRabbit', p:'Turn your free time into cash by doing tasks for others. Sign up, select your skills, and start tasking.', cta:'Pick up tasks' },
+        { brand:'Fiverr', h:'Transform your talent into income with Fiverr', p:'Sign up for free, set up your gig, and offer your work across the world. Get paid on time, every time.', cta:'Start gigging' },
+        { brand:'Upwork', h:'Grow your freelance empire with Upwork', p:'Got skills? Upwork’s got jobs. A few clicks to start and you’re in business.', cta:'Start freelancing' },
+        { brand:'Instacart', h:'Turn shopping lists into earnings', p:'Over 600,000 shoppers choose Instacart for flexible earnings.', cta:'Shop to earn' },
+        { brand:'HyreCar', h:'Earn more on the road with HyreCar', p:'Daily car rentals with insurance available for rideshare, delivery, and more.', cta:'Find a car' },
+        { brand:'DoorDash', h:'Deliver on your own schedule', p:'Dash when you want. Get paid weekly, or cash out same-day.', cta:'Start dashing' },
+        { brand:'Uber', h:'Drive or deliver with Uber', p:'Set your own hours. Ride requests or Uber Eats deliveries.', cta:'Start driving' },
+        { brand:'Lyft', h:'Drive with Lyft', p:'Earn on your schedule, with weekly and instant payout options.', cta:'Start driving' },
+        { brand:'Amazon Flex', h:'Deliver packages in blocks', p:'Reserve delivery blocks near you and use your own vehicle.', cta:'Reserve a block' },
+        { brand:'Shipt', h:'Shop and deliver groceries', p:'Pick the orders you want, keep 100% of your tips.', cta:'Start shopping' },
+        { brand:'Wag!', h:'Walk dogs on Wag!', p:'Walks, sittings and drop-ins in your neighbourhood.', cta:'Start walking' },
+        { brand:'Airbnb', h:'Host a room or a whole place', p:'Set your own nightly rate and calendar.', cta:'Start hosting' },
+        { brand:'Turo', h:'Rent out your car', p:'List a car you already own and set your own price.', cta:'List my car' },
+        { brand:'Neighbor', h:'Rent out storage space', p:'A garage, driveway or spare room earns monthly.', cta:'List my space' },
+        { brand:'Rocket Money', h:'Find and cancel unused subscriptions', p:'Scans for recurring charges you forgot about.', cta:'Find my subscriptions' },
+      ]},
+      { h:'Fastest cash', all:true, cards:[
+        { brand:'Plasma donation', h:'Paid the same day, first visit', p:'Centres typically pay per donation, with higher new-donor rates for the first several visits. Bring photo ID, your Social Security card and proof of address. Screening takes longer the first time; after that, expect roughly an hour to ninety minutes.', rows:[['Typical','$50–$100 per donation'],['Frequency','Up to twice in 7 days, 48 hours apart'],['Paid','Same day, to a prepaid card']], det:true, cta:'Find a centre near me' },
+        { brand:'Before you go', h:'Four things nobody mentions', list:['New-donor bonuses are structured across several visits — you get the headline figure only if you complete all of them','It is taxable income, and centres report it','You must weigh at least 110 lb and pass a screening; tattoos and some medications can defer you','Hydrate the day before and eat protein — a failed protein check sends you home unpaid'], cta:'Read the full guide' },
+        { brand:'Job applications', h:'Start where it is free', p:'American Job Centers give free résumé help, interview practice and direct employer referrals under WIOA. Your state workforce board runs the same service. USAJOBS covers every federal opening. None of these charge you anything.', cta:'Find my Job Center' },
+        { brand:'⚠️ Job boards that charge jobseekers', h:'Know which is which', p:'Some job sites charge you a monthly subscription to apply. Others are free to you and paid by employers. The free ones are not worse — they are the ones employers actually post to. We will always say which is which on the card.', cta:'See the comparison' },
+      ]},
+      { h:'Surveys & offers', all:true, cards:[
+        { brand:'MyPoints', h:'Share your opinions and earn rewards', list:['Join now for free','Get a $10 welcome bonus'], cta:'Continue' },
+        { brand:'InboxDollars', h:'Be rewarded for surveys, shopping & games', list:['Take paid online surveys','Get rewarded for playing games','Cashback for online shopping','Get paid to read emails'], cta:'Continue' },
+        { brand:'Ipsos iSay', h:'Take surveys, have your say, earn rewards', list:['Earn rewards for sharing your opinions','Take surveys, influence brands','Start making a difference — and money'], cta:'Continue' },
+        { brand:'Solitaire Cash', h:'Play Solitaire Cash, win real money', list:['A classic we can all master, with a twist','Take on other players for real money prizes'], cta:'Continue' },
+        { brand:'Survey Junkie', h:'Take surveys, get paid', list:['Sign up free and complete your profile','Earn points for taking surveys','Redeem points for cash or gift cards'], cta:'Continue' },
+        { brand:'Swagbucks', h:'Surveys, shopping and watching', list:['Multiple ways to earn in one place','Cash out to PayPal or gift cards'], cta:'Continue' },
+        { brand:'Prolific', h:'Paid academic research studies', list:['Studies run by universities','Typically higher pay per hour than survey panels'], cta:'Continue' },
+        { brand:'UserTesting', h:'Get paid to test websites and apps', list:['Speak your thoughts while you use a site','Paid per completed test'], cta:'Continue' },
+        { brand:'Respondent', h:'Paid research interviews', list:['One-to-one interviews in your field','Among the highest per-hour rates available'], cta:'Continue' },
+        { brand:'Playtime offers', h:'Reach a milestone in a listed game', list:['Install, play to the stated level','Payout on verified milestone'], cta:'Browse games' },
+      ]},
+      { h:'Cashback', cards:[
+        { brand:'Shop & earn', h:'Get cashback when you shop', p:'Save big with 1,000+ brands and earn cashback.', cta:'Start shopping' },
+        { brand:'Receipt rewards', h:'Scan any receipt, earn on it', p:'Works with shopping you have already done, at any store.', cta:'Scan a receipt' },
+        { brand:'Browser cashback', h:'Automatic at checkout', p:'Applies the best available rate without you remembering to click.', cta:'Add the extension' },
+      ]},
+    ]},
+  { id:'cards', g:'💳', label:'Cards', title:'Products & Offers',
+    banner:{t:'Find a card that fits', s:'Compare rates, rewards and approval odds.'},
+    sections:[{ h:'Credit card offers', all:true, cards:[
+      { brand:'Travel rewards', h:'Earn on your travel', p:'Cards that earn big on flights and hotels.', rows:[['Min. credit score','670'],['Annual fee','$0–$95']], cta:'See my odds' },
+      { brand:'Cash back', h:'Flat-rate cash back', p:'One rate on everything, no categories to track.', rows:[['Min. credit score','640'],['Annual fee','$0']], cta:'See my odds' },
+    ]}]},
+  { id:'credit', g:'📈', label:'Credit Builder', title:'Products & Offers',
+    banner:{t:'Build credit over time', s:'Reported to the bureaus every month.'},
+    sections:[{ h:'Credit building', cards:[
+      { brand:'Credit monitoring', h:'Get insights into changes that affect your credit report', p:'Track score changes and see what moved them.', cta:'Check my score' },
+    ]}]},
+  { id:'car', g:'🚗', label:'Car', title:'Products & Offers',
+    banner:{t:'Maximize your auto savings', s:'Insurance, loans, repairs and rewards — all in one place.'},
+    sections:[{ h:'Auto loan offers', all:true, cards:[
+      { brand:'PenFed Credit Union', h:'Auto loan', rows:[['Loan amount','$15K – $150K'],['Min. credit score','610'],['Term','36 – 84 months']], cta:'Continue' },
+      { brand:'Auto insurance', h:'Find recommended auto insurance offers near you', p:'Shop for quotes in minutes.', cta:'See my offers' },
+    ]}]},
+  { id:'savings', g:'🏦', label:'Savings', title:'Products & Offers',
+    banner:{t:'Need an account for direct deposit?', s:'Compare fees, minimums and rates.'},
+    sections:[{ h:'Savings offers', all:true, cards:[
+      { brand:'High-yield savings', h:'4.10% APY', rows:[['Monthly fee','$0'],['Min. balance','$5,000'],['Rate as of','check current']], det:true, cta:'Continue' },
+      { brand:'No-minimum savings', h:'3.30% APY', rows:[['Monthly fee','$0'],['Min. balance','$0'],['Rate as of','check current']], det:true, cta:'Continue' },
+      { brand:'Bank On certified', h:'Checking with no overdraft fees', p:'Low opening deposit, free direct deposit and debit card. Built for getting a paycheck in, not for locking money up.', cta:'Find an account' },
+    ]}]},
+  { id:'insurance', g:'☂️', label:'Insurance', title:'Products & Offers',
+    banner:{t:'Cover what matters', s:'Auto, life and renters in one place.'},
+    sections:[{ h:'Insurance offers', cards:[
+      { brand:'Life insurance', h:'Get life insurance in 10 minutes', p:'Instant quotes, no medical exam for most applicants.', cta:'Check my price' },
+    ]}]},
+  { id:'travel', g:'✈️', label:'Travel', title:'Products & Offers',
+    banner:{t:'Earn travel rewards', s:'Unlock points and promos every time you travel.'},
+    sections:[{ h:'Travel', cards:[
+      { brand:'Hotels', h:'Book hotels at properties worldwide', p:'Search, compare and book with free cancellation.', cta:'Book your hotel' },
+    ]}]},
+  { id:'home', g:'🏠', label:'Home', title:'Products & Offers',
+    banner:{t:'Save on home expenses', s:'Rent, bills, repairs — check for better deals.'},
+    sections:[{ h:'HELOC offers', all:true, cards:[
+      { brand:'HELOC', h:'$20K – $400K', rows:[['Min. credit score','620'],['Term length','Open']], det:true, cta:'Continue' },
+      { brand:'Bill negotiation', h:'Save on monthly bills', p:'Negotiates lower rates on service bills. Guaranteed savings or no fee.', cta:'Estimate my savings' },
+    ]}]},
+  { id:'education', g:'🎓', label:'Education', title:'Products & Offers',
+    banner:{t:'Pay for school without getting played', s:'Start with the free money.'},
+    sections:[{ h:'Education', all:true, cards:[
+      { brand:'Federal Pell Grant', h:'Up to $7,395 — and it is free to claim', p:'That figure is the Pell maximum. The only way to get it is the FAFSA, free at studentaid.gov. No company can qualify you for it.', cta:'File the FAFSA' },
+      { brand:'Scholarships', h:'Search by eligibility', p:'Filter by state, field and background.', cta:'Find scholarships' },
+    ]}]},
+  { id:'debt', g:'💸', label:'Pay Debt', title:'Products & Offers',
+    banner:{t:'Get out from under it', s:'Know what each option actually costs.'},
+    sections:[{ h:'Debt relief', all:true, cards:[
+      { brand:'Nonprofit credit counseling', h:'Free intake, flat monthly fee', p:'A nonprofit agency reviews your whole budget at no charge. A debt management plan costs a small monthly fee — not a percentage of your balance.', cta:'Find an agency' },
+      { brand:'Debt consolidation loan', h:'One payment, one rate', rows:[['Loan amount','$1K – $50K'],['Min. credit score','580']], det:true, cta:'Continue' },
+    ]}]},
+  { id:'wealth', g:'📊', label:'Wealth', title:'Products & Offers',
+    banner:{t:'Build wealth over time', s:'Grow your money with investing and saving tools.'},
+    sections:[{ h:'Invest', cards:[
+      { brand:'Diversified portfolios', h:'Invest based on your goals', p:'Pick a risk level and contribute automatically.', cta:'Invest now' },
+    ]}]},
+  { id:'free', g:'🎁', label:'Freebies', title:'Products & Offers',
+    banner:{t:'Collect awesome stuff — for free', s:'Freebies, gifts, coupons and perks.'},
+    sections:[{ h:'Freebies', all:true, cards:[
+      { brand:'Unclaimed funds', h:'You may be owed money', p:'Every state runs an unclaimed property office and the search is free. Finder services charge a percentage for what a free search gives you.', cta:'Search free' },
+      { brand:'Birthday perks', h:'Free stuff on your birthday', p:'Rewards programs that give a free item in your birthday month.', cta:'Join for free' },
+    ]}]},
+  { id:'tax', g:'🧾', label:'Tax', title:'Products & Offers',
+    banner:{t:'Get help with taxes', s:'Every dollar of your refund counts.'},
+    sections:[{ h:'Tax', all:true, cards:[
+      { brand:'IRS Free File', h:'File federal free if you qualify', p:'Guided filing at no cost through the IRS, and Direct File in participating states.', cta:'Start free' },
+      { brand:'VITA', h:'Free in-person tax prep', p:'IRS-certified volunteers prepare returns free for most filers under the income limit.', cta:'Find a site' },
+    ]}]},
+];
+
+const el = (h) => { const d=document.createElement('div'); d.innerHTML=h.trim(); return d.firstElementChild; };
+const esc = (s)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function cardHTML(c){
+  return `<article class="card">
+    <div class="brand">${c.mark?'<span class="m"><i></i></span>':''}${esc(c.brand)}</div>
+    ${c.h?`<h3>${esc(c.h)}</h3>`:''}
+    ${c.p?`<p>${esc(c.p)}</p>`:''}
+    ${c.list?`<ul>${c.list.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
+    ${c.det?`<span class="det">See details</span>`:''}
+    ${c.rows?`<div class="rows">${c.rows.map(([k,v])=>`<div class="row"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:''}
+    <button class="cta">${esc(c.cta||'Continue')}</button>
+  </article>`;
+}
+
+function ledgerHTML(r){
+  return `<div class="led">
+    <div class="top">
+      <span class="av">${r.mark?'<i></i>':esc(r.icon||'●')}</span>
+      <span class="t">${esc(r.t)}${r.chip?`<br><span class="chip">${esc(r.chip)}</span>`:''}</span>
+      <span class="amt">${esc(r.amt)}</span>
+    </div>
+    <div class="bot"><span>⏱ Estimated time: ${esc(r.time)}</span><span>${esc(r.tag||'')} ⌄</span></div>
+  </div>`;
+}
+
+function render(v){
+  document.getElementById('title').textContent = v.title;
+  const view = document.getElementById('view');
+  view.innerHTML = '';
+  if (v.banner) {
+    const b = el(`<div class="banner"><span class="x">✕</span><b>${esc(v.banner.t)}</b><span>${esc(v.banner.s)}</span></div>`);
+    b.querySelector('.x').onclick = () => b.remove();
+    view.append(b);
+  }
+  if (v.tasks) {
+    for (const t of v.tasks) view.append(el(`<div class="task">
+      <span class="ico">${esc(t.i)}</span>
+      <div class="bd"><b>${esc(t.t)}</b><span>${esc(t.d)}</span>
+      ${t.tag?`<em class="${esc(t.cls)}">${esc(t.tag)}</em>`:''}</div></div>`));
+  }
+  if (v.rewards) {
+    const r=v.rewards;
+    view.append(el(`<div class="bal"><div class="two">
+      <div class="gold"><div class="n">${esc(r.melek)}</div><div class="u">MELEK</div><div class="w">on chain · melek.salon</div></div>
+      <div class="teal"><div class="n">${esc(r.bal)}</div><div class="u">${esc(r.unit)}</div><div class="w">in app · spend in the mall</div></div>
+    </div><div class="sub">${esc(r.sub)}</div></div>`));
+    view.append(el(`<div class="sec"><h2>Ways to earn</h2></div>`));
+    view.append(el(`<div class="earn">${r.ways.map(w=>`<a><b>${esc(w.t)}</b><span>${esc(w.d)}</span><em>${esc(w.v)}</em>
+      <span class="pays">${w.both?'<i class="m">MELEK</i>':''}<i class="t">${esc(r.unit.split(' ')[0])}</i></span></a>`).join('')}</div>`));
+    const mh = el(`<div class="sec"><h2>Rewards mall</h2><button class="all">See All</button></div>`);
+    view.append(mh);
+    view.append(el(`<div class="mall">${r.mall.map(m=>`<div class="item"><div class="art">${esc(m.i)}</div>
+      <div class="b"><b>${esc(m.t)}</b><span>${esc(m.d)}</span><em>${esc(m.p)}</em></div></div>`).join('')}</div>`));
+  }
+  if (v.ledger) {
+    const free = v.ledger.filter(r=>r.free).reduce((a,r)=>a+(r.y||0),0);
+    const paid = v.ledger.filter(r=>!r.free).reduce((a,r)=>a+(r.y||0),0);
+    view.append(el(`<div class="hero"><h2>We found you an extra<br><em>$${(free+paid).toLocaleString('en-US',{minimumFractionDigits:2})}</em> <span class="sm">per year</span></h2></div>`));
+    view.append(el(`<div class="split">
+      <div class="ring"></div>
+      <div class="keys">
+        <div><i style="background:#14d6b0"></i><span>Free money you are owed</span><b>$${free.toFixed(0)}</b></div>
+        <div><i style="background:#6472d6"></i><span>Earn more</span><b>$${paid.toFixed(0)}</b></div>
+        <div><i style="background:#8fb4f2"></i><span>Save on bills</span><b>$0</b></div>
+        <div><i style="background:#cfd3d9"></i><span>Other</span><b>$0</b></div>
+      </div></div>`));
+    view.append(el(`<div class="conn">Based on 0 connected accounts<a>Connect an account to sharpen these numbers</a></div>`));
+    view.append(el(`<div class="bring">
+      <b>Bring in money from anywhere.</b>
+      <p>Each company on this list pays you itself — Fiverr, DoorDash, the survey panel, the hotel. Your money goes straight from them to you. It never passes through us. We keep the list wide and the free things first.</p>
+      <div class="steps"><div><b>1</b>Pick one</div><div><b>2</b>Do it</div><div><b>3</b>They pay you</div></div>
+    </div>`));
+    const head = el(`<div class="opps"><h3>Your Opportunities</h3><span class="filt">⚙</span></div>`);
+    view.append(head);
+    for (const r of v.ledger) view.append(el(ledgerHTML(r)));
+  }
+  for (const s of v.sections) {
+    const head = el(`<div class="sec"><h2>${esc(s.h)}</h2>${s.all?'<button class="all">See All</button>':''}</div>`);
+    if (s.all) head.querySelector('.all').onclick = () => openSheet(v.title, s.cards);
+    view.append(head);
+    for (const c of s.cards) view.append(el(cardHTML(c)));
+  }
+}
+
+function openSheet(title, cards){
+  document.getElementById('sheetTitle').textContent = title;
+  document.getElementById('sheetBody').innerHTML = cards.concat(cards).map(cardHTML).join('');
+  document.getElementById('sheet').showModal();
+}
+
+const tabs = document.getElementById('tabs');
+VERTICALS.forEach((v,i)=>{
+  const b = el(`<button role="tab" aria-selected="${i===0}"><span class="g">${v.g}</span>${esc(v.label)}</button>`);
+  b.onclick = () => {
+    [...tabs.children].forEach(x=>x.setAttribute('aria-selected','false'));
+    b.setAttribute('aria-selected','true');
+    b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+    render(v); window.scrollTo({top:0});
+  };
+  tabs.append(b);
+});
+render(VERTICALS[0]);
+</script>

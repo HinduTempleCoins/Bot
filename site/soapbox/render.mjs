@@ -206,7 +206,7 @@ ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twi
   webSiteJsonLd({ url: 'https://data.soapbox.community', name: 'SoapBox Data' }),
 ] })}</script>
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
-${STYLE}${impactUtt()}</head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
+${STYLE}${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
 <a href="#main" class=skip>Skip to content</a>
 ${navBar(active)}${chyronBar()}<main id=main class=wrap>${body}</main>
 ${familyStrip()}

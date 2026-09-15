@@ -531,7 +531,7 @@ ${head}
   .consult{border:1px solid var(--mk-border);border-left:3px solid var(--mk-text-muted);border-radius:8px;
     padding:10px 14px;margin:0 0 18px;background:var(--mk-panel);font-size:14px}
   .consult p{margin:4px 0}
-  ${extraCSS}</style></head><body><div class=wrap>
+  ${extraCSS}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 ${consultBanner('exams', { also: alsoDisclaim })}
 ${body}
 <footer class=muted style="margin-top:44px;font-size:13px;border-top:1px solid var(--mk-border);padding-top:14px">

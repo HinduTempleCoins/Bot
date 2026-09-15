@@ -1,0 +1,11 @@
+# The SoapBox Ecosystem
+
+> A free public library and toolset from the Shaivite Temple: plant-medicine and harm-reduction reference, a benefits navigator that names the free path, consciousness research, the MELEK chain, and community tools. Everything is published free, without membership, paywall or registration.
+
+Site: https://soapbox.community
+
+## Key pages
+
+- [https://soapbox.community/](https://soapbox.community/)
+- [https://soapbox.community/melek-app/](https://soapbox.community/melek-app/)
+- [https://soapbox.community/melek-holding/](https://soapbox.community/melek-holding/)

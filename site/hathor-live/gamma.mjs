@@ -193,7 +193,7 @@ ol li,ul li{margin:8px 0}
 .placebo-baseline table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.6rem 0}
 .placebo-baseline th,.placebo-baseline td{border:1px solid var(--line,#2a2a33);padding:.35rem .5rem;text-align:left;vertical-align:top}
 .placebo-baseline caption{text-align:left;font-size:.85rem;opacity:.7;padding-bottom:.3rem}
-</style></head><body><div class=wrap>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 
 <div class=hero>
   <h1>40 Hz</h1>

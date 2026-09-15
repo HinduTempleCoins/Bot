@@ -325,7 +325,7 @@ border-bottom:1px solid var(--line,#2a2a33);padding-bottom:.5rem;margin-bottom:.
 #msg.err{display:block;background:#33201d;border:1px solid #6b3c3c}
 #msg ul{margin:.4rem 0 0;padding-left:1.2rem}
 footer{margin-top:3.5rem;padding-top:1.2rem;border-top:1px solid var(--line,#2a2a33);font-size:.9rem;opacity:.75}
-</style></head><body><div class="wrap">
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class="wrap">
 
 <p><a href="${esc(baseUrl)}/">&larr; hathor.live</a> &middot; <a href="${esc(baseUrl)}/40hz">the 40Hz library</a></p>
 
