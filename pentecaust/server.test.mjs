@@ -703,3 +703,46 @@ test('the Herald panel explains the send gate rather than offering a button it w
   assert.match(o.body, /canSendEmail/);
   assert.match(o.body, /Private messages are open to everyone/);
 });
+
+// ── ⛔ THE BUG THIS FILE EXISTS TO CATCH ────────────────────────────────────────────────────────────
+// PAGE is a backtick template literal, so a `\n` written inside it is processed at TEMPLATE time and
+// emits a REAL newline into the served HTML. When that newline lands inside a single-quoted JS string
+// the browser throws SyntaxError and discards THE ENTIRE <script> BLOCK — every handler on the page,
+// initAuth() included. The page still returns 200 with all its markup, so curl, the status checks and
+// every existing test here passed while the live site had no working login at all.
+//
+// The only way to see it is to parse what is actually served.
+test('every rendered <script> block parses — a SyntaxError silently kills the whole page', async () => {
+  const { res, o } = cap();
+  await handler({ url: '/', method: 'GET', headers: { host: 'pentecaust.com' } }, res);
+  const { Script } = await import('node:vm');
+  const blocks = [...o.body.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
+    .map((m) => m[1]).filter((s) => s.trim());
+  assert.ok(blocks.length, 'the page should ship at least one inline script');
+  for (const [i, js] of blocks.entries()) {
+    assert.doesNotThrow(() => new Script(js), `script block ${i + 1} does not parse — the page is dead in a browser`);
+  }
+});
+
+// A second display declaration wins by cascade order, so `display:none;…;display:flex` is ALWAYS flex.
+// The auth bar rendered as an empty card on every load instead of staying hidden until initAuth filled it.
+test('no inline style declares the same property twice', async () => {
+  const { res, o } = cap();
+  await handler({ url: '/', method: 'GET', headers: { host: 'pentecaust.com' } }, res);
+  for (const m of o.body.matchAll(/\sstyle="([^"]*)"/g)) {
+    const props = m[1].split(';').map((d) => d.split(':')[0].trim().toLowerCase()).filter(Boolean);
+    const dupes = props.filter((p, i) => props.indexOf(p) !== i);
+    assert.deepEqual(dupes, [], `style="${m[1]}" sets ${dupes.join(', ')} twice — the later one silently wins`);
+  }
+});
+
+// The @name field is a HINT, never an identity. Anyone could type "hathor" into the old build and the
+// page treated them as that account; the server denies by default, but the UI must not imply otherwise.
+test('the @name field is read-only — typing a name is not a login', async () => {
+  const { res, o } = cap();
+  await handler({ url: '/', method: 'GET', headers: { host: 'pentecaust.com' } }, res);
+  const field = o.body.match(/<input id=me[^>]*>/);
+  assert.ok(field, 'the @name field should exist');
+  assert.match(field[0], /readonly/i, 'the @name field must not be typable');
+  assert.ok(!/placeholder=your-melek-name/.test(field[0]), 'the placeholder must not invite typing a name');
+});

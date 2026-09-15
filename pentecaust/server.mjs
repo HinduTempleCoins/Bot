@@ -515,7 +515,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </style></head><body><div class=wrap>
 <header>
  <span class=brand><b>Pentecaust</b> Messaging</span><span class=alpha>Alpha</span>
- <span class=me><span class=at>@</span><input id=me placeholder=your-melek-name autocapitalize=off spellcheck=false></span>
+ <span class=me><span class=at>@</span><input id=me placeholder=sign-in-to-use autocapitalize=off spellcheck=false readonly></span>
 </header>
 <div class=nav>
  <button id=nMsg class=on>💬 Messages</button>
@@ -525,7 +525,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nCamp>📣 Herald</button>
 </div>
 
-<div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center"></div>
+<div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;flex-wrap:wrap;gap:8px;align-items:center"></div>
 
 <div id=paneMsg class=card>
  <div class=im>
@@ -594,15 +594,17 @@ const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','
 const api=async(p,o)=>{try{const r=await fetch(p,o);return await r.json();}catch(e){return{ok:false,reason:'network'};}};
 // arrive from the Wallet/Condenser already as your account: /?me=<account> (you're logged in there
 // with your posting key; this carries the identity over — the posting-key proof is the MELEK-Signer step).
+// Identity comes from the signed-in session only (initAuth -> /auth/me). A ?me= hint or a cached
+// name is NOT an identity — it is remembered purely so the Sign-in prompt can pre-fill the @name.
 const _urlMe=(new URLSearchParams(location.search).get('me')||'').toLowerCase().replace(/^@/,'');
-$('me').value=_urlMe||localStorage.getItem('melek_me')||'';
+const _hintMe=_urlMe||localStorage.getItem('melek_me')||'';
 if(_urlMe)localStorage.setItem('melek_me',_urlMe);
 const me=()=>$('me').value.trim().toLowerCase();
 function syncMail(){$('mailAddr').value=me()?(me()+'@pentecaust.com'):'—';}
 // deep-link: a Condenser "Send a PM" link is pentecaust.com/?dm=<account> — auto-open that thread.
 let pendingDm=(new URLSearchParams(location.search).get('dm')||'').toLowerCase().replace(/^@/,'');
 function tryPending(){if(pendingDm&&me()){setTab('msg');openDM(pendingDm);pendingDm='';return true;}return false;}
-$('me').oninput=()=>{localStorage.setItem('melek_me',me());syncMail();if(tryPending())return;if(tab==='msg')loadFriends();};
+// (#me is read-only: it reflects the session, it does not set it.)
 
 // ---- tabs ----
 let tab='msg';
@@ -761,13 +763,13 @@ async function initAuth(){const bar=$('authbar');
   '<a class=btn href="/auth/google">Continue with Google</a>'+
   '<a class=btn href="/auth/facebook">Continue with Facebook</a>'+
   '<button class=btn id=otBtn>One-time code</button>'+
-  '<small class=mut>or just type your @name (testnet)</small>';
+  '<small class=mut>Messaging needs a verified MELEK login.</small>';
  $('otBtn').onclick=oneTime; $('mkBtn').onclick=melekLogin;}
-async function melekLogin(){const a=(prompt('Your MELEK @name:')||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
+async function melekLogin(){const a=(prompt('Your MELEK @name:',_hintMe)||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
  const p=prompt('Your MELEK password:');if(!p)return;
  const r=await api('/auth/method/melek-signer',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:a,password:p})});
  if(r&&r.ok)location.href='/';else alert((r&&r.reason)||'login failed — check your @name and password');}
-async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time login:')||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
+async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time login:',_hintMe)||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
  const r=await api('/auth/onetime',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:a})});
  if(!r||!r.ok){alert((r&&r.reason)||'could not request a code');return;}
  // Testnet: the code is returned so we redeem it immediately. In production it is emailed, not returned.
@@ -782,7 +784,7 @@ async function inviteFriend(){
  if(!r||!r.ok){alert((r&&r.reason)||'no invites remaining');return;}
  const url=r.url||(location.origin+'/?invite='+encodeURIComponent(r.code));
  const left=(r.remaining===null||r.remaining==null)?'':(' ('+r.remaining+' invites left)');
- try{await navigator.clipboard.writeText(url);alert('Invite link copied — share it with a friend'+left+':\n\n'+url);}
+ try{await navigator.clipboard.writeText(url);alert('Invite link copied — share it with a friend'+left+':\\n\\n'+url);}
  catch(e){prompt('Copy this invite link and share it'+left+':',url);}}
 // If the page was opened from an invite link (?invite=CODE) while signed in, redeem it to join the tree.
 async function maybeRedeemInvite(){
