@@ -171,6 +171,85 @@ export function postsFor(chain, opts = {}) {
   return rec && Array.isArray(rec.history) ? rec.history.slice() : [];
 }
 
+// ── HTTP surface ─────────────────────────────────────────────────────────────────────────────────────
+// This module was a pure library imported by nothing: 182 lines that formatted posts correctly and had
+// no way to be called. The handler is the missing half.
+//
+//   GET  /api/crossposts?chain=melek   → what this chain has already posted (pacing history)
+//   POST /api/crosspost                → format + mirror one source onto its target chains
+//
+// ⚠️ POST is gated on HERALD_CROSSPOST_SECRET and FAILS CLOSED when unset, the same posture
+// dispatcher.mjs takes on /api/dispatch: an endpoint that broadcasts to four public chains is not
+// something an anonymous caller may reach. Broadcasting still requires an injected broadcaster, so
+// with neither secret nor broadcaster this route can do nothing at all.
+import { timingSafeEqual } from 'node:crypto';
+
+const CROSSPOST_SECRET = () => env('HERALD_CROSSPOST_SECRET', '');
+function crosspostAuthOk(req) {
+  const want = CROSSPOST_SECRET();
+  if (!want) return false;                       // fail closed when unconfigured
+  const got = String((req && req.headers && (req.headers['x-herald-crosspost-secret'] || req.headers['x-crosspost-secret'])) || '');
+  const a = Buffer.from(got); const b = Buffer.from(String(want));
+  if (a.length !== b.length) return false;
+  try { return timingSafeEqual(a, b); } catch { return false; }
+}
+
+function readBody(req, max = 262144) {
+  if (req && req.body && typeof req.body === 'object') return Promise.resolve(req.body);
+  return new Promise((resolve) => {
+    try {
+      let d = ''; let over = false;
+      req.on('data', (c) => { d += c; if (d.length > max) { over = true; try { req.destroy(); } catch {} } });
+      req.on('end', () => { if (over) return resolve(null); try { resolve(JSON.parse(d || '{}')); } catch { resolve(null); } });
+      req.on('error', () => resolve(null));
+    } catch { resolve(null); }
+  });
+}
+
+const sendJson = (res, code, obj) => {
+  res.writeHead(code, { 'content-type': 'application/json' });
+  res.end(JSON.stringify(obj));
+};
+
+export async function handler(req, res, opts = {}) {
+  try {
+    const method = ((req && req.method) || 'GET').toUpperCase();
+    const [pathRaw, qs = ''] = String((req && req.url) || '/').split('?');
+    const path = (pathRaw || '/').replace(/\/+$/, '') || '/';
+    const q = new URLSearchParams(qs);
+
+    if (method === 'GET' && path === '/api/crossposts') {
+      const chain = String(q.get('chain') || '').toLowerCase();
+      if (chain && !isChain(chain)) return sendJson(res, 422, { ok: false, reason: 'unsupported chain' });
+      const chains = chain ? [chain] : CHAINS;
+      const out = {};
+      for (const c of chains) out[c] = postsFor(c, opts);
+      return sendJson(res, 200, { ok: true, cap: MAX_PER_DAY(), posts: out });
+    }
+
+    if (method === 'GET' && path === '/api/crosspost/preview') {
+      // Formatting is not a secret and previewing signs nothing — useful without the gate.
+      const src = { title: q.get('title') || '', author: q.get('author') || '', permlink: q.get('permlink') || '',
+        tags: String(q.get('tags') || '').split(',').filter(Boolean), canonicalUrl: q.get('url') || '', bodyMarkdown: q.get('body') || '' };
+      const chain = String(q.get('chain') || 'melek').toLowerCase();
+      const f = formatForChain(src, chain);
+      if (!f || f.ok === false) return sendJson(res, 422, { ok: false, reason: (f && f.reason) || 'format failed' });
+      return sendJson(res, 200, { ok: true, chain, tags: f.tags, permlink: f.permlink, body: f.body });
+    }
+
+    if (method === 'POST' && path === '/api/crosspost') {
+      if (!crosspostAuthOk(req)) return sendJson(res, 401, { ok: false, reason: 'crosspost requires HERALD_CROSSPOST_SECRET' });
+      const b = await readBody(req);
+      if (!b || typeof b !== 'object') return sendJson(res, 400, { ok: false, reason: 'bad-body' });
+      if (!b.author || !b.permlink || !b.title) return sendJson(res, 422, { ok: false, reason: 'author, permlink and title are required' });
+      const r = await postToChains(b, opts);
+      return sendJson(res, 200, r);
+    }
+
+    return sendJson(res, 404, { ok: false, reason: 'not-found' });
+  } catch { return sendJson(res, 500, { ok: false, reason: 'error' }); }
+}
+
 // ── CLI: quick dry-run format preview (no broadcast — there is no signer here) ────────────────────────
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const src = { title: 'Hello MELEK', author: 'hathor', permlink: 'hello-melek', tags: ['melek', 'intro'], canonicalUrl: 'https://melek.salon/@hathor/hello-melek', bodyMarkdown: 'Body.' };
