@@ -10,8 +10,10 @@
 //   • Integrated like Blue Letter Bible — a text's page gives you (1) where to read/download it,
 //     (2) the GODS AND THINGS in it (linked to our entity pages), and (3) the COMPANION TEXTS you need
 //     to understand it (the curated reading path, each with its own links out).
-//   • More AI than Sacred-Texts — "Ask the Hierophant" answers over the Temple's OWN corpus
-//     (the knowledge/ tree, via the existing library-rag retrieval seam), clearly labeled as such.
+//   • More AI than Sacred-Texts — "Ask the Hierophant" answers over the Temple's OWN corpus: the
+//     knowledge/ tree on disk first (integrations/corpus-rag.mjs), then the wiki (library-rag.mjs).
+//     ⚠️ This used to name library-rag alone, which reads the WIKI and not the tree — so the claim in
+//     this header was false and the Temple's own research was unreachable from the Temple's library.
 //
 //   PORT=8124 BASE_URL=https://hierophant.soapbox.community node site/hierophant/server.mjs
 //
@@ -77,6 +79,14 @@ export function __setAsk(fn) { _askImpl = fn; }    // test seam
 async function askCorpus(question) {
   try {
     if (_askImpl) return await _askImpl(question);
+    // ⛔ THE HEADER SAID THIS ANSWERED OVER knowledge/ AND IT DID NOT.
+    // library-rag.mjs retrieves from the wiki.soapbox.community SEARCH API — a different corpus — so
+    // asking the Hierophant about the Temple's own Phoenician research returned "The Library doesn't
+    // cover that" with 20 files and ~300KB of it sitting on disk. corpus-rag reads knowledge/ directly.
+    // The wiki is still consulted, because it has material the tree does not; the TREE is asked first.
+    const corpus = await import('../../integrations/corpus-rag.mjs');
+    const own = corpus.ask(question);
+    if (own && own.grounded) return own;
     const mod = await import('../../integrations/library-rag.mjs');
     return await mod.askLibrary(question, { task: 'quality' });
   } catch {
