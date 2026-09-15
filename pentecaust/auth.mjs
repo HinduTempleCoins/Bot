@@ -223,6 +223,28 @@ const PROVIDERS = {
     // Facebook /me: { id, email } — `id` is the stable per-app user id.
     extract: (u) => ({ id: u && u.id, email: u && u.email }),
   },
+  // ── X (Twitter) ────────────────────────────────────────────────────────────────────────────────
+  // ⚠️ X REQUIRES PKCE even for a confidential client, which is why this provider could not exist
+  // before the PKCE work above — it is not optional the way it is for Google.
+  // ⚠️ X returns NO EMAIL. /2/users/me gives { data: { id, username, name } } and email is behind a
+  // separate elevated permission most apps never get. The link is keyed on the stable `id`, so this
+  // works fine; it just means an X-first user has no email on file.
+  x: {
+    scope: () => env('X_SCOPES', 'users.read tweet.read offline.access'),
+    // Posting needs tweet.write, which is a deliberate opt-in — a login must not ask to post as you.
+    sendScope: () => env('X_SEND_SCOPES', 'users.read tweet.read tweet.write offline.access'),
+    authorize: 'https://x.com/i/oauth2/authorize',
+    token: 'https://api.x.com/2/oauth2/token',
+    userinfo: 'https://api.x.com/2/users/me',
+    clientId: () => env('X_CLIENT_ID', env('TWITTER_CLIENT_ID', '')),
+    clientSecret: () => env('X_CLIENT_SECRET', env('TWITTER_CLIENT_SECRET', '')),
+    pkce: true,
+    basicAuthToken: true,   // X rejects client creds in the body; Basic only, like Reddit
+    // offline.access is X's refresh-token grant; access_type/prompt are Google-isms X ignores.
+    extraAuthParams: () => ({}),
+    extract: (u) => ({ id: u && ((u.data && u.data.id) || u.id), email: (u && u.data && u.data.email) || null }),
+  },
+
   // ── outreach providers ─────────────────────────────────────────────────────────────────────────
   // Each is login-scoped by default. Posting scopes are a DELIBERATE opt-in via env, because the
   // consent screen should ask for exactly what we will use and nothing more -- an app that asks for
@@ -287,12 +309,26 @@ const PROVIDERS = {
   },
 };
 // Allow-list check — the ONLY way `provider` ever reaches a fetch/host. Unknown provider → rejected.
+// ── PKCE (RFC 7636) ──────────────────────────────────────────────────────────────────────────────────
+// X/Twitter REQUIRES this even for a confidential client, so without it their OAuth 2.0 cannot be used
+// at all. It also strictly improves every other provider: the authorization code alone becomes useless
+// to anyone who intercepts it, because redemption additionally needs the verifier.
+//
+// ⚠️ The verifier must NOT ride in `state`. State goes to the provider in the URL, and a verifier the
+// provider can read defeats the entire point. It lives in its own signed, HttpOnly cookie instead.
+const PKCE_COOKIE = 'pentecaust_pkce';
+export function makePkce() {
+  const verifier = b64url(randomBytes(32));                                  // 43 chars, RFC-legal
+  const challenge = b64url(createHash('sha256').update(verifier).digest());  // S256, never `plain`
+  return { verifier, challenge };
+}
+
 const isProvider = (p) => Object.prototype.hasOwnProperty.call(PROVIDERS, String(p || ''));
 const redirectUri = (provider) => `${BASE_URL()}/auth/${provider}/callback`;
 
 /** The provider's authorize-URL the browser is redirected to (with a CSRF state). `mode='connect'`
  *  requests the mailbox-SEND scope (Herald) instead of the login/identity scope. */
-export function authorizeUrl(provider, state, mode) {
+export function authorizeUrl(provider, state, mode, codeChallenge) {
   if (!isProvider(provider)) return null;
   const p = PROVIDERS[provider];
   if (!p.clientId()) return null;                       // not configured → caller surfaces a clean error
@@ -312,6 +348,10 @@ export function authorizeUrl(provider, state, mode) {
   if (typeof p.extraAuthParams === 'function') {
     for (const [k, v] of Object.entries(p.extraAuthParams() || {})) q.set(k, String(v));
   }
+  if (p.pkce && codeChallenge) {
+    q.set('code_challenge', String(codeChallenge));
+    q.set('code_challenge_method', 'S256');
+  }
   return `${p.authorize}?${q.toString()}`;
 }
 
@@ -321,7 +361,7 @@ export function authorizeUrl(provider, state, mode) {
  *  only — NEVER a client secret. */
 export function providersStatus() {
   const labels = {
-    google: 'Google', facebook: 'Facebook', discord: 'Discord', github: 'GitHub',
+    google: 'Google', facebook: 'Facebook', x: 'X', discord: 'Discord', github: 'GitHub',
     reddit: 'Reddit', twitch: 'Twitch', linkedin: 'LinkedIn',
   };
   return Object.keys(PROVIDERS).map((id) => ({
@@ -334,7 +374,7 @@ export function providersStatus() {
 }
 
 // Exchange an authorization code for an access token at the provider's token endpoint (injected fetch).
-async function exchangeCode(provider, code) {
+async function exchangeCode(provider, code, codeVerifier) {
   const p = PROVIDERS[provider];
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
@@ -343,6 +383,8 @@ async function exchangeCode(provider, code) {
     client_secret: p.clientSecret(),                    // sent to the provider only; NEVER logged
     redirect_uri: redirectUri(provider),
   });
+  // PKCE: the verifier is what makes the intercepted code worthless. Sent only at redemption.
+  if (p.pkce && codeVerifier) body.set('code_verifier', String(codeVerifier));
   // Reddit rejects client_id/client_secret in the body and requires HTTP Basic instead. Sending the
   // secret in both places would leak it into their access logs, so it is removed from the body when
   // Basic is used.
@@ -636,9 +678,14 @@ export async function handler(req, res) {
       if (segs.length === 2) {
         const nonce = b64url(randomBytes(16));
         const stateToken = signToken({ provider, nonce, exp: now() + STATE_TTL_MS });
-        const dest = authorizeUrl(provider, stateToken);
+        const pk = PROVIDERS[provider].pkce ? makePkce() : null;
+        const dest = authorizeUrl(provider, stateToken, undefined, pk && pk.challenge);
         if (!dest) return send(503, { ok: false, reason: 'provider not configured' });
-        return redirect(dest, { 'set-cookie': setCookie(STATE_COOKIE, stateToken, STATE_TTL_MS) });
+        const cookies = [setCookie(STATE_COOKIE, stateToken, STATE_TTL_MS)];
+        // The VERIFIER never goes to the provider — only its SHA-256. It rides in its own HttpOnly
+        // cookie so the code and the proof-of-possession travel by different channels.
+        if (pk) cookies.push(setCookie(PKCE_COOKIE, signToken({ provider, v: pk.verifier, exp: now() + STATE_TTL_MS }), STATE_TTL_MS));
+        return redirect(dest, { 'set-cookie': cookies });
       }
 
       // GET /auth/:provider/connect — begin a MAILBOX connection (Herald sending). Requires an active
@@ -649,9 +696,12 @@ export async function handler(req, res) {
         if (!s || !s.account) return send(401, { ok: false, reason: 'sign in first to connect a mailbox' });
         const nonce = b64url(randomBytes(16));
         const stateToken = signToken({ provider, kind: 'connect', account: s.account, nonce, exp: now() + STATE_TTL_MS });
-        const dest = authorizeUrl(provider, stateToken, 'connect');
+        const pk = PROVIDERS[provider].pkce ? makePkce() : null;
+        const dest = authorizeUrl(provider, stateToken, 'connect', pk && pk.challenge);
         if (!dest) return send(503, { ok: false, reason: 'provider not configured' });
-        return redirect(dest, { 'set-cookie': setCookie(STATE_COOKIE, stateToken, STATE_TTL_MS) });
+        const cookies = [setCookie(STATE_COOKIE, stateToken, STATE_TTL_MS)];
+        if (pk) cookies.push(setCookie(PKCE_COOKIE, signToken({ provider, v: pk.verifier, exp: now() + STATE_TTL_MS }), STATE_TTL_MS));
+        return redirect(dest, { 'set-cookie': cookies });
       }
 
       // GET /auth/:provider/callback — verify state (CSRF), exchange code, link, set session
@@ -666,10 +716,21 @@ export async function handler(req, res) {
         if (!sp || sp.provider !== provider || !sp.exp || now() >= Number(sp.exp)) return send(403, { ok: false, reason: 'bad-state' });
         if (!code) return send(400, { ok: false, reason: 'missing code' });
 
-        const tok = await exchangeCode(provider, code);
-        if (!tok || !tok.accessToken) return send(502, { ok: false, reason: 'token exchange failed' }, { 'set-cookie': clearCookie(STATE_COOKIE) });
+        // PKCE: pull the verifier back out of its own cookie. A provider that requires PKCE and finds
+        // no verifier must FAIL — silently exchanging without it would drop the protection unnoticed.
+        let verifier = '';
+        if (PROVIDERS[provider].pkce) {
+          const pv = verifyToken(readCookie(req, PKCE_COOKIE));
+          if (!pv || pv.provider !== provider || !pv.exp || now() >= Number(pv.exp) || !pv.v) {
+            return send(403, { ok: false, reason: 'pkce verifier missing or expired' },
+              { 'set-cookie': [clearCookie(STATE_COOKIE), clearCookie(PKCE_COOKIE)] });
+          }
+          verifier = String(pv.v);
+        }
+        const tok = await exchangeCode(provider, code, verifier);
+        if (!tok || !tok.accessToken) return send(502, { ok: false, reason: 'token exchange failed' }, { 'set-cookie': [clearCookie(STATE_COOKIE), clearCookie(PKCE_COOKIE)] });
         const info = await fetchUserInfo(provider, tok.accessToken);
-        if (!info || !info.id) return send(502, { ok: false, reason: 'userinfo failed' }, { 'set-cookie': clearCookie(STATE_COOKIE) });
+        if (!info || !info.id) return send(502, { ok: false, reason: 'userinfo failed' }, { 'set-cookie': [clearCookie(STATE_COOKIE), clearCookie(PKCE_COOKIE)] });
 
         // MAILBOX-CONNECT flow (Herald sending): the state was minted by GET /auth/:provider/connect for an
         // authenticated account. Persist the refresh token as that account's sending mailbox, then land back
@@ -681,7 +742,7 @@ export async function handler(req, res) {
             expiresAt: now() + (tok.expiresIn * 1000),
           });
           const q = r && r.ok ? 'connected=1' : `connect_error=${encodeURIComponent((r && r.reason) || 'failed')}`;
-          return redirect(`/?tab=int&${q}`, { 'set-cookie': clearCookie(STATE_COOKIE) });
+          return redirect(`/?tab=int&${q}`, { 'set-cookie': [clearCookie(STATE_COOKIE), clearCookie(PKCE_COOKIE)] });
         }
 
         // Account linking: is this provider identity already tied to a MELEK account?
@@ -692,12 +753,12 @@ export async function handler(req, res) {
           // spoofed). A browser callback is a top-level navigation — redirect, don't return a raw JSON page.
           const claim = signToken({ kind: 'oauth-claim', provider, providerUserId: info.id, email: info.email, exp: now() + STATE_TTL_MS });
           const dest = `/?link=${encodeURIComponent(claim)}${info.email ? `&email=${encodeURIComponent(info.email)}` : ''}`;
-          return redirect(dest, { 'set-cookie': clearCookie(STATE_COOKIE) });
+          return redirect(dest, { 'set-cookie': [clearCookie(STATE_COOKIE), clearCookie(PKCE_COOKIE)] });
         }
 
         // Linked → mint the session and land them on the app.
         const token = makeSession(linked, provider);
-        return redirect('/', { 'set-cookie': [setCookie(SESSION_COOKIE, token, SESSION_TTL_MS), clearCookie(STATE_COOKIE)] });
+        return redirect('/', { 'set-cookie': [setCookie(SESSION_COOKIE, token, SESSION_TTL_MS), clearCookie(STATE_COOKIE), clearCookie(PKCE_COOKIE)] });
       }
     }
 
