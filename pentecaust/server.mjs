@@ -744,12 +744,20 @@ const _params=new URLSearchParams(location.search);
 async function initAuth(){const bar=$('authbar');
  const link=_params.get('link');
  if(link){const email=_params.get('email')||'';bar.style.display='flex';
-  bar.innerHTML='<b>Welcome'+(email?(' '+E(email)):'')+'!</b> Pick the MELEK account to link to this login:'+
-   '<input id=linkAcct placeholder=your-melek-name style="width:170px;flex:0 0 auto" autocapitalize=off spellcheck=false>'+
-   '<button class="btn primary" id=linkBtn>Link &amp; sign in</button>';
-  $('linkBtn').onclick=async()=>{const a=$('linkAcct').value.trim().toLowerCase().replace(/^@/,'');if(!a)return;
-   const j=await api('/auth/link',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({claim:link,account:a})});
+  bar.innerHTML='<b>Welcome'+(email?(' '+E(email)):'')+'!</b> Link this login to your MELEK account:'+
+   '<input id=linkAcct placeholder=your-melek-name style="width:150px;flex:0 0 auto" autocapitalize=off spellcheck=false>'+
+   '<input id=linkPw type=password placeholder="MELEK password" style="width:150px;flex:0 0 auto">'+
+   '<button class="btn primary" id=linkBtn>Link &amp; sign in</button>'+
+   '<small class=mut style="flex-basis:100%">Your password proves you own the account — it goes to the MELEK signer, never to '+E(email||'the social provider')+'.</small>';
+  $('linkAcct').value=_hintMe||'';
+  const doLink=async()=>{const a=$('linkAcct').value.trim().toLowerCase().replace(/^@/,'');const pw=$('linkPw').value;
+   if(!a)return alert('Enter your MELEK @name.');
+   const btn=$('linkBtn');btn.disabled=true;btn.textContent='Linking…';
+   const j=await api('/auth/link',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({claim:link,account:a,password:pw})});
+   btn.disabled=false;btn.textContent='Link & sign in';
    if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not link');};
+  $('linkBtn').onclick=doLink;
+  $('linkPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLink();});
   return;}
  const s=await api('/auth/me');
  if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
@@ -776,6 +784,7 @@ async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time 
  const r=await api('/auth/onetime',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:a})});
  if(!r||!r.ok){alert((r&&r.reason)||'could not request a code');return;}
  // Testnet: the code is returned so we redeem it immediately. In production it is emailed, not returned.
+ if(!r.code){alert('One-time codes need email delivery, which is not wired yet — use Login with MELEK, or Continue with Google.');return;}
  const j=await api('/auth/onetime',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({code:r.code})});
  if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not sign in');}
 

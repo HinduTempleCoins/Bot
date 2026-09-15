@@ -18,6 +18,17 @@ process.env.MAILBOX_DATA = join(tmpdir(), `pentecaust-mailbox-test-${process.pid
 const { getMailbox } = await import('./connect/mailbox.mjs');
 
 let n = 0;
+
+// Mint the signed oauth-claim the OAuth callback hands to the account-picker. Uses the module's own
+// signer via a round-trip through /auth/:provider/callback would need network; this mirrors the payload.
+import { createHmac } from 'node:crypto';
+const b64u = (b) => Buffer.from(b).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+function signClaim(provider, providerUserId, email, ttlMs = 10 * 60 * 1000) {
+  const payload = { kind: 'oauth-claim', provider, providerUserId, email, exp: Date.now() + ttlMs };
+  const body = b64u(JSON.stringify(payload));
+  const sig = b64u(createHmac('sha256', process.env.PENTECAUST_SESSION_SECRET).update(body).digest());
+  return `${body}.${sig}`;
+}
 function freshFile() {
   const f = join(tmpdir(), `pentecaust-auth-test-${process.pid}-${n++}.json`);
   try { unlinkSync(f); } catch {}
@@ -547,4 +558,53 @@ test('/auth/switch clears the session and returns ready to sign in as someone el
   assert.equal(o.headers.location, '/?switch=1');
   const sc = [].concat(o.headers['set-cookie'] || []).join(';');
   assert.match(sc, /Max-Age=0/, 'the session cookie must actually be cleared');
+});
+
+// ── ⛔ WHY NO SOCIAL LOGIN HAD EVER COMPLETED IN PRODUCTION ──────────────────────────────────────────
+// Reported live: "I still can't log into anything after I logged into Pentecaust with Gmail."
+// The live link store held ZERO links and had not been written in four days.
+//
+// /auth/link refused every request that was not dev-trust:
+//     if (!honorDevTrust(...)) return send(403, 'linking requires MELEK-Signer account proof (not yet enabled)')
+// Google OAuth succeeded, the account-picker rendered, "Link & sign in" returned 403, and the store stayed
+// empty forever. The gate was right — binding a social identity to an account you do not own is takeover —
+// but the door it was guarding had never been built.
+test('a social login cannot be bound to an account you have not proved', async () => {
+  const file = freshFile();
+  const claim = signClaim('google', 'sub-attacker', 'attacker@example.com');
+  const { res, o } = cap();
+  await handler(postReq('/auth/link', { claim, account: 'hathor' }), res);
+  assert.equal(o.code, 403, 'naming an account must never be enough to link to it');
+  assert.equal(lookupLink('google', 'sub-attacker', O(file)), null);
+});
+
+test('an ACTIVE SESSION is proof enough — link the social to the account already signed in', async () => {
+  const token = makeSession('melekbot-pip', 'melek-signer');
+  const claim = signClaim('google', 'sub-pip', 'pip@example.com');
+  const { res, o } = cap();
+  await handler(postReq('/auth/link', { claim }, `pentecaust_session=${encodeURIComponent(token)}`), res);
+  assert.equal(o.code, 200, J(o).reason);
+  assert.equal(J(o).account, 'melekbot-pip');
+});
+
+test('account + password is proof too — verified through the registered melek-signer method', async () => {
+  registerMethod('melek-signer', async (_req, b) => (b && b.password === 'correct-horse' ? b.account : null));
+  const claim = signClaim('google', 'sub-nova', 'nova@example.com');
+
+  let { res, o } = cap();
+  await handler(postReq('/auth/link', { claim, account: 'melekbot-nova', password: 'wrong' }), res);
+  assert.equal(o.code, 403, 'a wrong password must not link');
+
+  ({ res, o } = cap());
+  await handler(postReq('/auth/link', { claim, account: 'melekbot-nova', password: 'correct-horse' }), res);
+  assert.equal(o.code, 200, J(o).reason);
+  assert.equal(J(o).account, 'melekbot-nova');
+});
+
+test('⚠️ a proved account cannot be used to link a DIFFERENT account', async () => {
+  const token = makeSession('melekbot-dax', 'melek-signer');
+  const claim = signClaim('google', 'sub-dax', 'dax@example.com');
+  const { res, o } = cap();
+  await handler(postReq('/auth/link', { claim, account: 'hathor' }, `pentecaust_session=${encodeURIComponent(token)}`), res);
+  assert.equal(o.code, 403, 'proving one account must not let you link another');
 });
