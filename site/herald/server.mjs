@@ -54,6 +54,10 @@ import { makeSignerBroadcaster, signerConfigured } from '../../pentecaust/herald
 // both already existed with nothing between them; rss.mjs is the bridge, and it emits ordinary `tag`
 // events so every existing recipe, dedupe window and action path works on a feed item unchanged.
 import { handler as rssHandler, pollAll as rssPollAll } from '../../pentecaust/herald/rss.mjs';
+// friends-ingest: the operator's own relationship map into the CRM. 260 lines that were never routed,
+// so the research could not be used. It reads NO file and sends NOTHING — seeds are passed in — which
+// is why it can be mounted publicly at all: the endpoint describes the rules, it does not expose anyone.
+import { handler as friendsHandler } from '../../pentecaust/herald/friends-ingest.mjs';
 // Sign in to Herald with the login Pentecaust already has. Herald is on a different registrable domain,
 // so a pentecaust.com cookie never reaches it, and registering herald's callback with Google/Discord/
 // GitHub needs the operator's provider consoles. So all OAuth stays there and Herald takes a signed,
@@ -424,6 +428,7 @@ const MOUNTS = [
   { rewrite: null, fn: dispatchHandler, match: (p) => p === '/api/dispatch' || p === '/api/inbox' },
   // crosspost: POST is gated on HERALD_CROSSPOST_SECRET and fails closed; preview + history are open
   // because formatting signs nothing. /api/signer reports readiness and never the token.
+  { rewrite: null, fn: friendsHandler, match: (p) => p === '/api/friends' || p === '/friends-ingest' },
   { rewrite: null, fn: ssoHandler, match: (p) => p === '/auth/login' || p === '/auth/callback' || p === '/auth/me' || p === '/auth/logout' },
   // A signed-in operator is the HUMAN path to crossposting; HERALD_CROSSPOST_SECRET stays the MACHINE
   // path for a cron or another service. Either proves authority, and with neither the route still fails
