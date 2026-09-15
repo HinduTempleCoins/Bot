@@ -43,6 +43,9 @@ export const TRADITIONS = [
   { id: 'islamic',     name: 'Islamic',           blurb: 'The Qurʾān — the recitation, in canonical translation.' },
   { id: 'kabbalah',    name: 'Kabbalah',          blurb: 'The Zohar and the Sefer Yetzirah — the Tree of Life and Jewish mystical cosmology.' },
   { id: 'classical',   name: 'Classical wisdom',  blurb: 'Stoic, Platonic and martial classics — Marcus Aurelius, Sun Tzu, the philosophers.' },
+  // ⭐ The library had no grimoires at all — no Solomon, no Goetia, no Agrippa, no Picatrix — which is
+  // a strange hole in a Temple library whose own corpus is full of ritual and spirit work.
+  { id: 'grimoire',    name: 'Grimoires',         blurb: 'The Solomonic cycle, the Lemegeton and the Renaissance magical books — ritual, pentacle, circle and conjuration.' },
 ];
 
 const TRADITION_IDS = new Set(TRADITIONS.map((t) => t.id));
@@ -474,6 +477,72 @@ export const TEXTS = [
     companions: [
       { id: 'iliad', why: 'The Trojan War the Aeneid grows out of.' },
       { id: 'odyssey', why: 'Homer\'s journey-home epic Virgil consciously rewrites for Rome.' },
+    ],
+  },
+
+  // ── Grimoires ────────────────────────────────────────────────────────────────────────────────
+  {
+    id: 'testament-of-solomon', title: 'The Testament of Solomon', tradition: 'grimoire', era: 'c. 1st–3rd c. CE (Greek)',
+    what: 'The ANCESTOR of the whole Solomonic cycle, and much older than the grimoires that carry his name. Solomon is given a ring by the archangel Michael and uses it to bind the demons who are building the Temple; each one is interrogated in turn and gives its name, the affliction it causes, and the angel that thwarts it. Everything later — the seals, the binding, the demon catalogue — grows from here.',
+    links: { sacredTexts: `${ST}/bib/fbe/index.htm` }, verified: false,
+    entities: ['solomon', 'michael'],
+    companions: [
+      { id: 'lesser-key-of-solomon', why: 'The Ars Goetia is the Testament\'s interrogation-and-binding structure, seventeen centuries later, with the catalogue grown to seventy-two.' },
+      { id: 'key-of-solomon', why: 'The ritual apparatus the Testament lacks — circle, pentacle, purification — is what the Key supplies.' },
+    ],
+  },
+  {
+    id: 'key-of-solomon', title: 'The Key of Solomon (Clavicula Salomonis)', tradition: 'grimoire', era: 'c. 14th–15th c. (oldest fragment 1380–1410)',
+    what: 'The central Solomonic grimoire, and the source of the imagery most people picture when they think "ceremonial magic": the drawn circle, the planetary hours, the pentacles, the days of purification. Book I is theory and operation — hours, circle, confessions, conjurations, pentacles, and the experiments. Book II is preparation — fasting, bathing, garments, the knife and the burin, incense, virgin parchment, wax and silk.',
+    note: 'The oldest known manuscript is a partial one dated 1380–1410; the oldest Latin manuscript is late 15th century. Mathers translated his 1889 edition from British Museum manuscripts that are themselves 16th-century Italian copies — so the printed English text sits several removes from anything Solomonic, and its own editors say the pentacles are "the biggest puzzle in the textual tradition", varying between manuscripts with many clearly late inventions based on Agrippa.',
+    links: { sacredTexts: `${ST}/grim/kos/index.htm`, archive: `${AR}/keyofsolomonking00math` }, verified: false,
+    entities: ['solomon'],
+    companions: [
+      { id: 'testament-of-solomon', why: 'Read first: the Greek ancestor the whole cycle is named after.' },
+      { id: 'agrippa-occult-philosophy', why: 'The Key assumes Agrippa\'s correspondences; its later pentacles are built out of them.' },
+      { id: 'lesser-key-of-solomon', why: 'A DIFFERENT book despite the name — 17th century, and mostly a catalogue where the Key is a method.' },
+    ],
+  },
+  {
+    id: 'lesser-key-of-solomon', title: 'The Lesser Key of Solomon (Lemegeton)', tradition: 'grimoire', era: 'compiled mid-17th c. from earlier material',
+    what: 'Five books bound as one, and only the first is the famous part. Ars Goetia catalogues seventy-two spirits with their seals and offices; Ars Theurgia-Goetia the airy spirits of the compass; Ars Paulina the angels of the hours and the degrees of the zodiac; Ars Almadel the four altitudes and their wax tablet; Ars Notoria the prayers for attaining learning without study.',
+    note: '⚠️ Not the same book as the Key of Solomon, and not by the same hand. It is a 17th-century compilation of material about two centuries older, and the shared name has caused two hundred years of confusion.',
+    links: { sacredTexts: `${ST}/grim/lks/index.htm`, archive: `${AR}/lesserkeyofsolom00crow` }, verified: false,
+    entities: ['solomon'],
+    companions: [
+      { id: 'key-of-solomon', why: 'The other Clavicula — method rather than catalogue. Read them together to see how different they are.' },
+      { id: 'testament-of-solomon', why: 'Where the interrogate-and-bind structure comes from.' },
+    ],
+  },
+  {
+    id: 'agrippa-occult-philosophy', title: 'Three Books of Occult Philosophy', tradition: 'grimoire', era: '1533 (Agrippa von Nettesheim)',
+    what: 'The systematic backbone the grimoires quietly assume. Book I is natural magic — the virtues of stones, plants and animals; Book II is celestial — number, the magic squares, the planetary characters; Book III is ceremonial — the orders of angels, divine names, and the soul. Almost every later grimoire in the Western tradition is downstream of this.',
+    links: { sacredTexts: `${ST}/eso/aomm/index.htm`, archive: `${AR}/threebooksofoccu00agri` }, verified: false,
+    entities: [],
+    companions: [
+      { id: 'key-of-solomon', why: 'The Key\'s correspondences and several of its pentacles are lifted from Agrippa.' },
+      { id: 'picatrix', why: 'The Arabic astral magic Agrippa was reading, one language earlier.' },
+    ],
+  },
+  {
+    id: 'picatrix', title: 'Picatrix (Ghāyat al-Ḥakīm, "The Aim of the Sage")', tradition: 'grimoire', era: 'c. 10th–11th c. Arabic; Latin translation 1256',
+    what: 'The great Arabic handbook of astral magic — talismans made under specific configurations of the heavens, the spirits of the planets, and a theory of how celestial virtue is drawn down into matter. Translated into Latin at the court of Alfonso X and read, quietly, by most of the Renaissance.',
+    note: 'The Latin Picatrix is a translation of a translation, and considerably shorter and stranger than the Arabic Ghāyat al-Ḥakīm behind it.',
+    links: { archive: `${AR}/picatrix-the-goal-of-the-wise` }, verified: false,
+    entities: [],
+    companions: [
+      { id: 'agrippa-occult-philosophy', why: 'Agrippa is the Latin West systematizing what Picatrix brought in from Arabic.' },
+      { id: 'corpus-hermeticum', why: 'The Hermetic cosmology the astral magic rests on.' },
+    ],
+  },
+  {
+    id: 'book-of-abramelin', title: 'The Book of Abramelin', tradition: 'grimoire', era: 'c. 15th c. German manuscripts; Mathers 1897',
+    what: 'A single long operation rather than a book of spells: an eighteen-month regimen of prayer and withdrawal aimed at the Knowledge and Conversation of the Holy Guardian Angel, after which the practitioner is held able to command the spirits. It is the source of the Holy Guardian Angel idea that runs through modern Western magic.',
+    note: 'Mathers worked from a French manuscript with known errors; the German originals give a different length for the operation and a fuller set of squares.',
+    links: { sacredTexts: `${ST}/grim/abr/index.htm`, archive: `${AR}/bookofsacredmagi00math` }, verified: false,
+    entities: [],
+    companions: [
+      { id: 'key-of-solomon', why: 'The opposite method: Abramelin is one long interior operation where the Key is an apparatus of instruments and hours.' },
     ],
   },
 ];
