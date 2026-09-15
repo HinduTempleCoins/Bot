@@ -29,6 +29,19 @@ const env = (k, d) => (typeof process !== 'undefined' && process.env && process.
 export const DATA_FILE = () => env('INVITES_DATA', join(process.cwd(), 'data', 'invites.json'));
 // How many invites every NORMAL account is born with (root is unlimited and ignores this).
 export const INVITES_PER_ACCOUNT = Number(env('INVITES_PER_ACCOUNT', '10')) || 10;
+
+// ⚠️ PROBATION — BUILT, AND DEFAULTED OFF ON PURPOSE.
+// Lobste.rs makes a new account wait 70 days before it can invite anybody. The reason is sound: without
+// it a redeemed account can issue its full quota the minute it arrives, which is how ONE bad actor
+// becomes eleven and the ban that follows has to chase eleven accounts instead of one.
+//
+// ⛔ But 70 days on a network with ten people means NOBODY CAN INVITE ANYONE FOR 70 DAYS. Lobste.rs is a
+// mature community with a steady inflow; a probation that long at zero users strangles the exact thing
+// it exists to protect, and the research is blunt that invite gates are rate limiters with no growth
+// thesis of their own. So the mechanism ships and the dial starts at 0: turning it up is a deliberate
+// operator act once there is volume to rate-limit. Root is exempt either way — root is the tree's source.
+export const INVITE_PROBATION_MS = Math.max(0,
+  Number(env('INVITE_PROBATION_DAYS', '0')) * 24 * 60 * 60 * 1000) || 0;
 // The unlimited ROOT account — the operator/Witness. Configurable; falls back to the Witness account.
 export const ROOT = String(env('MELEK_ROOT', '') || env('HATHOR_ACCOUNT', '') || 'hathor').toLowerCase();
 
@@ -84,6 +97,7 @@ export function viewAccount(account, rec) {
     issued: (rec.issued || []).length,
     redeemed: (rec.redeemed || []).length,
     invitedBy: rec.invitedBy || null,
+    joined: rec.joined || rec.created || null,
   };
 }
 
@@ -105,6 +119,18 @@ export function issueInvite(inviter, opts = {}) {
   const rec = isRoot(who) ? ensureAccount(store, who, opts) : store.accounts[who];
   if (!rec || !rec.registered) return { ok: false, reason: 'unknown or unregistered inviter' };
   if (!rec.unlimited && (Number(rec.remaining) || 0) <= 0) return { ok: false, reason: 'no invites remaining' };
+  // Probation: a brand-new account cannot hand out its quota the minute it arrives.
+  if (!rec.unlimited && INVITE_PROBATION_MS > 0) {
+    const since = Number(rec.joined || rec.created || 0);
+    const elapsed = now(opts) - since;
+    if (since && elapsed < INVITE_PROBATION_MS) {
+      return {
+        ok: false, reason: 'account is still on invite probation',
+        probationEndsAt: since + INVITE_PROBATION_MS,
+        daysLeft: Math.ceil((INVITE_PROBATION_MS - elapsed) / 86400000),
+      };
+    }
+  }
 
   const code = uniqueCode(store);
   store.codes[code] = { inviter: who, created: now(opts), redeemedBy: null, redeemedAt: null };
@@ -171,10 +197,46 @@ export function redeemInvite(code, newAccount, opts = {}) {
   rec.unlimited = isRoot(account) ? true : rec.unlimited;
   rec.remaining = rec.unlimited ? Infinity : granted;
   rec.invitedBy = codeRec.inviter;
+  // The probation clock starts when you JOIN, not when the record was first touched — an account can
+  // be touched by somebody else issuing to it long before it redeems anything.
+  rec.joined = now(opts);
 
   saveStore(fs, file, store);
   return { ok: true, account, invitedBy: codeRec.inviter, granted: rec.unlimited ? Infinity : granted };
 }
+
+/**
+ * THE TREE, PUBLICLY. Every account and who invited them.
+ *
+ * ⭐ This is the part that actually does the work. Lobste.rs publishes its invitation tree so each
+ * profile shows who vouched for that person, and reports that the chain-of-responsibility penalty
+ * gets used "once or twice, basically never" — the deterrent is the tree being VISIBLE, not the
+ * punishment. A private tree deters nobody because nobody can see they are attached to anyone.
+ *
+ * ⚠️ Deliberately NON-SECRET by design: it exposes account names and edges, and NOTHING else. No
+ * codes, no counts of unredeemed invites, no timestamps beyond the join date — an unredeemed code is
+ * a live credential and must never appear in a public read.
+ */
+export function tree(opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file);
+  const nodes = [];
+  for (const [account, rec] of Object.entries(store.accounts || {})) {
+    if (!rec || !rec.registered) continue;          // an unredeemed placeholder is not a member
+    nodes.push({
+      account,
+      invitedBy: rec.invitedBy || null,
+      joined: rec.joined || rec.created || null,
+      brought: (rec.redeemed || []).length,          // how many people they vouched for, already public
+      root: !!rec.unlimited,
+    });
+  }
+  nodes.sort((a, b) => (a.joined || 0) - (b.joined || 0));
+  return { ok: true, root: ROOT, count: nodes.length, nodes };
+}
+
+// lineage() already exists further down this file — it chains an account back to root and is the
+// per-account read that pairs with tree(). Not duplicated here.
 
 // ── reads ─────────────────────────────────────────────────────────────────────────────────────────
 /** An account's standing: remaining quota, codes issued, accounts redeemed, who invited them. */
