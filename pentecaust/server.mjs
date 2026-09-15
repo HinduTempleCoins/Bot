@@ -755,6 +755,7 @@ async function initAuth(){const bar=$('authbar');
  if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
   bar.style.display='flex';bar.innerHTML='Signed in as <b>@'+E(s.account)+'</b> <small class=mut>('+E(s.method)+')</small>'+
    '<button class=btn id=invBtn style="margin-left:auto">Invite a friend</button>'+
+   '<a class=btn href="/auth/switch">Switch account</a>'+
    '<a class=btn href="/auth/logout">Log out</a>';
   $('invBtn').onclick=inviteFriend;
   if(me())loadFriends();maybeRedeemInvite();return;}
@@ -763,7 +764,9 @@ async function initAuth(){const bar=$('authbar');
   '<a class=btn href="/auth/google">Continue with Google</a>'+
   '<a class=btn href="/auth/facebook">Continue with Facebook</a>'+
   '<button class=btn id=otBtn>One-time code</button>'+
-  '<small class=mut>Messaging needs a verified MELEK login.</small>';
+  (_params.get('switch')
+    ? '<small class=mut>Signed out — pick the account to sign in as. Google will ask which one.</small>'
+    : '<small class=mut>Messaging needs a verified MELEK login.</small>');
  $('otBtn').onclick=oneTime; $('mkBtn').onclick=melekLogin;}
 async function melekLogin(){const a=(prompt('Your MELEK @name:',_hintMe)||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
  const p=prompt('Your MELEK password:');if(!p)return;
