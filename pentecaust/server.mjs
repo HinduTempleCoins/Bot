@@ -32,8 +32,6 @@ import {
 } from './model.mjs';
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
 import { sessionFromReq, handler as authHandler, registerMethod } from './auth.mjs';
-import { handler as groupsHandler } from './groups/server.mjs';
-import { handler as pagesHandler } from './pages/server.mjs';
 import { makeMelekSignerVerify } from './melek-signer-login.mjs';
 // Bounties. The board is keyed on `socialId`, not a MELEK account — which is exactly the messenger
 // handle: someone signs in with Google, gets '~go…', and earns from the first visit. linkWallet() is
@@ -220,21 +218,13 @@ export async function handler(req, res) {
     }
     // Herald: what THIS account may actually do. The UI reads this so it never offers a Send button it
     // is about to be refused for — the refusal still stands server-side either way.
-    // ── pages ─────────────────────────────────────────────────────────────────────────────────────
-    // A Page is a PRESENCE (broadcast, nobody joins it); a Group is a MEMBERSHIP. site/webbuilder's
-    // multi-tenant store was built and never wired to an identity — this is that wire. /p/<slug> is
-    // public on purpose: a page nobody can read without signing in is not a page.
-    if (path === '/pages' || path.startsWith('/pages/') || path.startsWith('/p/')) {
-      return pagesHandler(req, res, { whoami: (r) => whoami(r) });
-    }
-
-    // ── groups ────────────────────────────────────────────────────────────────────────────────────
-    // The model shipped 2026-08-29 with 24 tests and was imported by NOTHING. Identity is the injected
-    // whoami, never a body field — the model enforces rank, but only against the actor it is handed.
-    if (path === '/groups' || path.startsWith('/groups/') || path === '/me/groups') {
-      return groupsHandler(req, res, { whoami: (r) => whoami(r) });
-    }
-
+    // ⛔ GROUPS / CLUBS / PAGES ARE NOT MOUNTED HERE, AND THAT IS ON PURPOSE.
+    // They were, briefly, and it was wrong. Pentecaust is the MESSENGER. Per
+    // .local/GROUPS_SOLUTION_DESIGN.md §2.1 this service's entire role in the Groups architecture is
+    // the SOCIAL layer — the chat channel `group:<id>`, served by messaging.mjs — while the group
+    // directory, the group page and the roster belong on the condenser / Congress surfaces.
+    // The modules (pentecaust/groups/, pentecaust/pages/) are tested and ready to mount THERE.
+    //
     // ── bounties ──────────────────────────────────────────────────────────────────────────────────
     // The catalogue is public: somebody deciding whether to sign up should be able to see what there
     // is to do first. Everything that touches a person's own progress is session-only.
