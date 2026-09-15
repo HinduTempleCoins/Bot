@@ -15,7 +15,7 @@
 
 import {
   createGroup, addMember, approve, invite, removeMember, setRole, setJoinPolicy, setAbout,
-  postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount,
+  postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam,
   groupChannelId, ROLES, JOIN_POLICIES, KINDS,
 } from './model.mjs';
 
@@ -85,7 +85,9 @@ export async function handler(req, res, deps = {}) {
       const mine = (g.members || []).find((x) => x && x.account === me);
       return json(res, 200, {
         ok: true, id: segs[1], account: me, role: (mine && mine.role) || null,
-        member: isMember(segs[1], me, opts), channel: groupChannelId(segs[1]),
+        // Pass the GROUP, not the id: a group linked to a Team answers with the team's channel, so a
+        // clan keeps one conversation instead of acquiring a second, empty one.
+        member: isMember(segs[1], me, opts), channel: groupChannelId(g), team: g.team || null,
       });
     }
 
@@ -112,6 +114,7 @@ export async function handler(req, res, deps = {}) {
       case 'role':      return json(res, 200, setRole(id, me, b.account, b.role, opts));
       case 'policy':    return json(res, 200, setJoinPolicy(id, me, b.joinPolicy, b.tokenGate, opts));
       case 'about':     return json(res, 200, setAbout(id, me, b.about, opts));
+      case 'team':      return json(res, 200, setTeam(id, me, b.team, opts));
       case 'post':      return json(res, 200, postToGroup(id, { ...b, author: me }, opts));
       default:          return json(res, 404, { ok: false, reason: 'not-found' });
     }
