@@ -17,17 +17,39 @@ test('PROGRAMS — every program has an honest, recognized mechanism + required 
   }
 });
 
-test('PROGRAMS — EQIP high tunnel is cost-share with the sign-first note + the numbers', () => {
+test('PROGRAMS — EQIP high tunnel: cost-share, sign-first, and the state-schedule caveat', () => {
   const eqip = PROGRAMS.find((p) => /EQIP/i.test(p.name));
   assert.ok(eqip, 'EQIP present');
   assert.equal(eqip.mechanism, 'cost-share-reimbursement');
-  assert.match(eqip.honest_summary, /NOT free money/i);
-  assert.match(eqip.honest_summary, /reimburs/i);
-  assert.match(eqip.honest_summary, /5\.90/);          // $/sq ft floor
-  assert.match(eqip.honest_summary, /12\.21/);         // $/sq ft ceiling
-  assert.match(eqip.honest_summary, /2,160/);          // sq ft cap
-  assert.match(eqip.honest_summary, /50%/);            // historically-underserved advance
-  assert.match(eqip.eligibility_notes, /BEFORE construction/i); // sign-first note
+  assert.match(eqip.honest_summary, /COST-SHARE, not free money/i);
+  // The $/sq ft rate and any square-footage cap live ONLY in state payment schedules (verified 2026-09-14
+  // against 7 CFR 1466 and the NRCS payment-schedule page). A fixed national figure was wrong, so the
+  // entry must route the reader to the state office rather than quote one.
+  assert.match(eqip.honest_summary, /STATE payment\s+schedule/i);
+  assert.doesNotMatch(eqip.honest_summary, /2,160/, 'no unverifiable national sq-ft cap');
+  // The three regulatory facts that make this winnable for an underserved producer.
+  assert.match(eqip.honest_summary, /75%/);                              // 1466.23(b)(1)(i)
+  assert.match(eqip.honest_summary, /90%/);                              // 1466.23(b)(3)
+  assert.match(eqip.honest_summary, /ADVANCE PAYMENT of at least 50%/i); // 1466.24(d)(1)
+  assert.match(eqip.eligibility_notes, /BEFORE construction/i);          // sign-first note
+});
+
+test('PROGRAMS — the farm shelf leads with what you get, and names the free help', () => {
+  const byName = (re) => PROGRAMS.find((p) => re.test(p.name));
+  // Real grants an individual farmer can hold in their own name.
+  assert.equal(byName(/SARE Farmer\/Rancher/).mechanism, 'grant');
+  assert.equal(byName(/^REAP/).mechanism, 'grant');
+  assert.equal(byName(/VAPG/).mechanism, 'grant');
+  assert.equal(byName(/SCBGP/).mechanism, 'grant');
+  // Free services — the ones nobody is told about.
+  for (const re of [/Conservation Technical Assistance/, /Farm Number/, /Cooperative Extension/, /ATTRA/, /2501 grantees/]) {
+    assert.equal(byName(re).mechanism, 'service', `free service: ${byName(re).name}`);
+  }
+  // 2501 and BFRDP fund the ORGANIZATIONS that help you — miscall them farmer grants and the reader
+  // wastes a cycle applying for something they can never win.
+  assert.match(byName(/2501 grantees/).honest_summary, /does NOT give money to individual farmers/i);
+  // NAP is bought insurance, not aid.
+  assert.equal(byName(/^NAP —/).mechanism, 'insurance');
 });
 
 test('PROGRAMS — SBA programs are LOANS, never grants', () => {

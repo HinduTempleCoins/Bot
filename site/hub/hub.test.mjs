@@ -40,16 +40,18 @@ test('bracket contains the root node', () => {
 
 test('bracket contains several LIVE site nodes, each linking its subdomain', () => {
   const html = homePage();
-  // these slugs are live → must appear as working links to their real subdomain
-  for (const slug of ['data', 'search', 'wiki', 'hemp', 'stocks']) {
-    const site = PUBLIC_SITES.find((s) => s.slug === slug);
-    assert.ok(html.includes(`href="${esc(site.url)}"`), `live site ${slug} links ${site.url}`);
-    assert.ok(html.includes(esc(site.name)), `live site ${slug} shows its name`);
+  // Derived from PUBLIC_SITES rather than hardcoded. An earlier version pinned the slug 'data', and
+  // when data.soapbox.community was removed from the registry for failing its reachability probe the
+  // test failed for the right change — it was asserting a particular host rather than the property.
+  // The hub carries its OWN per-branch live flag, and deliberately renders some registry sites as
+  // muted "coming" nodes with no link (see the planned-items test below). So the property is "several
+  // registry sites are linked", not "all of them are".
+  assert.ok(PUBLIC_SITES.length >= 4, 'registry has sites to link');
+  const linked = PUBLIC_SITES.filter((site) => html.includes(`href="${esc(site.url)}"`));
+  assert.ok(linked.length >= 4, `at least 4 live site nodes are linked (got ${linked.length})`);
+  for (const site of linked) {
+    assert.ok(html.includes(esc(site.name)), `linked site ${site.slug} shows its name`);
   }
-  // at least 4 distinct live subdomain links present
-  const liveLinks = ['data', 'search', 'wiki', 'hemp', 'stocks']
-    .filter((slug) => html.includes(`href="${esc(PUBLIC_SITES.find((s) => s.slug === slug).url)}"`));
-  assert.ok(liveLinks.length >= 4, 'at least 4 live site nodes are linked');
 });
 
 test('bracket contains at least one sub-branch (vertical leaf) under a live site', () => {
@@ -90,7 +92,9 @@ test('admin (soapy.blog) appears NOWHERE on the page', () => {
 test('footer cross-links only live subdomains, never admin', () => {
   const links = footerLinks();
   assert.ok(!/soapy\.blog/i.test(links), 'footer has no admin link');
-  assert.ok(links.includes('data.soapbox.community'), 'footer links a live subdomain');
+  // Any registry host, not a pinned one — the registry is reachability-gated and its membership moves.
+  const anyHost = new URL(PUBLIC_SITES[0].url).host;
+  assert.ok(links.includes(anyHost), `footer links a live subdomain (${anyHost})`);
 });
 
 // ── 3. data integrity of the bracket model ──────────────────────────────────────────────────────

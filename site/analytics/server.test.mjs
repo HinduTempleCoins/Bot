@@ -124,7 +124,7 @@ test('dashboard renders the escaped aggregate with the correct token', async () 
     const { res, o } = cap();
     await handler(get('/?token=good-token'), res);
     assert.equal(o.code, 200);
-    assert.match(o.body, /Top paths/);
+    assert.match(o.body, /Which properties get the traffic/);
     assert.match(o.body, /Pageviews per day/);
     assert.match(o.body, /<svg/);                                  // inline-SVG bars, no libs
     // the hostile stored path is escaped, never raw

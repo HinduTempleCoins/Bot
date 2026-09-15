@@ -366,6 +366,211 @@ export const CREDENTIALS = [
   c('childcare-grants', 'Free government money for childcare — the official sources', 'childcare', 'funding', 'free',
     'childcare.gov · grants.gov · benefits.gov', 'The real programs behind the "free-money" pitch — no book required', 'https://childcare.gov/',
     'The honest version of the question-mark-suit "free government money" idea: the actual federal/state programs are public and free to apply for. Start at childcare.gov (subsidies, licensing, provider grants), then grants.gov and benefits.gov. You never need to buy a guide — we map it for free.'),
+
+  // ── FREE PATHWAYS — healthcare, trades, business, data (verified 14 Sept 2026) ────────────────────
+
+
+  // ══ HEALTHCARE ════════════════════════════════════════════════════════════════════════════════
+
+  { id: 'cna-employer-paid-42cfr', name: 'CNA training a facility may not charge you for (42 CFR 483.152)', industry: 'healthcare', type: 'federal-rule', cost: 'free',
+    provider: 'U.S. federal regulation, enforced via CMS / state nurse aide registries',
+    recognition: 'Binding on every Medicare/Medicaid-certified nursing facility in the U.S.; the resulting CNA certification is state-issued and portable within that state',
+    url: 'https://www.law.cornell.edu/cfr/text/42/483.152',
+    what: 'Not a course — a federal rule that makes a course free. Verbatim: "No nurse aide who is employed by, or who has received an offer of employment from, a facility on the date on which the aide begins a nurse aide training and competency evaluation program may be charged for any portion of the program" — tuition, textbooks or materials. And if you pay for training yourself and are then hired as a nurse aide within 12 months, "the State must provide for the reimbursement of costs incurred in completing the program on a pro rata basis during the period in which the individual is employed as a nurse aide." The common misunderstanding: people think free CNA training is a favour a nursing home does for them. It is a legal obligation once they have offered you a job, and the pro-rata reimbursement after the fact is a right most candidates never claim.' },
+
+  { id: 'healthcare-registered-apprenticeship', name: 'Healthcare Registered Apprenticeship', industry: 'healthcare', type: 'apprenticeship', cost: 'free',
+    provider: 'U.S. Department of Labor Office of Apprenticeship (employer-sponsored)',
+    recognition: 'Completion yields a DOL Certificate of Completion — an industry-recognised, nationally portable credential; the underlying occupational licence/certification is the state one',
+    url: 'https://www.apprenticeship.gov/apprenticeship-industries/healthcare',
+    what: 'A paid job that trains you into a clinical credential. DOL lists registered apprenticeship occupations including Registered Nurse, Licensed Practical Nurse, Certified Nurse Aide, Medical Assistant, Home Health Aide, EMT/Paramedic, Dental Assistant, Surgical Technologist, Community Health Worker, Direct Support Professional and Certified Registered Central Service Technician, and notes these programs are competency-based rather than time-based. The common misunderstanding: people assume apprenticeship means construction only — nursing and allied-health apprenticeships are real and growing. The catch is that it is an employment contract, not a course you can drop.' },
+
+  { id: 'jobcorps-healthcare', name: 'Job Corps — healthcare training track', industry: 'healthcare', type: 'residential-training-program', cost: 'free',
+    provider: 'U.S. Department of Labor',
+    recognition: 'Training leads into industry-recognised credentials in 100+ training areas across 10 in-demand industries; DOL-operated and nationally available',
+    url: 'https://www.jobcorps.gov/',
+    what: 'A federally funded residential programme for low-income people aged 16 through 24 that trains into health care among other fields, stating "All at no cost to you" and training "without any student debt" — plus free housing, meals, basic medical care and a living allowance. The common misunderstanding: it is treated as a last resort for troubled teens. It is a free, room-and-board vocational school with a hard age and income ceiling, which is the real limit — if you are 25, this door is closed.' },
+
+  { id: 'nctsn-psychological-first-aid', name: 'Psychological First Aid (PFA) Online', industry: 'healthcare', type: 'course-with-ce', cost: 'free',
+    provider: 'National Child Traumatic Stress Network (SAMHSA-funded; jointly coordinated by UCLA and Duke University)',
+    recognition: 'NCTSN Learning Center continuing education; PFA is the model used by disaster-response and school crisis teams, recognised in behavioural-health and emergency-response settings',
+    url: 'https://www.nctsn.org/resources/psychological-first-aid-pfa-online',
+    what: 'A free 5-hour interactive course in the evidence-informed approach to supporting people immediately after a disaster or critical incident; the NCTSN Learning Center that hosts it states plainly that it offers FREE continuing education credits. The common misunderstanding: PFA is not counselling or therapy and does not license you to treat anyone — it is structured, non-clinical immediate support, which is precisely why it can be taught to volunteers for free.' },
+
+  { id: 'fema-cdp-responder-training', name: 'FEMA Center for Domestic Preparedness training', industry: 'healthcare', type: 'federal-training-program', cost: 'free',
+    provider: 'FEMA, U.S. Department of Homeland Security',
+    recognition: 'Federal responder training for state, local, tribal and territorial emergency response personnel, including healthcare and EMS disciplines',
+    url: 'https://www.fema.gov/emergency-managers/national-preparedness/training',
+    what: 'Federal hands-on responder training, including healthcare and hazmat disciplines. FEMA states it directly: "Training provided by the CDP is federally funded at no cost to state, local, tribal and territorial emergency response professionals or their agencies." The common misunderstanding: this is not open to the general public — eligibility runs through your agency or employer, so it is free only if you already hold a response role.' },
+
+  { id: 'mental-health-first-aid', name: 'Mental Health First Aid (MHFA)', industry: 'healthcare', type: 'certification', cost: 'paid',
+    provider: 'National Council for Mental Wellbeing',
+    recognition: 'Widely used by employers, schools, first responders and faith communities; not a clinical licence',
+    url: 'https://mentalhealthfirstaid.org/pricing/',
+    what: 'COST: Paid — from $29.95/person for small companies; free ONLY where a state, city or grantmaker subsidises a class. A certification in recognising and responding to a mental-health or substance-use crisis. Listed here because it is constantly described as free and it is not: MHFA states that "Course fees vary" and publishes a from-$29.95 per-person figure, with instructor training at $2,400. What IS true is that "Several organizations, states and cities subsidize the cost" — so the free route is finding a subsidised local class, not the national programme. The common misunderstanding: people think the certification itself is free; the subsidy is local and inconsistent.' },
+
+  // ══ SKILLED TRADES ════════════════════════════════════════════════════════════════════════════
+
+  { id: 'registered-apprenticeship', name: 'Registered Apprenticeship (the DOL system itself)', industry: 'skilled-trades', type: 'apprenticeship', cost: 'free',
+    provider: 'U.S. Department of Labor Office of Apprenticeship + registered employer/union sponsors',
+    recognition: 'Completion yields a nationally recognised, portable DOL Certificate of Completion; recognised across all 50 states',
+    url: 'https://www.apprenticeship.gov/career-seekers',
+    what: 'The earn-while-you-learn model: apprentices "earn a competitive wage from day one" with a "guaranteed wage increase as you develop new skills," combining paid employment with classroom instruction, and finish with "an industry-recognized and nationally-portable credential." Registered industries include advanced manufacturing, agriculture, AI, construction, education, energy, financial services, healthcare, hospitality, technology, telecommunications and transportation. The common misunderstanding: that you apply to a programme like a school. You are applying for a JOB with a sponsor, intake windows are narrow, and competition for the union building trades is heavy.' },
+
+  { id: 'ua-apprenticeship', name: 'United Association apprenticeship (plumbing, pipefitting, HVACR, welding)', industry: 'skilled-trades', type: 'union-apprenticeship', cost: 'free',
+    provider: 'United Association (UA) local unions and their joint apprenticeship committees',
+    recognition: 'Journeyman status plus "industry-recognized credentials"; UA journeyman standing is recognised industry-wide across the mechanical trades',
+    url: 'https://ua.org/career-paths/apprentice/',
+    what: 'A five-year-shaped paid apprenticeship — 2,000 hours of on-the-job training per year plus 216 hours of classroom instruction per year — across plumbers, pipefitters, sprinkler fitters, HVACR service technicians, welders, pipeliners and steamfitters. The UA states apprentices "earn a competitive wage and benefits while you learn your trade," take regular pay increases with healthcare and retirement "without accumulating student debt," and through college partnerships can finish "as a journeyman and be just a few credits away from a college degree with zero student loan debt." The common misunderstanding: that the classroom half is a night school you pay for. It is part of the package. The real cost is the multi-year commitment and the tools.' },
+
+  { id: 'iuoe-apprenticeship', name: 'IUOE apprenticeship (operating engineers, heavy equipment, stationary engineers)', industry: 'skilled-trades', type: 'union-apprenticeship', cost: 'free',
+    provider: 'International Union of Operating Engineers local unions',
+    recognition: 'Leads to journey-level status and "industry-recognized credentials"',
+    url: 'https://www.iuoe.org/training',
+    what: 'COST: Earn-while-you-learn; IUOE does not print a tuition figure — confirm with the local (cost UNVERIFIED at source). Paid apprenticeship into heavy-equipment operation and stationary/building engineering, described by IUOE as "Earn While You Learn apprenticeship programs" leading to journey-level status. Honest note: the national IUOE page does NOT state whether any tuition or fee is charged, and IUOE says "locals are the primary point of contact for training" — so the money question has to be asked at the local hall. The common misunderstanding: that terms are uniform nationally. They are set local by local.' },
+
+  { id: 'ibew-neca-jatc', name: 'IBEW/NECA electrical apprenticeship (local JATC)', industry: 'skilled-trades', type: 'union-apprenticeship', cost: 'free',
+    provider: 'electrical training ALLIANCE — a joint effort of the IBEW and NECA; delivered by local Joint Apprenticeship and Training Committees',
+    recognition: 'The dominant unionised route to electrical journeyman status in the U.S.; curriculum standard across local JATCs',
+    url: 'https://www.electricaltrainingalliance.org/',
+    what: 'COST: Earn-while-you-learn; the national site prints no tuition figure — confirm with the local JATC (cost UNVERIFIED at source). The IBEW/NECA joint training body, 70+ years old, that writes the curriculum local JATCs teach; you apply to a local JATC, not to the ALLIANCE. Honest note: the national site describes itself as a training-materials resource and does NOT state apprentice pay or tuition, so this entry is listed as the on-ramp, with the cost question to be settled at the local. The common misunderstanding: that "electrical training ALLIANCE" is itself a school you enrol in.' },
+
+  { id: 'hbi-pact', name: 'HBI PACT (Pre-Apprenticeship Certificate Training)', industry: 'skilled-trades', type: 'pre-apprenticeship-certification', cost: 'free',
+    provider: 'Home Builders Institute (national nonprofit), certification issued through NOCTI',
+    recognition: 'Based on National Skills Standards and "recognized by 140,000 National Association of Home Builders (NAHB) members"',
+    url: 'https://hbi.org/certification/',
+    what: 'A NOCTI-issued pre-apprenticeship credential requiring a minimum of 150 hours of instruction, available in Core and Core Green, Carpentry, Electrical, Plumbing, Brick Masonry, Landscaping, Painting & Finishing, Building Construction Technology, Weatherization, HVAC and Residential Construction Principles. HBI states "All programs and trainings are at NO COST to our students," delivered to veterans and transitioning service members, youth via Job Corps and BuildStrong Academies, and justice-involved individuals. The common misunderstanding: PACT is a PRE-apprenticeship — it gets you to the front of the apprenticeship queue, it is not journeyman training and it is not a licence.' },
+
+  { id: 'jobcorps-trades', name: 'Job Corps — construction and skilled-trades tracks', industry: 'skilled-trades', type: 'residential-training-program', cost: 'free',
+    provider: 'U.S. Department of Labor',
+    recognition: '100+ training areas across 10 in-demand industries including construction and manufacturing; DOL-operated',
+    url: 'https://www.jobcorps.gov/',
+    what: 'Free residential trade training for low-income 16-to-24-year-olds — "All at no cost to you," with free housing, meals, basic medical care and a living allowance, and explicitly "without any student debt." The common misunderstanding: that it competes with a union apprenticeship. It usually FEEDS one — Job Corps and pre-apprenticeship providers like HBI run together, and the apprenticeship is the next step, not the alternative.' },
+
+  { id: 'youthbuild', name: 'YouthBuild', industry: 'skilled-trades', type: 'pre-apprenticeship-program', cost: 'free',
+    provider: 'U.S. Department of Labor, Office of Workforce Investment, Division of Youth Services',
+    recognition: 'Produces a high school diploma or equivalency plus vocational certifications, and is an explicit on-ramp to Registered Apprenticeship',
+    url: 'https://www.dol.gov/agencies/eta/youth/youthbuild',
+    what: 'COST: Free (DOL grant-funded under WIOA §171; no participant fee is charged). A community-based pre-apprenticeship for people aged 16-24 who left school without a diploma, combining construction work on affordable housing with finishing secondary education; participants earn a diploma or equivalency plus vocational certifications in construction and also healthcare, IT and hospitality. The common misunderstanding: that you have to choose between finishing school and learning a trade — the entire design of YouthBuild is that you do both at once.' },
+
+  { id: 'helmets-to-hardhats', name: 'Helmets to Hardhats', industry: 'skilled-trades', type: 'placement-program', cost: 'free',
+    provider: 'Helmets to Hardhats (nonprofit, building-trades affiliated)',
+    recognition: 'Direct pipeline into registered building-trades apprenticeships — carpenters, electricians, plumbers, ironworkers, operating engineers, laborers, roofers',
+    url: 'https://helmetstohardhats.org/',
+    what: 'COST: Free (no fee stated; placement into paid apprenticeships). A veterans-to-trades placement service, not a school: it routes military veterans into union apprenticeships described as "Earn While You Learn," with "debt-free education through apprenticeships" and the ability to "Use GI Benefits" on top. The common misunderstanding: that it is a job board. It is a route into the apprenticeship intake process, which still has its own tests and waiting lists.' },
+
+  { id: 'wioa-workforce-funding', name: 'WIOA workforce funding via local Workforce Development Boards', industry: 'skilled-trades', type: 'public-funding', cost: 'free',
+    provider: 'U.S. Department of Labor Employment and Training Administration; administered by states and local boards',
+    recognition: 'The federal statute under which publicly funded job training is purchased in every state',
+    url: 'https://www.dol.gov/agencies/eta/wioa',
+    what: 'COST: Free (funds third-party tuition; eligibility-gated). The Workforce Innovation and Opportunity Act (2014) is the law behind the American Job Center system and the money that buys training for job seekers — apprenticeship.gov confirms that "WIOA funding is allotted to states and is administered through local Workforce Development Boards." Honest note: DOL\'s own WIOA page describes access to "employment, education, training, and support services" but does NOT itself spell out the Individual Training Account mechanism, so treat the ITA specifics as UNVERIFIED and ask your local board. The common misunderstanding: people look for a national application form. There is none — the money is local, the eligibility is local, and the list of approved training providers is local.' },
+
+  // ══ BUSINESS & FINANCE ════════════════════════════════════════════════════════════════════════
+
+  { id: 'intuit-academy', name: 'Intuit Academy (tax preparer / bookkeeper)', industry: 'business-finance', type: 'vendor-badge', cost: 'free',
+    provider: 'Intuit',
+    recognition: 'A vendor badge, not a licence — its real value is that it is Intuit\'s own hiring pipeline for remote tax-prep and bookkeeping roles',
+    url: 'https://www.intuit.com/expert-careers/',
+    what: 'Free self-paced online courses followed by an exam, after which "you will receive a badge that you can easily display." Intuit positions it as the way to "Start your career as a remote tax preparer or bookkeeper," seasonal or year-round. The common misunderstanding: the badge is not a CPA, an Enrolled Agent credential, or a state licence, and completing it does not guarantee Intuit hires you — its worth outside the Intuit ecosystem is modest.' },
+
+  { id: 'irs-vita-link-learn', name: 'IRS VITA/TCE volunteer certification (Link & Learn Taxes)', industry: 'business-finance', type: 'government-certification', cost: 'free',
+    provider: 'Internal Revenue Service',
+    recognition: 'IRS-issued volunteer certification; the standard credible entry point for hands-on tax-return experience, and Circular 230 professionals can earn CE through the programme',
+    url: 'https://www.irs.gov/individuals/link-learn-taxes',
+    what: 'COST: Free to volunteers (no fee published; the cost is a volunteer service commitment). Self-paced IRS e-learning with certification tests at Basic, Advanced, Puerto Rico, Foreign Student and Scholar, Military and International levels (the last two require Advanced first); Circular 230 professionals may instead take the Federal Tax Law Update Test. You certify in order to prepare returns free of charge for low-to-moderate-income and elderly taxpayers at a community site. The common misunderstanding: this is a VOLUNTEER certification with a real service commitment attached — you cannot take it, skip the volunteering, and call yourself an IRS-certified preparer. What it genuinely buys you is documented, supervised return-preparation experience that paid roles ask for.' },
+
+  { id: 'hubspot-academy', name: 'HubSpot Academy certifications', industry: 'business-finance', type: 'vendor-certification', cost: 'free',
+    provider: 'HubSpot',
+    recognition: 'Widely recognised inside marketing/sales/RevOps hiring as a signal of tool fluency; it is a vendor certification, not an accredited qualification',
+    url: 'https://academy.hubspot.com/certification-overview',
+    what: 'Genuinely free end to end — HubSpot states "Completely free & online," and the flow is complete all lessons, pass the assessment, earn your certificate. Tracks include Social Media Marketing, Digital Marketing, Content Marketing, Inbound Sales, Sales Hub Software, Digital Advertising and Revenue Operations. The common misunderstanding: treating it as equivalent to an accredited credential. It is not — it is proof you can operate the tooling and speak the vocabulary, which is exactly what entry-level ops and marketing roles screen for.' },
+
+  { id: 'financial-services-apprenticeship', name: 'Financial Services Registered Apprenticeship', industry: 'business-finance', type: 'apprenticeship', cost: 'free',
+    provider: 'U.S. Department of Labor Office of Apprenticeship (employer-sponsored)',
+    recognition: 'DOL Certificate of Completion, nationally portable; sponsors are banks, insurers and financial firms',
+    url: 'https://www.apprenticeship.gov/apprenticeship-industries/financial-services',
+    what: 'Paid entry into finance without a degree: DOL lists General Insurance Associate, Bank Teller, Customer Service Representative, Operations Assistant and Risk Consultation as registered occupations, and reports over 6,248 apprentices served in financial services in 2024 — a 359% increase over five years. The common misunderstanding: that finance is closed to anyone without a four-year degree. It is the fastest-growing apprenticeship sector by percentage, and it is still small enough that few applicants know it exists.' },
+
+  // ══ DATA & AI ═════════════════════════════════════════════════════════════════════════════════
+
+  { id: 'ibm-skillsbuild', name: 'IBM SkillsBuild', industry: 'data-ai', type: 'course-provider-with-credentials', cost: 'free',
+    provider: 'IBM',
+    recognition: 'IBM-issued digital credentials; vendor-backed rather than accredited, but IBM badging is well understood by employers',
+    url: 'https://skillsbuild.org/adult-learners',
+    what: 'IBM states SkillsBuild is "100% free and online" and awards "industry-recognized credentials" across AI, technology and career skills. The common misunderstanding: people expect it to be a degree-equivalent. It is a badge library — useful as evidence of specific skills and as free structured study, not as a substitute for a qualification. (Specific badge names were not enumerated on the page checked; browse the catalog before citing any one badge.)' },
+
+  { id: 'elements-of-ai', name: 'Elements of AI', industry: 'data-ai', type: 'university-course', cost: 'free',
+    provider: 'University of Helsinki and MinnaLearn',
+    recognition: 'A university-backed free AI literacy course used internationally, including by public-sector employers, as a baseline AI-literacy credential',
+    url: 'https://www.elementsofai.com/',
+    what: 'A free online introduction to artificial intelligence built for non-experts by the University of Helsinki — Finland\'s oldest and largest university — with MinnaLearn, issuing a certificate on completion. The common misunderstanding: it teaches you to BUILD AI systems. It does not; it makes you literate about what AI is and is not, which is the thing most job descriptions are actually asking for. (ECTS academic credit is widely reported for this course but was NOT stated on the page checked — treat credit claims as UNVERIFIED.)' },
+
+  { id: 'ai-registered-apprenticeship', name: 'Artificial Intelligence Registered Apprenticeship', industry: 'data-ai', type: 'apprenticeship', cost: 'free',
+    provider: 'U.S. Department of Labor Office of Apprenticeship (employer-sponsored)',
+    recognition: 'DOL Certificate of Completion, nationally portable; AI is a named DOL apprenticeship industry',
+    url: 'https://www.apprenticeship.gov/apprenticeship-industries',
+    what: 'Artificial Intelligence is one of the twelve industries DOL lists for Registered Apprenticeship, alongside technology and advanced manufacturing — meaning there are employers being paid attention to by DOL who will hire and train you into AI work on a wage. The common misunderstanding: that AI roles require a graduate degree by definition. Some do; the registered apprenticeship occupations exist precisely because many do not.' },
+
+  { id: 'aws-skill-builder-free', name: 'AWS Skill Builder — free tier', industry: 'data-ai', type: 'vendor-training', cost: 'free',
+    provider: 'Amazon Web Services',
+    recognition: 'AWS certifications are strongly recognised in cloud and data hiring; the free courses themselves are training, not a credential',
+    url: 'https://aws.amazon.com/training/digital/',
+    what: 'COST: Free TRAINING only — the AWS certification exam is separate and paid; full Skill Builder is $29/month or $449/year. AWS publishes "1,000+ free learning resources," including over 900 free self-paced digital courses across AWS services at all levels. This is the textbook case of the split the catalog should always name: the LEARNING is free, the CREDENTIAL is not. The common misunderstanding: people complete free AWS courses and believe they are AWS certified. They are not — certification requires a separately purchased proctored exam.' },
+
+  { id: 'microsoft-applied-skills', name: 'Microsoft Applied Skills', industry: 'data-ai', type: 'vendor-credential', cost: 'paid',
+    provider: 'Microsoft',
+    recognition: 'Microsoft-verified credential, shareable to LinkedIn; narrower than a Microsoft Certification and newer, so employer recognition is still building',
+    url: 'https://learn.microsoft.com/en-us/credentials/applied-skills/',
+    what: 'COST: No fee is stated on Microsoft\'s Applied Skills pages or FAQ — cost UNVERIFIED; Microsoft role-based CERTIFICATION exams are definitely paid. Scenario-based credentials earned by completing tasks in an interactive, lab-based assessment rather than by sitting a multiple-choice exam, covering AI, cloud, data and now business scenarios; Microsoft says they validate one specific skill set where a Certification validates four to six. Microsoft also confirms certifications "renew...annually at no cost." The common misunderstanding: Applied Skills is not a Microsoft Certification and does not replace one — Microsoft says so explicitly. Listed here with the cost flagged rather than asserted, because Microsoft does not print a price on either the programme page or its FAQ.' },
+
+  // ══ CONTINUING EDUCATION ══════════════════════════════════════════════════════════════════════
+
+  { id: 'fema-independent-study', name: 'FEMA Emergency Management Institute — Independent Study Program', industry: 'continuing-education', type: 'ceu-provider', cost: 'free',
+    provider: 'FEMA / National Disaster and Emergency Management University (formerly the Emergency Management Institute)',
+    recognition: 'Courses "are evaluated and awarded Continuing Education Units (CEUs) in accordance with the standards established by the International Association of Continuing Education and Training (IACET)"; ICS/NIMS courses are effectively mandatory across U.S. emergency response',
+    url: 'https://training.fema.gov/is/',
+    what: 'COST: Free (federal programme; FEMA publishes no price on the IS pages — the $0 is unstated at source, VERIFY before printing it). A large self-paced online catalog — for example IS-100.c, Introduction to the Incident Command System, carries 0.2 CEUs — open to "the professional and volunteer emergency management community, and the general public," with downloadable completion certificates. A FEMA Student Identification Number (SID) has been required since 1 April 2015. The common misunderstanding, and FEMA states it outright: transcripts issued by the Independent Study Program "do NOT reflect college credits." These are IACET CEUs, which other bodies may accept toward licence renewal at their discretion — that is not the same thing as college credit.' },
+
+  { id: 'fema-cdp-ce', name: 'FEMA Center for Domestic Preparedness — responder continuing education', industry: 'continuing-education', type: 'federal-training-program', cost: 'free',
+    provider: 'FEMA, U.S. Department of Homeland Security',
+    recognition: 'Federal responder training recognised across state, local, tribal and territorial emergency response agencies',
+    url: 'https://www.fema.gov/emergency-managers/national-preparedness/training',
+    what: 'FEMA states that CDP training "is federally funded at no cost to state, local, tribal and territorial emergency response professionals or their agencies." The common misunderstanding: "no cost" here is scoped to responders and their agencies — it is not a public continuing-education catalog you can self-enrol in from outside a response role.' },
+
+  { id: 'nctsn-learning-center-ce', name: 'NCTSN Learning Center — free continuing education', industry: 'continuing-education', type: 'ceu-provider', cost: 'free',
+    provider: 'National Child Traumatic Stress Network (SAMHSA-funded; UCLA and Duke University)',
+    recognition: 'Continuing education for behavioural-health, child-welfare, education and first-responder professionals working with trauma',
+    url: 'https://www.nctsn.org/resources/psychological-first-aid-pfa-online',
+    what: 'The NCTSN Learning Center states it "Offers FREE continuing education (CE) credits and e-learning resources" in childhood trauma, of which Psychological First Aid Online is the best-known course. The common misunderstanding: free CE is assumed to be low-grade. This is federally funded, university-coordinated material — the reason it is free is SAMHSA, not quality.' },
+
+  // ══ EDUCATION & TEACHING ══════════════════════════════════════════════════════════════════════
+
+  { id: 'teacher-registered-apprenticeship', name: 'Teacher Registered Apprenticeship', industry: 'education-teaching', type: 'apprenticeship', cost: 'free',
+    provider: 'U.S. Department of Labor Office of Apprenticeship, with school districts and educator-preparation partners',
+    recognition: 'Education is a named DOL apprenticeship industry; the outcome is state teacher certification plus a DOL Certificate of Completion',
+    url: 'https://www.apprenticeship.gov/apprenticeship-industries/education',
+    what: 'COST: Free (apprenticeship.gov\'s education page does not itself state salary or tuition terms — confirm with the sponsoring district; cost terms UNVERIFIED at source). DOL describes it as "an industry-driven training model that can provide a critical talent pipeline for the education system by streamlining and combining on-the-job (or in classroom) learning with the related academic instruction," covering K-12 teachers, principals, teacher aides and early childhood educators. The common misunderstanding: people assume the only route into teaching is paying for a degree first and student-teaching unpaid. The apprenticeship route inverts that — you work in the classroom while completing the preparation. Confirm the funding terms with the district, because they vary and the national page does not state them.' },
+
+  { id: 'youthbuild-education', name: 'YouthBuild — high school diploma or equivalency', industry: 'education-teaching', type: 'public-program', cost: 'free',
+    provider: 'U.S. Department of Labor, Office of Workforce Investment, Division of Youth Services',
+    recognition: 'Awards a high school diploma or equivalency alongside vocational certifications',
+    url: 'https://www.dol.gov/agencies/eta/youth/youthbuild',
+    what: 'COST: Free (DOL grant-funded under WIOA §171). For 16-to-24-year-olds who left school without a diploma, YouthBuild delivers the secondary credential itself while the participant works on affordable housing construction. The common misunderstanding: that it is a GED prep class with a job attached. The education is the point; the construction work is the delivery mechanism and the pre-apprenticeship on-ramp.' },
+
+  // ══ HUMAN RESOURCES ═══════════════════════════════════════════════════════════════════════════
+
+  { id: 'shrm-foundation-hr-apprenticeship', name: 'SHRM Foundation HR Registered Apprenticeship Program', industry: 'human-resources', type: 'apprenticeship', cost: 'paid',
+    provider: 'SHRM Foundation',
+    recognition: 'UNVERIFIED',
+    url: 'https://www.shrm.org/foundation',
+    what: 'UNVERIFIED — DO NOT PUBLISH AS-IS. The SHRM Foundation home page references an "HR Registered Apprenticeship Program" alongside scholarships and grants (the Foundation states it awards over $600,000 in scholarships and grants annually), but its dedicated programme page returned 404 this session and the Foundation home page does not state cost, structure, whether apprentices are paid, or whether a SHRM certification is included. Separately confirmed: human resources is NOT one of the twelve industries apprenticeship.gov lists. This is the only free-HR lead found in the sweep and it needs a human to verify before it goes in the catalog.' },
+
+  // ══ LANGUAGES ═════════════════════════════════════════════════════════════════════════════════
+
+  { id: 'seal-of-biliteracy', name: 'Seal of Biliteracy', industry: 'languages', type: 'state-award', cost: 'free',
+    provider: 'State education agencies, districts and schools',
+    recognition: 'Described by the programme as "evidence of skills that are attractive to future employers and college admissions offices"; adoption is state-by-state and a state map of approved, under-consideration and not-yet states is maintained',
+    url: 'https://sealofbiliteracy.org/',
+    what: 'COST: No fee published at source — awarded by schools/districts/states, but the qualifying proficiency test may carry a fee (cost UNVERIFIED). An award "given by a school, district, or state in recognition of students who have studied and attained proficiency in two or more languages by high school graduation." It is the closest thing to a free language credential in the U.S., and the only one in this sweep. Two common misunderstandings: it is available only to students still in high school — adults cannot earn it — and the seal itself is free but the proficiency assessment a district uses to qualify you may not be. For adults, the genuinely free-to-the-candidate language route is a CLEP foreign-language exam with a Modern States voucher, which yields college credit rather than a proficiency rating.' }
 ];
 
 // ── accessors (pure) ──────────────────────────────────────────────────────────────────────────────

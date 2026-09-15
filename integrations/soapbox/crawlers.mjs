@@ -162,17 +162,44 @@ export function llmsTxt({ name, baseUrl, summary = '', links = [] } = {}) {
 // Every PUBLIC subdomain, used to build the top-level sitemap-index. soapy.blog (admin) is
 // deliberately ABSENT — it is never crawled and never listed anywhere.
 export const PUBLIC_SITES = [
-  { slug: 'data', url: 'https://data.soapbox.community', name: 'SoapBox Data' },
+  // ⚠️ REACHABILITY-GATED, rebuilt 2026-09-14. This list feeds the top-level sitemap-index, which is
+  // what points a crawler at the network. A host listed here that does NOT resolve teaches every
+  // crawler that we serve dead URLs, and `data.soapbox.community` sat here doing exactly that —
+  // it was in the registry and returned 000 on probe. Only add a host after it answers 200.
+  //
+  // Source of truth for what exists and what state it is in: integrations/soapbox/portfolio.mjs.
+  // Keep the two in step; the test asserts every entry here is `live` there.
+  //
+  // soapy.blog and every other admin surface is deliberately ABSENT and must stay absent.
+  { slug: 'soapbox', url: 'https://soapbox.community', name: 'SoapBox' },
   { slug: 'search', url: 'https://search.soapbox.community', name: 'SoapBox Search' },
-  { slug: 'stocks', url: 'https://stocks.soapbox.community', name: 'SoapBox Stocks' },
   { slug: 'directory', url: 'https://directory.soapbox.community', name: 'SoapBox Directory' },
   { slug: 'wiki', url: 'https://wiki.soapbox.community', name: 'Library of Ashurbanipal' },
-  { slug: 'hemp', url: 'https://hemp.soapbox.community', name: 'SoapBox Hemp' },
   { slug: 'law', url: 'https://law.soapbox.community', name: 'SoapBox Law' },
   { slug: 'politics', url: 'https://politics.soapbox.community', name: 'SoapBox Politics' },
+  { slug: 'oversight', url: 'https://oversight.soapbox.community', name: 'SoapBox Oversight' },
+  { slug: 'hemp', url: 'https://hemp.soapbox.community', name: 'SoapBox Hemp' },
+  { slug: 'stocks', url: 'https://stocks.soapbox.community', name: 'SoapBox Stocks' },
   { slug: 'shopping', url: 'https://shopping.soapbox.community', name: 'SoapBox Shopping' },
   { slug: 'travel', url: 'https://travel.soapbox.community', name: 'SoapBox Travel' },
   { slug: 'home', url: 'https://home.soapbox.community', name: 'SoapBox Home' },
+  { slug: 'coupons', url: 'https://coupons.soapbox.community', name: 'SoapBox Coupons' },
+  { slug: 'abuck', url: 'https://abuck.soapbox.community', name: 'A Buck' },
+  { slug: 'grants', url: 'https://grants.soapbox.community', name: 'SoapBox Grants' },
+  { slug: 'credentials', url: 'https://credentials.soapbox.community', name: 'SoapBox Credentials' },
+  { slug: 'herald', url: 'https://herald.soapbox.community', name: 'Herald' },
+  { slug: 'genai', url: 'https://genai.soapbox.community', name: 'Creation Studio' },
+  { slug: 'arcade', url: 'https://arcade.soapbox.community', name: 'Arcade' },
+  { slug: 'tunein', url: 'https://tunein.soapbox.community', name: 'Tune In' },
+  { slug: 'seeds', url: 'https://seeds.soapbox.community', name: 'SEED' },
+  { slug: 'farm', url: 'https://farm.soapbox.community', name: 'KULA Farm' },
+  { slug: 'melek', url: 'https://melek.salon', name: 'MELEK' },
+  { slug: 'witness', url: 'https://witness.melek.salon', name: 'Witness School' },
+  { slug: 'hathor', url: 'https://hathor.live', name: 'Hathor' },
+  { slug: 'tokens', url: 'https://tokens.alpha.melek.salon', name: 'Tokens' },
+  { slug: 'congress', url: 'https://alpha.congress.ink', name: 'Congress.ink' },
+  { slug: 'dudael', url: 'https://dudael.com', name: 'Dudael' },
+  { slug: 'vankushfamily', url: 'https://vankushfamily.com', name: 'Van Kush Family' },
 ];
 
 /** The top-level sitemap-index over all PUBLIC sites (admin can never appear). */

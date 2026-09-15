@@ -33,8 +33,13 @@ import { createServer } from 'node:http';
 import { timingSafeEqual } from 'node:crypto';
 
 import { robotsTxtDisallowAll } from '../../integrations/soapbox/crawlers.mjs';
+import { BEACON_JS } from '../../integrations/soapbox/beacon.mjs';
+import { renderBoard, WIDGET_STYLE, WIDGET_IDS } from '../../integrations/soapbox/analytics-widgets.mjs';
+import { readAllEvents } from '../../integrations/analytics-collector.mjs';
+import { PUBLIC_SITES } from '../../integrations/soapbox/crawlers.mjs';
 import { record, aggregate } from '../../integrations/analytics-collector.mjs';
 
+const LOGS_URL = process.env.ANALYTICS_LOGS_URL || '';
 const PORT = +(process.env.PORT || 8230);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
@@ -185,7 +190,7 @@ function shell(title, body) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=robots content="noindex,nofollow">
-<title>${esc(title)}</title>${STYLE}</head><body>
+<title>${esc(title)}</title>${STYLE}${WIDGET_STYLE}</head><body>
 <header><span class=brand>📈 ${esc(SITE_NAME)}</span> <span class=alpha>Alpha</span></header>
 <main class=wrap>${body}</main>
 <footer>First-party, cookieless analytics — no IP, no cookies, no PII. Admin-only.</footer>
@@ -221,27 +226,33 @@ function rankTable(rows, label) {
 }
 
 function dashboard(url) {
+  // The board reads the raw event array, not the pre-rolled aggregate, because each widget slices it
+  // differently — a referrer bucket and a coverage check cannot both come out of one rollup shape.
   const since = url.searchParams.get('since') || '';
+  const all = readAllEvents();
+  const events = since ? all.filter((e) => e && e.day && e.day >= since) : all;
   const a = aggregate(since ? { since } : {});
-  const devices = Object.entries(a.byDevice || {}).sort((x, y) => y[1] - x[1])
-    .map(([k, c]) => `${esc(k)} ${esc(c)}`).join(' · ') || '—';
-  const spanTxt = a.span && a.span.from ? `${esc(a.span.from)} → ${esc(a.span.to)}` : '—';
+  const spanTxt = a.span && a.span.from ? `${esc(a.span.from)} → ${esc(a.span.to)}` : 'nothing recorded yet';
+  const knownHosts = PUBLIC_SITES.map((s2) => {
+    try { return new URL(s2.url).host; } catch { return ''; }
+  }).filter(Boolean);
+  const only = (url.searchParams.get('w') || '').split(',').map((x) => x.trim()).filter(Boolean);
+  const ids = only.length ? only.filter((id) => WIDGET_IDS.includes(id)) : WIDGET_IDS;
+
   const body = `
 <h1>Traffic overview</h1>
-<p class=sub>First-party cookieless pageviews across every wired surface. Range: ${spanTxt}. Devices: ${devices}.</p>
-<div class=kpi>
-  <div><b>${esc(a.pageviews)}</b><span>Pageviews</span></div>
-  <div><b>${esc((a.topPaths || []).length)}</b><span>Distinct paths</span></div>
-  <div><b>${esc((a.topHosts || []).length)}</b><span>Hosts</span></div>
-</div>
-<div class=card><h2>Pageviews per day</h2>${svgBars(a.byDay)}</div>
-<div style="height:16px"></div>
-<div class=grid>
-  ${rankTable(a.topPaths, 'Top paths')}
-  ${rankTable(a.topHosts, 'Top hosts')}
-  ${rankTable(a.topReferrers, 'Top referrers')}
-</div>`;
+<p class=sub>First-party, cookieless, no IP and no cookie retained. Range: ${spanTxt}.
+${events.length ? '' : '<b>The collector is instrumented and reporting zero — that is the expected state until the surfaces redeploy.</b>'}</p>
+${renderBoard(events, { ownHosts: ['soapbox.community', 'melek.salon', 'vankushfamily.com'], knownHosts, logsUrl: LOGS_URL }, ids)}
+<p class=muted style="margin-top:22px">Widgets: ${WIDGET_IDS.map((id) => `<a href="?token=${esc(givenTokenEcho(url))}&w=${esc(id)}">${esc(id)}</a>`).join(' · ')}
+ · <a href="?token=${esc(givenTokenEcho(url))}">all</a></p>`;
   return shell(`${SITE_NAME} — dashboard`, body);
+}
+
+// The token is already proven valid by the caller before dashboard() runs; echoing it back into the
+// widget links keeps them clickable without a second auth mechanism. It is never logged or stored.
+function givenTokenEcho(url) {
+  return url.searchParams.get('token') || '';
 }
 
 function tokenNotice() {
@@ -298,6 +309,17 @@ export async function handler(req, res) {
         return noContent(res);                     // ALWAYS 204 — never reflect input, never error to a beacon
       }
       return noContent(res);                       // any other method → benign 204
+    }
+
+    if (path === '/b.js') {                        // the client beacon every surface loads
+      try {
+        res.writeHead(200, {
+          'content-type': 'application/javascript; charset=utf-8',
+          'cache-control': 'public, max-age=3600',
+          'x-robots-tag': 'noindex',
+        });
+      } catch {}
+      return res.end(BEACON_JS);
     }
 
     if (path === '/px.gif') {                      // no-JS / <img> fallback beacon
