@@ -32,6 +32,7 @@ import {
 } from './model.mjs';
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
 import { sessionFromReq, handler as authHandler, registerMethod } from './auth.mjs';
+import { handler as groupsHandler } from './groups/server.mjs';
 import { makeMelekSignerVerify } from './melek-signer-login.mjs';
 // Bounties. The board is keyed on `socialId`, not a MELEK account — which is exactly the messenger
 // handle: someone signs in with Google, gets '~go…', and earns from the first visit. linkWallet() is
@@ -212,6 +213,13 @@ export async function handler(req, res) {
     }
     // Herald: what THIS account may actually do. The UI reads this so it never offers a Send button it
     // is about to be refused for — the refusal still stands server-side either way.
+    // ── groups ────────────────────────────────────────────────────────────────────────────────────
+    // The model shipped 2026-08-29 with 24 tests and was imported by NOTHING. Identity is the injected
+    // whoami, never a body field — the model enforces rank, but only against the actor it is handed.
+    if (path === '/groups' || path.startsWith('/groups/') || path === '/me/groups') {
+      return groupsHandler(req, res, { whoami: (r) => whoami(r) });
+    }
+
     // ── bounties ──────────────────────────────────────────────────────────────────────────────────
     // The catalogue is public: somebody deciding whether to sign up should be able to see what there
     // is to do first. Everything that touches a person's own progress is session-only.

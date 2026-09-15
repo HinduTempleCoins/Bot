@@ -27,6 +27,23 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { validAccountName } from '../../signup/welcome-grant.mjs';
+
+// ⭐ TWO KINDS OF IDENTITY, AND THE LINE BETWEEN THEM IS DELIBERATE.
+// A social login with no MELEK account gets a '~…' messenger handle (pentecaust/auth.mjs). This model
+// predates handles and validated everything with validAccountName(), so a handle could not JOIN a
+// group — which makes the whole social-login tier pointless, because a group somebody cannot join is
+// a group they never come back to.
+//
+//   canParticipate  — member, applicant, invitee, poster.  MELEK account OR '~…' handle.
+//   canOwn          — owner, and the linked on-chain community account.  MELEK account ONLY.
+//
+// Owning stays restricted on purpose, and not arbitrarily: a group's durable layer is an on-chain
+// community account (see .local/GROUPS_SOLUTION_DESIGN.md §2.1) and a handle has no chain identity to
+// link. An owner also holds real power over other people's membership, which is a thing to require a
+// proven account for.
+const isHandle = (a) => /^~[a-z0-9]{3,30}$/.test(String(a || ''));
+const canParticipate = (a) => validAccountName(a) || isHandle(a);
+const canOwn = (a) => validAccountName(a);
 import { evaluateGate } from '../../integrations/token-gate.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
@@ -123,7 +140,7 @@ export function view(group) {
 export function createGroup(spec = {}, opts = {}) {
   const { fs, file } = ctx(opts);
   const owner = acct(spec.owner);
-  if (!validAccountName(owner)) return { ok: false, reason: 'owner must be a valid MELEK account name' };
+  if (!canOwn(owner)) return { ok: false, reason: 'owner must be a valid MELEK account name — owning a group needs a proven account' };
   const name = clamp(spec.name, 60).trim();
   if (name.length < 2) return { ok: false, reason: 'group name too short' };
   const kind = KINDS.includes(spec.kind) ? spec.kind : 'community';
@@ -158,7 +175,7 @@ export function createGroup(spec = {}, opts = {}) {
 export function addMember(id, account, opts = {}) {
   const { fs, file } = ctx(opts);
   const who = acct(account);
-  if (!validAccountName(who)) return { ok: false, reason: 'account must be a valid MELEK account name' };
+  if (!canParticipate(who)) return { ok: false, reason: 'account must be a valid MELEK account name or messenger handle' };
   const store = loadStore(fs, file);
   const group = store.groups[id];
   if (!group) return { ok: false, reason: 'no such group' };
@@ -213,7 +230,7 @@ export function approve(id, actor, account, opts = {}) {
 export function invite(id, actor, account, opts = {}) {
   const { fs, file } = ctx(opts);
   const who = acct(account); const by = acct(actor);
-  if (!validAccountName(who)) return { ok: false, reason: 'account must be a valid MELEK account name' };
+  if (!canParticipate(who)) return { ok: false, reason: 'account must be a valid MELEK account name or messenger handle' };
   const store = loadStore(fs, file); const group = store.groups[id];
   if (!group) return { ok: false, reason: 'no such group' };
   if (rank(roleOf(group, by)) < ROLES.mod) return { ok: false, reason: 'not allowed (mod+ only)' };
@@ -306,7 +323,7 @@ export function setAbout(id, actor, about, opts = {}) {
 export function setAccount(id, actor, account, opts = {}) {
   const { fs, file } = ctx(opts);
   const by = acct(actor); const a = acct(account);
-  if (!validAccountName(a)) return { ok: false, reason: 'account must be a valid MELEK account name' };
+  if (!canParticipate(a)) return { ok: false, reason: 'account must be a valid MELEK account name or messenger handle' };
   const store = loadStore(fs, file); const group = store.groups[id];
   if (!group) return { ok: false, reason: 'no such group' };
   if (rank(roleOf(group, by)) < ROLES.admin) return { ok: false, reason: 'not allowed (admin+ only)' };
@@ -332,7 +349,7 @@ export function setAccount(id, actor, account, opts = {}) {
 export function postToGroup(id, post = {}, opts = {}) {
   const { fs, file } = ctx(opts);
   const author = acct(post.author);
-  if (!validAccountName(author)) return { ok: false, reason: 'author must be a valid MELEK account name' };
+  if (!canParticipate(author)) return { ok: false, reason: 'author must be a valid MELEK account name' };
   const permlink = slug(post.permlink);
   if (!permlink) return { ok: false, reason: 'permlink required' };
   const store = loadStore(fs, file); const group = store.groups[id];
