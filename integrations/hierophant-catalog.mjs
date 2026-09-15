@@ -545,6 +545,29 @@ export const TEXTS = [
       { id: 'key-of-solomon', why: 'The opposite method: Abramelin is one long interior operation where the Key is an apparatus of instruments and hours.' },
     ],
   },
+
+  // ── Enochic ──────────────────────────────────────────────────────────────────────────────────
+  {
+    id: 'first-enoch', title: '1 Enoch (The Ethiopic Book of Enoch)', tradition: 'grimoire', era: 'c. 3rd c. BCE – 1st c. CE (Ge\'ez; Aramaic fragments at Qumran)',
+    what: 'The Book of the Watchers and four other books bound as one. Two hundred angels descend on Mount Hermon in the days of Jared — but FIRST they swear an oath, because Semjaza fears he alone will bear the penalty: "let us all swear an oath, and all bind ourselves by mutual imprecations not to abandon this plan." The mountain is named FROM that oath. Then they teach: Azazel metalwork, antimony and the beautifying of the eyelids, costly stones and all colouring tinctures; Semjaza enchantments and root-cuttings; Armaros the resolving of enchantments; Baraqijal astrology; Kokabel the constellations; Ezeqeel the clouds; Araqiel the signs of the earth; Shamsiel the sun; Sariel the course of the moon.',
+    note: '⭐ The word EGREGORE descends from Greek egrēgoroi, "the Watchers" — this book is where they come from. ⚠️ And the charge in Enoch is not that the knowledge was false. Metallurgy, cosmetics, herbalism and astronomy are real subjects; the offence was teaching them to people who were not supposed to have them. Preserved whole only in Ge\'ez, canonical in the Ethiopian Orthodox Tewahedo Church, and quoted directly in Jude 14–15.',
+    links: { sacredTexts: `${ST}/bib/boe/index.htm`, archive: `${AR}/bookofenoch00charuoft` }, verified: false,
+    entities: ['azazel', 'semjaza', 'enoch', 'michael'],
+    companions: [
+      { id: 'book-of-jubilees', why: 'The other Second-Temple retelling of Genesis 6, and it handles the Watchers differently.' },
+      { id: 'testament-of-solomon', why: 'Where bound spirits are interrogated and catalogued — the structure Enoch starts and the grimoires inherit.' },
+      { id: 'dead-sea-scrolls', why: 'Aramaic fragments of Enoch were found at Qumran, which is how we know how old it is.' },
+    ],
+  },
+  {
+    id: 'book-of-jubilees', title: 'The Book of Jubilees ("Little Genesis")', tradition: 'grimoire', era: 'c. 2nd c. BCE',
+    what: 'Genesis retold on a fixed calendar of jubilees, with the Watchers present but reframed: here they come down at first to TEACH righteousness and judgement, and only afterward go astray. Mastema and the demons who survive the flood are bargained over and a tenth are left, which is the passage most later demonology quietly depends on.',
+    links: { sacredTexts: `${ST}/bib/jub/index.htm` }, verified: false,
+    entities: ['azazel'],
+    companions: [
+      { id: 'first-enoch', why: 'The same material with a different verdict on why the Watchers came down.' },
+    ],
+  },
 ];
 
 const TEXT_IDS = new Set(TEXTS.map((t) => t.id));
