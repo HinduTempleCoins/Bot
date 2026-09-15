@@ -39,6 +39,23 @@ const SITE_NAME = process.env.SITE_NAME || 'SoapBox Tools';
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
 const bp = (p) => BASE_PATH + p;
 
+// ⚠️ WHERE THE APPS ACTUALLY LIVE.
+// This hub was written for a path-routing proxy: /flashlight → the flashlight service started with
+// BASE_PATH=/flashlight. That proxy was never built, so every card on this page 404'd. The apps were
+// deployed on their OWN subdomains instead — they already serve at '/', so it needs no BASE_PATH
+// plumbing and each becomes a crawlable site with its own sitemap.
+//
+// Set TOOLS_PATH_ROUTING=1 to go back to paths if the proxy is ever built; the default follows the
+// deployment that exists.
+const PATH_ROUTING = process.env.TOOLS_PATH_ROUTING === '1';
+const APP_HOST = (slug) => {
+  // A couple of slugs differ from their hostname.
+  const host = { converter: 'convert' }[slug] || slug;
+  return `https://${host}.soapbox.community/`;
+};
+/** The href for an app card: its own subdomain by default, a local path under the proxy. */
+const appHref = (slug) => (PATH_ROUTING ? bp(`/${slug}`) : APP_HOST(slug));
+
 // Move + Wallet/Profile are front-door cards. They link out only if their URL env is set; otherwise the
 // card renders as a friendly "coming soon" tile. We deliberately do NOT build Move or the wallet here.
 const MOVE_URL = process.env.MOVE_URL || '';
@@ -77,7 +94,9 @@ export const GAMES = [
 
 // The paths this hub advertises to crawlers (each resolves through the proxy to its own app service).
 export const APP_PATHS = ['/', ...UTILITIES.map((a) => `/${a.slug}`), ...GAMES.map((a) => `/${a.slug}`)];
-export const SITEMAP_PATHS = APP_PATHS;
+// Only '/' is real on this host unless the path-routing proxy exists. Advertising /flashlight when it
+// 404s teaches every crawler that this site serves dead URLs.
+export const SITEMAP_PATHS = process.env.TOOLS_PATH_ROUTING === '1' ? APP_PATHS : ['/'];
 
 // ── style (house style; mirrors site/diagram + site/idlegames) ──────────────────────────────────────
 const STYLE = `<style>
@@ -123,7 +142,7 @@ function page(title, body, opts = {}) {
     jsonld: opts.jsonld || null,
   });
   // A couple of quick links in the top bar for parity with the app pages' shared nav.
-  const quick = `<a href="${esc(bp('/calculator'))}">Calculator</a><a href="${esc(bp('/notes'))}">Notes</a>`;
+  const quick = `<a href="${esc(appHref('calculator'))}">Calculator</a><a href="${esc(appHref('notes'))}">Notes</a>`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -136,7 +155,7 @@ ${FOOTER}</body></html>`;
 
 // ── card renderers ────────────────────────────────────────────────────────────────────────────────
 function toolCard(a) {
-  return `<a class=card href="${esc(bp('/' + a.slug))}">
+  return `<a class=card href="${esc(appHref(a.slug))}">
     <span class=e>${esc(a.emoji)}</span>
     <span class=t>${esc(a.name)}</span>
     <span class=tl>${esc(a.tagline)}</span>
@@ -238,7 +257,9 @@ export async function handler(req, res) {
       return res.end(llmsTxt({
         name: SITE_NAME, baseUrl: BASE_URL,
         summary: 'A directory of free, private, browser-based everyday tools (flashlight, calculator, password generator, notes, outliner, QR codes, markdown, timer, converter, weather, habits, diagrams) plus a games shelf. No account, no install, no tracking.',
-        links: [...UTILITIES, ...GAMES].map((a) => ({ label: a.name, path: `/${a.slug}`, note: a.tagline })),
+        // Absolute subdomain URLs, not local paths — a model that follows /flashlight here gets a 404
+        // and learns the wrong thing about the site.
+        links: [...UTILITIES, ...GAMES].map((a) => ({ label: a.name, url: appHref(a.slug), note: a.tagline })),
       }));
     }
 

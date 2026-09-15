@@ -31,10 +31,17 @@ test('landing 200 lists a card for every app (utilities + games)', async () => {
   const res = await get('/');
   assert.equal(res.code, 200);
   assert.match(res.headers['content-type'], /text\/html/);
+  // ⚠️ Every card used to link /<slug>, for a path-routing proxy that was never built — so every
+  // link on this page 404'd. The apps are deployed on their own subdomains, so that is where the
+  // cards point. TOOLS_PATH_ROUTING=1 restores the path form if the proxy is ever built.
+  const hostFor = (slug) => ({ converter: 'convert' }[slug] || slug);
   for (const a of ALL_APPS) {
-    assert.ok(res.body.includes(`href="/${a.slug}"`), `hub missing card link for /${a.slug}`);
+    assert.ok(res.body.includes(`href="https://${hostFor(a.slug)}.soapbox.community/"`),
+      `hub missing card link for ${a.slug}`);
     assert.ok(res.body.includes(esc(a.name)), `hub missing name for ${a.slug}`);
   }
+  assert.ok(!/href="\/(flashlight|calculator|qr|notes)"/.test(res.body),
+    'no link to a path that 404s on this host');
   // the shelves are present
   assert.match(res.body, />Utilities</);
   assert.match(res.body, />Games</);
@@ -68,7 +75,7 @@ test('/health returns {"ok":true}', async () => {
   assert.deepEqual(JSON.parse(res.body), { ok: true });
 });
 
-test('robots.txt, sitemap.xml, sitemap-index.xml, llms.txt all serve and carry the app paths', async () => {
+test('robots.txt, sitemap.xml, sitemap-index.xml, llms.txt serve — and advertise only live URLs', async () => {
   const robots = await get('/robots.txt');
   assert.equal(robots.code, 200);
   assert.match(robots.body, /User-agent/);
@@ -77,7 +84,8 @@ test('robots.txt, sitemap.xml, sitemap-index.xml, llms.txt all serve and carry t
   assert.equal(sm.code, 200);
   assert.match(sm.body, /<urlset|<url>/);
   for (const a of ALL_APPS) {
-    assert.ok(sm.body.includes(`/${a.slug}</loc>`), `sitemap missing /${a.slug}`);
+    assert.ok(!sm.body.includes(`/${a.slug}</loc>`),
+      `sitemap must not advertise /${a.slug} — it 404s without the path-routing proxy`);
   }
 
   const smi = await get('/sitemap-index.xml');
@@ -87,15 +95,24 @@ test('robots.txt, sitemap.xml, sitemap-index.xml, llms.txt all serve and carry t
   const llms = await get('/llms.txt');
   assert.equal(llms.code, 200);
   assert.match(llms.body, /SoapBox Tools/);
+  // llms.txt hands an AI crawler absolute URLs it can actually fetch. `converter` is served at
+  // convert.soapbox.community — the slug and the hostname differ, which is exactly the kind of
+  // detail a path-shaped assertion hides.
+  const hostFor2 = (slug) => ({ converter: 'convert' }[slug] || slug);
   for (const a of ALL_APPS) {
-    assert.ok(llms.body.includes(`/${a.slug}`), `llms.txt missing /${a.slug}`);
+    assert.ok(llms.body.includes(`https://${hostFor2(a.slug)}.soapbox.community/`),
+      `llms.txt missing a live URL for ${a.slug}`);
   }
 });
 
-test('SITEMAP_PATHS / APP_PATHS cover the home page and every app', () => {
-  assert.ok(SITEMAP_PATHS.includes('/'));
-  assert.strictEqual(SITEMAP_PATHS, APP_PATHS);
-  for (const a of ALL_APPS) assert.ok(APP_PATHS.includes(`/${a.slug}`));
+test('the sitemap advertises only paths that exist on THIS host', () => {
+  // /flashlight and friends 404 here without the proxy. Advertising them teaches every crawler
+  // that this site serves dead URLs — the same fault that put localhost into arcade's sitemap.
+  assert.deepEqual(SITEMAP_PATHS, ['/']);
+  for (const a of ALL_APPS) {
+    assert.ok(APP_PATHS.includes(`/${a.slug}`), 'APP_PATHS still describes the proxy layout');
+    assert.ok(!SITEMAP_PATHS.includes(`/${a.slug}`), `/${a.slug} must not be advertised`);
+  }
 });
 
 test('unknown path → 404, never a 500', async () => {
