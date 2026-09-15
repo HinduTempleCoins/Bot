@@ -552,8 +552,42 @@ export async function handler(req, res) {
       // Until that's wired, production REFUSES all linking, so nobody can bind their Google to e.g. 'hathor'
       // and take it over. Testnet (DEV_TRUST) allows it for the demo, on a SEPARATE auth store
       // (PENTECAUST_AUTH_DATA) so a testnet link can never carry into production.
-      if (!honorDevTrust(req, DEV_TRUST())) return send(403, { ok: false, reason: 'linking requires MELEK-Signer account proof (not yet enabled)' });
-      const r = completeOAuthLink(b.claim, b.account);
+      // THE PROOF THIS GATE WAS WAITING FOR. The claim proves you control the SOCIAL identity; it says
+      // nothing about the MELEK account. Binding without account proof would let anyone point their Google
+      // at `hathor`. Production therefore refused ALL linking — which also meant no social login could ever
+      // complete: OAuth succeeded, the account-picker appeared, "Link & sign in" returned 403, and the link
+      // store stayed empty forever. The gate was correct and the door was missing.
+      //
+      // Two ways to prove the MELEK side, both of which close the takeover hole:
+      //   1. an ACTIVE SESSION — you already proved this account (MELEK-Signer); link the social to it.
+      //   2. account + password verified through the registered melek-signer method, in this request.
+      // Anything else is still refused.
+      const linkSession = sessionFromReq(req);
+      let proven = linkSession && linkSession.account ? _acct(linkSession.account) : null;
+
+      if (!proven && b.account && b.password) {
+        const verify = _methods.get('melek-signer');
+        if (verify) {
+          try {
+            const got = await verify(req, { account: b.account, password: b.password });
+            if (got && _acct(got) === _acct(b.account)) proven = _acct(got);
+          } catch { proven = null; }
+        }
+      }
+
+      // Dev-trust keeps the old demo behaviour on the testnet store; production now has a real path.
+      if (!proven && honorDevTrust(req, DEV_TRUST())) proven = _acct(b.account);
+
+      if (!proven) {
+        return send(403, { ok: false,
+          reason: 'sign in to that MELEK account first (or send account + password) to prove you own it' });
+      }
+      // An explicitly named account must MATCH the proven one — never silently link somewhere else.
+      if (b.account && _acct(b.account) !== proven) {
+        return send(403, { ok: false, reason: 'you can only link a social login to the account you proved' });
+      }
+
+      const r = completeOAuthLink(b.claim, proven);
       if (!r.ok) return send(400, r);
       return send(200, { ok: true, account: r.account }, { 'set-cookie': setCookie(SESSION_COOKIE, r.token, SESSION_TTL_MS) });
     }
