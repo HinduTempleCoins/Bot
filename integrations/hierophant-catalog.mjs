@@ -46,6 +46,9 @@ export const TRADITIONS = [
   // ⭐ The library had no grimoires at all — no Solomon, no Goetia, no Agrippa, no Picatrix — which is
   // a strange hole in a Temple library whose own corpus is full of ritual and spirit work.
   { id: 'grimoire',    name: 'Grimoires',         blurb: 'The Solomonic cycle, the Lemegeton and the Renaissance magical books — ritual, pentacle, circle and conjuration.' },
+  // ⚠️ The library had no Canaanite or Phoenician shelf at all — no Ugarit, no Sanchuniathon, nothing
+  // on Punt or Havilah. The whole Levantine substrate the Hebrew and Greek shelves sit ON was absent.
+  { id: 'phoenician',  name: 'Canaanite & Phoenician', blurb: 'Ugarit, Byblos and Carthage — Baal and Anat, the theogony of Sanchuniathon, and the incense roads to Punt.' },
 ];
 
 const TRADITION_IDS = new Set(TRADITIONS.map((t) => t.id));
@@ -566,6 +569,40 @@ export const TEXTS = [
     entities: ['azazel'],
     companions: [
       { id: 'first-enoch', why: 'The same material with a different verdict on why the Watchers came down.' },
+    ],
+  },
+
+  // ── Canaanite & Phoenician ───────────────────────────────────────────────────────────────────
+  {
+    id: 'baal-cycle', title: 'The Baal Cycle (the Ugaritic tablets)', tradition: 'phoenician', era: 'c. 14th–13th c. BCE; excavated at Ras Shamra from 1929',
+    what: 'The mythology of Canaan in its own language, on clay, before anyone was editing it. Baal against Yamm the Sea and against Mot, Death; Anat\'s slaughter; El presiding as the aged father of the gods. It is the substrate the Hebrew Bible argues with — El, Elyon, Asherah and the rider of the clouds are all here first.',
+    note: '⭐ Ugarit is also what rescued Sanchuniathon\'s reputation: the 14th-century BCE tablets published from 1929 onward showed so many correspondences with him that the Phoenician History could no longer be dismissed as a Hellenistic invention.',
+    links: { sacredTexts: `${ST}/ane/ugarit.htm`, archive: `${AR}/ugariticnarrativ0000unse` }, verified: false,
+    entities: [],
+    companions: [
+      { id: 'phoenician-history', why: 'The same pantheon a thousand years later, written by a Phoenician for Greek readers.' },
+    ],
+  },
+  {
+    id: 'phoenician-history', title: 'The Phoenician History of Sanchuniathon (via Philo of Byblos)', tradition: 'phoenician', era: 'attributed pre-Trojan; Greek translation early 2nd c. CE',
+    what: 'The Phoenicians\' own account of the beginning, surviving only because Eusebius quoted it in Praeparatio Evangelica I.6–7 in order to attack it. A cosmogony of wind and desire, then generations of culture-heroes who INVENT things — fire, fishing, letters, metal, the working of iron — and are afterwards worshipped as gods. Ouranos, El (given as Cronus), Dagon and Astarte are named in a line.',
+    note: '⚠️ Contested for three centuries as a possible forgery by Philo. The Ugaritic tablets changed that: the correspondences are too many and too specific. Philo divided the work into nine books; what survives is fragments inside a hostile Christian apologetic, and Renan reconstructed the eight cosmogonies from Eusebius and Porphyry. ⭐ Its structure is the Watcher pattern in Phoenician dress — knowledge arrives with named teachers, and the teachers become gods.',
+    links: { sacredTexts: `${ST}/cla/sanchun/index.htm`, archive: `${AR}/sanchoniathospho00cumb` }, verified: false,
+    entities: [],
+    companions: [
+      { id: 'baal-cycle', why: 'The tablets that proved this text is carrying real Canaanite tradition.' },
+      { id: 'first-enoch', why: 'The same shape: named beings bring the arts to humanity and are remembered for it.' },
+    ],
+  },
+  {
+    id: 'punt-expedition', title: 'The Punt Reliefs of Hatshepsut (Deir el-Bahari)', tradition: 'phoenician', era: 'c. 1470 BCE (18th Dynasty)',
+    what: 'Not a book — a wall. The south colonnade of Hatshepsut\'s mortuary temple carries the fullest ancient record of the incense trade: the ships, the Puntite houses on stilts, the ruler and his wife, and Egyptians carrying LIVE MYRRH TREES slung on poles, which were replanted in the temple precinct. Aromatics as the object of a state expedition, carved in stone.',
+    note: '⚠️ Punt\'s location is genuinely unsettled — the Horn of Africa (Eritrea, Somalia, Djibouti) and southern Arabia (Yemen, Oman) are both seriously argued, with recent work on baboon mummies used as evidence. Do not state a location as fact.',
+    links: { archive: `${AR}/deirelbahari03nav` }, verified: false,
+    entities: ['hatshepsut'],
+    companions: [
+      { id: 'first-enoch', why: 'Enoch 8 lists colouring tinctures and costly stones among the taught arts; Punt is where the aromatics actually came from.' },
+      { id: 'book-of-the-dead', why: 'The incense in Egyptian funerary ritual is what the expedition was for.' },
     ],
   },
 ];
