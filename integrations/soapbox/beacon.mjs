@@ -39,6 +39,14 @@ export function beaconTag(base = DEFAULT_BASE) {
  * The client script the collector serves at /b.js. Kept HERE rather than in the server so the thing
  * that is injected and the thing that is served are edited in one place and cannot drift apart.
  *
+ * ⚠️ THE CONTENT TYPE IS LOAD-BEARING AND IT MUST BE text/plain.
+ * sendBeacon dispatches in no-cors mode, which permits ONLY the CORS-safelisted content types:
+ * text/plain, application/x-www-form-urlencoded, multipart/form-data. A Blob typed
+ * application/json is rejected by the browser BEFORE the request leaves — the server's CORS
+ * headers never come into it. This cost the whole network its analytics once; curl cannot see it,
+ * only a real browser can. The body is still JSON; only the declared type changed, and the
+ * collector parses the body regardless of content-type.
+ *
  * sendBeacon is used first because it survives page unload, which a fetch does not. The fetch keepalive
  * fallback exists for browsers where sendBeacon is disabled. Both are wrapped: a beacon that throws on
  * a page is a bug the page owner did not ask for.
@@ -46,8 +54,8 @@ export function beaconTag(base = DEFAULT_BASE) {
 export const BEACON_JS = `(function(){try{
 var b=${JSON.stringify(DEFAULT_BASE)};
 var d=JSON.stringify({p:location.pathname+location.search,r:document.referrer||""});
-if(navigator.sendBeacon){navigator.sendBeacon(b+"/px",new Blob([d],{type:"application/json"}));return;}
-fetch(b+"/px",{method:"POST",headers:{"content-type":"application/json"},body:d,keepalive:true,mode:"no-cors"}).catch(function(){});
+if(navigator.sendBeacon){if(navigator.sendBeacon(b+"/px",new Blob([d],{type:"text/plain;charset=UTF-8"})))return;}
+fetch(b+"/px",{method:"POST",headers:{"content-type":"text/plain;charset=UTF-8"},body:d,keepalive:true,mode:"no-cors"}).catch(function(){});
 }catch(e){}})();`;
 
 export const BEACON_BASE = DEFAULT_BASE;

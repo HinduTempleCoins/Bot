@@ -68,3 +68,15 @@ test('the injected tag on the network matches this module byte for byte', () => 
 test('the collector host is a first-party SoapBox host, not an ad-tech vendor', () => {
   assert.match(BEACON_BASE, /^https:\/\/[a-z]+\.soapbox\.community$/);
 });
+
+test('⚠️ the sendBeacon payload is text/plain — application/json is rejected in no-cors mode', () => {
+  // sendBeacon dispatches no-cors, which permits only the CORS-safelisted content types. A Blob
+  // typed application/json never leaves the browser, and no server header can fix it. This was
+  // shipped once and cost the whole network its analytics; only a real browser surfaced it.
+  assert.match(BEACON_JS, /type:"text\/plain;charset=UTF-8"/);
+  assert.ok(!BEACON_JS.includes('application/json'), 'no non-safelisted content type anywhere');
+});
+
+test('a refused sendBeacon falls through to the fetch instead of returning as if sent', () => {
+  assert.match(BEACON_JS, /if\(navigator\.sendBeacon\(/, 'the return value is checked');
+});
