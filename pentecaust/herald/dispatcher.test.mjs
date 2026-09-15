@@ -359,3 +359,20 @@ test('malformed HTTP request never throws', async () => {
   await d.handler({ method: 'POST', url: '/api/dispatch', headers: {} }, res); // no body/stream, no auth
   assert.ok(true);
 });
+
+// ── the seam that closed the last gap in the automation chain ───────────────────────────────────────
+// ifttt-triggers matched, ifttt-executor ran, and every result came back
+//   { ok:false, reason:'no notifier configured' }
+// because nothing injected a notify function. The dispatcher was already the rail for exactly that.
+test('notifier() delivers a fired trigger and never throws on a junk one', async () => {
+  const { notifier } = await import('./dispatcher.mjs');
+  const r = await notifier({ message: 'Trigger fired: ping on #melek', target: '@hathor', action: 'notify', name: 'r1' });
+  assert.equal(typeof r, 'object');
+  assert.equal(r.ok, true, 'the in-app inbox always accepts, so a notify is never lost');
+
+  // soft-fail-never-throw: the executor hands whatever a recipe produced, including nothing at all.
+  for (const junk of [undefined, null, {}, { target: null }, { message: 123 }]) {
+    const out = await notifier(junk);
+    assert.equal(typeof out, 'object', 'notifier must always return a shaped result');
+  }
+});

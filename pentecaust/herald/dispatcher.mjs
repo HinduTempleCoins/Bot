@@ -383,6 +383,31 @@ function readJsonBody(req, max = 262144) {
 let _singleton = null;
 function shared() { if (!_singleton) _singleton = createDispatcher(); return _singleton; }
 export const handler = (req, res) => shared().handler(req, res);
+
+/**
+ * notifier() — the `notify` seam ifttt-triggers hands to ifttt-executor.
+ *
+ * The executor ran fired recipes correctly and every one came back
+ *   { ok:false, reason:'no notifier configured' }
+ * because nothing injected one. This dispatcher IS the rail for exactly that — email, telegram,
+ * discord, webhook, in-app — so the two halves only ever needed introducing.
+ *
+ * Routed IN-PROCESS via dispatchTriggers, deliberately NOT through POST /api/dispatch: that endpoint
+ * fails closed without HERALD_DISPATCH_SECRET, and a trigger firing inside the same process is already
+ * trusted. Unconfigured channels soft no-op; the in-app inbox always works, so a notify is never lost.
+ */
+export async function notifier(arg) {
+  // Normalise BEFORE destructuring. A `= {}` default only fires on `undefined`, so an explicit null —
+  // exactly what a junk recipe or a failed upstream hands you — threw and broke the never-throws
+  // contract. ifttt-executor.mjs carries this same fix and the same note; the trap is worth naming twice.
+  const { message, target, action, name, recipeId } = (arg && typeof arg === 'object') ? arg : {};
+  try {
+    const d = shared();
+    const out = await d.dispatchTriggers([{ action: action || 'notify', target, name: name || recipeId, text: message }]);
+    const first = Array.isArray(out && out.results) ? out.results[0] : (Array.isArray(out) ? out[0] : out);
+    return first && first.ok !== false ? { ok: true, via: first.channel || 'inapp' } : { ok: false, reason: (first && first.error) || 'dispatch failed' };
+  } catch { return { ok: false, reason: 'dispatch error' }; }
+}
 export { readJsonBody };
 
 // ── CLI (guarded) — demo a fan-out against an in-memory store, no network, no config (all soft no-ops) ──────
