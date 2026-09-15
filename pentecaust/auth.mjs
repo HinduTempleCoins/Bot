@@ -42,6 +42,7 @@ import { dirname, join } from 'node:path';
 import { validAccountName } from '../signup/welcome-grant.mjs';
 import { connectMailbox } from './connect/mailbox.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
+import { mintTicket, returnUrlOk } from './sso.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
@@ -507,6 +508,27 @@ export async function handler(req, res) {
     // GET /auth/logout — clear the cookie
     if (method === 'GET' && segs[1] === 'logout' && segs.length === 2) {
       return redirect('/', { 'set-cookie': clearCookie(SESSION_COOKIE) });
+    }
+
+    // GET /auth/sso?return=<url> — hand a SIBLING SITE (Herald) proof of who is signed in here.
+    //
+    // Herald is on a different registrable domain, so this session cookie is never sent to it. Rather
+    // than register herald's callback with Google, Discord and GitHub — each behind the operator's login
+    // in a provider console — ALL OAuth stays here and Herald accepts a short-lived signed ticket.
+    //
+    // ⚠️ The return URL is checked against an exact-origin allow-list BEFORE a ticket exists. Skipping
+    // that turns this route into an open redirect that hands an attacker a valid ticket for the asking.
+    if (method === 'GET' && segs[1] === 'sso' && segs.length === 2) {
+      const want = q.get('return') || '';
+      const chk = returnUrlOk(want);
+      if (!chk.ok) return send(400, { ok: false, reason: `return url refused: ${chk.reason}` });
+      const s = sessionFromReq(req);
+      // Not signed in → send them through the normal login first, then straight back here.
+      if (!s || !s.account) return redirect(`/?sso=${encodeURIComponent(want)}`);
+      const ticket = mintTicket(s.account, want);
+      if (!ticket) return send(500, { ok: false, reason: 'could not mint ticket' });
+      const sep = want.includes('?') ? '&' : '?';
+      return redirect(`${want}${sep}sso=${encodeURIComponent(ticket)}`);
     }
 
     // GET /auth/switch — log out and land on the sign-in row ready to pick a DIFFERENT identity.

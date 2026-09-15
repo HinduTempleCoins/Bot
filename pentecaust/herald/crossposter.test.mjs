@@ -186,3 +186,25 @@ test('a missing required field is a 422, not a half-formed broadcast', async () 
   assert.equal(o.code, 422);
   if (before === undefined) delete process.env.HERALD_CROSSPOST_SECRET; else process.env.HERALD_CROSSPOST_SECRET = before;
 });
+
+test('a signed-in operator may crosspost without the shared secret', async () => {
+  const before = process.env.HERALD_CROSSPOST_SECRET;
+  delete process.env.HERALD_CROSSPOST_SECRET;          // no machine secret configured at all
+  const store = { read: () => null, write: () => {} };
+  const ops = [];
+  cpSetBroadcaster(async (chain, op) => { ops.push(op); return { ok: true, txid: 'tx' }; });
+
+  // still closed to an anonymous caller
+  let { res, o } = httpCap();
+  await cpHandler(postReq('/api/crosspost', SRC), res, { fs: store, file: 'x' });
+  assert.equal(o.code, 401);
+
+  // open to a proven operator
+  ({ res, o } = httpCap());
+  await cpHandler(postReq('/api/crosspost', SRC), res, { fs: store, file: 'x', authorizedAs: 'hathor' });
+  assert.equal(o.code, 200);
+  assert.equal(ops.length, 1, 'the session is the human path to the same gate');
+
+  cpSetBroadcaster(null);
+  if (before === undefined) delete process.env.HERALD_CROSSPOST_SECRET; else process.env.HERALD_CROSSPOST_SECRET = before;
+});
