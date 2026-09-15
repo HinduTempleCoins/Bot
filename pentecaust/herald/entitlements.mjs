@@ -75,7 +75,17 @@ export function operators(env = process.env) {
  *                  is REFUSED as impersonation rather than silently using the session, because a
  *                  request that names a different account is either a bug or an attempt.
  */
+// A messenger identity ('~…') is a social login with no MELEK account behind it. It may use the private
+// messenger and nothing else: no campaigns, no sending, no bulk import. Those touch other people's
+// inboxes or the chain, and a handle nobody vouched for must not reach either.
+const MESSENGER_CAPS = new Set(['pm']);
+const isMessenger = (a) => String(a || '').startsWith('~');
+
 export function check({ session = null, capability = '', claimedAccount = '', env = process.env } = {}) {
+  if (session && isMessenger(session.account) && !MESSENGER_CAPS.has(String(capability))) {
+    return { ok: false, code: 'melek-account-required',
+      reason: 'that needs a MELEK account — attach one from your profile' };
+  }
   const cap = CAPABILITIES[str(capability)];
   if (!cap) return { ok: false, code: 'unknown-capability', reason: `no such capability "${capability}"` };
 

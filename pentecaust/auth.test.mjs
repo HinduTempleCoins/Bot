@@ -715,3 +715,53 @@ test('⚠️ GET /auth/profile is session-only — you cannot read another accou
   assert.equal(o.code, 200);
   assert.equal(J(o).account, 'ryan', 'the session decides whose profile this is, never the query');
 });
+
+// ── a social login gets you into the MESSENGER, with no MELEK account ────────────────────────────────
+// Anyone arriving with a Google and no MELEK account used to hit a wall: /auth/link demands proof of an
+// account, so their first visit ended at a form asking for a name and password they did not have.
+test('a messenger handle is stable, namespaced, and cannot be a MELEK account', async () => {
+  const { messengerHandle, isMessengerHandle } = await import('./auth.mjs');
+  const h = messengerHandle('google', 'sub-123');
+  assert.equal(h, messengerHandle('google', 'sub-123'), 'same social → same handle, every time');
+  assert.notEqual(h, messengerHandle('discord', 'sub-123'), 'the provider is part of the identity');
+  assert.ok(isMessengerHandle(h));
+  assert.ok(!isMessengerHandle('hathor'));
+  // ⭐ the namespace IS the safety argument: a MELEK name can never start with '~'
+  const { validAccountName } = await import('../signup/server.mjs');
+  assert.equal(validAccountName(h), false, 'a handle must never be usable as an on-chain account name');
+  assert.ok(!h.includes('sub-123'), 'the handle must not leak the provider id');
+});
+
+test('POST /auth/messenger signs in from the claim alone — and derives the handle itself', async () => {
+  const claim = signClaim('google', 'msg-user-1', 'someone@example.com');
+  const { res, o } = cap();
+  await handler(postReq('/auth/messenger', { claim }), res);
+  assert.equal(o.code, 200, J(o).reason);
+  const acct = J(o).account;
+  assert.match(acct, /^~go/);
+  assert.equal(J(o).messenger, true);
+
+  // ⚠️ the handle is derived from the signed claim, never taken from the caller
+  const { res: r2, o: o2 } = cap();
+  await handler(postReq('/auth/messenger', { claim, account: 'hathor', handle: 'hathor' }), r2);
+  assert.equal(J(o2).account, acct, 'a caller cannot assert which identity it gets');
+
+  // a junk claim mints nothing
+  const { res: r3, o: o3 } = cap();
+  await handler(postReq('/auth/messenger', { claim: 'nope' }), r3);
+  assert.equal(o3.code, 400);
+  assert.equal(o3.headers['set-cookie'], undefined);
+});
+
+test('⚠️ a messenger identity may message and nothing else', async () => {
+  const { check } = await import('./herald/entitlements.mjs');
+  const session = { account: '~gox1y2z3w4' };
+  assert.equal(check({ session, capability: 'pm' }).ok, true, 'the messenger is the whole point');
+  for (const cap of ['email_send', 'bulk_import', 'campaign_build']) {
+    const r = check({ session, capability: cap });
+    assert.equal(r.ok, false, `${cap} must need a MELEK account`);
+    assert.equal(r.code, 'melek-account-required');
+  }
+  // a real account is unaffected
+  assert.equal(check({ session: { account: 'hathor' }, capability: 'campaign_build' }).ok, true);
+});

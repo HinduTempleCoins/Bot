@@ -746,7 +746,13 @@ const _params=new URLSearchParams(location.search);
 async function initAuth(){const bar=$('authbar');
  const link=_params.get('link');
  if(link){const email=_params.get('email')||'';bar.style.display='flex';
-  bar.innerHTML='<b>Welcome'+(email?(' '+E(email)):'')+'!</b> Link this login to your MELEK account:'+
+  // Two doors, not a wall. Someone arriving with a Google and no MELEK account used to be stuck at a
+  // form asking for an account name and password they did not have.
+  const handle=_params.get('handle')||'';
+  const msgr=handle?('<button class="btn primary" id=msgrBtn>Use the messenger as '+E(handle)+'</button>'
+    +'<small class=mut style="flex-basis:100%">No MELEK account needed. You can attach one any time from your profile.</small>'
+    +'<span style="flex-basis:100%;border-top:1px solid var(--bd);margin:6px 0"></span>'):'';
+  bar.innerHTML=msgr+'<b>Welcome'+(email?(' '+E(email)):'')+'!</b> Or link this login to a MELEK account:'+
    '<input id=linkAcct placeholder=your-melek-name style="width:150px;flex:0 0 auto" autocapitalize=off spellcheck=false>'+
    '<input id=linkPw type=password placeholder="MELEK password" style="width:150px;flex:0 0 auto">'+
    '<button class="btn primary" id=linkBtn>Link &amp; sign in</button>'+
@@ -760,6 +766,9 @@ async function initAuth(){const bar=$('authbar');
    if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not link');};
   $('linkBtn').onclick=doLink;
   $('linkPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLink();});
+  if($('msgrBtn'))$('msgrBtn').onclick=async()=>{
+   const j=await api('/auth/messenger',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({claim:link})});
+   if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not start a messenger session');};
   return;}
  const s=await api('/auth/me');
  if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();

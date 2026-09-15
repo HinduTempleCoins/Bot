@@ -124,9 +124,35 @@ function verifyToken(token, secret = sessionSecret()) {
  * Mint a session token for a certified account. payload = { account, method, iat, exp }.
  * `method` records HOW they logged in (google/facebook/onetime/melek-signer/dev) for audit.
  */
+// ── MESSENGER IDENTITIES (social-only) ───────────────────────────────────────────────────────────────
+// A social login should get you INTO the private messenger. It could not: /auth/link demands proof of a
+// MELEK account, so anyone arriving with a Google and no MELEK account hit a wall on their first visit.
+//
+// ⭐ The namespace is the whole safety argument. A MELEK account name must match /^[a-z][a-z0-9-]*[a-z0-9]$/
+// per segment, so it can NEVER begin with '~'. A messenger identity is '~' + a stable short hash of
+// provider:sub, which means:
+//   · it cannot collide with, impersonate, or be mistaken for an on-chain account
+//   · it is stable across logins (same social → same handle) without storing anything extra
+//   · it reveals nothing — the hash is one-way, so a handle does not leak the email or provider id
+// Attaching a real MELEK account later is the existing /auth/link flow, unchanged.
+const MESSENGER_PREFIX = '~';
+export const isMessengerHandle = (a) => String(a || '').startsWith(MESSENGER_PREFIX);
+
+/** Stable, non-reversible messenger handle for a verified social identity. */
+export function messengerHandle(provider, providerUserId) {
+  const p = String(provider || '').toLowerCase();
+  const id = String(providerUserId || '');
+  if (!p || !id) return '';
+  const h = createHash('sha256').update(`${p}:${id}:messenger`).digest('base64')
+    .replace(/[^a-z0-9]/gi, '').toLowerCase().slice(0, 10);
+  return `${MESSENGER_PREFIX}${p.slice(0, 2)}${h}`;
+}
+
 export function makeSession(account, method = 'session', opts = {}) {
   const acct = _acct(account);
-  if (!validAccountName(acct)) return null;
+  // A messenger handle is deliberately NOT a valid MELEK account name — that is what keeps the two
+  // namespaces from ever touching — so it is admitted explicitly rather than by loosening the rule.
+  if (!validAccountName(acct) && !isMessengerHandle(acct)) return null;
   const iat = now(opts);
   const exp = iat + (opts.ttl || SESSION_TTL_MS);
   return signToken({ account: acct, method: String(method).slice(0, 32), iat, exp });
@@ -692,6 +718,22 @@ export async function handler(req, res) {
       return send(200, { ok: true, account: r.account }, { 'set-cookie': setCookie(SESSION_COOKIE, r.token, SESSION_TTL_MS) });
     }
 
+    // POST /auth/messenger — sign in to the PRIVATE MESSENGER with a social login alone.
+    // The claim is the proof the OAuth flow really verified this provider identity; the handle is
+    // derived from it here rather than taken from the caller, so a handle can never be asserted.
+    if (method === 'POST' && segs[1] === 'messenger' && segs.length === 2) {
+      const b = await readJson(req);
+      if (b == null) return send(400, { ok: false, reason: 'bad-body' });
+      const c = verifyToken(b.claim);
+      if (!c || c.kind !== 'oauth-claim' || !c.exp || now() >= Number(c.exp)) return send(400, { ok: false, reason: 'invalid or expired claim' });
+      if (!isProvider(c.provider) || !c.providerUserId) return send(400, { ok: false, reason: 'bad claim' });
+      const handle = messengerHandle(c.provider, c.providerUserId);
+      const token = makeSession(handle, `${c.provider}-messenger`);
+      if (!token) return send(500, { ok: false, reason: 'could not create a messenger identity' });
+      return send(200, { ok: true, account: handle, messenger: true },
+        { 'set-cookie': setCookie(SESSION_COOKIE, token, SESSION_TTL_MS) });
+    }
+
     // POST /auth/method/:name — a registered method (e.g. melek-signer)
     if (method === 'POST' && segs[1] === 'method' && segs[2] && segs.length === 3) {
       const fn = _methods.get(segs[2]);
@@ -788,7 +830,10 @@ export async function handler(req, res) {
           // SIGNED claim of the verified provider identity (so the link step at POST /auth/link can't be
           // spoofed). A browser callback is a top-level navigation — redirect, don't return a raw JSON page.
           const claim = signToken({ kind: 'oauth-claim', provider, providerUserId: info.id, email: info.email, exp: now() + STATE_TTL_MS });
-          const dest = `/?link=${encodeURIComponent(claim)}${info.email ? `&email=${encodeURIComponent(info.email)}` : ''}`;
+          // Carry the messenger handle too, so the landing page can offer "just use the messenger"
+          // beside "attach my MELEK account" instead of demanding an account nobody may have yet.
+          const handle = messengerHandle(provider, info.id);
+          const dest = `/?link=${encodeURIComponent(claim)}&handle=${encodeURIComponent(handle)}${info.email ? `&email=${encodeURIComponent(info.email)}` : ''}`;
           return redirect(dest, { 'set-cookie': [clearCookie(STATE_COOKIE), clearCookie(PKCE_COOKIE)] });
         }
 
