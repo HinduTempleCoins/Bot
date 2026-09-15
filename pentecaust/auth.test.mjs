@@ -19,6 +19,12 @@ const { getMailbox } = await import('./connect/mailbox.mjs');
 
 let n = 0;
 
+// mint a state token the way GET /auth/:provider does, so a callback can be driven offline
+function makeStateFor(provider, ttlMs = 10 * 60 * 1000) {
+  const body = b64u(JSON.stringify({ provider, nonce: 'n', exp: Date.now() + ttlMs }));
+  return `${body}.${b64u(createHmac('sha256', process.env.PENTECAUST_SESSION_SECRET).update(body).digest())}`;
+}
+
 // Mint the signed oauth-claim the OAuth callback hands to the account-picker. Uses the module's own
 // signer via a round-trip through /auth/:provider/callback would need network; this mirrors the payload.
 import { createHmac } from 'node:crypto';
@@ -607,4 +613,74 @@ test('⚠️ a proved account cannot be used to link a DIFFERENT account', async
   const { res, o } = cap();
   await handler(postReq('/auth/link', { claim, account: 'hathor' }, `pentecaust_session=${encodeURIComponent(token)}`), res);
   assert.equal(o.code, 403, 'proving one account must not let you link another');
+});
+
+// ── PKCE + X ────────────────────────────────────────────────────────────────────────────────────────
+// X requires PKCE even for a confidential client, so without it their OAuth 2.0 cannot be used AT ALL.
+// It also strictly improves every other provider: an intercepted authorization code is worthless on its
+// own, because redemption additionally needs the verifier.
+test('makePkce produces an RFC-legal S256 pair, fresh every time', async () => {
+  const { makePkce } = await import('./auth.mjs');
+  const { createHash } = await import('node:crypto');
+  const a = makePkce(); const b = makePkce();
+  assert.notEqual(a.verifier, b.verifier, 'a reused verifier is no verifier');
+  assert.ok(a.verifier.length >= 43 && a.verifier.length <= 128, `verifier length ${a.verifier.length} is outside RFC 7636`);
+  assert.match(a.verifier, /^[A-Za-z0-9\-._~]+$/, 'unreserved characters only');
+  const expect = createHash('sha256').update(a.verifier).digest('base64')
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  assert.equal(a.challenge, expect, 'the challenge must be S256 of the verifier, never the verifier itself');
+});
+
+test('a PKCE provider puts the CHALLENGE in the url and never the verifier', () => {
+  process.env.X_CLIENT_ID = 'x-test-id';
+  const { verifier, challenge } = { verifier: 'v'.repeat(43), challenge: 'chal' };
+  const u = new URL(authorizeUrl('x', 'st', undefined, challenge));
+  assert.equal(u.searchParams.get('code_challenge'), 'chal');
+  assert.equal(u.searchParams.get('code_challenge_method'), 'S256', 'never `plain`');
+  assert.ok(!u.toString().includes(verifier), 'the verifier must never reach the provider');
+  delete process.env.X_CLIENT_ID;
+});
+
+test('a NON-pkce provider is unchanged — no challenge is sent', () => {
+  process.env.GOOGLE_CLIENT_ID = 'g-test';
+  const u = new URL(authorizeUrl('google', 'st', undefined, 'chal'));
+  assert.equal(u.searchParams.get('code_challenge'), null);
+  delete process.env.GOOGLE_CLIENT_ID;
+});
+
+test('the start of an X login stashes the verifier in its OWN cookie, not in state', async () => {
+  process.env.X_CLIENT_ID = 'x-test-id';
+  const { res, o } = cap();
+  await handler(getReq('/auth/x'), res);
+  assert.equal(o.code, 302);
+  const cookies = [].concat(o.headers['set-cookie'] || []);
+  assert.equal(cookies.length, 2, 'state and pkce are separate cookies');
+  const pkce = cookies.find((c) => /^pentecaust_pkce=/.test(c));
+  assert.ok(pkce, 'no pkce cookie was set');
+  assert.match(pkce, /HttpOnly/);
+  const state = cookies.find((c) => /^pentecaust_oauth_state=/.test(c));
+  // the verifier must not be recoverable from anything the provider sees
+  const sentState = new URL(o.headers.location).searchParams.get('state');
+  assert.ok(!/pentecaust_pkce/.test(sentState || ''));
+  assert.ok(state && !state.includes(decodeURIComponent(pkce.split('=')[1].split(';')[0])));
+  delete process.env.X_CLIENT_ID;
+});
+
+test('⚠️ a PKCE callback with NO verifier cookie FAILS — it must not silently exchange without it', async () => {
+  process.env.X_CLIENT_ID = 'x-test-id';
+  process.env.X_CLIENT_SECRET = 'x-test-secret';
+  const state = makeStateFor('x');
+  const { res, o } = cap();
+  await handler(getReq(`/auth/x/callback?code=abc&state=${encodeURIComponent(state)}`,
+    `pentecaust_oauth_state=${encodeURIComponent(state)}`), res);
+  assert.equal(o.code, 403, 'dropping PKCE unnoticed is worse than failing');
+  assert.match(J(o).reason, /pkce verifier missing/);
+  delete process.env.X_CLIENT_ID; delete process.env.X_CLIENT_SECRET;
+});
+
+test('X is listed as a provider with its own callback', () => {
+  const x = providersStatus().find((p) => p.id === 'x');
+  assert.ok(x, 'X must appear in the provider list');
+  assert.equal(x.label, 'X');
+  assert.match(x.redirectUri, /\/auth\/x\/callback$/);
 });
