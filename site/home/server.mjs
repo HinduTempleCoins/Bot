@@ -33,6 +33,7 @@
 import { createServer } from 'node:http';
 import { promises as fsp } from 'node:fs';
 import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { robotsTxt as sharedRobots, publicSitemapIndexXml, PUBLIC_SITES } from '../../integrations/soapbox/crawlers.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 import { subscribeWidget, handle as newsletterHandle } from '../../integrations/newsletter.mjs';
 import { renderMarkdown, readDoc, DOC_STYLE } from '../../integrations/markdown-doc.mjs';
@@ -462,7 +463,20 @@ ${SKIMLINKS_JS ? `<script type="text/javascript" src="${esc(SKIMLINKS_JS)}"></sc
 }
 
 // ── crawler files (inline, keyless — no shared-module dependency so the root can't soft-fail to blank) ─
-const ROBOTS = `User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\n`;
+// ⚠️ The apex's robots.txt was hand-rolled as three lines, so it never invited the AI crawlers the
+// shared builder explicitly welcomes (GPTBot, ClaudeBot, PerplexityBot, CCBot, Google-Extended,
+// Bytespider…) and never pointed at the sitemap-INDEX. On the apex that matters more than anywhere
+// else: this is the file every crawler reads first, and it is the entry point to all 60 sites.
+// Falls back to the original three lines if the shared module is ever unavailable, because the root
+// must never soft-fail to blank.
+const ROBOTS = (() => {
+  try {
+    const base = sharedRobots(BASE_URL);
+    return base.includes('/sitemap-index.xml') ? base : `${base}\nSitemap: ${BASE_URL}/sitemap-index.xml\n`;
+  } catch {
+    return `User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\nSitemap: ${BASE_URL}/sitemap-index.xml\n`;
+  }
+})();
 function sitemapXml() {
   const today = new Date().toISOString().slice(0, 10);
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
@@ -496,8 +510,17 @@ export async function handler(req, res) {
 
     if (path === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(ROBOTS); }
-    if (path === '/sitemap.xml' || path === '/sitemap-index.xml') {
+    if (path === '/sitemap.xml') {
       res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemapXml());
+    }
+    // ⭐ THE INDEX OF THE WHOLE NETWORK. This route was aliased to the apex's OWN sitemap, so the one
+    // file that tells a crawler the other 59 sites exist listed three pages. A <sitemapindex> is a
+    // different document type from a <urlset>; serving the latter here means nothing downstream is
+    // ever discovered from the front door.
+    if (path === '/sitemap-index.xml') {
+      res.writeHead(200, { 'content-type': 'application/xml' });
+      try { return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10))); }
+      catch { return res.end(sitemapXml()); }
     }
     if (path === '/llms.txt') {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' }); return res.end(llmsTxt());
