@@ -15,7 +15,7 @@
 // Pure render from business-credit-bot.mjs. esc() everywhere, handler(req,res) exported, CLI guarded,
 // no network, no keys, nothing stored — progress is in the query string and nowhere else.
 //
-//   PORT=8148 BASE_URL=https://business.soapbox.community node site/business/server.mjs
+//   PORT=8330 BASE_URL=https://business.soapbox.community node site/business/server.mjs
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
@@ -26,7 +26,7 @@ import {
   KB, STEPS, MIN_HISTORY_MONTHS, NOT_ADVICE, guardrail, newProgress, completeStep, advise,
 } from '../../integrations/business-credit-bot.mjs';
 
-const PORT = +(process.env.PORT || 8148);
+const PORT = +(process.env.PORT || 8330);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://business.soapbox.community').replace(/\/$/, '');
 const BENEFITS = (process.env.BENEFITS_SITE || 'https://benefits.soapbox.community').replace(/\/$/, '');
