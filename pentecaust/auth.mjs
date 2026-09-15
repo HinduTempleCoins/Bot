@@ -195,6 +195,14 @@ const PROVIDERS = {
     userinfo: 'https://openidconnect.googleapis.com/v1/userinfo',
     clientId: () => env('GOOGLE_CLIENT_ID', ''),
     clientSecret: () => env('GOOGLE_CLIENT_SECRET', ''),
+    // ⛔ WITHOUT select_account YOU CANNOT USE A SECOND GOOGLE ACCOUNT.
+    // `prompt=consent` re-asks for CONSENT but never for WHICH ACCOUNT, so Google silently reuses
+    // whichever Gmail the browser is already signed into. The practical effect is that the first Gmail
+    // to log in becomes the only one that ever can: logging out of Pentecaust and clicking "Continue
+    // with Google" lands you straight back in as the same person, with no chooser and nothing to click.
+    // `select_account` shows the picker; `consent` is KEPT because access_type=offline only returns a
+    // refresh token when consent is re-granted, and Herald mailbox-connect depends on that token.
+    extraAuthParams: () => ({ prompt: "select_account consent" }),
     // Google userinfo: { sub, email, ... } — `sub` is the stable id.
     extract: (u) => ({ id: u && (u.sub || u.id), email: u && u.email }),
   },
@@ -499,6 +507,15 @@ export async function handler(req, res) {
     // GET /auth/logout — clear the cookie
     if (method === 'GET' && segs[1] === 'logout' && segs.length === 2) {
       return redirect('/', { 'set-cookie': clearCookie(SESSION_COOKIE) });
+    }
+
+    // GET /auth/switch — log out and land on the sign-in row ready to pick a DIFFERENT identity.
+    // Distinct from /auth/logout because the intent is different: "log out" means leave, "switch"
+    // means come straight back as someone else. It carries ?switch=1 so the page can say so, and it
+    // is the second half of the second-Gmail fix -- clearing OUR cookie is useless on its own while
+    // Google is still auto-selecting the same account (see extraAuthParams on the google provider).
+    if (method === 'GET' && segs[1] === 'switch' && segs.length === 2) {
+      return redirect('/?switch=1', { 'set-cookie': clearCookie(SESSION_COOKIE) });
     }
 
     // POST /auth/onetime — request (has account) or redeem (has code)

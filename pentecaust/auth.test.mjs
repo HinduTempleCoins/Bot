@@ -497,3 +497,54 @@ test('verifier: with the flag OFF, the header never authenticates anyone (even l
   const local = { headers: { 'x-melek-account': 'hathor' }, socket: { remoteAddress: '127.0.0.1' } };
   assert.equal(verifier(local), null);
 });
+
+// ── ⛔ THE SECOND-GMAIL LOCKOUT ─────────────────────────────────────────────────────────────────────
+// Reported live: "I signed in with Gmail and now I can't sign in with anything else, and I need 2 Gmails."
+//
+// Nothing was corrupt and no link was wrong. `prompt=consent` re-asks for CONSENT but never for WHICH
+// ACCOUNT, so Google silently reused whichever Gmail the browser was already signed into. The first
+// Gmail to log in therefore became the only one that ever could — logging out of Pentecaust and clicking
+// "Continue with Google" landed you straight back in as the same person, with no chooser and nothing to
+// click. `consent` is kept alongside it because access_type=offline only returns a refresh token when
+// consent is re-granted, and Herald mailbox-connect depends on that token.
+test('google offers an account chooser — without it a second Gmail can never sign in', () => {
+  process.env.GOOGLE_CLIENT_ID = 'test-client-id';
+  const u = new URL(authorizeUrl('google', 'state-token'));
+  const prompt = u.searchParams.get('prompt');
+  assert.match(prompt, /select_account/, 'google must ask WHICH account, not just re-ask consent');
+  assert.match(prompt, /consent/, 'consent must survive — access_type=offline needs it for the refresh token');
+  assert.equal(u.searchParams.get('access_type'), 'offline');
+  delete process.env.GOOGLE_CLIENT_ID;
+});
+
+// Two Gmails are two distinct provider identities, so they are two distinct link keys. Both may point
+// at the SAME MELEK account — that is a person with a work address and a personal one, not an attack.
+// What is refused is re-pointing an EXISTING link somewhere new (first-write-wins).
+test('two different Gmails may link to one MELEK account; neither can steal the other', () => {
+  const opts = O(freshFile());
+  assert.deepEqual(linkAccount('google', 'sub-personal', 'ryan', opts), { ok: true, account: 'ryan' });
+  assert.deepEqual(linkAccount('google', 'sub-work', 'ryan', opts), { ok: true, account: 'ryan' },
+    'a second Gmail is a second link key, not a conflict');
+  assert.equal(lookupLink('google', 'sub-personal', opts), 'ryan');
+  assert.equal(lookupLink('google', 'sub-work', opts), 'ryan');
+
+  // …and each may instead point at a DIFFERENT account — two Gmails, two identities.
+  const o2 = O(freshFile());
+  assert.ok(linkAccount('google', 'sub-a', 'ryan', o2).ok);
+  assert.ok(linkAccount('google', 'sub-b', 'hathor', o2).ok);
+  assert.equal(lookupLink('google', 'sub-a', o2), 'ryan');
+  assert.equal(lookupLink('google', 'sub-b', o2), 'hathor');
+
+  // First-write-wins still holds: an existing link is never silently re-pointed.
+  assert.deepEqual(linkAccount('google', 'sub-a', 'someone-else', o2),
+    { ok: false, reason: 'provider identity already linked to another account' });
+});
+
+test('/auth/switch clears the session and returns ready to sign in as someone else', async () => {
+  const { res, o } = cap();
+  await handler(getReq('/auth/switch'), res);
+  assert.equal(o.code, 302);
+  assert.equal(o.headers.location, '/?switch=1');
+  const sc = [].concat(o.headers['set-cookie'] || []).join(';');
+  assert.match(sc, /Max-Age=0/, 'the session cookie must actually be cleared');
+});
