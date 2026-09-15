@@ -56,7 +56,11 @@ export const KINDS = ['community', 'group', 'topic', 'board', 'circle', 'hub'];
 //   apply  — request → a mod approves
 //   invite — only an invited account may join
 //   token  — must pass the group's token-gate (balances supplied by the caller, checked here)
-export const JOIN_POLICIES = ['open', 'apply', 'invite', 'token'];
+// ⭐ 'dues' is what makes a Group a CLUB. Structurally it is one more join policy — roles, feed, chat
+// and the token-gate all work unchanged — because a Club is a Group with dues and a charter, not a
+// separate subsystem. The design doc's instinct that these primitives are siblings rather than tiers
+// holds here too.
+export const JOIN_POLICIES = ['open', 'apply', 'invite', 'token', 'dues'];
 // Moderation hierarchy (HIVE roles). Higher rank manages lower. 'muted' is below member (can read, not post).
 export const ROLES = { owner: 4, admin: 3, mod: 2, member: 1, muted: 0 };
 const SETTABLE_ROLES = ['admin', 'mod', 'member', 'muted']; // owner is transferred, never "set"
@@ -156,6 +160,7 @@ export function view(group) {
     team: group.team || null,
     id: group.id, name: group.name, about: group.about || '', kind: group.kind,
     joinPolicy: group.joinPolicy, owner: group.owner, account: group.account || null,
+    dues: group.dues || null, charter: group.charter || null,
     tag: group.tag || null, category: groupCategory(group),
     tokenGate: Array.isArray(group.tokenGate) ? group.tokenGate : [],
     maxMembers: group.maxMembers, created: group.created,
@@ -192,6 +197,7 @@ export function createGroup(spec = {}, opts = {}) {
   const tag = spec.tag ? slug(spec.tag) : slug(name) || `group-${id}`;
   const group = {
     id, name, about: clamp(spec.about, 500), kind, joinPolicy, owner,
+    dues: normDues(spec.dues),
     account, tag, tokenGate, maxMembers: max,
     members: { [owner]: { role: 'owner', joined: t } },
     applicants: {}, invites: {}, feed: [], created: t,
@@ -242,6 +248,19 @@ export function addMember(id, account, opts = {}) {
       const { grantedRoles } = evaluateGate({ balances, rules: group.tokenGate });
       if (grantedRoles.length) return admit();
       return { ok: false, status: 'gated', reason: 'token requirement not met' };
+    }
+    case 'dues': {
+      if (group.invites[who]) return admit();     // an invite is a comped membership
+      // ⛔ THIS MODULE NEVER DECIDES THAT SOMEBODY PAID, and that is the whole design.
+      // Dues settle on a rail this repo is deliberately not in: the organiser's connected account, a
+      // wallet-to-wallet transfer, or a burn. The caller passes `opts.paid` only after the RAIL said
+      // so. If this module inferred payment from anything it could see, membership would be
+      // grantable by whoever can shape a request — which is the same failure as a body-selected actor.
+      if (opts.paid === true) return admit();
+      return {
+        ok: false, status: 'dues-required', reason: 'this club requires membership dues',
+        dues: group.dues || null, group: view(group),
+      };
     }
     default:
       return admit();
@@ -331,6 +350,77 @@ export function setRole(id, actor, account, role, opts = {}) {
 }
 
 /** Admin+ changes the join policy (and optional token-gate rules alongside a 'token' policy). */
+/**
+ * Dues terms. NON-CUSTODIAL by construction: `rail` says WHERE money settles and this repo is not one
+ * of the options. `amount` is in minor units (cents / smallest token unit) so nothing is ever a float.
+ *
+ * ⚠️ `deductible` is NOT a free-text claim. Membership dues to a 501(c)(3) are only partly deductible —
+ * the payment minus the value of benefits received — and any quid-pro-quo payment over $75 requires a
+ * written disclosure estimating that value. A club that asserts deductibility without the Witness
+ * School determination behind it is making a tax representation on somebody else's return.
+ */
+export const DUES_RAILS = ['organizer-processor', 'wallet', 'burn'];
+function normDues(d) {
+  if (!d || typeof d !== 'object') return null;
+  const amount = Math.max(0, Math.floor(Number(d.amount) || 0));
+  if (!amount) return null;
+  return {
+    amount,
+    currency: clamp(d.currency, 12).toUpperCase() || 'USD',
+    period: ['once', 'monthly', 'yearly'].includes(d.period) ? d.period : 'monthly',
+    rail: DUES_RAILS.includes(d.rail) ? d.rail : 'organizer-processor',
+    payee: clamp(d.payee, 64),                 // who money actually goes to; never this platform
+    benefitsValue: Math.max(0, Math.floor(Number(d.benefitsValue) || 0)),
+    deductible: false,                          // only a Witness School determination may raise this
+  };
+}
+
+/** Set or clear a club's dues terms. Owner/admin only. */
+export function setDues(id, actor, dues, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file);
+  const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
+  group.dues = normDues(dues);
+  saveStore(fs, file, store);
+  return { ok: true, group: view(group) };
+}
+
+/**
+ * The CHARTER — what actually makes a Club feel like one.
+ *
+ * ⭐ The Ethereum Foundation's real product for meetup organisers was not money: the grants were
+ * $500-$1,500 and before that literally beer and pizza. What they gave was decks and templates with
+ * standard language and consistent visual design, which "conferred legitimacy on nascent groups" — a
+ * deck that made twelve people in a coworking space look like a chapter of something real.
+ *
+ * ⭐ And BitDevs has run monthly since 2013 because its agenda comes from an EXTERNAL always-refreshing
+ * feed, so the organiser never has to invent a topic. Pittsburgh Bitcoin went 50+ members to 4, and its
+ * organiser's own diagnosis was that it was founded on education and "that drive for education slowly
+ * started to fade". A club founded on an explanation dies when the explanation is finished — so
+ * `feed` is a first-class field, not decoration.
+ */
+export function setCharter(id, actor, charter, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file);
+  const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
+  const c = charter && typeof charter === 'object' ? charter : null;
+  group.charter = c ? {
+    purpose: clamp(c.purpose, 300),
+    cadence: clamp(c.cadence, 60),            // "monthly", "first Tuesday" — how often it meets
+    feed: clamp(c.feed, 300),                 // the always-refreshing source the agenda comes from
+    series: Math.max(0, Math.floor(Number(c.series) || 0)),   // meeting number; skipping is visible
+    witnessSchool: c.witnessSchool === true,  // the one determination that gates deductibility
+  } : null;
+  // Deductibility is a consequence of the Witness School determination, never a free-text claim.
+  if (group.dues) group.dues.deductible = !!(group.charter && group.charter.witnessSchool);
+  saveStore(fs, file, store);
+  return { ok: true, group: view(group) };
+}
+
 export function setJoinPolicy(id, actor, joinPolicy, tokenGate, opts = {}) {
   if (!JOIN_POLICIES.includes(joinPolicy)) return { ok: false, reason: 'unknown join policy' };
   const { fs, file } = ctx(opts);

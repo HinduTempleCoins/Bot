@@ -15,7 +15,7 @@
 
 import {
   createGroup, addMember, approve, invite, removeMember, setRole, setJoinPolicy, setAbout,
-  postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam,
+  postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam, setDues, setCharter, DUES_RAILS,
   groupChannelId, ROLES, JOIN_POLICIES, KINDS,
 } from './model.mjs';
 
@@ -56,7 +56,7 @@ export async function handler(req, res, deps = {}) {
     // The directory is open on purpose: somebody deciding whether to join should see what exists
     // before signing up. invite-only groups are already hidden by listGroups().
     if (method === 'GET' && path === '/groups') {
-      return json(res, 200, { ok: true, roles: Object.keys(ROLES), joinPolicies: JOIN_POLICIES, kinds: KINDS, groups: listGroups(opts) });
+      return json(res, 200, { ok: true, roles: Object.keys(ROLES), joinPolicies: JOIN_POLICIES, duesRails: DUES_RAILS, kinds: KINDS, groups: listGroups(opts) });
     }
     if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs.length === 2) {
       const g = getGroup(segs[1], opts);
@@ -106,6 +106,10 @@ export async function handler(req, res, deps = {}) {
     if (segs[0] !== 'groups' || !id) return json(res, 404, { ok: false, reason: 'not-found' });
 
     switch (segs[2]) {
+      // ⛔ `paid` is NOT read from the body. A caller asserting payment would make club membership
+      // free to anyone who can shape a request — the same failure as a body-selected actor. It is set
+      // only by a settlement callback the rail itself authenticates, which does not exist yet, so a
+      // dues club currently answers 'dues-required' to everyone and that is the correct behaviour.
       case 'join':      return json(res, 200, addMember(id, me, { ...opts, balances: b.balances }));
       case 'leave':     return json(res, 200, removeMember(id, me, me, opts));
       case 'approve':   return json(res, 200, approve(id, me, b.account, opts));
@@ -115,6 +119,8 @@ export async function handler(req, res, deps = {}) {
       case 'policy':    return json(res, 200, setJoinPolicy(id, me, b.joinPolicy, b.tokenGate, opts));
       case 'about':     return json(res, 200, setAbout(id, me, b.about, opts));
       case 'team':      return json(res, 200, setTeam(id, me, b.team, opts));
+      case 'dues':      return json(res, 200, setDues(id, me, b.dues, opts));
+      case 'charter':   return json(res, 200, setCharter(id, me, b.charter, opts));
       case 'post':      return json(res, 200, postToGroup(id, { ...b, author: me }, opts));
       default:          return json(res, 404, { ok: false, reason: 'not-found' });
     }
