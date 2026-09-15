@@ -33,6 +33,14 @@ import {
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
 import { sessionFromReq, handler as authHandler, registerMethod } from './auth.mjs';
 import { makeMelekSignerVerify } from './melek-signer-login.mjs';
+// Bounties. The board is keyed on `socialId`, not a MELEK account — which is exactly the messenger
+// handle: someone signs in with Google, gets '~go…', and earns from the first visit. linkWallet() is
+// the upgrade path when they later attach a real account. That is why this belongs HERE and not on a
+// separate site nobody is signed into.
+import {
+  BOUNTIES, CATEGORIES, bountiesByCategory, makeStore as makeBountyStore,
+  startBounty, completeBounty, linkWallet, progress as bountyProgress,
+} from '../integrations/bounties/bounty-board.mjs';
 import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, setStatus, addLead, moveLead, leadStats } from './crm/model.mjs';
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
@@ -121,6 +129,12 @@ function readBody(req, max = 16384) {
 // ── chain follow graph (for the dashboard's "People You Follow") ────────────────────────────────────
 // Who an account follows is PUBLIC on-chain data — read it from the MELEK RPC (condenser_api.get_following)
 // so the friends list can surface the people you already follow. Injectable fetch for offline tests.
+// ⚠️ makeStore() is IN-MEMORY — progress resets on restart. That is fine for the catalogue and for
+// proving the flow, and it is NOT fine for anything anybody earned, so it is stated here rather than
+// discovered when a restart wipes somebody's completions. A file-backed store is the next step, on the
+// same BOUNTY_DATA discipline every other store in this service uses.
+const BOUNTY_STORE = makeBountyStore();
+
 const CHAIN_RPC = process.env.MELEK_RPC || 'http://127.0.0.1:8090';
 let _chainFetch = (...a) => globalThis.fetch(...a);
 export function __setChainFetch(fn) { _chainFetch = fn || ((...a) => globalThis.fetch(...a)); }
@@ -198,6 +212,17 @@ export async function handler(req, res) {
     }
     // Herald: what THIS account may actually do. The UI reads this so it never offers a Send button it
     // is about to be refused for — the refusal still stands server-side either way.
+    // ── bounties ──────────────────────────────────────────────────────────────────────────────────
+    // The catalogue is public: somebody deciding whether to sign up should be able to see what there
+    // is to do first. Everything that touches a person's own progress is session-only.
+    if (method === 'GET' && path === '/bounties') {
+      return json(res, 200, { ok: true, categories: CATEGORIES, bounties: BOUNTIES, byCategory: bountiesByCategory() }, origin);
+    }
+    if (method === 'GET' && path === '/bounties/progress') {
+      const me = whoami(req); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, ...bountyProgress({ socialId: me }, BOUNTY_STORE) }, origin);
+    }
+
     if (method === 'GET' && path === '/me/entitlements') {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
       return json(res, 200, { ok: true, ...capabilitiesFor({ account: me }) }, origin);
@@ -281,6 +306,23 @@ export async function handler(req, res) {
         return json(res, 200, { ok: true, to: r.to, original: r.text, translation: r.tr }, origin);
       }
       // A reader's preferred language (used for the localized "Translate?" label). Private → auth.
+      if (path === '/bounties/start') {
+        const me = whoami(req); if (!me) return unauth(res, origin);
+        return json(res, 200, startBounty({ socialId: me, bountyId: b.bountyId }, BOUNTY_STORE), origin);
+      }
+      if (path === '/bounties/complete') {
+        const me = whoami(req); if (!me) return unauth(res, origin);
+        return json(res, 200, await completeBounty({ socialId: me, bountyId: b.bountyId, proof: b.proof }, BOUNTY_STORE), origin);
+      }
+      // ⚠️ The wallet you attach is the one you PROVED, never one you named — a bounty payout address
+      // that anybody could point anywhere is a payout address that gets pointed somewhere else.
+      if (path === '/bounties/link-wallet') {
+        const me = whoami(req); if (!me) return unauth(res, origin);
+        const s2 = sessionFromReq(req);
+        const proven = s2 && s2.account && !/^~/.test(s2.account) ? s2.account : '';
+        if (!proven) return json(res, 403, { ok: false, reason: 'sign in with your MELEK account to attach a wallet' }, origin);
+        return json(res, 200, linkWallet({ socialId: me, account: proven }, BOUNTY_STORE), origin);
+      }
       if (path === '/me/prefs') { const me = who(b.account); if (!me) return unauth(res, origin); return json(res, 200, setLang(me, b.lang), origin); }
 
       // ── invites (the signup gate) — VERIFIED identity only (session / MELEK-Signer), never a named field ──

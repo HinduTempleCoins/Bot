@@ -765,3 +765,19 @@ test('⚠️ a messenger identity may message and nothing else', async () => {
   // a real account is unaffected
   assert.equal(check({ session: { account: 'hathor' }, capability: 'campaign_build' }).ok, true);
 });
+
+test('⛔ a messenger session ROUND-TRIPS — minting one that cannot be read is a dead feature', () => {
+  // makeSession was taught to accept '~…' when social-only login shipped and sessionFromReq was not,
+  // so /auth/messenger set a cookie and /auth/me answered 401. Every unit test passed, because none of
+  // them round-tripped a handle. This one does.
+  const tok = makeSession('~gox1y2z3w4', 'google-messenger');
+  assert.ok(tok, 'a handle must mint');
+  const s = sessionFromReq(reqWithCookie('pentecaust_session', tok));
+  assert.ok(s, 'and it must read back — this is the assertion that was missing');
+  assert.equal(s.account, '~gox1y2z3w4');
+  assert.equal(s.messenger, true, 'a caller must be able to tell the two kinds of identity apart');
+
+  const real = sessionFromReq(reqWithCookie('pentecaust_session', makeSession('hathor', 'melek-signer')));
+  assert.equal(real.messenger, false);
+  assert.equal(sessionFromReq(reqWithCookie('pentecaust_session', 'garbage')), null);
+});

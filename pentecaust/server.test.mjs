@@ -760,3 +760,51 @@ test('the sign-in row is built from configured providers, not a hard-coded list'
   assert.match(o.body, /\/auth\/providers/, 'the row must ask the server which providers are ready');
   assert.match(o.body, /p\.configured/, 'and filter on configured');
 });
+
+// ── bounties ────────────────────────────────────────────────────────────────────────────────────────
+// The board is keyed on socialId, not a MELEK account — which is exactly the messenger handle. Somebody
+// signs in with Google, gets '~go…', and can earn from their first visit. That is why it lives here and
+// not on a separate site nobody is signed into.
+test('the bounty catalogue is public — you can see what there is to do before signing up', async () => {
+  const { res, o } = cap();
+  await handler(req('/bounties', 'GET'), res);
+  assert.equal(o.code, 200);
+  const j = JSON.parse(o.body);
+  assert.ok(j.bounties.length > 5);
+  assert.ok(j.categories.includes('foundational'));
+});
+
+test('⚠️ progress is session-only — you cannot read another account by naming it', async () => {
+  let { res, o } = cap();
+  await handler(req('/bounties/progress', 'GET'), res);
+  assert.equal(o.code, 401, 'anonymous must not see anyone\'s progress');
+
+  ({ res, o } = cap());
+  await handler(req('/bounties/progress?account=hathor', 'GET', null, cookie('gwen')), res);
+  assert.equal(o.code, 200);
+  assert.equal(JSON.parse(o.body).account, 'gwen', 'the session decides whose progress this is');
+});
+
+test('a messenger identity can start and complete a bounty from its first visit', async () => {
+  const handle = '~gox1y2z3w4';
+  let { res, o } = cap();
+  await handler(req('/bounties/start', 'POST', { bountyId: 'read-intro' }, cookie(handle)), res);
+  assert.equal(o.code, 200, o.body);
+
+  ({ res, o } = cap());
+  await handler(req('/bounties/progress', 'GET', null, cookie(handle)), res);
+  assert.equal(JSON.parse(o.body).account, handle);
+});
+
+test('⚠️ a wallet is attached from the PROVEN session, never from a named account', async () => {
+  // A payout address anybody can point anywhere is a payout address that gets pointed somewhere else.
+  let { res, o } = cap();
+  await handler(req('/bounties/link-wallet', 'POST', { account: 'hathor' }, cookie('~gomessenger1')), res);
+  assert.equal(o.code, 403, 'a messenger handle has proved no MELEK account, so it may not attach one');
+
+  ({ res, o } = cap());
+  await handler(req('/bounties/link-wallet', 'POST', { account: 'hathor' }, cookie('realuser')), res);
+  assert.equal(o.code, 200);
+  assert.ok(!JSON.stringify(JSON.parse(o.body)).includes('hathor'),
+    'the named account in the body must be ignored in favour of the proven one');
+});

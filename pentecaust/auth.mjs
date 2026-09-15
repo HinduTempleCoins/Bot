@@ -169,8 +169,12 @@ export function sessionFromReq(req, opts = {}) {
   if (!p || typeof p !== 'object') return null;                 // bad signature / malformed → reject
   if (!p.exp || now(opts) >= Number(p.exp)) return null;        // expired → reject
   const acct = _acct(p.account);
-  if (!validAccountName(acct)) return null;                     // payload must name a real account
-  return { account: acct, method: String(p.method || 'session') };
+  // ⛔ A messenger handle must be admitted on the way BACK IN too. makeSession was taught to accept
+  // '~…' when social-only login shipped and this was not, so a messenger session could be MINTED and
+  // then never read: /auth/messenger set a cookie, /auth/me answered 401, and the whole feature was
+  // dead on arrival while every unit test passed — because none of them round-tripped a handle.
+  if (!validAccountName(acct) && !isMessengerHandle(acct)) return null;
+  return { account: acct, method: String(p.method || 'session'), messenger: isMessengerHandle(acct) };
 }
 
 // The verifier you hand to server.mjs `__setAuthVerifier`: certified account (string) or null.
