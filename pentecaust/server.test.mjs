@@ -809,19 +809,6 @@ test('⚠️ a wallet is attached from the PROVEN session, never from a named ac
     'the named account in the body must be ignored in favour of the proven one');
 });
 
-// ── the landing ─────────────────────────────────────────────────────────────────────────────────────
-test('the landing ships hidden and is only revealed once /auth/me has answered', async () => {
-  const { res, o } = cap();
-  await handler(req('/', 'GET'), res);
-  assert.match(o.body, /<section id=land class=land hidden>/,
-    'it must not flash for somebody who IS signed in');
-  // and it is REMOVED for a signed-in user, not merely hidden — scrolling past a pitch is a bug
-  assert.match(o.body, /land\.remove\(\)/);
-  for (const feature of ['Private messages', 'Groups', 'Clubs', 'Pages']) {
-    assert.ok(o.body.includes(feature), `the landing should name ${feature}`);
-  }
-});
-
 test('the flame mark is inline SVG and served without a second request that can 404', async () => {
   let { res, o } = cap();
   await handler(req('/', 'GET'), res);

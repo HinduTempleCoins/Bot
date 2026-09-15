@@ -570,17 +570,6 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
  .brand{font-size:20px;font-weight:800;display:inline-flex;align-items:center;gap:8px}.brand b{color:var(--gold)}
  .mark{width:22px;height:22px;flex:0 0 22px;filter:drop-shadow(0 0 6px rgba(255,140,43,.45))}
- /* The landing is for somebody who has never been here. It is REPLACED by the app once a session
-    exists, rather than sitting above it — a signed-in user scrolling past a pitch is a bug. */
- .land{padding:26px 0 8px;border-bottom:1px solid var(--bd);margin-bottom:16px}
- .land h1{margin:0 0 8px;font-size:30px;line-height:1.15;letter-spacing:-.4px}
- .land h1 em{font-style:normal;background:linear-gradient(95deg,var(--flame),var(--ember) 55%,var(--ash));
-   -webkit-background-clip:text;background-clip:text;color:transparent}
- .land p.lead{margin:0 0 18px;color:var(--mut);max-width:56ch}
- .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:18px 0 0}
- .feat{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:12px 13px}
- .feat b{display:block;margin-bottom:3px}
- .feat small{color:var(--mut);line-height:1.45;display:block}
  @media(max-width:620px){.land h1{font-size:24px}}.alpha{font-size:10px;font-weight:700;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:2px 7px}
  .me{margin-left:auto;display:flex;gap:4px;align-items:center}.me .at{color:var(--mut)}.me input{width:150px;padding:7px 9px;border:1px solid var(--bd);border-radius:8px;background:#0e131b;color:var(--fg);font:inherit}
  .nav{display:flex;gap:4px;margin:10px 0 14px;border-bottom:1px solid var(--bd)}
@@ -618,17 +607,6 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nCamp>📣 Herald</button>
 </div>
 
-<section id=land class=land hidden>
-  <h1>Messaging that starts with <em>who you already are</em>.</h1>
-  <p class=lead>Sign in with Google, Discord or GitHub and you are in — no MELEK account, no wallet, no
-  seed phrase. Attach one later if you ever want the chain side.</p>
-  <div class=feats>
-    <div class=feat><b>🔒 Private messages</b><small>Direct messages between accounts. Nobody else can read a thread they are not in.</small></div>
-    <div class=feat><b>👥 Groups</b><small>Free communities with roles, a feed, and their own chat. Open, apply-to-join, invite-only or token-gated.</small></div>
-    <div class=feat><b>🔥 Clubs</b><small>A group with dues and a charter — a purpose, a cadence, and a feed so there is always something to meet about.</small></div>
-    <div class=feat><b>📄 Pages</b><small>A public page for a project or a clan. Readable by anyone, owned by you.</small></div>
-  </div>
-</section>
 <div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;flex-wrap:wrap;gap:8px;align-items:center"></div>
 
 <div id=paneMsg class=card>
@@ -873,11 +851,6 @@ async function initAuth(){const bar=$('authbar');
    if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not start a messenger session');};
   return;}
  const s=await api('/auth/me');
- // A signed-in user scrolling past a pitch is a bug, so the landing is REMOVED rather than hidden —
- // and it only ever appears once /auth/me has answered, so it cannot flash for somebody who IS signed in.
- const land=$('land');
- if(land)land.hidden=!!(s&&s.ok)?true:false;
- if(s&&s.ok&&land)land.remove();
  if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
   // Arrived here from a sibling site's /auth/login that found no session. Now there is one — continue
   // the handoff instead of stranding them on a page they did not ask for.
@@ -910,7 +883,6 @@ async function initAuth(){const bar=$('authbar');
  const pj=await api('/auth/providers');
  const ready=((pj&&pj.providers)||[]).filter(p=>p.configured);
  const social=ready.map(p=>'<a class=btn href="/auth/'+E(p.id)+'">Continue with '+E(p.label)+'</a>').join('');
- if($('land'))$('land').hidden=false;
  bar.style.display='flex';bar.innerHTML='<span>Sign in:</span>'+
   '<button class=btn id=mkBtn>Login with MELEK</button>'+
   social+
