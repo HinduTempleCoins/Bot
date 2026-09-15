@@ -422,6 +422,34 @@ async function fetchUserInfo(provider, accessToken) {
 const linkKey = (provider, id) => `${provider}:${id}`;
 
 /** Look up the MELEK account linked to (provider, providerUserId), or null. */
+/**
+ * Every social identity bound to ONE MELEK account, plus the providers still available to add.
+ *
+ * The account is the fixed point: socials attach TO it, several at once, and any of them signs you in
+ * as that same account. Returns non-secret display data only — provider, label, the email we were told,
+ * when it was linked. Never a token.
+ */
+export function profileFor(account, opts = {}) {
+  const acct = _acct(account);
+  if (!acct) return { ok: false, reason: 'account required' };
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file);
+  const labels = { google: 'Google', facebook: 'Facebook', x: 'X', discord: 'Discord', github: 'GitHub', reddit: 'Reddit', twitch: 'Twitch', linkedin: 'LinkedIn' };
+  const linked = [];
+  for (const [key, rec] of Object.entries(store.links || {})) {
+    if (!rec || _acct(rec.account) !== acct) continue;
+    const provider = String(key).split(':')[0];
+    linked.push({ provider, label: labels[provider] || provider, email: rec.email || null, linkedAt: rec.linkedAt || 0 });
+  }
+  linked.sort((a, b) => Number(a.linkedAt) - Number(b.linkedAt));
+  const have = new Set(linked.map((l) => l.provider));
+  // "Available" means configured AND not already attached — offering an unconfigured provider is the
+  // dead link that sent someone to a raw JSON error page.
+  const available = providersStatus().filter((p) => p.configured && !have.has(p.id))
+    .map((p) => ({ provider: p.id, label: p.label }));
+  return { ok: true, account: acct, linked, available };
+}
+
 export function lookupLink(provider, providerUserId, opts = {}) {
   const { fs, file } = ctx(opts);
   const store = loadStore(fs, file);
@@ -571,6 +599,14 @@ export async function handler(req, res) {
       if (!ticket) return send(500, { ok: false, reason: 'could not mint ticket' });
       const sep = want.includes('?') ? '&' : '?';
       return redirect(`${want}${sep}sso=${encodeURIComponent(ticket)}`);
+    }
+
+    // GET /auth/profile — the signed-in account's linked socials + what can still be added.
+    // Session-only: this is the caller's own profile, never a named account (the IDOR guard).
+    if (method === 'GET' && segs[1] === 'profile' && segs.length === 2) {
+      const s2 = sessionFromReq(req);
+      if (!s2 || !s2.account) return send(401, { ok: false, reason: 'no session' });
+      return send(200, profileFor(s2.account));
     }
 
     // GET /auth/switch — log out and land on the sign-in row ready to pick a DIFFERENT identity.

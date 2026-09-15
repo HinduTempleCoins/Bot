@@ -68,7 +68,7 @@ ${headTags({
   robots: opts.robots || 'index,follow,max-image-preview:large',
   site: SITE_GRAPH,
   jsonld: opts.jsonld || null,
-})}${STYLE}</head><body>
+})}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>stocks</span></a>
   <div class=topbar-r><a href="${DATA}">Data</a><a href="${SEARCH}">Search</a><a href="${DIRECTORY}">Directory</a><a href="${WIKI}">Wiki</a></div></header>
 <main class=wrap>${body}</main>

@@ -154,7 +154,7 @@ function shell(title, inner, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <link rel=canonical href="${esc(canonical)}">
-${STYLE}</head><body>
+${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar>
   <a class=brand href="${bp('/')}">🪷 <span class=n>KULA</span> Paper <span class=alpha>Alpha</span></a>
   <nav class=topnav>

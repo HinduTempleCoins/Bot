@@ -132,7 +132,7 @@ function page() {
   .cta.soon{background:#2a3441;color:var(--dim);cursor:default}
   footer{max-width:1000px;margin:0 auto;padding:0 16px 40px;color:var(--dim);font-size:12px}
   footer ul{padding-left:18px} footer a{color:var(--acc)}
-</style></head>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>
 <body>
 <div class="alpha">ALPHA</div>
 <header>

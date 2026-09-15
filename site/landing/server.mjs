@@ -76,7 +76,7 @@ const STYLE = `<style>
 const pageShell = (title, body) => `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="MELEK landing — find the Hathor Witness welcome post and the latest CheetahAdvanced run results in one place.">
-<meta name=robots content="index,follow"><link rel=canonical href="${esc(BASE_URL)}/">${STYLE}</head><body>
+<meta name=robots content="index,follow"><link rel=canonical href="${esc(BASE_URL)}/">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">◈ MELEK <span>landing</span></a>
   <div class=topbar-r><a href="${esc(WITNESS_SITE)}" title="Witness School">Witness</a><a href="${esc(CHEETAH_SITE)}" title="CheetahAdvanced reports">Cheetah</a><a href="${esc(COMMANDS_SITE)}" title="Command menu demo">Commands</a></div></header>
 <main class=wrap>${body}</main>

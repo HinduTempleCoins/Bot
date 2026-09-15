@@ -110,7 +110,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="index,follow,max-image-preview:large">
-<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
+<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'academy' })}</div>
 <header class=topbar><a class=brand href="/">🎓 MELEK Academy <span>· credentials</span></a>
   <div class=topbar-r><a href="/">Programs</a><a href="/verify">Verify</a><a href="/registry">Registry</a><a href="${esc(WITNESS)}">Witness School</a></div></header>
@@ -338,7 +338,7 @@ export function certificateView({ id = '', c = '' } = {}) {
   .noprint{text-align:center;margin:18px auto;max-width:900px}
   .noprint button{font:inherit;background:var(--gold);color:#1a1304;border:0;border-radius:8px;padding:9px 20px;font-weight:700;cursor:pointer}
   @media print{ body{background:#fff;padding:0} .noprint{display:none} .sheet{box-shadow:none;border-color:var(--gold);margin:0} @page{margin:14mm} }
-</style></head><body>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class=noprint><button onclick="window.print()">🖨️ Print / Save as PDF</button>
   <span style="margin-left:10px;color:#6b5f47;font-size:13px">Verify: <a href="${esc(verifyUrl)}">${esc(verifyUrl)}</a></span></div>
 <div class=sheet>

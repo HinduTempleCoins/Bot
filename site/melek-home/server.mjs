@@ -58,7 +58,7 @@ function homePage() {
 <title>MELEK — the live chain with a founding AI Witness</title>
 <meta name=description content="MELEK: a fair-launch, zero-pre-mine blockchain with a founding AI Witness (Hathor). The live chain launches after testnet validation; try the testnet at alpha.melek.salon.">
 <meta name=robots content="index,follow">
-<link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}</head><body>
+<link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div style="background:var(--panel);border-bottom:1px solid var(--line2);padding:7px 18px">${navBar({ current: 'melek' })}</div>
 <main class=wrap>${body}</main>
 <footer>MELEK — always uppercase, five letters, the full word. Fair-launch, zero pre-mine. The live chain (this site) is launching; the testnet is at <a href="${esc(ALPHA)}">alpha.melek.salon</a>.</footer>

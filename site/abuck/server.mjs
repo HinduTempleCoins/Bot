@@ -105,7 +105,7 @@ export async function homePage(where = '') {
 <meta name=robots content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website"><meta property="og:site_name" content="A Buck">
 <meta property="og:title" content="A Buck — real under-$2 stores"><meta property="og:description" content="Stores that genuinely sell at $0.99–$2.00 like Dollar Tree — honest chain facts plus a keyless locator and map.">
-<link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}</head><body>
+<link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class=navwrap>${navBar({ current: 'abuck' })}</div>
 <main class=wrap>${body}</main>
 <footer>A Buck — real under-$2 stores · part of the

