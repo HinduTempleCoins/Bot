@@ -44,7 +44,7 @@ import { join as _join, dirname as _dirname } from 'node:path';
 // mount its singleton handler. It's the execution rail for fired triggers — email (via the sender's ESP
 // seam), Telegram, Discord, generic webhook, and an in-app inbox; every channel unconfigured → soft no-op,
 // and it NEVER signs, pays, or broadcasts (reward/post triggers are Signer-only).
-import { handler as dispatchHandler } from '../../pentecaust/herald/dispatcher.mjs';
+import { handler as dispatchHandler, notifier as dispatchNotifier } from '../../pentecaust/herald/dispatcher.mjs';
 // The ad-auction sells PREMIUM featured slots by sealed-bid second-price (Vickrey) auction — the auction-house
 // side of the ad network (ad-network.mjs is the remnant/click side). Stateful (auctions live in a store), so
 // we hold a singleton and mount its handler. Auctions touch ONLY premium slots — organic ranking is never
@@ -390,7 +390,9 @@ const MOUNTS = [
   // singleton's select + origin allow-list. Native paths; holds no key, moves no funds.
   { rewrite: null, fn: (req, res) => adEmbedHandler(req, res, { select: adNetwork.select, originsOf: adNetwork.originsOf, baseUrl: BASE_URL }), match: (p) => p === '/embed/unit' || p.startsWith('/embed/') },
   { rewrite: null, fn: clickValidateHandler, match: (p) => p === '/api/click-validate' },
-  { rewrite: null, fn: iftttHandler, match: (p) => p === '/ifttt' || p === '/api/ifttt/recipes' || p === '/api/ifttt/evaluate' },
+  // ifttt: pass the dispatcher in as the notify seam. Without it every fired recipe came back
+  // "no notifier configured" — the trigger engine executed and had nowhere to deliver.
+  { rewrite: null, fn: (req, res) => iftttHandler(req, res, { notify: dispatchNotifier }), match: (p) => p === '/ifttt' || p === '/api/ifttt/recipes' || p === '/api/ifttt/evaluate' },
   // dispatcher: the trigger execution rail. Native paths (its own /health stays owned by the server above).
   { rewrite: null, fn: dispatchHandler, match: (p) => p === '/api/dispatch' || p === '/api/inbox' },
   // campaign-sender: one-click unsubscribe + subscribe/webhook/lists/stats (native paths; /health owned above).
