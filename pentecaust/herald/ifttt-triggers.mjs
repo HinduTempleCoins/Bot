@@ -29,6 +29,7 @@
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { matchRules } from '../../integrations/hashtag-trigger.mjs';
+import { executeAll } from './ifttt-executor.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
@@ -337,12 +338,13 @@ export async function handler(req, res, opts = {}) {
     if (method === 'GET' && path === '/api/ifttt/recipes') return sendJson(res, 200, { ok: true, recipes: store.list() });
 
     if (path === '/api/ifttt/evaluate') {
-      let event = null; let recipes = null; let now;
+      let event = null; let recipes = null; let now; let dryFromBody = false;
       if (method === 'POST') {
         const body = await readJsonBody(req);
         if (!body || typeof body !== 'object') return sendJson(res, 400, { ok: false, reason: 'bad-body' });
         event = body.event && typeof body.event === 'object' ? body.event : body;
         if (Array.isArray(body.recipes)) recipes = body.recipes;
+        if (body.dry === true || body.dry === 1 || body.dry === '1') dryFromBody = true;
         if (Number.isFinite(Number(body.now))) now = Number(body.now);
       } else if (method === 'GET') {
         const params = new URLSearchParams(qs);
@@ -355,7 +357,28 @@ export async function handler(req, res, opts = {}) {
       }
       // recipes supplied → pure evaluate; otherwise fire against the store (with dedupe window).
       const actions = Array.isArray(recipes) ? evaluate(recipes, event) : store.fire(event, now);
-      return sendJson(res, 200, { ok: true, fired: actions.length, actions, note: 'planned only — nothing signed or broadcast' });
+
+      // ⭐ RUN THEM. This module matched triggers correctly and then dropped every result on the floor:
+      // it answered `note: 'planned only — nothing signed or broadcast'` and ifttt-executor.mjs — which
+      // has execute/executeAll and the SSRF guard — sat next to it imported by nothing. The trigger half
+      // was wired to the live site and the action half was not, so the automation engine was a no-op.
+      //
+      // ?dry=1 keeps the old plan-only behaviour, because seeing what WOULD fire without firing it is a
+      // real need when you are writing a recipe.
+      const dry = dryFromBody || new URLSearchParams(qs).get('dry') === '1';
+      if (dry) {
+        return sendJson(res, 200, { ok: true, fired: actions.length, actions, executed: null, note: 'dry run — planned only, nothing performed' });
+      }
+
+      // KEYLESS_ACTIONS (notify, webhook) run here. SIGNER_ACTIONS (reward, post) come back marked
+      // requiresSigner and are NOT performed — this module holds no key and signs nothing, by design.
+      const summary = await executeAll(actions, { notify: opts.notify });
+      return sendJson(res, 200, {
+        ok: true, fired: actions.length, actions,
+        executed: summary.executed, succeeded: summary.ok, needSigner: summary.needSigner,
+        results: summary.results,
+        note: summary.needSigner ? `${summary.needSigner} action(s) need the signer and were not performed` : 'executed',
+      });
     }
 
     return sendJson(res, 404, { ok: false, reason: 'not-found' });

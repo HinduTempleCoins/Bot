@@ -196,3 +196,48 @@ test('handler never throws on a bad body / unknown path', async () => {
   await handler(mockReq('GET', '/nope/unknown'), res2, {});
   assert.equal(res2.statusCode, 404);
 });
+
+// ── ⛔ THE AUTOMATION ENGINE WAS A NO-OP ────────────────────────────────────────────────────────────
+// This module matched triggers correctly and then dropped every result on the floor. It answered
+//     note: 'planned only — nothing signed or broadcast'
+// while ifttt-executor.mjs — with execute/executeAll and the SSRF guard — sat beside it imported by
+// nothing. The trigger half was wired to the live site; the action half was not. Recipes fired and
+// nothing happened, which is the one failure an automation product cannot have.
+const recipeStore = (then) => makeStore({ recipes: [
+  { id: 'r1', name: 'on melek', when: { type: 'tag', tag: 'melek' }, then },
+] });
+const fire = async (store, url, deps) => {
+  const res = mockRes();
+  await handler(mockReq('POST', url, { event: { type: 'tag', tags: ['melek'] } }), res, { store, ...(deps || {}) });
+  return JSON.parse(res.body);
+};
+
+test('a fired recipe is actually EXECUTED, not merely planned', async () => {
+  const notified = [];
+  const j = await fire(recipeStore({ type: 'notify', target: 'ops' }), '/api/ifttt/evaluate',
+    { notify: async ({ message }) => { notified.push(message); } });
+  assert.equal(j.fired, 1, 'the recipe should match');
+  assert.equal(j.executed, 1, 'and it must actually run — this is the whole point');
+  assert.equal(notified.length, 1, 'the notifier was never called');
+  assert.ok(!/planned only/.test(j.note || ''));
+});
+
+test('?dry=1 still plans without performing — writing a recipe needs that', async () => {
+  const notified = [];
+  const j = await fire(recipeStore({ type: 'notify', target: 'ops' }), '/api/ifttt/evaluate?dry=1',
+    { notify: async () => { notified.push(1); } });
+  assert.equal(j.fired, 1);
+  assert.equal(j.executed, null, 'a dry run reports no execution');
+  assert.equal(notified.length, 0, 'a dry run must not actually notify');
+});
+
+test('⚠️ value-moving actions are reported, never performed — this module holds no key', async () => {
+  const j = await fire(recipeStore({ type: 'reward', target: '10 MELEK' }), '/api/ifttt/evaluate');
+  assert.equal(j.needSigner, 1, 'a reward must come back marked for the signer');
+  assert.ok(j.results.every((r) => !(r.executed && r.action === 'reward')), 'a reward must never be performed here');
+});
+
+test('⚠️ a recipe pointing at the metadata endpoint is refused, not fetched', async () => {
+  const j = await fire(recipeStore({ type: 'webhook', target: 'http://169.254.169.254/latest/meta-data/' }), '/api/ifttt/evaluate');
+  assert.ok(j.results.some((r) => !r.ok && /metadata/i.test(r.reason || '')), 'SSRF guard must fire on execution');
+});
