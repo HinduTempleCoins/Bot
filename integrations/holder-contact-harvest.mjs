@@ -48,9 +48,31 @@ export const PLATFORM_DOMAINS = Object.freeze(new Set([
   'allmylinks.com', 'amazon.com', 'amzn.to', 'ebay.com', 'etsy.com', 'shopify.com', 'wordpress.com',
   'blogspot.com', 'wixpress.com', 'squarespace.com', 'github.com', 'discord.com', 'telegram.org',
   'sentry.io', 'sentry-next.wixpress.com', 'example.com', 'domain.com', 'email.com',
+  // ⛔ PLACEHOLDER TEXT. A live crawl of the operator's friends' business sites returned
+  // `email@address.com` as a confident 'published-on-site' hit — it is the dummy address a template
+  // ships with, sitting in a footer nobody edited. A harvester that cannot tell a placeholder from a
+  // person will mail a template.
+  'address.com', 'yourdomain.com', 'yoursite.com', 'youremail.com', 'mysite.com', 'website.com',
+  'company.com', 'business.com', 'sample.com', 'test.com', 'localhost',
   // Advertising boilerplate that renders into every page of a hub. Found the hard way: each of these
   // appeared once per Linktree across 111 pages, which is a fingerprint no real contact ever has.
   'savagex.com', 'aaa.com', 'gobble.com',
+  // ⭐ The mainstream socials. This list grew up around Graphene holders — read.cash, hive.io, peakd —
+  // and had none of the networks ordinary people actually use. The operator's own seed list is 123 real
+  // people whose links are overwhelmingly Instagram, Facebook and LinkedIn, so a bare social apex was
+  // conferring ownership it has no business conferring. Same argument as read.cash: an address AT
+  // facebook.com is Facebook's, not the person's.
+  'twitter.com', 'x.com', 'facebook.com', 'fb.com', 'instagram.com', 'linkedin.com', 'tiktok.com',
+  'youtube.com', 'youtu.be', 'reddit.com', 'threads.net', 'bsky.app', 'pinterest.com', 'snapchat.com',
+  'tumblr.com', 'twitch.tv', 'nextdoor.com', 'meetup.com', 'eventbrite.com', 'gofundme.com',
+  'google.com', 'sites.google.com', 'apple.com', 'microsoft.com', 'yelp.com', 'indeed.com',
+  // ⛔ DATA BROKERS. These resell scraped contact data and are nobody's own site. An address taken
+  // from one is not "published by the person" in any sense — they never chose to put it there, and in
+  // most cases never knew. Crawling them also means scraping a scraper, which is its own problem.
+  'rocketreach.co', 'zoominfo.com', 'apollo.io', 'signalhire.com', 'lusha.com', 'hunter.io',
+  'spokeo.com', 'whitepages.com', 'beenverified.com', 'peoplefinders.com', 'intelius.com',
+  'truepeoplesearch.com', 'fastpeoplesearch.com', 'radaris.com', 'mylife.com', 'clearbit.com',
+  'contactout.com', 'snov.io', 'anymailfinder.com', 'voilanorbert.com',
 ]));
 
 /** Mailbox names that are never a person and never want a pitch. */
