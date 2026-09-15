@@ -53,7 +53,7 @@ import { suppressionFrom, unsubscribeMailto } from './herald/send-gate.mjs';
 import { check as entitled, guardSend, capabilitiesFor } from './herald/entitlements.mjs';
 import { gateSend, ledgerFor, recordSend } from './herald/send-gate.mjs';
 import { handler as mediaHandler } from './media.mjs';
-import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage } from '../signup/invites.mjs';
+import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage, tree as inviteTree} from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 
 const PORT = +(process.env.PORT || 8157);
@@ -175,6 +175,12 @@ export async function handler(req, res) {
     if (path === '/' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', ...cors(origin) }); return res.end(PAGE); }
     // Media Hub — the home for ALL media (radio/podcasts/music/art/library/watch). Its own handler.
     if (path === '/media' || path.startsWith('/media/')) return mediaHandler(req, res);
+    // The mark: a tongue of fire (Acts 2:3). Inline SVG so there is no binary asset to deploy and no
+    // second request that can 404 on a fresh box.
+    if (path === '/icon.svg' && method === 'GET') {
+      res.writeHead(200, { 'content-type': 'image/svg+xml; charset=utf-8', 'cache-control': 'public, max-age=86400' });
+      return res.end('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28"><defs><linearGradient id="f" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e0453a"/><stop offset=".55" stop-color="#ff8c2b"/><stop offset="1" stop-color="#ffd76a"/></linearGradient></defs><path fill="url(#f)" d="M12 0c1.6 5.2-3.1 6.9-3.1 11.2 0 1.6.8 2.9 1.9 3.6-.5-2.6.7-4.4 2.2-5.6-.4 2.7 1.1 3.7 2.4 5.3 1.4 1.7 2.1 3.4 2.1 5.1C17.5 24.2 14.9 28 12 28S6.5 24.2 6.5 19.6c0-2.3.9-4.1 2.1-5.8C6.2 15.1 4 17.9 4 21.1 4 25.4 7.6 28 12 28s8-2.6 8-6.9C20 13.6 12.9 10.4 12 0z"/></svg>');
+    }
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
     // The drop-in "Translate this page?" widget — included by Pentecaust AND by every Condenser page. Served
     // cross-origin (a <script src> tag needs no CORS); it then calls POST /translate (which is CORS-allowed).
@@ -256,6 +262,13 @@ export async function handler(req, res) {
       return json(res, 200, requireInvite(q.get('code')), origin);
     }
     // Your own invite standing + lineage — VERIFIED identity only (never a named account → no enumeration).
+    // ⭐ The tree is PUBLIC — Lobste.rs' actual deterrent is visibility, not the penalty, which they
+    // report is used "once or twice, basically never". Exposes account names and edges and nothing
+    // else: an unredeemed invite code is a live credential and never appears here.
+    if (method === 'GET' && path === '/invites/tree') {
+      return json(res, 200, inviteTree(), origin);
+    }
+
     if (method === 'GET' && path === '/invites/standing') {
       const me = verifiedAccount(req); if (!me) return unauth(res, origin);
       return json(res, 200, { ok: true, account: me, standing: invitesFor(me), lineage: inviteLineage(me) }, origin);
@@ -542,14 +555,33 @@ const unauth = (res, origin) => json(res, 401, { ok: false, reason: 'authenticat
 // ── dashboard UI (AIM-style: Messages/Friends first · Email · Channels) — also the drop-in web client ──
 const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>Pentecaust — MELEK Messaging</title>
+<meta name=description content="Pentecaust — private messaging, groups and clubs on MELEK. Sign in with Google, Discord or GitHub; no MELEK account required to start.">
+<meta name=theme-color content="#0b0d12">
+<link rel=icon href="/icon.svg" type="image/svg+xml">
 <style>
  .chips{display:inline-flex;gap:4px;flex-wrap:wrap}
  .chip{font-size:11px;border:1px solid var(--bd);border-radius:999px;padding:2px 8px;color:var(--mut);background:#0e131b}
- :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--gold:#d9a441;--green:#36c08a;--blue:#4c8dff}
+ /* Pentecost: the tongues of fire (Acts 2:3) — flame over the existing gold, which was already
+    halfway there. --flame/--ember/--ash are the fire; --gold stays so nothing existing re-skins. */
+ :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--gold:#d9a441;--green:#36c08a;--blue:#4c8dff;
+   --flame:#ff8c2b;--ember:#e0453a;--ash:#6b4a8f}
  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:14px}
  .wrap{max-width:880px;margin:0 auto}
  header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
- .brand{font-size:20px;font-weight:800}.brand b{color:var(--gold)}.alpha{font-size:10px;font-weight:700;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:2px 7px}
+ .brand{font-size:20px;font-weight:800;display:inline-flex;align-items:center;gap:8px}.brand b{color:var(--gold)}
+ .mark{width:22px;height:22px;flex:0 0 22px;filter:drop-shadow(0 0 6px rgba(255,140,43,.45))}
+ /* The landing is for somebody who has never been here. It is REPLACED by the app once a session
+    exists, rather than sitting above it — a signed-in user scrolling past a pitch is a bug. */
+ .land{padding:26px 0 8px;border-bottom:1px solid var(--bd);margin-bottom:16px}
+ .land h1{margin:0 0 8px;font-size:30px;line-height:1.15;letter-spacing:-.4px}
+ .land h1 em{font-style:normal;background:linear-gradient(95deg,var(--flame),var(--ember) 55%,var(--ash));
+   -webkit-background-clip:text;background-clip:text;color:transparent}
+ .land p.lead{margin:0 0 18px;color:var(--mut);max-width:56ch}
+ .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:18px 0 0}
+ .feat{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:12px 13px}
+ .feat b{display:block;margin-bottom:3px}
+ .feat small{color:var(--mut);line-height:1.45;display:block}
+ @media(max-width:620px){.land h1{font-size:24px}}.alpha{font-size:10px;font-weight:700;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:2px 7px}
  .me{margin-left:auto;display:flex;gap:4px;align-items:center}.me .at{color:var(--mut)}.me input{width:150px;padding:7px 9px;border:1px solid var(--bd);border-radius:8px;background:#0e131b;color:var(--fg);font:inherit}
  .nav{display:flex;gap:4px;margin:10px 0 14px;border-bottom:1px solid var(--bd)}
  .nav button{padding:9px 16px;border:0;border-bottom:2px solid transparent;background:none;color:var(--mut);font:inherit;font-weight:700;cursor:pointer}
@@ -575,7 +607,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  @media(max-width:620px){.im{flex-direction:column}.friends{width:auto;flex:none}}
 </style></head><body><div class=wrap>
 <header>
- <span class=brand><b>Pentecaust</b> Messaging</span><span class=alpha>Alpha</span>
+ <span class=brand><svg class=mark viewBox="0 0 24 28" aria-hidden="true"><defs><linearGradient id="fl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e0453a"/><stop offset=".55" stop-color="#ff8c2b"/><stop offset="1" stop-color="#ffd76a"/></linearGradient></defs><path fill="url(#fl)" d="M12 0c1.6 5.2-3.1 6.9-3.1 11.2 0 1.6.8 2.9 1.9 3.6-.5-2.6.7-4.4 2.2-5.6-.4 2.7 1.1 3.7 2.4 5.3 1.4 1.7 2.1 3.4 2.1 5.1C17.5 24.2 14.9 28 12 28S6.5 24.2 6.5 19.6c0-2.3.9-4.1 2.1-5.8C6.2 15.1 4 17.9 4 21.1 4 25.4 7.6 28 12 28s8-2.6 8-6.9C20 13.6 12.9 10.4 12 0z"/></svg><b>Pentecaust</b> Messaging</span><span class=alpha>Alpha</span>
  <span class=me><span class=at>@</span><input id=me placeholder=sign-in-to-use autocapitalize=off spellcheck=false readonly></span>
 </header>
 <div class=nav>
@@ -586,6 +618,17 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nCamp>📣 Herald</button>
 </div>
 
+<section id=land class=land hidden>
+  <h1>Messaging that starts with <em>who you already are</em>.</h1>
+  <p class=lead>Sign in with Google, Discord or GitHub and you are in — no MELEK account, no wallet, no
+  seed phrase. Attach one later if you ever want the chain side.</p>
+  <div class=feats>
+    <div class=feat><b>🔒 Private messages</b><small>Direct messages between accounts. Nobody else can read a thread they are not in.</small></div>
+    <div class=feat><b>👥 Groups</b><small>Free communities with roles, a feed, and their own chat. Open, apply-to-join, invite-only or token-gated.</small></div>
+    <div class=feat><b>🔥 Clubs</b><small>A group with dues and a charter — a purpose, a cadence, and a feed so there is always something to meet about.</small></div>
+    <div class=feat><b>📄 Pages</b><small>A public page for a project or a clan. Readable by anyone, owned by you.</small></div>
+  </div>
+</section>
 <div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;flex-wrap:wrap;gap:8px;align-items:center"></div>
 
 <div id=paneMsg class=card>
@@ -830,6 +873,11 @@ async function initAuth(){const bar=$('authbar');
    if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not start a messenger session');};
   return;}
  const s=await api('/auth/me');
+ // A signed-in user scrolling past a pitch is a bug, so the landing is REMOVED rather than hidden —
+ // and it only ever appears once /auth/me has answered, so it cannot flash for somebody who IS signed in.
+ const land=$('land');
+ if(land)land.hidden=!!(s&&s.ok)?true:false;
+ if(s&&s.ok&&land)land.remove();
  if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
   // Arrived here from a sibling site's /auth/login that found no session. Now there is one — continue
   // the handoff instead of stranding them on a page they did not ask for.
@@ -862,6 +910,7 @@ async function initAuth(){const bar=$('authbar');
  const pj=await api('/auth/providers');
  const ready=((pj&&pj.providers)||[]).filter(p=>p.configured);
  const social=ready.map(p=>'<a class=btn href="/auth/'+E(p.id)+'">Continue with '+E(p.label)+'</a>').join('');
+ if($('land'))$('land').hidden=false;
  bar.style.display='flex';bar.innerHTML='<span>Sign in:</span>'+
   '<button class=btn id=mkBtn>Login with MELEK</button>'+
   social+

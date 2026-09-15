@@ -7,6 +7,7 @@ import { unlinkSync } from 'node:fs';
 import {
   issueInvite, redeemInvite, invitesFor, requireInvite, canRedeem, lineage,
   INVITES_PER_ACCOUNT, ROOT, handler, __setAuthVerifier,
+  tree, INVITE_PROBATION_MS,
 } from './invites.mjs';
 
 // Each test gets a fresh temp file path so they don't bleed into each other.
@@ -258,4 +259,58 @@ test('handler: INVITES_DEV_TRUST header issues on loopback, but is IGNORED off-l
   assert.equal(o.code, 401);
   delete process.env.INVITES_DEV_TRUST;
   __setAuthVerifier(null);
+});
+
+// ── probation + the public tree ─────────────────────────────────────────────────────────────────────
+test('⚠️ probation is OFF by default — 70 days at zero users strangles the network it protects', () => {
+  // The mechanism is Lobste.rs'; the default is not. A mature community can afford a 70-day wait; a
+  // network of ten cannot, and the research is blunt that invite gates are rate limiters, not growth.
+  assert.equal(INVITE_PROBATION_MS, 0, 'turning it up must be a deliberate operator act');
+});
+
+test('when probation IS set, a fresh account cannot immediately issue its quota', async () => {
+  const before = process.env.INVITE_PROBATION_DAYS;
+  process.env.INVITE_PROBATION_DAYS = '70';
+  const fresh = await import(`./invites.mjs?probation=${Date.now()}`);
+  const o = O(freshFile());
+  const t0 = 1_000_000_000_000;
+
+  const code = fresh.issueInvite(fresh.ROOT, { ...o, now: t0 }).code;
+  assert.ok(fresh.redeemInvite(code, 'newbie', { ...o, now: t0 }).ok);
+
+  // ⛔ this is the case that matters: one bad actor becoming eleven in a minute
+  const tooSoon = fresh.issueInvite('newbie', { ...o, now: t0 + 1000 });
+  assert.equal(tooSoon.ok, false);
+  assert.match(tooSoon.reason, /probation/);
+  assert.ok(tooSoon.daysLeft > 69);
+
+  // …and it clears on time
+  const later = fresh.issueInvite('newbie', { ...o, now: t0 + (71 * 86400000) });
+  assert.equal(later.ok, true);
+
+  // root is never on probation — it is the source of the tree
+  assert.equal(fresh.issueInvite(fresh.ROOT, { ...o, now: t0 + 1 }).ok, true);
+  if (before === undefined) delete process.env.INVITE_PROBATION_DAYS; else process.env.INVITE_PROBATION_DAYS = before;
+});
+
+test('⭐ the tree is PUBLIC — that visibility is the deterrent, not the penalty', () => {
+  // Lobste.rs reports the chain-of-responsibility punishment is used "once or twice, basically never".
+  // A private tree deters nobody, because nobody can see they are attached to anyone.
+  const o = O(freshFile());
+  const c1 = issueInvite(ROOT, o).code;
+  redeemInvite(c1, 'alice', o);
+  const c2 = issueInvite('alice', o).code;
+  redeemInvite(c2, 'bob', o);
+
+  const t = tree(o);
+  assert.equal(t.count, 3, 'root, alice, bob');
+  const bob = t.nodes.find((n) => n.account === 'bob');
+  assert.equal(bob.invitedBy, 'alice', 'every profile shows who vouched for them');
+  assert.equal(t.nodes.find((n) => n.account === 'alice').brought, 1);
+
+  // ⛔ and it leaks NO live credential: an unredeemed code is a credential
+  const unredeemed = issueInvite('alice', o).code;
+  const blob = JSON.stringify(tree(o));
+  assert.ok(!blob.includes(unredeemed), 'an unredeemed invite code must never appear in a public read');
+  assert.ok(!blob.includes('remaining'), 'nor how many invites anybody has left');
 });
