@@ -135,3 +135,27 @@ test('city is a best-effort guess and kinds are closed', () => {
   assert.equal(normKind('FESTIVAL'), 'festival');
   assert.equal(normKind('rave'), 'other', 'an unknown kind must not invent a category');
 });
+
+test('⚠️ Luma sends NO url property — the link is inside DESCRIPTION', () => {
+  // Verified against a live Denver feed: 12 events, zero URL fields. Taking only fields.URL yields
+  // events nobody can click through to, which is most of the value gone.
+  const ics = ['BEGIN:VEVENT', 'DTSTART:20260915T230000Z', 'DTEND:20260916T013000Z',
+    'UID:evt-5Z259s3Ocw9mMQs@events.lu.ma',
+    'ORGANIZER;CN="Thad":MAILTO:calendar-invite@lu.ma',
+    'SUMMARY:AI Builders Denver',
+    'GEO:39.7392;-104.9903',
+    'DESCRIPTION:Get up-to-date information at: https://luma.com/albyi559\\n\\nAddress:\\nThe Link',
+    'END:VEVENT'].join('\r\n');
+  const e = parseIcs(ics, { source: 'luma' }).events[0];
+  assert.equal(e.url, 'https://luma.com/albyi559', 'the canonical link must be recovered');
+  assert.equal(e.lat, 39.7392);
+  assert.equal(e.lon, -104.9903);
+  assert.equal(e.organizer, 'Thad', 'CN is a name; the MAILTO is a platform relay and is not a contact route');
+  assert.ok(!JSON.stringify(e).includes('calendar-invite@lu.ma'), 'a platform relay address must not be kept');
+});
+
+test('an explicit URL property still wins over one scraped from the description', () => {
+  const ics = ['BEGIN:VEVENT', 'DTSTART;VALUE=DATE:20260101', 'SUMMARY:X',
+    'URL:https://real.test/event', 'DESCRIPTION:see https://decoy.test/nope', 'END:VEVENT'].join('\r\n');
+  assert.equal(parseIcs(ics).events[0].url, 'https://real.test/event');
+});

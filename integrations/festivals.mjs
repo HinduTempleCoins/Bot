@@ -133,6 +133,29 @@ export function parseIcs(text, { source = '', defaultKind = 'other' } = {}) {
       if (d) endMs = st.ms + ((+d[1] || 0) * DAY_MS) + ((+d[2] || 0) * 3600000) + ((+d[3] || 0) * 60000);
     }
 
+    const description = unescapeText(fields.DESCRIPTION ? fields.DESCRIPTION.value : '');
+    // ⚠️ Luma — the feed that matters most here — sends NO URL property. Verified against a live
+    // Denver feed: 12 events, zero URL fields, and the canonical link sitting inside DESCRIPTION as
+    // "Get up-to-date information at: https://luma.com/…". Taking only fields.URL yields an event
+    // nobody can click through to, which is most of the value gone.
+    let url = fields.URL ? clean(fields.URL.value) : '';
+    if (!url) {
+      const m = /https?:\/\/[^\s<>"'\\]+/.exec(description);
+      if (m) url = m[0].replace(/[.,;)]+$/, '');
+    }
+
+    // GEO is `lat;lon` per RFC 5545 §3.8.1.6. Luma sends it; it is the difference between a list and
+    // a map, and it is free.
+    let lat = null; let lon = null;
+    if (fields.GEO) {
+      const g = clean(fields.GEO.value).split(';').map(Number);
+      if (g.length === 2 && Number.isFinite(g[0]) && Number.isFinite(g[1])) { [lat, lon] = g; }
+    }
+
+    // ORGANIZER carries a display name in CN; the MAILTO is usually the platform's own relay address
+    // (Luma sends calendar-invite@lu.ma for every event) so it is NOT a contact route and is dropped.
+    const organizer = fields.ORGANIZER ? clean(fields.ORGANIZER.params.CN || '') : '';
+
     out.push(normalize({
       uid: fields.UID ? clean(fields.UID.value) : '',
       title: summary,
@@ -141,8 +164,8 @@ export function parseIcs(text, { source = '', defaultKind = 'other' } = {}) {
       allDay,
       tzApprox: !!st.tzApprox,
       location: unescapeText(fields.LOCATION ? fields.LOCATION.value : ''),
-      description: unescapeText(fields.DESCRIPTION ? fields.DESCRIPTION.value : ''),
-      url: fields.URL ? clean(fields.URL.value) : '',
+      description,
+      url, lat, lon, organizer,
       kind: defaultKind,
       source,
     }));
@@ -186,6 +209,9 @@ export function normalize(input = {}) {
     url: clean(e.url),
     description: clean(e.description).slice(0, 600),
     source: clean(e.source),
+    organizer: clean(e.organizer),
+    lat: Number.isFinite(Number(e.lat)) ? Number(e.lat) : null,
+    lon: Number.isFinite(Number(e.lon)) ? Number(e.lon) : null,
     tags: Array.isArray(e.tags) ? e.tags.map((t) => clean(t).toLowerCase()).filter(Boolean) : [],
   };
 }
