@@ -16,6 +16,7 @@
 //   import { handler } from './server.mjs'   // tests
 
 import { createServer } from 'node:http';
+import { robotsTxt as sharedRobotsTxt, sitemapXml as sharedSitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { fileURLToPath } from 'node:url';
 import { listCams, searchCams, allCams, esc, safeHref, dataNote } from '../../integrations/camera-directory.mjs';
 
@@ -145,7 +146,19 @@ export async function handler(req, res) {
     const path = url.pathname;
 
     if (path === '/health') return json(res, 200, { ok: true, cams: listCams().length, boundary: BOUNDARY });
-    if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('User-agent: *\nAllow: /\nDisallow: /api/\n'); }
+    if (path === '/robots.txt') {
+      // Shared builder: welcomes every search AND AI crawler by name, and points at this sitemap.
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
+      return res.end(sharedRobotsTxt((process.env.BASE_URL || 'https://cams.soapbox.community').replace(/\/$/, '')));
+    }
+    if (path === '/sitemap.xml') {
+      // This host is listed in the network sitemap-index; an index entry that 404s wastes the crawl.
+      const today = new Date().toISOString().slice(0, 10);
+      res.writeHead(200, { 'content-type': 'application/xml; charset=utf-8' });
+      return res.end(sharedSitemapXml((process.env.BASE_URL || 'https://cams.soapbox.community').replace(/\/$/, ''), ["/"].map((pp) => ({
+        path: pp, lastmod: today, changefreq: 'weekly', priority: pp === '/' ? '1.0' : '0.6',
+      }))));
+    }
 
     // Public directory JSON (curated seed + Windy when a key is set). No arbitrary host → no open proxy.
     if (path === '/api/cams') {
