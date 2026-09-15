@@ -451,7 +451,7 @@ function page(title, body, canonicalPath = '/') {
 <meta name=robots content="index,follow">
 <link rel=canonical href="${esc(BASE_URL)}${esc(canonicalPath)}">
 <meta property="og:title" content="${esc(title)}">
-${STYLE}${NAV_STYLE}${impactUtt()}</head><body>
+${STYLE}${NAV_STYLE}${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><span class=brand>SoapBox<span class=alpha>Alpha</span><small>${esc(ECOSYSTEM)}</small></span></header>
 <main class=wrap>${body}</main>
 <footer><b>${esc(SITE_NAME)}</b> · the MELEK / PRANA / KULA ecosystem map. All surfaces are on the

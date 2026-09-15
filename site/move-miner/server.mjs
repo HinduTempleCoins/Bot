@@ -184,7 +184,7 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   .legend i.you{border-radius:50%;background:var(--green);border-color:#0b0d12}
   footer{color:var(--mut);font-size:12px;text-align:center;margin-top:20px}
   a{color:var(--gold)}
-</style></head><body><div class=wrap>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header>
   <span class=logo>${ICON}</span>
   <h1>MELEK Move <small>Step counter · explore · MELEK rewards</small></h1>
@@ -401,7 +401,7 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catc
 export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>MELEK Move — Privacy Policy</title>
 <style>body{margin:0;background:#0b0d12;color:#e9eef5;font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:24px}
-.w{max-width:640px;margin:0 auto}h1{font-size:22px}h2{font-size:16px;margin-top:22px}a{color:#d9a441}.mut{color:#93a1b3}</style></head>
+.w{max-width:640px;margin:0 auto}h1{font-size:22px}h2{font-size:16px;margin-top:22px}a{color:#d9a441}.mut{color:#93a1b3}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>
 <body><div class=w>
 <h1>MELEK Move — Privacy Policy</h1>
 <p class=mut>Last updated 2026-06-25. MELEK Move is a fitness step-tracker and geo-explore game with in-app MELEK rewards (MELEK, the coin of the live MELEK mainnet).</p>
@@ -435,7 +435,7 @@ export const DELETE_PAGE = `<!doctype html><html lang=en><head><meta charset=utf
 .w{max-width:560px;margin:0 auto}h1{font-size:22px}h2{font-size:16px;margin-top:22px}a{color:#d9a441}.mut{color:#93a1b3}
 label{display:block;margin-top:14px;font-size:14px;color:#cdd8e6}input{width:100%;box-sizing:border-box;margin-top:6px;padding:11px;border-radius:9px;border:1px solid #2a3344;background:#121622;color:#e9eef5;font-size:16px}
 button{margin-top:18px;width:100%;padding:13px;border:0;border-radius:10px;background:#c0392b;color:#fff;font-size:16px;font-weight:600}
-#out{margin-top:16px;padding:12px;border-radius:9px;background:#121622;display:none}</style></head>
+#out{margin-top:16px;padding:12px;border-radius:9px;background:#121622;display:none}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>
 <body><div class=w>
 <h1>Delete your MELEK Move account & data</h1>
 <p class=mut>Developer: <b>SoapBox / MELEK</b>. App: <b>MELEK Move</b> (community.soapbox.move).</p>

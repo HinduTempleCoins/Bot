@@ -235,7 +235,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-${head}${opts.style || STYLE}</head><body${opts.bodyClass ? ` class="${esc(opts.bodyClass)}"` : ''}>
+${head}${opts.style || STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body${opts.bodyClass ? ` class="${esc(opts.bodyClass)}"` : ''}>
 ${chrome}<main class="${esc(opts.mainClass || 'wrap')}">${body}</main>
 ${opts.footer || FOOTER}</body></html>`;
 }

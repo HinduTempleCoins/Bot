@@ -4,7 +4,7 @@
 // "Scribd side" of the Resource Center and until now was mounted nowhere. The reader does the work;
 // this file is the page.
 //
-//   PORT=8195 BASE_URL=https://library.soapbox.community node site/library/server.mjs
+//   PORT=8325 BASE_URL=https://library.soapbox.community node site/library/server.mjs
 //
 // ── The posture, which is the whole point ────────────────────────────────────────────────────────
 //   The collection is outsourced to the sources, and what we do with a work depends entirely on its
@@ -26,7 +26,7 @@ import { createServer } from 'node:http';
 import * as books from '../../integrations/soapbox/books-open.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
-const PORT = +(process.env.PORT || 8195);
+const PORT = +(process.env.PORT || 8325);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = 'The SoapBox Library';
@@ -75,7 +75,7 @@ function page({ query = '', body = '' }) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(SITE_NAME)}${query ? ` — ${q}` : ''}</title>
 <meta name="description" content="A public-domain-first library of books and documents: Project Gutenberg texts served directly, Internet Archive in its own reader, Open Library for everything else.">
-${STYLE}</head><body>
+${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <h1>${esc(SITE_NAME)}</h1>
 <p class="tag">Public domain first. Nothing here is anybody else's file rehosted.</p>
 <form action="/" method="get" role="search">

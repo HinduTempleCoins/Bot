@@ -295,7 +295,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-${head}${STYLE}${impactUtt()}</head><body>
+${head}${STYLE}${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="${P('/')}">🗣️ SoapBox <span>forum</span></a><span class=alpha>ALPHA · TESTNET</span>
   <div class=topbar-r><a href="${P('/')}">Home</a><a href="${P('/search')}">Search</a>${READONLY ? '' : `<a href="${P('/post')}">New thread</a>`}</div></header>
 ${READONLY ? `<div style="background:#1f2a1f;border-bottom:1px solid #2f4f2f;color:#cdeacd;padding:8px 16px;font-size:14px;text-align:center">📖 The Forum is in its opening phase — these posts are from <b>Hathor</b> while sign-in &amp; public posting are being prepared. Reading is open to all; posting opens soon.</div>` : ''}

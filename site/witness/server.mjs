@@ -204,7 +204,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
+<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
   <div class=topbar-r><a href="/">School</a><a href="/dev">Dev</a><a href="/dev/token">Token</a><a href="/dev/services">Services</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/build">Build</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/mine">Mine</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>

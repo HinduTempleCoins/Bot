@@ -240,7 +240,7 @@ function page() {
  .act{margin-top:10px}.act[data-gated="1"]{opacity:.55;pointer-events:none}
  .arow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
  select{font:inherit;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px}
-</style></head><body><div class=wrap>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header><span class=brand>🌾 <b>KULA</b> Farm</span><span class=alpha>Alpha</span></header>
 <p class=lead>The Yield Farm is <b>Witness School for earning</b> — a guided hub that teaches <b>and</b> lets you do staking, burn-mining, hash-rate earning and regular yield farming, one step at a time. Grey tiles light up as you complete each one. The grow game (planting seeds) is at <a href="https://seeds.soapbox.community">seeds.soapbox.community</a>; this is where you farm the <b>tokens</b>.</p>
 

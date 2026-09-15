@@ -436,7 +436,7 @@ function page(rows) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(SITE_NAME)} — media player + playlist</title>
-${head}<style>${STYLE}</style>${impactUtt()}</head><body>
+${head}<style>${STYLE}</style>${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header><span class=brand><b>MELEK</b> Player</span><span class=alpha>Alpha</span></header>
 <div class=wrap>
   <p class=lead>Play a direct media URL or an official YouTube / Vimeo / Archive link, build a playlist, and pick up where you left off. Radio, podcasts, and on-chain ScotTube reels are one click away.</p>

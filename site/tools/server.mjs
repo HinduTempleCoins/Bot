@@ -4,7 +4,7 @@
 // card and a Wallet/Profile front-door card. Everything is standalone-useful first; there is NO crypto
 // pitch on this landing page — that is the whole point (asserted in tools.test.mjs).
 //
-//   PORT=8230 BASE_URL=https://tools.soapbox.community node site/tools/server.mjs
+//   PORT=8327 BASE_URL=https://tools.soapbox.community node site/tools/server.mjs
 //   → serves the directory landing at  /
 //
 // ── ARCHITECTURE (per-process, path-routing proxy — NOT single-process mounting) ────────────────────
@@ -29,7 +29,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 
-const PORT = +(process.env.PORT || 8230);
+const PORT = +(process.env.PORT || 8327);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Tools';
@@ -127,7 +127,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-${head}${STYLE}</head><body>
+${head}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="${esc(bp('/'))}">◧ SoapBox <span>Tools</span><span class=alpha>Alpha</span></a>
   <div class=topbar-r>${quick}</div></header>
 <main class=wrap>${body}</main>

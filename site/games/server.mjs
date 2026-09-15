@@ -5,7 +5,7 @@
 // spin, walk-to-earn — all on one account. Mining is how it's *secured*; this hub is what it's *for*.
 // It is a directory/landing that links every live play-and-earn surface; each game is its own service.
 //
-//   PORT=8193 BASE_URL=https://games.soapbox.community node site/games/server.mjs
+//   PORT=8324 BASE_URL=https://games.soapbox.community node site/games/server.mjs
 //
 // Routes: /  (the hub) · /health · /robots.txt /sitemap.xml /sitemap-index.xml /llms.txt
 //
@@ -18,7 +18,7 @@ import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/se
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 import { renderMobileNav } from '../../integrations/soapbox/mobile-nav.mjs';
 
-const PORT = +(process.env.PORT || 8193);
+const PORT = +(process.env.PORT || 8324);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = 'PRANA Games';
@@ -111,7 +111,7 @@ function page(title, body, opts = {}) {
   const head = headTags({ title, description: desc, canonical: opts.canonical || `${BASE_URL}/`, siteName: SITE_NAME, jsonld: opts.jsonld || null });
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
-${head}${STYLE}<style>body{padding-bottom:64px}</style>${impactUtt()}</head><body><main class=wrap>${body}</main>
+${head}${STYLE}<style>body{padding-bottom:64px}</style>${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><main class=wrap>${body}</main>
 <footer>PRANA Games · one MELEK account across every surface · <a href="${esc(URLS.chain)}">melek.salon</a> · <a href="${esc(URLS.school)}">learn how</a><br>
 Native-token entertainment — not real money. Free daily spin is a no-purchase sweepstakes; points are for play.</footer>
 ${renderMobileNav({ active: 'explore', baseUrls: { explore: `${BASE_URL}/`, profile: URLS.chain, wallet: URLS.wallet } })}

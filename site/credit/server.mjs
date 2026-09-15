@@ -5,7 +5,7 @@
 // repair," nothing for sale. Pairs with the grants + credentials aggregators. Pure render, esc() every
 // interpolation, handler(req,res) exported, CLI guarded, no network, no keys.
 //
-//   PORT=8144 BASE_URL=https://credit.soapbox.community node site/credit/server.mjs
+//   PORT=8320 BASE_URL=https://credit.soapbox.community node site/credit/server.mjs
 
 import { createServer } from 'node:http';
 
@@ -15,7 +15,7 @@ import {
   SCORE_FACTORS, SCORE_RANGES, BUILD_STEPS, DISPUTE_STEPS, BUREAUS, RESOURCES, DISCLAIMER,
 } from '../../integrations/soapbox/credit-score.mjs';
 
-const PORT = +(process.env.PORT || 8144);
+const PORT = +(process.env.PORT || 8320);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://credit.soapbox.community').replace(/\/$/, '');
 const GRANTS = process.env.GRANTS_URL || 'https://grants.soapbox.community';
@@ -57,7 +57,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}"><meta name=robots content="index,follow,max-image-preview:large">
-<link rel=canonical href="${esc(opts.canonical || `${BASE_URL}/`)}">${STYLE}${NAV_STYLE}</head><body>
+<link rel=canonical href="${esc(opts.canonical || `${BASE_URL}/`)}">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'credit' })}</div>
 <header class=topbar><a class=brand href="/">💳 Credit Help <span>· SoapBox</span></a>
   <div class=topbar-r><a href="/">Basics</a><a href="/build">Build</a><a href="/disputes">Fix Errors</a><a href="/resources">Free Tools</a></div></header>

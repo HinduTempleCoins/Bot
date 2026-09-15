@@ -4,7 +4,7 @@
 // (open-meteo.com — no API key for non-commercial use): geolocation OR a city search → the Open-Meteo
 // geocoding + forecast endpoints, rendered in the browser. No CDN, no tracker, no account required.
 //
-//   PORT=8215 BASE_URL=https://weather.soapbox.community node site/weather/server.mjs
+//   PORT=8326 BASE_URL=https://weather.soapbox.community node site/weather/server.mjs
 //   → serves the weather app at  /
 //
 // ── STEALTH FUNNEL (mundane-app-suite-stealth-funnel) ──────────────────────────────────────────────
@@ -33,7 +33,7 @@ import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 
-const PORT = +(process.env.PORT || 8215);
+const PORT = +(process.env.PORT || 8326);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'SoapBox Weather';
@@ -137,7 +137,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-${head}${STYLE}</head><body>
+${head}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="${bp('/')}">⛅ SoapBox <span>Weather</span><span class=alpha>Alpha</span></a>
   <div class=topbar-r>${TOOLS_NAV}<a href="${bp('/')}">New</a><button type=button id=nav-save>☁ Save places</button></div></header>
 <main class=wrap>${body}</main>

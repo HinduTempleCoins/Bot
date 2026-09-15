@@ -195,7 +195,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-${head}${STYLE}</head><body>
+${head}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="${bp('/')}">&#9997; SoapBox <span>Markdown</span><span class=alpha>Alpha</span></a>
   <div class=topbar-r>${TOOLS_NAV}<a href="${bp('/')}">New</a><button type=button id=nav-save>&#9729; Save &amp; publish</button></div></header>
 <main class=wrap>${body}</main>
@@ -314,7 +314,7 @@ your draft autosaves right here in your browser.${echoedRaw}</p>
     var inner=sanitizeHtml(toHtml(src.value));
     var title=(titleEl.value.trim()||'Document');
     var e=function(s){ return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
-    var doc='<!doctype html>\\n<html lang="en">\\n<head>\\n<meta charset="utf-8">\\n<meta name="viewport" content="width=device-width,initial-scale=1">\\n<title>'+e(title)+'</title>\\n</head>\\n<body>\\n'+inner+'\\n</body>\\n</html>\\n';
+    var doc='<!doctype html>\\n<html lang="en">\\n<head>\\n<meta charset="utf-8">\\n<meta name="viewport" content="width=device-width,initial-scale=1">\\n<title>'+e(title)+'</title>\\n<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>\\n<body>\\n'+inner+'\\n</body>\\n</html>\\n';
     download(baseName()+'.html', doc, 'text/html;charset=utf-8');
   });
   document.getElementById('clear').addEventListener('click', function(){

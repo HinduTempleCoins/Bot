@@ -3,7 +3,7 @@
 // integrations/games/dice-provably-fair.mjs and does NOTHING else with money: it computes a game
 // outcome and shows the proof. It holds no keys, broadcasts nothing, and settles nothing on-chain.
 //
-//   PORT=8188 BASE_URL=https://casino.soapbox.community node site/casino/server.mjs
+//   PORT=8323 BASE_URL=https://casino.soapbox.community node site/casino/server.mjs
 //
 // ── What this is (and is NOT) — from .local/KULA_LOTTO_DESIGN.md ──────────────────────────────────
 //   * NATIVE-TOKEN ENTERTAINMENT, NOT REAL MONEY. Wagers are the ecosystem's OWN token (KULA / PLAY /
@@ -35,7 +35,7 @@ import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../int
 import { headTags, siteGraph, jsonLdScript } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 
-const PORT = +(process.env.PORT || 8188);
+const PORT = +(process.env.PORT || 8323);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
@@ -118,7 +118,7 @@ function page(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-${head}${STYLE}${impactUtt()}</head><body>
+${head}${STYLE}${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">🎲 SoapBox <span>casino</span></a>
   <div class=topbar-r><a href="/">Dice</a><a href="/verify">Verify</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>

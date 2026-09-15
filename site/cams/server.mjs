@@ -99,7 +99,7 @@ function page(category = 'all') {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>Cams · SoapBox Community</title>
 <meta name=description content="Live public cameras — official traffic, wildlife, and city streams. Consensual, official sources only.">
-<style>${STYLE}</style></head><body><div class=wrap>
+<style>${STYLE}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header><span class=brand><b>SoapBox</b> Cams</span><span class=alpha>Alpha</span></header>
 <div class=boundary><b>🔒 ${esc(BOUNDARY)}</b><p>${esc(BOUNDARY_LONG)}</p></div>
 <p class=lead>Live public cameras that their owners publish for everyone. Pick one and watch it full screen.</p>
@@ -124,7 +124,7 @@ function watchPage(c) {
   .stage iframe{width:100%;height:100%;border:0;display:block}
   .stage .none{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;color:var(--mut);text-align:center;padding:20px}
   .stage .none b{color:var(--fg);font-size:18px}
-  .info{max-width:920px;margin:0 auto;padding:16px}</style></head><body>
+  .info{max-width:920px;margin:0 auto;padding:16px}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header><a class=back href="/">← Cams</a><h1>${esc(c.name)}</h1><span class="badge posture" data-p="${esc(c.posture)}">${esc(c.posture === 'window' ? 'WINDOW · embed' : 'POINT · link')}</span></header>
 <div class=stage>${window && embed
     ? `<iframe src="${esc(embed)}" title="${esc(c.name)} live camera" allowfullscreen referrerpolicy=no-referrer></iframe>`

@@ -93,7 +93,7 @@ const shell = (title, desc, body, current = 'plate') => `<!doctype html><html la
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${esc(BASE_URL)}">
-${NAV_STYLE}${STYLE}<script defer src="https://analytics.soapbox.community/b.js"></script><noscript><img src="https://analytics.soapbox.community/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+${NAV_STYLE}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 ${navBar({ current })}
 <div class="w">${body}
 <p class="note">${esc(NOT_ADVICE)}<br><br>${esc(NOT_A_DIAGNOSIS)}</p>

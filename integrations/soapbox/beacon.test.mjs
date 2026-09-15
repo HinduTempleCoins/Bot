@@ -65,8 +65,10 @@ test('the injected tag on the network matches this module byte for byte', () => 
   assert.ok(carriers >= 90, `expected the network to be instrumented, found ${carriers}`);
 });
 
-test('the collector host is a first-party SoapBox host, not an ad-tech vendor', () => {
-  assert.match(BEACON_BASE, /^https:\/\/[a-z]+\.soapbox\.community$/);
+test('the collector is on the PRIVATE admin host, never a public subdomain', () => {
+  // Analytics is private. It must not sit on a crawlable soapbox.community subdomain.
+  assert.match(BEACON_BASE, /^https:\/\/soapy\.blog$/);
+  assert.ok(!BEACON_TAG.includes('soapbox.community'), 'no public subdomain in the tag');
 });
 
 test('⚠️ the sendBeacon payload is text/plain — application/json is rejected in no-cors mode', () => {

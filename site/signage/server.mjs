@@ -452,7 +452,7 @@ export function displayPage(deck, { rotateSec = 12, query = '' } = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>MELEK Signage — data.SoapBox TV</title>
 <meta name=description content="data.SoapBox TV mode — a full-screen, auto-rotating signage board of public-domain art, live radio, and events for a lobby screen or cast display.">
-<meta name=robots content="noindex,follow">${STYLE}</head><body>
+<meta name=robots content="noindex,follow">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class="alpha">Alpha</div>
 <div id="stage" data-slide-count="${esc(slides.length)}" data-rotate="${esc(rot)}">${first}</div>
 <div class="dots" id="dots"></div>
@@ -570,7 +570,7 @@ export function safetyBoardPage(data, { state = 'TX', query = '' } = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Public Safety Board — data.SoapBox</title>
 <meta name=description content="A data.SoapBox situational-awareness board: live NWS weather alerts, USGS quakes, and a community scanner feed. Not an official emergency source — in an emergency, call 911.">
-<meta name=robots content="noindex,follow">${STYLE}</head><body class="board">
+<meta name=robots content="noindex,follow">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body class="board">
 <div class="alpha">Alpha</div>
 <main class="board">
   <div class="bhead">
@@ -641,7 +641,7 @@ export function configPage({ topic = '', types = DEFAULT_TYPES, rotate = 12 } = 
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>Configure — MELEK Signage</title>
 <meta name=description content="Configure a data.SoapBox TV signage board: pick slide types, rotation speed, and a topic, then cast the shareable URL to a screen.">
-<meta name=robots content="noindex,follow">${cfgStyle}</head><body>
+<meta name=robots content="noindex,follow">${cfgStyle}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <main class="wrap">
   <h1><span class="alpha">Alpha</span>Signage setup</h1>
   <p class="lead">Pick what loops on your screen, then bookmark or cast the link. Put it on a lobby TV and it runs hands-free.</p>

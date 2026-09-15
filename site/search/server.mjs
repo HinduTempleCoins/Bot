@@ -91,7 +91,7 @@ ${headTags({
   siteName: 'SoapBox Search',
   robots: opts.robots || 'index,follow,max-image-preview:large',
   site: SITE_GRAPH,
-})}${STYLE}</head><body>
+})}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>search</span></a>
   <div class=topbar-r><a href="/translate" title="Translate text between languages — keyless, multilingual">Translate</a><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${DIRECTORY_URL}" title="Resource directory + site insights">Directory</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a><a href="${STOCKS_URL}" title="Stocks">Stocks</a></div></header>
 <main class=wrap>${body}</main>

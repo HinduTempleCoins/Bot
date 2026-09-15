@@ -109,7 +109,7 @@ export function page() {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TV remote — no remote needed</title>
 <meta name="description" content="Control a Roku TV from any phone on the same Wi-Fi, with no app and no account — and the honest list of what to do for every other brand.">
-${STYLE}<script defer src="https://analytics.soapbox.community/b.js"></script><noscript><img src="https://analytics.soapbox.community/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class="w">
+${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class="w">
 <h1>Turn the TV on without the remote</h1>
 <p class="lede">If it is a <b>Roku</b>, this page is the remote — no app, no account, no pairing. For every
 other brand, the list further down is the real answer.</p>

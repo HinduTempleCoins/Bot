@@ -162,7 +162,7 @@ function pageShell(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}</head><body>
+<link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ GenAI <span>make images now</span></a>
   <div class=topbar-r><a href="/templates">Templates</a><a href="/comfyui">ComfyUI</a><a href="/colab">Colab</a><a href="/reel-maker">Reel maker</a><a href="/gallery">Gallery</a><a href="${esc(WIKI)}">Wiki</a></div></header>
 <main class=wrap>${body}</main>

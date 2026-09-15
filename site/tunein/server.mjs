@@ -325,7 +325,7 @@ function page(hero, rows) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>Tune In · MELEK</title>
 <meta name=description content="Tune In — browse and watch across MELEK: on-chain creator video, public-domain films, live cams, Dallas radio, and podcasts. We point at each source's own player; we never rehost.">
-<style>${STYLE}</style></head><body>
+<style>${STYLE}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header><span class=brand><b>MELEK</b> Tune In</span><span class=alpha>Alpha</span></header>
 <div class=wrap>
   <p class=lead>Browse and watch across MELEK — on-chain creator video, public-domain films, live cams, radio, and podcasts. Ranked by what's fresh and reliable; every player is the source's own.</p>
@@ -347,7 +347,7 @@ function watchShell(title, stageInner, infoInner) {
 <title>${esc(title)} · MELEK Tune In</title>
 <style>${STYLE}
   header{padding:12px 16px}
-  h1{font-size:18px;margin:0;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}</style></head><body>
+  h1{font-size:18px;margin:0;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header><a class=btn href="/">← Tune In</a><h1>${esc(title)}</h1></header>
 ${AD_PREROLL_STUB}
 <div class=stage>${stageInner}</div>

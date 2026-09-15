@@ -13,15 +13,20 @@
 // fingerprint. The collector derives a daily-rotating visitor hash server-side and discards the inputs,
 // so the same person is not linkable across two days by construction. DNT is honoured at the collector.
 //
-// WHY A SEPARATE HOST: first-party to the network, third-party to the page, which is the only way one
-// rollup can span ~100 domains. It is our own box, not an ad-tech vendor, so there is no data sale and
-// no consent banner to argue about.
+// WHY soapy.blog: analytics is PRIVATE. The collector lives on the admin host, which is absent from
+// PUBLIC_SITES, serves robots disallow-all, and never appears in a sitemap. Only three paths there are
+// unauthenticated — /px, /px.gif and /b.js — because a visitor's browser must be able to reach them
+// from a public page; the dashboard at /analytics stays behind ANALYTICS_ADMIN_TOKEN and the admin
+// root stays behind the portal's own auth.
+//
+// It is third-party to the page but first-party to us, which is the only way one rollup spans ~100
+// domains. Our own box, not an ad-tech vendor: no data sale, no consent banner to argue about.
 //
 // The <noscript> img is not decoration: a meaningful share of crawler-adjacent and privacy-hardened
 // traffic never runs the script, and without the pixel those visits are invisible to us and visible to
 // nobody else either.
 
-const DEFAULT_BASE = 'https://analytics.soapbox.community';
+const DEFAULT_BASE = 'https://soapy.blog';
 
 /** The tag, as a plain string. Double quotes only, so it can be spliced into any HTML template. */
 export const BEACON_TAG =

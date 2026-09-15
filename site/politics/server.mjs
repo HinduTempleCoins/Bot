@@ -117,7 +117,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}</head><body>
+<link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">🏛 SoapBox <span>politics</span></a>
   <div class=topbar-r><a href="/reps">Reps</a><a href="/elections">Elections</a><a href="/lobbying">Lobbying</a>${moneyTab}<a href="/accountability">Accountability</a><a href="/dossiers">Files</a><a href="${esc(LAW)}">Law</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>

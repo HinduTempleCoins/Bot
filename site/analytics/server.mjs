@@ -5,7 +5,7 @@
 // breakage. It writes into integrations/analytics-collector.mjs (a dependency-free JSONL file store,
 // NOT SQLite) and exposes a token-gated admin dashboard over the rollup.
 //
-//   PORT=8230 BASE_URL=https://analytics.soapbox.community ANALYTICS_ADMIN_TOKEN=… node site/analytics/server.mjs
+//   PORT=8230 BASE_URL=https://soapy.blog ANALYTICS_ADMIN_TOKEN=… node site/analytics/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────────
 //   POST /px          the beacon: tiny cookieless {path,ref} payload → records → 204. CORS for /px only.
@@ -315,7 +315,10 @@ export async function handler(req, res) {
       try {
         res.writeHead(200, {
           'content-type': 'application/javascript; charset=utf-8',
-          'cache-control': 'public, max-age=3600',
+                    // Short on purpose: b.js hardcodes the collector's hostname, so a long TTL pins every
+          // visitor to an address we may have moved. Five minutes is enough to spare the origin
+          // and short enough that a move heals itself.
+          'cache-control': 'public, max-age=300',
           'x-robots-tag': 'noindex',
         });
       } catch {}

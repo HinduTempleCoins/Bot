@@ -138,7 +138,7 @@ function page() {
   .hint{font-size:11px;color:var(--mut);margin-top:6px}
   .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px} .tags span{font-size:10px;color:var(--mut);border:1px solid var(--bd);border-radius:6px;padding:2px 7px}
   footer{color:var(--mut);font-size:12px;text-align:center;margin:24px 0 8px} a{color:var(--gold)}
-</style></head><body><div class=wrap>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header><span class=brand><b>SoapBox</b> Servers</span><span class=alpha>Alpha</span></header>
 <p class=lead>Live status and join info for our community game servers. Pick one, copy the address, and hop in.</p>
 <div class=grid>${servers.map(card).join('')}</div>
@@ -200,7 +200,7 @@ function watchPage(s) {
   .addr{display:flex;gap:8px;align-items:center} code{font-family:ui-monospace,Menlo,monospace;font-size:14px;color:var(--gold);flex:1;word-break:break-all}
   button,.btn{font:inherit;font-weight:700;border-radius:10px;cursor:pointer;border:1px solid var(--bd);background:#0e131b;color:var(--fg);padding:8px 12px;text-decoration:none}
   .hint{font-size:12px;color:var(--mut);margin-top:8px} a{color:var(--gold)}
-</style></head><body>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header><a class=back href="/">← Servers</a><h1>${esc(s.name)}</h1><span class=badge id=badge data-st=loading>checking…</span></header>
 <div class=stage>${s.cam
   ? `<iframe src="${esc(s.cam)}" title="${esc(s.name)} live camera" allowfullscreen></iframe>`
