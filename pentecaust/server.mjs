@@ -484,6 +484,8 @@ const unauth = (res, origin) => json(res, 401, { ok: false, reason: 'authenticat
 const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>Pentecaust — MELEK Messaging</title>
 <style>
+ .chips{display:inline-flex;gap:4px;flex-wrap:wrap}
+ .chip{font-size:11px;border:1px solid var(--bd);border-radius:999px;padding:2px 8px;color:var(--mut);background:#0e131b}
  :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--gold:#d9a441;--green:#36c08a;--blue:#4c8dff}
  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:14px}
  .wrap{max-width:880px;margin:0 auto}
@@ -765,16 +767,36 @@ async function initAuth(){const bar=$('authbar');
   // the handoff instead of stranding them on a page they did not ask for.
   const _ssoBack=_params.get('sso');
   if(_ssoBack){location.href='/auth/sso?return='+encodeURIComponent(_ssoBack);return;}
-  bar.style.display='flex';bar.innerHTML='Signed in as <b>@'+E(s.account)+'</b> <small class=mut>('+E(s.method)+')</small>'+
-   '<button class=btn id=invBtn style="margin-left:auto">Invite a friend</button>'+
-   '<a class=btn href="/auth/switch">Switch account</a>'+
-   '<a class=btn href="/auth/logout">Log out</a>';
+  // The MELEK account is the FIXED POINT. Socials attach to it — several at once — and any of them
+  // signs you in as the same account. The chips show what is attached; the picker adds another.
+  const prof=await api('/auth/profile');
+  const linked=((prof&&prof.linked)||[]);
+  const avail=((prof&&prof.available)||[]);
+  const chips=linked.map(l=>'<span class=chip title="'+E(l.email||'')+'">'+E(l.label)+'</span>').join('');
+  const adder=avail.length
+   ? '<select id=addProv class=btn><option value="">+ Add a login…</option>'
+     +avail.map(a=>'<option value="'+E(a.provider)+'">'+E(a.label)+'</option>').join('')+'</select>'
+   : '';
+  bar.style.display='flex';bar.innerHTML='Signed in as <b>@'+E(s.account)+'</b> <small class=mut>('+E(s.method)+')</small>'
+   +(chips?' <span class=chips>'+chips+'</span>':'')
+   +'<span style="flex:1"></span>'+adder
+   +'<button class=btn id=invBtn>Invite a friend</button>'
+   +'<a class=btn href="/auth/switch">Switch account</a>'
+   +'<a class=btn href="/auth/logout">Log out</a>';
   $('invBtn').onclick=inviteFriend;
+  // Adding a login while signed in needs no password: the session already proves the MELEK account,
+  // so /auth/link binds the new social straight to it.
+  if($('addProv'))$('addProv').onchange=e=>{const v=e.target.value;if(v)location.href='/auth/'+v;};
   if(me())loadFriends();maybeRedeemInvite();return;}
+ // ⛔ Only offer providers the server says are CONFIGURED. Hard-coding Google + Facebook meant
+ // clicking Facebook navigated to a raw {"ok":false,"reason":"provider not configured"} JSON page —
+ // a dead end that looks like the site is broken rather than like a provider we have not set up.
+ const pj=await api('/auth/providers');
+ const ready=((pj&&pj.providers)||[]).filter(p=>p.configured);
+ const social=ready.map(p=>'<a class=btn href="/auth/'+E(p.id)+'">Continue with '+E(p.label)+'</a>').join('');
  bar.style.display='flex';bar.innerHTML='<span>Sign in:</span>'+
   '<button class=btn id=mkBtn>Login with MELEK</button>'+
-  '<a class=btn href="/auth/google">Continue with Google</a>'+
-  '<a class=btn href="/auth/facebook">Continue with Facebook</a>'+
+  social+
   '<button class=btn id=otBtn>One-time code</button>'+
   (_params.get('sso')
     ? '<small class=mut>Sign in here and we will send you straight back.</small>'

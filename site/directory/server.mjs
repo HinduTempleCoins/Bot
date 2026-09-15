@@ -146,7 +146,7 @@ const STYLE = `<style>
 const page = (title, body) => `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="SoapBox Directory — a curated directory of crypto, markets, and data resources. Submit your site for review.">
-<meta name=robots content="index,follow"><link rel=canonical href="${BASE_URL}/">${STYLE}</head><body>
+<meta name=robots content="index,follow"><link rel=canonical href="${BASE_URL}/">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">◈ SoapBox <span>directory</span></a>
   <div class=topbar-r><a href="${DATA}" title="Markets, macro, commodities, forex">Data</a><a href="${SEARCH}" title="SoapBox Search">Search</a><a href="${WIKI}" title="Library of Ashurbanipal">Wiki</a><a href="${STOCKS}" title="Stocks &amp; equities">Stocks</a></div></header>
 <main class=wrap>${body}</main>

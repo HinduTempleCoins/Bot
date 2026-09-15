@@ -70,7 +70,7 @@ function page(title, body) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)} — ${esc(SITE_NAME)}</title>
 <meta name="description" content="MELEKd — the read-only MELEK chain explorer: accounts, blocks, witnesses and transfers, with the raw record always one click away.">
-${STYLE}</head><body><div class=wrap>
+${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <span class=badge>Alpha</span>
 <h1><a href="/" style="text-decoration:none;color:inherit">◈ ${esc(SITE_NAME)}</a></h1>
 <div class="sub">The MELEK chain, read-only. Every view has <code>?format=json</code>.</div>

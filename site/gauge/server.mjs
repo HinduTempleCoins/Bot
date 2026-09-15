@@ -109,7 +109,7 @@ ${headTags({
   description: 'Lock KULA for veKULA voting power and vote your gauge weights to steer KULA emissions. Unsigned txs, client-signed in your own wallet. PRANA testnet.',
   canonical: `${BASE_URL}/`, siteName: SITE_NAME, robots: 'index,follow,max-image-preview:large',
   site: { url: BASE_URL, name: SITE_NAME },
-})}${STYLE}${impactUtt()}</head><body><div class=wrap>
+})}${STYLE}${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header><span class=brand>⚖️ <b>KULA</b> Gauge</span><span class=alpha>Alpha</span></header>
 <p class=lead>Lock <b>KULA</b> → <b>veKULA</b> voting power, then vote your weight across the gauges to steer where KULA emissions flow. Every transaction is <b>unsigned</b> here and <b>signed in your own wallet</b> (Akasha / MELEK-Signer) — this page never holds your keys. PRANA testnet.</p>
 

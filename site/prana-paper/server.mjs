@@ -155,7 +155,7 @@ function shell(title, inner, opts = {}) {
 <meta name=description content="${esc(desc)}">
 ${opts.robots ? `<meta name=robots content="${esc(opts.robots)}">` : ''}
 <link rel=canonical href="${esc(canonical)}">
-${STYLE}</head><body>
+${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar>
   <a class=brand href="${bp('/')}">🕉 <span class=n>PRANA</span> Paper <span class=alpha>Alpha</span></a>
   <nav class=topnav>

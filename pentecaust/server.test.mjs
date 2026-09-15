@@ -746,3 +746,17 @@ test('the @name field is read-only — typing a name is not a login', async () =
   assert.match(field[0], /readonly/i, 'the @name field must not be typable');
   assert.ok(!/placeholder=your-melek-name/.test(field[0]), 'the placeholder must not invite typing a name');
 });
+
+// ⛔ Clicking "Continue with Facebook" navigated to a raw JSON 503:
+//   {"ok":false,"reason":"provider not configured"}
+// A dead end that reads as "this site is broken" rather than "we have not set that one up". The row is
+// now built from /auth/providers, so a provider without credentials is never offered in the first place.
+test('the sign-in row is built from configured providers, not a hard-coded list', async () => {
+  const { res, o } = cap();
+  await handler({ url: '/', method: 'GET', headers: { host: 'pentecaust.com' } }, res);
+  assert.ok(!/href="\/auth\/facebook"/.test(o.body),
+    'no provider may be hard-coded into the page — an unconfigured one becomes a dead link');
+  assert.ok(!/href="\/auth\/google"/.test(o.body), 'including the one that IS configured — the list is dynamic');
+  assert.match(o.body, /\/auth\/providers/, 'the row must ask the server which providers are ready');
+  assert.match(o.body, /p\.configured/, 'and filter on configured');
+});

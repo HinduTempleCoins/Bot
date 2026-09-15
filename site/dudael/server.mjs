@@ -124,7 +124,7 @@ export function homePage() {
 <meta name=robots content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Dudael">
 <meta property="og:title" content="Dudael — the MetaVerse"><meta property="og:description" content="The metaverse of the MELEK ecosystem — VR/OpenXR worlds over the chain. Building now; the live family is already open.">
-<link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}</head><body>
+<link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class=navwrap>${navBar({ current: 'dudael' })}</div>
 <main class=wrap>${body}</main>
 <footer>Dudael — the MetaVerse of the VanKush · SoapBox · MELEK ecosystem. Building now.

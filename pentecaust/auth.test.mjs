@@ -9,7 +9,7 @@ import { unlinkSync, readFileSync } from 'node:fs';
 import {
   makeSession, sessionFromReq, verifier, handler,
   requestOneTime, redeemOneTime, linkAccount, lookupLink, completeOAuthLink,
-  authorizeUrl, registerMethod, hasMethod, __setFetch, providersStatus,
+  authorizeUrl, registerMethod, hasMethod, __setFetch, providersStatus, profileFor,
 } from './auth.mjs';
 
 // A fixed secret so signatures are stable across the run.
@@ -683,4 +683,35 @@ test('X is listed as a provider with its own callback', () => {
   assert.ok(x, 'X must appear in the provider list');
   assert.equal(x.label, 'X');
   assert.match(x.redirectUri, /\/auth\/x\/callback$/);
+});
+
+// ── the profile: many socials, ONE account ──────────────────────────────────────────────────────────
+test('a profile lists every social bound to the account and what can still be added', () => {
+  const opts = O(freshFile());
+  assert.ok(linkAccount('google', 'g-1', 'ryan', opts).ok);
+  assert.ok(linkAccount('discord', 'd-1', 'ryan', opts).ok);
+  assert.ok(linkAccount('google', 'g-2', 'ryan', opts).ok);      // a second Gmail on the same account
+  assert.ok(linkAccount('github', 'gh-1', 'someone-else', opts).ok);
+
+  process.env.GOOGLE_CLIENT_ID = 'g'; process.env.GITHUB_CLIENT_ID = 'gh';
+  const p = profileFor('ryan', opts);
+  assert.equal(p.ok, true);
+  assert.equal(p.linked.length, 3, 'both Gmails and the Discord belong to this account');
+  assert.ok(!p.linked.some((l) => l.provider === 'github'), "another account's link must never appear");
+  // GitHub is configured and not attached → offerable. Google IS attached, so it is not re-offered.
+  assert.ok(p.available.some((a) => a.provider === 'github'));
+  assert.ok(!p.available.some((a) => a.provider === 'facebook'), 'an unconfigured provider is never offered');
+  delete process.env.GOOGLE_CLIENT_ID; delete process.env.GITHUB_CLIENT_ID;
+});
+
+test('⚠️ GET /auth/profile is session-only — you cannot read another account by naming it', async () => {
+  let { res, o } = cap();
+  await handler(getReq('/auth/profile?account=hathor'), res);
+  assert.equal(o.code, 401, 'no session means no profile');
+
+  const token = makeSession('ryan', 'melek-signer');
+  ({ res, o } = cap());
+  await handler(getReq('/auth/profile?account=hathor', `pentecaust_session=${encodeURIComponent(token)}`), res);
+  assert.equal(o.code, 200);
+  assert.equal(J(o).account, 'ryan', 'the session decides whose profile this is, never the query');
 });

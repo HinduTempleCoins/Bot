@@ -59,7 +59,7 @@ function page() {
  .tag.yr{color:var(--green);border-color:var(--green)}.tag.se{color:var(--blue);border-color:var(--blue)}
  .stat{font-size:12px;color:var(--mut)}.stat b{color:var(--fg)}
  footer{color:var(--mut);font-size:12px;text-align:center;margin:22px 0 8px}a{color:var(--gold)}
-</style></head><body><div class=wrap>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header><span class=brand>🌿 <b>Kush</b> Farm</span><span class=alpha>Alpha</span></header>
 <p class=lead>Grow your own — strains across the <b>real seasons</b>. Dailies pour out like water (the milk that feeds the games); year grows are the gold. Harvest for <b>KULA</b>.</p>
 <div class="season${cat.festival ? ' fest' : ''}"><span class=big>${esc(se.emoji)} ${esc(se.label)}</span>

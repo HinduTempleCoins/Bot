@@ -34,6 +34,9 @@ import { timingSafeEqual } from 'node:crypto';
 
 import { robotsTxtDisallowAll } from '../../integrations/soapbox/crawlers.mjs';
 import { record, aggregate } from '../../integrations/analytics-collector.mjs';
+// One definition of the beacon script, shared with the tag injected across the network, so the two
+// cannot drift. A hand-edit on either side is caught by integrations/soapbox/beacon.test.mjs.
+import { BEACON_JS } from '../../integrations/soapbox/beacon.mjs';
 
 const PORT = +(process.env.PORT || 8230);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -279,6 +282,12 @@ export async function handler(req, res) {
     }
 
     // ── the beacon ──────────────────────────────────────────────────────────────────
+    // GET /b.js — the beacon itself. Public and cacheable: every page on the network loads it.
+    if (path === '/b.js') {
+      res.writeHead(200, { 'content-type': 'application/javascript; charset=utf-8', 'cache-control': 'public, max-age=3600' });
+      return res.end(BEACON_JS);
+    }
+
     if (path === '/px') {
       if (method === 'OPTIONS') {                 // CORS preflight for the fetch keepalive fallback
         try {

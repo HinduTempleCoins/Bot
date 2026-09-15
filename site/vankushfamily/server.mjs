@@ -176,7 +176,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
+<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'roadmap' })}</div>
 <header class=topbar><a class=brand href="/">Van Kush Family <span>roadmap</span></a>
   <div class=topbar-r><a href="#shipped">Shipped</a><a href="#day0">MELEK&nbsp;live</a><a href="#prana">PRANA</a><a href="#soap">SOAP</a><a href="#beyond">Beyond</a></div></header>
@@ -421,7 +421,7 @@ function landing(title, body, opts = {}) {
  .pgroup li{padding:10px 12px;background:rgba(255,255,255,.04);border-left:3px solid var(--magenta);border-radius:0 6px 6px 0}
  .pgroup li a{color:var(--fg);font-weight:600;text-decoration:none} .pgroup li a:hover{color:var(--magenta)}
  .pgroup li .muted{display:block;color:var(--mut);font-size:.88rem}
-</style></head><body>
+</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <main class=wrap>${body}</main>
 <footer>© Van Kush Family · <a href="/roadmap">roadmap</a> · <a href="https://melek.salon">melek.salon</a></footer>
 </body></html>`;

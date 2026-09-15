@@ -286,7 +286,7 @@ function page(title, inner, { canonical = BASE_URL, description = '', nav = '' }
 <meta name=description content="${esc(description || 'Congress — a short-form social network on the MELEK chain (alpha / testnet).')}">
 <link rel=canonical href="${esc(canonical)}"><link rel=icon href="/favicon.svg">
 <link rel=alternate type="application/rss+xml" title="${esc(BRAND)} RSS" href="${esc(BASE_URL)}/feed.xml">
-<link rel=alternate type="application/feed+json" title="${esc(BRAND)} JSON Feed" href="${esc(BASE_URL)}/feed.json">${STYLE}</head><body><div class=wrap>
+<link rel=alternate type="application/feed+json" title="${esc(BRAND)} JSON Feed" href="${esc(BASE_URL)}/feed.json">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
 <header class=top><a class=brand href="/">⬡ <b>${esc(BRAND)}</b></a><span class=alpha>ALPHA · TESTNET</span>
   <span class=sub style="margin-left:auto;color:var(--mut);font-size:12px">${esc(TAGLINE)}</span>
   <a class=sub href="${esc(PENTECAUST_URL)}" title="Private messages run through Pentecaust" style="margin-left:12px">✉ Messages</a></header>
