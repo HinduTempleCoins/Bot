@@ -33,6 +33,7 @@ import {
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
 import { sessionFromReq, handler as authHandler, registerMethod } from './auth.mjs';
 import { handler as groupsHandler } from './groups/server.mjs';
+import { handler as pagesHandler } from './pages/server.mjs';
 import { makeMelekSignerVerify } from './melek-signer-login.mjs';
 // Bounties. The board is keyed on `socialId`, not a MELEK account — which is exactly the messenger
 // handle: someone signs in with Google, gets '~go…', and earns from the first visit. linkWallet() is
@@ -213,6 +214,14 @@ export async function handler(req, res) {
     }
     // Herald: what THIS account may actually do. The UI reads this so it never offers a Send button it
     // is about to be refused for — the refusal still stands server-side either way.
+    // ── pages ─────────────────────────────────────────────────────────────────────────────────────
+    // A Page is a PRESENCE (broadcast, nobody joins it); a Group is a MEMBERSHIP. site/webbuilder's
+    // multi-tenant store was built and never wired to an identity — this is that wire. /p/<slug> is
+    // public on purpose: a page nobody can read without signing in is not a page.
+    if (path === '/pages' || path.startsWith('/pages/') || path.startsWith('/p/')) {
+      return pagesHandler(req, res, { whoami: (r) => whoami(r) });
+    }
+
     // ── groups ────────────────────────────────────────────────────────────────────────────────────
     // The model shipped 2026-08-29 with 24 tests and was imported by NOTHING. Identity is the injected
     // whoami, never a body field — the model enforces rank, but only against the actor it is handed.

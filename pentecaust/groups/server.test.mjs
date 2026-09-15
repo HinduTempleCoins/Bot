@@ -125,3 +125,64 @@ test('⚠️ only owner/admin may relink a group to a different Team', async () 
   const attempt = await call('mallory', 'POST', `/groups/${id}/team`, { team: 'mallorys-clan' }, opts);
   assert.notEqual(attempt.body.ok, true, 'a member repointing the chat would hijack the conversation');
 });
+
+test('⛔ a dues club cannot be joined by CLAIMING to have paid', async () => {
+  // This is the whole security property. If a caller could assert payment, club membership would be
+  // free to anybody who can shape a request — the same failure as a body-selected actor.
+  const opts = memOpts();
+  const id = (await call('alice', 'POST', '/groups', { name: 'Paid Club', joinPolicy: 'dues' }, opts)).body.group.id;
+  await call('alice', 'POST', `/groups/${id}/dues`,
+    { dues: { amount: 500, currency: 'usd', period: 'monthly', rail: 'organizer-processor', payee: 'alice' } }, opts);
+
+  for (const body of [{}, { paid: true }, { paid: 'true' }, { dues: { paid: true } }]) {
+    const r = await call('mallory', 'POST', `/groups/${id}/join`, body, opts);
+    assert.equal(r.body.status, 'dues-required', `claiming payment must never admit: ${JSON.stringify(body)}`);
+  }
+  assert.equal((await call('mallory', 'GET', `/groups/${id}/me`, null, opts)).body.member, false);
+
+  // an invite is a comped membership and still works
+  await call('alice', 'POST', `/groups/${id}/invite`, { account: 'guest' }, opts);
+  assert.equal((await call('guest', 'POST', `/groups/${id}/join`, {}, opts)).body.ok, true);
+});
+
+test('dues terms are non-custodial and stored in minor units', async () => {
+  const opts = memOpts();
+  const id = (await call('alice', 'POST', '/groups', { name: 'Club Two', joinPolicy: 'dues' }, opts)).body.group.id;
+  const r = await call('alice', 'POST', `/groups/${id}/dues`,
+    { dues: { amount: 1500, currency: 'usd', period: 'yearly', rail: 'wallet', payee: 'alice', benefitsValue: 300 } }, opts);
+  const d = r.body.group.dues;
+  assert.equal(d.amount, 1500, 'minor units — never a float');
+  assert.equal(d.currency, 'USD');
+  assert.equal(d.rail, 'wallet');
+  assert.equal(d.deductible, false, 'deductibility is never asserted by the club itself');
+
+  // an unknown rail falls back rather than being trusted
+  const bad = await call('alice', 'POST', `/groups/${id}/dues`,
+    { dues: { amount: 100, rail: 'send-it-to-the-platform' } }, opts);
+  assert.equal(bad.body.group.dues.rail, 'organizer-processor');
+});
+
+test('⚠️ deductibility follows the Witness School determination, never a claim', async () => {
+  // Membership dues to a 501(c)(3) are only partly deductible, and a club asserting otherwise is
+  // making a tax representation on somebody else's return.
+  const opts = memOpts();
+  const id = (await call('alice', 'POST', '/groups', { name: 'School Club', joinPolicy: 'dues' }, opts)).body.group.id;
+  await call('alice', 'POST', `/groups/${id}/dues`, { dues: { amount: 2000, deductible: true } }, opts);
+  assert.equal((await call(null, 'GET', `/groups/${id}`, null, opts)).body.group.dues.deductible, false,
+    'a club may not declare its own dues deductible');
+
+  await call('alice', 'POST', `/groups/${id}/charter`,
+    { charter: { purpose: 'Study', cadence: 'monthly', feed: 'https://x.test/rss', series: 1, witnessSchool: true } }, opts);
+  const g = (await call(null, 'GET', `/groups/${id}`, null, opts)).body.group;
+  assert.equal(g.dues.deductible, true, 'the determination is what raises it');
+  assert.equal(g.charter.series, 1);
+  assert.equal(g.charter.feed, 'https://x.test/rss');
+});
+
+test('⚠️ only owner/admin may set dues or the charter', async () => {
+  const opts = memOpts();
+  const id = (await call('alice', 'POST', '/groups', { name: 'Club Three' }, opts)).body.group.id;
+  await call('mallory', 'POST', `/groups/${id}/join`, {}, opts);
+  assert.notEqual((await call('mallory', 'POST', `/groups/${id}/dues`, { dues: { amount: 1 } }, opts)).body.ok, true);
+  assert.notEqual((await call('mallory', 'POST', `/groups/${id}/charter`, { charter: { purpose: 'x' } }, opts)).body.ok, true);
+});
