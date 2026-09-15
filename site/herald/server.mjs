@@ -50,6 +50,12 @@ import { handler as dispatchHandler, notifier as dispatchNotifier } from '../../
 // was a broadcaster that DELEGATES to MELEK-Signer rather than one that signs.
 import { handler as crosspostHandler, __setBroadcaster as setCrosspostBroadcaster } from '../../pentecaust/herald/crossposter.mjs';
 import { makeSignerBroadcaster, signerConfigured } from '../../pentecaust/herald/signer-broadcast.mjs';
+// rss: the most-used IFTTT trigger there is ("new item in feed"). OPML parsing and the trigger engine
+// both already existed with nothing between them; rss.mjs is the bridge, and it emits ordinary `tag`
+// events so every existing recipe, dedupe window and action path works on a feed item unchanged.
+import { handler as rssHandler, pollAll as rssPollAll } from '../../pentecaust/herald/rss.mjs';
+import { evaluate as iftttEvaluate, liveRecipes } from '../../pentecaust/herald/ifttt-triggers.mjs';
+import { executeAll as iftttExecuteAll } from '../../pentecaust/herald/ifttt-executor.mjs';
 setCrosspostBroadcaster(makeSignerBroadcaster());
 // The ad-auction sells PREMIUM featured slots by sealed-bid second-price (Vickrey) auction — the auction-house
 // side of the ad network (ad-network.mjs is the remnant/click side). Stateful (auctions live in a store), so
@@ -405,6 +411,16 @@ const MOUNTS = [
   // because formatting signs nothing. /api/signer reports readiness and never the token.
   { rewrite: null, fn: crosspostHandler, match: (p) => p === '/api/crosspost' || p === '/api/crossposts' || p === '/api/crosspost/preview' },
   { rewrite: null, fn: (req, res) => { res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify(signerConfigured())); }, match: (p) => p === '/api/signer' },
+  // A feed item fires through the SAME path a manual event does: evaluate against the live recipes,
+  // then execute. No second matching implementation, so a recipe cannot behave differently by source.
+  { rewrite: null, fn: (req, res) => rssHandler(req, res, {
+      fire: async (ev) => {
+        const actions = iftttEvaluate(liveRecipes(), ev);
+        if (!actions.length) return 0;
+        const out = await iftttExecuteAll(actions, { notify: dispatchNotifier });
+        return out.executed;
+      },
+    }), match: (p) => p.startsWith('/api/rss') },
   // campaign-sender: one-click unsubscribe + subscribe/webhook/lists/stats (native paths; /health owned above).
   { rewrite: null, fn: senderHandler, match: (p) => p.startsWith('/u/') || p === '/unsubscribe'
     || p === '/api/subscribe' || p === '/api/webhook' || p === '/api/lists' || p === '/api/stats' },

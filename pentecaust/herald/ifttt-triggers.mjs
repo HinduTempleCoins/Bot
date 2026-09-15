@@ -246,6 +246,16 @@ const DEFAULT_RECIPES = [
 ];
 const singletonStore = makeStore({ recipes: DEFAULT_RECIPES });
 
+/**
+ * The live recipe set — the SAME store the HTTP handler uses.
+ *
+ * Exported so another trigger SOURCE (rss.mjs) can fire against the recipes that are actually live,
+ * rather than growing a second copy of the matching logic. A recipe must not behave differently
+ * depending on whether the event arrived from a feed poll or a POST.
+ */
+export const liveRecipes = () => singletonStore.list();
+export const liveStore = () => singletonStore;
+
 const sendJson = (res, code, obj) => {
   try { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }); } catch {}
   try { res.end(JSON.stringify(obj)); } catch {}
