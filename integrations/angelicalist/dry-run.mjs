@@ -38,11 +38,26 @@ export function makeSpyBroadcaster() {
 // Provide injected per-symbol market metrics to execute.mjs's sizeOrder WITHOUT going to the network.
 // sizeOrder reads `market.metrics(sym)`; we temporarily point that at the injected data for the call,
 // then restore it. This keeps sizeOrder (the per-order cap + bleed-aware sizing) as the single source.
+// sizeOrder now also reads the real order book before committing (the depth gate that stopped the bot
+// placing sells nothing was bidding on). This harness has no book, so it synthesises one from the
+// injected metrics: depth exactly AT the quoted price, deep enough not to be the binding constraint.
+// That keeps the harness testing the SIZING and the GUARDS, which is what it is for, without a network
+// call — the depth gate itself is tested for real in execute.test.mjs / trader.test.mjs.
+function syntheticDepth(injectedMetrics, side) {
+  return async (sym) => {
+    const m = injectedMetrics[sym];
+    if (!m) return { qty: 0, hive: 0, levels: 0, topPrice: 0 };
+    const topPrice = +(side === 'bid' ? m.highestBid : m.lowestAsk) || 0;
+    return { qty: Number.MAX_SAFE_INTEGER, hive: 0, levels: 1, topPrice };
+  };
+}
+
 async function sizeWithInjectedMarket(decision, tokens, injectedMetrics) {
   if (!injectedMetrics) return sizeOrder(decision, tokens);            // fall back to the real module
   const original = market.metrics;
   market.metrics = async (sym) => injectedMetrics[sym] || null;
-  try { return await sizeOrder(decision, tokens); }
+  const deps = { getBidDepth: syntheticDepth(injectedMetrics, 'bid'), getAskDepth: syntheticDepth(injectedMetrics, 'ask') };
+  try { return await sizeOrder(decision, tokens, null, deps); }
   finally { market.metrics = original; }                              // always restore — never leak the stub
 }
 

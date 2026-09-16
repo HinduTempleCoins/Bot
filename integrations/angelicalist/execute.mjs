@@ -16,10 +16,35 @@
 import { placeOrder, mode } from './trader.mjs';
 import { simulate } from '../trade-presets.mjs';
 import { market } from '../hive-engine-market.mjs';
-import { tokenBalances } from './internal.mjs';
+import { tokenBalances, bidDepth as liveBidDepth, askDepth as liveAskDepth } from './internal.mjs';
 
 const MAX_ORDER_HIVE = +(process.env.MAX_ORDER_HIVE || 10); // hard per-order ceiling (in SWAP.HIVE)
 const MIN_ORDER_HIVE = +(process.env.MIN_ORDER_HIVE || 1);  // dust floor — skip below this
+
+// ─── DEPTH GATE (the fix for the 31 unfillable resting orders, 2026-09-16) ──────────────────────
+// `market.metrics(sym).highestBid` is a CACHED field, not the book. When a rival bid is posted and
+// pulled between two ticks, metrics can still report it. Sizing a sell off that number broadcasts an
+// order at a price nobody is bidding: it never fills, it never expires, and the tokens sit locked in
+// the market contract. That is how @angelicalist accumulated 31 resting sells (2026-08-19..09-15)
+// worth 103.77 HIVE at their listed prices but only 58.02 HIVE at the real bids -- some priced up to
+// 49,808x the top bid. Not one of them was a trade.
+//
+// So before every order we read the OTHER SIDE OF THE BOOK and size to what it will actually absorb:
+//   * no depth reading at all      -> SKIP. Never sell blind.
+//   * book top has moved below the price the decision was made on -> SKIP. The premise is gone; a
+//     sell at the lower real bid would be a naked dump, which is exactly what is NOT profit.
+//   * otherwise size to min(held, cap/price, depthQty) at the REAL book top, so it fills or is
+//     never placed.
+// Fail-closed is deliberate: an unplaced order costs nothing, an unfillable one locks inventory.
+const PRICE_TOLERANCE = +(process.env.ORDER_PRICE_TOLERANCE || 0.02); // how far the book may drift
+
+let _bidDepth = liveBidDepth;
+let _askDepth = liveAskDepth;
+/** Swap the depth readers (tests + the offline dry-run harness). Pass nothing to restore live. */
+export function __setDepthReaders({ bidDepth, askDepth } = {}) {
+  _bidDepth = bidDepth || liveBidDepth;
+  _askDepth = askDepth || liveAskDepth;
+}
 
 const round = (n) => +(+n).toFixed(8);
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
@@ -88,7 +113,7 @@ export function skewAdjustedSize(baseSize, skew, { aggressiveness = 1, cap = Inf
 // `inventory` (optional) enables the A–S inventory-skew guard. When omitted, sizing is IDENTICAL to
 // the original behavior (backward compatible — proven in execute.test.mjs).
 //   inventory: { baseBalance, quoteBalance, targetRatio?, aggressiveness? }
-export async function sizeOrder(decision, tokens, inventory = null) {
+export async function sizeOrder(decision, tokens, inventory = null, deps = {}) {
   const { action, sym } = decision;
   const m = await market.metrics(sym).catch(() => null);
   if (!m) return { ...decision, skip: 'no market metrics' };
@@ -109,23 +134,53 @@ export async function sizeOrder(decision, tokens, inventory = null) {
     if (have <= 0) return { ...decision, skip: `no ${sym} balance to sell` };
     const price = +m.highestBid;
     if (!price) return { ...decision, skip: 'no bid to hit' };
-    let qty = Math.min(have, MAX_ORDER_HIVE / price); // cap proceeds at MAX_ORDER_HIVE
+
+    // DEPTH GATE — read the real buy book before committing inventory to the market contract.
+    const depth = await (deps.getBidDepth || _bidDepth)(sym, 0).catch(() => null);
+    if (!depth) return { ...decision, skip: 'bid depth unreadable — refusing to sell blind' };
+    if (!(depth.qty > 0) || !(depth.topPrice > 0)) {
+      return { ...decision, skip: `no live bid for ${sym} — an order here would rest unfilled, not trade` };
+    }
+    if (depth.topPrice < price * (1 - PRICE_TOLERANCE)) {
+      return { ...decision, skip: `phantom bid — metrics said ${price}, real book top is ${depth.topPrice} (${(price / depth.topPrice).toFixed(1)}x); the premise of this sell is gone` };
+    }
+    const execPrice = Math.min(price, depth.topPrice);          // never above what is really bid
+    const fillable = await (deps.getBidDepth || _bidDepth)(sym, execPrice).catch(() => depth);
+    const absorb = Math.max(0, +(fillable?.qty ?? depth.qty) || 0);
+    if (!(absorb > 0)) return { ...decision, skip: `book absorbs 0 ${sym} at ${execPrice}` };
+
+    let qty = Math.min(have, MAX_ORDER_HIVE / execPrice, absorb); // cap proceeds AND cap to real depth
     qty = adjustQty(qty, 'sell');
-    const proceeds = qty * price;
+    const proceeds = qty * execPrice;
     if (proceeds < MIN_ORDER_HIVE) return { ...decision, skip: `proceeds ${proceeds.toFixed(3)} < min ${MIN_ORDER_HIVE} HIVE` };
-    return { ...decision, order: { side: 'sell', symbol: sym, quantity: round(qty), price: round(price) }, proceedsHive: +proceeds.toFixed(4) };
+    return { ...decision, order: { side: 'sell', symbol: sym, quantity: round(qty), price: round(execPrice) }, proceedsHive: +proceeds.toFixed(4), bookDepthToken: round(absorb) };
   }
 
   if (action === 'BUY') {
     const swapHive = balOf(tokens, 'SWAP.HIVE');
     const price = +m.lowestAsk;
     if (!price) return { ...decision, skip: 'no ask to lift' };
+
+    // DEPTH GATE — mirror of the sell side: a buy above the real ask rests as a bid nobody hits.
+    const depth = await (deps.getAskDepth || _askDepth)(sym, 0).catch(() => null);
+    if (!depth) return { ...decision, skip: 'ask depth unreadable — refusing to buy blind' };
+    if (!(depth.qty > 0) || !(depth.topPrice > 0)) {
+      return { ...decision, skip: `no live ask for ${sym} — an order here would rest unfilled, not trade` };
+    }
+    if (depth.topPrice > price * (1 + PRICE_TOLERANCE)) {
+      return { ...decision, skip: `phantom ask — metrics said ${price}, real book bottom is ${depth.topPrice}; the premise of this buy is gone` };
+    }
+    const execPrice = Math.max(price, depth.topPrice);          // never below what is really offered
+    const fillable = await (deps.getAskDepth || _askDepth)(sym, execPrice).catch(() => depth);
+    const absorb = Math.max(0, +(fillable?.qty ?? depth.qty) || 0);
+    if (!(absorb > 0)) return { ...decision, skip: `book offers 0 ${sym} at ${execPrice}` };
+
     let spend = Math.min(MAX_ORDER_HIVE, swapHive);
-    let qty = spend / price;
+    let qty = Math.min(spend / execPrice, absorb);   // cap to what is really on offer
     qty = adjustQty(qty, 'buy');
-    spend = qty * price;                            // recompute spend from the (possibly shrunk) qty
-    if (spend < MIN_ORDER_HIVE) return { ...decision, skip: `SWAP.HIVE balance ${swapHive.toFixed(3)} < min ${MIN_ORDER_HIVE} (skew-throttled spend ${spend.toFixed(3)})` };
-    return { ...decision, order: { side: 'buy', symbol: sym, quantity: round(qty), price: round(price) }, spendHive: +spend.toFixed(4) };
+    spend = qty * execPrice;                         // recompute spend from the (possibly shrunk) qty
+    if (spend < MIN_ORDER_HIVE) return { ...decision, skip: `SWAP.HIVE balance ${swapHive.toFixed(3)} / depth ${absorb} → spend ${spend.toFixed(3)} < min ${MIN_ORDER_HIVE}` };
+    return { ...decision, order: { side: 'buy', symbol: sym, quantity: round(qty), price: round(execPrice) }, spendHive: +spend.toFixed(4), bookDepthToken: round(absorb) };
   }
 
   return { ...decision, skip: `action ${action} not executable` };

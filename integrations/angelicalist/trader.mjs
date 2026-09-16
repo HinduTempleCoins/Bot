@@ -92,17 +92,63 @@ export async function orderCapHive({ getHiveUsd = () => oracleHiveUsd() } = {}) 
 // lowest ask; the order notional is capped to the dollar cap (so quantity = capHive / price).
 // placeOrder is gated — this is a dry-run (prints the exact intended order) unless ANGELICALIST_LIVE
 // + a key. `getMetrics` / `getHiveUsd` are injectable so tests run fully offline.
-export async function executeDecision(d, { getMetrics = (s) => market.metrics(s), getHiveUsd } = {}) {
+// ── DEPTH GATE + DUST FLOOR (2026-09-16) ────────────────────────────────────────────────────────
+// This function placed all 31 unfillable sells resting on @angelicalist, and 294 more broadcasts in
+// the 7 days to 2026-09-16 (141 GROWTH, 134 SHEKEL) that were re-sent every 15 minutes because they
+// never filled and the balance therefore never changed. Two defects, both fixed here:
+//
+//   1. NO MINIMUM NOTIONAL. execute.sizeOrder has MIN_ORDER_HIVE; this path had nothing, so it
+//      happily broadcast `sell 0.00061276 SHEKEL @ 0.00000202` -- a trade worth 1.2e-9 HIVE. Now the
+//      same floor binds here.
+//   2. PRICED OFF A CACHED FIELD. `metrics.highestBid` survives the bid that set it. Selling at a
+//      bid that is already gone produces a resting order, not a trade. Now the live book is read and
+//      an order that the book will not absorb is never sent.
+//
+// Both gates fail CLOSED: on any doubt the order is skipped. Nothing is ever sold below the price the
+// decision was made on, so a skimmed premium stays a premium (HARD RULE: only realized profit leaves).
+const MIN_ORDER_HIVE = +(process.env.MIN_ORDER_HIVE || 1);
+const PRICE_TOLERANCE = +(process.env.ORDER_PRICE_TOLERANCE || 0.02);
+
+export async function executeDecision(d, { getMetrics = (s) => market.metrics(s), getHiveUsd, getBidDepth, getAskDepth, minOrderHive = MIN_ORDER_HIVE } = {}) {
   const m = await getMetrics(d.sym).catch(() => null);
   if (!m) return { ...d, skipped: 'no market metrics' };
-  const priceHive = d.action === 'SELL' ? +m.highestBid : +m.lowestAsk;
-  if (!(priceHive > 0)) return { ...d, skipped: d.action === 'SELL' ? 'no bid to sell into' : 'no ask to buy from' };
+  const isSell = d.action === 'SELL';
+  const priceHive = isSell ? +m.highestBid : +m.lowestAsk;
+  if (!(priceHive > 0)) return { ...d, skipped: isSell ? 'no bid to sell into' : 'no ask to buy from' };
+
+  // read the real other side of the book (lazy import keeps this module's import graph unchanged).
+  const readDepth = isSell
+    ? (getBidDepth || (async (s, p) => (await import('./internal.mjs')).bidDepth(s, p)))
+    : (getAskDepth || (async (s, p) => (await import('./internal.mjs')).askDepth(s, p)));
+  const depth = await readDepth(d.sym, 0).catch(() => null);
+  if (!depth) return { ...d, skipped: `${isSell ? 'bid' : 'ask'} depth unreadable — refusing to trade blind` };
+  if (!(depth.qty > 0) || !(depth.topPrice > 0)) {
+    return { ...d, skipped: `no live ${isSell ? 'bid' : 'ask'} for ${d.sym} — this would rest unfilled, not trade` };
+  }
+  if (isSell && depth.topPrice < priceHive * (1 - PRICE_TOLERANCE)) {
+    return { ...d, skipped: `phantom bid — metrics said ${priceHive}, real book top is ${depth.topPrice} (${(priceHive / depth.topPrice).toFixed(1)}x); premise gone` };
+  }
+  if (!isSell && depth.topPrice > priceHive * (1 + PRICE_TOLERANCE)) {
+    return { ...d, skipped: `phantom ask — metrics said ${priceHive}, real book bottom is ${depth.topPrice}; premise gone` };
+  }
+  const execPrice = isSell ? Math.min(priceHive, depth.topPrice) : Math.max(priceHive, depth.topPrice);
+
   const { capHive, hiveUsd, capUsd } = await orderCapHive(getHiveUsd ? { getHiveUsd } : {});
-  let quantity = +(capHive / priceHive).toFixed(8);
+  let quantity = +(capHive / execPrice).toFixed(8);
   // never sell more of a token than we actually hold (wallet-aware sells carry heldBalance).
   if (d.heldBalance != null && Number.isFinite(+d.heldBalance)) quantity = Math.min(quantity, +(+d.heldBalance).toFixed(8));
+  // never send more than the book will actually absorb — this is what turns an order into a trade.
+  const fillable = await readDepth(d.sym, isSell ? execPrice : 0).catch(() => depth);
+  const absorb = Math.max(0, +(fillable?.qty ?? depth.qty) || 0);
+  quantity = Math.min(quantity, +absorb.toFixed(8));
   if (!(quantity > 0)) return { ...d, skipped: 'computed zero quantity' };
-  const order = { side: d.action.toLowerCase(), symbol: d.sym, quantity, price: priceHive, notionalHive: +capHive.toFixed(4), notionalUsd: capUsd, hiveUsd };
+
+  const notional = quantity * execPrice;
+  if (notional < minOrderHive) {
+    return { ...d, skipped: `notional ${notional.toFixed(8)} HIVE < dust floor ${minOrderHive} — not worth a transaction` };
+  }
+
+  const order = { side: d.action.toLowerCase(), symbol: d.sym, quantity, price: execPrice, notionalHive: +notional.toFixed(4), notionalUsd: capUsd, hiveUsd, bookDepthToken: +absorb.toFixed(8) };
   const result = await placeOrder(order);
   return { ...d, order, result };
 }

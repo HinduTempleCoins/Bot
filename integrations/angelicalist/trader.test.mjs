@@ -7,6 +7,11 @@ import { placeOrder, cancel, sweepToKali, executeDecision, orderCapHive, walletS
 // HIVE ~$0.05 → a $2 cap is 40 HIVE. Inject the price so tests stay offline + deterministic.
 const hiveUsd5c = async () => 0.05;
 
+// executeDecision now reads the live book before it commits (the 2026-09-16 depth gate). Tests that
+// are about SIZING inject a book that agrees with the quoted metrics and is deep enough not to bind;
+// the gate itself is tested on its own at the bottom of this file.
+const agreeingBook = (top) => async () => ({ qty: 1e9, hive: 1e6, levels: 9, topPrice: top });
+
 // No ACTIVE key in the test env → every write is simulated (dry-run), never broadcasts.
 test('cancel() dry-runs with the correct HE market cancel payload', async () => {
   const r = await cancel({ symbol: 'VKBT', orderId: 12345, type: 'buy' });
@@ -41,7 +46,7 @@ test('orderCapHive converts the $ cap at the live HIVE price (and never exceeds 
 test('executeDecision SELL hits the bid, caps notional to the $ cap, dry-runs (no key)', async () => {
   // bid 0.50 HIVE, HIVE $0.05 → cap 40 HIVE → quantity = 40 / 0.50 = 80, priced at the bid.
   const r = await executeDecision({ action: 'SELL', sym: 'SWAP.DOGE', reason: 'premium' },
-    { getMetrics: async () => ({ highestBid: 0.50, lowestAsk: 0.60 }), getHiveUsd: hiveUsd5c });
+    { getMetrics: async () => ({ highestBid: 0.50, lowestAsk: 0.60 }), getHiveUsd: hiveUsd5c, getBidDepth: agreeingBook(0.50) });
   assert.equal(r.order.side, 'sell');
   assert.equal(r.order.price, 0.50, 'sells into the highest bid');
   assert.equal(r.order.notionalHive, +(MAX_ORDER_USD / 0.05).toFixed(4), 'notional = $ cap in HIVE');
@@ -52,7 +57,7 @@ test('executeDecision SELL hits the bid, caps notional to the $ cap, dry-runs (n
 
 test('executeDecision BUY lifts the ask', async () => {
   const r = await executeDecision({ action: 'BUY', sym: 'SWAP.DOGE', reason: 'discount' },
-    { getMetrics: async () => ({ highestBid: 0.40, lowestAsk: 0.45 }), getHiveUsd: hiveUsd5c });
+    { getMetrics: async () => ({ highestBid: 0.40, lowestAsk: 0.45 }), getHiveUsd: hiveUsd5c, getAskDepth: agreeingBook(0.45) });
   assert.equal(r.order.side, 'buy');
   assert.equal(r.order.price, 0.45, 'buys from the lowest ask');
   assert.equal(r.result.simulated, true);
@@ -121,7 +126,7 @@ test('walletSellDecisions SELLS when the bid clears cost basis + premium (real p
 test('executeDecision caps a wallet SELL by the held balance (can only skim, never dump the bag)', async () => {
   // tiny held balance: even a $2 cap can not exceed what we hold
   const r = await executeDecision({ action: 'SELL', sym: 'GIFU', reason: 'premium', heldBalance: 5 },
-    { getMetrics: async () => ({ highestBid: 0.001, lowestAsk: 0.002 }), getHiveUsd: hiveUsd5c });
+    { getMetrics: async () => ({ highestBid: 0.001, lowestAsk: 0.002 }), getHiveUsd: hiveUsd5c, getBidDepth: agreeingBook(0.001), minOrderHive: 0 });
   assert.ok(r.order.quantity <= 5, 'never sells more than held');
 });
 
@@ -130,4 +135,81 @@ test('executeDecision skips when there is no executable side (one-sided/empty bo
   assert.equal(sell.skipped, 'no bid to sell into');
   const none = await executeDecision({ action: 'BUY', sym: 'X', reason: 'r' }, { getMetrics: async () => null, getHiveUsd: hiveUsd5c });
   assert.equal(none.skipped, 'no market metrics');
+});
+
+// ─── THE DUST FLOOR + DEPTH GATE on executeDecision (2026-09-16) ───────────────────────────────────
+//
+// This function placed 294 live orders in the 7 days to 2026-09-16 (141 GROWTH, 134 SHEKEL) from a
+// systemd unit labelled "PAPER (DRY-RUN, no broadcast)". The same order went out every 15 minutes
+// because it never filled, so the balance never changed, so the decision never changed. Two holes:
+// no minimum notional (execute.sizeOrder had one, this path did not), and a price read from a cached
+// metrics field rather than the live book.
+
+
+const okDepth = (top) => async () => ({ qty: 1e9, hive: 1e6, levels: 9, topPrice: top });
+
+test('executeDecision REFUSES a dust order — the real SHEKEL trade, worth 1.2e-9 HIVE', async () => {
+  const out = await executeDecision(
+    { action: 'SELL', sym: 'SHEKEL', heldBalance: 0.00061276 },
+    { getMetrics: async () => ({ highestBid: '0.00000202', lowestAsk: '0.000003' }),
+      getHiveUsd: async () => 0.05, getBidDepth: okDepth(0.00000202) },
+  );
+  assert.equal(out.order, undefined, 'no order is built');
+  assert.match(out.skipped, /dust floor/);
+  assert.match(out.skipped, /not worth a transaction/);
+});
+
+test('executeDecision REFUSES a sell whose bid has vanished from the book', async () => {
+  const out = await executeDecision(
+    { action: 'SELL', sym: 'VYB', heldBalance: 63692 },
+    { getMetrics: async () => ({ highestBid: '0.00303', lowestAsk: '0.004' }),
+      getHiveUsd: async () => 0.05, getBidDepth: okDepth(0.00098001) },
+  );
+  assert.equal(out.order, undefined);
+  assert.match(out.skipped, /phantom bid/);
+});
+
+test('executeDecision REFUSES when there is no bid at all', async () => {
+  const out = await executeDecision(
+    { action: 'SELL', sym: 'PAY', heldBalance: 100 },
+    { getMetrics: async () => ({ highestBid: '0.1', lowestAsk: '0.2' }),
+      getHiveUsd: async () => 0.05, getBidDepth: async () => ({ qty: 0, hive: 0, levels: 0, topPrice: 0 }) },
+  );
+  assert.equal(out.order, undefined);
+  assert.match(out.skipped, /rest unfilled, not trade/);
+});
+
+test('executeDecision fails CLOSED when the book cannot be read', async () => {
+  const out = await executeDecision(
+    { action: 'SELL', sym: 'POB', heldBalance: 1000 },
+    { getMetrics: async () => ({ highestBid: '0.03', lowestAsk: '0.04' }),
+      getHiveUsd: async () => 0.05, getBidDepth: async () => { throw new Error('rpc down'); } },
+  );
+  assert.equal(out.order, undefined);
+  assert.match(out.skipped, /refusing to trade blind/);
+});
+
+test('executeDecision still places a real, fillable, above-floor sell', async () => {
+  const out = await executeDecision(
+    { action: 'SELL', sym: 'SWAP.DOGE', heldBalance: 5000 },
+    { getMetrics: async () => ({ highestBid: '0.08', lowestAsk: '0.082' }),
+      getHiveUsd: async () => 0.05, getBidDepth: okDepth(0.08), minOrderHive: 1 },
+  );
+  assert.ok(out.order, 'a genuine trade is not blocked by the new gates');
+  assert.equal(out.order.side, 'sell');
+  assert.equal(out.order.price, 0.08);
+  assert.ok(out.order.notionalHive >= 1);
+  assert.ok(out.result.simulated, 'and it is still dry-run without the live gate');
+});
+
+test('executeDecision caps the sell to what the bids will absorb', async () => {
+  const out = await executeDecision(
+    { action: 'SELL', sym: 'SWAP.DOGE', heldBalance: 5000 },
+    { getMetrics: async () => ({ highestBid: '0.08', lowestAsk: '0.082' }),
+      getHiveUsd: async () => 0.05,
+      getBidDepth: async () => ({ qty: 12.5, hive: 1, levels: 1, topPrice: 0.08 }),
+      minOrderHive: 0.5 },
+  );
+  assert.equal(out.order.quantity, 12.5, 'sized to the book, not to the dollar cap');
+  assert.equal(out.order.bookDepthToken, 12.5);
 });

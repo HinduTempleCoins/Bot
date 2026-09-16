@@ -75,3 +75,74 @@ test('soft-fails to a degraded snapshot when the account read errors', async () 
   const a = assess(c);
   assert.equal(a.health, 'degraded');
 });
+
+// ─── THE REPORT MUST NOT LIE (2026-09-16) ─────────────────────────────────────────────────────────
+//
+// Two defects found live: (a) latest.txt said "none actionable right now (0 markets scanned)" while
+// latest.json held 9 arb rows — because the deployed timer ran the CLI twice, two independent scans,
+// and reported the one that soft-failed; (b) VKBT/CURE were flagged "one-way-accumulation … bleed
+// risk" every tick, which is the ratchet's design, not a defect. Reporting intent as a fault teaches
+// the reader to skip the anomaly list.
+
+const issuedOps = [
+  { operation: 'market_buy', data: { symbol: 'VKBT', quantity: 1e6, quantityHive: 2.78 } },
+  { operation: 'market_buy', data: { symbol: 'CURE', quantity: 1000, quantityHive: 5.55 } },
+  { operation: 'market_buy', data: { symbol: 'SWAP.LTC', quantity: 5, quantityHive: 40 } },
+];
+
+test('issued tokens are NOT flagged as a bleed — the ratchet never sells our own issue', async () => {
+  const c = await collect({ ...deps, history: async () => issuedOps });
+  const a = assess(c);
+  const kinds = Object.fromEntries(a.anomalies.map((x) => [x.symbol, x.kind]));
+  assert.equal(kinds.VKBT, 'issued-token-accumulation');
+  assert.equal(kinds.CURE, 'issued-token-accumulation');
+  assert.equal(kinds['SWAP.LTC'], 'one-way-accumulation', 'a genuine third-party bleed still warns');
+  assert.match(a.anomalies.find((x) => x.symbol === 'VKBT').detail, /working as designed/);
+});
+
+test('issued-token accumulation alone does not degrade the health dot', async () => {
+  const c = await collect({ ...deps, history: async () => issuedOps.slice(0, 2) });
+  assert.equal(assess(c).health, 'ok');
+});
+
+test('a genuine one-way bleed still turns the health dot yellow', async () => {
+  const c = await collect({ ...deps, history: async () => issuedOps.slice(2) });
+  assert.equal(assess(c).health, 'warn');
+});
+
+test('report never says "0 markets scanned" when rows were scanned', async () => {
+  // the real 2026-09-16 scan: 10 rows, the only non-zero edge is the known SWAP.ETH phantom.
+  const c = await collect({ ...deps, scanArb: async () => ({
+    opportunities: [{ sym: 'SWAP.ETH', edge: 3.756, execHive: 2647, suspect: true, suspectReason: 'both legs far off real (stale comparand)' }],
+    rows: [{ sym: 'SWAP.BTC', edge: 0, execHive: 0 }, { sym: 'SWAP.LTC', edge: 0, execHive: 0 }],
+  }) });
+  const a = assess(c);
+  const txt = report(c, a);
+  assert.equal(a.opportunities.scanned, 3, 'three distinct markets');
+  assert.doesNotMatch(txt, /0 markets scanned/);
+  assert.match(txt, /3 market\(s\) scanned/);
+});
+
+test('report NAMES the phantom edge and says why it is not an opportunity', async () => {
+  const c = await collect({ ...deps, scanArb: async () => ({
+    opportunities: [{ sym: 'SWAP.ETH', edge: 3.756, execHive: 2647, suspect: true, suspectReason: 'both legs far off real (stale comparand)' }],
+    rows: [],
+  }) });
+  const txt = report(c, assess(c));
+  assert.match(txt, /rejected: SWAP\.ETH shows 376%/);
+  assert.match(txt, /stale comparand/);
+  assert.match(txt, /SWAP\.ETH trap, not an opportunity/);
+});
+
+test('a scanner that returned NOTHING is reported as a scanner failure, not a quiet market', async () => {
+  const c = await collect({ ...deps, scanArb: async () => ({ opportunities: [], rows: [] }) });
+  const txt = report(c, assess(c));
+  assert.match(txt, /THE SCAN RETURNED NOTHING/);
+  assert.match(txt, /the scanner failed/);
+});
+
+test('a real, believable edge is still surfaced as the top edge', async () => {
+  const c = await collect({ ...deps, scanArb: async () => ({ opportunities: [{ sym: 'SWAP.DOGE', edge: 0.06, execHive: 300 }], rows: [] }) });
+  const txt = report(c, assess(c));
+  assert.match(txt, /Top live edge: SWAP\.DOGE 6\.0%/);
+});

@@ -48,8 +48,70 @@ export async function openOrders(account = ACCOUNT) {
     find('market', 'buyBook', { account }, 1000).catch(() => []),
     find('market', 'sellBook', { account }, 1000).catch(() => []),
   ]);
-  const norm = (o, side) => ({ side, symbol: o.symbol, price: +o.price, quantity: +o.quantity, txId: o.txId });
+  // `id` is HE's numeric `_id` -- the ONLY handle the market `cancel` action accepts. It was dropped
+  // here before, which is part of why nothing could ever cancel a resting order (see reaper.mjs).
+  const norm = (o, side) => ({
+    side, symbol: o.symbol, price: +o.price, quantity: +o.quantity,
+    txId: o.txId, id: o._id, timestamp: +o.timestamp || 0, expiration: +o.expiration || 0,
+  });
   return [...buys.map((o) => norm(o, 'BUY')), ...sells.map((o) => norm(o, 'SELL'))];
+}
+
+/**
+ * How much the market will ACTUALLY absorb at or above `minPrice`, in token units.
+ *
+ * WHY THIS EXISTS. Sizing a sell to a HIVE budget (`MAX_ORDER_HIVE / price`) assumes the bid can
+ * take it. On these books it usually cannot: the top bid is often a few tokens deep, so the order
+ * fills a sliver and the remainder RESTS in the sell book forever. That residue is not a trade and
+ * not profit -- it is inventory parked where it cannot be spent, and it accumulates one order at a
+ * time (22 stale orders on 2026-08-23, 31 by 2026-09-16, none filled).
+ *
+ * Reading the other side of the book first means an order either fills or is never placed.
+ *
+ * `exclude` drops our own resting orders from the other side of the book. Quoting against our own
+ * order is wash trading: it prints volume that never happened and burns the fee both ways.
+ *
+ * @param {string} symbol
+ * @param {number} minPrice  ignore bids below this (never sell into a worse price than intended)
+ * @param {{exclude?:string[]}} [opts]
+ * @returns {Promise<{qty:number, hive:number, levels:number, topPrice:number}>}
+ */
+export async function bidDepth(symbol, minPrice = 0, { exclude = [ACCOUNT] } = {}) {
+  const bids = await find('market', 'buyBook', { symbol: String(symbol).toUpperCase() }, 200).catch(() => []);
+  const skip = new Set((exclude || []).map((a) => String(a).toLowerCase()));
+  const usable = (Array.isArray(bids) ? bids : [])
+    .filter((o) => !skip.has(String(o.account || '').toLowerCase()))
+    .map((o) => ({ price: +o.price, quantity: +o.quantity }))
+    .filter((o) => o.price > 0 && o.quantity > 0 && o.price >= minPrice)
+    .sort((a, b) => b.price - a.price);
+  let qty = 0, hive = 0;
+  for (const lvl of usable) { qty += lvl.quantity; hive += lvl.quantity * lvl.price; }
+  return { qty, hive: +hive.toFixed(8), levels: usable.length, topPrice: usable.length ? usable[0].price : 0 };
+}
+
+/**
+ * The mirror of bidDepth for the BUY side: how much the market will actually SELL US at or below
+ * `maxPrice`, in token units. A buy sized to a HIVE budget against `metrics.lowestAsk` has the same
+ * failure mode as the sell side -- it lifts a sliver and the remainder rests as a bid nobody hits.
+ *
+ * @param {string} symbol
+ * @param {number} maxPrice  ignore asks above this (never pay more than intended); 0 = no ceiling
+ * @param {{exclude?:string[]}} [opts]
+ * @returns {Promise<{qty:number, hive:number, levels:number, topPrice:number}>}
+ */
+export async function askDepth(symbol, maxPrice = 0, { exclude = [ACCOUNT] } = {}) {
+  const asks = await find('market', 'sellBook', { symbol: String(symbol).toUpperCase() }, 200).catch(() => []);
+  const skip = new Set((exclude || []).map((a) => String(a).toLowerCase()));
+  const ceiling = maxPrice > 0 ? maxPrice : Infinity;
+  const usable = (Array.isArray(asks) ? asks : [])
+    .filter((o) => !skip.has(String(o.account || '').toLowerCase()))
+    .map((o) => ({ price: +o.price, quantity: +o.quantity }))
+    .filter((o) => o.price > 0 && o.quantity > 0 && o.price <= ceiling)
+    .sort((a, b) => a.price - b.price);
+  let qty = 0, hive = 0;
+  for (const lvl of usable) { qty += lvl.quantity; hive += lvl.quantity * lvl.price; }
+  // `topPrice` is the best price on this side -- the LOWEST ask, mirroring bidDepth's highest bid.
+  return { qty, hive: +hive.toFixed(8), levels: usable.length, topPrice: usable.length ? usable[0].price : 0 };
 }
 
 // recent market activity (the trade history that revealed the SWAP.LTC bleed).

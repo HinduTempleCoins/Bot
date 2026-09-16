@@ -26,6 +26,7 @@ import { marketHistory as realHistory, reconstruct } from '../tradebot-forensics
 import { summary as realLedgerSummary } from '../profit-tracker.mjs';
 import { analyze as realAnalyze } from '../trade-analyzer.mjs';
 import { scanArb as realScanArb } from '../arb-scanner.mjs';
+import { ISSUED_TOKENS } from '../watchlist.mjs';
 
 const ACCOUNT = process.env.ANGELICALIST_ACCOUNT || 'angelicalist';
 const round = (n, d = 4) => +(+n || 0).toFixed(d);
@@ -101,11 +102,23 @@ export function assess(c) {
   const realizedNet = round(perToken.reduce((a, t) => a + t.net, 0), 2);
 
   // anomaly: one-way accumulation = bought but never (or barely) sold AND it cost HIVE (the SWAP.LTC trap).
+  //
+  // EXCEPT for the tokens we ISSUE. The VKBT/CURE ratchet never sells the issued token — that is its
+  // design, not a defect: it places ONE resting bid above the top competing bid to hold the displayed
+  // price where real rival demand supports it, and selling our own issue back into that book would
+  // crash the market we are making. Reporting intent as a fault trained the reader to ignore the
+  // anomaly list, which is worse than not having one. Issued-token accumulation is reported as its
+  // own informational kind and never moves the health dot.
   const anomalies = [];
+  const issued = new Set((ISSUED_TOKENS || []).map((s) => String(s).toUpperCase()));
   for (const t of perToken) {
-    if (t.buys > 0 && t.sells === 0 && t.hiveSpent > 0) {
-      anomalies.push({ kind: 'one-way-accumulation', symbol: t.symbol, detail: `bought ${t.buys}× for ${t.hiveSpent} HIVE, never sold (SWAP.LTC-style bleed risk)` });
+    if (!(t.buys > 0 && t.sells === 0 && t.hiveSpent > 0)) continue;
+    if (issued.has(String(t.symbol).toUpperCase())) {
+      anomalies.push({ kind: 'issued-token-accumulation', informational: true, symbol: t.symbol,
+        detail: `bought ${t.buys}× for ${t.hiveSpent} HIVE, never sold — this is the ${t.symbol} ratchet working as designed (we never sell our own issue)` });
+      continue;
     }
+    anomalies.push({ kind: 'one-way-accumulation', symbol: t.symbol, detail: `bought ${t.buys}× for ${t.hiveSpent} HIVE, never sold (SWAP.LTC-style bleed risk)` });
   }
 
   // live opportunities from the arb scan (already depth + dead-book guarded inside the scanner).
@@ -127,12 +140,25 @@ export function assess(c) {
   // health: a coarse rollup for the at-a-glance dot.
   let health = 'ok';
   if (c?.snapshot?.error) health = 'degraded';        // couldn't even read the account
-  else if (anomalies.some((a) => a.kind === 'one-way-accumulation')) health = 'warn';
+  else if (anomalies.some((a) => a.kind === 'one-way-accumulation')) health = 'warn';   // issued-token accumulation is informational and never warns
+
+  // every row the scanner actually produced, and the phantom ones separately, so the human-readable
+  // report can never say "0 markets scanned" while the JSON holds rows (they used to be two separate
+  // live scans that disagreed — see the CLI, which now renders both from ONE collect).
+  // dedupe by symbol: the scanner returns the same market in both `opportunities` and `rows`, and
+  // printing it twice makes the report look like two separate findings.
+  const phantoms = [];
+  const seenPhantom = new Set();
+  for (const r of oppRows) {
+    if (!(Math.abs(+r.edge || 0) > 0.30) || seenPhantom.has(r.sym)) continue;
+    seenPhantom.add(r.sym);
+    phantoms.push({ sym: r.sym, edge: +r.edge, execHive: +r.execHive || 0, reason: r.suspectReason || 'edge beyond the believable cap' });
+  }
 
   return {
     portfolio: { tokenCount: tokens.length, idleHive: round(idleHive, 4), openOrders: openOrders.length },
     trading: { realizedNetHive: realizedNet, ledgerNetPnl: ledgerNet, worstBleed, bestEarner, perToken },
-    opportunities: { top: topOpp, count: oppRows.length },
+    opportunities: { top: topOpp, count: oppRows.length, scanned: new Set(oppRows.map((r) => r.sym)).size, phantoms },
     anomalies,
     health,
   };
@@ -152,7 +178,14 @@ export function report(c, a = assess(c)) {
   if (a.opportunities.top) {
     const o = a.opportunities.top;
     L.push(`  Top live edge: ${o.sym} ${((+o.edge) * 100).toFixed(1)}% on ${round(o.execHive, 0)} HIVE executable depth`);
-  } else L.push(`  Top live edge: none actionable right now (${a.opportunities.count} markets scanned)`);
+  } else if (a.opportunities.scanned > 0) {
+    // NOT a failure to look: the scanner looked and every edge was either zero or a known phantom.
+    const ph = a.opportunities.phantoms || [];
+    L.push(`  Top live edge: none tradeable — ${a.opportunities.scanned} market(s) scanned, all priced fair or unbelievable`);
+    for (const p of ph.slice(0, 4)) {
+      L.push(`    rejected: ${p.sym} shows ${(p.edge * 100).toFixed(0)}% on ${round(p.execHive, 0)} HIVE — ${p.reason}. Acting on it is the SWAP.ETH trap, not an opportunity.`);
+    }
+  } else L.push('  Top live edge: THE SCAN RETURNED NOTHING — the scanner failed, this is not a quiet market. Check arb-scanner/network.');
   if (a.anomalies.length) {
     L.push(`  Anomalies (${a.anomalies.length}):`);
     for (const an of a.anomalies.slice(0, 8)) L.push(`    [${an.kind}] ${an.symbol}: ${an.detail}`);
@@ -167,7 +200,19 @@ if (process.argv[1] && process.argv[1].endsWith('monitor.mjs')) {
     const c = await collect().catch((e) => ({ error: e.message }));
     if (c.error) { console.error('monitor error:', c.error); process.exit(1); }
     const a = assess(c);
-    if (process.argv.includes('--json')) console.log(JSON.stringify({ collected: c, assessment: a }, null, 2));
+    // --out writes BOTH renderings from THIS ONE collect. The deployed timer used to invoke the CLI
+    // twice — once for JSON, once for text — which were two independent live scans minutes apart. When
+    // the second one's arb call soft-failed, latest.txt reported "0 markets scanned" while latest.json
+    // held 9 rows. Same command, different numbers, and the human-readable one was the one that lied.
+    const out = (process.argv.find((x) => x.startsWith('--out=')) || '').slice(6);
+    if (out) {
+      const { writeFileSync, mkdirSync } = await import('node:fs');
+      const { dirname } = await import('node:path');
+      mkdirSync(dirname(out), { recursive: true });
+      writeFileSync(`${out}.json`, JSON.stringify({ collected: c, assessment: a }, null, 2));
+      writeFileSync(`${out}.txt`, `${report(c, a)}\n`);
+      console.log(`wrote ${out}.json + ${out}.txt from one collect (${c.at})`);
+    } else if (process.argv.includes('--json')) console.log(JSON.stringify({ collected: c, assessment: a }, null, 2));
     else console.log(report(c, a));
   } else {
     console.log('angelicalist background monitor — READ-ONLY diagnostics/analytics (no keys, no trades)');
