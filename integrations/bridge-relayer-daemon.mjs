@@ -101,7 +101,15 @@ async function main() {
     try {
       const r = await runner.tick();
       if (r && r.submitted && r.submitted.length) {
-        for (const s of r.submitted) process.stdout.write(`[bridge-daemon] attested ref=${(s.depositRef || '').slice(0, 14)} -> ${(s.txHash || '').slice(0, 14)}\n`);
+        // Log the fields the runner ACTUALLY pushes: { ref, recipient, amount, tokenId, result }.
+        // This line read s.depositRef and s.txHash — neither exists — so every attestation printed
+        // "attested ref= ->" and threw away the one thing worth seeing. A log that always renders
+        // blank is worse than no log: it looks like output while telling you nothing.
+        for (const s of r.submitted) {
+          const res = typeof s.result === 'string' ? s.result : JSON.stringify(s.result);
+          process.stdout.write(`[bridge-daemon] attested ref=${String(s.ref || '?').slice(0, 20)} `
+            + `to=${String(s.recipient || '?').slice(0, 12)} amount=${s.amount} -> ${String(res).slice(0, 80)}\n`);
+        }
       }
       if (r && r.failed && r.failed.length) {
         // Print WHY, not just how many. The runner has recorded a reason per item all along;
