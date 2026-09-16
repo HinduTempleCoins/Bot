@@ -146,3 +146,40 @@ test('a real, believable edge is still surfaced as the top edge', async () => {
   const txt = report(c, assess(c));
   assert.match(txt, /Top live edge: SWAP\.DOGE 6\.0%/);
 });
+
+// ─── REALIZED NET IS NOT TRADING PROFIT ───────────────────────────────────────────────────────────
+//
+// The real 2026-09-16 decomposition: 17 tokens sold with zero buys (+122.83 HIVE of bags the account
+// already held), VKBT+CURE bought and never sold (−8.33, the ratchet), and NOTHING bought-then-sold.
+// One headline number hid that for months. "Selling is not profit — buy first" is a standing rule.
+
+const mixedOps = [
+  { operation: 'market_sell', data: { symbol: 'SPS', quantity: 1000, quantityHive: 76.02 } },   // liquidation
+  { operation: 'market_sell', data: { symbol: 'BBH', quantity: 5000, quantityHive: 17.62 } },   // liquidation
+  { operation: 'market_buy', data: { symbol: 'VKBT', quantity: 1e6, quantityHive: 2.78 } },     // accumulation
+  { operation: 'market_buy', data: { symbol: 'SWAP.DOGE', quantity: 1000, quantityHive: 50 } }, // a REAL round trip
+  { operation: 'market_sell', data: { symbol: 'SWAP.DOGE', quantity: 1000, quantityHive: 58 } },
+];
+
+test('realized net is split into trading profit vs liquidation vs accumulation', async () => {
+  const a = assess(await collect({ ...deps, history: async () => mixedOps }));
+  assert.equal(a.trading.pnl.roundTripHive, 8, 'only the bought-then-sold token counts as profit');
+  assert.equal(a.trading.pnl.roundTripTokens, 1);
+  assert.equal(a.trading.pnl.liquidationHive, 93.64, 'SPS + BBH were bags, not trades');
+  assert.equal(a.trading.pnl.liquidationTokens, 2);
+  assert.equal(a.trading.pnl.accumulationHive, -2.78);
+});
+
+test('the live case: zero round trips is reported as zero, not hidden inside the headline', async () => {
+  const a = assess(await collect({ ...deps, history: async () => mixedOps.slice(0, 3) }));
+  assert.equal(a.trading.pnl.roundTripHive, 0);
+  assert.equal(a.trading.pnl.roundTripTokens, 0);
+  assert.ok(a.trading.realizedNetHive > 90, 'while the headline still looks like a profit');
+});
+
+test('report states the trading-profit line explicitly', async () => {
+  const c = await collect({ ...deps, history: async () => mixedOps.slice(0, 3) });
+  const txt = report(c, assess(c));
+  assert.match(txt, /of which TRADING PROFIT \(bought, then sold higher\): 0 HIVE across 0 token\(s\)/);
+  assert.match(txt, /liquidation of bags we already held \(not profit\): 93\.64 HIVE/);
+});
