@@ -104,21 +104,11 @@ const TASK_ORDERS = {
   cheap:   ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],   // cheap skips the GPU wake
   quality: ['native', 'github', 'openrouter', 'groq', 'gemini', 'pollinations'],
   long:    ['native', 'openrouter', 'groq', 'github', 'gemini', 'pollinations'],
-  // PRIVATE: anything carrying our own material — briefs, transcripts, operator asks, repo content,
-  // annals, MoM. Native brain ONLY. There is deliberately no fallback rung: for private content a
-  // silent fall-through to a third-party API is worse than no answer at all, so this lane FAILS
-  // CLOSED when the GPU is cold or unconfigured. Callers get {error:'private-lane-unavailable'} and
-  // must degrade to deterministic output, never to a rented model.
-  private: ['native'],
-  // The background lane for work that touches NO private material — public lookups, fact checks
-  // against public sources, anything we would be content to publish. API ensemble only, so it never
-  // shares a brain with the native model whose output it is checking.
+  // The API ensemble lane. The APIs write the briefs and the annals — that is their job, not a
+  // fallback. What keeps our material safe is the WASH (brain/wash-transcript.mjs and reconcile.mjs
+  // redaction), which strips keys, credentials and server addresses before anything reaches them.
   verify:  ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
 };
-
-// Lanes whose content must never leave our own hardware. Keep this list and TASK_ORDERS.private in
-// agreement: a name here with an API rung in its order would be a silent leak.
-const PRIVATE_TASKS = new Set(['private']);
 
 /**
  * Is this provider usable right now? Keyless providers are always usable; keyed ones need their env
@@ -167,9 +157,6 @@ export function __resetRotation() { _rr = 0; }
 
 function orderFor({ task, prefer } = {}) {
   let base = (TASK_ORDERS[task] || TASK_ORDERS.default).slice();
-  // The private lane is not overridable. A caller passing prefer:'groq' with private content would
-  // otherwise route our own material straight out to a third party.
-  if (PRIVATE_TASKS.has(task)) return base.filter((n) => providerUsable(PROVIDER_BY_NAME[n]));
   // Explicit preference wins outright (e.g. prefer:'gemini' when the caller really wants it).
   if (prefer && PROVIDER_BY_NAME[prefer]) {
     return [prefer, ...base.filter((n) => n !== prefer)];
