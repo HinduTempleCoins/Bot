@@ -5,7 +5,7 @@
 // trivially testable and ISR/cache-friendly (same schema in → same HTML out).
 
 import { organization, webSiteJsonLd } from '../../integrations/soapbox/seo.mjs';
-import { navBar as ecosystemNavBar, NAV_STYLE as ECOSYSTEM_NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { navBar as ecosystemNavBar, NAV_STYLE as ECOSYSTEM_NAV_STYLE, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 import { joinCta } from '../../integrations/soapbox/join-cta.mjs';
 
@@ -208,11 +208,11 @@ ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}"><meta name="twi
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}
 ${STYLE}${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body${coinId ? ` data-coin="${esc(coinId)}"` : ''}>
 <a href="#main" class=skip>Skip to content</a>
-${navBar(active)}${chyronBar()}<main id=main class=wrap>${body}</main>
+${navDrawer(active)}${chyronBar()}<main id=main class=wrap>${body}</main>
 ${familyStrip()}
 ${joinCta({ source: 'soapbox-data' })}
 <footer>SoapBox — a CoinMarketCap-style aggregator with a Clarity transparency score and right-of-reply. Read-only, non-custodial. Data via the condenser (one source of truth).</footer>
-${APP_JS}</body></html>`;
+${APP_JS}${NAV_DRAWER_JS}</body></html>`;
 }
 
 /** Inline SVG sparkline from a price array — no JS, no request, renders in the table cell. */

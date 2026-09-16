@@ -16,7 +16,7 @@
 // ALL store logic is reused from integrations/soapbox/cheap-stores.mjs — no logic is duplicated here.
 
 import http from 'node:http';
-import { navBar, NAV_STYLE, esc } from '../../integrations/ecosystem-nav.mjs';
+import { navBar, NAV_STYLE, esc, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import {
   trulyCheapChains, locateStores, renderChainTable, renderResults, googlePlacesStatus,
@@ -106,13 +106,13 @@ export async function homePage(where = '') {
 <meta property="og:type" content="website"><meta property="og:site_name" content="A Buck">
 <meta property="og:title" content="A Buck — real under-$2 stores"><meta property="og:description" content="Stores that genuinely sell at $0.99–$2.00 like Dollar Tree — honest chain facts plus a keyless locator and map.">
 <link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<div class=navwrap>${navBar({ current: 'abuck' })}</div>
+<div class=navwrap>${navDrawer({ current: 'abuck' })}</div>
 <main class=wrap>${body}</main>
 <footer>A Buck — real under-$2 stores · part of the
   <a href="https://soapbox.community">SoapBox</a> data family.
   <div style="margin-top:6px">Facts with sources, not a verdict · <a href="https://data.soapbox.community">SoapBox Data</a></div>
 </footer>
-</body></html>`;
+${NAV_DRAWER_JS}</body></html>`;
 }
 
 export async function handler(req, res) {

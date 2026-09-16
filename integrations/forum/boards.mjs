@@ -73,7 +73,14 @@ const STATIC_BOARDS = [
   { id: 'demoscene',   title: 'Demoscene & Early Graphics', categoryId: 'net', kind: 'discussion', desc: 'The Mother of All Demos, Amiga cracktros, ANSI/ASCII art, the Utah teapot, Lenna, fractals, Winamp skins.' },
   { id: 'vr-history',  title: 'Early VR',                categoryId: 'net', kind: 'discussion', desc: 'Sensorama, the Sword of Damocles, VPL, Virtuality pods, the Virtual Boy, CAVEs, Habitat, VRML.' },
   { id: 'folklore',    title: 'Net Folklore & Creepypasta', categoryId: 'net', kind: 'discussion', desc: 'Authored horror fiction of the internet, ARGs, and analog horror. House rule: fiction is labelled with its author and first-publication date, or the post does not stand.' },
-  { id: 'lost-media',  title: 'Lost Media',              categoryId: 'net', kind: 'qa', desc: 'Find it, date it, source it. Ask about a half-remembered thing and let the board hunt it down.' },
+  { id: 'lost-media',  title: 'Lost Media',              categoryId: 'net', kind: 'qa', desc: 'Find it, date it, source it, in any language. The largest lost-media event on record has no English documentation at all: Baidu Tieba hid fourteen years of the biggest Chinese-language forum in a single day.' },
+  // Asian net-folklore needs its own room and its own rule. The folklore board requires authored
+  // fiction to carry its author and first-publication date; that rule cannot be copied here, because
+  // Kisaragi Station has no author, 洒落怖 is constitutionally truth-agnostic, and Kunekune's
+  // documented history is that the disclaimer fell off in transmission. Provenance is stated as far
+  // as it is known and left open where it is not — which is honest, not vague.
+  { id: 'asia-folklore', title: 'Asian Net-Folklore',     categoryId: 'net', kind: 'discussion', desc: '2channel and 洒落怖, netto-roa (ネットロア), Kisaragi Station, Kunekune, Hasshaku-sama, DCInside, Tieba, Pontianak and Aswang. Provenance stated where known and left open where it is not.' },
+  { id: 'distribution', title: 'Getting It Seen',         categoryId: 'net', kind: 'discussion', desc: 'FAST channels, creator portals and the routes a back catalogue takes to a mainstream catalogue — how independent work actually reaches an audience.' },
   { id: 'memes',       title: 'Meme Archaeology',        categoryId: 'net', kind: 'discussion', desc: 'First uses, spread, dead-meme archaeology — and the enforcement record, from Griner v. King to Grumpy Cat.' },
   { id: 'preservation',title: 'Web Preservation',        categoryId: 'net', kind: 'discussion', desc: 'Link rot, archive.org practice, what is already gone, and how to cite a capture properly.' },
 

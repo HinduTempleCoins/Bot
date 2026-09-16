@@ -6,7 +6,7 @@
 //   import { comingSoonPage } from './page.mjs'
 //   node site/comingsoon/page.mjs "Shopping" "Honest price + deal comparison." > index.html
 
-import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { navBar, NAV_STYLE, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 
 export function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
@@ -35,13 +35,13 @@ export function comingSoonPage({ section = 'SoapBox', blurb = '', current = '' }
 <meta name=description content="${esc(section)} on SoapBox — a surface we're building. Explore the live ecosystem from the nav above.">
 <meta name=robots content="noindex,follow">
 ${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-${navBar({ current, brand: 'SoapBox' })}
+${navDrawer({ current, brand: 'SoapBox' })}
 <main>
   <h1>${esc(section)} <span class=alpha>Alpha</span></h1>
   <div class=soon>Coming soon</div>
   <p class=blurb>${blurb ? esc(blurb) + ' ' : ''}This SoapBox surface is being built. Everything else in the ecosystem is one tap away in the bar above.</p>
   <p class=back><a href="https://soapbox.community/">← Back to the SoapBox hub</a></p>
-</main></body></html>`;
+</main>${NAV_DRAWER_JS}</body></html>`;
 }
 
 if (process.argv[1] && process.argv[1].endsWith('page.mjs')) {

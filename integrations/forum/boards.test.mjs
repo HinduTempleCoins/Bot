@@ -36,7 +36,7 @@ test('every design category is present, including Internet History', () => {
 test('Internet History boards are wired and lost-media is a Q&A', () => {
   const net = listBoards().filter((b) => b.categoryId === 'net').map((b) => b.id).sort();
   assert.deepEqual(net,
-    ['ai-history', 'demoscene', 'early-web', 'folklore', 'lost-media', 'memes', 'preservation', 'vr-history']);
+    ['ai-history', 'asia-folklore', 'demoscene', 'distribution', 'early-web', 'folklore', 'lost-media', 'memes', 'preservation', 'vr-history']);
   // "What was that video I half-remember" is a question, not a discussion — the SEO type follows.
   const lost = listBoards().find((b) => b.id === 'lost-media');
   assert.equal(lost.kind, 'qa');

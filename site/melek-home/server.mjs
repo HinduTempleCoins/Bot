@@ -6,7 +6,7 @@
 //   PORT=8107 BASE_URL=https://melek.salon node site/melek-home/server.mjs
 
 import http from 'node:http';
-import { navBar, NAV_STYLE, esc } from '../../integrations/ecosystem-nav.mjs';
+import { navBar, NAV_STYLE, esc, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 
 const PORT = +(process.env.PORT || 8107);
@@ -59,10 +59,10 @@ function homePage() {
 <meta name=description content="MELEK: a fair-launch, zero-pre-mine blockchain with a founding AI Witness (Hathor). The live chain launches after testnet validation; try the testnet at alpha.melek.salon.">
 <meta name=robots content="index,follow">
 <link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<div style="background:var(--panel);border-bottom:1px solid var(--line2);padding:7px 18px">${navBar({ current: 'melek' })}</div>
+<div style="background:var(--panel);border-bottom:1px solid var(--line2);padding:7px 18px">${navDrawer({ current: 'melek' })}</div>
 <main class=wrap>${body}</main>
 <footer>MELEK — always uppercase, five letters, the full word. Fair-launch, zero pre-mine. The live chain (this site) is launching; the testnet is at <a href="${esc(ALPHA)}">alpha.melek.salon</a>.</footer>
-</body></html>`;
+${NAV_DRAWER_JS}</body></html>`;
 }
 
 export { homePage };
