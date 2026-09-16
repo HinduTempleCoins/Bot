@@ -5,7 +5,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { complete, availableProviders, PROVIDERS, __resetRotation, textOf } from './llm-router.mjs';
+import { complete, availableProviders, PROVIDERS, __resetRotation, textOf, looksLikeProviderError } from './llm-router.mjs';
 
 // provider key envs + the LLM_ALLOW_GEMINI gate flag, so withEnv fully isolates each test (the gate
 // flag must be cleared/restored too or a test that opts Gemini in would leak into later tests).
@@ -364,4 +364,30 @@ test('the verify lane never routes to the native brain', async () => {
         'checks and balances must not share a brain with the thing being checked');
     });
   } finally { global.fetch = orig; }
+});
+
+// ── a 200 carrying the provider's own error is not a completion ─────────────────────────────────
+test('a budget notice returned as a 200 does not become the answer', async () => {
+  const orig = global.fetch;
+  // Exactly what Pollinations has been returning, followed by a real answer from the next rung.
+  global.fetch = scriptedFetch([
+    { status: 200, body: openaiBody('The API key used for this request has reached its budget. Please raise the key budget, then try again.') },
+    { status: 200, body: openaiBody('the real brief') },
+  ]);
+  try {
+    await withEnv({ GROQ_API_KEY: 'g', OPENROUTER_API_KEY: 'o' }, async () => {
+      const res = await complete('write the brief');
+      assert.equal(res.text, 'the real brief', 'the ladder must move on, not publish the error');
+      assert.ok(res.attempts.some((a) => a.error === 'provider-error-body'));
+    });
+  } finally { global.fetch = orig; }
+});
+
+test('looksLikeProviderError: notices yes, real prose no', () => {
+  assert.ok(looksLikeProviderError('Rate limit exceeded, try again later'));
+  assert.ok(looksLikeProviderError('{"error":"quota exceeded"}'));
+  assert.ok(looksLikeProviderError(''));
+  assert.ok(!looksLikeProviderError('The backlog has 989 open items and the scanners flagged 69 files.'));
+  // A long answer that merely mentions billing is not an error notice.
+  assert.ok(!looksLikeProviderError('Billing for the Gemini project should be capped. '.repeat(30)));
 });

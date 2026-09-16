@@ -28,12 +28,35 @@ export function wash(text) {
   if (typeof text !== 'string' || !text) return text;
   return text
     .replace(/-----BEGIN [^-]+-----[\s\S]*?-----END [^-]+-----/g, '[REDACTED:key-block]')
+    // The JSON-escaped form, where the newlines are literal backslash-n inside a quoted string.
+    // A service-account JSON pasted into chat looks like this, and the plain rule above misses it.
+    .replace(/-----BEGIN [^-]+-----(?:\\n|[^"])*?-----END [^-]+-----/g, '[REDACTED:key-block]')
+    // A key block that something upstream already chewed on is the worst case: it reads as redacted
+    // while real key lines survive, because the generic token rule below does not match base64
+    // containing "/" or "+". Catch any BEGIN marker that no longer has its END.
+    .replace(/-----BEGIN [^-]+-----[\s\S]{0,4000}/g, '[REDACTED:key-block]')
+    // Cloud service-account identities travel with the key and name the billed project.
+    // Match the domain itself, not an address pattern. My own summary of a leak wrote the identity as
+    // "melek-198@…iam.gserviceaccount.com" — the ellipsis fell outside the address character class, so
+    // a careful mask in prose defeated the redaction. Anchor on the part that cannot be elided.
+    .replace(/[^\s"'`]*iam\.gserviceaccount\.com/g, '[REDACTED:service-account]')
+    // GCP project ids identify the billed project even with the key gone.
+    .replace(/\b[a-z][a-z0-9-]*-client-\d{6,}\b/g, '[REDACTED:gcp-project]')
+    // The marker itself, wherever it appears — including in prose describing a leak.
+    .replace(/-{0,5}BEGIN [A-Z ]*PRIVATE KEY-{0,5}/g, '[REDACTED:key-block]')
+    .replace(/"private_key_id"\s*:\s*"[^"]*"/g, '"private_key_id": "[REDACTED]"')
     .replace(/\b[a-z]{4}\s+[a-z]{4}\s+[a-z]{4}\s+[a-z]{4}\b/g, '[REDACTED:app-password]')
     .replace(/\b5[HJK][1-9A-HJ-NP-Za-km-z]{49}\b/g, '[REDACTED:wif-key]')
     .replace(/\b(?:STM|MLK|TST|PRA)[1-9A-HJ-NP-Za-km-z]{30,}\b/g, '[REDACTED:graphene-key]')
     .replace(/\b0x[0-9a-fA-F]{64}\b/g, '[REDACTED:evm-key]')
     .replace(/\b[0-9a-fA-F]{64}\b/g, '[REDACTED:hex-secret]')
     .replace(/\b(?=[A-Za-z0-9_-]*[A-Za-z])(?=[A-Za-z0-9_-]*[0-9])[A-Za-z0-9_-]{32,}\b/g, '[REDACTED:api-key]')
+    // Base64 key material, which the token rule above skips because it contains "/" and "+". This is
+    // the exact gap that left a real service-account key half-intact in a store that is never wiped:
+    // the shredded result READ as redacted. Requires a "/" or "+", or mixed case plus a digit, so an
+    // ordinary long word is not swallowed.
+    .replace(/\b(?:[A-Za-z0-9+/]{40,}={0,2})\b/g, (m) =>
+      (/[+/]/.test(m) || (/[a-z]/.test(m) && /[A-Z]/.test(m) && /[0-9]/.test(m))) ? '[REDACTED:b64]' : m)
     // Every non-loopback IPv4. Operator rule: server IPs never appear in anything durable.
     .replace(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g, (m) =>
       (m === '127.0.0.1' || m === '0.0.0.0' || m.startsWith('0.')) ? m : '[REDACTED:ip]');

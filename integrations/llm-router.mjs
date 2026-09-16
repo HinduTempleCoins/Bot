@@ -279,6 +279,26 @@ function callProvider(provider, key, prompt, opts) {
  * Returns '' for anything without usable text, so callers can tell "no answer" from "an answer".
  * Never throws.
  */
+// ── provider errors that arrive as a 200 ────────────────────────────────────────────────────────
+// A provider can answer HTTP 200 with its OWN error as the completion body — a budget notice, a
+// rate-limit message, a billing link. That text is non-empty, so a naive check accepts it and it
+// becomes the output. This is not hypothetical: every hourly brief and every MoM on the box is
+// currently the sentence "The API key used for this request has reached its budget", because
+// Pollinations returns that as a successful completion and the ladder stopped there.
+//
+// Treating it as a failure is what makes the ladder work as designed — the next provider answers.
+export function looksLikeProviderError(t) {
+  const x = String(t || '').toLowerCase().trim();
+  if (!x) return true;
+  if (x.length > 600) return false;          // a real answer of any length is not an error notice
+  return [
+    /api key .{0,40}(budget|quota|limit|credit)/, /reached its budget/, /raise the key budget/,
+    /rate.?limit(ed)?\b/, /too many requests/, /quota exceeded/, /insufficient (credit|balance|funds|quota)/,
+    /payment required/, /billing/, /^\s*\{?\s*"?error"?\s*[:{]/,
+    /contact whoever runs the app/, /please try again later/, /service (is )?unavailable/,
+  ].some((re) => re.test(x));
+}
+
 export function textOf(r) {
   if (r == null) return '';
   if (typeof r === 'string') return r.trim();
@@ -315,6 +335,14 @@ export async function complete(prompt, opts = {}) {
     try {
       log(`[llm-router] ${name}: trying…`);
       const { text, model } = await callProvider(provider, key, prompt, opts);
+      // A 200 carrying the provider's own budget/quota notice is a FAILURE, not a completion.
+      // Accepting it is why every brief and MoM on the box currently reads "The API key used for
+      // this request has reached its budget" — the ladder stopped at a rung that had not answered.
+      if (looksLikeProviderError(text)) {
+        attempts.push({ provider: name, error: 'provider-error-body' });
+        log(`[llm-router] ${name}: returned an error body, not a completion — falling through`);
+        continue;
+      }
       log(`[llm-router] ${name}: ok (${model})`);
       attempts.push({ provider: name, ok: true });
       return { text, provider: name, model, attempts };
