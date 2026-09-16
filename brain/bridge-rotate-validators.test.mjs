@@ -7,6 +7,7 @@ const REG = [
   '0xa78a867988e5acc95906a0461104b056a525fb67',
   '0xe75a81f6d2d6d4757f5add318f45c15e56f9acee',
 ];
+// Addresses of CUSTODIED KEYS. The quorum counts keys that recover from a signature, not daemons.
 const OURS = ['0x06b30eD5e71227326b9224bdB97632D453bacd87', '0x73669dfb3e78fa4a445eAb11f4652BF9cE6a015b'];
 
 test('the module cannot sign — it imports no crypto and holds no key', async () => {
@@ -17,7 +18,7 @@ test('the module cannot sign — it imports no crypto and holds no key', async (
   }
 });
 
-test('planRotations pairs each unusable validator with one of ours', () => {
+test('planRotations pairs each unusable seat with one of our custodied keys', () => {
   const plan = planRotations(REG, OURS);
   assert.equal(plan.length, 2);
   assert.equal(plan[0].to, OURS[0]);
@@ -83,4 +84,12 @@ test('readSet decodes an address array and the threshold', async () => {
   assert.equal(s.validators[0], '0x' + REG[0].replace(/^0x/, ''));
   assert.equal(s.threshold, 3);
   __setFetch(null);
+});
+
+test('the quorum is a key count, and the module says so', async () => {
+  const src = await import('node:fs').then((fs) => fs.readFileSync('brain/bridge-rotate-validators.mjs', 'utf8'));
+  assert.match(src, /KEYS, not processes/, 'the distinction must be stated where someone will read it');
+  assert.match(src, /PRANA_SIGNER_ADDRESSES/, 'the env name should say signers, not attesters');
+  // The old name keeps working, because the boxes already set it.
+  assert.match(src, /PRANA_ATTESTER_ADDRESSES/);
 });

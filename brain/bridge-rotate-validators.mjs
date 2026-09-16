@@ -6,8 +6,14 @@
 //   1. The attesters were configured with GRAPHENE_BRIDGE_ADDRESS=0x04C89607…, which has NO CODE on
 //      PRANA mainnet. They were attesting to a contract that does not exist. (Fixed in the env.)
 //   2. The addresses they sign with return isValidator() === false. The five registered validators
-//      are correct on-chain, but no key for any of them is on the box, so the 3-of-5 quorum is
+//      are correct on-chain, but no key for any of them is custodied, so the 3-of-5 quorum is
 //      unreachable — the bridge is not slow, it is arithmetically dead.
+//
+// WHAT THE QUORUM ACTUALLY COUNTS: KEYS, not processes. verifySignatures() takes an array of
+// signatures over a digest and checks each recovers to a registered validator. It has no idea how
+// many daemons produced them. So 3-of-5 needs three custodied KEYS whose addresses are seated — one
+// attester process signing with three keys satisfies it exactly as well as three processes. Do not
+// stand up daemons to solve a key-count problem.
 //
 // WHY IT GOES THROUGH THE SIGNER. Fixing this by hand means handling a chain key, and this repo does
 // not do that — MELEK_SIGNER.md and CLAUDE.md both say the Bot never holds a WIF and never broadcasts
@@ -100,37 +106,42 @@ export function rotateCalldata(oldAddr, newAddr) {
 }
 
 /**
- * Build the plan: which registered validators are unusable, and which running attesters replace
- * them. `attesters` are addresses whose keys the fleet actually holds — passed in, never read from
- * a key file, because this module must not be able to learn a private key even by accident.
+ * Build the plan: which registered validators are unusable, and which of OUR seats replace them.
+ * `ours` are the addresses whose KEYS are custodied — passed in as addresses, never read from a key
+ * file, because this module must not be able to learn a private key even by accident. How many
+ * processes use those keys is irrelevant to the quorum and irrelevant here.
  */
-export function planRotations(registered, attesters) {
-  const have = new Set(attesters.map((a) => a.toLowerCase()));
+export function planRotations(registered, ours) {
+  const have = new Set(ours.map((a) => a.toLowerCase()));
   const dead = registered.filter((v) => !have.has(v.toLowerCase()));
-  const missing = attesters.filter((a) => !registered.map((v) => v.toLowerCase()).includes(a.toLowerCase()));
+  const missing = ours.filter((a) => !registered.map((v) => v.toLowerCase()).includes(a.toLowerCase()));
   return missing.map((a, i) => (dead[i] ? { from: dead[i], to: a } : null)).filter(Boolean);
 }
 
 async function main() {
-  const attesters = (process.env.PRANA_ATTESTER_ADDRESSES || '')
+  // The addresses of the keys we have custodied. PRANA_SIGNER_ADDRESSES is the accurate name;
+  // PRANA_ATTESTER_ADDRESSES still works because it is what the boxes already set.
+  const ours = (process.env.PRANA_SIGNER_ADDRESSES || process.env.PRANA_ATTESTER_ADDRESSES || '')
     .split(',').map((s) => s.trim()).filter(Boolean);
-  if (!attesters.length) {
-    console.error('[rotate] set PRANA_ATTESTER_ADDRESSES to the attester ADDRESSES (never the keys)');
+  if (!ours.length) {
+    console.error('[rotate] set PRANA_SIGNER_ADDRESSES to the ADDRESSES of the custodied keys (never the keys)');
     process.exit(1);
   }
 
   const { validators, threshold } = await readSet();
   console.log(`validator set : ${validators.length} members, threshold ${threshold}`);
-  for (const v of validators) console.log(`   ${v}  ours=${attesters.map((a) => a.toLowerCase()).includes(v.toLowerCase())}`);
+  for (const v of validators) console.log(`   ${v}  key-custodied=${ours.map((a) => a.toLowerCase()).includes(v.toLowerCase())}`);
 
-  const plan = planRotations(validators, attesters);
+  const plan = planRotations(validators, ours);
   console.log(`\nplan          : ${plan.length} rotation(s)`);
   for (const p of plan) console.log(`   ${p.from} -> ${p.to}`);
 
-  const usableAfter = attesters.length;
-  if (usableAfter < threshold) {
-    console.log(`\n⚠ after this, ${usableAfter} of ${threshold} needed signers are ours — the bridge still cannot reach quorum.`);
-    console.log(`  ${threshold - usableAfter} more attester(s) must be custodied before a deposit can complete.`);
+  const keysWeHave = ours.length;
+  if (keysWeHave < threshold) {
+    console.log(`\n⚠ ${keysWeHave} custodied key(s) against a threshold of ${threshold} — the bridge still cannot reach quorum.`);
+    console.log(`  ${threshold - keysWeHave} more KEY(S) must be custodied. Not more daemons: verifySignatures`);
+    console.log('  counts signatures that recover to seated addresses, so one process signing with');
+    console.log(`  ${threshold} keys satisfies it exactly as well as ${threshold} processes.`);
   }
 
   const who = await signerAddress();
@@ -147,7 +158,7 @@ async function main() {
     console.log(`  rotated ${p.from.slice(0, 10)} -> ${p.to.slice(0, 10)}  ${JSON.stringify(result).slice(0, 120)}`);
   }
   const after = await readSet();
-  console.log(`\nours in the set now: ${after.validators.filter((v) => attesters.map((a) => a.toLowerCase()).includes(v.toLowerCase())).length} / ${after.threshold} needed`);
+  console.log(`\ncustodied keys seated now: ${after.validators.filter((v) => ours.map((a) => a.toLowerCase()).includes(v.toLowerCase())).length} / ${after.threshold} needed`);
 }
 
 // Compare against the INVOKED script, not this module's own name: import.meta.url always ends
