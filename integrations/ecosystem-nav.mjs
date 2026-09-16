@@ -77,6 +77,34 @@ export const NAV_STYLE = `<style>
   .enav-side{display:flex;flex-direction:column;gap:10px}
   .enav-side .enav-grp{flex-direction:column;align-items:stretch;gap:5px}
   .enav-side .enav-grp-title{font-size:11px;text-transform:uppercase;letter-spacing:.5px;opacity:.55;margin-top:6px}
+
+  /* ── collapsible drawer ────────────────────────────────────────────────────────────────────
+     The nav you can put away and bring back, the way Steemit's does. The toggle is a real
+     <button> with aria-expanded and aria-controls so it works for a screen reader and for a
+     keyboard, and the panel is hidden with the [hidden] attribute rather than a class, so it is
+     hidden to assistive tech too and not merely invisible.
+     CSS-only open/close via :has() where supported; the tiny inline script below is the fallback
+     and the thing that remembers your choice. With no JS at all the panel renders OPEN, because a
+     nav that needs JS to exist is worse than one that will not close. */
+  .enav-drawer{position:relative}
+  .enav-toggle{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:inherit;font-weight:700;
+    padding:6px 12px;border:1px solid rgba(128,128,128,.35);border-radius:8px;background:transparent;color:inherit}
+  .enav-toggle:hover{border-color:#4c8dff;color:#4c8dff}
+  .enav-toggle:focus-visible{outline:2px solid #4c8dff;outline-offset:2px}
+  .enav-bars{display:inline-block;width:16px;height:2px;background:currentColor;position:relative;border-radius:2px}
+  .enav-bars::before,.enav-bars::after{content:"";position:absolute;left:0;width:16px;height:2px;background:currentColor;border-radius:2px}
+  .enav-bars::before{top:-5px} .enav-bars::after{top:5px}
+  .enav-panel{margin-top:10px}
+  .enav-panel[hidden]{display:none}
+  /* Collapsible groups inside the drawer — each section folds on its own, like the Facebook
+     sidebar's Upgrades / Also from Meta sections. <details> needs no script at all. */
+  .enav-sec{border-top:1px solid rgba(128,128,128,.2);padding:6px 0}
+  .enav-sec>summary{cursor:pointer;list-style:none;font-size:11px;text-transform:uppercase;
+    letter-spacing:.5px;opacity:.6;padding:6px 0;font-weight:700}
+  .enav-sec>summary::-webkit-details-marker{display:none}
+  .enav-sec>summary::after{content:"\\25BE";float:right;transition:transform .15s}
+  .enav-sec[open]>summary::after{transform:rotate(180deg)}
+  .enav-sec .enav-grp{padding:4px 0 8px}
 </style>`;
 
 /**
@@ -95,6 +123,66 @@ export function navSidebar({ current = '' } = {}) {
   const blocks = groups.map((g) =>
     `<div class=enav-grp><div class=enav-grp-title>${esc(g)}</div>${links({ group: g }).map((l) => linkHtml(l, current)).join('')}</div>`);
   return `<nav class="enav enav-side">${blocks.join('')}</nav>`;
+}
+
+
+/**
+ * The drawer script. Kept tiny and inlined by navDrawer() so a page needs no build step and no
+ * external request. It does three things and nothing else: toggle the panel, keep aria-expanded
+ * honest, and remember the choice in localStorage so the nav stays put across pages.
+ *
+ * Every localStorage access is wrapped: a private window, blocked site data, or an embedded
+ * webview can throw on access, and a nav that throws is a nav that breaks the page under it.
+ */
+export const NAV_DRAWER_JS = `<script>
+(function(){
+  var KEY='enav.open';
+  function read(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }
+  function write(v){ try { localStorage.setItem(KEY, v); } catch(e){} }
+  document.querySelectorAll('.enav-drawer').forEach(function(d){
+    var btn = d.querySelector('.enav-toggle'), panel = d.querySelector('.enav-panel');
+    if(!btn || !panel) return;
+    // Remembered state wins; default is CLOSED on a phone and OPEN on a wide screen, because a
+    // drawer that eats the first screenful on a phone is the reason people close it.
+    var saved = read();
+    var open = saved === null ? window.matchMedia('(min-width: 900px)').matches : saved === '1';
+    function apply(o){ panel.hidden = !o; btn.setAttribute('aria-expanded', String(o)); }
+    apply(open);
+    btn.addEventListener('click', function(){ open = !open; apply(open); write(open ? '1' : '0'); });
+    // Tap anywhere outside to close. Phones have no Esc key, so a keyboard-only dismissal is no
+    // dismissal at all for most of the people using this — a tap outside is the gesture they already
+    // expect from every drawer on a phone, and it costs a desktop user nothing.
+    document.addEventListener('click', function(e){
+      if(!open) return;
+      if(d.contains(e.target)) return;      // inside the drawer, including the toggle itself
+      open = false; apply(false); write('0');
+    });
+  });
+})();
+<\/script>`;
+
+/**
+ * A nav that can be HIDDEN and BROUGHT BACK — the Steemit pattern, asked for repeatedly and until
+ * now not built. Groups render as <details> sections so each folds independently.
+ *
+ * Renders OPEN with no JavaScript. The script only adds closing, remembering, and tap-outside.
+ *
+ * @param {{current?:string, brand?:string, label?:string, openGroups?:string[]}} opts
+ */
+export function navDrawer({ current = '', brand = 'VanKush \u00b7 MELEK', label = 'Menu', openGroups = ['Project'] } = {}) {
+  const groups = ['Project', 'SoapBox', 'Chains'];
+  const sections = groups.map((g) => {
+    const open = openGroups.includes(g) ? ' open' : '';
+    return `<details class=enav-sec${open}><summary>${esc(g)}</summary>`
+      + `<div class=enav-grp>${links({ group: g }).map((l) => linkHtml(l, current)).join('')}</div></details>`;
+  }).join('');
+  return `<div class="enav enav-drawer">`
+    + `<button type=button class=enav-toggle aria-expanded=true aria-controls=enav-panel>`
+    + `<span class=enav-bars aria-hidden=true></span>${esc(label)}</button>`
+    + `<div class="enav-panel enav-side" id=enav-panel>`
+    + (brand ? `<div class=enav-brand>${esc(brand)}</div>` : '')
+    + sections
+    + `</div></div>`;
 }
 
 if (process.argv[1] && process.argv[1].endsWith('ecosystem-nav.mjs')) {

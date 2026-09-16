@@ -131,6 +131,94 @@ export async function fetchHistory(cfg) {
   }
 }
 
+/**
+ * Normalize transfers found by walking BLOCKS into the same entry shape scanDeposits wants.
+ *
+ * WHY THIS EXISTS. fetchHistory() asks condenser_api.get_account_history, which depends on the node
+ * running the account_history plugin. On MELEK mainnet that plugin returns ZERO rows for every
+ * account — hathor and initminer included, not just new ones — so the attesters saw nothing no
+ * matter which chain they pointed at. The account existed, held the deposit, and the chain would
+ * not tell anyone about the transfer.
+ *
+ * Walking blocks needs no plugin: get_block_range is core. It is also what an oracle should do
+ * anyway — reading the chain rather than an index of it removes a dependency that can be off.
+ *
+ * @param {Array} blocks   raw get_block_range result
+ * @param {string} custody account to match on `to`
+ */
+export function normalizeBlocks(blocks, custody) {
+  const want = String(custody || '').toLowerCase();
+  const out = [];
+  for (const b of Array.isArray(blocks) ? blocks : []) {
+    const num = b && (b.block_num || b.num) || null;
+    const txs = (b && b.transactions) || [];
+    const ids = (b && b.transaction_ids) || [];
+    txs.forEach((tx, ti) => {
+      for (const op of (tx && tx.operations) || []) {
+        // Ops arrive as ["transfer", {...}] on condenser, or {type:"transfer_operation", value:{}}
+        let type = null, data = null;
+        if (Array.isArray(op) && op.length >= 2) { type = op[0]; data = op[1]; }
+        else if (op && op.type) { type = String(op.type).replace(/_operation$/, ''); data = op.value; }
+        if (type !== 'transfer' || !data) continue;
+        if (String(data.to || '').toLowerCase() !== want) continue;
+        out.push({
+          trxId: ids[ti] || `${num}:${ti}`,
+          blockNum: num,
+          seq: `${num}:${ti}`,
+          op: { type, ...data },
+        });
+      }
+    });
+  }
+  return out;
+}
+
+/**
+ * Block-scan fallback. Reads a bounded window back from the irreversible head so a restart does not
+ * re-walk the whole chain, and so a reorg cannot produce a deposit we already attested.
+ */
+export async function fetchByBlocks(cfg, { window = 2000, batch = 25 } = {}) {
+  if (!cfg || !cfg.melekRpc) return { ok: false, history: [], headBlock: null, reason: 'no-melek-rpc' };
+  if (!cfg.custody) return { ok: false, history: [], headBlock: null, reason: 'no-custody-account' };
+  try {
+    const props = await rpc(cfg.melekRpc, 'condenser_api.get_dynamic_global_properties', [], cfg.timeoutMs);
+    const headBlock = (props && (props.last_irreversible_block_num || props.head_block_number)) || null;
+    if (!headBlock) return { ok: false, history: [], headBlock: null, reason: 'no-head' };
+    const from = Math.max(1, headBlock - window);
+    const history = [];
+    // This fork serves condenser_api.get_block but NOT block_api.get_block_range — verified against
+    // the live node, which answers "Could not find method get_block_range". So: one call per block,
+    // in bounded parallel batches so a 2000-block window is seconds rather than minutes.
+    for (let start = from; start <= headBlock; start += batch) {
+      const nums = [];
+      for (let n = start; n < Math.min(start + batch, headBlock + 1); n++) nums.push(n);
+      const got = await Promise.all(nums.map(async (n) => {
+        try {
+          const b = await rpc(cfg.melekRpc, 'condenser_api.get_block', [n], cfg.timeoutMs);
+          return b ? { ...b, block_num: n } : null;
+        } catch { return null; }   // one unreadable block must not lose the whole window
+      }));
+      history.push(...normalizeBlocks(got.filter(Boolean), cfg.custody));
+    }
+    return { ok: true, history, headBlock };
+  } catch (e) {
+    return { ok: false, history: [], headBlock: null, reason: String(e && e.message || e) };
+  }
+}
+
+/**
+ * Read deposits by whichever route the node actually serves. Tries the cheap indexed path first and
+ * falls through to block-scanning when the plugin returns nothing — which is not the same as "no
+ * deposits", and treating those two as equivalent is what made this failure invisible.
+ */
+export async function fetchDeposits(cfg, opts = {}) {
+  const viaHistory = await fetchHistory(cfg);
+  if (viaHistory.ok && viaHistory.history.length) return { ...viaHistory, via: 'account_history' };
+  const viaBlocks = await fetchByBlocks(cfg, opts);
+  if (viaBlocks.ok) return { ...viaBlocks, via: 'block_scan' };
+  return viaHistory.ok ? { ...viaHistory, via: 'account_history' } : viaBlocks;
+}
+
 // ---- the loop body ---------------------------------------------------------
 
 /**
@@ -154,7 +242,9 @@ export async function runOnce(cfg, submit, ctx = {}) {
     return { ok: false, headBlock: null, submitted, skipped: [], failed, pending, reason: 'no-submit-fn' };
   }
 
-  const read = await fetchHistory(cfg);
+  // fetchDeposits, not fetchHistory: the account_history plugin returns zero rows on this chain,
+  // and an empty index is not the same fact as an empty chain.
+  const read = await fetchDeposits(cfg);
   if (!read.ok) {
     return { ok: false, headBlock: read.headBlock, submitted, skipped: [], failed, pending, reason: read.reason };
   }

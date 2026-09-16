@@ -18,7 +18,7 @@ import {
   INDUSTRIES, CREDENTIALS, industry, getCredential, byIndustry, search,
   industriesWithCounts, validateCatalog, BRAND_GUARDRAIL,
 } from '../../integrations/soapbox/credentials-catalog.mjs';
-import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { navBar, NAV_STYLE, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 
 const PORT = +(process.env.PORT || 8137);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -70,7 +70,7 @@ const STYLE = `<style>
 
 const FOOTER = `<footer>
   SoapBox Credentials — an honest map of how to get credentialed, by industry. We link out to official issuers; we don't sell credentials.
-  <div style="margin-top:8px">${navBar({ current: 'credentials' })}</div>
+  <div style="margin-top:8px">${navDrawer({ current: 'credentials' })}</div>
 </footer>`;
 
 function page(title, body, opts = {}) {
@@ -86,7 +86,7 @@ function page(title, body, opts = {}) {
 <header class=topbar><a class=brand href="/">🎓 Credentials <span>SoapBox</span></a>
   <div class=topbar-r><a href="/">Industries</a><a href="/search">Search</a><a href="${esc(WIKI)}">Wiki</a></div></header>
 <main class=wrap>${body}</main>
-${FOOTER}</body></html>`;
+${FOOTER}${NAV_DRAWER_JS}</body></html>`;
 }
 
 function searchForm(value = '') {

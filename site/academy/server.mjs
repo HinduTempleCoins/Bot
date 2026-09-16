@@ -19,7 +19,7 @@ import { createServer } from 'node:http';
 import { timingSafeEqual } from 'node:crypto';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
-import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { navBar, NAV_STYLE, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 import {
   PROGRAMS, ISSUERS, CREDENTIAL_TYPES, getProgram,
   verifyCredential, toOpenBadge, createRegistry,
@@ -111,11 +111,11 @@ function page(title, body, opts = {}) {
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="index,follow,max-image-preview:large">
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'academy' })}</div>
+<div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navDrawer({ current: 'academy' })}</div>
 <header class=topbar><a class=brand href="/">🎓 MELEK Academy <span>· credentials</span></a>
   <div class=topbar-r><a href="/">Programs</a><a href="/verify">Verify</a><a href="/registry">Registry</a><a href="${esc(WITNESS)}">Witness School</a></div></header>
 <main class=wrap>${body}</main>
-${FOOTER}</body></html>`;
+${FOOTER}${NAV_DRAWER_JS}</body></html>`;
 }
 
 const tagClass = (type) => (type === 'ministerial' ? 'min' : type === 'press' ? 'press' : '');

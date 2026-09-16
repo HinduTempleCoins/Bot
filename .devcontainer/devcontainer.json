@@ -1,0 +1,15 @@
+{
+  "name": "MELEK Bot",
+  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "customizations": {
+    "codespaces": {
+      "repositories": {
+        "HinduTempleCoins/PRANA":            { "permissions": { "contents": "write", "pull_requests": "write" } },
+        "HinduTempleCoins/KULASwap":         { "permissions": { "contents": "write", "pull_requests": "write" } },
+        "HinduTempleCoins/melek-chain":      { "permissions": { "contents": "write", "pull_requests": "write" } },
+        "HinduTempleCoins/melek-condenser":  { "permissions": { "contents": "write", "pull_requests": "write" } },
+        "HinduTempleCoins/codex":            { "permissions": { "contents": "write", "pull_requests": "write" } }
+      }
+    }
+  }
+}

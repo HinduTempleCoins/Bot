@@ -14,7 +14,7 @@ import {
   FIELDS, GRANTS, field, getGrant, byField, search,
   fieldsWithCounts, validateCatalog, BRAND_GUARDRAIL,
 } from '../../integrations/soapbox/grants-catalog.mjs';
-import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { navBar, NAV_STYLE, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 
 const PORT = +(process.env.PORT || 8138);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -66,7 +66,7 @@ const STYLE = `<style>
 
 const FOOTER = `<footer>
   SoapBox Grants — an honest map of where the money is, by field. We link out to the official application; we never charge for access to public money.
-  <div style="margin-top:8px">${navBar({ current: 'grants' })}</div>
+  <div style="margin-top:8px">${navDrawer({ current: 'grants' })}</div>
 </footer>`;
 
 function page(title, body, opts = {}) {
@@ -82,7 +82,7 @@ function page(title, body, opts = {}) {
 <header class=topbar><a class=brand href="/">💰 Grants <span>SoapBox</span></a>
   <div class=topbar-r><a href="/">Fields</a><a href="/search">Search</a><a href="${esc(CREDS)}">Credentials</a><a href="${esc(WIKI)}">Wiki</a></div></header>
 <main class=wrap>${body}</main>
-${FOOTER}</body></html>`;
+${FOOTER}${NAV_DRAWER_JS}</body></html>`;
 }
 
 function searchForm(value = '') {

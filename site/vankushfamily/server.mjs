@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
-import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { navBar, NAV_STYLE, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 import { subscribeWidget, handle as newsletterHandle } from '../../integrations/newsletter.mjs';
 import { resendMailer } from '../../integrations/email-verify.mjs';
 import { promises as fsp } from 'node:fs';
@@ -177,11 +177,11 @@ function page(title, body, opts = {}) {
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navBar({ current: 'roadmap' })}</div>
+<div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navDrawer({ current: 'roadmap' })}</div>
 <header class=topbar><a class=brand href="/">Van Kush Family <span>roadmap</span></a>
   <div class=topbar-r><a href="#shipped">Shipped</a><a href="#day0">MELEK&nbsp;live</a><a href="#prana">PRANA</a><a href="#soap">SOAP</a><a href="#beyond">Beyond</a></div></header>
 <main class=wrap>${body}</main>
-${FOOTER}</body></html>`;
+${FOOTER}${NAV_DRAWER_JS}</body></html>`;
 }
 
 // ── status badge helper ───────────────────────────────────────────────────────────────────────────

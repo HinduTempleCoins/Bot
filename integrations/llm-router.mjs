@@ -23,6 +23,24 @@ const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 // geminiClient convention (GEMINI_MODEL) and OPENROUTER_INTEGRATION.md.
 export const PROVIDERS = [
   {
+    // THE NATIVE BRAIN — our own weights on our own GPU (infra/modal/brain-serve.py). It sits at the
+    // HEAD of every order because renting cognition per call was always the placeholder: the API
+    // providers below are the checks-and-balances layer over the briefs, the transcripts and the
+    // repo, not the voice. vLLM serves an OpenAI-compatible endpoint, so it needs no special kind.
+    //
+    // It scales to zero, so a cold call pays a wake-up. The ladder handles that for free: if the
+    // GPU is still coming up the request fails fast and the next rung answers, and the call after
+    // it lands on a warm native container. Nothing blocks on a cold start.
+    name: 'native',
+    env: 'MODAL_BRAIN_TOKEN',
+    kind: 'openai',
+    // Base URL of the deployed Modal web endpoint, e.g. https://<org>--melek-brain-serve-serve.modal.run
+    endpoint: () => `${String(process.env.MODAL_BRAIN_URL || '').replace(/\/+$/, '')}/v1/chat/completions`,
+    model: () => process.env.MODAL_BRAIN_MODEL || 'melek-brain',
+    // Both must be set: a token with no URL points nowhere.
+    requires: () => !!process.env.MODAL_BRAIN_URL,
+  },
+  {
     name: 'gemini',
     env: 'GEMINI_API_KEY',
     kind: 'gemini',
@@ -82,10 +100,14 @@ const PROVIDER_BY_NAME = Object.fromEntries(PROVIDERS.map((p) => [p.name, p]));
 // is the final rung so generation always resolves. Pass { prefer:'gemini' } to force Gemini when you
 // explicitly want it. This is the "use all the AIs, don't fall back onto the paid one" routing.
 const TASK_ORDERS = {
-  default: ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
-  cheap:   ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
-  quality: ['github', 'openrouter', 'groq', 'gemini', 'pollinations'],
-  long:    ['openrouter', 'groq', 'github', 'gemini', 'pollinations'],
+  default: ['native', 'groq', 'openrouter', 'github', 'gemini', 'pollinations'],
+  cheap:   ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],   // cheap skips the GPU wake
+  quality: ['native', 'github', 'openrouter', 'groq', 'gemini', 'pollinations'],
+  long:    ['native', 'openrouter', 'groq', 'github', 'gemini', 'pollinations'],
+  // The API ensemble lane. The APIs write the briefs and the annals — that is their job, not a
+  // fallback. What keeps our material safe is the WASH (brain/wash-transcript.mjs and reconcile.mjs
+  // redaction), which strips keys, credentials and server addresses before anything reaches them.
+  verify:  ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
 };
 
 /**
@@ -93,11 +115,21 @@ const TASK_ORDERS = {
  * key present. Used by the ladder to skip dead rungs and by availableProviders() for reporting.
  */
 function providerUsable(p) {
+  if (!p) return false;   // an order may name a provider that does not exist
+
   // $0 HARD-PIN: Gemini is the ONLY metered provider (it bills once its free quota is spent). It is
   // OFF by default and only usable when the operator explicitly opts in with LLM_ALLOW_GEMINI=1.
   // The keyless Pollinations backstop still guarantees the ladder always resolves, so nothing breaks.
   if (p.name === 'gemini' && process.env.LLM_ALLOW_GEMINI !== '1') return false;
+  // A provider may need more than a key — the native brain also needs its URL, and a token pointing
+  // nowhere would make it look available and then fail every call at the head of the ladder.
+  if (typeof p.requires === 'function' && !p.requires()) return false;
   return p.keyless ? true : Boolean(process.env[p.env]);
+}
+
+/** Endpoints may be a literal or a thunk (the native brain's URL comes from env at call time). */
+function endpointOf(p) {
+  return typeof p.endpoint === 'function' ? p.endpoint() : p.endpoint;
 }
 
 /**
@@ -124,11 +156,16 @@ const TAIL = new Set(['gemini', 'pollinations']);
 export function __resetRotation() { _rr = 0; }
 
 function orderFor({ task, prefer } = {}) {
-  const base = (TASK_ORDERS[task] || TASK_ORDERS.default).slice();
+  let base = (TASK_ORDERS[task] || TASK_ORDERS.default).slice();
   // Explicit preference wins outright (e.g. prefer:'gemini' when the caller really wants it).
   if (prefer && PROVIDER_BY_NAME[prefer]) {
     return [prefer, ...base.filter((n) => n !== prefer)];
   }
+  // The native brain is never rotated. Round-robin exists to spread load across free API keys so no
+  // single key blows its tier; our own GPU has no quota to spread, and rotating it out of first place
+  // would mean paying a cold start and then not using the container it woke.
+  const pinned = base.filter((n) => n === 'native' && providerUsable(PROVIDER_BY_NAME[n]));
+  base = base.filter((n) => !pinned.includes(n));
   // Load-balance the free, keyed head; keep Gemini + keyless backstop pinned to the tail.
   const head = base.filter((n) => !TAIL.has(n));
   const tail = base.filter((n) => TAIL.has(n));
@@ -137,9 +174,9 @@ function orderFor({ task, prefer } = {}) {
     const shift = _rr++ % usableHead.length;
     const rotated = usableHead.slice(shift).concat(usableHead.slice(0, shift));
     const deadHead = head.filter((n) => !usableHead.includes(n)); // key-absent; skipped, kept for order
-    return [...rotated, ...deadHead, ...tail];
+    return [...pinned, ...rotated, ...deadHead, ...tail];
   }
-  return base;
+  return [...pinned, ...base];
 }
 
 // ── HTTP plumbing ────────────────────────────────────────────────────────────────────────────
@@ -169,7 +206,7 @@ async function postJson(url, headers, body, timeout = 30000) {
 // ── Per-kind callers ───────────────────────────────────────────────────────────────────────
 async function callGemini(provider, key, prompt, opts) {
   const model = provider.model();
-  const url = `${provider.endpoint}/${model}:generateContent`;
+  const url = `${endpointOf(provider)}/${model}:generateContent`;
   const body = {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     generationConfig: {
@@ -200,7 +237,7 @@ async function callOpenAICompatible(provider, key, prompt, opts) {
   // Keyless providers (pollinations) send no Authorization header; keyed ones send Bearer <key>.
   const headers = { ...(provider.extraHeaders || {}) };
   if (key) headers.authorization = `Bearer ${key}`;
-  const j = await postJson(provider.endpoint, headers, body, opts.timeout);
+  const j = await postJson(endpointOf(provider), headers, body, opts.timeout);
   const text = j?.choices?.[0]?.message?.content || '';
   if (!text.trim()) throw new Error('empty completion');
   return { text, model };
@@ -242,6 +279,26 @@ function callProvider(provider, key, prompt, opts) {
  * Returns '' for anything without usable text, so callers can tell "no answer" from "an answer".
  * Never throws.
  */
+// ── provider errors that arrive as a 200 ────────────────────────────────────────────────────────
+// A provider can answer HTTP 200 with its OWN error as the completion body — a budget notice, a
+// rate-limit message, a billing link. That text is non-empty, so a naive check accepts it and it
+// becomes the output. This is not hypothetical: every hourly brief and every MoM on the box is
+// currently the sentence "The API key used for this request has reached its budget", because
+// Pollinations returns that as a successful completion and the ladder stopped there.
+//
+// Treating it as a failure is what makes the ladder work as designed — the next provider answers.
+export function looksLikeProviderError(t) {
+  const x = String(t || '').toLowerCase().trim();
+  if (!x) return true;
+  if (x.length > 600) return false;          // a real answer of any length is not an error notice
+  return [
+    /api key .{0,40}(budget|quota|limit|credit)/, /reached its budget/, /raise the key budget/,
+    /rate.?limit(ed)?\b/, /too many requests/, /quota exceeded/, /insufficient (credit|balance|funds|quota)/,
+    /payment required/, /billing/, /^\s*\{?\s*"?error"?\s*[:{]/,
+    /contact whoever runs the app/, /please try again later/, /service (is )?unavailable/,
+  ].some((re) => re.test(x));
+}
+
 export function textOf(r) {
   if (r == null) return '';
   if (typeof r === 'string') return r.trim();
@@ -278,6 +335,14 @@ export async function complete(prompt, opts = {}) {
     try {
       log(`[llm-router] ${name}: trying…`);
       const { text, model } = await callProvider(provider, key, prompt, opts);
+      // A 200 carrying the provider's own budget/quota notice is a FAILURE, not a completion.
+      // Accepting it is why every brief and MoM on the box currently reads "The API key used for
+      // this request has reached its budget" — the ladder stopped at a rung that had not answered.
+      if (looksLikeProviderError(text)) {
+        attempts.push({ provider: name, error: 'provider-error-body' });
+        log(`[llm-router] ${name}: returned an error body, not a completion — falling through`);
+        continue;
+      }
       log(`[llm-router] ${name}: ok (${model})`);
       attempts.push({ provider: name, ok: true });
       return { text, provider: name, model, attempts };

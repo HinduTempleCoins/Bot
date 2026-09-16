@@ -18,7 +18,7 @@
 // SoapBox dark theme; carries the shared ecosystem nav strip so it's linked into the family.
 
 import http from 'node:http';
-import { navBar, NAV_STYLE, esc } from '../../integrations/ecosystem-nav.mjs';
+import { navBar, NAV_STYLE, esc, navDrawer, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 
 const PORT = +(process.env.PORT || 8108);
@@ -125,12 +125,12 @@ export function homePage() {
 <meta property="og:type" content="website"><meta property="og:site_name" content="Dudael">
 <meta property="og:title" content="Dudael — the MetaVerse"><meta property="og:description" content="The metaverse of the MELEK ecosystem — VR/OpenXR worlds over the chain. Building now; the live family is already open.">
 <link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<div class=navwrap>${navBar({ current: 'dudael' })}</div>
+<div class=navwrap>${navDrawer({ current: 'dudael' })}</div>
 <main class=wrap>${body}</main>
 <footer>Dudael — the MetaVerse of the VanKush · SoapBox · MELEK ecosystem. Building now.
   <div style="margin-top:6px">A world held open over the MELEK chain · <a href="${esc(ALPHA)}">testnet</a> · <a href="https://soapbox.community">SoapBox</a></div>
 </footer>
-</body></html>`;
+${NAV_DRAWER_JS}</body></html>`;
 }
 
 export function handler(req, res) {

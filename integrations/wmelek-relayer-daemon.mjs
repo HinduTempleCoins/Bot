@@ -79,7 +79,22 @@ async function main() {
           process.stdout.write(`[wmelek-relayer] minted WMELEK ref=${String(s.ref).slice(0, 14)} -> @${s.recipient} amount=${s.amount}\n`);
         }
       }
-      if (r && r.failed && r.failed.length) process.stderr.write(`[wmelek-relayer] ${r.failed.length} failed this tick (will retry)\n`);
+      if (r && r.failed && r.failed.length) {
+        // Print WHY, not just how many. The runner has recorded a reason per item all along;
+        // logging only the count meant a bridge could retry-fail every 20s for a day and leave
+        // nothing in the journal to diagnose it with. Distinct reasons only, so a stuck item
+        // does not flood the log with the same line forever.
+        const byReason = new Map();
+        for (const f of r.failed) {
+          const why = String((f && f.reason) || 'unknown').slice(0, 300);
+          if (!byReason.has(why)) byReason.set(why, []);
+          byReason.get(why).push(String((f && f.ref) != null ? f.ref : '?').slice(0, 16));
+        }
+        process.stderr.write(`[wmelek-relayer] ${r.failed.length} failed this tick (will retry)\n`);
+        for (const [why, items] of byReason) {
+          process.stderr.write(`[wmelek-relayer]   ${items.length}x ${why} (${items.slice(0, 3).join(', ')})\n`);
+        }
+      }
       if (r && !r.ok && r.reason) process.stderr.write(`[wmelek-relayer] read/setup issue: ${r.reason}\n`);
     } catch (e) { process.stderr.write(`[wmelek-relayer] tick error: ${e.message}\n`); }
   };

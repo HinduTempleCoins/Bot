@@ -32,7 +32,7 @@
 
 import { createServer } from 'node:http';
 import { promises as fsp } from 'node:fs';
-import { navBar, NAV_STYLE } from '../../integrations/ecosystem-nav.mjs';
+import { navDrawer, NAV_STYLE, NAV_DRAWER_JS } from '../../integrations/ecosystem-nav.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
 import { subscribeWidget, handle as newsletterHandle } from '../../integrations/newsletter.mjs';
 import { renderMarkdown, readDoc, DOC_STYLE } from '../../integrations/markdown-doc.mjs';
@@ -402,7 +402,7 @@ function platformSection() {
 
 export function homePage() {
   // Static top box, same shared nav the SoapBox sites (data.soapbox.community etc.) use — every page one tap away.
-  const body = `${navBar({ current: 'soapbox', brand: SITE_NAME })}<h1>${esc(ECOSYSTEM)}</h1>
+  const body = `${navDrawer({ current: 'soapbox', brand: SITE_NAME })}<h1>${esc(ECOSYSTEM)}</h1>
     <p class=lede>The family tree of the ecosystem, centred on the <b>${esc(SITE_NAME)}</b> hub. The three chain
       families fan out from the middle — <b>MELEK</b> to the left, <b>PRANA</b> to the right, <b>KULA</b> below —
       and every surface hangs as a leaf off its family. The testnet tree sits under <b>alpha.</b>; mainnet is the
@@ -458,7 +458,7 @@ ${STYLE}${NAV_STYLE}${impactUtt()}</head><body>
   <b>testnet (alpha)</b> today; mainnet URLs are shown for reference and are not live yet.
   <div style="margin-top:8px"><a href="#alpha">Alpha</a> · <a href="#mainnet">MainNet</a></div></footer>
 ${SKIMLINKS_JS ? `<script type="text/javascript" src="${esc(SKIMLINKS_JS)}"></script>` : ''}
-</body></html>`;
+${NAV_DRAWER_JS}</body></html>`;
 }
 
 // ── crawler files (inline, keyless — no shared-module dependency so the root can't soft-fail to blank) ─
