@@ -136,6 +136,25 @@ export function assess(c) {
     }
   }
 
+  // ── REALIZED NET IS NOT TRADING PROFIT (2026-09-16) ───────────────────────────────────────────
+  // The headline "+114.50 HIVE realized" was read for months as the bot earning. It is not. Split by
+  // whether a token was ever BOUGHT before it was sold and the figure decomposes into:
+  //   17 tokens sold with ZERO buys  -> +122.83 HIVE. Bags the account already held, liquidated.
+  //   VKBT + CURE, bought, never sold -> −8.33 HIVE. The ratchet, by design.
+  //   tokens bought AND sold          -> NONE.
+  // The bot has never bought a token and sold it higher. Not once. Reporting one number hid that, and
+  // "selling is not profit — buy first" is a standing operator rule, so the split is now first-class.
+  const roundTrip = perToken.filter((t) => t.buys > 0 && t.sells > 0);
+  const liquidation = perToken.filter((t) => t.buys === 0 && t.sells > 0);
+  const accumulation = perToken.filter((t) => t.buys > 0 && t.sells === 0);
+  const sum = (rows) => round(rows.reduce((a, t) => a + t.net, 0), 2);
+  const pnl = {
+    roundTripHive: sum(roundTrip),       // the ONLY figure that is trading profit
+    liquidationHive: sum(liquidation),   // proceeds from selling what we already had
+    accumulationHive: sum(accumulation), // HIVE spent building positions we still hold
+    roundTripTokens: roundTrip.length, liquidationTokens: liquidation.length,
+  };
+
   const ledgerNet = c?.ledger?.netPnl ?? null;
   // health: a coarse rollup for the at-a-glance dot.
   let health = 'ok';
@@ -157,7 +176,7 @@ export function assess(c) {
 
   return {
     portfolio: { tokenCount: tokens.length, idleHive: round(idleHive, 4), openOrders: openOrders.length },
-    trading: { realizedNetHive: realizedNet, ledgerNetPnl: ledgerNet, worstBleed, bestEarner, perToken },
+    trading: { realizedNetHive: realizedNet, ledgerNetPnl: ledgerNet, worstBleed, bestEarner, perToken, pnl },
     opportunities: { top: topOpp, count: oppRows.length, scanned: new Set(oppRows.map((r) => r.sym)).size, phantoms },
     anomalies,
     health,
@@ -173,6 +192,10 @@ export function report(c, a = assess(c)) {
   L.push(`  Portfolio: ${a.portfolio.tokenCount} tokens · ${a.portfolio.idleHive} SWAP.HIVE idle · ${a.portfolio.openOrders} open orders`);
   L.push(`  Realized (on-chain): ${a.trading.realizedNetHive} HIVE net` +
     (a.trading.ledgerNetPnl != null ? ` · ledger P&L ${round(a.trading.ledgerNetPnl, 2)}` : ''));
+  const p = a.trading.pnl || {};
+  L.push(`    of which TRADING PROFIT (bought, then sold higher): ${p.roundTripHive ?? 0} HIVE across ${p.roundTripTokens ?? 0} token(s)`);
+  L.push(`    liquidation of bags we already held (not profit): ${p.liquidationHive ?? 0} HIVE across ${p.liquidationTokens ?? 0} token(s)`);
+  L.push(`    spent accumulating positions still held: ${p.accumulationHive ?? 0} HIVE`);
   if (a.trading.bestEarner) L.push(`    best earner: ${a.trading.bestEarner.symbol} +${a.trading.bestEarner.net} HIVE`);
   if (a.trading.worstBleed) L.push(`    worst bleed: ${a.trading.worstBleed.symbol} ${a.trading.worstBleed.net} HIVE`);
   if (a.opportunities.top) {
