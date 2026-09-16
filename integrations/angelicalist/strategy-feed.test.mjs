@@ -61,3 +61,68 @@ test('recommendedCapHive computes a fee-clearing size (advisory)', () => {
   // no net edge after fees → no size clears
   assert.equal(recommendedCapHive({ hiveUsd: 0.05, edgePct: 1, roundTripFeePct: 2 }).capHive, null);
 });
+
+// ─── WHY MOMENTUM_TOKENS=SPS,DEC STILL PRODUCED NOTHING (2026-09-16) ───────────────────────────────
+//
+// The env was set on 2026-09-16 and every tick still logged "(all HOLD — nothing actionable)". These
+// tests pin the actual reason, which is NOT a bug in this module: @angelicalist holds 0 SPS and 0 DEC.
+// With no position, the momentum core can only ever emit an ENTRY BUY; the loop's bleed-guard turns a
+// BUY with no same-tick SELL leg into WATCH (the −6,424 HIVE SWAP.LTC lesson). So the feed's only
+// reachable output is blocked by design, and will stay blocked until a position exists to sell.
+//
+// Seeding that position is an operator FUNDING decision, not a code change. Do not "fix" this by
+// weakening the bleed-guard — that guard is the single most expensive lesson in this repo.
+
+import { runOnce } from './loop.mjs';
+
+test('flat position (the live state): momentum can only emit a BUY entry', async () => {
+  const decisions = await strategyDecisions({
+    tokens: ['SPS'], strategy: 'momentum',
+    getSnapshot: async () => ({ fast: 0.0759, slow: 0.0723, hePrice: 0.0727, mid: 0.0727 }), // +5% signal
+    getState: async () => ({ inventoryToken: 0 }),                                           // the real balance
+  });
+  assert.equal(decisions.length, 1);
+  assert.equal(decisions[0].action, 'BUY');
+  assert.equal(decisions[0].sym, 'SPS');
+});
+
+test('THE BLOCKAGE: that lone BUY is bleed-guarded to WATCH, so nothing is ever placed', async () => {
+  const placed = [];
+  const r = await runOnce({
+    mode: () => ({ live: false, hasKey: false, flagLive: false, account: 'angelicalist', sweepTo: 'kalivankush' }),
+    decisions: async () => [],
+    arb: async () => ({ opportunities: [], rows: [] }),
+    balances: async () => [{ symbol: 'SWAP.HIVE', balance: 102.41 }],   // the real balance: no SPS, no DEC
+    strategyDecisions: async () => ([{ action: 'BUY', sym: 'SPS', reason: 'momentum entry', strategy: 'momentum' }]),
+    broadcaster: { placeOrder: async (o) => { placed.push(o); return { txId: 'x' }; } },
+    ptRecord: () => {},
+  });
+  assert.equal(placed.length, 0, 'nothing reaches the broadcaster');
+  assert.equal(r.summary.placed, 0);
+  assert.equal(r.blocked.length, 1);
+  assert.match(r.blocked[0].blocked, /no-selling-leg/);
+});
+
+test('WITH a position, momentum produces the SELL that actually realizes profit', async () => {
+  const decisions = await strategyDecisions({
+    tokens: ['SPS'], strategy: 'momentum',
+    getSnapshot: async () => ({ fast: 0.0700, slow: 0.0723, hePrice: 0.0719, mid: 0.0719 }), // signal crossed down
+    getState: async () => ({ inventoryToken: 1400 }),                                        // a seeded position
+  });
+  assert.equal(decisions.length, 1);
+  assert.equal(decisions[0].action, 'SELL', 'this is the leg the bleed-guard permits');
+  assert.equal(decisions[0].heldBalance, 1400);
+});
+
+test('recommendedCapHive states the size a target net actually needs (HE fee is 1%/side)', () => {
+  // SPS: 1.07% spread + 2% round-trip fee = 3.07% of cost. A 5% gross capture nets 1.93%.
+  const r = recommendedCapHive({ hiveUsd: 0.050582, edgePct: 5, roundTripFeePct: 3.07, targetNetUsd: 1 });
+  assert.equal(r.netEdgePct, 1.93);
+  assert.ok(r.capHive > 1000, `netting $1 per round trip needs >1000 HIVE of size, got ${r.capHive}`);
+});
+
+test('recommendedCapHive refuses to invent a size when no net edge survives the fees', () => {
+  const r = recommendedCapHive({ hiveUsd: 0.050582, edgePct: 2, roundTripFeePct: 3.07 });
+  assert.equal(r.capHive, null);
+  assert.match(r.note, /no net edge after fees/);
+});

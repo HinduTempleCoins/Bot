@@ -27,6 +27,11 @@
 //      (the SWAP.ETH 164% / SWAP.MATIC 16% trap) → rejected, never acted on.
 //   3. PER-ORDER CAP: MAX_ORDER_HIVE (env, default 10) — enforced in execute.sizeOrder.
 //   4. THIN-DEPTH SKIP: a market without enough executable depth (MIN_EXEC_HIVE) is skipped.
+//   5. DEPTH GATE (2026-09-16): before any order is sent, execute.sizeOrder reads the OTHER SIDE OF
+//      THE BOOK and refuses to place what the book will not absorb. `metrics.highestBid` is a cached
+//      field that outlives the bid that set it; sizing off it is how 31 sells came to rest unfilled
+//      on @angelicalist, priced up to 49,808x over the real top bid. An order now fills or is never
+//      placed. See reaper.mjs for clearing the ones already resting.
 //
 //   node integrations/angelicalist/loop.mjs once          # one tick, dry-run (default)
 //   ANGELICALIST_LIVE=true ANGELICALIST_WIF=<wif> node integrations/angelicalist/loop.mjs once   # LIVE
@@ -157,7 +162,8 @@ export async function runOnce(deps = {}) {
   // 3 + 4. SIZE each survivor (execute.sizeOrder: live depth + balances + per-order cap) and EXECUTE.
   const orders = [];
   for (const d of ranked) {
-    const sized = await sizeOrder(d, tokens).catch((e) => ({ ...d, skip: `sizeOrder error: ${e.message}` }));
+    const sized = await sizeOrder(d, tokens, null, { getBidDepth: deps.getBidDepth, getAskDepth: deps.getAskDepth })
+      .catch((e) => ({ ...d, skip: `sizeOrder error: ${e.message}` }));
     if (sized.skip || !sized.order) { orders.push(sized); continue; }
     let result;
     if (live) {

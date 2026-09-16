@@ -25,6 +25,15 @@ async function withMarket(metrics, fn) {
   finally { market.metrics = original; }
 }
 
+// sizeOrder now reads the real book before committing. These tests inject a book that AGREES with
+// the quoted metrics and is deep enough not to bind, so every pre-existing assertion below still
+// measures what it was written to measure (sizing, caps, skew). The depth gate itself — the fix for
+// the 31 unfillable resting orders — is exercised in its own section at the bottom of this file.
+const deepBook = {
+  getBidDepth: async (sym) => ({ qty: Number.MAX_SAFE_INTEGER, hive: 0, levels: 1, topPrice: +(MARKET[sym]?.highestBid) || 0 }),
+  getAskDepth: async (sym) => ({ qty: Number.MAX_SAFE_INTEGER, hive: 0, levels: 1, topPrice: +(MARKET[sym]?.lowestAsk) || 0 }),
+};
+
 const MARKET = {
   'SWAP.BTC': { highestBid: '0.5', lowestAsk: '0.52' },
   'SWAP.LTC': { highestBid: '0.01', lowestAsk: '0.011' },
@@ -39,7 +48,7 @@ const TOKENS = [
 
 test('sizeOrder SELL sizes against the bid and caps proceeds at MAX_ORDER_HIVE', async () => {
   const out = await withMarket(MARKET, () =>
-    sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, TOKENS));
+    sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, TOKENS, null, deepBook));
   assert.equal(out.order.side, 'sell');
   assert.equal(out.order.symbol, 'SWAP.BTC');
   assert.equal(out.order.price, 0.5);
@@ -50,7 +59,7 @@ test('sizeOrder SELL sizes against the bid and caps proceeds at MAX_ORDER_HIVE',
 
 test('sizeOrder BUY sizes against the ask and caps spend at MAX_ORDER_HIVE', async () => {
   const out = await withMarket(MARKET, () =>
-    sizeOrder({ action: 'BUY', sym: 'SWAP.BTC' }, TOKENS));
+    sizeOrder({ action: 'BUY', sym: 'SWAP.BTC' }, TOKENS, null, deepBook));
   assert.equal(out.order.side, 'buy');
   assert.equal(out.order.price, 0.52);
   // spend = min(10, 100) = 10; qty = 10 / 0.52.
@@ -60,16 +69,16 @@ test('sizeOrder BUY sizes against the ask and caps spend at MAX_ORDER_HIVE', asy
 
 test('sizeOrder skips a SELL with no balance and a BUY with no SWAP.HIVE', async () => {
   const noBtc = [{ symbol: 'SWAP.HIVE', balance: 100 }];
-  const sell = await withMarket(MARKET, () => sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, noBtc));
+  const sell = await withMarket(MARKET, () => sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, noBtc, null, deepBook));
   assert.match(sell.skip, /no SWAP\.BTC balance/);
 
   const noHive = [{ symbol: 'SWAP.BTC', balance: 20 }];
-  const buy = await withMarket(MARKET, () => sizeOrder({ action: 'BUY', sym: 'SWAP.BTC' }, noHive));
+  const buy = await withMarket(MARKET, () => sizeOrder({ action: 'BUY', sym: 'SWAP.BTC' }, noHive, null, deepBook));
   assert.match(buy.skip, /< min/);
 });
 
 test('sizeOrder skips when there are no market metrics', async () => {
-  const out = await withMarket({}, () => sizeOrder({ action: 'BUY', sym: 'SWAP.NOPE' }, TOKENS));
+  const out = await withMarket({}, () => sizeOrder({ action: 'BUY', sym: 'SWAP.NOPE' }, TOKENS, null, deepBook));
   assert.match(out.skip, /no market metrics/);
 });
 
@@ -77,8 +86,8 @@ test('BACKWARD-COMPAT: sizeOrder WITHOUT inventory is byte-identical to passing 
   // The contract dry-run.mjs/backtest.mjs rely on: two-arg sizeOrder behaves exactly as before.
   for (const sym of ['SWAP.BTC', 'SWAP.LTC']) {
     for (const action of ['BUY', 'SELL']) {
-      const a = await withMarket(MARKET, () => sizeOrder({ action, sym }, TOKENS));
-      const b = await withMarket(MARKET, () => sizeOrder({ action, sym }, TOKENS, null));
+      const a = await withMarket(MARKET, () => sizeOrder({ action, sym }, TOKENS, null, deepBook));
+      const b = await withMarket(MARKET, () => sizeOrder({ action, sym }, TOKENS, null, deepBook));
       assert.deepEqual(a, b, `${action} ${sym}: two-arg vs explicit-null must match`);
     }
   }
@@ -150,11 +159,11 @@ test('THE SWAP.LTC LESSON: heavy SWAP.LTC inventory THROTTLES a further LTC buy'
   // Already drowning in SWAP.LTC (the −6,424 HIVE one-sided bleed). A further BUY of LTC INCREASES
   // the skew, so the inventory-skew guard must shrink it well below the un-throttled size.
   const baseline = await withMarket(MARKET, () =>
-    sizeOrder({ action: 'BUY', sym: 'SWAP.LTC' }, TOKENS));            // no inventory → full size
+    sizeOrder({ action: 'BUY', sym: 'SWAP.LTC' }, TOKENS, null, deepBook));            // no inventory → full size
 
   const heavyLtc = { baseBalance: 95000, quoteBalance: 5000 };         // ~95% SWAP.LTC
   const throttled = await withMarket(MARKET, () =>
-    sizeOrder({ action: 'BUY', sym: 'SWAP.LTC' }, TOKENS, heavyLtc));
+    sizeOrder({ action: 'BUY', sym: 'SWAP.LTC' }, TOKENS, heavyLtc, deepBook));
 
   assert.ok(baseline.order, 'baseline LTC buy is sized');
   assert.ok(throttled.order || throttled.skip, 'throttled call returns an order or a skip');
@@ -166,9 +175,9 @@ test('THE SWAP.LTC LESSON: heavy SWAP.LTC inventory THROTTLES a further LTC buy'
 test('an inventory-reducing SELL of the over-held asset is NOT throttled (it rebalances)', async () => {
   const heavyBtc = { baseBalance: 95, quoteBalance: 5 };               // base(BTC)-heavy
   const sell = await withMarket(MARKET, () =>
-    sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, TOKENS, heavyBtc));
+    sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, TOKENS, heavyBtc, deepBook));
   const baseline = await withMarket(MARKET, () =>
-    sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, TOKENS));
+    sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, TOKENS, null, deepBook));
   // selling base while base-heavy reduces skew → at least as large as baseline (capped by balance/cap).
   assert.ok(sell.order.quantity >= baseline.order.quantity, 'rebalancing sell is not throttled');
 });
@@ -191,4 +200,78 @@ test('skewReport flags a quote-heavy / base-light book', () => {
   const txt = skewReport({ baseBalance: 10, quoteBalance: 90, baseSymbol: 'SWAP.BTC', quoteSymbol: 'SWAP.HIVE' });
   assert.match(txt, /light on SWAP\.BTC/);
   assert.match(txt, /sells of SWAP\.BTC throttled/i);
+});
+
+// ─── THE DEPTH GATE — the fix for the 31 unfillable resting orders (2026-09-16) ────────────────────
+//
+// Every one of the 31 sells resting on @angelicalist on 2026-09-16 was priced ABOVE the top bid, from
+// 1.01x to 49,808x over it, because sizing read `metrics.highestBid` — a cached field that outlives the
+// bid that set it. These tests pin the rule that replaced it: an order fills, or it is never placed.
+
+test('DEPTH GATE: a SELL is REFUSED when the real book top is far below the cached bid (the phantom)', async () => {
+  // metrics still reports the 0.00303 bid that produced `sell VYB @ 0.00303` on 2026-09-15.
+  const metrics = { VYB: { highestBid: '0.00303', lowestAsk: '0.004' } };
+  const tokens = [{ symbol: 'VYB', balance: 63692 }];
+  const realBook = { getBidDepth: async () => ({ qty: 95.6, hive: 0.09, levels: 25, topPrice: 0.00098001 }) };
+  const out = await withMarket(metrics, () => sizeOrder({ action: 'SELL', sym: 'VYB' }, tokens, null, realBook));
+  assert.equal(out.order, undefined, 'must not produce an order');
+  assert.match(out.skip, /phantom bid/);
+  assert.match(out.skip, /3\.1x/, 'names how far the cached price was from the book');
+});
+
+test('DEPTH GATE: a SELL with NO bid at all is refused rather than left to rest forever', async () => {
+  const metrics = { PAY: { highestBid: '0.1', lowestAsk: '0.2' } };
+  const tokens = [{ symbol: 'PAY', balance: 100 }];
+  const emptyBook = { getBidDepth: async () => ({ qty: 0, hive: 0, levels: 0, topPrice: 0 }) };
+  const out = await withMarket(metrics, () => sizeOrder({ action: 'SELL', sym: 'PAY' }, tokens, null, emptyBook));
+  assert.equal(out.order, undefined);
+  assert.match(out.skip, /rest unfilled, not trade/);
+});
+
+test('DEPTH GATE: an unreadable book fails CLOSED — never sell blind', async () => {
+  const metrics = { POB: { highestBid: '0.03', lowestAsk: '0.04' } };
+  const tokens = [{ symbol: 'POB', balance: 1000 }];
+  const broken = { getBidDepth: async () => { throw new Error('rpc down'); } };
+  const out = await withMarket(metrics, () => sizeOrder({ action: 'SELL', sym: 'POB' }, tokens, null, broken));
+  assert.equal(out.order, undefined);
+  assert.match(out.skip, /refusing to sell blind/);
+});
+
+test('DEPTH GATE: a SELL is sized DOWN to what the bids will actually absorb', async () => {
+  // cap would allow 10 HIVE / 0.5 = 20 tokens, and we hold 20 — but only 3 are bid for.
+  const metrics = { 'SWAP.BTC': { highestBid: '0.5', lowestAsk: '0.52' } };
+  const tokens = [{ symbol: 'SWAP.BTC', balance: 20 }];
+  const thin = { getBidDepth: async () => ({ qty: 3, hive: 1.5, levels: 2, topPrice: 0.5 }) };
+  const out = await withMarket(metrics, () => sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, tokens, null, thin));
+  assert.equal(out.order.quantity, 3, 'sized to real depth, not to the HIVE budget');
+  assert.equal(out.order.price, 0.5);
+  assert.equal(out.bookDepthToken, 3);
+});
+
+test('DEPTH GATE: a SELL the book can absorb is still placed normally (no false negatives)', async () => {
+  const metrics = { 'SWAP.BTC': { highestBid: '0.5', lowestAsk: '0.52' } };
+  const tokens = [{ symbol: 'SWAP.BTC', balance: 20 }];
+  const deep = { getBidDepth: async () => ({ qty: 10000, hive: 5000, levels: 40, topPrice: 0.5 }) };
+  const out = await withMarket(metrics, () => sizeOrder({ action: 'SELL', sym: 'SWAP.BTC' }, tokens, null, deep));
+  assert.equal(out.order.side, 'sell');
+  assert.ok(out.order.quantity > 0);
+  assert.equal(out.skip, undefined);
+});
+
+test('DEPTH GATE: the BUY side is gated the same way (a phantom ask is refused)', async () => {
+  const metrics = { 'SWAP.BTC': { highestBid: '0.5', lowestAsk: '0.52' } };
+  const tokens = [{ symbol: 'SWAP.HIVE', balance: 100 }];
+  const moved = { getAskDepth: async () => ({ qty: 50, hive: 100, levels: 3, topPrice: 2.0 }) };
+  const out = await withMarket(metrics, () => sizeOrder({ action: 'BUY', sym: 'SWAP.BTC' }, tokens, null, moved));
+  assert.equal(out.order, undefined);
+  assert.match(out.skip, /phantom ask/);
+});
+
+test('DEPTH GATE: a BUY is sized down to the tokens actually on offer', async () => {
+  const metrics = { 'SWAP.BTC': { highestBid: '0.5', lowestAsk: '0.52' } };
+  const tokens = [{ symbol: 'SWAP.HIVE', balance: 100 }];
+  const thin = { getAskDepth: async () => ({ qty: 4, hive: 2.08, levels: 1, topPrice: 0.52 }) };
+  const out = await withMarket(metrics, () => sizeOrder({ action: 'BUY', sym: 'SWAP.BTC' }, tokens, null, thin));
+  assert.equal(out.order.quantity, 4);
+  assert.equal(out.order.price, 0.52);
 });

@@ -1,11 +1,27 @@
-// sweep.mjs — move ALL liquid HIVE-Engine tokens off the (publicly-leaked-key) angelicalist account
-// to the safe kalivankush account. Operator 2026-06-01: the keys can be found, so the funds must go
-// somewhere else. This is the protective one-shot. DRY-RUN unless ANGELICALIST_LIVE=true + a key is
-// present (key from .local/angelicalist.env, never committed/echoed). Receiving needs no key — only
-// the send is signed with angelicalist's active key.
+// sweep.mjs — move ALL liquid HIVE-Engine tokens off the angelicalist account to kalivankush.
+//
+// ⚠ THIS IS SUPERSEDED BY THE HARD RULE AND IS DISARMED. Read before touching it.
+//
+// It was written 2026-06-01 on the premise "the angelicalist key is public, so the funds must go
+// somewhere else." That premise was retired twice over:
+//
+//   1. The operator ACCEPTED the account as compromised/burned (MoM 2026-06-11): the key was public
+//      ~4 months and nothing was ever taken. The standing decision is explicitly NOT to gate the
+//      account on key-rotation or custody moves — it is the hot trading account, and it trades.
+//   2. The HARD RULE (same MoM): "funds may leave angelicalist ONLY as genuine realized PROFIT —
+//      base value sold into another currency, appreciating, returning worth more; or cross-exchange
+//      arbitrage." A blanket drain to @kalivankush is neither. It is housekeeping, and housekeeping
+//      is exactly the category the rule was written to forbid. The same reasoning already removed
+//      the auto-sweep from loop.mjs (PR #110), which had moved a 114 SWAP.HIVE float on a tick where
+//      principal was 0. This file is the last remaining copy of that behaviour.
+//
+// It is NOT on any timer and must not be put on one. It survives only as a break-glass tool for an
+// active key compromise — a case where moving funds is not a trade but a rescue — and it now refuses
+// to run unless the operator names the destination explicitly in SWEEP_CONFIRM. There is no code path
+// that reaches a live transfer without a human typing that account name on the command line.
 //
 //   (dry-run)  node integrations/angelicalist/sweep.mjs
-//   (live)     set -a; . .local/angelicalist.env; set +a; ANGELICALIST_LIVE=true node integrations/angelicalist/sweep.mjs
+//   (live)     SWEEP_CONFIRM=kalivankush ANGELICALIST_LIVE=true node integrations/angelicalist/sweep.mjs
 
 import { Client, PrivateKey } from '@hiveio/dhive';
 import { tokenBalances } from './internal.mjs';
@@ -32,8 +48,17 @@ console.log(`Sweep @${ACCOUNT} -> @${TO}  [${LIVE && process.env.ANGELICALIST_WI
 console.log(`${movable.length} token(s) with a balance >= ${DUST}:`);
 for (const t of movable) console.log(`  ${t.balance} ${t.symbol}`);
 
+// The HARD-RULE gate. A sweep is not a trade, so it may never happen by default, by timer, or by a
+// flag that some other service already sets. The destination must be named on this invocation.
+const CONFIRMED = process.env.SWEEP_CONFIRM && process.env.SWEEP_CONFIRM === TO;
+
 if (!LIVE || !process.env.ANGELICALIST_WIF) {
-  console.log('\nDRY-RUN — nothing sent. Set ANGELICALIST_LIVE=true with the key in env to execute.');
+  console.log('\nDRY-RUN — nothing sent. This tool is disarmed by policy; see the header.');
+} else if (!CONFIRMED) {
+  console.log(`\nREFUSED — moving funds off @${ACCOUNT} is not a trade, and the HARD RULE allows funds`);
+  console.log(`to leave only as realized profit or cross-exchange arbitrage. This is a break-glass tool`);
+  console.log(`for an active key compromise only. To proceed, re-run with SWEEP_CONFIRM=${TO}.`);
+  process.exit(2);
 } else {
   const k = key();
   if (!k) { console.error('no valid key in ANGELICALIST_WIF'); process.exit(1); }
