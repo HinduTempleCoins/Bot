@@ -26,11 +26,21 @@ test('registry integrity: every static board is well-formed and in a known categ
   }
 });
 
-test('the ten design categories are all present', () => {
+test('every design category is present, including Internet History', () => {
   const ids = listCategories().map((c) => c.id).sort();
   assert.deepEqual(ids,
-    ['classifieds', 'crypto', 'gaming', 'history', 'local', 'melek', 'mind', 'reviews', 'style', 'travel']);
-  assert.equal(CATEGORIES.length, 10);
+    ['classifieds', 'crypto', 'gaming', 'history', 'local', 'melek', 'mind', 'net', 'reviews', 'style', 'travel']);
+  assert.equal(CATEGORIES.length, 11);
+});
+
+test('Internet History boards are wired and lost-media is a Q&A', () => {
+  const net = listBoards().filter((b) => b.categoryId === 'net').map((b) => b.id).sort();
+  assert.deepEqual(net,
+    ['ai-history', 'demoscene', 'early-web', 'folklore', 'lost-media', 'memes', 'preservation', 'vr-history']);
+  // "What was that video I half-remember" is a question, not a discussion — the SEO type follows.
+  const lost = listBoards().find((b) => b.id === 'lost-media');
+  assert.equal(lost.kind, 'qa');
+  assert.equal(seoTypeForKind(lost.kind), 'QAPage');
 });
 
 test('kind → seoType mapping is correct', () => {

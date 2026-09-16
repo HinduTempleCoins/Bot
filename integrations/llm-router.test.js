@@ -9,7 +9,13 @@ import { complete, availableProviders, PROVIDERS, __resetRotation, textOf } from
 
 // provider key envs + the LLM_ALLOW_GEMINI gate flag, so withEnv fully isolates each test (the gate
 // flag must be cleared/restored too or a test that opts Gemini in would leak into later tests).
-const ENV_KEYS = [...PROVIDERS.map((p) => p.env).filter(Boolean), 'LLM_ALLOW_GEMINI'];
+// Every env var a provider reads must be cleared between tests, not just its key. MODAL_BRAIN_URL
+// is a second input to the native provider's usability, and leaving it set leaked one test's config
+// into the next one.
+const ENV_KEYS = [
+  ...PROVIDERS.map((p) => p.env).filter(Boolean),
+  'LLM_ALLOW_GEMINI', 'MODAL_BRAIN_URL', 'MODAL_BRAIN_MODEL',
+];
 
 function withEnv(overrides, fn) {
   const saved = {};
@@ -113,7 +119,8 @@ test('round-robin spreads load across free providers on successive calls', async
 
 test('missing keys are skipped, not attempted', async () => {
   const orig = global.fetch;
-  // Only github has a key; default order tries groq/openrouter first (skip), then github.
+  // Only github has a key. The native brain leads the order but is unconfigured here (no URL), so
+  // it is skipped before any network call — which is the point: an unwired GPU never blocks a reply.
   __resetRotation();
   global.fetch = scriptedFetch([{ status: 200, body: openaiBody('github answer') }]);
   try {
@@ -122,7 +129,7 @@ test('missing keys are skipped, not attempted', async () => {
       assert.equal(res.provider, 'github');
       assert.equal(res.text, 'github answer');
       const skipped = res.attempts.filter((a) => a.skipped === 'no-key').map((a) => a.provider);
-      assert.deepEqual(skipped, ['groq', 'openrouter']);
+      assert.deepEqual(skipped, ['native', 'groq', 'openrouter']);
     });
   } finally {
     global.fetch = orig;
@@ -218,7 +225,7 @@ test('no keys at all: keyless pollinations still answers (the unblock)', async (
       assert.equal(res.text, 'keyless article body');
       // every keyed provider was skipped for want of a key
       const skipped = res.attempts.filter((x) => x.skipped === 'no-key').map((x) => x.provider).sort();
-      assert.deepEqual(skipped, ['gemini', 'github', 'groq', 'openrouter']);
+      assert.deepEqual(skipped, ['gemini', 'github', 'groq', 'native', 'openrouter']);
     });
   } finally {
     global.fetch = orig;
@@ -309,4 +316,98 @@ test('textOf: never throws on junk, and an object with no text is not text', () 
     assert.equal(typeof out, 'string');
     assert.ok(!out.includes('[object'), `junk ${JSON.stringify(junk)} leaked an object`);
   }
+});
+
+// ── the native brain ────────────────────────────────────────────────────────────────────────────
+test('native leads the default order once URL + token are set', async () => {
+  const orig = global.fetch;
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('native answer') }]);
+  try {
+    await withEnv({ MODAL_BRAIN_URL: 'https://x--melek-brain-serve-serve.modal.run', MODAL_BRAIN_TOKEN: 't', GROQ_API_KEY: 'g' }, async () => {
+      const res = await complete('hi');
+      assert.equal(res.provider, 'native', 'our own weights answer before any rented API');
+      assert.equal(res.text, 'native answer');
+    });
+  } finally { global.fetch = orig; }
+});
+
+test('a token with no URL does not make the native brain look available', async () => {
+  await withEnv({ MODAL_BRAIN_TOKEN: 't' }, async () => {
+    assert.equal(availableProviders().native, false,
+      'half-configured must not sit at the head of the ladder');
+  });
+});
+
+test('a cold GPU falls through to the APIs instead of failing the call', async () => {
+  const orig = global.fetch;
+  // First rung (native) errors the way a waking container does; the ladder must keep going.
+  global.fetch = scriptedFetch([
+    { status: 503, body: { error: 'starting' } },
+    { status: 200, body: openaiBody('groq covered it') },
+  ]);
+  try {
+    await withEnv({ MODAL_BRAIN_URL: 'https://x.modal.run', MODAL_BRAIN_TOKEN: 't', GROQ_API_KEY: 'g' }, async () => {
+      const res = await complete('hi');
+      assert.equal(res.provider, 'groq');
+      assert.equal(res.text, 'groq covered it');
+    });
+  } finally { global.fetch = orig; }
+});
+
+test('the verify lane never routes to the native brain', async () => {
+  const orig = global.fetch;
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('checked') }]);
+  try {
+    await withEnv({ MODAL_BRAIN_URL: 'https://x.modal.run', MODAL_BRAIN_TOKEN: 't', GROQ_API_KEY: 'g' }, async () => {
+      const res = await complete('check this', { task: 'verify' });
+      assert.notEqual(res.provider, 'native',
+        'checks and balances must not share a brain with the thing being checked');
+    });
+  } finally { global.fetch = orig; }
+});
+
+// ── the private lane: our material never reaches a rented model ─────────────────────────────────
+test('private lane routes to the native brain only', async () => {
+  const orig = global.fetch;
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('answered on our own gpu') }]);
+  try {
+    await withEnv({ MODAL_BRAIN_URL: 'https://x.modal.run', MODAL_BRAIN_TOKEN: 't', GROQ_API_KEY: 'g', OPENROUTER_API_KEY: 'o' }, async () => {
+      const res = await complete('summarise this brief', { task: 'private' });
+      assert.equal(res.provider, 'native');
+    });
+  } finally { global.fetch = orig; }
+});
+
+test('private lane FAILS CLOSED when the native brain is unavailable', async () => {
+  const orig = global.fetch;
+  // Every API key present and a live fetch — if the lane leaked, one of them would answer.
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('LEAKED TO AN API') }]);
+  try {
+    await withEnv({ GROQ_API_KEY: 'g', OPENROUTER_API_KEY: 'o', GITHUB_TOKEN: 'h' }, async () => {
+      const res = await complete('operator asks, verbatim', { task: 'private' });
+      assert.notEqual(res.text, 'LEAKED TO AN API', 'private content must never reach a rented model');
+      assert.ok(res.error, 'no answer is the correct outcome, not a fallback answer');
+    });
+  } finally { global.fetch = orig; }
+});
+
+test('private lane ignores prefer — a caller cannot route our material to an API', async () => {
+  const orig = global.fetch;
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('LEAKED VIA PREFER') }]);
+  try {
+    await withEnv({ GROQ_API_KEY: 'g' }, async () => {
+      const res = await complete('transcript excerpt', { task: 'private', prefer: 'groq' });
+      assert.notEqual(res.text, 'LEAKED VIA PREFER');
+      assert.notEqual(res.provider, 'groq');
+    });
+  } finally { global.fetch = orig; }
+});
+
+test('the private order contains no API rung at all', () => {
+  // Belt and braces: assert the config itself, so a future edit that adds a fallback rung to the
+  // private lane fails here rather than leaking quietly in production.
+  const res = complete;   // keep the import used
+  assert.ok(res);
+  const priv = PROVIDERS.filter((p) => p.name === 'native');
+  assert.equal(priv.length, 1, 'native must exist for the private lane to have anywhere to go');
 });

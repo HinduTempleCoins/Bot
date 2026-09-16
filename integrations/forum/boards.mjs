@@ -45,6 +45,10 @@ export const CATEGORIES = [
   { id: 'history',     name: 'History',           comparable: 'Historum', desc: 'Serious, sourced history discussion across periods and themes.' },
   { id: 'mind',        name: 'Mind / Medicine',   comparable: '', desc: 'Witchy, herb, and nootropics — reference & harm-reduction discipline, fed by the Library of Ashurbanipal.' },
   { id: 'style',       name: 'Style',             comparable: '', desc: 'Fashion and beauty — community and the Van Kush Beauty economy.' },
+  // Internet History. The comparable IS the thesis: Know Your Meme and the Lost Media Wiki are both
+  // large, ageing, and repeat folklore as fact. Our atlas is built on primary sources and says so
+  // when an origin is disputed instead of silently picking a winner — that is the whole edge.
+  { id: 'net',         name: 'Internet History',  comparable: 'Know Your Meme / Lost Media Wiki', desc: 'The early web, early AI, the demoscene, net folklore, lost media and meme archaeology — sourced, dated, and disputed where it is disputed.' },
 ];
 
 const CATEGORY_BY_ID = new Map(CATEGORIES.map((c) => [c.id, c]));
@@ -59,6 +63,20 @@ export function listCategories() { return CATEGORIES.map((c) => ({ ...c })); }
 const WIKI = 'https://wiki.soapbox.community';
 const GAMBLING = 'https://gambling.soapbox.community';   // the Gambling Education Center (odds/EV/help)
 const STATIC_BOARDS = [
+  // ── Internet History ──────────────────────────────────────────────────────────────────────────
+  // Thread-shaped on purpose. Most of this material has a DISPUTED origin, and freezing a disputed
+  // origin into a wiki page silently picks a winner; a thread can hold the competing accounts and
+  // let whoever brings the primary source win on merit. Lost media is literally question-shaped, so
+  // it is the one board here that is a Q&A.
+  { id: 'early-web',   title: 'The Early Web',           categoryId: 'net', kind: 'discussion', desc: 'ARPANET, Usenet and the Great Renaming, BBSes, Gopher, IRC, MUDs, GeoCities, webrings, Eternal September.' },
+  { id: 'ai-history',  title: 'Early AI',                categoryId: 'net', kind: 'discussion', desc: 'ELIZA and the ELIZA effect, PARRY, SHRDLU, A.L.I.C.E., SmarterChild, the Loebner Prize, the AI winters — what these systems actually did versus what was reported.' },
+  { id: 'demoscene',   title: 'Demoscene & Early Graphics', categoryId: 'net', kind: 'discussion', desc: 'The Mother of All Demos, Amiga cracktros, ANSI/ASCII art, the Utah teapot, Lenna, fractals, Winamp skins.' },
+  { id: 'vr-history',  title: 'Early VR',                categoryId: 'net', kind: 'discussion', desc: 'Sensorama, the Sword of Damocles, VPL, Virtuality pods, the Virtual Boy, CAVEs, Habitat, VRML.' },
+  { id: 'folklore',    title: 'Net Folklore & Creepypasta', categoryId: 'net', kind: 'discussion', desc: 'Authored horror fiction of the internet, ARGs, and analog horror. House rule: fiction is labelled with its author and first-publication date, or the post does not stand.' },
+  { id: 'lost-media',  title: 'Lost Media',              categoryId: 'net', kind: 'qa', desc: 'Find it, date it, source it. Ask about a half-remembered thing and let the board hunt it down.' },
+  { id: 'memes',       title: 'Meme Archaeology',        categoryId: 'net', kind: 'discussion', desc: 'First uses, spread, dead-meme archaeology — and the enforcement record, from Griner v. King to Grumpy Cat.' },
+  { id: 'preservation',title: 'Web Preservation',        categoryId: 'net', kind: 'discussion', desc: 'Link rot, archive.org practice, what is already gone, and how to cite a capture properly.' },
+
   // MELEK / Ecosystem — the existing forum-core boards, preserved verbatim (titles are load-bearing for tests).
   { id: 'announcements', title: 'Announcements',           categoryId: 'melek', kind: 'discussion', desc: 'Official MELEK news, releases, and witness notices.' },
   { id: 'general',       title: 'General Discussion',      categoryId: 'melek', kind: 'discussion', desc: 'Anything MELEK — introductions, questions, and open talk.' },

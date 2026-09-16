@@ -23,6 +23,24 @@ const UA = 'MELEK-Bot/1.0 (+https://github.com/HinduTempleCoins/Bot)';
 // geminiClient convention (GEMINI_MODEL) and OPENROUTER_INTEGRATION.md.
 export const PROVIDERS = [
   {
+    // THE NATIVE BRAIN — our own weights on our own GPU (infra/modal/brain-serve.py). It sits at the
+    // HEAD of every order because renting cognition per call was always the placeholder: the API
+    // providers below are the checks-and-balances layer over the briefs, the transcripts and the
+    // repo, not the voice. vLLM serves an OpenAI-compatible endpoint, so it needs no special kind.
+    //
+    // It scales to zero, so a cold call pays a wake-up. The ladder handles that for free: if the
+    // GPU is still coming up the request fails fast and the next rung answers, and the call after
+    // it lands on a warm native container. Nothing blocks on a cold start.
+    name: 'native',
+    env: 'MODAL_BRAIN_TOKEN',
+    kind: 'openai',
+    // Base URL of the deployed Modal web endpoint, e.g. https://<org>--melek-brain-serve-serve.modal.run
+    endpoint: () => `${String(process.env.MODAL_BRAIN_URL || '').replace(/\/+$/, '')}/v1/chat/completions`,
+    model: () => process.env.MODAL_BRAIN_MODEL || 'melek-brain',
+    // Both must be set: a token with no URL points nowhere.
+    requires: () => !!process.env.MODAL_BRAIN_URL,
+  },
+  {
     name: 'gemini',
     env: 'GEMINI_API_KEY',
     kind: 'gemini',
@@ -82,22 +100,46 @@ const PROVIDER_BY_NAME = Object.fromEntries(PROVIDERS.map((p) => [p.name, p]));
 // is the final rung so generation always resolves. Pass { prefer:'gemini' } to force Gemini when you
 // explicitly want it. This is the "use all the AIs, don't fall back onto the paid one" routing.
 const TASK_ORDERS = {
-  default: ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
-  cheap:   ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
-  quality: ['github', 'openrouter', 'groq', 'gemini', 'pollinations'],
-  long:    ['openrouter', 'groq', 'github', 'gemini', 'pollinations'],
+  default: ['native', 'groq', 'openrouter', 'github', 'gemini', 'pollinations'],
+  cheap:   ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],   // cheap skips the GPU wake
+  quality: ['native', 'github', 'openrouter', 'groq', 'gemini', 'pollinations'],
+  long:    ['native', 'openrouter', 'groq', 'github', 'gemini', 'pollinations'],
+  // PRIVATE: anything carrying our own material — briefs, transcripts, operator asks, repo content,
+  // annals, MoM. Native brain ONLY. There is deliberately no fallback rung: for private content a
+  // silent fall-through to a third-party API is worse than no answer at all, so this lane FAILS
+  // CLOSED when the GPU is cold or unconfigured. Callers get {error:'private-lane-unavailable'} and
+  // must degrade to deterministic output, never to a rented model.
+  private: ['native'],
+  // The background lane for work that touches NO private material — public lookups, fact checks
+  // against public sources, anything we would be content to publish. API ensemble only, so it never
+  // shares a brain with the native model whose output it is checking.
+  verify:  ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
 };
+
+// Lanes whose content must never leave our own hardware. Keep this list and TASK_ORDERS.private in
+// agreement: a name here with an API rung in its order would be a silent leak.
+const PRIVATE_TASKS = new Set(['private']);
 
 /**
  * Is this provider usable right now? Keyless providers are always usable; keyed ones need their env
  * key present. Used by the ladder to skip dead rungs and by availableProviders() for reporting.
  */
 function providerUsable(p) {
+  if (!p) return false;   // an order may name a provider that does not exist
+
   // $0 HARD-PIN: Gemini is the ONLY metered provider (it bills once its free quota is spent). It is
   // OFF by default and only usable when the operator explicitly opts in with LLM_ALLOW_GEMINI=1.
   // The keyless Pollinations backstop still guarantees the ladder always resolves, so nothing breaks.
   if (p.name === 'gemini' && process.env.LLM_ALLOW_GEMINI !== '1') return false;
+  // A provider may need more than a key — the native brain also needs its URL, and a token pointing
+  // nowhere would make it look available and then fail every call at the head of the ladder.
+  if (typeof p.requires === 'function' && !p.requires()) return false;
   return p.keyless ? true : Boolean(process.env[p.env]);
+}
+
+/** Endpoints may be a literal or a thunk (the native brain's URL comes from env at call time). */
+function endpointOf(p) {
+  return typeof p.endpoint === 'function' ? p.endpoint() : p.endpoint;
 }
 
 /**
@@ -124,11 +166,19 @@ const TAIL = new Set(['gemini', 'pollinations']);
 export function __resetRotation() { _rr = 0; }
 
 function orderFor({ task, prefer } = {}) {
-  const base = (TASK_ORDERS[task] || TASK_ORDERS.default).slice();
+  let base = (TASK_ORDERS[task] || TASK_ORDERS.default).slice();
+  // The private lane is not overridable. A caller passing prefer:'groq' with private content would
+  // otherwise route our own material straight out to a third party.
+  if (PRIVATE_TASKS.has(task)) return base.filter((n) => providerUsable(PROVIDER_BY_NAME[n]));
   // Explicit preference wins outright (e.g. prefer:'gemini' when the caller really wants it).
   if (prefer && PROVIDER_BY_NAME[prefer]) {
     return [prefer, ...base.filter((n) => n !== prefer)];
   }
+  // The native brain is never rotated. Round-robin exists to spread load across free API keys so no
+  // single key blows its tier; our own GPU has no quota to spread, and rotating it out of first place
+  // would mean paying a cold start and then not using the container it woke.
+  const pinned = base.filter((n) => n === 'native' && providerUsable(PROVIDER_BY_NAME[n]));
+  base = base.filter((n) => !pinned.includes(n));
   // Load-balance the free, keyed head; keep Gemini + keyless backstop pinned to the tail.
   const head = base.filter((n) => !TAIL.has(n));
   const tail = base.filter((n) => TAIL.has(n));
@@ -137,9 +187,9 @@ function orderFor({ task, prefer } = {}) {
     const shift = _rr++ % usableHead.length;
     const rotated = usableHead.slice(shift).concat(usableHead.slice(0, shift));
     const deadHead = head.filter((n) => !usableHead.includes(n)); // key-absent; skipped, kept for order
-    return [...rotated, ...deadHead, ...tail];
+    return [...pinned, ...rotated, ...deadHead, ...tail];
   }
-  return base;
+  return [...pinned, ...base];
 }
 
 // ── HTTP plumbing ────────────────────────────────────────────────────────────────────────────
@@ -169,7 +219,7 @@ async function postJson(url, headers, body, timeout = 30000) {
 // ── Per-kind callers ───────────────────────────────────────────────────────────────────────
 async function callGemini(provider, key, prompt, opts) {
   const model = provider.model();
-  const url = `${provider.endpoint}/${model}:generateContent`;
+  const url = `${endpointOf(provider)}/${model}:generateContent`;
   const body = {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     generationConfig: {
@@ -200,7 +250,7 @@ async function callOpenAICompatible(provider, key, prompt, opts) {
   // Keyless providers (pollinations) send no Authorization header; keyed ones send Bearer <key>.
   const headers = { ...(provider.extraHeaders || {}) };
   if (key) headers.authorization = `Bearer ${key}`;
-  const j = await postJson(provider.endpoint, headers, body, opts.timeout);
+  const j = await postJson(endpointOf(provider), headers, body, opts.timeout);
   const text = j?.choices?.[0]?.message?.content || '';
   if (!text.trim()) throw new Error('empty completion');
   return { text, model };
