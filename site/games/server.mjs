@@ -51,7 +51,7 @@ export const SECTIONS = [
     { name: 'Tribulum — Farm', emoji: '🚜', blurb: 'Plant, grow, harvest, sell. A living farm economy; Ranch and beyond are coming.', url: URLS.tribulum, tag: 'live' },
   ] },
   { key: 'earn', title: 'Earn', lead: 'Turn attention, effort, and stake into value — on one account.', items: [
-    { name: 'Move — walk to earn', emoji: '🚶', blurb: 'Your steps mine real MELEK. Walk, earn, withdraw. On Android now.', url: URLS.move, tag: 'live' },
+    { name: 'Move — walk to earn', emoji: '🚶', blurb: 'Your steps earn real MELEK — a stake-weighted share of the hourly pool, paid on-chain. Walk, earn, withdraw. On Android now.', url: URLS.move, tag: 'live' },
     { name: 'Seed Shop', emoji: '🌱', blurb: 'Buy seeds, tools and compost for the farm — the inputs that grow your yield.', url: URLS.shop, tag: 'live' },
     { name: 'Farm KULA', emoji: '🌾', blurb: 'Provide liquidity, farm KULA, and stake for boosts and a share of the pot.', url: URLS.farm, tag: 'live' },
     { name: 'KulaSwap — DEX', emoji: '🔁', blurb: 'Swap the ecosystem\'s tokens, add liquidity, and take part in the market.', url: URLS.dex, tag: 'live' },

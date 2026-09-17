@@ -7,7 +7,7 @@
 // metrics (TVL via DeFiLlama, on-chain calls) get wired per-adapter later; this is the factory shell.
 export const DAPPS = [
   { name: 'SoapBox Swap', category: 'DeFi', chain: 'PRANA', status: 'planned', blurb: 'Native AMM (Uniswap-v2 core) for the SoapBox ecosystem.' },
-  { name: 'SoapBox Mining Pool', category: 'Infrastructure', chain: 'MELEK', status: 'planned', blurb: 'CryptoNote-style pool (dvandal/cryptonote-nodejs-pool) for native chains.' },
+  { name: 'SoapBox Mining Pool', category: 'Infrastructure', chain: 'PRANA', status: 'live', blurb: 'Miningcore pool for the PRANA Etchash chain plus RandomX coins, with in-browser mining.', url: 'https://pool.soapbox.community' },
   { name: 'PRANA Wallet', category: 'Wallet', chain: 'multi', status: 'in progress', blurb: 'Non-custodial connect → portfolio tracker. The on-ramp into the suite.' },
   { name: 'Library of Ashurbanipal', category: 'Social', chain: 'off-chain', status: 'live', blurb: 'The wiki/knowledge layer. SEO + teaching, linked from every listing.', url: 'https://wiki.soapbox.community' },
   { name: 'Hathor (AI Witness)', category: 'Social', chain: 'MELEK', status: 'planned', blurb: 'Resident AI that reads the condenser, analyzes, and drafts — never trades.' },

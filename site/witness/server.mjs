@@ -39,6 +39,9 @@ import { readDoc, DOC_STYLE } from '../../integrations/markdown-doc.mjs';
 const PORT = +(process.env.PORT || 8108);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://witness.melek.salon').replace(/\/$/, '');
+// Social-card image. Without og:image every link to this site posts as a bare URL with no
+// preview, which is the single cheapest conversion loss on any link we publish.
+const OG_IMAGE = process.env.OG_IMAGE || 'https://pool.soapbox.community/prana-logo.png';
 const ALPHA = process.env.MELEK_ALPHA || 'https://alpha.melek.salon';
 // The Library of Ashurbanipal — the ecosystem's cited reference wiki. Witness School links to it
 // regularly (per operator): the deep documentation behind the school (witnessing, DPoS, Graphene,
@@ -204,7 +207,17 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}</head><body>
+<link rel=canonical href="${esc(canonical)}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Witness School">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:url" content="${esc(canonical)}">
+<meta property="og:image" content="${esc(OG_IMAGE)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(title)}">
+<meta name="twitter:description" content="${esc(desc)}">
+<meta name="twitter:image" content="${esc(OG_IMAGE)}">${STYLE}${NAV_STYLE}</head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navDrawer({ current: 'witness' })}</div>
 <header class=topbar><a class=brand href="/">⛏ Witness School <span>· MELEK · PRANA pool</span></a>
   <div class=topbar-r><a href="/">School</a><a href="/dev">Dev</a><a href="/dev/token">Token</a><a href="/dev/services">Services</a><a href="/learn">Learn</a><a href="/academy">Academy</a><a href="/build">Build</a><a href="/whitepaper">Whitepaper</a><a href="/run">Run</a><a href="/pool">Pool</a><a href="/mine">Mine</a><a href="/fees">Fees</a><a href="/servers">Servers</a><a href="/wallet">Wallet</a><a href="/hathor">Hathor</a><a href="${esc(LIBRARY)}">Library</a></div></header>
@@ -229,7 +242,7 @@ export function homePage() {
     ['/build', 'How a chain is built', 'The anatomy behind MELEK — the constants that define a Graphene chain (symbol, prefix, sha256 chain id, inflation) and how to stand up your own two-witness test net. Adapted from @jga\'s guide.'],
     ['/tokens', 'Token standards (PRC-20)', 'What an ERC-20 really is, why TRC-20 / BEP-20 / our PRC-20 are the same standard re-branded per chain, and how to mint your own on PRANA — no-code (Engine) or your own contract. We want you building here.'],
     ['/family', 'The Graphene family', 'Where MELEK comes from — Steem and its clones/forks (Hive, Blurt, MELEK), the 2020 Steem→Hive fork and why forkability matters, and a DPoS-vs-PoW-vs-PoS consensus comparison.'],
-    ['/servers', 'Rent for mining', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
+    ['/servers', 'Rent a server', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
     ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap; connect wallet ↔ pool ↔ chains.'],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool.'],
     ['/hathor', 'Hathor, live', 'The founding AI Witness measured in real time — head block, confirmations, missed blocks — the working example.'],
@@ -438,13 +451,13 @@ export async function hathorView(readStatus) {
         ${s.feed ? `· price feed <code>${esc(s.feed)}</code>` : '· price feed not yet on a loop'}
         ${s.url ? `· <a href="${esc(s.url)}">witness URL</a>` : ''}</p>
     </div>`
-    : `<div class=card><p class=empty>The testnet RPC is unreachable right now, so there is nothing
+    : `<div class=card><p class=empty>The MELEK RPC is unreachable right now, so there is nothing
         live to show — and we will not invent numbers. The chain runs on our own infrastructure;
         check back shortly.</p></div>`;
 
-  return `<h1>Hathor — the founding AI Witness <span class="badge test">testnet</span></h1>
+  return `<h1>Hathor — the founding AI Witness <span class="badge live">mainnet</span></h1>
     <p class=lead>This is what "a witness doing its job" looks like, measured live: <b>hathor</b> is
-      a genesis witness on the MELEK testnet, holds the protected 1st slot for the chain's first
+      a genesis witness on MELEK mainnet, holds the protected 1st slot for the chain's first
       year, and produces blocks like any other witness — the numbers below come straight from the
       chain, refreshed on every page load.</p>
     ${live}
@@ -817,7 +830,7 @@ export function runPage() {
 
   <div class=card style="border-color:#d9a441">
     <h2>🟢 MELEK mainnet is LIVE</h2>
-    <p>Genesis fired <b>7:12 AM CDT · 7/12/2026</b>. No premine — every MELEK is mined or earned. The
+    <p>Genesis fired <b>7:12 AM CDT · 7/12/2026</b>. No premine — every MELEK comes from block rewards to elected witnesses or is earned by posting and curating. The
        genesis inscription's SHA-256 <b>is</b> the chain id, so a node on a different inscription is a
        different chain. Connect on these exact parameters:</p>
     <pre>chain id     ${esc(CHAIN_ID)}
@@ -828,7 +841,7 @@ seed node    ${esc(SEED)}</pre>
 
   <div class=card><h2>1 · Get a box</h2>
     <p class=muted>Ubuntu 24.04, x86_64, <b>8 GB RAM</b>, ~40 GB disk to start (a fresh chain is light).
-    See <a href="/servers">Rent for mining</a> for honest hardware pointers.</p></div>
+    See <a href="/servers">Rent a server</a> for honest hardware pointers.</p></div>
 
   <div class=card><h2>2 · Build the node</h2>
     <pre>git clone https://github.com/HinduTempleCoins/melek-chain
@@ -1622,7 +1635,7 @@ contract MyToken is ERC20 {
 }`;
   const body = `<h1>PRANA contract dev <span class=muted style="font-size:14px">· deploy Solidity to the EVM compute chain</span></h1>
     <p class=lead>PRANA is an <b>EVM</b> chain — chainId <code>${esc(cidDec)}</code>
-      (<code>${esc(cidHex)}</code>), symbol <b>PRANA</b>, ~13s blocks. Every Ethereum tool works
+      (<code>${esc(cidHex)}</code>), symbol <b>PRANA</b>, ~13s target block time (emergent — Ethash retarget). Every Ethereum tool works
       unchanged; you only point it at PRANA's RPC. Add the network, wire your toolchain, and deploy —
       the addresses and ABIs you'll build against are on <a href="/dev/contracts">Deployed contracts</a>.</p>
 
@@ -2478,7 +2491,7 @@ export function devMatrixPage() {
 
     <div class=card><h2>Part 2 · The token structural matrix</h2>
       <p class=muted style="font-size:14px">Real Hive-Engine data (VKBT + CURE issued by
-        <b>@kalivankush</b>), re-fetched live from <code>api.hive-engine.com</code> — <b>as of
+        <b>@kalivankush</b>), read from <code>api.hive-engine.com</code> and pinned here — <b>as of
         ${esc(TOKEN_MATRIX_AS_OF)}</b>. <b>Liquid float</b> = circulating − staked: the supply that can
         actually reach an order book. Sorted by <b>structural defensibility</b> (most-staked, longest
         cooldown first). BEE and DEC are high-float contrast rows.</p>

@@ -344,7 +344,7 @@
   },
   "chain_applicability": {
     "prana": {
-      "chain_facts": "EVM chainId 712217 (0xADE19), Etchash PoW (ECIP-1099 Thanos, ecip1099FBlock 0), londonBlock 0 so EIP-1559 is active. Client base: etclabscore/core-geth (LGPL-3.0).",
+      "chain_facts": "EVM chainId 712217 (0xADE19), Etchash PoW (ECIP-1099 Thanos, ecip1099FBlock 40000), londonBlock 0 so EIP-1559 is active. Client base: etclabscore/core-geth (LGPL-3.0).",
       "erc_4337_works": true,
       "erc_4337_why": "4337 requires NO consensus change whatsoever — that is its founding constraint. Deploy the EntryPoint, deploy accounts and a paymaster, run a bundler. Everything on the contract side is ordinary EVM.",
       "erc_4337_what_it_takes": [
