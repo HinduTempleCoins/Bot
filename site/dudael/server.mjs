@@ -33,7 +33,7 @@ const FAMILY = [
   ['SoapBox Data', 'https://data.soapbox.community', 'CoinMarketCap-style market data with a Clarity transparency score.'],
   ['Oversight', 'https://oversight.soapbox.community', '“Who do I call?” — the consumer-protection & oversight directory.'],
   ['Law', 'https://law.soapbox.community', 'A facts-not-verdicts lawyer & legal-aid directory.'],
-  ['Mining Pool', 'https://pool.soapbox.community', 'The MELEK mining pool — earn into the chain, no pre-mine.'],
+  ['Mining Pool', 'https://pool.soapbox.community', 'The PRANA mining pool — Etchash GPU rigs and browser mining on the proof-of-work chain. MELEK itself is DPoS and is not mined.'],
   ['Search', 'https://search.soapbox.community', 'Search the web and across the family of sites.'],
   ['Library', 'https://wiki.soapbox.community', 'The Library of Ashurbanipal — the ecosystem knowledge base.'],
 ];

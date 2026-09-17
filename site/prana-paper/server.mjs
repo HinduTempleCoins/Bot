@@ -63,7 +63,7 @@ export const PRANA_TOKEN = '0xE92E94C4929ea9D6EF7BFB8B3e192D66951Ab661';
 // Pinned genesis / consensus parameters — [label, value, source/note]. Changing any is a hard fork.
 export const PINNED = [
   ['Chain ID', '712217 (0xADE19)', 'genesis config.chainId'],
-  ['PoW algorithm', 'Etchash (Ethash + ECIP-1099 "Thanos")', 'ecip1099FBlock:0 → Etchash from block 0; low-VRAM / laptop-friendly. No RandomX.'],
+  ['PoW algorithm', 'Etchash (Ethash + ECIP-1099 "Thanos")', 'ecip1099FBlock:40000 → Etchash from block 40,000; 30,000-block epochs below it, 60,000 above. Low-VRAM / laptop-friendly. No RandomX.'],
   ['EVM fork level', 'through London @ block 0', 'londonBlock:0 → EIP-1559 base-fee + tip from genesis'],
   ['Base block reward', '2 PRANA / block', 'ConstantinopleBlockReward = 2e18 wei (constantinopleBlock:0)'],
   ['Initial supply / premine', '0 (empty alloc)', 'fair launch — supply accrues only from block production'],
@@ -392,7 +392,7 @@ ${refTable()}
   rather than restating addresses that could drift.</p>
 
 <div class=foot>
-  Grounded in the sealed genesis (chainId 712217, <code>feeBps</code> 200, <code>ecip1099FBlock</code> 0,
+  Grounded in the sealed genesis (chainId 712217, <code>feeBps</code> 200, <code>ecip1099FBlock</code> 40000,
   <code>londonBlock</code> 0, empty <code>alloc</code>), the PRANA client's consensus fee module, the
   2 PRANA/block Ethash reward constant, and the three-lane <code>UnifiedSharesLedger</code> compute stack.
   <b>Grounded &amp; pinned:</b> Etchash PoW, chainId, EIP-1559, block reward, no premine, the 2% Hathor
