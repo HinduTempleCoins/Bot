@@ -76,6 +76,27 @@ export const PROVIDERS = [
     model: () => process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
   },
   {
+    // LOCAL backstop — Ollama on the box itself. Keyless, free, and ours. It exists because in
+    // September 2026 every other rung went dark at once: no keys were present for native/github/
+    // openrouter/groq/gemini, and Pollinations — the "always resolves" keyless rung — began
+    // answering HTTP 200 with "The account behind this API key doesn't have enough credits" as the
+    // completion body. complete() returned {text:'', error:'all providers failed'} on every call,
+    // so MoM synthesis wrote 0 of 25 files per run, harvested-todos rendered "[object Object]",
+    // and self-repair reported every incident undiagnosed. The brain looked alive and distilled
+    // nothing for weeks. A model on our own hardware cannot be cut off that way.
+    //
+    // Ollama serves an OpenAI-compatible endpoint, so it needs no special kind. It sits AHEAD of
+    // pollinations: a local model we control beats a shared endpoint that can start charging.
+    // Where Ollama is not running (a Codespace, CI) the connection is refused immediately and the
+    // ladder moves on, so leaving this rung enabled everywhere costs nothing.
+    name: 'ollama',
+    env: null,                     // keyless: no env var gates it
+    keyless: true,
+    kind: 'openai',
+    endpoint: () => `${String(process.env.OLLAMA_URL || 'http://127.0.0.1:11434').replace(/\/+$/, '')}/v1/chat/completions`,
+    model: () => process.env.OLLAMA_MODEL || 'granite-melek3:latest',
+  },
+  {
     // KEYLESS backstop. Pollinations' text endpoint is OpenAI-compatible and needs no key, so the
     // ladder ALWAYS resolves to *some* model with zero operator key (mirrors the keyless image
     // fallback in genai-providers.mjs). Anonymous requests are heavily rate-limited (429s expected on
@@ -100,14 +121,14 @@ const PROVIDER_BY_NAME = Object.fromEntries(PROVIDERS.map((p) => [p.name, p]));
 // is the final rung so generation always resolves. Pass { prefer:'gemini' } to force Gemini when you
 // explicitly want it. This is the "use all the AIs, don't fall back onto the paid one" routing.
 const TASK_ORDERS = {
-  default: ['native', 'groq', 'openrouter', 'github', 'gemini', 'pollinations'],
-  cheap:   ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],   // cheap skips the GPU wake
-  quality: ['native', 'github', 'openrouter', 'groq', 'gemini', 'pollinations'],
-  long:    ['native', 'openrouter', 'groq', 'github', 'gemini', 'pollinations'],
+  default: ['native', 'groq', 'openrouter', 'github', 'gemini', 'ollama', 'pollinations'],
+  cheap:   ['groq', 'openrouter', 'github', 'gemini', 'ollama', 'pollinations'],   // cheap skips the GPU wake
+  quality: ['native', 'github', 'openrouter', 'groq', 'gemini', 'ollama', 'pollinations'],
+  long:    ['native', 'openrouter', 'groq', 'github', 'gemini', 'ollama', 'pollinations'],
   // The API ensemble lane. The APIs write the briefs and the annals — that is their job, not a
   // fallback. What keeps our material safe is the WASH (brain/wash-transcript.mjs and reconcile.mjs
   // redaction), which strips keys, credentials and server addresses before anything reaches them.
-  verify:  ['groq', 'openrouter', 'github', 'gemini', 'pollinations'],
+  verify:  ['groq', 'openrouter', 'github', 'gemini', 'ollama', 'pollinations'],
 };
 
 /**
@@ -150,7 +171,7 @@ let _rr = 0;
 
 // Providers kept at a FIXED tail (never rotated to the front by round-robin): the metered Gemini
 // tier and the keyless backstop. They are only reached when the free head providers all fail.
-const TAIL = new Set(['gemini', 'pollinations']);
+const TAIL = new Set(['gemini', 'ollama', 'pollinations']);
 
 // Test hook: reset the round-robin cursor so unit tests get deterministic ordering. Not used in prod.
 export function __resetRotation() { _rr = 0; }
