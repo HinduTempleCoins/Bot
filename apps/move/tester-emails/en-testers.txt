@@ -1,0 +1,21 @@
+Subject: You're on the tester list — here's the link
+
+Thanks for doing this. You're added. Five steps, about two minutes:
+
+1. Open this on your Android phone and tap "Become a tester":
+   https://play.google.com/apps/testing/community.soapbox.move
+
+2. Then install MELEK Move from the Play Store link on that same page. If it says the app isn't available, give it an hour — the list takes a little while to propagate.
+
+3. Open it and allow the physical-activity permission. That's what counts your steps. It'll also ask for approximate location, which is what lets you claim zones.
+
+4. Leave it installed until 3 October. This is the part that actually matters — Google counts 14 continuous days, and if you uninstall early the clock resets for everyone.
+
+5. Walk around, claim a zone or two, and tell me anything that's broken, confusing, or ugly. Screenshots welcome. Bad news is more useful than good news.
+
+Reminder on what this is: MELEK is an in-app token on a test network. No monetary value, not an investment, nothing to buy. Steps and approximate location are read only to work out rewards — not sold, not shared, not used for ads.
+
+Anything at all goes wrong, reply here.
+
+Thanks,
+Ryan
