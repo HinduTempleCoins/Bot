@@ -2,8 +2,17 @@
 // contract calls lazy-load ethers in the browser, so importing app.mjs here never hits the network.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { slippageBps, applySlippage, deadlineFrom, buildPath, estimate, esc } from './app.mjs';
+import { slippageBps, applySlippage, deadlineFrom, buildPath, estimate, esc, tokenGlyph } from './app.mjs';
 import { CHAINS } from './kula-config.mjs';
+
+test('tokenGlyph: strips the lowercase-w wrapper, uppercases, one char, safe on junk', () => {
+  assert.equal(tokenGlyph('KULA'), 'K');
+  assert.equal(tokenGlyph('WPRANA'), 'W', 'capital-W leader is not a wrapper');
+  assert.equal(tokenGlyph('wVKBT'), 'V', 'lowercase-w wrapper stripped');
+  assert.equal(tokenGlyph('wCURE'), 'C');
+  assert.equal(tokenGlyph(''), '?');
+  assert.equal(tokenGlyph(null), '?');
+});
 
 test('slippageBps converts % → bps, clamps, and defaults bad input to 0.5%', () => {
   assert.equal(slippageBps('0.5'), 50);

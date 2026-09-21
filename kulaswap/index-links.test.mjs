@@ -29,7 +29,7 @@ test('no alpha/testnet host is linked from the mainnet swap page', () => {
   }
 });
 
-test('the footer does not call the mainnet deployment a testnet', () => {
-  assert.equal(/Alpha software on (the )?PRANA testnet/i.test(html), false);
-  assert.ok(/Alpha software on PRANA mainnet/.test(html));
+test('the footer names PRANA mainnet and does not call it a testnet', () => {
+  assert.equal(/on (the )?PRANA testnet/i.test(html), false);
+  assert.ok(/Live on PRANA mainnet/.test(html));
 });

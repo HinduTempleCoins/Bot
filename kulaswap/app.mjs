@@ -25,6 +25,14 @@ export function tokenColor(symbol) {
   return `radial-gradient(circle at 32% 30%, hsl(${h} 70% 62%), hsl(${(h + 40) % 360} 60% 32%))`;
 }
 
+/** Short monogram shown inside the token icon. Strips a leading lowercase 'w' wrapper (wVKBT→V),
+ *  then takes the first letter, uppercased. Pure + exported. */
+export function tokenGlyph(symbol) {
+  const s = String(symbol || '').trim();
+  const core = /^w[A-Z]/.test(s) ? s.slice(1) : s;
+  return (core.replace(/[^A-Za-z0-9]/g, '').slice(0, 1) || '?').toUpperCase();
+}
+
 /** Classify a price impact fraction (0.012 = 1.2%) into a severity class. Pure + exported. */
 export function impactClass(frac) {
   const p = Math.abs(Number(frac) || 0);
@@ -116,8 +124,8 @@ function mount(doc = document) {
   }
   function paintDots() {
     const { tin, tout } = curTokens();
-    if (dotIn) dotIn.style.background = tokenColor(tin.symbol);
-    if (dotOut) dotOut.style.background = tokenColor(tout.symbol);
+    if (dotIn) { dotIn.style.background = tokenColor(tin.symbol); dotIn.textContent = tokenGlyph(tin.symbol); dotIn.title = tin.symbol; }
+    if (dotOut) { dotOut.style.background = tokenColor(tout.symbol); dotOut.textContent = tokenGlyph(tout.symbol); dotOut.title = tout.symbol; }
   }
 
   function onChainChange() {

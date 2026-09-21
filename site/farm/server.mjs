@@ -146,7 +146,7 @@ function renderDetail(t, prana) {
   } else if (t.id === 'liquidity') {
     const pairs = (t.action.pairs || []).map((p) => `<option value="${esc(p.address)}">${esc(p.name)}</option>`).join('');
     action = `<div class=act data-panel=liquidity ${t.gated ? 'data-gated=1' : ''}>
-      <div class=note>Add liquidity on <a href="https://alpha.kula.money" target=_blank rel=noopener>KulaSwap</a> to get LP tokens, then stake them here to earn <b>MWALI</b>.</div>
+      <div class=note>Add liquidity on <a href="https://kula.money" target=_blank rel=noopener>KulaSwap</a> to get LP tokens, then stake them here to earn <b>MWALI</b>.</div>
       <div class=arow><select id=lp-pair>${pairs || '<option>LP pairs load once the gauge is live</option>'}</select></div>
       <div class=arow><input id=lp-amt type=number min=0 step=any placeholder="LP amount to stake"><button class=gold id=lp-stake>Approve &amp; Stake LP</button></div>
       <div class=arow><button id=lp-claim>Claim MWALI</button><span class=who id=lp-earned></span></div>
@@ -154,7 +154,7 @@ function renderDetail(t, prana) {
   } else if (t.id === 'apis') {
     action = `<div class=act data-panel=apis><div class=note>The forever-lock action is in the <a href="#apis-panel">Permanently stake ${esc(STAKE_TOKEN)}</a> panel below.</div></div>`;
   } else {
-    action = `<div class=act data-panel=vekula><div class=note>The emission split, pool APRs and the veKULA lock-boost curve are in the sections below. Locking KULA → veKULA is done in the <a href="https://alpha.kula.money" target=_blank rel=noopener>KulaSwap</a> lock UI.</div>
+    action = `<div class=act data-panel=vekula><div class=note>The emission split, pool APRs and the veKULA lock-boost curve are in the sections below. Locking KULA → veKULA is done in the <a href="https://kula.money" target=_blank rel=noopener>KulaSwap</a> lock UI.</div>
       <div class=arow><button id=ve-mark>I've locked KULA → mark done</button></div></div>`;
   }
   return `<div class=detail id="detail-${esc(t.id)}" hidden>${head}${whatWhy}${gated}${stepList(t)}${action}</div>`;
