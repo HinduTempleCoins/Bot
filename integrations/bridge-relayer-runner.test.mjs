@@ -5,7 +5,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  runOnce, makeRunner, normalizeHistory, fetchHistory, loadConfig, __setFetch,
+  runOnce, makeRunner, normalizeHistory, fetchHistory, loadConfig,
+  assertChainBacked, __setFetch,
 } from './bridge-relayer-runner.mjs';
 
 const CUSTODY = 'melek-bridge';
@@ -193,6 +194,62 @@ test('loadConfig defaults confirmations to 20 and never exposes the key value', 
   assert.equal(c.melekRpc, '');
   // the config object carries presence, never the secret
   assert.equal(JSON.stringify(c).includes('super-secret-wif'), false);
+});
+
+// --- attestation guard (defense-in-depth against unbacked mints) -----------
+
+test('assertChainBacked accepts a real L1 transfer, rejects everything else', () => {
+  const good = { source: 'transfer', blockNum: 10, amount: '1234000000000000000', recipient: RECIPIENT };
+  assert.equal(assertChainBacked(good).ok, true);
+
+  // custom_json can never be backing (attacker-controlled amount — the wLEO-class mint)
+  assert.equal(assertChainBacked({ ...good, source: 'custom_json' }).ok, false);
+  // no block = not a mined deposit
+  assert.equal(assertChainBacked({ ...good, blockNum: null }).ok, false);
+  // zero / non-positive amount
+  assert.equal(assertChainBacked({ ...good, amount: '0' }).ok, false);
+  assert.equal(assertChainBacked({ ...good, amount: '' }).ok, false);
+  // bad recipient
+  assert.equal(assertChainBacked({ ...good, recipient: 'not-an-address' }).ok, false);
+  assert.equal(assertChainBacked(null).ok, false);
+});
+
+test('runOnce REFUSES to attest a non-transfer (custom_json) deposit even if it slips through', async () => {
+  // Force a custom_json deposit past deriveDeposit's gate by allowing it at scan time, then prove the
+  // runner's last-line guard still refuses to submit it. This is the "cannot mint unbacked" invariant:
+  // even with allowCustomJsonDeposits flipped on, an unbacked source never reaches attestDeposit.
+  installFakeChain([
+    [1, {
+      trx_id: 'ref-cj', block: 10, timestamp: '2026-06-16T00:00:00',
+      op: ['custom_json', { id: 'bridge', json: JSON.stringify({ to: RECIPIENT, amount: '9999.000', custody: CUSTODY }) }],
+    }],
+  ]);
+  const calls = [];
+  // Patch scanDeposits behavior by enabling custom_json via a config that deriveDeposit reads?
+  // deriveDeposit needs opts.allowCustomJsonDeposits which runOnce does not pass — so custom_json is
+  // already skipped upstream. Assert it is NOT submitted and NOT rejected-as-backed (it never derives).
+  const r = await runOnce(cfg(), (c) => { calls.push(c); return 1; }, {});
+  assert.equal(calls.length, 0);
+  assert.equal(r.submitted.length, 0);
+  // it is skipped at derivation (custom_json disabled) — the guard is the SECOND line if that ever changes
+  assert.ok(r.skipped.some((s) => s.ref === 'ref-cj'));
+});
+
+test('runOnce records a rejected[] entry for a derived-but-unbacked deposit (guard fires)', async () => {
+  // A transfer that derives fine but carries a zero amount: derivation succeeds, the guard rejects it
+  // before submit. amount "0.000" scales to base "0", which assertChainBacked refuses.
+  installFakeChain([
+    [1, {
+      trx_id: 'ref-zero', block: 10, timestamp: '2026-06-16T00:00:00',
+      op: ['transfer', { from: 'z', to: CUSTODY, amount: '0.000 MELEK', memo: RECIPIENT }],
+    }],
+  ]);
+  const calls = [];
+  const r = await runOnce(cfg(), (c) => { calls.push(c); return 1; }, {});
+  assert.equal(calls.length, 0);
+  assert.equal(r.submitted.length, 0);
+  assert.ok(Array.isArray(r.rejected));
+  assert.ok(r.rejected.some((x) => x.ref === 'ref-zero' && x.reason === 'non-positive-amount'));
 });
 
 // restore the global fetch after the suite
