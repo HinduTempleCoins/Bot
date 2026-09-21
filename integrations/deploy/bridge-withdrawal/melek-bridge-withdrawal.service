@@ -1,0 +1,46 @@
+[Unit]
+# PRANA -> MELEK redeem/exit leg: watches GrapheneWithdrawal events on PRANA and RELEASES native
+# MELEK from the bridge custody account to the destination Graphene account, once per nonce, after a
+# deep PRANA confirmation. This is the missing exit leg (a user who holds wMELEK could not get native
+# MELEK back out until this runs). Run K of these — one per custody co-signer — for a K-of-N release
+# federation. The runner is idempotent per nonce, so an instance never double-releases.
+#
+# STAGED: this unit is NOT installed by this repo. The operator copies it to the custody host, fills
+# the envfile from bridge-withdrawal.env.example (custody master password decrypted JIT, never on disk
+# in plaintext beyond the credential mount), and enables it. See RUNBOOK.md.
+Description=MELEK bridge withdrawal relayer (PRANA GrapheneWithdrawal -> native MELEK release)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/Bot
+
+# --- config (NO secrets in this file) ---------------------------------------
+# All non-secret config is set here; the custody master password comes from the credential mount below.
+EnvironmentFile=/root/Bot/creds/bridge-withdrawal.env
+
+# --- custody master password (decrypted JIT by systemd, never written to disk in plaintext) ---------
+# The custody account's active key is derived JIT from this master inside the daemon (PrivateKey.fromLogin),
+# exactly like the witness modules. It is NEVER logged and NEVER stored as a WIF.
+#   1) systemd-creds encrypt --name=bridge-withdrawal-master <plaintext master file> \
+#        /root/Bot/creds/bridge-withdrawal-master.cred
+#   2) keep MELEK_BRIDGE_CUSTODY_MASTER=%d/bridge-withdrawal-master in the envfile
+#   3) shred the plaintext master file (it never belongs on disk)
+LoadCredentialEncrypted=bridge-withdrawal-master:/root/Bot/creds/bridge-withdrawal-master.cred
+
+ExecStart=/usr/bin/node /root/Bot/integrations/bridge-withdrawal-daemon.mjs
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/melek-bridge-withdrawal.log
+StandardError=append:/var/log/melek-bridge-withdrawal.log
+# Least-privilege hardening: the daemon needs only network + its log file + the credential mount.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log
+PrivateTmp=true
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

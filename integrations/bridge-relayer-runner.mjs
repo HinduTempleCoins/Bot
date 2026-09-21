@@ -219,6 +219,39 @@ export async function fetchDeposits(cfg, opts = {}) {
   return viaHistory.ok ? { ...viaHistory, via: 'account_history' } : viaBlocks;
 }
 
+// ---- attestation guard (defense-in-depth against unbacked mints) -----------
+
+/**
+ * A LAST-LINE check that a derived deposit is backed by real, mined L1 value before this instance
+ * will ever attest it. This is belt-and-suspenders on top of deriveDeposit's custom_json gate — the
+ * intent is that NO code path in this runner can produce an attestDeposit that is not tied to an
+ * actual MELEK `transfer` to custody that was mined into a block for a positive amount.
+ *
+ * The 5,001 unbacked wMELEK were NOT minted through this runner — they were admin-minted directly on
+ * the wrapper (DEFAULT_ADMIN on the deployer EOA), which the governance-lockdown script closes. But
+ * making the attester itself structurally incapable of an unbacked attestation is the durable fix:
+ * even a future refactor that flipped `allowCustomJsonDeposits` on cannot get past this.
+ *
+ * @param {{source?:string, blockNum?:number, amount?:string, recipient?:string}} dep
+ * @returns {{ok:boolean, reason?:string}}
+ */
+export function assertChainBacked(dep) {
+  if (!dep) return { ok: false, reason: 'no-deposit' };
+  // Only a native `transfer` moves value the L1 enforces. custom_json / any other source is refused
+  // here regardless of upstream flags — its `amount` is attacker-controlled (wLEO-class mint risk).
+  if (dep.source !== 'transfer') return { ok: false, reason: `unbacked-source:${dep.source || 'none'}` };
+  // Must reference a concrete mined block (a real, confirmable on-chain event).
+  if (!dep.blockNum) return { ok: false, reason: 'no-block-number (not a mined deposit)' };
+  // Must be a positive integer base-unit amount — never 0 / dust / non-numeric.
+  if (!/^[1-9][0-9]*$/.test(String(dep.amount == null ? '' : dep.amount))) {
+    return { ok: false, reason: 'non-positive-amount' };
+  }
+  if (!/^0x[0-9a-fA-F]{40}$/.test(String(dep.recipient || ''))) {
+    return { ok: false, reason: 'bad-recipient' };
+  }
+  return { ok: true };
+}
+
 // ---- the loop body ---------------------------------------------------------
 
 /**
@@ -236,17 +269,17 @@ export async function fetchDeposits(cfg, opts = {}) {
  */
 export async function runOnce(cfg, submit, ctx = {}) {
   const seen = ctx.seen instanceof Set ? ctx.seen : (ctx.seen = new Set());
-  const submitted = [], failed = [], pending = [];
+  const submitted = [], failed = [], pending = [], rejected = [];
 
   if (typeof submit !== 'function') {
-    return { ok: false, headBlock: null, submitted, skipped: [], failed, pending, reason: 'no-submit-fn' };
+    return { ok: false, headBlock: null, submitted, skipped: [], failed, pending, rejected, reason: 'no-submit-fn' };
   }
 
   // fetchDeposits, not fetchHistory: the account_history plugin returns zero rows on this chain,
   // and an empty index is not the same fact as an empty chain.
   const read = await fetchDeposits(cfg);
   if (!read.ok) {
-    return { ok: false, headBlock: read.headBlock, submitted, skipped: [], failed, pending, reason: read.reason };
+    return { ok: false, headBlock: read.headBlock, submitted, skipped: [], failed, pending, rejected, reason: read.reason };
   }
 
   const { deposits, skipped } = scanDeposits(read.history, {
@@ -265,6 +298,12 @@ export async function runOnce(cfg, submit, ctx = {}) {
       skipped.push({ ref: dep.depositRef, reason: 'already-submitted-by-this-instance' });
       continue;
     }
+    // LAST-LINE guard: refuse to attest anything not backed by a real, mined L1 transfer.
+    const backed = assertChainBacked(dep);
+    if (!backed.ok) {
+      rejected.push({ ref: dep.depositRef, reason: backed.reason });
+      continue;
+    }
     const call = attestationCall(dep);
     try {
       const result = await submit(call, dep);
@@ -276,7 +315,7 @@ export async function runOnce(cfg, submit, ctx = {}) {
     }
   }
 
-  return { ok: true, headBlock: read.headBlock, submitted, skipped, failed, pending };
+  return { ok: true, headBlock: read.headBlock, submitted, skipped, failed, pending, rejected };
 }
 
 /**
