@@ -111,3 +111,6 @@ apps/move/SECRETS_TO_PASTE.txt
 apps/move/*.keystore
 *.jks
 .claude/worktrees/
+
+# Recovered raw sessions — huge (100s of MB) API exports; washed copies ship to the brain, not git.
+archive/recovered-sessions/

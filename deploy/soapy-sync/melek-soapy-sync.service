@@ -1,0 +1,27 @@
+[Unit]
+Description=MELEK Soapy pre-wipe corpus sync — wash the recovered sessions/digests and ship them to the brain (oneshot, fired by .timer)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# __INSTALL_DIR__ = the checked-out Bot repo in the environment that HOLDS the recovered corpus
+# (the Codespace / worker box), NOT the brain box — the script rsyncs FROM here TO the brain over ssh.
+WorkingDirectory=__INSTALL_DIR__
+# __ENV_FILE__ carries BRAIN_HOST (the ssh alias for the brain box) and, if the paths differ from the
+# defaults, RECOVERED_SESSIONS_DIR / RECOVERED_DIGESTS_DIR / RECOVERED_OUT_DIR. No secrets belong here;
+# ssh uses the box's own key/agent, and the script never handles a WIF or an API key.
+EnvironmentFile=__ENV_FILE__
+ExecStart=/usr/bin/env bash brain/ship-recovered.sh
+StandardOutput=append:__LOG_FILE__
+StandardError=append:__LOG_FILE__
+
+# Hardening — writes confined to the staging dir and the log.
+NoNewPrivileges=true
+ProtectSystem=full
+PrivateTmp=true
+# __STAGE_DIR__ = RECOVERED_OUT_DIR (default .local/brain-out/recovered); __LOG_DIR__ holds the log.
+ReadWritePaths=__STAGE_DIR__ __LOG_DIR__
+
+[Install]
+WantedBy=multi-user.target
