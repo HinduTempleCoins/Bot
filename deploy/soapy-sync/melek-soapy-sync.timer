@@ -1,0 +1,17 @@
+[Unit]
+Description=Ship the recovered corpus to the brain BEFORE each 12-and-12 wake (pre-wipe re-sync)
+Requires=melek-soapy-sync.service
+
+[Timer]
+# The 12-and-12 conferences run at 00:00 and 12:00 America/Chicago; Soapy's Modal alarm (infra/modal/
+# soapy.py, Cron "30 23,11") wakes her 30 min before each to read the annals. This sync must land the
+# recovered corpus in the brain BEFORE that wake — so it fires 30 min ahead of the wake (an hour ahead
+# of the conference), twice a day. The explicit timezone keeps it aligned across DST changes.
+OnCalendar=*-*-* 23:00:00 America/Chicago
+OnCalendar=*-*-* 11:00:00 America/Chicago
+# If the box was asleep at fire time, run at next boot so a wipe never slips through unshipped.
+Persistent=true
+Unit=melek-soapy-sync.service
+
+[Install]
+WantedBy=timers.target
