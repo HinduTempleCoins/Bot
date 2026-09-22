@@ -52,6 +52,7 @@ import * as lawyers from '../../integrations/soapbox/lawyer-directory.mjs';
 import { judgeLinks, companyLinks, categoryLinks } from '../../integrations/cross-links.mjs';
 import { ingestCase } from '../../integrations/legal-knowledge-graph.mjs';
 import * as privacy from '../../integrations/soapbox/privacy-law-map.mjs';
+import { adSlot, headTags as adHeadTags, slotStyles as adSlotStyles } from '../../integrations/soapbox/ad-slot.mjs';
 
 const PORT = +(process.env.PORT || 8099);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -66,6 +67,15 @@ const OVERSIGHT = process.env.OVERSIGHT_SITE || 'https://oversight.soapbox.commu
 // new jurisdiction's URL prefix (see the extension plan in the header).
 const JURISDICTIONS = { us: 'United States' };
 const DEFAULT_JURISDICTION = 'us';
+
+// ── monetization rail (SURFACES_USERS_ANALYTICS.md §4 — the #1 near-term-dollar lever) ────────────────
+// Law is the first surface wired for the display-ad / affiliate rail: high organic traffic, and legal
+// content is brand-safe, high-CPM, and squarely inside AdSense policy (the reason law goes first, ahead
+// of the harm-reduction shelves where AdSense is a poor fit). The slot is env-gated AND behind this
+// feature flag — LAW_ADS=1 turns it on; with no AD_CLIENT set it renders a labeled placeholder, so the
+// slot geometry + impression tracking can be verified before an id exists. Default OFF.
+const LAW_ADS = /^(1|true|yes|on)$/i.test(String(process.env.LAW_ADS || '').trim());
+const ADS = { enabled: LAW_ADS };
 
 // ── shared house-style helpers (same dark theme + slim cross-linked bar as Stocks/Search) ─────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -164,10 +174,10 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+<link rel=canonical href="${esc(canonical)}">${STYLE}${LAW_ADS ? `<style>${adSlotStyles()}</style>` : ''}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript>${adHeadTags(ADS)}</head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
   <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/rights">Your rights</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
-<main class=wrap>${body}</main>
+<main class=wrap>${adSlot('law-top', ADS)}${body}${adSlot('law-bottom', ADS)}</main>
 ${FOOTER}</body></html>`;
 }
 
