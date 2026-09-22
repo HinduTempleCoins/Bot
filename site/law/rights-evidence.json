@@ -1,0 +1,5 @@
+{
+  "_policy": "Real, dated, sourced or it doesn't go up. Each item illustrates a legal lesson — never celebrates violence. Balance mandatory: at least as many 'calm assertion worked' items as 'noncompliance went bad'. Prefer court records (durable) over videos (rot). Right-of-reply/takedown per site policy. Items verified by a human before adding; empty list renders an empty-state, never a broken page.",
+  "_schema": { "title": "string", "source": "publisher/outlet/court", "date": "YYYY-MM-DD", "lesson": "the doctrine it illustrates", "tag": "noncompliance|traveler|moorish|lien|checkpoint|calm-worked|court-record", "url": "verified source link" },
+  "items": []
+}

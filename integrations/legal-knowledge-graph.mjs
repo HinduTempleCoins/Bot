@@ -325,6 +325,36 @@ export function ingestCase(caseRecord, graph = createGraph()) {
   };
 }
 
+// ingestMaxim — see the tests in legal-knowledge-graph.test.mjs for the co-surfacing behavior.
+// ── maxim ingestion ─────────────────────────────────────────────────────────────────────────
+/**
+ * Ingest one maxim record (id, term, gloss/literal, category, provenance) into the graph. Adds:
+ *   • a maxim node (type 'maxim' — already in NODE_TYPES)
+ *   • a falls-under-category edge when `category` matches a seed category (reuses the existing edge
+ *     type, so a maxim and the cases under the same category co-surface via query() with NO query change).
+ * Returns { maximId, added:{nodes,edges}, category } or null on a bad record. Soft-fail; never throws.
+ */
+export function ingestMaxim(maximRecord, graph = createGraph()) {
+  const rec = maximRecord && typeof maximRecord === 'object' ? maximRecord : null;
+  if (!rec) return null;
+  const maximId = str(rec.id) || str(rec.term);
+  if (!maximId) return null;
+  let nAdded = 0; let eAdded = 0;
+  const addN = (n) => { if (graph.addNode(n)) nAdded++; };
+  const addE = (e) => { if (graph.addEdge(e)) eAdded++; };
+  const source = cleanSource(rec.source) || { name: str(rec.provenance) || 'maxim', url: str(rec.url) || null };
+  addN({ type: 'maxim', id: maximId, name: str(rec.term) || maximId, note: str(rec.gloss) || str(rec.literal) || undefined });
+  const cat = str(rec.category);
+  let catId = '';
+  if (cat) {
+    const byName = SEED_CATEGORIES.find((c) => c.name.toLowerCase() === cat.toLowerCase());
+    catId = byName ? byName.id : cat;
+    if (graph.node(catId)) addE({ type: 'falls-under-category', from: maximId, to: catId, source });
+    else catId = '';
+  }
+  return { maximId, added: { nodes: nAdded, edges: eAdded }, category: catId || null };
+}
+
 // ── query ─────────────────────────────────────────────────────────────────────────────────
 /**
  * Query the graph for cases matching a category and/or a treatment filter.
