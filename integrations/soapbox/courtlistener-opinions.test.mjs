@@ -9,6 +9,7 @@ import {
   normalizeCase, plainText, snippetOf, idFromUrl, slugFromUrl,
   renderPage, dataNote, __setFetch,
   COURTS, courtName, searchDockets, normalizeDocket, docketUrl,
+  lastStatus, __clearSearchCache,
 } from './courtlistener-opinions.mjs';
 
 const RAW_HIT = {
@@ -80,7 +81,38 @@ test('searchCases queries the search endpoint and normalizes; court/date narrow 
   assert.equal(rows[0].caseName, 'Brown v. Board of Education');
 });
 
+test('searchCases caches results so a repeat query does not re-hit the API', async () => {
+  __clearSearchCache();
+  let calls = 0;
+  __setFetch(async () => { calls++; return { ok: true, status: 200, json: async () => ({ results: [RAW_HIT] }) }; });
+  const a = await searchCases({ q: 'cache-me' });
+  const b = await searchCases({ q: 'cache-me' });   // served from cache
+  __setFetch(null);
+  assert.equal(a.length, 1);
+  assert.equal(b.length, 1);
+  assert.equal(calls, 1, 'second identical query must not hit the API');
+});
+
+test('searchCases flags a 429 throttle (non-enumerably) and serves stale cache on later failure', async () => {
+  __clearSearchCache();
+  // 1) a 429 with no cache → empty array flagged .throttled, still deep-equals []
+  __setFetch(async () => ({ ok: false, status: 429, json: async () => ({ detail: 'throttled' }) }));
+  const t = await searchCases({ q: 'throttle-q' });
+  assert.deepEqual(t, []);
+  assert.equal(t.throttled, true);
+  assert.equal(lastStatus(), 429);
+  // 2) prime the cache with a good result, then a later 429 serves the STALE cached rows
+  __setFetch(async () => ({ ok: true, status: 200, json: async () => ({ results: [RAW_HIT] }) }));
+  const good = await searchCases({ q: 'stale-q' });
+  assert.equal(good.length, 1);
+  __setFetch(async () => ({ ok: false, status: 429, json: async () => ({}) }));
+  const stale = await searchCases({ q: 'stale-q' });
+  __setFetch(null);
+  assert.equal(stale.length, 1, 'a throttled repeat must fall back to the cached rows');
+});
+
 test('searchCases soft-fails to [] on empty query, network error, bad shape', async () => {
+  __clearSearchCache();
   assert.deepEqual(await searchCases({ q: '' }), []);
   __setFetch(throwingFetch());
   assert.deepEqual(await searchCases({ q: 'x' }), []);
@@ -116,6 +148,7 @@ test('searchCases court-only BROWSE: no early [], honors orderBy, lists the cour
 });
 
 test('searchCases honors a custom orderBy on a normal search; defaults to score desc', async () => {
+  __clearSearchCache();
   const sink = {};
   __setFetch(captureFetch(sink, { results: [RAW_HIT] }));
   await searchCases({ q: 'segregation' });

@@ -535,9 +535,22 @@ export async function casesView(query, court) {
     const heading = ct
       ? `Recent opinions — ${esc(opinions.courtName(ct))}${term ? ` · “${esc(term)}”` : ''}`
       : `${rows.length} opinion${rows.length === 1 ? '' : 's'} for “${esc(term)}”`;
-    results = rows.length
-      ? `<div class=card><h2>${heading}</h2>${rows.map(caseRow).join('')}</div>`
-      : `<div class=card><h2>${ct ? heading : `Cases for “${esc(term)}”`}</h2><p class=empty>No opinions found. Try a different term, a party name, or a reporter citation like “347 U.S. 483”.</p></div>`;
+    // Tell a real empty apart from a throttle/outage: searchCases flags the array on API failure.
+    const busy = rows.length === 0 && (rows.throttled || rows.unavailable);
+    if (busy) {
+      const clUrl = term
+        ? `https://www.courtlistener.com/?q=${encodeURIComponent(term)}&type=o`
+        : `https://www.courtlistener.com/?type=o${ct ? `&court=${encodeURIComponent(ct)}` : ''}`;
+      results = `<div class=card><h2>${ct ? heading : `Cases for “${esc(term)}”`}</h2>
+          <p class=empty>Live case search is busy right now${rows.throttled ? ' (the opinion database is rate-limiting us)' : ''} — this is temporary, try again in a minute.
+          In the meantime you can <a href="${esc(clUrl)}" rel="noopener">run this exact search at CourtListener →</a>,
+          resolve a reporter citation like “347 U.S. 483” above, or browse by court below.</p></div>
+        ${browseByCourt()}`;
+    } else {
+      results = rows.length
+        ? `<div class=card><h2>${heading}</h2>${rows.map(caseRow).join('')}</div>`
+        : `<div class=card><h2>${ct ? heading : `Cases for “${esc(term)}”`}</h2><p class=empty>No opinions found. Try a different term, a party name, or a reporter citation like “347 U.S. 483”.</p></div>`;
+    }
   } else {
     // no term and no court → organize the courts within the tab too.
     results = browseByCourt();
