@@ -1,0 +1,14 @@
+'''Dudael''' is the planned metaverse surface of the MELEK / [[SoapBox]] ecosystem, published at dudael.com. As of this writing the site is a placeholder: it describes what Dudael will be and points visitors to the parts of the ecosystem that are already live, rather than hosting a metaverse yet.
+
+== Status ==
+'''In progress — not yet built.''' The landing page states the intent ("what Dudael will be") and marks the metaverse itself as coming soon, while linking out to the live [[Van Kush Family]] surfaces ("what's here now — the family").
+
+== See also ==
+* [[Van Kush Family]]
+* [[SoapBox]]
+
+== Sources ==
+* [https://dudael.com dudael.com]
+
+== Coverage ==
+Describes the surface as it stands: a live placeholder page announcing a metaverse that is not yet built. This article will need revision once the surface ships functionality.

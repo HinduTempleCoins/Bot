@@ -1,0 +1,54 @@
+'''The Surfaces''' is the complete directory of the live, public-facing sites and apps of the MELEK / [[SoapBox]] ecosystem — one entry per surface, with its address and what you do there. Where [[SoapBox]] gives the shape of the ecosystem, this page is the flat index: every door, listed. Each surface below was confirmed to respond before it was listed here; the one exception is noted as such.
+
+== The front doors ==
+* '''[[SoapBox Community|soapbox.community]]''' — the ecosystem hub and parent domain of many verticals. Start here to reach the apps.
+* '''[[Van Kush Family|vankushfamily.com]]''' — the "join the family" roadmap page; pick a door into any project.
+* '''[https://melek.salon melek.salon]''' — see [[Melek.salon]], the principal social front end of the [[MELEK Blockchain|MELEK]] chain, where posts are written, read, voted and rewarded.
+* '''[[Witness School|witness.melek.salon]]''' — the teaching surface: how the chain works, how to run a witness, mine, and build on it.
+
+== Chains, wallets and explorers ==
+* '''[[KulaSwap|kula.money]]''' — KulaSwap, the ecosystem's decentralised exchange on the [[PRANA Blockchain|PRANA]] chain (automated market maker; KULA is the hub asset).
+* '''[[PranaScan|pranascan.soapbox.community]]''' — the PRANA block explorer (a Blockscout deployment): blocks, transactions, addresses, contracts and a public API.
+* '''[[SoapBox Mining Pool|pool.soapbox.community]]''' — the mining pool, with browser-based mining and in-browser wallet generation, serving PRANA and CryptoNote-family chains.
+* '''[[SoapBox Data Hub|data.soapbox.community]]''' — public, no-signup ecosystem token prices next to wider-market data, with an embeddable [[Token Price Ticker]].
+
+== Social, messaging and community ==
+* '''[[Congress.ink|congress.ink]]''' — a short-form social surface posting to the MELEK chain, sharing identity and messaging with Pentecaust.
+* '''[[Pentecaust|pentecaust.com]]''' — private messaging, clans and cross-surface identity — the direct-messaging layer the older Graphene chains never shipped.
+* '''[[Pact|pact.pentecaust.com]]''' — Pentecaust's companion for group spaces: clubs and communities.
+
+== Search, reference and directory ==
+* '''[[SoapBox Search|search.soapbox.community]]''' — one search engine across every live surface and the MELEK chain at once.
+* '''[[Library of Ashurbanipal|wiki.soapbox.community]]''' — this reference wiki: sourced, fact-checked articles.
+* '''[[SoapBox Directory|directory.soapbox.community]]''' — a curated index of crypto resources and site rankings, with a submission path.
+* '''[[SoapBox Analytics|analytics.soapbox.community]]''' — first-party, cookieless web analytics for the ecosystem's sites. The dashboard is access-restricted (authentication required); the measurement is privacy-preserving.
+
+== The legal library ==
+* '''[[SoapBox Law|law.soapbox.community]]''' — the public legal record: caselaw, statutes, regulations, judges and lawyer records, source-linked and keyless, plus plain-English explainers ([[Legal Doctrines|doctrines]], [[Appeals and Writs|appeals & writs]], [[Rights That Hold Up in Court|rights]], [[Foundational Law|the Constitution]], [[Treaties|treaties]], [[Legal Maxims|maxims]], [[Privacy Law|privacy]] and case search). ''Facts, not verdicts.''
+* '''[[Legal Lexicon|lexicon.soapbox.community]]''' — legal language and sources of authority: dictionaries vs. law, founding-era meaning, and binding vs. persuasive authority.
+* '''[[The Case Law of Us|caselaw.soapbox.community]]''' — American history read through the case reporters; every case verified.
+* '''[[Free Speech and Sedition|free-speech.soapbox.community]]''' — First Amendment law of speech and the law of sedition: the incitement test, protected vs. unprotected speech, seditious conspiracy.
+* '''[[Faux Law Files|encounters.soapbox.community]]''' — a video portal that curates real "sovereign citizen" / pseudolaw footage and places each clip next to the doctrine it misreads.
+
+== Entrainment ==
+* '''[[Hathor 40 Hz|hathor.live/40hz]]''' — an in-browser gamma-entrainment session, the evidence and its limits, and instructions for building TENS and tDCS hardware.
+* '''[[MELEK Sleep and Focus|sleep.melek.salon]]''' — binaural beats, isochronic tones and a 40 Hz gamma preset, synthesized live in the browser.
+
+== Civic verticals ==
+* '''[[SoapBox Oversight|oversight.soapbox.community]]''' — no-verdict accountability dossiers on public officials, drawn from public records.
+* Politics and further civic and utility verticals are catalogued through [[SoapBox]] and found through [[SoapBox Search]].
+
+== Being built ==
+* '''[[Dudael|dudael.com]]''' — the planned metaverse. As of this writing the site is a live placeholder describing what it will be; the metaverse itself is '''not yet built'''.
+
+== See also ==
+* [[SoapBox]]
+* [[MELEK Blockchain]]
+* [[SoapBox Search]]
+* [[Van Kush Family]]
+
+== Sources ==
+* [https://soapbox.community soapbox.community] and the individual surfaces linked above.
+
+== Coverage ==
+A flat directory of the ecosystem's public surfaces, each confirmed live at the time of writing except Dudael (placeholder) and the access-restricted Analytics dashboard, both noted as such. Individual surfaces carry their own articles with fuller detail; the set changes as surfaces ship.

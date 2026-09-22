@@ -215,5 +215,5 @@ test('GET /properties.json returns the machine-readable list', async () => {
   assert.equal(res.statusCode, 200);
   const j = JSON.parse(res.body);
   assert.ok(Array.isArray(j.groups) && j.groups.length >= 4);
-  assert.equal(j.updated, '2026-09-06');
+  assert.equal(j.updated, '2026-09-22');
 });

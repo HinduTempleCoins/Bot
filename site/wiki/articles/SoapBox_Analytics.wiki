@@ -1,0 +1,14 @@
+'''SoapBox Analytics''' is the first-party, cookieless web-analytics surface of the [[SoapBox]] ecosystem, published at analytics.soapbox.community. It records aggregate traffic for the ecosystem's own sites without setting a tracking cookie or building a per-visitor profile.
+
+== Function ==
+Analytics is served by the ecosystem itself rather than by a third-party tracker, so page-view data is not shared with an outside advertising network. The dashboard that presents the aggregated figures is access-restricted (it returns an authentication challenge to the public), because it is an operator tool rather than a public page; the measurement it performs is privacy-preserving by design.
+
+== See also ==
+* [[SoapBox]]
+* [[SoapBox Data Hub]]
+
+== Sources ==
+* [https://analytics.soapbox.community analytics.soapbox.community] — the dashboard is behind authentication; the surface responds but does not serve its contents publicly.
+
+== Coverage ==
+Describes the surface's stated purpose. The dashboard itself is access-restricted, so its live contents were not inspected for this article.

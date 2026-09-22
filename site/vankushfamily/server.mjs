@@ -43,10 +43,12 @@ const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const ADMIN = process.env.ADMIN_SITE || 'https://soapy.blog';
 
 // ── The ecosystem property list — the canonical "what is live" index. ─────────────────────────────
-// Every URL below was checked and returned HTTP 200 on 2026-09-06. soapy.blog is deliberately NOT
+// Every URL below was checked and returned HTTP 200 on 2026-09-22. soapy.blog is deliberately NOT
 // listed publicly: it answers 401 (auth-gated admin), so linking it from a public hub would hand a
-// visitor a login wall. Keep this list honest — it is the base list the press outreach points at,
-// and a dead link here is the first thing a journalist finds.
+// visitor a login wall — and analytics.soapbox.community is out for the same reason (also 401). Keep
+// this list honest — it is the base list the press outreach points at, and a dead link here is the
+// first thing a journalist finds. (world-law.soapbox.community was checked and did not resolve, so it
+// stays out; dudael.com serves only a teaser landing, so it lives in the roadmap as in-progress.)
 export const PROPERTIES = [
   { group: 'Chains', items: [
     { name: 'MELEK', url: 'https://melek.salon', desc: 'The Graphene social chain — post, curate, earn. Block explorer and wallet built in.' },
@@ -54,6 +56,7 @@ export const PROPERTIES = [
     { name: 'Witness School', url: 'https://witness.melek.salon', desc: 'Learn to run a block producer, and how a Graphene chain is built.' },
     { name: 'MELEK-Engine', url: 'https://engine.melek.salon', desc: 'The side-token layer — issue a token without deploying a contract.' },
     { name: 'KulaSwap', url: 'https://kula.money', desc: 'The AMM and lending market on PRANA.' },
+    { name: 'PRANAScan', url: 'https://pranascan.soapbox.community', desc: 'The PRANA blockchain explorer — blocks, transactions and token stats.' },
   ] },
   { group: 'Mining and compute', items: [
     { name: 'SoapBox Pool', url: 'https://pool.soapbox.community', desc: 'Browser mining, in-browser wallet generation, RandomX and Ethash side by side.' },
@@ -66,12 +69,18 @@ export const PROPERTIES = [
     { name: 'Hathor', url: 'https://hathor.live', desc: 'The AI witness\u2019s own surface, including the 40 Hz entrainment library.' },
     { name: 'Data', url: 'https://data.soapbox.community', desc: 'The public data aggregator behind the verticals.' },
   ] },
+  { group: 'Law & legal', items: [
+    // The editorial legal shelves — each verified HTTP 200 with real content on 2026-09-22.
+    // ⚠️ law.soapbox.community itself is still NOT listed: its headline caselaw lookup is failing
+    // upstream (/cases?q=347%20U.S.%20483 — Brown v. Board — still returns "No case found" on
+    // 2026-09-22). The working case-law surface is caselaw.soapbox.community ("The Case Law of Us"),
+    // which is listed below. Restore the Law row when its citation lookup actually resolves.
+    { name: 'The Case Law of Us', url: 'https://caselaw.soapbox.community', desc: 'American history read through the case reporters — the decisions that shaped the country.' },
+    { name: 'Legal Lexicon', url: 'https://lexicon.soapbox.community', desc: 'Sources of legal authority — how dictionaries, statutes and case law actually rank.' },
+    { name: 'Free Speech & Sedition', url: 'https://free-speech.soapbox.community', desc: 'The law of speech and dissent — what is protected and what is not.' },
+    { name: 'Faux Law Files', url: 'https://encounters.soapbox.community', desc: 'Sovereign-citizen encounters, and the real law they misread.' },
+  ] },
   { group: 'Civic verticals', items: [
-    // ⚠️ Law is intentionally NOT listed. The service answers HTTP 200 but its caselaw lookups are
-    // failing upstream: /cases?q=347%20U.S.%20483 (Brown v. Board — the citation the module's own
-    // header promises resolves) returns "No case found", and ?q=miranda returns "No opinions found".
-    // A 200 is not a working product, and this index is what press outreach points at. Restore the
-    // row when a citation lookup actually resolves.
     { name: 'Politics', url: 'https://politics.soapbox.community', desc: 'Congress, elections and lobbying.' },
     { name: 'Oversight', url: 'https://oversight.soapbox.community', desc: 'The consumer-protection and oversight directory.' },
     { name: 'Hemp', url: 'https://hemp.soapbox.community', desc: 'US cannabis law and price indexes.' },
@@ -80,6 +89,8 @@ export const PROPERTIES = [
   ] },
   { group: 'Community', items: [
     { name: 'SoapBox Community', url: 'https://soapbox.community', desc: 'The ecosystem hub.' },
+    { name: 'Pentecaust', url: 'https://pentecaust.com', desc: 'MELEK messaging \u2014 direct and group chat over the chain.' },
+    { name: 'Pact', url: 'https://pact.pentecaust.com', desc: 'Groups and clubs built on Pentecaust.' },
     { name: 'Karma', url: 'https://karma.melek.salon', desc: 'Standing that rises when you lift someone \u2014 it cannot be bought or sent.' },
     { name: 'Herald', url: 'https://herald.soapbox.community', desc: 'The growth engine.' },
     { name: 'KULA Arcade', url: 'https://arcade.soapbox.community', desc: 'Free, provably-fair, play-token games.' },
@@ -107,7 +118,7 @@ const nlOnConfirm = async ({ email }) => {
 // The rendered property index, reused by the page and by /properties.json.
 export function propertiesSection() {
   return `<section class=props><h2>Everything that is live</h2>
-  <p class=muted>Every link below answered HTTP&nbsp;200 on 6 September 2026.</p>
+  <p class=muted>Every link below answered HTTP&nbsp;200 on 22 September 2026.</p>
   ${PROPERTIES.map((g) => `<div class=pgroup><h3>${esc(g.group)}</h3><ul>${g.items.map((i) =>
     `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.name)}</a> <span class=muted>${esc(i.desc)}</span></li>`).join('')}</ul></div>`).join('')}
   </section>`;
@@ -290,6 +301,7 @@ export const PHASES = [
     when: 'open',
     desc: 'Open direction, to be shaped with the community.',
     milestones: [
+      { status: 'progress', title: 'Dudael — the MetaVerse', detail: 'A public teaser is live at dudael.com; the MetaVerse itself is still being built.' },
       { status: 'progress', title: 'Mobile + browser extension', detail: 'Participation off the desk: a native mobile app (in build) and a browser extension so members can take part anywhere.' },
       { status: 'progress', title: 'Multilingual community surfaces', detail: 'In-page translation is live on community surfaces; Kurdish-language and other multilingual fronts open the work to more people.' },
       { status: 'planned', title: 'Cross-chain expansion + deeper analytics', detail: 'New purpose-built chains plug into the live ecosystem, with deeper analytics across the network.' },
@@ -478,7 +490,7 @@ export async function handler(req, res) {
     if (await newsletterHandle(req, res, { load: nlLoad, save: nlSave, sendConfirm: nlSendConfirm, onConfirm: nlOnConfirm, baseUrl: BASE_URL })) return;
     if (path === '/properties.json') {
       res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
-      return res.end(JSON.stringify({ updated: '2026-09-06', groups: PROPERTIES }, null, 2));
+      return res.end(JSON.stringify({ updated: '2026-09-22', groups: PROPERTIES }, null, 2));
     }
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/roadmap') return sendHtml(res, roadmapPage());

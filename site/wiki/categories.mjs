@@ -14,7 +14,7 @@
 export const CATEGORIES = [
   {
     id: 'start', name: 'Start here', blurb: 'What this whole thing is, in the order it makes sense to read it.',
-    pages: ['Start Here', 'SoapBox', 'MELEK', 'Hathor', 'Hathor (AI Witness)', 'Crypt-ology', 'Crypto Glossary', 'Glossaries', 'Autodidacts and Credentials'],
+    pages: ['Start Here', 'SoapBox', 'The Surfaces', 'Van Kush Family', 'MELEK', 'Hathor', 'Hathor (AI Witness)', 'Crypt-ology', 'Crypto Glossary', 'Glossaries', 'Autodidacts and Credentials'],
   },
   {
     id: 'chains', name: 'Chains and how they work', blurb: 'The blockchains we run, and the machinery underneath them.',
@@ -29,7 +29,7 @@ export const CATEGORIES = [
   {
     id: 'entrainment', name: 'Entrainment and neurostimulation', blurb: 'The 40 Hz research line, how it is delivered, and where the delivery goes wrong.',
     pages: ['Gamma Entrainment', 'Display Refresh and Flicker Delivery', 'Auditory Steady State Response',
-            'Invisible Spectral Flicker', 'MELEK Sleep and Focus'],
+            'Invisible Spectral Flicker', 'MELEK Sleep and Focus', 'Hathor 40 Hz'],
     keywords: [/entrain/i, /flicker/i, /gamma/i, /steady.state/i, /binaural/i, /40 ?hz/i],
   },
   {
@@ -61,7 +61,7 @@ export const CATEGORIES = [
     id: 'tools', name: 'Tools', blurb: 'The apps and utilities anyone can use — free calculators, token prices, data, wallets, explorers.',
     pages: ['SoapBox Tools', 'Soap Calculator', 'Dilution Calculator', 'Percentage Calculator', 'Unit Price Calculator',
             'Token Price Ticker', 'SoapBox Data Hub', 'KulaSwap', 'Akasha Wallet', 'PranaScan',
-            'SoapBox Mining Pool', 'SoapBox Pool', 'SoapBox Search'],
+            'SoapBox Mining Pool', 'SoapBox Pool', 'SoapBox Search', 'SoapBox Directory', 'SoapBox Analytics'],
     keywords: [/calculator/i],
   },
   {
@@ -85,8 +85,8 @@ export const CATEGORIES = [
     id: 'verticals', name: 'The SoapBox verticals', blurb: 'The public-interest sites, one per domain.',
     pages: ['SoapBox Law', 'SoapBox Politics', 'SoapBox Oversight', 'SoapBox Hemp', 'SoapBox Data', 'SoapBox Search',
             'SoapBox Grants', 'SoapBox Credentials', 'SoapBox Shopping', 'SoapBox Stocks', 'SoapBox Travel',
-            'SoapBox Move', 'SoapBox Stream', 'Congress.ink', 'Portable Identity', 'Pentecaust', 'Library of Ashurbanipal',
-            'The Library of Ashurbanipal', 'Melek.salon', 'Spanish Glossary'],
+            'SoapBox Move', 'SoapBox Stream', 'Congress.ink', 'Portable Identity', 'Pentecaust', 'Pact', 'Library of Ashurbanipal',
+            'The Library of Ashurbanipal', 'Melek.salon', 'SoapBox Directory', 'SoapBox Analytics', 'Dudael', 'Van Kush Family', 'Spanish Glossary'],
     keywords: [/soapbox/i],
   },
 ];

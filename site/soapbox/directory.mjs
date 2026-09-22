@@ -4,6 +4,21 @@
 // page factory renders it; add entries here. (Outbound links are a user service + SEO content.)
 
 export const DIRECTORY = [
+  // Our own network of public surfaces — listed first so visitors can find every SoapBox site from one
+  // place. Legal surfaces lead (the newest shelf). Every URL here was verified HTTP 200 on 2026-09-22;
+  // analytics.soapbox.community is deliberately omitted (it answers 401 — auth-gated admin, not public).
+  { cat: 'SoapBox Network', items: [
+    { name: 'SoapBox Law', url: 'https://law.soapbox.community', blurb: 'The legal hub — caselaw, statutes, regulations, and a judge/lawyer directory.', ours: true },
+    { name: 'The Case Law of Us', url: 'https://caselaw.soapbox.community', blurb: 'American history read through the case reporters — the decisions that shaped the country.', ours: true },
+    { name: 'Legal Lexicon', url: 'https://lexicon.soapbox.community', blurb: 'Sources of legal authority — how dictionaries, statutes, and case law actually rank.', ours: true },
+    { name: 'Free Speech & Sedition', url: 'https://free-speech.soapbox.community', blurb: 'The law of speech and dissent — what is protected and what is not.', ours: true },
+    { name: 'Faux Law Files', url: 'https://encounters.soapbox.community', blurb: 'Sovereign-citizen encounters, and the real law they misread.', ours: true },
+    { name: 'SoapBox Oversight', url: 'https://oversight.soapbox.community', blurb: 'Consumer-protection and oversight directory — "who do I call?"', ours: true },
+    { name: 'SoapBox Data', url: 'https://data.soapbox.community', blurb: 'The markets aggregator — prices, Clarity transparency scores, and first-party ecosystem data.', ours: true },
+    { name: 'SoapBox Search', url: 'https://search.soapbox.community', blurb: 'Search the web and our own sites, posts, and accounts.', ours: true },
+    { name: 'SoapBox Directory', url: 'https://directory.soapbox.community', blurb: 'The resource directory and per-site insights.', ours: true },
+    { name: 'Library of Ashurbanipal', url: 'https://wiki.soapbox.community', blurb: 'The cited, fact-checked reference wiki behind every listing.', ours: true },
+  ] },
   { cat: 'Data & Index Sites', items: [
     { name: 'SoapBox Markets', url: 'https://data.soapbox.community', blurb: 'This aggregator — prices + a Clarity transparency score + first-party ecosystem data.', ours: true },
     { name: 'CoinGecko', url: 'https://www.coingecko.com', blurb: 'Broad market data; the keyless API powering much of this site.' },

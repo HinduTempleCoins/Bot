@@ -1,0 +1,26 @@
+'''Hathor 40 Hz''' is the gamma-entrainment surface published at hathor.live/40hz. It runs an in-browser entrainment session, presents a library of presets, and documents both the evidence and the hardware — including how to build the stimulation devices yourself.
+
+== What it offers ==
+* '''Session''' — an entrainment session generated live in the browser.
+* '''The library''' — a set of presets to run.
+* '''What the evidence says''' — a plain summary of the [[Gamma Entrainment]] research line and its limits, including a placebo baseline.
+* '''Practices that need no hardware''' — the half of the method that requires no device.
+* '''The build''' — instructions for building the stimulation hardware at low cost, including a '''TENS''' unit and a '''tDCS''' unit, with the safety engineering taught as part of the build.
+
+== Relationship to other surfaces ==
+Hathor 40 Hz is the hardware-and-evidence companion to [[MELEK Sleep and Focus]] (sleep.melek.salon), which generates binaural beats, isochronic tones and a 40 Hz preset as pure audio in the browser. The research context for both is in [[Gamma Entrainment]] and [[Display Refresh and Flicker Delivery]].
+
+== Honesty note ==
+The surface states what the evidence does and does not support and carries a placebo baseline rather than promising a clinical outcome.
+
+== See also ==
+* [[Gamma Entrainment]]
+* [[MELEK Sleep and Focus]]
+* [[Invisible Spectral Flicker]]
+* [[Hathor (AI Witness)]]
+
+== Sources ==
+* [https://hathor.live/40hz hathor.live/40hz]
+
+== Coverage ==
+Describes the surface's sections as published, including its build and evidence content. Makes no clinical claim about effects.

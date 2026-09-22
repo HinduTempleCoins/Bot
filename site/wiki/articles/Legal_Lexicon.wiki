@@ -1,0 +1,22 @@
+'''Legal Lexicon''' is the legal-language and sources-of-authority surface of the [[SoapBox]] civic ecosystem, published at lexicon.soapbox.community. Its full title is ''Legal Lexicon & Sources of Authority''. It explains the words the law uses and, separately, which texts actually carry legal weight — as reference, not as legal advice.
+
+== What it covers ==
+* '''Legal dictionaries vs. the law''' — why a dictionary definition and a controlling legal definition are not the same thing.
+* '''Founding-era meaning''' — how the original public meaning of a term is recovered and used.
+* '''American vs. British common law''' — where the two diverge and why it matters to a U.S. reader.
+* '''Sources of authority''' — the distinction between binding and merely persuasive authority.
+* '''An American legal lexicon''' — a glossary of terms with a plain gloss and a source.
+
+== Editorial rule ==
+Consistent with the rest of the [[SoapBox Law]] surface, the material is sourced and descriptive — ''facts, not verdicts'' — and is not legal advice.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Legal Doctrines]]
+* [[The Case Law of Us]]
+
+== Sources ==
+* [https://lexicon.soapbox.community lexicon.soapbox.community]
+
+== Coverage ==
+Describes the surface's sections and its editorial rule as published.

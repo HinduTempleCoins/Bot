@@ -1,0 +1,21 @@
+'''Free Speech & Sedition''' is a legal-reference surface of the [[SoapBox]] civic ecosystem, published at free-speech.soapbox.community. It sets out the U.S. First Amendment law of speech alongside the law of sedition — the point where protected dissent and criminal conduct are drawn apart.
+
+== What it covers ==
+* '''The incitement test''' — the modern standard under which advocacy becomes punishable only when it is directed to and likely to produce imminent lawless action.
+* '''Protected vs. unprotected speech''' — the categories the law treats differently.
+* '''Seditious conspiracy''' — the sedition statutes and what they require.
+* '''Surveillance and chilling effects''' — how monitoring can suppress lawful speech.
+
+== Editorial rule ==
+The surface is cited and descriptive, ''not advocacy'': it states what the law is and what the leading cases hold, and is not legal advice.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Legal Doctrines]]
+* [[Rights That Hold Up in Court]]
+
+== Sources ==
+* [https://free-speech.soapbox.community free-speech.soapbox.community]
+
+== Coverage ==
+Describes the surface's sections and its descriptive, non-advocacy posture as published.
