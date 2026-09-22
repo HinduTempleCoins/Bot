@@ -1,0 +1,173 @@
+{
+  "title": "How to Contact Agencies to Build Standing and Exhaust Remedies Before You Sue",
+  "slug": "agency-exhaustion",
+  "updated": "2026-09-22",
+  "audience": "public teaching corpus",
+  "intro": "Before most lawsuits against the government can be heard, a court needs two things to already be true. First, standing: you must have a concrete, particularized injury and, very often, an actual agency decision you can point to as the thing that hurt you. Second, exhaustion: for a large class of claims you simply cannot walk into court until you have first asked the responsible agency and given it a chance to act. Contacting an agency the right way is how you manufacture both. A well-built administrative record turns a vague grievance into a datable, provable injury, forces the agency to produce a 'final agency action' a court can review, and starts (or stops) the clocks that decide whether a later suit is alive or time-barred. This file teaches the general mechanics across agencies and gives a full walkthrough of the SF-95 / Federal Tort Claims Act path for suing the federal government. It is legal information, not advice about any particular case.",
+  "why_it_works": [
+    {
+      "point": "Standing needs a concrete injury and, usually, a decision to point at",
+      "detail": "Article III standing requires (1) an injury in fact that is concrete and particularized and actual or imminent, (2) traceable to the challenged conduct, and (3) redressable by the court. An agency's written denial, delay, or adverse determination converts an abstract complaint into a specific, dated, traceable injury you can plead. Without a decision to point at, many claims are dismissed as unripe or speculative."
+    },
+    {
+      "point": "Exhaustion doctrine can be jurisdictional or prudential",
+      "detail": "Many statutes make you use the agency's own process before a court will hear you. Some exhaustion requirements are jurisdictional (a court has no power to proceed without them and cannot excuse them); others are prudential (a court may excuse them in narrow circumstances). Because you rarely know in advance how a given court will treat yours, the safe rule is to exhaust as if it were jurisdictional."
+    },
+    {
+      "point": "Final agency action is the gateway to judicial review",
+      "detail": "Under the Administrative Procedure Act, courts generally review only 'final agency action' (5 U.S.C. § 704). Action is final when it marks the consummation of the agency's decisionmaking and determines rights or obligations or has legal consequences. Pushing a matter through to a final, written decision (a denial, a right-to-sue letter, an Appeals Council ruling) is often the whole point of the administrative phase."
+    },
+    {
+      "point": "A paper trail creates actual knowledge and fixes dates",
+      "detail": "Putting a grievance in writing, and keeping proof it was received, establishes that the agency had actual knowledge and the exact date it acquired it. That date matters to the merits (whether the agency then acted reasonably), to notice defenses, and to every deadline that runs from accrual or from the agency's response. A letter, email, FOIA request, or Inspector General complaint is powerful evidence of notice even when it is not, by itself, a legally 'presented' claim."
+    },
+    {
+      "point": "Statutes of limitation and tolling run on their own clocks",
+      "detail": "Each remedy has its own filing window measured from its own trigger (the act, the accrual, the receipt of a notice). Some clocks pause ('toll') while an administrative proceeding is pending; others do not. Missing a jurisdictional deadline is usually fatal and cannot be cured, so the deadline, not the filing, is the thing to track. Believing you have 'already filed' when you have only given notice is a classic way to let a hard clock run out."
+    },
+    {
+      "point": "Notice is not the same as presentment",
+      "detail": "Telling an agency what happened (notice) rarely satisfies a statute that demands a specific submission (presentment): a form, a sum certain, a sworn charge, service on a named party. The distinction is where cases are lost. Confirm what the governing statute requires as presentment and do exactly that, then separately keep your notice evidence for the merits."
+    }
+  ],
+  "ftca_sf95": {
+    "what": "The Standard Form 95 (SF-95) is the administrative claim used under the Federal Tort Claims Act (FTCA) to seek money damages from the United States for injury, loss, or death caused by the negligent or wrongful act of a federal employee acting within the scope of employment. Filing it (or an equivalent written claim) with the correct agency is a mandatory precondition to an FTCA lawsuit; it is not itself the lawsuit.",
+    "rules": [
+      {
+        "point": "A claim is 'presented' only with a sum certain, and the sum certain is jurisdictional",
+        "detail": "A claim is presented only when the agency receives an executed SF-95 or other written notification of an incident accompanied by a claim for money damages in a sum certain (a specific dollar figure). An email, letter, FOIA request, portal submission, or Inspector General complaint with no dollar figure is notice, not a presented claim. Courts dismiss for lack of jurisdiction where the sum certain is missing, and the limitations clock keeps running while the claimant wrongly believes a claim was filed.",
+        "authority": "28 C.F.R. § 14.2(a)"
+      },
+      {
+        "point": "Present the claim within two years of accrual",
+        "detail": "A tort claim against the United States is forever barred unless it is presented in writing to the appropriate federal agency within two years after the claim accrues. Accrual is generally when the injury and its cause are known or should have been known.",
+        "authority": "28 U.S.C. § 2401(b)"
+      },
+      {
+        "point": "You must wait for a final denial or six months before suing",
+        "detail": "You cannot file an FTCA suit until the agency finally denies the claim in writing, or six months pass with no final disposition (at which point you may treat the silence as a denial and sue). This administrative-exhaustion prerequisite is jurisdictional; a suit filed too early must be dismissed, even if the six months elapse while the premature suit is pending.",
+        "authority": "28 U.S.C. § 2675(a); McNeil v. United States, 508 U.S. 106 (1993)"
+      },
+      {
+        "point": "You cannot recover more than the sum certain you claimed",
+        "detail": "The lawsuit is capped at the amount presented administratively, except where the increase is based on newly discovered evidence not reasonably discoverable at presentment, or on intervening facts. Set the sum certain thoughtfully: too low is a permanent cap, too high with no basis undermines credibility.",
+        "authority": "28 U.S.C. § 2675(b)"
+      },
+      {
+        "point": "The FTCA does not cover constitutional claims",
+        "detail": "The FTCA waives immunity for common-law torts, not for violations of the Constitution. First Amendment, due-process, and equal-protection claims are not FTCA claims; against federal officers they proceed (if at all) as Bivens claims, and against state or local actors as 42 U.S.C. § 1983 claims. Do not put constitutional theories on an SF-95.",
+        "authority": "FTCA scope; Bivens v. Six Unknown Named Agents, 403 U.S. 388 (1971); 42 U.S.C. § 1983"
+      },
+      {
+        "point": "The intentional-tort bar, and its law-enforcement proviso",
+        "detail": "Section 2680(h) bars FTCA claims for enumerated intentional torts, including misrepresentation, deceit, libel, and slander. But a 'law enforcement proviso' revives claims for assault, battery, false imprisonment, false arrest, abuse of process, and malicious prosecution when committed by federal investigative or law-enforcement officers. The proviso countermands only the § 2680(h) intentional-tort bar; it cannot rescue a claim that is independently barred by the discretionary-function exception, and it does not reach torts by state or local officers.",
+        "authority": "28 U.S.C. § 2680(h); Martin v. United States, 605 U.S. ___ (2025)"
+      },
+      {
+        "point": "The discretionary-function exception, and the Berkovitz mandatory-duty limit",
+        "detail": "Section 2680(a) shields the government from liability for a discretionary function or duty, i.e., conduct involving an element of judgment or choice grounded in policy. It is the most common obstacle to FTCA claims about how an agency chose to act. But it does not apply where a federal statute, regulation, or policy specifically prescribes a course of action, leaving the employee no room for judgment. Where the agency violated a mandatory, non-discretionary duty, the exception falls away.",
+        "authority": "28 U.S.C. § 2680(a); Berkovitz v. United States, 486 U.S. 531 (1988)"
+      },
+      {
+        "point": "Present to the right agency, and prove the presentment date",
+        "detail": "Present the claim to the specific federal agency whose activity gave rise to the claim (sub-agencies may sit under a parent department; confirm whether the sub-agency wants its own copy). Send by certified mail, return receipt requested; the signed return receipt is your proof of the presentment date, and that date starts the six-month clock. Read the SF-95 certification before signing: a fraudulent claim carries criminal penalties and civil liability.",
+        "authority": "28 U.S.C. § 2675(a); 28 C.F.R. § 14.2; SF-95 (OMB No. 1105-0008)"
+      }
+    ]
+  },
+  "agency_examples": [
+    {
+      "agency": "EEOC (Equal Employment Opportunity Commission) — Title VII / ADA / ADEA",
+      "what_for": "Workplace discrimination, harassment, or retaliation based on race, color, religion, sex, national origin, disability, or age.",
+      "how_to_contact": "File a Charge of Discrimination through the EEOC public portal (publicportal.eeoc.gov), by mail, or in person at a field office; many states have a work-sharing state agency (a 'FEPA') you can dual-file with.",
+      "deadline": "180 calendar days from the discriminatory act, extended to 300 days where a state or local fair-employment agency has jurisdiction. After investigation you receive a right-to-sue notice; you then have 90 days from receipt to file suit.",
+      "then_court": "Federal or state court, after the right-to-sue notice, within the 90-day window.",
+      "authority": "42 U.S.C. § 2000e-5 (charge-filing periods at § 2000e-5(e)(1); 90-day suit window at § 2000e-5(f)(1))"
+    },
+    {
+      "agency": "NLRB (National Labor Relations Board)",
+      "what_for": "Unfair labor practices, including interference with protected concerted activity or union organizing, by an employer or a union.",
+      "how_to_contact": "File a charge (Form NLRB-501 for employers, -508 for unions) with the appropriate NLRB Regional Office by e-filing, mail, or fax, and serve a copy on the charged party. The NLRB, not a private plaintiff, prosecutes meritorious charges.",
+      "deadline": "Six months from the unfair labor practice; the charge must be filed and served within that period.",
+      "then_court": "The Board adjudicates; enforcement and review run through the U.S. Courts of Appeals, not a private district-court suit.",
+      "authority": "29 U.S.C. § 160(b) (Section 10(b) of the NLRA)"
+    },
+    {
+      "agency": "MSPB (Merit Systems Protection Board) — federal employees",
+      "what_for": "Adverse personnel actions against federal employees (removal, suspension over 14 days, reduction in grade or pay, certain furloughs).",
+      "how_to_contact": "File an appeal with the MSPB (e-Appeal Online) after the agency's decision.",
+      "deadline": "Generally 30 calendar days from the effective date of the action or receipt of the agency decision, whichever is later.",
+      "then_court": "Judicial review of a final MSPB decision by petition to the U.S. Court of Appeals for the Federal Circuit within 60 days; 'mixed' cases involving discrimination may go to district court or the EEOC instead.",
+      "authority": "5 U.S.C. § 7703"
+    },
+    {
+      "agency": "SSA (Social Security Administration)",
+      "what_for": "Denials of disability or other benefits.",
+      "how_to_contact": "Work the administrative ladder: initial determination, reconsideration, hearing before an Administrative Law Judge (ALJ), then review by the Appeals Council. Only after the Appeals Council acts is there a 'final decision' to sue on.",
+      "deadline": "Each administrative step has its own filing window (commonly 60 days). After the Appeals Council denies review or decides the case, you have 60 days from receipt of that notice to file in U.S. District Court (SSA presumes receipt 5 days after the notice date).",
+      "then_court": "U.S. District Court, within 60 days of the Appeals Council notice.",
+      "authority": "42 U.S.C. § 405(g)"
+    },
+    {
+      "agency": "HUD / FHEO (fair housing)",
+      "what_for": "Housing discrimination under the Fair Housing Act (refusal to rent or sell, discriminatory terms, harassment, design-and-construction violations).",
+      "how_to_contact": "File a complaint with HUD's Office of Fair Housing and Equal Opportunity (online, by phone, mail, or with a substantially-equivalent state/local agency). HUD has mandatory, dated duties to acknowledge and commence proceedings after a complaint is filed.",
+      "deadline": "File the administrative complaint within one year of the discriminatory act. A private federal lawsuit may be filed within two years of the act, independent of the HUD complaint; time an administrative proceeding is pending generally tolls that two-year clock.",
+      "then_court": "U.S. District Court under 42 U.S.C. § 3613 (within two years), or administrative adjudication through HUD.",
+      "authority": "42 U.S.C. § 3610 (administrative complaint; mandatory acknowledgment duties at § 3610(a)(1)(B)); 42 U.S.C. § 3613 (private suit)"
+    },
+    {
+      "agency": "DOJ Civil Rights Division — Immigrant and Employee Rights Section (IER)",
+      "what_for": "Unfair immigration-related employment practices: citizenship-status or national-origin discrimination in hiring/firing, unfair documentary practices during I-9/E-Verify, and retaliation.",
+      "how_to_contact": "File a charge with IER (online form, email, or mail to the Special Counsel).",
+      "deadline": "180 days from the unfair immigration-related employment practice. If IER has not filed a complaint with an ALJ within 120 days of receiving the charge, it notifies you of your right to file your own complaint before an ALJ.",
+      "then_court": "Administrative adjudication before a DOJ ALJ; appellate review in the U.S. Courts of Appeals.",
+      "authority": "8 U.S.C. § 1324b (charge-filing period at § 1324b(d)(3))"
+    },
+    {
+      "agency": "FOIA / Privacy Act requests and appeals (record-building)",
+      "what_for": "Obtaining the government's own records about a matter or about yourself — the raw material for standing and the merits. Not a damages remedy by itself (though the Privacy Act has its own damages provision).",
+      "how_to_contact": "Send a written FOIA request (5 U.S.C. § 552) and/or Privacy Act request (5 U.S.C. § 552a) to each agency component that holds records; if the response is inadequate, file an administrative appeal, then sue.",
+      "deadline": "Agencies must generally determine a FOIA request within 20 business days (30 in unusual circumstances) and must give at least 90 days to file an administrative appeal of an adverse determination; appeals are due within 20 business days. FOIA allows 'constructive exhaustion' when the agency blows its deadline; the Privacy Act does not.",
+      "then_court": "U.S. District Court after exhausting the administrative appeal (FOIA) or after the required steps (Privacy Act). The Privacy Act also authorizes damages for certain violations at 5 U.S.C. § 552a(g)(4).",
+      "authority": "5 U.S.C. § 552 (FOIA); 5 U.S.C. § 552a (Privacy Act)"
+    },
+    {
+      "agency": "Agency Inspector General and Ombudsman offices",
+      "what_for": "Reporting waste, fraud, abuse, or misconduct, and getting a neutral office to look at how an agency handled you. Excellent for building a dated record and actual-knowledge evidence.",
+      "how_to_contact": "Submit a complaint to the relevant agency's Office of Inspector General (OIG) hotline or the agency ombudsman.",
+      "deadline": "No general statutory filing deadline; an IG or ombudsman complaint is usually not itself a prerequisite to suit.",
+      "then_court": "Not a direct route to court; use the output as evidence and pair it with the correct statutory remedy for any lawsuit.",
+      "authority": "Inspector General Act of 1978, as amended (5 U.S.C. app. / recodified at 5 U.S.C. §§ 401 et seq.)"
+    },
+    {
+      "agency": "DEA — religious/RFRA exemption from the Controlled Substances Act",
+      "what_for": "A religious organization seeking an exemption to use an otherwise-controlled substance as a bona fide sacrament, on the theory that enforcing the CSA substantially burdens a sincere religious exercise.",
+      "how_to_contact": "Petition the DEA in writing under its published RFRA guidance: submit to the Assistant Administrator, Diversion Control Division, DEA, 8701 Morrissette Drive, Springfield, VA 22152 (per DEA's guidance, submissions may also be emailed to the Office of Diversion Control's designated address). The petition must show the CSA substantially burdens a sincere religious exercise, and typically documents the religion's beliefs, rituals, membership and initiation structure, ethical rules, and the sacramental role of the substance. Exemption from a specific regulation may also be sought under the general exception procedure at 21 C.F.R. § 1307.03.",
+      "deadline": "No fixed statutory filing window; this is a petition process, and applicants report long delays and few (if any) publicly documented grants.",
+      "then_court": "If DEA denies or fails to act, the petitioner may seek judicial review, or bring an affirmative RFRA claim in court; the leading authority holding that the government must justify denying a religious exemption under strict scrutiny is Gonzales v. O Centro Espirita Beneficente Uniao do Vegetal, 546 U.S. 418 (2006).",
+      "authority": "Religious Freedom Restoration Act, 42 U.S.C. §§ 2000bb et seq.; 21 C.F.R. § 1307.03; Gonzales v. O Centro Espirita, 546 U.S. 418 (2006); DEA 'Guidance Regarding Petitions for Religious Exemption from the Controlled Substances Act Pursuant to RFRA' (2020)"
+    },
+    {
+      "agency": "Any agency — APA final agency action → judicial review",
+      "what_for": "Challenging a final agency decision or a legally-required action the agency unlawfully withheld, where no other adequate remedy in a court exists.",
+      "how_to_contact": "Complete the agency's own process to obtain a final, written decision; where the statute or regulation requires an administrative appeal, take it.",
+      "deadline": "The APA has no single limitations period; the default catch-all for civil actions against the United States is six years (28 U.S.C. § 2401(a)) unless a more specific statute controls. Review generally requires 'final agency action.'",
+      "then_court": "U.S. District Court, which may hold unlawful and set aside agency action that is arbitrary, capricious, an abuse of discretion, or otherwise not in accordance with law.",
+      "authority": "5 U.S.C. § 704 (final agency action; no other adequate remedy); 5 U.S.C. § 706 (scope of review)"
+    }
+  ],
+  "record_building_tips": [
+    "Put every grievance in writing, and ask, in writing, for a decision — ideally a decision on a specific request by a specific date.",
+    "For any money claim against the federal government, state a sum certain (a specific dollar figure); without it, an SF-95 or letter is notice, not a presented FTCA claim.",
+    "Send anything deadline-sensitive by certified mail, return receipt requested, and keep the green card or e-delivery proof; the receipt date often starts or proves a clock.",
+    "Treat a letter, email, FOIA request, or Inspector General complaint as NOTICE (great for actual-knowledge and dates) but never assume it satisfies a statute's presentment requirements unless it meets them exactly.",
+    "Identify the correct agency (and sub-component) for each claim; the same facts can require separate submissions to different agencies under different statutes.",
+    "Track each deadline on its own calendar from its own trigger; a jurisdictional deadline missed is usually gone for good and cannot be excused.",
+    "Push each matter to a FINAL, written decision (a denial, a right-to-sue letter, an Appeals Council ruling) so you have final agency action a court can review.",
+    "Distinguish notice from presentment, and distinguish the administrative claim from the lawsuit — one is a precondition of the other, not a substitute for it.",
+    "Keep organized copies of everything sent and received, with dates; the administrative file becomes your evidence of both standing and exhaustion.",
+    "When a deadline or exhaustion rule is unclear, assume it is jurisdictional and strict, and confirm the exact statute or regulation before relying on any timing assumption."
+  ],
+  "not_legal_advice": "This is legal information for public education, not legal advice about any particular situation. Deadlines and exhaustion rules vary by statute, agency, and jurisdiction, and many are jurisdictional and strictly enforced. Statutes, regulations, and case law change. Confirm the specific statute, regulation, and current deadline that governs your matter, and consider consulting a licensed attorney, before relying on anything here."
+}
