@@ -67,9 +67,19 @@ export const CATEGORIES = [
   {
     id: 'law', name: 'Law and your rights', blurb: 'The public legal record and the plain-English guides to how U.S. law actually works — facts, not verdicts.',
     pages: ['SoapBox Law', 'Privacy Law', 'Rights That Hold Up in Court', 'Foundational Law', 'Treaties',
-            'Legal Maxims', 'Congress.ink', 'Benefit Societies', 'Appeals and Writs'],
+            'Legal Maxims', 'Congress.ink', 'Benefit Societies', 'Appeals and Writs',
+            'Legal Lexicon', 'Sources of Legal Authority', 'World Law', 'The Spirit of the Laws',
+            'Free Speech and Sedition'],
     keywords: [/\blaw\b/i, /\brights\b/i, /constitution/i, /treat(y|ies)/i, /maxim/i, /privacy/i,
-               /benefit societ/i, /mutual aid/i, /fraternal/i, /\bappeals?\b/i, /\bwrits?\b/i],
+               /benefit societ/i, /mutual aid/i, /fraternal/i, /\bappeals?\b/i, /\bwrits?\b/i,
+               /lexicon/i, /world[ -]?law/i, /spirit of the laws/i, /montesquieu/i,
+               /free[ -]?speech/i, /first amendment/i, /sedition/i, /incitement/i, /brandenburg/i],
+  },
+  {
+    id: 'philosophy', name: 'Political philosophy and movements', blurb: 'The history of political ideas and the movements that carried them — described neutrally, each in its own terms and with its criticisms.',
+    pages: ['SoapBox Philosophy', 'The Ideological Spectrum', 'Self-Determination', 'The Black Panther Party',
+            'Punk and Skinhead Subcultures', 'Political Maxims'],
+    keywords: [/ideolog/i, /liberalism/i, /conservatism/i, /socialism/i, /anarchism/i, /libertarian/i, /self.determination/i],
   },
   {
     id: 'verticals', name: 'The SoapBox verticals', blurb: 'The public-interest sites, one per domain.',

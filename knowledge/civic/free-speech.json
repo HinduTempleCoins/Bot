@@ -1,0 +1,307 @@
+{
+  "meta": {
+    "title": "Free Speech & Sedition",
+    "summary": "A legal-education surface on the First Amendment and the law of sedition: the incitement test, protected vs. unprotected speech, seditious conspiracy, and how surveillance chills lawful speech. Facts and cited authority only — descriptive, not advocacy.",
+    "updated": "2026-09-22",
+    "disclaimer": "Educational legal information, not legal advice. Every case, statute and year below is stated as a matter of public record from the reporters and the U.S. Code, with a source link — never as our verdict on whether a decision is correct or currently good law. Contested political questions are stated in two voices, not adjudicated. For advice about your own situation, consult a licensed attorney.",
+    "twoVoiceNote": "On genuinely contested political matters (when advocacy becomes conspiracy, how far surveillance may reach, whether older speech-restrictive doctrine was rightly decided) this surface states the competing positions and the controlling law, and does not tell you which side is right. That two-voice discipline is itself a free-speech-aware editorial stance."
+  },
+
+  "incitement": {
+    "id": "incitement",
+    "heading": "From \"clear and present danger\" to \"imminent lawless action\"",
+    "intro": "The hardest First Amendment question is when the government may punish speech that urges illegal conduct. The answer changed drastically across the 20th century, moving from a wartime standard that allowed broad suppression to today's test, which protects even the advocacy of law-breaking and violence in the abstract. The governing rule is the one announced in Brandenburg v. Ohio (1969).",
+    "governingTest": {
+      "name": "The Brandenburg test (imminent lawless action)",
+      "case": "Brandenburg v. Ohio, 395 U.S. 444 (1969)",
+      "plain": "Advocacy — even advocacy of force or of breaking the law — is protected UNLESS the speech is (1) directed to inciting or producing imminent lawless action AND (2) likely to incite or produce such action. Both prongs must be met: intent to trigger imminent lawlessness, and a real likelihood it will happen imminently. Abstract advocacy, teaching the moral necessity of violence, or calling for lawless action at some indefinite future time is protected.",
+      "quote": "\"[T]he constitutional guarantees of free speech and free press do not permit a State to forbid or proscribe advocacy of the use of force or of law violation except where such advocacy is directed to inciting or producing imminent lawless action and is likely to incite or produce such action.\"",
+      "prongs": [
+        "Directed to inciting or producing IMMINENT lawless action (intent + imminence).",
+        "LIKELY to incite or produce such action (a real, not speculative, likelihood)."
+      ],
+      "commonMistake": "\"Incitement\" in law is far narrower than in ordinary speech. Offensive, hateful, revolutionary, or even violence-glorifying speech is generally protected; only speech aimed at and likely to cause imminent lawbreaking loses protection. This is the exact line revolutionary and sovereign-citizen rhetoric gets wrong."
+    },
+    "cases": [
+      {
+        "name": "Schenck v. United States",
+        "citation": "249 U.S. 47 (1919)",
+        "year": 1919,
+        "court": "U.S. Supreme Court",
+        "holding": "Upheld the Espionage Act of 1917 conviction of Charles Schenck for mailing leaflets urging resistance to the WWI draft. Justice Holmes announced the original \"clear and present danger\" test: speech may be punished when the words are used in circumstances that create a clear and present danger of bringing about substantive evils Congress may prevent. The opinion also gave us the (dictum) \"falsely shouting fire in a theatre\" line.",
+        "note": "Historically important but effectively superseded: the permissive \"clear and present danger\"/\"bad tendency\" approach was replaced by Brandenburg (1969).",
+        "source": "https://supreme.justia.com/cases/federal/us/249/47/"
+      },
+      {
+        "name": "Abrams v. United States",
+        "citation": "250 U.S. 616 (1919)",
+        "year": 1919,
+        "court": "U.S. Supreme Court",
+        "holding": "Affirmed Sedition Act of 1918 convictions for anti-war leaflets. It is remembered chiefly for Justice Holmes's dissent, which sharpened his own Schenck standard toward stronger protection and introduced the \"marketplace of ideas\" — that the best test of truth is the power of a thought to get itself accepted in the competition of the market.",
+        "note": "The Holmes/Brandeis dissents here seeded the modern speech-protective tradition.",
+        "source": "https://supreme.justia.com/cases/federal/us/250/616/"
+      },
+      {
+        "name": "Dennis v. United States",
+        "citation": "341 U.S. 494 (1951)",
+        "year": 1951,
+        "court": "U.S. Supreme Court",
+        "holding": "Upheld Smith Act (1940) convictions of eleven leaders of the Communist Party USA for conspiring to advocate the overthrow of the U.S. government. The Court applied a diluted \"gravity of the evil, discounted by its improbability\" version of clear-and-present-danger, allowing punishment of advocacy far short of imminent action — a Cold War high-water mark for speech suppression.",
+        "note": "A Smith Act prosecution of communists; its broad approach was narrowed six years later in Yates.",
+        "source": "https://supreme.justia.com/cases/federal/us/341/494/"
+      },
+      {
+        "name": "Yates v. United States",
+        "citation": "354 U.S. 298 (1957)",
+        "year": 1957,
+        "court": "U.S. Supreme Court",
+        "holding": "Reversed Smith Act convictions of lower-level Communist Party members. The Court drew the line between the \"advocacy of abstract doctrine\" (the mere teaching of the propriety of overthrow, which is protected) and \"advocacy directed at promoting unlawful action.\" After Yates, Smith Act membership prosecutions effectively ceased.",
+        "note": "The bridge from Dennis toward Brandenburg: abstract advocacy is protected; only advocacy aimed at action is not.",
+        "source": "https://firstamendment.mtsu.edu/article/yates-v-united-states/"
+      },
+      {
+        "name": "Brandenburg v. Ohio",
+        "citation": "395 U.S. 444 (1969)",
+        "year": 1969,
+        "court": "U.S. Supreme Court",
+        "holding": "Per curiam, unanimously reversed the Ohio criminal-syndicalism conviction of a Ku Klux Klan leader for a speech at a rally. It announced the governing incitement test: advocacy of force or law violation may be punished only where it is directed to inciting or producing IMMINENT lawless action AND is likely to do so. This overruled Whitney v. California (1927) and displaced the older clear-and-present-danger and bad-tendency standards.",
+        "note": "THE governing rule for incitement today. Get both prongs right: directed-at + likely-to-produce + imminent.",
+        "source": "https://supreme.justia.com/cases/federal/us/395/444/"
+      }
+    ]
+  },
+
+  "categories": {
+    "id": "categories",
+    "heading": "Protected vs. unprotected speech — the narrow exceptions",
+    "intro": "The default is that speech is protected. The Supreme Court has recognized only a few narrow, well-defined categories that fall outside First Amendment protection. Everything else — including offensive, hateful, false-but-not-defamatory, and unpopular speech — is presumptively protected. The categories below are the exceptions, each with the case that defines it.",
+    "items": [
+      {
+        "id": "incitement",
+        "label": "Incitement to imminent lawless action",
+        "protected": false,
+        "test": "Brandenburg test",
+        "case": "Brandenburg v. Ohio, 395 U.S. 444 (1969)",
+        "explain": "Speech directed to inciting AND likely to incite imminent lawless action is unprotected. Abstract advocacy of illegality or violence is protected.",
+        "source": "https://supreme.justia.com/cases/federal/us/395/444/"
+      },
+      {
+        "id": "true-threats",
+        "label": "True threats",
+        "protected": false,
+        "test": "Recklessness (subjective awareness)",
+        "case": "Counterman v. Colorado, 600 U.S. 66 (2023)",
+        "explain": "A \"true threat\" — a serious expression of an intent to commit unlawful violence — is unprotected. Counterman (2023, 7-2, Kagan, J.) held the First Amendment requires proof the speaker had a subjective mental state of at least RECKLESSNESS: that he consciously disregarded a substantial risk his words would be viewed as threatening violence. This raised the bar from a purely objective \"reasonable person\" standard.",
+        "source": "https://www.supremecourt.gov/opinions/22pdf/22-138_43j7.pdf"
+      },
+      {
+        "id": "fighting-words",
+        "label": "Fighting words",
+        "protected": false,
+        "test": "Chaplinsky doctrine",
+        "case": "Chaplinsky v. New Hampshire, 315 U.S. 568 (1942)",
+        "explain": "Words \"which by their very utterance inflict injury or tend to incite an immediate breach of the peace,\" said face-to-face to a specific person, are unprotected. The doctrine has been narrowed almost to a vanishing point by later cases — it does not reach offensive speech generally, only a direct, personal, provocation likely to cause an immediate fight.",
+        "source": "https://firstamendment.mtsu.edu/article/chaplinsky-v-new-hampshire/"
+      },
+      {
+        "id": "obscenity",
+        "label": "Obscenity",
+        "protected": false,
+        "test": "The Miller test",
+        "case": "Miller v. California, 413 U.S. 15 (1973)",
+        "explain": "Obscenity is unprotected, but the definition is narrow (the Miller test): (1) whether the average person, applying contemporary community standards, would find the work as a whole appeals to the prurient interest; (2) whether it depicts sexual conduct, defined by applicable state law, in a patently offensive way; and (3) whether the work, taken as a whole, lacks serious literary, artistic, political, or scientific value. Sexually explicit material that is not \"obscene\" under all three prongs remains protected.",
+        "source": "https://supreme.justia.com/cases/federal/us/413/15/"
+      },
+      {
+        "id": "defamation",
+        "label": "Defamation",
+        "protected": false,
+        "test": "\"Actual malice\" for public officials/figures",
+        "case": "New York Times Co. v. Sullivan, 376 U.S. 254 (1964)",
+        "explain": "False statements of fact that damage reputation can be actionable. But to protect \"uninhibited, robust, and wide-open\" debate, a public official (later extended to public figures) suing over speech about official conduct must prove \"actual malice\" — that the statement was made with knowledge it was false or with reckless disregard for whether it was false. This is why sharp political criticism rarely supports a winnable libel suit.",
+        "source": "https://supreme.justia.com/cases/federal/us/376/254/"
+      }
+    ],
+    "protectedNote": "Categories NOT on this list — and therefore generally protected — include: hateful, bigoted, and offensive speech; blasphemy and sacrilege; flag desecration (Texas v. Johnson); most false statements that are not defamatory or fraudulent (United States v. Alvarez, 567 U.S. 709 (2012)); and abstract advocacy of revolution, illegality, or violence. Being offended by speech is not a constitutional basis for banning it."
+  },
+
+  "symbolic": {
+    "id": "symbolic",
+    "heading": "Symbolic speech and speech we hate",
+    "intro": "The First Amendment protects expressive conduct, not just words — and it protects speech precisely when it is most offensive to the majority, because that is when protection matters. Two cases anchor this.",
+    "cases": [
+      {
+        "name": "Texas v. Johnson",
+        "citation": "491 U.S. 397 (1989)",
+        "year": 1989,
+        "court": "U.S. Supreme Court",
+        "holding": "5-4, held that burning the American flag as political protest is expressive conduct protected by the First Amendment, striking down a Texas flag-desecration law. \"If there is a bedrock principle underlying the First Amendment, it is that the government may not prohibit the expression of an idea simply because society finds the idea itself offensive or disagreeable.\" The ruling invalidated flag-desecration laws then on the books in 48 states.",
+        "note": "Symbolic/expressive conduct; the government cannot ban a message because it is offensive.",
+        "source": "https://supreme.justia.com/cases/federal/us/491/397/"
+      },
+      {
+        "name": "Snyder v. Phelps",
+        "citation": "562 U.S. 443 (2011)",
+        "year": 2011,
+        "court": "U.S. Supreme Court",
+        "holding": "8-1, held that the Westboro Baptist Church's picketing near a fallen Marine's funeral — with deliberately hurtful signs on matters the Court deemed of public concern — was protected speech, shielding the picketers from a tort judgment for intentional infliction of emotional distress. \"Speech is powerful. It can stir people to action... And... it can inflict great pain. On the facts before us, we cannot react to that pain by punishing the speaker.\"",
+        "note": "Even deeply hurtful speech on public issues, lawfully conducted, is protected.",
+        "source": "https://supreme.justia.com/cases/federal/us/562/443/"
+      }
+    ]
+  },
+
+  "sedition": {
+    "id": "sedition",
+    "heading": "Sedition & seditious conspiracy",
+    "intro": "\"Sedition\" is conduct or speech inciting rebellion against the authority of the state. The United States has a long, cautionary history of sedition laws used to punish dissent — and a modern statute, seditious conspiracy, that punishes an agreement to use FORCE against the government. The crucial line for a citizen to understand is the one between protected advocacy/dissent (even radical, even revolutionary in the abstract) and a criminal conspiracy to use force. Advocacy is speech; conspiracy is an agreement to act. This is the exact distinction sovereign-citizen and revolutionary rhetoric collapses.",
+    "line": {
+      "heading": "Protected dissent vs. criminal conspiracy — the line the law actually draws",
+      "protected": "Criticizing, even hating, the government; calling for revolution or the overthrow of the system in the abstract; teaching that violence may one day be morally justified; organizing, protesting, publishing, and associating. Under Brandenburg and Yates this is protected unless it crosses into inciting imminent lawless action.",
+      "criminal": "AGREEING with others to use FORCE to overthrow the government, levy war against it, oppose its authority by force, or by force to prevent the execution of its laws (18 U.S.C. § 2384). The crime is the agreement to use force, plus (as charged) overt acts toward it — not the opinion, however extreme.",
+      "crossref": "See the sovereign-citizen / pseudolaw teaching on the Law surface (/rights) for how movements misread this line — treating a legal theory or a declaration as a shield, or treating protected advocacy as if it were already a crime."
+    },
+    "statutes": [
+      {
+        "name": "Alien and Sedition Acts",
+        "year": 1798,
+        "cite": "1 Stat. 570 et seq. (1798)",
+        "what": "Four Federalist-era laws signed by President John Adams. The Sedition Act made it a crime to publish \"false, scandalous, and malicious writing\" against the government or its officials. Used to prosecute Jeffersonian newspaper editors and even a congressman; it expired in 1801 and is universally remembered as a violation of the free-press principle, never tested by the modern Supreme Court but repudiated in the \"court of history\" (as New York Times v. Sullivan later put it).",
+        "status": "Sedition Act expired 1801; Alien Enemies Act portion survives (50 U.S.C. § 21).",
+        "source": "https://guides.loc.gov/alien-and-sedition-acts"
+      },
+      {
+        "name": "Espionage Act of 1917",
+        "year": 1917,
+        "cite": "ch. 30, 40 Stat. 217; now codified at 18 U.S.C. §§ 792–799",
+        "what": "A WWI statute criminalizing interference with military operations, recruitment, and the draft, and the transmission of national-defense information. It was the vehicle for Schenck, Debs, and Abrams. Much of it remains in force today and is the modern basis for leak/espionage prosecutions.",
+        "status": "In force (much of it), codified in Title 18, ch. 37.",
+        "source": "https://firstamendment.mtsu.edu/article/espionage-act-of-1917/"
+      },
+      {
+        "name": "Sedition Act of 1918",
+        "year": 1918,
+        "cite": "ch. 75, 40 Stat. 553 (1918)",
+        "what": "An amendment to the Espionage Act that vastly expanded it — making it a crime to utter or publish \"disloyal, profane, scurrilous, or abusive language\" about the U.S. government, flag, or armed forces. It was the high-water mark of American speech suppression. Repealed on December 13, 1920; the underlying Espionage Act was left intact.",
+        "status": "Repealed 1920.",
+        "source": "https://firstamendment.mtsu.edu/article/sedition-act-of-1918/"
+      },
+      {
+        "name": "Smith Act (Alien Registration Act of 1940)",
+        "year": 1940,
+        "cite": "ch. 439, 54 Stat. 670; now 18 U.S.C. § 2385",
+        "what": "The first peacetime federal sedition law since 1798. Title I made it a crime to knowingly advocate, or organize a group that advocates, the overthrow of any U.S. government by force or violence, or to publish material so advocating. About 215 people were indicted, mostly alleged Communists and Socialists. Its scope was upheld in Dennis (1951) and then sharply narrowed in Yates (1957); it is still on the books but effectively dormant.",
+        "status": "In force (18 U.S.C. § 2385) but narrowed by Yates/Brandenburg; not used in decades.",
+        "source": "https://en.wikipedia.org/wiki/Smith_Act"
+      },
+      {
+        "name": "Seditious conspiracy",
+        "year": 1861,
+        "cite": "18 U.S.C. § 2384",
+        "what": "The modern seditious-conspiracy statute (roots in an 1861 Civil War-era law). It punishes two or more persons who conspire to \"overthrow, put down, or to destroy by force\" the U.S. government, \"to levy war against them,\" \"to oppose by force the authority thereof,\" or by force to prevent, hinder, or delay the execution of any U.S. law. The penalty was raised to \"imprisoned not more than twenty years\" (from six) by a 1956 amendment. The crime is the agreement to use FORCE — not the holding or voicing of any opinion.",
+        "status": "In force; carries up to 20 years.",
+        "quote": "\"If two or more persons ... conspire to overthrow, put down, or to destroy by force the Government of the United States ... or to oppose by force the authority thereof, or by force to prevent, hinder, or delay the execution of any law of the United States ... they shall each be fined under this title or imprisoned not more than twenty years, or both.\"",
+        "source": "https://www.law.cornell.edu/uscode/text/18/2384"
+      }
+    ],
+    "seditiousConspiracy": {
+      "heading": "Seditious conspiracy today: the January 6 prosecutions",
+      "intro": "Seditious conspiracy under 18 U.S.C. § 2384 is rarely charged. Before 2022 the last conviction was in 1995 (against Sheikh Omar Abdel-Rahman and others in the plot to bomb New York City landmarks). The January 6, 2021 Capitol attack produced the most prominent modern use of the statute, and it illustrates the advocacy-vs-force line precisely: defendants were convicted not for their political beliefs or speech, but for an agreement to use force to oppose the authority of the government and prevent the execution of the law (the certification of the electoral count).",
+      "cases": [
+        {
+          "group": "Oath Keepers",
+          "detail": "Founder Stewart Rhodes and Kelly Meggs were convicted of seditious conspiracy (18 U.S.C. § 2384) in November 2022 for their roles in the January 6 Capitol attack — the first § 2384 conviction since 1995. In May 2023, Rhodes was sentenced to 18 years in prison and Meggs to 12 years.",
+          "source": "https://www.pbs.org/newshour/politics/oath-keepers-founder-sentenced-to-18-years-for-seditious-conspiracy-in-jan-6-capitol-attack"
+        },
+        {
+          "group": "Proud Boys",
+          "detail": "In May 2023 a federal jury convicted former Proud Boys chairman Enrique Tarrio and three co-defendants of seditious conspiracy for a plot to oppose by force the transfer of presidential power. In September 2023, Tarrio was sentenced to 22 years — the longest sentence handed down for a January 6-related offense (Judge Timothy Kelly, D.D.C.).",
+          "source": "https://www.npr.org/2023/05/04/1172530436/proud-boys-jan-6-sedition-trial-verdict"
+        }
+      ],
+      "teaching": "The lesson is the line, not the politics: none of these convictions turned on holding a political opinion, criticizing the government, or even calling for revolution. They turned on an alleged agreement to use FORCE to prevent the government from executing the law. A protester, a pamphleteer, a revolutionary theorist, and an angry citizen are on the protected side of that line; people who agree to storm a building by force to stop a legal process are on the criminal side of it."
+    }
+  },
+
+  "surveillance": {
+    "id": "surveillance",
+    "heading": "Surveillance & chilling effects",
+    "intro": "Free speech can be suppressed without a single prosecution. When people know — or fear — that the state is watching who they associate with, what they read, and what they say, they self-censor. Courts call this the \"chilling effect,\" and it is a First Amendment harm in its own right. The American record here is documented and legal, not conspiratorial: an FBI counterintelligence program that targeted lawful dissent, a secret-court surveillance regime, and a whistleblower disclosure that revealed bulk collection of Americans' communications metadata.",
+    "chillingDoctrine": {
+      "heading": "The \"chilling effect\" as a legal concept",
+      "text": "The Supreme Court has recognized that government action which deters or \"chills\" the exercise of First Amendment rights can be unconstitutional even without a direct ban. Compelled disclosure of an organization's membership list was struck down in NAACP v. Alabama, 357 U.S. 449 (1958) because exposure would chill freedom of association. The problem with mass surveillance is that its very existence, and its secrecy, can chill the association, reading, journalism, and dissent the First Amendment exists to protect.",
+      "source": "https://supreme.justia.com/cases/federal/us/357/449/"
+    },
+    "items": [
+      {
+        "id": "cointelpro",
+        "label": "COINTELPRO",
+        "period": "1956–1971",
+        "what": "A covert FBI \"counterintelligence program\" that surveilled, infiltrated, discredited, and disrupted domestic political groups — civil-rights organizations (including Dr. Martin Luther King Jr.), Black activist groups, the anti-war movement, and others. It was exposed in 1971 when activists burglarized an FBI field office and leaked documents, and was investigated by the Senate's Church Committee (1975–76).",
+        "legalLegacy": "The Church Committee's findings that intelligence agencies had systematically violated Americans' rights led directly to reforms — the establishment of congressional intelligence-oversight committees and the enactment of the Foreign Intelligence Surveillance Act (FISA) in 1978 to put foreign-intelligence surveillance under (secret) judicial supervision.",
+        "freeSpeechPoint": "COINTELPRO is the canonical American example of the state using surveillance to punish and chill LAWFUL political speech and association — most of its targets committed no crime. It is why \"they can't prosecute you for it\" is not the whole free-speech story.",
+        "source": "https://www.senate.gov/about/powers-procedures/investigations/church-committee.htm"
+      },
+      {
+        "id": "fisa",
+        "label": "FISA & the FISA Court",
+        "period": "1978–present",
+        "what": "The Foreign Intelligence Surveillance Act created a special, secret court (the FISC) to approve foreign-intelligence surveillance. Post-9/11 amendments — notably Section 702 (FISA Amendments Act of 2008) — authorized broad programmatic collection targeting non-U.S. persons abroad, sweeping in Americans' communications \"incidentally.\" The one-sided, classified nature of FISC proceedings has drawn sustained criticism about oversight.",
+        "legalLegacy": "FISA is the legal architecture through which much modern surveillance is authorized and contested; § 702 reauthorization is a recurring, live policy fight in Congress over the balance between security and the Fourth/First Amendments.",
+        "freeSpeechPoint": "A secret court whose approvals the public cannot see makes the chilling effect harder to measure and harder to challenge — you often cannot prove you were surveilled, which itself has been used to defeat standing to sue.",
+        "source": "https://www.law.cornell.edu/uscode/text/50/chapter-36"
+      },
+      {
+        "id": "snowden-nsa",
+        "label": "Snowden / NSA bulk collection",
+        "period": "2013",
+        "what": "In 2013 former NSA contractor Edward Snowden disclosed classified documents revealing, among other programs, the bulk collection of Americans' telephone metadata under a broad reading of Section 215 of the USA PATRIOT Act, and the PRISM program collecting internet communications from major providers.",
+        "legalLegacy": "In ACLU v. Clapper, 785 F.3d 787 (2d Cir. 2015), the Second Circuit held the bulk telephone-metadata program was not authorized by Section 215. Congress then passed the USA FREEDOM Act (2015), ending the government's bulk collection and leaving the records with the carriers, queryable only on a specific showing.",
+        "freeSpeechPoint": "The disclosures made the chilling effect concrete: research afterward documented drops in traffic to sensitive Wikipedia articles and self-censorship among writers and journalists once mass surveillance was known — measurable chill from surveillance alone.",
+        "source": "https://en.wikipedia.org/wiki/ACLU_v._Clapper"
+      },
+      {
+        "id": "panopticon",
+        "label": "The panopticon frame",
+        "period": "concept",
+        "what": "Jeremy Bentham's \"panopticon\" was a prison design in which a single unseen watcher could observe any inmate at any time, so that inmates, never knowing when they were watched, behaved as if always watched. Michel Foucault (Discipline and Punish, 1975) generalized it: modern power works not by punishing after the fact but by making surveillance so pervasive and internalized that people discipline themselves.",
+        "legalLegacy": "The frame is analytic, not legal — but it names precisely the mechanism the \"chilling effect\" doctrine addresses: control achieved through the possibility of being watched, without any actual enforcement. It is the theory behind why secrecy plus surveillance is a speech harm even absent prosecution.",
+        "freeSpeechPoint": "A censorship-resistant system that removes the central watcher directly attacks the panopticon mechanism — but it inherits the mirror-image problem of what to do about genuinely unlawful content once no one can be forced to take it down.",
+        "source": "https://plato.stanford.edu/entries/foucault/"
+      }
+    ]
+  },
+
+  "knowYourRights": {
+    "id": "know-your-rights",
+    "heading": "Know your rights: protest, dissent, and the line the law draws",
+    "intro": "This is educational information, not legal advice, and rights at a protest depend heavily on where you are (public forum vs. private property), the time/place/manner rules in force, and the facts. What follows is the general doctrinal picture.",
+    "points": [
+      {
+        "t": "You have the right to protest in traditional public forums",
+        "d": "Streets, sidewalks, and parks are \"traditional public forums\" where speech gets the strongest protection. The government may impose reasonable, content-neutral time, place, and manner restrictions (e.g., permit requirements for large marches, noise limits) but may not restrict speech because of its message. Content-based restrictions face strict scrutiny."
+      },
+      {
+        "t": "Offensive and unpopular messages are protected",
+        "d": "The government cannot ban your sign, chant, or symbol because it is offensive, hateful, unpatriotic, or disagreeable (Texas v. Johnson; Snyder v. Phelps). Hostility from onlookers (a \"heckler's veto\") is generally not a lawful reason to shut down a peaceful speaker."
+      },
+      {
+        "t": "Advocacy is protected; imminent incitement and true threats are not",
+        "d": "You may call for radical change, denounce the government, and even argue that violence may sometime be justified. You cross the line only if your speech is directed to and likely to produce IMMINENT lawless action (Brandenburg), or is a true threat you make with at least reckless disregard that it will be taken as a threat of violence (Counterman)."
+      },
+      {
+        "t": "You can generally record police in public",
+        "d": "Most federal appellate courts to reach the question have held there is a First Amendment right to record police performing their duties in public, subject to reasonable time/place/manner limits. This is circuit-dependent and still developing — it is not uniform nationwide."
+      },
+      {
+        "t": "Association and anonymity are protected too",
+        "d": "The freedom to associate and, in many contexts, to speak anonymously is protected (NAACP v. Alabama). Compelled disclosure of who you organize with can itself be an unconstitutional chilling of association."
+      },
+      {
+        "t": "Protected speech is not immunity from all law",
+        "d": "The First Amendment protects your speech; it does not license trespass, violence, blocking traffic without a permit, or destruction of property. \"I have free speech\" is not a defense to an independent crime committed while speaking. That is the same category error the sedition and sovereign-citizen material warns about."
+      }
+    ],
+    "disclaimer": "General information only. If you are detained, arrested, or planning an action, consult a lawyer or a legal-observer organization; rules vary by jurisdiction and change."
+  }
+}
