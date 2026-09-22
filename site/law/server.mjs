@@ -54,6 +54,7 @@ import { judgeLinks, companyLinks, categoryLinks } from '../../integrations/cros
 import { ingestCase } from '../../integrations/legal-knowledge-graph.mjs';
 import * as privacy from '../../integrations/soapbox/privacy-law-map.mjs';
 import * as appeals from '../../integrations/soapbox/appeals-engine.mjs';
+import * as sol from '../../integrations/soapbox/spirit-of-the-laws.mjs';
 import { adSlot, headTags as adHeadTags, slotStyles as adSlotStyles } from '../../integrations/soapbox/ad-slot.mjs';
 
 const PORT = +(process.env.PORT || 8099);
@@ -247,7 +248,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 ${seoHead}${STYLE}${LAW_ADS ? `<style>${adSlotStyles()}</style>` : ''}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript>${adHeadTags(ADS)}</head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
-  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/appeals">Appeals &amp; writs</a><a href="/rights">Your rights</a><a href="/doctrines">Doctrines</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
+  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/appeals">Appeals &amp; writs</a><a href="/rights">Your rights</a><a href="/doctrines">Doctrines</a><a href="/spirit-of-the-laws">Spirit of the Laws</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
 <main class=wrap>${adSlot('law-top', ADS)}${body}${citeHtml}${adSlot('law-bottom', ADS)}</main>
 ${FOOTER}</body></html>`;
 }
@@ -336,6 +337,7 @@ export function lawLlmsTxt() {
       { label: 'Appeals & extraordinary writs (pro-se ladder)', path: '/appeals', note: 'the exhaustion ladder, gated; deadlines, required fields, mandamus/habeas' },
       { label: 'Your rights', path: '/rights' },
       { label: 'Legal doctrines (real + sovereign-citizen pseudolaw, refuted)', path: '/doctrines', note: 'grouped doctrine reference with landmark cases; the Commerce Clause misreading contrasted with the real doctrine' },
+      { label: 'The Spirit of the Laws (Montesquieu; purposive interpretation)', path: '/spirit-of-the-laws', note: 'separation of powers and letter-vs-spirit, with the real cases — verified quotes and cites' },
       { label: 'Maxims, axioms & idioms', path: '/maxims', note: 'each maxim links the case law that applies it' },
       { label: 'Judges', path: '/judges' },
       { label: 'Lawyers', path: '/lawyers' },
@@ -1155,6 +1157,49 @@ export function rightsPage() {
       <b>city</b> court are bound by your Fourth, Fifth, and Eighth Amendment rights at all. It didn't lower your citizenship — it is the
       single biggest expansion of enforceable individual rights in American law. <a href="/constitution#checks">See how the Constitution's layers check each other &rarr;</a></p></div>
 
+  <div class=card><h2>The &ldquo;state national&rdquo; myth — and the real 14th Amendment</h2>
+    <p><b>The myth:</b> that you can declare yourself a &ldquo;state national,&rdquo; a &ldquo;state citizen,&rdquo; or a
+      &ldquo;national but not a citizen,&rdquo; and thereby shed the <i>federal</i> (&ldquo;Fourteenth Amendment&rdquo;) citizenship that
+      supposedly carries taxes, court jurisdiction, and obligations. It is the same two-tier fantasy as the &ldquo;14th Amendment citizen&rdquo;
+      story above, dressed as a status you can elect.</p>
+    <p><b>What's real:</b> there is <b>one</b> national citizenship, and it is not optional or two-tiered. In
+      <a href="/cases?q=${q('169 U.S. 649')}"><i>United States v. Wong Kim Ark</i></a>, 169 U.S. 649 (1898), the Court held that a person
+      born in the United States and subject to its jurisdiction is a citizen of the United States <b>and</b> of the state where he lives —
+      the Fourteenth Amendment's Citizenship Clause states both in the same breath. There is no procedure to become a &ldquo;state national&rdquo;
+      who owes nothing to the federal government, because no such category exists. And, as above, incorporation through the Fourteenth
+      Amendment is what makes state and local officers answer to the Bill of Rights at all — declaring yourself outside it would forfeit
+      protections, not gain immunity.</p></div>
+
+  <div class=card><h2>The territory-and-jurisdiction myths: &ldquo;unincorporated,&rdquo; consular courts, and secession</h2>
+    <p>A whole family of sovereign-citizen claims turns on the idea that <b>jurisdiction is a place you can step outside of</b> — that federal
+      law only reaches federal &ldquo;territory&rdquo; or the District of Columbia, that being in one of the several States (or declaring your
+      land a separate one) puts you beyond it, or that a state can simply leave the Union. Each borrows the vocabulary of a <b>real</b>,
+      still-argued body of law and points it the wrong way.</p>
+    <p><b>&ldquo;Unincorporated territory&rdquo; — the Insular Cases.</b> After the <b>Treaty of Paris (1898)</b> brought in Puerto Rico, Guam,
+      and the Philippines, the Court built the <b>&ldquo;unincorporated territory&rdquo;</b> doctrine: in a territory not on the path to
+      statehood, only the <i>fundamental</i> parts of the Constitution apply automatically. <a href="/cases?q=${q('182 U.S. 244')}"><i>Downes v. Bidwell</i></a>, 182 U.S. 244 (1901), drew that line; <a href="/cases?q=${q('195 U.S. 138')}"><i>Dorr v. United States</i></a>, 195 U.S. 138
+      (1904), applied it to hold the jury-trial guarantee did not extend of its own force to the then-unincorporated Philippines; and
+      <a href="/cases?q=${q('258 U.S. 298')}"><i>Balzac v. Porto Rico</i></a>, 258 U.S. 298 (1922), settled it. Note which way the doctrine
+      actually cuts: it is about <b>territories that are not States getting less</b> — the several States get the whole Constitution and the
+      whole reach of federal law. The theory that living in a State puts you in an &ldquo;unincorporated&rdquo; free zone reads the doctrine
+      backwards. (This is live, criticized law — see <a href="/treaties">the treaties page</a> for the full arc.)</p>
+    <p><b>Consular courts and the law of nations.</b> The reach question ran the other way too — how far American law follows a citizen abroad.
+      In <a href="/cases?q=${q('140 U.S. 453')}"><i>In re Ross</i></a>, 140 U.S. 453 (1891), the Court upheld an American <b>consular court</b>
+      trying a sailor overseas without a jury, on the theory the Constitution stopped at the water's edge. That theory did <b>not</b> survive:
+      <a href="/cases?q=${q('354 U.S. 1')}"><i>Reid v. Covert</i></a>, 354 U.S. 1 (1957), repudiated it, holding the government carries the
+      Constitution with it and a treaty or executive agreement cannot strip a citizen of its protections. The genuine &ldquo;law of nations&rdquo;
+      in early American courts governed things like admiralty, piracy, and the slave trade (<a href="/cases?q=${q('23 U.S. 66')}"><i>The Antelope</i></a>, 23 U.S. 66 (1825); <a href="/cases?q=${q('40 U.S. 518')}"><i>United States v. The Amistad</i></a>, 40 U.S. 518 (1841) —
+      see the admiralty card above) — it was never a personal &ldquo;I am a sovereign under natural/common law&rdquo; opt-out.</p>
+    <p><b>Secession and &ldquo;perpetual union.&rdquo;</b> The furthest version of the claim is that a State — or a person on its soil — can
+      unilaterally leave the United States. The Supreme Court answered that after the Civil War in
+      <a href="/cases?q=${q('74 U.S. 700')}"><i>Texas v. White</i></a>, 74 U.S. 700 (1869): the Constitution &ldquo;in all its provisions,
+      looks to an <b>indestructible Union, composed of indestructible States</b>,&rdquo; and Texas's ordinance of secession was
+      &ldquo;absolutely null.&rdquo; A State cannot secede, and a private person certainly cannot declare a one-man secession. The Union is
+      perpetual as a matter of decided constitutional law.</p>
+    <p class=muted>The honest through-line: the <b>edges</b> of American jurisdiction — over acquired territory, over citizens abroad, over a
+      State that tried to leave — are real, serious questions the courts have worked out case by case. That is the opposite of a secret switch
+      an individual can flip to opt out. Jurisdiction's limits are argued in the U.S. Reports; they are not a loophole you file for.</p></div>
+
   <div class=card><h2>The part they're right about — the 100-mile zone &amp; the checkpoint</h2>
     <p>There really is a zone up to <b>100 miles from any external U.S. border</b> (coastlines included) where the Border Patrol has extra
       authority — the ACLU calls it the &ldquo;Constitution-free zone,&rdquo; and roughly two-thirds of the population lives inside it. Real,
@@ -1212,12 +1257,54 @@ export function rightsPage() {
 // explainer built on DECIDED, published precedent — where stating a final holding IS the public record
 // (distinct from the /cases pending-lister rule). Landmark rows resolve live through /cases?q=<citation>.
 // Neutral "the Court held…" register; no "good law" verdict; corrections route to the source of record.
+// Constitution corpus (verbatim Bill of Rights + later amendments + landmark cases). Public-domain text
+// from the National Archives transcript; soft-fails to empty arrays so the page never breaks. See
+// knowledge/legal/constitution.json.
+const CONSTITUTION_PATH = fileURLToPath(new URL('../../knowledge/legal/constitution.json', import.meta.url));
+function loadConstitution() {
+  try {
+    const j = JSON.parse(readFileSync(CONSTITUTION_PATH, 'utf8'));
+    return {
+      bill_of_rights: Array.isArray(j.bill_of_rights) ? j.bill_of_rights : [],
+      bill_of_rights_intro: str(j.bill_of_rights_intro),
+      later_amendments: Array.isArray(j.later_amendments) ? j.later_amendments : [],
+      later_amendments_intro: str(j.later_amendments_intro),
+    };
+  } catch { return { bill_of_rights: [], bill_of_rights_intro: '', later_amendments: [], later_amendments_intro: '' }; }
+}
+const str = (v) => (v == null ? '' : String(v)).trim();
+
+// One amendment block: verbatim text (blockquote), plain-English explanation, and its landmark case(s)
+// rendered with the same case-row pattern the checks section uses (name + cite badge → live /cases lookup).
+function amendmentBlock(a, { anchorPrefix = 'amend' } = {}) {
+  if (!a || typeof a !== 'object') return '';
+  const id = `${anchorPrefix}-${esc(str(a.num) || str(a.n))}`;
+  const year = a.year ? ` <span class=badge>ratified ${esc(str(a.year))}</span>` : '';
+  const cases = (Array.isArray(a.cases) ? a.cases : []).map((c) =>
+    `<div class=rec><div class=nm><a href="/cases?q=${q(c.cite)}">${esc(str(c.name))}</a> <span class=badge>${esc(str(c.cite))}</span></div>
+      ${c.held ? `<div class=meta>${esc(str(c.held))}</div>` : ''}
+      <div class=xlink><a href="/cases?q=${q(c.cite)}">read the opinion →</a></div></div>`).join('');
+  // paragraph-split the verbatim text on newlines (Section 1 / Section 2 …), each escaped.
+  const paras = str(a.text).split(/\n+/).map((p) => p.trim()).filter(Boolean);
+  const textHtml = paras.length ? `<blockquote style="font-size:14px;color:var(--fg);border-left-color:var(--gold)">${paras.map((p) => `<div style="margin:0 0 6px">${esc(p)}</div>`).join('')}</blockquote>` : '';
+  return `<div id="${id}" style="margin:0 0 20px">
+    <h3 style="margin:14px 0 6px">${esc(str(a.title))}${year}</h3>
+    ${textHtml}
+    ${a.sections_note ? `<p class=muted style="font-size:12px;margin:-4px 0 8px">${esc(str(a.sections_note))}</p>` : ''}
+    ${a.explains ? `<p style="font-size:14px;margin:6px 0 8px">${esc(str(a.explains))}</p>` : ''}
+    ${a.what ? `<p style="font-size:14px;margin:6px 0 8px"><b>What it did:</b> ${esc(str(a.what))}</p>` : ''}
+    ${cases ? `<div style="margin-top:6px">${cases}</div>` : ''}</div>`;
+}
+
 export function constitutionView() {
   const landmark = (name, cite, held, q) => `<div class=rec>
     <div class=nm><a href="/cases?q=${q(cite)}">${esc(name)}</a> <span class=badge>${esc(cite)}</span></div>
     <div class=meta>${esc(held)}</div>
     <div class=xlink><a href="/cases?q=${q(cite)}">read the opinion →</a></div></div>`;
   const L = (name, cite, held) => landmark(name, cite, held, q);
+  const { bill_of_rights, bill_of_rights_intro, later_amendments, later_amendments_intro } = loadConstitution();
+  const borHtml = bill_of_rights.map((a) => amendmentBlock(a, { anchorPrefix: 'amend' })).join('');
+  const laterHtml = later_amendments.map((a) => amendmentBlock(a, { anchorPrefix: 'amend' })).join('');
   return `<h1>Foundational Law <span class=muted style="font-size:14px">· the Constitution of the United States</span></h1>
   <p class=muted>The Constitution is the foundation every other layer of law rests on. It builds the three branches —
     <b>Congress</b> (Article I), the <b>President</b> (Article II), and the <b>courts</b> (Article III) — splits power so each
@@ -1233,6 +1320,76 @@ export function constitutionView() {
     </div>
     <p class=muted style="font-size:13px;margin-top:12px"><b>The checks run between the layers:</b> courts strike statutes and rules as unconstitutional (<a href="#judicial-review">judicial review</a>); Congress amends the Code to override a court's reading of a statute; a constitutional amendment overrides the Court itself; an agency rule is bounded by its statute. <a href="#checks">See the landmark cases →</a></p></div>
 
+  <div class=card><h2 id=hierarchy>How the Constitution establishes — and enforces — the authority of every other law</h2>
+    <p>The Constitution is not just the first law in time; it is the law that <b>grants and limits all the others</b>. Every
+      power that any government official in the United States exercises has to trace back to a grant somewhere in this
+      document, and no law of any kind is valid where it collides with it. That is what makes it <b>foundational</b> rather
+      than merely first: the three kinds of law that people actually live under all draw their authority from it, and all
+      answer to it.</p>
+    <p><b>Foundational law — the Constitution — comes first and sits above the rest.</b> It creates the branches, hands each
+      an enumerated set of powers, and expressly withholds others (the rights in the amendments are powers the government was
+      never given). Nothing below it can enlarge those powers; every layer beneath is measured against it.</p>
+    <p><b>Statutory law — the acts of Congress and the state legislatures — is authoritative only insofar as it conforms to
+      the Constitution.</b> A statute is the command of the people's elected representatives and binds everyone once enacted,
+      but its force is <i>borrowed</i>: Congress may legislate only within the powers Article I grants, and a statute that
+      exceeds them, or that crosses a right the Constitution secures, is void. The same is true of the fourth layer,
+      <a href="/regulations">regulatory law</a> — an agency rule is valid only within the authority its statute delegates,
+      which in turn must be constitutional.</p>
+    <p><b>Case law and court rules — the work of the judiciary — interpret and apply the other layers, but always from within
+      the constitutional frame.</b> Courts do not make foundational law; they say what the Constitution and the statutes
+      mean in a concrete dispute, and in doing so they are the branch that enforces the hierarchy against the other two.</p>
+    <p><b>Two clauses turn this from a diagram into an enforceable order.</b> The <b>Supremacy Clause</b> of
+      <a href="#article-vi">Article VI</a> declares the Constitution, and the federal laws and treaties made under it, to be
+      &ldquo;the supreme Law of the Land&hellip; any Thing in the Constitution or Laws of any State to the Contrary
+      notwithstanding&rdquo; — binding the judges of every State to prefer the Constitution over any conflicting law. That
+      settles <i>which</i> law wins. The <b>enforcement mechanism</b> — the power that actually gives a court the authority to
+      refuse to apply an unconstitutional statute — was established in <a href="/cases?q=${q('5 U.S. 137')}">Marbury v.
+      Madison</a>, 5 U.S. 137 (1803), where Chief Justice Marshall held that &ldquo;it is emphatically the province and duty
+      of the judicial department to say what the law is,&rdquo; and that a legislative act repugnant to the Constitution is
+      simply void. <b>Judicial review is how the paper hierarchy becomes real:</b> Supremacy names the winner, and judicial
+      review is the courtroom power that enforces it. <a href="#checks">See the landmark cases that run this machinery →</a></p></div>
+
+  <div class=card><h2 id=kinds>What kind of document is a constitution? Charters, compacts, treaties, and the rest</h2>
+    <p>People use &ldquo;charter,&rdquo; &ldquo;compact,&rdquo; &ldquo;covenant,&rdquo; and &ldquo;constitution&rdquo; loosely, and a lot of
+      pseudolegal argument lives in that blur. They are genuinely <b>different kinds of governing documents</b>, and where the U.S.
+      Constitution sits among them is exactly what makes it supreme. The distinctions below are real and historical.</p>
+    <p><b>A constitution</b> is the document that <b>constitutes</b> — literally creates — a government, defines its branches, grants it
+      limited powers, and stands <b>above</b> everything that government then makes. The U.S. Constitution is ordained by
+      &ldquo;We the People,&rdquo; not granted by any higher authority, and it is enforced against the government by the courts. That
+      self-originating, supreme character is what sets it apart from the others.</p>
+    <p><b>A charter</b> is the opposite in direction: it is a <b>grant of authority from a higher power down to a lesser one</b>. The
+      colonial charters (the Charter of Massachusetts Bay of 1629, the Royal Charter of Connecticut of 1662) were granted by the English
+      Crown and could be altered or revoked by it. A <b>corporate charter</b> is a grant from the state that brings a company into legal
+      existence; a <b>municipal charter</b> is a grant from a state legislature that lets a city govern locally. Authority under a charter
+      flows <i>downward</i> and is held at the sufferance of the grantor — the reverse of a constitution, whose authority wells up from the
+      people and binds the government it creates.</p>
+    <p><b>The Articles of Confederation (drafted 1777, ratified 1781)</b> were America's first national frame — and a cautionary tale. They
+      created only &ldquo;a firm league of friendship&rdquo; among states that each kept &ldquo;its sovereignty, freedom and independence.&rdquo;
+      There was no real central power: Congress could not tax (only beg requisitions from the states), there was no national executive and no
+      national judiciary, and amending the Articles required the unanimous consent of all thirteen states. The result was paralysis — unpaid
+      war debts, trade wars between states, and unrest like Shays' Rebellion — which drove the 1787 Convention to scrap the Articles and write
+      a <b>constitution</b> with a genuine, if limited and checked, central government. The contrast is the whole lesson: a league of sovereign
+      states with no power over individuals could not function; a constitution that acts directly on people, within enumerated limits, could.</p>
+    <p><b>A compact or covenant</b> is a <b>mutual agreement among parties</b> to bind themselves together. The <b>Mayflower Compact (1620)</b>
+      is the classic example: the Plymouth colonists agreed to &ldquo;covenant and combine ourselves together into a civil Body Politick&rdquo;
+      and to obey the laws they would jointly make. That agreement-among-equals character is also where <b>&ldquo;compact theory&rdquo;</b> comes
+      from — the argument that the Constitution is merely a compact among sovereign states, so a state may judge breaches for itself, nullify
+      federal law, or secede. American law rejected that reading: the Union is not a dissolvable compact but, as
+      <a href="/cases?q=${q('74 U.S. 700')}">Texas v. White</a>, 74 U.S. 700 (1869), put it, &ldquo;an indestructible Union, composed of indestructible States.&rdquo; Sovereign-citizen material often misinvokes the Mayflower Compact or &ldquo;compact theory&rdquo; as a
+      personal opt-out — see <a href="/rights">Rights That Hold Up in Court</a> for why that fails.</p>
+    <p><b>A treaty</b> is an agreement between <b>sovereign nations</b>. Under <a href="#article-vi">Article VI</a> a ratified treaty becomes part
+      of the &ldquo;supreme Law of the Land&rdquo; — but it sits on the same tier as a federal statute (the later-in-time one prevails) and it can
+      never override the Constitution itself. How a treaty is made, and when a court will actually enforce one, is its own subject:
+      <a href="/treaties">see the treaties page →</a>.</p>
+    <p><b>Bylaws and statutes</b> are <b>subordinate rules made under</b> a charter or a constitution — a corporation's bylaws enacted under its
+      charter, or Congress's statutes enacted under the Constitution. They are law, and they bind, but only within, and never above, the
+      instrument that authorizes them.</p>
+    <p class=muted style="font-size:13px"><b>The through-line:</b> a constitution is the document that <i>creates</i> a government and is
+      supreme over what that government makes — different in kind from a charter (authority granted from above, revocable by the grantor) and
+      from a compact (authority agreed among parties). The U.S. Constitution gets called all of these at one time or another, but it is
+      specifically a <b>constitution</b>: self-ordained by the people, creating a government of limited and enumerated powers, and standing over
+      the statutory and case law that government then produces.</p></div>
+
   <div class=card><h2>Read the Constitution (official sources)</h2>
     <div class=grid>
       <a class=sec href="https://www.archives.gov/founding-docs/constitution-transcript" rel=noopener><div class=t>National Archives</div><div class=d>The engrossed transcript — the founding document itself.</div></a>
@@ -1241,14 +1398,31 @@ export function constitutionView() {
     </div></div>
 
   <div class=card><h2 id=structure>The structure: three branches, three Articles</h2>
-    <h3 id=article-i>Article I — Legislative (Congress)</h3>
+    <p style="font-size:14px;margin:-2px 0 14px">Here is the operator's point made literal: the Constitution is <b>Foundational Law</b>, and one of the things it founds is the <b>other kinds of law</b>. <b>Article I creates Congress</b> — the body whose acts are <a href="/statutes">Statutory Law</a>. <b>Article III creates the Supreme Court and the federal judiciary</b> — the courts whose decisions are <a href="/cases">Case Law &amp; Rules</a>. <b>Article II creates the Executive</b> that enforces the law and, through its agencies, issues <a href="/regulations">Regulatory Law</a>. And <b>Articles IV–VII</b> bind the States, provide the amendment power, and — through the <a href="#article-vi">Supremacy Clause</a> and the judicial review recognized in <a href="/cases?q=${q('5 U.S. 137')}">Marbury v. Madison</a> — make the whole hierarchy enforceable. So Congress and the courts do not stand on their own authority: <b>the Constitution creates the bodies that make Statutory Law and Case Law, and binds them to itself.</b></p>
+    <h3 id=article-i>Article I — Legislative (Congress): the source of Statutory Law</h3>
     <p class=muted style="font-size:14px">Creates the House and Senate and grants their powers — tax and spend, borrow, regulate interstate commerce (the <b>Commerce Clause</b>), coin money, declare war, and make all laws &ldquo;necessary and proper.&rdquo; Limits Congress (no bills of attainder, no ex post facto laws) and sets how a bill becomes law: passed by both houses and presented to the President. This is where <a href="/statutes">Statutory Law</a> comes from.</p>
     <h3 id=article-ii>Article II — Executive (the President)</h3>
     <p class=muted style="font-size:14px">Vests executive power: faithfully execute the laws, command the armed forces, <a href="/treaties">make treaties</a> (Senate advice and consent) and appoint officers/judges, and veto legislation. The agencies that issue <a href="/regulations">Regulatory Law</a> sit here — acting only within the authority a statute delegates.</p>
     <h3 id=article-iii>Article III — Judicial (the courts)</h3>
     <p class=muted style="font-size:14px">Establishes the Supreme Court and lower federal courts and extends judicial power to &ldquo;cases and controversies.&rdquo; The branch that decides what the other layers mean and whether they are constitutional — the source of <a href="/cases">Case Law</a>.</p>
-    <h3>Articles IV–VII</h3>
-    <p class=muted style="font-size:14px"><b>IV</b>: the states (full faith &amp; credit). <b>V</b>: how the Constitution is <a href="#override">amended</a> — the one way to override the Supreme Court. <b>VI</b>: the <b>Supremacy Clause</b>. <b>VII</b>: ratification.</p></div>
+    <h3 id=article-iv>Article IV — the States and the federal system</h3>
+    <p class=muted style="font-size:14px">Binds the States into one country: each must give <b>full faith and credit</b> to the others' laws and judgments; a citizen carries the <b>privileges and immunities</b> of citizenship into every State; a fugitive from justice is subject to <b>extradition</b>; Congress admits <b>new States</b> and governs the territories; and the United States <b>guarantees every State a republican form of government</b> and protection against invasion.</p>
+    <h3 id=article-v>Article V — how the Constitution is amended</h3>
+    <p class=muted style="font-size:14px">The only lawful way to change the text. An amendment is <b>proposed</b> either by a two-thirds vote of both houses of Congress or by a convention called by two-thirds of the States, and <b>ratified</b> by three-fourths of the States (through their legislatures or ratifying conventions). This is the one route that can <a href="#override">override the Supreme Court's reading of the Constitution itself</a>. The single entrenched limit today: no State may be deprived of its equal suffrage in the Senate without its consent.</p>
+    <h3 id=article-vi>Article VI — the Supremacy Clause</h3>
+    <p class=muted style="font-size:14px">Declares the Constitution, the laws made under it, and <a href="/treaties">treaties</a> to be the <b>&ldquo;supreme Law of the Land&rdquo;</b> — binding on the judges of every State, over any conflicting state law. It also honors the nation's pre-existing debts and requires officials to swear to support the Constitution, while forbidding any <b>religious test</b> for public office.</p>
+    <h3 id=article-vii>Article VII — ratification</h3>
+    <p class=muted style="font-size:14px">Set the terms by which the Constitution took effect: ratification by the conventions of <b>nine States</b> would establish it among the ratifying States. The ninth (New Hampshire) ratified in June 1788, and the new government began the following year.</p></div>
+
+  <div class=card><h2 id=bill-of-rights>The Bill of Rights — Amendments I–X</h2>
+    ${bill_of_rights_intro ? `<p class=muted style="font-size:14px;margin:-2px 0 14px">${esc(bill_of_rights_intro)}</p>` : ''}
+    ${borHtml || '<p class=empty>The Bill of Rights text is unavailable right now.</p>'}
+    <p class=muted style="font-size:12px;margin-top:6px">Amendment text is the verbatim public-domain text of the Constitution (National Archives engrossed transcript). Each case row states what a decision is cited for as a matter of public record — not our verdict on whether it is rightly decided or currently good law.</p></div>
+
+  <div class=card><h2 id=amendments>The later amendments</h2>
+    ${later_amendments_intro ? `<p class=muted style="font-size:14px;margin:-2px 0 14px">${esc(later_amendments_intro)}</p>` : ''}
+    ${laterHtml || '<p class=empty>Amendment text is unavailable right now.</p>'}
+    <p class=muted style="font-size:12px;margin-top:6px">Verbatim where quoted; summarized sections are labeled. The full text of every article and amendment is at the <a href="https://constitution.congress.gov/" rel=noopener>Constitution Annotated</a> and the <a href="https://www.archives.gov/founding-docs/constitution-transcript" rel=noopener>National Archives</a>.</p></div>
 
   <div class=card><h2 id=checks>Checks and balances — the landmark cases</h2>
     <p class=muted style="font-size:14px;margin:-2px 0 12px">Each row states the case, its citation, and what the Court held, as a matter of record — no judgment on whether it is rightly decided or currently good law. Click through to the court's own words.</p>
@@ -1475,6 +1649,129 @@ function doctrineCaseRow(name, cite, note, kind = '') {
     <div class=xlink><a href="/cases?q=${q(cite)}">read the opinion →</a></div></div>`;
 }
 
+// Two teaching sections that complement the grouped doctrines: (1) how a precedent gets overruled and a
+// statute gets struck (the three mechanisms), and (2) how an incorporated right actually stands up in
+// court (incorporation + the tiers of scrutiny). Editorial explainer on DECIDED precedent; every case is
+// a real reporter citation, linked live through /cases?q=. PURE.
+function teachingSections() {
+  const cl = (name, cite) => `<a href="/cases?q=${q(cite)}">${esc(name)}</a>, ${esc(cite)}`;
+  const overruling = `<div class=card><h2 id=overruling>How a case gets overruled — and how a statute gets struck</h2>
+    <p><b>Stare decisis</b> (Latin, &ldquo;to stand by things decided&rdquo;) is the working rule of the common law: a court
+      follows its own and higher courts' prior decisions, so the law stays stable and predictable. It is a strong presumption,
+      not an iron law — and it is worth separating the different ways a prior decision actually loses its force. Note one
+      distinction first: a higher court <i>reversing</i> a lower court on appeal in the same case is not &ldquo;overruling&rdquo; —
+      overruling is discarding a <b>precedent</b> from an earlier, separate case.</p>
+    <h3>1 · A court overrules its own precedent (horizontal overruling)</h3>
+    <p>The Supreme Court can decide a past decision was wrong and discard it, though it demands a special justification beyond
+      &ldquo;we would decide it differently now.&rdquo; The most consequential example: ${cl('Brown v. Board of Education', '347 U.S. 483 (1954)')},
+      which overruled the &ldquo;separate but equal&rdquo; rule of ${cl('Plessy v. Ferguson', '163 U.S. 537 (1896)')}. Others across the
+      ideological spectrum: ${cl('Gideon v. Wainwright', '372 U.S. 335 (1963)')} overruled ${cl('Betts v. Brady', '316 U.S. 455 (1942)')}
+      (right to appointed counsel); ${cl('Mapp v. Ohio', '367 U.S. 643 (1961)')} overruled ${cl('Wolf v. Colorado', '338 U.S. 25 (1949)')}
+      (the exclusionary rule against the States); ${cl('West Coast Hotel Co. v. Parrish', '300 U.S. 379 (1937)')} overruled
+      ${cl('Adkins v. Children’s Hospital', '261 U.S. 525 (1923)')} (minimum-wage laws); ${cl('Lawrence v. Texas', '539 U.S. 558 (2003)')}
+      overruled ${cl('Bowers v. Hardwick', '478 U.S. 186 (1986)')}; ${cl('Citizens United v. FEC', '558 U.S. 310 (2010)')} overruled
+      ${cl('Austin v. Michigan Chamber of Commerce', '494 U.S. 652 (1990)')}; ${cl('Janus v. AFSCME', '585 U.S. 878 (2018)')} overruled
+      ${cl('Abood v. Detroit Board of Education', '431 U.S. 209 (1977)')}; ${cl('Loper Bright Enterprises v. Raimondo', '603 U.S. 369 (2024)')}
+      overruled ${cl('Chevron U.S.A. Inc. v. NRDC', '467 U.S. 837 (1984)')}; and ${cl('Dobbs v. Jackson Women’s Health Organization', '597 U.S. 215 (2022)')}
+      overruled ${cl('Roe v. Wade', '410 U.S. 113 (1973)')} and ${cl('Planned Parenthood v. Casey', '505 U.S. 833 (1992)')}. Overruling
+      runs in every direction — it is a mechanism, not a politics.</p>
+    <h3>2 · A constitutional amendment overrides a case</h3>
+    <p>When the Court interprets the <b>Constitution itself</b>, the Court's reading stands until the Court changes it or the people
+      change the Constitution. Article V amendment is the people's answer, and it has been used to override specific decisions:
+      ${cl('Dred Scott v. Sandford', '60 U.S. 393 (1857)')} — which held that Black Americans could not be citizens — was undone by the
+      Thirteenth and Fourteenth Amendments; ${cl('Pollock v. Farmers’ Loan & Trust Co.', '157 U.S. 429 (1895)')}, which had barred an
+      unapportioned income tax, was overridden by the Sixteenth Amendment; ${cl('Chisholm v. Georgia', '2 U.S. 419 (1793)')} was overridden
+      by the Eleventh Amendment; and ${cl('Oregon v. Mitchell', '400 U.S. 112 (1970)')} — which let Congress set an 18-year voting age for
+      federal but not state elections — was resolved by the Twenty-sixth Amendment. (When the Court merely interprets a <b>statute</b>,
+      Congress can override it by amending the statute — a lower bar than a constitutional amendment. See
+      <a href="/constitution#override">the Constitution page →</a>.)</p>
+    <h3>3 · A court overrules Congress (judicial review striking a statute)</h3>
+    <p>The most direct check: a court holds an <b>act of Congress</b> unconstitutional and refuses to enforce it. The power itself was
+      established in ${cl('Marbury v. Madison', '5 U.S. 137 (1803)')}, where the Court held it is &ldquo;emphatically the province and duty
+      of the judicial department to say what the law is&rdquo; and that a statute repugnant to the Constitution is void — the enforcement
+      mechanism behind the whole <a href="/constitution#hierarchy">hierarchy of law</a>. Examples of it in action:
+      ${cl('Leary v. United States', '395 U.S. 6 (1969)')} struck the Marihuana Tax Act of 1937 because its scheme forced self-incrimination
+      in violation of the Fifth Amendment; ${cl('INS v. Chadha', '462 U.S. 919 (1983)')} struck the one-house legislative veto;
+      ${cl('United States v. Lopez', '514 U.S. 549 (1995)')} struck the Gun-Free School Zones Act as beyond the Commerce Clause;
+      ${cl('Clinton v. City of New York', '524 U.S. 417 (1998)')} struck the Line Item Veto Act; and
+      ${cl('United States v. Morrison', '529 U.S. 598 (2000)')} struck the civil-remedy provision of the Violence Against Women Act.</p>
+    <p class=muted style="font-size:12px">Case rows state what each decision is cited for as a matter of public record — not our verdict
+      on whether it is rightly decided. Click any citation to read the court's own words.</p></div>`;
+
+  const incorporation = `<div class=card><h2 id=incorporation>How an incorporated right stands up in court</h2>
+    <p>Knowing a right exists is only half the picture; what matters in a real case is how it is <b>enforced against a law</b>. Two
+      steps decide it: first, does the right even apply to the government being sued, and second, what test does the court use to judge
+      the challenged law.</p>
+    <h3>1 · Incorporation — making the Bill of Rights apply to the States</h3>
+    <p>The Bill of Rights originally bound <b>only the federal government</b> — ${cl('Barron v. Baltimore', '32 U.S. 243 (1833)')} held it
+      did not reach the States at all. The Fourteenth Amendment (1868) changed that: through its <b>Due Process Clause</b>, the Supreme
+      Court has &ldquo;incorporated&rdquo; most of the Bill of Rights against the States, one guarantee at a time. Milestones:
+      ${cl('Gitlow v. New York', '268 U.S. 652 (1925)')} (freedom of speech); ${cl('Duncan v. Louisiana', '391 U.S. 145 (1968)')} (criminal
+      jury trial); ${cl('McDonald v. City of Chicago', '561 U.S. 742 (2010)')} (the Second Amendment); and
+      ${cl('Timbs v. Indiana', '586 U.S. 146 (2019)')} (the Eighth Amendment's ban on excessive fines). A few provisions have
+      <b>not</b> been incorporated and so still restrain only the federal government: the Third Amendment, the Seventh Amendment's
+      civil-jury right, and the Fifth Amendment's grand-jury clause (${cl('Hurtado v. California', '110 U.S. 516 (1884)')}).</p>
+    <h3>2 · The standard of review — the test that decides whether the law falls</h3>
+    <p>Once a right applies, the court picks a <b>level of scrutiny</b>, and the tier chosen usually decides the outcome:</p>
+    <p><b>Strict scrutiny</b> applies to laws burdening a fundamental right or classifying by a suspect trait such as race. The government
+      must show a <b>compelling interest</b> pursued by the <b>least restrictive / narrowly tailored</b> means — a demanding test most
+      laws fail. <b>Intermediate scrutiny</b> applies to classifications such as sex and to some speech regulations: the government needs
+      an <b>important interest</b> and means <b>substantially related</b> to it (${cl('Craig v. Boren', '429 U.S. 190 (1976)')};
+      ${cl('United States v. Virginia', '518 U.S. 515 (1996)')}). <b>Rational-basis review</b> is the default for ordinary economic and
+      social legislation: a law survives if it is <b>rationally related to a legitimate interest</b> — a test most laws pass
+      (${cl('Williamson v. Lee Optical Co.', '348 U.S. 483 (1955)')}).</p>
+    <p>Some rights carry their <b>own</b> purpose-built test rather than a tier. Speech that allegedly incites violence is judged by
+      ${cl('Brandenburg v. Ohio', '395 U.S. 444 (1969)')} — punishable only if directed to, and likely to produce, <b>imminent lawless
+      action</b>. Gun regulations are now judged by ${cl('New York State Rifle & Pistol Ass’n v. Bruen', '597 U.S. 1 (2022)')}, which
+      asks whether a law is consistent with the Nation's historical <b>text-and-tradition</b> of firearm regulation.</p>
+    <p><b>The through-line:</b> a right &ldquo;stands up in court&rdquo; through a chain — the right is <a href="/constitution#bill-of-rights">incorporated</a>
+      against the government being sued, a plaintiff invokes it against the challenged law, the court selects the tier or the
+      right-specific test, and the law is <b>struck if it fails</b> that test. That is the machinery by which the Bill of Rights actually
+      overturns a statute, connecting to <a href="#overruling">how courts strike laws</a> above. But there is a <b>procedural step</b> you
+      cannot skip — <a href="#challenge">how you actually raise the challenge →</a></p></div>`;
+
+  const challenge = `<div class=card><h2 id=challenge>How you raise a constitutional challenge — the procedure</h2>
+    <p>Deciding a law is unconstitutional is the court's job; <b>putting the question before the court properly</b> is yours. When a
+      litigant attacks a statute's constitutionality and the responsible government is not already in the case, the rules require that the
+      government be <b>notified and given a chance to defend its own law</b>. Miss that step and the challenge can stall or fail on
+      procedure, no matter how strong it is on the merits.</p>
+    <h3>In federal court — Rule 5.1 and 28 U.S.C. &sect; 2403</h3>
+    <p>Under <b>Fed. R. Civ. P. 5.1</b>, a party whose filing draws into question the constitutionality of a <b>federal or a state</b>
+      statute — where the relevant government is not already a party — must <b>promptly file a &ldquo;notice of constitutional
+      question&rdquo;</b> and <b>serve it on the Attorney General</b> (the U.S. Attorney General for a federal statute, the state attorney
+      general for a state statute). The court must then <b>certify</b> the challenge to that Attorney General under
+      <b>28 U.S.C. &sect; 2403</b> — subsection (a) for a federal statute, subsection (b) for a state statute — and the Attorney General
+      <b>may intervene</b> (generally within 60 days) to defend the law. Until the intervention time runs, the court may reject the
+      challenge but <b>may not enter a final judgment holding the statute unconstitutional</b>. Importantly, Rule 5.1(d) provides that a
+      party's failure to file the notice, or the court's failure to certify, <b>does not forfeit</b> an otherwise timely constitutional
+      claim — the mechanism protects the absent government, it does not trap the litigant.</p>
+    <p><b>The case law in action.</b> ${cl('Maine v. Taylor', '477 U.S. 131 (1986)')} is the textbook example of &sect; 2403(b): when a
+      defendant argued a Maine statute violated the Commerce Clause, <b>the State of Maine intervened under 28 U.S.C. &sect; 2403(b)</b> to
+      defend its own statute — and, after the United States declined to pursue the appeal, it was Maine's intervention that carried the case
+      to the Supreme Court, which upheld the statute. That is the whole point of the notice-and-certify machinery: the government whose law
+      is attacked gets to walk in and defend it. On appeal, the parallel rule is <b>Fed. R. App. P. 44</b>, which requires a party
+      questioning a statute's constitutionality to notify the clerk so the court can fulfill the same &sect; 2403 certification duty.</p>
+    <h3>In Texas — Tex. Gov't Code &sect; 402.010</h3>
+    <p>Texas has its own version. Under <b>Tex. Gov't Code &sect; 402.010</b>, a party challenging the constitutionality of a Texas
+      statute must file the required notice, and the court must <b>serve notice of the challenge on the Texas Attorney General</b> (unless
+      the AG is already involved). A court <b>may not enter a final judgment holding a Texas statute unconstitutional before the 45th day
+      after</b> that notice is served. As with the federal rule, the current statute is explicit that a failure to file or serve the notice
+      <b>does not deprive the court of jurisdiction</b> or forfeit a timely challenge.</p>
+    <p><b>The case law — and a real separation-of-powers fight.</b> The <i>current</i> text exists because an earlier version was struck
+      down. In ${cl('Ex parte Lo', '424 S.W.3d 10 (Tex. Crim. App. 2013)')}, the Texas Court of Criminal Appeals held that the
+      then-existing &sect;&sect; 402.010(a)–(b) — which had forced courts to halt proceedings and delay ruling — <b>violated the separation
+      of powers</b> under the Texas Constitution by intruding on the judicial function. The Legislature responded the same year (S.B. 392,
+      83rd Leg., 2013), rewriting &sect; 402.010 into the notice-and-45-day-limit form described above, with the express no-forfeiture and
+      no-loss-of-jurisdiction language. It is a clean illustration of the <a href="#overruling">checks between the branches</a>: a court
+      struck a statute that overreached against courts, and the legislature rewrote it to fit.</p>
+    <p class=muted style="font-size:13px"><b>The general rule:</b> most states have an analogous attorney-general-notice statute or rule
+      when a state law's constitutionality is challenged. A litigant — represented or pro se — who wins the constitutional argument but
+      skips the notice can still see the challenge stumble. Verify the exact notice rule and deadline in your court before you file; see the
+      <a href="/appeals">appeals &amp; writs ladder</a> for the surrounding procedure.</p></div>`;
+
+  return `${overruling}\n${incorporation}\n${challenge}`;
+}
+
 export function doctrinesView() {
   const { groups, callout } = loadDoctrines();
 
@@ -1535,9 +1832,93 @@ export function doctrinesView() {
 
     ${realGroups || '<div class=card><p class=empty>Doctrine data is unavailable right now.</p></div>'}
 
+    ${teachingSections()}
     ${calloutHtml}
     ${faqCard(DOCTRINES_FAQ)}`;
   return body;
+}
+
+// ── /spirit-of-the-laws — Montesquieu, separation of powers, and reading a law for its purpose ──────
+// Wires the verified teaching corpus (knowledge/legal/spirit-of-the-laws.json) onto a live page via the
+// spirit-of-the-laws.mjs loader: the Montesquieu overview, the real cases (with the verified quotes/cites
+// the JSON holds), the letter-vs-spirit teaching, the textualist counterpoint, and the reading list.
+// Editorial explainer on DECIDED precedent + intellectual history; a quote the corpus could not confirm
+// verbatim is surfaced with its verify-at-source note, never fabricated (Charter §3).
+function solCaseRow(c) {
+  if (!c || typeof c !== 'object') return '';
+  const quote = str(c.quote);
+  const note = str(c.quote_note);
+  const secondary = str(c.secondary_quote);
+  const nameLink = c.case ? `<a href="/cases?q=${q(c.citation || c.case)}">${esc(str(c.case))}</a>` : '';
+  return `<div class=rec>
+    <div class=nm>${nameLink}${c.citation ? ` <span class=badge>${esc(str(c.citation))}</span>` : ''}${c.method ? ` <span class=badge>${esc(str(c.method))}</span>` : ''}</div>
+    ${c.court ? `<div class=meta>${esc(str(c.court))}</div>` : ''}
+    ${c.holding ? `<p style="font-size:14px;margin:6px 0 8px">${esc(str(c.holding))}</p>` : ''}
+    ${quote ? `<blockquote>&ldquo;${esc(quote)}&rdquo;</blockquote>`
+      : (note ? `<p class=muted style="font-size:13px">Quote not yet verified verbatim — ${esc(note)}</p>` : '')}
+    ${(quote && note) ? `<p class=muted style="font-size:12px">${esc(note)}</p>` : ''}
+    ${secondary ? `<blockquote>&ldquo;${esc(secondary)}&rdquo;</blockquote>` : ''}
+    ${c.pincite ? `<div class=meta>${esc(str(c.pincite))}</div>` : ''}
+    ${c.teaching_blurb ? `<p style="font-size:13px;margin:8px 0 4px">${esc(str(c.teaching_blurb))}</p>` : ''}
+    <div class=xlink>${c.source_url ? `<a href="${esc(str(c.source_url))}" rel="nofollow noopener">read it at the source →</a> · ` : ''}<a href="/cases?q=${q(c.citation || c.case)}">find it in Cases →</a></div>
+  </div>`;
+}
+
+export function spiritOfTheLawsView() {
+  const m = sol.montesquieu();
+  const cp = sol.counterpoint();
+  const reading = sol.readingList();
+  const methodLabels = {
+    purposivist: 'Reading for the purpose (purposivism)',
+    'mischief-rule': 'The mischief rule',
+    'separation-of-powers-Montesquieu': 'Separation of powers — Montesquieu cited by name',
+    'plain-meaning-counterpoint': 'The counterpoint — letter over spirit',
+  };
+  // group the cases by interpretive method (loader-driven), in a teaching order.
+  const order = ['separation-of-powers-Montesquieu', 'mischief-rule', 'purposivist', 'plain-meaning-counterpoint'];
+  const present = sol.methods();
+  const methodsInOrder = [...order.filter((mm) => present.includes(mm)), ...present.filter((mm) => !order.includes(mm))];
+  const caseCards = methodsInOrder.map((mm) => {
+    const rows = sol.casesFor(mm).map(solCaseRow).join('');
+    if (!rows) return '';
+    return `<div class=card><h2>${esc(methodLabels[mm] || mm)}</h2>${rows}</div>`;
+  }).join('');
+
+  const ideas = Array.isArray(m.two_ideas_we_teach) ? m.two_ideas_we_teach : [];
+  const positions = Array.isArray(cp.positions) ? cp.positions : [];
+  const readingHtml = reading.map((r) => `<div class=rec>
+    <div class=nm>${r.source_url ? `<a href="${esc(str(r.source_url))}" rel="nofollow noopener">${esc(str(r.title))}</a>` : esc(str(r.title))}</div>
+    <div class=meta>${[str(r.author), str(r.edition)].filter(Boolean).map(esc).join(' · ')}</div>
+    ${r.why ? `<blockquote>${esc(str(r.why))}</blockquote>` : ''}</div>`).join('');
+
+  return `<h1>The Spirit of the Laws <span class=muted style="font-size:14px">· Montesquieu, and reading a law for its purpose</span></h1>
+    <p class=muted>${esc(str(m.one_line) || 'How Montesquieu shaped American separation of powers — and what it means to read a law for its spirit, not just its letter.')} Informational history and legal education, not legal advice.</p>
+
+    <div class=card><h2>Montesquieu and <i>The Spirit of the Laws</i> (1748)</h2>
+      ${m.work ? `<p style="font-size:14px">${esc(str(m.work))}</p>` : ''}
+      ${ideas.length ? `<h3 style="margin:12px 0 6px">The two ideas this page teaches</h3><ul style="font-size:14px;line-height:1.6;padding-left:18px">${ideas.map((i) => `<li style="margin:6px 0">${esc(str(i))}</li>`).join('')}</ul>` : ''}
+    </div>
+
+    <div class=card><h2 id=separation>Separation of powers — the doctrine and the Framers</h2>
+      ${m.separation_of_powers_doctrine ? `<p style="font-size:14px">${esc(str(m.separation_of_powers_doctrine))}</p>` : ''}
+      ${m.influence_on_the_framers ? `<p style="font-size:14px">${esc(str(m.influence_on_the_framers))}</p>` : ''}
+      <p class=xlink><a href="/constitution#structure">See the three branches on the Constitution page →</a> · <a href="/doctrines#structure">the separation-of-powers doctrine in Doctrines →</a></p></div>
+
+    <div class=card><h2 id=letter-vs-spirit>Letter vs. spirit — reading a law for its purpose</h2>
+      ${m.letter_vs_spirit ? `<p style="font-size:14px">${esc(str(m.letter_vs_spirit))}</p>` : ''}</div>
+
+    ${caseCards}
+
+    ${(cp.title || positions.length) ? `<div class=card style="border-color:var(--gold)"><h2>${esc(str(cp.title) || 'The textualist counterpoint — letter over spirit')}</h2>
+      ${cp.summary ? `<p style="font-size:14px">${esc(str(cp.summary))}</p>` : ''}
+      ${positions.map((p) => `<div class=rec><div class=nm>${esc(str(p.thinker))}</div>
+        ${p.source ? `<div class=meta>${p.source_url ? `<a href="${esc(str(p.source_url))}" rel="nofollow noopener">${esc(str(p.source))}</a>` : esc(str(p.source))}</div>` : ''}
+        ${p.position ? `<p style="font-size:14px;margin:6px 0">${esc(str(p.position))}</p>` : ''}</div>`).join('')}
+      ${cp.honest_note ? `<p class=muted style="font-size:13px;margin-top:10px">${esc(str(cp.honest_note))}</p>` : ''}</div>` : ''}
+
+    ${readingHtml ? `<div class=card><h2>Read further (verified editions)</h2>${readingHtml}</div>` : ''}
+
+    <p class=muted style="font-size:12px">Every case, quote, pincite, and book on this page is drawn from a verified corpus (each with a source link); a quote that could not be confirmed verbatim against a primary text is labeled as such rather than invented. Case descriptions state what a decision is cited for as a matter of record — not our verdict on whether it is rightly decided. Corrections route to the source of record (see the footer).</p>`;
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
@@ -1556,7 +1937,7 @@ function splitJurisdiction(pathname) {
   return { juris: DEFAULT_JURISDICTION, path: pathname };
 }
 
-const SITEMAP_PATHS = ['/', '/constitution', '/treaties', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints', '/privacy', '/appeals', '/rights', '/doctrines', '/maxims'];
+const SITEMAP_PATHS = ['/', '/constitution', '/treaties', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints', '/privacy', '/appeals', '/rights', '/doctrines', '/spirit-of-the-laws', '/maxims'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -1674,6 +2055,13 @@ export async function handler(req, res) {
           faq: DOCTRINES_FAQ,
           cite: { title: 'Legal doctrines — the principles that run American law', url: `${BASE_URL}/doctrines`, author: 'SoapBox Law',
             sourceOfRecord: 'U.S. Constitution and controlling U.S. Supreme Court and federal precedent' } }));
+    }
+    if (path === '/spirit-of-the-laws') {
+      return sendHtml(res, page('The Spirit of the Laws — Montesquieu & purposive interpretation — SoapBox Law', spiritOfTheLawsView(),
+        { canonical: `${BASE_URL}/spirit-of-the-laws`, breadcrumb: crumbs('The Spirit of the Laws', '/spirit-of-the-laws'),
+          description: 'Montesquieu’s The Spirit of the Laws: separation of powers, and the cases where judges read a law for its spirit, not just its letter. Verified corpus — real quotes, real cites.',
+          cite: { title: 'The Spirit of the Laws — Montesquieu & purposive interpretation', url: `${BASE_URL}/spirit-of-the-laws`, author: 'SoapBox Law',
+            sourceOfRecord: 'Montesquieu, De l’esprit des lois (1748); The Federalist; and the cited U.S. and English reports' } }));
     }
     if (path === '/maxims') {
       return sendHtml(res, page('Maxims, axioms & idioms — SoapBox Law', await maximsView(sp.get('d') || '', sp.get('m') || ''),

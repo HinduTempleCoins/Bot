@@ -17,7 +17,8 @@ import * as judges from '../../integrations/soapbox/courtlistener-judges.mjs';
 
 import {
   handler, casesView, caseDetailView, docketsView, statutesView, judgesView, lawyersView, complaintsView,
-  looksLikeCitation, splitJurisdiction, publicInterestData, browseByCourt, doctrinesView, maximsView, esc,
+  looksLikeCitation, splitJurisdiction, publicInterestData, browseByCourt, doctrinesView, maximsView,
+  constitutionView, spiritOfTheLawsView, esc,
 } from './server.mjs';
 
 // ── fetch fakes ─────────────────────────────────────────────────────────────────────────────────
@@ -760,4 +761,247 @@ test('doctrinesView renders directly (pure view, no network) with the discipline
   assert.match(html, /not legal advice|Informational only/i);
   // the MELEK "chain that teaches" / three-kinds-of-law framing
   assert.match(html, /chain that teaches/i);
+});
+
+// ── /constitution — the Bill of Rights, later amendments, and the hierarchy-of-law section ─────────
+test('/constitution spells out all TEN amendments of the Bill of Rights with verbatim text', async () => {
+  const res = await drive('/constitution');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /The Bill of Rights/);
+  // each amendment I–X present by title
+  for (const t of ['First Amendment', 'Second Amendment', 'Third Amendment', 'Fourth Amendment',
+    'Fifth Amendment', 'Sixth Amendment', 'Seventh Amendment', 'Eighth Amendment',
+    'Ninth Amendment', 'Tenth Amendment']) {
+    assert.ok(res.body.includes(t), `Bill of Rights includes ${t}`);
+  }
+  // verbatim fragments (public-domain constitutional text)
+  assert.match(res.body, /Congress shall make no law respecting an establishment of religion/); // 1st
+  assert.match(res.body, /A well regulated Militia/);                                            // 2nd
+  assert.match(res.body, /unreasonable searches and seizures/);                                  // 4th
+  assert.match(res.body, /twice put in jeopardy of life or limb/);                               // 5th
+  assert.match(res.body, /cruel and unusual punishments/);                                       // 8th
+  assert.match(res.body, /reserved to the States respectively, or to the people/);               // 10th
+});
+
+test('/constitution anchors landmark cases to each right (1st/4th/5th/6th/8th)', async () => {
+  const res = await drive('/constitution');
+  resetAllFetch();
+  assert.match(res.body, /Brandenburg v\. Ohio/);          // 1st
+  assert.match(res.body, /New York Times Co\. v\. Sullivan/); // 1st
+  assert.match(res.body, /Mapp v\. Ohio/);                 // 4th
+  assert.match(res.body, /Miranda v\. Arizona/);           // 5th
+  assert.match(res.body, /Gideon v\. Wainwright/);         // 6th
+  assert.match(res.body, /Gregg v\. Georgia/);             // 8th
+  // each case row links a live /cases lookup by citation
+  assert.match(res.body, /href="\/cases\?q=384%20U\.S\.%20436/); // Miranda
+});
+
+test('/constitution covers the key later amendments (13/14/15/16/19/24/25/26)', async () => {
+  const res = await drive('/constitution');
+  resetAllFetch();
+  assert.match(res.body, /Thirteenth Amendment/);
+  assert.match(res.body, /Neither slavery nor involuntary servitude/);            // 13th verbatim
+  assert.match(res.body, /Fourteenth Amendment/);
+  assert.match(res.body, /equal protection of the laws/);                          // 14th verbatim
+  assert.match(res.body, /Fifteenth Amendment/);
+  assert.match(res.body, /Sixteenth Amendment/);
+  assert.match(res.body, /taxes on incomes, from whatever source derived/);        // 16th verbatim
+  assert.match(res.body, /Nineteenth Amendment/);
+  assert.match(res.body, /on account of sex/);                                     // 19th verbatim
+  assert.match(res.body, /Twenty-fourth Amendment/);
+  assert.match(res.body, /Twenty-fifth Amendment/);
+  assert.match(res.body, /Twenty-sixth Amendment/);
+  assert.match(res.body, /eighteen years of age or older/);                        // 26th verbatim
+});
+
+test('/constitution spells out the seven Articles (IV–VII no longer a one-liner)', async () => {
+  const res = await drive('/constitution');
+  resetAllFetch();
+  assert.match(res.body, /Article IV — the States/);
+  assert.match(res.body, /full faith and credit/i);
+  assert.match(res.body, /Article V — how the Constitution is amended/);
+  assert.match(res.body, /Article VI — the Supremacy Clause/);
+  assert.match(res.body, /Article VII — ratification/);
+  assert.match(res.body, /religious test/i);                 // Art. VI substance
+});
+
+test('/constitution has the hierarchy-of-law section tied to the Supremacy Clause + Marbury', async () => {
+  const res = await drive('/constitution');
+  resetAllFetch();
+  assert.match(res.body, /How the Constitution establishes/);
+  assert.match(res.body, /supreme Law of the Land/);
+  assert.match(res.body, /Marbury v\. Madison/);
+  assert.match(res.body, /province and duty[\s\S]*?to say what the law is/); // verified Marbury quote
+  assert.match(res.body, /Judicial review is how the paper hierarchy becomes real/);
+  // three types of law named as a hierarchy
+  assert.match(res.body, /Foundational law/);
+  assert.match(res.body, /Statutory law/);
+  assert.match(res.body, /Case law/);
+});
+
+test('constitutionView renders directly (pure view, no network) and escapes cleanly', async () => {
+  const html = constitutionView();
+  assert.match(html, /Bill of Rights/);
+  assert.match(html, /Congress shall make no law/);
+  const stripped = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+  assert.ok(!/<script/.test(stripped), 'no scripts from the pure view');
+});
+
+// ── /spirit-of-the-laws — Montesquieu, purposive interpretation (wired from the verified corpus) ────
+test('/spirit-of-the-laws serves 200 with the Montesquieu overview + separation-of-powers', async () => {
+  const res = await drive('/spirit-of-the-laws');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /The Spirit of the Laws/);
+  assert.match(res.body, /Montesquieu/);
+  assert.match(res.body, /separation of powers/i);
+  assert.match(res.body, /letter/i);
+  assert.match(res.body, /spirit/i);
+});
+
+test('/spirit-of-the-laws renders the real cases with their verified quotes/cites', async () => {
+  const res = await drive('/spirit-of-the-laws');
+  resetAllFetch();
+  // the core cases from the corpus
+  assert.match(res.body, /Riggs v\. Palmer/);
+  assert.match(res.body, /Church of the Holy Trinity v\. United States/);
+  assert.match(res.body, /Heydon's Case/);
+  assert.match(res.body, /Caminetti v\. United States/);         // the counterpoint case
+  // a verified verbatim quote from Holy Trinity
+  assert.match(res.body, /within the letter of the statute and yet not within the statute/);
+  // cites present
+  assert.match(res.body, /143 U\.S\. 457/);
+  assert.match(res.body, /115 N\.Y\. 506/);
+});
+
+test('/spirit-of-the-laws carries the textualist counterpoint + the reading list', async () => {
+  const res = await drive('/spirit-of-the-laws');
+  resetAllFetch();
+  assert.match(res.body, /textualist/i);
+  assert.match(res.body, /Scalia/);
+  assert.match(res.body, /Read further/);
+  assert.match(res.body, /The Federalist Papers/);
+});
+
+test('/spirit-of-the-laws is linked in the nav and listed in the sitemap', async () => {
+  const home = await drive('/');
+  const sm = await drive('/sitemap.xml');
+  resetAllFetch();
+  assert.ok(home.body.includes('href="/spirit-of-the-laws"'), 'nav links /spirit-of-the-laws');
+  assert.ok(sm.body.includes('/spirit-of-the-laws'), 'sitemap lists /spirit-of-the-laws');
+});
+
+test('/spirit-of-the-laws injects no scripts beyond the known first-party ones', async () => {
+  const res = await drive('/spirit-of-the-laws');
+  resetAllFetch();
+  const stripped = res.body
+    .replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+  assert.ok(!/<script/.test(stripped), 'no injected scripts');
+});
+
+test('spiritOfTheLawsView renders directly (pure view, no network)', () => {
+  const html = spiritOfTheLawsView();
+  assert.match(html, /Montesquieu/);
+  assert.match(html, /Riggs v\. Palmer/);
+  assert.match(html, /source of record/i);
+});
+
+test('/constitution ties each Article to a type of law (I→statutory, III→case law) + Marbury enforcement', async () => {
+  const res = await drive('/constitution');
+  resetAllFetch();
+  assert.match(res.body, /Article I — Legislative \(Congress\): the source of Statutory Law/);
+  assert.match(res.body, /the Constitution creates the bodies that make Statutory Law and Case Law/);
+  assert.match(res.body, /Article III creates the Supreme Court/);
+});
+
+test('/constitution has the kinds-of-governing-documents comparison (charter/Articles/compact/treaty/bylaws)', async () => {
+  const res = await drive('/constitution');
+  resetAllFetch();
+  assert.match(res.body, /What kind of document is a constitution/);
+  assert.match(res.body, /charter/i);
+  assert.match(res.body, /Articles of Confederation/);
+  assert.match(res.body, /firm league of friendship/);        // AoC verbatim fragment
+  assert.match(res.body, /Mayflower Compact/);
+  assert.match(res.body, /compact theory/i);
+  assert.match(res.body, /Texas v\. White/);
+  assert.match(res.body, /indestructible Union, composed of indestructible States/); // verified quote
+  assert.match(res.body, /Bylaws/);
+});
+
+test('/doctrines teaches how a case gets overruled — the three mechanisms with verified cites', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  assert.match(res.body, /How a case gets overruled/);
+  assert.match(res.body, /Stare decisis/i);
+  // 1) horizontal overruling
+  assert.match(res.body, /Plessy v\. Ferguson/);
+  assert.match(res.body, /163 U\.S\. 537/);
+  assert.match(res.body, /Lawrence v\. Texas/);
+  assert.match(res.body, /Dobbs v\. Jackson/);
+  assert.match(res.body, /Janus v\. AFSCME/);
+  // 2) amendment override
+  assert.match(res.body, /Dred Scott v\. Sandford/);
+  assert.match(res.body, /Chisholm v\. Georgia/);
+  // 3) judicial review striking a statute
+  assert.match(res.body, /Leary v\. United States/);
+  assert.match(res.body, /395 U\.S\. 6/);
+  assert.match(res.body, /United States v\. Morrison/);
+});
+
+test('/doctrines teaches incorporation + the tiers of scrutiny with verified cites', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  assert.match(res.body, /How an incorporated right stands up in court/);
+  // incorporation
+  assert.match(res.body, /Barron v\. Baltimore/);
+  assert.match(res.body, /Duncan v\. Louisiana/);
+  assert.match(res.body, /Timbs v\. Indiana/);
+  assert.match(res.body, /Hurtado v\. California/);   // grand-jury clause NOT incorporated
+  // tiers
+  assert.match(res.body, /Strict scrutiny/);
+  assert.match(res.body, /Intermediate scrutiny/);
+  assert.match(res.body, /[Rr]ational.basis/);
+  assert.match(res.body, /Craig v\. Boren/);
+  assert.match(res.body, /Williamson v\. Lee Optical/);
+  // right-specific tests
+  assert.match(res.body, /Bruen/);
+});
+
+test('/doctrines teaches how to raise a constitutional challenge (Rule 5.1 / §2403 / Texas 402.010) with case law', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  assert.match(res.body, /How you raise a constitutional challenge/);
+  assert.match(res.body, /Rule 5\.1/);
+  assert.match(res.body, /28 U\.S\.C\. &sect; 2403/);
+  assert.match(res.body, /Fed\. R\. App\. P\. 44/);
+  assert.match(res.body, /Maine v\. Taylor/);         // verified §2403(b) case
+  assert.match(res.body, /477 U\.S\. 131/);
+  assert.match(res.body, /Tex\. Gov't Code &sect; 402\.010/);
+  assert.match(res.body, /Ex parte Lo/);              // verified Texas separation-of-powers case
+  assert.match(res.body, /424 S\.W\.3d 10/);
+  assert.match(res.body, /separation of powers/i);
+});
+
+test('/rights adds the state-national + territory/consular/secession sov-cit cards with verified cites', async () => {
+  const res = await drive('/rights');
+  resetAllFetch();
+  // state-national myth vs Wong Kim Ark
+  assert.match(res.body, /state national/i);
+  assert.match(res.body, /Wong Kim Ark/);
+  // Insular Cases
+  assert.match(res.body, /Downes v\. Bidwell/);
+  assert.match(res.body, /182 U\.S\. 244/);
+  assert.match(res.body, /Dorr v\. United States/);
+  assert.match(res.body, /Balzac v\. Porto Rico/);
+  // Consular Cases + repudiation
+  assert.match(res.body, /In re Ross/);
+  assert.match(res.body, /Reid v\. Covert/);
+  // secession / Texas v. White
+  assert.match(res.body, /Texas v\. White/);
+  assert.match(res.body, /74 U\.S\. 700/);
+  assert.match(res.body, /indestructible Union/);
+  // links resolve live via /cases
+  assert.match(res.body, /href="\/cases\?q=74%20U\.S\.%20700/);
 });
