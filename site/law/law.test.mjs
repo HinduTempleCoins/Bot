@@ -1038,6 +1038,25 @@ test('/appeals teaches where to file (specialized courts), ALJ filing, and judic
   assert.match(h, /Supreme Court Justices/);  // the "does not cover" limit
 });
 
+test('/appeals teaches building standing, the SF-95/FTCA path, and cross-agency exhaustion (incl. DEA/RFRA)', async () => {
+  const h = await appealsView({});
+  assert.match(h, /Building standing/i);
+  assert.match(h, /SF-95/);
+  assert.match(h, /sum certain/i);
+  assert.match(h, /Contact these agencies first/i);
+  assert.match(h, /DEA/);
+  assert.match(h, /religious/i);
+});
+
+test('/appeals has a sanctioning guide with the Serafine vexatious-litigant spotlight', async () => {
+  const h = await appealsView({});
+  assert.match(h, /Sanctioning lawyers/i);
+  assert.match(h, /Serafine v\. Crump/);
+  assert.match(h, /Rule 11/);
+  assert.match(h, /Chambers v\. NASCO/);
+  assert.match(h, /§ 1927/);
+});
+
 test('/complaints has a judicial-misconduct block linking to the full treatment', () => {
   const h = complaintsView();
   assert.match(h, /judicial misconduct/i);

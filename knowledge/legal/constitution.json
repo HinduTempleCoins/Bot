@@ -5,9 +5,7 @@
   "text_source_url": "https://www.archives.gov/founding-docs/bill-of-rights-transcript",
   "sourcing_standard": "FACTS + SOURCES, never invented (Bot Charter §3). Amendment text is verbatim public-domain constitutional text; where a section is paraphrased rather than quoted in full, the field is labeled a summary. Every case carries a real reporter citation.",
   "verified_date": "2026-09-22",
-
   "bill_of_rights_intro": "The first ten amendments were proposed by the First Congress in 1789 and ratified on December 15, 1791. Drafted largely by James Madison, they answer the Anti-Federalist demand for a written guarantee of individual liberties. They originally bound only the federal government (Barron v. Baltimore, 32 U.S. 243 (1833)); most have since been 'incorporated' against the States through the Fourteenth Amendment's Due Process Clause.",
-
   "bill_of_rights": [
     {
       "n": "I",
@@ -16,8 +14,16 @@
       "text": "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances.",
       "explains": "The core guarantee of free expression and conscience: government may neither establish nor forbid a religion, and it may not punish speech, the press, peaceful assembly, or petitions to government simply for their content. Its protections are broad but not absolute — narrow categories such as incitement to imminent lawless action, true threats, and defamation fall outside them.",
       "cases": [
-        { "name": "Brandenburg v. Ohio", "cite": "395 U.S. 444 (1969)", "held": "Government may punish advocacy only where it is directed to inciting imminent lawless action and is likely to produce it — the modern speech-protective test." },
-        { "name": "New York Times Co. v. Sullivan", "cite": "376 U.S. 254 (1964)", "held": "A public official cannot recover for defamation about official conduct without proving the statement was made with 'actual malice' — knowledge of falsity or reckless disregard for the truth." }
+        {
+          "name": "Brandenburg v. Ohio",
+          "cite": "395 U.S. 444 (1969)",
+          "held": "Government may punish advocacy only where it is directed to inciting imminent lawless action and is likely to produce it — the modern speech-protective test."
+        },
+        {
+          "name": "New York Times Co. v. Sullivan",
+          "cite": "376 U.S. 254 (1964)",
+          "held": "A public official cannot recover for defamation about official conduct without proving the statement was made with 'actual malice' — knowledge of falsity or reckless disregard for the truth."
+        }
       ]
     },
     {
@@ -27,8 +33,16 @@
       "text": "A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed.",
       "explains": "Protects an individual right to possess firearms, which the government may still regulate. Its scope — what weapons, what carrying, what restrictions survive — is among the most actively litigated questions in constitutional law.",
       "cases": [
-        { "name": "District of Columbia v. Heller", "cite": "554 U.S. 570 (2008)", "held": "The Second Amendment protects an individual right to keep and bear arms for lawful purposes such as self-defense in the home, unconnected to militia service." },
-        { "name": "McDonald v. City of Chicago", "cite": "561 U.S. 742 (2010)", "held": "That individual right applies against the States through the Fourteenth Amendment." }
+        {
+          "name": "District of Columbia v. Heller",
+          "cite": "554 U.S. 570 (2008)",
+          "held": "The Second Amendment protects an individual right to keep and bear arms for lawful purposes such as self-defense in the home, unconnected to militia service."
+        },
+        {
+          "name": "McDonald v. City of Chicago",
+          "cite": "561 U.S. 742 (2010)",
+          "held": "That individual right applies against the States through the Fourteenth Amendment."
+        }
       ]
     },
     {
@@ -38,7 +52,11 @@
       "text": "No Soldier shall, in time of peace be quartered in any house, without the consent of the Owner, nor in time of war, but in a manner to be prescribed by law.",
       "explains": "Bars the government from housing troops in private homes without the owner's consent in peacetime. A response to the pre-Revolution Quartering Acts, it is the least-litigated amendment — but it stands as an early textual root of the idea that the home is constitutionally protected private space.",
       "cases": [
-        { "name": "Engblom v. Carey", "cite": "677 F.2d 957 (2d Cir. 1982)", "held": "One of the very few Third Amendment decisions: the protection reaches a tenant's possessory interest and, in the Second Circuit, applies against the States — but the officials there had qualified immunity." }
+        {
+          "name": "Engblom v. Carey",
+          "cite": "677 F.2d 957 (2d Cir. 1982)",
+          "held": "One of the very few Third Amendment decisions: the protection reaches a tenant's possessory interest and, in the Second Circuit, applies against the States — but the officials there had qualified immunity."
+        }
       ]
     },
     {
@@ -48,8 +66,16 @@
       "text": "The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized.",
       "explains": "Requires that searches and seizures be reasonable and that warrants be based on probable cause and describe specifically what may be searched or seized. The main remedy for a violation is the exclusionary rule — evidence gathered unlawfully is generally kept out of court.",
       "cases": [
-        { "name": "Mapp v. Ohio", "cite": "367 U.S. 643 (1961)", "held": "Evidence obtained in violation of the Fourth Amendment is inadmissible in state as well as federal court — the exclusionary rule, incorporated against the States." },
-        { "name": "Terry v. Ohio", "cite": "392 U.S. 1 (1968)", "held": "An officer with reasonable, articulable suspicion may briefly stop a person and, if there is reason to fear for safety, pat down the outer clothing for weapons." }
+        {
+          "name": "Mapp v. Ohio",
+          "cite": "367 U.S. 643 (1961)",
+          "held": "Evidence obtained in violation of the Fourth Amendment is inadmissible in state as well as federal court — the exclusionary rule, incorporated against the States."
+        },
+        {
+          "name": "Terry v. Ohio",
+          "cite": "392 U.S. 1 (1968)",
+          "held": "An officer with reasonable, articulable suspicion may briefly stop a person and, if there is reason to fear for safety, pat down the outer clothing for weapons."
+        }
       ]
     },
     {
@@ -59,7 +85,11 @@
       "text": "No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury, except in cases arising in the land or naval forces, or in the Militia, when in actual service in time of War or public danger; nor shall any person be subject for the same offence to be twice put in jeopardy of life or limb; nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation.",
       "explains": "Bundles several protections: indictment by grand jury for serious federal crimes, no being tried twice for the same offense, no being forced to testify against oneself, a guarantee of due process of law, and a requirement that the government pay just compensation when it takes private property.",
       "cases": [
-        { "name": "Miranda v. Arizona", "cite": "384 U.S. 436 (1966)", "held": "Before custodial interrogation, police must warn a suspect of the rights to remain silent and to counsel; statements taken without the warnings are generally inadmissible." }
+        {
+          "name": "Miranda v. Arizona",
+          "cite": "384 U.S. 436 (1966)",
+          "held": "Before custodial interrogation, police must warn a suspect of the rights to remain silent and to counsel; statements taken without the warnings are generally inadmissible."
+        }
       ]
     },
     {
@@ -69,7 +99,11 @@
       "text": "In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed, which district shall have been previously ascertained by law, and to be informed of the nature and cause of the accusation; to be confronted with the witnesses against him; to have compulsory process for obtaining witnesses in his favor, and to have the Assistance of Counsel for his defence.",
       "explains": "Sets the terms of a fair criminal trial: it must be speedy and public, before an impartial local jury; the accused must be told the charges, may confront the witnesses against him, may compel favorable witnesses to appear, and has the right to a lawyer.",
       "cases": [
-        { "name": "Gideon v. Wainwright", "cite": "372 U.S. 335 (1963)", "held": "The right to counsel is fundamental; a State must provide a lawyer to a criminal defendant who cannot afford one." }
+        {
+          "name": "Gideon v. Wainwright",
+          "cite": "372 U.S. 335 (1963)",
+          "held": "The right to counsel is fundamental; a State must provide a lawyer to a criminal defendant who cannot afford one."
+        }
       ]
     },
     {
@@ -79,7 +113,11 @@
       "text": "In Suits at common law, where the value in controversy shall exceed twenty dollars, the right of trial by jury shall be preserved, and no fact tried by a jury, shall be otherwise re-examined in any Court of the United States, than according to the rules of the common law.",
       "explains": "Preserves the right to a jury in federal civil cases that are analogous to the common-law suits that would have carried a jury in 1791, and forbids re-examining a jury's factual findings except as the common law allowed. It has not been incorporated against the States.",
       "cases": [
-        { "name": "Curtis v. Loether", "cite": "415 U.S. 189 (1974)", "held": "The civil-jury right extends to a statutory action enforcing legal rights and seeking damages — there, a Fair Housing Act claim — when tried in federal court." }
+        {
+          "name": "Curtis v. Loether",
+          "cite": "415 U.S. 189 (1974)",
+          "held": "The civil-jury right extends to a statutory action enforcing legal rights and seeking damages — there, a Fair Housing Act claim — when tried in federal court."
+        }
       ]
     },
     {
@@ -89,8 +127,16 @@
       "text": "Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted.",
       "explains": "Limits what the government may do to punish: no excessive bail, no excessive fines, and no cruel and unusual punishments. It governs both the kinds of penalties allowed and the conditions of confinement.",
       "cases": [
-        { "name": "Gregg v. Georgia", "cite": "428 U.S. 153 (1976)", "held": "The death penalty is not in all circumstances cruel and unusual, when imposed under statutes that channel and guide the sentencer's discretion." },
-        { "name": "Estelle v. Gamble", "cite": "429 U.S. 97 (1976)", "held": "Deliberate indifference to a prisoner's serious medical needs constitutes cruel and unusual punishment." }
+        {
+          "name": "Gregg v. Georgia",
+          "cite": "428 U.S. 153 (1976)",
+          "held": "The death penalty is not in all circumstances cruel and unusual, when imposed under statutes that channel and guide the sentencer's discretion."
+        },
+        {
+          "name": "Estelle v. Gamble",
+          "cite": "429 U.S. 97 (1976)",
+          "held": "Deliberate indifference to a prisoner's serious medical needs constitutes cruel and unusual punishment."
+        }
       ]
     },
     {
@@ -100,6 +146,7 @@
       "text": "The enumeration in the Constitution, of certain rights, shall not be construed to deny or disparage others retained by the people.",
       "explains": "Listing some rights in the Constitution does not mean those are the only rights the people have — the enumeration is not a ceiling.",
       "elaboration": [
+        "The amendment answers an objection James Madison named when he introduced the Bill of Rights on June 8, 1789: that \"by enumerating particular exceptions to the grant of power, it would disparage those rights which were not placed in that enumeration; and it might follow by implication, that those rights which were not singled out, were intended to be assigned into the hands of the General Government, and were consequently insecure.\" Madison called this \"one of the most plausible arguments\" ever urged against having a bill of rights at all, and said it \"may be guarded against\" — the clause he wrote to do so became the Ninth Amendment.",
         "The central question about the Ninth Amendment is what it actually does. Two readings compete. The first treats it as a font of unenumerated rights — an independent, judicially enforceable source of substantive liberties the Constitution never names. The second, and dominant, reading treats it as a rule of construction: a canon of interpretation that instructs courts not to infer, from the fact that some rights were written down, that the unwritten ones were surrendered. On the rule-of-construction view the Amendment settles an interpretive dispute (it answers the Federalist objection that any bill of rights would be read as an exhaustive list and would thereby shrink liberty to only what was named) but it does not by itself create or locate any particular right. The Supreme Court has never squarely rested a holding on the Ninth Amendment as a stand-alone source of rights, and the prevailing academic and judicial view is the rule-of-construction one. A minority scholarly position disagrees: Randy Barnett's 'presumption of liberty' reads the Amendment as substantive, arguing that it directs government to justify restrictions on unenumerated liberty rather than requiring individuals to prove a right exists. That substantive reading remains a minority position and has not been adopted by the Court.",
         "Because the Amendment's text does not name the rights it protects, the doctrine of unenumerated rights grew up around it and beside it rather than out of it. The landmark is Griswold v. Connecticut (1965), which struck down a Connecticut ban on the use of contraceptives by married couples. Justice Douglas's majority opinion found a right of marital privacy not in any single clause but in what he called the 'penumbras, formed by emanations' of several guarantees taken together — the First, Third, Fourth, Fifth and Ninth Amendments. A 'penumbra,' borrowed from astronomy and optics, is the partial shadow at the edge of a fully shadowed core; Douglas used it to mean the zone of implied protection that surrounds an expressly stated right. 'Emanations' are the things that radiate out from the enumerated guarantees — the peripheral rights without which the named right could not be secure. The Third Amendment's bar on quartering soldiers, the Fourth's protection of the home, the Fifth's self-incrimination privilege each imply a protected private sphere; read together, Douglas held, they create a constitutional right of privacy into which marital intimacy falls.",
         "Justice Goldberg's concurrence in Griswold (joined by Chief Justice Warren and Justice Brennan) rested more directly on the Ninth Amendment. Goldberg argued that the Amendment shows the Framers believed there are fundamental rights beyond those specifically enumerated, and that the language and history of the Ninth Amendment reveal the belief that other, unnamed liberties (marital privacy among them) are protected against governmental infringement. Goldberg's concurrence is the high-water mark of the Ninth Amendment as textual support for unenumerated rights, and it is why the Amendment is so often cited in this area — even though the Court's later doctrine did not take his route.",
@@ -109,18 +156,66 @@
         "In Dobbs v. Jackson Women's Health Organization (2022) the Court adopted the Glucksberg framework as the governing test for unenumerated substantive-due-process rights, held that abortion is not deeply rooted in the Nation's history and tradition, and on that basis overruled Roe v. Wade and Planned Parenthood v. Casey. The majority did not rest on the Ninth Amendment and did not treat it as an independent source of the right; it reasoned entirely within the Fourteenth Amendment's Due Process Clause. The majority stated that its holding concerned abortion alone and cast no doubt on precedents like Griswold, Lawrence, and Obergefell, while a concurrence urged reconsidering those cases and the dissent warned that the same 'deeply rooted' reasoning could reach them. The scope of Dobbs for the rest of the unenumerated-rights line therefore remains contested."
       ],
       "cases": [
-        { "name": "Meyer v. Nebraska", "cite": "262 U.S. 390 (1923)", "held": "A state law barring the teaching of foreign languages to young children violated the Fourteenth Amendment liberty of parents and teachers to direct a child's education, an early recognition of an unenumerated liberty." },
-        { "name": "Pierce v. Society of Sisters", "cite": "268 U.S. 510 (1925)", "held": "A state law compelling attendance at public schools unconstitutionally interfered with the liberty of parents to direct the education and upbringing of their children." },
-        { "name": "Poe v. Ullman", "cite": "367 U.S. 497 (1961)", "held": "The Court dismissed a challenge to Connecticut's contraception ban as unripe; Justice Harlan's dissent, reading Fourteenth Amendment liberty as a living tradition, became the intellectual anchor of modern substantive due process." },
-        { "name": "Griswold v. Connecticut", "cite": "381 U.S. 479 (1965)", "held": "The Court recognized a constitutional right to marital privacy in the 'penumbras' and 'emanations' of several guarantees; Justice Goldberg's concurrence invoked the Ninth Amendment as textual support for rights not specifically enumerated." },
-        { "name": "Eisenstadt v. Baird", "cite": "405 U.S. 438 (1972)", "held": "A law denying unmarried people access to contraceptives violated equal protection, extending the privacy right to individuals rather than only to married couples." },
-        { "name": "Roe v. Wade", "cite": "410 U.S. 113 (1973)", "held": "The constitutional right of privacy was broad enough to encompass a woman's decision whether to terminate a pregnancy, subject to a trimester framework balancing that right against state interests." },
-        { "name": "Planned Parenthood of Southeastern Pennsylvania v. Casey", "cite": "505 U.S. 833 (1992)", "held": "The Court reaffirmed what it called the essential holding of Roe while discarding the trimester framework in favor of an 'undue burden' standard, grounding the right in Fourteenth Amendment liberty." },
-        { "name": "Washington v. Glucksberg", "cite": "521 U.S. 702 (1997)", "held": "There is no fundamental right to physician-assisted suicide; substantive due process protects only rights 'deeply rooted in this Nation's history and tradition' and 'implicit in the concept of ordered liberty,' stated with careful description." },
-        { "name": "Troxel v. Granville", "cite": "530 U.S. 57 (2000)", "held": "A state visitation statute applied over a fit parent's objection violated the parent's fundamental Fourteenth Amendment right to make decisions about the care, custody, and control of her children." },
-        { "name": "Lawrence v. Texas", "cite": "539 U.S. 558 (2003)", "held": "A law criminalizing consensual same-sex intimacy violated the Due Process Clause; the Court drew expressly on Justice Harlan's Poe dissent and overruled Bowers v. Hardwick." },
-        { "name": "Obergefell v. Hodges", "cite": "576 U.S. 644 (2015)", "held": "The right to marry is a fundamental liberty that extends to same-sex couples under the Due Process and Equal Protection Clauses of the Fourteenth Amendment." },
-        { "name": "Dobbs v. Jackson Women's Health Organization", "cite": "597 U.S. 215 (2022)", "held": "Applying Glucksberg's 'deeply rooted' test, the Court held the Constitution confers no right to abortion and overruled Roe and Casey, resting on the Fourteenth Amendment's Due Process Clause rather than the Ninth Amendment." }
+        {
+          "name": "Meyer v. Nebraska",
+          "cite": "262 U.S. 390 (1923)",
+          "held": "A state law barring the teaching of foreign languages to young children violated the Fourteenth Amendment liberty of parents and teachers to direct a child's education, an early recognition of an unenumerated liberty."
+        },
+        {
+          "name": "Pierce v. Society of Sisters",
+          "cite": "268 U.S. 510 (1925)",
+          "held": "A state law compelling attendance at public schools unconstitutionally interfered with the liberty of parents to direct the education and upbringing of their children."
+        },
+        {
+          "name": "Poe v. Ullman",
+          "cite": "367 U.S. 497 (1961)",
+          "held": "The Court dismissed a challenge to Connecticut's contraception ban as unripe; Justice Harlan's dissent, reading Fourteenth Amendment liberty as a living tradition, became the intellectual anchor of modern substantive due process."
+        },
+        {
+          "name": "Griswold v. Connecticut",
+          "cite": "381 U.S. 479 (1965)",
+          "held": "The Court recognized a constitutional right to marital privacy in the 'penumbras' and 'emanations' of several guarantees; Justice Goldberg's concurrence invoked the Ninth Amendment as textual support for rights not specifically enumerated."
+        },
+        {
+          "name": "Eisenstadt v. Baird",
+          "cite": "405 U.S. 438 (1972)",
+          "held": "A law denying unmarried people access to contraceptives violated equal protection, extending the privacy right to individuals rather than only to married couples."
+        },
+        {
+          "name": "Roe v. Wade",
+          "cite": "410 U.S. 113 (1973)",
+          "held": "The constitutional right of privacy was broad enough to encompass a woman's decision whether to terminate a pregnancy, subject to a trimester framework balancing that right against state interests."
+        },
+        {
+          "name": "Planned Parenthood of Southeastern Pennsylvania v. Casey",
+          "cite": "505 U.S. 833 (1992)",
+          "held": "The Court reaffirmed what it called the essential holding of Roe while discarding the trimester framework in favor of an 'undue burden' standard, grounding the right in Fourteenth Amendment liberty."
+        },
+        {
+          "name": "Washington v. Glucksberg",
+          "cite": "521 U.S. 702 (1997)",
+          "held": "There is no fundamental right to physician-assisted suicide; substantive due process protects only rights 'deeply rooted in this Nation's history and tradition' and 'implicit in the concept of ordered liberty,' stated with careful description."
+        },
+        {
+          "name": "Troxel v. Granville",
+          "cite": "530 U.S. 57 (2000)",
+          "held": "A state visitation statute applied over a fit parent's objection violated the parent's fundamental Fourteenth Amendment right to make decisions about the care, custody, and control of her children."
+        },
+        {
+          "name": "Lawrence v. Texas",
+          "cite": "539 U.S. 558 (2003)",
+          "held": "A law criminalizing consensual same-sex intimacy violated the Due Process Clause; the Court drew expressly on Justice Harlan's Poe dissent and overruled Bowers v. Hardwick."
+        },
+        {
+          "name": "Obergefell v. Hodges",
+          "cite": "576 U.S. 644 (2015)",
+          "held": "The right to marry is a fundamental liberty that extends to same-sex couples under the Due Process and Equal Protection Clauses of the Fourteenth Amendment."
+        },
+        {
+          "name": "Dobbs v. Jackson Women's Health Organization",
+          "cite": "597 U.S. 215 (2022)",
+          "held": "Applying Glucksberg's 'deeply rooted' test, the Court held the Constitution confers no right to abortion and overruled Roe and Casey, resting on the Fourteenth Amendment's Due Process Clause rather than the Ninth Amendment."
+        }
       ]
     },
     {
@@ -130,62 +225,110 @@
       "text": "The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people.",
       "explains": "Confirms that the federal government has only the powers the Constitution grants it; everything else stays with the States or the people. It is the textual anchor of federalism and of the anticommandeering principle.",
       "cases": [
-        { "name": "New York v. United States", "cite": "505 U.S. 144 (1992)", "held": "Congress may not compel a State to enact or administer a federal regulatory program — it cannot 'commandeer' the state legislature." },
-        { "name": "Printz v. United States", "cite": "521 U.S. 898 (1997)", "held": "Congress likewise cannot command state or local officers to carry out a federal regulatory program." }
+        {
+          "name": "New York v. United States",
+          "cite": "505 U.S. 144 (1992)",
+          "held": "Congress may not compel a State to enact or administer a federal regulatory program — it cannot 'commandeer' the state legislature."
+        },
+        {
+          "name": "Printz v. United States",
+          "cite": "521 U.S. 898 (1997)",
+          "held": "Congress likewise cannot command state or local officers to carry out a federal regulatory program."
+        }
       ]
     }
   ],
-
   "later_amendments_intro": "After the Bill of Rights, seventeen more amendments have been ratified. The Reconstruction Amendments (13, 14, 15) remade the constitutional order after the Civil War; later amendments expanded the vote, changed how the government is elected and succeeds itself, and enabled the modern income tax. A representative selection follows, with text (verbatim where short) and what each did.",
-
   "later_amendments": [
     {
-      "n": "XIII", "num": 13, "year": "1865",
+      "n": "XIII",
+      "num": 13,
+      "year": "1865",
       "title": "Thirteenth Amendment — abolition of slavery",
       "text": "Section 1. Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction.\nSection 2. Congress shall have power to enforce this article by appropriate legislation.",
       "verbatim": true,
       "what": "Abolished slavery and involuntary servitude throughout the United States (with a narrow exception for punishment of a duly convicted crime). Unlike most of the Constitution, it binds private persons, not just government, and empowers Congress to legislate against slavery and its 'badges and incidents.'",
       "cases": [
-        { "name": "The Civil Rights Cases", "cite": "109 U.S. 3 (1883)", "held": "The Fourteenth Amendment's enforcement power reaches state, not private, action — narrowing early civil-rights legislation (later answered by Congress under the commerce power)." },
-        { "name": "Jones v. Alfred H. Mayer Co.", "cite": "392 U.S. 409 (1968)", "held": "Congress's Thirteenth Amendment enforcement power reaches private racial discrimination in the sale or rental of property, as a badge or incident of slavery." }
+        {
+          "name": "The Civil Rights Cases",
+          "cite": "109 U.S. 3 (1883)",
+          "held": "The Fourteenth Amendment's enforcement power reaches state, not private, action — narrowing early civil-rights legislation (later answered by Congress under the commerce power)."
+        },
+        {
+          "name": "Jones v. Alfred H. Mayer Co.",
+          "cite": "392 U.S. 409 (1968)",
+          "held": "Congress's Thirteenth Amendment enforcement power reaches private racial discrimination in the sale or rental of property, as a badge or incident of slavery."
+        }
       ]
     },
     {
-      "n": "XIV", "num": 14, "year": "1868",
+      "n": "XIV",
+      "num": 14,
+      "year": "1868",
       "title": "Fourteenth Amendment — citizenship, due process, equal protection",
       "text": "Section 1. All persons born or naturalized in the United States, and subject to the jurisdiction thereof, are citizens of the United States and of the State wherein they reside. No State shall make or enforce any law which shall abridge the privileges or immunities of citizens of the United States; nor shall any State deprive any person of life, liberty, or property, without due process of law; nor deny to any person within its jurisdiction the equal protection of the laws.\nSection 5. The Congress shall have power to enforce, by appropriate legislation, the provisions of this article.",
       "verbatim": true,
       "sections_note": "Section 1 and Section 5 are quoted verbatim. Section 2 (apportionment of representatives, with a penalty for denying the vote), Section 3 (barring insurrectionists who had sworn to support the Constitution from office, subject to a two-thirds congressional waiver), and Section 4 (validity of the public debt; repudiation of Confederate debts) are summarized here.",
       "what": "The most consequential amendment after the Bill of Rights. Its Citizenship Clause overruled Dred Scott and made everyone born in the country a citizen; its Due Process Clause is the vehicle that 'incorporated' most of the Bill of Rights against the States; and its Equal Protection Clause is the foundation of modern anti-discrimination law.",
       "cases": [
-        { "name": "Gitlow v. New York", "cite": "268 U.S. 652 (1925)", "held": "Began incorporation: the free-speech guarantee of the First Amendment applies to the States through the Fourteenth Amendment's Due Process Clause." },
-        { "name": "Brown v. Board of Education", "cite": "347 U.S. 483 (1954)", "held": "State-mandated racial segregation of public schools violates the Equal Protection Clause; 'separate educational facilities are inherently unequal.'" },
-        { "name": "Obergefell v. Hodges", "cite": "576 U.S. 644 (2015)", "held": "The Due Process and Equal Protection Clauses guarantee the right to marry to same-sex couples." }
+        {
+          "name": "Gitlow v. New York",
+          "cite": "268 U.S. 652 (1925)",
+          "held": "Began incorporation: the free-speech guarantee of the First Amendment applies to the States through the Fourteenth Amendment's Due Process Clause."
+        },
+        {
+          "name": "Brown v. Board of Education",
+          "cite": "347 U.S. 483 (1954)",
+          "held": "State-mandated racial segregation of public schools violates the Equal Protection Clause; 'separate educational facilities are inherently unequal.'"
+        },
+        {
+          "name": "Obergefell v. Hodges",
+          "cite": "576 U.S. 644 (2015)",
+          "held": "The Due Process and Equal Protection Clauses guarantee the right to marry to same-sex couples."
+        }
       ]
     },
     {
-      "n": "XV", "num": 15, "year": "1870",
+      "n": "XV",
+      "num": 15,
+      "year": "1870",
       "title": "Fifteenth Amendment — the vote regardless of race",
       "text": "Section 1. The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of race, color, or previous condition of servitude.\nSection 2. The Congress shall have power to enforce this article by appropriate legislation.",
       "verbatim": true,
       "what": "Barred denying the vote on account of race, color, or previous condition of servitude, and gave Congress power to enforce it — the basis for the Voting Rights Act of 1965.",
       "cases": [
-        { "name": "South Carolina v. Katzenbach", "cite": "383 U.S. 301 (1966)", "held": "Upheld the core of the Voting Rights Act of 1965 as a valid exercise of Congress's Fifteenth Amendment enforcement power." },
-        { "name": "Shelby County v. Holder", "cite": "570 U.S. 529 (2013)", "held": "Struck down the coverage formula that determined which jurisdictions needed federal preclearance, as no longer justified by current conditions." }
+        {
+          "name": "South Carolina v. Katzenbach",
+          "cite": "383 U.S. 301 (1966)",
+          "held": "Upheld the core of the Voting Rights Act of 1965 as a valid exercise of Congress's Fifteenth Amendment enforcement power."
+        },
+        {
+          "name": "Shelby County v. Holder",
+          "cite": "570 U.S. 529 (2013)",
+          "held": "Struck down the coverage formula that determined which jurisdictions needed federal preclearance, as no longer justified by current conditions."
+        }
       ]
     },
     {
-      "n": "XVI", "num": 16, "year": "1913",
+      "n": "XVI",
+      "num": 16,
+      "year": "1913",
       "title": "Sixteenth Amendment — the federal income tax",
       "text": "The Congress shall have power to lay and collect taxes on incomes, from whatever source derived, without apportionment among the several States, and without regard to any census or enumeration.",
       "verbatim": true,
       "what": "Let Congress tax incomes without apportioning the tax among the States by population — the constitutional basis of the modern income tax. It was adopted specifically to override the Supreme Court's contrary decision in Pollock.",
       "cases": [
-        { "name": "Pollock v. Farmers' Loan & Trust Co.", "cite": "157 U.S. 429 (1895)", "held": "Had held a federal income tax on property income an unapportioned direct tax and therefore unconstitutional — the decision the Sixteenth Amendment was ratified to reverse." }
+        {
+          "name": "Pollock v. Farmers' Loan & Trust Co.",
+          "cite": "157 U.S. 429 (1895)",
+          "held": "Had held a federal income tax on property income an unapportioned direct tax and therefore unconstitutional — the decision the Sixteenth Amendment was ratified to reverse."
+        }
       ]
     },
     {
-      "n": "XVII", "num": 17, "year": "1913",
+      "n": "XVII",
+      "num": 17,
+      "year": "1913",
       "title": "Seventeenth Amendment — direct election of Senators",
       "text": "The Senate of the United States shall be composed of two Senators from each State, elected by the people thereof, for six years; and each Senator shall have one vote.",
       "verbatim": false,
@@ -193,17 +336,25 @@
       "what": "Changed how Senators are chosen: from selection by state legislatures (the original Article I design) to direct election by the people of each State."
     },
     {
-      "n": "XIX", "num": 19, "year": "1920",
+      "n": "XIX",
+      "num": 19,
+      "year": "1920",
       "title": "Nineteenth Amendment — women's suffrage",
       "text": "The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of sex. Congress shall have power to enforce this article by appropriate legislation.",
       "verbatim": true,
       "what": "Guaranteed that the right to vote could not be denied on account of sex — the culmination of the decades-long women's suffrage movement.",
       "cases": [
-        { "name": "Leser v. Garnett", "cite": "258 U.S. 130 (1922)", "held": "Rejected a challenge to the amendment's validity and upheld its ratification, confirming women's constitutional right to vote." }
+        {
+          "name": "Leser v. Garnett",
+          "cite": "258 U.S. 130 (1922)",
+          "held": "Rejected a challenge to the amendment's validity and upheld its ratification, confirming women's constitutional right to vote."
+        }
       ]
     },
     {
-      "n": "XXII", "num": 22, "year": "1951",
+      "n": "XXII",
+      "num": 22,
+      "year": "1951",
       "title": "Twenty-second Amendment — presidential term limits",
       "text": "No person shall be elected to the office of the President more than twice, and no person who has held the office of President, or acted as President, for more than two years of a term to which some other person was elected President shall be elected to the office of the President more than once.",
       "verbatim": false,
@@ -211,17 +362,25 @@
       "what": "Wrote the two-term limit into the Constitution, making permanent the tradition George Washington began and Franklin D. Roosevelt broke by winning four elections."
     },
     {
-      "n": "XXIV", "num": 24, "year": "1964",
+      "n": "XXIV",
+      "num": 24,
+      "year": "1964",
       "title": "Twenty-fourth Amendment — abolition of the poll tax",
       "text": "Section 1. The right of citizens of the United States to vote in any primary or other election for President or Vice President, for electors for President or Vice President, or for Senator or Representative in Congress, shall not be denied or abridged by the United States or any State by reason of failure to pay any poll tax or other tax.\nSection 2. The Congress shall have power to enforce this article by appropriate legislation.",
       "verbatim": true,
       "what": "Banned poll taxes as a condition of voting in federal elections — one of the tools long used to keep poor and Black citizens from the polls.",
       "cases": [
-        { "name": "Harman v. Forssenius", "cite": "380 U.S. 528 (1965)", "held": "Struck down a state scheme that required poll-tax non-payers to file a certificate of residence, as an unconstitutional burden that evaded the Twenty-fourth Amendment." }
+        {
+          "name": "Harman v. Forssenius",
+          "cite": "380 U.S. 528 (1965)",
+          "held": "Struck down a state scheme that required poll-tax non-payers to file a certificate of residence, as an unconstitutional burden that evaded the Twenty-fourth Amendment."
+        }
       ]
     },
     {
-      "n": "XXV", "num": 25, "year": "1967",
+      "n": "XXV",
+      "num": 25,
+      "year": "1967",
       "title": "Twenty-fifth Amendment — presidential succession and disability",
       "text": "Section 1. In case of the removal of the President from office or of his death or resignation, the Vice President shall become President.\nSection 2. Whenever there is a vacancy in the office of the Vice President, the President shall nominate a Vice President who shall take office upon confirmation by a majority vote of both Houses of Congress.",
       "verbatim": true,
@@ -229,13 +388,19 @@
       "what": "Filled gaps the original Constitution left in presidential succession: it confirms the Vice President becomes President on a vacancy, provides for filling a vacant vice presidency, and sets out orderly procedures for handling a President's inability to serve."
     },
     {
-      "n": "XXVI", "num": 26, "year": "1971",
+      "n": "XXVI",
+      "num": 26,
+      "year": "1971",
       "title": "Twenty-sixth Amendment — the vote at eighteen",
       "text": "Section 1. The right of citizens of the United States, who are eighteen years of age or older, to vote shall not be denied or abridged by the United States or by any State on account of age.\nSection 2. The Congress shall have power to enforce this article by appropriate legislation.",
       "verbatim": true,
       "what": "Lowered the voting age to eighteen nationwide. Ratified faster than any other amendment, it answered the Vietnam-era argument that those old enough to be drafted were old enough to vote — and resolved the split the Court had created in Oregon v. Mitchell.",
       "cases": [
-        { "name": "Oregon v. Mitchell", "cite": "400 U.S. 112 (1970)", "held": "Held Congress could set an 18-year voting age for federal but not state elections — the unworkable split that prompted the Twenty-sixth Amendment." }
+        {
+          "name": "Oregon v. Mitchell",
+          "cite": "400 U.S. 112 (1970)",
+          "held": "Held Congress could set an 18-year voting age for federal but not state elections — the unworkable split that prompted the Twenty-sixth Amendment."
+        }
       ]
     }
   ]

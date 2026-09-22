@@ -1,0 +1,174 @@
+{
+  "title": "How to Sanction Lawyers and Opposing Parties — and How to Defend Against Sanctions and Vexatious-Litigant Abuse",
+  "intro": "Courts have real teeth against litigation misconduct. They can punish frivolous or bad-faith filings, penalize discovery abuse, shift attorney's fees onto the offending side, and — through their inherent power — sanction conduct that abuses the judicial process. The same toolbox cuts both ways: it is used offensively (a motion to sanction a lawyer or party who is running up costs in bad faith) and defensively (fighting an abusive 'vexatious litigant' designation or an overbroad pre-filing bar that is really just a way to lock a disfavored litigant out of court). This guide maps the federal mechanisms, the Texas state mechanisms as a worked example, and spotlights the Serafine cases — where the Texas Supreme Court threw out a vexatious-litigant designation because the court had miscounted appeals as separate lawsuits. It is public legal information, not legal advice. Sanctions target conduct, not disagreement; a losing argument is not a sanctionable one.",
+  "federal_mechanisms": [
+    {
+      "tool": "FRCP 11 (frivolous/bad-faith filings)",
+      "what": "Every pleading, motion, or paper filed in federal court certifies that it is not being presented for an improper purpose, that the legal contentions are warranted, and that the factual contentions have (or will likely have) evidentiary support. A violation exposes the signer, the law firm, and the party to sanctions.",
+      "how": "Rule 11(c) sanctions require a separate motion describing the specific offending conduct. Critically, the rule has a 21-day 'safe harbor': you must serve the motion on your opponent first and wait 21 days before filing it with the court, giving them a chance to withdraw or correct the paper. If they fix it in time, you cannot file. A court can also raise Rule 11 on its own by order to show cause (no safe harbor in that path). Sanctions are meant to deter, not to compensate, and are often non-monetary or paid to the court.",
+      "key_cases": [],
+      "authority": "Fed. R. Civ. P. 11, esp. Rule 11(c) and the 21-day safe harbor in Rule 11(c)(2)."
+    },
+    {
+      "tool": "28 U.S.C. § 1927 (vexatious multiplication of proceedings)",
+      "what": "A statute aimed squarely at attorneys: any lawyer who 'so multiplies the proceedings in any case unreasonably and vexatiously' may be ordered personally to pay the excess costs, expenses, and attorney's fees reasonably incurred because of that conduct.",
+      "how": "Reaches duplicative filings, baseless motions, needless discovery, and persistence in meritless positions that prolong the case and drive up cost. Unlike Rule 11, there is no 21-day safe harbor. The award runs against the offending attorney personally — not the client. Most circuits require a showing of bad faith or conduct tantamount to it.",
+      "key_cases": [],
+      "authority": "28 U.S.C. § 1927."
+    },
+    {
+      "tool": "The court's inherent power",
+      "what": "Independent of any rule or statute, federal courts have an inherent power to manage their proceedings and to sanction bad-faith conduct that abuses the judicial process — up to and including dismissal, default, or an assessment of the other side's attorney's fees.",
+      "how": "Use it where Rule 11 and § 1927 do not fully reach the misconduct (for example, a pattern of bad-faith conduct spanning the whole case, or fraud aimed at the court). A specific finding of bad faith (or conduct tantamount to bad faith) is required. When the sanction is a fee award, it must be tied to the harm: the amount is generally limited to the fees the innocent party incurred *because of* the misconduct (a but-for causal link), except in truly egregious cases where the misconduct infected the entire litigation.",
+      "key_cases": [
+        {
+          "name": "Chambers v. NASCO, Inc.",
+          "cite": "501 U.S. 32 (1991)",
+          "held": "Federal courts have inherent power to sanction bad-faith conduct that abuses the judicial process, including by assessing the opposing party's attorney's fees; this power exists alongside, and is not displaced by, Rule 11 and § 1927."
+        },
+        {
+          "name": "Roadway Express, Inc. v. Piper",
+          "cite": "447 U.S. 752 (1980)",
+          "held": "Courts may assess attorney's fees as a sanction for litigation abuse under their inherent power, but only on a specific finding of bad faith."
+        },
+        {
+          "name": "Goodyear Tire & Rubber Co. v. Haeger",
+          "cite": "581 U.S. 101 (2017)",
+          "held": "An inherent-power fee-shifting sanction must be compensatory, not punitive: it is limited to the legal fees the innocent party incurred solely because of the misconduct (a but-for causal link), except where egregious behavior infected the entire case."
+        }
+      ],
+      "authority": "Inherent judicial power, as recognized in Chambers, Roadway Express, and Goodyear v. Haeger."
+    },
+    {
+      "tool": "FRCP 37 (discovery sanctions)",
+      "what": "Sanctions for failing to make disclosures, answer discovery, or obey a discovery order — the main lever against stonewalling, evasive responses, and destruction of evidence.",
+      "how": "Remedies escalate: an order compelling discovery plus fees, then, for disobeying that order, deeming facts established, barring evidence or defenses, striking pleadings, staying the case, dismissal, default, or contempt. A motion generally requires a good-faith meet-and-confer certification. Rule 37(e) addresses spoliation of electronically stored information.",
+      "key_cases": [],
+      "authority": "Fed. R. Civ. P. 37."
+    },
+    {
+      "tool": "FRAP 38 (frivolous appeal — damages and costs)",
+      "what": "On appeal, if the court of appeals determines an appeal is frivolous, it may award 'just damages' and single or double costs to the appellee.",
+      "how": "Requires a separately filed motion (a request buried in a brief is not sufficient notice) or notice from the court, plus a reasonable opportunity to respond. Aimed at appeals that give the court nothing genuine to decide.",
+      "key_cases": [],
+      "authority": "Fed. R. App. P. 38."
+    },
+    {
+      "tool": "Fraud on the court (FRCP 60(b)(3) and 60(d)(3))",
+      "what": "A judgment procured by fraud, misrepresentation, or misconduct can be reopened. Rule 60(b)(3) covers fraud/misrepresentation/misconduct by an opposing party; the separate savings clause in Rule 60(d)(3) preserves the court's power to set aside a judgment for 'fraud on the court.'",
+      "how": "Rule 60(b)(3) motions must be brought within a reasonable time and no later than one year after judgment. The one-year cap does NOT apply to fraud on the court under Rule 60(d)(3) — that power is not time-barred, which is what makes it the tool for deep, deliberate fraud aimed at the judicial machinery discovered years later.",
+      "key_cases": [
+        {
+          "name": "Hazel-Atlas Glass Co. v. Hartford-Empire Co.",
+          "cite": "322 U.S. 238 (1944)",
+          "held": "A court has the power to vacate its own judgment obtained through a deliberate fraud on the court, and that power is not cut off by the ordinary time limits — even a judgment entered in a prior term may be set aside where fraud on the court is proven."
+        }
+      ],
+      "authority": "Fed. R. Civ. P. 60(b)(3) and 60(d)(3); Hazel-Atlas Glass Co. v. Hartford-Empire Co."
+    },
+    {
+      "tool": "Defending against a federal pre-filing injunction (the flip side)",
+      "what": "Federal courts can bar a truly abusive litigant from filing without leave, but the power is constrained — an overbroad or procedurally defective 'vexatious litigant' order can be challenged on appeal.",
+      "how": "Before a pre-filing bar issues, the litigant is entitled to (1) notice and an opportunity to be heard; (2) an adequate record for review; (3) substantive findings that the filings were frivolous or harassing; and (4) an order narrowly tailored to the specific abuse. A bar entered without notice, without findings, or sweeping more broadly than the abuse requires is vulnerable.",
+      "key_cases": [
+        {
+          "name": "De Long v. Hennessey",
+          "cite": "912 F.2d 1144 (9th Cir. 1990)",
+          "held": "A pre-filing injunction against a vexatious litigant requires notice and an opportunity to be heard, an adequate record, substantive findings of frivolousness or harassment, and an order narrowly tailored to the abuse."
+        },
+        {
+          "name": "Baum v. Blue Moon Ventures, LLC",
+          "cite": "513 F.3d 181 (5th Cir. 2008)",
+          "held": "A pre-filing injunction must be tailored to protect the courts and innocent parties while preserving the legitimate rights of litigants; notice and an opportunity to respond are required before a filing bar is imposed (Fifth Circuit)."
+        }
+      ],
+      "authority": "Federal courts' power to enter pre-filing injunctions, as limited by De Long (9th Cir.) and Baum (5th Cir.)."
+    }
+  ],
+  "state_mechanisms": [
+    {
+      "tool": "Tex. R. Civ. P. 13 (groundless/bad-faith pleadings)",
+      "what": "By signing, an attorney or party certifies that after reasonable inquiry the pleading, motion, or paper is not groundless and brought in bad faith, or groundless and brought to harass. 'Groundless' means no basis in law or fact and not warranted by a good-faith argument to extend, modify, or reverse existing law.",
+      "how": "Sanctions issue only for good cause, the particulars of which must be stated in the order. Courts presume filings are made in good faith, and 'groundless' is judged objectively as of the time of filing. The state analogue to Rule 11.",
+      "key_cases": [],
+      "authority": "Tex. R. Civ. P. 13."
+    },
+    {
+      "tool": "Tex. Civ. Prac. & Rem. Code ch. 9 and ch. 10 (frivolous-pleading sanctions)",
+      "what": "Statutory frivolous-pleading regimes. Chapter 10 lets a court sanction an attorney or party for filing pleadings or motions that lack a reasonable basis in fact or law, or are filed for an improper purpose. Chapter 9 is the older frivolous-pleadings statute covering cases where neither Rule 13 nor Chapter 10 applies.",
+      "how": "Chapter 10 requires the certification analysis (proper purpose, legal and factual support) and an order describing the sanctioned conduct and the basis for the sanction. These are often pleaded alongside Rule 13.",
+      "key_cases": [],
+      "authority": "Tex. Civ. Prac. & Rem. Code ch. 9; ch. 10."
+    },
+    {
+      "tool": "Texas Citizens Participation Act — anti-SLAPP (Tex. Civ. Prac. & Rem. Code ch. 27)",
+      "what": "Texas's anti-SLAPP statute lets a defendant move early to dismiss a 'legal action' that is based on, relates to, or responds to the defendant's exercise of the rights of free speech, petition, or association. It is a powerful cost- and fee-shifting weapon against retaliatory or speech-chilling suits.",
+      "how": "On a successful motion to dismiss under the TCPA, the court SHALL award the moving party court costs and reasonable attorney's fees (mandatory), plus sanctions sufficient to deter similar actions (§ 27.009(a)). If a TCPA motion itself is frivolous or filed solely to delay, the court may award fees to the responding party (§ 27.009(b)). Interlocutory review is available.",
+      "key_cases": [
+        {
+          "name": "Serafine v. Blunt",
+          "cite": "466 S.W.3d 352 (Tex. App.—Austin 2015)",
+          "held": "Applied the TCPA to a neighbor dispute; a leading early opinion (Justice Pemberton's concurrence) analyzing the statute's broad reach in mapping which claims the anti-SLAPP statute covers."
+        }
+      ],
+      "authority": "Tex. Civ. Prac. & Rem. Code ch. 27, esp. § 27.009 (fee/sanction award)."
+    },
+    {
+      "tool": "Vexatious-litigant statute (Tex. Civ. Prac. & Rem. Code ch. 11)",
+      "what": "Lets a defendant move to have a pro se plaintiff declared a 'vexatious litigant,' which can require the plaintiff to post security and can trigger a pre-filing order barring new pro se suits without a local administrative judge's permission. Powerful — and, when misused, a way to lock a disfavored litigant out of court.",
+      "how": "Under § 11.054 the movant must show BOTH (1) no reasonable probability the plaintiff will prevail in the current litigation, AND (2) that within the preceding seven years the plaintiff commenced, prosecuted, or maintained at least five pro se litigations (other than in small claims) finally determined adversely to the plaintiff — the conjunctive 'five-litigation' predicate. Under § 11.101 a pre-filing order may issue only after notice and hearing, and it is separately appealable. Defense angle: attack the count. Appeals, mandamus, and petitions for review arising from one lawsuit are part of that same lawsuit, not separate 'litigations' (see Serafine v. Crump). If collapsing the appellate steps drops the count below five, the predicate fails and the order is unauthorized.",
+      "key_cases": [
+        {
+          "name": "Serafine v. Crump",
+          "cite": "691 S.W.3d 917 (Tex. 2024)",
+          "held": "The Supreme Court of Texas reversed a vexatious-litigant designation because a notice of appeal or petition for review does not commence a new civil action — it transfers jurisdiction over the same one — so appellate steps cannot be counted as separate 'litigations' toward the § 11.054 five-litigation predicate. Counted correctly, the plaintiff had four qualifying litigations, not five, and the designation failed."
+        }
+      ],
+      "authority": "Tex. Civ. Prac. & Rem. Code ch. 11, esp. § 11.054 (two predicates) and § 11.101 (notice-and-hearing; appealable)."
+    }
+  ],
+  "serafine_spotlight": {
+    "cases": [
+      {
+        "name": "Serafine v. Crump",
+        "cite": "691 S.W.3d 917 (Tex. 2024) (No. 23-0272, decided June 21, 2024)",
+        "held": "SCOTX reversed a Texas vexatious-litigant designation. The exact holding, verified against the Court's opinion: 'filing a notice of appeal—or later, a petition for review—does not commence a new civil action; it transfers jurisdiction over the same civil action.' Because the courts below had counted appeals and original proceedings arising from a single lawsuit as separate 'litigations' to reach five, the count was wrong; corrected, it was four, short of the § 11.054 threshold, and the designation could not stand.",
+        "why_it_matters": "The five-litigation predicate is not a soft factor a court weighs — it is a precondition to the court's authority to enter the order. A designation built by miscounting appellate steps as separate suits rests on arithmetic that a reviewing court reviews de novo, not on discretion it must defer to. One lawsuit plus all of its appeals is ONE litigation."
+      },
+      {
+        "name": "Serafine v. Blunt",
+        "cite": "466 S.W.3d 352 (Tex. App.—Austin 2015)",
+        "held": "A leading Texas anti-SLAPP (TCPA, ch. 27) decision arising from a neighbor property dispute, mapping which claims fall within the statute; notable for Justice Pemberton's concurrence describing the TCPA's sweeping reach in Texas civil litigation.",
+        "why_it_matters": "Shows the offensive side of the same litigant's fights: the TCPA's mandatory fee-and-sanction award is a fast, front-loaded weapon against a suit that targets protected speech or petitioning — the mirror image of the defensive win in Crump."
+      }
+    ],
+    "lesson": "The vexatious-litigant and anti-SLAPP statutes are double-edged. Used correctly they stop genuine abuse and shift fees; used wrongly a vexatious-litigant designation becomes a tool to silence a persistent litigant. Crump is the model for the defense: do not argue the merits of who is sympathetic — audit the statutory predicate. Collapse every appeal, mandamus, and petition for review into the single trial-court action it came from, then count. If the number is under five, the order is unauthorized on its face, and that is arithmetic a court cannot defer around."
+  },
+  "other_tracks": [
+    {
+      "track": "State bar grievance / attorney discipline",
+      "detail": "A separate regulatory track, NOT a motion in your case. A grievance goes to the state bar's disciplinary system, which can investigate and impose professional discipline (reprimand, suspension, disbarment) for violations such as making a false statement of material fact or law to a tribunal. It does not require a prosecutor or a judge in your case to act, and it proceeds independently of the litigation.",
+      "authority": "State bar disciplinary rules (in Texas, the Texas Disciplinary Rules of Professional Conduct, e.g., Rule 3.03, Candor Toward the Tribunal)."
+    },
+    {
+      "track": "Civil and criminal contempt",
+      "detail": "Contempt enforces the court's own orders. Civil contempt is coercive or compensatory — designed to force compliance or compensate the other side — and the contemnor can usually purge it by complying. Criminal contempt is punitive, for defiance of the court, and carries the corresponding procedural protections. Use it where a party or lawyer violates a clear court order (e.g., a discovery order or an injunction).",
+      "authority": "The court's contempt power (statutory and inherent)."
+    },
+    {
+      "track": "Motion to disqualify counsel",
+      "detail": "Not a sanction in the punitive sense but a related lever: where opposing counsel has a conflict of interest, is a necessary witness, or improperly obtained privileged material, a motion to disqualify can remove them from the case. It is disfavored as a tactical weapon and requires a real ethical basis, not mere inconvenience.",
+      "authority": "Rules of professional conduct on conflicts and lawyer-as-witness; the court's authority over the attorneys before it."
+    }
+  ],
+  "how_to_move": [
+    "Put the offending conduct in writing early: a letter or email identifying the specific frivolous filing, misrepresentation, or discovery failure, and asking the other side to withdraw or cure it. This builds the record and, for Rule 11, is the first step.",
+    "Comply with the safe harbor before filing a Rule 11 motion: serve the motion, wait the full 21 days, and file only if the paper is not withdrawn or corrected. Skipping the safe harbor is the most common way a Rule 11 motion is denied.",
+    "Pick the right tool: Rule 11 (or Tex. R. Civ. P. 13 / ch. 10) for a specific frivolous paper; § 1927 for an attorney who keeps multiplying the proceedings; inherent power or fraud-on-the-court (Rule 60(d)(3)) for a pattern of bad faith or deception aimed at the court; Rule 37 for discovery abuse; FRAP 38 for a frivolous appeal.",
+    "When you seek fees, ask for a specific, causation-tied amount: under Goodyear, an inherent-power fee award is limited to the fees you incurred *because of* the misconduct, so itemize the work that the misconduct caused rather than requesting a lump sum.",
+    "Document everything: dockets, dates, the exact statements made, and the difference between what was represented and the truth. A sanctions or fraud-on-the-court motion lives or dies on a clean, dated record.",
+    "Defending a vexatious-litigant designation: demand the notice and hearing the statute requires (Tex. § 11.101), then attack the count — collapse every appeal and original proceeding into its underlying lawsuit (Serafine v. Crump) and show the qualifying number is below five, and check that the 'no reasonable probability of prevailing' finding was actually made.",
+    "Remember what sanctions are for: they target conduct — frivolousness, bad faith, deception, defiance of orders — not disagreement. A weak or losing argument, standing alone, is not sanctionable. Aim at conduct, tie the remedy to the harm, and keep the request proportional."
+  ],
+  "not_legal_advice": "This is public legal information and educational material, not legal advice, and it does not create an attorney-client relationship. Sanctions law, rule numbers, deadlines (especially the Rule 11 safe harbor and the Rule 60(b) one-year limit), and case law vary by jurisdiction and change over time; state practice differs from federal, and Texas is used here only as a worked example. Verify every rule and case against the current, official text for your court before relying on it, and consult a licensed attorney in the relevant jurisdiction about your specific situation."
+}

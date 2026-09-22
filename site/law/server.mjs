@@ -1036,6 +1036,50 @@ export async function appealsView({ state = '', level = '', remedy = '', done = 
     ${jc.state_note ? `<p class=muted style="font-size:13px">${esc(str(jc.state_note))}</p>` : ''}
     ${jcAuth.length ? `<p class=muted style="font-size:12px"><b>Authority:</b> ${jcAuth.map((a) => esc(str(a))).join(' · ')}</p>` : ''}</div>` : '';
 
+  // Building standing & exhausting remedies, the SF-95/FTCA path, and cross-agency examples —
+  // from knowledge/legal/agency-exhaustion.json. Soft-fail.
+  const ae = loadLegal('agency-exhaustion');
+  const aeWhy = Array.isArray(ae.why_it_works) ? ae.why_it_works : [];
+  const aeFtca = (ae.ftca_sf95 && typeof ae.ftca_sf95 === 'object') ? ae.ftca_sf95 : {};
+  const aeFtcaRules = Array.isArray(aeFtca.rules) ? aeFtca.rules : [];
+  const aeAgencies = Array.isArray(ae.agency_examples) ? ae.agency_examples : [];
+  const aeTips = Array.isArray(ae.record_building_tips) ? ae.record_building_tips : [];
+  const exhaustionCard = aeWhy.length ? `<div class=card id=exhaustion><h2>Building standing &amp; exhausting remedies</h2>
+    ${ae.intro ? `<p class=muted style="font-size:14px;margin:-2px 0 12px">${esc(str(ae.intro))}</p>` : ''}
+    ${aeWhy.map((p) => `<div class=rec><div class=nm>${esc(str(p.point))}</div><div class=meta>${esc(str(p.detail))}</div></div>`).join('')}</div>` : '';
+  const ftcaCard = aeFtcaRules.length ? `<div class=card id=ftca><h2>Suing the federal government — the SF-95 / FTCA path</h2>
+    ${aeFtca.what ? `<p class=muted style="font-size:14px;margin:-2px 0 12px">${esc(str(aeFtca.what))}</p>` : ''}
+    ${aeFtcaRules.map((p) => `<div class=rec><div class=nm>${esc(str(p.point))}</div><div class=meta>${esc(str(p.detail))}${p.authority ? ` <span class=muted>(${esc(str(p.authority))})</span>` : ''}</div></div>`).join('')}</div>` : '';
+  const agencyCard = aeAgencies.length ? `<div class=card id=agencies><h2>Contact these agencies first — examples across agencies</h2>
+    ${aeAgencies.map((a) => `<div class=rec><div class=nm>${esc(str(a.agency))}</div>
+      <div class=meta><b>For:</b> ${esc(str(a.what_for))}<br><b>How:</b> ${esc(str(a.how_to_contact))}<br><b>Deadline:</b> ${esc(str(a.deadline))}${a.then_court ? `<br><b>Then court:</b> ${esc(str(a.then_court))}` : ''}${a.authority ? `<br><span class=muted>${esc(str(a.authority))}</span>` : ''}</div></div>`).join('')}
+    ${aeTips.length ? `<h3 style="margin:12px 0 6px">Record-building tips</h3><ul style="font-size:14px">${aeTips.map((t) => `<li>${esc(str(t))}</li>`).join('')}</ul>` : ''}
+    ${ae.not_legal_advice ? `<p class=muted style="font-size:12px">${esc(str(ae.not_legal_advice))}</p>` : ''}</div>` : '';
+
+  // Sanctioning lawyers & opposing parties (+ the Serafine vexatious-litigant spotlight) —
+  // from knowledge/legal/sanctions-guide.json. Soft-fail.
+  const sg = loadLegal('sanctions-guide');
+  const sgFed = Array.isArray(sg.federal_mechanisms) ? sg.federal_mechanisms : [];
+  const sgState = Array.isArray(sg.state_mechanisms) ? sg.state_mechanisms : [];
+  const sgSpot = (sg.serafine_spotlight && typeof sg.serafine_spotlight === 'object') ? sg.serafine_spotlight : {};
+  const sgSpotCases = Array.isArray(sgSpot.cases) ? sgSpot.cases : [];
+  const sgOther = Array.isArray(sg.other_tracks) ? sg.other_tracks : [];
+  const sgHow = Array.isArray(sg.how_to_move) ? sg.how_to_move : [];
+  const caseRowLite = (c) => `<div class=rec><div class=nm><a href="/cases?q=${q(str(c.cite))}">${esc(str(c.name))}</a>${c.cite ? ` <span class=badge>${esc(str(c.cite))}</span>` : ''}</div>${c.held ? `<div class=meta>${esc(str(c.held))}</div>` : ''}${c.why_it_matters ? `<div class=meta><b>Why it matters:</b> ${esc(str(c.why_it_matters))}</div>` : ''}</div>`;
+  const sgMech = (m) => `<div style="margin:10px 0"><div class=nm style="font-size:15px">${esc(str(m.tool))}</div>
+    <div class=meta>${esc(str(m.what))}${m.how ? `<br><b>How:</b> ${esc(str(m.how))}` : ''}${m.authority ? `<br><span class=muted>${esc(str(m.authority))}</span>` : ''}</div>
+    ${(Array.isArray(m.key_cases) ? m.key_cases : []).map(caseRowLite).join('')}</div>`;
+  const sanctionsCard = (sgFed.length || sgState.length) ? `<div class=card id=sanctions><h2>Sanctioning lawyers &amp; opposing parties</h2>
+    ${sg.intro ? `<p class=muted style="font-size:14px;margin:-2px 0 12px">${esc(str(sg.intro))}</p>` : ''}
+    ${sgFed.length ? `<h3 style="margin:12px 0 6px">Federal mechanisms</h3>${sgFed.map(sgMech).join('')}` : ''}
+    ${sgState.length ? `<h3 style="margin:12px 0 6px">State mechanisms (Texas as the worked example)</h3>${sgState.map(sgMech).join('')}` : ''}
+    ${sgSpotCases.length ? `<h3 style="margin:12px 0 6px">Serafine — the vexatious-litigant count</h3>${sgSpotCases.map(caseRowLite).join('')}${sgSpot.lesson ? `<p style="font-size:14px">${esc(str(sgSpot.lesson))}</p>` : ''}` : ''}
+    ${sgOther.length ? `<h3 style="margin:12px 0 6px">Other tracks</h3>${sgOther.map((o) => `<div class=rec><div class=nm>${esc(str(o.track))}</div><div class=meta>${esc(str(o.detail))}${o.authority ? ` <span class=muted>(${esc(str(o.authority))})</span>` : ''}</div></div>`).join('')}` : ''}
+    ${sgHow.length ? `<h3 style="margin:12px 0 6px">How to move for sanctions</h3><ol style="font-size:14px">${sgHow.map((h) => `<li>${esc(str(h))}</li>`).join('')}</ol>` : ''}
+    ${sg.not_legal_advice ? `<p class=muted style="font-size:12px">${esc(str(sg.not_legal_advice))}</p>` : ''}</div>` : '';
+
+  const jump = `<p class=muted style="font-size:13px;margin:-4px 0 10px">On this page: <a href="#where-to-file">where to file</a> · <a href="#admin-filing">administrative / ALJ</a> · <a href="#exhaustion">building standing &amp; exhaustion</a> · <a href="#ftca">SF-95 / suing the government</a> · <a href="#agencies">agencies to contact</a> · <a href="#judicial-complaints">judicial-misconduct complaints</a> · <a href="#sanctions">sanctioning lawyers</a></p>`;
+
   const intro = `<h1>Appeals &amp; extraordinary writs <span class=muted style="font-size:14px">· a pro-se ladder</span></h1>
     <p class=muted>If you lost and want to keep fighting, there is an <b>order</b> you have to climb — trial loss → appeal →
       reconsideration → state post-conviction → discretionary review → the Supreme Court → federal habeas → the extraordinary
@@ -1082,6 +1126,7 @@ export async function appealsView({ state = '', level = '', remedy = '', done = 
   const disclaimer = appeals.renderDisclaimer();
 
   return `${intro}
+    ${jump}
     <div class=card><h2>1 · Your jurisdiction</h2>
       <p class=muted style="font-size:13px;margin:-2px 0 10px">State, DC, or federal — and the court level. This drives which deadlines and rules apply.</p>
       ${selector}</div>
@@ -1090,7 +1135,11 @@ export async function appealsView({ state = '', level = '', remedy = '', done = 
     ${detail}
     ${whereCard}
     ${adminCard}
+    ${exhaustionCard}
+    ${ftcaCard}
+    ${agencyCard}
     ${judicialCard}
+    ${sanctionsCard}
     ${ordinances}
     ${disclaimer}
     ${faqCard(APPEALS_FAQ)}`;
@@ -1789,6 +1838,30 @@ function teachingSections() {
       ${cl('United States v. Lopez', '514 U.S. 549 (1995)')} struck the Gun-Free School Zones Act as beyond the Commerce Clause;
       ${cl('Clinton v. City of New York', '524 U.S. 417 (1998)')} struck the Line Item Veto Act; and
       ${cl('United States v. Morrison', '529 U.S. 598 (2000)')} struck the civil-remedy provision of the Violence Against Women Act.</p>
+    <h3>4 · When the Court declines to make a rule — and hands the question back</h3>
+    <p>Overruling is not the only way a doctrine moves. Increasingly the Court's answer is to <b>decline to announce a national rule at all</b>
+      and return the question to the elected branches — the states, or Congress. When it overruled Roe, ${cl('Dobbs v. Jackson Women’s Health Organization', '597 U.S. 215 (2022)')}
+      did exactly that: it held the Constitution &ldquo;does not confer a right to abortion&rdquo; and that &ldquo;the authority to regulate abortion is
+      returned to the people and their elected representatives.&rdquo; In ${cl('Rucho v. Common Cause', '588 U.S. 684 (2019)')} the Court held partisan-gerrymandering
+      claims are <b>political questions</b> &ldquo;beyond the reach of the federal courts,&rdquo; leaving any remedy to Congress and the states. And under the
+      <b>major-questions doctrine</b>, ${cl('West Virginia v. EPA', '597 U.S. 697 (2022)')} told an agency it needed <b>clear congressional authorization</b> before
+      deciding a question of vast economic and political significance — the Court, in effect, waiting for Congress to supply the language — while
+      ${cl('Loper Bright Enterprises v. Raimondo', '603 U.S. 369 (2024)')} then put the job of reading that language back on the courts rather than the agencies.</p>
+    <p>The pattern this produces is worth naming, and we hold it as an <b>observation, not a holding</b>: the Court often defers, saying the rule must
+      come from Congress or the states; Congress, gridlocked, rarely supplies it; the pressure then flows back to the Court to decide the very thing it
+      declined to decide; and the cycle repeats. It is why so many national questions are settled — and unsettled — one closely divided opinion at a time,
+      and why &ldquo;let the people's representatives decide&rdquo; can mean, in practice, that for years no one does.</p>
+    <p>There is a constitutional through-line worth seeing, and it runs through the last two amendments of the Bill of Rights. The privacy right behind
+      ${cl('Griswold v. Connecticut', '381 U.S. 479 (1965)')} (contraceptives) and Roe was built on <b>unenumerated rights</b> — the idea, textually anchored
+      in the <a href="/constitution#amend-9">Ninth Amendment</a>, that &ldquo;the enumeration in the Constitution, of certain rights, shall not be construed to
+      deny or disparage others retained by the people.&rdquo; Dobbs's move — handing the question to the states — sounds instead in the
+      <a href="/constitution#amend-10">Tenth Amendment</a>: &ldquo;the powers not delegated to the United States &hellip; are reserved to the States respectively,
+      or to the people.&rdquo; The two amendments are the bookends of the Bill of Rights, and they pull at the same question from opposite ends: the Ninth guards
+      <i>rights the people keep</i>; the Tenth guards <i>powers the states — or the people — keep</i>. Both end with &ldquo;the people.&rdquo; Whether something like
+      contraception or abortion is an <b>individual right</b> the states may not invade (a Ninth-Amendment / substantive-due-process answer) or a <b>matter left to
+      each state</b> (a Tenth-Amendment / federalism answer) is the hinge the whole fight turns on — and the same decision that overrules a precedent can also be the
+      one that moves a question from the first column to the second. See the fuller treatment on the <a href="/constitution#amend-9">Ninth Amendment</a> (penumbra and
+      unenumerated rights) and the <a href="/constitution#amend-10">Tenth</a>.</p>
     <p class=muted style="font-size:12px">Case rows state what each decision is cited for as a matter of public record — not our verdict
       on whether it is rightly decided. Click any citation to read the court's own words.</p></div>`;
 
