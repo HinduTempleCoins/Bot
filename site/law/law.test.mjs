@@ -471,3 +471,85 @@ test('unknown route 302-redirects home', async () => {
   assert.equal(res.statusCode, 302);
   assert.equal(res.headers.location, '/');
 });
+
+test('/privacy renders the federal↔Texas map with all pairings (soft-fails cases offline)', async () => {
+  setAllFetch(throwingFetch); // interpreting-cases lookup soft-fails; page still renders
+  const res = await drive('/privacy');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Privacy law/);
+  assert.match(res.body, /Texas/);
+  assert.match(res.body, /Ch\. 541/);            // TDPSA present
+  assert.ok(!/\<script(?![^>]*soapy)/.test(res.body.replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')), 'no injected scripts');
+});
+
+test('/privacy?statute=comprehensive expands that pairing and soft-fails the live lookup gracefully', async () => {
+  // drive() forces the readers to throw, so the interpreting-cases lookup soft-fails to the retry
+  // empty-state — proving the statute path executes without a 500. (Live-case rendering is unit-tested
+  // in privacy-law-map.test.mjs via renderPairing with injected cases.)
+  const res = await drive('/privacy?statute=comprehensive');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /<details[^>]*\sopen/);            // the requested pairing is expanded
+  assert.match(res.body, /Try the live search again/);      // soft-fail retry link, not a throw
+});
+
+test('/constitution serves the Foundational Law spine with landmark cases cross-linked to /cases', async () => {
+  const res = await drive('/constitution');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Foundational Law/);
+  assert.match(res.body, /Marbury v\. Madison/);
+  assert.match(res.body, /judicial review/);
+  assert.match(res.body, /href="\/cases\?q=5%20U\.S\.%20137/); // landmark resolves via the live /cases path
+  assert.match(res.body, /Statutory Law/);                     // the four-layer spine present
+});
+
+test('/rights serves the sovereign→real-law explainer with real citations + empty evidence shelf', async () => {
+  const res = await drive('/rights');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Rights That Hold Up in Court/);
+  assert.match(res.body, /Martinez-Fuerte/);      // the checkpoint arc
+  assert.match(res.body, /Rodriguez v\. United States/); // the strongest traffic-stop right
+  assert.match(res.body, /Evidence links are being verified/); // empty-state, not a throw
+});
+
+test('/rights includes the pseudolegal myths-decoded cards (§514, admiralty, incorporation)', async () => {
+  const res = await drive('/rights');
+  resetAllFetch();
+  assert.match(res.body, /Pseudolegal myths, decoded/);
+  assert.match(res.body, /18 U\.S\.C\. &sect; 514/);        // A4V/strawman = felony
+  assert.match(res.body, /Barron v\. Baltimore/);           // incorporation payoff
+  assert.match(res.body, /McDonald v\. City of Chicago/);
+  assert.match(res.body, /href="\/treaties"/);              // cross-link to the treaty path
+});
+
+test('/treaties serves the ratification→codification→cases explainer, cross-linked to /constitution', async () => {
+  const res = await drive('/treaties');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /supreme Law of the Land/);
+  assert.match(res.body, /Medell/);                         // Medellín v. Texas
+  assert.match(res.body, /self-executing/);
+  assert.match(res.body, /href="\/cases\?q=/);              // landmark resolves via /cases
+  assert.match(res.body, /href="\/constitution#article-ii"/); // cross-link into the spine
+});
+
+test('/maxims serves the collection from the corpus, with the domain tabs', async () => {
+  const res = await drive('/maxims');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Maxims, axioms/);
+  assert.match(res.body, /Ignorantia juris non excusat/);    // a legal maxim from the corpus
+  assert.match(res.body, /Sic semper tyrannis/);             // an idiom from the corpus
+  assert.match(res.body, /Legal maxims/);                    // the domain tab
+});
+
+test('/maxims?d=political filters to the political axioms', async () => {
+  const res = await drive('/maxims?d=political');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Power tends to corrupt/);          // a political axiom
+  assert.ok(!/Ignorantia juris non excusat/.test(res.body), 'legal maxims filtered out of the political tab');
+});

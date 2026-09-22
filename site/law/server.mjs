@@ -38,6 +38,8 @@
 //   every route renders an empty-state page if a reader returns [] — the page never breaks or throws.
 
 import { createServer } from 'node:http';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import * as opinions from '../../integrations/soapbox/courtlistener-opinions.mjs';
@@ -49,6 +51,7 @@ import * as judges from '../../integrations/soapbox/courtlistener-judges.mjs';
 import * as lawyers from '../../integrations/soapbox/lawyer-directory.mjs';
 import { judgeLinks, companyLinks, categoryLinks } from '../../integrations/cross-links.mjs';
 import { ingestCase } from '../../integrations/legal-knowledge-graph.mjs';
+import * as privacy from '../../integrations/soapbox/privacy-law-map.mjs';
 
 const PORT = +(process.env.PORT || 8099);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -115,6 +118,28 @@ const STYLE = `<style>
   .empty{color:var(--mut);padding:14px 0}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:26px 22px;margin-top:24px;border-top:1px solid var(--line);line-height:1.7}
   footer a{color:var(--blue)}
+  /* privacy-law map (federal↔Texas statute→case-law visualization) */
+  .plm-legend{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 16px}
+  .plm-leg,.plm-pat{font-size:12px;border:1px solid var(--line2);border-radius:20px;padding:3px 10px;color:var(--mut)}
+  .plm-leg b{color:var(--fg)}
+  .plm-pairing{border:1px solid var(--line2);border-radius:10px;margin:0 0 10px;background:var(--panel)}
+  .plm-pairing>summary{cursor:pointer;padding:13px 16px;font-weight:700;font-size:16px;list-style:none;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .plm-pairing>summary::-webkit-details-marker{display:none}
+  .plm-pairing[open]>summary{border-bottom:1px solid var(--line)}
+  .plm-topic{color:var(--fg)} .plm-pat{margin-left:auto}
+  .plm-body{padding:14px 16px}
+  .plm-plain{color:var(--mut);font-size:14px;line-height:1.6;margin:0 0 14px}
+  .plm-statutes{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch}
+  .plm-statute{flex:1 1 260px;border:1px solid var(--line);border-radius:8px;padding:12px;background:#0b0f14}
+  .plm-texas{border-color:var(--gold)}
+  .plm-kind{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut)}
+  .plm-name{font-weight:600;font-size:15px;margin:3px 0 4px} .plm-eff{font-size:12px;color:var(--mut);margin-top:5px}
+  .plm-verify{color:var(--gold)} .plm-link{margin-top:8px;font-size:13px}
+  .plm-arrow{align-self:center;color:var(--mut);font-size:20px;flex:0 0 auto}
+  .plm-cases{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+  .plm-cases h4{margin:0 0 8px;font-size:14px} .plm-cases-link{margin-top:14px;font-size:14px}
+  .plm-case{padding:8px 0;border-bottom:1px solid var(--line)} .plm-case:last-child{border-bottom:0}
+  .plm-case-nm{font-weight:600;font-size:14px} .plm-case-meta{color:var(--mut);font-size:12px;margin-top:2px}
 </style>`;
 
 // Facts-not-verdicts footer — load-bearing discipline, on EVERY page. Names the public-domain posture,
@@ -141,7 +166,7 @@ function page(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
-  <div class=topbar-r><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
+  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/rights">Your rights</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -184,6 +209,7 @@ function homePage() {
     ['/dockets', 'Dockets', 'Case filings & proceedings (PACER/RECAP) — the docket record, à la Justia dockets.'],
     ['/statutes', 'Statutes & Code', 'Parse a U.S.C. citation (“18 U.S.C. § 2261A”) to its official text, or search the Code of Federal Regulations.'],
     ['/regulations', 'Regulations', 'Recent rules, proposed rules, and notices from the Federal Register, by agency.'],
+    ['/privacy', 'Privacy law — federal vs. Texas', 'Click a privacy topic to see the federal law, where Texas replaces or supplements it, and the cases interpreting each — a plain-language map.'],
     ['/judges', 'Judges', 'Federal judge profiles — seats, appointments, opinion counts, and disclosure pointers.'],
     ['/lawyers', 'Lawyers', 'Public attorney bar facts — license status, admission, discipline. No ratings, by design.'],
     ['/complaints', 'File a complaint', 'Where to go for legal aid, a bar referral, or to file a complaint with the right agency.'],
@@ -640,6 +666,400 @@ export function complaintsView() {
     <div class=card>${publicInterestHtml()}</div>`;
 }
 
+// ── /privacy — the federal↔Texas privacy statute→case-law map ─────────────────────────────────────
+// A free, direct-to-people visualization: click a privacy topic and it expands into the federal
+// baseline statute, the Texas statute that supplements / fills a gap / parallels / is preempted by it,
+// a plain-language explanation, and — via ?statute=<id> — a LIVE pull of the cases interpreting it.
+// The engine is integrations/soapbox/privacy-law-map.mjs; here we bind it to the live CourtListener
+// reader and this site's house-style case row. Soft-fail: a failed case lookup renders an empty note.
+export async function privacyView(statuteId) {
+  const want = String(statuteId == null ? '' : statuteId).trim();
+  const casesById = {};
+  if (want) {
+    const p = privacy.findPairing(want);
+    if (p) {
+      const rows = await privacy.interpretingCases(p, {
+        searchCases: (opts) => opinions.searchCases(opts), limit: 10,
+      }).catch(() => []);
+      casesById[p.id] = rows;
+    }
+  }
+  const map = privacy.renderMap({
+    caseRow, // reuse this site's house-style case row
+    expandedId: want,
+    casesById,
+    casesHrefFor: (id) => `/privacy?statute=${q(id)}`,
+  });
+  const intro = `<h1>Privacy law — federal vs. Texas</h1>
+    <p class=muted>The standard (federal) privacy law, and where <b>Texas</b> replaces, adds to, fills a gap in, or is
+      limited by it. Click a topic to open the two statutes side by side, then pull the cases interpreting them.
+      Federal privacy law is <em>sectoral</em> — there is no single comprehensive federal privacy statute — which is
+      exactly why the states matter. Informational only, not legal advice.</p>`;
+  return intro + map;
+}
+
+// ── /rights — "Rights That Hold Up in Court" ──────────────────────────────────────────────────────
+// An editorial explainer that meets the sovereign-citizen / "traveler" / Moorish audience honestly and
+// redirects them to REAL Fourth/Fifth-Amendment law and real remedies. NOTE ON DISCIPLINE: the /cases
+// "facts, not verdicts / no holding-summary" rule governs the PENDING-case lister; this page is built on
+// DECIDED, published SCOTUS & circuit precedent, where stating a final holding IS stating the public
+// record. Every proposition is anchored to a real citation the reader can pull, in a neutral voice.
+// The evidence shelf reads a curated, human-verified JSON list and soft-fails to an empty-state.
+const RIGHTS_EVIDENCE_PATH = fileURLToPath(new URL('./rights-evidence.json', import.meta.url));
+function rightsEvidence() {
+  try {
+    const j = JSON.parse(readFileSync(RIGHTS_EVIDENCE_PATH, 'utf8'));
+    return Array.isArray(j.items) ? j.items : [];
+  } catch { return []; }
+}
+function evidenceShelf() {
+  const items = rightsEvidence();
+  if (!items.length) {
+    return `<p class=empty>Evidence links are being verified and will appear here — real, dated, sourced incidents only.</p>`;
+  }
+  return items.map((it) => `<div class=rec>
+    <div class=nm>${it.url ? `<a href="${esc(it.url)}" rel="nofollow noopener">${esc(it.title || 'Incident')}</a>` : esc(it.title || 'Incident')}</div>
+    <div class=meta>${[it.source, it.date].filter(Boolean).map(esc).join(' · ')}</div>
+    ${it.lesson ? `<blockquote>${esc(it.lesson)}</blockquote>` : ''}
+  </div>`).join('');
+}
+
+export function rightsPage() {
+  const body = `<h1>Rights That Hold Up in Court</h1>
+  <p class=muted>The rights that get thrown out, the rights that get you home, and how to tell them apart — with the actual cases.</p>
+
+  <div class=card><h2>This page is for you — and it isn't here to laugh at you</h2>
+    <p>If you've read that you're a &ldquo;traveler&rdquo; not a &ldquo;driver,&rdquo; that your name in capital letters is a corporate
+      &ldquo;strawman,&rdquo; that a gold-fringed flag makes a courtroom a secret admiralty ship, or that the right treaty or UCC filing
+      makes you immune to the police — read on. The grievances underneath that material are <b>real</b>: police overreach, checkpoints
+      far from any border, civil forfeiture, courts treating ordinary people badly. Those are legitimate. The <b>remedies</b> being sold
+      for them are not — and the gap between the two is where people get hurt.</p>
+    <p>Here's the plain truth, and every line below links a citation you can pull yourself: <b>these theories have never once worked in a
+      U.S. court.</b> Not &ldquo;rarely.&rdquo; Judges now reject them on sight as <b>&ldquo;frivolous&rdquo;</b> — a legal word that carries
+      fines and sanctions. And on the roadside the same theories end in a broken window and a resisting charge, because asserting a right
+      that doesn't exist reads to an officer as refusing a lawful order. We're not going to tell you to give up your rights — the opposite.
+      <b>You have real, powerful Fourth and Fifth Amendment rights. Here are the ones that actually hold up, and how to use them so you're
+      the one holding the winning paper afterward.</b></p></div>
+
+  <div class=card><h2>The paperwork loses. Here's the court record.</h2>
+    <p>&ldquo;Frivolous&rdquo; isn't an insult here — it's a legal status: an argument a court can dismiss without a hearing, with fines or
+      a vexatious-litigant bar for repeat filers. Every major sovereign-citizen theory carries it.</p>
+    <p><b>&ldquo;No jurisdiction over me&rdquo; / sovereign immunity.</b> <i>United States v. Benabe</i>, 654 F.3d 753 (7th Cir. 2011) (reject
+      &ldquo;summarily, however they are presented&rdquo;); <i>United States v. Sterling</i>, 738 F.3d 228 (11th Cir. 2013) (&ldquo;no
+      conceivable validity&rdquo;); <i>Crain v. Commissioner</i>, 737 F.2d 1417 (5th Cir. 1984) — the 5th Circuit is Texas's.</p>
+    <p><b>&ldquo;Traveling, not driving.&rdquo;</b> <i>Hendrick v. Maryland</i>, 235 U.S. 610 (1915) (states may license drivers);
+      <i>Miller v. Reed</i>, 176 F.3d 1202 (9th Cir. 1999) (no fundamental right to drive); <i>Saenz v. Roe</i>, 526 U.S. 489 (1999)
+      protects interstate <i>travel</i> — never a right to drive unlicensed.</p>
+    <p><b>&ldquo;Strawman&rdquo; / redemption / UCC filings.</b> <i>United States v. Mitchell</i>, 405 F. Supp. 2d 602 (D. Md. 2005);
+      <i>Bryant v. Washington Mutual Bank</i>, 524 F. Supp. 2d 753 (W.D. Va. 2007) (&ldquo;no basis in law&rdquo;); <i>Meads v. Meads</i>,
+      2012 ABQB 571 (Canada — persuasive only, the definitive catalog of these tactics). Bogus UCC &ldquo;commercial liens&rdquo; against
+      officials are separately <b>criminal</b> in many states.</p>
+    <p><b>Moorish / treaty immunity.</b> <i>El Ameen Bey v. Stumpf</i>, 825 F. Supp. 2d 537 (D.N.J. 2011); <i>Murakush Caliphate of Amexem
+      Inc. v. New Jersey</i>, 790 F. Supp. 2d 241 (D.N.J. 2011). The Treaty of Peace and Friendship with Morocco confers no private
+      immunity. <b>Admiralty flag / gold fringe:</b> <i>United States v. Greenstreet</i>, 912 F. Supp. 224 (N.D. Tex. 1996).</p>
+    <p class=muted>Uniform across every circuit and both parties' appointees for fifty years. <b>If a theory only ever &ldquo;works&rdquo; in
+      a video and never in a published opinion, it doesn't work.</b></p></div>
+
+  <div class=card><h2>Pseudolegal myths, decoded</h2>
+    <p>Here's the honest key to all of it: <b>every one of these myths is a misread of something real.</b> There really is admiralty law.
+      There really was a 1933 resolution about gold. The Fourteenth Amendment really did change American citizenship. The folklore takes a
+      real thing, adds a secret, and sells the secret. Below, each myth is matched to the real thing it distorts — and in every case
+      <b>the real law turns out to be more powerful than the secret they're chasing.</b> Myth → what's real → the law you can actually use.
+      For the treaty myths in depth, see <a href="/treaties">how treaties actually become law &rarr;</a></p></div>
+
+  <div class=card><h2>The money myths: &ldquo;strawman,&rdquo; A4V, and the secret account</h2>
+    <p><b>The myth:</b> your birth certificate created a &ldquo;strawman&rdquo; — your name in capital letters — and a secret Treasury or
+      &ldquo;Treasury Direct&rdquo; account or a bond tied to your Social Security number. Stamp a bill or a court summons
+      <b>&ldquo;Accepted for Value&rdquo;</b> (A4V) and you can discharge any debt against that account. The red numbers on the back of the
+      Social Security card are said to be the routing number.</p>
+    <p><b>What's real:</b> the birth certificate, the SSN, and the 1933 move off the gold standard are all real. <b>The secret account is not.</b>
+      There is no strawman, no bond, no Treasury Direct account you can draw on; the numbers on the card are card-stock control numbering,
+      which the Social Security Administration has said plainly. A4V discharges nothing.</p>
+    <p><b>The real law:</b> filing bogus UCC-1 &ldquo;commercial liens&rdquo; or fictitious financial instruments isn't a clever remedy — it's a
+      <b>federal crime</b>. Passing a false instrument that appears to be a real U.S. financial obligation is a Class B felony under
+      <b>18 U.S.C. &sect; 514</b> (fictitious obligations), on top of mail- and wire-fraud exposure. Courts have dismantled the theory in full:
+      <i>United States v. Mitchell</i>, 405 F. Supp. 2d 602 (D. Md. 2005), and <i>Bryant v. Washington Mutual Bank</i>, 524 F. Supp. 2d 753
+      (W.D. Va. 2007) (&ldquo;no basis in law&rdquo;). The paperwork doesn't cancel your debt; it hands a prosecutor a case.</p></div>
+
+  <div class=card><h2>Admiralty, the gold-fringe flag — and the real, dark history maritime law actually carries</h2>
+    <p><b>The myth:</b> the gold fringe on a courtroom flag means the court is secretly sitting in &ldquo;admiralty&rdquo; — the courtroom is a
+      ship, the judge is the captain, and you are &ldquo;maritime cargo&rdquo; unless you refuse that jurisdiction.</p>
+    <p><b>What's real:</b> admiralty (maritime) law is one of the oldest and most real bodies of law there is. <b>Article III, &sect; 2</b>
+      extends the federal judicial power to &ldquo;all Cases of admiralty and maritime Jurisdiction,&rdquo; and <b>28 U.S.C. &sect; 1333</b>
+      vests that jurisdiction in the federal district courts. It governs shipping, cargo, salvage, collisions, and injuries at sea — real
+      disputes on real water. It has nothing to do with flag fringe.</p>
+    <p><b>And here is the sobering part the folklore never mentions:</b> for centuries, maritime law's docket included the slave trade —
+      because human beings were carried across the ocean and litigated as &ldquo;cargo.&rdquo; That is a real horror in the actual record of
+      admiralty, not a metaphor. <a href="/cases?q=${q('23 U.S. 66')}"><i>The Antelope</i></a>, 23 U.S. 66 (1825), is one of the darkest:
+      because the international slave trade was not then unlawful under the law of nations, the Court ordered some captured Africans restored
+      to foreign claimants as property. Sixteen years later, <a href="/cases?q=${q('40 U.S. 518')}"><i>United States v. The Amistad</i></a>,
+      40 U.S. 518 (1841), came out the other way — the Court held the Africans who seized the schooner had been <b>illegally enslaved and were
+      free</b> under American law. (In England, the 1783 <i>Zong</i> case — <i>Gregson v. Gilbert</i> — was an insurance claim over more than a
+      hundred enslaved people thrown overboard and written off as lost cargo; historical context, not U.S. precedent.)</p>
+    <p><b>The real law — and why the twist is grotesque:</b> precisely <b>because</b> admiralty is a genuine jurisdiction with that weight of
+      history, the &ldquo;your traffic court is a maritime vessel and you are the cargo&rdquo; theory isn't a hidden truth — it's a grotesque
+      misreading that borrows the vocabulary of a jurisdiction built, in part, on treating people as property, and points it at a routine
+      criminal docket where it has no application. Courts reject the gold-fringe / admiralty-jurisdiction argument as frivolous:
+      <i>United States v. Greenstreet</i>, 912 F. Supp. 224 (N.D. Tex. 1996). A criminal traffic case is heard under ordinary criminal
+      jurisdiction, no matter what the flag looks like.</p></div>
+
+  <div class=card><h2>The Mayflower Compact, and &ldquo;renounce your citizenship to unlock the trust&rdquo;</h2>
+    <p><b>The myth:</b> the Mayflower Compact is a founding contract you can invoke to stand outside the government; and you can
+      &ldquo;revoke&rdquo; or redefine your citizenship to access a secret trust fund (often tied to the 1933 gold story, HJR-192).</p>
+    <p><b>What's real:</b> the <b>Mayflower Compact (1620)</b> was a genuine, important document — a covenant among the Plymouth colonists to
+      form a &ldquo;civil Body Politick&rdquo; and govern themselves by agreed laws. It's an early root of American self-government by consent.
+      It is not, and never was, a personal opt-out from law. And <b>HJR-192</b> (1933) was real too — it voided gold clauses in contracts and
+      made U.S. currency legal tender at face value. That's <b>all</b> it did: no trust accounts, no pledged citizens, no discharge mechanism.</p>
+    <p><b>The real law:</b> renouncing U.S. citizenship is a real, defined act under <b>8 U.S.C. &sect; 1481</b> — done before a consular
+      officer abroad, with serious tax and immigration consequences — and it unlocks <b>no</b> fund and grants <b>no</b> immunity; it takes
+      protections away, it doesn't add them. There is no trust to access because there is no trust.</p></div>
+
+  <div class=card style="border-color:var(--gold)"><h2>The payoff: the 14th Amendment didn't trap you — it armed you</h2>
+    <p><b>The myth:</b> the Fourteenth Amendment secretly created a lesser &ldquo;14th Amendment citizen&rdquo; — a federal subject — and if
+      you opt out of it you escape the government's authority.</p>
+    <p><b>What's real:</b> the Fourteenth Amendment, &sect; 1, Citizenship Clause makes every person born or naturalized in the United States a
+      citizen of the United States <b>and</b> of their state — one citizenship, confirmed for everyone in
+      <a href="/cases?q=${q('169 U.S. 649')}">United States v. Wong Kim Ark</a>, 169 U.S. 649 (1898). There is no two-tier system and no opt-out.</p>
+    <p><b>The real law — and this is the whole point:</b> for most of early American history the Bill of Rights bound <b>only the federal
+      government</b>, not the states (<a href="/cases?q=${q('32 U.S. 243')}">Barron v. Baltimore</a>, 32 U.S. 243 (1833)). The Fourteenth
+      Amendment's Due Process Clause is what <b>incorporated</b> most of the Bill of Rights <b>against the states</b> — one right at a time:
+      <a href="/cases?q=${q('268 U.S. 652')}">Gitlow v. New York</a>, 268 U.S. 652 (1925) (free speech);
+      <a href="/cases?q=${q('367 U.S. 643')}">Mapp v. Ohio</a>, 367 U.S. 643 (1961) (the exclusionary rule — the same one on the roadside card
+      above); <a href="/cases?q=${q('561 U.S. 742')}">McDonald v. City of Chicago</a>, 561 U.S. 742 (2010) (the Second Amendment);
+      <a href="/cases?q=${q('586 U.S. 146')}">Timbs v. Indiana</a>, 586 U.S. 146 (2019) (excessive fines and fees).</p>
+    <p><b>So the myth has it exactly backwards.</b> The Fourteenth Amendment is the reason a <b>state</b> trooper, a <b>county</b> jail, and a
+      <b>city</b> court are bound by your Fourth, Fifth, and Eighth Amendment rights at all. It didn't lower your citizenship — it is the
+      single biggest expansion of enforceable individual rights in American law. <a href="/constitution#checks">See how the Constitution's layers check each other &rarr;</a></p></div>
+
+  <div class=card><h2>The part they're right about — the 100-mile zone &amp; the checkpoint</h2>
+    <p>There really is a zone up to <b>100 miles from any external U.S. border</b> (coastlines included) where the Border Patrol has extra
+      authority — the ACLU calls it the &ldquo;Constitution-free zone,&rdquo; and roughly two-thirds of the population lives inside it. Real,
+      documented, not a theory. It comes from <b>8 U.S.C. &sect; 1357(a)(3)</b> and <b>8 C.F.R. &sect; 287.1(a)(2)</b> (defining
+      &ldquo;reasonable distance&rdquo; as 100 air miles).</p>
+    <p>But look at what the Supreme Court actually allows there — and what it doesn't. <i>United States v. Martinez-Fuerte</i>, 428 U.S. 543
+      (1976): fixed interior checkpoints may <b>stop</b> you and ask questions with no individualized suspicion. <i>United States v.
+      Brignoni-Ponce</i>, 422 U.S. 873 (1975): a <i>roving</i> patrol needs reasonable suspicion, and ethnicity alone isn't enough.
+      <i>United States v. Ortiz</i>, 422 U.S. 891 (1975): a checkpoint stop is one thing — <b>searching your car still needs consent or
+      probable cause.</b> <i>City of Indianapolis v. Edmond</i>, 531 U.S. 32 (2000): a checkpoint whose primary purpose is ordinary drug
+      interdiction is <b>unconstitutional</b>.</p>
+    <p class=muted>So the gap is exact: the theory says &ldquo;you can't stop me&rdquo; (false — <i>Martinez-Fuerte</i>), and by picking that
+      losing argument the person forfeits the winning one — &ldquo;you can't search me&rdquo; (<i>Ortiz</i>). That trade is the broken window.</p></div>
+
+  <div class=card><h2>The ordinary traffic stop — what they can and can't do</h2>
+    <p><b>They CAN:</b> stop you for any real violation even as a pretext (<i>Whren v. United States</i>, 517 U.S. 806 (1996)); order you and
+      passengers out (<i>Pennsylvania v. Mimms</i>, 434 U.S. 106 (1977); <i>Maryland v. Wilson</i>, 519 U.S. 408 (1997)) — refusing this is
+      where windows break, so comply; frisk with reasonable suspicion (<i>Terry v. Ohio</i>, 392 U.S. 1 (1968); <i>Berkemer v. McCarty</i>,
+      468 U.S. 420 (1984)); require your <b>name</b> in a stop-and-identify state (<i>Hiibel v. Sixth Judicial Dist. Court</i>, 542 U.S. 177
+      (2004)) plus license/registration/insurance as the driver; and run a dog if it adds no time (<i>Illinois v. Caballes</i>, 543 U.S. 405
+      (2005)).</p>
+    <p><b>They CANNOT:</b> prolong the stop to go fishing (<i>Rodriguez v. United States</i>, 575 U.S. 348 (2015) — your strongest right; ask
+      &ldquo;Am I free to go?&rdquo;); search without probable cause or consent, and you may refuse (<i>Schneckloth v. Bustamonte</i>, 412
+      U.S. 218 (1973) — say &ldquo;I do not consent to any searches&rdquo;); treat your refusal as guilt (<i>Florida v. Royer</i>, 460 U.S.
+      491 (1983)); or, in most places, stop you recording (<i>Turner v. Driver</i>, 848 F.3d 678 (5th Cir. 2017); <i>Glik v. Cunniffe</i>,
+      655 F.3d 78 (1st Cir. 2011) — not uniform nationwide).</p></div>
+
+  <div class=card style="border-color:var(--gold)"><h2>The move that actually works — and what to do afterward</h2>
+    <p>You don't win a stop on the roadside. <b>You win it later — in a suppression motion or a civil suit — set up by how you behave in the
+      first five minutes.</b> Comply with lawful commands; assert your rights in words, on camera; then litigate:</p>
+    <p>1) Pull over safely, dome light on, hands on the wheel. 2) Give license, registration, insurance. 3) Beyond that:
+      <b>&ldquo;Officer, I'm going to remain silent.&rdquo;</b> 4) If asked to search: <b>&ldquo;I do not consent to any searches.&rdquo;</b>
+      5) If it drags: <b>&ldquo;Am I being detained, or am I free to go?&rdquo;</b> 6) Obey lawful commands even ones you think are wrong
+      (step out — <i>Mimms</i>); argue it in court, not on the shoulder. Keep recording.</p>
+    <p>Do this and, if the stop was unlawful, the evidence gets thrown out — the exclusionary rule (<i>Mapp v. Ohio</i>, 367 U.S. 643 (1961);
+      <i>Wong Sun v. United States</i>, 371 U.S. 471 (1963)). That is the remedy the paperwork pretended to offer — and this one is real.</p>
+    <p><b>The real remedies:</b> sue under <b>42 U.S.C. &sect; 1983</b> for a rights violation under color of law — with honest caveats:
+      qualified immunity (<i>Harlow v. Fitzgerald</i>, 457 U.S. 800 (1982); <i>Pearson v. Callahan</i>, 555 U.S. 223 (2009)), suing a city
+      needs a policy/custom (<i>Monell v. Dep't of Social Servs.</i>, 436 U.S. 658 (1978)), and suing <i>federal</i> Border Patrol agents is
+      now nearly foreclosed after <i>Egbert v. Boule</i>, 596 U.S. 482 (2022) (narrowing <i>Bivens</i>, 403 U.S. 388 (1971)).</p>
+    <p><a href="/complaints">File a complaint &amp; find legal aid &rarr;</a> · <a href="/lawyers">Find a lawyer &rarr;</a> · <a href="${OVERSIGHT}/file">Who do I even call? &rarr;</a></p>
+    <p class=muted>The real law asks you to comply now and fight smart later — the only version that has ever actually gotten anyone their
+      freedom, their car, or a check back. Use the rights that hold up.</p></div>
+
+  <div class=card><h2>Watch what actually happens</h2>
+    <p class=muted>Real, dated, sourced incidents — kept to show the doctrine above playing out, <b>not</b> to celebrate anyone getting hurt.
+      Each is tagged with the legal lesson. If a link can't be verified, it comes down.</p>
+    ${evidenceShelf()}</div>`;
+  return body;
+}
+
+// ── /constitution — "Foundational Law" + the checks-and-balances spine ──────────────────────────────
+// The four layers of law as one navigable checks-and-balances structure: Foundational (Constitution) →
+// Statutory (Congress) → Case Law & Rules (courts) → Regulatory (agencies). This is an editorial civics
+// explainer built on DECIDED, published precedent — where stating a final holding IS the public record
+// (distinct from the /cases pending-lister rule). Landmark rows resolve live through /cases?q=<citation>.
+// Neutral "the Court held…" register; no "good law" verdict; corrections route to the source of record.
+export function constitutionView() {
+  const landmark = (name, cite, held, q) => `<div class=rec>
+    <div class=nm><a href="/cases?q=${q(cite)}">${esc(name)}</a> <span class=badge>${esc(cite)}</span></div>
+    <div class=meta>${esc(held)}</div>
+    <div class=xlink><a href="/cases?q=${q(cite)}">read the opinion →</a></div></div>`;
+  const L = (name, cite, held) => landmark(name, cite, held, q);
+  return `<h1>Foundational Law <span class=muted style="font-size:14px">· the Constitution of the United States</span></h1>
+  <p class=muted>The Constitution is the foundation every other layer of law rests on. It builds the three branches —
+    <b>Congress</b> (Article I), the <b>President</b> (Article II), and the <b>courts</b> (Article III) — splits power so each
+    checks the others, and sets the rights no statute, rule, or regulation may cross. Informational only, not legal advice.</p>
+
+  <div class=card><h2>How U.S. law is layered — and how the layers check each other</h2>
+    <p class=muted style="font-size:14px;margin:-2px 0 12px">Four layers, three branches, one system. Each layer draws its authority from the one above it, and the courts sit across all of them.</p>
+    <div class=grid>
+      <a class=sec href="/constitution" style="border-color:var(--gold)"><div class=t>1 · Foundational Law</div><div class=d>The <b>Constitution</b> — creates the three branches and the rights the other layers cannot cross.</div></a>
+      <a class=sec href="/statutes"><div class=t>2 · Statutory Law</div><div class=d>Acts of <b>Congress</b> — the U.S. Code. Valid only within the powers Article I grants.</div></a>
+      <a class=sec href="/cases"><div class=t>3 · Case Law &amp; Rules</div><div class=d>The <b>courts</b> — opinions interpreting the other layers. Courts can hold a statute or rule unconstitutional.</div></a>
+      <a class=sec href="/regulations"><div class=t>4 · Regulatory Law</div><div class=d>The <b>executive</b> — agency rules (CFR / Federal Register). Bounded by their statute and the Constitution.</div></a>
+    </div>
+    <p class=muted style="font-size:13px;margin-top:12px"><b>The checks run between the layers:</b> courts strike statutes and rules as unconstitutional (<a href="#judicial-review">judicial review</a>); Congress amends the Code to override a court's reading of a statute; a constitutional amendment overrides the Court itself; an agency rule is bounded by its statute. <a href="#checks">See the landmark cases →</a></p></div>
+
+  <div class=card><h2>Read the Constitution (official sources)</h2>
+    <div class=grid>
+      <a class=sec href="https://www.archives.gov/founding-docs/constitution-transcript" rel=noopener><div class=t>National Archives</div><div class=d>The engrossed transcript — the founding document itself.</div></a>
+      <a class=sec href="https://www.law.cornell.edu/constitution" rel=noopener><div class=t>Cornell LII</div><div class=d>Full text, clause by clause, hyperlinked.</div></a>
+      <a class=sec href="https://constitution.congress.gov/" rel=noopener><div class=t>Constitution Annotated</div><div class=d>Congress's official annotated edition — text + the cases construing each clause.</div></a>
+    </div></div>
+
+  <div class=card><h2 id=structure>The structure: three branches, three Articles</h2>
+    <h3 id=article-i>Article I — Legislative (Congress)</h3>
+    <p class=muted style="font-size:14px">Creates the House and Senate and grants their powers — tax and spend, borrow, regulate interstate commerce (the <b>Commerce Clause</b>), coin money, declare war, and make all laws &ldquo;necessary and proper.&rdquo; Limits Congress (no bills of attainder, no ex post facto laws) and sets how a bill becomes law: passed by both houses and presented to the President. This is where <a href="/statutes">Statutory Law</a> comes from.</p>
+    <h3 id=article-ii>Article II — Executive (the President)</h3>
+    <p class=muted style="font-size:14px">Vests executive power: faithfully execute the laws, command the armed forces, <a href="/treaties">make treaties</a> (Senate advice and consent) and appoint officers/judges, and veto legislation. The agencies that issue <a href="/regulations">Regulatory Law</a> sit here — acting only within the authority a statute delegates.</p>
+    <h3 id=article-iii>Article III — Judicial (the courts)</h3>
+    <p class=muted style="font-size:14px">Establishes the Supreme Court and lower federal courts and extends judicial power to &ldquo;cases and controversies.&rdquo; The branch that decides what the other layers mean and whether they are constitutional — the source of <a href="/cases">Case Law</a>.</p>
+    <h3>Articles IV–VII</h3>
+    <p class=muted style="font-size:14px"><b>IV</b>: the states (full faith &amp; credit). <b>V</b>: how the Constitution is <a href="#override">amended</a> — the one way to override the Supreme Court. <b>VI</b>: the <b>Supremacy Clause</b>. <b>VII</b>: ratification.</p></div>
+
+  <div class=card><h2 id=checks>Checks and balances — the landmark cases</h2>
+    <p class=muted style="font-size:14px;margin:-2px 0 12px">Each row states the case, its citation, and what the Court held, as a matter of record — no judgment on whether it is rightly decided or currently good law. Click through to the court's own words.</p>
+    <h3 id=judicial-review>Courts over statutes: judicial review</h3>
+    ${L('Marbury v. Madison', '5 U.S. 137 (1803)', 'The Court held it has the power to declare an act of Congress unconstitutional — establishing judicial review, the keystone of every other check.')}
+    ${L('McCulloch v. Maryland', '17 U.S. 316 (1819)', 'Implied powers under the Necessary and Proper Clause; a state may not tax a federal instrument (Supremacy Clause).')}
+    <h3>Courts over the executive</h3>
+    ${L('Youngstown Sheet & Tube Co. v. Sawyer', '343 U.S. 579 (1952)', 'The President could not seize the steel mills without congressional authorization. Jackson’s concurrence set the enduring framework for presidential power.')}
+    ${L('United States v. Nixon', '418 U.S. 683 (1974)', 'Executive privilege is not absolute and does not defeat a criminal subpoena.')}
+    <h3>Congress vs. the executive: bicameralism &amp; presentment</h3>
+    ${L('INS v. Chadha', '462 U.S. 919 (1983)', 'The one-house legislative veto is unconstitutional — Congress acts with legal effect only through both houses plus presentment.')}
+    ${L('Clinton v. City of New York', '524 U.S. 417 (1998)', 'The line-item veto is unconstitutional — the President may not cancel parts of a duly enacted statute.')}
+    <h3>The executive bounded by statute: agency deference</h3>
+    ${L('Chevron U.S.A. v. NRDC', '467 U.S. 837 (1984)', 'Courts should defer to an agency’s reasonable reading of an ambiguous statute it administers — the Chevron framework.')}
+    ${L('Loper Bright Enterprises v. Raimondo', '603 U.S. 369 (2024)', 'Courts, not agencies, decide the best reading of a statute — overruling Chevron deference.')}
+    <h3 id=override>The other direction: overriding the Court</h3>
+    <p class=muted style="font-size:14px">Checks run <em>up</em> too. When the Court reads a <b>statute</b> a way Congress dislikes, Congress can amend it (e.g. the Lilly Ledbetter Fair Pay Act overrode <a href="/cases?q=${q('550 U.S. 618')}">Ledbetter v. Goodyear</a>, 550 U.S. 618 (2007)). When the Court reads the <b>Constitution</b>, only an Article V amendment can override it (the 11th overrode <a href="/cases?q=${q('2 U.S. 419')}">Chisholm v. Georgia</a>; the 16th overrode <a href="/cases?q=${q('157 U.S. 429')}">Pollock</a>; the 14th overrode <a href="/cases?q=${q('60 U.S. 393')}">Dred Scott</a>).</p></div>
+
+  <p class=muted style="font-size:12px">Case descriptions state what each decision is cited for as a matter of legal-historical record, from the public reporters — not our verdict on whether a case is correct or currently good law. Corrections route to the source of record (see the footer).</p>`;
+}
+
+// ── /treaties — how a treaty becomes U.S. law: ratification → codification → cases ──────────────────
+// Editorial civics explainer on DECIDED precedent (stating a final holding IS the public record;
+// distinct from the /cases pending-lister rule). Neutral "the Court held" register; landmark rows
+// resolve live through /cases?q=<citation>. Cross-links /constitution (Art. II treaty power, Art. VI
+// Supremacy Clause) and /rights (the Moorish "treaty immunity" myth).
+export function treatiesView() {
+  const L = (name, cite, held) => `<div class=rec>
+    <div class=nm><a href="/cases?q=${q(cite)}">${esc(name)}</a> <span class=badge>${esc(cite)}</span></div>
+    <div class=meta>${esc(held)}</div>
+    <div class=xlink><a href="/cases?q=${q(cite)}">read the opinion →</a></div></div>`;
+  return `<h1>Treaties <span class=muted style="font-size:14px">· how they're made, and when they're actually law</span></h1>
+  <p class=muted>A treaty is one of the most powerful instruments in American law — the Constitution calls a treaty part of the
+    &ldquo;supreme Law of the Land.&rdquo; That is exactly why so much pseudolegal folklore is built on top of them. Here is how a real
+    treaty is made, when it becomes enforceable law inside the United States, and the cases that draw those lines. Informational only,
+    not legal advice.</p>
+
+  <div class=card><h2>How a treaty is made</h2>
+    <p>Under <b>Article II, &sect; 2</b>, the <b>President</b> negotiates a treaty — but it is not law on the President's signature alone.
+      The <b>Senate</b> must give <b>advice and consent by a two-thirds vote</b>; only then does the President ratify it and exchange
+      instruments with the other nation. Under <b>Article VI</b> (the <b>Supremacy Clause</b>), a ratified treaty stands with the
+      Constitution and federal statutes as &ldquo;the supreme Law of the Land,&rdquo; binding on state judges.</p>
+    <p><b>Not every international agreement is a &ldquo;treaty&rdquo; in this Article II sense.</b> The United States also makes
+      <b>congressional-executive agreements</b> (approved by a simple majority of both houses — most trade agreements take this form) and
+      <b>sole executive agreements</b> (made by the President alone within existing authority). They can carry real legal force, but they
+      are made and unmade differently, and a sole executive agreement cannot override a federal statute.</p>
+    <p class=xlink><a href="/constitution#article-ii">See Article II (the treaty power) and Article VI (Supremacy) on the Constitution page →</a></p></div>
+
+  <div class=card><h2>When a treaty is enforceable law here: self-executing vs. not</h2>
+    <p>A ratified treaty binds the United States internationally — but whether a <b>court in the United States</b> can enforce it directly
+      depends on whether it is <b>self-executing</b>. A self-executing treaty operates as domestic law on its own. A
+      <b>non-self-executing</b> treaty is a promise to the other nation that does <b>not</b> create rights a private person can sue on until
+      <b>Congress passes implementing legislation</b> — that legislation is how the treaty is <b>codified</b> into the U.S. Code.</p>
+    ${L('Foster & Elam v. Neilson', '27 U.S. 253 (1829)', 'Chief Justice Marshall drew the original line: a treaty is domestic law a court enforces directly only when it operates by itself; where its terms look to future legislative action, it is addressed to the political branches, not the courts.')}
+    ${L('Medellín v. Texas', '552 U.S. 491 (2008)', 'A treaty obligation, and even a judgment of the International Court of Justice under it, is not automatically enforceable federal law in U.S. courts unless the treaty is self-executing or Congress has enacted implementing legislation; the President cannot make it domestic law by memorandum.')}
+    <p class=muted style="font-size:14px">The practical upshot: pointing to a treaty is not the end of the argument. A court asks whether it is
+      self-executing and, if not, whether Congress has codified it — the step the pseudolegal &ldquo;treaty immunity&rdquo; claims skip.</p></div>
+
+  <div class=card><h2>The limits: powerful, but not above the Constitution</h2>
+    ${L('Missouri v. Holland', '252 U.S. 416 (1920)', 'A valid treaty, and legislation passed to implement it, can reach subjects Congress might not otherwise regulate — recognizing the substantial scope of the treaty power.')}
+    ${L('Reid v. Covert', '354 U.S. 1 (1957)', 'No treaty or executive agreement can confer power that violates the Constitution; constitutional protections (there, jury-trial rights) prevail over a conflicting international agreement.')}
+    ${L('Head Money Cases (Edye v. Robertson)', '112 U.S. 580 (1884)', 'A treaty stands on equal footing with an act of Congress; it can be enforced, modified, or repealed by a later statute like any other law.')}
+    ${L('Whitney v. Robertson', '124 U.S. 190 (1888)', 'When a self-executing treaty and a federal statute conflict, the one later in time controls — the "last-in-time" rule.')}
+    <p class=muted style="font-size:14px">The real hierarchy: the <b>Constitution</b> above all; treaties and federal statutes on the same tier,
+      the later one winning when they clash; and a treaty enforceable in court only when self-executing or codified. A treaty never places a
+      person <b>outside</b> the Constitution or the courts.</p></div>
+
+  <div class=card><h2>How far the Constitution reaches: territory acquired by treaty, and Americans abroad</h2>
+    <p>Treaties don't just bind the country — they've been how the United States <b>acquired</b> territory, which forced a hard question:
+      when land comes in by treaty, does the whole Constitution come with it? This is real, unsettled, and directly relevant to anyone who
+      thinks &ldquo;jurisdiction&rdquo; is a switch you can flip.</p>
+    <p><b>Territory acquired by treaty — the Insular Cases.</b> After the <b>Treaty of Paris (1898)</b> transferred Puerto Rico, Guam, and
+      the Philippines from Spain, the Court built the <b>&ldquo;unincorporated territory&rdquo;</b> doctrine: in such territories only
+      <i>some</i> constitutional provisions apply automatically.</p>
+    ${L('Downes v. Bidwell', '182 U.S. 244 (1901)', 'The first Insular Case: distinguished "incorporated" territories (destined for statehood, full Constitution) from "unincorporated" ones, where only "fundamental" constitutional provisions apply of their own force.')}
+    ${L('Dorr v. United States', '195 U.S. 138 (1904)', 'Applied the doctrine: the Sixth Amendment jury-trial guarantee did not extend of its own force to the then-unincorporated Philippines.')}
+    ${L('Balzac v. Porto Rico', '258 U.S. 298 (1922)', 'Confirmed it: residents of Puerto Rico hold statutory U.S. citizenship yet were not guaranteed a jury trial in the territory — the settled statement of the unincorporated-territory doctrine.')}
+    <p class=muted style="font-size:14px"><b>This is live, contested doctrine.</b> The Insular Cases have been widely criticized as resting on
+      discredited, racist reasoning. In <a href="/cases?q=${q('Financial Oversight Board Aurelius')}">Financial Oversight Board v. Aurelius</a> (2020) the Court was
+      asked to overrule them and declined to reach the question; in <a href="/cases?q=${q('596 U.S. 159')}">United States v. Vaello Madero</a>,
+      596 U.S. 159 (2022), Justice Gorsuch's concurrence urged overruling them outright, writing they &ldquo;have no foundation in the
+      Constitution and rest instead on racial stereotypes.&rdquo; The Court has not overruled them. We state this as the record, not a verdict.</p>
+    <p><b>Americans abroad — the Consular Cases.</b> The reach question runs the other way too — how far U.S. law follows a citizen overseas.
+      <i>In re Ross</i> upheld American <b>consular courts</b> trying citizens abroad without a jury, on the theory that the Constitution
+      stopped at the water's edge. That theory did not survive:</p>
+    ${L('In re Ross', '140 U.S. 453 (1891)', 'Upheld consular-court jurisdiction over an American sailor tried abroad without grand/petit jury, reasoning the Constitution had no application outside U.S. territory.')}
+    ${L('Reid v. Covert', '354 U.S. 1 (1957)', 'Repudiated the Ross approach: the government has only the powers the Constitution grants and is bound by it even abroad; a treaty or executive agreement cannot strip a citizen of constitutional protections.')}
+    <p class=muted style="font-size:14px">The honest through-line: the reach of American law over acquired territory and citizens abroad is a
+      <b>real, serious, still-argued question</b> resolved by courts case by case — the opposite of the pseudolegal fantasy that a person can
+      unilaterally declare themselves outside all jurisdiction. Jurisdiction's edges are contested in the U.S. Reports; they are not a secret
+      you opt out of.</p></div>
+
+  <div class=card style="border-color:var(--gold)"><h2>Why this matters for the &ldquo;treaty immunity&rdquo; claims</h2>
+    <p>Some movements claim an old treaty — most often the 1786/1836 Treaty of Peace and Friendship with Morocco — makes them immune to
+      U.S. law. Run it through the real framework and it fails at every step: the treaty is <b>not self-executing</b> as a grant of personal
+      immunity, Congress never <b>codified</b> any such immunity, and even a self-executing treaty <b>could not</b> place a person outside the
+      Constitution and the courts (<i>Reid v. Covert</i>). See <a href="/rights">Rights That Hold Up in Court → the Moorish / treaty-immunity cases</a>.</p></div>
+
+  <div class=card><h2>Read the sources</h2>
+    <div class=grid>
+      <a class=sec href="https://www.congress.gov/treaty-document" rel=noopener><div class=t>Congress.gov — Treaties</div><div class=d>Treaty documents transmitted to the Senate and their status.</div></a>
+      <a class=sec href="https://constitution.congress.gov/browse/essay/artII-S2-C2-1-4/" rel=noopener><div class=t>Constitution Annotated</div><div class=d>Self-executing vs. non-self-executing treaties, clause by clause.</div></a>
+      <a class=sec href="/constitution"><div class=t>Foundational Law</div><div class=d>Article II, Article VI, and the checks-and-balances spine.</div></a>
+    </div></div>
+
+  <p class=muted style="font-size:12px">Case descriptions state what each decision is cited for as a matter of public record, from the reporters — not our verdict on whether a case is correct or currently good law. Corrections route to the source of record (see the footer).</p>`;
+}
+
+// ── /maxims — legal maxims, political axioms & idioms (same corpus that feeds the legal-graph 'maxim' node)
+const MAXIMS_PATH = fileURLToPath(new URL('../../knowledge/maxims/maxims.json', import.meta.url));
+function loadMaxims() {
+  try { const j = JSON.parse(readFileSync(MAXIMS_PATH, 'utf8')); return Array.isArray(j.items) ? j.items : []; }
+  catch { return []; }
+}
+const MAXIM_DOMAINS = [['legal', 'Legal maxims'], ['political', 'Political axioms'], ['idiom', 'Idioms &amp; mottos']];
+export function maximsView(domain) {
+  const items = loadMaxims();
+  const want = ['legal', 'political', 'idiom'].includes(String(domain || '')) ? String(domain) : '';
+  const tabs = `<div class=tabs>${MAXIM_DOMAINS.map(([d, label]) =>
+    `<a class="${want === d ? 'on' : ''}" href="/maxims?d=${esc(d)}">${label}</a>`).join('')}<a class="${!want ? 'on' : ''}" href="/maxims">All</a></div>`;
+  const shown = want ? items.filter((m) => m.domain === want) : items;
+  const rows = shown.length ? shown.map((m) => `<div class=rec>
+    <div class=nm>${esc(m.term)} <span class=badge>${esc(m.domain)}${m.lang ? ` &middot; ${esc(m.lang)}` : ''}</span></div>
+    ${m.literal ? `<div class=meta><i>&ldquo;${esc(m.literal)}&rdquo;</i></div>` : ''}
+    <div class=meta>${esc(m.gloss || '')}</div>
+    ${m.provenance ? `<div class=meta>Provenance: ${esc(m.provenance)}</div>` : ''}
+  </div>`).join('') : `<p class=empty>No maxims in this set.</p>`;
+  return `<h1>Maxims, axioms &amp; idioms <span class=muted style="font-size:14px">&middot; a browsable collection</span></h1>
+    <p class=muted>Legal maxims, political axioms, and the idioms that carry them into everyday argument — each with a plain-English
+      gloss and where it comes from. We state what a maxim <b>means</b> and <b>where it's from</b>; we do not tell you it is right.
+      The legal maxims cross-reference the same categories as our <a href="/cases">case law</a>.</p>
+    ${tabs}
+    <div class=card>${rows}</div>`;
+}
+
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=120' });
@@ -656,7 +1076,7 @@ function splitJurisdiction(pathname) {
   return { juris: DEFAULT_JURISDICTION, path: pathname };
 }
 
-const SITEMAP_PATHS = ['/', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints'];
+const SITEMAP_PATHS = ['/', '/constitution', '/treaties', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints', '/privacy', '/rights', '/maxims'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -691,6 +1111,7 @@ export async function handler(req, res) {
           { label: 'Dockets (PACER/RECAP)', path: '/dockets' },
           { label: 'Statutes (US Code)', path: '/statutes' },
           { label: 'Regulations (CFR)', path: '/regulations' },
+          { label: 'Privacy law (federal vs. Texas)', path: '/privacy' },
           { label: 'Judges', path: '/judges' },
           { label: 'Lawyers', path: '/lawyers' },
           { label: 'File a complaint', path: '/complaints' },
@@ -743,6 +1164,24 @@ export async function handler(req, res) {
     }
     if (path === '/complaints') {
       return sendHtml(res, page('File a complaint — SoapBox Law', complaintsView(), { canonical: `${BASE_URL}/complaints` }));
+    }
+    if (path === '/privacy') {
+      const st = sp.get('statute') || '';
+      return sendHtml(res, page('Privacy law — federal vs. Texas — SoapBox Law', await privacyView(st),
+        { canonical: `${BASE_URL}/privacy`, robots: st ? 'noindex,follow' : 'index,follow' }));
+    }
+    if (path === '/rights') {
+      return sendHtml(res, page('Rights That Hold Up in Court — SoapBox Law', rightsPage(), { canonical: `${BASE_URL}/rights` }));
+    }
+    if (path === '/constitution') {
+      return sendHtml(res, page('Foundational Law — the Constitution — SoapBox Law', constitutionView(), { canonical: `${BASE_URL}/constitution` }));
+    }
+    if (path === '/treaties') {
+      return sendHtml(res, page('Treaties — how they’re made, and when they’re law — SoapBox Law', treatiesView(), { canonical: `${BASE_URL}/treaties` }));
+    }
+    if (path === '/maxims') {
+      return sendHtml(res, page('Maxims, axioms & idioms — SoapBox Law', maximsView(sp.get('d') || ''),
+        { canonical: `${BASE_URL}/maxims`, robots: sp.get('d') ? 'noindex,follow' : 'index,follow' }));
     }
 
     // unknown → home

@@ -3,10 +3,32 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  createGraph, ingestCase, detectTreatment, query,
+  createGraph, ingestCase, ingestMaxim, detectTreatment, query,
   renderGraph, renderNode, matchCategories,
   SEED_CATEGORIES, NODE_TYPES, EDGE_TYPES, NEGATIVE_TREATMENTS, escapeHtml,
 } from './legal-knowledge-graph.mjs';
+
+test('ingestMaxim adds a maxim node and a falls-under-category edge to a seed category', () => {
+  const g = createGraph();
+  const r = ingestMaxim({ id: 'ignorantia-juris', term: 'Ignorantia juris non excusat', gloss: 'Ignorance of law excuses not.', category: 'cat:definitions', provenance: 'Roman law' }, g);
+  assert.equal(r.maximId, 'ignorantia-juris');
+  assert.equal(r.category, 'cat:definitions');
+  const maxims = g.nodesByType('maxim');
+  assert.equal(maxims.length, 1);
+  assert.equal(maxims[0].name, 'Ignorantia juris non excusat');
+  // co-surfaces with the category (the whole point — no query change needed)
+  const edge = g.neighbors('ignorantia-juris').find((e) => e.type === 'falls-under-category');
+  assert.ok(edge && edge.other === 'cat:definitions');
+});
+
+test('ingestMaxim soft-fails on a bad record and tolerates an unknown category', () => {
+  const g = createGraph();
+  assert.equal(ingestMaxim(null, g), null);
+  assert.equal(ingestMaxim({}, g), null);
+  const r = ingestMaxim({ id: 'x', term: 'X', category: 'cat:not-a-real-category' }, g);
+  assert.equal(r.category, null); // unknown category → no edge, but the node still lands
+  assert.equal(g.nodesByType('maxim').length, 1);
+});
 
 test('SEED_CATEGORIES are present as first-class category nodes on a fresh graph', () => {
   const g = createGraph();
