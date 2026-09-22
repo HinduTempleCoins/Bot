@@ -1,0 +1,91 @@
+{
+  "intro": "Long before the Supreme Court spoke of a 'right to privacy' by name, it located marriage and family life inside the 'liberty' protected by the Fourteenth Amendment's Due Process Clause. Beginning with the right to raise and educate one's own children (Meyer, Pierce), the Court built a line of cases recognizing that the most intimate decisions a person makes -- whom to marry, whether and with whom to have children, how to raise them, and who counts as one's family under one roof -- belong to the individual and the family rather than the state. Marital privacy (Griswold), the freedom to marry across race (Loving) and for prisoners (Turner), the choice to use contraception whether married or not (Griswold, Eisenstadt), the right of an extended family to live together (Moore), a parent's authority over third-party visitation (Troxel), the liberty to conduct one's private intimate life (Lawrence), and the equal right of same-sex couples to marry (Obergefell) are all threads of this one tradition: that the family is a zone of protected liberty the government may enter only with strong justification. This is the constitutional half of the privacy stack -- liberty and autonomy in personal and family life -- as distinct from the statutory data-privacy protections paired elsewhere on this page.",
+  "cases": [
+    {
+      "name": "Meyer v. Nebraska",
+      "cite": "262 U.S. 390 (1923)",
+      "court": "U.S. Supreme Court",
+      "year": 1923,
+      "held": "A state law barring the teaching of foreign languages to young children violated the Fourteenth Amendment's liberty guarantee, which includes the right to acquire knowledge and the right of parents to direct the education and upbringing of their children."
+    },
+    {
+      "name": "Pierce v. Society of Sisters",
+      "cite": "268 U.S. 510 (1925)",
+      "court": "U.S. Supreme Court",
+      "year": 1925,
+      "held": "A state cannot compel children to attend public schools only; parents have a Fourteenth Amendment liberty interest in directing the upbringing and education of their children, including the choice of private or religious schooling."
+    },
+    {
+      "name": "Griswold v. Connecticut",
+      "cite": "381 U.S. 479 (1965)",
+      "court": "U.S. Supreme Court",
+      "year": 1965,
+      "held": "A law forbidding married couples from using contraceptives violated a right of marital privacy found within the penumbras of the Bill of Rights, recognizing a constitutionally protected zone of privacy around the marital relationship."
+    },
+    {
+      "name": "Loving v. Virginia",
+      "cite": "388 U.S. 1 (1967)",
+      "court": "U.S. Supreme Court",
+      "year": 1967,
+      "held": "Virginia's ban on interracial marriage violated both the Equal Protection and Due Process Clauses of the Fourteenth Amendment; the freedom to marry is a fundamental right that cannot be restricted by invidious racial classifications."
+    },
+    {
+      "name": "Eisenstadt v. Baird",
+      "cite": "405 U.S. 438 (1972)",
+      "court": "U.S. Supreme Court",
+      "year": 1972,
+      "held": "A law permitting distribution of contraceptives to married but not unmarried persons violated the Equal Protection Clause, extending the privacy interest in the decision whether to bear or beget a child to the individual, married or single."
+    },
+    {
+      "name": "Moore v. City of East Cleveland",
+      "cite": "431 U.S. 494 (1977)",
+      "court": "U.S. Supreme Court",
+      "year": 1977,
+      "held": "A zoning ordinance that defined 'family' so narrowly it made it a crime for a grandmother to live with two grandsons who were cousins violated substantive due process, because the Constitution protects the sanctity of the extended family and choices about family living arrangements."
+    },
+    {
+      "name": "Zablocki v. Redhail",
+      "cite": "434 U.S. 374 (1978)",
+      "court": "U.S. Supreme Court",
+      "year": 1978,
+      "held": "A state law barring a person behind on child-support payments from marrying without a court order impermissibly burdened the fundamental right to marry and failed the heightened scrutiny that significant interference with that right requires."
+    },
+    {
+      "name": "Turner v. Safley",
+      "cite": "482 U.S. 78 (1987)",
+      "court": "U.S. Supreme Court",
+      "year": 1987,
+      "held": "A prison regulation broadly prohibiting inmate marriages was unconstitutional because the right to marry survives incarceration, and the restriction was not reasonably related to legitimate penological interests."
+    },
+    {
+      "name": "Ankenbrandt v. Richards",
+      "cite": "504 U.S. 689 (1992)",
+      "court": "U.S. Supreme Court",
+      "year": 1992,
+      "held": "The 'domestic relations exception' to federal diversity jurisdiction bars federal courts only from issuing divorce, alimony, and child-custody decrees, and does not reach a tort suit for damages between family members; the Court reaffirmed that domestic-relations matters are traditionally the province of the states."
+    },
+    {
+      "name": "Troxel v. Granville",
+      "cite": "530 U.S. 57 (2000)",
+      "court": "U.S. Supreme Court",
+      "year": 2000,
+      "held": "A state visitation statute applied to override a fit parent's decision about grandparent visitation, based only on a court's view of the child's best interests, violated the parent's fundamental due-process right to make decisions concerning the care, custody, and control of her children."
+    },
+    {
+      "name": "Lawrence v. Texas",
+      "cite": "539 U.S. 558 (2003)",
+      "court": "U.S. Supreme Court",
+      "year": 2003,
+      "held": "A law criminalizing private, consensual intimate conduct between adults of the same sex violated the Due Process Clause; the liberty protected by the Constitution gives consenting adults the right to conduct their private lives free of government intrusion. The decision overruled Bowers v. Hardwick (1986)."
+    },
+    {
+      "name": "Obergefell v. Hodges",
+      "cite": "576 U.S. 644 (2015)",
+      "court": "U.S. Supreme Court",
+      "year": 2015,
+      "held": "The right to marry is a fundamental liberty inherent in the person, and under the Due Process and Equal Protection Clauses same-sex couples may not be denied that right; states must both license and recognize marriages between two people of the same sex."
+    }
+  ],
+  "federalism_note": "Marriage, divorce, custody, adoption, and other domestic-relations matters are traditionally state law: the Supreme Court has long recognized a 'domestic relations exception' keeping federal courts out of divorce, alimony, and custody decrees (Ankenbrandt v. Richards, 504 U.S. 689 (1992)), and family codes still differ substantially from one state to the next. Scholars have described American family law as functioning almost like a 'personal law' system, where the rules that govern a person's marriage and family vary by the jurisdiction they live in rather than being uniform nationwide (see Jeffrey A. Redding, Slicing the American Pie: Federalism and Personal Law, 40 N.Y.U. J. Int'l L. & Pol. 941 (2008), Part IV). But that state authority operates above a federal constitutional floor: the cases above establish liberty and equality guarantees -- the right to marry, to raise one's children, to family living arrangements, to marital and intimate privacy -- that no state may go below. The reach of that floor is now contested. In Dobbs v. Jackson Women's Health Organization, 597 U.S. 215 (2022), the Court overruled Roe and Casey and returned abortion regulation to the states, and a concurrence urged reconsidering other substantive-due-process precedents; the majority stated its holding did not reach them. How far the substantive-due-process family rights collected here extend after Dobbs is therefore an open question. See the Ninth Amendment / penumbra and Dobbs entries elsewhere on this page for the doctrinal background, which this section does not repeat.",
+  "not_legal_advice": "This material is constitutional and legal education, not legal advice. It summarizes published Supreme Court decisions in general terms and does not address the facts of any particular marriage, divorce, custody dispute, or family situation. Family and domestic-relations law is primarily state law and varies significantly by jurisdiction, and the constitutional landscape is actively evolving. For a specific situation, consult a licensed attorney in your state."
+}

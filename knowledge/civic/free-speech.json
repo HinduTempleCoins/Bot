@@ -71,6 +71,58 @@
     ]
   },
 
+  "advocacy": {
+    "id": "advocacy-association",
+    "heading": "Advocacy and association — protected even alongside violence",
+    "intro": "Two cases mark how far protection reaches even when speech sits close to unlawful action. Hess sharpened Brandenburg's \"imminent\" prong — advocacy of illegal action at some indefinite future time is protected. Claiborne Hardware held that the nonviolent, expressive elements of a political boycott sit at the highest rung of First Amendment protection, and that a speaker cannot be held liable for others' later violence absent proof he specifically authorized or incited it.",
+    "cases": [
+      {
+        "name": "Hess v. Indiana",
+        "citation": "414 U.S. 105 (1973)",
+        "year": 1973,
+        "court": "U.S. Supreme Court",
+        "holding": "Per curiam, reversed the disorderly-conduct conviction of an anti-war demonstrator who, as police cleared a street, said \"We'll take the fucking street later\" (or \"again\"). Because the words were not directed to any person or group and amounted to nothing more than advocacy of illegal action at some indefinite future time, they were not directed to producing IMMINENT lawless action and were not likely to produce it — so they were protected under Brandenburg. The case is the leading illustration of how much work the word \"imminent\" does.",
+        "note": "Applies Brandenburg directly: advocacy of lawbreaking at an indefinite future time is protected; imminence is essential, not optional.",
+        "source": "https://supreme.justia.com/cases/federal/us/414/105/"
+      },
+      {
+        "name": "NAACP v. Claiborne Hardware Co.",
+        "citation": "458 U.S. 886 (1982)",
+        "year": 1982,
+        "court": "U.S. Supreme Court",
+        "holding": "Unanimously reversed a Mississippi judgment that held NAACP organizers and participants liable for the economic losses of a civil-rights boycott of white merchants. The Court held that the nonviolent elements of the boycott — speech, assembly, petition, and association to bring about political, social, and economic change — occupy \"the highest rung of the hierarchy of First Amendment values.\" Charles Evers's emotionally charged speeches, which included references to violence against boycott-breakers, were still protected under Brandenburg because they did not incite imminent lawless action; a person may be held liable for the unlawful acts of others only on proof that he specifically authorized or incited them.",
+        "note": "Protected advocacy and association are not stripped of protection by proximity to violence; liability requires incitement or authorization, not passionate rhetoric.",
+        "source": "https://supreme.justia.com/cases/federal/us/458/886/"
+      }
+    ]
+  },
+
+  "trueThreats": {
+    "id": "true-threats",
+    "heading": "True threats — from Watts to Counterman",
+    "intro": "A \"true threat\" — a serious expression of an intent to commit unlawful violence against a particular person or group — is outside First Amendment protection. But the category is policed narrowly at both ends: crude, conditional, or overheated political rhetoric is not a true threat (Watts), and since 2023 the government must also prove the speaker's own culpable mental state, not merely that a reasonable listener would have felt threatened (Counterman).",
+    "cases": [
+      {
+        "name": "Watts v. United States",
+        "citation": "394 U.S. 705 (1969)",
+        "year": 1969,
+        "court": "U.S. Supreme Court",
+        "holding": "Per curiam, reversed the conviction of an 18-year-old anti-war protester who said at a rally that if drafted and made to carry a rifle \"the first man I want to get in my sights is L.B.J.\" The Court held this was not a \"true threat\" but constitutionally protected political hyperbole — crude and conditional speech uttered in the course of political debate. It established that the threat statute reaches only true threats, and that context, conditional phrasing, and the listeners' reaction all matter in telling a threat from hyperbole.",
+        "note": "The origin of the \"true threats\" category and the hyperbole line: heated political speech is not a threat merely because its imagery is violent.",
+        "source": "https://supreme.justia.com/cases/federal/us/394/705/"
+      },
+      {
+        "name": "Counterman v. Colorado",
+        "citation": "600 U.S. 66 (2023)",
+        "year": 2023,
+        "court": "U.S. Supreme Court",
+        "holding": "7-2 (Kagan, J.), held that to punish a true threat consistent with the First Amendment the State must prove the speaker had a subjective mental state of at least RECKLESSNESS — that he consciously disregarded a substantial risk that his words would be viewed as threatening violence. A purely objective \"reasonable person\" standard is not enough. The case arose from years of unwanted, alarming Facebook messages sent to a local musician. The Court borrowed the recklessness rule from its defamation cases.",
+        "note": "The modern true-threats mental-state standard: at least recklessness as to how the words would be understood.",
+        "source": "https://www.supremecourt.gov/opinions/22pdf/22-138_43j7.pdf"
+      }
+    ]
+  },
+
   "categories": {
     "id": "categories",
     "heading": "Protected vs. unprotected speech — the narrow exceptions",
@@ -151,6 +203,20 @@
     ]
   },
 
+  "stateSpeech": {
+    "id": "state-speech",
+    "heading": "State speech guarantees — the Texas example",
+    "intro": "The First Amendment binds the federal government and, through the Fourteenth Amendment, the states. But state constitutions carry their own free-speech guarantees, and some are worded more broadly than the federal text. A state may grant more protection than the federal floor, never less. Texas is a common example.",
+    "provisions": [
+      {
+        "name": "Texas Constitution, art. I, § 8 (Freedom of Speech and Press)",
+        "quote": "\"Every person shall be at liberty to speak, write or publish his opinions on any subject, being responsible for the abuse of that privilege; and no law shall ever be passed curtailing the liberty of speech or of the press.\"",
+        "note": "Framed as an affirmative liberty to speak (\"every person shall be at liberty\") coupled with responsibility for abuse — worded more expansively than the First Amendment's \"Congress shall make no law,\" though Texas courts have generally interpreted it in step with federal free-speech doctrine.",
+        "source": "https://law.justia.com/constitution/texas/sections/cn000100-000800.html"
+      }
+    ]
+  },
+
   "sedition": {
     "id": "sedition",
     "heading": "Sedition & seditious conspiracy",
@@ -220,6 +286,23 @@
         }
       ],
       "teaching": "The lesson is the line, not the politics: none of these convictions turned on holding a political opinion, criticizing the government, or even calling for revolution. They turned on an alleged agreement to use FORCE to prevent the government from executing the law. A protester, a pamphleteer, a revolutionary theorist, and an angry citizen are on the protected side of that line; people who agree to storm a building by force to stop a legal process are on the criminal side of it."
+    },
+    "rightOfRevolution": {
+      "heading": "The \"right of revolution\": political tradition, not a legal defense",
+      "intro": "American founding texts and many state constitutions carry a deep political-theory tradition: that all political power is inherent in the people, and that a people may alter or abolish a government that becomes destructive of their rights. This is a statement of political philosophy and popular sovereignty — addressed to \"the People\" collectively in the founding sense — NOT a legal defense that an individual or group may raise to a criminal charge. No court recognizes a \"right of revolution\" as a justification for seditious conspiracy, levying war, or violence against the government; seditious conspiracy under 18 U.S.C. § 2384 remains a live crime with convictions as recent as the January 6 prosecutions. The tradition and the statute occupy different registers: one concerns the legitimacy of governments in political theory, the other what an individual may lawfully do.",
+      "texts": [
+        {
+          "name": "Declaration of Independence (1776)",
+          "what": "\"...whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government...\" A foundational statement of popular sovereignty and of a people's right to change their government. It is a political-philosophy charter of the founding era — not operative law that confers a defense to prosecution.",
+          "source": "https://www.archives.gov/founding-docs/declaration-transcript"
+        },
+        {
+          "name": "Texas Constitution, art. I, § 2 (Inherent Political Power)",
+          "what": "\"All political power is inherent in the people... they have at all times the inalienable right to alter, reform or abolish their government in such manner as they may think expedient\" — subject only to preserving a republican form of government. A representative example of the state constitutional \"alter or abolish\" clauses. Like the Declaration, it states a principle of popular sovereignty exercised by the people collectively through lawful means; it is not a license for an individual to use force, and it is not a defense to a § 2384 charge.",
+          "source": "https://law.justia.com/constitution/texas/sections/cn000100-000200.html"
+        }
+      ],
+      "line": "Political theory says a people may remake their government; criminal law says a person may not agree with others to use force against it. The first is protected thought and speech; the second is the seditious-conspiracy statute. Treating the \"right of revolution\" as a personal legal shield is the same category error the sovereign-citizen material warns about."
     }
   },
 

@@ -1,0 +1,139 @@
+{
+  "intro": "The starting point of American evidence law is that 'the public has a right to every man's evidence' -- a court is entitled to compel testimony and documents from anyone who has relevant knowledge. Testimonial and confidential privileges are the narrow, disfavored exceptions carved out of that duty, justified only where the law decides some relationship or secret is worth protecting more than the truth-seeking it costs. In federal court, most privileges are not written into a statute at all: Federal Rule of Evidence 501 leaves them to be 'governed by the common law -- as interpreted by United States courts in the light of reason and experience,' except that in civil cases resting on state-law claims, state privilege law applies. Because they suppress relevant evidence, privileges are construed narrowly and every one of them has limits. This page maps who holds each privilege, what it covers, and -- just as important for the privacy stack -- where each one runs out.",
+  "privileges": [
+    {
+      "name": "Spousal testimonial privilege (adverse spousal testimony)",
+      "who_holds_it": "The witness-spouse alone. Under Trammel, the spouse called to testify decides whether to testify against the defendant-spouse in a criminal case; the defendant-spouse can no longer block that testimony. This overturned the older rule (Hawkins) that let the party-spouse veto the testimony.",
+      "what_it_covers": "The right of a person not to be compelled to give adverse testimony against their spouse in a criminal proceeding. It reaches any adverse testimony, not just confidential communications, but it exists only during a valid marriage and ends at divorce. Because the witness-spouse holds it, a willing spouse may testify freely.",
+      "limits": "Does not apply where the witness-spouse chooses to testify (Trammel); ends with the marriage; and does not shield a spouse who is the victim of the other spouse's crime -- a husband cannot bar his wife's testimony when she is the victim of the charged offense (Wyatt, a Mann Act prosecution). Courts also recognize exceptions for crimes against the couple's children and for joint criminal participation by both spouses.",
+      "key_cases": [
+        {
+          "name": "Hawkins v. United States",
+          "cite": "358 U.S. 74 (1958)",
+          "year": 1958,
+          "held": "Reaffirmed for the federal courts the common-law rule that one spouse could exclude the other's adverse testimony in a criminal trial, so the objecting party-spouse held a veto -- the rule Trammel would later modify."
+        },
+        {
+          "name": "Wyatt v. United States",
+          "cite": "362 U.S. 525 (1960)",
+          "year": 1960,
+          "held": "The spousal privilege does not let a husband block his wife's testimony where she is the victim of his offense (here a Mann Act violation); the victim-spouse exception is recognized for federal courts."
+        },
+        {
+          "name": "Trammel v. United States",
+          "cite": "445 U.S. 40 (1980)",
+          "year": 1980,
+          "held": "Modified the privilege so that the witness-spouse alone holds it: a spouse who wishes to testify voluntarily against the defendant-spouse may do so, and the defendant may not invoke the privilege to prevent it. The Court reasoned that when one spouse is willing to testify against the other, little marital harmony remains for the privilege to preserve."
+        }
+      ],
+      "authority": "Fed. R. Evid. 501 (federal privileges governed by common law); Trammel v. United States, 445 U.S. 40 (1980); Hawkins v. United States, 358 U.S. 74 (1958); Wyatt v. United States, 362 U.S. 525 (1960)."
+    },
+    {
+      "name": "Marital confidential-communications privilege",
+      "who_holds_it": "Either spouse. Both the speaking and the listening spouse can invoke it to keep a private marital communication out of evidence; each can prevent the other from disclosing it.",
+      "what_it_covers": "Confidential communications made privately between spouses during a valid marriage -- what one spouse says to the other in the confidence of the marital relationship. Unlike the testimonial privilege, it survives the end of the marriage for communications made while it lasted, but it protects only communications, not observed acts or facts, and not statements made in the presence of third parties.",
+      "limits": "Reaches only communications intended to be confidential; not conduct, observations, or anything said in front of others (Trammel noted the wife could testify to acts she observed and to communications made in a third party's presence). Standard exceptions apply for crimes against the other spouse or the children and for communications in furtherance of joint criminal activity by the spouses.",
+      "key_cases": [
+        {
+          "name": "Trammel v. United States",
+          "cite": "445 U.S. 40 (1980)",
+          "year": 1980,
+          "held": "While modifying the adverse-testimony privilege, the Court left the separate marital confidential-communications privilege intact, distinguishing confidential communications (still protected, and inadmissible in that case) from observed acts and communications made in the presence of third parties (not protected)."
+        }
+      ],
+      "authority": "Fed. R. Evid. 501; the marital confidential-communications privilege as recognized at federal common law and distinguished in Trammel v. United States, 445 U.S. 40 (1980)."
+    },
+    {
+      "name": "Clergy-penitent privilege (priest-penitent / seal of confession)",
+      "who_holds_it": "The penitent -- the person who made the confidential communication -- holds the privilege; by most statutes the member of the clergy may also assert it on the penitent's behalf, and cannot be examined about the communication without the penitent's consent. The 'seal of confession' is the clergy member's own religious duty of secrecy.",
+      "what_it_covers": "Confidential communications made privately to a member of the clergy acting in a spiritual or professional capacity -- classically the Catholic sacrament of confession, but by statute extending to ministers, rabbis, imams, and other spiritual advisers. It protects the penitent's disclosure from compelled testimony.",
+      "limits": "Applies only to communications made in the clergy member's spiritual/professional role and intended to be confidential; casual conversation or advice sought in a non-spiritual capacity is not covered. Exact scope, and how it interacts with mandatory child-abuse-reporting laws, is defined by each state's statute and varies. It does not authorize the government to intrude on the confessional itself: in Mockaitis, secretly recording a jailhouse confession was held unlawful.",
+      "key_cases": [
+        {
+          "name": "Trammel v. United States",
+          "cite": "445 U.S. 40 (1980)",
+          "year": 1980,
+          "held": "In discussing recognized privileges, the Court noted in dicta that the priest-penitent privilege protects the human need to disclose to a spiritual counselor, in confidence, flawed acts or thoughts and to receive spiritual consolation and guidance -- citing it as an established example alongside attorney-client and spousal privileges."
+        },
+        {
+          "name": "Mockaitis v. Harcleroad",
+          "cite": "104 F.3d 1522 (9th Cir. 1997)",
+          "year": 1997,
+          "held": "A district attorney's secret tape-recording of a Catholic priest hearing an inmate's sacramental confession in jail violated the priest's rights; the court found no case approving governmental invasion of the rite of confession and ordered the tape's return and non-use, recognizing the strong protection surrounding confidential clergy-penitent communication."
+        }
+      ],
+      "authority": "Fed. R. Evid. 501 (common-law status); near-universal state clergy-penitent statutes; Trammel v. United States, 445 U.S. 40 (1980) (dicta); Mockaitis v. Harcleroad, 104 F.3d 1522 (9th Cir. 1997)."
+    },
+    {
+      "name": "State-secrets privilege (and the Totten bar)",
+      "who_holds_it": "The government -- and only the government. It is an executive-branch privilege, formally asserted by the head of the department with control over the matter after actual personal consideration, and the court then decides whether the privilege is properly invoked.",
+      "what_it_covers": "Evidence whose disclosure would harm national security -- military and state secrets. When properly invoked and sustained, the evidence is excluded entirely and no substitute is required, even if that leaves a private litigant unable to prove a claim. The related Totten bar goes further: a lawsuit whose very subject matter is a secret espionage relationship with the government cannot be maintained at all.",
+      "limits": "This privilege is unusual because it cuts against private parties rather than protecting them: it can gut or dismiss a plaintiff's case (Reynolds) or bar the suit outright (Totten). But it belongs to the government alone, must be formally and personally invoked by a responsible official, and is subject to judicial review -- the court must satisfy itself, without forcing disclosure of the very secret at issue, that there is a reasonable danger the evidence would expose military matters that should not be divulged. It is not a general shield for government embarrassment.",
+      "key_cases": [
+        {
+          "name": "Totten v. United States",
+          "cite": "92 U.S. 105 (1875)",
+          "year": 1875,
+          "held": "A suit to enforce an alleged secret espionage contract with President Lincoln could not be maintained, because the very existence of the secret arrangement was a matter the law would not allow to be revealed in court -- establishing that some cases are barred outright where their subject is a state secret."
+        },
+        {
+          "name": "United States v. Reynolds",
+          "cite": "345 U.S. 1 (1953)",
+          "year": 1953,
+          "held": "Formally recognized the state-secrets evidentiary privilege. Widows suing over a military-aircraft crash were denied the Air Force accident report; the Court held the government may refuse to disclose evidence when there is a reasonable danger it would expose military secrets, with the court deciding the claim without itself forcing disclosure of the protected material."
+        }
+      ],
+      "authority": "United States v. Reynolds, 345 U.S. 1 (1953); Totten v. United States, 92 U.S. 105 (1875); the executive state-secrets privilege recognized at federal common law, alongside the separate statutory/classified-information framework (e.g., the Classified Information Procedures Act) that governs classified material in criminal cases."
+    },
+    {
+      "name": "Attorney-client privilege and the work-product doctrine",
+      "who_holds_it": "The client holds the attorney-client privilege (an organization's privilege is controlled by its management, and for a corporation is not limited to a narrow 'control group'). The work-product protection belongs primarily to the attorney (and the client) as to materials prepared in anticipation of litigation.",
+      "what_it_covers": "Attorney-client privilege protects confidential communications between a client and lawyer made to obtain or give legal advice. In the corporate setting it reaches communications from employees beyond top management when made to counsel to enable legal advice (Upjohn). The separate work-product doctrine (Hickman; now Fed. R. Civ. P. 26(b)(3)) shields materials an attorney prepares in anticipation of litigation, with especially strong protection for the lawyer's mental impressions, opinions, and legal theories.",
+      "limits": "Protects communications, not the underlying facts, and only confidential ones made for legal advice. The crime-fraud exception withdraws the privilege where the client sought the lawyer's help to commit or further a crime or fraud (Zolin), and a court may review the communications in camera to decide if the exception applies. Work-product protection is qualified (ordinary work product yields on a showing of substantial need and undue hardship). But the privilege does survive the client's death (Swidler & Berlin).",
+      "key_cases": [
+        {
+          "name": "Hickman v. Taylor",
+          "cite": "329 U.S. 495 (1947)",
+          "year": 1947,
+          "held": "Established the work-product doctrine: materials prepared by an attorney in anticipation of litigation are not freely discoverable, protecting the lawyer's files and mental impressions from an opponent's demands absent a sufficient showing of need."
+        },
+        {
+          "name": "Upjohn Co. v. United States",
+          "cite": "449 U.S. 383 (1981)",
+          "year": 1981,
+          "held": "Rejected the narrow 'control group' test and held that a corporation's attorney-client privilege covers confidential communications between company counsel and employees (not just senior management) made to obtain legal advice for the corporation; also confirmed work-product protection applies in IRS summons enforcement."
+        },
+        {
+          "name": "United States v. Zolin",
+          "cite": "491 U.S. 554 (1989)",
+          "year": 1989,
+          "held": "The crime-fraud exception applies where legal advice is sought in furtherance of contemplated or ongoing crime or fraud, and a court may conduct in camera review of the allegedly privileged communications, on a threshold showing, to determine whether the exception applies."
+        },
+        {
+          "name": "Swidler & Berlin v. United States",
+          "cite": "524 U.S. 399 (1998)",
+          "year": 1998,
+          "held": "The attorney-client privilege survives the death of the client; notes of a lawyer's confidential conversation with a client (here Vincent Foster) remained privileged after the client's death and could not be compelled by a grand-jury subpoena."
+        }
+      ],
+      "authority": "Fed. R. Evid. 501; Fed. R. Civ. P. 26(b)(3) (work product); Upjohn Co. v. United States, 449 U.S. 383 (1981); Hickman v. Taylor, 329 U.S. 495 (1947); United States v. Zolin, 491 U.S. 554 (1989); Swidler & Berlin v. United States, 524 U.S. 399 (1998)."
+    },
+    {
+      "name": "Reporter's / press privilege (confidential sources)",
+      "who_holds_it": "Claimed by the reporter or news organization. Critically, the Supreme Court has held there is no First Amendment reporter's privilege to refuse grand-jury testimony -- so in federal court any protection comes from lower-court interpretations of a qualified privilege or, in the states, from statutory shield laws, not from a constitutional right.",
+      "what_it_covers": "The asserted right of a journalist to refuse to reveal confidential sources or unpublished information. The Supreme Court rejected it as a First Amendment matter in the grand-jury context; many states and some lower federal courts nonetheless recognize a qualified privilege (often modeled on Justice Stewart's dissent) that can be overcome by a sufficient showing, and most states have enacted shield laws giving reporters statutory protection.",
+      "limits": "There is no federal constitutional privilege and no general federal shield law: under Branzburg a reporter, like any citizen, must answer a grand jury's relevant questions about crimes he witnessed. Any qualified privilege recognized by lower courts can be defeated by a strong enough governmental showing of relevance, need, and unavailability of alternatives. State shield laws vary widely in who and what they cover and often contain their own exceptions.",
+      "key_cases": [
+        {
+          "name": "Branzburg v. Hayes",
+          "cite": "408 U.S. 665 (1972)",
+          "year": 1972,
+          "held": "By 5-4, the First Amendment does not give journalists a privilege to refuse to appear and testify before a grand jury about crimes they witnessed. Paul Branzburg, a staff reporter for the Louisville Courier-Journal, had written a bylined November 15, 1969 story describing in detail his firsthand observation of two young Jefferson County residents synthesizing hashish from marijuana (they claimed to have earned about $5,000 in three weeks); when subpoenaed he refused to identify the people he had watched. The Court held he had no constitutional privilege to refuse. Justice Stewart, dissenting (joined by Brennan and Marshall), proposed a three-part test for a qualified privilege -- requiring the government to show probable cause that the reporter has information clearly relevant to a specific law violation, that the information cannot be obtained by alternative means less destructive of First Amendment rights, and a compelling and overriding interest in the information -- and Justice Powell's narrow concurrence left room for case-by-case protection, which many lower courts later built on."
+        }
+      ],
+      "authority": "U.S. Const. amend. I; Branzburg v. Hayes, 408 U.S. 665 (1972) (no federal constitutional reporter's privilege in the grand-jury context; Stewart, J., dissenting, proposing a three-part qualified-privilege test; Powell, J., concurring). No general federal shield statute exists; most states have enacted their own shield laws."
+    }
+  ],
+  "limits_summary": "None of these privileges is absolute. Each has a defined holder, a defined scope, and defined exits: the spousal testimonial privilege ends when the witness-spouse chooses to talk and does not protect a spouse or child who was the victim; the marital and clergy privileges reach only genuinely confidential communications and yield to abuse-reporting and crime exceptions; the attorney-client privilege falls to the crime-fraud exception and never covers legal help sought to commit a future crime; the state-secrets privilege belongs to the government and can be used to defeat a private claimant's case rather than to protect an individual; and the reporter's privilege is not a federal constitutional right at all. Privileges can also be waived -- by voluntary disclosure, by putting the protected communication at issue, or by failing to assert them. Because the default is that everyone must give relevant evidence, a privilege protects only what it clearly covers, and only until one of its limits is reached.",
+  "not_legal_advice": "This material is legal education, not legal advice. It summarizes published court decisions, the Federal Rules of Evidence, and general privilege doctrine in broad terms and does not address the facts of any particular case. Privilege law differs between federal and state courts and varies significantly from state to state -- especially clergy-penitent scope, reporter shield laws, and the marital privileges -- and privileges can be waived or lost through conduct. Whether a communication is privileged in a specific situation, and how to preserve or assert a privilege, depends on the applicable jurisdiction's law; consult a licensed attorney in your jurisdiction."
+}

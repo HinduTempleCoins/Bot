@@ -85,6 +85,29 @@ test('first-amendment page shows the incitement evolution + unprotected categori
   assert.match(res.body, /Snyder v\. Phelps/);
 });
 
+test('first-amendment page shows true threats (Watts + Counterman) with cites', async () => {
+  const res = await drive('/first-amendment');
+  assert.match(res.body, /Watts v\. United States/);
+  assert.match(res.body, /394 U\.S\. 705/);
+  assert.match(res.body, /Counterman v\. Colorado/);
+  assert.match(res.body, /600 U\.S\. 66/);
+  assert.match(res.body, /recklessness/i);
+});
+
+test('first-amendment page shows advocacy/association (Hess + Claiborne) with cites', async () => {
+  const res = await drive('/first-amendment');
+  assert.match(res.body, /Hess v\. Indiana/);
+  assert.match(res.body, /414 U\.S\. 105/);
+  assert.match(res.body, /Claiborne Hardware/);
+  assert.match(res.body, /458 U\.S\. 886/);
+});
+
+test('first-amendment page shows the Texas speech provision (art. I § 8)', async () => {
+  const res = await drive('/first-amendment');
+  assert.match(res.body, /Texas Constitution, art\. I, § 8/);
+  assert.match(res.body, /liberty to speak, write or publish/);
+});
+
 test('sedition page shows 18 U.S.C. § 2384, the Smith Act, and the Jan-6 use', async () => {
   const res = await drive('/sedition');
   assert.ok(res.body.includes('2384'), 'names the seditious-conspiracy statute');
@@ -95,6 +118,18 @@ test('sedition page shows 18 U.S.C. § 2384, the Smith Act, and the Jan-6 use', 
   // the protected-vs-force line is the teaching point
   assert.match(res.body, /Protected advocacy|Protected dissent/);
   assert.match(res.body, /Criminal conspiracy/);
+});
+
+test('sedition page frames the right of revolution as political theory, not a legal defense', async () => {
+  const res = await drive('/sedition');
+  assert.match(res.body, /right of revolution/i);
+  assert.match(res.body, /not a legal defense/i);
+  // the founding/state texts are shown
+  assert.match(res.body, /Declaration of Independence/);
+  assert.match(res.body, /Texas Constitution, art\. I, § 2/);
+  // and it explicitly notes seditious conspiracy is still a live crime
+  assert.ok(res.body.includes('2384'), 'ties the note back to the live § 2384 crime');
+  assert.match(res.body, /live crime/i);
 });
 
 test('surveillance page shows COINTELPRO, FISA, Snowden, panopticon + the chilling effect', async () => {
@@ -157,11 +192,13 @@ test('data seam injection is honored by loadData()', () => {
 // ── 7. the real corpus is present and well-formed ───────────────────────────────────────────────────
 test('the file-backed corpus loads with the expected top-level sections', () => {
   const d = loadData();
-  for (const k of ['incitement', 'categories', 'symbolic', 'sedition', 'surveillance', 'knowYourRights']) {
+  for (const k of ['incitement', 'advocacy', 'trueThreats', 'categories', 'symbolic', 'stateSpeech', 'sedition', 'surveillance', 'knowYourRights']) {
     assert.ok(d[k] && typeof d[k] === 'object', `corpus has ${k}`);
   }
   // Brandenburg governing test is present with a quote
   assert.match(String(d.incitement.governingTest.quote), /imminent lawless action/);
+  // the right-of-revolution material lives under sedition
+  assert.ok(d.sedition.rightOfRevolution && typeof d.sedition.rightOfRevolution === 'object', 'sedition has rightOfRevolution');
 });
 
 // ── 8. pure views return strings even with no data ──────────────────────────────────────────────────
