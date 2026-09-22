@@ -1,0 +1,25 @@
+'''Wrapped tokens''' are one-to-one representations of an asset from one chain, issued on another so it can move through that chain's applications. In the [[MELEK Blockchain|MELEK]] ecosystem the wrapped assets live on the [[PRANA Blockchain|PRANA]] EVM chain, where [[KulaSwap]] and the compute-mining machinery can use them.
+
+== wMELEK ==
+'''wMELEK''' is wrapped MELEK, bridged from the MELEK chain onto PRANA. The bridge holds a strict invariant: the wMELEK supply equals the MELEK locked in the bridge, so each wMELEK is backed one-to-one.
+
+Once on PRANA, wMELEK can be '''forever-locked''' — permanently committed to mint [[APIS|APIS-Hash]], the soulbound compute-mining unit that drips [[APIS]]. That is the tie between holding MELEK and mining the engine's token.
+
+A separate synthetic note, '''mMELEK''', is minted by a collateralised-debt position and is kept strictly apart from the bridge-backed wMELEK — mMELEK is not the bridge asset, and mixing the two would break the bridge invariant.
+
+== wVKBT and wCURE ==
+'''wVKBT''' and '''wCURE''' are the wrapped forms of the Hive-Engine tokens [[VKBT and CURE|VKBT]] (Van Kush Beauty Token) and CURE, bridged onto PRANA one-to-one under multisignature custody and traded on [[KulaSwap]] as VKBT/KULA and CURE/KULA. Because they carry outside value, they are the route between MELEK and the wider world — see [[VKBT and CURE]] for the inbound/outbound path.
+
+== See also ==
+* [[APIS]]
+* [[VKBT and CURE]]
+* [[KulaSwap]]
+* [[PRANA Blockchain]]
+* [[MELEK Blockchain]]
+
+== Sources ==
+* [https://kula.money kula.money]
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot]
+
+== Coverage ==
+Describes the wrapped assets and the bridge invariant as designed. Live balances and prices change and are not reproduced here.

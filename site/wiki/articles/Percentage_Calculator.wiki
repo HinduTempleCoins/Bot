@@ -1,0 +1,23 @@
+The '''Percentage Calculator''' is a free everyday percentage tool in the [[SoapBox]] tools suite. It gathers the common percentage questions people actually ask into one small page, with the answer updating as the numbers are typed.
+
+== What it does ==
+* '''X% of Y''' — for example, 15% of 200 is 30.
+* '''X is what % of Y''' — 30 is 15% of 200.
+* '''Percentage change''' — the increase or decrease from one number to another (200 to 250 is +25%).
+* '''Add a percent''' — increase a number by a percentage.
+* '''Subtract a percent''' — decrease a number by a percentage, such as a discount.
+* '''Tip splitter''' — a tip percentage on a bill, with the total and the amount per person when split several ways.
+
+== How to use it ==
+Pick the question from the tabs, type the numbers, and the result appears immediately. It runs entirely in the browser; no account is required and nothing is sent anywhere. A JSON API is available at /api/pct for programmatic use.
+
+== See also ==
+* [[SoapBox Tools]]
+* [[Unit Price Calculator]]
+* [[Soap Calculator]]
+
+== Sources ==
+* Standard arithmetic; no external data source.
+
+== Coverage ==
+Describes the SoapBox Percentage Calculator and its six modes (percent of, is-what-percent, percentage change, add/subtract percent, and a tip splitter).

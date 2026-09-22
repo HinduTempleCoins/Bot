@@ -1,0 +1,18 @@
+The '''Unit Price Calculator''' is a free cost-per-unit comparison tool in the [[SoapBox]] tools suite. It answers the everyday grocery-aisle question — which pack is actually the better value — by reducing each option to its price per unit.
+
+== What it does ==
+Enter each option's price and size (in whatever unit you choose — grams, millilitres, or items), and the calculator gives the price per unit for each and highlights the best value. A pack count handles multi-buys, so a four-pack and a single bottle can be compared fairly. Options that are cheaper on the sticker but worse per unit are flagged with how much more they cost relative to the best option.
+
+== How to use it ==
+Add as many options as you like; the comparison updates as you type. It runs entirely in the browser, needs no account, and sends nothing anywhere. A JSON API is available at /api/unit, taking a compact list of "price@size" (optionally "price@size×pack") entries.
+
+== See also ==
+* [[SoapBox Tools]]
+* [[Percentage Calculator]]
+* [[Soap Calculator]]
+
+== Sources ==
+* Standard arithmetic; no external data source.
+
+== Coverage ==
+Describes the SoapBox Unit Price Calculator: comparing price per unit across products, handling pack counts, and flagging the best value.

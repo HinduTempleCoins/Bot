@@ -1,0 +1,30 @@
+'''SoapBox Tools''' is the hub for the free, everyday utilities in the [[SoapBox]] ecosystem — a single directory of genuinely useful, self-contained tools that anyone can come and use with no account, no install and no tracking. Each tool runs in the browser and keeps its data on the user's own device.
+
+The model is the kind of free, self-contained utility people return to on their own — the way a soap-making community keeps coming back to a good lye calculator. The tools are useful first; the wider ecosystem is only an understated, optional extra (saving your work with a free MELEK account), never the opening pitch.
+
+== The tools ==
+Maker and calculation tools:
+* [[Soap Calculator]] — a real soap-making lye and oil calculator with a fatty-acid quality profile (the flagship).
+* [[Dilution Calculator]] — concentration, ratio and essential-oil dilution mixes.
+* [[Percentage Calculator]] — percent-of, percentage change, and a tip splitter.
+* [[Unit Price Calculator]] — compare price per unit to find the best value.
+
+Everyday utilities also on the hub include a scientific calculator, a unit and currency converter, a password generator, notes, an outliner, QR codes, a Markdown editor, a timer, a weather page, a habit tracker and a diagram maker, plus a small games shelf.
+
+Data tools in the wider ecosystem:
+* [[Token Price Ticker]] — an embeddable live price display for ecosystem tokens.
+* [[SoapBox Data Hub]] — the public data and statistics surface.
+
+== Design principles ==
+Every tool is a standalone service in the house style: a pure calculation module, a server-rendered page that works without JavaScript fetches, and an offline test suite. Results that involve any safety question — most importantly the [[Soap Calculator]]'s caustic-lye handling — carry the appropriate safety note as part of the tool, not as an afterthought.
+
+== See also ==
+* [[SoapBox]]
+* [[Soap Calculator]]
+* [[SoapBox Data Hub]]
+
+== Sources ==
+* The SoapBox tools suite (tools.soapbox.community and the individual tool services).
+
+== Coverage ==
+Describes the SoapBox Tools hub: the free, private everyday and maker tools it gathers, and the design principles behind them.

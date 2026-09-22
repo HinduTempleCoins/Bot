@@ -1,0 +1,20 @@
+The '''Dilution Calculator''' is a free dilution and ratio tool in the [[SoapBox]] tools suite. It works out how much concentrate and solvent to mix for a target strength — a common need in soap-making, skincare, cleaning solutions and the lab bench.
+
+== What it does ==
+* '''Concentration (C₁V₁ = C₂V₂)''' — given a stock concentration, a target concentration and a target volume, it returns how much stock and how much solvent to combine. For example, making 500 mL of 50% solution from 70% stock needs about 357 mL of stock topped up with about 143 mL of solvent.
+* '''Ratio (1:N)''' — a "1 part concentrate to N parts water" mix (such as a 1:10 cleaner) resolved into concrete amounts for a target total volume.
+* '''Essential-oil percentage''' — a target dilution percentage in a carrier volume, converted to millilitres of essential oil, an approximate drop count (about 20 drops per millilitre) and grams (using a typical essential-oil density of about 0.92 g/mL). These are estimates and the tool says so; the drop rate and density can be overridden in the JSON API for a specific oil.
+
+== How to use it ==
+Choose the mode, enter the numbers, and the result updates as you type. It runs entirely in the browser with no account and no data leaving the device. A JSON API is available at /api/dilute.
+
+== See also ==
+* [[SoapBox Tools]]
+* [[Soap Calculator]]
+* [[Percentage Calculator]]
+
+== Sources ==
+* The dilution equation C₁V₁ = C₂V₂ is standard chemistry; drops-per-millilitre and essential-oil density are common rule-of-thumb reference values.
+
+== Coverage ==
+Describes the SoapBox Dilution Calculator and its three modes (C1V1=C2V2 concentration, 1:N ratio mixing, and essential-oil percentage to drops and grams).

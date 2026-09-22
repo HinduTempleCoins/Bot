@@ -42,6 +42,7 @@
 //   node integrations/soapbox/ad-slot.mjs            # offline demo (prints placeholder + configured tag)
 
 import { BEACON_BASE } from './beacon.mjs';
+import { renderSoldAd } from '../admarket/serve.mjs';
 
 // ── strict HTML escape (every interpolation goes through this) ───────────────────────────────────────
 export function esc(s) {
@@ -125,6 +126,14 @@ export function adSlot(placement, opts = {}) {
 
     const place = String(placement || 'slot').slice(0, 64);
     const placeAttr = esc(place);
+
+    // OUR-OWN-ADS seam: when the caller passes a picked sold/house ad (from admarket serve.pickForSlot /
+    // serveSlot), render it as our own unit — this is "AdSense off, sell our inventory" mode. Takes
+    // precedence over the AdSense unit. opts.adHtml is a pre-rendered unit (server already picked+metered);
+    // opts.ad is a campaign/house-ad object we render here. Either keeps the same .ad-slot tracker wrapper.
+    if (typeof opts.adHtml === 'string' && opts.adHtml) return opts.adHtml;
+    if (opts.ad) { const h = renderSoldAd(opts.ad, { placement: place, clickBase: opts.clickBase }); if (h) return h; }
+
     const client = adClient(env);
 
     if (!client) {

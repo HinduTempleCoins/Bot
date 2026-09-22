@@ -1,0 +1,22 @@
+'''Foundational Law''' is an explainer page on [[SoapBox Law]], published at law.soapbox.community/constitution. It walks through the Constitution of the United States as the foundation every other layer of law rests on.
+
+== The three branches ==
+The Constitution builds three branches and splits power so each checks the others:
+* '''Congress''' — Article I, the legislative power.
+* '''The President''' — Article II, the executive power.
+* '''The courts''' — Article III, the judicial power.
+
+== The four layers ==
+The page frames U.S. law as four layers and three branches in one system: constitution, statutes, regulations, and cases. Each layer draws its authority from the one above it, and the courts sit across all of them. Above every statute, rule and regulation sit the rights the Constitution places out of reach — no lower layer may cross them.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Treaties]]
+* [[Rights That Hold Up in Court]]
+* [[Congress.ink]]
+
+== Sources ==
+* [https://law.soapbox.community/constitution law.soapbox.community/constitution]
+
+== Coverage ==
+Describes the page's structure and framing. Informational only, not legal advice.

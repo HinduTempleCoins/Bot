@@ -5,6 +5,11 @@
 //   2. the MELEK-Signer client `broadcast([op])` that signs the bridge.mintWrapped custom_json
 //      as the bridge account (@hathor) with a SCOPED, REVOCABLE bearer token and broadcasts it.
 //
+// DEPOSIT DETECTION: the runner BLOCK-SCANS the MELEK L1 (condenser_api.get_block) for transfers
+// to the custody account — get_account_history is empty on this Steem fork, so account-history
+// polling saw nothing and never minted. A persistent JSON store (WMELEK_RELAYER_STATE) holds the
+// block cursor + processed-set, so a restart neither re-walks the chain nor double-mints.
+//
 // KEY CUSTODY (HARD rule "all witness tx via MELEK-Signer" + BRIEF.md §7 "Zero WIF in Bot repo"):
 // this daemon holds NO WIF. @hathor's active key lives ONLY inside MELEK-Signer; the daemon holds
 // ONLY the scoped token (MELEK_SIGNER_TOKEN), which the signer's policy engine can revoke. The
@@ -19,7 +24,8 @@
 // MELEK_RPC_URL are present — a missing token keeps it in a safe, do-nothing state.
 //
 // Env: MELEK_RPC_URL, WMELEK_BRIDGE_CUSTODY (default wmelek-bridge), MELEK_SIGNER_URL,
-//   MELEK_SIGNER_TOKEN, CONFIRMATIONS, WMELEK_HISTORY_LIMIT, plus TICK_MS (poll interval, default 30000).
+//   MELEK_SIGNER_TOKEN, CONFIRMATIONS, WMELEK_RELAYER_STATE (cursor+processed-set JSON store),
+//   WMELEK_SCAN_WINDOW / WMELEK_SCAN_BATCH (block-scan tuning), plus TICK_MS (poll interval, default 30000).
 //
 // The MELEK-Signer client lives ONLY here, at the edge, behind the runner's injectable submit.
 
@@ -69,7 +75,7 @@ async function main() {
   const runner = makeRunner(submit, cfg);
   const tickMs = Math.max(5000, +(process.env.TICK_MS || 30000));
   process.stdout.write(
-    `[wmelek-relayer] bridge=${cfg.bridgeAccount} watching custody ${cfg.custody} on ${cfg.sidechainId} every ${tickMs}ms (signer broadcast)\n`,
+    `[wmelek-relayer] bridge=${cfg.bridgeAccount} block-scanning custody ${cfg.custody} on ${cfg.sidechainId} every ${tickMs}ms (signer broadcast; cursor@${runner.lastBlock})\n`,
   );
   const loop = async () => {
     try {

@@ -480,7 +480,13 @@ test('/privacy renders the federal↔Texas map with all pairings (soft-fails cas
   assert.match(res.body, /Privacy law/);
   assert.match(res.body, /Texas/);
   assert.match(res.body, /Ch\. 541/);            // TDPSA present
-  assert.ok(!/\<script(?![^>]*soapy)/.test(res.body.replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')), 'no injected scripts');
+  // No INJECTED scripts. Strip the known first-party scripts — the soapy analytics beacon and the
+  // safe schema.org JSON-LD structured-data blocks (guarded against </script> breakout in seo.mjs) —
+  // then assert nothing else remains. Any user-injected <script> would still trip this.
+  const stripped = res.body
+    .replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+  assert.ok(!/<script/.test(stripped), 'no injected scripts');
 });
 
 test('/privacy?statute=comprehensive expands that pairing and soft-fails the live lookup gracefully', async () => {
@@ -492,6 +498,68 @@ test('/privacy?statute=comprehensive expands that pairing and soft-fails the liv
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /<details[^>]*\sopen/);            // the requested pairing is expanded
   assert.match(res.body, /Try the live search again/);      // soft-fail retry link, not a throw
+});
+
+// ── appeals & extraordinary writs (pro-se ladder) ────────────────────────────────────────────────
+test('/appeals serves the ladder, the jurisdiction selector, ordinances, and the AI-not-advice disclaimer', async () => {
+  const res = await drive('/appeals');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /exhaustion ladder/);
+  assert.match(res.body, /Federal \(United States courts\)/); // the state/federal selector
+  assert.match(res.body, /Municode/);                          // ordinance finder links
+  assert.match(res.body, /AI-generated/);                      // two-voice disclaimer
+  assert.match(res.body, /not legal advice/i);
+});
+
+test('/writs is an alias of /appeals', async () => {
+  const res = await drive('/writs');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /exhaustion ladder/);
+});
+
+test('/appeals gates federal habeas: picking it before state remedies fires a BURN warning', async () => {
+  const res = await drive('/appeals?remedy=federal-habeas&done=direct-appeal&state=TX');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /filing habeas now can BURN/); // the generated skip-step danger
+  assert.match(res.body, /Exhaust state remedies FIRST/); // the standing hard warning
+  assert.match(res.body, /2254\(b\)\(1\)/);               // real exhaustion statute
+  assert.match(res.body, /exhaustion/i);                   // the forced field
+});
+
+test('/appeals mandamus page cites the VERIFIED Olsen v. DEA + TRAC authorities and the last-resort label', async () => {
+  const res = await drive('/appeals?remedy=mandamus&state=US&done=direct-appeal');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Olsen v\. Drug Enforcement Administration/);
+  assert.match(res.body, /878 F\.2d 1458 \(D\.C\. Cir\. 1989\)/);
+  assert.match(res.body, /750 F\.2d 70 \(D\.C\. Cir\. 1984\)/); // TRAC
+  assert.match(res.body, /last resort/i);
+  assert.match(res.body, /5 U\.S\.C\. § 706\(1\)/);            // compel agency action
+});
+
+test('/appeals generator emits required fields and wires U.S.C. statute lookups (offline soft-fail)', async () => {
+  const res = await drive('/appeals?remedy=direct-appeal&state=CA&level=circuit');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /required fields/);
+  assert.match(res.body, /Questions \/ issues presented|Statement of facts/);
+  assert.match(res.body, /Fed\. R\. App\. P\. 4/);   // real notice-of-appeal deadline cite
+  // no injected scripts beyond the known first-party ones
+  const stripped = res.body
+    .replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+  assert.ok(!/<script/.test(stripped), 'no injected scripts');
+});
+
+test('/appeals is indexable at the landing and noindex once a remedy/jurisdiction is chosen', async () => {
+  const landing = await drive('/appeals');
+  const chosen = await drive('/appeals?remedy=mandamus');
+  resetAllFetch();
+  assert.match(landing.body, /<meta name="?robots"? content="index,follow/i);
+  assert.match(chosen.body, /<meta name="?robots"? content="noindex,follow/i);
 });
 
 test('/constitution serves the Foundational Law spine with landmark cases cross-linked to /cases', async () => {

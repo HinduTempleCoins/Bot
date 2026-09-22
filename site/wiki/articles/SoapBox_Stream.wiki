@@ -1,0 +1,20 @@
+'''SoapBox Stream''' is the streaming vertical of the [[SoapBox]] ecosystem, published at stream.soapbox.community. It is a catalog-and-player surface that sources '''only''' free, legally-clear video.
+
+== What it streams ==
+* '''Public-domain and Creative-Commons''' films and shows, drawn from the Internet Archive.
+* '''Free-to-air live TV''' channels, from the open iptv-org channel lists.
+* '''Radio and podcasts''' as additional rows.
+* '''On-MELEK video''' — the ScotTube feed of video posted on the chain itself.
+
+== How it stays license-clear ==
+Every asset is passed through a license router so that only content cleared for streaming is listed, and the player only embeds officially whitelisted sources. The surface extends the earlier "Tune In" shell into a full catalog with rows, search and a watch page.
+
+== See also ==
+* [[SoapBox]]
+* [[SoapBox Community]]
+
+== Sources ==
+* [https://stream.soapbox.community stream.soapbox.community]
+
+== Coverage ==
+Describes the surface's sources and its license-clear gate. The catalog changes as the upstream free-content sources change.

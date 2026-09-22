@@ -1,0 +1,18 @@
+'''Treaties''' is an explainer page on [[SoapBox Law]], published at law.soapbox.community/treaties. It explains how a treaty is made, when it becomes enforceable law inside the United States, and the cases that draw those lines.
+
+== Why treaties matter ==
+A treaty is one of the most powerful instruments in American law: the Constitution names a treaty part of the "supreme Law of the Land." That power is also why so much pseudolegal folklore is built on top of treaties — which is why this page states the real rule plainly.
+
+== How a treaty is made ==
+Under Article II, § 2, the President negotiates a treaty — but it is not law on the President's signature alone. It requires the advice and consent of the Senate by a two-thirds vote. The page then distinguishes a treaty that is directly enforceable in court from one that binds the nation but needs implementing legislation before a court will apply it, and cites the decisions that mark that boundary.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Foundational Law]]
+* [[Rights That Hold Up in Court]]
+
+== Sources ==
+* [https://law.soapbox.community/treaties law.soapbox.community/treaties]
+
+== Coverage ==
+Describes how the page explains treaty-making and enforceability. Informational only, not legal advice.

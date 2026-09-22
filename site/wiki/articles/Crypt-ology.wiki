@@ -1,0 +1,20 @@
+'''Crypt-ology''' is the per-person relationship-map layer of the [[MELEK Blockchain|MELEK]] ecosystem — the subsystem through which the [[Hathor (AI Witness)|Hathor]] witness keeps track of its relationship with each person it deals with, so that help, greetings and grants can be personal rather than generic.
+
+The hyphenated spelling is deliberate. ''Cryptology'' in the scholarly sense means the study of codes and ancient writing; '''Crypt-ology''' is the ecosystem's own play on the word for its relationship-and-continuity layer. The two are kept distinct on purpose.
+
+== What it is, and is not ==
+* It '''is''' a relationship map: a per-account memory of prior interactions that lets the witness treat a returning person as someone it already knows.
+* It is '''not''' the Temple. The Shaivite Temple is the operator's separate 501(c)(3) religious organisation; Crypt-ology is a software subsystem and should not be conflated with it.
+
+== Status ==
+The relationship map is partly built and extends an existing per-user relationship record. It is a supporting layer for the witness, not a standalone public product.
+
+== See also ==
+* [[Hathor (AI Witness)]]
+* [[MELEK Blockchain]]
+
+== Sources ==
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot] — the operator software and corpus
+
+== Coverage ==
+Describes the subsystem's purpose and its distinction from the Temple. Implementation detail is kept in the operator repository.

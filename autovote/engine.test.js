@@ -156,6 +156,29 @@ test('daily cap: drops votes beyond cap', async () => {
   assert.equal(chain.votes.length, 1, 'cap of 1 honored');
 });
 
+test('daily cap is PER RULE: one rule’s cap is not spent by another rule’s votes', async () => {
+  const { store, chain, engine } = setup();
+  store.upsertUser(MELEK, 'me', 'postingkey', { postingKey: 'k' });
+  // Two independent fanbases for the same owner, each with maxPerDay=1.
+  store.addFanbase({ chain: MELEK, owner: 'me', authors: ['a'], weight: 100, maxPerDay: 1 });
+  store.addFanbase({ chain: MELEK, owner: 'me', authors: ['b'], weight: 100, maxPerDay: 1 });
+  const now = 1_000_000;
+  engine.processBlock(MELEK, {
+    timestamp: new Date(now).toISOString().slice(0, 19),
+    ops: [
+      { type: 'comment', payload: { author: 'a', permlink: 'pa', parent_author: '' } },
+      { type: 'comment', payload: { author: 'b', permlink: 'pb', parent_author: '' } },
+    ],
+  });
+  await engine.flushPending(now);          // first rule's vote fires
+  await engine.flushPending(now + 3400);   // past the per-owner rate-limit gap
+  // Both fire: each rule is under its OWN cap of 1. (Before the fix, the second was
+  // wrongly dropped because the first rule's vote had already spent the owner's total.)
+  assert.equal(chain.votes.length, 2, 'each per-rule cap honored independently');
+  const authors = chain.votes.map((v) => v.author).sort();
+  assert.deepEqual(authors, ['a', 'b']);
+});
+
 test('schedule: fires when due, marks done, dedupes', async () => {
   const { store, chain, engine } = setup();
   store.upsertUser(MELEK, 'me', 'postingkey', { postingKey: 'k' });

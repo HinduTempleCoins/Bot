@@ -282,4 +282,17 @@ export class Store {
     const t0 = start.getTime();
     return this.data.votes.filter((v) => v.chain === chain && v.owner === owner && v.ok && v.at >= t0);
   }
+
+  // votes by this owner today (UTC) FOR ONE RULE, counting only successful broadcasts.
+  // The engine's per-rule daily cap (trail.dailyCap / fanbase.maxPerDay) must be measured
+  // against that rule's OWN votes — not the owner's total — so one rule's cap can never be
+  // spent by an unrelated rule's votes.
+  votesTodayForRule(chain, owner, ruleId) {
+    const start = new Date();
+    start.setUTCHours(0, 0, 0, 0);
+    const t0 = start.getTime();
+    return this.data.votes.filter(
+      (v) => v.chain === chain && v.owner === owner && v.ruleId === ruleId && v.ok && v.at >= t0,
+    );
+  }
 }

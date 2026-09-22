@@ -204,10 +204,24 @@ async function webSearch(q) {
   return facetLine(rows) + (rows.map(resultRow).join('') || '<p class=muted>No web results.</p>');
 }
 
-// Collect raw sitewide rows ({ title, url, snippet, tag }) — no rendering here.
-async function siteRows(q) {
+// Collect raw sitewide rows ({ title, url, snippet, tag }) — no rendering here. `scope` (optional)
+// narrows the ALL-INTERNALS index to one surface (e.g. 'law') — the pre-scoped "search our legal
+// corpus" doorway. It only affects the index source; the live sources are unaffected.
+async function siteRows(q, scope = null) {
   const ql = q.toLowerCase();
   const out = [];
+  // ALL-INTERNALS index: every internal page from every surface's sitemap (law/wiki/stocks/data/
+  // tools/streaming/… — the ~100 verticals), aggregated + auto-refreshed. This is what makes "Our
+  // Sites" search actually cover everything, not just the handful of live sources below. Soft-fail:
+  // a missing/unbuilt index just contributes nothing.
+  try {
+    const { getIndex, searchIndex } = await import('../../integrations/soapbox/search-index.mjs');
+    const index = await getIndex();
+    for (const h of searchIndex(index, q, { k: 12, scope }))
+      out.push({ title: h.title, url: h.url, snippet: h.snippet, tag: h.surface || 'SoapBox' });
+  } catch {}
+  // When a scope is set, the pre-scoped index above is authoritative — skip the broad live fan-out.
+  if (scope) return out.slice(0, 30);
   // MELEK chain — posts + accounts (so "search MELEK" finds on-chain content, linked to melek.salon)
   try {
     const { searchMelek } = await import('../../integrations/melek-chain-search.mjs');
@@ -247,8 +261,8 @@ async function siteRows(q) {
   return out.slice(0, 30);
 }
 
-async function siteSearch(q) {
-  const rows = await applyRanking(await siteRows(q), q);
+async function siteSearch(q, scope = null) {
+  const rows = await applyRanking(await siteRows(q, scope), q);
   return facetLine(rows) + (rows.map(resultRow).join('') || '<p class=muted>Nothing in the ecosystem matches yet. Try Web search, or browse <a href="' + DATA + '">Markets</a> / <a href="' + WIKI + '">the Library</a>.</p>');
 }
 
@@ -317,9 +331,12 @@ export async function handler(req, res) {
 
     if (url.pathname !== '/') { res.writeHead(302, { location: '/' }); return res.end(); }
     const q = (url.searchParams.get('q') || '').trim();
-    const mode = url.searchParams.get('mode') === 'site' ? 'site' : 'web';
+    // A scope (?scope=law) pre-scopes the "Our Sites" index to one surface and forces site mode — the
+    // "search our legal corpus" doorway used by the post widget.
+    const scope = (url.searchParams.get('scope') || '').trim().toLowerCase() || null;
+    const mode = scope ? 'site' : (url.searchParams.get('mode') === 'site' ? 'site' : 'web');
     let body = searchHero(q, mode);
-    if (q) body += `<div class=results><p class=muted>${mode === 'web' ? '🌐 Web' : '◈ Our sites'} results for "${esc(q)}"</p>${mode === 'web' ? await webSearch(q) : await siteSearch(q)}</div>`;
+    if (q) body += `<div class=results><p class=muted>${mode === 'web' ? '🌐 Web' : '◈ Our sites'} results for "${esc(q)}"${scope ? ` <span class=badge>${esc(scope)}</span>` : ''}</p>${mode === 'web' ? await webSearch(q) : await siteSearch(q, scope)}</div>`;
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' });
     res.end(page(q ? `${q} — SoapBox Search` : 'SoapBox Search', body, {
       // a results page (?q=…) is a thin, query-specific view: keep it out of the index, point the
@@ -341,6 +358,14 @@ if (process.argv[1] && /server\.mjs$/.test(process.argv[1])) {
     if (process.env.SOAPBOX_NO_CRAWL_PING !== '1' && BASE_URL.startsWith('https')) {
       submitToIndexNow(BASE_URL, ['/', '/translate']).then((r) => console.log('IndexNow:', JSON.stringify(r))).catch(() => {});
       pingSitemap(BASE_URL).then((r) => console.log('Bing sitemap ping:', JSON.stringify(r))).catch(() => {});
+    }
+    // AUTO-UPDATE: build the all-internals index now and rebuild it on a timer so new surfaces/pages
+    // (added to ecosystem-nav, or new pages inside any surface's sitemap) are picked up without a
+    // redeploy. Unref'd + best-effort — never blocks boot, never keeps the process alive on its own.
+    if (process.env.SOAPBOX_NO_INDEX_REFRESH !== '1') {
+      import('../../integrations/soapbox/search-index.mjs')
+        .then(({ startAutoRefresh }) => { startAutoRefresh({}); console.log('Search index: auto-refresh started'); })
+        .catch(() => {});
     }
   });
 }

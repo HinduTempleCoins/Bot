@@ -1,0 +1,38 @@
+'''Appeals and Writs''' is a pro-se tool on [[SoapBox Law]], published at law.soapbox.community/appeals (also reachable at /writs). It helps a self-represented person work out how to keep fighting after a court loss: it lays out the '''exhaustion ladder''' — the fixed order in which appeals and extraordinary writs must be taken — teaches each step in plain language, gates the steps so a filer cannot skip one and permanently forfeit a later one, generates the required fields for the document each step needs, and surfaces the governing statutes, cases, deadlines and respondents. It is legal '''information''' and a fill-in-the-blank scaffold, not legal advice.
+
+== The exhaustion ladder ==
+The order is load-bearing. Taking a step out of turn can "burn" a later option for good:
+* '''Direct appeal''' — the ordinary, first-as-of-right challenge to a final judgment (Fed. R. App. P. 4 sets the federal deadlines).
+* '''Motion for reconsideration / new trial''' — filed back in the trial court (Fed. R. Civ. P. 59; Fed. R. Crim. P. 33).
+* '''State post-conviction / state habeas''' — a separate state proceeding for claims a direct appeal could not reach.
+* '''Discretionary review''' — a petition to the state supreme court, usually discretionary.
+* '''Certiorari to the U.S. Supreme Court''' — 90 days from the final state or circuit judgment (Sup. Ct. R. 13).
+* '''Federal habeas corpus''' — 28 U.S.C. § 2254 for state prisoners, § 2255 for federal prisoners.
+* '''Mandamus''' — 28 U.S.C. § 1361 and the All Writs Act (§ 1651); for agencies, the APA (5 U.S.C. § 706(1)).
+* '''Advanced writs''' — coram nobis, prohibition, and quo warranto.
+
+== Why order matters ==
+Federal habeas is booby-trapped. A state prisoner must first '''exhaust''' every federal claim in the state courts, up to the state's highest court (28 U.S.C. § 2254(b)(1); ''Rose v. Lundy'', 455 U.S. 509 (1982)). Filing too early can get the petition dismissed; the AEDPA one-year clock (28 U.S.C. § 2244(d)(1)) can then run out; a claim can be procedurally defaulted (''Coleman v. Thompson'', 501 U.S. 722 (1991)); and a second petition needs the court of appeals' permission (28 U.S.C. § 2244(b); § 2255(h)). The tool marks federal habeas as gated and warns prominently when it is chosen before the earlier rungs are complete.
+
+== The writ goes by statute now ==
+The extraordinary writs were once royal prerogative writs a court issued on its own inherent power. Today a federal court's power to issue them comes from '''statute''' — mandamus jurisdiction under 28 U.S.C. § 1361, the All Writs Act (§ 1651), and, to compel a federal agency that will not act, the Administrative Procedure Act's command to "compel agency action unlawfully withheld or unreasonably delayed" (5 U.S.C. § 706(1)). Mandamus is a '''last resort''': it requires a clear right, a clear non-discretionary duty, and no other adequate remedy. Courts measure agency delay with the six-factor test of ''Telecommunications Research & Action Center v. FCC'', 750 F.2d 70 (D.C. Cir. 1984), and § 706(1) reaches only a discrete action the agency is legally required to take (''Norton v. Southern Utah Wilderness Alliance'', 542 U.S. 55 (2004)). In ''Olsen v. Drug Enforcement Administration'', 878 F.2d 1458 (D.C. Cir. 1989), the petitioner had to seek a writ of mandamus to force the DEA to act on his petition — the classic posture of using the writ when an agency will not move.
+
+== What the tool produces ==
+For a chosen step it generates a fill-in-the-blank scaffold of the sections that document needs — caption, parties, case number, court, questions presented, statement of facts, argument, relief requested, and the certificates of compliance and service — with the applicable format and length rules (for example the federal 13,000-word appellate-brief limit under Fed. R. App. P. 32). State-specific deadlines and page limits vary and are flagged for the reader to confirm in their own state's rules rather than presented as fixed numbers.
+
+== Local ordinances ==
+When the issue is a city or county ordinance, the page links the national municipal-code hosts (Municode, American Legal Publishing, General Code) and authoritative finders so a reader can pull the actual ordinance text themselves. It links where codes live rather than guessing at any one ordinance's URL.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Rights That Hold Up in Court]]
+* [[Foundational Law]]
+* [[Treaties]]
+* [[Privacy Law]]
+
+== Sources ==
+* [https://law.soapbox.community/appeals law.soapbox.community/appeals]
+* [https://law.soapbox.community/writs law.soapbox.community/writs]
+
+== Coverage ==
+Describes the surface's structure, the exhaustion ladder it enforces, and the verified statutes and cases it cites. Every statute number and case citation is real and human-verified. Informational only, not legal advice — deadlines and rules vary by court and change; confirm every specific in your court's own rules and consult a licensed attorney.

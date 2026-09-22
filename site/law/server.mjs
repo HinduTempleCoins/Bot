@@ -42,6 +42,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
+import { headTags as seoHeadTags, breadcrumbJsonLd, faqJsonLd, citationBlock } from '../../integrations/soapbox/seo.mjs';
 import * as opinions from '../../integrations/soapbox/courtlistener-opinions.mjs';
 import * as cap from '../../integrations/soapbox/caselaw-cap.mjs';
 import * as ecfr from '../../integrations/soapbox/ecfr.mjs';
@@ -52,6 +53,7 @@ import * as lawyers from '../../integrations/soapbox/lawyer-directory.mjs';
 import { judgeLinks, companyLinks, categoryLinks } from '../../integrations/cross-links.mjs';
 import { ingestCase } from '../../integrations/legal-knowledge-graph.mjs';
 import * as privacy from '../../integrations/soapbox/privacy-law-map.mjs';
+import * as appeals from '../../integrations/soapbox/appeals-engine.mjs';
 import { adSlot, headTags as adHeadTags, slotStyles as adSlotStyles } from '../../integrations/soapbox/ad-slot.mjs';
 
 const PORT = +(process.env.PORT || 8099);
@@ -150,6 +152,43 @@ const STYLE = `<style>
   .plm-cases h4{margin:0 0 8px;font-size:14px} .plm-cases-link{margin-top:14px;font-size:14px}
   .plm-case{padding:8px 0;border-bottom:1px solid var(--line)} .plm-case:last-child{border-bottom:0}
   .plm-case-nm{font-weight:600;font-size:14px} .plm-case-meta{color:var(--mut);font-size:12px;margin-top:2px}
+  /* appeals & writs (pro-se ladder) */
+  .ape-lbl{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--mut);font-weight:600}
+  .ape-juris{margin:0 0 16px}
+  .ape-legend{color:var(--mut);font-size:12px;margin:2px 0 12px}
+  .ape-rungs{display:flex;flex-direction:column;gap:10px}
+  .ape-rung{border:1px solid var(--line2);border-radius:10px;padding:12px 14px;background:var(--panel)}
+  .ape-rung.ape-open{border-color:var(--blue)} .ape-rung.ape-locked{opacity:.92;border-style:dashed}
+  .ape-rung-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .ape-tier{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:#0b0f14;border:1px solid var(--line2);color:var(--mut);font-weight:700;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+  .ape-rung-nm{font-weight:700;font-size:16px}
+  .ape-rung-plain{color:var(--mut);font-size:13px;margin:6px 0 4px} .ape-rung-links{font-size:13px}
+  .ape-badge{font-size:11px;border-radius:8px;padding:1px 7px;margin-left:2px}
+  .ape-badge-last{background:#d2992233;color:var(--gold)} .ape-badge-danger{background:#f8514933;color:var(--down)}
+  .ape-tick{color:var(--up);font-weight:700} .ape-lock{color:var(--gold);font-weight:700}
+  .ape-alert{border:1px solid var(--line2);border-radius:10px;padding:12px 14px;margin:12px 0}
+  .ape-alert-t{font-weight:700;margin-bottom:4px}
+  .ape-alert.ape-danger{border-color:var(--down);background:#f8514912} .ape-alert.ape-danger .ape-alert-t{color:var(--down)}
+  .ape-alert.ape-warn{border-color:var(--gold);background:#d2992212} .ape-alert.ape-warn .ape-alert-t{color:var(--gold)}
+  .ape-alert.ape-info{border-color:var(--blue);background:#1f6feb12}
+  .ape-alert p{margin:4px 0;font-size:14px}
+  .ape-detail h2{margin:6px 0 8px} .ape-detail h3{margin:16px 0 6px;font-size:15px} .ape-detail h4{margin:12px 0 6px;font-size:14px}
+  .ape-teach p{margin:4px 0 10px;font-size:14px;line-height:1.6}
+  .ape-note{color:var(--mut);font-size:13px;margin:4px 0 10px}
+  .ape-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+  .ape-field{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#0b0f14}
+  .ape-field-l{font-weight:700;font-size:14px} .ape-field-h{color:var(--mut);font-size:12px;margin:3px 0 6px}
+  .ape-field-blank{border:1px dashed var(--line2);border-radius:6px;padding:8px;color:var(--mut);font-size:12px;text-align:center}
+  .ape-format ul{margin:6px 0;padding-left:18px} .ape-format li{font-size:13px;margin:4px 0}
+  .ape-verify{color:var(--gold)}
+  .ape-deadline{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:6px 0;background:#0b0f14}
+  .ape-deadline.ape-danger{border-color:var(--down)} .ape-deadline.ape-warn{border-color:var(--gold)}
+  .ape-dl-w{font-weight:700;font-size:14px;display:block} .ape-dl-t{font-size:13px;color:var(--fg)}
+  .ape-auth,.ape-ord,.ape-respondent{padding:8px 0;border-bottom:1px solid var(--line)} .ape-auth:last-child,.ape-ord:last-child{border-bottom:0}
+  .ape-auth-nm,.ape-ord-nm{font-weight:600;font-size:14px} .ape-auth-note,.ape-ord-note{color:var(--mut);font-size:13px;margin-top:2px}
+  .ape-disclaimer{border:1px solid var(--gold);border-radius:10px;padding:14px 16px;margin:16px 0;background:#d2992212}
+  .ape-disclaimer p{margin:6px 0;font-size:13px}
+  .ape-empty{color:var(--mut);padding:14px 0}
 </style>`;
 
 // Facts-not-verdicts footer — load-bearing discipline, on EVERY page. Names the public-domain posture,
@@ -165,24 +204,169 @@ const FOOTER = `<footer>
   <div style="margin-top:8px"><a href="/">Law</a> · <a href="${OVERSIGHT}">Oversight</a> · <a href="${DATA}">Data</a> · <a href="${SEARCH}">Search</a> · <a href="${DIRECTORY}">Directory</a> · <a href="${WIKI}">Library</a></div>
 </footer>`;
 
+// SearchAction target — Law has a real GET results page (/cases?q=…), so the site graph can advertise a
+// sitelinks searchbox. The literal {search_term_string} token MUST live inside the urlTemplate.
+const SEARCH_URL_TEMPLATE = `${BASE_URL}/cases?q={search_term_string}`;
+
+// Structured-data + full SEO <head>. Delegates to the shared house-style helper (integrations/soapbox/seo.mjs)
+// so Law emits the SAME OpenGraph + Twitter-card + JSON-LD (Organization + WebSite + SearchAction, plus any
+// per-page BreadcrumbList / FAQPage / citation node) as the other SoapBox surfaces — instead of the bare
+// title/description/canonical it carried before. All builders esc() and soft-fail. opts:
+//   description, canonical, robots  — as before (canonical/robots/description also feed OG/Twitter)
+//   breadcrumb : [{name,url}]  → BreadcrumbList JSON-LD (emit on section pages)
+//   faq        : [{q,a}]       → FAQPage JSON-LD (ONLY when the same Q&A are visible on the page)
+//   cite       : citationBlock() opts → a visible "Cite this page" block (GEO) + its JSON-LD node
+//   jsonld     : extra JSON-LD node(s) appended after the site graph
 function page(title, body, opts = {}) {
   const desc = opts.description || 'Law.SoapBox — U.S. caselaw, statutes, regulations, judges, and lawyer records. Facts, not verdicts. Public-domain, keyless, source-linked.';
   const canonical = opts.canonical || `${BASE_URL}/`;
   const robots = opts.robots || 'index,follow,max-image-preview:large';
+
+  // assemble the extra JSON-LD nodes (site graph is emitted by seoHeadTags via `site`).
+  const extra = [];
+  const bc = Array.isArray(opts.breadcrumb) && opts.breadcrumb.length ? breadcrumbJsonLd(opts.breadcrumb) : null;
+  if (bc) extra.push(bc);
+  const faq = Array.isArray(opts.faq) && opts.faq.length ? faqJsonLd(opts.faq) : null;
+  if (faq) extra.push(faq);
+  let citeHtml = '';
+  if (opts.cite && typeof opts.cite === 'object') {
+    const cb = citationBlock({ publisher: 'SoapBox Law', ...opts.cite });
+    citeHtml = cb.html;
+    if (cb.jsonld) extra.push(cb.jsonld);
+  }
+  if (opts.jsonld) for (const j of [].concat(opts.jsonld)) if (j) extra.push(j);
+
+  const seoHead = seoHeadTags({
+    title, description: desc, canonical, robots, siteName: 'SoapBox Law',
+    site: { url: BASE_URL, name: 'SoapBox Law', searchUrlTemplate: SEARCH_URL_TEMPLATE },
+    jsonld: extra,
+  });
+
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-<meta name=description content="${esc(desc)}">
-<meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}${LAW_ADS ? `<style>${adSlotStyles()}</style>` : ''}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript>${adHeadTags(ADS)}</head><body>
+${seoHead}${STYLE}${LAW_ADS ? `<style>${adSlotStyles()}</style>` : ''}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript>${adHeadTags(ADS)}</head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
-  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/rights">Your rights</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
-<main class=wrap>${adSlot('law-top', ADS)}${body}${adSlot('law-bottom', ADS)}</main>
+  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/appeals">Appeals &amp; writs</a><a href="/rights">Your rights</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
+<main class=wrap>${adSlot('law-top', ADS)}${body}${citeHtml}${adSlot('law-bottom', ADS)}</main>
 ${FOOTER}</body></html>`;
+}
+
+// ── FAQ (visible AND emitted as FAQPage JSON-LD) ─────────────────────────────────────────────────
+// Real, quotable answers about what this surface IS and how to cite it — the kind of Q&A an AI overview
+// lifts verbatim. The SAME pairs are rendered on-page (faqCard) and as JSON-LD (page opts.faq), so the
+// structured data always matches the visible text (Google's requirement, and honest by construction).
+const HOME_FAQ = [
+  { q: 'Is SoapBox Law free to use?',
+    a: 'Yes. SoapBox Law is keyless and free — no account, no paywall. It surfaces U.S. caselaw, statutes, '
+     + 'regulations, judge records and lawyer bar facts from official public sources.' },
+  { q: 'Where does the case law come from?',
+    a: 'Court opinions come from CourtListener (Free Law Project) and the Caselaw Access Project (Harvard '
+     + 'Law School Library); statutes from the OLRC U.S. Code and Cornell LII; regulations from the eCFR and '
+     + 'the Federal Register. U.S. caselaw and federal statute are public domain.' },
+  { q: 'Can I cite pages from SoapBox Law?',
+    a: 'Yes. Every record links its official source of record, and each page carries a citation block. For '
+     + 'legal authority, cite the source of record (the reporter citation, U.S.C. section, or Federal '
+     + 'Register document) that the page links to.' },
+  { q: 'Does SoapBox Law give legal advice?',
+    a: 'No. SoapBox Law states the public record — case names, citations, statuses and official-source '
+     + 'links — and never a holding-summary, a "good law / bad law" judgment, or legal advice. For advice, '
+     + 'consult a licensed attorney.' },
+];
+
+// FAQ for the Appeals & writs surface (visible on-page AND emitted as FAQPage JSON-LD — they match).
+const APPEALS_FAQ = [
+  { q: 'What is the "exhaustion ladder" for appeals?',
+    a: 'It is the fixed order you must challenge a court loss in: direct appeal, then a motion for '
+     + 'reconsideration or new trial, then state post-conviction/state habeas, then discretionary review '
+     + 'in the state supreme court, then certiorari to the U.S. Supreme Court, then federal habeas corpus, '
+     + 'and only then the extraordinary writs like mandamus. Taking a step out of order can permanently '
+     + 'forfeit ("burn") a later option.' },
+  { q: 'Why can filing federal habeas too early hurt me?',
+    a: 'Federal habeas (28 U.S.C. § 2254 for state prisoners, § 2255 for federal) requires that you first '
+     + 'exhaust state remedies (28 U.S.C. § 2254(b)(1)). Filing before you finish the state process can get '
+     + 'the petition dismissed, the AEDPA one-year clock (28 U.S.C. § 2244(d)(1)) can run out, a claim can '
+     + 'be procedurally defaulted, and a second petition needs the court of appeals’ permission. Get a '
+     + 'lawyer or a federal-defender office before filing.' },
+  { q: 'When is a writ of mandamus appropriate?',
+    a: 'Mandamus is a last resort after ordinary appeals fail and an official or agency still refuses to '
+     + 'perform a clear, non-discretionary duty, when no other adequate remedy exists. It rests on statute '
+     + 'now — 28 U.S.C. § 1361, the All Writs Act (§ 1651), and for agencies the APA (5 U.S.C. § 706(1)).' },
+  { q: 'Does this tool give legal advice?',
+    a: 'No. It is AI-generated legal information and a fill-in-the-blank scaffold — not legal advice and not '
+     + 'a lawyer. Deadlines and rules vary by court and change; verify every specific in your court’s own '
+     + 'rules, and take a draft to a licensed attorney, a legal-aid clinic, or your court’s self-help center.' },
+];
+
+// Render a visible FAQ card whose Q&A exactly match a faq[] passed to page() as FAQPage JSON-LD.
+function faqCard(pairs, heading = 'Frequently asked questions') {
+  const items = (Array.isArray(pairs) ? pairs : []).filter((p) => p && p.q && p.a);
+  if (!items.length) return '';
+  return `<div class=card style="margin-top:18px"><h2>${esc(heading)}</h2>${items.map((p) =>
+    `<details class=plm-pairing style="margin:0 0 8px"><summary>${esc(p.q)}</summary>`
+    + `<div class=plm-body><p class=plm-plain style="margin:0">${esc(p.a)}</p></div></details>`).join('')}</div>`;
 }
 
 // small URL-encode shorthand
 const q = (s) => encodeURIComponent(String(s == null ? '' : s));
+
+// BreadcrumbList trail: SoapBox Law → this section. Passed to page() as opts.breadcrumb.
+const crumbs = (name, path) => [
+  { name: 'SoapBox Law', url: `${BASE_URL}/` },
+  { name, url: `${BASE_URL}${path}` },
+];
+
+// ── /llms.txt — a corpus-describing, citation-guiding index for AI crawlers (GEO) ────────────────────
+// The base llmsTxt() gives the header + Key-pages list; we APPEND corpus / sources-of-record / how-to-cite
+// sections so an LLM ingesting this file knows WHAT the corpus is, that it is authoritative and quotable,
+// and exactly how to attribute it. This is the per-surface GEO index the operator asked for.
+export function lawLlmsTxt() {
+  const base = llmsTxt({
+    name: 'SoapBox Law', baseUrl: BASE_URL,
+    summary: 'Free, keyless U.S. legal reference — caselaw, statutes, regulations, judges, and lawyer bar '
+      + 'records, each surfaced verbatim from its official public source. Facts, not verdicts.',
+    links: [
+      { label: 'Caselaw (court opinions)', path: '/cases', note: 'CourtListener / Free Law Project + Caselaw Access Project; resolves reporter citations' },
+      { label: 'Dockets (PACER/RECAP)', path: '/dockets', note: 'case filings and proceedings' },
+      { label: 'Statutes (U.S. Code)', path: '/statutes', note: 'OLRC U.S. Code + Cornell LII; eCFR full-text search' },
+      { label: 'Regulations (CFR / Federal Register)', path: '/regulations', note: 'recent rules by agency' },
+      { label: 'Constitution', path: '/constitution', note: 'foundational law, public domain' },
+      { label: 'Treaties', path: '/treaties' },
+      { label: 'Privacy law (federal vs. Texas)', path: '/privacy' },
+      { label: 'Appeals & extraordinary writs (pro-se ladder)', path: '/appeals', note: 'the exhaustion ladder, gated; deadlines, required fields, mandamus/habeas' },
+      { label: 'Your rights', path: '/rights' },
+      { label: 'Maxims, axioms & idioms', path: '/maxims' },
+      { label: 'Judges', path: '/judges' },
+      { label: 'Lawyers', path: '/lawyers' },
+      { label: 'File a complaint', path: '/complaints' },
+    ],
+  });
+  const extra = [
+    '## About this corpus',
+    'SoapBox Law is a reference surface, not a commentary site. Each record reproduces or links its '
+      + 'official source of record and states only facts — case name, citation, court, date, status; '
+      + 'statute section and official text; regulation document number. It never adds a holding-summary, '
+      + 'a "good law / bad law" judgment, or legal advice. U.S. caselaw and federal statute are public domain.',
+    '',
+    '## Sources of record (authoritative upstream)',
+    '- Court opinions: CourtListener (Free Law Project) and the Caselaw Access Project (Harvard Law School Library).',
+    '- Statutes: Office of the Law Revision Counsel (OLRC) U.S. Code; Cornell Legal Information Institute (LII).',
+    '- Regulations: the electronic Code of Federal Regulations (eCFR) and the Federal Register.',
+    '- Judges: CourtListener judge database (positions, appointments, financial disclosures).',
+    '',
+    '## How to cite',
+    'Pages are safe to quote and cite. Every page carries a machine-readable citation block (schema.org '
+      + 'JSON-LD, author/publisher/date) and, for legal authority, names the source of record to cite '
+      + 'directly (the reporter citation, U.S.C. section, or Federal Register document number). Attribute '
+      + `general pages as: SoapBox Law, ${BASE_URL} .`,
+    '',
+    '## Usage',
+    'All crawlers, including AI/LLM crawlers, are welcome (see /robots.txt). This is public-interest legal '
+      + 'reference data intended to be ingested, quoted, and cited.',
+    '',
+  ].join('\n');
+  return `${base}\n${extra}`;
+}
 
 // search form + an optional cases/statutes toggle on the home box
 function searchForm(action, { value = '', placeholder = 'Search…', label = 'Search', extra = '' } = {}) {
@@ -220,6 +404,7 @@ function homePage() {
     ['/statutes', 'Statutes & Code', 'Parse a U.S.C. citation (“18 U.S.C. § 2261A”) to its official text, or search the Code of Federal Regulations.'],
     ['/regulations', 'Regulations', 'Recent rules, proposed rules, and notices from the Federal Register, by agency.'],
     ['/privacy', 'Privacy law — federal vs. Texas', 'Click a privacy topic to see the federal law, where Texas replaces or supplements it, and the cases interpreting each — a plain-language map.'],
+    ['/appeals', 'Appeals & extraordinary writs', 'A pro-se ladder: appeal → reconsideration → post-conviction → cert → federal habeas → mandamus. Gated so you don’t burn a step, with deadlines and required fields.'],
     ['/judges', 'Judges', 'Federal judge profiles — seats, appointments, opinion counts, and disclosure pointers.'],
     ['/lawyers', 'Lawyers', 'Public attorney bar facts — license status, admission, discipline. No ratings, by design.'],
     ['/complaints', 'File a complaint', 'Where to go for legal aid, a bar referral, or to file a complaint with the right agency.'],
@@ -239,8 +424,13 @@ function homePage() {
     <div class=card style="margin-top:18px"><h2>How this connects</h2>
       <p class=muted style="font-size:14px">Case files and judges are linked: a case record links the judge who can be looked up here,
       and a judge profile links straight to a search of the opinions they authored. The whole surface is jurisdiction-namespaced —
-      the United States is jurisdiction #1, and paths can later take a <code>/us/…</code> prefix as other jurisdictions are added.</p></div>`;
-  return page('SoapBox Law — caselaw, statutes, regulations, judges', body, { canonical: `${BASE_URL}/` });
+      the United States is jurisdiction #1, and paths can later take a <code>/us/…</code> prefix as other jurisdictions are added.</p></div>
+    ${faqCard(HOME_FAQ)}`;
+  return page('SoapBox Law — caselaw, statutes, regulations, judges', body, {
+    canonical: `${BASE_URL}/`,
+    breadcrumb: [{ name: 'SoapBox Law', url: `${BASE_URL}/` }],
+    faq: HOME_FAQ,
+  });
 }
 
 // ── /cases — CourtListener opinion search + CAP citation lookup ──────────────────────────────────
@@ -440,7 +630,17 @@ export async function caseDetailView({ clId = '', capId = '' } = {}) {
         : `<p class=empty style="margin-top:12px">The opinion text isn't available from the source right now. ${sourceUrl ? `<a href="${esc(sourceUrl)}">Read it at the source →</a>` : ''}</p>`}
       <p class=muted style="font-size:12px;margin-top:12px">This is the court's own public-domain opinion text, reproduced verbatim and attributed to ${esc(sourceLabel || 'the source of record')}. We surface the source's words — we add no holding-summary, headnote, or verdict.</p>
     </div>`;
-  return body;
+  // GEO: a stable, quotable citation unit. For legal authority a reader should cite the source of record
+  // (the reporter citation / CourtListener / CAP), which this block names and links.
+  const cite = citationBlock({
+    title: rec.caseName || 'Opinion',
+    url: sourceUrl || `${BASE_URL}/cases`,
+    author: 'SoapBox Law', publisher: 'SoapBox Law',
+    datePublished: rec.dateFiled || undefined,
+    sourceOfRecord: sourceLabel || 'the source of record', sourceUrl: sourceUrl || undefined,
+    license: 'https://creativecommons.org/publicdomain/mark/1.0/', type: 'Legislation',
+  });
+  return body + cite.html;
 }
 
 // ── /dockets — Justia-style docket search (RECAP/PACER case filings) ──────────────────────────────
@@ -706,6 +906,119 @@ export async function privacyView(statuteId) {
       Federal privacy law is <em>sectoral</em> — there is no single comprehensive federal privacy statute — which is
       exactly why the states matter. Informational only, not legal advice.</p>`;
   return intro + map;
+}
+
+// ── /appeals (+ /writs) — the pro-se appeals & extraordinary-writ engine ───────────────────────────
+// A court self-help kiosk in software: the exhaustion ladder, gated so a filer cannot skip a step and
+// "burn" a later one, with plain-language teaching, a fill-in-the-blank generator, deadline warnings,
+// and live legal search wired through the already-imported keyless readers. EDUCATION + a pro-se tool,
+// never individualized advice (the UPL line). All data + gating live in appeals-engine.mjs (pure);
+// this view supplies the live case/judge/statute lookups via the injectable-fetch readers, soft-fail.
+
+// Build the "governing statutes" cards. A cite that parses as a U.S.C. section (uscode.citationCard)
+// gets official OLRC + Cornell links; everything else (court rules, state statutes) is shown as a
+// finder line pointing the reader at the right rulebook — never a fabricated deep link. PURE.
+function appealsStatuteCards(statuteMap) {
+  const rows = (Array.isArray(statuteMap) ? statuteMap : []).map((s) => {
+    const card = uscode.citationCard(s.cite);
+    if (card) {
+      return `<div class=rec><div class=nm>${esc(s.label)} <span class=badge>${esc(card.normalized)}</span></div>
+        <div class=xlink><a href="/statutes?q=${q(card.normalized)}">look it up on SoapBox →</a> · <a href="${esc(card.olrcUrl)}" rel="nofollow noopener">official (OLRC) →</a> · <a href="${esc(card.corneliiUrl)}" rel="nofollow noopener">Cornell LII →</a></div></div>`;
+    }
+    return `<div class=rec><div class=nm>${esc(s.label)} <span class=badge>${esc(s.cite)}</span></div>
+      <div class=meta>A court rule or state statute — read it in the governing rulebook (your court's Rules of Appellate/Civil/Criminal Procedure or your state code).</div></div>`;
+  }).join('');
+  return rows;
+}
+
+// The respondents note per remedy — WHO you name/serve. Static, educational (not "sue this person").
+function appealsRespondents(remedyId, state) {
+  const stName = appeals.stateName(state) || 'your state';
+  const ag = `<a href="/lawyers?q=${q('attorney general')}">${esc(stName)} Attorney General</a>`;
+  if (remedyId === 'federal-habeas') {
+    return `<p>In a § 2254 petition the respondent is your <b>immediate custodian</b> — the warden or superintendent of the facility holding you (named by title). The <b>${esc(stName)} Attorney General</b> represents the state. In a § 2255 motion the respondent is the <b>United States</b>, litigated by the U.S. Attorney in the sentencing district. Look up the office through <a href="/lawyers">the directory</a>.</p>`;
+  }
+  if (remedyId === 'mandamus' || remedyId === 'prohibition') {
+    return `<p>Name the <b>official, court, or agency head</b> that owes the duty (e.g. an agency's Administrator or Secretary, or the lower-court judge for appellate mandamus). For a federal agency, the head is the proper respondent; the U.S. Attorney and DOJ defend. State the office by title. See ${ag} for state officials, and <a href="/regulations">Regulations</a> to identify the agency.</p>`;
+  }
+  if (remedyId === 'quo-warranto') {
+    return `<p>Quo warranto is usually brought by a <b>public attorney</b> — the ${ag} at the state level, or the U.S. Attorney federally — challenging a person's right to hold office. A private person typically must ask that office to act.</p>`;
+  }
+  return `<p>On appeal the other side (the <b>appellee/respondent</b>) is whoever won below — in a criminal case, "the People"/"the State"/"the United States," represented by the prosecutor or ${ag}. Serve every party per the certificate of service.</p>`;
+}
+
+export async function appealsView({ state = '', level = '', remedy = '', done = '' } = {}) {
+  const st = String(state || '').toUpperCase();
+  const lvl = String(level || '');
+  const doneIds = String(done || '').split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+  const sel = String(remedy || '').trim().toLowerCase();
+  const r = appeals.findRemedy(sel);
+
+  // links that carry jurisdiction + the done-list so the gate persists across clicks
+  const base = (extra) => {
+    const p = new URLSearchParams();
+    if (st) p.set('state', st);
+    if (lvl) p.set('level', lvl);
+    if (doneIds.length) p.set('done', doneIds.join(','));
+    for (const [k, v] of Object.entries(extra || {})) p.set(k, v);
+    return `/appeals?${p.toString()}`;
+  };
+  const hrefFor = (id) => base({ remedy: id });
+
+  const intro = `<h1>Appeals &amp; extraordinary writs <span class=muted style="font-size:14px">· a pro-se ladder</span></h1>
+    <p class=muted>If you lost and want to keep fighting, there is an <b>order</b> you have to climb — trial loss → appeal →
+      reconsideration → state post-conviction → discretionary review → the Supreme Court → federal habeas → the extraordinary
+      writs (mandamus and its cousins). Take them out of order and you can permanently <b>burn</b> a later option. Pick your
+      jurisdiction, then walk the ladder. This is legal <b>information</b> and a fill-in-the-blank tool — not legal advice.</p>`;
+
+  const selector = appeals.renderJurisdictionSelector({ state: st, level: lvl, remedy: sel });
+  const ladder = appeals.renderLadder({ selected: sel, doneIds, state: st, level: lvl, hrefFor });
+
+  // a "mark this step done" control so the gate can unlock the next rung
+  let markDone = '';
+  if (r && !doneIds.includes(r.id)) {
+    markDone = `<p style="margin:10px 0"><a class=sec href="${esc(base({ remedy: r.id, done: [...doneIds, r.id].join(',') }))}" style="display:inline-block">✓ Mark &ldquo;${esc(r.name)}&rdquo; as done (unlock the next rung)</a></p>`;
+  } else if (r && doneIds.includes(r.id)) {
+    markDone = `<p style="margin:10px 0" class=muted>✓ You have marked this step done. <a href="${esc(base({ remedy: r.id, done: doneIds.filter((d) => d !== r.id).join(',') }))}">Undo</a></p>`;
+  }
+
+  let detail = `<div class=card><p class=ape-empty>Select a step on the ladder above to open its teaching, deadlines, required fields, and the governing statutes and cases.</p></div>`;
+  if (r) {
+    // live legal search — all soft-fail to '' so the page always renders
+    const statuteCardsHtml = appealsStatuteCards(r.statuteMap);
+    let casesHtml = '';
+    try {
+      const query = `${r.name.replace(/\s*\([^)]*\)/g, '')} ${r.id === 'mandamus' ? 'compel agency action' : (r.id === 'federal-habeas' ? 'exhaustion AEDPA' : 'appeal')}`;
+      const rows = await opinions.searchCases({ q: query, limit: 8 }).catch(() => []);
+      casesHtml = Array.isArray(rows) && rows.length ? rows.map(caseRow).join('') : '';
+    } catch { casesHtml = ''; }
+    let judgesHtml = '';
+    try {
+      const jq = st && st !== 'US' ? appeals.stateName(st) : (lvl === 'scotus' ? 'Supreme Court' : 'appeals');
+      const jrows = await judges.searchJudges({ q: jq, limit: 5 }).catch(() => []);
+      judgesHtml = Array.isArray(jrows) && jrows.length
+        ? jrows.map((j) => `<div class=rec><div class=nm>${esc(j.name || 'Judge')}</div>
+            <div class=xlink><a href="/judges?q=${q(j.name || '')}">judge profile →</a></div></div>`).join('')
+        : '';
+    } catch { judgesHtml = ''; }
+    const respondentsHtml = appealsRespondents(r.id, st);
+    detail = `<div class=card>${markDone}${appeals.renderRemedyDetail(r, {
+      doneIds, state: st, level: lvl, statuteCardsHtml, casesHtml, judgesHtml, respondentsHtml,
+    })}</div>`;
+  }
+
+  const ordinances = `<div class=card>${appeals.renderOrdinanceLinks()}</div>`;
+  const disclaimer = appeals.renderDisclaimer();
+
+  return `${intro}
+    <div class=card><h2>1 · Your jurisdiction</h2>
+      <p class=muted style="font-size:13px;margin:-2px 0 10px">State, DC, or federal — and the court level. This drives which deadlines and rules apply.</p>
+      ${selector}</div>
+    <div class=card>${ladder}</div>
+    ${detail}
+    ${ordinances}
+    ${disclaimer}
+    ${faqCard(APPEALS_FAQ)}`;
 }
 
 // ── /rights — "Rights That Hold Up in Court" ──────────────────────────────────────────────────────
@@ -1086,7 +1399,7 @@ function splitJurisdiction(pathname) {
   return { juris: DEFAULT_JURISDICTION, path: pathname };
 }
 
-const SITEMAP_PATHS = ['/', '/constitution', '/treaties', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints', '/privacy', '/rights', '/maxims'];
+const SITEMAP_PATHS = ['/', '/constitution', '/treaties', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints', '/privacy', '/appeals', '/rights', '/maxims'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -1113,20 +1426,7 @@ export async function handler(req, res) {
     }
     if (raw === '/llms.txt') {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
-      return res.end(llmsTxt({
-        name: 'SoapBox Law', baseUrl: BASE_URL,
-        summary: 'Caselaw, statutes, regulations, judges, and lawyers — official-source US legal data.',
-        links: [
-          { label: 'Caselaw', path: '/cases' },
-          { label: 'Dockets (PACER/RECAP)', path: '/dockets' },
-          { label: 'Statutes (US Code)', path: '/statutes' },
-          { label: 'Regulations (CFR)', path: '/regulations' },
-          { label: 'Privacy law (federal vs. Texas)', path: '/privacy' },
-          { label: 'Judges', path: '/judges' },
-          { label: 'Lawyers', path: '/lawyers' },
-          { label: 'File a complaint', path: '/complaints' },
-        ],
-      }));
+      return res.end(lawLlmsTxt());
     }
 
     const { juris, path } = splitJurisdiction(raw);
@@ -1150,7 +1450,8 @@ export async function handler(req, res) {
           { canonical: `${BASE_URL}/cases`, robots: 'noindex,follow' }));
       }
       return sendHtml(res, page('Cases — SoapBox Law', await casesView(sp.get('q') || '', sp.get('court') || ''),
-        { canonical: `${BASE_URL}/cases`, robots: (sp.get('q') || sp.get('court')) ? 'noindex,follow' : 'index,follow' }));
+        { canonical: `${BASE_URL}/cases`, robots: (sp.get('q') || sp.get('court')) ? 'noindex,follow' : 'index,follow',
+          breadcrumb: crumbs('Cases', '/cases') }));
     }
     if (path === '/dockets') {
       return sendHtml(res, page('Dockets — SoapBox Law', await docketsView(sp.get('q') || '', sp.get('court') || ''),
@@ -1158,11 +1459,12 @@ export async function handler(req, res) {
     }
     if (path === '/statutes') {
       return sendHtml(res, page('Statutes & Code — SoapBox Law', await statutesView(sp.get('q') || ''),
-        { canonical: `${BASE_URL}/statutes`, robots: sp.get('q') ? 'noindex,follow' : 'index,follow' }));
+        { canonical: `${BASE_URL}/statutes`, robots: sp.get('q') ? 'noindex,follow' : 'index,follow',
+          breadcrumb: crumbs('Statutes & Code', '/statutes') }));
     }
     if (path === '/regulations') {
       return sendHtml(res, page('Regulations — SoapBox Law', await regulationsView(sp.get('agency') || ''),
-        { canonical: `${BASE_URL}/regulations` }));
+        { canonical: `${BASE_URL}/regulations`, breadcrumb: crumbs('Regulations', '/regulations') }));
     }
     if (path === '/judges') {
       return sendHtml(res, page('Judges — SoapBox Law', await judgesView(sp.get('q') || '', sp.get('id') || ''),
@@ -1180,18 +1482,39 @@ export async function handler(req, res) {
       return sendHtml(res, page('Privacy law — federal vs. Texas — SoapBox Law', await privacyView(st),
         { canonical: `${BASE_URL}/privacy`, robots: st ? 'noindex,follow' : 'index,follow' }));
     }
+    if (path === '/appeals' || path === '/writs') {
+      const active = sp.get('remedy') || sp.get('state') || sp.get('level') || sp.get('done');
+      return sendHtml(res, page('Appeals & extraordinary writs — a pro-se ladder — SoapBox Law',
+        await appealsView({ state: sp.get('state') || '', level: sp.get('level') || '', remedy: sp.get('remedy') || '', done: sp.get('done') || '' }),
+        { canonical: `${BASE_URL}/appeals`, robots: active ? 'noindex,follow' : 'index,follow',
+          breadcrumb: crumbs('Appeals & writs', '/appeals'),
+          faq: APPEALS_FAQ,
+          cite: { title: 'Appeals & extraordinary writs — a pro-se ladder', url: `${BASE_URL}/appeals`, author: 'SoapBox Law',
+            sourceOfRecord: 'the Federal Rules of Appellate Procedure, 28 U.S.C., and each state’s rules of appellate procedure' } }));
+    }
     if (path === '/rights') {
-      return sendHtml(res, page('Rights That Hold Up in Court — SoapBox Law', rightsPage(), { canonical: `${BASE_URL}/rights` }));
+      return sendHtml(res, page('Rights That Hold Up in Court — SoapBox Law', rightsPage(),
+        { canonical: `${BASE_URL}/rights`, breadcrumb: crumbs('Your rights', '/rights'),
+          cite: { title: 'Rights That Hold Up in Court', url: `${BASE_URL}/rights`, author: 'SoapBox Law',
+            sourceOfRecord: 'U.S. Constitution and controlling U.S. Supreme Court precedent' } }));
     }
     if (path === '/constitution') {
-      return sendHtml(res, page('Foundational Law — the Constitution — SoapBox Law', constitutionView(), { canonical: `${BASE_URL}/constitution` }));
+      return sendHtml(res, page('Foundational Law — the Constitution — SoapBox Law', constitutionView(),
+        { canonical: `${BASE_URL}/constitution`, breadcrumb: crumbs('Constitution', '/constitution'),
+          cite: { title: 'Foundational Law — the U.S. Constitution', url: `${BASE_URL}/constitution`, author: 'SoapBox Law',
+            sourceOfRecord: 'U.S. Constitution (public domain)',
+            license: 'https://creativecommons.org/publicdomain/mark/1.0/' } }));
     }
     if (path === '/treaties') {
-      return sendHtml(res, page('Treaties — how they’re made, and when they’re law — SoapBox Law', treatiesView(), { canonical: `${BASE_URL}/treaties` }));
+      return sendHtml(res, page('Treaties — how they’re made, and when they’re law — SoapBox Law', treatiesView(),
+        { canonical: `${BASE_URL}/treaties`, breadcrumb: crumbs('Treaties', '/treaties'),
+          cite: { title: 'Treaties — how they are made, and when they are law', url: `${BASE_URL}/treaties`, author: 'SoapBox Law',
+            sourceOfRecord: 'U.S. Constitution, Art. II & Art. VI' } }));
     }
     if (path === '/maxims') {
       return sendHtml(res, page('Maxims, axioms & idioms — SoapBox Law', maximsView(sp.get('d') || ''),
-        { canonical: `${BASE_URL}/maxims`, robots: sp.get('d') ? 'noindex,follow' : 'index,follow' }));
+        { canonical: `${BASE_URL}/maxims`, robots: sp.get('d') ? 'noindex,follow' : 'index,follow',
+          breadcrumb: crumbs('Maxims', '/maxims') }));
     }
 
     // unknown → home

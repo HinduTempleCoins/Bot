@@ -80,19 +80,25 @@
 
   /* ── stats strip ── */
   .stats{display:flex;gap:.5rem}
-  .stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.55rem .75rem;
-    backdrop-filter:blur(8px)}
+  .stat{flex:1;background:linear-gradient(180deg,rgba(23,24,50,.8),rgba(18,19,39,.55));
+    border:1px solid var(--line);border-radius:14px;padding:.58rem .78rem;backdrop-filter:blur(8px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.03),0 6px 18px -12px rgba(0,0,0,.6);
+    transition:border-color .15s,transform .12s}
+  .stat:hover{border-color:var(--line2);transform:translateY(-1px)}
   .stat .k{color:var(--faint);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
   .stat .v{font-weight:700;font-size:.98rem;margin-top:.18rem;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
   .stat .v small{color:var(--dim);font-weight:500;font-size:.7rem}
 
   /* ── card ── */
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--shadow);backdrop-filter:blur(16px);overflow:visible;position:relative}
-  /* a whisper-thin sunset hairline along the card top — brand, not noise */
-  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;border-radius:var(--r) var(--r) 0 0;
-    background:linear-gradient(90deg,transparent,rgba(155,140,255,.5),rgba(84,217,212,.5),rgba(246,212,136,.5),transparent);
-    opacity:.6;pointer-events:none}
+    box-shadow:var(--shadow),0 0 40px -22px rgba(155,140,255,.5);backdrop-filter:blur(16px);
+    overflow:visible;position:relative}
+  /* a whisper-thin sunset hairline along the card top — brand, not noise; it drifts, slowly */
+  .card::before{content:"";position:absolute;inset:0 0 auto 0;height:1.5px;border-radius:var(--r) var(--r) 0 0;
+    background:linear-gradient(90deg,transparent,rgba(155,140,255,.6),rgba(84,217,212,.6),rgba(246,212,136,.6),transparent);
+    background-size:200% 100%;opacity:.7;pointer-events:none;animation:drift 9s ease-in-out infinite}
+  @keyframes drift{0%,100%{background-position:0 0}50%{background-position:100% 0}}
+  @media (prefers-reduced-motion:reduce){.card::before{animation:none}.amt.out.loading{animation:none}}
   .tabs{display:flex;gap:.2rem;padding:.4rem;border-bottom:1px solid var(--line)}
   .tab{flex:1;text-align:center;padding:.55rem .3rem;border-radius:12px;color:var(--dim);
     font-weight:600;font-size:.82rem;transition:.15s;position:relative;min-height:40px}
@@ -144,17 +150,20 @@
     border:1px solid rgba(246,212,136,.4);border-radius:7px;padding:.12rem .34rem;transition:.12s}
   .maxbtn:hover{background:var(--gold-dim)}
   .field .mid{display:flex;align-items:center;gap:.6rem}
-  .tokpill{position:relative;display:flex;align-items:center;gap:.45rem;background:var(--bg3);
-    border:1px solid var(--line2);border-radius:999px;padding:.34rem .55rem .34rem .38rem;flex:0 0 auto;
-    transition:border-color .15s,box-shadow .15s}
-  .tokpill:hover{border-color:var(--teal);box-shadow:0 0 0 3px rgba(84,217,212,.08)}
-  .tokdot{width:24px;height:24px;border-radius:50%;flex:0 0 auto;
+  .tokpill{position:relative;display:flex;align-items:center;gap:.5rem;
+    background:linear-gradient(180deg,var(--bg3),var(--field));
+    border:1px solid var(--line2);border-radius:999px;padding:.36rem .62rem .36rem .4rem;flex:0 0 auto;
+    box-shadow:0 2px 10px -6px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04);
+    transition:border-color .15s,box-shadow .15s,transform .1s}
+  .tokpill:hover{border-color:var(--teal);box-shadow:0 0 0 3px rgba(84,217,212,.1),0 4px 14px -6px rgba(0,0,0,.6)}
+  .tokpill:active{transform:scale(.98)}
+  .tokdot{width:30px;height:30px;border-radius:50%;flex:0 0 auto;
     background:radial-gradient(circle at 32% 30%,var(--gold2),#7a5a18);
-    box-shadow:0 0 0 1px rgba(255,255,255,.12),0 2px 6px -2px rgba(0,0,0,.6);
-    display:grid;place-items:center;color:#fff;font-weight:800;font-size:.72rem;line-height:1;
-    text-shadow:0 1px 2px rgba(0,0,0,.55);font-variant-numeric:tabular-nums;user-select:none}
+    box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 0 3px rgba(255,255,255,.04),0 3px 8px -2px rgba(0,0,0,.65);
+    display:grid;place-items:center;color:#fff;font-weight:800;font-size:.86rem;line-height:1;
+    text-shadow:0 1px 2px rgba(0,0,0,.6);font-variant-numeric:tabular-nums;user-select:none}
   .tokpill select{appearance:none;-webkit-appearance:none;background:none;border:0;color:var(--ink);
-    font:inherit;font-weight:700;font-size:.92rem;padding-right:1.15rem;outline:none;cursor:pointer;
+    font:inherit;font-weight:700;font-size:.96rem;padding-right:1.2rem;outline:none;cursor:pointer;
     max-width:8.5rem;text-overflow:ellipsis}
   .tokpill .chev{position:absolute;right:.6rem;pointer-events:none;color:var(--dim);width:13px;height:13px}
   .amt{flex:1 1 auto;min-width:0;background:none;border:0;color:var(--ink);font:inherit;
@@ -162,6 +171,11 @@
     font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
   .amt::placeholder{color:#454a70}
   .amt.out{color:var(--ink)}
+  /* live quoting feedback — the receive amount shimmers while a quote is being fetched */
+  .amt.out.loading{color:transparent;border-radius:8px;
+    background:linear-gradient(100deg,rgba(140,150,210,.06) 30%,rgba(84,217,212,.22) 50%,rgba(140,150,210,.06) 70%);
+    background-size:220% 100%;animation:shimmer 1.05s linear infinite}
+  @keyframes shimmer{to{background-position:-220% 0}}
   .field .usd{text-align:right;color:var(--faint);font-size:.72rem;min-height:1rem;margin-top:.2rem;font-variant-numeric:tabular-nums}
 
   /* flip */

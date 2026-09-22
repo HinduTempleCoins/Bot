@@ -1,0 +1,17 @@
+'''Legal Maxims''' — the "Maxims, axioms & idioms" page on [[SoapBox Law]], published at law.soapbox.community/maxims — is a browsable collection of legal maxims, political axioms, and the idioms that carry them into everyday argument.
+
+== What it does ==
+Each entry gives a plain-English gloss and where the maxim comes from. The editorial rule is deliberately narrow: the page states what a maxim '''means''' and '''where it is from''' — it does not tell a reader the maxim is correct or that it decides a case.
+
+The legal maxims cross-reference the same subject categories as the [[SoapBox Law]] case law, so a reader can move from a maxim to the decisions that actually apply the principle.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Rights That Hold Up in Court]]
+* [[Foundational Law]]
+
+== Sources ==
+* [https://law.soapbox.community/maxims law.soapbox.community/maxims]
+
+== Coverage ==
+Describes the collection and its stated editorial limit. Informational only, not legal advice.

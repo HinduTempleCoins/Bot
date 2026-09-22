@@ -1,0 +1,31 @@
+The '''Token Price Ticker''' is an embeddable, live price display for the [[SoapBox]] ecosystem tokens, part of the [[SoapBox Data Hub]] and published at data.soapbox.community/tools/ticker.
+
+It is designed for people who want to show current [[KULA]] and other ecosystem token prices somewhere the [[SoapBox Data Hub]] cannot be embedded directly — a forum signature, a discussion post, or a blog.
+
+== What it shows ==
+The ticker lists the ecosystem tokens — MELEK, PRANA, WPRANA, [[KULA]], wVKBT, wCURE and APIS — with each token's current price expressed in PRANA, the [[PRANA Blockchain|PRANA]] chain's native token.
+
+Prices come from the live [[KulaSwap]] automated-market-maker pool reserves read directly from the PRANA chain. KULA is priced from the KULA/WPRANA pool; wVKBT and wCURE are priced through their KULA pools. Tokens that have no market yet — MELEK (whose blockchain witness price feed is not live) and APIS — are shown honestly as '''n/a''' rather than with an invented number.
+
+== How to use it ==
+Three formats are offered on the embed page:
+* '''Forum (BBCode)''' — a single [img] tag that renders a price image. It works on boards that allow images but not JavaScript, including Bitcointalk. The image is served as PNG through a public image proxy so it displays on the strictest forums.
+* '''Blog (HTML)''' — an image tag or a small auto-refreshing widget for sites that allow HTML or JavaScript.
+* '''JSON''' — a plain data endpoint for anyone who wants to read the prices programmatically.
+
+Each format is copy-paste ready on the embed page; no account, key or signup is required.
+
+== Design notes ==
+The ticker never asks for or handles any private key, and reads only public chain data. If a pool or the chain is briefly unreachable, the affected token shows n/a and the rest of the ticker still renders — it never fails to a blank or an error.
+
+== See also ==
+* [[SoapBox Data Hub]]
+* [[KulaSwap]]
+* [[KULA]]
+* [[PRANA Blockchain]]
+
+== Sources ==
+* [https://data.soapbox.community/tools/ticker data.soapbox.community/tools/ticker]
+
+== Coverage ==
+Describes the embeddable ecosystem-token price ticker: what it shows, where its prices come from, and the embed formats offered.

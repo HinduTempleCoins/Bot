@@ -1,0 +1,34 @@
+The '''Soap Calculator''' is a free soap-making lye and oil calculator in the [[SoapBox]] tools suite, in the tradition of SoapCalc and the Bramble Berry lye calculator. It is the flagship of the "tools for people" shelf — a genuinely useful, self-contained utility that anyone can come and use without an account.
+
+You enter the oils in your recipe and their weights (or percentages), choose the lye type and a superfat, and it returns the exact amount of lye and water for a safe batch, a per-oil breakdown, and the fatty-acid quality profile of the finished bar.
+
+== Why a lye calculator matters ==
+Soap is made by reacting fats and oils with a strong alkali (lye). Each oil needs a specific amount of lye to saponify fully; too much lye leaves free alkali in the bar, which is caustic and can burn skin. Getting the lye number right is therefore a safety matter, not just a recipe convenience — which is why this calculator is a pure, deterministic module tested against known recipes rather than an approximation.
+
+Every result carries the standard lye-handling safety note: lye is caustic, always add lye '''to''' water (never water to lye), work in a ventilated space wearing goggles and gloves, and weigh every ingredient by mass.
+
+== What it calculates ==
+* '''Lye''' — grams of sodium hydroxide (NaOH, for hard bar soap) or potassium hydroxide (KOH, for liquid and soft soap). KOH requires about 1.4 times the NaOH weight for the same oil, from the ratio of their molar masses, and is purity-adjusted (KOH is usually sold around 90% pure).
+* '''Superfat (lye discount)''' — the percentage of oils left un-saponified for a gentler, conditioning bar; the calculator reduces the lye accordingly. Most recipes use 5–8%.
+* '''Water''' — from a water-to-lye ratio.
+* '''Per-oil breakdown''' — weight, percentage of the batch, saponification value and lye contribution for each oil.
+* '''Quality profile''' — hardness, cleansing, conditioning, bubbly and creamy, computed from the batch-weighted fatty-acid composition (lauric, myristic, palmitic, stearic, oleic, linoleic, linolenic and ricinoleic acids), the same indices SoapCalc popularised.
+
+== The oils database ==
+The calculator ships with a curated database of common soaping oils and butters — coconut, palm, palm kernel, olive, castor, shea, cocoa butter, sweet almond, avocado, sunflower, grapeseed, rice bran, hemp seed, lard, tallow and babassu — each with its saponification value and fatty-acid makeup. These are standard published reference figures and vary by source and refining, so the calculator states plainly that a tested recipe and a scale are still required. A custom oil can also be supplied with its own SAP value.
+
+== How to use it ==
+It runs entirely in the browser after loading; nothing is sent to a server and no account is needed. There is also a JSON API for programmatic use, so a recipe can be calculated by other tools.
+
+== See also ==
+* [[SoapBox Tools]]
+* [[SoapBox]]
+* [[Dilution Calculator]]
+* [[Unit Price Calculator]]
+* [[Percentage Calculator]]
+
+== Sources ==
+* Saponification values and fatty-acid profiles are standard soap-making reference data (SoapCalc, Bramble Berry and comparable public tables).
+
+== Coverage ==
+Describes the SoapBox Soap Calculator: what it computes (lye, water, superfat, per-oil breakdown, fatty-acid quality profile), why correct lye math is a safety matter, and its curated oils database.
