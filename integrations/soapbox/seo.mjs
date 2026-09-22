@@ -112,6 +112,7 @@ export function financialProductJsonLd({ name, symbol, url, description, categor
 export function headTags({
   title, description = '', canonical = '', siteName = 'SoapBox',
   ogType = 'website', image = '', robots = 'index,follow,max-image-preview:large',
+  analyticsBeacon = '',
   jsonld = null, site = null,
 } = {}) {
   const desc = esc(description);
@@ -136,7 +137,7 @@ export function headTags({
   // First-party, cookieless pageview beacon — emitted ONLY when the operator sets ANALYTICS_BEACON_URL.
   // Default is '' → nothing is appended, so headTags() output stays byte-identical for every surface
   // that hasn't opted in (all ~89 servers' tests stay green). See analyticsBeaconTag() for the posture.
-  const beaconUrl = (typeof process !== 'undefined' && process.env && process.env.ANALYTICS_BEACON_URL) || '';
+  const beaconUrl = analyticsBeacon || ((typeof process !== 'undefined' && process.env && process.env.ANALYTICS_BEACON_URL) || '');
   if (beaconUrl) parts.push(analyticsBeaconTag(beaconUrl));
   return parts.filter(Boolean).join('\n');
 }

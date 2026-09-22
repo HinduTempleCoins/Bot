@@ -358,6 +358,7 @@ function page(title, body, opts = {}) {
   if (opts.jsonld) for (const j of [].concat(opts.jsonld)) if (j) extra.push(j);
 
   const seoHead = seoHeadTags({
+    analyticsBeacon: process.env.ANALYTICS_BEACON_URL || "https://analytics.soapbox.community/px", image: (opts && opts.image) || "https://image.pollinations.ai/prompt/law%20books%20and%20the%20US%20Constitution%20on%20a%20desk%2C%20warm%20library%20light%2C%20painterly%2C%20no%20text?width=1200&height=630&nologo=true&seed=7",
     title, description: desc, canonical, robots, siteName: SITE_TITLE,
     site: { url: BASE_URL, name: SITE_TITLE },
     jsonld: extra,

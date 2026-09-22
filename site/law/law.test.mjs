@@ -488,7 +488,8 @@ test('/privacy renders the federal↔Texas map with all pairings (soft-fails cas
   // then assert nothing else remains. Any user-injected <script> would still trip this.
   const stripped = res.body
     .replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')
-    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '')
+    .replace(/<script>\(function\(\)\{try\{[\s\S]*?<\/script>/g, ''); // first-party analytics beacon
   assert.ok(!/<script/.test(stripped), 'no injected scripts');
 });
 
@@ -553,7 +554,8 @@ test('/appeals generator emits required fields and wires U.S.C. statute lookups 
   // no injected scripts beyond the known first-party ones
   const stripped = res.body
     .replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')
-    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '')
+    .replace(/<script>\(function\(\)\{try\{[\s\S]*?<\/script>/g, ''); // first-party analytics beacon
   assert.ok(!/<script/.test(stripped), 'no injected scripts');
 });
 
@@ -749,7 +751,8 @@ test('/doctrines escapes content and injects no scripts beyond the known first-p
   resetAllFetch();
   const stripped = res.body
     .replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')
-    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '')
+    .replace(/<script>\(function\(\)\{try\{[\s\S]*?<\/script>/g, ''); // first-party analytics beacon
   assert.ok(!/<script/.test(stripped), 'no injected scripts');
   // FAQ JSON-LD emitted (matches the visible FAQ)
   assert.match(res.body, /"@type":"FAQPage"/);
@@ -897,7 +900,8 @@ test('/spirit-of-the-laws injects no scripts beyond the known first-party ones',
   resetAllFetch();
   const stripped = res.body
     .replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')
-    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '')
+    .replace(/<script>\(function\(\)\{try\{[\s\S]*?<\/script>/g, ''); // first-party analytics beacon
   assert.ok(!/<script/.test(stripped), 'no injected scripts');
 });
 
