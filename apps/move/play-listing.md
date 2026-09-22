@@ -1,7 +1,11 @@
 # MELEK Move — Google Play listing copy (ToS-safe framing)
 
-Use this exact framing. Lead with Health & Fitness; the token is testnet with no monetary value; never
-use banned "mining/earn-crypto-walking/ROI" language. See `.local/MOVE_TOS_COMPLIANCE.md`.
+Use this exact framing. Lead with Health & Fitness. **Launch posture is MAINNET + "the app is not a
+wallet"** (reframed 2026-09-14): rewards are paid in MELEK, the coin of the live MELEK mainnet, and the
+compliance protection is that the app itself performs NO wallet ops — no keys, no custody, no send/receive,
+no exchange, no on-device mining; account/wallet creation opens the device browser at melek.salon. Never
+use banned "mine crypto / earn crypto for walking / passive income / investment / ROI" language. See
+`.local/MOVE_TOS_COMPLIANCE.md`.
 
 - **App name:** MELEK Move
 - **Category:** Health & Fitness
@@ -14,10 +18,14 @@ use banned "mining/earn-crypto-walking/ROI" language. See `.local/MOVE_TOS_COMPL
   >
   > • Step tracker — counts your steps in the background.
   > • Geo-explore — claim reward zones as you move around.
-  > • Hourly rewards — earn MELEK, an in-app token, based on how much you move and explore.
+  > • Hourly rewards — collect a stake-weighted share of each hour's MELEK reward pool, based on how
+  >   much you move and explore.
   >
-  > MELEK is a blockchain token currently on a TEST NETWORK with no monetary value. Rewards are in-app
-  > and are not an investment. We read your step and approximate-location data only to calculate your
+  > MELEK Move is a fitness game, not a wallet. The app never creates, holds, or moves any keys, never
+  > buys, sells, exchanges, or custodies cryptocurrency, and does no on-device mining. Rewards are paid
+  > in MELEK, a blockchain token, and are a fitness reward — not an investment or a promise of future
+  > value. Your MELEK account is created in your own browser at melek.salon; the app just shows your
+  > account name and rewards. We read your step and approximate-location data only to calculate your
   > rewards — it is never sold or shared, and never used for advertising.
   >
   > Privacy policy: https://move.melek.salon/privacy
@@ -25,4 +33,5 @@ use banned "mining/earn-crypto-walking/ROI" language. See `.local/MOVE_TOS_COMPL
   "passive income", "ROI", "investment", "guaranteed returns", anything implying real money/value.
 - **Safe verbs:** track, count, walk, explore, claim, collect, reward, boost.
 - **Graphics:** screenshots of the step counter + reward-zone claim; feature graphic with "Walk. Explore.
-  Earn MELEK rewards." (testnet badge somewhere). No price charts, no $ figures.
+  Collect MELEK rewards." No "testnet"/"no monetary value" badge (mainnet launch), no "not a wallet"
+  claim baked into art, no price charts, no $ figures.

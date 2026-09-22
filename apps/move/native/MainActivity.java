@@ -6,6 +6,13 @@ package community.soapbox.move;
 //  • the ACTIVITY_RECOGNITION permission request + start of the `health` foreground StepService.
 // No mining, no keys, no network here. apply.sh overwrites the cap-generated MainActivity with this.
 //
+// NOT-A-WALLET (Play compliance): this app never creates, holds, or moves keys and does no custody/
+// exchange/mining. Account & wallet creation happen in the DEVICE BROWSER at melek.salon — the web page
+// (site/move-miner/server.mjs) hands off via Capacitor's Browser plugin (Chrome Custom Tabs). Capacitor
+// also opens any off-host http(s) navigation (melek.salon ≠ the wrapped move.melek.salon origin, and it
+// is not in capacitor.config allowNavigation) in the external browser, never in this WebView — so no key
+// generation can ever run inside the app's process.
+//
 // ToS note: the in-app prominent disclosure lives in the web step card (always visible). For strict
 // prominent-disclosure timing, gate requestStepPerms() behind the user's "Start counting" tap before
 // submission (see apps/move/LAUNCH_CHECKLIST.md).
