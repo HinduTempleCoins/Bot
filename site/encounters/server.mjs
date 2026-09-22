@@ -174,6 +174,20 @@ const STYLE = `<style>
   footer a{color:var(--blue)}
 </style>`;
 
+const ACT = `<section class=card style="border:1px solid var(--gold);border-radius:10px;padding:14px 16px;margin:22px 0">
+  <h2 style="margin:0 0 6px;font-size:16px">Act on this</h2>
+  <p style="margin:0 0 8px;font-size:14px;color:var(--mut)">Don't just watch — if you're dealing with the real thing, here's where to go (our tools first):</p>
+  <div style="font-size:14px;line-height:1.9">
+    <a href="${LAW}/lawyers">Find a lawyer or legal aid</a> ·
+    <a href="${LAW}/complaints">File a complaint / get help</a> ·
+    <a href="${LAW}/appeals">Appeals, writs & exhausting remedies</a> ·
+    <a href="${LAW}/rights">Your rights</a> ·
+    <a href="${LAW}/doctrines">The real doctrines</a> ·
+    <a href="${LAW}/cases">Search the caselaw</a>
+  </div>
+  <p style="margin:8px 0 0;font-size:12px;color:var(--mut)">Legal information, not legal advice.</p>
+</section>`;
+
 const FOOTER = `<footer>
   <b>${esc(SITE_TITLE)}</b> — a public-education project of SoapBox / MELEK. Entertaining clips, real law.
   We curate publicly posted footage and reporting to teach the doctrines that "sovereign citizen"
@@ -354,6 +368,7 @@ ${seoHead}${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">⚖ ${esc(SITE_TITLE)} <span>pseudolaw on camera</span></a>
   <div class=topbar-r><a href="${LAW}/doctrines">Real doctrines</a><a href="${LAW}/rights">Your rights</a><a href="${LAW}">Law</a><a href="${WIKI}">Library</a></div></header>
 <main class=wrap>${body}${citeHtml}</main>
+${ACT}
 ${FOOTER}</body></html>`;
 }
 
