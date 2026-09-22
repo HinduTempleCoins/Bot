@@ -161,12 +161,36 @@ export function normalizeCase(r) {
 }
 
 // ---- live data (keyless; each fails soft to []/null) ----
+// _lastStatus records the HTTP status of the most recent getJson call so callers can tell a
+// genuine empty result apart from a 429 throttle or an unreachable API. 0 = no call/None,
+// -1 = network throw, otherwise the HTTP status code.
+let _lastStatus = 0;
+export function lastStatus() { return _lastStatus; }
 async function getJson(u) {
+  _lastStatus = 0;
   try {
     const r = await _fetch(u, { headers: authHeaders() });
+    _lastStatus = (r && typeof r.status === 'number') ? r.status : 0;
     if (!r || !r.ok) return null;
     return await r.json();
-  } catch { return null; }
+  } catch { _lastStatus = -1; return null; }
+}
+
+// Small in-memory TTL cache for search results. CourtListener authenticated search is capped
+// (100/hour on this account), so a campaign that drives many users to /cases would otherwise
+// exhaust the budget and show everyone "no results". Caching popular queries — and serving a
+// STALE cached result when the live call is throttled — keeps the feature working under load.
+// TTL via CL_CACHE_MS (default 10 min); soft, never throws.
+const _searchCache = new Map();
+const CACHE_MS = Number(process.env.CL_CACHE_MS || 600000);
+const CACHE_MAX = Number(process.env.CL_CACHE_MAX || 500);
+export function __clearSearchCache() { _searchCache.clear(); }
+function cacheGet(key) { return _searchCache.get(key); }
+function cacheSet(key, data) {
+  try {
+    _searchCache.set(key, { at: Date.now(), data });
+    if (_searchCache.size > CACHE_MAX) { const k = _searchCache.keys().next().value; _searchCache.delete(k); }
+  } catch { /* soft */ }
 }
 
 function apiUrl(path, params = {}) {
@@ -201,9 +225,25 @@ export async function searchCases({ q = '', court = '', filedAfter = '', orderBy
   if (query) params.q = query;
   if (ct) params.court = ct;
   if (after) params.filed_after = after;
+  const key = JSON.stringify(params);
+  const hit = cacheGet(key);
+  if (hit && (Date.now() - hit.at) < CACHE_MS) return hit.data;
   const j = await getJson(apiUrl('/search/', params));
+  if (j == null) {
+    // The live call failed. Prefer a STALE cached result (even past TTL) over showing nothing —
+    // a slightly old case list beats a false "no opinions found". If we have no cache, hand back
+    // an empty array flagged so the page can explain the real reason (throttle vs. unreachable).
+    if (hit) return hit.data;
+    // Flag the reason non-enumerably so the array still deep-equals [] for callers/tests that
+    // only care about "no rows", while a page can read rows.throttled / rows.unavailable.
+    const empty = [];
+    Object.defineProperty(empty, _lastStatus === 429 ? 'throttled' : 'unavailable', { value: true, enumerable: false });
+    return empty;
+  }
   const rows = Array.isArray(j?.results) ? j.results : [];
-  return withPageMeta(rows.map(normalizeCase).filter(Boolean), j);
+  const out = withPageMeta(rows.map(normalizeCase).filter(Boolean), j);
+  cacheSet(key, out);
+  return out;
 }
 
 /**
