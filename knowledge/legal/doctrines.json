@@ -1,0 +1,251 @@
+{
+  "_note": "Legal doctrines for Law.SoapBox /doctrines. The page is ~90% a genuine legal-doctrine reference. (1) `groups` — real, first-class legal doctrines every citizen should know, grouped (criminal procedure / constitutional structure & rights / administrative / justiciability), each with a plain-language definition and landmark case(s) with VERIFIED reporter citations (linked via the /cases?q= landmark helper). (2) `sovereign_callout` — ONE short, non-focus section: a factual note that this project exists partly to combat sovereign-citizen ideology, whose theories rest on misinterpretations of real law (the clearest being their misreading of the Commerce Clause — contrast the real doctrine in `groups`), a few frivolous-rejection cases, and verified 'what actually happens' news/body-cam video links. Discipline: facts, not verdicts; where a case is cited it states what the decision is cited for as a matter of public record, not our verdict on whether it is currently good law. Every citation verified against the U.S. Reports / Federal Reporter (CourtListener, Justia, LII, LoC) before it was written here — no fabricated cites or URLs.",
+  "groups": [
+    {
+      "id": "criminal-procedure",
+      "name": "Criminal procedure",
+      "blurb": "The rules that govern searches, evidence, and interrogation — the Fourth and Fifth Amendments in practice.",
+      "doctrines": [
+        {
+          "id": "exclusionary-rule",
+          "name": "The exclusionary rule",
+          "definition": "Evidence the government obtains by violating the Constitution generally cannot be used against you at trial. The point is deterrence: take away the reward and you take away the incentive to break the rules.",
+          "cases": [
+            { "name": "Weeks v. United States", "cite": "232 U.S. 383 (1914)", "note": "Created the federal exclusionary rule — evidence from a warrantless search of a home is inadmissible in federal court." },
+            { "name": "Mapp v. Ohio", "cite": "367 U.S. 643 (1961)", "note": "Extended the exclusionary rule to the states through the Fourteenth Amendment." }
+          ]
+        },
+        {
+          "id": "fruit-of-the-poisonous-tree",
+          "name": "Fruit of the poisonous tree",
+          "definition": "If the initial search or seizure was illegal (the 'poisonous tree'), evidence later discovered because of it (the 'fruit') is also tainted and generally excluded — not just the thing seized, but the leads that flowed from it.",
+          "cases": [
+            { "name": "Silverthorne Lumber Co. v. United States", "cite": "251 U.S. 385 (1920)", "note": "The government may not use knowledge gained from an illegal search, even indirectly — the root of the doctrine and of the independent-source exception." },
+            { "name": "Nardone v. United States", "cite": "308 U.S. 338 (1939)", "note": "Justice Frankfurter coined the phrase 'fruit of the poisonous tree'; evidence derived from an illegal wiretap is inadmissible." },
+            { "name": "Wong Sun v. United States", "cite": "371 U.S. 471 (1963)", "note": "The definitive modern statement — evidence is suppressed if it was come at by exploitation of the illegality." }
+          ],
+          "exceptions": [
+            { "name": "Murray v. United States", "cite": "487 U.S. 533 (1988)", "note": "Independent source — evidence is admissible if the police also obtained it through a genuinely separate, lawful route." },
+            { "name": "Nix v. Williams", "cite": "467 U.S. 431 (1984)", "note": "Inevitable discovery — admissible if the evidence would have been found lawfully anyway." },
+            { "name": "Utah v. Strieff", "cite": "579 U.S. 232 (2016)", "note": "Attenuation — admissible if the link between the illegality and the evidence is broken by an intervening circumstance." }
+          ]
+        },
+        {
+          "id": "miranda",
+          "name": "Miranda & the right against self-incrimination",
+          "definition": "Before questioning someone in custody, police must warn them of the right to remain silent and to counsel. Statements taken without those warnings are presumptively inadmissible. It rests on the Fifth Amendment right not to be a witness against yourself.",
+          "cases": [
+            { "name": "Miranda v. Arizona", "cite": "384 U.S. 436 (1966)", "note": "Established the warnings required before custodial interrogation." },
+            { "name": "Dickerson v. United States", "cite": "530 U.S. 428 (2000)", "note": "Held Miranda is a constitutional rule that Congress cannot overrule by statute." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "constitutional-structure",
+      "name": "Constitutional structure & rights",
+      "blurb": "How power is divided and limited — and the doctrines that decide when a law crosses a line the Constitution draws.",
+      "doctrines": [
+        {
+          "id": "judicial-review",
+          "name": "Judicial review",
+          "definition": "Courts have the power to declare an act of Congress or the executive unconstitutional and refuse to enforce it. It is the keystone that makes every other constitutional limit enforceable.",
+          "cases": [
+            { "name": "Marbury v. Madison", "cite": "5 U.S. 137 (1803)", "note": "'It is emphatically the province and duty of the judicial department to say what the law is.'" }
+          ]
+        },
+        {
+          "id": "stare-decisis",
+          "name": "Stare decisis",
+          "definition": "'To stand by things decided.' Courts follow their prior rulings so the law is predictable and even-handed. It is a strong presumption, not an absolute command — a court can overrule precedent, but it needs a special justification to do so.",
+          "cases": [
+            { "name": "Payne v. Tennessee", "cite": "501 U.S. 808 (1991)", "note": "Stare decisis is 'the preferred course' but 'not an inexorable command'; sets out when the Court will depart from precedent." }
+          ]
+        },
+        {
+          "id": "supremacy-preemption",
+          "name": "Supremacy Clause & federal preemption",
+          "definition": "Under Article VI, clause 2, valid federal law is 'the supreme Law of the Land' and overrides conflicting state law. Preemption comes in three forms: express (the statute says so), field (Congress occupies the whole area), and conflict (state law makes compliance with federal law impossible or obstructs its purpose).",
+          "cases": [
+            { "name": "McCulloch v. Maryland", "cite": "17 U.S. 316 (1819)", "note": "Implied federal powers under the Necessary and Proper Clause; a state may not tax a federal instrument — the Supremacy Clause in action." },
+            { "name": "Gibbons v. Ogden", "cite": "22 U.S. 1 (1824)", "note": "A federal license under the commerce power overrode a conflicting state-granted monopoly — the foundational preemption case." },
+            { "name": "Gade v. National Solid Wastes Management Assn.", "cite": "505 U.S. 88 (1992)", "note": "Distinguished express, field, and conflict preemption; state hazardous-waste licensing was preempted by federal OSHA standards." },
+            { "name": "Arizona v. United States", "cite": "567 U.S. 387 (2012)", "note": "Applied all three types to strike most of Arizona's immigration law as preempted by the federal scheme." }
+          ]
+        },
+        {
+          "id": "commerce-power",
+          "name": "The Commerce Clause (Congress's power)",
+          "definition": "Article I, § 8 gives Congress power to 'regulate Commerce ... among the several States.' Its reach is the great engine of federal law, and its boundary has moved over two centuries: from interstate navigation, to any local activity that in the aggregate substantially affects interstate commerce, to modern limits on what counts as 'commerce.' This is a power of CONGRESS over the national economy — not, as pseudolegal theory imagines, a personal contract you can opt out of.",
+          "cases": [
+            { "name": "Gibbons v. Ogden", "cite": "22 U.S. 1 (1824)", "note": "Read the commerce power broadly to include interstate navigation, overriding a state-granted monopoly." },
+            { "name": "Wickard v. Filburn", "cite": "317 U.S. 111 (1942)", "note": "The high-water mark — Congress could regulate wheat a farmer grew for his own use, because such activity in the aggregate affects the national market." },
+            { "name": "United States v. Lopez", "cite": "514 U.S. 549 (1995)", "note": "The first modern limit — the Gun-Free School Zones Act exceeded the commerce power because gun possession near a school is not economic activity." },
+            { "name": "NFIB v. Sebelius", "cite": "567 U.S. 519 (2012)", "note": "The Commerce Clause lets Congress regulate activity, not compel inactivity — it could not require people to buy health insurance (the mandate was upheld only as a tax)." }
+          ]
+        },
+        {
+          "id": "dormant-commerce-clause",
+          "name": "Dormant Commerce Clause",
+          "definition": "The flip side of Congress's commerce power: because it is federal, states may not — even where Congress is silent — pass laws that discriminate against or unduly burden commerce from other states.",
+          "cases": [
+            { "name": "City of Philadelphia v. New Jersey", "cite": "437 U.S. 617 (1978)", "note": "Struck down New Jersey's ban on importing out-of-state waste as facial discrimination against interstate commerce." }
+          ]
+        },
+        {
+          "id": "separation-of-powers",
+          "name": "Separation of powers",
+          "definition": "Legislative, executive, and judicial power are placed in separate branches, and one branch may not exercise the core function of another. It is enforced through concrete disputes over who may do what.",
+          "cases": [
+            { "name": "Youngstown Sheet & Tube Co. v. Sawyer", "cite": "343 U.S. 579 (1952)", "note": "The President could not seize steel mills without congressional authorization; Justice Jackson's concurrence gives the enduring framework for executive power." },
+            { "name": "INS v. Chadha", "cite": "462 U.S. 919 (1983)", "note": "The one-house legislative veto is unconstitutional — Congress acts with legal effect only through bicameralism and presentment." }
+          ]
+        },
+        {
+          "id": "incorporation",
+          "name": "Incorporation of the Bill of Rights",
+          "definition": "Originally the Bill of Rights bound only the federal government. The Fourteenth Amendment's Due Process Clause has been used to apply most of its guarantees to the states, one right at a time. This is why a state trooper or a county court is bound by your federal rights at all.",
+          "cases": [
+            { "name": "Barron v. Baltimore", "cite": "32 U.S. 243 (1833)", "note": "Held the Bill of Rights limited only the federal government — the problem incorporation later solved." },
+            { "name": "Gitlow v. New York", "cite": "268 U.S. 652 (1925)", "note": "First applied a Bill-of-Rights guarantee (free speech) to the states through the Fourteenth Amendment." },
+            { "name": "McDonald v. City of Chicago", "cite": "561 U.S. 742 (2010)", "note": "Incorporated the Second Amendment against the states — a modern statement of the whole doctrine." }
+          ]
+        },
+        {
+          "id": "procedural-due-process",
+          "name": "Procedural due process",
+          "definition": "Before the government takes your life, liberty, or property, it must give you fair procedure — at a minimum, notice and a meaningful chance to be heard. How much process is due is decided by a balancing test.",
+          "cases": [
+            { "name": "Mathews v. Eldridge", "cite": "424 U.S. 319 (1976)", "note": "Set the three-factor balancing test: the private interest, the risk of error and value of added procedure, and the government's interest." }
+          ]
+        },
+        {
+          "id": "substantive-due-process",
+          "name": "Substantive due process",
+          "definition": "The Due Process Clause also protects certain fundamental rights so deeply rooted in the nation's history and tradition that the government cannot infringe them regardless of the procedure used.",
+          "cases": [
+            { "name": "Washington v. Glucksberg", "cite": "521 U.S. 702 (1997)", "note": "Set the modern method — a fundamental right must be 'deeply rooted in this Nation's history and tradition' and 'carefully described.'" }
+          ]
+        },
+        {
+          "id": "equal-protection-scrutiny",
+          "name": "Equal protection & the tiers of scrutiny",
+          "definition": "The Equal Protection Clause requires the government to justify laws that classify people. Courts review those classifications at three levels: strict scrutiny (race, national origin — must be narrowly tailored to a compelling interest), intermediate scrutiny (sex — substantially related to an important interest), and rational basis (most others — rationally related to a legitimate interest).",
+          "cases": [
+            { "name": "Loving v. Virginia", "cite": "388 U.S. 1 (1967)", "note": "Strict scrutiny — struck down a ban on interracial marriage as invidious racial discrimination." },
+            { "name": "Craig v. Boren", "cite": "429 U.S. 190 (1976)", "note": "Established intermediate scrutiny for sex-based classifications." },
+            { "name": "United States v. Virginia", "cite": "518 U.S. 515 (1996)", "note": "Sharpened intermediate scrutiny — a sex classification needs an 'exceedingly persuasive justification.'" },
+            { "name": "Williamson v. Lee Optical of Oklahoma", "cite": "348 U.S. 483 (1955)", "note": "Rational basis — economic regulation is upheld if any conceivable legitimate purpose supports it." }
+          ]
+        },
+        {
+          "id": "void-for-vagueness",
+          "name": "Void-for-vagueness",
+          "definition": "A criminal law is unconstitutional if it is so unclear that ordinary people cannot tell what it forbids, or if it invites arbitrary and discriminatory enforcement. Fair notice and even enforcement are due-process requirements.",
+          "cases": [
+            { "name": "Johnson v. United States", "cite": "576 U.S. 591 (2015)", "note": "Struck the Armed Career Criminal Act's 'residual clause' as unconstitutionally vague." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "administrative",
+      "name": "Administrative law",
+      "blurb": "How courts police the agencies that write and enforce the regulations under the U.S. Code.",
+      "doctrines": [
+        {
+          "id": "agency-deference",
+          "name": "Agency deference (Chevron → Loper Bright)",
+          "definition": "For forty years, when a statute an agency administers was ambiguous, courts deferred to the agency's reasonable interpretation (the Chevron doctrine). In 2024 the Supreme Court overruled Chevron: courts, not agencies, now decide the best reading of a statute, though an agency's expertise can still be persuasive.",
+          "cases": [
+            { "name": "Chevron U.S.A. Inc. v. NRDC", "cite": "467 U.S. 837 (1984)", "note": "Created the two-step deference framework — OVERRULED in 2024." },
+            { "name": "Loper Bright Enterprises v. Raimondo", "cite": "603 U.S. 369 (2024)", "note": "Overruled Chevron; courts exercise independent judgment on what a statute means." }
+          ]
+        },
+        {
+          "id": "exhaustion",
+          "name": "Exhaustion of administrative remedies",
+          "definition": "Before going to court, you generally must first use — and properly complete — the agency's own review process. Skipping it, or botching its deadlines and rules, can forfeit your claim.",
+          "cases": [
+            { "name": "Woodford v. Ngo", "cite": "548 U.S. 81 (2006)", "note": "'Proper exhaustion' means complying with the agency's deadlines and procedural rules, not just running out the clock." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "justiciability",
+      "name": "Justiciability & immunities",
+      "blurb": "Whether a court can hear your case at all — and the immunities that can defeat it even when it can.",
+      "doctrines": [
+        {
+          "id": "standing",
+          "name": "Standing",
+          "definition": "To sue in federal court you must show (1) a concrete, particularized injury, (2) caused by the defendant, that (3) a court order could redress. A generalized grievance about the law being broken is not enough.",
+          "cases": [
+            { "name": "Lujan v. Defenders of Wildlife", "cite": "504 U.S. 555 (1992)", "note": "The canonical three-part test for Article III standing." }
+          ]
+        },
+        {
+          "id": "ripeness",
+          "name": "Ripeness",
+          "definition": "A court will not decide a dispute that has not yet matured into a concrete controversy. It weighs the fitness of the issue for decision against the hardship of making the parties wait.",
+          "cases": [
+            { "name": "Abbott Laboratories v. Gardner", "cite": "387 U.S. 136 (1967)", "note": "Set the two-factor ripeness test for pre-enforcement challenges to regulations." }
+          ]
+        },
+        {
+          "id": "mootness",
+          "name": "Mootness",
+          "definition": "If events have made a live dispute academic — so no court order could give either side any effective relief — the case is moot and will be dismissed, subject to narrow exceptions.",
+          "cases": [
+            { "name": "DeFunis v. Odegaard", "cite": "416 U.S. 312 (1974)", "note": "Dismissed as moot a challenge to a law-school admissions policy after the plaintiff had nearly graduated." }
+          ]
+        },
+        {
+          "id": "political-question",
+          "name": "The political-question doctrine",
+          "definition": "Some issues are committed by the Constitution to the elected branches, or lack judicially manageable standards, so courts will not resolve them even if a case is otherwise proper.",
+          "cases": [
+            { "name": "Baker v. Carr", "cite": "369 U.S. 186 (1962)", "note": "Set the six factors for identifying a nonjusticiable political question (and held redistricting was NOT one)." },
+            { "name": "Nixon v. United States", "cite": "506 U.S. 224 (1993)", "note": "How the Senate conducts an impeachment trial is a political question the courts will not review." }
+          ]
+        },
+        {
+          "id": "qualified-immunity",
+          "name": "Qualified immunity",
+          "definition": "Government officials sued for damages are shielded unless they violated a constitutional right that was 'clearly established' at the time — a right a reasonable official would have known they were breaking.",
+          "cases": [
+            { "name": "Harlow v. Fitzgerald", "cite": "457 U.S. 800 (1982)", "note": "Set the modern 'clearly established law' standard for qualified immunity." },
+            { "name": "Pearson v. Callahan", "cite": "555 U.S. 223 (2009)", "note": "Let courts decide the 'clearly established' question first, without ruling on whether a right was violated." }
+          ]
+        },
+        {
+          "id": "sovereign-immunity",
+          "name": "Sovereign immunity",
+          "definition": "Governments generally cannot be sued without their consent. For the states, the Eleventh Amendment and constitutional structure bar most private damages suits in federal — and even the state's own — courts absent a waiver or a valid congressional abrogation.",
+          "cases": [
+            { "name": "Hans v. Louisiana", "cite": "134 U.S. 1 (1890)", "note": "The Eleventh Amendment bars a citizen from suing their own state in federal court." },
+            { "name": "Alden v. Maine", "cite": "527 U.S. 706 (1999)", "note": "Congress cannot use its Article I powers to force nonconsenting states to be sued for damages, even in their own courts." }
+          ]
+        }
+      ]
+    }
+  ],
+  "sovereign_callout": {
+    "mission": "This project exists in part to combat sovereign-citizen ideology — a body of pseudolegal theory that has never once prevailed in a U.S. court and that gets people fined, jailed, and hurt. We do it the honest way: not by mocking, but by showing that every sovereign-citizen 'doctrine' rests on a MISinterpretation of a real piece of law.",
+    "misreading": "The clearest example is the Commerce Clause. Sovereign-citizen theory claims that driving, working, or 'contracting' with the government is 'commerce' the state may only regulate if you personally consent — so by refusing to consent you opt out of the law. That inverts the actual doctrine. The Commerce Clause is a grant of power to CONGRESS over the national economy (Gibbons, Wickard, Lopez, NFIB above); it is not a personal switch an individual flips to leave the legal system. The same pattern — take a real doctrine, add a secret, sell the secret — drives the 'strawman,' 'traveling not driving,' admiralty-flag, and treaty-immunity claims. Each is a misread of something real, and the real law is more powerful than the secret they are chasing.",
+    "frivolous": [
+      { "name": "United States v. Benabe", "cite": "654 F.3d 753 (7th Cir. 2011)", "note": "Sovereign-citizen theories should be 'rejected summarily, however they are presented.'" },
+      { "name": "United States v. Sterling", "cite": "738 F.3d 228 (11th Cir. 2013)", "note": "These arguments have 'no conceivable validity in American law.'" },
+      { "name": "United States v. Mundt", "cite": "29 F.3d 233 (6th Cir. 1994)", "note": "The jurisdiction/'federal zone' argument is 'completely without merit and patently frivolous.'" }
+    ],
+    "videos": [
+      { "title": "Body-cam: Florida officer arrests a 'sovereign citizen' who claimed the stop was 'illegal'", "url": "https://www.police1.com/body-camera/bwc-fla-officer-arrests-sovereign-citizen-who-claimed-traffic-stop-was-illegal", "source": "Police1", "caption": "Body-camera footage of a traffic stop that escalates to arrest after the driver refuses lawful commands — the real-world result of the 'traveling not driving' script." },
+      { "title": "Man shot during a Utah traffic stop possibly tied to the sovereign-citizen movement", "url": "https://www.foxnews.com/us/utah-man-shot-multiple-times-police-during-traffic-stop-possibly-tied-sovereign-citizens-movement.amp", "source": "Fox News", "caption": "A news report on how dangerous a confrontation can become when a driver acts on these theories." }
+    ],
+    "see_also": [
+      { "label": "Rights That Hold Up in Court — the roadside version, with the winning arguments", "url": "/rights" },
+      { "label": "Treaties — how a treaty actually becomes law (vs. 'treaty immunity')", "url": "/treaties" }
+    ]
+  }
+}
