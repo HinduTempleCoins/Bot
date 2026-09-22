@@ -174,6 +174,10 @@ async function getJson(u) {
 }
 
 // The v4 citation-lookup endpoint is POST-only (structured volume/reporter/page, or a text blob).
+// Records the transport outcome in `_lastPost` so callers can tell a rate-limit/error (retry later,
+// serve stale) apart from a clean empty result (genuinely no such case). 429 is CourtListener's
+// citation-lookup throttle — the demonstrated failure mode that made valid cites read "No case found".
+let _lastPost = { ok: false, status: 0, error: false };
 async function postJson(u, body) {
   try {
     const r = await _fetch(u, {
@@ -181,9 +185,10 @@ async function postJson(u, body) {
       headers: { ...authHeaders(), 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+    _lastPost = { ok: !!(r && r.ok), status: (r && r.status) || 0, error: false };
     if (!r || !r.ok) return null;
     return await r.json();
-  } catch { return null; }
+  } catch { _lastPost = { ok: false, status: 0, error: true }; return null; }
 }
 
 function apiUrl(path, params = {}) {
@@ -234,9 +239,23 @@ export async function caseById(caseId, { full = false } = {}) {
  * @param {string} cite
  * @param {{full?:boolean}} [opts]
  */
+// U.S. opinions are immutable public-domain records, so a resolved citation never changes — we cache
+// resolved cards hard (keyed by normalized cite + full/list variant) and, on a rate-limit/transport error,
+// serve any cached copy regardless of age (stale-while-error). This is what keeps popular cites resolving
+// through CourtListener's 429s instead of dead-ending at "No case found".
+const _citeCache = new Map(); // key -> { card, at }
+const CITE_TTL_MS = 24 * 60 * 60 * 1000; // 24h freshness for a live re-verify; stale still served on error
+/** Test seam: clear the citation cache so a test can exercise the live lookup/miss paths in isolation. */
+export function __resetCache() { _citeCache.clear(); _lastPost = { ok: false, status: 0, error: false }; }
+/** Was the most recent citation lookup blocked by a rate-limit/transport error (vs. a clean not-found)? */
+export function citationLookupThrottled() { return !!(_lastPost && (_lastPost.error || _lastPost.status === 429 || _lastPost.status === 503)); }
+
 export async function caseByCitation(cite, { full = false } = {}) {
   const parsed = parseCitation(cite);
   if (!parsed) return null;
+  const key = `${parsed.normalized}|${full ? 'full' : 'list'}`;
+  const hit = _citeCache.get(key);
+  if (hit && (Date.now() - hit.at) < CITE_TTL_MS) return hit.card; // fresh cache
   const resp = await postJson(apiUrl('/citation-lookup/'), {
     volume: parsed.volume, reporter: parsed.reporter, page: parsed.page,
   });
@@ -246,10 +265,15 @@ export async function caseByCitation(cite, { full = false } = {}) {
     const cl = Array.isArray(e?.clusters) ? e.clusters.find(Boolean) : null;
     if (cl) { cluster = cl; break; }
   }
-  if (!cluster) return null;
+  if (!cluster) {
+    // Rate-limited/errored? Serve a stale card if we have one; the record can't have changed anyway.
+    if (citationLookupThrottled() && hit) return hit.card;
+    return null; // genuine not-found (or throttled with nothing cached — view checks the throttle flag)
+  }
   const text = await opinionTextFor(cluster);
   const card = normalizeCase(cluster, { full, opinionText: text });
   if (card && !card.citationLookup) card.citationLookup = parsed.normalized;
+  if (card) _citeCache.set(key, { card, at: Date.now() });
   return card;
 }
 

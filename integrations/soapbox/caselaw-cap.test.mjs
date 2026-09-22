@@ -9,7 +9,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseCitation, caseById, caseByCitation, citationUrl, caseText, snippetOf, normalizeCase,
-  renderPage, dataNote, __setFetch,
+  renderPage, dataNote, __setFetch, __resetCache, citationLookupThrottled,
 } from './caselaw-cap.mjs';
 
 // A realistic CourtListener v4 CLUSTER, with its lead opinion body inlined on sub_opinions (so the reader
@@ -130,12 +130,31 @@ test('caseByCitation POSTs volume/reporter/page to citation-lookup and tags the 
 });
 
 test('caseByCitation soft-fails to null when no clusters match', async () => {
+  __resetCache(); // start clean so a prior test's cached card can't satisfy this miss path
   __setFetch(envelopeFetch([{ citation: '347 U.S. 483', status: 404, clusters: [] }]));
   assert.equal(await caseByCitation('347 U.S. 483'), null);
   __setFetch(envelopeFetch([]));
   assert.equal(await caseByCitation('347 U.S. 483'), null);
   __setFetch(throwingFetch());
   assert.equal(await caseByCitation('347 U.S. 483'), null);
+  __setFetch(null);
+});
+
+test('caseByCitation caches a resolved cite and serves it stale through a rate-limit, flagging the throttle', async () => {
+  __resetCache();
+  // 1) resolve once (populates cache); a clean success is not "throttled".
+  __setFetch(envelopeFetch(LOOKUP_RESP));
+  const first = await caseByCitation('347 U.S. 483');
+  assert.equal(first.caseName, 'Brown v. Board of Education');
+  assert.equal(citationLookupThrottled(), false, 'a clean success is not throttled');
+  // 2) source now 429s: no network hit is even needed (fresh cache), card still returned.
+  __setFetch(() => Promise.resolve({ ok: false, status: 429, json: async () => [] }));
+  const cached = await caseByCitation('347 U.S. 483');
+  assert.equal(cached.caseName, 'Brown v. Board of Education', 'fresh cache serves without hitting the 429');
+  // 3) a DIFFERENT, uncached cite under the same 429 → null AND the throttle flag is set (busy, not missing).
+  const miss = await caseByCitation('410 U.S. 113');
+  assert.equal(miss, null, 'uncached cite under 429 returns null');
+  assert.equal(citationLookupThrottled(), true, 'a 429 is reported as throttled so the view says "busy", not "not found"');
   __setFetch(null);
 });
 
