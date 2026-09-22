@@ -151,9 +151,11 @@ const STYLE = `<style>
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:9px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .brand{font-weight:800;font-size:18px;color:var(--fg)} .brand span{color:var(--mut);font-weight:400;font-size:13px}
-  .topbar-r{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
-  .topbar-r a{color:var(--fg);font-weight:700;font-size:13px;border:1px solid var(--line2);border-radius:8px;padding:6px 11px;white-space:nowrap}
+  .topbar-r{margin-left:auto;min-width:0;display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .topbar-r::-webkit-scrollbar{height:6px} .topbar-r::-webkit-scrollbar-thumb{background:var(--line2);border-radius:6px}
+  .topbar-r a{flex:0 0 auto;color:var(--fg);font-weight:700;font-size:13px;border:1px solid var(--line2);border-radius:8px;padding:6px 11px;white-space:nowrap}
   .topbar-r a:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+  @media (max-width:760px){header.topbar{position:static;padding:8px 14px}}
   .wrap{max-width:920px;margin:0 auto;padding:22px 16px}
   h1{margin:0 0 6px;font-size:26px} h2{font-size:19px;margin:22px 0 10px} h3{font-size:15px;margin:0 0 6px}
   .muted{color:var(--mut)}
@@ -210,7 +212,7 @@ const FOOTER = `<footer>
   <b>Reference, not law.</b> A dictionary describes how a word is used; it does not create a right or
   override a statute or a court's holding. Everything here is legal <b>education and reference</b> with
   its sources named — not legal advice. Every case, citation, dictionary edition and doctrine is real
-  and verified. For advice about your situation, consult a licensed attorney.
+  and verified. Show this to your attorney.
   <div style="margin-top:8px"><a href="/">Lexicon</a> · <a href="${esc(LAW)}">Law</a> · <a href="${esc(WIKI)}">Library</a></div>
 </footer>`;
 

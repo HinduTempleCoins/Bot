@@ -140,9 +140,11 @@ const STYLE = `<style>
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:9px 20px;display:flex;align-items:center;gap:14px}
   .brand{font-weight:800;font-size:18px;color:var(--fg)} .brand span{color:var(--mut);font-weight:400;font-size:13px}
-  .topbar-r{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
-  .topbar-r a{color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
+  .topbar-r{margin-left:auto;min-width:0;display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .topbar-r::-webkit-scrollbar{height:6px} .topbar-r::-webkit-scrollbar-thumb{background:var(--line2);border-radius:6px}
+  .topbar-r a{flex:0 0 auto;color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
   .topbar-r a:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+  @media (max-width:760px){header.topbar{position:static;padding:8px 14px}}
   .wrap{max-width:1040px;margin:0 auto;padding:22px}
   h1{margin:0 0 6px;font-size:26px} h2{font-size:19px;margin:0 0 10px} h3{font-size:15px;margin:0 0 6px}
   .muted{color:var(--mut)}
@@ -193,7 +195,7 @@ const FOOTER = `<footer>
   We curate publicly posted footage and reporting to teach the doctrines that "sovereign citizen"
   pseudolaw misreads; each clip is embedded from and credited to its source. Neutral and factual, not
   mockery — shown to document what actually happens, not to ridicule anyone. Informational only, not
-  legal advice; for advice, consult a licensed attorney. Believe a clip is misattributed or want it
+  legal advice; show this to your attorney. Believe a clip is misattributed or want it
   removed? Corrections route to the source of record.
   <div style="margin-top:8px"><a href="/">Faux Law Files</a> · <a href="${LAW}/doctrines">Real doctrines</a> · <a href="${LAW}/rights">Your rights</a> · <a href="${LAW}">Law</a> · <a href="${OVERSIGHT}">Oversight</a> · <a href="${WIKI}">Library</a> · <a href="${DATA}">Data</a></div>
 </footer>`;
@@ -215,7 +217,7 @@ const FAQ = [
   { q: 'Is any of this legal advice?',
     a: 'No. Faux Law Files is legal information and education. It explains the doctrines that decide '
      + 'these cases and links the landmark authority you can read yourself; for advice about your own '
-     + 'situation, consult a licensed attorney.' },
+     + 'situation, show this to your attorney.' },
 ];
 
 function faqCard(pairs, heading = 'Frequently asked questions') {
