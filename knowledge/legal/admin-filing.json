@@ -1,0 +1,61 @@
+{
+  "title": "Administrative Filing — ALJ hearings, exhaustion, and the path into federal court",
+  "summary": "How the administrative side of the legal system works: the Administrative Procedure Act's adjudication framework, the role of an agency administrative law judge (ALJ), the exhaustion-of-remedies requirement, what counts as 'final agency action' that a court can review, and the standard by which a court reviews it. Then four concrete agency ladders (Social Security, EEOC, Merit Systems Protection Board, NLRB) showing the real step-by-step path from an agency decision to a federal court.",
+  "sourcing_standard": "FACTS + SOURCES, never invented (Bot Charter §3). Every statute below was verified against the U.S. Code (uscode.house.gov / Cornell LII) and official agency sources via web search on 2026-09-22. Unverifiable items were dropped.",
+  "verified_date": "2026-09-22",
+  "not_legal_advice": "Legal-information material, not individualized legal advice. Administrative deadlines are short and strictly enforced (often 30–90 days); confirm the current statute, regulation, and agency rules before acting.",
+  "intro": "Before many disputes with the federal government can reach a court, they must first go through an agency. An agency adjudicates through its own hearing process — often before an administrative law judge — and a party generally must exhaust that internal process before a federal court will hear the case. The Administrative Procedure Act (APA) sets the baseline rules for how agencies adjudicate and for when and how a court reviews what they did. This file lays out that framework and then walks four of the most common agency tracks all the way to the courthouse door.",
+  "framework": [
+    {
+      "point": "The APA governs formal agency adjudication",
+      "detail": "When another statute requires an agency decision to be made 'on the record' after a hearing, the APA's formal-adjudication provisions apply. They guarantee notice, an opportunity to present evidence and cross-examine, a decision on the record, and a separation between prosecuting and deciding functions. (Most agency adjudication is 'informal' and these formal provisions do not apply — the trigger is a statute requiring an on-the-record hearing.)",
+      "authority": "5 U.S.C. § 554 (adjudications); 5 U.S.C. § 556 (hearings; burden of proof; evidence); 5 U.S.C. § 557 (initial and recommended decisions; the record)."
+    },
+    {
+      "point": "The administrative law judge (ALJ) presides",
+      "detail": "In formal adjudication the presiding officer is typically an administrative law judge, who conducts the hearing, takes evidence, and issues a decision. ALJs are appointed under 5 U.S.C. § 3105, and the APA contains protections meant to preserve their decisional independence even though they are employed by the agency whose cases they hear.",
+      "authority": "5 U.S.C. § 556(b) (the ALJ as presiding officer); 5 U.S.C. § 3105 (appointment of administrative law judges)."
+    },
+    {
+      "point": "Exhaustion of administrative remedies",
+      "detail": "As a general rule a party must pursue and complete the available agency remedies before seeking judicial review. A court will usually dismiss a suit brought before the agency process is finished. Exhaustion gives the agency the first chance to correct its own errors and builds the record a court will review.",
+      "authority": "Rooted in 5 U.S.C. § 704 (only 'final' agency action is reviewable) and in each agency's own review statute (e.g., 42 U.S.C. § 405(g) for Social Security)."
+    },
+    {
+      "point": "Final agency action is the trigger for judicial review",
+      "detail": "The APA makes reviewable both agency action made reviewable by statute and 'final agency action for which there is no other adequate remedy in a court.' Action is 'final' when it marks the consummation of the agency's decisionmaking (not merely tentative) and determines rights or obligations or produces legal consequences (the Bennett v. Spear test).",
+      "authority": "5 U.S.C. § 704 (actions reviewable)."
+    },
+    {
+      "point": "The scope of judicial review is deferential",
+      "detail": "On review, the court decides relevant questions of law and interprets constitutional and statutory provisions, but it sets aside agency action only on defined grounds — most commonly that the action was 'arbitrary, capricious, an abuse of discretion, or otherwise not in accordance with law,' unsupported by substantial evidence, or beyond statutory authority. A court generally does not re-decide the facts de novo.",
+      "authority": "5 U.S.C. § 706 (scope of review)."
+    }
+  ],
+  "agency_tracks": [
+    {
+      "agency": "Social Security Administration (disability / benefits)",
+      "path": "Initial determination -> request for Reconsideration -> hearing before an SSA administrative law judge (ALJ) -> review by the SSA Appeals Council -> civil action in the U.S. District Court where the claimant lives.",
+      "detail": "After the Appeals Council denies review or issues an adverse decision, the claimant has 60 days (plus a 5-day presumed-receipt allowance) to file in district court. The district court can affirm, modify, or reverse the Commissioner's decision, with or without remand for a rehearing. The Supreme Court held in Smith v. Berryhill (2019) that an Appeals Council dismissal on timeliness grounds, after an ALJ merits hearing, is a 'final decision' subject to review.",
+      "authority": "42 U.S.C. § 405(g) (judicial review of the Commissioner's final decision in U.S. district court)."
+    },
+    {
+      "agency": "Equal Employment Opportunity Commission (Title VII employment discrimination)",
+      "path": "File a charge of discrimination with the EEOC (or a state/local fair-employment agency) -> EEOC investigation / conciliation -> issuance of a Notice of Right to Sue -> civil action in federal (or state) court.",
+      "detail": "A charge must be filed within 180 days of the discriminatory act, extended to 300 days where a state or local agency also has jurisdiction. Filing the charge and obtaining a right-to-sue letter is a condition precedent to suing under Title VII (exhaustion). Once the right-to-sue notice issues, the claimant has 90 days to file the lawsuit. (The Supreme Court in Fort Bend County v. Davis (2019) held the charge-filing requirement is a mandatory claim-processing rule subject to waiver, not a jurisdictional bar.)",
+      "authority": "42 U.S.C. § 2000e-5 (Title VII enforcement — charge filing, EEOC process, and the right-to-sue civil action)."
+    },
+    {
+      "agency": "Merit Systems Protection Board (federal-employee adverse actions)",
+      "path": "Agency adverse action against a federal employee (e.g., removal, suspension) -> appeal to an MSPB administrative judge -> petition for review by the full Board -> petition for review in the U.S. Court of Appeals for the Federal Circuit.",
+      "detail": "An employee or applicant adversely affected by a final MSPB order may seek judicial review, and the petition must be filed in the Federal Circuit within 60 days after the Board issues notice of its final order or decision. (So-called 'mixed cases,' which combine a personnel action with a discrimination claim, follow a different route into district court.)",
+      "authority": "5 U.S.C. § 7703 (judicial review of decisions of the Merit Systems Protection Board; petition to the Federal Circuit within 60 days)."
+    },
+    {
+      "agency": "National Labor Relations Board (unfair labor practices)",
+      "path": "Unfair-labor-practice charge filed with an NLRB Regional Office -> complaint and hearing before an NLRB administrative law judge -> decision and final order by the Board -> petition for review in a U.S. Court of Appeals.",
+      "detail": "Any person aggrieved by a final Board order may petition for review in the court of appeals for the circuit where the unfair labor practice occurred, where the person resides or transacts business, or in the D.C. Circuit; the Board may likewise petition for enforcement. The Board's findings of fact are conclusive if supported by substantial evidence.",
+      "authority": "29 U.S.C. § 160(f) (review of a final NLRB order in a U.S. court of appeals); 29 U.S.C. § 160(e) (enforcement; substantial-evidence standard)."
+    }
+  ]
+}

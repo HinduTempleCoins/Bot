@@ -232,3 +232,137 @@ test('renderTeaching teaches order + burning for the "writ goes by statute now" 
   assert.match(html, /statute/i);
   assert.match(html, /last resort/i);
 });
+
+// ── the extended extraordinary-writ shelf + the `basis` field ───────────────────────────────────────
+
+// The writ-category remedies (NOT the appeal/habeas rungs) — every one must carry a `basis`.
+const WRIT_IDS = [
+  'mandamus', 'coram-nobis', 'prohibition', 'quo-warranto',
+  'audita-querela', 'coram-vobis', 'procedendo', 'scire-facias',
+  'supersedeas', 'ne-exeat', 'common-law-certiorari',
+];
+// The appeal/habeas rungs — these must NOT carry a basis (backward-compatible: field is writ-only).
+const APPEAL_RUNGS = [
+  'direct-appeal', 'reconsideration', 'state-postconviction',
+  'discretionary-review', 'cert-scotus', 'federal-habeas',
+];
+
+test('every classic writ is present on the ladder and well-formed', () => {
+  for (const id of WRIT_IDS) {
+    const r = findRemedy(id);
+    assert.ok(r, `writ present: ${id}`);
+    assert.ok(r.name && r.plain && r.ladderNote && r.burnNote, `${id} has teaching text`);
+    assert.ok(Array.isArray(r.statuteMap) && r.statuteMap.length, `${id} has a statute map`);
+    // mandamus keeps its original 'agency' track; every other writ sits on the 'advanced' track.
+    const expectedTrack = id === 'mandamus' ? 'agency' : 'advanced';
+    assert.equal(r.track, expectedTrack, `${id} track is ${expectedTrack}`);
+  }
+});
+
+test('the new writs are the ones the task requires', () => {
+  for (const id of ['audita-querela', 'coram-vobis', 'procedendo', 'scire-facias', 'supersedeas', 'ne-exeat', 'common-law-certiorari']) {
+    assert.ok(findRemedy(id), `added writ present: ${id}`);
+  }
+});
+
+test('every writ carries a valid `basis`; appeal rungs carry none (backward-compatible)', () => {
+  const VALID = new Set(['statute', 'all-writs-act', 'common-law']);
+  for (const id of WRIT_IDS) {
+    const r = findRemedy(id);
+    assert.ok(VALID.has(r.basis), `${id} has a valid basis (got ${JSON.stringify(r.basis)})`);
+  }
+  for (const id of APPEAL_RUNGS) {
+    const r = findRemedy(id);
+    assert.equal(r.basis, undefined, `${id} is an appeal rung and carries no basis`);
+  }
+});
+
+test('all three basis values are represented across the writ shelf', () => {
+  const bases = new Set(WRIT_IDS.map((id) => findRemedy(id).basis));
+  assert.ok(bases.has('statute'), 'a statute-based writ exists');
+  assert.ok(bases.has('all-writs-act'), 'an All-Writs-Act-only writ exists');
+  assert.ok(bases.has('common-law'), 'a pure common-law (no statute) writ exists');
+});
+
+test('the basis classification matches each writ correctly', () => {
+  assert.equal(findRemedy('mandamus').basis, 'statute');
+  assert.equal(findRemedy('quo-warranto').basis, 'statute');
+  assert.equal(findRemedy('supersedeas').basis, 'statute');
+  assert.equal(findRemedy('ne-exeat').basis, 'statute');
+  assert.equal(findRemedy('coram-nobis').basis, 'all-writs-act');
+  assert.equal(findRemedy('prohibition').basis, 'all-writs-act');
+  assert.equal(findRemedy('common-law-certiorari').basis, 'all-writs-act');
+  assert.equal(findRemedy('audita-querela').basis, 'common-law');
+  assert.equal(findRemedy('coram-vobis').basis, 'common-law');
+  assert.equal(findRemedy('procedendo').basis, 'common-law');
+  assert.equal(findRemedy('scire-facias').basis, 'common-law');
+});
+
+test('the common-law / no-statute writs carry a clearly-labeled statuteMap (never a fabricated cite)', () => {
+  // audita querela & coram vobis: no dedicated statute; abolished in civil by FRCP 60(e).
+  const aq = statuteCitesFor('audita-querela').map((s) => `${s.label} ${s.cite}`).join(' | ');
+  assert.match(aq, /No dedicated statute/i);
+  assert.match(aq, /28 U\.S\.C\. § 1651/);
+  assert.match(aq, /Fed\. R\. Civ\. P\. 60\(e\)/);
+  const cv = statuteCitesFor('coram-vobis').map((s) => `${s.label} ${s.cite}`).join(' | ');
+  assert.match(cv, /Fed\. R\. Civ\. P\. 60\(e\)/);
+  assert.match(cv, /28 U\.S\.C\. § 1651/);
+  // procedendo: pure common-law; original jurisdiction from state constitutions, no statute.
+  const pr = statuteCitesFor('procedendo').map((s) => `${s.label} ${s.cite}`).join(' | ');
+  assert.match(pr, /Common-law writ \(no statute\)|No dedicated statute/i);
+  // scire facias: common-law; abolished in federal civil practice by FRCP 81(b).
+  const sf = statuteCitesFor('scire-facias').map((s) => `${s.label} ${s.cite}`).join(' | ');
+  assert.match(sf, /Fed\. R\. Civ\. P\. 81\(b\)/);
+});
+
+test('common-law certiorari rests on the All Writs Act only (distinct from cert-scotus)', () => {
+  const cites = statuteCitesFor('common-law-certiorari').map((s) => s.cite).join(' ');
+  assert.match(cites, /28 U\.S\.C\. § 1651\(a\)/);
+  assert.match(cites, /Sup\. Ct\. R\. 20\.6/);
+  // It is NOT the Supreme Court's statutory certiorari (§ 1257 / § 1254 live on cert-scotus).
+  assert.ok(!/§ 1257|§ 1254/.test(cites), 'common-law certiorari does not claim the SCOTUS cert statutes');
+  const scotus = statuteCitesFor('cert-scotus').map((s) => s.cite).join(' ');
+  assert.match(scotus, /§ 1257/);
+});
+
+test('supersedeas and ne exeat rest on real, dedicated authority', () => {
+  const sup = statuteCitesFor('supersedeas').map((s) => s.cite).join(' ');
+  assert.match(sup, /Fed\. R\. App\. P\. 8/);
+  assert.match(sup, /Fed\. R\. Civ\. P\. 62/);
+  const ne = statuteCitesFor('ne-exeat').map((s) => s.cite).join(' ');
+  assert.match(ne, /26 U\.S\.C\. § 7402\(a\)/);
+});
+
+test('the new writs cite REAL leading cases in their teaching text', () => {
+  // audita querela — United States v. Ayala, 894 F.2d 425 (D.C. Cir. 1990)
+  assert.match(findRemedy('audita-querela').plain, /United States v\. Ayala, 894 F\.2d 425 \(D\.C\. Cir\. 1990\)/);
+  // coram vobis — United States v. Morgan, 346 U.S. 502 (1954) (the coram nobis anchor)
+  assert.match(findRemedy('coram-vobis').plain, /United States v\. Morgan, 346 U\.S\. 502 \(1954\)/);
+});
+
+test('gating: post-judgment writs are gated on a prior appeal; standalone writs are always ok', () => {
+  // audita querela & coram vobis correct a judgment — gated on direct-appeal like coram nobis.
+  assert.equal(gateRemedy('audita-querela', []).ok, false);
+  assert.equal(gateRemedy('audita-querela', ['direct-appeal']).ok, true);
+  assert.equal(gateRemedy('coram-vobis', []).ok, false);
+  assert.equal(gateRemedy('coram-vobis', ['direct-appeal']).ok, true);
+  // procedendo, scire facias, supersedeas, ne exeat, common-law certiorari stand apart from the ladder.
+  for (const id of ['procedendo', 'scire-facias', 'supersedeas', 'ne-exeat', 'common-law-certiorari']) {
+    assert.equal(gateRemedy(id, []).ok, true, `${id} is ungated / always available`);
+  }
+});
+
+test('renderRemedyDetail renders each new writ without script injection and with its basis authority', () => {
+  for (const id of ['audita-querela', 'coram-vobis', 'procedendo', 'scire-facias', 'supersedeas', 'ne-exeat', 'common-law-certiorari']) {
+    const html = renderRemedyDetail(id, { doneIds: ['direct-appeal'] });
+    assert.match(html, /What this is/, `${id} renders teaching`);
+    assert.ok(!html.includes('<script'), `${id} escapes output`);
+  }
+  // the VERIFIED mandamus authorities SHELF (Olsen v. DEA is unique to it) must render only for
+  // mandamus/prohibition — not for the other writs, even one that shares the mandamus field-template.
+  const proc = renderRemedyDetail('procedendo', {});
+  assert.ok(!/Olsen/.test(proc), 'procedendo does not borrow the mandamus authorities shelf');
+  assert.ok(!/Governing authorities \(verified\)/.test(proc), 'no verified-authorities shelf on procedendo');
+  const mand = renderRemedyDetail('mandamus', { doneIds: ['direct-appeal'] });
+  assert.match(mand, /Olsen/, 'the authorities shelf still renders on mandamus');
+});

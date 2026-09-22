@@ -1,0 +1,154 @@
+{
+  "title": "Where to File — which court hears what, including the specialized and obscure ones",
+  "summary": "A legibility map of the U.S. court system: the general federal trial/appellate/supreme tiers, the specialized Article I and Article III federal courts most people never hear about (Tax Court, Court of Federal Claims, Court of International Trade, Veterans Claims, Armed Forces, the FISA court), the administrative bodies that route into the federal courts, and representative state specialized courts. Each row states what the court has jurisdiction over, who files and from where, and the verified statutory or constitutional basis.",
+  "sourcing_standard": "FACTS + SOURCES, never invented (Bot Charter §3). Every authority citation below was verified against the U.S. Code (uscode.house.gov / Cornell LII) and official court sources via web search on 2026-09-22. Anything that could not be verified was dropped rather than guessed.",
+  "verified_date": "2026-09-22",
+  "not_legal_advice": "This is legal-information/legibility material, not individualized legal advice. Jurisdictional rules have exceptions, deadlines, and amount thresholds that change; confirm the current statute and local rules before filing.",
+  "intro": "American courts are not interchangeable. A case belongs somewhere specific — often a court most people have never heard of. This map answers 'which court hears what': the ordinary federal trial-appeal-Supreme ladder, the specialized federal courts (some Article III, most Article I) that hold exclusive jurisdiction over whole categories of disputes, and the state courts (probate, family, small claims, housing, courts of last resort) where the great majority of everyday legal matters actually live. Filing in the wrong court usually means dismissal for lack of jurisdiction, so knowing the door is the first step.",
+  "courts": [
+    {
+      "name": "U.S. District Courts",
+      "kind": "Article III",
+      "hears": "The general federal trial courts. Original jurisdiction over civil actions arising under the Constitution, laws, or treaties of the United States (federal-question jurisdiction), and over civil actions between citizens of different states where the amount in controversy exceeds $75,000 (diversity jurisdiction). They are also the trial courts for federal crimes.",
+      "how_to_get_there": "A plaintiff files a complaint in the district where venue lies (where the defendant resides or where the events occurred); federal criminal cases are brought by the U.S. Attorney. A case filed in state court may sometimes be removed here by a defendant.",
+      "authority": "28 U.S.C. § 1331 (federal question); 28 U.S.C. § 1332 ($75,000 diversity threshold); Article III of the U.S. Constitution.",
+      "note": "There are 94 federal judicial districts. This is the default federal trial forum unless a specialized court has exclusive jurisdiction."
+    },
+    {
+      "name": "U.S. Courts of Appeals (regional circuits)",
+      "kind": "Article III",
+      "hears": "Appeals from all final decisions of the U.S. district courts within the circuit (except where direct Supreme Court review lies), plus review of many federal administrative-agency orders. Twelve regional circuits (the eleven numbered circuits plus the D.C. Circuit).",
+      "how_to_get_there": "A party aggrieved by a final district-court judgment files a notice of appeal; petitions to review agency action are filed directly here under the relevant agency statute.",
+      "authority": "28 U.S.C. § 1291 (appeals from final decisions of district courts); Article III.",
+      "note": "The Federal Circuit is a thirteenth court of appeals but is defined by subject matter, not geography — see its own entry."
+    },
+    {
+      "name": "U.S. Court of Appeals for the Federal Circuit",
+      "kind": "Article III",
+      "hears": "A nationwide court of appeals defined by subject matter, not region. Exclusive jurisdiction over appeals in patent cases (any civil action arising under an Act of Congress relating to patents or plant variety protection), appeals from the Court of Federal Claims, the Court of International Trade, the Court of Appeals for Veterans Claims, the Merit Systems Protection Board, the U.S. Patent and Trademark Office (PTAB), the International Trade Commission, and certain government-contract and international-trade matters.",
+      "how_to_get_there": "A party files an appeal or petition for review from one of the tribunals within its exclusive jurisdiction; patent appeals reach it from the district courts.",
+      "authority": "28 U.S.C. § 1295 (jurisdiction of the Federal Circuit, including exclusive patent appellate jurisdiction tied to district-court jurisdiction under 28 U.S.C. § 1338).",
+      "note": "Created in 1982 by merging the Court of Customs and Patent Appeals with the appellate division of the Court of Claims. Its patent jurisdiction is why it is the single most important court in U.S. intellectual-property law."
+    },
+    {
+      "name": "Supreme Court of the United States",
+      "kind": "Article III",
+      "hears": "The court of last resort. Chiefly appellate: it reviews decisions of the federal courts of appeals and of state courts of last resort on questions of federal law, almost entirely by discretionary writ of certiorari. It also has a narrow original jurisdiction — most importantly, exclusive original jurisdiction over controversies between two or more states.",
+      "how_to_get_there": "Nearly all cases arrive by petition for a writ of certiorari after a lower court's final judgment; the Court grants only a small fraction. Original-jurisdiction actions (e.g., a state suing another state) are filed directly.",
+      "authority": "28 U.S.C. § 1251 (original jurisdiction; exclusive over controversies between states); 28 U.S.C. § 1254 (certiorari from the courts of appeals); Article III, § 2.",
+      "note": "It is not subject to the federal judicial-misconduct complaint process; its Justices are not 'judges' as defined in 28 U.S.C. § 351."
+    },
+    {
+      "name": "U.S. Tax Court",
+      "kind": "Article I",
+      "hears": "Disputes over federal tax deficiencies. Its signature feature: a taxpayer can challenge an IRS deficiency determination here BEFORE paying the disputed tax, rather than paying first and suing for a refund in district court or the Court of Federal Claims.",
+      "how_to_get_there": "A taxpayer files a petition after receiving a statutory notice of deficiency ('90-day letter') from the IRS, generally within 90 days.",
+      "authority": "26 U.S.C. § 7441 (establishes the United States Tax Court as a court of record under Article I of the Constitution; it is independent of the executive branch).",
+      "note": "Appeals go to the regional U.S. Court of Appeals for the circuit where the taxpayer resides, not to the Federal Circuit."
+    },
+    {
+      "name": "U.S. Court of Federal Claims",
+      "kind": "Article I",
+      "hears": "Money claims against the United States: contract disputes with the federal government, bid protests, Fifth Amendment takings claims, tax-refund suits, military and civilian pay cases, patent/copyright claims against the government, Indian claims, and vaccine-injury cases. Generally exclusive federal forum for non-tort money claims over $10,000.",
+      "how_to_get_there": "A claimant files a complaint directly in the court in Washington, D.C.; the claim must rest on a 'money-mandating' source of law (Constitution, statute, regulation, or contract).",
+      "authority": "28 U.S.C. § 1491 (the Tucker Act) — jurisdiction over claims against the United States founded on the Constitution, an Act of Congress, an executive-department regulation, or an express or implied contract, for damages not sounding in tort.",
+      "note": "Does not hear tort claims (those go to district court under the Federal Tort Claims Act). Appeals go to the Federal Circuit."
+    },
+    {
+      "name": "U.S. Court of International Trade",
+      "kind": "Article III",
+      "hears": "Civil actions arising out of U.S. import transactions and federal laws governing international trade: challenges to customs classifications and duties, denied protests, antidumping and countervailing-duty determinations, and trade-adjustment-assistance eligibility decisions.",
+      "how_to_get_there": "An importer or affected party files after exhausting the administrative protest process with U.S. Customs and Border Protection or after a Commerce Department / ITC determination.",
+      "authority": "28 U.S.C. § 251 et seq. (establishes the court, of nine judges, as a court of record under Article III); 28 U.S.C. § 1581 (its import/trade jurisdiction).",
+      "note": "Based in New York City. One of the few specialized courts that is Article III rather than Article I. Appeals go to the Federal Circuit."
+    },
+    {
+      "name": "U.S. Court of Appeals for Veterans Claims",
+      "kind": "Article I",
+      "hears": "Appeals from decisions of the Board of Veterans' Appeals denying or limiting veterans' benefits — disability compensation, pensions, dependents' educational assistance, and survivor benefits.",
+      "how_to_get_there": "A veteran (or survivor) files a notice of appeal after a final Board of Veterans' Appeals decision. It reviews the VA's own appellate board, so the VA administrative process must run first.",
+      "authority": "38 U.S.C. § 7251 (establishes the United States Court of Appeals for Veterans Claims as a court of record under Article I).",
+      "note": "Appeals on questions of law go to the Federal Circuit; the Supreme Court may then review by certiorari."
+    },
+    {
+      "name": "U.S. Court of Appeals for the Armed Forces",
+      "kind": "Article I",
+      "hears": "The civilian court at the top of the military-justice system. Worldwide appellate jurisdiction over court-martial convictions of service members and others subject to the Uniform Code of Military Justice, on review from the service Courts of Criminal Appeals.",
+      "how_to_get_there": "Cases arrive from the Army, Navy-Marine Corps, Air Force, and Coast Guard Courts of Criminal Appeals; the court reviews certain cases as of right and others by petition.",
+      "authority": "10 U.S.C. § 941 (establishes the United States Court of Appeals for the Armed Forces as a court of record under Article I, composed of five civilian judges).",
+      "note": "Its decisions are subject to direct review by the U.S. Supreme Court on writ of certiorari — a rare route straight from an Article I military court to the Supreme Court."
+    },
+    {
+      "name": "Foreign Intelligence Surveillance Court (FISC)",
+      "kind": "Article III",
+      "hears": "Applications by the federal government for orders authorizing electronic surveillance, physical searches, and other collection to obtain foreign-intelligence information under the Foreign Intelligence Surveillance Act. It reviews government applications largely in secret and ex parte.",
+      "how_to_get_there": "Only the U.S. government files here (typically the Department of Justice on behalf of intelligence agencies); private parties do not initiate cases. Its rulings can be reviewed by the Foreign Intelligence Surveillance Court of Review.",
+      "authority": "50 U.S.C. § 1803 (FISA § 103) — establishes the FISC and the Court of Review; the court is composed of eleven U.S. district judges designated by the Chief Justice.",
+      "note": "Staffed by sitting Article III district judges sitting by designation. One of the least-visible courts in the country because its docket is classified."
+    },
+    {
+      "name": "U.S. Bankruptcy Courts",
+      "kind": "Article I",
+      "hears": "Cases under the Bankruptcy Code — Chapter 7 liquidations, Chapter 11 reorganizations, Chapter 13 individual debt-adjustment plans, Chapter 12 (family farmers/fishermen) — and proceedings arising in or related to them.",
+      "how_to_get_there": "A debtor (or, in involuntary cases, creditors) files a petition. Each bankruptcy court is a unit of the district court for its district; the district court refers bankruptcy cases to it.",
+      "authority": "28 U.S.C. § 151 (the bankruptcy judges of a district constitute a unit of the district court known as the bankruptcy court for that district).",
+      "note": "Bankruptcy judges are appointed by the courts of appeals for 14-year terms, not by the President. Appeals go to the district court or a Bankruptcy Appellate Panel, then to the court of appeals."
+    },
+    {
+      "name": "Judicial Panel on Multidistrict Litigation (JPML)",
+      "kind": "Article III",
+      "hears": "Not a trial court — a panel that decides whether to consolidate related civil cases pending in different districts (e.g., mass-tort, product-liability, or data-breach cases with common questions of fact) and transfers them to a single district for coordinated pretrial proceedings.",
+      "how_to_get_there": "A party moves the Panel to centralize related actions, or the Panel acts on its own initiative; the Panel then selects a transferee district and judge.",
+      "authority": "28 U.S.C. § 1407 (multidistrict litigation) — seven circuit and district judges designated by the Chief Justice, no two from the same circuit; concurrence of four is required for any action.",
+      "note": "After coordinated pretrial proceedings, cases not settled or dismissed are remanded to their original districts for trial."
+    },
+    {
+      "name": "State trial courts of general jurisdiction",
+      "kind": "state",
+      "hears": "The workhorse state courts (called Superior Court, Circuit Court, District Court, Court of Common Pleas, or Supreme Court depending on the state) that hear most civil and criminal cases arising under state law without a specialized-court assignment.",
+      "how_to_get_there": "A plaintiff files a complaint, or the state brings a criminal charge, in the county where venue lies.",
+      "authority": "Established by each state's constitution and statutes; naming and structure vary by state.",
+      "note": "The overwhelming majority of all litigation in the United States happens in state courts, not federal court."
+    },
+    {
+      "name": "State probate courts",
+      "kind": "state",
+      "hears": "Administration of estates, the probating and contest of wills, appointment of executors and administrators, guardianships and conservatorships, and (in many states) adoptions and competency/incapacity determinations.",
+      "how_to_get_there": "An interested party (executor, heir, family member, or petitioner) files in the probate court for the county where the decedent lived or the ward resides.",
+      "authority": "State statute; probate is a matter of state law. Federal courts generally decline probate matters under the 'probate exception.'",
+      "note": "Called Surrogate's Court in New York and Orphans' Court in some states."
+    },
+    {
+      "name": "State family courts",
+      "kind": "state",
+      "hears": "Domestic-relations matters: child custody and support, child abuse and neglect, and often juvenile delinquency and truancy. In some states these courts also handle divorce; in others divorce is heard by the general-jurisdiction court.",
+      "how_to_get_there": "A party (parent, guardian, or the state in abuse/neglect cases) files a petition in the family court for the relevant county.",
+      "authority": "State statute; structure varies widely by state.",
+      "note": "Whether divorce itself is a 'family court' matter or a general-jurisdiction matter depends on the state."
+    },
+    {
+      "name": "State small claims courts",
+      "kind": "state",
+      "hears": "Simple money disputes below a dollar cap, with streamlined procedure and often no lawyers. Subject matter is limited to monetary claims — these courts generally cannot issue injunctions, decide title to real property, hear divorce/custody, or handle probate.",
+      "how_to_get_there": "A plaintiff files a short claim form in the small claims division; filing fees are low and hearings are informal.",
+      "authority": "State statute. Dollar limits vary widely by state — roughly $2,500 to $25,000 depending on the state (commonly in the $5,000–$10,000 range).",
+      "note": "Usually a division of a lower trial court (e.g., district, justice, or municipal court) rather than a standalone court."
+    },
+    {
+      "name": "State housing / landlord-tenant courts",
+      "kind": "state",
+      "hears": "Landlord-tenant disputes: evictions (unlawful detainer / summary process), rent claims, security-deposit disputes, and housing-code enforcement.",
+      "how_to_get_there": "A landlord files an eviction/summary-process action, or a tenant or city files a code-enforcement or repair action, in the housing court or the housing part of the local trial court.",
+      "authority": "State or local statute; exists as a distinct court in some jurisdictions (e.g., New York City Housing Court) and as a division of a trial court elsewhere.",
+      "note": "Where no dedicated housing court exists, these cases go to the general or limited-jurisdiction trial court."
+    },
+    {
+      "name": "State courts of last resort (state supreme courts)",
+      "kind": "state",
+      "hears": "The highest court of each state — final authority on questions of that state's own law and constitution. Reviews decisions of the state's intermediate appellate courts (or trial courts where there is no intermediate court).",
+      "how_to_get_there": "A party seeks review after an intermediate appellate decision, usually by discretionary petition; some categories (e.g., death-penalty cases in some states) get mandatory review.",
+      "authority": "Each state's constitution. On questions of federal law, a state court of last resort's decision may be reviewed by the U.S. Supreme Court under 28 U.S.C. § 1257.",
+      "note": "Called the Court of Appeals in New York and Maryland, and the Supreme Judicial Court in Massachusetts and Maine — 'Supreme Court' is not universal."
+    }
+  ]
+}

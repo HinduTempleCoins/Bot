@@ -1,0 +1,67 @@
+{
+  "title": "Judicial-Misconduct Complaints — how to complain about a federal judge",
+  "summary": "How the federal judicial-misconduct and disability complaint process works under the Judicial Conduct and Disability Act (28 U.S.C. §§ 351–364): who can file, where and how, what the chief judge does with the complaint, review by the circuit judicial council and by the national Committee on Judicial Conduct and Disability, and — critically — what this process cannot do. It cannot change or second-guess a judge's ruling (that is what an appeal is for), it addresses conduct and disability rather than legal error, and it does not reach Supreme Court Justices.",
+  "sourcing_standard": "FACTS + SOURCES, never invented (Bot Charter §3). The statutory range and each process step were verified against the U.S. Code (uscode.house.gov / Cornell LII), the official uscourts.gov Judicial Conduct & Disability materials, and the Rules for Judicial-Conduct and Judicial-Disability Proceedings, via web search on 2026-09-22.",
+  "verified_date": "2026-09-22",
+  "not_legal_advice": "Legal-information material, not individualized legal advice. Procedures and forms differ slightly by circuit; consult the specific circuit's rules and the national Rules for Judicial-Conduct and Judicial-Disability Proceedings before filing.",
+  "intro": "The federal courts police the conduct of their own judges through a statutory complaint process, separate from appeals. Any person may file a complaint alleging that a covered federal judge has engaged in conduct 'prejudicial to the effective and expeditious administration of the business of the courts,' or is unable to perform judicial duties because of a mental or physical disability. The process is run internally by the judiciary — chief judges, circuit judicial councils, and a national committee — under the Judicial Conduct and Disability Act and the Rules for Judicial-Conduct and Judicial-Disability Proceedings. It is a tool for conduct and disability, not a way to overturn a decision you disagree with.",
+  "steps": [
+    {
+      "step": "File a written complaint with the clerk of the U.S. Court of Appeals",
+      "detail": "Any person may file a written complaint identifying the judge and describing the conduct. It is filed with the clerk of the U.S. Court of Appeals for the relevant circuit (or the specific office that circuit designates for these complaints). Each circuit provides a complaint form and its own local rules implementing the national rules. A chief judge may also 'identify' a complaint on his or her own initiative without a written complaint being filed."
+    },
+    {
+      "step": "Frame the grounds — conduct, not the ruling — and cite them",
+      "detail": "Ground the complaint in judicial conduct: disregard of laws or rules, crime, corruption, or the appearance-of-impartiality problems that also underlie disqualification under 28 U.S.C. § 455 (a judge must disqualify where impartiality might reasonably be questioned, and for specific conflicts). Send the complaint to the U.S. Court of Appeals (the circuit) sitting above the judge you are complaining about. A practical drafting tip filers use: cite the process itself and other complaints' useful definitions in parentheses — e.g., '(Process) In re Judicial Complaint, No. 10-18-90033 (10th Cir. 2018)'. Note the ceiling: outright removal of an Article III judge is only by impeachment; the § 631(i) removal track exists only for MAGISTRATE judges (for incompetency, misconduct, neglect of duty, or disability, by the district judges).",
+      "authority_note": "28 U.S.C. § 455 (disqualification grounds); 28 U.S.C. § 631(i) (removal of a magistrate judge); Art. III (Article III judges removable only by impeachment). Verified 2026-09-22."
+    },
+    {
+      "step": "Review by the chief judge of the circuit",
+      "detail": "The chief judge of the circuit reviews the complaint. The chief judge may (a) dismiss it — for example if it is not cognizable, is directly related to the merits of a decision or procedural ruling, or is frivolous or unsupported; (b) conclude the proceeding if intervening action has remedied the problem; or (c) if it is not dismissed or concluded, appoint a special committee to investigate."
+    },
+    {
+      "step": "Investigation by a special committee",
+      "detail": "If the complaint is not dismissed or concluded, the chief judge appoints a special committee — the chief judge plus equal numbers of circuit and district judges of the circuit — to investigate the facts and allegations and report to the circuit judicial council.",
+      "authority_note": "28 U.S.C. § 353."
+    },
+    {
+      "step": "Review and action by the circuit judicial council",
+      "detail": "The circuit judicial council considers the special committee's report and may take action. Its available measures are corrective and administrative — for example censuring or reprimanding the judge (privately or publicly), temporarily suspending the assignment of new cases to the judge, or requesting that the judge retire. The council CANNOT remove an Article III judge from office; only impeachment by Congress can do that.",
+      "authority_note": "28 U.S.C. § 354."
+    },
+    {
+      "step": "Ask the circuit judicial council to review the chief judge's disposition",
+      "detail": "If the chief judge dismisses or concludes the complaint, you may petition the circuit judicial council to review that order — send the request to the same U.S. Court of Appeals, and (a practice tip filers use) mark the envelope 'Misconduct Petition' so it is routed correctly. The petition to the council is generally due within 42 days of the chief judge's order.",
+      "authority_note": "28 U.S.C. § 352(c); Rules for Judicial-Conduct and Judicial-Disability Proceedings, Rule 18."
+    },
+    {
+      "step": "Petition for review by the national Committee on Judicial Conduct and Disability",
+      "detail": "A complainant or the subject judge aggrieved by the judicial council's action may petition the national Committee on Judicial Conduct and Disability (to which the Judicial Conference of the United States has delegated these matters). The petition must be filed within 42 days of the judicial council's order; include the history of the matter and a copy of the council's decision. It may be emailed to JCD_PetitionforReview@ao.uscourts.gov. Above that sits the Judicial Conference itself, whose annual body is headed by the Chief Justice of the United States.",
+      "authority_note": "28 U.S.C. § 357 (petition for review); the Judicial Conference acts through its Committee on Judicial Conduct and Disability; petition email JCD_PetitionforReview@ao.uscourts.gov, verified 2026-09-22."
+    },
+    {
+      "step": "Referral of the most serious cases",
+      "detail": "In the gravest cases, the process can lead a judicial council to refer the matter, and the Judicial Conference in turn may certify to the House of Representatives its determination that consideration of impeachment may be warranted — the only route to actually removing an Article III judge."
+    }
+  ],
+  "limits": [
+    "It CANNOT change, overturn, or review the correctness of a judge's ruling or decision. Disagreement with how a judge decided a case is not misconduct — the remedy for a wrong ruling is an appeal, not a misconduct complaint.",
+    "A complaint 'directly related to the merits of a decision or procedural ruling' is expressly a ground for dismissal (28 U.S.C. § 352(b)(1)(A)(ii)). The process is not a substitute for, or supplement to, appeals or motions for reconsideration.",
+    "It addresses conduct that is prejudicial to the administration of the courts, or inability to serve due to mental or physical disability — not legal error.",
+    "It does NOT cover Justices of the U.S. Supreme Court. The Act defines a covered 'judge' as a circuit judge, district judge, bankruptcy judge, or magistrate judge (28 U.S.C. § 351(d)); Supreme Court Justices are not on that list.",
+    "The judicial council cannot remove an Article III judge from office; removal requires impeachment by the House and conviction by the Senate.",
+    "Many complaints are dismissed at the chief-judge stage as merits-related, frivolous, or non-cognizable; the process is narrow by design."
+  ],
+  "authority": [
+    "Judicial Conduct and Disability Act of 1980, 28 U.S.C. §§ 351–364.",
+    "28 U.S.C. § 351 (complaints; definition of 'judge' — circuit, district, bankruptcy, magistrate judges; excludes Supreme Court Justices).",
+    "28 U.S.C. § 455 (disqualification of a justice, judge, or magistrate judge — the impartiality/conflict grounds a complaint often draws on).",
+    "28 U.S.C. § 631(i) (removal of a magistrate judge for incompetency, misconduct, neglect of duty, or disability — the only statutory 'removal' track short of impeachment, and it does not reach Article III judges).",
+    "28 U.S.C. § 352 (review of complaint by the chief judge; dismissal grounds, including merits-related complaints).",
+    "28 U.S.C. § 353 (appointment of a special committee to investigate).",
+    "28 U.S.C. § 354 (action by the circuit judicial council; permissible measures short of removal).",
+    "28 U.S.C. § 357 (petition for review of judicial-council action).",
+    "The Rules for Judicial-Conduct and Judicial-Disability Proceedings (the national rules adopted by the Judicial Conference implementing the Act)."
+  ],
+  "state_note": "This process covers only FEDERAL judges. Every state has its own judicial-conduct commission (names vary — e.g., the New York State Commission on Judicial Conduct, the California Commission on Judicial Performance) that handles misconduct complaints against that state's judges, with its own rules and remedies. To find a specific state's commission, consult that state's judiciary website or the National Center for State Courts, which maintains directories of state judicial-conduct organizations. State commissions generally have the same core limit as the federal process: they address judicial conduct, not the correctness of rulings, and the remedy for a legal error is an appeal in the state court system."
+}

@@ -1,0 +1,117 @@
+{
+  "intro": "A reader's guide to signature doctrines and tests, each attributed to the Justice who authored the leading opinion that established it, so it is visible how different rules of American constitutional and procedural law came from different Justices of the Supreme Court. Every case, citation, year, and author below was verified against the U.S. Reports and standard case databases before being written here.",
+  "entries": [
+    {
+      "justice": "Ruth Bader Ginsburg",
+      "doctrine": "Judicial estoppel (the three-factor test)",
+      "case": "New Hampshire v. Maine",
+      "cite": "532 U.S. 742 (2001)",
+      "year": 2001,
+      "held": "Writing for the Court, Ginsburg identified three factors that typically inform whether judicial estoppel bars a party from taking a position contrary to one it previously advanced: (1) the party's later position is clearly inconsistent with its earlier one; (2) the party succeeded in persuading a court to accept the earlier position, so that accepting the inconsistent later position would create the perception that a court was misled; and (3) the party would derive an unfair advantage or impose an unfair detriment on the opponent if not estopped."
+    },
+    {
+      "justice": "Antonin Scalia",
+      "doctrine": "Thermal-imaging of a home as a Fourth Amendment search",
+      "case": "Kyllo v. United States",
+      "cite": "533 U.S. 27 (2001)",
+      "year": 2001,
+      "held": "Using sense-enhancing technology not in general public use to obtain information about a home's interior that could not otherwise be known without physical intrusion is a search that presumptively requires a warrant."
+    },
+    {
+      "justice": "Antonin Scalia",
+      "doctrine": "The property-based (trespass) test for Fourth Amendment searches",
+      "case": "United States v. Jones",
+      "cite": "565 U.S. 400 (2012)",
+      "year": 2012,
+      "held": "A physical intrusion onto a constitutionally protected area to obtain information is itself a search, restoring the common-law trespass test as a basis for the Fourth Amendment in addition to Katz's reasonable-expectation-of-privacy inquiry (extended to the home's curtilage in Florida v. Jardines, 569 U.S. 1 (2013))."
+    },
+    {
+      "justice": "Antonin Scalia",
+      "doctrine": "The Confrontation Clause and testimonial statements",
+      "case": "Crawford v. Washington",
+      "cite": "541 U.S. 36 (2004)",
+      "year": 2004,
+      "held": "Testimonial out-of-court statements may not be admitted against a criminal defendant unless the witness is unavailable and the defendant had a prior opportunity to cross-examine, replacing the prior 'indicia of reliability' approach of Ohio v. Roberts."
+    },
+    {
+      "justice": "Robert H. Jackson",
+      "doctrine": "The tripartite framework for evaluating presidential power",
+      "case": "Youngstown Sheet & Tube Co. v. Sawyer",
+      "cite": "343 U.S. 579 (1952)",
+      "year": 1952,
+      "held": "In his concurrence, Jackson set out three zones of executive authority: it is at its maximum when the President acts with congressional authorization, in a 'zone of twilight' when Congress is silent, and at its 'lowest ebb' when the President acts against Congress's expressed or implied will — the now-standard framework for judging executive action."
+    },
+    {
+      "justice": "William J. Brennan Jr.",
+      "doctrine": "The 'actual malice' standard in defamation law",
+      "case": "New York Times Co. v. Sullivan",
+      "cite": "376 U.S. 254 (1964)",
+      "year": 1964,
+      "held": "A public official may not recover damages for defamation relating to official conduct unless the statement was made with 'actual malice' — knowledge that it was false or reckless disregard of whether it was false."
+    },
+    {
+      "justice": "John Marshall Harlan II",
+      "doctrine": "Substantive due process as a 'living tradition'",
+      "case": "Poe v. Ullman (dissent)",
+      "cite": "367 U.S. 497 (1961)",
+      "year": 1961,
+      "held": "In dissent, Harlan argued that the Fourteenth Amendment's liberty is a rational continuum defined by the balance the country has struck between liberty and organized society — a 'living' tradition that both builds on and departs from history — an approach later adopted as the method for identifying unenumerated substantive-due-process rights."
+    },
+    {
+      "justice": "Sandra Day O'Connor",
+      "doctrine": "The 'undue burden' standard for abortion regulation",
+      "case": "Planned Parenthood of Southeastern Pennsylvania v. Casey",
+      "cite": "505 U.S. 833 (1992)",
+      "year": 1992,
+      "held": "In the controlling joint plurality opinion, O'Connor (with Kennedy and Souter) reaffirmed the core of Roe v. Wade and held that a pre-viability abortion regulation is invalid if it has the purpose or effect of placing a substantial obstacle — an 'undue burden' — in the path of a woman seeking an abortion. (Casey was later overruled by Dobbs v. Jackson Women's Health Organization (2022).)"
+    },
+    {
+      "justice": "Lewis F. Powell Jr.",
+      "doctrine": "The diversity rationale for race-conscious admissions",
+      "case": "Regents of the University of California v. Bakke",
+      "cite": "438 U.S. 265 (1978)",
+      "year": 1978,
+      "held": "Powell's controlling opinion held that fixed racial quotas in admissions are unconstitutional, but that the educational benefits of a diverse student body are a compelling interest that may justify considering race as one factor among many. (This rationale was later held not to satisfy strict scrutiny in Students for Fair Admissions v. Harvard (2023).)"
+    },
+    {
+      "justice": "Earl Warren",
+      "doctrine": "The Miranda warnings",
+      "case": "Miranda v. Arizona",
+      "cite": "384 U.S. 436 (1966)",
+      "year": 1966,
+      "held": "Before custodial interrogation, police must warn a suspect of the right to remain silent, that statements can be used against them, and of the right to counsel (appointed if necessary); statements obtained without these warnings are presumptively inadmissible under the Fifth Amendment."
+    },
+    {
+      "justice": "John Marshall",
+      "doctrine": "Judicial review",
+      "case": "Marbury v. Madison",
+      "cite": "5 U.S. (1 Cranch) 137 (1803)",
+      "year": 1803,
+      "held": "It is emphatically the province and duty of the judicial department to say what the law is; the federal courts have the power to declare an act of Congress void when it conflicts with the Constitution."
+    },
+    {
+      "justice": "John Marshall Harlan II",
+      "doctrine": "The 'reasonable expectation of privacy' test",
+      "case": "Katz v. United States (concurrence)",
+      "cite": "389 U.S. 347 (1967)",
+      "year": 1967,
+      "held": "Harlan's concurrence supplied the enduring two-part test for a Fourth Amendment search: a person must have exhibited an actual (subjective) expectation of privacy, and that expectation must be one society is prepared to recognize as reasonable."
+    },
+    {
+      "justice": "William O. Douglas",
+      "doctrine": "The constitutional right to privacy (penumbras)",
+      "case": "Griswold v. Connecticut",
+      "cite": "381 U.S. 479 (1965)",
+      "year": 1965,
+      "held": "Specific guarantees in the Bill of Rights have penumbras, formed by emanations that give them life and substance, which together create a zone of privacy protecting, here, the marital use of contraceptives from state prohibition."
+    },
+    {
+      "justice": "John Paul Stevens",
+      "doctrine": "Chevron deference to agency interpretations",
+      "case": "Chevron U.S.A., Inc. v. Natural Resources Defense Council, Inc.",
+      "cite": "467 U.S. 837 (1984)",
+      "year": 1984,
+      "held": "When a statute administered by an agency is silent or ambiguous on the precise question, a court must defer to the agency's interpretation if it is a permissible construction of the statute. (Chevron was overruled by Loper Bright Enterprises v. Raimondo (2024).)"
+    }
+  ]
+}

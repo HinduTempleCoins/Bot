@@ -437,12 +437,59 @@ export function commonLawPage() {
       result, it shows the mechanism: a federal court resolving a <b>national, constitutional question</b>, and that ruling
       binding every state. That is the federal judicial power at work — the accurate core of the “America has its own law”
       point.</p>
+    <h2>A worked example — a Black’s maxim (“property lines in the sky”), applied AND cabined by courts</h2>
+    <p>This is the Black’s-Law lesson in miniature: a Latin maxim lives in the dictionary, but its force comes from how
+      common-law courts <b>apply and limit</b> it — never from the dictionary entry itself. Take the classic property
+      maxim <b><i>Cuius est solum, eius est usque ad coelum et ad inferos</i></b> — “whose is the soil, his it is all the
+      way up to the sky and down to the depths” — the <b>ad coelum</b> doctrine. It reaches Black’s from Blackstone’s
+      <i>Commentaries on the Laws of England</i> (1766), and in its old, literal form it said a landowner owned the
+      column of air to the heavens.</p>
+    <p><b>How a court cabined the maxim: <i>United States v. Causby</i>, 328 U.S. 256 (1946).</b> When military aircraft
+      flying low over a North Carolina farm ruined a chicken business, the Supreme Court held the government had taken an
+      easement in the low airspace the owner actually used — but it flatly refused the literal <i>ad coelum</i> rule.
+      Justice <b>Douglas</b>, writing for the Court, put it directly:</p>
+    <blockquote>“It is ancient doctrine that at common law ownership of the land extended to the periphery of the
+      universe — <i>Cujus est solum ejus est usque ad coelum</i>. But that doctrine has no place in the modern world.
+      The air is a public highway, as Congress has declared.”
+      <span class=src><a href="https://supreme.justia.com/cases/federal/us/328/256/" rel=noopener>United States v.
+      Causby, 328 U.S. 256, 260–261 (1946)</a> (Douglas, J.).</span></blockquote>
+    <p>That is the whole point: the maxim is real and it is in the dictionary, but a court decided <b>how far it reaches</b>.
+      Causby kept a property line in the low, usable air and cut the maxim off before it could ground every airliner in a
+      trespass suit. A dictionary maxim is the <b>starting point of the argument, not the law</b>.</p>
+    <p><b>The other direction — Justice Scalia reviving common-law property lines for the Fourth Amendment.</b> If Causby
+      shows a court trimming an old property maxim, Scalia’s late opinions show a Justice <b>resurrecting</b> common-law
+      property boundaries to decide modern cases. In <b>United States v. Jones, 565 U.S. 400 (2012)</b>, Scalia’s majority
+      held that attaching a GPS tracker to a car and using it to follow the car is a Fourth Amendment “search,” because
+      a vehicle is an “effect” and the government “physically occupied private property for the purpose of obtaining
+      information” — a common-law <b>trespass</b>. He reminded the Court that its Fourth Amendment law “was tied to
+      common-law trespass, at least until the latter half of the 20th century.”</p>
+    <blockquote>“The Government physically occupied private property for the purpose of obtaining information. We have no
+      doubt that such a physical intrusion would have been considered a ‘search’ within the meaning of the Fourth
+      Amendment when it was adopted.”
+      <span class=src><a href="https://supreme.justia.com/cases/federal/us/565/400/" rel=noopener>United States v.
+      Jones, 565 U.S. 400, 404–405 (2012)</a> (Scalia, J.).</span></blockquote>
+    <p>The next year, in <b>Florida v. Jardines, 569 U.S. 1 (2013)</b>, Scalia’s majority carried the same common-law
+      property logic <b>into the vertical/near dimension of the home</b>: bringing a drug-sniffing dog onto the front
+      porch — the home’s <b>curtilage</b> — was an unlicensed physical intrusion, and therefore a search. Same method as
+      Jones: the boundary is drawn by <b>common-law property tradition</b>, not by a privacy formula or a dictionary line.</p>
+    <p><b>Honest scope note — we are not putting words in Scalia’s mouth.</b> Scalia’s Jones and Jardines opinions rest on
+      common-law <b>trespass</b> (tracing it through cases like <i>Entick v. Carrington</i>); <b>they do not expressly
+      invoke the <i>ad coelum</i> maxim</b>, and neither opinion uses that phrase. So we present the two accurately and
+      side by side rather than merged: <i>Causby</i> is the case that names and limits <i>ad coelum</i> for airspace, and
+      Jones/Jardines are Scalia <b>using common-law property lines</b> — on a car, and up to the curtilage of a home — to
+      decide Fourth Amendment questions. They are the same underlying idea (property lines, including in the air and at
+      the edge of the home, fixed by common-law tradition rather than by a dictionary entry), reached through different
+      doctrines by different Justices.</p>
+    <blockquote>The maxim <i>ad coelum</i> sits in Black’s; but <i>Causby</i> is what tells you how high it goes, and
+      Scalia’s trespass revival is what put common-law property lines back at the center of the Fourth Amendment. The
+      dictionary supplies the phrase — the <b>courts</b> supply the law.
+      <span class=src>Teaching synthesis of Causby (1946) and Jones (2012) / Jardines (2013).</span></blockquote>
     <p class=muted>Related: <a href="/persuasive">binding vs. persuasive authority</a> ·
       <a href="/reception">reception of English law &amp; the earliest American cases</a>.</p></div>`;
   return page('American common law vs British common law', body, {
     canonical: `${BASE_URL}/common-law`,
     breadcrumb: crumbs('American vs British common law', '/common-law'),
-    cite: { title: 'American common law vs British common law', url: `${BASE_URL}/common-law`, sourceOfRecord: 'Erie R.R. Co. v. Tompkins, 304 U.S. 64 (1938); NFIB v. Sebelius, 567 U.S. 519 (2012)' },
+    cite: { title: 'American common law vs British common law', url: `${BASE_URL}/common-law`, sourceOfRecord: 'Erie R.R. Co. v. Tompkins, 304 U.S. 64 (1938); NFIB v. Sebelius, 567 U.S. 519 (2012); United States v. Causby, 328 U.S. 256 (1946); United States v. Jones, 565 U.S. 400 (2012); Florida v. Jardines, 569 U.S. 1 (2013)' },
   });
 }
 
@@ -729,7 +776,7 @@ export function lexiconLlmsTxt() {
     links: [
       { label: 'Legal dictionaries — what they are and aren’t', path: '/dictionaries' },
       { label: 'Founding-era dictionaries & original public meaning', path: '/founding-era', note: 'Heller (2008); Johnson 1755; Webster 1828' },
-      { label: 'American common law vs British common law', path: '/common-law', note: 'Erie (1938); federal enclaves; NFIB v. Sebelius (2012)' },
+      { label: 'American common law vs British common law', path: '/common-law', note: 'Erie (1938); federal enclaves; NFIB v. Sebelius (2012); ad coelum — Causby (1946); Scalia trespass revival — Jones (2012), Jardines (2013)' },
       { label: 'Persuasive authority (British case law in U.S. courts)', path: '/persuasive', note: "M'Naghten (1843)" },
       { label: 'Reception of English law & earliest American cases', path: '/reception', note: 'De Longchamps (1784)' },
       { label: 'The Federalist & Anti-Federalist Papers', path: '/federalist' },
@@ -750,6 +797,9 @@ export function lexiconLlmsTxt() {
     "- M'Naghten's Case, 8 Eng. Rep. 718, 10 Cl. & Fin. 200 (H.L. 1843) — the insanity-defense rule.",
     '- Respublica v. De Longchamps, 1 U.S. (1 Dall.) 111 (Pa. 1784) — law of nations in early American law.',
     '- District of Columbia v. Heller, 554 U.S. 570 (2008) — founding-era dictionaries for original public meaning.',
+    '- United States v. Causby, 328 U.S. 256 (1946) — the ad coelum ("up to the sky") maxim "has no place in the modern world" (Douglas, J.).',
+    '- United States v. Jones, 565 U.S. 400 (2012) — Scalia\'s majority: attaching a GPS to a car is a common-law trespass on an "effect."',
+    '- Florida v. Jardines, 569 U.S. 1 (2013) — Scalia\'s majority: a drug dog on the curtilage (front porch) is a common-law trespass search.',
     '',
     '## Usage',
     'Public-interest legal reference. All crawlers, including AI/LLM crawlers, are welcome. Quote and cite freely; '

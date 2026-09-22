@@ -64,6 +64,26 @@ test('common-law page states Erie and NFIB exactly right', async () => {
   assert.match(res.body, /admiralty/i);
 });
 
+test('common-law page: ad coelum maxim + Causby, and Scalia’s Jones/Jardines trespass revival', async () => {
+  const res = await drive('/common-law');
+  // the ad coelum maxim (Latin + gloss), attributed to Blackstone
+  assert.match(res.body, /Cuius est solum, eius est usque ad coelum et ad inferos/);
+  assert.match(res.body, /ad coelum/);
+  assert.match(res.body, /Blackstone/);
+  // Causby cabins the maxim — verbatim cite + the "no place in the modern world" language + Douglas
+  assert.match(res.body, /United States v\. Causby, 328 U\.S\. 256/);
+  assert.match(res.body, /has no place in the modern world/);
+  assert.match(res.body, /Douglas/);
+  // Scalia's common-law-property revival — verbatim cites + Scalia + trespass on an "effect" / curtilage
+  assert.match(res.body, /United States v\. Jones, 565 U\.S\. 400 \(2012\)/);
+  assert.match(res.body, /Florida v\. Jardines, 569 U\.S\. 1 \(2013\)/);
+  assert.match(res.body, /Scalia/);
+  assert.match(res.body, /curtilage/);
+  assert.match(res.body, /trespass/i);
+  // honest finding: we do NOT claim Scalia expressly invoked ad coelum
+  assert.match(res.body, /do not expressly[\s]+invoke the <i>ad coelum<\/i> maxim/i);
+});
+
 test('persuasive page states M’Naghten exactly right', async () => {
   const res = await drive('/persuasive');
   assert.match(res.body, /M.Naghten.s Case, 8 Eng\. Rep\. 718,\s+10 Cl\. &amp; Fin\. 200 \(H\.L\. 1843\)/);
