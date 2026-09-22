@@ -168,7 +168,8 @@ export function createServer(cfg = {}) {
 
   async function handler(req, res) {
     try {
-      const url = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
+      if (typeof req?.url !== 'string' || !req.url) return json(res, 200, { ok: false, error: 'soft' });
+      const url = new URL(req.url, `http://${(req.headers && req.headers.host) || 'localhost'}`);
       if (url.pathname === '/healthz') return json(res, 200, { ok: true, surface: SURFACE });
 
       if (!_auth(req)) return json(res, 401, { ok: false, error: 'unauthorized' });
