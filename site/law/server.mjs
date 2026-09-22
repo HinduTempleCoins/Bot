@@ -531,11 +531,17 @@ export async function casesView(query, court) {
   if (term && !ct && looksLikeCitation(term)) {
     // citation path (only when not court-scoped): resolve via the Caselaw Access Project.
     const c = await cap.caseByCitation(term).catch(() => null);
+    const parsed = cap.parseCitation(term);
+    // Tell a rate-limit/outage apart from a genuinely unknown citation: throttled → "busy, look it up",
+    // clean miss → "no case found". Both offer the CourtListener deep link so the user is never dead-ended.
+    const throttled = !c && cap.citationLookupThrottled();
     results = c
-      ? `<div class=card><h2>Citation: ${esc(cap.parseCitation(term).normalized)}</h2>${caseRow(c)}</div>`
-      : `<div class=card><h2>Citation: ${esc(cap.parseCitation(term).normalized)}</h2>
-          <p class=empty>No case found for that citation right now. The Caselaw Access Project (Harvard LIL) is the source of record —
-          <a href="${esc(cap.citationUrl(cap.parseCitation(term)))}">look it up there →</a></p></div>`;
+      ? `<div class=card><h2>Citation: ${esc(parsed.normalized)}</h2>${caseRow(c)}</div>`
+      : `<div class=card><h2>Citation: ${esc(parsed.normalized)}</h2>
+          <p class=empty>${throttled
+            ? 'The citation lookup is busy right now (source rate-limited). Try again in a moment, or look it up directly at CourtListener (Free Law Project) —'
+            : 'No case found for that citation. CourtListener (Free Law Project) is the open source of record —'}
+          <a href="${esc(cap.citationUrl(parsed))}">look it up there →</a></p></div>`;
   } else if (term || ct) {
     // free-text and/or court-browse path: CourtListener opinion search. When there's a term, rank by
     // relevance; for a bare court browse, list that court's most-recent opinions.
