@@ -218,8 +218,11 @@ export function homePage() {
 export function firstAmendmentView() {
   const d = loadData();
   const inc = d.incitement || {};
+  const adv = d.advocacy || {};
+  const tt = d.trueThreats || {};
   const cats = d.categories || {};
   const sym = d.symbolic || {};
+  const st = d.stateSpeech || {};
   const test = inc.governingTest || {};
 
   const incCases = Array.isArray(inc.cases) ? inc.cases : [];
@@ -251,6 +254,20 @@ export function firstAmendmentView() {
         ${cats.protectedNote ? `<div class=note-callout style="margin-top:12px"><b>Generally protected (not on the list above):</b> ${esc(cats.protectedNote)}</div>` : ''}</div>`
     : '';
 
+  const advCases = Array.isArray(adv.cases) ? adv.cases : [];
+  const advBox = advCases.length
+    ? `<div class=card><h2>${esc(adv.heading || 'Advocacy and association')}</h2>
+        ${adv.intro ? `<p>${esc(adv.intro)}</p>` : ''}
+        ${advCases.map(caseCard).join('')}</div>`
+    : '';
+
+  const ttCases = Array.isArray(tt.cases) ? tt.cases : [];
+  const ttBox = ttCases.length
+    ? `<div class=card><h2>${esc(tt.heading || 'True threats')}</h2>
+        ${tt.intro ? `<p>${esc(tt.intro)}</p>` : ''}
+        ${ttCases.map(caseCard).join('')}</div>`
+    : '';
+
   const symCases = Array.isArray(sym.cases) ? sym.cases : [];
   const symBox = symCases.length
     ? `<div class=card><h2>${esc(sym.heading || 'Symbolic speech and speech we hate')}</h2>
@@ -258,7 +275,14 @@ export function firstAmendmentView() {
         ${symCases.map(caseCard).join('')}</div>`
     : '';
 
-  const inner = [evolution, testBox, catBox, symBox].filter(Boolean).join('');
+  const stProv = Array.isArray(st.provisions) ? st.provisions : [];
+  const stBox = stProv.length
+    ? `<div class=card><h2>${esc(st.heading || 'State speech guarantees')}</h2>
+        ${st.intro ? `<p>${esc(st.intro)}</p>` : ''}
+        ${stProv.map(caseCard).join('')}</div>`
+    : '';
+
+  const inner = [evolution, testBox, advBox, ttBox, catBox, symBox, stBox].filter(Boolean).join('');
   return `<h1>First Amendment core doctrine</h1>
     <p class=muted>How the law decides which speech the government may punish. The default is protection;
       the exceptions are narrow and each is defined by a case. The crux is the incitement test —
@@ -273,6 +297,7 @@ export function seditionView() {
   const line = s.line || {};
   const statutes = Array.isArray(s.statutes) ? s.statutes : [];
   const sc = s.seditiousConspiracy || {};
+  const ror = s.rightOfRevolution || {};
 
   const lineBox = (line.protected || line.criminal)
     ? `<div class=card><h2>${esc(line.heading || 'Protected dissent vs. criminal conspiracy')}</h2>
@@ -299,7 +324,15 @@ export function seditionView() {
         ${sc.teaching ? `<div class=note-callout style="margin-top:12px"><b>The line, not the politics:</b> ${esc(sc.teaching)}</div>` : ''}</div>`
     : '';
 
-  const inner = [lineBox, statuteBox, scBox].filter(Boolean).join('');
+  const rorTexts = Array.isArray(ror.texts) ? ror.texts : [];
+  const rorBox = ror.heading
+    ? `<div class=card><h2>${esc(ror.heading)}</h2>
+        ${ror.intro ? `<p>${esc(ror.intro)}</p>` : ''}
+        ${rorTexts.map(caseCard).join('')}
+        ${ror.line ? `<div class=note-callout style="margin-top:12px"><b>The line:</b> ${esc(ror.line)}</div>` : ''}</div>`
+    : '';
+
+  const inner = [lineBox, statuteBox, scBox, rorBox].filter(Boolean).join('');
   return `<h1>Sedition &amp; seditious conspiracy</h1>
     <p class=muted>${esc(s.intro || 'The United States has a long, cautionary history of sedition laws used to punish dissent — and a modern statute, seditious conspiracy, that punishes an agreement to use force against the government. The crucial thing to understand is the line between the two.')}</p>
     ${inner || '<div class=card><p class=empty>The sedition corpus is unavailable right now.</p></div>'}`;

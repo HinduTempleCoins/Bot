@@ -66,6 +66,7 @@ const DIRECTORY = process.env.DIRECTORY_SITE || 'https://directory.soapbox.commu
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const OVERSIGHT = process.env.OVERSIGHT_SITE || 'https://oversight.soapbox.community';
 const CASELAW = process.env.CASELAW_SITE || 'https://caselaw.soapbox.community';
+const FREESPEECH = process.env.FREESPEECH_SITE || 'https://free-speech.soapbox.community';
 
 // Jurisdiction registry. US is jurisdiction #1; the bare paths alias to it. Add a code here to open a
 // new jurisdiction's URL prefix (see the extension plan in the header).
@@ -249,7 +250,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 ${seoHead}${STYLE}${LAW_ADS ? `<style>${adSlotStyles()}</style>` : ''}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript>${adHeadTags(ADS)}</head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
-  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/doctrines">Doctrines</a><a href="/spirit-of-the-laws">Spirit of the Laws</a><a href="/treaties">Treaties</a><a href="/maxims">Maxims</a><a href="/rights">Your rights</a><a href="/privacy">Privacy law</a><a href="/appeals">Appeals &amp; writs</a><a href="/cases">Cases</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="${CASELAW}" title="Case law as the history of this country">Case law as history</a><a href="/dockets">Dockets</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
+  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/doctrines">Doctrines</a><a href="/spirit-of-the-laws">Spirit of the Laws</a><a href="/treaties">Treaties</a><a href="/maxims">Maxims</a><a href="/rights">Your rights</a><a href="/privacy">Privacy law</a><a href="${FREESPEECH}" title="Free speech & sedition">Free speech</a><a href="/appeals">Appeals &amp; writs</a><a href="/cases">Cases</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="${CASELAW}" title="Case law as the history of this country">Case law as history</a><a href="/dockets">Dockets</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
 <main class=wrap>${adSlot('law-top', ADS)}${body}${citeHtml}${adSlot('law-bottom', ADS)}</main>
 ${FOOTER}</body></html>`;
 }
@@ -941,7 +942,8 @@ export async function privacyView(statuteId) {
       limited by it. Click a topic to open the two statutes side by side, then pull the cases interpreting them.
       Federal privacy law is <em>sectoral</em> — there is no single comprehensive federal privacy statute — which is
       exactly why the states matter. Informational only, not legal advice.</p>`;
-  return intro + map;
+  return intro + map + marriageFamilyCard() + privilegesCard()
+    + actOnThis([{ href: '/complaints', label: 'File a privacy or civil-rights complaint' }]);
 }
 
 // ── /appeals (+ /writs) — the pro-se appeals & extraordinary-writ engine ───────────────────────────
@@ -1078,7 +1080,8 @@ export async function appealsView({ state = '', level = '', remedy = '', done = 
     ${sgHow.length ? `<h3 style="margin:12px 0 6px">How to move for sanctions</h3><ol style="font-size:14px">${sgHow.map((h) => `<li>${esc(str(h))}</li>`).join('')}</ol>` : ''}
     ${sg.not_legal_advice ? `<p class=muted style="font-size:12px">${esc(str(sg.not_legal_advice))}</p>` : ''}</div>` : '';
 
-  const jump = `<p class=muted style="font-size:13px;margin:-4px 0 10px">On this page: <a href="#where-to-file">where to file</a> · <a href="#admin-filing">administrative / ALJ</a> · <a href="#exhaustion">building standing &amp; exhaustion</a> · <a href="#ftca">SF-95 / suing the government</a> · <a href="#agencies">agencies to contact</a> · <a href="#judicial-complaints">judicial-misconduct complaints</a> · <a href="#sanctions">sanctioning lawyers</a></p>`;
+  const jump = `<p class=muted style="font-size:13px;margin:-4px 0 10px">On this page: <a href="#where-to-file">where to file</a> · <a href="#admin-filing">administrative / ALJ</a> · <a href="#exhaustion">building standing &amp; exhaustion</a> · <a href="#ftca">SF-95 / suing the government</a> · <a href="#agencies">agencies to contact</a> · <a href="#judicial-complaints">judicial-misconduct complaints</a> · <a href="#sanctions">sanctioning lawyers</a></p>
+    <p class=muted style="font-size:13px;margin:0 0 10px">Need a person, not a page? <a href="/lawyers">Find a lawyer or legal aid</a> · <a href="/complaints">File a complaint or get help</a>.</p>`;
 
   const intro = `<h1>Appeals &amp; extraordinary writs <span class=muted style="font-size:14px">· a pro-se ladder</span></h1>
     <p class=muted>If you lost and want to keep fighting, there is an <b>order</b> you have to climb — trial loss → appeal →
@@ -1380,7 +1383,7 @@ export function rightsPage() {
     <p class=muted>Real, dated, sourced incidents — kept to show the doctrine above playing out, <b>not</b> to celebrate anyone getting hurt.
       Each is tagged with the legal lesson. If a link can't be verified, it comes down.</p>
     ${evidenceShelf()}</div>`;
-  return body;
+  return body + actOnThis([{ href: '/appeals', label: 'Assert a right or challenge a violation — the appeals & writs ladder' }]);
 }
 
 // ── /constitution — "Foundational Law" + the checks-and-balances spine ──────────────────────────────
@@ -1412,6 +1415,57 @@ function loadLegal(name) {
   try {
     return JSON.parse(readFileSync(fileURLToPath(new URL(`../../knowledge/legal/${name}.json`, import.meta.url)), 'utf8')) || {};
   } catch { return {}; }
+}
+
+// "Act on this" — every page ends with a place the reader can DO something, OUR OWN SITES FIRST, then
+// outward. `extra` appends page-specific links (each {href,label} or [href,label]); external destinations
+// should be passed last by the caller. De-dupes by href. Soft, never throws, esc() everything.
+function actOnThis(extra = []) {
+  const core = [
+    ['/appeals', 'Appeals & extraordinary writs — how and where to file, and how to exhaust remedies'],
+    ['/complaints', 'File a complaint or get legal help'],
+    ['/lawyers', 'Find a lawyer or legal aid'],
+    ['/cases', 'Search the caselaw, statutes & regulations'],
+    ['https://lexicon.soapbox.community', 'Legal lexicon & sources of authority'],
+    ['https://caselaw.soapbox.community', 'Case law as the history of this country'],
+    ['https://melek.salon', 'Join MELEK — a free account on the chain that teaches'],
+  ];
+  const norm = (e) => (Array.isArray(e) ? { href: e[0], label: e[1] } : e || {});
+  const seen = new Set();
+  const rows = [...core.map((c) => ({ href: c[0], label: c[1] })), ...((Array.isArray(extra) ? extra : []).map(norm))]
+    .filter((e) => e && e.href && !seen.has(e.href) && seen.add(e.href))
+    .map((e) => `<li><a href="${esc(String(e.href))}"${/^https?:/.test(e.href) ? ' rel="noopener"' : ''}>${esc(String(e.label || e.href))}</a></li>`)
+    .join('');
+  return `<div class=card style="border-color:var(--gold)"><h2 id=act-on-this>Act on this</h2>
+    <p class=muted>Don't just read it — here's where to take it, starting with our own tools:</p>
+    <ul style="margin:6px 0 0;padding-left:18px;line-height:1.9">${rows}</ul></div>`;
+}
+
+// The two constitutional-privacy cards for the /privacy stack (marriage & family; testimonial privileges).
+function marriageFamilyCard() {
+  const d = loadLegal('marriage-family-privacy');
+  if (!d || !Array.isArray(d.cases) || !d.cases.length) return '';
+  const rows = d.cases.map((c) => `<div class=rec><div class=nm><a href="/cases?q=${q(str(c.cite))}">${esc(str(c.name))}</a> <span class=badge>${esc(str(c.cite))}</span></div>${c.held ? `<div class=meta>${esc(str(c.held))}</div>` : ''}</div>`).join('');
+  return `<div class=card id=marriage-family><h2>Marriage &amp; family — the constitutional privacy of the home</h2>
+    ${d.intro ? `<p>${esc(str(d.intro))}</p>` : ''}${rows}
+    ${d.federalism_note ? `<p class=muted style="margin-top:10px"><b>Federalism:</b> ${esc(str(d.federalism_note))}</p>` : ''}
+    ${d.not_legal_advice ? `<p class=muted style="font-size:12px">${esc(str(d.not_legal_advice))}</p>` : ''}</div>`;
+}
+function privilegesCard() {
+  const d = loadLegal('privileges');
+  if (!d || !Array.isArray(d.privileges) || !d.privileges.length) return '';
+  const blocks = d.privileges.map((p) => {
+    const kc = (Array.isArray(p.key_cases) ? p.key_cases : []).map((c) => `<div class=rec><div class=nm><a href="/cases?q=${q(str(c.cite))}">${esc(str(c.name))}</a> <span class=badge>${esc(str(c.cite))}</span></div>${c.held ? `<div class=meta>${esc(str(c.held))}</div>` : ''}</div>`).join('');
+    return `<div style="margin:0 0 16px"><h3 style="margin:10px 0 4px">${esc(str(p.name))}</h3>
+      ${p.who_holds_it ? `<p style="font-size:14px;margin:2px 0"><b>Who holds it:</b> ${esc(str(p.who_holds_it))}</p>` : ''}
+      ${p.what_it_covers ? `<p style="font-size:14px;margin:2px 0"><b>Covers:</b> ${esc(str(p.what_it_covers))}</p>` : ''}
+      ${p.limits ? `<p style="font-size:14px;margin:2px 0"><b>Limits:</b> ${esc(str(p.limits))}</p>` : ''}
+      ${p.authority ? `<p class=muted style="font-size:12px;margin:2px 0">${esc(str(p.authority))}</p>` : ''}${kc}</div>`;
+  }).join('');
+  return `<div class=card id=privileges><h2>Testimonial &amp; confidential privileges — who can refuse to testify, and the limits</h2>
+    ${d.intro ? `<p>${esc(str(d.intro))}</p>` : ''}${blocks}
+    ${d.limits_summary ? `<p class=muted style="margin-top:10px"><b>No privilege is absolute:</b> ${esc(str(d.limits_summary))}</p>` : ''}
+    ${d.not_legal_advice ? `<p class=muted style="font-size:12px">${esc(str(d.not_legal_advice))}</p>` : ''}</div>`;
 }
 
 // One amendment block: verbatim text (blockquote), plain-English explanation, and its landmark case(s)
@@ -1584,7 +1638,8 @@ export function constitutionView() {
     <h3 id=override>The other direction: overriding the Court</h3>
     <p class=muted style="font-size:14px">Checks run <em>up</em> too. When the Court reads a <b>statute</b> a way Congress dislikes, Congress can amend it (e.g. the Lilly Ledbetter Fair Pay Act overrode <a href="/cases?q=${q('550 U.S. 618')}">Ledbetter v. Goodyear</a>, 550 U.S. 618 (2007)). When the Court reads the <b>Constitution</b>, only an Article V amendment can override it (the 11th overrode <a href="/cases?q=${q('2 U.S. 419')}">Chisholm v. Georgia</a>; the 16th overrode <a href="/cases?q=${q('157 U.S. 429')}">Pollock</a>; the 14th overrode <a href="/cases?q=${q('60 U.S. 393')}">Dred Scott</a>).</p></div>
 
-  <p class=muted style="font-size:12px">Case descriptions state what each decision is cited for as a matter of legal-historical record, from the public reporters — not our verdict on whether a case is correct or currently good law. Corrections route to the source of record (see the footer).</p>`;
+  <p class=muted style="font-size:12px">Case descriptions state what each decision is cited for as a matter of legal-historical record, from the public reporters — not our verdict on whether a case is correct or currently good law. Corrections route to the source of record (see the footer).</p>`
+    + actOnThis([{ href: '/rights', label: 'Rights that hold up in court' }]);
 }
 
 // ── /treaties — how a treaty becomes U.S. law: ratification → codification → cases ──────────────────
@@ -1671,7 +1726,8 @@ export function treatiesView() {
       <a class=sec href="/constitution"><div class=t>Foundational Law</div><div class=d>Article II, Article VI, and the checks-and-balances spine.</div></a>
     </div></div>
 
-  <p class=muted style="font-size:12px">Case descriptions state what each decision is cited for as a matter of public record, from the reporters — not our verdict on whether a case is correct or currently good law. Corrections route to the source of record (see the footer).</p>`;
+  <p class=muted style="font-size:12px">Case descriptions state what each decision is cited for as a matter of public record, from the reporters — not our verdict on whether a case is correct or currently good law. Corrections route to the source of record (see the footer).</p>`
+    + actOnThis();
 }
 
 // ── /maxims — legal maxims, political axioms & idioms (same corpus that feeds the legal-graph 'maxim' node)
@@ -1743,7 +1799,8 @@ export async function maximsView(domain, expandId) {
       Open any maxim to see the <b>case law that cites or applies it</b> — curated landmark cases plus a live search of the public
       record. The legal maxims cross-reference the same categories as our <a href="/cases">case law</a>.</p>
     ${tabs}
-    <div class=card>${rows}</div>`;
+    <div class=card>${rows}</div>`
+    + actOnThis();
 }
 
 // ── /doctrines — legal doctrines + the sovereign-citizen faux-doctrines refuted ────────────────────
@@ -2011,7 +2068,7 @@ export function doctrinesView() {
     ${justicesCard}
     ${calloutHtml}
     ${faqCard(DOCTRINES_FAQ)}`;
-  return body;
+  return body + actOnThis([{ href: '/cases', label: "Search a doctrine's cases" }]);
 }
 
 // ── /spirit-of-the-laws — Montesquieu, separation of powers, and reading a law for its purpose ──────
@@ -2094,7 +2151,8 @@ export function spiritOfTheLawsView() {
 
     ${readingHtml ? `<div class=card><h2>Read further (verified editions)</h2>${readingHtml}</div>` : ''}
 
-    <p class=muted style="font-size:12px">Every case, quote, pincite, and book on this page is drawn from a verified corpus (each with a source link); a quote that could not be confirmed verbatim against a primary text is labeled as such rather than invented. Case descriptions state what a decision is cited for as a matter of record — not our verdict on whether it is rightly decided. Corrections route to the source of record (see the footer).</p>`;
+    <p class=muted style="font-size:12px">Every case, quote, pincite, and book on this page is drawn from a verified corpus (each with a source link); a quote that could not be confirmed verbatim against a primary text is labeled as such rather than invented. Case descriptions state what a decision is cited for as a matter of record — not our verdict on whether it is rightly decided. Corrections route to the source of record (see the footer).</p>`
+    + actOnThis([{ href: '/doctrines', label: 'The doctrines that decide cases' }]);
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────

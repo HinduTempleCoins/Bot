@@ -18,7 +18,7 @@ import * as judges from '../../integrations/soapbox/courtlistener-judges.mjs';
 import {
   handler, casesView, caseDetailView, docketsView, statutesView, judgesView, lawyersView, complaintsView,
   looksLikeCitation, splitJurisdiction, publicInterestData, browseByCourt, doctrinesView, maximsView,
-  constitutionView, spiritOfTheLawsView, esc, rightsPage, appealsView,
+  constitutionView, spiritOfTheLawsView, esc, rightsPage, appealsView, privacyView,
 } from './server.mjs';
 
 // ── fetch fakes ─────────────────────────────────────────────────────────────────────────────────
@@ -1062,4 +1062,25 @@ test('/complaints has a judicial-misconduct block linking to the full treatment'
   assert.match(h, /judicial misconduct/i);
   assert.match(h, /appeals#judicial-complaints/);
   assert.match(h, /351/);
+});
+
+test('/privacy stack includes marriage & family and testimonial privileges', async () => {
+  const html = await privacyView('');
+  assert.ok(html.includes('Obergefell'), 'marriage/family case present');
+  assert.ok(/Branzburg|Trammel/.test(html), 'a testimonial privilege case present');
+  assert.ok(html.includes('id=marriage-family'), 'marriage-family anchor');
+  assert.ok(html.includes('id=privileges'), 'privileges anchor');
+});
+
+test('every law page has an "Act on this" block that links our own tools first', async () => {
+  const pages = [constitutionView(), rightsPage(), await privacyView(''), doctrinesView(), spiritOfTheLawsView()];
+  for (const html of pages) {
+    assert.ok(html.includes('Act on this'), 'has Act on this');
+    assert.ok(html.includes('href="/lawyers"'), 'links /lawyers');
+    assert.ok(html.includes('href="/appeals"'), 'links /appeals');
+    // our-own-sites-first: /appeals must appear before any external https link in the CTA region
+    const i = html.indexOf('Act on this');
+    const region = html.slice(i);
+    assert.ok(region.indexOf('href="/appeals"') < region.indexOf('href="https://'), 'internal before external');
+  }
 });
