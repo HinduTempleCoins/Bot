@@ -1,0 +1,10 @@
+# Local tooling only — what you need on the OPERATOR'S machine to deploy this app.
+# The GPU-side deps (vllm, torch, huggingface_hub, fastapi) are declared INSIDE the Modal image in
+# app.py and are built/run on Modal, NOT installed here.
+#
+#   pip install -r modal/requirements.txt
+#   modal token new
+#   modal deploy modal/app.py
+modal>=1.0
+
+# The offline smoke test (modal/smoke_test.py) needs NOTHING beyond the Python stdlib.
