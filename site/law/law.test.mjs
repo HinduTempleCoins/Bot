@@ -18,7 +18,7 @@ import * as judges from '../../integrations/soapbox/courtlistener-judges.mjs';
 import {
   handler, casesView, caseDetailView, docketsView, statutesView, judgesView, lawyersView, complaintsView,
   looksLikeCitation, splitJurisdiction, publicInterestData, browseByCourt, doctrinesView, maximsView,
-  constitutionView, spiritOfTheLawsView, esc,
+  constitutionView, spiritOfTheLawsView, esc, rightsPage, appealsView,
 } from './server.mjs';
 
 // ── fetch fakes ─────────────────────────────────────────────────────────────────────────────────
@@ -1004,4 +1004,43 @@ test('/rights adds the state-national + territory/consular/secession sov-cit car
   assert.match(res.body, /indestructible Union/);
   // links resolve live via /cases
   assert.match(res.body, /href="\/cases\?q=74%20U\.S\.%20700/);
+});
+
+// ── new teaching content: FLIR/thermal (rights), Justices→doctrines, writ basis + where-to-file +
+//    admin/ALJ + judicial-misconduct complaints (appeals & complaints) ────────────────────────────
+test('/rights includes the FLIR / thermal-imaging Fourth-Amendment line (Kyllo)', () => {
+  const h = rightsPage();
+  assert.match(h, /Thermal imaging/i);
+  assert.match(h, /Kyllo v\. United States/);
+});
+
+test('/doctrines includes "Doctrines by the Justice" with Ginsburg judicial estoppel', () => {
+  const h = doctrinesView();
+  assert.match(h, /Doctrines by the Justice/i);
+  assert.match(h, /judicial estoppel/i);
+  assert.match(h, /New Hampshire v\. Maine/);
+});
+
+test('/appeals labels writ basis and lists common-law writs that rest on no statute', async () => {
+  const h = await appealsView({});
+  assert.match(h, /Statutory writs vs\. common-law writs/i);
+  assert.match(h, /audita querela/i);
+});
+
+test('/appeals teaches where to file (specialized courts), ALJ filing, and judicial complaints', async () => {
+  const h = await appealsView({});
+  assert.match(h, /Where to file/i);
+  assert.match(h, /Court of Federal Claims/);
+  assert.match(h, /ALJ filing/i);
+  assert.match(h, /Social Security/);
+  assert.match(h, /judicial-misconduct/i);
+  assert.match(h, /351/);            // 28 U.S.C. §§ 351-364
+  assert.match(h, /Supreme Court Justices/);  // the "does not cover" limit
+});
+
+test('/complaints has a judicial-misconduct block linking to the full treatment', () => {
+  const h = complaintsView();
+  assert.match(h, /judicial misconduct/i);
+  assert.match(h, /appeals#judicial-complaints/);
+  assert.match(h, /351/);
 });

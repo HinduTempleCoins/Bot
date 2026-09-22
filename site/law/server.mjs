@@ -249,7 +249,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 ${seoHead}${STYLE}${LAW_ADS ? `<style>${adSlotStyles()}</style>` : ''}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript>${adHeadTags(ADS)}</head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
-  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/appeals">Appeals &amp; writs</a><a href="/rights">Your rights</a><a href="/doctrines">Doctrines</a><a href="/spirit-of-the-laws">Spirit of the Laws</a><a href="${CASELAW}" title="Case law as the history of this country">Case law as history</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
+  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/doctrines">Doctrines</a><a href="/spirit-of-the-laws">Spirit of the Laws</a><a href="/treaties">Treaties</a><a href="/maxims">Maxims</a><a href="/rights">Your rights</a><a href="/privacy">Privacy law</a><a href="/appeals">Appeals &amp; writs</a><a href="/cases">Cases</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="${CASELAW}" title="Case law as the history of this country">Case law as history</a><a href="/dockets">Dockets</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
 <main class=wrap>${adSlot('law-top', ADS)}${body}${citeHtml}${adSlot('law-bottom', ADS)}</main>
 ${FOOTER}</body></html>`;
 }
@@ -328,18 +328,24 @@ export function lawLlmsTxt() {
     summary: 'Free, keyless U.S. legal reference — caselaw, statutes, regulations, judges, and lawyer bar '
       + 'records, each surfaced verbatim from its official public source. Facts, not verdicts.',
     links: [
-      { label: 'Caselaw (court opinions)', path: '/cases', note: 'CourtListener / Free Law Project + Caselaw Access Project; resolves reporter citations' },
-      { label: 'Dockets (PACER/RECAP)', path: '/dockets', note: 'case filings and proceedings' },
-      { label: 'Statutes (U.S. Code)', path: '/statutes', note: 'OLRC U.S. Code + Cornell LII; eCFR full-text search' },
-      { label: 'Regulations (CFR / Federal Register)', path: '/regulations', note: 'recent rules by agency' },
-      { label: 'Constitution', path: '/constitution', note: 'foundational law, public domain' },
-      { label: 'Treaties', path: '/treaties' },
-      { label: 'Privacy law (federal vs. Texas)', path: '/privacy' },
-      { label: 'Appeals & extraordinary writs (pro-se ladder)', path: '/appeals', note: 'the exhaustion ladder, gated; deadlines, required fields, mandamus/habeas' },
-      { label: 'Your rights', path: '/rights' },
+      // Foundations — how the law is built
+      { label: 'Constitution & foundational law', path: '/constitution', note: 'the Bill of Rights verbatim with landmark cases (incl. the Ninth Amendment penumbra line); Articles, later amendments' },
       { label: 'Legal doctrines (real + sovereign-citizen pseudolaw, refuted)', path: '/doctrines', note: 'grouped doctrine reference with landmark cases; the Commerce Clause misreading contrasted with the real doctrine' },
       { label: 'The Spirit of the Laws (Montesquieu; purposive interpretation)', path: '/spirit-of-the-laws', note: 'separation of powers and letter-vs-spirit, with the real cases — verified quotes and cites' },
+      { label: 'Treaties', path: '/treaties', note: 'ratification → codification → the cases' },
       { label: 'Maxims, axioms & idioms', path: '/maxims', note: 'each maxim links the case law that applies it' },
+      // Your rights
+      { label: 'Your rights', path: '/rights', note: 'the doctrine, not the myth' },
+      { label: 'Privacy law (federal vs. Texas)', path: '/privacy' },
+      // Procedure & remedies
+      { label: 'Appeals & extraordinary writs (pro-se ladder)', path: '/appeals', note: 'the exhaustion ladder, gated; writs matched to their authority — statutory (habeas, mandamus) and common-law (coram nobis, audita querela)' },
+      // The record — search & history
+      { label: 'Caselaw (court opinions)', path: '/cases', note: 'CourtListener / Free Law Project + Caselaw Access Project; resolves reporter citations' },
+      { label: 'Statutes (U.S. Code)', path: '/statutes', note: 'OLRC U.S. Code + Cornell LII; eCFR full-text search' },
+      { label: 'Regulations (CFR / Federal Register)', path: '/regulations', note: 'recent rules by agency' },
+      { label: 'Case law as the history of this country', path: `${CASELAW}`, note: 'the reporters read as American history — figures, courts doing history, ancient codes' },
+      { label: 'Dockets (PACER/RECAP)', path: '/dockets', note: 'case filings and proceedings' },
+      // People & action
       { label: 'Judges', path: '/judges' },
       { label: 'Lawyers', path: '/lawyers' },
       { label: 'File a complaint', path: '/complaints' },
@@ -887,9 +893,22 @@ function publicInterestHtml(onlyGroups) {
 }
 
 export function complaintsView() {
+  const jc = loadLegal('judicial-complaints');
+  const jcAuth = Array.isArray(jc.authority) ? jc.authority : [];
+  const judicialBlock = `<div class=card><h2>Complaint against a judge (judicial misconduct)</h2>
+    <p style="margin:0 0 8px">Misconduct is about a judge's <b>conduct</b>, not whether a ruling was right. A misconduct complaint
+      <b>cannot change or review a ruling</b> — the remedy for a wrong ruling is an <a href="/appeals">appeal</a>.</p>
+    <p style="margin:0 0 8px"><b>Federal judges:</b> file a written complaint with the clerk of the U.S. Court of Appeals for that circuit
+      under the Judicial Conduct and Disability Act (28 U.S.C. §§ 351–364); the circuit's chief judge reviews it. It does <b>not</b>
+      cover U.S. Supreme Court Justices.</p>
+    <p style="margin:0 0 8px"><b>State judges:</b> every state has its own judicial-conduct commission (in Texas, the State Commission
+      on Judicial Conduct) — file on that commission's official form.</p>
+    <p class=xlink><a href="/appeals#judicial-complaints">The full step-by-step, limits, and authorities &rarr;</a></p>
+    ${jcAuth.length ? `<p class=muted style="font-size:12px"><b>Authority:</b> ${jcAuth.slice(0, 3).map((a) => esc(str(a))).join(' · ')}</p>` : ''}</div>`;
   return `<h1>File a complaint &amp; get help</h1>
-    <p class=muted>Where to go for legal aid, a lawyer referral, or to file a complaint with the right agency. These are public services —
+    <p class=muted>Where to go for legal aid, a lawyer referral, or to file a complaint with the right agency or court. These are public services —
       no money changes hands here. This is information, not legal advice.</p>
+    ${judicialBlock}
     <div class=card>${publicInterestHtml()}</div>`;
 }
 
@@ -982,6 +1001,41 @@ export async function appealsView({ state = '', level = '', remedy = '', done = 
   };
   const hrefFor = (id) => base({ remedy: id });
 
+  // Writ basis (statutory vs. common-law) — the LADDER carries an optional `basis` on writ remedies.
+  const basisText = { statute: 'statutory writ', 'all-writs-act': 'All Writs Act (28 U.S.C. § 1651)', 'common-law': 'common-law writ — no statute' };
+  const basisLabel = (rr) => (rr && rr.basis ? `<p style="margin:0 0 8px"><span class=badge>${esc(str(basisText[rr.basis] || rr.basis))}</span></p>` : '');
+  const basisExplainer = `<div class=card><h2>Statutory writs vs. common-law writs</h2>
+    <p class=muted style="font-size:14px">Not every writ comes from a statute. Some are created by Congress (habeas corpus, 28 U.S.C. §§ 2254 / 2255; mandamus, § 1361). Some rest only on the <b>All Writs Act</b> (28 U.S.C. § 1651) — a court's general power to issue writs. And some are pure <b>common-law</b> writs that rest on <b>no statute at all</b> (audita querela, coram vobis, procedendo, scire facias). Each writ below is labeled with its basis when you open it.</p></div>`;
+
+  // Where-to-file / obscure courts, administrative-ALJ filing, and judicial-misconduct complaints —
+  // three teaching cards from knowledge/legal/*.json. Soft-fail: an unavailable file renders nothing.
+  const wf = loadLegal('where-to-file');
+  const wfCourts = Array.isArray(wf.courts) ? wf.courts : [];
+  const whereCard = wfCourts.length ? `<div class=card id=where-to-file><h2>Where to file — which court hears what</h2>
+    ${wf.intro ? `<p class=muted style="font-size:14px;margin:-2px 0 12px">${esc(str(wf.intro))}</p>` : ''}
+    ${wfCourts.map((c) => `<div class=rec><div class=nm>${esc(str(c.name))}${c.kind ? ` <span class=badge>${esc(str(c.kind))}</span>` : ''}</div>
+      <div class=meta>${esc(str(c.hears))}${c.how_to_get_there ? ` — <b>Getting there:</b> ${esc(str(c.how_to_get_there))}` : ''}${c.authority ? ` <span class=muted>(${esc(str(c.authority))})</span>` : ''}</div></div>`).join('')}</div>` : '';
+
+  const af = loadLegal('admin-filing');
+  const afFw = Array.isArray(af.framework) ? af.framework : [];
+  const afTr = Array.isArray(af.agency_tracks) ? af.agency_tracks : [];
+  const adminCard = (afFw.length || afTr.length) ? `<div class=card id=admin-filing><h2>Administrative &amp; ALJ filing — the agency track</h2>
+    ${af.intro ? `<p class=muted style="font-size:14px;margin:-2px 0 12px">${esc(str(af.intro))}</p>` : ''}
+    ${afFw.map((p) => `<div class=rec><div class=nm>${esc(str(p.point))}</div><div class=meta>${esc(str(p.detail))}${p.authority ? ` <span class=muted>(${esc(str(p.authority))})</span>` : ''}</div></div>`).join('')}
+    ${afTr.length ? `<h3 style="margin:12px 0 6px">Agency ladders (exhaust these, then a court)</h3>${afTr.map((t) => `<div class=rec><div class=nm>${esc(str(t.agency))}</div><div class=meta>${esc(str(t.path))}${t.authority ? ` <span class=muted>(${esc(str(t.authority))})</span>` : ''}</div></div>`).join('')}` : ''}</div>` : '';
+
+  const jc = loadLegal('judicial-complaints');
+  const jcSteps = Array.isArray(jc.steps) ? jc.steps : [];
+  const jcLimits = Array.isArray(jc.limits) ? jc.limits : [];
+  const jcAuth = Array.isArray(jc.authority) ? jc.authority : [];
+  const judicialCard = (jcSteps.length || jcLimits.length) ? `<div class=card id=judicial-complaints><h2>Federal &amp; state judicial-misconduct complaints</h2>
+    ${jc.intro ? `<p class=muted style="font-size:14px;margin:-2px 0 8px">${esc(str(jc.intro))}</p>` : ''}
+    <p style="margin:6px 0"><b>Read this first:</b> a misconduct complaint <b>cannot change, overturn, or review the correctness of a ruling</b> — that is what an appeal is for — and the federal process does <b>not</b> cover U.S. Supreme Court Justices.</p>
+    ${jcSteps.length ? `<h3 style="margin:12px 0 6px">How the federal process (28 U.S.C. §§ 351–364) works</h3>${jcSteps.map((s) => `<div class=rec><div class=nm>${esc(str(s.step))}</div>${s.detail ? `<div class=meta>${esc(str(s.detail))}</div>` : ''}</div>`).join('')}` : ''}
+    ${jcLimits.length ? `<h3 style="margin:12px 0 6px">What it cannot do</h3><ul style="font-size:14px">${jcLimits.map((l) => `<li>${esc(str(l))}</li>`).join('')}</ul>` : ''}
+    ${jc.state_note ? `<p class=muted style="font-size:13px">${esc(str(jc.state_note))}</p>` : ''}
+    ${jcAuth.length ? `<p class=muted style="font-size:12px"><b>Authority:</b> ${jcAuth.map((a) => esc(str(a))).join(' · ')}</p>` : ''}</div>` : '';
+
   const intro = `<h1>Appeals &amp; extraordinary writs <span class=muted style="font-size:14px">· a pro-se ladder</span></h1>
     <p class=muted>If you lost and want to keep fighting, there is an <b>order</b> you have to climb — trial loss → appeal →
       reconsideration → state post-conviction → discretionary review → the Supreme Court → federal habeas → the extraordinary
@@ -1019,7 +1073,7 @@ export async function appealsView({ state = '', level = '', remedy = '', done = 
         : '';
     } catch { judgesHtml = ''; }
     const respondentsHtml = appealsRespondents(r.id, st);
-    detail = `<div class=card>${markDone}${appeals.renderRemedyDetail(r, {
+    detail = `<div class=card>${markDone}${basisLabel(r)}${appeals.renderRemedyDetail(r, {
       doneIds, state: st, level: lvl, statuteCardsHtml, casesHtml, judgesHtml, respondentsHtml,
     })}</div>`;
   }
@@ -1032,7 +1086,11 @@ export async function appealsView({ state = '', level = '', remedy = '', done = 
       <p class=muted style="font-size:13px;margin:-2px 0 10px">State, DC, or federal — and the court level. This drives which deadlines and rules apply.</p>
       ${selector}</div>
     <div class=card>${ladder}</div>
+    ${basisExplainer}
     ${detail}
+    ${whereCard}
+    ${adminCard}
+    ${judicialCard}
     ${ordinances}
     ${disclaimer}
     ${faqCard(APPEALS_FAQ)}`;
@@ -1065,6 +1123,15 @@ function evidenceShelf() {
 }
 
 export function rightsPage() {
+  // FLIR / thermal-imaging & sense-enhanced surveillance — the REAL Fourth-Amendment doctrine
+  // (Kyllo and the pre-Kyllo circuit split), from knowledge/legal/flir-thermal-4a.json. Soft-fail.
+  const flir = loadLegal('flir-thermal-4a');
+  const flirCases = Array.isArray(flir.cases) ? flir.cases : [];
+  const flirCard = flirCases.length ? `<div class=card><h2>Thermal imaging &amp; sense-enhanced surveillance — the real Fourth Amendment line</h2>
+    <p class=muted>${esc(str(flir.intro))}</p>
+    ${flirCases.map((c) => `<div class=rec><div class=nm><a href="/cases?q=${q(str(c.cite))}">${esc(str(c.name))}</a> <span class=badge>${esc(str(c.cite))}</span></div>
+      <div class=meta>${esc(str(c.court))}${c.author ? ` · ${esc(str(c.author))}` : ''}${c.held ? ` — ${esc(str(c.held))}` : ''}</div>
+      <div class=xlink><a href="/cases?q=${q(str(c.cite))}">read the opinion &rarr;</a></div></div>`).join('')}</div>` : '';
   const body = `<h1>Rights That Hold Up in Court</h1>
   <p class=muted>The rights that get thrown out, the rights that get you home, and how to tell them apart — with the actual cases.</p>
 
@@ -1258,6 +1325,8 @@ export function rightsPage() {
     <p class=muted>The real law asks you to comply now and fight smart later — the only version that has ever actually gotten anyone their
       freedom, their car, or a check back. Use the rights that hold up.</p></div>
 
+  ${flirCard}
+
   <div class=card><h2>Watch what actually happens</h2>
     <p class=muted>Real, dated, sourced incidents — kept to show the doctrine above playing out, <b>not</b> to celebrate anyone getting hurt.
       Each is tagged with the legal lesson. If a link can't be verified, it comes down.</p>
@@ -1288,6 +1357,14 @@ function loadConstitution() {
 }
 const str = (v) => (v == null ? '' : String(v)).trim();
 
+// Soft-fail loader for the knowledge/legal/*.json teaching corpora (FLIR, Justices, where-to-file,
+// admin-filing, judicial-complaints). Returns {} on any error so a view always renders.
+function loadLegal(name) {
+  try {
+    return JSON.parse(readFileSync(fileURLToPath(new URL(`../../knowledge/legal/${name}.json`, import.meta.url)), 'utf8')) || {};
+  } catch { return {}; }
+}
+
 // One amendment block: verbatim text (blockquote), plain-English explanation, and its landmark case(s)
 // rendered with the same case-row pattern the checks section uses (name + cite badge → live /cases lookup).
 function amendmentBlock(a, { anchorPrefix = 'amend' } = {}) {
@@ -1307,6 +1384,9 @@ function amendmentBlock(a, { anchorPrefix = 'amend' } = {}) {
     ${a.sections_note ? `<p class=muted style="font-size:12px;margin:-4px 0 8px">${esc(str(a.sections_note))}</p>` : ''}
     ${a.explains ? `<p style="font-size:14px;margin:6px 0 8px">${esc(str(a.explains))}</p>` : ''}
     ${a.what ? `<p style="font-size:14px;margin:6px 0 8px"><b>What it did:</b> ${esc(str(a.what))}</p>` : ''}
+    ${Array.isArray(a.elaboration) && a.elaboration.length
+      ? `<div style="margin:6px 0 8px">${a.elaboration.map((p) => `<p style="font-size:14px;margin:6px 0">${esc(str(p))}</p>`).join('')}</div>`
+      : ''}
     ${cases ? `<div style="margin-top:6px">${cases}</div>` : ''}</div>`;
 }
 
@@ -1828,6 +1908,14 @@ export function doctrinesView() {
       ${seeAlso ? `<p class=xlink style="margin-top:12px">${seeAlso}</p>` : ''}</div>`;
   }
 
+  // "Doctrines by the Justice who made them" — from knowledge/legal/justices-doctrines.json. Soft-fail.
+  const jd = loadLegal('justices-doctrines');
+  const jdEntries = Array.isArray(jd.entries) ? jd.entries : [];
+  const justicesCard = jdEntries.length ? `<div class=card><h2 id=by-justice>Doctrines by the Justice who made them</h2>
+    ${jd.intro ? `<p class=muted style="font-size:14px;margin:-2px 0 12px">${esc(str(jd.intro))}</p>` : ''}
+    ${jdEntries.map((e) => `<div class=rec><div class=nm>${esc(str(e.justice))} — ${esc(str(e.doctrine))}</div>
+      <div class=meta><a href="/cases?q=${q(str(e.cite))}">${esc(str(e.case))}</a> <span class=badge>${esc(str(e.cite))}</span>${e.held ? ` — ${esc(str(e.held))}` : ''}</div></div>`).join('')}</div>` : '';
+
   const body = `<h1>Legal doctrines <span class=muted style="font-size:14px">· the principles that run American law</span></h1>
     <p class=muted>A plain-English reference to the doctrines that actually decide cases — grouped by area, defined without
       jargon, and each anchored to the landmark case you can pull yourself. Click any citation to open the court's own
@@ -1847,6 +1935,7 @@ export function doctrinesView() {
     ${realGroups || '<div class=card><p class=empty>Doctrine data is unavailable right now.</p></div>'}
 
     ${teachingSections()}
+    ${justicesCard}
     ${calloutHtml}
     ${faqCard(DOCTRINES_FAQ)}`;
   return body;

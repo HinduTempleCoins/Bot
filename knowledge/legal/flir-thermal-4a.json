@@ -1,0 +1,125 @@
+{
+  "intro": "Thermal imaging (forward-looking infrared, or FLIR) measures heat radiating from a surface, and in the 1990s police used it to detect the heat signature of indoor marijuana grow-lamps from outside a home. Before 2001 the federal circuits split: most (the 5th, 7th, 8th, and 11th) held that scanning only 'waste heat' vented to the outside was not a Fourth Amendment 'search' because there was no reasonable expectation of privacy in escaping heat, while a 10th Circuit panel disagreed before the en banc court sidestepped the question. In Kyllo v. United States (2001) the Supreme Court resolved the split, holding that using sense-enhancing technology not in general public use to obtain any information about a home's interior that could not otherwise be known without physical intrusion is a search requiring a warrant.",
+  "cases": [
+    {
+      "name": "Kyllo v. United States",
+      "cite": "533 U.S. 27 (2001)",
+      "court": "U.S. Supreme Court",
+      "year": 2001,
+      "author": "Scalia, J.",
+      "held": "Using a thermal imager not in general public use to detect heat emanating from a home, revealing details of the interior that could not otherwise be known without physical intrusion, is a Fourth Amendment search presumptively requiring a warrant."
+    },
+    {
+      "name": "United States v. Penny-Feeney",
+      "cite": "773 F. Supp. 220 (D. Haw. 1991), aff'd on other grounds sub nom. United States v. Feeney, 984 F.2d 1053 (9th Cir. 1993)",
+      "court": "D. Haw. (aff'd 9th Cir.)",
+      "year": 1991,
+      "author": "",
+      "held": "A helicopter FLIR scan of heat escaping from a home was not a search because the defendants had no reasonable expectation of privacy in waste heat vented to the outside; the Ninth Circuit affirmed on the independent ground that probable cause existed apart from the FLIR."
+    },
+    {
+      "name": "United States v. Pinson",
+      "cite": "24 F.3d 1056 (8th Cir. 1994)",
+      "court": "U.S. Court of Appeals, 8th Circuit",
+      "year": 1994,
+      "author": "",
+      "held": "Warrantless FLIR detection of heat escaping from a home was not a search, because society would not recognize an expectation of privacy in escaping heat as reasonable under the second prong of the Katz test."
+    },
+    {
+      "name": "United States v. Ford",
+      "cite": "34 F.3d 992 (11th Cir. 1994)",
+      "court": "U.S. Court of Appeals, 11th Circuit",
+      "year": 1994,
+      "author": "",
+      "held": "Thermal imaging of a mobile home was not a search because the defendant had no reasonable expectation of privacy in waste heat exposed to the public and the imager revealed no specific activities inside."
+    },
+    {
+      "name": "United States v. Ishmael",
+      "cite": "48 F.3d 850 (5th Cir. 1995)",
+      "court": "U.S. Court of Appeals, 5th Circuit",
+      "year": 1995,
+      "author": "",
+      "held": "Warrantless use of a thermal imager to scan a structure in an open field was not a Fourth Amendment search where it detected only heat and revealed no intimate details."
+    },
+    {
+      "name": "United States v. Myers",
+      "cite": "46 F.3d 668 (7th Cir. 1995)",
+      "court": "U.S. Court of Appeals, 7th Circuit",
+      "year": 1995,
+      "author": "",
+      "held": "Thermal imaging scanning of a home is not a search, because there is no reasonable expectation of privacy in the wasted heat emitted from a home and the imager does not intrude into the home's interior."
+    },
+    {
+      "name": "United States v. Robinson",
+      "cite": "62 F.3d 1325 (11th Cir. 1995)",
+      "court": "U.S. Court of Appeals, 11th Circuit",
+      "year": 1995,
+      "author": "",
+      "held": "Following its own precedent in Ford, the Eleventh Circuit held that warrantless thermal imaging of a residence was not an unreasonable search under the Fourth Amendment."
+    },
+    {
+      "name": "United States v. Cusumano",
+      "cite": "67 F.3d 1497 (10th Cir. 1995), vacated on reh'g en banc, 83 F.3d 1247 (10th Cir. 1996)",
+      "court": "U.S. Court of Appeals, 10th Circuit",
+      "year": 1995,
+      "author": "",
+      "held": "A panel held that warrantless thermal-imaging of a home violated the Fourth Amendment, but the en banc court vacated that opinion and resolved the case on probable-cause grounds without deciding whether thermal imaging is a search."
+    },
+    {
+      "name": "United States v. Kyllo",
+      "cite": "190 F.3d 1041 (9th Cir. 1999)",
+      "court": "U.S. Court of Appeals, 9th Circuit",
+      "year": 1999,
+      "author": "Hawkins, J.",
+      "held": "The decision below: the divided panel upheld the thermal scan, finding no subjective expectation of privacy in escaping heat and no objectively reasonable one because the imager revealed only amorphous hot spots, not intimate details; the Supreme Court reversed."
+    },
+    {
+      "name": "California v. Ciraolo",
+      "cite": "476 U.S. 207 (1986)",
+      "court": "U.S. Supreme Court",
+      "year": 1986,
+      "author": "Burger, C.J.",
+      "held": "Naked-eye aerial observation of a fenced backyard from an aircraft lawfully in public navigable airspace was not a Fourth Amendment search."
+    },
+    {
+      "name": "Dow Chemical Co. v. United States",
+      "cite": "476 U.S. 227 (1986)",
+      "court": "U.S. Supreme Court",
+      "year": 1986,
+      "author": "Burger, C.J.",
+      "held": "EPA's warrantless aerial photography of an industrial plant complex from navigable airspace, using a standard precision aerial mapping camera, was not a Fourth Amendment search of an area treated as an open field."
+    },
+    {
+      "name": "Florida v. Riley",
+      "cite": "488 U.S. 445 (1989)",
+      "court": "U.S. Supreme Court",
+      "year": 1989,
+      "author": "White, J. (plurality)",
+      "held": "Naked-eye observation from a helicopter hovering at 400 feet into a greenhouse through missing roof panels was not a search requiring a warrant."
+    },
+    {
+      "name": "United States v. Jones",
+      "cite": "565 U.S. 400 (2012)",
+      "court": "U.S. Supreme Court",
+      "year": 2012,
+      "author": "Scalia, J.",
+      "held": "Physically attaching a GPS device to a vehicle to monitor its movements is a search, reviving the common-law trespass test as an additional basis for Fourth Amendment protection alongside the Katz reasonable-expectation inquiry."
+    },
+    {
+      "name": "Florida v. Jardines",
+      "cite": "569 U.S. 1 (2013)",
+      "court": "U.S. Supreme Court",
+      "year": 2013,
+      "author": "Scalia, J.",
+      "held": "Bringing a drug-detection dog onto the curtilage of a home's front porch to investigate is a search under the property-based trespass approach, because it exceeds the implied license granted to ordinary visitors."
+    },
+    {
+      "name": "Carpenter v. United States",
+      "cite": "138 S. Ct. 2206 (2018)",
+      "court": "U.S. Supreme Court",
+      "year": 2018,
+      "author": "Roberts, C.J.",
+      "held": "The government conducts a search when it accesses historical cell-site location information giving a comprehensive chronicle of a person's past movements, and generally must obtain a warrant; the third-party doctrine does not extend to such records."
+    }
+  ]
+}

@@ -232,7 +232,7 @@ export const LADDER = Object.freeze([
   },
   {
     id: 'mandamus', name: 'Writ of mandamus (§ 1361 / All Writs Act / state)', tier: 7, track: 'agency', gated: true,
-    prereqs: ['direct-appeal'], category: 'mandamus',
+    prereqs: ['direct-appeal'], category: 'mandamus', basis: 'statute',
     statuteMap: [
       { label: 'District-court mandamus jurisdiction', cite: '28 U.S.C. § 1361' },
       { label: 'The All Writs Act', cite: '28 U.S.C. § 1651' },
@@ -274,7 +274,7 @@ export const LADDER = Object.freeze([
   },
   {
     id: 'coram-nobis', name: 'Writ of coram nobis', tier: 8, track: 'advanced', gated: true,
-    prereqs: ['direct-appeal'], category: 'petition',
+    prereqs: ['direct-appeal'], category: 'petition', basis: 'all-writs-act',
     statuteMap: [
       { label: 'Federal source of the writ', cite: '28 U.S.C. § 1651 (All Writs Act)' },
     ],
@@ -292,7 +292,7 @@ export const LADDER = Object.freeze([
   },
   {
     id: 'prohibition', name: 'Writ of prohibition', tier: 8, track: 'advanced', gated: true,
-    prereqs: ['direct-appeal'], category: 'mandamus',
+    prereqs: ['direct-appeal'], category: 'mandamus', basis: 'all-writs-act',
     statuteMap: [
       { label: 'Federal source of the writ', cite: '28 U.S.C. § 1651 (All Writs Act)' },
     ],
@@ -309,7 +309,7 @@ export const LADDER = Object.freeze([
   },
   {
     id: 'quo-warranto', name: 'Writ of quo warranto', tier: 8, track: 'advanced', gated: false, prereqs: [],
-    category: 'petition',
+    category: 'petition', basis: 'statute',
     statuteMap: [
       { label: 'Governed by federal (D.C.) or state quo-warranto statutes', cite: 'Quo warranto statute (varies; e.g. D.C. Code § 16-3501 et seq.)' },
     ],
@@ -324,6 +324,181 @@ export const LADDER = Object.freeze([
     burnNote:
       'A private person usually lacks standing to bring quo warranto alone; the proper channel is to ask '
       + 'the responsible public attorney to bring it. Filing it yourself is commonly dismissed.',
+  },
+  // ── the classic writs that rest on NO dedicated statute ─────────────────────────────────────────
+  // The seven below round out the extraordinary-writ shelf. Each carries a `basis`:
+  //   • 'statute'        — a dedicated statute or federal rule grants the power (supersedeas, ne exeat).
+  //   • 'all-writs-act'  — no dedicated statute; the federal power to issue it comes ONLY from the
+  //                        All Writs Act, 28 U.S.C. § 1651 (common-law certiorari).
+  //   • 'common-law'     — a pure common-law writ with NO statute of its own; in federal court it lives
+  //                        (if at all) through § 1651, and several are affirmatively ABOLISHED in
+  //                        federal CIVIL practice by rule (audita querela, coram vobis, scire facias).
+  // PROVENANCE (human-verified 2026-09, reporter/court/year checked against the source of record):
+  //   • audita querela — United States v. Ayala, 894 F.2d 425 (D.C. Cir. 1990); abolished in civil by
+  //     Fed. R. Civ. P. 60(e); survives (narrowly) in criminal cases under the All Writs Act.
+  //   • coram vobis — sibling of coram nobis (United States v. Morgan, 346 U.S. 502 (1954)); the
+  //     appellate-court version; abolished in civil by Fed. R. Civ. P. 60(e).
+  //   • procedendo — pure common-law writ; original jurisdiction granted by state constitutions
+  //     (e.g. Ohio Const. art. IV, §§ 2–3, listing procedendo among the extraordinary writs).
+  //   • scire facias — common-law writ; ABOLISHED in federal civil practice by Fed. R. Civ. P. 81(b).
+  //   • supersedeas / stay — Fed. R. App. P. 8 (stay pending appeal) + Fed. R. Civ. P. 62 (stay /
+  //     supersedeas bond in the trial court).
+  //   • ne exeat republica — 26 U.S.C. § 7402(a) (federal writs/orders of ne exeat republica, tax
+  //     collection); historically an equity writ. The All Writs Act (§ 1651) is the general backstop.
+  //   • common-law certiorari — the supervisory writ, distinct from Supreme Court cert (cert-scotus).
+  //     Federal power to issue it comes from the All Writs Act, 28 U.S.C. § 1651(a); Sup. Ct. R. 20.6
+  //     expressly names "a petition for a common-law writ of certiorari."
+  {
+    id: 'audita-querela', name: 'Writ of audita querela', tier: 8, track: 'advanced', gated: true,
+    prereqs: ['direct-appeal'], category: 'petition', basis: 'common-law',
+    statuteMap: [
+      { label: 'No dedicated statute — common-law writ; in federal court issued (if at all) only under the All Writs Act', cite: '28 U.S.C. § 1651 (All Writs Act)' },
+      { label: 'Abolished in federal CIVIL cases (relief now sought by motion/action; the writ survives, narrowly, in criminal cases)', cite: 'Fed. R. Civ. P. 60(e)' },
+    ],
+    plain:
+      'An old common-law writ attacking a judgment because of something that happened AFTER it was '
+      + 'entered — a later-arising defense or a discharge that makes enforcing the judgment unjust. It '
+      + 'has no statute of its own. Federal civil practice abolished it (Fed. R. Civ. P. 60(e)); in a '
+      + 'criminal case it survives only in the narrow gap left open by coram nobis and habeas — see '
+      + 'United States v. Ayala, 894 F.2d 425 (D.C. Cir. 1990).',
+    ladderNote:
+      'A last-ditch, rarely-granted tool. It reaches only a legal objection that arose after judgment '
+      + 'and that no other post-conviction remedy (habeas, § 2255, coram nobis) can address. It is not a '
+      + 'substitute for an appeal or a habeas petition you can still bring.',
+    burnNote:
+      'Because it has NO statute and is expressly abolished in civil cases, courts read audita querela '
+      + 'narrowly and dismiss it whenever another remedy (a direct appeal, § 2255, or coram nobis) was '
+      + 'or is available. Reaching for it before exhausting those wastes the one thin opening it offers.',
+  },
+  {
+    id: 'coram-vobis', name: 'Writ of coram vobis', tier: 8, track: 'advanced', gated: true,
+    prereqs: ['direct-appeal'], category: 'petition', basis: 'common-law',
+    statuteMap: [
+      { label: 'No dedicated statute — common-law writ recognized under the All Writs Act (sibling of coram nobis: United States v. Morgan, 346 U.S. 502 (1954))', cite: '28 U.S.C. § 1651 (All Writs Act)' },
+      { label: 'Abolished in federal CIVIL cases (criminal coram nobis / coram vobis survive)', cite: 'Fed. R. Civ. P. 60(e)' },
+    ],
+    plain:
+      'Coram nobis’s twin. Both correct a fundamental factual error unknown at the time of judgment; '
+      + 'the difference is only WHERE you file. "Coram nobis" ("before us") goes to the trial court that '
+      + 'rendered judgment; "coram vobis" ("before you") is directed to the APPELLATE court whose record '
+      + 'holds the error. Like coram nobis it rests on the All Writs Act, not a statute (United States v. '
+      + 'Morgan, 346 U.S. 502 (1954)), and is abolished in federal civil cases (Fed. R. Civ. P. 60(e)).',
+    ladderNote:
+      'A narrow, late-stage writ for the person no longer in custody who needs to undo a judgment tainted '
+      + 'by an error the appellate record carries. Pick coram nobis vs. coram vobis by which court’s '
+      + 'record contains the mistake — otherwise the two are the same remedy.',
+    burnNote:
+      'Granted only for errors "of the most fundamental character," and only when sound reasons excuse '
+      + 'not raising the issue earlier. Filing it in the wrong court, or using it as a do-over for '
+      + 'arguments you could have raised on appeal, gets it denied.',
+  },
+  {
+    id: 'procedendo', name: 'Writ of procedendo', tier: 8, track: 'advanced', gated: false, prereqs: [],
+    category: 'mandamus', basis: 'common-law',
+    statuteMap: [
+      { label: 'No dedicated statute — pure common-law writ; original jurisdiction to issue it is granted by state constitutions (e.g. Ohio Const. art. IV, listing procedendo among the extraordinary writs)', cite: 'Common-law writ (no statute); state constitutional original jurisdiction (varies)' },
+    ],
+    plain:
+      'A common-law writ ordering a lower court to STOP stalling and proceed to judgment. It does not '
+      + 'tell the lower court WHAT to decide — only that it must decide. It has no statute of its own; '
+      + 'where it exists (many states, e.g. Ohio) the power to issue it comes from the court’s '
+      + 'constitutional original jurisdiction, not a statute.',
+    ladderNote:
+      'The mirror of prohibition (which says "stop") and a cousin of mandamus (which compels a duty): '
+      + 'procedendo is for the narrow case where a court simply refuses to rule at all. It stands apart '
+      + 'from the appeal ladder — you use it when there is no ruling yet to appeal.',
+    burnNote:
+      'Courts require the same showing as mandamus — a clear right to a ruling, a clear duty to rule, and '
+      + 'no other adequate remedy. If an ordinary motion or appeal can force the decision, procedendo is '
+      + 'refused. It cannot be used to attack a ruling you dislike; only to force one to be made.',
+  },
+  {
+    id: 'scire-facias', name: 'Writ of scire facias', tier: 8, track: 'advanced', gated: false, prereqs: [],
+    category: 'petition', basis: 'common-law',
+    statuteMap: [
+      { label: 'No dedicated statute — common-law writ; ABOLISHED in federal civil practice (relief now sought by ordinary action or motion)', cite: 'Fed. R. Civ. P. 81(b)' },
+    ],
+    plain:
+      'An ancient common-law writ meaning "make known" — a show-cause order used to revive a dormant '
+      + 'judgment, enforce a judgment against a new party, or annul a grant/charter. It has no statute of '
+      + 'its own, and Fed. R. Civ. P. 81(b) formally ABOLISHED it in the federal courts: the relief it '
+      + 'gave is now obtained by an ordinary civil action or motion. Some states retain the writ by name.',
+    ladderNote:
+      'Not a rung on the appeal ladder at all — it is a post-judgment enforcement/revival device. It is '
+      + 'listed here because it is one of the classic extraordinary writs people still encounter, mostly '
+      + 'in bail-bond forfeiture and old-judgment-revival contexts in states that keep it.',
+    burnNote:
+      'In federal court, asking for "a writ of scire facias" by name is a dead end — Rule 81(b) abolished '
+      + 'it; you must bring the ordinary action/motion instead. In states that keep it, it carries its own '
+      + 'strict revival deadlines: let a judgment go dormant too long and even scire facias cannot revive it.',
+  },
+  {
+    id: 'supersedeas', name: 'Supersedeas / stay pending appeal', tier: 8, track: 'advanced', gated: false, prereqs: [],
+    category: 'motion', basis: 'statute',
+    statuteMap: [
+      { label: 'Stay / supersedeas bond in the trial court', cite: 'Fed. R. Civ. P. 62' },
+      { label: 'Stay or injunction pending appeal (appellate court)', cite: 'Fed. R. App. P. 8' },
+    ],
+    plain:
+      'Not an attack on the judgment — a PAUSE on it. A writ of supersedeas (today, a "stay pending '
+      + 'appeal") freezes enforcement of a judgment while you appeal, so the winner cannot collect or '
+      + 'execute before the appeal is decided. Unlike the old prerogative writs, this one is fully '
+      + 'governed by rule: Fed. R. Civ. P. 62 (a stay in the trial court, often on a supersedeas bond) '
+      + 'and Fed. R. App. P. 8 (a stay from the court of appeals).',
+    ladderNote:
+      'This runs ALONGSIDE the direct appeal, not after it — you seek the stay when (or right after) you '
+      + 'file the notice of appeal, so there is still something to protect. You normally must ask the '
+      + 'trial court first (Fed. R. App. P. 8(a)(1)) before the appellate court will act.',
+    burnNote:
+      'Miss the stay and the judgment is enforced while you appeal — the money is collected, the order '
+      + 'takes effect — and even a later win may not undo what already happened. Posting the bond or '
+      + 'other security (Fed. R. Civ. P. 62(b)) is usually what makes the stay actually take effect.',
+  },
+  {
+    id: 'ne-exeat', name: 'Writ of ne exeat republica', tier: 8, track: 'advanced', gated: false, prereqs: [],
+    category: 'petition', basis: 'statute',
+    statuteMap: [
+      { label: 'Federal writs/orders of ne exeat republica (tax collection)', cite: '26 U.S.C. § 7402(a)' },
+      { label: 'The All Writs Act (general backstop power to issue the writ)', cite: '28 U.S.C. § 1651' },
+    ],
+    plain:
+      'A rarely-seen writ ("let him not leave the republic") ordering a person NOT to leave the court’s '
+      + 'jurisdiction, used to keep a defendant — and their assets — within reach of a judgment. '
+      + 'Historically a writ of equity; its main modern federal home is tax collection, where 26 U.S.C. '
+      + '§ 7402(a) expressly authorizes district courts, at the United States’ request, to issue '
+      + 'writs and orders of ne exeat republica.',
+    ladderNote:
+      'Not a step in a personal appeal — it is a provisional restraint a party (usually the '
+      + 'government, in a tax case) seeks to prevent someone from fleeing the jurisdiction. It is listed '
+      + 'as one of the classic writs; a self-represented appellant will rarely be the one bringing it.',
+    burnNote:
+      'It is extraordinary and closely guarded: courts issue it only on a strong showing that the person '
+      + 'is about to leave and has arranged to take assets beyond reach, and it is a TEMPORARY restraint, '
+      + 'not a permanent bar on travel. Overreaching for it invites quick dissolution.',
+  },
+  {
+    id: 'common-law-certiorari', name: 'Common-law writ of certiorari (supervisory)', tier: 8, track: 'advanced', gated: false, prereqs: [],
+    category: 'petition', basis: 'all-writs-act',
+    statuteMap: [
+      { label: 'Federal power to issue it comes ONLY from the All Writs Act (no dedicated statute)', cite: '28 U.S.C. § 1651(a) (All Writs Act)' },
+      { label: 'The Supreme Court’s own Rules expressly name "a petition for a common-law writ of certiorari"', cite: 'Sup. Ct. R. 20.6' },
+    ],
+    plain:
+      'The SUPERVISORY writ of certiorari — distinct from the Supreme Court certiorari that tops this '
+      + 'ladder (see "Certiorari to the U.S. Supreme Court"). A higher court uses it to pull up the record '
+      + 'of a lower tribunal or agency and review whether that body acted within its jurisdiction, '
+      + 'typically where no ordinary appeal is available. Federally it has no statute of its own — the '
+      + 'power to issue it comes from the All Writs Act, 28 U.S.C. § 1651(a); many states keep it as a '
+      + 'pure common-law writ to review administrative and quasi-judicial decisions.',
+    ladderNote:
+      'This is a SIDEWAYS review path, not a rung above your case: it exists for the situation where a '
+      + 'tribunal’s decision is not appealable by right but you still need a court to check it for '
+      + 'excess of jurisdiction. Do not confuse it with Supreme Court certiorari (cert-scotus), which is '
+      + 'the discretionary top of the direct-review ladder.',
+    burnNote:
+      'Common-law certiorari "goes only to the jurisdiction" — it reviews whether the lower body had '
+      + 'power to act, not whether it was merely wrong on the merits. If an ordinary appeal or statutory '
+      + 'review is available, this writ is refused; treating it as a substitute for a missed appeal fails.',
   },
 ]);
 
