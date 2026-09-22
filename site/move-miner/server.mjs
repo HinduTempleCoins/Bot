@@ -30,42 +30,19 @@ import { validAccountName } from '../../signup/welcome-grant.mjs';
 
 const PORT = +(process.env.PORT || 8142);
 const HOST = process.env.HOST || '127.0.0.1';
-const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup';
-// IN-APP account creation: the Move server derives the account's PUBLIC keys from username+password
-// (BLURT/Hive style — the password is the user's login+recovery, deterministic) and asks the testnet
-// faucet to create the account. Only PUBLIC keys leave this server; the private keys are transient
-// (derived to compute pubkeys, never stored, never logged). This is the seamless custodial-password model;
-// MELEK-Signer's /v1/account/create is the formal swap-in later (same contract).
-const FAUCET = process.env.MELEK_FAUCET || 'http://127.0.0.1:7790';
-const MELEK_PREFIX = process.env.MELEK_PREFIX || 'TST';
+// NOT-A-WALLET (Play compliance, mainnet launch): MELEK Move is NOT a wallet. It never creates, holds,
+// or transfers keys, and does no custody/exchange/mining. Account & wallet creation happen OUTSIDE the
+// app, in the DEVICE BROWSER, at melek.salon — so the app (and this wrapped host, move.melek.salon)
+// serves NO key generation. The old in-app keygen (`createAccount`/`/api/create-account`, which derived
+// keys from login+recovery and hit a faucet) was REMOVED 2026-09-22 for exactly this reason; the create
+// button now hands off to the device browser (Capacitor Browser.open / ACTION_VIEW). melek.salon owns
+// account creation and any transfer/conversion.
+const ACCOUNT_URL = process.env.MOVE_ACCOUNT_URL || 'https://melek.salon';
+const MELEK_PREFIX = process.env.MELEK_PREFIX || 'MELEK';
 const MELEK_RPC = process.env.MELEK_RPC || 'http://127.0.0.1:8090';
 let _fetch = globalThis.fetch;
-export function __setFetch(f) { _fetch = f; } // tests inject the faucet call
+export function __setFetch(f) { _fetch = f; } // tests inject the chain read (delete-account ownership proof)
 
-function deriveAccountPubKeys(account, password) {
-  const pub = {};
-  for (const role of ['owner', 'active', 'posting', 'memo']) {
-    pub[role] = PrivateKey.fromLogin(account, password, role).createPublic(MELEK_PREFIX).toString();
-  }
-  return pub;
-}
-
-export async function createAccount({ username, password } = {}) {
-  const account = String(username || '').trim().toLowerCase();
-  if (!validAccountName(account)) return { ok: false, reason: 'pick a valid MELEK username (3–16 chars, a–z 0–9, no spaces)' };
-  if (!password || String(password).length < 8) return { ok: false, reason: 'password must be at least 8 characters' };
-  let pub; try { pub = deriveAccountPubKeys(account, password); } catch { return { ok: false, reason: 'could not derive keys' }; }
-  let j;
-  try {
-    const r = await _fetch(`${FAUCET}/faucet/create`, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ name: account, ownerPub: pub.owner, activePub: pub.active, postingPub: pub.posting, memoPub: pub.memo }),
-    });
-    j = await r.json().catch(() => ({ ok: false, reason: 'faucet-bad-response' }));
-  } catch { return { ok: false, reason: 'could not reach account service — try again' }; }
-  if (!j || !j.ok) return { ok: false, reason: (j && (j.reason === 'invalid-account-name' ? 'that username is taken or invalid' : j.reason)) || 'account creation failed' };
-  return { ok: true, account };
-}
 // Read an account's CURRENT on-chain posting key (condenser_api.get_accounts) — used to prove ownership
 // before deleting data. Soft-fails to null (never throws) so the handler can return a clean reason.
 async function onchainPostingKey(account) {
@@ -193,12 +170,8 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 
 <div class=card id=createCard>
   <h2>✨ Create your MELEK account</h2>
-  <div class=sub style="text-align:left;margin:0 0 10px">New here? Make your account right in the app — pick a name and a password and you're earning. Your account also unlocks MELEK chat, mail, and your wallet. No seed phrase to write down.</div>
-  <label for=suUser>Username</label>
-  <input id=suUser placeholder="your-melek-name" autocapitalize=off autocomplete=off spellcheck=false>
-  <label for=suPass style="margin-top:10px">Password <span style="color:var(--mut)">(how you log in &amp; recover — keep it safe)</span></label>
-  <input id=suPass type=password placeholder="at least 8 characters" autocomplete=new-password>
-  <button id=suBtn class=primary style="margin-top:12px">Create my account</button>
+  <div class=sub style="text-align:left;margin:0 0 10px">New here? MELEK accounts are created in your <b>browser</b> at <b>${ACCOUNT_URL.replace(/^https?:\/\//, '')}</b> — MELEK Move is <b>not a wallet</b>: it never creates, holds, or moves your keys. Tap below to open your browser, make your account, then come back and enter your username to start earning.</div>
+  <button id=suBtn class=primary style="margin-top:4px" data-accturl="${ACCOUNT_URL}">Create your MELEK account →</button>
   <div class=out id=suOut></div>
   <div class=hint>Already have an account? <a href="#" id=haveAcct>Use my username →</a></div>
 </div>
@@ -238,34 +211,37 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <footer>Move, explore, and collect <b>MELEK</b> fitness rewards. Your phone counts steps and reads where
   you stand; we record your stake-weighted share of this hour's reward pool — <b>15% of the blog pool</b>,
   the same MELEK that rewards writers — and send it to your account when the hour closes. MELEK is the
-  coin of the <b>live MELEK mainnet</b>. No keys ever leave your phone. <a href="/privacy">Privacy policy</a></footer>
+  coin of the <b>live MELEK mainnet</b>. MELEK Move is <b>not a wallet</b> — it never creates, holds, or moves keys; account creation happens in your browser at melek.salon. <a href="/privacy">Privacy policy</a></footer>
 </div>
 <script>
 const $=id=>document.getElementById(id);
 const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const W=$('account'); W.value=localStorage.getItem('melekmove_account')||''; W.addEventListener('input',()=>localStorage.setItem('melekmove_account',W.value.trim().toLowerCase()));
 
-// ---- in-app account creation (no web bounce): username + password → server derives keys → faucet creates ----
+// ---- account creation: HAND OFF to the DEVICE BROWSER (not-a-wallet compliance) ----
+// MELEK Move is not a wallet. Account creation (and any key/transfer op) happens OUTSIDE the app, in the
+// device browser, at melek.salon. We open the system browser via Capacitor's Browser plugin (Chrome
+// Custom Tabs / SFSafariViewController) when wrapped, and a normal new tab in a plain browser. The app
+// itself never creates, holds, or moves keys.
 function showCreate(){$('createCard').style.display='';$('acctCard').style.display='none';}
 function showAcct(){$('createCard').style.display='none';$('acctCard').style.display='';}
 (W.value ? showAcct : showCreate)();
 $('haveAcct').onclick=e=>{e.preventDefault();showAcct();W.focus();};
 $('needAcct').onclick=e=>{e.preventDefault();showCreate();};
-$('suBtn').onclick=async()=>{
-  const u=($('suUser').value||'').trim().toLowerCase(), p=$('suPass').value||'';
-  if(u.length<3){$('suOut').innerHTML='<span class=err>Pick a username (3–16 letters/numbers).</span>';return;}
-  if(p.length<8){$('suOut').innerHTML='<span class=err>Password must be at least 8 characters.</span>';return;}
-  $('suBtn').disabled=true;$('suOut').textContent='creating your account on the MELEK chain…';
-  try{
-    const r=await fetch('/api/create-account',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({username:u,password:p})});
-    const j=await r.json();
-    if(j&&j.ok){
-      localStorage.setItem('melekmove_account',j.account);W.value=j.account;
-      $('suOut').innerHTML='<span class=reward>✓ Account @'+E(j.account)+' created — you\\'re ready to earn!</span>';
-      setTimeout(showAcct,1200);
-    }else{$('suOut').innerHTML='<span class=err>'+E((j&&j.reason)||'could not create account')+'</span>';}
-  }catch(e){$('suOut').innerHTML='<span class=err>Network error — try again.</span>';}
-  $('suBtn').disabled=false;
+function openExternal(u){
+  // Capacitor shell → open the DEVICE browser (Custom Tabs), never the in-app WebView.
+  try{ if(window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Browser){ window.Capacitor.Plugins.Browser.open({url:u}); return true; } }catch(e){}
+  // Plain browser (or shell without the plugin): a new tab. Capacitor routes off-host URLs to the system browser.
+  try{ window.open(u,'_blank','noopener,noreferrer'); return true; }catch(e){}
+  try{ location.href=u; return true; }catch(e){}
+  return false;
+}
+$('suBtn').onclick=()=>{
+  const u=$('suBtn').getAttribute('data-accturl');
+  const ok=openExternal(u);
+  $('suOut').innerHTML=ok
+    ? '<span class=hint>Opening '+E(u.replace(/^https?:\\/\\//,''))+' in your browser… create your account there, then come back and enter your username below.</span>'
+    : '<span class=err>Open '+E(u)+' in your browser to create your MELEK account.</span>';
 };
 fetch('/health').then(r=>r.json()).then(j=>{const m=$('mode');m.textContent=j.live?'LIVE':'DEMO';m.className='mode '+(j.live?'live':'demo');
   if(j.geoPrecision>0){GEOP=j.geoPrecision;} drawMap();}).catch(()=>{});
@@ -416,7 +392,7 @@ export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <li>We never sell, rent, or share your activity, motion, or location data with third parties.</li>
 <li>We never use health or fitness data for advertising.</li>
 <li>We never retain your step or location data — it is used only in the moment to compute a reward, then discarded.</li>
-<li>We are <b>non-custodial</b>: we never hold, control, or transmit your funds, and we never ask for, receive, or store your private keys — they stay on your device.</li>
+<li>MELEK Move is <b>not a wallet</b>: the app never creates, holds, controls, transfers, or exchanges cryptocurrency, and never asks for, receives, or stores your private keys or seed phrase. Account and wallet creation happen outside the app, in your device browser, at melek.salon.</li>
 </ul>
 <h2>Permissions</h2>
 <p>Physical-activity / motion sensor access is requested before counting steps, and location is requested only when you claim a zone. You can decline either; the app still runs with reduced features.</p>
@@ -493,6 +469,12 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'public,max-age=86400' }); return res.end(b);
     }
     if (path === '/.well-known/assetlinks.json') {
+      // TODO(OPERATOR — required before TWA/deep-link verification works): replace 'REPLACE_AFTER_PLAY_BUILD'
+      // with the real Play App Signing SHA-256 certificate fingerprint. Get it from Google Play Console →
+      // your app → Setup → App signing → "App signing key certificate" → SHA-256 certificate fingerprint
+      // (colon-separated hex, e.g. AB:CD:...). This is the Google-held App Signing key, NOT the upload key.
+      // Do NOT invent a fingerprint — an incorrect value breaks Android App Links verification silently.
+      // After filling it, redeploy this service. (Not a hard blocker for a plain Play listing.)
       res.writeHead(200, { 'content-type': 'application/json' });
       return res.end(JSON.stringify([{ relation: ['delegate_permission/common.handle_all_urls'], target: { namespace: 'android_app', package_name: 'community.soapbox.move', sha256_cert_fingerprints: ['REPLACE_AFTER_PLAY_BUILD'] } }]));
     }
@@ -507,11 +489,11 @@ export async function handler(req, res) {
       return json(res, out.ok ? 200 : 422, out);
     }
 
-    // IN-APP account creation: username + password → derive pubkeys → faucet creates the on-chain account.
-    if (path === '/api/create-account' && method === 'POST') {
-      let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
-      const out = await createAccount({ username: b.username || b.account, password: b.password });
-      return json(res, out.ok ? 200 : 422, out);
+    // NOT-A-WALLET: there is NO in-app account creation / key generation here. Account creation happens in
+    // the DEVICE BROWSER at melek.salon (the create button hands off via Capacitor Browser.open / ACTION_VIEW).
+    // A stale client still POSTing /api/create-account gets a clear 410 pointing at the browser hand-off.
+    if (path === '/api/create-account') {
+      return json(res, 410, { ok: false, reason: 'account creation has moved to your browser at ' + ACCOUNT_URL + ' — MELEK Move is not a wallet and creates no keys', accountUrl: ACCOUNT_URL });
     }
 
     // a walker's current standing this hour (read-only)

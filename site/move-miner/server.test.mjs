@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { PrivateKey } from '@hiveio/dhive';
 process.env.MOVE_DATA = `/tmp/move-test-${process.pid}.json`;   // isolate the ledger file
+process.env.MELEK_PREFIX = 'MELEK';                              // mainnet key prefix (matches server default)
 const { handler } = await import('./server.mjs');
 
 function cap() {
@@ -24,7 +25,13 @@ test('GET / serves the installable app — MELEK username, steps, geo, signup li
   assert.match(o.body, /MELEK Move/);
   assert.match(o.body, /manifest.webmanifest/);
   assert.match(o.body, /MELEK username/);          // identity is a MELEK account, not 0x
-  assert.match(o.body, /Create your MELEK account/);// signup link present
+  assert.match(o.body, /Create your MELEK account/);// account-creation hand-off present
+  // NOT-A-WALLET: account creation hands off to the DEVICE BROWSER at melek.salon — no in-app keygen.
+  assert.match(o.body, /not a wallet/i);
+  assert.match(o.body, /melek\.salon/);            // the browser hand-off target
+  assert.match(o.body, /Browser\.open/);           // Capacitor device-browser hand-off (not the in-app WebView)
+  assert.doesNotMatch(o.body, /\/api\/create-account/); // the old in-app keygen POST is gone
+  assert.doesNotMatch(o.body, /at least 8 characters/); // the old in-app password field is gone
   assert.match(o.body, /Step boost/);
   assert.match(o.body, /Claim this zone/);          // ToS-safe: "claim/zone", not "mine/cell"
   assert.match(o.body, /id=map class=blockmap/);    // the block map canvas is present
@@ -128,47 +135,24 @@ test('unknown route → 404', async () => {
   assert.equal(o.code, 404);
 });
 
-// ── in-app account creation ──────────────────────────────────────────────────────────────────────
+// ── NOT-A-WALLET: no in-app account creation / key generation ──────────────────────────────────────
+// MELEK Move is not a wallet. There is NO createAccount export and NO working /api/create-account route;
+// account creation hands off to the device browser at melek.salon. (Play "not a wallet" compliance.)
 const mod = await import('./server.mjs');
 
-test('createAccount: derives prefixed pubkeys + calls the faucet, returns ok', async () => {
-  let captured;
-  mod.__setFetch(async (url, opts) => { captured = { url, body: JSON.parse(opts.body) }; return { json: async () => ({ ok: true }) }; });
-  const r = await mod.createAccount({ username: 'walker1', password: 'hunter2pw' });
-  assert.strictEqual(r.ok, true);
-  assert.strictEqual(r.account, 'walker1');
-  assert.match(captured.url, /\/faucet\/create$/);
-  assert.strictEqual(captured.body.name, 'walker1');
-  assert.match(captured.body.ownerPub, /^TST/);
-  assert.ok(captured.body.activePub && captured.body.postingPub && captured.body.memoPub);
-  mod.__setFetch(globalThis.fetch);
+test('the in-app keygen is GONE — no createAccount export, no faucet keygen', () => {
+  assert.strictEqual(typeof mod.createAccount, 'undefined');   // the deterministic keygen is removed
 });
 
-test('createAccount: rejects bad name / short password WITHOUT calling the faucet', async () => {
-  let called = false; mod.__setFetch(async () => { called = true; return { json: async () => ({ ok: true }) }; });
-  assert.strictEqual((await mod.createAccount({ username: 'AB', password: 'longenough' })).ok, false);
-  assert.strictEqual((await mod.createAccount({ username: 'walker1', password: 'short' })).ok, false);
-  assert.strictEqual(called, false);
-  mod.__setFetch(globalThis.fetch);
-});
-
-test('createAccount: surfaces a taken/invalid name from the faucet', async () => {
-  mod.__setFetch(async () => ({ json: async () => ({ ok: false, reason: 'invalid-account-name' }) }));
-  const r = await mod.createAccount({ username: 'walker1', password: 'longenough' });
-  assert.strictEqual(r.ok, false);
-  assert.match(r.reason, /taken or invalid/);
-  mod.__setFetch(globalThis.fetch);
-});
-
-test('POST /api/create-account routes through createAccount', async () => {
-  mod.__setFetch(async () => ({ json: async () => ({ ok: true }) }));
-  const chunks = [];
-  const req = { url: '/api/create-account', method: 'POST', on: (ev, cb) => { if (ev === 'data') cb(JSON.stringify({ username: 'walker2', password: 'hunter2pw' })); if (ev === 'end') cb(); } };
+test('POST /api/create-account is retired → 410 pointing at the browser hand-off', async () => {
+  const req = { url: '/api/create-account', method: 'POST', on: (ev, cb) => { if (ev === 'data') cb('{}'); if (ev === 'end') cb(); } };
   let code, body; const res = { writeHead: (c) => { code = c; }, end: (b) => { body = b; } };
   await mod.handler(req, res);
-  assert.strictEqual(code, 200);
-  assert.strictEqual(JSON.parse(body).account, 'walker2');
-  mod.__setFetch(globalThis.fetch);
+  assert.strictEqual(code, 410);
+  const j = JSON.parse(body);
+  assert.strictEqual(j.ok, false);
+  assert.match(j.reason, /not a wallet/i);
+  assert.match(j.accountUrl, /melek\.salon/);
 });
 
 test('GET /delete serves the Play-required account & data deletion page', async () => {
@@ -181,7 +165,7 @@ test('GET /delete serves the Play-required account & data deletion page', async 
 });
 
 // helper: the on-chain posting key the chain WOULD report for (account,password) — what the verifier checks.
-const postingPub = (account, password) => PrivateKey.fromLogin(account, password, 'posting').createPublic('TST').toString();
+const postingPub = (account, password) => PrivateKey.fromLogin(account, password, 'posting').createPublic('MELEK').toString();
 
 test('deleteAccount erases standing only after proving ownership by password', async () => {
   const A = 'delwalker', P = 'walkerpw12';

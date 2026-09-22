@@ -32,11 +32,15 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with: { distribution: 'temurin', java-version: '17' }
 
       # Third-party action pinned to a commit SHA (a moving tag could be hijacked). Update deliberately.
-      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407  # v3 (pinned 2026-06-22)
+      # Bumped v3 → v4.0.4 (2026-09-22): the old v3 pin called `sdkmanager` for the obsolete legacy `tools`
+      # package, which no longer exists in the current cmdline-tools repo, so setup failed with
+      # "Failed to find package 'tools'" and the whole build died at the setup-android step. v4 drops the
+      # legacy `tools` install, so sdkmanager works against today's runner image.
+      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd  # v4.0.4 (pinned 2026-09-22)
 
       # Detect whether the release secrets exist WITHOUT exposing them job-wide. Only this step (which never
       # prints the values, just their emptiness) and the specific signing/publish steps see the secrets.
