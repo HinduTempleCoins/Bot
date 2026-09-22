@@ -163,6 +163,15 @@ export function audit() {
   return _audit.slice();
 }
 
+// describe(name) — one credential's non-secret metadata, or null if unknown. Same redacted shape
+// as a list() entry; NEVER the secret, NEVER ciphertext. Additive helper for per-tenant surfaces
+// that hold the vault NAME (via tenant-grants) and need cap/revoked without scanning all of list().
+export function describe(name) {
+  const r = _store.get(name);
+  if (!r) return null;
+  return { name: r.name, scope: r.scope, cap: r.cap, revoked: r.revoked, uses: r.uses };
+}
+
 // list() — names + scopes + caps + revoked status. NEVER secrets, NEVER ciphertext.
 export function list() {
   return Array.from(_store.values()).map((r) => ({
