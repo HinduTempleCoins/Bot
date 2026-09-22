@@ -1,0 +1,581 @@
+{
+  "meta": {
+    "title": "The American Legal Lexicon",
+    "description": "A starter American legal dictionary: each entry gives a plain-language definition, a technical definition, and — where it matters — a note on how the word's founding-era meaning differs from its meaning today. Sourced, and designed to grow.",
+    "asOf": "2026-09-22",
+    "editorialNote": "Definitions here are original plain-English and technical restatements grounded in the cited authorities (Cornell Legal Information Institute / Wex, Bouvier's Law Dictionary of 1839, the text of the U.S. Constitution, and named court decisions). They are reference, not law: a dictionary describes how a word is used; it does not create a right or override a statute or a court's holding. Founding-era notes describe documented shifts in a word's ordinary or legal meaning and cite the source of the shift. Where no meaningful shift is documented, the founding-era field is null.",
+    "sources": [
+      { "name": "Cornell Legal Information Institute (LII) — Wex", "url": "https://www.law.cornell.edu/wex" },
+      { "name": "Bouvier's Law Dictionary (1st ed., 1839)", "url": "https://archive.org/details/bouvierlawdictionary01" },
+      { "name": "U.S. Constitution (annotated)", "url": "https://constitution.congress.gov/" }
+    ]
+  },
+  "terms": [
+    {
+      "term": "Common law",
+      "slug": "common-law",
+      "category": "authority",
+      "plain": "Law that comes from the accumulated decisions of judges over time, rather than from a statute passed by a legislature.",
+      "technical": "The body of law derived from judicial decisions and custom, developed case by case and bound by precedent (stare decisis), as distinct from statutory law enacted by a legislature or regulations issued by an agency.",
+      "foundingEra": "At the Founding, 'the common law' meant the received English common law that each colony, and then each state, adopted (subject to its own reception statute and date). The United States later developed a distinctly American common law in the state courts; the federal courts held in Erie R.R. Co. v. Tompkins, 304 U.S. 64 (1938), that 'there is no federal general common law.'",
+      "sources": [
+        { "name": "Cornell LII — Common law", "url": "https://www.law.cornell.edu/wex/common_law" },
+        { "name": "Erie R.R. Co. v. Tompkins, 304 U.S. 64 (1938)", "url": "https://supreme.justia.com/cases/federal/us/304/64/" }
+      ]
+    },
+    {
+      "term": "Binding authority",
+      "slug": "binding-authority",
+      "category": "authority",
+      "plain": "A source of law a court MUST follow — for example, a statute that applies, or a higher court's ruling in the same court system.",
+      "technical": "Mandatory (controlling) authority: constitutional text, an applicable statute, or a precedent from a higher court within the same jurisdiction, which a court is obligated to apply to the case before it.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Mandatory authority", "url": "https://www.law.cornell.edu/wex/mandatory_authority" }
+      ]
+    },
+    {
+      "term": "Persuasive authority",
+      "slug": "persuasive-authority",
+      "category": "authority",
+      "plain": "A source a court MAY consider and be influenced by, but does not have to follow — for example, a decision from another state, an old English case, or a law dictionary.",
+      "technical": "Non-binding authority that a court may look to for its reasoning or weight — decisions of other jurisdictions, lower or coordinate courts, treatises, law dictionaries, and historical materials such as The Federalist — without being obligated to follow it.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Persuasive authority", "url": "https://www.law.cornell.edu/wex/persuasive_authority" }
+      ]
+    },
+    {
+      "term": "Reception statute",
+      "slug": "reception-statute",
+      "category": "authority",
+      "plain": "A law by which a U.S. state formally adopted the English common law that existed as of a chosen cut-off date, except where the state's own constitution or statutes change it.",
+      "technical": "A statutory or constitutional provision in which a state 'receives' the common law and often the statutes of England in force as of a specified date (the reception date), making them part of state law to the extent not repugnant to the state's own constitution and enactments.",
+      "foundingEra": "Reception dates and terms vary by state — many keyed reception to a date around the Revolution (e.g., pre-1776 English law), so the English common law in force in one state is not identical to that in another.",
+      "sources": [
+        { "name": "Cornell LII — Reception statute", "url": "https://www.law.cornell.edu/wex/reception_statute" }
+      ]
+    },
+    {
+      "term": "Federal common law",
+      "slug": "federal-common-law",
+      "category": "authority",
+      "plain": "Judge-made federal law. After 1938 there is no general federal common law, but courts still make it in a few narrow, specifically federal areas.",
+      "technical": "Judicially fashioned rules of decision on matters of federal concern. Erie R.R. Co. v. Tompkins, 304 U.S. 64 (1938), abolished general federal common law in diversity cases, but surviving 'enclaves' remain — e.g., interstate disputes, admiralty, foreign relations, and the rights/obligations of the United States.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Erie R.R. Co. v. Tompkins, 304 U.S. 64 (1938)", "url": "https://supreme.justia.com/cases/federal/us/304/64/" },
+        { "name": "Cornell LII — Federal common law", "url": "https://www.law.cornell.edu/wex/federal_common_law" }
+      ]
+    },
+    {
+      "term": "Stare decisis",
+      "slug": "stare-decisis",
+      "category": "latin-maxim",
+      "plain": "'Let the decision stand.' Courts generally follow their earlier rulings and those of higher courts, for consistency and predictability.",
+      "technical": "The doctrine that courts adhere to precedent — following the reasoning of prior decisions on the same legal question — so that like cases are decided alike; departures require special justification.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Stare decisis", "url": "https://www.law.cornell.edu/wex/stare_decisis" }
+      ]
+    },
+    {
+      "term": "Precedent",
+      "slug": "precedent",
+      "category": "authority",
+      "plain": "An earlier court decision that guides how later, similar cases should be decided.",
+      "technical": "A prior judicial decision that furnishes a rule or principle for deciding a subsequent case involving substantially similar facts or legal questions; binding when from a higher court in the same jurisdiction, otherwise persuasive.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Precedent", "url": "https://www.law.cornell.edu/wex/precedent" }
+      ]
+    },
+    {
+      "term": "Holding",
+      "slug": "holding",
+      "category": "authority",
+      "plain": "The part of a court's decision that actually settles the legal question — the rule the case stands for.",
+      "technical": "The court's determination of a matter of law pivotal to its decision; the ruling that has precedential effect, as distinguished from dicta.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Holding", "url": "https://www.law.cornell.edu/wex/holding" }
+      ]
+    },
+    {
+      "term": "Dictum (obiter dictum)",
+      "slug": "dictum",
+      "category": "latin-maxim",
+      "plain": "A remark or observation in a court's opinion that isn't necessary to decide the case — interesting, but not binding.",
+      "technical": "A statement in a judicial opinion not essential to the disposition of the case; obiter dicta lack the precedential force of the holding and are at most persuasive.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Dictum", "url": "https://www.law.cornell.edu/wex/dictum" }
+      ]
+    },
+    {
+      "term": "Jurisdiction",
+      "slug": "jurisdiction",
+      "category": "procedure",
+      "plain": "A court's power to hear a particular kind of case and to make binding decisions about the people or property involved.",
+      "technical": "The authority of a court to adjudicate — comprising subject-matter jurisdiction (power over the type of dispute) and personal jurisdiction (power over the parties or res); without it, a judgment is void.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Jurisdiction", "url": "https://www.law.cornell.edu/wex/jurisdiction" }
+      ]
+    },
+    {
+      "term": "Original public meaning",
+      "slug": "original-public-meaning",
+      "category": "constitutional",
+      "plain": "How an ordinary, informed person would have understood the words of the Constitution at the time it was written and ratified.",
+      "technical": "The interpretive method (public-meaning originalism) that fixes a constitutional provision's meaning to the ordinary meaning its words bore to the public at ratification — for which founding-era dictionaries, usage, and legal sources are primary evidence.",
+      "foundingEra": "This is the method that makes founding-era dictionaries legally useful. In District of Columbia v. Heller, 554 U.S. 570 (2008), the Court used founding-era dictionaries, including Samuel Johnson's (1755) and Noah Webster's (1828), to fix the meaning of 'arms' and 'bear arms.'",
+      "sources": [
+        { "name": "District of Columbia v. Heller, 554 U.S. 570 (2008)", "url": "https://supreme.justia.com/cases/federal/us/554/570/" },
+        { "name": "Cornell LII — Originalism", "url": "https://www.law.cornell.edu/wex/originalism" }
+      ]
+    },
+    {
+      "term": "Commerce",
+      "slug": "commerce",
+      "category": "constitutional",
+      "plain": "Buying, selling, and trading goods — and, in the Constitution, the movement of that trade across state and national lines.",
+      "technical": "In the Commerce Clause (Art. I, §8, cl. 3), the power to regulate trade 'among the several States'; modern doctrine reaches channels and instrumentalities of interstate commerce and activities substantially affecting it.",
+      "foundingEra": "Founding-era usage centered on trade and exchange (and its transport), a narrower core than the sweeping modern reach; Gibbons v. Ogden, 22 U.S. (9 Wheat.) 1 (1824), gave it a broad early reading, and the scope has been contested ever since.",
+      "sources": [
+        { "name": "Gibbons v. Ogden, 22 U.S. 1 (1824)", "url": "https://supreme.justia.com/cases/federal/us/22/1/" },
+        { "name": "Constitution Annotated — Commerce Clause", "url": "https://constitution.congress.gov/browse/essay/artI-S8-C3-1/ALDE_00013312/" }
+      ]
+    },
+    {
+      "term": "Domestic violence (constitutional sense)",
+      "slug": "domestic-violence-constitutional",
+      "category": "constitutional",
+      "plain": "In the Constitution, this does NOT mean abuse in the home — it means violence, riot, or insurrection inside a state.",
+      "technical": "As used in the Guarantee Clause (Art. IV, §4), the United States shall protect each state 'against domestic Violence' — i.e., internal insurrection, rebellion, or civil disorder within that state, on application of its legislature or executive.",
+      "foundingEra": "A clear example of meaning drift: at the Founding 'domestic violence' meant violence within the nation/state (as opposed to foreign invasion). The now-dominant meaning — abuse between household members — is a modern, statutory sense unrelated to Art. IV.",
+      "sources": [
+        { "name": "Constitution Annotated — Art. IV Guarantee Clause", "url": "https://constitution.congress.gov/browse/essay/artIV-S4-1/ALDE_00013617/" }
+      ]
+    },
+    {
+      "term": "Well regulated",
+      "slug": "well-regulated",
+      "category": "constitutional",
+      "plain": "Working properly and in good order — as in a well-drilled, well-functioning militia. It does not mean 'controlled by government regulations.'",
+      "technical": "In the Second Amendment's prefatory clause ('A well regulated Militia'), founding-era usage denoted a body that was properly disciplined and in good working order, per District of Columbia v. Heller, 554 U.S. 570 (2008).",
+      "foundingEra": "'Regulate/regulated' in the 18th century commonly meant 'to make regular, orderly, or well-functioning' — distinct from the modern sense of imposing legal restrictions.",
+      "sources": [
+        { "name": "District of Columbia v. Heller, 554 U.S. 570 (2008)", "url": "https://supreme.justia.com/cases/federal/us/554/570/" }
+      ]
+    },
+    {
+      "term": "Arms",
+      "slug": "arms",
+      "category": "constitutional",
+      "plain": "Weapons that a person can carry and use — for self-defense or otherwise.",
+      "technical": "In the Second Amendment, 'Arms' was construed in Heller by reference to founding-era dictionaries as weapons of offense or armor of defense, i.e., instruments a person bears to defend or to cast at or strike another.",
+      "foundingEra": "Heller relied on Samuel Johnson's Dictionary (1755) and Noah Webster's (1828) to fix the founding-era meaning of 'arms,' 'keep,' and 'bear.'",
+      "sources": [
+        { "name": "District of Columbia v. Heller, 554 U.S. 570 (2008)", "url": "https://supreme.justia.com/cases/federal/us/554/570/" }
+      ]
+    },
+    {
+      "term": "General welfare",
+      "slug": "general-welfare",
+      "category": "constitutional",
+      "plain": "The overall well-being of the country. In the Constitution it appears both in the Preamble and as a limit on Congress's spending and taxing power.",
+      "technical": "The 'general Welfare' language of the Preamble and of the Taxing and Spending Clause (Art. I, §8, cl. 1). Whether it independently empowers Congress was famously disputed — Madison read it as tied to the enumerated powers; Hamilton read it as a broader spending authority, the view that has largely prevailed.",
+      "foundingEra": "The Madison–Hamilton dispute over 'general Welfare' is one of the clearest founding-era interpretive disagreements, argued in part through The Federalist and later practice.",
+      "sources": [
+        { "name": "Constitution Annotated — Spending Clause / General Welfare", "url": "https://constitution.congress.gov/browse/essay/artI-S8-C1-1/ALDE_00013356/" }
+      ]
+    },
+    {
+      "term": "Necessary and proper",
+      "slug": "necessary-and-proper",
+      "category": "constitutional",
+      "plain": "Congress can pass laws that are genuinely useful for carrying out its listed powers — not only ones that are absolutely essential.",
+      "technical": "The Necessary and Proper Clause (Art. I, §8, cl. 18) lets Congress make laws 'necessary and proper' to execute its enumerated powers; McCulloch v. Maryland, 17 U.S. (4 Wheat.) 316 (1819), read 'necessary' to mean convenient/useful, not indispensable.",
+      "foundingEra": "The scope of 'necessary' was contested at the Founding (Jefferson's strict reading vs. Hamilton's broad reading); Marshall's McCulloch opinion adopted the broad reading.",
+      "sources": [
+        { "name": "McCulloch v. Maryland, 17 U.S. 316 (1819)", "url": "https://supreme.justia.com/cases/federal/us/17/316/" }
+      ]
+    },
+    {
+      "term": "Due process",
+      "slug": "due-process",
+      "category": "constitutional",
+      "plain": "Fair procedures before the government takes your life, liberty, or property — notice, a hearing, and a fair decision-maker.",
+      "technical": "The guarantee (5th and 14th Amendments) that government not deprive a person of life, liberty, or property without due process of law; encompasses procedural due process and substantive due process.",
+      "foundingEra": "The phrase descends from Magna Carta's 'law of the land' (per legem terrae); early American usage tied it to established, regular legal procedure.",
+      "sources": [
+        { "name": "Cornell LII — Due process", "url": "https://www.law.cornell.edu/wex/due_process" },
+        { "name": "Constitution Annotated — Due Process", "url": "https://constitution.congress.gov/browse/essay/amdt14-S1-5-1/ALDE_00000260/" }
+      ]
+    },
+    {
+      "term": "Ex post facto law",
+      "slug": "ex-post-facto",
+      "category": "constitutional",
+      "plain": "A law that punishes something you did before the law existed, or increases the punishment after the fact. The Constitution forbids these.",
+      "technical": "A retroactive penal law forbidden by Art. I, §§9–10; Calder v. Bull, 3 U.S. (3 Dall.) 386 (1798), confined the prohibition to criminal (not civil) laws that, e.g., criminalize past conduct or increase punishment retroactively.",
+      "foundingEra": "Calder v. Bull (1798) is the founding-era case that settled the term's scope as criminal-only in U.S. constitutional law.",
+      "sources": [
+        { "name": "Calder v. Bull, 3 U.S. 386 (1798)", "url": "https://supreme.justia.com/cases/federal/us/3/386/" }
+      ]
+    },
+    {
+      "term": "Habeas corpus",
+      "slug": "habeas-corpus",
+      "category": "constitutional",
+      "plain": "'You shall have the body.' A court order requiring the government to justify holding someone in custody — the classic check on unlawful detention.",
+      "technical": "The writ of habeas corpus (the 'Great Writ') by which a detainee tests the legality of confinement; the Suspension Clause (Art. I, §9, cl. 2) bars suspension except in cases of rebellion or invasion when public safety requires it.",
+      "foundingEra": "Inherited from English law (Habeas Corpus Act 1679); the Founders treated it as a bedrock liberty, protected in the original Constitution before the Bill of Rights.",
+      "sources": [
+        { "name": "Cornell LII — Habeas corpus", "url": "https://www.law.cornell.edu/wex/habeas_corpus" }
+      ]
+    },
+    {
+      "term": "Cruel and unusual punishment",
+      "slug": "cruel-and-unusual",
+      "category": "constitutional",
+      "plain": "Punishments that are barbaric or grossly disproportionate to the crime. The Eighth Amendment forbids them.",
+      "technical": "The Eighth Amendment bar on cruel and unusual punishments; doctrine considers both inherently barbaric methods and disproportionality.",
+      "foundingEra": "The phrasing is taken almost verbatim from the English Bill of Rights (1689); founding-era meaning is a live originalist question about which punishments were 'unusual' in 1791.",
+      "sources": [
+        { "name": "Constitution Annotated — Eighth Amendment", "url": "https://constitution.congress.gov/browse/essay/amdt8-1/ALDE_00013706/" }
+      ]
+    },
+    {
+      "term": "Privileges and immunities / privileges or immunities",
+      "slug": "privileges-and-immunities",
+      "category": "constitutional",
+      "plain": "Basic rights of citizenship that states can't deny to citizens — a much-debated phrase appearing in two different places in the Constitution.",
+      "technical": "Art. IV, §2 (the Comity Clause) bars a state from discriminating against out-of-state citizens as to fundamental rights; the Fourteenth Amendment's Privileges or Immunities Clause was narrowly construed in the Slaughter-House Cases, 83 U.S. (16 Wall.) 36 (1873).",
+      "foundingEra": "The Art. IV phrase drew on colonial and English notions of the rights of citizens/subjects; its exact founding-era content remains debated.",
+      "sources": [
+        { "name": "Slaughter-House Cases, 83 U.S. 36 (1873)", "url": "https://supreme.justia.com/cases/federal/us/83/36/" }
+      ]
+    },
+    {
+      "term": "Emolument",
+      "slug": "emolument",
+      "category": "constitutional",
+      "plain": "A profit, salary, or benefit that comes from holding an office or position.",
+      "technical": "In the Foreign and Domestic Emoluments Clauses (Art. I, §9, cl. 8; Art. II, §1, cl. 7), a payment, profit, or advantage arising from office; founding-era usage was broad, denoting profit or gain generally.",
+      "foundingEra": "Eighteenth-century dictionaries defined 'emolument' broadly as profit or advantage — a breadth central to modern Emoluments Clause litigation.",
+      "sources": [
+        { "name": "Constitution Annotated — Foreign Emoluments Clause", "url": "https://constitution.congress.gov/browse/essay/artI-S9-C8-1/ALDE_00013456/" }
+      ]
+    },
+    {
+      "term": "High crimes and misdemeanors",
+      "slug": "high-crimes-and-misdemeanors",
+      "category": "constitutional",
+      "plain": "The kind of serious misconduct by an official that can justify impeachment — not limited to ordinary criminal offenses.",
+      "technical": "The Art. II, §4 standard for impeachment and removal ('Treason, Bribery, or other high Crimes and Misdemeanors'); a term of art drawn from English impeachment practice, covering grave abuses of public trust.",
+      "foundingEra": "'High Crimes and Misdemeanors' was a settled phrase in British parliamentary impeachments long before 1787; the Framers adopted it as an understood term of art.",
+      "sources": [
+        { "name": "Constitution Annotated — Impeachment: High Crimes and Misdemeanors", "url": "https://constitution.congress.gov/browse/essay/artII-S4-4-1/ALDE_00000280/" }
+      ]
+    },
+    {
+      "term": "Corruption",
+      "slug": "corruption",
+      "category": "constitutional",
+      "plain": "Using public power for private gain. At the Founding this had a broader meaning than today's narrow focus on bribery.",
+      "technical": "In founding-era political-legal usage, corruption encompassed a broad decay of civic virtue and the use of office for improper private or factional advantage — wider than the modern quid-pro-quo bribery frame.",
+      "foundingEra": "Founding-era 'corruption' was a broad structural concern (dependence, self-dealing, loss of public virtue), documented in the ratification debates and The Federalist, not limited to explicit bribery.",
+      "sources": [
+        { "name": "The Federalist Papers (LOC full text)", "url": "https://guides.loc.gov/federalist-papers/full-text" }
+      ]
+    },
+    {
+      "term": "Militia",
+      "slug": "militia",
+      "category": "constitutional",
+      "plain": "The body of ordinary citizens who could be called to serve in defense — historically most able-bodied free men, not a standing professional army.",
+      "technical": "In the Constitution (Art. I, §8, cls. 15–16; Second Amendment), the militia comprised the body of the people capable of bearing arms, organized and disciplined under a mix of state and federal authority.",
+      "foundingEra": "Heller described the founding-era militia as 'all males physically capable of acting in concert for the common defense,' distinct from the modern National Guard.",
+      "sources": [
+        { "name": "District of Columbia v. Heller, 554 U.S. 570 (2008)", "url": "https://supreme.justia.com/cases/federal/us/554/570/" }
+      ]
+    },
+    {
+      "term": "Republican form of government",
+      "slug": "republican-form-of-government",
+      "category": "constitutional",
+      "plain": "A government run by elected representatives accountable to the people — not a monarchy or a direct democracy.",
+      "technical": "The Art. IV, §4 Guarantee Clause obliges the United States to guarantee each state a 'Republican Form of Government'; the clause has largely been treated as raising nonjusticiable political questions (Luther v. Borden, 48 U.S. (7 How.) 1 (1849)).",
+      "foundingEra": "The Founders distinguished a 'republic' (representative) from a 'democracy' (direct) — a distinction developed in The Federalist No. 10 (Madison).",
+      "sources": [
+        { "name": "Constitution Annotated — Guarantee Clause", "url": "https://constitution.congress.gov/browse/essay/artIV-S4-1/ALDE_00013617/" }
+      ]
+    },
+    {
+      "term": "Letters of marque and reprisal",
+      "slug": "letters-of-marque",
+      "category": "constitutional",
+      "plain": "Government permission for private ships to attack and capture enemy vessels — a historic power Congress still nominally holds.",
+      "technical": "Art. I, §8, cl. 11 grants Congress power to issue letters of marque and reprisal, authorizing private parties (privateers) to seize the property or vessels of a foreign state — a form of state-sanctioned private reprisal.",
+      "foundingEra": "A common 18th-century instrument of naval warfare; largely obsolete after the 1856 Declaration of Paris, but never repealed from the Constitution.",
+      "sources": [
+        { "name": "Constitution Annotated — Marque and Reprisal Clause", "url": "https://constitution.congress.gov/browse/essay/artI-S8-C11-1/ALDE_00013379/" }
+      ]
+    },
+    {
+      "term": "Bill of attainder",
+      "slug": "bill-of-attainder",
+      "category": "constitutional",
+      "plain": "A law that singles out a specific person or group for punishment without a trial. The Constitution bans them.",
+      "technical": "A legislative act inflicting punishment on named individuals or an identifiable group without judicial trial; prohibited to Congress and the states (Art. I, §§9–10).",
+      "foundingEra": "Bills of attainder were a known abuse of the English Parliament; the Framers barred them as a separation-of-powers and fair-trial protection.",
+      "sources": [
+        { "name": "Cornell LII — Bill of attainder", "url": "https://www.law.cornell.edu/wex/bill_of_attainder" }
+      ]
+    },
+    {
+      "term": "Tort",
+      "slug": "tort",
+      "category": "common-law",
+      "plain": "A civil wrong (other than a broken contract) that causes harm and lets the injured person sue for compensation — like negligence or trespass.",
+      "technical": "A civil wrong, arising largely from common law, for which the law provides a remedy in damages; encompasses intentional torts, negligence, and strict-liability torts.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Tort", "url": "https://www.law.cornell.edu/wex/tort" }
+      ]
+    },
+    {
+      "term": "Negligence",
+      "slug": "negligence",
+      "category": "common-law",
+      "plain": "Carelessness that harms someone — failing to act with the caution a reasonable person would use.",
+      "technical": "A tort requiring duty, breach of the standard of reasonable care, causation (actual and proximate), and damages.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Negligence", "url": "https://www.law.cornell.edu/wex/negligence" }
+      ]
+    },
+    {
+      "term": "Consideration",
+      "slug": "consideration",
+      "category": "contract",
+      "plain": "The thing of value each side gives up in a contract — what makes a promise legally enforceable rather than just a gift.",
+      "technical": "The bargained-for exchange (a benefit to the promisor or detriment to the promisee) required, in general, for a contract to be enforceable at common law.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Consideration", "url": "https://www.law.cornell.edu/wex/consideration" }
+      ]
+    },
+    {
+      "term": "Mens rea",
+      "slug": "mens-rea",
+      "category": "criminal",
+      "plain": "'Guilty mind.' The mental state — like intent or recklessness — that the prosecution usually must prove for a crime.",
+      "technical": "The mental element of an offense (e.g., purposely, knowingly, recklessly, negligently) that, with the actus reus, generally must be proven to establish criminal liability.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Mens rea", "url": "https://www.law.cornell.edu/wex/mens_rea" }
+      ]
+    },
+    {
+      "term": "Actus reus",
+      "slug": "actus-reus",
+      "category": "criminal",
+      "plain": "'Guilty act.' The physical part of a crime — the conduct or result the law prohibits.",
+      "technical": "The voluntary act or unlawful omission that constitutes the physical element of a criminal offense, paired with the requisite mens rea.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Actus reus", "url": "https://www.law.cornell.edu/wex/actus_reus" }
+      ]
+    },
+    {
+      "term": "Insanity defense (M'Naghten rule)",
+      "slug": "mnaghten-rule",
+      "category": "criminal",
+      "plain": "A defense that a person shouldn't be held criminally responsible because, due to mental illness, they didn't know what they were doing or didn't know it was wrong.",
+      "technical": "Under the M'Naghten rule, a defendant is legally insane if, from a disease of the mind, he did not know the nature and quality of the act, or did not know it was wrong; adopted from M'Naghten's Case, 8 Eng. Rep. 718, 10 Cl. & Fin. 200 (H.L. 1843).",
+      "foundingEra": "A leading example of an English decision received as persuasive authority: M'Naghten's Case (1843) was decided by the British House of Lords yet became the insanity-defense standard in many U.S. jurisdictions.",
+      "sources": [
+        { "name": "M'Naghten's Case (1843), 8 Eng. Rep. 718", "url": "https://en.wikipedia.org/wiki/M%27Naghten_rules" }
+      ]
+    },
+    {
+      "term": "Law of nations",
+      "slug": "law-of-nations",
+      "category": "common-law",
+      "plain": "The older name for international law — the customary rules governing how nations, and their diplomats, treat one another.",
+      "technical": "The customary body of international law, incorporated into U.S. law; recognized early as part of the law of Pennsylvania in Respublica v. De Longchamps, 1 U.S. (1 Dall.) 111 (1784), and invoked via the 'Offences against the Law of Nations' Clause (Art. I, §8, cl. 10).",
+      "foundingEra": "De Longchamps (1784) — a pre-Constitution Pennsylvania prosecution for assaulting a French diplomat — held that the law of nations was part of state law, an early illustration of received international-law principles in American courts.",
+      "sources": [
+        { "name": "Respublica v. De Longchamps, 1 U.S. 111 (1784)", "url": "https://supreme.justia.com/cases/federal/us/1/111/" }
+      ]
+    },
+    {
+      "term": "Certiorari (writ of)",
+      "slug": "certiorari",
+      "category": "procedure",
+      "plain": "A request asking a higher court — usually the U.S. Supreme Court — to review a lower court's decision. The Court grants very few.",
+      "technical": "A discretionary writ by which an appellate court (notably the U.S. Supreme Court) orders up the record of a lower court for review; granting the petition ('cert') is discretionary.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Certiorari", "url": "https://www.law.cornell.edu/wex/certiorari" }
+      ]
+    },
+    {
+      "term": "Mandamus (writ of)",
+      "slug": "mandamus",
+      "category": "procedure",
+      "plain": "A court order commanding a government official or lower court to perform a clear legal duty they are refusing to do.",
+      "technical": "An extraordinary writ compelling performance of a clear, nondiscretionary duty where no other adequate remedy exists; famously discussed in Marbury v. Madison, 5 U.S. (1 Cranch) 137 (1803).",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Mandamus", "url": "https://www.law.cornell.edu/wex/mandamus" }
+      ]
+    },
+    {
+      "term": "Amicus curiae",
+      "slug": "amicus-curiae",
+      "category": "latin-maxim",
+      "plain": "'Friend of the court.' A person or group who is not a party to a case but files a brief to offer information or arguments the court may find useful.",
+      "technical": "A non-party who, with leave of court, submits a brief on a matter of law or fact bearing on the case, often to represent broader interests.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Amicus curiae", "url": "https://www.law.cornell.edu/wex/amicus_curiae" }
+      ]
+    },
+    {
+      "term": "Res judicata",
+      "slug": "res-judicata",
+      "category": "latin-maxim",
+      "plain": "'A matter decided.' Once a court has finally decided a dispute, the same parties can't relitigate it.",
+      "technical": "Claim preclusion: a final judgment on the merits bars the same parties (or their privies) from relitigating claims that were or could have been raised in that action.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Res judicata", "url": "https://www.law.cornell.edu/wex/res_judicata" }
+      ]
+    },
+    {
+      "term": "Prima facie",
+      "slug": "prima-facie",
+      "category": "latin-maxim",
+      "plain": "'At first look.' Enough evidence to establish a fact or a case unless it is rebutted.",
+      "technical": "A showing sufficient, if unrebutted, to establish a fact or support a claim; a prima facie case shifts the burden of production to the opposing party.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Prima facie", "url": "https://www.law.cornell.edu/wex/prima_facie" }
+      ]
+    },
+    {
+      "term": "Burden of proof",
+      "slug": "burden-of-proof",
+      "category": "procedure",
+      "plain": "Whose job it is to prove something in court, and how convincingly — 'beyond a reasonable doubt' in criminal cases, 'preponderance of the evidence' in most civil ones.",
+      "technical": "The obligation to prove a disputed fact; comprises the burden of production and the burden of persuasion, with standards ranging from preponderance, to clear and convincing, to beyond a reasonable doubt.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Burden of proof", "url": "https://www.law.cornell.edu/wex/burden_of_proof" }
+      ]
+    },
+    {
+      "term": "Voir dire",
+      "slug": "voir-dire",
+      "category": "procedure",
+      "plain": "The questioning of potential jurors (or witnesses) to decide whether they can serve fairly.",
+      "technical": "The preliminary examination of prospective jurors (or of a witness's competence) to determine fitness or the existence of bias, enabling challenges for cause or peremptory strikes.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Voir dire", "url": "https://www.law.cornell.edu/wex/voir_dire" }
+      ]
+    },
+    {
+      "term": "Subpoena",
+      "slug": "subpoena",
+      "category": "procedure",
+      "plain": "A court order requiring you to appear to testify, or to hand over documents.",
+      "technical": "A judicial process compelling attendance to give testimony (subpoena ad testificandum) or production of documents/things (subpoena duces tecum), enforceable by contempt.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Subpoena", "url": "https://www.law.cornell.edu/wex/subpoena" }
+      ]
+    },
+    {
+      "term": "Affidavit",
+      "slug": "affidavit",
+      "category": "procedure",
+      "plain": "A written statement of facts that you swear is true, signed under oath before a notary or officer.",
+      "technical": "A voluntary, written statement of fact confirmed by the oath or affirmation of the person making it, taken before an officer authorized to administer oaths.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Affidavit", "url": "https://www.law.cornell.edu/wex/affidavit" }
+      ]
+    },
+    {
+      "term": "Pro se",
+      "slug": "pro-se",
+      "category": "procedure",
+      "plain": "Representing yourself in court, without a lawyer.",
+      "technical": "Appearing on one's own behalf in a legal proceeding ('for oneself'), without counsel; pro se litigants are generally held to the same procedural rules as represented parties.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Pro se", "url": "https://www.law.cornell.edu/wex/pro_se" }
+      ]
+    },
+    {
+      "term": "Sovereign immunity",
+      "slug": "sovereign-immunity",
+      "category": "constitutional",
+      "plain": "The rule that you generally can't sue the government without its consent.",
+      "technical": "The doctrine shielding the sovereign (federal and, via the Eleventh Amendment and structural principles, the states) from suit absent consent or valid abrogation.",
+      "foundingEra": "Rooted in the English maxim that 'the King can do no wrong'; carried into American law and reinforced by the Eleventh Amendment (1795) after Chisholm v. Georgia (1793).",
+      "sources": [
+        { "name": "Cornell LII — Sovereign immunity", "url": "https://www.law.cornell.edu/wex/sovereign_immunity" }
+      ]
+    },
+    {
+      "term": "Statute",
+      "slug": "statute",
+      "category": "authority",
+      "plain": "A written law passed by a legislature — Congress or a state legislature.",
+      "technical": "A written enactment of a legislative body; statutes are binding law within their jurisdiction and, where valid, override inconsistent common law.",
+      "foundingEra": null,
+      "sources": [
+        { "name": "Cornell LII — Statute", "url": "https://www.law.cornell.edu/wex/statute" }
+      ]
+    },
+    {
+      "term": "Equity",
+      "slug": "equity",
+      "category": "common-law",
+      "plain": "A branch of law focused on fairness — providing remedies like injunctions when money damages aren't enough.",
+      "technical": "The body of principles and remedies, historically administered by courts of chancery, that supplements the common law where its rules would work injustice; now generally merged with law in a single court system.",
+      "foundingEra": "At the Founding, law and equity were often separate systems (as in England); most U.S. jurisdictions later merged them, though the distinction still governs the availability of certain remedies.",
+      "sources": [
+        { "name": "Cornell LII — Equity", "url": "https://www.law.cornell.edu/wex/equity" }
+      ]
+    },
+    {
+      "term": "Ratification",
+      "slug": "ratification",
+      "category": "constitutional",
+      "plain": "Formal approval — as when the states approved the Constitution, or when they later approve an amendment.",
+      "technical": "The act of formal approval that gives legal effect to an instrument; the Constitution was ratified by state conventions (Art. VII), and amendments are ratified per Art. V.",
+      "foundingEra": "The ratification debates (1787–1788), including The Federalist and Anti-Federalist writings, are primary evidence of original public meaning.",
+      "sources": [
+        { "name": "Constitution Annotated — Article VII", "url": "https://constitution.congress.gov/browse/essay/artVII-1/ALDE_00013654/" }
+      ]
+    },
+    {
+      "term": "The Federalist (Federalist Papers)",
+      "slug": "the-federalist",
+      "category": "authority",
+      "plain": "A set of 85 essays written in 1787–1788 by Hamilton, Madison, and Jay urging ratification of the Constitution. Courts cite them as strong evidence of what the Constitution was meant to do — but they are not binding law.",
+      "technical": "Eighty-five essays published under the pseudonym 'Publius' (Alexander Hamilton, James Madison, John Jay) advocating ratification; frequently cited by courts as persuasive evidence of the Constitution's original meaning and intent, not as binding authority.",
+      "foundingEra": "The Federalist is contemporaneous with ratification, which is why it carries unusual interpretive weight; the Anti-Federalist writings supply the opposing founding-era view.",
+      "sources": [
+        { "name": "The Federalist Papers — LOC full text", "url": "https://guides.loc.gov/federalist-papers/full-text" }
+      ]
+    }
+  ]
+}
