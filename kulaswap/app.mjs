@@ -14,8 +14,10 @@ import { cdpMarketLive, veLive } from './kula-config-addresses.mjs';
 const SECONDS_PER_WEEK = 7 * 24 * 60 * 60;
 // The swap tab defaults to PRANA MAINNET (chainId 712217) — the live AMM + 4 seeded pairs. The CDP +
 // veKULA contracts are on the same mainnet; Borrow/Stake txs are built for 712217 and the wallet is
-// switched to it per action.
-const MAINNET_KEY = 'prana-mainnet';
+// switched to it per action. This MUST match a real key in kula-config.mjs CHAINS — the mainnet entry
+// is `prana` (712217). An earlier value 'prana-mainnet' had no matching CHAINS entry, so
+// ensureMainnet() read `undefined` and every Borrow/Stake click threw before touching the wallet.
+export const MAINNET_KEY = 'prana';
 
 /** Deterministic accent colour for a token symbol (for the little token dot). Pure + exported. */
 export function tokenColor(symbol) {
@@ -162,8 +164,9 @@ function mount(doc = document) {
   async function refreshQuote() {
     refreshSwapBtn();
     const a = Number.parseFloat(amtIn.value);
-    if (!(a > 0) || !chainReady(chain)) { amtOut.value = ''; clearDetails(); return; }
+    if (!(a > 0) || !chainReady(chain)) { amtOut.value = ''; amtOut.classList.remove('loading'); clearDetails(); return; }
     showRate('Fetching best price…', true);
+    amtOut.classList.add('loading');
     try {
       const { ethers } = { ethers: await getEthers() };
       const { tin, tout } = curTokens();
@@ -171,7 +174,7 @@ function mount(doc = document) {
       const factory = new ethers.Contract(chain.factory, FACTORY_ABI, ro);
       const path = buildPath(chain, tin, tout);
       const pairAddr = await factory.getPair(path[0], path[path.length - 1]);
-      if (pairAddr === ethers.ZeroAddress) { note(statusEl, 'warn', 'No liquidity pool for this pair yet.'); amtOut.value = ''; clearDetails(); return; }
+      if (pairAddr === ethers.ZeroAddress) { note(statusEl, 'warn', 'No liquidity pool for this pair yet.'); amtOut.value = ''; amtOut.classList.remove('loading'); clearDetails(); return; }
       const pair = new ethers.Contract(pairAddr, PAIR_ABI, ro);
       const [r0, r1] = await pair.getReserves();
       const token0 = (await pair.token0()).toLowerCase();
@@ -180,7 +183,7 @@ function mount(doc = document) {
       const resOut = Number(ethers.formatUnits(inIs0 ? r1 : r0, tout.decimals));
       reserves = { resIn, resOut };
       const q = estimate({ amountIn: a, reserveIn: resIn, reserveOut: resOut, feeBps: chain.feeBps });
-      amtOut.value = q.amountOut ? q.amountOut.toPrecision(8) : '';
+      amtOut.classList.remove('loading'); amtOut.value = q.amountOut ? q.amountOut.toPrecision(8) : '';
       // rate + details
       const rate = a > 0 ? q.amountOut / a : 0;
       showRate(`1 ${esc(tin.symbol)} ≈ <span class="v">${fmtNum(rate)} ${esc(tout.symbol)}</span>`, false);
@@ -198,7 +201,7 @@ function mount(doc = document) {
         dRoute.textContent = path.length > 1 ? `${tin.symbol} → ${tout.symbol}` : tin.symbol;
       }
       note(statusEl, '', '');
-    } catch (e) { note(statusEl, 'err', `Quote failed: ${esc((e && e.message) || e)}`); clearDetails(); }
+    } catch (e) { amtOut.classList.remove('loading'); note(statusEl, 'err', `Quote failed: ${esc((e && e.message) || e)}`); clearDetails(); }
   }
 
   function flip() {

@@ -1,0 +1,33 @@
+'''SoapBox''' is the umbrella name for the whole ecosystem of public-facing apps and sites built around the [[MELEK Blockchain|MELEK]] and [[PRANA Blockchain|PRANA]] chains. Where MELEK is the social blockchain and PRANA the compute chain, SoapBox is everything people actually open in a browser — mapped here in one place.
+
+== The chains ==
+* [[MELEK Blockchain|MELEK]] — the social blockchain: post, vote, earn.
+* [[PRANA Blockchain|PRANA]] — the proof-of-work compute chain you can mine with a laptop.
+* [[KulaSwap]] and [[KULA]] — the DeFi layer: DEX, liquidity, and the [[Wrapped Tokens|wrapped assets]] that connect MELEK to outside value.
+* [[APIS]] — the MELEK-Engine side-token layer's fee token.
+
+== The community surfaces ==
+* [[SoapBox Community]] — the community hub at soapbox.community.
+* [[Pentecaust]] — private messaging, clans and cross-surface identity.
+* [[Hathor (AI Witness)|Hathor]] — the ecosystem's AI witness and help account.
+
+== The verticals ==
+Public-interest and utility sites, one per domain:
+* [[SoapBox Law]] — the public legal record and its explainer pages.
+* [[SoapBox Stream]] — free, license-clear streaming.
+* [[Library of Ashurbanipal]] — the reference library (this wiki).
+* [[SoapBox Mining Pool]], [[PranaScan]], [[Akasha Wallet]] — pool, explorer and wallet.
+* [[SoapBox Data Hub]] and the [[Token Price Ticker]] — ecosystem data and embeddable prices.
+* [[Soap Calculator]] and other utility tools.
+
+== See also ==
+* [[SoapBox Community]]
+* [[MELEK Blockchain]]
+* [[Witness School]]
+
+== Sources ==
+* [https://soapbox.community soapbox.community]
+* [https://melek.salon melek.salon]
+
+== Coverage ==
+A map of the ecosystem's surfaces as they exist at the time of writing; individual surfaces have their own articles with current detail.

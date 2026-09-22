@@ -231,7 +231,9 @@ export class VoteEngine {
         : p.rule === 'fanbase'
         ? (this.store.data.fanbases.find((r) => r.id === p.ruleId)?.maxPerDay ?? 0)
         : 0;
-      const todayCount = this.store.votesToday(p.chain, p.owner).length;
+      // Count THIS rule's own successful votes today — not the owner's total — so a
+      // fanbase's maxPerDay can't be exhausted by an unrelated trail's votes (and vice-versa).
+      const todayCount = this.store.votesTodayForRule(p.chain, p.owner, p.ruleId).length;
       if (!underDailyCap(cap, todayCount)) {
         this.log(`daily cap reached for ${p.chain}:${p.owner} (${cap}); dropping ${key}`);
         this._pending.delete(key);

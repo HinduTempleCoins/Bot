@@ -1,0 +1,22 @@
+'''MELEK Sleep & Focus''' is the brainwave-entrainment surface of the ecosystem, published at sleep.melek.salon. It generates '''binaural beats''', '''isochronic tones''' and a '''40 Hz gamma preset''' live in the browser — nothing is pre-recorded or downloaded.
+
+== How it works ==
+* '''Binaural beats''' — two slightly different tones, one in each ear, whose difference is the entrainment frequency. Headphones are required for these.
+* '''Isochronic tones''' — a single tone gated on and off at the pulse rate; these work on speakers.
+* '''40 Hz gamma preset''' — the gamma-band preset at 40 Hz, the frequency studied in the [[Gamma Entrainment]] research line.
+
+Presets cover the classic EEG bands; gamma is the 40 Hz preset. The tone is synthesized in the browser from a carrier frequency and a beat frequency, so a session can run without streaming anything.
+
+== Honesty note ==
+The surface describes what each band is, not what it will do for a given person. The blurbs state the frequency and the type; they do not promise a clinical outcome. For the research context, see [[Gamma Entrainment]] and [[Display Refresh and Flicker Delivery]].
+
+== See also ==
+* [[Gamma Entrainment]]
+* [[Invisible Spectral Flicker]]
+* [[Display Refresh and Flicker Delivery]]
+
+== Sources ==
+* [https://sleep.melek.salon sleep.melek.salon]
+
+== Coverage ==
+Describes the generator and its presets as built. Makes no clinical claim about effects.

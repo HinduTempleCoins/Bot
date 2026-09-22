@@ -1,0 +1,24 @@
+The '''SoapBox Data Hub''' is the public, no-signup data page for the [[SoapBox]] ecosystem, published at data.soapbox.community.
+
+It puts the ecosystem's own token prices next to wider-market data on one legible page, so a visitor can see what our tokens are worth and what the surrounding market is doing without an account, a wallet connection, or any custody of funds.
+
+== What it shows ==
+* '''Our tokens''' — live prices for MELEK, PRANA, WPRANA, [[KULA]], wVKBT, wCURE and APIS, read from the live [[KulaSwap]] pools on the [[PRANA Blockchain|PRANA]] chain and priced in PRANA. Tokens with no market yet are shown honestly as n/a.
+* '''The ticker''' — the [[Token Price Ticker]], with the paste-ready embed a visitor can take away to a forum or blog.
+* '''Markets''' — token-market statistics (token counts, active markets, trading volume), metals and stock indices, and foreign-exchange rates, gathered on a schedule by the ecosystem's Resource Center.
+* '''Live data feeds''' — a catalog of real fetched figures (for example Bitcoin spot and the Fear and Greed index), each linking back to the hub's own record with upstream attribution.
+
+== How it works ==
+The hub is read-only and keyless. It never asks for a private key and holds no funds. Ecosystem token prices are read live from the chain each time the page loads; the wider-market data is refreshed on a schedule and displayed from the most recent snapshot. Any data source that is briefly unavailable degrades gracefully — that section shows a short "being gathered" note while the rest of the page still renders.
+
+== See also ==
+* [[Token Price Ticker]]
+* [[KulaSwap]]
+* [[KULA]]
+* [[SoapBox Search]]
+
+== Sources ==
+* [https://data.soapbox.community data.soapbox.community]
+
+== Coverage ==
+Describes the public SoapBox data hub: the ecosystem token prices, the embeddable ticker, and the market data it presents.

@@ -2,8 +2,18 @@
 // contract calls lazy-load ethers in the browser, so importing app.mjs here never hits the network.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { slippageBps, applySlippage, deadlineFrom, buildPath, estimate, esc, tokenGlyph } from './app.mjs';
+import { slippageBps, applySlippage, deadlineFrom, buildPath, estimate, esc, tokenGlyph, MAINNET_KEY } from './app.mjs';
 import { CHAINS } from './kula-config.mjs';
+
+test('MAINNET_KEY resolves to the live PRANA mainnet chain (712217) — the Borrow/Stake target', () => {
+  // Regression: MAINNET_KEY was 'prana-mainnet', which is NOT a CHAINS key, so ensureMainnet() read
+  // undefined and threw on mc.chainIdHex — Borrow (CDP) and Stake (veKULA) could never execute.
+  const mc = CHAINS[MAINNET_KEY];
+  assert.ok(mc, `CHAINS[${MAINNET_KEY}] must exist`);
+  assert.equal(mc.chainId, 712217, 'MAINNET_KEY must point at PRANA mainnet');
+  assert.equal(mc.chainIdHex, '0xADE19');
+  assert.ok(mc.rpcUrl && mc.native && mc.explorer, 'wallet_addEthereumChain needs rpcUrl/native/explorer');
+});
 
 test('tokenGlyph: strips the lowercase-w wrapper, uppercases, one char, safe on junk', () => {
   assert.equal(tokenGlyph('KULA'), 'K');

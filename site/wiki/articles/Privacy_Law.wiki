@@ -1,0 +1,18 @@
+'''Privacy law — federal vs. Texas''' is an explainer page on [[SoapBox Law]], published at law.soapbox.community/privacy. It sets the standard (federal) privacy rule beside the [[SoapBox Law|Texas]] rule for each topic, and shows where the state replaces, adds to, fills a gap in, or is limited by federal law.
+
+== Why the states matter ==
+U.S. federal privacy law is '''sectoral''' — there is no single comprehensive federal privacy statute. Protection is stitched together statute by statute and sector by sector (health, finance, children, communications, and so on). That patchwork is exactly why state law carries so much weight: a state can cover ground the federal layer leaves open.
+
+== How the page is organised ==
+Each topic opens the two statutes — federal and Texas — side by side, so a reader can compare the actual text, then pull the cases interpreting them. The comparison states what each statute says and how courts have read it; it does not tell a reader what to do about their own situation.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Rights That Hold Up in Court]]
+* [[Foundational Law]]
+
+== Sources ==
+* [https://law.soapbox.community/privacy law.soapbox.community/privacy]
+
+== Coverage ==
+Describes the page's purpose and structure. Informational only, not legal advice.

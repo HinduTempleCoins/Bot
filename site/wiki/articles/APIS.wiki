@@ -1,0 +1,27 @@
+'''APIS''' is the fee and utility token of '''MELEK-Engine''', the Hive-Engine-style side-token layer that runs alongside the [[MELEK Blockchain|MELEK]] ecosystem. Its name is the Latin word for ''bee'' — the engine's economy is described with a beehive vocabulary (workers, drones, hash), continuing the same imagery as Hive.
+
+== MELEK-Engine ==
+MELEK-Engine is a side-chain-style token layer: it lets tokens be issued and traded on top of the base chain without custom base-chain operations. APIS is the layer's own fee/utility token — the unit that pays for engine actions. See [[Running Tokens on MELEK-Engine]] for how a project issues its own token there.
+
+== How APIS is earned — the WorkerBee mechanic, re-mapped ==
+APIS is not premined into circulation; it is mined by staking, on a design re-mapped from Hive-Engine's WorkerBee model:
+* '''Forever-lock''' — [[Wrapped Tokens|wMELEK]] (wrapped MELEK bridged onto [[PRANA Blockchain|PRANA]]) can be permanently locked.
+* '''APIS-Hash''' — a forever-lock mints '''APIS-Hash''', a non-transferable (soulbound) mining-power unit — the staked-WORKERBEE equivalent.
+* '''Drip''' — APIS-Hash then drips APIS continuously, at the holder's stake-weighted share of emission.
+
+Because APIS-Hash is soulbound, mining power cannot be sold on once it is committed; it stays with the account that locked the MELEK.
+
+== Status ==
+The engine layer runs on the testnet and bootstraps its APIS genesis there. APIS has no external market at the time of writing — where a live price would appear (for example on the [[Token Price Ticker]]) it is shown honestly as ''n/a'' rather than with an invented number.
+
+== See also ==
+* [[Running Tokens on MELEK-Engine]]
+* [[Wrapped Tokens]]
+* [[PRANA Blockchain]]
+* [[KulaSwap]]
+
+== Sources ==
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot] — engine/ layer and the apis-workerbee mechanic
+
+== Coverage ==
+Describes APIS's role and its earning mechanic as designed and running on the testnet. Emission figures change and are not reproduced here.

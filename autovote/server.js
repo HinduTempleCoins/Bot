@@ -101,10 +101,15 @@ const server = http.createServer(async (req, res) => {
     if (path === '/health') {
       return json(res, 200, {
         ok: true,
+        defaultChain: config.defaultChain,
         chains: publicChains().map((c) => c.id),
         activeChains: store.activeChains(),
         cursors: Object.fromEntries(engine._cursors),
         hivesigner: hivesigner.configured(),
+        // MELEK-Signer is the production keyless path for the MELEK chains — surface it here
+        // too, so a health check on a MELEK-default deploy verifies the signer that actually
+        // casts its votes (not only HiveSigner). configured() reflects env/URL presence.
+        melekSigner: melekSigner.configured(),
         mainnetBroadcast: engine.blockMainnet ? 'blocked' : 'allowed',
       });
     }

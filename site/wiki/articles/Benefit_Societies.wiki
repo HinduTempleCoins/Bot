@@ -1,0 +1,43 @@
+'''Benefit societies''' — also called '''fraternal benefit societies''', '''friendly societies''', '''mutual-aid''' or '''benevolent societies''', '''burial societies''', and (in their rotating form) '''ROSCAs''' — are member associations in which people join under a shared charter, pay in regularly, and help one another when a member is sick, bereaved, or in need. They are the oldest form of mutual financial aid, predating the commercial insurance industry and the welfare state. On the [[MELEK Blockchain|MELEK]] ecosystem a benefit society is treated as a specialization of a [[Pentecaust|Pact]]: a charter, members, dues, and degrees of standing, with a mutual-aid ledger and a claims workflow added on top.
+
+== What they are ==
+* '''Fraternal benefit societies (US).''' Operate under the ''lodge system'' — a governing body plus local lodges into which members are initiated under a constitution and ritual. Historically they paid '''sickness, accident, death, and burial benefits''' and provided widow/orphan care, funded from members' own dues.
+* '''Friendly societies (UK / Commonwealth).''' The same institution: mutual associations for insurance, pensions, savings, or cooperative banking, registered and regulated since the Friendly Societies Act 1793.
+* '''Burial societies.''' The oldest and narrowest form — members pay in so a member's funeral is covered. Direct precursors of commercial insurance.
+* '''ROSCAs''' (rotating savings & credit associations) — ''tandas'', ''susus'', ''chit funds'', ''hui'', ''ekub''. A fixed group contributes a set amount each period and takes turns receiving the whole pot. No interest, no institution — peer-to-peer rotation on social trust.
+* '''DAO / crypto analogues.''' Mutual-aid DAOs and crypto relief funds recreate the pattern with token-holder governance over a shared on-chain treasury.
+
+== The two tax lanes (US) ==
+The Internal Revenue Code splits fraternal societies in two, and the split governs everything:
+* '''501(c)(8) — fraternal ''beneficiary'' society''': operates the lodge system '''and pays''' life/sick/accident/other benefits to members. Paying those benefits from pooled dues makes it an '''insurer''' under state law.
+* '''501(c)(10) — ''domestic'' fraternal society''': operates the lodge system but '''does not itself pay''' those benefits; it devotes earnings to charitable, religious, and fraternal purposes. This is the lane a coordination-and-records tool keeps a group inside of.
+
+== The regulatory perimeter ==
+This is the load-bearing finding, and it mirrors the discipline in the ecosystem's donation tooling ([[SoapBox Law]]; the "we never touch the money" rule): '''coordination and records are buildable now; pooling and paying out benefits is regulated.'''
+* '''State insurance regulation.''' In essentially every US state, an organisation that '''pools members' contributions and pays out sickness/death/burial/annuity benefits''' is a fraternal benefit society '''regulated as an insurer''' under the state insurance code — the framework built on the NAIC Model Fraternal Benefit Society Act. That requires a state charter/license, reserves, and examination. It is a licensing project, not a software feature.
+* '''Money-transmitter licensing.''' Accepting money from one person and transmitting it to another is money transmission under FinCEN's rules (31 CFR 1010.100). '''Custody is the trigger''', not taking a fee. A ROSCA payout run ''through'' a platform is money transmission.
+* '''Charitable-solicitation registration.''' Handling charitable donations pulls in roughly forty states' registration rules and California's AB 488 platform rules. A direct link — member pays the organisation directly — needs none of it.
+
+== What MELEK builds ==
+The ecosystem builds only the '''records-only''' side: a member registry, roles and standing, dues ''terms'', a contribution '''ledger''' (recording payments made on an external rail), a claims '''workflow''' (request → governance review with quorum → recorded decision), and pool '''accounting''' as records. An approved claim yields an '''unsigned payout intent''' that the society's own treasurer or [[Hathor (AI Witness)|Hathor]]'s discretionary-grant path settles — the software '''never holds, pools, or forwards members' money.''' Keeping payouts ''discretionary'' (a member who paid dues is not ''owed'' a payout) is also what keeps the activity charitable rather than an insurance contract. This lets a [[Pashupata Shaivism|Shaivite]]-Temple 501(c)(3) or a 501(c)(10) fraternal group coordinate real mutual aid without becoming an unlicensed insurer.
+
+== See also ==
+* [[Pentecaust]] — the Pact / groups / clubs primitive a benefit society specializes
+* [[Hathor (AI Witness)]] — the fund, karma, grants, and bounties the society's payouts hand off to
+* [[SoapBox Law]] — the public legal record and the donation-tooling no-custody precedent
+* [[Foundational Law]]
+* [[MELEK Blockchain]]
+
+== Sources ==
+* [https://taxmap.irs.gov/taxmap/pubs/p557-028.htm IRS Publication 557 — 501(c)(8) and 501(c)(10) fraternal societies]
+* [https://www.irs.gov/pub/irs-tege/eotopicf04.pdf IRS — IRC 501(c)(8) Fraternal Beneficiary Societies]
+* [https://www.irs.gov/charities-non-profits/fraternal-organizations-what-constitutes-a-lodge-system IRS — What constitutes a lodge system]
+* [https://content.naic.org/sites/default/files/inline-files/Chapters%2021-25.pdf NAIC State Licensing Handbook — Fraternal Benefit Societies]
+* [https://content.naic.org/sites/default/files/model-law-675.pdf NAIC Model Fraternal Benefit Society Act (Model #675)]
+* [https://en.wikipedia.org/wiki/Friendly_society Friendly society (overview)]
+* [https://en.wikipedia.org/wiki/Rotating_savings_and_credit_association Rotating savings and credit association]
+* [https://en.wikipedia.org/wiki/Burial_society Burial society]
+* [https://www.ecfr.gov/current/title-31/subtitle-B/chapter-X/part-1010/subpart-A/section-1010.100 FinCEN 31 CFR 1010.100 — money transmitter / MSB definitions]
+
+== Coverage ==
+Covers the family of mutual-aid institutions (fraternal, friendly, burial, ROSCA, DAO), the US 501(c)(8) vs 501(c)(10) tax split, and the regulatory perimeter (state insurance regulation, money-transmitter licensing, charitable-solicitation registration) that separates buildable coordination from licensed insurance. Implementation detail lives in the operator repository (integrations/benefit-society.mjs) and knowledge/civic/benefit-societies.md.

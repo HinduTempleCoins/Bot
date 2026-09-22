@@ -10,8 +10,8 @@ import { createServer } from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { layout, renderWiki, esc, slugify, titleize } from './render.mjs';
-import { groupArticles } from './categories.mjs';
+import { layout, renderWiki, esc, slugify, titleize, tocAside } from './render.mjs';
+import { groupArticles, categoriesFor, categoryById } from './categories.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
@@ -74,7 +74,7 @@ function articleDate(file) {
 function articlePage(slug) {
   const a = readArticle(slug);
   if (!a) return { code: 404, html: layout({ title: 'Not found', body: `<h1>Not found</h1><p class=muted>No article "${esc(slug)}". <a href="/">← Library</a></p>` }) };
-  const { html, refs, footnotes } = renderWiki(a.text);
+  const { html, refs, footnotes, toc } = renderWiki(a.text);
   const flags = flagsForArticle(refs);
   const flagBlock = flags.length ? `<div class=flag><b>⚠️ Fact-check flags (${flags.length})</b> — the knowledge base sources for this article contain claims our fact-checker could not verify against external reality. Treat the following with caution:
     <ul>${flags.slice(0, 10).map((f) => `<li>[${esc(f.verdict)}] ${esc(f.claim)}${f.reason ? ` — <span class=muted>${esc(f.reason)}</span>` : ''}</li>`).join('')}</ul></div>` : '';
@@ -96,8 +96,16 @@ function articlePage(slug) {
   };
   const datePublished = articleDate(a.file);
   if (datePublished) jsonld.datePublished = datePublished;
-  const body = `<p class=muted><a href="/">← Library</a></p><h1>${esc(a.title)}</h1>${flagBlock}${html}${footnotes}`;
-  return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld, ogType: 'article', body }) };
+  // breadcrumbs: Library › <first real category> › <title> — orients a reader who arrived deep-linked.
+  const catIds = categoriesFor(a.title).filter((c) => c !== 'other');
+  const cat = catIds.length ? categoryById(catIds[0]) : null;
+  const crumbs = `<a href="/">Library</a><span class=sep>›</span>${cat ? `<a href="/category/${esc(cat.id)}">${esc(cat.name)}</a><span class=sep>›</span>` : ''}${esc(a.title)}`;
+  // "filed under" category chips at the foot of the article — lateral navigation.
+  const chipIds = categoriesFor(a.title);
+  const chips = `<p style="margin-top:28px"><span class=faint style="font-family:system-ui,sans-serif;font-size:12px">Filed under &nbsp;</span>${chipIds.map((id) => { const g = categoryById(id) || { id, name: id }; return `<a class=chip href="/category/${esc(g.id)}">${esc(g.name)}</a>`; }).join('')}</p>`;
+  const topToc = tocAside(toc);
+  const body = `<h1>${esc(a.title)}<span class=lede-rule aria-hidden=true></span></h1>${flagBlock}${html}${footnotes}${chips}`;
+  return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld, ogType: 'article', body, toc: topToc, crumbs }) };
 }
 
 // "Start here" — the newcomer's learning path, surfaced above the A–Z list so the Library actually
@@ -113,18 +121,18 @@ function indexPage() {
   const arts = listArticles().sort((x, y) => x.title.localeCompare(y.title));
   const have = new Set(arts.map((a) => a.slug));
   const starters = STARTERS.filter((s) => have.has(s.slug));
-  const startBlock = starters.length ? `<div style="margin:22px 0 8px;padding:16px;border:1px solid var(--gold,#e5a21b);border-radius:12px">
-      <h2 style="margin:0 0 4px">Start here — what is this?</h2>
-      <p class=muted style="margin:0 0 12px;font-size:14px">New to MELEK and SoapBox? These explain the whole thing. Then visit the <a href="https://witness.melek.salon">Witness School</a>.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">${starters.map((s) => `<a href="/wiki/${s.slug}" style="display:block;padding:10px 12px;border:1px solid var(--line2,#dbe0e6);border-radius:9px;text-decoration:none"><b style="display:block;color:var(--link,#117a37)">${esc(s.label)}</b><span style="font-size:13px;color:var(--mut,#5c6670)">${esc(s.blurb)}</span></a>`).join('')}</div>
+  const startBlock = starters.length ? `<div class=pylon>
+      <h2 style="margin:0 0 4px;border:0;padding:0">Start here — what is this?</h2>
+      <p class=muted style="margin:0 0 12px;font-size:14px">New to MELEK and SoapBox? These explain the whole thing. Then visit the <a href="https://witness.melek.salon">Witness School</a> or browse the <a href="/categories">full Contents</a>.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">${starters.map((s) => `<a href="/wiki/${s.slug}" style="display:block;padding:11px 13px;border:1px solid var(--line2);border-radius:9px;text-decoration:none;background:var(--panel)"><b style="display:block;color:var(--link)">${esc(s.label)}</b><span style="font-size:13px;color:var(--mut)">${esc(s.blurb)}</span></a>`).join('')}</div>
     </div>` : '';
-  const body = `<h1>The Library of Ashurbanipal</h1>
+  const body = `<h1>The Library of Ashurbanipal<span class=lede-rule aria-hidden=true></span></h1>
     <p class=muted>The Van Kush Family Research Institute knowledge base, synthesized into reference articles — grounded in cited sources, audited by a fact-checker, with disputed claims flagged openly.</p>
     <input class=search id=q placeholder="Search the Library…" autocomplete=off oninput="location.href='/search?q='+encodeURIComponent(this.value)" onkeydown="if(event.key==='Enter')location.href='/search?q='+encodeURIComponent(this.value)">
     ${startBlock}
-    <p class=muted style="margin-top:18px">All ${arts.length} articles</p>
+    <p class=muted style="margin-top:22px">Browse by <a href="/categories">Contents</a>, or all ${arts.length} articles A–Z:</p>
     <div class=grid>${arts.map((a) => `<a href="/wiki/${a.slug}">${esc(a.title)}</a>`).join('')}</div>`;
-  return layout({ title: 'Library', canonical: `${BASE_URL}/`, body });
+  return layout({ title: 'Library', canonical: `${BASE_URL}/`, body, active: 'home' });
 }
 
 function searchPage(q) {
@@ -140,16 +148,16 @@ function searchPage(q) {
       return { ...a, score: (titleHit ? 100 : 0) + n };
     }).filter((a) => a.score > 0).sort((a, b) => b.score - a.score);
   }
-  const body = `<h1>Search</h1>
-    <input class=search id=q value="${esc(q)}" placeholder="Search the Library…" onkeydown="if(event.key==='Enter')location.href='/search?q='+encodeURIComponent(this.value)">
+  const body = `<h1>Search<span class=lede-rule aria-hidden=true></span></h1>
+    <input class=search id=q value="${esc(q)}" autofocus placeholder="Search the Library…" onkeydown="if(event.key==='Enter')location.href='/search?q='+encodeURIComponent(this.value)">
     ${q ? `<p class=muted style="margin-top:14px">${hits.length} result(s) for "${esc(q)}"</p>
       ${hits.map((a) => `<div class=card><a href="/wiki/${a.slug}" style="font-size:16px;font-weight:700">${esc(a.title)}</a></div>`).join('')}`
       : '<p class=muted style="margin-top:14px">Type a term and press Enter.</p>'}`;
-  return layout({ title: q ? `Search: ${q}` : 'Search', body });
+  return layout({ title: q ? `Search: ${q}` : 'Search', body, active: 'search' });
 }
 
 function aboutPage() {
-  const body = `<h1>About the Library</h1>
+  const body = `<h1>About the Library<span class=lede-rule aria-hidden=true></span></h1>
     <p>The Library of Ashurbanipal is the Van Kush Family Research Institute's knowledge base, rendered as reference articles. It is named for the ancient Nineveh library whose clay tablets were preserved by fire.</p>
     <h2>How it stays honest</h2>
     <ul>
@@ -159,7 +167,7 @@ function aboutPage() {
       <li><b>Attribution.</b> The Institute's own hypotheses are marked as such ("VKFRI proposes…") and never presented as established science.</li>
     </ul>
     <p class=muted>This is research and synthesis, openly sourced — not an oracle.</p>`;
-  return layout({ title: 'About', canonical: `${BASE_URL}/about`, body });
+  return layout({ title: 'About', canonical: `${BASE_URL}/about`, body, active: 'about' });
 }
 
 // ── categories ────────────────────────────────────────────────────────────────────────────────
@@ -169,7 +177,7 @@ function aboutPage() {
 function categoriesPage() {
   const groups = groupArticles(listArticles());
   const total = groups.reduce((n, g) => n + g.items.length, 0);
-  const body = `<h1>Contents</h1>
+  const body = `<h1>Contents<span class=lede-rule aria-hidden=true></span></h1>
     <p class=muted>Every article in the library, grouped. ${total} in total.</p>
     ${groups.map((g) => `<section style="margin:0 0 26px">
       <h2 style="margin:0 0 3px;font-size:19px"><a href="/category/${esc(g.id)}">${esc(g.name)}</a>
@@ -177,7 +185,7 @@ function categoriesPage() {
       <p class=muted style="margin:0 0 8px;font-size:14px">${esc(g.blurb || '')}</p>
       <p style="margin:0;line-height:1.9">${g.items.map((a) => `<a href="/wiki/${esc(a.slug)}">${esc(a.title)}</a>`).join(' &middot; ')}</p>
     </section>`).join('')}`;
-  return layout({ title: 'Contents', canonical: `${BASE_URL}/categories`, body });
+  return layout({ title: 'Contents', canonical: `${BASE_URL}/categories`, body, active: 'categories' });
 }
 
 function categoryPage(id) {
@@ -185,10 +193,11 @@ function categoryPage(id) {
   if (!g) {
     return { html: layout({ title: 'Not found', canonical: `${BASE_URL}/categories`, body: '<h1>No such category</h1><p><a href="/categories">All contents</a></p>' }), code: 404 };
   }
-  const body = `<h1>${esc(g.name)}</h1><p class=muted>${esc(g.blurb || '')}</p>
-    <ul style="line-height:1.9">${g.items.map((a) => `<li><a href="/wiki/${esc(a.slug)}">${esc(a.title)}</a></li>`).join('')}</ul>
-    <p><a href="/categories">All contents</a></p>`;
-  return { html: layout({ title: g.name, canonical: `${BASE_URL}/category/${id}`, body }), code: 200 };
+  const crumbs = `<a href="/">Library</a><span class=sep>›</span><a href="/categories">Contents</a><span class=sep>›</span>${esc(g.name)}`;
+  const body = `<h1>${esc(g.name)}<span class=lede-rule aria-hidden=true></span></h1><p class=muted>${esc(g.blurb || '')}</p>
+    <div class=grid>${g.items.map((a) => `<a href="/wiki/${esc(a.slug)}">${esc(a.title)}</a>`).join('')}</div>
+    <p style="margin-top:22px"><a href="/categories">← All contents</a></p>`;
+  return { html: layout({ title: g.name, canonical: `${BASE_URL}/category/${id}`, body, active: 'categories', crumbs }), code: 200 };
 }
 
 function sitemap() {

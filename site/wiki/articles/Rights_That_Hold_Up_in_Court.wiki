@@ -1,0 +1,21 @@
+'''Rights That Hold Up in Court''' is an explainer page on [[SoapBox Law]], published at law.soapbox.community/rights. It sorts the rights that get thrown out from the rights that get you home — and shows how to tell them apart, with the actual cases.
+
+== What it addresses ==
+The page speaks directly to readers who have encountered "sovereign citizen" and pseudolegal material — the claims that a person is a "traveler" not a "driver", that a name in capital letters is a corporate "strawman", that a gold-fringed flag turns a courtroom into an admiralty ship, or that the right treaty or UCC filing confers immunity from the police.
+
+Its stance is careful and not mocking: the '''grievances''' underneath that material are treated as real — police overreach, checkpoints far from any border, civil forfeiture, courts treating ordinary people badly. What the page rejects is the '''remedies''' being sold for those grievances, because the gap between a real grievance and a fake remedy is where people get hurt.
+
+== Method ==
+For each claim, the page gives the real legal rule and the cases that establish it, so a reader can see what actually holds up when tested — rather than what sounds empowering in a video.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Foundational Law]]
+* [[Treaties]]
+* [[Legal Maxims]]
+
+== Sources ==
+* [https://law.soapbox.community/rights law.soapbox.community/rights]
+
+== Coverage ==
+Describes the page's purpose, stance and method. Informational only, not legal advice.

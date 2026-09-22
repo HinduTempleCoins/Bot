@@ -1,0 +1,28 @@
+'''SoapBox Law''' is the public-legal-record vertical of the [[SoapBox]] ecosystem, published at law.soapbox.community. It presents U.S. caselaw, statutes, regulations, judges and lawyer records — facts from the public reporters, source-linked, keyless and free — alongside a set of plain-English explainer pages on how the law is actually structured.
+
+The stated editorial rule is ''facts, not verdicts'': a case description says what a decision is cited for as a matter of legal-historical record, not whether the site thinks the decision is correct. Everything is informational, not legal advice.
+
+== The record ==
+* '''Cases''' — searchable opinions from the public reporters, each linked to its source of record.
+* '''Statutes & Code''' and '''Regulations''' — the statutory and regulatory layers.
+* '''Judges''' and '''Lawyers''' — public records on the people in the system.
+* '''File a complaint''' — a routing page to legal aid, bar referral, and consumer/fraud complaint channels.
+
+== The explainer pages ==
+These are short, cited guides to how U.S. law fits together. Each is its own article here:
+* [[Privacy Law]] — federal (sectoral) privacy law and where Texas replaces, adds to or limits it.
+* [[Rights That Hold Up in Court]] — which rights are real and which are pseudolegal folklore, with the actual cases.
+* [[Foundational Law]] — the Constitution: three branches, four layers, and how they check each other.
+* [[Treaties]] — how a treaty is made and when it becomes enforceable law inside the United States.
+* [[Legal Maxims]] — legal maxims, political axioms and idioms, each with a gloss and a source.
+
+== See also ==
+* [[Congress.ink]]
+* [[SoapBox Oversight]]
+* [[SoapBox Community]]
+
+== Sources ==
+* [https://law.soapbox.community law.soapbox.community]
+
+== Coverage ==
+Describes the vertical's sections and its stated editorial rule. The underlying records change as the public reporters update.

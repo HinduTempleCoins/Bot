@@ -241,4 +241,88 @@ export function productAggregateOfferJsonLd({ name, description, url, image, off
   return node;
 }
 
+/**
+ * A general FAQPage node from [{ q, a }] pairs (the listing-seo builder is coin/stock-specific; this one
+ * is for any surface). Emit it ONLY when the same Q&A are ALSO visible on the page — Google requires the
+ * FAQ text to be present on-page, and an LLM that lifts the answer should be lifting what a human sees.
+ * Returns null when there are no usable pairs. Ready for jsonLdScript().
+ */
+export function faqJsonLd(pairs = []) {
+  const items = [].concat(pairs).filter((p) => p && p.q && p.a);
+  if (!items.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((p) => ({
+      '@type': 'Question',
+      name: String(p.q),
+      acceptedAnswer: { '@type': 'Answer', text: String(p.a) },
+    })),
+  };
+}
+
+/**
+ * A GEO / AI-referenceability citation block. This is the single highest-leverage thing for getting a page
+ * quoted by ChatGPT / Claude / Perplexity / Google AI Overviews: a stable, machine-readable "here is how to
+ * cite this page" unit that appears BOTH as visible text (so a model lifting the answer lifts the citation
+ * too) AND as schema.org JSON-LD (author, publisher, dates, source-of-record). A model that ingests the page
+ * gets an unambiguous, reproducible attribution string pointing back at us.
+ *
+ * @param {object} o
+ *   title           - the page/work title
+ *   url             - the canonical URL of THIS page (what a citation should point at)
+ *   author          - who authored/curated it (default the publisher)
+ *   publisher       - the publishing body (default 'SoapBox')
+ *   datePublished   - ISO date the page/record was published (optional)
+ *   dateModified    - ISO date it was last updated (optional)
+ *   sourceOfRecord  - the authoritative upstream source this page surfaces (e.g. 'Caselaw Access Project')
+ *   sourceUrl       - the upstream source URL (becomes schema.org isBasedOn)
+ *   license         - a license URL/string (e.g. 'https://creativecommons.org/publicdomain/mark/1.0/')
+ *   type            - the schema.org @type for the work node (default 'Article')
+ *   accessed        - the date the citation is generated/accessed (default today, UTC)
+ * @returns {{ html: string, jsonld: object }} - visible block + a schema.org node for jsonLdScript().
+ */
+export function citationBlock({
+  title = '', url = '', author = '', publisher = 'SoapBox', datePublished = '', dateModified = '',
+  sourceOfRecord = '', sourceUrl = '', license = '', type = 'Article', accessed = '',
+} = {}) {
+  const auth = author || publisher || 'SoapBox';
+  const acc = accessed || new Date().toISOString().slice(0, 10);
+  // A plain, copy-pasteable citation line (author. "title." publisher, date. url).
+  const parts = [`${auth}.`];
+  if (title) parts.push(`"${title}."`);
+  if (publisher && publisher !== auth) parts.push(`${publisher},`);
+  if (datePublished) parts.push(`${datePublished}.`);
+  if (url) parts.push(url);
+  const line = parts.join(' ').replace(/\s+/g, ' ').trim();
+  const srcLine = sourceOfRecord
+    ? `Source of record: ${sourceOfRecord}${sourceUrl ? ` — ${sourceUrl}` : ''}. `
+    : '';
+
+  const html =
+    `<aside class="cite-block" style="margin:16px 0;padding:12px 14px;border:1px solid #30363d;border-left:3px solid #58a6ff;border-radius:8px;font-size:13px;line-height:1.6">`
+    + `<div style="font-weight:700;margin-bottom:4px">Cite this page</div>`
+    + `<cite style="font-style:normal;color:inherit">${esc(line)}</cite>`
+    + (srcLine || acc ? `<div style="margin-top:6px;color:#8b949e">${esc(srcLine)}Accessed ${esc(acc)}.</div>` : '')
+    + `</aside>`;
+
+  const node = {
+    '@context': 'https://schema.org',
+    '@type': type,
+    headline: title || undefined,
+    name: title || undefined,
+    url: url || undefined,
+    author: { '@type': /,| and /i.test(auth) ? 'Organization' : 'Organization', name: auth },
+    publisher: publisher === 'SoapBox' ? { '@id': ORG_ID } : { '@type': 'Organization', name: publisher },
+  };
+  if (datePublished) node.datePublished = datePublished;
+  if (dateModified) node.dateModified = dateModified;
+  if (license) node.license = license;
+  if (sourceUrl) node.isBasedOn = sourceUrl;
+  if (sourceOfRecord && !sourceUrl) node.citation = sourceOfRecord;
+  // prune undefined so the JSON-LD stays clean
+  for (const k of Object.keys(node)) if (node[k] === undefined) delete node[k];
+  return { html, jsonld: node };
+}
+
 export const _internal = { ORG_URL, ORG_ID };
