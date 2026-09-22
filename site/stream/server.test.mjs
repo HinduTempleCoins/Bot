@@ -229,3 +229,57 @@ test('search with a query renders results; empty query renders the prompt', asyn
   assert.equal(empty.code, 200);
   __setFetch(null);
 });
+
+// ── HORROR taxonomy surface (A Map of Horror + Girl Has to Kill Everyone) ────────────────────────────
+test('/horror landing lists the 8 genres and the survival wing (trafficking as LEAD)', async () => {
+  const res = await get('/horror');
+  assert.equal(res.code, 200);
+  assert.match(res.body, /A Map of Horror/);
+  assert.match(res.body, /Girl Has to Kill Everyone/);
+  assert.match(res.body, /Sex Trafficking/i);
+  assert.match(res.body, /LEAD/);
+  // links to a genre and a survival category exist
+  assert.match(res.body, /\/horror\/monster/);
+  assert.match(res.body, /\/horror\/trafficking-network/);
+});
+
+test('/horror/:genre streams curated PD titles in-app (embed player, no network needed)', async () => {
+  __setFetch(async () => ({ ok: false })); // live IA row empty → curated PD stock still renders (offline)
+  const res = await get('/horror/monster');
+  assert.equal(res.code, 200);
+  assert.match(res.body, /Nosferatu/);
+  // curated PD tiles resolve to an in-app watch link (gateWatch cleared the IA embed)
+  assert.match(res.body, /\/watch\?src=ia&amp;id=Nosferatu1922/);
+  __setFetch(null);
+});
+
+test('/horror/:genre merges live IA results with the curated PD stock', async () => {
+  useMock();
+  const res = await get('/horror/cosmic'); // live search returns Night of the Living Dead via the mock
+  assert.equal(res.code, 200);
+  assert.match(res.body, /Night of the Living Dead/);
+  __setFetch(null);
+});
+
+test('/horror/trafficking-network: PD stock streams; copyrighted flagships are where-to-watch leads only', async () => {
+  const res = await get('/horror/trafficking-network');
+  assert.equal(res.code, 200);
+  assert.match(res.body, /LEAD CATEGORY/);
+  // genuine PD stock streams in-app
+  assert.match(res.body, /Slaves in Bondage/);
+  assert.match(res.body, /\/watch\?src=ia&amp;id=slaves_in_bondage/);
+  // a modern copyrighted flagship is present but only as a lead, never a watch link
+  assert.match(res.body, /Bound to Vengeance/);
+  assert.match(res.body, /Reference only · not streamed here|not streamed/);
+  assert.doesNotMatch(res.body, /watch\?src=ia&amp;id=Bound/);
+});
+
+test('/horror/:bad → 404, never a 500', async () => {
+  assert.equal((await get('/horror/not-a-real-category')).code, 404);
+});
+
+test('sitemap includes the horror paths', async () => {
+  const sm = await get('/sitemap.xml');
+  assert.match(sm.body, /\/horror<|\/horror\//);
+  assert.match(sm.body, /\/horror\/trafficking-network/);
+});

@@ -25,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as archiveVideo from '../../integrations/soapbox/archive-video.mjs';
 import * as iptv from '../../integrations/soapbox/iptv-channels.mjs';
+import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
 import * as radio from '../../integrations/soapbox/radio.mjs';
 import * as podcasts from '../../integrations/soapbox/podcasts.mjs';
 import { scottubeFeed, __setFetch as tuneinSetFetch } from '../tunein/server.mjs';
@@ -47,6 +48,7 @@ export function __setFetch(fn) {
   _fetch = fn || ((...a) => globalThis.fetch(...a));
   archiveVideo.__setFetch(_fetch);
   iptv.__setFetch(_fetch);
+  horror.__setFetch(_fetch);
   radio.__setFetch(_fetch);
   podcasts.__setFetch(_fetch);
   tuneinSetFetch(_fetch); // fans out to the ScotTube RPC reader inside tunein
@@ -296,7 +298,7 @@ function pageShell(title, inner, { description, canonical } = {}) {
     title, description: desc, canonical: canonical || `${BASE_URL}/`, siteName: SITE_NAME,
     robots: 'index,follow,max-image-preview:large', site: { url: BASE_URL, name: SITE_NAME },
   });
-  const nav = CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`).join('');
+  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/horror">🩸 Horror</a>'].join('');
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -329,6 +331,89 @@ function searchPage(q, tiles) {
     ${tiles.length ? `<div class=grid>${tiles.map(tile).join('')}</div>` : `<p class=empty>No free/legal titles matched “${esc(q)}”. Try another search.</p>`}
   </section>`;
   return pageShell(`Search “${q}” · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/search` });
+}
+
+// ── HORROR — organized by the operator's taxonomy (A Map of Horror + Girl Has to Kill Everyone) ──────
+// PD horror streams in-app (curated + live IA); modern/copyrighted branches render as where-to-watch
+// leads (link-outs), never streamed. `q` narrows the live search.
+export async function horrorGenreTiles(genreId, { q = '', limit = 24 } = {}) {
+  const curated = horror.curatedTiles(genreId, { limit });
+  const live = await safe(() => horror.horrorFilms({ genre: genreId, q, limit }));
+  const seen = new Set(curated.map((t) => t.id));
+  const merged = curated.slice();
+  for (const t of live) { if (t && t.id && !seen.has(t.id)) { seen.add(t.id); merged.push(t); } }
+  return merged;
+}
+
+// A reference "where to watch" card for a (typically copyrighted) title we do NOT stream.
+function leadCard(x) {
+  const meta = [x.y, x.note].filter(Boolean).join(' · ');
+  return `<article class=tile>
+    <span class=thumb><span class=ph>🎞️</span></span>
+    <div class=body>
+      <h3>${esc(x.t)}</h3>
+      ${meta ? `<div class=meta>${esc(String(meta))}</div>` : ''}
+      <div class=meta><span class="badge">Where to watch — lead</span></div>
+      <div class=cta>Reference only · not streamed here</div>
+    </div>
+  </article>`;
+}
+
+function horrorLandingPage() {
+  const genres = horror.HORROR_GENRES.map((g) => {
+    const n = horror.pdFilmsFor(g.id).length;
+    return `<a class=tile href="/horror/${esc(g.id)}" style="text-decoration:none">
+      <div class=body>
+        <h3>${esc(g.title)}</h3>
+        <div class=meta>${esc(g.organizedAround)}</div>
+        <div class=meta><span class="badge lic">${n} PD in-app</span> <span class=badge>${esc(g.subgenres.join(' · '))}</span></div>
+      </div></a>`;
+  }).join('');
+  const wing = horror.SURVIVAL_WING.map((s) => {
+    const tag = s.emphasis === 'lead' ? '<span class="badge lic">LEAD</span>'
+      : s.emphasis === 'deemphasized' ? '<span class=badge>secondary</span>' : '';
+    return `<a class=tile href="/horror/${esc(s.id)}" style="text-decoration:none">
+      <div class=body>
+        <h3>${esc(s.title)} ${tag}</h3>
+        <div class=meta>${esc(s.thesis)}</div>
+      </div></a>`;
+  }).join('');
+  const inner = `<p class=lead>Horror organized by the map, not one word. Eight standalone genres — each with more internal grammar than the whole "thriller" category — plus the <b>Girl Has to Kill Everyone</b> survival wing. Public-domain titles play in-app; modern branches are where-to-watch leads.</p>
+    <section class=row><h2>The eight genres · <span class=see>A Map of Horror</span></h2><div class=grid>${genres}</div></section>
+    <section class=row><h2>Girl Has to Kill Everyone · <span class=see>survival wing — led by the trafficking network</span></h2><div class=grid>${wing}</div></section>
+    <p class=lead style="margin-top:20px">${esc(horror.dataNote())}</p>`;
+  return pageShell(`Horror · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/horror`,
+    description: 'Horror on SoapBox Stream, organized by the operator\'s taxonomy: eight standalone genres (A Map of Horror) and the Girl Has to Kill Everyone survival wing led by the sex-trafficking / network category. Public-domain horror streams in-app; other branches are where-to-watch leads.' });
+}
+
+function horrorGenrePage(g, tiles) {
+  const sub = g.subgenres ? `<p class=lead>${esc(g.organizedAround)} · <b>Absorbs:</b> ${esc(g.subgenres.join(', '))}</p>` : '';
+  const inner = `<p><a class=btn href="/horror">← All horror</a></p>
+    <section class=row><h2>${esc(g.title)}</h2>${sub}
+      ${tiles.length ? `<div class=grid>${tiles.map(tile).join('')}</div>` : '<p class=empty>No public-domain titles on this shelf yet — check back soon.</p>'}
+    </section>`;
+  return pageShell(`${g.title} · Horror · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/horror/${g.id}` });
+}
+
+function horrorSurvivalPage(s, tiles) {
+  const emph = s.emphasis === 'lead' ? '<span class="badge lic">LEAD CATEGORY</span>' : s.emphasis === 'deemphasized' ? '<span class=badge>secondary</span>' : '';
+  const leads = (s.titles || []).map(leadCard).join('');
+  const watch = s.watchLeads ? `<p class=lead><b>Where to watch:</b> ${esc(s.watchLeads)}</p>` : '';
+  const streamable = tiles.length
+    ? `<section class=row><h2>Streamable now · public domain</h2><div class=grid>${tiles.map(tile).join('')}</div></section>`
+    : '';
+  const inner = `<p><a class=btn href="/horror">← All horror</a></p>
+    <section class=row><h2>${esc(s.title)} ${emph}</h2>
+      <p class=lead>${esc(s.thesis)}</p>
+      <p class=lead style="font-size:12px">Test: ${esc(s.wing === 'martyrs' ? 'If she stops killing, does she die?' : 'Is the film watching her be the monster?')}</p>
+    </section>
+    ${streamable}
+    <section class=row><h2>Key titles · where-to-watch leads</h2>
+      <p class=lead style="font-size:12px">These are (mostly) modern copyrighted films — we don't stream them, we point you to them.</p>
+      <div class=grid>${leads}</div>
+    </section>
+    ${watch}`;
+  return pageShell(`${s.title} · Horror · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/horror/${s.id}` });
 }
 
 // ── /watch player — gateWatch decides embed vs. stream vs. refuse ───────────────────────────────────
@@ -417,7 +502,11 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', ...CATEGORIES.map((c) => `/c/${c.id}`)];
+export const SITEMAP_PATHS = ['/', ...CATEGORIES.map((c) => `/c/${c.id}`),
+  '/horror',
+  ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
+  ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
+];
 
 export async function handler(req, res) {
   try {
@@ -459,6 +548,29 @@ export async function handler(req, res) {
       const item = await resolveItem(src, id);
       if (!item) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown title'); }
       return sendHtml(res, watchShell(item));
+    }
+
+    // /horror  (landing)  and  /horror/:id  (a top-level genre OR a survival-wing category)
+    if (path === '/horror') return sendHtml(res, horrorLandingPage());
+    const horrorM = path.match(/^\/horror\/([a-z-]+)$/);
+    if (horrorM) {
+      const id = horrorM[1];
+      const g = horror.genreById(id);
+      if (g) {
+        const tiles = await horrorGenreTiles(id, { limit: 40 });
+        return sendHtml(res, horrorGenrePage(g, tiles));
+      }
+      const s = horror.survivalById(id);
+      if (s) {
+        // survival categories: stream the curated PD stock (via its pdTitles), lead-list the rest.
+        const pdTiles = (s.pdTitles || []).map((fid) => {
+          const f = horror.PD_HORROR_FILMS.find((x) => x.id === fid);
+          return f ? horror.toTile(f) : null;
+        }).filter(Boolean);
+        return sendHtml(res, horrorSurvivalPage(s, pdTiles));
+      }
+      res.writeHead(404, { 'content-type': 'text/plain' });
+      return res.end('unknown horror category');
     }
 
     const catM = path.match(/^\/c\/([a-z]+)$/);

@@ -175,6 +175,9 @@ export function record(event = {}, opts = {}) {
       // device: prefer an explicit coarse class; else derive from ua IN MEMORY and drop the ua.
       device: event.device ? String(event.device).slice(0, 32) : deviceClass(event.ua),
     };
+    // OPTIONAL `slot`: our OWN ad/affiliate placement key (e.g. 'law-top') for ad_impression/ad_click
+    // events. It is not PII (it names our inventory, not a person); stored only when present, capped.
+    if (event.slot != null && String(event.slot).trim()) row.slot = String(event.slot).slice(0, 64);
 
     if (!ensureDir(fs, dir)) return null;
     maybeRotate(fs, dir, now);
@@ -224,7 +227,7 @@ const topN = (o, n) => Object.entries(o).sort((a, b) => b[1] - a[1] || (a[0] < b
  * (default 20). PURE read: computes nothing it can't measure; empty store → all-zero shape. Never throws.
  */
 export function aggregate(opts = {}) {
-  const empty = { pageviews: 0, byDevice: {}, topPaths: [], topHosts: [], topReferrers: [], byDay: [], span: { from: null, to: null } };
+  const empty = { pageviews: 0, byDevice: {}, topPaths: [], topHosts: [], topReferrers: [], bySlot: [], byDay: [], span: { from: null, to: null } };
   try {
     const top = num(opts.top, 20);
     const type = opts.type === undefined ? 'pageview' : opts.type; // null/'' → count all types
@@ -232,7 +235,7 @@ export function aggregate(opts = {}) {
     const untilDay = opts.until == null ? null : (String(opts.until).length === 10 ? String(opts.until) : dayOf(opts.until));
 
     const events = readAllEvents(opts);
-    const paths = {}, hosts = {}, refs = {}, days = {}, devices = {};
+    const paths = {}, hosts = {}, refs = {}, days = {}, devices = {}, slots = {};
     let pageviews = 0; let minDay = null; let maxDay = null;
 
     for (const ev of events) {
@@ -247,6 +250,7 @@ export function aggregate(opts = {}) {
       bump(refs, ev.ref || REF_NONE);
       bump(days, d);
       bump(devices, ev.device || 'unknown');
+      if (ev.slot) bump(slots, ev.slot);            // ad/affiliate placement rollup (revenue attribution)
       if (minDay == null || d < minDay) minDay = d;
       if (maxDay == null || d > maxDay) maxDay = d;
     }
@@ -257,6 +261,9 @@ export function aggregate(opts = {}) {
       topPaths: topN(paths, top),
       topHosts: topN(hosts, top),
       topReferrers: topN(refs, top),
+      // bySlot: for type:'ad_impression'/'ad_click' aggregates, the per-placement counts. Empty for
+      // ordinary pageview rollups. This is how impressions/clicks → CTR → revenue/1k get measured.
+      bySlot: topN(slots, top),
       byDay: Object.entries(days).sort().map(([d, c]) => [d, c]),
       span: { from: minDay, to: maxDay },
     };

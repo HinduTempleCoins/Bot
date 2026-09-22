@@ -162,3 +162,41 @@ test('deviceClass is coarse and stores no version/model', () => {
   assert.equal(deviceClass('GPTBot/1.0 (+https://openai.com/gptbot)'), 'bot');
   assert.equal(deviceClass(''), 'unknown');
 });
+
+test('ad_impression / ad_click events carry a slot and roll up in bySlot', () => {
+  const dir = tmp();
+  try {
+    const opts = { dir, now: clock(DAY) };
+    // ordinary pageview: no slot stored
+    const pv = record({ path: '/cases', host: 'law.soapbox.community', ua: 'Mozilla/5.0 (X11; Linux)' }, opts);
+    assert.equal(pv.slot, undefined, 'pageview has no slot field');
+    // ad events with a placement key
+    record({ type: 'ad_impression', path: '/cases', host: 'law.soapbox.community', slot: 'law-top', ua: 'Mozilla/5.0 (X11; Linux)' }, opts);
+    record({ type: 'ad_impression', path: '/statutes', host: 'law.soapbox.community', slot: 'law-top', ua: 'Mozilla/5.0 (X11; Linux)' }, opts);
+    record({ type: 'ad_click', path: '/cases', host: 'law.soapbox.community', slot: 'law-top', ua: 'Mozilla/5.0 (X11; Linux)' }, opts);
+
+    const imps = aggregate({ type: 'ad_impression', dir });
+    assert.equal(imps.pageviews, 2, 'two impressions counted');
+    assert.deepEqual(imps.bySlot, [['law-top', 2]]);
+
+    const clicks = aggregate({ type: 'ad_click', dir });
+    assert.equal(clicks.pageviews, 1);
+    assert.deepEqual(clicks.bySlot, [['law-top', 1]]);
+
+    // pageview rollup is unaffected (slot events are a different type)
+    const pvAgg = aggregate({ type: 'pageview', dir });
+    assert.equal(pvAgg.pageviews, 1);
+    assert.deepEqual(pvAgg.bySlot, []);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('slot is capped and blank/whitespace slot is not stored', () => {
+  const dir = tmp();
+  try {
+    const long = 'x'.repeat(200);
+    const r1 = record({ type: 'ad_click', path: '/', host: 'law.soapbox.community', slot: long }, { dir, now: clock(DAY) });
+    assert.equal(r1.slot.length, 64, 'slot capped at 64');
+    const r2 = record({ type: 'ad_click', path: '/', host: 'law.soapbox.community', slot: '   ' }, { dir, now: clock(DAY) });
+    assert.equal(r2.slot, undefined, 'blank slot dropped');
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});

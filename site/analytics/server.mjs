@@ -146,16 +146,24 @@ function sendHtml(res, html, code = 200, extra = {}) {
   try { res.end(html); } catch {}
 }
 
-// ── the beacon: record one cookieless pageview ───────────────────────────────────────────────────────
-// `body` is { p|path, r|ref } (POST) or query { p, r } (gif). Host + UA come from headers. Returns bool
-// (recorded?) but the caller ALWAYS answers 204/gif regardless — a beacon never surfaces an error.
-function ingest(req, { path, ref }) {
+// Event types this beacon accepts. 'pageview' is the default; 'ad_impression'/'ad_click' come from the
+// ad-slot tracker (integrations/soapbox/ad-slot.mjs) so ad inventory can be measured on our OWN
+// cookieless collector — no ad-network analytics, no cookie. Anything else is coerced to 'pageview'.
+const EVENT_TYPES = new Set(['pageview', 'ad_impression', 'ad_click']);
+function eventType(t) { const s = String(t || 'pageview'); return EVENT_TYPES.has(s) ? s : 'pageview'; }
+
+// ── the beacon: record one cookieless pageview / ad event ────────────────────────────────────────────
+// `body` is { p|path, r|ref, t|type, slot } (POST) or query { p, r, t, slot } (gif). Host + UA come from
+// headers. Returns bool (recorded?) but the caller ALWAYS answers 204/gif regardless — a beacon never
+// surfaces an error. `slot` is our own placement key (e.g. 'law-top'), not PII.
+function ingest(req, { path, ref, type, slot }) {
   try {
     if (dnt(req)) return false;                    // honour Do-Not-Track / Global Privacy Control
     const key = (req && req.socket && req.socket.remoteAddress) || 'anon';
     if (!rateOk(key)) return false;                // flood guard (key never persisted)
     const ua = (req && req.headers && req.headers['user-agent']) || '';
-    record({ path, ref, host: pageHost(req), ua });  // collector strips query/#, host-only ref, drops ua
+    // collector strips query/#, host-only ref, drops ua; type is allowlisted; slot capped in the collector
+    record({ path, ref, host: pageHost(req), ua, type: eventType(type), slot });
     return true;
   } catch { return false; }                        // soft-fail: the hot path never throws
 }
@@ -303,14 +311,19 @@ export async function handler(req, res) {
       }
       if (method === 'POST') {
         const body = (await readBody(req)) || {};
-        ingest(req, { path: body.p != null ? body.p : body.path, ref: body.r != null ? body.r : body.ref });
+        ingest(req, {
+          path: body.p != null ? body.p : body.path,
+          ref: body.r != null ? body.r : body.ref,
+          type: body.t != null ? body.t : body.type,
+          slot: body.slot,
+        });
         return noContent(res);                     // ALWAYS 204 — never reflect input, never error to a beacon
       }
       return noContent(res);                       // any other method → benign 204
     }
 
     if (path === '/px.gif') {                      // no-JS / <img> fallback beacon
-      ingest(req, { path: url.searchParams.get('p'), ref: url.searchParams.get('r') });
+      ingest(req, { path: url.searchParams.get('p'), ref: url.searchParams.get('r'), type: url.searchParams.get('t'), slot: url.searchParams.get('slot') });
       return sendGif(res);
     }
 
