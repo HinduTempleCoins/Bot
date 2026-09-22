@@ -106,9 +106,12 @@ const STYLE = `<style>
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:9px 20px;display:flex;align-items:center;gap:14px}
   .brand{font-weight:800;font-size:18px;color:var(--fg)} .brand span{color:var(--mut);font-weight:400;font-size:13px}
-  .topbar-r{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
-  .topbar-r a{color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
+  .topbar-r{margin-left:auto;min-width:0;display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .topbar-r::-webkit-scrollbar{height:6px} .topbar-r::-webkit-scrollbar-thumb{background:var(--line2);border-radius:6px}
+  .topbar-r a{flex:0 0 auto;color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
   .topbar-r a:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+  /* on phones: never let the nav become a tall wall over the page — keep the header short, one scrollable row, and non-sticky */
+  @media (max-width:760px){header.topbar{position:static;padding:8px 14px;gap:10px} .topbar-r{width:100%} .brand{font-size:16px}}
   .wrap{max-width:920px;margin:0 auto;padding:22px}
   h1{margin:0 0 6px;font-size:26px} h2{font-size:17px;margin:0 0 10px} h3{font-size:15px;margin:0 0 6px}
   .muted{color:var(--mut)} .up{color:var(--up)} .down{color:var(--down)}
@@ -203,7 +206,7 @@ const FOOTER = `<footer>
   digitizer of record (Caselaw Access Project · Free Law Project · OLRC). Every record links its
   official source. <b>Right of reply:</b> corrections route to the source of record (CAP / Free Law
   Project / OLRC / the relevant agency) — we surface, we do not adjudicate. Informational only — not
-  legal advice; for advice, consult a licensed attorney.
+  legal advice; show this to your attorney.
   <div style="margin-top:8px"><a href="/">Law</a> · <a href="${OVERSIGHT}">Oversight</a> · <a href="${DATA}">Data</a> · <a href="${SEARCH}">Search</a> · <a href="${DIRECTORY}">Directory</a> · <a href="${WIKI}">Library</a></div>
 </footer>`;
 
@@ -274,7 +277,7 @@ const HOME_FAQ = [
   { q: 'Does SoapBox Law give legal advice?',
     a: 'No. SoapBox Law states the public record — case names, citations, statuses and official-source '
      + 'links — and never a holding-summary, a "good law / bad law" judgment, or legal advice. For advice, '
-     + 'consult a licensed attorney.' },
+     + 'show this to your attorney.' },
 ];
 
 // FAQ for the Appeals & writs surface (visible on-page AND emitted as FAQPage JSON-LD — they match).
