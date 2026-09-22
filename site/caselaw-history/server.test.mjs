@@ -246,3 +246,10 @@ test('shipped corpus does not merge Lukumi (animal sacrifice) and O Centro (ayah
   assert.match(`${lukumi.what_happened} ${lukumi.why_it_matters}`, /animal sacrifice|Santería|Santeria/);
   assert.match(`${ocentro.what_happened} ${ocentro.why_it_matters}`, /ayahuasca|hoasca/);
 });
+
+test('every page shows an "Act on this" CTA linking our own tools first', async () => {
+  const html = (await drive('/')).body;
+  assert.match(html, /Act on this/);
+  assert.match(html, /href="https:\/\/law\.soapbox\.community\/lawyers"/);
+  assert.match(html, /href="https:\/\/law\.soapbox\.community\/appeals"/);
+});

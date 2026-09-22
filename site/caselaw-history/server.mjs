@@ -196,6 +196,15 @@ function faqCard(pairs, heading = 'Frequently asked questions') {
 }
 
 // ── page shell (shared SEO head + house-style chrome) ─────────────────────────────────────────────
+// "Act on this" — call-to-action on every page: OUR OWN legal tools first (they live on the law site),
+// then external/official sources. Absolute URLs (separate subdomain).
+function actOnThis() {
+  return `<div class=card style="border-color:var(--gold)"><h2>Act on this</h2>
+    <p>Somewhere to act on what you just read — start with our own tools:</p>
+    <div class=xlink><a href="${LAW_SITE}/lawyers">Find a lawyer or legal aid →</a> · <a href="${LAW_SITE}/complaints">File a complaint / get help →</a> · <a href="${LAW_SITE}/appeals">Appeals, writs &amp; exhausting remedies →</a> · <a href="${LAW_SITE}/cases">Search the caselaw &amp; statutes →</a> · <a href="${LAW_SITE}/doctrines">Legal doctrines →</a></div>
+    <p class=muted style="font-size:12px">Legal information, not legal advice.</p></div>`;
+}
+
 function page(title, body, opts = {}) {
   const desc = opts.description || `${SITE_NAME} — American history read through the case reporters: the figures who live in the caselaw, courts doing historical analysis, and the ancient codes that invented written law. Every case verified.`;
   const canonical = opts.canonical || `${BASE_URL}/`;
@@ -222,7 +231,7 @@ function page(title, body, opts = {}) {
 ${seoHead}${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">§ ${esc(SITE_NAME)} <span>history in the reporters</span></a>
   <div class=topbar-r><a href="${esc(LAW_SITE)}">SoapBox Law</a><a href="${esc(LAW_SITE)}/cases">Cases</a><a href="${esc(LAW_SITE)}/constitution">Constitution</a><a href="${esc(WIKI)}">Library</a></div></header>
-<main class=wrap>${body}${citeHtml}</main>
+<main class=wrap>${body}${actOnThis()}${citeHtml}</main>
 ${FOOTER}</body></html>`;
 }
 

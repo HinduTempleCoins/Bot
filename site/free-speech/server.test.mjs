@@ -214,3 +214,10 @@ test('view functions never throw and return strings', () => {
     __setData(null);
   }
 });
+
+test('every page shows an "Act on this" CTA linking our own tools first', async () => {
+  const html = (await drive('/')).body;
+  assert.match(html, /Act on this/);
+  assert.match(html, /href="https:\/\/law\.soapbox\.community\/lawyers"/);
+  assert.match(html, /href="https:\/\/law\.soapbox\.community\/appeals"/);
+});

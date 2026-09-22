@@ -99,6 +99,15 @@ const FOOTER = `<footer>
 </footer>`;
 
 // ── page shell — shared SEO <head> (Org + WebSite + optional breadcrumb/FAQ/citation JSON-LD) ──────
+// "Act on this" — call-to-action on every page: OUR OWN legal tools first (they live on the law site),
+// then external/official sources. Absolute URLs (separate subdomain).
+function actOnThis() {
+  return `<div class=card style="border-color:var(--gold)"><h2>Act on this</h2>
+    <p>Somewhere to act on what you just read — start with our own tools:</p>
+    <div class=xlink><a href="${LAW}/lawyers">Find a lawyer or legal aid →</a> · <a href="${LAW}/complaints">File a complaint / get help →</a> · <a href="${LAW}/appeals">Appeals, writs &amp; exhausting remedies →</a> · <a href="${LAW}/cases">Search the caselaw &amp; statutes →</a> · <a href="${LAW}/rights">Rights that hold up in court →</a></div>
+    <p class=muted style="font-size:12px">Legal information, not legal advice.</p></div>`;
+}
+
 function page(title, body, opts = {}) {
   const desc = opts.description || 'Free Speech & Sedition — the First Amendment law of speech and the law of sedition: the incitement test, protected vs. unprotected speech, seditious conspiracy, and surveillance chilling effects. Cited authority, descriptive not advocacy.';
   const canonical = opts.canonical || `${BASE_URL}/`;
@@ -129,7 +138,7 @@ function page(title, body, opts = {}) {
 ${seoHead}${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">§ Free Speech <span>&amp; Sedition</span></a>
   <div class=topbar-r><a href="/first-amendment">First Amendment</a><a href="/sedition">Sedition</a><a href="/surveillance">Surveillance</a><a href="/rights">Know your rights</a><a href="${LAW}">Law</a><a href="${WIKI}">Library</a></div></header>
-<main class=wrap>${body}${citeHtml}</main>
+<main class=wrap>${body}${actOnThis()}${citeHtml}</main>
 ${FOOTER}</body></html>`;
 }
 
