@@ -263,3 +263,10 @@ test('pure view functions return HTML strings without a req/res', () => {
   assert.match(lexiconLlmsTxt(), /MELEK Legal Lexicon/);
   assert.ok(DICTIONARIES.length >= 3 && COUNTRY_GLOSSARIES.length >= 5);
 });
+
+test('every page shows an "Act on this" CTA linking our own tools first', async () => {
+  const html = (await drive('/')).body;
+  assert.match(html, /Act on this/);
+  assert.match(html, /href="https:\/\/law\.soapbox\.community\/lawyers"/);
+  assert.match(html, /href="https:\/\/law\.soapbox\.community\/appeals"/);
+});

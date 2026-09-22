@@ -216,6 +216,15 @@ const FOOTER = `<footer>
 
 const SEARCH_URL_TEMPLATE = `${BASE_URL}/glossary?q={search_term_string}`;
 
+// "Act on this" — a call-to-action shown on every page: OUR OWN legal tools first (they live on the law
+// site), then external/official sources. Absolute URLs because this is a separate subdomain.
+function actOnThis() {
+  return `<div class=card style="border-color:var(--gold)"><h2>Act on this</h2>
+    <p>Somewhere to act on what you just read — start with our own tools:</p>
+    <div class=xlink><a href="${LAW}/lawyers">Find a lawyer or legal aid →</a> · <a href="${LAW}/complaints">File a complaint / get help →</a> · <a href="${LAW}/appeals">Appeals, writs &amp; exhausting remedies →</a> · <a href="${LAW}/cases">Search the caselaw &amp; statutes →</a> · <a href="${LAW}/doctrines">Legal doctrines →</a></div>
+    <p class=muted style="font-size:12px">Legal information, not legal advice.</p></div>`;
+}
+
 function page(title, body, opts = {}) {
   const desc = opts.description || 'Legal Lexicon & Sources of Authority — legal dictionaries vs law, founding-era meaning, American vs British common law, persuasive authority, and an American legal lexicon. Free, sourced, not legal advice.';
   const canonical = opts.canonical || `${BASE_URL}/`;
@@ -247,7 +256,7 @@ function page(title, body, opts = {}) {
 ${seoHead}${STYLE}</head><body>
 <header class=topbar><a class=brand href="/">⚖ Legal Lexicon <span>sources of authority</span></a>
   <div class=topbar-r>${navLinks}</div></header>
-<main class=wrap>${body}${citeHtml}</main>
+<main class=wrap>${body}${actOnThis()}${citeHtml}</main>
 ${FOOTER}</body></html>`;
 }
 
