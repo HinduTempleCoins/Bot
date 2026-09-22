@@ -1,0 +1,22 @@
+{
+  "name": "outside-tokens",
+  "version": "0.0.1",
+  "description": "MELEK outside-token / multi-chain launch package (Base + Polygon). Contracts + airdrop + wPRANA proof-of-reserve wrapper + add-liquidity planner. TESTNET/LOCAL until operator deploys.",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "node --test offline/*.test.mjs",
+    "test:offline": "node --test offline/*.test.mjs",
+    "test:hardhat": "hardhat test",
+    "build": "hardhat compile",
+    "merkle": "node scripts/build-merkle.mjs",
+    "addliq": "node scripts/add-liquidity.mjs"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "5.0.2"
+  }
+}
