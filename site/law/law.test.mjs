@@ -214,27 +214,29 @@ test('looksLikeCitation distinguishes a reporter citation from free text', () =>
   assert.ok(!looksLikeCitation('Brown v. Board'));
 });
 
-test('"347 U.S. 483" resolves to a case via the CAP citation path', async () => {
-  // Feed CAP's /cases/?cite=… a Brown v. Board record.
+test('"347 U.S. 483" resolves to a case via the CourtListener citation-lookup path', async () => {
+  // Feed the v4 citation-lookup endpoint a Brown v. Board cluster (lead opinion body inlined).
   setAllFetch(fakeFetch([
-    ['api.case.law', jsonResponse({
-      results: [{
-        id: 12345, name_abbreviation: 'Brown v. Board of Education',
-        decision_date: '1954-05-17', citations: [{ cite: '347 U.S. 483' }],
-        court: { name_abbreviation: 'U.S.' }, frontend_url: 'https://case.law/caselaw/?case=12345',
-        casebody: { data: { opinions: [{ text: 'Separate educational facilities are inherently unequal.' }] } },
+    ['/citation-lookup/', jsonResponse([{
+      citation: '347 U.S. 483', status: 200,
+      clusters: [{
+        id: 118144, case_name: 'Brown v. Board of Education',
+        date_filed: '1954-05-17', citations: [{ volume: '347', reporter: 'U.S.', page: '483' }],
+        court: 'https://www.courtlistener.com/api/rest/v4/courts/scotus/',
+        absolute_url: '/opinion/118144/brown-v-board/',
+        sub_opinions: [{ plain_text: 'Separate educational facilities are inherently unequal.' }],
       }],
-    })],
+    }])],
   ]));
   const html = await casesView('347 U.S. 483');
   resetAllFetch();
   assert.match(html, /Brown v\. Board of Education/);
   assert.match(html, /347 U\.S\. 483/);
-  assert.match(html, /case\.law/);
+  assert.match(html, /courtlistener\.com/);
 });
 
-test('an unresolved citation soft-fails to an empty-state with the CAP look-up link', async () => {
-  setAllFetch(fakeFetch([['api.case.law', jsonResponse({ results: [] })]]));
+test('an unresolved citation soft-fails to an empty-state with a look-up link', async () => {
+  setAllFetch(fakeFetch([['/citation-lookup/', jsonResponse([{ citation: '999 U.S. 999', status: 404, clusters: [] }])]]));
   const html = await casesView('999 U.S. 999');
   resetAllFetch();
   assert.match(html, /No case found/);
@@ -288,14 +290,14 @@ test('caseDetailView (?id=) renders the FULL CourtListener opinion text, not a 2
   assert.match(html, /no holding-summary, headnote, or verdict/i);
 });
 
-test('caseDetailView (?cap=) renders the FULL CAP opinion text, not a snippet', async () => {
+test('caseDetailView (?cap=) renders the FULL opinion text via CourtListener, not a snippet', async () => {
   const capBody = 'We conclude that the statute is unconstitutional as applied. '.repeat(30);
   setAllFetch(fakeFetch([
-    ['api.case.law', jsonResponse({
-      id: 12345, name_abbreviation: 'Doe v. State', decision_date: '1999-01-01',
-      court: { name_abbreviation: 'Cal.' }, citations: [{ cite: '1 Cal. 1' }],
-      frontend_url: 'https://case.law/caselaw/?case=12345',
-      casebody: { data: { opinions: [{ text: capBody }] } },
+    ['/clusters/', jsonResponse({
+      id: 12345, case_name: 'Doe v. State', date_filed: '1999-01-01',
+      court: 'https://www.courtlistener.com/api/rest/v4/courts/cal/', citations: [{ volume: '1', reporter: 'Cal.', page: '1' }],
+      absolute_url: '/opinion/12345/doe-v-state/',
+      sub_opinions: [{ plain_text: capBody }],
     })],
   ]));
   const html = await caseDetailView({ capId: '12345' });
@@ -303,8 +305,8 @@ test('caseDetailView (?cap=) renders the FULL CAP opinion text, not a snippet', 
   assert.match(html, /Doe v\. State/);
   assert.match(html, /<article class=opinion>/);
   const occurrences = (html.match(/We conclude that the statute is unconstitutional/g) || []).length;
-  assert.ok(occurrences >= 20, `full CAP opinion rendered (${occurrences} occurrences)`);
-  assert.match(html, /case\.law/);
+  assert.ok(occurrences >= 20, `full opinion rendered (${occurrences} occurrences)`);
+  assert.match(html, /courtlistener\.com/);
 });
 
 test('caseDetailView soft-fails to an empty-state when the source is down (no throw)', async () => {
