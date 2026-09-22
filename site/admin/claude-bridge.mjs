@@ -1,10 +1,15 @@
 // site/admin/claude-bridge.mjs — the SERVER-SIDE endpoint the admin relay talks to.
 //
 // integrations/claude-relay.mjs (admin side) POSTs {message, sessionId} with a Bearer token to the
-// env CLAUDE_RELAY_URL. NOTHING answered that URL until this service. This is that service: a tiny,
-// zero-dependency Node HTTP server that runs ON SERVER 4 (where the Claude Code CLI is installed with
-// subscription creds, loaded from the operator's claude env file — see the deploy notes). It receives
-// the admin message, shells out to the Claude CLI, and returns the reply.
+// env CLAUDE_RELAY_URL. This is that service: a tiny, zero-dependency Node HTTP server that runs ON
+// SERVER 4. It receives the admin message and returns the reply.
+//
+// CLAUDE REMOVED / PRIVACY (operator 2026-09-22): the Soapy admin chat is PRIVATE conversation — it
+// must NEVER go to an external API. It no longer shells the `claude` CLI (subscription OAuth lapsed);
+// it answers from OUR Modal-hosted model (private compute we control) via integrations/modal-client.
+// Modal scales from zero, so the first message may need to ride out a cold start — the runner uses
+// coldStart retries and the handler surfaces a "warming up" reply rather than an error. If Modal is
+// not configured, the chat reports COMPUTE-GATED; it does NOT fall back to any external API.
 //
 // AUTH: Authorization: Bearer <token>, compared against env CLAUDE_RELAY_TOKEN by NAME. The token is
 // NEVER logged and never echoed; a mismatch returns 401 with no body that could leak length/shape.
@@ -12,29 +17,27 @@
 // LOCALHOST-ONLY BY DESIGN: binds HOST=127.0.0.1 by default. The admin portal runs on the SAME box
 // and calls this loopback; the bearer is defense-in-depth, not the only gate. Do not bind to 0.0.0.0.
 //
-// SESSION CONTINUITY (documented simplification): we keep an in-memory map sessionId → { seen }. The
-// first message in a session runs `claude -p <msg>`; subsequent messages run `claude --continue -p
-// <msg>`, which resumes the CLI's most-recent conversation in that cwd. This is a SIMPLIFICATION:
-// `--continue` resumes the single most-recent CLI session for the working directory, not a specific
-// per-sessionId conversation. With one operator and one admin chat this is correct in practice; true
-// multi-session isolation would require `--resume <claude-session-uuid>` keyed off the UUID the CLI
-// prints, which the text output format does not surface. Keep it simple until multi-session is needed.
+// SESSION CONTINUITY: we keep an in-memory map sessionId → { seen, turns:[{role,content}] } and pass
+// the recent turns to Modal as chat history (Modal is stateless per call). Bounded to the last few
+// turns so a long chat can't blow the context. Multi-session is isolated by sessionId.
 //
-//   PORT=8097 CLAUDE_RELAY_TOKEN=… CLAUDE_BRIDGE_CWD=/opt/melek-bot/repo node site/admin/claude-bridge.mjs
+//   PORT=8097 CLAUDE_RELAY_TOKEN=… MODAL_INFERENCE_URL=… node site/admin/claude-bridge.mjs
 //
-// Tests inject a runner via __setRunner so they never spawn the real CLI (no creds, no network, fast).
+// Tests inject a runner via __setRunner so they never hit Modal (no network, fast, offline).
 
 import { createServer } from 'node:http';
-import { spawn } from 'node:child_process';
+import { askModal, modalReady } from '../../integrations/modal-client.mjs';
 import { redactString } from '../../integrations/claude-relay.mjs';
 
 // ── env NAMES (never literals; the token is read by name and never logged) ───────────────────────
 const PORT = +(process.env.PORT || 8097);
 const HOST = process.env.HOST || '127.0.0.1';
-const CWD = process.env.CLAUDE_BRIDGE_CWD || '/opt/melek-bot/repo';
 const TIMEOUT_MS = +(process.env.CLAUDE_BRIDGE_TIMEOUT_MS || 110_000);
 const MAX_OUTPUT = +(process.env.CLAUDE_BRIDGE_MAX_OUTPUT || 64 * 1024); // ~64KB cap
 const MAX_BODY = 64 * 1024; // request body cap (a chat message, not a payload)
+const MAX_TURNS = +(process.env.CLAUDE_BRIDGE_MAX_TURNS || 12); // recent history turns kept per session
+const SYSTEM = process.env.CLAUDE_BRIDGE_SYSTEM
+  || 'You are Soapy, the admin assistant for the MELEK / SoapBox operator. Be concise, accurate, and plain-spoken. This is a private admin conversation.';
 
 function tokenName() {
   // resolves to 'CLAUDE_RELAY_TOKEN' — assembled so the secret scanner sees no key-shaped literal.
@@ -58,59 +61,40 @@ function bearerOk(headerValue) {
   return diff === 0;
 }
 
-// ── per-session continuity map (sessionId → { seen:true }) ───────────────────────────────────────
+// ── per-session continuity map (sessionId → { seen, turns:[{role,content}] }) ─────────────────────
 const _sessions = new Map();
 function sessionSeen(id) { return _sessions.has(String(id || 'default')); }
-function markSession(id) { _sessions.set(String(id || 'default'), { seen: true }); }
+function sessionTurns(id) { const s = _sessions.get(String(id || 'default')); return (s && s.turns) || []; }
+function markSession(id) {
+  const k = String(id || 'default');
+  if (!_sessions.has(k)) _sessions.set(k, { seen: true, turns: [] });
+}
+// record one user→assistant exchange, bounded to the last MAX_TURNS entries.
+function recordTurn(id, userMsg, assistantMsg) {
+  const k = String(id || 'default');
+  const s = _sessions.get(k) || { seen: true, turns: [] };
+  s.turns.push({ role: 'user', content: String(userMsg || '') });
+  if (assistantMsg) s.turns.push({ role: 'assistant', content: String(assistantMsg) });
+  if (s.turns.length > MAX_TURNS) s.turns = s.turns.slice(-MAX_TURNS);
+  _sessions.set(k, s);
+}
 
-// ── the CLI runner (injectable so tests never spawn the real `claude`) ───────────────────────────
-// runClaude({ message, continueSession }) → Promise<{ text, timedOut }>. Soft: a timeout resolves
-// with { timedOut:true } so callers can answer the user gracefully instead of 500-ing.
-function defaultRunner({ message, continueSession }) {
-  return new Promise((resolve) => {
-    const args = continueSession
-      ? ['--continue', '-p', message, '--output-format', 'text']
-      : ['-p', message, '--output-format', 'text'];
-    let child;
-    try {
-      child = spawn('claude', args, { cwd: CWD, stdio: ['ignore', 'pipe', 'pipe'] });
-    } catch (err) {
-      return resolve({ text: '', timedOut: false, error: err && err.message });
-    }
-
-    let out = '';
-    let errOut = '';
-    let capped = false;
-    let timedOut = false;
-    let settled = false;
-
-    const timer = setTimeout(() => {
-      timedOut = true;
-      try { child.kill('SIGKILL'); } catch { /* already gone */ }
-    }, TIMEOUT_MS);
-
-    child.stdout.on('data', (buf) => {
-      if (capped) return;
-      out += buf.toString('utf8');
-      if (out.length > MAX_OUTPUT) {
-        out = out.slice(0, MAX_OUTPUT);
-        capped = true;
-        try { child.kill('SIGKILL'); } catch { /* already gone */ }
-      }
-    });
-    // stderr is folded in only when stdout is empty (CLI usage/auth errors surface there).
-    child.stderr.on('data', (b) => { if (errOut.length < 4096) errOut += b.toString('utf8'); });
-
-    const finish = (extra) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
-      resolve({ text: out.trim(), timedOut, capped, ...extra });
-    };
-
-    child.on('error', (err) => finish({ error: err && err.message }));
-    child.on('close', () => finish(errOut && !out.trim() ? { error: errOut.trim() } : {}));
-  });
+// ── the Modal runner (injectable so tests never hit the network) ─────────────────────────────────
+// runner({ message, continueSession, sessionId, history }) → Promise<{ text, timedOut?, warming?,
+// computeGated? }>. Soft-fail: never throws; a cold/absent endpoint resolves with a flag the handler
+// turns into a graceful reply, never a 500.
+async function defaultRunner({ message, history = [] }) {
+  if (!modalReady()) return { text: '', computeGated: true }; // private endpoint not configured
+  const messages = [...(Array.isArray(history) ? history : []), { role: 'user', content: message }];
+  let text;
+  try {
+    // on-demand → coldStart: ride out Modal's spin-up from zero with spaced retries.
+    text = await askModal({ messages, system: SYSTEM, coldStart: true, maxTokens: 1200 });
+  } catch (err) {
+    return { text: '', error: err && err.message };
+  }
+  if (!text) return { text: '', warming: true };       // reachable but empty/still warming
+  return { text: text.length > MAX_OUTPUT ? text.slice(0, MAX_OUTPUT) : text, capped: text.length > MAX_OUTPUT };
 }
 
 let _runner = defaultRunner;
@@ -159,11 +143,11 @@ export async function handle(req, res) {
 
     let result;
     try {
-      result = await _runner({ message, continueSession: sessionSeen(sessionId) });
+      result = await _runner({ message, continueSession: sessionSeen(sessionId), sessionId, history: sessionTurns(sessionId).slice() });
     } catch (err) {
       // a thrown runner is treated as a soft failure — answer the user, don't 500.
       return sendJson(res, 200, {
-        reply: '[bridge error — Claude CLI did not respond]',
+        reply: '[Soapy AI error — the model did not respond]',
         sessionId,
         error: redactString(err && err.message),
       });
@@ -171,15 +155,25 @@ export async function handle(req, res) {
 
     markSession(sessionId);
 
-    if (result && result.timedOut) {
+    // private inference not configured at all → COMPUTE-GATED (never falls back to an external API).
+    if (result && result.computeGated) {
       return sendJson(res, 200, {
-        reply: '[Claude took too long to respond — try again or simplify the request]',
+        reply: '[Soapy AI is offline — our private inference endpoint is not configured yet (compute-gated). No external API is used for admin chat by policy.]',
         sessionId,
-        timedOut: true,
+        computeGated: true,
+      });
+    }
+    // reachable but slow/empty (Modal spinning up from zero) → ask the operator to retry shortly.
+    if (result && (result.timedOut || result.warming)) {
+      return sendJson(res, 200, {
+        reply: '[Soapy AI is warming up — the model is spinning up from cold. Try again in a few seconds.]',
+        sessionId,
+        warming: true,
       });
     }
 
     const reply = redactString((result && result.text) || '');
+    if (reply) recordTurn(sessionId, message, reply); // keep continuity for the next turn
     return sendJson(res, 200, { reply, sessionId });
   }
 
@@ -197,8 +191,11 @@ if (process.argv[1] && process.argv[1].endsWith('claude-bridge.mjs')) {
   if (!expectedToken()) {
     console.warn(`[claude-bridge] ${tokenName()} not set — all /v1/message requests will 401 until it is.`);
   }
+  if (!modalReady()) {
+    console.warn('[claude-bridge] MODAL_INFERENCE_URL not set — admin chat is COMPUTE-GATED (no external-API fallback by policy).');
+  }
   createServer(handle).listen(PORT, HOST, () => {
-    // never print the token; the cwd + bind address are safe operational facts.
-    console.log(`[claude-bridge] listening on http://${HOST}:${PORT} (cwd=${CWD}, timeout=${TIMEOUT_MS}ms)`);
+    // never print the token; the bind address + model-endpoint presence are safe operational facts.
+    console.log(`[claude-bridge] listening on http://${HOST}:${PORT} (backend=Modal, configured=${modalReady()}, timeout=${TIMEOUT_MS}ms)`);
   });
 }

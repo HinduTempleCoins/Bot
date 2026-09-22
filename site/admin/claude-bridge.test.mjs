@@ -9,6 +9,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { handle, __setRunner, __reset } from './claude-bridge.mjs';
+import { __setFetch as setModalFetch } from '../../integrations/modal-client.mjs';
 
 const TOKEN_ENV = ['CLAUDE', 'RELAY', 'TOKEN'].join('_');
 const GOOD = 'bridge-token-deadbeef-not-real';
@@ -125,7 +126,7 @@ test('session isolation: a different sessionId starts fresh (not --continue)', a
   assert.deepEqual(flags, [false, false], 'each new sessionId begins fresh');
 });
 
-test('timeout → soft error reply (200, timedOut flag), never a 500', async () => {
+test('timeout/warming → soft warming reply (200, warming flag), never a 500', async () => {
   setup();
   __setRunner(async () => ({ text: '', timedOut: true }));
   const res = await call({
@@ -135,20 +136,56 @@ test('timeout → soft error reply (200, timedOut flag), never a 500', async () 
   });
   assert.equal(res.statusCode, 200);
   const j = json(res);
-  assert.equal(j.timedOut, true);
-  assert.match(j.reply, /too long/i);
+  assert.equal(j.warming, true);
+  assert.match(j.reply, /warming up/i);
+});
+
+test('warming: runner reports Modal still spinning up → warming reply', async () => {
+  setup();
+  __setRunner(async () => ({ text: '', warming: true }));
+  const res = await call({
+    url: '/v1/message', method: 'POST', headers: auth(GOOD),
+    body: JSON.stringify({ message: 'first msg cold', sessionId: 'cold' }),
+  });
+  assert.equal(res.statusCode, 200);
+  assert.equal(json(res).warming, true);
+  assert.match(json(res).reply, /warming up/i);
+});
+
+test('compute-gated: runner reports no endpoint → offline reply, no external API', async () => {
+  setup();
+  __setRunner(async () => ({ text: '', computeGated: true }));
+  const res = await call({
+    url: '/v1/message', method: 'POST', headers: auth(GOOD),
+    body: JSON.stringify({ message: 'hello', sessionId: 'cg' }),
+  });
+  assert.equal(res.statusCode, 200);
+  const j = json(res);
+  assert.equal(j.computeGated, true);
+  assert.match(j.reply, /compute-gated|offline/i);
 });
 
 test('thrown runner → soft error reply, never a 500', async () => {
   setup();
-  __setRunner(async () => { throw new Error('spawn ENOENT'); });
+  __setRunner(async () => { throw new Error('modal ENOENT'); });
   const res = await call({
     url: '/v1/message', method: 'POST',
     headers: auth(GOOD),
     body: JSON.stringify({ message: 'x', sessionId: 'err' }),
   });
   assert.equal(res.statusCode, 200);
-  assert.match(json(res).reply, /bridge error/i);
+  assert.match(json(res).reply, /Soapy AI error/i);
+});
+
+test('history: the second message passes the first turn to the runner (continuity)', async () => {
+  setup();
+  const seen = [];
+  __setRunner(async (arg) => { seen.push(arg); return { text: `reply-${seen.length}` }; });
+  await call({ url: '/v1/message', method: 'POST', headers: auth(GOOD), body: JSON.stringify({ message: 'first', sessionId: 'h' }) });
+  await call({ url: '/v1/message', method: 'POST', headers: auth(GOOD), body: JSON.stringify({ message: 'second', sessionId: 'h' }) });
+  assert.deepEqual(seen[0].history, [], 'first message has empty history');
+  assert.deepEqual(seen[1].history, [{ role: 'user', content: 'first' }, { role: 'assistant', content: 'reply-1' }],
+    'second message carries the recorded first turn');
 });
 
 test('redaction: a key-shaped string in the reply is redacted before return', async () => {
@@ -206,6 +243,39 @@ test('unknown route → 404', async () => {
   setup();
   const res = await call({ url: '/nope', headers: auth(GOOD) });
   assert.equal(res.statusCode, 404);
+});
+
+test('default runner → answers from Modal (injected fetch), private compute only', async () => {
+  __reset(); // restore the real default runner (Modal-backed)
+  process.env[TOKEN_ENV] = GOOD;
+  process.env.MODAL_INFERENCE_URL = 'https://ourteam--melek-inference.modal.run';
+  let posted;
+  setModalFetch(async (_url, opts) => { posted = JSON.parse(opts.body); return { ok: true, json: async () => ({ text: 'soapy says hi' }) }; });
+  const res = await call({
+    url: '/v1/message', method: 'POST', headers: auth(GOOD),
+    body: JSON.stringify({ message: 'status?', sessionId: 'modal' }),
+  });
+  assert.equal(res.statusCode, 200);
+  assert.equal(json(res).reply, 'soapy says hi');
+  assert.ok(Array.isArray(posted.messages) && posted.messages.at(-1).content === 'status?', 'sent the message to Modal');
+  assert.equal(typeof posted.system, 'string');
+  delete process.env.MODAL_INFERENCE_URL;
+  setModalFetch(null);
+});
+
+test('default runner → COMPUTE-GATED when MODAL_INFERENCE_URL unset (no network)', async () => {
+  __reset();
+  process.env[TOKEN_ENV] = GOOD;
+  delete process.env.MODAL_INFERENCE_URL;
+  let called = false;
+  setModalFetch(async () => { called = true; return { ok: true, json: async () => ({ text: 'x' }) }; });
+  const res = await call({
+    url: '/v1/message', method: 'POST', headers: auth(GOOD),
+    body: JSON.stringify({ message: 'hi', sessionId: 'cg2' }),
+  });
+  assert.equal(json(res).computeGated, true);
+  assert.equal(called, false, 'no network call when the private endpoint is unconfigured');
+  setModalFetch(null);
 });
 
 test('no token configured → fail closed (401 even with a plausible bearer)', async () => {
