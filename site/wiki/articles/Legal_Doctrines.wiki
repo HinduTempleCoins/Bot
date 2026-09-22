@@ -1,0 +1,27 @@
+'''Legal Doctrines''' is a reference page on [[SoapBox Law]], published at law.soapbox.community/doctrines. It is a plain-English guide to the settled doctrines that actually decide cases in American law, each defined without jargon and anchored to the landmark case that established it — every citation verified against the public reporters. It closes with a short, factual note on sovereign-citizen pseudolaw.
+
+== What it covers ==
+The doctrines are grouped by area, and every case links to the court's own opinion in the [[SoapBox Law]] case reader.
+* '''Criminal procedure''' — the exclusionary rule (''Weeks v. United States''; ''Mapp v. Ohio''), fruit of the poisonous tree (''Silverthorne''; ''Nardone''; ''Wong Sun'') and its exceptions (inevitable discovery — ''Nix v. Williams''; independent source — ''Murray v. United States''; attenuation — ''Utah v. Strieff''), and Miranda (''Miranda v. Arizona''; ''Dickerson v. United States'').
+* '''Constitutional structure & rights''' — judicial review (''Marbury v. Madison''), stare decisis (''Payne v. Tennessee''), the Supremacy Clause and federal preemption (''McCulloch''; ''Gibbons v. Ogden''; ''Gade''; ''Arizona v. United States''), the Commerce Clause (''Gibbons''; ''Wickard v. Filburn''; ''Lopez''; ''NFIB v. Sebelius''), the dormant Commerce Clause, separation of powers (''Youngstown''; ''INS v. Chadha''), incorporation of the Bill of Rights (''Barron''; ''Gitlow''; ''McDonald''), procedural and substantive due process (''Mathews v. Eldridge''; ''Washington v. Glucksberg''), the equal-protection tiers of scrutiny (''Loving''; ''Craig v. Boren''; ''United States v. Virginia''; ''Williamson''), and void-for-vagueness (''Johnson v. United States'').
+* '''Administrative law''' — agency deference, noting that ''Chevron'' (1984) was overruled by ''Loper Bright Enterprises v. Raimondo'' (2024), and exhaustion of administrative remedies (''Woodford v. Ngo'').
+* '''Justiciability & immunities''' — standing (''Lujan v. Defenders of Wildlife''), ripeness (''Abbott Laboratories v. Gardner''), mootness (''DeFunis v. Odegaard''), the political-question doctrine (''Baker v. Carr''; ''Nixon v. United States''), qualified immunity (''Harlow''; ''Pearson''), and sovereign immunity (''Hans v. Louisiana''; ''Alden v. Maine'').
+
+== The sovereign-citizen note ==
+A brief closing section explains that SoapBox and MELEK exist in part to counter sovereign-citizen ideology — pseudolegal theory that has never prevailed in a U.S. court. The page makes the point factually, not by mocking: every such "doctrine" rests on a misreading of real law. The clearest example is the '''Commerce Clause''', which sovereign-citizen theory casts as a personal contract you can opt out of; the actual doctrine is a grant of power to Congress over the national economy. Courts reject these arguments as frivolous (''United States v. Benabe''; ''United States v. Sterling''; ''United States v. Mundt''), and some of the paperwork is a federal crime under 18 U.S.C. § 514. The section links verified news and body-camera footage documenting the real-world consequences.
+
+== Framing ==
+The page keeps to the MELEK "chain that teaches" lineage: it presents the genuine structure of American law — the three kinds of law ([[Foundational Law|foundational]], statutory, and case law) and how their doctrines fit together — precisely because pseudolaw sells a counterfeit of it. Facts, not verdicts: each entry states what a decision is cited for as a matter of public record, not a verdict on whether it is rightly decided or currently good law.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Foundational Law]]
+* [[Rights That Hold Up in Court]]
+* [[Treaties]]
+* [[Legal Maxims]]
+
+== Sources ==
+* [https://law.soapbox.community/doctrines law.soapbox.community/doctrines]
+
+== Coverage ==
+Describes the page's structure, grouping, and framing. Informational only, not legal advice.

@@ -17,7 +17,7 @@ import * as judges from '../../integrations/soapbox/courtlistener-judges.mjs';
 
 import {
   handler, casesView, caseDetailView, docketsView, statutesView, judgesView, lawyersView, complaintsView,
-  looksLikeCitation, splitJurisdiction, publicInterestData, browseByCourt, esc,
+  looksLikeCitation, splitJurisdiction, publicInterestData, browseByCourt, doctrinesView, maximsView, esc,
 } from './server.mjs';
 
 // ── fetch fakes ─────────────────────────────────────────────────────────────────────────────────
@@ -622,4 +622,142 @@ test('/maxims?d=political filters to the political axioms', async () => {
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /Power tends to corrupt/);          // a political axiom
   assert.ok(!/Ignorantia juris non excusat/.test(res.body), 'legal maxims filtered out of the political tab');
+});
+
+// ── maxims → case law on click ────────────────────────────────────────────────────────────────────
+test('an expanded maxim shows its curated case law even offline (?m=de-minimis)', async () => {
+  const res = await drive('/maxims?m=de-minimis');   // drive() forces the live lookup to soft-fail
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /<details id="de-minimis"[^>]*\sopen/);          // the maxim is expanded
+  assert.match(res.body, /Wisconsin Dept\. of Revenue/);                  // curated case present
+  assert.match(res.body, /505 U\.S\. 214/);
+  assert.match(res.body, /Cases applying this maxim/);
+  assert.match(res.body, /noindex,follow/);                              // expanded view is noindex
+});
+
+test('an expanded maxim wires a LIVE CourtListener search and renders the returned case', async () => {
+  // ignorantia-juris has no curated cases → the ONLY case shown comes from the stubbed live search.
+  opinions.__setFetch(fakeFetch([
+    ['/search/', jsonResponse({ results: [{
+      cluster_id: 4242, caseName: 'Cheek v. United States', court: 'scotus', dateFiled: '1991-01-08',
+      citeCount: 900, status: 'Published',
+    }] })],
+  ]));
+  const res = mockRes();
+  await handler(req('/maxims?m=ignorantia-juris'), res);
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /<details id="ignorantia-juris"[^>]*\sopen/);
+  assert.match(res.body, /Cheek v\. United States/, 'live-searched case rendered in the expanded maxim');
+  assert.match(res.body, /live search/);
+  assert.match(res.body, /\/cases\?id=4242/, 'live case links the on-site opinion detail');
+});
+
+test('a collapsed maxim offers a link to expand it into its case law', async () => {
+  const res = await drive('/maxims');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Show the case law citing this maxim/);
+  assert.match(res.body, /m=de-minimis/);
+});
+
+test('maximsView soft-fails to a no-cases note when a maxim has none and the live search is down', async () => {
+  setAllFetch(throwingFetch);
+  const html = await maximsView('', 'cui-bono');   // cui-bono has no curated cases
+  resetAllFetch();
+  assert.match(html, /No cases found for this maxim/);
+});
+
+// ── /doctrines — real legal-doctrine reference (primary) + brief sov-cit callout ───────────────────
+test('/doctrines serves 200 with grouped REAL doctrines and landmark cases linked to /cases', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /Legal doctrines/);
+  // the four groups
+  assert.match(res.body, /Criminal procedure/);
+  assert.match(res.body, /Constitutional structure/);
+  assert.match(res.body, /Administrative law/);
+  assert.match(res.body, /Justiciability/);
+  // real doctrines named
+  assert.match(res.body, /Fruit of the poisonous tree/);
+  assert.match(res.body, /Supremacy Clause/);
+  assert.match(res.body, /Stare decisis/);
+  assert.match(res.body, /Standing/);
+  // landmark cites, linked live via /cases?q=
+  assert.match(res.body, /Wong Sun v\. United States/);
+  assert.match(res.body, /371 U\.S\. 471/);
+  assert.match(res.body, /href="\/cases\?q=371%20U\.S\.%20471/);
+  assert.match(res.body, /Lujan v\. Defenders of Wildlife/);
+  assert.match(res.body, /Marbury v\. Madison/);
+});
+
+test('/doctrines fruit-of-the-poisonous-tree lists its verified exceptions', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  assert.match(res.body, /Key exceptions/);
+  assert.match(res.body, /Nix v\. Williams/);          // inevitable discovery
+  assert.match(res.body, /Murray v\. United States/);  // independent source
+  assert.match(res.body, /Utah v\. Strieff/);          // attenuation
+});
+
+test('/doctrines notes Chevron was overruled by Loper Bright (2024)', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  assert.match(res.body, /Chevron/);
+  assert.match(res.body, /Loper Bright Enterprises v\. Raimondo/);
+  assert.match(res.body, /603 U\.S\. 369/);
+  assert.match(res.body, /overrul/i);
+});
+
+test('/doctrines carries the REAL Commerce Clause doctrine (Gibbons, Wickard, Lopez, NFIB)', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  assert.match(res.body, /Gibbons v\. Ogden/);
+  assert.match(res.body, /Wickard v\. Filburn/);
+  assert.match(res.body, /United States v\. Lopez/);
+  assert.match(res.body, /NFIB v\. Sebelius/);
+});
+
+test('/doctrines has ONE brief sovereign-citizen callout with the Commerce Clause misreading, a frivolous case, and a verified video link', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  // the callout: a myth (misreading) framed against the real law
+  assert.match(res.body, /sovereign.citizen/i);
+  assert.match(res.body, /misread/i);
+  assert.match(res.body, /Commerce Clause/);
+  // a real frivolous-rejection case
+  assert.match(res.body, /United States v\. Benabe/);
+  // a real, verifiable "what actually happens" source (no fabricated URL)
+  assert.match(res.body, /What actually happens on the roadside/);
+  assert.match(res.body, /police1\.com|foxnews\.com/);
+  assert.match(res.body, /not to mock/);
+});
+
+test('/doctrines is linked from the nav and listed in the sitemap', async () => {
+  const home = await drive('/');
+  const sm = await drive('/sitemap.xml');
+  resetAllFetch();
+  assert.ok(home.body.includes('href="/doctrines"'), 'nav links /doctrines');
+  assert.ok(sm.body.includes('/doctrines'), 'sitemap lists /doctrines');
+});
+
+test('/doctrines escapes content and injects no scripts beyond the known first-party ones', async () => {
+  const res = await drive('/doctrines');
+  resetAllFetch();
+  const stripped = res.body
+    .replace(/<script defer src="https:\/\/soapy[^>]*><\/script>/g, '')
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '');
+  assert.ok(!/<script/.test(stripped), 'no injected scripts');
+  // FAQ JSON-LD emitted (matches the visible FAQ)
+  assert.match(res.body, /"@type":"FAQPage"/);
+});
+
+test('doctrinesView renders directly (pure view, no network) with the discipline line', async () => {
+  const html = doctrinesView();
+  assert.match(html, /not our verdict/i);
+  assert.match(html, /not legal advice|Informational only/i);
+  // the MELEK "chain that teaches" / three-kinds-of-law framing
+  assert.match(html, /chain that teaches/i);
 });

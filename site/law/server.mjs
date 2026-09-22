@@ -247,7 +247,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 ${seoHead}${STYLE}${LAW_ADS ? `<style>${adSlotStyles()}</style>` : ''}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript>${adHeadTags(ADS)}</head><body>
 <header class=topbar><a class=brand href="/">⚖ SoapBox <span>law</span></a>
-  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/appeals">Appeals &amp; writs</a><a href="/rights">Your rights</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
+  <div class=topbar-r><a href="/constitution" title="Foundational Law">Constitution</a><a href="/treaties">Treaties</a><a href="/cases">Cases</a><a href="/dockets">Dockets</a><a href="/statutes">Statutes</a><a href="/regulations">Regulations</a><a href="/privacy">Privacy law</a><a href="/appeals">Appeals &amp; writs</a><a href="/rights">Your rights</a><a href="/doctrines">Doctrines</a><a href="/maxims">Maxims</a><a href="/judges">Judges</a><a href="/lawyers">Lawyers</a><a href="/complaints">File a complaint</a><a href="${OVERSIGHT}">Oversight</a><a href="${DATA}">Data</a><a href="${WIKI}">Library</a></div></header>
 <main class=wrap>${adSlot('law-top', ADS)}${body}${citeHtml}${adSlot('law-bottom', ADS)}</main>
 ${FOOTER}</body></html>`;
 }
@@ -335,7 +335,8 @@ export function lawLlmsTxt() {
       { label: 'Privacy law (federal vs. Texas)', path: '/privacy' },
       { label: 'Appeals & extraordinary writs (pro-se ladder)', path: '/appeals', note: 'the exhaustion ladder, gated; deadlines, required fields, mandamus/habeas' },
       { label: 'Your rights', path: '/rights' },
-      { label: 'Maxims, axioms & idioms', path: '/maxims' },
+      { label: 'Legal doctrines (real + sovereign-citizen pseudolaw, refuted)', path: '/doctrines', note: 'grouped doctrine reference with landmark cases; the Commerce Clause misreading contrasted with the real doctrine' },
+      { label: 'Maxims, axioms & idioms', path: '/maxims', note: 'each maxim links the case law that applies it' },
       { label: 'Judges', path: '/judges' },
       { label: 'Lawyers', path: '/lawyers' },
       { label: 'File a complaint', path: '/complaints' },
@@ -1363,24 +1364,180 @@ function loadMaxims() {
   catch { return []; }
 }
 const MAXIM_DOMAINS = [['legal', 'Legal maxims'], ['political', 'Political axioms'], ['idiom', 'Idioms &amp; mottos']];
-export function maximsView(domain) {
+
+// Render the case-law block for an EXPANDED maxim: curated (human-verified) cases from maxims.json first,
+// then a LIVE CourtListener search on the maxim's Latin/text. Soft-fails to a "no cases found" note —
+// never throws, never fabricates. `live` is the (possibly empty) array from opinions.searchCases().
+function maximCasesHtml(maxim, live) {
+  const curated = Array.isArray(maxim.cases) ? maxim.cases : [];
+  const parts = [];
+  if (curated.length) {
+    parts.push('<h4 style="margin:10px 0 6px">Cases applying this maxim</h4>');
+    parts.push(curated.map((c) => `<div class=rec>
+      <div class=nm><a href="/cases?q=${q(c.cite || c.name)}">${esc(c.name)}</a>${c.cite ? ` <span class=badge>${esc(c.cite)}</span>` : ''}</div>
+      ${c.note ? `<div class=meta>${esc(c.note)}</div>` : ''}
+      <div class=xlink><a href="/cases?q=${q(c.cite || c.name)}">read the opinion &rarr;</a></div></div>`).join(''));
+  }
+  const rows = Array.isArray(live) ? live : [];
+  if (rows.length) {
+    parts.push(`<h4 style="margin:12px 0 6px">More from case law <span class=muted style="font-weight:400">&middot; live search: &ldquo;${esc(maxim.term)}&rdquo;</span></h4>`);
+    parts.push(rows.map(caseRow).join(''));
+  }
+  if (!parts.length) {
+    parts.push(`<p class=empty>No cases found for this maxim right now. Search it directly in <a href="/cases?q=${q(maxim.term)}">case law &rarr;</a>.</p>`);
+  }
+  return parts.join('');
+}
+
+// Each maxim renders as a <details>; the expanded one (?m=<id>) opens and shows its case law (curated +
+// live). Making this async lets the expanded maxim pull live CourtListener results; the handler awaits it.
+export async function maximsView(domain, expandId) {
   const items = loadMaxims();
   const want = ['legal', 'political', 'idiom'].includes(String(domain || '')) ? String(domain) : '';
+  const expand = String(expandId == null ? '' : expandId).trim();
   const tabs = `<div class=tabs>${MAXIM_DOMAINS.map(([d, label]) =>
     `<a class="${want === d ? 'on' : ''}" href="/maxims?d=${esc(d)}">${label}</a>`).join('')}<a class="${!want ? 'on' : ''}" href="/maxims">All</a></div>`;
   const shown = want ? items.filter((m) => m.domain === want) : items;
-  const rows = shown.length ? shown.map((m) => `<div class=rec>
-    <div class=nm>${esc(m.term)} <span class=badge>${esc(m.domain)}${m.lang ? ` &middot; ${esc(m.lang)}` : ''}</span></div>
-    ${m.literal ? `<div class=meta><i>&ldquo;${esc(m.literal)}&rdquo;</i></div>` : ''}
-    <div class=meta>${esc(m.gloss || '')}</div>
-    ${m.provenance ? `<div class=meta>Provenance: ${esc(m.provenance)}</div>` : ''}
-  </div>`).join('') : `<p class=empty>No maxims in this set.</p>`;
+
+  // Only the expanded maxim triggers a live lookup (soft-fails to []). Others show a link that expands them.
+  const target = expand ? items.find((m) => m.id === expand) : null;
+  let liveCases = [];
+  if (target) {
+    liveCases = await opinions.searchCases({ q: target.term, limit: 5 }).catch(() => []);
+  }
+
+  const expandHref = (m) => `/maxims?${want ? `d=${esc(want)}&` : ''}m=${esc(m.id)}#${esc(m.id)}`;
+  const rows = shown.length ? shown.map((m) => {
+    const isOpen = m.id === expand;
+    const head = `<summary>${esc(m.term)} <span class=badge>${esc(m.domain)}${m.lang ? ` &middot; ${esc(m.lang)}` : ''}</span></summary>`;
+    const meta = `${m.literal ? `<div class=meta><i>&ldquo;${esc(m.literal)}&rdquo;</i></div>` : ''}
+      <div class=meta>${esc(m.gloss || '')}</div>
+      ${m.provenance ? `<div class=meta>Provenance: ${esc(m.provenance)}</div>` : ''}`;
+    const caseBlock = isOpen
+      ? maximCasesHtml(m, liveCases)
+      : `<p class=xlink style="margin-top:8px"><a href="${expandHref(m)}">Show the case law citing this maxim &rarr;</a></p>`;
+    return `<details id="${esc(m.id)}" class=plm-pairing style="margin:0 0 8px"${isOpen ? ' open' : ''}>
+      ${head}<div class=plm-body>${meta}${caseBlock}</div></details>`;
+  }).join('') : `<p class=empty>No maxims in this set.</p>`;
+
   return `<h1>Maxims, axioms &amp; idioms <span class=muted style="font-size:14px">&middot; a browsable collection</span></h1>
     <p class=muted>Legal maxims, political axioms, and the idioms that carry them into everyday argument — each with a plain-English
       gloss and where it comes from. We state what a maxim <b>means</b> and <b>where it's from</b>; we do not tell you it is right.
-      The legal maxims cross-reference the same categories as our <a href="/cases">case law</a>.</p>
+      Open any maxim to see the <b>case law that cites or applies it</b> — curated landmark cases plus a live search of the public
+      record. The legal maxims cross-reference the same categories as our <a href="/cases">case law</a>.</p>
     ${tabs}
     <div class=card>${rows}</div>`;
+}
+
+// ── /doctrines — legal doctrines + the sovereign-citizen faux-doctrines refuted ────────────────────
+// Two parts. FIRST and first-class: real legal doctrines every citizen should know, grouped
+// (criminal procedure / constitutional structure & rights / administrative / justiciability), each a
+// plain-language definition + landmark case(s) with VERIFIED citations, linked live through /cases?q=.
+// SECOND: the sovereign-citizen "faux-legal doctrines" — each myth stated neutrally, then the actual
+// law and a REAL case rejecting it (the operator's "combat the Sovereign Citizen Faux-Legal Doctrines"
+// framing). Editorial explainer on DECIDED, published precedent — stating what a case is cited for IS
+// the public record (distinct from the /cases pending-lister rule). Bulk data: knowledge/legal/doctrines.json.
+const DOCTRINES_PATH = fileURLToPath(new URL('../../knowledge/legal/doctrines.json', import.meta.url));
+function loadDoctrines() {
+  try {
+    const j = JSON.parse(readFileSync(DOCTRINES_PATH, 'utf8'));
+    return {
+      groups: Array.isArray(j.groups) ? j.groups : [],
+      callout: (j.sovereign_callout && typeof j.sovereign_callout === 'object') ? j.sovereign_callout : null,
+    };
+  } catch { return { groups: [], callout: null }; }
+}
+
+// FAQ (visible on-page AND emitted as FAQPage JSON-LD — the SAME pairs, so structured data matches text).
+const DOCTRINES_FAQ = [
+  { q: 'What is the difference between a real legal doctrine and a “sovereign citizen” doctrine?',
+    a: 'A real legal doctrine is a settled principle courts actually apply, anchored in decided, published cases — '
+     + 'stare decisis, standing, the exclusionary rule, federal preemption, and so on. A “sovereign citizen” or '
+     + 'pseudolegal doctrine (the strawman, A4V, “traveling not driving,” treaty immunity) is a theory that sounds '
+     + 'legal but has been rejected by U.S. courts every time it has been raised — often labeled “frivolous.”' },
+  { q: 'Do sovereign-citizen arguments like the “strawman” or “Accepted for Value” ever work in court?',
+    a: 'No. No U.S. court has ever accepted them; they are uniformly rejected as frivolous. Worse, filing bogus UCC '
+     + 'liens or fictitious financial instruments to “discharge” debts is a federal felony under 18 U.S.C. § 514, on '
+     + 'top of fraud exposure. The paperwork does not cancel a debt — it hands a prosecutor a case.' },
+  { q: 'Was Chevron deference overruled?',
+    a: 'Yes. In Loper Bright Enterprises v. Raimondo, 603 U.S. 369 (2024), the Supreme Court overruled Chevron '
+     + 'U.S.A. Inc. v. NRDC, 467 U.S. 837 (1984). Courts now exercise independent judgment on the best reading of a '
+     + 'statute rather than deferring to an agency’s reasonable interpretation of an ambiguous one.' },
+];
+
+// The landmark row helper — the SAME pattern constitutionView/treatiesView use: case name + citation
+// badge, both linking the live /cases search by citation. `note` states what the case is cited for.
+function doctrineCaseRow(name, cite, note, kind = '') {
+  const badge = kind ? ` <span class=badge>${esc(kind)}</span>` : '';
+  return `<div class=rec>
+    <div class=nm><a href="/cases?q=${q(cite)}">${esc(name)}</a> <span class=badge>${esc(cite)}</span>${badge}</div>
+    ${note ? `<div class=meta>${esc(note)}</div>` : ''}
+    <div class=xlink><a href="/cases?q=${q(cite)}">read the opinion →</a></div></div>`;
+}
+
+export function doctrinesView() {
+  const { groups, callout } = loadDoctrines();
+
+  const realGroups = groups.map((g) => {
+    const doctrines = (Array.isArray(g.doctrines) ? g.doctrines : []).map((d) => {
+      const cases = (Array.isArray(d.cases) ? d.cases : []).map((c) => doctrineCaseRow(c.name, c.cite, c.note)).join('');
+      const exceptions = (Array.isArray(d.exceptions) ? d.exceptions : []);
+      const exHtml = exceptions.length
+        ? `<h4 style="margin:12px 0 6px">Key exceptions</h4>${exceptions.map((c) => doctrineCaseRow(c.name, c.cite, c.note, 'exception')).join('')}`
+        : '';
+      return `<div id="${esc(d.id)}" style="margin:0 0 18px">
+        <h3>${esc(d.name)}</h3>
+        <p style="margin:4px 0 10px">${esc(d.definition)}</p>
+        ${cases}${exHtml}</div>`;
+    }).join('');
+    return `<div class=card><h2 id="${esc(g.id)}">${esc(g.name)}</h2>
+      ${g.blurb ? `<p class=muted style="font-size:14px;margin:-2px 0 14px">${esc(g.blurb)}</p>` : ''}
+      ${doctrines}</div>`;
+  }).join('');
+
+  // The single, brief, non-focus sovereign-citizen callout (operator reframe): factual, not mockery —
+  // sov-cit theory rests on MISreadings of real law (the Commerce Clause being the clearest), a few
+  // frivolous-rejection cases, and verified "what actually happens" news/body-cam links.
+  let calloutHtml = '';
+  if (callout) {
+    const frivolous = (Array.isArray(callout.frivolous) ? callout.frivolous : [])
+      .map((c) => doctrineCaseRow(c.name, c.cite, c.note)).join('');
+    const videos = (Array.isArray(callout.videos) ? callout.videos : []).map((v) => `<div class=rec>
+      <div class=nm><a href="${esc(v.url)}" rel="nofollow noopener">${esc(v.title || 'Video')}</a>${v.source ? ` <span class=badge>${esc(v.source)}</span>` : ''}</div>
+      ${v.caption ? `<div class=meta>${esc(v.caption)}</div>` : ''}</div>`).join('');
+    const seeAlso = (Array.isArray(callout.see_also) ? callout.see_also : [])
+      .map((l) => `<a href="${esc(l.url)}">${esc(l.label)} →</a>`).join(' · ');
+    calloutHtml = `<div class=card style="border-color:var(--gold)">
+      <h2 style="margin-top:0">A note on “sovereign citizen” pseudolaw</h2>
+      <p style="margin:0 0 8px">${esc(callout.mission || '')}</p>
+      <p style="margin:0 0 8px"><b>Their theories misread real law.</b> ${esc(callout.misreading || '')}</p>
+      ${frivolous ? `<h3 style="margin:12px 0 6px">Courts reject these across the board</h3>${frivolous}` : ''}
+      ${videos ? `<h3 style="margin:14px 0 6px">What actually happens on the roadside</h3>
+        <p class=muted style="font-size:13px;margin:-2px 0 8px">Real, sourced footage and reporting — shown to document the consequences, not to mock anyone:</p>${videos}` : ''}
+      ${seeAlso ? `<p class=xlink style="margin-top:12px">${seeAlso}</p>` : ''}</div>`;
+  }
+
+  const body = `<h1>Legal doctrines <span class=muted style="font-size:14px">· the principles that run American law</span></h1>
+    <p class=muted>A plain-English reference to the doctrines that actually decide cases — grouped by area, defined without
+      jargon, and each anchored to the landmark case you can pull yourself. Click any citation to open the court's own
+      opinion in <a href="/cases">Cases</a>. Every citation here is verified against the public reporters. Informational
+      only, not legal advice.</p>
+
+    <div class=card><h2>How to read this page</h2>
+      <p class=muted style="font-size:14px;margin:0 0 8px">Each entry gives a doctrine, a plain-language definition, and the
+        landmark case(s) that established it. Every row states what a decision is cited for as a matter of public record —
+        not our verdict on whether it is rightly decided or currently good law. A short closing note addresses the
+        sovereign-citizen pseudolaw this project works to counter.</p>
+      <p class=muted style="font-size:14px;margin:0">These doctrines are how the real system actually works — the machinery
+        that runs across the three kinds of law: <a href="/constitution">foundational</a> (the Constitution),
+        <a href="/statutes">statutory</a> (Congress), and case law (the courts). MELEK is a chain that teaches that genuine
+        structure — which is exactly why it is worth telling apart from the counterfeit that pseudolaw sells.</p></div>
+
+    ${realGroups || '<div class=card><p class=empty>Doctrine data is unavailable right now.</p></div>'}
+
+    ${calloutHtml}
+    ${faqCard(DOCTRINES_FAQ)}`;
+  return body;
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
@@ -1399,7 +1556,7 @@ function splitJurisdiction(pathname) {
   return { juris: DEFAULT_JURISDICTION, path: pathname };
 }
 
-const SITEMAP_PATHS = ['/', '/constitution', '/treaties', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints', '/privacy', '/appeals', '/rights', '/maxims'];
+const SITEMAP_PATHS = ['/', '/constitution', '/treaties', '/cases', '/dockets', '/statutes', '/regulations', '/judges', '/lawyers', '/complaints', '/privacy', '/appeals', '/rights', '/doctrines', '/maxims'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -1511,9 +1668,16 @@ export async function handler(req, res) {
           cite: { title: 'Treaties — how they are made, and when they are law', url: `${BASE_URL}/treaties`, author: 'SoapBox Law',
             sourceOfRecord: 'U.S. Constitution, Art. II & Art. VI' } }));
     }
+    if (path === '/doctrines') {
+      return sendHtml(res, page('Legal doctrines — real doctrines & sovereign-citizen pseudolaw — SoapBox Law', doctrinesView(),
+        { canonical: `${BASE_URL}/doctrines`, breadcrumb: crumbs('Doctrines', '/doctrines'),
+          faq: DOCTRINES_FAQ,
+          cite: { title: 'Legal doctrines — the principles that run American law', url: `${BASE_URL}/doctrines`, author: 'SoapBox Law',
+            sourceOfRecord: 'U.S. Constitution and controlling U.S. Supreme Court and federal precedent' } }));
+    }
     if (path === '/maxims') {
-      return sendHtml(res, page('Maxims, axioms & idioms — SoapBox Law', maximsView(sp.get('d') || ''),
-        { canonical: `${BASE_URL}/maxims`, robots: sp.get('d') ? 'noindex,follow' : 'index,follow',
+      return sendHtml(res, page('Maxims, axioms & idioms — SoapBox Law', await maximsView(sp.get('d') || '', sp.get('m') || ''),
+        { canonical: `${BASE_URL}/maxims`, robots: (sp.get('d') || sp.get('m')) ? 'noindex,follow' : 'index,follow',
           breadcrumb: crumbs('Maxims', '/maxims') }));
     }
 
