@@ -1,0 +1,20 @@
+'''The Case Law of Us''' is a legal-history surface of the [[SoapBox]] civic ecosystem, published at caselaw.soapbox.community. It reads American history through the case reporters — the published record of court decisions — rather than through secondary narrative.
+
+== What it covers ==
+* '''Figures who live in the caselaw''' — historical people whose lives are documented in the decisions of the courts.
+* '''Courts doing history''' — opinions in which courts themselves undertake historical analysis to decide a question.
+* '''The ancient roots of written law''' — the early codes that first put law into writing.
+
+== Verification ==
+The surface states that every case it cites was verified to exist, consistent with the [[SoapBox Law]] discipline of source-linked, keyless reference. The material is descriptive legal history, not legal advice.
+
+== See also ==
+* [[SoapBox Law]]
+* [[Legal Doctrines]]
+* [[Legal Lexicon]]
+
+== Sources ==
+* [https://caselaw.soapbox.community caselaw.soapbox.community]
+
+== Coverage ==
+Describes the surface's sections as published. The underlying case record is fixed history; the selection presented grows over time.

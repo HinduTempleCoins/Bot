@@ -1,0 +1,19 @@
+'''SoapBox Directory''' is the site-rankings and crypto-resources surface of the [[SoapBox]] ecosystem, published at directory.soapbox.community. It is a curated index of external, publicly useful crypto sites alongside the ecosystem's own, presented read-only and keyless.
+
+== What it lists ==
+The directory groups resources by kind, including:
+* '''Data & index sites''' and block explorers.
+* '''Forums & communities'''.
+* '''Wallets''' and '''browser extensions'''.
+Each entry links out to the resource itself. A submission page lets anyone propose a site for inclusion.
+
+== See also ==
+* [[SoapBox]]
+* [[SoapBox Search]]
+* [[SoapBox Data Hub]]
+
+== Sources ==
+* [https://directory.soapbox.community directory.soapbox.community]
+
+== Coverage ==
+Describes the directory's categories and submission path as published. The listed sites change as the directory is curated.

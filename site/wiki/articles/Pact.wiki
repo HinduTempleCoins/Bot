@@ -1,0 +1,16 @@
+'''Pact''' is the groups-and-clubs surface of the [[Pentecaust]] messaging layer, published at pact.pentecaust.com. Where [[Pentecaust]] provides direct messaging between accounts, Pact is its companion for group spaces — clubs and communities rather than one-to-one conversation.
+
+== Function ==
+* Group spaces and clubs, as the persistent multi-person unit alongside Pentecaust's direct messages.
+* The same single sign-in identity used across the other ecosystem surfaces, so one [[MELEK Blockchain|MELEK]] account carries a user into Pact as well.
+
+== See also ==
+* [[Pentecaust]]
+* [[MELEK Blockchain]]
+* [[Congress.ink]]
+
+== Sources ==
+* [https://pact.pentecaust.com pact.pentecaust.com]
+
+== Coverage ==
+Describes the surface's stated function as the group/club companion to Pentecaust.
