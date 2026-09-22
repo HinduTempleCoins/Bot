@@ -1,0 +1,35 @@
+'''Faux Law Files''' is a public-education video portal in the [[SoapBox]] / [[MELEK Blockchain|MELEK]] ecosystem. It curates real, publicly posted footage of "[[Sovereign Citizen Movement|sovereign citizen]]" and pseudolaw encounters — the traffic stops, courtroom scenes and counter confrontations that circulate widely as entertainment — and places each clip next to the actual legal doctrine it misreads, with a link into the live [[Legal Doctrines]] reference on the [[Law Portal|SoapBox Law]] surface. It is served at the <code>/encounters</code> route.
+
+The premise is that these clips are genuinely popular and entertaining, and that attention is a teaching opportunity: every "sovereign citizen" move rests on a '''misreading of a real piece of law'''. Faux Law Files turns the pop-culture front door into an entry point to the legal library, rather than scattering a handful of warning links.
+
+== What it is ==
+The portal is a server-rendered gallery of verified videos grouped into categories. Each category carries a plain-language "the real law" note naming the doctrine the clips misread and citing the landmark case a reader can pull themselves; each individual clip also carries a short "Misreads:" line linking the relevant doctrine or rights page. YouTube clips are embedded through the privacy-preserving <code>youtube-nocookie.com</code> player and lazy-loaded, so no tracking cookie is set until a viewer presses play; news, body-cam and court items that are not embeddable are shown as captioned links to the source. Every clip is credited to its original channel or publication.
+
+== Editorial discipline ==
+Faux Law Files follows the same discipline as the rest of the SoapBox Law surface: '''neutral and factual, never mockery'''. Source titles are often lurid; the portal's own copy is not. Clips are shown to document what actually happens and to contrast it with the real law — the point is that the real law is stronger than the "secret" being sold, not that anyone is stupid. Nothing on the page is legal advice. Consistent with [[Rule 1]] and the project's charter, no video URL is fabricated: every clip was verified to exist before it was listed.
+
+== Categories ==
+* '''Window-breaking & refusal to comply''' — drivers who refuse lawful commands until police break the car window. Real law: a lawful stop needs no consent and there is no right to resist it ([[Terry v. Ohio]]; ''Pennsylvania v. Mimms'').
+* '''"Traveling, not driving" traffic stops''' — the "right to travel" claim. Real law: states may require a driver licence under their police power (''Hendrick v. Maryland'', 235 U.S. 610 (1915)); the right to travel (''Saenz v. Roe'') is about moving between states, not a personal exemption from traffic law.
+* '''Courtroom antics & "jurisdiction"''' — "I do not consent," special appearances, gold-fringe-flag and admiralty arguments. Real law: courts reject these "summarily, however they are presented" (''United States v. Benabe'', 654 F.3d 753 (7th Cir. 2011)).
+* '''IRS & tax "untax" schemes''' — "the income tax is voluntary," "wages aren't income," the 861 argument. Real law: the 16th Amendment authorises the income tax and a sincere belief is no defence to willfulness (''Cheek v. United States'', 498 U.S. 192 (1991)).
+* '''"Strawman" & Accepted-for-Value at the counter''' — the birth-certificate "secret account," bogus bonds and 1099-OID "discharge." Real law: there is no such account; the instruments are worthless and filing them is prosecuted as fraud.
+* '''"Am I being detained?" & demanding officials''' — demands for an oath of office, badge number or supervisor. Real law: brief investigative detention on reasonable suspicion is lawful, and a state may require identification during such a stop (''Hiibel v. Sixth Judicial District Court'', 542 U.S. 177 (2004)).
+
+== Relationship to the Law surface ==
+Faux Law Files is the entertainment-first companion to [[Legal Doctrines]], [[Your Rights (SoapBox)|Your Rights]] and the broader [[Law Portal]]. Where the Law surface states doctrines and cases as a reference, Faux Law Files uses real footage to draw traffic and then routes viewers into that reference. The two share the same "facts, not verdicts" posture and the same anti-pseudolaw mission described in the [[Sovereign Citizen Movement]] material.
+
+== Status ==
+Built as a standalone service in the SoapBox house style (server-rendered, keyless, offline-tested). The initial library carries a few dozen verified clips across the six categories; the set grows as more footage is verified.
+
+== See also ==
+* [[Legal Doctrines]]
+* [[Sovereign Citizen Movement]]
+* [[Your Rights (SoapBox)]]
+* [[Law Portal]]
+
+== Sources ==
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot] — <code>site/encounters/</code> (the portal) and <code>knowledge/civic/encounters.json</code> (the curated, verified clip data)
+
+== Coverage ==
+Describes the portal's purpose, editorial discipline, categories and its relationship to the Law surface. Individual clip listings change as the library is curated and are not reproduced here.
