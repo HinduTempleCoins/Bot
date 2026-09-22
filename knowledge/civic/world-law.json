@@ -1,0 +1,490 @@
+{
+  "meta": {
+    "title": "World Law",
+    "purpose": "A documentary reference on contested questions of international law. Two-voice / document-and-attribute, NOT site-voice advocacy. Each topic gives the international-law framework at issue, sourced facts (allegations marked as allegations, verified findings as findings), and the competing positions, each explicitly attributed to the party that holds it. MELEK asserts no contested position in its own voice. Where sources conflict, both are shown with attribution. If a claim cannot be sourced, it is omitted.",
+    "editorial_rule": "Never state a contested claim in MELEK's own voice. Attribute every contested claim to a named holder with a source link. Mark allegations as allegations and findings as findings; never conflate them. Distinguish binding rulings from advisory opinions from political-body resolutions.",
+    "last_reviewed": "2026-09-22",
+    "disclaimer": "Informational and educational only. Not legal advice. Not an endorsement of any position documented here."
+  },
+  "topics": [
+    {
+      "id": "occupation-law",
+      "title": "International humanitarian law and the law of occupation",
+      "navLabel": "Occupation law",
+      "blurb": "The framework the other topics are argued inside: the Hague Regulations, the Fourth Geneva Convention, the 'effective control' test for occupation, and the disputed question of whether that framework applies to the West Bank and Gaza.",
+      "source_of_record": "the Hague Regulations (1907), the Fourth Geneva Convention (1949), Additional Protocol I (1977), the Rome Statute, and International Court of Justice opinions",
+      "framework": {
+        "label": "The framework at issue",
+        "text": "The law of belligerent occupation is set mainly by the Hague Regulations of 1907 (which define occupation and the occupant's duties) and the Fourth Geneva Convention of 1949 (which protects civilians in occupied territory). It turns on a factual test — 'effective control' of territory by hostile forces — not on whether an occupation is resisted or declared. Two questions run through every dispute below: what these instruments require, and whether they apply as a matter of law ('de jure') to the West Bank and Gaza at all."
+      },
+      "provisionsHeading": "The text at issue (verbatim)",
+      "provisions": [
+        {
+          "cite": "Hague Regulations (1907), Article 42 — definition of occupation",
+          "text": "Territory is considered occupied when it is actually placed under the authority of the hostile army. The occupation extends only to the territory where such authority has been established and can be exercised.",
+          "quote": true,
+          "source": "ICRC IHL Databases — Hague Regulations, Art. 42 (verbatim text via Yale Avalon Project)",
+          "source_url": "https://ihl-databases.icrc.org/en/ihl-treaties/hague-conv-iv-1907/regulations-art-42"
+        },
+        {
+          "cite": "Hague Regulations (1907), Article 43 — duties of the occupant",
+          "text": "The authority of the legitimate power having in fact passed into the hands of the occupant, the latter shall take all the measures in his power to restore, and ensure, as far as possible, public order and safety, while respecting, unless absolutely prevented, the laws in force in the country.",
+          "quote": true,
+          "source": "ICRC IHL Databases — Hague Regulations, Art. 43 (verbatim via Yale Avalon Project)",
+          "source_url": "https://ihl-databases.icrc.org/en/ihl-treaties/hague-conv-iv-1907"
+        },
+        {
+          "cite": "Fourth Geneva Convention (1949), Article 49 — first and sixth paragraphs",
+          "text": "First paragraph: 'Individual or mass forcible transfers, as well as deportations of protected persons from occupied territory ... are prohibited, regardless of their motive.' Sixth paragraph: 'The Occupying Power shall not deport or transfer parts of its own civilian population into the territory it occupies.'",
+          "quote": true,
+          "source": "ICRC IHL Databases — GC IV, Art. 49 (verbatim via Yale Avalon Project)",
+          "source_url": "https://ihl-databases.icrc.org/en/ihl-treaties/gciv-1949/article-49"
+        },
+        {
+          "cite": "Fourth Geneva Convention (1949), Article 53 — destruction of property",
+          "text": "Any destruction by the Occupying Power of real or personal property belonging individually or collectively to private persons, or to the State, or to other public authorities, or to social or cooperative organizations, is prohibited, except where such destruction is rendered absolutely necessary by military operations.",
+          "quote": true,
+          "source": "ICRC IHL Databases — GC IV, Art. 53 (verbatim via Yale Avalon Project)",
+          "source_url": "https://ihl-databases.icrc.org/en/ihl-treaties/gciv-1949/article-53"
+        },
+        {
+          "cite": "Rome Statute of the International Criminal Court, Article 8(2)(b)(viii) — war crime",
+          "text": "Lists as a war crime in international armed conflict: 'The transfer, directly or indirectly, by the Occupying Power of parts of its own civilian population into the territory it occupies, or the deportation or transfer of all or parts of the population of the occupied territory within or outside this territory.' (The ICC formulation adds 'directly or indirectly,' which GC IV Art. 49(6) does not contain.)",
+          "quote": true,
+          "source": "United Nations — Rome Statute, Article 8",
+          "source_url": "https://legal.un.org/icc/statute/99_corr/cstatute.htm"
+        }
+      ],
+      "facts": [
+        {
+          "text": "The Fourth Geneva Convention (adopted 12 August 1949) protects civilians in wartime; its Part III, Section III (Articles 47–78) governs occupied territory specifically. 'Unlawful deportation or transfer' of a protected person is listed as a grave breach under Article 147.",
+          "kind": "fact",
+          "source": "OHCHR — Geneva Convention relative to the Protection of Civilian Persons in Time of War",
+          "source_url": "https://www.ohchr.org/en/instruments-mechanisms/instruments/geneva-convention-relative-protection-civilian-persons-time-war"
+        },
+        {
+          "text": "The ICRC states that occupation law applies whenever territory comes under the effective control of hostile foreign forces, even without armed resistance or fighting; its stated three-part test requires the unconsented presence of foreign forces, their ability to exercise authority in the local sovereign's place, and the local sovereign's related inability to do so.",
+          "kind": "fact",
+          "source": "ICRC — Occupation and international humanitarian law: Questions and answers",
+          "source_url": "https://www.icrc.org/en/article/occupation-international-humanitarian-law-questions"
+        },
+        {
+          "text": "Additional Protocol I (1977) elevated the Article 49(6) prohibition on an occupier transferring its own population into occupied territory to the status of a grave breach (war crime) under Article 85(4)(a).",
+          "kind": "fact",
+          "source": "ICRC IHL Databases — Additional Protocol I, Art. 85",
+          "source_url": "https://ihl-databases.icrc.org/en/ihl-treaties/api-1977/article-85"
+        },
+        {
+          "text": "On the ICC and Palestine: the State of Palestine acceded to the Rome Statute in January 2015; on 5 February 2021 ICC Pre-Trial Chamber I decided by majority (2–1, with a dissent) that the Court's territorial jurisdiction extends to Gaza and the West Bank including East Jerusalem; the Prosecutor opened an investigation on 3 March 2021; arrest warrants were issued in the situation in November 2024. Israel is not a party to the Rome Statute and contests the Court's jurisdiction; the United States has also objected.",
+          "kind": "fact",
+          "source": "International Criminal Court — Situation in the State of Palestine",
+          "source_url": "https://www.icc-cpi.int/palestine"
+        }
+      ],
+      "positions": [
+        {
+          "holder": "The International Court of Justice, UN bodies, the ICRC, and most states",
+          "attribution": "hold:",
+          "stance": "the near-universal international view",
+          "summary": "Hold that the Fourth Geneva Convention applies de jure to the territories Israel occupied in 1967. The ICJ so held in its 9 July 2004 'Wall' advisory opinion (finding the settlements established 'in breach of international law' and contrary to Art. 49(6)) and reaffirmed it in its 19 July 2024 advisory opinion on the occupation. The UN Security Council (e.g. Resolutions 446 and 2334) and the ICRC take the same view. These advisory opinions are authoritative statements of law but are not legally binding.",
+          "source": "ICJ — Legal Consequences of the Construction of a Wall (2004), case page",
+          "source_url": "https://www.icj-cij.org/case/131"
+        },
+        {
+          "holder": "The State of Israel",
+          "attribution": "position:",
+          "stance": "official Israeli position",
+          "summary": "Holds that the Fourth Geneva Convention does not apply de jure to the West Bank and Gaza — the 'missing reversioner' argument (originating with scholar Yehuda Blum and articulated as policy by Meir Shamgar): the Convention protects the territory of a displaced High Contracting Party, and Israel argues neither Jordan nor Egypt held recognized sovereign title in 1967, so there is no legitimate sovereign to whom the territory reverts. Israel says it nonetheless voluntarily observes the Convention's 'humanitarian provisions.'",
+          "source": "ICRC casebook — Israel, Applicability of the Fourth Convention to Occupied Territories",
+          "source_url": "https://casebook.icrc.org/case-study/israel-applicability-fourth-convention-occupied-territories"
+        }
+      ],
+      "further_reading": [
+        { "url": "https://www.un.org/unispal/document/advisory-opinion-icj-19jul24/", "label": "ICJ advisory opinion of 19 July 2024 (UNISPAL)", "note": "the 2024 opinion on the occupation" },
+        { "url": "https://avalon.law.yale.edu/20th_century/geneva07.asp", "label": "Yale Avalon Project — Fourth Geneva Convention (full text)", "note": "readable verbatim treaty text" },
+        { "url": "https://avalon.law.yale.edu/20th_century/hague04.asp", "label": "Yale Avalon Project — Hague Convention (IV) and Regulations (1907)", "note": "readable verbatim treaty text" },
+        { "url": "https://www.icrc.org/en/law-and-policy/occupation", "label": "ICRC — Occupation and IHL (hub)", "note": "the ICRC's overview of occupation law" }
+      ]
+    },
+    {
+      "id": "unrwa",
+      "title": "UNRWA — mandate, funding, and the range of positions",
+      "navLabel": "UNRWA",
+      "blurb": "What UNRWA is and does, how it is funded, and the full range of attributed positions about it — from its defenders to its critics, including the January 2024 allegations and the Gaza / October-7 context — with verified findings kept distinct from allegations.",
+      "source_of_record": "UN General Assembly resolutions, UN investigation and review reports (OIOS, the Colonna Review), ICJ opinions, the Knesset legislative record, and reputable reporting",
+      "framework": {
+        "label": "The framework at issue",
+        "text": "UNRWA (the UN Relief and Works Agency for Palestine Refugees in the Near East) is a subsidiary body of the UN General Assembly, created by Resolution 302 (IV) and operating under a periodically renewed mandate. The legal questions around it include the definition of a 'Palestine refugee,' the neutrality obligations of a UN humanitarian agency, and the duty of an occupying power to facilitate impartial relief (Fourth Geneva Convention, Art. 59) — the last addressed by the ICJ in October 2025. The disputes below are best read by keeping verified findings separate from allegations."
+      },
+      "provisionsHeading": "The founding instrument",
+      "provisions": [
+        {
+          "cite": "UN General Assembly Resolution 302 (IV), 8 December 1949",
+          "text": "Established UNRWA to carry out direct relief and works programmes for Palestine refugees; operations began in May 1950. UNRWA's mandate is renewed periodically by the General Assembly (most recently running to 30 June 2026).",
+          "source": "Wikipedia — UNRWA (citing GA Res. 302 (IV)); UNRWA mandate page",
+          "source_url": "https://en.wikipedia.org/wiki/UNRWA"
+        }
+      ],
+      "facts": [
+        {
+          "text": "UNRWA serves registered 'Palestine refugees' — persons whose normal residence was Palestine between 1 June 1946 and 15 May 1948 who lost home and livelihood in the 1948 conflict, and their descendants — across five fields: the Gaza Strip, the West Bank (including East Jerusalem), Jordan, Lebanon, and Syria. It records more than 5.9 million registered refugees and employs over 30,000 staff, about 99% locally recruited Palestinians.",
+          "kind": "fact",
+          "source": "Council on Foreign Relations — The UN's Palestinian Aid Controversy; Wikipedia — UNRWA",
+          "source_url": "https://www.cfr.org/articles/uns-palestinian-aid-controversy-whats-stake"
+        },
+        {
+          "text": "UNRWA is funded almost entirely (about 95%) by voluntary state contributions; its 2024 operating budget was above US$880 million. The United States and Germany have been its two largest donors. US contributions fell from about US$371 million in 2023 to about US$122 million in 2024, reflecting the funding pause and ban.",
+          "kind": "fact",
+          "source": "Council on Foreign Relations — The UN's Palestinian Aid Controversy",
+          "source_url": "https://www.cfr.org/articles/uns-palestinian-aid-controversy-whats-stake"
+        },
+        {
+          "text": "In January 2024 Israel alleged that 12 UNRWA staff had participated in the 7 October 2023 Hamas attack, conveying an intelligence dossier to the US and UNRWA.",
+          "kind": "allegation",
+          "date": "Jan 2024, Government of Israel",
+          "source": "CBS News — Israel's intelligence dossier on UNRWA staff and Oct. 7",
+          "source_url": "https://www.cbsnews.com/news/israel-hamas-unrwa-un-staff-intelligence-dossier-oct-7-terror-attack/"
+        },
+        {
+          "text": "UNRWA terminated the accused staff on 26 January 2024, and roughly 16 countries — including the US and Germany — suspended funding within days.",
+          "kind": "fact",
+          "source": "Council on Foreign Relations — The UN's Palestinian Aid Controversy",
+          "source_url": "https://www.cfr.org/articles/uns-palestinian-aid-controversy-whats-stake"
+        },
+        {
+          "text": "The UN Office of Internal Oversight Services (OIOS) investigation, reported in August 2024, examined 19 UNRWA staff: in 9 cases the evidence 'may indicate' they 'may have been involved' in the 7 October attacks (those 9 were separated from service); in 9 cases the evidence was insufficient; in 1 case there was no evidence. OIOS stated it could not independently authenticate most of the information provided, as Israeli authorities retained custody of the supporting documentation.",
+          "kind": "finding",
+          "date": "Aug 2024, UN OIOS",
+          "source": "UN News — OIOS investigation into UNRWA staff and 7 October",
+          "source_url": "https://news.un.org/en/story/2024/08/1152841"
+        },
+        {
+          "text": "The independent Colonna Review (led by former French foreign minister Catherine Colonna, published 20 April 2024) concluded that UNRWA has a significant number of neutrality mechanisms — 'a more developed approach to neutrality than other similar UN entities or NGOs' — while making about 50 recommendations for improvement, and reported that Israel had not, as of the review, provided evidence for its public claim that a significant number of UNRWA staff are members of terrorist organizations.",
+          "kind": "finding",
+          "date": "Apr 2024, independent review panel",
+          "source": "UN News — Independent review of UNRWA neutrality (Colonna Review)",
+          "source_url": "https://news.un.org/en/story/2024/04/1148821"
+        },
+        {
+          "text": "In February 2024 the IDF said it had uncovered a Hamas tunnel and a data centre directly beneath UNRWA's Gaza City headquarters. UNRWA's Commissioner-General Philippe Lazzarini said UNRWA did not know what was underneath its headquarters and that staff had evacuated the compound in October 2023 under Israeli orders. The claim is disputed and has not been adjudicated by a neutral tribunal.",
+          "kind": "contested",
+          "date": "Feb 2024, IDF allegation / UNRWA response",
+          "source": "Times of Israel — IDF says it uncovered a Hamas data centre beneath UNRWA's Gaza HQ",
+          "source_url": "https://www.timesofisrael.com/directly-beneath-unrwas-gaza-headquarters-idf-uncovers-top-secret-hamas-data-center/"
+        },
+        {
+          "text": "On 28 October 2024 the Knesset passed two laws: one (92–10) barring UNRWA from operating on Israeli sovereign territory, and one (87–9) prohibiting Israeli authorities from contact with UNRWA — which affects the coordination UNRWA's Gaza and West Bank operations depend on. The laws took effect roughly three months later, around late January 2025.",
+          "kind": "fact",
+          "date": "Oct 2024, Knesset",
+          "source": "Times of Israel — Knesset approves laws barring UNRWA",
+          "source_url": "https://www.timesofisrael.com/knesset-approves-laws-barring-unrwa-from-israel-limiting-it-in-gaza-and-west-bank/"
+        },
+        {
+          "text": "In an advisory opinion of 22 October 2025, the ICJ found that Israel, as occupying power, must agree to and facilitate impartial relief (Fourth Geneva Convention, Art. 59), and stated that Israel had 'not substantiated' its allegations that a significant part of UNRWA's employees are members of Hamas or other terrorist factions. ICJ advisory opinions are authoritative but not legally binding.",
+          "kind": "finding",
+          "date": "Oct 2025, International Court of Justice (advisory)",
+          "source": "Just Security — The ICJ advisory opinion on Israel and UNRWA",
+          "source_url": "https://www.justsecurity.org/123215/icj-advisory-opinion-israel-unrwa/"
+        }
+      ],
+      "positions": [
+        {
+          "holder": "UNRWA, the UN, and defenders (including Human Rights Watch)",
+          "attribution": "hold:",
+          "stance": "defenders' position",
+          "summary": "Hold that UNRWA is irreplaceable to millions of Palestinians — the primary provider of food, health care, and education in Gaza — that it maintains well-developed neutrality mechanisms (per the Colonna Review) and acts swiftly on credible allegations, and that broad claims of large-scale militant infiltration are unsubstantiated. Human Rights Watch characterized states withholding funds as 'outliers.'",
+          "source": "Human Rights Watch — Gaza: US, UK Outliers in Holding Back UNRWA Funding",
+          "source_url": "https://www.hrw.org/news/2024/07/18/gaza-us-uk-outliers-holding-back-unrwa-funding"
+        },
+        {
+          "holder": "The Government of Israel (and some US legislators)",
+          "attribution": "hold:",
+          "stance": "critics' position",
+          "summary": "Allege that Hamas has infiltrated UNRWA's staff and facilities, cite the January 2024 allegations and the February 2024 tunnel/data-centre claim, and call to defund, dismantle, or replace the agency — a stance reflected in the Knesset's October 2024 laws. Israel frames UNRWA as compromised by Hamas.",
+          "source": "CNN — Israel's Knesset votes to ban UNRWA",
+          "source_url": "https://www.cnn.com/2024/10/28/middleeast/unrwa-israel-knesset-vote-ban-palestinians-intl/"
+        },
+        {
+          "holder": "IMPACT-se and the European Parliament",
+          "attribution": "allege (curriculum):",
+          "stance": "curriculum-incitement criticism",
+          "summary": "The research group IMPACT-se and, in resolutions, the European Parliament allege that teaching materials used in UNRWA-run schools contain incitement, glorification of martyrdom, and antisemitism; an EU-commissioned review found such examples in the underlying Palestinian curriculum. UNRWA says it reviews and acts on problematic content. The extent and characterization remain contested.",
+          "source": "European Parliament — question/answer on UNRWA textbooks",
+          "source_url": "https://www.europarl.europa.eu/doceo/document/P-9-2023-003486_EN.html"
+        },
+        {
+          "holder": "UN Watch",
+          "attribution": "alleges (advocacy):",
+          "stance": "NGO critical of UNRWA",
+          "summary": "UN Watch, a Geneva-based advocacy organization critical of UNRWA, reported a large Telegram group of UNRWA teachers it says celebrated the 7 October attack and says it has documented many UNRWA staff social-media accounts showing incitement. These are advocacy claims: widely reported but not independently adjudicated.",
+          "source": "Times of Israel — Watchdog finds UNRWA workers praised Hamas massacres in internal Telegram channel",
+          "source_url": "https://www.timesofisrael.com/watchdog-finds-unrwa-workers-praised-hamas-massacres-in-internal-telegram-channel/"
+        }
+      ],
+      "further_reading": [
+        { "url": "https://www.un.org/unispal/wp-content/uploads/2024/04/unrwa_independent_review_on_neutrality.pdf", "label": "The Colonna Review — Independent Review of UNRWA neutrality (full report PDF)", "note": "the independent panel's report" },
+        { "url": "https://news.un.org/en/story/2024/08/1152841", "label": "UN News — OIOS investigation outcome", "note": "the UN internal investigation findings" },
+        { "url": "https://www.cfr.org/articles/uns-palestinian-aid-controversy-whats-stake", "label": "Council on Foreign Relations — The UN's Palestinian Aid Controversy", "note": "background on mandate and funding" }
+      ]
+    },
+    {
+      "id": "gush-katif",
+      "title": "Gush Katif and the 2005 Gaza disengagement",
+      "navLabel": "Gush Katif",
+      "blurb": "What the 2005 Israeli withdrawal from Gaza was, the legal instruments behind it, and the competing legal and political interpretations of it — each attributed.",
+      "source_of_record": "the Knesset legislative record, the Israeli Supreme Court judgment in HCJ 1661/05, and contemporaneous reporting",
+      "framework": {
+        "label": "The framework at issue",
+        "text": "Two questions of law sit under the disengagement. First, Israeli constitutional and administrative law: could the Knesset lawfully order the removal of Israeli citizens from settlements and set their compensation? The Israeli Supreme Court answered this in HCJ 1661/05. Second, the law of belligerent occupation (Hague Regulations 1907, Geneva Convention IV 1949): after Israel withdrew its settlers and permanent ground forces in 2005, did it remain the 'occupying power' of Gaza — which turns on the 'effective control' test — and this remains disputed."
+      },
+      "provisionsHeading": "The legal instruments",
+      "provisions": [
+        {
+          "cite": "Implementation of the Disengagement Plan Law, 2005 (חוק יישום תוכנית ההתנתקות)",
+          "text": "The Knesset law that authorized the evacuation of Israeli settlements in the Gaza Strip and four northern West Bank settlements and established the compensation scheme for evacuated residents. Approved by the Knesset on 16 February 2005 (59 in favour, 40 against, 5 abstaining).",
+          "source": "Jewish Virtual Library — Knesset approves Disengagement Implementation Law (Feb. 2005)",
+          "source_url": "https://www.jewishvirtuallibrary.org/knesset-approves-disengagement-implementation-law-february-2005"
+        },
+        {
+          "cite": "HCJ 1661/05, Gaza Coast Regional Council v. The Knesset (2005)",
+          "text": "An expanded 11-justice panel of the Israeli Supreme Court, sitting as the High Court of Justice, upheld the constitutionality of the Disengagement Implementation Law. On the occupation question the Court ruled 10–1 (Justice Edmond Levy dissenting), reaffirming that the Gaza Strip had been held under belligerent occupation and that Israeli settlers there were not 'protected persons' under Article 4 of the Fourth Geneva Convention; it addressed and in part required improvement of the compensation arrangements.",
+          "source": "Versa (Cardozo Law) — English summary of HCJ 1661/05",
+          "source_url": "https://versa.cardozo.yu.edu/opinions/v-state-israel-1"
+        }
+      ],
+      "facts": [
+        {
+          "text": "Gush Katif ('Harvest Bloc') was a bloc of Israeli settlements in the southern Gaza Strip; in the 2005 disengagement Israel evacuated 21 settlements in the Gaza Strip (Gush Katif being the largest bloc among them) plus four settlements in the northern West Bank (Kadim, Ganim, Homesh, Sa-Nur).",
+          "kind": "fact",
+          "source": "Wikipedia — Israeli disengagement from Gaza",
+          "source_url": "https://en.wikipedia.org/wiki/Israeli_disengagement_from_Gaza"
+        },
+        {
+          "text": "Roughly 8,000–9,000 Israeli settlers lived in the Gaza settlements at the time of the evacuation (figures cited range from about 7,500 for Gush Katif proper to about 8,600 Gaza-wide).",
+          "kind": "fact",
+          "source": "Wikipedia — Gush Katif",
+          "source_url": "https://en.wikipedia.org/wiki/Gush_Katif"
+        },
+        {
+          "text": "The plan was proposed by Prime Minister Ariel Sharon, first announced at the Herzliya Conference on 18 December 2003; the Knesset gave preliminary approval to the plan on 26 October 2004 (67–45, 7 abstentions).",
+          "kind": "fact",
+          "source": "Wikipedia — Israeli disengagement from Gaza",
+          "source_url": "https://en.wikipedia.org/wiki/Israeli_disengagement_from_Gaza"
+        },
+        {
+          "text": "The evacuation was carried out between 15 August and 12 September 2005 by roughly 14,000 Israeli soldiers and police; the compensation scheme totalled about 3.8 billion NIS (~US$870 million) across the Gaza and northern West Bank evacuees, with most families receiving between about US$200,000 and US$300,000.",
+          "kind": "fact",
+          "source": "Wikipedia — Israeli disengagement from Gaza",
+          "source_url": "https://en.wikipedia.org/wiki/Israeli_disengagement_from_Gaza"
+        },
+        {
+          "text": "After Hamas won the January 2006 Palestinian legislative elections, Hamas took control of Gaza by force in June 2007 following factional fighting with Fatah.",
+          "kind": "fact",
+          "source": "Arab News — 2007: Hamas takes over the Gaza Strip",
+          "source_url": "https://www.arabnews.com/news/2007-hamas-takes-over-the-gaza-strip-2597224"
+        }
+      ],
+      "positions": [
+        {
+          "holder": "The Sharon government",
+          "attribution": "stated rationale:",
+          "stance": "official rationale for the disengagement",
+          "summary": "Framed disengagement as a unilateral initiative serving Israel's security and demographic interests (preserving a Jewish majority) and breaking a diplomatic deadlock — Sharon argued that continued stalemate would 'sooner or later' invite a more dangerous imposed initiative.",
+          "source": "Wikipedia — Israeli disengagement from Gaza",
+          "source_url": "https://en.wikipedia.org/wiki/Israeli_disengagement_from_Gaza"
+        },
+        {
+          "holder": "Critics of the government's stated rationale",
+          "attribution": "characterization:",
+          "stance": "reading advanced by critics, citing Sharon aide Dov Weisglass",
+          "summary": "Point to Sharon adviser Dov Weisglass's October 2004 Haaretz interview describing the plan's effect as 'the freezing of the peace process' — 'formaldehyde' preventing a Palestinian state — to argue the real objective differed from the security rationale. (This is an aide's characterization, not the government's official public rationale.)",
+          "source": "Al Jazeera — 'Sharon aide: No Palestinian state' (2004)",
+          "source_url": "https://www.aljazeera.com/news/2004/10/7/sharon-aide-no-palestinian-state"
+        },
+        {
+          "holder": "Gush Katif settlers and the national-religious movement",
+          "attribution": "hold:",
+          "stance": "settler / opponent position",
+          "summary": "Viewed the withdrawal as an 'expulsion' (Hebrew: gerush) rather than a 'disengagement' — a national and religious betrayal and lasting trauma; a strand of this camp argues the withdrawal rewarded terrorism. Opponents adopted orange as their signature colour and held mass protests.",
+          "source": "Jewish Action — Twenty Years Later: Remembering the Uprooting of Gush Katif",
+          "source_url": "https://jewishaction.com/jewish-world/israel/twenty-years-later-remembering-the-uprooting-of-gush-katif/"
+        },
+        {
+          "holder": "Benjamin Netanyahu and the Israeli political right",
+          "attribution": "argue:",
+          "stance": "retrospective political framing",
+          "summary": "Argue the disengagement was a failed land-for-peace gesture that 'rewarded terrorism' and enabled the 2007 Hamas takeover — a framing Netanyahu used in his political comeback and that many Israelis say was vindicated.",
+          "source": "Foreign Policy — Gaza, Netanyahu, and the withdrawal anniversary (2025)",
+          "source_url": "https://foreignpolicy.com/2025/09/12/gaza-netanyahu-israel-hamas-terrorism-withdrawal-anniversary/"
+        },
+        {
+          "holder": "The State of Israel (and the Israeli High Court of Justice)",
+          "attribution": "position:",
+          "stance": "Gaza's post-2005 status — occupation ended",
+          "summary": "Holds that by withdrawing all settlers and permanent ground forces in 2005 Israel gave up the 'effective control' that defines occupation, so the occupation of Gaza ended; Israeli High Court rulings (e.g. 2008) found soldiers were no longer permanently stationed in the territory.",
+          "source": "Atlantic Council — Is Gaza still occupied under international law?",
+          "source_url": "https://www.atlanticcouncil.org/blogs/menasource/gaza-israel-occupied-international-law/"
+        },
+        {
+          "holder": "The UN, the ICRC, the ICJ and many legal scholars and human-rights organizations",
+          "attribution": "hold:",
+          "stance": "Gaza's post-2005 status — occupation continued",
+          "summary": "Hold that Gaza remained occupied through Israel's continued 'effective control' of its airspace, territorial waters, land crossings, population registry and civilian infrastructure — arguing that a permanent physical troop presence is evidentiary, not a strict requirement, for occupation.",
+          "source": "Atlantic Council — Is Gaza still occupied under international law?",
+          "source_url": "https://www.atlanticcouncil.org/blogs/menasource/gaza-israel-occupied-international-law/"
+        }
+      ],
+      "further_reading": [
+        { "url": "https://versa.cardozo.yu.edu/opinions/v-state-israel-1", "label": "HCJ 1661/05 — Gaza Coast Regional Council v. Knesset (English summary, Versa/Cardozo)", "note": "the Supreme Court judgment" },
+        { "url": "https://www.chathamhouse.org/sites/default/files/public/Research/International%20Law/ilp200605.pdf", "label": "Chatham House — Disengagement from Gaza: Legal Issues (PDF)", "note": "legal analysis of the occupation question" },
+        { "url": "https://www.britannica.com/event/Israels-disengagement-from-Gaza", "label": "Encyclopaedia Britannica — Israel's disengagement from Gaza", "note": "overview" }
+      ]
+    },
+    {
+      "id": "settlements",
+      "title": "Settlements, resettlement movements, and international law",
+      "navLabel": "Settlements",
+      "blurb": "The Nachala movement and figures such as Daniella Weiss — their stated aims in their own words — and the competing legal positions on settlement under international law, each attributed.",
+      "source_of_record": "the movements' own public statements, ICJ opinions and UN resolutions, official government positions, and reputable reporting",
+      "framework": {
+        "label": "The framework at issue",
+        "text": "The core legal question is whether the establishment of civilian settlements by an occupying power in occupied territory is permitted under international humanitarian law — governed chiefly by Article 49(6) of the Fourth Geneva Convention (1949), which addresses an occupying power transferring parts of its own civilian population into occupied territory — and, relatedly, whether the West Bank and Gaza are 'occupied territory' in that Convention's sense at all. The predominant international view and the State of Israel's official position diverge on both points."
+      },
+      "provisionsHeading": "The provision at the centre of the debate",
+      "provisions": [
+        {
+          "cite": "Fourth Geneva Convention (1949), Article 49, sixth paragraph",
+          "text": "The Occupying Power shall not deport or transfer parts of its own civilian population into the territory it occupies.",
+          "quote": true,
+          "source": "ICRC IHL Databases — GC IV, Article 49",
+          "source_url": "https://ihl-databases.icrc.org/en/ihl-treaties/gc-iv-1949/article-49"
+        }
+      ],
+      "facts": [
+        {
+          "text": "The Nachala Settlement Movement is an Israeli settler organization that works to establish new settlements and outposts in the West Bank ('Judea and Samaria' in its own terms) and, since 2023, has campaigned to resettle the Gaza Strip. Sources most commonly date its founding to 2005, in the wake of the Gaza disengagement (one source gives 2010).",
+          "kind": "fact",
+          "source": "Wikipedia — Nachala (organisation)",
+          "source_url": "https://en.wikipedia.org/wiki/Nachala_(organisation)"
+        },
+        {
+          "text": "In July 2022 Nachala publicly announced the simultaneous establishment of three unauthorized West Bank outposts, reporting that it had raised roughly 5 million shekels (~US$1.4 million) toward the effort in three days.",
+          "kind": "fact",
+          "source": "Times of Israel — Settler group openly planning three illegal outposts",
+          "source_url": "https://www.timesofisrael.com/settler-group-openly-planning-establishment-of-3-illegal-outposts-next-week/"
+        },
+        {
+          "text": "Daniella Weiss (b. 30 August 1945) is a veteran Israeli settler leader: head of the Kedumim local council 1996–2007, long-time secretary-general of Gush Emunim, and a leader of the Nachala movement; she is widely described in the press as a leader (and by some outlets the 'godmother') of the settler movement.",
+          "kind": "fact",
+          "source": "Wikipedia — Daniella Weiss",
+          "source_url": "https://en.wikipedia.org/wiki/Daniella_Weiss"
+        },
+        {
+          "text": "At a January 2024 Nachala-organized 'Settlement Brings Security' conference calling for rebuilding settlements in Gaza, roughly a dozen government ministers and about 15 coalition lawmakers attended; the event featured maps of proposed Gaza settlement sites and drew international condemnation.",
+          "kind": "fact",
+          "source": "Times of Israel — 12 ministers call to resettle Gaza at conference",
+          "source_url": "https://www.timesofisrael.com/12-ministers-call-to-resettle-gaza-encourage-gazans-to-leave-at-jubilant-conference/"
+        },
+        {
+          "text": "In May 2025 the United Kingdom imposed sanctions on Nachala and on Daniella Weiss, citing the facilitation of illegal outposts and the displacement of Palestinians.",
+          "kind": "fact",
+          "source": "Wikipedia — Nachala (organisation)",
+          "source_url": "https://en.wikipedia.org/wiki/Nachala_(organisation)"
+        },
+        {
+          "text": "Estimates of the Israeli settler population are contested and depend on whether East Jerusalem is included: Peace Now reports just under 700,000 in the West Bank including East Jerusalem (~2023); B'Tselem reports about 622,670, a figure generally excluding East Jerusalem.",
+          "kind": "contested",
+          "source": "Peace Now — Settlements population data; B'Tselem — settlement statistics",
+          "source_url": "https://peacenow.org.il/en/settlements-watch/settlements-data/population"
+        }
+      ],
+      "positions": [
+        {
+          "holder": "Daniella Weiss / the Nachala movement",
+          "attribution": "state (their own aims):",
+          "stance": "settler-movement position, in its own words",
+          "summary": "Advance a religious-national claim to the whole Land of Israel and settlement as both entitlement and security. On a Palestinian state, Weiss told The New Yorker (Nov. 2023): 'We want to close the option for a Palestinian state, and the world wants to leave the option open.' On Gaza she has publicly called for Jewish resettlement of the entire Strip. (Quotes are Weiss's own, attributed to her; several 2024 Gaza quotes are as reproduced by outlets including CNN and the Financial Times.)",
+          "source": "Wikipedia — Daniella Weiss (collating New Yorker, CNN, FT interviews)",
+          "source_url": "https://en.wikipedia.org/wiki/Daniella_Weiss"
+        },
+        {
+          "holder": "The International Court of Justice",
+          "attribution": "held (advisory opinions):",
+          "stance": "predominant international-law view",
+          "summary": "In its 2004 'Wall' advisory opinion the Court held that Article 49(6) prohibits not only forced transfers but 'any measures taken by an occupying Power in order to organize or encourage transfers of parts of its own population into the occupied territory.' In its 19 July 2024 advisory opinion the Court found Israel's continued presence in the occupied Palestinian territory unlawful and the settlement enterprise contrary to Article 49(6). ICJ advisory opinions are authoritative statements of law but are not legally binding.",
+          "source": "UN — summary of the ICJ advisory opinion of 19 July 2024",
+          "source_url": "https://www.un.org/unispal/document/summary-of-the-icj-order-icj-19jul24/"
+        },
+        {
+          "holder": "The UN Security Council",
+          "attribution": "resolved:",
+          "stance": "political-body position",
+          "summary": "Resolution 2334 (23 December 2016) states that Israeli settlement activity has 'no legal validity' and constitutes a 'flagrant violation' of international law, and demands Israel cease all settlement activity. Adopted 14–0 with the United States abstaining.",
+          "source": "UN press release — Security Council Resolution 2334 (2016)",
+          "source_url": "https://press.un.org/en/2016/sc12657.doc.htm"
+        },
+        {
+          "holder": "The State of Israel (Ministry of Foreign Affairs)",
+          "attribution": "position:",
+          "stance": "official Israeli position",
+          "summary": "Characterizes the West Bank as 'disputed' rather than 'occupied' — arguing no recognized sovereign held the territory before 1967 — and contends Article 49(6) does not apply because settlers moved voluntarily rather than being 'deported or transferred'; Israel says the Fourth Geneva Convention does not apply de jure but that it observes its humanitarian provisions. The government-commissioned 2012 Levy Report reached similar conclusions (it was not formally adopted by the cabinet).",
+          "source": "Wikipedia — Legality of Israeli settlements; Levy Report",
+          "source_url": "https://en.wikipedia.org/wiki/Legality_of_Israeli_settlements"
+        },
+        {
+          "holder": "The United States (position varied by administration)",
+          "attribution": "stated:",
+          "stance": "shifting national position",
+          "summary": "In November 2019 Secretary of State Mike Pompeo announced the US no longer viewed settlements as 'per se inconsistent with international law,' setting aside a 1978 State Department legal opinion. In February 2024 the Biden administration (Secretary Antony Blinken) reversed this, restoring the position that settlements are inconsistent with international law.",
+          "source": "PBS NewsHour — Biden administration restores US policy on settlements (2024)",
+          "source_url": "https://www.pbs.org/newshour/politics/biden-administration-restores-u-s-policy-calling-israeli-settlements-illegitimate-under-international-law"
+        },
+        {
+          "holder": "Far-right Israeli ministers (e.g. Bezalel Smotrich, Itamar Ben-Gvir)",
+          "attribution": "advocate (individual positions):",
+          "stance": "government figures' advocacy — not adopted government policy",
+          "summary": "Have publicly called for re-establishing Israeli settlements in Gaza and, in Ben-Gvir's case, for encouraging the emigration of Gaza's Palestinian population. Reporting treats these as the positions of individual ministers and parties rather than as formal Netanyahu-government policy, which sources describe as non-committal.",
+          "source": "PBS NewsHour — Israeli finance minister calls for reestablishing settlements in Gaza",
+          "source_url": "https://www.pbs.org/newshour/amp/world/israeli-finance-minister-calls-for-reestablishing-israeli-settlements-in-gaza"
+        }
+      ],
+      "further_reading": [
+        { "url": "https://www.un.org/unispal/document/summary-of-the-icj-order-icj-19jul24/", "label": "UN — ICJ advisory opinion of 19 July 2024 (summary)", "note": "the 2024 opinion on the occupation" },
+        { "url": "https://press.un.org/en/2016/sc12657.doc.htm", "label": "UN Security Council Resolution 2334 (2016)", "note": "the settlements resolution; US abstention" },
+        { "url": "https://en.wikipedia.org/wiki/Levy_Report", "label": "The Levy Report (2012)", "note": "the Israeli government-commissioned legal report" },
+        { "url": "https://peacenow.org.il/en/settlements-watch/settlements-data/population", "label": "Peace Now — settlement population data", "note": "advocacy-org figures (labelled as such)" }
+      ]
+    }
+  ],
+  "reading_guide": {
+    "title": "How to read a contested world-law claim",
+    "intro": "Claims about international law travel fast and arrive pre-argued. This page is a method, not a verdict: how to trace a claim to its primary source, tell what kind of authority is speaking, and check whether an allegation has actually been verified. It applies to every topic on this surface — and to the next headline you read.",
+    "steps": [
+      { "title": "Find the primary source before the summary", "body": "A treaty article, a court's own opinion, or the text of a resolution says something more precise than any paraphrase of it. Read Article 49(6) of the Fourth Geneva Convention, or the operative paragraphs of an ICJ opinion, yourself — then judge the summaries against it. On this surface every contested claim links its primary source for exactly this reason." },
+      { "title": "Ask who is speaking, and with what authority", "body": "'International law says' usually means a specific body said it. A binding judgment, a non-binding advisory opinion, a Security Council resolution, a General Assembly resolution, a government's legal position, and an advocacy organization's report are all different kinds of statement with different weight. Name the speaker; do not let the claim float free of its holder." },
+      { "title": "Separate an allegation from a finding", "body": "An allegation is a claim someone has made; a finding is a conclusion an investigation or tribunal has reached after examining evidence. They are not the same, and the gap between 'was alleged' and 'was substantiated' is where most misreading happens. Check whether an inquiry reported, what it actually concluded, and how much of the original claim it confirmed." },
+      { "title": "Read the disagreement, not one side of it", "body": "On genuinely contested questions, credible sources conflict. Read the strongest version of each position from a source that holds it — the government's own statement, the court's own text, the movement's own words — rather than an opponent's characterization of it. Where sources conflict, hold both in view." },
+      { "title": "Watch the framing words", "body": "'Occupied' vs. 'disputed,' 'settlement' vs. 'community,' 'disengagement' vs. 'expulsion,' 'militant' vs. 'terrorist' — the choice of word often encodes the conclusion. Notice which term a source uses and what legal or political claim rides on it, and translate between the vocabularies to compare like with like." },
+      { "title": "Check the date and whether the position moved", "body": "National positions and even legal assessments change — the US position on settlements shifted in 2019 and again in 2024. A quote is only as current as its date. Ask when a statement was made and whether the body that made it has since revised it." }
+    ],
+    "authority_tiers": [
+      { "name": "Treaty text", "what": "the agreed words that bind the states party to them; the starting point, not a commentary.", "example": "the Geneva Conventions; the Hague Regulations of 1907" },
+      { "name": "Binding judgment", "what": "a tribunal's ruling that legally binds the parties to the case.", "example": "an ICJ contentious case between two consenting states; an ICC verdict" },
+      { "name": "Advisory opinion", "what": "an authoritative statement of law by a court that is NOT legally binding on states.", "example": "the ICJ's 2004 'Wall' and 2024 occupation advisory opinions" },
+      { "name": "Security Council resolution", "what": "a decision of the UN's political enforcement body; can be binding under Chapter VII, otherwise a strong political statement.", "example": "UNSC Resolution 2334 (2016)" },
+      { "name": "General Assembly resolution", "what": "a vote of all UN members; carries political and normative weight but is not binding law.", "example": "resolutions on the status of the Palestinian territories" },
+      { "name": "Government legal position", "what": "one state's own interpretation of the law, argued in its own interest; a party's view, not a neutral ruling.", "example": "Israel's 'disputed territories' position; the US position on settlements" },
+      { "name": "Advocacy / NGO report", "what": "research and argument from an organization with a stated cause; often rigorous, but attribute rather than adopt.", "example": "Peace Now, B'Tselem, Amnesty International; CAMERA" }
+    ],
+    "checklistHeading": "Before you repeat a world-law claim, ask:",
+    "checklist": [
+      "Who is making the claim — and can I name the specific body or person, not just 'international law' or 'experts'?",
+      "Have I seen the primary source (the treaty article, the opinion, the resolution text), or only a summary of it?",
+      "Is this an allegation, or a finding an investigation actually reached — and how much did the inquiry confirm?",
+      "What kind of authority is it — binding judgment, advisory opinion, political resolution, or a party's own position?",
+      "Have I read the other side from a source that holds it, in its strongest form?",
+      "When was this said, and has the position changed since?",
+      "Which framing words are doing the arguing, and what conclusion is riding on them?"
+    ]
+  }
+}

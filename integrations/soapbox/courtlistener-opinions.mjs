@@ -69,9 +69,10 @@ export function courtName(slug) {
   return COURT_NAME[s] || s;
 }
 
-// ---- key handling: env COURTLISTENER_TOKEN by NAME, optional (keyless works at lower rate) ----
+// ---- key handling: env COURTLISTENER_API_TOKEN (falls back to COURTLISTENER_TOKEN) by NAME, optional
+// (keyless works at a lower rate) ----
 function authHeaders() {
-  const key = process.env.COURTLISTENER_TOKEN;
+  const key = process.env.COURTLISTENER_API_TOKEN || process.env.COURTLISTENER_TOKEN;
   return key ? { ...UA, Accept: 'application/json', Authorization: `Token ${key}` }
              : { ...UA, Accept: 'application/json' };
 }
@@ -420,7 +421,7 @@ if (process.argv[1] && process.argv[1].endsWith('courtlistener-opinions.mjs')) {
     const q = rest[0] || '';
     const court = rest[1] || '';
     const rows = await searchCases({ q, court });
-    console.log(`SoapBox CourtListener — ${rows.length} cases match "${q}"${court ? ` @ ${court}` : ''} ${process.env.COURTLISTENER_TOKEN ? '(token)' : '(keyless)'}`);
+    console.log(`SoapBox CourtListener — ${rows.length} cases match "${q}"${court ? ` @ ${court}` : ''} ${process.env.COURTLISTENER_API_TOKEN || process.env.COURTLISTENER_TOKEN ? '(token)' : '(keyless)'}`);
     for (const r of rows.slice(0, 25)) console.log(`  • ${r.caseName} — ${r.court} ${r.dateFiled} [${r.precedentialStatus}] cited×${r.citationCount ?? '?'}\n    ${r.url}`);
     console.log(`  ${dataNote()}`);
   } else if (cmd === 'opinion') {
@@ -439,6 +440,6 @@ if (process.argv[1] && process.argv[1].endsWith('courtlistener-opinions.mjs')) {
     console.log(`  ${dataNote()}`);
   } else {
     console.log('usage: courtlistener-opinions.mjs <search "query" [court] | opinion OPINION_ID | cluster CLUSTER_ID>');
-    console.log(`  COURTLISTENER_TOKEN ${process.env.COURTLISTENER_TOKEN ? 'is set' : 'unset → keyless low-rate reads'}`);
+    console.log(`  COURTLISTENER_API_TOKEN ${process.env.COURTLISTENER_API_TOKEN || process.env.COURTLISTENER_TOKEN ? 'is set' : 'unset → keyless low-rate reads'}`);
   }
 }

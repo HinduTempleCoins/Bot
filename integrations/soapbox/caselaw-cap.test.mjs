@@ -1,6 +1,9 @@
-// caselaw-cap.test.mjs — offline tests for the Caselaw Access Project (CAP) reader.
-// Network stubbed via __setFetch; no live calls. CAP reads are keyless/open. Run:
+// caselaw-cap.test.mjs — offline tests for the (now CourtListener-backed) caselaw citation reader.
+// Network stubbed via __setFetch; no live calls. CourtListener v4 reads work keyless. Run:
 //   node --test integrations/soapbox/caselaw-cap.test.mjs
+//
+// BACKEND SWAP: this module used to read the decommissioned api.case.law; it now reads CourtListener REST
+// v4 (citation-lookup + clusters + opinions) while keeping the same exports and case-card shape.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,20 +12,28 @@ import {
   renderPage, dataNote, __setFetch,
 } from './caselaw-cap.mjs';
 
-const RAW_CASE = {
-  id: 12345, name_abbreviation: 'Brown v. Board of Education',
-  name: 'Oliver Brown et al. v. Board of Education of Topeka',
-  decision_date: '1954-05-17',
-  court: { name_abbreviation: 'U.S.', name: 'Supreme Court of the United States' },
-  citations: [{ cite: '347 U.S. 483', type: 'official' }],
-  reporter: { full_name: 'United States Supreme Court Reports' },
-  casebody: { data: { opinions: [{ text: 'We conclude that separate educational facilities are inherently unequal. ' + 'x '.repeat(200) }] } },
-  frontend_url: 'https://case.law/caselaw/?reporter=us&volume=347&case=brown',
+// A realistic CourtListener v4 CLUSTER, with its lead opinion body inlined on sub_opinions (so the reader
+// resolves the text without a second network hop in tests). Live, sub_opinions are resource URLs.
+const RAW_CLUSTER = {
+  id: 118144,
+  case_name: 'Brown v. Board of Education',
+  case_name_full: 'Oliver Brown et al. v. Board of Education of Topeka',
+  date_filed: '1954-05-17',
+  court: 'https://www.courtlistener.com/api/rest/v4/courts/scotus/',
+  citations: [{ volume: '347', reporter: 'U.S.', page: '483', type: 1 }],
+  precedential_status: 'Published',
+  citation_count: 25000,
+  absolute_url: '/opinion/118144/brown-v-board-of-education/',
+  sub_opinions: [{ plain_text: 'We conclude that separate educational facilities are inherently unequal. ' + 'x '.repeat(200) }],
 };
+// The v4 citation-lookup endpoint returns an ARRAY of {citation, status, clusters:[…]} entries.
+const LOOKUP_RESP = [{ citation: '347 U.S. 483', normalized_citations: ['347 U.S. 483'], status: 200, clusters: [RAW_CLUSTER] }];
 
 function envelopeFetch(payload, { ok = true } = {}) { return async () => ({ ok, json: async () => payload }); }
-function captureFetch(sink, payload) { return async (u) => { sink.url = String(u); return { ok: true, json: async () => payload }; }; }
+function captureFetch(sink, payload) { return async (u, opts) => { sink.url = String(u); sink.opts = opts || {}; return { ok: true, json: async () => payload }; }; }
 function throwingFetch() { return async () => { throw new Error('network down'); }; }
+
+const clusterWithBody = (body) => ({ ...RAW_CLUSTER, sub_opinions: [{ plain_text: body }] });
 
 test('parseCitation parses standard reporter citations', () => {
   assert.deepEqual(parseCitation('347 U.S. 483'), { volume: '347', reporter: 'U.S.', page: '483', normalized: '347 U.S. 483' });
@@ -32,16 +43,19 @@ test('parseCitation parses standard reporter citations', () => {
   assert.equal(parseCitation(''), null);
 });
 
-test('citationUrl builds a case.law lookup URL from a parsed citation', () => {
+test('citationUrl builds a CourtListener lookup URL from a parsed citation', () => {
   const u = citationUrl(parseCitation('347 U.S. 483'));
-  assert.match(u, /case\.law/);
+  assert.match(u, /courtlistener\.com/);
   assert.match(u, /347%20U\.S\.%20483|347\+U\.S\.\+483/);
+  assert.match(u, /type=o/);
   assert.equal(citationUrl(null), '');
 });
 
-test('caseText pulls the first opinion text and collapses whitespace', () => {
-  assert.match(caseText(RAW_CASE), /^We conclude that separate/);
-  assert.equal(caseText({ casebody: { data: { opinions: [] } } }), '');
+test('caseText pulls the opinion body (columns or inlined sub_opinions) and collapses whitespace', () => {
+  assert.equal(caseText({ plain_text: '  hello\n\nworld  ' }), 'hello world');
+  assert.equal(caseText({ html: '<p>Equal <b>protection</b></p>' }), 'Equal protection');
+  assert.match(caseText(RAW_CLUSTER), /^We conclude that separate/);
+  assert.equal(caseText({ sub_opinions: [] }), '');
   assert.equal(caseText(null), '');
 });
 
@@ -52,111 +66,119 @@ test('snippetOf bounds text and adds an ellipsis when truncated', () => {
   assert.ok(s.endsWith('…'));
 });
 
-test('normalizeCase flattens a CAP record with public-domain provenance', () => {
-  const c = normalizeCase(RAW_CASE);
-  assert.equal(c.caseId, '12345');
+test('normalizeCase flattens a CourtListener cluster with public-domain provenance', () => {
+  const c = normalizeCase(RAW_CLUSTER);
+  assert.equal(c.caseId, '118144');
   assert.equal(c.caseName, 'Brown v. Board of Education');
-  assert.equal(c.court, 'U.S.');
+  assert.equal(c.court, 'scotus');
   assert.equal(c.decisionDate, '1954-05-17');
   assert.deepEqual(c.citations, ['347 U.S. 483']);
+  assert.equal(c.reporter, 'U.S.');
   assert.match(c.snippet, /separate educational facilities/);
   assert.equal(c.license, 'public-domain');
-  assert.match(c.source, /Caselaw Access Project/);
-  assert.equal(c.url, RAW_CASE.frontend_url);
+  assert.match(c.source, /Free Law Project/);
+  assert.match(c.url, /\/opinion\/118144\/brown-v-board-of-education\/$/);
   assert.equal(normalizeCase(null), null);
   assert.equal(normalizeCase({}), null);
 });
 
-test('caseById fetches full_case text and normalizes; soft-fails to null', async () => {
+test('caseById fetches the cluster by id and normalizes; soft-fails to null', async () => {
   const sink = {};
-  __setFetch(captureFetch(sink, RAW_CASE));
-  const c = await caseById(12345);
+  __setFetch(captureFetch(sink, RAW_CLUSTER));
+  const c = await caseById(118144);
   __setFetch(null);
-  assert.match(sink.url, /\/cases\/12345\//);
-  assert.match(sink.url, /full_case=true/);
+  assert.match(sink.url, /\/clusters\/118144\//);
   assert.equal(c.caseName, 'Brown v. Board of Education');
   assert.equal(await caseById(''), null);
   __setFetch(throwingFetch());
-  assert.equal(await caseById(12345), null);
+  assert.equal(await caseById(118144), null);
   __setFetch(null);
 });
 
 test('caseById({full:true}) adds untruncated fullText; default keeps only the 280 snippet', async () => {
   const longBody = 'We conclude that separate educational facilities are inherently unequal. ' + 'x '.repeat(400);
-  const rawLong = { ...RAW_CASE, casebody: { data: { opinions: [{ text: longBody }] } } };
+  const rawLong = clusterWithBody(longBody);
   // default: snippet only, no fullText, snippet bounded.
   __setFetch(envelopeFetch(rawLong));
-  const plain = await caseById(12345);
+  const plain = await caseById(118144);
   __setFetch(null);
   assert.ok(plain.snippet.length <= 282, 'snippet stays bounded');
   assert.equal(plain.fullText, undefined, 'no fullText without {full:true}');
   // full: the whole opinion text, untruncated.
   __setFetch(envelopeFetch(rawLong));
-  const full = await caseById(12345, { full: true });
+  const full = await caseById(118144, { full: true });
   __setFetch(null);
   assert.equal(full.fullText, caseText(rawLong), 'fullText is the untruncated caseText');
   assert.ok(full.fullText.length > 280, 'fullText exceeds the snippet cap');
   assert.ok(full.snippet.length <= 282, 'snippet still present and bounded alongside fullText');
 });
 
-test('caseByCitation parses, queries by cite, and tags the lookup', async () => {
+test('caseByCitation POSTs volume/reporter/page to citation-lookup and tags the lookup', async () => {
   const sink = {};
-  __setFetch(captureFetch(sink, { results: [RAW_CASE] }));
+  __setFetch(captureFetch(sink, LOOKUP_RESP));
   const c = await caseByCitation('347 U.S. 483');
   __setFetch(null);
-  assert.match(sink.url, /cite=347\+U\.S\.\+483|cite=347%20U\.S\.%20483/);
+  assert.match(sink.url, /\/citation-lookup\/$/);
+  assert.equal(sink.opts.method, 'POST');
+  const body = JSON.parse(sink.opts.body);
+  assert.equal(body.volume, '347');
+  assert.equal(body.reporter, 'U.S.');
+  assert.equal(body.page, '483');
   assert.equal(c.caseName, 'Brown v. Board of Education');
   assert.equal(c.citationLookup, '347 U.S. 483');
   assert.equal(await caseByCitation('garbage'), null);
 });
 
-test('caseByCitation soft-fails to null when no results', async () => {
-  __setFetch(envelopeFetch({ results: [] }));
+test('caseByCitation soft-fails to null when no clusters match', async () => {
+  __setFetch(envelopeFetch([{ citation: '347 U.S. 483', status: 404, clusters: [] }]));
+  assert.equal(await caseByCitation('347 U.S. 483'), null);
+  __setFetch(envelopeFetch([]));
+  assert.equal(await caseByCitation('347 U.S. 483'), null);
+  __setFetch(throwingFetch());
   assert.equal(await caseByCitation('347 U.S. 483'), null);
   __setFetch(null);
 });
 
 test('caseByCitation({full:true}) carries untruncated fullText; default keeps only the snippet', async () => {
   const longBody = 'We conclude that separate educational facilities are inherently unequal. ' + 'x '.repeat(400);
-  const rawLong = { ...RAW_CASE, casebody: { data: { opinions: [{ text: longBody }] } } };
+  const resp = [{ status: 200, clusters: [clusterWithBody(longBody)] }];
   // default (back-compat): snippet only, no fullText.
-  __setFetch(envelopeFetch({ results: [rawLong] }));
+  __setFetch(envelopeFetch(resp));
   const plain = await caseByCitation('347 U.S. 483');
   __setFetch(null);
   assert.equal(plain.fullText, undefined, 'no fullText without {full:true}');
   assert.ok(plain.snippet.length <= 282, 'snippet bounded');
   assert.equal(plain.citationLookup, '347 U.S. 483');
   // {full:true}: the whole opinion text, untruncated, alongside the bounded snippet.
-  __setFetch(envelopeFetch({ results: [rawLong] }));
+  __setFetch(envelopeFetch(resp));
   const full = await caseByCitation('347 U.S. 483', { full: true });
   __setFetch(null);
-  assert.equal(full.fullText, caseText(rawLong), 'fullText is the untruncated caseText');
+  assert.equal(full.fullText, caseText(clusterWithBody(longBody)), 'fullText is the untruncated caseText');
   assert.ok(full.fullText.length > 280, 'fullText exceeds the snippet cap');
   assert.ok(full.snippet.length <= 282, 'snippet still present alongside fullText');
   assert.equal(full.citationLookup, '347 U.S. 483');
 });
 
 test('renderPage renders a case card and escapes injection', () => {
-  const html = renderPage({ case: normalizeCase({ ...RAW_CASE, name_abbreviation: '<script>x</script>' }) });
+  const html = renderPage({ case: normalizeCase({ ...RAW_CLUSTER, case_name: '<script>x</script>' }) });
   assert.ok(!html.includes('<script>x'));
   assert.ok(html.includes('&lt;script&gt;'));
   assert.ok(html.includes('1954-05-17'));
   assert.ok(html.includes('347 U.S. 483'));
-  assert.ok(html.includes('Read the full case'));
-  assert.ok(html.includes('source: Caselaw Access Project'));
+  assert.ok(html.includes('Read the full opinion'));
+  assert.ok(html.includes('source: CourtListener'));
 });
 
 test('renderPage shows the FULL opinion text when the card carries fullText, else the snippet', () => {
   const longBody = 'We conclude that separate educational facilities are inherently unequal. ' + 'y '.repeat(400);
-  const full = normalizeCase({ ...RAW_CASE, casebody: { data: { opinions: [{ text: longBody }] } } }, { full: true });
+  const full = normalizeCase(clusterWithBody(longBody), { full: true });
   const htmlFull = renderPage({ case: full });
   assert.ok(htmlFull.includes('cap-fulltext'), 'renders the full-text block');
   assert.ok(htmlFull.includes('inherently unequal'), 'includes the opinion body');
-  // the full block carries text well beyond the 280-char snippet cap (no ellipsis truncation).
   assert.ok(full.fullText.length > 280, 'fullText exceeds the snippet cap');
   assert.ok(htmlFull.includes(full.fullText.slice(0, 300)), 'full text is rendered untruncated');
   // without fullText, the snippet path still renders.
-  const htmlSnip = renderPage({ case: normalizeCase(RAW_CASE) });
+  const htmlSnip = renderPage({ case: normalizeCase(RAW_CLUSTER) });
   assert.ok(htmlSnip.includes('cap-snippet'), 'falls back to the snippet block');
   assert.ok(!htmlSnip.includes('cap-fulltext'), 'no full-text block without fullText');
 });
@@ -167,9 +189,9 @@ test('renderPage handles a not-found case without throwing', () => {
   assert.ok(html.includes('999 X. 1'));
 });
 
-test('dataNote names CAP, public-domain, and host-forever', () => {
+test('dataNote names CourtListener, public-domain, and host-forever', () => {
   const n = dataNote();
-  assert.match(n, /Caselaw Access Project/);
+  assert.match(n, /CourtListener/);
   assert.match(n, /public domain/);
   assert.match(n, /host-forever/);
 });
