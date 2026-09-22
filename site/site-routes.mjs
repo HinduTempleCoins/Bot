@@ -160,6 +160,13 @@ export const ROUTES = [
     public: false,
     description: 'Oversight / governance review surface — admin only.',
   },
+  {
+    path: '/caselaw-history',
+    title: 'The Case Law of Us',
+    module: './caselaw-history/server.mjs',
+    public: true,
+    description: 'Case law as the history of this country — figures who live in the reporters, courts doing history, and the ancient codes.',
+  },
 ];
 
 // ── routesByVisibility(): split into { public, admin } (soft, never throws) ─────────

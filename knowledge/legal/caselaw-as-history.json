@@ -1,0 +1,696 @@
+{
+  "title": "The Case Law of Us",
+  "summary": "Read end to end, the case reporters are a narrative history of this country. The people who made America appear in them by name as parties — Dred Scott, Marcus Garvey, Fred Hampton, Huey Newton, Muhammad Ali, the Chicago Seven, Curt Flood, 2 Live Crew, Bette Midler, Vanna White. Courts themselves do deep historical, anthropological, and legislative-history work: surveying colonial charters, the history of Santería sacrifice, the ayahuasca sacramental tradition, and founding-era practice. Beneath all of it lie the ancient written codes that first turned law into a durable, precedent-bearing record.",
+  "sourcing_standard": "FACTS + SOURCES, never invented (Bot Charter §3). Every case name, reporter citation, year, and figure is verified against the public record. We are precise about what each case is cited FOR and never merge distinct cases (Lukumi = Santería animal sacrifice; O Centro = ayahuasca/RFRA). Where a matter is a trial, indictment, or preliminary hearing rather than a reported appellate opinion, the entry says so and carries an honest descriptor instead of a fabricated citation. Where a reporter citation could not be independently verified, the entry says that too.",
+  "verified_date": "2026-09-22",
+  "parts": [
+    {
+      "id": "figures",
+      "nav": "Figures in the caselaw",
+      "title": "Figures who live in the caselaw",
+      "intro": "American history told through the people who became parties to a case. Each of these names is a docketed dispute preserved forever in the reporters — the movements, feuds, art, and conflicts of an era, frozen in the durable form of a legal record. Some entries are reported appellate opinions; others are famous trials, indictments, or hearings that never produced a reported opinion, and those are labeled as such.",
+      "era_blurbs": {
+        "Antebellum & Slavery": "Before the Civil War, the Court's word on who counted as a person and a citizen.",
+        "The Frontier / Old West": "Gunfights and range wars that reached a courtroom — often a justice court or a jury, not an appellate reporter.",
+        "Native Nations & the Courts": "The long collision between tribal sovereignty and federal power, told through the people who were arrested, removed, or denied the vote.",
+        "The Gilded Age": "Feuds, murders, and land disputes that became foundational American law.",
+        "Jim Crow & the Scottsboro Boys": "The cases that forced the Constitution's criminal-procedure guarantees onto the states.",
+        "Garvey & the New Negro Movement": "The prosecution that broke the largest Black mass movement of its era.",
+        "WWII Japanese American Internment": "Two cases decided the same day — one the Court's shame, one the one the internee won.",
+        "The Civil Rights Movement": "The reporters as the paper record of the movement's legal front.",
+        "Black Power & the Panthers": "The Panthers and their allies in the criminal and civil courts.",
+        "Vietnam-era Protest & the Chicago Seven": "The trial and the draft, and the contempt saga that followed.",
+        "Obscenity & Free Speech": "Where the First Amendment draws the line around sex and speech.",
+        "Parody & Fair Use": "The right to mock, borrow, and retell — copyright and defamation's safety valves.",
+        "Right of Publicity": "How far a celebrity owns their own voice, face, catchphrase, and identity.",
+        "Trademark vs. Artistic Expression": "When a famous name in a title is speech, not endorsement.",
+        "Hip-hop & Sampling": "The bright-line rule that reshaped how records get made.",
+        "The Digital Music Wars": "The file-sharing cases that rewired the music industry.",
+        "Music Copyright & 'Blurred Lines'": "How close is too close when a song echoes another.",
+        "Baseball & Antitrust": "The sport that talked the Supreme Court into a 100-year exemption.",
+        "College Sports & Amateurism": "The antitrust cases that ended amateurism as a legal shield.",
+        "Basketball & the Draft": "The ruling that opened the pros to young players.",
+        "Sports & Disability Rights": "When the ADA reached the field of play.",
+        "Celebrity Trials of the Century": "The televised trials that became national events — mostly trials, not appellate opinions."
+      },
+      "entries": [
+        {
+          "case": "Dred Scott v. Sandford",
+          "citation": "60 U.S. (19 How.) 393",
+          "year": "1857",
+          "figure": "Dred Scott",
+          "era": "Antebellum & Slavery",
+          "what_happened": "Dred Scott, an enslaved man taken by his enslaver into free states and territories, sued for his freedom. The Supreme Court ruled 7-2 against him, holding that people of African descent were not and could not be U.S. citizens and could not sue in federal court, and striking down the Missouri Compromise.",
+          "why_it_matters": "Cited as the Court's holding that African Americans were not citizens and that Congress could not bar slavery in the territories — widely regarded as the worst decision in the Court's history and later nullified by the Thirteenth and Fourteenth Amendments.",
+          "source_url": "https://www.archives.gov/milestone-documents/dred-scott-v-sandford"
+        },
+        {
+          "case": "The Spicer Hearing (Territory of Arizona v. Morgan Earp, et al.)",
+          "citation": "Preliminary examination before Justice of the Peace Wells Spicer, Tombstone, Cochise County, Arizona Territory; decision Nov. 30, 1881 — a justice-court hearing, not a reported appellate opinion",
+          "year": "1881",
+          "figure": "Wyatt Earp and Doc Holliday",
+          "era": "The Frontier / Old West",
+          "what_happened": "After the Oct. 26, 1881 gunfight near the O.K. Corral, Ike Clanton filed murder charges against the Earps and Doc Holliday. This was a roughly month-long preliminary examination before Justice of the Peace Wells Spicer — a hearing to decide whether to hold the accused for trial, not a jury trial and not a reported opinion. On Nov. 30, 1881, Spicer issued a written decision finding insufficient cause and discharged the defendants.",
+          "why_it_matters": "The most famous surviving legal record of the O.K. Corral affair; Spicer's written ruling is the primary contemporaneous judicial account of the gunfight and its self-defense framing.",
+          "source_url": "https://en.wikipedia.org/wiki/O.K._Corral_hearing_and_aftermath"
+        },
+        {
+          "case": "The Trials of Jack McCall (killing of 'Wild Bill' Hickok)",
+          "citation": "Two Dakota Territory trials — a Deadwood miners' court, Aug. 3, 1876 (acquittal, later held void for lack of jurisdiction), and a U.S. federal court at Yankton, Dec. 1876 (guilty) — trials, not reported appellate opinions",
+          "year": "1876",
+          "figure": "Jack McCall (killer of James Butler 'Wild Bill' Hickok)",
+          "era": "The Frontier / Old West",
+          "what_happened": "McCall shot Hickok from behind during a poker game in Deadwood on Aug. 2, 1876. A provisional miners' court acquitted him the next day, but that court was deemed to lack lawful jurisdiction (Deadwood sat on unceded Indian land), so retrial was not barred by double jeopardy. A federal court in Yankton convicted him in December 1876, and he was hanged March 1, 1877.",
+          "why_it_matters": "A real-world illustration of the rule that an acquittal by a court lacking lawful jurisdiction is a nullity and does not bar a valid retrial.",
+          "source_url": "https://en.wikipedia.org/wiki/Jack_McCall"
+        },
+        {
+          "case": "The Johnson County War prosecutions",
+          "citation": "Criminal prosecution of the 'Invaders,' Wyoming, 1892-1893; all charges dismissed — a trial-court matter that never reached verdict, not a reported appellate opinion",
+          "year": "1892",
+          "figure": "The Wyoming Stock Growers Association 'Invaders' (victims incl. Nate Champion)",
+          "era": "The Frontier / Old West",
+          "what_happened": "In April 1892 large cattle interests sent an armed party into Johnson County, Wyoming, killing Nate Champion and Nick Ray before the U.S. Cavalry intervened. The prosecution collapsed: after examining over 1,000 prospective jurors no impartial jury could be seated, the governor obstructed the investigation, and the sparsely populated county could not fund the case, so all charges were dismissed.",
+          "why_it_matters": "A notorious example of failed frontier prosecution where wealth, political power, and jury and funding realities defeated accountability; a touchstone of Western range-war and rule-of-law history.",
+          "source_url": "https://www.wyohistory.org/encyclopedia/johnson-county-war-1892-invasion-northern-wyoming"
+        },
+        {
+          "case": "United States ex rel. Standing Bear v. Crook",
+          "citation": "25 F. Cas. 695 (C.C.D. Neb. 1879) (No. 14,891)",
+          "year": "1879",
+          "figure": "Chief Standing Bear (Ponca)",
+          "era": "Native Nations & the Courts",
+          "what_happened": "After the Ponca were forcibly removed to Indian Territory, where about a third died, Standing Bear led a small group back to Nebraska to bury his son and was arrested by Gen. George Crook. On a writ of habeas corpus, U.S. District Judge Elmer S. Dundy ruled on April 30, 1879 that an Indian is a person within the meaning of the laws of the United States and that Standing Bear was illegally detained.",
+          "why_it_matters": "The first time a U.S. court recognized a Native American as a person entitled to habeas corpus and basic legal protection — a foundational Native civil-rights precedent.",
+          "source_url": "https://law.resource.org/pub/us/case/reporter/F.Cas/0025.f.cas/0025.f.cas.0695.pdf"
+        },
+        {
+          "case": "Ex parte Crow Dog",
+          "citation": "109 U.S. 556",
+          "year": "1883",
+          "figure": "Crow Dog and Spotted Tail (Brulé Lakota)",
+          "era": "Native Nations & the Courts",
+          "what_happened": "Crow Dog killed Spotted Tail on the reservation in 1881; a tribal council resolved the matter through restitution. Federal authorities nonetheless tried and sentenced Crow Dog to death in the territorial courts. The Supreme Court granted habeas corpus, holding that federal courts had no jurisdiction over a crime by one Indian against another on the reservation.",
+          "why_it_matters": "Affirmed tribal sovereignty over intra-tribal crimes; the ruling prompted Congress to pass the Major Crimes Act of 1885, extending federal jurisdiction over enumerated reservation crimes.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/109/556/"
+        },
+        {
+          "case": "Elk v. Wilkins",
+          "citation": "112 U.S. 94",
+          "year": "1884",
+          "figure": "John Elk",
+          "era": "Native Nations & the Courts",
+          "what_happened": "John Elk, who had left his tribe and lived in Omaha, was refused voter registration on the ground that he was not a U.S. citizen. The Supreme Court held in 1884 that a person born a member of an Indian tribe was not born 'subject to the jurisdiction' of the U.S. under the Fourteenth Amendment and could not become a citizen without an affirmative act of the government.",
+          "why_it_matters": "Held that the Fourteenth Amendment did not confer birthright citizenship on tribal Native Americans; the exclusion stood until the Indian Citizenship Act of 1924. Often contrasted with Wong Kim Ark.",
+          "source_url": "https://en.wikipedia.org/wiki/Elk_v._Wilkins"
+        },
+        {
+          "case": "United States v. Sioux Nation of Indians",
+          "citation": "448 U.S. 371",
+          "year": "1980",
+          "figure": "The Great Sioux (Lakota) Nation — the Black Hills taking",
+          "era": "Native Nations & the Courts",
+          "what_happened": "The 1868 Fort Laramie Treaty guaranteed the Black Hills to the Sioux and barred cession without three-fourths of adult males signing; after gold was found, Congress took the Black Hills in 1877 on an agreement signed by only about 10% of adult male Sioux. In 1980 the Supreme Court affirmed, 8-1, that the taking required just compensation and upheld an award of $17.1 million plus interest from 1877.",
+          "why_it_matters": "A landmark Fifth Amendment takings and treaty decision; the Sioux have refused the award (now over $2 billion), continuing to demand return of the land.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/448/371/"
+        },
+        {
+          "case": "Pennoyer v. Neff",
+          "citation": "95 U.S. 714",
+          "year": "1878",
+          "figure": "Marcus Neff (and Sylvester Pennoyer)",
+          "era": "The Gilded Age",
+          "what_happened": "An Oregon attorney sued nonresident Marcus Neff for unpaid fees using only published notice, obtained a default judgment, and had Neff's Oregon land sold to Sylvester Pennoyer. Neff later sued to recover the land, and in 1878 the Supreme Court held that a state court cannot exercise personal jurisdiction over an absent nonresident without personal service or consent.",
+          "why_it_matters": "The foundational American personal-jurisdiction case, establishing the territorial and due-process limits on state-court power over nonresidents (later refined by International Shoe).",
+          "source_url": "https://supreme.justia.com/cases/federal/us/95/714/"
+        },
+        {
+          "case": "In re Neagle",
+          "citation": "135 U.S. 1",
+          "year": "1890",
+          "figure": "Deputy U.S. Marshal David Neagle; Justice Stephen J. Field; David S. Terry",
+          "era": "The Gilded Age",
+          "what_happened": "Guarding Justice Stephen Field, Deputy Marshal David Neagle shot and killed former California Supreme Court Justice David Terry in 1889 after Terry — who had repeatedly threatened Field — assaulted him. California charged Neagle with murder; he sought federal habeas corpus, and the Supreme Court affirmed the writ, holding he acted within his federal duty even absent an express statute.",
+          "why_it_matters": "A foundational separation-of-powers and federal-supremacy decision: the executive's protective power can be implied from the Constitution, and a federal officer acting in the line of duty is immune from state prosecution.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/135/1/"
+        },
+        {
+          "case": "United States v. Wong Kim Ark",
+          "citation": "169 U.S. 649",
+          "year": "1898",
+          "figure": "Wong Kim Ark",
+          "era": "The Gilded Age",
+          "what_happened": "Wong Kim Ark was born in San Francisco to Chinese-citizen parents who were lawful residents; returning from a visit to China, he was denied re-entry as a non-citizen. In 1898 the Supreme Court held 6-2 that the Fourteenth Amendment's Citizenship Clause makes a child born in the U.S. to resident foreign parents a citizen at birth.",
+          "why_it_matters": "The controlling precedent establishing birthright (jus soli) citizenship under the Fourteenth Amendment regardless of parents' race or nationality.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/169/649/"
+        },
+        {
+          "case": "Commonwealth v. Lizzie Borden",
+          "citation": "Trial in the Superior Court, Bristol County, Massachusetts (New Bedford), June 1893; jury verdict of acquittal — a trial, not a reported appellate opinion",
+          "year": "1893",
+          "figure": "Lizzie Borden",
+          "era": "The Gilded Age",
+          "what_happened": "Lizzie Borden was tried for the axe murders of her father and stepmother in Fall River, Massachusetts, before a three-judge panel in New Bedford. Because it is a trial with a jury verdict, there is no reporter citation. On June 20, 1893, the jury acquitted her after roughly 90 minutes, largely for lack of physical evidence and the exclusion of her inquest testimony.",
+          "why_it_matters": "One of the most famous American criminal trials; cited as an example of a strong circumstantial case defeated by lack of physical evidence and evidentiary rulings.",
+          "source_url": "https://en.wikipedia.org/wiki/Lizzie_Borden"
+        },
+        {
+          "case": "Powell v. Alabama",
+          "citation": "287 U.S. 45",
+          "year": "1932",
+          "figure": "The Scottsboro Boys (Ozie Powell and eight other Black teenagers)",
+          "era": "Jim Crow & the Scottsboro Boys",
+          "what_happened": "Nine Black youths were convicted and sentenced to death for allegedly raping two white women near Scottsboro, Alabama, in hurried trials without meaningful access to counsel. The Supreme Court reversed the convictions in 1932.",
+          "why_it_matters": "Cited for the holding that in a capital case the Fourteenth Amendment's Due Process Clause requires the state to provide effective appointed counsel to indigent defendants — the first Supreme Court reversal of a state conviction on right-to-counsel grounds.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/287/45/"
+        },
+        {
+          "case": "Norris v. Alabama",
+          "citation": "294 U.S. 587",
+          "year": "1935",
+          "figure": "Clarence Norris (a Scottsboro defendant)",
+          "era": "Jim Crow & the Scottsboro Boys",
+          "what_happened": "On retrial after Powell, Clarence Norris was again convicted by juries drawn from rolls that had systematically excluded Black citizens. The Supreme Court unanimously reversed in 1935.",
+          "why_it_matters": "Cited for the rule that systematic exclusion of Black citizens from grand and petit juries because of race denies equal protection under the Fourteenth Amendment and voids the conviction.",
+          "source_url": "https://en.wikipedia.org/wiki/Norris_v._Alabama"
+        },
+        {
+          "case": "United States v. Marcus Garvey (mail fraud)",
+          "citation": "Convicted of mail fraud, U.S. District Court, S.D.N.Y. (before Judge Julian Mack), June 18, 1923; affirmed by the Second Circuit, Feb. 3, 1925 — the exact Federal Reporter citation is not independently verified here",
+          "year": "1923",
+          "figure": "Marcus Garvey",
+          "era": "Garvey & the New Negro Movement",
+          "what_happened": "Garvey, leader of the Universal Negro Improvement Association, was tried in the Southern District of New York over the sale of Black Star Line steamship stock. The jury convicted him alone on a single count of using the mails to defraud (acquitting his three co-defendants); he was sentenced to five years and a $1,000 fine. The Second Circuit affirmed on Feb. 3, 1925, and the Supreme Court denied certiorari; President Coolidge later commuted the sentence and deported him, and President Biden granted a posthumous pardon in 2025.",
+          "why_it_matters": "The prosecution that broke the largest Black mass movement of its era; long cited by historians as a politically driven case, and the reason Garvey's descendants sought — and finally won — a pardon.",
+          "source_url": "https://www.abajournal.com/magazine/article/marcus-garvey-mail-fraud"
+        },
+        {
+          "case": "Korematsu v. United States",
+          "citation": "323 U.S. 214",
+          "year": "1944",
+          "figure": "Fred Korematsu",
+          "era": "WWII Japanese American Internment",
+          "what_happened": "Fred Korematsu, a U.S. citizen, was convicted of violating a military exclusion order removing people of Japanese ancestry from the West Coast under Executive Order 9066. On Dec. 18, 1944 the Supreme Court upheld the conviction and the exclusion order, 6-3.",
+          "why_it_matters": "Cited both as the case that upheld wartime exclusion (and first articulated strict scrutiny for racial classifications) and as an infamous error; it was effectively repudiated in Trump v. Hawaii (2018).",
+          "source_url": "https://www.britannica.com/event/Korematsu-v-United-States"
+        },
+        {
+          "case": "Ex parte Endo",
+          "citation": "323 U.S. 283",
+          "year": "1944",
+          "figure": "Mitsuye Endo",
+          "era": "WWII Japanese American Internment",
+          "what_happened": "Mitsuye Endo, a concededly loyal U.S. citizen of Japanese ancestry, petitioned for habeas corpus against her detention in a War Relocation Authority camp. On Dec. 18, 1944 — the same day as Korematsu — the Supreme Court held unanimously that the government could not continue to detain a concededly loyal citizen.",
+          "why_it_matters": "Cited for the holding that the WRA had no authority to detain admittedly loyal citizens; the ruling precipitated the closing of the camps. It is the one internment case the Japanese American litigant won.",
+          "source_url": "https://en.wikipedia.org/wiki/Ex_parte_Endo"
+        },
+        {
+          "case": "New York Times Co. v. Sullivan",
+          "citation": "376 U.S. 254",
+          "year": "1964",
+          "figure": "Martin Luther King Jr. (subject of the 'Heed Their Rising Voices' ad); L.B. Sullivan",
+          "era": "The Civil Rights Movement",
+          "what_happened": "Montgomery commissioner L.B. Sullivan sued the New York Times over a 1960 fundraising ad defending Dr. King, some details of which were inaccurate. The Supreme Court unanimously reversed the Alabama libel judgment in 1964.",
+          "why_it_matters": "Cited for the 'actual malice' standard: a public official cannot recover for defamation about official conduct absent proof of knowledge of falsity or reckless disregard for the truth. It constitutionalized libel law and shielded press coverage of the civil-rights movement.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/376/254/"
+        },
+        {
+          "case": "Walker v. City of Birmingham",
+          "citation": "388 U.S. 307",
+          "year": "1967",
+          "figure": "Martin Luther King Jr. and fellow Birmingham ministers",
+          "era": "The Civil Rights Movement",
+          "what_happened": "An Alabama court issued an ex parte injunction barring the 1963 Good Friday and Easter Birmingham marches without a permit. King and others marched anyway and were convicted of criminal contempt. The Supreme Court upheld the convictions 5-4.",
+          "why_it_matters": "Cited for the 'collateral bar rule': one must obey a court injunction and challenge it through the courts rather than by disobedience, even if the underlying ordinance may be unconstitutional. It is the legal backdrop to King's 'Letter from Birmingham Jail.'",
+          "source_url": "https://supreme.justia.com/cases/federal/us/388/307/"
+        },
+        {
+          "case": "Loving v. Virginia",
+          "citation": "388 U.S. 1",
+          "year": "1967",
+          "figure": "Richard and Mildred Loving",
+          "era": "The Civil Rights Movement",
+          "what_happened": "Richard (white) and Mildred (Black and Native) Loving were criminally convicted under Virginia's Racial Integrity Act for their interracial marriage. The Supreme Court unanimously reversed in 1967.",
+          "why_it_matters": "Cited for striking down anti-miscegenation laws: bans on interracial marriage violate the Equal Protection and Due Process Clauses of the Fourteenth Amendment; foundational to later marriage-rights jurisprudence.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/388/1/"
+        },
+        {
+          "case": "Gideon v. Wainwright",
+          "citation": "372 U.S. 335",
+          "year": "1963",
+          "figure": "Clarence Earl Gideon",
+          "era": "The Civil Rights Movement",
+          "what_happened": "Clarence Earl Gideon was convicted of breaking and entering in Florida after being denied appointed counsel because his was not a capital case. He handwrote his own petition to the Supreme Court, which unanimously reversed in 1963.",
+          "why_it_matters": "Cited for the holding that the Sixth Amendment right to counsel is a fundamental right binding on the states through the Fourteenth Amendment, requiring appointed counsel for indigent felony defendants.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/372/335/"
+        },
+        {
+          "case": "Hampton v. Hanrahan",
+          "citation": "600 F.2d 600 (7th Cir. 1979)",
+          "year": "1979",
+          "figure": "Fred Hampton (Illinois Black Panther Party chairman)",
+          "era": "Black Power & the Panthers",
+          "what_happened": "The families of Fred Hampton and Mark Clark, killed in the Dec. 4, 1969 pre-dawn Chicago police raid, brought a civil-rights suit against State's Attorney Edward Hanrahan, police, and FBI agents. The Seventh Circuit in 1979 reversed a directed verdict, finding the evidence — including the FBI's COINTELPRO program against the Panthers — sufficient for a jury on a conspiracy and post-raid cover-up. (The Supreme Court later addressed the attorney-fee question in Hanrahan v. Hampton, 446 U.S. 754 (1980).)",
+          "why_it_matters": "The case that put the FBI's COINTELPRO operation against the Black Panther Party into the federal reporters; the litigation ended in a large settlement for the plaintiffs.",
+          "source_url": "https://law.justia.com/cases/federal/appellate-courts/F2/600/600/231409/"
+        },
+        {
+          "case": "People v. Newton",
+          "citation": "8 Cal.App.3d 359, 87 Cal.Rptr. 394",
+          "year": "1970",
+          "figure": "Huey P. Newton (Black Panther Party co-founder)",
+          "era": "Black Power & the Panthers",
+          "what_happened": "Huey Newton was convicted of voluntary manslaughter in the 1967 shooting death of Oakland police officer John Frey. In 1970 the California Court of Appeal reversed the conviction for the trial court's failure to instruct the jury on unconsciousness (Newton had been shot in the abdomen) as a complete defense. After two mistrials, the charges were dropped.",
+          "why_it_matters": "A landmark California criminal-law opinion on the unconsciousness defense and the duty to instruct on it — and the case that freed the Panthers' co-founder.",
+          "source_url": "https://en.wikipedia.org/wiki/People_v._Newton"
+        },
+        {
+          "case": "The Trial of Angela Davis",
+          "citation": "Acquittal by jury, Superior Court of California, Santa Clara County (San Jose), June 4, 1972 — a trial, not a reported appellate opinion",
+          "year": "1972",
+          "figure": "Angela Y. Davis",
+          "era": "Black Power & the Panthers",
+          "what_happened": "Angela Davis was charged with murder, kidnapping, and conspiracy over the Aug. 7, 1970 Marin County courthouse shootout in which Judge Harold Haley was killed, on a theory that guns registered to her were used. On a change of venue the trial was held in San Jose (Santa Clara County) before Judge Richard Arnason. On June 4, 1972 the jury acquitted her on all counts; because it ended in acquittal there is no reporter citation.",
+          "why_it_matters": "A defining political trial of the era; cited as a jury acquittal that rejected guilt-by-association and constructive-presence theories built largely on gun ownership.",
+          "source_url": "https://caamuseum.org/learn/600state/black-history/blackistory-on-june-4-1972-angela-yvonne-davis-is-acquitted-of-conspiracy-kidnapping-and-murder-in-the-death-of-marin-county-judge-harold-haley"
+        },
+        {
+          "case": "United States v. Dellinger (Chicago Seven, substantive convictions)",
+          "citation": "472 F.2d 340 (7th Cir. 1972)",
+          "year": "1972",
+          "figure": "The Chicago Seven (David Dellinger, Abbie Hoffman, Jerry Rubin, Tom Hayden, and others)",
+          "era": "Vietnam-era Protest & the Chicago Seven",
+          "what_happened": "The defendants were convicted under the 1968 federal Anti-Riot Act for crossing state lines to incite the protests at the 1968 Democratic National Convention in Chicago. In 1972 the Seventh Circuit reversed the substantive convictions, sharply criticizing trial judge Julius Hoffman and the prosecutor, and the government elected not to retry.",
+          "why_it_matters": "The appellate reversal of one of the most famous political trials in American history; cited for the trial-conduct and Anti-Riot Act issues — and distinct from the contempt appeals below.",
+          "source_url": "https://law.justia.com/cases/federal/appellate-courts/F2/472/340/368222/"
+        },
+        {
+          "case": "In re Dellinger (first contempt appeal)",
+          "citation": "461 F.2d 389 (7th Cir. 1972)",
+          "year": "1972",
+          "figure": "The Chicago Seven and their attorneys (incl. William Kunstler)",
+          "era": "Vietnam-era Protest & the Chicago Seven",
+          "what_happened": "Judge Julius Hoffman had summarily convicted the defendants and both trial attorneys on 159 specifications of criminal contempt. In 1972 the Seventh Circuit reversed those summary contempt convictions and remanded for retrial before a different judge.",
+          "why_it_matters": "Cited for the limits on summary criminal contempt: where contempts are not punished instantly, the accused is entitled to notice, a hearing, and a different judge. This is the contempt appeal, distinct from the substantive case at 472 F.2d 340.",
+          "source_url": "https://law.justia.com/cases/federal/appellate-courts/F2/461/389/400447/"
+        },
+        {
+          "case": "In re Dellinger (second contempt appeal)",
+          "citation": "502 F.2d 813 (7th Cir. 1974)",
+          "year": "1974",
+          "figure": "David Dellinger, Abbie Hoffman, Jerry Rubin, William Kunstler",
+          "era": "Vietnam-era Protest & the Chicago Seven",
+          "what_happened": "On the retrial ordered by the remand, a new judge convicted Dellinger on seven contempt specifications and Hoffman, Rubin, and Kunstler on two each, imposing no sentences or fines. In 1974 the Seventh Circuit affirmed, and the Supreme Court denied certiorari.",
+          "why_it_matters": "Cited for the affirmed remnant of the Chicago Seven contempt saga and for the principle that provocation, however shocking, is no defense to contempt.",
+          "source_url": "https://www.leagle.com/decision/19741315502f2d81311197"
+        },
+        {
+          "case": "Clay v. United States",
+          "citation": "403 U.S. 698",
+          "year": "1971",
+          "figure": "Muhammad Ali (Cassius Marcellus Clay)",
+          "era": "Vietnam-era Protest & the Chicago Seven",
+          "what_happened": "Ali was convicted in 1967 for refusing induction into the armed forces after his draft board denied his conscientious-objector claim. In 1971 the Supreme Court reversed per curiam (8-0, Justice Marshall recused) because the Appeal Board gave no reason for the denial and the government conceded Ali met two of the three CO criteria.",
+          "why_it_matters": "Cited for the rule that a draft-board denial resting on an unstated ground must be reversed where any possible ground is invalid; it vindicated a sincere religious objector and ended Ali's exile from boxing.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/403/698/"
+        },
+        {
+          "case": "Miller v. California",
+          "citation": "413 U.S. 15",
+          "year": "1973",
+          "figure": "Marvin Miller (mass-mailer of explicit brochures)",
+          "era": "Obscenity & Free Speech",
+          "what_happened": "Marvin Miller was convicted under California law for mass-mailing unsolicited sexually explicit advertising brochures. In 1973 the Supreme Court affirmed the framework and articulated a new three-part test for obscenity.",
+          "why_it_matters": "Established the three-prong 'Miller test' for obscenity (prurient interest under community standards; patently offensive depiction of defined sexual conduct; lacks serious literary, artistic, political, or scientific value); obscene material falls outside First Amendment protection.",
+          "source_url": "https://en.wikipedia.org/wiki/Miller_v._California"
+        },
+        {
+          "case": "Hustler Magazine, Inc. v. Falwell",
+          "citation": "485 U.S. 46",
+          "year": "1988",
+          "figure": "Larry Flynt (Hustler); Rev. Jerry Falwell",
+          "era": "Parody & Fair Use",
+          "what_happened": "Hustler ran a parody Campari ad depicting televangelist Jerry Falwell describing a drunken incestuous encounter with his mother. Falwell won an emotional-distress verdict at trial; the Supreme Court unanimously reversed in 1988.",
+          "why_it_matters": "Cited for the rule that public figures cannot recover for intentional infliction of emotional distress from a parody absent a false statement of fact made with actual malice — a foundational protection for satire.",
+          "source_url": "https://en.wikipedia.org/wiki/Hustler_Magazine_v._Falwell"
+        },
+        {
+          "case": "Campbell v. Acuff-Rose Music, Inc.",
+          "citation": "510 U.S. 569",
+          "year": "1994",
+          "figure": "2 Live Crew; Roy Orbison's 'Oh, Pretty Woman'",
+          "era": "Parody & Fair Use",
+          "what_happened": "Acuff-Rose sued rap group 2 Live Crew over their 1989 song 'Pretty Woman,' a parody of Roy Orbison's 1964 ballad. The Sixth Circuit had held the parody's commercial nature made it presumptively unfair; the Supreme Court unanimously reversed in 1994.",
+          "why_it_matters": "The landmark fair-use ruling holding that a work's commercial character is only one factor and that parody can be transformative fair use — the case that centered 'transformativeness' in fair-use analysis.",
+          "source_url": "https://en.wikipedia.org/wiki/Campbell_v._Acuff-Rose_Music,_Inc."
+        },
+        {
+          "case": "Suntrust Bank v. Houghton Mifflin Co.",
+          "citation": "268 F.3d 1257 (11th Cir. 2001)",
+          "year": "2001",
+          "figure": "Alice Randall's 'The Wind Done Gone'; Margaret Mitchell's 'Gone with the Wind'",
+          "era": "Parody & Fair Use",
+          "what_happened": "The trustee of Margaret Mitchell's estate won a preliminary injunction against Alice Randall's 'The Wind Done Gone,' which retold 'Gone with the Wind' from an enslaved character's perspective. In 2001 the Eleventh Circuit vacated the injunction, finding the novel a parody likely protected as fair use.",
+          "why_it_matters": "Cited for treating a critical literary retelling as parody/fair use and for holding that a prior restraint against such an expressive work raises serious First Amendment concerns.",
+          "source_url": "https://en.wikipedia.org/wiki/Suntrust_Bank_v._Houghton_Mifflin_Co."
+        },
+        {
+          "case": "Cardtoons, L.C. v. Major League Baseball Players Ass'n",
+          "citation": "95 F.3d 959 (10th Cir. 1996)",
+          "year": "1996",
+          "figure": "MLB players (parody cards, e.g. Barry Bonds as 'Treasury Bonds')",
+          "era": "Parody & Fair Use",
+          "what_happened": "Cardtoons produced parody baseball trading cards with caricatures and humorous commentary lampooning active MLB players; the players' union ordered production halted. In 1996 the Tenth Circuit held the cards' First Amendment protection outweighed the players' right of publicity.",
+          "why_it_matters": "Cited for holding that parody trading cards are protected First Amendment expression and social commentary that can outweigh celebrity right-of-publicity claims.",
+          "source_url": "https://law.justia.com/cases/federal/appellate-courts/F3/95/959/547173/"
+        },
+        {
+          "case": "Zacchini v. Scripps-Howard Broadcasting Co.",
+          "citation": "433 U.S. 562",
+          "year": "1977",
+          "figure": "Hugo Zacchini (the 'human cannonball')",
+          "era": "Right of Publicity",
+          "what_happened": "A TV station videotaped Hugo Zacchini's entire 15-second human-cannonball act at an Ohio county fair, over his objection, and aired it on the news. In 1977 the Supreme Court held 5-4 that the First and Fourteenth Amendments did not immunize the broadcaster from liability under Ohio's right-of-publicity law.",
+          "why_it_matters": "The only U.S. Supreme Court case directly addressing the right of publicity; it holds that the press has no First Amendment privilege to broadcast a performer's entire act without consent.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/433/562/"
+        },
+        {
+          "case": "Midler v. Ford Motor Co.",
+          "citation": "849 F.2d 460 (9th Cir. 1988)",
+          "year": "1988",
+          "figure": "Bette Midler",
+          "era": "Right of Publicity",
+          "what_happened": "Unable to license Bette Midler, Ford's ad agency hired a sound-alike to imitate her distinctive voice singing 'Do You Want to Dance' in a commercial, without using her name or image. In 1988 the Ninth Circuit held this could constitute misappropriation of her identity.",
+          "why_it_matters": "Recognized that deliberate imitation of a celebrity's distinctive, widely known voice for commercial purposes is a tortious appropriation of identity under California common-law right of publicity.",
+          "source_url": "https://en.wikipedia.org/wiki/Midler_v._Ford_Motor_Co."
+        },
+        {
+          "case": "White v. Samsung Electronics America, Inc.",
+          "citation": "971 F.2d 1395 (9th Cir. 1992)",
+          "year": "1992",
+          "figure": "Vanna White (Wheel of Fortune)",
+          "era": "Right of Publicity",
+          "what_happened": "Samsung ran an ad featuring a robot in a wig, gown, and jewelry posed by a letter board evoking Vanna White on Wheel of Fortune, without permission. In 1992 the Ninth Circuit held her common-law right of publicity could reach appropriation of her 'identity' beyond mere name or likeness.",
+          "why_it_matters": "Expanded the right of publicity to protect against evocation of a celebrity's identity even without using name, likeness, or voice; noted for Judge Kozinski's sharp dissent warning of overbroad IP rights.",
+          "source_url": "https://en.wikipedia.org/wiki/White_v._Samsung_Electronics_America,_Inc."
+        },
+        {
+          "case": "Carson v. Here's Johnny Portable Toilets, Inc.",
+          "citation": "698 F.2d 831 (6th Cir. 1983)",
+          "year": "1983",
+          "figure": "Johnny Carson",
+          "era": "Right of Publicity",
+          "what_happened": "Johnny Carson, introduced nightly on The Tonight Show as 'Here's Johnny,' sued a company marketing portable toilets under the name 'Here's Johnny.' In 1983 the Sixth Circuit held that under Michigan law his right of publicity was violated, because the right protects identity even when invoked through a distinctive phrase.",
+          "why_it_matters": "A leading right-of-publicity case establishing that a celebrity's identity can be misappropriated through a signature catchphrase, not just a name or image.",
+          "source_url": "https://law.justia.com/cases/federal/appellate-courts/F2/698/831/378521/"
+        },
+        {
+          "case": "Onassis v. Christian Dior-New York, Inc.",
+          "citation": "122 Misc. 2d 603, 472 N.Y.S.2d 254 (N.Y. Sup. Ct. 1984) — a reported New York trial-level opinion",
+          "year": "1984",
+          "figure": "Jacqueline Kennedy Onassis",
+          "era": "Right of Publicity",
+          "what_happened": "Jacqueline Kennedy Onassis sued over a Dior campaign that used a lookalike model to suggest she endorsed the products. In 1984 the court (New York Supreme Court, Special Term — the trial court, not an appellate court) held that using an instantly recognizable lookalike for trade purposes violated New York Civil Rights Law §§ 50-51 and granted an injunction.",
+          "why_it_matters": "A foundational 'lookalike' right-of-privacy/publicity case holding that commercial use of a recognizable double can misappropriate a person's identity.",
+          "source_url": "https://www.courtlistener.com/opinion/6335524/onassis-v-christian-dior-new-york-inc/"
+        },
+        {
+          "case": "Estate of Presley v. Russen",
+          "citation": "513 F. Supp. 1339 (D.N.J. 1981) — a reported federal trial-court opinion",
+          "year": "1981",
+          "figure": "Elvis Presley (via his Estate)",
+          "era": "Right of Publicity",
+          "what_happened": "The Estate of Elvis Presley sued over 'The Big El Show,' a live tribute using an Elvis impersonator, his songs, costumes, and poses. In 1981 the federal district court in New Jersey held that Presley's right of publicity was a descendible property right that survived his death and granted partial injunctive relief.",
+          "why_it_matters": "An early and influential decision recognizing a post-mortem, descendible right of publicity as a property right.",
+          "source_url": "https://law.justia.com/cases/federal/district-courts/FSupp/513/1339/1613378/"
+        },
+        {
+          "case": "Comedy III Productions, Inc. v. Gary Saderup, Inc.",
+          "citation": "25 Cal.4th 387",
+          "year": "2001",
+          "figure": "The Three Stooges",
+          "era": "Right of Publicity",
+          "what_happened": "Artist Gary Saderup sold charcoal-drawing reproductions of The Three Stooges on lithographs and T-shirts without a license. In 2001 the California Supreme Court held the works violated California's right of publicity and were not protected by the First Amendment because they lacked significant transformative elements.",
+          "why_it_matters": "Established the 'transformative use' test for balancing the right of publicity against the First Amendment: a work is protected if it adds significant creative elements rather than merely exploiting the celebrity's fame.",
+          "source_url": "https://law.justia.com/cases/california/supreme-court/4th/25/387.html"
+        },
+        {
+          "case": "Rogers v. Grimaldi",
+          "citation": "875 F.2d 994 (2d Cir. 1989)",
+          "year": "1989",
+          "figure": "Ginger Rogers (and Fred Astaire)",
+          "era": "Trademark vs. Artistic Expression",
+          "what_happened": "Ginger Rogers sued over Federico Fellini's film 'Ginger and Fred,' a satire about two Italian cabaret performers nicknamed for Rogers and Astaire, claiming the title falsely implied her endorsement under the Lanham Act. In 1989 the Second Circuit affirmed summary judgment for the filmmakers.",
+          "why_it_matters": "Created the 'Rogers test': use of a trademark or celebrity name in an expressive work's title is protected unless it has no artistic relevance to the work or explicitly misleads as to source or content.",
+          "source_url": "https://en.wikipedia.org/wiki/Rogers_v._Grimaldi"
+        },
+        {
+          "case": "Bridgeport Music, Inc. v. Dimension Films",
+          "citation": "410 F.3d 792 (6th Cir. 2005)",
+          "year": "2005",
+          "figure": "N.W.A. ('100 Miles and Runnin'') sampling Funkadelic",
+          "era": "Hip-hop & Sampling",
+          "what_happened": "N.W.A.'s '100 Miles and Runnin'' used a manipulated two-second guitar sample from Funkadelic's 'Get Off Your Ass and Jam' without a license. In 2005 the Sixth Circuit reversed the district court, holding the de minimis defense unavailable for sound-recording sampling.",
+          "why_it_matters": "Established a bright-line rule that any unauthorized digital sampling of a sound recording, however minimal, infringes copyright — famously summarized as 'get a license or do not sample.'",
+          "source_url": "https://en.wikipedia.org/wiki/Bridgeport_Music,_Inc._v._Dimension_Films"
+        },
+        {
+          "case": "A&M Records, Inc. v. Napster, Inc.",
+          "citation": "239 F.3d 1004 (9th Cir. 2001)",
+          "year": "2001",
+          "figure": "Napster (peer-to-peer file sharing)",
+          "era": "The Digital Music Wars",
+          "what_happened": "Record labels sued Napster over its peer-to-peer network that let users share MP3s without authorization. In 2001 the Ninth Circuit affirmed that Napster could be liable for contributory and vicarious copyright infringement and upheld injunctive relief.",
+          "why_it_matters": "The first major appellate ruling applying copyright's secondary-liability doctrines to P2P file sharing; it effectively shut down the original Napster and set the template for the digital music copyright wars.",
+          "source_url": "https://law.justia.com/cases/federal/appellate-courts/F3/239/1004/636120/"
+        },
+        {
+          "case": "Metro-Goldwyn-Mayer Studios Inc. v. Grokster, Ltd.",
+          "citation": "545 U.S. 913",
+          "year": "2005",
+          "figure": "Grokster and StreamCast (file-sharing software)",
+          "era": "The Digital Music Wars",
+          "what_happened": "Grokster and StreamCast distributed free P2P software widely used to share copyrighted music and film, and promoted that infringing use. In 2005 the Supreme Court held unanimously they could be liable for inducing infringement, vacating and remanding.",
+          "why_it_matters": "Established the 'inducement rule': one who distributes a device with the object of promoting its use to infringe copyright is liable for the resulting infringement by users.",
+          "source_url": "https://en.wikipedia.org/wiki/MGM_Studios,_Inc._v._Grokster,_Ltd."
+        },
+        {
+          "case": "Williams v. Gaye",
+          "citation": "895 F.3d 1106 (9th Cir. 2018)",
+          "year": "2018",
+          "figure": "Pharrell Williams & Robin Thicke ('Blurred Lines'); Marvin Gaye's 'Got to Give It Up'",
+          "era": "Music Copyright & 'Blurred Lines'",
+          "what_happened": "A jury found that Pharrell Williams and Robin Thicke's 2013 hit 'Blurred Lines' infringed the copyright in Marvin Gaye's 1977 'Got to Give It Up,' awarding damages to Gaye's heirs. In 2018 the Ninth Circuit largely affirmed (this amended opinion superseded the earlier opinion at 885 F.3d 1150).",
+          "why_it_matters": "A controversial ruling widely cited for expanding infringement liability to a song's 'feel' or groove rather than specific melodic or lyrical copying; the dissent warned it 'strikes a devastating blow to future musicians.'",
+          "source_url": "https://law.justia.com/cases/federal/appellate-courts/ca9/15-56880/15-56880-2018-03-21.html"
+        },
+        {
+          "case": "Federal Baseball Club of Baltimore, Inc. v. National League",
+          "citation": "259 U.S. 200",
+          "year": "1922",
+          "figure": "The Baltimore Federal League club (and organized baseball)",
+          "era": "Baseball & Antitrust",
+          "what_happened": "The Baltimore club of the defunct Federal League sued the National and American Leagues under the Sherman Antitrust Act, alleging a conspiracy to monopolize baseball. In a unanimous 1922 opinion by Justice Oliver Wendell Holmes, the Court held that giving exhibitions of baseball was not interstate commerce and therefore fell outside the federal antitrust laws.",
+          "why_it_matters": "Cited as the origin of baseball's antitrust exemption — the foundational precedent later reaffirmed in Toolson and Flood.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/259/200/"
+        },
+        {
+          "case": "Toolson v. New York Yankees, Inc.",
+          "citation": "346 U.S. 356",
+          "year": "1953",
+          "figure": "George Toolson (minor-league pitcher)",
+          "era": "Baseball & Antitrust",
+          "what_happened": "Players including George Toolson argued the reserve clause made organized baseball an illegal monopoly. In a brief 1953 per curiam opinion, the Supreme Court affirmed dismissal on the authority of Federal Baseball, reasoning that Congress had left the exemption undisturbed for thirty years.",
+          "why_it_matters": "Cited for reaffirming the baseball antitrust exemption on stare decisis and congressional-inaction grounds, cementing it as settled precedent.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/346/356/"
+        },
+        {
+          "case": "Flood v. Kuhn",
+          "citation": "407 U.S. 258",
+          "year": "1972",
+          "figure": "Curt Flood",
+          "era": "Baseball & Antitrust",
+          "what_happened": "St. Louis Cardinals center fielder Curt Flood was traded to Philadelphia without his consent; he refused to report, declared himself a free agent, and sued Commissioner Bowie Kuhn, challenging baseball's reserve clause. In 1972 the Supreme Court ruled 5-3 against Flood, acknowledging baseball is interstate commerce but calling its antitrust exemption an 'established aberration' for Congress, not the courts, to fix.",
+          "why_it_matters": "Cited for reaffirming baseball's unique antitrust exemption (over Justice Blackmun's famous ode to the game) while leaving the reserve clause to be dismantled later through collective bargaining and arbitration.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/407/258/"
+        },
+        {
+          "case": "O'Bannon v. National Collegiate Athletic Association",
+          "citation": "802 F.3d 1049 (9th Cir. 2015)",
+          "year": "2015",
+          "figure": "Ed O'Bannon",
+          "era": "College Sports & Amateurism",
+          "what_happened": "Former UCLA basketball star Ed O'Bannon, after seeing his likeness used in a video game without consent or pay, led an antitrust class action claiming NCAA rules barring compensation for athletes' names, images, and likenesses were an illegal restraint of trade. In 2015 the Ninth Circuit held the amateurism rules are subject to antitrust scrutiny and upheld scholarships to the full cost of attendance, while striking down deferred cash payments.",
+          "why_it_matters": "Cited for establishing that NCAA amateurism rules are not immune from antitrust law and for opening the legal path toward athlete NIL compensation.",
+          "source_url": "https://law.justia.com/cases/federal/appellate-courts/ca9/14-16601/14-16601-2015-09-30.html"
+        },
+        {
+          "case": "National Collegiate Athletic Association v. Alston",
+          "citation": "594 U.S. 69",
+          "year": "2021",
+          "figure": "Shawne Alston (former West Virginia football player)",
+          "era": "College Sports & Amateurism",
+          "what_happened": "Student-athletes challenged NCAA limits on education-related benefits (computers, graduate scholarships, paid academic internships) as anticompetitive price-fixing. On June 21, 2021 a unanimous Supreme Court, in an opinion by Justice Gorsuch, affirmed an injunction barring the NCAA from capping education-related benefits.",
+          "why_it_matters": "Cited for holding that NCAA compensation restrictions get full antitrust scrutiny; Justice Kavanaugh's concurrence signaled broader vulnerability of amateurism rules and helped catalyze the modern NIL era.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/594/20-512/"
+        },
+        {
+          "case": "Haywood v. National Basketball Association",
+          "citation": "401 U.S. 1204 (1971) — an in-chambers opinion by Justice Douglas as Circuit Justice, not a full-Court merits decision",
+          "year": "1971",
+          "figure": "Spencer Haywood",
+          "era": "Basketball & the Draft",
+          "what_happened": "Spencer Haywood turned pro before completing four years past high school, and the NBA's four-year rule threatened to bar him after he signed with the Seattle SuperSonics. Acting as Circuit Justice on a stay application, Justice William O. Douglas vacated a stay, effectively reinstating an injunction that let Haywood keep playing while his antitrust group-boycott claim proceeded.",
+          "why_it_matters": "Cited for effectively ending the NBA's rule requiring players to wait four years after high school before turning pro. (Note: an in-chambers ruling on injunctive relief, not a merits decision of the whole Court.)",
+          "source_url": "https://www.loc.gov/item/usrep4011204/"
+        },
+        {
+          "case": "PGA Tour, Inc. v. Martin",
+          "citation": "532 U.S. 661",
+          "year": "2001",
+          "figure": "Casey Martin",
+          "era": "Sports & Disability Rights",
+          "what_happened": "Golfer Casey Martin, who has a degenerative circulatory disorder impairing his ability to walk, sued under the Americans with Disabilities Act to use a golf cart in PGA Tour competition, which otherwise required walking. In 2001 the Supreme Court ruled 7-2 for Martin, holding the ADA applies to professional golf tournaments and that a cart was a reasonable accommodation that would not fundamentally alter the game.",
+          "why_it_matters": "The leading authority that the ADA's public-accommodation provisions reach professional athletic competitions and can require reasonable accommodations for disabled competitors.",
+          "source_url": "https://caselaw.findlaw.com/court/us-supreme-court/532/661.html"
+        },
+        {
+          "case": "People v. Simpson (criminal murder trial)",
+          "citation": "Superior Court of California, Los Angeles County, No. BA097211 (1995) — jury acquittal, not a reported appellate opinion",
+          "year": "1995",
+          "figure": "O.J. Simpson",
+          "era": "Celebrity Trials of the Century",
+          "what_happened": "O.J. Simpson was tried in Los Angeles County Superior Court for the June 12, 1994 murders of Nicole Brown Simpson and Ronald Goldman. The trial ran January to October 1995, and on Oct. 3, 1995 the jury returned verdicts of not guilty on both counts. Because it ended in acquittal, there is no appellate opinion.",
+          "why_it_matters": "The 'Trial of the Century' — a landmark in televised criminal justice, DNA evidence, and public debate over race and policing; referenced by docket and verdict rather than a reporter citation.",
+          "source_url": "https://en.wikipedia.org/wiki/Murder_trial_of_O._J._Simpson"
+        },
+        {
+          "case": "Rufo v. Simpson",
+          "citation": "86 Cal.App.4th 573",
+          "year": "2001",
+          "figure": "O.J. Simpson (civil wrongful-death liability)",
+          "era": "Celebrity Trials of the Century",
+          "what_happened": "This is the reported California Court of Appeal opinion affirming the civil wrongful-death and survival judgment against O.J. Simpson for the killings of Ronald Goldman and Nicole Brown Simpson. A civil jury had found him liable and awarded $8.5 million compensatory plus $25 million punitive damages; in 2001 the appellate court affirmed.",
+          "why_it_matters": "The appellate affirmance of the O.J. Simpson civil liability verdict — illustrating how the lower 'preponderance of the evidence' civil standard produced liability after the criminal acquittal.",
+          "source_url": "https://law.justia.com/cases/california/court-of-appeal/4th/86/573.html"
+        },
+        {
+          "case": "Depp v. Heard (Virginia defamation trial)",
+          "citation": "Circuit Court of Fairfax County, Virginia, No. CL-2019-0002911 (2022) — a jury verdict, not a reported appellate opinion",
+          "year": "2022",
+          "figure": "Johnny Depp and Amber Heard",
+          "era": "Celebrity Trials of the Century",
+          "what_happened": "Johnny Depp sued Amber Heard for defamation over a 2018 Washington Post op-ed; the trial ran April to June 2022 in Fairfax County, Virginia. On June 1, 2022 the jury found Heard defamed Depp with actual malice, awarding Depp $10M compensatory plus $5M punitive (capped at $350,000 under Virginia law), and awarded Heard $2M on a counterclaim. The parties settled in December 2022, ending appeals.",
+          "why_it_matters": "A high-profile, fully televised defamation jury trial that turned on the 'actual malice' standard; a trial-court verdict with no appellate opinion because the case settled before appeal.",
+          "source_url": "https://en.wikipedia.org/wiki/Depp_v._Heard"
+        }
+      ]
+    },
+    {
+      "id": "courts-as-historians",
+      "nav": "Courts as historians",
+      "title": "Courts doing history",
+      "intro": "Judges are not only umpires of the present dispute; opinions routinely excavate the past. Courts survey colonial charters and legislative history, weigh the anthropology of a religious practice, and reconstruct founding-era custom to decide what the law means today. These five opinions show the courts openly performing historical, anthropological, and legislative-history work — sometimes to expand a right, sometimes to narrow one, always by writing history into the reporters.",
+      "entries": [
+        {
+          "case": "Church of the Holy Trinity v. United States",
+          "citation": "143 U.S. 457",
+          "year": "1892",
+          "figure": "Justice David J. Brewer (author)",
+          "era": "Legislative History & National Character",
+          "what_happened": "A New York church was charged with violating an 1885 federal statute barring the importation of foreign labor under contract, for hiring an English rector. In 1892 the Supreme Court, per Justice Brewer, held the statute did not reach the church, reasoning from the law's title, its legislative history and committee reports, and the evident purpose of stopping cheap manual labor — then adding a long survey of colonial charters and history to call the United States 'a Christian nation.'",
+          "why_it_matters": "A textbook example of a court going behind the statutory text into legislative history and national history; famous both for its 'letter vs. spirit' method and for the much-debated 'Christian nation' dicta.",
+          "source_url": "https://en.wikipedia.org/wiki/Church_of_the_Holy_Trinity_v._United_States"
+        },
+        {
+          "case": "Church of the Lukumi Babalu Aye, Inc. v. City of Hialeah",
+          "citation": "508 U.S. 520",
+          "year": "1993",
+          "figure": "Santería practitioners in Hialeah, Florida",
+          "era": "Free Exercise & Religious History",
+          "what_happened": "When a Santería church announced plans in Hialeah, the city passed ordinances outlawing ritual animal 'sacrifice' while exempting other killings. In 1993 the Supreme Court unanimously struck them down, and the opinion examined the history, theology, and anthropology of Santería animal sacrifice — a syncretic Afro-Cuban Yoruba tradition — to show the laws targeted a specific religion and were neither neutral nor generally applicable.",
+          "why_it_matters": "The Court's leading free-exercise 'targeting' case, and a vivid example of judicial anthropology of a religious practice. Cited FOR animal sacrifice and religious neutrality — distinct from the ayahuasca case below.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/508/520/"
+        },
+        {
+          "case": "Gonzales v. O Centro Espírita Beneficente União do Vegetal",
+          "citation": "546 U.S. 418",
+          "year": "2006",
+          "figure": "O Centro Espírita Beneficente União do Vegetal (UDV)",
+          "era": "Free Exercise & Religious History",
+          "what_happened": "The UDV, a Brazil-based Christian Spiritist church, receives communion through hoasca (ayahuasca) tea, brewed from Amazonian plants and containing the Schedule I hallucinogen DMT; customs seized a shipment. In 2006 a unanimous Supreme Court held that under the Religious Freedom Restoration Act the government had not shown a compelling interest in barring the church's sacramental use, and the opinion engaged the tradition and history of the hoasca sacrament.",
+          "why_it_matters": "The leading RFRA free-exercise case on a psychoactive religious sacrament. Cited FOR the ayahuasca/hoasca tradition and RFRA's compelling-interest test — a different case from the Lukumi animal-sacrifice ruling above, and never to be merged with it.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/546/418/"
+        },
+        {
+          "case": "District of Columbia v. Heller",
+          "citation": "554 U.S. 570",
+          "year": "2008",
+          "figure": "Dick Heller (D.C. special police officer)",
+          "era": "Founding-era History & Tradition",
+          "what_happened": "D.C. special officer Dick Heller challenged the District's ban on handguns and its requirement that long guns be kept disassembled or locked. In 2008 the Supreme Court held 5-4 that the Second Amendment protects an individual right to keep a handgun at home for self-defense, with majority and dissent conducting dueling analyses of eighteenth-century sources — English history, founding-era debates, and nineteenth-century commentary.",
+          "why_it_matters": "The modern origin of the individual-right reading of the Second Amendment and a leading example of 'originalist' history-writing by the Court, with both sides marshalling founding-era evidence.",
+          "source_url": "https://supreme.justia.com/cases/federal/us/554/570/"
+        },
+        {
+          "case": "New York State Rifle & Pistol Association, Inc. v. Bruen",
+          "citation": "597 U.S. 1",
+          "year": "2022",
+          "figure": "New York gun-permit applicants (Brandon Koch and Robert Nash)",
+          "era": "Founding-era History & Tradition",
+          "what_happened": "Applicants challenged New York's requirement of 'proper cause' to carry a handgun in public. In 2022 the Supreme Court struck it down 6-3 and announced that gun regulations are constitutional only if the government shows they are consistent with the Nation's historical tradition of firearm regulation, rejecting means-end (interest-balancing) scrutiny.",
+          "why_it_matters": "Made history-and-tradition the governing test for Second Amendment cases, forcing courts (and litigants) to reason from historical analogues; a decision that turns constitutional adjudication expressly into historical inquiry.",
+          "source_url": "https://www.supremecourt.gov/opinions/21pdf/20-843_7j80.pdf"
+        }
+      ]
+    },
+    {
+      "id": "ancient",
+      "nav": "Ancient roots",
+      "title": "The ancient roots of written law",
+      "intro": "The idea that law should be written down, published, and applied to like cases alike is far older than any American court. Long before the reporters, Mesopotamian kings and the city-states of the Mediterranean carved their laws into stone and bronze so that a ruling in one case could bind the next. These are the deep roots of the precedent-bearing record — the first time societies decided that justice should be legible.",
+      "entries": [
+        {
+          "case": "The Code of Ur-Nammu",
+          "citation": "Sumerian law code, c. 2100-2050 BC (Third Dynasty of Ur)",
+          "year": "c. 2100-2050 BC",
+          "figure": "Ur-Nammu, king of Ur (or his son Shulgi)",
+          "era": "Mesopotamia",
+          "what_happened": "The Code of Ur-Nammu, preserved on clay tablets in the Sumerian language, is the oldest known written law code, predating Hammurabi by roughly three centuries. It sets out casuistic 'if-then' laws with fixed monetary penalties for many offenses, and its prologue presents the king as a protector of widows, orphans, and the poor.",
+          "why_it_matters": "The earliest surviving evidence that a society reduced its law to a published, general text — the first ancestor of the written, precedent-bearing legal record.",
+          "source_url": "https://www.worldhistory.org/Code_of_Ur-Nammu/"
+        },
+        {
+          "case": "The Code of Hammurabi",
+          "citation": "Babylonian law code, c. 1754 BC (282 laws on a diorite stele, now in the Louvre)",
+          "year": "c. 1754 BC",
+          "figure": "Hammurabi, sixth king of Babylon",
+          "era": "Mesopotamia",
+          "what_happened": "Hammurabi's code, carved on a roughly 7-foot diorite stele, sets out some 282 laws with scaled punishments that vary by the social status of the parties, including the famous lex talionis ('an eye for an eye'). The stele was publicly displayed so that, in the king's words, the wronged could read their rights.",
+          "why_it_matters": "The most famous ancient law code and an early statement of the ideas of published law and proportional punishment; frequently invoked (including in the U.S. Capitol and Supreme Court iconography) as a founder of the legal tradition.",
+          "source_url": "https://en.wikipedia.org/wiki/Code_of_Hammurabi"
+        },
+        {
+          "case": "The Laws of Draco and the Reforms of Solon (Athens)",
+          "citation": "Athenian written law — Draco c. 621 BC; Solon's reforms c. 594 BC",
+          "year": "c. 621 & 594 BC",
+          "figure": "Draco and Solon of Athens",
+          "era": "Ancient Greece",
+          "what_happened": "Around 621 BC Draco produced Athens' first written constitution, so severe that it gave us the word 'draconian'; it also drew the enduring distinction between intentional and unintentional homicide and moved blood-feud disputes into a state court, the Areopagus. Around 594 BC the reformer Solon repealed most of Draco's harsh code (keeping the homicide laws) and rebuilt Athenian law on a broader civic footing.",
+          "why_it_matters": "Marks the move from private vengeance to publicly written, state-administered justice — and the origin of legal distinctions, like degrees of homicide, that survive in modern criminal law.",
+          "source_url": "https://en.wikipedia.org/wiki/Draco_(legislator)"
+        },
+        {
+          "case": "The Twelve Tables of Rome",
+          "citation": "Roman legal code, 451-450 BC (inscribed on twelve bronze/wood tablets)",
+          "year": "451-450 BC",
+          "figure": "The decemviri (the ten-man drafting commission)",
+          "era": "Ancient Rome",
+          "what_happened": "Under pressure from the plebeians, a commission called the decemviri drafted Rome's first written law code in 451-450 BC and posted it in the Forum so the law could not be hidden or arbitrarily applied by patrician magistrates. The tablets covered procedure, debt, family, property, and torts; though the originals were lost, their content survived through later Roman jurists.",
+          "why_it_matters": "The foundation of Roman law — the tradition that, through the Corpus Juris Civilis and the civil-law systems, shapes much of the world's law today; an early triumph of the principle that law must be public and apply equally.",
+          "source_url": "https://www.worldhistory.org/Twelve_Tables/"
+        }
+      ]
+    }
+  ]
+}
