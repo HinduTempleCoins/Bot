@@ -40,15 +40,23 @@ function persona() {
   return `${BASE_PERSONA}\nYou are an AI, not a command bot. You also know how to help with: ${caps}. When a person's need touches one of these, offer or explain it naturally in your own words — never present a rigid command menu. Only name a literal command if they ask for it.`;
 }
 
-// Default LLM voice: lazy-wrap the llm-gateway; soft-fall to a calm, persona-true acknowledgement if no
-// model is configured (so the brain always answers, just more plainly, offline).
+// Default voice: try the LLM gateway (the GPU/Smol layer) first; when no model is configured — which is
+// the case until we have GPUs — drop to the DECADES BRAIN (integrations/hathor-decades-voice.mjs), the
+// classical 1960s→2000s layers that answer greetings/signup/"are you an AI" on plain CPU. Only when both
+// are silent does deliberation fall back to its own corpus-grounded reflection. (Operator 2026-09-23:
+// "for now She will be that Bot … use an Older-than-LLM from our Decades Brain … too.")
 function defaultComplete() {
-  let gw = null, tried = false;
+  let gw = null, tried = false, decades = null;
   return async (prompt, opts = {}) => {
     if (!tried) { tried = true; try { const { Gateway } = await import('./llm-gateway.mjs'); gw = new Gateway(); } catch { gw = null; } }
     if (gw && typeof gw.call === 'function') {
       try { const r = await gw.call({ prompt, taskHint: opts.taskHint || 'quality' }); if (r && r.text) return r.text; } catch { /* soft */ }
     }
+    // no GPU/LLM → the Decades Brain speaks
+    try {
+      if (!decades) { const { decadesVoice } = await import('./hathor-decades-voice.mjs'); decades = decadesVoice(); }
+      const d = await decades(prompt, opts); if (d) return d;
+    } catch { /* soft */ }
     return ''; // deliberation soft-falls to its own reflection when the voice is silent
   };
 }

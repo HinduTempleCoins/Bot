@@ -112,6 +112,14 @@ test('robots/sitemap/llms routes respond', async () => {
   assert.equal((await call({ url: '/llms.txt' })).statusCode, 200);
 });
 
+test('Discord invite is linked in nav, home callout, footer, and share CTA', async () => {
+  const html = (await call({ url: '/' })).text();
+  assert.ok(html.includes('discord.gg/5QAF9JuBF'));
+  assert.ok(html.includes('Chat with Hathor on Discord'));
+  assert.ok(charIndexViewHasDiscord());
+  function charIndexViewHasDiscord() { return srv.charIndexView().includes('discord.gg/5QAF9JuBF'); } // shareCta
+});
+
 test('Photo Editor (/edit) renders with background-removal cutout + new-background options', async () => {
   const res = await call({ url: '/edit' });
   assert.equal(res.statusCode, 200);

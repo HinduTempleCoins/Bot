@@ -62,6 +62,7 @@ const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
 const HATHOR_LIVE = process.env.HATHOR_LIVE || 'https://hathor.live';
 const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
 const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
+const DISCORD = process.env.DISCORD_INVITE || 'https://discord.gg/5QAF9JuBF';
 // human-facing labels for the effect categories (operator's words)
 const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'hathor');
@@ -166,6 +167,7 @@ const FOOTER = `<footer>
   we generated and saved here. <i>Phase 1.</i> Coming next: ComfyUI on demand and Colab teach-lessons.
   <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Gallery</a></div>
   <div style="margin-top:6px">Part of Hathor's system: <a href="${esc(HATHOR_LIVE)}">hathor.live</a> · <a href="${esc(ALMANACK)}">the Almanack</a> · <a href="${esc(WIKI)}">the Library of Ashurbanipal</a> · <a href="${esc(REPO)}">the Bot repo</a> · <a href="${esc(DATA)}">Data</a></div>
+  <div style="margin-top:6px">💬 <a href="${esc(DISCORD)}" target=_blank rel="noopener"><b>Chat on Discord</b></a> — Hathor is in there. Come say hi.</div>
 </footer>`;
 
 function pageShell(title, body, opts = {}) {
@@ -179,7 +181,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/webcam">Webcam</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/webcam">Webcam</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -221,6 +223,13 @@ export function homePage(opts = {}) {
 
     ${recent.length ? `<h2>Recent generations</h2><div class=gallery>${recent.map(galleryCard).join('')}</div>
       <p class=muted style="margin-top:8px"><a href="/gallery">See the full gallery →</a></p>` : ''}
+
+    <div class=card style="border-color:#5865F2">
+      <div class=t style="font-weight:800;font-size:16px">💬 Chat with Hathor on Discord</div>
+      <p class=muted style="margin:8px 0 0">Come talk to the Witness and the community — this is where it all connects. Right now Hathor answers there as a
+        deterministic guide (chain lookups, signup, tutorial, tips, the Library); full conversational AI arrives once we have GPUs.
+        <a href="${esc(DISCORD)}" target=_blank rel="noopener"><b>Join the Discord →</b></a></p>
+    </div>
 
     <h2>Edit &amp; AR — free, in your browser</h2>
     <p class=muted>Bring your own photo — nothing is uploaded for these:</p>
@@ -567,6 +576,7 @@ function shareCta(intro = 'Share your creation —') {
   return `<div class=card><b>${esc(intro)}</b>
     <div style="margin-top:8px">
       <a class=pill style="border-color:var(--gold);color:var(--gold)" href="${esc(FORUM)}/post" target=_blank rel="noopener">✦ Share on MELEK</a>
+      <a class=pill style="border-color:#5865F2;color:#5865F2" href="${esc(DISCORD)}" target=_blank rel="noopener">💬 Show it on Discord</a>
       <a class=pill href="https://twitter.com/intent/tweet?text=${t}&url=${u}" target=_blank rel="noopener">Share on X</a>
       <a class=pill href="https://www.facebook.com/sharer/sharer.php?u=${u}" target=_blank rel="noopener">Facebook</a>
       <a class=pill href="https://www.reddit.com/submit?url=${u}" target=_blank rel="noopener">Reddit</a>
