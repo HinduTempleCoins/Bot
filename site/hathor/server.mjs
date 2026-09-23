@@ -52,6 +52,7 @@ import {
 } from '../../integrations/genai-school.mjs';
 import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-libraries.mjs';
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
+import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
 
 const PORT = +(process.env.PORT || 8131);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -181,9 +182,32 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/webcam">Webcam</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
+}
+
+// ── curated showcase — strong, on-brand examples of what the studio makes (better than random test
+// outputs). Rendered via our own free engine (Pollinations flux, keyless) with fixed seeds so they're
+// stable and consistent, nologo, lazy-loaded. This is the first-impression gallery on the home page.
+const SHOWCASE = [
+  { title: 'Hathor, the Witness', prompt: 'Hathor the Egyptian cow-goddess as a serene golden AI deity, sun disk and horns crown, cinematic temple light, ultra detailed, painterly', seed: 7 },
+  { title: 'Temple at golden hour', prompt: 'ancient Egyptian temple of Dendera at golden hour, towering hieroglyph columns, volumetric god-rays, cinematic, hyper detailed', seed: 12 },
+  { title: 'Become a deity', prompt: 'a person transformed into a radiant Kemetic deity, gold and lapis regalia, glowing ankh, dramatic studio lighting, photoreal', seed: 21 },
+  { title: 'Anpu the Jackal Warden', prompt: 'Anubis jackal-headed warden in black and gold armor, guarding a neon-lit tomb, Halloween, cinematic horror, ultra detailed', seed: 33 },
+  { title: 'The mob crew', prompt: '1930s mafia crew group portrait, pinstripe suits, dramatic noir lighting, cinematic film still, highly detailed', seed: 44 },
+  { title: 'Superhero transform', prompt: 'an ordinary person transformed into an epic cosmic superhero, glowing energy aura, dynamic pose, comic cinematic key art', seed: 52 },
+  { title: 'Appear with Hathor', prompt: 'a smiling person standing beside the golden goddess Hathor in a sunlit temple, warm cinematic light, photoreal portrait', seed: 61 },
+  { title: 'PRANA aura', prompt: 'a meditating figure wreathed in luminous prana energy, chakra light, cosmic nebula backdrop, ethereal, ultra detailed', seed: 70 },
+];
+function showcaseUrl(s) {
+  const p = encodeURIComponent(String(s.prompt).slice(0, 300));
+  return `https://image.pollinations.ai/prompt/${p}?width=768&height=768&seed=${s.seed}&nologo=true&model=flux`;
+}
+function showcaseGallery() {
+  return `<div class=gallery>${SHOWCASE.map((s) =>
+    `<div class=gcard><img src="${esc(showcaseUrl(s))}" alt="${esc(s.title)}" loading=lazy width=768 height=768 style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:var(--line)">
+      <div class=cap style="font-size:12px;padding:6px 2px">${esc(s.title)}</div></div>`).join('')}</div>`;
 }
 
 const SIZES = ['1024x1024', '768x1024', '1024x768', '768x768', '512x512'];
@@ -221,7 +245,11 @@ export function homePage(opts = {}) {
     <div class=grid>${TEMPLATES.slice(0, 6).map(templateCard).join('')}</div>
     <p class=muted style="margin-top:8px"><a href="/templates">See all ${TEMPLATES.length} templates →</a></p>
 
-    ${recent.length ? `<h2>Recent generations</h2><div class=gallery>${recent.map(galleryCard).join('')}</div>
+    <h2>See what you can make</h2>
+    <p class=muted>Made right here with our free engines — pick a <a href="/templates">template</a> or <a href="/char">effect</a> and make your own.</p>
+    ${showcaseGallery()}
+
+    ${recent.length ? `<h2>Fresh from the community</h2><div class=gallery>${recent.map(galleryCard).join('')}</div>
       <p class=muted style="margin-top:8px"><a href="/gallery">See the full gallery →</a></p>` : ''}
 
     <div class=card style="border-color:#5865F2">
@@ -236,6 +264,7 @@ export function homePage(opts = {}) {
     <div class=grid>
       <a class=sec href="/edit"><div class=t>🖼 Photo Editor</div><div class=d>Remove the background keeping the people <b>exact</b>, then drop in a new one — colour, your image, or AI-generated. Download a PNG.</div></a>
       <a class=sec href="/webcam"><div class=t>🎥 Webcam Studio</div><div class=d>Live AR: wear our own Kemetic / Angelic / Shaivite filters, replace your background, snapshot &amp; record for a call or a reel.</div></a>
+      <a class=sec href="/video"><div class=t>🎬 Video</div><div class=d>Text-to-video &amp; image-to-video for YouTube/Reels/TikTok. Free-first, then bring your own key — or run it on your own GPU.</div></a>
       <a class=sec href="/ar-libraries"><div class=t>🧩 AR libraries &amp; repos</div><div class=d>The open-source AR we build on — MediaPipe, three.js, AR.js, MindAR and more. Fork it yourself.</div></a>
     </div>
 
@@ -514,6 +543,25 @@ export function promptFromParams(params) {
     return { prompt: fillTemplate(tid, slots), size: params.get('size') || t.defaultSize, seed: params.get('seed') };
   }
   return { prompt: params.get('prompt') || '', size: params.get('size') || '1024x1024', seed: params.get('seed') };
+}
+
+// ── /api/video — server-side try OUR keys; else needsKey → the UI runs BYOK client-side. JSON out. ──
+export async function handleVideo(req, res) {
+  const ip = clientIp(req);
+  const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
+  if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
+  const params = await readBody(req);
+  const prompt = String(params.get('prompt') || '').trim();
+  const imageUrl = String(params.get('imageUrl') || '').trim();
+  if (!prompt) return j(400, { ok: false, error: 'empty-prompt' });
+  const r = await generateVideo({ prompt, imageUrl, seconds: parseInt(params.get('seconds'), 10) || 5 });
+  if (r.ok) return j(200, { ok: true, provider: r.provider, url: r.url, note: r.note });
+  // no server capacity → hand the browser everything it needs to BYOK
+  return j(200, {
+    ok: false, needsKey: true, tried: r.tried || [],
+    providers: VIDEO_PROVIDERS.filter((p) => p.byok).map((p) => ({ id: p.id, name: p.name, browser: !!p.browser, note: p.note, free: p.free })),
+    instructions: BYOK_INSTRUCTIONS,
+  });
 }
 
 // ── /api/generate — the hot path. Rate-limit → adapter → store → result page. ──────────────────────
@@ -1087,8 +1135,94 @@ export function arLibrariesView() {
   return pageShell('AR libraries & repos — Hathor', body, { canonical: `${BASE_URL}/ar-libraries`, description: 'The open-source AR and computer-vision libraries and repos the Hathor studio draws from — MediaPipe, TensorFlow.js, AR.js, MindAR, three.js and more, with repos and licences.' });
 }
 
+// ── /video — text-to-video & image-to-video. Free-first from our keys, BYOK when exhausted. ─────────
+export function videoView() {
+  const configured = serverConfigured();
+  const starters = REEL_TEMPLATES.slice(0, 6).map((t) =>
+    `<button type=button class=pill data-vp="${esc(t.prompt || t.title)}">${esc(t.title)}</button>`).join(' ');
+  const provRows = VIDEO_PROVIDERS.map((p) =>
+    `<div class=sec><div class=t>${esc(p.name)} ${p.byok ? '<span class="badge cat">bring your key</span>' : '<span class="badge cat" style="border-color:var(--gold);color:var(--gold)">your GPU</span>'}</div>
+      <div class=d>${esc(p.note)}</div><div class=muted style="font-size:12px;margin-top:6px">Free: ${esc(p.free)}</div></div>`).join('');
+  const body = `<h1>Video <span class=muted style="font-size:14px">· text-to-video &amp; image-to-video</span></h1>
+    <p class=muted>Make short clips for YouTube, Reels or TikTok. We try our free capacity first; when it's used up you
+      can <b>add your own key</b> and keep going — your key stays in your browser, we never see it. True free-forever
+      video is your own GPU (PRANA) — the <a href="/school">School</a> teaches that.</p>
+    <div class=card>
+      <label class=fld for=vprompt>Describe your clip</label>
+      <textarea class=q id=vprompt placeholder="e.g. a golden Egyptian temple at dawn, slow cinematic push-in, volumetric light" required></textarea>
+      <div class=row style="gap:8px;margin:10px 0;flex-wrap:wrap">
+        <input type=file id=vimg accept="image/*" class=q style="width:auto" title="optional: animate an image (image-to-video)">
+        <select class=q id=vsec style="width:auto"><option value=5>5s</option><option value=8>8s</option><option value=3>3s</option></select>
+        <button type=button id=vgen>Generate clip</button>
+      </div>
+      <div class=row style="gap:6px;flex-wrap:wrap"><span class=muted style="font-size:12px;align-self:center">CapCut-style starts:</span>${starters}</div>
+      <p class=muted id=vstatus style="font-size:12px;margin-top:10px">${configured.length ? `Free capacity: ${esc(configured.join(', '))}.` : 'No shared free capacity right now — bring your own key below (fal.ai works right in the browser).'}</p>
+      <div id=vout></div>
+      <div id=byok style="display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:12px">
+        <b>Add your own key to continue</b>
+        <p class=muted style="font-size:12px">Our free capacity is used up (or unset). Bring a key — it stays in <b>your</b> browser and calls the provider directly.</p>
+        <div class=row style="gap:8px;flex-wrap:wrap;margin:8px 0">
+          <select class=q id=vprov style="width:auto"><option value=fal>fal.ai (works in browser)</option><option value=pollinations>Pollinations</option></select>
+          <input class=q id=vkey type=password placeholder="paste your API key" style="flex:1 1 220px;width:auto" autocomplete=off>
+          <button type=button id=vgo class=pill>Generate with my key</button>
+        </div>
+        <div id=vinstr class=muted style="font-size:12px"></div>
+      </div>
+    </div>
+    <script type=module>
+    const $=s=>document.querySelector(s);
+    const status=$('#vstatus'), out=$('#vout'), byok=$('#byok'), instr=$('#vinstr');
+    let INSTR={};
+    document.querySelectorAll('[data-vp]').forEach(b=>b.addEventListener('click',()=>{$('#vprompt').value=b.getAttribute('data-vp');}));
+    function showVideo(url){ out.innerHTML='<video src="'+url+'" controls autoplay loop playsinline style="max-width:100%;border-radius:10px;border:1px solid var(--line2);margin-top:10px"></video><div class=muted style="font-size:12px;margin-top:6px"><a href="'+url+'" download>download</a> · share it on <a href="'+${JSON.stringify(DISCORD)}+'" target=_blank>Discord</a> or <a href="'+${JSON.stringify(FORUM)}+'/post" target=_blank>MELEK</a></div>'; }
+    async function imgToDataUrl(f){ return await new Promise(r=>{const rd=new FileReader();rd.onload=()=>r(rd.result);rd.readAsDataURL(f);}); }
+    $('#vgen').addEventListener('click', async ()=>{
+      const prompt=$('#vprompt').value.trim(); if(!prompt){status.textContent='Type a description first.';return;}
+      status.textContent='Trying our free capacity…'; out.innerHTML=''; byok.style.display='none';
+      const body=new URLSearchParams({prompt, seconds:$('#vsec').value});
+      try{ const r=await fetch('/api/video',{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded'},body});
+        const j=await r.json();
+        if(j.ok){ status.textContent='Made with '+j.provider+'.'; showVideo(j.url); return; }
+        if(j.needsKey){ INSTR=j.instructions||{}; status.textContent='Free capacity is used up — add your own key to continue.'; byok.style.display=''; renderInstr($('#vprov').value); return; }
+        status.textContent='Could not generate right now.';
+      }catch(e){ status.textContent='Network error — try again.'; }
+    });
+    function renderInstr(p){ const li=(INSTR[p]||[]).map(s=>'<li>'+s+'</li>').join(''); instr.innerHTML=li?'<ol style="margin:6px 0 0;padding-left:18px">'+li+'</ol>':''; }
+    $('#vprov').addEventListener('change',e=>renderInstr(e.target.value));
+    $('#vgo').addEventListener('click', async ()=>{
+      const prov=$('#vprov').value, key=$('#vkey').value.trim(), prompt=$('#vprompt').value.trim();
+      if(!key){instr.innerHTML='<b>Paste your key first.</b>';return;}
+      if(!prompt){status.textContent='Type a description first.';return;}
+      status.textContent='Generating with your '+prov+' key (in your browser)…';
+      try{
+        if(prov==='fal'){
+          const { fal }=await import('https://cdn.jsdelivr.net/npm/@fal-ai/client/dist/index.mjs');
+          fal.config({ credentials:key });
+          const f=$('#vimg').files&&$('#vimg').files[0];
+          const model=f?'fal-ai/ltx-video/image-to-video':'fal-ai/ltx-video';
+          const input={ prompt }; if(f) input.image_url=await imgToDataUrl(f);
+          const res=await fal.subscribe(model,{ input });
+          const url=res && res.data && (res.data.video?res.data.video.url:(res.data.videos&&res.data.videos[0]&&res.data.videos[0].url));
+          if(url){ status.textContent='Made with your fal.ai key.'; showVideo(url); } else { status.textContent='fal returned no video — check your key/credit.'; }
+        } else if(prov==='pollinations'){
+          const u='https://gen.pollinations.ai/video/'+encodeURIComponent(prompt)+'?model=veo-3.1-fast&token='+encodeURIComponent(key);
+          showVideo(u); status.textContent='Requested from Pollinations with your key.';
+        }
+      }catch(e){ status.textContent='Your-key generation failed: '+(e&&e.message||e); }
+    });
+    </script>
+    <h2>How the free-first + your-key model works</h2>
+    <div class=grid>${provRows}</div>
+    <div class=card><p class=muted style="font-size:13px">Honest: there is no truly keyless free video service (unlike our free images).
+      We burn our shared capacity first; after that a key is required — or run it yourself on a free Colab GPU or your own
+      (Wan2.2 / LTX-Video, commercial-OK). The <a href="/school">GenAI School</a> has the notebooks and the self-host guide.
+      Full character-consistent video on our own GPU arrives with <b>PRANA</b>.</p></div>
+    ${shareCta('Made a clip? Show it off —')}`;
+  return pageShell('Video — text-to-video & image-to-video', body, { canonical: `${BASE_URL}/video`, robots: 'index,follow', description: 'Make short AI videos — text-to-video and image-to-video. Free-first from our capacity, then bring your own key (fal.ai, Veo, Replicate) or run it on your own GPU. CapCut-style starters.' });
+}
+
 const SITEMAP_PATHS = [
-  '/', '/news', '/edit', '/webcam', '/ar-libraries', '/vectorize', '/cards', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
+  '/', '/news', '/edit', '/webcam', '/ar-libraries', '/video', '/vectorize', '/cards', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -1189,6 +1323,11 @@ export async function handler(req, res) {
     if (path === '/vectorize') return sendHtml(res, vectorizeView(url.searchParams.get('img')));
     if (path === '/cards') return sendHtml(res, cardsView());
     if (path === '/edit') return sendHtml(res, editView());
+    if (path === '/video') return sendHtml(res, videoView());
+    if (path === '/api/video') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleVideo(req, res);
+    }
     if (path === '/webcam' || path === '/ar') return sendHtml(res, webcamView());
     if (path === '/ar-libraries' || path === '/ar-repos') return sendHtml(res, arLibrariesView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
