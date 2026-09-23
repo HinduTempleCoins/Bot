@@ -23,7 +23,7 @@
 //   buildEffectJob(effectId, subject, opts)   -> { ok, job } | { ok:false, error|needsConsent }
 //   validateEffects()                         -> integrity check for /health + tests
 
-export const EFFECT_CATEGORIES = ['hathor', 'creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle', 'figures'];
+export const EFFECT_CATEGORIES = ['hathor', 'memes', 'creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle', 'figures'];
 
 export const SUBJECT_KINDS = ['builtin', 'platform', 'fictional', 'real-person'];
 
@@ -508,6 +508,25 @@ export const EFFECT_TEMPLATES = [
   { id: 'temple-cat', title: 'Temple Cats', category: 'creature',
     prompt: '{{subject}} surrounded by sacred temple cats in an Egyptian shrine, candlelight',
     negative: 'blurry, deformed' },
+  // ── meme characters (generic, trademark-safe internet-meme aesthetics) ────────────────────────────
+  { id: 'as-wojak', title: 'As a Wojak', category: 'memes',
+    prompt: '{{subject}} redrawn as a simple black-and-white wojak-style line-art meme character, plain background', negative: 'color, detailed, blurry' },
+  { id: 'as-chad', title: 'As a Chad', category: 'memes',
+    prompt: '{{subject}} as a confident square-jawed nordic "yes" chad meme character, bold clean line art, side profile', negative: 'blurry, deformed' },
+  { id: 'as-npc', title: 'As an NPC', category: 'memes',
+    prompt: '{{subject}} as a grey featureless NPC wojak meme character, blank expression, plain background', negative: 'color, blurry' },
+  { id: 'as-doge', title: 'As a Doge Dog', category: 'memes',
+    prompt: '{{subject}} reimagined as a shiba-inu doge-style meme dog with a knowing side-eye, colorful comic text vibe', negative: 'blurry, deformed' },
+  { id: 'as-stonks', title: 'Stonks Guy', category: 'memes',
+    prompt: '{{subject}} as a shiny 3D grey businessman meme figure in a suit in front of a rising arrow and stock chart', negative: 'blurry, deformed' },
+  { id: 'as-pop-art', title: 'Pop-Art Comic', category: 'memes',
+    prompt: '{{subject}} as a retro pop-art comic-book panel with bold halftone dots, thick outlines, and a speech bubble', negative: 'photorealistic, blurry' },
+  { id: 'as-rage-comic', title: 'Rage Comic', category: 'memes',
+    prompt: '{{subject}} as a crude black-and-white rage-comic MS-Paint style meme character, white background', negative: 'detailed, color, blurry' },
+  { id: 'as-sigma', title: 'Sigma Aesthetic', category: 'memes',
+    prompt: '{{subject}} as a moody black-and-white "sigma" aesthetic meme portrait, dramatic hard lighting, cold tone', negative: 'blurry, deformed' },
+  { id: 'as-surprised', title: 'Surprised Reaction', category: 'memes',
+    prompt: '{{subject}} as an over-the-top wide-eyed surprised reaction meme character, exaggerated expression', negative: 'blurry, deformed' },
 ];
 
 const EFFECT_BY_ID = new Map(EFFECT_TEMPLATES.map((e) => [e.id, e]));
