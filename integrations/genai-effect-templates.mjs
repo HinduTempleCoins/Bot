@@ -23,7 +23,7 @@
 //   buildEffectJob(effectId, subject, opts)   -> { ok, job } | { ok:false, error|needsConsent }
 //   validateEffects()                         -> integrity check for /health + tests
 
-export const EFFECT_CATEGORIES = ['creature', 'holiday', 'film', 'power', 'era', 'art', 'lifestyle'];
+export const EFFECT_CATEGORIES = ['creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle'];
 
 export const SUBJECT_KINDS = ['builtin', 'platform', 'fictional', 'real-person'];
 
@@ -37,6 +37,15 @@ export const CHARACTERS = [
     refDir: 'character/reference',
     lora: 'character/lora',
     cleared: true, // pre-cleared: the platform owns this character
+  },
+  {
+    id: 'anpu',
+    name: 'Anpu the Jackal Warden',
+    kind: 'builtin',
+    description: 'Our Halloween character — a jackal-headed guardian of the underworld, Egyptian temple meets Halloween. Renders GPU-free from its described look (no photo needed).',
+    // look-based (no reference set / LoRA yet) → generates on the free hosted text-to-image path
+    look: 'a tall jackal-headed guardian in the style of the Egyptian god Anubis, obsidian-black fur, glowing amber eyes, gold-and-lapis ceremonial regalia, wielding a was-scepter, temple-of-the-dead atmosphere',
+    cleared: true,
   },
 ];
 
@@ -74,6 +83,46 @@ export const EFFECT_TEMPLATES = [
   { id: 'halloween-monster', title: 'Halloween Monster', category: 'holiday',
     prompt: '{{subject}} in a playful Halloween monster costume, spooky-fun graveyard scene, full moon',
     negative: 'graphic gore, blood' },
+  // ── horror / Halloween movies (trademark-safe archetypes) ───────────────────
+  { id: 'vampire-count', title: 'Vampire Count', category: 'horror',
+    prompt: '{{subject}} as a classic aristocratic vampire count, pale skin, high-collared cape, moonlit gothic castle, cinematic horror',
+    negative: 'excessive gore, graphic blood' },
+  { id: 'werewolf', title: 'Werewolf', category: 'horror',
+    prompt: '{{subject}} transformed into a fearsome werewolf under a full moon, foggy pine forest, dramatic horror lighting',
+    negative: 'excessive gore, graphic blood' },
+  { id: 'zombie', title: 'Zombie', category: 'horror',
+    prompt: '{{subject}} as a walking zombie, tattered clothes, pale decayed skin, eerie graveyard at night, horror movie still',
+    negative: 'extreme gore, entrails' },
+  { id: 'mummy', title: 'Ancient Mummy', category: 'horror',
+    prompt: '{{subject}} as an ancient bandaged mummy rising from a sarcophagus, torchlit tomb, dust and cobwebs, cinematic',
+    negative: 'excessive gore' },
+  { id: 'witch', title: 'Witch', category: 'horror',
+    prompt: '{{subject}} as a powerful spellcasting witch with a bubbling cauldron, haunted woods at night, glowing magic',
+    negative: 'blurry, deformed' },
+  { id: 'ghost-specter', title: 'Haunting Specter', category: 'horror',
+    prompt: '{{subject}} as a translucent glowing specter drifting through a derelict mansion, moonlight through broken windows, ghostly',
+    negative: 'blurry, gore' },
+  { id: 'grim-reaper', title: 'Grim Reaper', category: 'horror',
+    prompt: '{{subject}} as the Grim Reaper in a tattered black hooded cloak holding a scythe, foggy churchyard, ominous',
+    negative: 'graphic gore' },
+  { id: 'patchwork-monster', title: 'Reanimated Monster', category: 'horror',
+    prompt: '{{subject}} as a towering reanimated patchwork monster with stitches and neck bolts, sparking laboratory, stormy night, classic horror',
+    negative: 'graphic gore, blood' },
+  { id: 'masked-slasher', title: 'Masked Slasher', category: 'horror',
+    prompt: '{{subject}} as a silent masked slasher villain in a dark suburban street at night, suspenseful horror poster, moody backlight',
+    negative: 'gore, blood, weapons toward viewer' },
+  { id: 'killer-clown', title: 'Creepy Carnival Clown', category: 'horror',
+    prompt: '{{subject}} as a sinister carnival clown with a wicked grin and smeared makeup, abandoned funhouse, unsettling horror',
+    negative: 'gore, blood' },
+  { id: 'headless-horseman', title: 'Headless Horseman', category: 'horror',
+    prompt: '{{subject}} as the Headless Horseman riding a black steed through a misty hollow, glowing jack-o-lantern in hand, autumn night',
+    negative: 'graphic gore' },
+  { id: 'mad-scientist', title: 'Mad Scientist', category: 'horror',
+    prompt: '{{subject}} as a wild-eyed mad scientist in a sparking laboratory full of strange bubbling machines, dramatic lighting',
+    negative: 'blurry, deformed' },
+  { id: 'day-of-the-dead', title: 'Day of the Dead', category: 'horror',
+    prompt: '{{subject}} as an elegant Day-of-the-Dead figure with ornate sugar-skull face paint and marigold flowers, festive candlelit altar',
+    negative: 'scary gore, blood' },
   // ── film ──────────────────────────────────────────────────────────────────
   { id: 'space-saga-jedi', title: 'Space Saga: Light Knight', category: 'film',
     prompt: '{{subject}} as a heroic space knight in flowing robes holding a glowing laser sword, sci-fi temple, epic film still',
@@ -163,7 +212,7 @@ export function subjectFromInput(input = {}) {
   if (kind === 'builtin') {
     const c = getCharacter(input.name || input.id);
     if (!c) return { error: `unknown built-in character: ${String(input.name || input.id || '')}` };
-    return { subject: { kind, name: c.name, ref: c.refDir, character: c.id, cleared: true } };
+    return { subject: { kind, name: c.name, ref: c.refDir || null, lora: c.lora || null, look: c.look || null, character: c.id, cleared: true } };
   }
   const name = String(input.name || '').trim() || (kind === 'fictional' ? 'the character' : 'the subject');
   return {
@@ -171,6 +220,7 @@ export function subjectFromInput(input = {}) {
       kind,
       name,
       ref: input.ref ? String(input.ref) : null,       // uploaded image / platform-character ref
+      look: input.look ? String(input.look) : null,    // a described appearance (renders GPU-free)
       consent: input.consent ? String(input.consent) : null, // a bio-consent record id, if any
     },
   };
@@ -199,9 +249,11 @@ export function buildEffectJob(effectId, subjectInput = {}, opts = {}) {
     };
   }
 
-  const prompt = e.prompt.replace(PLACEHOLDER_RE, subjectPhrase(subject));
-  // character-referenced when we have a reference (builtin/platform/uploaded); else plain text-to-image
-  const technique = subject.ref ? 'character-ref' : (subject.character ? 'lora' : 'text-to-image');
+  let prompt = e.prompt.replace(PLACEHOLDER_RE, subjectPhrase(subject));
+  if (subject.look) prompt += `. Character look: ${subject.look}`;
+  // character-referenced when we have a reference image; a LoRA when the character has one; else a
+  // described look renders on the free hosted text-to-image path (no GPU on our side).
+  const technique = subject.ref ? 'character-ref' : (subject.lora ? 'lora' : 'text-to-image');
 
   const job = {
     kind: 'genai-effect',

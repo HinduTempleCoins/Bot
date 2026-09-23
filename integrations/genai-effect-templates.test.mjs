@@ -65,6 +65,17 @@ test('buildEffectJob: real person WITH a consent record is allowed', () => {
   assert.equal(r.job.technique, 'character-ref');
 });
 
+test('Halloween: horror category populated + Anpu look-based character renders GPU-free', () => {
+  assert.ok(EFFECT_CATEGORIES.includes('horror'));
+  assert.ok(listEffects('horror').length >= 10, 'a bunch of Halloween movie effects');
+  const anpu = getCharacter('anpu');
+  assert.ok(anpu && anpu.look, 'Anpu has a described look');
+  const r = buildEffectJob('vampire-count', { kind: 'builtin', name: 'anpu' });
+  assert.ok(r.ok, r.error);
+  assert.equal(r.job.technique, 'text-to-image', 'look-based char uses the no-GPU path');
+  assert.match(r.job.prompt, /jackal-headed/, 'the character look is baked into the prompt');
+});
+
 test('built-in Hathor is pre-cleared and character-referenced', () => {
   assert.ok(getCharacter('hathor'));
   const r = buildEffectJob('space-saga-jedi', { kind: 'builtin', name: 'hathor' });
