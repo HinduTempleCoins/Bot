@@ -14,6 +14,11 @@ import path from 'node:path';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = path.resolve(__dirname, '..'); // .../site
 
+// A single misbehaving surface (async throw after it loads, a rejected timer, etc.)
+// must never take down the whole web tier. Log and keep serving the other 80+.
+process.on('uncaughtException', (e) => { try { console.error('[dispatch] uncaughtException:', e && e.message); } catch { /* noop */ } });
+process.on('unhandledRejection', (e) => { try { console.error('[dispatch] unhandledRejection:', e && (e.message || e)); } catch { /* noop */ } });
+
 export const ROUTES = JSON.parse(readFileSync(path.join(__dirname, 'routes.json'), 'utf8'));
 
 // dir -> handler (or null if it failed to load). Cached after first resolve.
