@@ -61,7 +61,7 @@ const HATHOR_LIVE = process.env.HATHOR_LIVE || 'https://hathor.live';
 const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
 const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
 // human-facing labels for the effect categories (operator's words)
-const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them' };
+const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'genai');
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
 
@@ -177,7 +177,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -602,6 +602,68 @@ export function schoolIndexView() {
   return pageShell('GenAI School — learn generative AI', body, { canonical: `${BASE_URL}/school`, description: 'GenAI School — learn generative AI from one-tap templates up to running your own pipelines on Colab, Modal, Fal and ComfyUI, plus models from Hugging Face and Civitai.' });
 }
 
+// ── /cards — free, client-side business-card designer (print-ready 3.5x2 @ 300dpi) ────────────────
+export function cardsView() {
+  const body = `<h1>Business Cards <span class=muted style="font-size:14px">· design one free, print-ready</span></h1>
+    <p class=muted>Fill in your details, pick a layout, add a logo (upload, or make one in the <a href="/">studio</a>), and download a print-ready card — 3.5×2in at 300&nbsp;DPI. Free, in your browser. Take the file to your printer or <a href="https://www.executivepress.com" target=_blank rel="noopener">Executive Press</a>.</p>
+    <div class=card>
+      <div class=grid style="grid-template-columns:1fr 1fr">
+        <div>
+          <label class=fld>Name<input class=q id=f_name value="Rev. Ryan Van Kush"></label>
+          <label class=fld>Title<input class=q id=f_title value="Founder"></label>
+          <label class=fld>Company<input class=q id=f_org value="Van Kush Family"></label>
+          <label class=fld>Phone<input class=q id=f_phone value="(720) 369-8172"></label>
+          <label class=fld>Email<input class=q id=f_email value="hello@soapbox.community"></label>
+          <label class=fld>Website<input class=q id=f_web value="soapbox.community"></label>
+          <label class=fld>Tagline<input class=q id=f_tag value="Free tools for everyone"></label>
+        </div>
+        <div>
+          <label class=fld>Layout<select class=q id=f_layout>
+            <option value=classic>Classic (side bar)</option><option value=modern>Modern (top band)</option>
+            <option value=minimal>Minimal</option><option value=bold>Bold (full color)</option></select></label>
+          <label class=fld>Accent color<input class=q id=f_color type=color value="#d29922" style="height:44px;padding:4px"></label>
+          <label class=fld>Logo (optional)<input class=q id=f_logo type=file accept="image/*"></label>
+          <div style="margin-top:10px"><button type=button id=dlpng>⬇ Download PNG (print-ready)</button></div>
+        </div>
+      </div>
+      <div style="margin-top:14px;text-align:center;background:#0b0f14;border-radius:10px;padding:14px">
+        <canvas id=card width=1050 height=600 style="width:100%;max-width:525px;box-shadow:0 4px 24px #0008;border-radius:6px;background:#fff"></canvas>
+      </div>
+    </div>
+    <div class=card><p class=muted style="font-size:13px">Next: flyers, stickers and more print items. Make a logo/design in the <a href="/">studio</a>, <a href="/vectorize">vectorize</a> it, and drop it here.</p></div>
+    <script>
+    (function(){
+      var ids=['name','title','org','phone','email','web','tag','layout','color'];
+      var el={}; ids.forEach(function(k){ el[k]=document.getElementById('f_'+k); });
+      var cv=document.getElementById('card'), ctx=cv.getContext('2d'), W=1050, H=600, logo=null;
+      function v(k){ return (el[k].value||'').trim(); }
+      function draw(){
+        var acc=v('color')||'#d29922', lay=v('layout');
+        ctx.clearRect(0,0,W,H); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+        var tx=70, dark='#111', mut='#555';
+        if(lay==='classic'){ ctx.fillStyle=acc; ctx.fillRect(0,0,26,H); tx=80; }
+        else if(lay==='modern'){ ctx.fillStyle=acc; ctx.fillRect(0,0,W,120); }
+        else if(lay==='bold'){ ctx.fillStyle=acc; ctx.fillRect(0,0,W,H); dark='#fff'; mut='rgba(255,255,255,.85)'; }
+        else { ctx.strokeStyle=acc; ctx.lineWidth=6; ctx.strokeRect(20,20,W-40,H-40); }
+        // logo top-right
+        if(logo){ try{ var lw=150, lh=logo.height*(lw/logo.width); ctx.drawImage(logo, W-lw-70, (lay==='modern'?135:70), lw, lh);}catch(e){} }
+        var y=(lay==='modern'?210:150);
+        ctx.textBaseline='alphabetic'; ctx.fillStyle=dark; ctx.font='bold 64px system-ui,sans-serif';
+        ctx.fillText(v('name'), tx, y); y+=54;
+        ctx.fillStyle=acc; ctx.font='600 34px system-ui,sans-serif'; ctx.fillText(v('title')+(v('org')?'  ·  '+v('org'):''), tx, y);
+        ctx.fillStyle=mut; ctx.font='30px system-ui,sans-serif';
+        var cy=H-190; ['phone','email','web'].forEach(function(k){ if(v(k)){ ctx.fillText(v(k), tx, cy); cy+=44; } });
+        if(v('tag')){ ctx.fillStyle=acc; ctx.font='italic 28px system-ui,sans-serif'; ctx.fillText(v('tag'), tx, H-50); }
+      }
+      ids.forEach(function(k){ el[k].addEventListener('input', draw); });
+      document.getElementById('f_logo').addEventListener('change', function(e){ var f=e.target.files&&e.target.files[0]; if(!f){logo=null;draw();return;} var im=new Image(); im.onload=function(){ logo=im; draw(); }; im.src=URL.createObjectURL(f); });
+      document.getElementById('dlpng').addEventListener('click', function(){ var a=document.createElement('a'); a.download='business-card.png'; a.href=cv.toDataURL('image/png'); a.click(); });
+      draw();
+    })();
+    </script>`;
+  return pageShell('Business Card Designer — Hathor studio', body, { canonical: `${BASE_URL}/cards`, description: 'Design a print-ready business card free, in your browser — 3.5x2in at 300 DPI, four layouts, your logo. Then print it.' });
+}
+
 // ── /vectorize — free, client-side raster→SVG for print-ready t-shirt/item designs ────────────────
 // Traces an image to clean vector SVG entirely in the browser (ImageTracer.js). No GPU, no server
 // cost. The SVG is print/screen-ready and scales infinitely — the first step of design → shirt/item
@@ -623,7 +685,7 @@ export function vectorizeView(imgFile) {
       <div id=out style="min-height:120px;background:#fff;border-radius:10px;padding:8px;overflow:auto"></div>
       <p class=muted id=status style="font-size:12px;margin-top:8px">Loading…</p>
     </div>
-    <div class=card><p class=muted style="font-size:13px">Next in the chain: drop the SVG on a shirt/mug mockup, and (on our GPU / PRANA) turn it into a 3D model you can export to a game. See <a href="/school">GenAI School</a>.</p></div>
+    <div class=card><p class=muted style="font-size:13px">Next in the chain: drop the SVG on a shirt/mug mockup, and (on our GPU / PRANA) turn it into a 3D model you can export to a game. See <a href="/school">GenAI School</a>. Ready to print? <a href="https://www.executivepress.com" target=_blank rel="noopener">Executive Press</a> can put your design on shirts, cards and more.</p></div>
     <script src="https://cdn.jsdelivr.net/npm/imagetracerjs@1.2.6/imagetracer_v1.2.6.js"></script>
     <script>
     (function(){
@@ -787,7 +849,7 @@ export function halloweenIndexView() {
 }
 
 const SITEMAP_PATHS = [
-  '/', '/news', '/vectorize', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
+  '/', '/news', '/vectorize', '/cards', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -886,6 +948,7 @@ export async function handler(req, res) {
     if (path === '/animate') return sendHtml(res, animateView(url.searchParams.get('img')));
     if (path === '/news') return sendHtml(res, newsView());
     if (path === '/vectorize') return sendHtml(res, vectorizeView(url.searchParams.get('img')));
+    if (path === '/cards') return sendHtml(res, cardsView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
     if (path.startsWith('/reel-maker/')) {
       const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
