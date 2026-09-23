@@ -12,7 +12,8 @@ process.env.GENAI_RATE_PER_HOUR = '3';
 
 const srv = await import('./server.mjs');
 const { handler, homePage, templatesIndexView, templateDetailView, galleryView, promptFromParams, esc, __setGenerator, __resetRate,
-  comfyIndexView, comfyDetailView, colabIndexView, reelIndexView, reelDetailView, reelSpecFromParams } = srv;
+  comfyIndexView, comfyDetailView, colabIndexView, reelIndexView, reelDetailView, reelSpecFromParams,
+  editView, webcamView, arLibrariesView } = srv;
 
 const B64 = Buffer.from('a-real-enough-image-payload').toString('base64');
 // canned adapter — never touches the network
@@ -109,6 +110,41 @@ test('robots/sitemap/llms routes respond', async () => {
   assert.equal((await call({ url: '/robots.txt' })).statusCode, 200);
   assert.equal((await call({ url: '/sitemap.xml' })).statusCode, 200);
   assert.equal((await call({ url: '/llms.txt' })).statusCode, 200);
+});
+
+test('Photo Editor (/edit) renders with background-removal cutout + new-background options', async () => {
+  const res = await call({ url: '/edit' });
+  assert.equal(res.statusCode, 200);
+  const html = res.text();
+  assert.ok(html.includes('Remove background'));
+  assert.ok(html.includes('@imgly/background-removal'));
+  assert.ok(html.includes('Generate bg'));
+});
+
+test('Webcam Studio (/webcam) renders live AR with our themed filters', async () => {
+  const res = await call({ url: '/webcam' });
+  assert.equal(res.statusCode, 200);
+  const html = res.text();
+  assert.ok(html.includes('FaceLandmarker'));
+  assert.ok(html.includes('Hathor Crown'));      // one of our themed filters
+  assert.ok(html.includes('data-filter="third-eye"'));
+  assert.ok(html.includes('OBS'));               // broadcast guidance
+});
+
+test('/ar and /ar-libraries route to the AR views', async () => {
+  assert.equal((await call({ url: '/ar' })).statusCode, 200);       // alias → webcam
+  const res = await call({ url: '/ar-libraries' });
+  assert.equal(res.statusCode, 200);
+  const html = res.text();
+  assert.ok(html.includes('MediaPipe'));
+  assert.ok(html.includes('three.js'));
+  assert.ok(html.includes('AR.js'));
+});
+
+test('editView + webcamView + arLibrariesView export and render standalone', () => {
+  assert.ok(editView().includes('Photo Editor'));
+  assert.ok(webcamView().includes('Webcam Studio'));
+  assert.ok(arLibrariesView().includes('AR libraries'));
 });
 
 test('POST /api/generate with injected adapter stores + serves image', async () => {
