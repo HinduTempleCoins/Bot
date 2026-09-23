@@ -27,7 +27,8 @@
 
 import { createServer } from 'node:http';
 import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
-import { join, basename } from 'node:path';
+import { join, basename, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import * as providersMod from '../../integrations/genai-providers.mjs';
@@ -67,6 +68,7 @@ const DISCORD = process.env.DISCORD_INVITE || 'https://discord.gg/5QAF9JuBF';
 // human-facing labels for the effect categories (operator's words)
 const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'hathor');
+const SHOWCASE_DIR = join(dirname(fileURLToPath(import.meta.url)), 'showcase'); // committed example images
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
 
 // ── image-generation seam ─────────────────────────────────────────────────────────────────────────
@@ -128,6 +130,10 @@ const STYLE = `<style>
   :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--up:#3fb950}
   *{box-sizing:border-box} body{font:15px/1.6 system-ui,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
   a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+  .shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:10px 0}
+  .shot{margin:0;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--panel)}
+  .shot img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
+  .shot figcaption{font-size:12px;color:var(--mut);padding:6px 8px}
   header.topbar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line2);padding:9px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .brand{font-weight:800;font-size:18px;color:var(--fg)} .brand span{color:var(--mut);font-weight:400;font-size:13px}
   .topbar-r{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
@@ -190,24 +196,35 @@ ${FOOTER}</body></html>`;
 // ── curated showcase — strong, on-brand examples of what the studio makes (better than random test
 // outputs). Rendered via our own free engine (Pollinations flux, keyless) with fixed seeds so they're
 // stable and consistent, nologo, lazy-loaded. This is the first-impression gallery on the home page.
+// Pre-generated once (flux, 768x768) and committed under site/hathor/showcase/, served locally at
+// /showcase/<file> — fast, reliable, consistent square framing (no first-request lag from a live engine).
 const SHOWCASE = [
-  { title: 'Hathor, the Witness', prompt: 'Hathor the Egyptian cow-goddess as a serene golden AI deity, sun disk and horns crown, cinematic temple light, ultra detailed, painterly', seed: 7 },
-  { title: 'Temple at golden hour', prompt: 'ancient Egyptian temple of Dendera at golden hour, towering hieroglyph columns, volumetric god-rays, cinematic, hyper detailed', seed: 12 },
-  { title: 'Become a deity', prompt: 'a person transformed into a radiant Kemetic deity, gold and lapis regalia, glowing ankh, dramatic studio lighting, photoreal', seed: 21 },
-  { title: 'Anpu the Jackal Warden', prompt: 'Anubis jackal-headed warden in black and gold armor, guarding a neon-lit tomb, Halloween, cinematic horror, ultra detailed', seed: 33 },
-  { title: 'The mob crew', prompt: '1930s mafia crew group portrait, pinstripe suits, dramatic noir lighting, cinematic film still, highly detailed', seed: 44 },
-  { title: 'Superhero transform', prompt: 'an ordinary person transformed into an epic cosmic superhero, glowing energy aura, dynamic pose, comic cinematic key art', seed: 52 },
-  { title: 'Appear with Hathor', prompt: 'a smiling person standing beside the golden goddess Hathor in a sunlit temple, warm cinematic light, photoreal portrait', seed: 61 },
-  { title: 'PRANA aura', prompt: 'a meditating figure wreathed in luminous prana energy, chakra light, cosmic nebula backdrop, ethereal, ultra detailed', seed: 70 },
+  { title: 'Hathor, the Witness', file: 'hathor.jpg' },
+  { title: 'Temple at golden hour', file: 'temple.jpg' },
+  { title: 'Become a deity', file: 'deity.jpg' },
+  { title: 'Anpu the Jackal Warden', file: 'anpu.jpg' },
+  { title: 'The mob crew', file: 'mob.jpg' },
+  { title: 'Superhero transform', file: 'hero.jpg' },
+  { title: 'Appear with Hathor', file: 'withhathor.jpg' },
+  { title: 'PRANA aura', file: 'prana.jpg' },
 ];
-function showcaseUrl(s) {
-  const p = encodeURIComponent(String(s.prompt).slice(0, 300));
-  return `https://image.pollinations.ai/prompt/${p}?width=768&height=768&seed=${s.seed}&nologo=true&model=flux`;
-}
 function showcaseGallery() {
-  return `<div class=gallery>${SHOWCASE.map((s) =>
-    `<div class=gcard><img src="${esc(showcaseUrl(s))}" alt="${esc(s.title)}" loading=lazy width=768 height=768 style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:var(--line)">
-      <div class=cap style="font-size:12px;padding:6px 2px">${esc(s.title)}</div></div>`).join('')}</div>`;
+  return `<div class=shots>${SHOWCASE.map((s) =>
+    `<figure class=shot><img src="/showcase/${esc(s.file)}" alt="${esc(s.title)}" loading=lazy width=768 height=768>
+      <figcaption>${esc(s.title)}</figcaption></figure>`).join('')}</div>`;
+}
+// serve the committed showcase assets (path-sanitised; only our own jpgs)
+function serveShowcase(res, fileParam) {
+  const file = basename(String(fileParam || ''));
+  if (!/^[\w-]+\.(png|jpg|jpeg|webp)$/i.test(file)) { res.writeHead(404); return res.end('not found'); }
+  const full = join(SHOWCASE_DIR, file);
+  try {
+    if (!existsSync(full) || !statSync(full).isFile()) { res.writeHead(404); return res.end('not found'); }
+    const ext = file.split('.').pop().toLowerCase();
+    const mime = ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg';
+    res.writeHead(200, { 'content-type': mime, 'cache-control': 'public, max-age=604800' });
+    return res.end(readFileSync(full));
+  } catch { res.writeHead(404); return res.end('not found'); }
 }
 
 const SIZES = ['1024x1024', '768x1024', '1024x768', '768x768', '512x512'];
@@ -1281,6 +1298,9 @@ export async function handler(req, res) {
     if (path.startsWith('/img/')) {
       const f = decodeURIComponent(path.slice('/img/'.length));
       return serveImage(res, f);
+    }
+    if (path.startsWith('/showcase/')) {
+      return serveShowcase(res, decodeURIComponent(path.slice('/showcase/'.length)));
     }
 
     if (path === '/') return sendHtml(res, homePage());
