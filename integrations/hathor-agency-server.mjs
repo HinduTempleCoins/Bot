@@ -46,13 +46,24 @@ function persona() {
 // are silent does deliberation fall back to its own corpus-grounded reflection. (Operator 2026-09-23:
 // "for now She will be that Bot … use an Older-than-LLM from our Decades Brain … too.")
 function defaultComplete() {
-  let gw = null, tried = false, decades = null;
+  let gw = null, tried = false, decades = null, lora = null, loraTried = false;
   return async (prompt, opts = {}) => {
+    // 0) her PERSONA LoRA on the GPU (persona-lora-dataset → Modal serve_lora). Gated on MODAL_LORA_URL:
+    //    when the GPU endpoint exists this is her true voice; until then lora.configured() is false and it
+    //    is a pure no-op (soft-fails to {ok:false}), so nothing changes until the GPU actually arrives.
+    try {
+      if (!loraTried) { loraTried = true; try { lora = await import('./lora-brain.mjs'); } catch { lora = null; } }
+      if (lora && lora.configured && lora.configured()) {
+        const r = await lora.generate(prompt, { maxTokens: opts.maxTokens || 200 });
+        if (r && r.ok && r.text) return r.text;
+      }
+    } catch { /* soft */ }
+    // 1) the LLM gateway (Smol / hosted), if a model is configured
     if (!tried) { tried = true; try { const { Gateway } = await import('./llm-gateway.mjs'); gw = new Gateway(); } catch { gw = null; } }
     if (gw && typeof gw.call === 'function') {
       try { const r = await gw.call({ prompt, taskHint: opts.taskHint || 'quality' }); if (r && r.text) return r.text; } catch { /* soft */ }
     }
-    // no GPU/LLM → the Decades Brain speaks
+    // 2) no GPU/LLM → the Decades Brain speaks
     try {
       if (!decades) { const { decadesVoice } = await import('./hathor-decades-voice.mjs'); decades = decadesVoice(); }
       const d = await decades(prompt, opts); if (d) return d;
