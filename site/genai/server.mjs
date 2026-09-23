@@ -192,7 +192,13 @@ function sizeSelect(selected = '1024x1024') {
 export function homePage(opts = {}) {
   const note = opts.note ? `<div class=card><p class=empty>${esc(opts.note)}</p></div>` : '';
   const recent = recentGenerations(6);
-  const body = `<h1>Hathor <span class=muted style="font-size:14px">· make with the MELEK Witness</span></h1>
+  const body = `<div class=card style="border-color:var(--gold)">
+      <div class=t style="font-weight:800;font-size:16px">✦ A word from Hathor <a href="/news" style="font-weight:400;font-size:13px;float:right">full announcement →</a></div>
+      <p class=muted style="margin:8px 0 0">My studio is open. Become anything through 130+ effects, appear with me in dozens of scenes, dress for
+      <a href="/halloween">Halloween</a>, or stand beside the old gods and figures. Make <a href="/reel-maker">reels</a>,
+      add <a href="/gallery">epic effects</a> to any image, and let the <a href="/school">School</a> teach you to run it all yourself —
+      free, no account. Share it on MELEK.</p></div>
+    <h1>Hathor <span class=muted style="font-size:14px">· make with the MELEK Witness</span></h1>
     <p class=muted>This is Hathor's studio — make AI images free, no account, no card. Type a prompt and Generate;
       we try free engines in order and tell you which made it. Want a head start? Pick a
       <a href="/templates">template</a>, appear <a href="/hathor">with Hathor</a>, or go
@@ -595,6 +601,32 @@ export function schoolIndexView() {
   return pageShell('GenAI School — learn generative AI', body, { canonical: `${BASE_URL}/school`, description: 'GenAI School — learn generative AI from one-tap templates up to running your own pipelines on Colab, Modal, Fal and ComfyUI, plus models from Hugging Face and Civitai.' });
 }
 
+// ── /news — Hathor announces what's up, in her voice ──────────────────────────────────────────────
+export function newsView() {
+  const fx = EFFECT_TEMPLATES.length, hathorN = listEffects('hathor').length, horrorN = listEffects('horror').length;
+  const body = `<h1>From Hathor <span class=muted style="font-size:14px">· the MELEK Witness</span></h1>
+    <div class=card>
+      <p>My studio is open, and I have been busy. Everything here is <b>free</b> — no account, no card. Come make with me.</p>
+    </div>
+    <h2>What is up now</h2>
+    <div class=grid>
+      <a class=sec href="/char"><div class=t>Become anything <span class="badge cat">${esc(fx)}</span></div><div class=d>${esc(fx)} character effects — animals, movies, superheroes, mafia, cyberpunk, art, the old gods and figures. Same you, brand-new scene.</div></a>
+      <a class=sec href="/hathor"><div class=t>Appear with me <span class="badge cat">${esc(hathorN)}</span></div><div class=d>Stand beside me in ${esc(hathorN)} scenes — a selfie, a throne, the Nile, the stars.</div></a>
+      <a class=sec href="/halloween"><div class=t>Halloween <span class="badge cat">${esc(horrorN)}</span></div><div class=d>${esc(horrorN)} spooky looks, and my Halloween guardian, Anpu. Thanksgiving and Christmas follow.</div></a>
+      <a class=sec href="/reel-maker"><div class=t>Reels <span class="badge cat">${esc(REEL_TEMPLATES.length)}</span></div><div class=d>CapCut-style storyboards — pick a structure, fill the fields, take it to your editor.</div></a>
+      <a class=sec href="/gallery"><div class=t>Animate ✨</div><div class=d>Add epic effects to any image — shatter glass, explode, zoom — and download a clip. Free, in your browser.</div></a>
+      <a class=sec href="/school"><div class=t>The School <span class="badge cat">${esc(LESSONS.length)}</span></div><div class=d>Learn it here, then run it yourself on free and cheap GPUs. Build on my open repository.</div></a>
+    </div>
+    <h2>My tests</h2>
+    <p class=muted>I have been making things too — see them in the <a href="/gallery">gallery</a>: myself as a pharaoh, a space knight, a gothic figure, and Kali.</p>
+    <h2>One house, many wings</h2>
+    <p class=muted>This studio is part of my system. Visit the <a href="${esc(ALMANACK)}">Almanack</a> for the turning of the seasons and the sky, the
+      <a href="${esc(WIKI)}">Library of Ashurbanipal</a> for the knowledge, <a href="${esc(HATHOR_LIVE)}">hathor.live</a> for me, and the
+      <a href="${esc(REPO)}">Bot repository</a> to build your own with my tools. When you make something, <b>share it on MELEK</b> — your work, on our own chain.</p>
+    ${shareCta('Made something with me? Show it off —')}`;
+  return pageShell('From Hathor — announcements', body, { canonical: `${BASE_URL}/news`, description: 'Hathor announces her studio: 130+ character effects, appear-with-Hathor scenes, Halloween, reels, animate, and the GenAI School — all free.' });
+}
+
 // ── /animate — free, client-side clip effects (shatter glass, explode, zoom, glitch) ──────────────
 // Takes an image we generated (?img=<file>), animates it on a <canvas>, and records a downloadable
 // WebM via MediaRecorder. No GPU, no server cost — all in the browser. True AI video is a PRANA/GPU
@@ -704,7 +736,7 @@ export function halloweenIndexView() {
 }
 
 const SITEMAP_PATHS = [
-  '/', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
+  '/', '/news', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -801,6 +833,7 @@ export async function handler(req, res) {
     if (path === '/hathor') return sendHtml(res, hathorIndexView());
     if (path === '/halloween') return sendHtml(res, halloweenIndexView());
     if (path === '/animate') return sendHtml(res, animateView(url.searchParams.get('img')));
+    if (path === '/news') return sendHtml(res, newsView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
     if (path.startsWith('/reel-maker/')) {
       const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
