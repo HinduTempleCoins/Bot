@@ -749,9 +749,10 @@ export function animateView(imgFile) {
   const safe = /^[\w.-]+\.(png|jpg|jpeg|webp)$/i.test(file) ? file : '';
   const imgUrl = safe ? '/img/' + safe : '';
   const body = `<h1>Animate <span class=muted style="font-size:14px">· add an epic effect, download a clip</span></h1>
-    <p class=muted>Free, in your browser — no GPU. Pick an effect, hit Record, and download a WebM clip. ${safe ? '' : 'Open this from any image in the <a href="/gallery">gallery</a> (the ✨ Animate button).'}</p>
-    ${safe ? `<div class=card>
+    <p class=muted>Free, in your browser — no GPU. <b>Upload a photo</b> (or open one from the <a href="/gallery">gallery</a>), pick an effect, hit Record, and download a clip.</p>
+    <div class=card>
       <div class=row style="gap:8px;margin-bottom:10px">
+        <input type=file id=up accept="image/*" class=q style="width:auto">
         <button type=button data-fx=shatter>Shatter Glass</button>
         <button type=button data-fx=explode>Explode</button>
         <button type=button data-fx=zoom>Epic Zoom</button>
@@ -765,10 +766,12 @@ export function animateView(imgFile) {
     (function(){
       var IMG = ${JSON.stringify(imgUrl)};
       var cv = document.getElementById('cv'), ctx = cv.getContext('2d'), status = document.getElementById('status'), dl = document.getElementById('dl');
-      var img = new Image(); img.crossOrigin = 'anonymous'; img.src = IMG;
-      var W = cv.width, H = cv.height, rec = null, chunks = [], playing = false;
-      img.onload = function(){ ctx.drawImage(img,0,0,W,H); status.textContent = 'Ready — pick an effect.'; };
+      var img = new Image(); img.crossOrigin = 'anonymous';
+      var W = cv.width, H = cv.height, rec = null, chunks = [], playing = false, ready = false;
+      img.onload = function(){ ready = true; ctx.drawImage(img,0,0,W,H); status.textContent = 'Ready — pick an effect.'; };
       img.onerror = function(){ status.textContent = 'Could not load the image.'; };
+      if (IMG) { status.textContent = 'Loading…'; img.src = IMG; } else { status.textContent = 'Upload a photo to begin.'; }
+      document.getElementById('up').addEventListener('change', function(e){ var f = e.target.files && e.target.files[0]; if (!f) return; ready = false; status.textContent = 'Loading ' + f.name + '…'; img.src = URL.createObjectURL(f); });
       function startRec(){
         chunks = []; dl.style.display='none';
         try {
@@ -784,7 +787,7 @@ export function animateView(imgFile) {
       }
       function stopRec(){ try { if (rec && rec.state !== 'inactive') rec.stop(); } catch(e){} }
       function run(fx){
-        if (playing) return; playing = true; status.textContent = 'Recording ' + fx + '…'; startRec();
+        if (playing) return; if (!ready){ status.textContent = 'Upload or load an image first.'; return; } playing = true; status.textContent = 'Recording ' + fx + '…'; startRec();
         var dur = 2600, t0 = performance.now();
         // pre-slice for shatter/explode
         var cols = 12, rows = 12, cw = W/cols, ch = H/rows, shards = [];
@@ -817,7 +820,7 @@ export function animateView(imgFile) {
       }
       Array.prototype.forEach.call(document.querySelectorAll('[data-fx]'), function(b){ b.addEventListener('click', function(){ run(b.getAttribute('data-fx')); }); });
     })();
-    </script>` : ''}
+    </script>
     <div class=card><p class=muted style="font-size:13px">These effects run free in your browser. Full generative video (real motion, character-consistent) is coming on our own GPU / PRANA compute — see <a href="/school">GenAI School</a>.</p></div>`;
   return pageShell('Animate — Generative AI', body, { canonical: `${BASE_URL}/animate`, robots: 'noindex,follow', description: 'Add epic effects — shatter glass, explode, zoom, glitch — to your AI image and download a clip. Free, in your browser.' });
 }
