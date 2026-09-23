@@ -44,12 +44,21 @@ import {
 import {
   REEL_TEMPLATES, REEL_ASPECTS, getReelTemplate, buildReelSpec, shotlist, validateReelTemplates,
 } from '../../integrations/genai-reel-maker.mjs';
+import {
+  EFFECT_TEMPLATES, EFFECT_CATEGORIES, listEffects, CHARACTERS, validateEffects,
+} from '../../integrations/genai-effect-templates.mjs';
+import {
+  TRACKS, LESSONS, listLessons, NFT_DISCLAIMER, validateSchool,
+} from '../../integrations/genai-school.mjs';
 
 const PORT = +(process.env.PORT || 8131);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
+const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
+// human-facing labels for the effect categories (operator's words)
+const EFFECT_CAT_LABELS = { creature: 'Animals & Creatures', holiday: 'Holidays', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'genai');
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
 
@@ -150,7 +159,7 @@ const FOOTER = `<footer>
   label which one made each image. Cost-bearing engines run under a daily budget and a circuit breaker —
   no runaway billing. We never see or store your keys, and we never proxy arbitrary URLs — only images
   we generated and saved here. <i>Phase 1.</i> Coming next: ComfyUI on demand and Colab teach-lessons.
-  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/templates">Templates</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/reel-maker">Reel maker</a> · <a href="/gallery">Gallery</a> · <a href="${esc(WIKI)}">Wiki</a> · <a href="${esc(DATA)}">Data</a></div>
+  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/templates">Templates</a> · <a href="/char">Characters</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Gallery</a> · <a href="${esc(WIKI)}">Wiki</a> · <a href="${esc(DATA)}">Data</a></div>
 </footer>`;
 
 function pageShell(title, body, opts = {}) {
@@ -164,7 +173,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ GenAI <span>make images now</span></a>
-  <div class=topbar-r><a href="/templates">Templates</a><a href="/comfyui">ComfyUI</a><a href="/colab">Colab</a><a href="/reel-maker">Reel maker</a><a href="/gallery">Gallery</a><a href="${esc(WIKI)}">Wiki</a></div></header>
+  <div class=topbar-r><a href="/templates">Templates</a><a href="/char">Characters</a><a href="/reel-maker">Reels</a><a href="/comfyui">ComfyUI</a><a href="/colab">Colab</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(WIKI)}">Wiki</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -205,14 +214,24 @@ export function homePage(opts = {}) {
     <div class=grid>${byKind('image').slice(0, 6).map(generatorCard).join('')}</div>
     <p class=muted style="margin-top:8px"><a href="/directory">See the full directory (images + video) →</a></p>
 
+    <h2>Turn a character into anything</h2>
+    <div class=grid>
+      <a class=sec href="/char"><div class=t>Character effects <span class="badge cat">${esc(EFFECT_TEMPLATES.length)}</span></div>
+        <div class=d>Same character, brand-new scene — Animals, Holidays, Movie themes, Superheroes, Military, Mafia &amp; more. Use Hathor, make your own character, or a fictional one.</div></a>
+      <a class=sec href="/reel-maker"><div class=t>Reel template maker <span class="badge cat">${esc(REEL_TEMPLATES.length)}</span></div>
+        <div class=d>CapCut-style: pick a structure, fill the fields, download a storyboard to take into your editor.</div></a>
+      <a class=sec href="/char"><div class=t>✨ Create your own template!</div>
+        <div class=d>Build a character or a look once, then run it through every effect. Learn how in GenAI School.</div></a>
+    </div>
+
     <h2>Go deeper — run your own pipelines</h2>
     <div class=grid>
       <a class=sec href="/comfyui"><div class=t>ComfyUI workflows <span class="badge cat">${esc(COMFY_TEMPLATES.length)}</span></div>
         <div class=d>Copy-ready node graphs — text-to-image, upscale, inpaint, video, ControlNet — for your own ComfyUI.</div></a>
       <a class=sec href="/colab"><div class=t>Google Colab notebooks <span class="badge cat">${esc(COLAB_TEMPLATES.length)}</span></div>
         <div class=d>One-click launch links: image gen, fine-tune (LoRA), audio, transcription, upscaling — on a free GPU.</div></a>
-      <a class=sec href="/reel-maker"><div class=t>Reel template maker <span class="badge cat">${esc(REEL_TEMPLATES.length)}</span></div>
-        <div class=d>CapCut-style: pick a structure, fill the fields, download a storyboard to take into your editor.</div></a>
+      <a class=sec href="/school"><div class=t>GenAI School <span class="badge cat">${esc(LESSONS.length)}</span></div>
+        <div class=d>Learn it here, then run it yourself — ComfyUI, Colab / Modal / Fal, Hugging Face &amp; Civitai, uploads, NFTs. Then publish to the <a href="${esc(WIKI)}">Library</a>.</div></a>
     </div>`;
   return pageShell('Generative AI — make images now', body, { canonical: `${BASE_URL}/` });
 }
@@ -507,8 +526,44 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
+// ── character effects gallery (operator: Animals, Holidays, Movies, Military, Mafia, Cartel…) ──────
+function effectCard(e) {
+  return `<div class=sec><div class=t>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></div></div>`;
+}
+export function charIndexView() {
+  const byCat = EFFECT_CATEGORIES.map((c) => ({ c, items: listEffects(c) })).filter((g) => g.items.length);
+  const chars = `<div class=grid>${CHARACTERS.map((c) =>
+    `<div class=sec><div class=t>${esc(c.name)} <span class="badge cat">${esc(c.kind)}</span></div><div class=d>${esc(c.description)}</div></div>`).join('')}
+    <a class=sec id=create href="/school"><div class=t>✨ Create your own character</div><div class=d>Make a reusable character on the platform, then run it through any effect. Learn how in GenAI School.</div></a></div>`;
+  const cats = byCat.map((g) =>
+    `<h2>${esc(EFFECT_CAT_LABELS[g.c] || g.c)} <span class=muted style="font-size:13px">(${g.items.length})</span></h2><div class=grid>${g.items.map(effectCard).join('')}</div>`).join('');
+  const body = `<h1>Character effects <span class=muted style="font-size:14px">· same character, brand-new scene</span></h1>
+    <p class=muted>Pick a character, pick an effect — it keeps the <b>same character</b> but makes a completely new image, not the original photo. Use built-in <b>Hathor</b>, <a href="#create">create your own</a>, or a fictional one. A real person’s face needs consent; fictional and platform characters are open. Public figures are fair game for satire.</p>
+    <h2>Characters</h2>${chars}
+    ${cats}
+    <div class=card><p class=muted style="font-size:13px">Same idea as CapCut / Midjourney character reference. Want full control on your own GPU? <a href="/school">GenAI School</a> covers ComfyUI + Colab / Modal / Fal.</p></div>`;
+  return pageShell('Character effects — Generative AI', body, { canonical: `${BASE_URL}/char`, description: 'Turn a character into anything — Animals, Holidays, Movie themes, Superheroes, Military, Mafia and more. Same character, brand-new scene.' });
+}
+
+// ── GenAI School — learn it here, then run it yourself ─────────────────────────────────────────────
+function lessonCard(l) {
+  const links = (l.do || []).map((d) =>
+    `<a href="${esc(d.href)}"${/^https?:/i.test(d.href) ? ' target=_blank rel="noopener"' : ''}>${esc(d.label)}</a>`).join(' · ');
+  const disc = l.disclaimer
+    ? `<div class=muted style="font-size:12px;margin-top:8px;border-top:1px solid var(--line);padding-top:8px">${esc(l.disclaimer)}</div>` : '';
+  return `<div class=sec><div class=t>${esc(l.title)} <span class="badge cat">${esc(l.minutes)} min</span></div>
+    <div class=d>${esc(l.summary)}</div>
+    <div style="margin-top:8px;font-size:13px">${links}</div>${disc}</div>`;
+}
+export function schoolIndexView() {
+  const body = `<h1>GenAI School <span class=muted style="font-size:14px">· learn it here, then run it yourself</span></h1>
+    <p class=muted>Start with our one-tap <a href="/templates">templates</a> and <a href="/char">character effects</a>, then graduate: build your own ComfyUI pipelines, run them on Colab / Modal / Fal, pull models from Hugging Face and Civitai, upload your own templates, and share what you make in the <a href="${esc(FORUM)}">forum</a> and the <a href="${esc(WIKI)}">Library</a>.</p>
+    ${TRACKS.map((t) => { const ls = listLessons(t.id); return ls.length ? `<h2>${esc(t.title)}</h2><div class=grid>${ls.map(lessonCard).join('')}</div>` : ''; }).join('')}`;
+  return pageShell('GenAI School — learn generative AI', body, { canonical: `${BASE_URL}/school`, description: 'GenAI School — learn generative AI from one-tap templates up to running your own pipelines on Colab, Modal, Fal and ComfyUI, plus models from Hugging Face and Civitai.' });
+}
+
 const SITEMAP_PATHS = [
-  '/', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker',
+  '/', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/school',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -601,6 +656,8 @@ export async function handler(req, res) {
 
     // ── CapCut-style reel template maker ──
     if (path === '/reel-maker') return sendHtml(res, reelIndexView());
+    if (path === '/char') return sendHtml(res, charIndexView());
+    if (path === '/school') return sendHtml(res, schoolIndexView());
     if (path.startsWith('/reel-maker/')) {
       const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
       if (method === 'POST') {
