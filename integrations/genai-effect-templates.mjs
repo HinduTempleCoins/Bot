@@ -23,7 +23,7 @@
 //   buildEffectJob(effectId, subject, opts)   -> { ok, job } | { ok:false, error|needsConsent }
 //   validateEffects()                         -> integrity check for /health + tests
 
-export const EFFECT_CATEGORIES = ['hathor', 'memes', 'creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle', 'figures'];
+export const EFFECT_CATEGORIES = ['hathor', 'memes', 'creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle', 'figures', 'scenes'];
 
 export const SUBJECT_KINDS = ['builtin', 'platform', 'fictional', 'real-person'];
 
@@ -527,6 +527,27 @@ export const EFFECT_TEMPLATES = [
     prompt: '{{subject}} as a moody black-and-white "sigma" aesthetic meme portrait, dramatic hard lighting, cold tone', negative: 'blurry, deformed' },
   { id: 'as-surprised', title: 'Surprised Reaction', category: 'memes',
     prompt: '{{subject}} as an over-the-top wide-eyed surprised reaction meme character, exaggerated expression', negative: 'blurry, deformed' },
+  // ── group scenes & squads (you + several characters in one image) ─────────────────────────────────
+  { id: 'crew-mobsters', title: 'Mob Crew Group Photo', category: 'scenes',
+    prompt: '{{subject}} in the center of a group photo with a crew of sharp-suited 1920s mobsters at a speakeasy, cigar smoke, vintage film grain', negative: 'weapons toward viewer, gore, blurry' },
+  { id: 'crew-cartel', title: 'Cartel Crew (telenovela)', category: 'scenes',
+    prompt: '{{subject}} with a stylized telenovela crime-drama crew at a desert villa, sharp suits, sunglasses, cinematic', negative: 'weapons toward viewer, drugs, gore, blurry' },
+  { id: 'gangster-lineup', title: 'Gangster Lineup', category: 'scenes',
+    prompt: '{{subject}} in a classic film-noir gangster lineup, several sharp-dressed figures, dramatic shadows', negative: 'weapons toward viewer, gore, blurry' },
+  { id: 'hindu-pantheon', title: 'With the Hindu Gods', category: 'scenes',
+    prompt: '{{subject}} among the Hindu gods — Shiva, Ganesha, Kali and Durga — in a radiant divine assembly, devotional art', negative: 'disrespectful, blurry' },
+  { id: 'egyptian-gods', title: 'With the Egyptian Gods', category: 'scenes',
+    prompt: '{{subject}} among the Egyptian gods — Anubis, Ra, Isis and Horus — in a golden temple assembly, ancient art', negative: 'blurry, deformed' },
+  { id: 'superhero-team', title: 'Superhero Team', category: 'scenes',
+    prompt: '{{subject}} in a heroic superhero team lineup, dynamic pose, city skyline behind, comic-cinematic lighting', negative: 'blurry, extra limbs' },
+  { id: 'guru-council', title: 'Council of Gurus', category: 'scenes',
+    prompt: '{{subject}} seated among a council of enlightened gurus and sages, serene temple, incense and lamps, devotional', negative: 'disrespectful, blurry' },
+  { id: 'rock-band', title: 'Rock Band Photo', category: 'scenes',
+    prompt: '{{subject}} in a rock band group promo photo, stage lights, instruments, energetic', negative: 'blurry, deformed' },
+  { id: 'legends-dinner', title: 'Dinner with Legends', category: 'scenes',
+    prompt: '{{subject}} at a surreal long dinner table with several legendary historical figures, warm candlelight, painterly', negative: 'blurry, deformed' },
+  { id: 'squad-goals', title: 'Squad Goals', category: 'scenes',
+    prompt: '{{subject}} with a crew of stylish characters posing together, magazine group shot, confident', negative: 'blurry, deformed' },
 ];
 
 const EFFECT_BY_ID = new Map(EFFECT_TEMPLATES.map((e) => [e.id, e]));
