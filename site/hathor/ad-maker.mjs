@@ -6,8 +6,8 @@
 //   const svg = buildAdSvg('kurdish', { line1: 'Your Voice is', line2: 'Worth Something' });  // pure, testable
 //   const png = await renderAd('vaporwave', { wordmark: 'MELEK.salon' });                     // Buffer (lazy sharp)
 //
-// CLI:  node site/genai/ad-maker.mjs <style> [--line1=…] [--line2=…] [--wordmark=…] [--out=/path.png]
-//       node site/genai/ad-maker.mjs all --dir=/tmp/ads          # render every style
+// CLI:  node site/hathor/ad-maker.mjs <style> [--line1=…] [--line2=…] [--wordmark=…] [--out=/path.png]
+//       node site/hathor/ad-maker.mjs all --dir=/tmp/ads          # render every style
 
 const W = 1200, H = 630;
 

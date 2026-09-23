@@ -23,7 +23,7 @@ Both reuse the GenAI modules already in the repo instead of adding backends.
 | `ensurePostImage(post, deps)` | the automation hook: skip if a cover already exists, else generate+host+attach. Idempotent. **This is what makes "every announcement gets an image" automatic.** |
 
 **Backend chosen:** `genai-providers` — because it is already the vetted, free-first, keyless-fallback
-image path (see `deploy/genai/RUNBOOK.md`). No new key, no new dependency. Pollinations covers the
+image path (see `deploy/hathor/RUNBOOK.md`). No new key, no new dependency. Pollinations covers the
 zero-key case; Cloudflare/Gemini upgrade quality when their keys are present (JIT from the vault on the
 box).
 

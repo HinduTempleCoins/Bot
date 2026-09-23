@@ -1,4 +1,4 @@
-// server.mjs — Generative AI (Phase 1) — genai.soapbox.community.
+// server.mjs — Hathor's studio (Phase 1) — hathor.soapbox.community.
 //
 // THE CONCEPT (operator's spec):
 //   • A page where users generate AI images NOW — free-first, no login. Prompt box + template picker +
@@ -8,7 +8,7 @@
 //     pollinations failover; circuit breakers; daily budget caps; NEVER an auto-retry billing loop).
 //   • Templates come from `integrations/genai-templates.mjs` (pick → fill labelled slots → prompt).
 //
-//   PORT=8131 BASE_URL=https://genai.soapbox.community node site/genai/server.mjs
+//   PORT=8131 BASE_URL=https://hathor.soapbox.community node site/hathor/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /                 prompt box + template picker + size + Generate
@@ -62,7 +62,7 @@ const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
 const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
 // human-facing labels for the effect categories (operator's words)
 const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads' };
-const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'genai');
+const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'hathor');
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
 
 // ── image-generation seam ─────────────────────────────────────────────────────────────────────────
