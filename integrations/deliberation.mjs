@@ -70,7 +70,7 @@ export async function deliberate(ctx = {}, deps = {}) {
       grounding ? `From what you know:\n${grounding}` : '',
       '', 'Reflect briefly, in character — what you make of it. No preamble.',
     ].filter(Boolean).join('\n');
-    try { reflection = String(await deps.complete(prompt, { task: 'quality' }) || '').trim(); } catch { reflection = ''; }
+    try { reflection = String(await deps.complete(prompt, { task: 'quality', focus, question: ctx.prompt }) || '').trim(); } catch { reflection = ''; }
   }
   if (!reflection) reflection = recalls.length
     ? `${focus} — it recalls ${recalls[0].source || 'something I know'}.`
