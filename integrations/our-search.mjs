@@ -85,6 +85,22 @@ function defaultSources() {
         }));
       } catch { return []; }
     },
+    // Hathor's Almanack — a WING of Hathor (site/almanack). Computed, not a text corpus: when the query is
+    // about the day/sky/season/moon/calendar, answer with today's real reckoning so the one brain speaks it.
+    almanack: async (q) => {
+      try {
+        if (!/\b(almanac|almanack|moon|lunar|season|solstice|equinox|sky|star|zodiac|sign|today|calendar|firework|full moon|new moon)\b/i.test(q)) return [];
+        const a = await import('../site/almanack/server.mjs');
+        const now = new Date();
+        const bits = [];
+        if (a.moonPhase) bits.push(`Moon: ${a.moonPhase(now)}`);
+        if (a.season) bits.push(`Season: ${a.season(now)}`);
+        if (a.greatAge) bits.push(`Great Age: ${a.greatAge(now.getUTCFullYear())}`);
+        if (!bits.length) return [];
+        return [{ source: 'almanack', title: "Hathor's Almanack — today", link: 'https://hathor.live/almanack',
+          snippet: bits.join(' · '), score: 0.9 }];
+      } catch { return []; }
+    },
     aggregator: async (q, { k = 4 } = {}) => {
       try {
         const mod = await import('./aggregator-directory.mjs');

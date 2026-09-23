@@ -87,3 +87,30 @@ test('soft-fails on empty input', async () => {
   const r = await h.perceive('game', { from: 'x', text: '' });
   assert.equal(r.reply, '');
 });
+
+test('Crypt-ology: recall feeds the disposition into her thought, and the exchange updates the map', async () => {
+  const seen = [];
+  const crypt = {
+    recall: (acct) => acct === 'ryan' ? { account: 'ryan' } : null,
+    dispositionOf: () => 'a trusted teacher',
+    suggestTopics: () => ['mythology', 'genetics'],
+    observe: (acct, ev, opts) => seen.push({ acct, ev, surface: opts && opts.surface }),
+  };
+  const h = createHathor({ compartments: mkMem(), retrieve: corpus, cryptology: crypt });
+  const r = await h.perceive('discord', { from: 'ryan', text: 'Hathor, why do pylons frame the sacred?' });
+  assert.ok(r.cryptology, 'exposes the recalled relationship');
+  assert.equal(r.cryptology.disposition, 'a trusted teacher');
+  assert.deepEqual(r.cryptology.topics, ['mythology', 'genetics']);
+  // the exchange updated the relationship map with the right event
+  assert.equal(seen.length, 1);
+  assert.equal(seen[0].acct, 'ryan');
+  assert.equal(seen[0].ev, 'deep_question'); // "why…?" classified
+  assert.equal(seen[0].surface, 'discord');
+});
+
+test('Crypt-ology stays soft: a broken map never silences her', async () => {
+  const crypt = { recall: () => { throw new Error('store gone'); }, observe: () => { throw new Error('nope'); } };
+  const h = createHathor({ compartments: mkMem(), retrieve: corpus, cryptology: crypt });
+  const r = await h.perceive('melek', { from: 'x', text: 'hello' });
+  assert.ok(typeof r.reply === 'string');
+});

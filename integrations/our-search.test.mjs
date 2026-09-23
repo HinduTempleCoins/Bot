@@ -37,3 +37,16 @@ test('formatForPrompt renders a clean research block', () => {
   const block = formatForPrompt({ hits: [{ source: 'library', title: 'T', link: 'p/x.md', snippet: 's' }] });
   assert.match(block, /\[library\] T <p\/x\.md> — s/);
 });
+
+test('almanack source answers day/sky/season queries with today’s reckoning', async () => {
+  const { search: realSearch } = await import('./our-search.mjs');
+  // use the REAL default sources for just the almanack (isolate via only:)
+  const mod = await import('./our-search.mjs');
+  mod.__setSources(null); // restore defaults
+  const r = await realSearch('what is the moon phase today', { only: ['almanack'], k: 3 });
+  assert.ok(r.hits.length >= 1, 'almanack produced a hit for a moon query');
+  assert.equal(r.hits[0].source, 'almanack');
+  assert.match(r.hits[0].snippet, /Moon:|Season:|Great Age:/);
+  const none = await realSearch('graphene witness curation', { only: ['almanack'] });
+  assert.equal(none.hits.length, 0, 'almanack stays quiet on non-calendar queries');
+});
