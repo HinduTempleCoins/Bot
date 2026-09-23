@@ -58,7 +58,7 @@ const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
 // human-facing labels for the effect categories (operator's words)
-const EFFECT_CAT_LABELS = { creature: 'Animals & Creatures', holiday: 'Holidays', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle' };
+const EFFECT_CAT_LABELS = { creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'genai');
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
 
