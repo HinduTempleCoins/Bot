@@ -445,7 +445,7 @@ function galleryCard(m) {
   return `<div class=gcard>
     <img src="/img/${esc(m.file)}" alt="${esc(String(m.prompt || '').slice(0, 120))}" loading=lazy>
     <div class=meta><b>${esc(String(m.prompt || '').slice(0, 90))}</b><br>
-      made by ${esc(eng)} · ${esc(m.size || '')} · <a href="/animate?img=${esc(m.file)}">✨ animate</a></div></div>`;
+      made by ${esc(eng)} · ${esc(m.size || '')} · <a href="/animate?img=${esc(m.file)}">✨ animate</a> · <a href="/vectorize?img=${esc(m.file)}">⬡ vectorize</a></div></div>`;
 }
 
 export function galleryView() {
@@ -466,6 +466,7 @@ function resultPage(meta) {
       <p class=muted><b>Made by:</b> ${esc(meta.note || meta.provider)} · ${esc(meta.size || '')}${meta.seed != null ? ` · seed ${esc(meta.seed)}` : ''}</p>
       <div class=row style="margin-top:8px"><a class=pill href="/">← make another</a>
         <a class=pill style="border-color:var(--gold);color:var(--gold)" href="/animate?img=${esc(meta.file)}">✨ Animate</a>
+        <a class=pill href="/vectorize?img=${esc(meta.file)}">⬡ Vectorize</a>
         <a class=pill href="/gallery">see the gallery</a>
         <a class=pill href="/img/${esc(meta.file)}" download>download</a></div>
       ${shareCta('Made something? Show it off —')}
@@ -599,6 +600,56 @@ export function schoolIndexView() {
     <p class=muted>Start with our one-tap <a href="/templates">templates</a> and <a href="/char">character effects</a>, then graduate: build your own ComfyUI pipelines, run them on Colab / Modal / Fal, pull models from Hugging Face and Civitai, upload your own templates, and share what you make in the <a href="${esc(FORUM)}">forum</a> and the <a href="${esc(WIKI)}">Library</a>.</p>
     ${TRACKS.map((t) => { const ls = listLessons(t.id); return ls.length ? `<h2>${esc(t.title)}</h2><div class=grid>${ls.map(lessonCard).join('')}</div>` : ''; }).join('')}`;
   return pageShell('GenAI School — learn generative AI', body, { canonical: `${BASE_URL}/school`, description: 'GenAI School — learn generative AI from one-tap templates up to running your own pipelines on Colab, Modal, Fal and ComfyUI, plus models from Hugging Face and Civitai.' });
+}
+
+// ── /vectorize — free, client-side raster→SVG for print-ready t-shirt/item designs ────────────────
+// Traces an image to clean vector SVG entirely in the browser (ImageTracer.js). No GPU, no server
+// cost. The SVG is print/screen-ready and scales infinitely — the first step of design → shirt/item
+// → 3D → game. (3D/model steps that need a GPU are a PRANA job; this stage is free.)
+export function vectorizeView(imgFile) {
+  const file = basename(String(imgFile || ''));
+  const safe = /^[\w.-]+\.(png|jpg|jpeg|webp)$/i.test(file) ? file : '';
+  const imgUrl = safe ? '/img/' + safe : '';
+  const body = `<h1>Vectorize <span class=muted style="font-size:14px">· make a print-ready SVG</span></h1>
+    <p class=muted>Turn a design into clean <b>vector SVG</b> — infinitely scalable, ready for t-shirts, stickers, and screen printing. Free, in your browser, no GPU. ${safe ? '' : 'Open this from any image in the <a href="/gallery">gallery</a> (the ⬡ Vectorize link), or upload one below.'}</p>
+    <div class=card>
+      <div class=row style="gap:8px;margin-bottom:10px">
+        <label class=fld style="margin:0">Colors <select class=q id=colors style="width:auto">
+          <option value=2>2</option><option value=4>4</option><option value=8 selected>8</option><option value=16>16</option><option value=32>32</option></select></label>
+        <input type=file id=up accept="image/*" class=q style="width:auto">
+        <button type=button id=go>Vectorize</button>
+        <a class=pill id=dl style="display:none" download="design.svg">⬇ Download SVG</a>
+      </div>
+      <div id=out style="min-height:120px;background:#fff;border-radius:10px;padding:8px;overflow:auto"></div>
+      <p class=muted id=status style="font-size:12px;margin-top:8px">Loading…</p>
+    </div>
+    <div class=card><p class=muted style="font-size:13px">Next in the chain: drop the SVG on a shirt/mug mockup, and (on our GPU / PRANA) turn it into a 3D model you can export to a game. See <a href="/school">GenAI School</a>.</p></div>
+    <script src="https://cdn.jsdelivr.net/npm/imagetracerjs@1.2.6/imagetracer_v1.2.6.js"></script>
+    <script>
+    (function(){
+      var IMG = ${JSON.stringify(imgUrl)};
+      var out=document.getElementById('out'), status=document.getElementById('status'), dl=document.getElementById('dl'),
+          go=document.getElementById('go'), colors=document.getElementById('colors'), up=document.getElementById('up');
+      var current = IMG || '';
+      function trace(url){
+        if (!url){ status.textContent='Pick or upload an image first.'; return; }
+        if (typeof ImageTracer==='undefined'){ status.textContent='Vectorizer failed to load — refresh and retry.'; return; }
+        status.textContent='Vectorizing…'; dl.style.display='none';
+        try {
+          ImageTracer.imageToSVG(url, function(svg){
+            out.innerHTML = svg;
+            var s = out.querySelector('svg'); if (s){ s.setAttribute('width','100%'); s.removeAttribute('height'); }
+            var blob = new Blob([svg], {type:'image/svg+xml'});
+            dl.href = URL.createObjectURL(blob); dl.style.display=''; status.textContent='Done — download your SVG.';
+          }, { numberofcolors: parseInt(colors.value,10)||8, ltres:1, qtres:1, pathomit:8, blurradius:0 });
+        } catch(e){ status.textContent='Could not vectorize that image.'; }
+      }
+      go.addEventListener('click', function(){ trace(current); });
+      up.addEventListener('change', function(){ var f=up.files&&up.files[0]; if(!f) return; current=URL.createObjectURL(f); status.textContent='Loaded '+f.name+' — hit Vectorize.'; });
+      if (IMG){ status.textContent='Image loaded — hit Vectorize.'; } else { status.textContent='Upload an image to vectorize.'; }
+    })();
+    </script>`;
+  return pageShell('Vectorize — Hathor studio', body, { canonical: `${BASE_URL}/vectorize`, robots: 'noindex,follow', description: 'Turn any design into a clean, print-ready vector SVG — free, in your browser. For t-shirts, stickers and screen printing.' });
 }
 
 // ── /news — Hathor announces what's up, in her voice ──────────────────────────────────────────────
@@ -736,7 +787,7 @@ export function halloweenIndexView() {
 }
 
 const SITEMAP_PATHS = [
-  '/', '/news', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
+  '/', '/news', '/vectorize', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -834,6 +885,7 @@ export async function handler(req, res) {
     if (path === '/halloween') return sendHtml(res, halloweenIndexView());
     if (path === '/animate') return sendHtml(res, animateView(url.searchParams.get('img')));
     if (path === '/news') return sendHtml(res, newsView());
+    if (path === '/vectorize') return sendHtml(res, vectorizeView(url.searchParams.get('img')));
     if (path === '/school') return sendHtml(res, schoolIndexView());
     if (path.startsWith('/reel-maker/')) {
       const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
