@@ -4,7 +4,7 @@
 // count / formats) and this emits a deterministic set of creative BRIEFS — scroll-stopping static, video,
 // and social ad variants with A/B-testable headline / subhead / CTA copy (the Arcads/Creatify bulk-variant
 // idea, but ours). It does NOT call a model: the copy is generated deterministically from the inputs, the
-// static ad is rendered by REUSING site/genai/ad-maker.mjs (no SVG re-implementation here), and the video
+// static ad is rendered by REUSING site/hathor/ad-maker.mjs (no SVG re-implementation here), and the video
 // piece is emitted as a STORYBOARD (the scene plan a video model or editor executes) rather than a video.
 //
 // Pure + deterministic given inputs — no clocks, no randomness (variation comes from the item index), no
@@ -18,7 +18,7 @@
 //   node pentecaust/herald/creative-studio.mjs      # demo plan for a sample brand
 
 import { fileURLToPath } from 'node:url';
-import { buildAdSvg, STYLE_IDS, esc } from '../../site/genai/ad-maker.mjs';
+import { buildAdSvg, STYLE_IDS, esc } from '../../site/hathor/ad-maker.mjs';
 
 export { esc };
 

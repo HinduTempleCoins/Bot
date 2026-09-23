@@ -1,4 +1,4 @@
-# Generative AI — deploy runbook (genai.soapbox.community)
+# Generative AI — deploy runbook (hathor.soapbox.community)
 
 The GenAI page is a zero-dependency Node HTTP service in the SoapBox house style (mirrors
 `site/hierophant/`). It lets users **make AI images now** — free-first, no login. A prompt box, a
@@ -14,7 +14,7 @@ host/service values (the pre-commit hook blocks hostnames/keys in public commits
 
 ## What runs
 
-- **Entry point:** `site/genai/server.mjs`
+- **Entry point:** `site/hathor/server.mjs`
 - **Port:** `PORT` env (default `8131`)
 - **Public base:** `BASE_URL=https://__DOMAIN__`
 - **Providers:** `integrations/genai-providers.mjs` — failover **cloudflare → gemini → pollinations**,
@@ -22,7 +22,7 @@ host/service values (the pre-commit hook blocks hostnames/keys in public commits
   **no keys at all** (it just falls all the way through to the free engine).
 - **Templates:** `integrations/genai-templates.mjs` — pure data, no network, no keys.
 - **Gallery storage:** images + `<file>.json` metadata are written to `DATA_DIR` (default
-  `.data/genai` under the repo). Mount a persistent volume there in production.
+  `.data/hathor` under the repo). Mount a persistent volume there in production.
 
 ### Environment (set on the host, not here)
 
@@ -31,7 +31,7 @@ host/service values (the pre-commit hook blocks hostnames/keys in public commits
 | `PORT` | listen port | `8131` |
 | `HOST` | bind address | `127.0.0.1` |
 | `BASE_URL` | public origin (canonical/sitemap) | `http://localhost:$PORT` |
-| `DATA_DIR` | where generated images + metadata are stored | `.data/genai` |
+| `DATA_DIR` | where generated images + metadata are stored | `.data/hathor` |
 | `GENAI_RATE_PER_HOUR` | per-IP generate cap | `10` |
 | `CF_ACCOUNT_ID` / `CF_API_TOKEN` | Cloudflare Workers AI (primary engine) — **JIT from vault on the box** | unset → skipped |
 | `GEMINI_API_KEY` | Google Gemini image gen (same key the Discord bot uses) — **JIT from vault** | unset → skipped |
@@ -56,11 +56,11 @@ host/service values (the pre-commit hook blocks hostnames/keys in public commits
 1. **Pull + smoke-test offline (any host):**
    ```
    npm test            # full suite, includes the 3 genai test files (39 tests)
-   node --test integrations/genai-providers.test.mjs integrations/genai-templates.test.mjs site/genai/server.test.mjs
+   node --test integrations/genai-providers.test.mjs integrations/genai-templates.test.mjs site/hathor/server.test.mjs
    ```
 2. **Boot locally to eyeball it** (works with zero keys — falls through to Pollinations):
    ```
-   PORT=8131 node site/genai/server.mjs
+   PORT=8131 node site/hathor/server.mjs
    curl -s localhost:8131/health        # {"ok":true,"templates":12,"providers":[...]}
    ```
 3. **Install the systemd unit** (template below), fill placeholders, then:
@@ -104,7 +104,7 @@ Environment=GENAI_RATE_PER_HOUR=10
 # Provider keys: keep them in an EnvironmentFile with tight perms, fetched JIT from the vault.
 # NEVER inline a key here. The file is written at deploy time, not committed.
 # EnvironmentFile=/etc/genai/keys.env      # CF_ACCOUNT_ID, CF_API_TOKEN, GEMINI_API_KEY
-ExecStart=/usr/bin/node site/genai/server.mjs
+ExecStart=/usr/bin/node site/hathor/server.mjs
 Restart=on-failure
 RestartSec=3
 NoNewPrivileges=true

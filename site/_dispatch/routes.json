@@ -28,7 +28,6 @@
   "free-speech.soapbox.community": "free-speech",
   "gambling.soapbox.community": "gambling",
   "games.soapbox.community": "games",
-  "genai.soapbox.community": "genai",
   "grants.soapbox.community": "grants",
   "habits.soapbox.community": "habits",
   "hathor.live": "hathor-live",
@@ -86,5 +85,5 @@
   "weather.soapbox.community": "weather",
   "wiki.soapbox.community": "wiki",
   "witness.melek.salon": "witness",
-  "hathor.soapbox.community": "genai"
+  "hathor.soapbox.community": "hathor"
 }

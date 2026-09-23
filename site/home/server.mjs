@@ -166,7 +166,7 @@ export const PLATFORM = [
   { name: 'Credentials', host: 'credentials.soapbox.community', blurb: 'SoapBox credentials & records.' },
   { name: 'Grants', host: 'grants.soapbox.community', blurb: 'SoapBox grants.' },
   { name: 'Hierophant', host: 'hierophant.soapbox.community', blurb: 'Sacred-texts library + god index.' },
-  { name: 'GenAI', host: 'genai.soapbox.community', blurb: 'The generative-AI hub.' },
+  { name: 'Hathor Studio', host: 'hathor.soapbox.community', blurb: "Make with the Witness — free AI images, effects & templates." },
   { name: 'A Buck', host: 'abuck.soapbox.community', blurb: 'Real under-$2 stores & finds.' },
   { name: 'Shopping', host: 'shopping.soapbox.community', blurb: 'The shopping vertical.' },
   { name: 'Travel', host: 'travel.soapbox.community', blurb: 'The travel vertical.' },

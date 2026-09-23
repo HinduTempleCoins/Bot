@@ -3,7 +3,7 @@
 //
 // THE PROBLEM THIS SOLVES: the repo has grown several genuinely embeddable widgets — Hathor's floating
 // chat box (pool/www/hathor-widget.mjs, kulaswap/hathor-widget.mjs), the "Translate this page?" bar
-// (pentecaust /translate.js), the MELEK ad generator (site/genai/ad-maker.mjs), the moderation
+// (pentecaust /translate.js), the MELEK ad generator (site/hathor/ad-maker.mjs), the moderation
 // report/flag control (src/trollbox/report-widget.mjs). They are scattered, each with its own embed
 // convention. This module gathers them into ONE typed catalog + ONE loader so a site owner drops a
 // single tag and picks widgets by id — "the Soapy.Blog widget suite."
@@ -87,7 +87,7 @@ export const WIDGETS = Object.freeze([
     category: 'content',
     mount: 'iframe',
     asset: '/ads/',
-    source: 'site/genai/ad-maker.mjs',
+    source: 'site/hathor/ad-maker.mjs',
     configGlobal: null,
     exampleConfig: null,
     note: 'Best embedded as an iframe of the ad-maker page; buildAdSvg() can also be called server-side.',
