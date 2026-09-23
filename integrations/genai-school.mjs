@@ -156,6 +156,16 @@ export const LESSONS = [
     ],
   },
   {
+    id: 'build-on-our-repo', track: 'sources', minutes: 8,
+    title: 'Build on our open repo — use our code in YOUR AI',
+    summary: 'Everything here is open. The Bot repo has pieces you can lift straight into your own AI project: the effect / reel / character template registries, the consent gate, the Graphene chain client, and the knowledge corpus — all zero-dependency ESM modules, easy to drop in. Take what helps, build your own, contribute back.',
+    teaches: ['reusing our template registries', 'the character + consent model', 'the corpus & chain client', 'contributing back'],
+    do: [
+      { label: 'The Bot repo on GitHub', href: 'https://github.com/HinduTempleCoins/Bot' },
+      { label: 'How the templates are built (this School)', href: OURS.gallery },
+    ],
+  },
+  {
     id: 'upload-template', track: 'community', minutes: 8,
     title: 'Upload your own template',
     summary: 'Made something good? Package it as a template — a name, the prompt/workflow, and the fields others fill in — and share it. Browse and remix what others uploaded, gallery-style.',

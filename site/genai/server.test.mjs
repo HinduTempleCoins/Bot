@@ -54,7 +54,7 @@ async function call(opts) {
 
 test('home page renders with prompt box and templates', () => {
   const html = homePage();
-  assert.ok(html.includes('<h1>Generative AI'));
+  assert.ok(html.includes('<h1>Hathor'));
   assert.ok(html.includes('name=prompt'));
   assert.ok(html.includes('/api/generate'));
 });

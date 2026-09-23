@@ -57,6 +57,9 @@ const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
+const HATHOR_LIVE = process.env.HATHOR_LIVE || 'https://hathor.live';
+const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
+const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
 // human-facing labels for the effect categories (operator's words)
 const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'genai');
@@ -159,7 +162,8 @@ const FOOTER = `<footer>
   label which one made each image. Cost-bearing engines run under a daily budget and a circuit breaker —
   no runaway billing. We never see or store your keys, and we never proxy arbitrary URLs — only images
   we generated and saved here. <i>Phase 1.</i> Coming next: ComfyUI on demand and Colab teach-lessons.
-  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/templates">Templates</a> · <a href="/char">Characters</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Gallery</a> · <a href="${esc(WIKI)}">Wiki</a> · <a href="${esc(DATA)}">Data</a></div>
+  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Gallery</a></div>
+  <div style="margin-top:6px">Part of Hathor's system: <a href="${esc(HATHOR_LIVE)}">hathor.live</a> · <a href="${esc(ALMANACK)}">the Almanack</a> · <a href="${esc(WIKI)}">the Library of Ashurbanipal</a> · <a href="${esc(REPO)}">the Bot repo</a> · <a href="${esc(DATA)}">Data</a></div>
 </footer>`;
 
 function pageShell(title, body, opts = {}) {
@@ -172,8 +176,8 @@ function pageShell(title, body, opts = {}) {
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<header class=topbar><a class=brand href="/">✦ GenAI <span>make images now</span></a>
-  <div class=topbar-r><a href="/hathor">Hathor</a><a href="/halloween">Halloween</a><a href="/char">Characters</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/comfyui">ComfyUI</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(WIKI)}">Wiki</a></div></header>
+<header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -188,9 +192,12 @@ function sizeSelect(selected = '1024x1024') {
 export function homePage(opts = {}) {
   const note = opts.note ? `<div class=card><p class=empty>${esc(opts.note)}</p></div>` : '';
   const recent = recentGenerations(6);
-  const body = `<h1>Generative AI <span class=muted style="font-size:14px">· make an image now</span></h1>
-    <p class=muted>Type a prompt and hit Generate — no account, no card. We try free engines in order and
-      tell you which one made it. Want a head start? Pick a <a href="/templates">template</a>.</p>
+  const body = `<h1>Hathor <span class=muted style="font-size:14px">· make with the MELEK Witness</span></h1>
+    <p class=muted>This is Hathor's studio — make AI images free, no account, no card. Type a prompt and Generate;
+      we try free engines in order and tell you which made it. Want a head start? Pick a
+      <a href="/templates">template</a>, appear <a href="/hathor">with Hathor</a>, or go
+      <a href="/halloween">Halloween</a>. Part of Hathor's system with the
+      <a href="${esc(ALMANACK)}">Almanack</a> and the <a href="${esc(WIKI)}">Library</a>.</p>
     ${note}
     <form class=gform method=post action="/api/generate"><div class=card>
       <label class=fld for=prompt>Your prompt</label>
