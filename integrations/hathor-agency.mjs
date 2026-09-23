@@ -38,7 +38,20 @@ export function createHathor(cfg = {}) {
   const retrieve = cfg.retrieve;            // full corpus — same on every surface (conversation knowledge)
   const complete = cfg.complete;
   const persona = cfg.persona || DEFAULT_PERSONA;
+  const crypt = cfg.cryptology;             // Crypt-ology: per-person relationship map (opt-in; server wires it)
   const lastSpoke = new Map();              // surface -> ts (autonomy cooldown)
+
+  // Classify an inbound line into a Crypt-ology EVENT so the relationship map moves the right way.
+  function classifyEvent(text) {
+    const t = String(text || '').toLowerCase();
+    if (/\b(thank|thanks|ty|appreciate|grateful)\b/.test(t)) return 'thanked';
+    if (/\b(fuck|idiot|stupid|hate you|shut up|worthless)\b/.test(t)) return 'hostile';
+    if (/\b(sorry|apolog|my bad)\b/.test(t)) return 'apologized';
+    if (/\b(i (tipped|gave|donated|contributed|helped))\b/.test(t)) return 'gave';
+    if (t.includes('?') || /\b(why|how|what|explain|teach)\b/.test(t)) return 'deep_question';
+    if (/\b(i (feel|felt|experienced|went through)|my story|happened to me)\b/.test(t)) return 'shared_story';
+    return 'warm_exchange';
+  }
 
   /**
    * Receive a message on a surface and respond — one self, this surface's memory, the whole corpus.
@@ -54,20 +67,41 @@ export function createHathor(cfg = {}) {
     // remember the inbound in THIS surface's compartment, tagged to the person
     await mem.remember(surface, { text: `${person}: ${text}`, person, meta: { role: 'them' } });
 
+    // Crypt-ology: recall who this person IS to Hathor (disposition + interests) — the SAME map on every
+    // surface, so a relationship built on Discord is remembered on hathor.soapbox, the game, the chain.
+    let cryptology = null, cryptLine = '';
+    if (crypt && typeof crypt.recall === 'function') {
+      try {
+        const profile = crypt.recall(person);
+        if (profile) {
+          const disp = crypt.dispositionOf ? crypt.dispositionOf(profile) : null;
+          const topics = crypt.suggestTopics ? crypt.suggestTopics(profile) : [];
+          cryptology = { disposition: disp, topics };
+          cryptLine = `Crypt-ology — ${person}: ${disp || 'a new acquaintance'}${topics && topics.length ? `; drawn to ${topics.join(', ')}` : ''}.`;
+        }
+      } catch { /* soft — a broken map never silences her */ }
+    }
+
     // recall: this surface first, related surfaces when strongly relevant, this person's history
     const recalled = await mem.recallAcross(text, { from: surface, person, k: 4 });
 
-    // deliberate — weigh, draw on the FULL CORPUS (retrieve) + the recalled memory, reflect in persona
+    // deliberate — weigh, draw on the FULL CORPUS (retrieve) + the recalled memory + Crypt-ology, reflect in persona
     const thought = await deliberate(
-      { prompt: text, observations: recalled.map((r) => r.text) },
+      { prompt: text, observations: [...(cryptLine ? [cryptLine] : []), ...recalled.map((r) => r.text)] },
       { retrieve, complete, persona, k: opts.k || 3 },
     );
     const reply = thought.reflection;
 
     // remember her own reply in the same compartment
     await mem.remember(surface, { text: `Hathor: ${reply}`, person, meta: { role: 'self' } });
+
+    // Crypt-ology: update the relationship from what just happened (soft-fail; only known events move it)
+    if (crypt && typeof crypt.observe === 'function' && person && person !== 'someone') {
+      try { crypt.observe(person, classifyEvent(text), { surface, context: text.slice(0, 120) }); } catch { /* soft */ }
+    }
+
     lastSpoke.set(surface, opts.now ?? cfg.now ?? 0);
-    return { reply, surface, person, thought, recalled, drewFrom: thought.drewFrom };
+    return { reply, surface, person, thought, recalled, cryptology, drewFrom: thought.drewFrom };
   }
 
   /**

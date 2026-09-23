@@ -80,9 +80,24 @@ function defaultRetrieve() {
   };
 }
 
+// Default Crypt-ology: the per-person relationship map (cryptology/cryptology.mjs). Lazy + soft-fail so
+// the brain runs even if the store is missing; it makes Hathor remember WHO each person is, on every surface.
+function defaultCryptology() {
+  let m = null, tried = false;
+  const load = async () => { if (!tried) { tried = true; try { m = await import('../cryptology/cryptology.mjs'); } catch { m = null; } } return m; };
+  // recall must be sync for perceive(); prime the module in the background and answer from it once loaded.
+  load();
+  return {
+    recall: (acct) => { try { return m ? m.recall(acct) : null; } catch { return null; } },
+    dispositionOf: (p) => { try { return m ? m.dispositionOf(p) : null; } catch { return null; } },
+    suggestTopics: (p) => { try { return m ? m.suggestTopics(p) : []; } catch { return []; } },
+    observe: (acct, ev, opts) => { try { if (m) m.observe(acct, ev, opts); } catch { /* soft */ } },
+  };
+}
+
 /**
  * Build the one-Hathor service. Everything injectable for offline tests.
- * @param {object} cfg { hathor?, makeStore?, retrieve?, complete?, now? }
+ * @param {object} cfg { hathor?, makeStore?, retrieve?, complete?, cryptology?, now? }
  */
 export function createAgency(cfg = {}) {
   const makeStore = cfg.makeStore || makeFileStore(BRAIN_DIR);
@@ -90,6 +105,7 @@ export function createAgency(cfg = {}) {
     compartments: createBrainMemory({ makeStore }),
     retrieve: cfg.retrieve || defaultRetrieve(),
     complete: cfg.complete || defaultComplete(),
+    cryptology: cfg.cryptology || defaultCryptology(),
     persona: persona(),
     now: cfg.now,
   });
