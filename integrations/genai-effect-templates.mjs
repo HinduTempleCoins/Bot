@@ -33,7 +33,11 @@ export const CHARACTERS = [
     id: 'hathor',
     name: 'Hathor',
     kind: 'builtin',
-    description: 'The MELEK AI Witness — the platform mascot character.',
+    description: 'The MELEK AI Witness — a serene Egyptian-Angelic goddess with ram horns, a sun-disk, a VR headset and feathered wings.',
+    // Her canonical look — so she renders recognizably on the free text-to-image path TODAY (no GPU). The
+    // refDir/lora below are for identity-locked generation once the GPU/PRANA backend is live; until then
+    // this description is what makes a render actually look like HER.
+    look: 'Hathor, the MELEK AI Witness — a serene Egyptian-Angelic goddess: large curved golden ram horns cradling a glowing red-gold solar disk, a sleek futuristic VR headset / visor across her eyes, long dark hair with a lapis-and-gold nemes headdress, an ornate broad Egyptian gold collar, luminous blue-and-violet feathered angel wings spread behind her, warm golden-brown skin, a small Kurdish sun emblem, calm celestial expression, cinematic vaporwave desert-temple light',
     refDir: 'character/reference',
     lora: 'character/lora',
     cleared: true, // pre-cleared: the platform owns this character

@@ -250,13 +250,38 @@ export function homePage(opts = {}) {
       <a href="/halloween">Halloween</a>. Part of Hathor's system with the
       <a href="${esc(ALMANACK)}">Almanack</a> and the <a href="${esc(WIKI)}">Library</a>.</p>
     ${note}
-    <form class=gform method=post action="/api/generate"><div class=card>
+    <form class=gform id=genform method=post action="/api/generate"><div class=card>
       <label class=fld for=prompt>Your prompt</label>
       <textarea class=q id=prompt name=prompt placeholder="e.g. an Egyptian temple at golden hour, cinematic, highly detailed" required></textarea>
+      <div class=row style="margin-top:12px;align-items:center;flex-wrap:wrap;gap:10px">
+        <label class=pill style="cursor:pointer">📎 Upload a photo <input type=file id=refimg accept="image/*" hidden></label>
+        <span class=muted id=refname style="font-size:12px">optional — we'll make new images <b>of it</b> (your face, a product, anything)</span>
+      </div>
+      <input type=hidden name=image id=refurl>
       <div class=row style="margin-top:12px">${sizeSelect()}
         <input class=q style="flex:1 1 140px;width:auto" name=seed type=number min=0 placeholder="seed (optional)">
-        <button type=submit>Generate</button></div>
+        <button type=submit id=genbtn>Generate</button></div>
     </div></form>
+    <script>
+    (function(){
+      var form=document.getElementById('genform'), fileI=document.getElementById('refimg'),
+          urlH=document.getElementById('refurl'), nameS=document.getElementById('refname'),
+          btn=document.getElementById('genbtn'); var uploaded=false;
+      fileI.addEventListener('change',function(){ var f=fileI.files&&fileI.files[0]; uploaded=false; urlH.value='';
+        nameS.textContent = f ? ('using '+f.name+' as a reference') : 'optional — we\\'ll make new images of it'; });
+      form.addEventListener('submit', async function(e){
+        var f=fileI.files&&fileI.files[0];
+        if(!f||uploaded) return; // no file, or already uploaded → normal submit
+        e.preventDefault(); btn.disabled=true; btn.textContent='Uploading photo…';
+        try{
+          var r=await fetch('/api/upload',{method:'POST',headers:{'content-type':f.type||'image/jpeg'},body:f});
+          var j=await r.json();
+          if(j&&j.ok&&j.url){ urlH.value=j.url; uploaded=true; btn.textContent='Generating…'; form.submit(); }
+          else { btn.disabled=false; btn.textContent='Generate'; nameS.textContent='Upload failed — try a smaller image.'; }
+        }catch(err){ btn.disabled=false; btn.textContent='Generate'; nameS.textContent='Upload failed — try again.'; }
+      });
+    })();
+    </script>
 
     <h2>Start from a template</h2>
     <div class=grid>${TEMPLATES.slice(0, 6).map(templateCard).join('')}</div>
@@ -596,8 +621,13 @@ export async function handleGenerate(req, res) {
   if (!cleaned) {
     return sendHtml(res, homePage({ note: 'Please enter a prompt (or pick a template) before generating.' }), 400);
   }
+  // optional reference image → image conditioning (upload your photo, get new images of it). The value is a
+  // /img/<file> we saved from an upload; resolve to an absolute URL so the provider can fetch it.
+  const imgParam = String(params.get('image') || '').trim();
+  let image = null;
+  if (/^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam)) image = { url: `${BASE_URL}${imgParam}` };
   let result;
-  try { result = await _generate({ prompt: cleaned, size, seed: seed != null ? +seed : null }); }
+  try { result = await _generate({ prompt: cleaned, size, seed: seed != null ? +seed : null, image }); }
   catch { result = { ok: false, error: 'generation failed' }; }
 
   if (!result || !result.ok) {
@@ -611,6 +641,33 @@ export async function handleGenerate(req, res) {
     return sendHtml(res, homePage({ note: 'The image was made but could not be saved — please try again.' }), 500);
   }
   return sendHtml(res, resultPage(meta));
+}
+
+// ── /api/upload — accept a reference image (raw binary POST), save it, return its /img/ URL. ────────
+// This is what lets people UPLOAD a photo and then generate new images from it (image conditioning).
+function readRawBody(req, cap = 8 * 1024 * 1024) {
+  return new Promise((resolve) => {
+    const chunks = []; let n = 0; let tooBig = false;
+    req.on('data', (c) => { n += c.length; if (n > cap) { tooBig = true; return; } chunks.push(c); });
+    req.on('end', () => resolve(tooBig ? null : Buffer.concat(chunks)));
+    req.on('error', () => resolve(null));
+  });
+}
+export async function handleUpload(req, res) {
+  const ip = clientIp(req);
+  const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
+  if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
+  const ct = String((req.headers && req.headers['content-type']) || '').toLowerCase();
+  const mime = ct.startsWith('image/') ? ct.split(';')[0] : 'image/jpeg';
+  if (!EXT[mime]) return j(415, { ok: false, error: 'send a raw image/* body (png, jpeg, or webp)' });
+  const buf = await readRawBody(req);
+  if (!buf || buf.length < 64) return j(400, { ok: false, error: 'no image (or too large — 8MB max)' });
+  try {
+    ensureDir();
+    const file = `up-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${EXT[mime]}`;
+    writeFileSync(join(DATA_DIR, file), buf);
+    return j(200, { ok: true, url: `/img/${file}`, file });
+  } catch { return j(500, { ok: false, error: 'could not save' }); }
 }
 
 // ── /img/:file — serve a stored image. Path-sanitised; only files inside DATA_DIR. ────────────────
@@ -1342,6 +1399,10 @@ export async function handler(req, res) {
     if (path === '/news') return sendHtml(res, newsView());
     if (path === '/vectorize') return sendHtml(res, vectorizeView(url.searchParams.get('img')));
     if (path === '/cards') return sendHtml(res, cardsView());
+    if (path === '/api/upload') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleUpload(req, res);
+    }
     if (path === '/edit') return sendHtml(res, editView());
     if (path === '/video') return sendHtml(res, videoView());
     if (path === '/api/video') {
