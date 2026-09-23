@@ -16,7 +16,9 @@ const AUTHOR = 'hathor';
 const PERMLINK = process.env.STUDIO_PERMLINK || 'hathor-studio-is-open';
 const live = process.argv.includes('--live');
 const update = process.argv.includes('--update'); // re-broadcast to EDIT an existing post
-if (PREFIX !== 'TST') { console.error('FATAL: testnet-only (prefix must be TST)'); process.exit(1); }
+// Guard: only the known MELEK chains — TST (testnet, alpha.melek.salon) or MELEK (mainnet, melek.salon).
+if (PREFIX !== 'TST' && PREFIX !== 'MELEK') { console.error(`FATAL: unknown prefix ${PREFIX} (expected TST or MELEK)`); process.exit(1); }
+console.log(`chain: ${PREFIX} @ ${RPC}`);
 
 const S = 'https://hathor.soapbox.community';
 const TITLE = 'Hathor’s Studio Is Open';
