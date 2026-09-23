@@ -112,6 +112,21 @@ test('robots/sitemap/llms routes respond', async () => {
   assert.equal((await call({ url: '/llms.txt' })).statusCode, 200);
 });
 
+test('Video (/video) renders with CapCut starts + BYOK, and /api/video returns needsKey with no server keys', async () => {
+  const html = (await call({ url: '/video' })).text();
+  assert.ok(html.includes('text-to-video'));
+  assert.ok(html.includes('add your own key') || html.includes('bring your own key') || html.includes('bring a key'));
+  assert.ok(html.includes('CapCut-style'));
+  const res = await call({ method: 'POST', url: '/api/video',
+    headers: { 'x-test-ip': '10.9.9.9', 'content-type': 'application/x-www-form-urlencoded' },
+    body: 'prompt=' + encodeURIComponent('a temple at dawn') });
+  assert.equal(res.statusCode, 200);
+  const j = JSON.parse(res.text());
+  assert.equal(j.ok, false);
+  assert.equal(j.needsKey, true);
+  assert.ok(Array.isArray(j.providers) && j.providers.some((p) => p.id === 'fal'));
+});
+
 test('Discord invite is linked in nav, home callout, footer, and share CTA', async () => {
   const html = (await call({ url: '/' })).text();
   assert.ok(html.includes('discord.gg/5QAF9JuBF'));
