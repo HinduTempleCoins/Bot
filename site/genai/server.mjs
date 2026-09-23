@@ -61,7 +61,7 @@ const HATHOR_LIVE = process.env.HATHOR_LIVE || 'https://hathor.live';
 const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
 const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
 // human-facing labels for the effect categories (operator's words)
-const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes memes: 'Meme Characters' }; Squads' };
+const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'genai');
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
 
