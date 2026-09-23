@@ -58,7 +58,7 @@ const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
 // human-facing labels for the effect categories (operator's words)
-const EFFECT_CAT_LABELS = { creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle' };
+const EFFECT_CAT_LABELS = { creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'genai');
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
 
@@ -526,6 +526,20 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
+// ── social share prompt (operator: "prompt them to share their images on social media") ───────────
+function shareCta(intro = 'Share your creation —') {
+  const u = encodeURIComponent(`${BASE_URL}/char`);
+  const t = encodeURIComponent(`I made this free with AI on ${BASE_URL} — no login, no card. #MELEK #SoapBox`);
+  return `<div class=card><b>${esc(intro)}</b>
+    <div style="margin-top:8px">
+      <a class=pill href="https://twitter.com/intent/tweet?text=${t}&url=${u}" target=_blank rel="noopener">Share on X</a>
+      <a class=pill href="https://www.facebook.com/sharer/sharer.php?u=${u}" target=_blank rel="noopener">Facebook</a>
+      <a class=pill href="https://www.reddit.com/submit?url=${u}" target=_blank rel="noopener">Reddit</a>
+      <a class=pill href="https://t.me/share/url?url=${u}" target=_blank rel="noopener">Telegram</a>
+    </div>
+    <p class=muted style="font-size:12px;margin-top:8px">Download your image, then post it on Instagram, TikTok or anywhere — tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
+}
+
 // ── character effects gallery (operator: Animals, Holidays, Movies, Military, Mafia, Cartel…) ──────
 function effectCard(e) {
   return `<div class=sec><div class=t>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></div></div>`;
@@ -541,7 +555,8 @@ export function charIndexView() {
     <p class=muted>Pick a character, pick an effect — it keeps the <b>same character</b> but makes a completely new image, not the original photo. Use built-in <b>Hathor</b>, <a href="#create">create your own</a>, or a fictional one. A real person’s face needs consent; fictional and platform characters are open. Public figures are fair game for satire.</p>
     <h2>Characters</h2>${chars}
     ${cats}
-    <div class=card><p class=muted style="font-size:13px">Same idea as CapCut / Midjourney character reference. Want full control on your own GPU? <a href="/school">GenAI School</a> covers ComfyUI + Colab / Modal / Fal.</p></div>`;
+    ${shareCta('Made something you love? Show it off —')}
+    <div class=card><p class=muted style="font-size:13px">Same idea as CapCut / Midjourney character reference. Want full control on your own GPU? <a href="/school">GenAI School</a> covers ComfyUI + Colab / Modal / Fal. Want it on a shirt? A vectorized-design maker is coming so you can print these.</p></div>`;
   return pageShell('Character effects — Generative AI', body, { canonical: `${BASE_URL}/char`, description: 'Turn a character into anything — Animals, Holidays, Movie themes, Superheroes, Military, Mafia and more. Same character, brand-new scene.' });
 }
 

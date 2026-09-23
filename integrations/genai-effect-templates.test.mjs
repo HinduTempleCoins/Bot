@@ -30,6 +30,18 @@ test('no protected trademarks leak into titles/prompts', () => {
   }
 });
 
+test('famous figures: category populated + {{figure}} slot fills', () => {
+  assert.ok(EFFECT_CATEGORIES.includes('figures'));
+  assert.ok(listEffects('figures').length >= 8, 'a set of famous-figure effects');
+  // deity/on-brand ones from the Windy vector set
+  assert.ok(getEffect('as-kali') && getEffect('as-hathor') && getEffect('with-che'));
+  // the "your pick" template fills the second slot and leaves no raw placeholder
+  const r = buildEffectJob('as-a-figure', { kind: 'fictional', name: 'Ari' }, { figure: 'Cleopatra' });
+  assert.ok(r.ok, r.error);
+  assert.match(r.job.prompt, /Cleopatra/);
+  assert.doesNotMatch(r.job.prompt, /\{\{/, 'no raw placeholders left');
+});
+
 test('getEffect / listEffects', () => {
   assert.equal(getEffect('gorilla').title, 'Giant Gorilla');
   assert.equal(getEffect('nope'), null);
