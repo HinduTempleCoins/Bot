@@ -43,11 +43,39 @@ export async function loadHandler(dir, siteRoot = SITE_ROOT) {
   return handler;
 }
 
+// Central SEO/GEO: serve a welcoming robots.txt and a COMPLETE master sitemap-index for EVERY host we
+// route — so all ~87 surfaces are crawlable + AI-findable (GPTBot/ClaudeBot/PerplexityBot/… welcomed) and
+// every domain appears in one index, even the surfaces that don't implement these paths themselves.
+// Dynamic import + try/catch: if the SEO module is missing this silently falls through to the surface, so
+// it can never take the tier down. Per-surface /sitemap.xml (real sub-URLs) and /llms.txt are left intact.
+export async function serveSeo(req, res, routes) {
+  const p = String(req.url || '/').split('?')[0];
+  if (p !== '/robots.txt' && p !== '/sitemap-index.xml' && p !== '/sitemaps.xml') return false;
+  const host = String((req.headers && req.headers.host) || '').toLowerCase().split(':')[0].replace(/^www\./, '');
+  if (!host) return false;
+  try {
+    const c = await import('../../integrations/soapbox/crawlers.mjs');
+    const base = `https://${host}`;
+    if (p === '/robots.txt') {
+      const body = `${c.robotsTxt(base)}\nSitemap: ${base}/sitemap-index.xml\n`;
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=86400' });
+      res.end(body); return true;
+    }
+    // master index over every public host we serve (apex/www collapsed, deduped)
+    const hosts = [...new Set(Object.keys(routes).map((h) => h.replace(/^www\./, '')))].sort();
+    const today = new Date().toISOString().slice(0, 10);
+    const body = c.sitemapIndexXml(hosts.map((h) => ({ url: `https://${h}`, lastmod: today })));
+    res.writeHead(200, { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=86400' });
+    res.end(body); return true;
+  } catch { return false; }
+}
+
 // exported so tests can drive it without a live socket
 export async function dispatch(req, res, opts = {}) {
   const routes = opts.routes || ROUTES;
   const siteRoot = opts.siteRoot || SITE_ROOT;
   try {
+    if (await serveSeo(req, res, routes)) return;
     const dir = hostToDir(req.headers && req.headers.host, routes);
     if (!dir) {
       res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });

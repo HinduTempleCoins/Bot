@@ -67,3 +67,26 @@ test('hathor.live renders and still mounts the Almanack', async () => {
   assert.equal(alm.code, 200, 'almanack mounted under hathor.live');
   assert.match(alm.body, /Almanack/);
 });
+
+test('central SEO: every host serves a welcoming robots.txt with the sitemap-index', async () => {
+  const r = await req('hathor.soapbox.community', '/robots.txt');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /ClaudeBot/);          // AI crawler welcomed (GEO)
+  assert.match(r.body, /GPTBot/);
+  assert.match(r.body, /Sitemap: https:\/\/hathor\.soapbox\.community\/sitemap-index\.xml/);
+});
+
+test('central SEO: master sitemap-index covers ALL routed hosts', async () => {
+  const r = await req('soapbox.community', '/sitemap-index.xml');
+  assert.equal(r.code, 200);
+  assert.match(r.headers['content-type'], /xml/);
+  const n = (r.body.match(/<sitemap>/g) || []).length;
+  assert.ok(n > 50, `index lists the full set (${n})`);
+  assert.match(r.body, /hathor\.soapbox\.community/);
+  assert.match(r.body, /vankushfamily\.com/);
+});
+
+test('central SEO never shadows a real page (surface routing intact)', async () => {
+  const r = await req('vankushfamily.com', '/');
+  assert.equal(r.code, 200);
+});
