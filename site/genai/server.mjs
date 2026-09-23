@@ -58,7 +58,7 @@ const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
 // human-facing labels for the effect categories (operator's words)
-const EFFECT_CAT_LABELS = { creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them' };
+const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'genai');
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
 
@@ -173,7 +173,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ GenAI <span>make images now</span></a>
-  <div class=topbar-r><a href="/templates">Templates</a><a href="/char">Characters</a><a href="/reel-maker">Reels</a><a href="/comfyui">ComfyUI</a><a href="/colab">Colab</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(WIKI)}">Wiki</a></div></header>
+  <div class=topbar-r><a href="/hathor">Hathor</a><a href="/halloween">Halloween</a><a href="/char">Characters</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/comfyui">ComfyUI</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(WIKI)}">Wiki</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -214,10 +214,18 @@ export function homePage(opts = {}) {
     <div class=grid>${byKind('image').slice(0, 6).map(generatorCard).join('')}</div>
     <p class=muted style="margin-top:8px"><a href="/directory">See the full directory (images + video) →</a></p>
 
+    <h2>Featured now</h2>
+    <div class=grid>
+      <a class=sec href="/hathor"><div class=t>✦ Appear with Hathor <span class="badge cat">${esc(listEffects('hathor').length)}</span></div>
+        <div class=d>Put yourself in a photo with Hathor — selfies, thrones, space, the Nile and more. Our flagship set.</div></a>
+      <a class=sec href="/halloween"><div class=t>🎃 Halloween <span class="badge cat">${esc(listEffects('horror').length)}</span></div>
+        <div class=d>Vampire, werewolf, zombie, witch, grim reaper, plague doctor — turn yourself into anything spooky.</div></a>
+    </div>
+
     <h2>Turn a character into anything</h2>
     <div class=grid>
-      <a class=sec href="/char"><div class=t>Character effects <span class="badge cat">${esc(EFFECT_TEMPLATES.length)}</span></div>
-        <div class=d>Same character, brand-new scene — Animals, Holidays, Movie themes, Superheroes, Military, Mafia &amp; more. Use Hathor, make your own character, or a fictional one.</div></a>
+      <a class=sec href="/char"><div class=t>All character effects <span class="badge cat">${esc(EFFECT_TEMPLATES.length)}</span></div>
+        <div class=d>Same character, brand-new scene — Animals, movies, superheroes, mafia, deities, famous figures. Use Hathor, make your own, or a fictional one.</div></a>
       <a class=sec href="/reel-maker"><div class=t>Reel template maker <span class="badge cat">${esc(REEL_TEMPLATES.length)}</span></div>
         <div class=d>CapCut-style: pick a structure, fill the fields, download a storyboard to take into your editor.</div></a>
       <a class=sec href="/char"><div class=t>✨ Create your own template!</div>
@@ -532,12 +540,13 @@ function shareCta(intro = 'Share your creation —') {
   const t = encodeURIComponent(`I made this free with AI on ${BASE_URL} — no login, no card. #MELEK #SoapBox`);
   return `<div class=card><b>${esc(intro)}</b>
     <div style="margin-top:8px">
+      <a class=pill style="border-color:var(--gold);color:var(--gold)" href="${esc(FORUM)}/post" target=_blank rel="noopener">✦ Share on MELEK</a>
       <a class=pill href="https://twitter.com/intent/tweet?text=${t}&url=${u}" target=_blank rel="noopener">Share on X</a>
       <a class=pill href="https://www.facebook.com/sharer/sharer.php?u=${u}" target=_blank rel="noopener">Facebook</a>
       <a class=pill href="https://www.reddit.com/submit?url=${u}" target=_blank rel="noopener">Reddit</a>
       <a class=pill href="https://t.me/share/url?url=${u}" target=_blank rel="noopener">Telegram</a>
     </div>
-    <p class=muted style="font-size:12px;margin-top:8px">Download your image, then post it on Instagram, TikTok or anywhere — tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
+    <p class=muted style="font-size:12px;margin-top:8px"><b>Share on MELEK</b> posts it to our community — your creations, on our own chain. Or download and post on Instagram, TikTok or anywhere — tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
 }
 
 // ── character effects gallery (operator: Animals, Holidays, Movies, Military, Mafia, Cartel…) ──────
@@ -577,8 +586,34 @@ export function schoolIndexView() {
   return pageShell('GenAI School — learn generative AI', body, { canonical: `${BASE_URL}/school`, description: 'GenAI School — learn generative AI from one-tap templates up to running your own pipelines on Colab, Modal, Fal and ComfyUI, plus models from Hugging Face and Civitai.' });
 }
 
+// ── Hathor tab — appear WITH Hathor, tons of ways (flagship, expansive) ────────────────────────────
+export function hathorIndexView() {
+  const items = listEffects('hathor');
+  const body = `<h1>Appear with Hathor <span class=muted style="font-size:14px">· ${items.length} ways and growing</span></h1>
+    <p class=muted>Hathor is the MELEK AI Witness. Put yourself in a photo <b>with Hathor</b> — pick a scene, add your own character or a fictional one, and generate. Free, no login. It keeps you the same and drops you into the shot with her.</p>
+    <div class=grid>${items.map(effectCard).join('')}</div>
+    ${shareCta('Made one with Hathor? Show it off —')}
+    <div class=card><p class=muted style="font-size:13px">Want to appear <b>as</b> Hathor, a deity, or a famous figure? See <a href="/char">all character effects</a>. New scenes are added often.</p></div>`;
+  return pageShell('Appear with Hathor — Generative AI', body, { canonical: `${BASE_URL}/hathor`, description: 'Put yourself in a photo with Hathor, the MELEK AI Witness — dozens of scenes, free, no login.' });
+}
+
+// ── Halloween tab — expansive seasonal set (more seasons coming) ───────────────────────────────────
+export function halloweenIndexView() {
+  const horror = listEffects('horror');
+  const holiday = listEffects('holiday');
+  const body = `<h1>Halloween <span class=muted style="font-size:14px">· ${horror.length} horror looks</span></h1>
+    <p class=muted>Turn yourself into anything spooky — pick a look, add your character or a fictional one, and generate. Free, no login. Meet <b>Anpu the Jackal Warden</b>, our Halloween character (over on <a href="/char">Characters</a>).</p>
+    <h2>Horror &amp; Halloween Movies <span class=muted style="font-size:13px">(${horror.length})</span></h2>
+    <div class=grid>${horror.map(effectCard).join('')}</div>
+    <h2>Holiday looks <span class=muted style="font-size:13px">(${holiday.length})</span></h2>
+    <div class=grid>${holiday.map(effectCard).join('')}</div>
+    ${shareCta('Made something spooky? Show it off —')}
+    <div class=card><p class=muted style="font-size:13px">Thanksgiving and Christmas sets are coming next — we're going through all the seasons. See <a href="/char">all effects</a>.</p></div>`;
+  return pageShell('Halloween — Generative AI', body, { canonical: `${BASE_URL}/halloween`, description: 'Halloween AI looks — vampire, werewolf, zombie, witch, grim reaper and more. Free, no login. Meet Anpu the Jackal Warden.' });
+}
+
 const SITEMAP_PATHS = [
-  '/', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/school',
+  '/', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -672,6 +707,8 @@ export async function handler(req, res) {
     // ── CapCut-style reel template maker ──
     if (path === '/reel-maker') return sendHtml(res, reelIndexView());
     if (path === '/char') return sendHtml(res, charIndexView());
+    if (path === '/hathor') return sendHtml(res, hathorIndexView());
+    if (path === '/halloween') return sendHtml(res, halloweenIndexView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
     if (path.startsWith('/reel-maker/')) {
       const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
