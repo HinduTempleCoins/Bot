@@ -23,7 +23,7 @@
 //   buildEffectJob(effectId, subject, opts)   -> { ok, job } | { ok:false, error|needsConsent }
 //   validateEffects()                         -> integrity check for /health + tests
 
-export const EFFECT_CATEGORIES = ['creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle'];
+export const EFFECT_CATEGORIES = ['creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle', 'figures'];
 
 export const SUBJECT_KINDS = ['builtin', 'platform', 'fictional', 'real-person'];
 
@@ -191,6 +191,44 @@ export const EFFECT_TEMPLATES = [
   { id: 'statue-marble', title: 'Marble Statue', category: 'art',
     prompt: '{{subject}} as a classical white marble statue on a pedestal in a grand museum hall, dramatic lighting',
     negative: 'color skin, blurry' },
+  // ── famous figures — appear AS or WITH them (deities + historical; from the Windy vector set) ──────
+  // Deities/historical/deceased = safe (devotional/artistic/satire); no implied endorsement.
+  { id: 'as-kali', title: 'As the Goddess Kali', category: 'figures',
+    prompt: '{{subject}} portrayed in the divine iconography of the goddess Kali, blue skin, many arms, garland, fierce sacred aura, temple backdrop, devotional art',
+    negative: 'gore, disrespectful, blurry' },
+  { id: 'as-shiva', title: 'As Lord Shiva', category: 'figures',
+    prompt: '{{subject}} portrayed as Lord Shiva, ash-marked skin, third eye, crescent moon, serene meditation on Mount Kailash, devotional art',
+    negative: 'disrespectful, blurry' },
+  { id: 'as-ganesha', title: 'As Ganesha', category: 'figures',
+    prompt: '{{subject}} portrayed in the iconography of Ganesha, warm auspicious tones, ornate temple setting, devotional art',
+    negative: 'disrespectful, blurry' },
+  { id: 'as-hathor', title: 'As Hathor', category: 'figures',
+    prompt: '{{subject}} portrayed as the Egyptian goddess Hathor, cow-horn-and-sun-disk crown, gold and turquoise regalia, temple mural style',
+    negative: 'blurry, deformed' },
+  { id: 'as-khepri', title: 'As Khepri', category: 'figures',
+    prompt: '{{subject}} portrayed as the Egyptian god Khepri with a winged scarab motif, sunrise over the Nile, ancient temple art',
+    negative: 'blurry, deformed' },
+  { id: 'as-pharaoh', title: 'As a Pharaoh', category: 'figures',
+    prompt: '{{subject}} as an ancient Egyptian pharaoh in full gold regalia and nemes headdress, throne room, hieroglyph walls, cinematic',
+    negative: 'blurry, cheap costume' },
+  { id: 'with-che', title: 'With Che Guevara', category: 'figures',
+    prompt: '{{subject}} standing beside Che Guevara in a vintage revolutionary photograph, grainy film, historic mural backdrop',
+    negative: 'blurry, weapons toward viewer' },
+  { id: 'with-noble-drew-ali', title: 'With Noble Drew Ali', category: 'figures',
+    prompt: '{{subject}} standing respectfully beside Noble Drew Ali in a dignified early-1900s portrait, sepia tone, historic',
+    negative: 'blurry, disrespectful' },
+  { id: 'with-a-legend', title: 'With a Legend (your pick)', category: 'figures',
+    prompt: '{{subject}} photographed side by side with {{figure}}, candid natural lighting, looks like a real snapshot together',
+    negative: 'blurry, deformed' },
+  { id: 'as-a-figure', title: 'As Anyone (your pick)', category: 'figures',
+    prompt: '{{subject}} reimagined as {{figure}}, faithful costume and setting, cinematic portrait',
+    negative: 'blurry, deformed' },
+  { id: 'with-world-leader', title: 'With a World Leader', category: 'figures',
+    prompt: '{{subject}} shaking hands with an iconic world leader on a formal stage, press-photo lighting, flags behind',
+    negative: 'blurry, implied endorsement text' },
+  { id: 'renaissance-master', title: 'Painted by a Master', category: 'figures',
+    prompt: '{{subject}} as the subject of a portrait in the style of a Renaissance master painter, museum oil painting',
+    negative: 'photo look, modern items' },
 ];
 
 const EFFECT_BY_ID = new Map(EFFECT_TEMPLATES.map((e) => [e.id, e]));
@@ -250,6 +288,9 @@ export function buildEffectJob(effectId, subjectInput = {}, opts = {}) {
   }
 
   let prompt = e.prompt.replace(PLACEHOLDER_RE, subjectPhrase(subject));
+  // optional second slot {{figure}} for the "appear as/with a famous figure" templates
+  const figure = (opts.figure && String(opts.figure).trim()) || 'the figure';
+  prompt = prompt.replace(/\{\{\s*figure\s*\}\}/g, figure);
   if (subject.look) prompt += `. Character look: ${subject.look}`;
   // character-referenced when we have a reference image; a LoRA when the character has one; else a
   // described look renders on the free hosted text-to-image path (no GPU on our side).
