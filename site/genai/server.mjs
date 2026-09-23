@@ -432,7 +432,7 @@ function galleryCard(m) {
   return `<div class=gcard>
     <img src="/img/${esc(m.file)}" alt="${esc(String(m.prompt || '').slice(0, 120))}" loading=lazy>
     <div class=meta><b>${esc(String(m.prompt || '').slice(0, 90))}</b><br>
-      made by ${esc(eng)} · ${esc(m.size || '')}</div></div>`;
+      made by ${esc(eng)} · ${esc(m.size || '')} · <a href="/animate?img=${esc(m.file)}">✨ animate</a></div></div>`;
 }
 
 export function galleryView() {
@@ -452,8 +452,10 @@ function resultPage(meta) {
       <p class=muted style="margin-top:12px"><b>Prompt:</b> ${esc(meta.prompt)}</p>
       <p class=muted><b>Made by:</b> ${esc(meta.note || meta.provider)} · ${esc(meta.size || '')}${meta.seed != null ? ` · seed ${esc(meta.seed)}` : ''}</p>
       <div class=row style="margin-top:8px"><a class=pill href="/">← make another</a>
+        <a class=pill style="border-color:var(--gold);color:var(--gold)" href="/animate?img=${esc(meta.file)}">✨ Animate</a>
         <a class=pill href="/gallery">see the gallery</a>
         <a class=pill href="/img/${esc(meta.file)}" download>download</a></div>
+      ${shareCta('Made something? Show it off —')}
     </div>`;
   return pageShell('Your image — Generative AI', body, { canonical: `${BASE_URL}/gallery`, robots: 'noindex,follow' });
 }
@@ -586,6 +588,88 @@ export function schoolIndexView() {
   return pageShell('GenAI School — learn generative AI', body, { canonical: `${BASE_URL}/school`, description: 'GenAI School — learn generative AI from one-tap templates up to running your own pipelines on Colab, Modal, Fal and ComfyUI, plus models from Hugging Face and Civitai.' });
 }
 
+// ── /animate — free, client-side clip effects (shatter glass, explode, zoom, glitch) ──────────────
+// Takes an image we generated (?img=<file>), animates it on a <canvas>, and records a downloadable
+// WebM via MediaRecorder. No GPU, no server cost — all in the browser. True AI video is a PRANA/GPU
+// job later; this is the free motion lane.
+export function animateView(imgFile) {
+  const file = basename(String(imgFile || ''));
+  const safe = /^[\w.-]+\.(png|jpg|jpeg|webp)$/i.test(file) ? file : '';
+  const imgUrl = safe ? '/img/' + safe : '';
+  const body = `<h1>Animate <span class=muted style="font-size:14px">· add an epic effect, download a clip</span></h1>
+    <p class=muted>Free, in your browser — no GPU. Pick an effect, hit Record, and download a WebM clip. ${safe ? '' : 'Open this from any image in the <a href="/gallery">gallery</a> (the ✨ Animate button).'}</p>
+    ${safe ? `<div class=card>
+      <div class=row style="gap:8px;margin-bottom:10px">
+        <button type=button data-fx=shatter>Shatter Glass</button>
+        <button type=button data-fx=explode>Explode</button>
+        <button type=button data-fx=zoom>Epic Zoom</button>
+        <button type=button data-fx=glitch>Glitch</button>
+        <a class=pill id=dl style="display:none" download="clip.webm">⬇ Download clip</a>
+      </div>
+      <canvas id=cv width=768 height=768 style="width:100%;max-width:768px;border:1px solid var(--line2);border-radius:10px;background:#000"></canvas>
+      <p class=muted id=status style="font-size:12px;margin-top:8px">Loading image…</p>
+    </div>
+    <script>
+    (function(){
+      var IMG = ${JSON.stringify(imgUrl)};
+      var cv = document.getElementById('cv'), ctx = cv.getContext('2d'), status = document.getElementById('status'), dl = document.getElementById('dl');
+      var img = new Image(); img.crossOrigin = 'anonymous'; img.src = IMG;
+      var W = cv.width, H = cv.height, rec = null, chunks = [], playing = false;
+      img.onload = function(){ ctx.drawImage(img,0,0,W,H); status.textContent = 'Ready — pick an effect.'; };
+      img.onerror = function(){ status.textContent = 'Could not load the image.'; };
+      function startRec(){
+        chunks = []; dl.style.display='none';
+        try {
+          var stream = cv.captureStream(30);
+          rec = new MediaRecorder(stream, { mimeType: 'video/webm' });
+          rec.ondataavailable = function(e){ if (e.data && e.data.size) chunks.push(e.data); };
+          rec.onstop = function(){
+            var blob = new Blob(chunks, { type: 'video/webm' });
+            dl.href = URL.createObjectURL(blob); dl.style.display=''; status.textContent = 'Clip ready — download it.';
+          };
+          rec.start();
+        } catch(e){ status.textContent = 'Recording not supported here — the effect still plays.'; rec = null; }
+      }
+      function stopRec(){ try { if (rec && rec.state !== 'inactive') rec.stop(); } catch(e){} }
+      function run(fx){
+        if (playing) return; playing = true; status.textContent = 'Recording ' + fx + '…'; startRec();
+        var dur = 2600, t0 = performance.now();
+        // pre-slice for shatter/explode
+        var cols = 12, rows = 12, cw = W/cols, ch = H/rows, shards = [];
+        for (var y=0;y<rows;y++) for (var x=0;x<cols;x++){
+          var dx = (x*cw + cw/2) - W/2, dy = (y*ch + ch/2) - H/2, d = Math.max(1, Math.hypot(dx,dy));
+          shards.push({ x:x*cw, y:y*ch, vx:dx/d, vy:dy/d, rot:(Math.random()-0.5)*0.2, delay:Math.random()*0.15 });
+        }
+        function frame(now){
+          var p = Math.min(1, (now - t0)/dur); ctx.clearRect(0,0,W,H); ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+          if (fx==='zoom'){
+            var s = 1 + 0.6*p, ox = (W*s - W)/2 * (0.5), oy=(H*s-H)/2*(0.5);
+            ctx.save(); ctx.translate(W/2,H/2); ctx.scale(s,s); ctx.rotate(0.05*p); ctx.drawImage(img,-W/2,-H/2,W,H); ctx.restore();
+          } else if (fx==='glitch'){
+            ctx.drawImage(img,0,0,W,H);
+            var n = 8; for (var i=0;i<n;i++){ var sy=Math.random()*H, sh=Math.random()*40+5, off=(Math.random()-0.5)*60*p; ctx.drawImage(cv,0,sy,W,sh, off,sy,W,sh); }
+            ctx.globalAlpha=0.25*p; ctx.globalCompositeOperation='screen';
+            ctx.drawImage(img, 8*p,0,W,H); ctx.drawImage(img,-8*p,0,W,H);
+            ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
+          } else { // shatter / explode
+            var burst = fx==='explode' ? 520 : 260, grav = fx==='explode'? 180 : 90, spin = fx==='explode'?1.2:0.5;
+            for (var i=0;i<shards.length;i++){ var s2=shards[i]; var lp=Math.max(0,(p - s2.delay)/(1-s2.delay));
+              var tx = s2.vx*burst*lp, ty = s2.vy*burst*lp + grav*lp*lp;
+              ctx.save(); ctx.globalAlpha = 1 - lp*0.9; ctx.translate(s2.x+cw/2+tx, s2.y+ch/2+ty); ctx.rotate(s2.rot*spin*lp*10);
+              ctx.drawImage(img, s2.x,s2.y,cw,ch, -cw/2,-ch/2,cw,ch); ctx.restore();
+            }
+          }
+          if (p<1){ requestAnimationFrame(frame); } else { setTimeout(function(){ stopRec(); playing=false; }, 200); }
+        }
+        requestAnimationFrame(frame);
+      }
+      Array.prototype.forEach.call(document.querySelectorAll('[data-fx]'), function(b){ b.addEventListener('click', function(){ run(b.getAttribute('data-fx')); }); });
+    })();
+    </script>` : ''}
+    <div class=card><p class=muted style="font-size:13px">These effects run free in your browser. Full generative video (real motion, character-consistent) is coming on our own GPU / PRANA compute — see <a href="/school">GenAI School</a>.</p></div>`;
+  return pageShell('Animate — Generative AI', body, { canonical: `${BASE_URL}/animate`, robots: 'noindex,follow', description: 'Add epic effects — shatter glass, explode, zoom, glitch — to your AI image and download a clip. Free, in your browser.' });
+}
+
 // ── Hathor tab — appear WITH Hathor, tons of ways (flagship, expansive) ────────────────────────────
 export function hathorIndexView() {
   const items = listEffects('hathor');
@@ -709,6 +793,7 @@ export async function handler(req, res) {
     if (path === '/char') return sendHtml(res, charIndexView());
     if (path === '/hathor') return sendHtml(res, hathorIndexView());
     if (path === '/halloween') return sendHtml(res, halloweenIndexView());
+    if (path === '/animate') return sendHtml(res, animateView(url.searchParams.get('img')));
     if (path === '/school') return sendHtml(res, schoolIndexView());
     if (path.startsWith('/reel-maker/')) {
       const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
