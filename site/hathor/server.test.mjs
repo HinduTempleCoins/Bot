@@ -245,7 +245,7 @@ test('/img rejects non-image extensions', async () => {
 
 test('gallery view renders', async () => {
   const html = galleryView();
-  assert.ok(html.includes('Gallery'));
+  assert.ok(html.includes('Shilpa Shastra'));
 });
 
 test('unknown path redirects to /', async () => {
