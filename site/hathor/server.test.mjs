@@ -248,6 +248,16 @@ test('gallery view renders', async () => {
   assert.ok(html.includes('Shilpa Shastra'));
 });
 
+test('photo-upload widget wires an image reference (put THEM in the scene)', () => {
+  const w = srv.photoUploadWidget('tpl');
+  assert.ok(w.includes('name=image'));       // carries into /api/generate as the reference
+  assert.ok(w.includes('id=tplimg'));        // prefixed file input
+  assert.ok(w.includes('Upload your photo'));
+  const s = srv.photoUploadScript('tplform', 'tpl');
+  assert.ok(s.includes('/api/upload'));       // uploads before submit
+  assert.ok(s.includes("getElementById('tplform')"));
+});
+
 test('gallery shows the NSFW toggle and is SFW/indexable by default', () => {
   const html = galleryView();
   assert.ok(html.includes('Show NSFW'));
