@@ -538,8 +538,12 @@ export function templateDetailView(id) {
   const fields = t.slots.map((s) => `<label class=fld for="slot_${esc(s.key)}">${esc(s.label)}
       <span class=ex>(e.g. ${esc(s.example)})</span></label>
     <input class=q id="slot_${esc(s.key)}" name="slot_${esc(s.key)}" placeholder="${esc(s.placeholder)}" autocomplete=off>`).join('');
+  // Portrait/character (avatar) templates — and any flagged usesPhoto — are "turn YOU into it": lead with
+  // the photo upload so people know the killer feature. Scene/poster templates keep it optional.
+  const photoForward = t.category === 'avatar' || t.usesPhoto;
   const body = `<h1>${esc(t.title)} <span class="badge cat">${esc(t.category)}</span></h1>
     <p class=muted><a href="/templates">← all templates</a></p>
+    ${photoForward ? `<div class=card style="border-color:var(--gold)"><b>★ Turn YOU into this.</b> <span class=muted>Upload your photo below — this template drops you into the scene and keeps your face. Skip it to generate a fresh character instead.</span></div>` : ''}
     <div class=card><p class=muted style="font-size:13px">Example prompt this builds:</p>
       <p style="font-style:italic">${esc(exampleFor(t.id))}</p></div>
     <form class=gform id=tplform method=post action="/api/generate"><input type=hidden name=template value="${esc(t.id)}">
