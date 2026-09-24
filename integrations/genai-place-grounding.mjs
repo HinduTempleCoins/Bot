@@ -32,6 +32,22 @@ async function facts(place) {
   return d && d.extract ? d.extract.slice(0, 400) : null;
 }
 
+// REFERENCE IMAGES (not just words): real CC0/Commons photos of the place/subject, so generation can be
+// MODELED on actual references (visual conditioning), not a text description. Keyless, free.
+export async function referenceImagesFor(queryStr, n = 3) {
+  const q = encodeURIComponent(queryStr);
+  const d = await j(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrnamespace=6&gsrlimit=${n}&prop=imageinfo&iiprop=url|extmetadata&format=json`);
+  const pages = d && d.query && d.query.pages ? Object.values(d.query.pages) : [];
+  const out = [];
+  for (const p of pages) {
+    const ii = p.imageinfo && p.imageinfo[0];
+    if (!ii || !ii.url || !/\.(jpe?g|png)(\?|$)/i.test(ii.url)) continue; // allow ?utm_… query strings
+    const lic = ii.extmetadata && ii.extmetadata.LicenseShortName && ii.extmetadata.LicenseShortName.value;
+    out.push({ url: ii.url.split('?')[0], title: p.title, license: lic || 'see Commons' });
+  }
+  return out;
+}
+
 // region → visual cues (extend freely). Keyed by substrings found in the display name / query.
 const REGION_CUES = [
   { re: /(north|dallas|fort worth|denton).*tex|^north texas/i, cues: 'flat blackland prairie and big open sky, live oak and mesquite, brick ranch homes and suburban sprawl, the Dallas–Fort Worth skyline in the distance, pickup trucks, hot hazy light' },
@@ -45,10 +61,11 @@ const REGION_CUES = [
 ];
 function regionCues(name) { const m = REGION_CUES.find((c) => c.re.test(name || '')); return m ? m.cues : null; }
 
-export async function groundPlace(place) {
+export async function groundPlace(place, { withImages = false } = {}) {
   const geo = await geocode(place);
   const cl = geo ? await climate(geo.lat, geo.lon) : null;
   const fx = await facts(place);
+  const referenceImages = withImages ? await referenceImagesFor(place, 3) : [];
   const name = (geo && geo.display) || place;
   const cues = regionCues(place) || regionCues(name);
   const bits = [];
@@ -57,7 +74,7 @@ export async function groundPlace(place) {
   if (geo && geo.state && !cues) bits.push(`${geo.state}${geo.country ? ', ' + geo.country : ''}`);
   bits.push(`sky: ${defaultSkyFor(place || name)}`); // default clouds for the place (North Texas prairie sky by default)
   const visualBrief = bits.join('; ');
-  return { ok: !!(geo || cues), place, geo, climate: cl, facts: fx, visualBrief };
+  return { ok: !!(geo || cues), place, geo, climate: cl, facts: fx, visualBrief, referenceImages };
 }
 
 // Append the grounding to a prompt so the scene is accurate. `clouds` optionally overrides the default sky
