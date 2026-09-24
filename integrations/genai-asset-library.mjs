@@ -61,6 +61,16 @@ export const SOURCES = [
   { id: 'artic', media: 'image', license: 'CC0', tier: 'bulk', api: 'https://api.artic.edu/api/v1', mintOK: true, note: 'Art Institute of Chicago CC0' },
   { id: 'cleveland', media: 'image', license: 'CC0', tier: 'bulk', api: 'https://openaccess-api.clevelandart.org/api', mintOK: true, note: 'CC0 open access' },
   { id: 'wikimedia', media: 'image', license: 'mixed', tier: 'query', api: 'https://commons.wikimedia.org/w/api.php', mintOK: false, note: 'per-file license — read at ingest' },
+  // more template-feeding libraries (portraits, motifs, patterns, scenes) — expand as we go
+  { id: 'openverse', media: 'image/audio', license: 'mixed', tier: 'apikey', api: 'https://api.openverse.org/v1', mintOK: false, note: 'WordPress CC search — 700M+ items; FILTER license=cc0 for mint-safe' },
+  { id: 'nasa', media: 'image', license: 'public domain', tier: 'keyless', api: 'https://images-api.nasa.gov', mintOK: true, note: 'keyless; PD space imagery for scenes' },
+  { id: 'loc', media: 'image', license: 'public domain|mixed', tier: 'apikey', api: 'https://www.loc.gov', mintOK: false, note: 'Library of Congress — PD + rights-varied, read per item' },
+  { id: 'nypl', media: 'image', license: 'public domain', tier: 'apikey', api: 'http://api.repo.nypl.org/api/v2', mintOK: true, note: 'NYPL Digital Collections public-domain set' },
+  { id: 'rijksmuseum', media: 'image', license: 'CC0', tier: 'apikey', api: 'https://data.rijksmuseum.nl', mintOK: true, note: 'keyless Data Services (OAI-PMH/SPARQL); CC0 masters' },
+  { id: 'harvardart', media: 'image', license: 'mixed', tier: 'apikey', api: 'https://api.harvardartmuseums.org', mintOK: false, note: 'per-item rights' },
+  { id: 'europeana', media: 'image', license: 'mixed', tier: 'apikey', api: 'https://api.europeana.eu', mintOK: false, note: 'pan-EU aggregator; filter to CC0/PD' },
+  { id: 'openmoji', media: 'icon', license: 'CC-BY-SA', tier: 'bulk', api: 'https://openmoji.org', mintOK: false, note: 'emoji/icons — share-alike, product only' },
+  { id: 'flickr-commons', media: 'image', license: 'public domain|no known copyright', tier: 'apikey', api: 'https://www.flickr.com/commons', mintOK: false, note: 'per-item; PD portraits/history for tees' },
   // data / training corpora (reference/training lane — bucket C, never minted raw)
   { id: 'openimages', media: 'image-dataset', license: 'CC-BY', tier: 'bulk', api: 'https://storage.googleapis.com/openimages/web/index.html', mintOK: false, note: '~9M imgs, product/training' },
   { id: 'relaion', media: 'image-text-dataset', license: 'research', tier: 'bulk', api: 'https://laion.ai', mintOK: false, note: 'URLs+captions only, training-lane, legally contested' },
