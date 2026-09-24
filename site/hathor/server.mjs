@@ -26,9 +26,10 @@
 //   the free-tier note. The provider layer holds keys (env/JIT vault); this server never sees a key.
 
 import { createServer } from 'node:http';
-import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync, statSync, rmSync } from 'node:fs';
 import { join, basename, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { tmpdir } from 'node:os';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import * as providersMod from '../../integrations/genai-providers.mjs';
@@ -761,9 +762,53 @@ export async function handleConvert(req, res) {
     return res.end(out);
   } catch { return err(422, 'could not convert that image'); }
 }
+// /api/convert-file — the COMPLEX-format converter (3D, video, audio, vector, PSD, PDF) via the engine
+// (genai-convert.mjs → ffmpeg/assimp/ImageMagick/rsvg/ghostscript on the box). Upload → convert → stream.
+export async function handleConvertFile(req, res) {
+  const ip = clientIp(req);
+  const err = (code, msg) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify({ ok: false, error: msg })); };
+  if (!rateOk(ip)) return err(429, 'rate-limited');
+  const u = new URL(req.url, BASE_URL);
+  const from = String(u.searchParams.get('from') || '').replace(/[^a-z0-9]/gi, '').toLowerCase().slice(0, 8);
+  const to = String(u.searchParams.get('to') || '').replace(/[^a-z0-9]/gi, '').toLowerCase().slice(0, 8);
+  if (!from || !to) return err(400, 'need ?from= and ?to= extensions');
+  const buf = await readRawBody(req, 64 * 1024 * 1024); // 64MB for 3D/video
+  if (!buf || buf.length < 8) return err(400, 'no file (or too large — 64MB max)');
+  let eng;
+  try { eng = await import('../../integrations/genai-convert.mjs'); } catch { return err(503, 'converter unavailable'); }
+  if (!eng.pickTool(from, to)) return err(415, `cannot convert ${from} → ${to}`);
+  const tmp = join(tmpdir(), `cv-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+  const inPath = `${tmp}.${from}`;
+  try {
+    writeFileSync(inPath, buf);
+    const r = await eng.convert(inPath, to, { timeout: 180000 });
+    if (!r.ok) { try { rmSync(inPath, { force: true }); } catch {} return err(422, r.error || 'conversion failed'); }
+    const out = readFileSync(r.outPath);
+    res.writeHead(200, { 'content-type': 'application/octet-stream', 'cache-control': 'no-store', 'content-disposition': `attachment; filename="converted.${to}"` });
+    res.end(out);
+    try { rmSync(inPath, { force: true }); rmSync(r.outPath, { force: true }); } catch {}
+  } catch { try { rmSync(inPath, { force: true }); } catch {} return err(500, 'conversion error'); }
+}
+
 export function convertView() {
   const body = `<h1>Convert &amp; Compress <span class=muted style="font-size:14px">· file tool</span></h1>
-    <p class=muted>Turn an image into another format and shrink it — WebP, JPG, PNG, AVIF. Free, in your browser flow, no GPU. Your image is converted in-memory and never stored. (Docs→PDF and video coming next.)</p>
+    <p class=muted>Turn files into other files, and shrink them — free, on our own tools, no GPU. Images convert in-memory; complex files (3D, video, audio, vector, PDF) convert on our box and stream back. Nothing is stored.</p>
+    <div class=card style="border-color:var(--gold)"><b>Complex files</b> <span class=muted>— 3D <code>fbx/obj/gltf/glb/stl/dae</code>, video <code>mp4/webm/gif</code>, audio <code>wav/mp3/ogg</code>, vector <code>svg→png/pdf</code>, <code>psd→png</code>, PDF compress. Choose a file, type the target extension, convert.</span>
+      <form class=gform id=cffo style="margin-top:10px"><div class=row style="gap:10px;flex-wrap:wrap;align-items:center">
+        <label class=pill style="cursor:pointer">📎 Choose a file <input type=file id=cffile hidden></label>
+        <span class=muted id=cfname style="font-size:12px">no file</span>
+        <label class=fld style="width:auto">Convert to <input class=q id=cfto placeholder="glb / gif / png / mp3 …" style="width:150px"></label>
+        <button type=submit id=cfbtn>Convert &amp; download</button><span class=muted id=cfstatus style="font-size:12px"></span>
+      </div></form>
+      <script>(function(){var f=document.getElementById('cffo'),fi=document.getElementById('cffile'),nm=document.getElementById('cfname'),st=document.getElementById('cfstatus'),bt=document.getElementById('cfbtn');
+        fi.addEventListener('change',function(){var x=fi.files&&fi.files[0];nm.textContent=x?x.name:'no file';});
+        f.addEventListener('submit',async function(e){e.preventDefault();var x=fi.files&&fi.files[0];var to=(document.getElementById('cfto').value||'').replace(/[^a-z0-9]/gi,'').toLowerCase();if(!x||!to){st.textContent='Pick a file and a target format.';return;}
+          var from=(x.name.split('.').pop()||'').toLowerCase();bt.disabled=true;st.textContent='Converting…';
+          try{var r=await fetch('/api/convert-file?from='+from+'&to='+to,{method:'POST',headers:{'content-type':'application/octet-stream'},body:x});
+            if(!r.ok){var j=await r.json().catch(function(){return{};});st.textContent='Failed: '+(j.error||r.status);bt.disabled=false;return;}
+            var b=await r.blob();var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='converted.'+to;a.click();st.textContent='Done — '+(b.size/1024|0)+' KB.';bt.disabled=false;
+          }catch(err){st.textContent='Failed.';bt.disabled=false;}});})();</script>
+    </div>
     <form class=gform id=cvform><div class=card>
       <label class=pill style="cursor:pointer">📎 Choose an image <input type=file id=cvfile accept="image/*" hidden></label>
       <span class=muted id=cvname style="font-size:12px;margin-left:8px">no file chosen</span>
@@ -1528,6 +1573,10 @@ export async function handler(req, res) {
     if (path === '/api/convert') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       return handleConvert(req, res);
+    }
+    if (path === '/api/convert-file') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleConvertFile(req, res);
     }
     if (path === '/video') return sendHtml(res, videoView());
     if (path === '/api/video') {
