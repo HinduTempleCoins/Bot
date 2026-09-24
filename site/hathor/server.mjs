@@ -212,9 +212,11 @@ const SHOWCASE = [
   { title: 'Appear with Hathor', file: 'withhathor.jpg' },
   { title: 'PRANA aura', file: 'prana.jpg' },
 ];
+// Bump when a showcase image file changes, to bust the 24h browser cache on the served asset.
+const SHOWCASE_VER = '20260924';
 function showcaseGallery() {
   return `<div class=shots>${SHOWCASE.map((s) =>
-    `<figure class=shot><img src="/showcase/${esc(s.file)}" alt="${esc(s.title)}" loading=lazy width=768 height=768>
+    `<figure class=shot><img src="/showcase/${esc(s.file)}?v=${SHOWCASE_VER}" alt="${esc(s.title)}" loading=lazy width=768 height=768>
       <figcaption>${esc(s.title)}</figcaption></figure>`).join('')}</div>`;
 }
 // serve the committed showcase assets (path-sanitised; only our own jpgs)
