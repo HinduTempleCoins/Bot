@@ -170,6 +170,13 @@ test('editView + webcamView + arLibrariesView export and render standalone', () 
   assert.ok(arLibrariesView().includes('AR libraries'));
 });
 
+test('convertView renders the file convert/compress tool', () => {
+  const html = srv.convertView();
+  assert.ok(html.includes('Convert'));
+  assert.ok(html.includes('/api/convert'));
+  assert.ok(html.includes('WebP'));
+});
+
 test('POST /api/generate with injected adapter stores + serves image', async () => {
   __resetRate(); cannedAdapter();
   const res = await call({
