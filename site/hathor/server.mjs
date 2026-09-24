@@ -538,19 +538,38 @@ export function templateDetailView(id) {
 
 function galleryCard(m) {
   const eng = m.note || m.provider || 'unknown engine';
+  const tag = m.adult ? '<span style="background:#7a2540;color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;margin-right:4px">NSFW</span>' : '';
   return `<div class=gcard>
     <img src="/img/${esc(m.file)}" alt="${esc(String(m.prompt || '').slice(0, 120))}" loading=lazy>
-    <div class=meta><b>${esc(String(m.prompt || '').slice(0, 90))}</b><br>
+    <div class=meta>${tag}<b>${esc(String(m.prompt || '').slice(0, 90))}</b><br>
       made by ${esc(eng)} · ${esc(m.size || '')} · <a href="/animate?img=${esc(m.file)}">✨ animate</a> · <a href="/vectorize?img=${esc(m.file)}">⬡ vectorize</a></div></div>`;
 }
 
-export function galleryView() {
-  const items = recentGenerations(60);
+// Read a named cookie off the request (for the NSFW self-attestation toggle).
+export function readCookie(req, name) {
+  const raw = (req && req.headers && req.headers.cookie) || '';
+  const m = raw.match(new RegExp('(?:^|;\\s*)' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : '';
+}
+
+// The NSFW toggle: figure/nude art is hidden by default. Turning it on requires an 18+
+// self-attestation (confirm dialog) and sets the `hnsfw` cookie; the server then includes
+// adult-flagged items. The front page stays SFW regardless — this gate is gallery-only.
+export function galleryView({ nsfw = false } = {}) {
+  const items = recentGenerations(60, { includeAdult: nsfw });
+  const toggle = `<div class=card style="margin:10px 0">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+        <input type=checkbox id=nsfwToggle ${nsfw ? 'checked' : ''}>
+        <span><b>Show NSFW</b> — figure &amp; nude art. ${nsfw ? 'On.' : 'Off — tasteful nude/figure art is hidden.'} <b>18+ only.</b></span>
+      </label>
+      <p class=muted style="font-size:12px;margin:6px 0 0">Nudity here is art, never pornographic. Turning this on confirms you are 18 or older.</p></div>
+    <script>(function(){var t=document.getElementById('nsfwToggle');if(!t)return;t.addEventListener('change',function(){if(t.checked){if(!confirm('This reveals nude and figure art. Are you 18 or older?')){t.checked=false;return;}document.cookie='hnsfw=1; path=/; max-age=31536000; samesite=lax';}else{document.cookie='hnsfw=; path=/; max-age=0; samesite=lax';}location.reload();});})();</script>`;
   const body = `<h1>Shilpa Shastra <span class=muted style="font-size:14px">· the gallery</span></h1>
     <p class=muted>Named for the <b>Śilpa Śāstra</b>, the classical treatises on art and sacred image-making. The figure and the nude belong here as <b>art</b> — attractive, sometimes sensual, never pornographic. Recent generations, newest first, each labelled with the engine that made it.</p>
+    ${toggle}
     ${items.length ? `<div class=gallery>${items.map(galleryCard).join('')}</div>`
-      : '<div class=card><p class=empty>Nothing here yet. <a href="/">Make the first one →</a></p></div>'}`;
-  return pageShell('Shilpa Shastra — the gallery', body, { canonical: `${BASE_URL}/gallery` });
+      : `<div class=card><p class=empty>${nsfw ? 'Nothing here yet.' : 'No work shown yet.'} <a href="/">Make the first one →</a></p></div>`}`;
+  return pageShell('Shilpa Shastra — the gallery', body, { canonical: `${BASE_URL}/gallery`, robots: nsfw ? 'noindex,nofollow' : undefined });
 }
 
 // ── the generate result page ──────────────────────────────────────────────────────────────────────
@@ -1384,7 +1403,7 @@ export async function handler(req, res) {
       const id = decodeURIComponent(path.slice('/templates/'.length).replace(/\/+$/, ''));
       return sendHtml(res, templateDetailView(id), getTemplate(id) ? 200 : 404);
     }
-    if (path === '/gallery') return sendHtml(res, galleryView());
+    if (path === '/gallery') return sendHtml(res, galleryView({ nsfw: readCookie(req, 'hnsfw') === '1' }));
     if (path === '/directory') return sendHtml(res, directoryView());
 
     // ── ComfyUI workflow library ──

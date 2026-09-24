@@ -248,6 +248,25 @@ test('gallery view renders', async () => {
   assert.ok(html.includes('Shilpa Shastra'));
 });
 
+test('gallery shows the NSFW toggle and is SFW/indexable by default', () => {
+  const html = galleryView();
+  assert.ok(html.includes('Show NSFW'));
+  assert.ok(!html.includes('id=nsfwToggle checked')); // toggle off by default
+  assert.ok(!html.includes('noindex'));               // SFW view is indexable
+});
+
+test('gallery in NSFW mode is checked and noindex', () => {
+  const html = galleryView({ nsfw: true });
+  assert.ok(html.includes('id=nsfwToggle checked'));
+  assert.ok(html.includes('noindex,nofollow'));
+});
+
+test('readCookie parses the hnsfw cookie', () => {
+  assert.equal(srv.readCookie({ headers: { cookie: 'a=1; hnsfw=1; b=2' } }, 'hnsfw'), '1');
+  assert.equal(srv.readCookie({ headers: { cookie: 'a=1' } }, 'hnsfw'), '');
+  assert.equal(srv.readCookie({ headers: {} }, 'hnsfw'), '');
+});
+
 test('unknown path redirects to /', async () => {
   const res = await call({ url: '/whatever' });
   assert.equal(res.statusCode, 302);
