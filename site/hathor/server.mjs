@@ -512,6 +512,21 @@ export function templatesIndexView() {
   return pageShell('Templates — Generative AI', body, { canonical: `${BASE_URL}/templates` });
 }
 
+// Reusable "upload a photo → it becomes the image reference" widget + wiring, so ANY generate form
+// (homepage, a template, a character effect) can put the UPLOADER into the scene via image-conditioning.
+export function photoUploadWidget(prefix = 'ref') {
+  return `<div class=row style="margin-top:12px;align-items:center;flex-wrap:wrap;gap:10px">
+      <label class=pill style="cursor:pointer">📎 Upload your photo <input type=file id=${prefix}img accept="image/*" hidden></label>
+      <span class=muted id=${prefix}name style="font-size:12px">optional — we'll put <b>you</b> (your face/photo) into this scene</span>
+    </div>
+    <input type=hidden name=image id=${prefix}url>`;
+}
+export function photoUploadScript(formId, prefix = 'ref') {
+  return `<script>(function(){var form=document.getElementById('${formId}');if(!form)return;var fileI=document.getElementById('${prefix}img'),urlH=document.getElementById('${prefix}url'),nameS=document.getElementById('${prefix}name'),btn=form.querySelector('button[type=submit]');var uploaded=false;
+    fileI.addEventListener('change',function(){var f=fileI.files&&fileI.files[0];uploaded=false;urlH.value='';nameS.textContent=f?('using '+f.name+' — you\\'ll be put into the scene'):'optional — we\\'ll put you into this scene';});
+    form.addEventListener('submit',async function(e){var f=fileI.files&&fileI.files[0];if(!f||uploaded)return;e.preventDefault();var ot=btn.textContent;btn.disabled=true;btn.textContent='Uploading photo…';try{var r=await fetch('/api/upload',{method:'POST',headers:{'content-type':f.type||'image/jpeg'},body:f});var j=await r.json();if(j&&j.ok&&j.url){urlH.value=j.url;uploaded=true;btn.textContent='Generating…';form.submit();}else{btn.disabled=false;btn.textContent=ot;nameS.textContent='Upload failed — try a smaller image.';}}catch(err){btn.disabled=false;btn.textContent=ot;nameS.textContent='Upload failed — try again.';}});})();</script>`;
+}
+
 export function templateDetailView(id) {
   const t = getTemplate(id);
   if (!t) {
@@ -527,12 +542,14 @@ export function templateDetailView(id) {
     <p class=muted><a href="/templates">← all templates</a></p>
     <div class=card><p class=muted style="font-size:13px">Example prompt this builds:</p>
       <p style="font-style:italic">${esc(exampleFor(t.id))}</p></div>
-    <form class=gform method=post action="/api/generate"><input type=hidden name=template value="${esc(t.id)}">
+    <form class=gform id=tplform method=post action="/api/generate"><input type=hidden name=template value="${esc(t.id)}">
       <div class=card>${fields}
+        ${photoUploadWidget('tpl')}
         <div class=row style="margin-top:14px">${sizeSelect(t.defaultSize)}
           <input class=q style="flex:1 1 140px;width:auto" name=seed type=number min=0 placeholder="seed (optional)">
           <button type=submit>Generate</button></div>
-      </div></form>`;
+      </div></form>
+    ${photoUploadScript('tplform', 'tpl')}`;
   return pageShell(`${t.title} — Generative AI`, body, { canonical: `${BASE_URL}/templates/${t.id}` });
 }
 
@@ -662,8 +679,13 @@ export async function handleGenerate(req, res) {
         : 'That request was blocked. You can make nude or figure art of your own character, but the studio will not generate it from an uploaded photo of a real person.';
     return sendHtml(res, homePage({ note }), 400);
   }
+  // With an uploaded photo, steer the edit model to PLACE that person into the scene (keep their face),
+  // so templates/prompts "put THEM in a photo" instead of merely restyling. Saved prompt stays `cleaned`.
+  const genPrompt = image
+    ? `Put the uploaded person into this scene, keeping their face and likeness the same. ${cleaned}`
+    : cleaned;
   let result;
-  try { result = await _generate({ prompt: cleaned, size, seed: seed != null ? +seed : null, image }); }
+  try { result = await _generate({ prompt: genPrompt, size, seed: seed != null ? +seed : null, image }); }
   catch { result = { ok: false, error: 'generation failed' }; }
 
   if (!result || !result.ok) {
