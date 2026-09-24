@@ -20,9 +20,14 @@ pink/magenta feathered wings, staff + tablet in hand, winged-ram (lammasu) guard
 **RESOLVED 2026-06-20 — a consistent figure who varies BY CHOICE, not by drift.** Hathor has a
 recognizable, consistent core — the **signature that always makes her unmistakably Hathor: the VR headset,
 the horned Hathor-Mehit headdress, the feathered wings, and the wesekh collar.** Those read as "Hathor" at
-a glance and are effectively always present. Beyond that:
-- **Skin tone is a free variable** — vaporwave lavender/periwinkle (the original), naturalistic tan (the
-  render batch), or more. Just a color choice; nothing else changes with it.
+a glance and are effectively always present. **Hard rule (operator, 2026-09-24): the ram HORNS and the
+VR/oculus HEADSET must appear in EVERY image of her, no exceptions.** Beyond that:
+- **Skin tone — DEFAULT is the original vaporwave lavender/periwinkle** (operator, 2026-09-24: her skin
+  should be "that color from the original image as best and often as possible"). The naturalistic tan of
+  the render batch is an allowed alternate, but the **original lavender/periwinkle from
+  `hathor-original-source.png` is the preferred default** and should be used the majority of the time.
+  For the LoRA/identity work: weight toward the lavender-skin renders and generate more lavender-skin
+  references to balance the (currently tan-heavy) set.
 - **She can deliberately change her face, jewelry, outfit, and details by choice** — she is a goddess /
   oracle who manifests in forms. These are INTENTIONAL variations.
 
