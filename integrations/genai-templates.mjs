@@ -13,7 +13,7 @@
 //
 // Categories: poster | avatar | scene | card | meme
 
-export const CATEGORIES = ['poster', 'avatar', 'scene', 'card', 'meme', 'print'];
+export const CATEGORIES = ['poster', 'avatar', 'scene', 'card', 'meme', 'print', 'environment'];
 
 export const TEMPLATES = [
   {
@@ -266,6 +266,87 @@ export const TEMPLATES = [
       { key: 'style', label: 'Aesthetic', placeholder: 'e.g. vaporwave', example: 'vaporwave' },
     ],
     defaultSize: '1024x1024',
+  },
+  // ── ENVIRONMENT / scenic templates. Put yourself or Hathor INTO a place — landmarks, concerts, nature,
+  // cityscapes, game worlds. Photo-forward (upload → you're in the scene) AND great as pure backdrops for
+  // game art (Botanica). Fed by the scene/landmark libraries: Poly Haven HDRIs, Wikimedia/Openverse
+  // landmarks, NASA scenes, museum CC0. Category environment. ─────────────────────────────────────────
+  {
+    id: 'famous-landmark',
+    title: 'At a Famous Landmark',
+    category: 'environment',
+    promptPattern: 'A cinematic travel photo at {{landmark}}, {{time}}, epic wide composition, dramatic light, highly detailed, photoreal',
+    slots: [
+      { key: 'landmark', label: 'Landmark', placeholder: 'e.g. the Great Pyramids of Giza', example: 'the Great Pyramids of Giza' },
+      { key: 'time', label: 'Time / weather', placeholder: 'e.g. golden hour', example: 'golden hour' },
+    ],
+    defaultSize: '1024x768',
+  },
+  {
+    id: 'concert-stage',
+    title: 'On the Concert Stage',
+    category: 'environment',
+    promptPattern: 'On stage at a huge {{genre}} concert, roaring crowd, {{lights}} stage lights, haze, lens flare, epic live-show energy, cinematic',
+    slots: [
+      { key: 'genre', label: 'Show type', placeholder: 'e.g. electronic music', example: 'electronic music' },
+      { key: 'lights', label: 'Lighting', placeholder: 'e.g. neon pink and blue', example: 'neon pink and blue' },
+    ],
+    defaultSize: '1024x768',
+  },
+  {
+    id: 'festival-scene',
+    title: 'At a Festival',
+    category: 'environment',
+    promptPattern: 'At a vibrant {{festival}} festival, {{setting}}, crowds, banners and lights, joyful atmosphere, golden light, cinematic wide shot',
+    slots: [
+      { key: 'festival', label: 'Festival', placeholder: 'e.g. desert arts', example: 'desert arts' },
+      { key: 'setting', label: 'Setting', placeholder: 'e.g. at dusk in the dunes', example: 'at dusk in the dunes' },
+    ],
+    defaultSize: '1024x768',
+  },
+  {
+    id: 'scenic-nature',
+    title: 'Scenic Nature',
+    category: 'environment',
+    promptPattern: 'A breathtaking {{place}} landscape, {{time}}, epic natural scenery, volumetric light, ultra detailed, photoreal, wide cinematic composition',
+    slots: [
+      { key: 'place', label: 'Place', placeholder: 'e.g. a tropical waterfall', example: 'a tropical waterfall' },
+      { key: 'time', label: 'Time / mood', placeholder: 'e.g. misty dawn', example: 'misty dawn' },
+    ],
+    defaultSize: '1024x768',
+  },
+  {
+    id: 'cityscape-rooftop',
+    title: 'City Rooftop / Skyline',
+    category: 'environment',
+    promptPattern: 'A {{city}} skyline from a rooftop at {{time}}, glowing city lights, dramatic sky, cinematic, ultra detailed',
+    slots: [
+      { key: 'city', label: 'City vibe', placeholder: 'e.g. neon megacity', example: 'neon megacity' },
+      { key: 'time', label: 'Time', placeholder: 'e.g. night', example: 'night' },
+    ],
+    defaultSize: '1024x768',
+  },
+  {
+    id: 'fantasy-realm',
+    title: 'Fantasy / Game World',
+    category: 'environment',
+    promptPattern: 'A {{realm}} fantasy game environment, {{style}} game art, atmospheric, depth and scale, concept-art quality, detailed background suitable for a game scene',
+    slots: [
+      { key: 'realm', label: 'Realm', placeholder: 'e.g. a lush overgrown temple jungle', example: 'a lush overgrown temple jungle' },
+      { key: 'style', label: 'Art style', placeholder: 'e.g. stylized painterly', example: 'stylized painterly' },
+    ],
+    defaultSize: '1024x768',
+  },
+  {
+    id: 'sacred-temple-scene',
+    title: 'Sacred Temple Scene',
+    category: 'environment',
+    promptPattern: 'Inside a {{temple}} sacred temple, {{light}}, monumental columns, incense haze, reverent atmosphere, cinematic, highly detailed',
+    slots: [
+      { key: 'temple', label: 'Temple', placeholder: 'e.g. ancient Egyptian', example: 'ancient Egyptian' },
+      { key: 'light', label: 'Light', placeholder: 'e.g. golden shafts of sun', example: 'golden shafts of sun' },
+    ],
+    defaultSize: '1024x768',
   },
 ];
 
