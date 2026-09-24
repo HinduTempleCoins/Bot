@@ -32,6 +32,7 @@ import { fileURLToPath } from 'node:url';
 
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import * as providersMod from '../../integrations/genai-providers.mjs';
+import { screenPrompt } from './safety.mjs';
 import { GENERATORS, byKind, noSignupOptions } from '../../integrations/genai-directory.mjs';
 import {
   TEMPLATES, CATEGORIES, getTemplate, fillTemplate, exampleFor, validateTemplates, templatesByCategory,
@@ -80,25 +81,28 @@ export function __setGenerator(fn) { _generate = fn || ((args) => providersMod.g
 // store seam (tests point DATA_DIR at a temp dir; these are real fs ops by default)
 function ensureDir() { try { mkdirSync(DATA_DIR, { recursive: true }); } catch { /* soft */ } }
 const EXT = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/jpg': 'jpg', 'image/webp': 'webp' };
-function saveGeneration({ base64, mime, prompt, provider, note, size, seed }) {
+function saveGeneration({ base64, mime, prompt, provider, note, size, seed, adult }) {
   ensureDir();
   const ts = Date.now();
   const ext = EXT[mime] || 'png';
   const file = `${ts}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
   try {
     writeFileSync(join(DATA_DIR, file), Buffer.from(base64, 'base64'));
-    const meta = { file, mime, prompt: String(prompt || '').slice(0, 2000), provider, note, size, seed, ts };
+    const meta = { file, mime, prompt: String(prompt || '').slice(0, 2000), provider, note, size, seed, ts, adult: !!adult };
     writeFileSync(join(DATA_DIR, file + '.json'), JSON.stringify(meta));
     return meta;
   } catch { return null; }
 }
-function recentGenerations(limit = 60) {
+// Public feeds (front page + /gallery) exclude anything flagged `adult` by the safety
+// screen — adult art is returned only on the maker's own result page, never surfaced.
+function recentGenerations(limit = 60, { includeAdult = false } = {}) {
   try {
     if (!existsSync(DATA_DIR)) return [];
     return readdirSync(DATA_DIR)
       .filter((f) => f.endsWith('.json'))
       .map((f) => { try { return JSON.parse(readFileSync(join(DATA_DIR, f), 'utf8')); } catch { return null; } })
       .filter(Boolean)
+      .filter((m) => includeAdult || !m.adult)
       .sort((a, b) => (b.ts || 0) - (a.ts || 0))
       .slice(0, limit);
   } catch { return []; }
@@ -172,7 +176,7 @@ const FOOTER = `<footer>
   label which one made each image. Cost-bearing engines run under a daily budget and a circuit breaker —
   no runaway billing. We never see or store your keys, and we never proxy arbitrary URLs — only images
   we generated and saved here. <i>Phase 1.</i> Coming next: ComfyUI on demand and Colab teach-lessons.
-  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Gallery</a></div>
+  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Shilpa Shastra</a></div>
   <div style="margin-top:6px">Part of Hathor's system: <a href="${esc(HATHOR_LIVE)}">hathor.live</a> · <a href="${esc(ALMANACK)}">the Almanack</a> · <a href="${esc(WIKI)}">the Library of Ashurbanipal</a> · <a href="${esc(REPO)}">the Bot repo</a> · <a href="${esc(DATA)}">Data</a></div>
   <div style="margin-top:6px">💬 <a href="${esc(DISCORD)}" target=_blank rel="noopener"><b>Chat on Discord</b></a> — Hathor is in there. Come say hi.</div>
 </footer>`;
@@ -188,7 +192,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Gallery</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -540,11 +544,11 @@ function galleryCard(m) {
 
 export function galleryView() {
   const items = recentGenerations(60);
-  const body = `<h1>Gallery</h1>
-    <p class=muted>Recent generations, newest first. Each is labelled with the engine that made it.</p>
+  const body = `<h1>Shilpa Shastra <span class=muted style="font-size:14px">· the gallery</span></h1>
+    <p class=muted>Named for the <b>Śilpa Śāstra</b>, the classical treatises on art and sacred image-making. The figure and the nude belong here as <b>art</b> — attractive, sometimes sensual, never pornographic. Recent generations, newest first, each labelled with the engine that made it.</p>
     ${items.length ? `<div class=gallery>${items.map(galleryCard).join('')}</div>`
-      : '<div class=card><p class=empty>No generations yet. <a href="/">Make the first one →</a></p></div>'}`;
-  return pageShell('Gallery — Generative AI', body, { canonical: `${BASE_URL}/gallery` });
+      : '<div class=card><p class=empty>Nothing here yet. <a href="/">Make the first one →</a></p></div>'}`;
+  return pageShell('Shilpa Shastra — the gallery', body, { canonical: `${BASE_URL}/gallery` });
 }
 
 // ── the generate result page ──────────────────────────────────────────────────────────────────────
@@ -626,6 +630,17 @@ export async function handleGenerate(req, res) {
   const imgParam = String(params.get('image') || '').trim();
   let image = null;
   if (/^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam)) image = { url: `${BASE_URL}${imgParam}` };
+  // Content safety: refuse sexual imagery of minors or of uploaded real people; allow adult
+  // art of your own character but flag it so it never reaches the front page / public gallery.
+  const screen = screenPrompt(cleaned, { hasReferenceImage: !!image });
+  if (!screen.ok) {
+    const note = screen.reason === 'minor'
+      ? 'That request was blocked. This studio never generates sexual or nude imagery involving minors.'
+      : screen.reason === 'pornographic'
+        ? 'That request was blocked. Tasteful nudity and figure art are welcome here — hardcore/pornographic content (sex acts, penetration, fluids) is not.'
+        : 'That request was blocked. You can make nude or figure art of your own character, but the studio will not generate it from an uploaded photo of a real person.';
+    return sendHtml(res, homePage({ note }), 400);
+  }
   let result;
   try { result = await _generate({ prompt: cleaned, size, seed: seed != null ? +seed : null, image }); }
   catch { result = { ok: false, error: 'generation failed' }; }
@@ -636,6 +651,7 @@ export async function handleGenerate(req, res) {
   const meta = saveGeneration({
     base64: result.base64, mime: result.mime, prompt: cleaned,
     provider: result.provider, note: result.note, size: result.size || size, seed: result.seed,
+    adult: screen.adult,
   });
   if (!meta) {
     return sendHtml(res, homePage({ note: 'The image was made but could not be saved — please try again.' }), 500);
