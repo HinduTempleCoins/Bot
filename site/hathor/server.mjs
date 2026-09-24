@@ -267,7 +267,7 @@ export function homePage(opts = {}) {
       <input type=hidden name=image id=refurl>
       <div class=row style="margin-top:12px">${sizeSelect()}
         <input class=q style="flex:1 1 180px;width:auto" name=place placeholder="place (optional — grounds the scene, e.g. North Texas)">
-        <input class=q style="flex:1 1 140px;width:auto" name=seed type=number min=0 placeholder="seed (optional)">
+        <input class=q style="flex:1 1 150px;width:auto" name=clouds placeholder="clouds (optional — e.g. pyrocumulus)"> <input class=q style="flex:1 1 140px;width:auto" name=seed type=number min=0 placeholder="seed (optional)">
         <button type=submit id=genbtn>Generate</button></div>
     </div></form>
     <script>
@@ -552,7 +552,7 @@ export function templateDetailView(id) {
       <div class=card>${fields}
         ${photoUploadWidget('tpl')}
         <div class=row style="margin-top:14px">${sizeSelect(t.defaultSize)}
-          <input class=q style="flex:1 1 180px;width:auto" name=place placeholder="place (optional — grounds the scene, e.g. North Texas)"> <input class=q style="flex:1 1 140px;width:auto" name=seed type=number min=0 placeholder="seed (optional)">
+          <input class=q style="flex:1 1 180px;width:auto" name=place placeholder="place (optional — grounds the scene, e.g. North Texas)"> <input class=q style="flex:1 1 150px;width:auto" name=clouds placeholder="clouds (optional — e.g. pyrocumulus)"> <input class=q style="flex:1 1 140px;width:auto" name=seed type=number min=0 placeholder="seed (optional)">
           <button type=submit>Generate</button></div>
       </div></form>
     ${photoUploadScript('tplform', 'tpl')}`;
@@ -693,7 +693,8 @@ export async function handleGenerate(req, res) {
   // Hathor's reasoning: if a place is given, ground the scene in real geo/climate/facts of that place so
   // it looks accurate (e.g., "North Texas" → prairie, DFW skyline, hot hazy light). Soft-fail, opt-in.
   const place = String(params.get('place') || '').trim().slice(0, 80);
-  if (place) { try { const pg = await import('../../integrations/genai-place-grounding.mjs'); const e = await pg.enrichPrompt(genPrompt, place); if (e && e.grounded) genPrompt = e.prompt; } catch { /* grounding optional */ } }
+  const clouds = String(params.get('clouds') || '').trim().slice(0, 40);
+  if (place || clouds) { try { const pg = await import('../../integrations/genai-place-grounding.mjs'); const e = await pg.enrichPrompt(genPrompt, place, clouds); if (e && e.grounded) genPrompt = e.prompt; } catch { /* grounding optional */ } }
   let result;
   try { result = await _generate({ prompt: genPrompt, size, seed: seed != null ? +seed : null, image }); }
   catch { result = { ok: false, error: 'generation failed' }; }
