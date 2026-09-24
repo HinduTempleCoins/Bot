@@ -541,7 +541,7 @@ export function templateDetailView(id) {
     <input class=q id="slot_${esc(s.key)}" name="slot_${esc(s.key)}" placeholder="${esc(s.placeholder)}" autocomplete=off>`).join('');
   // Portrait/character (avatar) templates — and any flagged usesPhoto — are "turn YOU into it": lead with
   // the photo upload so people know the killer feature. Scene/poster templates keep it optional.
-  const photoForward = t.category === 'avatar' || t.usesPhoto;
+  const photoForward = t.category === 'avatar' || t.category === 'environment' || t.usesPhoto;
   const body = `<h1>${esc(t.title)} <span class="badge cat">${esc(t.category)}</span></h1>
     <p class=muted><a href="/templates">← all templates</a></p>
     ${photoForward ? `<div class=card style="border-color:var(--gold)"><b>★ Turn YOU into this.</b> <span class=muted>Upload your photo below — this template drops you into the scene and keeps your face. Skip it to generate a fresh character instead.</span></div>` : ''}
