@@ -13,7 +13,7 @@
 //
 // Categories: poster | avatar | scene | card | meme
 
-export const CATEGORIES = ['poster', 'avatar', 'scene', 'card', 'meme'];
+export const CATEGORIES = ['poster', 'avatar', 'scene', 'card', 'meme', 'print'];
 
 export const TEMPLATES = [
   {
@@ -219,6 +219,53 @@ export const TEMPLATES = [
       { key: 'setting', label: 'Background', placeholder: 'e.g. desert at dawn', example: 'desert at dawn' },
     ],
     defaultSize: '768x1024',
+  },
+  // ── T-SHIRT / PRINT vector designs. Bold, flat, limited-palette, print-ready — pair with /vectorize
+  // (raster→SVG) for screen printing. Great with CC0/Commons public-domain art & portraits (mint-safe,
+  // bucket A in genai-asset-library.mjs). Category print. ──────────────────────────────────────────────
+  {
+    id: 'tshirt-graphic',
+    title: 'T-Shirt Graphic',
+    category: 'print',
+    promptPattern: 'A bold t-shirt graphic of {{subject}}, {{style}} style, flat limited-color vector, clean thick outlines, high contrast, centered on a plain background, screen-print ready, no text',
+    slots: [
+      { key: 'subject', label: 'Subject', placeholder: 'e.g. a roaring lion', example: 'a roaring lion' },
+      { key: 'style', label: 'Style', placeholder: 'e.g. bold retro', example: 'bold retro' },
+    ],
+    defaultSize: '1024x1024',
+  },
+  {
+    id: 'public-domain-portrait-tee',
+    title: 'Public-Domain Portrait Tee',
+    category: 'print',
+    promptPattern: 'A t-shirt design of {{figure}} as a bold {{style}} vector portrait, flat colors with halftone accents, thick outlines, high contrast, plain background, screen-print ready. Based on a public-domain / Commons artwork',
+    slots: [
+      { key: 'figure', label: 'Public-domain figure/artwork', placeholder: 'e.g. an ancient Egyptian queen', example: 'an ancient Egyptian queen' },
+      { key: 'style', label: 'Style', placeholder: 'e.g. pop-art', example: 'pop-art' },
+    ],
+    defaultSize: '1024x1024',
+  },
+  {
+    id: 'emblem-crest',
+    title: 'Emblem / Crest',
+    category: 'print',
+    promptPattern: 'A symmetrical badge emblem of {{motif}}, {{palette}} flat vector, bold outlines, crest/seal layout, print-ready, clean plain background',
+    slots: [
+      { key: 'motif', label: 'Motif', placeholder: 'e.g. an ankh flanked by wings', example: 'an ankh flanked by wings' },
+      { key: 'palette', label: 'Palette', placeholder: 'e.g. gold and black', example: 'gold and black' },
+    ],
+    defaultSize: '1024x1024',
+  },
+  {
+    id: 'streetwear-graphic',
+    title: 'Streetwear Graphic',
+    category: 'print',
+    promptPattern: 'A streetwear t-shirt graphic: {{subject}}, {{style}} aesthetic, bold flat vector, limited palette, heavy outlines, high contrast, print-ready, plain background',
+    slots: [
+      { key: 'subject', label: 'Subject', placeholder: 'e.g. a vaporwave Egyptian goddess', example: 'a vaporwave Egyptian goddess' },
+      { key: 'style', label: 'Aesthetic', placeholder: 'e.g. vaporwave', example: 'vaporwave' },
+    ],
+    defaultSize: '1024x1024',
   },
 ];
 
