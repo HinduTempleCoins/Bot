@@ -34,6 +34,7 @@ import { tmpdir } from 'node:os';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import * as providersMod from '../../integrations/genai-providers.mjs';
 import { screenPrompt } from './safety.mjs';
+import { TOOLS, toolsByCat, toolsWikiMarkdown } from '../../integrations/genai-tools.mjs';
 import { GENERATORS, byKind, noSignupOptions } from '../../integrations/genai-directory.mjs';
 import {
   TEMPLATES, CATEGORIES, getTemplate, fillTemplate, exampleFor, validateTemplates, templatesByCategory,
@@ -193,7 +194,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -794,6 +795,23 @@ export async function handleConvertFile(req, res) {
     res.end(out);
     try { rmSync(inPath, { force: true }); rmSync(r.outPath, { force: true }); } catch {}
   } catch { try { rmSync(inPath, { force: true }); } catch {} return err(500, 'conversion error'); }
+}
+
+// /tools — the complete hub: every tool grouped, with a one-line what + a numbered how-to + a link.
+// Driven by the one registry (integrations/genai-tools.mjs) that also feeds the wiki + forum.
+export function toolsHubView() {
+  const groups = toolsByCat();
+  const sections = Object.entries(groups).map(([cat, tools]) => `
+    <h2>${esc(cat)}</h2>
+    <div class=grid>${tools.map((t) => `<div class=card>
+      <div class=t><a href="${esc(t.url)}">${esc(t.title)}</a></div>
+      <p class=muted style="font-size:13px">${esc(t.what)}</p>
+      <ol style="font-size:12px;color:var(--muted);margin:6px 0 0 1em;padding:0">${t.howto.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
+      <p style="margin-top:8px"><a class=pill href="${esc(t.url)}">Open ${esc(t.title)} →</a></p></div>`).join('')}</div>`).join('');
+  const body = `<h1>All Tools <span class=muted style="font-size:14px">· the hub</span></h1>
+    <p class=muted>Everything you can make here — each with a quick how-to. Free, no login. Full guides on the <a href="${esc(WIKI)}">Library/Wiki</a>; ask in the <a href="${esc(FORUM)}">forum</a>.</p>
+    ${sections}`;
+  return pageShell('All Tools — Hathor Studio', body, { canonical: `${BASE_URL}/tools`, description: 'Every Hathor Studio tool with a how-to: generate, templates, convert, vectorize, video, reels, ComfyUI, and more. Free, no login.' });
 }
 
 export function convertView() {
@@ -1575,6 +1593,8 @@ export async function handler(req, res) {
       return handleUpload(req, res);
     }
     if (path === '/edit') return sendHtml(res, editView());
+    if (path === '/tools') return sendHtml(res, toolsHubView());
+    if (path === '/tools.md') { res.writeHead(200, { 'content-type': 'text/markdown; charset=utf-8' }); return res.end(toolsWikiMarkdown()); }
     if (path === '/convert') return sendHtml(res, convertView());
     if (path === '/api/convert') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
