@@ -159,6 +159,67 @@ export const TEMPLATES = [
     ],
     defaultSize: '768x1024',
   },
+  // ── "Become X" portrait/character templates — designed to be used WITH an uploaded photo. Framed as a
+  // close-up, face-centered portrait so the uploader's likeness is showcased (the wide scene templates
+  // above drop them in small). Paired with the generate path's "keep their face" steering, these put
+  // THE PERSON into the costume/scene. Category avatar. ──────────────────────────────────────────────
+  {
+    id: 'egyptian-royalty-portrait',
+    title: 'Become Egyptian Royalty',
+    category: 'avatar',
+    promptPattern: 'A close-up cinematic portrait as ancient Egyptian royalty, wearing an ornate golden headdress, {{jewelry}}, and a wesekh broad collar, {{setting}} behind, warm golden light, painterly, the face fully visible and centered, highly detailed',
+    slots: [
+      { key: 'jewelry', label: 'Jewelry / accents', placeholder: 'e.g. lapis and gold', example: 'lapis and gold' },
+      { key: 'setting', label: 'Background', placeholder: 'e.g. a sunlit temple hall', example: 'a sunlit temple hall' },
+    ],
+    defaultSize: '768x1024',
+  },
+  {
+    id: 'angel-portrait',
+    title: 'Become an Angel',
+    category: 'avatar',
+    promptPattern: 'A close-up portrait as a radiant angel, {{wings}} feathered wings, a glowing halo, {{palette}} palette, soft divine light, ethereal, the face fully visible and centered, fine art',
+    slots: [
+      { key: 'wings', label: 'Wings', placeholder: 'e.g. large pink and blue', example: 'large pink and blue' },
+      { key: 'palette', label: 'Palette', placeholder: 'e.g. gold and white', example: 'gold and white' },
+    ],
+    defaultSize: '768x1024',
+  },
+  {
+    id: 'game-hero-portrait',
+    title: 'Become a Video-Game Hero',
+    category: 'avatar',
+    promptPattern: 'A character-select close-up portrait of a video-game hero, wearing {{armor}}, {{setting}} behind, {{style}} game art, dramatic rim light, the face fully visible and centered, high detail',
+    slots: [
+      { key: 'armor', label: 'Armor / outfit', placeholder: 'e.g. ornate fantasy plate armor', example: 'ornate fantasy plate armor' },
+      { key: 'setting', label: 'Setting', placeholder: 'e.g. a ruined castle', example: 'a ruined castle' },
+      { key: 'style', label: 'Art style', placeholder: 'e.g. stylized 3D RPG', example: 'stylized 3D RPG' },
+    ],
+    defaultSize: '768x1024',
+  },
+  {
+    id: 'vaporwave-deity-portrait',
+    title: 'Vaporwave Deity Portrait',
+    category: 'avatar',
+    promptPattern: 'A close-up vaporwave portrait as a neon deity, {{crown}}, glowing {{palette}} neon light, a retro synthwave grid behind, chrome accents, the face fully visible and centered, highly detailed',
+    slots: [
+      { key: 'crown', label: 'Crown / headpiece', placeholder: 'e.g. golden horned headdress', example: 'golden horned headdress' },
+      { key: 'palette', label: 'Neon palette', placeholder: 'e.g. pink and cyan', example: 'pink and cyan' },
+    ],
+    defaultSize: '768x1024',
+  },
+  {
+    id: 'warrior-portrait',
+    title: 'Become a Warrior',
+    category: 'avatar',
+    promptPattern: 'A heroic close-up portrait as a {{kind}} warrior, wearing {{armor}}, {{setting}} background, cinematic dramatic light, the face fully visible and centered, highly detailed',
+    slots: [
+      { key: 'kind', label: 'Warrior type', placeholder: 'e.g. Nubian', example: 'Nubian' },
+      { key: 'armor', label: 'Armor', placeholder: 'e.g. gold and leather', example: 'gold and leather' },
+      { key: 'setting', label: 'Background', placeholder: 'e.g. desert at dawn', example: 'desert at dawn' },
+    ],
+    defaultSize: '768x1024',
+  },
 ];
 
 // fast lookup
