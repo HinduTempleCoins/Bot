@@ -1,17 +1,20 @@
 #!/usr/bin/env node
-// hathor-studio-announcement.mjs — TESTNET. Hathor announces her GenAI studio on-chain, in her voice.
-// Modeled on create-welcome-post.mjs. Posting key via env HATHOR_POSTING_KEY (piped from the vault on
-// the box, never logged). --live to broadcast; dry-run otherwise; idempotent (skips if the post exists).
+// hathor-studio-announcement.mjs — Hathor announces her GenAI studio on-chain, in her voice.
+// Broadcasts through MELEK-Signer (zero WIF on this host): the box holds only a scoped bearer token
+// (MELEK_SIGNER_TOKEN); the signer holds Hathor's keys and
+// signs+broadcasts to the REAL chain (melek.salon). --live to broadcast; dry-run otherwise; idempotent
+// (skips if the post exists unless --update).
 //
-//   on the box:  cd /opt/melek-bot && HATHOR_POSTING_KEY=$(node vault.mjs get hathor-testnet-keys \
-//     | sed -n 's/^posting:[[:space:]]*\(5[1-9A-HJ-NP-Za-km-z]\{50\}\).*/\1/p') \
+//   on the box:  cd /opt/melek-bot && set -a && . "$SIGNER_ENV" && set +a && \
 //     node repo/witness/hathor-studio-announcement.mjs --live
+//     ( --update to edit the existing post )
 
-import { Client, PrivateKey } from '@hiveio/dhive';
+import { Client } from '@hiveio/dhive';
 
-const RPC = process.env.MELEK_RPC || 'https://alpha.melek.salon/rpc';
-const CHAIN_ID = process.env.MELEK_CHAIN_ID || '18dcf0a285365fc58b71f18b3d3fec954aa0c141c44e4e5cb4cf777b9eab274e';
-const PREFIX = process.env.MELEK_PREFIX || 'TST';
+// The real chain is melek.salon (alpha.melek.salon is the testnet). Read-only check defaults to mainnet.
+const RPC = process.env.MELEK_RPC || 'https://melek.salon/rpc';
+const CHAIN_ID = process.env.MELEK_CHAIN_ID || '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
+const PREFIX = process.env.MELEK_PREFIX || 'MELEK';
 const AUTHOR = 'hathor';
 const PERMLINK = process.env.STUDIO_PERMLINK || 'hathor-studio-is-open';
 const live = process.argv.includes('--live');
@@ -51,14 +54,18 @@ const client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeo
   }
   console.log(`will ${exists ? 'UPDATE' : 'create'} @${AUTHOR}/${PERMLINK}`);
   if (!live) { console.log('(dry — pass --live to broadcast)'); return; }
-  const key = process.env.HATHOR_POSTING_KEY && PrivateKey.fromString(process.env.HATHOR_POSTING_KEY.trim());
-  if (!key) { console.error('FATAL: set HATHOR_POSTING_KEY for --live'); process.exit(1); }
+  // Broadcast through MELEK-Signer — the Bot host holds ZERO WIFs by construction. It sends the ops with a
+  // scoped, revocable bearer token; the signer holds Hathor's keys and signs+broadcasts to the real chain.
+  const token = (process.env.MELEK_SIGNER_TOKEN || '').trim();
+  if (!token) { console.error('FATAL: set MELEK_SIGNER_TOKEN for --live'); process.exit(1); }
   const op = ['comment', {
     parent_author: '', parent_permlink: 'hathor', author: AUTHOR, permlink: PERMLINK,
     title: TITLE, body: BODY,
     json_metadata: JSON.stringify({ app: 'hathor/studio', tags: ['hathor', 'melek', 'genai', 'art', 'announcement'] }),
   }];
-  const r = await client.broadcast.sendOperations([op], key).catch((e) => ({ error: String(e.message || e).slice(0, 160) }));
-  if (r && r.error) { console.error('broadcast failed:', r.error); process.exit(1); }
-  console.log(`✓ announced: @${AUTHOR}/${PERMLINK}  (tx ${r && r.id ? r.id : 'ok'})`);
+  const { signerBroadcast } = await import('../autovote/signer-castvote.mjs');
+  const r = await signerBroadcast({ token, ops: [op], clientId: 'hathor-studio', role: 'posting' })
+    .catch((e) => ({ error: String(e.message || e).slice(0, 200) }));
+  if (r && r.error) { console.error('signer broadcast failed:', r.error); process.exit(1); }
+  console.log(`✓ announced via MELEK-Signer: @${AUTHOR}/${PERMLINK}  (${JSON.stringify(r).slice(0, 160)})`);
 })();
