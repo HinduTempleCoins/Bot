@@ -170,6 +170,13 @@ test('editView + webcamView + arLibrariesView export and render standalone', () 
   assert.ok(arLibrariesView().includes('AR libraries'));
 });
 
+test('toolsHubView renders the tools hub with how-tos + links', () => {
+  const html = srv.toolsHubView();
+  assert.ok(html.includes('All Tools'));
+  assert.ok(html.includes('/convert'));
+  assert.ok(html.includes('/vectorize'));
+});
+
 test('convertView renders the file convert/compress tool', () => {
   const html = srv.convertView();
   assert.ok(html.includes('Convert'));
