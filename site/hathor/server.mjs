@@ -192,7 +192,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -731,6 +731,63 @@ export async function handleUpload(req, res) {
     writeFileSync(join(DATA_DIR, file), buf);
     return j(200, { ok: true, url: `/img/${file}`, file });
   } catch { return j(500, { ok: false, error: 'could not save' }); }
+}
+
+// ── /convert — image convert + compress (a hub file-tool). Free, CPU, via sharp. No GPU, no upload
+// stored: convert in-memory and stream the result back for download. doc→PDF / video are later tiers
+// (LibreOffice / ffmpeg). ────────────────────────────────────────────────────────────────────────
+const CONVERT_FORMATS = ['webp', 'jpeg', 'png', 'avif'];
+export async function handleConvert(req, res) {
+  const ip = clientIp(req);
+  const err = (code, msg) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify({ ok: false, error: msg })); };
+  if (!rateOk(ip)) return err(429, 'rate-limited');
+  const u = new URL(req.url, BASE_URL);
+  const fmt = CONVERT_FORMATS.includes(String(u.searchParams.get('fmt'))) ? u.searchParams.get('fmt') : 'webp';
+  let q = parseInt(u.searchParams.get('q'), 10); if (!(q >= 1 && q <= 100)) q = 80;
+  let w = parseInt(u.searchParams.get('w'), 10); if (!(w >= 16 && w <= 8000)) w = 0;
+  const buf = await readRawBody(req);
+  if (!buf || buf.length < 64) return err(400, 'no image (or too large — 8MB max)');
+  let sharp;
+  try { sharp = (await import('sharp')).default; } catch { return err(503, 'converter unavailable on this host'); }
+  try {
+    let img = sharp(buf, { failOn: 'none' }).rotate();
+    if (w) img = img.resize({ width: w, withoutEnlargement: true });
+    if (fmt === 'jpeg') img = img.jpeg({ quality: q });
+    else if (fmt === 'png') img = img.png({ compressionLevel: 9 });
+    else if (fmt === 'avif') img = img.avif({ quality: q });
+    else img = img.webp({ quality: q });
+    const out = await img.toBuffer();
+    res.writeHead(200, { 'content-type': `image/${fmt}`, 'cache-control': 'no-store', 'content-disposition': `attachment; filename="converted.${fmt === 'jpeg' ? 'jpg' : fmt}"` });
+    return res.end(out);
+  } catch { return err(422, 'could not convert that image'); }
+}
+export function convertView() {
+  const body = `<h1>Convert &amp; Compress <span class=muted style="font-size:14px">· file tool</span></h1>
+    <p class=muted>Turn an image into another format and shrink it — WebP, JPG, PNG, AVIF. Free, in your browser flow, no GPU. Your image is converted in-memory and never stored. (Docs→PDF and video coming next.)</p>
+    <form class=gform id=cvform><div class=card>
+      <label class=pill style="cursor:pointer">📎 Choose an image <input type=file id=cvfile accept="image/*" hidden></label>
+      <span class=muted id=cvname style="font-size:12px;margin-left:8px">no file chosen</span>
+      <div class=row style="margin-top:12px;gap:10px;flex-wrap:wrap">
+        <label class=fld style="width:auto">Format
+          <select class=q id=cvfmt style="width:auto"><option value=webp>WebP</option><option value=jpeg>JPG</option><option value=png>PNG</option><option value=avif>AVIF</option></select></label>
+        <label class=fld style="width:auto">Quality <input class=q id=cvq type=number min=1 max=100 value=80 style="width:90px"></label>
+        <label class=fld style="width:auto">Max width (px, optional) <input class=q id=cvw type=number min=16 max=8000 placeholder="keep" style="width:120px"></label>
+      </div>
+      <div class=row style="margin-top:12px"><button type=submit id=cvbtn>Convert &amp; download</button>
+        <span class=muted id=cvstatus style="font-size:12px"></span></div>
+    </div></form>
+    <script>(function(){var f=document.getElementById('cvform'),fi=document.getElementById('cvfile'),nm=document.getElementById('cvname'),st=document.getElementById('cvstatus'),bt=document.getElementById('cvbtn');
+      fi.addEventListener('change',function(){var x=fi.files&&fi.files[0];nm.textContent=x?x.name:'no file chosen';});
+      f.addEventListener('submit',async function(e){e.preventDefault();var x=fi.files&&fi.files[0];if(!x){st.textContent='Choose an image first.';return;}
+        var fmt=document.getElementById('cvfmt').value,q=document.getElementById('cvq').value,w=document.getElementById('cvw').value;
+        bt.disabled=true;st.textContent='Converting…';
+        try{var qs='fmt='+fmt+'&q='+encodeURIComponent(q)+(w?'&w='+encodeURIComponent(w):'');
+          var r=await fetch('/api/convert?'+qs,{method:'POST',headers:{'content-type':x.type||'image/*'},body:x});
+          if(!r.ok){st.textContent='Convert failed ('+r.status+').';bt.disabled=false;return;}
+          var b=await r.blob();var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='converted.'+(fmt==='jpeg'?'jpg':fmt);a.click();
+          st.textContent='Done — '+(b.size/1024|0)+' KB.';bt.disabled=false;
+        }catch(err){st.textContent='Convert failed.';bt.disabled=false;}});})();</script>`;
+  return pageShell('Convert & Compress — file tool', body, { canonical: `${BASE_URL}/convert` });
 }
 
 // ── /img/:file — serve a stored image. Path-sanitised; only files inside DATA_DIR. ────────────────
@@ -1467,6 +1524,11 @@ export async function handler(req, res) {
       return handleUpload(req, res);
     }
     if (path === '/edit') return sendHtml(res, editView());
+    if (path === '/convert') return sendHtml(res, convertView());
+    if (path === '/api/convert') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleConvert(req, res);
+    }
     if (path === '/video') return sendHtml(res, videoView());
     if (path === '/api/video') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
