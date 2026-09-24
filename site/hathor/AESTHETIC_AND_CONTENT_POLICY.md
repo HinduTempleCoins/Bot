@@ -42,13 +42,17 @@ The line is drawn at the **pornographic**, not at nudity. **Nudity is art.**
 4. **No sexual or nude imagery involving minors, ever** — refused unconditionally; a minor
    reference on an upload is also refused.
 
-**Surface separation (current):** `adult`-flagged images are kept OFF the front-page
-"Fresh from the community" feed (`recentGenerations()` filters `adult`). The **Shilpa
-Shastra** gallery (`/gallery`) is the intended home for the tasteful figure/nude work, but
-whether it shows nudity publicly is gated on an **age-verification decision** (see
-`.local/hathor/SHILPA_SHASTRA_SPEC.md`) — until that ships, the gallery stays SFW too.
-Curated front-page showcase images (`showcase/`) are hand-picked and stay clothed / "under
-sheer at least."
+**Surface separation (shipped):**
+- The **front page** stays SFW always — `recentGenerations()` filters `adult` out of the
+  "Fresh from the community" feed, and the curated `showcase/` images are hand-picked, clothed,
+  "under sheer at least."
+- The **Shilpa Shastra** gallery (`/gallery`) hides figure/nude work by default and reveals it
+  only when the viewer flips the **NSFW toggle**, which requires an **18+ self-attestation**
+  (a confirm dialog) and sets the `hnsfw` cookie; the server then includes `adult` items and
+  serves the page `noindex,nofollow`. Age gate = **self-attestation + toggle, no IDs collected**
+  (operator decision 2026-09-24). A stronger third-party age-estimation tier can be added later
+  (see `.local/hathor/SHILPA_SHASTRA_SPEC.md`) but is not required for tasteful, non-pornographic
+  art below the "harmful-to-minors / one-third" thresholds of the state AV laws.
 
 ## For the future body/figure capability
 
