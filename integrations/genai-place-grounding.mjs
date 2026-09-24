@@ -8,6 +8,7 @@
 //   const g = await groundPlace('North Texas')      // { geo, climate, facts, visualBrief }
 //   const p = await enrichPrompt('a market scene in North Texas', 'North Texas')
 
+import { defaultSkyFor, skyCue } from './genai-sky.mjs';
 let _fetch = (...a) => fetch(...a);
 export function __setFetch(f) { _fetch = f || ((...a) => fetch(...a)); }
 const j = async (url, opts) => { try { const r = await _fetch(url, { headers: { 'user-agent': 'MELEK-Bot/1.0' }, ...opts }); return r && r.ok ? await r.json() : null; } catch { return null; } };
@@ -54,16 +55,22 @@ export async function groundPlace(place) {
   if (cues) bits.push(cues);
   if (cl && cl.season) bits.push(`${cl.band ? cl.band + ' ' : ''}${cl.season}${cl.tempC != null ? `, around ${Math.round(cl.tempC)}°C` : ''}`);
   if (geo && geo.state && !cues) bits.push(`${geo.state}${geo.country ? ', ' + geo.country : ''}`);
+  bits.push(`sky: ${defaultSkyFor(place || name)}`); // default clouds for the place (North Texas prairie sky by default)
   const visualBrief = bits.join('; ');
   return { ok: !!(geo || cues), place, geo, climate: cl, facts: fx, visualBrief };
 }
 
-// Append the grounding to a prompt so the scene is accurate to the real place.
-export async function enrichPrompt(prompt, place) {
-  if (!place) return { prompt, grounded: false };
-  const g = await groundPlace(place);
-  if (!g.visualBrief) return { prompt, grounded: false, grounding: g };
-  return { prompt: `${prompt} — grounded in ${g.place}: ${g.visualBrief}`, grounded: true, grounding: g };
+// Append the grounding to a prompt so the scene is accurate. `clouds` optionally overrides the default sky
+// (e.g., 'pyrocumulus'). Either place or clouds is enough to enrich.
+export async function enrichPrompt(prompt, place, clouds) {
+  const cloud = clouds ? skyCue(clouds) : null;
+  if (!place && !cloud) return { prompt, grounded: false };
+  let brief = '';
+  let g = null;
+  if (place) { g = await groundPlace(place); if (g && g.visualBrief) brief = g.visualBrief; }
+  if (cloud) brief = brief ? `${brief}; sky (requested): ${cloud}` : `sky: ${cloud}`;
+  if (!brief) return { prompt, grounded: false, grounding: g };
+  return { prompt: `${prompt} — grounded${place ? ` in ${place}` : ''}: ${brief}`, grounded: true, grounding: g };
 }
 
 if (process.argv[1] && process.argv[1].endsWith('genai-place-grounding.mjs')) {
