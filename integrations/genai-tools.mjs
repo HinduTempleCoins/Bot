@@ -12,6 +12,8 @@ export const TOOLS = [
   { id: 'characters', title: 'Character Effects', cat: 'Create', url: '/char', what: 'Keep the same character, put them in a new scene/effect.',
     howto: ['Open Characters.', 'Pick an effect.', 'Use Hathor, your own character, or a fictional one.', 'Generate.'] },
   { id: 'with-hathor', title: 'Appear with Hathor', cat: 'Create', url: '/hathor', what: 'Put yourself in a scene with Hathor.', howto: ['Open With Hathor.', 'Pick a scene.', 'Add your photo.', 'Generate.'] },
+  { id: 'compose', title: 'Reference Studio', cat: 'Create', url: '/compose', what: 'Upload several references — characters + objects (jewelry, hair, clothing) + a scene — and generate them together in one image.',
+    howto: ['Open Reference Studio.', 'Add a reference for each character, object, and the scene.', 'Tag each one (Character / Object / Scene) and name it.', 'Optionally describe the shot.', 'Generate together — everything lands in a single image.'] },
   // — Edit / files —
   { id: 'edit', title: 'Photo Editor', cat: 'Edit', url: '/edit', what: 'Edit an image in your browser.', howto: ['Open Editor.', 'Load or upload an image.', 'Apply edits.', 'Download.'] },
   { id: 'filters', title: 'AI Art Filters (GIMP)', cat: 'Edit', url: '/filters', what: 'Hathor runs a real filter from any engine (ImageMagick, GMIC, GIMP) for you — painterly, cartoon, charcoal, sketch, sepia, glow.',
