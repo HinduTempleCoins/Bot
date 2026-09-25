@@ -1,8 +1,10 @@
 // genai-library-pull.mjs — INCREMENTAL bulk-pull of bucket-A (mint-safe, CC0) assets into our HELD
 // corpus. Bounded per run + skips what we already hold (by id), so the daily timer GROWS the library
 // safely without blowing disk or re-downloading. Every asset gets a provenance sidecar (source/url/
-// license/bucket/sha256). Sources: Poly Haven (CC0 textures/hdris/models, low-res) + the Met (CC0
-// public-domain images via Open Access API). No GPU, no key, no paid service.
+// license/bucket/sha256). Sources (all keyless, no Cloudflare challenge): Poly Haven (CC0 3D), the Met /
+// Art Institute of Chicago / Cleveland (CC0 art), Wikimedia Commons + Openverse (filtered to CC0/PD),
+// NASA Images (public-domain space imagery), the Wellcome Collection (CC0/PDM via IIIF) and the Internet
+// Archive (public-domain-marked images). No GPU, no key, no paid service. Corpus stays mint-safe (bucket A).
 //
 //   import { pullBatch } from './genai-library-pull.mjs'
 //   node integrations/genai-library-pull.mjs --max 20 --dir knowledge/genai-library/assets
@@ -196,9 +198,117 @@ async function pullCommons(baseDir, max) {
   return { source: 'commons', pulled, mb: +(bytes / 1048576).toFixed(1) };
 }
 
+// NASA Images: keyless, public-domain space imagery. search → per-item asset manifest (collection.json)
+// → pick a mid-size https jpg. Rotates queries for breadth. PROVEN keyless from this env (2026-09-25).
+const NASA_QUERIES = ['nebula', 'galaxy', 'mars', 'earth from space', 'moon', 'saturn', 'aurora', 'sun'];
+async function pullNasa(baseDir, max) {
+  const dir = path.join(baseDir, 'nasa');
+  const have = held(dir);
+  let pulled = 0, bytes = 0;
+  for (const q of NASA_QUERIES) {
+    if (pulled >= max) break;
+    try {
+      const r = await _fetch(`https://images-api.nasa.gov/search?media_type=image&page_size=50&q=${encodeURIComponent(q)}`);
+      if (!r || !r.ok) continue;
+      const items = ((((await r.json()) || {}).collection) || {}).items || [];
+      for (const it of items) {
+        if (pulled >= max) break;
+        const nasaId = it.data && it.data[0] && it.data[0].nasa_id;
+        const id = 'nasa' + String(nasaId || '').replace(/[^a-z0-9]/gi, '').slice(0, 44);
+        if (!nasaId || !it.href || have.has(id)) continue;
+        try {
+          const col = await (await _fetch(it.href)).json();
+          const jpgs = ((col || []).filter((u) => /\.jpe?g$/i.test(u)).map((u) => String(u).replace(/^http:/, 'https:')));
+          const url = jpgs.find((u) => /~medium/.test(u)) || jpgs.find((u) => /~small/.test(u)) || jpgs[0];
+          if (!url) continue;
+          const ir = await _fetch(url); if (!ir || !ir.ok) continue;
+          const b = Buffer.from(await ir.arrayBuffer());
+          if (b.length > 30 * 1024 * 1024 || b.length < 1024) continue;
+          await save(dir, id, url, b, 'Public Domain', 'nasa'); pulled++; bytes += b.length; have.add(id);
+        } catch { /* skip */ }
+      }
+    } catch { /* skip this query */ }
+  }
+  return { source: 'nasa', pulled, mb: +(bytes / 1048576).toFixed(1) };
+}
+
+// Wellcome Collection: keyless catalogue API filtered to CC0 / Public-Domain-Mark works, images pulled
+// from its IIIF server. PROVEN keyless from this env (2026-09-25). Rotates queries for breadth.
+const WELL_QUERIES = ['egypt', 'anatomy', 'botanical', 'alchemy', 'astronomy', 'herbal', 'manuscript', 'deity'];
+async function pullWellcome(baseDir, max) {
+  const dir = path.join(baseDir, 'wellcome');
+  const have = held(dir);
+  let pulled = 0, bytes = 0;
+  for (const q of WELL_QUERIES) {
+    if (pulled >= max) break;
+    try {
+      const u = `https://api.wellcomecollection.org/catalogue/v2/works?query=${encodeURIComponent(q)}&include=items&items.locations.license=cc0,pdm&pageSize=50`;
+      const r = await _fetch(u); if (!r || !r.ok) continue;
+      const results = ((await r.json()) || {}).results || [];
+      for (const w of results) {
+        if (pulled >= max) break;
+        let iiif = null, lic = null;
+        for (const it of (w.items || [])) for (const l of (it.locations || [])) {
+          if (l.locationType && l.locationType.id === 'iiif-image' && l.url) { iiif = l.url; lic = (l.license || {}).id; }
+        }
+        const m = iiif && iiif.match(/\/image\/([^/]+)\/info\.json/);
+        if (!m) continue;
+        const id = 'wl' + String(w.id || m[1]).replace(/[^a-z0-9]/gi, '').slice(0, 46);
+        if (have.has(id)) continue;
+        try {
+          const url = `https://iiif.wellcomecollection.org/image/${m[1]}/full/600,/0/default.jpg`;
+          const ir = await _fetch(url); if (!ir || !ir.ok) continue;
+          const b = Buffer.from(await ir.arrayBuffer());
+          if (b.length > 30 * 1024 * 1024 || b.length < 1024) continue;
+          await save(dir, id, url, b, lic === 'cc0' ? 'CC0' : 'Public Domain', 'wellcome'); pulled++; bytes += b.length; have.add(id);
+        } catch { /* skip */ }
+      }
+    } catch { /* skip this query */ }
+  }
+  return { source: 'wellcome', pulled, mb: +(bytes / 1048576).toFixed(1) };
+}
+
+// Internet Archive: keyless. Filter to items whose licenseurl is a public-domain mark so the corpus stays
+// mint-safe, then pick the largest real (non-thumb) image file from the item. PROVEN keyless (2026-09-25).
+const IA_QUERIES = ['egypt', 'temple', 'goddess', 'manuscript', 'ancient ruins', 'ornament', 'sculpture', 'relic'];
+async function pullArchive(baseDir, max) {
+  const dir = path.join(baseDir, 'archive');
+  const have = held(dir);
+  let pulled = 0, bytes = 0;
+  for (const q of IA_QUERIES) {
+    if (pulled >= max) break;
+    try {
+      const query = `mediatype:image AND licenseurl:*publicdomain* AND (${q})`;
+      const u = `https://archive.org/advancedsearch.php?q=${encodeURIComponent(query)}&fl[]=identifier&rows=40&output=json`;
+      const r = await _fetch(u); if (!r || !r.ok) continue;
+      const docs = (((await r.json()) || {}).response || {}).docs || [];
+      for (const doc of docs) {
+        if (pulled >= max) break;
+        const ident = doc.identifier;
+        const id = 'ia' + String(ident || '').replace(/[^a-z0-9]/gi, '').slice(0, 46);
+        if (!ident || have.has(id)) continue;
+        try {
+          const meta = await (await _fetch(`https://archive.org/metadata/${encodeURIComponent(ident)}`)).json();
+          const files = (meta && meta.files) || [];
+          const cand = files
+            .filter((f) => /\.(jpe?g|png)$/i.test(f.name || '') && !/thumb|__ia|_thumb|tile/i.test(f.name || ''))
+            .sort((a, b) => (+b.size || 0) - (+a.size || 0));
+          const f = cand[0]; if (!f) continue;
+          const url = `https://archive.org/download/${encodeURIComponent(ident)}/${encodeURIComponent(f.name)}`;
+          const ir = await _fetch(url); if (!ir || !ir.ok) continue;
+          const b = Buffer.from(await ir.arrayBuffer());
+          if (b.length > 30 * 1024 * 1024 || b.length < 1024) continue;
+          await save(dir, id, url, b, 'Public Domain', 'archive'); pulled++; bytes += b.length; have.add(id);
+        } catch { /* skip */ }
+      }
+    } catch { /* skip this query */ }
+  }
+  return { source: 'archive', pulled, mb: +(bytes / 1048576).toFixed(1) };
+}
+
 export async function pullBatch({ max = 20, dir = 'knowledge/genai-library/assets' } = {}) {
   // Spread across the reliably-keyless sources. Openverse is best-effort (Cloudflare may challenge it).
-  const lanes = [pullPolyHaven, pullMet, pullArtic, pullCleveland, pullCommons, pullOpenverse];
+  const lanes = [pullPolyHaven, pullMet, pullArtic, pullCleveland, pullCommons, pullNasa, pullWellcome, pullArchive, pullOpenverse];
   const share = Math.max(1, Math.floor(max / lanes.length));
   const sources = [];
   let remaining = max;

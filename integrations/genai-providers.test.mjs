@@ -169,6 +169,59 @@ test('error messages are scrubbed of key-like material', async () => {
   assert.ok(geminiTry && !/AIzaSECRET/.test(geminiTry.error || ''));
 });
 
+test('hfspace (gradio) two-step call returns an image, keyless, after pollinations fails', async () => {
+  clearKeys(); __resetState();
+  __setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('pollinations')) return errResp(502);              // free default down
+    if (u.includes('/gradio_api/call/infer/')) {                       // GET result stream (SSE)
+      const sse = 'event: generating\ndata: null\n\nevent: complete\n' +
+        'data: [{"path":"/tmp/x/image.webp","url":"https://sp.hf.space/gradio_api/file=/tmp/x/image.webp"}, 42]\n\n';
+      return { ok: true, status: 200, headers: { get: () => null }, text: async () => sse };
+    }
+    if (u.includes('/gradio_api/call/infer')) {                        // POST submit → event_id
+      return { ok: true, status: 200, headers: { get: () => null }, json: async () => ({ event_id: 'e1' }) };
+    }
+    if (u.includes('sp.hf.space/gradio_api/file=')) {                  // fetch the produced image
+      return { ok: true, status: 200, headers: { get: (k) => (k.toLowerCase() === 'content-type' ? 'image/webp' : null) }, arrayBuffer: async () => Buffer.from('webp-bytes') };
+    }
+    return errResp();
+  });
+  const r = await generateImage({ prompt: 'a temple' });
+  assert.equal(r.ok, true);
+  assert.equal(r.provider, 'hfspace');
+  assert.equal(r.mime, 'image/webp');
+  assert.ok(/HuggingFace Space/.test(r.note));
+});
+
+test('hfspace surfaces a gradio error event as a soft failover (→ aihorde skipped, ends elsewhere)', async () => {
+  clearKeys(); __resetState();
+  __setFetch(async (url) => {
+    const u = String(url);
+    if (u.includes('pollinations')) return errResp(502);
+    if (u.includes('/gradio_api/call/infer/')) {
+      return { ok: true, status: 200, headers: { get: () => null }, text: async () => 'event: error\ndata: null\n\n' };
+    }
+    if (u.includes('/gradio_api/call/infer')) return { ok: true, status: 200, headers: { get: () => null }, json: async () => ({ event_id: 'e1' }) };
+    if (u.includes('aihorde')) return errResp(500); // horde also down → all exhausted
+    return errResp();
+  });
+  const r = await generateImage({ prompt: 'a temple' });
+  assert.equal(r.ok, false);
+  const hf = (r.tried || []).find((t) => t.id === 'hfspace');
+  assert.ok(hf && /gradio error/.test(hf.error || ''), 'hfspace recorded a soft error, did not throw');
+});
+
+test('image-conditioning skips hfspace (txt2img only)', async () => {
+  clearKeys(); __resetState();
+  // every network attempt fails so the chain runs to exhaustion and we can inspect the skip records
+  __setFetch(async () => errResp(500));
+  const r = await generateImage({ prompt: 'a temple', image: { url: 'https://ref/x.jpg' } });
+  assert.equal(r.ok, false); // pollinations + aihorde attempted (image-capable) but failed
+  const hf = (r.tried || []).find((t) => t.id === 'hfspace');
+  assert.ok(hf && hf.skipped === 'no-image-edit', 'hfspace skipped because it cannot condition on an image');
+});
+
 test('providerConfigured reflects env keys', () => {
   clearKeys();
   assert.equal(providerConfigured('pollinations'), true);
