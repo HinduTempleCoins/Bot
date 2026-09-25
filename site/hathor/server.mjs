@@ -211,7 +211,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -769,7 +769,7 @@ function hdLoadLink(id) { try { if (!/^[\w-]{6,40}$/.test(String(id))) return nu
 export function hardDriveView() {
   const cfg = hdStorageConfig();
   const banner = cfg.configured ? '' : `<div class=card style="border-color:var(--gold)"><b>Storage not yet connected.</b> <span class=muted>HardDrive goes live the moment a Cloudflare R2 bucket + token is set (DRIVE_S3_* env). The page and links work as soon as it is.</span></div>`;
-  const body = `<h1>HardDrive</h1>
+  const body = `<h1>HardDrive <span class=muted style="font-size:.5em">· Pentecaust</span></h1>
   <p class=muted>Send <b>very big files</b> — you share a <b>link</b>, not the file, so there is no email size limit. The file uploads straight from your browser to storage; nobody emails gigabytes. Docs, builds, asset packs, anything.</p>
   ${banner}
   <div class=card>
@@ -804,7 +804,7 @@ export function hardDriveView() {
     };
   })();
   </script>`;
-  return pageShell('HardDrive — send big files by link', body, { canonical: `${BASE_URL}/harddrive`, description: 'Send very big files by sharing a link, not the file — no email size limit. Uploads straight to storage; gated, expiring links. Free on MELEK.' });
+  return pageShell('HardDrive — send big files by link', body, { canonical: `${BASE_URL}/pentecaust/harddrive`, description: 'Send very big files by sharing a link, not the file — no email size limit. Uploads straight to storage; gated, expiring links. Free on MELEK.' });
 }
 
 export async function handleHardDrivePresign(req, res) {
@@ -1841,8 +1841,9 @@ export async function handler(req, res) {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       return handleUpload(req, res);
     }
-    // HardDrive — big-file sharing by link.
-    if (path === '/harddrive') return sendHtml(res, hardDriveView());
+    // HardDrive — big-file sharing by link. Lives under Pentecaust (the creator hub).
+    if (path === '/pentecaust/harddrive') return sendHtml(res, hardDriveView());
+    if (path === '/harddrive') { res.writeHead(302, { location: '/pentecaust/harddrive', 'cache-control': 'no-store' }); return res.end(); }
     if (path === '/api/harddrive/presign') { if (method !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); } return handleHardDrivePresign(req, res); }
     if (path === '/api/harddrive/share') { if (method !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); } return handleHardDriveShare(req, res); }
     if (path.startsWith('/harddrive/d/')) return handleHardDriveDownload(req, res, decodeURIComponent(path.slice('/harddrive/d/'.length)));
