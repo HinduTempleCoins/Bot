@@ -60,6 +60,7 @@ import { validateRecipe, TRIGGERS, ACTIONS } from '../../integrations/pentecaust
 import { DEFAULT_SERVER_PLAN, DEFAULT_MODERATION } from '../../integrations/pentecaust-community.mjs';
 import { catalog as gameExportCatalog } from '../../integrations/genai-game-export.mjs';
 import { storageConfig as hdStorageConfig, presignPut as hdPresignPut, presignGet as hdPresignGet, makeShareLink as hdMakeShareLink, checkAccess as hdCheckAccess, objectKey as hdObjectKey } from '../../integrations/harddrive.mjs';
+import { makeVideoPost, validateVideoPost, playerHtml as bfPlayer, feedCardHtml as bfCard, fmtViews as bfViews } from '../../integrations/melek-bifrost.mjs';
 import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-libraries.mjs';
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
@@ -211,7 +212,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -759,6 +760,100 @@ export async function handleUpload(req, res) {
   } catch { return j(500, { ok: false, error: 'could not save' }); }
 }
 
+// ── MELEK Bifrost — the video platform (dTube front end + YouTube/TikTok) under Pentecaust. Videos ride
+// HardDrive storage; a post is chain-ready (dTube model). Feed (grid + TikTok scroll), watch, upload. ──────
+const BF_DIR = join(DATA_DIR, 'bifrost');
+function bfSave(p) { try { mkdirSync(BF_DIR, { recursive: true }); writeFileSync(join(BF_DIR, `${p.author}__${p.permlink}.json`), JSON.stringify(p)); return true; } catch { return false; } }
+function bfLoad(author, permlink) { try { const f = `${basename(String(author))}__${basename(String(permlink))}.json`; return JSON.parse(readFileSync(join(BF_DIR, f), 'utf8')); } catch { return null; } }
+function bfList(limit = 60) { try { if (!existsSync(BF_DIR)) return []; return readdirSync(BF_DIR).filter((f) => f.endsWith('.json')).map((f) => { try { return JSON.parse(readFileSync(join(BF_DIR, f), 'utf8')); } catch { return null; } }).filter(Boolean).sort((a, b) => b.createdAt - a.createdAt).slice(0, limit); } catch { return []; } }
+
+export function bifrostFeedView({ mode = 'grid' } = {}) {
+  const posts = bfList(60);
+  const scroll = mode === 'scroll';
+  const empty = `<div class=card><p class=empty>No videos yet — be the first. <a href="/pentecaust/bifrost/upload">Upload a video →</a></p></div>`;
+  let body = `<h1>MELEK Bifrost <span class=muted style="font-size:.5em">· Pentecaust</span></h1>
+  <p class=muted>The bridge between the world and the gods — video on MELEK. Watch, and upload your own; make thumbnails and intros in the <a href="/tools">Studio</a>. <a href="/pentecaust/bifrost/upload" class="pill gold">↑ Upload</a>
+   &nbsp;<a class=pill href="/pentecaust/bifrost${scroll ? '' : '?mode=scroll'}">${scroll ? '▦ Grid' : '▶ For You (scroll)'}</a></p>`;
+  if (!posts.length) return pageShell('MELEK Bifrost — video on MELEK', body + empty, { canonical: `${BASE_URL}/pentecaust/bifrost`, description: 'MELEK Bifrost — the decentralized video platform on the MELEK chain. Watch and upload; make it with the studio.' });
+  if (scroll) {
+    body += `<div style="height:88vh;overflow-y:auto;scroll-snap-type:y mandatory;border-radius:12px">${posts.map((p) => bfCard(p, { vertical: true })).join('')}</div>`;
+  } else {
+    body += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:16px">${posts.map((p) => bfCard(p, { vertical: false })).join('')}</div>`;
+  }
+  return pageShell('MELEK Bifrost — video on MELEK', body, { canonical: `${BASE_URL}/pentecaust/bifrost`, description: 'MELEK Bifrost — the decentralized video platform on the MELEK chain. Watch and upload; make it with the studio.' });
+}
+
+export function bifrostWatchView(author, permlink) {
+  const p = bfLoad(author, permlink);
+  if (!p) return pageShell('Not found — MELEK Bifrost', '<h1>Video not found</h1><div class=card><p class=empty>This video isn’t here. <a href="/pentecaust/bifrost">Back to Bifrost</a></p></div>', { robots: 'noindex' });
+  try { p.views = (p.views | 0) + 1; bfSave(p); } catch { /* soft */ }
+  const tags = (p.tags || []).map((t) => `<a class=pill href="/pentecaust/bifrost">#${esc(t)}</a>`).join(' ');
+  const body = `<div style="max-width:960px;margin:0 auto">${bfPlayer(p)}
+    <h1 style="margin:.4em 0 .1em">${esc(p.title)}</h1>
+    <p class=muted>@${esc(p.author)} · ${esc(bfViews(p.views))} views</p>
+    <div class=card style="white-space:pre-wrap">${esc(p.description || '').slice(0, 5000) || '<span class=muted>No description.</span>'}</div>
+    <div style="margin-top:10px">${tags}</div>
+    <p style="margin-top:14px"><a class=pill href="/pentecaust/bifrost">← more videos</a> <a class=pill href="/pentecaust/bifrost/upload">↑ upload yours</a></p></div>`;
+  return pageShell(`${p.title} — MELEK Bifrost`, body, { canonical: `${BASE_URL}/pentecaust/bifrost/watch/${esc(p.author)}/${esc(p.permlink)}`, description: String(p.description || p.title).slice(0, 160) });
+}
+
+export function bifrostUploadView() {
+  const cfg = hdStorageConfig();
+  const banner = cfg.configured ? '' : `<div class=card style="border-color:var(--gold)"><b>Storage connecting.</b> <span class=muted>Uploads go live the moment the Cloudflare R2 bucket is set (same storage as HardDrive). You can fill the details now.</span></div>`;
+  const body = `<h1>Upload to MELEK Bifrost</h1>
+  <p class=muted>Your video uploads straight to storage; the post is chain-ready. Make a thumbnail or intro in the <a href="/tools">Studio</a> first if you like.</p>
+  ${banner}
+  <div class=card>
+    <label class="pill" style="cursor:pointer">🎬 Choose a video <input type=file id=bfvid accept="video/*" hidden></label> <span class=muted id=bfvidname>no file</span><br><br>
+    <input id=bftitle placeholder="Title" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#14141c;color:#eee;margin-bottom:8px">
+    <textarea id=bfdesc placeholder="Description" rows=4 style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#14141c;color:#eee;margin-bottom:8px"></textarea>
+    <input id=bftags placeholder="tags (space or comma separated)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#14141c;color:#eee;margin-bottom:8px">
+    <label class="pill" style="cursor:pointer">🖼 Thumbnail (optional) <input type=file id=bfthumb accept="image/*" hidden></label> <span class=muted id=bfthumbname></span>
+    <div style="margin-top:12px"><button type=button class="pill gold" id=bfgo>Publish</button> <span class=muted id=bfstatus></span></div>
+  </div>
+  <script>
+  (function(){
+    var vid=document.getElementById('bfvid'), thumb=document.getElementById('bfthumb');
+    vid.onchange=function(){ document.getElementById('bfvidname').textContent = vid.files[0]? vid.files[0].name+' ('+Math.round(vid.files[0].size/1048576)+' MB)':'no file'; };
+    thumb.onchange=function(){ document.getElementById('bfthumbname').textContent = thumb.files[0]? thumb.files[0].name:''; };
+    async function up(file){ // reuse HardDrive presigned upload; returns the public video/image URL
+      var pr=await (await fetch('/api/harddrive/presign',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({filename:file.name, contentType:file.type||'application/octet-stream', size:file.size})})).json();
+      if(!pr.ok) throw new Error(pr.error||'upload prep failed');
+      var putRes=await fetch(pr.putUrl,{method:'PUT',headers:{'content-type':file.type||'application/octet-stream'},body:file});
+      if(!putRes.ok) throw new Error('upload failed');
+      return pr.publicUrl || pr.key; // publicUrl when storage exposes one
+    }
+    document.getElementById('bfgo').onclick=async function(){
+      var st=document.getElementById('bfstatus'); var v=vid.files[0], t=document.getElementById('bftitle').value.trim();
+      if(!v){ st.textContent='Choose a video.'; return; } if(!t){ st.textContent='Add a title.'; return; }
+      st.textContent='Uploading video…';
+      try{
+        var videoUrl=await up(v);
+        var thumbUrl=''; if(thumb.files[0]){ st.textContent='Uploading thumbnail…'; thumbUrl=await up(thumb.files[0]); }
+        st.textContent='Publishing…';
+        var r=await (await fetch('/api/bifrost/publish',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({title:t, description:document.getElementById('bfdesc').value, tags:document.getElementById('bftags').value, videoUrl:videoUrl, thumbUrl:thumbUrl})})).json();
+        if(r.ok){ st.textContent='Published!'; location.href=r.url; } else { st.textContent=r.error||'Could not publish.'; }
+      }catch(e){ st.textContent=e.message||'Something went wrong.'; }
+    };
+  })();
+  </script>`;
+  return pageShell('Upload — MELEK Bifrost', body, { canonical: `${BASE_URL}/pentecaust/bifrost/upload`, robots: 'noindex,follow', description: 'Upload a video to MELEK Bifrost.' });
+}
+
+export async function handleBifrostPublish(req, res) {
+  const ip = clientIp(req);
+  const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
+  if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
+  const raw = await readRawBody(req, 1 << 18);
+  let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
+  const author = String((req.headers['x-melek-user'] || b.author || 'anon')).replace(/[^a-z0-9._-]/gi, '').slice(0, 40) || 'anon';
+  const post = makeVideoPost({ author, title: b.title, description: b.description, videoUrl: b.videoUrl, thumbUrl: b.thumbUrl, durationSec: b.durationSec, tags: b.tags });
+  const v = validateVideoPost(post);
+  if (!v.valid) return j(400, { ok: false, error: v.errors.join('; ') });
+  if (!bfSave(post)) return j(500, { ok: false, error: 'could not save' });
+  return j(200, { ok: true, id: post.id, url: `/pentecaust/bifrost/watch/${post.author}/${post.permlink}` });
+}
+
 // ── HardDrive — send very big files by sharing a LINK, not the bytes. Browser uploads straight to object
 // storage (S3/R2) via a presigned PUT; we mint a gated, expiring share link. Storage goes live when the
 // DRIVE_S3_* env is set (Cloudflare R2 by default); until then the page says so honestly. ────────────────
@@ -817,8 +912,14 @@ export async function handleHardDrivePresign(req, res) {
   let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
   const filename = String(b.filename || 'file').slice(0, 200);
   const owner = String((req.headers['x-melek-user'] || 'anon')).slice(0, 40); // wired to MELEK login later
-  try { const key = hdObjectKey(owner, filename); const putUrl = hdPresignPut(cfg, key, { expiresIn: 900 }); return j(200, { ok: true, key, putUrl }); }
-  catch { return j(500, { ok: false, error: 'could not prepare upload' }); }
+  try {
+    const key = hdObjectKey(owner, filename);
+    const putUrl = hdPresignPut(cfg, key, { expiresIn: 900 });
+    // publicUrl is a durable playback/download URL when the bucket is exposed via a public host (R2 public
+    // bucket / custom domain). Without one, callers fall back to a presigned GET via the share link.
+    const publicUrl = cfg.publicHost ? `${cfg.publicHost.replace(/\/$/, '')}/${key}` : '';
+    return j(200, { ok: true, key, putUrl, publicUrl });
+  } catch { return j(500, { ok: false, error: 'could not prepare upload' }); }
 }
 
 export async function handleHardDriveShare(req, res) {
@@ -1841,6 +1942,11 @@ export async function handler(req, res) {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       return handleUpload(req, res);
     }
+    // MELEK Bifrost — video platform under Pentecaust.
+    if (path === '/pentecaust/bifrost') return sendHtml(res, bifrostFeedView({ mode: url.searchParams.get('mode') === 'scroll' ? 'scroll' : 'grid' }));
+    if (path === '/pentecaust/bifrost/upload') return sendHtml(res, bifrostUploadView());
+    if (path === '/api/bifrost/publish') { if (method !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); } return handleBifrostPublish(req, res); }
+    if (path.startsWith('/pentecaust/bifrost/watch/')) { const parts = path.slice('/pentecaust/bifrost/watch/'.length).split('/'); return sendHtml(res, bifrostWatchView(decodeURIComponent(parts[0] || ''), decodeURIComponent(parts[1] || ''))); }
     // HardDrive — big-file sharing by link. Lives under Pentecaust (the creator hub).
     if (path === '/pentecaust/harddrive') return sendHtml(res, hardDriveView());
     if (path === '/harddrive') { res.writeHead(302, { location: '/pentecaust/harddrive', 'cache-control': 'no-store' }); return res.end(); }
