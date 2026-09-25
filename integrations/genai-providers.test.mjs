@@ -234,16 +234,19 @@ test('providerConfigured reflects env keys', () => {
 test('our CPU worker (cpusd) goes first when configured, and carries the reference for img2img', async () => {
   clearKeys(); __resetState();
   process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510';
-  let seen = null;
+  let seen = null; let polls = 0;
   __setFetch(async (url, opts) => {
-    if (String(url).startsWith('http://127.0.0.1:8510/generate')) { seen = JSON.parse(opts.body); return okResp({ ok: true, mime: 'image/png', base64: B64, mode: seen.image ? 'img2img' : 'txt2img', ms: 1000 }, { json: true }); }
+    process.env.GENAI_CPU_SD_POLL_MS = '1';
+    if (String(url) === 'http://127.0.0.1:8510/jobs') { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'j1', position: 0 }, { json: true }); }
+    if (String(url) === 'http://127.0.0.1:8510/jobs/j1') { polls++; if (polls === 1) throw new Error('slow worker'); return okResp(polls < 3 ? { ok: true, status: 'running' } : { ok: true, status: 'done', result: { ok: true, mime: 'image/png', base64: B64, mode: seen.image ? 'img2img' : 'txt2img', ms: 1000 } }, { json: true }); }
     throw new Error('should not reach fallbacks');
   });
   const r = await generateImage({ prompt: 'Hathor in a temple', image: { base64: B64, mime: 'image/png' } });
   assert.equal(r.ok, true);
   assert.equal(r.provider, 'cpusd');
   assert.equal(seen.image.base64, B64);
-  delete process.env.GENAI_CPU_SD_URL; __setFetch(null);
+  assert.ok(polls >= 3, 'retried a failed poll and kept polling until done');
+  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
 });
 
 test('cpusd is skipped (not counted as a failure) when no worker url is set', async () => {
