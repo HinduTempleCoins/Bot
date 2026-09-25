@@ -14,6 +14,8 @@ export const TOOLS = [
   { id: 'with-hathor', title: 'Appear with Hathor', cat: 'Create', url: '/hathor', what: 'Put yourself in a scene with Hathor.', howto: ['Open With Hathor.', 'Pick a scene.', 'Add your photo.', 'Generate.'] },
   // — Edit / files —
   { id: 'edit', title: 'Photo Editor', cat: 'Edit', url: '/edit', what: 'Edit an image in your browser.', howto: ['Open Editor.', 'Load or upload an image.', 'Apply edits.', 'Download.'] },
+  { id: 'filters', title: 'AI Art Filters (GIMP)', cat: 'Edit', url: '/filters', what: 'Hathor runs a real GIMP filter for you — painterly, cartoon, glow, sharpen, resize.',
+    howto: ['Open AI Art Filters.', 'Upload an image.', 'Pick a filter (oilify, cartoon, softglow, sharpen, scale).', 'Apply & download — Hathor runs GIMP headless for you.'] },
   { id: 'convert', title: 'Convert & Compress', cat: 'Files', url: '/convert', what: 'Convert/compress images, and complex files (3D, video, audio, vector, PSD, PDF).',
     howto: ['Open Convert.', 'For images: choose format + quality.', 'For complex files: choose a file, type the target extension (glb, gif, png, mp3…).', 'Convert & download.'] },
   { id: 'vectorize', title: 'Vectorize', cat: 'Files', url: '/vectorize', what: 'Turn a raster image into clean SVG for t-shirts/print.', howto: ['Open Vectorize.', 'Upload/open an image.', 'Vectorize → download SVG.'] },
