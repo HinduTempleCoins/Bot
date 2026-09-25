@@ -814,34 +814,36 @@ export function toolsHubView() {
   return pageShell('All Tools — Hathor Studio', body, { canonical: `${BASE_URL}/tools`, description: 'Every Hathor Studio tool with a how-to: generate, templates, convert, vectorize, video, reels, ComfyUI, and more. Free, no login.' });
 }
 
-// /api/tool/gimp — Hathor runs a GIMP artistic filter FOR the user (safe whitelist, headless). Upload → run → stream.
-export async function handleGimpTool(req, res) {
+// /api/tool — Hathor runs a whitelisted op from ANY engine (ImageMagick/G'MIC/GIMP/…) FOR the user,
+// sandboxed + headless. Upload → run → stream. Engine-agnostic.
+export async function handleToolOp(req, res) {
   const ip = clientIp(req);
   const err = (code, msg) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify({ ok: false, error: msg })); };
   if (!rateOk(ip)) return err(429, 'rate-limited');
   const u = new URL(req.url, BASE_URL);
+  const engine = String(u.searchParams.get('engine') || '').replace(/[^a-z]/gi, '').toLowerCase().slice(0, 20);
   const op = String(u.searchParams.get('op') || '').replace(/[^a-z]/gi, '').toLowerCase().slice(0, 20);
-  const params = {}; for (const [k, v] of u.searchParams) if (k !== 'op') params[k] = v;
+  const params = {}; for (const [k, v] of u.searchParams) if (k !== 'op' && k !== 'engine') params[k] = v;
   const buf = await readRawBody(req);
   if (!buf || buf.length < 64) return err(400, 'no image (or too large — 8MB max)');
-  const tmp = join(tmpdir(), `gm-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.png`);
+  const tmp = join(tmpdir(), `tl-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.png`);
   try {
     writeFileSync(tmp, buf);
     const tr = await import('../../integrations/genai-tool-runner.mjs');
-    const r = await tr.runGimp(tmp, op, params);
-    if (!r.ok) { try { rmSync(tmp, { force: true }); } catch {} return err(422, r.error || 'filter failed'); }
+    const r = await tr.runOp(engine, op, tmp, params);
+    if (!r.ok) { try { rmSync(tmp, { force: true }); } catch {} return err(422, r.error || 'op failed'); }
     const out = readFileSync(r.outPath);
-    res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'no-store', 'content-disposition': `attachment; filename="${op}.png"` });
+    res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'no-store', 'content-disposition': `attachment; filename="${engine}-${op}.png"` });
     res.end(out);
     try { rmSync(tmp, { force: true }); rmSync(r.outPath, { force: true }); } catch {}
-  } catch { try { rmSync(tmp, { force: true }); } catch {} return err(500, 'filter error'); }
+  } catch { try { rmSync(tmp, { force: true }); } catch {} return err(500, 'tool error'); }
 }
 export async function filtersView() {
   const tr = await import('../../integrations/genai-tool-runner.mjs');
-  const ops = tr.gimpOps();
-  const opts = ops.map((o) => `<option value="${esc(o.id)}">${esc(o.id)} — ${esc(o.desc || '')}</option>`).join('');
-  const body = `<h1>AI Art Filters <span class=muted style="font-size:14px">· Hathor runs GIMP for you</span></h1>
-    <p class=muted>Upload an image and Hathor applies a real GIMP filter for you — painterly, cartoon, glow, sharpen, resize. Free, on our box, no GPU. Nothing stored.</p>
+  const cat = tr.enginesCatalog();
+  const opts = cat.map((e) => `<optgroup label="${esc(e.label)}">${e.ops.map((o) => `<option value="${esc(e.id)}:${esc(o.op)}">${esc(o.op)} — ${esc(o.desc || '')}</option>`).join('')}</optgroup>`).join('');
+  const body = `<h1>AI Art Filters <span class=muted style="font-size:14px">· Hathor runs your tools for you</span></h1>
+    <p class=muted>Upload an image and Hathor applies a real filter from ${esc(cat.map((e) => e.label).join(', '))} — engine-agnostic, sandboxed, free, on our box, no GPU. Nothing stored.</p>
     <form class=gform id=fltf><div class=card>
       <label class=pill style="cursor:pointer">📎 Choose an image <input type=file id=fltfile accept="image/*" hidden></label>
       <span class=muted id=fltname style="font-size:12px;margin-left:8px">no file</span>
@@ -851,13 +853,13 @@ export async function filtersView() {
     </div></form>
     <script>(function(){var f=document.getElementById('fltf'),fi=document.getElementById('fltfile'),nm=document.getElementById('fltname'),st=document.getElementById('fltstatus'),bt=document.getElementById('fltbtn');
       fi.addEventListener('change',function(){var x=fi.files&&fi.files[0];nm.textContent=x?x.name:'no file';});
-      f.addEventListener('submit',async function(e){e.preventDefault();var x=fi.files&&fi.files[0];var op=document.getElementById('fltop').value;if(!x){st.textContent='Choose an image.';return;}
-        bt.disabled=true;st.textContent='Applying '+op+'…';
-        try{var r=await fetch('/api/tool/gimp?op='+encodeURIComponent(op),{method:'POST',headers:{'content-type':x.type||'image/png'},body:x});
+      f.addEventListener('submit',async function(e){e.preventDefault();var x=fi.files&&fi.files[0];var v=document.getElementById('fltop').value.split(':');if(!x){st.textContent='Choose an image.';return;}
+        bt.disabled=true;st.textContent='Applying '+v[1]+'…';
+        try{var r=await fetch('/api/tool?engine='+encodeURIComponent(v[0])+'&op='+encodeURIComponent(v[1]),{method:'POST',headers:{'content-type':x.type||'image/png'},body:x});
           if(!r.ok){var j=await r.json().catch(function(){return{};});st.textContent='Failed: '+(j.error||r.status);bt.disabled=false;return;}
-          var b=await r.blob();var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=op+'.png';a.click();st.textContent='Done — '+(b.size/1024|0)+' KB.';bt.disabled=false;
+          var b=await r.blob();var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=v[0]+'-'+v[1]+'.png';a.click();st.textContent='Done — '+(b.size/1024|0)+' KB.';bt.disabled=false;
         }catch(err){st.textContent='Failed.';bt.disabled=false;}});})();</script>`;
-  return pageShell('AI Art Filters — Hathor runs GIMP', body, { canonical: `${BASE_URL}/filters` });
+  return pageShell('AI Art Filters — engine-agnostic', body, { canonical: `${BASE_URL}/filters` });
 }
 
 export function convertView() {
@@ -1641,9 +1643,9 @@ export async function handler(req, res) {
     if (path === '/edit') return sendHtml(res, editView());
     if (path === '/tools') return sendHtml(res, toolsHubView());
     if (path === '/filters') return sendHtml(res, await filtersView());
-    if (path === '/api/tool/gimp') {
+    if (path === '/api/tool') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
-      return handleGimpTool(req, res);
+      return handleToolOp(req, res);
     }
     if (path === '/tools.md') { res.writeHead(200, { 'content-type': 'text/markdown; charset=utf-8' }); return res.end(toolsWikiMarkdown()); }
     if (path === '/convert') return sendHtml(res, convertView());

@@ -1,54 +1,79 @@
-// genai-tool-runner.mjs — Hathor drives creative apps FOR the user, headless on our box. SAFE BY DESIGN:
-// only a WHITELIST of parameterized operations (no arbitrary Script-Fu/Python from users or the AI = no
-// RCE). Each op is a template with clamped numeric params; the AI picks op + params, we run it. First app:
-// GIMP (2.10 headless) for artistic filters beyond ImageMagick. Blender/others add the same way.
+// genai-tool-runner.mjs — ENGINE-AGNOSTIC tool-runner: Hathor drives creative apps FOR the user, headless
+// on our box. NOT tied to one app — a registry of ENGINES (ImageMagick, G'MIC, GIMP now; Blender/Inkscape
+// next), each exposing a WHITELIST of parameterized ops. The AI picks engine+op+params; we run it. SAFE:
+// no arbitrary scripts (no RCE), params clamped, args passed as arrays (no shell), and every run is
+// SANDBOXED with bubblewrap (read-only root, writable /work only, NO network) with a direct fallback.
 //
-//   import { GIMP_OPS, buildGimpScript, runGimp } from './genai-tool-runner.mjs'
+//   import { ENGINES, enginesCatalog, runOp } from './genai-tool-runner.mjs'
+//   await runOp('gmic', 'painting', '/tmp/in.png', {})   // -> { ok, outPath }
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { extname, dirname, join, basename } from 'node:path';
+import { extname, join, basename } from 'node:path';
+import { existsSync, mkdtempSync, copyFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 const run = promisify(execFile);
-
 const clamp = (v, lo, hi, d) => { const n = Number(v); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : d; };
 
-// op -> { params:[{key,lo,hi,default}], script(drawableExpr, p) => Script-Fu fragment applied to the drawable }
-export const GIMP_OPS = {
-  oilify:   { desc: 'painterly oil-painting look', params: [{ key: 'size', lo: 1, hi: 30, default: 8 }],
-              frag: (p) => `(plug-in-oilify RUN-NONINTERACTIVE img draw ${p.size} 0)` },
-  cartoon:  { desc: 'bold cartoon outlines', params: [{ key: 'radius', lo: 1, hi: 50, default: 7 }, { key: 'black', lo: 0, hi: 1, default: 0.2 }],
-              frag: (p) => `(plug-in-cartoon RUN-NONINTERACTIVE img draw ${p.radius} ${p.black})` },
-  sharpen:  { desc: 'unsharp-mask sharpen', params: [{ key: 'amount', lo: 0, hi: 5, default: 0.5 }],
-              frag: (p) => `(plug-in-unsharp-mask RUN-NONINTERACTIVE img draw 3 ${p.amount} 0)` },
-  softglow: { desc: 'dreamy soft glow', params: [{ key: 'glow', lo: 0, hi: 1, default: 0.75 }],
-              frag: (p) => `(plug-in-softglow RUN-NONINTERACTIVE img draw 10 ${p.glow} ${p.glow})` },
-  scale:    { desc: 'resize to a max width', params: [{ key: 'width', lo: 16, hi: 4096, default: 1024 }],
-              frag: () => '', scaleTo: true },
-};
+function sandboxArgs(work) {
+  const ro = [];
+  for (const d of ['/usr', '/bin', '/lib', '/lib64', '/etc', '/opt']) if (existsSync(d)) ro.push('--ro-bind', d, d);
+  return [...ro, '--proc', '/proc', '--dev', '/dev', '--tmpfs', '/tmp', '--bind', work, '/work', '--setenv', 'HOME', '/work', '--unshare-net', '--die-with-parent'];
+}
+let _hasBwrap = null;
+async function hasBwrap() { if (_hasBwrap !== null) return _hasBwrap; try { await run('bwrap', ['--version'], { timeout: 5000 }); _hasBwrap = true; } catch { _hasBwrap = false; } return _hasBwrap; }
 
-// Build a safe Script-Fu batch string for a whitelisted op with clamped params.
-export function buildGimpScript(inPath, outPath, op, rawParams = {}) {
-  const spec = GIMP_OPS[op];
-  if (!spec) throw new Error(`unknown gimp op: ${op}`);
-  const p = {}; for (const d of spec.params) p[d.key] = clamp(rawParams[d.key], d.lo, d.hi, d.default);
-  const load = `(let* ((img (car (gimp-file-load RUN-NONINTERACTIVE "${inPath}" "in"))) (draw (car (gimp-image-flatten img))))`;
-  const body = spec.scaleTo
-    ? `(gimp-image-scale img ${p.width} (round (* ${p.width} (/ (car (gimp-image-height img)) (car (gimp-image-width img))))))`
-    : spec.frag(p);
-  const save = `(gimp-image-flatten img) (file-png-save RUN-NONINTERACTIVE img (car (gimp-image-get-active-drawable img)) "${outPath}" "o" 0 9 1 1 1 1 1))`;
-  return `${load} ${body} ${save}`;
+// GIMP Script-Fu wrapper (script-mode engine): load → flatten → op fragment → export png.
+function gimpScript(inP, outP, frag) {
+  return `(let* ((img (car (gimp-file-load RUN-NONINTERACTIVE "${inP}" "in"))) (draw (car (gimp-image-flatten img)))) ${frag} (gimp-image-flatten img) (file-png-save RUN-NONINTERACTIVE img (car (gimp-image-get-active-drawable img)) "${outP}" "o" 0 9 1 1 1 1 1))`;
 }
 
-export function gimpOps() { return Object.entries(GIMP_OPS).map(([id, s]) => ({ id, desc: s.desc, params: s.params.map((x) => x.key) })); }
+// The engine registry. mode 'args' = argv builder; mode 'script' = GIMP Script-Fu frag builder.
+export const ENGINES = {
+  imagemagick: { bin: 'magick', mode: 'args', label: 'ImageMagick', ops: {
+    oilpaint: { desc: 'oil-paint look', params: [{ key: 'radius', lo: 1, hi: 15, default: 4 }], args: (i, o, p) => [i, '-paint', String(p.radius), o] },
+    charcoal: { desc: 'charcoal drawing', params: [{ key: 'radius', lo: 1, hi: 10, default: 2 }], args: (i, o, p) => [i, '-charcoal', String(p.radius), o] },
+    sketch:   { desc: 'pencil sketch', params: [], args: (i, o) => [i, '-colorspace', 'Gray', '-sketch', '0x20+120', o] },
+    sepia:    { desc: 'vintage sepia', params: [{ key: 'pct', lo: 50, hi: 99, default: 80 }], args: (i, o, p) => [i, '-sepia-tone', `${p.pct}%`, o] },
+    blur:     { desc: 'soft blur', params: [{ key: 'sigma', lo: 1, hi: 20, default: 4 }], args: (i, o, p) => [i, '-blur', `0x${p.sigma}`, o] },
+    resize:   { desc: 'resize to width', params: [{ key: 'width', lo: 16, hi: 8000, default: 1024 }], args: (i, o, p) => [i, '-resize', String(p.width), o] },
+  } },
+  gmic: { bin: 'gmic', mode: 'args', label: "G'MIC", ops: {
+    painting:  { desc: 'painterly (G\'MIC fx_painting)', params: [], args: (i, o) => [i, 'fx_painting', '4,0.5,0.1,0.1,0,0', 'output', o] },
+    cartoon:   { desc: 'bold cartoon (G\'MIC)', params: [], args: (i, o) => [i, 'cartoon', '3,200,20,0.25,1.5,8,0', 'output', o] },
+    stylize:   { desc: 'stylized filter (G\'MIC)', params: [], args: (i, o) => [i, 'fx_stylize', '11,0,0,0,0.5,1,2,0,0,0,0', 'output', o] },
+  } },
+  gimp: { bin: 'gimp', mode: 'script', label: 'GIMP', ops: {
+    oilify:   { desc: 'oil painting', params: [{ key: 'size', lo: 1, hi: 30, default: 8 }], frag: (p) => `(plug-in-oilify RUN-NONINTERACTIVE img draw ${p.size} 0)` },
+    softglow: { desc: 'soft glow', params: [{ key: 'glow', lo: 0, hi: 1, default: 0.75 }], frag: (p) => `(plug-in-softglow RUN-NONINTERACTIVE img draw 10 ${p.glow} ${p.glow})` },
+  } },
+};
 
-// Run a GIMP op headless. inPath must be a path WE control (a saved upload). Soft-fails.
-export async function runGimp(inPath, op, params = {}, { timeout = 60000 } = {}) {
-  let script, outPath;
+export function enginesCatalog() {
+  return Object.entries(ENGINES).map(([id, e]) => ({ id, label: e.label, ops: Object.entries(e.ops).map(([op, s]) => ({ op, desc: s.desc, params: s.params.map((x) => x.key) })) }));
+}
+export function opExists(engine, op) { return !!(ENGINES[engine] && ENGINES[engine].ops[op]); }
+
+// Run any engine op, sandboxed. inPath must be a path WE control. Soft-fails.
+export async function runOp(engine, op, inPath, rawParams = {}, { timeout = 90000 } = {}) {
+  const eng = ENGINES[engine];
+  if (!eng || !eng.ops[op]) return { ok: false, error: `unknown engine/op: ${engine}/${op}` };
+  const spec = eng.ops[op];
+  const p = {}; for (const d of (spec.params || [])) p[d.key] = clamp(rawParams[d.key], d.lo, d.hi, d.default);
+  let work;
   try {
-    outPath = join(dirname(inPath), `${basename(inPath, extname(inPath))}.${op}.png`);
-    script = buildGimpScript(inPath, outPath, op, params);
-  } catch (e) { return { ok: false, error: String(e && e.message) }; }
-  try {
-    await run('gimp', ['-i', '-b', script, '-b', '(gimp-quit 0)'], { timeout, maxBuffer: 1 << 26 });
-    return { ok: true, outPath, op };
-  } catch (e) { return { ok: false, error: `gimp failed: ${String(e && e.message).slice(0, 160)}` }; }
+    work = mkdtempSync(join(tmpdir(), 'tr-'));
+    const inWork = join(work, 'in' + (extname(inPath) || '.png'));
+    copyFileSync(inPath, inWork);
+    const sandbox = await hasBwrap();
+    const inArg = sandbox ? `/work/${basename(inWork)}` : inWork;
+    const outArg = sandbox ? '/work/out.png' : join(work, 'out.png');
+    const outReal = join(work, 'out.png');
+    let bin, args;
+    if (eng.mode === 'script') { bin = eng.bin; args = ['-i', '-b', gimpScript(inArg, outArg, spec.frag(p)), '-b', '(gimp-quit 0)']; }
+    else { bin = eng.bin; args = spec.args(inArg, outArg, p); }
+    if (sandbox) { args = [...sandboxArgs(work), bin, ...args]; bin = 'bwrap'; }
+    await run(bin, args, { timeout, maxBuffer: 1 << 26 });
+    if (!existsSync(outReal)) return { ok: false, error: `${engine}/${op}: no output` };
+    return { ok: true, outPath: outReal, engine, op, sandboxed: sandbox };
+  } catch (e) { return { ok: false, error: `${engine}/${op} failed: ${String(e && e.message).slice(0, 160)}` }; }
 }
