@@ -618,6 +618,7 @@ function resultPage(meta) {
       <div class=row style="margin-top:8px"><a class=pill href="/">← make another</a>
         <a class=pill style="border-color:var(--gold);color:var(--gold)" href="/animate?img=${esc(meta.file)}">✨ Animate</a>
         <a class=pill href="/vectorize?img=${esc(meta.file)}">⬡ Vectorize</a>
+        <a class=pill href="/compose?ref=/img/${esc(meta.file)}&role=character">➕ Use in Reference Studio</a>
         <a class=pill href="/gallery">see the gallery</a>
         <a class=pill href="/img/${esc(meta.file)}" download>download</a></div>
       ${shareCta('Made something? Show it off —')}
@@ -757,8 +758,12 @@ export async function handleUpload(req, res) {
 // tag each with a role, and generate ONE image with them all together. We tile the references into a
 // single labeled reference sheet, condition the generator on it, and prompt by slot. Reuses /api/upload
 // for each reference (client uploads → /img/ urls), then POSTs JSON here. ─────────────────────────────
-export function composeView() {
+export function composeView(prefill = []) {
   const roleOpts = Object.entries(ROLES).map(([k, v]) => `<option value="${esc(k)}">${esc(v.label[0] + v.label.slice(1).toLowerCase())}</option>`).join('');
+  // design→GenAI handoff: other surfaces (/edit, /vectorize, /gallery) can deep-link a finished design
+  // straight into a compose slot via ?ref=/img/..&role=object&label=.. — we seed it as a ready reference.
+  const seed = (Array.isArray(prefill) ? prefill : []).filter((p) => p && /^\/img\/[\w.-]+\.(png|jpe?g|webp|svg)$/i.test(String(p.url || ''))).slice(0, 6)
+    .map((p) => ({ url: String(p.url), role: ROLES[String(p.role || '').toLowerCase()] ? String(p.role).toLowerCase() : 'object', label: String(p.label || '').slice(0, 40) }));
   const body = `<h1>Reference Studio</h1>
   <p class=muted>Upload several references — <b>characters</b>, <b>objects</b> (jewelry, hair, a shirt, a prop), and a <b>scene</b> — tag each one, and generate them together in a single image. Free, no login.</p>
   <div class=card>
@@ -784,7 +789,10 @@ export function composeView() {
         catch(e){ st.textContent='upload failed'; } });
       slots.appendChild(d);
     }
-    document.getElementById('addslot').onclick=addSlot; addSlot(); addSlot();
+    document.getElementById('addslot').onclick=addSlot;
+    var SEED=${JSON.stringify(seed)};
+    if(SEED.length){ SEED.forEach(function(s){ addSlot(); var d=slots.lastChild; d.dataset.url=s.url; var sel=d.querySelector('select'); if(sel) sel.value=s.role; var txt=d.querySelectorAll('input')[1]; if(txt) txt.value=s.label||''; var st=d.querySelector('span'); if(st) st.textContent='✓ from your design'; }); addSlot(); }
+    else { addSlot(); addSlot(); }
     document.getElementById('cgen').onclick=async function(){
       var refs=[]; slots.querySelectorAll('.card').forEach(function(d){ if(d.dataset.url){ refs.push({url:d.dataset.url, role:d.querySelector('select').value, label:d.querySelector('input[type=text]')?d.querySelector('input[type=text]').value:d.querySelectorAll('input')[1].value}); } });
       var status=document.getElementById('cstatus'), out=document.getElementById('cout');
@@ -1732,7 +1740,11 @@ export async function handler(req, res) {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       return handleUpload(req, res);
     }
-    if (path === '/compose') return sendHtml(res, composeView());
+    if (path === '/compose') {
+      const ref = url.searchParams.get('ref');
+      const pre = ref ? [{ url: ref, role: url.searchParams.get('role') || 'object', label: url.searchParams.get('label') || '' }] : [];
+      return sendHtml(res, composeView(pre));
+    }
     if (path === '/api/compose') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       return handleCompose(req, res);
