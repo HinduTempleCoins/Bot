@@ -34,7 +34,7 @@ import { tmpdir } from 'node:os';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import * as providersMod from '../../integrations/genai-providers.mjs';
 import { screenPrompt } from './safety.mjs';
-import { TOOLS, toolsByCat, toolsWikiMarkdown } from '../../integrations/genai-tools.mjs';
+import { TOOLS, toolsByCat, toolsWikiMarkdown, toolsForumIndexMarkdown } from '../../integrations/genai-tools.mjs';
 import { GENERATORS, byKind, noSignupOptions } from '../../integrations/genai-directory.mjs';
 import {
   TEMPLATES, CATEGORIES, getTemplate, fillTemplate, exampleFor, validateTemplates, templatesByCategory,
@@ -1648,6 +1648,7 @@ export async function handler(req, res) {
       return handleToolOp(req, res);
     }
     if (path === '/tools.md') { res.writeHead(200, { 'content-type': 'text/markdown; charset=utf-8' }); return res.end(toolsWikiMarkdown()); }
+    if (path === '/forum.md') { res.writeHead(200, { 'content-type': 'text/markdown; charset=utf-8' }); return res.end(toolsForumIndexMarkdown()); }
     if (path === '/convert') return sendHtml(res, convertView());
     if (path === '/api/convert') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
