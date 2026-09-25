@@ -24,6 +24,8 @@ class FakePipe:
 
 FAKE = FakePipe()
 w.set_loader(lambda: FAKE)
+SFAKE = FakePipe()
+w.set_structure_loader(lambda base: SFAKE)
 
 
 def ref_b64():
@@ -72,6 +74,36 @@ class Render(unittest.TestCase):
         finally:
             w.HATHOR_REF = old
             os.remove(tmp)
+
+
+class Remake(unittest.TestCase):
+    def src_b64(self, size=(600, 300)):
+        im = Image.new("RGB", size, (240, 220, 180))
+        for x in range(100, 200):
+            for y in range(50, 250):
+                im.putpixel((x, y), (20, 20, 20))
+        buf = io.BytesIO(); im.save(buf, format="PNG")
+        return base64.b64encode(buf.getvalue()).decode()
+
+    def test_structure_uses_controlnet_and_keeps_source_aspect(self):
+        r = w.generate_sync({"prompt": "banquet ladies, realistic", "structure": {"base64": self.src_b64()}})
+        self.assertTrue(r["ok"]); self.assertEqual(r["mode"], "remake")
+        kw = SFAKE.calls[-1]
+        self.assertEqual((kw["width"], kw["height"]), (768, 384))
+        self.assertEqual(kw["image"].size, (768, 384))
+        self.assertEqual(kw["controlnet_conditioning_scale"], 0.8)
+        self.assertGreater(max(kw["image"].convert("L").getdata()), 0)  # edges were found
+
+    def test_structure_with_reference_and_scale_clamp(self):
+        r = w.generate_sync({"prompt": "x", "structure": {"base64": self.src_b64()}, "structureScale": 9,
+                             "image": {"base64": ref_b64()}, "size": "512x512"})
+        self.assertEqual(r["mode"], "remake+character")
+        self.assertEqual((SFAKE.calls[-1]["width"], SFAKE.calls[-1]["controlnet_conditioning_scale"]), (512, 0.8))
+
+    def test_plain_jobs_do_not_touch_controlnet(self):
+        n = len(SFAKE.calls)
+        w.generate_sync({"prompt": "plain"})
+        self.assertEqual(len(SFAKE.calls), n)
 
 
 class Jobs(unittest.TestCase):

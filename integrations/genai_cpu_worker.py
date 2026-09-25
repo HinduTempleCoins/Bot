@@ -12,6 +12,10 @@ Same HTTP contract as integrations/genai-cpu-diffusion.mjs, so the Studio's `cpu
                               -> 202 {ok, id, position}
   GET  /jobs/<id>             -> {ok, status: queued|running|done|error, result?}
   POST /generate  (same body) -> blocks until done (kept for compatibility)
+REMAKE mode: `structure:{base64}` (+ `structureScale` 0.2-1.5, default 0.8) keeps the LAYOUT of a source image
+(canny edges -> ControlNet) while the prompt sets the new look. That is how a tomb painting, stele or mural is
+re-rendered as a realistic historical scene, then half-vaporwave, then the full MELEK aesthetic — same people,
+same poses, same composition. `image` alongside it still works as an IP-Adapter look/character reference.
 Auth: every route except /health needs `Authorization: Bearer $CPU_SD_TOKEN` when CPU_SD_TOKEN is set.
 `character: "hathor"` uses Hathor's canonical head (CPU_SD_HATHOR_REF) as the reference when no image is sent.
 
@@ -47,7 +51,20 @@ def _load_real_pipeline():
     return pipe
 
 
+CONTROLNET_CANNY = os.environ.get("CPU_SD_CANNY", "lllyasviel/control_v11p_sd15_canny")
+
+
+def _load_real_structure_pipeline(base):
+    """ControlNet(canny) pipeline that SHARES the base pipeline's weights (only the ControlNet is new RAM)."""
+    import torch
+    from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
+    cn = ControlNetModel.from_pretrained(CONTROLNET_CANNY, torch_dtype=torch.float32)
+    return StableDiffusionControlNetPipeline.from_pipe(base, controlnet=cn)
+
+
 _loader = _load_real_pipeline
+_structure_loader = _load_real_structure_pipeline
+_spipe = None
 _pipe = None
 _pipe_lock = threading.Lock()
 
@@ -56,6 +73,31 @@ def set_loader(fn):
     """Tests inject a fake pipeline loader."""
     global _loader, _pipe
     _loader, _pipe = fn, None
+
+
+def set_structure_loader(fn):
+    global _structure_loader, _spipe
+    _structure_loader, _spipe = fn, None
+
+
+def structure_pipeline():
+    global _spipe
+    base = pipeline()
+    with _pipe_lock:
+        if _spipe is None:
+            _spipe = _structure_loader(base)
+        return _spipe
+
+
+def edges(img, lo=80, hi=180):
+    """Canny edge map of the source (cv2 if present, PIL fallback) — the layout the remake must keep."""
+    from PIL import Image, ImageFilter, ImageOps
+    try:
+        import cv2, numpy as np
+        e = cv2.Canny(np.array(img.convert("L")), lo, hi)
+        return Image.fromarray(e).convert("RGB")
+    except ImportError:
+        return ImageOps.autocontrast(img.convert("L").filter(ImageFilter.FIND_EDGES)).convert("RGB")
 
 
 def pipeline():
@@ -99,8 +141,18 @@ def norm_job(body):
     if isinstance(img, dict) and img.get("base64"):
         image = str(img["base64"])
     character = str(body.get("character") or "").lower()
+    structure = None
+    st = body.get("structure")
+    if isinstance(st, dict) and st.get("base64"):
+        structure = str(st["base64"])
+    try:
+        sscale = float(body.get("structureScale"))
+    except (TypeError, ValueError):
+        sscale = 0.8
+    sscale = sscale if 0.2 <= sscale <= 1.5 else 0.8
     return {"prompt": prompt, "neg": neg, "steps": steps, "seed": seed, "w": w, "h": h,
-            "strength": strength, "image_b64": image, "character": character}
+            "strength": strength, "image_b64": image, "character": character,
+            "structure_b64": structure, "structure_scale": sscale, "sized": "x" in size}
 
 
 def _reference(job):
@@ -112,19 +164,43 @@ def _reference(job):
     return None
 
 
+def _long_prompt_kwargs(pipe, prompt, neg):
+    """SD1.5's CLIP reads only 77 tokens; compel chunks longer prompts so the END of a prompt (often the look /
+    aesthetic) is not silently dropped. Falls back to plain strings when compel or a real text encoder is absent."""
+    try:
+        from compel import Compel
+        tok, te = pipe.tokenizer, pipe.text_encoder
+    except (ImportError, AttributeError):
+        return {"prompt": prompt, "negative_prompt": neg}
+    c = Compel(tokenizer=tok, text_encoder=te, truncate_long_prompts=False)
+    p, n = c.pad_conditioning_tensors_to_same_length([c(prompt), c(neg)])
+    return {"prompt_embeds": p, "negative_prompt_embeds": n}
+
+
 def render(job):
     if not job["prompt"]:
         return {"ok": False, "error": "empty prompt"}
     t0 = time.time()
-    pipe = pipeline()
+    structure = None
+    if job.get("structure_b64"):
+        from PIL import Image
+        src = Image.open(io.BytesIO(base64.b64decode(job["structure_b64"]))).convert("RGB")
+        if not job.get("sized"):  # keep the source's proportions, longest side 768
+            k = 768 / max(src.size)
+            job["w"], job["h"] = (max(256, int(v * k) // 8 * 8) for v in src.size)
+        structure = edges(src.resize((job["w"], job["h"])))
+    pipe = structure_pipeline() if structure is not None else pipeline()
     ref = _reference(job)
     try:
         import torch
         gen = torch.Generator().manual_seed(job["seed"])
     except ImportError:  # tests
         gen = job["seed"]
-    kwargs = dict(prompt=job["prompt"], negative_prompt=job["neg"], num_inference_steps=job["steps"],
+    kwargs = dict(**_long_prompt_kwargs(pipe, job["prompt"], job["neg"]), num_inference_steps=job["steps"],
                   guidance_scale=1.5, generator=gen, width=job["w"], height=job["h"])
+    if structure is not None:
+        kwargs["image"] = structure
+        kwargs["controlnet_conditioning_scale"] = job["structure_scale"]
     if ref is not None:
         pipe.set_ip_adapter_scale(job["strength"])
         kwargs["ip_adapter_image"] = ref
@@ -135,6 +211,8 @@ def render(job):
         pipe.set_ip_adapter_scale(0.0)
         kwargs["ip_adapter_image"] = Image.new("RGB", (224, 224))
         mode = "txt2img"
+    if structure is not None:
+        mode = "remake" if mode == "txt2img" else "remake+" + mode
     img = pipe(**kwargs).images[0]
     buf = io.BytesIO()
     img.save(buf, format="PNG")
