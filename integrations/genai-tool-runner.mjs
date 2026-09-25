@@ -29,7 +29,7 @@ function gimpScript(inP, outP, frag) {
 
 // The engine registry. mode 'args' = argv builder; mode 'script' = GIMP Script-Fu frag builder.
 export const ENGINES = {
-  imagemagick: { bin: 'magick', mode: 'args', label: 'ImageMagick', ops: {
+  imagemagick: { bin: 'convert', mode: 'args', label: 'ImageMagick', ops: {
     oilpaint: { desc: 'oil-paint look', params: [{ key: 'radius', lo: 1, hi: 15, default: 4 }], args: (i, o, p) => [i, '-paint', String(p.radius), o] },
     charcoal: { desc: 'charcoal drawing', params: [{ key: 'radius', lo: 1, hi: 10, default: 2 }], args: (i, o, p) => [i, '-charcoal', String(p.radius), o] },
     sketch:   { desc: 'pencil sketch', params: [], args: (i, o) => [i, '-colorspace', 'Gray', '-sketch', '0x20+120', o] },
