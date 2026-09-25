@@ -54,6 +54,7 @@ import {
 import {
   TRACKS, LESSONS, listLessons, NFT_DISCLAIMER, validateSchool,
 } from '../../integrations/genai-school.mjs';
+import { buildReferenceSheet, composePrompt, ROLES } from '../../integrations/genai-compose.mjs';
 import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-libraries.mjs';
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
@@ -117,6 +118,17 @@ function clientIp(req) {
   const xf = (req.headers && (req.headers['x-forwarded-for'] || req.headers['x-real-ip'])) || '';
   const ip = String(xf).split(',')[0].trim() || (req.socket && req.socket.remoteAddress) || 'unknown';
   return ip;
+}
+// Public origin for building absolute URLs that an EXTERNAL provider must fetch (e.g. a reference image
+// for keyless img2img). We are Host-routed behind a dispatcher, so trust the forwarded Host and derive
+// https; fall back to BASE_URL only when there's no host header (e.g. tests). Rejects junk hosts.
+function publicOrigin(req) {
+  const h = String((req.headers && (req.headers['x-forwarded-host'] || req.headers.host)) || '').split(',')[0].trim();
+  if (/^[a-z0-9.-]+(:\d+)?$/i.test(h) && /\./.test(h)) {
+    const proto = (req.headers && String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim()) || (/localhost|127\.|:\d/.test(h) ? 'http' : 'https');
+    return `${proto}://${h}`;
+  }
+  return BASE_URL;
 }
 function rateOk(ip) {
   const now = Date.now();
@@ -194,7 +206,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -674,7 +686,7 @@ export async function handleGenerate(req, res) {
   // /img/<file> we saved from an upload; resolve to an absolute URL so the provider can fetch it.
   const imgParam = String(params.get('image') || '').trim();
   let image = null;
-  if (/^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam)) image = { url: `${BASE_URL}${imgParam}` };
+  if (/^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam)) image = { url: `${publicOrigin(req)}${imgParam}` };
   // Content safety: refuse sexual imagery of minors or of uploaded real people; allow adult
   // art of your own character but flag it so it never reaches the front page / public gallery.
   const screen = screenPrompt(cleaned, { hasReferenceImage: !!image });
@@ -739,6 +751,86 @@ export async function handleUpload(req, res) {
     writeFileSync(join(DATA_DIR, file), buf);
     return j(200, { ok: true, url: `/img/${file}`, file });
   } catch { return j(500, { ok: false, error: 'could not save' }); }
+}
+
+// ── /compose — MULTI-REFERENCE composition. Upload several references (characters + objects + a scene),
+// tag each with a role, and generate ONE image with them all together. We tile the references into a
+// single labeled reference sheet, condition the generator on it, and prompt by slot. Reuses /api/upload
+// for each reference (client uploads → /img/ urls), then POSTs JSON here. ─────────────────────────────
+export function composeView() {
+  const roleOpts = Object.entries(ROLES).map(([k, v]) => `<option value="${esc(k)}">${esc(v.label[0] + v.label.slice(1).toLowerCase())}</option>`).join('');
+  const body = `<h1>Reference Studio</h1>
+  <p class=muted>Upload several references — <b>characters</b>, <b>objects</b> (jewelry, hair, a shirt, a prop), and a <b>scene</b> — tag each one, and generate them together in a single image. Free, no login.</p>
+  <div class=card>
+    <div id=slots></div>
+    <button type=button class=pill id=addslot>➕ Add a reference</button>
+    <div style="margin-top:12px"><input id=cprompt placeholder="Optional: describe the shot (e.g. golden hour, cinematic, full body)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#14141c;color:#eee"></div>
+    <div style="margin-top:12px"><button type=button class="pill gold" id=cgen>Generate together</button> <span class=muted id=cstatus></span></div>
+  </div>
+  <div id=cout></div>
+  <script>
+  (function(){
+    var slots=document.getElementById('slots'), roles=${JSON.stringify(Object.keys(ROLES))};
+    function addSlot(){
+      var d=document.createElement('div'); d.className='card'; d.style.marginBottom='8px';
+      d.innerHTML='<label class="pill" style="cursor:pointer">📎 Reference <input type=file accept="image/*" hidden></label> '
+        +'<select style="padding:8px;border-radius:8px;background:#14141c;color:#eee;border:1px solid #333">${roleOpts.replace(/'/g, "\\'")}</select> '
+        +'<input placeholder="name (optional)" style="padding:8px;border-radius:8px;background:#14141c;color:#eee;border:1px solid #333;width:140px"> '
+        +'<span class=muted style="font-size:12px"></span>';
+      var fi=d.querySelector('input[type=file]'), st=d.querySelector('span');
+      fi.addEventListener('change',async function(){ var f=fi.files&&fi.files[0]; if(!f)return; st.textContent='uploading…';
+        try{ var r=await fetch('/api/upload',{method:'POST',headers:{'content-type':f.type||'image/jpeg'},body:f}); var j=await r.json();
+          if(j&&j.ok&&j.url){ d.dataset.url=j.url; st.textContent='✓ '+f.name; } else { st.textContent='upload failed'; } }
+        catch(e){ st.textContent='upload failed'; } });
+      slots.appendChild(d);
+    }
+    document.getElementById('addslot').onclick=addSlot; addSlot(); addSlot();
+    document.getElementById('cgen').onclick=async function(){
+      var refs=[]; slots.querySelectorAll('.card').forEach(function(d){ if(d.dataset.url){ refs.push({url:d.dataset.url, role:d.querySelector('select').value, label:d.querySelector('input[type=text]')?d.querySelector('input[type=text]').value:d.querySelectorAll('input')[1].value}); } });
+      var status=document.getElementById('cstatus'), out=document.getElementById('cout');
+      if(refs.length<1){ status.textContent='Upload at least one reference first.'; return; }
+      status.textContent='Composing '+refs.length+' references…'; out.innerHTML='';
+      try{ var r=await fetch('/api/compose',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({refs:refs, prompt:document.getElementById('cprompt').value})});
+        var j=await r.json();
+        if(j&&j.ok&&j.url){ status.textContent='Done — made by '+(j.note||'the studio'); out.innerHTML='<div class=card><img src="'+j.url+'" style="max-width:100%;border-radius:10px"><div class=muted style="margin-top:8px">Reference sheet: <a href="'+j.sheet+'" target=_blank>view</a></div></div>'; }
+        else { status.textContent=(j&&j.error)||'Could not compose that.'; } }
+      catch(e){ status.textContent='Something went wrong — try again.'; }
+    };
+  })();
+  </script>`;
+  return pageShell('Reference Studio — compose characters + objects', body, { canonical: `${BASE_URL}/compose`, description: 'Upload several references — characters, objects like jewelry or clothing, and a scene — and generate them together in one image. Free, no login.' });
+}
+
+export async function handleCompose(req, res) {
+  const ip = clientIp(req);
+  const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
+  if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
+  const raw = await readRawBody(req, 1 << 20);
+  let payload; try { payload = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { return j(400, { ok: false, error: 'bad request' }); }
+  const list = Array.isArray(payload.refs) ? payload.refs.slice(0, 6) : [];
+  const refs = [];
+  for (const r of list) {
+    const u = String(r && r.url || '');
+    if (!/^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(u)) continue;
+    try { const buf = readFileSync(join(DATA_DIR, basename(u))); refs.push({ buffer: buf, role: r.role, label: String(r.label || '').slice(0, 40) }); } catch { /* skip missing */ }
+  }
+  if (!refs.length) return j(400, { ok: false, error: 'no readable references' });
+  const cleaned = String(payload.prompt || '').slice(0, 600);
+  const genPrompt = composePrompt(refs, cleaned);
+  const screen = screenPrompt(genPrompt, { hasReferenceImage: true });
+  if (!screen.ok) return j(400, { ok: false, error: screen.reason === 'minor' ? 'Blocked: never involving minors.' : 'Blocked: hardcore content is not generated here.' });
+  // build the labeled reference sheet and save it so the generator (and the user) can see it
+  let sheetBuf; try { sheetBuf = await buildReferenceSheet(refs); } catch { return j(422, { ok: false, error: 'could not build the reference sheet' }); }
+  ensureDir();
+  const sheetFile = `sheet-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.png`;
+  try { writeFileSync(join(DATA_DIR, sheetFile), sheetBuf); } catch { return j(500, { ok: false, error: 'could not save' }); }
+  const sheetUrl = `/img/${sheetFile}`;
+  const image = { url: `${publicOrigin(req)}${sheetUrl}`, base64: sheetBuf.toString('base64'), mime: 'image/png' };
+  let result; try { result = await _generate({ prompt: genPrompt, size: '1024x1024', image }); } catch { result = { ok: false }; }
+  if (!result || !result.ok) return j(502, { ok: false, error: 'no engine could compose that right now — try again' });
+  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `Composed: ${cleaned || refs.map((r) => r.label).filter(Boolean).join(', ')}`, provider: result.provider, note: result.note, size: result.size || '1024x1024', seed: result.seed, adult: screen.adult });
+  if (!meta) return j(500, { ok: false, error: 'made but could not save' });
+  return j(200, { ok: true, url: meta.url || `/img/${meta.file}`, sheet: sheetUrl, note: result.note });
 }
 
 // ── /convert — image convert + compress (a hub file-tool). Free, CPU, via sharp. No GPU, no upload
@@ -1639,6 +1731,11 @@ export async function handler(req, res) {
     if (path === '/api/upload') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       return handleUpload(req, res);
+    }
+    if (path === '/compose') return sendHtml(res, composeView());
+    if (path === '/api/compose') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleCompose(req, res);
     }
     if (path === '/edit') return sendHtml(res, editView());
     if (path === '/tools') return sendHtml(res, toolsHubView());
