@@ -55,6 +55,10 @@ import {
   TRACKS, LESSONS, listLessons, NFT_DISCLAIMER, validateSchool,
 } from '../../integrations/genai-school.mjs';
 import { buildReferenceSheet, composePrompt, ROLES } from '../../integrations/genai-compose.mjs';
+import { showPageHtml as pentecaustShowHtml, hubFragmentHtml as pentecaustHubHtml } from '../../integrations/pentecaust-vtuber.mjs';
+import { validateRecipe, TRIGGERS, ACTIONS } from '../../integrations/pentecaust-recipes.mjs';
+import { DEFAULT_SERVER_PLAN, DEFAULT_MODERATION } from '../../integrations/pentecaust-community.mjs';
+import { catalog as gameExportCatalog } from '../../integrations/genai-game-export.mjs';
 import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-libraries.mjs';
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
@@ -206,7 +210,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -1739,6 +1743,47 @@ export async function handler(req, res) {
     if (path === '/api/upload') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       return handleUpload(req, res);
+    }
+    // Pentecaust — V-Tuber creator shows (F1). Hub is a fragment (wrap in shell); the show page is standalone.
+    if (path === '/pentecaust' || path === '/pentecaust/') {
+      const shows = []; // wire to a store when show persistence lands
+      return sendHtml(res, pageShell('Pentecaust — V-Tuber shows', pentecaustHubHtml({ shows, basePath: '/pentecaust' }),
+        { canonical: `${BASE_URL}/pentecaust`, description: 'Host a live V-Tuber show on MELEK — your webcam drives an imported character in your browser, with on-screen emojis, animations and creator funding. Keyless, nothing uploaded.' }));
+    }
+    if (path === '/pentecaust/new' || path.startsWith('/pentecaust/s/')) {
+      const showId = path.startsWith('/pentecaust/s/') ? decodeURIComponent(path.slice('/pentecaust/s/'.length)) : '';
+      const characterUrl = url.searchParams.get('char') || '';
+      return sendHtml(res, pentecaustShowHtml({
+        title: url.searchParams.get('title') || (showId ? `Show ${showId}` : 'New show'),
+        host: url.searchParams.get('host') || 'a MELEK creator',
+        characterUrl, characterName: url.searchParams.get('name') || '',
+        baseUrl: BASE_URL, canonical: `${BASE_URL}${path}`,
+        donate: { patreon: url.searchParams.get('patreon') || '', pactpage: url.searchParams.get('pact') || '', kofi: url.searchParams.get('kofi') || '' },
+      }));
+    }
+    // Pentecaust community (F3) — info page (safe, no secrets): the default server plan + moderation. The
+    // token-touching endpoints (connect/verify/seed/run) are staged: they need vault-backed creator tokens.
+    if (path === '/pentecaust/community') {
+      const roles = (DEFAULT_SERVER_PLAN.roles || []).map((r) => `<li>${esc(r.name || r)}</li>`).join('');
+      const chans = (DEFAULT_SERVER_PLAN.categories || []).map((c) => `<li><b>${esc(c.name || c)}</b>${Array.isArray(c.channels) ? ': ' + c.channels.map((x) => esc(x.name || x)).join(', ') : ''}</li>`).join('');
+      const body = `<h1>Pentecaust — Community</h1>
+      <p class=muted>Run your creator community from one place: a Discord server + Telegram group, bots, and IFTTT-style automations (e.g. <i>new donation → play an animation + post to Discord</i>). You connect your own bot tokens; we hold them server-side and never post without your recipe.</p>
+      <div class=card><h3>Default server plan</h3><b>Roles</b><ul>${roles || '<li>—</li>'}</ul><b>Channels</b><ul>${chans || '<li>—</li>'}</ul></div>
+      <div class=card><h3>Automation building blocks</h3><b>Triggers:</b> ${Object.keys(TRIGGERS || {}).map(esc).join(', ')}<br><b>Actions:</b> ${Object.keys(ACTIONS || {}).map(esc).join(', ')}</div>
+      <div class=card><p class=muted>Connecting your Discord/Telegram bot is coming next — token connect is vault-gated for safety. You can preview and validate automation recipes now via the API.</p></div>`;
+      return sendHtml(res, pageShell('Pentecaust — Community & Automation', body, { canonical: `${BASE_URL}/pentecaust/community`, description: 'Manage your creator Discord + Telegram community and IFTTT-style automations from Pentecaust on MELEK.' }));
+    }
+    // F2: validate/preview a recipe — pure, touches no secrets.
+    if (path === '/api/pentecaust/recipe/validate' && method === 'POST') {
+      const raw = await readRawBody(req, 1 << 18);
+      let bodyObj; try { bodyObj = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { bodyObj = {}; }
+      res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify(validateRecipe(bodyObj && bodyObj.recipe)));
+    }
+    // Many-games exporter (E): catalog of targets + honest run/staged status. (Safe read-only.)
+    if (path === '/api/game-export/targets') {
+      res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify({ ok: true, targets: gameExportCatalog() }));
     }
     if (path === '/compose') {
       const ref = url.searchParams.get('ref');
