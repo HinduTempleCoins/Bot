@@ -11,9 +11,14 @@
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+// Where users keep provider keys on their ACCOUNT (Pentecaust is the custodian; the Studio never holds a key).
+export const CONNECT_ORIGIN = (process.env.PENTECAUST_CONNECT_URL || 'https://connect.pentecaust.com').replace(/\/+$/, '');
+
 export const ENGINES = [
   { id: 'ours', name: 'Hathor Studio (our servers)', cost: 'Free', speed: '~2 min an image (CPU)',
     note: 'The default. Made on our own servers — no key, no account.' },
+  { id: 'pentecaust', name: 'My keys on Pentecaust (saved to my account)', cost: 'Whatever your saved provider charges', speed: 'Depends on the provider',
+    note: 'Keep your fal / Gemini / own-worker keys in your Pentecaust account. They work on any device, and this site never sees them.' },
   { id: 'worker', name: 'My own worker (PC · Colab · Modal GPU)', cost: 'Your hardware / your Modal credit', speed: '~2 s on a GPU',
     note: 'Run the exact worker we run — characters, remakes and all — on your own machine or GPU, then paste its URL and password.' },
   { id: 'fal', name: 'fal.ai (your key)', cost: 'Pay-per-image on your fal account', speed: '~2–5 s (GPU)',
@@ -31,7 +36,7 @@ export const DOWNLOADS = {
 // Everything a page needs to run a generation on the user's chosen engine. No server round-trip.
 export const ENGINE_CLIENT_JS = `
 var HE = (function(){
-  var K='hathor.engines';
+  var K='hathor.engines', CONNECT=${JSON.stringify(CONNECT_ORIGIN)};
   function load(){ try{ return JSON.parse(localStorage.getItem(K)||'{}')||{}; }catch(e){ return {}; } }
   function save(c){ try{ localStorage.setItem(K, JSON.stringify(c)); return true; }catch(e){ return false; } }
   function forget(){ try{ localStorage.removeItem(K); }catch(e){} }
@@ -74,15 +79,35 @@ var HE = (function(){
     for(var i=0;i<ps.length;i++){ var d=ps[i].inlineData||ps[i].inline_data; if(d&&d.data) return {src:'data:'+(d.mimeType||d.mime_type||'image/png')+';base64,'+d.data, note:'your Gemini key'}; }
     throw new Error('Gemini returned no image (it may have declined the prompt)');
   }
+  async function viaPentecaust(c, job){
+    if(!c.token) throw new Error('Press "Link Pentecaust" on the Engines page first.');
+    if(!c.provider) throw new Error('Pick which of your saved keys to use on the Engines page.');
+    var body={provider:c.provider, prompt:job.prompt, size:job.size}; if(job.image) body.image=job.image;
+    var r=await fetch(CONNECT+'/v1/genai/image',{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer '+c.token},body:JSON.stringify(body)});
+    var j=await r.json().catch(function(){return null;});
+    if(r.status===401) throw new Error('Your Pentecaust link expired — press "Link Pentecaust" again.');
+    if(!r.ok||!j||!j.ok) throw new Error((j&&j.reason)||('Pentecaust HTTP '+r.status));
+    return {src:j.src, note:j.note+' (kept on Pentecaust)'};
+  }
   async function run(job, onStatus){
     var c=load(), id=c.selected||'ours';
+    if(id==='pentecaust') return viaPentecaust(c.pentecaust||{}, job);
     if(id==='worker') return viaWorker(c.worker||{}, job, onStatus);
     if(id==='fal') return viaFal(c.fal||{}, job);
     if(id==='gemini') return viaGemini(c.gemini||{}, job);
     throw new Error('ours');
   }
   function fileToDataUrl(f){ return new Promise(function(r){ var rd=new FileReader(); rd.onload=function(){ r(rd.result); }; rd.readAsDataURL(f); }); }
-  return {load:load, save:save, forget:forget, selected:selected, run:run, fileToDataUrl:fileToDataUrl};
+  function linkPentecaust(){ // popup to Pentecaust; it posts back a short-lived "generate images" token
+    return new Promise(function(resolve, reject){
+      var w=window.open(CONNECT+'/studio-link?origin='+encodeURIComponent(location.origin),'pentecaust','width=520,height=640');
+      if(!w) return reject(new Error('Allow pop-ups for this site, then try again.'));
+      function on(e){ if(e.origin!==CONNECT||!e.data||e.data.type!=='pentecaust-link') return;
+        window.removeEventListener('message',on); resolve({token:e.data.token, account:e.data.account, providers:e.data.providers||[]}); }
+      window.addEventListener('message',on);
+    });
+  }
+  return {load:load, save:save, forget:forget, selected:selected, run:run, fileToDataUrl:fileToDataUrl, linkPentecaust:linkPentecaust, CONNECT:CONNECT};
 })();`;
 
 // Home page: when the user picked their own engine, run the prompt there instead of posting to our server.
@@ -90,7 +115,7 @@ export function homeInterceptScript() {
   return `<script>${ENGINE_CLIENT_JS}
   (function(){
     var form=document.getElementById('genform'); if(!form) return;
-    var id=HE.selected(); var names={worker:'your own worker',fal:'your fal.ai key',gemini:'your Gemini key'};
+    var id=HE.selected(); var names={pentecaust:'your keys on Pentecaust',worker:'your own worker',fal:'your fal.ai key',gemini:'your Gemini key'};
     var badge=document.createElement('p'); badge.className='muted'; badge.style.fontSize='12px';
     badge.innerHTML = id==='ours' ? 'Engine: <b>Hathor Studio (our servers, free)</b> · <a href="/engines">use your own engine</a>'
                                  : 'Engine: <b>'+names[id]+'</b> (runs from your browser) · <a href="/engines">change</a>';
@@ -127,6 +152,12 @@ export function enginesBody() {
       API key, plug it in here and the Studio's Generate box uses it instead. <b>Your keys stay in this browser</b> and go only
       to the provider you picked — never to our server. New to this? <a href="/learn/make">Learn to make it yourself →</a></p>
     <div class=card><div class=grid>${rows}</div></div>
+    <div class=card id=cfg-pentecaust style="display:none"><b>My keys on Pentecaust</b>
+      <p class=muted style="font-size:12px">1. Save your keys at <a href="${esc(CONNECT_ORIGIN)}" target=_blank rel=noopener>${esc(CONNECT_ORIGIN.replace('https://', ''))}</a>
+        (sign in with MELEK; choose <b>fal</b>, <b>gemini</b> or <b>worker</b>). 2. Press Link. Pentecaust gives this site a 24-hour
+        pass to make images with your saved keys. It never gives out the keys.</p>
+      <div class=row style="gap:8px;flex-wrap:wrap;align-items:center"><button type=button class=pill id=p-link>Link Pentecaust</button>
+        <select class=q id=p-prov style="width:auto"></select><span class=muted id=p-who style="font-size:12px"></span></div></div>
     <div class=card id=cfg-worker style="display:none"><b>My own worker</b>
       <p class=muted style="font-size:12px">The URL of the worker you run (Modal prints it on deploy; on a PC or Colab it's your tunnel URL) and
         the password you set as <code>CPU_SD_TOKEN</code>. Set <code>CPU_SD_CORS=https://hathor.soapbox.community</code> on it so this page may call it.
@@ -143,17 +174,22 @@ export function enginesBody() {
       <div class=row style="gap:8px;flex-wrap:wrap"><button type=button id=e-save>Save &amp; use this engine</button>
         <button type=button class=pill id=e-test>Test it</button><button type=button class=pill id=e-forget>Forget my keys</button></div>
       <p class=muted id=e-status style="font-size:12px;margin-top:8px"></p><div id=e-out></div></div>
-    <div class=card><p class=muted style="font-size:13px"><b>Signed in with your Pentecaust / MELEK account?</b> Keys saved here live in this browser only,
-      so on a new device you add them again. We do not hold your provider keys.</p></div>
+    <div class=card><p class=muted style="font-size:13px"><b>Want your keys on every device?</b> Choose "My keys on Pentecaust". Your keys are
+      kept encrypted in your Pentecaust account. Keys typed into the other options stay in this browser only. This site never stores a provider key.</p></div>
     <script>${ENGINE_CLIENT_JS}
     (function(){
       var $=function(s){return document.querySelector(s);}; var c=HE.load();
       var pick=c.selected||'ours'; var radios=document.querySelectorAll('input[name=engine]');
-      function show(){ ['worker','fal','gemini'].forEach(function(k){ $('#cfg-'+k).style.display = pick===k?'':'none'; }); }
+      function show(){ ['pentecaust','worker','fal','gemini'].forEach(function(k){ $('#cfg-'+k).style.display = pick===k?'':'none'; }); }
       radios.forEach(function(r){ if(r.value===pick) r.checked=true; r.addEventListener('change',function(){ pick=r.value; show(); }); });
       $('#w-url').value=(c.worker&&c.worker.url)||''; $('#w-token').value=(c.worker&&c.worker.token)||'';
       $('#f-key').value=(c.fal&&c.fal.key)||''; $('#g-key').value=(c.gemini&&c.gemini.key)||''; show();
-      function collect(){ return {selected:pick, worker:{url:$('#w-url').value.trim(), token:$('#w-token').value.trim()},
+      var pc=c.pentecaust||{};
+      function fillProv(){ var sel=$('#p-prov'); sel.innerHTML=''; (pc.providers||[]).forEach(function(p){ var o=document.createElement('option'); o.value=p; o.textContent=p; if(p===pc.provider) o.selected=true; sel.appendChild(o); });
+        $('#p-who').textContent = pc.account ? ('linked as @'+pc.account+((pc.providers||[]).length?'':' — no image keys saved there yet')) : 'not linked'; }
+      fillProv();
+      $('#p-link').addEventListener('click', async function(){ try{ var l=await HE.linkPentecaust(); pc={token:l.token, account:l.account, providers:l.providers, provider:l.providers[0]||''}; fillProv(); $('#e-status').textContent='Linked to Pentecaust as @'+l.account+'.'; }catch(err){ $('#e-status').textContent=err.message||String(err); } });
+      function collect(){ pc.provider=$('#p-prov').value||pc.provider||''; return {selected:pick, pentecaust:pc, worker:{url:$('#w-url').value.trim(), token:$('#w-token').value.trim()},
         fal:{key:$('#f-key').value.trim()}, gemini:{key:$('#g-key').value.trim()}}; }
       $('#e-save').addEventListener('click',function(){ $('#e-status').textContent = HE.save(collect()) ? 'Saved. The Generate box now uses: '+pick+'.' : 'This browser blocks storage — the engine can\\'t be remembered here.'; });
       $('#e-forget').addEventListener('click',function(){ HE.forget(); ['#w-url','#w-token','#f-key','#g-key'].forEach(function(s){ $(s).value=''; }); pick='ours'; radios.forEach(function(r){ r.checked=r.value==='ours'; }); show(); $('#e-status').textContent='Keys removed from this browser. Back to our servers.'; });

@@ -432,7 +432,7 @@ test('/engines lists every engine, keeps keys client-side, and the home page off
   const r = await call({ url: '/engines' });
   assert.equal(r.statusCode, 200);
   const t = r.text();
-  for (const id of ['ours', 'worker', 'fal', 'gemini']) assert.match(t, new RegExp(`value="${id}"`));
+  for (const id of ['ours', 'pentecaust', 'worker', 'fal', 'gemini']) assert.match(t, new RegExp(`value="${id}"`));
   assert.match(t, /localStorage/);                 // keys live in the browser
   assert.doesNotMatch(t, /fetch\('\/api\/engines/); // and are never posted to us
   const home = await call({ url: '/' });
