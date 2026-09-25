@@ -64,6 +64,7 @@ import { makeVideoPost, validateVideoPost, playerHtml as bfPlayer, feedCardHtml 
 import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-libraries.mjs';
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
+import { homeInterceptScript, enginesBody, learnBody, DOWNLOADS as ENGINE_DOWNLOADS } from './engines.mjs';
 
 const PORT = +(process.env.PORT || 8131);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -309,6 +310,7 @@ export function homePage(opts = {}) {
       });
     })();
     </script>
+    ${homeInterceptScript()}
 
     <h2>Start from a template</h2>
     <div class=grid>${TEMPLATES.slice(0, 6).map(templateCard).join('')}</div>
@@ -2029,6 +2031,17 @@ export async function handler(req, res) {
     if (path === '/webcam' || path === '/ar') return sendHtml(res, webcamView());
     if (path === '/ar-libraries' || path === '/ar-repos') return sendHtml(res, arLibrariesView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
+    if (path === '/engines') return sendHtml(res, pageShell('Your engines — ours free, or bring your own', enginesBody(), { canonical: `${BASE_URL}/engines`, description: 'Make images free on our servers, or plug in your own engine: your own worker on a PC, Colab or Modal GPU, or a fal.ai / Gemini key. Keys stay in your browser.' }));
+    if (path === '/learn/make') return sendHtml(res, pageShell('Make it yourself — characters, things, scenes', learnBody(), { canonical: `${BASE_URL}/learn/make`, description: 'How Hathor Studio images are made — characters, then things, then the scene; historical remakes in three looks — and how to run the engine yourself on a PC, Colab or Modal GPU.' }));
+    if (path.startsWith('/downloads/')) {
+      const rel = ENGINE_DOWNLOADS[path.slice('/downloads/'.length)];
+      if (!rel) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      try {
+        const buf = readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', '..', rel));
+        res.writeHead(200, { 'content-type': 'text/x-python; charset=utf-8', 'content-disposition': `attachment; filename="${basename(rel)}"`, 'cache-control': 'public, max-age=300' });
+        return res.end(buf);
+      } catch { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+    }
     if (path.startsWith('/reel-maker/')) {
       const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
       if (method === 'POST') {

@@ -29,6 +29,8 @@ BASE_MODEL = os.environ.get("CPU_SD_BASE", "Lykon/dreamshaper-8")
 LCM_LORA = os.environ.get("CPU_SD_LCM_LORA", "latent-consistency/lcm-lora-sdv1-5")
 HATHOR_REF = os.environ.get("CPU_SD_HATHOR_REF", "/opt/melek-gen/assets/hathor-head-original.png")
 THREADS = int(os.environ.get("CPU_SD_THREADS", "8"))
+# "cpu" on our servers. A user's own copy on a GPU (Modal, Colab, their PC) sets CPU_SD_DEVICE=cuda (or mps).
+DEVICE = os.environ.get("CPU_SD_DEVICE", "cpu")
 DEFAULT_NEG = "blurry, low quality, deformed, extra limbs, bad hands, text, watermark"
 JOB_TTL = 30 * 60
 
@@ -43,12 +45,13 @@ def _load_real_pipeline():
     import torch
     from diffusers import AutoPipelineForText2Image, LCMScheduler
     torch.set_num_threads(THREADS)
-    pipe = AutoPipelineForText2Image.from_pretrained(BASE_MODEL, torch_dtype=torch.float32, safety_checker=None)
+    dtype = torch.float16 if DEVICE in ("cuda", "mps") else torch.float32
+    pipe = AutoPipelineForText2Image.from_pretrained(BASE_MODEL, torch_dtype=dtype, safety_checker=None)
     pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
     pipe.load_lora_weights(LCM_LORA)
     pipe.fuse_lora()
     pipe.load_ip_adapter("h94/IP-Adapter", subfolder="models", weight_name="ip-adapter-plus_sd15.safetensors")
-    return pipe
+    return pipe.to(DEVICE)
 
 
 CONTROLNET_CANNY = os.environ.get("CPU_SD_CANNY", "lllyasviel/control_v11p_sd15_canny")
@@ -58,7 +61,7 @@ def _load_real_structure_pipeline(base):
     """ControlNet(canny) pipeline that SHARES the base pipeline's weights (only the ControlNet is new RAM)."""
     import torch
     from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
-    cn = ControlNetModel.from_pretrained(CONTROLNET_CANNY, torch_dtype=torch.float32)
+    cn = ControlNetModel.from_pretrained(CONTROLNET_CANNY, torch_dtype=base.unet.dtype).to(DEVICE)
     return StableDiffusionControlNetPipeline.from_pipe(base, controlnet=cn)
 
 
@@ -89,12 +92,16 @@ def structure_pipeline():
         return _spipe
 
 
-def edges(img, lo=80, hi=180):
+def edges(img, lo=60, hi=160):
     """Canny edge map of the source (cv2 if present, PIL fallback) — the layout the remake must keep."""
     from PIL import Image, ImageFilter, ImageOps
     try:
         import cv2, numpy as np
-        e = cv2.Canny(np.array(img.convert("L")), lo, hi)
+        g = np.array(img.convert("L"))
+        # paintings/frescoes are full of brush texture and cracks; smoothing first keeps the figures' outlines
+        # (the layout) and drops the paint surface, so a realistic remake isn't forced into painted strokes
+        g = cv2.bilateralFilter(cv2.GaussianBlur(g, (5, 5), 0), 9, 60, 60)
+        e = cv2.Canny(g, lo, hi)
         return Image.fromarray(e).convert("RGB")
     except ImportError:
         return ImageOps.autocontrast(img.convert("L").filter(ImageFilter.FIND_EDGES)).convert("RGB")
@@ -314,9 +321,34 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *a):  # quiet
         pass
 
+    def _cors(self):
+        """CPU_SD_CORS="*" (or a comma list of origins) lets a browser page call this worker directly — how a
+        user's OWN copy (their PC, Colab, Modal GPU) plugs into the Studio with their key held in their browser.
+        Unset (our production worker) = no CORS headers; the Studio's server calls it instead."""
+        allow = _env("CPU_SD_CORS")
+        if not allow:
+            return
+        origin = self.headers.get("origin", "")
+        if allow.strip() == "*":
+            self.send_header("access-control-allow-origin", "*")
+        elif origin and origin in [o.strip() for o in allow.split(",")]:
+            self.send_header("access-control-allow-origin", origin)
+            self.send_header("vary", "origin")
+        else:
+            return
+        self.send_header("access-control-allow-headers", "authorization, content-type")
+        self.send_header("access-control-allow-methods", "GET, POST, OPTIONS")
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self._cors()
+        self.send_header("content-length", "0")
+        self.end_headers()
+
     def _send(self, code, obj):
         data = json.dumps(obj).encode()
         self.send_response(code)
+        self._cors()
         self.send_header("content-type", "application/json")
         self.send_header("cache-control", "no-store")
         self.send_header("content-length", str(len(data)))

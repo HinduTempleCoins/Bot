@@ -426,3 +426,34 @@ test('sitemap includes the new sections', async () => {
   assert.ok(xml.includes('/colab'));
   assert.ok(xml.includes('/reel-maker'));
 });
+
+// ── Your engines + Make it yourself ─────────────────────────────────────────────────────────────
+test('/engines lists every engine, keeps keys client-side, and the home page offers the switch', async () => {
+  const r = await call({ url: '/engines' });
+  assert.equal(r.statusCode, 200);
+  const t = r.text();
+  for (const id of ['ours', 'worker', 'fal', 'gemini']) assert.match(t, new RegExp(`value="${id}"`));
+  assert.match(t, /localStorage/);                 // keys live in the browser
+  assert.doesNotMatch(t, /fetch\('\/api\/engines/); // and are never posted to us
+  const home = await call({ url: '/' });
+  assert.match(home.text(), /use your own engine/);
+});
+
+test('/learn/make teaches the process and links the downloads', async () => {
+  const r = await call({ url: '/learn/make' });
+  assert.equal(r.statusCode, 200);
+  assert.match(r.text(), /Make the character/);
+  assert.match(r.text(), /\/downloads\/genai_worker_modal\.py/);
+});
+
+test('/downloads serves only the allowlisted worker files', async () => {
+  const ok = await call({ url: '/downloads/genai_cpu_worker.py' });
+  assert.equal(ok.statusCode, 200);
+  assert.match(ok.text(), /def norm_job/);
+  assert.match(ok.headers['content-disposition'], /attachment/);
+  for (const bad of ['/downloads/../../.env', '/downloads/server.mjs', '/downloads/%2e%2e%2fpackage.json']) {
+    const r = await call({ url: bad });
+    assert.notEqual(r.statusCode, 200, bad);
+    assert.doesNotMatch(r.text(), /SECRET|PRIVATE KEY|"dependencies"/, bad);
+  }
+});

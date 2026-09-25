@@ -144,6 +144,20 @@ class HTTP(unittest.TestCase):
         except urllib.error.HTTPError as e:
             return e.code, json.loads(e.read())
 
+    def test_cors_only_when_enabled(self):
+        r = urllib.request.Request(f"http://127.0.0.1:{self.port}/health", headers={"origin": "https://hathor.soapbox.community"})
+        with urllib.request.urlopen(r) as resp:
+            self.assertIsNone(resp.headers.get("access-control-allow-origin"))
+        os.environ["CPU_SD_CORS"] = "https://hathor.soapbox.community"
+        try:
+            with urllib.request.urlopen(r) as resp:
+                self.assertEqual(resp.headers.get("access-control-allow-origin"), "https://hathor.soapbox.community")
+            o = urllib.request.Request(f"http://127.0.0.1:{self.port}/jobs", method="OPTIONS", headers={"origin": "https://evil.example"})
+            with urllib.request.urlopen(o) as resp:
+                self.assertEqual(resp.status, 204); self.assertIsNone(resp.headers.get("access-control-allow-origin"))
+        finally:
+            del os.environ["CPU_SD_CORS"]
+
     def test_health_open_everything_else_gated(self):
         self.assertEqual(self.req("GET", "/health")[0], 200)
         self.assertEqual(self.req("POST", "/jobs", {"prompt": "x"})[0], 401)
