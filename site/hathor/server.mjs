@@ -59,6 +59,7 @@ import { showPageHtml as pentecaustShowHtml, hubFragmentHtml as pentecaustHubHtm
 import { validateRecipe, TRIGGERS, ACTIONS } from '../../integrations/pentecaust-recipes.mjs';
 import { DEFAULT_SERVER_PLAN, DEFAULT_MODERATION } from '../../integrations/pentecaust-community.mjs';
 import { catalog as gameExportCatalog } from '../../integrations/genai-game-export.mjs';
+import { storageConfig as hdStorageConfig, presignPut as hdPresignPut, presignGet as hdPresignGet, makeShareLink as hdMakeShareLink, checkAccess as hdCheckAccess, objectKey as hdObjectKey } from '../../integrations/harddrive.mjs';
 import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-libraries.mjs';
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
@@ -210,7 +211,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -756,6 +757,102 @@ export async function handleUpload(req, res) {
     writeFileSync(join(DATA_DIR, file), buf);
     return j(200, { ok: true, url: `/img/${file}`, file });
   } catch { return j(500, { ok: false, error: 'could not save' }); }
+}
+
+// ── HardDrive — send very big files by sharing a LINK, not the bytes. Browser uploads straight to object
+// storage (S3/R2) via a presigned PUT; we mint a gated, expiring share link. Storage goes live when the
+// DRIVE_S3_* env is set (Cloudflare R2 by default); until then the page says so honestly. ────────────────
+const HD_DIR = join(DATA_DIR, 'harddrive');
+function hdSaveLink(rec) { try { mkdirSync(HD_DIR, { recursive: true }); writeFileSync(join(HD_DIR, `${rec.id}.json`), JSON.stringify(rec)); return true; } catch { return false; } }
+function hdLoadLink(id) { try { if (!/^[\w-]{6,40}$/.test(String(id))) return null; return JSON.parse(readFileSync(join(HD_DIR, `${basename(id)}.json`), 'utf8')); } catch { return null; } }
+
+export function hardDriveView() {
+  const cfg = hdStorageConfig();
+  const banner = cfg.configured ? '' : `<div class=card style="border-color:var(--gold)"><b>Storage not yet connected.</b> <span class=muted>HardDrive goes live the moment a Cloudflare R2 bucket + token is set (DRIVE_S3_* env). The page and links work as soon as it is.</span></div>`;
+  const body = `<h1>HardDrive</h1>
+  <p class=muted>Send <b>very big files</b> — you share a <b>link</b>, not the file, so there is no email size limit. The file uploads straight from your browser to storage; nobody emails gigabytes. Docs, builds, asset packs, anything.</p>
+  ${banner}
+  <div class=card>
+    <label class="pill" style="cursor:pointer">📎 Choose a file <input type=file id=hdfile hidden></label> <span class=muted id=hdname>no file chosen</span>
+    <div style="margin-top:12px">
+      Link expires in <select id=hdexp style="padding:8px;border-radius:8px;background:#14141c;color:#eee;border:1px solid #333"><option value=1>1 day</option><option value=7 selected>7 days</option><option value=30>30 days</option><option value=0>never</option></select>
+      &nbsp; Password <input id=hdpw type=text placeholder="(optional)" style="padding:8px;border-radius:8px;background:#14141c;color:#eee;border:1px solid #333;width:160px">
+    </div>
+    <div style="margin-top:12px"><button type=button class="pill gold" id=hdgo>Upload & get link</button> <span class=muted id=hdstatus></span></div>
+    <div id=hdout style="margin-top:12px"></div>
+  </div>
+  <script>
+  (function(){
+    var f=document.getElementById('hdfile'), nm=document.getElementById('hdname');
+    f.addEventListener('change',function(){ nm.textContent = f.files&&f.files[0] ? (f.files[0].name+' ('+Math.round(f.files[0].size/1048576*10)/10+' MB)') : 'no file chosen'; });
+    document.getElementById('hdgo').onclick=async function(){
+      var file=f.files&&f.files[0]; var st=document.getElementById('hdstatus'), out=document.getElementById('hdout');
+      if(!file){ st.textContent='Choose a file first.'; return; }
+      st.textContent='Preparing upload…'; out.innerHTML='';
+      try{
+        var pr=await (await fetch('/api/harddrive/presign',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({filename:file.name, contentType:file.type||'application/octet-stream', size:file.size})})).json();
+        if(!pr.ok){ st.textContent=pr.error||'Could not prepare upload.'; return; }
+        st.textContent='Uploading '+file.name+'…';
+        var up=await fetch(pr.putUrl,{method:'PUT', headers:{'content-type':file.type||'application/octet-stream'}, body:file});
+        if(!up.ok){ st.textContent='Upload failed ('+up.status+').'; return; }
+        st.textContent='Creating link…';
+        var sh=await (await fetch('/api/harddrive/share',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:pr.key, filename:file.name, bytes:file.size, expiresDays:+document.getElementById('hdexp').value, password:document.getElementById('hdpw').value})})).json();
+        if(!sh.ok){ st.textContent=sh.error||'Could not create link.'; return; }
+        st.textContent='Done.';
+        out.innerHTML='<div class=card><b>Your share link:</b><br><input readonly value="'+sh.url+'" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#0d0d12;color:#7fb3ff" onclick="this.select()"><div class=muted style="margin-top:6px">Send this link by email or message — the file downloads when they open it.</div></div>';
+      }catch(e){ st.textContent='Something went wrong — try again.'; }
+    };
+  })();
+  </script>`;
+  return pageShell('HardDrive — send big files by link', body, { canonical: `${BASE_URL}/harddrive`, description: 'Send very big files by sharing a link, not the file — no email size limit. Uploads straight to storage; gated, expiring links. Free on MELEK.' });
+}
+
+export async function handleHardDrivePresign(req, res) {
+  const ip = clientIp(req);
+  const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
+  if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
+  const cfg = hdStorageConfig();
+  if (!cfg.configured) return j(503, { ok: false, error: 'HardDrive storage is not connected yet (needs a Cloudflare R2 bucket + token).' });
+  const raw = await readRawBody(req, 1 << 16);
+  let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
+  const filename = String(b.filename || 'file').slice(0, 200);
+  const owner = String((req.headers['x-melek-user'] || 'anon')).slice(0, 40); // wired to MELEK login later
+  try { const key = hdObjectKey(owner, filename); const putUrl = hdPresignPut(cfg, key, { expiresIn: 900 }); return j(200, { ok: true, key, putUrl }); }
+  catch { return j(500, { ok: false, error: 'could not prepare upload' }); }
+}
+
+export async function handleHardDriveShare(req, res) {
+  const ip = clientIp(req);
+  const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
+  if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
+  const raw = await readRawBody(req, 1 << 16);
+  let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
+  if (!b.key || typeof b.key !== 'string') return j(400, { ok: false, error: 'missing key' });
+  const days = Number.isFinite(+b.expiresDays) ? Math.max(0, Math.min(365, +b.expiresDays)) : 7;
+  const rec = hdMakeShareLink({ key: b.key, owner: String(b.owner || 'anon').slice(0, 40), filename: String(b.filename || '').slice(0, 200), bytes: +b.bytes || 0, expiresIn: days ? days * 86400 : 0, password: String(b.password || '').slice(0, 100), requireLogin: !!b.requireLogin });
+  if (!hdSaveLink(rec)) return j(500, { ok: false, error: 'could not save link' });
+  return j(200, { ok: true, id: rec.id, url: `${publicOrigin(req)}/harddrive/d/${rec.id}` });
+}
+
+export async function handleHardDriveDownload(req, res, id) {
+  const rec = hdLoadLink(id);
+  const u = new URL(req.url, BASE_URL);
+  const pw = u.searchParams.get('pw') || '';
+  const access = hdCheckAccess(rec, { password: pw, loggedIn: !!(req.headers['x-melek-user']) });
+  if (access.ok) {
+    const cfg = hdStorageConfig();
+    if (!cfg.configured) return sendHtml(res, pageShell('HardDrive', '<h1>Unavailable</h1><div class=card><p class=empty>Storage is not connected.</p></div>', { robots: 'noindex' }), 503);
+    const getUrl = hdPresignGet(cfg, rec.key, { expiresIn: 300, downloadName: rec.filename || 'download' });
+    res.writeHead(302, { location: getUrl, 'cache-control': 'no-store' }); return res.end();
+  }
+  const reason = access.reason;
+  if (reason === 'password-required' || reason === 'password-wrong') {
+    const msg = reason === 'password-wrong' ? '<p class=empty>Wrong password.</p>' : '';
+    const body = `<h1>Protected file</h1><div class=card>${msg}<form method=get action="/harddrive/d/${esc(basename(String(id)))}"><p>This file needs a password:</p><input name=pw type=password style="padding:10px;border-radius:8px;border:1px solid #333;background:#14141c;color:#eee"> <button class="pill gold">Download</button></form></div>`;
+    return sendHtml(res, pageShell('HardDrive — protected', body, { robots: 'noindex' }), 401);
+  }
+  const note = reason === 'expired' ? 'This link has expired.' : reason === 'login-required' ? 'This file requires you to be signed in to MELEK.' : 'This link is not valid.';
+  return sendHtml(res, pageShell('HardDrive', `<h1>Can’t open that</h1><div class=card><p class=empty>${esc(note)}</p></div>`, { robots: 'noindex' }), 404);
 }
 
 // ── /compose — MULTI-REFERENCE composition. Upload several references (characters + objects + a scene),
@@ -1744,6 +1841,11 @@ export async function handler(req, res) {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       return handleUpload(req, res);
     }
+    // HardDrive — big-file sharing by link.
+    if (path === '/harddrive') return sendHtml(res, hardDriveView());
+    if (path === '/api/harddrive/presign') { if (method !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); } return handleHardDrivePresign(req, res); }
+    if (path === '/api/harddrive/share') { if (method !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); } return handleHardDriveShare(req, res); }
+    if (path.startsWith('/harddrive/d/')) return handleHardDriveDownload(req, res, decodeURIComponent(path.slice('/harddrive/d/'.length)));
     // Pentecaust — V-Tuber creator shows (F1). Hub is a fragment (wrap in shell); the show page is standalone.
     if (path === '/pentecaust' || path === '/pentecaust/') {
       const shows = []; // wire to a store when show persistence lands
