@@ -62,3 +62,13 @@ test('handler: health + generate + 404', async () => {
   await handler(req, res); assert.equal(res.code, 404);
   assert.equal(status().busy, false);
 });
+
+test('handler: token gate rejects missing/wrong bearer, accepts the right one', async () => {
+  process.env.CPU_SD_TOKEN = 's3cret';
+  const mk = (headers) => ({ req: { method: 'POST', url: '/generate', headers, on(ev, fn) { if (ev === 'data') fn(Buffer.from('{"prompt":"x"}')); if (ev === 'end') setImmediate(fn); } },
+    res: { code: 0, body: '', writeHead(c) { this.code = c; }, end(b) { this.body = b; } } });
+  let t = mk({}); await handler(t.req, t.res); assert.equal(t.res.code, 401);
+  t = mk({ authorization: 'Bearer nope' }); await handler(t.req, t.res); assert.equal(t.res.code, 401);
+  t = mk({ authorization: 'Bearer s3cret' }); await handler(t.req, t.res); assert.equal(t.res.code, 200);
+  delete process.env.CPU_SD_TOKEN;
+});

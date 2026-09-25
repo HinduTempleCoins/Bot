@@ -113,6 +113,9 @@ export async function handler(req, res) {
   const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
   const path = String(req.url || '/').split('?')[0];
   if (req.method === 'GET' && path === '/health') return j(200, status());
+  // shared-secret gate: the worker may listen beyond loopback (the Studio lives on another box)
+  const tok = env('CPU_SD_TOKEN');
+  if (tok && String(req.headers && req.headers.authorization || '') !== `Bearer ${tok}`) return j(401, { ok: false, error: 'unauthorized' });
   if (req.method === 'POST' && path === '/generate') {
     const raw = await readBody(req);
     if (!raw) return j(413, { ok: false, error: 'body too large' });
