@@ -65,7 +65,7 @@ import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-librarie
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
 import { homeInterceptScript, enginesBody, learnBody, DOWNLOADS as ENGINE_DOWNLOADS } from './engines.mjs';
-import { loadManifest as loadRemakes, remakesBody, serveRemakeImage } from './remakes.mjs';
+import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt } from './remakes.mjs';
 
 const PORT = +(process.env.PORT || 8131);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -723,7 +723,7 @@ export async function handleGenerate(req, res) {
   catch { result = { ok: false, error: 'generation failed' }; }
 
   if (!result || !result.ok) {
-    return sendHtml(res, homePage({ note: 'No engine could make that image right now — please try again.' }), 502);
+    return sendHtml(res, homePage({ note: failNote(result) }), 502);
   }
   const meta = saveGeneration({
     base64: result.base64, mime: result.mime, prompt: cleaned,
@@ -733,6 +733,37 @@ export async function handleGenerate(req, res) {
   if (!meta) {
     return sendHtml(res, homePage({ note: 'The image was made but could not be saved — please try again.' }), 500);
   }
+  return sendHtml(res, resultPage(meta));
+}
+
+// Why nothing came back, in words a customer can act on. "busy" = our CPU engine has people queued (traffic).
+export function failNote(result) {
+  const busy = result && Array.isArray(result.tried) && result.tried.some((t) => t.id === 'cpusd' && t.skipped === 'busy');
+  return busy
+    ? 'Our free engine is busy making other people\'s images right now. Try again in a few minutes, or use your own engine (fal, Gemini, your own worker, or your keys on Pentecaust) — set it up once at /engines.'
+    : 'No engine could make that image right now. Please try again, or use your own engine at /engines.';
+}
+
+// ── /api/remake — keep an artwork's layout, re-render it in a chosen look and people (our CPU engine only) ──
+export async function handleRemake(req, res) {
+  const ip = clientIp(req);
+  if (!rateOk(ip)) return sendHtml(res, pageShell('Slow down — Remake', remakeToolBody({ note: `You've hit the limit of ${RATE_PER_HOUR} images per hour. Try again later.` }), { robots: 'noindex,follow' }), 429);
+  const params = await readBody(req);
+  const imgParam = String(params.get('image') || '').trim();
+  if (!/^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam)) return sendHtml(res, pageShell('Remake', remakeToolBody({ note: 'Choose the artwork to remake first.' })), 400);
+  let buf; try { buf = readFileSync(join(DATA_DIR, basename(imgParam))); } catch { return sendHtml(res, pageShell('Remake', remakeToolBody({ note: 'That upload has expired — choose the artwork again.' })), 400); }
+  const rp = remakePrompt({ desc: params.get('desc'), look: params.get('look'), people: params.get('people') });
+  const screen = screenPrompt(rp.prompt, { hasReferenceImage: false });
+  if (!screen.ok) return sendHtml(res, pageShell('Remake', remakeToolBody({ note: 'That request was blocked by the studio\'s content rules.' })), 400);
+  // keep the artwork's proportions (long side 768 — what our engine renders)
+  let size = '768x768';
+  try { const sharp = (await import('sharp')).default; const m = await sharp(buf).metadata(); const k = 768 / Math.max(m.width, m.height); size = `${Math.round(m.width * k / 8) * 8}x${Math.round(m.height * k / 8) * 8}`; } catch { /* square fallback */ }
+  let result;
+  try { result = await _generate({ prompt: rp.prompt, size, structure: buf.toString('base64'), structureScale: rp.scale }); }
+  catch { result = { ok: false }; }
+  if (!result || !result.ok) return sendHtml(res, pageShell('Remake', remakeToolBody({ note: failNote(result) })), 502);
+  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `Remake: ${params.get('desc') || 'ancient artwork'} (${params.get('look') || 'real'}, ${params.get('people') || 'as drawn'})`, provider: result.provider, note: result.note, size: result.size || size, seed: result.seed, adult: screen.adult });
+  if (!meta) return sendHtml(res, pageShell('Remake', remakeToolBody({ note: 'The image was made but could not be saved — please try again.' })), 500);
   return sendHtml(res, resultPage(meta));
 }
 
@@ -2032,6 +2063,11 @@ export async function handler(req, res) {
     if (path === '/webcam' || path === '/ar') return sendHtml(res, webcamView());
     if (path === '/ar-libraries' || path === '/ar-repos') return sendHtml(res, arLibrariesView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
+    if (path === '/remake') return sendHtml(res, pageShell('Remake — bring an ancient artwork to life', remakeToolBody(), { canonical: `${BASE_URL}/remake`, description: 'Upload a tomb painting, relief, fresco or vase and re-render it realistic, half vaporwave or in the full MELEK look — same people, poses and composition. Choose which people to show. Free, on our own servers.' }));
+    if (path === '/api/remake') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleRemake(req, res);
+    }
     if (path === '/remakes') {
       const look = new URL(req.url, BASE_URL).searchParams.get('look') || '1_real';
       return sendHtml(res, pageShell('Remakes — the ancient world, re-rendered', remakesBody(loadRemakes(), { look, base: BASE_URL }), { canonical: `${BASE_URL}/remakes`, description: 'Tomb paintings, stelae and Minoan frescoes remade in three looks and in several peoples side by side — Egyptian, Minoan, Nubian, Libyan, Levantine — made on our own servers.' }));

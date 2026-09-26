@@ -22,7 +22,7 @@ Auth: every route except /health needs `Authorization: Bearer $CPU_SD_TOKEN` whe
 Run:  PORT=8510 HOST=0.0.0.0 CPU_SD_TOKEN=... python genai_cpu_worker.py
 Tests: python -m unittest integrations/test_genai_cpu_worker.py   (fully offline; the pipeline is injected)
 """
-import base64, io, json, os, queue, secrets, threading, time
+import base64, io, itertools, json, os, queue, secrets, threading, time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 BASE_MODEL = os.environ.get("CPU_SD_BASE", "Lykon/dreamshaper-8")
@@ -228,7 +228,22 @@ def render(job):
 
 
 # ── single-flight queue + async jobs ────────────────────────────────────────────────────────────
-_q = queue.Queue()
+# Two priorities: customers (0) always run before background production batches (1, body "priority":"low").
+# FIFO within a priority. /health reports the customer-visible queue so the Studio can route traffic elsewhere.
+_q = queue.PriorityQueue()
+_seq = itertools.count()
+_counts = {0: 0, 1: 0}
+_counts_lock = threading.Lock()
+
+
+def _prio(body):
+    return 1 if str((body or {}).get("priority") or "").lower() == "low" else 0
+
+
+def _put(prio, item):
+    with _counts_lock:
+        _counts[prio] += 1
+    _q.put((prio, next(_seq), item))
 _jobs = {}
 _jobs_lock = threading.Lock()
 _state = {"busy": False, "loaded": False}
@@ -236,7 +251,9 @@ _state = {"busy": False, "loaded": False}
 
 def _worker_loop():
     while True:
-        jid, job, done_evt, holder = _q.get()
+        prio, _n, (jid, job, done_evt, holder) = _q.get()
+        with _counts_lock:
+            _counts[prio] -= 1
         _state["busy"] = True
         with _jobs_lock:
             if jid in _jobs:
@@ -284,8 +301,11 @@ def submit_job(body):
     jid = secrets.token_hex(8)
     with _jobs_lock:
         _jobs[jid] = {"status": "queued", "created": time.time(), "result": None}
-    position = _q.qsize() + (1 if _state["busy"] else 0)
-    _q.put((jid, job, None, None))
+    prio = _prio(body)
+    with _counts_lock:
+        ahead = _counts[0] + (_counts[1] if prio == 1 else 0)
+    position = ahead + (1 if _state["busy"] else 0)
+    _put(prio, (jid, job, None, None))
     return {"ok": True, "id": jid, "position": position}
 
 
@@ -306,13 +326,15 @@ def generate_sync(body, timeout=20 * 60):
     if not job["prompt"]:
         return {"ok": False, "error": "empty prompt"}
     evt, holder = threading.Event(), []
-    _q.put((None, job, evt, holder))
+    _put(_prio(body), (None, job, evt, holder))
     evt.wait(timeout)
     return holder[0] if holder else {"ok": False, "error": "timed out"}
 
 
 def status():
-    return {"ok": True, "loaded": _pipe is not None, "busy": _state["busy"], "queued": _q.qsize(),
+    with _counts_lock:
+        cust, bg = _counts[0], _counts[1]
+    return {"ok": True, "loaded": _pipe is not None, "busy": _state["busy"], "queued": cust, "background": bg,
             "model": f"{BASE_MODEL}+LCM+IP-Adapter"}
 
 

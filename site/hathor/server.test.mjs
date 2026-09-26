@@ -476,3 +476,30 @@ test('/remakes renders the manifest and serves only its images', async () => {
   }
   delete process.env.REMAKES_DIR;
 });
+
+test('/remake page + /api/remake sends the artwork as STRUCTURE and keeps its proportions', async () => {
+  const page = await call({ url: '/remake' });
+  assert.equal(page.statusCode, 200);
+  assert.match(page.text(), /Remake it/);
+  // a real 64x32 PNG so the size logic has something to measure
+  const sharp = (await import('sharp')).default;
+  const png = await sharp({ create: { width: 64, height: 32, channels: 3, background: '#c08040' } }).png().toBuffer();
+  const up = await call({ method: 'POST', url: '/api/upload', body: png, headers: { 'content-type': 'image/png' } });
+  const url = JSON.parse(up.text()).url;
+  let seen = null;
+  __resetRate();
+  __setGenerator(async (args) => { seen = args; return { ok: true, provider: 'cpusd', base64: png.toString('base64'), mime: 'image/png', note: 'MELEK CPU diffusion (our server, remake, 1s)' }; });
+  const r = await call({ method: 'POST', url: '/api/remake', body: `image=${encodeURIComponent(url)}&look=real&people=nubian&desc=${encodeURIComponent('women at a banquet')}`, headers: { 'content-type': 'application/x-www-form-urlencoded' } });
+  __setGenerator(null);
+  assert.equal(r.statusCode, 200);
+  assert.equal(seen.structure, png.toString('base64'));
+  assert.equal(seen.size, '768x384');
+  assert.match(seen.prompt, /women at a banquet, the people are dark-skinned Nubian\. Photorealistic/);
+  assert.equal(seen.structureScale, 0.5);
+});
+
+test('failNote tells a customer the free engine is busy and where to bring their own', () => {
+  const { failNote } = srv;
+  assert.match(failNote({ ok: false, tried: [{ id: 'cpusd', skipped: 'busy' }] }), /busy.*\/engines/);
+  assert.match(failNote({ ok: false, tried: [] }), /\/engines/);
+});

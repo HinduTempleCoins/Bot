@@ -106,6 +106,37 @@ class Remake(unittest.TestCase):
         self.assertEqual(len(SFAKE.calls), n)
 
 
+class Priority(unittest.TestCase):
+    def test_customer_jobs_jump_background_batches(self):
+        order = []
+        gate = threading.Event()
+
+        class Slow(FakePipe):
+            def __call__(self, **kw):
+                gate.wait(2)
+                order.append(kw.get("prompt") or "embeds")
+                return super().__call__(**kw)
+
+        slow = Slow()
+        w.set_loader(lambda: slow)
+        try:
+            first = w.submit_job({"prompt": "running-now", "priority": "low"})
+            time.sleep(0.05)  # let it start
+            b = w.submit_job({"prompt": "batch-2", "priority": "low"})
+            c = w.submit_job({"prompt": "customer"})
+            self.assertEqual(c["position"], 1)          # only the running job is ahead of a customer
+            self.assertEqual(w.status()["background"], 1)
+            gate.set()
+            for jid in (first["id"], b["id"], c["id"]):
+                for _ in range(300):
+                    if w.job_status(jid)["status"] in ("done", "error"):
+                        break
+                    time.sleep(0.01)
+            self.assertEqual(order[1:], ["customer", "batch-2"])
+        finally:
+            w.set_loader(lambda: FAKE)
+
+
 class Jobs(unittest.TestCase):
     def test_job_lifecycle(self):
         sub = w.submit_job({"prompt": "Hathor", "steps": 4})

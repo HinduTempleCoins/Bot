@@ -256,3 +256,37 @@ test('cpusd is skipped (not counted as a failure) when no worker url is set', as
   assert.deepEqual(r.tried.find((t) => t.id === 'cpusd'), { id: 'cpusd', skipped: 'no-key' });
   __setFetch(null);
 });
+
+test('cpusd steps aside when customers are queued — "busy" is a skip, not a breaker failure', async () => {
+  clearKeys(); __resetState();
+  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510';
+  let submitted = false;
+  __setFetch(async (url) => {
+    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 5, background: 40 }, { json: true });
+    if (String(url).endsWith('/jobs')) { submitted = true; return errResp(500); }
+    return errResp(500); // every fallback fails too
+  });
+  const r = await generateImage({ prompt: 'a temple' });
+  assert.equal(submitted, false);
+  assert.deepEqual(r.tried.find((t) => t.id === 'cpusd'), { id: 'cpusd', skipped: 'busy' });
+  const { providerStatus } = await import('./genai-providers.mjs');
+  assert.equal(providerStatus().find((p) => p.id === 'cpusd').breakerOpen, false);
+  delete process.env.GENAI_CPU_SD_URL; __setFetch(null);
+});
+
+test('background batches do not make cpusd look busy; a remake goes only to cpusd with its structure', async () => {
+  clearKeys(); __resetState();
+  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510'; process.env.GENAI_CPU_SD_POLL_MS = '1';
+  let seen = null;
+  __setFetch(async (url, opts) => {
+    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 0, background: 99 }, { json: true });
+    if (String(url).endsWith('/jobs')) { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'r1' }, { json: true }); }
+    if (String(url).endsWith('/jobs/r1')) return okResp({ ok: true, status: 'done', result: { ok: true, base64: B64, mode: 'remake', ms: 1 } }, { json: true });
+    throw new Error('no other engine may take a remake');
+  });
+  const r = await generateImage({ prompt: 'banquet, realistic', structure: B64, structureScale: 0.5 });
+  assert.equal(r.provider, 'cpusd');
+  assert.deepEqual(seen.structure, { base64: B64 });
+  assert.equal(seen.structureScale, 0.5);
+  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
+});
