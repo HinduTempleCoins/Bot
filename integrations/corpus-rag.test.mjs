@@ -64,3 +64,16 @@ test('malformed and empty inputs degrade instead of throwing', () => {
   assert.deepEqual(terms("Punt's Havilah-network"), ['punt', 'havilah', 'network']);
   assert.ok(retrieve("Punt's network").length, 'a possessive question must still retrieve');
 });
+
+test('retrieval weights rare words: filler like "tell me about" does not decide the answer', async () => {
+  const { mkdtempSync, writeFileSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const { tmpdir } = await import('node:os');
+  const d = mkdtempSync(join(tmpdir(), 'rag-'));
+  for (let i = 0; i < 6; i++) writeFileSync(join(d, `common${i}.md`), `# Doc ${i}\n\n${'We tell you about many things, and we tell it well, about law and about time. '.repeat(20)}`);
+  writeFileSync(join(d, 'odin.md'), '# Norse notes\n\nOdin hung on the world-tree for nine nights to win the runes; Odin gave an eye at the well of Mimir.');
+  const { retrieve } = await import('./corpus-rag.mjs');
+  const hits = retrieve('tell me about Odin', { root: d });
+  assert.equal(hits[0].title, 'Norse notes');
+  assert.equal(hits.length, 1, 'documents that only share filler words are not returned');
+});

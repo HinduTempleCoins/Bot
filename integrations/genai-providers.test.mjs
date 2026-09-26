@@ -290,3 +290,17 @@ test('background batches do not make cpusd look busy; a remake goes only to cpus
   assert.equal(seen.structureScale, 0.5);
   delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
 });
+
+test('many characters: crowd + seated reach our worker', async () => {
+  clearKeys(); __resetState();
+  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510'; process.env.GENAI_CPU_SD_POLL_MS = '1';
+  let seen = null;
+  __setFetch(async (url, opts) => {
+    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 0 }, { json: true });
+    if (String(url).endsWith('/jobs')) { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'c1' }, { json: true }); }
+    return okResp({ ok: true, status: 'done', result: { ok: true, base64: B64, mode: 'pose', ms: 1 } }, { json: true });
+  });
+  await generateImage({ prompt: 'three gods playing poker', crowd: 3, seated: true });
+  assert.equal(seen.crowd, 3); assert.equal(seen.seated, true);
+  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
+});

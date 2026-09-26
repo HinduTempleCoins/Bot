@@ -215,7 +215,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -1438,6 +1438,67 @@ export async function handleEffect(req, res) {
   if (!meta) return sendHtml(res, effectPage(e, 'The image was made but could not be saved — please try again.'), 500);
   return sendHtml(res, resultPage(meta));
 }
+// ── /visualize — the Hierophant → image pipeline (like Blue Letter Bible turning a word into a study link):
+// a concept or a passage from a sacred text becomes a picture. Figures the Hierophant knows are recognised and
+// drawn with their traditional looks; several figures → several people (one skeleton each).
+import { ENTITIES as H_ENTITIES } from '../../integrations/hierophant-entities.mjs';
+const VIZ_LOOKS = {
+  real: { name: 'Realistic', suffix: 'photorealistic, as it might really have looked, natural light, cinematic, highly detailed' },
+  ancient: { name: 'Ancient art', suffix: 'in the style of the art of its own tradition — painted fresco, relief or vase painting — richly detailed' },
+  melek: { name: 'MELEK aesthetic', suffix: 'futuristic neon temple, glowing VR visors, holographic glyphs, chrome and gold, pastel pink purple and cyan light, dreamy vaporwave' },
+};
+export function vizFigures(text, extraIds = []) {
+  const low = ` ${String(text || '').toLowerCase().replace(/[^a-z0-9\s-]/g, ' ')} `;
+  const hit = (n) => { n = String(n || '').toLowerCase(); return n.length > 2 && low.includes(` ${n} `); };
+  const out = [];
+  for (const e of H_ENTITIES) if (extraIds.includes(e.id) || hit(e.name) || (e.epithets || []).some(hit)) out.push(e);
+  return out.slice(0, 4);
+}
+export function vizPrompt({ q = '', entity = '', text = '', look = 'real' } = {}) {
+  const figs = vizFigures(q, entity ? [entity] : []);
+  const L = VIZ_LOOKS[look] || VIZ_LOOKS.real;
+  const concept = String(q || '').replace(/\s+/g, ' ').trim().slice(0, 600) || (figs[0] ? figs[0].name : '');
+  const who = figs.map((e) => `${e.name} (${e.look || String(e.desc || '').split(/\s[—–-]\s|[.;]\s/)[0]})`);
+  const from = text ? `, from ${text}` : '';
+  const prompt = `${concept}${from}${who.length ? `. Showing ${who.join('; ')}` : ''}. ${L.suffix}`;
+  return { prompt, figures: figs.map((e) => e.id), people: figs.filter((e) => ['god', 'goddess', 'hero', 'prophet', 'angel'].includes(e.type)).length };
+}
+export function visualizeView({ q = '', entity = '', text = '', note = '' } = {}) {
+  const e = entity ? H_ENTITIES.find((x) => x.id === entity) : null;
+  const pre = q || (e ? `${e.name}${text ? ` in ${text}` : ''}` : '');
+  const looks = Object.entries(VIZ_LOOKS).map(([k, v]) => `<option value="${esc(k)}">${esc(v.name)}</option>`).join('');
+  const body = `<h1>Visualize <span class=muted style="font-size:14px">· a concept or a passage, as a picture</span></h1>
+    <p class=muted>Type a concept, or paste a passage from a sacred text or myth. Gods and figures the <a href="${esc(HIEROPHANT)}">Hierophant</a> knows
+      are recognised and drawn with their traditional attributes. From any figure or text on the Hierophant, the 🎨 link brings it here.</p>
+    ${note ? `<div class=card><p class=empty>${esc(note)}</p></div>` : ''}
+    ${e ? `<div class=card><b>${esc(e.name)}</b> <span class=muted>· ${esc(e.tradition)}</span><p class=muted style="margin:4px 0 0">${esc(e.look || e.desc || '')}</p></div>` : ''}
+    <form class=gform method=post action="/api/visualize"><div class=card>
+      <input type=hidden name=entity value="${esc(entity)}"><input type=hidden name=text value="${esc(text)}">
+      <label class=fld for=vq>What should the picture show?</label>
+      <textarea class=q id=vq name=q placeholder="e.g. Odin hanging on the world-tree for nine nights to win the runes">${esc(pre)}</textarea>
+      <div class=row style="margin-top:10px;gap:8px"><select class=q name=look style="width:auto">${looks}</select><button type=submit>Picture it</button></div>
+      <p class=muted style="font-size:12px">Made on our own servers — a minute or two.</p>
+    </div></form>`;
+  return pageShell('Visualize — concepts and passages as pictures', body, { canonical: `${BASE_URL}/visualize`, description: 'Turn a concept or a passage from a sacred text or myth into a picture — gods drawn with their traditional attributes, from the Hierophant encyclopedia.' });
+}
+export async function handleVisualize(req, res) {
+  const ip = clientIp(req);
+  const params = await readBody(req);
+  const q = String(params.get('q') || ''), entity = String(params.get('entity') || ''), text = String(params.get('text') || '');
+  if (!rateOk(ip)) return sendHtml(res, visualizeView({ q, entity, text, note: `You've hit the limit of ${RATE_PER_HOUR} images per hour. Try again later.` }), 429);
+  if (!q.trim() && !entity) return sendHtml(res, visualizeView({ note: 'Type what the picture should show.' }), 400);
+  const v = vizPrompt({ q, entity, text, look: String(params.get('look') || 'real') });
+  const screen = screenPrompt(v.prompt, { hasReferenceImage: false });
+  if (!screen.ok) return sendHtml(res, visualizeView({ q, entity, text, note: 'That request was blocked by the studio\'s content rules.' }), 400);
+  const opts = { prompt: v.prompt, size: v.people > 1 ? '768x512' : '768x768' };
+  if (v.people > 1) opts.crowd = v.people;
+  let result; try { result = await _generate(opts); } catch { result = { ok: false }; }
+  if (!result || !result.ok) return sendHtml(res, visualizeView({ q, entity, text, note: failNote(result) }), 502);
+  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `Visualize: ${q || entity}`.slice(0, 300), provider: result.provider, note: result.note, size: result.size || opts.size, seed: result.seed, adult: screen.adult });
+  if (!meta) return sendHtml(res, visualizeView({ q, entity, text, note: 'The image was made but could not be saved — please try again.' }), 500);
+  return sendHtml(res, resultPage(meta));
+}
+
 // ── /mythology — gods of four traditions, as or with them, alone or several at once (from the Hierophant) ──
 const HIEROPHANT = process.env.HIEROPHANT_SITE || 'https://hierophant.soapbox.community';
 export function mythologyView() {
@@ -2149,6 +2210,11 @@ export async function handler(req, res) {
     if (path === '/reel-maker') return sendHtml(res, reelIndexView());
     if (path === '/char') return sendHtml(res, charIndexView());
     if (path === '/mythology') return sendHtml(res, mythologyView());
+    if (path === '/visualize') { const u = new URL(req.url, BASE_URL); return sendHtml(res, visualizeView({ q: u.searchParams.get('q') || '', entity: u.searchParams.get('entity') || '', text: u.searchParams.get('text') || '' })); }
+    if (path === '/api/visualize') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleVisualize(req, res);
+    }
     if (path.startsWith('/fx/')) {
       const e = getEffect(decodeURIComponent(path.slice(4)));
       if (!e) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }

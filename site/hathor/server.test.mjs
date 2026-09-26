@@ -581,3 +581,19 @@ test('/mythology lists four traditions with As/With links and Hierophant links',
   assert.match(r.text(), /href="\/fx\/with-athena"/);
   assert.match(r.text(), /hierophant\.soapbox\.community\/gods\/thor/);
 });
+
+test('/visualize: a passage naming Hierophant figures becomes a picture of them, one skeleton each', async () => {
+  const { vizPrompt } = srv;
+  const v = vizPrompt({ q: 'Odin and Thor feasting in the hall', look: 'ancient' });
+  assert.deepEqual(v.figures.sort(), ['odin', 'thor']);
+  assert.equal(v.people, 2);
+  assert.match(v.prompt, /Showing Odin \(.*\); Thor \(/);
+  assert.match(v.prompt, /fresco, relief or vase painting/);
+  const pre = await call({ url: '/visualize?entity=athena&text=The%20Odyssey' });
+  assert.equal(pre.statusCode, 200); assert.match(pre.text(), /Athena in The Odyssey/);
+  let seen = null; __resetRate();
+  __setGenerator(async (args) => { seen = args; return { ok: true, provider: 'cpusd', base64: Buffer.from('x').toString('base64'), mime: 'image/png', note: 'MELEK CPU diffusion (our server, pose, 1s)' }; });
+  const r = await call({ method: 'POST', url: '/api/visualize', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: 'q=Odin+and+Thor+feasting+in+the+hall&look=real' });
+  __setGenerator(null);
+  assert.equal(r.statusCode, 200); assert.equal(seen.crowd, 2);
+});
