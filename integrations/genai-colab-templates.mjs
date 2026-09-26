@@ -32,8 +32,9 @@ export const COLAB_TEMPLATES = [
     kind: 'image',
     summary: 'Run a full ComfyUI server inside Colab with a public tunnel — then load any of our ComfyUI workflow templates. The bridge between the two layers on this page.',
     gpu: 'free T4 is enough for SD1.5/SDXL; FLUX wants more',
-    repo: 'comfyanonymous/ComfyUI',
-    notebookUrl: 'https://github.com/comfyanonymous/ComfyUI/blob/master/notebooks/comfyui_colab.ipynb',
+    repo: 'Comfy-Org/ComfyUI',
+    // ComfyUI deleted its own Colab notebook upstream (2025, 'Remove unmaintained notebook'); this is ours.
+    notebookUrl: 'https://github.com/HinduTempleCoins/Bot/blob/2e062cc9693540bca30930b32d40c8b921a8e606/notebooks/colab/comfyui_colab.ipynb',
   },
   {
     id: 'sdxl-diffusers',
@@ -86,8 +87,9 @@ export const COLAB_TEMPLATES = [
     kind: 'video',
     summary: 'Generate short animated clips from a prompt with AnimateDiff motion modules on top of SD. A free-tier on-ramp to text-to-video.',
     gpu: 'free T4 (short clips); more VRAM for longer/HD',
-    repo: 'huggingface/notebooks',
-    notebookUrl: 'https://github.com/huggingface/notebooks/blob/main/diffusers/animatediff.ipynb',
+    repo: 'huggingface/diffusers',
+    // No upstream AnimateDiff notebook exists; ours follows the Diffusers AnimateDiff guide.
+    notebookUrl: 'https://github.com/HinduTempleCoins/Bot/blob/2e062cc9693540bca30930b32d40c8b921a8e606/notebooks/colab/animatediff_diffusers.ipynb',
   },
   {
     id: 'realesrgan-upscale',
@@ -105,8 +107,9 @@ export const COLAB_TEMPLATES = [
     kind: 'image',
     summary: 'Run FLUX.1 — top-tier prompt following and text-in-image — via Diffusers. Heavier; use the [schnell] variant or quantization on the free tier.',
     gpu: 'free T4 only with the schnell/quantized variant; [dev] wants more',
-    repo: 'huggingface/notebooks',
-    notebookUrl: 'https://github.com/huggingface/notebooks/blob/main/diffusers/flux.ipynb',
+    repo: 'black-forest-labs/FLUX.1-schnell',
+    // No upstream schnell notebook exists; ours loads it 4-bit NF4 so it fits the free T4.
+    notebookUrl: 'https://github.com/HinduTempleCoins/Bot/blob/2e062cc9693540bca30930b32d40c8b921a8e606/notebooks/colab/flux_schnell_diffusers.ipynb',
   },
 ];
 

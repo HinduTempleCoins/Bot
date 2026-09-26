@@ -280,3 +280,21 @@ test('search falls back to OPDS when Gutendex yields nothing', async () => {
   assert.ok(host.length >= 1, 'the public-domain tier must survive a blocked Gutendex');
   assert.equal(host[0].source, 'Project Gutenberg');
 });
+
+test('search() never waits on a hung upstream: Gutendex that never answers is abandoned, OPDS still serves', async () => {
+  booksOpen.__setUpstreamTimeout(50);
+  booksOpen.__setFetch((url) => {
+    if (String(url).includes('gutendex')) return new Promise(() => {});   // accepts, never answers
+    if (String(url).includes('format=opds')) {
+      return Promise.resolve({ ok: true, text: async () => OPDS_FEED });
+    }
+    return Promise.resolve({ ok: true, json: async () => ({}) });
+  });
+  const t0 = Date.now();
+  const out = await search({ query: 'plato', limit: 5 });
+  const ms = Date.now() - t0;
+  booksOpen.__setFetch(null);
+  booksOpen.__setUpstreamTimeout(6000);
+  assert.ok(ms < 1000, `search must return within the deadline, took ${ms}ms`);
+  assert.ok(out.some((b) => b.source === 'Project Gutenberg'), 'OPDS results survive the hung Gutendex');
+});
