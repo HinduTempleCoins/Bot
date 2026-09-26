@@ -59,7 +59,7 @@ import { showPageHtml as pentecaustShowHtml, hubFragmentHtml as pentecaustHubHtm
 import { validateRecipe, TRIGGERS, ACTIONS } from '../../integrations/pentecaust-recipes.mjs';
 import { DEFAULT_SERVER_PLAN, DEFAULT_MODERATION } from '../../integrations/pentecaust-community.mjs';
 import { catalog as gameExportCatalog } from '../../integrations/genai-game-export.mjs';
-import { storageConfig as hdStorageConfig, presignPut as hdPresignPut, presignGet as hdPresignGet, makeShareLink as hdMakeShareLink, checkAccess as hdCheckAccess, objectKey as hdObjectKey } from '../../integrations/harddrive.mjs';
+import { storageConfig as hdStorageConfig, presignPut as hdPresignPut, presignGet as hdPresignGet, makeShareLink as hdMakeShareLink, checkAccess as hdCheckAccess, objectKey as hdObjectKey, checkQuota as hdCheckQuota } from '../../integrations/harddrive.mjs';
 import { makeVideoPost, validateVideoPost, playerHtml as bfPlayer, feedCardHtml as bfCard, fmtViews as bfViews } from '../../integrations/melek-bifrost.mjs';
 import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-libraries.mjs';
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
@@ -941,14 +941,16 @@ export async function handleHardDrivePresign(req, res) {
   const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
   if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
   const cfg = hdStorageConfig();
-  if (!cfg.configured) return j(503, { ok: false, error: 'HardDrive storage is not connected yet (needs a Cloudflare R2 bucket + token).' });
+  if (!cfg.configured) return j(503, { ok: false, error: 'HardDrive storage is not connected yet.' });
   const raw = await readRawBody(req, 1 << 16);
   let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
   const filename = String(b.filename || 'file').slice(0, 200);
   const owner = String((req.headers['x-melek-user'] || 'anon')).slice(0, 40); // wired to MELEK login later
+  const q = hdCheckQuota(ip, b.size);   // free tier: per-file + per-day limit; the size is signed into the URL
+  if (!q.ok) return j(q.code, { ok: false, error: q.error });
   try {
     const key = hdObjectKey(owner, filename);
-    const putUrl = hdPresignPut(cfg, key, { expiresIn: 900 });
+    const putUrl = hdPresignPut(cfg, key, { expiresIn: 900, contentLength: q.bytes });
     // publicUrl is a durable playback/download URL when the bucket is exposed via a public host (R2 public
     // bucket / custom domain). Without one, callers fall back to a presigned GET via the share link.
     const publicUrl = cfg.publicHost ? `${cfg.publicHost.replace(/\/$/, '')}/${key}` : '';
