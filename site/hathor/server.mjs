@@ -205,7 +205,7 @@ const FOOTER = `<footer>
 </footer>`;
 
 function pageShell(title, body, opts = {}) {
-  const desc = opts.description || 'Generative AI — make images now, free-first, no login. Prompt box, CapCut-style templates, and a gallery. Powered by Cloudflare Workers AI, Google Gemini and Pollinations.ai.';
+  const desc = opts.description || 'Hathor Studio — make images, remakes of ancient art, and videos, free with no login, on our own servers. Templates, character effects, ancient scripts, and your own engine if you want more.';
   const canonical = opts.canonical || `${BASE_URL}/`;
   const robots = opts.robots || 'index,follow,max-image-preview:large';
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
