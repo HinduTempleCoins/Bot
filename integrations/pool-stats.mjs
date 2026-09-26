@@ -25,7 +25,9 @@
 //   POOL_API_URL=http://127.0.0.1:4000 node integrations/pool-stats.mjs
 
 // The Miningcore read API base. Defaults to the local bind; override in prod via env.
-export const POOL_API_URL = (process.env.POOL_API_URL || 'http://127.0.0.1:4000').replace(/\/$/, '');
+// Default = the PUBLIC pool API (Caddy fronts Miningcore's /api), so a surface on any host (the web
+// tier included) reads the live mainnet pools. The pool box itself may set POOL_API_URL=http://127.0.0.1:4000.
+export const POOL_API_URL = (process.env.POOL_API_URL || 'https://pool.soapbox.community').replace(/\/$/, '');
 // The public stratum host miners actually connect to (NOT the API host). Override per-deploy.
 export const POOL_STRATUM_HOST = process.env.POOL_STRATUM_HOST || 'pool.soapbox.community';
 

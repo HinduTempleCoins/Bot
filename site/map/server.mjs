@@ -113,7 +113,7 @@ const FOOTER = `<footer>
   <b>${esc(SITE_NAME)}</b> — the persistent-world map of the MELEK HUD Game. Claim tiles, place farms/mines/timber/wellsprings,
   staff them with creatures, and collect while you're away. Tile claims are <b>utility deeds</b> — a production-capacity sink,
   <b>not</b> a return or appreciation promise. Claim settles <b>off-chain first</b>; the deed mint is stubbed and
-  <b>will settle on-chain</b> via the edge / MELEK-Signer. This site holds no keys. Alpha · testnet.
+  <b>will settle on-chain</b> via the edge / MELEK-Signer. This site holds no keys. MELEK mainnet.
 </footer>`;
 
 // ── page shell ────────────────────────────────────────────────────────────────────────────────────
@@ -129,7 +129,7 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="${bp('/')}">⬡ ${esc(SITE_NAME)}<span class=alpha>Alpha</span></a>
+<header class=topbar><a class=brand href="${bp('/')}">⬡ ${esc(SITE_NAME)}</a>
   <div class=topbar-r>${TOOLS_NAV}<a href="${bp('/')}">Map</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}<div class=toast id=toast></div></body></html>`;

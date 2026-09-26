@@ -437,7 +437,7 @@ function page(rows) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(SITE_NAME)} — media player + playlist</title>
 ${head}<style>${STYLE}</style>${impactUtt()}</head><body>
-<header><span class=brand><b>MELEK</b> Player</span><span class=alpha>Alpha</span></header>
+<header><span class=brand><b>MELEK</b> Player</span></header>
 <div class=wrap>
   <p class=lead>Play a direct media URL or an official YouTube / Vimeo / Archive link, build a playlist, and pick up where you left off. Radio, podcasts, and on-chain ScotTube reels are one click away.</p>
   ${renderPlayer({ tracks: [], index: 0 })}

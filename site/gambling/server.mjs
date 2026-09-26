@@ -70,7 +70,7 @@ const SITE_NAME = process.env.SITE_NAME || 'SoapBox Gambling Education';
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
 const bp = (p) => BASE_PATH + p;
 // The free, provably-fair, NON-CASHABLE play-token alternative (kula-arcade-live-on-prana-testnet).
-const KULA_ARCADE_URL = process.env.KULA_ARCADE_URL || 'https://alpha.melek.salon/arcade/';
+const KULA_ARCADE_URL = process.env.KULA_ARCADE_URL || 'https://arcade.soapbox.community/';
 
 // ── shared house-style helpers ─────────────────────────────────────────────────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -326,7 +326,7 @@ function page(title, bodyInner, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<header class=topbar><a class=brand href="${bp('/')}">🎲 SoapBox <span>Gambling Education</span><span class=alpha>Alpha</span></a>
+<header class=topbar><a class=brand href="${bp('/')}">🎲 SoapBox <span>Gambling Education</span></a>
   <nav class=topnav>${TOPNAV}</nav></header>
 ${HELP_BAND}
 <main class=wrap>${DISCLAIMER}${bodyInner}</main>
@@ -812,7 +812,7 @@ function lotteryPage() {
   the <a href="${esc(safeHref(KULA_ARCADE_URL) || bp('/'))}" rel="noopener"><b>KULA Arcade</b></a> runs a
   <b>provably-fair, non-cashable play-token lotto</b> — the tickets are earned free, the draw is verifiable
   on-chain, and there is <b>no payout</b>. It's entertainment, not real money — there's no cash prize to
-  chase and no money at stake. (Alpha / testnet.)</p>
+  chase and no money at stake. (The arcade runs on the PRANA testnet while its mainnet contracts are staged.)</p>
 `;
   return page('Lottery Odds — Powerball, Mega Millions & the Expected-Value Reality', body, {
     path: '/lottery', jsonld,

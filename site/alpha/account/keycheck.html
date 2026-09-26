@@ -6,7 +6,11 @@
 <link rel="stylesheet" href="account.css">
 </head><body>
 <div class="wrap"><div class="card">
-  <span class="tag">[TestNet not MELEK]</span>
+  <span class="tag" id="net-tag" hidden>[TestNet not MELEK]</span>
+  <script>
+    // Host-aware: the testnet tag shows only on alpha.*; mainnet (melek.salon) stays clean.
+    if (/^alpha\./i.test(location.hostname)) document.getElementById('net-tag').hidden = false;
+  </script>
   <h1>Key checker</h1>
   <p class="muted">Login not working? Paste what you saved and this page tells you <b>what it is</b> —
   your master password, your posting key, or a key that can't be used to log in.

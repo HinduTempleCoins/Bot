@@ -31,7 +31,7 @@ for (const p of HTML_PAGES) {
     const res = await get(p);
     assert.equal(res.statusCode, 200, `${p} should be 200`);
     assert.match(res.headers['content-type'], /text\/html/);
-    assert.match(res.body, /class=alpha>Alpha/, `${p} missing Alpha badge`);
+    assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   });
 }
 

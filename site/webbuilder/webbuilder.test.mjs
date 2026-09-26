@@ -36,7 +36,7 @@ test('home 200 renders the builder (templates + editor + publish flow)', async (
   assert.match(res.body, /id=sections/);              // the block editor
   assert.match(res.body, /id=f-ren/);                 // REN publish input
   assert.match(res.body, /bring your own domain/i);   // BYO domain flow
-  assert.match(res.body, /Alpha/);                    // alpha badge convention
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
 });
 
 test('all four templates have picker buttons', async () => {

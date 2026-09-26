@@ -14,7 +14,7 @@ test('GET / renders the KULA Farm page with the emission split, a pool APR + the
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /KULA<\/b> Farm/);
-  assert.match(o.body, /Alpha/);
+  assert.doesNotMatch(o.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   assert.match(o.body, /Emission split/);
   assert.match(o.body, /APR/);
   assert.match(o.body, /veKULA/);

@@ -120,7 +120,6 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
-<div class=alpha>Alpha</div>
 <header class=topbar><a class=brand href="/">🗣️ Hathor <span>language center</span></a>
   <div class=topbar-r><a href="/">Courses</a>${lessons.listCourses().map((id) => `<a href="/course/${esc(id)}">${esc(lessons.getCourse(id).flag)} ${esc(lessons.getCourse(id).label.split(' ')[0])}</a>`).join('')}<a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>

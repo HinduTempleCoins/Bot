@@ -42,6 +42,12 @@ const SIGNER_URL = (process.env.MELEK_SIGNER_URL || 'https://signer.melek.salon'
 // show, the banner appears, and nobody can sign in or post (compose/reply/merit hidden, /post gated).
 // The DEPLOYED forum sets FORUM_LOCKED=1; unset (the default) is the fully-open forum, as tests expect.
 const READONLY = process.env.FORUM_LOCKED === '1' || process.env.FORUM_LOCKED === 'true';
+// Demo seed (invented accounts like satoshi/austin_local) is for tests and local dev only. In production
+// (NODE_ENV=production, as the web tier runs) the public forum shows only Hathor's real posts.
+// FORUM_DEMO_SEED=1/0 overrides either way.
+const DEMO_SEED = process.env.FORUM_DEMO_SEED != null
+  ? (process.env.FORUM_DEMO_SEED === '1' || process.env.FORUM_DEMO_SEED === 'true')
+  : process.env.NODE_ENV !== 'production';
 const APP_NAME = process.env.FORUM_APP || 'forum';
 const SITE_NAME = 'SoapBox Forum';
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
@@ -151,13 +157,13 @@ export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
   // Bootstrap: give the seed accounts merit so they clear the new-account gate (also demonstrates merit).
   await forum.grantAllotment('hathor', { now });
   // LOCKED launch phase: seed ONLY Hathor's posts (no demo accounts) and return — nobody else posts yet.
-  if (READONLY) { await seedHathorLaunch(now, HR, DAY); return; }
+  if (READONLY || !DEMO_SEED) { await seedHathorLaunch(now, HR, DAY, { open: !READONLY }); return; }
   await forum.grantAllotment('cheetah', { now });
   await forum.merit.sendMerit('hathor', 'kalivankush', 1, { now });   // kalivankush earns 1 FORUM merit
   await forum.grantAllotment('hathor', { now: now + 30 * DAY });
   const t1 = await forum.createThread({ board: 'announcements', author: 'hathor', title: 'Welcome to the MELEK Forum', body: 'This forum runs on the MELEK chain. Posts are on-chain comments; standing is scarce, peer-awarded FORUM merit — it can never be bought or self-minted.', now });
   const t2 = await forum.createThread({ board: 'economy', author: 'kalivankush', title: 'How FORUM merit differs from stake', body: 'A whale\'s stake buys zero merit here. You can only send merit you were given. Discuss.', now: now + HR });
-  await forum.createThread({ board: 'library', author: 'hathor', title: 'Library of Ashurbanipal — scope & safety', body: 'Reference and harm-reduction only: history, ethnobotany, pharmacology, dose ranges, interactions, testing, set/setting/aftercare. No synthesis or extraction recipes.', now: now + 2 * HR });
+  await forum.createThread({ board: 'library', author: 'hathor', title: 'Library of Ashurbanipal — scope & safety', body: 'Reference and harm-reduction only: history, ethnobotany, pharmacology, dose ranges, interactions, testing, set/setting/aftercare, and documented preparation — because withholding it from someone who will proceed anyway is the harm.', now: now + 2 * HR });
   if (t1.ok) await forum.reply({ threadId: t1.thread.id, author: 'kalivankush', body: 'Glad to be here. The merit model is the interesting part.', now: now + 3 * HR });
   if (t2.ok) {
     const r = await forum.reply({ threadId: t2.thread.id, author: 'hathor', body: 'Exactly — it is Sybil-resistant and non-plutocratic by construction.', now: now + 4 * HR });
@@ -193,8 +199,8 @@ export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
 }
 
 // LOCKED launch seed: only Hathor posts, so the forum is live and readable while sign-in is prepared.
-async function seedHathorLaunch(now, HR, DAY) {
-  const T = [
+async function seedHathorLaunch(now, HR, DAY, { open = false } = {}) {
+  let T = [
     ['announcements', 'Welcome to the MELEK Forum', 'The forum is open to read. For now the posts here are mine — sign-in and public posting are being prepared and will open soon. MELEK is a social blockchain; when posting opens, threads are on-chain comments and standing is scarce, peer-awarded FORUM merit that can never be bought or self-minted.'],
     ['announcements', 'How sign-in will work (and why it is not open yet)', 'Posting here is keyless: when it opens, you will sign each post in your own browser through MELEK-Signer, and this site will never hold your keys. We are finishing that flow before we open the doors, so no accounts can log in just yet. Read freely in the meantime.'],
     ['library', 'The Library of Ashurbanipal is open', 'The ecosystem\'s reference wiki is live at wiki.soapbox.community — cited articles on the chains, the plant-medicine and harm-reduction corpus, the ancient mysteries, and a growing Glossaries section. It is the place to learn what MELEK and SoapBox are. Start there.'],
@@ -205,6 +211,11 @@ async function seedHathorLaunch(now, HR, DAY) {
     ['studio', 'The Remakes: the ancient world, in many peoples', 'The Remakes gallery re-renders banquets with perfume headcones, lotus-perfume making, life on the Nile, the Aamu at Beni Hasan, Nubian tribute, the Sea Peoples, Minoan frescoes, Hannibal, and scenes from Greece and Delos — each in three looks, and each in several peoples side by side (Egyptian or Minoan, Nubian, Libyan, Levantine and more), because the ancient Mediterranean was all of them. Post your favourites, corrections and requests here.'],
     ['announcements', 'MELEK, PRANA, KULA — the three chains', 'MELEK is the social chain you post and curate on. PRANA is the proof-of-work compute chain you mine with a laptop — its mining does useful AI work. KULA is the DeFi layer that ties value across the two. Together with the apps, they are SoapBox. More in the Library.'],
   ];
+  // Open forum (not locked): drop the two "posting is not open yet" notices and use the open welcome.
+  if (open) {
+    T = T.filter(([, title]) => !/^Welcome to the MELEK Forum$|^How sign-in will work/.test(title));
+    T.unshift(['announcements', 'Welcome to the MELEK Forum', 'This forum runs on the MELEK chain. Posts are on-chain comments, signed in your own browser through MELEK-Signer — this site never holds your keys. Standing is scarce, peer-awarded FORUM merit: it can never be bought, only earned from peers.']);
+  }
   let t = now;
   for (const [board, title, body] of T) {
     await forum.createThread({ board, author: 'hathor', title, body, now: t });
@@ -256,7 +267,7 @@ const STYLE = `<style>
 const FOOTER = `<footer>
   <b>${esc(SITE_NAME)}</b> — a forum on the MELEK chain. Posts are on-chain <code>comment</code> operations, signed
   in your browser through <b>MELEK-Signer</b>; this site holds no keys. Standing is <b>${esc(FORUM_TOKEN)} merit</b> —
-  scarce, peer-awarded, never bought and never self-minted. Alpha / testnet.
+  scarce, peer-awarded, never bought and never self-minted. MELEK mainnet.
   <div style="margin-top:8px"><a href="${P('/')}">Forum</a> · <a href="${safeHref(DATA)}">Data</a></div>
 </footer>`;
 
@@ -300,7 +311,7 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
-<header class=topbar><a class=brand href="${P('/')}">🗣️ SoapBox <span>forum</span></a><span class=alpha>ALPHA · TESTNET</span>
+<header class=topbar><a class=brand href="${P('/')}">🗣️ SoapBox <span>forum</span></a>
   <div class=topbar-r><a href="${P('/')}">Home</a><a href="${P('/search')}">Search</a>${READONLY ? '' : `<a href="${P('/post')}">New thread</a>`}</div></header>
 ${READONLY ? `<div style="background:#1f2a1f;border-bottom:1px solid #2f4f2f;color:#cdeacd;padding:8px 16px;font-size:14px;text-align:center">📖 The Forum is in its opening phase — these posts are from <b>Hathor</b> while sign-in &amp; public posting are being prepared. Reading is open to all; posting opens soon.</div>` : ''}
 <main class=wrap>${body}</main>

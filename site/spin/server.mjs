@@ -98,7 +98,6 @@ function pageShell(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
-<div class="alpha-badge">Alpha</div>
 <header class=topbar><a class=brand href="/">🎡 SoapBox <span>daily spin</span></a>
   <div class=topbar-r><a href="/">Spin</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>

@@ -129,14 +129,14 @@ export const SERVICES = [
   { name: 'MELEK-Engine', blurb: 'Hive-Engine-style side-token layer — issue and manage tokens.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'engine' },
   { name: 'Auto-vote / SoapBox', blurb: 'Delegate to earn — multi-chain autovote + our own SoapBox staking, similar to NutBox.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'auto' },
   { name: 'SoapBox Staking', blurb: 'Delegate MELEK Power (dMP) to earn ALTI — our own staking, similar to NutBox.', family: FAM_MELEK, category: CAT_DEFI, base: 'melek.salon', sub: 'staking' },
-  { name: 'Witness school', blurb: 'Learn the witness role + live @hathor status. (No alpha variant.)', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: '=witness' },
+  { name: 'Witness school', blurb: 'Learn the witness role + live @hathor status.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: '=witness' },
   { name: 'Ecosystem status', blurb: 'Live green/red health board across MELEK, PRANA, and KULA.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'melek.salon', sub: 'status' },
 
   // ── PRANA (EVM / compute chain + DAO) ──
   { name: 'PRANAScan', blurb: 'Block explorer for the PRANA compute chain.', family: FAM_PRANA, category: CAT_WALLET, base: 'soapbox.community', sub: 'pranascan' },
   { name: 'PRANA RPC', blurb: 'Public JSON-RPC endpoint for the PRANA chain.', family: FAM_PRANA, category: CAT_CHAIN, base: 'melek.salon', sub: 'rpc.prana' },
-  { name: 'Faucet', blurb: 'Claim testnet funds + an RC gift to get started.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: 'faucet' },
-  { name: 'Mining pool', blurb: 'Browser mining + in-browser walletgen. Same host on both nets.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: '=pool' },
+  { name: 'Faucet', blurb: 'Claim starter funds + an RC gift to get started.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: 'faucet' },
+  { name: 'Mining pool', blurb: 'Browser mining + in-browser walletgen.', family: FAM_PRANA, category: CAT_CHAIN, base: 'soapbox.community', sub: '=pool' },
 
   // ── Games & Farm — the PRANA play layer ──
   { name: 'SoapBox Arcade', blurb: 'The MELEK game hub on PRANA — seed/casino games, the grow, and seasonal arenas.', family: FAM_PRANA, category: CAT_GAMES, base: 'soapbox.community', sub: '=arcade' },
@@ -150,6 +150,10 @@ export const SERVICES = [
   { name: 'Pentecaust', blurb: 'MELEK Messaging — cross-game clans, alliances, and DMs; one identity across games.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'pentecaust.com', sub: '=' },
   { name: 'Hathor.Live', blurb: 'Hathor, the MELEK AI witness — live AI chat + video Studio.', family: FAM_MELEK, category: CAT_SOCIAL, base: 'hathor.live', sub: '=' },
 ];
+
+// MAINNET IS LIVE (MELEK mainnet chain 907959e5…, PRANA mainnet chainId 712217). Every mainnet host above was
+// probed 2026-09-26 and answers, EXCEPT these — they render as "coming soon" (not clickable) until they do.
+export const PENDING_MAINNET = new Set(['Tokens portal', 'SoapBox Staking', 'Ecosystem status', 'Faucet']);
 
 // ── THE SOAPBOX PLATFORM — the public content & data side (not chain surfaces; their own section) ─────
 // Single live host each (no alpha/mainnet split). All verified live (200). {name, host, blurb}.
@@ -322,14 +326,12 @@ const STYLE = `<style>
 </style>`;
 
 // One LEAF node = a service. Clickable anchor (alpha, or same-both) or a static "coming soon" box (mainnet).
-function leaf({ name, blurb, host, clickable, sameBoth }) {
+function leaf({ name, blurb, host, clickable }) {
   const url = httpsUrl(host);
-  const pill = sameBoth
-    ? '<span class="pill same" title="No separate alpha — same host on both nets">same both nets</span>'
-    : (clickable ? '' : '<span class="pill soon">soon</span>');
+  const pill = clickable ? '' : '<span class="pill soon">soon</span>';
   const inner = `<div class=nm>${esc(name)}${pill}</div>
     <div class=bl>${esc(blurb)}</div>
-    <span class=u>${clickable ? esc(url) + ' →' : esc(host) + (sameBoth ? '' : ' · coming soon')}</span>`;
+    <span class=u>${clickable ? esc(url) + ' →' : esc(host) + ' · coming soon'}</span>`;
   const box = clickable
     ? `<a class="leaf-box node-box" href="${esc(url)}" rel="noopener" target=_blank>${inner}</a>`
     : `<div class="leaf-box node-box soon">${inner}</div>`;
@@ -346,9 +348,9 @@ function wing(family, isAlpha) {
   const leaves = svcs.map((s) => {
     const r = resolve(s);
     return isAlpha
-      ? leaf({ name: s.name, blurb: s.blurb, host: r.alphaHost, clickable: true, sameBoth: r.sameBoth })
-      // MainNet: future host; clickable only when it's the same host on both nets (already live).
-      : leaf({ name: s.name, blurb: s.blurb, host: r.mainnetHost, clickable: r.sameBoth, sameBoth: r.sameBoth });
+      ? leaf({ name: s.name, blurb: s.blurb, host: r.alphaHost, clickable: true })
+      // MainNet (live): clickable unless the mainnet host is not up yet (PENDING_MAINNET).
+      : leaf({ name: s.name, blurb: s.blurb, host: r.mainnetHost, clickable: !PENDING_MAINNET.has(s.name) });
   }).join('');
   return `<div class="wing wing-${esc(side)}">
     <div class=branch>
@@ -384,15 +386,15 @@ function netTree(which) {
       ${tree}</section>`;
   }
   return `<section class="net mainnet-net" id=mainnet>
-    <div class=net-head><h2>MainNet</h2><span class="tag soon">coming soon</span>
-      <span class=nh-sub>The same family tree at production URLs — drop the <code>alpha.</code> label. Not live yet.</span></div>
+    <div class=net-head><h2>MainNet</h2><span class="tag live">live</span>
+      <span class=nh-sub>MELEK mainnet + PRANA mainnet. Every leaf is a working link unless marked soon.</span></div>
     ${tree}</section>`;
 }
 
 // The SoapBox content/data platform — a flat grid of the public verticals (not chain surfaces). Each is one
 // live host on both nets, so it renders as a single clickable card (reusing the leaf renderer).
 function platformSection() {
-  const cards = PLATFORM.map((p) => leaf({ name: p.name, blurb: p.blurb, host: p.host, clickable: true, sameBoth: false })).join('');
+  const cards = PLATFORM.map((p) => leaf({ name: p.name, blurb: p.blurb, host: p.host, clickable: true })).join('');
   return `<section class="net mainnet-net" id=platform>
     <div class=net-head><h2>SoapBox Platform</h2><span class="tag live">live</span>
       <span class=nh-sub>The public content &amp; data side — research, markets, law, the verticals. All live now.</span></div>
@@ -405,10 +407,8 @@ export function homePage() {
   const body = `${navDrawer({ current: 'soapbox', brand: SITE_NAME })}<h1>${esc(ECOSYSTEM)}</h1>
     <p class=lede>The family tree of the ecosystem, centred on the <b>${esc(SITE_NAME)}</b> hub. The three chain
       families fan out from the middle — <b>MELEK</b> to the left, <b>PRANA</b> to the right, <b>KULA</b> below —
-      and every surface hangs as a leaf off its family. The testnet tree sits under <b>alpha.</b>; mainnet is the
-      same tree with <b>alpha.</b> dropped. Alpha is live now; MainNet is coming soon. Below the trees, the
-      <b>SoapBox Platform</b> — the public content &amp; data verticals — is live now too.</p>
-    ${netTree('alpha')}
+      and every surface hangs as a leaf off its family. <b>MainNet is live</b> — MELEK mainnet and PRANA mainnet.
+      Below the tree, the <b>SoapBox Platform</b> — the public content &amp; data verticals — is live too.</p>
     ${netTree('mainnet')}
     ${platformSection()}
     ${subscribeWidget({ base: BASE_URL })}`;
@@ -447,16 +447,15 @@ function page(title, body, canonicalPath = '/') {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
-<meta name=description content="The canonical map of the MELEK, PRANA and KULA ecosystem — wallet, explorer, DEX, tokens, chain, mining and curation surfaces. Alpha (testnet) is live; MainNet is coming soon.">
+<meta name=description content="The canonical map of the MELEK, PRANA and KULA ecosystem — wallet, explorer, DEX, tokens, chain, mining and curation surfaces. MELEK mainnet and PRANA mainnet are live.">
 <meta name=robots content="index,follow">
 <link rel=canonical href="${esc(BASE_URL)}${esc(canonicalPath)}">
 <meta property="og:title" content="${esc(title)}">
 ${STYLE}${NAV_STYLE}${impactUtt()}</head><body>
-<header class=topbar><span class=brand>SoapBox<span class=alpha>Alpha</span><small>${esc(ECOSYSTEM)}</small></span></header>
+<header class=topbar><span class=brand>SoapBox<small>${esc(ECOSYSTEM)}</small></span></header>
 <main class=wrap>${body}</main>
-<footer><b>${esc(SITE_NAME)}</b> · the MELEK / PRANA / KULA ecosystem map. All surfaces are on the
-  <b>testnet (alpha)</b> today; mainnet URLs are shown for reference and are not live yet.
-  <div style="margin-top:8px"><a href="#alpha">Alpha</a> · <a href="#mainnet">MainNet</a></div></footer>
+<footer><b>${esc(SITE_NAME)}</b> · the MELEK / PRANA / KULA ecosystem map — MELEK mainnet and PRANA mainnet.
+  <div style="margin-top:8px"><a href="#mainnet">MainNet</a> · <a href="#platform">Platform</a></div></footer>
 ${SKIMLINKS_JS ? `<script type="text/javascript" src="${esc(SKIMLINKS_JS)}"></script>` : ''}
 ${NAV_DRAWER_JS}</body></html>`;
 }
@@ -472,14 +471,12 @@ function sitemapXml() {
     `</urlset>\n`;
 }
 function llmsTxt() {
-  const lines = [`# ${SITE_NAME}`, '', `> The map of the MELEK / PRANA / KULA ecosystem. Alpha (testnet) is live; MainNet is coming soon.`, '',
+  const lines = [`# ${SITE_NAME}`, '', `> The map of the MELEK / PRANA / KULA ecosystem. MELEK mainnet and PRANA mainnet are live.`, '',
     ...Object.entries(DOCS).map(([r, d]) => `- [${d.title}](${BASE_URL}${r})`), ''];
-  lines.push('## Alpha (live testnet)');
-  for (const s of SERVICES) lines.push(`- [${s.name}](${httpsUrl(resolve(s).alphaHost)}): ${s.blurb}`);
-  lines.push('', '## MainNet (coming soon)');
+  lines.push('## MainNet (live)');
   for (const s of SERVICES) {
     const r = resolve(s);
-    lines.push(`- ${s.name}: ${httpsUrl(r.mainnetHost)}${r.sameBoth ? ' (live — same host on both nets)' : ' (coming soon)'}`);
+    lines.push(`- [${s.name}](${httpsUrl(r.mainnetHost)}): ${s.blurb}${PENDING_MAINNET.has(s.name) ? ' (coming soon)' : ''}`);
   }
   return lines.join('\n') + '\n';
 }

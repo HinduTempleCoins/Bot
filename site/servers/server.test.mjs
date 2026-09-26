@@ -22,7 +22,7 @@ test('GET / serves the hub: branding, Alpha badge, cards, join info', async () =
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /SoapBox/);
-  assert.match(o.body, /Alpha/);                 // standing alpha-badge convention
+  assert.doesNotMatch(o.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces                 // standing alpha-badge convention
   assert.match(o.body, /Server address/);        // join info present
   assert.match(o.body, /Copy/);                  // copy-address button
   assert.match(o.body, /live feed/i);            // live-feed framing

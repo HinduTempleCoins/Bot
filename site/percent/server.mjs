@@ -81,7 +81,7 @@ function pageShell(title, body, opts = {}) {
   const head = headTags({ title, description: desc, canonical: opts.canonical || `${BASE_URL}/`, siteName: SITE_NAME, robots: opts.robots || 'index,follow', jsonld: opts.jsonld || null });
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="${esc(bp('/'))}">◧ SoapBox <span>Percent</span><span class=alpha>Alpha</span></a>
+<header class=topbar><a class=brand href="${esc(bp('/'))}">◧ SoapBox <span>Percent</span></a>
 <div class=topbar-r><a href="${hub('/')}">◧ SoapBox Tools</a><a href="${hub('/calculator')}">Calculator</a></div></header>
 <main class=wrap>${body}</main>
 <footer><b>${esc(SITE_NAME)}</b> — free, private, runs in your browser. No sign-up.</footer></body></html>`;

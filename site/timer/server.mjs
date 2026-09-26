@@ -137,7 +137,7 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="${bp('/')}">&#9202; SoapBox <span>Timer</span><span class=alpha>Alpha</span></a>
+<header class=topbar><a class=brand href="${bp('/')}">&#9202; SoapBox <span>Timer</span></a>
   <div class=topbar-r>${TOOLS_NAV}<a href="${bp('/')}">Reset</a><button type=button id=nav-save>&#9729; Log your sessions</button></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;

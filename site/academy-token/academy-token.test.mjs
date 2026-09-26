@@ -110,5 +110,5 @@ test('homePage() is a pure string carrying the Library theory link', () => {
   const html = homePage();
   assert.equal(typeof html, 'string');
   assert.match(html, /Token_Buybacks__Market_Fees__and_the_UIA_Lineage/);
-  assert.match(html, /Alpha/); // the alpha badge convention
+  assert.doesNotMatch(html, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces // the alpha badge convention
 });

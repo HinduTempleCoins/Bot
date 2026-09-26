@@ -199,7 +199,6 @@ export function shell({
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<div class="alpha-badge">Alpha</div>
 ${DISCLAIMER}
 <header class=topbar><a class=brand href="${esc(bp('/'))}"><b>KULA</b> Arcade <span>· play-token · provably fair</span></a>
  <div class=topbar-r>${navHtml}</div></header>

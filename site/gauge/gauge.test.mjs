@@ -52,7 +52,7 @@ test('home / renders 200 and shows both the lock form and the vote form', async 
   assert.match(res.body, /Vote your gauge weights/);
   assert.match(res.body, /Build Lock Tx/);
   assert.match(res.body, /Build Vote Tx/);
-  assert.match(res.body, /class=alpha/); // Alpha badge on the live surface
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces // Alpha badge on the live surface
 });
 
 test('home soft-fails to "gauge data unavailable" when the RPC returns nothing', async () => {

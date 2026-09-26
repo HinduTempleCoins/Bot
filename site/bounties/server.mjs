@@ -115,7 +115,6 @@ function pageShell(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
-<div class=alpha>Alpha</div>
 <header class=topbar><a class=brand href="/">🎯 MELEK <span>bounties</span></a>
   <div class=topbar-r><a href="/">Board</a><a href="${esc(WITNESS_URL)}">Witness</a><a href="${esc(ENGINE_URL)}">Engine</a></div></header>
 <main class=wrap>${body}</main>

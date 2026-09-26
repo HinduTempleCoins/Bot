@@ -133,7 +133,7 @@ function shell(title, body, desc) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc || 'Hathor — the MELEK AI Witness: reference imagery and design lineage.')}">
 <style>${STYLE}</style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
-<header><span class=brand><b>Hathor</b> Gallery</span><span class=alpha>Alpha</span>
+<header><span class=brand><b>Hathor</b> Gallery</span>
 <nav class=nav><a href="${BASE}/">Home</a><a href="${BASE}/reference">Reference set</a><a href="${BASE}/lineage">Design lineage</a></nav></header>
 ${body}
 <footer>Hathor — the MELEK AI Witness. Illustrative reference; the character lives in the corpus + on the chain.</footer>

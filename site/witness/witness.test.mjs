@@ -132,10 +132,11 @@ test('home renders the witness school + Hathor founding witness', () => {
   assert.match(h, /Get votes/);
 });
 
-test('home links the tutorial and alpha.melek.salon', () => {
+test('home links the primer and the MAINNET chain (melek.salon), never the testnet', () => {
   const h = homePage();
-  assert.match(h, /alpha\.melek\.salon/);
-  assert.match(h, /tutorial/i);
+  assert.match(h, /href="https:\/\/melek\.salon"/);
+  assert.match(h, /primer/i);
+  assert.doesNotMatch(h, /alpha\.melek\.salon/);
 });
 
 test('pool view renders live cards with stratum lines', async () => {
@@ -271,10 +272,19 @@ test('unknown path redirects home', async () => {
   assert.equal(r.headers.location, '/');
 });
 
-test('test-currency note (TESTS) appears in the footer', async () => {
+test('footer is mainnet: no testnet label, no TESTS, no alpha link', async () => {
   const r = await route('/');
-  assert.match(r.body, /TESTS/);
-  assert.match(r.body, /test-only|test currency|no monetary value/i);
+  const foot = r.body.slice(r.body.lastIndexOf('<footer'));
+  assert.match(foot, /MELEK mainnet/);
+  assert.doesNotMatch(foot, /testnet|TESTS|alpha\./i);
+});
+
+test('Library links resolve to articles that exist (no 404 slugs)', () => {
+  const h = homePage() + devScotPage() + devServicesPage();
+  for (const bad of ['Delegated_Proof_of_Stake_DPoS_', 'Graphene_Blockchain_Framework', 'Special:CreateAccount',
+    'Special:RecentChanges', 'Hive_Engine_and_Smart_Media_Tokens']) {
+    assert.ok(!h.includes(`/wiki/${bad}`), `no dead wiki slug ${bad}`);
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -651,7 +661,7 @@ test('dev/token: deploy an ERC-20 + how forking works + use it (KulaSwap/CDP/LP)
   assert.match(h, /rel=canonical href="[^"]*\/dev\/token"/);
 });
 
-test('dev/scot: MELEK-Engine = our Hive-Engine, APIS = BEE; real fields only; testnet live / mainnet coming', () => {
+test('dev/scot: MELEK-Engine = our Hive-Engine, APIS = BEE; real fields only; mainnet engine live', () => {
   const h = devScotPage();
   assert.match(h, /Hive-Engine/);
   assert.match(h, /\bBEE\b/);
@@ -663,13 +673,13 @@ test('dev/scot: MELEK-Engine = our Hive-Engine, APIS = BEE; real fields only; te
   assert.match(h, /windowBlocks/);
   assert.match(h, /authorBps/);
   assert.match(h, /linear.*quadratic.*sqrt|quadratic/);   // the real curves
-  assert.match(h, /mse-testnet-melek/);                   // the sidechain id
+  assert.match(h, /mse-mainnet-melek/);                   // the mainnet sidechain id
+  assert.doesNotMatch(h, /mse-testnet-melek|engine\.alpha/);
   assert.match(h, /Nitrous/);
   assert.match(h, /\/status/);                            // the read API
-  // honest liveness: testnet live, mainnet engine NOT up
-  assert.match(h, /engine\.alpha\.melek\.salon/);
-  assert.match(h, /mainnet/i);
-  assert.match(h, /coming|not up/i);
+  // honest liveness: mainnet engine live, APIS not emitting yet
+  assert.match(h, /engine\.melek\.salon/);
+  assert.match(h, /not emitting/i);
   assert.match(h, /rel=canonical href="[^"]*\/dev\/scot"/);
 });
 
@@ -692,12 +702,12 @@ test('dev/services: index with real URLs and honest LIVE/STAGED badges', () => {
   assert.match(h, /rpc\.prana\.melek\.salon/);
   assert.match(h, /pranascan\.soapbox\.community/);
   assert.match(h, /kula\.money/);
-  assert.match(h, /engine\.alpha\.melek\.salon/);
+  assert.match(h, /engine\.melek\.salon/);
+  assert.doesNotMatch(h, /\.alpha\./);
   assert.match(h, /pool\.soapbox\.community/);
   assert.match(h, /LIVE/);
-  // staged services labelled exactly that (mainnet engine + docs host don't answer)
+  // staged services labelled exactly that (mainnet faucet + docs host don't answer)
   assert.match(h, /STAGED/);
-  assert.match(h, /engine\.melek\.salon/);
   assert.match(h, /rel=canonical href="[^"]*\/dev\/services"/);
 });
 
@@ -724,11 +734,11 @@ test('dev/get: acquisition per token; MWALI not emitting, APIS mainnet staged (h
   assert.match(h, /DO THIS NOW/);
   // MWALI is NOT emitting — must not be presented as "get it now"
   assert.match(h, /supply.*0|0 right now|not emitting/i);
-  // APIS mainnet is staged (proven testnet only), BEE analogy present
+  // APIS mainnet is staged (engine live, supply 0), BEE analogy present
   assert.match(h, /\bBEE\b/);
   assert.match(h, /wMELEK/);
   assert.match(h, /STAGED|COMING/);
-  assert.match(h, /testnet/i);
+  assert.match(h, /supply 0/i);
   assert.match(h, /rel=canonical href="[^"]*\/dev\/get"/);
 });
 

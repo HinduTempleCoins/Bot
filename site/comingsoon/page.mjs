@@ -37,7 +37,7 @@ export function comingSoonPage({ section = 'SoapBox', blurb = '', current = '' }
 ${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 ${navDrawer({ current, brand: 'SoapBox' })}
 <main>
-  <h1>${esc(section)} <span class=alpha>Alpha</span></h1>
+  <h1>${esc(section)} </h1>
   <div class=soon>Coming soon</div>
   <p class=blurb>${blurb ? esc(blurb) + ' ' : ''}This SoapBox surface is being built. Everything else in the ecosystem is one tap away in the bar above.</p>
   <p class=back><a href="https://soapbox.community/">← Back to the SoapBox hub</a></p>

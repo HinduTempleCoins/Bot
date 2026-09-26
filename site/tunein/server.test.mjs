@@ -83,7 +83,7 @@ test('home renders the Netflix-style rows aggregating every source', async () =>
   assert.equal(res.code, 200);
   const html = res.body;
   assert.match(html, /Tune In/);
-  assert.match(html, /Alpha/);                       // standing Alpha-badge rule
+  assert.doesNotMatch(html, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   // rows present
   assert.match(html, /Live now/);
   assert.match(html, /On MELEK \(ScotTube\)/);

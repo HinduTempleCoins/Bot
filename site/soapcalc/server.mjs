@@ -111,7 +111,7 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="${esc(bp('/'))}">◧ SoapBox <span>Soap Calculator</span><span class=alpha>Alpha</span></a>
+<header class=topbar><a class=brand href="${esc(bp('/'))}">◧ SoapBox <span>Soap Calculator</span></a>
   <div class=topbar-r>${TOOLS_NAV}</div></header>
 <main class=wrap>${body}</main>
 <footer><b>${esc(SITE_NAME)}</b> — a free, private soap calculator. Everything runs in your browser; no sign-up, no data leaves your device.</footer>

@@ -100,7 +100,7 @@ function page(category = 'all') {
 <title>Cams · SoapBox Community</title>
 <meta name=description content="Live public cameras — official traffic, wildlife, and city streams. Consensual, official sources only.">
 <style>${STYLE}</style></head><body><div class=wrap>
-<header><span class=brand><b>SoapBox</b> Cams</span><span class=alpha>Alpha</span></header>
+<header><span class=brand><b>SoapBox</b> Cams</span></header>
 <div class=boundary><b>🔒 ${esc(BOUNDARY)}</b><p>${esc(BOUNDARY_LONG)}</p></div>
 <p class=lead>Live public cameras that their owners publish for everyone. Pick one and watch it full screen.</p>
 <div class=filters>${filters}</div>
