@@ -141,3 +141,11 @@ test('SSO_SECRET is its own trust boundary and takes precedence over the session
     'once SSO_SECRET is set, the session secret must not mint a valid ticket');
   if (keep === undefined) delete process.env.SSO_SECRET; else process.env.SSO_SECRET = keep;
 });
+
+test('selfOriginFor: trusts Host only for allow-listed sibling hosts', async () => {
+  const { selfOriginFor } = await import('./sso.mjs');
+  assert.equal(selfOriginFor({ headers: { host: 'connect.pentecaust.com' } }, 'http://localhost:8500'), 'https://connect.pentecaust.com');
+  assert.equal(selfOriginFor({ headers: { host: 'pact.pentecaust.com:443' } }, ''), 'https://pact.pentecaust.com');
+  assert.equal(selfOriginFor({ headers: { host: 'evil.example' } }, 'http://localhost:8500'), 'http://localhost:8500');
+  assert.equal(selfOriginFor({ headers: {} }, 'https://x.test/'), 'https://x.test');
+});

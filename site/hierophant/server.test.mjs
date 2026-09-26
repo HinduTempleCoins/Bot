@@ -285,3 +285,21 @@ test('askView resolves to a string and soft-fails with no question', async () =>
   const html = await askView('');
   assert.match(html, /Ask the Hierophant/);
 });
+
+test('/ask answers a named figure from the encyclopedia first (Odin), with a Studio link', async () => {
+  __setAsk(async () => ({ answer: '', sources: [], grounded: false }));
+  const res = await drive(postReq('/ask', 'tell me about Odin'));
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /From the encyclopedia/);
+  assert.match(res.body, /href="\/gods\/odin"/);
+  assert.match(res.body, /Become Odin in the Studio/);
+  assert.doesNotMatch(res.body, /doesn't cover that/);
+});
+
+test('Blue-Letter-Bible style: figures carry a 🎨 link to the Studio visualizer; home + ask offer "Picture it"', async () => {
+  const home = await drive({ url: '/', method: 'GET', headers: {}, on() { return this; } });
+  const h = home.body || '';
+  assert.match(h, /hathor\.soapbox\.community\/visualize/);
+  const god = await drive({ url: '/gods/athena', method: 'GET', headers: {}, on() { return this; } });
+  assert.match(god.body, /\/visualize\?entity=zeus/);        // Zeus is linked in Athena's description, with a 🎨
+});

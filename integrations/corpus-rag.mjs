@@ -22,7 +22,9 @@ const HERE = join(fileURLToPath(new URL('.', import.meta.url)), '..');
 export const CORPUS_ROOT = () => process.env.CORPUS_ROOT || join(HERE, 'knowledge');
 
 const STOP = new Set(['the', 'a', 'an', 'and', 'or', 'of', 'to', 'in', 'is', 'it', 'for', 'on', 'with',
-  'as', 'at', 'by', 'from', 'that', 'this', 'was', 'are', 'be', 'what', 'how', 'why', 'who', 'does', 'do']);
+  'as', 'at', 'by', 'from', 'that', 'this', 'was', 'are', 'be', 'what', 'how', 'why', 'who', 'does', 'do',
+  // conversational filler — "tell me about Odin" must be a search for Odin, not for "tell"
+  'tell', 'me', 'about', 'please', 'explain', 'describe', 'give', 'know', 'show', 'can', 'you', 'i', 'whats', 'which', 'were', 'did', 'much', 'more']);
 
 // ⚠️ A possessive or a hyphen in the QUESTION must not produce a token that can never match the text.
 // "Punt's Havilah-network" tokenised naively gives "punt's" and "havilah-network", neither of which
@@ -93,19 +95,26 @@ export function readDoc(path) {
 export function retrieve(question, { topK = 5, root = CORPUS_ROOT(), maxChars = 1200 } = {}) {
   const qs = terms(question);
   if (!qs.length) return [];
-  const scored = [];
+  const docs = [];
   for (const path of corpusFiles(root)) {
     const doc = readDoc(path);
-    if (!doc) continue;
-    const hay = doc.text.toLowerCase();
-    const title = doc.title.toLowerCase();
-    let score = 0; let matched = 0;
+    if (doc) docs.push({ path, doc, hay: doc.text.toLowerCase(), title: doc.title.toLowerCase() });
+  }
+  // Rare words carry the meaning: a term found in most documents ("tell", "time") says little, a name found in
+  // three says a lot. Weight every term by inverse document frequency.
+  const N = docs.length || 1;
+  const idf = {};
+  for (const t of qs) { const df = docs.filter((d) => d.hay.includes(t)).length; idf[t] = Math.log((N + 1) / (df + 1)); }
+  const maxIdf = Math.max(...qs.map((t) => idf[t]));
+  const scored = [];
+  for (const { path, doc, hay, title } of docs) {
+    let score = 0; let matched = 0; let rare = false;
     for (const t of qs) {
       const n = hay.split(t).length - 1;
-      if (n > 0) { matched++; score += Math.min(n, 25); }
-      if (title.includes(t)) score += 12;
+      if (n > 0) { matched++; score += Math.min(n, 25) * idf[t]; if (idf[t] >= maxIdf * 0.6) rare = true; }
+      if (title.includes(t)) score += 12 * idf[t];
     }
-    if (!matched) continue;
+    if (!matched || !rare) continue;   // must contain the question's most telling word(s)
     // Covering more of the question beats repeating one word of it.
     score *= (1 + matched / qs.length);
     scored.push({ path, title: doc.title, score, matched, of: qs.length, passage: passageFor(doc.text, qs, maxChars) });

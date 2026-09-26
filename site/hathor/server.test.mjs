@@ -426,3 +426,198 @@ test('sitemap includes the new sections', async () => {
   assert.ok(xml.includes('/colab'));
   assert.ok(xml.includes('/reel-maker'));
 });
+
+// ── Your engines + Make it yourself ─────────────────────────────────────────────────────────────
+test('/engines lists every engine, keeps keys client-side, and the home page offers the switch', async () => {
+  const r = await call({ url: '/engines' });
+  assert.equal(r.statusCode, 200);
+  const t = r.text();
+  for (const id of ['ours', 'pentecaust', 'worker', 'fal', 'gemini']) assert.match(t, new RegExp(`value="${id}"`));
+  assert.match(t, /localStorage/);                 // keys live in the browser
+  assert.doesNotMatch(t, /fetch\('\/api\/engines/); // and are never posted to us
+  const home = await call({ url: '/' });
+  assert.match(home.text(), /use your own engine/);
+});
+
+test('/learn/make teaches the process and links the downloads', async () => {
+  const r = await call({ url: '/learn/make' });
+  assert.equal(r.statusCode, 200);
+  assert.match(r.text(), /Make the character/);
+  assert.match(r.text(), /\/downloads\/genai_worker_modal\.py/);
+});
+
+test('/downloads serves only the allowlisted worker files', async () => {
+  const ok = await call({ url: '/downloads/genai_cpu_worker.py' });
+  assert.equal(ok.statusCode, 200);
+  assert.match(ok.text(), /def norm_job/);
+  assert.match(ok.headers['content-disposition'], /attachment/);
+  for (const bad of ['/downloads/../../.env', '/downloads/server.mjs', '/downloads/%2e%2e%2fpackage.json']) {
+    const r = await call({ url: bad });
+    assert.notEqual(r.statusCode, 200, bad);
+    assert.doesNotMatch(r.text(), /SECRET|PRIVATE KEY|"dependencies"/, bad);
+  }
+});
+
+test('/remakes renders the manifest and serves only its images', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const d = mkdtempSync(join(tmpdir(), 'remakes-'));
+  mkdirSync(join(d, 'scene_a'));
+  writeFileSync(join(d, 'scene_a', 'src.jpg'), 'JPEGDATA');
+  writeFileSync(join(d, 'scene_a', '1_real_nubian.jpg'), 'JPEGDATA');
+  writeFileSync(join(d, 'manifest.json'), JSON.stringify({ scenes: [{ key: 'scene_a', title: 'Banquet <b>', group: 'Egypt', credit: 'Tomb of Nebamun', source: 'src.jpg', looks: { '1_real': { nubian: '1_real_nubian.jpg' } } }] }));
+  process.env.REMAKES_DIR = d;
+  const r = await call({ url: '/remakes' });
+  assert.equal(r.statusCode, 200);
+  assert.match(r.text(), /Banquet &lt;b&gt;/);
+  assert.match(r.text(), /\/remakes\/img\/scene_a\/1_real_nubian\.jpg/);
+  assert.equal((await call({ url: '/remakes/img/scene_a/1_real_nubian.jpg' })).statusCode, 200);
+  for (const bad of ['/remakes/img/../manifest.json', '/remakes/img/scene_a/../../etc.jpg', '/remakes/img/manifest.json']) {
+    assert.notEqual((await call({ url: bad })).statusCode, 200, bad);
+  }
+  delete process.env.REMAKES_DIR;
+});
+
+test('/remake page + /api/remake sends the artwork as STRUCTURE and keeps its proportions', async () => {
+  const page = await call({ url: '/remake' });
+  assert.equal(page.statusCode, 200);
+  assert.match(page.text(), /Remake it/);
+  // a real 64x32 PNG so the size logic has something to measure
+  const sharp = (await import('sharp')).default;
+  const png = await sharp({ create: { width: 64, height: 32, channels: 3, background: '#c08040' } }).png().toBuffer();
+  const up = await call({ method: 'POST', url: '/api/upload', body: png, headers: { 'content-type': 'image/png' } });
+  const url = JSON.parse(up.text()).url;
+  let seen = null;
+  __resetRate();
+  __setGenerator(async (args) => { seen = args; return { ok: true, provider: 'cpusd', base64: png.toString('base64'), mime: 'image/png', note: 'MELEK CPU diffusion (our server, remake, 1s)' }; });
+  const r = await call({ method: 'POST', url: '/api/remake', body: `image=${encodeURIComponent(url)}&look=real&people=nubian&desc=${encodeURIComponent('women at a banquet')}`, headers: { 'content-type': 'application/x-www-form-urlencoded' } });
+  __setGenerator(null);
+  assert.equal(r.statusCode, 200);
+  assert.equal(seen.structure, png.toString('base64'));
+  assert.equal(seen.size, '768x384');
+  assert.match(seen.prompt, /women at a banquet, the people are dark-skinned Nubian\. Photorealistic/);
+  assert.equal(seen.structureScale, 0.5);
+});
+
+test('failNote tells a customer the free engine is busy and where to bring their own', () => {
+  const { failNote } = srv;
+  assert.match(failNote({ ok: false, tried: [{ id: 'cpusd', skipped: 'busy' }] }), /busy.*\/engines/);
+  assert.match(failNote({ ok: false, tried: [] }), /\/engines/);
+});
+
+test('/scripts lists scripts, a script page renders glyphs, assets are allow-listed', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const d = mkdtempSync(join(tmpdir(), 'glyphs-'));
+  mkdirSync(join(d, 'runic')); mkdirSync(join(d, 'fonts'));
+  writeFileSync(join(d, 'index.json'), JSON.stringify({ scripts: [{ id: 'runic', name: 'Runes', group: 'Indo-European carved scripts', note: '', font: 'NotoSansRunic (OFL)', count: 1 }] }));
+  writeFileSync(join(d, 'runic', 'catalog.json'), JSON.stringify({ id: 'runic', name: 'Runes', group: 'x', note: '', font: 'NotoSansRunic (SIL Open Font License)', count: 1, glyphs: [{ cp: 'U+16A0', char: 'ᚠ', name: 'RUNIC LETTER FEHU FEOH FE F', file: 'runic/016A0.png' }] }));
+  writeFileSync(join(d, 'runic', '016A0.png'), 'PNG');
+  writeFileSync(join(d, 'fonts', 'NotoSansRunic-Regular.ttf'), 'TTF');
+  process.env.GLYPHS_DIR = d;
+  assert.match((await call({ url: '/scripts' })).text(), /href="\/scripts\/runic"/);
+  const pg = await call({ url: '/scripts/runic' });
+  assert.equal(pg.statusCode, 200); assert.match(pg.text(), /FEHU/);
+  assert.equal((await call({ url: '/scripts/img/runic/016A0.png' })).statusCode, 200);
+  assert.equal((await call({ url: '/scripts/fonts/NotoSansRunic-Regular.ttf' })).statusCode, 200);
+  for (const bad of ['/scripts/img/runic/catalog.json', '/scripts/img/../index.json', '/scripts/fonts/../index.json', '/scripts/nope']) {
+    assert.notEqual((await call({ url: bad })).statusCode, 200, bad);
+  }
+  delete process.env.GLYPHS_DIR;
+});
+
+test('character effects are runnable: /fx page, Hathor carries her reference, own photo needs consent', async () => {
+  const idx = await call({ url: '/char' });
+  assert.match(idx.text(), /href="\/fx\/hathor-selfie"/);
+  assert.equal((await call({ url: '/fx/hathor-selfie' })).statusCode, 200);
+  assert.equal((await call({ url: '/fx/nope' })).statusCode, 404);
+  let seen = null;
+  __resetRate();
+  __setGenerator(async (args) => { seen = args; return { ok: true, provider: 'cpusd', base64: Buffer.from('x').toString('base64'), mime: 'image/png', note: 'MELEK CPU diffusion (our server, character, 1s)' }; });
+  const form = (o) => ({ method: 'POST', url: '/api/fx', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(o).toString() });
+  const r = await call(form({ effect: 'hathor-throne', who: 'builtin:hathor' }));
+  assert.equal(r.statusCode, 200);
+  assert.match(seen.prompt, /throne/i);
+  assert.ok(seen.image && seen.image.base64, 'Hathor reference image carried');
+  seen = null;
+  const noConsent = await call(form({ effect: 'hathor-selfie', who: 'self', image: '/img/up-1-abc.png' }));
+  assert.equal(noConsent.statusCode, 400); assert.match(noConsent.text(), /consent/); assert.equal(seen, null);
+  const fict = await call(form({ effect: 'hathor-beach', who: 'fictional', name: 'Nefer', look: 'silver braids and a lapis robe' }));
+  assert.equal(fict.statusCode, 200); assert.match(seen.prompt, /Nefer.*silver braids/);
+  assert.equal(seen.images.length, 1);                      // Appear WITH Hathor: her reference is sent too
+  assert.match(seen.prompt, /Also in the picture, on the right: the goddess Hathor, a woman with large dark curved horns/);
+  assert.equal(seen.crowd, 2);                               // a two-person skeleton so both are drawn
+  assert.deepEqual(seen.refSlots, [1]);                      // her reference steers only her figure (right)
+  seen = null; __resetRate();
+  const poker = await call(form({ effect: 'group-custom', who0: 'god:zeus', who1: 'god:thor', who2: 'builtin:hathor', action: 'playing poker' }));
+  assert.equal(poker.statusCode, 200);
+  assert.equal(seen.crowd, 3); assert.equal(seen.seated, true);
+  assert.deepEqual(seen.refSlots, [2]);                      // Hathor is third, left to right
+  assert.match(seen.prompt, /Zeus on the left \(.+\).*Thor in the middle \(.+\).*Hathor on the right \(.*horns/);
+  __setGenerator(null);
+});
+
+test('still-being-built notices show on Hathor, effects, character, Halloween, template and home upload', async () => {
+  assert.match((await call({ url: '/hathor' })).text(), /Hathor is still being completed/);
+  assert.match((await call({ url: '/fx/hathor-throne' })).text(), /Hathor is still being completed/);
+  assert.match((await call({ url: '/fx/vampire-count' })).text(), /still being built/);
+  assert.match((await call({ url: '/char' })).text(), /still being built/);
+  assert.match((await call({ url: '/halloween' })).text(), /still being built/);
+  assert.match((await call({ url: '/templates/egyptian-temple-poster' })).text(), /still being built/);
+  assert.match((await call({ url: '/' })).text(), /still being built/);
+});
+
+test('many characters on one effect: gods from the Hierophant + Hathor, with an action', async () => {
+  let seen = null;
+  __resetRate();
+  __setGenerator(async (args) => { seen = args; return { ok: true, provider: 'cpusd', base64: Buffer.from('x').toString('base64'), mime: 'image/png', note: 'MELEK CPU diffusion (our server, pose, 1s)' }; });
+  const body = new URLSearchParams({ effect: 'group-custom', who0: 'god:zeus', who1: 'god:thor', who2: 'builtin:hathor', action: 'playing poker at a candlelit table' }).toString();
+  const r = await call({ method: 'POST', url: '/api/fx', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body });
+  __setGenerator(null);
+  assert.equal(r.statusCode, 200);
+  assert.match(seen.prompt, /Zeus .*Thor .*and Hathor.*playing poker/);
+  assert.match(seen.prompt, /Exactly 3 people/);
+  assert.equal(seen.crowd, 3); assert.equal(seen.seated, true);
+  assert.equal(seen.images.length, 1);                        // Hathor's reference steers her figure
+  const page = await call({ url: '/fx/group-custom' });
+  assert.match(page.text(), /Add another character/); assert.match(page.text(), /value="god:athena"/);
+});
+
+test('/mythology lists four traditions with As/With links and Hierophant links', async () => {
+  const r = await call({ url: '/mythology' });
+  assert.equal(r.statusCode, 200);
+  for (const t of ['Greek', 'Egyptian', 'Norse', 'Hindu']) assert.match(r.text(), new RegExp(`${t} mythology`));
+  assert.match(r.text(), /href="\/fx\/with-athena"/);
+  assert.match(r.text(), /hierophant\.soapbox\.community\/gods\/thor/);
+});
+
+test('/visualize: a passage naming Hierophant figures becomes a picture of them, one skeleton each', async () => {
+  const { vizPrompt } = srv;
+  const v = vizPrompt({ q: 'Odin and Thor feasting in the hall', look: 'ancient' });
+  assert.deepEqual(v.figures.sort(), ['odin', 'thor']);
+  assert.equal(v.people, 2);
+  assert.match(v.prompt, /Showing Odin \(.*\); Thor \(/);
+  assert.match(v.prompt, /fresco, relief or vase painting/);
+  const pre = await call({ url: '/visualize?entity=athena&text=The%20Odyssey' });
+  assert.equal(pre.statusCode, 200); assert.match(pre.text(), /Athena in The Odyssey/);
+  let seen = null; __resetRate();
+  __setGenerator(async (args) => { seen = args; return { ok: true, provider: 'cpusd', base64: Buffer.from('x').toString('base64'), mime: 'image/png', note: 'MELEK CPU diffusion (our server, pose, 1s)' }; });
+  const r = await call({ method: 'POST', url: '/api/visualize', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: 'q=Odin+and+Thor+feasting+in+the+hall&look=real' });
+  __setGenerator(null);
+  assert.equal(r.statusCode, 200); assert.equal(seen.crowd, 2);
+});
+
+test('sharing carries the picture: result page -> /p/ share page with a social card, MELEK post pre-filled with the image', async () => {
+  __resetRate();
+  __setGenerator(async () => ({ ok: true, provider: 'cpusd', base64: Buffer.from('x').toString('base64'), mime: 'image/png', note: 'ours' }));
+  const r = await call({ method: 'POST', url: '/api/fx', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ effect: 'hathor-throne', who: 'builtin:hathor' }).toString() });
+  const file = r.text().match(/\/img\/([\w.-]+\.png)/)[1];
+  assert.match(r.text(), new RegExp(`/p/${file.replace('.', '\\.')}`));            // X/Facebook/... share THIS picture
+  assert.match(r.text(), /forum\.soapbox\.community\/post\?board=studio&amp;title=.+&amp;body=.*%2Fimg%2F/);
+  assert.match(r.text(), /id=sharenow/);
+  const p = await call({ url: `/p/${file}` });
+  assert.equal(p.statusCode, 200);
+  assert.match(p.text(), new RegExp(`og:image" content="[^"]+/img/${file.replace('.', '\\.')}"`));
+  assert.match(p.text(), /twitter:card" content="summary_large_image"/);
+  assert.equal((await call({ url: '/p/nope.png' })).statusCode, 404);
+  assert.equal((await call({ url: '/p/..%2F..%2Fetc%2Fpasswd' })).statusCode, 404);
+  __setGenerator(null);
+});

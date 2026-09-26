@@ -45,7 +45,9 @@ function signingKey(secret, dateStamp, region, service) {
 }
 
 // Build a presigned URL for a method (PUT/GET) on {bucket}/{key}. Path-style (R2/MinIO friendly).
-function presign(cfg, method, key, { expiresIn = 900, extraQuery = {} } = {}) {
+// contentLength (PUT): the exact byte count is SIGNED into the URL, so storage rejects any upload of a different
+// size — that is how a size limit is enforced without our server ever touching the bytes.
+function presign(cfg, method, key, { expiresIn = 900, extraQuery = {}, contentLength = null } = {}) {
   if (!cfg || !cfg.configured) throw new Error('drive: storage not configured');
   const now = _now();
   const date = amzDate(now);
@@ -61,20 +63,42 @@ function presign(cfg, method, key, { expiresIn = 900, extraQuery = {} } = {}) {
     'X-Amz-Credential': `${cfg.accessKeyId}/${credScope}`,
     'X-Amz-Date': date,
     'X-Amz-Expires': String(Math.max(1, Math.min(604800, expiresIn | 0))),
-    'X-Amz-SignedHeaders': 'host',
+    'X-Amz-SignedHeaders': contentLength != null ? 'content-length;host' : 'host',
     ...extraQuery,
   };
   const canonicalQuery = Object.keys(q).sort().map((k) => `${enc(k)}=${enc(q[k])}`).join('&');
-  const canonicalHeaders = `host:${host}\n`;
-  const canonicalRequest = [method, canonicalUri, canonicalQuery, canonicalHeaders, 'host', 'UNSIGNED-PAYLOAD'].join('\n');
+  const canonicalHeaders = (contentLength != null ? `content-length:${contentLength | 0}\n` : '') + `host:${host}\n`;
+  const signedHeaders = contentLength != null ? 'content-length;host' : 'host';
+  const canonicalRequest = [method, canonicalUri, canonicalQuery, canonicalHeaders, signedHeaders, 'UNSIGNED-PAYLOAD'].join('\n');
   const stringToSign = ['AWS4-HMAC-SHA256', date, credScope, sha256hex(canonicalRequest)].join('\n');
   const sig = hmac(signingKey(cfg.secretAccessKey, dateStamp, region, service), stringToSign).toString('hex');
   return `${cfg.endpoint.replace(/\/$/, '')}${canonicalUri}?${canonicalQuery}&X-Amz-Signature=${sig}`;
 }
 
-export function presignPut(cfg, key, { expiresIn = 900 } = {}) {
-  return presign(cfg, 'PUT', key, { expiresIn });
+export function presignPut(cfg, key, { expiresIn = 900, contentLength = null } = {}) {
+  return presign(cfg, 'PUT', key, { expiresIn, contentLength });
 }
+
+// ── free-tier limits (our own storage). A user's OWN bucket (BYO) is not limited by us. ──────────────
+const envNum = (k, d) => { const v = Number(process.env[k]); return Number.isFinite(v) && v > 0 ? v : d; };
+export const limits = () => ({
+  maxFileBytes: envNum('HD_MAX_FILE_BYTES', 2 * 1024 ** 3),     // 2 GiB per file
+  dailyBytes: envNum('HD_DAILY_BYTES', 10 * 1024 ** 3),         // 10 GiB per visitor per day
+});
+const _usage = new Map(); // visitor -> { day, bytes }
+export function checkQuota(visitor, bytes, now = _now()) {
+  const L = limits();
+  const n = Math.floor(Number(bytes));
+  if (!(n > 0)) return { ok: false, code: 400, error: 'the file size is required' };
+  if (n > L.maxFileBytes) return { ok: false, code: 413, error: `files up to ${Math.round(L.maxFileBytes / 1024 ** 3)} GB on free storage — connect your own storage for bigger files` };
+  const day = new Date(now).toISOString().slice(0, 10);
+  const u = _usage.get(visitor) || { day, bytes: 0 };
+  if (u.day !== day) { u.day = day; u.bytes = 0; }
+  if (u.bytes + n > L.dailyBytes) return { ok: false, code: 429, error: `today's free allowance (${Math.round(L.dailyBytes / 1024 ** 3)} GB) is used — try tomorrow, or connect your own storage` };
+  u.bytes += n; _usage.set(visitor, u);
+  return { ok: true, bytes: n };
+}
+export function __resetQuota() { _usage.clear(); }
 export function presignGet(cfg, key, { expiresIn = 900, downloadName = '' } = {}) {
   const extraQuery = downloadName ? { 'response-content-disposition': `attachment; filename="${downloadName.replace(/["\\]/g, '')}"` } : {};
   return presign(cfg, 'GET', key, { expiresIn, extraQuery });

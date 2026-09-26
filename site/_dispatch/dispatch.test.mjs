@@ -90,3 +90,48 @@ test('central SEO never shadows a real page (surface routing intact)', async () 
   const r = await req('vankushfamily.com', '/');
   assert.equal(r.code, 200);
 });
+
+test('the internal localhost origin is rewritten to the host the visitor asked for (text only)', async () => {
+  const { createServer } = await import('node:http');
+  const { publicOrigin } = await import('./server.mjs');
+  const internal = 'http://localhost:8500';
+  const srv = createServer((req, res) => {
+    publicOrigin(req, res, internal);
+    if (req.url === '/png') { res.writeHead(200, { 'content-type': 'image/png' }); return res.end(Buffer.from(internal)); }
+    const html = `<link rel=canonical href="${internal}/x">`;
+    res.writeHead(200, { 'content-type': 'text/html', 'content-length': Buffer.byteLength(html) }); res.end(html);
+  });
+  await new Promise((r) => srv.listen(0, r));
+  const port = srv.address().port;
+  const get = (path) => new Promise((r) => { import('node:http').then(({ request }) => request({ port, path, headers: { host: 'forum.soapbox.community' } }, (res) => { let b = ''; res.on('data', (d) => { b += d; }); res.on('end', () => r(b)); }).end()); });
+  assert.equal(await get('/'), '<link rel=canonical href="https://forum.soapbox.community/x">');
+  assert.equal(await get('/png'), internal);                 // binary bodies untouched
+  srv.close();
+});
+
+test('every HTML page gets the one Support Hathor band before </body> (html only, once, length fixed)', async () => {
+  const { createServer, request } = await import('node:http');
+  const { supportFooter } = await import('./server.mjs');
+  const mod = await import('../../integrations/support-hathor.mjs');
+  const page = '<html><body><h1>hi</h1></body></html>';
+  const srv = createServer((req, res) => {
+    const dir = req.url.startsWith('/me') ? 'hathor' : 'forum';
+    supportFooter(req, res, dir, mod);
+    if (req.url === '/json') { res.writeHead(200, { 'content-type': 'application/json' }); return res.end('{"a":"</body>"}'); }
+    if (req.url === '/has') { res.writeHead(200, { 'content-type': 'text/html' }); return res.end(`<body>${mod.supportBand()}</body>`); }
+    res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'content-length': Buffer.byteLength(page) }); res.end(page);
+  });
+  await new Promise((r) => srv.listen(0, r));
+  const port = srv.address().port;
+  const get = (p) => new Promise((r) => request({ port, path: p }, (res) => { let b = ''; res.on('data', (d) => { b += d; }); res.on('end', () => r(b)); }).end());
+  const plain = await get('/');
+  assert.match(plain, /Post on MELEK\.Salon/);
+  assert.match(plain, /Contribute to PRANA/);
+  assert.match(plain, /That is how you support Hathor\./);
+  assert.match(plain, /<\/aside><\/body><\/html>$/, 'band sits right before </body>, whole body delivered');
+  assert.match(await get('/me'), /That is how you support me\./, "Hathor's own surface speaks in first person");
+  assert.equal(await get('/json'), '{"a":"</body>"}', 'non-HTML untouched');
+  assert.equal((await get('/has')).split(mod.SUPPORT_MARK).length, 2, 'never doubled');
+  assert.ok(!(await get('/embed/x')).includes(mod.SUPPORT_MARK), 'embeds left alone');
+  srv.close();
+});

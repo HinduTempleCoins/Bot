@@ -13,6 +13,15 @@ account is `hathor` (lowercase). The Bot is the Witness's hands; the chain code 
 
 ---
 
+## Support Hathor
+
+- **Post on [MELEK.Salon](https://melek.salon)** — your work, on our own chain. Sign up: https://melek.salon/create_account
+- **Contribute to PRANA** — point a GPU at the PRANA pool. Copy-paste miner setup: https://witness.melek.salon/mine · pool dashboard: https://pool.soapbox.community
+
+PRANA is how Hathor gets her compute: its 2% protocol fee funds her, and its compute lane is the GPU she thinks on. That is how you support Hathor.
+
+---
+
 ## What this Bot is
 
 A normal Graphene witness account, operated by the libraries in this repo. The chain does not

@@ -1,0 +1,768 @@
+{
+ "notes": {
+  "method": "Every motif was redrawn by hand as geometric line art (black on transparent, 1024px) from a source figure or photograph that was viewed; no tracing of copyrighted plates. Motif shapes are simplified; tick/bar counts approximate the source.",
+  "sources_key": {
+   "Bates 1914": "Oric Bates, The Eastern Libyans (London 1914), pp.137-140, Figs. 48-52 — public domain.",
+   "Rivière & Faublée 1942": "T. Rivière & J. Faublée, \"Les tatouages des Chaouia de l'Aurès\", Journal de la Société des Africanistes 12 (1942), pp.67-80, Figs. 12-16, Pl. I — read in full on Persée (in copyright; motifs redrawn, not reproduced).",
+   "Westermarck 1926": "E. Westermarck, Ritual and Belief in Morocco vol. I (1926; 1968 reprint scan), pp.449-452, 465-466.",
+   "Gobert 1924": "E.-G. Gobert, Notes sur les tatouages des indigènes tunisiens, L'Anthropologie 34 (1924), Fig. 10 — only the Commons scan of Fig. 10 was viewed.",
+   "Bertholon 1904": "L. Bertholon, Origines néolithique et mycénienne des tatouages des indigènes du nord de l'Afrique (1904) — text only (Persée omits figures); used for Tunisian placement notes and the quadrilateral parallel; his neolithic/Mycenaean origin theory is speculative.",
+   "Tropenmuseum": "Commons photos, CC BY-SA 3.0."
+  },
+  "gaps": "No Tuareg (Kel Tamasheq), Rif, Kabyle-facial, or High-Atlas facial motifs are included: no source that documents them with drawings was actually read. \"siyala\" is a popular-press term for chin tattoos, not verified in these scholarly sources."
+ },
+ "motifs": [
+  {
+   "id": "libyan_neith_sign_legs",
+   "name": "Libyan \"Neith-sign\" tattoo (cross-hatched rectangle with antennae and legs)",
+   "region_people": "Ancient Libyans (Tjehenu/Temehu/Libu chiefs) as depicted in New Kingdom Egyptian art",
+   "period": "c. 14th-12th c. BCE (depictions)",
+   "placement": [
+    "arm",
+    "leg",
+    "body"
+   ],
+   "description": "Vertical rectangle filled with cross-hatching, two curved antenna-like projections at the top, two short splayed legs below. Bates (1914) records these marks on Libyan chiefs in Egyptian paintings/tiles (Tell el-Amarna, tomb of Seti I, Medinet Habu); he notes they may be painting rather than tattooing, and that on the monuments only (male) chiefs bear them.",
+   "meaning": "Bates identifies it with the hieroglyph/emblem of the goddess Neith and suggests wearers were under her protection; he rejects Lefébure's theory that it was a brand for captives. Bates' identification, not a Libyan statement. Bertholon (1904) notes an elongated cross-hatched quadrilateral recurs in modern Tunisian arm/leg tattoos (a parallel he draws, speculative as to continuity).",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate",
+    "https://www.persee.fr/doc/linly_1160-641x_1904_num_23_1_16458"
+   ],
+   "based_on": "Bates 1914, The Eastern Libyans, p.139 Fig. 50 a/b (drawn from Medinet Habu tiles and Seti I tomb figures).",
+   "svg": "libyan_neith_sign_legs.svg",
+   "png": "libyan_neith_sign_legs.png",
+   "local_name": null
+  },
+  {
+   "id": "libyan_neith_sign_chevron",
+   "name": "Libyan \"Neith-sign\" tattoo, chevron-footed variant",
+   "region_people": "Ancient Libyans in Egyptian art",
+   "period": "c. 14th-12th c. BCE (depictions)",
+   "placement": [
+    "arm",
+    "leg",
+    "body"
+   ],
+   "description": "Cross-hatched vertical rectangle with antennae above and a double chevron below. Bates (1914) records these marks on Libyan chiefs in Egyptian paintings/tiles (Tell el-Amarna, tomb of Seti I, Medinet Habu); he notes they may be painting rather than tattooing, and that on the monuments only (male) chiefs bear them.",
+   "meaning": "As for the Neith-sign (Bates' identification).",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate"
+   ],
+   "based_on": "Bates 1914, p.139 Fig. 50 c.",
+   "svg": "libyan_neith_sign_chevron.svg",
+   "png": "libyan_neith_sign_chevron.png",
+   "local_name": null
+  },
+  {
+   "id": "libyan_rect_sawtooth",
+   "name": "Libyan rectangle with sawtooth triangles",
+   "region_people": "Ancient Libyans in Egyptian art",
+   "period": "c. 14th-12th c. BCE (depictions)",
+   "placement": [
+    "arm",
+    "leg",
+    "body"
+   ],
+   "description": "Upright rectangle with an inner vertical line and a row of triangles (zigzag) filling the rest. Bates lists it among \"allied forms\" of the Neith-sign.",
+   "meaning": "Bates: possibly a variant of the Neith-sign, \"accidental or significant\".",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate"
+   ],
+   "based_on": "Bates 1914, p.139 Fig. 50 e.",
+   "svg": "libyan_rect_sawtooth.svg",
+   "png": "libyan_rect_sawtooth.png",
+   "local_name": null
+  },
+  {
+   "id": "libyan_amarna_shoulder",
+   "name": "Libyan chief's shoulder tattoo: four dots over a double zigzag",
+   "region_people": "Libyan chief, Tell el-Amarna painting (after N. de G. Davies)",
+   "period": "14th c. BCE (depiction)",
+   "placement": [
+    "shoulder"
+   ],
+   "description": "Four dots above a double wavy/serrated line on the right shoulder. Bates (1914) records these marks on Libyan chiefs in Egyptian paintings/tiles (Tell el-Amarna, tomb of Seti I, Medinet Habu); he notes they may be painting rather than tattooing, and that on the monuments only (male) chiefs bear them.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate"
+   ],
+   "based_on": "Bates 1914, p.137 Fig. 48 (\"Right shoulder\").",
+   "meaning": "not documented",
+   "svg": "libyan_amarna_shoulder.svg",
+   "png": "libyan_amarna_shoulder.png",
+   "local_name": null
+  },
+  {
+   "id": "libyan_amarna_lozenge_column",
+   "name": "Libyan chief's torso tattoo: vertical column of lozenges",
+   "region_people": "Libyan chief, Tell el-Amarna painting",
+   "period": "14th c. BCE (depiction)",
+   "placement": [
+    "chest",
+    "abdomen"
+   ],
+   "description": "Six solid lozenges in a vertical row from sternum to navel, then a further group on the lower abdomen (Bates text says four; his figure shows three).",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate"
+   ],
+   "based_on": "Bates 1914, p.137 Fig. 48 (\"Sternum to Navel\", \"Lower Abdomen\") and p.138 text.",
+   "meaning": "not documented",
+   "svg": "libyan_amarna_lozenge_column.svg",
+   "png": "libyan_amarna_lozenge_column.png",
+   "local_name": null
+  },
+  {
+   "id": "libyan_amarna_side_zigzag",
+   "name": "Libyan chief's side tattoo: vertical serrated line",
+   "region_people": "Libyan chief, Tell el-Amarna painting",
+   "period": "14th c. BCE (depiction)",
+   "placement": [
+    "torso (right side)"
+   ],
+   "description": "A vertical serrated/zigzag line on the right side of the body, ending in small closed triangles.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate"
+   ],
+   "based_on": "Bates 1914, p.137 Fig. 48 (\"Right side\"); lower end simplified.",
+   "meaning": "not documented",
+   "svg": "libyan_amarna_side_zigzag.svg",
+   "png": "libyan_amarna_side_zigzag.png",
+   "local_name": null
+  },
+  {
+   "id": "libyan_ankle_lozenge",
+   "name": "Temehu chiefs' instep lozenge",
+   "region_people": "Temehu Libyan chiefs, tomb of Seti I",
+   "period": "13th c. BCE (depiction)",
+   "placement": [
+    "ankle",
+    "foot"
+   ],
+   "description": "An elongated lozenge above the instep of each foot whose points are at the ankle-bones, shared by all four Temehu chiefs in the Seti I painting.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate"
+   ],
+   "based_on": "Bates 1914, p.138 TEXT description only (his Plate III was not reproduced here); shape drawn from that description.",
+   "meaning": "not documented",
+   "svg": "libyan_ankle_lozenge.svg",
+   "png": "libyan_ankle_lozenge.png",
+   "local_name": null
+  },
+  {
+   "id": "libyan_hatched_cross",
+   "name": "Libyan rayed/hatched cross with central lozenge",
+   "region_people": "Ancient Libyans in Egyptian art",
+   "period": "c. 14th-12th c. BCE (depictions)",
+   "placement": [
+    "body (not specified per element)"
+   ],
+   "description": "A cross whose arms are rows of short transverse strokes, with a solid lozenge at the centre.",
+   "meaning": "Bates elsewhere speaks of \"sun-emblems\" among the marks; he calls the elements of Fig. 52 \"typically neolithic\" in character. No attested meaning.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate"
+   ],
+   "based_on": "Bates 1914, p.140 Fig. 52 (row 2, first element).",
+   "svg": "libyan_hatched_cross.svg",
+   "png": "libyan_hatched_cross.png",
+   "local_name": null
+  },
+  {
+   "id": "libyan_element_set",
+   "name": "Libyan tattoo elements (Bates Fig. 52 set)",
+   "region_people": "Ancient Libyans in Egyptian art",
+   "period": "c. 14th-12th c. BCE (depictions)",
+   "placement": [
+    "body (not specified per element)"
+   ],
+   "description": "Sheet of the simple units Bates collected from the monuments: dot; three strokes; two strokes; hatched triangle; triangle within a triangle; plain triangle; stroke-armed crosses; plain cross; four dots; band of triangles; chain of lozenges; double zigzag.",
+   "meaning": "Bates: \"so simple that it is dangerous to try... to relate them to extra-African origins\"; some may be the Egyptian artist's invention.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:The_eastern_Libyans_-_an_essay_(IA_easternlibyanses00bate).pdf",
+    "https://archive.org/details/easternlibyanses00bate"
+   ],
+   "based_on": "Bates 1914, p.140 Fig. 52 (all elements redrawn as one sheet).",
+   "svg": "libyan_element_set.svg",
+   "png": "libyan_element_set.png",
+   "local_name": null
+  },
+  {
+   "id": "chaoui_ter_cross",
+   "name": "Cross — ter",
+   "local_name": "ter (Chaoui Tamazight)",
+   "region_people": "Chaoui (Shawiya), Aurès, Algeria — Uled Abderrahman and other tribes",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forehead",
+    "wrist",
+    "any"
+   ],
+   "description": "Plain equal-armed cross. The commonest motif; occurs \"in all places on the body\", both as decorative lušam and as protective ahajam (e.g. on the forehead, wrists, above the pubis, sacrum). Price 1935-37: 0.50-1 franc.",
+   "meaning": "Name ter = sparrowhawk (\"l'épervier\"); authors suggest it may evoke the bird's footprint (legend Fig. 14: \"la croix (qui figure l'empreinte de la patte de l'oiseau de proie)\"). As ahajam, a forehead cross is given to women/children when siblings or children have died young, and for sterility/impotence. Rivière & Faublée: ahajam = protective/healing tattoo, traced with a knife, ideally by a man who has killed someone; used for headache, stomach pain, rheumatism (on joints), sore throat (on forehead), wounds, fever, eye trouble, sterility, impotence; accepted even by the pious.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, p.73-74, 76, 80; Fig. 14 A (left) and Fig. 16 B; photos Pl. I F, G (\"croix\").",
+   "svg": "chaoui_ter_cross.svg",
+   "png": "chaoui_ter_cross.png"
+  },
+  {
+   "id": "chaoui_aealao_burnous",
+   "name": "\"Burnous\" — aɛalao",
+   "local_name": "aɛalao (burnous)",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forehead"
+   ],
+   "description": "The most widespread Chaoui motif, found almost only on the forehead: a lozenge (with inner cross) from which two ticked arcs sweep down like a cloak, a stem with cross-bars ending in a small fork/foot, flanked by two crosses; a small fork on top. Price 2.50-5 francs.",
+   "meaning": "Decorative lušam. Rivière & Faublée (fieldwork 1935-37, Uled Abderrahman and wider Aurès): lušam = decorative tattoo, needle-pricked and rubbed with antimony (hazult) and crushed green wheat; 'uniquement décoratif'. Unmarried/divorced dancers (azria) said forehead lušam is ornament, those on cheeks and chin 'attract kisses', those on the leg 'attract the eye'. Disapproved of by pious groups (Si Ali Musa). Westermarck linked this design to the Punic \"sign of Tanit\"; the authors caution against such European interpretations.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 14 A (centre), \"le burnous\"; photos Pl. I A, B, D, H.",
+   "svg": "chaoui_aealao_burnous.svg",
+   "png": "chaoui_aealao_burnous.png"
+  },
+  {
+   "id": "chaoui_burnous_camel_neck",
+   "name": "Burnous variant surmounted by \"camel's neck\" zigzag",
+   "local_name": "aɛalao + iri mulram",
+   "region_people": "Chaoui, centre of the Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forehead",
+    "face"
+   ],
+   "description": "Double burnous: two lozenge-and-ticked-arm units stacked on a long cross-barred stem, topped by a zigzag line (\"cou de chameau\") and a small cross; ends in a fork.",
+   "meaning": "Decorative lušam (see aɛalao).",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 13 (bottom centre), legend p.80.",
+   "svg": "chaoui_burnous_camel_neck.svg",
+   "png": "chaoui_burnous_camel_neck.png"
+  },
+  {
+   "id": "chaoui_face_decor_burnous_complete",
+   "name": "Complete face décor (burnous type)",
+   "region_people": "Chaoui, centre of the Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forehead",
+    "face"
+   ],
+   "description": "Small lozenge on a stem, lozenge, two ticked arms ending in hooks, two crosses, stem with bars ending in a three-pronged foot.",
+   "meaning": "Legend: \"Les trois spécimens du haut sont des décors complets de face\" — the source does not map each element to a facial zone.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 13 top-centre specimen; legend p.80.",
+   "svg": "chaoui_face_decor_burnous_complete.svg",
+   "png": "chaoui_face_decor_burnous_complete.png",
+   "local_name": null
+  },
+  {
+   "id": "chaoui_face_decor_five_fingers",
+   "name": "Decorative face motif ending in the five fingers of the protective hand",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forehead",
+    "face"
+   ],
+   "description": "Trapezoid with hatched outer edges enclosing a herring-bone palm, flared hatched base, two X marks, ending below in a five-pronged \"hand\"; cross above, crosses either side.",
+   "meaning": "Legend: decorative, \"terminé en bas par les cinq doigts de la main protectrice. Il figure dans le décor complet de la face.\" Authors consider the hand of Fatma (khamset) exceptional and foreign to Chaoui tradition.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 16 A; legend p.80.",
+   "svg": "chaoui_face_decor_five_fingers.svg",
+   "png": "chaoui_face_decor_five_fingers.png",
+   "local_name": null
+  },
+  {
+   "id": "chaoui_tajrit_palm",
+   "name": "Palm — tajrit",
+   "local_name": "tajrit (palm); related tanaɛast",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "chin",
+    "forearm",
+    "leg"
+   ],
+   "description": "Vertical stem with short cross-bars ending below in splayed legs. The palm \"se trouve sur le menton ou les membres\". Price 1-2 francs. Tanaɛast is a form between burnous and palm, named after an ear ornament.",
+   "meaning": "Decorative lušam (cheek/chin lušam \"attract kisses\" per azria informants). As ahajam, a palm is tattooed on the calf of a sterile woman who dreamed a mule kicked her.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 14 A (right, \"la palme\"), text p.73, 76.",
+   "svg": "chaoui_tajrit_palm.svg",
+   "png": "chaoui_tajrit_palm.png"
+  },
+  {
+   "id": "chaoui_palm_forearm_rasira",
+   "name": "Palm variant (Rasira forearm)",
+   "local_name": "tajrit / tanaɛast variant",
+   "region_people": "Chaoui — Rasira (Oued Abiod valley)",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forearm"
+   ],
+   "description": "Two stacked lozenges (upper one latticed) with hooked side arms, recorded on a woman's right forearm.",
+   "meaning": "Decorative lušam.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 14 C (centre); legend: \"relevés chez les Rasira, sur l'avant-bras droit d'une femme\".",
+   "svg": "chaoui_palm_forearm_rasira.svg",
+   "png": "chaoui_palm_forearm_rasira.png"
+  },
+  {
+   "id": "chaoui_izi_fly",
+   "name": "Fly — izi",
+   "local_name": "izi, pl. izan",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "cheek"
+   ],
+   "description": "Saltire (X) with a dot in each angle. \"Fréquent sur les joues.\" The boundary with ter is loose: a simple cross may be called ter or izi depending on the tattooer.",
+   "meaning": "izi = the fly. (Gobert 1924 read the fly as a degenerate fish image — his hypothesis.)",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 14 B (first variant), text p.73.",
+   "svg": "chaoui_izi_fly.svg",
+   "png": "chaoui_izi_fly.png"
+  },
+  {
+   "id": "chaoui_heitelfut_sun",
+   "name": "Sun — heitelfut (\"eye of the day\")",
+   "local_name": "heitelfut",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "face (not specified)"
+   ],
+   "description": "Small circle with eight short rays. Sometimes clearly a radiant sun, sometimes close to the fly motif.",
+   "meaning": "heitelfut = \"l'œil du jour\" (the sun). Decorative lušam.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 14 B (sun variants); photo Pl. I E (\"soleil, croix\").",
+   "svg": "chaoui_heitelfut_sun.svg",
+   "png": "chaoui_heitelfut_sun.png"
+  },
+  {
+   "id": "chaoui_iri_mulram_camel_neck",
+   "name": "Camel's neck — iri mulram",
+   "local_name": "iri mulram",
+   "region_people": "Chaoui — rare among Uled Abderrahman, commoner in central and northern tribes",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forearm",
+    "forehead"
+   ],
+   "description": "Zigzag (broken) line, always associated with other motifs.",
+   "meaning": "iri mulram = \"the camel's neck\".",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, text p.73, legends Fig. 12 B and Fig. 13.",
+   "svg": "chaoui_iri_mulram_camel_neck.svg",
+   "png": "chaoui_iri_mulram_camel_neck.png"
+  },
+  {
+   "id": "chaoui_partridge_eye_lozenge",
+   "name": "\"Partridge eyes\" lozenges (hand décor)",
+   "local_name": "œils de perdrix (French gloss; Tamazight term not given)",
+   "region_people": "Chaoui — Touaba / Uled Daud, NW Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "hand"
+   ],
+   "description": "Latticed lozenge with hooked ticks on the upper edges, part of the forearm-hand-leg décor.",
+   "meaning": "Legend: \"Sur la main, losanges dits œils de perdrix\".",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 12 A; legend p.79.",
+   "svg": "chaoui_partridge_eye_lozenge.svg",
+   "png": "chaoui_partridge_eye_lozenge.png"
+  },
+  {
+   "id": "chaoui_ahajam_hare_foot",
+   "name": "Protective line — \"hare's foot\" (ahajam)",
+   "local_name": "ahajam",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forehead",
+    "any"
+   ],
+   "description": "A single vertical line; often an ahajam on the middle of the forehead.",
+   "meaning": "Legend: \"patte de lièvre\". Medical/protective. A Uled Daud woman whose children were dying had a vertical line marked on her forehead. Rivière & Faublée: ahajam = protective/healing tattoo, traced with a knife, ideally by a man who has killed someone; used for headache, stomach pain, rheumatism (on joints), sore throat (on forehead), wounds, fever, eye trouble, sterility, impotence; accepted even by the pious.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 16 B (first), text p.76, 78, 80.",
+   "svg": "chaoui_ahajam_hare_foot.svg",
+   "png": "chaoui_ahajam_hare_foot.png"
+  },
+  {
+   "id": "chaoui_ahajam_cock_foot",
+   "name": "Protective motif — \"cock's foot\" (ahajam)",
+   "local_name": "ahajam",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forehead",
+    "any"
+   ],
+   "description": "Vertical line springing from a small arch.",
+   "meaning": "Legend: \"patte de coq\". Rivière & Faublée: ahajam = protective/healing tattoo, traced with a knife, ideally by a man who has killed someone; used for headache, stomach pain, rheumatism (on joints), sore throat (on forehead), wounds, fever, eye trouble, sterility, impotence; accepted even by the pious.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 16 B (second).",
+   "svg": "chaoui_ahajam_cock_foot.svg",
+   "png": "chaoui_ahajam_cock_foot.png"
+  },
+  {
+   "id": "chaoui_ahajam_cock_eye",
+   "name": "Protective motif — \"cock's eye\" (ahajam)",
+   "local_name": "ahajam",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "forehead",
+    "any"
+   ],
+   "description": "Lozenge with a short vertical stroke inside.",
+   "meaning": "Legend: \"œil de coq\". Rivière & Faublée: ahajam = protective/healing tattoo, traced with a knife, ideally by a man who has killed someone; used for headache, stomach pain, rheumatism (on joints), sore throat (on forehead), wounds, fever, eye trouble, sterility, impotence; accepted even by the pious.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 16 B (third).",
+   "svg": "chaoui_ahajam_cock_eye.svg",
+   "png": "chaoui_ahajam_cock_eye.png"
+  },
+  {
+   "id": "chaoui_ahajam_healing_circle",
+   "name": "Circular ahajam around a swelling",
+   "local_name": "ahajam",
+   "region_people": "Chaoui, Aurès",
+   "period": "recorded 1935-37",
+   "placement": [
+    "hand",
+    "any (around the swelling)"
+   ],
+   "description": "Circle quartered by a cross, a dot in each quarter, short radial strokes outside. Not to be confused with the decorative sun.",
+   "meaning": "\"Les motifs circulaires entourent une grosseur pour la faire disparaître\" — drawn round a lump to make it disappear.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 16 C (left), text p.76, legend p.80.",
+   "svg": "chaoui_ahajam_healing_circle.svg",
+   "png": "chaoui_ahajam_healing_circle.png"
+  },
+  {
+   "id": "chaoui_mens_sun_wheel",
+   "name": "Men's lušam — rayed sun wheel",
+   "local_name": "lušam (men's)",
+   "region_people": "Chaoui — southern Aurès tribes; young men",
+   "period": "recorded 1935-37",
+   "placement": [
+    "wrist",
+    "hand (back)"
+   ],
+   "description": "Circle with eleven rays each ending in a fork. Men's lušam are on the top of the wrist or back of the hand of young men who played flute or drum at festivals.",
+   "meaning": "Decorative, to make the arm look elegant while playing; authors: \"moins traditionnels\" than women's lušam.",
+   "sources": [
+    "https://www.persee.fr/doc/jafr_0037-9166_1942_num_12_1_2525",
+    "https://doi.org/10.3406/jafr.1942.2525"
+   ],
+   "based_on": "Rivière & Faublée 1942, Fig. 15 (right), text p.75, legend p.80.",
+   "svg": "chaoui_mens_sun_wheel.svg",
+   "png": "chaoui_mens_sun_wheel.png"
+  },
+  {
+   "id": "aityusi_nose_lad",
+   "name": "Nose-tip tattoo of an Aït Youssi lad",
+   "region_people": "Aït Youssi (Ait Yusi), Middle Atlas, Morocco",
+   "period": "early 20th c. (Westermarck fieldwork)",
+   "placement": [
+    "nose"
+   ],
+   "description": "Vertical stem with a Y-fork at the top and a pair of upward branches lower down.",
+   "meaning": "Placed by Westermarck among \"five\"/hand-derived charms against the evil eye; no informant meaning recorded for this design.",
+   "sources": [
+    "https://archive.org/details/edward-westermarck-ritual-and-belief-in-morocco-vol-1-1968-university-books-inc"
+   ],
+   "based_on": "Westermarck 1926, Ritual and Belief in Morocco I, p.449 Fig. 58.",
+   "svg": "aityusi_nose_lad.svg",
+   "png": "aityusi_nose_lad.png",
+   "local_name": null
+  },
+  {
+   "id": "aityusi_nose_women",
+   "name": "Nose tattoo of Aït Youssi women",
+   "region_people": "Aït Youssi women, Middle Atlas, Morocco",
+   "period": "early 20th c.",
+   "placement": [
+    "nose"
+   ],
+   "description": "Vertical stem under a roof-like chevron, with two pairs of short downward branches.",
+   "meaning": "As Fig. 58 (Westermarck's evil-eye context; no informant meaning recorded).",
+   "sources": [
+    "https://archive.org/details/edward-westermarck-ritual-and-belief-in-morocco-vol-1-1968-university-books-inc"
+   ],
+   "based_on": "Westermarck 1926, I p.449 Fig. 59.",
+   "svg": "aityusi_nose_women.svg",
+   "png": "aityusi_nose_women.png",
+   "local_name": null
+  },
+  {
+   "id": "aityusi_eye_eyebrow",
+   "name": "\"Eye and eyebrow\" mark above the bridge of the nose",
+   "region_people": "Aït Youssi women, Middle Atlas, Morocco",
+   "period": "early 20th c.",
+   "placement": [
+    "forehead (above bridge of nose)"
+   ],
+   "description": "Inverted V with hooked feet and short ticks, a dot above the apex and a dot below it.",
+   "meaning": "Westermarck's interpretation: a conventionalised eye (dot) and eyebrow (angle) against the evil eye. His reading, not an informant statement.",
+   "sources": [
+    "https://archive.org/details/edward-westermarck-ritual-and-belief-in-morocco-vol-1-1968-university-books-inc"
+   ],
+   "based_on": "Westermarck 1926, I p.466 Fig. 107 (cf. Fig. 105).",
+   "svg": "aityusi_eye_eyebrow.svg",
+   "png": "aityusi_eye_eyebrow.png",
+   "local_name": null
+  },
+  {
+   "id": "aityusi_chevron_arrow",
+   "name": "Ticked chevron with arrow stem (above bridge of nose)",
+   "region_people": "Aït Youssi women, Middle Atlas, Morocco",
+   "period": "early 20th c.",
+   "placement": [
+    "forehead (above bridge of nose)"
+   ],
+   "description": "Chevron with comb-like ticks on both arms and a vertical stem carrying downward chevrons.",
+   "meaning": "Westermarck groups it with the eye/eyebrow type (his interpretation).",
+   "sources": [
+    "https://archive.org/details/edward-westermarck-ritual-and-belief-in-morocco-vol-1-1968-university-books-inc"
+   ],
+   "based_on": "Westermarck 1926, I p.466 Fig. 108.",
+   "svg": "aityusi_chevron_arrow.svg",
+   "png": "aityusi_chevron_arrow.png",
+   "local_name": null
+  },
+  {
+   "id": "aitnder_chevron_lozenges",
+   "name": "Ticked chevron over a lozenge chain (above bridge of nose)",
+   "region_people": "Aït Ndhir (Ait Nder), Middle Atlas, Morocco",
+   "period": "early 20th c.",
+   "placement": [
+    "forehead (above bridge of nose)"
+   ],
+   "description": "Chevron with outward ticks; below its apex a stem through two lozenges ending in a ticked inverted V.",
+   "meaning": "Westermarck groups it with the eye/eyebrow type (his interpretation).",
+   "sources": [
+    "https://archive.org/details/edward-westermarck-ritual-and-belief-in-morocco-vol-1-1968-university-books-inc"
+   ],
+   "based_on": "Westermarck 1926, I p.466 Fig. 113.",
+   "svg": "aitnder_chevron_lozenges.svg",
+   "png": "aitnder_chevron_lozenges.png",
+   "local_name": null
+  },
+  {
+   "id": "aitsadden_arch_stem",
+   "name": "Curved-brow arch with barred stem",
+   "region_people": "Aït Sadden women, Middle Atlas, Morocco",
+   "period": "early 20th c.",
+   "placement": [
+    "forehead (above bridge of nose)"
+   ],
+   "description": "Round arch with small ticks along its outer edge enclosing a vertical stem with many cross-bars.",
+   "meaning": "Westermarck: the curved eyebrow form of the eye/eyebrow type (his interpretation).",
+   "sources": [
+    "https://archive.org/details/edward-westermarck-ritual-and-belief-in-morocco-vol-1-1968-university-books-inc"
+   ],
+   "based_on": "Westermarck 1926, I p.466 Fig. 114.",
+   "svg": "aitsadden_arch_stem.svg",
+   "png": "aitsadden_arch_stem.png",
+   "local_name": null
+  },
+  {
+   "id": "morocco_small_cross",
+   "name": "Small cross (face, nose, under the lips, forefinger)",
+   "region_people": "Morocco — Berber women (Sefrou market); Aït Warain; widespread",
+   "period": "early 20th c.",
+   "placement": [
+    "cheek",
+    "nose",
+    "chin",
+    "hand"
+   ],
+   "description": "Small plain cross. Seen on women's cheeks at Sefrou market; on the nose tip of men and women; under the lips; on the right forefinger of either sex.",
+   "meaning": "Aït Warain informant: a nose cross was tattooed in infancy because his two elder brothers died soon after birth — a way to preserve a child's life; the same charm may go under the lips instead. A forefinger cross was considered \"hateful to God\". Westermarck treats the cross as an evil-eye charm.",
+   "sources": [
+    "https://archive.org/details/edward-westermarck-ritual-and-belief-in-morocco-vol-1-1968-university-books-inc"
+   ],
+   "based_on": "Westermarck 1926, I p.451 (text; cross form as his Fig. 68).",
+   "svg": "morocco_small_cross.svg",
+   "png": "morocco_small_cross.png",
+   "local_name": null
+  },
+  {
+   "id": "morocco_nose_line",
+   "name": "Small vertical line on the nose tip",
+   "region_people": "Morocco (Westermarck, general)",
+   "period": "early 20th c.",
+   "placement": [
+    "nose"
+   ],
+   "description": "A single short vertical line on the tip of the nose, worn by men and women as an alternative to the cross.",
+   "meaning": "Same context as the small cross (child-survival / evil-eye charm per Westermarck).",
+   "sources": [
+    "https://archive.org/details/edward-westermarck-ritual-and-belief-in-morocco-vol-1-1968-university-books-inc"
+   ],
+   "based_on": "Westermarck 1926, I p.451 (text only).",
+   "svg": "morocco_nose_line.svg",
+   "png": "morocco_nose_line.png",
+   "local_name": null
+  },
+  {
+   "id": "zaian_chin_line",
+   "name": "Single chin line (as photographed)",
+   "region_people": "Zayane (Zaian) Berber woman, near Khenifra, Middle Atlas, Morocco",
+   "period": "photographed 1955",
+   "placement": [
+    "chin"
+   ],
+   "description": "One dark vertical line from just below the lower lip (slightly left of centre on the photo) down to the jaw.",
+   "meaning": "not documented (the photo record gives no meaning). Popular sources call chin tattoos \"siyala\" and link them to womanhood/fertility; not verified in the scholarly sources read here.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:COLLECTIE_TROPENMUSEUM_Berbervrouw_uit_de_Midden_Atlas_TMnr_10028644.jpg"
+   ],
+   "based_on": "Tropenmuseum photo TMnr 10028644 (CC BY-SA 3.0), viewed and zoomed.",
+   "svg": "zaian_chin_line.svg",
+   "png": "zaian_chin_line.png",
+   "local_name": null
+  },
+  {
+   "id": "tunisia_forehead_cross_column",
+   "name": "Forehead column of stacked cross-bars (as photographed)",
+   "region_people": "Tunisian Berber woman (Tropenmuseum caption)",
+   "period": "photographed 1950-65",
+   "placement": [
+    "forehead"
+   ],
+   "description": "Vertical line from between the brows up the forehead crossed by short bars (small crosses), ending at the brows in a small solid mark.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:COLLECTIE_TROPENMUSEUM_Tunesische_Berbervrouw._TMnr_60032650.jpg"
+   ],
+   "based_on": "Tropenmuseum photo TMnr 60032650 (CC BY-SA 3.0), zoomed; low resolution — bar count approximate.",
+   "meaning": "not documented",
+   "svg": "tunisia_forehead_cross_column.svg",
+   "png": "tunisia_forehead_cross_column.png",
+   "local_name": null
+  },
+  {
+   "id": "tunisia_cheek_star",
+   "name": "Cheek four-pointed star (as photographed)",
+   "region_people": "Tunisian Berber woman (Tropenmuseum caption)",
+   "period": "photographed 1950-65",
+   "placement": [
+    "cheek"
+   ],
+   "description": "Small solid four-pointed star / dotted cross on the upper cheek below the eye.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:COLLECTIE_TROPENMUSEUM_Tunesische_Berbervrouw._TMnr_60032650.jpg"
+   ],
+   "based_on": "Tropenmuseum photo TMnr 60032650, zoomed; exact dot structure not resolvable.",
+   "meaning": "not documented",
+   "svg": "tunisia_cheek_star.svg",
+   "png": "tunisia_cheek_star.png",
+   "local_name": null
+  },
+  {
+   "id": "gobert_palm_ouardenine",
+   "name": "Palm tree (Ouardenine)",
+   "region_people": "Ouardenine, Tunisian Sahel",
+   "period": "published 1924",
+   "placement": [
+    "not specified in source figure"
+   ],
+   "description": "Naturalistic palm: fronded crown, banded trunk, double base line. Gobert's figure caption gives localities only; body placement is not in the caption (article text not read). Gobert covers \"indigènes tunisiens\" generally — not every locality is Berber-speaking.",
+   "meaning": "Gobert's Fig. 10 is titled \"Le palmier et ses dérivés\" — the palm and its derivatives.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:Tatouages_amazigh.jpg"
+   ],
+   "based_on": "E.-G. Gobert, \"Notes sur les tatouages des indigènes tunisiens\", L'Anthropologie 34 (1924), Fig. 10 no. 1 (Commons scan, PD).",
+   "svg": "gobert_palm_ouardenine.svg",
+   "png": "gobert_palm_ouardenine.png",
+   "local_name": null
+  },
+  {
+   "id": "gobert_kabyle_sidi_aich",
+   "name": "Palm derivative (Sidi Aïch, Kabylia)",
+   "region_people": "Kabyle — Sidi Aïch (Bougie/Béjaïa), Algeria",
+   "period": "published 1924",
+   "placement": [
+    "not specified in source figure"
+   ],
+   "description": "Long barred stem, M-shaped hooked top, three open lozenges each with paired oblique \"wings\". Gobert's figure caption gives localities only; body placement is not in the caption (article text not read). Gobert covers \"indigènes tunisiens\" generally — not every locality is Berber-speaking.",
+   "meaning": "Classed by Gobert as a derivative of the palm.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:Tatouages_amazigh.jpg"
+   ],
+   "based_on": "Gobert 1924, Fig. 10 no. 4.",
+   "svg": "gobert_kabyle_sidi_aich.svg",
+   "png": "gobert_kabyle_sidi_aich.png",
+   "local_name": null
+  },
+  {
+   "id": "gobert_souassi_wing_lozenge",
+   "name": "Winged dotted lozenge (Souassi)",
+   "region_people": "Souassi, Tunisia",
+   "period": "published 1924",
+   "placement": [
+    "not specified in source figure"
+   ],
+   "description": "Lozenge with four dots under a small comb/trident, flanked by long W-shaped arms with hatched inner edges, comb foot, dotted crosses either side. Gobert's figure caption gives localities only; body placement is not in the caption (article text not read). Gobert covers \"indigènes tunisiens\" generally — not every locality is Berber-speaking.",
+   "meaning": "Classed by Gobert as a derivative of the palm.",
+   "sources": [
+    "https://commons.wikimedia.org/wiki/File:Tatouages_amazigh.jpg"
+   ],
+   "based_on": "Gobert 1924, Fig. 10 no. 17.",
+   "svg": "gobert_souassi_wing_lozenge.svg",
+   "png": "gobert_souassi_wing_lozenge.png",
+   "local_name": null
+  }
+ ]
+}

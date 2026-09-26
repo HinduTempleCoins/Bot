@@ -23,7 +23,9 @@
 //   buildEffectJob(effectId, subject, opts)   -> { ok, job } | { ok:false, error|needsConsent }
 //   validateEffects()                         -> integrity check for /health + tests
 
-export const EFFECT_CATEGORIES = ['hathor', 'memes', 'creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle', 'figures', 'scenes'];
+export const EFFECT_CATEGORIES = ['hathor', 'memes', 'creature', 'holiday', 'horror', 'film', 'power', 'era', 'art', 'lifestyle', 'figures', 'scenes', 'myth-greek', 'myth-egyptian', 'myth-norse', 'myth-hindu'];
+export const MYTH_TRADITIONS = ['greek', 'egyptian', 'norse', 'hindu'];
+export const TRAD_LABEL = { greek: 'Greek', egyptian: 'Egyptian', norse: 'Norse', hindu: 'Hindu' };
 
 export const SUBJECT_KINDS = ['builtin', 'platform', 'fictional', 'real-person'];
 
@@ -554,6 +556,46 @@ export const EFFECT_TEMPLATES = [
     prompt: '{{subject}} with a crew of stylish characters posing together, magazine group shot, confident', negative: 'blurry, deformed' },
 ];
 
+// ── Mythology: "as" and "with" effects for every god/hero in the Hierophant encyclopedia (Greek, Egyptian, Norse,
+// Hindu). The figure's LOOK (its traditional iconography, when the encyclopedia has it) goes into the prompt, so a
+// god renders with its real attributes. Existing hand-written "as-<id>" effects are kept and grouped, not duplicated.
+import { ENTITIES as HIEROPHANT_ENTITIES } from './hierophant-entities.mjs';
+export function godLook(ent) {
+  const first = String(ent.desc || '').split(/\s[—–-]\s|[.;]\s/)[0].replace(/[\s.,;—–-]+$/, '');
+  if (!ent.look) return `${ent.name}, ${first}`.replace(/\s+/g, ' ').trim();
+  // the look carries scholarly notes too ("a later convention", "do NOT use the horned helmet", citations);
+  // those belong on the wiki — naming a thing in a prompt draws it, so only the depicting sentences go in
+  const NOTE = /\b(not|NOT|no|avoid|later|convention|invention|attested|modern|Renaissance|Hellenistic-and-later|cult type|variant|varies)\b/i;
+  const keep = String(ent.look).replace(/\s*\([^)]*\)/g, '').split(/(?<=[.;])\s+/).filter((x) => !NOTE.test(x));
+  return (keep.join(' ') || `${ent.name}, ${first}`).replace(/\s+/g, ' ').trim();
+}
+export const MYTH_FIGURES = HIEROPHANT_ENTITIES.filter((e) => MYTH_TRADITIONS.includes(e.tradition) && ['god', 'goddess', 'hero', 'creature'].includes(e.type));
+{
+  const have = new Set(EFFECT_TEMPLATES.map((e) => e.id));
+  for (const g of MYTH_FIGURES) {
+    const cat = `myth-${g.tradition}`;
+    const look = godLook(g);
+    if (!have.has(`as-${g.id}`)) {
+      EFFECT_TEMPLATES.push({ id: `as-${g.id}`, title: `As ${g.name}`, category: cat, figure: g.id,
+        prompt: `{{subject}} as ${g.name} of ${TRAD_LABEL[g.tradition]} mythology — ${look} — majestic, cinematic, highly detailed`, negative: 'blurry, deformed, extra limbs' });
+    }
+    if (!have.has(`with-${g.id}`)) {
+      EFFECT_TEMPLATES.push({ id: `with-${g.id}`, title: `With ${g.name}`, category: cat, figure: g.id,
+        prompt: `{{subject}} standing beside ${g.name} of ${TRAD_LABEL[g.tradition]} mythology (${look}), cinematic, highly detailed`, negative: 'blurry, deformed, extra limbs' });
+    }
+  }
+  if (!have.has('group-custom')) {
+    EFFECT_TEMPLATES.push({ id: 'group-custom', title: 'Your own group scene', category: 'scenes',
+      prompt: '{{subject}} together in one scene, {{action}}, cinematic, highly detailed', negative: 'blurry, deformed, extra limbs, merged bodies' });
+  }
+}
+/** Effects for one tradition: the generated ones plus the hand-written "as-<god>" effects for its gods. */
+export function listMythology(tradition) {
+  const ids = new Set(MYTH_FIGURES.filter((g) => g.tradition === tradition).map((g) => g.id));
+  return EFFECT_TEMPLATES.filter((e) => e.category === `myth-${tradition}` || (e.category === 'figures' && ids.has(e.id.replace(/^as-/, ''))));
+}
+export function mythFigure(id) { return MYTH_FIGURES.find((g) => g.id === id) || null; }
+
 const EFFECT_BY_ID = new Map(EFFECT_TEMPLATES.map((e) => [e.id, e]));
 export function getEffect(id) { return EFFECT_BY_ID.get(String(id || '')) || null; }
 export function listEffects(category) {
@@ -614,6 +656,10 @@ export function buildEffectJob(effectId, subjectInput = {}, opts = {}) {
   // optional second slot {{figure}} for the "appear as/with a famous figure" templates
   const figure = (opts.figure && String(opts.figure).trim()) || 'the figure';
   prompt = prompt.replace(/\{\{\s*figure\s*\}\}/g, figure);
+  // what they are doing (group scenes: "playing poker") — fills {{action}}, or is appended to any other effect
+  const action = String(opts.action || '').replace(/\s+/g, ' ').trim().slice(0, 200);
+  if (/\{\{\s*action\s*\}\}/.test(prompt)) prompt = prompt.replace(/\{\{\s*action\s*\}\}/g, action || 'posing together');
+  else if (action) prompt += `, ${action}`;
   if (subject.look) prompt += `. Character look: ${subject.look}`;
   // character-referenced when we have a reference image; a LoRA when the character has one; else a
   // described look renders on the free hosted text-to-image path (no GPU on our side).

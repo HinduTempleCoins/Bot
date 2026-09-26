@@ -28,6 +28,8 @@
 //   node integrations/tenant-grants.mjs  # prints aggregate counts only (never per-tenant detail)
 
 import crypto from 'node:crypto';
+import { readFileSync, writeFileSync, renameSync, existsSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 
 // ---- injectable clock (tests advance time without real waiting) ----
 let _now = () => Date.now();
@@ -50,6 +52,33 @@ const _caps = new Map();
 
 // index: tenantId -> Set<capabilityId> (fast per-tenant lookup + isolation checks)
 const _byTenant = new Map();
+
+// ---- optional persistence (TENANT_GRANTS_PATH): the registry of references survives restart ----
+const GRANTS_PATH = () => process.env.TENANT_GRANTS_PATH || '';
+function _persist() {
+  const p = GRANTS_PATH(); if (!p) return;
+  try {
+    mkdirSync(dirname(p), { recursive: true });
+    const rows = [..._caps.values()].map((r) => ({ ...r, expiresAt: Number.isFinite(r.expiresAt) ? r.expiresAt : null }));
+    const tmp = `${p}.tmp-${process.pid}`;
+    writeFileSync(tmp, JSON.stringify(rows), { mode: 0o600 });
+    renameSync(tmp, p);
+  } catch { /* soft-fail */ }
+}
+export function __load() {
+  const p = GRANTS_PATH(); if (!p || !existsSync(p)) return 0;
+  try {
+    const rows = JSON.parse(readFileSync(p, 'utf8'));
+    for (const r of rows) {
+      if (!r || !r.id || !r.tenantId) continue;
+      const rec = { ...r, expiresAt: r.expiresAt == null ? Infinity : r.expiresAt, scopes: Array.isArray(r.scopes) ? r.scopes : [] };
+      _caps.set(rec.id, rec);
+      if (!_byTenant.has(rec.tenantId)) _byTenant.set(rec.tenantId, new Set());
+      _byTenant.get(rec.tenantId).add(rec.id);
+    }
+    return rows.length;
+  } catch { return 0; }
+}
 
 function isExpired(record) {
   return Number.isFinite(record.expiresAt) && _now() > record.expiresAt;
@@ -104,6 +133,7 @@ export function connectCapability(tenantId, { provider, capability, scopes = [],
   _caps.set(record.id, record);
   if (!_byTenant.has(tid)) _byTenant.set(tid, new Set());
   _byTenant.get(tid).add(record.id);
+  _persist();
   return redact(record);
 }
 
@@ -171,6 +201,7 @@ function _drop(capabilityId) {
     ids.delete(capabilityId);
     if (ids.size === 0) _byTenant.delete(record.tenantId);
   }
+  _persist();
   return true;
 }
 
@@ -193,6 +224,7 @@ export function revokeTenant(tenantId) {
     if (_caps.delete(id)) count += 1;
   }
   _byTenant.delete(tid);
+  _persist();
   return count;
 }
 
@@ -215,6 +247,8 @@ export function __reset() {
   _byTenant.clear();
   __setClock(null);
 }
+
+__load();
 
 // ---- CLI (aggregate counts only, never per-tenant or secret detail) ----
 if (process.argv[1] && process.argv[1].endsWith('tenant-grants.mjs')) {

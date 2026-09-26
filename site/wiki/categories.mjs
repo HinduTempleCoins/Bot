@@ -14,7 +14,7 @@
 export const CATEGORIES = [
   {
     id: 'start', name: 'Start here', blurb: 'What this whole thing is, in the order it makes sense to read it.',
-    pages: ['Start Here', 'SoapBox', 'The Surfaces', 'Van Kush Family', 'MELEK', 'Hathor', 'Hathor (AI Witness)', 'Crypt-ology', 'Crypto Glossary', 'Glossaries', 'Autodidacts and Credentials'],
+    pages: ['Start Here', 'SoapBox', 'The Surfaces', 'Van Kush Family', 'MELEK', 'Hathor', 'Hathor (AI Witness)', 'Supporting Hathor', 'Crypt-ology', 'Crypto Glossary', 'Glossaries', 'Autodidacts and Credentials'],
   },
   {
     id: 'chains', name: 'Chains and how they work', blurb: 'The blockchains we run, and the machinery underneath them.',
