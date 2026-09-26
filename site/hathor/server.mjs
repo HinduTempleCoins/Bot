@@ -194,11 +194,10 @@ const STYLE = `<style>
 </style>`;
 
 const FOOTER = `<footer>
-  <b>Free-first, no login.</b> Images are made by free / free-tier engines — we try
-  <b>Cloudflare Workers AI</b>, then <b>Google Gemini</b>, then <b>Pollinations.ai</b> (keyless), and we
-  label which one made each image. Cost-bearing engines run under a daily budget and a circuit breaker —
-  no runaway billing. We never see or store your keys, and we never proxy arbitrary URLs — only images
-  we generated and saved here. <i>Phase 1.</i> Coming next: ComfyUI on demand and Colab teach-lessons.
+  <b>Free, no login.</b> Images are made on <b>our own servers</b>, and every image says which engine made it.
+  When our engine is busy you can use <a href="/engines">your own</a> — your PC, a Colab, a Modal GPU, or a fal.ai
+  or Gemini key. Keys you type stay in your browser; we never proxy arbitrary URLs — only images we made and saved here.
+  <a href="/learn/make">Learn to make it yourself</a>.
   <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Shilpa Shastra</a></div>
   <div style="margin-top:6px">Part of Hathor's system: <a href="${esc(HATHOR_LIVE)}">hathor.live</a> · <a href="${esc(ALMANACK)}">the Almanack</a> · <a href="${esc(WIKI)}">the Library of Ashurbanipal</a> · <a href="${esc(REPO)}">the Bot repo</a> · <a href="${esc(DATA)}">Data</a></div>
   <div style="margin-top:6px">💬 <a href="${esc(DISCORD)}" target=_blank rel="noopener"><b>Chat on Discord</b></a> — Hathor is in there. Come say hi.</div>
