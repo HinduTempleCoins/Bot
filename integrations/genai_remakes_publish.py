@@ -37,9 +37,17 @@ SCENES = {
     "minoan_ladies_blue": ("Minoans", "The Ladies in Blue", "Knossos fresco reproduction, Metropolitan Museum (CC0)"),
     "minoan_prince_lilies": ("Minoans", "The Prince of the Lilies", "Knossos fresco, Heraklion (Wikimedia, CC BY-SA 4.0)"),
     "minoan_saffron_gatherers": ("Minoans", "The saffron gatherers of Thera", "Akrotiri fresco (Wikimedia, CC BY-SA 4.0)"),
+    "hannibal_alps_poussin": ("Carthage & the Phoenicians", "Hannibal crosses the Alps", "Nicolas Poussin (public domain)"),
+    "hannibal_rhone_motte": ("Carthage & the Phoenicians", "Hannibal's elephants cross the Rhone", "Henri Motte, 1878 (public domain)"),
+    "phoenician_galley_euphrates": ("Carthage & the Phoenicians", "A Phoenician war galley", "Assyrian relief, British Museum (Wikimedia, CC BY-SA 4.0)"),
+    "phoenician_hippos_ships": ("Carthage & the Phoenicians", "Phoenician ships carrying cedar", "Khorsabad relief, Louvre (public domain)"),
+    "hera_suckling_herakles": ("Greece & Scheria", "Hera nursing Herakles", "Apulian vase, British Museum F107 (Wikimedia, CC BY 2.5)"),
+    "herakles_snakes_louvre": ("Greece & Scheria", "The infant Herakles strangles the serpents", "Attic vase, Louvre G192 (public domain)"),
+    "odysseus_alcinous_hayez": ("Greece & Scheria", "Odysseus at the court of Alcinous, Scheria", "Francesco Hayez (public domain)"),
+    "odysseus_nausicaa_lastman": ("Greece & Scheria", "Nausicaa meets Odysseus on Scheria", "Pieter Lastman (public domain)"),
 }
-GROUP_ORDER = ["Headcones & perfume", "Minoans", "Nubia", "Egypt"]
-PEOPLE_ORDER = ["egyptian", "minoan", "nubian", "libyan", "levantine", "pale"]
+GROUP_ORDER = ["Headcones & perfume", "Lotus perfume", "The Nile", "Visitors & the Four Peoples", "Minoans", "Carthage & the Phoenicians", "Greece & Scheria", "Nubia", "Egypt"]
+PEOPLE_ORDER = ["depicted", "egyptian", "minoan", "punic", "greek", "nubian", "libyan", "levantine", "pale"]
 LOOKS = ["1_real", "2_half", "3_full"]
 
 
@@ -51,7 +59,24 @@ def web_jpg(src, dst, long_side=900):
     im.save(dst, "JPEG", quality=84, optimize=True, progressive=True)
 
 
-def build(renders, sources, out):
+SET_GROUPS = {"headcones": "Headcones & perfume", "perfume": "Lotus perfume", "nile": "The Nile",
+              "visitors": "Visitors & the Four Peoples", "hyperborea": "Hyperborea & Delos"}
+
+
+def load_extra(paths):
+    """Titles/credits for scenes added by data file (<name>.jsonl next to the <name>/ crop dir)."""
+    for p in paths:
+        if not p.endswith(".jsonl") or not os.path.exists(p):
+            continue
+        for line in open(p):
+            line = line.strip()
+            if line:
+                r = json.loads(line)
+                SCENES.setdefault(r["key"], (SET_GROUPS.get(r.get("set"), "Scenes"), r.get("title", r["key"]), r.get("credit", "")))
+
+
+def build(renders, sources, out, extra=()):
+    load_extra(extra)
     os.makedirs(out, exist_ok=True)
     srcmap = {}
     for d in sources:
@@ -93,6 +118,7 @@ def build(renders, sources, out):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("renders"); ap.add_argument("sources", nargs="+"); ap.add_argument("--out", required=True)
+    ap.add_argument("--extra", nargs="*", default=[], help="scene manifests (*.jsonl) for titles/credits")
     a = ap.parse_args()
-    n, imgs = build(a.renders, a.sources, a.out)
+    n, imgs = build(a.renders, a.sources, a.out, a.extra)
     print(f"{n} scenes, {imgs} images -> {a.out}")

@@ -17,7 +17,7 @@ export const LOOKS = [
   { id: '2_half', name: 'Half vaporwave', note: 'The same scene, half-shifted into VR-vaporwave.' },
   { id: '3_full', name: 'Full MELEK aesthetic', note: 'Neon temple, glowing visors, gold and magenta.' },
 ];
-export const PEOPLES = { egyptian: 'Egyptian', minoan: 'Minoan', nubian: 'Nubian', libyan: 'Libyan (Amazigh)', levantine: 'Levantine', pale: 'Pale' };
+export const PEOPLES = { depicted: 'As depicted', egyptian: 'Egyptian', minoan: 'Minoan', punic: 'Punic (Carthaginian)', greek: 'Greek', nubian: 'Nubian', libyan: 'Libyan (Amazigh)', levantine: 'Levantine', pale: 'Pale' };
 
 export function loadManifest(dir = REMAKES_DIR()) {
   try {
