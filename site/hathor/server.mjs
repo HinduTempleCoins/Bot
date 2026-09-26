@@ -285,6 +285,7 @@ export function homePage(opts = {}) {
         <label class=pill style="cursor:pointer">📎 Upload a photo <input type=file id=refimg accept="image/*" hidden></label>
         <span class=muted id=refname style="font-size:12px">optional — we'll make new images <b>of it</b> (your face, a product, anything)</span>
       </div>
+      <p class=muted style="font-size:12px;margin:6px 0 0">🛠️ Putting yourself into images is still being built, so it is not perfect yet — faces may drift while we grow the libraries.</p>
       <input type=hidden name=image id=refurl>
       <div class=row style="margin-top:12px">${sizeSelect()}
         <input class=q style="flex:1 1 180px;width:auto" name=place placeholder="place (optional — grounds the scene, e.g. North Texas)">
@@ -570,6 +571,7 @@ export function templateDetailView(id) {
     ${photoForward ? `<div class=card style="border-color:var(--gold)"><b>★ Turn YOU into this.</b> <span class=muted>Upload your photo below — this template drops you into the scene and keeps your face. Skip it to generate a fresh character instead.</span></div>` : ''}
     <div class=card><p class=muted style="font-size:13px">Example prompt this builds:</p>
       <p style="font-style:italic">${esc(exampleFor(t.id))}</p></div>
+    ${wipNote('likeness')}
     <form class=gform id=tplform method=post action="/api/generate"><input type=hidden name=template value="${esc(t.id)}">
       <div class=card>${fields}
         ${photoUploadWidget('tpl')}
@@ -1296,6 +1298,14 @@ function shareCta(intro = 'Share your creation —') {
 }
 
 // ── character effects gallery (operator: Animals, Holidays, Movies, Military, Mafia, Cartel…) ──────
+// Honest "still being built" notices (operator 2026-09-26): Hathor and likeness are not finished yet.
+export function wipNote(kind = 'likeness') {
+  const text = kind === 'hathor'
+    ? 'Hathor is still being completed. We are building her libraries of references, and she will be represented much better soon. Right now it is definitely not perfect, and the person beside her sometimes borrows her horns.'
+    : 'Putting yourself or your own character into a scene is still being built. We are growing the libraries that keep a likeness steady, so it is definitely not perfect yet, and faces may drift.';
+  return `<div class=card style="border-color:var(--gold)"><p class=muted style="font-size:13px;margin:0">🛠️ ${esc(text)}</p></div>`;
+}
+
 function effectCard(e) {
   return `<a class=sec href="/fx/${esc(e.id)}"><div class=t>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></div></a>`;
 }
@@ -1306,6 +1316,7 @@ export function effectPage(e, note = '') {
   const body = `<p class=muted><a href="/char">← All effects</a></p>
     <h1>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></h1>
     ${note ? `<div class=card><p class=empty>${esc(note)}</p></div>` : ''}
+    ${wipNote(e.category === 'hathor' ? 'hathor' : 'likeness')}
     <form class=gform id=fxform method=post action="/api/fx"><input type=hidden name=effect value="${esc(e.id)}"><div class=card>
       <label class=fld for=who>Who goes in the picture?</label>
       <select class=q name=who id=who style="width:auto">${chars}<option value="platform">My own character (upload its picture)</option>
@@ -1383,6 +1394,7 @@ export function charIndexView() {
     `<h2>${esc(EFFECT_CAT_LABELS[g.c] || g.c)} <span class=muted style="font-size:13px">(${g.items.length})</span></h2><div class=grid>${g.items.map(effectCard).join('')}</div>`).join('');
   const body = `<h1>Character effects <span class=muted style="font-size:14px">· same character, brand-new scene</span></h1>
     <p class=muted>Pick a character, pick an effect — it keeps the <b>same character</b> but makes a completely new image, not the original photo. Use built-in <b>Hathor</b>, <a href="#create">create your own</a>, or a fictional one. A real person’s face needs consent; fictional and platform characters are open. Public figures are fair game for satire.</p>
+    ${wipNote('likeness')}
     <h2>Characters</h2>${chars}
     ${cats}
     ${shareCta('Made something you love? Show it off —')}
@@ -1635,6 +1647,7 @@ export function hathorIndexView() {
   const items = listEffects('hathor');
   const body = `<h1>Appear with Hathor <span class=muted style="font-size:14px">· ${items.length} ways and growing</span></h1>
     <p class=muted>Hathor is the MELEK AI Witness. Put yourself in a photo <b>with Hathor</b> — pick a scene, add your own character or a fictional one, and generate. Free, no login. It keeps you the same and drops you into the shot with her.</p>
+    ${wipNote('hathor')}
     <div class=grid>${items.map(effectCard).join('')}</div>
     ${shareCta('Made one with Hathor? Show it off —')}
     <div class=card><p class=muted style="font-size:13px">Want to appear <b>as</b> Hathor, a deity, or a famous figure? See <a href="/char">all character effects</a>. New scenes are added often.</p></div>`;
@@ -1647,6 +1660,7 @@ export function halloweenIndexView() {
   const holiday = listEffects('holiday');
   const body = `<h1>Halloween <span class=muted style="font-size:14px">· ${horror.length} horror looks</span></h1>
     <p class=muted>Turn yourself into anything spooky — pick a look, add your character or a fictional one, and generate. Free, no login. Meet <b>Anpu the Jackal Warden</b>, our Halloween character (over on <a href="/char">Characters</a>).</p>
+    ${wipNote('likeness')}
     <h2>Horror &amp; Halloween Movies <span class=muted style="font-size:13px">(${horror.length})</span></h2>
     <div class=grid>${horror.map(effectCard).join('')}</div>
     <h2>Holiday looks <span class=muted style="font-size:13px">(${holiday.length})</span></h2>

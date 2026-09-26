@@ -546,3 +546,13 @@ test('character effects are runnable: /fx page, Hathor carries her reference, ow
   assert.match(seen.prompt, /Two people in the picture: the goddess Hathor/);
   __setGenerator(null);
 });
+
+test('still-being-built notices show on Hathor, effects, character, Halloween, template and home upload', async () => {
+  assert.match((await call({ url: '/hathor' })).text(), /Hathor is still being completed/);
+  assert.match((await call({ url: '/fx/hathor-throne' })).text(), /Hathor is still being completed/);
+  assert.match((await call({ url: '/fx/vampire-count' })).text(), /still being built/);
+  assert.match((await call({ url: '/char' })).text(), /still being built/);
+  assert.match((await call({ url: '/halloween' })).text(), /still being built/);
+  assert.match((await call({ url: '/templates/egyptian-temple-poster' })).text(), /still being built/);
+  assert.match((await call({ url: '/' })).text(), /still being built/);
+});
