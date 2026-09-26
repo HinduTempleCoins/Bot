@@ -31,7 +31,10 @@ export function scriptsIndexBody(index) {
     ${cards || '<div class=card><p class=muted>The script library is being published.</p></div>'}`;
 }
 
+// Scripts not in Unicode (Phrygian, Proto-Sinaitic…) are drawn from published sign tables: no font, so the
+// inscription is composed from the sign images themselves.
 export function scriptPageBody(cat) {
+  if (String(cat.font || '').startsWith('drawn')) return drawnScriptBody(cat);
   const rtl = RTL.has(cat.id);
   const tiles = cat.glyphs.map((g) => `<a class=gl href="/scripts/img/${esc(g.file)}" download="${esc(cat.id)}-${esc(g.cp)}.png" title="${esc(g.name)}">
       <img src="/scripts/img/${esc(g.file)}" alt="${esc(g.name)}" loading=lazy width=72 height=72><span>${esc(g.name.replace(/^[A-Z ]+?(LETTER|SIGN|RUNE|SYLLABLE|CHARACTER|IDEOGRAM|HIEROGLYPH)\s*/, ''))}</span></a>`).join('');
@@ -60,9 +63,40 @@ export function scriptPageBody(cat) {
     <p class=muted style="font-size:12px">Click a sign to add it to the inscription; shift-click (or right-click → save) to download the sign itself.</p>`;
 }
 
+function drawnScriptBody(cat) {
+  const tiles = cat.glyphs.map((g, i) => `<a class=gl href="/scripts/img/${esc(g.file)}" data-i="${i}" title="${esc([g.name, g.meaning, g.note, g.source].filter(Boolean).join(' — '))}">
+      <img src="/scripts/img/${esc(g.file)}" alt="${esc(g.name)}" loading=lazy width=72 height=72><span>${esc(g.translit || g.name)}${g.meaning ? ` · ${esc(g.meaning)}` : ''}</span></a>`).join('');
+  return `<style>.gls{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+    .gl{display:flex;flex-direction:column;align-items:center;border:1px solid var(--line2);border-radius:8px;padding:8px 4px;background:#fff;text-decoration:none}
+    .gl img{width:72px;height:72px} .gl span{font-size:10px;color:#555;text-align:center;margin-top:4px;word-break:break-word}</style>
+    <p class=muted><a href="/scripts">← All scripts</a></p>
+    <h1>${esc(cat.name)} <span class=muted style="font-size:14px">· ${esc(cat.count)} signs</span></h1>
+    ${cat.note ? `<p class=muted>${esc(cat.note)}</p>` : ''}
+    <p class=muted style="font-size:12px">This script is not in Unicode, so each sign was drawn from published sign tables. Hover a sign for its reading,
+      the source it was drawn from, and where scholars disagree.</p>
+    <div class=card><b>Write an inscription</b>
+      <p class=muted style="font-size:12px">Click signs to add them. Download a transparent PNG to carve, paint or print.</p>
+      <div class=row style="gap:8px;flex-wrap:wrap"><select class=q id=col style="width:auto"><option value="#111">black</option><option value="#b8860b">gold</option><option value="#8b2500">red ochre</option><option value="#1e3a8a">lapis blue</option><option value="#f5f0e6">white</option></select>
+        <label class=muted style="font-size:13px"><input type=checkbox id=rtl> right to left (mirrors the signs)</label>
+        <button type=button id=undo class=pill>Undo</button><button type=button id=dl>Download PNG</button></div>
+      <canvas id=cv style="max-width:100%;margin-top:10px;background:repeating-conic-gradient(#eee 0 25%,#fff 0 50%) 0/16px 16px"></canvas></div>
+    <div class=gls>${tiles}</div>
+    <script>(function(){var seq=[],cv=document.getElementById('cv'),col=document.getElementById('col'),rtl=document.getElementById('rtl'),imgs={};
+      document.querySelectorAll('.gl').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();seq.push(a.href);draw();});});
+      function load(u){return imgs[u]||(imgs[u]=new Promise(function(r){var i=new Image();i.onload=function(){r(i);};i.src=u;}));}
+      async function draw(){if(!seq.length){cv.width=cv.height=0;return;}var S=120,ims=await Promise.all(seq.map(load));cv.width=S*ims.length+20;cv.height=S+20;
+        var x=cv.getContext('2d'),t=document.createElement('canvas');t.width=t.height=S;var tx=t.getContext('2d');
+        ims.forEach(function(im,k){tx.clearRect(0,0,S,S);tx.save();if(rtl.checked){tx.translate(S,0);tx.scale(-1,1);}tx.drawImage(im,0,0,S,S);tx.restore();
+          tx.globalCompositeOperation='source-in';tx.fillStyle=col.value;tx.fillRect(0,0,S,S);tx.globalCompositeOperation='source-over';
+          var pos=rtl.checked?(ims.length-1-k):k;x.drawImage(t,10+pos*S,10);});}
+      col.addEventListener('change',draw);rtl.addEventListener('change',draw);
+      document.getElementById('undo').addEventListener('click',function(){seq.pop();draw();});
+      document.getElementById('dl').addEventListener('click',function(){if(!seq.length)return;var a=document.createElement('a');a.download='${esc(cat.id)}-inscription.png';a.href=cv.toDataURL('image/png');a.click();});})();</script>`;
+}
+
 /** Serve /scripts/img/<script>/<cp>.png and /scripts/fonts/<Stem>-Regular.ttf — nothing else. */
 export function serveGlyphAsset(res, kind, rel, dir = GLYPHS_DIR()) {
-  const ok = kind === 'img' ? /^[a-z_]+\/[0-9A-F]{4,6}\.png$/.test(rel) : /^NotoSans[A-Za-z]+-Regular\.ttf$/.test(rel);
+  const ok = kind === 'img' ? (/^[a-z_]+\/[A-Za-z0-9_-]+\.png$/.test(rel) && !rel.includes('..')) : /^NotoSans[A-Za-z]+-Regular\.ttf$/.test(rel);
   const full = join(dir, kind === 'img' ? '' : 'fonts', normalize(String(rel || '')));
   if (!ok || !full.startsWith(normalize(dir) + sep) || !existsSync(full)) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
   res.writeHead(200, { 'content-type': kind === 'img' ? 'image/png' : 'font/ttf', 'cache-control': 'public, max-age=604800', 'access-control-allow-origin': '*' });
