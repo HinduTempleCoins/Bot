@@ -1,4 +1,4 @@
-"""genai_cpu_worker.py — OUR image generator for the Studio, on OUR server's CPU (melek-witnesses).
+"""genai_cpu_worker.py — OUR image generator for the Studio, on OUR server's CPU (our render server).
 
 Replaces the JS SD2.1 worker (~15 min/image) with diffusers on CPU:
   Dreamshaper-8 (SD1.5) + LCM-LoRA  -> 6 steps, ~2.5 min for 512x768 on 8 cores
@@ -24,10 +24,11 @@ Tests: python -m unittest integrations/test_genai_cpu_worker.py   (fully offline
 """
 import base64, io, itertools, json, os, queue, secrets, threading, time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+_HOME = os.environ.get("MELEK_GEN_HOME", os.path.dirname(os.path.abspath(__file__)))
 
 BASE_MODEL = os.environ.get("CPU_SD_BASE", "Lykon/dreamshaper-8")
 LCM_LORA = os.environ.get("CPU_SD_LCM_LORA", "latent-consistency/lcm-lora-sdv1-5")
-HATHOR_REF = os.environ.get("CPU_SD_HATHOR_REF", "/opt/melek-gen/assets/hathor-head-original.png")
+HATHOR_REF = os.environ.get("CPU_SD_HATHOR_REF", os.path.join(_HOME, "assets/hathor-head-original.png"))
 THREADS = int(os.environ.get("CPU_SD_THREADS", "8"))
 # "cpu" on our servers. A user's own copy on a GPU (Modal, Colab, their PC) sets CPU_SD_DEVICE=cuda (or mps).
 DEVICE = os.environ.get("CPU_SD_DEVICE", "cpu")

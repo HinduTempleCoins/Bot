@@ -12,9 +12,10 @@ Generating FROM the skeleton keeps one hand per wrist and the right number of fi
   python genai_annotate.py <image_or_dir>...        (CPU; OpenPose from lllyasviel/Annotators, MediaPipe Face Landmarker)
 """
 import json, os, sys, time, types
+_HOME = os.environ.get("MELEK_GEN_HOME", os.path.dirname(os.path.abspath(__file__)))
 
 IMG_EXT = (".png", ".jpg", ".jpeg", ".webp")
-FACE_MODEL = os.environ.get("FACE_LANDMARKER", "/opt/melek-gen/models/face_landmarker.task")
+FACE_MODEL = os.environ.get("FACE_LANDMARKER", os.path.join(_HOME, "models/face_landmarker.task"))
 BODY18 = ["nose", "neck", "r_shoulder", "r_elbow", "r_wrist", "l_shoulder", "l_elbow", "l_wrist", "r_hip", "r_knee",
           "r_ankle", "l_hip", "l_knee", "l_ankle", "r_eye", "l_eye", "r_ear", "l_ear"]
 # MediaPipe face-mesh indices for named anchors (canonical 468/478-point topology)

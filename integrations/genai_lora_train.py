@@ -1,4 +1,4 @@
-"""genai_lora_train.py — train a concept LoRA on OUR CPU (melek-witnesses). Reusable for every Studio concept.
+"""genai_lora_train.py — train a concept LoRA on OUR CPU (our render server). Reusable for every Studio concept.
 
 Method (the "learn it from examples" flywheel):
   1. DATASET  — known-good images of the concept (for Hathor: the original + her canonical renders).

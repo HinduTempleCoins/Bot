@@ -3,7 +3,7 @@
   python hathor_video.py storyboard.json --out film.mp4
 
 storyboard.json:
-  { "voice": "/opt/melek-gen/voices/en_GB-alba-medium.onnx",
+  { "voice": "voices/en_GB-alba-medium.onnx",
     "size": "1920x1080", "fps": 30,
     "shots": [ { "image": "path.png", "say": "narration for this shot", "caption": "optional on-screen text",
                  "min": 3.5 } , ... ] }

@@ -15,11 +15,12 @@ CLI (all CPU, on our box):
   python genai_concepts.py train <concept> --pos DIR_OR_FILES... --neg DIR_OR_FILES...
   python genai_concepts.py score <concept> IMAGE...
   python genai_concepts.py list
-Models are saved under $CONCEPTS_DIR (default /opt/melek-gen/concepts). Embedder is injectable for tests.
+Models are saved under $CONCEPTS_DIR (default: concepts/ beside this script). Embedder is injectable for tests.
 """
 import argparse, json, os, pickle, sys, time
+_HOME = os.environ.get("MELEK_GEN_HOME", os.path.dirname(os.path.abspath(__file__)))
 
-CONCEPTS_DIR = os.environ.get("CONCEPTS_DIR", "/opt/melek-gen/concepts")
+CONCEPTS_DIR = os.environ.get("CONCEPTS_DIR", os.path.join(_HOME, "concepts"))
 IMG_EXT = (".png", ".jpg", ".jpeg", ".webp")
 
 _embedder = None
