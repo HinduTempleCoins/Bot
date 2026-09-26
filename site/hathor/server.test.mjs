@@ -457,3 +457,22 @@ test('/downloads serves only the allowlisted worker files', async () => {
     assert.doesNotMatch(r.text(), /SECRET|PRIVATE KEY|"dependencies"/, bad);
   }
 });
+
+test('/remakes renders the manifest and serves only its images', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const d = mkdtempSync(join(tmpdir(), 'remakes-'));
+  mkdirSync(join(d, 'scene_a'));
+  writeFileSync(join(d, 'scene_a', 'src.jpg'), 'JPEGDATA');
+  writeFileSync(join(d, 'scene_a', '1_real_nubian.jpg'), 'JPEGDATA');
+  writeFileSync(join(d, 'manifest.json'), JSON.stringify({ scenes: [{ key: 'scene_a', title: 'Banquet <b>', group: 'Egypt', credit: 'Tomb of Nebamun', source: 'src.jpg', looks: { '1_real': { nubian: '1_real_nubian.jpg' } } }] }));
+  process.env.REMAKES_DIR = d;
+  const r = await call({ url: '/remakes' });
+  assert.equal(r.statusCode, 200);
+  assert.match(r.text(), /Banquet &lt;b&gt;/);
+  assert.match(r.text(), /\/remakes\/img\/scene_a\/1_real_nubian\.jpg/);
+  assert.equal((await call({ url: '/remakes/img/scene_a/1_real_nubian.jpg' })).statusCode, 200);
+  for (const bad of ['/remakes/img/../manifest.json', '/remakes/img/scene_a/../../etc.jpg', '/remakes/img/manifest.json']) {
+    assert.notEqual((await call({ url: bad })).statusCode, 200, bad);
+  }
+  delete process.env.REMAKES_DIR;
+});
