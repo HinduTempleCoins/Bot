@@ -110,6 +110,48 @@ export class TutorialState {
     return Object.keys(this.data.accounts[account]?.responses ?? {});
   }
 
+  // ---- Instructional Series progress (tutorial/instructional.mjs lessons) -------------------------
+  // Stored beside the stage responses under accounts[account].lessons[lessonId], so one per-user store
+  // serves both programs (design doc: "same per-user store, different purposes").
+
+  /** Lesson ids this account has completed (rewarded), in the order they were recorded. */
+  lessonsDone(account) {
+    const l = this.data.accounts[account]?.lessons ?? {};
+    return Object.keys(l).sort((a, b) => String(l[a].doneAt).localeCompare(String(l[b].doneAt)));
+  }
+
+  hasLesson(account, lessonId) {
+    return Boolean(this.data.accounts[account]?.lessons?.[lessonId]);
+  }
+
+  /** Record a completed lesson. Persists immediately. Idempotent: a second call keeps the first record. */
+  recordLesson(account, lessonId, { txId = null, evidencePermlink = null, via = null } = {}) {
+    if (!this.data.accounts[account]) this.data.accounts[account] = { responses: {} };
+    const acc = this.data.accounts[account];
+    if (!acc.lessons) acc.lessons = {};
+    if (acc.lessons[lessonId]) return false;
+    acc.lessons[lessonId] = { doneAt: new Date().toISOString(), txId, evidencePermlink, via };
+    this.#save();
+    return true;
+  }
+
+  /**
+   * The operator's review queue: manual_review lessons someone has claimed, and questions the
+   * deterministic bot could not answer. Deduped by (account, lessonId, kind, ref).
+   */
+  queueReview(item = {}) {
+    if (!Array.isArray(this.data.reviews)) this.data.reviews = [];
+    const key = `${item.account}|${item.lessonId}|${item.kind}|${item.ref || ''}`;
+    if (this.data.reviews.some((r) => r.key === key)) return false;
+    this.data.reviews.push({ key, at: new Date().toISOString(), ...item });
+    this.#save();
+    return true;
+  }
+
+  reviews() {
+    return Array.isArray(this.data.reviews) ? this.data.reviews.slice() : [];
+  }
+
   /**
    * All accounts known to the store. Useful for debugging / introspection.
    */

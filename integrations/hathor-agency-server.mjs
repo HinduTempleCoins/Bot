@@ -106,9 +106,33 @@ function defaultCryptology() {
   };
 }
 
+// LOCAL-ONLY voice for the Instructional Series loop (POST /lesson). The lesson drafts are private until
+// the operator approves them, so this path NEVER touches the provider ladder above: it calls the Ollama on
+// this host and nothing else (default model granite-melek3; HATHOR_LOCAL_MODEL / OLLAMA_URL override).
+// Soft-fails to '' (the caller then keeps its deterministic floor).
+export function localOllamaComplete({ url = process.env.OLLAMA_URL || 'http://127.0.0.1:11434',
+  model = process.env.HATHOR_LOCAL_MODEL || 'granite-melek3', fetch: f = (...a) => globalThis.fetch(...a), timeoutMs = 90_000 } = {}) {
+  return async (prompt, { json = false } = {}) => {
+    try {
+      const r = await f(`${String(url).replace(/\/$/, '')}/api/generate`, {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ model, prompt: String(prompt || ''), stream: false, ...(json ? { format: 'json' } : {}),
+          options: { temperature: json ? 0 : 0.3, num_predict: json ? 200 : 400 } }),
+        signal: AbortSignal.timeout(timeoutMs),
+      });
+      const j = await r.json();
+      return typeof j.response === 'string' ? j.response.trim() : '';
+    } catch { return ''; }
+  };
+}
+
+// Tasks the /lesson endpoint accepts (tutorial/lesson-brain.mjs): classify a comment, answer a question
+// from lesson context, translate a reply, voice one line.
+export const LESSON_TASKS = ['classify', 'answer', 'translate', 'voice', 'raw'];
+
 /**
  * Build the one-Hathor service. Everything injectable for offline tests.
- * @param {object} cfg { hathor?, makeStore?, retrieve?, complete?, cryptology?, now? }
+ * @param {object} cfg { hathor?, makeStore?, retrieve?, complete?, cryptology?, now?, localComplete? }
  */
 export function createAgency(cfg = {}) {
   const makeStore = cfg.makeStore || makeFileStore(BRAIN_DIR);
@@ -124,13 +148,32 @@ export function createAgency(cfg = {}) {
   function readBody(req) {
     return new Promise((resolve) => { let d = ''; req.on('data', (c) => (d += c)); req.on('end', () => resolve(d)); req.on('error', () => resolve('')); });
   }
+  const localComplete = cfg.localComplete || localOllamaComplete();
   const json = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'access-control-allow-origin': '*', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
 
   async function handler(req, res) {
     try {
       const url = new URL(req.url, 'http://hathor.local');
       const p = url.pathname;
-      if (p === '/health') return json(res, 200, { ok: true, surfaces: SURFACES, capabilities: CAPABILITIES.map((c) => c.id) });
+      if (p === '/health') return json(res, 200, { ok: true, surfaces: SURFACES, capabilities: CAPABILITIES.map((c) => c.id), features: ['perceive', 'tick', 'recall', 'lesson'] });
+
+      // POST /lesson {task, prompt, json?, from?, question?} → LOCAL model only (never the provider ladder).
+      // The Instructional Series loop's brain calls. An answered question is remembered in her 'melek'
+      // compartment, tagged to the person, so the conversation continues across surfaces like any other.
+      if (p === '/lesson' && req.method === 'POST') {
+        let b = {}; try { b = JSON.parse(await readBody(req) || '{}'); } catch { /* soft */ }
+        const task = LESSON_TASKS.includes(b.task) ? b.task : 'raw';
+        const prompt = String(b.prompt || '').slice(0, 24_000);
+        if (!prompt) return json(res, 200, { ok: false, error: 'no prompt' });
+        const text = String(await localComplete(prompt, { json: Boolean(b.json), task }) || '').trim();
+        if (text && task === 'answer' && b.from) {
+          try {
+            await hathor.memory.remember('melek', { text: `${b.from}: ${String(b.question || '').slice(0, 500)}`, person: b.from, meta: { role: 'them', via: 'lesson' } });
+            await hathor.memory.remember('melek', { text: `Hathor: ${text.slice(0, 1000)}`, person: b.from, meta: { role: 'self', via: 'lesson' } });
+          } catch { /* soft */ }
+        }
+        return json(res, 200, { ok: Boolean(text), text, task, local: true });
+      }
 
       // POST /perceive {surface, from, text} → her reply, on that surface, with shared memory + corpus.
       if (p === '/perceive' && req.method === 'POST') {

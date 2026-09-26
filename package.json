@@ -23,6 +23,8 @@
     "tutorial:once": "node tutorial/scheduler.js --once",
     "tutorial:cron": "node tutorial/scheduler.js --cron",
     "tutorial:live": "node tutorial/scheduler.js --cron --broadcast",
+    "lessons:watch": "node tutorial/lesson-watcher.mjs",
+    "lessons:sitemap": "node tutorial/site-map.mjs",
     "spamtest": "node spamtest/runner.mjs --count 50 --kind post",
     "spamtest:probe": "node spamtest/probe.mjs --account spambot1",
     "start": "node index.js",
