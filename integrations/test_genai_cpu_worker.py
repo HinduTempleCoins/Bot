@@ -63,6 +63,12 @@ class Render(unittest.TestCase):
         self.assertEqual(FAKE.scales[-1], 0.5)
         self.assertEqual(FAKE.calls[-1]["ip_adapter_image"].size, (32, 32))
 
+    def test_several_references_are_passed_together(self):
+        r = w.generate_sync({"prompt": "her wearing the crown", "images": [{"base64": ref_b64()}, {"base64": ref_b64()}]})
+        self.assertEqual(r["mode"], "compose")
+        refs = FAKE.calls[-1]["ip_adapter_image"]
+        self.assertEqual(len(refs), 1); self.assertEqual(len(refs[0]), 2)   # one adapter, two images
+
     def test_character_hathor_uses_canonical_ref(self):
         tmp = os.path.join(os.path.dirname(__file__), "_tmp_ref.png")
         Image.new("RGB", (40, 40)).save(tmp)

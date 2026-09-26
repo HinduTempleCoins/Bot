@@ -54,7 +54,7 @@ import {
 import {
   TRACKS, LESSONS, listLessons, NFT_DISCLAIMER, validateSchool,
 } from '../../integrations/genai-school.mjs';
-import { buildReferenceSheet, composePrompt, ROLES } from '../../integrations/genai-compose.mjs';
+import { buildReferenceSheet, composePrompt, composePromptPlain, ROLES } from '../../integrations/genai-compose.mjs';
 import { showPageHtml as pentecaustShowHtml, hubFragmentHtml as pentecaustHubHtml } from '../../integrations/pentecaust-vtuber.mjs';
 import { validateRecipe, TRIGGERS, ACTIONS } from '../../integrations/pentecaust-recipes.mjs';
 import { DEFAULT_SERVER_PLAN, DEFAULT_MODERATION } from '../../integrations/pentecaust-community.mjs';
@@ -1072,8 +1072,21 @@ export async function handleCompose(req, res) {
   try { writeFileSync(join(DATA_DIR, sheetFile), sheetBuf); } catch { return j(500, { ok: false, error: 'could not save' }); }
   const sheetUrl = `/img/${sheetFile}`;
   const image = { url: `${publicOrigin(req)}${sheetUrl}`, base64: sheetBuf.toString('base64'), mime: 'image/png' };
-  let result; try { result = await _generate({ prompt: genPrompt, size: '1024x1024', image }); } catch { result = { ok: false }; }
-  if (!result || !result.ok) return j(502, { ok: false, error: 'no engine could compose that right now — try again' });
+  // Our engine takes each reference separately: characters + objects steer the look, the place steers the layout,
+  // with a plain prompt (no labelled sheet — that makes the model paint the sheet, text and all).
+  // characters count double: the engine blends all references equally, and a person must not be swallowed by an object
+  const chars = refs.filter((r) => r.role === 'character'), objs = refs.filter((r) => r.role === 'object');
+  const looks = [...chars, ...chars, ...objs].slice(0, 6).map((r) => ({ base64: r.buffer.toString('base64') }));
+  const scene = refs.find((r) => r.role === 'scene');
+  let size = '768x768';
+  if (scene) { try { const sharp = (await import('sharp')).default; const m = await sharp(scene.buffer).metadata(); const k = 768 / Math.max(m.width, m.height); size = `${Math.round(m.width * k / 8) * 8}x${Math.round(m.height * k / 8) * 8}`; } catch { /* square */ } }
+  const plain = composePromptPlain(refs.map((r) => ({ role: r.role, label: r.label })), cleaned);
+  let result;
+  try {
+    result = await _generate({ prompt: plain, size, images: looks, ...(scene ? { structure: scene.buffer.toString('base64'), structureScale: 0.35 } : {}) });
+    if ((!result || !result.ok) && !scene) result = await _generate({ prompt: genPrompt, size: '1024x1024', image });  // other engines read the sheet
+  } catch { result = { ok: false }; }
+  if (!result || !result.ok) return j(502, { ok: false, error: failNote(result) });
   const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `Composed: ${cleaned || refs.map((r) => r.label).filter(Boolean).join(', ')}`, provider: result.provider, note: result.note, size: result.size || '1024x1024', seed: result.seed, adult: screen.adult });
   if (!meta) return j(500, { ok: false, error: 'made but could not save' });
   return j(200, { ok: true, url: meta.url || `/img/${meta.file}`, sheet: sheetUrl, note: result.note });

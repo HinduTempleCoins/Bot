@@ -90,6 +90,24 @@ export function composePrompt(refs, userPrompt = '') {
   return bits.join(', ').replace(/\s+/g, ' ').slice(0, 300);
 }
 
+// Plain-language prompt for engines that take each reference separately (our CPU engine): no "panels" or slot
+// labels — those make the model paint the sheet itself, text and all.
+export function composePromptPlain(refs, userPrompt = '') {
+  const items = labelRefs(refs);
+  const nm = (r, fallback) => (r.name ? r.name : fallback);
+  const chars = items.filter((r) => r.role === 'character').map((r) => nm(r, 'a person'));
+  const objs = items.filter((r) => r.role === 'object').map((r) => nm(r, 'the object'));
+  const scenes = items.filter((r) => r.role === 'scene').map((r) => nm(r, 'the place'));
+  const bits = [];
+  if (chars.length) bits.push(chars.join(' and '));
+  if (objs.length) bits.push(`with ${objs.join(', ')}`);
+  if (scenes.length) bits.push(`in ${scenes.join(', ')}`);
+  const style = (userPrompt || '').replace(/[\r\n]+/g, ' ').trim();
+  if (style) bits.push(style);
+  bits.push('one unified photorealistic scene, highly detailed');
+  return bits.join(', ').replace(/\s+/g, ' ').slice(0, 400);
+}
+
 if (process.argv[1] && process.argv[1].endsWith('genai-compose.mjs')) {
   console.log(composePrompt([
     { role: 'character', label: 'Ava' }, { role: 'character', label: 'Kai' },

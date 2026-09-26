@@ -157,6 +157,8 @@ def norm_job(body):
     img = body.get("image")
     if isinstance(img, dict) and img.get("base64"):
         image = str(img["base64"])
+    # several references at once (Reference Studio: characters + objects) — all steer the same image
+    images = [str(x["base64"]) for x in (body.get("images") or [])[:6] if isinstance(x, dict) and x.get("base64")]
     character = str(body.get("character") or "").lower()
     structure = None
     st = body.get("structure")
@@ -178,11 +180,17 @@ def norm_job(body):
     pscale = pscale if 0.2 <= pscale <= 1.5 else 1.0
     return {"prompt": prompt, "neg": neg, "steps": steps, "seed": seed, "w": w, "h": h,
             "strength": strength, "image_b64": image, "character": character,
-            "structure_b64": structure, "structure_scale": sscale, "pose_b64": pose, "pose_scale": pscale, "sized": "x" in size}
+            "structure_b64": structure, "structure_scale": sscale, "pose_b64": pose, "pose_scale": pscale, "sized": "x" in size,
+            "images_b64": images}
 
 
 def _reference(job):
     from PIL import Image
+    if job.get("images_b64"):
+        refs = [Image.open(io.BytesIO(base64.b64decode(b))).convert("RGB") for b in job["images_b64"]]
+        if job["image_b64"]:
+            refs.insert(0, Image.open(io.BytesIO(base64.b64decode(job["image_b64"]))).convert("RGB"))
+        return refs if len(refs) > 1 else refs[0]
     if job["image_b64"]:
         return Image.open(io.BytesIO(base64.b64decode(job["image_b64"]))).convert("RGB")
     if job["character"] == "hathor" and os.path.exists(HATHOR_REF):
@@ -234,8 +242,9 @@ def render(job):
         kwargs["controlnet_conditioning_scale"] = cscales[0] if len(kinds) == 1 else cscales
     if ref is not None:
         pipe.set_ip_adapter_scale(job["strength"])
-        kwargs["ip_adapter_image"] = ref
-        mode = "character"
+        # a list = several references for the one IP-Adapter (their features are combined)
+        kwargs["ip_adapter_image"] = [ref] if isinstance(ref, list) else ref
+        mode = "compose" if isinstance(ref, list) else "character"
     else:
         # IP-Adapter is loaded, so it still expects an image; scale 0 makes it a no-op
         from PIL import Image
