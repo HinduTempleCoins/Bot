@@ -23,9 +23,15 @@ test('navBar links live properties + marks current + never shows admin/soapy', (
 
 test('not-live links render muted "soon" and are not anchors', () => {
   const html = navBar({});
-  // PRANA is live:false → a <span class=...soon...>, not an <a href>
+  // World Law is live:false → a <span class=...soon...>, not an <a href>
   assert.match(html, /soon/);
-  assert.ok(!/<a[^>]*>PRANA<\/a>/.test(html), 'PRANA (not live) must not be a link yet');
+  assert.ok(!/<a[^>]*>World Law<\/a>/.test(html), 'World Law (not live) must not be a link yet');
+});
+
+test('MELEK and PRANA are live links: post on MELEK.Salon, contribute to PRANA (the mining guide)', () => {
+  const html = navBar({});
+  assert.match(html, /<a class="enav-link" href="https:\/\/melek\.salon">MELEK<\/a>/);
+  assert.match(html, /<a class="enav-link" href="https:\/\/witness\.melek\.salon\/mine">PRANA<\/a>/);
 });
 
 test('navSidebar renders group titles', () => {

@@ -29,6 +29,7 @@ import {
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt, submitIndexNow } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags, breadcrumbJsonLd } from '../../integrations/soapbox/seo.mjs';
 import { impactUtt } from '../../integrations/impact-utt.mjs';
+import { SUPPORT_TEXT, MELEK_SIGNUP_URL, PRANA_CONTRIBUTE_URL } from '../../integrations/support-hathor.mjs';
 
 const PORT = +(process.env.PORT || 8200);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -142,6 +143,10 @@ export const forum = createForum({ registry: forumRegistry() });
 // Programmatic boards seeded with real content (for the sitemap + a "flagship renders threads" demo).
 export const SEEDED_PROGRAMMATIC = ['city/austin-tx', 'game/minecraft', 'travel/paris'];
 
+// Hathor's own "how to support me" thread — the shared message (integrations/support-hathor.mjs), in her voice.
+export const SUPPORT_SEED = ['announcements', 'How to support me: post on MELEK.Salon, contribute to PRANA',
+  `${SUPPORT_TEXT.hathor} Sign up to post: ${MELEK_SIGNUP_URL} — mining setup for PRANA (copy-paste, any Etchash GPU): ${PRANA_CONTRIBUTE_URL}`];
+
 let _seeded = false;
 export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
   if (_seeded) return;
@@ -156,6 +161,7 @@ export async function seed(now = Date.parse('2026-08-01T00:00:00Z')) {
   await forum.merit.sendMerit('hathor', 'kalivankush', 1, { now });   // kalivankush earns 1 FORUM merit
   await forum.grantAllotment('hathor', { now: now + 30 * DAY });
   const t1 = await forum.createThread({ board: 'announcements', author: 'hathor', title: 'Welcome to the MELEK Forum', body: 'This forum runs on the MELEK chain. Posts are on-chain comments; standing is scarce, peer-awarded FORUM merit — it can never be bought or self-minted.', now });
+  await forum.createThread({ board: SUPPORT_SEED[0], author: 'hathor', title: SUPPORT_SEED[1], body: SUPPORT_SEED[2], now: now + 30 * 60 * 1000 });
   const t2 = await forum.createThread({ board: 'economy', author: 'kalivankush', title: 'How FORUM merit differs from stake', body: 'A whale\'s stake buys zero merit here. You can only send merit you were given. Discuss.', now: now + HR });
   await forum.createThread({ board: 'library', author: 'hathor', title: 'Library of Ashurbanipal — scope & safety', body: 'Reference and harm-reduction only: history, ethnobotany, pharmacology, dose ranges, interactions, testing, set/setting/aftercare. No synthesis or extraction recipes.', now: now + 2 * HR });
   if (t1.ok) await forum.reply({ threadId: t1.thread.id, author: 'kalivankush', body: 'Glad to be here. The merit model is the interesting part.', now: now + 3 * HR });
@@ -204,6 +210,7 @@ async function seedHathorLaunch(now, HR, DAY) {
     ['studio', 'Bring your own engine: your PC, Colab, a Modal GPU, or your keys', 'On hathor.soapbox.community/engines you can use your own capacity: run the exact engine the studio runs (one Python file, instructions on the Make it yourself page) on your computer, a free Colab, or your own Modal GPU (about two seconds an image); or paste a fal.ai or Gemini key; or keep your keys in your Pentecaust account and press Link. Keys typed on the page stay in your browser; keys kept on Pentecaust never reach the studio — it gets a short pass that can only make images.'],
     ['studio', 'The Remakes: the ancient world, in many peoples', 'The Remakes gallery re-renders banquets with perfume headcones, lotus-perfume making, life on the Nile, the Aamu at Beni Hasan, Nubian tribute, the Sea Peoples, Minoan frescoes, Hannibal, and scenes from Greece and Delos — each in three looks, and each in several peoples side by side (Egyptian or Minoan, Nubian, Libyan, Levantine and more), because the ancient Mediterranean was all of them. Post your favourites, corrections and requests here.'],
     ['announcements', 'MELEK, PRANA, KULA — the three chains', 'MELEK is the social chain you post and curate on. PRANA is the proof-of-work compute chain you mine with a laptop — its mining does useful AI work. KULA is the DeFi layer that ties value across the two. Together with the apps, they are SoapBox. More in the Library.'],
+    SUPPORT_SEED,
   ];
   let t = now;
   for (const [board, title, body] of T) {

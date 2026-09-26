@@ -36,6 +36,13 @@ test('/ home renders 200 with boards + recent threads', async () => {
   assert.match(res.body, /FORUM merit|FORUM<\/|FORUM /); // token surfaced
 });
 
+test("Hathor's support thread is seeded: post on MELEK.Salon, contribute to PRANA", async () => {
+  await req('/');
+  const res = await req('/b/announcements');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /How to support me: post on MELEK\.Salon, contribute to PRANA/);
+});
+
 test('/b/<board> renders the board with its threads and a New thread button', async () => {
   const res = await req('/b/economy');
   assert.equal(res.statusCode, 200);

@@ -55,8 +55,9 @@ export const ECOSYSTEM_LINKS = [
   // The chains — add the real endpoints here as they go live; `live:false` shows them as "soon"
   { label: 'MELEK Testnet', url: env('MELEK_ALPHA', 'https://alpha.melek.salon'), group: 'Chains', live: true, key: 'melek-testnet' },
   { label: 'Witness School', url: env('WITNESS_SITE', 'https://witness.melek.salon'), group: 'Chains', live: true, key: 'witness' },
-  { label: 'MELEK', url: env('MELEK_SITE', 'https://melek.salon'), group: 'Chains', live: false, key: 'melek' },
-  { label: 'PRANA', url: env('PRANA_SITE', '#'), group: 'Chains', live: false, key: 'prana' },
+  { label: 'MELEK', url: env('MELEK_SITE', 'https://melek.salon'), group: 'Chains', live: true, key: 'melek' },
+  // PRANA links to where a person contributes: the copy-paste mining guide (see support-hathor.mjs).
+  { label: 'PRANA', url: env('PRANA_SITE', 'https://witness.melek.salon/mine'), group: 'Chains', live: true, key: 'prana' },
 ];
 
 export function links({ group } = {}) {

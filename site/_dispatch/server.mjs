@@ -99,6 +99,46 @@ export function publicOrigin(req, res, internal) {
   res.end = (chunk, ...r) => e(chunk == null || typeof chunk === 'function' ? chunk : fix(chunk), ...r);
 }
 
+// Support Hathor: every HTML page the tier serves carries the one shared band (integrations/support-hathor.mjs)
+// just before </body> — post on MELEK.Salon, contribute to PRANA. Hathor's own surfaces say it in first person.
+// Only text/html, only uncompressed, only once (a page that renders the band itself is left alone), never on
+// an embed. Soft-fails to the untouched body.
+export function supportFooter(req, res, dir, mod) {
+  if (!mod || typeof res.getHeader !== 'function' || typeof res.setHeader !== 'function') return; // test doubles
+  const url = String(req.url || '');
+  if (/(^|\/)embed(\/|$)|[?&]embed=/.test(url)) return;
+  const isHtml = () => /^text\/html/i.test(String(res.getHeader('content-type') || '')) && !res.getHeader('content-encoding');
+  const fix = (chunk) => {
+    if (!isHtml()) return chunk;
+    const str = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : typeof chunk === 'string' ? chunk : null;
+    if (str == null || !/<\/body>/i.test(str) || str.includes(mod.SUPPORT_MARK)) return chunk;
+    try {
+      const out = mod.injectSupport(str, { voice: mod.voiceFor(dir) });
+      if (out !== str && !res.headersSent) res.removeHeader('content-length');
+      return out;
+    } catch { return chunk; }
+  };
+  const wh = res.writeHead.bind(res);
+  res.writeHead = (code, a, b) => {
+    // fold writeHead headers in so getHeader can see the type, and drop the stale length on HTML
+    const h = (b && typeof b === 'object') ? b : (a && typeof a === 'object' && !Array.isArray(a)) ? a : null;
+    if (h) for (const [k, v] of Object.entries(h)) res.setHeader(k, v);
+    if (isHtml()) res.removeHeader('content-length');
+    return typeof a === 'string' ? wh(code, a) : wh(code);
+  };
+  const w = res.write.bind(res), e = res.end.bind(res);
+  res.write = (chunk, ...r) => w(chunk == null || typeof chunk === 'function' ? chunk : fix(chunk), ...r);
+  res.end = (chunk, ...r) => e(chunk == null || typeof chunk === 'function' ? chunk : fix(chunk), ...r);
+}
+
+let _support; // the shared module, loaded once; null if missing (pages then pass through untouched)
+async function supportModule() {
+  if (_support === undefined) {
+    try { _support = await import('../../integrations/support-hathor.mjs'); } catch { _support = null; }
+  }
+  return _support;
+}
+
 // exported so tests can drive it without a live socket
 export async function dispatch(req, res, opts = {}) {
   const routes = opts.routes || ROUTES;
@@ -116,6 +156,7 @@ export async function dispatch(req, res, opts = {}) {
       return res.end('Surface temporarily unavailable.');
     }
     publicOrigin(req, res, opts.internalOrigin || `http://localhost:${process.env.PORT || 8080}`);
+    supportFooter(req, res, dir, await supportModule());
     return await handler(req, res);
   } catch {
     try {
