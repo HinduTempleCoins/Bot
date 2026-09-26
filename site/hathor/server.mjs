@@ -1356,8 +1356,19 @@ export async function handleEffect(req, res) {
   let image = null;
   if (upload) image = { url: `${publicOrigin(req)}${upload}` };
   else if (who === 'builtin:hathor') { try { image = { base64: readFileSync(HATHOR_REF_FILE).toString('base64'), mime: 'image/png' }; } catch { /* text-only fallback */ } }
+  // "Appear WITH Hathor": she has to be IN the picture — send her reference alongside the visitor's, and ask for two people.
+  let prompt = built.job.prompt, images = null;
+  if (e.category === 'hathor' && who !== 'builtin:hathor') {
+    try {
+      const hb64 = readFileSync(HATHOR_REF_FILE).toString('base64');
+      let sb64 = null;
+      if (upload) { try { sb64 = readFileSync(join(DATA_DIR, basename(upload))).toString('base64'); } catch { /* url path below */ } }
+      images = [...(sb64 ? [{ base64: sb64 }] : image ? [image] : []), { base64: hb64 }];
+      prompt += '. Two people in the picture: the goddess Hathor with her large dark curved horns, a glowing VR visor over her eyes and pink feathered wings, beside the other person';
+    } catch { /* fall back to single reference */ }
+  }
   let result;
-  try { result = await _generate({ prompt: built.job.prompt, size: '768x768', image }); } catch { result = { ok: false }; }
+  try { result = await _generate({ prompt, size: '768x768', ...(images ? { images } : { image }) }); } catch { result = { ok: false }; }
   if (!result || !result.ok) return sendHtml(res, effectPage(e, failNote(result)), 502);
   const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `${e.title}: ${built.job.subject.name}`, provider: result.provider, note: result.note, size: result.size || '768x768', seed: result.seed, adult: screen.adult });
   if (!meta) return sendHtml(res, effectPage(e, 'The image was made but could not be saved — please try again.'), 500);

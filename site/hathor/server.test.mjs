@@ -542,5 +542,7 @@ test('character effects are runnable: /fx page, Hathor carries her reference, ow
   assert.equal(noConsent.statusCode, 400); assert.match(noConsent.text(), /consent/); assert.equal(seen, null);
   const fict = await call(form({ effect: 'hathor-beach', who: 'fictional', name: 'Nefer', look: 'silver braids and a lapis robe' }));
   assert.equal(fict.statusCode, 200); assert.match(seen.prompt, /Nefer.*silver braids/);
+  assert.equal(seen.images.length, 1);                      // Appear WITH Hathor: her reference is sent too
+  assert.match(seen.prompt, /Two people in the picture: the goddess Hathor/);
   __setGenerator(null);
 });
