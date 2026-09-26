@@ -77,6 +77,7 @@ const BASE_URL = (process.env.HATHOR_STUDIO_URL || process.env.BASE_URL || 'http
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
+const MELEK_SALON = (process.env.MELEK_SALON_SITE || 'https://melek.salon').replace(/\/$/, '');
 const HATHOR_LIVE = process.env.HATHOR_LIVE || 'https://hathor.live';
 const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
 const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
@@ -1294,9 +1295,10 @@ function shareCta(intro = 'Share your creation —', meta = null) {
   const imgUrl = meta ? `${BASE_URL}/img/${meta.file}` : '';
   const u = encodeURIComponent(pageUrl);
   const t = encodeURIComponent(`I made this free with AI on Hathor Studio — no login, no card. #MELEK #SoapBox`);
-  const melek = meta
-    ? `${FORUM}/post?${new URLSearchParams({ board: 'studio', title: String(meta.prompt || 'Made in Hathor Studio').slice(0, 90), body: `![${String(meta.prompt || 'my image').slice(0, 120).replace(/[\[\]]/g, '')}](${imgUrl})\n\nMade in Hathor Studio: ${pageUrl}` })}`
-    : `${FORUM}/post`;
+  // MELEK.Salon's editor can't be pre-filled from a link, so the button copies the post (image + link back)
+  // to the clipboard and opens the editor; the visitor pastes it in.
+  const melek = `${MELEK_SALON}/submit.html`;
+  const melekPost = meta ? `![${String(meta.prompt || 'my image').slice(0, 120).replace(/[\[\]]/g, '')}](${imgUrl})\n\nMade in Hathor Studio: ${pageUrl}` : '';
   const native = meta ? `<button class=pill type=button id=sharenow style="border-color:var(--gold);color:var(--gold)">📱 Share…</button>
       <button class=pill type=button id=copylink>🔗 Copy link</button>
       <script>(function(){var P=${JSON.stringify(pageUrl)},I=${JSON.stringify(`/img/${meta.file}`)},T='Made in Hathor Studio #MELEK';
@@ -1307,7 +1309,8 @@ function shareCta(intro = 'Share your creation —', meta = null) {
   return `<div class=card><b>${esc(intro)}</b>
     <div style="margin-top:8px">
       ${native}
-      <a class=pill style="border-color:var(--gold);color:var(--gold)" href="${esc(melek)}" target=_blank rel="noopener">✦ Share on MELEK</a>
+      <a class=pill id=sharemelek style="border-color:var(--gold);color:var(--gold)" href="${esc(melek)}" target=_blank rel="noopener"${meta ? ` data-post="${esc(melekPost)}"` : ''}>✦ Share on MELEK</a>
+      ${meta ? `<script>(function(){var a=document.getElementById('sharemelek');a.addEventListener('click',function(){try{navigator.clipboard.writeText(a.dataset.post.replace(/\\n/g,'\n'));a.textContent='✓ Copied — paste it into your post';}catch(e){}});})();</script>` : ''}
       <a class=pill style="border-color:#5865F2;color:#5865F2" href="${esc(DISCORD)}" target=_blank rel="noopener">💬 Show it on Discord</a>
       <a class=pill href="https://twitter.com/intent/tweet?text=${t}&url=${u}" target=_blank rel="noopener">Share on X</a>
       <a class=pill href="https://www.facebook.com/sharer/sharer.php?u=${u}" target=_blank rel="noopener">Facebook</a>
@@ -1316,7 +1319,7 @@ function shareCta(intro = 'Share your creation —', meta = null) {
       <a class=pill href="https://t.me/share/url?url=${u}" target=_blank rel="noopener">Telegram</a>
       <a class=pill href="https://wa.me/?text=${encodeURIComponent('Made in Hathor Studio ')}${u}" target=_blank rel="noopener">WhatsApp</a>
     </div>
-    <p class=muted style="font-size:12px;margin-top:8px"><b>Share on MELEK</b> opens a post on our forum with your picture already in it — your creations, on our own chain.${meta ? ' <b>Share…</b> on a phone sends the picture itself to Instagram, TikTok, WhatsApp or anywhere.' : ''} Links you share show your picture as the preview. Tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
+    <p class=muted style="font-size:12px;margin-top:8px"><b>Share on MELEK</b> copies your picture and its link, then opens a new post on MELEK.Salon — just paste it in. Your creations, on our own chain.${meta ? ' <b>Share…</b> on a phone sends the picture itself to Instagram, TikTok, WhatsApp or anywhere.' : ''} Links you share show your picture as the preview. Tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
 }
 
 // the share page for one image: its own URL whose preview card on social media is the picture itself

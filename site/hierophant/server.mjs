@@ -78,6 +78,12 @@ const SEARCH = process.env.SEARCH_SITE || 'https://search.soapbox.community';
 // route's hot path until a real ask. Default: lazily import library-rag and call askLibrary().
 let _askImpl = null;
 export function __setAsk(fn) { _askImpl = fn; }    // test seam
+// The Hierophant answers from the religious, mythological and historical shelves (plant medicine included,
+// per the library's settled scope). Hathor's operational notes, business and market material are not scripture.
+const HIEROPHANT_EXCLUDE = ['synthesis/knowledge-base.json', 'vankush', 'cryptocurrency', 'trading', 'steem-economy',
+  'ecosystem', 'legal', 'gambling-history', 'civic', 'accountability', 'media', 'ai_technology', 'soapmaking', 'space',
+  'KNOWLEDGE_BASE_ARCHITECTURE.json', 'corpus-index.md', 'prana-kula-paths.md'];
+
 async function askCorpus(question) {
   try {
     if (_askImpl) return await _askImpl(question);
@@ -87,7 +93,7 @@ async function askCorpus(question) {
     // cover that" with 20 files and ~300KB of it sitting on disk. corpus-rag reads knowledge/ directly.
     // The wiki is still consulted, because it has material the tree does not; the TREE is asked first.
     const corpus = await import('../../integrations/corpus-rag.mjs');
-    const own = corpus.ask(question);
+    const own = corpus.ask(question, { exclude: HIEROPHANT_EXCLUDE });
     if (own && own.grounded) return own;
     const mod = await import('../../integrations/library-rag.mjs');
     return await mod.askLibrary(question, { task: 'quality' });

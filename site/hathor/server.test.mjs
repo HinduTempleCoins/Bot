@@ -611,7 +611,7 @@ test('sharing carries the picture: result page -> /p/ share page with a social c
   const r = await call({ method: 'POST', url: '/api/fx', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ effect: 'hathor-throne', who: 'builtin:hathor' }).toString() });
   const file = r.text().match(/\/img\/([\w.-]+\.png)/)[1];
   assert.match(r.text(), new RegExp(`/p/${file.replace('.', '\\.')}`));            // X/Facebook/... share THIS picture
-  assert.match(r.text(), /forum\.soapbox\.community\/post\?board=studio&amp;title=.+&amp;body=.*%2Fimg%2F/);
+  assert.match(r.text(), /href="https:\/\/melek\.salon\/submit\.html"[^>]*data-post="!\[[^"]*\]\(https:\/\/[^"]*\/img\//);   // Share on MELEK: MELEK.Salon editor + the post on the clipboard
   assert.match(r.text(), /id=sharenow/);
   const p = await call({ url: `/p/${file}` });
   assert.equal(p.statusCode, 200);

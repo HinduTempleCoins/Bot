@@ -77,3 +77,17 @@ test('retrieval weights rare words: filler like "tell me about" does not decide 
   assert.equal(hits[0].title, 'Norse notes');
   assert.equal(hits.length, 1, 'documents that only share filler words are not returned');
 });
+
+test('exclude keeps a surface from answering out of folders/files it should not', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const root = mkdtempSync(join(tmpdir(), 'crag-'));
+  mkdirSync(join(root, 'ops')); mkdirSync(join(root, 'myth'));
+  writeFileSync(join(root, 'ops', 'notes.md'), '# Notes\nzephyrine setup notes about the zephyrine mailbox triage workflow');
+  writeFileSync(join(root, 'myth', 'z.md'), '# Zephyrine\nzephyrine was a wind spirit honoured with offerings at dawn by sailors');
+  const all = retrieve('zephyrine', { root });
+  assert.equal(all.length, 2);
+  const scoped = retrieve('zephyrine', { root, exclude: ['ops'] });
+  assert.deepEqual(scoped.map((h) => h.source), ['myth/z.md']);
+});

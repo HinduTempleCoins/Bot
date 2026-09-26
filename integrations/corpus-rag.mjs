@@ -92,11 +92,14 @@ export function readDoc(path) {
  * distinct query terms. The last one matters most — a file that mentions "Punt" ninety times but never
  * "Havilah" should not beat the file about both.
  */
-export function retrieve(question, { topK = 5, root = CORPUS_ROOT(), maxChars = 1200 } = {}) {
+export function retrieve(question, { topK = 5, root = CORPUS_ROOT(), maxChars = 1200, exclude = [] } = {}) {
   const qs = terms(question);
   if (!qs.length) return [];
   const docs = [];
+  // `exclude`: corpus-relative folders or files a surface should not answer from (e.g. operational notes)
+  const skip = (path) => exclude.some((x) => { const r = relative(root, path); return r === x || r.startsWith(x.replace(/\/?$/, '/')); });
   for (const path of corpusFiles(root)) {
+    if (skip(path)) continue;
     const doc = readDoc(path);
     if (doc) docs.push({ path, doc, hay: doc.text.toLowerCase(), title: doc.title.toLowerCase() });
   }
