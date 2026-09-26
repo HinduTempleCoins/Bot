@@ -523,3 +523,24 @@ test('/scripts lists scripts, a script page renders glyphs, assets are allow-lis
   }
   delete process.env.GLYPHS_DIR;
 });
+
+test('character effects are runnable: /fx page, Hathor carries her reference, own photo needs consent', async () => {
+  const idx = await call({ url: '/char' });
+  assert.match(idx.text(), /href="\/fx\/hathor-selfie"/);
+  assert.equal((await call({ url: '/fx/hathor-selfie' })).statusCode, 200);
+  assert.equal((await call({ url: '/fx/nope' })).statusCode, 404);
+  let seen = null;
+  __resetRate();
+  __setGenerator(async (args) => { seen = args; return { ok: true, provider: 'cpusd', base64: Buffer.from('x').toString('base64'), mime: 'image/png', note: 'MELEK CPU diffusion (our server, character, 1s)' }; });
+  const form = (o) => ({ method: 'POST', url: '/api/fx', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(o).toString() });
+  const r = await call(form({ effect: 'hathor-throne', who: 'builtin:hathor' }));
+  assert.equal(r.statusCode, 200);
+  assert.match(seen.prompt, /throne/i);
+  assert.ok(seen.image && seen.image.base64, 'Hathor reference image carried');
+  seen = null;
+  const noConsent = await call(form({ effect: 'hathor-selfie', who: 'self', image: '/img/up-1-abc.png' }));
+  assert.equal(noConsent.statusCode, 400); assert.match(noConsent.text(), /consent/); assert.equal(seen, null);
+  const fict = await call(form({ effect: 'hathor-beach', who: 'fictional', name: 'Nefer', look: 'silver braids and a lapis robe' }));
+  assert.equal(fict.statusCode, 200); assert.match(seen.prompt, /Nefer.*silver braids/);
+  __setGenerator(null);
+});

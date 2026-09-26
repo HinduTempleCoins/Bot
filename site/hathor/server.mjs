@@ -49,7 +49,7 @@ import {
   REEL_TEMPLATES, REEL_ASPECTS, getReelTemplate, buildReelSpec, shotlist, validateReelTemplates,
 } from '../../integrations/genai-reel-maker.mjs';
 import {
-  EFFECT_TEMPLATES, EFFECT_CATEGORIES, listEffects, CHARACTERS, validateEffects,
+  EFFECT_TEMPLATES, EFFECT_CATEGORIES, listEffects, CHARACTERS, validateEffects, getEffect, buildEffectJob,
 } from '../../integrations/genai-effect-templates.mjs';
 import {
   TRACKS, LESSONS, listLessons, NFT_DISCLAIMER, validateSchool,
@@ -1283,7 +1283,71 @@ function shareCta(intro = 'Share your creation —') {
 
 // ── character effects gallery (operator: Animals, Holidays, Movies, Military, Mafia, Cartel…) ──────
 function effectCard(e) {
-  return `<div class=sec><div class=t>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></div></div>`;
+  return `<a class=sec href="/fx/${esc(e.id)}"><div class=t>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></div></a>`;
+}
+
+// ── /fx/<id> — run ONE effect: pick a character (Hathor, Anpu, your own character, a described one, or you) ──
+export function effectPage(e, note = '') {
+  const chars = CHARACTERS.map((c) => `<option value="builtin:${esc(c.id)}">${esc(c.name)}</option>`).join('');
+  const body = `<p class=muted><a href="/char">← All effects</a></p>
+    <h1>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></h1>
+    ${note ? `<div class=card><p class=empty>${esc(note)}</p></div>` : ''}
+    <form class=gform id=fxform method=post action="/api/fx"><input type=hidden name=effect value="${esc(e.id)}"><div class=card>
+      <label class=fld for=who>Who goes in the picture?</label>
+      <select class=q name=who id=who style="width:auto">${chars}<option value="platform">My own character (upload its picture)</option>
+        <option value="fictional">A character I describe</option><option value="self">Me (upload my photo)</option></select>
+      <div id=upbox style="display:none;margin-top:10px"><label class=pill style="cursor:pointer">📎 Choose the picture <input type=file id=fxfile accept="image/*" hidden></label>
+        <span class=muted id=fxname style="font-size:12px;margin-left:8px"></span><input type=hidden name=image id=fxurl></div>
+      <div id=namebox style="display:none;margin-top:10px"><input class=q name=name placeholder="their name (optional)"></div>
+      <div id=lookbox style="display:none;margin-top:10px"><textarea class=q name=look placeholder="describe them — e.g. a tall woman with silver braids, a lapis-blue robe and a gold falcon pendant"></textarea></div>
+      <label id=consentbox style="display:none;margin-top:10px;font-size:13px"><input type=checkbox name=consent value=1> This is me, and I consent to using my own likeness.</label>
+      <p style="margin-top:12px"><button type=submit id=fxbtn>Make it</button> <span class=muted style="font-size:12px">made on our own servers — a minute or two</span></p>
+    </div></form>
+    <script>(function(){var w=document.getElementById('who'),f=document.getElementById('fxform'),fi=document.getElementById('fxfile'),u=document.getElementById('fxurl'),b=document.getElementById('fxbtn');
+      function show(){var v=w.value;document.getElementById('upbox').style.display=(v==='platform'||v==='self')?'':'none';
+        document.getElementById('namebox').style.display=(v==='platform'||v==='fictional')?'':'none';
+        document.getElementById('lookbox').style.display=v==='fictional'?'':'none';document.getElementById('consentbox').style.display=v==='self'?'':'none';}
+      w.addEventListener('change',show);show();
+      fi.addEventListener('change',function(){var x=fi.files&&fi.files[0];u.value='';document.getElementById('fxname').textContent=x?x.name:'';});
+      f.addEventListener('submit',async function(e){var v=w.value;if(!(v==='platform'||v==='self')||u.value)return;e.preventDefault();var x=fi.files&&fi.files[0];
+        if(!x){document.getElementById('fxname').textContent='Choose the picture first.';return;}b.disabled=true;b.textContent='Uploading…';
+        try{var r=await fetch('/api/upload',{method:'POST',headers:{'content-type':x.type||'image/jpeg'},body:x});var j=await r.json();
+          if(j&&j.ok&&j.url){u.value=j.url;b.textContent='Making it… (a minute or two)';f.submit();}else{b.disabled=false;b.textContent='Make it';}}catch(err){b.disabled=false;b.textContent='Make it';}});})();</script>`;
+  return pageShell(`${e.title} — Character effects`, body, { canonical: `${BASE_URL}/fx/${e.id}`, description: `${e.title} — put Hathor, your own character or yourself into this scene. Free, on our own servers.` });
+}
+
+const HATHOR_REF_FILE = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'character', 'assets', 'hathor-head-original.png');
+
+export async function handleEffect(req, res) {
+  const ip = clientIp(req);
+  const params = await readBody(req);
+  const e = getEffect(params.get('effect'));
+  if (!e) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown effect'); }
+  if (!rateOk(ip)) return sendHtml(res, effectPage(e, `You've hit the limit of ${RATE_PER_HOUR} images per hour. Try again later.`), 429);
+  const who = String(params.get('who') || '');
+  const imgParam = String(params.get('image') || '').trim();
+  const upload = /^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam) ? imgParam : null;
+  let input;
+  if (who.startsWith('builtin:')) input = { kind: 'builtin', name: who.slice(8) };
+  else if (who === 'platform') input = { kind: 'platform', name: params.get('name') || 'my character', ref: upload };
+  else if (who === 'fictional') input = { kind: 'fictional', name: params.get('name') || 'the character', look: String(params.get('look') || '').slice(0, 400) };
+  else if (who === 'self') input = { kind: 'real-person', name: 'the person in the photo', ref: upload, consent: params.get('consent') === '1' ? `self-attested:${new Date().toISOString()}` : null };
+  else return sendHtml(res, effectPage(e, 'Choose who goes in the picture.'), 400);
+  if ((who === 'platform' || who === 'self') && !upload) return sendHtml(res, effectPage(e, 'Choose the picture first.'), 400);
+  const built = buildEffectJob(e.id, input, { size: '768x768' });
+  if (!built.ok) return sendHtml(res, effectPage(e, built.needsConsent ? 'To use your own photo, tick the box confirming it is you and that you consent.' : built.error), 400);
+  const screen = screenPrompt(built.job.prompt, { hasReferenceImage: who === 'self' });
+  if (!screen.ok) return sendHtml(res, effectPage(e, 'That request was blocked by the studio\'s content rules.'), 400);
+  // the character's picture steers the new image (same character, brand-new scene)
+  let image = null;
+  if (upload) image = { url: `${publicOrigin(req)}${upload}` };
+  else if (who === 'builtin:hathor') { try { image = { base64: readFileSync(HATHOR_REF_FILE).toString('base64'), mime: 'image/png' }; } catch { /* text-only fallback */ } }
+  let result;
+  try { result = await _generate({ prompt: built.job.prompt, size: '768x768', image }); } catch { result = { ok: false }; }
+  if (!result || !result.ok) return sendHtml(res, effectPage(e, failNote(result)), 502);
+  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `${e.title}: ${built.job.subject.name}`, provider: result.provider, note: result.note, size: result.size || '768x768', seed: result.seed, adult: screen.adult });
+  if (!meta) return sendHtml(res, effectPage(e, 'The image was made but could not be saved — please try again.'), 500);
+  return sendHtml(res, resultPage(meta));
 }
 export function charIndexView() {
   const byCat = EFFECT_CATEGORIES.map((c) => ({ c, items: listEffects(c) })).filter((g) => g.items.length);
@@ -1967,6 +2031,15 @@ export async function handler(req, res) {
     // ── CapCut-style reel template maker ──
     if (path === '/reel-maker') return sendHtml(res, reelIndexView());
     if (path === '/char') return sendHtml(res, charIndexView());
+    if (path.startsWith('/fx/')) {
+      const e = getEffect(decodeURIComponent(path.slice(4)));
+      if (!e) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, effectPage(e));
+    }
+    if (path === '/api/fx') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleEffect(req, res);
+    }
     if (path === '/hathor') return sendHtml(res, hathorIndexView());
     if (path === '/halloween') return sendHtml(res, halloweenIndexView());
     if (path === '/animate') return sendHtml(res, animateView(url.searchParams.get('img')));
