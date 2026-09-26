@@ -66,6 +66,7 @@ import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-librarie
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
 import { homeInterceptScript, enginesBody, learnBody, DOWNLOADS as ENGINE_DOWNLOADS } from './engines.mjs';
+import { loadSymbols, getSymbol, symbolsIndexBody, symbolPageBody, serveSymbolAsset } from './symbols.mjs';
 import { loadIndex as loadScripts, loadScript, scriptsIndexBody, scriptPageBody, serveGlyphAsset } from './scripts.mjs';
 import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt } from './remakes.mjs';
 
@@ -219,7 +220,7 @@ function pageShell(title, body, opts = {}) {
 <meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -1007,7 +1008,7 @@ export function composeView(prefill = []) {
   const roleOpts = Object.entries(ROLES).map(([k, v]) => `<option value="${esc(k)}">${esc(v.label[0] + v.label.slice(1).toLowerCase())}</option>`).join('');
   // design→GenAI handoff: other surfaces (/edit, /vectorize, /gallery) can deep-link a finished design
   // straight into a compose slot via ?ref=/img/..&role=object&label=.. — we seed it as a ready reference.
-  const seed = (Array.isArray(prefill) ? prefill : []).filter((p) => p && /^\/img\/[\w.-]+\.(png|jpe?g|webp|svg)$/i.test(String(p.url || ''))).slice(0, 6)
+  const seed = (Array.isArray(prefill) ? prefill : []).filter((p) => p && /^\/(img|symbols\/img)\/[\w.-]+\.(png|jpe?g|webp|svg)$/i.test(String(p.url || ''))).slice(0, 6)
     .map((p) => ({ url: String(p.url), role: ROLES[String(p.role || '').toLowerCase()] ? String(p.role).toLowerCase() : 'object', label: String(p.label || '').slice(0, 40) }));
   const body = `<h1>Reference Studio</h1>
   <p class=muted>Upload several references — <b>characters</b>, <b>objects</b> (jewelry, hair, a shirt, a prop), and a <b>scene</b> — tag each one, and generate them together in a single image. Free, no login.</p>
@@ -2374,6 +2375,13 @@ export async function handler(req, res) {
     if (path === '/webcam' || path === '/ar') return sendHtml(res, webcamView());
     if (path === '/ar-libraries' || path === '/ar-repos') return sendHtml(res, arLibrariesView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
+    if (path === '/symbols') return sendHtml(res, pageShell('Sacred Symbols — religious and occult symbols across time', symbolsIndexBody(loadSymbols()), { canonical: `${BASE_URL}/symbols`, description: 'Hundreds of real religious and occult symbols — Egyptian, Mesopotamian, Punic, Greek, Hebrew, Christian, Hindu, Buddhist, Taoist, Norse, Celtic, alchemy, astrology and more — as free images, each with its history, meaning and sources.' }));
+    if (path.startsWith('/symbols/img/')) return serveSymbolAsset(res, decodeURIComponent(path.slice('/symbols/img/'.length)));
+    if (path.startsWith('/symbols/')) {
+      const sym = getSymbol(path.slice('/symbols/'.length).replace(/\/+$/, ''));
+      if (!sym) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, pageShell(`${sym.name} — Sacred Symbols`, symbolPageBody(sym), { canonical: `${BASE_URL}/symbols/${sym.id}`, description: String(sym.meaning || sym.name).slice(0, 160), image: sym.image ? `${BASE_URL}/symbols/img/${sym.image.file}` : undefined }));
+    }
     if (path === '/scripts') return sendHtml(res, pageShell('Ancient Scripts — real letters for your designs', scriptsIndexBody(loadScripts()), { canonical: `${BASE_URL}/scripts`, description: 'Every letter of 29 real ancient scripts — Phoenician and Paleo-Hebrew, cuneiform, Egyptian hieroglyphs, runes, Ogham, Linear B, Brahmi, Tifinagh and more — as free images, plus an inscription maker.' }));
     if (path.startsWith('/scripts/img/')) return serveGlyphAsset(res, 'img', decodeURIComponent(path.slice('/scripts/img/'.length)));
     if (path.startsWith('/scripts/fonts/')) return serveGlyphAsset(res, 'fonts', decodeURIComponent(path.slice('/scripts/fonts/'.length)));

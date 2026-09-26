@@ -35,6 +35,7 @@
 //   Temple's own corpus and says so; it soft-fails to an honest empty state, never fabricates. esc()
 //   on every interpolated value. Read-only, server-rendered, no keys, no custody.
 
+import { symbolsForFigure } from '../hathor/symbols.mjs';
 import { createServer } from 'node:http';
 const STUDIO = (process.env.STUDIO_SITE || 'https://hathor.soapbox.community').replace(/\/$/, '');
 import { readFileSync } from 'node:fs';
@@ -399,6 +400,8 @@ export function entityDetailView(id) {
       <p class=muted style="margin:4px 0 8px">Picture ${esc(e.name)} with the traditional attributes — become ${esc(e.name)}, stand beside them, or put them in a scene with other figures.</p>
       <a class=pill href="${esc(STUDIO)}/fx/as-${esc(e.id)}">Become ${esc(e.name)}</a> <a class=pill href="${esc(STUDIO)}/fx/with-${esc(e.id)}">Appear with ${esc(e.name)}</a>
       <a class=pill href="${esc(STUDIO)}/mythology#${esc(e.tradition)}">All ${esc(traditionName(e.tradition))} figures</a> <a class=pill href="${esc(STUDIO)}/remakes">Remakes of the ancient world</a></div>` : ''}
+    ${(() => { const sy = symbolsForFigure(e.id).filter((x) => x.image); return sy.length ? `<div class=card><b>Symbols</b>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">${sy.map((x) => `<a href="${esc(STUDIO)}/symbols/${esc(x.id)}" style="text-align:center;width:96px;text-decoration:none"><img src="${esc(STUDIO)}/symbols/img/${esc(x.image.file)}" alt="${esc(x.name)}" loading=lazy style="width:64px;height:64px;object-fit:contain;background:#f4efe4;border-radius:8px;padding:6px"><br><span style="font-size:12px">${esc(x.name)}</span></a>`).join('')}</div></div>` : ''; })()}
     ${rels.length ? `<div class=card><h2 style="margin-top:0">Relationships</h2>
       ${rels.map((r) => `<div class=rec><div class=nm><span class=muted style="text-transform:capitalize">${esc(r.rel)}:</span>
         <a href="/gods/${esc(r.entity.id)}">${esc(r.entity.name)}</a></div></div>`).join('')}</div>` : ''}

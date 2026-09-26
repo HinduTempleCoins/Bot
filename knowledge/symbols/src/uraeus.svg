@@ -1,0 +1,42 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67 99" width="67" height="99">
+	<title>Uraeus</title>
+	<style>
+		.s0 { fill: #fac53a;stroke: #000000;stroke-width: .9 } 
+		.s1 { fill: #308d57 } 
+		.s2 { fill: none;stroke: #000000;stroke-width: .4 } 
+		.s3 { fill: #c13c1b } 
+		.s4 { fill: #0044aa } 
+		.s5 { fill: #000000;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .4 } 
+		.s6 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .4 } 
+		.s7 { fill: #fac53a;stroke: #000000;stroke-width: .4 } 
+		.s8 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .5;stroke-dasharray: 1.8759816741563462,3.7519633483126924 } 
+		.s9 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .4;stroke-dasharray: 0.37519633483126924,4.502356095590052 } 
+		.s10 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .5 } 
+	</style>
+	<g id="g5896">
+		<path id="path22386" fill-rule="evenodd" class="s0" d="m47.9 82.2c-11.8 0.4-7.6-14.3-7.8-23.2 0.8-8.5 5.7-21.3 5.3-28.5-1.3-24.9-17.6-27.4-26.5-27.5-2.8-2.9-10.9-3.2-16.8 0.7-0.5 0.7-1 1.4-0.9 3 3.5 5.7 10.5 6.4 18.1 6.2q1.2 0.3 0.9 1.6c-6.3 5.1-7.2 10.1-7.3 15.2 2.1 16.8 6.1 34.9 6.8 50.3 1.4 29.1 41.7 16.7 45.2 7.9 2.3-3.2-5.2-6.6-17-5.7z"/>
+		<path id="path2654" fill-rule="evenodd" class="s1" d="m41.8 16.2l-0.9-0.6c-4.1-2.9-6.6-6.4-12.8-8.2-3.9-1.4-8.4-0.7-12.5-0.2-2.2 0.7-4.2 0.2-5.9-1.1-1.6-1.7-4.5-0.4-7.2-0.5l-0.9-0.2c0.2-0.6 0.5-1 0.8-1.4 5.8-3.9 13.4-3.6 16.3-0.7 6.7 0 17.6 1.4 23.1 12.9z"/>
+		<path id="path4601" fill-rule="evenodd" class="s1" d="m36.1 60.4c-4.9 1-10.5 0.9-15.5-0.4 0 0 5 1.3 0-0.2q1.3 9.8 3.6 23.9l0.1-0.1c0-6.9 10.2-6.5 10.9-2.8-0.3-8.1-0.1-0.5-0.1-0.5-0.2-7.6 0.2-14.1 1-19.9z"/>
+		<path id="path22388" fill-rule="evenodd" class="s2" d="m35 80.3c-0.7-29 8.1-43.6 6.6-53.2-2.1-13-10.9-13-12.5-13-1.6-0.1-10.2 0.5-11.5 13.4-1 9.3 1.5 23.5 6.5 56.2"/>
+		<path id="path4623" fill-rule="evenodd" class="s3" d="m17.9 39.8c6.9 3.2 14.8 4.3 22.2 0.4-1.2 5.4-2.9 12.1-4 20.4-5 0.9-10.5 0.7-15.5-0.5-1.3-8.5-2.2-15-2.7-20.3z"/>
+		<path id="path22392" fill-rule="evenodd" class="s2" d="m17.9 40c6.9 3.1 14.7 4.1 22.1 0.2"/>
+		<path id="path4633" fill-rule="evenodd" class="s4" d="m17.8 40c6.8 3.1 14.8 4.1 22.1 0.3 1.3-5.4 2.2-9.7 1.6-13.2-2.1-13-10.9-13-12.4-13-1.6-0.1-10.2 0.5-11.6 13.4-0.4 3.3-0.2 7.3 0.3 12.5z"/>
+		<path id="path22394" fill-rule="evenodd" class="s2" d="m20.5 60c5 1.3 10.5 1.5 15.5 0.5"/>
+		<path id="path22396" fill-rule="evenodd" class="s2" d="m2.9 5.4c2.7 0 4.8-1.3 6.5 0.5 1.7 1.3 3.5 1.9 5.8 1.4 4.1-0.8 8.8-1.4 12.8 0 6.2 1.8 9.9 6.1 14 9"/>
+		<path id="path22398" fill-rule="evenodd" class="s5" d="m15.4 5c-0.1 0.9-0.9 1.6-2 1.5-1-0.1-1.8-0.9-1.7-1.8 0-0.9 0.9-1.6 1.9-1.5 1.1 0 1.9 0.8 1.8 1.8z"/>
+		<path id="path23371" fill-rule="evenodd" class="s2" d="m24.2 83.6c0-6.9 10.2-6.5 11.1-2.4"/>
+		<path id="path23373" fill-rule="evenodd" class="s2" d="m24.1 83.9c4.3-0.8 8-0.8 11.9-2.6"/>
+		<path id="path23375" fill-rule="evenodd" class="s2" d="m28.1 89c4.1-0.3 7.3-2.7 9.5-4.8"/>
+		<path id="path23377" fill-rule="evenodd" class="s2" d="m32.3 91.8c3.3-1.4 5.6-2.6 7.6-5.4"/>
+		<g id="g7619">
+			<path id="path7593" fill-rule="evenodd" class="s2" d="m34.9 80.3c-0.7-29 8.2-43.6 6.6-53.2-2.1-13-10.9-13-12.4-13-1.6-0.1-10.2 0.5-11.6 13.4-1 9.3 1.5 23.5 6.5 56.2"/>
+			<path id="path7597" fill-rule="evenodd" class="s2" d="m17.8 40c6.9 3.1 14.8 4.1 22.1 0.2"/>
+			<path id="path7601" fill-rule="evenodd" class="s2" d="m20.5 60c5 1.3 10.5 1.5 15.4 0.5"/>
+			<path id="path7609" fill-rule="evenodd" class="s6" d="m24.2 83.6c0-6.9 10.2-6.5 11-2.4"/>
+		</g>
+		<path id="path22390" fill-rule="evenodd" class="s7" d="m27.8 78.7c-2.3-21.8 1.3-41.1-0.8-64.1 1.6-0.7 3.2-0.6 4.7-0.1 3.3 14.9-1.8 43.9 0.4 64.2"/>
+		<path id="path14436" fill-rule="evenodd" class="s8" d="m22.6 85c5 12.9 21 15.4 37.8 4.6"/>
+		<path id="path17345" fill-rule="evenodd" class="s9" d="m24.3 86.6c6 7.2 12.6 13.6 35.5 2.5"/>
+		<path id="path19287" fill-rule="evenodd" class="s10" d="m24.1 83.3c-0.1-4.4 7.9-7.5 11.1-2.3"/>
+	</g>
+</svg>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="560" height="560" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Heraldic Jerusalem Cross (or Crusaders' Cross) with Cross Potent</title>
+<g id="r"><path d="M195,20h170v35h-55v450h55v35H195v-35h55V55h-55z"/>
+<g id="q"><rect x="135" y="95" width="35" height="115"/>
+<rect x="95" y="135" width="115" height="35"/></g>
+<use xlink:href="#q" transform="rotate(180 280 280)"/></g>
+<use xlink:href="#r" transform="rotate(90 280 280)"/></svg>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="500"
+   height="500"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <g
+     transform="translate(57.024182,-11.862182)"
+     id="layer1">
+    <g
+       id="g2507">
+      <g
+         transform="matrix(0.5586964,0,0,0.5586964,-14.885637,15.514164)"
+         id="g2486">
+        <path
+           d="M 524.2857,444.50504 A 117.85714,117.85714 0 1 1 288.57142,444.50504 A 117.85714,117.85714 0 1 1 524.2857,444.50504 z"
+           transform="translate(-34.381317,-4.2857143)"
+           id="path2453"
+           style="fill:none;stroke:#000000;stroke-width:4" />
+        <g
+           id="g2465">
+          <path
+             d="M 372.04724,441.46933 L 372.04724,12.362182"
+             id="path2455"
+             style="fill:#000000;stroke:#000000;stroke-width:4" />
+          <path
+             d="M 309.90438,130.93363 L 434.1901,130.93363"
+             id="path2457"
+             style="fill:#000000;stroke:#000000;stroke-width:4" />
+          <path
+             d="M 309.90438,173.79075 L 434.1901,173.79075"
+             id="path2459"
+             style="fill:#000000;stroke:#000000;stroke-width:4" />
+          <path
+             d="M 309.90438,216.64789 L 434.1901,216.64789"
+             id="path2461"
+             style="fill:#000000;stroke:#000000;stroke-width:4" />
+          <path
+             d="M 314.91426,12.362182 C 314.91426,12.362182 309.34578,106.6479 372.05712,106.6479 C 434.41134,106.6479 429.19997,12.362182 429.19997,12.362182"
+             id="path2463"
+             style="fill:none;stroke:#000000;stroke-width:4" />
+        </g>
+        <use
+           transform="matrix(0.7071068,0.7071068,-0.7071068,0.7071068,420.75726,-133.93066)"
+           id="use2472"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622"
+           xlink:href="#g2465" />
+        <use
+           transform="matrix(0,1,-1,0,812.98085,68.88637)"
+           id="use2474"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622"
+           xlink:href="#g2465" />
+        <use
+           transform="matrix(-0.7071068,0.7071068,-0.7071068,-0.7071068,946.91151,489.64362)"
+           id="use2476"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622"
+           xlink:href="#g2465" />
+        <use
+           transform="matrix(-1,0,0,-1,744.09449,881.86721)"
+           id="use2478"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622"
+           xlink:href="#g2465" />
+        <use
+           transform="matrix(-0.7071068,-0.7071068,0.7071068,-0.7071068,323.33724,1015.7979)"
+           id="use2480"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622"
+           xlink:href="#g2465" />
+        <use
+           transform="matrix(0,-1,1,0,-68.886364,812.98087)"
+           id="use2482"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622"
+           xlink:href="#g2465" />
+        <use
+           transform="matrix(0.7071068,-0.7071068,0.7071068,0.7071068,-202.81704,392.22361)"
+           id="use2484"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622"
+           xlink:href="#g2465" />
+      </g>
+    </g>
+  </g>
+</svg>
