@@ -65,6 +65,7 @@ import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-librarie
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
 import { homeInterceptScript, enginesBody, learnBody, DOWNLOADS as ENGINE_DOWNLOADS } from './engines.mjs';
+import { loadIndex as loadScripts, loadScript, scriptsIndexBody, scriptPageBody, serveGlyphAsset } from './scripts.mjs';
 import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt } from './remakes.mjs';
 
 const PORT = +(process.env.PORT || 8131);
@@ -2063,6 +2064,14 @@ export async function handler(req, res) {
     if (path === '/webcam' || path === '/ar') return sendHtml(res, webcamView());
     if (path === '/ar-libraries' || path === '/ar-repos') return sendHtml(res, arLibrariesView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
+    if (path === '/scripts') return sendHtml(res, pageShell('Ancient Scripts — real letters for your designs', scriptsIndexBody(loadScripts()), { canonical: `${BASE_URL}/scripts`, description: 'Every letter of 29 real ancient scripts — Phoenician and Paleo-Hebrew, cuneiform, Egyptian hieroglyphs, runes, Ogham, Linear B, Brahmi, Tifinagh and more — as free images, plus an inscription maker.' }));
+    if (path.startsWith('/scripts/img/')) return serveGlyphAsset(res, 'img', decodeURIComponent(path.slice('/scripts/img/'.length)));
+    if (path.startsWith('/scripts/fonts/')) return serveGlyphAsset(res, 'fonts', decodeURIComponent(path.slice('/scripts/fonts/'.length)));
+    if (path.startsWith('/scripts/')) {
+      const cat = loadScript(path.slice('/scripts/'.length).replace(/\/+$/, ''));
+      if (!cat) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, pageShell(`${cat.name} — Ancient Scripts`, scriptPageBody(cat), { canonical: `${BASE_URL}/scripts/${cat.id}`, description: `All ${cat.count} signs of ${cat.name} as free images, and an inscription maker to write in it.` }));
+    }
     if (path === '/remake') return sendHtml(res, pageShell('Remake — bring an ancient artwork to life', remakeToolBody(), { canonical: `${BASE_URL}/remake`, description: 'Upload a tomb painting, relief, fresco or vase and re-render it realistic, half vaporwave or in the full MELEK look — same people, poses and composition. Choose which people to show. Free, on our own servers.' }));
     if (path === '/api/remake') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }

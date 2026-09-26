@@ -503,3 +503,23 @@ test('failNote tells a customer the free engine is busy and where to bring their
   assert.match(failNote({ ok: false, tried: [{ id: 'cpusd', skipped: 'busy' }] }), /busy.*\/engines/);
   assert.match(failNote({ ok: false, tried: [] }), /\/engines/);
 });
+
+test('/scripts lists scripts, a script page renders glyphs, assets are allow-listed', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const d = mkdtempSync(join(tmpdir(), 'glyphs-'));
+  mkdirSync(join(d, 'runic')); mkdirSync(join(d, 'fonts'));
+  writeFileSync(join(d, 'index.json'), JSON.stringify({ scripts: [{ id: 'runic', name: 'Runes', group: 'Indo-European carved scripts', note: '', font: 'NotoSansRunic (OFL)', count: 1 }] }));
+  writeFileSync(join(d, 'runic', 'catalog.json'), JSON.stringify({ id: 'runic', name: 'Runes', group: 'x', note: '', font: 'NotoSansRunic (SIL Open Font License)', count: 1, glyphs: [{ cp: 'U+16A0', char: 'ᚠ', name: 'RUNIC LETTER FEHU FEOH FE F', file: 'runic/016A0.png' }] }));
+  writeFileSync(join(d, 'runic', '016A0.png'), 'PNG');
+  writeFileSync(join(d, 'fonts', 'NotoSansRunic-Regular.ttf'), 'TTF');
+  process.env.GLYPHS_DIR = d;
+  assert.match((await call({ url: '/scripts' })).text(), /href="\/scripts\/runic"/);
+  const pg = await call({ url: '/scripts/runic' });
+  assert.equal(pg.statusCode, 200); assert.match(pg.text(), /FEHU/);
+  assert.equal((await call({ url: '/scripts/img/runic/016A0.png' })).statusCode, 200);
+  assert.equal((await call({ url: '/scripts/fonts/NotoSansRunic-Regular.ttf' })).statusCode, 200);
+  for (const bad of ['/scripts/img/runic/catalog.json', '/scripts/img/../index.json', '/scripts/fonts/../index.json', '/scripts/nope']) {
+    assert.notEqual((await call({ url: bad })).statusCode, 200, bad);
+  }
+  delete process.env.GLYPHS_DIR;
+});

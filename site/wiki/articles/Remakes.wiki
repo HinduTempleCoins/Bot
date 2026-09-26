@@ -1,0 +1,35 @@
+'''Remakes''' are ancient artworks — Egyptian tomb paintings, stelae and reliefs, Minoan frescoes, Greek vases, and old paintings of ancient subjects — re-rendered by [[Hathor Studio]] so that the people in them look real, while the original's layout is kept: the same figures, poses, gestures and composition. They are collected in the Remakes gallery (hathor.soapbox.community/remakes), always shown next to the source.
+
+== How a remake is made ==
+The source is traced for its outlines (smoothed first, so the brush strokes and cracks of the old surface do not come through), and those outlines guide a new image. A written description of the scene and a chosen look decide everything else. Anyone can do this with the studio's '''Remake''' tool by uploading an artwork.
+
+== Three looks ==
+Every scene is made three ways:
+* '''Realistic''' — as it might have looked: real skin, fabric, gold and light.
+* '''Half vaporwave''' — the same scene half-shifted into pastel neon, chrome and sunset gradients.
+* '''Full MELEK aesthetic''' — a futuristic neon temple, glowing VR visors, gold and magenta.
+
+== Many peoples, side by side ==
+Egyptian art followed conventions (for example in skin colour) that say little about how any one person looked, and the ancient Mediterranean was home to many peoples. So each scene is shown in several: Egyptian (or Minoan, Punic or Greek, depending on the scene), Nubian, Libyan (Amazigh), Levantine, and pale — side by side rather than one choice presented as the answer. Scenes that are themselves about particular peoples, such as the "four peoples" of the tomb of Seti I or the Aamu procession at Beni Hasan, are rendered as they were depicted.
+
+== What is in the gallery ==
+* Banquets with perfume headcones — the cones of scented fat or wax worn on the head at feasts, with lotus headbands; actual headcones were found in burials at Amarna, published in 2019.
+* Lotus and lily perfume-making, including the Louvre reliefs of women pressing lilies in a twisted cloth.
+* Life on the Nile: fowling in the marshes, net fishing, boats, harvest and vineyards, and the Nile Mosaic of Palestrina.
+* Visitors and the four peoples: the Aamu at Beni Hasan, Nubian tribute from the tombs of Huy and Rekhmire, the Sea Peoples at Medinet Habu, and Fayum mummy portraits.
+* Minoans: bull-leaping, the Ladies in Blue, the Prince of the Lilies, the saffron gatherers of Thera, and the Keftiu bringing gifts to Egypt.
+* Carthage and the Phoenicians: Hannibal crossing the Alps and the Rhône, and Phoenician ships.
+* Greece: Hera and Herakles, Odysseus among the Phaeacians of Scheria, Apollo, Leto and Delos.
+
+Sources are public-domain or openly licensed images (mostly from Wikimedia Commons, many of them museum photographs and facsimiles) and reference images supplied by the project; each scene's credit is shown with it.
+
+== See also ==
+* [[Hathor Studio]]
+* [[Hathor (AI Witness)]]
+
+== Sources ==
+* The Remakes gallery and Remake tool on hathor.soapbox.community.
+* Stevens, A. et al., "Archaeological evidence for the use of headcones in ancient Egypt", Antiquity (2019).
+
+== Coverage ==
+Describes the Remakes: how ancient artworks are re-rendered, the three looks, why every scene is shown in several peoples, and what the gallery contains.
