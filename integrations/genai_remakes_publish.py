@@ -46,7 +46,7 @@ SCENES = {
     "odysseus_alcinous_hayez": ("Greece & Scheria", "Odysseus at the court of Alcinous, Scheria", "Francesco Hayez (public domain)"),
     "odysseus_nausicaa_lastman": ("Greece & Scheria", "Nausicaa meets Odysseus on Scheria", "Pieter Lastman (public domain)"),
 }
-GROUP_ORDER = ["Headcones & perfume", "Lotus perfume", "The Nile", "Ports, the Nile & the coast", "The Amazigh", "Sais, Athens & Delphi", "Visitors & the Four Peoples", "Minoans", "Carthage & the Phoenicians", "Greece & Scheria", "Nubia", "Egypt"]
+GROUP_ORDER = ["Nefertiti", "Cleopatra", "Fayum portraits", "Headcones & perfume", "Lotus perfume", "The Nile", "Ports, the Nile & the coast", "The Amazigh", "Sais, Athens & Delphi", "Visitors & the Four Peoples", "Minoans", "Carthage & the Phoenicians", "Greece & Scheria", "Nubia", "Egypt"]
 PEOPLE_ORDER = ["depicted", "egyptian", "minoan", "punic", "greek", "nubian", "libyan", "levantine", "pale"]
 LOOKS = ["1_real", "2_half", "3_full"]
 
@@ -61,7 +61,8 @@ def web_jpg(src, dst, long_side=900):
 
 SET_GROUPS = {"headcones": "Headcones & perfume", "perfume": "Lotus perfume", "nile": "The Nile",
               "visitors": "Visitors & the Four Peoples", "hyperborea": "Hyperborea & Delos",
-              "ports": "Ports, the Nile & the coast", "amazigh": "The Amazigh", "oracles": "Sais, Athens & Delphi"}
+              "ports": "Ports, the Nile & the coast", "amazigh": "The Amazigh", "oracles": "Sais, Athens & Delphi",
+              "fayum": "Fayum portraits", "cleopatra": "Cleopatra", "nefertiti": "Nefertiti"}
 
 
 def load_extra(paths):
