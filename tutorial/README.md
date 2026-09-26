@@ -1,10 +1,25 @@
-# tutorial/ — the nineteen-stage onboarding program
+# tutorial/ — the nineteen-stage onboarding program and the Instructional Series loop
 
 Implementation home for the **CryptoKannon-model staged onboarding** described in [`BRIEF.md`](../BRIEF.md) §8. Phase 2 wiring will read from this directory; Phase 1 doesn't run any of it yet.
 
 ## What's here
 
 - [`stages.json`](./stages.json) — the canonical stage catalog. Nineteen stages, each with a `key`, deterministic `completion_criteria` the Bot can detect by reading chain activity, and a `witness_response` describing the *kind* of message and reward the Witness should produce. **The phrasing of the message is not pre-written.** Hard-coded greeting / response strings are a failure mode per [`CHARACTER.md`](../CHARACTER.md) §2 (disposition, not script). Phase 3 generates the actual text in the Angelic register from the `style` description; Phase 2 can use deterministic templates that still vary.
+
+## The Instructional Series loop (lesson posts → comment → check → upvote)
+
+The Hathor Instructional Series is a set of lesson posts by `@hathor`. The drafts are private until the
+operator approves them; they load from `INSTRUCTIONAL_DIR` and are never copied into this repo.
+
+| Module | Role |
+|---|---|
+| `instructional.mjs` | Lesson registry: front-matter (`lesson, id, permlink, requires, call_phrase, check{kind,params,explain}, reward, faq`) + body. Order, prerequisites, next lesson, lesson-from-text. |
+| `detector.js` `runLessonCheck()` | One detector per `check.kind`: `account_exists`, `post_authored`, `post_with_tag`, `post_contains_link`, `comment_on`, `transfer_to_vesting`, `witness_vote_cast`, `profile_set`, `follows_created`, `transfer_sent`, `vesting_delegation_made`, `manual_review` (queued for the operator, never a fail). |
+| `lang.mjs` | Offline language detection + claim/question/other intent in 17 languages. No exact phrase is required; `call_phrase` is only a hint. |
+| `call.mjs` `handleLessonComment()` | Every comment on a lesson post, reply in a lesson thread, or `@hathor` mention is auto-checked. PASS → upvote the work + reply linking the next lesson. FAIL + claim → exactly what is missing. Questions → the lesson FAQ. `STRICT_ORDER=1` (default) checks lessons in order. Never rewards a lesson twice. |
+| `lesson-brain.mjs` | Lesson-scoped context + site map for the brain; classify / answer / translate / voice through the local brain only. **OFF unless `HATHOR_LLM=1`.** |
+| `lesson-watcher.mjs` | Irreversible-block stream. Dry-run by default; `--broadcast` sends vote + comment through MELEK-Signer. |
+| `site-map.mjs` | Generates `knowledge/ecosystem/hathor-site-map.md` from the tool registry, the Studio nav, the host routes and the wiki. |
 
 ## The stages, briefly
 

@@ -890,6 +890,366 @@ export async function resolveActivityReader(deps = {}) {
   return null;
 }
 
+// =============================================================================
+// THE INSTRUCTIONAL SERIES LOOP — handleLessonComment()
+//
+// The operator's loop for the Hathor Instructional Series (tutorial/instructional.mjs): a reader reads
+// the lesson posts in order, comments on one (or mentions @hathor anywhere), and Hathor:
+//
+//   1. works out what the comment MEANS — a completion claim, a question, or anything else — in any
+//      language and any wording. No exact phrase is ever required; the lesson's call_phrase is a hint.
+//      (tutorial/lang.mjs keyword floor in 17 languages; the local brain refines it when HATHOR_LLM=1.)
+//   2. AUTO-CHECKS the lesson for that account on EVERY lesson comment — she finds the work herself from
+//      the account's public activity; nobody pastes a link.
+//        PASS            -> upvote the qualifying post (or their comment) + a reply congratulating them
+//                           and linking the NEXT lesson; if they also asked something, the answer rides
+//                           in the same reply
+//        FAIL + claim    -> a reply naming exactly what is still missing and how
+//        FAIL + question -> just the answer (the check is not mentioned)
+//        FAIL + other    -> nothing (no nagging)
+//        not visible on chain (manual_review) + claim -> queued for the operator, never a fail
+//   3. STRICT_ORDER (default ON): a lesson whose prerequisites are unfinished is not checked; a claim
+//      gets a kind pointer at the first unfinished lesson.
+//   4. Never rewards the same lesson twice for the same account (state.js lesson progress), and keeps
+//      the taught-boundary rate limit.
+//
+// Questions: FAQ match first (the lesson's own FAQ). The brain (lesson context + site map) answers only
+// when HATHOR_LLM=1; with it off an unmatched question is queued for the operator and gets no reply.
+// Replies are composed in English from data (lesson, evidence, next lesson), with varied wording, and
+// translated into the commenter's language by the brain when it is on (chain terms, @names and URLs are
+// token-protected).
+//
+// Same boundaries as handleComment(): ZERO-WIF (ops are RETURNED, never signed here), soft-fail, offline.
+// =============================================================================
+
+const DEFAULT_LESSON_UPVOTE_WEIGHT = 5000;       // 50% — the operator tunes via LESSON_UPVOTE_WEIGHT
+const VOTE_WINDOW_MS = 6.5 * 24 * 3600 * 1000;   // Graphene refuses votes after the 7-day cashout
+
+function fnv(s) {
+  let h = 0x811c9dc5;
+  for (const c of String(s)) { h ^= c.codePointAt(0); h = Math.imul(h, 0x01000193); }
+  return h >>> 0;
+}
+const pick = (seed, arr) => arr[fnv(seed) % arr.length];
+
+/** How to name the evidence the check found, in a reply. Data-driven; titles are esc()'d. */
+export function describeEvidence(ev, check = {}) {
+  if (!ev || typeof ev !== 'object') return 'your work';
+  if (ev.title) return `your post "${esc(ev.title)}"`;
+  if (ev.parent_author) return `your comment on @${esc(ev.parent_author)}'s post`;
+  if (ev.permlink) return 'your post';
+  if (ev.witness) return `your witness vote for @${esc(ev.witness)}`;
+  if (ev.amount && check.kind === 'transfer_to_vesting') return `your power-up of ${esc(ev.amount)}`;
+  if (ev.amount) return `your transfer of ${esc(ev.amount)}`;
+  if (ev.field) return `your profile's ${esc(ev.field)}`;
+  if (Array.isArray(ev.followed)) return `your follow of ${ev.followed.slice(0, 3).map((f) => `@${esc(f)}`).join(', ')}`;
+  if (ev.account) return `your account @${esc(ev.account)}`;
+  return 'your work';
+}
+
+const titleOf = (l) => l.shortTitle || l.title;
+const lessonLabel = (l) => `Lesson ${esc(l.n)}, "${esc(titleOf(l))}"`;
+const lessonLink = (l) => `[Lesson ${esc(l.n)}: ${esc(titleOf(l))}](${l.url})`;
+
+/**
+ * The Phase-2 deterministic reply floor for the lesson loop. Varied wording chosen from the data
+ * (account + lesson), never one fixed string; the brain's one-line `voice` replaces the opener when it
+ * is on. Returns English markdown.
+ */
+export function composeLessonReply(kind, f = {}) {
+  const at = `@${esc(f.account)}`;
+  const seed = `${f.account}|${f.lesson?.id}|${kind}`;
+  const L = f.lesson;
+  const out = [];
+  const nextLine = () => {
+    if (!f.next) return 'That was the last lesson of the series.';
+    return pick(`${seed}|n`, [
+      `Next: ${lessonLink(f.next)}`,
+      `When you are ready, the next one is ${lessonLink(f.next)}.`,
+      `The road goes on at ${lessonLink(f.next)}.`,
+    ]);
+  };
+  switch (kind) {
+    case 'pass': {
+      const ev = describeEvidence(f.evidence, L?.check);
+      const voted = f.votedOn === 'comment' ? 'this comment' : ev;
+      out.push(f.voice ? `${at} ${f.voice}` : pick(seed, [
+        `${at}, ${lessonLabel(L)} is complete. I found ${ev}, and my upvote is on ${voted}.`,
+        `${at}, I checked ${lessonLabel(L)} against your account and it is done: ${ev}. ${voted === ev ? 'It' : 'This comment'} carries my upvote.`,
+        `${lessonLabel(L)} is finished, ${at}. I found ${ev} and upvoted ${voted}.`,
+      ]));
+      if (f.voice) out.push(`I found ${ev} and upvoted ${voted}.`);
+      if (f.answer) out.push(f.answer);
+      out.push(nextLine());
+      break;
+    }
+    case 'fail': {
+      out.push(f.voice ? `${at} ${f.voice}` : pick(seed, [
+        `${at}, I checked ${lessonLabel(L)} and it is not finished yet.`,
+        `${at}, not yet: I looked at your account for ${lessonLabel(L)} and something is still open.`,
+        `${at}, ${lessonLabel(L)} is close but not complete.`,
+      ]));
+      const miss = (f.missing || []).filter(Boolean);
+      if (miss.length) out.push(`Still missing:\n${miss.map((m) => `- ${m}`).join('\n')}`);
+      if (L?.tryThis) out.push(`The task: ${L.tryThis}`);
+      if (L?.check?.explain) out.push(`How I check: ${L.check.explain}`);
+      out.push('Comment here again when it is done and I will look.');
+      break;
+    }
+    case 'already_done': {
+      out.push(pick(seed, [
+        `${at}, ${lessonLabel(L)} is already recorded as complete for you.`,
+        `${at}, you finished ${lessonLabel(L)} already; it is on your record.`,
+      ]));
+      if (f.answer) out.push(f.answer);
+      out.push(nextLine());
+      break;
+    }
+    case 'out_of_order': {
+      const first = f.firstUnfinished;
+      out.push(pick(seed, [
+        `${at}, the lessons are checked in order, and ${lessonLink(first)} comes before this one.`,
+        `${at}, before ${lessonLabel(L)} I check ${lessonLink(first)}; that one is still open for you.`,
+      ]));
+      out.push('Finish it, comment on that lesson, and then come back to this one.');
+      break;
+    }
+    case 'queued': {
+      out.push(pick(seed, [
+        `${at}, ${lessonLabel(L)} leaves nothing I can see on chain, so it is queued for a person to review.`,
+        `${at}, I cannot see ${lessonLabel(L)} on chain; I have put it in the review queue.`,
+      ]));
+      if (L?.check?.explain) out.push(L.check.explain);
+      break;
+    }
+    case 'answer': {
+      if (f.answer) out.push(`${at} ${f.answer}`);
+      break;
+    }
+    default:
+      break;
+  }
+  return out.filter(Boolean).join('\n\n');
+}
+
+/** Which lesson a comment is about. */
+function resolveLessonFor({ c, registry, via, rootLesson, cls, done }) {
+  if (via === 'lesson' || via === 'thread') return { lesson: rootLesson, source: via };
+  const named = registry.findInText(c.body) || (cls?.english ? registry.findInText(cls.english) : null)
+    || (Number.isFinite(cls?.lessonNumber) ? registry.byNumber(cls.lessonNumber) : null);
+  if (named) return { lesson: named, source: 'named' };
+  const next = registry.firstUnfinished(done);
+  return { lesson: next, source: next ? 'progress' : null };
+}
+
+/**
+ * Handle one comment for the Instructional Series loop.
+ *
+ * @param {object|Array} op  a comment op (payload, ['comment', {...}], or { op })
+ * @param {object} deps
+ * @param {object}   deps.registry          tutorial/instructional.mjs registry (REQUIRED)
+ * @param {Function} [deps.fetchUserActivity] (account) => chain-reader shape
+ * @param {object}   [deps.brain]            tutorial/lesson-brain.mjs instance (off unless HATHOR_LLM=1)
+ * @param {object}   [deps.state]            TutorialState (lesson progress + review queue)
+ * @param {object}   [deps.limiter]          createCallLimiter()
+ * @param {Function} [deps.resolveRoot]      async (author, permlink) => { root_author, root_permlink }
+ * @param {boolean}  [deps.strictOrder]      default: STRICT_ORDER env, ON unless '0'
+ * @param {number}   [deps.upvoteWeight]     default LESSON_UPVOTE_WEIGHT env or 5000
+ * @param {string}   [deps.siteMap]          site-map text for the brain's answers
+ * @param {Function} [deps.now]
+ * @returns {Promise<object>} outcome — { kind, intent, lang, lessonId, ops, reply, commit?, check, ... }
+ */
+export async function handleLessonComment(op, deps = {}) {
+  try {
+    return await handleLesson(op, deps);
+  } catch (err) {
+    return outcome({ ok: false, kind: 'error', error: String(err && err.message ? err.message : err) });
+  }
+}
+
+async function handleLesson(op, deps) {
+  const registry = deps.registry;
+  if (!registry || typeof registry.byPermlink !== 'function') return outcome({ ok: false, kind: 'error', error: 'no lesson registry' });
+  const witness = String(deps.witnessAccount || registry.witness || WITNESS_ACCOUNT).toLowerCase();
+  const c = normalizeCommentOp(op);
+  if (!c || !c.author) return outcome({ kind: 'ignored', reason: 'not a comment op' });
+  const account = String(c.author).toLowerCase();
+  if (account === witness) return outcome({ account, kind: 'ignored', reason: 'own comment' });
+
+  // 1. Addressed? A comment directly on a lesson post, a reply deeper in a lesson thread under one of
+  //    her comments, or an @hathor mention anywhere.
+  const parentAuthor = String(c.parent_author || '').toLowerCase();
+  let via = null;
+  let rootLesson = null;
+  if (parentAuthor === witness && registry.byPermlink(c.parent_permlink)) {
+    via = 'lesson'; rootLesson = registry.byPermlink(c.parent_permlink);
+  } else if (parentAuthor === witness && typeof deps.resolveRoot === 'function') {
+    try {
+      const root = await deps.resolveRoot(parentAuthor, String(c.parent_permlink || ''));
+      if (root && String(root.root_author || '').toLowerCase() === witness && registry.byPermlink(root.root_permlink)) {
+        via = 'thread'; rootLesson = registry.byPermlink(root.root_permlink);
+      }
+    } catch { /* soft: an unresolved root just means "not a lesson thread" */ }
+  }
+  const mentioned = mentionsWitness(c.body, witness);
+  if (!via && mentioned) via = 'mention';
+  if (!via) return outcome({ account, kind: 'ignored', reason: 'not addressed to the witness' });
+
+  const base = { account, handled: true, trigger: via };
+  const replyTo = { parent_author: c.author, parent_permlink: c.permlink };
+  const state = deps.state || null;
+  const done = state && typeof state.lessonsDone === 'function' ? state.lessonsDone(account) : [];
+
+  // 2. What does the comment mean? (brain when on; multilingual keyword floor always)
+  const brain = deps.brain || null;
+  let cls = null;
+  if (brain && typeof brain.classify === 'function') {
+    try { cls = await brain.classify(c.body, { lesson: rootLesson }); } catch { cls = null; }
+  }
+  if (!cls) {
+    const { classifyIntentFallback } = await import('./lang.mjs');
+    const fb = classifyIntentFallback(c.body, { callPhrase: rootLesson?.callPhrase || '' });
+    cls = { intent: fb.intent, lang: fb.lang === 'und' ? 'en' : fb.lang, english: fb.lang === 'en' ? c.body : '', lessonNumber: null, via: fb.via };
+  }
+  const { intent, lang } = cls;
+
+  // Rate limit — a taught boundary, once per window; quiet after.
+  if (deps.limiter && typeof deps.limiter.check === 'function') {
+    const rate = deps.limiter.check(account);
+    if (rate.limited) {
+      if (!rate.teach) return outcome({ ...base, kind: 'rate_limited', intent, lang, rate });
+      const { body, template } = composeReply({ kind: 'rate_limited', account, rate }, {});
+      const text = await localize(body, lang, brain);
+      return outcome({ ...base, kind: 'rate_limited', intent, lang, rate, template, reply: { ...replyTo, body: text }, ops: [buildReplyOp(c, text, { witness, suffix: 'rate' })] });
+    }
+  }
+
+  // 3. Which lesson?
+  const { lesson, source } = resolveLessonFor({ c, registry, via, rootLesson, cls, done });
+  if (!lesson) return outcome({ ...base, kind: 'ignored', intent, lang, reason: 'no lesson to check (series complete or empty)' });
+  const withLesson = { ...base, intent, lang, lessonId: lesson.id, lessonN: lesson.n, lessonSource: source, lesson: { id: lesson.id, n: lesson.n, permlink: lesson.permlink } };
+  const next = registry.next(lesson.id);
+
+  // The answer to a question, if there is one: FAQ first, the brain second (only when it is on).
+  let answer = null;
+  let answerVia = null;
+  if (intent === 'question') {
+    const { faqMatch, lessonContext, siteMapExcerpt } = await import('./lesson-brain.mjs');
+    const hit = faqMatch(cls.english || c.body, lesson.faq) || (cls.english ? null : faqMatch(c.body, lesson.faq));
+    if (hit) { answer = hit.a; answerVia = 'faq'; }
+    else if (brain && typeof brain.answer === 'function') {
+      try {
+        const a = await brain.answer({
+          question: c.body, english: cls.english, lesson, from: account,
+          context: lessonContext(lesson, registry),
+          siteMap: deps.siteMap ? siteMapExcerpt(cls.english || c.body, deps.siteMap) : '',
+        });
+        if (a) { answer = a; answerVia = 'brain'; }
+      } catch { /* soft */ }
+    }
+    if (!answer && state && typeof state.queueReview === 'function') {
+      try { state.queueReview({ account, lessonId: lesson.id, kind: 'unanswered_question', ref: c.permlink, text: String(c.body).slice(0, 500) }); } catch { /* soft */ }
+    }
+  }
+
+  const reply = async (kind, facts, suffix, extra = {}) => {
+    let voice = null;
+    if ((kind === 'pass' || kind === 'fail') && brain && typeof brain.voice === 'function') {
+      try { voice = await brain.voice(kind, { account, lesson: lesson.title }); } catch { voice = null; }
+    }
+    const english = composeLessonReply(kind, { account, lesson, next, answer, voice, ...facts });
+    if (!english) return outcome({ ...withLesson, kind, answerVia, ...extra });
+    const body = await localize(english, lang, brain);
+    return outcome({
+      ...withLesson, kind, answerVia, template: PHASE2_TEMPLATE, replyLang: body === english ? 'en' : lang,
+      reply: { ...replyTo, body }, ops: [buildReplyOp(c, body, { witness, suffix })], ...extra,
+    });
+  };
+  const quiet = (kind, extra = {}) => outcome({ ...withLesson, kind, answerVia, ...extra });
+
+  // 4. Already finished? Never reward twice.
+  if (state && typeof state.hasLesson === 'function' && state.hasLesson(account, lesson.id)) {
+    if (intent === 'claim') return reply('already_done', {}, `l${lesson.n}-done`);
+    if (answer) return reply('answer', {}, `l${lesson.n}-answer`, { kind: 'answer' });
+    return quiet('already_done');
+  }
+
+  // 5. Strict order: prerequisites first. Reading is open to everyone; CHECKS go in order.
+  const strict = deps.strictOrder ?? (String(process.env.STRICT_ORDER ?? '1') !== '0');
+  if (strict) {
+    const doneSet = new Set(done);
+    const firstUnfinished = registry.prerequisitesOf(lesson.id).find((p) => !doneSet.has(p.id)) || null;
+    if (firstUnfinished) {
+      if (intent === 'claim') return reply('out_of_order', { firstUnfinished }, `l${lesson.n}-order`, { firstUnfinishedId: firstUnfinished.id });
+      if (answer) return reply('answer', {}, `l${lesson.n}-answer`);
+      return quiet('out_of_order', { firstUnfinishedId: firstUnfinished.id });
+    }
+  }
+
+  // 6. The auto-check — on every addressed comment, not only on claims.
+  const { runLessonCheck } = await import('./detector.js');
+  let activity = {};
+  if (lesson.check.kind !== 'manual_review' && lesson.check.kind !== 'account_exists') {
+    const fetchActivity = await resolveActivityReader(deps);
+    if (!fetchActivity) return outcome({ ...withLesson, ok: false, kind: 'error', error: 'no fetchUserActivity injected' });
+    try { activity = (await fetchActivity(account)) || {}; } catch (err) {
+      return outcome({ ...withLesson, ok: false, kind: 'error', error: `activity read failed: ${String(err && err.message ? err.message : err)}` });
+    }
+    if (activity.meta && activity.meta.ok === false && activity.meta.errors?.length) {
+      // The chain did not answer: that is not the reader's failure. Say nothing rather than "not done".
+      return outcome({ ...withLesson, ok: false, kind: 'error', error: `chain read failed: ${activity.meta.errors.slice(0, 2).join('; ')}` });
+    }
+  } else if (lesson.check.kind === 'account_exists') {
+    activity = { account, account_exists: true }; // they just signed a comment with it
+  }
+  const check = runLessonCheck(lesson.check, activity, { account });
+  const checkSummary = { status: check.status, kind: check.kind, missing: check.missing, reason: check.reason || null };
+
+  if (check.status === 'not_checkable') {
+    if (intent === 'claim') {
+      if (state && typeof state.queueReview === 'function') {
+        try { state.queueReview({ account, lessonId: lesson.id, kind: 'manual_review', ref: c.permlink, text: String(c.body).slice(0, 500) }); } catch { /* soft */ }
+      }
+      return reply('queued', {}, `l${lesson.n}-review`, { check: checkSummary });
+    }
+    if (answer) return reply('answer', {}, `l${lesson.n}-answer`, { check: checkSummary });
+    return quiet('not_checkable', { check: checkSummary });
+  }
+
+  if (check.status === 'fail') {
+    if (intent === 'claim') return reply('fail', { missing: check.missing }, `l${lesson.n}-open`, { check: checkSummary, missing: check.missing });
+    if (answer) return reply('answer', {}, `l${lesson.n}-answer`, { check: checkSummary });
+    return quiet('checked_not_done', { check: checkSummary });
+  }
+
+  // PASS — upvote the work (or, when the work cannot take a vote, their comment) + congratulate + next.
+  const ev = check.evidence;
+  const votes = Array.isArray(activity.votes_received) ? activity.votes_received : [];
+  const nowMs = typeof deps.now === 'function' ? deps.now() : Date.now();
+  const evVotable = ev && typeof ev === 'object' && ev.permlink && String(ev.author || account).toLowerCase() === account
+    && !(ev.created && nowMs - Date.parse(ev.created) > VOTE_WINDOW_MS)
+    && !votes.some((v) => v.voter === witness && v.permlink === ev.permlink);
+  const target = evVotable ? { author: account, permlink: String(ev.permlink) } : { author: account, permlink: String(c.permlink) };
+  const weight = Math.max(1, Math.min(10000, Number(deps.upvoteWeight ?? process.env.LESSON_UPVOTE_WEIGHT ?? DEFAULT_LESSON_UPVOTE_WEIGHT) || DEFAULT_LESSON_UPVOTE_WEIGHT));
+  const voteOp = ['vote', { voter: witness, author: target.author, permlink: target.permlink, weight }];
+  const passed = await reply('pass', { evidence: ev, votedOn: evVotable ? 'work' : 'comment' }, `l${lesson.n}-done`, { check: checkSummary });
+  const ops = [voteOp, ...(passed.ops || [])];
+  const commit = async ({ txId = null } = {}) => {
+    if (!state || typeof state.recordLesson !== 'function') return false;
+    try { return state.recordLesson(account, lesson.id, { txId, evidencePermlink: target.permlink, via }); } catch { return false; }
+  };
+  return { ...passed, kind: 'pass', ops, rewardTarget: target, evidence: ev, commit, nextLessonId: next ? next.id : null };
+}
+
+/** Translate an English reply into the commenter's language when the brain is on; else English. */
+async function localize(english, lang, brain) {
+  if (!lang || lang === 'en' || !brain || typeof brain.translate !== 'function') return english;
+  try {
+    const t = await brain.translate(english, lang);
+    return typeof t === 'string' && t.trim() ? t : english;
+  } catch { return english; }
+}
+
 // ---- CLI (guarded) ----------------------------------------------------------
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

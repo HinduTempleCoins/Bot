@@ -6,7 +6,7 @@
     "knowledge",
     "chain"
   ],
-  "fileCount": 1531,
+  "fileCount": 1532,
   "byDomain": {
     "healer": [
       {
@@ -28280,6 +28280,25 @@
           "slippage",
           "fees",
           "risk"
+        ]
+      },
+      {
+        "path": "knowledge/ecosystem/hathor-site-map.md",
+        "title": "Hathor's map of the MELEK and SoapBox websites",
+        "bytes": 33433,
+        "keywords": [
+          "soapbox",
+          "community",
+          "hathor",
+          "studio",
+          "wiki",
+          "https",
+          "melek",
+          "site",
+          "tool",
+          "published",
+          "server",
+          "free"
         ]
       },
       {

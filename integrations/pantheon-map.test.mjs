@@ -148,7 +148,7 @@ test('cluster() is soft on unknown ids', () => {
 
 test('registryGap() reports the hierophant-entities backlog', () => {
   const gap = registryGap();
-  assert.ok(gap.includes('neith'), 'Neith is referenced here but not in the entity registry');
+  assert.ok(!gap.includes('neith'), 'Neith is now in the entity registry');
   assert.ok(gap.includes('melqart'));
   assert.ok(gap.includes('gurzil'));
   assert.ok(!gap.includes('zeus'), 'Zeus is already registered');

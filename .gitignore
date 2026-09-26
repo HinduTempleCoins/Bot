@@ -8,6 +8,7 @@
 # Tutorial runtime state (per-deployment, never committed)
 tutorial/.state.json
 tutorial/.state.json.tmp
+tutorial/.lesson-watch/
 
 # Welcomer runtime state (per-deployment, never committed)
 welcomer/.state.json

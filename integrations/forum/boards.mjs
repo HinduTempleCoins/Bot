@@ -91,7 +91,8 @@ const STATIC_BOARDS = [
   { id: 'witness',       title: 'Witnesses & Governance',  categoryId: 'melek', kind: 'discussion', desc: 'Block production, voting, and running a node.' },
   { id: 'development',   title: 'Development',              categoryId: 'melek', kind: 'discussion', desc: 'Building on the chain — apps, APIs, the condenser, and tooling.' },
   { id: 'marketplace',   title: 'Marketplace & Services',  categoryId: 'melek', kind: 'discussion', desc: 'Offer or find services, goods, and bounties.' },
-  { id: 'library',       title: 'Library of Ashurbanipal', categoryId: 'melek', kind: 'wiki-linkout', desc: 'Plant-medicine & harm-reduction reference — history, ethnobotany, safety. Education only; no synthesis/extraction recipes.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'library',       title: 'Library of Ashurbanipal', categoryId: 'melek', kind: 'wiki-linkout', desc: 'Plant-medicine & harm-reduction reference — history, ethnobotany, preparation, dosing and safety.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'studio',        title: 'Hathor Studio (GenAI)',   categoryId: 'melek', kind: 'discussion', desc: 'Make images, remakes of ancient art, and videos with Hathor Studio — how-tos, bringing your own engine, and showing your work.', links: [{ label: 'Hathor Studio', href: 'https://hathor.soapbox.community' }, { label: 'Remakes gallery', href: 'https://hathor.soapbox.community/remakes' }] },
   { id: 'meta',          title: 'Forum Feedback',          categoryId: 'melek', kind: 'discussion', desc: 'Bugs, ideas, and moderation for the forum itself.' },
 
   // Crypto — Bitcointalk / Altcoinstalks sub-boards (finite, native).

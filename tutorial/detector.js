@@ -259,3 +259,206 @@ export function nextStageFor(userActivity) {
   }
   return null;
 }
+
+// ============================================================================
+// LESSON CHECKS — the Hathor Instructional Series (tutorial/instructional.mjs).
+//
+// Each lesson's front-matter carries `check: { kind, params, explain }`. Unlike the stage detectors
+// above (thresholds from stages.json), a lesson check is PARAMETERISED BY THE LESSON: the same kind
+// serves many lessons with different tags / domains / amounts. Every kind reads only public chain
+// activity in the chain-reader.mjs shape — the reader never has to paste a link; Hathor finds the work.
+//
+// Result: { status: 'pass'|'fail'|'not_checkable', evidence, missing: string[], kind }
+//   - pass           → `evidence` is the qualifying post/comment/op (it carries author+permlink when
+//                      it is votable, so the reward upvote lands on the actual work)
+//   - fail           → `missing` names EXACTLY what is still open, in plain words
+//   - not_checkable  → Hathor cannot see this on chain (manual_review, unknown kind). NEVER a fail.
+// ============================================================================
+
+const lc = (s) => String(s ?? '').toLowerCase().replace(/^@/, '');
+const listOf = (v) => (Array.isArray(v) ? v : v == null || v === '' ? [] : [v]);
+
+function postTags(p) { return extractTags(p).map((t) => lc(t)); }
+
+function hasAnyTag(p, tags) {
+  const want = listOf(tags).map(lc).filter(Boolean);
+  if (!want.length) return true;
+  const have = postTags(p);
+  return want.some((t) => have.includes(t));
+}
+
+const IMAGE_RE = /!\[[^\]]*\]\([^)]+\)|<img\s[^>]*src=|https?:\/\/\S+\.(?:png|jpe?g|gif|webp|avif)(?:\?\S*)?/i;
+function hasImage(p) {
+  if (IMAGE_RE.test(String(p?.body || ''))) return true;
+  try {
+    const meta = typeof p?.json_metadata === 'string' ? JSON.parse(p.json_metadata) : p?.json_metadata;
+    return Array.isArray(meta?.image) && meta.image.length > 0;
+  } catch { return false; }
+}
+
+/** Every http(s) URL in a body, parsed. Markdown/HTML punctuation trimmed. */
+export function urlsIn(body) {
+  const out = [];
+  for (const m of String(body || '').matchAll(/https?:\/\/[^\s)\]"'<>]+/gi)) {
+    try { out.push(new URL(m[0].replace(/[.,;:!?]+$/, ''))); } catch { /* not a URL */ }
+  }
+  return out;
+}
+
+function linkMatches(u, domain, prefixes) {
+  const host = u.hostname.toLowerCase();
+  const d = lc(domain);
+  if (d && !(host === d || host.endsWith(`.${d}`))) return false;
+  if (!prefixes.length) return true;
+  return prefixes.some((pre) => u.pathname.startsWith(pre));
+}
+
+function pass(evidence, kind) { return { status: 'pass', evidence, missing: [], kind }; }
+function fail(missing, kind) { return { status: 'fail', evidence: null, missing, kind }; }
+function notCheckable(reason, kind) { return { status: 'not_checkable', evidence: null, missing: [], kind, reason }; }
+
+const LESSON_CHECKS = {
+  // The account exists on chain. A commenter's signed comment is itself proof; the reader still looks
+  // at the account record (activity.account_exists) and only fails when the chain says it is absent.
+  account_exists(params, a, ctx) {
+    if (a.account_exists === false) return fail(['your account was not found on chain'], 'account_exists');
+    return pass({ account: ctx.account || a.account || null }, 'account_exists');
+  },
+
+  // A top-level post, optionally tagged, optionally with a minimum body length.
+  post_authored(params, a, ctx) { return LESSON_CHECKS.post_with_tag(params, a, ctx, 'post_authored'); },
+
+  post_with_tag(params, a, _ctx, kind = 'post_with_tag') {
+    const tags = listOf(params.tag_any_of ?? params.tags_any_of ?? params.tag ?? params.tags);
+    const minChars = Number(params.min_body_chars) || 0;
+    const needImage = Boolean(params.require_image);
+    const posts = Array.isArray(a.posts) ? a.posts : [];
+    const tagged = posts.filter((p) => hasAnyTag(p, tags));
+    const long = tagged.filter((p) => bodyLen(p.body) >= minChars);
+    const hit = long.find((p) => !needImage || hasImage(p));
+    if (hit) return pass(hit, kind);
+    const missing = [];
+    if (!posts.length) missing.push('a post of your own (I found none yet)');
+    else if (tags.length && !tagged.length) missing.push(`a post tagged ${tags.map((t) => `#${t}`).join(' or ')}`);
+    else if (minChars && !long.length) {
+      const longest = tagged.reduce((m, p) => Math.max(m, bodyLen(p.body)), 0);
+      missing.push(`at least ${minChars} characters in that post (the longest I found has ${longest})`);
+    } else if (needImage) missing.push('an image in that post');
+    return fail(missing, kind);
+  },
+
+  // A post whose body links to a given domain (+ optional path prefix), e.g. a picture from the studio.
+  post_contains_link(params, a) {
+    const domain = params.domain || '';
+    const prefixes = listOf(params.path_prefix_any_of ?? params.path_prefix).map(String).filter(Boolean);
+    const tags = listOf(params.tag_any_of ?? params.tags_any_of);
+    const minCount = Math.max(1, Number(params.min_count) || 1);
+    const scope = params.in || 'posts';
+    const pool = [
+      ...(scope === 'comments' ? [] : (a.posts || [])),
+      ...(scope === 'posts' ? [] : (a.comments || [])),
+    ];
+    const withLink = pool.filter((p) => urlsIn(p.body).filter((u) => linkMatches(u, domain, prefixes)).length >= minCount);
+    const hit = withLink.find((p) => hasAnyTag(p, tags));
+    if (hit) return pass(hit, 'post_contains_link');
+    const where = `${domain}${prefixes.length === 1 ? prefixes[0] : ''}`;
+    const missing = [];
+    if (!pool.length) missing.push('a post of your own (I found none yet)');
+    else if (!withLink.length) missing.push(`a post containing a link or picture from ${where || 'the right site'}${prefixes.length > 1 ? ` (an address starting ${prefixes.join(' or ')})` : ''}`);
+    else missing.push(`the tag ${tags.map((t) => `#${t}`).join(' or ')} on the post with that link`);
+    return fail(missing, 'post_contains_link');
+  },
+
+  // A comment (reply) on a specific author's post — optionally a specific permlink.
+  comment_on(params, a) {
+    const author = lc(params.author);
+    const permlink = String(params.permlink || '');
+    const minChars = Number(params.min_body_chars) || 0;
+    const comments = Array.isArray(a.comments) ? a.comments : [];
+    const hit = comments.find((c) => (!author || lc(c.parent_author) === author)
+      && (!permlink || String(c.parent_permlink) === permlink)
+      && bodyLen(c.body) >= minChars);
+    if (hit) return pass(hit, 'comment_on');
+    return fail([`a comment on ${author ? `@${author}'s` : 'the'} ${permlink ? `post "${permlink}"` : 'post'}${minChars ? ` of at least ${minChars} characters` : ''}`], 'comment_on');
+  },
+
+  transfer_to_vesting(params, a) {
+    const min = parseFloat(params.min_amount_melek ?? params.min_amount ?? '0.001');
+    const hit = (a.transfers_to_vesting || []).find((t) => parseFloat(t.amount) >= min);
+    if (hit) return pass(hit, 'transfer_to_vesting');
+    return fail([`a power-up of at least ${min} MELEK (Wallet → Power up)`], 'transfer_to_vesting');
+  },
+
+  witness_vote_cast(params, a) {
+    const min = Math.max(1, Number(params.min_count) || 1);
+    const approvals = (a.witness_votes || []).filter((v) => v.approve !== false);
+    if (approvals.length >= min) return pass(approvals[0], 'witness_vote_cast');
+    return fail([`${min} witness vote${min > 1 ? 's' : ''} (you have ${approvals.length})`], 'witness_vote_cast');
+  },
+
+  profile_set(params, a) {
+    const fields = listOf(params.require_fields_any_of).length ? listOf(params.require_fields_any_of) : ['name', 'about', 'profile_image'];
+    const p = a.profile && typeof a.profile === 'object' ? a.profile : null;
+    const field = p && fields.find((f) => typeof p[f] === 'string' && p[f].trim());
+    if (field) return pass({ field, value: String(p[field]).trim() }, 'profile_set');
+    return fail([`one of these profile fields filled in: ${fields.join(', ')}`], 'profile_set');
+  },
+
+  follows_created(params, a, ctx) {
+    const self = lc(ctx.account || a.account);
+    const names = new Set();
+    for (const f of a.follows || []) {
+      const n = lc(f && typeof f === 'object' ? f.following : f);
+      if (!n || (params.exclude_self !== false && n === self)) continue;
+      names.add(n);
+    }
+    const must = listOf(params.must_include).map(lc).filter(Boolean);
+    const lacking = must.filter((m) => !names.has(m));
+    const min = Math.max(1, Number(params.min_distinct_followed) || 1);
+    if (!lacking.length && names.size >= min) return pass({ followed: [...names] }, 'follows_created');
+    const missing = [];
+    if (lacking.length) missing.push(`a follow of ${lacking.map((m) => `@${m}`).join(', ')}`);
+    if (names.size < min) missing.push(`${min} account${min > 1 ? 's' : ''} followed (you follow ${names.size})`);
+    return fail(missing, 'follows_created');
+  },
+
+  transfer_sent(params, a, ctx) {
+    const min = parseFloat(params.min_amount_melek ?? '0.001');
+    const self = lc(ctx.account || a.account);
+    const hit = (a.transfers_sent || []).find((t) => lc(t.to) !== self && parseFloat(t.amount) >= min
+      && (!params.to || lc(t.to) === lc(params.to)));
+    if (hit) return pass(hit, 'transfer_sent');
+    return fail([`a transfer of at least ${min} MELEK${params.to ? ` to @${lc(params.to)}` : ' to someone else'}`], 'transfer_sent');
+  },
+
+  vesting_delegation_made(params, a) {
+    const min = parseFloat(params.min_amount_mp ?? params.min_amount ?? '0');
+    const hit = (a.delegations || []).find((d) => parseFloat(d.amount_mp ?? d.vesting_shares ?? d.amount) > min);
+    if (hit) return pass(hit, 'vesting_delegation_made');
+    return fail(['a delegation of MELEK POWER to another account'], 'vesting_delegation_made');
+  },
+
+  // Not visible on chain: queued for the operator, NEVER a fail against the reader.
+  manual_review(params) {
+    return notCheckable(params.what ? `reviewed by hand: ${params.what}` : 'reviewed by hand', 'manual_review');
+  },
+};
+
+export const LESSON_CHECK_KINDS = Object.freeze(Object.keys(LESSON_CHECKS));
+
+/**
+ * Run one lesson's check against chain activity. Pure; never throws.
+ * @param {{kind:string, params?:object}} check
+ * @param {object} activity  the chain-reader.mjs shape (plus `account_exists`)
+ * @param {{account?:string}} [ctx]
+ */
+export function runLessonCheck(check, activity = {}, ctx = {}) {
+  const kind = String(check?.kind || '');
+  const fn = LESSON_CHECKS[kind];
+  if (!fn) return notCheckable(`no detector for "${kind || '(none)'}" yet`, kind || null);
+  try {
+    return fn(check.params && typeof check.params === 'object' ? check.params : {}, activity || {}, ctx || {});
+  } catch (err) {
+    return notCheckable(`check error: ${String(err && err.message ? err.message : err)}`, kind);
+  }
+}

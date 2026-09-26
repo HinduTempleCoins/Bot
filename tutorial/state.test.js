@@ -17,6 +17,25 @@ function makeStore() {
   return { path, cleanup: () => rmSync(dir, { recursive: true, force: true }) };
 }
 
+test('lesson progress: record once, ordered, persisted; review queue deduped', () => {
+  const { path, cleanup } = makeStore();
+  try {
+    const s = new TutorialState({ path });
+    assert.equal(s.hasLesson('alice', 'a'), false);
+    assert.equal(s.recordLesson('alice', 'a', { txId: 't1' }), true);
+    assert.equal(s.recordLesson('alice', 'a', { txId: 't2' }), false);
+    s.recordLesson('alice', 'b', {});
+    const again = new TutorialState({ path });
+    assert.deepEqual(again.lessonsDone('alice'), ['a', 'b']);
+    assert.equal(again.data.accounts.alice.lessons.a.txId, 't1');
+    assert.equal(again.queueReview({ account: 'alice', lessonId: 'x', kind: 'manual_review', ref: 'c1' }), true);
+    assert.equal(again.queueReview({ account: 'alice', lessonId: 'x', kind: 'manual_review', ref: 'c1' }), false);
+    assert.equal(again.reviews().length, 1);
+  } finally {
+    cleanup();
+  }
+});
+
 test('starts empty when file does not exist', () => {
   const { path, cleanup } = makeStore();
   try {

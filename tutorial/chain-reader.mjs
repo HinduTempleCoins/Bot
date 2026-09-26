@@ -260,6 +260,7 @@ function tagsFor({ json_metadata, parent_permlink }) {
 export function emptyActivity(account = '') {
   return {
     account: norm(account),
+    account_exists: null, // true/false once get_accounts answers (lesson check `account_exists`)
     // --- the five collections detector.js reads (names are load-bearing) ---
     posts: [],
     comments: [],
@@ -324,6 +325,9 @@ export async function fetchUserActivity(account, deps = {}) {
   // --- 1. the account record: profile (stage 7) + witness_votes (stage 6) ----
   const accounts = await rpc(url, f, 'condenser_api.get_accounts', [[acc]], errors);
   const record = Array.isArray(accounts) ? accounts[0] : null;
+  // account_exists (lesson check kind): true/false only when the node actually answered; null when
+  // the read failed, so an RPC outage never reads as "your account does not exist".
+  if (Array.isArray(accounts)) out.account_exists = Boolean(record);
   if (record) {
     sources.push('get_accounts');
     // profile_set: the profile object lives in json_metadata (or, on newer
@@ -589,6 +593,12 @@ export const KIND_COVERAGE = Object.freeze({
   bridge_transfer_completed: { collection: 'bridge_transfers', supported: false, reason: 'bridge legs look like ordinary transfers; attribution needs the bridge registry, which does not exist yet' },
   conversation_with_witness: { collection: 'conversations', supported: false, reason: 'raw reply turns are surfaced, but "a real conversation" is a Phase-3 judgement, not a chain read' },
   welcomed_a_newcomer: { collection: 'welcomes', supported: false, reason: 'needs per-parent-author account-creation dates — an N-call fan-out, deliberately not issued here' },
+  // --- lesson check kinds (tutorial/detector.js runLessonCheck; the Instructional Series) ---
+  account_exists: { collection: 'account_exists', supported: true },
+  post_with_tag: { collection: 'posts', supported: true },
+  post_contains_link: { collection: 'posts', supported: true },
+  comment_on: { collection: 'comments', supported: true },
+  manual_review: { collection: null, supported: false, reason: 'not visible on chain by design; queued for the operator, never a fail' },
 });
 
 // ---- CLI (guarded) ----------------------------------------------------------

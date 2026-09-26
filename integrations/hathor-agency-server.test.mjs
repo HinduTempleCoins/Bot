@@ -32,6 +32,30 @@ test('/health reports the one self: surfaces + the capabilities she can offer', 
   assert.deepEqual(d.capabilities, CAPABILITIES.map((c) => c.id));   // signup, tutorial, balance, price, witness
 });
 
+test('/lesson: LOCAL model only (never the provider ladder), advertised in /health, answers remembered', async () => {
+  const seen = [];
+  const { handler, hathor } = createAgency({
+    makeStore: () => makeKeywordStore(),
+    retrieve: async () => [],
+    complete: async () => { throw new Error('the provider ladder must never be used by /lesson'); },
+    localComplete: async (prompt, opts) => { seen.push({ prompt, opts }); return opts.json ? '{"intent":"claim"}' : 'Drag the photo into the editor.'; },
+  });
+  const h = cap(); await handler(get('/health'), h.res);
+  assert.ok(j(h.o).features.includes('lesson'));
+
+  const a = cap(); await handler(post('/lesson', { task: 'answer', prompt: 'LESSON FACTS ... QUESTION: photo?', from: 'alice', question: 'photo?' }), a.res);
+  assert.deepEqual(j(a.o), { ok: true, text: 'Drag the photo into the editor.', task: 'answer', local: true });
+  const mem = await hathor.memory.recallForPerson('alice', 'photo', { k: 4 });
+  assert.ok(mem.some((m) => /Drag the photo/.test(m.text)));
+
+  const c = cap(); await handler(post('/lesson', { task: 'classify', prompt: 'label', json: true }), c.res);
+  assert.equal(j(c.o).text, '{"intent":"claim"}');
+  assert.equal(seen[1].opts.json, true);
+
+  const e = cap(); await handler(post('/lesson', { task: 'answer' }), e.res);
+  assert.equal(j(e.o).ok, false);
+});
+
 test('/perceive: she replies on a surface and tags the person', async () => {
   const { handler } = agency();
   const { res, o } = cap(); await handler(post('/perceive', { surface: 'discord', from: 'VanKushFam', text: 'Hathor, what is the gateway?' }), res);
