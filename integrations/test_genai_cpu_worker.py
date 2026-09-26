@@ -25,7 +25,8 @@ class FakePipe:
 FAKE = FakePipe()
 w.set_loader(lambda: FAKE)
 SFAKE = FakePipe()
-w.set_structure_loader(lambda base: SFAKE)
+SKINDS = []
+w.set_structure_loader(lambda base, kinds: (SKINDS.append(tuple(kinds)), SFAKE)[1])
 
 
 def ref_b64():
@@ -99,6 +100,21 @@ class Remake(unittest.TestCase):
                              "image": {"base64": ref_b64()}, "size": "512x512"})
         self.assertEqual(r["mode"], "remake+character")
         self.assertEqual((SFAKE.calls[-1]["width"], SFAKE.calls[-1]["controlnet_conditioning_scale"]), (512, 0.8))
+
+    def test_pose_alone_and_with_structure(self):
+        pose = self.src_b64((400, 800))
+        r = w.generate_sync({"prompt": "a dancer", "pose": {"base64": pose}})
+        self.assertEqual(r["mode"], "pose")
+        kw = SFAKE.calls[-1]
+        self.assertEqual((kw["width"], kw["height"]), (384, 768))      # pose map's proportions
+        self.assertEqual(kw["controlnet_conditioning_scale"], 1.0)
+        self.assertEqual(SKINDS[-1], ("pose",))
+        r = w.generate_sync({"prompt": "banquet", "structure": {"base64": self.src_b64()}, "pose": {"base64": pose}, "poseScale": 0.9})
+        self.assertEqual(r["mode"], "remake+pose")
+        kw = SFAKE.calls[-1]
+        self.assertEqual(SKINDS[-1], ("canny", "pose"))
+        self.assertEqual(kw["controlnet_conditioning_scale"], [0.8, 0.9])
+        self.assertEqual(len(kw["image"]), 2)
 
     def test_plain_jobs_do_not_touch_controlnet(self):
         n = len(SFAKE.calls)

@@ -55,19 +55,27 @@ def _load_real_pipeline():
 
 
 CONTROLNET_CANNY = os.environ.get("CPU_SD_CANNY", "lllyasviel/control_v11p_sd15_canny")
+# SKELETON control: an OpenPose map (body + hands + face, see genai_annotate.py) pins where every limb, hand and finger
+# goes, so the render keeps one hand per wrist; editing the skeleton moves the people.
+CONTROLNET_POSE = os.environ.get("CPU_SD_OPENPOSE", "lllyasviel/control_v11p_sd15_openpose")
+CONTROLNETS = {"canny": CONTROLNET_CANNY, "pose": CONTROLNET_POSE}
+_cn_cache = {}
 
 
-def _load_real_structure_pipeline(base):
-    """ControlNet(canny) pipeline that SHARES the base pipeline's weights (only the ControlNet is new RAM)."""
-    import torch
+def _load_real_structure_pipeline(base, kinds=("canny",)):
+    """ControlNet pipeline (one control, or several at once) that SHARES the base weights — only ControlNets add RAM."""
     from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
-    cn = ControlNetModel.from_pretrained(CONTROLNET_CANNY, torch_dtype=base.unet.dtype).to(DEVICE)
-    return StableDiffusionControlNetPipeline.from_pipe(base, controlnet=cn)
+    nets = []
+    for k in kinds:
+        if k not in _cn_cache:
+            _cn_cache[k] = ControlNetModel.from_pretrained(CONTROLNETS[k], torch_dtype=base.unet.dtype).to(DEVICE)
+        nets.append(_cn_cache[k])
+    return StableDiffusionControlNetPipeline.from_pipe(base, controlnet=nets[0] if len(nets) == 1 else nets)
 
 
 _loader = _load_real_pipeline
 _structure_loader = _load_real_structure_pipeline
-_spipe = None
+_spipes = {}
 _pipe = None
 _pipe_lock = threading.Lock()
 
@@ -79,17 +87,19 @@ def set_loader(fn):
 
 
 def set_structure_loader(fn):
-    global _structure_loader, _spipe
-    _structure_loader, _spipe = fn, None
+    """Tests inject fn(base, kinds) -> fake pipeline."""
+    global _structure_loader
+    _structure_loader = fn
+    _spipes.clear()
 
 
-def structure_pipeline():
-    global _spipe
+def structure_pipeline(kinds=("canny",)):
+    kinds = tuple(kinds)
     base = pipeline()
     with _pipe_lock:
-        if _spipe is None:
-            _spipe = _structure_loader(base)
-        return _spipe
+        if kinds not in _spipes:
+            _spipes[kinds] = _structure_loader(base, kinds)
+        return _spipes[kinds]
 
 
 def edges(img, lo=60, hi=160):
@@ -157,9 +167,18 @@ def norm_job(body):
     except (TypeError, ValueError):
         sscale = 0.8
     sscale = sscale if 0.2 <= sscale <= 1.5 else 0.8
+    pose = None
+    ps = body.get("pose")
+    if isinstance(ps, dict) and ps.get("base64"):
+        pose = str(ps["base64"])
+    try:
+        pscale = float(body.get("poseScale"))
+    except (TypeError, ValueError):
+        pscale = 1.0
+    pscale = pscale if 0.2 <= pscale <= 1.5 else 1.0
     return {"prompt": prompt, "neg": neg, "steps": steps, "seed": seed, "w": w, "h": h,
             "strength": strength, "image_b64": image, "character": character,
-            "structure_b64": structure, "structure_scale": sscale, "sized": "x" in size}
+            "structure_b64": structure, "structure_scale": sscale, "pose_b64": pose, "pose_scale": pscale, "sized": "x" in size}
 
 
 def _reference(job):
@@ -188,15 +207,20 @@ def render(job):
     if not job["prompt"]:
         return {"ok": False, "error": "empty prompt"}
     t0 = time.time()
-    structure = None
-    if job.get("structure_b64"):
+    kinds, cimages, cscales = [], [], []
+    if job.get("structure_b64") or job.get("pose_b64"):
         from PIL import Image
-        src = Image.open(io.BytesIO(base64.b64decode(job["structure_b64"]))).convert("RGB")
+        first = Image.open(io.BytesIO(base64.b64decode(job.get("structure_b64") or job["pose_b64"]))).convert("RGB")
         if not job.get("sized"):  # keep the source's proportions, longest side 768
-            k = 768 / max(src.size)
-            job["w"], job["h"] = (max(256, int(v * k) // 8 * 8) for v in src.size)
-        structure = edges(src.resize((job["w"], job["h"])))
-    pipe = structure_pipeline() if structure is not None else pipeline()
+            k = 768 / max(first.size)
+            job["w"], job["h"] = (max(256, int(v * k) // 8 * 8) for v in first.size)
+        if job.get("structure_b64"):
+            kinds.append("canny"); cimages.append(edges(first.resize((job["w"], job["h"])))); cscales.append(job["structure_scale"])
+        if job.get("pose_b64"):
+            pm = Image.open(io.BytesIO(base64.b64decode(job["pose_b64"]))).convert("RGB")
+            kinds.append("pose"); cimages.append(pm.resize((job["w"], job["h"]))); cscales.append(job["pose_scale"])
+    structure = cimages or None
+    pipe = structure_pipeline(kinds) if kinds else pipeline()
     ref = _reference(job)
     try:
         import torch
@@ -205,9 +229,9 @@ def render(job):
         gen = job["seed"]
     kwargs = dict(**_long_prompt_kwargs(pipe, job["prompt"], job["neg"]), num_inference_steps=job["steps"],
                   guidance_scale=1.5, generator=gen, width=job["w"], height=job["h"])
-    if structure is not None:
-        kwargs["image"] = structure
-        kwargs["controlnet_conditioning_scale"] = job["structure_scale"]
+    if kinds:
+        kwargs["image"] = cimages[0] if len(kinds) == 1 else cimages
+        kwargs["controlnet_conditioning_scale"] = cscales[0] if len(kinds) == 1 else cscales
     if ref is not None:
         pipe.set_ip_adapter_scale(job["strength"])
         kwargs["ip_adapter_image"] = ref
@@ -218,8 +242,9 @@ def render(job):
         pipe.set_ip_adapter_scale(0.0)
         kwargs["ip_adapter_image"] = Image.new("RGB", (224, 224))
         mode = "txt2img"
-    if structure is not None:
-        mode = "remake" if mode == "txt2img" else "remake+" + mode
+    if kinds:
+        tag = "+".join({"canny": "remake", "pose": "pose"}[k] for k in kinds)
+        mode = tag if mode == "txt2img" else f"{tag}+{mode}"
     img = pipe(**kwargs).images[0]
     buf = io.BytesIO()
     img.save(buf, format="PNG")
