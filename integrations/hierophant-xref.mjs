@@ -194,6 +194,8 @@ export function interlink(text, esc, opts = {}) {
       if (matched) {
         const shown = src.slice(i, i + matched.phrase.length);   // preserve original casing/escaping
         out += `<a href="/gods/${escId(matched.id)}"${cls}>${shown}</a>`;
+        // Blue-Letter-Bible style: the word is a doorway — a 🎨 link pictures this figure in the Studio
+        if (opts.visualize) out += `<a href="${escId(opts.visualize)}/visualize?entity=${escId(matched.id)}${opts.textTitle ? `&amp;text=${escId(encodeURIComponent(opts.textTitle))}` : ''}" class="viz" title="Picture it" rel="nofollow">🎨</a>`;
         linked.add(matched.id);
         i += matched.phrase.length;
       } else {

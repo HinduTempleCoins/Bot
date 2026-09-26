@@ -25,10 +25,23 @@ const FLAG_STORE = process.env.KB_FLAG_STORE || path.join(__dir, '..', '..', 'li
 // itself has private domains (scripture, operator material) — those are never turned into articles,
 // but this is a second gate at the publish layer.
 const PRIVATE = /(_private|secret|operator|\.local|scripture)/i;
+// Article sources, first match wins per slug: the bot's generated articles (ARTICLES_DIR), then the articles
+// committed with the site (how our tools work, MELEK, Hathor…) and the seed articles. Before this, a host without
+// the bot's output dir (the web-tier move) served an EMPTY library.
+const ARTICLE_DIRS = [ARTICLES_DIR, path.join(__dir, 'articles'), path.join(__dir, 'seed-articles')];
 function listArticles() {
-  let files = [];
-  try { files = fs.readdirSync(ARTICLES_DIR).filter((f) => f.endsWith('.wiki') && !PRIVATE.test(f)); } catch {}
-  return files.map((f) => ({ slug: slugify(f), title: titleize(f.replace(/\.wiki$/, '')), file: path.join(ARTICLES_DIR, f) }));
+  const seen = new Set(); const out = [];
+  for (const dir of ARTICLE_DIRS) {
+    let files = [];
+    try { files = fs.readdirSync(dir).filter((f) => f.endsWith('.wiki') && !PRIVATE.test(f)).sort(); } catch { continue; }
+    for (const f of files) {
+      const slug = slugify(f);
+      if (seen.has(slug)) continue;
+      seen.add(slug);
+      out.push({ slug, title: titleize(f.replace(/\.wiki$/, '')), file: path.join(dir, f) });
+    }
+  }
+  return out;
 }
 function readArticle(slug) {
   const a = listArticles().find((x) => x.slug === slug);

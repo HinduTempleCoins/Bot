@@ -23,6 +23,8 @@
 // key with a loud warning — never a hardcoded real secret.
 
 import crypto from 'node:crypto';
+import { readFileSync, writeFileSync, renameSync, existsSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 
 // ---- master key resolution (soft-fail, never a hardcoded real secret) ----
 let _devKeyWarned = false;
@@ -76,6 +78,30 @@ function decrypt(blob) {
 // record: { name, scope, cap, blob, revoked, uses }
 const _store = new Map();
 
+// ---- optional persistence ----
+// CREDENTIAL_STORE_PATH set → records survive restart. What is written is exactly the in-memory record:
+// name/scope/cap/counters + the AES-256-GCM BLOB. Never plaintext; unreadable without VAULT_MASTER_KEY.
+// File is 0600 and replaced atomically (write tmp + rename). Unset (tests, dev) → memory only, as before.
+const STORE_PATH = () => process.env.CREDENTIAL_STORE_PATH || '';
+function _persist() {
+  const p = STORE_PATH(); if (!p) return;
+  try {
+    mkdirSync(dirname(p), { recursive: true });
+    const tmp = `${p}.tmp-${process.pid}`;
+    writeFileSync(tmp, JSON.stringify([..._store.values()]), { mode: 0o600 });
+    renameSync(tmp, p);
+  } catch { /* soft-fail: memory copy stays authoritative for this process */ }
+}
+export function __load() {
+  const p = STORE_PATH(); if (!p || !existsSync(p)) return 0;
+  try {
+    const rows = JSON.parse(readFileSync(p, 'utf8'));
+    for (const r of rows) if (r && r.name && r.blob) _store.set(r.name, { uses: 0, spent: 0, revoked: false, cap: {}, ...r });
+    return rows.length;
+  } catch { return 0; }
+}
+__load();
+
 // ---- append-only audit log ----
 const _audit = [];
 function logEvent(event, name, extra = {}) {
@@ -109,6 +135,7 @@ export function store({ name, secret, scope = 'default', cap = {} } = {}) {
   const blob = encrypt(String(secret));
   _store.set(name, { name, scope, cap: cap || {}, blob, revoked: false, uses: 0, spent: 0 });
   logEvent('store', name, { scope });
+  _persist();
   return { name, scope, cap: cap || {} }; // never returns the secret
 }
 
@@ -136,6 +163,7 @@ export function grant(name) {
       // Reserve the use (count/spend) BEFORE running fn so caps hold under concurrency.
       live.uses += 1;
       live.spent += Number(cost) || 0;
+      _persist();
       let secret = decrypt(live.blob);
       try {
         const result = await fn(secret);
@@ -155,6 +183,7 @@ export function revoke(name) {
   if (!record) throw new Error(`vault.revoke: no credential named '${name}'`);
   record.revoked = true;
   logEvent('revoke', name);
+  _persist();
   return true;
 }
 

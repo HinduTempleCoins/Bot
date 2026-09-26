@@ -49,34 +49,41 @@ import {
   REEL_TEMPLATES, REEL_ASPECTS, getReelTemplate, buildReelSpec, shotlist, validateReelTemplates,
 } from '../../integrations/genai-reel-maker.mjs';
 import {
-  EFFECT_TEMPLATES, EFFECT_CATEGORIES, listEffects, CHARACTERS, validateEffects,
+  EFFECT_TEMPLATES, EFFECT_CATEGORIES, listEffects, CHARACTERS, validateEffects, getEffect, buildEffectJob,
+  MYTH_TRADITIONS, TRAD_LABEL, MYTH_FIGURES, mythFigure, godLook, listMythology,
 } from '../../integrations/genai-effect-templates.mjs';
 import {
   TRACKS, LESSONS, listLessons, NFT_DISCLAIMER, validateSchool,
 } from '../../integrations/genai-school.mjs';
-import { buildReferenceSheet, composePrompt, ROLES } from '../../integrations/genai-compose.mjs';
+import { buildReferenceSheet, composePrompt, composePromptPlain, ROLES } from '../../integrations/genai-compose.mjs';
 import { showPageHtml as pentecaustShowHtml, hubFragmentHtml as pentecaustHubHtml } from '../../integrations/pentecaust-vtuber.mjs';
 import { validateRecipe, TRIGGERS, ACTIONS } from '../../integrations/pentecaust-recipes.mjs';
 import { DEFAULT_SERVER_PLAN, DEFAULT_MODERATION } from '../../integrations/pentecaust-community.mjs';
 import { catalog as gameExportCatalog } from '../../integrations/genai-game-export.mjs';
-import { storageConfig as hdStorageConfig, presignPut as hdPresignPut, presignGet as hdPresignGet, makeShareLink as hdMakeShareLink, checkAccess as hdCheckAccess, objectKey as hdObjectKey } from '../../integrations/harddrive.mjs';
+import { storageConfig as hdStorageConfig, presignPut as hdPresignPut, presignGet as hdPresignGet, makeShareLink as hdMakeShareLink, checkAccess as hdCheckAccess, objectKey as hdObjectKey, checkQuota as hdCheckQuota } from '../../integrations/harddrive.mjs';
 import { makeVideoPost, validateVideoPost, playerHtml as bfPlayer, feedCardHtml as bfCard, fmtViews as bfViews } from '../../integrations/melek-bifrost.mjs';
 import { AR_LIBRARIES, listArGroups } from '../../integrations/genai-ar-libraries.mjs';
 import { AR_FILTERS, listArFilters } from '../../integrations/genai-ar-filters.mjs';
 import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } from '../../integrations/genai-video-providers.mjs';
+import { homeInterceptScript, enginesBody, learnBody, DOWNLOADS as ENGINE_DOWNLOADS } from './engines.mjs';
+import { loadSymbols, getSymbol, symbolsIndexBody, symbolPageBody, serveSymbolAsset } from './symbols.mjs';
+import { loadIndex as loadScripts, loadScript, scriptsIndexBody, scriptPageBody, serveGlyphAsset } from './scripts.mjs';
+import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt } from './remakes.mjs';
 
 const PORT = +(process.env.PORT || 8131);
 const HOST = process.env.HOST || '127.0.0.1';
-const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
+// one dispatcher serves many sites, so a global BASE_URL can't be right for all of them — the Studio names its own
+const BASE_URL = (process.env.HATHOR_STUDIO_URL || process.env.BASE_URL || 'https://hathor.soapbox.community').replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
+const MELEK_SALON = (process.env.MELEK_SALON_SITE || 'https://melek.salon').replace(/\/$/, '');
 const HATHOR_LIVE = process.env.HATHOR_LIVE || 'https://hathor.live';
 const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
 const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
 const DISCORD = process.env.DISCORD_INVITE || 'https://discord.gg/5QAF9JuBF';
 // human-facing labels for the effect categories (operator's words)
-const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads' };
+const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads', 'myth-greek': 'Greek Mythology', 'myth-egyptian': 'Egyptian Mythology', 'myth-norse': 'Norse Mythology', 'myth-hindu': 'Hindu Mythology' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'hathor');
 const SHOWCASE_DIR = join(dirname(fileURLToPath(import.meta.url)), 'showcase'); // committed example images
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
@@ -191,18 +198,17 @@ const STYLE = `<style>
 </style>`;
 
 const FOOTER = `<footer>
-  <b>Free-first, no login.</b> Images are made by free / free-tier engines — we try
-  <b>Cloudflare Workers AI</b>, then <b>Google Gemini</b>, then <b>Pollinations.ai</b> (keyless), and we
-  label which one made each image. Cost-bearing engines run under a daily budget and a circuit breaker —
-  no runaway billing. We never see or store your keys, and we never proxy arbitrary URLs — only images
-  we generated and saved here. <i>Phase 1.</i> Coming next: ComfyUI on demand and Colab teach-lessons.
-  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Shilpa Shastra</a></div>
+  <b>Free, no login.</b> Images are made on <b>our own servers</b>, and every image says which engine made it.
+  When our engine is busy you can use <a href="/engines">your own</a> — your PC, a Colab, a Modal GPU, or a fal.ai
+  or Gemini key. Keys you type stay in your browser; we never proxy arbitrary URLs — only images we made and saved here.
+  <a href="/learn/make">Learn to make it yourself</a>.
+  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/mythology">Mythology</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/remakes">Remakes</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Shilpa Shastra</a></div>
   <div style="margin-top:6px">Part of Hathor's system: <a href="${esc(HATHOR_LIVE)}">hathor.live</a> · <a href="${esc(ALMANACK)}">the Almanack</a> · <a href="${esc(WIKI)}">the Library of Ashurbanipal</a> · <a href="${esc(REPO)}">the Bot repo</a> · <a href="${esc(DATA)}">Data</a></div>
   <div style="margin-top:6px">💬 <a href="${esc(DISCORD)}" target=_blank rel="noopener"><b>Chat on Discord</b></a> — Hathor is in there. Come say hi.</div>
 </footer>`;
 
 function pageShell(title, body, opts = {}) {
-  const desc = opts.description || 'Generative AI — make images now, free-first, no login. Prompt box, CapCut-style templates, and a gallery. Powered by Cloudflare Workers AI, Google Gemini and Pollinations.ai.';
+  const desc = opts.description || 'Hathor Studio — make images, remakes of ancient art, and videos, free with no login, on our own servers. Templates, character effects, ancient scripts, and your own engine if you want more.';
   const canonical = opts.canonical || `${BASE_URL}/`;
   const robots = opts.robots || 'index,follow,max-image-preview:large';
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
@@ -210,9 +216,12 @@ function pageShell(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+<link rel=canonical href="${esc(canonical)}">${opts.image ? `
+<meta property="og:type" content="website"><meta property="og:title" content="${esc(opts.ogTitle || title)}"><meta property="og:description" content="${esc(desc)}">
+<meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -283,6 +292,7 @@ export function homePage(opts = {}) {
         <label class=pill style="cursor:pointer">📎 Upload a photo <input type=file id=refimg accept="image/*" hidden></label>
         <span class=muted id=refname style="font-size:12px">optional — we'll make new images <b>of it</b> (your face, a product, anything)</span>
       </div>
+      <p class=muted style="font-size:12px;margin:6px 0 0">🛠️ Putting yourself into images is still being built, so it is not perfect yet — faces may drift while we grow the libraries.</p>
       <input type=hidden name=image id=refurl>
       <div class=row style="margin-top:12px">${sizeSelect()}
         <input class=q style="flex:1 1 180px;width:auto" name=place placeholder="place (optional — grounds the scene, e.g. North Texas)">
@@ -309,6 +319,7 @@ export function homePage(opts = {}) {
       });
     })();
     </script>
+    ${homeInterceptScript()}
 
     <h2>Start from a template</h2>
     <div class=grid>${TEMPLATES.slice(0, 6).map(templateCard).join('')}</div>
@@ -567,6 +578,7 @@ export function templateDetailView(id) {
     ${photoForward ? `<div class=card style="border-color:var(--gold)"><b>★ Turn YOU into this.</b> <span class=muted>Upload your photo below — this template drops you into the scene and keeps your face. Skip it to generate a fresh character instead.</span></div>` : ''}
     <div class=card><p class=muted style="font-size:13px">Example prompt this builds:</p>
       <p style="font-style:italic">${esc(exampleFor(t.id))}</p></div>
+    ${wipNote('likeness')}
     <form class=gform id=tplform method=post action="/api/generate"><input type=hidden name=template value="${esc(t.id)}">
       <div class=card>${fields}
         ${photoUploadWidget('tpl')}
@@ -582,9 +594,9 @@ function galleryCard(m) {
   const eng = m.note || m.provider || 'unknown engine';
   const tag = m.adult ? '<span style="background:#7a2540;color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;margin-right:4px">NSFW</span>' : '';
   return `<div class=gcard>
-    <img src="/img/${esc(m.file)}" alt="${esc(String(m.prompt || '').slice(0, 120))}" loading=lazy>
+    <a href="/p/${esc(m.file)}"><img src="/img/${esc(m.file)}" alt="${esc(String(m.prompt || '').slice(0, 120))}" loading=lazy></a>
     <div class=meta>${tag}<b>${esc(String(m.prompt || '').slice(0, 90))}</b><br>
-      made by ${esc(eng)} · ${esc(m.size || '')} · <a href="/animate?img=${esc(m.file)}">✨ animate</a> · <a href="/vectorize?img=${esc(m.file)}">⬡ vectorize</a></div></div>`;
+      made by ${esc(eng)} · ${esc(m.size || '')} · <a href="/animate?img=${esc(m.file)}">✨ animate</a> · <a href="/vectorize?img=${esc(m.file)}">⬡ vectorize</a> · <a href="/p/${esc(m.file)}">↗ share</a></div></div>`;
 }
 
 // Read a named cookie off the request (for the NSFW self-attestation toggle).
@@ -627,7 +639,7 @@ function resultPage(meta) {
         <a class=pill href="/compose?ref=/img/${esc(meta.file)}&role=character">➕ Use in Reference Studio</a>
         <a class=pill href="/gallery">see the gallery</a>
         <a class=pill href="/img/${esc(meta.file)}" download>download</a></div>
-      ${shareCta('Made something? Show it off —')}
+      ${shareCta('Made something? Show it off —', meta)}
     </div>`;
   return pageShell('Your image — Generative AI', body, { canonical: `${BASE_URL}/gallery`, robots: 'noindex,follow' });
 }
@@ -720,7 +732,7 @@ export async function handleGenerate(req, res) {
   catch { result = { ok: false, error: 'generation failed' }; }
 
   if (!result || !result.ok) {
-    return sendHtml(res, homePage({ note: 'No engine could make that image right now — please try again.' }), 502);
+    return sendHtml(res, homePage({ note: failNote(result) }), 502);
   }
   const meta = saveGeneration({
     base64: result.base64, mime: result.mime, prompt: cleaned,
@@ -730,6 +742,37 @@ export async function handleGenerate(req, res) {
   if (!meta) {
     return sendHtml(res, homePage({ note: 'The image was made but could not be saved — please try again.' }), 500);
   }
+  return sendHtml(res, resultPage(meta));
+}
+
+// Why nothing came back, in words a customer can act on. "busy" = our CPU engine has people queued (traffic).
+export function failNote(result) {
+  const busy = result && Array.isArray(result.tried) && result.tried.some((t) => t.id === 'cpusd' && t.skipped === 'busy');
+  return busy
+    ? 'Our free engine is busy making other people\'s images right now. Try again in a few minutes, or use your own engine (fal, Gemini, your own worker, or your keys on Pentecaust) — set it up once at /engines.'
+    : 'No engine could make that image right now. Please try again, or use your own engine at /engines.';
+}
+
+// ── /api/remake — keep an artwork's layout, re-render it in a chosen look and people (our CPU engine only) ──
+export async function handleRemake(req, res) {
+  const ip = clientIp(req);
+  if (!rateOk(ip)) return sendHtml(res, pageShell('Slow down — Remake', remakeToolBody({ note: `You've hit the limit of ${RATE_PER_HOUR} images per hour. Try again later.` }), { robots: 'noindex,follow' }), 429);
+  const params = await readBody(req);
+  const imgParam = String(params.get('image') || '').trim();
+  if (!/^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam)) return sendHtml(res, pageShell('Remake', remakeToolBody({ note: 'Choose the artwork to remake first.' })), 400);
+  let buf; try { buf = readFileSync(join(DATA_DIR, basename(imgParam))); } catch { return sendHtml(res, pageShell('Remake', remakeToolBody({ note: 'That upload has expired — choose the artwork again.' })), 400); }
+  const rp = remakePrompt({ desc: params.get('desc'), look: params.get('look'), people: params.get('people') });
+  const screen = screenPrompt(rp.prompt, { hasReferenceImage: false });
+  if (!screen.ok) return sendHtml(res, pageShell('Remake', remakeToolBody({ note: 'That request was blocked by the studio\'s content rules.' })), 400);
+  // keep the artwork's proportions (long side 768 — what our engine renders)
+  let size = '768x768';
+  try { const sharp = (await import('sharp')).default; const m = await sharp(buf).metadata(); const k = 768 / Math.max(m.width, m.height); size = `${Math.round(m.width * k / 8) * 8}x${Math.round(m.height * k / 8) * 8}`; } catch { /* square fallback */ }
+  let result;
+  try { result = await _generate({ prompt: rp.prompt, size, structure: buf.toString('base64'), structureScale: rp.scale }); }
+  catch { result = { ok: false }; }
+  if (!result || !result.ok) return sendHtml(res, pageShell('Remake', remakeToolBody({ note: failNote(result) })), 502);
+  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `Remake: ${params.get('desc') || 'ancient artwork'} (${params.get('look') || 'real'}, ${params.get('people') || 'as drawn'})`, provider: result.provider, note: result.note, size: result.size || size, seed: result.seed, adult: screen.adult });
+  if (!meta) return sendHtml(res, pageShell('Remake', remakeToolBody({ note: 'The image was made but could not be saved — please try again.' })), 500);
   return sendHtml(res, resultPage(meta));
 }
 
@@ -907,14 +950,16 @@ export async function handleHardDrivePresign(req, res) {
   const j = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
   if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
   const cfg = hdStorageConfig();
-  if (!cfg.configured) return j(503, { ok: false, error: 'HardDrive storage is not connected yet (needs a Cloudflare R2 bucket + token).' });
+  if (!cfg.configured) return j(503, { ok: false, error: 'HardDrive storage is not connected yet.' });
   const raw = await readRawBody(req, 1 << 16);
   let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
   const filename = String(b.filename || 'file').slice(0, 200);
   const owner = String((req.headers['x-melek-user'] || 'anon')).slice(0, 40); // wired to MELEK login later
+  const q = hdCheckQuota(ip, b.size);   // free tier: per-file + per-day limit; the size is signed into the URL
+  if (!q.ok) return j(q.code, { ok: false, error: q.error });
   try {
     const key = hdObjectKey(owner, filename);
-    const putUrl = hdPresignPut(cfg, key, { expiresIn: 900 });
+    const putUrl = hdPresignPut(cfg, key, { expiresIn: 900, contentLength: q.bytes });
     // publicUrl is a durable playback/download URL when the bucket is exposed via a public host (R2 public
     // bucket / custom domain). Without one, callers fall back to a presigned GET via the share link.
     const publicUrl = cfg.publicHost ? `${cfg.publicHost.replace(/\/$/, '')}/${key}` : '';
@@ -964,7 +1009,7 @@ export function composeView(prefill = []) {
   const roleOpts = Object.entries(ROLES).map(([k, v]) => `<option value="${esc(k)}">${esc(v.label[0] + v.label.slice(1).toLowerCase())}</option>`).join('');
   // design→GenAI handoff: other surfaces (/edit, /vectorize, /gallery) can deep-link a finished design
   // straight into a compose slot via ?ref=/img/..&role=object&label=.. — we seed it as a ready reference.
-  const seed = (Array.isArray(prefill) ? prefill : []).filter((p) => p && /^\/img\/[\w.-]+\.(png|jpe?g|webp|svg)$/i.test(String(p.url || ''))).slice(0, 6)
+  const seed = (Array.isArray(prefill) ? prefill : []).filter((p) => p && /^\/(img|symbols\/img)\/[\w.-]+\.(png|jpe?g|webp|svg)$/i.test(String(p.url || ''))).slice(0, 6)
     .map((p) => ({ url: String(p.url), role: ROLES[String(p.role || '').toLowerCase()] ? String(p.role).toLowerCase() : 'object', label: String(p.label || '').slice(0, 40) }));
   const body = `<h1>Reference Studio</h1>
   <p class=muted>Upload several references — <b>characters</b>, <b>objects</b> (jewelry, hair, a shirt, a prop), and a <b>scene</b> — tag each one, and generate them together in a single image. Free, no login.</p>
@@ -1036,8 +1081,21 @@ export async function handleCompose(req, res) {
   try { writeFileSync(join(DATA_DIR, sheetFile), sheetBuf); } catch { return j(500, { ok: false, error: 'could not save' }); }
   const sheetUrl = `/img/${sheetFile}`;
   const image = { url: `${publicOrigin(req)}${sheetUrl}`, base64: sheetBuf.toString('base64'), mime: 'image/png' };
-  let result; try { result = await _generate({ prompt: genPrompt, size: '1024x1024', image }); } catch { result = { ok: false }; }
-  if (!result || !result.ok) return j(502, { ok: false, error: 'no engine could compose that right now — try again' });
+  // Our engine takes each reference separately: characters + objects steer the look, the place steers the layout,
+  // with a plain prompt (no labelled sheet — that makes the model paint the sheet, text and all).
+  // characters count double: the engine blends all references equally, and a person must not be swallowed by an object
+  const chars = refs.filter((r) => r.role === 'character'), objs = refs.filter((r) => r.role === 'object');
+  const looks = [...chars, ...chars, ...objs].slice(0, 6).map((r) => ({ base64: r.buffer.toString('base64') }));
+  const scene = refs.find((r) => r.role === 'scene');
+  let size = '768x768';
+  if (scene) { try { const sharp = (await import('sharp')).default; const m = await sharp(scene.buffer).metadata(); const k = 768 / Math.max(m.width, m.height); size = `${Math.round(m.width * k / 8) * 8}x${Math.round(m.height * k / 8) * 8}`; } catch { /* square */ } }
+  const plain = composePromptPlain(refs.map((r) => ({ role: r.role, label: r.label })), cleaned);
+  let result;
+  try {
+    result = await _generate({ prompt: plain, size, images: looks, ...(scene ? { structure: scene.buffer.toString('base64'), structureScale: 0.35 } : {}) });
+    if ((!result || !result.ok) && !scene) result = await _generate({ prompt: genPrompt, size: '1024x1024', image });  // other engines read the sheet
+  } catch { result = { ok: false }; }
+  if (!result || !result.ok) return j(502, { ok: false, error: failNote(result) });
   const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `Composed: ${cleaned || refs.map((r) => r.label).filter(Boolean).join(', ')}`, provider: result.provider, note: result.note, size: result.size || '1024x1024', seed: result.seed, adult: screen.adult });
   if (!meta) return j(500, { ok: false, error: 'made but could not save' });
   return j(200, { ok: true, url: meta.url || `/img/${meta.file}`, sheet: sheetUrl, note: result.note });
@@ -1231,25 +1289,291 @@ function sendHtml(res, html, code = 200) {
 }
 
 // ── social share prompt (operator: "prompt them to share their images on social media") ───────────
-function shareCta(intro = 'Share your creation —') {
-  const u = encodeURIComponent(`${BASE_URL}/char`);
-  const t = encodeURIComponent(`I made this free with AI on ${BASE_URL} — no login, no card. #MELEK #SoapBox`);
+function shareCta(intro = 'Share your creation —', meta = null) {
+  // with an image: every button shares THAT picture (its own page carries the social preview card)
+  const pageUrl = meta ? `${BASE_URL}/p/${meta.file}` : `${BASE_URL}/char`;
+  const imgUrl = meta ? `${BASE_URL}/img/${meta.file}` : '';
+  const u = encodeURIComponent(pageUrl);
+  const t = encodeURIComponent(`I made this free with AI on Hathor Studio — no login, no card. #MELEK #SoapBox`);
+  // MELEK.Salon's editor can't be pre-filled from a link, so the button copies the post (image + link back)
+  // to the clipboard and opens the editor; the visitor pastes it in.
+  const melek = `${MELEK_SALON}/submit.html`;
+  const melekPost = meta ? `![${String(meta.prompt || 'my image').slice(0, 120).replace(/[\[\]]/g, '')}](${imgUrl})\n\nMade in Hathor Studio: ${pageUrl}` : '';
+  const native = meta ? `<button class=pill type=button id=sharenow style="border-color:var(--gold);color:var(--gold)">📱 Share…</button>
+      <button class=pill type=button id=copylink>🔗 Copy link</button>
+      <script>(function(){var P=${JSON.stringify(pageUrl)},I=${JSON.stringify(`/img/${meta.file}`)},T='Made in Hathor Studio #MELEK';
+        var c=document.getElementById('copylink');c.onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(P).then(function(){c.textContent='✓ Copied'})};
+        var s=document.getElementById('sharenow');s.onclick=async function(){try{var b=await(await fetch(I)).blob();var f=new File([b],I.split('/').pop(),{type:b.type});
+          if(navigator.canShare&&navigator.canShare({files:[f]}))return await navigator.share({files:[f],title:T,text:T+' '+P});
+          if(navigator.share)return await navigator.share({title:T,text:T,url:P});}catch(e){if(e&&e.name==='AbortError')return}c.click()};})();</script>` : '';
   return `<div class=card><b>${esc(intro)}</b>
     <div style="margin-top:8px">
-      <a class=pill style="border-color:var(--gold);color:var(--gold)" href="${esc(FORUM)}/post" target=_blank rel="noopener">✦ Share on MELEK</a>
+      ${native}
+      <a class=pill id=sharemelek style="border-color:var(--gold);color:var(--gold)" href="${esc(melek)}" target=_blank rel="noopener"${meta ? ` data-post="${esc(melekPost)}"` : ''}>✦ Share on MELEK</a>
+      ${meta ? `<script>(function(){var a=document.getElementById('sharemelek');a.addEventListener('click',function(){try{navigator.clipboard.writeText(a.dataset.post.replace(/\\n/g,'\n'));a.textContent='✓ Copied — paste it into your post';}catch(e){}});})();</script>` : ''}
       <a class=pill style="border-color:#5865F2;color:#5865F2" href="${esc(DISCORD)}" target=_blank rel="noopener">💬 Show it on Discord</a>
       <a class=pill href="https://twitter.com/intent/tweet?text=${t}&url=${u}" target=_blank rel="noopener">Share on X</a>
       <a class=pill href="https://www.facebook.com/sharer/sharer.php?u=${u}" target=_blank rel="noopener">Facebook</a>
       <a class=pill href="https://www.reddit.com/submit?url=${u}" target=_blank rel="noopener">Reddit</a>
+      <a class=pill href="https://pinterest.com/pin/create/button/?url=${u}${meta ? `&media=${encodeURIComponent(imgUrl)}` : ''}" target=_blank rel="noopener">Pinterest</a>
       <a class=pill href="https://t.me/share/url?url=${u}" target=_blank rel="noopener">Telegram</a>
+      <a class=pill href="https://wa.me/?text=${encodeURIComponent('Made in Hathor Studio ')}${u}" target=_blank rel="noopener">WhatsApp</a>
     </div>
-    <p class=muted style="font-size:12px;margin-top:8px"><b>Share on MELEK</b> posts it to our community — your creations, on our own chain. Or download and post on Instagram, TikTok or anywhere — tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
+    <p class=muted style="font-size:12px;margin-top:8px"><b>Share on MELEK</b> copies your picture and its link, then opens a new post on MELEK.Salon — just paste it in. Your creations, on our own chain.${meta ? ' <b>Share…</b> on a phone sends the picture itself to Instagram, TikTok, WhatsApp or anywhere.' : ''} Links you share show your picture as the preview. Tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
+}
+
+// the share page for one image: its own URL whose preview card on social media is the picture itself
+function sharePage(meta) {
+  const img = `${BASE_URL}/img/${meta.file}`;
+  const body = `<h1>Made in Hathor Studio</h1>
+    <div class=card>
+      <img src="/img/${esc(meta.file)}" alt="${esc(String(meta.prompt || '').slice(0, 120))}" style="max-width:100%;border-radius:8px;border:1px solid var(--line2)">
+      <p class=muted style="margin-top:12px">${esc(String(meta.prompt || '').slice(0, 300))}</p>
+      <div class=row style="margin-top:8px"><a class="pill gold" href="/">Make your own — free, no login →</a> <a class=pill href="/gallery">the gallery</a></div>
+    </div>
+    ${shareCta('Share it —', meta)}`;
+  return pageShell('Made in Hathor Studio', body, meta.adult
+    ? { canonical: `${BASE_URL}/p/${meta.file}`, robots: 'noindex,nofollow' }
+    : { canonical: `${BASE_URL}/p/${meta.file}`, robots: 'index,follow,max-image-preview:large', image: img,
+      description: `${String(meta.prompt || '').slice(0, 150)} — made free with AI in Hathor Studio.` });
 }
 
 // ── character effects gallery (operator: Animals, Holidays, Movies, Military, Mafia, Cartel…) ──────
-function effectCard(e) {
-  return `<div class=sec><div class=t>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></div></div>`;
+// Honest "still being built" notices (operator 2026-09-26): Hathor and likeness are not finished yet.
+export function wipNote(kind = 'likeness') {
+  const text = kind === 'hathor'
+    ? 'Hathor is still being completed. We are building her libraries of references, and she will be represented much better soon. Right now it is definitely not perfect, and the person beside her sometimes borrows her horns.'
+    : 'Putting yourself or your own character into a scene is still being built. We are growing the libraries that keep a likeness steady, so it is definitely not perfect yet, and faces may drift.';
+  return `<div class=card style="border-color:var(--gold)"><p class=muted style="font-size:13px;margin:0">🛠️ ${esc(text)}</p></div>`;
 }
+
+function effectCard(e) {
+  return `<a class=sec href="/fx/${esc(e.id)}"><div class=t>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></div></a>`;
+}
+
+// ── /fx/<id> — run ONE effect: pick a character (Hathor, Anpu, your own character, a described one, or you) ──
+// ── one character slot on an effect page: Hathor, Anpu, a god from the Hierophant, your own upload, a described one, or you
+function charSlot(i) {
+  const chars = CHARACTERS.map((c) => `<option value="builtin:${esc(c.id)}">${esc(c.name)}</option>`).join('');
+  const gods = MYTH_TRADITIONS.map((t) => `<optgroup label="${esc(TRAD_LABEL[t])} gods">${MYTH_FIGURES.filter((g) => g.tradition === t)
+    .map((g) => `<option value="god:${esc(g.id)}">${esc(g.name)}</option>`).join('')}</optgroup>`).join('');
+  const none = i ? '<option value="">— nobody else —</option>' : '';
+  return `<div class=slot data-i="${i}" style="${i ? 'margin-top:14px;border-top:1px solid var(--line2);padding-top:12px' : ''}">
+      <label class=fld>${i ? `Character ${i + 1}` : 'Who goes in the picture?'}</label>
+      <select class=q name=who${i} style="width:auto">${none}${chars}<option value="platform">My own character (upload its picture)</option>
+        <option value="fictional">A character I describe</option><option value="self">Me (upload my photo)</option>${gods}</select>
+      <div class=upbox style="display:none;margin-top:8px"><label class=pill style="cursor:pointer">📎 Choose the picture <input type=file class=fxfile accept="image/*" hidden></label>
+        <span class="muted fxname" style="font-size:12px;margin-left:8px"></span><input type=hidden name=image${i} class=fxurl></div>
+      <div class=namebox style="display:none;margin-top:8px"><input class=q name=name${i} placeholder="their name (optional)"></div>
+      <div class=lookbox style="display:none;margin-top:8px"><textarea class=q name=look${i} placeholder="describe them — e.g. a tall woman with silver braids, a lapis-blue robe and a gold falcon pendant"></textarea></div>
+      <label class=consentbox style="display:none;margin-top:8px;font-size:13px"><input type=checkbox name=consent${i} value=1> This is me, and I consent to using my own likeness.</label>
+    </div>`;
+}
+
+export function effectPage(e, note = '') {
+  const body = `<p class=muted><a href="/char">← All effects</a> · <a href="/mythology">Mythology</a></p>
+    <h1>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></h1>
+    ${note ? `<div class=card><p class=empty>${esc(note)}</p></div>` : ''}
+    ${wipNote(e.category === 'hathor' ? 'hathor' : 'likeness')}
+    <form class=gform id=fxform method=post action="/api/fx"><input type=hidden name=effect value="${esc(e.id)}"><div class=card>
+      ${charSlot(0)}
+      <div id=more></div>
+      <p style="margin-top:10px"><button type=button class=pill id=addchar>+ Add another character</button> <span class=muted style="font-size:12px">up to 4 — gods, Hathor, your own, anyone</span></p>
+      <label class=fld for=action style="margin-top:8px">What are they doing? (optional)</label>
+      <input class=q id=action name=action placeholder="e.g. playing poker at a candlelit table">
+      <p style="margin-top:12px"><button type=submit id=fxbtn>Make it</button> <span class=muted style="font-size:12px">made on our own servers — a minute or two</span></p>
+    </div></form>
+    <template id=slottpl>${charSlot(9)}</template>
+    <script>(function(){var f=document.getElementById('fxform'),b=document.getElementById('fxbtn'),n=1;
+      function wire(el){var w=el.querySelector('select');function show(){var v=w.value;el.querySelector('.upbox').style.display=(v==='platform'||v==='self')?'':'none';
+        el.querySelector('.namebox').style.display=(v==='platform'||v==='fictional')?'':'none';el.querySelector('.lookbox').style.display=v==='fictional'?'':'none';
+        el.querySelector('.consentbox').style.display=v==='self'?'':'none';}
+        w.addEventListener('change',show);show();var fi=el.querySelector('.fxfile');
+        fi.addEventListener('change',function(){var x=fi.files&&fi.files[0];el.querySelector('.fxurl').value='';el.querySelector('.fxname').textContent=x?x.name:'';});}
+      wire(document.querySelector('.slot'));
+      document.getElementById('addchar').addEventListener('click',function(){if(n>=4)return;var h=document.getElementById('slottpl').innerHTML
+        .replace(/who9/g,'who'+n).replace(/image9/g,'image'+n).replace(/name9/g,'name'+n).replace(/look9/g,'look'+n).replace(/consent9/g,'consent'+n).replace(/Character 10/g,'Character '+(n+1)).replace(/data-i="9"/g,'data-i="'+n+'"');
+        var d=document.createElement('div');d.innerHTML=h;var el=d.firstElementChild;document.getElementById('more').appendChild(el);wire(el);n++;});
+      f.addEventListener('submit',async function(e){var need=[].slice.call(document.querySelectorAll('.slot')).filter(function(el){var v=el.querySelector('select').value;return (v==='platform'||v==='self')&&!el.querySelector('.fxurl').value;});
+        if(!need.length)return;e.preventDefault();b.disabled=true;b.textContent='Uploading…';
+        for(var k=0;k<need.length;k++){var el=need[k],x=el.querySelector('.fxfile').files[0];if(!x){el.querySelector('.fxname').textContent='Choose the picture first.';b.disabled=false;b.textContent='Make it';return;}
+          try{var r=await fetch('/api/upload',{method:'POST',headers:{'content-type':x.type||'image/jpeg'},body:x});var j=await r.json();if(!(j&&j.ok&&j.url))throw 0;el.querySelector('.fxurl').value=j.url;}
+          catch(err){el.querySelector('.fxname').textContent='Upload failed — try again.';b.disabled=false;b.textContent='Make it';return;}}
+        b.textContent='Making it… (a minute or two)';f.submit();});})();</script>`;
+  return pageShell(`${e.title} — Character effects`, body, { canonical: `${BASE_URL}/fx/${e.id}`, description: `${e.title} — put Hathor, the gods, your own characters or yourself into this scene, several at once. Free, on our own servers.` });
+}
+
+const HATHOR_REF_FILE = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'character', 'assets', 'hathor-head-original.png');
+
+// one slot of the form → { input for buildEffectJob, ref image, label } | { error } | null (empty slot)
+function readSlot(params, i) {
+  const k = (f) => params.get(`${f}${i}`) ?? (i === 0 ? params.get(f) : null);
+  const who = String(k('who') || '');
+  if (!who) return null;
+  const imgParam = String(k('image') || '').trim();
+  const upload = /^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam) ? imgParam : null;
+  if ((who === 'platform' || who === 'self') && !upload) return { error: 'Choose the picture first.' };
+  if (who.startsWith('builtin:')) { const c = CHARACTERS.find((x) => x.id === who.slice(8)); return c ? { input: { kind: 'builtin', name: c.id }, display: c.name, hathor: c.id === 'hathor' } : { error: 'Unknown character.' }; }
+  if (who.startsWith('god:')) {
+    const g = mythFigure(who.slice(4));
+    if (!g) return { error: 'Unknown god.' };
+    return { input: { kind: 'fictional', name: g.name, look: godLook(g) } };
+  }
+  if (who === 'platform') return { input: { kind: 'platform', name: k('name') || 'my character', ref: upload }, upload };
+  if (who === 'fictional') return { input: { kind: 'fictional', name: k('name') || 'the character', look: String(k('look') || '').slice(0, 400) } };
+  if (who === 'self') return { input: { kind: 'real-person', name: 'the person in the photo', ref: upload, consent: k('consent') === '1' ? `self-attested:${new Date().toISOString()}` : null }, upload, self: true };
+  return { error: 'Choose who goes in the picture.' };
+}
+
+// Hathor in a line — for group scenes, where every person's look must fit the one prompt
+const HATHOR_SHORT = 'a woman with large dark curved horns, a glowing VR visor over her eyes and pink feathered wings';
+
+export async function handleEffect(req, res) {
+  const ip = clientIp(req);
+  const params = await readBody(req);
+  const e = getEffect(params.get('effect'));
+  if (!e) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown effect'); }
+  if (!rateOk(ip)) return sendHtml(res, effectPage(e, `You've hit the limit of ${RATE_PER_HOUR} images per hour. Try again later.`), 429);
+  const slots = [];
+  for (let i = 0; i < 4; i++) {
+    const sl = readSlot(params, i);
+    if (sl && sl.error) return sendHtml(res, effectPage(e, sl.error), 400);
+    if (sl) slots.push(sl);
+  }
+  if (!slots.length) return sendHtml(res, effectPage(e, 'Choose who goes in the picture.'), 400);
+  const action = String(params.get('action') || '').slice(0, 200);
+  // every slot passes the same consent gate; the prompt names each character with its look
+  const built = [];
+  for (const sl of slots) {
+    const b = buildEffectJob(e.id, sl.input, { size: '768x768', action });
+    if (!b.ok) return sendHtml(res, effectPage(e, b.needsConsent ? 'To use your own photo, tick the box confirming it is you and that you consent.' : b.error), 400);
+    built.push(b);
+  }
+  let prompt;
+  if (slots.length === 1) prompt = built[0].job.prompt;
+  else {
+    // left to right, in skeleton order; each look cut to its first clause so every person fits the prompt
+    const short = (t) => String(t || '').split(/[;:—]|\.\s/)[0].slice(0, 140).trim();
+    const lookOf = (sl) => sl.input.look || (sl.hathor ? HATHOR_SHORT : '');
+    const where = ['on the left', 'second from left', 'in the middle', 'second from right', 'on the right'];
+    const pos = (i) => (slots.length === 1 ? '' : i === 0 ? 'on the left' : i === slots.length - 1 ? 'on the right' : slots.length === 3 ? 'in the middle' : where[i]);
+    const who = slots.map((sl, i) => `${sl.display || sl.input.name} ${pos(i)}` + (lookOf(sl) ? ` (${short(lookOf(sl))})` : ''));
+    prompt = buildEffectJob(e.id, { kind: 'fictional', name: `${who.slice(0, -1).join(', ')} and ${who[who.length - 1]}` }, { action }).job.prompt
+      + `. Exactly ${slots.length} people, side by side, each one distinct`;
+  }
+  const screen = screenPrompt(prompt, { hasReferenceImage: slots.some((sl) => sl.self) });
+  if (!screen.ok) return sendHtml(res, effectPage(e, 'That request was blocked by the studio\'s content rules.'), 400);
+  // pictures steer the render (same characters, brand-new scene)
+  const refs = [];
+  const refSlots = []; // which person (left to right) each reference belongs to — the worker keeps it on that figure
+  slots.forEach((sl, i) => {
+    if (sl.upload) { try { refs.push({ base64: readFileSync(join(DATA_DIR, basename(sl.upload))).toString('base64') }); refSlots.push(i); } catch { refs.push({ url: `${publicOrigin(req)}${sl.upload}` }); } }
+    else if (sl.hathor) { try { refs.push({ base64: readFileSync(HATHOR_REF_FILE).toString('base64') }); refSlots.push(i); } catch { /* text only */ } }
+  });
+  // "Appear WITH Hathor": she has to be IN the picture
+  if (e.category === 'hathor' && !slots.some((sl) => sl.hathor)) {
+    try { refs.push({ base64: readFileSync(HATHOR_REF_FILE).toString('base64') }); refSlots.push(slots.length); } catch { /* text only */ }
+    prompt += `. Also in the picture, on the right: the goddess Hathor, ${HATHOR_SHORT}`;
+  }
+  const people = slots.length + (e.category === 'hathor' && !slots.some((sl) => sl.hathor) ? 1 : 0);
+  const opts = { prompt, size: people > 1 ? '768x512' : '768x768' };
+  if (refs.length > 1 || (refs.length && people > 1)) opts.images = refs; else if (refs.length) opts.image = refs[0];
+  if (people > 1 && refSlots.length === refs.length) opts.refSlots = refSlots;
+  if (people > 1) { opts.crowd = people; opts.seated = /\b(sit|seated|table|poker|dinner|feast|banquet|throne|cards)\b/i.test(prompt); }
+  let result;
+  try { result = await _generate(opts); } catch { result = { ok: false }; }
+  if (!result || !result.ok) return sendHtml(res, effectPage(e, failNote(result)), 502);
+  const names = slots.map((sl) => sl.display || sl.input.name).join(', ');
+  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `${e.title}: ${names}${action ? ` — ${action}` : ''}`, provider: result.provider, note: result.note, size: result.size || opts.size, seed: result.seed, adult: screen.adult });
+  if (!meta) return sendHtml(res, effectPage(e, 'The image was made but could not be saved — please try again.'), 500);
+  return sendHtml(res, resultPage(meta));
+}
+// ── /visualize — the Hierophant → image pipeline (like Blue Letter Bible turning a word into a study link):
+// a concept or a passage from a sacred text becomes a picture. Figures the Hierophant knows are recognised and
+// drawn with their traditional looks; several figures → several people (one skeleton each).
+import { ENTITIES as H_ENTITIES } from '../../integrations/hierophant-entities.mjs';
+const VIZ_LOOKS = {
+  real: { name: 'Realistic', suffix: 'photorealistic, as it might really have looked, natural light, cinematic, highly detailed' },
+  ancient: { name: 'Ancient art', suffix: 'in the style of the art of its own tradition — painted fresco, relief or vase painting — richly detailed' },
+  melek: { name: 'MELEK aesthetic', suffix: 'futuristic neon temple, glowing VR visors, holographic glyphs, chrome and gold, pastel pink purple and cyan light, dreamy vaporwave' },
+};
+export function vizFigures(text, extraIds = []) {
+  const low = ` ${String(text || '').toLowerCase().replace(/[^a-z0-9\s-]/g, ' ')} `;
+  const hit = (n) => { n = String(n || '').toLowerCase(); return n.length > 2 && low.includes(` ${n} `); };
+  const out = [];
+  for (const e of H_ENTITIES) if (extraIds.includes(e.id) || hit(e.name) || (e.epithets || []).some(hit)) out.push(e);
+  return out.slice(0, 4);
+}
+export function vizPrompt({ q = '', entity = '', text = '', look = 'real' } = {}) {
+  const figs = vizFigures(q, entity ? [entity] : []);
+  const L = VIZ_LOOKS[look] || VIZ_LOOKS.real;
+  const concept = String(q || '').replace(/\s+/g, ' ').trim().slice(0, 600) || (figs[0] ? figs[0].name : '');
+  const who = figs.map((e) => `${e.name} (${e.look || String(e.desc || '').split(/\s[—–-]\s|[.;]\s/)[0]})`);
+  const from = text ? `, from ${text}` : '';
+  const prompt = `${concept}${from}${who.length ? `. Showing ${who.join('; ')}` : ''}. ${L.suffix}`;
+  return { prompt, figures: figs.map((e) => e.id), people: figs.filter((e) => ['god', 'goddess', 'hero', 'prophet', 'angel'].includes(e.type)).length };
+}
+export function visualizeView({ q = '', entity = '', text = '', note = '' } = {}) {
+  const e = entity ? H_ENTITIES.find((x) => x.id === entity) : null;
+  const pre = q || (e ? `${e.name}${text ? ` in ${text}` : ''}` : '');
+  const looks = Object.entries(VIZ_LOOKS).map(([k, v]) => `<option value="${esc(k)}">${esc(v.name)}</option>`).join('');
+  const body = `<h1>Visualize <span class=muted style="font-size:14px">· a concept or a passage, as a picture</span></h1>
+    <p class=muted>Type a concept, or paste a passage from a sacred text or myth. Gods and figures the <a href="${esc(HIEROPHANT)}">Hierophant</a> knows
+      are recognised and drawn with their traditional attributes. From any figure or text on the Hierophant, the 🎨 link brings it here.</p>
+    ${note ? `<div class=card><p class=empty>${esc(note)}</p></div>` : ''}
+    ${e ? `<div class=card><b>${esc(e.name)}</b> <span class=muted>· ${esc(e.tradition)}</span><p class=muted style="margin:4px 0 0">${esc(e.look || e.desc || '')}</p></div>` : ''}
+    <form class=gform method=post action="/api/visualize"><div class=card>
+      <input type=hidden name=entity value="${esc(entity)}"><input type=hidden name=text value="${esc(text)}">
+      <label class=fld for=vq>What should the picture show?</label>
+      <textarea class=q id=vq name=q placeholder="e.g. Odin hanging on the world-tree for nine nights to win the runes">${esc(pre)}</textarea>
+      <div class=row style="margin-top:10px;gap:8px"><select class=q name=look style="width:auto">${looks}</select><button type=submit>Picture it</button></div>
+      <p class=muted style="font-size:12px">Made on our own servers — a minute or two.</p>
+    </div></form>`;
+  return pageShell('Visualize — concepts and passages as pictures', body, { canonical: `${BASE_URL}/visualize`, description: 'Turn a concept or a passage from a sacred text or myth into a picture — gods drawn with their traditional attributes, from the Hierophant encyclopedia.' });
+}
+export async function handleVisualize(req, res) {
+  const ip = clientIp(req);
+  const params = await readBody(req);
+  const q = String(params.get('q') || ''), entity = String(params.get('entity') || ''), text = String(params.get('text') || '');
+  if (!rateOk(ip)) return sendHtml(res, visualizeView({ q, entity, text, note: `You've hit the limit of ${RATE_PER_HOUR} images per hour. Try again later.` }), 429);
+  if (!q.trim() && !entity) return sendHtml(res, visualizeView({ note: 'Type what the picture should show.' }), 400);
+  const v = vizPrompt({ q, entity, text, look: String(params.get('look') || 'real') });
+  const screen = screenPrompt(v.prompt, { hasReferenceImage: false });
+  if (!screen.ok) return sendHtml(res, visualizeView({ q, entity, text, note: 'That request was blocked by the studio\'s content rules.' }), 400);
+  const opts = { prompt: v.prompt, size: v.people > 1 ? '768x512' : '768x768' };
+  if (v.people > 1) opts.crowd = v.people;
+  let result; try { result = await _generate(opts); } catch { result = { ok: false }; }
+  if (!result || !result.ok) return sendHtml(res, visualizeView({ q, entity, text, note: failNote(result) }), 502);
+  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `Visualize: ${q || entity}`.slice(0, 300), provider: result.provider, note: result.note, size: result.size || opts.size, seed: result.seed, adult: screen.adult });
+  if (!meta) return sendHtml(res, visualizeView({ q, entity, text, note: 'The image was made but could not be saved — please try again.' }), 500);
+  return sendHtml(res, resultPage(meta));
+}
+
+// ── /mythology — gods of four traditions, as or with them, alone or several at once (from the Hierophant) ──
+const HIEROPHANT = process.env.HIEROPHANT_SITE || 'https://hierophant.soapbox.community';
+export function mythologyView() {
+  const secs = MYTH_TRADITIONS.map((t) => {
+    const figs = MYTH_FIGURES.filter((g) => g.tradition === t);
+    const fx = listMythology(t);
+    const cards = figs.map((g) => {
+      const as = fx.find((e) => e.id === `as-${g.id}`), wi = fx.find((e) => e.id === `with-${g.id}`);
+      return `<div class=sec><div class=t>${esc(g.name)} <span class="badge cat">${esc(g.type)}</span></div>
+        <div class=d>${esc(String(g.desc || '').slice(0, 140))}</div>
+        <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">${as ? `<a class=pill href="/fx/${esc(as.id)}">As ${esc(g.name)}</a>` : ''}${wi ? `<a class=pill href="/fx/${esc(wi.id)}">With ${esc(g.name)}</a>` : ''}
+        <a class=pill href="${esc(HIEROPHANT)}/gods/${esc(g.id)}" target=_blank rel=noopener>Read on the Hierophant</a></div></div>`;
+    }).join('');
+    return `<h2 id="${esc(t)}">${esc(TRAD_LABEL[t])} mythology <span class=muted style="font-size:13px">(${figs.length})</span></h2><div class=grid>${cards}</div>`;
+  }).join('');
+  const body = `<h1>Mythology <span class=muted style="font-size:14px">· Greek, Egyptian, Norse and Hindu</span></h1>
+    <p class=muted>Become a god, or stand beside one. Each figure is drawn from the <a href="${esc(HIEROPHANT)}/gods">Hierophant's encyclopedia</a>
+      with its traditional attributes. Put several together too: open any effect, press <b>+ Add another character</b>, and say what they are
+      doing — <a href="/fx/group-custom">Zeus, Thor, Shiva and Hathor playing poker</a>, a council of the gods, a feast.</p>
+    <p class=muted><a href="#greek">Greek</a> · <a href="#egyptian">Egyptian</a> · <a href="#norse">Norse</a> · <a href="#hindu">Hindu</a> · <a href="/remakes">Remakes of the ancient world</a></p>
+    ${wipNote('likeness')}
+    ${secs}`;
+  return pageShell('Mythology — be a god, or stand beside one', body, { canonical: `${BASE_URL}/mythology`, description: 'Greek, Egyptian, Norse and Hindu gods from the Hierophant encyclopedia — become one, appear with one, or put several in one scene. Free, on our own servers.' });
+}
+
 export function charIndexView() {
   const byCat = EFFECT_CATEGORIES.map((c) => ({ c, items: listEffects(c) })).filter((g) => g.items.length);
   const chars = `<div class=grid>${CHARACTERS.map((c) =>
@@ -1259,6 +1583,7 @@ export function charIndexView() {
     `<h2>${esc(EFFECT_CAT_LABELS[g.c] || g.c)} <span class=muted style="font-size:13px">(${g.items.length})</span></h2><div class=grid>${g.items.map(effectCard).join('')}</div>`).join('');
   const body = `<h1>Character effects <span class=muted style="font-size:14px">· same character, brand-new scene</span></h1>
     <p class=muted>Pick a character, pick an effect — it keeps the <b>same character</b> but makes a completely new image, not the original photo. Use built-in <b>Hathor</b>, <a href="#create">create your own</a>, or a fictional one. A real person’s face needs consent; fictional and platform characters are open. Public figures are fair game for satire.</p>
+    ${wipNote('likeness')}
     <h2>Characters</h2>${chars}
     ${cats}
     ${shareCta('Made something you love? Show it off —')}
@@ -1511,6 +1836,7 @@ export function hathorIndexView() {
   const items = listEffects('hathor');
   const body = `<h1>Appear with Hathor <span class=muted style="font-size:14px">· ${items.length} ways and growing</span></h1>
     <p class=muted>Hathor is the MELEK AI Witness. Put yourself in a photo <b>with Hathor</b> — pick a scene, add your own character or a fictional one, and generate. Free, no login. It keeps you the same and drops you into the shot with her.</p>
+    ${wipNote('hathor')}
     <div class=grid>${items.map(effectCard).join('')}</div>
     ${shareCta('Made one with Hathor? Show it off —')}
     <div class=card><p class=muted style="font-size:13px">Want to appear <b>as</b> Hathor, a deity, or a famous figure? See <a href="/char">all character effects</a>. New scenes are added often.</p></div>`;
@@ -1523,6 +1849,7 @@ export function halloweenIndexView() {
   const holiday = listEffects('holiday');
   const body = `<h1>Halloween <span class=muted style="font-size:14px">· ${horror.length} horror looks</span></h1>
     <p class=muted>Turn yourself into anything spooky — pick a look, add your character or a fictional one, and generate. Free, no login. Meet <b>Anpu the Jackal Warden</b>, our Halloween character (over on <a href="/char">Characters</a>).</p>
+    ${wipNote('likeness')}
     <h2>Horror &amp; Halloween Movies <span class=muted style="font-size:13px">(${horror.length})</span></h2>
     <div class=grid>${horror.map(effectCard).join('')}</div>
     <h2>Holiday looks <span class=muted style="font-size:13px">(${holiday.length})</span></h2>
@@ -1891,6 +2218,13 @@ export async function handler(req, res) {
       return handleGenerate(req, res);
     }
 
+    if (path.startsWith('/p/')) {
+      const f = basename(decodeURIComponent(path.slice(3)));
+      let meta = null;
+      if (/^[\w.-]+\.(png|jpe?g|webp)$/i.test(f)) { try { meta = JSON.parse(readFileSync(join(DATA_DIR, f + '.json'), 'utf8')); } catch { /* none */ } }
+      if (!meta) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, sharePage(meta));
+    }
     if (path.startsWith('/img/')) {
       const f = decodeURIComponent(path.slice('/img/'.length));
       return serveImage(res, f);
@@ -1932,6 +2266,21 @@ export async function handler(req, res) {
     // ── CapCut-style reel template maker ──
     if (path === '/reel-maker') return sendHtml(res, reelIndexView());
     if (path === '/char') return sendHtml(res, charIndexView());
+    if (path === '/mythology') return sendHtml(res, mythologyView());
+    if (path === '/visualize') { const u = new URL(req.url, BASE_URL); return sendHtml(res, visualizeView({ q: u.searchParams.get('q') || '', entity: u.searchParams.get('entity') || '', text: u.searchParams.get('text') || '' })); }
+    if (path === '/api/visualize') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleVisualize(req, res);
+    }
+    if (path.startsWith('/fx/')) {
+      const e = getEffect(decodeURIComponent(path.slice(4)));
+      if (!e) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, effectPage(e));
+    }
+    if (path === '/api/fx') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleEffect(req, res);
+    }
     if (path === '/hathor') return sendHtml(res, hathorIndexView());
     if (path === '/halloween') return sendHtml(res, halloweenIndexView());
     if (path === '/animate') return sendHtml(res, animateView(url.searchParams.get('img')));
@@ -2029,6 +2378,42 @@ export async function handler(req, res) {
     if (path === '/webcam' || path === '/ar') return sendHtml(res, webcamView());
     if (path === '/ar-libraries' || path === '/ar-repos') return sendHtml(res, arLibrariesView());
     if (path === '/school') return sendHtml(res, schoolIndexView());
+    if (path === '/symbols') return sendHtml(res, pageShell('Sacred Symbols — religious and occult symbols across time', symbolsIndexBody(loadSymbols()), { canonical: `${BASE_URL}/symbols`, description: 'Hundreds of real religious and occult symbols — Egyptian, Mesopotamian, Punic, Greek, Hebrew, Christian, Hindu, Buddhist, Taoist, Norse, Celtic, alchemy, astrology and more — as free images, each with its history, meaning and sources.' }));
+    if (path.startsWith('/symbols/img/')) return serveSymbolAsset(res, decodeURIComponent(path.slice('/symbols/img/'.length)));
+    if (path.startsWith('/symbols/')) {
+      const sym = getSymbol(path.slice('/symbols/'.length).replace(/\/+$/, ''));
+      if (!sym) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, pageShell(`${sym.name} — Sacred Symbols`, symbolPageBody(sym), { canonical: `${BASE_URL}/symbols/${sym.id}`, description: String(sym.meaning || sym.name).slice(0, 160), image: sym.image ? `${BASE_URL}/symbols/img/${sym.image.file}` : undefined }));
+    }
+    if (path === '/scripts') return sendHtml(res, pageShell('Ancient Scripts — real letters for your designs', scriptsIndexBody(loadScripts()), { canonical: `${BASE_URL}/scripts`, description: 'Every letter of 29 real ancient scripts — Phoenician and Paleo-Hebrew, cuneiform, Egyptian hieroglyphs, runes, Ogham, Linear B, Brahmi, Tifinagh and more — as free images, plus an inscription maker.' }));
+    if (path.startsWith('/scripts/img/')) return serveGlyphAsset(res, 'img', decodeURIComponent(path.slice('/scripts/img/'.length)));
+    if (path.startsWith('/scripts/fonts/')) return serveGlyphAsset(res, 'fonts', decodeURIComponent(path.slice('/scripts/fonts/'.length)));
+    if (path.startsWith('/scripts/')) {
+      const cat = loadScript(path.slice('/scripts/'.length).replace(/\/+$/, ''));
+      if (!cat) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, pageShell(`${cat.name} — Ancient Scripts`, scriptPageBody(cat), { canonical: `${BASE_URL}/scripts/${cat.id}`, description: `All ${cat.count} signs of ${cat.name} as free images, and an inscription maker to write in it.` }));
+    }
+    if (path === '/remake') return sendHtml(res, pageShell('Remake — bring an ancient artwork to life', remakeToolBody(), { canonical: `${BASE_URL}/remake`, description: 'Upload a tomb painting, relief, fresco or vase and re-render it realistic, half vaporwave or in the full MELEK look — same people, poses and composition. Choose which people to show. Free, on our own servers.' }));
+    if (path === '/api/remake') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      return handleRemake(req, res);
+    }
+    if (path === '/remakes') {
+      const look = new URL(req.url, BASE_URL).searchParams.get('look') || '1_real';
+      return sendHtml(res, pageShell('Remakes — the ancient world, re-rendered', remakesBody(loadRemakes(), { look, base: BASE_URL }), { canonical: `${BASE_URL}/remakes`, description: 'Tomb paintings, stelae and Minoan frescoes remade in three looks and in several peoples side by side — Egyptian, Minoan, Nubian, Libyan, Levantine — made on our own servers.' }));
+    }
+    if (path.startsWith('/remakes/img/')) return serveRemakeImage(res, decodeURIComponent(path.slice('/remakes/img/'.length)));
+    if (path === '/engines') return sendHtml(res, pageShell('Your engines — ours free, or bring your own', enginesBody(), { canonical: `${BASE_URL}/engines`, description: 'Make images free on our servers, or plug in your own engine: your own worker on a PC, Colab or Modal GPU, or a fal.ai / Gemini key. Keys stay in your browser.' }));
+    if (path === '/learn/make') return sendHtml(res, pageShell('Make it yourself — characters, things, scenes', learnBody(), { canonical: `${BASE_URL}/learn/make`, description: 'How Hathor Studio images are made — characters, then things, then the scene; historical remakes in three looks — and how to run the engine yourself on a PC, Colab or Modal GPU.' }));
+    if (path.startsWith('/downloads/')) {
+      const rel = ENGINE_DOWNLOADS[path.slice('/downloads/'.length)];
+      if (!rel) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      try {
+        const buf = readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', '..', rel));
+        res.writeHead(200, { 'content-type': 'text/x-python; charset=utf-8', 'content-disposition': `attachment; filename="${basename(rel)}"`, 'cache-control': 'public, max-age=300' });
+        return res.end(buf);
+      } catch { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+    }
     if (path.startsWith('/reel-maker/')) {
       const rid = decodeURIComponent(path.slice('/reel-maker/'.length).replace(/\/+$/, ''));
       if (method === 'POST') {

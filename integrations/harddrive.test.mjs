@@ -84,3 +84,22 @@ test('checkAccess never throws on junk', () => {
   assert.equal(checkAccess(null).ok, false);
   assert.equal(checkAccess({}).ok, false);
 });
+
+test('free-tier limits: size required, per-file cap, per-day allowance; the size is SIGNED into the upload URL', async () => {
+  const hd = await import('./harddrive.mjs');
+  hd.__resetQuota();
+  process.env.HD_MAX_FILE_BYTES = '1000'; process.env.HD_DAILY_BYTES = '1500';
+  try {
+    assert.equal(hd.checkQuota('1.2.3.4', 0).code, 400);
+    assert.equal(hd.checkQuota('1.2.3.4', 1001).code, 413);
+    assert.equal(hd.checkQuota('1.2.3.4', 900).ok, true);
+    assert.equal(hd.checkQuota('1.2.3.4', 900).code, 429);          // 1800 > 1500 today
+    assert.equal(hd.checkQuota('5.6.7.8', 900).ok, true);           // another visitor is separate
+    const cfg = { configured: true, endpoint: 'https://drive.example', bucket: 'b', accessKeyId: 'AK', secretAccessKey: 'SK', region: 'auto' };
+    const withLen = hd.presignPut(cfg, 'u/x/f.bin', { contentLength: 900 });
+    assert.match(withLen, /X-Amz-SignedHeaders=content-length%3Bhost/);
+    const plain = hd.presignPut(cfg, 'u/x/f.bin');
+    assert.match(plain, /X-Amz-SignedHeaders=host(&|$)/);
+    assert.notEqual(withLen.split('X-Amz-Signature=')[1], plain.split('X-Amz-Signature=')[1]);
+  } finally { delete process.env.HD_MAX_FILE_BYTES; delete process.env.HD_DAILY_BYTES; }
+});

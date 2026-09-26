@@ -56,7 +56,7 @@ test('home emits OpenGraph, Twitter-card, canonical, description and robots', as
   assert.match(b, /<meta property="og:title" content="SoapBox Law/);
   assert.match(b, /<meta property="og:type" content="website">/);
   assert.match(b, /<meta property="og:site_name" content="SoapBox Law">/);
-  assert.match(b, /<meta name="twitter:card" content="summary">/);
+  assert.match(b, /<meta name="twitter:card" content="summary_large_image">/);   // law surfaces carry an og:image
   assert.match(b, /<meta name="twitter:title"/);
 });
 
