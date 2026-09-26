@@ -17,7 +17,7 @@ test('/ serves the tokens list page', async () => {
   assert.equal(r.code, 200);
   assert.match(r.body, /MELEK Tokens/);
   assert.match(r.body, /All tokens/);
-  assert.match(r.body, /Alpha/); // alpha badge
+  assert.doesNotMatch(r.body, /class=alpha>Alpha|Testnet\./); // mainnet: no alpha/testnet labels
 });
 
 test('/create serves the turnkey token-launch form', async () => {
@@ -47,7 +47,7 @@ test('/earnings has the per-post earnings UI', async () => {
 test('nav links to the multi-chain automation portal', async () => {
   const r = await get('/');
   assert.match(r.body, /Steem.Blurt.Hive.MELEK/);
-  assert.match(r.body, /auto\.alpha\.melek\.salon/);
+  assert.match(r.body, /auto\.melek\.salon/);
 });
 
 test('/token/:SYMBOL links to the Nitrous tribe page', async () => {
