@@ -562,7 +562,12 @@ export const EFFECT_TEMPLATES = [
 import { ENTITIES as HIEROPHANT_ENTITIES } from './hierophant-entities.mjs';
 export function godLook(ent) {
   const first = String(ent.desc || '').split(/\s[—–-]\s|[.;]\s/)[0].replace(/[\s.,;—–-]+$/, '');
-  return String(ent.look || `${ent.name}, ${first}`).replace(/\s+/g, ' ').trim();
+  if (!ent.look) return `${ent.name}, ${first}`.replace(/\s+/g, ' ').trim();
+  // the look carries scholarly notes too ("a later convention", "do NOT use the horned helmet", citations);
+  // those belong on the wiki — naming a thing in a prompt draws it, so only the depicting sentences go in
+  const NOTE = /\b(not|NOT|no|avoid|later|convention|invention|attested|modern|Renaissance|Hellenistic-and-later|cult type|variant|varies)\b/i;
+  const keep = String(ent.look).replace(/\s*\([^)]*\)/g, '').split(/(?<=[.;])\s+/).filter((x) => !NOTE.test(x));
+  return (keep.join(' ') || `${ent.name}, ${first}`).replace(/\s+/g, ' ').trim();
 }
 export const MYTH_FIGURES = HIEROPHANT_ENTITIES.filter((e) => MYTH_TRADITIONS.includes(e.tradition) && ['god', 'goddess', 'hero', 'creature'].includes(e.type));
 {

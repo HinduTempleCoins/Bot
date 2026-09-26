@@ -139,6 +139,22 @@ class Remake(unittest.TestCase):
         self.assertEqual(len(SFAKE.calls), n)
 
 
+class Group(unittest.TestCase):
+    def test_ref_slots_only_with_a_crowd_and_in_range(self):
+        self.assertEqual(w.norm_job({"prompt": "x", "crowd": 3, "refSlots": [2, 9, "1", 0]})["ref_slots"], [2, 0])
+        self.assertEqual(w.norm_job({"prompt": "x", "refSlots": [1]})["ref_slots"], [])
+
+    def test_slot_masks_cover_only_that_persons_column(self):
+        m = w.slot_masks(3, [2], 768, 512)[0]
+        self.assertEqual(m.getpixel((700, 256)), 255)
+        self.assertEqual(m.getpixel((100, 256)), 0)
+
+    def test_seated_skeleton_has_no_legs(self):
+        img = w.group_pose(3, 768, 512, seated=True)
+        self.assertEqual(img.size, (768, 512))
+        self.assertLess(img.getbbox()[3], 500)
+
+
 class Priority(unittest.TestCase):
     def test_customer_jobs_jump_background_batches(self):
         order = []

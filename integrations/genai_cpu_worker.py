@@ -115,16 +115,23 @@ def group_pose(n, w, h, seated=False):
     n = max(1, min(6, int(n)))
     img = Image.new("RGB", (w, h), (0, 0, 0)); d = ImageDraw.Draw(img)
     slot = w / n
-    s = min(slot / 170.0, h / 560.0)                      # figure scale
+    s = min(slot / 170.0, h / (330.0 if seated else 560.0))   # figure scale (a seated upper body is shorter)
     for i in range(n):
-        cx, top = slot * (i + 0.5), h * 0.08
-        P = lambda dx, dy: (cx + dx * s, top + dy * s)
-        leg = 0.55 if seated else 1.0
-        pts = {0: P(0, 40), 1: P(0, 90), 2: P(-45, 95), 3: P(-60, 175), 4: P(-50, 250), 5: P(45, 95), 6: P(60, 175), 7: P(50, 250),
-               8: P(-25, 260), 9: P(-28, 260 + 140 * leg), 10: P(-30, 260 + 270 * leg), 11: P(25, 260), 12: P(28, 260 + 140 * leg),
-               13: P(30, 260 + 270 * leg), 14: P(-10, 32), 15: P(10, 32), 16: P(-22, 38), 17: P(22, 38)}
+        if seated:
+            # upper bodies behind a table: hips hidden at the table edge, forearms forward on the tabletop, no legs
+            cx, top = slot * (i + 0.5), h * 0.14
+            P = lambda dx, dy: (cx + dx * s, top + dy * s)
+            pts = {0: P(0, 40), 1: P(0, 90), 2: P(-45, 95), 3: P(-62, 170), 4: P(-28, 215), 5: P(45, 95), 6: P(62, 170), 7: P(28, 215),
+                   8: P(-25, 255), 11: P(25, 255), 14: P(-10, 32), 15: P(10, 32), 16: P(-22, 38), 17: P(22, 38)}
+        else:
+            cx, top = slot * (i + 0.5), h * 0.08
+            P = lambda dx, dy: (cx + dx * s, top + dy * s)
+            pts = {0: P(0, 40), 1: P(0, 90), 2: P(-45, 95), 3: P(-60, 175), 4: P(-50, 250), 5: P(45, 95), 6: P(60, 175), 7: P(50, 250),
+                   8: P(-25, 260), 9: P(-28, 400), 10: P(-30, 530), 11: P(25, 260), 12: P(28, 400),
+                   13: P(30, 530), 14: P(-10, 32), 15: P(10, 32), 16: P(-22, 38), 17: P(22, 38)}
         lw = max(3, int(8 * s))
         for k, (a, b) in enumerate(_LIMBS):
+            if a not in pts or b not in pts: continue
             d.line([pts[a], pts[b]], fill=tuple(int(v * 0.6) for v in _COLS[k]), width=lw)
         for k, (x, y) in pts.items():
             r = max(3, int(5 * s)); d.ellipse([x - r, y - r, x + r, y + r], fill=_COLS[k])
@@ -213,10 +220,14 @@ def norm_job(body):
         crowd = 0
     crowd = crowd if 2 <= crowd <= 6 else 0
     seated = bool(body.get("seated"))
+    # which person (left to right) each reference image belongs to, so a face/look stays on its own figure
+    slots = body.get("refSlots") if isinstance(body.get("refSlots"), list) else []
+    ref_slots = [int(x) for x in slots[:6] if isinstance(x, int) and 0 <= x < 6] if crowd else []
     return {"prompt": prompt, "neg": neg, "steps": steps, "seed": seed, "w": w, "h": h,
             "strength": strength, "image_b64": image, "character": character,
             "structure_b64": structure, "structure_scale": sscale, "pose_b64": pose, "pose_scale": pscale, "sized": "x" in size,
-            "images_b64": images, "crowd": crowd, "seated": seated}
+            "images_b64": images, "crowd": crowd, "seated": seated,
+            "ref_slots": ref_slots}
 
 
 def _reference(job):
@@ -231,6 +242,17 @@ def _reference(job):
     if job["character"] == "hathor" and os.path.exists(HATHOR_REF):
         return Image.open(HATHOR_REF).convert("RGB")
     return None
+
+
+def slot_masks(n, slots, w, h):
+    """One mask per reference: white over that person's column of the group skeleton, black elsewhere."""
+    from PIL import Image, ImageDraw
+    out, col = [], w / n
+    for i in slots:
+        m = Image.new("L", (w, h), 0)
+        ImageDraw.Draw(m).rectangle([int(col * i), 0, int(col * (i + 1)), h], fill=255)
+        out.append(m)
+    return out
 
 
 def _long_prompt_kwargs(pipe, prompt, neg):
@@ -282,8 +304,18 @@ def render(job):
     if ref is not None:
         pipe.set_ip_adapter_scale(job["strength"])
         # a list = several references for the one IP-Adapter (their features are combined)
-        kwargs["ip_adapter_image"] = [ref] if isinstance(ref, list) else ref
-        mode = "compose" if isinstance(ref, list) else "character"
+        refs = ref if isinstance(ref, list) else [ref]
+        if job.get("crowd") and len(job.get("ref_slots") or []) == len(refs):
+            # each reference only steers its own person's column (otherwise one face/horns spread to everyone)
+            from diffusers.image_processor import IPAdapterMaskProcessor
+            mk = IPAdapterMaskProcessor().preprocess(slot_masks(job["crowd"], job["ref_slots"], job["w"], job["h"]),
+                                                    height=job["h"], width=job["w"])
+            kwargs["ip_adapter_image"] = [refs]
+            kwargs["cross_attention_kwargs"] = {"ip_adapter_masks": [mk.reshape(1, mk.shape[0], mk.shape[2], mk.shape[3])]}
+            mode = "group"
+        else:
+            kwargs["ip_adapter_image"] = [ref] if isinstance(ref, list) else ref
+            mode = "compose" if isinstance(ref, list) else "character"
     else:
         # IP-Adapter is loaded, so it still expects an image; scale 0 makes it a no-op
         from PIL import Image

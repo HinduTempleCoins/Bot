@@ -543,8 +543,15 @@ test('character effects are runnable: /fx page, Hathor carries her reference, ow
   const fict = await call(form({ effect: 'hathor-beach', who: 'fictional', name: 'Nefer', look: 'silver braids and a lapis robe' }));
   assert.equal(fict.statusCode, 200); assert.match(seen.prompt, /Nefer.*silver braids/);
   assert.equal(seen.images.length, 1);                      // Appear WITH Hathor: her reference is sent too
-  assert.match(seen.prompt, /Also in the picture: the goddess Hathor/);
+  assert.match(seen.prompt, /Also in the picture, on the right: the goddess Hathor, a woman with large dark curved horns/);
   assert.equal(seen.crowd, 2);                               // a two-person skeleton so both are drawn
+  assert.deepEqual(seen.refSlots, [1]);                      // her reference steers only her figure (right)
+  seen = null; __resetRate();
+  const poker = await call(form({ effect: 'group-custom', who0: 'god:zeus', who1: 'god:thor', who2: 'builtin:hathor', action: 'playing poker' }));
+  assert.equal(poker.statusCode, 200);
+  assert.equal(seen.crowd, 3); assert.equal(seen.seated, true);
+  assert.deepEqual(seen.refSlots, [2]);                      // Hathor is third, left to right
+  assert.match(seen.prompt, /Zeus on the left \(.+\).*Thor in the middle \(.+\).*Hathor on the right \(.*horns/);
   __setGenerator(null);
 });
 
@@ -596,4 +603,21 @@ test('/visualize: a passage naming Hierophant figures becomes a picture of them,
   const r = await call({ method: 'POST', url: '/api/visualize', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: 'q=Odin+and+Thor+feasting+in+the+hall&look=real' });
   __setGenerator(null);
   assert.equal(r.statusCode, 200); assert.equal(seen.crowd, 2);
+});
+
+test('sharing carries the picture: result page -> /p/ share page with a social card, MELEK post pre-filled with the image', async () => {
+  __resetRate();
+  __setGenerator(async () => ({ ok: true, provider: 'cpusd', base64: Buffer.from('x').toString('base64'), mime: 'image/png', note: 'ours' }));
+  const r = await call({ method: 'POST', url: '/api/fx', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ effect: 'hathor-throne', who: 'builtin:hathor' }).toString() });
+  const file = r.text().match(/\/img\/([\w.-]+\.png)/)[1];
+  assert.match(r.text(), new RegExp(`/p/${file.replace('.', '\\.')}`));            // X/Facebook/... share THIS picture
+  assert.match(r.text(), /forum\.soapbox\.community\/post\?board=studio&amp;title=.+&amp;body=.*%2Fimg%2F/);
+  assert.match(r.text(), /id=sharenow/);
+  const p = await call({ url: `/p/${file}` });
+  assert.equal(p.statusCode, 200);
+  assert.match(p.text(), new RegExp(`og:image" content="[^"]+/img/${file.replace('.', '\\.')}"`));
+  assert.match(p.text(), /twitter:card" content="summary_large_image"/);
+  assert.equal((await call({ url: '/p/nope.png' })).statusCode, 404);
+  assert.equal((await call({ url: '/p/..%2F..%2Fetc%2Fpasswd' })).statusCode, 404);
+  __setGenerator(null);
 });

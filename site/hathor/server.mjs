@@ -71,7 +71,8 @@ import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolB
 
 const PORT = +(process.env.PORT || 8131);
 const HOST = process.env.HOST || '127.0.0.1';
-const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
+// one dispatcher serves many sites, so a global BASE_URL can't be right for all of them — the Studio names its own
+const BASE_URL = (process.env.HATHOR_STUDIO_URL || process.env.BASE_URL || 'https://hathor.soapbox.community').replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
@@ -213,7 +214,10 @@ function pageShell(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+<link rel=canonical href="${esc(canonical)}">${opts.image ? `
+<meta property="og:type" content="website"><meta property="og:title" content="${esc(opts.ogTitle || title)}"><meta property="og:description" content="${esc(desc)}">
+<meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
   <div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
@@ -588,9 +592,9 @@ function galleryCard(m) {
   const eng = m.note || m.provider || 'unknown engine';
   const tag = m.adult ? '<span style="background:#7a2540;color:#fff;font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;margin-right:4px">NSFW</span>' : '';
   return `<div class=gcard>
-    <img src="/img/${esc(m.file)}" alt="${esc(String(m.prompt || '').slice(0, 120))}" loading=lazy>
+    <a href="/p/${esc(m.file)}"><img src="/img/${esc(m.file)}" alt="${esc(String(m.prompt || '').slice(0, 120))}" loading=lazy></a>
     <div class=meta>${tag}<b>${esc(String(m.prompt || '').slice(0, 90))}</b><br>
-      made by ${esc(eng)} · ${esc(m.size || '')} · <a href="/animate?img=${esc(m.file)}">✨ animate</a> · <a href="/vectorize?img=${esc(m.file)}">⬡ vectorize</a></div></div>`;
+      made by ${esc(eng)} · ${esc(m.size || '')} · <a href="/animate?img=${esc(m.file)}">✨ animate</a> · <a href="/vectorize?img=${esc(m.file)}">⬡ vectorize</a> · <a href="/p/${esc(m.file)}">↗ share</a></div></div>`;
 }
 
 // Read a named cookie off the request (for the NSFW self-attestation toggle).
@@ -633,7 +637,7 @@ function resultPage(meta) {
         <a class=pill href="/compose?ref=/img/${esc(meta.file)}&role=character">➕ Use in Reference Studio</a>
         <a class=pill href="/gallery">see the gallery</a>
         <a class=pill href="/img/${esc(meta.file)}" download>download</a></div>
-      ${shareCta('Made something? Show it off —')}
+      ${shareCta('Made something? Show it off —', meta)}
     </div>`;
   return pageShell('Your image — Generative AI', body, { canonical: `${BASE_URL}/gallery`, robots: 'noindex,follow' });
 }
@@ -1283,19 +1287,51 @@ function sendHtml(res, html, code = 200) {
 }
 
 // ── social share prompt (operator: "prompt them to share their images on social media") ───────────
-function shareCta(intro = 'Share your creation —') {
-  const u = encodeURIComponent(`${BASE_URL}/char`);
-  const t = encodeURIComponent(`I made this free with AI on ${BASE_URL} — no login, no card. #MELEK #SoapBox`);
+function shareCta(intro = 'Share your creation —', meta = null) {
+  // with an image: every button shares THAT picture (its own page carries the social preview card)
+  const pageUrl = meta ? `${BASE_URL}/p/${meta.file}` : `${BASE_URL}/char`;
+  const imgUrl = meta ? `${BASE_URL}/img/${meta.file}` : '';
+  const u = encodeURIComponent(pageUrl);
+  const t = encodeURIComponent(`I made this free with AI on Hathor Studio — no login, no card. #MELEK #SoapBox`);
+  const melek = meta
+    ? `${FORUM}/post?${new URLSearchParams({ board: 'studio', title: String(meta.prompt || 'Made in Hathor Studio').slice(0, 90), body: `![${String(meta.prompt || 'my image').slice(0, 120).replace(/[\[\]]/g, '')}](${imgUrl})\n\nMade in Hathor Studio: ${pageUrl}` })}`
+    : `${FORUM}/post`;
+  const native = meta ? `<button class=pill type=button id=sharenow style="border-color:var(--gold);color:var(--gold)">📱 Share…</button>
+      <button class=pill type=button id=copylink>🔗 Copy link</button>
+      <script>(function(){var P=${JSON.stringify(pageUrl)},I=${JSON.stringify(`/img/${meta.file}`)},T='Made in Hathor Studio #MELEK';
+        var c=document.getElementById('copylink');c.onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(P).then(function(){c.textContent='✓ Copied'})};
+        var s=document.getElementById('sharenow');s.onclick=async function(){try{var b=await(await fetch(I)).blob();var f=new File([b],I.split('/').pop(),{type:b.type});
+          if(navigator.canShare&&navigator.canShare({files:[f]}))return await navigator.share({files:[f],title:T,text:T+' '+P});
+          if(navigator.share)return await navigator.share({title:T,text:T,url:P});}catch(e){if(e&&e.name==='AbortError')return}c.click()};})();</script>` : '';
   return `<div class=card><b>${esc(intro)}</b>
     <div style="margin-top:8px">
-      <a class=pill style="border-color:var(--gold);color:var(--gold)" href="${esc(FORUM)}/post" target=_blank rel="noopener">✦ Share on MELEK</a>
+      ${native}
+      <a class=pill style="border-color:var(--gold);color:var(--gold)" href="${esc(melek)}" target=_blank rel="noopener">✦ Share on MELEK</a>
       <a class=pill style="border-color:#5865F2;color:#5865F2" href="${esc(DISCORD)}" target=_blank rel="noopener">💬 Show it on Discord</a>
       <a class=pill href="https://twitter.com/intent/tweet?text=${t}&url=${u}" target=_blank rel="noopener">Share on X</a>
       <a class=pill href="https://www.facebook.com/sharer/sharer.php?u=${u}" target=_blank rel="noopener">Facebook</a>
       <a class=pill href="https://www.reddit.com/submit?url=${u}" target=_blank rel="noopener">Reddit</a>
+      <a class=pill href="https://pinterest.com/pin/create/button/?url=${u}${meta ? `&media=${encodeURIComponent(imgUrl)}` : ''}" target=_blank rel="noopener">Pinterest</a>
       <a class=pill href="https://t.me/share/url?url=${u}" target=_blank rel="noopener">Telegram</a>
+      <a class=pill href="https://wa.me/?text=${encodeURIComponent('Made in Hathor Studio ')}${u}" target=_blank rel="noopener">WhatsApp</a>
     </div>
-    <p class=muted style="font-size:12px;margin-top:8px"><b>Share on MELEK</b> posts it to our community — your creations, on our own chain. Or download and post on Instagram, TikTok or anywhere — tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
+    <p class=muted style="font-size:12px;margin-top:8px"><b>Share on MELEK</b> opens a post on our forum with your picture already in it — your creations, on our own chain.${meta ? ' <b>Share…</b> on a phone sends the picture itself to Instagram, TikTok, WhatsApp or anywhere.' : ''} Links you share show your picture as the preview. Tag us and use <b>#MELEK</b> so others find the free tools.</p></div>`;
+}
+
+// the share page for one image: its own URL whose preview card on social media is the picture itself
+function sharePage(meta) {
+  const img = `${BASE_URL}/img/${meta.file}`;
+  const body = `<h1>Made in Hathor Studio</h1>
+    <div class=card>
+      <img src="/img/${esc(meta.file)}" alt="${esc(String(meta.prompt || '').slice(0, 120))}" style="max-width:100%;border-radius:8px;border:1px solid var(--line2)">
+      <p class=muted style="margin-top:12px">${esc(String(meta.prompt || '').slice(0, 300))}</p>
+      <div class=row style="margin-top:8px"><a class="pill gold" href="/">Make your own — free, no login →</a> <a class=pill href="/gallery">the gallery</a></div>
+    </div>
+    ${shareCta('Share it —', meta)}`;
+  return pageShell('Made in Hathor Studio', body, meta.adult
+    ? { canonical: `${BASE_URL}/p/${meta.file}`, robots: 'noindex,nofollow' }
+    : { canonical: `${BASE_URL}/p/${meta.file}`, robots: 'index,follow,max-image-preview:large', image: img,
+      description: `${String(meta.prompt || '').slice(0, 150)} — made free with AI in Hathor Studio.` });
 }
 
 // ── character effects gallery (operator: Animals, Holidays, Movies, Military, Mafia, Cartel…) ──────
@@ -1385,6 +1421,9 @@ function readSlot(params, i) {
   return { error: 'Choose who goes in the picture.' };
 }
 
+// Hathor in a line — for group scenes, where every person's look must fit the one prompt
+const HATHOR_SHORT = 'a woman with large dark curved horns, a glowing VR visor over her eyes and pink feathered wings';
+
 export async function handleEffect(req, res) {
   const ip = clientIp(req);
   const params = await readBody(req);
@@ -1409,7 +1448,12 @@ export async function handleEffect(req, res) {
   let prompt;
   if (slots.length === 1) prompt = built[0].job.prompt;
   else {
-    const who = slots.map((sl) => (sl.display || sl.input.name) + (sl.input.look ? ` (${sl.input.look})` : ''));
+    // left to right, in skeleton order; each look cut to its first clause so every person fits the prompt
+    const short = (t) => String(t || '').split(/[;:—]|\.\s/)[0].slice(0, 140).trim();
+    const lookOf = (sl) => sl.input.look || (sl.hathor ? HATHOR_SHORT : '');
+    const where = ['on the left', 'second from left', 'in the middle', 'second from right', 'on the right'];
+    const pos = (i) => (slots.length === 1 ? '' : i === 0 ? 'on the left' : i === slots.length - 1 ? 'on the right' : slots.length === 3 ? 'in the middle' : where[i]);
+    const who = slots.map((sl, i) => `${sl.display || sl.input.name} ${pos(i)}` + (lookOf(sl) ? ` (${short(lookOf(sl))})` : ''));
     prompt = buildEffectJob(e.id, { kind: 'fictional', name: `${who.slice(0, -1).join(', ')} and ${who[who.length - 1]}` }, { action }).job.prompt
       + `. Exactly ${slots.length} people, side by side, each one distinct`;
   }
@@ -1417,18 +1461,20 @@ export async function handleEffect(req, res) {
   if (!screen.ok) return sendHtml(res, effectPage(e, 'That request was blocked by the studio\'s content rules.'), 400);
   // pictures steer the render (same characters, brand-new scene)
   const refs = [];
-  for (const sl of slots) {
-    if (sl.upload) { try { refs.push({ base64: readFileSync(join(DATA_DIR, basename(sl.upload))).toString('base64') }); } catch { refs.push({ url: `${publicOrigin(req)}${sl.upload}` }); } }
-    else if (sl.hathor) { try { refs.push({ base64: readFileSync(HATHOR_REF_FILE).toString('base64') }); } catch { /* text only */ } }
-  }
+  const refSlots = []; // which person (left to right) each reference belongs to — the worker keeps it on that figure
+  slots.forEach((sl, i) => {
+    if (sl.upload) { try { refs.push({ base64: readFileSync(join(DATA_DIR, basename(sl.upload))).toString('base64') }); refSlots.push(i); } catch { refs.push({ url: `${publicOrigin(req)}${sl.upload}` }); } }
+    else if (sl.hathor) { try { refs.push({ base64: readFileSync(HATHOR_REF_FILE).toString('base64') }); refSlots.push(i); } catch { /* text only */ } }
+  });
   // "Appear WITH Hathor": she has to be IN the picture
   if (e.category === 'hathor' && !slots.some((sl) => sl.hathor)) {
-    try { refs.push({ base64: readFileSync(HATHOR_REF_FILE).toString('base64') }); } catch { /* text only */ }
-    prompt += '. Also in the picture: the goddess Hathor with her large dark curved horns, a glowing VR visor over her eyes and pink feathered wings';
+    try { refs.push({ base64: readFileSync(HATHOR_REF_FILE).toString('base64') }); refSlots.push(slots.length); } catch { /* text only */ }
+    prompt += `. Also in the picture, on the right: the goddess Hathor, ${HATHOR_SHORT}`;
   }
   const people = slots.length + (e.category === 'hathor' && !slots.some((sl) => sl.hathor) ? 1 : 0);
   const opts = { prompt, size: people > 1 ? '768x512' : '768x768' };
   if (refs.length > 1 || (refs.length && people > 1)) opts.images = refs; else if (refs.length) opts.image = refs[0];
+  if (people > 1 && refSlots.length === refs.length) opts.refSlots = refSlots;
   if (people > 1) { opts.crowd = people; opts.seated = /\b(sit|seated|table|poker|dinner|feast|banquet|throne|cards)\b/i.test(prompt); }
   let result;
   try { result = await _generate(opts); } catch { result = { ok: false }; }
@@ -2168,6 +2214,13 @@ export async function handler(req, res) {
       return handleGenerate(req, res);
     }
 
+    if (path.startsWith('/p/')) {
+      const f = basename(decodeURIComponent(path.slice(3)));
+      let meta = null;
+      if (/^[\w.-]+\.(png|jpe?g|webp)$/i.test(f)) { try { meta = JSON.parse(readFileSync(join(DATA_DIR, f + '.json'), 'utf8')); } catch { /* none */ } }
+      if (!meta) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, sharePage(meta));
+    }
     if (path.startsWith('/img/')) {
       const f = decodeURIComponent(path.slice('/img/'.length));
       return serveImage(res, f);
