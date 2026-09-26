@@ -36,6 +36,7 @@
 //   on every interpolated value. Read-only, server-rendered, no keys, no custody.
 
 import { createServer } from 'node:http';
+const STUDIO = (process.env.STUDIO_SITE || 'https://hathor.soapbox.community').replace(/\/$/, '');
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -169,7 +170,7 @@ function page(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">🜔 Hierophant <span>the Temple library</span></a>
-  <div class=topbar-r><a href="/texts">Texts</a><a href="/gods">Gods</a><a href="/ask">Ask</a><a href="${esc(WIKI)}">Wiki</a><a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/texts">Texts</a><a href="/gods">Gods</a><a href="/ask">Ask</a><a href="${esc(STUDIO)}/mythology">Mythology Studio</a><a href="${esc(STUDIO)}/remakes">Remakes</a><a href="${esc(WIKI)}">Wiki</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -385,6 +386,10 @@ export function entityDetailView(id) {
     ${(e.epithets && e.epithets.length) ? `<p class=muted><b>Also:</b> ${e.epithets.map(esc).join(' · ')}</p>` : ''}
     <div class=card><p>${interlinked(e.desc, e.id)}</p>
       ${extLinks.length ? `<div class=links style="margin-top:10px">${extLinks.join('')}</div>` : ''}</div>
+    ${['greek', 'egyptian', 'norse', 'hindu'].includes(e.tradition) ? `<div class=card><b>In the Studio</b>
+      <p class=muted style="margin:4px 0 8px">Picture ${esc(e.name)} with the traditional attributes — become ${esc(e.name)}, stand beside them, or put them in a scene with other figures.</p>
+      <a class=pill href="${esc(STUDIO)}/fx/as-${esc(e.id)}">Become ${esc(e.name)}</a> <a class=pill href="${esc(STUDIO)}/fx/with-${esc(e.id)}">Appear with ${esc(e.name)}</a>
+      <a class=pill href="${esc(STUDIO)}/mythology#${esc(e.tradition)}">All ${esc(traditionName(e.tradition))} figures</a> <a class=pill href="${esc(STUDIO)}/remakes">Remakes of the ancient world</a></div>` : ''}
     ${rels.length ? `<div class=card><h2 style="margin-top:0">Relationships</h2>
       ${rels.map((r) => `<div class=rec><div class=nm><span class=muted style="text-transform:capitalize">${esc(r.rel)}:</span>
         <a href="/gods/${esc(r.entity.id)}">${esc(r.entity.name)}</a></div></div>`).join('')}</div>` : ''}

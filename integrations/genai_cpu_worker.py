@@ -102,6 +102,35 @@ def structure_pipeline(kinds=("canny",)):
         return _spipes[kinds]
 
 
+# ── automatic group skeletons: N clean OpenPose figures side by side, so a "many characters" scene gets exactly N
+#    people with one body (and two hands) each, instead of the model merging or duplicating them.
+_LIMBS = [(1,2),(1,5),(2,3),(3,4),(5,6),(6,7),(1,8),(8,9),(9,10),(1,11),(11,12),(12,13),(1,0),(0,14),(14,16),(0,15),(15,17)]
+_COLS = [(255,0,0),(255,85,0),(255,170,0),(255,255,0),(170,255,0),(85,255,0),(0,255,0),(0,255,85),(0,255,170),
+         (0,255,255),(0,170,255),(0,85,255),(0,0,255),(85,0,255),(170,0,255),(255,0,255),(255,0,170),(255,0,85)]
+
+
+def group_pose(n, w, h, seated=False):
+    """An OpenPose map with n front-facing figures evenly spaced (standing, or seated at a table height)."""
+    from PIL import Image, ImageDraw
+    n = max(1, min(6, int(n)))
+    img = Image.new("RGB", (w, h), (0, 0, 0)); d = ImageDraw.Draw(img)
+    slot = w / n
+    s = min(slot / 170.0, h / 560.0)                      # figure scale
+    for i in range(n):
+        cx, top = slot * (i + 0.5), h * 0.08
+        P = lambda dx, dy: (cx + dx * s, top + dy * s)
+        leg = 0.55 if seated else 1.0
+        pts = {0: P(0, 40), 1: P(0, 90), 2: P(-45, 95), 3: P(-60, 175), 4: P(-50, 250), 5: P(45, 95), 6: P(60, 175), 7: P(50, 250),
+               8: P(-25, 260), 9: P(-28, 260 + 140 * leg), 10: P(-30, 260 + 270 * leg), 11: P(25, 260), 12: P(28, 260 + 140 * leg),
+               13: P(30, 260 + 270 * leg), 14: P(-10, 32), 15: P(10, 32), 16: P(-22, 38), 17: P(22, 38)}
+        lw = max(3, int(8 * s))
+        for k, (a, b) in enumerate(_LIMBS):
+            d.line([pts[a], pts[b]], fill=tuple(int(v * 0.6) for v in _COLS[k]), width=lw)
+        for k, (x, y) in pts.items():
+            r = max(3, int(5 * s)); d.ellipse([x - r, y - r, x + r, y + r], fill=_COLS[k])
+    return img
+
+
 def edges(img, lo=60, hi=160):
     """Canny edge map of the source (cv2 if present, PIL fallback) — the layout the remake must keep."""
     from PIL import Image, ImageFilter, ImageOps
@@ -178,10 +207,16 @@ def norm_job(body):
     except (TypeError, ValueError):
         pscale = 1.0
     pscale = pscale if 0.2 <= pscale <= 1.5 else 1.0
+    try:
+        crowd = int(body.get("crowd") or 0)
+    except (TypeError, ValueError):
+        crowd = 0
+    crowd = crowd if 2 <= crowd <= 6 else 0
+    seated = bool(body.get("seated"))
     return {"prompt": prompt, "neg": neg, "steps": steps, "seed": seed, "w": w, "h": h,
             "strength": strength, "image_b64": image, "character": character,
             "structure_b64": structure, "structure_scale": sscale, "pose_b64": pose, "pose_scale": pscale, "sized": "x" in size,
-            "images_b64": images}
+            "images_b64": images, "crowd": crowd, "seated": seated}
 
 
 def _reference(job):
@@ -216,6 +251,10 @@ def render(job):
         return {"ok": False, "error": "empty prompt"}
     t0 = time.time()
     kinds, cimages, cscales = [], [], []
+    if job.get("crowd") and not job.get("pose_b64"):          # many characters: one clean skeleton each
+        if not job.get("sized"):
+            job["w"], job["h"] = 768, 512
+        kinds.append("pose"); cimages.append(group_pose(job["crowd"], job["w"], job["h"], job.get("seated"))); cscales.append(0.85)
     if job.get("structure_b64") or job.get("pose_b64"):
         from PIL import Image
         first = Image.open(io.BytesIO(base64.b64decode(job.get("structure_b64") or job["pose_b64"]))).convert("RGB")

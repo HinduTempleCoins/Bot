@@ -543,7 +543,8 @@ test('character effects are runnable: /fx page, Hathor carries her reference, ow
   const fict = await call(form({ effect: 'hathor-beach', who: 'fictional', name: 'Nefer', look: 'silver braids and a lapis robe' }));
   assert.equal(fict.statusCode, 200); assert.match(seen.prompt, /Nefer.*silver braids/);
   assert.equal(seen.images.length, 1);                      // Appear WITH Hathor: her reference is sent too
-  assert.match(seen.prompt, /Two people in the picture: the goddess Hathor/);
+  assert.match(seen.prompt, /Also in the picture: the goddess Hathor/);
+  assert.equal(seen.crowd, 2);                               // a two-person skeleton so both are drawn
   __setGenerator(null);
 });
 
@@ -555,4 +556,28 @@ test('still-being-built notices show on Hathor, effects, character, Halloween, t
   assert.match((await call({ url: '/halloween' })).text(), /still being built/);
   assert.match((await call({ url: '/templates/egyptian-temple-poster' })).text(), /still being built/);
   assert.match((await call({ url: '/' })).text(), /still being built/);
+});
+
+test('many characters on one effect: gods from the Hierophant + Hathor, with an action', async () => {
+  let seen = null;
+  __resetRate();
+  __setGenerator(async (args) => { seen = args; return { ok: true, provider: 'cpusd', base64: Buffer.from('x').toString('base64'), mime: 'image/png', note: 'MELEK CPU diffusion (our server, pose, 1s)' }; });
+  const body = new URLSearchParams({ effect: 'group-custom', who0: 'god:zeus', who1: 'god:thor', who2: 'builtin:hathor', action: 'playing poker at a candlelit table' }).toString();
+  const r = await call({ method: 'POST', url: '/api/fx', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body });
+  __setGenerator(null);
+  assert.equal(r.statusCode, 200);
+  assert.match(seen.prompt, /Zeus .*Thor .*and Hathor.*playing poker/);
+  assert.match(seen.prompt, /Exactly 3 people/);
+  assert.equal(seen.crowd, 3); assert.equal(seen.seated, true);
+  assert.equal(seen.images.length, 1);                        // Hathor's reference steers her figure
+  const page = await call({ url: '/fx/group-custom' });
+  assert.match(page.text(), /Add another character/); assert.match(page.text(), /value="god:athena"/);
+});
+
+test('/mythology lists four traditions with As/With links and Hierophant links', async () => {
+  const r = await call({ url: '/mythology' });
+  assert.equal(r.statusCode, 200);
+  for (const t of ['Greek', 'Egyptian', 'Norse', 'Hindu']) assert.match(r.text(), new RegExp(`${t} mythology`));
+  assert.match(r.text(), /href="\/fx\/with-athena"/);
+  assert.match(r.text(), /hierophant\.soapbox\.community\/gods\/thor/);
 });

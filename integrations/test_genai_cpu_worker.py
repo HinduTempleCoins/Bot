@@ -122,6 +122,17 @@ class Remake(unittest.TestCase):
         self.assertEqual(kw["controlnet_conditioning_scale"], [0.8, 0.9])
         self.assertEqual(len(kw["image"]), 2)
 
+    def test_crowd_draws_one_skeleton_per_character(self):
+        r = w.generate_sync({"prompt": "three friends playing poker", "crowd": 3, "seated": True})
+        self.assertEqual(r["mode"], "pose")
+        kw = SFAKE.calls[-1]
+        self.assertEqual((kw["width"], kw["height"]), (768, 512))
+        pm = kw["image"]
+        # three separate figures: count distinct neck-keypoint colour blobs along the neck row
+        from PIL import Image
+        self.assertEqual(pm.size, (768, 512))
+        self.assertGreater(len([x for x in range(768) if pm.getpixel((x, int(512 * 0.08 + 90 * min(256/170, 512/560))))[0] > 0]), 0)
+
     def test_plain_jobs_do_not_touch_controlnet(self):
         n = len(SFAKE.calls)
         w.generate_sync({"prompt": "plain"})

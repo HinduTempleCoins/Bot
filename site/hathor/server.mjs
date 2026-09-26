@@ -50,6 +50,7 @@ import {
 } from '../../integrations/genai-reel-maker.mjs';
 import {
   EFFECT_TEMPLATES, EFFECT_CATEGORIES, listEffects, CHARACTERS, validateEffects, getEffect, buildEffectJob,
+  MYTH_TRADITIONS, TRAD_LABEL, MYTH_FIGURES, mythFigure, godLook, listMythology,
 } from '../../integrations/genai-effect-templates.mjs';
 import {
   TRACKS, LESSONS, listLessons, NFT_DISCLAIMER, validateSchool,
@@ -79,7 +80,7 @@ const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
 const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
 const DISCORD = process.env.DISCORD_INVITE || 'https://discord.gg/5QAF9JuBF';
 // human-facing labels for the effect categories (operator's words)
-const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads' };
+const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads', 'myth-greek': 'Greek Mythology', 'myth-egyptian': 'Egyptian Mythology', 'myth-norse': 'Norse Mythology', 'myth-hindu': 'Hindu Mythology' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'hathor');
 const SHOWCASE_DIR = join(dirname(fileURLToPath(import.meta.url)), 'showcase'); // committed example images
 const RATE_PER_HOUR = +(process.env.GENAI_RATE_PER_HOUR || 10);
@@ -198,7 +199,7 @@ const FOOTER = `<footer>
   When our engine is busy you can use <a href="/engines">your own</a> — your PC, a Colab, a Modal GPU, or a fal.ai
   or Gemini key. Keys you type stay in your browser; we never proxy arbitrary URLs — only images we made and saved here.
   <a href="/learn/make">Learn to make it yourself</a>.
-  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Shilpa Shastra</a></div>
+  <div style="margin-top:8px"><a href="/">Generate</a> · <a href="/char">Characters</a> · <a href="/mythology">Mythology</a> · <a href="/hathor">With Hathor</a> · <a href="/halloween">Halloween</a> · <a href="/remakes">Remakes</a> · <a href="/reel-maker">Reels</a> · <a href="/comfyui">ComfyUI</a> · <a href="/colab">Colab</a> · <a href="/school">School</a> · <a href="/gallery">Shilpa Shastra</a></div>
   <div style="margin-top:6px">Part of Hathor's system: <a href="${esc(HATHOR_LIVE)}">hathor.live</a> · <a href="${esc(ALMANACK)}">the Almanack</a> · <a href="${esc(WIKI)}">the Library of Ashurbanipal</a> · <a href="${esc(REPO)}">the Bot repo</a> · <a href="${esc(DATA)}">Data</a></div>
   <div style="margin-top:6px">💬 <a href="${esc(DISCORD)}" target=_blank rel="noopener"><b>Chat on Discord</b></a> — Hathor is in there. Come say hi.</div>
 </footer>`;
@@ -214,7 +215,7 @@ function pageShell(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -1311,37 +1312,78 @@ function effectCard(e) {
 }
 
 // ── /fx/<id> — run ONE effect: pick a character (Hathor, Anpu, your own character, a described one, or you) ──
-export function effectPage(e, note = '') {
+// ── one character slot on an effect page: Hathor, Anpu, a god from the Hierophant, your own upload, a described one, or you
+function charSlot(i) {
   const chars = CHARACTERS.map((c) => `<option value="builtin:${esc(c.id)}">${esc(c.name)}</option>`).join('');
-  const body = `<p class=muted><a href="/char">← All effects</a></p>
+  const gods = MYTH_TRADITIONS.map((t) => `<optgroup label="${esc(TRAD_LABEL[t])} gods">${MYTH_FIGURES.filter((g) => g.tradition === t)
+    .map((g) => `<option value="god:${esc(g.id)}">${esc(g.name)}</option>`).join('')}</optgroup>`).join('');
+  const none = i ? '<option value="">— nobody else —</option>' : '';
+  return `<div class=slot data-i="${i}" style="${i ? 'margin-top:14px;border-top:1px solid var(--line2);padding-top:12px' : ''}">
+      <label class=fld>${i ? `Character ${i + 1}` : 'Who goes in the picture?'}</label>
+      <select class=q name=who${i} style="width:auto">${none}${chars}<option value="platform">My own character (upload its picture)</option>
+        <option value="fictional">A character I describe</option><option value="self">Me (upload my photo)</option>${gods}</select>
+      <div class=upbox style="display:none;margin-top:8px"><label class=pill style="cursor:pointer">📎 Choose the picture <input type=file class=fxfile accept="image/*" hidden></label>
+        <span class="muted fxname" style="font-size:12px;margin-left:8px"></span><input type=hidden name=image${i} class=fxurl></div>
+      <div class=namebox style="display:none;margin-top:8px"><input class=q name=name${i} placeholder="their name (optional)"></div>
+      <div class=lookbox style="display:none;margin-top:8px"><textarea class=q name=look${i} placeholder="describe them — e.g. a tall woman with silver braids, a lapis-blue robe and a gold falcon pendant"></textarea></div>
+      <label class=consentbox style="display:none;margin-top:8px;font-size:13px"><input type=checkbox name=consent${i} value=1> This is me, and I consent to using my own likeness.</label>
+    </div>`;
+}
+
+export function effectPage(e, note = '') {
+  const body = `<p class=muted><a href="/char">← All effects</a> · <a href="/mythology">Mythology</a></p>
     <h1>${esc(e.title)} <span class="badge cat">${esc(EFFECT_CAT_LABELS[e.category] || e.category)}</span></h1>
     ${note ? `<div class=card><p class=empty>${esc(note)}</p></div>` : ''}
     ${wipNote(e.category === 'hathor' ? 'hathor' : 'likeness')}
     <form class=gform id=fxform method=post action="/api/fx"><input type=hidden name=effect value="${esc(e.id)}"><div class=card>
-      <label class=fld for=who>Who goes in the picture?</label>
-      <select class=q name=who id=who style="width:auto">${chars}<option value="platform">My own character (upload its picture)</option>
-        <option value="fictional">A character I describe</option><option value="self">Me (upload my photo)</option></select>
-      <div id=upbox style="display:none;margin-top:10px"><label class=pill style="cursor:pointer">📎 Choose the picture <input type=file id=fxfile accept="image/*" hidden></label>
-        <span class=muted id=fxname style="font-size:12px;margin-left:8px"></span><input type=hidden name=image id=fxurl></div>
-      <div id=namebox style="display:none;margin-top:10px"><input class=q name=name placeholder="their name (optional)"></div>
-      <div id=lookbox style="display:none;margin-top:10px"><textarea class=q name=look placeholder="describe them — e.g. a tall woman with silver braids, a lapis-blue robe and a gold falcon pendant"></textarea></div>
-      <label id=consentbox style="display:none;margin-top:10px;font-size:13px"><input type=checkbox name=consent value=1> This is me, and I consent to using my own likeness.</label>
+      ${charSlot(0)}
+      <div id=more></div>
+      <p style="margin-top:10px"><button type=button class=pill id=addchar>+ Add another character</button> <span class=muted style="font-size:12px">up to 4 — gods, Hathor, your own, anyone</span></p>
+      <label class=fld for=action style="margin-top:8px">What are they doing? (optional)</label>
+      <input class=q id=action name=action placeholder="e.g. playing poker at a candlelit table">
       <p style="margin-top:12px"><button type=submit id=fxbtn>Make it</button> <span class=muted style="font-size:12px">made on our own servers — a minute or two</span></p>
     </div></form>
-    <script>(function(){var w=document.getElementById('who'),f=document.getElementById('fxform'),fi=document.getElementById('fxfile'),u=document.getElementById('fxurl'),b=document.getElementById('fxbtn');
-      function show(){var v=w.value;document.getElementById('upbox').style.display=(v==='platform'||v==='self')?'':'none';
-        document.getElementById('namebox').style.display=(v==='platform'||v==='fictional')?'':'none';
-        document.getElementById('lookbox').style.display=v==='fictional'?'':'none';document.getElementById('consentbox').style.display=v==='self'?'':'none';}
-      w.addEventListener('change',show);show();
-      fi.addEventListener('change',function(){var x=fi.files&&fi.files[0];u.value='';document.getElementById('fxname').textContent=x?x.name:'';});
-      f.addEventListener('submit',async function(e){var v=w.value;if(!(v==='platform'||v==='self')||u.value)return;e.preventDefault();var x=fi.files&&fi.files[0];
-        if(!x){document.getElementById('fxname').textContent='Choose the picture first.';return;}b.disabled=true;b.textContent='Uploading…';
-        try{var r=await fetch('/api/upload',{method:'POST',headers:{'content-type':x.type||'image/jpeg'},body:x});var j=await r.json();
-          if(j&&j.ok&&j.url){u.value=j.url;b.textContent='Making it… (a minute or two)';f.submit();}else{b.disabled=false;b.textContent='Make it';}}catch(err){b.disabled=false;b.textContent='Make it';}});})();</script>`;
-  return pageShell(`${e.title} — Character effects`, body, { canonical: `${BASE_URL}/fx/${e.id}`, description: `${e.title} — put Hathor, your own character or yourself into this scene. Free, on our own servers.` });
+    <template id=slottpl>${charSlot(9)}</template>
+    <script>(function(){var f=document.getElementById('fxform'),b=document.getElementById('fxbtn'),n=1;
+      function wire(el){var w=el.querySelector('select');function show(){var v=w.value;el.querySelector('.upbox').style.display=(v==='platform'||v==='self')?'':'none';
+        el.querySelector('.namebox').style.display=(v==='platform'||v==='fictional')?'':'none';el.querySelector('.lookbox').style.display=v==='fictional'?'':'none';
+        el.querySelector('.consentbox').style.display=v==='self'?'':'none';}
+        w.addEventListener('change',show);show();var fi=el.querySelector('.fxfile');
+        fi.addEventListener('change',function(){var x=fi.files&&fi.files[0];el.querySelector('.fxurl').value='';el.querySelector('.fxname').textContent=x?x.name:'';});}
+      wire(document.querySelector('.slot'));
+      document.getElementById('addchar').addEventListener('click',function(){if(n>=4)return;var h=document.getElementById('slottpl').innerHTML
+        .replace(/who9/g,'who'+n).replace(/image9/g,'image'+n).replace(/name9/g,'name'+n).replace(/look9/g,'look'+n).replace(/consent9/g,'consent'+n).replace(/Character 10/g,'Character '+(n+1)).replace(/data-i="9"/g,'data-i="'+n+'"');
+        var d=document.createElement('div');d.innerHTML=h;var el=d.firstElementChild;document.getElementById('more').appendChild(el);wire(el);n++;});
+      f.addEventListener('submit',async function(e){var need=[].slice.call(document.querySelectorAll('.slot')).filter(function(el){var v=el.querySelector('select').value;return (v==='platform'||v==='self')&&!el.querySelector('.fxurl').value;});
+        if(!need.length)return;e.preventDefault();b.disabled=true;b.textContent='Uploading…';
+        for(var k=0;k<need.length;k++){var el=need[k],x=el.querySelector('.fxfile').files[0];if(!x){el.querySelector('.fxname').textContent='Choose the picture first.';b.disabled=false;b.textContent='Make it';return;}
+          try{var r=await fetch('/api/upload',{method:'POST',headers:{'content-type':x.type||'image/jpeg'},body:x});var j=await r.json();if(!(j&&j.ok&&j.url))throw 0;el.querySelector('.fxurl').value=j.url;}
+          catch(err){el.querySelector('.fxname').textContent='Upload failed — try again.';b.disabled=false;b.textContent='Make it';return;}}
+        b.textContent='Making it… (a minute or two)';f.submit();});})();</script>`;
+  return pageShell(`${e.title} — Character effects`, body, { canonical: `${BASE_URL}/fx/${e.id}`, description: `${e.title} — put Hathor, the gods, your own characters or yourself into this scene, several at once. Free, on our own servers.` });
 }
 
 const HATHOR_REF_FILE = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'character', 'assets', 'hathor-head-original.png');
+
+// one slot of the form → { input for buildEffectJob, ref image, label } | { error } | null (empty slot)
+function readSlot(params, i) {
+  const k = (f) => params.get(`${f}${i}`) ?? (i === 0 ? params.get(f) : null);
+  const who = String(k('who') || '');
+  if (!who) return null;
+  const imgParam = String(k('image') || '').trim();
+  const upload = /^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam) ? imgParam : null;
+  if ((who === 'platform' || who === 'self') && !upload) return { error: 'Choose the picture first.' };
+  if (who.startsWith('builtin:')) { const c = CHARACTERS.find((x) => x.id === who.slice(8)); return c ? { input: { kind: 'builtin', name: c.id }, display: c.name, hathor: c.id === 'hathor' } : { error: 'Unknown character.' }; }
+  if (who.startsWith('god:')) {
+    const g = mythFigure(who.slice(4));
+    if (!g) return { error: 'Unknown god.' };
+    return { input: { kind: 'fictional', name: g.name, look: godLook(g) } };
+  }
+  if (who === 'platform') return { input: { kind: 'platform', name: k('name') || 'my character', ref: upload }, upload };
+  if (who === 'fictional') return { input: { kind: 'fictional', name: k('name') || 'the character', look: String(k('look') || '').slice(0, 400) } };
+  if (who === 'self') return { input: { kind: 'real-person', name: 'the person in the photo', ref: upload, consent: k('consent') === '1' ? `self-attested:${new Date().toISOString()}` : null }, upload, self: true };
+  return { error: 'Choose who goes in the picture.' };
+}
 
 export async function handleEffect(req, res) {
   const ip = clientIp(req);
@@ -1349,42 +1391,78 @@ export async function handleEffect(req, res) {
   const e = getEffect(params.get('effect'));
   if (!e) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown effect'); }
   if (!rateOk(ip)) return sendHtml(res, effectPage(e, `You've hit the limit of ${RATE_PER_HOUR} images per hour. Try again later.`), 429);
-  const who = String(params.get('who') || '');
-  const imgParam = String(params.get('image') || '').trim();
-  const upload = /^\/img\/[\w.-]+\.(png|jpe?g|webp)$/i.test(imgParam) ? imgParam : null;
-  let input;
-  if (who.startsWith('builtin:')) input = { kind: 'builtin', name: who.slice(8) };
-  else if (who === 'platform') input = { kind: 'platform', name: params.get('name') || 'my character', ref: upload };
-  else if (who === 'fictional') input = { kind: 'fictional', name: params.get('name') || 'the character', look: String(params.get('look') || '').slice(0, 400) };
-  else if (who === 'self') input = { kind: 'real-person', name: 'the person in the photo', ref: upload, consent: params.get('consent') === '1' ? `self-attested:${new Date().toISOString()}` : null };
-  else return sendHtml(res, effectPage(e, 'Choose who goes in the picture.'), 400);
-  if ((who === 'platform' || who === 'self') && !upload) return sendHtml(res, effectPage(e, 'Choose the picture first.'), 400);
-  const built = buildEffectJob(e.id, input, { size: '768x768' });
-  if (!built.ok) return sendHtml(res, effectPage(e, built.needsConsent ? 'To use your own photo, tick the box confirming it is you and that you consent.' : built.error), 400);
-  const screen = screenPrompt(built.job.prompt, { hasReferenceImage: who === 'self' });
-  if (!screen.ok) return sendHtml(res, effectPage(e, 'That request was blocked by the studio\'s content rules.'), 400);
-  // the character's picture steers the new image (same character, brand-new scene)
-  let image = null;
-  if (upload) image = { url: `${publicOrigin(req)}${upload}` };
-  else if (who === 'builtin:hathor') { try { image = { base64: readFileSync(HATHOR_REF_FILE).toString('base64'), mime: 'image/png' }; } catch { /* text-only fallback */ } }
-  // "Appear WITH Hathor": she has to be IN the picture — send her reference alongside the visitor's, and ask for two people.
-  let prompt = built.job.prompt, images = null;
-  if (e.category === 'hathor' && who !== 'builtin:hathor') {
-    try {
-      const hb64 = readFileSync(HATHOR_REF_FILE).toString('base64');
-      let sb64 = null;
-      if (upload) { try { sb64 = readFileSync(join(DATA_DIR, basename(upload))).toString('base64'); } catch { /* url path below */ } }
-      images = [...(sb64 ? [{ base64: sb64 }] : image ? [image] : []), { base64: hb64 }];
-      prompt += '. Two people in the picture: the goddess Hathor with her large dark curved horns, a glowing VR visor over her eyes and pink feathered wings, beside the other person';
-    } catch { /* fall back to single reference */ }
+  const slots = [];
+  for (let i = 0; i < 4; i++) {
+    const sl = readSlot(params, i);
+    if (sl && sl.error) return sendHtml(res, effectPage(e, sl.error), 400);
+    if (sl) slots.push(sl);
   }
+  if (!slots.length) return sendHtml(res, effectPage(e, 'Choose who goes in the picture.'), 400);
+  const action = String(params.get('action') || '').slice(0, 200);
+  // every slot passes the same consent gate; the prompt names each character with its look
+  const built = [];
+  for (const sl of slots) {
+    const b = buildEffectJob(e.id, sl.input, { size: '768x768', action });
+    if (!b.ok) return sendHtml(res, effectPage(e, b.needsConsent ? 'To use your own photo, tick the box confirming it is you and that you consent.' : b.error), 400);
+    built.push(b);
+  }
+  let prompt;
+  if (slots.length === 1) prompt = built[0].job.prompt;
+  else {
+    const who = slots.map((sl) => (sl.display || sl.input.name) + (sl.input.look ? ` (${sl.input.look})` : ''));
+    prompt = buildEffectJob(e.id, { kind: 'fictional', name: `${who.slice(0, -1).join(', ')} and ${who[who.length - 1]}` }, { action }).job.prompt
+      + `. Exactly ${slots.length} people, side by side, each one distinct`;
+  }
+  const screen = screenPrompt(prompt, { hasReferenceImage: slots.some((sl) => sl.self) });
+  if (!screen.ok) return sendHtml(res, effectPage(e, 'That request was blocked by the studio\'s content rules.'), 400);
+  // pictures steer the render (same characters, brand-new scene)
+  const refs = [];
+  for (const sl of slots) {
+    if (sl.upload) { try { refs.push({ base64: readFileSync(join(DATA_DIR, basename(sl.upload))).toString('base64') }); } catch { refs.push({ url: `${publicOrigin(req)}${sl.upload}` }); } }
+    else if (sl.hathor) { try { refs.push({ base64: readFileSync(HATHOR_REF_FILE).toString('base64') }); } catch { /* text only */ } }
+  }
+  // "Appear WITH Hathor": she has to be IN the picture
+  if (e.category === 'hathor' && !slots.some((sl) => sl.hathor)) {
+    try { refs.push({ base64: readFileSync(HATHOR_REF_FILE).toString('base64') }); } catch { /* text only */ }
+    prompt += '. Also in the picture: the goddess Hathor with her large dark curved horns, a glowing VR visor over her eyes and pink feathered wings';
+  }
+  const people = slots.length + (e.category === 'hathor' && !slots.some((sl) => sl.hathor) ? 1 : 0);
+  const opts = { prompt, size: people > 1 ? '768x512' : '768x768' };
+  if (refs.length > 1 || (refs.length && people > 1)) opts.images = refs; else if (refs.length) opts.image = refs[0];
+  if (people > 1) { opts.crowd = people; opts.seated = /\b(sit|seated|table|poker|dinner|feast|banquet|throne|cards)\b/i.test(prompt); }
   let result;
-  try { result = await _generate({ prompt, size: '768x768', ...(images ? { images } : { image }) }); } catch { result = { ok: false }; }
+  try { result = await _generate(opts); } catch { result = { ok: false }; }
   if (!result || !result.ok) return sendHtml(res, effectPage(e, failNote(result)), 502);
-  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `${e.title}: ${built.job.subject.name}`, provider: result.provider, note: result.note, size: result.size || '768x768', seed: result.seed, adult: screen.adult });
+  const names = slots.map((sl) => sl.display || sl.input.name).join(', ');
+  const meta = saveGeneration({ base64: result.base64, mime: result.mime, prompt: `${e.title}: ${names}${action ? ` — ${action}` : ''}`, provider: result.provider, note: result.note, size: result.size || opts.size, seed: result.seed, adult: screen.adult });
   if (!meta) return sendHtml(res, effectPage(e, 'The image was made but could not be saved — please try again.'), 500);
   return sendHtml(res, resultPage(meta));
 }
+// ── /mythology — gods of four traditions, as or with them, alone or several at once (from the Hierophant) ──
+const HIEROPHANT = process.env.HIEROPHANT_SITE || 'https://hierophant.soapbox.community';
+export function mythologyView() {
+  const secs = MYTH_TRADITIONS.map((t) => {
+    const figs = MYTH_FIGURES.filter((g) => g.tradition === t);
+    const fx = listMythology(t);
+    const cards = figs.map((g) => {
+      const as = fx.find((e) => e.id === `as-${g.id}`), wi = fx.find((e) => e.id === `with-${g.id}`);
+      return `<div class=sec><div class=t>${esc(g.name)} <span class="badge cat">${esc(g.type)}</span></div>
+        <div class=d>${esc(String(g.desc || '').slice(0, 140))}</div>
+        <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">${as ? `<a class=pill href="/fx/${esc(as.id)}">As ${esc(g.name)}</a>` : ''}${wi ? `<a class=pill href="/fx/${esc(wi.id)}">With ${esc(g.name)}</a>` : ''}
+        <a class=pill href="${esc(HIEROPHANT)}/gods/${esc(g.id)}" target=_blank rel=noopener>Read on the Hierophant</a></div></div>`;
+    }).join('');
+    return `<h2 id="${esc(t)}">${esc(TRAD_LABEL[t])} mythology <span class=muted style="font-size:13px">(${figs.length})</span></h2><div class=grid>${cards}</div>`;
+  }).join('');
+  const body = `<h1>Mythology <span class=muted style="font-size:14px">· Greek, Egyptian, Norse and Hindu</span></h1>
+    <p class=muted>Become a god, or stand beside one. Each figure is drawn from the <a href="${esc(HIEROPHANT)}/gods">Hierophant's encyclopedia</a>
+      with its traditional attributes. Put several together too: open any effect, press <b>+ Add another character</b>, and say what they are
+      doing — <a href="/fx/group-custom">Zeus, Thor, Shiva and Hathor playing poker</a>, a council of the gods, a feast.</p>
+    <p class=muted><a href="#greek">Greek</a> · <a href="#egyptian">Egyptian</a> · <a href="#norse">Norse</a> · <a href="#hindu">Hindu</a> · <a href="/remakes">Remakes of the ancient world</a></p>
+    ${wipNote('likeness')}
+    ${secs}`;
+  return pageShell('Mythology — be a god, or stand beside one', body, { canonical: `${BASE_URL}/mythology`, description: 'Greek, Egyptian, Norse and Hindu gods from the Hierophant encyclopedia — become one, appear with one, or put several in one scene. Free, on our own servers.' });
+}
+
 export function charIndexView() {
   const byCat = EFFECT_CATEGORIES.map((c) => ({ c, items: listEffects(c) })).filter((g) => g.items.length);
   const chars = `<div class=grid>${CHARACTERS.map((c) =>
@@ -2070,6 +2148,7 @@ export async function handler(req, res) {
     // ── CapCut-style reel template maker ──
     if (path === '/reel-maker') return sendHtml(res, reelIndexView());
     if (path === '/char') return sendHtml(res, charIndexView());
+    if (path === '/mythology') return sendHtml(res, mythologyView());
     if (path.startsWith('/fx/')) {
       const e = getEffect(decodeURIComponent(path.slice(4)));
       if (!e) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
