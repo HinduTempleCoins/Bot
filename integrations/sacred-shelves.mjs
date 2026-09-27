@@ -357,6 +357,16 @@ export function searchShelves(query, opts = {}) {
   }
 }
 
+function bareTitles(idx) {
+  if (idx.bare) return idx.bare;
+  idx.bare = new Map();
+  for (const w of Object.keys(idx.meta.works || {})) {
+    const i = w.indexOf(', ');
+    if (i > 0) { const k = normRef(w.slice(i + 2)); if (!idx.bare.has(k)) idx.bare.set(k, w); }
+  }
+  return idx.bare;
+}
+
 /** Resolve a canonical reference ("Gen 6:4", "Iliad 18.418", "Qur'an 55:15", an id, a CTS URN).
  *  Returns {passage, alternates[]} or null. Never throws. */
 export function getPassage(ref) {
@@ -370,6 +380,12 @@ export function getPassage(ref) {
     if (urn) tries.push(`${urn[1].split('.').slice(0, 2).join('.')}:${urn[2]}`);
     const range = raw.match(/^(.*?\d)\s*[-–—]\s*\d+[a-z]?$/);    // "Iliad 18.417–420" → "Iliad 18.417"
     if (range) tries.push(range[1]);
+    // "Theogony 135" → "Hesiod, Theogony 135": works shelved as "Author, Title" answer to the bare title
+    const named = raw.match(/^(.*?[^\d\s.:])\s+(\d.*)$/);
+    if (named) {
+      const full = bareTitles(idx).get(normRef(named[1]));
+      if (full) { tries.push(`${full} ${named[2]}`); if (range) tries.push(`${full} ${range[1].slice(named[1].length).trim()}`); }
+    }
     for (const t of tries) {
       const e = lookup(idx, '@' + normRef(t));
       if (!e) continue;

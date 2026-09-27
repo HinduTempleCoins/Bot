@@ -23,11 +23,12 @@ export const FIXTURE = [
     aliases: ['Iliad 18.417–420', 'Iliad 18.417', 'Iliad 18.418', 'Iliad 18.419', 'Iliad 18.420'] },
   { id: 'tlg0020.tlg001:135-139', ref: 'Hesiod, Theogony 135–139', work: 'Hesiod, Theogony', shelf: 'greek', lang: 'grc',
     text: 'Θείαν τε Ῥείαν τε Θέμιν τε Μνημοσύνην τε Φοίβην τε χρυσοστέφανον Τηθύν τ᾽ ἐρατεινήν.',
-    tr: 'Theia and Rhea, Themis and Mnemosyne and gold-crowned Phoebe and lovely Tethys.', tr_lang: 'en', tr_src: 'perseus-eng', src: 'perseus-grc' },
+    tr: 'Theia and Rhea, Themis and Mnemosyne and gold-crowned Phoebe and lovely Tethys.', tr_lang: 'en', tr_src: 'perseus-eng', src: 'perseus-grc',
+    aliases: ['Hesiod, Theogony 135–139', 'Hesiod, Theogony 135'] },
   { id: 'tlg1463.tlg001:6.1', ref: '1 Enoch (Greek) 6:1', work: '1 Enoch (Greek)', shelf: 'greek', lang: 'grc',
     text: 'καὶ ἐπεθύμησαν αὐτὰς οἱ ἐγρήγοροι καὶ ἀπεπλανήθησαν ὀπίσω αὐτῶν', src: 'first1k', aliases: ['1 Enoch 6:1'] },
   { id: 'tlg0059.tlg011:202e', ref: 'Plato, Symposium 202e', work: 'Plato, Symposium', shelf: 'greek', lang: 'grc',
-    text: 'καὶ γὰρ πᾶν τὸ δαιμόνιον μεταξύ ἐστι θεοῦ τε καὶ θνητοῦ. δαίμων μέγας', src: 'perseus-grc' },
+    text: 'καὶ γὰρ πᾶν τὸ δαιμόνιον μεταξύ ἐστι θεοῦ τε καὶ θνητοῦ. δαίμων μέγας', src: 'perseus-grc', aliases: ['Plato, Symposium 202e'] },
   { id: 'hbo.Gen.6.4', ref: 'Gen 6:4', work: 'Hebrew Bible — Genesis', shelf: 'hebrew', lang: 'hbo',
     text: 'הַנְּפִלִ֞ים הָי֣וּ בָאָרֶץ֮ בַּיָּמִ֣ים הָהֵם֒', tr: 'The Nephilim were on the earth in those days', tr_lang: 'en',
     tr_src: 'bsb', tr_label: 'English: Berean Standard Bible', src: 'wlc', aliases: ['Gen 6:4', 'Genesis 6:4', 'Gen.6.4'] },
@@ -143,6 +144,9 @@ test('getPassage resolves canonical references, ids, line-in-range and ranges', 
   assert.equal(getPassage('quran.55.15').passage.id, 'quran.55.15');
   assert.equal(getPassage('urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:18.417-420').passage.id, 'tlg0012.tlg001:18.417-420');
   assert.equal(getPassage('Nowhere 9:9'), null);
+  assert.equal(getPassage('Hesiod, Theogony 135–139').passage.id, 'tlg0020.tlg001:135-139');
+  assert.equal(getPassage('Theogony 135–139').passage.id, 'tlg0020.tlg001:135-139');
+  assert.equal(getPassage('Symposium 202e').passage.id, 'tlg0059.tlg011:202e');
   assert.equal(getPassage(''), null);
   assert.equal(passageAt(0).id, FIXTURE[0].id);
   assert.equal(passageAt(999), null);
