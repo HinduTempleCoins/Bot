@@ -2402,6 +2402,11 @@ export async function handler(req, res) {
       const look = new URL(req.url, BASE_URL).searchParams.get('look') || '1_real';
       return sendHtml(res, pageShell('Remakes — the ancient world, re-rendered', remakesBody(loadRemakes(), { look, base: BASE_URL }), { canonical: `${BASE_URL}/remakes`, description: 'Tomb paintings, stelae and Minoan frescoes remade in three looks and in several peoples side by side — Egyptian, Minoan, Nubian, Libyan, Levantine — made on our own servers.' }));
     }
+    if (path === '/remakes/manifest.json') { // the gallery's scene list (titles, credits, image names) — what the page already shows
+      const s = JSON.stringify(loadRemakes());
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=600' });
+      return res.end(s);
+    }
     if (path.startsWith('/remakes/img/')) return serveRemakeImage(res, decodeURIComponent(path.slice('/remakes/img/'.length)));
     if (path === '/engines') return sendHtml(res, pageShell('Your engines — ours free, or bring your own', enginesBody(), { canonical: `${BASE_URL}/engines`, description: 'Make images free on our servers, or plug in your own engine: your own worker on a PC, Colab or Modal GPU, or a fal.ai / Gemini key. Keys stay in your browser.' }));
     if (path === '/learn/make') return sendHtml(res, pageShell('Make it yourself — characters, things, scenes', learnBody(), { canonical: `${BASE_URL}/learn/make`, description: 'How Hathor Studio images are made — characters, then things, then the scene; historical remakes in three looks — and how to run the engine yourself on a PC, Colab or Modal GPU.' }));

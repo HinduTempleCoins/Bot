@@ -471,9 +471,12 @@ test('/remakes renders the manifest and serves only its images', async () => {
   assert.match(r.text(), /Banquet &lt;b&gt;/);
   assert.match(r.text(), /\/remakes\/img\/scene_a\/1_real_nubian\.jpg/);
   assert.equal((await call({ url: '/remakes/img/scene_a/1_real_nubian.jpg' })).statusCode, 200);
-  for (const bad of ['/remakes/img/../manifest.json', '/remakes/img/scene_a/../../etc.jpg', '/remakes/img/manifest.json']) {
+  for (const bad of ['/remakes/img/../../../etc/passwd', '/remakes/img/scene_a/../../etc.jpg', '/remakes/img/manifest.json']) {
     assert.notEqual((await call({ url: bad })).statusCode, 200, bad);
   }
+  const mj = await call({ url: '/remakes/manifest.json' }); // the scene list the @shilpa-shastra poster reads
+  assert.equal(mj.statusCode, 200);
+  assert.equal(JSON.parse(mj.text()).scenes[0].key, 'scene_a');
   delete process.env.REMAKES_DIR;
 });
 
