@@ -216,3 +216,92 @@ test('home page exposes a THC-classifier box pointing at /law', () => {
   assert.match(html, /name="thc"/);
   assert.match(html, /0\.3% delta-9 THC/);
 });
+
+// ── 8. /science — the Hemp & Cannabinoid Science wiki, mounted into this portal ────────────────────
+// The section's own renderer is tested in integrations/hemp-science.test.mjs. What is tested HERE is
+// only the mounting: that the portal claims the paths, wraps them in its own chrome (topbar, footer,
+// disclaimer), passes the 404 through as a 404, and contributes the section to the sitemap.
+
+test('/science renders inside the portal chrome, not as a guest page', async () => {
+  const res = mockRes();
+  await handler(req('/science'), res);
+  assert.equal(res.statusCode, 200);
+  assert.match(res.headers['content-type'], /text\/html/);
+  // the portal's own chrome
+  assert.match(res.body, /class=topbar/);
+  assert.match(res.body, /SoapBox <span>hemp<\/span>/);
+  assert.match(res.body, /Facts, not verdicts/);
+  assert.match(res.body, /not legal advice/);
+  // the section's own content
+  assert.match(res.body, /Hemp &amp; Cannabinoid Science/);
+  assert.match(res.body, /Absence is not safety/);
+  assert.match(res.body, /href="\/science\/cyp450"/);
+});
+
+test('the topbar and the home page both route to /science', () => {
+  const html = homePage();
+  assert.match(html, /href="\/science"/);
+  assert.match(html, /Hemp &amp; Cannabinoid Science/);
+});
+
+test('a shelf and a page both serve 200 through the portal handler', async () => {
+  for (const p of ['/science/cyp450', '/science/cyp450/overview']) {
+    const res = mockRes();
+    await handler(req(p), res);
+    assert.equal(res.statusCode, 200, `${p} did not serve 200`);
+    assert.ok(res.body.length > 2000, `${p} body is suspiciously short`);
+    assert.match(res.body, /class=topbar/, `${p} lost the portal chrome`);
+  }
+});
+
+test('an unknown science path is a 404 through the portal, not a redirect to home', async () => {
+  const res = mockRes();
+  await handler(req('/science/no-such-shelf'), res);
+  assert.equal(res.statusCode, 404);
+  assert.match(res.body, /No such page/);
+});
+
+test('/science/matrix.json is served as JSON and is not swallowed by the HTML seam', async () => {
+  const res = mockRes();
+  await handler(req('/science/matrix.json'), res);
+  assert.equal(res.statusCode, 200);
+  assert.match(res.headers['content-type'], /application\/json/);
+  const m = JSON.parse(res.body);
+  assert.equal(m.absenceIsNotSafety, true);
+  assert.ok(Array.isArray(m.enzymes) && m.enzymes.length >= 5);
+});
+
+test('the interaction checker runs through the portal and never calls an empty result safe', async () => {
+  const res = mockRes();
+  await handler(req('/science/check?taking=' + encodeURIComponent('zzqq-nothing')), res);
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /not in this dataset, not checked/);
+  assert.match(res.body, /not a finding of safety/i);
+  // A per-query record is nobody's search result.
+  assert.match(res.body, /content="noindex/);
+});
+
+test('a hostile science query is escaped inside the portal chrome too', async () => {
+  const res = mockRes();
+  await handler(req('/science/search?q=' + encodeURIComponent('<script>alert(1)</script>')), res);
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.includes('<script>alert(1)'), false);
+  assert.match(res.body, /&lt;script&gt;/);
+});
+
+test('the sitemap carries the science section but never the matrix JSON', async () => {
+  const res = mockRes();
+  await handler(req('/sitemap.xml'), res);
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /<loc>[^<]*\/science<\/loc>/);
+  assert.match(res.body, /\/science\/cyp450\/overview/);
+  assert.equal(res.body.includes('matrix.json'), false);
+});
+
+test('mounting /science did not break the portal home page', async () => {
+  const res = mockRes();
+  await handler(req('/'), res);
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /SoapBox Hemp/);
+  assert.match(res.body, /action="\/law"/);
+});

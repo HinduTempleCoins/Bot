@@ -14,6 +14,9 @@
 //   /orgs        reform organizations + cannabis/entheogen churches registry (facts + links)
 //   /flower      retail flower price index (derived median, provenance-tagged)
 //   /seeds       seed-bank price index + SeedFinder-style strain/lineage lookup
+//   /science     Hemp & Cannabinoid Science — the research wiki (11 shelves; see integrations/hemp-science.mjs)
+//     /science/<shelf>, /science/<shelf>/<page>, /science/search, /science/check (interaction checker),
+//     /science/matrix.json (the CYP substrate/inhibitor/inducer matrix, generated from the CYP450 shelf)
 //   /health      liveness probe
 //   /robots.txt /sitemap.xml
 //
@@ -30,6 +33,7 @@ import { createServer } from 'node:http';
 import * as cannabis from '../../integrations/soapbox/cannabis.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { joinCta } from '../../integrations/soapbox/join-cta.mjs';
+import * as science from '../../integrations/hemp-science.mjs';
 
 const PORT = +(process.env.PORT || 8101);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -103,7 +107,7 @@ function page(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">🌿 SoapBox <span>hemp</span></a>
-  <div class=topbar-r><a href="/law">US Law</a><a href="/orgs">Reform &amp; Churches</a><a href="/flower">Flower Prices</a><a href="/seeds">Seeds &amp; Strains</a><a href="${esc(LAW)}">Law</a><a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/law">US Law</a><a href="/orgs">Reform &amp; Churches</a><a href="/flower">Flower Prices</a><a href="/seeds">Seeds &amp; Strains</a><a href="/science">Science</a><a href="${esc(LAW)}">Law</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
 ${joinCta({ source: 'hemp' })}
 ${FOOTER}</body></html>`;
@@ -123,6 +127,7 @@ export function homePage() {
     ['/orgs', 'Reform &amp; Churches', 'Cannabis reform organizations (NORML, MPP, DPA, SSDP…) and cannabis/entheogen churches — facts and links, right of reply.'],
     ['/flower', 'Flower Price Index', 'Our own derived median retail flower price index — provenance-tagged, computed from aggregated listings.'],
     ['/seeds', 'Seeds &amp; Strains', 'A seed-bank price index plus SeedFinder-style strain / lineage / breeder lookup link-outs.'],
+    ['/science', 'Hemp &amp; Cannabinoid Science', 'The research wiki: CYP450 and phase-1 metabolism, cannabinoid and terpene chemistry, the endocannabinoid system, extraction and purification, formulation and dosing safety, analytics, and the regulatory argument — sourced and cross-linked.'],
   ];
   const body = `<h1>SoapBox Hemp <span class=muted style="font-size:14px">· the cannabis public record</span></h1>
     <p class=muted>Where the law actually draws the line, who works on reform, and what flower and seeds really cost —
@@ -309,7 +314,8 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/law', '/orgs', '/flower', '/seeds'];
+// The science section contributes every shelf and page path; matrix.json is excluded (not a page).
+const SITEMAP_PATHS = ['/', '/law', '/orgs', '/flower', '/seeds', ...science.sciencePaths()];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -338,18 +344,40 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
       return res.end(llmsTxt({
         name: 'SoapBox Hemp', baseUrl: BASE_URL,
-        summary: 'US cannabis law (hemp vs marijuana), reform organizations, and honest flower & seed price indexes.',
+        summary: 'US cannabis law (hemp vs marijuana), reform organizations, honest flower & seed price indexes, and a sourced research wiki on cannabinoid and terpene chemistry, CYP450 metabolism, the endocannabinoid system, extraction, formulation, analytics and the regulatory argument.',
         links: [
           { label: 'US law: hemp vs marijuana', path: '/law' },
           { label: 'Reform organizations & churches', path: '/orgs' },
           { label: 'Flower price index', path: '/flower' },
           { label: 'Seeds & strains', path: '/seeds' },
+          { label: 'Hemp & cannabinoid science (research wiki)', path: '/science' },
+          { label: 'Interaction checker (mechanism-based)', path: '/science/check' },
+          { label: 'CYP interaction matrix (JSON)', path: '/science/matrix.json' },
         ],
       }));
     }
 
     const sp = url.searchParams;
     if (path === '/') return sendHtml(res, homePage());
+
+    // ── /science — the Hemp & Cannabinoid Science wiki ────────────────────
+    // The matrix is JSON, so it is answered before the HTML seam. Everything else goes through
+    // science.render(), which returns a descriptor (or a notFound descriptor) and never throws; we
+    // wrap its body in THIS site's chrome so the section is part of Hemp.SoapBox rather than a guest.
+    if (path === '/science/matrix.json') {
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' });
+      return res.end(JSON.stringify(science.matrixJson()));
+    }
+    if (path === '/science' || path.startsWith('/science/')) {
+      const v = science.render(path, sp);
+      if (v) {
+        return sendHtml(res, page(v.title, v.body, {
+          canonical: v.canonical || `${BASE_URL}${path}`,
+          robots: v.robots || 'index,follow',
+          description: v.description,
+        }), v.notFound ? 404 : 200);
+      }
+    }
 
     if (path === '/law') {
       return sendHtml(res, page('US Law: hemp vs marijuana — SoapBox Hemp', lawView(sp.get('thc') || '', sp.get('state') || ''),

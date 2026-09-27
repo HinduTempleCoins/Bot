@@ -1,0 +1,932 @@
+// cannabinoids.mjs — the Cannabinoid Science shelf: the structural and pharmacological spine of the
+// hemp-science section.
+//
+// WHAT THIS SHELF IS. Ten pages that teach the chemistry of the phytocannabinoid family as a
+// research reference rather than a consumer explainer: the eleven structural classes and what "type"
+// actually means; the homologous side-chain series from C1 to C8 and the structure-activity
+// relationship that runs along it; how ring arrangement determines pharmacology; double-bond and
+// stereochemical isomerism and the analytical consequences of isomers that share an exact mass;
+// biosynthesis as the plant performs it, from polyketide and MEP routes through CBGA to the three
+// FAD-dependent oxidocyclases and the B-locus genetics of chemotype; decarboxylation and the 0.877
+// factor with its derivation; the transformation matrix as structural relationships and literature;
+// the pharmacological separation between phytocannabinoids and the JWH-series synthetic
+// cannabimimetics; the Adams-era nomenclature needed to read the primary literature; and the open
+// research frontier framed as analytical questions.
+//
+// WHERE THE MATERIAL COMES FROM. Two operator documents supply the backbone and the framing: the
+// Comprehensive Cannabinoid Synthesis Research paper and the THC Synthesis Chemistry Brief (both Van
+// Kush Family Research Institute, January 2026). Every factual claim taken from them has been checked
+// against primary literature and corrected where the check disagreed; the corrections are stated on
+// the page rather than hidden. Where a claim in those documents could not be sourced to primary
+// literature it is marked contested and named as a trade claim. Bibliographic identifiers in CITES
+// were resolved against the Crossref REST API on 2026-09-27; records that could not be resolved
+// carry verified: false, which is honest. No identifier here is guessed.
+//
+// WHAT THIS SHELF DELIBERATELY DOES NOT CONTAIN. Both source documents are, in substantial part,
+// preparative recipes. None of that is carried across. There are no reagents used as reagents, no
+// catalysts, no solvents, no equivalents, no molarities, no temperatures, no reaction times, no
+// work-ups, no yields, no numbered procedures, and no precursor-sourcing guidance anywhere in this
+// file. Where a source paragraph is a procedure, this shelf states only that the procedure is
+// documented in a named citation and describes the structural change in the abstract. The
+// transformations page is the sharpest case: it is a matrix of structural relationships and
+// references, and it tells no one how to do anything. That is the whole discipline of this module —
+// it teaches the chemistry and refuses the cookbook.
+//
+// This shelf also carries no dosing recommendations and no individualised medical, legal or financial
+// advice. Receptor affinities are reported as what they are: binding numbers from named assays, which
+// are not a claim about subjective effect or safety.
+
+const F = Object.freeze;
+
+export const SHELF = F({
+  id: 'cannabinoids',
+  title: 'Cannabinoid Science',
+  blurb: 'The structural chemistry of the phytocannabinoid family: eleven classes, the C1-to-C8 side-chain series and its structure-activity relationship, ring arrangement and pharmacology, isomerism and the analytics it forces, plant biosynthesis, decarboxylation arithmetic, the transformation matrix, and the pharmacological line between a phytocannabinoid and a synthetic cannabimimetic.',
+  updated: '2026-09-27',
+});
+
+/**
+ * CITES — this shelf's bibliography.
+ *
+ * verified: 'crossref'  DOI resolved against the Crossref REST API on 2026-09-27 and the returned
+ *                       title, journal, year and pagination recorded.
+ * verified: 'patent'    front-page bibliographic data of the granted patent confirmed.
+ * verified: 'cfr'       codified federal regulation; the section number is the handle.
+ * verified: false       bibliographic details recorded from the literature, identifier NOT resolved
+ *                       in this pass. Render with an unverified marker. Never guess an identifier.
+ */
+export const CITES = F({
+  // ── taxonomy and inventory ───────────────────────────────────────────────────────────────────────
+  radwan2021: { authors: 'Radwan MM, Chandra S, Gul S, ElSohly MA', year: 2021,
+    title: 'Cannabinoids, Phenolics, Terpenes and Alkaloids of Cannabis',
+    journal: 'Molecules 26(9):2774', doi: '10.3390/molecules26092774', verified: 'crossref' },
+  hanus2016: { authors: 'Hanuš LO, Meyer SM, Muñoz E, Taglialatela-Scafati O, Appendino G', year: 2016,
+    title: 'Phytocannabinoids: a unified critical inventory',
+    journal: 'Natural Product Reports 33(12):1357-1392', doi: '10.1039/C6NP00074F', verified: 'crossref' },
+  elsohly2005: { authors: 'ElSohly MA, Slade D', year: 2005,
+    title: 'Chemical constituents of marijuana: The complex mixture of natural cannabinoids',
+    journal: 'Life Sciences 78(5):539-548', doi: '10.1016/j.lfs.2005.09.011', verified: 'crossref' },
+  kinghorn2017: { authors: 'Kinghorn AD, Falk H, Gibbons S, Kobayashi J (eds)', year: 2017,
+    title: 'Phytocannabinoids: Unraveling the Complex Chemistry and Pharmacology of Cannabis sativa',
+    journal: 'Progress in the Chemistry of Organic Natural Products, volume 103', verified: false },
+
+  // ── the side-chain series and its pharmacology ───────────────────────────────────────────────────
+  citti2019: { authors: 'Citti C, Linciano P, Russo F, Luongo L, Iannotta M, Maione S, et al.', year: 2019,
+    title: 'A novel phytocannabinoid isolated from Cannabis sativa L. with an in vivo cannabimimetic activity higher than Δ9-tetrahydrocannabinol: Δ9-tetrahydrocannabiphorol',
+    journal: 'Scientific Reports 9:20335', doi: '10.1038/s41598-019-56785-1', verified: 'crossref' },
+  linciano2020: { authors: 'Linciano P, Citti C, Luongo L, Belardo C, Maione S, Vandelli MA, et al.', year: 2020,
+    title: 'Isolation of a High-Affinity Cannabinoid for the Human CB1 Receptor from a Medicinal Cannabis sativa Variety: Δ9-Tetrahydrocannabutol, the Butyl Homologue of Δ9-Tetrahydrocannabinol',
+    journal: 'Journal of Natural Products 83(1):88-98', doi: '10.1021/acs.jnatprod.9b00876', verified: 'crossref' },
+  linciano2020b: { authors: 'Linciano P, Citti C, Russo F, Tolomeo F, Laganà A, Capriotti AL, et al.', year: 2020,
+    title: 'Identification of a new cannabidiol n-hexyl homolog in a medicinal cannabis variety with an antinociceptive activity in mice: cannabidihexol',
+    journal: 'Scientific Reports 10:22019', doi: '10.1038/s41598-020-79042-2', verified: 'crossref' },
+  martin1999: { authors: 'Martin BR, Jefferson R, Winckler R, Wiley JL, Huffman JW, Crocker PJ, et al.', year: 1999,
+    title: 'Manipulation of the Tetrahydrocannabinol Side Chain Delineates Agonists, Partial Agonists, and Antagonists',
+    journal: 'Journal of Pharmacology and Experimental Therapeutics 290(3):1065-1079',
+    doi: '10.1016/S0022-3565(24)35007-4', verified: 'crossref' },
+  crocker1999: { authors: 'Crocker PJ, Saha B, Ryan WJ, Wiley JL, Martin BR, Ross RA, et al.', year: 1999,
+    title: 'Development of agonists, partial agonists and antagonists in the Δ8-tetrahydrocannabinol series',
+    journal: 'Tetrahedron 55(46):13907-13926', doi: '10.1016/S0040-4020(99)00849-2', verified: 'crossref' },
+  durydivka2026: { authors: 'Durydivka O, et al.', year: 2026,
+    title: 'Side-Chain Homologs of Δ9-THC, Δ8-THC, and HHC Reveal Pathway Bias at CB1R and CB2R Cannabinoid Receptors',
+    journal: 'Molecular Neurobiology, volume 63', doi: '10.1007/s12035-026-06145-8', verified: 'crossref' },
+  thomas2005: { authors: 'Thomas A, Stevenson LA, Wease KN, Price MR, Baillie G, Ross RA, Pertwee RG', year: 2005,
+    title: 'Evidence that the plant cannabinoid Δ9-tetrahydrocannabivarin is a cannabinoid CB1 and CB2 receptor antagonist',
+    journal: 'British Journal of Pharmacology 146(7):917-926', doi: '10.1038/sj.bjp.0706414', verified: 'crossref' },
+  showalter1996: { authors: 'Showalter VM, Compton DR, Martin BR, Abood ME', year: 1996,
+    title: 'Evaluation of binding in a transfected cell line expressing a peripheral cannabinoid receptor (CB2): identification of cannabinoid receptor subtype selective ligands',
+    journal: 'Journal of Pharmacology and Experimental Therapeutics 278(2):989-999',
+    doi: '10.1016/S0022-3565(25)20744-3', verified: 'crossref' },
+  caprari2024: { authors: 'Caprari C, et al.', year: 2024,
+    title: 'Δ9-Tetrahydrocannabiphorol: Identification and quantification in recreational products',
+    journal: 'Forensic Chemistry 40:100595', doi: '10.1016/j.forc.2024.100595', verified: 'crossref' },
+
+  // ── synthetic cannabimimetics ────────────────────────────────────────────────────────────────────
+  huffman1994: { authors: 'Huffman JW, Dai D, Martin BR, Compton DR', year: 1994,
+    title: 'Design, Synthesis and Pharmacology of Cannabimimetic Indoles',
+    journal: 'Bioorganic & Medicinal Chemistry Letters 4(4):563-566',
+    doi: '10.1016/S0960-894X(01)80155-4', verified: 'crossref' },
+  banister2018: { authors: 'Banister SD, Connor M', year: 2018,
+    title: 'The Chemistry and Pharmacology of Synthetic Cannabinoid Receptor Agonist New Psychoactive Substances',
+    journal: 'Handbook of Experimental Pharmacology, pages 191-226', doi: '10.1007/164_2018_144', verified: 'crossref' },
+  tai2014: { authors: 'Tai S, Fantegrossi WE', year: 2014,
+    title: 'Synthetic Cannabinoids: Pharmacology, Behavioral Effects, and Abuse Potential',
+    journal: 'Current Addiction Reports 1(2):129-136', doi: '10.1007/s40429-014-0014-y', verified: 'crossref' },
+  // Cited as 2022 across this section: Crossref `issued` is 2022-12-20 (online first). The print
+  // issue is Drug Testing and Analysis 15(4), April 2023, which is why the paper is also seen cited
+  // as 2023. Same DOI, same paper — the year is not a discrepancy to re-litigate.
+  andrews2022: { authors: 'Andrews R, Jorge R, Christie R, Gallegos A', year: 2022,
+    title: 'From JWH-018 to OXIZIDS: Structural evolution of synthetic cannabinoids in the European Union from 2008 to present day',
+    journal: 'Drug Testing and Analysis 15(4):378-387 (online 2022-12-20)', doi: '10.1002/dta.3422', verified: 'crossref' },
+  euews2024: { authors: 'European Union Early Warning System (EMCDDA / EUDA)', year: 2024,
+    title: 'Formal notification of a new psychoactive substance: delta-8-THC-C8',
+    journal: 'EU EWS formal notification document', verified: false },
+
+  // ── biosynthesis and plant genetics ──────────────────────────────────────────────────────────────
+  gagne2012: { authors: 'Gagne SJ, Stout JM, Liu E, Boubakir Z, Clark SM, Page JE', year: 2012,
+    title: 'Identification of olivetolic acid cyclase from Cannabis sativa reveals a unique catalytic route to plant polyketides',
+    journal: 'Proceedings of the National Academy of Sciences 109(31):12811-12816',
+    doi: '10.1073/pnas.1200330109', verified: 'crossref' },
+  sirikantaramas2004: { authors: 'Sirikantaramas S, Morimoto S, Shoyama Y, Ishikawa Y, Wada Y, Shoyama Y, Taura F', year: 2004,
+    title: 'The Gene Controlling Marijuana Psychoactivity: molecular cloning and heterologous expression of Δ1-tetrahydrocannabinolic acid synthase from Cannabis sativa L.',
+    journal: 'Journal of Biological Chemistry 279(38):39767-39774', doi: '10.1074/jbc.M403693200', verified: 'crossref' },
+  demeijer2003: { authors: 'de Meijer EPM, Bagatta M, Carboni A, Crucitti P, Moliterni VMC, Ranalli P, Mandolino G', year: 2003,
+    title: 'The Inheritance of Chemical Phenotype in Cannabis sativa L.',
+    journal: 'Genetics 163(1):335-346', doi: '10.1093/genetics/163.1.335', verified: 'crossref' },
+  luo2019: { authors: 'Luo X, Reiter MA, d’Espaux L, Wong J, Denby CM, Lechner A, et al.', year: 2019,
+    title: 'Complete biosynthesis of cannabinoids and their unnatural analogues in yeast',
+    journal: 'Nature 567:123-126', doi: '10.1038/s41586-019-0978-9', verified: 'crossref' },
+
+  // ── decarboxylation, stability and degradation ───────────────────────────────────────────────────
+  wang2016: { authors: 'Wang M, Wang YH, Avula B, Radwan MM, Wanas AS, van Antwerp J, et al.', year: 2016,
+    title: 'Decarboxylation Study of Acidic Cannabinoids: A Novel Approach Using Ultra-High-Performance Supercritical Fluid Chromatography/Photodiode Array-Mass Spectrometry',
+    journal: 'Cannabis and Cannabinoid Research 1(1):262-271', doi: '10.1089/can.2016.0020', verified: 'crossref' },
+  filer2022: { authors: 'Filer CN', year: 2022, title: 'Acidic Cannabinoid Decarboxylation',
+    journal: 'Cannabis and Cannabinoid Research 7(3):262-273', doi: '10.1089/can.2021.0072', verified: 'crossref' },
+  jaidee2022: { authors: 'Jaidee W, Siridechakorn I, Nessopa S, Wisuitiprot V, Chaiwangrach N, Ingkaninan K, Waranuch N', year: 2022,
+    title: 'Kinetics of CBD, Δ9-THC Degradation and Cannabinol Formation in Cannabis Resin at Various Temperature and pH Conditions',
+    journal: 'Cannabis and Cannabinoid Research 7(4):537-547', doi: '10.1089/can.2021.0004', verified: 'crossref' },
+  lindholst2010: { authors: 'Lindholst C', year: 2010, title: 'Long term stability of cannabis resin and cannabis extracts',
+    journal: 'Australian Journal of Forensic Sciences 42(3):181-190', doi: '10.1080/00450610903258144', verified: 'crossref' },
+  cfr9901: { authors: 'United States Department of Agriculture, Domestic Hemp Production Program', year: 2021,
+    title: 'Meaning of terms, including the definition of decarboxylated and the total-THC conversion factor 0.877',
+    journal: '7 CFR 990.1', verified: 'cfr' },
+
+  // ── the Adams era and the isomerisation literature ───────────────────────────────────────────────
+  adams1940: { authors: 'Adams R, Pease DC, Cain CK, Clark JH', year: 1940,
+    title: 'Structure of Cannabidiol. VI. Isomerization of Cannabidiol to Tetrahydrocannabinol, a Physiologically Active Product. Conversion of Cannabidiol to Cannabinol',
+    journal: 'Journal of the American Chemical Society 62(9):2402-2405', doi: '10.1021/ja01866a040', verified: 'crossref' },
+  adams1941: { authors: 'Adams R, Baker BR, Wearn RB', year: 1941,
+    title: 'Structure of Cannabidiol. XII. Isomerization to Tetrahydrocannabinols',
+    journal: 'Journal of the American Chemical Society 63(8):2209-2213', doi: '10.1021/ja01853a052', verified: 'crossref' },
+  gaoni1966: { authors: 'Gaoni Y, Mechoulam R', year: 1966,
+    title: 'Hashish VII: The isomerization of cannabidiol to tetrahydrocannabinols',
+    journal: 'Tetrahedron 22(5):1481-1488', doi: '10.1016/S0040-4020(01)99446-3', verified: 'crossref' },
+  razdan1974: { authors: 'Razdan RK, Dalzell HC, Handrick GR', year: 1974,
+    title: 'Hashish. X. Simple one-step synthesis of (-)-Δ1-tetrahydrocannabinol (THC) [title abbreviated here: the full title names the two starting materials, which this shelf does not reproduce]',
+    journal: 'Journal of the American Chemical Society 96(18):5860-5865', doi: '10.1021/ja00825a026', verified: 'crossref' },
+  crombie1988: { authors: 'Crombie L, Crombie WML, Jamieson SV', year: 1988,
+    title: 'Acid-catalysed terpenylations of olivetol in the synthesis of cannabinoids',
+    journal: 'Journal of the Chemical Society, Perkin Transactions 1, page 1243',
+    doi: '10.1039/P19880001243', verified: 'crossref' },
+  bloemendal2020: { authors: 'Bloemendal VRLJ, van Hest JCM, Rutjes FPJT', year: 2020,
+    title: 'Synthetic pathways to tetrahydrocannabinol (THC): an overview',
+    journal: 'Organic & Biomolecular Chemistry 18(17):3203-3215', doi: '10.1039/D0OB00464B', verified: 'crossref' },
+  marzullo2020: { authors: 'Marzullo P, Foschi F, Coppini DA, Fanchini F, Magnani L, Rusconi S, et al.', year: 2020,
+    title: 'Cannabidiol as the Substrate in Acid-Catalyzed Intramolecular Cyclization',
+    journal: 'Journal of Natural Products 83(10):2894-2901', doi: '10.1021/acs.jnatprod.0c00436', verified: 'crossref' },
+  kiselak2020: { authors: 'Kiselak TD, Koerber R, Verbeck GF', year: 2020,
+    title: 'Synthetic route sourcing of illicit at home cannabidiol (CBD) isomerization to psychoactive cannabinoids using ion mobility-coupled-LC-MS/MS',
+    journal: 'Forensic Science International 308:110173', doi: '10.1016/j.forsciint.2020.110173', verified: 'crossref' },
+  webster2008: { authors: 'Webster GRB, Sarna LP, Mechoulam R (inventors); Full Spectrum Laboratories Ltd (assignee)', year: 2008,
+    title: 'Conversion of CBD to Δ8-THC and Δ9-THC; United States Patent 7,399,872 B2, granted 15 July 2008',
+    journal: 'United States Patent and Trademark Office', verified: 'patent' },
+  munger2022: { authors: 'Munger KR, Jensen RP, Strongin RM', year: 2022,
+    title: 'Vaping Cannabinoid Acetates Leads to Ketene Formation',
+    journal: 'Chemical Research in Toxicology 35(7):1202-1205', doi: '10.1021/acs.chemrestox.2c00170', verified: 'crossref' },
+
+  // ── the acidic cannabinoids as agents in their own right ─────────────────────────────────────────
+  bolognini2013: { authors: 'Bolognini D, Rock EM, Cluny NL, Cascio MG, Limebeer CL, Duncan M, et al.', year: 2013,
+    title: 'Cannabidiolic acid prevents vomiting in Suncus murinus and nausea-induced behaviour in rats by enhancing 5-HT1A receptor activation',
+    journal: 'British Journal of Pharmacology 168(6):1456-1470', doi: '10.1111/bph.12043', verified: 'crossref' },
+  nadal2017: { authors: 'Nadal X, del Río C, Casano S, Palomares B, Ferreiro-Vera C, Navarrete C, et al.', year: 2017,
+    title: 'Tetrahydrocannabinolic acid is a potent PPARγ agonist with neuroprotective activity',
+    journal: 'British Journal of Pharmacology 174(23):4263-4276', doi: '10.1111/bph.14019', verified: 'crossref' },
+
+  // ── the operator's own source documents, cited as the documents they are ─────────────────────────
+  vankush2026cbx: { authors: 'Van Kush Family Research Institute', year: 2026,
+    title: 'Comprehensive Cannabinoid Synthesis Research: A Technical Guide to Novel Cannabinoid Production Pathways',
+    journal: 'Operator internal document, January 2026', verified: false },
+  vankush2026brief: { authors: 'Van Kush Family Research Institute', year: 2026,
+    title: 'The Chemistry of Cannabinoid Synthesis: Why the 0.4mg THC Threshold Creates an Unenforceable Standard',
+    journal: 'Operator technical brief for federal regulators and hemp industry stakeholders, January 2026', verified: false },
+});
+
+/**
+ * PAGES — each becomes one wiki page at /science/cannabinoids/<slug>.
+ */
+export const PAGES = F([
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'structural-classes',
+    title: 'The Eleven Structural Classes',
+    kind: 'cannabinoid',
+    summary: 'Phytocannabinoids are conventionally sorted into eleven structural types plus a miscellaneous group. A type is a carbon skeleton and a ring arrangement, not a pharmacological category — which is why one type contains both an intoxicant and a non-intoxicant, and why the class table is the right index for the whole family.',
+    facts: F({
+      'Number of structural types in the standard taxonomy': 'eleven, counting the miscellaneous group',
+      'Cannabinoids isolated or identified (Radwan 2021 review)': '125, classified into 11 types',
+      'Cannabinoids reported in the earlier ElSohly and Slade review': 'about 70',
+      'Total compounds reported from Cannabis sativa': 'more than 500, of which the cannabinoids are one class',
+      'Universal biosynthetic precursor': 'cannabigerolic acid (CBGA) and its side-chain homologues',
+      'Core scaffold shared by the family': 'an isoprenylated resorcinyl polyketide',
+    }),
+    sections: F([
+      F({
+        h: 'What "type" means, and what it does not mean',
+        body: 'A phytocannabinoid type is defined by its carbon skeleton and its ring arrangement — how many rings there are, which atoms close them, where the oxygens sit. It is a structural classification, and it carries no pharmacological commitment. Two facts make this concrete. The CBD type and the Δ9-THC type contain molecules of identical molecular formula that differ only in whether one ring is closed, and they sit at opposite ends of the intoxication question. Conversely, a single type spans an enormous pharmacological range: the Δ9-THC type contains the propyl homologue that behaves as a CB1 antagonist and the heptyl homologue that binds CB1 more than thirty times as tightly as Δ9-THC itself. Reading "type" as "class of effect" is the commonest error in the secondary literature, and it is the error that makes novel-cannabinoid marketing copy sound authoritative when it is not.',
+        bullets: F([
+          'The type is the skeleton: ring count, ring closure, oxidation state of the rings.',
+          'The side chain is a separate and orthogonal axis (see the side-chain series page).',
+          'The double-bond position and the stereochemistry are a third axis (see the isomers page).',
+          'Any given molecule is one point in that three-axis space, plus its acid or neutral form.',
+        ]),
+        cites: F(['hanus2016', 'radwan2021', 'elsohly2005']),
+      }),
+      F({
+        h: 'The class table',
+        body: 'The table below expands the operator source table, keeps its column sense (class, representative members, side-chain lengths present, defining structural feature), and corrects it in three places. The Δ9-THC type row gains the C1, C4 and C6 homologues that have since been isolated. The Δ8-THC type row gains the octyl homologue, because the compound the trade calls THCJD is a Δ8 octyl species, which puts it in this row rather than the Δ9 row. The CBG row is corrected: CBGA is the acid of CBG and not a separate side-chain variant, so it belongs in the members column rather than the chain column.',
+        table: F({
+          cols: F(['Class', 'Representative members', 'Side chains present', 'Defining structural feature']),
+          rows: F([
+            F(['Δ9-THC type', 'Δ9-THC, Δ9-THCA-A and Δ9-THCA-B, THCV (C3), THCB (C4), THCH (C6), THCP (C7), Δ9-THC-C1', 'C1, C3, C4, C5, C6, C7', 'Tricyclic dibenzopyran: the resorcinol ring, a pyran ring closed through an oxygen bridge, and a cyclohexene ring carrying the double bond at the 9,10 position. Two stereocentres, at C-6a and C-10a.']),
+            F(['Δ8-THC type', 'Δ8-THC, Δ8-THCA-A, Δ8-THC-C8 (the octyl homologue, also designated JWH-138)', 'C3, C5, C8', 'The same tricyclic skeleton with the alkene moved into the 8,9 position. Thermodynamically the more stable of the Δ8 and Δ9 pair, which sets the direction of drift on ageing and heating.']),
+            F(['CBD type', 'CBD, CBDA, CBDV (C3), CBDB (C4), CBDH (C6), CBDP (C7), CBD-C1', 'C1, C3, C4, C5, C6, C7', 'Bicyclic and open: a resorcinol ring joined by a single rotatable bond to a terpene-derived cyclohexene. No pyran. Both phenolic hydroxyls are free.']),
+            F(['CBG type', 'CBG, CBGA, cannabigerol monomethyl ether (CBGM), CBGV, CBGVA', 'C3, C5', 'Monocyclic: a resorcinol carrying an open, acyclic geranyl chain. The precursor family — no second ring has yet been formed.']),
+            F(['CBC type', 'CBC, CBCA, CBCV, CBCVA', 'C3, C5', 'Bicyclic 2H-chromene: the resorcinol closed into a benzopyran bearing a gem-dimethyl group and a pendant isoprenyl unit. Found in the plant as a racemate, unlike the THC and CBD types.']),
+            F(['CBN type', 'CBN, CBNA, cannabivarin (CBNV, C3), cannabiorcol (CBN-C1)', 'C1, C3, C5', 'The THC tricyclic skeleton with the terpenoid C-ring fully aromatised. The stereocentres are lost. This is the terminal oxidation product of the THC series, not a primary plant product.']),
+            F(['CBND type', 'Cannabinodiol (CBND), cannabinodivarin (CBNDV)', 'C3, C5', 'The open CBD-type bicyclic with its terpene ring aromatised — the CBD-series counterpart of CBN, and formed the same way.']),
+            F(['CBE type', 'Cannabielsoin (CBE), CBEA-A, CBEA-B', 'C3, C5', 'A dihydrobenzofuran fused system bearing a hydroxylated isopropyl-cyclohexane. Arises by epoxidation of a CBD-type alkene followed by intramolecular rearrangement, so it is a degradation and metabolic product rather than a synthase product.']),
+            F(['CBL type', 'Cannabicyclol (CBL), CBLA, CBLV', 'C3, C5', 'Tetracyclic, and the only common phytocannabinoid containing a cyclobutane ring. Formed photochemically from the CBC type by an intramolecular cycloaddition.']),
+            F(['CBT type', 'Cannabitriol (CBT) and its congeners, including the ethyl ethers and cannabitriolvarin', 'C3, C5', 'A THC-type skeleton bearing additional oxygen functionality on the terpenoid ring — a glycol or triol rather than a single phenol. A structurally heterogeneous group that is mostly defined by that extra hydroxylation.']),
+            F(['Miscellaneous and furan group', 'Cannabifuran (CBF), dehydrocannabifuran (DCBF), cannabichromanone, cannabicitran, cannabiripsol, 10-oxo-Δ6a(10a)-THC', 'Various', 'Skeletons that do not fit the ten defined types: furan-fused systems, chromanones, and rearranged or further-oxidised products. Individually rare; collectively a reminder that the taxonomy is a convenience, not a closed set.']),
+          ]),
+        }),
+        cites: F(['radwan2021', 'hanus2016', 'elsohly2005', 'vankush2026cbx', 'martin1999']),
+      }),
+      F({
+        h: 'How many phytocannabinoids are there? The counts disagree, and the popular figure is the highest one',
+        body: 'The figure of more than 180 identified phytocannabinoids is widely repeated, including in the operator source document that this shelf is built from. The taxonomy reviews give lower numbers. Radwan and colleagues, reviewing the field in 2021 from the same Mississippi group that produced the earlier inventory, report 125 compounds isolated or identified as cannabinoids and classify them into the eleven types used above; the same review notes more than 500 total compounds reported from the plant, of which the cannabinoids are one class among terpenes, phenolics and alkaloids. ElSohly and Slade in 2005 counted about 70. Hanuš and colleagues in 2016 performed a deliberately critical inventory and found that a meaningful fraction of published identifications did not survive scrutiny — some were misassignments, some were artefacts of the analysis, some were duplicates under different names. The honest statement is therefore a range with a method attached: on the order of 120 to 150 compounds have been isolated and structurally characterised as phytocannabinoids, the number grows as detection limits fall, and a figure above 180 has not been located in a taxonomy review in this pass. Anyone quoting a single round number should be asked which review it came from.',
+        cites: F(['radwan2021', 'hanus2016', 'elsohly2005', 'vankush2026cbx']),
+        contested: true,
+        caveat: 'The "more than 180 identified phytocannabinoids" figure appears in the operator source and throughout the trade press but was not found in any of the taxonomy reviews consulted here. Radwan 2021 gives 125; ElSohly and Slade 2005 give about 70; Hanuš 2016 reduces several published identifications. Treat 180-plus as an uncited trade figure.',
+      }),
+      F({
+        h: 'The biogenetic definition, and why cannabis is not the only source',
+        body: 'The structural taxonomy above is descriptive. Hanuš and colleagues proposed a biogenetic definition alongside it: a phytocannabinoid is an isoprenylated resorcinyl polyketide, which splits naturally into an alkyl version (the cannabis compounds, where the resorcinol carries a straight alkyl chain) and a beta-aralkyl version (where it carries an aryl-substituted chain). That definition does real work, because it makes the family a chemotaxonomic class rather than a species-specific one. Compounds meeting it occur outside Cannabis — in liverworts of the genus Radula, which produce a cis-configured bibenzyl cannabinoid, in certain higher plants such as Helichrysum and Rhododendron, and in some fungi. For a hemp-sciences programme this matters practically: a reference standard, a chromatographic method and a receptor assay developed for a cannabis cannabinoid transfer directly to these other sources, and the non-cannabis phytocannabinoids sit outside cannabis-specific regulation while sharing the pharmacophore.',
+        cites: F(['hanus2016', 'kinghorn2017']),
+      }),
+      F({
+        h: 'Acid and neutral forms are not two classes',
+        body: 'Every type above has an acidic form in the living plant and a neutral form after decarboxylation. The taxonomy counts them separately as distinct compounds, which is correct — THCA and THC have different masses, different chromatographic behaviour, different receptor pharmacology and different legal treatment — but it inflates the impression of structural diversity. Structurally, the acid and the neutral form differ by one carboxyl group on the aromatic ring. It is worth keeping the two facts in view at once: the acids are the real plant products and the neutral forms are largely post-harvest, and yet almost all of the receptor pharmacology in the literature was done on the neutral forms.',
+        cites: F(['sirikantaramas2004', 'wang2016', 'nadal2017']),
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/side-chain-series', 'cannabinoids/ring-structures', 'cannabinoids/biosynthesis',
+      'cannabinoids/isomers', 'cannabinoids/research-frontier', 'coa/panels', 'endocannabinoid/cb1']),
+    cites: F(['radwan2021', 'hanus2016', 'elsohly2005', 'kinghorn2017', 'martin1999', 'sirikantaramas2004',
+      'wang2016', 'nadal2017', 'vankush2026cbx']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'side-chain-series',
+    title: 'The Side-Chain Homologous Series and its Structure-Activity Relationship',
+    kind: 'cannabinoid',
+    summary: 'The alkyl side chain is the single most consequential structural variable in the cannabinoid family. Homologues from one to eight carbons occur naturally, CB1 affinity rises with chain length to an optimum around seven or eight carbons and then falls away, and the propyl homologue reverses sign and behaves as an antagonist. This page gives the series, the real affinity numbers, and an explicit accounting of which potency multipliers in circulation could not be sourced.',
+    facts: F({
+      'Standard chain length': 'C5, pentyl (from olivetolic acid)',
+      'Naturally detected range': 'C1 through C8',
+      'CB1 affinity optimum': 'C7 to C8, with a decline beyond it',
+      'Δ9-THC CB1 Ki': 'approximately 40 nM; the widely quoted 40.7 nM figure comes from the 1996 Showalter radioligand series',
+      'Δ9-THCP CB1 Ki': '1.2 nM (CB2 6.2 nM), roughly 33-fold the CB1 affinity of Δ9-THC in the same assay',
+      'Δ9-THCB CB1 Ki': '15 nM (CB2 51 nM)',
+      'Δ8-THC-C8 (octyl) CB1 Ki': '8.5 nM',
+      'Δ9-THCV': 'competitive CB1 and CB2 antagonist in the 2005 Pertwee-group work; Ki 75.4 nM at mouse brain CB1',
+    }),
+    sections: F([
+      F({
+        h: 'The series is the organising idea',
+        body: 'Cannabis does not make one cannabinoid scaffold with one side chain. It makes a homologous series, because the polyketide arm of the biosynthesis will accept several different short acyl-CoA starter units. Whichever starter the enzyme picks up sets the alkyl chain length for everything downstream, so each starter generates a parallel copy of the entire cannabinoid family: a CBG, a THC, a CBD, a CBC, a CBN and so on, all carrying the same chain. The pentyl (C5) series dominates because hexanoyl-CoA is the abundant starter; the propyl (C3) series is the next most abundant; the others occur at trace to ultra-trace level. Understanding this is the difference between memorising a list of acronyms and being able to predict what should exist.',
+        bullets: F([
+          'C1, methyl: the orcinol series. Δ9-THC-C1, CBD-C1, cannabiorcol (CBN-C1). Built from a shorter starter, giving orcinol rather than olivetol as the resorcinol.',
+          'C3, propyl: the varinic series, suffix -varin. THCV, CBDV, CBGV, CBCV, cannabivarin (CBNV), CBNDV, CBLV, and the corresponding acids. Built from butanoyl-CoA via divarinic acid.',
+          'C4, butyl: THCB (tetrahydrocannabutol) and CBDB (cannabidibutol), isolated from the Italian FM2 medicinal variety in 2019 to 2020.',
+          'C5, pentyl: the standard series. Δ9-THC, CBD, CBG, CBC, CBN and the rest, from olivetolic acid.',
+          'C6, hexyl: THCH (tetrahydrocannabihexol) and CBDH (cannabidihexol), also first reported from FM2.',
+          'C7, heptyl: the phorolic series, suffix -phorol. THCP and CBDP, reported in 2019; CBGP and CBCP are putative identifications.',
+          'C8, octyl: Δ8-THC-C8, a classical octyl cannabinoid known from the Adams-era synthetic work and also catalogued in the JWH numbering as JWH-138. This is the compound behind the trade name THCJD.',
+        ]),
+        cites: F(['citti2019', 'linciano2020', 'linciano2020b', 'hanus2016', 'radwan2021', 'martin1999']),
+      }),
+      F({
+        h: 'The naming convention, because the suffixes are not obvious',
+        body: 'The trivial names encode the chain length in a suffix that has no mnemonic logic, which makes the literature harder to read than it needs to be. The table maps them. Note that -varin is the only suffix most readers will have met, that -butol and -hexol were coined by the same group in consecutive papers, and that a compound written as THC-C7 in an analytical paper and THCP in a commercial one is the same molecule.',
+        table: F({
+          cols: F(['Chain', 'Alkyl group', 'Suffix', 'THC-type member', 'CBD-type member', 'Note']),
+          rows: F([
+            F(['C1', 'methyl', '-orcol / -C1', 'Δ9-THC-C1', 'CBD-C1', 'Resorcinol is orcinol rather than olivetol. Ultra-trace; pharmacologically near-silent at CB1.']),
+            F(['C3', 'propyl', '-varin', 'THCV', 'CBDV', 'The only minor series present at percent level in some chemotypes. Pharmacologically distinctive: antagonism, not weak agonism.']),
+            F(['C4', 'butyl', '-butol', 'THCB', 'CBDB', 'CB1 affinity comparable to Δ9-THC. Isolated 2019 to 2020 from the FM2 variety.']),
+            F(['C5', 'pentyl', '(none, standard)', 'Δ9-THC', 'CBD', 'The reference compounds. Everything else in the table is described relative to these.']),
+            F(['C6', 'hexyl', '-hexol', 'THCH', 'CBDH', 'Detected in plant material; pharmacological characterisation thin.']),
+            F(['C7', 'heptyl', '-phorol', 'THCP', 'CBDP', 'Highest CB1 affinity of the naturally detected THC homologues. Plant abundance is very low.']),
+            F(['C8', 'octyl', '-C8 / octyl', 'Δ8-THC-C8', 'not reported', 'Known from Adams-era synthetic work; catalogued as JWH-138; sold in the trade as THCJD.']),
+          ]),
+        }),
+        cites: F(['citti2019', 'linciano2020', 'linciano2020b', 'hanus2016', 'martin1999']),
+      }),
+      F({
+        h: 'The structure-activity relationship: affinity rises, peaks, and falls',
+        body: 'The relationship between side-chain length and cannabinoid receptor affinity is one of the oldest and best-replicated findings in the field, and it has a shape rather than a direction. Affinity is low for very short chains, rises steeply through the middle of the series, reaches an optimum in the region of seven to eight carbons, and then declines as the chain grows past the length of the hydrophobic channel it occupies in the receptor. The Martin and Crocker work of 1999, done on the Δ8-THC scaffold specifically so that the side chain could be varied without confounding the ring chemistry, mapped this in detail and found something more interesting than a potency curve: manipulating the side chain does not merely tune affinity, it changes the character of the interaction, so that one scaffold with different chains yields agonists, partial agonists and antagonists. That is the paper the phrase "delineates agonists, partial agonists, and antagonists" comes from, and it is the primary reference for anyone who wants the SAR rather than the marketing.',
+        bullets: F([
+          'Δ9-THC (C5), CB1 Ki approximately 40 nM. Partial agonist.',
+          'Δ9-THCB (C4), CB1 Ki 15 nM, CB2 Ki 51 nM — described by its isolating group as comparable to Δ9-THC.',
+          'Δ8-THC-C8 (C8), CB1 Ki 8.5 nM in the Martin 1999 series — roughly five times the affinity of Δ9-THC.',
+          'Δ9-THCP (C7), CB1 Ki 1.2 nM, CB2 Ki 6.2 nM — roughly 33 times the CB1 affinity of Δ9-THC measured in the same study.',
+          'Δ9-THCV (C3), CB1 Ki 75.4 nM at mouse brain membranes and 62.8 nM at human CB2, behaving as a competitive antagonist rather than a weak agonist.',
+        ]),
+        cites: F(['martin1999', 'crocker1999', 'showalter1996', 'citti2019', 'linciano2020', 'thomas2005']),
+      }),
+      F({
+        h: 'The modern confirmation, and why efficacy is a second axis',
+        body: 'A 2026 study in Molecular Neurobiology profiled the C3 to C8 homologues of Δ9-THC, Δ8-THC and hexahydrocannabinol across two signalling outputs — inhibitory G-protein activation and beta-arrestin recruitment — and reproduced the classical curve while adding the axis the classical work could not measure. Side-chain elongation was the dominant determinant of signalling efficiency, with potency gains that peaked at the C7 and C8 homologues. The C4 through C8 homologues behaved as high-efficacy agonists in the G-protein pathways while remaining only partial agonists for beta-arrestin recruitment, which is pathway bias: the same molecule is a strong agonist on one output and a weak one on another. The C3 homologues showed minimal agonism and instead produced functional CB1 antagonism, partially inhibiting the G-protein pathways and almost completely inhibiting beta-arrestin recruitment. This is an independent confirmation, in a modern functional assay, of the 2005 finding that the propyl homologue reverses sign.',
+        cites: F(['durydivka2026', 'thomas2005', 'martin1999']),
+        evidence: 'in vitro',
+      }),
+      F({
+        h: 'The propyl reversal is the most important qualitative fact in the series',
+        body: 'Most of the side-chain series is a story about degree. The C3 homologue is a story about kind. Δ9-THCV was shown by the Pertwee group in 2005 to displace the reference radioligand from CB1 and CB2 sites with respectable affinity and then to antagonise agonist-induced signalling rather than produce it — a competitive antagonist at both receptors, with apparent KB values in the tens of nanomolar. The behaviour is dose-dependent and preparation-dependent: at higher concentrations, and in some tissues, THCV shows partial agonist character, and the literature contains both descriptions because both are real under their respective conditions. For a research programme this is the single most useful qualitative handle in the homologous series, because it means chain length is not a potency dial but a functional switch, and it means a chemotype rich in the propyl series is pharmacologically different in kind rather than merely weaker.',
+        cites: F(['thomas2005', 'durydivka2026']),
+        contested: true,
+        caveat: 'THCV is reported as a CB1/CB2 antagonist at the concentrations used in the 2005 binding and GTPγS work, and as a partial agonist at higher doses and in some tissue preparations. Both characterisations are in the literature; neither is wrong, and a flat statement that "THCV is an antagonist" omits the dose dependence.',
+        evidence: 'in vitro',
+      }),
+      F({
+        h: 'THCP: what the 2019 paper actually reported',
+        body: 'Citti and colleagues isolated Δ9-THCP from a medicinal cannabis variety, characterised it, and measured its receptor binding and its in vivo activity in the standard mouse tetrad. The binding result is the one that travelled: CB1 Ki of 1.2 nM and CB2 Ki of 6.2 nM, against approximately 40 nM at CB1 for Δ9-THC measured in the same work, giving a ratio near 33-fold. The commonly quoted "30 times more potent" is a rounding of that affinity ratio, and it is worth being precise about what it is a ratio of: binding affinity, not subjective potency, not dose equivalence, and not toxicity. The paper also reported in vivo cannabimimetic activity greater than that of Δ9-THC, which is a stronger claim than binding alone, and it reported natural abundance in the fractions of a hundredth of a percent — low enough that the compound is a research and analytical target in plant material rather than a bulk constituent. THCP has since been identified and quantified in recreational products by forensic laboratories, which is how a trace phytocannabinoid becomes an analytical routine.',
+        cites: F(['citti2019', 'caprari2024', 'showalter1996']),
+        evidence: 'animal',
+      }),
+      F({
+        h: 'The THCJD 19-fold claim: not verified, and the located number is much smaller',
+        body: 'The claim that THCJD is approximately nineteen times as potent as THC circulates throughout the hemp trade and appears in both operator source documents. No primary source for a nineteen-fold figure was located in this pass. Searching for it returns vendor pages, cannabinoid-shop explainers and secondary summaries, all of which reference "studies" without citing one. What the primary literature does contain is a measured affinity for the octyl compound: in the Martin 1999 side-chain series, Δ8-THC-C8 has a CB1 Ki of 8.5 nM, which against Δ9-THC at approximately 40 nM is a factor of roughly five in binding affinity, not nineteen. That is a substantial number and it is consistent with the C7-to-C8 optimum, but it is not the trade figure. Until someone produces the primary source, the honest description is: the octyl homologue binds CB1 several-fold more tightly than Δ9-THC, and the nineteen-fold multiplier is an unsourced trade claim. The same treatment applies to every potency multiplier attached to a novel cannabinoid in commercial copy — ask for the assay, the species, the endpoint and the reference compound, and if those four are missing the number means nothing.',
+        cites: F(['martin1999', 'vankush2026cbx', 'vankush2026brief', 'showalter1996']),
+        contested: true,
+        caveat: 'Trade claim without located primary support. The "19 times THC" figure for THCJD could not be traced to any peer-reviewed source. The located primary datum for the octyl homologue is a CB1 Ki of 8.5 nM (Martin 1999), roughly five-fold the affinity of Δ9-THC. Do not repeat the 19-fold figure as fact.',
+        evidence: 'anecdotal',
+      }),
+      F({
+        h: 'Affinity is not effect, and higher affinity is a toxicological question before it is a commercial one',
+        body: 'A binding constant describes how tightly a molecule occupies a receptor. It does not describe what the receptor then does, how much of the molecule reaches the receptor, how long it stays, what its metabolites do, or what the experience is like. Three separate cautions follow, and all three are routinely elided in novel-cannabinoid marketing. First, affinity and efficacy are independent: the Martin and Crocker work exists precisely because one scaffold with different side chains spans agonism, partial agonism and antagonism at similar affinities. Second, pharmacokinetics intervene: a compound with thirty times the affinity delivered in a product whose dose-per-unit is unknown is not thirty times the experience, it is an unquantified exposure. Third, and most important, a more potent full-spectrum agonist at CB1 is a toxicological concern rather than a feature. The entire clinical history of the synthetic cannabimimetics is the demonstration of what happens when CB1 is driven harder and longer than a partial agonist can drive it. The phytocannabinoid homologues are not those compounds and this page is not claiming they are — but the direction of travel, toward higher CB1 occupancy in products whose dose arithmetic is frequently wrong, points at the same hazard.',
+        cites: F(['martin1999', 'crocker1999', 'banister2018', 'tai2014', 'durydivka2026']),
+      }),
+      F({
+        h: 'The historical precedent: side-chain modification was the first big potency lever ever found',
+        body: 'This is not a modern discovery. The Adams group, working on synthetic Δ6a,10a analogues in the early 1940s because those were the isomers whose stereochemistry could be controlled, found that replacing the natural pentyl chain with a branched dimethylheptyl chain produced very large increases in activity — the historical literature describes gains of several hundred-fold. The dimethylheptyl motif went on to appear in the most potent classical cannabinoids ever made, including the Hebrew University HU series. The modern rediscovery of THCP as the naturally occurring heptyl homologue is therefore a rediscovery: the SAR was mapped on synthetic scaffolds eighty years before the plant was found to be doing a version of it.',
+        cites: F(['adams1940', 'adams1941', 'martin1999', 'crocker1999', 'citti2019']),
+        evidence: 'historical',
+        contested: true,
+        caveat: 'The "several hundred-fold" figure for the dimethylheptyl side chain is reported in the historical and review literature by potency in whole-animal assays of the period, not by a modern receptor binding constant. It is not directly comparable to the Ki ratios quoted elsewhere on this page.',
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/structural-classes', 'cannabinoids/ring-structures', 'cannabinoids/isomers',
+      'cannabinoids/jwh-distinction', 'cannabinoids/adams-nomenclature', 'cannabinoids/research-frontier',
+      'endocannabinoid/cb1', 'endocannabinoid/cb2', 'safety/k2-what-went-wrong', 'regulatory/thcp-thcjd',
+      'formulation/dose-arithmetic']),
+    cites: F(['citti2019', 'linciano2020', 'linciano2020b', 'martin1999', 'crocker1999', 'durydivka2026',
+      'thomas2005', 'showalter1996', 'caprari2024', 'hanus2016', 'radwan2021', 'banister2018', 'tai2014',
+      'adams1940', 'adams1941', 'vankush2026cbx', 'vankush2026brief']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'ring-structures',
+    title: 'Ring Arrangement and Pharmacology',
+    kind: 'cannabinoid',
+    summary: 'Whether the resorcinol ring is closed onto the terpene unit, and how, is what separates a non-intoxicating cannabinoid from an intoxicating one. This page works through the seven ring arrangements in the family and then makes the analytical point that follows from them: CBD and Δ9-THC share a molecular formula and an exact mass, so no mass measurement can tell them apart.',
+    facts: F({
+      'Shared molecular formula of CBD and Δ9-THC': 'C21H30O2',
+      'Shared monoisotopic mass': 'approximately 314.22 Da (nominal 314)',
+      'Structural difference': 'ring closure only — an open single bond versus a pyran oxygen bridge',
+      'Analytical consequence': 'mass spectrometry alone cannot distinguish them; chromatographic separation is required',
+      'Ring arrangements in the family': 'open bicyclic, closed tricyclic pyran, chromene, aromatised C-ring, cyclobutane-containing tetracyclic, dihydrobenzofuran, and polyhydroxylated',
+    }),
+    sections: F([
+      F({
+        h: 'The open form: resorcinol plus terpene, joined by one rotatable bond',
+        body: 'In the CBD type the resorcinol ring and the terpene-derived cyclohexene are joined by a single carbon-carbon bond and nothing else. Two consequences follow. The molecule is conformationally flexible, because that bond rotates, so it does not present a fixed shape to a binding site. And both phenolic hydroxyl groups remain free. CBD has low affinity for the CB1 orthosteric site and does not behave as a CB1 orthosteric agonist; its pharmacology runs through other targets and through allosteric and indirect effects at the cannabinoid receptors. The free phenol is not a pharmacological detail only. It is the nucleophilic centre that participates when the second ring is formed, and it is the site that gets acylated when an ester is made. The reactivity of the open form is the reason the CBD type sits upstream of so much of the transformation matrix.',
+        cites: F(['hanus2016', 'radwan2021', 'marzullo2020']),
+      }),
+      F({
+        h: 'The closed tricyclic pyran: why the oxygen bridge creates the active conformation',
+        body: 'In the THC types the phenol oxygen has closed onto the terpene unit to form a pyran ring, producing a rigid tricyclic dibenzopyran. That rigidity is the point. With the pyran in place there is one remaining free phenol, the alkyl side chain projects from the aromatic ring at a fixed angle, and the whole assembly is locked into the shape that the CB1 binding pocket recognises: the phenol as a hydrogen-bonding anchor, the alkyl chain into a hydrophobic channel, the terpenoid ring filling the remainder. The comparison with the open form is the cleanest structure-activity demonstration in the family — one bond formation, no change in atomic composition, and the pharmacology changes category. Recent structural work on the receptor has put this on a physical footing, but the inference was available from the SAR long before any structure was solved.',
+        cites: F(['hanus2016', 'martin1999', 'crocker1999']),
+      }),
+      F({
+        h: 'The other five arrangements',
+        table: F({
+          cols: F(['Arrangement', 'Type', 'Defining structural feature', 'Pharmacological consequence']),
+          rows: F([
+            F(['Open bicyclic, free single bond', 'CBD type', 'Resorcinol and terpene cyclohexene joined by one rotatable bond; two free phenols', 'Not a CB1 orthosteric agonist; flexible; chemically the most reactive precursor in the family']),
+            F(['Closed tricyclic pyran', 'Δ9-THC and Δ8-THC types', 'Pyran oxygen bridge locks the tricyclic geometry; one free phenol; stereocentres at 6a and 10a', 'The CB1-active conformation. Partial agonism at CB1 with a ceiling on efficacy']),
+            F(['Chromene', 'CBC type', '2H-chromene: benzopyran with gem-dimethyl substitution and a pendant isoprenyl unit; found as a racemate', 'Low CB1 affinity; documented activity at other targets. Photochemically unstable toward the CBL type']),
+            F(['Aromatised terpenoid ring', 'CBN type and CBND type', 'The C-ring is fully aromatic; the stereocentres are destroyed', 'Much reduced CB1 affinity relative to THC. A terminal degradation product, which makes it a storage marker']),
+            F(['Cyclobutane-containing tetracyclic', 'CBL type', 'Four rings including a strained cyclobutane, from intramolecular photochemical cycloaddition of the CBC chromene', 'Pharmacologically almost uncharacterised. Its presence is evidence of light exposure history']),
+            F(['Dihydrobenzofuran with hydroxylated cyclohexane', 'CBE type', 'Epoxidation of a CBD-type alkene followed by intramolecular opening and rearrangement', 'A degradation and metabolic product. Essentially no receptor pharmacology in the literature']),
+            F(['Polyhydroxylated THC skeleton', 'CBT type', 'THC-type framework carrying a glycol or triol on the terpenoid ring, plus ether variants', 'Heterogeneous and poorly characterised pharmacologically; of practical interest in formulation for its physical properties']),
+          ]),
+        }),
+        cites: F(['radwan2021', 'hanus2016', 'elsohly2005']),
+      }),
+      F({
+        h: 'The isomer problem: identical formula, identical mass, different molecule',
+        body: 'CBD and Δ9-THC are structural isomers. Both are C21H30O2. Both have a monoisotopic mass of approximately 314.22 Da and a nominal mass of 314. A mass spectrometer measures mass; it therefore cannot, by mass alone, tell one from the other, and the problem is not confined to this pair. Δ8-THC, Δ9-THC, Δ10-THC, exo-THC and the iso-THC group are all C21H30O2 as well, so a full set of six or more distinct molecules shares one exact mass. Fragmentation patterns help but do not resolve the set reliably, because these molecules fragment along similar paths. What actually distinguishes them is separation before detection: a chromatographic method with enough resolving power to give each isomer its own retention time, and an authentic reference standard run under identical conditions to say which retention time belongs to which compound.',
+        cites: F(['radwan2021', 'kiselak2020', 'bloemendal2020']),
+      }),
+      F({
+        h: 'What this means when reading a certificate of analysis',
+        body: 'Three practical consequences follow, and all three show up in real certificates. First, a method that reports "total THC" from a mass-spectrometric measurement without adequate chromatographic separation can report a number that is partly something else. Second, a laboratory can only name the isomers it holds standards for; anything else appears as an unidentified peak, or does not appear at all, or gets assigned to the nearest standard the software knows. Third, and least intuitive, a chromatogram can be correct and the report still wrong, because the assignment of peak to compound is a separate act of judgement from the measurement. The instruction that follows is simple and worth applying to every certificate: look for the method, look for the isomers named, and look for evidence that reference standards were run. A certificate that does not say how it separated the isomers has not told you what it measured.',
+        cites: F(['kiselak2020', 'cfr9901']),
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/structural-classes', 'cannabinoids/isomers', 'cannabinoids/transformations',
+      'cannabinoids/side-chain-series', 'coa/panels', 'coa/reading-a-coa', 'coa/red-flags',
+      'equipment/analytical', 'endocannabinoid/cb1']),
+    cites: F(['hanus2016', 'radwan2021', 'elsohly2005', 'martin1999', 'crocker1999', 'marzullo2020',
+      'kiselak2020', 'bloemendal2020', 'cfr9901']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'isomers',
+    title: 'Isomerism: Double-Bond Position and Stereochemistry',
+    kind: 'cannabinoid',
+    summary: 'Within the THC skeleton the same atoms can be arranged in many ways: the alkene can sit in several positions, the two stereocentres give four configurations, and the ring can be opened into iso-THC forms. All of these share one exact mass, so identification rests entirely on retention time against an authentic standard — and a standard that does not exist cannot identify anything.',
+    facts: F({
+      'Plant-dominant isomer': '(−)-trans-Δ9-THC, the (6aR,10aR) enantiomer',
+      'Thermodynamically favoured alkene position': 'Δ8, which sets the direction of drift on ageing and heating',
+      'Stereoisomers of the Δ9-THC skeleton': 'four, from two stereocentres at C-6a and C-10a',
+      'Relative activity of the (+)-trans enantiomer': 'far lower than the (−)-trans natural form',
+      'Shared molecular formula across the isomer set': 'C21H30O2 for Δ8, Δ9, Δ10, exo and iso forms alike',
+      'What actually identifies an isomer': 'retention time under a validated separation, matched to an authentic reference standard',
+    }),
+    sections: F([
+      F({
+        h: 'Double-bond position',
+        body: 'The tricyclic THC skeleton has several positions where the ring alkene can sit, and moving it changes stability, affinity and analytical behaviour without changing composition. Δ9 is the position the plant enzymes produce and it is the less stable of the Δ8 and Δ9 pair; Δ8 is the thermodynamic sink, which is why heat, acid and time all push the equilibrium in that direction rather than back. Δ10 is a minor positional isomer that has become commercially visible. Δ6a,10a places the alkene at the junction between the terpenoid and pyran rings, and is the isomer class the Adams group worked on in the 1940s because its stereochemistry was tractable. Exo-THC carries the double bond exocyclic to the ring, at the 9,11 position. The iso-THC group is structurally different again: the pyran has closed the other way round, giving a different ring connectivity rather than a shifted alkene.',
+        table: F({
+          cols: F(['Isomer', 'Alkene location', 'Occurrence', 'Note']),
+          rows: F([
+            F(['Δ9-THC', 'Endocyclic, 9,10 position of the cyclohexene ring', 'The dominant plant form, as its acid Δ9-THCA-A', 'The reference compound for essentially all cannabinoid pharmacology and all THC regulation']),
+            F(['Δ8-THC', 'Endocyclic, 8,9 position', 'Trace in plant material; abundant in converted material', 'The thermodynamically more stable position, hence the direction of degradation and of acid-mediated drift']),
+            F(['Δ10-THC', 'Endocyclic, 10,10a position', 'Trace natural; present in some converted material', 'Commercially visible; sparse pharmacology in the peer-reviewed literature']),
+            F(['Δ6a,10a-THC', 'At the ring-fusion carbon, 6a-10a', 'Synthetic; not a significant plant constituent', 'The Adams-era SAR platform, chosen because its stereochemistry could be controlled with 1940s methods']),
+            F(['Exo-THC (Δ9,11)', 'Exocyclic methylene', 'Reported as a minor component of converted material', 'Analytically important precisely because it is a marker rather than a target']),
+            F(['iso-THC group', 'Not an alkene shift: alternative pyran ring closure', 'Reported among the products of acid treatment of CBD', 'A family rather than a single compound; documented in the forensic literature on converted material']),
+          ]),
+        }),
+        cites: F(['kiselak2020', 'bloemendal2020', 'marzullo2020', 'adams1941', 'hanus2016']),
+      }),
+      F({
+        h: 'Stereochemistry: a THC result is a statement about specific stereoisomers',
+        body: 'The Δ9-THC skeleton has two stereocentres, at C-6a and C-10a, giving four stereoisomers: two trans and two cis, each as an enantiomeric pair. The plant makes one of them. (−)-trans-Δ9-THC, the (6aR,10aR) enantiomer, is the active natural compound; its (+)-trans mirror image is very much less active at the cannabinoid receptors, and the cis forms are minor and weaker. The receptor is chiral, so this is not a formality — a racemic preparation contains roughly half inactive material, and an assay that reports "Δ9-THC" without specifying stereochemistry has reported a number whose pharmacological meaning depends on an assumption. For plant material that assumption is safe, because the enzymes are stereospecific. For converted or synthesised material it is not necessarily safe, and it is an explicit analytical question rather than a given.',
+        bullets: F([
+          'Natural and active: (−)-trans-Δ9-THC, (6aR,10aR).',
+          'Mirror image: (+)-trans-Δ9-THC, (6aS,10aS), far less active at CB1.',
+          'cis isomers: minor, and weaker again.',
+          'A modern parallel: the 9R and 9S epimers of hexahydrocannabinol differ consistently in potency, with 9R the more potent, which is the same lesson in a contemporary compound.',
+        ]),
+        cites: F(['durydivka2026', 'hanus2016', 'martin1999']),
+      }),
+      F({
+        h: 'The analytical consequence, stated plainly',
+        body: 'Δ8, Δ9, Δ10, exo-THC and the iso-THC forms are isomers with the same molecular formula and the same exact mass. Mass does not separate them. What separates them is a chromatographic method with sufficient resolution, and what identifies the separated peaks is comparison of retention time, and ideally spectral behaviour, against an authentic certified reference standard run on the same system. This produces a hard limit on what any laboratory can say: it can identify the compounds it holds standards for, and it cannot identify the ones it does not. A compound with no available reference standard is invisible to quantitation no matter how good the instrument is. That is not a deficiency of a particular laboratory, it is the structure of the problem, and it is why reference-standard development is treated on the research-frontier page as the rate-limiting step for the whole field rather than as a procurement detail.',
+        cites: F(['kiselak2020', 'caprari2024', 'bloemendal2020']),
+      }),
+      F({
+        h: 'Why converted material is analytically harder than plant material',
+        body: 'Plant material presents a profile shaped by enzymes: stereospecific, biased toward one alkene position, with a characteristic ratio of acids to neutrals and a predictable homologue distribution. Acid-treated material presents a profile shaped by thermodynamics and kinetics, and the forensic literature on uncontrolled conversion documents a considerably wider product set — the target compound, its positional isomers, ring-closure alternatives, and further products including hydroxylated and etherified species. The relevance here is analytical rather than procedural: the set of peaks a laboratory must be prepared to resolve and identify is larger for converted material, the standards needed are more numerous, and the probability that an unidentified peak is present is higher. Regulatory frameworks written around a single named analyte do not describe that situation well, which is the substance of the operator brief on the subject.',
+        cites: F(['kiselak2020', 'bloemendal2020', 'marzullo2020', 'vankush2026brief']),
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/ring-structures', 'cannabinoids/transformations', 'cannabinoids/adams-nomenclature',
+      'cannabinoids/research-frontier', 'coa/panels', 'coa/total-thc-math', 'coa/red-flags',
+      'safety/converted-cannabinoid-products', 'regulatory/thcp-thcjd', 'equipment/analytical']),
+    cites: F(['kiselak2020', 'bloemendal2020', 'marzullo2020', 'adams1941', 'hanus2016', 'durydivka2026',
+      'martin1999', 'caprari2024', 'vankush2026brief']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'biosynthesis',
+    title: 'Biosynthesis in the Plant',
+    kind: 'enzyme',
+    summary: 'Two independent metabolic routes converge in the glandular trichome to make cannabigerolic acid, and three FAD-dependent oxidocyclases then route it to the THC, CBD and CBC acid series. The allele ratio at a single genetic locus determines which of them dominates, which is why hemp and marijuana are a genetic distinction and not only a legal one.',
+    facts: F({
+      'Universal precursor': 'cannabigerolic acid (CBGA), and its homologue CBGVA for the propyl series',
+      'Polyketide starter for the C5 series': 'hexanoyl-CoA plus three malonyl-CoA',
+      'Missing enzyme identified in 2012': 'olivetolic acid cyclase (OAC), a polyketide cyclase, by Gagne and colleagues',
+      'Terpenoid partner': 'geranyl pyrophosphate (GPP), from the plastidial MEP route',
+      'The three routing enzymes': 'THCA synthase, CBDA synthase, CBCA synthase — all FAD-dependent oxidocyclases',
+      'Chemotype locus': 'the B locus, with codominant B_D and B_T alleles, segregating 1:2:1',
+      'Site of synthesis': 'the extracellular storage cavity of the glandular trichome',
+      'What the living plant makes': 'the carboxylic acids, not the neutral cannabinoids',
+    }),
+    sections: F([
+      F({
+        h: 'Two routes converge',
+        body: 'Cannabinoid biosynthesis is a convergence, not a linear chain. One branch is a polyketide route that builds the aromatic resorcinol from fatty-acid-derived units. The other is the plastidial MEP route that builds the isoprenoid partner. Neither is cannabis-specific; both are general plant metabolism. What is cannabis-specific is the prenyltransferase that joins them and the three oxidocyclases that act afterwards. That is worth stating because it reframes what the plant is doing: it is not running an exotic pathway, it is running two ordinary ones into an unusual junction.',
+        bullets: F([
+          'Hexanoyl-CoA + 3 malonyl-CoA --[tetraketide synthase, a type III polyketide synthase]--> a linear tetraketide intermediate',
+          'tetraketide intermediate --[olivetolic acid cyclase, OAC]--> olivetolic acid (the C5 resorcinolic acid)',
+          'pyruvate and glyceraldehyde-3-phosphate --[plastidial MEP route]--> isopentenyl and dimethylallyl pyrophosphate --> geranyl pyrophosphate (GPP)',
+          'olivetolic acid + GPP --[aromatic prenyltransferase, CBGA synthase]--> cannabigerolic acid (CBGA)',
+          'CBGA --[THCA synthase]--> Δ9-tetrahydrocannabinolic acid (THCA)',
+          'CBGA --[CBDA synthase]--> cannabidiolic acid (CBDA)',
+          'CBGA --[CBCA synthase]--> cannabichromenic acid (CBCA)',
+          'THCA, CBDA, CBCA --[non-enzymatic decarboxylation on heating, drying and ageing]--> THC, CBD, CBC',
+        ]),
+        cites: F(['gagne2012', 'sirikantaramas2004', 'radwan2021', 'hanus2016']),
+      }),
+      F({
+        h: 'Why the 2012 olivetolic acid cyclase paper mattered',
+        body: 'For years the polyketide arm had a hole in it. The type III polyketide synthase from cannabis trichomes had been cloned, but on its own it did not give olivetolic acid — it gave off-pathway products, principally a pyrone from a decarboxylative cyclisation, because the enzyme cyclises the tetraketide the wrong way and loses the carboxyl group that the rest of the pathway needs. Gagne and colleagues showed that a second protein, olivetolic acid cyclase, is required, and that it performs an intramolecular aldol condensation with retention of the carboxylate. That is the step that keeps the acid an acid. The paper was significant for three reasons: it completed the pathway, it identified a polyketide cyclase of a type that had not previously been described in plants, and it explained why earlier attempts to reconstruct cannabinoid biosynthesis outside the plant had stalled. Every subsequent heterologous reconstruction depends on it.',
+        cites: F(['gagne2012', 'luo2019']),
+      }),
+      F({
+        h: 'The three oxidocyclases and what they actually do',
+        body: 'THCA synthase, CBDA synthase and CBCA synthase all take the same substrate, CBGA, and differ in how they close the geranyl chain onto the ring system. All three are FAD-dependent oxidases of the berberine-bridge-enzyme-like family: they carry a covalently bound flavin cofactor, they require molecular oxygen, and they produce hydrogen peroxide as a by-product. THCA synthase closes the pyran ring to give the tricyclic acid; CBDA synthase performs the corresponding oxidative cyclisation but leaves the ring system open, giving the bicyclic acid; CBCA synthase closes the chromene. The cloning and heterologous expression of THCA synthase in 2004 was, in the authors’ own framing, the identification of the gene controlling marijuana psychoactivity, and it established the enzymology for the family. One practical detail matters for anyone interpreting trichome chemistry: these enzymes are secreted and operate in the extracellular storage cavity of the glandular trichome, outside the cell that made them, which is unusual and which is part of why the plant tolerates producing a cytotoxic product.',
+        cites: F(['sirikantaramas2004', 'radwan2021', 'hanus2016']),
+      }),
+      F({
+        h: 'Chemotype is genetics: the B locus',
+        body: 'Which of the three synthases dominates is not an environmental outcome, it is inherited. De Meijer and colleagues crossed inbred pure-CBD and pure-THC lines, found that all the F1 plants had a mixed chemotype, and found that the F2 generation segregated pure-CBD, mixed and pure-THC in a 1:2:1 ratio. That is the signature of a single locus with two codominant alleles. The model they proposed — a B locus carrying B_D and B_T, where the heterozygote expresses both synthases and produces both acids — has held up as the working genetic account of chemotype. Five chemotypes are conventionally recognised: THC-predominant, mixed, CBD-predominant, a CBG-predominant type in which the routing step is impaired so the precursor accumulates, and a near-cannabinoid-free type. The consequence for the hemp industry is direct. Hemp versus marijuana is a genotype before it is a threshold: a B_D/B_D plant does not produce a THC-predominant profile under any growing conditions, and a B_T-carrying plant cannot be made compliant by agronomy. Threshold-based regulation of a genetically determined trait is testing for the consequence rather than the cause.',
+        cites: F(['demeijer2003', 'radwan2021']),
+      }),
+      F({
+        h: 'The homologous series comes from the starter unit',
+        body: 'The whole side-chain series is generated at the very first step, by which short acyl-CoA the polyketide synthase picks up. Hexanoyl-CoA, the abundant starter, gives olivetolic acid and hence the pentyl (C5) series. Butanoyl-CoA gives divarinic acid instead, and hence CBGVA and the entire propyl (C3) series in parallel — a complete second copy of the family. Shorter and longer acyl-CoA starters account, at least in principle, for the C1, C4, C6, C7 and C8 homologues found at trace and ultra-trace level. This is why the homologues are naturally occurring rather than exotic: the plant is not making them deliberately, it is exhibiting the substrate promiscuity of an early enzyme, and the abundance of each homologue tracks the availability of its starter. It is also the reason the pathway predicts compounds that have not yet been detected, which is the argument the research-frontier page builds on.',
+        cites: F(['citti2019', 'linciano2020', 'linciano2020b', 'hanus2016', 'gagne2012']),
+        contested: true,
+        caveat: 'The acyl-CoA starter explanation is well established for the C5 and C3 series. For the C4, C6, C7 and C8 homologues it is a reasonable and widely accepted inference from the pathway rather than a demonstrated enzymology: the corresponding starter units and their incorporation have not been characterised enzymatically to the same standard.',
+      }),
+      F({
+        h: 'The acids are the plant products; the neutral cannabinoids are mostly artefacts of what happens next',
+        body: 'A living, unharvested cannabis plant contains very little Δ9-THC and a great deal of Δ9-THCA-A. The same holds for CBD and CBDA. The neutral cannabinoids that dominate the commercial and pharmacological literature are produced after the plant stops being alive, by decarboxylation during drying, curing, storage, extraction, heating and combustion. Two things follow. First, the pharmacology of cannabis as a plant and the pharmacology of cannabis as a product are not the same subject, and the acids deserve study in their own right rather than as precursors. Second, almost all of the receptor work in the literature was done on the neutral forms, so the acidic cannabinoids are systematically under-characterised relative to their actual abundance in the source material.',
+        cites: F(['wang2016', 'filer2022', 'nadal2017', 'bolognini2013']),
+      }),
+      F({
+        h: 'Heterologous production exists, and this page does not describe how',
+        body: 'Complete cannabinoid biosynthesis has been reconstructed outside the plant. Luo and colleagues reported in 2019 the complete biosynthesis of CBGA, THCA, CBDA and the corresponding varinic acids in engineered Saccharomyces cerevisiae, together with unnatural analogues obtained by feeding alternative starter units — which is the biosynthetic expression of the same starter-unit logic described above. Engineered microbial and cell-free routes are an active area, and they are relevant to this shelf for what they imply about the future supply of reference standards for rare homologues, which is a genuine analytical bottleneck. No strain construction, pathway engineering, fermentation or recovery detail appears here or anywhere in this shelf; the citation is given so that the primary literature can be consulted directly.',
+        cites: F(['luo2019', 'gagne2012']),
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/structural-classes', 'cannabinoids/side-chain-series', 'cannabinoids/decarboxylation',
+      'cannabinoids/research-frontier', 'processing/decarboxylation', 'processing/extraction-methods',
+      'terpenes/vaporization-bands', 'coa/total-thc-math']),
+    cites: F(['gagne2012', 'sirikantaramas2004', 'demeijer2003', 'luo2019', 'radwan2021', 'hanus2016',
+      'citti2019', 'linciano2020', 'linciano2020b', 'wang2016', 'filer2022', 'nadal2017', 'bolognini2013']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'decarboxylation',
+    title: 'Decarboxylation and the 0.877 Factor',
+    kind: 'cannabinoid',
+    summary: 'THCA becomes THC by losing carbon dioxide from its aromatic carboxylic acid. The mass ratio of the two molecules is 0.877, which is where the total-THC formula comes from and why it is a theoretical ceiling rather than a yield. THCA is not intoxicating in the way THC is, and it is nonetheless the analyte that decides legal status.',
+    facts: F({
+      'Δ9-THCA molar mass': '358.48 g/mol',
+      'Δ9-THC molar mass': '314.47 g/mol',
+      'Carbon dioxide lost': '44.01 g/mol, about 12.3 percent of the acid mass',
+      'Conversion factor': '314.47 / 358.48 = 0.8772, codified as 0.877',
+      'CBDA and CBD': '358.47 and 314.46 g/mol — the same factor applies',
+      'Where the factor is codified': '7 CFR 990.1, the USDA Domestic Hemp Production Program definitions',
+      'Kinetic character': 'approximately first order, strongly temperature dependent',
+      'Also proceeds': 'slowly at ambient temperature during storage, and in situ during smoking or vaporisation',
+    }),
+    sections: F([
+      F({
+        h: 'The chemistry',
+        body: 'The acidic cannabinoids carry a carboxylic acid group on the aromatic ring, ortho to a phenol. On heating, that group is lost as carbon dioxide and replaced by a hydrogen, giving the neutral cannabinoid. Nothing else about the molecule changes: the ring system, the side chain, the alkene position and the stereochemistry all survive. THCA becomes Δ9-THC, CBDA becomes CBD, CBGA becomes CBG, CBCA becomes CBC. The reaction is favoured by the geometry — the adjacent phenol assists the loss — which is why it proceeds readily at modest temperatures and why it also creeps along slowly at room temperature over months and years.',
+        cites: F(['wang2016', 'filer2022']),
+      }),
+      F({
+        h: 'Where 0.877 comes from',
+        body: 'The factor is a mass ratio and nothing more. Δ9-THCA has a molar mass of 358.48 g/mol. Δ9-THC has a molar mass of 314.47 g/mol. Dividing the second by the first gives 0.8772, conventionally rounded to 0.877, and the difference of 44.01 g/mol is exactly the carbon dioxide that left. So a gram of pure THCA, decarboxylated with perfect efficiency and no losses, can yield at most 0.877 g of THC. The same arithmetic applies to the CBDA and CBD pair, whose molar masses are 358.47 and 314.46, because they are isomers of the THCA and THC pair and differ only in ring closure. This is the origin of the total-THC formula used in regulation and on certificates of analysis: total THC equals the measured Δ9-THC plus 0.877 times the measured Δ9-THCA. The factor is codified in the USDA hemp rule definitions at 7 CFR 990.1.',
+        cites: F(['cfr9901', 'filer2022']),
+      }),
+      F({
+        h: 'It is a ceiling, not a yield',
+        body: 'The 0.877 figure is what stoichiometry permits, and real processes do not reach it. Three things intervene, all of them documented. Decarboxylation is incomplete: residual acid remains, and pushing conversion toward completion means more time at temperature. Product is lost onward, principally to CBN, because the conditions that decarboxylate THCA also oxidise the THC it produces — so pushing conversion harder buys residual acid down at the cost of degradation product up. And there are physical losses: cannabinoids are volatile enough at process temperatures for some material to leave the vessel. The practical shape of this is a curve with an optimum rather than a monotonic improvement, and the studies that have followed acidic cannabinoid decarboxylation by chromatography show exactly that. Treating 0.877 as an expected yield overstates output; treating it as a legal ceiling is what it is for.',
+        cites: F(['wang2016', 'filer2022', 'jaidee2022']),
+      }),
+      F({
+        h: 'The kinetics, qualitatively',
+        body: 'Decarboxylation of the cannabinoid acids behaves approximately as a first-order process in the acid, with a strong temperature dependence of Arrhenius form. Two consequences follow that are worth holding without any numbers attached. Time and temperature trade against each other but not linearly: a modest temperature increase buys a large rate increase, so the same extent of conversion is reachable by a long warm hold or a short hot one — and those two routes are not equivalent in what else they do, because the competing degradation reactions have their own temperature dependence and the hot route favours them differently. And because the rate is finite at every temperature rather than switching on at a threshold, decarboxylation proceeds during storage at ambient conditions, slowly and continuously, which is why an old sample has a different acid-to-neutral ratio than a fresh one from the same source. It also proceeds essentially instantaneously in situ during smoking or vaporisation, which is why inhaled cannabis delivers THC from a plant that contained almost none. The process parameters themselves belong to the processing shelf; the arithmetic belongs to the certificate-of-analysis shelf.',
+        cites: F(['wang2016', 'filer2022', 'jaidee2022', 'lindholst2010']),
+      }),
+      F({
+        h: 'THCA is not intoxicating, and is still the analyte that decides legality',
+        body: 'Δ9-THCA does not produce the intoxication that Δ9-THC does. The structural reason is straightforward: the carboxylic acid is ionised at physiological pH, which both changes how the molecule presents to the CB1 binding site and makes it a poor candidate for crossing into the central nervous system by passive diffusion. It is not a CB1 agonist in the way its decarboxylated form is. And yet the total-THC calculation deliberately counts it, at 0.877 of its mass, because the regulatory question is not what the sample does now but what it becomes when heated — which is a defensible piece of regulatory design and the reason a hemp crop can fail a compliance test on a compound that is not itself intoxicating. Two further points belong here. THCA has a pharmacology of its own, including potent PPARγ agonism with neuroprotective activity in animal and cell models, so calling it inactive is wrong even though calling it non-intoxicating is right. And the same is true on the CBD side, where CBDA enhances 5-HT1A receptor activation and is markedly more potent than CBD in the animal nausea models. The acids are not merely precursors.',
+        cites: F(['nadal2017', 'bolognini2013', 'cfr9901', 'filer2022']),
+        evidence: 'animal',
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/biosynthesis', 'cannabinoids/transformations', 'cannabinoids/research-frontier',
+      'coa/total-thc-math', 'coa/reading-a-coa', 'processing/decarboxylation', 'products/cbn-production',
+      'formulation/dose-arithmetic']),
+    cites: F(['wang2016', 'filer2022', 'jaidee2022', 'lindholst2010', 'cfr9901', 'nadal2017', 'bolognini2013']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'transformations',
+    title: 'The Transformation Matrix: Structural Relationships and Literature',
+    kind: 'cannabinoid',
+    summary: 'A map of how cannabinoid structures relate to one another by conversion, in two clearly separated groups: the passive degradations that a processor manages in storage and a chemist reads off a stability study, and the deliberate chemical conversions described here as structural changes with citations only. Nothing on this page tells anyone how to do anything.',
+    facts: F({
+      'Most consequential stability pathway in the industry': 'Δ9-THC to CBN by oxidation — air, light, heat, time',
+      'Thermodynamic direction of the alkene': 'Δ9 toward Δ8',
+      'What a cannabinoid profile is': 'a clock — the ratios record exposure history',
+      'Structural nature of the CBD-to-THC relationship': 'a ring closure, not a change in atomic composition',
+      'Specific documented inhalation hazard of acetate esters': 'ketene formation on heating',
+      'What this page contains for every conversion': 'the structural change and the citation, and nothing else',
+    }),
+    sections: F([
+      F({
+        h: 'What this page is and is not',
+        body: 'The operator source documents present a conversion matrix with a "method" column. This page presents the same matrix with that column removed and replaced by two others: the structural change, stated in the abstract, and the literature in which the chemistry is documented. The reason is not squeamishness about the subject. It is that the useful content of a conversion matrix, for a researcher, an analyst, a processor managing stability or a regulator reading a policy brief, is entirely contained in the structural relationship and the reference. The procedural content adds nothing to any of those tasks and is the one part of the material that this shelf will not carry. So: no reagents, no catalysts, no solvents, no equivalents, no temperatures, no times, no work-ups, no yields, and no numbered steps. Where a procedure exists, the citation is named and the procedure is not described.',
+        cites: F(['vankush2026cbx', 'vankush2026brief']),
+      }),
+      F({
+        h: 'Group A — passive and degradative conversions',
+        body: 'These happen whether anyone wants them to or not. They are what a stability study measures, what a storage protocol is designed against, and what a certificate of analysis implicitly reports the accumulated result of. The single most important is the oxidation of Δ9-THC to CBN, in which the terpenoid ring is aromatised, the two stereocentres are destroyed, and CB1 affinity falls substantially. It is driven by oxygen, accelerated by light and heat, and proceeds continuously over time; long-term stability work on cannabis resin and extracts shows THC declining and CBN rising together, and kinetic studies have characterised the temperature and pH dependence. Alongside it sit the photochemical closure of the CBC chromene into the strained cyclobutane of CBL, the epoxidation-and-rearrangement route from the CBD and THC types to the CBE type, and the slow drift of the Δ9 alkene toward the more stable Δ8 position. The general lesson is worth stating as a principle: a cannabinoid profile is a clock. The THC-to-CBN ratio, the presence of CBL, the appearance of CBE and the Δ8-to-Δ9 ratio are all records of how much oxygen, light, heat and time a sample has seen, and they can be read as such.',
+        cites: F(['lindholst2010', 'jaidee2022', 'hanus2016', 'radwan2021']),
+      }),
+      F({
+        h: 'Group B — deliberate chemical conversions, as structure and literature only',
+        body: 'Three deliberate transformations account for most of the commercially relevant novel-cannabinoid landscape, and they are three different kinds of chemistry with three different difficulty levels. The first is ring closure: the open resorcinol-and-terpene arrangement of the CBD type cyclises to the closed pyran of the THC type under acid catalysis, with no change in molecular formula. This was first reported by Adams and co-workers in 1940 and 1941, revisited by Gaoni and Mechoulam in 1966, reviewed comprehensively by Bloemendal and colleagues in 2020, studied for its regiochemistry by Marzullo and colleagues in the same year, and is the subject of a granted United States patent. The relevant fact for a regulatory analysis is not any procedural detail but the single word facile: the transformation is chemically easy, it has been in the open literature for eighty-five years, and the product distribution of uncontrolled versions of it has been characterised in the forensic literature. The second is side-chain homologation, which is a different and harder class of transformation because it modifies the alkyl chain rather than closing a ring — it changes the carbon count instead of rearranging the existing atoms, and that is why the C6, C7 and C8 series are not reachable by the same chemistry as Δ8. The third is acylation of the free phenol to give an ester, of which THC-O-acetate is the example that reached the market.',
+        cites: F(['adams1940', 'adams1941', 'gaoni1966', 'bloemendal2020', 'marzullo2020', 'kiselak2020',
+          'webster2008', 'razdan1974', 'crombie1988']),
+      }),
+      F({
+        h: 'The matrix',
+        table: F({
+          cols: F(['From', 'To', 'Structural change', 'Passive or deliberate', 'Literature']),
+          rows: F([
+            F(['Δ9-THC', 'CBN', 'Aromatisation of the terpenoid C-ring by oxidation; both stereocentres lost', 'Passive — air, light, heat, time', 'Lindholst 2010; Jaidee 2022; Radwan 2021']),
+            F(['CBC', 'CBL', 'Intramolecular photochemical cycloaddition closing a cyclobutane ring; tetracyclic product', 'Passive — light', 'Hanuš 2016; Radwan 2021']),
+            F(['CBD or Δ9-THC', 'CBE type', 'Epoxidation of a ring alkene followed by intramolecular opening and rearrangement to a dihydrobenzofuran', 'Passive — oxidative, also a metabolic route', 'Hanuš 2016; Radwan 2021']),
+            F(['Δ9-THC', 'Δ8-THC', 'Migration of the endocyclic alkene to the thermodynamically favoured position; composition unchanged', 'Passive drift, and also performed deliberately', 'Adams 1940 and 1941; Gaoni and Mechoulam 1966; Bloemendal 2020']),
+            F(['CBD', 'Δ9-THC', 'Ring closure: the free phenol oxygen closes onto the terpene unit to form the pyran ring. Same molecular formula, C21H30O2', 'Deliberate — acid catalysed; chemically facile', 'Adams 1940; Adams 1941; Gaoni and Mechoulam 1966; Marzullo 2020; Bloemendal 2020; United States Patent 7,399,872']),
+            F(['CBD', 'Δ8-THC', 'The same ring closure, with the alkene ending in the thermodynamically favoured position', 'Deliberate — acid catalysed', 'Gaoni and Mechoulam 1966; United States Patent 7,399,872; Bloemendal 2020']),
+            F(['CBD', 'mixed isomer product set', 'Ring closure accompanied by positional isomers, alternative ring closures (iso-THC forms) and further oxidised or etherified species', 'Deliberate, uncontrolled', 'Kiselak 2020; Marzullo 2020']),
+            F(['A C5 cannabinoid', 'the C6, C7 or C8 homologue', 'Extension of the alkyl side chain — a change in carbon count, not a rearrangement of existing atoms. A different and harder class of transformation than ring closure', 'Deliberate', 'Citti 2019 (isolation and characterisation of the C7 homologue); Bloemendal 2020 (synthetic overview)']),
+            F(['Olivetol-type resorcinol plus a monoterpene', 'a cannabinoid', 'Prenylation of the resorcinol followed by cyclisation — the same junction the plant’s prenyltransferase makes, performed chemically', 'Deliberate', 'Razdan 1974; Crombie 1988; Bloemendal 2020']),
+            F(['A cannabinoid with a free phenol', 'its acetate ester', 'Acylation of the phenolic hydroxyl. The product is an ester prodrug whose cannabinoid activity depends on esterase cleavage after absorption', 'Deliberate', 'Munger 2022 (inhalation hazard characterisation)']),
+            F(['THCA, CBDA, CBGA, CBCA', 'THC, CBD, CBG, CBC', 'Loss of carbon dioxide from the aromatic carboxylic acid; ring system, side chain and stereochemistry unchanged', 'Passive on heating and ageing; also performed deliberately as a process step', 'Wang 2016; Filer 2022']),
+          ]),
+        }),
+        cites: F(['lindholst2010', 'jaidee2022', 'hanus2016', 'radwan2021', 'adams1940', 'adams1941',
+          'gaoni1966', 'marzullo2020', 'bloemendal2020', 'webster2008', 'kiselak2020', 'citti2019',
+          'razdan1974', 'crombie1988', 'munger2022', 'wang2016', 'filer2022']),
+      }),
+      F({
+        h: 'The acetate ester hazard: ketene',
+        body: 'This one is a genuine harm-reduction point and it belongs stated plainly rather than buried in the matrix. Acetylating the free phenol of a cannabinoid gives an acetate ester — THC-O-acetate is the case that reached the market — which is pharmacologically inert as such and depends on esterases cleaving it after absorption to release the parent cannabinoid. The hazard is not in that mechanism, it is in what the ester does when heated. Acetate esters of this kind share a substructure with vitamin E acetate, the compound implicated in the 2019 outbreak of vaping-associated lung injury, and the same thermal chemistry applies: heating can eliminate ketene, a highly reactive gas with a documented history as a pulmonary toxicant. Munger, Jensen and Strongin tested this directly, vaping Δ8-THC acetate, CBN acetate and CBD acetate under realistic conditions plus a commercial Δ8-THC acetate product bought online, and found ketene in the condensate from all of them. The relative amounts they report are informative: taking Δ8-THC-O-acetate as 1.0, the CBD diacetate produced about 13 times as much and CBN acetate about 3.6 times as much, which tracks the number of acetate groups available. The practical statement is that an acetylated cannabinoid intended for inhalation carries a specific, mechanistically understood and experimentally confirmed hazard that the parent cannabinoid does not, and that this is a property of the ester rather than of any particular manufacturer.',
+        cites: F(['munger2022']),
+        evidence: 'in vitro',
+      }),
+      F({
+        h: 'Why the ring-closure chemistry is the fact regulatory analysis turns on',
+        body: 'CBD and Δ9-THC have the same molecular formula and differ by one ring closure that has been documented in the open chemical literature since 1940, is the subject of a granted patent, and has been reviewed as a synthetic pathway in a mainstream organic chemistry journal. The operator brief builds its policy argument on that observation, and the observation itself is correct and well sourced. Two things should be said alongside it. The chemistry being easy is a statement about chemistry, not a recommendation, and the forensic literature on uncontrolled conversion is a catalogue of why: the product is a mixture whose composition depends on conditions, containing positional isomers, alternative ring closures and further reaction products, most of which have no pharmacology or toxicology in the literature and several of which have no reference standards. Unidentified isomers in an inhaled or ingested product are the concrete harm, and that harm is an argument for analytical requirements and honest certificates rather than for either prohibition or silence.',
+        cites: F(['kiselak2020', 'bloemendal2020', 'marzullo2020', 'webster2008', 'vankush2026brief']),
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/ring-structures', 'cannabinoids/isomers', 'cannabinoids/decarboxylation',
+      'cannabinoids/adams-nomenclature', 'safety/converted-cannabinoid-products', 'safety/k2-what-went-wrong',
+      'regulatory/analogue-act', 'regulatory/hr5371', 'products/cbn-production', 'processing/decarboxylation',
+      'coa/red-flags']),
+    cites: F(['lindholst2010', 'jaidee2022', 'hanus2016', 'radwan2021', 'adams1940', 'adams1941', 'gaoni1966',
+      'marzullo2020', 'bloemendal2020', 'webster2008', 'kiselak2020', 'citti2019', 'razdan1974', 'crombie1988',
+      'munger2022', 'wang2016', 'filer2022', 'vankush2026cbx', 'vankush2026brief']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'jwh-distinction',
+    title: 'The JWH Series and Why It Is Not the Same Thing',
+    kind: 'safety',
+    summary: 'John W. Huffman made hundreds of cannabinoid receptor ligands as pharmacological tools. The indole-based ones became K2 and Spice, and they differ from phytocannabinoids in the way that matters most: they are full agonists at high affinity, where Δ9-THC is a partial agonist. A partial agonist has a ceiling and a full agonist does not, which is the whole of the toxicological difference.',
+    facts: F({
+      'Origin': 'John W. Huffman, Clemson University, from the early 1990s',
+      'Compounds in the JWH series': 'more than 450, made as research tools for receptor pharmacology',
+      'JWH-018 CB1 affinity and efficacy': 'Ki in the region of 9 nM; full agonist',
+      'Δ9-THC CB1 affinity and efficacy': 'Ki approximately 40 nM; partial agonist',
+      'The decisive difference': 'efficacy, not affinity — a partial agonist has a ceiling on receptor activation and a full agonist does not',
+      'Scaffold': 'indole or indazole core with a tail, a linker and a linked group — not resorcinol plus terpenoid',
+      'Natural occurrence of the indole-based compounds': 'none',
+    }),
+    sections: F([
+      F({
+        h: 'What the JWH series was for',
+        body: 'Huffman’s group at Clemson synthesised cannabimimetic indoles from the early 1990s as pharmacological tools, to map the cannabinoid receptors by making ligands with systematically varied structures and measuring what they did. The 1994 paper on the design, synthesis and pharmacology of cannabimimetic indoles is the entry point to that programme. More than 450 compounds carry the JWH prefix. They were published openly, as basic pharmacology is, and around 2008 a subset of them began appearing in herbal smoking products sold as legal cannabis substitutes. That is the origin of K2 and Spice: not a clandestine invention, but the appropriation of published research tools by people who read the literature for compounds that would bind CB1 and were not scheduled.',
+        cites: F(['huffman1994', 'banister2018', 'andrews2022']),
+        evidence: 'historical',
+      }),
+      F({
+        h: 'The structural classes of synthetic cannabimimetics',
+        body: 'The compounds that bind cannabinoid receptors without being cannabinoids fall into several scaffold families, developed by different groups for different reasons. Andrews and colleagues, cataloguing what the European Union Early Warning System actually detected between 2008 and 2022, describe the later generations using a four-part grammar — a core, a tail, a linker extending from the core, and a linked group — which is the right way to read the names, because the alphabet soup of modern designations is a description of those four slots.',
+        table: F({
+          cols: F(['Class', 'Examples', 'Core', 'Note']),
+          rows: F([
+            F(['Naphthoylindoles', 'JWH-018, JWH-073', 'Indole with a naphthoyl group', 'The first generation to appear in herbal products. No resorcinol, no terpenoid unit']),
+            F(['Phenylacetylindoles', 'JWH-250, JWH-251', 'Indole with a phenylacetyl group', 'A second Huffman-series scaffold, published 2005']),
+            F(['Benzoylindoles', 'AM-694 and relatives', 'Indole with a benzoyl group', 'From the Makriyannis (AM) series, another research programme appropriated the same way']),
+            F(['Cyclohexylphenols', 'The CP series, including CP 55,940', 'Non-classical bicyclic phenol', 'Developed at Pfizer. CP 55,940 remains the standard radioligand in cannabinoid binding assays']),
+            F(['Classical cannabinoids', 'The HU series, including HU-210', 'Dibenzopyran — the THC skeleton', 'From the Hebrew University. These ARE cannabinoid-scaffold molecules, often carrying a dimethylheptyl side chain, and extremely potent']),
+            F(['Indazole-3-carboxamides', 'AB-FUBINACA, AMB-FUBINACA, 5F-ADB', 'Indazole with a carboxamide linker', 'Later generations. Associated with the most severe mass-intoxication events on record']),
+            F(['OXIZIDs', 'The oxindole-core carboxamides catalogued from about 2020', 'Oxindole (oxoindoline) core', 'The scaffold evolution documented by Andrews 2023 — a response to scheduling of the earlier cores']),
+          ]),
+        }),
+        cites: F(['huffman1994', 'andrews2022', 'banister2018', 'showalter1996']),
+      }),
+      F({
+        h: 'Why they are not structurally analogous to phytocannabinoids',
+        body: 'A phytocannabinoid is a resorcinol bearing an alkyl chain, joined to a terpenoid unit. The indole and indazole cannabimimetics have neither component: the core is a nitrogen heterocycle, the pharmacophore is assembled from an aroyl or carboxamide group and a variable tail, and there is no terpene-derived ring anywhere in the molecule. They occur in no plant. They were arrived at by a completely different design logic — find things that fit the receptor — rather than by modifying a natural product. The convergence is functional, at the receptor, and not structural. The distinction the operator brief draws is therefore sound on the chemistry: a longer alkyl chain on an otherwise unchanged cannabinoid scaffold is a homologue, and an indazole carboxamide is a different molecule that happens to hit the same target. Whether that distinction should carry the legal weight the brief puts on it is a question for the regulatory shelf; as chemistry, it is correct.',
+        cites: F(['andrews2022', 'banister2018', 'hanus2016', 'vankush2026brief']),
+      }),
+      F({
+        h: 'The pharmacological consequence, which is the entire point of this page',
+        body: 'Affinity is the smaller part of the difference. JWH-018 binds CB1 with a Ki in the region of 9 nM against roughly 40 nM for Δ9-THC — a factor of four or five, which is less than the gap between Δ9-THC and its own heptyl homologue. The decisive difference is efficacy. Δ9-THC is a partial agonist at CB1: however much of it reaches the receptor, it cannot drive the receptor past a fraction of its maximal response, and that ceiling is a pharmacological property of the molecule rather than a dosing convention. JWH-018 and the generations after it are full agonists: they drive the receptor to its maximum, and there is no ceiling to hit. This is why the clinical pictures are not the same picture at different intensities. The synthetic cannabinoid receptor agonists produce seizures, tachyarrhythmias and other cardiac events, severe hypertension, agitated delirium, hyperthermia, acute kidney injury, and deaths — a toxidrome that cannabis does not produce, because cannabis cannot reach the degree of receptor activation that generates it. The later indazole carboxamides are worse again, combining full agonism with very high affinity and, in several cases, active metabolites. Anyone reasoning about novel cannabinoid potency should take this as the reference case for why efficacy and affinity must be discussed separately.',
+        cites: F(['banister2018', 'tai2014', 'andrews2022', 'huffman1994', 'showalter1996']),
+      }),
+      F({
+        h: 'JWH-138 and THC-octyl: the correspondence is real, and the operator source gets the reason wrong',
+        body: 'The operator source treats JWH-138 as an anomaly — an indole that happens to match a naturally occurring cannabinoid. The correspondence is real but the explanation is not. JWH-138 is not an indole. Its chemical name is (6aR,10aR)-6a,7,8,10a-tetrahydro-6,6,9-trimethyl-3-octyl-6H-dibenzo[b,d]pyran-1-ol, molecular formula C24H36O2: that is a classical dibenzopyran cannabinoid with an octyl side chain and the alkene in the Δ8 position. In other words it is Δ8-THC-C8, and the reason it carries a JWH number is simply that Huffman’s numbering series covers his group’s classical cannabinoids as well as its indoles. The octyl classical cannabinoids trace back to the Adams-era synthetic work of the early 1940s, so the compound long predates the designation. Two corrections follow for anyone using the operator document. It is a Δ8 species, not a Δ9 one, which places it in the Δ8-THC structural type rather than alongside Δ9-THCP. And its measured CB1 affinity, a Ki of 8.5 nM in the Martin 1999 side-chain series, is about five-fold that of Δ9-THC, which does not support the nineteen-fold potency claim attached to the trade name THCJD.',
+        cites: F(['martin1999', 'adams1941', 'euews2024', 'vankush2026cbx', 'vankush2026brief']),
+        contested: true,
+        caveat: 'Verified: JWH-138 is the octyl, Δ8, classical dibenzopyran cannabinoid (C24H36O2), with a CB1 Ki of 8.5 nM attributed to the Martin 1999 side-chain series. NOT confirmed against primary sources in this pass: that Huffman himself assigned the number 138 to this compound rather than it being a later catalogue assignment; that the compound was "identified as early as 1941", which is asserted in trade and secondary sources and is plausible given the Adams programme but was not traced to a specific 1941 paper; and the composition of material sold commercially as THCJD, which is not a literature term and for which no compositional survey was located.',
+      }),
+      F({
+        h: 'What the JWH history should be used for',
+        body: 'The useful function of this page in a hemp-sciences reference is not to police a boundary but to supply the reference case. When a novel cannabinoid is marketed on a potency multiple, the JWH history answers the question of why that is the wrong figure to care about. It also supplies the pattern of how a market responds to scheduling — the scaffold evolution from naphthoylindoles through indazole carboxamides to oxindole cores, documented compound by compound in the European monitoring data, is what structure-based prohibition produces — and the pattern of what goes wrong when compounds reach consumers with no toxicology, no dose-per-unit control and no analytical standards. Those are the three failures that the safety and certificate-of-analysis shelves exist to address, and they were all demonstrated first here.',
+        cites: F(['andrews2022', 'banister2018', 'tai2014']),
+      }),
+    ]),
+    seeAlso: F(['safety/k2-what-went-wrong', 'safety/toxidrome', 'safety/converted-cannabinoid-products',
+      'endocannabinoid/cb1', 'endocannabinoid/cb2', 'cannabinoids/side-chain-series', 'cannabinoids/isomers',
+      'regulatory/analogue-act', 'regulatory/thcp-thcjd']),
+    cites: F(['huffman1994', 'banister2018', 'tai2014', 'andrews2022', 'martin1999', 'showalter1996',
+      'adams1941', 'hanus2016', 'euews2024', 'vankush2026cbx', 'vankush2026brief']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'adams-nomenclature',
+    title: 'Reading the Primary Literature: Adams, Optical Rotation and Two Numbering Systems',
+    kind: 'tool',
+    summary: 'Roger Adams at Illinois, working with Minnesota wild hemp between 1940 and 1942, isolated CBD, established the structure of CBN, reported the acid conversion of CBD to THC, and named the THC isomers by optical rotation because the double-bond positions could not yet be assigned. Two numbering conventions survive from that era, which is why the same molecule appears as Δ9-THC and Δ1-THC in papers of different decades.',
+    facts: F({
+      'Who and where': 'Roger Adams, University of Illinois, working with Minnesota wild hemp',
+      'Period': '1940 to 1942',
+      'Established in 1940': 'CBD isolated and characterised; the structure of CBN; the acid conversion of CBD to a physiologically active tetrahydrocannabinol',
+      'The naming handle available at the time': 'specific optical rotation, because double-bond position could not be assigned',
+      '"High rotating" THC': 'specific rotation about −240 degrees',
+      '"Low rotating" THC': 'specific rotation about −165 degrees',
+      'Synthetic SAR platform': 'the Δ6a,10a series, chosen for controllable stereochemistry',
+      'The two surviving conventions': 'dibenzopyran numbering (Δ9, stereocentres 6a and 10a) and monoterpenoid numbering (Δ1, stereocentres 3 and 4)',
+    }),
+    sections: F([
+      F({
+        h: 'What Adams established',
+        body: 'The Illinois programme did the foundational structural chemistry of the cannabinoids with the tools of the late 1930s: fractional distillation, derivatisation, combustion analysis, melting points and polarimetry, and no spectroscopy worth the name. Out of it came the isolation and characterisation of cannabidiol, the structure of cannabinol established by synthesis, and the demonstration that cannabidiol rearranges under acid to a physiologically active tetrahydrocannabinol — the 1940 paper in the Journal of the American Chemical Society, sixth in the cannabidiol series, reports both the isomerisation to THC and the conversion of CBD to CBN in its title. The twelfth paper in the series, in 1941, is the one specifically on isomerisation to the tetrahydrocannabinols. It is worth registering what that means: the CBD-to-THC relationship, which is the load-bearing chemical fact in the entire modern hemp regulatory argument, was published in an open, mainstream chemistry journal eighty-five years ago.',
+        cites: F(['adams1940', 'adams1941']),
+        evidence: 'historical',
+      }),
+      F({
+        h: 'Why optical rotation became the name',
+        body: 'Adams could separate two tetrahydrocannabinol isomers and could show that they were different, but he could not say where their double bonds were, because the methods that assign an alkene position — nuclear magnetic resonance above all — did not exist. What he could measure precisely was specific optical rotation. So the isomers were distinguished as the "high rotating" and "low rotating" tetrahydrocannabinols, with specific rotations around −240 and −165 degrees respectively. That was a perfectly rational choice: it named a reproducible physical observable rather than guessing at a structure. It also produced two decades of confusion in the literature, because rotation is a property of a sample as well as a molecule, papers reported it under varying conditions, and the mapping from rotation to structure was not settled until the double-bond positions were assigned in the 1960s. When reading anything from this period, treat a rotation-based name as a laboratory label rather than a structural assignment.',
+        cites: F(['adams1941', 'adams1940', 'gaoni1966']),
+        evidence: 'historical',
+        contested: true,
+        caveat: 'The operator source assigns "high rotating" to Δ8-THC and "low rotating" to Δ9-THC. That mapping is plausible and is repeated in secondary accounts, but it was not confirmed against the primary Adams papers in this pass. The rotation values themselves (about −240 and about −165) are reported consistently; treat the isomer assignment as unconfirmed.',
+      }),
+      F({
+        h: 'The Δ6a,10a series and the dimethylheptyl finding',
+        body: 'Adams also made synthetic tetrahydrocannabinols with the double bond at the ring-fusion position, Δ6a,10a. The reason was practical: that isomer could be made with controlled stereochemistry using the methods available, where the natural isomers could not. It became the platform on which the first systematic cannabinoid structure-activity relationships were run, and the most consequential result to come off it was about the side chain rather than the rings — replacing the natural pentyl chain with a branched dimethylheptyl chain produced very large increases in activity, reported in the literature of the period as gains of several hundred-fold. That motif went on to appear in the most potent classical cannabinoids ever made, including the Hebrew University compounds, and the modern isolation of the naturally occurring heptyl homologue from the plant is a rediscovery of the same relationship from the other direction. The modern quantitative treatment of side-chain SAR, done on the Δ8 scaffold in 1999, is the reference to use for numbers.',
+        cites: F(['adams1940', 'adams1941', 'martin1999', 'crocker1999', 'citti2019']),
+        evidence: 'historical',
+      }),
+      F({
+        h: 'Two numbering systems, both still in use',
+        body: 'This is the most practically useful thing on the page. Cannabinoids can be numbered two ways, and both appear in the literature. The dibenzopyran convention numbers from the phenolic ring and treats the molecule as a substituted dibenzo[b,d]pyran; in it the principal alkene of the plant compound is at the 9 position and the stereocentres are C-6a and C-10a. The formal monoterpenoid convention numbers from the terpene ring; in it the same alkene is at the 1 position and the stereocentres are C-3 and C-4. Δ1-THC and Δ9-THC are the same molecule. Δ6-THC and Δ8-THC are the same molecule. The dibenzopyran system is now standard, but the monoterpenoid system was in general use through the 1960s and 1970s, which covers the Mechoulam-era papers that established the structures in the first place — and it persists in some analogue nomenclature. The consequence is concrete: a paper reporting the synthesis of Δ1-THC is reporting the synthesis of the compound everyone now calls Δ9-THC, and reading the older cannabinoid literature requires knowing which convention the author is using before interpreting a single number.',
+        table: F({
+          cols: F(['Dibenzopyran numbering (current standard)', 'Monoterpenoid numbering (historical)', 'Same molecule']),
+          rows: F([
+            F(['Δ9-THC', 'Δ1-THC', 'Yes — the principal plant cannabinoid']),
+            F(['Δ8-THC', 'Δ6-THC', 'Yes — the thermodynamically favoured isomer']),
+            F(['Stereocentres at C-6a and C-10a', 'Stereocentres at C-3 and C-4', 'Yes — same two carbons, different labels']),
+            F(['(6aR,10aR)-(−)-trans', '(3R,4R)-(−)-trans', 'Yes — the natural active enantiomer']),
+            F(['Δ6a,10a-THC', 'Δ3,4-THC', 'Yes — the Adams synthetic series']),
+          ]),
+        }),
+        cites: F(['gaoni1966', 'razdan1974', 'hanus2016', 'adams1941']),
+      }),
+      F({
+        h: 'A short reading protocol for pre-1980 cannabinoid papers',
+        bullets: F([
+          'Identify the numbering convention first. If the paper says Δ1 or Δ6 for the principal alkene, it is monoterpenoid numbering; add eight to translate to the modern names.',
+          'Treat rotation-based names ("high rotating", "low rotating") as sample labels, not structural assignments.',
+          'Expect purity to mean something different. Pre-chromatographic preparations were mixtures by modern standards, and biological potencies from that era carry that uncertainty.',
+          'Expect potency to be reported as whole-animal activity rather than receptor affinity. Receptor binding constants postdate the identification of the cannabinoid receptors in the late 1980s, so no pre-1988 paper contains a Ki.',
+          'Read the series, not the paper. The Adams cannabidiol papers are numbered parts of one programme, and a structural conclusion in part twelve may revise part six.',
+        ]),
+        cites: F(['adams1940', 'adams1941', 'gaoni1966', 'razdan1974', 'hanus2016']),
+        evidence: 'historical',
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/isomers', 'cannabinoids/transformations', 'cannabinoids/side-chain-series',
+      'cannabinoids/structural-classes', 'cannabinoids/research-frontier']),
+    cites: F(['adams1940', 'adams1941', 'gaoni1966', 'razdan1974', 'martin1999', 'crocker1999', 'citti2019',
+      'hanus2016']),
+  }),
+
+  // ═══════════════════════════════════════════════════════════════════════════════════════════════
+  F({
+    slug: 'research-frontier',
+    title: 'The Research Frontier: Open Questions and the Analytical Bottleneck',
+    kind: 'cannabinoid',
+    summary: 'Most of the cannabinoid family has never been looked at. The combinatorial space runs to thousands of structures, a few hundred have been detected and a few dozen pharmacologically characterised. Every one of the resulting research questions runs through the same constraint: without an authentic reference standard a compound cannot be identified or quantified, so reference-standard work is the rate-limiting step for the whole field.',
+    facts: F({
+      'Structural types in the taxonomy': 'eleven',
+      'Side-chain lengths documented in plant material': 'C1 through C8',
+      'Compounds isolated and characterised': 'on the order of 120 to 150, depending on the review',
+      'Compounds with meaningful receptor pharmacology': 'a few dozen',
+      'Order of magnitude of the possible space': 'thousands, on a class-by-chain-by-isomer-by-stereochemistry count',
+      'The rate-limiting constraint': 'availability of authentic certified reference standards',
+    }),
+    sections: F([
+      F({
+        h: 'The combinatorial argument, and its honest limits',
+        body: 'Count the axes. Eleven structural types. Eight documented side-chain lengths. For the THC-type skeleton alone, several viable alkene positions plus the iso-ring-closure family. Two stereocentres giving four configurations where the skeleton is chiral. An acid and a neutral form for each. Multiply and the count of chemically reasonable structures runs into the thousands. That is the arithmetic the operator source uses and it is sound as an order-of-magnitude statement. Two honesty notes belong with it. Not every cell in that grid is chemically reasonable or biosynthetically accessible — some combinations are strained, some are unstable, and the plant does not make them all — so the product is an upper bound rather than a census. And a very large number of possible structures is not by itself interesting. What makes the space worth mapping is that the sparsely populated regions include compounds whose relatives are pharmacologically distinctive: the propyl homologue reverses sign at CB1, the heptyl homologue binds thirty times more tightly, the acids have targets of their own. The gaps are where the surprises have been.',
+        cites: F(['radwan2021', 'hanus2016', 'thomas2005', 'citti2019', 'vankush2026cbx']),
+        contested: true,
+        caveat: 'The "thousands of possible cannabinoids" figure is an extrapolation from a combinatorial count, not an inventory of characterised or even detected compounds. It is an upper bound: some combinations are chemically unreasonable and most have never been observed. Use it as an argument about the scale of the unexplored space, not as a claim about existing compounds.',
+      }),
+      F({
+        h: 'The phorolic acid series: implied by the pathway, largely uncharacterised',
+        body: 'If the heptyl side chain reaches CBGPA, then the three oxidocyclases should route it exactly as they route CBGA, and the passive degradation chemistry should act on the products exactly as it acts on the pentyl series. That predicts a full parallel heptyl family in acid form — the CBG, CBC, CBE, CBL and CBN counterparts — of which almost nothing is characterised. This is a clean set of research questions: does each predicted acid occur in plant material at detectable level, what are the chromatographic and spectroscopic properties that would let a laboratory recognise it, and what does the corresponding neutral form do at the cannabinoid receptors. The operator source lists six specific phorolic acids as targets. That list is a reasonable prediction from the pathway rather than a report of detected compounds, and it should be treated as a hypothesis set to test rather than an inventory.',
+        cites: F(['citti2019', 'hanus2016', 'radwan2021', 'vankush2026cbx']),
+        contested: true,
+        caveat: 'The specific list of phorolic acids given in the operator source (CBGPA, CBCPA, CBEPA, CBRPA, CBLPA, CBNPA) could not be verified as reported, detected compounds in the primary literature in this pass. Treat these as pathway-predicted targets, not as identified phytocannabinoids. CBGP and CBCP are described in the literature as putative identifications.',
+      }),
+      F({
+        h: 'The butyl and hexyl homologues: detected, then dropped',
+        body: 'The C4 and C6 series are the most tractable frontier because they are already past the hardest step. Linciano and colleagues isolated Δ9-THCB and CBDB from the Italian FM2 medicinal variety and reported CB1 and CB2 affinities for THCB — Ki 15 nM at CB1 and 51 nM at CB2, which the authors described as comparable to Δ9-THC — and in a second paper identified the hexyl homologue cannabidihexol with antinociceptive activity in mice. After those initial reports the pharmacological work largely stopped. Functional characterisation across signalling pathways, metabolism, pharmacokinetics, and the corresponding acids are all open. The 2026 homologue study begins to fill this in on synthetic material and for the first time reports pathway bias across C3 to C8, which is the shape the rest of this work should take.',
+        cites: F(['linciano2020', 'linciano2020b', 'durydivka2026']),
+        evidence: 'in vitro',
+      }),
+      F({
+        h: 'The rare structural types are essentially blank',
+        body: 'Four types — CBE, CBL, CBT and CBND — have almost no receptor pharmacology in the literature at all, and their homologue series are blank beyond the occasional propyl member. The reasons are practical rather than scientific: they occur at low abundance, several of them are degradation products rather than plant products, reference standards are scarce or nonexistent, and nobody has had a commercial reason to look. That is exactly the profile of a neglected research area rather than a closed one. Several specific questions are worth naming. What does the strained cyclobutane of the CBL type do to receptor interaction, given that it holds the molecule in a geometry nothing else in the family adopts. Is the CBT type, whose extra hydroxylation changes polarity and viscosity, pharmacologically inert or merely unexamined. Does CBND behave to CBD as CBN does to THC — a degradation product with reduced activity — or does the open skeleton behave differently on aromatisation.',
+        cites: F(['hanus2016', 'radwan2021', 'elsohly2005']),
+      }),
+      F({
+        h: 'The acidic cannabinoids as agents in their own right',
+        body: 'The acids are not merely precursors, and the evidence that they are not is reasonably strong for two of them. Cannabidiolic acid enhances activation of the 5-HT1A receptor and, in the standard animal models of emesis and nausea-induced behaviour, is roughly a hundred times more potent than cannabidiol — an effect abolished by a selective 5-HT1A antagonist, which is what makes it a mechanism rather than an observation. Tetrahydrocannabinolic acid is a potent PPARγ agonist with neuroprotective activity in cell and animal models, with the effects blocked by PPARγ antagonists. Both findings point the same direction: this is a pharmacology with its own targets rather than a weaker version of the neutral cannabinoids’ pharmacology, and it is systematically under-studied relative to how much of the material in a living plant is in acid form. The open questions are the obvious ones. What do the other acids do. What do the acids of the homologous series do. How much of the reported activity of a whole-plant preparation is attributable to the acid fraction that the neutral-cannabinoid literature has never measured.',
+        cites: F(['bolognini2013', 'nadal2017', 'filer2022']),
+        evidence: 'animal',
+      }),
+      F({
+        h: 'The bottleneck is analytical, and this is the honest framing of the whole frontier',
+        body: 'Every question above runs through one constraint. A compound cannot be identified unless something establishes which peak it is, and for isomers that share an exact mass the only thing that establishes it is retention time matched against an authentic reference standard. A compound cannot be quantified without a standard either, because quantitation needs a response factor. So a compound for which no certified reference standard exists is, for practical purposes, invisible: it cannot appear correctly on a certificate of analysis, it cannot be dosed, its stability cannot be tracked, its pharmacology cannot be tied to a defined substance, and its presence in a product cannot be confirmed or excluded. This is why reference-standard development is the rate-limiting step for the entire field rather than a procurement inconvenience. It is also the reason the frontier is genuinely open: the limit on what can be known about these compounds is not conceptual, it is the availability of characterised, certified material to calibrate against — and that is a tractable problem that an institute can work on directly.',
+        cites: F(['caprari2024', 'kiselak2020', 'bloemendal2020']),
+      }),
+      F({
+        h: 'Research questions a hemp-sciences institute could actually take up',
+        body: 'Each of these is a research programme with a publishable output, and each is framed as a question about characterisation, measurement or mechanism. None is framed as a production opportunity, because the gaps described on this page are gaps in knowledge and the useful response to them is knowledge.',
+        table: F({
+          cols: F(['Question', 'Work it implies', 'Why it is rate-limiting or high-value']),
+          rows: F([
+            F(['Which homologues and rare types actually occur in plant material, and at what abundance?', 'Sensitive chromatographic survey of diverse germplasm, with identification criteria stated', 'Converts a predicted list into an observed inventory. Prerequisite for everything else']),
+            F(['Can certified reference standards be produced and characterised for the detected but unstandardised compounds?', 'Isolation or authenticated preparation, full structural characterisation, purity assignment, stability assessment, inter-laboratory comparison', 'The single constraint that gates identification, quantitation, certificates of analysis and pharmacology alike']),
+            F(['What do the uncharacterised compounds do at the cannabinoid receptors and elsewhere?', 'Binding plus functional profiling across signalling pathways, not affinity alone; the 2026 homologue study is the template', 'Affinity without efficacy is the error that produces misleading potency claims. Pathway bias is measurable and mostly unmeasured']),
+            F(['How do the rare types and the acids degrade, and over what timescales?', 'Stability studies under controlled temperature, light, oxygen and pH, following full profiles rather than single analytes', 'Turns the profile-as-clock principle into usable shelf-life and storage science, and supports honest labelling']),
+            F(['Can plant-derived material be distinguished analytically from converted material?', 'Development of provenance methods — impurity profiling, isomer ratio patterns, isotope-ratio approaches', 'Directly answers a question that regulation currently cannot answer and that certificates currently cannot show']),
+            F(['What is the pharmacology of the acidic cannabinoids across the family?', 'Target screening and mechanism work on the acids, which most of the literature skipped', 'The acids are the majority of the material in the living plant and the minority of the published pharmacology']),
+            F(['Which chemotypes and genotypes produce the minor series at workable abundance?', 'Germplasm survey against the B-locus genetics and the homologue distribution', 'Connects the genetics to the analytical chemistry, and makes natural-abundance studies possible without conversion']),
+          ]),
+        }),
+        cites: F(['durydivka2026', 'caprari2024', 'demeijer2003', 'lindholst2010', 'jaidee2022', 'kiselak2020',
+          'bolognini2013', 'nadal2017', 'linciano2020', 'linciano2020b']),
+      }),
+      F({
+        h: 'What the field has, versus what it could have',
+        body: 'To close with the numbers in one place: on the order of 120 to 150 phytocannabinoids have been isolated and structurally characterised, depending on which review is counted and how strictly identifications are judged. Of those, a few dozen have any receptor pharmacology, and a considerably smaller number have been profiled across more than one functional endpoint. Certified reference standards exist for a still smaller subset, which is the set that any laboratory anywhere can actually report on a certificate. Against a possible space in the thousands, that is a field at the beginning rather than the middle of its work — and the beginning of the work is analytical.',
+        cites: F(['radwan2021', 'hanus2016', 'elsohly2005', 'caprari2024']),
+      }),
+    ]),
+    seeAlso: F(['cannabinoids/structural-classes', 'cannabinoids/side-chain-series', 'cannabinoids/biosynthesis',
+      'cannabinoids/isomers', 'cannabinoids/decarboxylation', 'coa/panels', 'coa/red-flags',
+      'equipment/analytical', 'processing/chromatography', 'regulatory/thcp-thcjd',
+      'safety/converted-cannabinoid-products', 'endocannabinoid/cb1']),
+    cites: F(['radwan2021', 'hanus2016', 'elsohly2005', 'citti2019', 'linciano2020', 'linciano2020b',
+      'durydivka2026', 'thomas2005', 'bolognini2013', 'nadal2017', 'filer2022', 'caprari2024', 'kiselak2020',
+      'bloemendal2020', 'demeijer2003', 'lindholst2010', 'jaidee2022', 'vankush2026cbx']),
+  }),
+
+]);
+
+export default { SHELF, CITES, PAGES };
