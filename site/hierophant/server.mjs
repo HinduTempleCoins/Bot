@@ -25,13 +25,22 @@
 //                     (?by=tradition|type|az), still filterable by ?tradition= / ?type=
 //   /gods/:id         one figure — names/epithets, relationships, the texts it appears in, links out
 //   /traditions/:id   one tradition — its texts and its figures
-//   /ask              "Ask the Hierophant" — POST, RAG over the Temple's own corpus (soft-fails)
+//   /ask              "Ask the Hierophant" — POST, RAG over the Temple's own corpus (soft-fails), plus a
+//                     "Sources" block quoting the sacred-text shelves by canonical reference
+//   /shelves          the sacred-text shelves — search (?q=&lang=) across Greek, Latin, Hebrew, Sanskrit,
+//                     Pali, Egyptian, Akkadian/Sumerian, Ge'ez and Arabic, original + aligned translation
+//   /shelves/p/:id    one passage — original line, translation, licence + attribution, prev/next
+//   /shelves/ref?ref= resolve a citation ("Gen 6:4", "Iliad 18.418", "Qur'an 55:15") → its passage
+//   /shelves/api/search?q=&lang=   /shelves/api/passage?ref=   JSON of the same
+//   /texts/:ref       falls through to the shelves when :ref is a citation rather than a catalog text
 //   /health           liveness probe + catalog/entity self-check
 //   /robots.txt /sitemap.xml /sitemap-index.xml /llms.txt
 //
 // ── DISCIPLINE ──────────────────────────────────────────────────────────────────────────────────
-//   We never serve the full primary text — we point to the canonical reading/download page and credit
-//   the source (Sacred-Texts, Project Gutenberg, Theoi). "Ask the Hierophant" draws ONLY on the
+//   We never serve a whole primary text — we point to the canonical reading/download page and credit
+//   the source (Sacred-Texts, Project Gutenberg, Theoi). The SHELVES quote cited passages (a verse, a few
+//   lines, a section) from openly licensed editions, each shown with its edition, licence and a link to
+//   the source; licence-restricted editions (non-commercial / unclear) are never loaded. "Ask the Hierophant" draws ONLY on the
 //   Temple's own corpus and says so; it soft-fails to an honest empty state, never fabricates. esc()
 //   on every interpolated value. Read-only, server-rendered, no keys, no custody.
 
@@ -54,6 +63,15 @@ import {
 import {
   groupEntities, entitiesForText, textsForEntity, interlink,
 } from '../../integrations/hierophant-xref.mjs';
+import * as realShelves from '../../integrations/sacred-shelves.mjs';
+
+// ── the sacred-text shelves (passage-level scripture with exact-line citations) ─────────────────────
+// integrations/sacred-shelves.mjs reads a compact on-disk index (SACRED_SHELVES_DIR). Injectable so the
+// offline tests drive the routes with a canned shelf; every call soft-fails to empty.
+let shelves = realShelves;
+export function __setShelves(impl) { shelves = impl || realShelves; }
+const LANG_NAMES = realShelves.LANG_NAMES;
+const RTL = new Set(['hbo', 'ar']);
 
 const PORT = +(process.env.PORT || 8124);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -105,6 +123,7 @@ async function askCorpus(question) {
 // ── house-style helpers (same dark theme as Politics/Law/Search) ────────────────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const q = (s) => encodeURIComponent(String(s == null ? '' : s));
+const q2 = q;
 
 const STYLE = `<style>
   :root{--bg:#0d1117;--panel:#161b22;--line:#21262d;--line2:#30363d;--fg:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--gold:#d29922;--up:#3fb950}
@@ -149,6 +168,10 @@ const STYLE = `<style>
   a.xref{color:var(--gold);border-bottom:1px dotted var(--gold);text-decoration:none}
   a.xref:hover{color:var(--blue);border-bottom-color:var(--blue);text-decoration:none}
   .answer{white-space:pre-wrap;line-height:1.65} .empty{color:var(--mut);padding:14px 0}
+  .psg{padding:14px 0;border-bottom:1px solid var(--line)} .psg:last-child{border-bottom:0}
+  .psg .orig{font-size:17px;line-height:1.7;margin:8px 0;padding:8px 14px;border-left:3px solid var(--gold);white-space:pre-wrap}
+  .psg .tr{margin:6px 0;padding:6px 14px;border-left:3px solid var(--line2);color:var(--fg);white-space:pre-wrap}
+  .psg .lic{color:var(--mut);font-size:12px;margin-top:4px} .psg .lic a{color:var(--mut);text-decoration:underline}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:26px 22px;margin-top:24px;border-top:1px solid var(--line);line-height:1.7}
   footer a{color:var(--blue)}
 </style>`;
@@ -156,7 +179,8 @@ const STYLE = `<style>
 // Footer credits the sources we LINK OUT to (Sacred-Texts, Project Gutenberg, Theoi) and states the
 // link-out-not-host posture + the corpus-scope of the AI. On every page.
 const FOOTER = `<footer>
-  <b>The Hierophant links; it does not host.</b> For the texts themselves we send you to the source — the
+  <b>The Hierophant links; it does not host whole texts.</b> The <a href="/shelves">shelves</a> quote cited
+  passages from openly licensed editions, each with its edition and licence. For the texts themselves we send you to the source — the
   full text lives at <a href="https://sacred-texts.com" rel="nofollow noopener">Sacred-Texts.com</a>,
   <a href="https://www.gutenberg.org" rel="nofollow noopener">Project Gutenberg</a>, and
   <a href="https://archive.org" rel="nofollow noopener">Archive.org</a>; Greek figures link to
@@ -164,7 +188,7 @@ const FOOTER = `<footer>
   in a text, who appears in it, and what to read alongside it. <b>Ask the Hierophant</b> answers only from
   the Temple's own corpus and says when it cannot. With gratitude to those libraries, which make the
   world's scriptures free to all.
-  <div style="margin-top:8px"><a href="/">Library</a> · <a href="/texts">Texts</a> · <a href="/gods">Gods</a> · <a href="/ask">Ask</a> · <a href="${esc(WIKI)}">Wiki</a> · <a href="${esc(DATA)}">Data</a> · <a href="${esc(SEARCH)}">Search</a></div>
+  <div style="margin-top:8px"><a href="/">Library</a> · <a href="/texts">Texts</a> · <a href="/gods">Gods</a> · <a href="/shelves">Shelves</a> · <a href="/ask">Ask</a> · <a href="${esc(WIKI)}">Wiki</a> · <a href="${esc(DATA)}">Data</a> · <a href="${esc(SEARCH)}">Search</a></div>
 </footer>`;
 
 function page(title, body, opts = {}) {
@@ -178,7 +202,7 @@ function page(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">🜔 Hierophant <span>the Temple library</span></a>
-  <div class=topbar-r><a href="/texts">Texts</a><a href="/gods">Gods</a><a href="/ask">Ask</a><a href="${esc(STUDIO)}/mythology">Mythology Studio</a><a href="${esc(STUDIO)}/remakes">Remakes</a><a href="${esc(WIKI)}">Wiki</a><a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/texts">Texts</a><a href="/shelves">Shelves</a><a href="/gods">Gods</a><a href="/ask">Ask</a><a href="${esc(STUDIO)}/mythology">Mythology Studio</a><a href="${esc(STUDIO)}/remakes">Remakes</a><a href="${esc(WIKI)}">Wiki</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -268,6 +292,7 @@ export function homePage() {
     <div class=grid style="margin-top:8px">
       <a class=sec href="/texts"><div class=t>📜 The Texts</div><div class=d>${TEXTS.length} primary texts across ${TRADITIONS.length} traditions — each with links out and a reading path.</div></a>
       <a class=sec href="/gods"><div class=t>🜔 The Gods &amp; Things</div><div class=d>${ENTITIES.length} gods, heroes, prophets and concepts — names, relationships, and the texts they appear in.</div></a>
+      <a class=sec href="/shelves"><div class=t>📖 The Shelves</div><div class=d>The original words, line by line — Greek, Hebrew, Sanskrit, Egyptian, Akkadian, Ge'ez, Arabic — cited by canonical reference.</div></a>
       <a class=sec href="/ask"><div class=t>🔮 Ask the Hierophant</div><div class=d>An oracle that answers from the Temple's own corpus — grounded, sourced, never invented.</div></a>
     </div>
 
@@ -319,6 +344,114 @@ export function textDetailView(id) {
       <p class=muted style="font-size:13px">What to read alongside it, and why.</p>
       ${companionsBlock(id)}</div>`;
   return page(`${t.title} — The Hierophant`, body, { canonical: `${BASE_URL}/texts/${id}` });
+}
+
+
+// ── the shelves: passage cards, /shelves, /shelves/p/:id ──────────────────────────────────────────
+const langName = (l) => LANG_NAMES[l] || l || '';
+const pHref = (id) => `/shelves/p/${encodeURIComponent(String(id || ''))}`;
+function licenceLine(label, src) {
+  if (!src) return '';
+  const name = src.home ? `<a href="${esc(src.home)}" rel="nofollow noopener">${esc(src.name)}</a>` : esc(src.name);
+  const lic = src.license ? (src.license_url ? ` · <a href="${esc(src.license_url)}" rel="license nofollow noopener">${esc(src.license)}</a>` : ` · ${esc(src.license)}`) : '';
+  return `<div>${esc(label)}: ${name}${lic}</div>`;
+}
+/** One cited passage: canonical ref, the ORIGINAL line, the aligned translation (language labelled), licences. */
+export function passageCard(p, { link = true, max = 900 } = {}) {
+  if (!p) return '';
+  const cut = (t) => { const x = String(t || ''); return x.length > max ? `${x.slice(0, max)}…` : x; };
+  const dir = RTL.has(p.lang) ? 'rtl' : 'ltr';
+  const trLang = p.translation_lang && p.translation_lang !== 'en' ? ` <span class="badge warn">${esc(langName(p.translation_lang))}</span>` : '';
+  return `<div class=psg>
+    <div class=nm>${link ? `<a href="${esc(pHref(p.id))}">${esc(p.ref)}</a>` : esc(p.ref)} <span class=badge>${esc(langName(p.lang))}</span>
+      <span class=muted style="font-size:13px">${esc(p.work || '')}</span></div>
+    <blockquote class=orig lang="${esc(p.lang)}" dir="${dir}">${esc(cut(p.text))}</blockquote>
+    ${p.translation ? `<blockquote class=tr lang="${esc(p.translation_lang || 'en')}">${esc(cut(p.translation))}</blockquote>
+      <div class=lic>${esc(p.translation_label || 'Translation')}${trLang}</div>` : '<div class=lic>No aligned translation on this shelf.</div>'}
+    <div class=lic>${licenceLine('Original', p.source)}${p.translation_source ? licenceLine('Translation', p.translation_source) : ''}
+      ${p.url ? `<div><a href="${esc(p.url)}" rel="nofollow noopener">View at the source →</a>${p.urn ? ` <span>${esc(p.urn)}</span>` : ''}</div>` : ''}</div>
+  </div>`;
+}
+
+const SHELF_LABELS = { greek: 'Greek', latin: 'Latin', hebrew: 'Hebrew & Aramaic', sanskrit: 'Sanskrit', pali: 'Pali',
+  egyptian: 'Egyptian', cuneiform: 'Akkadian & Sumerian', geez: "Ge'ez", arabic: 'Classical Arabic' };
+const EXAMPLES = ['Iliad 18.417', 'Gen 6:4', "Qur'an 55:15", '1 Enoch 6:1', 'Plato, Symposium 202e', 'Asclepius 24', 'MN 1:1.1', 'Dan 7:9'];
+const EXAMPLE_Q = ['egregoroi', 'daimon', 'Wadjet', 'Theia', 'Nephilim', 'jinn smokeless fire', 'Marduk'];
+
+export function shelvesView(query = '', lang = '') {
+  const q = String(query || '').trim().slice(0, 200);
+  const l = String(lang || '').trim();
+  const st = shelves.stats();
+  const langOpts = [['', 'All languages'], ...Object.keys(LANG_NAMES).filter((k) => st.langs && st.langs[k]).map((k) => [k, LANG_NAMES[k]])];
+  const form = `<form class=hsearch method=get action="/shelves"><div class=row>
+      <input class=q name=q value="${esc(q)}" placeholder="Search the original texts — e.g. egregoroi, daimon, Wadjet, Nephilim" aria-label="Search the shelves">
+      <select class=q name=lang aria-label="Language">${langOpts.map(([k, v]) => `<option value="${esc(k)}"${k === l ? ' selected' : ''}>${esc(v)}</option>`).join('')}</select>
+      <button type=submit>Search</button></div></form>
+    <form class=hsearch method=get action="/shelves/ref"><div class=row>
+      <input class=q name=ref placeholder="Go to a citation — Gen 6:4 · Iliad 18.418 · Qur'an 55:15 · 1 Enoch 6:1" aria-label="Citation">
+      <button type=submit>Open</button></div></form>`;
+  let body = `<h1>The Shelves <span class=muted style="font-size:14px">· the sacred texts, line by line</span></h1>
+    <p class=muted>The original words — Greek, Latin, Hebrew, Sanskrit, Pali, Egyptian, Akkadian and Sumerian, Ge'ez and
+      Classical Arabic — cited by their canonical reference, with an aligned translation where one exists and the
+      edition and licence of every line. Search in the original script or in plain letters: <i>egregoroi</i> finds
+      ἐγρήγοροι, <i>Wadjet</i> finds wꜣḏ.t.</p>${form}`;
+  if (!st.ok) {
+    body += `<div class=card><p class=empty>The shelves are not loaded on this server yet.</p></div>`;
+    return page('The Shelves — The Hierophant', body, { canonical: `${BASE_URL}/shelves`, robots: 'noindex,follow' });
+  }
+  if (q) {
+    const res = shelves.searchShelves(q, { langs: l ? [l] : undefined, limit: 20, perWork: 3 });
+    body += `<div class=card><h2 style="margin-top:0">${res.length} passage${res.length === 1 ? '' : 's'} for “${esc(q)}”${l ? ` in ${esc(langName(l))}` : ''}</h2>
+      ${res.length ? res.map((p) => passageCard(p, { max: 600 })).join('') : '<p class=empty>Nothing on the shelves matches that. Try another spelling, or the original script.</p>'}</div>`;
+  } else {
+    const shelfRows = Object.entries(st.shelves || {}).sort((a, b) => b[1] - a[1])
+      .map(([k, n]) => `<div class=rec><div class=nm>${esc(SHELF_LABELS[k] || k)}</div><div class=meta>${esc(Number(n).toLocaleString('en-US'))} passages</div></div>`).join('');
+    const srcRows = Object.values(st.sources || {})
+      .map((x) => `<div class=rec><div class=nm>${x.home ? `<a href="${esc(x.home)}" rel="nofollow noopener">${esc(x.name)}</a>` : esc(x.name)}</div>
+        <div class=meta>${x.license_url ? `<a href="${esc(x.license_url)}" rel="license nofollow noopener">${esc(x.license)}</a>` : esc(x.license || '')}</div></div>`).join('');
+    body += `<div class=card><b>Try a citation:</b> ${EXAMPLES.map((e) => `<a class=pill href="/shelves/ref?ref=${esc(q2(e))}">${esc(e)}</a>`).join('')}
+        <div style="margin-top:8px"><b>Or a word:</b> ${EXAMPLE_Q.map((e) => `<a class=pill href="/shelves?q=${esc(q2(e))}">${esc(e)}</a>`).join('')}</div></div>
+      <div class=card><h2 style="margin-top:0">On the shelves · ${esc(Number(st.N).toLocaleString('en-US'))} passages</h2>${shelfRows}</div>
+      <div class=card><h2 style="margin-top:0">Editions &amp; licences</h2>
+        <p class=muted style="font-size:13px">Every passage names its edition and licence. Non-commercial and unclear-licence editions are not on the public shelves.</p>${srcRows}</div>`;
+  }
+  return page(q ? `${q} — The Shelves — The Hierophant` : 'The Shelves — The Hierophant', body,
+    { canonical: `${BASE_URL}/shelves`, robots: q ? 'noindex,follow' : 'index,follow',
+      description: 'The sacred texts line by line — original Greek, Latin, Hebrew, Sanskrit, Pali, Egyptian, Akkadian, Ge\'ez and Arabic, cited by canonical reference with aligned translations and licences.' });
+}
+
+export function passageView(id) {
+  const hit = shelves.getPassage(id);
+  const psg = hit && hit.passage;
+  if (!psg) {
+    return page('Passage not found — The Hierophant', `<h1>Passage not found</h1>
+      <p class=muted><a href="/shelves">← the shelves</a></p>
+      <div class=card><p class=empty>No passage on the shelves for “${esc(id)}”. Try a citation such as
+        <a href="/shelves/ref?ref=${esc(q2('Gen 6:4'))}">Gen 6:4</a>, or <a href="/shelves">search</a>.</p></div>`,
+    { canonical: `${BASE_URL}/shelves`, robots: 'noindex,follow' });
+  }
+  const prev = Number.isInteger(psg.index) ? shelves.passageAt(psg.index - 1) : null;
+  const next = Number.isInteger(psg.index) ? shelves.passageAt(psg.index + 1) : null;
+  const nav = [prev && prev.work === psg.work ? `<a href="${esc(pHref(prev.id))}">← ${esc(prev.ref)}</a>` : '',
+    next && next.work === psg.work ? `<a href="${esc(pHref(next.id))}">${esc(next.ref)} →</a>` : ''].filter(Boolean).join(' · ');
+  const alts = (hit.alternates || []).filter((a) => a.id !== psg.id);
+  const body = `<h1>${esc(psg.ref)}</h1>
+    <p class=muted><a href="/shelves">← the shelves</a> · ${esc(psg.work || '')}${nav ? ` · ${nav}` : ''}</p>
+    <div class=card>${passageCard(psg, { link: false, max: 5000 })}</div>
+    ${alts.length ? `<div class=card><h2 style="margin-top:0">The same reference on other shelves</h2>${alts.map((a) => passageCard(a, { max: 700 })).join('')}</div>` : ''}
+    <div class=card><b>Cite as</b><p class=muted style="margin:4px 0 0">${esc(psg.ref)} — ${esc(psg.source ? psg.source.name : '')}${psg.source && psg.source.license ? ` (${esc(psg.source.license)})` : ''}${psg.urn ? ` · ${esc(psg.urn)}` : ''}</p></div>`;
+  return page(`${psg.ref} — The Shelves — The Hierophant`, body, { canonical: `${BASE_URL}${pHref(psg.id)}`,
+    description: `${psg.ref} (${langName(psg.lang)}): ${String(psg.translation || psg.text || '').slice(0, 150)}` });
+}
+
+/** The Ask page's "Sources" block — the shelves' best passages for the question, cited by reference. */
+export function shelfSourcesBlock(question, limit = 5) {
+  let res = [];
+  try { res = shelves.searchShelves(question, { limit, perWork: 1 }) || []; } catch { res = []; }
+  if (!res.length) return '';
+  return `<div class=card><h2 style="margin-top:0">Sources — from the sacred-text shelves</h2>
+    <p class=muted style="font-size:13px">The passages themselves, in the original language, by canonical reference. <a href="/shelves?q=${esc(q2(question))}">More on the shelves →</a></p>
+    ${res.map((p) => passageCard(p, { max: 700 })).join('')}</div>`;
 }
 
 // ── /gods and /gods/:id ───────────────────────────────────────────────────────────────────────────
@@ -474,7 +607,11 @@ export async function askView(question) {
         ${passages.length ? passages.map((p) => `<div class=rec><div class=nm>${esc(p.title || p.source || 'source')}</div>
           <blockquote style="white-space:pre-wrap">${esc(String(p.text || '').slice(0, 700))}${String(p.text || '').length > 700 ? '…' : ''}</blockquote></div>`).join('')
           : `<div class=answer>${esc(res.answer)}</div>${sources.map((s) => s.url ? `<a href="${esc(s.url)}" rel="nofollow noopener">${esc(s.title || 'source')} →</a>` : `<span class=pill>${esc(s.title || 'source')}</span>`).join(' ')}`}</div>`;
-    } else if (!answerBlock) {
+    }
+    // 3) the primary sources themselves — the shelves, cited by canonical reference
+    const shelfBlock = shelfSourcesBlock(term);
+    if (shelfBlock) answerBlock += shelfBlock;
+    if (!answerBlock) {
       answerBlock = `<div class=card><h2 style="margin-top:0">The Hierophant answers</h2>
         <p class=empty>${esc((res && res.answer) || "The Temple's corpus doesn't cover that.")}
         Try the <a href="${esc(WIKI)}">Library wiki</a> or browse the <a href="/texts">texts</a> directly.</p></div>`;
@@ -484,8 +621,8 @@ export async function askView(question) {
   const body = `<h1>Ask the Hierophant</h1>
     <p class=muted>An oracle over the <b>Temple's own corpus</b> — the knowledge tree of scripture, ancient
       Egypt, the mystery schools, the Convergence and more. It answers <b>only</b> from what the corpus
-      actually says, cites its sources, and tells you plainly when it has nothing. It is <i>not</i> a search
-      of the linked-out primary texts — for those, use the <a href="/texts">catalog</a>.</p>
+      actually says, cites its sources, and tells you plainly when it has nothing — and beneath it quotes the
+      primary texts themselves from the <a href="/shelves">shelves</a>, by canonical reference, original and translation.</p>
     ${form}${answerBlock}
     ${term ? `<div class=card><b>See it</b><p class=muted style="margin:4px 0 8px">Turn this into a picture — the figures in it are drawn with their traditional attributes.</p>${vizBox(term)}</div>` : ''}`;
   return page('Ask the Hierophant — The Hierophant', body,
@@ -499,7 +636,7 @@ function sendHtml(res, html, code = 200) {
 }
 
 const SITEMAP_PATHS = [
-  '/', '/texts', '/gods', '/ask',
+  '/', '/texts', '/shelves', '/gods', '/ask',
   ...TRADITIONS.map((t) => `/traditions/${t.id}`),
   ...TEXTS.map((t) => `/texts/${t.id}`),
   ...ENTITIES.map((e) => `/gods/${e.id}`),
@@ -535,9 +672,11 @@ export async function handler(req, res) {
       const cat = validateCatalog();
       const ent = validateEntities();
       const ok = cat.ok && ent.ok;
+      const sh = shelves.stats();
       res.writeHead(ok ? 200 : 500, { 'content-type': 'application/json' });
       return res.end(JSON.stringify({
         ok, texts: TEXTS.length, entities: ENTITIES.length, traditions: TRADITIONS.length,
+        shelves: { ok: sh.ok, passages: sh.N, langs: sh.langs },
         catalogErrors: cat.errors, entityErrors: ent.errors,
       }));
     }
@@ -584,8 +723,32 @@ export async function handler(req, res) {
     if (path === '/texts') return sendHtml(res, textsIndexView());
     if (path.startsWith('/texts/')) {
       const id = decodeURIComponent(path.slice('/texts/'.length).replace(/\/+$/, ''));
+      if (!getText(id)) {            // a citation rather than a catalog id → the shelves
+        const hit = shelves.getPassage(id);
+        if (hit && hit.passage) { res.writeHead(302, { location: `/shelves/p/${encodeURIComponent(hit.passage.id)}` }); return res.end(); }
+      }
       const html = textDetailView(id);
       return sendHtml(res, html, getText(id) ? 200 : 404);
+    }
+
+    if (path === '/shelves' || path === '/shelves/') return sendHtml(res, shelvesView(sp.get('q') || '', sp.get('lang') || ''));
+    if (path === '/shelves/ref') {
+      const ref = sp.get('ref') || '';
+      const hit = shelves.getPassage(ref);
+      if (hit && hit.passage) { res.writeHead(302, { location: `/shelves/p/${encodeURIComponent(hit.passage.id)}` }); return res.end(); }
+      return sendHtml(res, passageView(ref), 404);
+    }
+    if (path.startsWith('/shelves/p/')) {
+      const id = decodeURIComponent(path.slice('/shelves/p/'.length).replace(/\/+$/, ''));
+      const hit = shelves.getPassage(id);
+      return sendHtml(res, passageView(id), hit && hit.passage ? 200 : 404);
+    }
+    if (path === '/shelves/api/search' || path === '/shelves/api/passage') {
+      const body = path.endsWith('search')
+        ? { query: sp.get('q') || '', results: shelves.searchShelves(sp.get('q') || '', { langs: sp.get('lang') ? String(sp.get('lang')).split(',') : undefined, limit: +sp.get('limit') || 10 }) }
+        : (shelves.getPassage(sp.get('ref') || '') || { passage: null, alternates: [] });
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300', 'access-control-allow-origin': '*' });
+      return res.end(JSON.stringify(body));
     }
 
     if (path === '/gods') return sendHtml(res, godsIndexView(sp.get('tradition') || '', sp.get('type') || '', sp.get('by') || ''));
