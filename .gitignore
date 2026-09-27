@@ -52,6 +52,8 @@ datasets/*
 !datasets/security-corpus/mitre-atlas/
 !datasets/security-corpus/mitre-atlas/**
 *.jsonl
+# the public Hathor eval starter set (canon-derived only; the operator's own answers stay private)
+!integrations/hathor-eval/starter-set.jsonl
 
 # Dependencies
 node_modules/
