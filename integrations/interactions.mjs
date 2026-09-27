@@ -27,9 +27,39 @@
 //   import { check, resolve, clinicianExport, interactionPaths, handler } from './interactions.mjs';
 //   node integrations/interactions.mjs phenelzine "aged cheese" tramadol
 
-import { SUBSTANCES, MECHANISMS, CITES, LAST_REVIEWED } from './interactions-data.mjs';
+import {
+  SUBSTANCES as CORE_SUBSTANCES, MECHANISMS as CORE_MECHANISMS, CITES as CORE_CITES, LAST_REVIEWED,
+} from './interactions-data.mjs';
+import {
+  SUBSTANCES_CANNABIS, MECHANISMS_CANNABIS, CITES_CANNABIS, SUBSTANCE_PATCHES, RULES_CANNABIS,
+  COVERS_CANNABIS, DOES_NOT_COVER_CANNABIS,
+} from './interactions-cannabis.mjs';
 
-export { SUBSTANCES, MECHANISMS, CITES, LAST_REVIEWED };
+// ── the merge ─────────────────────────────────────────────────────────────────────────────────────
+// interactions-data.mjs is the curated core (MAOIs, serotonergic drugs, the major CYPs, P-gp, tyramine,
+// the licorice axis). interactions-cannabis.mjs adds the endocannabinoid enzymes and transport, CB1/CB2,
+// GABA-A and GABA-transaminase, additive CNS depression, CYP2E1 and phase 2 — plus the cannabinoids,
+// the sedative botanicals and the potentiator plants of the hemp-science corpus. The merge happens HERE
+// rather than inside either data file, so neither is rewritten and each stays independently readable.
+//
+// SUBSTANCE_PATCHES appends roles to substances the core already lists (kava, black pepper, turmeric,
+// grapefruit). It appends ONLY — nothing in the core is removed or reworded — so a reader of the core
+// file is never looking at a half-truth, and a bad merge cannot silently drop a documented role.
+
+export const CITES = Object.freeze({ ...CORE_CITES, ...CITES_CANNABIS });
+export const MECHANISMS = Object.freeze({ ...CORE_MECHANISMS, ...MECHANISMS_CANNABIS });
+
+const _patches = new Map(SUBSTANCE_PATCHES.map((p) => [p.id, p]));
+export const SUBSTANCES = Object.freeze([
+  ...CORE_SUBSTANCES.map((s) => {
+    const p = _patches.get(s.id);
+    if (!p || !Array.isArray(p.addRoles) || !p.addRoles.length) return s;
+    return Object.freeze({ ...s, roles: Object.freeze([...(s.roles || []), ...p.addRoles.map((r) => Object.freeze({ ...r }))]) });
+  }),
+  ...SUBSTANCES_CANNABIS,
+]);
+
+export { LAST_REVIEWED };
 
 /** esc — every value interpolated into HTML goes through this. */
 export const esc = (s) => String(s == null ? '' : s)
@@ -53,6 +83,8 @@ export const COVERS = Object.freeze([
   'QT prolongation as an additive pharmacodynamic axis',
   'Culinary seasonings and common foods with documented pharmacological activity',
   'A selected set of narrow-therapeutic-index drugs where those shifts matter most',
+  // ── appended by the cannabinoid / endocannabinoid extension ──
+  ...COVERS_CANNABIS,
 ]);
 
 export const DOES_NOT_COVER = Object.freeze([
@@ -61,10 +93,12 @@ export const DOES_NOT_COVER = Object.freeze([
   'Pharmacogenomics. CYP2D6 and CYP2C19 are strongly polymorphic; a poor metaboliser and an ultra-rapid metaboliser can have opposite outcomes from the same pair, and this engine does not know your genotype.',
   'Dose, timing, duration, formulation and route — all of which change whether a documented interaction is clinically real for you.',
   'Renal and hepatic impairment, age, pregnancy, and body composition.',
-  'Additive sedation, respiratory depression, bleeding risk, hypoglycaemia and most other pharmacodynamic axes beyond the ones listed above.',
+  'Bleeding and antiplatelet risk, hypoglycaemia, anticholinergic load, and most other pharmacodynamic axes beyond the ones listed above. Additive CNS depression and GABA-A modulation ARE now modelled — see the covers list — but the absence of a sedation finding still only means the agents you named are not on that axis in this dataset.',
   'Herb–herb interactions outside the named entries, and essentially the whole botanical world: most plants have no interaction literature at all.',
   'Allergy, intolerance, and contamination or adulteration of unregulated products.',
   'Anything published after the last-reviewed date below.',
+  // ── appended by the cannabinoid / endocannabinoid extension ──
+  ...DOES_NOT_COVER_CANNABIS,
 ]);
 
 /**
@@ -108,9 +142,24 @@ const INDEX = (() => {
 })();
 
 /** resolve(name) — a declared string to a substance, or null. Never throws. */
+// BY_ID — the exact-id index, consulted BEFORE the general one.
+//
+// INDEX maps a substance's id, name, slug AND every synonym to it, first-writer-wins. That is right
+// for free-text lookup and wrong for an id: `midazolam` carries slug 'benzodiazepines', so once the
+// cannabinoid extension added a substance whose ID is 'benzodiazepines', the slug got there first and
+// resolve('benzodiazepines') returned midazolam. check() re-resolves its own stack by id
+// (`recognised.map((r) => resolve(r.id))`), so the effect was that someone who typed "clobazam"
+// resolved correctly to the benzodiazepine class, and then had it silently swapped for midazolam —
+// losing the CYP2C19 substrate role and, with it, the single best-documented cannabinoid drug
+// interaction there is (cannabidiol raising N-desmethylclobazam). The engine did not error; it
+// answered with a weaker finding about a different drug, which is the worst failure mode available
+// to it. A substance's own id must therefore always win.
+const BY_ID = new Map(SUBSTANCES.map((s) => [norm(s.id), s]));
+
 export function resolve(name) {
   const k = norm(name);
   if (!k) return null;
+  if (BY_ID.has(k)) return BY_ID.get(k);
   if (INDEX.has(k)) return INDEX.get(k);
   // singular/plural and a contained-word fallback, longest key first so "black pepper" beats "pepper".
   const alt = k.endsWith('s') ? k.slice(0, -1) : `${k}s`;
@@ -523,7 +572,11 @@ function ruleAdditivePD(by) {
   return out;
 }
 
-const RULES = [ruleSerotonin, ruleDualMAOI, ruleTyramine, ruleEnzymes, ruleMineralocorticoid, ruleAdditivePD];
+// The core rules, then the cannabinoid/endocannabinoid/CNS extension. Order matters only for the
+// severity tie-break in check(), which sorts worst-first anyway; each rule is independent and each is
+// wrapped in a try/catch at the call site so one broken rule cannot take a page down.
+const RULES = [ruleSerotonin, ruleDualMAOI, ruleTyramine, ruleEnzymes, ruleMineralocorticoid, ruleAdditivePD,
+  ...RULES_CANNABIS];
 
 // ── check() — the entry point ─────────────────────────────────────────────────────────────────────
 
