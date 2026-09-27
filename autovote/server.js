@@ -29,6 +29,10 @@ import * as hivesigner from './hivesigner.js';
 import * as melekSigner from './melek-signer.js';
 import * as melekSignerOauth from '../integrations/melek-signer-oauth.mjs';
 import { loginPage, dashboardPage, teachPage, awarenessPage } from './views.js';
+// Trade bots: the EXISTING "Pick a Bot" surface (integrations/bot-picker) mounted at /bots, plus the
+// live run-on-your-own-account layer (./tradebots.mjs). Non-custodial: the user's wallet signs.
+import { handler as botPickerHandler } from '../integrations/bot-picker.mjs';
+import { handler as tradeBotsHandler } from './tradebots.mjs';
 
 const MELEK_SIGNER_CLIENT_ID = process.env.MELEK_SIGNER_CLIENT_ID || 'autovote';
 
@@ -264,6 +268,15 @@ const server = http.createServer(async (req, res) => {
     }
     if (path === '/about' || path === '/awareness') {
       return send(res, 200, awarenessPage(publicChains()));
+    }
+
+    // ---- trade bots (public; no login — the user's own wallet signs, we hold nothing) ----
+    if (path === '/bots' || path === '/bots/' || path === '/api/bots' || path === '/api/bots/simulate') {
+      if (path.startsWith('/bots')) req.url = '/bot-picker';
+      return await botPickerHandler(req, res);
+    }
+    if (path === '/trade' || path === '/trade/' || path.startsWith('/api/trade/')) {
+      if (await tradeBotsHandler(req, res)) return;
     }
 
     // ---- home ----
