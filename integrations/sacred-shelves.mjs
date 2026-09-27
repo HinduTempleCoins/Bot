@@ -34,7 +34,7 @@ let fs = realFs;
 let _idx = null;           // loaded index (or false after a failed load)
 let _dir = null;
 export function __setFs(f) { fs = f || realFs; _idx = null; }
-export function __reset() { _idx = null; }
+export function __reset() { closeIdx(); _idx = null; _checked = 0; }
 
 // ── text keys (shared by the builder and the runtime — the two MUST agree) ─────────────────────────
 const GREEK = { α: 'a', β: 'b', γ: 'g', δ: 'd', ε: 'e', ζ: 'z', η: 'e', θ: 'th', ι: 'i', κ: 'k', λ: 'l', μ: 'm', ν: 'n', ξ: 'x', ο: 'o',
@@ -167,12 +167,26 @@ export function readVarints(buf, cb) {
 }
 
 // ── loading ─────────────────────────────────────────────────────────────────────────────────────
+let _checked = 0, _mtime = 0;
+const RECHECK_MS = 60_000;
+function closeIdx() {
+  if (_idx) for (const fd of [_idx.fdDict, _idx.fdPost, _idx.fdDocs]) { try { fs.closeSync(fd); } catch { /* already closed */ } }
+}
 function load() {
   const dir = SHELVES_DIR();
+  // A new index swapped into place (directory rename) is picked up within a minute — no restart needed.
+  if (_dir === dir && _idx !== null && Date.now() - _checked > RECHECK_MS) {
+    _checked = Date.now();
+    let m = 0;
+    try { m = fs.statSync(join(dir, 'meta.json')).mtimeMs; } catch { m = -1; }
+    if (m !== _mtime) { closeIdx(); _idx = null; }
+  }
   if (_idx && _dir === dir) return _idx;
   if (_idx === false && _dir === dir) return null;
   _dir = dir;
+  _checked = Date.now();
   try {
+    _mtime = fs.statSync(join(dir, 'meta.json')).mtimeMs;
     const meta = JSON.parse(fs.readFileSync(join(dir, 'meta.json'), 'utf8'));
     const u8 = (name) => { const b = fs.readFileSync(join(dir, name)); return new Uint8Array(b.buffer, b.byteOffset, b.byteLength); };
     const offB = fs.readFileSync(join(dir, 'docs.off'));
@@ -189,6 +203,7 @@ function load() {
     };
     return _idx;
   } catch {
+    _mtime = -1;
     _idx = false;
     return null;
   }

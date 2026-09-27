@@ -157,6 +157,24 @@ def tei_units(path, role):
                 cur = {'path': p, 'key': key, 'text': ''}
             cur['text'] += e[1]
     flush()
+    if role == 'orig' and mode == 'l':
+        # <l n="…"/> used as bare line markers (e.g. Corpus Hermeticum I) leave the verse lines empty —
+        # when the lines hold under a third of the text, the prose divisions are the citation scheme
+        total = sum(len(e[1].strip()) for e in ev if e[0] == 'text')
+        if total and sum(len(u['text']) for u in units) < 0.33 * total:
+            return tei_units_mode(ev, 'path')
+    return mode, units
+
+def tei_units_mode(ev, mode):
+    units, cur, p = [], None, ()
+    for e in ev:
+        if e[0] == 'path' and e[1] != p:
+            if cur and ws(cur['text']): cur['text'] = ws(cur['text']); units.append(cur)
+            cur, p = None, e[1]
+        elif e[0] == 'text':
+            if cur is None: cur = {'path': p, 'key': None, 'text': ''}
+            cur['text'] += e[1]
+    if cur and ws(cur['text']): cur['text'] = ws(cur['text']); units.append(cur)
     return mode, units
 
 def align_lookup(tr_mode, tr_units):
@@ -242,6 +260,7 @@ def cts_work(repo, group_work, title, shelf, lang, src_key, tr_src_key, url_base
         aliases = [f"{title} {cite}"]
         bare = re.sub(r'\s*\([^)]*\)', '', title)          # "1 Enoch (Greek)" → "1 Enoch"
         if bare != title: aliases.append(f"{bare} {cite}")
+        if ', ' in title: aliases.append(f"{title.split(', ', 1)[1]} {cite}")   # "Hesiod, Theogony" → "Theogony" 
         if mode == 'section' and re.match(r'^\d+[a-z]$', str(lo)):
             aliases.append(f"{title} {'.'.join(list(pth) + [str(lo)[:-1]])}")
         if mode == 'path' and pth and re.match(r'^\d+[a-z]$', pth[-1]) and not part:
@@ -271,7 +290,7 @@ def cts_work(repo, group_work, title, shelf, lang, src_key, tr_src_key, url_base
         merged = {}
         order = []
         for u in units:        # merge fragments of the same unit (e.g. text split by a note)
-            k = (u['path'], u['key'])
+            k = ((), u['key']) if drop_path else (u['path'], u['key'])
             if k not in merged: merged[k] = []; order.append(k)
             merged[k].append(u['text'])
         for k in order:
