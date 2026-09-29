@@ -69,6 +69,7 @@ import { homeInterceptScript, enginesBody, learnBody, DOWNLOADS as ENGINE_DOWNLO
 import { loadSymbols, getSymbol, symbolsIndexBody, symbolPageBody, serveSymbolAsset } from './symbols.mjs';
 import { loadIndex as loadScripts, loadScript, scriptsIndexBody, scriptPageBody, serveGlyphAsset } from './scripts.mjs';
 import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt, remakesLd, remakesHero } from './remakes.mjs';
+import { videoStudioRoute } from './video-studio.mjs';
 import { loadAnimManifest, aggregate as animAggregate, animationsBody, rate as animRate, serveAnimMedia, readFeedback as animFeedback, animationsLd } from './animations.mjs';
 
 const PORT = +(process.env.PORT || 8131);
@@ -244,7 +245,7 @@ function pageShell(title, body, opts = {}) {
 <meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${opts.jsonld ? `<script type="application/ld+json">${ldJson(opts.jsonld)}</script>` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
+  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/video-studio">Video Studio</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -2447,6 +2448,7 @@ export async function handler(req, res) {
       return res.end(s);
     }
     if (path.startsWith('/remakes/img/')) return serveRemakeImage(res, decodeURIComponent(path.slice('/remakes/img/'.length)));
+    if (path === '/video-studio' || path.startsWith('/video-studio/')) { if (await videoStudioRoute(req, res, path, { pageShell, sendHtml, clientIp, base: BASE_URL, loadRemakes })) return; }
     if (path === '/animations') {
       const sort = new URL(req.url, BASE_URL).searchParams.get('sort') || 'new';
       const m = loadAnimManifest();
