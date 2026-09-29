@@ -1,0 +1,552 @@
+{
+ "id": "time-dolmens-temples",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "timeMode": "ago",
+ "title": "From Göbekli Tepe to the Dolmens",
+ "subtitle": "Neolithic temples and megalithic tombs together",
+ "bbox": [
+  -15,
+  -5,
+  145,
+  62
+ ],
+ "years": [
+  -12000,
+  -2300
+ ],
+ "duration": 130,
+ "cities": [
+  {
+   "name": "Göbekli Tepe",
+   "lat": 37.22,
+   "lon": 38.92,
+   "from": -11500,
+   "to": 0
+  },
+  {
+   "name": "Karahan Tepe",
+   "lat": 37.1,
+   "lon": 39.3,
+   "from": -11400,
+   "to": 0
+  },
+  {
+   "name": "Nevalı Çori",
+   "lat": 37.6,
+   "lon": 38.6,
+   "from": -10200,
+   "to": 0
+  },
+  {
+   "name": "Çatalhöyük",
+   "lat": 37.67,
+   "lon": 32.83,
+   "from": -9400,
+   "to": 0
+  },
+  {
+   "name": "Barnenez, Brittany",
+   "lat": 48.67,
+   "lon": -3.86,
+   "from": -6800,
+   "to": 0
+  },
+  {
+   "name": "NW France origin (one model)",
+   "lat": 47.6,
+   "lon": -3.0,
+   "from": -6700,
+   "to": 0
+  },
+  {
+   "name": "Poulnabrone, Ireland",
+   "lat": 53.05,
+   "lon": -9.14,
+   "from": -5800,
+   "to": 0
+  },
+  {
+   "name": "Antequera (Menga), Iberia",
+   "lat": 37.02,
+   "lon": -4.54,
+   "from": -5750,
+   "to": 0
+  },
+  {
+   "name": "Ġgantija, Malta",
+   "lat": 36.05,
+   "lon": 14.27,
+   "from": -5600,
+   "to": 0
+  },
+  {
+   "name": "Wayland's Smithy, Britain",
+   "lat": 51.57,
+   "lon": -1.6,
+   "from": -5600,
+   "to": 0
+  },
+  {
+   "name": "Funnel Beaker dolmens, Denmark",
+   "lat": 56.24,
+   "lon": 10.6,
+   "from": -5550,
+   "to": 0
+  },
+  {
+   "name": "Ħal Saflieni Hypogeum",
+   "lat": 35.87,
+   "lon": 14.51,
+   "from": -5500,
+   "to": 0
+  },
+  {
+   "name": "Hunebedden, Drenthe",
+   "lat": 52.9,
+   "lon": 6.7,
+   "from": -5400,
+   "to": 0
+  },
+  {
+   "name": "Newgrange",
+   "lat": 53.69,
+   "lon": -6.48,
+   "from": -5200,
+   "to": 0
+  },
+  {
+   "name": "Stonehenge",
+   "lat": 51.18,
+   "lon": -1.83,
+   "from": -5000,
+   "to": 0
+  },
+  {
+   "name": "Golan & Jordan dolmen fields (debated)",
+   "lat": 32.95,
+   "lon": 35.72,
+   "from": -5000,
+   "to": 0
+  },
+  {
+   "name": "W Caucasus dolmens",
+   "lat": 44.4,
+   "lon": 38.2,
+   "from": -5000,
+   "to": 0
+  },
+  {
+   "name": "Sardinia: Sa Coveccada",
+   "lat": 40.55,
+   "lon": 9.03,
+   "from": -4600,
+   "to": 0
+  },
+  {
+   "name": "Corsica: Fontanaccia",
+   "lat": 41.56,
+   "lon": 8.97,
+   "from": -4500,
+   "to": 0
+  },
+  {
+   "name": "Apulia: Bisceglie",
+   "lat": 41.22,
+   "lon": 16.48,
+   "from": -4000,
+   "to": 0
+  },
+  {
+   "name": "Korea: Gochang, Hwasun, Ganghwa",
+   "lat": 35.44,
+   "lon": 126.7,
+   "from": -3000,
+   "to": 0
+  },
+  {
+   "name": "Deccan & Kerala megaliths",
+   "lat": 10.28,
+   "lon": 77.16,
+   "from": -2900,
+   "to": 0
+  },
+  {
+   "name": "Ethiopia: Harar dolmens (undated)",
+   "lat": 9.3,
+   "lon": 42.1,
+   "from": -2800,
+   "to": 0
+  },
+  {
+   "name": "Algeria: Roknia",
+   "lat": 36.55,
+   "lon": 7.22,
+   "from": -2600,
+   "to": 0
+  },
+  {
+   "name": "Kyushu dolmens",
+   "lat": 33.3,
+   "lon": 130.3,
+   "from": -2500,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "Atlantic spread by sea (one model)",
+   "colour": "#c9a86a",
+   "points": [
+    {
+     "label": "Brittany",
+     "lat": 47.6,
+     "lon": -3.0,
+     "year": -6700.0
+    },
+    {
+     "label": "Iberia",
+     "lat": 37.02,
+     "lon": -4.54,
+     "year": -5750.0
+    },
+    {
+     "label": "Ireland",
+     "lat": 53.05,
+     "lon": -9.14,
+     "year": -5800.0
+    },
+    {
+     "label": "Britain",
+     "lat": 51.57,
+     "lon": -1.6,
+     "year": -5600.0
+    },
+    {
+     "label": "Denmark",
+     "lat": 56.24,
+     "lon": 10.6,
+     "year": -5550.0
+    }
+   ]
+  },
+  {
+   "label": "Into the Mediterranean (one model)",
+   "colour": "#e8a060",
+   "points": [
+    {
+     "label": "Iberia",
+     "lat": 37.02,
+     "lon": -4.54,
+     "year": -5700.0
+    },
+    {
+     "label": "Sardinia",
+     "lat": 40.55,
+     "lon": 9.03,
+     "year": -4600.0
+    },
+    {
+     "label": "Corsica",
+     "lat": 41.56,
+     "lon": 8.97,
+     "year": -4500.0
+    },
+    {
+     "label": "Apulia",
+     "lat": 41.22,
+     "lon": 16.48,
+     "year": -4000.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Göbekli Tepe",
+   "lat": 37.22,
+   "lon": 38.92,
+   "year": -11500,
+   "kind": "record",
+   "caption": "Carved T-pillars, ~9500 BC",
+   "source": "Dietrich et al. 2012 Antiquity 86:674",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Karahan Tepe",
+   "lat": 37.1,
+   "lon": 39.3,
+   "year": -11400,
+   "kind": "record",
+   "caption": "Pillared chambers cut from bedrock",
+   "source": "Karul 2021 Türk Arkeoloji ve Etnografya Dergisi 83:21",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Nevalı Çori",
+   "lat": 37.6,
+   "lon": 38.6,
+   "year": -10200,
+   "kind": "record",
+   "caption": "A temple building inside a village",
+   "source": "Hauptmann 1993",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Çatalhöyük",
+   "lat": 37.67,
+   "lon": 32.83,
+   "year": -9400,
+   "kind": "record",
+   "caption": "Shrine rooms, bulls' horns and wall paintings",
+   "source": "Hodder 2006 The Leopard's Tale",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Barnenez, Brittany",
+   "lat": 48.67,
+   "lon": -3.86,
+   "year": -6800,
+   "kind": "record",
+   "caption": "One of the oldest megalithic tombs, ~4800 BC",
+   "source": "Schulz Paulsson 2019 PNAS 116:3460; Giot 1987",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "NW France origin (one model)",
+   "lat": 47.6,
+   "lon": -3.0,
+   "year": -6700,
+   "kind": "interpretation",
+   "caption": "Megaliths spread from NW France by sea (one model)",
+   "source": "Schulz Paulsson 2019 PNAS 116:3460",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Poulnabrone, Ireland",
+   "lat": 53.05,
+   "lon": -9.14,
+   "year": -5800,
+   "kind": "record",
+   "caption": "Portal tomb, burials ~3800–3200 BC",
+   "source": "Lynch 2014 Poulnabrone: An Early Neolithic Portal Tomb in Ireland",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Antequera (Menga), Iberia",
+   "lat": 37.02,
+   "lon": -4.54,
+   "year": -5750,
+   "kind": "record",
+   "caption": "A giant dolmen, ~3750 BC",
+   "source": "García Sanjuán et al. 2018 J World Prehist 31:1",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Ġgantija, Malta",
+   "lat": 36.05,
+   "lon": 14.27,
+   "year": -5600,
+   "kind": "record",
+   "caption": "Malta's megalithic temples, ~3600 BC",
+   "source": "Malone et al. 2019 PNAS 116:19089 (Malta chronology)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Wayland's Smithy, Britain",
+   "lat": 51.57,
+   "lon": -1.6,
+   "year": -5600,
+   "kind": "record",
+   "caption": "Long barrow, ~3590 BC",
+   "source": "Whittle et al. 2007 Cambridge Archaeol J 17:103",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Funnel Beaker dolmens, Denmark",
+   "lat": 56.24,
+   "lon": 10.6,
+   "year": -5550,
+   "kind": "record",
+   "caption": "Dysser of the first farmers, ~3700–3400 BC",
+   "source": "Schulz Paulsson 2017 Time and Stone (Archaeopress)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Ħal Saflieni Hypogeum",
+   "lat": 35.87,
+   "lon": 14.51,
+   "year": -5500,
+   "kind": "record",
+   "caption": "A temple cut underground",
+   "source": "Pace 2000",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Hunebedden, Drenthe",
+   "lat": 52.9,
+   "lon": 6.7,
+   "year": -5400,
+   "kind": "record",
+   "caption": "Funnel Beaker passage graves",
+   "source": "Bakker 1992 The Dutch Hunebedden",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Newgrange",
+   "lat": 53.69,
+   "lon": -6.48,
+   "year": -5200,
+   "kind": "record",
+   "caption": "Passage tomb lit by the winter-solstice sunrise",
+   "source": "O'Kelly 1982 Newgrange",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Stonehenge",
+   "lat": 51.18,
+   "lon": -1.83,
+   "year": -5000,
+   "kind": "record",
+   "caption": "First stage ~3000 BC",
+   "source": "Parker Pearson et al. 2007 Antiquity 81:617",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Golan & Jordan dolmen fields (debated)",
+   "lat": 32.95,
+   "lon": 35.72,
+   "year": -5000,
+   "kind": "debated",
+   "caption": "Thousands of dolmens, ~4000–2500 BC (dating debated)",
+   "source": "Fraser 2018 Dolmens in the Levant (Routledge)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "W Caucasus dolmens",
+   "lat": 44.4,
+   "lon": 38.2,
+   "year": -5000,
+   "kind": "record",
+   "caption": "Stone boxes with round portholes, ~3000–1300 BC",
+   "source": "Trifonov 2001; Rezepkin 2000",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Sardinia: Sa Coveccada",
+   "lat": 40.55,
+   "lon": 9.03,
+   "year": -4600,
+   "kind": "record",
+   "caption": "Sardinian dolmen, ~2700–2500 BC",
+   "source": "Tanda 2015; Moravetti",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Corsica: Fontanaccia",
+   "lat": 41.56,
+   "lon": 8.97,
+   "year": -4500,
+   "kind": "record",
+   "caption": "Corsica's best-known dolmen, 3rd millennium BC",
+   "source": "Grosjean 1966",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Apulia: Bisceglie",
+   "lat": 41.22,
+   "lon": 16.48,
+   "year": -4000,
+   "kind": "record",
+   "caption": "Gallery dolmen, ~2000 BC",
+   "source": "Whitehouse 1981",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Korea: Gochang, Hwasun, Ganghwa",
+   "lat": 35.44,
+   "lon": 126.7,
+   "year": -3000,
+   "kind": "record",
+   "caption": "The world's densest dolmen fields, from ~1000 BC",
+   "source": "UNESCO World Heritage nomination 2000 (Gochang, Hwasun and Ganghwa)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Deccan & Kerala megaliths",
+   "lat": 10.28,
+   "lon": 77.16,
+   "year": -2900,
+   "kind": "record",
+   "caption": "Iron Age dolmens and stone circles, ~1200 BC–AD 300",
+   "source": "Moorti 1994 Megalithic Traditions in South India; Wheeler 1947 (Brahmagiri)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Ethiopia: Harar dolmens (undated)",
+   "lat": 9.3,
+   "lon": 42.1,
+   "year": -2800,
+   "kind": "debated",
+   "caption": "Dolmens near Harar; dating uncertain",
+   "source": "Joussaume 1974 Le mégalithisme en Éthiopie",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Algeria: Roknia",
+   "lat": 36.55,
+   "lon": 7.22,
+   "year": -2600,
+   "kind": "debated",
+   "caption": "Thousands of small dolmens; dates debated",
+   "source": "Camps 1961 Aux origines de la Berbérie",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Kyushu dolmens",
+   "lat": 33.3,
+   "lon": 130.3,
+   "year": -2500,
+   "kind": "record",
+   "caption": "Yayoi-period dolmens from Korea",
+   "source": "Mizoguchi 2013 The Archaeology of Japan",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "dolmens",
+  "megaliths",
+  "neolithic",
+  "temples"
+ ],
+ "credit": "Dietrich 2012; Karul 2021; Hodder 2006; Malone 2019; O'Kelly 1982; Parker Pearson 2007; Schulz Paulsson 2019; Lynch 2014; García Sanjuán 2018; Whittle 2007; Fraser 2018; Trifonov 2001; UNESCO 2000; Moorti 1994; Joussaume 1974; Camps 1961. Base map: Natural Earth (public domain)."
+}

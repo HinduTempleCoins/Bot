@@ -1,0 +1,333 @@
+{
+ "id": "time-chariot",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "title": "The Chariot: Time-Mapped",
+ "subtitle": "c. 2000 BC – AD 83 · rise and end of chariot warfare",
+ "bbox": [
+  -12,
+  20,
+  125,
+  62
+ ],
+ "years": [
+  -2200,
+  100
+ ],
+ "duration": 110,
+ "cities": [
+  {
+   "name": "Sintashta",
+   "lat": 52.6,
+   "lon": 60.3,
+   "from": -2000,
+   "to": 2100
+  },
+  {
+   "name": "Mycenae",
+   "lat": 37.73,
+   "lon": 22.76,
+   "from": -1600,
+   "to": 2100
+  },
+  {
+   "name": "Vedic ratha",
+   "lat": 30.5,
+   "lon": 75.0,
+   "from": -1400,
+   "to": 2100
+  },
+  {
+   "name": "Kikkuli's horse-training text",
+   "lat": 40.02,
+   "lon": 34.62,
+   "from": -1350,
+   "to": 2100
+  },
+  {
+   "name": "Tutankhamun's chariots",
+   "lat": 25.7,
+   "lon": 32.6,
+   "from": -1323,
+   "to": 2100
+  },
+  {
+   "name": "Kadesh",
+   "lat": 34.56,
+   "lon": 36.52,
+   "from": -1274,
+   "to": 2100
+  },
+  {
+   "name": "Anyang chariot pits",
+   "lat": 36.1,
+   "lon": 114.3,
+   "from": -1200,
+   "to": 2100
+  },
+  {
+   "name": "Champagne chariot burials",
+   "lat": 49.0,
+   "lon": 4.0,
+   "from": -450,
+   "to": 2100
+  },
+  {
+   "name": "Gaugamela",
+   "lat": 36.5,
+   "lon": 43.4,
+   "from": -331,
+   "to": 2100
+  },
+  {
+   "name": "Zhao's cavalry reform",
+   "lat": 37.9,
+   "lon": 114.5,
+   "from": -307,
+   "to": 2100
+  },
+  {
+   "name": "Wetwang Slack",
+   "lat": 54.0,
+   "lon": -0.6,
+   "from": -300,
+   "to": 2100
+  },
+  {
+   "name": "Mons Graupius",
+   "lat": 57.3,
+   "lon": -2.6,
+   "from": 83,
+   "to": 2100
+  }
+ ],
+ "routes": [
+  {
+   "label": "The chariot spreads (one model)",
+   "colour": "#ff7070",
+   "points": [
+    {
+     "label": "Sintashta",
+     "lat": 52.6,
+     "lon": 60.3,
+     "year": -2000.0
+    },
+    {
+     "label": "Anatolia",
+     "lat": 38.85,
+     "lon": 35.63,
+     "year": -1800.0
+    },
+    {
+     "label": "Mitanni",
+     "lat": 36.8,
+     "lon": 40.1,
+     "year": -1500.0
+    },
+    {
+     "label": "Egypt",
+     "lat": 25.7,
+     "lon": 32.6,
+     "year": -1550.0
+    },
+    {
+     "label": "Greece",
+     "lat": 37.73,
+     "lon": 22.76,
+     "year": -1600.0
+    }
+   ]
+  },
+  {
+   "label": "East",
+   "colour": "#d0b0ff",
+   "points": [
+    {
+     "label": "Sintashta",
+     "lat": 52.6,
+     "lon": 60.3,
+     "year": -2000.0
+    },
+    {
+     "label": "Altai",
+     "lat": 50,
+     "lon": 88,
+     "year": -1700.0
+    },
+    {
+     "label": "Anyang",
+     "lat": 36.1,
+     "lon": 114.3,
+     "year": -1200.0
+    }
+   ]
+  },
+  {
+   "label": "South",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "Sintashta",
+     "lat": 52.6,
+     "lon": 60.3,
+     "year": -2000.0
+    },
+    {
+     "label": "Bactria",
+     "lat": 37,
+     "lon": 67,
+     "year": -1800.0
+    },
+    {
+     "label": "Punjab",
+     "lat": 30.5,
+     "lon": 75,
+     "year": -1400.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Sintashta",
+   "lat": 52.6,
+   "lon": 60.3,
+   "year": -2000,
+   "kind": "record",
+   "caption": "The oldest chariots",
+   "source": "Anthony 2007 The Horse, the Wheel, and Language; Bakker et al. 1999 Antiquity 73:778",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Mycenae",
+   "lat": 37.73,
+   "lon": 22.76,
+   "year": -1600,
+   "kind": "record",
+   "caption": "Greek chariot stelae",
+   "source": "Crouwel 1981",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Vedic ratha",
+   "lat": 30.5,
+   "lon": 75.0,
+   "year": -1400,
+   "kind": "tradition",
+   "caption": "The Rigveda's war-chariots (date of the text approximate)",
+   "source": "Rigveda (e.g. 6.47.26–31); Witzel 1995",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Kikkuli's horse-training text",
+   "lat": 40.02,
+   "lon": 34.62,
+   "year": -1350,
+   "kind": "record",
+   "caption": "A Mitanni trainer's chariot-horse manual, found at Hattusa",
+   "source": "Kammenhuber 1961 Hippologia Hethitica",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Tutankhamun's chariots",
+   "lat": 25.7,
+   "lon": 32.6,
+   "year": -1323,
+   "kind": "record",
+   "caption": "Six chariots in the king's tomb",
+   "source": "Littauer & Crouwel 1985 Chariots and Related Equipment from the Tomb of Tut'ankhamūn",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Kadesh",
+   "lat": 34.56,
+   "lon": 36.52,
+   "year": -1274,
+   "kind": "record",
+   "caption": "Perhaps the largest chariot battle, Ramesses II vs Muwatalli",
+   "source": "Egyptian Kadesh inscriptions; Hittite correspondence",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Anyang chariot pits",
+   "lat": 36.1,
+   "lon": 114.3,
+   "year": -1200,
+   "kind": "record",
+   "caption": "Shang kings buried with chariots, horses and drivers",
+   "source": "Shaughnessy 1988",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Champagne chariot burials",
+   "lat": 49.0,
+   "lon": 4.0,
+   "year": -450,
+   "kind": "record",
+   "caption": "La Tène Celts buried with two-wheeled chariots",
+   "source": "Anthony 2007; Megaw & Megaw 2001 Celtic Art",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Gaugamela",
+   "lat": 36.5,
+   "lon": 43.4,
+   "year": -331,
+   "kind": "record",
+   "caption": "Darius's scythed chariots fail against Alexander",
+   "source": "Arrian, Anabasis 3.11–15",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Zhao's cavalry reform",
+   "lat": 37.9,
+   "lon": 114.5,
+   "year": -307,
+   "kind": "record",
+   "caption": "King Wuling adopts horseback archers; chariots fade in China",
+   "source": "Shiji 43; Sima Qian",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Wetwang Slack",
+   "lat": 54.0,
+   "lon": -0.6,
+   "year": -300,
+   "kind": "record",
+   "caption": "A woman buried with her chariot in Yorkshire",
+   "source": "Hill 2002 Antiquity 76:410",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Mons Graupius",
+   "lat": 57.3,
+   "lon": -2.6,
+   "year": 83,
+   "kind": "record",
+   "caption": "Britons' chariots at one of the last chariot battles",
+   "source": "Tacitus, Agricola 35–36",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "chariot",
+  "warfare"
+ ],
+ "credit": "Anthony 2007; Crouwel 1981; Kammenhuber 1961; Littauer & Crouwel 1985; Arrian; Tacitus; Shiji. Base map: Natural Earth (public domain)."
+}

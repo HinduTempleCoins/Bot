@@ -1,0 +1,208 @@
+{
+ "id": "time-spoke",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "title": "The Spoked Wheel: Time-Mapped",
+ "subtitle": "c. 2000 – 1200 BC",
+ "bbox": [
+  -5,
+  20,
+  125,
+  60
+ ],
+ "years": [
+  -2200,
+  -1100
+ ],
+ "duration": 70,
+ "cities": [
+  {
+   "name": "Sintashta & Krivoye Ozero",
+   "lat": 52.6,
+   "lon": 60.3,
+   "from": -2000,
+   "to": 2100
+  },
+  {
+   "name": "Kültepe (Kanesh) seals",
+   "lat": 38.85,
+   "lon": 35.63,
+   "from": -1900,
+   "to": 2100
+  },
+  {
+   "name": "Old Syrian seals",
+   "lat": 36.2,
+   "lon": 37.1,
+   "from": -1800,
+   "to": 2100
+  },
+  {
+   "name": "Mycenae shaft graves",
+   "lat": 37.73,
+   "lon": 22.76,
+   "from": -1600,
+   "to": 2100
+  },
+  {
+   "name": "Egypt via the Hyksos",
+   "lat": 30.79,
+   "lon": 31.82,
+   "from": -1600,
+   "to": 2100
+  },
+  {
+   "name": "Anyang (Shang)",
+   "lat": 36.1,
+   "lon": 114.3,
+   "from": -1200,
+   "to": 2100
+  }
+ ],
+ "routes": [
+  {
+   "label": "The spoked wheel (one model)",
+   "colour": "#e8a060",
+   "points": [
+    {
+     "label": "Sintashta",
+     "lat": 52.6,
+     "lon": 60.3,
+     "year": -2000.0
+    },
+    {
+     "label": "Anatolia",
+     "lat": 38.85,
+     "lon": 35.63,
+     "year": -1900.0
+    },
+    {
+     "label": "Syria",
+     "lat": 36.2,
+     "lon": 37.1,
+     "year": -1800.0
+    },
+    {
+     "label": "Egypt",
+     "lat": 30.79,
+     "lon": 31.82,
+     "year": -1600.0
+    },
+    {
+     "label": "Greece",
+     "lat": 37.73,
+     "lon": 22.76,
+     "year": -1600.0
+    }
+   ]
+  },
+  {
+   "label": "East to China",
+   "colour": "#d0b0ff",
+   "points": [
+    {
+     "label": "Sintashta",
+     "lat": 52.6,
+     "lon": 60.3,
+     "year": -2000.0
+    },
+    {
+     "label": "Altai",
+     "lat": 50,
+     "lon": 88,
+     "year": -1700.0
+    },
+    {
+     "label": "Gansu",
+     "lat": 38,
+     "lon": 102,
+     "year": -1400.0
+    },
+    {
+     "label": "Anyang",
+     "lat": 36.1,
+     "lon": 114.3,
+     "year": -1200.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Sintashta & Krivoye Ozero",
+   "lat": 52.6,
+   "lon": 60.3,
+   "year": -2000,
+   "kind": "record",
+   "caption": "Spoked wheels in chariot graves (impressions in the soil)",
+   "source": "Anthony 2007 The Horse, the Wheel, and Language; Bakker et al. 1999 Antiquity 73:778; Lindner 2020 Antiquity 94:361",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Kültepe (Kanesh) seals",
+   "lat": 38.85,
+   "lon": 35.63,
+   "year": -1900,
+   "kind": "record",
+   "caption": "Spoked-wheel vehicles on Old Assyrian-colony seals",
+   "source": "Littauer & Crouwel 1979 Wheeled Vehicles and Ridden Animals",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Old Syrian seals",
+   "lat": 36.2,
+   "lon": 37.1,
+   "year": -1800,
+   "kind": "record",
+   "caption": "Light chariots with spoked wheels",
+   "source": "Littauer & Crouwel 1979",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Mycenae shaft graves",
+   "lat": 37.73,
+   "lon": 22.76,
+   "year": -1600,
+   "kind": "record",
+   "caption": "Stelae carved with chariots",
+   "source": "Crouwel 1981 Chariots and Other Means of Land Transport in Bronze Age Greece",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Egypt via the Hyksos",
+   "lat": 30.79,
+   "lon": 31.82,
+   "year": -1600,
+   "kind": "interpretation",
+   "caption": "The chariot reaches Egypt in the Second Intermediate Period",
+   "source": "Shaw 2001; Littauer & Crouwel 1979",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Anyang (Shang)",
+   "lat": 36.1,
+   "lon": 114.3,
+   "year": -1200,
+   "kind": "record",
+   "caption": "Chariot pits with 18–26 spoked wheels",
+   "source": "Shaughnessy 1988 HJAS 48:189",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "wheel",
+  "chariot",
+  "technology"
+ ],
+ "credit": "Anthony 2007; Lindner 2020; Littauer & Crouwel 1979; Shaughnessy 1988. Base map: Natural Earth (public domain)."
+}
