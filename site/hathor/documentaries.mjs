@@ -9,7 +9,7 @@
 // manifest.json { updated, films:[film.json minus recipe] }. Feedback: append-only JSONL (DOCS_FEEDBACK or
 // DATA_DIR/docs-feedback.jsonl); voter = random browser key, stored only as a salted hash; latest vote counts.
 
-import { readFileSync, existsSync, appendFileSync, mkdirSync, statSync, openSync, readSync, closeSync } from 'node:fs';
+import { readFileSync, existsSync, appendFileSync, mkdirSync, statSync, openSync, readSync, closeSync, createReadStream } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
 
@@ -156,6 +156,19 @@ export function serveDocMedia(req, res, rel, dir = DOCS_DIR()) {
   const type = m[2].endsWith('.mp4') ? 'video/mp4' : 'image/jpeg';
   const size = statSync(full).size;
   const range = /^bytes=(\d*)-(\d*)$/.exec(String((req.headers && req.headers.range) || ''));
+  // A real HTTP response is a writable stream: stream straight from disk (no memory cost), so full downloads and
+  // open-ended ranges get the WHOLE file. (The in-memory chunked path below is only for non-stream test doubles.)
+  if (typeof res.write === 'function' && typeof res.on === 'function' && type === 'video/mp4') {
+    if (range) {
+      const start = range[1] === '' ? size - +range[2] : +range[1];
+      const end = range[1] !== '' && range[2] !== '' ? Math.min(+range[2], size - 1) : size - 1;
+      if (!(start >= 0 && start <= end && end < size)) { res.writeHead(416, { 'content-range': `bytes */${size}` }); return res.end(); }
+      res.writeHead(206, { 'content-type': type, 'content-range': `bytes ${start}-${end}/${size}`, 'accept-ranges': 'bytes', 'content-length': end - start + 1, 'cache-control': 'public, max-age=86400' });
+      return createReadStream(full, { start, end }).on('error', () => res.destroy()).pipe(res);
+    }
+    res.writeHead(200, { 'content-type': type, 'accept-ranges': 'bytes', 'content-length': size, 'cache-control': 'public, max-age=86400' });
+    return createReadStream(full).on('error', () => res.destroy()).pipe(res);
+  }
   if (range && type === 'video/mp4') {
     const start = range[1] === '' ? size - +range[2] : +range[1];
     const end = range[1] !== '' && range[2] !== '' ? Math.min(+range[2], size - 1) : Math.min(size - 1, start + 4 * 1024 * 1024 - 1);
