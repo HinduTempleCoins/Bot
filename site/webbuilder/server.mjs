@@ -230,7 +230,7 @@ function page(title, body, opts = {}) {
     robots: opts.robots || 'index,follow,max-image-preview:large',
     jsonld: opts.jsonld || null,
   });
-  const chrome = opts.bare ? '' : `<header class=topbar><a class=brand href="${bp('/')}">🌐 SoapBox <span>Web Builder</span><span class=alpha>Alpha</span></a>
+  const chrome = opts.bare ? '' : `<header class=topbar><a class=brand href="${bp('/')}">🌐 SoapBox <span>Web Builder</span></a>
   <div class=topbar-r><a href="${bp('/')}">New site</a></div></header>`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
@@ -553,7 +553,7 @@ export function renderPublished(rec) {
     name: doc.title, url: canonical,
     description: doc.tagline || `${doc.title} — a website.`,
   };
-  return page(doc.title || 'Website', `<span class=alpha>Alpha</span>` + parts.join(''), {
+  return page(doc.title || 'Website', `` + parts.join(''), {
     canonical, siteName: doc.title || 'Website',
     description: doc.tagline || `${doc.title} — a website.`,
     jsonld, bare: true, style: PUB_STYLE, mainClass: 'pub-main',

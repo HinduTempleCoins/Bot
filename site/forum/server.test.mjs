@@ -159,3 +159,21 @@ test('exported page builders return complete HTML documents', async () => {
   const search = await searchPage('merit');
   assert.match(search, /<\/html>/);
 });
+
+test('production (NODE_ENV=production): no demo accounts, no ALPHA/TESTNET label; posting stays open', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const script = `
+    const m = await import(${JSON.stringify(new URL('./server.mjs', import.meta.url).href)});
+    await m.seed();
+    const html = await m.homePage();
+    process.stdout.write(JSON.stringify({ html }));`;
+  const r = spawnSync(process.execPath, ['--input-type=module', '-e', script], {
+    env: (() => { const e = { ...process.env, NODE_ENV: 'production' }; delete e.FORUM_DEMO_SEED; delete e.FORUM_LOCKED; return e; })(), encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stderr);
+  const { html } = JSON.parse(r.stdout);
+  assert.doesNotMatch(html, /satoshi|austin_local|crafter|wanderer/);
+  assert.doesNotMatch(html, /TESTNET|testnet|Alpha \/ testnet/);
+  assert.match(html, /Welcome to the MELEK Forum/);
+  assert.doesNotMatch(html, /not open yet/);
+  assert.match(html, /New thread/);
+});

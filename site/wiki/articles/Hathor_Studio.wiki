@@ -1,0 +1,45 @@
+'''Hathor Studio''' (also called '''Shilpa Shastra''', after the classical Indian science of image-making) is the generative-image studio of [[Hathor (AI Witness)|Hathor]], the AI witness of the [[MELEK Blockchain]]. It lives at hathor.soapbox.community. Anyone can make images there for free, with no account and no card, and the images are made on MELEK's own servers.
+
+== How the images are made ==
+The studio's own engine is an open image model (Dreamshaper 8, a Stable Diffusion 1.5 model) running on the CPUs of a MELEK server, sped up with a technique called LCM so that an image takes about one to three minutes rather than fifteen. Two extras make it more than a prompt box:
+* '''Character reference''' (IP-Adapter): a picture of a character (a face, a costume, Hathor herself) steers the new image, so the same character can be drawn into a new scene instead of being cut and pasted.
+* '''Layout reference''' (ControlNet): the outlines of a source picture are kept while everything else is re-rendered. This is how an ancient painting is remade (see [[Remakes]]).
+
+The server renders one image at a time. People using the site always go first; the studio's own background work (the Remakes gallery, object libraries) waits behind them. When several people are already waiting, the studio does not make you wait minutes: it tells you, and offers your own engine instead (see below).
+
+== The tools ==
+Making images:
+* '''Generate''' — type a prompt and make an image. You can add a place (the scene is grounded in that place's real landscape and weather) and a photo to put yourself in the picture.
+* '''Templates''' — ready-made recipes with a few fields to fill, from posters and avatars to historically researched ones: a pharaoh by era and crown, a Kushite king of the 25th Dynasty, a chariot charge by army division (Amun, Ra, Ptah, Set), Nubian archers, the fortress of Buhen, the Sea Peoples, a Fayum portrait.
+* '''Character Effects''' and '''Appear with Hathor''' — keep a character the same and put them in a new scene, or stand next to Hathor.
+* '''Reference Studio''' (compose) — upload several references at once, each tagged as a character, an object (jewellery, hair, clothing, a prop) or the scene, and generate them together in one image.
+* '''Remake''' — upload an ancient artwork (tomb painting, relief, fresco, vase, engraving) and bring it to life realistic, half vaporwave or in the full MELEK look, choosing which people to show. See [[Remakes]].
+
+Editing and files: a photo editor (background removal and replacement), art filters (ImageMagick, G'MIC and GIMP effects run on the server), an image converter, a vectorizer, a business-card designer, and a reel maker for short social videos.
+
+Video: text-to-video and image-to-video. There is no free video capacity, so video uses the visitor's own key (for example fal.ai) or their own GPU.
+
+== Your engines ==
+The '''Your engines''' page lets a visitor use their own capacity instead of the free one — useful when the free engine is busy, or for speed:
+* '''My own worker''' — the exact engine the studio runs, downloadable as one Python file, on the visitor's own computer, a free Colab notebook, or their own Modal GPU (about two seconds an image). The page includes the setup steps.
+* '''fal.ai''' or '''Google Gemini''' keys — called straight from the browser.
+* '''My keys on Pentecaust''' — keys kept in the visitor's [[Pentecaust]] account (Pentecaust Connect), encrypted at rest. The studio receives only a short-lived pass that can make images; it never sees the keys.
+Keys typed into the page stay in that browser and go only to the chosen provider.
+
+== Learn to make it yourself ==
+The studio's '''Make it yourself''' page teaches the method behind its best images: make the character, then the things (objects and places, each on its own), then compose the scene — rather than hoping one prompt gets everything right. The GenAI School goes further, into ComfyUI, Colab, Hugging Face and Civitai.
+
+== Content rules ==
+Figure and nude art is allowed as art, behind an 18+ self-confirmation. The studio never generates sexual imagery of minors, never generates nude imagery from an uploaded photo of a real person, and does not generate hardcore pornography.
+
+== See also ==
+* [[Remakes]]
+* [[Hathor (AI Witness)]]
+* [[Pentecaust]]
+* [[SoapBox Tools]]
+
+== Sources ==
+* The Hathor Studio service (hathor.soapbox.community), its Tools, Engines and Make-it-yourself pages.
+
+== Coverage ==
+Describes Hathor Studio: how its images are made on MELEK's own servers, each tool, bringing your own engine, and the content rules.

@@ -53,10 +53,11 @@ export const ECOSYSTEM_LINKS = [
   { label: 'Shop', url: env('SHOP_SITE', 'https://shop.melek.salon'), group: 'SoapBox', live: true, key: 'shop' },
 
   // The chains — add the real endpoints here as they go live; `live:false` shows them as "soon"
-  { label: 'MELEK Testnet', url: env('MELEK_ALPHA', 'https://alpha.melek.salon'), group: 'Chains', live: true, key: 'melek-testnet' },
+  // Mainnet only. The testnet (alpha.*) is dev infrastructure and is not linked from public surfaces.
+  { label: 'MELEK', url: env('MELEK_SITE', 'https://melek.salon'), group: 'Chains', live: true, key: 'melek' },
   { label: 'Witness School', url: env('WITNESS_SITE', 'https://witness.melek.salon'), group: 'Chains', live: true, key: 'witness' },
-  { label: 'MELEK', url: env('MELEK_SITE', 'https://melek.salon'), group: 'Chains', live: false, key: 'melek' },
-  { label: 'PRANA', url: env('PRANA_SITE', '#'), group: 'Chains', live: false, key: 'prana' },
+  // PRANA links to where a person contributes: the copy-paste mining guide (see support-hathor.mjs).
+  { label: 'PRANA', url: env('PRANA_SITE', 'https://witness.melek.salon/mine'), group: 'Chains', live: true, key: 'prana' },
 ];
 
 export function links({ group } = {}) {

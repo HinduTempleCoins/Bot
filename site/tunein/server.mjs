@@ -326,7 +326,7 @@ function page(hero, rows) {
 <title>Tune In · MELEK</title>
 <meta name=description content="Tune In — browse and watch across MELEK: on-chain creator video, public-domain films, live cams, Dallas radio, and podcasts. We point at each source's own player; we never rehost.">
 <style>${STYLE}</style></head><body>
-<header><span class=brand><b>MELEK</b> Tune In</span><span class=alpha>Alpha</span></header>
+<header><span class=brand><b>MELEK</b> Tune In</span></header>
 <div class=wrap>
   <p class=lead>Browse and watch across MELEK — on-chain creator video, public-domain films, live cams, radio, and podcasts. Ranked by what's fresh and reliable; every player is the source's own.</p>
   ${heroRail}

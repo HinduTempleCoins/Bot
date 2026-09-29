@@ -47,7 +47,7 @@ test('GET / renders the uploader + all four embed-code labels + Alpha badge', as
   assert.equal(res.statusCode, 200);
   assert.match(res.headers['content-type'], /text\/html/);
   assert.match(res.body, /Drop an image here/);
-  assert.match(res.body, /class=alpha>Alpha/);
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   // the embed-code UI scaffold (built client-side by field(...) — labels live in the script)
   for (const label of ['Direct link', 'HTML', 'BBCode', 'Markdown']) assert.ok(res.body.includes(label), `page mentions ${label}`);
   assert.match(res.body, /Public host/);           // abuse-posture note

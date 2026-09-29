@@ -14,7 +14,7 @@ test('GET / renders the Kush Farm page with the live season, tiers + a strain', 
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /Kush<\/b> Farm/);
-  assert.match(o.body, /Alpha/);
+  assert.doesNotMatch(o.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   assert.match(o.body, /Van Kush/);                 // a strain renders
   assert.match(o.body, /Daily|Weekly|Yearly/);      // the grow tiers
   assert.match(o.body, /KULA/);                      // yields shown

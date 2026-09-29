@@ -90,3 +90,21 @@ test('central SEO never shadows a real page (surface routing intact)', async () 
   const r = await req('vankushfamily.com', '/');
   assert.equal(r.code, 200);
 });
+
+test('the internal localhost origin is rewritten to the host the visitor asked for (text only)', async () => {
+  const { createServer } = await import('node:http');
+  const { publicOrigin } = await import('./server.mjs');
+  const internal = 'http://localhost:8500';
+  const srv = createServer((req, res) => {
+    publicOrigin(req, res, internal);
+    if (req.url === '/png') { res.writeHead(200, { 'content-type': 'image/png' }); return res.end(Buffer.from(internal)); }
+    const html = `<link rel=canonical href="${internal}/x">`;
+    res.writeHead(200, { 'content-type': 'text/html', 'content-length': Buffer.byteLength(html) }); res.end(html);
+  });
+  await new Promise((r) => srv.listen(0, r));
+  const port = srv.address().port;
+  const get = (path) => new Promise((r) => { import('node:http').then(({ request }) => request({ port, path, headers: { host: 'forum.soapbox.community' } }, (res) => { let b = ''; res.on('data', (d) => { b += d; }); res.on('end', () => r(b)); }).end()); });
+  assert.equal(await get('/'), '<link rel=canonical href="https://forum.soapbox.community/x">');
+  assert.equal(await get('/png'), internal);                 // binary bodies untouched
+  srv.close();
+});

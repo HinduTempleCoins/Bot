@@ -1,0 +1,29 @@
+The "Shulgin Ten Essential Oils: Complete Framework" is a systematic catalog of psychoactive plant sources and their metabolic pathways, based on Dr. Alexander Shulgin's original research and expanded with modern findings<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+
+== Core Theory and Modern Correction ==
+Dr. Alexander Shulgin's original theory proposed that adding ammonia to any of these natural product oils would, in principle, produce the corresponding amphetamine<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+
+VKFRI notes a modern correction to this theory: the "ammonia addition" does not occur as simply as Shulgin theorized in 1963<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>. Instead, liver enzymes create 1'-oxo intermediates, which then condense with endogenous amines (not ammonia)<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>. The resulting products are aminopropiophenones, not amphetamines<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>. However, VKFRI states that the basic principle holds: essential oils lead to psychoactive metabolites<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+
+== Framework Importance ==
+The framework is considered important for several reasons<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>:
+*   It provides a systematic catalog of psychoactive plant sources<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+*   It offers a structural understanding of which plants are effective<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+*   It allows for the prediction of relative potencies<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+*   It serves as a foundation for VKFRI's [[Oilahuasca Theory]]<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+
+== Pedagogical Framework: The 10 Classic Ladies ==
+Within VKFRI's pedagogical framework, "The 10 Classic Ladies" are described as a lesson in structural alchemy<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>. The core insight is that Shulgin's 10 Essential Amphetamines demonstrate that common herbs found in a spice cabinet produce these same structures, implying that "the plants ARE the chemistry"<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+
+This framework aims to teach students where different additions attach to compounds and how they get there<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>. Examples provided include<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>:
+*   **5-MeO-DMT**: The '5' position indicates where the methoxy group attaches<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+*   **2C-I**: The '2C' indicates the phenethylamine backbone, and 'I' indicates iodine at a specific position<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+*   **Delta-8 vs Delta-9 THC**: The number indicates where the double bond is located<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>. Delta-9 THC has what VKFRI describes as a "magnetic charge" (electron density from the double bond) at position 9, while Delta-8-THC has this "charge" at position 8<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>. This distinction is due to the shift in the position of the existing double bond, not the attachment of a methoxy group like in 5-MeO-THC<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+
+VKFRI connects this teaching to the concept of "HERBAL Alchemy," stating that Shulgin's work fundamentally encodes herbal knowledge in chemical notation, transforming the spice cabinet into what VKFRI calls a "laboratory of consciousness"<ref>shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json</ref>.
+
+== Sources ==
+*   shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json
+
+== Coverage ==
+This article is based entirely on the single provided source file: `shulgin-pihkal-tihkal/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json`.

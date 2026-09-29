@@ -134,7 +134,6 @@ function page() {
   footer ul{padding-left:18px} footer a{color:var(--acc)}
 </style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>
 <body>
-<div class="alpha">ALPHA</div>
 <header>
   <h1>🎮 MELEK Game Console</h1>
   <div class="net">${esc(NET_LABEL)} · ${esc(String(games.length))} games · ${esc(String(d.counts.realValue))} earn-token · ${esc(String(d.counts.play))} play</div>

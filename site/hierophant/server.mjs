@@ -35,7 +35,9 @@
 //   Temple's own corpus and says so; it soft-fails to an honest empty state, never fabricates. esc()
 //   on every interpolated value. Read-only, server-rendered, no keys, no custody.
 
+import { symbolsForFigure } from '../hathor/symbols.mjs';
 import { createServer } from 'node:http';
+const STUDIO = (process.env.STUDIO_SITE || 'https://hathor.soapbox.community').replace(/\/$/, '');
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -76,6 +78,12 @@ const SEARCH = process.env.SEARCH_SITE || 'https://search.soapbox.community';
 // route's hot path until a real ask. Default: lazily import library-rag and call askLibrary().
 let _askImpl = null;
 export function __setAsk(fn) { _askImpl = fn; }    // test seam
+// The Hierophant answers from the religious, mythological and historical shelves (plant medicine included,
+// per the library's settled scope). Hathor's operational notes, business and market material are not scripture.
+const HIEROPHANT_EXCLUDE = ['synthesis/knowledge-base.json', 'vankush', 'cryptocurrency', 'trading', 'steem-economy',
+  'ecosystem', 'legal', 'gambling-history', 'civic', 'accountability', 'media', 'ai_technology', 'soapmaking', 'space',
+  'KNOWLEDGE_BASE_ARCHITECTURE.json', 'corpus-index.md', 'prana-kula-paths.md'];
+
 async function askCorpus(question) {
   try {
     if (_askImpl) return await _askImpl(question);
@@ -85,7 +93,7 @@ async function askCorpus(question) {
     // cover that" with 20 files and ~300KB of it sitting on disk. corpus-rag reads knowledge/ directly.
     // The wiki is still consulted, because it has material the tree does not; the TREE is asked first.
     const corpus = await import('../../integrations/corpus-rag.mjs');
-    const own = corpus.ask(question);
+    const own = corpus.ask(question, { exclude: HIEROPHANT_EXCLUDE });
     if (own && own.grounded) return own;
     const mod = await import('../../integrations/library-rag.mjs');
     return await mod.askLibrary(question, { task: 'quality' });
@@ -113,6 +121,7 @@ const STYLE = `<style>
   .topbar-r{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
   .topbar-r a{color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
   .topbar-r a:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+  a.viz{margin-left:2px;font-size:12px;text-decoration:none;opacity:.8} a.viz:hover{opacity:1}
   .wrap{max-width:960px;margin:0 auto;padding:22px}
   h1{margin:0 0 6px;font-size:26px} h2{font-size:18px;margin:18px 0 10px} h3{font-size:15px;margin:0 0 6px}
   .muted{color:var(--mut)} .gold{color:var(--gold)}
@@ -169,7 +178,7 @@ function page(title, body, opts = {}) {
 <meta name=robots content="${esc(robots)}">
 <link rel=canonical href="${esc(canonical)}">${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">🜔 Hierophant <span>the Temple library</span></a>
-  <div class=topbar-r><a href="/texts">Texts</a><a href="/gods">Gods</a><a href="/ask">Ask</a><a href="${esc(WIKI)}">Wiki</a><a href="${esc(DATA)}">Data</a></div></header>
+  <div class=topbar-r><a href="/texts">Texts</a><a href="/gods">Gods</a><a href="/ask">Ask</a><a href="${esc(STUDIO)}/mythology">Mythology Studio</a><a href="${esc(STUDIO)}/remakes">Remakes</a><a href="${esc(WIKI)}">Wiki</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -201,14 +210,21 @@ function linksBlock(textId) {
 function entitiesInTextBlock(textId) {
   const ents = entitiesForText(textId);
   if (ents.length === 0) return '<p class=empty>No figures catalogued in this text yet.</p>';
+  const t = TEXTS.find((x) => x.id === textId);
   return ents.map((e) =>
-    `<a class=pill href="/gods/${esc(e.id)}">${esc(e.name)}</a>`).join('');
+    `<a class=pill href="/gods/${esc(e.id)}">${esc(e.name)}</a><a class=viz href="${esc(STUDIO)}/visualize?entity=${esc(e.id)}${t ? `&amp;text=${esc(encodeURIComponent(t.title))}` : ''}" title="Picture ${esc(e.name)}" rel="nofollow">🎨</a>`).join(' ');
 }
 
 // Blue-Letter-Bible interlinking: escape the prose, THEN wrap recognised entity names with links to
 // their /gods page. excludeId stops an entity's own description self-linking. Soft-fails to plain text.
-function interlinked(prose, excludeId = '') {
-  return interlink(esc(prose), esc, { excludeId, linkClass: 'xref' });
+function interlinked(prose, excludeId = '', textTitle = '') {
+  return interlink(esc(prose), esc, { excludeId, linkClass: 'xref', visualize: STUDIO, textTitle });
+}
+// "Picture it": the concept/passage → image pipeline in the Studio
+function vizBox(prefill = '') {
+  return `<form class=hsearch method=get action="${esc(STUDIO)}/visualize"><div class=row>
+      <input class=q name=q value="${esc(prefill)}" placeholder="Visualize a concept or a passage — e.g. Odin on the world-tree, the weighing of the heart" aria-label="Visualize">
+      <button type=submit>🎨 Picture it</button></div></form>`;
 }
 
 // The curated reading-path block — companion texts + the one-line WHY, each linking on to its own page.
@@ -240,6 +256,7 @@ export function homePage() {
       <div class=tagline>The Temple Library</div>
     </div>
     <h1>The Hierophant <span class=muted style="font-size:14px">· the Temple's library of sacred texts</span></h1>
+    ${vizBox()}
     <p class=muted>A map of the world's scriptures, myths and mysteries — from the Pyramid Texts to the
       Popol Vuh. We do not host the texts; we point you to where they live free
       (<a href="https://sacred-texts.com" rel="nofollow noopener">Sacred-Texts</a>,
@@ -385,6 +402,12 @@ export function entityDetailView(id) {
     ${(e.epithets && e.epithets.length) ? `<p class=muted><b>Also:</b> ${e.epithets.map(esc).join(' · ')}</p>` : ''}
     <div class=card><p>${interlinked(e.desc, e.id)}</p>
       ${extLinks.length ? `<div class=links style="margin-top:10px">${extLinks.join('')}</div>` : ''}</div>
+    ${['greek', 'egyptian', 'norse', 'hindu'].includes(e.tradition) ? `<div class=card><b>In the Studio</b>
+      <p class=muted style="margin:4px 0 8px">Picture ${esc(e.name)} with the traditional attributes — become ${esc(e.name)}, stand beside them, or put them in a scene with other figures.</p>
+      <a class=pill href="${esc(STUDIO)}/fx/as-${esc(e.id)}">Become ${esc(e.name)}</a> <a class=pill href="${esc(STUDIO)}/fx/with-${esc(e.id)}">Appear with ${esc(e.name)}</a>
+      <a class=pill href="${esc(STUDIO)}/mythology#${esc(e.tradition)}">All ${esc(traditionName(e.tradition))} figures</a> <a class=pill href="${esc(STUDIO)}/remakes">Remakes of the ancient world</a></div>` : ''}
+    ${(() => { const sy = symbolsForFigure(e.id).filter((x) => x.image); return sy.length ? `<div class=card><b>Symbols</b>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">${sy.map((x) => `<a href="${esc(STUDIO)}/symbols/${esc(x.id)}" style="text-align:center;width:96px;text-decoration:none"><img src="${esc(STUDIO)}/symbols/img/${esc(x.image.file)}" alt="${esc(x.name)}" loading=lazy style="width:64px;height:64px;object-fit:contain;background:#f4efe4;border-radius:8px;padding:6px"><br><span style="font-size:12px">${esc(x.name)}</span></a>`).join('')}</div></div>` : ''; })()}
     ${rels.length ? `<div class=card><h2 style="margin-top:0">Relationships</h2>
       ${rels.map((r) => `<div class=rec><div class=nm><span class=muted style="text-transform:capitalize">${esc(r.rel)}:</span>
         <a href="/gods/${esc(r.entity.id)}">${esc(r.entity.name)}</a></div></div>`).join('')}</div>` : ''}
@@ -428,14 +451,30 @@ export async function askView(question) {
 
   let answerBlock = '';
   if (term) {
+    // 1) the Hierophant's own encyclopedia and catalog: a named figure or text is answered from its entry
+    const low = ` ${term.toLowerCase().replace(/[^a-z0-9\s-]/g, ' ')} `;
+    const named = (s) => { const n = String(s || '').toLowerCase(); return n.length > 2 && low.includes(` ${n} `); };
+    const figs = ENTITIES.filter((e) => named(e.name) || named(e.id.replace(/-/g, ' ')) || (e.epithets || []).some(named)).slice(0, 3);
+    const txts = TEXTS.filter((t) => named(t.title) || named(t.id.replace(/-/g, ' '))).slice(0, 3);
+    const encyc = [
+      ...figs.map((e) => { const rels = relationshipsOf(e.id);
+        return `<div class=card><h2 style="margin-top:0"><a href="/gods/${esc(e.id)}">${esc(e.name)}</a> <span class="badge trad">${esc(traditionName(e.tradition))}</span></h2>
+          <p>${esc(e.desc || '')}</p>${e.look ? `<p class=muted><b>How ${esc(e.name)} is shown:</b> ${esc(e.look)}</p>` : ''}
+          ${rels.length ? `<p class=muted>${rels.slice(0, 6).map((r) => `${esc(r.rel)}: <a href="/gods/${esc(r.entity.id)}">${esc(r.entity.name)}</a>`).join(' · ')}</p>` : ''}
+          <p><a href="/gods/${esc(e.id)}">Full entry →</a>${['greek', 'egyptian', 'norse', 'hindu'].includes(e.tradition) ? ` · <a href="${esc(STUDIO)}/fx/as-${esc(e.id)}">Become ${esc(e.name)} in the Studio</a>` : ''}</p></div>`; }),
+      ...txts.map((t) => `<div class=card><h2 style="margin-top:0"><a href="/texts/${esc(t.id)}">${esc(t.title)}</a></h2><p>${esc(t.desc || t.summary || '')}</p><p><a href="/texts/${esc(t.id)}">Where to read it, and what is in it →</a></p></div>`),
+    ].join('');
+    if (encyc) answerBlock += `<h2>From the encyclopedia</h2>${encyc}`;
+    // 2) the Temple's own corpus, with the passages themselves
     const res = await askCorpus(term);
     if (res && res.grounded && res.answer) {
       const sources = Array.isArray(res.sources) ? res.sources : [];
-      answerBlock = `<div class=card><h2 style="margin-top:0">The Hierophant answers</h2>
-        <div class=answer>${esc(res.answer)}</div>
-        ${sources.length ? `<div class=links style="margin-top:12px"><span class=muted style="font-size:13px;margin-right:8px">From the Temple's corpus:</span>
-          ${sources.map((s) => `<a href="${esc(s.url || '#')}" rel="nofollow noopener">${esc(s.title || 'source')} →</a>`).join('')}</div>` : ''}</div>`;
-    } else {
+      const passages = Array.isArray(res.passages) ? res.passages : [];
+      answerBlock += `<div class=card><h2 style="margin-top:0">The Hierophant answers — from the Temple's corpus</h2>
+        ${passages.length ? passages.map((p) => `<div class=rec><div class=nm>${esc(p.title || p.source || 'source')}</div>
+          <blockquote style="white-space:pre-wrap">${esc(String(p.text || '').slice(0, 700))}${String(p.text || '').length > 700 ? '…' : ''}</blockquote></div>`).join('')
+          : `<div class=answer>${esc(res.answer)}</div>${sources.map((s) => s.url ? `<a href="${esc(s.url)}" rel="nofollow noopener">${esc(s.title || 'source')} →</a>` : `<span class=pill>${esc(s.title || 'source')}</span>`).join(' ')}`}</div>`;
+    } else if (!answerBlock) {
       answerBlock = `<div class=card><h2 style="margin-top:0">The Hierophant answers</h2>
         <p class=empty>${esc((res && res.answer) || "The Temple's corpus doesn't cover that.")}
         Try the <a href="${esc(WIKI)}">Library wiki</a> or browse the <a href="/texts">texts</a> directly.</p></div>`;
@@ -447,7 +486,8 @@ export async function askView(question) {
       Egypt, the mystery schools, the Convergence and more. It answers <b>only</b> from what the corpus
       actually says, cites its sources, and tells you plainly when it has nothing. It is <i>not</i> a search
       of the linked-out primary texts — for those, use the <a href="/texts">catalog</a>.</p>
-    ${form}${answerBlock}`;
+    ${form}${answerBlock}
+    ${term ? `<div class=card><b>See it</b><p class=muted style="margin:4px 0 8px">Turn this into a picture — the figures in it are drawn with their traditional attributes.</p>${vizBox(term)}</div>` : ''}`;
   return page('Ask the Hierophant — The Hierophant', body,
     { canonical: `${BASE_URL}/ask`, robots: term ? 'noindex,follow' : 'index,follow' });
 }

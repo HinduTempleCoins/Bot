@@ -25,7 +25,7 @@ test('GET / renders the console with MELEK Move featured and all games', async (
   for (const nm of ['Kush Farm', 'Kush Genetics', 'Pass a Joint', 'Quick Farm', 'KULA Arcade', 'Creatures', 'Tribulum']) {
     assert.ok(r.body.includes(nm), `missing tile: ${nm}`);
   }
-  assert.match(r.body, /ALPHA/);
+  assert.doesNotMatch(r.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   assert.match(r.body, /712217/);        // MAINNET chain id label
 });
 

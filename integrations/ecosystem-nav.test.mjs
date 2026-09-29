@@ -5,7 +5,7 @@ import { ECOSYSTEM_LINKS, links, navBar, navSidebar, navDrawer, NAV_DRAWER_JS } 
 
 test('registry has the live properties + grouped', () => {
   const keys = ECOSYSTEM_LINKS.map((l) => l.key);
-  for (const k of ['roadmap', 'soapbox', 'data', 'law', 'politics', 'oversight', 'melek-testnet']) {
+  for (const k of ['roadmap', 'soapbox', 'data', 'law', 'politics', 'oversight', 'melek', 'prana']) {
     assert.ok(keys.includes(k), `missing ${k}`);
   }
   assert.ok(links({ group: 'SoapBox' }).length >= 6);
@@ -16,16 +16,23 @@ test('navBar links live properties + marks current + never shows admin/soapy', (
   const html = navBar({ current: 'roadmap' });
   assert.match(html, /vankushfamily\.com/);
   assert.match(html, /law\.soapbox\.community/);
-  assert.match(html, /alpha\.melek\.salon/);
+  assert.match(html, /href="https:\/\/melek\.salon"/);
   assert.match(html, /current/); // roadmap marked current
   assert.ok(!/soapy\.blog/.test(html), 'admin must never appear in the nav');
 });
 
 test('not-live links render muted "soon" and are not anchors', () => {
   const html = navBar({});
-  // PRANA is live:false → a <span class=...soon...>, not an <a href>
+  // World Law is live:false → a <span class=...soon...>, not an <a href>
   assert.match(html, /soon/);
-  assert.ok(!/<a[^>]*>PRANA<\/a>/.test(html), 'PRANA (not live) must not be a link yet');
+  assert.ok(!/<a[^>]*>World Law<\/a>/.test(html), 'World Law (not live) must not be a link yet');
+});
+
+test('MELEK and PRANA are live mainnet links; no testnet link anywhere in the nav', () => {
+  const html = navBar({}) + navSidebar({}) + navDrawer({});
+  assert.match(html, /<a class="enav-link" href="https:\/\/melek\.salon">MELEK<\/a>/);
+  assert.match(html, /<a class="enav-link" href="https:\/\/witness\.melek\.salon\/mine">PRANA<\/a>/);
+  assert.doesNotMatch(html, /testnet|alpha\./i);
 });
 
 test('navSidebar renders group titles', () => {

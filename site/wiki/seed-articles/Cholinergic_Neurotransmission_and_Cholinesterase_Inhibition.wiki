@@ -1,0 +1,100 @@
+'''Cholinergic Neurotransmission and Cholinesterase Inhibition''' details the neurochemical synthesis, synaptic clearance, and pharmacological inhibition of acetylcholine (ACh). A frequent misconception in popular nootropic literature is the concept of an "acetylcholine reuptake inhibitor." In mammalian physiology, '''no reuptake transporter for intact acetylcholine exists'''.
+
+Synaptic transmission is terminated exclusively by rapid enzymatic cleavage via '''acetylcholinesterase (AChE)''', followed by presynaptic reuptake of the resulting choline fragment via the '''high-affinity choline transporter (CHT1)'''. This article details the catalytic cycle of AChE, CHT1 kinetics, reversible botanical inhibitors, irreversible organophosphate nerve agents, and nootropic cholinergic stack architectures.
+
+== The cholinergic synapse: clearance without a reuptake pump ==
+
+Monoamine neurotransmitters (serotonin, dopamine, norepinephrine) terminate synaptic signaling primarily by being pumped back intact into the presynaptic terminal by plasma membrane transporters (SERT, DAT, NET). Acetylcholine operates under an entirely different physiological paradigm:
+
+<code>
+[ Presynaptic Terminal ]
+   │
+   ├──► Choline Acetyltransferase (ChAT): [ Acetyl-CoA + Choline ──► Acetylcholine ]
+   │                                                                        │
+   ▼                                                                        ▼ (Exocytosis)
+[ Synaptic Cleft ] ──────────────────────────────────────────► [ ACh Receptors: mAChR / nAChR ]
+   │
+   ▼  Acetylcholinesterase (AChE Hydrolysis, ~25,000 molecules/sec)
+[ Acetate (Diffuses away) ] + [ Choline (Free Base) ]
+                                      │
+                                      ▼  High-Affinity Choline Transporter 1 (CHT1)
+                         [ Presynaptic Choline Reuptake ] (Rate-Limiting Step)
+</code>
+
+=== 1. The catalytic velocity of AChE ===
+* Acetylcholinesterase is one of the fastest catalytic enzymes known in biology, operating near the theoretical diffusion-controlled limit.
+* A single AChE active site hydrolyzes approximately '''25,000 molecules of acetylcholine per second''' (a turnover time of ~40 microseconds per molecule).
+* The catalytic active site resides at the bottom of a deep, narrow 20 Å gorge lined with 14 aromatic residues, employing a canonical '''Ser200–His440–Glu327 catalytic triad'''.
+
+=== 2. CHT1: the true reuptake bottleneck ===
+* Following AChE cleavage, free choline is cleared from the cleft by the '''High-Affinity Choline Transporter 1 (CHT1 / SLC5A7)'''.
+* CHT1 is a $Na^+/Cl^-$-dependent symporter located primarily on presynaptic vesicle membranes and mobilized to the plasma membrane during neuronal firing.
+* Presynaptic choline reuptake via CHT1 is the strict '''rate-limiting bottleneck''' for acetylcholine synthesis: without reuptake of choline, cholinergic terminals exhaust their acetylcholine supply during sustained high-frequency stimulation.
+
+== Acetylcholinesterase inhibitors (AChEIs) ==
+
+Inhibiting AChE prevents the destruction of acetylcholine, allowing the neurotransmitter to pool in the synapse, prolonging activation of muscarinic ($M_1\text{–}M_5$) and nicotinic ($nAChR$) receptors:
+
+<code>
+                          [ ACETYLCHOLINESTERASE INHIBITORS ]
+                                          │
+            ┌─────────────────────────────┴─────────────────────────────┐
+            ▼                                                           ▼
+[ Reversible Inhibitors ]                                   [ Irreversible (Organophosphates) ]
+ • Galantamine (Alkaloid / APL activity)                     • Sarin, VX, Soman (Chemical Warfare)
+ • Huperzine A (Sesquiterpene / High BBB)                    • Malathion, Chlorpyrifos (Pesticides)
+ • Donepezil, Rivastigmine                                   • Covalent phosphorylation of Ser200
+ • Non-covalent or transient carbamylation                   • Enzyme "Aging" (Permanent charge)
+ • Therapeutic: Nootropic, Alzheimer's                       • Lethal SLUDGE / Cholinergic Crisis
+</code>
+
+=== 1. Reversible botanical and pharmaceutical inhibitors ===
+* '''[[Galantamine]] (Snowdrop / Daffodil):'''
+** '''Dual mechanism:''' Acts as a competitive, reversible AChE inhibitor and uniquely functions as an '''allosteric potentiating ligand (APL)''' at presynaptic and postsynaptic α7 and α4β2 nicotinic acetylcholine receptors.
+** Sensitizes nicotinic receptors to acetylcholine, enhancing channel opening probability and promoting presynaptic release of glutamate, dopamine, and GABA.
+** Widely evaluated as a lucid-dream aid due to cholinergic induction of REM sleep architecture.
+* '''Huperzine A (Huperzia serrata):'''
+** A naturally occurring lycopodium alkaloid that functions as a potent, highly selective, reversible AChE inhibitor ($IC_{50} \approx 82\text{ nM}$).
+** Penetrates the blood-brain barrier rapidly, demonstrates exceptional oral bioavailability, and dissociates slowly from the catalytic gorge without carbamylating the enzyme.
+* '''Donepezil (Aricept) and Rivastigmine:'''
+** Synthetic standard-of-care agents for Alzheimer's disease. Rivastigmine pseudo-irreversibly carbamylates AChE, with enzymatic recovery taking several hours.
+
+=== 2. Irreversible organophosphates and the "aging" process ===
+* '''Compounds:''' Nerve agents ('''Sarin''', '''Soman''', '''VX''', Tabun) and agricultural insecticides ('''Malathion''', '''Chlorpyrifos''', Parathion).
+* '''Mechanism:''' The organophosphate molecule mimics the acetyl group and phosphorylates the nucleophilic Ser200 residue. The phosphorus-oxygen covalent bond is exceptionally stable and resists spontaneous water hydrolysis.
+* '''The "Aging" Phenomenon:'''
+** Following initial phosphorylation, the enzyme-inhibitor complex undergoes a non-enzymatic spontaneous cleavage of an alkoxy side chain from the organophosphate adduct (termed "aging").
+** Aging leaves a negative charge on the remaining oxygen atom, electrostatically locking the phosphate to the catalytic histidine and rendering the enzyme '''permanently and irreversibly inactivated'''.
+** Once aging occurs, therapeutic oxime antidotes (such as pralidoxime / 2-PAM) can no longer nucleophilically reactivate the enzyme; complete recovery requires de novo AChE protein synthesis over weeks.
+
+=== 3. Cholinergic crisis (SLUDGE syndrome) ===
+Total irreversible AChE blockade causes catastrophic systemic acetylcholine flooding, triggering uncontrollable overstimulation of peripheral muscarinic and nicotinic receptors:
+* '''SLUDGE syndrome:''' '''S'''alivation, '''L'''acrimation, '''U'''rination, '''D'''efecation, '''G'''astrointestinal cramping, '''E'''mesis.
+* '''DUMBELS:''' '''D'''iarrhea, '''U'''rination, '''M'''iosis (pinpoint pupils), '''B'''ronchospasm/Bradycardia, '''E'''mesis, '''L'''acrimation, '''S'''alivation/Sweating.
+* '''Lethality:''' Death results from asphyxiation due to massive bronchial hypersecretion, bronchoconstriction, and diaphragm paralysis from depolarizing neuromuscular block.
+
+== Nootropic stack architecture: substrate pairing ==
+
+In cognitive enhancement and neurostimulation protocols, administering an AChE inhibitor without adequate choline precursor pools is counterproductive:
+
+<code>
+                 [ Substrate Pool ]                  [ Clearance Modulation ]
+             [ Alpha-GPC / Citicoline ]    +        [ Galantamine / Huperzine A ]
+                         │                                       │
+                         ▼                                       ▼
+            [ Generates Acetylcholine ]             [ Halts Enzymatic Destruction ]
+                         │                                       │
+                         └───────────────────┬───────────────────┘
+                                             │
+                                             ▼
+                               [ Sustained Cholinergic Tone ]
+</code>
+
+* '''The Substrate Requirement:''' Inhibiting AChE prolongs the lifetime of released acetylcholine but cannot increase de novo production if presynaptic choline stores are depleted. Co-administering a high-bioavailability [[Choline Donors|choline donor]] (such as '''Alpha-GPC''' or '''Citicoline''') provides the direct substrate for choline acetyltransferase (ChAT).
+* '''Racetam Synergy:''' [[Racetams]] (such as piracetam, aniracetam, and phenylpiracetam) increase high-affinity choline uptake and allosterically modulate AMPA receptors. If consumed in the absence of adequate acetylcholine substrate, racetams frequently induce the classic "racetam headache," which resolves upon choline supplementation.
+* '''Clinical Contraindications:'''
+** Cardiac conduction disease: Cholinergic hyperactivation stimulates cardiac M2 muscarinic receptors on the sinoatrial and atrioventricular nodes, inducing severe bradycardia, heart block, and syncope.
+** Respiratory: Bronchoconstriction contraindicates AChEIs in severe asthma or COPD.
+** Direct antagonism: Pharmacologically incompatible with anticholinergics like [[Datura]] (scopolamine, atropine), which competitively block muscarinic receptors.
+
+See also: [[Galantamine]] · [[Choline Donors]] · [[Racetams]] · [[Datura]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Stack Substances]]

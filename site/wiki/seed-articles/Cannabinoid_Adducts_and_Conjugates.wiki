@@ -1,0 +1,95 @@
+'''Cannabinoid Adducts and Conjugates''' surveys the covalent additions, macromolecular dimers, endogenous lipid conjugates, and supramolecular complexes formed by cannabinoids. The reactive phenolic hydroxyl groups and isolated cyclohexenyl double bonds on cannabinoid scaffolds render them vulnerable to electrophilic additions, radical couplings, and metabolic lipid esterifications.
+
+This article details acid adducts (chlorinated cannabinoids, sulfates, and haloacetates), cannabinoid dimers, Phase II metabolic fatty acid conjugates, and non-covalent inclusion complexes.
+
+== Acid catalyst adducts ==
+
+During chemical isomerization, purification, or unquenched storage, strong acids form covalent addition products with cannabinoid alkenes and phenols:
+
+=== 1. Hydrochloric acid (HCl) adducts: chlorinated cannabinoids ===
+* '''Reaction:''' Exposing CBD or THC to concentrated hydrochloric acid or bubbling anhydrous HCl gas through an organic cannabinoid solution causes an electrophilic hydrohalogenation:
+: <code>Δ9-THC + HCl ──► 9-Chloro-Hexahydrocannabinol (9-Cl-HHC)</code>
+* Protons attack the double bond to form a tertiary carbocation, which is immediately trapped by the nucleophilic chloride anion (Cl⁻).
+* '''Significance:''' 9-Chloro-HHC and related chlorohydrins are frequent synthetic artifacts in illicitly isomerized Δ8-THC. When vaporized, chlorinated cannabinoids decompose, releasing toxic, corrosive hydrogen chloride gas into airway tissues.
+
+=== 2. Trifluoroacetic acid (TFA) and haloacetate adducts ===
+* When strong organic haloacids (such as TFA) are used as cyclization catalysts, the trifluoroacetate anion competes with the intramolecular phenolic hydroxyl group:
+: <code>CBD + CF3COOH ──► Cannabinyl-Trifluoroacetate Ester Adducts</code>
+* These adducts are stable against neutral water washes and require saponification or elevated thermal stripping to cleave.
+
+=== 3. Sulfuric acid sulfate adducts ===
+* Concentrated sulfuric acid acts as a dehydrating and sulfating agent. Direct exposure to the phenolic hydroxyl group yields polar '''cannabinoid sulfate esters''' (-O-SO3⁻ H⁺).
+* Sulfated cannabinoids possess high aqueous solubility and altered biodistribution, and serve as reference standards for Phase II metabolic clearance assays.
+
+== Cannabinoid dimers and oligomers ==
+
+Cannabinoids undergo dimerization through thermal, acidic, or free-radical mechanisms, producing high-molecular-weight resins that reduce extract clarity and dilute potency:
+
+<code>
+                 [ Thermal / Acidic Catalysis ]
+      2x Cannabinoid ────────────────────────► [2+2] / [4+2] Cycloaddition Dimers
+                                                 (High-MW Viscous Resins)
+
+                 [ Radical / Oxidative Stress ]
+      2x Cannabinoid ────────────────────────► Biphenolic C-C / C-O Linked Dimers
+                                                 (Dark Oxidative Degradants)
+</code>
+
+=== 1. Thermal and acidic cycloaddition dimers ===
+* Heating cannabinoid concentrates above 160 °C or exposing them to prolonged acid reflux drives intermolecular cycloadditions between cyclohexenyl terpene rings.
+* These reactions yield [2+2] cyclobutane-bridged or [4+2] Diels-Alder-type dimers.
+* The resulting dimeric cannabinoids possess molecular weights exceeding 628 g/mol, forming the glassy, dark, intractable pitch observed in over-cooked reaction residues.
+
+=== 2. Radical-mediated phenolic oxidative coupling ===
+* Exposure to light, transition metals (Fe³⁺, Cu²⁺), or basic air bubbling generates resonance-stabilized phenoxyl radicals.
+* Two phenoxyl radicals undergo radical-radical recombination at open aromatic positions (ortho or para to the hydroxyl group).
+* This forms covalent '''carbon-carbon (C-C)''' or '''ether (C-O-C)''' biphenolic dimers. These dark-pigmented chromophores account for the persistent brown or black discoloration of aged cannabinoid distillates.
+
+=== 3. Cannabitriol and ether-bridged adducts ===
+* Cannabitriol (CBT) and its ethoxy/methoxy adducts are tri-oxygenated cannabinoids formed when solvent nucleophiles (water, ethanol, methanol) attack epoxide intermediates on the cyclohexene ring during acid-catalyzed storage or extraction.
+
+== Endocannabinoid and metabolic lipid conjugates ==
+
+Cannabinoids interact intimately with lipid metabolism, forming covalent conjugates with fatty acids both synthetically and endogenously:
+
+=== 1. Hybrid synthetic conjugates (THC-O-Arachidonate) ===
+* Medicinal chemists have synthesized covalent hybrid molecules linking phytocannabinoids directly to endocannabinoid fatty acids:
+: <code>THC + Arachidonic Acid ──(DCC / DMAP)──► THC-O-Arachidonate</code>
+* In vivo, these hybrid molecules act as dual-action prodrugs. Intracellular esterases cleave the conjugate, releasing an orthosteric exocannabinoid (THC) alongside an arachidonic acid precursor pool for endocannabinoid biosynthesis.
+
+=== 2. Phase II metabolic fatty acid conjugation (Adipose sequestration) ===
+* '''In vivo esterification:''' In mammalian tissues (especially liver, lung, and adipose tissue), a distinct Phase II metabolic pathway esterifies the free phenolic hydroxyl of Δ9-THC with endogenous long-chain fatty acids (such as palmitic, stearic, and oleic acids).
+* '''Lipid droplet storage:''' Cannabinyl fatty acid esters are exceptionally lipophilic (logP > 10) and incorporate directly into cellular lipid droplets and adipose triglycerides.
+* '''Clinical implication:''' These stored fatty acid adducts are slowly hydrolyzed by intracellular lipases over weeks and months, continuously leaching free THC back into systemic circulation. This metabolic sequestration explains why chronic cannabis users test positive for urinary cannabinoid metabolites for 30 to 60 days following cessation.
+
+=== 3. COX-2 and LOX enzymatic cross-coupling ===
+* The endocannabinoid 2-AG is directly metabolized by cyclooxygenase-2 (COX-2) into prostaglandin glyceryl esters (PG-Gs), while anandamide is metabolized by lipoxygenases (12-LOX, 15-LOX) into hydroxy-anandamides (HETEs-EA), coupling cannabinoid turnover directly to inflammatory mediator generation.
+
+== Caffeine–cannabinoid conjugates and co-crystals ==
+
+A direct covalent caffeine–cannabinoid bond does not occur naturally in nature, but medicinal chemistry and crystal engineering have created hybrid molecular architectures:
+
+=== 1. Synthetic covalent codrugs (Bifunctional linkers) ===
+* '''Linker chemistry:''' Because caffeine is a methylxanthine and cannabinoids are terpenophenols, they do not react spontaneously. To bond them covalently, chemists employ bifunctional dicarboxylic acid linkers (such as succinic acid or glutaric acid).
+* '''Coupling:''' One carboxyl end of the linker is esterified to the phenolic -OH group of Δ9-THC or CBD, while the other end is coupled via an amide or ester bond to the 8-position of an amino-functionalized caffeine derivative (e.g., 8-aminotheophylline or 8-aminocaffeine):
+: <code>THC-OH + HOOC-(CH2)2-COOH + 8-Aminocaffeine ──► THC-O-CO-(CH2)2-CO-NH-Caffeine</code>
+* '''Targeting A2A–CB1 receptor heteromers:''' These "codrugs" are engineered to simultaneously target adenosine A2A receptors (via the methylxanthine moiety) and cannabinoid CB1 receptors (via the cannabinoid moiety). In the mammalian striatum, A2A and CB1 receptors form functional G-protein coupled receptor heteromers where adenosine signaling directly modulates cannabinoid-induced catalepsy, dopamine release, and motor control.
+
+=== 2. Non-covalent co-crystals (Supramolecular adducts) ===
+* '''π–π stacking & hydrogen bonding:''' Caffeine is a planar, electron-deficient aromatic heterocycle that excels at forming non-covalent π-stacking networks.
+* '''Solid-state properties:''' Co-crystallizing pure CBD or CBDA with caffeine in a precise 1:1 molar ratio produces crystalline co-crystals bound by hydrogen bonds between CBD's phenolic hydroxyls and caffeine's carbonyl oxygens.
+* '''Formulation advantage:''' Unlike oily or amorphous cannabinoid resins, caffeine-CBD co-crystals are non-hygroscopic crystalline solids with dramatically faster aqueous dissolution rates and extended shelf stability without modifying the covalent identity of either molecule.
+
+=== 3. Ternary cyclodextrin complexes ===
+* Hydroxypropyl-β-cyclodextrin (HP-β-CD) encapsulates hydrophobic cannabinoids inside its non-polar cavity while caffeine coordinates via hydrogen bonding along the hydrophilic exterior rim, creating water-soluble ternary inclusion complexes for aqueous liquid delivery.
+
+== Non-covalent supramolecular systems ==
+
+=== 1. Cyclodextrin inclusion complexes ===
+* Cannabinoids form host-guest inclusion complexes with cyclic oligosaccharides, particularly '''β-cyclodextrin''' and '''hydroxypropyl-β-cyclodextrin (HP-β-CD)'''.
+* The hydrophobic core of the cyclodextrin ring encapsulates the lipophilic cannabinoid skeleton, while the hydrophilic outer surface interacts with water, achieving true aqueous dissolution without surfactants.
+
+=== 2. Deep eutectic solvents (DES) ===
+* Mixing solid cannabinoid isolates with natural terpenes (such as menthol or thymol) in specific molar ratios produces a deep eutectic liquid with a melting point far below that of either individual component, mediated by extensive intermolecular hydrogen bonding.
+
+See also: [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[Cannabinoid Isomerization]] · [[Universal Reaction Templates in Cannabinoid Chemistry]] · [[Antioxidants and Cannabinoid Stability]] · [[Stack Substances]]

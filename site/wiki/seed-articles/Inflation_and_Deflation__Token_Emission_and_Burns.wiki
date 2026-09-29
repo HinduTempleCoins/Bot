@@ -1,0 +1,50 @@
+# Inflation and Deflation — Token Emission and Burns
+
+**Inflation** is a rise in the supply of money (or a token) over time; **deflation** is a fall in that supply. In an economy, sustained inflation tends to reduce the purchasing power of each unit, and deflation tends to raise it — but only relative to demand, never on its own. This article explains the two forces plainly and then shows how the token-world levers — **emission** (new tokens minted) and **burns** (tokens destroyed) — are simply inflation and deflation with the dials made explicit<ref>https://en.wikipedia.org/wiki/Inflation</ref><ref>.local/pending-economics-post.md</ref>.
+
+This is an **educational, neutral** reference. It is **not investment, financial, or legal advice**, it makes **no price prediction**, and a burn or an emission schedule is a **supply mechanic, never a promise about price** (see § Not investment advice).
+
+== Summary ==
+
+Every unit of money or token exists in some total supply. **Emission** increases that supply (inflationary); **burning** decreases it (deflationary). Neither move dictates price by itself — price is still set by supply *and* demand ([[Supply and Demand — the Price Basics]]). A burn removes tokens; whether the price then moves depends entirely on demand. The honest way to describe either lever is as a **supply-side decision**, never as a guaranteed outcome<ref>.local/pending-economics-post.md</ref>.
+
+== Inflation: where new supply comes from ==
+
+New supply enters a token economy through **emission** — the protocol minting fresh tokens for some activity:
+
+- **Block rewards** paid to producers or, on MELEK, to walkers: 15% of every block is set aside into a "move" reward pool that walking draws from — fresh emission minted for a real act<ref>.local/pending-economics-post.md</ref>.
+- **Author and curator rewards** on a social chain — the classic Steem/Hive/Blurt/MELEK post-and-curate loop.
+- **Scheduled emission** from a token's own reward rules (SCOT), released on a curve over time.
+
+Emission is not inherently bad — it is how a chain pays for the activity it wants. The danger is emission with **no real demand underneath it**: if the only reason anyone wants the token is to be paid more of it, the supply grows against nothing, and the value per unit erodes. This is the "closed jar" failure the MELEK design explicitly builds against, insisting emission be backed by real activity and real outside revenue<ref>.local/pending-economics-post.md</ref>.
+
+== Deflation: burns and sinks ==
+
+Supply falls when tokens are **removed from circulation**:
+
+- A **burn** destroys tokens permanently — the direct on-chain deflation lever. On MELEK-Engine this is `tokens.burn`, the descendant of BitShares' `asset_reserve` operation<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+- A **buyback → burn** spends earned revenue to buy the token off a market and then destroy it — deflation funded by real yield<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+- **Sinks** — fees, locks, and staking — take tokens out of the circulating float without destroying them, which is deflationary for as long as they stay locked.
+
+The careful, load-bearing point: **a burn reduces supply; it does not set a price.** Reducing supply is a supply-side decision the issuer controls; what the market does next is a matter of demand, which no burn can promise<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+== Emission schedules and equilibrium ==
+
+A well-designed token balances the two forces. If emission (new supply) outruns the sinks and burns (removed supply), the token is **net inflationary**; if burns and sinks outrun emission, it is **net deflationary**. Many chains publish an **emission schedule** — how much is minted per block and how that rate tapers over time — so holders can see the supply trajectory in advance. Bitcoin's halving schedule and a capped max supply are the archetype of a disinflationary schedule; a token with an **immutable supply cap** (BitShares' `lock_max_supply` + `disable_new_supply`, the MELEK-Engine cap) commits that supply can never be inflated past a fixed ceiling<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>. See [[Tokenomics 101]] for how emission, sinks, and distribution fit together as a whole design.
+
+== Sound money, briefly ==
+
+The sound-money tradition argues that money holds value best when it is **backed by something you cannot simply print** — historically gold or silver. The 1971 Nixon Shock cut the US dollar's last tie to gold, leaving it backed by decree alone<ref>.local/pending-economics-post.md</ref>. A token economy answers the same question with **real backing and capped supply**: value flows in from real goods, work, and redemption rather than from ever-expanding emission. This is design context, not a claim that any token is "as good as gold."
+
+== Not investment advice ==
+
+This article explains supply mechanics. It is **not** a prediction that emission will lower a price or that a burn will raise one — neither is true on its own, because price also depends on demand. Nothing here is a suggestion to buy or sell, and nothing here is financial, legal, or tax advice. Education and mechanics are in scope; individualized advice is not.
+
+== Sources ==
+<ref>.local/pending-economics-post.md</ref>
+<ref>https://en.wikipedia.org/wiki/Inflation</ref>
+<ref>https://en.wikipedia.org/wiki/Deflation</ref>
+<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>
+
+== Coverage ==
+This article covers inflation/deflation as monetary forces and maps them onto token emission and burns at a conceptual level; it links the burn/buyback detail to the existing [[Token Buybacks, Market Fees, and the UIA Lineage]] article and the whole-design view to [[Tokenomics 101]]. It does not reproduce any specific chain's full emission constants. Nothing here is investment, financial, legal, or tax advice, and nothing here predicts a price.

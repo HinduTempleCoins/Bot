@@ -278,7 +278,7 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="${bp('/')}">🐣 ${esc(SITE_NAME)}<span class=alpha>Alpha</span></a>
+<header class=topbar><a class=brand href="${bp('/')}">🐣 ${esc(SITE_NAME)}</a>
   <div class=topbar-r>${TOOLS_NAV}<span id=kibbleTag class="hublink kibble" title="Your Kibble">🦴 <b id=kibbleAmt>0</b></span></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}

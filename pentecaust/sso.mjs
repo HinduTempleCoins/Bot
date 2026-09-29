@@ -140,6 +140,19 @@ export const clearCookie = () => `${COOKIE}=; Path=/; HttpOnly; Secure; SameSite
  *   GET /auth/me       → who am I
  *   GET /auth/logout   → clear
  */
+/**
+ * The public origin THIS sibling is being served as. Behind the shared web dispatcher every surface runs
+ * in one process, so a process-wide BASE_URL is wrong for all but one of them (the symptom: login sent
+ * people back to http://localhost:8500). Trust the Host header ONLY for hosts on the SSO_SELF_HOSTS
+ * allow-list; anything else falls back to the configured origin, so a forged Host can't redirect a ticket.
+ */
+export function selfOriginFor(req, fallback = '') {
+  const allow = String(env('SSO_SELF_HOSTS', 'connect.pentecaust.com,pact.pentecaust.com,herald.soapbox.community'))
+    .split(',').map((h) => h.trim().toLowerCase()).filter(Boolean);
+  const host = String((req && req.headers && req.headers.host) || '').toLowerCase().replace(/:\d+$/, '');
+  return host && allow.includes(host) ? `https://${host}` : String(fallback || '').replace(/\/$/, '');
+}
+
 export async function handler(req, res, opts = {}) {
   const selfOrigin = String(opts.selfOrigin || env('SSO_SELF_ORIGIN', '')).replace(/\/$/, '');
   const idpOrigin = String(opts.idpOrigin || env('SSO_IDP_ORIGIN', 'https://pentecaust.com')).replace(/\/$/, '');

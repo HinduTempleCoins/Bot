@@ -1,0 +1,75 @@
+'''Cannabinoid Quinones and Novel Derivatives''' examines the chemical synthesis, anti-neoplastic pharmacology, and neuroprotective activity of quinoid cannabinoids. Oxidizing the aromatic resorcinol core of phytocannabinoids into 1,4-benzoquinone architectures radically transforms their pharmacological profile—abolishing central CB1 psychotropic activity while unlocking potent catalytic inhibition of '''DNA topoisomerase IIα''' and selective activation of '''PPARγ'''.
+
+This article details the discovery of HU-331 by Raphael Mechoulam, related cannabinoid quinones (HU-336, HU-345), aminoquinone derivatives (VCE-003.2), synthetic Diels-Alder cycloadditions, cannabinoid-adjacent natural quinones (thymoquinone), and analytical N,O-TMS silylation.
+
+== Quinone formation and the oxidation shift ==
+
+Quinones are oxidized derivatives of aromatic compounds characterized by a conjugated cyclic dione system:
+
+<code>
+      [ Cannabinol / Cannabidiol (Resorcinol Ring) ]
+                            │
+                            ▼  Oxidation (Alkaline O2 / Metal Catalysis)
+               [ 1,4-Benzoquinone Core ]
+                            │
+       ┌────────────────────┴────────────────────┐
+       ▼                                         ▼
+[ Topoisomerase IIα Inhibition ]        [ PPARγ Activation ]
+(Antineoplastic / Non-Cardiotoxic)    (Neuroprotection / Anti-Fibrotic)
+</code>
+
+When cannabidiol (CBD) or related cannabinoids undergo one-electron or two-electron phenolic oxidations, the resorcinol ring converts into a ''p''-benzoquinone:
+* '''Loss of classical cannabinoid psychoactivity:''' Quinones cannot bind productively into the orthosteric pocket of the CB1 receptor, completely eliminating intoxication, sedation, or cognitive disruption.
+* '''Emergence of new molecular targets:''' The electron-deficient quinone ring functions as a Michael acceptor and redox-active pharmacophore, engaging nuclear receptors and catalytic enzymes.
+
+== Cannabinoid quinone monographs ==
+
+=== 1. HU-331 (Cannabidiol-Quinone) ===
+Discovered and synthesized in the laboratory of '''Raphael Mechoulam''' at the Hebrew University of Jerusalem:
+* '''Synthesis:''' Prepared by oxidizing pure CBD isolate in an alkaline ethanol solution (KOH) in the presence of atmospheric oxygen, or catalytically using Fremy's salt (potassium nitrosodisulfonate) or silver oxide (Ag2O):
+: <code>CBD + O2 ──(KOH / EtOH)──► HU-331 (1,4-Benzoquinone Derivative)</code>
+* '''Mechanism of Action:''' HU-331 exhibits extraordinary, selective cytotoxic activity against human cancer cell lines (colorectal, lung, glioblastoma) at low micromolar concentrations.
+* '''Topoisomerase IIα Catalytic Inhibition:'''
+** Classical anthracycline chemotherapy drugs (such as doxorubicin or etoposide) act as "topoisomerase poisons," generating double-strand DNA breaks that lead to severe cardiotoxicity, congestive heart failure, and secondary leukemias.
+** HU-331 operates through an entirely distinct mechanism: it acts as a '''pure catalytic inhibitor of topoisomerase IIα''', blocking the enzyme's ATP hydrolysis without causing DNA cleavage.
+** In preclinical oncology models, HU-331 demonstrated potent anti-tumor efficacy without producing the cumulative myocardial toxicity characteristic of standard anthracyclines.
+
+=== 2. HU-336 and HU-345 ===
+* '''HU-336 (6-Hydroxy-Δ8-THC Quinone):''' Synthesized by oxidizing 6-hydroxy-Δ8-THC. Displays powerful anti-angiogenic properties, inhibiting vascular endothelial growth factor (VEGF) and blocking tumor neovascularization in glioblastoma models.
+* '''HU-345 (Cannabinol-Quinone):''' An oxidized derivative of cannabinol (CBN) possessing pronounced anti-proliferative and anti-inflammatory activity.
+
+=== 3. VCE-003 and VCE-003.2 (Cannabigerol Aminoquinones) ===
+To enhance stability and target neurodegenerative diseases, medicinal chemists synthesized aminoquinone derivatives of cannabigerol (CBG):
+* '''VCE-003.2 (EHP-101):''' An aminoquinone derivative formed by coupling an ethylamine group to the quinone ring of CBG.
+* '''Receptor Dynamics:''' VCE-003.2 acts as a potent, non-psychotropic agonist at '''PPARγ''' (peroxisome proliferator-activated receptor gamma) and the peripheral '''CB2 receptor'''.
+* '''Therapeutic Profile:''' Demonstrates remarkable neuroprotective efficacy in preclinical models of '''Huntington's disease''', '''Amyotrophic Lateral Sclerosis (ALS)''', and '''Multiple Sclerosis (MS)'''. It preserves striatal neurons, suppresses microglial neuroinflammation, and stimulates endogenous neural progenitor cell migration without psychotropic side effects.
+
+== Synthetic potential: novel cannabinoid-adjacent frameworks ==
+
+The electron-deficient, conjugated double bonds of cannabinoid quinones make them versatile synthetic building blocks:
+
+=== 1. Diels-Alder cycloadditions ===
+* Cannabinoid 1,4-quinones act as potent '''dienophiles'''.
+* Reacting a cannabinoid quinone with conjugated dienes (such as cyclopentadiene, isoprene, or myrcene) yields complex tetracyclic and pentacyclic phenanthrenoid frameworks.
+* This allows the rapid construction of rigid, novel polycyclic architectures that explore uncharted regions of the neuroreceptor chemical space.
+
+=== 2. Michael additions and thiol scavenging ===
+* Quinones undergo facile nucleophilic 1,4-addition (Michael addition) with sulfur nucleophiles.
+* Intracellularly, quinones can react with the free sulfhydryl group of reduced glutathione (GSH) or specific cysteine residues on target proteins (such as the Keap1 sensor protein, activating the cytoprotective '''Nrf2-ARE antioxidant pathway''').
+
+== Cannabinoid-adjacent natural quinones: Thymoquinone ==
+
+* '''Thymoquinone:''' The primary bioactive quinone constituent of black seed oil (''Nigella sativa'').
+* '''Endocannabinoid Cross-Talk:''' While not a dibenzopyran, thymoquinone interacts directly with cannabinoid signaling, acting as an indirect modulator of '''CB2 receptors''' and demonstrating synergistic anti-inflammatory activity when co-administered with phytocannabinoids.
+* '''Nrf2 Activation:''' Triggers nuclear translocation of Nrf2, inducing phase II detoxification enzymes (heme oxygenase-1 [HO-1], superoxide dismutase [SOD], catalase), mirroring the protective cellular responses elicited by botanical polyphenols.
+
+== Analytical chemistry: N,O-TMS derivatization ==
+
+Because cannabinoid quinones, catechols, and hydroxy-cannabinoids possess polar, reactive functional groups (hydroxyls, enols, carboxylic acids), analyzing them via Gas Chromatography–Mass Spectrometry (GC-MS) requires chemical derivatization:
+
+* '''Silylating Reagents:''' Reagents such as '''BSTFA''' (''N,O-bis(trimethylsilyl)trifluoroacetamide'') and '''BSA''' (''N,O-bis(trimethylsilyl)acetamide'') react with active protic hydrogens.
+* '''N,O-TMS Derivatization:''' Replaces active hydrogens on phenolic -OH, enolic, and amino groups with a non-polar, bulky '''trimethylsilyl (-Si(CH3)3 / TMS)''' group:
+: <code>R-OH + BSTFA ──► R-O-TMS + CF3CONH-TMS</code>
+* Silylation prevents thermal decomposition in the GC injection port, sharply reduces column peak tailing, and provides diagnostic mass spectral fragmentation patterns (such as the characteristic $[M-15]^+$ loss of a methyl radical from the TMS adduct).
+
+See also: [[Modified Cannabinoids Matrix]] · [[Structure-Activity Relationships in Psychopharmacology]] · [[Universal Reaction Templates in Cannabinoid Chemistry]] · [[Antioxidants and Cannabinoid Stability]] · [[Cannabinoid Photochemistry and Degradation]] · [[Stack Substances]]

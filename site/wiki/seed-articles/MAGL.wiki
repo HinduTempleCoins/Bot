@@ -26,4 +26,6 @@ Chronic, complete MAGL blockade produces '''CB1 receptor desensitisation and tol
 
 8-PN is additionally a potent phytoestrogen; that is a separate consideration from its MAGL activity and does not go away because the reason for taking it was enzymatic.
 
-See also: [[FAAH]] · [[Anandamide and 2-AG]] · [[Cannabinoid Oilahuasca]] · [[8-Prenylnaringenin]] · [[Stack Substances]]
+For the complete biochemical profile of 2-AG biosynthesis via DAGL, spontaneous 1,2-acyl migration to 1-AG, Noladin ether, and COX-2 oxygenation, see '''[[Endocannabinoid Chemistry and 2-AG Metabolism]]'''. For the broader endocannabinoidome, see '''[[The Expanded Endocannabinoid System and FAAH Science]]''', and for serine hydrolase enzyme kinetics, see '''[[Enzyme Inhibition Kinetics and Molecular Transporters]]'''.
+
+See also: [[FAAH]] · [[Anandamide and 2-AG]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[The Expanded Endocannabinoid System and FAAH Science]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Cannabinoid Oilahuasca]] · [[8-Prenylnaringenin]] · [[Stack Substances]]

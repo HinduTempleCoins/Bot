@@ -303,7 +303,6 @@ function pageShell(title, inner, { description, canonical } = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}${impactUtt()}</head><body>
-<div class="alpha-badge">Alpha</div>
 <header><a class=brand href="/"><b>SoapBox</b> Stream</a>
   <form class=search action="/search" method=get><input name=q placeholder="Search films, shows, channels…" aria-label=Search><button>Search</button></form>
 </header>

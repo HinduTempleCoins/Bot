@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="3200"
+   height="3200"
+   id="5-simplex_t2.svg"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="Metatron_cube_overlapping_circles2.svg">
+  <metadata
+     id="metadata4275">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4273" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="977"
+     id="namedview4271"
+     showgrid="false"
+     inkscape:zoom="0.12140626"
+     inkscape:cx="959.97826"
+     inkscape:cy="1579.9734"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="5-simplex_t2.svg" />
+  <g
+     style="fill:#0000ff;fill-opacity:0.25;stroke:#000000;stroke-width:0"
+     id="g4241"
+     transform="matrix(0.65816697,-0.35575119,0.38368995,0.61024192,-88.622923,1188.6964)">
+    <circle
+       cx="2360"
+       cy="2916.3589"
+       r="660"
+       id="circle4243" />
+    <circle
+       cx="3120"
+       cy="1600"
+       r="660"
+       id="circle4245" />
+    <circle
+       cx="2360"
+       cy="283.64099"
+       r="660"
+       id="circle4247" />
+    <circle
+       cx="840"
+       cy="2916.3589"
+       r="660"
+       id="circle4249" />
+    <circle
+       cx="80"
+       cy="1600"
+       r="660"
+       id="circle4251" />
+    <circle
+       cx="840"
+       cy="283.64099"
+       r="660"
+       id="circle4253" />
+  </g>
+  <g
+     style="fill:#ff00ff;fill-opacity:0.25;stroke:#000000;stroke-width:0"
+     id="g4255"
+     transform="matrix(0.65816697,-0.35575119,0.38368995,0.61024192,-88.622923,1188.6964)">
+    <circle
+       cx="1980"
+       cy="2258.179"
+       r="660"
+       id="circle4257" />
+    <circle
+       cx="2360"
+       cy="1600"
+       r="660"
+       id="circle4259" />
+    <circle
+       cx="1220"
+       cy="2258.179"
+       r="660"
+       id="circle4261" />
+    <circle
+       cx="1220"
+       cy="941.82098"
+       r="660"
+       id="circle4265" />
+    <circle
+       cx="1980"
+       cy="941.82098"
+       r="660"
+       id="circle4267" />
+    <circle
+       cx="840"
+       cy="1600"
+       r="660"
+       id="circle4269" />
+  </g>
+  <g
+     style="fill:#0000ff;fill-opacity:0.5;stroke:#000000;stroke-width:0"
+     id="g4837"
+     transform="matrix(0.65816697,-0.35575119,0.38368995,0.61024192,-88.622923,1188.6964)">
+    <circle
+       cx="1600"
+       cy="1600"
+       r="660"
+       id="circle4263" />
+  </g>
+  <g
+     style="stroke:#000000;stroke-width:4;stroke-opacity:0.9"
+     id="g4137"
+     transform="matrix(0.65816697,-0.35575119,0.38368995,0.61024192,-88.622923,1188.6964)">
+    <line
+       x1="2360"
+       y1="2916.3589"
+       x2="1980"
+       y2="2258.179"
+       id="line4139" />
+    <line
+       x1="2360"
+       y1="2916.3589"
+       x2="2360"
+       y2="1600"
+       id="line4141" />
+    <line
+       x1="2360"
+       y1="2916.3589"
+       x2="3120"
+       y2="1600"
+       id="line4143" />
+    <line
+       x1="2360"
+       y1="2916.3589"
+       x2="1220"
+       y2="2258.179"
+       id="line4145" />
+    <line
+       x1="2360"
+       y1="2916.3589"
+       x2="1600"
+       y2="1600"
+       id="line4147" />
+    <line
+       x1="2360"
+       y1="2916.3589"
+       x2="840"
+       y2="2916.3589"
+       id="line4149" />
+    <line
+       x1="1980"
+       y1="2258.179"
+       x2="2360"
+       y2="1600"
+       id="line4151" />
+    <line
+       x1="1980"
+       y1="2258.179"
+       x2="3120"
+       y2="1600"
+       id="line4153" />
+    <line
+       x1="1980"
+       y1="2258.179"
+       x2="1220"
+       y2="2258.179"
+       id="line4155" />
+    <line
+       x1="1980"
+       y1="2258.179"
+       x2="1220"
+       y2="941.82098"
+       id="line4157" />
+    <line
+       x1="1980"
+       y1="2258.179"
+       x2="1980"
+       y2="941.82098"
+       id="line4159" />
+    <line
+       x1="1980"
+       y1="2258.179"
+       x2="840"
+       y2="2916.3589"
+       id="line4161" />
+    <line
+       x1="1980"
+       y1="2258.179"
+       x2="840"
+       y2="1600"
+       id="line4163" />
+    <line
+       x1="1980"
+       y1="2258.179"
+       x2="1600"
+       y2="1600"
+       id="line4165" />
+    <line
+       x1="2360"
+       y1="1600"
+       x2="3120"
+       y2="1600"
+       id="line4167" />
+    <line
+       x1="2360"
+       y1="1600"
+       x2="1600"
+       y2="1600"
+       id="line4169" />
+    <line
+       x1="2360"
+       y1="1600"
+       x2="1220"
+       y2="941.82098"
+       id="line4171" />
+    <line
+       x1="2360"
+       y1="1600"
+       x2="2360"
+       y2="283.64099"
+       id="line4173" />
+    <line
+       x1="2360"
+       y1="1600"
+       x2="1220"
+       y2="2258.179"
+       id="line4175" />
+    <line
+       x1="2360"
+       y1="1600"
+       x2="840"
+       y2="1600"
+       id="line4177" />
+    <line
+       x1="2360"
+       y1="1600"
+       x2="1980"
+       y2="941.82098"
+       id="line4179" />
+    <line
+       x1="3120"
+       y1="1600"
+       x2="1980"
+       y2="941.82098"
+       id="line4181" />
+    <line
+       x1="3120"
+       y1="1600"
+       x2="2360"
+       y2="283.64099"
+       id="line4183" />
+    <line
+       x1="3120"
+       y1="1600"
+       x2="1600"
+       y2="1600"
+       id="line4185" />
+    <line
+       x1="1220"
+       y1="2258.179"
+       x2="1600"
+       y2="1600"
+       id="line4187" />
+    <line
+       x1="1220"
+       y1="2258.179"
+       x2="1220"
+       y2="941.82098"
+       id="line4189" />
+    <line
+       x1="1220"
+       y1="2258.179"
+       x2="1980"
+       y2="941.82098"
+       id="line4191" />
+    <line
+       x1="1220"
+       y1="2258.179"
+       x2="840"
+       y2="2916.3589"
+       id="line4193" />
+    <line
+       x1="1220"
+       y1="2258.179"
+       x2="80"
+       y2="1600"
+       id="line4195" />
+    <line
+       x1="1220"
+       y1="2258.179"
+       x2="840"
+       y2="1600"
+       id="line4197" />
+    <line
+       x1="1600"
+       y1="1600"
+       x2="1220"
+       y2="941.82098"
+       id="line4199" />
+    <line
+       x1="1600"
+       y1="1600"
+       x2="2360"
+       y2="283.64099"
+       id="line4201" />
+    <line
+       x1="1600"
+       y1="1600"
+       x2="80"
+       y2="1600"
+       id="line4203" />
+    <line
+       x1="1220"
+       y1="941.82098"
+       x2="1980"
+       y2="941.82098"
+       id="line4205" />
+    <line
+       x1="1220"
+       y1="941.82098"
+       x2="2360"
+       y2="283.64099"
+       id="line4207" />
+    <line
+       x1="1220"
+       y1="941.82098"
+       x2="840"
+       y2="1600"
+       id="line4209" />
+    <line
+       x1="1220"
+       y1="941.82098"
+       x2="80"
+       y2="1600"
+       id="line4211" />
+    <line
+       x1="1220"
+       y1="941.82098"
+       x2="840"
+       y2="283.64099"
+       id="line4213" />
+    <line
+       x1="1980"
+       y1="941.82098"
+       x2="2360"
+       y2="283.64099"
+       id="line4215" />
+    <line
+       x1="1980"
+       y1="941.82098"
+       x2="1600"
+       y2="1600"
+       id="line4217" />
+    <line
+       x1="1980"
+       y1="941.82098"
+       x2="840"
+       y2="1600"
+       id="line4219" />
+    <line
+       x1="1980"
+       y1="941.82098"
+       x2="840"
+       y2="283.64099"
+       id="line4221" />
+    <line
+       x1="2360"
+       y1="283.64099"
+       x2="840"
+       y2="283.64099"
+       id="line4223" />
+    <line
+       x1="840"
+       y1="2916.3589"
+       x2="840"
+       y2="1600"
+       id="line4225" />
+    <line
+       x1="840"
+       y1="2916.3589"
+       x2="1600"
+       y2="1600"
+       id="line4227" />
+    <line
+       x1="840"
+       y1="2916.3589"
+       x2="80"
+       y2="1600"
+       id="line4229" />
+    <line
+       x1="840"
+       y1="1600"
+       x2="1600"
+       y2="1600"
+       id="line4231" />
+    <line
+       x1="840"
+       y1="1600"
+       x2="80"
+       y2="1600"
+       id="line4233" />
+    <line
+       x1="840"
+       y1="1600"
+       x2="840"
+       y2="283.64099"
+       id="line4235" />
+    <line
+       x1="1600"
+       y1="1600"
+       x2="840"
+       y2="283.64099"
+       id="line4237" />
+    <line
+       x1="80"
+       y1="1600"
+       x2="840"
+       y2="283.64099"
+       id="line4239" />
+  </g>
+</svg>

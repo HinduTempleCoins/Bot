@@ -1,0 +1,703 @@
+[
+  {
+    "id": "hedjet-white-crown",
+    "name": "Hedjet (White Crown of Upper Egypt)",
+    "category": "crown",
+    "era": "Early Dynastic onward",
+    "people": "egyptian",
+    "description": "The bulbed white crown of Upper Egypt, worn by pharaohs and by Horus and Nekhbet; Narmer wears it on one face of the Narmer Palette.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Crowns_of_Egypt",
+      "https://en.wikipedia.org/wiki/Narmer_Palette",
+      "https://en.wikipedia.org/wiki/Pharaoh"
+    ],
+    "prompt": "A tall white bowling-pin shaped royal crown with a rounded bulb at the top, smooth matte white surface, a gold rearing cobra uraeus fixed at the brow, displayed alone on a museum stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "deshret-red-crown",
+    "name": "Deshret (Red Crown of Lower Egypt)",
+    "category": "crown",
+    "era": "Early Dynastic onward",
+    "people": "egyptian",
+    "description": "Red crown of Lower Egypt, worn by pharaohs and by Horus, Wadjet and Neith; dates back to pre-dynastic times.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Crowns_of_Egypt",
+      "https://en.wikipedia.org/wiki/Pharaoh",
+      "https://en.wikipedia.org/wiki/Neith"
+    ],
+    "prompt": "The red crown of Lower Egypt as shown in Egyptian art, deep red surface, gold cobra uraeus at the front, alone on a museum stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "pschent-double-crown",
+    "name": "Pschent (Double Crown)",
+    "category": "crown",
+    "era": "from mid-1st Dynasty to Ptolemaic",
+    "people": "egyptian",
+    "description": "The red and white crowns combined with uraeus and vulture; first documented in the middle of the First Dynasty; Ptolemy VI is shown wearing it.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Crowns_of_Egypt",
+      "https://en.wikipedia.org/wiki/Pharaoh"
+    ],
+    "prompt": "A double crown: a tall white bulbed crown set inside the red crown of Lower Egypt, gold cobra and gold vulture head at the brow, alone on a stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "khepresh-blue-crown",
+    "name": "Khepresh (Blue Crown)",
+    "category": "crown",
+    "era": "New Kingdom",
+    "people": "egyptian",
+    "description": "New Kingdom blue crown with uraeus, worn in battle and ceremonies; apparently Amenhotep III's preferred headdress.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Crowns_of_Egypt",
+      "https://www.metmuseum.org/art/collection/search/544477",
+      "https://en.wikipedia.org/wiki/Pharaoh"
+    ],
+    "prompt": "The khepresh blue crown of the New Kingdom pharaohs as carved on statues of Amenhotep III and Seti II, deep blue surface, gold rearing cobra uraeus at the front, alone on a museum stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "nemes-headcloth",
+    "name": "Nemes royal headcloth",
+    "category": "crown",
+    "era": "Early Dynastic / Old Kingdom to Ptolemaic",
+    "people": "egyptian",
+    "description": "Striped linen royal headcloth covering the crown and nape with two lappets hanging before the shoulders; on Tutankhamun's mask the stripes are blue glass on gold.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nemes",
+      "https://en.wikipedia.org/wiki/Mask_of_Tutankhamun",
+      "https://en.wikipedia.org/wiki/Pharaoh",
+      "https://en.wikipedia.org/wiki/Den_(pharaoh)"
+    ],
+    "prompt": "A pharaoh's nemes headcloth shown alone on a bust form: pleated linen with bold horizontal stripes of gold and blue, two broad lappets falling forward, a gathered tail at the back, gold cobra and vulture at the brow, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "khat-headcloth",
+    "name": "Khat headcloth",
+    "category": "crown",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "Head cloth worn by Hatshepsut, topped with the uraeus.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Hatshepsut"
+    ],
+    "prompt": "A plain royal linen bag-shaped khat headcloth gathered at the back of the head, smooth undyed linen, a small gold cobra uraeus at the brow, displayed alone on a bust form, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "atef-crown",
+    "name": "Atef crown",
+    "category": "crown",
+    "era": "New Kingdom and later (divine)",
+    "people": "egyptian",
+    "description": "A white crown flanked by ostrich feathers, sometimes with uraeus and ram horns; worn by Osiris and other gods (shown in the tomb of Nefertari).",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Crowns_of_Egypt"
+    ],
+    "prompt": "An atef crown: a tall white bulbed crown flanked by two curling white ostrich plumes, a pair of horizontal twisted ram horns at the base, a gold cobra at the brow, alone on a museum stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "hemhem-crown",
+    "name": "Hemhem crown",
+    "category": "crown",
+    "era": "New Kingdom and later",
+    "people": "egyptian",
+    "description": "Composite crown of hedjet, uraeus and ram horns, worn by non-Egyptian rulers and certain gods.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Crowns_of_Egypt"
+    ],
+    "prompt": "An elaborate hemhem crown combining white bulbed crowns with horizontal ram horns and gold cobra uraei, painted white and gold, alone on a museum stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "vulture-crown",
+    "name": "Vulture crown",
+    "category": "crown",
+    "era": "from 5th Dynasty; New Kingdom queens",
+    "people": "egyptian",
+    "description": "A vulture draped over the head with wings hanging down the sides, linked to Nekhbet; worn by queens such as Nefertari; in the New Kingdom the vulture head was often replaced by a uraeus.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Vulture_crown",
+      "https://en.wikipedia.org/wiki/Crowns_of_Egypt"
+    ],
+    "prompt": "A queen's vulture crown: a gold vulture spread over a head-form, its feathered wings hanging down both sides, feathers inlaid in blue and red, the vulture head projecting at the brow, alone on a bust stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "modius-crown",
+    "name": "Modius with uraei",
+    "category": "crown",
+    "era": "New Kingdom, 18th-19th Dynasty",
+    "people": "egyptian",
+    "description": "Flat-topped cylindrical headdress of royal women; Meritamen, daughter of Ramesses II, wears one decorated with uraei.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Modius_(headdress)"
+    ],
+    "prompt": "A flat-topped cylindrical queen's crown ringed by a frieze of small gold rearing cobras, gold with blue inlay, alone on a museum stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "kushite-cap-crown",
+    "name": "Kushite cap crown with double uraeus",
+    "category": "crown",
+    "era": "25th Dynasty (Kushite)",
+    "people": "kushite",
+    "description": "Close-fitting cap crown of the Kushite kings with two uraei at the brow, a bandeau with streamers and a diadem of tiny uraei; on the Met's kneeling king a falcon is engraved at the back.",
+    "sources": [
+      "https://www.metmuseum.org/art/collection/search/545027",
+      "https://en.wikipedia.org/wiki/Crowns_of_Egypt",
+      "https://en.wikipedia.org/wiki/Taharqa",
+      "https://en.wikipedia.org/wiki/Sphinx_of_Taharqo"
+    ],
+    "prompt": "A close-fitting skullcap crown with a gold band around the brow, two rearing gold cobras side by side at the front, a diadem ring of many tiny cobras, two ribbon streamers falling from the back, a falcon engraved on the rear, alone on a stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "onuris-four-plume-headdress",
+    "name": "Four-plume headdress of Onuris",
+    "category": "crown",
+    "era": "New Kingdom to Roman (divine)",
+    "people": "egyptian",
+    "description": "Headdress of four tall feathers worn by the war god Onuris (Anhur); Tiberius is shown wearing it in temple reliefs.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Anhur",
+      "https://en.wikipedia.org/wiki/Shu_(Egyptian_god)"
+    ],
+    "prompt": "A god's headdress of four tall straight ostrich plumes rising from a short band, white feathers with fine barbs, alone on a museum stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "crook-and-flail",
+    "name": "Crook and flail of Tutankhamun",
+    "category": "regalia",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "The only surviving royal crook and flail: bronze staffs covered in alternating stripes of blue glass, obsidian and gold, the flail beads of gilded wood.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Crook_and_flail"
+    ],
+    "prompt": "A short shepherd's crook and a flail with three strands of hanging beads, both with shafts banded in alternating stripes of dark blue glass, black obsidian and gold, flail beads of gilded wood, lying crossed, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "uraeus-senusret-ii",
+    "name": "Gold uraeus of Senusret II",
+    "category": "regalia",
+    "era": "Middle Kingdom, 12th Dynasty",
+    "people": "egyptian",
+    "description": "A 6.7 cm gold uraeus found at El-Lahun in 1919, with lapis lazuli head, carnelian and turquoise inlays and granite eyes.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Uraeus"
+    ],
+    "prompt": "A small gold rearing cobra ornament, its hood inlaid with red carnelian and turquoise cells, head of deep blue lapis lazuli, tiny dark granite eyes, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "royal-false-beard",
+    "name": "Royal false beard",
+    "category": "regalia",
+    "era": "all eras",
+    "people": "egyptian",
+    "description": "Plaited ceremonial beard of the king; Tutankhamun's mask beard weighs 2.5 kg with blue glass inlay; Hatshepsut is shown with one.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mask_of_Tutankhamun",
+      "https://www.metmuseum.org/art/collection/search/544448",
+      "https://en.wikipedia.org/wiki/Hatshepsut"
+    ],
+    "prompt": "A pharaoh's ceremonial false beard, long narrow and plaited, gold with dark blue glass inlay in a herringbone plait pattern, a gold chin strap, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "shendyt-kilt",
+    "name": "Royal shendyt kilt",
+    "category": "regalia",
+    "era": "all eras",
+    "people": "egyptian",
+    "description": "Linen wrap kilt worn to above the knee by pharaohs, gods and soldiers; finer materials for higher rank.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Shendyt",
+      "https://en.wikipedia.org/wiki/Hatshepsut"
+    ],
+    "prompt": "A finely pleated white linen wrap kilt ending above the knee, a central front tab, on a belt, displayed flat, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "bulls-tail",
+    "name": "Royal bull's tail",
+    "category": "regalia",
+    "era": "Early Dynastic onward",
+    "people": "egyptian",
+    "description": "A bull's tail hung from the king's belt, shown on the Narmer Palette.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Narmer_Palette"
+    ],
+    "prompt": "A ceremonial bull's tail hanging from a short royal belt, dark tufted hair ending in a brush, gold belt fittings, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "narmer-palette",
+    "name": "Narmer Palette",
+    "category": "regalia",
+    "era": "Early Dynastic, c. 3200-3000 BC",
+    "people": "egyptian",
+    "description": "Siltstone ceremonial palette, about 63 x 42 cm, from Hierakonpolis (Cairo CG 14716 / JE 32169); shows Narmer in the White Crown and the Red Crown, standards, serpopards with intertwined necks.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Narmer_Palette"
+    ],
+    "prompt": "A grey-green siltstone ceremonial palette shaped like a tall shield, carved in low relief: a king in a tall crown striking with a mace, rows of standard bearers, two long-necked mythical felines with intertwined necks around a round central hollow, standing upright, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "tutankhamun-gold-mask",
+    "name": "Gold funerary mask of Tutankhamun",
+    "category": "regalia",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "Two layers of gold (1.5-3 mm) with lapis lazuli, carnelian, obsidian, quartz, turquoise and glass inlays; 54 x 39.3 x 49 cm, 10.23 kg; nemes with blue glass stripes, cobra and vulture at the brow, broad collar.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mask_of_Tutankhamun"
+    ],
+    "prompt": "A solid gold royal funerary mask, nemes headcloth striped in gold and deep blue glass, gold cobra and vulture at the brow, eyes outlined in lapis lazuli with white quartz and black obsidian, plaited blue and gold false beard, wide inlaid broad collar, alone on a stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "nine-bows-sandals",
+    "name": "Sandals with the Nine Bows",
+    "category": "regalia",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "Tutankhamun's sandals carry eight bows in a vertical line and bound foreigners, so the king trampled his enemies as he walked.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nine_Bows"
+    ],
+    "prompt": "A pair of royal sandals with soles decorated by a vertical row of horizontal bows and small figures of bound captives, gilded and painted, laid side by side, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "usekh-broad-collar",
+    "name": "Usekh broad collar",
+    "category": "jewellery",
+    "era": "Old Kingdom onward",
+    "people": "egyptian",
+    "description": "Broad collar of tubular and teardrop beads of faience, glass, stone or metal in curved rows with terminals and sometimes a counterweight.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Usekh_collar"
+    ],
+    "prompt": "A wide semicircular broad collar of many curved rows of tubular and teardrop beads in turquoise faience, red carnelian, dark blue glass and gold, with end terminals and a counterweight, laid flat, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "kushite-ram-head-amulet",
+    "name": "Kushite ram's-head amulet on a cord",
+    "category": "jewellery",
+    "era": "25th Dynasty (Kushite)",
+    "people": "kushite",
+    "description": "Gold ram's head (H 4.2 cm) of the kind Kushite kings wore on a thick neck cord whose ends fell over the shoulders, sometimes with smaller ram heads at the ends; the ram stood for Amun.",
+    "sources": [
+      "https://www.metmuseum.org/art/collection/search/547771",
+      "https://www.metmuseum.org/art/collection/search/545027"
+    ],
+    "prompt": "A small solid gold ram's head amulet with ribbed curling horns, finely incised ear hairs and a small cobra on the brow, hung on a thick cord with two smaller gold ram heads at the cord ends, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "golden-flies-of-valour",
+    "name": "Golden flies of valour",
+    "category": "jewellery",
+    "era": "Second Intermediate / early 18th Dynasty",
+    "people": "egyptian",
+    "description": "Three golden flies from the burial of Ahhotep, military awards for distinguished service.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ahhotep_II"
+    ],
+    "prompt": "Three large stylized gold fly pendants with broad smooth wings and bulbous heads on a gold chain, laid out, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "ahmose-lapis-bracelet",
+    "name": "Lapis bracelet naming Ahmose",
+    "category": "jewellery",
+    "era": "early 18th Dynasty",
+    "people": "egyptian",
+    "description": "Bracelets of lapis lazuli inscribed with Ahmose I's name, from the burial of Ahhotep.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ahhotep_II"
+    ],
+    "prompt": "A bracelet of deep blue lapis lazuli beads with a small inscribed royal cartouche, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "golden-throne-tutankhamun",
+    "name": "Golden Throne of Tutankhamun",
+    "category": "furniture",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "Wood covered with chased gold sheet, inlaid with glass, faience and semi-precious stones; backrest shows the king and queen under the rays of the Aten; winged uraei on the sides; H 103.5 cm.",
+    "sources": [
+      "https://gem.eg/en/collection/artefacts/golden-throne"
+    ],
+    "prompt": "An ancient armchair throne of wood sheathed in chased gold sheet, inlaid with coloured glass, faience and semi-precious stones, backrest showing a king and queen under a floral canopy beneath a sun disk with long rays, winged cobras holding cartouches along the sides, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "nine-bows-footstool",
+    "name": "Footstool with the Nine Bows",
+    "category": "furniture",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "Tutankhamun's footstool is decorated with the Nine Bows, so that each time he stepped on it he trampled his enemies.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nine_Bows"
+    ],
+    "prompt": "A low rectangular royal footstool whose top is decorated with a row of horizontal bows and bound captive figures in gold, ebony and coloured inlay, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "disc-mace-head",
+    "name": "Predynastic disc mace head",
+    "category": "weapon",
+    "era": "Predynastic, c. 3850-3650 BCE",
+    "people": "egyptian",
+    "description": "Early Egyptian maces with a disc-shaped stone head, short-lived before the piriform type.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mace_(bludgeon)"
+    ],
+    "prompt": "A flat disc-shaped polished stone mace head with a central shaft hole, pale calcite, mounted on a short wooden haft, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "piriform-mace-head",
+    "name": "Pear-shaped (piriform) mace",
+    "category": "weapon",
+    "era": "Naqada II to Early Dynastic",
+    "people": "egyptian",
+    "description": "Rounded pear-shaped mace heads replaced the disc mace in Naqada II (3600-3250 BCE); calcite and other stones; the royal smiting weapon.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mace_(bludgeon)",
+      "https://en.wikipedia.org/wiki/Narmer_Palette"
+    ],
+    "prompt": "A pear-shaped polished white calcite mace head on a straight wooden haft bound with leather, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "duckbill-axe",
+    "name": "Duckbill axe head",
+    "category": "weapon",
+    "era": "Middle Bronze Age IIA (12th Dynasty); Second Intermediate",
+    "people": "hyksos",
+    "description": "Syro-Palestinian socketed axe with a narrow blade; one very similar was found in a late 12th-Dynasty tomb at Tell el-Daba (Avaris); carried by the Aamu at Beni Hasan.",
+    "sources": [
+      "https://www.metmuseum.org/art/collection/search/545716",
+      "https://jewishstudies.rutgers.edu/images/documents/faculty/Rendsburg/ch.%202%20text%20%20notes.pdf"
+    ],
+    "prompt": "A bronze axe head with a narrow elongated blade shaped like a duck's bill, a large tubular socket for the haft, greenish bronze patina, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "epsilon-axe",
+    "name": "Epsilon axe",
+    "category": "weapon",
+    "era": "Middle Kingdom - New Kingdom",
+    "people": "egyptian",
+    "description": "Bronze or copper axe head shaped like the letter epsilon, attached to the haft at three points by tangs wedged and lashed into grooves.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Epsilon_axe"
+    ],
+    "prompt": "A crescent-shaped bronze axe blade with two openings giving it the shape of a Greek epsilon, three tangs lashed with rawhide into a wooden haft, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "ahmose-ceremonial-axe",
+    "name": "Ceremonial axe of Ahmose I",
+    "category": "weapon",
+    "era": "early 18th Dynasty",
+    "people": "egyptian",
+    "description": "Inscribed ceremonial axe blade of copper, gold, electrum and wood with a Minoan-style griffin, from Ahhotep's burial (CG 52645 / JE 4673).",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ahhotep_II",
+      "https://en.wikipedia.org/wiki/Ahmose_I"
+    ],
+    "prompt": "A ceremonial axe with a broad copper blade overlaid in gold and electrum, inlaid with a winged griffin and hieroglyphs, lashed to a gold-sheathed wooden handle, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "khopesh",
+    "name": "Khopesh sickle sword",
+    "category": "weapon",
+    "era": "Second Intermediate - New Kingdom",
+    "people": "egyptian",
+    "description": "Curved sword 50-60 cm long, only the outer curve sharpened; two ceremonial examples in Tutankhamun's tomb; the Met calls the sickle sword newly imported from western Asia.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Khopesh",
+      "https://www.metmuseum.org/art/collection/search/571749"
+    ],
+    "prompt": "A bronze sickle sword about 55 cm long, straight grip section turning into a deep hooked blade sharpened only on the outer curve, simple hilt, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "composite-bow",
+    "name": "New Kingdom composite bow",
+    "category": "weapon",
+    "era": "New Kingdom",
+    "people": "egyptian",
+    "description": "Bow built of horn on the belly and sinew on the back, glued and covered with birch bark; the Egyptian army's principal weapon.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Military_of_ancient_Egypt"
+    ],
+    "prompt": "A recurved composite bow of layered horn and sinew wrapped in thin birch bark, strung with gut, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "tutankhamun-meteoric-iron-dagger",
+    "name": "Meteoric iron dagger of Tutankhamun",
+    "category": "weapon",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "Dagger with a meteoritic iron blade (~10.8% nickel), found in 1925 in the king's wrappings; gold handle and rock-crystal pommel, gold sheath.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Tutankhamun%27s_meteoric_iron_dagger",
+      "https://archaeology.org/news/2016/06/01/160601-dagger-iron-blade/"
+    ],
+    "prompt": "A dagger with a slender grey meteoric iron blade, gold handle decorated with granulation and cloisonne bands, a round rock crystal pommel, beside its gold sheath, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "throwstick",
+    "name": "Throwstick",
+    "category": "weapon",
+    "era": "all eras",
+    "people": "egyptian",
+    "description": "Throwsticks were among New Kingdom infantry weapons; a throwstick classifier marks foreign people in the Beni Hasan caption.",
+    "sources": [
+      "https://www.metmuseum.org/art/collection/search/571749",
+      "https://en.wikipedia.org/wiki/Military_of_ancient_Egypt",
+      "https://jewishstudies.rutgers.edu/images/documents/faculty/Rendsburg/ch.%202%20text%20%20notes.pdf"
+    ],
+    "prompt": "A flat curved wooden throwing stick, gently bent like a boomerang, painted, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "sherden-long-sword",
+    "name": "Sherden long sword",
+    "category": "weapon",
+    "era": "19th-20th Dynasty",
+    "people": "sea-peoples",
+    "description": "Egyptian reliefs show the Sherden with long swords, possibly of the Naue II type.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sherden"
+    ],
+    "prompt": "A long straight Late Bronze Age bronze sword with a leaf-shaped blade and flanged grip, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "egyptian-hide-shield",
+    "name": "Egyptian cowhide infantry shield",
+    "category": "armour",
+    "era": "Middle Kingdom - New Kingdom",
+    "people": "egyptian",
+    "description": "Rectangular shield of cowhide or oxhide over a wooden frame, tapering to a curved top, with a handle or leather strip; model shields imitate cowhide with a rawhide edge.",
+    "sources": [
+      "https://gem.eg/en/collection/artefacts/model-shield-of-nakhti",
+      "https://www.metmuseum.org/art/collection/search/546270",
+      "https://en.wikipedia.org/wiki/Mesehti"
+    ],
+    "prompt": "A tall rectangular infantry shield tapering to a rounded top, spotted cowhide stretched over a wooden frame, edged with a strip of red rawhide, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "tutankhamun-ceremonial-shield-lions",
+    "name": "Ceremonial shield: king holding two lions",
+    "category": "armour",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "Openwork gilded wood shield: the king with a scimitar holds two lions by the tails under a winged sun disk, Nekhbet behind him (JE 61576).",
+    "sources": [
+      "https://egypt-museum.com/ceremonial-shields-of-tutankhamun/"
+    ],
+    "prompt": "A ceremonial openwork shield of gilded wood with a rounded top, a winged sun disk curving along the top, a king holding a curved sword raising two lions by their tails, a vulture spreading its wings behind him, desert band below, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "tutankhamun-ceremonial-shield-sphinx",
+    "name": "Ceremonial shield: king as sphinx",
+    "category": "armour",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "Openwork wood shield covered with stucco, gilt and inlaid with ebony: the king as a human-headed sphinx in the double crown trampling southern foes (JE 61577).",
+    "sources": [
+      "https://egypt-museum.com/ceremonial-shields-of-tutankhamun/"
+    ],
+    "prompt": "A ceremonial openwork shield of gilded wood inlaid with ebony, rounded top with a winged sun disk, a human-headed sphinx in a double crown trampling fallen enemies, a falcon holding a ring sign behind, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "bronze-scale-armour",
+    "name": "Bronze armour scales",
+    "category": "armour",
+    "era": "New Kingdom, reign of Amenhotep III",
+    "people": "egyptian",
+    "description": "Bronze scales (about 11.5 cm) excavated at Amenhotep III's palace at Malqata, meant to be sewn to a linen or leather backing; body armour was a foreign import, probably not commonly worn.",
+    "sources": [
+      "https://www.metmuseum.org/art/collection/search/577194",
+      "https://en.wikipedia.org/wiki/Scale_armour"
+    ],
+    "prompt": "A bronze scale-armour corslet: rows of overlapping elongated bronze scales, each about 11 cm, sewn onto a linen backing, green-brown patina, displayed on a form, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "leather-scale-cuirass",
+    "name": "Leather scale cuirass",
+    "category": "armour",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "A cuirass of leather scales was found in Tutankhamun's tomb.",
+    "sources": [
+      "https://www.metmuseum.org/art/collection/search/577194"
+    ],
+    "prompt": "A sleeveless cuirass of overlapping rawhide leather scales stitched onto a linen backing, natural tan leather, displayed on a form, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "sherden-horned-helmet",
+    "name": "Sherden horned helmet",
+    "category": "armour",
+    "era": "19th-20th Dynasty",
+    "people": "sea-peoples",
+    "description": "Egyptian reliefs show Sherden in horned helmets with a circular ornament at the crest; Ramesses II's bodyguard were 'conspicuous by their horned helmets'.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sherden",
+      "https://en.wikipedia.org/wiki/Ramesses_II"
+    ],
+    "prompt": "A rounded bronze helmet with two long curving horns and a small disc ornament on a short stem at the crest, alone on a stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "sherden-round-shield",
+    "name": "Sherden round shield",
+    "category": "armour",
+    "era": "19th-20th Dynasty",
+    "people": "sea-peoples",
+    "description": "Round shields are consistently shown with the Sherden in Egyptian reliefs.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sherden"
+    ],
+    "prompt": "A round Late Bronze Age warrior's shield as carved in Egyptian reliefs of the Sherden, alone, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "peleset-feathered-headdress",
+    "name": "Peleset 'feathered' helmet",
+    "category": "armour",
+    "era": "20th Dynasty (Ramesses III)",
+    "people": "sea-peoples",
+    "description": "Peleset are recognisable in Egyptian art by feathered plume helmets, likely made of leather strips; Medinet Habu shows feather-helmeted enemies with ox-carts.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Peleset",
+      "https://en.wikipedia.org/wiki/Medinet_Habu"
+    ],
+    "prompt": "A warrior's headdress: a headband crowned by a tall upright ring of stiff vertical strips like plumes, made of leather strips, with a chin strap, alone on a stand, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "aamu-patterned-garment",
+    "name": "Aamu multicoloured garment",
+    "category": "garment",
+    "era": "Middle Kingdom, 12th Dynasty",
+    "people": "asiatic",
+    "description": "At Beni Hasan the Aamu men and women wear colourful garments; the women and a boy wear leather shoes, others sandals.",
+    "sources": [
+      "https://jewishstudies.rutgers.edu/images/documents/faculty/Rendsburg/ch.%202%20text%20%20notes.pdf",
+      "https://www.metmuseum.org/art/collection/search/544548",
+      "https://madainproject.com/procession_of_the_aamu"
+    ],
+    "prompt": "A knee-length wrap garment woven in bold multicoloured patterns, beside a pair of closed leather shoes and a pair of sandals, laid flat, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "libyan-antelope-hide-cloak",
+    "name": "Libyan antelope-hide cloak with feathers",
+    "category": "garment",
+    "era": "New Kingdom - Third Intermediate",
+    "people": "libyan",
+    "description": "Egyptian art shows the Meshwesh in antelope-hide cloaks with feathered headdresses and tattoos; the Book of Gates shows Libyans in open gowns exposing the shoulders.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Meshwesh",
+      "https://en.wikipedia.org/wiki/Book_of_Gates"
+    ],
+    "prompt": "A long open antelope-hide cloak with tan fur, fastened at one shoulder, beside two upright ostrich feathers for the hair, laid out, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "nubian-red-sash",
+    "name": "Nubian garment with red sash",
+    "category": "garment",
+    "era": "New Kingdom (Book of Gates)",
+    "people": "kushite",
+    "description": "In the Book of Gates the Nubians wear a thick red sash across the chest; Mesehti's Nubian archers wear a red loincloth.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Book_of_Gates",
+      "https://en.wikipedia.org/wiki/Mesehti",
+      "https://egypt-museum.com/table-of-nations/"
+    ],
+    "prompt": "A white linen kilt with a thick red sash to be worn across the chest, laid flat, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "new-kingdom-war-chariot",
+    "name": "New Kingdom war chariot",
+    "category": "chariot",
+    "era": "New Kingdom",
+    "people": "egyptian",
+    "description": "Cab with two rear-mounted wheels connected by a pole to a yoked pair of horses, crewed by a driver with a shield and a warrior; axle at the back, lighter than Hyksos chariots.",
+    "sources": [
+      "https://www.metmuseum.org/art/collection/search/571749",
+      "https://en.wikipedia.org/wiki/Egyptian_chariot",
+      "https://en.wikipedia.org/wiki/Chariot"
+    ],
+    "prompt": "An empty two-wheeled light war chariot, open-backed bentwood cab covered in leather, six-spoked wheels on an axle set at the rear of the cab, a long draught pole with a double yoke, bow case fixed at the side, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "tutankhamun-ceremonial-chariot",
+    "name": "Ceremonial chariot of Tutankhamun",
+    "category": "chariot",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "One of six chariots from the tomb (two large ceremonial, one smaller decorated, three light): bentwood body, leather, gold, glass inlay and ivory; six-spoked wheels.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Chariots_of_Tutankhamun"
+    ],
+    "prompt": "A gilded ceremonial chariot, bentwood cab sheathed in gold with coloured glass inlay, six-spoked wheels, long draught pole and yoke, empty, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "yuya-tjuyu-chariot",
+    "name": "Chariot of Yuya and Tjuyu",
+    "category": "chariot",
+    "era": "New Kingdom, reign of Amenhotep III",
+    "people": "egyptian",
+    "description": "Wood-and-leather chariot about 245 cm long from KV46, probably too light for combat.",
+    "sources": [
+      "https://www.metmuseum.org/art/collection/search/571749"
+    ],
+    "prompt": "A light wooden two-wheeled chariot about 2.5 m long with leather-covered cab and gold leaf trim, empty, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "fan-standard",
+    "name": "Semicircular fan standard",
+    "category": "standard",
+    "era": "New Kingdom, 18th Dynasty",
+    "people": "egyptian",
+    "description": "A semicircular fan on a long staff, the most common Egyptian military standard in the 18th Dynasty, particularly under Hatshepsut.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Military_of_ancient_Egypt"
+    ],
+    "prompt": "A military standard: a tall wooden staff topped by a semicircular fan, alone upright, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "neith-crossed-bows-shield-emblem",
+    "name": "Emblem of Neith: crossed bows over a shield",
+    "category": "standard",
+    "era": "Early Dynastic; Saite 26th Dynasty",
+    "people": "egyptian",
+    "description": "Neith's emblem of crossed bows over a shield, also the symbol of her city Sais.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Neith",
+      "https://en.wikipedia.org/wiki/Twenty-sixth_Dynasty_of_Egypt"
+    ],
+    "prompt": "An emblem on a staff: two crossed bows over an oval shield, painted wood, alone upright, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "new-kingdom-warship",
+    "name": "New Kingdom warship",
+    "category": "ship",
+    "era": "New Kingdom, 20th Dynasty",
+    "people": "egyptian",
+    "description": "Ships of the Sea Peoples war: a single mast with horizontal square sail, 70-80 tonnes, about 50 rowers, two steering oars.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ancient_Egyptian_navy",
+      "https://en.wikipedia.org/wiki/Battle_of_the_Delta"
+    ],
+    "prompt": "A wooden Egyptian warship with a single mast and one wide square sail, rows of oar ports for about fifty oars, two large steering oars at the stern, raised fighting platforms, afloat on calm water, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "ahmose-model-boat",
+    "name": "Gold model boat of Ahmose",
+    "category": "ship",
+    "era": "early 18th Dynasty",
+    "people": "egyptian",
+    "description": "Gold and silver miniature boats commissioned by Ahmose I were found in Ahhotep's tomb.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ahhotep_II"
+    ],
+    "prompt": "A small gold model boat with tiny rowers and oars, beside a matching silver model boat, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  },
+  {
+    "id": "buhen-fortress",
+    "name": "Fortress of Buhen",
+    "category": "fortress",
+    "era": "Middle Kingdom, 12th Dynasty",
+    "people": "egyptian",
+    "description": "Fort below the Second Cataract, over 150 m along the Nile, walls about 5 m thick and 10 m high, with a 3 m moat, drawbridges, bastions, loopholes and a catapult.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Buhen",
+      "https://en.wikipedia.org/wiki/Military_of_ancient_Egypt"
+    ],
+    "prompt": "An architectural scale model of a rectangular mud-brick and stone fortress with 10 m high walls about 5 m thick, projecting bastions, loopholes, a dry moat three metres deep and a drawbridge gate, plain backdrop, photorealistic, museum-quality detail, sharp focus"
+  }
+]

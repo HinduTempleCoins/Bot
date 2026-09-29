@@ -1,0 +1,172 @@
+'''Colorimetric Reagents and Presumptive Chemical Testing''' provides an exhaustive technical and practical reference on chemical spot-testing reagents, organic chromophore reaction mechanisms, multi-reagent diagnostic matrices, and the critical forensic limitations of presumptive assays.
+
+In harm reduction and analytical toxicology, colorimetric reagents represent the primary line of defense for verifying chemical identity and detecting hazardous substitutions. However, because reagents are presumptive rather than confirmatory, understanding their underlying chemical mechanisms, cross-reactivities, and the deadly hazard of "adulterant masking" is essential to preventing fatal false negatives.
+
+== The chemistry of colorimetric reagents ==
+
+Colorimetric spot tests rely on concentrated acids, Lewis acid oxidants, and aromatic aldehydes that react with specific functional groups to generate highly conjugated, resonance-stabilized dye cations (chromophores) that absorb visible light:
+
+<code>
+                 [ UNKNOWN CHEMICAL SAMPLE (~1 mg) ]
+                                  │
+         ┌────────────────────────┼────────────────────────┐
+         ▼                        ▼                        ▼
+[ Strong Acid + Aldehyde ]   [ Transition Metal Redox ]   [ Amine-Selective Chromogens ]
+ • Marquis (H2SO4 + HCHO)     • Mandelin (Vanadium V)      • Simon's (Secondary Amines)
+ • Ehrlich (DMAB + HCl)       • Froehde (Molybdenum VI)    • Robadope (Primary Amines)
+ • Forms conjugated quinoid   • Multi-valence transition   • Sodium nitroprusside dye
+</code>
+
+=== 1. Marquis Reagent (Sulfuric acid and Formaldehyde) ===
+* '''Composition:''' 100 parts concentrated sulfuric acid ($95\text{–}98\%\,H_2SO_4$) to 1 part aqueous formaldehyde ($37\%\,HCHO$).
+* '''Reaction Mechanism:'''
+# Concentrated sulfuric acid acts as a powerful dehydrating agent and Brønsted acid, protonating the sample and generating transient, resonance-stabilized carbenium ions.
+# Formaldehyde acts as a bifunctional electrophile, undergoing electrophilic aromatic substitution across the electron-rich aromatic rings of two distinct substrate molecules.
+# Dehydration and oxidation bridge the two aromatic cores via a methane carbon, forming highly conjugated **diarylmethane and triarylmethane quinoid cations**.
+# The extended $\pi$-electron orbital delocalization lowers the excitation energy threshold, absorbing visible wavelengths and transmitting intense characteristic colors:
+** ''Methylenedioxy compounds (MDMA, MDA):'' Rapidly form dark purple/black carbocation dimers.
+** ''Unsubstituted amphetamines:'' Form orange-to-brown quinoid bridges.
+** ''Phenethylamines with alkoxy groups (2C-B):'' Form vivid yellow-to-green conjugated dyes.
+
+=== 2. Mecke Reagent (Selenious acid in Sulfuric acid) ===
+* '''Composition:''' $0.25\text{–}1.0\%\text{ selenious acid } (H_2SeO_3)$ dissolved in concentrated $H_2SO_4$.
+* '''Mechanism:''' Selenium(IV) serves as a selective oxidant for electron-rich catechol and dioxolane rings, forming colored organo-selenium quinonoid complexes.
+* Highly effective for verifying MDMA (flashes green, rapidly turning deep dark blue) and distinguishing phenethylamines from opiates.
+
+=== 3. Mandelin Reagent (Ammonium Metavanadate in Sulfuric acid) ===
+* '''Composition:''' $0.5\text{–}1.0\%\text{ ammonium metavanadate } (NH_4VO_3)$ dissolved in concentrated $H_2SO_4$.
+* '''Mechanism:''' Vanadium(V) is an intensely reactive transition metal oxidant. Substrate electron donation reduces yellow $V^{5+}$ sequentially through blue $V^{4+}$ ($VO^{2+}$) to green $V^{3+}$.
+* '''Diagnostic Role:''' Excellent for screening ketamine (orange-red transition) and detecting highly toxic ring-substituted adulterants such as **PMA and PMMA** (which turn slowly brown-red with Mandelin while showing zero initial color change on Marquis).
+
+=== 4. Froehde Reagent (Molybdic acid in Sulfuric acid) ===
+* '''Composition:''' Sodium molybdate or ammonium molybdate ($0.5\%$) dissolved in hot concentrated $H_2SO_4$.
+* '''Mechanism:''' Reduction of hexavalent molybdenum ($Mo^{6+}$, colorless/pale yellow) to lower valence molybdenum blue complexes ($Mo^{5+}/Mo^{4+}$).
+* Valuable for confirming benzofurans (6-APB, 5-APB) and differentiating morphine from synthetic opioids.
+
+=== 5. Liebermann Reagent (Potassium Nitrite in Sulfuric acid) ===
+* '''Composition:''' $10\%\text{ potassium nitrite } (KNO_2)$ dissolved in concentrated $H_2SO_4$.
+* '''Mechanism:''' Generates active nitrosonium cations ($NO^+$) that drive electrophilic $C$-nitrosation across phenolic aromatic rings (the classical Liebermann dye reaction), forming indophenol-like colored chromophores.
+
+=== 6. Simon's Reagent: The Secondary Amine Diagnostic ===
+* '''Composition:''' Two-part reagent:
+** ''Simon's A:'' $2\%\text{ sodium nitroprusside } [Na_2Fe(CN)_5NO]$ in $20\%\text{ aqueous acetaldehyde } (CH_3CHO)$.
+** ''Simon's B:'' $2\%\text{ sodium carbonate } (Na_2CO_3)$ alkaline buffer solution.
+* '''The Secondary Amine Selectivity:'''
+# The secondary amine (such as the $N$-methyl group of MDMA or methamphetamine) reacts with acetaldehyde to form an uncharged enamine intermediate.
+# In the presence of alkaline sodium carbonate, the enamine attacks the nitrosyl ligand of sodium nitroprusside.
+# This generates an intense, unmistakable '''cobalt blue Simon's complex'''.
+* '''Primary Amine Inactivity:''' Primary amines (such as amphetamine, MDA, and 6-APB) cannot form the required enamine structure and produce **zero reaction (remains completely clear/colorless)**.
+
+=== 7. Robadope Reagent: The Primary Amine Diagnostic ===
+* '''Composition:''' Identical to Simon's, but replaces acetaldehyde with acetone.
+* '''The Primary Amine Selectivity:''' Reacts specifically with **primary amines** to generate an intense cherry-red / pink complex, while producing zero color change with secondary or tertiary amines.
+
+=== 8. Ehrlich Reagent ($p$-DMAB in Acidified Alcohol) ===
+* '''Composition:''' $1\text{–}2\%\text{ }p\text{-dimethylaminobenzaldehyde (DMAB)}$ in concentrated hydrochloric acid ($HCl$) and ethanol.
+* '''The Indole Specificity:'''
+# DMAB is an electrophilic aromatic aldehyde. In concentrated acid, the aldehyde carbonyl is protonated, forming a resonance-stabilized electrophilic carbocation.
+# This carbocation specifically attacks the highly nucleophilic **2-position of the pyrrole ring in indoles** (such as LSD, psilocin, and DMT).
+# A second indole molecule couples to the intermediate, followed by dehydration, forming an intensely colored, resonance-stabilized bis-indolyl dye that turns **vivid violet/purple**.
+* '''The Phenethylamine Trap:''' Phenethylamines, cathinones, and NBOMes lack an indole nucleus and produce **zero color change**, making Ehrlich the premier screening test to ensure blotters do not contain 25I-NBOMe.
+
+=== 9. Hofmann Reagent ($p$-DMACA in Acidified Alcohol) ===
+* '''Composition:''' $p$-dimethylaminocinnamaldehyde in acidified ethanol.
+* Featuring an extended conjugated vinyl bridge, Hofmann reacts with indoles and ergolines to produce rapid, distinct blue and green chromophores, allowing analytical differentiation between DMT and 5-MeO-DMT.
+
+== Master colorimetric reaction matrix ==
+
+The following matrix standardizes published forensic reference observations across the core reagent suite:
+
+{| class="wikitable"
+! Substance Class !! Substance !! Marquis !! Mecke !! Mandelin !! Simon's !! Robadope !! Ehrlich
+|-
+| '''Entactogen (Secondary Amine)''' || '''MDMA''' || Dark Purple → Black || Green → Dark Blue || Dark Purple → Black || '''Cobalt Blue''' || No Reaction || No Reaction
+|-
+| '''Entactogen (Primary Amine)''' || '''MDA''' || Dark Purple → Black || Dark Blue || Dark Purple → Black || No Reaction || '''Cherry Red''' || No Reaction
+|-
+| '''Benzofuran (Primary Amine)''' || '''6-APB / 5-APB''' || Purple → Black || Dark Purple / Brown || Purple → Brown || No Reaction || '''Cherry Red''' || No Reaction
+|-
+| '''Stimulant (Primary Amine)''' || '''Amphetamine''' || Orange → Brown || No Reaction || Greenish Brown || No Reaction || '''Cherry Red''' || No Reaction
+|-
+| '''Stimulant (Secondary Amine)''' || '''Methamphetamine''' || Orange → Brown || No Reaction || Greenish Brown || '''Cobalt Blue''' || No Reaction || No Reaction
+|-
+| '''Psychedelic Phenethylamine''' || '''2C-B''' || Yellow → Dark Green || Yellowish Brown || Green → Brown || No Reaction || No Reaction || No Reaction
+|-
+| '''High-Potency Phenethylamine''' || '''25I-NBOMe''' || Brown / Orange || Brown / Dark Green || Dark Green || No Reaction || No Reaction || '''No Reaction (Colorless)'''
+|-
+| '''Classic Ergoloid''' || '''LSD''' || Olive / Black (Slow) || Olive (Slow) || No Reaction || No Reaction || No Reaction || '''Vivid Violet / Purple'''
+|-
+| '''Tryptamine''' || '''Psilocybin / Psilocin''' || Yellow → Orange || Greenish Black || Green → Grey || No Reaction || No Reaction || '''Vivid Purple'''
+|-
+| '''Tryptamine''' || '''DMT''' || Orange → Brown || Green → Yellow || Orange → Green || No Reaction || No Reaction || '''Vivid Purple'''
+|-
+| '''Arylcyclohexylamine''' || '''Ketene / Ketamine''' || No Reaction || No Reaction || Orange → Reddish || No Reaction || No Reaction || No Reaction
+|-
+| '''Synthetic Opioid''' || '''Fentanyl''' || Light Orange (Faint) || No Reaction || Light Orange || No Reaction || No Reaction || No Reaction
+|-
+| '''Toxic Adulterant''' || '''PMA / PMMA''' || '''No Reaction (0–30s)''' || No Reaction || '''Brownish Red''' || Varies || Varies || No Reaction
+|}
+
+== The multi-reagent diagnostic decision tree ==
+
+Relying on a single colorimetric test (such as testing MDMA exclusively with Marquis) creates catastrophic diagnostic vulnerabilities. Forensic protocols require pairing reagents in structured sequences:
+
+<code>
+                 [ UNKNOWN POWDER CLAIMED AS "MDMA" ]
+                                   │
+                                   ▼
+                      [ Step 1: MARQUIS REAGENT ]
+                                   │
+         ┌─────────────────────────┴─────────────────────────┐
+         ▼                                                   ▼
+[ Turns Black / Purple ]                            [ No Reaction / Orange / Yellow ]
+ • Confirms MDMA/MDA/MDEA class                      • FAKE / CUT: Speed, Cathinone, or PMA
+                                   │
+                                   ▼
+                      [ Step 2: SIMON'S REAGENT ]
+                                   │
+         ┌─────────────────────────┴─────────────────────────┐
+         ▼                                                   ▼
+[ Turns COBALT BLUE ]                               [ NO COLOR REACTION ]
+ • Secondary Amine: MDMA                             • Primary Amine: MDA or 6-APB
+                                                     • Run Robadope to confirm primary amine
+</code>
+
+* '''Differentiating LSD from 25I-NBOMe:'''
+** Cut a tiny corner of the blotter tab onto a white ceramic spot plate.
+** Add one drop of '''Ehrlich reagent'''.
+** A true ergoline (LSD, 1P-LSD) turns deep purple within 5 to 30 minutes. If the droplet remains completely clear after 30 minutes, the blotter is not an indole and must be rejected as an unreactive phenethylamine (such as 25I-NBOMe or a DOx compound).
+
+== Forensic limitations: The "Masking" hazard ==
+
+The most dangerous pitfall in presumptive reagent testing is the physical phenomenon known as '''"adulterant masking"''' (or the "darkest color wins" rule):
+
+<code>
+                 [ COMPLEX MIXTURE: 90% MDMA + 10% FENTANYL ]
+                                      │
+                                      ▼  Add Marquis Reagent
+        ┌─────────────────────────────┴─────────────────────────────┐
+        ▼                                                           ▼
+[ MDMA Reaction: INTENSE BLACK ]                   [ Fentanyl Reaction: FAINT ORANGE ]
+ (Dominates visual optical field)                   (Completely swallowed & invisible)
+                                      │
+                                      ▼
+             [ FATAL FALSE NEGATIVE: User Believes Sample Is Pure MDMA ]
+</code>
+
+=== 1. Why "Darkest Color Wins" ===
+* Reagents do not perform chemical chromatography; they react with all compounds simultaneously in the same liquid droplet.
+* If a sample contains a high concentration of a compound that generates a dark, opaque pigment (such as MDMA turning pitch black on Marquis), this intense chromophore physically overwhelms and masks lighter, more subtle colors produced by trace adulterants (such as the faint orange of fentanyl, the yellow of methamphetamine, or the clear profile of ketamine).
+* '''The Life-Safety Warning:''' Reagent tests **cannot verify purity**, and a positive reaction for MDMA does **not** prove the absence of deadly microgram adulterants. Reagents must be paired with dedicated lateral flow **Fentanyl Test Strips (FTS)** where the entire sample is dissolved in water to ensure trace synthetic opioids are detected.
+
+=== 2. Reagent shelf life and storage kinetics ===
+* '''Hygroscopic Degradation:''' Concentrated sulfuric acid is intensely hygroscopic, actively absorbing moisture from ambient air every time a dropper bottle is uncapped. As water content exceeds 5–10%, the Brønsted acidity drops below the threshold required to form carbenium dyes, resulting in sluggish or absent reactions.
+* '''Formaldehyde Polymerization:''' In Marquis reagent, formaldehyde naturally polymerizes into insoluble white paraformaldehyde flakes over 6 to 12 months, depleting the active electrophile.
+* '''Storage Standards:''' Reagents should be stored in dark, amber glass dropper bottles inside an airtight chemical container with silica gel desiccants, ideally under refrigeration ($4\text{ °C}$), and replaced every 12 months.
+
+=== 3. Testing safety and acid neutralization ===
+* Reagent drops consist of nearly 98% concentrated sulfuric acid and fuming hydrochloric acid.
+* Testing should be conducted exclusively on glazed white ceramic spot plates or glass surfaces—never on paper, cardboard, or plastic, which acid immediately scorches.
+* Keep a prepared slurry of **sodium bicarbonate (baking soda, $NaHCO_3$)** adjacent to the testing station. Neutralize every acid drop with baking soda until bubbling ($CO_2$ evolution) ceases before washing residues down the drain.
+
+See also: [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]] · [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]] · [[Cannabis Harm Reduction]] · [[Isomers, the Analogue Act, and Forensic Chemistry]] · [[Cannabinoid Chromatography and Genomics]] · [[Stack Substances]]

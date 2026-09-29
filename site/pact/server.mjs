@@ -17,7 +17,7 @@
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { handler as ssoHandler, sessionFromCookie } from '../../pentecaust/sso.mjs';
+import { handler as ssoHandler, sessionFromCookie, selfOriginFor } from '../../pentecaust/sso.mjs';
 import { handler as groupsHandler } from '../../pentecaust/groups/server.mjs';
 import { handler as pagesHandler } from '../../pentecaust/pages/server.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
@@ -118,7 +118,7 @@ export async function handler(req, res) {
     if (path === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemapXml([{ loc: `${BASE_URL}/` }])); }
 
     if (path.startsWith('/auth/')) {
-      return ssoHandler(req, res, { selfOrigin: BASE_URL, idpOrigin: process.env.SSO_IDP_ORIGIN || 'https://pentecaust.com' });
+      return ssoHandler(req, res, { selfOrigin: selfOriginFor(req, BASE_URL), idpOrigin: process.env.SSO_IDP_ORIGIN || 'https://pentecaust.com' });
     }
     if (path === '/groups' || path.startsWith('/groups/') || path === '/me/groups') {
       return groupsHandler(req, res, { whoami });

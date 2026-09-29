@@ -1,0 +1,75 @@
+# Electricity and Photovoltaics
+
+**Electricity and photovoltaics** covers two linked bodies of physics: the generation and behavior of electric current (alternators, electromagnetic induction, and the field equations that describe it), and the **photovoltaic effect** — the direct conversion of light into electricity that underlies solar power. This article follows a 2016 primer by **marsresident**, "Electricity & Photovoltaics," which paired a plain-language explanation of the classical electricity concepts with an extensive survey of solar-cell technologies<ref>https://steemit.com/@marsresident/electricity-and-photovoltaics</ref>. It is a physics/energy companion to the deep-time science narrative in [[Humanity — Deep Time and the Human Story]], where the history of electricity from Volta to Tesla is told.
+
+This is a **neutral, educational** physics reference. It is **not** engineering, safety, or electrical-installation advice; working with electricity and building or wiring power hardware carries real hazards and is governed by codes and professional standards.
+
+== Summary ==
+
+The source has two halves. The first explains **how electricity is generated and described**: the alternator as the workhorse converter of mechanical energy into alternating current, **Faraday's law of induction** as the operating principle behind generators, motors, transformers, and inductors, and **Maxwell's equations** as the unifying mathematical foundation of classical electromagnetism, optics, and circuits. The second half is a wide catalogue of **photovoltaic and solar technologies** — from the 1839 discovery of the photovoltaic effect through modern silicon, thin-film, quantum-dot, dye-sensitized, concentrator, and thermophotovoltaic cells — with the recurring theme that there are many distinct physical routes from sunlight to electricity<ref>https://steemit.com/@marsresident/electricity-and-photovoltaics</ref>.
+
+== Electricity: generation and theory ==
+
+=== Alternators and alternating current ===
+
+An **alternator** is an electrical generator that converts mechanical energy into **alternating current (AC)**. For cost and simplicity most alternators use a rotating magnetic field with a stationary armature. Large three-phase alternators running at 50 or 60 Hz in power plants generate most of the world's electricity, distributed over the grid. The source uses the everyday example of a **car alternator**, which recharges the battery while the engine runs — the reason a jump-started car needs to be driven for a while before the battery can reliably start it again<ref>https://en.wikipedia.org/wiki/Alternator</ref>.
+
+=== Faraday's law of induction ===
+
+**Faraday's law of induction** describes how a changing magnetic field interacts with an electric circuit to produce an **electromotive force (EMF)** — the phenomenon of electromagnetic induction. It is the fundamental operating principle of **transformers, inductors, and many motors, generators, and solenoids**<ref>https://en.wikipedia.org/wiki/Faraday%27s_law_of_induction</ref>. It is the physics that makes the alternator work.
+
+=== Maxwell's equations ===
+
+**Maxwell's equations** are a set of partial differential equations that, together with the **Lorentz force law**, form the foundation of classical electrodynamics, classical optics, and electric-circuit theory. They describe how electric and magnetic fields are generated and mutually altered by each other and by charges and currents. James Clerk Maxwell published an early form between 1861 and 1862; the equations underlie essentially all modern electrical and communications technology<ref>https://en.wikipedia.org/wiki/Maxwell%27s_equations</ref>. The source also points readers to a set of standard electrical-engineering texts (Horowitz & Hill's *The Art of Electronics*, Panofsky & Phillips' *Classical Electricity and Magnetism*, and others) as the study path from these principles into working engineering.
+
+== Photovoltaics: converting light to electricity ==
+
+=== The photovoltaic effect ===
+
+The **photovoltaic effect** was discovered by **Alexandre-Edmond Becquerel in 1839** (silver chloride in an acidic solution, illuminated between platinum electrodes, generating voltage and current) — hence the older name the "Becquerel effect." Physically, light striking a crystal such as **silicon** or **germanium** frees bound electrons; because free electrons cross the junction between two dissimilar materials more easily in one direction than the other, one side of the junction acquires a negative charge and voltage, exactly like the electrodes of a battery. The effect continues to supply voltage and current as long as light keeps falling on the two materials — usable both to **measure light** and to **power a circuit**, as in a solar panel<ref>https://en.wikipedia.org/wiki/Photovoltaic_effect</ref>.
+
+=== The family of solar-cell technologies ===
+
+The source's main contribution is breadth — a survey of the many distinct approaches to photovoltaics:
+
+- **Quantum-dot solar cells** — use quantum dots as the absorber; their bandgap is **tunable by dot size** (unlike bulk materials with a fixed bandgap), making them attractive for **multi-junction** cells that harvest several parts of the solar spectrum<ref>https://en.wikipedia.org/wiki/Quantum_dot_solar_cell</ref>.
+- **Dye-sensitized solar cells (DSSC / Grätzel cells)** — a low-cost thin-film photoelectrochemical design based on a photosensitized anode and an electrolyte; co-invented by Brian O'Regan and Michael Grätzel (first high-efficiency DSSC published 1991)<ref>https://en.wikipedia.org/wiki/Dye-sensitized_solar_cell</ref>.
+- **Carrier multiplication** — the phenomenon where a single high-energy photon excites **more than one** electron across the bandgap (instead of wasting the excess energy as heat), a route to higher theoretical efficiency, especially in quantum dots.
+- **Colloidal, thiol-treated, and acid-treated nanocrystal** approaches — surface-chemistry methods for improving nanocrystal photovoltaics.
+- **Photoelectrochemical cells (PECs)** — produce electricity *or* hydrogen in a process akin to the electrolysis of water.
+- **Thermophotovoltaics (TPV)** — convert **heat to electricity via photons**: a thermal emitter radiates to a photovoltaic diode. The source catalogues micro-, dual-, and monolithic-interconnected-module TPV variants.
+
+=== Photovoltaic materials ===
+
+The survey lists the principal PV materials and their trade-offs:
+
+- **Amorphous silicon (a-Si)** — non-crystalline silicon in thin films on flexible substrates; low efficiency but among the most environmentally friendly (no toxic heavy metals).
+- **Gallium arsenide (GaAs)** — a III-V direct-bandgap semiconductor; high performance, used in high-efficiency and space cells.
+- **Cadmium telluride (CdTe)** — a stable crystalline compound, the main low-cost thin-film material, typically paired with cadmium sulfide in a p-n junction.
+- **Copper indium gallium (di)selenide (CIGS)** — a I-III-VI₂ chalcopyrite semiconductor whose bandgap tunes continuously (~1.0–1.7 eV) with composition.
+
+=== Concentration and related optics ===
+
+- **Concentrator photovoltaics (CPV / HCPV)** — use lenses and curved mirrors (often with solar trackers and cooling) to focus sunlight onto small, highly efficient multi-junction cells; HCPV has the highest efficiency of existing PV technologies and is most competitive in high-insolation regions.
+- **Concentrated solar power (CSP)** — distinct from PV: mirrors or lenses concentrate sunlight to **heat**, driving a heat engine (usually a steam turbine) or a thermochemical reaction.
+- **Photonics** and **photonic integrated circuits (PICs)** — the science and integrated devices for generating, detecting, and manipulating light, which the source includes as the optical-technology context around solar.
+
+== Relation to the MELEK / PRANA ecosystem ==
+
+This primer connects to the ecosystem's energy thread. The **PRANA** chain is framed as **compute-and-energy** infrastructure, and the concept of a **Proof-of-Solar oracle mint** — issuing tokens against verified solar generation — depends directly on the physics catalogued here: photovoltaic conversion (the Becquerel effect) is the physical event an oracle would attest. The article is the reference layer under that idea; it does not itself specify any minting mechanism or contract. For the token-side design, see the ecosystem's energy and oracle material rather than this physics reference.
+
+== Not engineering or safety advice ==
+
+This is an educational physics survey. It is **not** electrical-engineering, installation, or safety guidance. Electricity is hazardous; generating, wiring, or concentrating solar energy involves high voltages, currents, and temperatures, and is governed by electrical codes and professional standards. Nothing here is a build guide. Consult qualified professionals and applicable codes for any real electrical or solar work.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/electricity-and-photovoltaics</ref>
+<ref>https://en.wikipedia.org/wiki/Alternator</ref>
+<ref>https://en.wikipedia.org/wiki/Faraday%27s_law_of_induction</ref>
+<ref>https://en.wikipedia.org/wiki/Maxwell%27s_equations</ref>
+<ref>https://en.wikipedia.org/wiki/Photovoltaic_effect</ref>
+<ref>https://en.wikipedia.org/wiki/Quantum_dot_solar_cell</ref>
+<ref>https://en.wikipedia.org/wiki/Dye-sensitized_solar_cell</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Electricity & Photovoltaics": the electricity half (alternators and AC with the car-alternator example, Faraday's law of induction, Maxwell's equations, and the recommended engineering texts) and the photovoltaics half (the 1839 Becquerel discovery and the physics of the photovoltaic effect; quantum-dot, dye-sensitized, carrier-multiplication, colloid/thiol/acid-treated nanocrystal, photoelectrochemical, and thermophotovoltaic cells; the a-Si / GaAs / CdTe / CIGS materials; and CPV/HCPV, CSP, photonics, and photonic integrated circuits). Attribution to the author and the Steem source is preserved. The original's many PDF/paper links are not reproduced; concept claims are anchored to stable encyclopedic sources. A closing section ties the physics to the ecosystem's PRANA compute-energy and Proof-of-Solar-oracle concept at a reference level only. Nothing here is engineering, installation, or safety advice.

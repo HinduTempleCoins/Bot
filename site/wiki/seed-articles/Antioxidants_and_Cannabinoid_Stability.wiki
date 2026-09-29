@@ -1,0 +1,81 @@
+'''Antioxidants and Cannabinoid Stability''' examines the free-radical oxidation pathways that degrade cannabinoids, the chemical triggers that accelerate quinone formation, and the multi-tiered protective mechanisms provided by botanical antioxidants—particularly rosemary extract (''Salvia rosmarinus''). It also details the biophysical interactions between volatile terpenes, cell membranes, and cannabinoid receptors.
+
+This article details the three-stage free radical cascade, factors accelerating CBD auto-oxidation to HU-331, rosemary's sacrificial antioxidant cascade, metal ion chelation, and membrane fluidization by monoterpenes.
+
+== Radical oxidation dynamics in cannabinoids ==
+
+Like polyunsaturated lipids, cannabinoids undergo oxidative degradation via a three-stage free-radical chain reaction:
+# '''Initiation:''' Heat, ultraviolet radiation, or transition metal catalysts abstract a hydrogen atom from a weak carbon-hydrogen or phenolic oxygen-hydrogen bond, generating a carbon- or oxygen-centered free radical ($\text{R}^\bullet$).
+# '''Propagation:''' The free radical reacts rapidly with molecular triplet oxygen ($\text{O}_2$) to form a peroxyl radical ($\text{ROO}^\bullet$). The peroxyl radical abstracts a hydrogen atom from an adjacent cannabinoid molecule, generating an organic hydroperoxide ($\text{ROOH}$) and a new radical ($\text{R}^\bullet$), propagating a self-sustaining degenerative cycle.
+# '''Termination:''' Two radicals collide to form unreactive dimers, cross-linked polymers, or quinones.
+
+<code>
+                         ┌──► Radical Sacrificial Protection (Rosemary stops HU-331 oxidation)
+                          │
+CBD + Essential Oils ─────┼──► Synergistic CB2 Activation (β-Caryophyllene + CBD crosstalk)
+                          │
+                          └──► Transdermal Flux Enhancement (Monoterpenes fluidize lipid barrier)
+</code>
+
+=== Accelerating oxidation: CBD to HU-331 ===
+In the absence of protection, cannabidiol (CBD) oxidizes into '''cannabidiol-quinone (HU-331)''' and complex chromophores. This reaction is dramatically accelerated by four conditions:
+
+{| class="wikitable"
+! Accelerating factor !! Mechanism !! Accelerated timeframe
+|-
+| '''Alkaline pH (>8.5–9.0)''' || Deprotonates phenolic -OH into an electron-rich phenolate anion ($\text{Ar-O}^-$), exponentially accelerating spontaneous electron transfer to O2. || Minutes to hours (vs. months at neutral pH)
+|-
+| '''Transition metal catalysts (Fe³⁺, Cu²⁺)''' || Catalyze Fenton-like electron transfer from the resorcinol ring directly to dissolved oxygen. || Minutes
+|-
+| '''Chemical oxidants''' || Reagents like potassium ferricyanide ($\text{K}_3[\text{Fe(CN)}_6]$) or silver oxide ($\text{Ag}_2\text{O}$) strip electrons directly. || Rapid stoichiometric conversion (<15 min)
+|-
+| '''UV radiation + O2 sparging''' || UV-B photons excite the aromatic ring to triplet states while bubbling pure oxygen supplies unlimited radical acceptors. || Hours
+|}
+
+== Rosemary extract: the sacrificial antioxidant cascade ==
+
+Rosemary extract contains three primary natural polyphenols: '''carnosic acid''', '''carnosol''', and '''rosmarinic acid'''. Together, they provide long-term stability to cannabinoid oils through two distinct mechanisms:
+
+=== 1. Peroxyl radical scavenging & the sacrificial cascade ===
+* Carnosic acid is a lipophilic abietane diterpene containing an ortho-diphenolic system.
+* When a peroxyl radical ($\text{ROO}^\bullet$) encounters carnosic acid, the phenolic hydroxyl groups donate a hydrogen atom ($\text{H}^\bullet$), quenching the radical into a stable hydroperoxide ($\text{ROOH}$).
+* In doing so, carnosic acid oxidizes into '''carnosol'''.
+* Crucially, carnosol is *itself* an active antioxidant capable of scavenging a second free radical. This multi-stage '''"sacrificial cascade"''' provides sustained antioxidant protection far exceeding that of single-stage synthetic antioxidants like BHT or α-tocopherol.
+
+=== 2. Metal ion chelation (Halting Fenton chemistry) ===
+* Trace dissolved iron ($\text{Fe}^{2+}/\text{Fe}^{3+}$) or copper ions catalyze the breakdown of lipid hydroperoxides into destructive hydroxyl radicals ($\text{HO}^\bullet$).
+* The ortho-dihydroxy catechol structure on rosmarinic acid and carnosic acid acts as a bidentate ligand, chelating free metal ions into stable, redox-inactive coordination complexes. This deprives the mixture of the catalytic initiator required for Fenton cascades.
+
+== Terpene and essential oil interactions ==
+
+Beyond sacrificial antioxidant protection, co-formulating cannabinoids with botanical terpenes induces functional biophysical changes:
+
+=== 1. Membrane fluidization and transdermal penetration ===
+* Small, non-polar monoterpenes—such as '''1,8-cineole (eucalyptol)''', '''d-limonene''', and '''α-pinene'''—partition directly into the hydrophobic core of phospholipid bilayers.
+* They disrupt the crystalline packing of fatty acyl chains in cellular membranes and the outer stratum corneum of human skin.
+* This increase in membrane fluidity significantly boosts the transdermal flux rate of lipophilic cannabinoids (logP ≈ 6.3), accelerating topical delivery.
+
+=== 2. Cytochrome P450 modulation ===
+* Sesquiterpenes (like β-caryophyllene) and monoterpenes competitively inhibit hepatic and intestinal enzymes (such as CYP3A4 and CYP2C19), prolonging the circulatory half-life of orally ingested cannabinoids.
+
+=== 3. Deep Eutectic Solvents (DES) ===
+* Solid terpene crystals (such as menthol or thymol) mixed with solid cannabinoid isolates form room-temperature liquids through eutectic hydrogen bonding, eliminating the need for petroleum or alcohol solvents in topical applications.
+
+=== 4. CB2 receptor crosstalk (The β-Caryophyllene synergy) ===
+* While CBD acts as a negative allosteric modulator or low-affinity ligand at CB1/CB2, '''β-caryophyllene''' (present in both rosemary and cannabis) binds directly to the orthosteric binding site of the '''CB2 receptor''' as a full agonist, providing complementary, non-psychoactive anti-inflammatory signaling.
+
+== Summary of molecular interactions ==
+
+{| class="wikitable"
+! Target !! Botanical component !! Interaction mechanism !! Net outcome
+|-
+| '''Lipid Matrix / CBD''' || Carnosic Acid / Carnosol || Hydrogen atom donation to peroxyl radicals || Halts radical chain; prevents oxidation to HU-331.
+|-
+| '''Trace Transition Metals''' || Rosmarinic Acid || Ortho-dihydroxy chelation of Fe²⁺/Fe³⁺ || Shuts down Fenton radical generation.
+|-
+| '''Cellular Membranes''' || 1,8-Cineole / Limonene || Phospholipid bilayer fluidization || Multiplies transdermal and mucosal penetration.
+|-
+| '''CB2 Cannabinoid Receptors''' || β-Caryophyllene || Direct orthosteric agonist binding || Additive anti-inflammatory receptor signaling with CBD.
+|}
+
+See also: [[Cannabinoid Photochemistry and Degradation]] · [[Cannabinoid Isomerization]] · [[Modified Cannabinoids Matrix]] · [[Beta-Caryophyllene]] · [[Cannabis]] · [[Stack Substances]]

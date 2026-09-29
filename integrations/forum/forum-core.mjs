@@ -52,7 +52,7 @@ export const BOARDS = [
   { id: 'witness',       title: 'Witnesses & Governance', category: 'Chain', desc: 'Block production, voting, and running a node.' },
   { id: 'development',   title: 'Development', category: 'Chain', desc: 'Building on the chain — apps, APIs, the condenser, and tooling.' },
   { id: 'marketplace',   title: 'Marketplace & Services', category: 'Community', desc: 'Offer or find services, goods, and bounties.' },
-  { id: 'library',       title: 'Library of Ashurbanipal', category: 'Community', desc: 'Plant-medicine & harm-reduction reference — history, ethnobotany, safety. Education only; no synthesis/extraction recipes.' },
+  { id: 'library',       title: 'Library of Ashurbanipal', category: 'Community', desc: 'Plant-medicine & harm-reduction reference — history, ethnobotany, pharmacology, preparation, dose ranges, interactions, testing, set/setting/aftercare.' },
   { id: 'meta',          title: 'Forum Feedback', category: 'Community', desc: 'Bugs, ideas, and moderation for the forum itself.' },
 ];
 

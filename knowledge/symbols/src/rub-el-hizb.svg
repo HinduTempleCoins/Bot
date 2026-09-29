@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="100pt"
+   height="100pt"
+   viewBox="0 0 35.277778 35.277778"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="Rub_Al-Hizb.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.5208255"
+     inkscape:cx="41.653023"
+     inkscape:cy="117.22351"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1" />
+  <rect
+     style="display:inline;fill:#ffffff;stroke-width:0.264583"
+     id="rect2"
+     width="17.521927"
+     height="17.522444"
+     x="8.8780107"
+     y="8.8774939"
+     inkscape:label="White Filling" />
+  <path
+     id="rect1-2"
+     style="display:inline;fill:#000000;stroke-width:3.11469"
+     d="M 17.638927,0.11648245 0.1169042,17.638505 17.638928,35.160529 35.160951,17.638506 Z M 17.635639,5.2522857 30.025513,17.64216 17.635273,30.0324 5.245399,17.642525 Z"
+     inkscape:label="Vertical Backdrop" />
+  <path
+     id="rect1"
+     style="display:inline;fill:#000000;stroke-width:3.11469"
+     d="M 5.2487752,5.2436076 V 30.02349 H 30.028658 V 5.2436076 Z M 8.8780111,8.8774943 H 26.399939 V 26.399939 H 8.8780111 Z"
+     inkscape:label="Horizontal Backdrop" />
+  <path
+     id="rect2-3-2-7"
+     style="display:inline;fill:#ffffff;stroke-width:0.470913"
+     d="m 34.330255,17.642397 -4.299633,-4.299634 v 3.339203 l 0.96043,0.960431 -8.853469,8.853815 H 25.47644 Z M 26.489095,9.8012371 17.63528,0.94742125 13.335645,5.2470555 l 3.339203,1e-7 0.960432,-0.9604315 8.853815,8.8538159 z M 21.934914,30.037738 h -3.338857 l -0.960778,0.960777 -8.8538142,-8.853814 7e-7,3.338856 8.8538145,8.853815 z m -8.801592,-21.2491569 -3.3392023,10e-7 -8.8538153,8.8538149 4.2996342,4.299634 -3e-7,-3.338856 -0.9607773,-0.960778 z"
+     inkscape:label="Vertical Box" />
+  <path
+     id="rect2-3-2"
+     style="display:inline;fill:#ffffff;stroke-width:0.470913"
+     d="m 29.444019,5.8337494 h -6.0806 l 2.361173,2.3611729 1.358254,6e-7 2.44e-4,12.5209401 2.360929,-2.360928 z m -11.089075,0 H 5.8337583 l 10e-8,6.0806006 2.3611731,-2.3611729 -2e-7,-1.3582548 H 20.716117 Z m 11.089075,17.5296596 -2.360928,2.360928 -1e-6,1.358745 H 14.561906 l 2.360928,2.360927 12.521185,10e-7 z m -21.2490877,-8.801758 -2.3611726,2.361173 3e-7,12.521186 H 11.91436 L 9.5534315,27.083082 H 8.1946873 Z"
+     inkscape:label="Horizontal Box" />
+  <path
+     id="path2"
+     style="display:inline;fill:#000000;stroke-width:0.264583"
+     d="M 17.635616 11.447363 A 6.1949372 6.1949372 0 0 0 11.440645 17.642334 A 6.1949372 6.1949372 0 0 0 17.635616 23.837305 A 6.1949372 6.1949372 0 0 0 23.830587 17.642334 A 6.1949372 6.1949372 0 0 0 17.635616 11.447363 z M 17.638717 12.122774 A 5.5159912 5.5159912 0 0 1 23.154659 17.638717 A 5.5159912 5.5159912 0 0 1 17.638717 23.154659 A 5.5159912 5.5159912 0 0 1 12.122774 17.638717 A 5.5159912 5.5159912 0 0 1 17.638717 12.122774 z "
+     inkscape:label="Outer Ring" />
+  <path
+     id="path5"
+     style="display:inline;fill:#000000;stroke-width:0.264031"
+     d="M 17.635099 14.48387 A 3.1548178 3.1548178 0 0 0 14.480253 17.638717 A 3.1548178 3.1548178 0 0 0 17.635099 20.793563 A 3.1548178 3.1548178 0 0 0 20.789945 17.638717 A 3.1548178 3.1548178 0 0 0 17.635099 14.48387 z M 17.638717 15.166516 A 2.4722459 2.4722459 0 0 1 20.110917 17.638717 A 2.4722459 2.4722459 0 0 1 17.638717 20.110917 A 2.4722459 2.4722459 0 0 1 15.166516 17.638717 A 2.4722459 2.4722459 0 0 1 17.638717 15.166516 z "
+     inkscape:label="Inner Ring" />
+</svg>

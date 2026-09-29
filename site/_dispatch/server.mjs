@@ -70,6 +70,35 @@ export async function serveSeo(req, res, routes) {
   } catch { return false; }
 }
 
+// Surfaces fall back to BASE_URL = http://localhost:<PORT> when it isn't set — and in this one process it can't
+// be set right for 80+ hosts at once. So every text response gets the internal origin rewritten to the host the
+// visitor actually asked for (canonical links, schema.org, share buttons, sitemaps would otherwise say localhost).
+const TEXTY = /^(text\/|application\/(json|xml|rss\+xml|atom\+xml|ld\+json|javascript|manifest\+json))/i;
+export function publicOrigin(req, res, internal) {
+  const host = String((req.headers && req.headers.host) || '').toLowerCase().split(':')[0];
+  if (!host || host === 'localhost' || /^[\d.]+$/.test(host)) return;
+  if (typeof res.getHeader !== 'function' || typeof res.setHeader !== 'function') return; // test doubles
+  const pub = `https://${host}`;
+  const fix = (chunk) => {
+    const ct = String(res.getHeader('content-type') || '');
+    if (!TEXTY.test(ct) || res.getHeader('content-encoding')) return chunk;
+    const str = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : typeof chunk === 'string' ? chunk : null;
+    if (str == null || !str.includes(internal)) return chunk;
+    if (!res.headersSent) res.removeHeader('content-length');
+    return str.split(internal).join(pub);
+  };
+  const wh = res.writeHead.bind(res);
+  res.writeHead = (code, a, b) => {
+    // headers given to writeHead aren't visible to getHeader — fold them in first so fix() can see the type
+    const h = (b && typeof b === 'object') ? b : (a && typeof a === 'object' && !Array.isArray(a)) ? a : null;
+    if (h) for (const [k, v] of Object.entries(h)) { if (k.toLowerCase() !== 'content-length' || !TEXTY.test(String(h['content-type'] || h['Content-Type'] || ''))) res.setHeader(k, v); }
+    return typeof a === 'string' ? wh(code, a) : wh(code);
+  };
+  const w = res.write.bind(res), e = res.end.bind(res);
+  res.write = (chunk, ...r) => w(chunk == null || typeof chunk === 'function' ? chunk : fix(chunk), ...r);
+  res.end = (chunk, ...r) => e(chunk == null || typeof chunk === 'function' ? chunk : fix(chunk), ...r);
+}
+
 // exported so tests can drive it without a live socket
 export async function dispatch(req, res, opts = {}) {
   const routes = opts.routes || ROUTES;
@@ -86,6 +115,7 @@ export async function dispatch(req, res, opts = {}) {
       res.writeHead(502, { 'content-type': 'text/plain; charset=utf-8' });
       return res.end('Surface temporarily unavailable.');
     }
+    publicOrigin(req, res, opts.internalOrigin || `http://localhost:${process.env.PORT || 8080}`);
     return await handler(req, res);
   } catch {
     try {

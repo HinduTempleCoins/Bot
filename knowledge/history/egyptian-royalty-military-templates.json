@@ -1,0 +1,512 @@
+[
+  {
+    "id": "pharaoh-portrait-by-era",
+    "title": "Pharaoh Portrait by Era",
+    "category": "avatar",
+    "promptPattern": "Historically grounded portrait of the ancient Egyptian king {{ruler}} of the {{era}}, wearing the {{crown}} with a gold rearing cobra uraeus at the brow, plaited ceremonial false beard, {{regalia}}, broad collar of faience and gold beads, pleated linen shendyt kilt, face styled after surviving statues of this ruler, painted limestone temple relief background, museum lighting, fine detail",
+    "slots": [
+      {
+        "key": "ruler",
+        "label": "Ruler",
+        "placeholder": "e.g. Senusret III",
+        "example": "Senusret III"
+      },
+      {
+        "key": "era",
+        "label": "Era",
+        "placeholder": "e.g. Middle Kingdom, 12th Dynasty",
+        "example": "Middle Kingdom, 12th Dynasty"
+      },
+      {
+        "key": "crown",
+        "label": "Crown",
+        "placeholder": "e.g. striped nemes headcloth",
+        "example": "striped nemes headcloth"
+      },
+      {
+        "key": "regalia",
+        "label": "Regalia in hand",
+        "placeholder": "e.g. crook and flail crossed on the chest",
+        "example": "crook and flail crossed on the chest"
+      }
+    ],
+    "defaultSize": "768x1024"
+  },
+  {
+    "id": "kushite-king-25th-dynasty",
+    "title": "Kushite King of the 25th Dynasty",
+    "category": "avatar",
+    "promptPattern": "Portrait of {{king}}, Kushite pharaoh of the 25th Dynasty, wearing a close-fitting cap crown with two rearing cobras side by side at the brow, a diadem of tiny uraei and ribbon streamers at the back, a gold ram's-head amulet on a thick cord whose ends fall over the shoulders, pleated kilt, {{pose}}, {{setting}}, broad-shouldered narrow-waisted proportions of Kushite royal sculpture, dignified, fine detail",
+    "slots": [
+      {
+        "key": "king",
+        "label": "King",
+        "placeholder": "e.g. Taharqa",
+        "example": "Taharqa"
+      },
+      {
+        "key": "pose",
+        "label": "Pose",
+        "placeholder": "e.g. striding with a mekes staff",
+        "example": "striding with a mekes staff"
+      },
+      {
+        "key": "setting",
+        "label": "Setting",
+        "placeholder": "e.g. sandstone temple of Amun at Jebel Barkal",
+        "example": "sandstone temple of Amun at Jebel Barkal"
+      }
+    ],
+    "defaultSize": "768x1024"
+  },
+  {
+    "id": "hyksos-ruler-at-avaris",
+    "title": "Hyksos Ruler at Avaris",
+    "category": "scene",
+    "promptPattern": "The Hyksos king {{ruler}}, heqa-khasut 'ruler of foreign lands', in the palace at Avaris in the eastern Nile Delta, presented in full Egyptian royal style beside a reinscribed Middle Kingdom sphinx, courtiers with the mushroom-shaped Asiatic coiffure and beards, {{detail}}, Middle Bronze Age Levantine and Egyptian material culture mixed, {{light}}",
+    "slots": [
+      {
+        "key": "ruler",
+        "label": "Ruler",
+        "placeholder": "e.g. Khyan",
+        "example": "Khyan"
+      },
+      {
+        "key": "detail",
+        "label": "Detail",
+        "placeholder": "e.g. scribes recording tribute, a Canaanite amphora",
+        "example": "scribes recording tribute, a Canaanite amphora"
+      },
+      {
+        "key": "light",
+        "label": "Lighting",
+        "placeholder": "e.g. late afternoon Delta light",
+        "example": "late afternoon Delta light"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "chariot-charge-division",
+    "title": "Chariot Charge of a Division",
+    "category": "scene",
+    "promptPattern": "New Kingdom Egyptian chariot charge of the division of {{division}} at {{battle}}, light two-wheeled chariots with six-spoked wheels and rear-set axles, each drawn by a yoked pair of horses and crewed by a driver holding a shield and an archer drawing a composite bow, {{pharaoh}} in the blue khepresh crown leading, dust, infantry with cowhide shields behind, {{style}}",
+    "slots": [
+      {
+        "key": "division",
+        "label": "Division (god)",
+        "placeholder": "e.g. Amun",
+        "example": "Amun"
+      },
+      {
+        "key": "battle",
+        "label": "Battle",
+        "placeholder": "e.g. Kadesh, 1274 BC",
+        "example": "Kadesh, 1274 BC"
+      },
+      {
+        "key": "pharaoh",
+        "label": "Pharaoh",
+        "placeholder": "e.g. Ramesses II",
+        "example": "Ramesses II"
+      },
+      {
+        "key": "style",
+        "label": "Style",
+        "placeholder": "e.g. cinematic, painted-relief colour palette",
+        "example": "cinematic, painted-relief colour palette"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "nubian-archers",
+    "title": "Nubian Archers",
+    "category": "scene",
+    "promptPattern": "A company of Nubian archers of {{era}}, darker-skinned men in red loincloths carrying bows and arrows, marching in ranks as in the Asyut soldier models of Mesehti, {{unit}}, {{setting}}, historically grounded, detailed",
+    "slots": [
+      {
+        "key": "era",
+        "label": "Era",
+        "placeholder": "e.g. the Middle Kingdom",
+        "example": "the Middle Kingdom"
+      },
+      {
+        "key": "unit",
+        "label": "Unit",
+        "placeholder": "e.g. Medjay scouts leading the column",
+        "example": "Medjay scouts leading the column"
+      },
+      {
+        "key": "setting",
+        "label": "Setting",
+        "placeholder": "e.g. desert road near the Second Cataract",
+        "example": "desert road near the Second Cataract"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "fortress-of-buhen",
+    "title": "Fortress of Buhen",
+    "category": "environment",
+    "promptPattern": "The Middle Kingdom fortress of Buhen on the west bank of the Nile below the Second Cataract, walls about 10 m high and 5 m thick of stone and mud-brick, projecting bastions with loopholes, a 3 m deep moat and drawbridge, garrison on the ramparts, {{time}}, {{viewpoint}}",
+    "slots": [
+      {
+        "key": "time",
+        "label": "Time",
+        "placeholder": "e.g. dawn over the Nile",
+        "example": "dawn over the Nile"
+      },
+      {
+        "key": "viewpoint",
+        "label": "Viewpoint",
+        "placeholder": "e.g. aerial view from the river",
+        "example": "aerial view from the river"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "battle-of-the-delta",
+    "title": "Battle of the Delta",
+    "category": "scene",
+    "promptPattern": "Ramesses III's naval ambush of the Sea Peoples in the Nile mouth, 1179-1175 BC: fast Egyptian warships with a single mast and square sail, about fifty rowers and two steering oars, archers shooting from the decks and from the shore, larger slower enemy ships overturning, Peleset warriors in plumed headdresses and Sherden in horned helmets with round shields, {{moment}}, {{viewpoint}}",
+    "slots": [
+      {
+        "key": "moment",
+        "label": "Moment",
+        "placeholder": "e.g. grappling and boarding",
+        "example": "grappling and boarding"
+      },
+      {
+        "key": "viewpoint",
+        "label": "Viewpoint",
+        "placeholder": "e.g. from an Egyptian deck",
+        "example": "from an Egyptian deck"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "queen-vulture-crown",
+    "title": "Queen in the Vulture Crown",
+    "category": "avatar",
+    "promptPattern": "Portrait of {{queen}}, Great Royal Wife of Egypt, wearing the vulture crown of Nekhbet with the vulture's wings hanging down both sides of her head, {{addition}}, broad bead collar, fine pleated linen gown, {{setting}}, graceful, painted-tomb colours",
+    "slots": [
+      {
+        "key": "queen",
+        "label": "Queen",
+        "placeholder": "e.g. Nefertari",
+        "example": "Nefertari"
+      },
+      {
+        "key": "addition",
+        "label": "Crown addition",
+        "placeholder": "e.g. a modius ringed with uraei and tall double plumes",
+        "example": "a modius ringed with uraei and tall double plumes"
+      },
+      {
+        "key": "setting",
+        "label": "Setting",
+        "placeholder": "e.g. her painted tomb in the Valley of the Queens",
+        "example": "her painted tomb in the Valley of the Queens"
+      }
+    ],
+    "defaultSize": "768x1024"
+  },
+  {
+    "id": "war-god-portrait",
+    "title": "War God Portrait",
+    "category": "avatar",
+    "promptPattern": "Portrait of the Egyptian war deity {{god}}, {{form}}, holding {{attribute}}, temple-relief composition with hieroglyphic border, {{palette}}",
+    "slots": [
+      {
+        "key": "god",
+        "label": "God",
+        "placeholder": "e.g. Onuris",
+        "example": "Onuris"
+      },
+      {
+        "key": "form",
+        "label": "Form",
+        "placeholder": "e.g. bearded man in a robe with a four-feather headdress",
+        "example": "bearded man in a robe with a four-feather headdress"
+      },
+      {
+        "key": "attribute",
+        "label": "Attribute",
+        "placeholder": "e.g. a spear",
+        "example": "a spear"
+      },
+      {
+        "key": "palette",
+        "label": "Palette",
+        "placeholder": "e.g. ochre, lapis blue and gold",
+        "example": "ochre, lapis blue and gold"
+      }
+    ],
+    "defaultSize": "768x1024"
+  },
+  {
+    "id": "piye-victory-campaign",
+    "title": "Piye's Victory",
+    "category": "scene",
+    "promptPattern": "The Kushite king Piye receiving the submission of the Delta rulers after his campaign north, as on his granite victory stela from Jebel Barkal: {{scene}}, Piye in the Kushite cap crown with double uraeus, Kushite archers and horses, {{setting}}, historically grounded",
+    "slots": [
+      {
+        "key": "scene",
+        "label": "Scene",
+        "placeholder": "e.g. kneeling Delta rulers presenting tribute",
+        "example": "kneeling Delta rulers presenting tribute"
+      },
+      {
+        "key": "setting",
+        "label": "Setting",
+        "placeholder": "e.g. before the walls of Memphis",
+        "example": "before the walls of Memphis"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "aamu-procession-arrival",
+    "title": "Aamu Procession Arrives",
+    "category": "scene",
+    "promptPattern": "The Aamu of Shu arriving before the Egyptian official Khnumhotep II at Beni Hasan, 12th Dynasty: their leader Abisha with the title ruler of a foreign land, bearded Asiatic men with mushroom-shaped coiffures in multicoloured patterned garments, women and children, sandals and leather shoes while the Egyptians go barefoot, bows, quivers, spears and a duckbill axe carried openly, a man playing a lyre, donkeys carrying bellows, {{gift}}, {{style}}",
+    "slots": [
+      {
+        "key": "gift",
+        "label": "Gifts",
+        "placeholder": "e.g. galena eye-paint, an ibex and a dorcas gazelle",
+        "example": "galena eye-paint, an ibex and a dorcas gazelle"
+      },
+      {
+        "key": "style",
+        "label": "Style",
+        "placeholder": "e.g. as a painted tomb register, flat Middle Kingdom colours",
+        "example": "as a painted tomb register, flat Middle Kingdom colours"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "four-peoples-book-of-gates",
+    "title": "The Four Peoples",
+    "category": "print",
+    "promptPattern": "The Four Peoples scene from the Fifth Hour of the Book of Gates in the tomb of Seti I: Horus leading four groups of men — Egyptians; bearded Asiatics with cloth headbands whose ends hang down; beardless dark-skinned Nubians with a thick red sash across the chest; Libyans with side locks in open gowns exposing the shoulders, with feathers and tattoos — {{rendering}}, {{background}}",
+    "slots": [
+      {
+        "key": "rendering",
+        "label": "Rendering",
+        "placeholder": "e.g. as a painted tomb relief",
+        "example": "as a painted tomb relief"
+      },
+      {
+        "key": "background",
+        "label": "Background",
+        "placeholder": "e.g. cream plaster with a blue hieroglyph band",
+        "example": "cream plaster with a blue hieroglyph band"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "medinet-habu-captives-before-amun",
+    "title": "Captives Before Amun-Re",
+    "category": "scene",
+    "promptPattern": "Ramesses III presenting bound captives of {{captives}} to Amun, Mut and Khonsu, as carved at his mortuary temple of Medinet Habu, rows of prisoners, the king in {{crown}}, {{rendering}}",
+    "slots": [
+      {
+        "key": "captives",
+        "label": "Captives",
+        "placeholder": "e.g. the Sea Peoples, Peleset in plumed headdresses",
+        "example": "the Sea Peoples, Peleset in plumed headdresses"
+      },
+      {
+        "key": "crown",
+        "label": "Crown",
+        "placeholder": "e.g. the blue khepresh crown",
+        "example": "the blue khepresh crown"
+      },
+      {
+        "key": "rendering",
+        "label": "Rendering",
+        "placeholder": "e.g. painted sunk relief on sandstone",
+        "example": "painted sunk relief on sandstone"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "shardana-bodyguard",
+    "title": "Shardana Bodyguard",
+    "category": "avatar",
+    "promptPattern": "A Shardana (Sherden) warrior of Ramesses II's royal bodyguard, horned helmet with a disc ornament at the crest, round shield, long bronze sword, kilt and corslet, {{pose}}, {{setting}}, historically grounded",
+    "slots": [
+      {
+        "key": "pose",
+        "label": "Pose",
+        "placeholder": "e.g. standing guard beside the royal chariot",
+        "example": "standing guard beside the royal chariot"
+      },
+      {
+        "key": "setting",
+        "label": "Setting",
+        "placeholder": "e.g. the palace at Pi-Ramesses",
+        "example": "the palace at Pi-Ramesses"
+      }
+    ],
+    "defaultSize": "768x1024"
+  },
+  {
+    "id": "fayum-encaustic-portrait",
+    "title": "Fayum Encaustic Portrait",
+    "category": "avatar",
+    "promptPattern": "A Roman-period Egyptian mummy portrait in encaustic wax on a wooden panel, frontal head and upper chest, broad visible brush strokes, of a {{age}} {{people}}, wearing {{jewellery}}, {{dress}}, plain dark background, as found at Hawara in the Faiyum",
+    "slots": [
+      {
+        "key": "age",
+        "label": "Age",
+        "placeholder": "e.g. young",
+        "example": "young"
+      },
+      {
+        "key": "people",
+        "label": "Sitter",
+        "placeholder": "e.g. Egyptian woman with a Greek name",
+        "example": "Egyptian woman with a Greek name"
+      },
+      {
+        "key": "jewellery",
+        "label": "Jewellery",
+        "placeholder": "e.g. gold earrings and a gold necklace",
+        "example": "gold earrings and a gold necklace"
+      },
+      {
+        "key": "dress",
+        "label": "Dress",
+        "placeholder": "e.g. a chiton and cloak",
+        "example": "a chiton and cloak"
+      }
+    ],
+    "defaultSize": "768x1024"
+  },
+  {
+    "id": "nubian-tribute-procession",
+    "title": "Nubian Tribute Procession",
+    "category": "scene",
+    "promptPattern": "A New Kingdom procession of Nubian tribute bearers before the viceroy of Kush, as painted in the Theban tombs of Rekhmire and Huy: {{animals}}, gold rings, ivory, animal skins and ostrich feathers, elite Nubians in Egyptianised linen or in feathered headdresses with large hoop earrings, {{setting}}, painted-tomb colours",
+    "slots": [
+      {
+        "key": "animals",
+        "label": "Animals",
+        "placeholder": "e.g. a giraffe with a monkey climbing its neck, leopards, cattle",
+        "example": "a giraffe with a monkey climbing its neck, leopards, cattle"
+      },
+      {
+        "key": "setting",
+        "label": "Setting",
+        "placeholder": "e.g. the court at Thebes under Tutankhamun",
+        "example": "the court at Thebes under Tutankhamun"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "hittite-bride-arrival",
+    "title": "The Hittite Bride Arrives",
+    "category": "scene",
+    "promptPattern": "Maathorneferure, daughter of the Hittite king Hattusili III, arriving at Pi-Ramesses in the winter of 1246-1245 BCE to marry Ramesses II, her caravan from Hattusa bringing gold, silver, bronze, cattle and sheep, Egyptian escort troops, {{moment}}, {{style}}",
+    "slots": [
+      {
+        "key": "moment",
+        "label": "Moment",
+        "placeholder": "e.g. Ramesses II receiving her at the palace gate",
+        "example": "Ramesses II receiving her at the palace gate"
+      },
+      {
+        "key": "style",
+        "label": "Style",
+        "placeholder": "e.g. cinematic historical painting",
+        "example": "cinematic historical painting"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "egyptian-infantry-model",
+    "title": "Soldier Model",
+    "category": "scene",
+    "promptPattern": "A painted wooden tomb model of a company of {{troops}}, as in the Middle Kingdom models from Mesehti's tomb at Asyut, {{detail}}, museum display case",
+    "slots": [
+      {
+        "key": "troops",
+        "label": "Troops",
+        "placeholder": "e.g. Egyptian spearmen with hide shields and white kilts",
+        "example": "Egyptian spearmen with hide shields and white kilts"
+      },
+      {
+        "key": "detail",
+        "label": "Detail",
+        "placeholder": "e.g. forty figures striding in four ranks",
+        "example": "forty figures striding in four ranks"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "raphia-egyptian-phalanx",
+    "title": "Raphia: the Egyptian Phalanx",
+    "category": "scene",
+    "promptPattern": "The Battle of Raphia, 217 BC: Ptolemy IV's 20,000 Egyptians trained in the Macedonian way, a deep phalanx with long sarissa pikes, African elephants facing the Seleucid Indian elephants of Antiochus III, {{moment}}, {{viewpoint}}",
+    "slots": [
+      {
+        "key": "moment",
+        "label": "Moment",
+        "placeholder": "e.g. the phalanx advancing",
+        "example": "the phalanx advancing"
+      },
+      {
+        "key": "viewpoint",
+        "label": "Viewpoint",
+        "placeholder": "e.g. low angle in the dust",
+        "example": "low angle in the dust"
+      }
+    ],
+    "defaultSize": "1024x768"
+  },
+  {
+    "id": "royal-regalia-flatlay",
+    "title": "Royal Regalia Flat-lay",
+    "category": "print",
+    "promptPattern": "Museum flat-lay of ancient Egyptian royal regalia of {{era}}: {{crown}}, {{sceptre}}, {{jewellery}}, arranged on dark linen, labelled like a catalogue plate, photorealistic",
+    "slots": [
+      {
+        "key": "era",
+        "label": "Era",
+        "placeholder": "e.g. the 18th Dynasty",
+        "example": "the 18th Dynasty"
+      },
+      {
+        "key": "crown",
+        "label": "Crown",
+        "placeholder": "e.g. the blue khepresh crown",
+        "example": "the blue khepresh crown"
+      },
+      {
+        "key": "sceptre",
+        "label": "Sceptre",
+        "placeholder": "e.g. crook and flail banded in blue glass, obsidian and gold",
+        "example": "crook and flail banded in blue glass, obsidian and gold"
+      },
+      {
+        "key": "jewellery",
+        "label": "Jewellery",
+        "placeholder": "e.g. a broad bead collar and golden flies of valour",
+        "example": "a broad bead collar and golden flies of valour"
+      }
+    ],
+    "defaultSize": "1024x768"
+  }
+]

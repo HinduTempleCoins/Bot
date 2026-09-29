@@ -189,7 +189,7 @@ export function homePage(who = '') {
   const authBar = who
     ? `<span class=authbar>Signed in as <b>@${esc(who)}</b> <a class=btn href="/auth/logout">Log out</a></span>`
     : '<span class=authbar><a class="btn primary" href="/auth/login">Sign in with MELEK</a></span>';
-  const body = `<header><span class=brand>◇ <b>Herald</b></span><span class=alpha>ALPHA</span>${authBar}
+  const body = `<header><span class=brand>◇ <b>Herald</b></span>${authBar}
     <p class=lead>The <b>user-acquisition</b> engine of the MELEK ecosystem — it drives real people to our own
     sites (MELEK social, KulaSwap DeFi, the PRANA miner pool), <b>executed</b> (not just tracked) by Hathor.
     One AI growth team; these are its tools.</p></header>${funnelSection}${groups}`;

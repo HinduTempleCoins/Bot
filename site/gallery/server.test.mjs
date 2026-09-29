@@ -35,7 +35,7 @@ test('landing page lists BOTH galleries with links', async () => {
   assert.match(t, /design lineage/i);
   assert.match(t, /href="\/reference"/);
   assert.match(t, /href="\/lineage"/);
-  assert.match(t, />Alpha</); // alpha badge present
+  assert.doesNotMatch(t, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces // alpha badge present
 });
 
 test('/reference returns 200 and references real, existing image paths', async () => {

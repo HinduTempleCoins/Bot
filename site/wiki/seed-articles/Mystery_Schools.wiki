@@ -1,0 +1,68 @@
+# Mystery Schools
+
+**Mystery schools** are initiatory traditions that transmit knowledge through symbol, ritual, and graded instruction rather than open publication — from the ancient Mysteries of Isis, Mithras, and Eleusis to the "Western Esoteric" orders (Qabbalah, Freemasonry, the Golden Dawn). This article follows a sprawling 2017 survey by **marsresident** that traced the mystery-school idea across history: the esoteric orders, the fire temples, the astronomy-as-religion of the Ogdoad, the birth of mathematics from sacred number, Hellenization and the Library of Alexandria, Zoroastrianism, the Phoenicians, the Asclepeion proto-hospital, and the Egyptian anatomy of the soul<ref>https://steemit.com/@marsresident/mystery-schools</ref>. Its planets-and-calendar section is treated in its own companion article, [[The Ogdoad]].
+
+This is a **neutral, educational** history reference. The source blends well-attested history with esoteric and legendary interpretation; where a claim is legendary, contested, or the author's own reading rather than settled scholarship, this article marks it as such (see § On sourcing and legend).
+
+== Summary ==
+
+The survey's organizing idea is that **temples were schools** — and hospitals, courts, and governments — and that much of what became modern science, medicine, mathematics, and religion descends from these initiatory institutions. It moves through: the Western Esoteric orders and why knowledge was hidden in symbol; the fire temples of Mithra and Agni; the astronomy-as-religion of the Ogdoad; sacred number and the emergence of mathematics (Abraxas, gematria, Pythagoras); the Hellenistic fusion of East and West under Alexander and the Library of Alexandria; Zoroastrianism as the first monotheism and first angelology; the Phoenicians and the Phoenix; the Asclepeion healing temples; and the Egyptian model of the soul<ref>https://en.wikipedia.org/wiki/Greco-Roman_mysteries</ref>.
+
+== The Western Esoteric orders ==
+
+The post opens with the orders most readers have heard of — **Qabbalah** and **Freemasonry** — and the reason such traditions encoded knowledge in symbol and metaphor: in an age when most people could not read, teaching moved through **mnemonic symbol, ritual, and craft**. It gives the Society of the Horseman's Word (Scotland) as an example, and notes how, after Constantine's conversion of Rome, older mnemonic traditions were carried forward inside the new religion — the stonemason lodges that built Europe's cathedrals being the standing example. It then surveys later orders: the **Hermetic Order of the Golden Dawn** (whose founders were Freemasons and Rosicrucians, and which inspired Wicca and Thelema), the **Church of Light** ("the Religion of the Stars," founded 1932 for the Aquarian age), the **AMORC** Rosicrucians, the Sufi **Dances of Universal Peace** (with their planet-motion-based "Sufi whirling"), and **Agni Yoga**, the tradition left by the Russian mystic and cultural-heritage advocate **Nicholas Roerich**<ref>https://en.wikipedia.org/wiki/Hermetic_Order_of_the_Golden_Dawn</ref>. Further examples are grouped by their organizing symbol — Freemasonry (stonemasonry), the Dionysian Mysteries (wine), Esoteric Christianity, the Mithraic Mysteries (contracts, marriage, bulls), and the Knights Templar (knighthood).
+
+== Fire temples: Mithra and Agni ==
+
+The post calls the **fire temple** the most common mystery school still active in the world — Zoroastrian temples dedicated to **Mithra**, Hindu temples to **Agni**, and some to Kali for cremation rites<ref>https://en.wikipedia.org/wiki/Fire_temple</ref>. Mithra is described as the "third," grey path of illumination between good and evil in Zoroastrian thought — the strand from which, the post argues, later traditions drew.
+
+== Sacred number and the birth of mathematics ==
+
+A long section traces how **language, number, and time** separated out of one another. Roman numerals are given as an early split of language from math; Egyptian geometry solved advanced problems without algebra or calculus (the word *algebra* being the Arabic *al-jabr*). The Egyptian goddess **Ma'at** (truth, balance, justice) is offered as the conceptual ancestor of the equals sign, and **Seshat** as goddess of measurement and record-keeping. The post then explains **Abraxas** — whose Greek letters sum (by isopsephy) to 365, the days of the year — and the number-mysticism traditions built on letter-values: Greek **isopsephy**, Hebrew **gematria**, and the Arabic **Zairja** idea-generator, alongside **Pythagorean** number philosophy<ref>https://en.wikipedia.org/wiki/Gematria</ref><ref>https://en.wikipedia.org/wiki/Abraxas</ref>. These are presented as the esoteric matrix out of which formal mathematics crystallized.
+
+== Hellenization and the Library of Alexandria ==
+
+The **Hellenization** section covers Alexander the Great's conquests and the resulting East–West exchange of ideas, art, and books — including the transformation of how the Buddha was depicted (from footprints and empty throne to statue) and the spread of statuary into Hinduism. It centres on **Ptolemy's Library of Alexandria** and the first **Musaeum**, on the **Septuagint** (the seventy scholars whose agreeing translations were declared "the Words of God," ancestral to the Torah/Pentateuch), and on **Manetho's *Aegyptiaca*** and **Berossus's *Babyloniaca***, the works that still frame our dynastic chronologies<ref>https://en.wikipedia.org/wiki/Library_of_Alexandria</ref>. The author's aside connecting *Aegyptiaca* to later Gospel motifs is his own interpretation and is flagged as such below.
+
+== Zoroastrianism, the Phoenicians, and the Phoenix ==
+
+The post identifies **Zoroastrianism** as the **first monotheistic religion and the first to name angels** — Zoroaster taking the Babylonian pantheon and vesting its powers in one God, the other gods becoming angels — and connects it to the Magi of the "three wise men" and to the surviving fire-temple practice<ref>https://en.wikipedia.org/wiki/Zoroastrianism</ref>. It then turns to the **Phoenicians**: inventors of much of alphabetic writing, of clear glass, of colour-fast dyes, and of ocean-going ships, and the source of the name **Europe** (from the god Europa) and of the **Phoenix**, the bird of resurrection and rebirth<ref>https://en.wikipedia.org/wiki/Phoenicia</ref><ref>https://en.wikipedia.org/wiki/Phoenix_(mythology)</ref>. It also recounts the ancient "forbidden experiment" attributed to Egypt — raising two children in isolation to find the oldest language, who reportedly said *bekos* (Phrygian for "bread"). The Phoenix/Phoenician/monotheism-and-angels thread is the historical seam the MELEK name-lineage draws on.
+
+== The Asclepeion: temple as proto-hospital ==
+
+The post's medical thread centres on the **Asclepeion**, the healing temple of Asclepius (still emblemized by the snake-entwined staff). Pilgrims underwent **dream-incubation** — sleeping in the temple to receive healing guidance in dreams — while non-venomous snakes crawled over them and dogs licked wounds, and some received **opium and surgery while asleep**<ref>https://en.wikipedia.org/wiki/Asclepeion</ref>. The post notes the Egyptian vocabulary of dreaming (*rsw.t*, "to awaken while sleeping"; "to see in a dream") and frames these healing pilgrimages as the ancestor of the hospital and a cultural pattern Christianity later absorbed. This dream-incubation-plus-plant-medicine complex is the historical core of the Library's "temple-technology" thesis, connecting to the Dream Yoga practice in [[The Church of Neuroscience and Biohacking]].
+
+== The Egyptian anatomy of the soul ==
+
+The survey closes on the Egyptian model of the soul, which it contrasts with the later, "made-on-the-fly" Christian idea as far more articulated<ref>https://en.wikipedia.org/wiki/Ancient_Egyptian_conception_of_the_soul</ref>:
+
+- **Sheut** — the shadow, preserved after death through statues and silhouettes.
+- **Ren** — the **name**, held to keep the soul alive as long as it is spoken or written; the more a name was recorded, the better its chances of surviving. This name-as-soul concept is the direct ancestor of the on-chain **REN naming system** in the MELEK ecosystem (a name as a persistent, portable part of identity) — see also [[The Ogdoad]], which carries the same Egyptian-cosmology thread.
+- **Ka** — the vital spark distinguishing living from dead (the post's modern analogue: the transition to "brain dead").
+- **Ba** — personality and uniqueness; the aspect one still meets in dreams after a person dies, and which can attach to objects (the post's playful examples of naming and bonding with objects). The word doubled with "ram," which is why souls and gods were shown horned.
+- **Akh** — the living intellect or "mind," reformed from Ba and Ka after death; the post links the experience of *ego loss* to a glimpse of the Akh.
+
+== On sourcing and legend ==
+
+This is a wide-ranging esoteric survey, and several of its claims are the author's interpretation or are legendary rather than settled history — for example, the dating of Zoroaster (the post itself notes literature-vs-evidence disagreement, ~600 BC vs ~300 BC), the reading of *Aegyptiaca* as a template for later Gospel narratives, the "cups that could turn water to wine," the submerged structure in the Sea of Galilee, and the wandering ghost of Akhenaten. The Library preserves the author's claims as written for fidelity, while flagging them here as interpretation/legend rather than fact. Well-attested history (the Library of Alexandria, the Septuagint, Phoenician writing, the Asclepeion) is anchored to encyclopedic sources.
+
+== Where this sits in the corpus ==
+
+This is the anchor **mystery-school / initiatory-tradition** article of the Library — the temple-as-school frame behind the Convergence "temple-technology" thesis and the tiered Witness-School and Dudael lore. Its planets-and-calendar section has its own article, [[The Ogdoad]]; its dream-incubation and Egyptian-soul material connect to [[The Church of Neuroscience and Biohacking]] (Dream Yoga) and to the ritual-technology articles [[Kyphi]] and [[Egyptian Wax Headcones]]; its deep-history sweep parallels [[Humanity — Deep Time and the Human Story]] and [[Routes for Backpacking Pilgrimages]].
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/mystery-schools</ref>
+<ref>https://en.wikipedia.org/wiki/Greco-Roman_mysteries</ref>
+<ref>https://en.wikipedia.org/wiki/Hermetic_Order_of_the_Golden_Dawn</ref>
+<ref>https://en.wikipedia.org/wiki/Fire_temple</ref>
+<ref>https://en.wikipedia.org/wiki/Gematria</ref>
+<ref>https://en.wikipedia.org/wiki/Abraxas</ref>
+<ref>https://en.wikipedia.org/wiki/Library_of_Alexandria</ref>
+<ref>https://en.wikipedia.org/wiki/Zoroastrianism</ref>
+<ref>https://en.wikipedia.org/wiki/Phoenicia</ref>
+<ref>https://en.wikipedia.org/wiki/Phoenix_(mythology)</ref>
+<ref>https://en.wikipedia.org/wiki/Asclepeion</ref>
+<ref>https://en.wikipedia.org/wiki/Ancient_Egyptian_conception_of_the_soul</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2017 marsresident post "Mystery Schools" — the Western Esoteric orders (Freemasonry, Golden Dawn, Church of Light, AMORC, Dances of Universal Peace, Agni Yoga/Roerich) and why knowledge was hidden in symbol; the fire temples of Mithra and Agni; sacred number and the birth of mathematics (Ma'at, Seshat, Abraxas, isopsephy/gematria/Zairja, Pythagoras); Hellenization and the Library of Alexandria (Septuagint, Manetho, Berossus); Zoroastrianism as first monotheism and first angelology; the Phoenicians, the Phoenix, and the name of Europe; the Asclepeion dream-incubation proto-hospital; and the Egyptian soul-parts Sheut/Ren/Ka/Ba/Akh. The embedded Ogdoad/planets material is summarized here and carried in full by the companion article The Ogdoad. The Ren = name-as-soul concept is cross-linked to the MELEK REN naming system, and the Phoenix/Phoenician/angelology thread to the MELEK name-lineage. Legendary and interpretive claims are flagged in the "On sourcing and legend" section rather than presented as fact; the many image and PDF links in the original are not reproduced, and well-attested history is anchored to encyclopedic sources. Neutral, educational tone.

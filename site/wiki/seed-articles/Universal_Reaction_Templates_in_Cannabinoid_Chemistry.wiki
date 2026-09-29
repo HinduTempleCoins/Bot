@@ -1,0 +1,72 @@
+'''Universal Reaction Templates in Cannabinoid Chemistry''' details the foundational organic reaction mechanisms used to synthesize, modify, and analyze cannabinoids, terpenes, and plant allylbenzenes. Organic transformations rely on a universal toolkit to add or subtract oxygen, hydrogen, halogens, and carbon fragments across molecular skeletons.
+
+This article details the four universal reaction classes, methods for adding atoms (halogenation, hydroboration-oxidation, Grignard carboxylation), and methods for removing atoms (thermal decarboxylation, dehydration, dehydrohalogenation).
+
+== The four universal reaction classes ==
+
+=== 1. Acid-catalyzed hydration (Adding +H and +OH) ===
+* '''Process:''' Boiling an alkene in water with a catalytic mineral acid (e.g., dilute H2SO4 or H3PO4).
+* '''Mechanism:''' Protons (H⁺) attack the alkene π-bond to generate a carbocation. A water molecule attacks the carbocation, followed by deprotonation to yield an alcohol:
+: <code>R-CH=CH-R' + H2O ──(H+, Δ)──► R-CH2-CH(OH)-R'</code>
+* '''Regioselectivity (Markovnikov's rule):''' The hydroxyl group (-OH) attaches predominantly to the more substituted carbon atom that best stabilizes the carbocation intermediate.
+* '''Cannabinoid application:''' Hydration of the cyclohexenyl double bond in CBD or THC yields hydroxylated diols and cannabitriol derivatives, reducing lipophilicity and CB1 affinity.
+
+=== 2. Catalytic hydrogenation (Adding +H2) ===
+* '''Process:''' Exposing an unsaturated alkene or aromatic intermediate to hydrogen gas (H2) in the presence of a heterogeneous noble metal catalyst—typically palladium on carbon (Pd/C), platinum (Pt), or Raney nickel.
+* '''Mechanism:''' The metal surface chemisorbs both hydrogen gas (cleaving the H-H bond into surface-bound hydrides) and the alkene π-system. Two hydrogen atoms are transferred across the double bond simultaneously in a stereospecific ''syn'' addition:
+: <code>R-CH=CH-R' + H2 ──(Pd/C)──► R-CH2-CH2-R'</code>
+* '''Cannabinoid application:''' Converts unsaturated cannabinoids into fully saturated hexahydrocannabinols (e.g., Δ9-THC or CBD into HHC), rendering the core ring impervious to oxidative degradation.
+
+=== 3. Hydrolysis (Cleaving esters and amides with +H and +OH) ===
+* '''Process:''' Heating an ester or amide in water in the presence of a strong base (saponification with NaOH or KOH) or a strong aqueous mineral acid.
+* '''Mechanism:''' Nucleophilic hydroxide ions (OH⁻) attack the electrophilic carbonyl carbon, forming a tetrahedral intermediate that collapses to expel the alkoxide or amine leaving group:
+: <code>R-COO-R' + H2O ──(NaOH, Δ)──► R-COO⁻ Na⁺ + R'-OH</code>
+* '''Endocannabinoid application:''' Cleavage of 2-arachidonoylglycerol (2-AG) by monoacylglycerol lipase (MAGL) or aqueous base into free arachidonic acid and glycerol.
+
+=== 4. Epoxidation (Adding oxygen to form an oxirane ring) ===
+* '''Process:''' Treating an isolated alkene with a peroxy acid (such as meta-chloroperoxybenzoic acid, mCPBA) or hydrogen peroxide (H2O2) in the presence of a transition metal catalyst.
+* '''Mechanism:''' An electrophilic oxygen atom is transferred concerted across the C=C double bond, forming a strained, three-membered cyclic ether (an epoxide or oxirane):
+: <code>R-CH=CH-R' + R''COOOH ──► R-CH(O)CH-R' + R''COOH</code>
+* Subsequent exposure to dilute acid in water opens the strained epoxide ring to yield a '''vicinal diol''' (two adjacent -OH groups).
+* '''Allylbenzene application:''' In human liver metabolism, CYP2E1 oxidizes the terminal double bond of myristicin and safrole into reactive epoxides prior to enzymatic hydratase inactivation.
+
+== Methods for adding specific atoms ==
+
+{| class="wikitable"
+! Method !! Target functional group !! Reagents & Conditions !! Transformation result
+|-
+| '''Halogenation''' || Alkene ──► Vicinal Dihalide || Br2 or Cl2 in inert solvent (ambient temp) || Adds two halogen atoms (+Br2 or +Cl2) across double bond.
+|-
+| '''Hydrohalogenation''' || Alkene ──► Haloalkane || Anhydrous HCl or HBr gas || Adds +H and +Halogen (e.g., Δ9-THC ──► 9-chloro-HHC).
+|-
+| '''Hydroboration-Oxidation''' || Terminal Alkene ──► Primary Alcohol || 1. BH3 / THF; 2. H2O2 + NaOH || Anti-Markovnikov addition: adds -OH to the outermost carbon.
+|-
+| '''Grignard Carboxylation''' || Alkyl Halide ──► Carboxylic Acid || 1. Mg metal (R-MgBr); 2. Dry ice (solid CO2); 3. H3O+ || Adds a carboxyl group (-COOH), expanding the chain by 1 carbon and 2 oxygens.
+|}
+
+=== Anti-Markovnikov hydroboration-oxidation ===
+Standard acid hydration always attaches the hydroxyl group to the more substituted inner carbon. To place an oxygen atom at the outermost, least-substituted terminal carbon of an allyl chain:
+# The terminal alkene is treated with borane (BH3·THF). Boron coordinates with the less hindered outer carbon due to steric preference.
+# Subsequent oxidation with basic hydrogen peroxide (H2O2 / NaOH) replaces the carbon-boron bond with a primary alcohol:
+: <code>R-CH=CH2 ──(1. BH3; 2. H2O2/OH⁻)──► R-CH2-CH2-OH</code>
+
+== Methods for removing specific atoms ==
+
+{| class="wikitable"
+! Method !! Target group removed !! Reagents & Conditions !! Transformation result
+|-
+| '''Thermal Decarboxylation''' || -CO2 (Carbon dioxide) || Dry heat (>105–120 °C) || Strips 1 carbon and 2 oxygens; converts cannabinoid acids (THCA/CBDA) into neutral cannabinoids.
+|-
+| '''Acid Dehydration''' || -H2O (Water) || Concentrated H2SO4 or H3PO4 + High Heat (>140 °C) || Eliminates alcohol to generate an alkene double bond.
+|-
+| '''Dehydrohalogenation''' || -HX (Hydrogen halide) || Strong bulky base (KOH in ethanol, KOtBu) + Heat || E2 elimination of halogen and adjacent proton to form an alkene or alkyne.
+|}
+
+=== Thermal decarboxylation kinetics ===
+In raw cannabis floral tissue, cannabinoids exist predominantly as non-intoxicating carboxylic acids (THCA, CBDA, CBGA) with a carboxyl group (-COOH) at the C2 position of the resorcinol ring:
+* '''Mechanism:''' Thermal heating above 105 °C supplies the activation energy for a 6-membered concerted pericyclic transition state:
+: <code>Cannabinoid-COOH ──(Δ)──► Cannabinoid-H + CO2↑</code>
+* The acidic proton transfers intramolecularly to the aromatic ring carbon as carbon dioxide gas (CO2) is irreversibly evolved.
+* Complete decarboxylation requires careful temperature control (110–120 °C for 30–60 minutes); excessive thermal exposure (>150 °C) drives competitive oxidative degradation of THC into cannabinol (CBN).
+
+See also: [[Cannabinoid Isomerization]] · [[Modified Cannabinoids Matrix]] · [[Cannabinoid Adducts and Conjugates]] · [[Antioxidants and Cannabinoid Stability]] · [[Cannabis]]

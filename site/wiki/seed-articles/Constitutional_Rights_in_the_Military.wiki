@@ -1,0 +1,38 @@
+# Constitutional Rights in the Military
+
+**The legal rights of U.S. service members** are a distinct body of law: military personnel keep constitutional protections, but those protections operate alongside the Uniform Code of Military Justice (UCMJ) and a layer of Department of Defense directives. This article follows a 2016 reference post by **marsresident** that assembled the primary statutes, directives, and guides on the subject into a single index<ref>https://steemit.com/@marsresident/constitutional-rights-in-the-military</ref>. In the MELEK corpus it is a **know-your-rights / oversight** reference on the law and rights vertical.
+
+This is a **neutral, educational** legal reference. It is **not** legal advice; rights and procedures depend on facts and jurisdiction, and service members with a real issue should consult a judge advocate (JAG), a military legal-assistance office, or qualified counsel.
+
+== Summary ==
+
+The source is a curated index of the load-bearing authorities on service-member rights — free-speech and whistleblower protections, the right to complain up the chain, protections against deprivation of rights, and limited religious-accommodation rights — pointing at the actual statutes and DoD directives rather than paraphrasing them<ref>https://en.wikipedia.org/wiki/Uniform_Code_of_Military_Justice</ref>.
+
+== Core statutes and rights ==
+
+The key authorities the post gathers:
+
+- **UCMJ Article 31** — the military counterpart to the right against self-incrimination: the requirement that a service member be advised of their rights before questioning<ref>https://en.wikipedia.org/wiki/Uniform_Code_of_Military_Justice</ref>.
+- **UCMJ Article 138** — the right to **complain to a superior officer** when wronged by one's commanding officer, and to have that complaint forwarded.
+- **10 U.S.C. § 1034 — the Military Whistleblower Protection Act** — protects a member's right to communicate with **Congress and the Inspector General** and bars retaliation for lawful complaints<ref>https://www.law.cornell.edu/uscode/text/10/1034</ref>.
+- **10 U.S.C. § 774** — a limited right to wear **conservative religious apparel** while in uniform (implemented through DoD Directive 1300.17)<ref>https://www.law.cornell.edu/uscode/text/10/774</ref>.
+- **18 U.S.C. § 242** — the federal criminal statute against **deprivation of rights under color of law**, a general protection reaching official misconduct<ref>https://www.law.cornell.edu/uscode/text/18/242</ref>.
+
+== Directives and further references ==
+
+The post also points to the surrounding regulatory and reference material: **DoD Directive 1344.10** (political-activity limits for members on active duty), **DoD Directive 7050.06** (military whistleblower protection implementation), the **Servicemembers Civil Relief Act** (Title 50) protections, **Title 38** (veterans' benefits, including the post-9/11 GI Bill chapters), Air Force and Army rights guides, and GI free-speech leaflets. Together these map where a service member's speech, complaint, religious-accommodation, and civil-relief rights are actually defined.
+
+== Where this sits in the corpus ==
+
+This is a **rights / oversight** reference on the MELEK law-and-oversight surface, adjacent to the ecosystem's watchdog-dossier work (which documents public officials without rendering verdicts) and to the civic/oversight verticals. It sits in the same rights-and-accountability thread as the government-conduct history in [[Edgewood Arsenal]].
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/constitutional-rights-in-the-military</ref>
+<ref>https://en.wikipedia.org/wiki/Uniform_Code_of_Military_Justice</ref>
+<ref>https://www.law.cornell.edu/uscode/text/10/1034</ref>
+<ref>https://www.law.cornell.edu/uscode/text/10/774</ref>
+<ref>https://www.law.cornell.edu/uscode/text/18/242</ref>
+<ref>https://en.wikipedia.org/wiki/Military_Whistleblower_Protection_Act</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Constitutional Rights in the Military" — an index of the primary authorities on service-member rights: UCMJ Articles 31 and 138, the Military Whistleblower Protection Act (10 U.S.C. § 1034), religious-apparel rights (10 U.S.C. § 774 / DoD Directive 1300.17), deprivation-of-rights (18 U.S.C. § 242), DoD Directives 1344.10 and 7050.06, the Servicemembers Civil Relief Act, and Title 38 veterans' provisions. The original post is essentially a link list; this article names and explains each authority and anchors the citations to stable legal sources (Cornell LII / Wikipedia) rather than the original's ad-hoc PDF links. It is framed as a know-your-rights / oversight reference with a not-legal-advice note, and cross-links the oversight thread and Edgewood Arsenal. Neutral, educational tone.

@@ -1,0 +1,114 @@
+'''David E. Nichols, Entactogen Pharmacology, and Receptor Mapping''' examines the academic medicinal chemistry of psychedelics and entactogens established by Dr. David E. Nichols, the comparative pharmacology of '''MDMA vs. 6-APB (benzofurans)''', the severe cardiac valvulopathy hazard mediated by the serotonin '''$5\text{-HT}_{2B}$ receptor''', and the molecular docking models that bridge synthetic phenethylamines with natural botanical allylbenzenes in the Oilahuasca framework.
+
+While Alexander Shulgin operated primarily through clandestine bench exploration and qualitative human self-bioassays, David E. Nichols at Purdue University established the rigorous academic foundation of psychedelic science, synthesizing novel tool compounds, resolving stereospecific receptor structures, and identifying the cellular signaling pathways of altered states.
+
+== The academic legacy of David E. Nichols ==
+
+As Professor Emeritus of Medicinal Chemistry and Molecular Pharmacology at Purdue University, Dr. David E. Nichols spent over four decades systematically mapping how psychoactive molecules dock into G-protein coupled receptors:
+
+<code>
+                 [ DAVID E. NICHOLS RESEARCH LINEAGE ]
+                                   │
+         ┌─────────────────────────┼─────────────────────────┐
+         ▼                         ▼                         ▼
+[ Coining "Entactogen" ]  [ Novel Ligand Families ]  [ High-Resolution Modeling ]
+ • Separated MDMA from     • APBs (6-APB, 5-APB)      • 5-HT2A G-protein vs β-arrestin
+   classic hallucinogens   • NBOMes (25I-NBOMe)       • 5-HT2B valvular cardiotoxicity
+ • "Touching within"       • Rigid conformers (TCB-2) • Homology & crystallographic docking
+</code>
+
+=== 1. Coining the term "Entactogen" ===
+In the 1980s, when MDMA was mislabeled as a classic "hallucinogen," Nichols and psychologist Ralph Metzner recognized that methylenedioxymethamphetamine lacked the visual distortion, perceptual dissolution, and cognitive disorganization of LSD or mescaline. Nichols coined the pharmacological designation '''"entactogen"''' (derived from the Greek and Latin for "producing a touching within"), categorizing compounds whose primary subjective hallmark is emotional openness, empathy, reduced fear response, and enhanced social bonding.
+
+=== 2. Landmark chemical discoveries ===
+* '''The Benzofurans (APBs):''' Nichols synthesized 6-APB, 5-APB, 5-APDB, and 6-APDB, bioisosterically substituting the labile methylenedioxy ring of MDMA/MDA with an aromatic benzofuran or dihydrobenzofuran ring.
+* '''The NBOMe Family:''' Nichols discovered that adding a 2-methoxybenzyl (NBOMe) group to the primary amine of 2C phenethylamines (such as 2C-I) dramatically increased affinity for the $5\text{-HT}_{2A}$ receptor from micromolar down to '''sub-nanomolar / picomolar affinities''', creating powerful chemical probes (e.g. 25I-NBOMe) to map receptor activation states.
+* '''Rigid Conformation Probes:''' Synthesized cyclized, stereorigid molecules (such as TCB-2) to determine the exact 3-dimensional torsional angles required for phenethylamines to activate serotonin receptors.
+
+== Comparative pharmacology: MDMA vs. 6-APB ==
+
+The comparison between MDMA and Nichols' 6-APB represents a classic study in structural bioisosterism and divergence in transporter vs. receptor activation:
+
+{| class="wikitable"
+! Pharmacological Parameter !! MDMA (3,4-methylenedioxymethamphetamine) !! 6-APB (6-(2-aminopropyl)benzofuran)
+|-
+| '''Chemical Core''' || 1,3-Benzodioxole (two oxygens, non-aromatic ring) || Benzofuran (single oxygen, fully aromatic furan ring)
+|-
+| '''Amine Structure''' || Secondary amine ($N$-methylated) || Primary amine (unsubstituted)
+|-
+| '''Transporter Reversal (Efflux)''' || SERT >>> DAT > NET (Massive selective serotonin release) || SERT > DAT ≈ NET (Balanced dopamine and serotonin release)
+|-
+| '''Direct $5\text{-HT}_{2A}$ Agonism''' || Negligible (Acts almost purely through monoamine release) || '''Potent direct partial agonist''' (Induces vivid visuals & psychedelic headspace)
+|-
+| '''$5\text{-HT}_{2B}$ Receptor Affinity''' || Weak ($K_i \approx 500\text{ nM}$); active metabolite MDA is potent ($K_i \approx 90\text{ nM}$) || '''High-affinity, potent full agonist''' ($K_i \approx 3\text{–}10\text{ nM}$)
+|-
+| '''Duration of Action''' || 3 to 5 hours || '''8 to 12 hours'''
+|-
+| '''Hepatic Metabolism''' || CYP2D6 auto-inhibition (Methylenedioxy carbene complex) || Aromatic hydroxylation & furan ring cleavage; no CYP2D6 suicide block
+|}
+
+=== 1. Transporter dynamics: Entactogen vs. Psychedelic-Entactogen ===
+* MDMA functions primarily as a **transporter-reversing substrate**. It binds presynaptic Serotonin Transporters (SERT) and VMAT2, driving massive outward dumping of endogenous serotonin into the synapse. Its direct binding to serotonin receptors is negligible.
+* 6-APB is a hybrid: it reverses monoamine transporters like MDMA, but also possesses **high direct intrinsic efficacy at the $5\text{-HT}_{2A}$ receptor**. As a result, 6-APB produces the warm empathy and prosocial tactile enhancement of MDMA combined with rich geometric visuals, altered time perception, and open-eye drift characteristic of classic psychedelics.
+
+=== 2. Pharmacokinetics: The CYP2D6 auto-inhibition mechanism ===
+* When MDMA is metabolized in the liver, CYP2D6 cleaves the methylenedioxy ring, generating a transient, highly reactive carbene intermediate. This carbene binds covalently to the iron heme core of CYP2D6, forming a quasi-irreversible **Metabolic Intermediate Complex (MIC)**.
+* This results in '''mechanism-based suicide auto-inhibition''': MDMA destroys the very enzyme responsible for clearing it. When users redose, clearance slows drastically, causing non-linear blood accumulation and elevated neurotoxicity.
+* Because 6-APB possesses a stable, aromatic benzofuran ring, it cannot form a methylenedioxy carbene complex, avoiding CYP2D6 auto-inhibition and maintaining predictable, long-duration elimination kinetics.
+
+== The $5\text{-HT}_{2B}$ cardiac valvulopathy hazard ==
+
+The most dangerous toxicological finding documented by David Nichols' laboratory regarding benzofurans and chronic entactogen use involves the '''serotonin $5\text{-HT}_{2B}$ receptor''':
+
+<code>
+                 [ POTENT 5-HT2B AGONIST (e.g. 6-APB / MDA) ]
+                                      │
+                                      ▼
+             [ Heart Valve Leaflet Fibroblasts (Mitogenic CaSR/Gq) ]
+                                      │
+                                      ▼
+             [ Phosphorylation of Src, Erk1/2, & TGF-β1 Release ]
+                                      │
+                                      ▼
+             [ Proliferation of Interstitial Valve Fibroblasts ]
+                                      │
+                                      ▼
+             [ Myxoid Valve Thickening & Leaflet Retraction ]
+                                      │
+                                      ▼
+             [ CATASTROPHIC VALVULAR REGURGITATION & HEART FAILURE ]
+</code>
+
+* '''The Fen-Phen Precedent:''' In the late 1990s, the prescription diet drug combination "Fen-Phen" (fenfluramine and phentermine) was abruptly pulled from the global market after thousands of patients developed fatal cardiac valvulopathy. Subsequent research proved that fenfluramine's active metabolite, norfenfluramine, was a potent agonist at the $5\text{-HT}_{2B}$ receptor.
+* '''The Mitogenic Mechanism:''' Unlike $5\text{-HT}_{2A}$ (which regulates brain neuroplasticity), $5\text{-HT}_{2B}$ receptors are densely expressed on human cardiac heart valve leaflets (aortic and mitral valves). Agonist activation triggers intracellular $G_q$ and Src kinase cascades, stimulating heart fibroblasts to divide uncontrollably.
+* '''The Benzofuran Hazard:''' David Nichols demonstrated that **6-APB, 5-APB, and the MDMA metabolite MDA are exceptionally potent full agonists at the $5\text{-HT}_{2B}$ receptor**.
+* While infrequent, single-session entactogen use carries low structural risk, frequent, chronic, or repeated consumption of 6-APB or MDA causes progressive, irreversible fibroblastic thickening of heart valves, leading to valvular regurgitation, pulmonary hypertension, and congestive heart failure.
+
+== Expanding the Oilahuasca science: Allylbenzene-to-Amphetamine mapping ==
+
+David Nichols' high-resolution molecular modeling of the $5\text{-HT}_{2A}$ orthosteric binding pocket provides the theoretical framework validating the chemical rationale behind the '''Oilahuasca''' phenomenon:
+
+=== 1. Structural homology: Plant oils to synthetic drugs ===
+The volatile allylbenzenes abundant in culinary spices are the exact unaminated parent precursors to the phenethylamines mapped by Nichols and Shulgin:
+
+{| class="wikitable"
+! Natural Spice Allylbenzene !! Botanical Source !! In Vivo Amination Product (Transamination) !! Synthetic Amphetamine Analogue
+|-
+| '''Safrole''' || Sassafras, Nutmeg || 3,4-methylenedioxyamphetamine || '''MDA''' (Base of MDMA)
+|-
+| '''Myristicin''' || Nutmeg, Mace, Parsley || 3-methoxy-4,5-methylenedioxyamphetamine || '''MMDA''' (Nichols / Shulgin entactogen)
+|-
+| '''Elemicin''' || Nutmeg, Elemi, Sassafras || 3,4,5-trimethoxyamphetamine || '''TMA''' (Mescaline-like phenethylamine)
+|-
+| '''Methyl Eugenol''' || Clove, Nutmeg, Basil || 3,4-dimethoxyamphetamine || '''DMA'''
+|}
+
+=== 2. Receptor docking and the binding pocket ===
+In his 3D computational models of the $5\text{-HT}_{2A}$ receptor:
+* Nichols mapped the binding pocket between Transmembrane Helices 3, 5, and 6 (TM3, TM5, TM6).
+* The primary protonated amine of an entactogen or psychedelic forms an essential ionic salt bridge with '''Asp3.32''' on TM3.
+* The aromatic phenyl ring docks into a hydrophobic sandwich between Phe6.51 and Phe6.52 on TM6.
+* Crucially, the oxygen or sulfur substituents at positions 3, 4, and 5 form precise hydrogen bonds with '''Ser5.43 and Ser5.46''' on TM5.
+* This molecular modeling confirms why allylbenzenes must be metabolized into specific amino-alkaloid adducts (via the Oswald pathway or transamination) before they can elicit activity: the raw allyl hydrocarbon lacks the critical basic nitrogen required to anchor into the Asp3.32 residue, while the properly aminated metabolite fits the pocket perfectly.
+
+See also: [[69Ron and Oilahuasca Chemistry]] · [[Allylbenzene Metabolism, Oswald Pathway, and Mace]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[The 2C Series and Extended Phenethylamines]] · [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Catecholamines, Transporters, and Monoamine Reuptake]] · [[Structure-Activity Relationships in Psychopharmacology]] · [[PIHKAL and TIHKAL]] · [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]] · [[Stack Substances]]

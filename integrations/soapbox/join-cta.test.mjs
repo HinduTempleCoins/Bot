@@ -10,7 +10,8 @@ test('joinCta renders our own signup with UTM attribution for the source', () =>
   assert.match(html, /utm_medium=content/);
   assert.match(html, /utm_campaign=join-melek/);
   // secondary CTAs to our other properties
-  assert.match(html, /alpha\.kula\.money/);
+  assert.match(html, /https:\/\/kula\.money/);
+  assert.doesNotMatch(html, /alpha\.kula\.money/);
   assert.match(html, /pool\.soapbox\.community/);
 });
 

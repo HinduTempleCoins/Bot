@@ -1,0 +1,105 @@
+'''Cytochrome P450 System: Inhibition, Induction, and Metabolic Activation''' provides an exhaustive biochemical guide to the primary enzymatic superfamily responsible for drug metabolism, xenobiotic clearance, and botanical bioactivation. Cytochrome P450 (CYP450) enzymes govern first-pass intestinal and hepatic clearance, determine the systemic bioavailability of pharmaceuticals and botanical actives, and dictate whether co-administered compounds produce clinical toxicity or therapeutic failure.
+
+This article details the catalytic monooxygenase mechanism, major clinical isoforms, competitive versus mechanism-based suicide inhibition, nuclear receptor transcriptional induction, the critical divergence between prodrugs and active drugs, and the cannabinoid-CYP interface.
+
+== Catalytic biochemistry of the CYP450 superfamily ==
+
+CYP450 enzymes are membrane-bound hemoproteins anchored to the cytosolic surface of the smooth endoplasmic reticulum in hepatocytes and intestinal enterocytes:
+
+<code>
+                 [ Substrate: R-H ] + O2 + NADPH + H⁺
+                                 │
+                                 ▼  CYP450 (Heme Iron Catalysis)
+                 [ Product: R-OH ] + H2O + NADP⁺
+</code>
+
+=== The monooxygenase cycle ===
+1. '''Substrate binding:''' The lipophilic drug molecule ($R\text{-}H$) enters the hydrophobic active pocket and coordinates near the central heme iron ($Fe^{3+}$).
+2. '''First electron transfer:''' NADPH-cytochrome P450 reductase transfers an electron to reduce the iron from ferric ($Fe^{3+}$) to ferrous ($Fe^{2+}$).
+3. '''Oxygen activation:''' Molecular triplet oxygen ($O_2$) binds the ferrous iron. A second electron transfer forms a transient peroxo intermediate, which is protonated to release water ($H_2O$), generating a highly reactive ferryl-oxo radical cation ($\text{Compound I}, [Fe^{IV}=O]^{\bullet+}$).
+4. '''Hydrogen abstraction and rebound:''' The ferryl oxygen abstracts a hydrogen atom from the substrate, forming a transient substrate radical, which immediately recombines ("oxygen rebound") to produce a hydroxylated, polar metabolite ($R\text{-}OH$).
+
+== Major clinical isoforms ==
+
+Five distinct CYP families handle over 90% of all prescription drugs and psychoactive natural products:
+
+{| class="wikitable"
+! Isoform !! Relative liver abundance !! Primary substrates !! Potent inhibitors !! Potent inducers
+|-
+| '''CYP3A4 / 3A5''' || ~30% (Handles >50% of all drugs) || Fentanyl, statins, benzodiazepines, ketamine, THC-OH, macrolides || Grapefruit (bergamottin), piperine, ketoconazole, ritonavir, CBD || St. John's Wort (hyperforin), rifampin, carbamazepine, phenytoin
+|-
+| '''CYP2D6''' || ~2–4% (High phenotypic variation) || Codeine, tramadol, dextromethorphan, SSRIs, tricyclics, plant allylbenzenes || Fluoxetine, paroxetine, bupropion, piperine, quinidine || Not typically inducible (genetically regulated)
+|-
+| '''CYP1A2''' || ~13% || Caffeine, theophylline, melatonin, olanzapine, tacrine || Fluvoxamine, ciprofloxacin || Polycyclic aromatic hydrocarbons (smoking cannabis/tobacco), cruciferous vegetables
+|-
+| '''CYP2C9''' || ~20% || Δ9-THC (conversion to 11-OH-THC), warfarin, phenytoin, NSAIDs || CBD, fluconazole, amiodarone, sulfamethoxazole || Rifampin, St. John's Wort
+|-
+| '''CYP2C19''' || ~7% || Clopidogrel (prodrug), omeprazole, diazepam, escitalopram || CBD, fluconazole, fluvoxamine, omeprazole || Rifampin, carbamazepine
+|}
+
+== Mechanisms of enzyme inhibition ==
+
+Inhibition occurs when a co-administered substance suppresses the catalytic turnover of an enzyme, sharply raising or lowering circulating drug levels:
+
+<code>
+                            [ INHIBITION MODES ]
+                                     │
+           ┌─────────────────────────┴─────────────────────────┐
+           ▼                                                   ▼
+[ Competitive / Reversible ]                       [ Mechanism-Based (MBI / Suicide) ]
+ • Competes for heme pocket                         • Substrate metabolically converted
+ • Rapid onset, concentration-dependent               into reactive electrophilic radical
+ • Dissipates as inhibitor clears                   • Covalently destroys heme / apoprotein
+                                                    • Requires de novo protein synthesis (days)
+</code>
+
+=== 1. Competitive reversible inhibition ===
+* The inhibitor binds non-covalently within the active catalytic site, competing directly with the substrate.
+* Increases the apparent Michaelis constant ($K_m$) without altering maximum velocity ($V_{max}$).
+* Onset is rapid, and enzymatic activity recovers immediately once the inhibitor is cleared or displaced by high substrate concentrations.
+
+=== 2. Mechanism-Based Inactivation (MBI / "Suicide Inhibition") ===
+* The inhibitor acts as a "pseudosubstrate." The CYP enzyme attempts to metabolize the molecule, but the reaction generates an unstable, reactive electrophilic intermediate.
+* This reactive species attacks and forms an irreversible covalent bond with the catalytic heme iron or adjacent apoprotein amino acid residues, permanently destroying catalytic activity:
+: <code>CYP + Prodrug/Inhibitor ──► [Reactive Carbene/Radical] ──► Covalent Inactivation</code>
+* '''Grapefruit Furanocoumarins (Bergamottin and 6',7'-dihydroxybergamottin):''' Irreversibly destroy intestinal enterocyte CYP3A4. Recovery requires 48 to 72 hours for the gut epithelium to biosynthesize new CYP3A4 proteins.
+* '''Piperine (Black Pepper):''' Exhibits mechanism-based inactivation of human CYP3A4 and CYP2D6 alongside reversible inhibition, accounting for dramatic systemic exposure surges of co-administered botanicals.
+
+== Mechanisms of enzyme induction ==
+
+Enzyme induction is the process by which a compound increases the physical concentration of CYP450 enzymes by upregulating gene transcription:
+
+* '''Nuclear receptors:''' Xenobiotics bind to intracellular nuclear receptors, including the '''Pregnane X Receptor (PXR)''', the '''Constitutive Androstane Receptor (CAR)''', or the '''Aryl Hydrocarbon Receptor (AhR)'''.
+* '''Transcriptional activation:''' Upon ligand binding, the receptor forms a heterodimer with the retinoid X receptor (RXR), translocates to the nucleus, and binds response elements in the promoter region of specific CYP genes, accelerating mRNA transcription.
+* '''Kinetics:''' Unlike rapid inhibition, induction is a slow biological process taking several days to weeks to reach maximal expression, and persisting for days after the inducer is discontinued while excess enzymes degrade.
+* '''St. John's Wort (Hypericum perforatum):''' The active constituent '''hyperforin''' is one of the most potent natural agonists of human PXR, driving massive induction of CYP3A4 and P-glycoprotein. Co-ingestion slashes circulating blood levels of oral contraceptives, cyclosporine, antiretrovirals, and statins, causing widespread clinical failures.
+* '''Combustion smoke:''' Inhaling polycyclic aromatic hydrocarbons (PAHs) from combusted cannabis or tobacco smoke activates AhR, heavily inducing '''CYP1A2'''. Smokers metabolize caffeine roughly 50% faster than non-smokers.
+
+== The critical divergence: prodrugs vs. active drugs ==
+
+Whether enzyme modulation causes dangerous toxicity or therapeutic failure depends entirely on whether the target compound is an active drug or a metabolic prodrug:
+
+{| class="wikitable"
+! Molecule type !! Standard status !! Effect of CYP INHIBITION !! Effect of CYP INDUCTION
+|-
+| '''Active Drug''' (e.g., Fentanyl, Warfarin, Alprazolam) || Active as ingested; CYP enzymes inactivate and clear it. || '''Toxicity / Overdose:''' Clearance blocked; drug accumulates to toxic plasma levels. || '''Subtherapeutic Failure:''' Cleared too rapidly; drug fails to reach clinical threshold.
+|-
+| '''Metabolic Prodrug''' (e.g., Codeine, Clopidogrel, Psilocybin) || Inactive/less active as ingested; CYP enzymes convert it into active metabolite. || '''Therapeutic Failure:''' Conversion blocked; parent prodrug cleared without releasing active drug. || '''Toxicity / Rapid Surge:''' Conversion accelerated; sudden burst of active metabolite.
+|}
+
+* '''Codeine Example:''' Codeine is an inactive prodrug that requires '''CYP2D6''' to undergo O-demethylation into active morphine. If a patient takes a strong CYP2D6 inhibitor (such as fluoxetine or piperine), codeine cannot convert to morphine and produces zero analgesia. Conversely, a genetic "ultra-rapid metabolizer" converts codeine to morphine rapidly, risking fatal respiratory depression at standard therapeutic doses.
+
+== Cannabinoids and the CYP450 matrix ==
+
+Phytocannabinoids are both major substrates and potent modulators of hepatic CYP enzymes:
+
+=== 1. CBD as a master inhibitor ===
+* Cannabidiol (CBD) is a potent, clinically documented competitive inhibitor of '''CYP3A4''', '''CYP2C19''', and to a lesser degree CYP2D6.
+* High clinical doses of oral CBD (such as Epidiolex) significantly raise serum levels of the anti-epileptic clobazam (via CYP2C19 inhibition) and elevate blood levels of warfarin, requiring clinical dosage reductions.
+
+=== 2. THC metabolic activation ===
+* Ingested Δ9-THC undergoes extensive first-pass hepatic metabolism:
+: <code>Δ9-THC ──(CYP2C9 / CYP3A4)──► 11-Hydroxy-Δ9-THC (11-OH-THC) ──(CYP2C9)──► 11-Nor-9-carboxy-THC</code>
+* '''11-OH-THC:''' Significantly more potent than Δ9-THC at crossing the blood-brain barrier and possesses higher intrinsic efficacy at the CB1 receptor, explaining why oral cannabis edibles produce a markedly heavier, longer-lasting, and more psychedelic experience than inhaled cannabis.
+
+See also: [[The Expanded Endocannabinoid System and FAAH Science]] · [[Cannabinoid Oilahuasca]] · [[Black Pepper]] · [[Cannabis Harm Reduction]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Stack Substances]]

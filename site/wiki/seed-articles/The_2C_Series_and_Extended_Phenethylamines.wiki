@@ -1,0 +1,130 @@
+'''The 2C Series and Extended Phenethylamines''' provides an exhaustive chemical, pharmacological, and historical reference on Alexander Shulgin's ring-substituted 2,5-dimethoxyphenethylamines (the '''2C Family'''), their conformationally locked benzodifuran derivatives ('''FLY''' and '''DragonFLY'''), their $N$-benzyl super-agonists ('''NBOMes'''), and their 3-carbon amphetamine counterparts (the '''DOx Series''').
+
+Synthesized and systematically documented in Shulgin's 1991 masterwork ''PIHKAL'' (Phenethylamines I Have Known And Loved), the 2C series demonstrated that the 4-position of the phenethylamine aromatic ring represents a "magic window"—an infinitely tunable receptor-binding domain where subtle alterations in steric volume, lipophilicity, and halogenation radically alter potency, duration, and sensory texture.
+
+== The structural architecture: What is "2C"? ==
+
+The designation '''"2C"''' is Alexander Shulgin's acronym denoting the '''two carbons''' separating the benzene ring from the primary amino group:
+
+<code>
+                 [ THE 2C GENERAL CHEMICAL SCAFFOLD ]
+                                OCH3 (2-Position)
+                              ┌──┴──┐
+                              │  O  │── CH2─CH2─NH2  (2 Carbon Sidechain)
+                              └──┬──┘
+                              R (4-Position Variable Substituent)
+                                OCH3 (5-Position)
+</code>
+
+* '''The Fixed Core:''' All 2C compounds share a central benzene ring substituted with methoxy groups ($-OCH_3$) at the '''2- and 5-positions'''. This 2,5-dimethoxy architecture establishes an optimal electronic dipole that fits into the orthosteric binding pocket of the human serotonin '''$5\text{-HT}_{2A}$ and $5\text{-HT}_{2C}$ receptors'''.
+* '''The 4-Position "Magic Window":''' The substituent ($R$) anchored to the 4-position faces directly into a deep lipophilic sub-pocket within the transmembrane core of the receptor. Altering $R$ (from halogens to alkyl chains to sulfur ethers) modulates affinity from millimolar down to low nanomolar ranges.
+
+== The classical core 2C family ==
+
+Shulgin synthesized dozens of 2C analogues; the following compounds represent the core historical and pharmacological suite:
+
+{| class="wikitable"
+! Compound !! 4-Position ($R$) !! Typical Dose !! Active Duration !! Pharmacological & Phenomenological Profile
+|-
+| '''2C-B''' || Bromo ($-Br$) || 12–24 mg || 4–8 hours || Shulgin's favorite discovery; synthesized in 1974. Warm, empathogenic-psychedelic, rich visual geometry, tactile and erotic enhancement.
+|-
+| '''2C-C''' || Chloro ($-Cl$) || 20–40 mg || 4–8 hours || Mildest and most relaxing of the halogenated series; pronounced tranquil and sedative undertones.
+|-
+| '''2C-D''' || Methyl ($-CH_3$) || 20–60 mg || 4–6 hours || Shulgin termed it "pharmacological tofu"—subtle and undemanding alone, but remarkably amplifies and broadens other psychedelics when co-administered.
+|-
+| '''2C-E''' || Ethyl ($-CH_2CH_3$) || 10–20 mg || 8–12 hours || "The Teacher." Deep, intense, intellectually demanding, profound audio-visual synesthesia; very low physical toxicity but heavy cognitive load.
+|-
+| '''2C-I''' || Iodo ($-I$) || 12–24 mg || 6–10 hours || Bright, energetic, stimulating visual psychedelic; widely popular in the 2000s; precursor core for the NBOMe series.
+|-
+| '''2C-N''' || Nitro ($-NO_2$) || 100–150 mg || 4–6 hours || Unique brilliant yellow nitrate salt; rapid onset, intense somatic rushing, heavy physical body load.
+|-
+| '''2C-P''' || Propyl ($-CH_2CH_2CH_3$) || '''6–10 mg''' || '''14–18 hours''' || Exceptionally potent with a steep dose-response curve; slow onset (up to 2–3 hours) leading to dangerous accidental redosing.
+|-
+| '''2C-T-2''' || Ethylthio ($-SCH_2CH_3$) || 12–25 mg || 6–10 hours || Warm, emotional, introspective; sulfur congener metabolized by FMO enzymes rather than CYP450.
+|-
+| '''2C-T-7''' || Propylthio ($-S(CH_2)_2CH_3$) || 10–30 mg || 8–14 hours || "Blue Mystic." Brilliant visual architecture; lethal at high/insufflated doses due to intrinsic MAO-A inhibition interactions.
+|}
+
+== The Extended 2C Series: Rigid rings and super-agonists ==
+
+Beyond simple aliphatic and halogen substitutions, medicinal chemists (most notably Dr. David E. Nichols and Ralf Heim) extended the 2C scaffold into conformationally restricted and ultra-high-affinity derivatives:
+
+<code>
+                 [ CONFORMATIONALLY RESTRICTED 2C VARIANTS ]
+                                      │
+         ┌────────────────────────────┴────────────────────────────┐
+         ▼                                                         ▼
+[ The FLY Family (e.g. 2C-B-FLY) ]             [ The DragonFLY Family (e.g. Bromo-DragonFLY) ]
+ • Dihydrofuran rings fused at 2,5 positions    • Fully aromatic difuran rings fused to ring
+ • Locks methoxy oxygens into rigid plane       • Incorporates amphetamine α-methyl group
+ • Highly selective 5-HT2A agonist              • Multi-day duration (30–48h); lethal vasoconstriction
+</code>
+
+=== 1. The FLY and DragonFLY Families ===
+* In standard 2C molecules, the 2- and 5-methoxy groups can freely rotate around their carbon-oxygen bonds.
+* '''2C-B-FLY:''' Chemists cyclized the methoxy groups into saturated dihydrofuran rings fused to the central benzene core, locking the oxygen electron lone pairs into a rigid planar configuration. This conformational lock dramatically increases binding affinity at $5\text{-HT}_{2A}$, yielding an active dose of 10–15 mg.
+* '''Bromo-DragonFLY:''' Replaces the dihydrofuran rings with fully planar, fully aromatic furan rings and adds an $\alpha$-methyl group (making it an amphetamine).
+** Bromo-DragonFLY is active at microgram doses ('''$500\text{–}1,000\,\mu\text{g}$''').
+** '''Toxicological Catastrophe:''' Due to extreme metabolic resistance, Bromo-DragonFLY has an active duration exceeding '''30 to 48 hours'''. Its intense, unrelenting activation of peripheral vascular $5\text{-HT}_{2A}$ receptors induces severe, life-threatening vasoconstriction, leading to peripheral limb necrosis (gangrene requiring surgical amputation) and multiple documented fatalities.
+
+=== 2. The NBOMe and NBOH Transformation ===
+* In the early 2000s, Ralf Heim and David E. Nichols discovered that attaching an $N$-(2-methoxybenzyl) group to the primary amine of 2C molecules (e.g., adding an NBOMe group to 2C-I to create '''25I-NBOMe''') increases receptor binding affinity by several orders of magnitude:
+: <code>2C-I (Ki ≈ 250 nM) ──► 25I-NBOMe (Ki ≈ 0.044 nM) &nbsp; [~5,000x Increase in Affinity]</code>
+* This shifted phenethylamine dosing from milligrams down into the sub-milligram microgram range ($250\text{–}800\,\mu\text{g}$), creating dangerous counterfeit blotter risks.
+
+=== 3. Fluoroalkyl and exotic extensions ===
+* '''2C-EF''' (4-(2-fluoroethyl)): Highly potent and visual derivative combining the ethyl group of 2C-E with a terminal fluorine atom to block terminal hydroxylation.
+* '''2C-T-21''' (4-(2-fluoroethylthio)): Fluorinated thioether derivative active at 8–12 mg.
+* '''2C-iP''' (4-isopropyl): Branched aliphatic derivative demonstrating that steric bulk at the 4-position reduces potency compared to linear chains.
+
+== The 2C vs. DOx Amphetamine Bridge ==
+
+Every 2C phenethylamine possesses an exact 3-carbon amphetamine counterpart (the '''DOx family'''), created by adding a single methyl group to the $\alpha$-carbon of the side chain:
+
+<code>
+     [ 2C Phenethylamine (2-Carbon Sidechain) ]        [ DOx Amphetamine (3-Carbon Sidechain) ]
+                     CH2─CH2─NH2                                      CH2─CH(CH3)─NH2
+                          │                                                │
+                 [ 2 Carbons ]                                     [ 3 Carbons (α-Methyl) ]
+             • Rapid MAO Degradation                           • MAO Sterically Blocked
+             • Duration: 4–10 Hours                            • Duration: 14–30 Hours
+             • Milligram Doses (10–30 mg)                      • Microgram/Low-mg Doses (1–5 mg)
+</code>
+
+{| class="wikitable"
+! 2C Phenethylamine (2-Carbon) !! DOx Amphetamine Counterpart (3-Carbon) !! 2C Duration !! DOx Duration !! DOx Potency
+|-
+| '''2C-B''' (4-Bromo) || '''DOB''' (Brolamfetamine) || 4–8 hours || '''18–30 hours''' || 1.0–3.0 mg
+|-
+| '''2C-C''' (4-Chloro) || '''DOC''' || 4–8 hours || '''12–20 hours''' || 1.5–3.5 mg
+|-
+| '''2C-D''' (4-Methyl) || '''DOM''' ("STP" / Serenity, Tranquility, Peace) || 4–6 hours || '''14–20 hours''' || 3.0–10.0 mg
+|-
+| '''2C-I''' (4-Iodo) || '''DOI''' (Standard lab 5-HT2A probe) || 6–10 hours || '''16–24 hours''' || 1.5–3.0 mg
+|-
+| '''2C-N''' (4-Nitro) || '''DON''' || 4–6 hours || '''8–12 hours''' || 3.0–5.0 mg
+|-
+| '''2C-T-2''' (4-Ethylthio) || '''Aleph-2''' || 6–10 hours || '''12–16 hours''' || 4.0–8.0 mg
+|-
+| '''2C-T-7''' (4-Propylthio) || '''Aleph-7''' || 8–14 hours || '''16–24 hours''' || 4.0–7.0 mg
+|}
+
+=== Why the $\alpha$-methyl group alters duration and potency ===
+1. '''Steric Hindrance of MAO:''' Endogenous monoamine oxidase (MAO) enzymes rapidly deaminate unhindered primary phenethylamines (like the 2Cs), cleaving the amine into inactive phenylacetaldehydes. The $\alpha$-methyl group of the DOx series acts as a physical shield, sterically blocking MAO from docking to the amine.
+2. '''Extended Half-Life:''' Because MAO cannot degrade the molecule, elimination depends entirely on slower Cytochrome P450 oxidation, multiplying the duration of action by a factor of three to four.
+3. '''Elevated Cardiovascular Toxicity:''' The protracted duration maintains continuous peripheral $5\text{-HT}_{2A}$-mediated vasoconstriction and sympathetic stimulation for over 24 hours, significantly elevating the risk of hypertensive crises, hyperthermia, and acute renal stress compared to the self-limiting 2C series.
+
+== Pharmacology and Harm Reduction ==
+
+=== 1. Steep dose-response curves (The 2C-P trap) ===
+While classic compounds like mescaline or psilocybin possess broad, forgiving dosage plateaus, high-potency phenethylamines (particularly **2C-E** and **2C-P**) exhibit steep, non-linear dose-response curves:
+* With 2C-P, taking 8 mg produces a manageable psychedelic experience, whereas taking 11 mg can trigger a terrifying, multi-day delirium with unmanageable tremors and cardiovascular emergencies.
+* Because powders vary wildly in bulk density, these compounds must never be eyeballed and require **Volumetric Liquid Dosing (VLD)**.
+
+=== 2. Reagent testing identification ===
+The 2C series can be reliably screened and differentiated using colorimetric test kits:
+* '''Marquis:''' 2C-B flashes yellow and turns dark green; 2C-I turns yellow-brown; 2C-E flashes yellow and shifts to deep green/blue; 2C-T-7 turns orange/brown.
+* '''Mecke:''' Distinctive green-brown and yellow-brown chromophores.
+* '''Ehrlich Reagent:''' Produces **zero color change (remains clear)**, definitively proving the sample is not an indole/ergoline (ruling out LSD).
+
+See also: [[PIHKAL and TIHKAL]] · [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Catecholamines, Transporters, and Monoamine Reuptake]] · [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]] · [[Colorimetric Reagents and Presumptive Chemical Testing]] · [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]] · [[Structure-Activity Relationships in Psychopharmacology]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Stack Substances]]

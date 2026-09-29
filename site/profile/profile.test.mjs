@@ -94,7 +94,8 @@ test('balances are read CLIENT-SIDE from env RPC endpoints (MELEK + EVM/PRANA)',
   const body = (await get('/')).body;
   assert.match(body, /condenser_api\.get_accounts/);      // MELEK Graphene read
   assert.match(body, /melek\.salon\/rpc/);                // default public MELEK RPC
-  assert.match(body, /rpc\.prana\.alpha\.melek\.salon/);  // default public PRANA EVM RPC
+  assert.match(body, /rpc\.prana\.melek\.salon/);  // default public PRANA mainnet EVM RPC
+  assert.doesNotMatch(body, /rpc\.prana\.alpha/);
 });
 
 test('a hostile <script> in the addr param is escaped (no raw payload)', async () => {

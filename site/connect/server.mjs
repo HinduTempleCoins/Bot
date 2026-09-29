@@ -20,10 +20,13 @@
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { handler as ssoHandler, sessionFromCookie } from '../../pentecaust/sso.mjs';
+import { handler as ssoHandler, sessionFromCookie, selfOriginFor } from '../../pentecaust/sso.mjs';
 import {
   connectProvider, listConnections, revokeConnection, useConnection,
 } from './connections.mjs';
+import {
+  GENAI_PROVIDERS, mintLinkToken, verifyLinkToken, linkPageHtml, normImageJob, RUNNERS, isAllowedOrigin, bearer,
+} from './genai.mjs';
 
 const PORT = +(process.env.PORT || 8188);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -98,16 +101,21 @@ function signedInPage(who) {
   only as a capability — MELEK never shows it back to you or logs it.</p>
  <div class=row>
   <div><label for=provider>Provider</label>
-   <input id=provider placeholder="e.g. openai, courtlistener" autocapitalize=off autocomplete=off></div>
+   <input id=provider list=provs placeholder="e.g. fal, gemini, worker, openai" autocapitalize=off autocomplete=off>
+   <datalist id=provs>${GENAI_PROVIDERS.map((g) => `<option value="${esc(g.id)}">${esc(g.name)}</option>`).join('')}<option value=openai><option value=courtlistener></datalist></div>
   <div><label for=scope>Scope</label>
    <input id=scope placeholder="e.g. llm:complete (optional)" autocapitalize=off autocomplete=off></div>
  </div>
  <div class=row>
-  <div><label for=key>API key</label>
+  <div id=wurl-box style="display:none"><label for=wurl>Worker URL (https)</label>
+   <input id=wurl placeholder="https://you--hathor-studio-worker-serve.modal.run" autocapitalize=off autocomplete=off></div>
+  <div><label for=key id=keylabel>API key</label>
    <input id=key type=password placeholder="paste your key — stored encrypted, never shown again" autocomplete=off></div>
   <div><label for=cap>Call cap</label>
    <input id=cap type=number min=0 placeholder="max calls (optional)"></div>
  </div>
+ <p class=note>For <b>Hathor Studio</b>: connect <b>fal</b>, <b>gemini</b>, or <b>worker</b> (your own copy of the Studio engine on a PC, Colab or Modal GPU), then press
+  "Link Pentecaust" on the Studio's <a href="https://hathor.soapbox.community/engines">Your engines</a> page.</p>
  <p style="margin-top:12px"><button class="btn primary" id=connect>Connect key</button></p>
  <p class=note id=msg></p>
 </div>
@@ -132,8 +140,12 @@ async function load(){const j=await api('/connections');const cs=(j&&j.connectio
  for(const b of document.querySelectorAll('[data-r]'))b.onclick=async()=>{
   const r=await api('/revoke',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({provider:b.dataset.r})});
   if(r&&r.ok)load();else alert((r&&r.reason)||'could not revoke');};}
+const isW=()=>$('provider').value.trim().toLowerCase()==='worker';
+$('provider').oninput=()=>{$('wurl-box').style.display=isW()?'':'none';$('keylabel').textContent=isW()?'Worker password (CPU_SD_TOKEN)':'API key';};
 $('connect').onclick=async()=>{
- const provider=$('provider').value.trim(),scope=$('scope').value.trim(),key=$('key').value,capN=$('cap').value.trim();
+ const provider=$('provider').value.trim(),scope=$('scope').value.trim(),capN=$('cap').value.trim();
+ let key=$('key').value;
+ if(isW()){const u=$('wurl').value.trim();if(!/^https:\/\//.test(u)){$('msg').textContent='Worker URL must start with https://';return;}key=JSON.stringify({url:u,token:key});$('wurl').value='';}
  if(!provider||!key){$('msg').textContent='Provider and key are required.';return;}
  const body={provider,scope};if(key)body.key=key;if(capN!=='')body.cap={calls:Number(capN)};
  const r=await api('/connect',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
@@ -155,7 +167,7 @@ function sendHtml(res, html, code = 200) {
 }
 // Small JSON body reader. Soft-fail to null on over-limit / parse error. Never logs the body (it may
 // carry a raw key). Also accepts application/x-www-form-urlencoded for a plain HTML form POST.
-function readBody(req, max = 16384) {
+function readBody(req, max = 16384) { // image requests pass a larger max
   return new Promise((resolve) => {
     let d = ''; let over = false;
     req.on('data', (c) => { d += c; if (d.length > max) { over = true; req.destroy(); } });
@@ -172,6 +184,43 @@ function readBody(req, max = 16384) {
   });
 }
 
+// ── /v1/genai/* — the Studio's calls. CORS to the allowlisted Studio origin only; Bearer link token. ──
+function cors(req) {
+  const o = String((req.headers && req.headers.origin) || '');
+  return isAllowedOrigin(o) ? { 'access-control-allow-origin': o, vary: 'origin',
+    'access-control-allow-headers': 'authorization, content-type', 'access-control-allow-methods': 'GET, POST, OPTIONS' } : {};
+}
+function sendJsonC(req, res, code, obj) {
+  res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...cors(req) });
+  res.end(JSON.stringify(obj));
+}
+async function genaiApi(req, res, path, method) {
+  if (method === 'OPTIONS') { res.writeHead(204, cors(req)); return res.end(); }
+  const link = verifyLinkToken(bearer(req));
+  if (!link) return sendJsonC(req, res, 401, { ok: false, reason: 'link Pentecaust again' });
+  const tenant = link.account;
+  if (path === '/v1/genai/providers' && method === 'GET') {
+    const providers = listConnections(tenant).filter((c) => !c.revoked && GENAI_PROVIDERS.some((g) => g.id === c.provider)).map((c) => c.provider);
+    return sendJsonC(req, res, 200, { ok: true, account: tenant, providers });
+  }
+  if (path === '/v1/genai/image' && method === 'POST') {
+    const b = await readBody(req, 12 * 1024 * 1024);
+    if (b == null) return sendJsonC(req, res, 400, { ok: false, reason: 'bad body' });
+    const n = normImageJob(b);
+    if (!n.ok) return sendJsonC(req, res, 400, n);
+    try {
+      // The key is decrypted only inside this callback; what comes back is the image, never the key.
+      const out = await useConnection(tenant, n.provider, (secret) => RUNNERS[n.provider](secret, n.job), 1);
+      return sendJsonC(req, res, 200, { ok: true, src: out.src, note: out.note });
+    } catch (e) {
+      const msg = String((e && e.message) || e);
+      // never echo anything that could contain the key; provider errors are already trimmed
+      return sendJsonC(req, res, /no connection/.test(msg) ? 404 : 502, { ok: false, reason: msg.slice(0, 200) });
+    }
+  }
+  return sendJsonC(req, res, 404, { ok: false, reason: 'not-found' });
+}
+
 // ── handler ──────────────────────────────────────────────────────────────────────────────────────
 export async function handler(req, res) {
   try {
@@ -182,12 +231,31 @@ export async function handler(req, res) {
 
     // MELEK-Signer login / callback / me / logout — the identity for this whole surface.
     if (path === '/auth' || path.startsWith('/auth/')) {
-      return ssoHandler(req, res, { selfOrigin: BASE_URL, idpOrigin: process.env.SSO_IDP_ORIGIN || 'https://pentecaust.com' });
+      return ssoHandler(req, res, { selfOrigin: selfOriginFor(req, BASE_URL), idpOrigin: process.env.SSO_IDP_ORIGIN || 'https://pentecaust.com' });
     }
+
+    // ── Hathor Studio: generate with keys held HERE (see genai.mjs). Token auth, no cookies. ──
+    if (path.startsWith('/v1/genai/')) return genaiApi(req, res, path, method);
 
     const who = _whoami(req);
 
+    if (path === '/studio-link') {
+      const origin = new URL(String(req.url || '/'), 'http://x').searchParams.get('origin') || '';
+      if (!isAllowedOrigin(origin)) return sendJson(res, 400, { ok: false, reason: 'origin not allowed' });
+      if (!who) { // sign in first, then come straight back here (the IdP callback lands on '/')
+        res.writeHead(302, { location: '/auth/login', 'set-cookie': `pcl_next=${encodeURIComponent(origin)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=900` });
+        return res.end('');
+      }
+      const providers = listConnections(who).filter((c) => !c.revoked && GENAI_PROVIDERS.some((g) => g.id === c.provider)).map((c) => c.provider);
+      return sendHtml(res, linkPageHtml({ token: mintLinkToken(who, { origin }), account: who, origin, providers }));
+    }
+
     if (path === '/') {
+      const next = /(?:^|;\s*)pcl_next=([^;]+)/.exec(String((req.headers && req.headers.cookie) || ''));
+      if (who && next && isAllowedOrigin(decodeURIComponent(next[1]))) {
+        res.writeHead(302, { location: `/studio-link?origin=${encodeURIComponent(decodeURIComponent(next[1]))}`, 'set-cookie': 'pcl_next=; Path=/; Max-Age=0' });
+        return res.end('');
+      }
       return sendHtml(res, who ? signedInPage(who) : signedOutPage());
     }
 

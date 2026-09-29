@@ -1,0 +1,41 @@
+# Hive-Engine and Smart Media Tokens
+
+Hive-Engine is a decentralized smart contract side-chain platform built on the [[HIVE]] blockchain. It serves as a vital alternative for users, particularly in regions like the United States, where access to centralized cryptocurrency exchanges is restricted due to regulatory constraints. Hive-Engine allows users to mint custom tokens, operate a decentralized exchange (DEX), create non-fungible tokens (NFTs), and build liquidity pools<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+## Hive-Engine Ecosystem
+
+### Key Tools
+Hive-Engine provides several tools to facilitate its operations. These include:
+
+1. **Hive Keychain**: A browser extension and mobile app that functions as a Web3 wallet. It enables users to manage their keys and sign transactions without repeatedly entering passwords. This tool is essential for all Hive-Engine operations<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+2. **TribalDEX**: An alternative decentralized exchange interface that offers token trading, liquidity pools, and an NFT marketplace. It provides the same functionality as Hive-Engine but with a different user interface<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+3. **PeakD**: A front-end interface for the HIVE blockchain that offers enhanced features compared to the standard blogging site. These features include wallet integration, token viewing, and community tools<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+### Peggy Tokens
+Hive-Engine supports the creation of pegged assets, also known as peggy tokens, which serve as wrapped versions of tokens from other blockchains. This functionality enables cross-chain liquidity while keeping users within the HIVE ecosystem. For example, the Van Kush Family has proposed making their Van Kush Beauty Token (VKBT) usable on both Hive-Engine and the Polygon (MATIC) blockchain<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+### Regulatory Advantages
+Hive-Engine offers a solution to regulatory challenges faced by U.S. cryptocurrency users. Unlike centralized exchanges that often require Know Your Customer (KYC) compliance and are subject to banking restrictions, Hive-Engine operates in a decentralized manner, allowing Americans to trade freely without such limitations<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>.
+
+## Smart Media Tokens (SMTs)
+
+Smart Media Tokens (SMTs) are a key feature of the Hive-Engine ecosystem, enabling the creation of custom cryptocurrencies for various use cases. One notable example is the CURE token, a specialized SMT designed to reward curation activities within the Hive ecosystem. The tokenomics of CURE emphasize its rarity, with an annual minting rate of approximately 21,000 tokens, which is claimed to be rarer than Bitcoin. Rewards are split between curators (51%) and content creators (49%), with a significant portion of rewards automatically staked to encourage long-term participation<ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+### Use Cases of SMTs
+SMTs like CURE are used to incentivize community engagement and content curation. For instance, users can earn CURE tokens by voting on posts tagged with specific hashtags such as #vankushfamily and #proofofbrain. This mechanism aligns with the broader goal of fostering a "SocialFi" ecosystem, where members support each other through mutual voting and content creation<ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+### Market Strategies
+The CURE token employs various market strategies to stabilize its value and encourage adoption. These include buy-back events to maintain a target price and reinvesting all earnings into HIVE Power to increase voting influence within the ecosystem. Additionally, plans for cross-chain expansion aim to make CURE accessible on other blockchains like Polygon (MATIC) and Binance Smart Chain (BSC)<ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+## Conclusion
+
+Hive-Engine and Smart Media Tokens represent a significant innovation in the decentralized finance (DeFi) and content creation spaces. By providing tools for token creation, trading, and community engagement, Hive-Engine addresses regulatory challenges and fosters a collaborative ecosystem. Meanwhile, SMTs like CURE exemplify how tokenomics can be designed to reward participation and sustain decentralized communities.
+
+== Sources ==
+<ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>  
+<ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>
+
+== Coverage ==
+This article is well-supported by multiple sources, primarily focusing on Hive-Engine and the CURE token. However, additional details on the broader applications of Smart Media Tokens within the Hive ecosystem are not covered in the available sources.

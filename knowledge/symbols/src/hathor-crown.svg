@@ -1,0 +1,62 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 184" width="178" height="184">
+	<title>sun Disk of Hathor</title>
+	<style>
+		.s0 { fill: #c13c1b;stroke: #000000;stroke-width: .5 } 
+		.s1 { fill: #000000;stroke: #000000;stroke-width: .5 } 
+		.s2 { fill: #fac53a;stroke: #000000;stroke-width: .4 } 
+		.s3 { fill: #308d57 } 
+		.s4 { fill: none;stroke: #000000;stroke-width: .4 } 
+		.s5 { fill: #c13c1b } 
+		.s6 { fill: #0044aa } 
+		.s7 { fill: #000000;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .4 } 
+		.s8 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .4 } 
+		.s9 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .4;stroke-dasharray: 0.8583974603641501,1.7167949207283002 } 
+		.s10 { fill: #fac53a;stroke: #000000;stroke-width: .5 } 
+		.s11 { fill: #c13c1b;stroke: #c13c1b;stroke-linecap: round;stroke-linejoin: round;stroke-width: 33.1 } 
+		.s12 { fill: none;stroke: #ffffff;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5.7 } 
+		.s13 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: 6.9 } 
+		.s14 { fill: none;stroke: #fac53a;stroke-linecap: round;stroke-linejoin: round;stroke-width: 5.8 } 
+		.s15 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .4;stroke-dasharray: 0.42919873,3.43358984 } 
+		.s16 { fill: none;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .4;stroke-dasharray: 0.21567774000000003,5.17626545 } 
+		.s17 { fill: #c13c1b;stroke: #000000;stroke-linecap: round;stroke-linejoin: round;stroke-width: .5 } 
+	</style>
+	<g id="layer1">
+		<path id="path7788" fill-rule="evenodd" class="s0" d="m116.4 170.5c-3.4 1.4-4 8.6-4.4 12.3l-46.5-0.3c-0.1-4-0.8-10.5-3.8-12"/>
+		<g id="g13309">
+			<path id="path4960" fill-rule="evenodd" class="s1" d="m87.2 150.8c-12.6-9.1-6.9 4.7-35.4-8.7-35.6-27-18.1-55.9-20.5-88.8-2.1-27.5-17.1-46.1-29.7-52 11.3 13.1 21.9 28.6 23.2 52 0 32.2-15.3 65.3 12.4 89.1 29.5 25.3 44.2 10.1 43.8 26.6h17c-0.3-16.5 14.3-1.3 43.8-26.6 27.7-23.8 12.5-56.9 12.4-89.1 1.3-23.4 12-38.9 23.3-52-12.6 5.9-27.6 24.5-29.7 52-2.5 32.9 15 61.8-20.6 88.8-28.4 13.4-22.8-0.4-35.3 8.7"/>
+			<g id="g4935">
+				<path id="path22386" fill-rule="evenodd" class="s2" d="m29.2 110.8c0.2 4.9 0.3 26.3-5 27.1-5.4 0.5-4-6.4-4.3-10.4 0.1-3.9 2-9.9 1.6-13.2-1.3-11.3-8.8-12-12.9-11.7-1.4-1.3-5.1-1.2-7.6 0.8-0.2 0.3-0.5 0.6-0.4 1.4 1.8 2.5 5 2.6 8.4 2.3q0.6 0.1 0.5 0.7c-2.7 2.5-3 4.8-2.9 7.1 1.5 7.6 2.8 16 4.6 22.8 0.3 10.1 19.6 9.4 22.1 1.5 1.6-5.4 3-10.1 2.8-10.6"/>
+				<path id="path2654" fill-rule="evenodd" class="s3" d="m19.5 107.9l-0.5-0.2c-1.9-1.3-3.2-2.7-6.1-3.4-1.8-0.5-3.8-0.1-5.7 0.3-1 0.4-1.9 0.2-2.7-0.4-0.8-0.7-2.1 0-3.3 0l-0.4-0.1c0.1-0.2 0.2-0.4 0.3-0.6 2.5-2 6-2.1 7.4-0.8 3.1-0.2 8.1 0.1 11 5.2z"/>
+				<path id="path4601" fill-rule="evenodd" class="s3" d="m18.1 128.2c-2.2 0.7-4.7 0.8-7 0.3 0 0 2.3 0.5-0.1 0q0.9 4.4 2.4 10.7c-0.2-3.1 4.5-3.2 4.9-1.6-0.4-3.7-0.1-0.2-0.1-0.2-0.3-3.5-0.3-6.5-0.1-9.2z"/>
+				<path id="path22388" fill-rule="evenodd" class="s4" d="m18.2 137.4c-1.2-13.2 2.4-20.1 1.5-24.5-1.4-5.9-5.4-5.6-6.1-5.6-0.7 0-4.6 0.6-4.9 6.5-0.2 4.2 1.4 10.7 4.6 25.5"/>
+				<path id="path4623" fill-rule="evenodd" class="s5" d="m9.2 119.4c3.3 1.2 6.9 1.5 10.2-0.5-0.4 2.5-1 5.6-1.3 9.5-2.2 0.5-4.7 0.6-7.1 0.2-0.8-3.9-1.4-6.8-1.8-9.2z"/>
+				<path id="path22392" fill-rule="evenodd" class="s4" d="m9.2 119.5c3.2 1.2 6.9 1.4 10.1-0.6"/>
+				<path id="path4633" fill-rule="evenodd" class="s6" d="m9.2 119.5c3.2 1.2 6.8 1.4 10.1-0.5 0.4-2.5 0.7-4.5 0.3-6.1-1.3-5.9-5.3-5.6-6-5.6-0.8 0-4.7 0.6-4.9 6.5-0.1 1.5 0.1 3.3 0.5 5.7z"/>
+				<path id="path22394" fill-rule="evenodd" class="s4" d="m11 128.5c2.3 0.5 4.9 0.4 7.1-0.2"/>
+				<path id="path22396" fill-rule="evenodd" class="s4" d="m1.4 104.1c1.2 0 2.1-0.7 2.9 0.1 0.9 0.5 1.7 0.7 2.7 0.4 1.9-0.4 4-0.9 5.9-0.3 2.9 0.6 4.7 2.5 6.6 3.7"/>
+				<path id="path22398" fill-rule="evenodd" class="s7" d="m7.1 103.6q0 0.3-0.3 0.5-0.2 0.2-0.6 0.2-0.4 0-0.6-0.2-0.3-0.2-0.3-0.5 0-0.4 0.3-0.6 0.2-0.2 0.6-0.2 0.4 0 0.6 0.2 0.3 0.2 0.3 0.6z"/>
+				<path id="path23371" fill-rule="evenodd" class="s4" d="m13.4 139.2c-0.2-3.1 4.5-3.2 5-1.4"/>
+				<path id="path23373" fill-rule="evenodd" class="s4" d="m13.3 139.4c2-0.5 3.7-0.7 5.4-1.6"/>
+				<path id="path23375" fill-rule="evenodd" class="s4" d="m15.3 141.6c1.9-0.3 3.3-1.5 4.2-2.5"/>
+				<path id="path23377" fill-rule="evenodd" class="s4" d="m17.3 142.7c1.5-0.7 2.5-1.4 3.3-2.7"/>
+				<g id="g7619">
+					<path id="path7593" fill-rule="evenodd" class="s4" d="m18.2 137.4c-1.2-13.2 2.4-20.1 1.4-24.5-1.3-5.9-5.3-5.6-6-5.6-0.8 0-4.7 0.6-4.9 6.5-0.2 4.2 1.4 10.7 4.6 25.5"/>
+					<path id="path7597" fill-rule="evenodd" class="s4" d="m9.2 119.5c3.2 1.2 6.8 1.4 10.1-0.6"/>
+					<path id="path7601" fill-rule="evenodd" class="s4" d="m11 128.5c2.3 0.5 4.8 0.4 7-0.2"/>
+					<path id="path7609" fill-rule="evenodd" class="s8" d="m13.4 139.2c-0.2-3.1 4.4-3.2 4.9-1.4"/>
+				</g>
+				<path id="path22390" fill-rule="evenodd" class="s2" d="m14.9 136.9c-1.7-9.9-0.6-18.8-2.2-29.3 0.7-0.3 1.4-0.4 2.1-0.2 1.9 6.8 0.4 20.1 2.1 29.3"/>
+				<path id="path14436" fill-rule="evenodd" class="s9" d="m12.7 139.9c0.6 1.4 3.8 4.1 8.3 4.3 2.2 0 7.3-0.6 9.5-2.8 1.7-1.7 3-5.8 4.7-13.3"/>
+				<path id="path19287" fill-rule="evenodd" class="s8" d="m13.3 139.1c-0.2-2 3.4-3.7 5-1.4"/>
+			</g>
+			<path id="path23379" fill-rule="evenodd" class="s10" d="m149.9 107.6c3.2 29.2 4 21.6 6.3 41.9-0.1 1-1.3 0.9-1.5 0.3-2.6-14.6-6.8-17.4-8.8-29.9"/>
+			<path id="path19323" fill-rule="evenodd" class="s11" d="m130.1 96.4c0 27.2-18.6 39.1-43.2 39.1-24.7 0-42.8-13.1-42.4-39.1 0.4-25.9 17.7-39 42.4-39 24.6 0 43.2 12.3 43.2 39z"/>
+			<path id="path31198" fill-rule="evenodd" class="s12" d="m146.4 96.3c0 36.1-24.8 52-57.6 52-32.9 0-57.1-17.5-56.6-52 0.6-34.6 23.7-52.1 56.6-52.1 32.8 0 57.6 16.4 57.6 52.1z"/>
+			<path id="path28287" fill-rule="evenodd" class="s13" d="m147.5 96.2c0 36.9-25.3 53.2-58.8 53.2-33.6 0-58.2-17.9-57.7-53.2 0.6-35.3 24.1-53.1 57.7-53.1 33.5 0 58.8 16.7 58.8 53.1z"/>
+			<path id="path21264" fill-rule="evenodd" class="s14" d="m147.5 96.2c0 36.9-25.3 53.2-58.8 53.2-33.6 0-58.2-17.9-57.7-53.2 0.6-35.3 24.1-53.1 57.7-53.1 33.5 0 58.8 16.7 58.8 53.1z"/>
+			<path id="path7647" fill-rule="evenodd" class="s15" d="m149 96.1c0 38-26 54.7-60.6 54.7-34.5 0-59.9-18.4-59.4-54.7 0.6-36.4 24.9-54.8 59.4-54.8 34.6 0 60.6 17.3 60.6 54.8z"/>
+			<path id="path10558" fill-rule="evenodd" class="s16" d="m147.7 96.1c0 37.3-25.3 53.6-58.8 53.6-33.5 0-58.2-18-57.7-53.6 0.6-35.7 24.2-53.7 57.7-53.7 33.5 0 58.8 16.9 58.8 53.7z"/>
+		</g>
+		<path id="rect13275" class="s17" d="m59 169.1h60v2h-60z"/>
+	</g>
+</svg>

@@ -161,7 +161,7 @@ export function renderPage(preset) {
   const bandsJson = esc(JSON.stringify(BANDS));
   const initJson = esc(JSON.stringify({ band: p.band, minutes: p.minutes, fadeSec: p.fadeSec, type: p.type }));
 
-  const body = `<span class=alpha>Alpha</span>
+  const body = `
 <main>
   <h1>MELEK Sleep &amp; Focus</h1>
   <p class=sub>Generative binaural beats, isochronic tones, and a 40&nbsp;Hz gamma preset — synthesized live in your browser. Use headphones for binaural.</p>

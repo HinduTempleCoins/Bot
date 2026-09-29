@@ -40,7 +40,7 @@ export const ENGINES = {
   gmic: { bin: 'gmic', mode: 'args', label: "G'MIC", ops: {
     painting:  { desc: 'painterly (G\'MIC fx_painting)', params: [], args: (i, o) => [i, 'fx_painting', '4,0.5,0.1,0.1,0,0', 'output', o] },
     cartoon:   { desc: 'bold cartoon (G\'MIC)', params: [], args: (i, o) => [i, 'cartoon', '3,200,20,0.25,1.5,8,0', 'output', o] },
-    stylize:   { desc: 'stylized filter (G\'MIC)', params: [], args: (i, o) => [i, 'fx_stylize', '11,0,0,0,0.5,1,2,0,0,0,0', 'output', o] },
+    stylize:   { desc: 'stylized colour abstraction (G\'MIC)', params: [], args: (i, o) => [i, 'fx_color_abstraction', '1,10,0.2', 'output', o] },
   } },
   gimp: { bin: 'gimp', mode: 'script', label: 'GIMP', ops: {
     oilify:   { desc: 'oil painting', params: [{ key: 'size', lo: 1, hi: 30, default: 8 }], frag: (p) => `(plug-in-oilify RUN-NONINTERACTIVE img draw ${p.size} 0)` },

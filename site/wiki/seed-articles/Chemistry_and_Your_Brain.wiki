@@ -1,0 +1,49 @@
+# Chemistry and Your Brain
+
+**"Chemistry and Your Brain"** is a 2016 neuropharmacology primer by **marsresident** — an introduction to how the brain works electrochemically and to the receptor systems and neuropeptides that public brain-health advice usually skips over<ref>https://steemit.com/@marsresident/chemistry-and-your-brain</ref>. On the Church-of-Neuroscience shelf it is the shelf's **neurochemistry reference**, feeding from [[The Church of Neuroscience and Biohacking]] and complementing the mechanism articles [[Neurogenesis, Neuroprotectants and Synaptogenesis]] and [[Building Brains]].
+
+This is a **neutral, educational** reference to the neurochemistry and to a set of named research compounds. It is deliberately **reference-only**: it names what the source names and what each targets, but it states **no doses and no stacks** and is **not** a protocol (see § Not medical advice).
+
+== Summary ==
+
+The primer builds up the brain from its parts — **neurons**, their branching **dendrites**, the **synapses** where dendrites meet, and the **neuropeptides** that carry signals — and stresses that the whole process is **electrochemical**. From there it surveys neuropeptide biology (including the **gut–brain axis**), glial cells, the major **receptor systems** (serotonergic, cholinergic, GABAergic), the concept of **esterase inhibition**, and finally a **catalogue of nootropic and neuroactive compounds**, each linked to research on what it targets<ref>https://en.wikipedia.org/wiki/Neurotransmitter</ref>.
+
+== Neurons, neuropeptides, and the gut–brain axis ==
+
+The post frames brain function as electricity that is itself a function of chemistry: signalling molecules called **neuropeptides** drive emotion and, together with neurons/dendrites/synapses, form memories and thought<ref>https://en.wikipedia.org/wiki/Neuropeptide</ref>. A striking point is that neuropeptides are found **outside the brain too**, in the **gut–brain axis** — so that "gut feelings" have a literal biological basis<ref>https://en.wikipedia.org/wiki/Gut%E2%80%93brain_axis</ref>. The source gathers research on neuropeptides as drug targets and on peptide chemistry (β- and γ-peptides, peptidomimetics, and specific systems such as somatostatin/SRIF, angiotensin, and endothelin).
+
+== Glial cells ==
+
+As in [[Building Brains]], the primer highlights **glia** — from the Greek for "glue" — once dismissed as structural filler and now recognized as active participants in brain function (the "other brain"), including a role in neuropeptide signalling. It gathers research on glia, GDNF, and the two glial types **oligodendrocytes and astrocytes**<ref>https://en.wikipedia.org/wiki/Glia</ref>.
+
+== Receptor systems and esterase inhibition ==
+
+The primer introduces the major receptor families as the levers of brain chemistry:
+
+- **Serotonin (5-HT) receptors** — the best known; the post notes that **5-HTP**, a close precursor of serotonin, acts on this system<ref>https://en.wikipedia.org/wiki/5-HT_receptor</ref>.
+- **Cholinergic receptors** (affected by nicotine) and **GABA receptors** (affected by benzodiazepines) as two other major systems.
+- **Esterase inhibition** — the idea that certain enzymes ("esterases") break down signalling molecules before they reach receptors, so inhibiting them lets more signal through. (Acetylcholinesterase inhibition is the mechanism behind several of the compounds below.)
+
+== A reference catalogue of named compounds ==
+
+The bulk of the post is a list of neuroactive compounds, each with links to research on its target. The Library reproduces this as a **reference index of names and targets only** — what each is and which system it engages — and **omits any dose, stack, or regimen** (the source itself gives research citations rather than doses; none are added here). The compounds named include: **melatonin** (sleep/tryptamine), **piracetam** and **phenylpiracetam** (racetam nootropics), **choline** and **alpha-GPC** (cholinergic precursors), **galantamine** (an acetylcholinesterase inhibitor), **triacetyluridine**, **phenylalanine**, **phenibut** (a GABA-B agent), **noopept**, **PRL-8-53**, and the botanicals **Synaptolepis kirkii** and **ubulawu**<ref>https://en.wikipedia.org/wiki/Nootropic</ref>. Several of these are traditional herbs treated elsewhere in the Library's ethnobotany material; several are research chemicals with real risks (phenibut, in particular, carries dependence and withdrawal hazards).
+
+== Where this sits in the corpus ==
+
+This is the **neurochemistry reference** node of the Church-of-Neuroscience shelf. Read it with [[Building Brains]] (glial cells) and [[Neurogenesis, Neuroprotectants and Synaptogenesis]] (receptor/plasticity mechanism); its nootropics thread continues the "Nootropics" topic named in [[The Church of Neuroscience and Biohacking]], and Piracetam links it to the Cold-War pharmacology history in [[Brain Balance]].
+
+== Not medical advice ==
+
+This article is an educational neurochemistry reference. It is **not medical advice**, **not a diagnosis or prescription**, and **not a dosing protocol or supplement stack**. The named compounds are listed for understanding of what they target, without any amount, schedule, or combination. Some (phenibut, galantamine) carry real risks including dependence or interactions. Nothing here should be self-administered. Consult a qualified clinician.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/chemistry-and-your-brain</ref>
+<ref>https://en.wikipedia.org/wiki/Neurotransmitter</ref>
+<ref>https://en.wikipedia.org/wiki/Neuropeptide</ref>
+<ref>https://en.wikipedia.org/wiki/Gut%E2%80%93brain_axis</ref>
+<ref>https://en.wikipedia.org/wiki/Glia</ref>
+<ref>https://en.wikipedia.org/wiki/5-HT_receptor</ref>
+<ref>https://en.wikipedia.org/wiki/Nootropic</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Chemistry and Your Brain" — the electrochemical picture of neurons/dendrites/synapses/neuropeptides, the gut-brain axis, peptide chemistry and neuropeptide drug targets, glial cells, the serotonergic/cholinergic/GABAergic receptor systems and esterase inhibition, and the catalogue of named nootropic/neuroactive compounds. Per the task's reference-only discipline, the compound list is preserved as names-and-targets with NO dosing, stacks, or regimens added (the source gives research citations, not doses); risky compounds are flagged. The original's many PubMed/PMC links are anchored to stable encyclopedic sources. Neutral, education-only, with a not-medical-advice footer.

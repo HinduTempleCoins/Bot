@@ -1,0 +1,1259 @@
+{
+ "notes": {
+  "font": "Noto Sans Tifinagh Regular, (c) 2022 The Noto Project Authors, SIL Open Font License 1.1 — font file included alongside.",
+  "classification": "IRCAM basic/extended membership from the 'IRCAM Neo-Tifinagh alphabet' and 'IRCAM extended Tifinagh letters' tables in en.wikipedia 'Tifinagh' (which cite Andries 2004, Unicode WG2 N2739). Tuareg usage from the 'Tuareg scripts' table in the same article (Aghali-Zakara 1993, quoted in Andries 2004 and Casajus 2011). Unicode names from UCD NamesList.txt.",
+  "libyco_berber": "The ancient Libyco-Berber script (inscriptions from roughly the Numidian/Mauretanian kingdoms era, 202–25 BCE per the article; eastern form Constantine/Aurès/Tunisia, 22 of 24 letters deciphered via Punic–Libyc bilinguals; western form undeciphered) has NO Unicode encoding and NO glyphs here. None of these PNGs should be presented as ancient Libyco-Berber letters. Neo-Tifinagh derives (via Saharan and Tuareg Tifinagh) from that tradition; letter-by-letter ancient equivalences are not asserted.",
+  "omitted": "U+2D7F TIFINAGH CONSONANT JOINER (not visibly rendered)."
+ },
+ "letters": [
+  {
+   "id": "u2d30_ya",
+   "char": "ⴰ",
+   "codepoint": "U+2D30",
+   "unicode_name": "TIFINAGH LETTER YA",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "a",
+   "tuareg_tifinagh_usage": [
+    "a:Adrar",
+    "a:Ahaggar",
+    "a:Air",
+    "a:Azawagh",
+    "a:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d30_ya.png"
+  },
+  {
+   "id": "u2d31_yab",
+   "char": "ⴱ",
+   "codepoint": "U+2D31",
+   "unicode_name": "TIFINAGH LETTER YAB",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "b",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d31_yab.png"
+  },
+  {
+   "id": "u2d32_yabh",
+   "char": "ⴲ",
+   "codepoint": "U+2D32",
+   "unicode_name": "TIFINAGH LETTER YABH",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "b(fricative)",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d32_yabh.png"
+  },
+  {
+   "id": "u2d33_yag",
+   "char": "ⴳ",
+   "codepoint": "U+2D33",
+   "unicode_name": "TIFINAGH LETTER YAG",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "g",
+   "tuareg_tifinagh_usage": [
+    "g:Ahaggar"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d33_yag.png"
+  },
+  {
+   "id": "u2d34_yaghh",
+   "char": "ⴴ",
+   "codepoint": "U+2D34",
+   "unicode_name": "TIFINAGH LETTER YAGHH",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "g(fricative)",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d34_yaghh.png"
+  },
+  {
+   "id": "u2d35_berber_academy_yaj",
+   "char": "ⴵ",
+   "codepoint": "U+2D35",
+   "unicode_name": "TIFINAGH LETTER BERBER ACADEMY YAJ",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "dj(Berber-Academy)",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d35_berber_academy_yaj.png"
+  },
+  {
+   "id": "u2d36_yaj",
+   "char": "ⴶ",
+   "codepoint": "U+2D36",
+   "unicode_name": "TIFINAGH LETTER YAJ",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "g:Adrar",
+    "g:Air",
+    "g:Azawagh",
+    "g:Ghat",
+    "ġ:Ahaggar"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d36_yaj.png"
+  },
+  {
+   "id": "u2d37_yad",
+   "char": "ⴷ",
+   "codepoint": "U+2D37",
+   "unicode_name": "TIFINAGH LETTER YAD",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "d",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d37_yad.png"
+  },
+  {
+   "id": "u2d38_yadh",
+   "char": "ⴸ",
+   "codepoint": "U+2D38",
+   "unicode_name": "TIFINAGH LETTER YADH",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "d:Adrar",
+    "d:Ahaggar",
+    "d:Ghat"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d38_yadh.png"
+  },
+  {
+   "id": "u2d39_yadd",
+   "char": "ⴹ",
+   "codepoint": "U+2D39",
+   "unicode_name": "TIFINAGH LETTER YADD",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ḍ",
+   "tuareg_tifinagh_usage": [
+    "d:Air",
+    "d:Azawagh",
+    "ḍ:Adrar",
+    "ḍ:Ahaggar",
+    "ḍ:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d39_yadd.png"
+  },
+  {
+   "id": "u2d3a_yaddh",
+   "char": "ⴺ",
+   "codepoint": "U+2D3A",
+   "unicode_name": "TIFINAGH LETTER YADDH",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "ḍ(fricative)",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d3a_yaddh.png"
+  },
+  {
+   "id": "u2d3b_yey",
+   "char": "ⴻ",
+   "codepoint": "U+2D3B",
+   "unicode_name": "TIFINAGH LETTER YEY",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "e",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d3b_yey.png"
+  },
+  {
+   "id": "u2d3c_yaf",
+   "char": "ⴼ",
+   "codepoint": "U+2D3C",
+   "unicode_name": "TIFINAGH LETTER YAF",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "f",
+   "tuareg_tifinagh_usage": [
+    "f:Ahaggar",
+    "f:Air",
+    "f:Azawagh",
+    "f:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d3c_yaf.png"
+  },
+  {
+   "id": "u2d3d_yak",
+   "char": "ⴽ",
+   "codepoint": "U+2D3D",
+   "unicode_name": "TIFINAGH LETTER YAK",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "k",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d3d_yak.png"
+  },
+  {
+   "id": "u2d3e_tuareg_yak",
+   "char": "ⴾ",
+   "codepoint": "U+2D3E",
+   "unicode_name": "TIFINAGH LETTER TUAREG YAK",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "k:Adrar",
+    "k:Ahaggar",
+    "k:Air",
+    "k:Azawagh",
+    "k:Ghat"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d3e_tuareg_yak.png"
+  },
+  {
+   "id": "u2d3f_yakhh",
+   "char": "ⴿ",
+   "codepoint": "U+2D3F",
+   "unicode_name": "TIFINAGH LETTER YAKHH",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "k(fricative)",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d3f_yakhh.png"
+  },
+  {
+   "id": "u2d40_yah",
+   "char": "ⵀ",
+   "codepoint": "U+2D40",
+   "unicode_name": "TIFINAGH LETTER YAH",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "h",
+   "tuareg_tifinagh_usage": [
+    "b:Adrar",
+    "b:Ahaggar",
+    "b:Air",
+    "b:Azawagh",
+    "b:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d40_yah.png"
+  },
+  {
+   "id": "u2d41_berber_academy_yah",
+   "char": "ⵁ",
+   "codepoint": "U+2D41",
+   "unicode_name": "TIFINAGH LETTER BERBER ACADEMY YAH",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "h(Berber-Academy)",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d41_berber_academy_yah.png"
+  },
+  {
+   "id": "u2d42_tuareg_yah",
+   "char": "ⵂ",
+   "codepoint": "U+2D42",
+   "unicode_name": "TIFINAGH LETTER TUAREG YAH",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "h:Adrar",
+    "h:Ahaggar",
+    "h:Air",
+    "h:Azawagh",
+    "h:Ghat"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d42_tuareg_yah.png"
+  },
+  {
+   "id": "u2d43_yahh",
+   "char": "ⵃ",
+   "codepoint": "U+2D43",
+   "unicode_name": "TIFINAGH LETTER YAHH",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ḥ",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d43_yahh.png"
+  },
+  {
+   "id": "u2d44_yaa",
+   "char": "ⵄ",
+   "codepoint": "U+2D44",
+   "unicode_name": "TIFINAGH LETTER YAA",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ɛ",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d44_yaa.png"
+  },
+  {
+   "id": "u2d45_yakh",
+   "char": "ⵅ",
+   "codepoint": "U+2D45",
+   "unicode_name": "TIFINAGH LETTER YAKH",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "x",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d45_yakh.png"
+  },
+  {
+   "id": "u2d46_tuareg_yakh",
+   "char": "ⵆ",
+   "codepoint": "U+2D46",
+   "unicode_name": "TIFINAGH LETTER TUAREG YAKH",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "q:Azawagh",
+    "x:Adrar",
+    "x:Ahaggar",
+    "x:Azawagh",
+    "x:Ghat"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d46_tuareg_yakh.png"
+  },
+  {
+   "id": "u2d47_yaq",
+   "char": "ⵇ",
+   "codepoint": "U+2D47",
+   "unicode_name": "TIFINAGH LETTER YAQ",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "q",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d47_yaq.png"
+  },
+  {
+   "id": "u2d48_tuareg_yaq",
+   "char": "ⵈ",
+   "codepoint": "U+2D48",
+   "unicode_name": "TIFINAGH LETTER TUAREG YAQ",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "q:Adrar",
+    "q:Ahaggar",
+    "q:Ghat"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d48_tuareg_yaq.png"
+  },
+  {
+   "id": "u2d49_yi",
+   "char": "ⵉ",
+   "codepoint": "U+2D49",
+   "unicode_name": "TIFINAGH LETTER YI",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "i",
+   "tuareg_tifinagh_usage": [
+    "y:Adrar",
+    "y:Air",
+    "y:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d49_yi.png"
+  },
+  {
+   "id": "u2d4a_yazh",
+   "char": "ⵊ",
+   "codepoint": "U+2D4A",
+   "unicode_name": "TIFINAGH LETTER YAZH",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "j",
+   "tuareg_tifinagh_usage": [
+    "f:Adrar",
+    "ġ:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d4a_yazh.png"
+  },
+  {
+   "id": "u2d4b_ahaggar_yazh",
+   "char": "ⵋ",
+   "codepoint": "U+2D4B",
+   "unicode_name": "TIFINAGH LETTER AHAGGAR YAZH",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "z:Adrar",
+    "ž/j:Ahaggar"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d4b_ahaggar_yazh.png"
+  },
+  {
+   "id": "u2d4c_tuareg_yazh",
+   "char": "ⵌ",
+   "codepoint": "U+2D4C",
+   "unicode_name": "TIFINAGH LETTER TUAREG YAZH",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "z:Ghat",
+    "ž/j:Air",
+    "ž/j:Azawagh",
+    "ẓ:Adrar",
+    "ẓ:Ahaggar"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d4c_tuareg_yazh.png"
+  },
+  {
+   "id": "u2d4d_yal",
+   "char": "ⵍ",
+   "codepoint": "U+2D4D",
+   "unicode_name": "TIFINAGH LETTER YAL",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "l",
+   "tuareg_tifinagh_usage": [
+    "l:Adrar",
+    "l:Ahaggar",
+    "l:Air",
+    "l:Azawagh",
+    "l:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d4d_yal.png"
+  },
+  {
+   "id": "u2d4e_yam",
+   "char": "ⵎ",
+   "codepoint": "U+2D4E",
+   "unicode_name": "TIFINAGH LETTER YAM",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "m",
+   "tuareg_tifinagh_usage": [
+    "m:Adrar",
+    "m:Ahaggar",
+    "m:Air",
+    "m:Azawagh",
+    "m:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d4e_yam.png"
+  },
+  {
+   "id": "u2d4f_yan",
+   "char": "ⵏ",
+   "codepoint": "U+2D4F",
+   "unicode_name": "TIFINAGH LETTER YAN",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "n",
+   "tuareg_tifinagh_usage": [
+    "n:Adrar",
+    "n:Ahaggar",
+    "n:Air",
+    "n:Azawagh",
+    "n:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d4f_yan.png"
+  },
+  {
+   "id": "u2d50_tuareg_yagn",
+   "char": "ⵐ",
+   "codepoint": "U+2D50",
+   "unicode_name": "TIFINAGH LETTER TUAREG YAGN",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "ñ:Ahaggar"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d50_tuareg_yagn.png"
+  },
+  {
+   "id": "u2d51_tuareg_yang",
+   "char": "ⵑ",
+   "codepoint": "U+2D51",
+   "unicode_name": "TIFINAGH LETTER TUAREG YANG",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "ng:Ahaggar"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d51_tuareg_yang.png"
+  },
+  {
+   "id": "u2d52_yap",
+   "char": "ⵒ",
+   "codepoint": "U+2D52",
+   "unicode_name": "TIFINAGH LETTER YAP",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "p",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d52_yap.png"
+  },
+  {
+   "id": "u2d53_yu",
+   "char": "ⵓ",
+   "codepoint": "U+2D53",
+   "unicode_name": "TIFINAGH LETTER YU",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "u",
+   "tuareg_tifinagh_usage": [
+    "w:Adrar",
+    "w:Ahaggar",
+    "w:Air",
+    "w:Azawagh",
+    "w:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d53_yu.png"
+  },
+  {
+   "id": "u2d54_yar",
+   "char": "ⵔ",
+   "codepoint": "U+2D54",
+   "unicode_name": "TIFINAGH LETTER YAR",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "r",
+   "tuareg_tifinagh_usage": [
+    "r:Adrar",
+    "r:Ahaggar",
+    "r:Air",
+    "r:Azawagh",
+    "r:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d54_yar.png"
+  },
+  {
+   "id": "u2d55_yarr",
+   "char": "ⵕ",
+   "codepoint": "U+2D55",
+   "unicode_name": "TIFINAGH LETTER YARR",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ṛ",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d55_yarr.png"
+  },
+  {
+   "id": "u2d56_yagh",
+   "char": "ⵖ",
+   "codepoint": "U+2D56",
+   "unicode_name": "TIFINAGH LETTER YAGH",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ɣ",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d56_yagh.png"
+  },
+  {
+   "id": "u2d57_tuareg_yagh",
+   "char": "ⵗ",
+   "codepoint": "U+2D57",
+   "unicode_name": "TIFINAGH LETTER TUAREG YAGH",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "q:Air",
+    "x:Air",
+    "ɣ/gh:Adrar",
+    "ɣ/gh:Ahaggar",
+    "ɣ/gh:Azawagh",
+    "ɣ/gh:Ghat"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d57_tuareg_yagh.png"
+  },
+  {
+   "id": "u2d58_ayer_yagh",
+   "char": "ⵘ",
+   "codepoint": "U+2D58",
+   "unicode_name": "TIFINAGH LETTER AYER YAGH",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": [
+    "ġ:Adrar",
+    "ɣ/gh:Air"
+   ],
+   "script_layer": "Tuareg Tifinagh",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d58_ayer_yagh.png"
+  },
+  {
+   "id": "u2d59_yas",
+   "char": "ⵙ",
+   "codepoint": "U+2D59",
+   "unicode_name": "TIFINAGH LETTER YAS",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "s",
+   "tuareg_tifinagh_usage": [
+    "s:Adrar",
+    "s:Ahaggar",
+    "s:Air",
+    "s:Azawagh",
+    "s:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d59_yas.png"
+  },
+  {
+   "id": "u2d5a_yass",
+   "char": "ⵚ",
+   "codepoint": "U+2D5A",
+   "unicode_name": "TIFINAGH LETTER YASS",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ṣ",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d5a_yass.png"
+  },
+  {
+   "id": "u2d5b_yash",
+   "char": "ⵛ",
+   "codepoint": "U+2D5B",
+   "unicode_name": "TIFINAGH LETTER YASH",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "c",
+   "tuareg_tifinagh_usage": [
+    "š:Ahaggar",
+    "š:Air",
+    "š:Azawagh",
+    "š:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d5b_yash.png"
+  },
+  {
+   "id": "u2d5c_yat",
+   "char": "ⵜ",
+   "codepoint": "U+2D5C",
+   "unicode_name": "TIFINAGH LETTER YAT",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "t",
+   "tuareg_tifinagh_usage": [
+    "t:Adrar",
+    "t:Ahaggar",
+    "t:Air",
+    "t:Azawagh",
+    "t:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d5c_yat.png"
+  },
+  {
+   "id": "u2d5d_yath",
+   "char": "ⵝ",
+   "codepoint": "U+2D5D",
+   "unicode_name": "TIFINAGH LETTER YATH",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "t(fricative)",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d5d_yath.png"
+  },
+  {
+   "id": "u2d5e_yach",
+   "char": "ⵞ",
+   "codepoint": "U+2D5E",
+   "unicode_name": "TIFINAGH LETTER YACH",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "č",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d5e_yach.png"
+  },
+  {
+   "id": "u2d5f_yatt",
+   "char": "ⵟ",
+   "codepoint": "U+2D5F",
+   "unicode_name": "TIFINAGH LETTER YATT",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ṭ",
+   "tuareg_tifinagh_usage": [
+    "ṭ:Ahaggar",
+    "ṭ:Azawagh"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d5f_yatt.png"
+  },
+  {
+   "id": "u2d60_yav",
+   "char": "ⵠ",
+   "codepoint": "U+2D60",
+   "unicode_name": "TIFINAGH LETTER YAV",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "v",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d60_yav.png"
+  },
+  {
+   "id": "u2d61_yaw",
+   "char": "ⵡ",
+   "codepoint": "U+2D61",
+   "unicode_name": "TIFINAGH LETTER YAW",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "w",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d61_yaw.png"
+  },
+  {
+   "id": "u2d62_yay",
+   "char": "ⵢ",
+   "codepoint": "U+2D62",
+   "unicode_name": "TIFINAGH LETTER YAY",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "y",
+   "tuareg_tifinagh_usage": [
+    "y:Ahaggar",
+    "y:Azawagh"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d62_yay.png"
+  },
+  {
+   "id": "u2d63_yaz",
+   "char": "ⵣ",
+   "codepoint": "U+2D63",
+   "unicode_name": "TIFINAGH LETTER YAZ",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "z",
+   "tuareg_tifinagh_usage": [
+    "z:Ahaggar",
+    "z:Air",
+    "z:Azawagh",
+    "ž/j:Adrar",
+    "ẓ:Azawagh",
+    "ẓ:Ghat"
+   ],
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d63_yaz.png"
+  },
+  {
+   "id": "u2d64_tawellemet_yaz",
+   "char": "ⵤ",
+   "codepoint": "U+2D64",
+   "unicode_name": "TIFINAGH LETTER TAWELLEMET YAZ",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Unicode Tifinagh block (regional/Tuareg variant per Unicode name)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d64_tawellemet_yaz.png"
+  },
+  {
+   "id": "u2d65_yazz",
+   "char": "ⵥ",
+   "codepoint": "U+2D65",
+   "unicode_name": "TIFINAGH LETTER YAZZ",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ẓ",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d65_yazz.png"
+  },
+  {
+   "id": "u2d66_ye",
+   "char": "ⵦ",
+   "codepoint": "U+2D66",
+   "unicode_name": "TIFINAGH LETTER YE",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Unicode Tifinagh block (regional/Tuareg variant per Unicode name)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d66_ye.png"
+  },
+  {
+   "id": "u2d67_yo",
+   "char": "ⵧ",
+   "codepoint": "U+2D67",
+   "unicode_name": "TIFINAGH LETTER YO",
+   "neo_tifinagh_ircam": "IRCAM extended Neo-Tifinagh letter",
+   "ircam_transliteration": "o",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d67_yo.png"
+  },
+  {
+   "id": "u2d6f_modifier_labialization_mark",
+   "char": "ⵯ",
+   "codepoint": "U+2D6F",
+   "unicode_name": "TIFINAGH MODIFIER LETTER LABIALIZATION MARK",
+   "neo_tifinagh_ircam": "IRCAM Neo-Tifinagh (basic 33-letter alphabet)",
+   "ircam_transliteration": "ʷ",
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Neo-Tifinagh (IRCAM/Berber Academy standardisation)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d6f_modifier_labialization_mark.png"
+  },
+  {
+   "id": "u2d70_separator_mark",
+   "char": "⵰",
+   "codepoint": "U+2D70",
+   "unicode_name": "TIFINAGH SEPARATOR MARK",
+   "neo_tifinagh_ircam": "not in the IRCAM set",
+   "ircam_transliteration": null,
+   "tuareg_tifinagh_usage": "not listed in the Aghali-Zakara (1993) Tuareg table reproduced by Andries (2004)",
+   "script_layer": "Unicode Tifinagh block (regional/Tuareg variant per Unicode name)",
+   "ancient_libyco_berber": "not asserted — Libyco-Berber (ancient Libyan, c. 2nd–1st c. BCE inscriptions, eastern & western variants) is not separately encoded in Unicode; this glyph is the Noto Neo-Tifinagh form",
+   "glyph_source": "Noto Sans Tifinagh Regular (SIL OFL 1.1)",
+   "sources": [
+    "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt",
+    "https://en.wikipedia.org/wiki/Tifinagh",
+    "https://www.unicode.org/wg2/docs/n2739.pdf",
+    "https://github.com/notofonts/tifinagh"
+   ],
+   "png": "u2d70_separator_mark.png"
+  }
+ ]
+}

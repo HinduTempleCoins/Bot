@@ -1,0 +1,35 @@
+'''Neurogenesis, Neuroprotectants, and Synaptogenesis''' examines three interconnected mechanisms of neural repair and cognitive optimization, drawing upon the 2016 Church of Neuroscience research series by the Van Kush Family Research Institute. It details adult neurogenesis, synaptic remodeling, and the neuroprotective role of the endocannabinoid system (specifically 2-AG) against traumatic brain injury and excitotoxic edema.
+
+== Summary: The Gears of Cognition ==
+
+The monograph models cognition as an interconnected network of gears: an initial stimulus propagates down established neural pathways, activating associated memories and sensory traces. While dogmatic 20th-century neuroscience asserted that the adult human brain could never generate new neurons, modern cellular biology demonstrates two distinct forms of lifelong neuroplasticity:
+# '''Neurogenesis:''' The proliferation and integration of new functional neurons from stem cell niches.
+# '''Synaptogenesis:''' The rapid construction, strengthening, and remodeling of synaptic junctions and dendritic spines.
+# '''Neuroprotection:''' Shielding neural tissue from excitotoxic death, oxidative stress, and post-traumatic cerebral edema.
+
+== The Endocannabinoid System and Neurogenesis ==
+
+The '''endocannabinoid system (ECS)''' serves as an indispensable master regulator of both neurodevelopment and adult neurogenesis:
+* Neural progenitor cells in the subgranular zone of the hippocampus express high densities of '''$\text{CB}_1$ and $\text{CB}_2$ receptors'''.
+* Endogenous cannabinoid signaling (via anandamide and 2-AG) directs progenitor cell proliferation, migration, and differentiation into mature, functional granule neurons.
+* Preclinical botanical research demonstrates that natural plant compounds—such as the hops-derived prenylflavonoid '''[[8-Prenylnaringenin]]''' (a potent natural [[MAGL]] inhibitor)—protect endogenous 2-AG from degradation, thereby promoting sustained hippocampal neurogenesis.
+
+== 2-AG as an Acute Neuroprotectant ==
+
+The most urgent clinical thesis of the monograph highlights the role of '''2-arachidonoylglycerol (2-AG)''' in acute neurological trauma:
+* '''The Traumatic Brain Injury (TBI) Cascade:''' Severe head impact or ischemic stroke induces catastrophic presynaptic glutamate dumping. Excessive glutamate triggers unregulated calcium influx through NMDA receptors, causing mitochondrial collapse and cerebral edema (brain swelling)—a primary cause of mortality in comatose patients.
+* '''The 2-AG Circuit Breaker:''' Post-synaptic neurons synthesize 2-AG on demand in response to massive depolarization. Retrograde diffusion across the synaptic cleft activates presynaptic $\text{CB}_1$ receptors, closing voltage-gated calcium channels and arresting further glutamate release.
+* '''Reversing Edema:''' Seminal studies (Panikashvili et al., 2001; 2003) demonstrated that administering synthetic 2-AG or inhibiting monoacylglycerol lipase (MAGL) significantly reduces brain edema, attenuates blood-brain barrier breakdown, and dramatically reduces hippocampal cell loss following closed head trauma. The author argues that translating this established finding into emergency trauma care represents a critical clinical opportunity.
+
+== Synaptogenesis, Dendrites, and Ampakines ==
+
+While neurogenesis generates new neurons over weeks, '''synaptogenesis''' builds new connections across existing neurons within hours:
+* '''Dendritic Arborization:''' Dendrites form the receptive tree of the neuron, bristling with thousands of tiny dendritic spines that form chemical synapses.
+* '''Ampakines:''' Positive allosteric modulators of AMPA-type glutamate receptors (such as aniracetam, CX-516, and CX-614) facilitate synaptogenesis by slowing receptor deactivation. This stimulates activity-dependent secretion of '''Brain-Derived Neurotrophic Factor (BDNF)''', triggering the physical sprouting of new dendritic spines and facilitating long-term potentiation (LTP).
+* This glutamatergic plasticity mechanism foreshadowed the modern clinical adoption of ketamine for rapid synaptic restoration.
+
+== Not Medical Advice ==
+
+This article is an educational survey of neuroplasticity and neuroprotection research. It is '''not medical advice''', not a diagnosis or prescription, and not a treatment protocol. Traumatic brain injury, stroke, and coma are medical emergencies requiring immediate emergency intervention. Consult a licensed physician.
+
+See also: [[Building Brains]] · [[Synaptogenesis, Neuroplasticity, and Brain Rewiring]] · [[Psychotomimetics, Sedation, and the Evolution of Psychiatry]] · [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Catecholamines, Transporters, and Monoamine Reuptake]] · [[8-Prenylnaringenin]] · [[MAGL]] · [[Stack Substances]]

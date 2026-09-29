@@ -234,16 +234,19 @@ test('providerConfigured reflects env keys', () => {
 test('our CPU worker (cpusd) goes first when configured, and carries the reference for img2img', async () => {
   clearKeys(); __resetState();
   process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510';
-  let seen = null;
+  let seen = null; let polls = 0;
   __setFetch(async (url, opts) => {
-    if (String(url).startsWith('http://127.0.0.1:8510/generate')) { seen = JSON.parse(opts.body); return okResp({ ok: true, mime: 'image/png', base64: B64, mode: seen.image ? 'img2img' : 'txt2img', ms: 1000 }, { json: true }); }
+    process.env.GENAI_CPU_SD_POLL_MS = '1';
+    if (String(url) === 'http://127.0.0.1:8510/jobs') { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'j1', position: 0 }, { json: true }); }
+    if (String(url) === 'http://127.0.0.1:8510/jobs/j1') { polls++; if (polls === 1) throw new Error('slow worker'); return okResp(polls < 3 ? { ok: true, status: 'running' } : { ok: true, status: 'done', result: { ok: true, mime: 'image/png', base64: B64, mode: seen.image ? 'img2img' : 'txt2img', ms: 1000 } }, { json: true }); }
     throw new Error('should not reach fallbacks');
   });
   const r = await generateImage({ prompt: 'Hathor in a temple', image: { base64: B64, mime: 'image/png' } });
   assert.equal(r.ok, true);
   assert.equal(r.provider, 'cpusd');
   assert.equal(seen.image.base64, B64);
-  delete process.env.GENAI_CPU_SD_URL; __setFetch(null);
+  assert.ok(polls >= 3, 'retried a failed poll and kept polling until done');
+  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
 });
 
 test('cpusd is skipped (not counted as a failure) when no worker url is set', async () => {
@@ -252,4 +255,52 @@ test('cpusd is skipped (not counted as a failure) when no worker url is set', as
   const r = await generateImage({ prompt: 'a temple' });
   assert.deepEqual(r.tried.find((t) => t.id === 'cpusd'), { id: 'cpusd', skipped: 'no-key' });
   __setFetch(null);
+});
+
+test('cpusd steps aside when customers are queued — "busy" is a skip, not a breaker failure', async () => {
+  clearKeys(); __resetState();
+  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510';
+  let submitted = false;
+  __setFetch(async (url) => {
+    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 5, background: 40 }, { json: true });
+    if (String(url).endsWith('/jobs')) { submitted = true; return errResp(500); }
+    return errResp(500); // every fallback fails too
+  });
+  const r = await generateImage({ prompt: 'a temple' });
+  assert.equal(submitted, false);
+  assert.deepEqual(r.tried.find((t) => t.id === 'cpusd'), { id: 'cpusd', skipped: 'busy' });
+  const { providerStatus } = await import('./genai-providers.mjs');
+  assert.equal(providerStatus().find((p) => p.id === 'cpusd').breakerOpen, false);
+  delete process.env.GENAI_CPU_SD_URL; __setFetch(null);
+});
+
+test('background batches do not make cpusd look busy; a remake goes only to cpusd with its structure', async () => {
+  clearKeys(); __resetState();
+  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510'; process.env.GENAI_CPU_SD_POLL_MS = '1';
+  let seen = null;
+  __setFetch(async (url, opts) => {
+    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 0, background: 99 }, { json: true });
+    if (String(url).endsWith('/jobs')) { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'r1' }, { json: true }); }
+    if (String(url).endsWith('/jobs/r1')) return okResp({ ok: true, status: 'done', result: { ok: true, base64: B64, mode: 'remake', ms: 1 } }, { json: true });
+    throw new Error('no other engine may take a remake');
+  });
+  const r = await generateImage({ prompt: 'banquet, realistic', structure: B64, structureScale: 0.5 });
+  assert.equal(r.provider, 'cpusd');
+  assert.deepEqual(seen.structure, { base64: B64 });
+  assert.equal(seen.structureScale, 0.5);
+  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
+});
+
+test('many characters: crowd + seated reach our worker', async () => {
+  clearKeys(); __resetState();
+  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510'; process.env.GENAI_CPU_SD_POLL_MS = '1';
+  let seen = null;
+  __setFetch(async (url, opts) => {
+    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 0 }, { json: true });
+    if (String(url).endsWith('/jobs')) { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'c1' }, { json: true }); }
+    return okResp({ ok: true, status: 'done', result: { ok: true, base64: B64, mode: 'pose', ms: 1 } }, { json: true });
+  });
+  await generateImage({ prompt: 'three gods playing poker', crowd: 3, seated: true });
+  assert.equal(seen.crowd, 3); assert.equal(seen.seated, true);
+  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
 });

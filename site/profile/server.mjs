@@ -53,7 +53,7 @@ const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup'
 // PRANA RPC so a 0x address resolves out of the box. If an operator has no MELEK RPC, they can set
 // MELEK_RPC='' and the page shows a graceful "add your RPC" note instead of inventing a hostname.
 const MELEK_RPC = (process.env.MELEK_RPC == null ? 'https://melek.salon/rpc' : process.env.MELEK_RPC).trim();
-const PRANA_RPC = (process.env.PRANA_RPC || 'https://rpc.prana.alpha.melek.salon').trim();
+const PRANA_RPC = (process.env.PRANA_RPC || 'https://rpc.prana.melek.salon').trim();
 const EVM_RPCS = (process.env.EVM_RPCS || PRANA_RPC)
   .split(',').map((s) => s.trim()).filter(Boolean);
 
@@ -162,7 +162,7 @@ function page(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="${bp('/')}">🪙 SoapBox <span>Profile</span><span class=alpha>Alpha</span></a>
+<header class=topbar><a class=brand href="${bp('/')}">🪙 SoapBox <span>Profile</span></a>
   <div class=topbar-r>${TOOLS_NAV}<button type=button id=nav-save>☁ Save profile</button></div></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;

@@ -1,0 +1,51 @@
+# Delegated Proof of Stake (DPoS)
+
+**Delegated Proof of Stake (DPoS)** is a blockchain consensus mechanism designed to achieve high transaction throughput and energy efficiency while incorporating governance through on-chain voting. It was first introduced as part of the Graphene blockchain technology developed by Dan Larimer and Cryptonomex<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>. 
+
+== Overview ==
+
+DPoS is a consensus algorithm that relies on a limited number of trusted nodes, known as "delegates" or "witnesses," to validate transactions and create new blocks. Unlike Proof of Work (PoW), which requires significant computational resources, or Proof of Stake (PoS), which relies on the amount of cryptocurrency held by validators, DPoS introduces a voting mechanism where token holders elect a fixed number of delegates to manage the blockchain<ref>https://doi.org/10.11113/ijic.v10n2.272</ref>.
+
+The system is designed to address some of the inefficiencies and scalability issues associated with PoW and PoS. By limiting the number of nodes responsible for block production, DPoS achieves faster transaction speeds and lower energy consumption compared to PoW<ref>https://doi.org/10.11113/ijic.v10n2.272</ref>. The Graphene blockchain, which employs DPoS, claims a theoretical capacity of over 100,000 transactions per second with a block time of just three seconds<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>.
+
+== Key Features ==
+
+1. **Energy Efficiency**: DPoS is considered more energy-efficient compared to PoW because it does not require extensive computational power for mining. Instead, it relies on a smaller number of pre-selected delegates to validate transactions<ref>https://doi.org/10.11113/ijic.v10n2.272</ref>.
+
+2. **On-Chain Governance**: DPoS incorporates a voting system where token holders can vote for delegates. These delegates are responsible for maintaining the blockchain and are incentivized through rewards<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>.
+
+3. **High Transaction Throughput**: The Graphene blockchain, which uses DPoS, is capable of processing over 100,000 transactions per second, making it suitable for real-time applications such as social media platforms<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>.
+
+4. **Built-In Governance**: DPoS allows for decentralized decision-making through on-chain voting, where stakeholders can influence the network's rules and operations<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>.
+
+== Applications ==
+
+DPoS has been implemented in several blockchain platforms, including BitShares, Steem, and its forks such as HIVE and BLURT. These platforms leverage DPoS for various use cases:
+
+- **BitShares**: A decentralized exchange (DEX) platform that uses DPoS for fast and secure trading of User-Issued Assets (UIAs) and Market Pegged Assets<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>.
+- **Steem**: A social media blockchain that rewards users with cryptocurrency for their content contributions. Steem's DPoS system includes a "witness" mechanism for governance and block validation<ref>cryptocurrency/cryptocurrency/steemit_history_tron.json</ref>.
+- **HIVE and BLURT**: Forks of Steem that also utilize DPoS but with modifications to address specific community concerns, such as centralization and content moderation<ref>cryptocurrency/cryptocurrency/steemit_history_tron.json</ref>.
+
+DPoS has also been explored for applications beyond cryptocurrency and social media. For example, it has been proposed as a consensus mechanism for blockchain-based land registries in Bangladesh, where its efficiency and governance features could be advantageous in managing property records<ref>https://doi.org/10.1109/tensymp50017.2020.9230612</ref>.
+
+== Criticisms and Challenges ==
+
+While DPoS offers significant advantages in terms of scalability and energy efficiency, it has faced criticism for potential centralization risks. The reliance on a limited number of delegates can lead to concerns about the concentration of power and the potential for collusion among delegates<ref>https://doi.org/10.11113/ijic.v10n2.272</ref>. Additionally, the voting process may favor large stakeholders, potentially marginalizing smaller participants in the network<ref>https://doi.org/10.22214/ijraset.2021.36425</ref>.
+
+== VKFRI Perspective ==
+
+The Van Kush Family Research Institute (VKFRI) has discussed the role of DPoS in the context of its broader vision for decentralized systems. VKFRI highlights the potential of DPoS to enable localized, community-specific blockchains that are interconnected through federated exchanges. This approach aligns with their philosophy of achieving true decentralization through a network of strong, localized hubs rather than a single monolithic system<ref>cryptocurrency/cryptocurrency/decentralized_centralization_paradox.json</ref>.
+
+== Sources ==
+
+<ref>cryptocurrency/cryptocurrency/decentralized_centralization_paradox.json</ref>  
+<ref>cryptocurrency/cryptocurrency/ethereum_clones_bitcointalk.json</ref>  
+<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>  
+<ref>cryptocurrency/cryptocurrency/steemit_history_tron.json</ref>  
+<ref>https://doi.org/10.11113/ijic.v10n2.272</ref>  
+<ref>https://doi.org/10.1109/tensymp50017.2020.9230612</ref>  
+<ref>https://doi.org/10.22214/ijraset.2021.36425</ref>  
+
+== Coverage ==
+
+This article is based on multiple sources, including both VKFRI knowledge base files and external scholarly articles. While the general principles and applications of DPoS are well-covered, specific technical details and additional real-world implementations are not extensively discussed in the available sources.

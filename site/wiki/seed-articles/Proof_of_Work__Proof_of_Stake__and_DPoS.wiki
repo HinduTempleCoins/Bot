@@ -1,0 +1,48 @@
+# Proof of Work, Proof of Stake, and DPoS
+
+A blockchain needs a way to agree on which block comes next without a central authority — a **consensus mechanism**, which is really a **Sybil-resistance** mechanism: a way to make it costly to pretend to be many participants so that one attacker cannot simply outvote everyone. The three dominant answers are **Proof of Work (PoW)**, **Proof of Stake (PoS)**, and **Delegated Proof of Stake (DPoS)**. This article explains what each is, the trade-offs between them, and exactly where the two chains in the MELEK ecosystem sit and why: **MELEK** uses DPoS, and **PRANA** uses PoS with a proof-of-useful-work compute layer<ref>library-of-ashurbanipal-bot/generated-articles/Delegated_Proof_of_Stake__DPoS_.wiki</ref>.
+
+This is an **educational, neutral** reference. It compares mechanisms; it is **not** investment or financial advice and makes **no** price prediction.
+
+== Summary ==
+
+- **Proof of Work** ties the right to produce a block to **spent electricity** — miners race to solve a hash puzzle; the winner produces the block. Secure and maximally permissionless, but slow and energy-hungry.
+- **Proof of Stake** ties it to **staked capital** — validators lock tokens and are chosen (often randomly, weighted by stake) to produce; misbehavior can be **slashed**. Far more energy-efficient, with its own centralization-of-capital questions.
+- **Delegated Proof of Stake** adds an **election**: stakeholders vote for a small set of **witnesses / delegates** who take turns producing blocks. Fast and accountable, at the cost of relying on a small, elected producer set.
+
+None of the three is "best" in the abstract; each trades **decentralization, speed, and cost** differently, and a chain picks the corner that fits its job.
+
+== Proof of Work ==
+
+In PoW — Bitcoin's mechanism — producing a block requires finding a nonce that makes the block's hash fall below a target, which can only be done by brute-force guessing. That guessing burns real electricity, and that **cost is the security**: to rewrite history an attacker must out-compute the honest majority (a "51% attack"), which is expensive precisely because the work is real<ref>https://bitcoin.org/bitcoin.pdf</ref>. PoW's strengths are that it is **permissionless** (anyone with hardware can mine, no one's approval needed) and battle-tested. Its costs are **energy consumption**, **low throughput** (Bitcoin targets one block every ten minutes), and a drift toward **mining-pool and ASIC concentration** as efficiency pressure centralizes hardware. In the MELEK ecosystem, PoW-style hashing appears not as a chain-consensus layer but inside the **mining pool** and **burn-mine** primitives — CPU/GPU work that mints side-tokens — kept deliberately separate from how either chain reaches consensus.
+
+== Proof of Stake ==
+
+PoS replaces spent electricity with **locked capital**. Validators put up (stake) tokens; the protocol selects who produces the next block, typically at random weighted by stake, and honest production is rewarded while provable misbehavior (double-signing, being offline) can be **slashed** — the staked tokens are burned or forfeited. Because there is no hash race, PoS uses a tiny fraction of PoW's energy and can run faster<ref>https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/</ref>. Its debated trade-offs are the **"rich-get-richer"** concern (influence tracks capital), the **"nothing-at-stake"** problem (addressed by slashing and finality gadgets), and the reality that in practice much stake concentrates in a few large staking services. PoS keeps a **large, open validator set** (anyone who meets the stake minimum can validate) — the key difference from DPoS below.
+
+== Delegated Proof of Stake ==
+
+DPoS — the BitShares / Steem / Hive / Blurt lineage, and MELEK's mechanism — keeps PoS's staked-capital idea but adds a **representative election**. Stakeholders do not each validate; they **vote for a small set of witnesses** (21 producer slots on the Steem-family schedule), and only those elected witnesses produce blocks, each in turn on a fast fixed schedule ([[What a Witness Is and Does]])<ref>library-of-ashurbanipal-bot/generated-articles/Delegated_Proof_of_Stake__DPoS_.wiki</ref><ref>library-of-ashurbanipal-bot/generated-articles/Graphene_Blockchain_Framework.wiki</ref>. The trade-off is explicit: DPoS buys **speed and accountability** — three-second blocks, named producers whose misses and price feeds are public, and a slot held only as long as voters keep granting it — by accepting a **small, elected** producer set rather than a large open one. Critics note this concentrates block production and can favor large stakeholders in the vote; defenders note the producers are *transparent and instantly replaceable* by the stakeholders, so accountability is high even though the set is small<ref>https://doi.org/10.11113/ijic.v10n2.272</ref>. DPoS optimizes for a chain that needs to feel like a fast, social application rather than a slow settlement layer.
+
+== Where MELEK and PRANA sit ==
+
+The MELEK ecosystem runs **two chains with two consensus choices**, each matched to its job<ref>library-of-ashurbanipal-bot/generated-articles/Graphene_Blockchain_Framework.wiki</ref>:
+
+- **MELEK — DPoS (Graphene).** MELEK is a Steem/Blurt fork whose job is a **fast social chain**: posting, voting, curation, and near-instant, feeless interaction. That job wants three-second blocks and accountable producers, so DPoS is the right corner — a small elected witness set (led by `hathor`) producing on a shuffled schedule. MELEK deliberately carries **no fiat and no cashout**; it is the social/reward layer, not a market venue.
+- **PRANA — Proof of Stake + proof-of-useful-work compute.** PRANA is an EVM chain whose job is **value, compute, and DeFi**. Its base consensus is **PoS** (a staked-capital validator model in the Ethereum family), and it adds a **proof-of-useful-work / GPU-compute** layer on top so that real computation — not just wasted hashing — earns rewards. PoS fits a chain that needs EVM smart contracts, a DEX (KulaSwap), and staking/lending, where energy-efficiency and programmability matter more than social-feed latency ([[The Two-Token Economy — MELEK and PRANA]]).
+
+The design point is that **consensus is chosen per job, not per fashion**: the social chain takes the fast, accountable, elected-producer mechanism; the compute/DeFi chain takes the programmable, energy-efficient, capital-secured one, plus a useful-work layer so its energy buys computation rather than hash puzzles.
+
+== Not advice ==
+
+This article compares how chains reach agreement. Staking, mining, and running a producer all involve costs and risks this article does not assess, and none of it is investment or financial advice or a prediction about any token's value.
+
+== Sources ==
+<ref>library-of-ashurbanipal-bot/generated-articles/Delegated_Proof_of_Stake__DPoS_.wiki</ref>
+<ref>library-of-ashurbanipal-bot/generated-articles/Graphene_Blockchain_Framework.wiki</ref>
+<ref>https://bitcoin.org/bitcoin.pdf</ref>
+<ref>https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/</ref>
+<ref>https://doi.org/10.11113/ijic.v10n2.272</ref>
+
+== Coverage ==
+This article is a Theory-strand companion to the Witness School: it defines Proof of Work, Proof of Stake, and Delegated Proof of Stake as Sybil-resistance mechanisms and lays out their decentralization/speed/cost trade-offs, then places the ecosystem's two chains — MELEK on DPoS (fast social Graphene chain, no fiat/no cashout) and PRANA on PoS plus a proof-of-useful-work GPU-compute layer (EVM value/DeFi chain). PoW/PoS characterizations are cited to the Bitcoin whitepaper and the Ethereum PoS docs; the DPoS trade-off discussion is cited to the existing Library DPoS/Graphene articles and a peer-reviewed DPoS analysis. Cross-links [[What a Witness Is and Does]] and [[The Two-Token Economy — MELEK and PRANA]]. Nothing here is investment or financial advice, and nothing here predicts a price.

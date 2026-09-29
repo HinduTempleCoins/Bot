@@ -72,3 +72,14 @@ test('handler: token gate rejects missing/wrong bearer, accepts the right one', 
   t = mk({ authorization: 'Bearer s3cret' }); await handler(t.req, t.res); assert.equal(t.res.code, 200);
   delete process.env.CPU_SD_TOKEN;
 });
+
+test('async jobs: submit returns an id at once, status goes queued/running -> done with the image', async () => {
+  const { submitJob, jobStatus } = await import('./genai-cpu-diffusion.mjs');
+  const sub = submitJob({ prompt: 'Hathor at the pyramids', steps: 4 });
+  assert.equal(sub.ok, true); assert.ok(sub.id);
+  assert.ok(['queued', 'running', 'done'].includes(jobStatus(sub.id).status));
+  let st; for (let i = 0; i < 50; i++) { st = jobStatus(sub.id); if (st.status === 'done') break; await new Promise((r) => setTimeout(r, 5)); }
+  assert.equal(st.status, 'done'); assert.equal(st.result.ok, true);
+  assert.equal(jobStatus('nope').ok, false);
+  assert.equal(submitJob({ prompt: '' }).ok, false);
+});

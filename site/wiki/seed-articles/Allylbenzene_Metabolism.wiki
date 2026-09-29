@@ -1,0 +1,77 @@
+Allylbenzene metabolism involves multiple pathways, including Phase I oxidation by [[CYP450 enzymes]] and Phase II [[Glycine Conjugation]], which compete with the proposed formation of alkaloid metabolites. The availability of amino acids can influence which metabolic pathways are utilized <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>.
+
+== Phase I Metabolism ==
+Allylbenzenes undergo Phase I metabolism, which typically involves 1'-hydroxylation to an allyl alcohol derivative, followed by oxidation to an aldehyde metabolite, and further oxidation to a carboxylic acid metabolite <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. This process is mediated by [[CYP450 enzymes]], primarily [[CYP1A2]] and [[CYP3A4]] <ref>oilahuasca_allylbenzene_research_compilation.json</ref><ref>oilahuasca_complete_research_synthesis.json</ref>. [[CYP1A2]] is noted as the primary enzyme for [[myristicin]] metabolism, converting it to 5-allyl-1-methoxy-2,3-dihydroxybenzene <ref>oilahuasca_complete_research_synthesis.json</ref>. [[CYP3A4]] is a secondary pathway and the most prevalent CYP enzyme in the human liver <ref>oilahuasca_complete_research_synthesis.json</ref>.
+
+== Phase II Metabolism: Glycine Conjugation ==
+Glycine conjugation is identified as a major competing pathway for allylbenzene metabolism <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. Aldehyde metabolites of allylbenzenes can undergo glycine conjugation to increase their water solubility and facilitate urinary excretion <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. This process is a two-step enzymatic pathway that occurs in the mitochondrial matrix <ref>oilahuasca_amino_acid_metabolism.json</ref>:
+1.  **Acyl-CoA formation:** Mediated by medium-chain acyl-CoA synthetase 2B (ACSM2B), also known as xenobiotic/medium-chain fatty acid CoA ligase. This enzyme activates the carboxylic acid metabolite to a CoA thioester, requiring ATP, CoA, and Mg2+ <ref>oilahuasca_amino_acid_metabolism.json</ref>.
+2.  **Conjugation:** Catalyzed by Glycine N-Acyltransferase (GLYAT), which transfers the acyl group from the CoA thioester to [[glycine]] <ref>oilahuasca_amino_acid_metabolism.json</ref>.
+
+[[Glycine]] is the most frequently used amino acid for xenobiotic conjugation in humans, particularly for aromatic carboxylic acids <ref>oilahuasca_amino_acid_metabolism.json</ref><ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. Its availability can be limited, which may affect the extent of this reaction <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. Other amino acids like glutamine and taurine can also be involved in conjugation in humans, though glutamine plays a minor role in allylbenzene metabolism <ref>oilahuasca_amino_acid_metabolism.json</ref>.
+
+Predicted glycine conjugates for specific allylbenzenes include:
+*   **Methylchavicol (estragole):** Documented metabolites include 4-methoxycinnamoylglycine and 4-methoxybenzoyl-N-glycine <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>.
+*   **Sarisan:** Predicted to form 3,4-methylenedioxy-5-methoxycinnamoylglycine and 3,4-methylenedioxy-5-methoxybenzoyl-N-glycine <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>.
+*   **Croweacin:** Predicted to form 2-methoxy-3,4-methylenedioxycinnamoylglycine and 2-methoxy-3,4-methylenedioxybenzoyl-N-glycine <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>.
+*   **Isoelemicin:** Predicted to form 3,4,5-trimethoxycinnamoylglycine and 3,4,5-trimethoxybenzoyl-N-glycine <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>.
+*   **Osmorhizole:** Expected to follow the pattern of forming [substituent groups]-cinnamoylglycine and [substituent groups]-benzoyl-N-glycine <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>.
+
+== Alkaloid Formation (VKFRI Hypothesis) ==
+Within the Institute's framework, VKFRI proposes that allylbenzenes can be metabolized into alkaloid compounds <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. This process is described as part of the "Oilahuasca theory," which suggests that allylbenzenes are pro-drugs requiring metabolic activation <ref>oilahuasca_allylbenzene_research_compilation.json</ref><ref>oilahuasca_theory.json</ref>.
+
+The proposed pathway involves:
+1.  **CYP450-mediated oxidation:** Allylbenzenes (e.g., [[myristicin]], [[elemicin]], [[safrole]]) are converted by [[CYP450 enzymes]] (primarily [[CYP1A2]], [[CYP3A4]]) to 1'-hydroxy metabolites <ref>oilahuasca_allylbenzene_research_compilation.json</ref>.
+2.  **Further oxidation:** The 1'-hydroxy metabolites are further oxidized to 1'-oxo metabolites, which are described as reactive intermediates <ref>oilahuasca_allylbenzene_research_compilation.json</ref>.
+3.  **Non-enzymatic adduct formation:** These 1'-oxo intermediates then undergo non-enzymatic condensation with endogenous amines, such as dimethylamine, piperidine, and pyrrolidine <ref>oilahuasca_allylbenzene_research_compilation.json</ref><ref>oilahuasca_mechanistic_model.json</ref>.
+
+The resulting alkaloid metabolites are identified as [[aminopropiophenones]], not amphetamines <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. Three subtypes of these alkaloid metabolites are proposed: dimethylamines, piperidines, and pyrrolidines <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. VKFRI hypothesizes that only allyl forms of these compounds, not propenyl forms, are capable of forming these alkaloid metabolites <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>. Glycine depletion could theoretically enhance the formation of these alkaloids <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>.
+
+== Specific Allylbenzenes and Activity ==
+The presence of specific substituent groups on the benzene ring is proposed to influence the activity of allylbenzenes <ref>oilahuasca_marsresident_research.json</ref>:
+*   **Allyl side chain:** Required for alkaloid conversion <ref>oilahuasca_marsresident_research.json</ref>.
+*   **Position 4:** Must be a methoxy or methylenedioxy group for psychedelic activity; a hydroxy group at this position (as in [[eugenol]] or [[chavicol]]) results in stimulant, not psychedelic, activity <ref>oilahuasca_marsresident_research.json</ref>.
+*   **Position 2:** A methoxy group here may lead to LSD-like mental effects <ref>oilahuasca_marsresident_research.json</ref>.
+*   **Position 5:** Methoxy or methylenedioxy groups may enhance visuals <ref>oilahuasca_marsresident_research.json</ref>.
+*   **Position 6:** A methoxy group here may lead to amphetamine-style speedy effects <ref>oilahuasca_marsresident_research.json</ref>.
+
+Examples of allylbenzenes mentioned in the context of metabolism or activity include:
+*   [[Myristicin]] (from nutmeg, parsley) <ref>oilahuasca_allylbenzene_research_compilation.json</ref><ref>oilahuasca_complete_research_synthesis.json</ref><ref>oilahuasca_marsresident_research.json</ref>
+*   [[Elemicin]] (from nutmeg) <ref>oilahuasca_allylbenzene_research_compilation.json</ref><ref>oilahuasca_marsresident_research.json</ref>
+*   [[Safrole]] (from sassafras, trace in nutmeg) <ref>oilahuasca_allylbenzene_research_compilation.json</ref><ref>oilahuasca_marsresident_research.json</ref>
+*   [[Estragole]] (methylchavicol, from basil, fennel) <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref><ref>oilahuasca_mechanistic_model.json</ref>
+*   [[Apiole]] (from parsley) <ref>oilahuasca_herb_analysis.json</ref><ref>oilahuasca_marsresident_research.json</ref>
+*   [[Dillapiole]] (from dill) <ref>oilahuasca_mechanistic_model.json</ref><ref>oilahuasca_marsresident_research.json</ref>
+*   Methyl eugenol (from bay, allspice) <ref>oilahuasca_mechanistic_model.json</ref><ref>oilahuasca_marsresident_research.json</ref>
+*   Sarisan <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref><ref>oilahuasca_marsresident_research.json</ref>
+*   Croweacin <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref><ref>oilahuasca_marsresident_research.json</ref>
+*   Isoelemicin <ref>oilahuasca_allylbenzene_metabolism_complete.json</ref>
+
+== Sources ==
+*   oilahuasca/oilahuasca/neurogenesis_synaptogenesis_endocannabinoid_deep_dive.json
+*   oilahuasca/oilahuasca/oilahuasca_allylbenzene_metabolism_complete.json
+*   oilahuasca/oilahuasca/oilahuasca_allylbenzene_research_compilation.json
+*   oilahuasca/oilahuasca/oilahuasca_amino_acid_metabolism.json
+*   oilahuasca/oilahuasca/oilahuasca_complete_research_synthesis.json
+*   oilahuasca/oilahuasca/oilahuasca_comprehensive_theory.json
+*   oilahuasca/oilahuasca/oilahuasca_comprehensive_theory_part2.json
+*   oilahuasca/oilahuasca/oilahuasca_core_principles.json
+*   oilahuasca/oilahuasca/oilahuasca_dmtnexus_69ron_thread.json
+*   oilahuasca/oilahuasca/oilahuasca_dmtnexus_space_booze_thread.json
+*   oilahuasca/oilahuasca/oilahuasca_experience_reports.json
+*   oilahuasca/oilahuasca/oilahuasca_herb_analysis.json
+*   oilahuasca/oilahuasca/oilahuasca_marsresident_research.json
+*   oilahuasca/oilahuasca/oilahuasca_mechanistic_model.json
+*   oilahuasca/oilahuasca/oilahuasca_phase2_metabolism.json
+*   oilahuasca/oilahuasca/oilahuasca_practical_formulations.json
+*   oilahuasca/oilahuasca/oilahuasca_safety_profile.json
+*   oilahuasca/oilahuasca/oilahuasca_sources.json
+*   oilahuasca/oilahuasca/oilahuasca_space_paste_recipe.json
+*   oilahuasca/oilahuasca/oilahuasca_theory.json
+*   psychedelics/psychedelics/cyp450_enzyme_database.json
+*   psychedelics/psychedelics/enzymatic_alchemy_consciousness.json
+*   psychedelics/psychedelics/wellbutrin_cyp450_forum_thread.json
+*   shulgin-pihkal-tihkal
+
+== Coverage ==
+The section "Specific Allylbenzenes and Activity" is primarily based on a single source, `oilahuasca_marsresident_research.json`, for the proposed influence of substituent groups on activity. The "Alkaloid Formation (VKFRI Hypothesis)" section draws heavily from VKFRI's internal research and the "Oilahuasca theory" documents.

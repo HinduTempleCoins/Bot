@@ -91,7 +91,8 @@ const STATIC_BOARDS = [
   { id: 'witness',       title: 'Witnesses & Governance',  categoryId: 'melek', kind: 'discussion', desc: 'Block production, voting, and running a node.' },
   { id: 'development',   title: 'Development',              categoryId: 'melek', kind: 'discussion', desc: 'Building on the chain — apps, APIs, the condenser, and tooling.' },
   { id: 'marketplace',   title: 'Marketplace & Services',  categoryId: 'melek', kind: 'discussion', desc: 'Offer or find services, goods, and bounties.' },
-  { id: 'library',       title: 'Library of Ashurbanipal', categoryId: 'melek', kind: 'wiki-linkout', desc: 'Plant-medicine & harm-reduction reference — history, ethnobotany, safety. Education only; no synthesis/extraction recipes.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'library',       title: 'Library of Ashurbanipal', categoryId: 'melek', kind: 'wiki-linkout', desc: 'Plant-medicine & harm-reduction reference — history, ethnobotany, preparation, dosing and safety.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'studio',        title: 'Hathor Studio (GenAI)',   categoryId: 'melek', kind: 'discussion', desc: 'Make images, remakes of ancient art, and videos with Hathor Studio — how-tos, bringing your own engine, and showing your work.', links: [{ label: 'Hathor Studio', href: 'https://hathor.soapbox.community' }, { label: 'Remakes gallery', href: 'https://hathor.soapbox.community/remakes' }] },
   { id: 'meta',          title: 'Forum Feedback',          categoryId: 'melek', kind: 'discussion', desc: 'Bugs, ideas, and moderation for the forum itself.' },
 
   // Crypto — Bitcointalk / Altcoinstalks sub-boards (finite, native).
@@ -143,8 +144,8 @@ const STATIC_BOARDS = [
 
   // Mind / Medicine — Ashurbanipal-fed, harm-reduction discipline (reference, never manufacture manuals).
   { id: 'witchy',     title: 'Witchy',     categoryId: 'mind', kind: 'discussion', desc: 'Folk practice, herbalism-as-tradition, ritual, and diaspora brujería.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
-  { id: 'herb',       title: 'Herb',       categoryId: 'mind', kind: 'discussion', desc: 'Ethnobotany, plant medicine, and harm reduction — history, dose ranges, interactions, testing, set/setting/aftercare. Reference only; no synthesis or extraction recipes.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
-  { id: 'nootropics', title: 'Nootropics', categoryId: 'mind', kind: 'discussion', desc: 'Cognitive enhancement, stacks, and sourcing safety — reference only. No brain-stimulation self-application recipes.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'herb',       title: 'Herb',       categoryId: 'mind', kind: 'discussion', desc: 'Ethnobotany, plant medicine, and harm reduction — history, dose ranges, interactions, testing, set/setting/aftercare, and documented traditional preparation.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'nootropics', title: 'Nootropics', categoryId: 'mind', kind: 'discussion', desc: 'Cognitive enhancement, stacks, sourcing safety, and neurostimulation (TENS/tDCS builds, entrainment) — with the safety engineering taught as part of the build.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
   { id: 'gambling-education', title: 'Gambling Education & Odds', categoryId: 'mind', kind: 'discussion', desc: 'The math of gambling — odds, expected value, the house edge, and the lottery reality. Education and harm-reduction, never promotion; the Forum never takes a wager or runs a game. If gambling has become a problem, help is one click away.', links: [{ label: 'Odds & EV — Gambling Education Center', href: GAMBLING }, { label: 'House edge by game', href: `${GAMBLING}/games` }, { label: 'Lottery odds & the −EV reality', href: `${GAMBLING}/lottery` }, { label: 'Get help — responsible gambling', href: `${GAMBLING}/help` }] },
 
   // Style — Fashion / Beauty (Van Kush).

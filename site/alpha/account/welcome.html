@@ -6,7 +6,11 @@
 <link rel="stylesheet" href="account.css">
 </head><body>
 <div class="wrap"><div class="card">
-  <span class="tag">Alpha</span>
+  <span class="tag" id="net-tag" hidden>[TestNet not MELEK]</span>
+  <script>
+    // Host-aware: the testnet tag shows only on alpha.*; mainnet (melek.salon) stays clean.
+    if (/^alpha\./i.test(location.hostname)) document.getElementById('net-tag').hidden = false;
+  </script>
   <h1>Welcome</h1>
   <p class="muted" id="hello">Your account is live on MELEK.</p>
 

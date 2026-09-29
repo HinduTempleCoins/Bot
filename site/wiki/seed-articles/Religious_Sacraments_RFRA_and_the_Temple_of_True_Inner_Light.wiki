@@ -1,0 +1,76 @@
+'''Religious Sacraments, RFRA, and the Temple of True Inner Light''' examines the intersection of entheogenic chemistry, constitutional jurisprudence, and the doctrine of religious freedom. It traces the lineage of religious conscience from James Madison through the crisis of ''Employment Division v. Smith'', the federal Religious Freedom Restoration Act (RFRA), and Alexander Shulgin's contemplation of the Manhattan-based '''Temple of True Inner Light''' and its sacramental use of '''DPT''' in ''TIHKAL'' Entry #9.
+
+== James Madison and the unalienable right of conscience ==
+
+The American constitutional protection for religious practice traces directly to '''James Madison''' and his landmark 1785 treatise, the ''Memorial and Remonstrance Against Religious Assessments'':
+
+<blockquote>
+'''James Madison (1785):'''<br>
+"The Religion then of every man must be left to the conviction and conscience of every man; and it is the right of every man to exercise it as these may dictate. This right is in its nature an unalienable right. It is unalienable, because the opinions of men, depending only on the evidence contemplated by their own minds cannot follow the dictates of other men: It is unalienable also, because what is here a right towards men, is a duty towards the Creator."
+</blockquote>
+
+* '''Jurisdictional boundary:''' Madison established that the civil magistrate has no jurisdiction over the spiritual relationship between an individual and the Divine.
+* '''The First Amendment (1791):''' As principal author of the Bill of Rights, Madison codified this unalienable principle into the Free Exercise Clause:
+: <code>"Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof."</code>
+
+== The constitutional crisis: from Sherbert to Smith ==
+
+For decades, the U.S. Supreme Court evaluated religious exemptions from general laws under the '''strict scrutiny''' standard established in ''Sherbert v. Verner'' (1963): the government could only burden religious exercise if it demonstrated a compelling state interest achieved by the least restrictive means.
+
+<code>
+[ Sherbert v. Verner (1963) ] ──► Strict Scrutiny: Government must prove "Compelling Interest"
+                                            │
+                                            ▼  Overruled by Scalia, J.
+[ Employment Division v. Smith (1990) ] ──► "Neutral, Generally Applicable Laws" Need No Exemption
+                                            (Peyote sacrament banned; religious freedom gutted)
+                                            │
+                                            ▼  Congressional Bipartisan Revolt
+[ RFRA of 1993 (42 U.S.C. § 2000bb) ] ───► Strict Scrutiny Restored by Federal Statute
+                                            │
+                                            ▼  Unanimous Supreme Court Enforcement
+[ Gonzales v. UDV (2006) ] ──────────────► Schedule I Ayahuasca (DMT) Protected as Holy Sacrament
+</code>
+
+=== The 1990 Smith decision ===
+* In ''Employment Division v. Smith'' (494 U.S. 872, 1990), two Native American Church counselors were fired and denied state unemployment benefits after ingesting peyote (mescaline) during a religious ceremony.
+* Writing for the majority, '''Justice Antonin Scalia''' issued a shock decision dismantling strict scrutiny for religious practices: he ruled that if a criminal prohibition is "neutral and of general applicability," the First Amendment does not require any religious exemption, regardless of how central the sacrament is to the faith.
+* Scalia asserted that granting religious exemptions to general criminal statutes would create "a private right to ignore generally applicable laws," leading to what he termed "a system in which each conscience is a law unto itself."
+
+== The Congressional restoration: RFRA (1993) ==
+
+Scalia's decision in ''Smith'' provoked immediate outrage across the religious and political spectrum. In response, Congress passed the '''Religious Freedom Restoration Act of 1993 (RFRA)''' (42 U.S.C. § 2000bb et seq.), signed by President Bill Clinton after passing 97–3 in the Senate and unanimously in the House:
+
+* '''Statutory Mandate:''' RFRA legislatively restored the pre-''Smith'' strict scrutiny standard across all federal actions:
+: <code>"Government shall not substantially burden a person's exercise of religion even if the burden results from a rule of general applicability,"</code>
+unless the government demonstrates that application of the burden to the person:
+# Is in furtherance of a '''compelling governmental interest'''; and
+# Is the '''least restrictive means''' of furthering that compelling governmental interest.
+
+=== The UDV landmark precedent: Gonzales v. O Centro Espírita (2006) ===
+In ''Gonzales v. O Centro Espírita Beneficente União do Vegetal (UDV)'', 546 U.S. 418 (2006), the federal government seized shipments of ''hoasca'' (ayahuasca tea, containing Schedule I DMT) imported from Brazil by the UDV church.
+* Writing for a unanimous (8–0) Supreme Court, '''Chief Justice John Roberts''' affirmed that under RFRA, the federal government had failed to demonstrate a compelling interest in enforcing the Controlled Substances Act against the sincere, sacramental use of hoasca.
+* Roberts rejected the government's claim that Schedule I status creates an automatic, blanket compelling interest that overrides religious freedom, establishing that courts must examine the specific, individualized harm of the religious practice. This was reinforced in 2009 by ''Church of the Holy Light of the Queen v. Mukasey'', granting RFRA protection to the Santo Daime church in Oregon.
+
+== Shulgin, DPT, and the Temple of True Inner Light ==
+
+In ''TIHKAL'' (Entry #9, '''DPT / N,N-dipropyltryptamine'''), Alexander Shulgin documented one of the most remarkable legal and theological anomalies in American history:
+
+=== 1. The Temple of True Inner Light ===
+* '''Origins:''' Established in the 1970s on West 19th Street in Manhattan, New York City, by Alan Birnbaum, the Temple operates as an offshoot of the Native American Church.
+* '''The Sacrament:''' The Temple's central theological tenet is that psychoactive entheogens are the literal, physical manifestation of God—the true Holy Eucharist. While they honor peyote and mushrooms, their primary, everyday holy sacrament is '''DPT''' (N,N-dipropyltryptamine), which they revere as "the True Flesh of God" and "the Holy Light."
+* Members consume or smoke DPT during regular religious services in Manhattan, experiencing profound, rapid visionary communion.
+
+=== 2. Shulgin's contemplation in TIHKAL #9 ===
+At the time Shulgin wrote ''TIHKAL'' (1997), DPT was not explicitly named in the Controlled Substances Act, but could theoretically be prosecuted under the Federal Analogue Act as an analogue of DMT or DET:
+
+<blockquote>
+'''Alexander Shulgin (TIHKAL Entry #9):'''<br>
+"The Temple of the True Inner Light has, as its central sacrament, DPT... They have been totally unbothered by any agency of the Federal Government, as far as I know. It is not as if they were unknown; they have had articles written about them in the press, and they have had their literature freely distributed... Why has there been no interference? Why has DPT not been placed into Schedule I? Could it be that the DEA does not wish to engage in a formal confrontation with a religious group claiming protection under the First Amendment, which could result in a court decision confirming the religious use of a synthetic psychedelic?"
+</blockquote>
+
+=== 3. The Synthetic Sacrament Question ===
+Shulgin’s insight identified an unresolved frontier in constitutional law:
+* While statutory exemptions existed for traditional indigenous plants (peyote for Native Americans, ayahuasca for the UDV), the Temple of True Inner Light demonstrated that **sincere religious devotion does not depend on whether a molecule was harvested from a desert cactus or crystallized in a laboratory flask**.
+* By operating openly in Manhattan without federal prosecution, the Temple demonstrated the power of Madisonian conscience: when an entheogen is consumed within a sincere, disciplined religious framework, prohibitionist enforcement hesitates, caught between statutory drug law and the First Amendment.
+
+See also: [[Isomers, the Analogue Act, and Forensic Chemistry]] · [[Structure-Activity Relationships in Psychopharmacology]] · [[PIHKAL and TIHKAL]] · [[SoapBox Law]] · [[Foundational Law]] · [[Rights That Hold Up in Court]] · [[Stack Substances]]

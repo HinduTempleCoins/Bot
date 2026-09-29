@@ -23,7 +23,11 @@
 </style>
 </head><body>
 <div class="wrap"><div class="card">
-  <span class="tag">[TestNet not MELEK]</span>
+  <span class="tag" id="net-tag" hidden>[TestNet not MELEK]</span>
+  <script>
+    // Host-aware: the testnet tag shows only on alpha.*; mainnet (melek.salon) stays clean.
+    if (/^alpha\./i.test(location.hostname)) document.getElementById('net-tag').hidden = false;
+  </script>
   <h1>Get a MELEK account</h1>
   <p class="muted">Pick how you want to sign up. Each option is its own flow — some are run by MELEK,
   others by the community. <b>Whichever you choose, your keys are generated in your own browser and
@@ -31,11 +35,6 @@
 
   <div class="providers" id="providers" aria-live="polite">
     <!-- Rendered from /api/providers; the static cards below are the no-JS / offline fallback. -->
-    <a class="prov" href="https://signup.melek.salon/">
-      <div class="prov-top"><span class="prov-name">MELEK Email Signup</span><span class="badge">Official</span><span class="chain">MELEK</span></div>
-      <div class="prov-sum">The official account creator — pick a name, get your keys in your browser, optional email backup.</div>
-      <div class="prov-by">by MELEK / Van Kush Family</div>
-    </a>
     <a class="prov" href="chat.html">
       <div class="prov-top"><span class="prov-name">Hathor — Guided Chat</span><span class="badge">Beginner-friendly</span><span class="chain">MELEK</span></div>
       <div class="prov-sum">New and not sure? Chat with Hathor — she explains it and points you to the signup page. You make the account yourself.</div>

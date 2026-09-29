@@ -14,6 +14,8 @@
 //
 //   POST /generate  { prompt, negativePrompt?, steps?, guidance?, seed?, size?, image?:{base64,mime}, strength? }
 //        -> { ok:true, mime:'image/png', base64, ms, mode }  |  { ok:false, error }
+//   POST /jobs      same body -> { ok, id, position }   (async; preferred)
+//   GET  /jobs/:id  -> { ok, status:'queued'|'running'|'done'|'error', result? }
 //   GET  /health    -> { ok, loaded, busy, queued, model }
 //
 //   node integrations/genai-cpu-diffusion.mjs        # PORT=8510 HOST=127.0.0.1 by default
@@ -50,7 +52,7 @@ async function pump() {
   if (busy || !waiting.length) return;
   busy = true;
   const { job, resolve } = waiting.shift();
-  try { resolve(await render(job)); } catch (e) { resolve({ ok: false, error: 'render failed' }); }
+  try { if (job.onStart) job.onStart(); resolve(await render(job)); } catch (e) { resolve({ ok: false, error: 'render failed' }); }
   finally { busy = false; pump(); }
 }
 export function status() { return { ok: true, loaded, busy, queued: waiting.length, model: `${MODEL_ID()}@${MODEL_REV()}` }; }
@@ -93,6 +95,30 @@ async function render(job) {
   return { ok: true, mime: 'image/png', base64: png.toString('base64'), ms: Date.now() - t0, mode: job.image ? 'img2img' : 'txt2img', seed: job.seed };
 }
 
+// ── async jobs: submit → id right away, poll for the result. A slow CPU render never holds a request open,
+// so nothing upstream times out and silently falls back to someone else's engine.
+const jobs = new Map(); // id -> { status:'queued'|'running'|'done'|'error', created, result }
+const JOB_TTL_MS = 30 * 60 * 1000;
+function sweepJobs(now = Date.now()) { for (const [id, j] of jobs) if (now - j.created > JOB_TTL_MS) jobs.delete(id); }
+export function submitJob(input) {
+  sweepJobs();
+  const job = normJob(input);
+  if (!job.prompt) return { ok: false, error: 'empty prompt' };
+  const id = Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+  const rec = { status: 'queued', created: Date.now(), result: null };
+  jobs.set(id, rec);
+  const position = waiting.length + (busy ? 1 : 0);
+  enqueue({ ...job, onStart: () => { rec.status = 'running'; } }).then((r) => { rec.status = r && r.ok ? 'done' : 'error'; rec.result = r; });
+  return { ok: true, id, position };
+}
+export function jobStatus(id) {
+  const rec = jobs.get(String(id || ''));
+  if (!rec) return { ok: false, error: 'unknown job' };
+  const out = { ok: true, id, status: rec.status };
+  if (rec.status === 'done' || rec.status === 'error') out.result = rec.result;
+  return out;
+}
+
 /** Programmatic entry (tests / same-process callers). Never throws. */
 export async function generate(input) {
   const job = normJob(input);
@@ -122,6 +148,17 @@ export async function handler(req, res) {
     let body; try { body = JSON.parse(raw.toString('utf8') || '{}'); } catch { return j(400, { ok: false, error: 'bad json' }); }
     const out = await generate(body);
     return j(out.ok ? 200 : 422, out);
+  }
+  if (req.method === 'POST' && path === '/jobs') {
+    const raw = await readBody(req);
+    if (!raw) return j(413, { ok: false, error: 'body too large' });
+    let body; try { body = JSON.parse(raw.toString('utf8') || '{}'); } catch { return j(400, { ok: false, error: 'bad json' }); }
+    const out = submitJob(body);
+    return j(out.ok ? 202 : 422, out);
+  }
+  if (req.method === 'GET' && path.startsWith('/jobs/')) {
+    const out = jobStatus(decodeURIComponent(path.slice(6)));
+    return j(out.ok ? 200 : 404, out);
   }
   return j(404, { ok: false, error: 'not found' });
 }

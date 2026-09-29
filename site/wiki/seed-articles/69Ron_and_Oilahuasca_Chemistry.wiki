@@ -1,0 +1,110 @@
+'''69Ron and Oilahuasca Chemistry''' documents the history, theoretical framework, extraction innovations, and community controversies surrounding the online researcher known as '''69Ron'''. Writing on the DMT-Nexus and the Herbpedia wiki between 2008 and 2014, 69Ron formulated the modern "Oilahuasca" concept—the targeted sequencing of natural enzyme inhibitors and plant essential oils (allylbenzenes) to evoke psychoactive and therapeutic states.
+
+This article details 69Ron's non-toxic d-limonene extraction technique ("DryTek"), the forum backlash regarding essential oil vendors and exaggerated potency, the documented fact that 69Ron had never consumed the classical psychedelics he compared his preparations to, and the pharmacological reality of subtle, experimental neuromodulation versus recreational expectations.
+
+== Who was 69Ron? ==
+
+In the late 2000s, 69Ron was one of the most prolific research contributors on the DMT-Nexus forums and the primary architect of the Herbpedia "Oilahuasca Activation" guides:
+* '''The "Space Paste" Ancestry:''' 69Ron's work did not emerge in a vacuum; it was an attempt to deconstruct and refine '''"Space Paste"'''—an eclectic folklore recipe popularized on internet forums (such as the Shroomery and Bluelight) combining raw grated nutmeg, black pepper, cinnamon, turmeric, and other spices into a paste intended to produce MDMA-like or mescaline-like states without severe nausea.
+* '''Shulgin's In Vivo Amination Hypothesis:''' The theoretical foundation was drawn from Alexander Shulgin's commentary on the "Ten Essential Amphetamines" in ''PIHKAL'' (specifically under entries for MMDA and TMA). Shulgin mused that the human liver might take the nitrogen-free allylbenzenes found in essential oils and "aminate" them in vivo using endogenous ammonia or amino acid transaminases to yield active primary amphetamines.
+* '''The Sequencing Model:''' Rather than consuming toxic bulk spices simultaneously, 69Ron proposed a time-staggered pharmacological sequence: administering natural inhibitors (such as piperine from black pepper, eugenol from clove, and curcumin from turmeric) 30 to 60 minutes *prior* to consuming micro-doses of isolated essential oils (such as elemi oil or nutmeg essential oil).
+
+== The "Direct Amination" fallacy vs. metabolic reality ==
+
+69Ron's fundamental assertion—that manipulating liver enzymes would cleanly convert plant allylbenzenes into the exact classical primary amphetamines (e.g. elemicin into TMA, or myristicin into MMDA)—has been decisively disproven by modern biochemical toxicology:
+
+<code>
+                 [ 69RON'S DISPROVEN FORUM PREMISE ]
+   Elemicin / Myristicin ──(+ In Vivo Ammonia)──► TMA / MMDA (Primary Amphetamines)
+                                  ▲
+                                  │  DOES NOT OCCUR IN VIVO
+                                  │
+                 [ ACTUAL BIOCHEMICAL METABOLIC FATE ]
+                 Elemicin / Myristicin / Safrole
+                                  │
+         ┌────────────────────────┴────────────────────────┐
+         ▼                                                 ▼
+[ The Oswald Pathway ]                            [ SULT1A1 DNA-Reactive Pathway ]
+ • 1'-Hydroxylation (CYP2C9/2E1)                   • 1'-Hydroxylation
+ • Oxidation to Phenyl Vinyl Ketone                • Sulfonation by SULT1A1
+ • Michael Addition with Secondary Amines          • Unstable 1'-Sulfoöxy Ester Cleavage
+ • Yields TERTIARY Amino-Adducts                   • Reactive Carbocation Covalent DNA Adducts
+   (Dimethylamine, Piperidine Adducts)             • Hepatocarcinogenicity Risk
+</code>
+
+=== 1. Why direct hepatic amination fails ===
+* Mammalian hepatic enzymes do not catalyze the direct addition of ammonia ($NH_3$) across unactivated allyl double bonds.
+* Decades of metabolic profiling demonstrate that allylbenzenes do **not** convert into primary amphetamines in humans.
+* When psychonauts report distinctive psychoactive effects from spiced essential oils, the activity is mediated either by intact allylbenzene interactions across secondary receptors or by the '''Oswald pathway'''—where 1'-hydroxylation followed by oxidation to phenyl vinyl ketones leads to Michael additions with endogenous secondary amines (such as dimethylamine or piperidine), generating novel **tertiary amino-alkaloid adducts**.
+
+=== 2. Toxicological hazards: SULT1A1 and DNA adducts ===
+In online discussions, advocates often assume that because essential oils are "natural," they are non-toxic compared to synthetic entactogens like MDMA or 6-APB. Pharmacological reality is far more complex:
+* When allylbenzenes (especially safrole, estragole, and methyleugenol) undergo 1'-hydroxylation, the resulting allylic alcohol is a high-affinity substrate for cytosolic '''sulfotransferases (specifically SULT1A1)'''.
+* Sulfonation generates an unstable **$1'\text{-sulfoöxy}$ ester**. Because sulfate is an excellent leaving group, it spontaneously dissociates, creating a short-lived, intensely electrophilic **allylic carbocation**.
+* This carbocation reacts directly with nucleophilic sites on hepatic DNA—predominantly forming covalent **$N^2$-(trans-isoalkenyl)deoxyguanosine adducts**.
+* This covalent DNA alkylation is the established molecular mechanism responsible for the documented hepatocarcinogenicity of high-dose, chronic allylbenzene ingestion in animal models. Inducing or manipulating liver enzymes to force large fluxes of allylbenzenes through metabolic bottlenecks carries genuine genotoxic and mutagenic risks.
+
+== The Limonene A/B extraction innovation ("DryTek") ==
+
+Beyond essential oils, 69Ron made a permanent, widely validated contribution to the ethnobotanical extraction community by developing the '''food-grade d-limonene extraction technique''' (often termed "69Ron's Mescaline DryTek"):
+
+<code>
+[ Dry Cactus Powder / Botanical Matter ]
+                   │
+                   ▼  + Food-Grade Base: Calcium Hydroxide (Ca(OH)2 / Pickling Lime)
+       [ Basic Alkaline Paste ]
+                   │
+                   ▼  + Non-Toxic Organic Solvent: d-Limonene (Orange Terpene Oil)
+    [ Non-Polar Extract: Freebase Alkaloids in Limonene ]
+                   │
+                   ▼  + Dilute Food Acid: Vinegar (Acetic Acid) or Citric Acid
+    [ Polar Aqueous Phase: Clean Alkaloid Salts (Acetate/Citrate) ]
+                   │
+                   ▼  Evaporation
+         [ Food-Grade Mescaline / Alkaloid Crystals ]
+</code>
+
+=== 1. Elimination of neurotoxic petrochemicals ===
+* Traditional underground alkaloid extractions relied on hazardous petroleum distillates: naphtha, toluene, benzene, and xylene, paired with corrosive sodium hydroxide (lye).
+* 69Ron demonstrated that '''d-limonene''' (a natural monoterpene steam-distilled from citrus peels) exhibits an ideal non-polar dielectric constant for dissolving freebase alkaloids while carrying negligible toxicity, a pleasant citrus aroma, and biodegradability.
+
+=== 2. Calcium hydroxide (Pickling Lime) ===
+* Replaced dangerous sodium hydroxide with '''calcium hydroxide''' ($Ca(OH)_2$).
+* When mixed with dry plant powder and minimal water, calcium hydroxide creates a crumbly, non-sludgy "dry paste" that does not form intractable emulsions when stirred with d-limonene, allowing clean decantation without separatory funnels.
+
+=== 3. Acid salting and clean crystallization ===
+* Agitating the alkaloid-rich limonene with household white vinegar (dilute acetic acid) salts out the alkaloids into the water layer as acetates.
+* Evaporating the water layer yields clean alkaloid salts without petroleum residue. This methodology became the blueprint for subsequent green-chemistry protocols like the CIELO tek.
+
+== The controversy: vendor accusations and forum fallout ==
+
+Around 2011–2013, fierce controversy erupted across DMT-Nexus, Bluelight, and other entheogen forums regarding 69Ron and the Oilahuasca framework:
+* '''The Backlash:''' Several prominent forum moderators and chemistry contributors accused 69Ron of running an elaborate promotional campaign to sell essential oils through affiliated web vendors, alleging that Oilahuasca was "snake oil" and "dangerous pseudoscience."
+* '''The Expectation Gap:''' Dozens of forum users who attempted 69Ron's complex recipes—consuming combinations of elemi oil, nutmeg oil, clove oil, and enzyme inhibitors—reported either zero psychoactive effect, mild stimulant buzzes, or acute gastrointestinal distress, leading many to dismiss the entire framework as unworkable.
+
+== The Herbpedia revelation: zero classical baseline ==
+
+A forensic reading of 69Ron's own writings across Herbpedia and DMT-Nexus archives reveals the root cause of the controversy:
+
+<blockquote>
+'''69Ron openly admitted in multiple forum postings and Herbpedia entries that he had never in his life consumed MDMA, Mescaline, Amphetamine, or LSD ("Acid").'''
+</blockquote>
+
+=== 1. Comparison to textbook literature, not personal experience ===
+* When 69Ron described elemicin as "just like mescaline" or myristicin as "an MDMA-like experience," he was **not comparing them to actual drug experiences**.
+* Instead, he was comparing his subjective feelings of warmth, stimulation, pupil dilation, and mild perceptual brightness to the **written descriptions** found in Shulgin's ''PIHKAL'' and academic textbooks.
+* Having never experienced the overwhelming sensory saturation of 300 mg of mescaline or 120 mg of MDMA, 69Ron interpreted subtle, threshold central monoaminergic and adrenergic shifts as "mescaline-like."
+
+=== 2. Why some feel it and others do not ===
+This experiential disconnect explains the conflicting reception of Oilahuasca:
+* '''Recreational expectations lead to disappointment:''' Psychonauts seeking an intense, recreational entheogenic journey or club high found the mixture entirely inadequate.
+* '''Subtle neuromodulation is real:''' Researchers approaching the framework as an exercise in subtle metabolic tuning, cognitive enhancement, or mild mood elevation confirmed distinct physiological effects: marked stimulant drive, altered time perception, pupil changes, and prolonged wakefulness.
+* '''Extreme metabolic variability:''' Because the survival of intact allylbenzenes relies on individual liver genetics, individuals with differing CYP1A2, CYP2D6, and CYP3A4 phenotypes experience wildly disparate blood plasma concentrations.
+
+== Status of the research ==
+
+69Ron was neither an infallible prophet of legal psychedelics nor a pure snake-oil charlatan. He was an inventive, autodidactic lay researcher who successfully pioneered green d-limonene extraction and correctly identified that Cytochrome P450 enzymes govern allylbenzene metabolism.
+
+Oilahuasca remains **highly experimental research in metabolic tuning and enzyme kinetics**, not a shortcut to a classical recreational trip.
+
+See also: [[Bioavailability: Metabolic Enzymes, Transporters, and Synergistic Delivery]] · [[Sublingual Absorption, Salivary Enzymes, and Mucosal Bioavailability]] · [[Ubulawu, African Oneirogens, and Saponin Pharmacokinetics]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Allylbenzene Metabolism, Oswald Pathway, and Mace]] · [[Traditional Spiced Formulations and Synergistic Blends]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Cannabinoid Oilahuasca]] · [[Stack Substances]]

@@ -1,0 +1,176 @@
+'''Structure-Activity Relationships in Psychopharmacology''' examines how systematic, single-atom modifications to molecular scaffolds fundamentally redirect biological targets, receptor affinities, and subjective phenomenology. Across natural neurochemicals, synthetic cannabinoids, phenethylamines, and tryptamines, small steric or electronic adjustments dictate whether a molecule binds dopamine, serotonin, melatonin, cannabinoid, or oxytocin-regulating neuroendocrine circuits.
+
+This article details foundational SAR principles, Alexander Shulgin's "holy grail" 2-position rule in ''TIHKAL'' Entry #55 ($\alpha,N,O$-TMS), cross-receptor migration between neurotransmitter classes, cannabinoid chain-length dynamics, and the neuroendocrine oxytocin entactogen bridge.
+
+== Foundational principles of SAR ==
+
+Structure-Activity Relationship (SAR) is the discipline of mapping how chemical structure dictates biological response. Neuroreceptors and metabolic enzymes operate as stereospecific three-dimensional binding pockets:
+
+<code>
+                 [ MOLECULAR SCAFFOLD MODIFICATION ]
+                                  │
+          ┌───────────────────────┼───────────────────────┐
+          ▼                       ▼                       ▼
+   [ Steric Volume ]       [ Electronic Charge ]   [ Lipophilicity (logP) ]
+ (Alkyl chains, methyls)  (Phenols, methoxys, F)  (Blood-brain barrier flux)
+          │                       │                       │
+          └───────────────────────┼───────────────────────┘
+                                  ▼
+               [ Target Receptor & Enzyme Selection ]
+            (Serotonin vs. Dopamine vs. Melatonin vs. CB)
+</code>
+
+* '''Steric clashes and volume:''' Adding a bulky group can physically block entry into an enzyme or receptor pocket, or conversely fill an unoccupied hydrophobic groove to multiply binding affinity.
+* '''Hydrogen-bonding arrays:''' Exchanging a free phenolic hydroxyl (-OH) for a methoxy ether (-OCH3) or an acetyl ester (-OCOCH3) eliminates hydrogen bond donation, fundamentally altering receptor activation states.
+* '''Lipophilicity (logP):''' Governs membrane permeability, blood-brain barrier transport, and intracellular access.
+
+== Shulgin's SAR methodology: TIHKAL Entry #55 and α,N,O-TMS ==
+
+In ''PIHKAL'' and ''TIHKAL'', Alexander "Sasha" Shulgin executed one of the most systematic SAR campaigns in chemical history, synthesizing and human-bioassaying hundreds of structural analogs one functional group at a time:
+
+=== 1. The double meaning of α,N,O-TMS ===
+The final entry in the chemical section of ''TIHKAL'' (Entry #55) is titled '''α,N,O-TMS''':
+* '''The Analytical Reference (N,O-TMS):''' In analytical pharmacology and GC-MS mass spectrometry, "N,O-TMS" refers to derivatizing active protic hydrogens on amino (-NH) and hydroxyl (-OH) groups using silylating reagents like '''BSTFA''' (''N,O-bis(trimethylsilyl)trifluoroacetamide'').
+* '''The Molecular Entity:''' Shulgin applied this acronym as a chemical pun for '''5-methoxy-α,N-dimethyltryptamine''' (alpha,N,O-Trimethylserotonin), a derivative of serotonin carrying three specific methyl groups:
+** ''O-Methyl:'' At the 5-position (converting 5-OH serotonin into 5-MeO).
+** ''α-Methyl:'' At the alpha carbon of the ethylamine side chain (conferring metabolic resistance to MAO).
+** ''N-Methyl:'' At the terminal amine.
+
+=== 2. The 2-position "Holy Grail" rule ===
+In his commentary for Entry #55, Shulgin detailed what he regarded as a "holy grail" of tryptamine SAR—the rule governing 2-substitution on the indole nucleus:
+* '''Unsubstituted Tryptamines (Inactivation):'''
+: Adding a methyl group to the 2-position of an unsubstituted simple dialkyltryptamine (such as converting DMT into 2,N,N-TMT, or DET into 2,N,N-TET) '''completely abolishes or severely destroys psychedelic activity'''. The methyl group introduces steric strain that prevents the indole ring from binding flat against the 5-HT2A receptor active pocket.
+* '''Substituted Tryptamines (Activity Preservation):'''
+: Crucially, Shulgin discovered that if the molecule *already possesses* a substituent at the 4-position (such as psilocin) or at the 5-position (such as 5-MeO-DMT), adding a 2-methyl group '''preserves full psychedelic potency''':
+: <code>5-MeO-DMT (Active) ──► 5-MeO-2,N,N-TMT / Indapex (Fully Active)</code>
+: The presence of an electron-donating oxygen at C4 or C5 reconfigures the electronic topology of the indole nucleus, counteracting the steric displacement of the 2-methyl group and creating long-acting psychoactive compounds resistant to metabolic clearance.
+
+== Cross-receptor migration: Serotonin, Melatonin, and Dopamine ==
+
+Small structural adjustments migrate psychoactive scaffolds across entirely distinct neurochemical systems:
+
+{| class="wikitable"
+! Molecule !! Core structural scaffold !! Key functional group !! Target receptor !! Physiological state
+|-
+| '''Serotonin (5-HT)''' || Tryptamine || 5-Hydroxyl (-OH), free amine || 5-HT1, 5-HT2, 5-HT3 || Mood, gastrointestinal motility, vascular tone.
+|-
+| '''Melatonin''' || Tryptamine || 5-Methoxy (-OCH3), '''N-Acetyl (-NHCOCH3)''' || '''Melatonin MT1 / MT2''' || Circadian rhythm gating, sleep architecture (zero psychedelic effect).
+|-
+| '''Psilocin (4-OH-DMT)''' || Tryptamine || 4-Hydroxyl (-OH), dimethylamine || 5-HT2A / 5-HT2C / 5-HT1A || Classic visual psychedelic phenomenology.
+|-
+| '''5-MeO-DMT''' || Tryptamine || 5-Methoxy (-OCH3), dimethylamine || High-affinity 5-HT1A / 5-HT2A || Rapid, profound ego dissolution, non-visual peak states.
+|-
+| '''Dopamine''' || Phenethylamine || '''3,4-Dihydroxy (Catechol)''' || Dopamine D1–D5 || Reward, executive function, motor coordination.
+|-
+| '''Mescaline''' || Phenethylamine || '''3,4,5-Trimethoxy''' || 5-HT2A / 5-HT2C || Serotonergic psychedelic action (no dopamine receptor affinity).
+|-
+| '''MDMA''' || Phenethylamine / Amphetamine || '''3,4-Methylenedioxy''', α-methyl || SERT / VMAT2 / 5-HT1A || Entactogen, empathy, emotional openness, oxytocin surge.
+|}
+
+=== 1. Tryptamine ring positions and receptor migration ===
+* '''Serotonin to Melatonin:''' Acetylating the primary amine of serotonin completely shuts off affinity for 5-HT2A receptors while generating picomolar affinity for melatonin MT1 and MT2 receptors in the suprachiasmatic nucleus.
+* '''4-Position vs. 5-Position:''' Shifting an oxygen atom from the 4-position (psilocin) to the 5-position (5-MeO-DMT) pivots the primary target from the 5-HT2A receptor (visual distortions, perceptual shifts) toward high-affinity '''5-HT1A''' receptor activation, producing non-visual transcendental ego dissolution.
+
+=== 2. Phenethylamine SAR: Catecholamines to Psychedelics ===
+* Endogenous neurotransmitters (dopamine, norepinephrine) rely on a 3,4-dihydroxyphenethylamine catechol core.
+* Capping or shifting these hydroxyls to methoxy groups (as in mescaline, 2C-B, and DOM) eliminates binding to dopamine G-protein coupled receptors and shifts the molecule into the orthosteric pocket of 5-HT2A receptors.
+* Introducing an '''α-methyl group''' transforms phenethylamines into amphetamines (e.g., phenethylamine $\rightarrow$ amphetamine; 2C-T-2 $\rightarrow$ Aleph-2; MDA $\rightarrow$ MDMA), sterically blocking degradation by monoamine oxidase (MAO) and extending circulatory half-life from minutes to hours.
+
+== Cannabinoid SAR: chain lengths and quinones ==
+
+Cannabinoid pharmacology illustrates identical SAR principles:
+
+=== 1. Alkyl side-chain depth ===
+The length of the alkyl chain extending from the C3 position of the resorcinol ring dictates CB1 receptor affinity:
+* '''1 Carbon (OR-THC / Cannabiorcol):''' Minimal CB1 binding affinity; non-psychoactive.
+* '''3 Carbons (THCV):''' Functions as a neutral antagonist or weak partial agonist at physiological doses.
+* '''5 Carbons (Δ9-THC):''' Classical partial agonist ($K_i \approx 10\text{–}40\text{ nM}$).
+* '''7 Carbons (THCp):''' Bridges the full depth of the receptor's hydrophobic tunnel, increasing CB1 binding affinity by roughly 33-fold ($K_i \approx 1.2\text{ nM}$).
+
+=== 2. The quinone target shift ===
+* Preserving free phenolic hydroxyls maintains cannabinoid receptor binding (CB1/CB2).
+* Capping with esters (THC-O-acetate) creates lipophilic prodrugs.
+* Oxidizing the dihydroxy resorcinol into a '''1,4-benzoquinone (HU-331)''' completely abolishes CB1 psychotropic activity, transforming the molecule into a selective catalytic inhibitor of '''DNA topoisomerase IIα''' and an anti-neoplastic agent.
+
+== The neuroendocrine bridge: Oxytocin and Entactogens ==
+
+A central question in psychopharmacology is why specific structural families—most notably 3,4-methylenedioxy substituted phenethylamines (MDMA, MDA) and 5-methoxy substituted tryptamines (5-MeO-DMT)—evoke profound emotional openness, trust, and feelings of interpersonal bonding ("entactogenesis"):
+
+<code>
+[ Entactogen / 5-HT Agonist ] ──► ( Ingestion )
+                                        │
+                                        ▼
+             [ 5-HT1A / 5-HT2C Receptor Activation in Hypothalamus ]
+                                        │
+                                        ▼  Neuroendocrine Signaling
+             [ Paraventricular & Supraoptic Hypothalamic Nuclei ]
+                                        │
+                                        ▼  Exocytosis
+                     [ MASSIVE OXYTOCIN RELEASE ]
+                                        │
+         ┌──────────────────────────────┴──────────────────────────────┐
+         ▼                                                             ▼
+[ Central Oxytocin Signaling ]                                [ Peripheral Oxytocin Surge ]
+ • Suppresses amygdala fear response                           • Lowers autonomic vigilance
+ • Enhances social empathy & trust                             • Induces prosocial connection
+</code>
+
+=== 1. The 5-HT1A hypothalamic trigger ===
+* The hypothalamic paraventricular (PVN) and supraoptic (SON) nuclei synthesize the cyclic nonapeptide hormone '''oxytocin'''.
+* These hypothalamic neurosecretory cells express high densities of serotonergic '''5-HT1A''' and '''5-HT2C''' receptors.
+* Agonism of these receptors (via the direct action of 5-MeO-DMT or the massive serotonin dumping induced by MDMA) triggers calcium influx into magnocellular oxytocinergic neurons, causing rapid systemic and central release of oxytocin.
+
+=== 2. Emotional phenomenology and fear extinction ===
+* Elevated central oxytocin binds oxytocin receptors (OXTR) within the basolateral amygdala, directly suppressing fear and hypervigilance.
+* Simultaneously, oxytocinergic signaling in the nucleus accumbens enhances the rewarding salience of social interaction, accounting for the unique therapeutic efficacy of entactogens in treating Post-Traumatic Stress Disorder (PTSD) and facilitating emotional bonding.
+
+== The Fallacy of Syllogism in SAR: The Methylenedioxy Transformation ==
+
+In medicinal chemistry, Alexander Shulgin repeatedly cautioned against the seductive error of logical deduction: '''"It is not syllogism that rules structure-activity relationships."'''
+
+A classical philosophical syllogism asserts that if premise A is true and premise B is true, conclusion C must logically follow:
+* ''Premise 1:'' Methamphetamine is a potent dopaminergic motor stimulant causing hyper-locomotion, compulsive redosing, insomnia, and paranoia.
+* ''Premise 2:'' MDMA is chemically '''3,4-methylenedioxymethamphetamine'''—it literally contains the methamphetamine molecule inside its chemical name and structure.
+* ''False Syllogistic Deduction:'' Therefore, MDMA must be a "super-methamphetamine"—an even more intense, hyper-addictive, frenetic psychostimulant.
+
+<code>
+       [ THE COLLAPSE OF SYLLOGISTIC DEDUCTION IN PSYCHOPHARMACOLOGY ]
+
+          ( Methamphetamine )                         ( MDMA )
+     [ C6H5─CH2─CH(CH3)─NH(CH3) ]            [ 3,4-(CH2O2)─C6H3─CH2─CH(CH3)─NH(CH3) ]
+                  │                                             │
+      ┌───────────┴───────────┐                     ┌───────────┴───────────┐
+      ▼                       ▼                     ▼                       ▼
+ [ Target: DAT > NET ]  [ Motor Rush ]         [ Target: SERT >> DAT ]  [ Empathy/Trust ]
+  • Massive dopamine     • Compulsive redose    • Massive serotonin      • Oxytocin release
+  • Autonomic panic      • Severe insomnia      • Anti-aggressive        • Social vulnerability
+</code>
+
+=== 1. Why Syllogism Fails: Steric and Electronic Topology ===
+* Fusing the five-membered '''methylenedioxy ring''' ($-O-CH_2-O-$) across the 3- and 4-positions of the benzene ring introduces two oxygen electron lone pairs and expands the steric bulk of the aromatic face.
+* This seemingly modest addition completely alters how the molecule docks into monoamine transporters:
+** '''Transporter Reversal:''' The methylenedioxy group creates a steric clash inside the narrow substrate pore of the dopamine transporter (DAT), cutting dopamine-releasing potency by more than tenfold compared to methamphetamine.
+** '''SERT Selectivity:''' Concurrently, the oxygen atoms form high-affinity polar interactions within the broader vestibule of the serotonin transporter (SERT). The molecule flips from being a dopaminergic motor driver into a potent serotonin-releasing entactogen.
+** '''Phenomenological Transmutation:''' Rather than producing the paranoid, frenetic wakefulness of methamphetamine, MDMA induces deep emotional relaxation, quiet contemplation, tactile warmth, and an overwhelming desire for social connection driven by hypothalamic oxytocin secretion.
+
+=== 2. MDPH and the Unpredictable Methylenedioxy Series ===
+The methylenedioxy bridge can be attached to various phenethylamine scaffolds, producing wildly divergent outcomes:
+
+{| class="wikitable"
+! Molecule !! Chemical Name !! Core Structure !! Metabolic Fate !! Phenomenological Result
+|-
+| '''MDPH''' || 3,4-Methylenedioxyphenethylamine || Phenethylamine (No $\alpha$-methyl) || Rapidly deaminated by MAO || Essentially inactive orally at ordinary doses; lacks the $\alpha$-methyl shield.
+|-
+| '''MDA''' || 3,4-Methylenedioxyamphetamine || Amphetamine (Primary amine) || Slower CYP clearance || Potent psychedelic-entactogen; visual geometry, tactile warmth, auditory enhancement ($5\text{-HT}_{2A}$ + SERT).
+|-
+| '''MDMA''' || 3,4-Methylenedioxymethamphetamine || Methamphetamine ($N$-methyl) || Demethylated to MDA || Pure entactogen; high empathy, low classic visual hallucinations, massive oxytocin surge.
+|-
+| '''MDEA''' || 3,4-Methylenedioxy-$N$-ethylamphetamine || $N$-Ethyl amphetamine || Rapidly dealkylated || "Eve"—stoning, muscular relaxation, mild empathy; markedly shorter duration than MDMA.
+|-
+| '''MDPV''' || 3,4-Methylenedioxypyrovalerone || Pyrrolidinophenone (Cathinone) || Potent DAT/NET blocker || Extreme, highly compulsive psychostimulant with high risk of tachycardia and delirium.
+|}
+
+* '''The Lesson of MDPH (Homopiperonylamine):''' If syllogism ruled SAR, one would assume that if MDA and MDMA are active, stripping away the side-chain methyl groups to leave MDPH would produce a gentle, baseline entactogen. In reality, without the $\alpha$-methyl group to sterically block monoamine oxidase, hepatic MAO deaminates MDPH almost immediately upon ingestion, rendering it completely inert in human trials.
+* Every single functional group—an oxygen bridge, a methyl group, an amine substitution—alters receptor kinetics, metabolic clearance, and phenomenological expression in ways that cannot be deduced from nomenclature alone.
+
+See also: [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Catecholamines, Transporters, and Monoamine Reuptake]] · [[The 2C Series and Extended Phenethylamines]] · [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]] · [[Cannabinoid Quinones and Novel Derivatives]] · [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Modified Cannabinoids Matrix]] · [[The Expanded Endocannabinoid System and FAAH Science]] · [[Stack Substances]]
