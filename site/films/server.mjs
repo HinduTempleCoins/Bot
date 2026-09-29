@@ -20,7 +20,8 @@ import * as horrorTax from '../../integrations/soapbox/horror-taxonomy.mjs';
 import * as classicFilms from '../../integrations/soapbox/classic-films.mjs';
 
 // Every free copy the Stream has cleared: curated public-domain horror + the public-domain classics.
-const freeLists = () => [...(horrorTax.PD_HORROR_FILMS || []), ...(classicFilms.PD_CLASSICS || [])];
+import { allFreeFilms } from '../../integrations/soapbox/free-film-registry.mjs';
+const freeLists = () => allFreeFilms();
 import { createServer } from 'node:http';
 import { readFileSync, statSync, mkdirSync, appendFileSync } from 'node:fs';
 import { createHash, randomBytes } from 'node:crypto';
@@ -524,7 +525,7 @@ function homePage() {
   const orig = originals();
   const popular = cat.list.slice(0, 24);
   const free = [];
-  for (const f of [...(classicFilms.PD_CLASSICS || []), ...(horrorTax.PD_HORROR_FILMS || [])]) {
+  for (const f of allFreeFilms()) {
     const m = filmForStream({ ia: f.id, title: f.title, year: f.year });
     if (m && cat.byId.get(m.id) && !free.some((x) => x.id === m.id)) free.push(cat.byId.get(m.id));
     if (free.length >= 24) break;
