@@ -347,6 +347,18 @@ A woman wearing the Double Crown of Upper and Lower Egypt, in a bright red or bl
 
 Sources: <https://en.wikipedia.org/wiki/Mut>
 
+### Heka
+
+A man wearing the hemhem crown and the sidelock of youth, carrying crook, flail and ankh; in his magical form holding two serpents crossed over each other, with the hieroglyph of his name (a lion's hindquarters) on a standard on his head. Also shown as a man with a magic staff and a knife, the healer's tools. The crossed serpents are his own emblem — do not render them as the Greek winged caduceus.
+
+Sources: <https://en.wikipedia.org/wiki/Heka_(god)> · <https://ancientegyptonline.co.uk/heka/>
+
+### Heqet
+
+A frog, or a woman with the head of a frog; in birth-house reliefs (Dendera mammisi) she attends Khnum as he moulds a child on his potter's wheel. Her name is written with a frog determinative, and Middle Kingdom ritual ivory knives and clappers used to ward off evil in childbirth carry it; frog amulets were worn in childbirth.
+
+Sources: <https://en.wikipedia.org/wiki/Heqet> · <https://ancientegyptonline.co.uk/heqet/>
+
 ## Norse
 
 Almost no pre-Christian cult images survive, so looks rest mainly on textual description in the Poetic and Prose Eddas and sagas, plus a few carved stones and Migration-Period bracteates. Where the sources are silent the entry says so rather than inventing. **Do not use horned or winged helmets** — a 19th-century (Wagner-era) invention; no Viking-Age text mentions them. **Do not use Marvel-film designs.**
@@ -595,9 +607,26 @@ Aniconic: the Self is formless and is NOT depicted as a figure; if an image is n
 
 Sources: <https://en.wikipedia.org/wiki/%C4%80tman_(Hinduism)> · <https://en.wikipedia.org/wiki/Brahman>
 
+## Canaanite & Phoenician
+
+Very few Phoenician cult images survive and large cult statues seem not to have been made; looks rest on votive stelae, coins and a few reliefs, cross-checked with Wikipedia, the *Encyclopedia of Religion* (via Encyclopedia.com) and World History Encyclopedia. Heraclean or Graeco-Roman forms are later overlays and are flagged as such.
+
+### Melqart
+
+A striding bearded man, bare-chested and barefoot, in a short loincloth-skirt and a conical, dome-shaped cap, a fenestrated axe over his shoulder and an ankh or lotus flower in his other hand (the 9th–8th c. BCE Bir-Hadad stele from near Aleppo). On Tyrian silver coins he rides a hippocamp (seahorse) and holds a bow. The lion skin and club are Heraclean iconography adopted from the 6th c. BCE (Cyprus, Gades coins), a Hellenized form; at Tyre itself the Phoenicians made no large cult statue — he was represented by an eternal fire.
+
+Sources: <https://en.wikipedia.org/wiki/Melqart> · <https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/melqart> · <https://www.worldhistory.org/Melqart/>
+
+### Tanit
+
+Mostly aniconic: the sign of Tanit — a disc head over a horizontal bar of arms on a triangle or trapezium body, later a woman raising her hands — carved on Tophet votive stelae, often under a crescent moon and beside palm motifs. On Carthaginian coins, a woman's head, with a horse and a date palm on the reverse. Also shown riding a lion or lion-headed (her warrior aspect), sometimes naked or bare-breasted; dove, horse and date palm are her animals and tree. The sign's link to Tanit is widely but not universally accepted.
+
+Sources: <https://en.wikipedia.org/wiki/Tanit> · <https://en.wikipedia.org/wiki/Sign_of_Tanit>
+
 ## General sources
 
 - Theoi Project — https://www.theoi.com/
 - Horned helmets and the Vikings — https://en.wikipedia.org/wiki/Horned_helmet
 - Amun-Re depiction, Karnak Great Hypostyle Hall Project (University of Memphis) — https://www.memphis.edu/hypostyle/meaning_function/amun-re.php
 - World History Encyclopedia — https://www.worldhistory.org/
+- Encyclopedia of Religion (via Encyclopedia.com) — https://www.encyclopedia.com/

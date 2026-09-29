@@ -263,10 +263,10 @@ export const GIRL = {
     { t: 'Taken', y: '2008', note: 'Almost on genre: a trafficking ring, but the film is about her father doing the killing, not her' },
   ],
   whereToWatch: {
-    asOf: 'Sep 2026. Tubi rotates monthly — treat as leads, not guarantees.',
-    seen: 'Martyrs, I Spit on Your Grave (2010) + Deja Vu, Even Lambs Have Teeth, Ms .45, Freeway, Final Girl, Revenge, Ravage, Raze',
-    cycles: 'Caged, Bound to Vengeance, Would You Rather, Black Rock, While She Was Out, Hunt Her Kill Her, Avenged, Carnage Park',
-    elsewhere: 'The Furies (Shudder), Fresh / The Princess / Run Hide Fight (Hulu), Till Death / You\'re Next / Becky (Netflix/Prime), Wait Until Dark (rental)',
+    asOf: '29 Sep 2026 (checked against JustWatch, Reelgood and the services\' own pages). Free catalogues rotate monthly — treat as leads, not guarantees.',
+    seen: 'Free on Tubi: Martyrs, Even Lambs Have Teeth, Hunt Her Kill Her, While She Was Out, Final Girl, Ravage, Avenged, Black Rock, I Spit on Your Grave (2010) + Deja Vu, Revenge, Ms .45, American Mary, Eden Lake',
+    cycles: 'Free elsewhere: Raze and Would You Rather (Kanopy, with a library card); The Furies (Hoopla); Carnage Park (Roku Channel, Plex, Kanopy); Freeway (Roku Channel, Plex, YouTube Free — Tubi has Spanish audio only); Hunt Her Kill Her and I Spit on Your Grave also on the Roku Channel',
+    elsewhere: 'Not free anywhere right now: Caged (rent), Bound to Vengeance (AMC+, Sundance Now). Usually on subscription: Fresh / The Princess / Run Hide Fight (Hulu), Till Death / You\'re Next / Becky (Netflix/Prime), Wait Until Dark (rental)',
   },
   findMore: {
     loglines: [
