@@ -23,6 +23,8 @@
 //            renderList, dataNote, __setFetch } from './books-open.mjs'
 //   node integrations/soapbox/books-open.mjs "frankenstein"   # search the keyless sources
 
+import { readFileSync } from 'node:fs';
+
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
 
@@ -42,9 +44,29 @@ function esc(s) {
 
 function clamp(n, def = 12) { return Math.max(1, Math.min(50, Number(n) || def)); }
 
+// Per-upstream time budget. Gutendex in particular does not refuse datacenter IPs cleanly — it
+// accepts the connection and never answers, which hung every library search for 60-90 s. No single
+// source may hold a search hostage: each fetch is abandoned after this budget and soft-fails to empty.
+let UPSTREAM_TIMEOUT_MS = Math.max(500, Number(process.env.BOOKS_UPSTREAM_TIMEOUT_MS) || 6000);
+/** test hook: shorten the per-upstream deadline. */
+export function __setUpstreamTimeout(ms) { UPSTREAM_TIMEOUT_MS = Math.max(1, Number(ms) || 6000); }
+
+// fetch with a hard deadline. Races the fetch against a timer (so even an injected fetch that ignores
+// AbortSignal cannot hang the caller) and passes an AbortSignal so a real fetch is actually cancelled.
+function timedFetch(url, opts = {}, ms) {
+  if (!ms) ms = UPSTREAM_TIMEOUT_MS;
+  const ctl = typeof AbortController === 'function' ? new AbortController() : null;
+  let timer;
+  const deadline = new Promise((_, reject) => {
+    timer = setTimeout(() => { if (ctl) ctl.abort(); reject(new Error('upstream timeout')); }, ms);
+  });
+  const req = Promise.resolve().then(() => _fetch(url, ctl ? { ...opts, signal: ctl.signal } : opts));
+  return Promise.race([req, deadline]).finally(() => clearTimeout(timer));
+}
+
 async function getJson(url, opts = {}) {
   try {
-    const r = await _fetch(url, { headers: UA, ...opts });
+    const r = await timedFetch(url, { headers: UA, ...opts });
     if (!r || !r.ok) return null;
     return await r.json();
   } catch { return null; }
@@ -251,7 +273,7 @@ export async function searchGutenbergOPDS({ query = '', limit = 12 } = {}) {
   if (!q) return [];
   const url = `${GUTENBERG_SITE}/ebooks/search/?query=${encodeURIComponent(q)}&format=opds`;
   try {
-    const r = await _fetch(url, { headers: { accept: 'application/atom+xml' } });
+    const r = await timedFetch(url, { headers: { accept: 'application/atom+xml' } });
     if (!r || !r.ok) return [];
     return parseGutenbergOPDS(await r.text(), limit);
   } catch {
@@ -315,14 +337,16 @@ function dedupeKey(b) {
  * @param {{query?:string, limit?:number}} opts
  */
 export async function search({ query = '', limit = 12 } = {}) {
-  let [pg, ol, ia] = await Promise.all([
+  // Gutendex is gated against datacenter IPs (a 403, or a connection that never answers), so an
+  // empty public-domain tier is the normal case on a server. Gutenberg's own OPDS feed is queried in
+  // PARALLEL rather than after Gutendex gives up, so the fallback never adds its latency on top.
+  let [pg, ol, ia, opds] = await Promise.all([
     searchGutenberg({ query, limit }).catch(() => []),
     searchOpenLibrary({ query, limit }).catch(() => []),
     searchIAtexts({ query, limit }).catch(() => []),
+    searchGutenbergOPDS({ query, limit }).catch(() => []),
   ]);
-  // Gutendex is Cloudflare-gated against datacenter IPs, so an empty public-domain tier is the
-  // normal case on a server. Fall back to Gutenberg's own OPDS feed rather than lose the PD half.
-  if (!pg.length) pg = await searchGutenbergOPDS({ query, limit }).catch(() => []);
+  if (!pg.length) pg = opds;
   const seen = new Set();
   const out = [];
   for (const b of [...pg, ...ia, ...ol]) {         // host first, then window, then aggregate
@@ -346,6 +370,23 @@ function postureLabel(posture) {
 }
 
 /** Escaped HTML list of books; shows posture + a Read/Download link (+ epub/text for PD). PURE; soft-handles empties. */
+// Books → films: a Gutenberg book that has been filmed links to SoapBox Films' "Films of this book" page.
+// Index built by integrations/films-based-on.mjs (data/films/based-on.json); read lazily, soft-fail to none.
+export const FILMS_BASE = () => (process.env.FILMS_URL || 'https://stream.soapbox.community/films').replace(/\/$/, '');
+let _filmed = null;
+export function filmedGutenbergIds() {
+  if (_filmed && Date.now() - _filmed.at < 600000) return _filmed.ids;
+  let ids = new Set();
+  try {
+    const dir = process.env.FILMS_DATA_DIR || new URL('../../data/films/', import.meta.url).pathname;
+    const j = JSON.parse(readFileSync(`${dir.replace(/\/$/, '')}/based-on.json`, 'utf8'));
+    ids = new Set(Object.keys(j.byGutenberg || {}));
+  } catch { /* no index yet */ }
+  _filmed = { at: Date.now(), ids };
+  return ids;
+}
+export function __setFilmed(ids) { _filmed = { at: Date.now(), ids: new Set(ids || []) }; }
+
 export function renderList(books = []) {
   const list = Array.isArray(books) ? books : [];
   const parts = ['<section class="books-open"><h2>Books &amp; documents</h2>'];
@@ -361,6 +402,8 @@ export function renderList(books = []) {
       const dl = [];
       if (fmt.epub) dl.push(`<a href="${esc(fmt.epub)}" rel="noopener noreferrer">epub</a>`);
       if (fmt.text) dl.push(`<a href="${esc(fmt.text)}" rel="noopener noreferrer">text</a>`);
+      const gid = /^gutenberg-(\d+)$/.exec(String(b.id || ''));
+      if (gid && filmedGutenbergIds().has(gid[1])) dl.push(`<a href="${esc(`${FILMS_BASE()}/book?gutenberg=${gid[1]}`)}">🎬 films of this book</a>`);
       const dlSpan = dl.length ? ` <span class="dl">[${dl.join(' · ')}]</span>` : '';
       parts.push(
         `<li>${link}${yr} — ${esc(b.author || 'Unknown')} `
