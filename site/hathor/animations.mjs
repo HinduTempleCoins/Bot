@@ -128,6 +128,7 @@ export function animationsBody(manifest, agg, { sort = 'new' } = {}) {
     .an-v{font-size:15px}.an-v.on{border-color:var(--gold)}.an-com{font-size:13px;margin:8px 0 0;padding-left:18px}.an-tbl th{text-align:left;padding-right:10px;font-size:13px;vertical-align:top}
     .pill.on{border-color:var(--gold);color:var(--gold)}</style>
     <h1>Animation lab <span class=muted style="font-size:14px">· Hathor is learning to animate</span></h1>
+    <div class=card style="border-color:var(--gold)"><b>Alpha.</b> These are Hathor's first test animations, made on our own servers. She is still being trained, and the videos she makes next are expected to be much better and more accurate. Your votes and comments are part of that training.</div>
     <p class=muted>Short test animations Hathor makes on our own servers from the <a href="/remakes">Remakes</a> and the characters she is building.
       They are rough on purpose: tell her what works. 👍 or 👎 each one, and say why if you can. Every clip records how it was made, so your votes
       decide what she makes next.</p>

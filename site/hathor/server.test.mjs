@@ -639,6 +639,7 @@ test('/animations: clips render with recipe chips, votes count once per voter, f
   const page = await call({ url: '/animations' });
   assert.equal(page.statusCode, 200);
   assert.match(page.text(), /The Pythia/);
+  assert.match(page.text(), /<b>Alpha\.<\/b>[^<]*much better and more accurate/);
   assert.doesNotMatch(page.text(), /Banquet <b>/);
   assert.match(page.text(), /\/animations\/media\/abcdef012345\/clip\.mp4/);
   const vote = (v, voter = 'voterkey-aaaaaaaaaaaa', comment = '') => call({ method: 'POST', url: '/api/animations/rate', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ id: 'abcdef012345', voter, vote: v, comment }).toString() });
