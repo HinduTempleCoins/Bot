@@ -16,6 +16,7 @@
 
 import { readFileSync, existsSync, appendFileSync, mkdirSync, statSync, createWriteStream, createReadStream, renameSync, openSync, readSync, closeSync } from 'node:fs';
 import { ENGINE_CLIENT_JS } from './engines.mjs';
+import * as TK from './video-studio-toolkit.mjs';
 import { join, dirname } from 'node:path';
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -174,6 +175,7 @@ ${alphaBox()}
   <p style="margin-top:10px"><button type=submit id=vsgo>Plan my film</button> <span class=muted id=vsmsg style="font-size:12px"></span></p>
 </form>
 <div id=vsplan></div>
+<p><a class=pill href="/video-studio/toolkit">Toolkit — animate your images, subtitles, maps, remakes, your own data →</a></p>
 <p class=muted>See what others made in the <a href="/video-studio/gallery">gallery</a> · <a href="/video-studio/tools">the free and open tools it is built with</a> · <a href="/video-studio/docs">add your own API</a></p>
 <script>${ENGINE_CLIENT_JS}
 ${VS_CLIENT_JS}</script>`;
@@ -186,12 +188,14 @@ export function jobBody(job, q) {
   const video = job.status === 'done' ? `<video controls playsinline preload=metadata style="width:100%;max-width:960px;border-radius:10px;background:#000" poster="/video-studio/media/${esc(job.id)}/poster.jpg" src="/video-studio/media/${esc(job.id)}/video.mp4"></video>
 <p><a class=pill href="/video-studio/media/${esc(job.id)}/video.mp4" download>Download</a> <span class=muted style="font-size:12px">${esc(job.durationSecs ? `${Math.round(job.durationSecs / 60 * 10) / 10} min` : '')}</span></p>` : '';
   const sources = (job.plan && job.plan.sources || []).map((s) => `<li>${esc(s)}</li>`).join('');
+  const subs = job.tool === 'subtitles' && job.status === 'done' ? `<div class=card><b>Subtitles</b> <a class=pill href="/video-studio/media/${esc(job.id)}/subtitles.vtt" download>Download .vtt</a>${job.params && job.params.url ? ` <a class=pill href="${esc(job.params.url)}" target=_blank rel=noopener>the video</a>` : ''}<pre id=vtt style="white-space:pre-wrap;font-size:12px;max-height:420px;overflow:auto"></pre></div><script>fetch('/video-studio/media/${esc(job.id)}/subtitles.vtt').then(function(r){return r.text()}).then(function(t){document.getElementById('vtt').textContent=t})</script>` : '';
   return `<h1>${esc(job.plan && job.plan.title || job.topic)}</h1>
 ${alphaBox()}
 <div class=card><b>Status:</b> <span id=vsstatus>${esc(status)}</span>${job.error ? ` — <span class=muted>${esc(job.error)}</span>` : ''}
 ${job.status === 'planned' ? `<form method=post action="/video-studio/api/jobs/${esc(job.id)}/render" style="margin-top:8px"><button>Render it</button> <span class=muted style="font-size:12px">${shots.length} shots · ~${esc(job.minutes)} min · edit below first if you like</span></form>` : ''}</div>
-${video}
-${job.status === 'planned' ? `<details class=card><summary><b>Edit the plan</b> (JSON)</summary><form method=post action="/video-studio/api/jobs/${esc(job.id)}/plan"><textarea class=q name=plan style="min-height:240px;font-family:monospace;font-size:12px">${esc(JSON.stringify(job.plan, null, 1))}</textarea><button>Save plan</button></form></details>` : ''}
+${job.tool && job.tool !== 'film' ? `<p class=muted>Tool: <b>${esc((TK.TOOLS[job.tool] || {}).name || job.tool)}</b>${(job.inputs || []).length ? ` · ${job.inputs.length} of your files` : ''}</p>` : ''}
+${job.tool === 'subtitles' ? subs : video}
+${job.status === 'planned' && (!job.tool || job.tool === 'film' || job.tool === 'documentary') ? `<details class=card><summary><b>Edit the plan</b> (JSON)</summary><form method=post action="/video-studio/api/jobs/${esc(job.id)}/plan"><textarea class=q name=plan style="min-height:240px;font-family:monospace;font-size:12px">${esc(JSON.stringify(job.plan, null, 1))}</textarea><button>Save plan</button></form></details>` : ''}
 <h2>Shot plan <span class=muted style="font-size:13px">(${shots.length} shots)</span></h2><ol style="font-size:13px">${planList}</ol>${shots.length > 200 ? `<p class=muted>…and ${shots.length - 200} more.</p>` : ''}
 <h2>Sources &amp; licences</h2><ul style="font-size:13px">${sources || '<li class=muted>—</li>'}<li>Sound: ${esc(job.plan && job.plan.music && job.plan.music.name || '')}</li></ul>
 ${['queued', 'rendering'].includes(job.status) ? `<script>setTimeout(function(){location.reload()},15000)</script>` : ''}`;
@@ -315,8 +319,13 @@ function workerAuth(req) {
 }
 
 /** Create a job from a browser request. → { code, body } */
-export function createJob(body, ip, manifest, base) {
+export function createJob(body, ip, manifest, base, keyVoter = null) {
   if (!body || typeof body !== 'object') return { code: 400, body: { ok: false, error: 'bad request' } };
+  const tool = body.tool == null ? 'film' : String(body.tool);
+  if (!TK.TOOLS[tool] || TK.TOOLS[tool].status === 'page') return { code: 400, body: { ok: false, error: `tool must be one of ${Object.keys(TK.TOOLS).filter((k) => !TK.TOOLS[k].status).join(', ')}` } };
+  if (keyVoter) body = { ...body, voter: `key-${keyVoter}` };
+  const params = body.params && typeof body.params === 'object' ? Object.fromEntries(Object.entries(body.params).slice(0, 20).map(([k, v]) => [String(k).slice(0, 40), typeof v === 'number' ? v : String(v).slice(0, 500)])) : {};
+  if (tool !== 'film' && !body.topic) body = { ...body, topic: params.title || params.topic || TK.TOOLS[tool].name };
   const topic = String(body.topic || '').replace(/\s+/g, ' ').trim().slice(0, 200);
   const minutes = LENGTHS.includes(+body.minutes) ? +body.minutes : 10;
   const style = STYLES[body.style] && !STYLES[body.style].disabled ? body.style : 'eerie';
@@ -324,16 +333,24 @@ export function createJob(body, ip, manifest, base) {
   if (topic.length < 3) return { code: 400, body: { ok: false, error: 'Tell it what the film is about.' } };
   if (!/^[A-Za-z0-9-]{16,64}$/.test(voter)) return { code: 400, body: { ok: false, error: 'bad visitor key' } };
   if (!rateOk(`create:${ip}`, 12)) return { code: 429, body: { ok: false, error: 'Slow down a little.' } };
-  const vh = voterHash(voter);
+  const vh = keyVoter || voterHash(voter);
   const jobs = [...loadJobs().values()];
   const mine = jobs.filter((j) => j.voter === vh && j.day === today()).length;
   if (mine >= LIMITS.perVisitorPerDay) return { code: 429, body: { ok: false, error: `That is ${LIMITS.perVisitorPerDay} films today — come back tomorrow, or run it on your own worker.` } };
   const tags = (Array.isArray(body.tags) ? body.tags : []).map((t) => String(t).slice(0, 40)).slice(0, 10);
-  const plan = body.plan ? cleanPlan(body.plan, { minutes }) : ourPlan({ topic, minutes, style, tags }, manifest, base);
+  const inputs = (Array.isArray(body.inputs) ? body.inputs : []).slice(0, 60).map(String);
+  for (const id of inputs) { const u = TK.getUpload(id); if (!u || u.voter !== vh) return { code: 400, body: { ok: false, error: `input ${id.slice(0, 8)}… is not one of your uploads` } }; }
+  const kinds = inputs.map((id) => TK.getUpload(id).kind);
+  if (tool === 'animate' && !kinds.filter((k) => k === 'image').length) return { code: 400, body: { ok: false, error: 'upload at least one image' } };
+  if (tool === 'subtitles' && !kinds.includes('video') && !/^https:\/\/[^\s"'<>]{4,1000}\.(mp4|webm)(\?.*)?$/i.test(String(params.url || ''))) return { code: 400, body: { ok: false, error: 'give an https .mp4/.webm URL or upload a video' } };
+  if (tool === 'map' && !kinds.some((k) => k === 'geojson' || k === 'csv')) return { code: 400, body: { ok: false, error: 'upload a GeoJSON or a route CSV' } };
+  const plan = tool === 'film' || tool === 'documentary'
+    ? (body.plan ? cleanPlan(body.plan, { minutes }) : ourPlan({ topic, minutes, style, tags }, manifest, base))
+    : { title: topic, minutes, style, engine: 'ours', chapters: [], sources: [...new Set(inputs.map((id) => `Your ${TK.getUpload(id).kind} (${TK.getUpload(id).licence})`))], music: { name: 'Synthesized ambient drone (made by the renderer — no third-party recording)', licence: 'none needed' } };
   if (!plan) return { code: 400, body: { ok: false, error: 'The plan was empty or not valid.' } };
   const engines = { plan: STAGES.plan.providers.includes(body.engines && body.engines.plan) ? body.engines.plan : 'ours', images: STAGES.images.providers.includes(body.engines && body.engines.images) ? body.engines.images : 'ours', motion: 'ours', music: 'ours' };
   const id = randomBytes(8).toString('hex');
-  const job = { id, topic, minutes, style, tags, engines, public: body.public !== false, voter: vh, day: today(), created: Date.now(), status: 'planned', plan };
+  const job = { id, tool, topic, minutes, style, tags, engines, params, inputs, public: body.public !== false && body.public != null ? !!body.public : tool === 'film', voter: vh, day: today(), created: Date.now(), status: 'planned', plan };
   if (!saveJob(job)) return { code: 500, body: { ok: false, error: 'store unavailable' } };
   return { code: 200, body: { ok: true, id } };
 }
@@ -341,6 +358,7 @@ export function createJob(body, ip, manifest, base) {
 /** Move a planned job into the ours queue, respecting the daily CPU budget. */
 export function queueJob(job) {
   if (!job || job.status !== 'planned') return { ok: false, error: 'not in a state that can render' };
+  if (TK.toolStatus(job.tool || 'film') !== 'live') return { ok: false, error: `Rendering for "${TK.TOOLS[job.tool].name}" opens soon — your inputs are saved and validated, and this job will be kept.` };
   const used = [...loadJobs().values()].filter((j) => j.queuedDay === today() && j.id !== job.id && ['queued', 'rendering', 'done'].includes(j.status)).reduce((n, j) => n + (+j.minutes || 1), 0);
   if (used + (+job.minutes || 1) > LIMITS.oursMinutesPerDay) return { ok: false, error: `Our free CPU is full for today (${LIMITS.oursMinutesPerDay} minutes of film a day). Try a shorter film, tomorrow, or your own worker.` };
   saveJob({ ...job, status: 'queued', queuedDay: today(), queuedAt: Date.now() });
@@ -349,8 +367,8 @@ export function queueJob(job) {
 
 export function serveMedia(req, res, id, file) {
   const full = join(MEDIA(id), file);
-  if (!/^[a-f0-9]{16}$/.test(id) || !/^(video\.mp4|poster\.jpg)$/.test(file) || !existsSync(full)) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
-  const type = file.endsWith('.mp4') ? 'video/mp4' : 'image/jpeg';
+  if (!/^[a-f0-9]{16}$/.test(id) || !/^(video\.mp4|poster\.jpg|subtitles\.vtt)$/.test(file) || !existsSync(full)) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+  const type = file.endsWith('.mp4') ? 'video/mp4' : file.endsWith('.vtt') ? 'text/vtt; charset=utf-8' : 'image/jpeg';
   const size = statSync(full).size;
   const range = /^bytes=(\d*)-(\d*)$/.exec(String((req.headers && req.headers.range) || ''));
   if (range && type === 'video/mp4') {
@@ -393,12 +411,32 @@ export async function videoStudioRoute(req, res, path, ctx) {
     if (path === '/video-studio/docs') { page('Add your own API — Video Studio', docsBody(ctx.base)); return true; }
     let m = /^\/video-studio\/job\/([a-f0-9]{16})$/.exec(path);
     if (m) { const j = getJob(m[1]); if (!j) { page('Not found — Video Studio', '<h1>Not found</h1>'); return true; } page(`${j.plan && j.plan.title || j.topic} — Video Studio`, jobBody(j, queueInfo(j))); return true; }
-    m = /^\/video-studio\/media\/([a-f0-9]{16})\/(video\.mp4|poster\.jpg)$/.exec(path);
+    m = /^\/video-studio\/media\/([a-f0-9]{16})\/(video\.mp4|poster\.jpg|subtitles\.vtt)$/.exec(path);
     if (m) { serveMedia(req, res, m[1], m[2]); return true; }
 
     // ── public API ──
     if (path === '/video-studio/api/plan-prompt' && method === 'POST') { const b = await readJson(req, 64 * 1024); json(res, 200, { ok: true, prompt: planPrompt({ topic: String(b && b.topic || '').slice(0, 200), minutes: LENGTHS.includes(+(b && b.minutes)) ? +b.minutes : 10, style: b && b.style }) }); return true; }
-    if (path === '/video-studio/api/jobs' && method === 'POST') { const b = await readJson(req, 40 * 1024 * 1024); const r = createJob(b, ip, ctx.loadRemakes(), ctx.base); json(res, r.code, r.body); return true; }
+    if (path === '/video-studio/api/jobs' && method === 'POST') { const b = await readJson(req, 40 * 1024 * 1024); const r = createJob(b, ip, ctx.loadRemakes(), ctx.base, TK.voterFromKey(req)); json(res, r.code, r.body); return true; }
+    if (path === '/video-studio/toolkit') { page('Toolkit — everything we do, with your engines and your data', TK.toolkitBody()); return true; }
+    if (path === '/video-studio/data') { page('Your data — formats, templates, API', TK.dataBody(ctx.base)); return true; }
+    m = /^\/video-studio\/data\/([a-z0-9.-]+)$/.exec(path);
+    if (m) {
+      const t = TK.TEMPLATES[m[1]]; const sc = TK.SCHEMAS[m[1]];
+      if (!t && !sc) { res.writeHead(404, { 'content-type': 'text/plain' }); res.end('not found'); return true; }
+      res.writeHead(200, { 'content-type': `${t ? t.type : 'application/schema+json'}; charset=utf-8`, 'content-disposition': `attachment; filename="${m[1]}"` }); res.end(t ? t.body : JSON.stringify(sc, null, 1)); return true;
+    }
+    m = /^\/video-studio\/u\/([a-f0-9]{32})$/.exec(path);
+    if (m) { TK.serveUpload(res, m[1]); return true; }
+    if (path === '/video-studio/api/uploads' && method === 'PUT') {
+      const u = new URL(req.url, 'http://x');
+      const kv = TK.voterFromKey(req); const v = String(u.searchParams.get('voter') || '');
+      if (!kv && !/^[A-Za-z0-9-]{16,64}$/.test(v)) { json(res, 400, { ok: false, error: 'bad visitor key' }); return true; }
+      if (!rateOk(`up:${ip}`, 120)) { json(res, 429, { ok: false, error: 'rate-limited' }); return true; }
+      const r = await TK.receiveUpload(req, { voter: kv || voterHash(v), kind: String(u.searchParams.get('kind') || ''), licence: String(u.searchParams.get('licence') || ''), type: String((req.headers && req.headers['content-type']) || '').split(';')[0].trim().toLowerCase() });
+      json(res, r.code, r.body); return true;
+    }
+    if (path === '/video-studio/api/keys' && method === 'POST') { const b = await readJson(req, 4096); const v = String(b && b.voter || ''); if (!/^[A-Za-z0-9-]{16,64}$/.test(v) || !rateOk(`key:${ip}`, 10)) { json(res, 400, { ok: false, error: 'bad visitor key' }); return true; } const k = TK.issueKey(voterHash(v)); json(res, k ? 200 : 429, k ? { ok: true, key: k, note: 'Shown once. Send it as Authorization: Bearer <key>.' } : { ok: false, error: 'key limit reached' }); return true; }
+    if (path === '/video-studio/api/validate' && method === 'POST') { const b = await readJson(req, 25 * 1024 * 1024); json(res, 200, TK.validate(String(b && b.kind || ''), String(b && b.data || ''))); return true; }
     m = /^\/video-studio\/api\/jobs\/([a-f0-9]{16})$/.exec(path);
     if (m && method === 'GET') { const j = getJob(m[1]); if (!j) { json(res, 404, { ok: false }); return true; } const { voter, ...pub } = j; json(res, 200, { ok: true, job: { ...pub, queue: queueInfo(j) } }); return true; }
     m = /^\/video-studio\/api\/jobs\/([a-f0-9]{16})\/(render|plan)$/.exec(path);
@@ -420,14 +458,15 @@ export async function videoStudioRoute(req, res, path, ctx) {
         const next = [...loadJobs().values()].filter((j) => j.status === 'queued').sort((a, b) => a.queuedAt - b.queuedAt)[0];
         if (!next) { json(res, 200, { ok: true, job: null }); return true; }
         saveJob({ ...next, status: 'rendering', stage: 'starting', pct: 0, startedAt: Date.now() });
-        json(res, 200, { ok: true, job: { id: next.id, topic: next.topic, minutes: next.minutes, style: next.style, plan: next.plan } }); return true;
+        const inputs = (next.inputs || []).map((u) => { const r = TK.getUpload(u); return r ? { id: u, kind: r.kind, type: r.type, licence: r.licence, url: `${ctx.base}/video-studio/u/${u}` } : null; }).filter(Boolean);
+        json(res, 200, { ok: true, job: { id: next.id, tool: next.tool || 'film', topic: next.topic, minutes: next.minutes, style: next.style, params: next.params || {}, inputs, plan: next.plan } }); return true;
       }
-      m = /^\/video-studio\/api\/worker\/([a-f0-9]{16})\/(progress|done|fail|video\.mp4|poster\.jpg)$/.exec(path);
+      m = /^\/video-studio\/api\/worker\/([a-f0-9]{16})\/(progress|done|fail|video\.mp4|poster\.jpg|subtitles\.vtt)$/.exec(path);
       const j = m && getJob(m[1]);
       if (!j) { json(res, 404, { ok: false }); return true; }
       if (m[2] === 'progress' && method === 'POST') { const b = await readJson(req, 16 * 1024) || {}; saveJob({ ...j, stage: String(b.stage || '').slice(0, 60), pct: Math.max(0, Math.min(100, +b.pct || 0)) }); json(res, 200, { ok: true }); return true; }
-      if ((m[2] === 'video.mp4' || m[2] === 'poster.jpg') && method === 'PUT') { const n = await receiveUpload(req, j.id, m[2]); json(res, n ? 200 : 400, { ok: !!n, bytes: n || 0 }); return true; }
-      if (m[2] === 'done' && method === 'POST') { const b = await readJson(req, 16 * 1024) || {}; const ok = existsSync(join(MEDIA(j.id), 'video.mp4')); saveJob({ ...j, status: ok ? 'done' : 'failed', error: ok ? '' : 'no video uploaded', finished: Date.now(), durationSecs: +b.durationSecs || 0, renderSecs: +b.renderSecs || 0, stage: '', pct: 100 }); json(res, 200, { ok }); return true; }
+      if ((m[2] === 'video.mp4' || m[2] === 'poster.jpg' || m[2] === 'subtitles.vtt') && method === 'PUT') { const n = await receiveUpload(req, j.id, m[2]); json(res, n ? 200 : 400, { ok: !!n, bytes: n || 0 }); return true; }
+      if (m[2] === 'done' && method === 'POST') { const b = await readJson(req, 16 * 1024) || {}; const ok = existsSync(join(MEDIA(j.id), (j.tool === 'subtitles' ? 'subtitles.vtt' : 'video.mp4'))); saveJob({ ...j, status: ok ? 'done' : 'failed', error: ok ? '' : 'no video uploaded', finished: Date.now(), durationSecs: +b.durationSecs || 0, renderSecs: +b.renderSecs || 0, stage: '', pct: 100 }); json(res, 200, { ok }); return true; }
       if (m[2] === 'fail' && method === 'POST') { const b = await readJson(req, 16 * 1024) || {}; saveJob({ ...j, status: 'failed', error: String(b.error || 'render failed').slice(0, 300), finished: Date.now() }); json(res, 200, { ok: true }); return true; }
       json(res, 405, { ok: false }); return true;
     }
