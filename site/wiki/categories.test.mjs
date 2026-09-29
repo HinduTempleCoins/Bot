@@ -28,7 +28,7 @@ function getLiveArticles() {
 
 test('every article in the library is categorized with 0 unassigned items in other', () => {
   const arts = getLiveArticles();
-  assert.ok(arts.length >= 244, `Expected at least 244 articles, found ${arts.length}`);
+  assert.ok(arts.length >= 245, `Expected at least 245 articles, found ${arts.length}`);
 
   const groups = groupArticles(arts);
   const otherGroup = groups.find((g) => g.id === 'other');
@@ -96,6 +96,8 @@ test('new monographs for Balm of Gilead, Old World vs New World Herbs, Apotropai
   assert.ok(huasca, 'The Huasca Phenomenon article must exist');
   const immuno = arts.find((a) => a.slug.toLowerCase().includes('immunometabolism'));
   assert.ok(immuno, 'Immunometabolism article must exist');
+  const shulgin = arts.find((a) => a.slug.toLowerCase().includes('alexander_shulgin'));
+  assert.ok(shulgin, 'Alexander Shulgin article must exist');
 
   const gileadContent = fs.readFileSync(gilead.file, 'utf8');
   assert.ok(gileadContent.includes('Commiphora gileadensis'), 'Mentions Commiphora gileadensis');
@@ -156,6 +158,15 @@ test('new monographs for Balm of Gilead, Old World vs New World Herbs, Apotropai
   assert.ok(immunoContent.includes('Paan'), 'Mentions Indian Paan comparison');
   assert.ok(immunoContent.includes('Kupffer'), 'Mentions Kupffer cells');
   assert.ok(immunoContent.includes('AMPK'), 'Mentions AMPK');
+
+  const shulginContent = fs.readFileSync(shulgin.file, 'utf8');
+  assert.ok(shulginContent.includes('Zectran'), 'Mentions Zectran');
+  assert.ok(shulginContent.includes('PIHKAL'), 'Mentions PIHKAL');
+  assert.ok(shulginContent.includes('TIHKAL'), 'Mentions TIHKAL');
+  assert.ok(shulginContent.includes('Ann Shulgin'), 'Mentions Ann Shulgin');
+  assert.ok(shulginContent.includes('isotope'), 'Mentions radioisotopes');
+  assert.ok(shulginContent.includes('DOI'), 'Mentions radiolabeled DOI');
+  assert.ok(shulginContent.includes('soul'), 'Mentions soul chemistry');
 
   // Verify Kyphi blend examples
   const kyphi = arts.find((a) => a.slug.toLowerCase() === 'kyphi');
