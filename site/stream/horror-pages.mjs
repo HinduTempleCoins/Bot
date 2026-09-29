@@ -95,7 +95,7 @@ export function girlBody() {
     <h2>Adjacent genres</h2>${table(G.adjacent)}
     <h2>Near the genre, but not in it</h2><p>These have the premise, but nobody is a girl who has to kill everyone.</p>${table(G.near)}
     <h2>Where to watch</h2><p class=lead>As of ${esc(G.whereToWatch.asOf)}</p>
-    <p><b>Seen on Tubi recently:</b> ${esc(G.whereToWatch.seen)}</p><p><b>Cycles through Tubi:</b> ${esc(G.whereToWatch.cycles)}</p><p><b>Usually elsewhere:</b> ${esc(G.whereToWatch.elsewhere)}</p>
+    <p>${esc(G.whereToWatch.seen)}</p><p>${esc(G.whereToWatch.cycles)}</p><p>${esc(G.whereToWatch.elsewhere)}</p>
     <h2>How to find more</h2><p>Logline mining — search these phrases plus "movie":</p>${lf}
     <p>Keyword databases:</p><ul>${G.findMore.databases.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
     <p><b>People to follow:</b> ${esc(G.findMore.people)}</p>
