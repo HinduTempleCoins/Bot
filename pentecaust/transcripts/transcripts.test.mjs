@@ -57,7 +57,7 @@ test('store: tracks with provenance; a human track beats an AI one; edits queue;
 test('seek: human subtitles from the IA item are preferred (IA machine ASR skipped); ingest adds ai-whisper + ai-edited', async () => {
   const dir = tmp();
   const seek = await import('./seek.mjs');
-  const files = [{ name: 'film.mp4', format: 'h.264', length: '95.5' }, { name: 'film.asr.srt' }, { name: 'film.fr.srt' }, { name: 'film.en.srt' }];
+  const files = [{ name: 'film.mp4', format: 'h.264', length: '95.5' }, { name: 'film.asr.srt' }, { name: 'film.fr.srt' }, { name: 'Film.1953.720p.BluRay.-[group].eng.srt' }, { name: 'film.en.srt' }];
   seek.__setFetch(async (u) => {
     if (/\/metadata\//.test(u)) return { ok: true, json: async () => ({ metadata: { identifier: 'Film_2' }, files }) };
     if (/film\.en\.srt$/.test(u)) return { ok: true, text: async () => [1, 2, 3, 4, 5, 6].map((i) => `${i}\n00:00:0${i},000 --> 00:00:0${i},900\nLine ${i}\n`).join('\n') };
