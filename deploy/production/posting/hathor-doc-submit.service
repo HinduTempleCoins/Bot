@@ -1,0 +1,13 @@
+[Unit]
+Description=Hathor documentary submitter (plans the next film with this host's LLM keys, queues it on the Video Studio)
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/melek-bot/docmaker
+EnvironmentFile=@CONF@/guest-proxy.env
+EnvironmentFile=@CONF@/doc-submit.env
+ExecStartPre=-/usr/bin/git -C /opt/melek-bot/docmaker pull --ff-only -q
+ExecStart=/usr/bin/node /opt/melek-bot/docmaker/integrations/documentary/submit.mjs
+TimeoutStartSec=1800
+Nice=5

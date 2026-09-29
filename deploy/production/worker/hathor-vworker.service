@@ -1,0 +1,18 @@
+[Unit]
+Description=Hathor worker: Video Studio + production documentary jobs (pulled over HTTPS) and media sync
+After=network-online.target melek-cpu-diffusion.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/melek-gen
+EnvironmentFile=@CONF@/vstudio-worker.env
+EnvironmentFile=-@CONF@/production-worker.env
+ExecStartPre=-/opt/melek-gen/repo/deploy/production/worker/repo-pull.sh
+ExecStart=/usr/bin/python3 /opt/melek-gen/repo/integrations/video_studio_worker.py --idle 30
+Nice=10
+Restart=always
+RestartSec=20
+
+[Install]
+WantedBy=multi-user.target

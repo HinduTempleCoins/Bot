@@ -25,6 +25,7 @@
 //   generated and saved. Rate-limited per IP (in-memory). Honest footer: which engine made each image +
 //   the free-tier note. The provider layer holds keys (env/JIT vault); this server never sees a key.
 
+import { statusBody as productionStatusBody, loadStatus as loadProductionStatus } from './production-status.mjs';
 import { createServer } from 'node:http';
 import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync, statSync, rmSync } from 'node:fs';
 import { join, basename, dirname } from 'node:path';
@@ -2456,6 +2457,7 @@ export async function handler(req, res) {
       const first = (m.films || [])[0];
       return sendHtml(res, pageShell('Documentaries (Alpha) — the ancient world, recreated', docsListBody(m, docsAggregate(docsFeedback())), { canonical: `${BASE_URL}/documentaries`, description: 'Wordless, slow recreations of the ancient world made by Hathor on our own servers — Kush and the Nile, the pyramids, Babylon, giants in the old stories. Alpha: vote, comment and leave notes at any moment so the next films get better.', image: first ? `${BASE_URL}/documentaries/media/${first.id}/poster.jpg` : undefined }));
     }
+    if (path === '/documentaries/status') return sendHtml(res, pageShell('Production status — Documentaries', productionStatusBody(loadProductionStatus(), (loadDocs().films || []).length), { canonical: `${BASE_URL}/documentaries/status`, robots: 'noindex,follow' }));
     if (path === '/documentaries/feedback.json') { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }); return res.end(JSON.stringify(docsFeedbackExport())); }
     if (path === '/documentaries/manifest.json') { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' }); return res.end(JSON.stringify(loadDocs())); }
     if (path.startsWith('/documentaries/media/')) return serveDocMedia(req, res, path.slice('/documentaries/media/'.length));

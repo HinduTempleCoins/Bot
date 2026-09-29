@@ -24,7 +24,7 @@ export const COMMENT_MAX = 500;
 // motion + amplitude only mean something when a figure is animated (puppet, Hathor's scene)
 export const FIGURE_KINDS = new Set(['puppet', 'scene']);
 const FIGURE_ONLY = new Set(['motion', 'amplitude']);
-export const KIND_NAMES = { kenburns: 'Camera move', looks: 'Look morph', peoples: 'Peoples', puppet: 'Brought to life', scene: 'Hathor’s scene' };
+export const KIND_NAMES = { 'character-scene': 'Character scene', kenburns: 'Camera move', looks: 'Look morph', peoples: 'Peoples', puppet: 'Brought to life', scene: 'Hathor’s scene' };
 
 export function loadAnimManifest(dir = ANIMS_DIR()) {
   try {

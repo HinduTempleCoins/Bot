@@ -7,7 +7,7 @@
 // (each run: the next remake set, then the next video set). Every post says plainly that these are features we are
 // testing and developing.
 // Env: MELEK_SIGNER_TOKEN (required), MELEK_SIGNER_URL, SHILPA_STATE_DIR. Flags: --dry (print, don't post), --batch=N.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 
 const DRY = process.argv.includes('--dry');
 const BATCH = +(process.argv.find((a) => a.startsWith('--batch='))?.slice(8) || 20);
@@ -68,7 +68,7 @@ export async function collectVideos() {
   const anims = await getJson(`${STUDIO}/animations/manifest.json`);
   for (const c of (anims && anims.clips) || []) {
     if (!c.id) continue;
-    out.push({ key: `anim:${c.id}`, kind: 'Test animation', title: c.kind === 'puppet' ? (c.puppet_title || c.title) : c.title, summary: '', url: `${STUDIO}/animations#c-${c.id}`, poster: `${STUDIO}/animations/media/${c.id}/poster.jpg`, seconds: c.seconds, credit: '' });
+    out.push({ key: `anim:${c.id}`, kind: c.kind === 'character-scene' ? 'Character scene' : 'Test animation', title: c.kind === 'puppet' ? (c.puppet_title || c.title) : c.title, summary: '', url: `${STUDIO}/animations#c-${c.id}`, poster: `${STUDIO}/animations/media/${c.id}/poster.jpg`, seconds: c.seconds, credit: '' });
   }
   return out;
 }
@@ -161,6 +161,8 @@ async function postOnce(p, image, app) {
 
 if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop())) {
   if (!TOKEN && !DRY) { console.log('MELEK_SIGNER_TOKEN not set — nothing posted'); process.exit(0); }
+  // stop switch (deploy/PRODUCTION.md): while the flag file exists, post nothing
+  if (process.env.PRODUCTION_PAUSE_FILE && existsSync(process.env.PRODUCTION_PAUSE_FILE)) { console.log('production paused (flag file present) — nothing posted'); process.exit(0); }
   const st = loadState();
   let postedRemakes = false;
   // 1) the next remake set
@@ -186,7 +188,7 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop()
   // 2) the next "Moving pictures" set: new documentaries first, then maps, then test animations
   const vids = await collectVideos();
   const vdone = new Set(st.videos || []);
-  const order = { Documentary: 0, 'Animated map': 1, 'Test animation': 2 };
+  const order = { Documentary: 0, 'Character scene': 1, 'Animated map': 2, 'Test animation': 3 };
   const vtodo = vids.filter((v) => !vdone.has(v.key)).sort((a, b) => order[a.kind] - order[b.kind]);
   console.log(`videos ${vids.length} · posted ${vdone.size} · to post ${vtodo.length}`);
   if (vtodo.length) {

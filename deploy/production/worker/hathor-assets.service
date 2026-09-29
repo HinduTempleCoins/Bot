@@ -1,0 +1,10 @@
+[Unit]
+Description=Hathor asset growth (render the parts the films report missing; low priority)
+After=network-online.target melek-cpu-diffusion.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=-@CONF@/production-worker.env
+ExecStart=/opt/melek-gen/repo/deploy/production/worker/pausable.sh /opt/melek-gen/repo/deploy/production/worker/daily-assets.sh
+Nice=12
+TimeoutStartSec=12h
