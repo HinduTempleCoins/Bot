@@ -28,6 +28,8 @@
 import { createServer } from 'node:http';
 import { askModal, modalReady } from '../../integrations/modal-client.mjs';
 import { redactString } from '../../integrations/claude-relay.mjs';
+import { buildContext, logSoapyTurn } from '../../integrations/soapy-context.mjs';
+import { complete, textOf } from '../../integrations/llm-router.mjs';
 
 // ── env NAMES (never literals; the token is read by name and never logged) ───────────────────────
 const PORT = +(process.env.PORT || 8097);
@@ -97,8 +99,30 @@ async function defaultRunner({ message, history = [] }) {
   return { text: text.length > MAX_OUTPUT ? text.slice(0, MAX_OUTPUT) : text, capped: text.length > MAX_OUTPUT };
 }
 
-let _runner = defaultRunner;
-export function __setRunner(fn) { _runner = typeof fn === 'function' ? fn : defaultRunner; }
+// ── the CONNECTED runner (default): Soapy answers as a continuation of the operator's working conversations ──
+// buildContext() assembles the standing rules, the working memory, the latest conversation and the passages
+// relevant to this message from the transcripts the Stop hook ships to the brain; any model the router can
+// reach answers with that context; the exchange is appended to the brain transcripts so the next working session
+// (and the brain's summaries) see it. Falls back to the Modal runner only when no provider answers.
+async function connectedRunner(args) {
+  const { message, sessionId } = args;
+  let ctx;
+  try { ctx = buildContext(message); } catch { ctx = null; }
+  if (ctx) {
+    const r = await complete(message, { system: ctx.system, task: 'long', maxTokens: 2500, timeout: Math.max(20000, TIMEOUT_MS - 15000) }).catch(() => null);
+    const text = textOf(r);
+    if (text) {
+      logSoapyTurn({ sessionId, operator: message, reply: text });
+      return { text: text.length > MAX_OUTPUT ? text.slice(0, MAX_OUTPUT) : text, provider: r.provider };
+    }
+  }
+  const fb = await defaultRunner(args);
+  if (fb && fb.text) logSoapyTurn({ sessionId, operator: message, reply: fb.text });
+  return fb;
+}
+
+let _runner = (process.env.SOAPY_ENGINE || 'connected') === 'modal' ? defaultRunner : connectedRunner;
+export function __setRunner(fn) { _runner = typeof fn === 'function' ? fn : connectedRunner; }
 
 // ── tiny http helpers ────────────────────────────────────────────────────────────────────────────
 function sendJson(res, code, obj) {
