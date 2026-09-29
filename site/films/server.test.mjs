@@ -56,7 +56,7 @@ test('home, film page and where-to-watch', async () => {
   assert.match(page.body, /Metropolis/);
   assert.match(page.body, /https:\/\/www\.netflix\.com\/title\/60026474/);
   assert.match(page.body, /tubitv\.com\/movies\/199555/);
-  assert.match(page.body, /\/watch\?src=ia&amp;id=metropolis_20201015/);
+  assert.match(page.body, /\/watch\?src=ia&amp;id=metropolis-1927-english-titles/); // the verified curated copy beats a dead Wikidata-listed upload
   assert.match(page.body, /justwatch\.com\/us\/search\?q=Metropolis/);
   assert.match(page.body, /imdb\.com\/title\/tt0017136/);
   assert.match(page.body, /availability varies by region/);
@@ -294,4 +294,13 @@ test('videos: without a key every section is a YouTube search link; with a key, 
   await vid.videosFor(dir, { id: 'Q3', t: 'Fresh', y: 2022 });
   assert.equal(calls, 4); // budget of 4 reached: remaining kinds fall back to links
   delete process.env.YOUTUBE_API_KEY; delete process.env.YOUTUBE_DAILY_SEARCHES; vid.__setFetch(null);
+});
+
+test('bridge: a public-domain classic on the Stream gives its film "Watch free on SoapBox Stream"', async () => {
+  const f = await import('./server.mjs');
+  const { PD_CLASSICS } = await import('../../integrations/soapbox/classic-films.mjs');
+  const c = PD_CLASSICS.find((x) => x.title === 'His Girl Friday');
+  const links = f.watchLinks({ id: 'Q999002', t: 'His Girl Friday', y: 1940, w: {} });
+  assert.equal(links.ours[0].name, 'Watch free on SoapBox Stream');
+  assert.match(links.ours[0].href, new RegExp(`id=${c.id}`));
 });

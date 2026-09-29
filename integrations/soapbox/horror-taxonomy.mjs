@@ -124,7 +124,7 @@ export const SURVIVAL_WING = Object.freeze([
     title: 'Sex Trafficking — The Network',
     wing: 'martyrs',
     emphasis: 'lead',
-    stock: 'mixed',
+    stock: 'reference',
     thesis: 'A survivor against a whole ring / operation — not a single attacker. She has to take on the '
       + 'network to get out or bring it down: the surgeon and the handlers and the buyers, an operation '
       + 'with structure. This is the sharpest reading of "kill EVERYONE" (plural = the system).',
@@ -137,9 +137,9 @@ export const SURVIVAL_WING = Object.freeze([
       { t: 'Thriller: A Cruel Picture', y: 1973, note: 'Trafficked and mute; trains in secret, then executes every handler' },
       { t: 'The Furies', y: 2019, note: 'Kill-or-be-killed game run by masked assassins as an operation' },
     ],
-    // Genuinely PUBLIC-DOMAIN, on-thesis stock: pre-code "white slavery" / trafficking-ring exploitation
-    // films (all verified PD). These DO stream in-app.
-    pdTitles: ['slaves_in_bondage', 'gambling_with_souls', 'MadYouth1940', 'escape_by_night_1937'],
+    // No streamable stock of its own: the old white-slavery films are rescue narratives, so they live on
+    // ROOTS_SHELF (near the genre, not in it). The flagships above are modern and copyrighted → leads only.
+    pdTitles: [],
     iaQuery: '"white slavery" OR trafficking OR "vice ring" OR racket',
     watchLeads: 'Tubi rotates these (Raze, Bound to Vengeance, Caged, Even Lambs Have Teeth) — treat as leads, not guarantees.',
   },
@@ -260,48 +260,132 @@ export const SURVIVAL_WING = Object.freeze([
   },
 ]);
 
-// ── curated PUBLIC-DOMAIN horror films (verified PD Internet-Archive items) ─────────────────────────
-// These stream in-app. `g` = HORROR_GENRES id; `sub` = the subgenre label. Trafficking-network PD stock
-// is the pre-code "white slavery" exploitation set (genuinely public domain, on-thesis).
+// ── curated PUBLIC-DOMAIN horror films (each verified live on the Internet Archive, 2026-09-29) ───────
+// These stream in-app. `g` = HORROR_GENRES id; `sub` = the shelf label; `pd` = WHY it is public domain in the US:
+// published 1930 or earlier (95-year term), or a documented later case (no notice / not renewed — cited to
+// Wikipedia's article or its List of films in the public domain in the United States). IA uploader licence
+// tags alone were NOT accepted as proof. Every id was checked: the item exists, is mediatype movies, is not
+// dark, and has a real video file; trailers, colorized, riffed, hosted-compilation and Blu-ray/DVD rips were
+// skipped. (Before this pass 13 of the 22 ids here pointed at items that did not exist.)
+// The white-slavery / vice films are the ROOTS of the Girl Has to Kill Everyone genre — rescue and exposé
+// narratives, not a girl killing everyone — so they sit on ROOTS_SHELF (g:'exploitation'), not in the genre.
 export const PD_HORROR_FILMS = Object.freeze([
-  // Monster / Classic Monster / Gothic
-  { id: 'Nosferatu1922', title: 'Nosferatu', year: 1922, g: 'monster', sub: 'Vampire / Classic Monster' },
-  { id: 'TheCabinetOfDrCaligari', title: 'The Cabinet of Dr. Caligari', year: 1920, g: 'monster', sub: 'Classic Monster / Gothic' },
-  { id: 'the_phantom_of_the_opera', title: 'The Phantom of the Opera', year: 1925, g: 'monster', sub: 'Classic Monster' },
-  { id: 'whitezombie1932', title: 'White Zombie', year: 1932, g: 'monster', sub: 'Classic Monster' },
-  { id: 'TheVampireBat', title: 'The Vampire Bat', year: 1933, g: 'monster', sub: 'Vampire' },
-  { id: 'TheDevilBat1940', title: 'The Devil Bat', year: 1940, g: 'monster', sub: 'Creature Feature' },
-  { id: 'atom_age_vampire', title: 'Atom Age Vampire', year: 1960, g: 'monster', sub: 'Vampire' },
-  { id: 'TheHunchbackOfNotreDame1923', title: 'The Hunchback of Notre Dame', year: 1923, g: 'monster', sub: 'Gothic / Classic Monster' },
-  // Supernatural / Haunting / Gothic
-  { id: 'house_on_haunted_hill_ipod', title: 'House on Haunted Hill', year: 1959, g: 'supernatural', sub: 'Haunting' },
-  { id: 'the_bat_whispers', title: 'The Bat Whispers', year: 1930, g: 'supernatural', sub: 'Old Dark House / Haunting' },
-  { id: 'CarnivalOfSouls', title: 'Carnival of Souls', year: 1962, g: 'supernatural', sub: 'Haunting / Slow Burn' },
-  { id: 'the_screaming_skull', title: 'The Screaming Skull', year: 1958, g: 'supernatural', sub: 'Haunting' },
-  // Cosmic / Sci-Fi Horror / Zombie
-  { id: 'night_of_the_living_dead', title: 'Night of the Living Dead', year: 1968, g: 'cosmic', sub: 'Post-Apocalyptic / Zombie' },
-  { id: 'the_last_man_on_earth', title: 'The Last Man on Earth', year: 1964, g: 'cosmic', sub: 'Post-Apocalyptic / Zombie' },
-  { id: 'TheBrainThatWouldntDie', title: "The Brain That Wouldn't Die", year: 1962, g: 'cosmic', sub: 'Sci-Fi Horror / Body' },
-  { id: 'TheKillerShrews', title: 'The Killer Shrews', year: 1959, g: 'cosmic', sub: 'Creature / Sci-Fi Horror' },
-  // Slasher ancestors / Serial killer
-  { id: 'Maniac1934', title: 'Maniac', year: 1934, g: 'slasher', sub: 'Serial Killer / Exploitation' },
-  { id: 'DementiaOr13', title: 'Dementia 13', year: 1963, g: 'slasher', sub: 'Proto-slasher (Coppola)' },
-  { id: 'TheTerror1963', title: 'The Terror', year: 1963, g: 'supernatural', sub: 'Gothic' },
-  // Body horror / transformation
-  { id: 'Dr.JekyllAndMr.Hyde1920', title: 'Dr. Jekyll and Mr. Hyde', year: 1920, g: 'body', sub: 'Transformation / Body Horror' },
-  // Exploitation / Bad-movie shelf
-  { id: 'PlanNineFromOuterSpace', title: 'Plan 9 from Outer Space', year: 1959, g: 'exploitation', sub: 'The Bad Movie shelf' },
-  { id: 'TheApe1940', title: 'The Ape', year: 1940, g: 'exploitation', sub: 'Grindhouse / Creature' },
-  // Survival / trafficking-network — genuine PD pre-code exploitation ("white slavery"):
-  { id: 'slaves_in_bondage', title: 'Slaves in Bondage', year: 1937, g: 'survival', sub: 'Sex Trafficking / The Network' },
-  { id: 'gambling_with_souls', title: 'Gambling with Souls', year: 1936, g: 'survival', sub: 'Sex Trafficking / The Network' },
-  { id: 'MadYouth1940', title: 'Mad Youth', year: 1940, g: 'survival', sub: 'Sex Trafficking / The Network' },
-  { id: 'escape_by_night_1937', title: 'Escape by Night', year: 1937, g: 'survival', sub: 'Sex Trafficking / The Network' },
+  { id: "Nosferatu1922", title: "Nosferatu", year: 1922, g: "monster", sub: "Vampire / Classic Monster", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "DasKabinettdesDoktorCaligariTheCabinetofDrCaligari", title: "The Cabinet of Dr. Caligari", year: 1920, g: "monster", sub: "Classic Monster / Gothic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "ThePhantomoftheOpera", title: "The Phantom of the Opera", year: 1925, g: "monster", sub: "Classic Monster", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "white_zombie", title: "White Zombie", year: 1932, g: "monster", sub: "Classic Monster / Zombie", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "TheVampireBat", title: "The Vampire Bat", year: 1933, g: "monster", sub: "Vampire", pd: "Wikipedia's article files it under its List of films in the public domain in the United States." },
+  { id: "Devil_Bat_movie", title: "The Devil Bat", year: 1940, g: "monster", sub: "Creature Feature", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "The_Hunchback_of_Notre_Dame", title: "The Hunchback of Notre Dame", year: 1923, g: "monster", sub: "Gothic / Classic Monster", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "The.Mad.Monster", title: "The Mad Monster", year: 1942, g: "monster", sub: "Werewolf", pd: "Wikipedia's article files it under its List of films in the public domain in the United States." },
+  { id: "DeadMenWalk", title: "Dead Men Walk", year: 1943, g: "monster", sub: "Vampire", pd: "Wikipedia's article files it under films in the public domain in the US (PRC, not renewed)." },
+  { id: "TheGiantGilaMonster", title: "The Giant Gila Monster", year: 1959, g: "monster", sub: "Creature Feature", pd: "Wikipedia's article files it under films in the public domain in the US." },
+  { id: "cco_attackofthegiantleeches", title: "Attack of the Giant Leeches", year: 1959, g: "monster", sub: "Creature Feature", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "CreatureFromTheHauntedSea", title: "Creature from the Haunted Sea", year: 1961, g: "monster", sub: "Creature / Comedy Horror", pd: "Wikipedia's article files it under films in the public domain in the US." },
+  { id: "Little_ShopOf_Horrors.avi", title: "The Little Shop of Horrors", year: 1960, g: "monster", sub: "Comedy Horror / Killer Plant", pd: "Listed in Wikipedia's List of films in the public domain in the United States. Copyright not renewed." },
+  { id: "ABucketofBlood", title: "A Bucket of Blood", year: 1959, g: "monster", sub: "Comedy Horror", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "le-manoir-du-diable-1896-georges-melies", title: "Le Manoir du diable (The Haunted Castle)", year: 1896, g: "monster", sub: "Silent short (Méliès) — the first horror film", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "bw5558885", title: "The Bat Whispers", year: 1930, g: "supernatural", sub: "Old Dark House / Haunting", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "CarnivalofSouls", title: "Carnival of Souls", year: 1962, g: "supernatural", sub: "Haunting / Slow Burn", pd: "Released without a valid copyright notice; public domain in the US (Wikipedia)." },
+  { id: "TheScreamingSkull", title: "The Screaming Skull", year: 1958, g: "supernatural", sub: "Haunting", pd: "Listed in Wikipedia's List of films in the public domain in the United States. Never registered for copyright (Wikipedia)." },
+  { id: "TheTerror1963", title: "The Terror", year: 1963, g: "supernatural", sub: "Gothic", pd: "Released without a copyright notice; public domain in the US (Wikipedia)." },
+  { id: "Hxan1922720p", title: "Häxan", year: 1922, g: "supernatural", sub: "Witchcraft", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "ThePhantomCarriage", title: "The Phantom Carriage", year: 1921, g: "supernatural", sub: "Haunting", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "The_Cat_and_the_Canary", title: "The Cat and the Canary", year: 1927, g: "supernatural", sub: "Old Dark House / Haunting", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "TheBat1926", title: "The Bat", year: 1926, g: "supernatural", sub: "Old Dark House", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "Fall_of_the_House_of_Usher_1928_Watson", title: "The Fall of the House of Usher (Watson & Webber)", year: 1928, g: "supernatural", sub: "Gothic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "LaChuteDeLaMaisonUsher1928_201808", title: "The Fall of the House of Usher (Epstein)", year: 1928, g: "supernatural", sub: "Gothic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "FaustF.W.MurnauSilentFilm", title: "Faust", year: 1926, g: "supernatural", sub: "Ancient Magic / Gothic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "TheGolem_893", title: "The Golem", year: 1920, g: "supernatural", sub: "Ancient Magic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "destiny-1921-restored-movie-576p-sd", title: "Destiny (Der müde Tod)", year: 1921, g: "supernatural", sub: "Gothic / Death", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "the-magician", title: "The Magician", year: 1926, g: "supernatural", sub: "Ancient Magic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "1926-the-student-of-prague", title: "The Student of Prague", year: 1926, g: "supernatural", sub: "Gothic / Doppelgänger", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "warning-shadows-1923-restored-720p-hd", title: "Warning Shadows", year: 1923, g: "supernatural", sub: "Gothic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "seven-footprints-to-satan_1929", title: "Seven Footprints to Satan", year: 1929, g: "supernatural", sub: "Old Dark House", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "TheLastWarning1929PaulLeni", title: "The Last Warning", year: 1928, g: "supernatural", sub: "Old Dark House", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "TheHeadlessHorsemanSilent1922", title: "The Headless Horseman", year: 1922, g: "supernatural", sub: "Halloween / Folk Horror", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "RobertWienesgenuineATaleOfAVampire1920", title: "Genuine: A Tale of a Vampire", year: 1920, g: "supernatural", sub: "Gothic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "nightmare_castle", title: "Nightmare Castle", year: 1965, g: "supernatural", sub: "Gothic", pd: "Wikipedia's article files it under films in the public domain in the US." },
+  { id: "the-skeleton-dance_1929", title: "The Skeleton Dance", year: 1929, g: "supernatural", sub: "Halloween short (Silly Symphony)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "hells-bells-1929", title: "Hell's Bells", year: 1929, g: "supernatural", sub: "Halloween short (Silly Symphony)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "SwingYouSinners1930Talkartoon", title: "Swing You Sinners!", year: 1930, g: "supernatural", sub: "Halloween short (Fleischer Talkartoon)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "TheHauntedHouse1921", title: "The Haunted House (Buster Keaton)", year: 1921, g: "supernatural", sub: "Halloween short / Comedy Horror", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "TheInfernalCauldron", title: "The Infernal Cauldron", year: 1903, g: "supernatural", sub: "Silent short (Méliès)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "Maniac1934", title: "Maniac", year: 1934, g: "slasher", sub: "Serial Killer / Exploitation", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "dementia-13-1963_202312", title: "Dementia 13", year: 1963, g: "slasher", sub: "Proto-slasher (Coppola)", pd: "Released without a valid copyright notice; public domain in the US (Wikipedia)." },
+  { id: "TheLodgerAStoryOfTheLondonFog_579", title: "The Lodger: A Story of the London Fog", year: 1927, g: "slasher", sub: "Serial Killer (Hitchcock)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "The_Bat_Vincent_Price", title: "The Bat", year: 1959, g: "slasher", sub: "Old Dark House / Proto-slasher", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "Bluebeard", title: "Bluebeard", year: 1944, g: "slasher", sub: "Serial Killer", pd: "Wikipedia: the film is registered in the public domain." },
+  { id: "Bowery_at_Midnight", title: "Bowery at Midnight", year: 1942, g: "slasher", sub: "Serial Killer", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "ThePenalty", title: "The Penalty", year: 1920, g: "slasher", sub: "Criminal Mastermind", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "Hitch_Hiker", title: "The Hitch-Hiker", year: 1953, g: "slasher", sub: "Serial Killer / Noir", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "silent-the-avenging-conscience-or-thou-shalt-not-kill", title: "The Avenging Conscience", year: 1914, g: "slasher", sub: "Murder / Poe (Griffith)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "lost_world", title: "The Lost World", year: 1925, g: "survival", sub: "Creature / Expedition", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "Sparrows1926720p", title: "Sparrows", year: 1926, g: "survival", sub: "Captivity & Escape — children escape a swamp baby farm", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "Dr.JekyllAndMr.Hyde1920", title: "Dr. Jekyll and Mr. Hyde", year: 1920, g: "body", sub: "Transformation / Body Horror", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "TheHandsOfOrlac1924", title: "The Hands of Orlac", year: 1924, g: "body", sub: "Body Horror / Transplant", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "the-unknown_1927", title: "The Unknown", year: 1927, g: "body", sub: "Body Horror", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "the-man-who-laughs-1928-restored-movie-576p-sd", title: "The Man Who Laughs", year: 1928, g: "body", sub: "Disfigurement / Gothic", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "silent-the-monster", title: "The Monster", year: 1925, g: "body", sub: "Mad Scientist", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "The_Wasp_Women", title: "The Wasp Woman", year: 1959, g: "body", sub: "Transformation", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "FrankensteinfullMovie", title: "Frankenstein (Edison)", year: 1910, g: "body", sub: "Mad Scientist", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "DrJekyllAndMrHyde1913", title: "Dr. Jekyll and Mr. Hyde", year: 1913, g: "body", sub: "Transformation", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "the-man-with-the-rubber-head-1901-directed-by-georges-melies", title: "The Man with the Rubber Head", year: 1901, g: "body", sub: "Silent short (Méliès)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "un-homme-de-tetes-or-the-four-troublesome-heads-by-georges-melies-189", title: "The Four Troublesome Heads", year: 1898, g: "body", sub: "Silent short (Méliès)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "UnChienAndalou1929_201807", title: "Un Chien Andalou", year: 1929, g: "body", sub: "Surrealist short (Buñuel & Dalí)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "night_of_the_living_dead_dvd", title: "Night of the Living Dead", year: 1968, g: "cosmic", sub: "Post-Apocalyptic / Zombie", pd: "Released without a copyright notice; public domain in the US (Wikipedia)." },
+  { id: "TheLastManOnEarth_72", title: "The Last Man on Earth", year: 1964, g: "cosmic", sub: "Post-Apocalyptic / Zombie", pd: "Copyright not renewed; public domain in the US (Wikipedia)." },
+  { id: "TheBrainThatWouldntDie_165", title: "The Brain That Wouldn't Die", year: 1962, g: "cosmic", sub: "Sci-Fi Horror / Body", pd: "Copyright not renewed; public domain in the US (Wikipedia)." },
+  { id: "TheKillerShrews", title: "The Killer Shrews", year: 1959, g: "cosmic", sub: "Creature / Sci-Fi Horror", pd: "Wikipedia: now in the public domain." },
+  { id: "teenagers_from_outerspace", title: "Teenagers from Outer Space", year: 1959, g: "cosmic", sub: "Invasion", pd: "Listed in Wikipedia's List of films in the public domain in the United States. Copyright not renewed." },
+  { id: "indestructible_man", title: "Indestructible Man", year: 1956, g: "cosmic", sub: "Zombie / Revenant", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "RevoltoftheZombies_", title: "Revolt of the Zombies", year: 1936, g: "cosmic", sub: "Zombie", pd: "Wikipedia: the film is in the public domain." },
+  { id: "1929TheMysteriousIsland", title: "The Mysterious Island", year: 1929, g: "cosmic", sub: "Sci-Fi Adventure / Creature", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "plan-9-from-outer-space", title: "Plan 9 from Outer Space", year: 1959, g: "exploitation", sub: "The Bad Movie shelf", pd: "Copyright not renewed; public domain in the US (Wikipedia)." },
+  { id: "TheApe1940", title: "The Ape", year: 1940, g: "exploitation", sub: "Grindhouse / Creature", pd: "Wikipedia's article files it under its List of films in the public domain in the United States." },
+  { id: "Eegah", title: "Eegah", year: 1962, g: "exploitation", sub: "The Bad Movie shelf", pd: "Wikipedia: the film is in the public domain." },
+  { id: "reefer_madness1938", title: "Reefer Madness", year: 1936, g: "exploitation", sub: "Exploitation (scare film)", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "glenorglenda_201305", title: "Glen or Glenda", year: 1953, g: "exploitation", sub: "Ed Wood", pd: "Listed in Wikipedia's List of films in the public domain in the United States." },
+  { id: "silent-traffic-in-souls", title: "Traffic in Souls", year: 1913, g: "exploitation", sub: "Roots: white-slavery films", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "silent-the-inside-of-the-white-slave-traffic", title: "The Inside of the White Slave Traffic", year: 1913, g: "exploitation", sub: "Roots: white-slavery films", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "tagebuch-einer-verlorenen-1929-1080p", title: "Diary of a Lost Girl", year: 1929, g: "exploitation", sub: "Roots: white-slavery films", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "the-road-to-ruin_1928", title: "The Road to Ruin", year: 1928, g: "exploitation", sub: "Roots: vice films", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "APageOfMadness", title: "A Page of Madness", year: 1926, g: "psychological", sub: "Medical / Institutional", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "waxworks-1924-restored-movie-720p-hd", title: "Waxworks", year: 1924, g: "psychological", sub: "Anthology as a Form", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
+  { id: "shock", title: "Shock", year: 1946, g: "psychological", sub: "Medical / Institutional", pd: "Wikipedia's article cites it as a film in the public domain in the US." },
+  { id: "silent-the-unholy-three", title: "The Unholy Three", year: 1925, g: "psychological", sub: "Criminal Masquerade (Browning & Chaney)", pd: "US public domain by age: published 1930 or earlier (95-year term)." },
 ]);
+
+// October / Halloween picks for the /horror landing — all from the verified PD list above.
+export const HALLOWEEN_PICKS = Object.freeze([
+  'the-skeleton-dance_1929', 'TheHeadlessHorsemanSilent1922', 'night_of_the_living_dead_dvd', 'Nosferatu1922',
+  'CarnivalofSouls', 'ThePhantomoftheOpera', 'DasKabinettdesDoktorCaligariTheCabinetofDrCaligari',
+  'hells-bells-1929', 'Little_ShopOf_Horrors.avi', 'white_zombie', 'Hxan1922720p', 'TheHauntedHouse1921', 'SwingYouSinners1930Talkartoon',
+]);
+
+// Near the genre, NOT in it: the white-slavery / vice films the trafficking premise descends from. Rescue and
+// exposé narratives — nobody is a girl who has to kill everyone — so this shelf sits OUTSIDE SURVIVAL_WING.
+export const ROOTS_SHELF = Object.freeze({
+  id: 'roots-white-slavery',
+  title: 'Roots: the white-slavery films (near the genre, not in it)',
+  wing: 'roots',
+  emphasis: 'deemphasized',
+  stock: 'mixed',
+  thesis: 'Where the trafficking premise comes from: the white-slavery and vice films of 1913–1940. They are rescue '
+    + 'and exposé narratives — police, reformers and families save the girl — so they are the history behind Girl Has '
+    + 'to Kill Everyone, not part of it.',
+  pdTitles: ['silent-traffic-in-souls', 'silent-the-inside-of-the-white-slave-traffic', 'tagebuch-einer-verlorenen-1929-1080p', 'the-road-to-ruin_1928'],
+  titles: [
+    { t: 'Slaves in Bondage', y: 1937, note: 'Vice-ring exposé — not streamed: its public-domain status is not documented' },
+    { t: 'Gambling with Souls', y: 1936, note: 'Rigged gambling into forced prostitution — not streamed: public-domain status not documented' },
+    { t: 'Mad Youth', y: 1940, note: 'Escort-racket exposé — not streamed: public-domain status not documented' },
+  ],
+  watchLeads: 'The four silent-era titles play free here; the 1930s exposés are leads only.',
+});
 
 // ── lookups ─────────────────────────────────────────────────────────────────────────────────────────
 export function genreById(id) { return HORROR_GENRES.find((g) => g.id === String(id)) || null; }
-export function survivalById(id) { return SURVIVAL_WING.find((s) => s.id === String(id)) || null; }
+export function survivalById(id) { return SURVIVAL_WING.find((s) => s.id === String(id)) || (ROOTS_SHELF.id === String(id) ? ROOTS_SHELF : null); }
 
 /** PD films curated for a given top-level genre id. */
 export function pdFilmsFor(genreId) {
