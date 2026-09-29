@@ -28,6 +28,7 @@ import * as iptv from '../../integrations/soapbox/iptv-channels.mjs';
 import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
 import * as classics from '../../integrations/soapbox/classic-films.mjs';
 import * as speeches from '../../integrations/soapbox/speeches.mjs';
+import { transcriptsRoute, trackTag, transcriptLink } from './transcripts-pages.mjs';
 import { horrorMapRoute, HORROR_MAP_PATHS, loadStills } from './horror-pages.mjs';
 import * as radio from '../../integrations/soapbox/radio.mjs';
 import * as podcasts from '../../integrations/soapbox/podcasts.mjs';
@@ -463,8 +464,9 @@ function stageFor(item) {
     return `<iframe src="${esc(g.embed)}" title="${esc(item.title)}" allowfullscreen referrerpolicy=no-referrer sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>`;
   }
   // direct stream (mp4 / HLS) — the owner's own license-cleared stream, played natively.
+  const tracks = item.source === 'Internet Archive' && item.id ? trackTag('ia', String(item.id)) : '';
   return `<video controls playsinline preload=metadata poster="${esc(safeHref(item.thumb) || '')}">
-    <source src="${esc(g.stream)}" type="${esc(g.mime)}">
+    <source src="${esc(g.stream)}" type="${esc(g.mime)}">${tracks}
     Your browser can't play this stream directly — <a href="${esc(g.stream)}" target=_blank rel="noopener noreferrer">open it ↗</a>.
   </video>`;
 }
@@ -485,6 +487,8 @@ function reviewPanel(item, film) {
   return q ? `<div class=licbox style="margin-top:10px"><a class=btn href="/films?q=${encodeURIComponent(q)}">★ Find it on SoapBox Films to rate &amp; review</a></div>` : '';
 }
 
+const txClientIp = (req) => String((req.headers && (req.headers['x-forwarded-for'] || req.headers['x-real-ip'])) || '').split(',')[0].trim() || (req.socket && req.socket.remoteAddress) || 'unknown';
+
 function watchShell(item, film = null) {
   const g = gateWatch(item);
   const stage = stageFor(item);
@@ -496,6 +500,7 @@ function watchShell(item, film = null) {
       ${meta ? `<p class=meta style="color:var(--mut)">${esc(meta)}</p>` : ''}
       ${speechPanel(item)}
       ${reviewPanel(item, film)}
+      ${item.source === 'Internet Archive' && item.id ? (transcriptLink('ia', String(item.id)) ? `<p style="margin-top:8px">${transcriptLink('ia', String(item.id))}</p>` : '') : ''}
       <p><a class=btn href="/">← Back to Stream</a> ${item.href ? `<a class=btn href="${esc(safeHref(item.href))}" target=_blank rel="noopener noreferrer">Source ↗</a>` : ''}</p>
     </div>`;
   return pageShell(`${item.title || 'Watch'} · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/watch` });
@@ -599,6 +604,11 @@ export async function handler(req, res) {
     if (path === '/films' || path.startsWith('/films/')) {
       const films = await import('../films/server.mjs');
       return films.handler(req, res);
+    }
+
+    // Pentecaust transcripts: /transcripts/<src>/<id>.vtt, /watch/<src>/<id>/transcript, POST /api/transcripts/suggest
+    if (path.startsWith('/transcripts/') || /\/transcript$/.test(path) || path === '/api/transcripts/suggest') {
+      if (await transcriptsRoute(req, res, path, { shell: pageShell, send: sendHtml, clientIp: txClientIp })) return;
     }
 
     // /watch?src=&id=   OR   /watch/:src/:id
