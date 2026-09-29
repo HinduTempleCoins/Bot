@@ -296,3 +296,13 @@ test('/films/* is served by the films surface; nav links to it', async () => {
   assert.equal(home.code, 200);
   assert.match(String(home.body), /SoapBox<\/b> Films/);
 });
+
+test('/classics lists the public-domain classics by genre, each playable, with the exclusions named', async () => {
+  const r = await get('/classics');
+  assert.equal(r.status || r.statusCode || r.code, 200);
+  const html = r.body || r.html || r.text || '';
+  assert.match(html, /His Girl Friday/);
+  assert.match(html, /Silent classics/);
+  assert.match(html, /href="\/watch\?src=ia&amp;id=his_girl_friday"|href="\/watch\/ia\/his_girl_friday"/);
+  assert.match(html, /Not here on purpose:[\s\S]*The Scarlet Pimpernel/);
+});

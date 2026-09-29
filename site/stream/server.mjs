@@ -26,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 import * as archiveVideo from '../../integrations/soapbox/archive-video.mjs';
 import * as iptv from '../../integrations/soapbox/iptv-channels.mjs';
 import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
+import * as classics from '../../integrations/soapbox/classic-films.mjs';
 import { horrorMapRoute, HORROR_MAP_PATHS, loadStills } from './horror-pages.mjs';
 import * as radio from '../../integrations/soapbox/radio.mjs';
 import * as podcasts from '../../integrations/soapbox/podcasts.mjs';
@@ -299,7 +300,7 @@ function pageShell(title, inner, { description, canonical } = {}) {
     title, description: desc, canonical: canonical || `${BASE_URL}/`, siteName: SITE_NAME,
     robots: 'index,follow,max-image-preview:large', site: { url: BASE_URL, name: SITE_NAME },
   });
-  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
+  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -313,9 +314,22 @@ ${head}${STYLE}${impactUtt()}</head><body>
 </body></html>`;
 }
 
+function classicsRow() {
+  const picks = ['his_girl_friday', 'metropolis-1927-english-titles', 'The_General_Buster_Keaton', 'AStarIsBorn', 'Detour', 'meet_john_doe', 'FairbanksRobinHood1922', 'TheStranger_0', 'road-to-bali', 'angel_and_the_badman', 'gullivers_travels1939', 'd.-o.-a.-1950']
+    .map((id) => classics.PD_CLASSICS.find((f) => f.id === id)).filter(Boolean).map(classics.classicTile);
+  return `<section class=row><h2><a href="/classics">Classics · free</a> <span class="badge lic">public domain</span><span class=see>All ${classics.PD_CLASSICS.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>`;
+}
+
+function classicsPage() {
+  const shelves = classics.classicsByGenre().map((g) => `<section class=row><h2>${esc(g.name)}</h2><div class=grid>${g.films.map((f) => tile(classics.classicTile(f))).join('')}</div></section>`).join('');
+  const inner = `<p class=lead>Big old movies that are free for everyone: public domain in the US, either because they were published in 1930 or earlier, or because their copyright was never renewed. Each one plays here, and each one links to <a href="/films">SoapBox Films</a> to rate and review it.</p>${shelves}
+    <p class=lead style="margin-top:18px;font-size:12px">Not here on purpose: ${classics.EXCLUDED.map((x) => `${esc(x.title)} (${esc(x.why)})`).join('; ')}.</p>`;
+  return pageShell(`Classics · free · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/classics`, description: `${classics.PD_CLASSICS.length} public-domain classic films to watch free: His Girl Friday, Metropolis, The General, A Star Is Born, Detour, Meet John Doe, Robin Hood and more.` });
+}
+
 function homePage(rows) {
   const inner = `<p class=lead>A free, legal streaming catalog. Public-domain films &amp; classic TV, free-to-air live channels, radio, podcasts, and on-chain MELEK creator video — every title labelled with its license and source.</p>
-    ${rows.map(rowSection).join('')}`;
+    ${classicsRow()}${rows.map(rowSection).join('')}`;
   return pageShell(`${SITE_NAME} — free, legal streaming`, inner);
 }
 
@@ -518,7 +532,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', ...CATEGORIES.map((c) => `/c/${c.id}`),
+export const SITEMAP_PATHS = ['/', '/classics', ...CATEGORIES.map((c) => `/c/${c.id}`),
   '/horror', ...HORROR_MAP_PATHS(), '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
@@ -598,6 +612,7 @@ export async function handler(req, res) {
       return res.end('unknown horror category');
     }
 
+    if (path === '/classics') return sendHtml(res, classicsPage());
     const catM = path.match(/^\/c\/([a-z]+)$/);
     if (catM) {
       const cat = CATEGORIES.find((c) => c.id === catM[1]);
