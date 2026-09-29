@@ -44,7 +44,9 @@ export function basedOnBox(books, { r, freeHref = '', filmFree = false, pdYear }
   const items = books.slice(0, 4).map((b) => {
     const st = bookStatus(b, pdYear);
     const kind = (b.kind || []).find((k) => /novel|book|story|play|poem|novella|literary|written|comic|fairy|epic|memoir/i.test(k)) || (b.kind || [])[0] || 'work';
-    const read = (b.gut || []).slice(0, 1).map((g) => `<a class="chip ours" href="https://www.gutenberg.org/ebooks/${encodeURIComponent(g)}" target=_blank rel="noopener noreferrer">📖 Read it free on Project Gutenberg ↗</a>`).join('');
+    const read = (b.gut || []).length
+      ? `<a class="chip ours" href="https://www.gutenberg.org/ebooks/${encodeURIComponent(b.gut[0])}" target=_blank rel="noopener noreferrer">📖 Read it free on Project Gutenberg ↗</a>`
+      : st.free ? `<a class="chip ours" href="${esc(librarySearch(b))}">📖 Find the free text on SoapBox Library</a>` : '';
     return `<div style="margin:6px 0 10px"><b>${esc(b.t)}</b>${b.a && b.a.length ? ` by ${esc(b.a.slice(0, 2).join(', '))}` : ''}${b.y ? ` (${esc(b.y)})` : ''} <span class=note>· ${esc(kind)}</span><br>
       <b>Book:</b> ${esc(st.label)}<br>
       <span class=chips>${read}<a class=chip href="${esc(librarySearch(b))}">🔎 Find it on SoapBox Library</a>${(b.gut || []).length ? `<a class=chip href="/films/book?gutenberg=${encodeURIComponent(b.gut[0])}">🎬 Every film of this book</a>` : `<a class=chip href="/films/book?book=${encodeURIComponent(b.id)}">🎬 Every film of this book</a>`}</span></div>`;

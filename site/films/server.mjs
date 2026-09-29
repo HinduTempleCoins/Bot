@@ -16,6 +16,8 @@
 //   PORT=8214 BASE_URL=https://stream.soapbox.community node site/films/server.mjs
 //   Env: FILMS_DATA_DIR (default <repo>/data/films), TMDB_API_KEY (optional), FILMS_ADMIN_TOKEN (optional).
 
+import { loadRelations, relationsBox, groupBody, studioBody, studiosBody } from './relations.mjs';
+import { videosFor, videosBox } from './videos.mjs';
 import { loadBasedOn, basedOnBox, filmsForBook, bookStatus, librarySearch } from './based-on.mjs';
 import * as horrorTax from '../../integrations/soapbox/horror-taxonomy.mjs';
 import { createServer } from 'node:http';
@@ -251,6 +253,9 @@ export function filmForStream({ ia = '', title = '', year = '' } = {}) {
     return { id: r.id, t: r.t, y: r.y || '', href: `${PREFIX}/${r.id}`, reviewHref: `${PREFIX}/${r.id}#review`, stats, badge: scoreBadge(stats) };
   } catch { return null; }
 }
+
+/** { t, y } of a film id (for relations/series lists). */
+export function titleOfFilm(id) { const r = catalog().byId.get(id); return r ? { t: r.t, y: r.y || 0 } : null; }
 
 export function watchLinks(r) {
   const listed = [];
@@ -535,6 +540,7 @@ ${byCount.length ? `<h2>Most reviewed</h2><div class=grid>${byCount.map((a) => c
 <h2>Latest reviews</h2>${revs.length ? revs.slice(0, 6).map((r) => reviewHtml(r, { showFilm: true })).join('') + `<p><a href="${PREFIX}/reviews">All reviews →</a></p>` : '<p class=meta>No reviews yet — open any film and be the first.</p>'}
 <h2>Most talked-about films</h2><div class=grid>${popular.map((r) => card(r, stats)).join('')}</div>
 <h2>Browse by genre</h2><p class=tags>${cat.genres.slice(0, 30).map((g) => `<a href="${PREFIX}/genre/${esc(g.slug)}">${esc(g.name)}</a>`).join(' ')} <a href="${PREFIX}/genres">all genres →</a></p>
+<h2>Studios, universes &amp; franchises</h2><p class=tags><a href="${PREFIX}/studios">Browse by brand: Pixar, Hammer, Universal, Marvel, Studio Ghibli… →</a></p>
 <h2>Browse by decade</h2><p class=tags>${decades().map((d) => `<a href="${PREFIX}/decade/${d}s">${d}s</a>`).join(' ')}</p>
 ${CLIENT_JS}`;
   return shell(`${SITE} — where to watch any film, and audience reviews`, inner, { canonical: PREFIX });
@@ -588,6 +594,8 @@ ${links.listed.length ? `<p><b>Listed on</b> <span class=note>(availability vari
 ${links.refs.length ? `<p class=note>Elsewhere: ${links.refs.map((l) => `<a href="${esc(l.href)}" target=_blank rel="noopener noreferrer">${esc(l.name)}</a>`).join(' · ')}</p>` : ''}
 </div></div>
 ${basedOnBox(loadBasedOn(dataDir()).byFilm[r.id], { r, freeHref: links.ours.length ? links.ours[0].href : '', filmFree: !!links.ours.length || !!(r.y && r.y <= PD_YEAR), pdYear: PD_YEAR })}
+${relationsBox(loadRelations(dataDir()), r.id, titleOfFilm)}
+${videosBox(r, await videosFor(dataDir(), r).catch(() => ({})))}
 ${reviewForm(r.id, r.t)}
 <h2>Reviews</h2>${revs.length ? revs.map((x) => reviewHtml(x)).join('') : '<p class=meta>No reviews yet — be the first.</p>'}
 ${CLIENT_JS}`;
@@ -703,6 +711,17 @@ export async function handler(req, res) {
       const stats = statsMap();
       const inner = `<h1>Search: “${esc(q)}”</h1>${hits.length ? `<div class=grid>${hits.map((r) => card(r, stats)).join('')}</div>` : '<p class=meta>No films found. Try the original title or fewer words.</p>'}`;
       return send(res, 200, shell(`Search “${q}” · ${SITE}`, inner, { canonical: `${PREFIX}/search` }));
+    }
+    if (p === '/studios') return send(res, 200, shell(`Studios, universes & franchises · ${SITE}`, studiosBody(loadRelations(dataDir())), { canonical: `${PREFIX}/studios` }));
+    const relM = /^\/(studio|group)\/(Q\d{1,12})$/.exec(p);
+    if (relM) {
+      const data = loadRelations(dataDir());
+      const stats = statsMap();
+      const cardOf = (id) => { const rec = catalog().byId.get(id); return rec ? card(rec, stats) : ''; };
+      const body = relM[1] === 'studio' ? studioBody(data, relM[2], titleOfFilm, cardOf) : groupBody(data, relM[2], titleOfFilm, cardOf);
+      if (!body) return send(res, 404, shell(`Not found · ${SITE}`, '<h1>Not found</h1><p><a href="/films/studios">All studios</a></p>'));
+      const g = data.groups[relM[2]];
+      return send(res, 200, shell(`${g.t} · ${SITE}`, body, { canonical: `${PREFIX}/${relM[1]}/${relM[2]}`, description: `${g.t}: every film, in order, with where to watch and audience reviews.` }));
     }
     if (p === '/book') { // every film of one book (the SoapBox Library links here)
       const data = loadBasedOn(dataDir());

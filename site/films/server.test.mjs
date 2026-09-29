@@ -246,3 +246,52 @@ test('library: filmed Gutenberg books get a "films of this book" link', async ()
   assert.match(html, /\/films\/book\?gutenberg=84/);
   assert.doesNotMatch(html, /gutenberg=99999/);
 });
+
+test('relations: series in order with prev/next, universes, studios and remakes; studio page groups by brand', async () => {
+  const rel = await import('./relations.mjs');
+  const byFilm = {
+    A: { series: [{ id: 'S', t: 'Toy Story', n: 1 }], universe: [{ id: 'U', t: 'Toy Story universe' }], studio: [{ id: 'P', t: 'Pixar' }], next: 'B' },
+    B: { series: [{ id: 'S', t: 'Toy Story', n: 2 }], universe: [{ id: 'U', t: 'Toy Story universe' }], studio: [{ id: 'P', t: 'Pixar' }], prev: 'A' },
+    C: { remakeOf: ['A'], studio: [{ id: 'P', t: 'Pixar' }] },
+  };
+  const groups = { S: { t: 'Toy Story', kind: 'series', films: ['B', 'A'] }, U: { t: 'Toy Story universe', kind: 'universe', films: ['A', 'B'] }, P: { t: 'Pixar', kind: 'studio', films: ['A', 'B', 'C'] } };
+  const data = rel.derive(byFilm, groups);
+  const titleOf = (id) => ({ A: { t: 'Toy Story', y: 1995 }, B: { t: 'Toy Story 2', y: 1999 }, C: { t: 'Toy <Story> Remake', y: 2030 } }[id] || null);
+  assert.deepEqual(rel.orderedFilms(data, 'S', titleOf).map((f) => f.id), ['A', 'B']);
+  const boxA = rel.relationsBox(data, 'A', titleOf);
+  assert.match(boxA, /Next: <a href="\/films\/B">Toy Story 2 \(1999\)<\/a>/);
+  assert.match(boxA, /Remade as:<\/b>.*Toy &lt;Story&gt; Remake/);
+  assert.match(boxA, /\/films\/studio\/P/);
+  assert.match(rel.relationsBox(data, 'C', titleOf), /Remake of:<\/b> <a href="\/films\/A">/);
+  const studio = rel.studioBody(data, 'P', titleOf, (id) => `<card ${id}>`);
+  assert.match(studio, /<h2>Universes<\/h2>[\s\S]*Toy Story universe[\s\S]*<h2>Series<\/h2>/);
+  assert.equal(rel.studioBody(data, 'S', titleOf, () => ''), null); // a series is not a studio
+});
+
+test('videos: without a key every section is a YouTube search link; with a key, one cached search per kind and a daily budget', async () => {
+  const vid = await import('./videos.mjs');
+  const { mkdtempSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const dir = mkdtempSync(join(tmpdir(), 'yt-'));
+  delete process.env.YOUTUBE_API_KEY;
+  vid.__resetVideos();
+  let html = vid.videosBox({ t: 'Martyrs', y: 2008 }, await vid.videosFor(dir, { id: 'Q1', t: 'Martyrs', y: 2008 }));
+  assert.match(html, /Watch the trailer on YouTube/);
+  assert.match(html, /Theory videos <span class=spoil>⚠ may contain spoilers/);
+  assert.ok(html.indexOf('Theory videos') < html.indexOf('Review videos'), 'theories first, reviews second');
+  process.env.YOUTUBE_API_KEY = 'k'; process.env.YOUTUBE_DAILY_SEARCHES = '4';
+  vid.__resetVideos();
+  let calls = 0;
+  vid.__setFetch(async () => { calls += 1; return { ok: true, json: async () => ({ items: [{ id: { videoId: 'abcdefghijk' }, snippet: { title: 'T <b>', channelTitle: 'C' } }] }) }; });
+  const v = await vid.videosFor(dir, { id: 'Q2', t: 'Raze', y: 2013 });
+  assert.equal(calls, 3);
+  html = vid.videosBox({ t: 'Raze', y: 2013 }, v);
+  assert.match(html, /youtube-nocookie\.com\/embed\/abcdefghijk/);
+  assert.match(html, /T &lt;b&gt;/);
+  await vid.videosFor(dir, { id: 'Q2', t: 'Raze', y: 2013 });
+  assert.equal(calls, 3); // cached
+  await vid.videosFor(dir, { id: 'Q3', t: 'Fresh', y: 2022 });
+  assert.equal(calls, 4); // budget of 4 reached: remaining kinds fall back to links
+  delete process.env.YOUTUBE_API_KEY; delete process.env.YOUTUBE_DAILY_SEARCHES; vid.__setFetch(null);
+});
