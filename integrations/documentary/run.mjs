@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { TOPICS, QUEUED, factsFor, WORDS_PER_MINUTE } from './topics.mjs';
 import { VARIANTS, chapterPrompt, parseScript, score } from './script.mjs';
-import { planShots, sourcesOf, matchImage, renderPrompt, ALPHA_LINE, keywords } from './shots.mjs';
+import { planShots, sourcesOf, matchImage, renderPrompt, ALPHA_LINE, keywords, ANACHRONISM, anachronismCheck } from './shots.mjs';
 import { STYLES, planPrompt, parsePlan, scorePlan, factPlan } from './plan.mjs';
 
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : d; };
@@ -165,6 +165,13 @@ export function buildBoard(p, index, { renderBudget = 0 } = {}) {
   const facts = (topic.facts || []);
   const sceneKey = (x) => String(x.id || '').split(':').slice(0, 2).join(':');
   const recentKeys = []; const useCount = new Map();
+  // ERA + REGION: an ancient film never uses an asset that depicts a modern scene (19th-c. views, genre paintings,
+  // ethnographic photos: minarets, rifles, steamships). Same-region assets are preferred; others are allowed only when
+  // nothing in the region fits (the keyword score must still match).
+  const era = topic.era || 'ancient';
+  const inEra = index.filter((x) => era !== 'ancient' || (x.depicts !== 'modern' && !ANACHRONISM.test(`${x.text} ${x.credit || ''}`)));
+  const regional = topic.region ? inEra.filter((x) => !x.region || x.region === topic.region || x.type === 'map') : inEra;
+  const eraPool = regional.length >= 20 ? regional : inEra;
   const norm = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   for (const sc0 of p.scenes) {
     const sc = { ...sc0 };
@@ -179,7 +186,7 @@ export function buildBoard(p, index, { renderBudget = 0 } = {}) {
     const topicWords = keywords(`${p.title} ${(p.sequences || [])[sc.sequence - 1] || ''}`);
     const q = `${sc.visual} ${sc.card || ''}`;
     // variety: no scene (in any look/people) again within the last 12 shots, and no scene more than 4 times per film
-    const pool = index.filter((x) => { const k = sceneKey(x); return !recentKeys.includes(k) && (useCount.get(k) || 0) < 4; });
+    const pool = eraPool.filter((x) => { const k = sceneKey(x); return !recentKeys.includes(k) && (useCount.get(k) || 0) < 4; });
     let im = matchImage(q, pool, { people: topic.peoples, recent, chapterWords: topicWords });
     let render = null;
     if (!im) {
@@ -199,7 +206,8 @@ export function buildBoard(p, index, { renderBudget = 0 } = {}) {
   }
   const sources = { record: new Set(), tradition: new Set(), interpretation: new Set() };
   for (const sc of shots) if (sc.kind !== 'none' && sc.source && sources[sc.kind]) sources[sc.kind].add(sc.source);
-  return { ...p, id: p.topic, shots, renders, missing, credits: [...credits], sources: { record: [...sources.record], tradition: [...sources.tradition], interpretation: [...sources.interpretation] }, byPathUnused: undefined };
+  const anachronisms = (topic.era || 'ancient') === 'ancient' ? anachronismCheck({ shots }, index) : [];
+  return { ...p, id: p.topic, anachronisms, eraFilter: { era: topic.era || 'ancient', region: topic.region || '', note: 'assets depicting modern scenes excluded; same-region assets preferred (2026-09-29 fix after a minaret appeared in Kush and the Nile)' }, shots, renders, missing, credits: [...credits], sources: { record: [...sources.record], tradition: [...sources.tradition], interpretation: [...sources.interpretation] }, byPathUnused: undefined };
 }
 
 function board(planFile, indexFile, out, renderBudget) {
@@ -208,7 +216,8 @@ function board(planFile, indexFile, out, renderBudget) {
   const b = buildBoard(p, index, { renderBudget });
   fs.writeFileSync(out, JSON.stringify(b, null, 1));
   const types = {}; for (const s of b.shots) types[s.assetType || 'none'] = (types[s.assetType || 'none'] || 0) + 1;
-  console.log(`${b.shots.length} shots ${JSON.stringify(types)}; ${b.renders.length} renders; ${b.missing.length} missing`);
+  console.log(`${b.shots.length} shots ${JSON.stringify(types)}; ${b.renders.length} renders; ${b.missing.length} missing; ${b.anachronisms.length} anachronisms`);
+  if (b.anachronisms.length) { console.error('ANACHRONISMS', JSON.stringify(b.anachronisms)); process.exitCode = 3; }
 }
 
 if (process.argv[1] && process.argv[1].endsWith('run.mjs')) {

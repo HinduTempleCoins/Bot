@@ -7,6 +7,7 @@ const T = (id, tag, source, text, card, visual) => ({ id, tag, source, text, car
 
 export const WAVE1 = {
   'tomb-life': {
+    era: 'ancient', region: 'nile',
     title: 'Living with the Dead: Egyptian Tomb Life', peoples: 'egyptian',
     summary: 'Inside the painted tombs of Thebes — banquets, fishing, harvests and the journey of the soul, as the Egyptians painted them for eternity.',
     facts: [
@@ -25,6 +26,7 @@ export const WAVE1 = {
     ],
   },
   'nile-gods': {
+    era: 'ancient', region: 'nile',
     title: 'The Nile\'s Gods in Real Places', peoples: 'egyptian',
     summary: 'For the Egyptians the gods lived at real places on the river — the flood at Elephantine, Isis at Philae, the crocodile god at Kom Ombo. A journey down the Nile through the spirit world as they saw it.',
     facts: [
@@ -42,6 +44,7 @@ export const WAVE1 = {
     ],
   },
   minoans: {
+    era: 'ancient', region: 'aegean',
     title: 'Minoan Crete: The Palace of the Bull', peoples: 'minoan',
     summary: 'Knossos, the bull-leapers, the saffron gatherers of Thera, and the myth of the Minotaur — Bronze Age Crete in slow recreation.',
     facts: [
@@ -60,6 +63,7 @@ export const WAVE1 = {
     ],
   },
   carthage: {
+    era: 'ancient', region: 'levant-punic',
     title: 'Carthage and the Phoenicians', peoples: 'punic',
     summary: 'From the purple-dye cities of Phoenicia to Carthage, its round harbour, its goddess Tanit and its war with Rome.',
     facts: [
@@ -78,6 +82,7 @@ export const WAVE1 = {
     ],
   },
   amazigh: {
+    era: 'ancient', region: 'maghreb-sahara',
     title: 'The Amazigh and the Queen of the Hoggar', peoples: 'libyan',
     summary: 'The Amazigh of North Africa — the Garamantes of the desert, the Tifinagh script, the rock art of Tassili, and the tomb of Tin Hinan, remembered as the mother of the Tuareg.',
     facts: [
@@ -96,6 +101,7 @@ export const WAVE1 = {
     ],
   },
   delphi: {
+    era: 'ancient', region: 'aegean',
     title: 'Delphi and the Oracle', peoples: 'greek',
     summary: 'The navel of the world: the Pythia on her tripod, the Castalian spring, and the pilgrims who climbed the mountain to ask Apollo.',
     facts: [
@@ -113,6 +119,7 @@ export const WAVE1 = {
     ],
   },
   fayum: {
+    era: 'ancient', region: 'nile',
     title: 'Faces of Roman Egypt: the Fayum Portraits', peoples: 'egyptian',
     summary: 'Painted faces laid over mummies in Roman Egypt — real people, looking back at us across two thousand years.',
     facts: [
@@ -128,6 +135,7 @@ export const WAVE1 = {
     ],
   },
   perfume: {
+    era: 'ancient', region: 'nile',
     title: 'The Perfumed Banquet', peoples: 'egyptian',
     summary: 'Lotus, kyphi and perfumed wax — the scents of Egyptian feasts and temples, as the tomb paintings show them.',
     facts: [
@@ -143,6 +151,7 @@ export const WAVE1 = {
     ],
   },
   'four-peoples': {
+    era: 'ancient', region: 'nile',
     title: 'The Four Peoples of the Egyptian World', peoples: 'depicted',
     summary: 'How the Egyptians painted the peoples of their world — Egyptians, Nubians, Libyans and Asiatics — and the envoys who came bearing gifts.',
     facts: [
@@ -158,6 +167,7 @@ export const WAVE1 = {
     ],
   },
   nefertiti: {
+    era: 'ancient', region: 'nile',
     title: 'Nefertiti', peoples: 'egyptian',
     summary: 'The queen of Akhenaten\'s sun-city — her bust, her family under the rays of the Aten, and the mystery of her end.',
     facts: [
@@ -173,6 +183,7 @@ export const WAVE1 = {
     ],
   },
   cleopatra: {
+    era: 'ancient', region: 'nile',
     title: 'Cleopatra', peoples: 'egyptian',
     summary: 'The last ruler of Ptolemaic Egypt — Alexandria, the Pharos, Caesar and Antony, and the fall of the kingdom to Rome.',
     facts: [
@@ -188,6 +199,7 @@ export const WAVE1 = {
     ],
   },
   hyperborea: {
+    era: 'ancient', region: 'aegean',
     title: 'Hyperborea and Delos', peoples: 'greek',
     summary: 'The Greek tradition of the Hyperboreans beyond the north wind, the gifts they sent to Apollo\'s island of Delos, and the island itself.',
     facts: [
@@ -203,6 +215,7 @@ export const WAVE1 = {
     ],
   },
   dendera: {
+    era: 'ancient', region: 'nile',
     title: 'Hathor\'s Temple at Dendera', peoples: 'egyptian',
     summary: 'The great temple of the goddess Hathor at Dendera — its Hathor-headed columns, its star-filled ceilings and zodiac, and the festivals held on its roof.',
     facts: [

@@ -14,6 +14,48 @@ Glyphs (29 scripts) and the Sacred Symbols live on the web host; the planner lin
 """
 import argparse, glob, json, os, re
 
+# What an asset DEPICTS (not when it was made): a 19th-century history painting of Dido is an ancient scene; a
+# 19th-century view of Cairo, a Nile genre painting or an 1890s ethnographic photo is a MODERN scene — minarets,
+# rifles, steamships — and must never appear in a film about antiquity.
+MODERN_SOURCE = re.compile(r"David Roberts|Louis Haghe|Bridgman|Goodall|Sargent|Veillon|L[ée]on Belly|Maurand|Foureau|Edwardes|"
+                           r"Geiser|Neurdein|Boussuge|Tapir[oó]|Barrow, 18|Melbye|Durand-Brager|Hoefnagel|Torriani|Berthelot|"
+                           r"A\. Mayer|Le Monde illustr", re.I)
+ANCIENT_SUBJECT = re.compile(r"mummy|dido|aeneas|hannibal|salammb|cleopatra|pharaoh|latona|apollo|hercules|herakles|carthag.*(decline|build)", re.I)
+ANACHRONISM = re.compile(r"\b(minarets?|mosques?|cathedrals?|churche?s?|crescent|rifles?|muskets?|pistols?|cannons?|steam(ship|boat)s?|railways?|"
+                         r"telegraph|dahabieh|pasha|ottoman|mamluk|bazaars?)\b", re.I)
+REGION_OF_GROUP = {"The Nile": "nile", "Egypt": "nile", "Nubia": "nile", "Headcones & perfume": "nile", "Lotus perfume": "nile",
+                   "Visitors & the Four Peoples": "nile", "Nefertiti": "nile", "Cleopatra": "nile", "Fayum portraits": "nile",
+                   "Egyptian gods & myth": "nile", "Minoans": "aegean", "Greece & Scheria": "aegean", "Hyperborea & Delos": "aegean",
+                   "Sais, Athens & Delphi": "aegean", "Greek myth on pottery": "aegean", "Carthage & the Phoenicians": "levant-punic",
+                   "The Amazigh": "maghreb-sahara", "Hindu myth: paintings & temple cloths": "india"}
+
+
+REGION_OF_PREFIX = [("sais_", "nile"), ("lateperiod_", "nile"), ("sahure_", "nile"), ("libyans_tiles", "nile"),
+                    ("libyan_chief", "nile"), ("libyan_applique", "nile"), ("vanquished_libyan", "nile"), ("apadana_", "persia"),
+                    ("carthage_", "levant-punic"), ("tyre_", "levant-punic"), ("sidon_", "levant-punic"), ("acre_", "levant-punic"),
+                    ("jaffa_", "levant-punic"), ("hannibal", "levant-punic"), ("cadiz_", "iberia-atlantic"), ("strait_", "iberia-atlantic"),
+                    ("canaries_", "iberia-atlantic"), ("mogador_", "maghreb-sahara"), ("sabratha_", "maghreb-sahara"),
+                    ("alexandria_", "nile"), ("nile_", "nile"), ("egypt_", "nile"), ("cleo_", "nile"), ("nef_", "nile"),
+                    ("greek_", "aegean"), ("delphi_", "aegean"), ("athens_", "aegean"), ("delos_", "aegean"), ("minoan_", "aegean"),
+                    ("hindu_", "india")]
+
+
+def region_of(key, group):
+    for pre, r in REGION_OF_PREFIX:
+        if key.startswith(pre):
+            return r
+    return REGION_OF_GROUP.get(group, "")
+
+
+def depicts(title, credit, key):
+    t = f"{title} {words(key)}"
+    if ANACHRONISM.search(t) or ANACHRONISM.search(credit or ""):
+        return "modern"
+    if MODERN_SOURCE.search(credit or "") and not ANCIENT_SUBJECT.search(t):
+        return "modern"
+    return "ancient"
+
+
 def words(s):
     return re.sub(r"[_\-]+", " ", s)
 
@@ -30,8 +72,18 @@ def main():
     a = ap.parse_args()
     R = a.root
     out = []
-    man = load_json(f"{R}/remakes_bundle/manifest.json", {}) or load_json(f"{R}/remakes_bundle.new/manifest.json", {}) or {}
-    meta = {s["key"]: s for s in man.get("scenes", [])}
+    # titles/groups/credits: every manifest copy (newest wins) + the scene files the batches read
+    meta = {}
+    for mf in sorted(glob.glob(f"{R}/remakes_bundle*/manifest.json"), key=lambda f: os.path.getmtime(f)):
+        for sc in (load_json(mf, {}) or {}).get("scenes", []):
+            meta[sc["key"]] = sc
+    for jf in glob.glob(f"{R}/remake_extra/*.jsonl"):
+        for line in open(jf):
+            try:
+                r = json.loads(line)
+            except Exception:
+                continue
+            meta.setdefault(r.get("key", ""), {"key": r.get("key"), "title": r.get("title", ""), "credit": r.get("credit", ""), "group": ""})
     for d in sorted(glob.glob(f"{R}/remakes/*/")):
         key = os.path.basename(d.rstrip("/"))
         m = meta.get(key, {})
@@ -41,6 +93,8 @@ def main():
             if not mm or b.endswith(".pose.png"):
                 continue
             out.append({"id": f"remake:{key}:{mm.group(1)}:{mm.group(2)}", "type": "remake", "path": f,
+                        "depicts": depicts(m.get("title", ""), m.get("credit", ""), key), "group": m.get("group", ""),
+                        "region": region_of(key, m.get("group", "")),
                         "text": f"{m.get('title', words(key))} {m.get('group', '')} {m.get('credit', '')} {words(key)} {mm.group(1).split('_')[1]}",
                         "people": mm.group(2), "look": mm.group(1), "licence": "Hathor Studio remake", "credit": m.get("credit", "")})
     for sub, typ in (("characters_sais", "character"), ("egypt_royal_military", "object"), ("objects", "object"),
@@ -59,7 +113,10 @@ def main():
         r = load_json(rf, {}) or {}
         clip = os.path.join(os.path.dirname(rf), "clip.mp4")
         if os.path.exists(clip):
+            sm = meta.get(r.get("scene", ""), {})
             out.append({"id": f"clip:{r.get('id')}", "type": "clip", "path": clip, "seconds": r.get("seconds", 6),
+                        "depicts": depicts(sm.get("title", r.get("title", "")), sm.get("credit", ""), r.get("scene", "")),
+                        "group": sm.get("group", r.get("group", "")), "region": region_of(r.get("scene", ""), sm.get("group", r.get("group", ""))),
                         "text": f"{r.get('title', '')} {r.get('group', '')} {r.get('puppet_title', '')} {r.get('kind', '')}",
                         "people": r.get("people", ""), "licence": "Hathor Studio animation", "credit": ""})
     for f in sorted(glob.glob(f"{R}/horror/*.png")):
