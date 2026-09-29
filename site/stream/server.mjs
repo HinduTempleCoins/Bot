@@ -29,6 +29,7 @@ import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
 import * as classics from '../../integrations/soapbox/classic-films.mjs';
 import * as pdMore from '../../integrations/soapbox/pd-films-more.mjs';
 import * as speeches from '../../integrations/soapbox/speeches.mjs';
+import * as narco from '../../integrations/soapbox/narco-cinema.mjs';
 import { transcriptsRoute, trackTag, transcriptLink } from './transcripts-pages.mjs';
 import { horrorMapRoute, HORROR_MAP_PATHS, loadStills } from './horror-pages.mjs';
 import * as radio from '../../integrations/soapbox/radio.mjs';
@@ -303,7 +304,7 @@ function pageShell(title, inner, { description, canonical } = {}) {
     title, description: desc, canonical: canonical || `${BASE_URL}/`, siteName: SITE_NAME,
     robots: 'index,follow,max-image-preview:large', site: { url: BASE_URL, name: SITE_NAME },
   });
-  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/free">🆓 Free films</a>', '<a href="/speeches">🎙️ Speeches &amp; debates</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
+  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/free">🆓 Free films</a>', '<a href="/speeches">🎙️ Speeches &amp; debates</a>', '<a href="/narco">🌵 Narco cinema</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -321,6 +322,22 @@ function classicsRow() {
   const picks = ['his_girl_friday', 'metropolis-1927-english-titles', 'The_General_Buster_Keaton', 'AStarIsBorn', 'Detour', 'meet_john_doe', 'FairbanksRobinHood1922', 'TheStranger_0', 'road-to-bali', 'angel_and_the_badman', 'gullivers_travels1939', 'd.-o.-a.-1950']
     .map((id) => classics.PD_CLASSICS.find((f) => f.id === id)).filter(Boolean).map(classics.classicTile);
   return `<section class=row><h2><a href="/classics">Classics · free</a> <span class="badge lic">public domain</span><span class=see>All ${classics.PD_CLASSICS.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>`;
+}
+
+// Narco cinema: Mexican narcocine and the world's narco films as where-to-watch leads (copyrighted — linked, never played),
+// plus the public-domain anti-drug / DEA / pre-1931 films that DO play. See integrations/soapbox/narco-cinema.mjs.
+function narcoPage() {
+  const lead = (t) => {
+    const free = (t.where || []).map((w) => `<a href="${esc(safeHref(w.url))}" target=_blank rel="noopener noreferrer">${esc(w.service)} ↗</a>`).join(' · ');
+    return `<li><a href="${esc(narco.filmsHref(t))}"><b>${esc(t.t)}</b></a>${t.y ? ` (${esc(t.y)})` : ''}${t.country ? ` · ${esc(t.country)}` : ''}${t.d ? ` · dir. ${esc(t.d)}` : ''}${t.stars ? ` · ${esc(t.stars)}` : ''}${t.note ? `<br><span class=meta>${esc(t.note)}</span>` : ''}${free ? `<br><span class="badge lic">free</span> ${free}` : ''}</li>`;
+  };
+  const shelves = narco.titlesByShelf().map((s) => `<section class=row><h2>${esc(s.name)}</h2><p class=lead style="font-size:13px">${esc(s.blurb)}</p><ul class=narco>${s.items.map(lead).join('')}</ul></section>`).join('');
+  const pd = `<section class=row><h2>Play free here: the public-domain drug-war films</h2><p class=lead style="font-size:13px">Opium burned in 1914 San Francisco, the silent <i>The Pace That Kills</i> (1928), the 1950s–70s anti-drug films, and the DEA's and the US Army's own films from Bolivia, Colombia and Vietnam — US government works and Prelinger Archives films, free for everyone.</p><div class=grid>${narco.NARCO_PD.map((f) => tile(narco.narcoTile(f))).join('')}</div></section>`;
+  const inner = `<style>ul.narco{columns:2 360px;column-gap:28px;padding-left:18px}ul.narco li{break-inside:avoid;margin:0 0 9px}</style>
+    <p class=lead>Narco cinema — <i>narcocine</i> — began with Mexican films of 1970s corridos about smugglers and grew into a whole straight-to-video industry. These films are copyrighted, so we don't play them: every title links to <a href="/films">SoapBox Films</a> to rate and review it, and to the free service that carries it now (${narco.freeNow().length} are free on Tubi, The Roku Channel or ViX, checked 29 Sep 2026). The public-domain drug-war films at the bottom play right here.</p>
+    ${shelves}${pd}
+    <p class=lead style="font-size:12px">Not played, on purpose: ${narco.EXCLUDED.map((x) => `${esc(x.title)} (${esc(x.why)})`).join('; ')}.</p>`;
+  return pageShell(`Narco cinema · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/narco`, description: `Narco cinema: Mexican narcocine from Contrabando y traición and La banda del carro rojo to the Almada brothers, every El Coyote film, and the world's narco films — where to watch them free — plus ${narco.NARCO_PD.length} public-domain drug-war films that play here.` });
 }
 
 function speechesPage() {
@@ -579,7 +596,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', '/classics', '/speeches', '/free', ...pdMore.moreByGenre().map((g) => `/free/${g.id}`), ...CATEGORIES.map((c) => `/c/${c.id}`),
+export const SITEMAP_PATHS = ['/', '/classics', '/speeches', '/narco', '/free', ...pdMore.moreByGenre().map((g) => `/free/${g.id}`), ...CATEGORIES.map((c) => `/c/${c.id}`),
   '/horror', ...HORROR_MAP_PATHS(), '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
@@ -667,6 +684,7 @@ export async function handler(req, res) {
 
     if (path === '/classics') return sendHtml(res, classicsPage());
     if (path === '/speeches') return sendHtml(res, speechesPage());
+    if (path === '/narco') return sendHtml(res, narcoPage());
     if (path === '/free') return sendHtml(res, freePage());
     const freeM = path.match(/^\/free\/([a-z]+)$/);
     if (freeM) { const html = freePage(freeM[1]); if (!html) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown genre'); } return sendHtml(res, html); }

@@ -357,3 +357,17 @@ test('a speech /watch page plays and links its official transcript', async () =>
   assert.match(r.body, /Official transcript/);
   assert.match(r.body, /er\.jsc\.nasa\.gov\/seh\/ricetalk\.htm/);
 });
+
+test('/narco: shelves of leads linked to SoapBox Films, free services, and playable public-domain films; in nav + sitemap', async () => {
+  const { handler, SITEMAP_PATHS } = await import('./server.mjs');
+  const res = { code: 0, body: '', writeHead(c) { this.code = c; }, setHeader() {}, end(b) { this.body = String(b || ''); } };
+  await handler({ method: 'GET', url: '/narco', headers: {} }, res);
+  assert.equal(res.code, 200);
+  assert.match(res.body, /El Coyote y la Bronca/);
+  assert.match(res.body, /The Almada brothers/);
+  assert.match(res.body, /href="\/films\/search\?q=La%20clave%207%201999"/);
+  assert.match(res.body, /Tubi/);
+  assert.match(res.body, /The Pace That Kills/);
+  assert.match(res.body, /href="\/narco"/);
+  assert.ok(SITEMAP_PATHS.includes('/narco'));
+});
