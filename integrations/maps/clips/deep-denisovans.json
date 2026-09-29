@@ -1,0 +1,103 @@
+{
+ "id": "deep-denisovans",
+ "fps": 24,
+ "palette": "night",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "note": "Alpha · ranges and dates are scholarly estimates with wide uncertainty · outlines schematic · one current model",
+ "endNote": "Ranges, routes and dates are scholarly estimates with uncertainty — one current model, not settled fact. Debated and model-based items are labelled. Full per-item sources: integrations/maps/data/deep-time/SOURCES.md.",
+ "title": "Denisovans",
+ "subtitle": "about 250,000 – 30,000 years ago · most of the range is inferred",
+ "bbox": [
+  70,
+  -15,
+  160,
+  58
+ ],
+ "years": [
+  -250000,
+  -30000
+ ],
+ "duration": 90,
+ "territories": {
+  "source": "geojson",
+  "path": "../data/deep-time/denisovan-range.geojson"
+ },
+ "cities": [
+  {
+   "name": "Denisova Cave",
+   "lat": 51.4,
+   "lon": 84.68,
+   "from": -200000,
+   "to": 0
+  },
+  {
+   "name": "Baishiya Karst Cave (Xiahe)",
+   "lat": 35.45,
+   "lon": 102.57,
+   "from": -160000,
+   "to": 0
+  },
+  {
+   "name": "Harbin cranium",
+   "lat": 45.75,
+   "lon": 126.6,
+   "from": -146000,
+   "to": 0
+  },
+  {
+   "name": "Cobra Cave, Laos (probable)",
+   "lat": 20.2,
+   "lon": 102.9,
+   "from": -164000,
+   "to": 0
+  },
+  {
+   "name": "Penghu mandible (date uncertain)",
+   "lat": 23.5,
+   "lon": 119.5,
+   "from": -130000,
+   "to": 0
+  }
+ ],
+ "tags": [
+  "deep-time",
+  "denisovan"
+ ],
+ "credit": "Sites: Reich 2010, Douka 2019, Chen 2019, Zhang 2020, Demeter 2022, Fu 2025, Tsutaya 2025; inferred range: Jacobs 2019, Larena 2021. Base map: Natural Earth (PD).",
+ "stops": [
+  {
+   "label": "Denisova Cave",
+   "lat": 51.4,
+   "lon": 84.68,
+   "year": -200000,
+   "kind": "record",
+   "caption": "Named from a finger bone's genome",
+   "source": "Reich et al. 2010; Douka et al. 2019",
+   "hold": 4,
+   "zoom": 2.5
+  },
+  {
+   "label": "Baishiya Karst Cave",
+   "lat": 35.45,
+   "lon": 102.57,
+   "year": -160000,
+   "kind": "record",
+   "caption": "Xiahe mandible, Tibetan Plateau",
+   "source": "Chen et al. 2019",
+   "hold": 4,
+   "zoom": 2.5
+  },
+  {
+   "label": "Island SE Asia & Sahul",
+   "lat": -4,
+   "lon": 138,
+   "year": -55000,
+   "kind": "interpretation",
+   "caption": "Inferred from DNA of living people — no fossils there",
+   "source": "Jacobs et al. 2019",
+   "hold": 4,
+   "zoom": 2.5
+  }
+ ]
+}

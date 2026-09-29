@@ -1,0 +1,101 @@
+{
+ "id": "deep-haplogroups",
+ "fps": 24,
+ "palette": "night",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "note": "Alpha · ranges and dates are scholarly estimates with wide uncertainty · outlines schematic · one current model",
+ "endNote": "Ranges, routes and dates are scholarly estimates with uncertainty — one current model, not settled fact. Debated and model-based items are labelled. Full per-item sources: integrations/maps/data/deep-time/SOURCES.md.",
+ "title": "The Haplogroup Journeys",
+ "subtitle": "Y-DNA and mtDNA together · one current model",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  74
+ ],
+ "years": [
+  -240000,
+  -1500
+ ],
+ "duration": 120,
+ "routes": [
+  {
+   "label": "A (A00 → A-M51)",
+   "colour": "#9a7b5a",
+   "path": "../data/deep-time/ydna/a-a00-a-m51.csv"
+  },
+  {
+   "label": "CT · the exit",
+   "colour": "#f0c46a",
+   "path": "../data/deep-time/ydna/ct-the-exit.csv"
+  },
+  {
+   "label": "C (C1b2 → Sahul)",
+   "colour": "#70c0ff",
+   "path": "../data/deep-time/ydna/c-c1b2-sahul.csv"
+  },
+  {
+   "label": "E (E-M96 back to Africa)",
+   "colour": "#e07060",
+   "path": "../data/deep-time/ydna/e-e-m96-back-to-africa.csv"
+  },
+  {
+   "label": "NO → N (Siberia, Uralic)",
+   "colour": "#a0a0ff",
+   "path": "../data/deep-time/ydna/no-n-siberia-uralic.csv"
+  },
+  {
+   "label": "P → Q (Siberia)",
+   "colour": "#80e0ff",
+   "path": "../data/deep-time/ydna/p-q-siberia.csv"
+  },
+  {
+   "label": "Q-M3 · the Americas",
+   "colour": "#40c0f0",
+   "path": "../data/deep-time/ydna/q-m3-the-americas.csv"
+  },
+  {
+   "label": "R1b (Yamnaya → Bell Beaker)",
+   "colour": "#ff4040",
+   "path": "../data/deep-time/ydna/r1b-yamnaya-bell-beaker.csv"
+  },
+  {
+   "label": "L0 (Khoe-San)",
+   "colour": "#9a7b5a",
+   "path": "../data/deep-time/mtdna/l0-khoe-san.csv"
+  },
+  {
+   "label": "L3 → out of Africa",
+   "colour": "#f0c46a",
+   "path": "../data/deep-time/mtdna/l3-out-of-africa.csv"
+  },
+  {
+   "label": "M → C, D (Asia)",
+   "colour": "#70c0ff",
+   "path": "../data/deep-time/mtdna/m-c-d-asia.csv"
+  },
+  {
+   "label": "N → A (East Asia)",
+   "colour": "#c080f0",
+   "path": "../data/deep-time/mtdna/n-a-east-asia.csv"
+  },
+  {
+   "label": "R → B (East Asia, Pacific)",
+   "colour": "#ff90b0",
+   "path": "../data/deep-time/mtdna/r-b-east-asia-pacific.csv"
+  },
+  {
+   "label": "H (post-glacial Europe)",
+   "colour": "#ff7070",
+   "path": "../data/deep-time/mtdna/h-post-glacial-europe.csv"
+  }
+ ],
+ "tags": [
+  "deep-time",
+  "haplogroup",
+  "ydna",
+  "mtdna"
+ ],
+ "credit": "Model: YFull; Poznik 2016; Karmin 2015; ISOGG; PhyloTree 17; Behar 2012. Base map: Natural Earth (PD)."
+}

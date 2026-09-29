@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { formatYear, yearAt, routeAt, parseRouteCsv, validateTerritories, validateJob } from './spec.mjs';
+import { formatYear, formatAgo, formatTime, yearAt, routeAt, parseRouteCsv, validateTerritories, validateJob } from './spec.mjs';
 
 const here = (p) => new URL(p, import.meta.url);
 
@@ -90,4 +90,37 @@ test('route stops: validated in time order, media normalised, kinds checked; the
   const job = JSON.parse(readFileSync(here('./samples/job-stops.json'), 'utf8'));
   const { validateJob } = await import('./spec.mjs');
   assert.equal(validateJob(job).stops.length, 3);
+});
+
+test('formatAgo: deep-time counter, rounded to the scale', () => {
+  assert.equal(formatAgo(-70000), '70,000 years ago');
+  assert.equal(formatAgo(-5000), '5,000 years ago');
+  assert.equal(formatAgo(-299640), '300,000 years ago');
+  assert.equal(formatAgo(-12345), '12,300 years ago');
+  assert.equal(formatAgo(-1), '1 year ago');
+  assert.equal(formatAgo(0), 'Today');
+  assert.equal(formatTime(-334), '334 BC');
+  assert.equal(formatTime(-334, 'ago'), '334 years ago');
+});
+
+test('yearAt log scale: endpoints exact, geometric middle, monotonic, can end at the present', () => {
+  assert.equal(yearAt(0, 101, -300000, -10000, 'log'), -300000);
+  assert.ok(Math.abs(yearAt(100, 101, -300000, -10000, 'log') + 10000) < 1e-6);
+  const mid = -yearAt(50, 101, -300000, -10000, 'log');
+  assert.ok(mid > 50000 && mid < 60000, String(mid));
+  const ys = Array.from({ length: 101 }, (_, i) => yearAt(i, 101, -300000, -10000, 'log'));
+  assert.ok(ys.every((y, i) => i === 0 || y > ys[i - 1]));
+  assert.ok(Math.abs(yearAt(10, 11, -1000, 0, 'log')) < 1e-6);
+  assert.equal(yearAt(5, 11, -336, -326), -331);
+});
+
+test('validateJob: ago mode widens the range; log needs ago', () => {
+  const ok = { title: 't', bbox: [0, 0, 10, 10], years: [-430000, -40000], timeMode: 'ago', timeScale: 'log', routes: [{ points: [] }] };
+  assert.equal(validateJob(ok).timeScale, 'log');
+  assert.equal(validateJob({ ...ok, timeMode: undefined, timeScale: undefined, years: [-10, 10] }).timeMode, 'calendar');
+  for (const bad of [{ timeMode: 'calendar' }, { years: [-430000, 10] }, { timeMode: 'bp' }, { years: [-4000000, -1] }]) assert.throws(() => validateJob({ ...ok, ...bad }));
+  const j = validateJob({ ...ok, stops: [{ label: 'Irhoud', lat: 31.9, lon: -8.9, year: -300000 }], years: [-310000, 0] });
+  assert.equal(j.stops[0].date, '300,000 years ago');
+  assert.equal(parseRouteCsv('label,lat,lon,year\nA,0,0,-70000\nB,1,1,-50000', 'ago').length, 2);
+  assert.throws(() => parseRouteCsv('label,lat,lon,year\nA,0,0,-70000\nB,1,1,-50000'));
 });

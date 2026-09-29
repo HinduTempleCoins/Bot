@@ -18,6 +18,33 @@ class Pure(unittest.TestCase):
         self.assertEqual(m.format_year(-334), "334 BC"); self.assertEqual(m.format_year(117), "AD 117"); self.assertEqual(m.format_year(1453), "1453")
         self.assertEqual(m.year_at(5, 11, -336, -326), -331)
 
+    def test_years_ago(self):
+        m = load()
+        self.assertEqual(m.format_ago(-70000), "70,000 years ago"); self.assertEqual(m.format_ago(-5000), "5,000 years ago")
+        self.assertEqual(m.format_ago(-299_640), "300,000 years ago"); self.assertEqual(m.format_ago(-12_345), "12,300 years ago")
+        self.assertEqual(m.format_ago(-1), "1 year ago"); self.assertEqual(m.format_ago(0), "Today")
+        self.assertEqual(m.format_time(-334, "calendar"), "334 BC"); self.assertEqual(m.format_time(-334, "ago"), "334 years ago")
+
+    def test_log_scale(self):
+        m = load()
+        y0, y1 = -300_000, -10_000
+        self.assertEqual(m.year_at(0, 101, y0, y1, "log"), y0); self.assertAlmostEqual(m.year_at(100, 101, y0, y1, "log"), y1, places=6)
+        mid = -m.year_at(50, 101, y0, y1, "log")  # geometric middle (≈ 55,000), not the linear 155,000
+        self.assertTrue(50_000 < mid < 60_000, mid)
+        ys = [m.year_at(i, 101, y0, y1, "log") for i in range(101)]
+        self.assertTrue(all(b > a for a, b in zip(ys, ys[1:])))
+        self.assertAlmostEqual(m.year_at(10, 11, -1000, 0, "log"), 0, places=6)
+
+    def test_validate_ago(self):
+        m = load()
+        ok = {"title": "t", "bbox": [0, 0, 10, 10], "years": [-430000, -40000], "timeMode": "ago", "timeScale": "log", "routes": [{"points": []}]}
+        self.assertEqual(m.validate(ok)["timeScale"], "log")
+        for bad in ({"timeMode": "calendar"}, {"years": [-430000, 10]}, {"timeMode": "bp"}, {"years": [-4_000_000, -1]}):
+            with self.assertRaises(SystemExit):
+                m.validate({**ok, **bad})
+        st = m.validate_stops([{"label": "Irhoud", "lat": 31.9, "lon": -8.9, "year": -300000}], [-310000, 0], "ago")
+        self.assertEqual(st[0]["date"], "300,000 years ago")
+
     def test_route(self):
         m = load()
         pts = [{"lat": 0, "lon": 0, "year": -336}, {"lat": 10, "lon": 20, "year": -334}]

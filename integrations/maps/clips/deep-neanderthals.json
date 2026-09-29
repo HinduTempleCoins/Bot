@@ -1,0 +1,138 @@
+{
+ "id": "deep-neanderthals",
+ "fps": 24,
+ "palette": "night",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "note": "Alpha · ranges and dates are scholarly estimates with wide uncertainty · outlines schematic · one current model",
+ "endNote": "Ranges, routes and dates are scholarly estimates with uncertainty — one current model, not settled fact. Debated and model-based items are labelled. Full per-item sources: integrations/maps/data/deep-time/SOURCES.md.",
+ "title": "Neanderthals",
+ "subtitle": "about 430,000 – 40,000 years ago",
+ "bbox": [
+  -15,
+  25,
+  95,
+  60
+ ],
+ "years": [
+  -430000,
+  -38000
+ ],
+ "duration": 100,
+ "territories": {
+  "source": "geojson",
+  "path": "../data/deep-time/neanderthal-range.geojson"
+ },
+ "cities": [
+  {
+   "name": "Sima de los Huesos (early lineage)",
+   "lat": 42.35,
+   "lon": -3.52,
+   "from": -430000,
+   "to": 0
+  },
+  {
+   "name": "Krapina",
+   "lat": 46.17,
+   "lon": 15.87,
+   "from": -130000,
+   "to": 0
+  },
+  {
+   "name": "Denisova Cave (Neanderthals)",
+   "lat": 51.4,
+   "lon": 84.68,
+   "from": -190000,
+   "to": 0
+  },
+  {
+   "name": "Shanidar",
+   "lat": 36.83,
+   "lon": 44.22,
+   "from": -75000,
+   "to": 0
+  },
+  {
+   "name": "Chagyrskaya",
+   "lat": 51.44,
+   "lon": 83.15,
+   "from": -59000,
+   "to": 0
+  },
+  {
+   "name": "Vindija",
+   "lat": 46.3,
+   "lon": 16.08,
+   "from": -52000,
+   "to": 0
+  },
+  {
+   "name": "La Ferrassie",
+   "lat": 44.95,
+   "lon": 0.94,
+   "from": -54000,
+   "to": 0
+  },
+  {
+   "name": "Kebara",
+   "lat": 32.56,
+   "lon": 34.94,
+   "from": -60000,
+   "to": 0
+  },
+  {
+   "name": "Neander Valley (Feldhofer)",
+   "lat": 51.23,
+   "lon": 6.95,
+   "from": -42000,
+   "to": 0
+  },
+  {
+   "name": "Gibraltar (Gorham's, Forbes')",
+   "lat": 36.12,
+   "lon": -5.34,
+   "from": -45000,
+   "to": 0
+  }
+ ],
+ "tags": [
+  "deep-time",
+  "neanderthal"
+ ],
+ "credit": "Sites: Arsuaga 2014, Meyer 2016, Prüfer 2014/2017, Mafessoni 2020, Pomeroy 2020, Higham 2014, Finlayson 2006. Base map: Natural Earth (public domain).",
+ "stops": [
+  {
+   "label": "Sima de los Huesos",
+   "lat": 42.35,
+   "lon": -3.52,
+   "year": -430000,
+   "kind": "record",
+   "caption": "Early Neanderthal lineage by nuclear DNA",
+   "source": "Meyer et al. 2016",
+   "hold": 4,
+   "zoom": 2.5
+  },
+  {
+   "label": "Last Neanderthals",
+   "lat": 44.95,
+   "lon": 0.94,
+   "year": -41000,
+   "kind": "record",
+   "caption": "Most disappear ~41–39 ka",
+   "source": "Higham et al. 2014",
+   "hold": 4,
+   "zoom": 2.5
+  },
+  {
+   "label": "Gibraltar",
+   "lat": 36.12,
+   "lon": -5.34,
+   "year": -39500,
+   "kind": "debated",
+   "caption": "Later survival (~32–28 ka) claimed at Gorham's Cave",
+   "source": "Finlayson et al. 2006",
+   "hold": 4,
+   "zoom": 2.5
+  }
+ ]
+}

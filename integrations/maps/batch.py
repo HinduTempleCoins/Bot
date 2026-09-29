@@ -33,7 +33,7 @@ for jf in sorted(glob.glob(os.path.join(a.clips, "*.json"))):
         print(cid, "FAILED", e, flush=True); continue
     fps = job.get("fps", 24)
     index[cid] = dict(id=cid, title=job["title"], subtitle=job.get("subtitle", ""), region=job.get("region", ""), bbox=job["bbox"],
-                      fromYear=job["years"][0], toYear=job["years"][1], polities=info["polities"],
+                      fromYear=job["years"][0], toYear=job["years"][1], timeMode=job.get("timeMode", "calendar"), polities=info["polities"],
                       duration=round(info["frames"] / fps, 1), file=f"{cid}.mp4", file720=f"{cid}_720.mp4", poster=f"{cid}.jpg",
                       licence="CC BY 4.0 (territories, Cliopatria) + public domain (Natural Earth)" if "Cliopatria" in info["credit"] else "public domain (Natural Earth) + job data",
                       credit=info["credit"], tags=job.get("tags", []), renderSeconds=round(time.time() - t0, 1))

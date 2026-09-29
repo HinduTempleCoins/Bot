@@ -1,0 +1,246 @@
+{
+ "id": "deep-sapiens",
+ "fps": 24,
+ "palette": "night",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "note": "Alpha · ranges and dates are scholarly estimates with wide uncertainty · outlines schematic · one current model",
+ "endNote": "Ranges, routes and dates are scholarly estimates with uncertainty — one current model, not settled fact. Debated and model-based items are labelled. Full per-item sources: integrations/maps/data/deep-time/SOURCES.md.",
+ "title": "Homo sapiens",
+ "subtitle": "about 315,000 years ago to the settling of the Pacific",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  74
+ ],
+ "years": [
+  -320000,
+  -700
+ ],
+ "duration": 130,
+ "territories": {
+  "source": "geojson",
+  "path": "../data/deep-time/sapiens-range.geojson"
+ },
+ "cities": [
+  {
+   "name": "Jebel Irhoud",
+   "lat": 31.86,
+   "lon": -8.87,
+   "from": -315000,
+   "to": 0
+  },
+  {
+   "name": "Florisbad",
+   "lat": -28.77,
+   "lon": 26.07,
+   "from": -259000,
+   "to": 0
+  },
+  {
+   "name": "Omo Kibish",
+   "lat": 5.4,
+   "lon": 35.9,
+   "from": -233000,
+   "to": 0
+  },
+  {
+   "name": "Apidima (debated)",
+   "lat": 36.66,
+   "lon": 22.38,
+   "from": -210000,
+   "to": 0
+  },
+  {
+   "name": "Misliya (debated)",
+   "lat": 32.72,
+   "lon": 34.97,
+   "from": -185000,
+   "to": 0
+  },
+  {
+   "name": "Herto",
+   "lat": 10.3,
+   "lon": 40.5,
+   "from": -160000,
+   "to": 0
+  },
+  {
+   "name": "Pinnacle Point (MSA)",
+   "lat": -34.2,
+   "lon": 22.09,
+   "from": -164000,
+   "to": 0
+  },
+  {
+   "name": "Skhul & Qafzeh",
+   "lat": 32.6,
+   "lon": 35.0,
+   "from": -120000,
+   "to": 0
+  },
+  {
+   "name": "Blombos Cave (MSA)",
+   "lat": -34.41,
+   "lon": 21.22,
+   "from": -100000,
+   "to": 0
+  },
+  {
+   "name": "Madjedbebe (65 ka debated)",
+   "lat": -12.5,
+   "lon": 132.9,
+   "from": -65000,
+   "to": 0
+  },
+  {
+   "name": "Bacho Kiro",
+   "lat": 42.95,
+   "lon": 25.43,
+   "from": -46000,
+   "to": 0
+  },
+  {
+   "name": "Ust'-Ishim",
+   "lat": 57.7,
+   "lon": 71.2,
+   "from": -45000,
+   "to": 0
+  },
+  {
+   "name": "Tianyuan",
+   "lat": 39.65,
+   "lon": 115.9,
+   "from": -40000,
+   "to": 0
+  },
+  {
+   "name": "Yana RHS",
+   "lat": 70.7,
+   "lon": 135.4,
+   "from": -32000,
+   "to": 0
+  },
+  {
+   "name": "White Sands (debated)",
+   "lat": 32.8,
+   "lon": -106.3,
+   "from": -23000,
+   "to": 0
+  },
+  {
+   "name": "Monte Verde",
+   "lat": -41.5,
+   "lon": -73.2,
+   "from": -14500,
+   "to": 0
+  },
+  {
+   "name": "Lapita: Fiji / Tonga",
+   "lat": -18.0,
+   "lon": 178.4,
+   "from": -2900,
+   "to": 0
+  },
+  {
+   "name": "Hawai'i",
+   "lat": 20.0,
+   "lon": -155.5,
+   "from": -900,
+   "to": 0
+  },
+  {
+   "name": "Rapa Nui",
+   "lat": -27.1,
+   "lon": -109.4,
+   "from": -800,
+   "to": 0
+  },
+  {
+   "name": "Aotearoa New Zealand",
+   "lat": -41.3,
+   "lon": 174.0,
+   "from": -750,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "Southern route out of Africa",
+   "colour": "#f0c46a",
+   "path": "../data/deep-time/sapiens/southern-route-out-of-africa.csv"
+  },
+  {
+   "label": "Into Europe",
+   "colour": "#e8a060",
+   "path": "../data/deep-time/sapiens/into-europe.csv"
+  },
+  {
+   "label": "Into North Asia",
+   "colour": "#d0b0ff",
+   "path": "../data/deep-time/sapiens/into-north-asia.csv"
+  },
+  {
+   "label": "Into the Americas (≥16 ka)",
+   "colour": "#80d0e0",
+   "path": "../data/deep-time/sapiens/into-the-americas-16-ka.csv"
+  },
+  {
+   "label": "Near Oceania to Lapita",
+   "colour": "#ffb0c0",
+   "path": "../data/deep-time/sapiens/near-oceania-to-lapita.csv"
+  }
+ ],
+ "tags": [
+  "deep-time",
+  "sapiens"
+ ],
+ "credit": "Sites: Hublin/Richter 2017, Vidal 2022, Hershkovitz 2018, Harvati 2019, Clarkson 2017, O'Connell 2018, Hublin 2020, Bennett 2021, Wilmshurst 2011. Base map: Natural Earth (PD).",
+ "stops": [
+  {
+   "label": "Jebel Irhoud",
+   "lat": 31.86,
+   "lon": -8.87,
+   "year": -315000,
+   "kind": "record",
+   "caption": "Earliest dated Homo sapiens fossils",
+   "source": "Hublin et al. 2017",
+   "hold": 4,
+   "zoom": 3
+  },
+  {
+   "label": "Out of Africa",
+   "lat": 12.6,
+   "lon": 43.3,
+   "year": -65000,
+   "kind": "interpretation",
+   "caption": "Main dispersal ~70–50 ka, southern route (one model)",
+   "source": "see SOURCES.md",
+   "hold": 4,
+   "zoom": 3
+  },
+  {
+   "label": "Madjedbebe",
+   "lat": -12.5,
+   "lon": 132.9,
+   "year": -50000,
+   "kind": "debated",
+   "caption": "Sahul by ~50 ka; 65 ka is debated",
+   "source": "Clarkson 2017 / O'Connell 2018",
+   "hold": 4,
+   "zoom": 3
+  },
+  {
+   "label": "White Sands",
+   "lat": 32.8,
+   "lon": -106.3,
+   "year": -22000,
+   "kind": "debated",
+   "caption": "Footprints dated 23–21 ka",
+   "source": "Bennett et al. 2021",
+   "hold": 4,
+   "zoom": 3
+  }
+ ]
+}
