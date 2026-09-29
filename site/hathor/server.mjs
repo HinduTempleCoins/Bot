@@ -68,6 +68,7 @@ import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } f
 import { homeInterceptScript, enginesBody, learnBody, DOWNLOADS as ENGINE_DOWNLOADS } from './engines.mjs';
 import { loadSymbols, getSymbol, symbolsIndexBody, symbolPageBody, serveSymbolAsset } from './symbols.mjs';
 import { loadIndex as loadScripts, loadScript, scriptsIndexBody, scriptPageBody, serveGlyphAsset } from './scripts.mjs';
+import { loadDocs, loadFilm, aggregate as docsAggregate, readFeedback as docsFeedback, feedback as docsFeedbackPost, feedbackExport as docsFeedbackExport, listBody as docsListBody, filmBody as docsFilmBody, serveDocMedia, ld as docLd } from './documentaries.mjs';
 import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt, remakesLd, remakesHero } from './remakes.mjs';
 import { loadAnimManifest, aggregate as animAggregate, animationsBody, rate as animRate, serveAnimMedia, readFeedback as animFeedback, animationsLd } from './animations.mjs';
 
@@ -244,7 +245,7 @@ function pageShell(title, body, opts = {}) {
 <meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${opts.jsonld ? `<script type="application/ld+json">${ldJson(opts.jsonld)}</script>` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
+  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/documentaries">Documentaries</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -2186,7 +2187,7 @@ export function videoView() {
 
 const SITEMAP_PATHS = [
   '/', '/news', '/edit', '/webcam', '/ar-libraries', '/video', '/vectorize', '/cards', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
-  '/remakes', '/remake', '/animations', '/mythology', '/visualize', '/compose', '/scripts', '/symbols', '/engines', '/learn/make', '/tools', '/pentecaust', '/pentecaust/bifrost',
+  '/remakes', '/remake', '/animations', '/documentaries', '/mythology', '/visualize', '/compose', '/scripts', '/symbols', '/engines', '/learn/make', '/tools', '/pentecaust', '/pentecaust/bifrost',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -2447,6 +2448,25 @@ export async function handler(req, res) {
       return res.end(s);
     }
     if (path.startsWith('/remakes/img/')) return serveRemakeImage(res, decodeURIComponent(path.slice('/remakes/img/'.length)));
+    if (path === '/documentaries') {
+      const m = loadDocs();
+      const first = (m.films || [])[0];
+      return sendHtml(res, pageShell('Documentaries (Alpha) — the ancient world, recreated', docsListBody(m, docsAggregate(docsFeedback())), { canonical: `${BASE_URL}/documentaries`, description: 'Wordless, slow recreations of the ancient world made by Hathor on our own servers — Kush and the Nile, the pyramids, Babylon, giants in the old stories. Alpha: vote, comment and leave notes at any moment so the next films get better.', image: first ? `${BASE_URL}/documentaries/media/${first.id}/poster.jpg` : undefined }));
+    }
+    if (path === '/documentaries/feedback.json') { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }); return res.end(JSON.stringify(docsFeedbackExport())); }
+    if (path === '/documentaries/manifest.json') { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' }); return res.end(JSON.stringify(loadDocs())); }
+    if (path.startsWith('/documentaries/media/')) return serveDocMedia(req, res, path.slice('/documentaries/media/'.length));
+    if (path.startsWith('/documentaries/')) {
+      const f = loadFilm(path.slice('/documentaries/'.length).replace(/\/+$/, ''));
+      if (!f) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, pageShell(`${f.title} — Hathor documentary (Alpha)`, docsFilmBody(f, docsAggregate(docsFeedback())[f.id]), { canonical: `${BASE_URL}/documentaries/${f.id}`, description: `${f.summary || f.title} Alpha — made by Hathor on our own servers.`, image: `${BASE_URL}/documentaries/media/${f.id}/poster.jpg`, jsonld: docLd(f, BASE_URL) }));
+    }
+    if (path === '/api/documentaries/feedback') {
+      if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
+      const r = docsFeedbackPost(await readBody(req), clientIp(req));
+      res.writeHead(r.code, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+      return res.end(JSON.stringify(r.body));
+    }
     if (path === '/animations') {
       const sort = new URL(req.url, BASE_URL).searchParams.get('sort') || 'new';
       const m = loadAnimManifest();
