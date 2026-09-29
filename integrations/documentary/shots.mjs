@@ -4,6 +4,21 @@
 // nothing fits does it ask for a new CPU render, up to a budget; past the budget it falls back to the chapter's best
 // image. Pure functions — the worker builds the index and does the renders.
 
+// Words that should never appear in an asset used by a film about antiquity (checked on title/credit/text).
+export const ANACHRONISM = /\b(minarets?|mosques?|cathedrals?|churche?s?|crescent|rifles?|muskets?|pistols?|cannons?|steam(ship|boat)s?|railways?|telegraph|dahabieh|ottoman|mamluk|bazaars?|pasha)\b/i;
+/** shots of an ancient-era board whose asset is modern or carries an anachronism word → [{ at: index, asset, why }] */
+export function anachronismCheck(board, index) {
+  const byPath = new Map(index.map((x) => [x.path, x]));
+  const out = [];
+  board.shots.forEach((s, i) => {
+    const a = byPath.get(s.image);
+    if (!a) return;
+    if (a.depicts === 'modern') out.push({ shot: i, asset: a.id, why: 'depicts a modern scene' });
+    else if (ANACHRONISM.test(`${a.text} ${a.credit || ''}`)) out.push({ shot: i, asset: a.id, why: `anachronism word: ${(`${a.text} ${a.credit || ''}`.match(ANACHRONISM) || [])[0]}` });
+  });
+  return out;
+}
+
 export const ALPHA_LINE = 'Alpha — Hathor is still being trained; her next documentaries will be much better and more accurate.';
 
 // concept → words that may appear in image titles/groups/credits

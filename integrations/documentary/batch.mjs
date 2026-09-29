@@ -67,6 +67,7 @@ export async function makeFilm({ topic, minutes = 10, style, reuseOnly = true })
   const plan = JSON.parse(fs.readFileSync(planFile, 'utf8'));
   const board = buildBoard({ ...plan, topic }, JSON.parse(fs.readFileSync(idx, 'utf8')), { renderBudget: reuseOnly ? 0 : (RENDER_CAP[minutes] || 25) });
   board.id = id;
+  if (board.anachronisms && board.anachronisms.length) throw new Error(`board has ${board.anachronisms.length} anachronisms: ${JSON.stringify(board.anachronisms).slice(0, 200)}`);
   const boardFile = path.join(LOCAL, `${id}.board.json`);
   fs.writeFileSync(boardFile, JSON.stringify(board));
   scpTo(boardFile, WORKER, `${W_DIR}/${id}.board.json`);

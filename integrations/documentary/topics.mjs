@@ -10,6 +10,7 @@ import { WAVE1 } from './topics-wave1.mjs';
 
 export const TOPICS = {
   'havilah-kush': {
+    era: 'ancient', region: 'nile',
     title: 'Havilah and Kush, Before and After Noah',
     summary: 'Two lands named in Genesis before the Flood and again after it — and what archaeology knows about Kush on the Nile, from Kerma to the pharaohs of the 25th Dynasty and the queens of Meroë.',
     peoples: 'nubian',
@@ -48,6 +49,7 @@ export const TOPICS = {
     ],
   },
   'kush-nile': {
+    era: 'ancient', region: 'nile',
     title: 'Kush and the Nile',
     summary: 'A wordless journey up the Nile into the land of Kush — the river and its flood, the archers of Kerma, the sacred mountain of Jebel Barkal, the pharaohs from Kush, the pyramids of Meroë and the queens who faced Rome.',
     peoples: 'nubian',
@@ -78,6 +80,7 @@ export const TOPICS = {
     ],
   },
   'nile-short': {
+    era: 'ancient', region: 'nile',
     title: 'The Nile',
     summary: 'A short test topic for prompt comparison.',
     peoples: 'egyptian',

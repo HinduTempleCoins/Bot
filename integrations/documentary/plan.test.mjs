@@ -48,3 +48,25 @@ test('chooseStyle: Thompson sampling favours the style people liked', () => {
   let mythic = 0; for (let i = 0; i < 200; i++) if (chooseStyle(fb) === 'mythic') mythic += 1;
   assert.ok(mythic > 150, `mythic chosen ${mythic}/200`);
 });
+
+test('era filter: an ancient film never uses a modern-scene asset; the anachronism check flags one if it slips in', async () => {
+  const { anachronismCheck } = await import('./shots.mjs');
+  const index = [
+    { id: 'remake:nile_view_in_cairo:1_real:nubian', path: 'cairo.png', text: 'A View in Cairo Ports, the Nile & the coast David Roberts nile city river', people: 'nubian', type: 'remake', depicts: 'modern', region: '' },
+    { id: 'remake:mosque_nile:1_real:nubian', path: 'm.png', text: 'Nile river boats by a mosque', people: 'nubian', type: 'remake', depicts: 'ancient', region: 'nile' },
+    { id: 'remake:huy_boat:1_real:nubian', path: 'huy.png', text: 'Boat from Nubia Nile river', people: 'nubian', type: 'remake', depicts: 'ancient', region: 'nile' },
+    { id: 'remake:tassili:1_real:depicted', path: 't.png', text: 'Nile river archers Tassili', people: '', type: 'remake', depicts: 'ancient', region: 'maghreb-sahara' },
+  ];
+  for (let i = 0; i < 20; i++) index.push({ id: `remake:filler${i}:1_real:x`, path: `f${i}.png`, text: 'tomb painting', type: 'remake', depicts: 'ancient', region: 'nile' });
+  const plan = { topic: 'kush-nile', title: 'Kush and the Nile', sequences: ['The River'], scenes: [
+    { sequence: 1, visual: 'a Nile river city with boats', camera: 'still', seconds: 8, card: '', kind: 'none', source: '' },
+    { sequence: 1, visual: 'a Nile river city with boats again', camera: 'still', seconds: 8, card: '', kind: 'none', source: '' },
+  ] };
+  const b = buildBoard(plan, index);
+  const used = b.shots.map((s) => s.asset);
+  assert.ok(!used.includes('remake:nile_view_in_cairo:1_real:nubian'), 'modern scene excluded');
+  assert.ok(!used.includes('remake:mosque_nile:1_real:nubian'), 'anachronism word excluded');
+  assert.ok(!used.includes('remake:tassili:1_real:depicted'), 'other region excluded');
+  assert.equal(b.anachronisms.length, 0);
+  assert.equal(anachronismCheck({ shots: [{ image: 'cairo.png' }, { image: 'huy.png' }] }, index).length, 1);
+});

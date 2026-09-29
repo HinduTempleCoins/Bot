@@ -152,7 +152,8 @@ def build(board, outdir, W, H, fps):
             "seconds": round(t, 1), "chapters": chapters, "onscreen": onscreen, "sources": src, "credits": board.get("credits", []),
             "alpha": alpha, "style": board.get("style", ""), "minutes": board.get("minutes"), "made": int(time.time()),
             "renderSeconds": round(time.time() - t0, 1), "audio": {"track": "synthesized ambient (wind, drone, water)", "licence": "CC0 — made by SoapBox"},
-            "missing": board.get("missing", []), "recipe": {"style": board.get("style"), "score": board.get("score"), "shots": recipe_shots}}
+            "missing": board.get("missing", []), "recipe": {"style": board.get("style"), "score": board.get("score"), "shots": recipe_shots,
+                       "eraFilter": board.get("eraFilter"), "anachronisms": board.get("anachronisms", []), "note": board.get("recipeNote", "")}}
     json.dump(meta, open(os.path.join(outdir, "film.json"), "w"), indent=1)
     print(f"DONE {film} {t:.0f}s in {time.time()-t0:.0f}s", flush=True)
     return meta
