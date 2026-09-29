@@ -1,0 +1,12 @@
+{
+  "title": "My kingdoms",
+  "subtitle": "500 – 100 BC · a sample job with user data",
+  "bbox": [15, 25, 45, 46],
+  "years": [-500, -100],
+  "duration": 20,
+  "size": [1280, 720],
+  "territories": { "source": "geojson", "path": "territories.geojson" },
+  "routes": [ { "label": "Envoy", "path": "route.csv", "colour": "#f0c46a" } ],
+  "cities": [ { "name": "Capital", "lat": 38.5, "lon": 25.0, "from": -480 } ],
+  "credit": "Sample data by the uploader. Base map: Natural Earth (public domain)."
+}

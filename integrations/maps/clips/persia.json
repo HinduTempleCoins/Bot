@@ -1,0 +1,72 @@
+{
+ "id": "persia",
+ "title": "The Persian empires",
+ "subtitle": "700 BC – AD 651 · Medes, Achaemenids, Parthians, Sasanians",
+ "bbox": [
+  18,
+  14,
+  82,
+  46
+ ],
+ "years": [
+  -700,
+  651
+ ],
+ "duration": 100,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Median Kingdom",
+   "Achaemenid Empire",
+   "Macedonian Empire",
+   "Seleucid Empire",
+   "Parthian Empire",
+   "Sasanian Empire",
+   "Neo-Babylonian Empire",
+   "Roman Empire",
+   "Eastern Roman Empire",
+   "Kushan Empire"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Pasargadae",
+   "lat": 30.19,
+   "lon": 53.17,
+   "from": -546
+  },
+  {
+   "name": "Persepolis",
+   "lat": 29.93,
+   "lon": 52.89,
+   "from": -515,
+   "to": -330
+  },
+  {
+   "name": "Susa",
+   "lat": 32.19,
+   "lon": 48.25
+  },
+  {
+   "name": "Ctesiphon",
+   "lat": 33.09,
+   "lon": 44.58,
+   "from": -120
+  },
+  {
+   "name": "Ecbatana",
+   "lat": 34.8,
+   "lon": 48.52
+  }
+ ],
+ "tags": [
+  "persia",
+  "achaemenid",
+  "parthian",
+  "sasanian",
+  "persian empire",
+  "iran",
+  "medes"
+ ]
+}

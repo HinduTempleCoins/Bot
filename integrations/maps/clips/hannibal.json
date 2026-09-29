@@ -1,0 +1,62 @@
+{
+ "id": "hannibal",
+ "title": "Hannibal's war",
+ "subtitle": "219 – 201 BC · across the Alps and back to Africa",
+ "bbox": [
+  -10,
+  30,
+  22,
+  48
+ ],
+ "years": [
+  -219,
+  -201
+ ],
+ "duration": 60,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Carthage",
+   "Roman Republic"
+  ],
+  "context": true
+ },
+ "routes": [
+  {
+   "label": "Hannibal",
+   "path": "hannibal-route.csv",
+   "colour": "#f0c46a"
+  }
+ ],
+ "cities": [
+  {
+   "name": "Rome",
+   "lat": 41.9,
+   "lon": 12.5
+  },
+  {
+   "name": "Carthage",
+   "lat": 36.85,
+   "lon": 10.32
+  },
+  {
+   "name": "Carthago Nova",
+   "lat": 37.6,
+   "lon": -0.98
+  },
+  {
+   "name": "Syracuse",
+   "lat": 37.08,
+   "lon": 15.29
+  }
+ ],
+ "tags": [
+  "hannibal",
+  "carthage",
+  "rome",
+  "punic war",
+  "alps",
+  "cannae",
+  "phoenicians"
+ ]
+}

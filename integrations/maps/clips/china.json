@@ -1,0 +1,80 @@
+{
+ "id": "china",
+ "title": "The dynasties of China",
+ "subtitle": "1600 BC – AD 1911 · Shang to Qing",
+ "bbox": [
+  72,
+  15,
+  136,
+  54
+ ],
+ "years": [
+  -1600,
+  1911
+ ],
+ "duration": 120,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Shang Dynasty",
+   "Zhou Dynasty",
+   "Qin",
+   "Qin Dynasty",
+   "Han Dynasty",
+   "Western Jin",
+   "Sui Dynasty",
+   "Tang Dynasty",
+   "Northern Song",
+   "Southern Song",
+   "Great Jin",
+   "Yuan Dynasty",
+   "Ming Dynasty",
+   "Qing Dynasty",
+   "Mongol Empire"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Anyang",
+   "lat": 36.1,
+   "lon": 114.35,
+   "from": -1300,
+   "to": -1046
+  },
+  {
+   "name": "Xi'an (Chang'an)",
+   "lat": 34.34,
+   "lon": 108.94
+  },
+  {
+   "name": "Luoyang",
+   "lat": 34.62,
+   "lon": 112.45
+  },
+  {
+   "name": "Beijing",
+   "lat": 39.9,
+   "lon": 116.4,
+   "from": 1153
+  },
+  {
+   "name": "Hangzhou",
+   "lat": 30.27,
+   "lon": 120.15,
+   "from": 1127
+  }
+ ],
+ "tags": [
+  "china",
+  "dynasties",
+  "han",
+  "tang",
+  "song",
+  "ming",
+  "qing",
+  "shang",
+  "zhou",
+  "qin"
+ ]
+}

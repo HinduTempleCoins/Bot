@@ -1,0 +1,76 @@
+{
+ "id": "india",
+ "title": "Empires of India",
+ "subtitle": "600 BC – AD 1858 · Maurya, Gupta, Chola, Vijayanagara, Mughal",
+ "bbox": [
+  60,
+  4,
+  98,
+  38
+ ],
+ "years": [
+  -600,
+  1858
+ ],
+ "duration": 110,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Maurya Empire",
+   "Gupta Empire",
+   "Kushan Empire",
+   "Chola Empire",
+   "Early Cholas",
+   "Vijayanagara Empire",
+   "Mughal Empire",
+   "Satavahana Dynasty"
+  ],
+  "match": [
+   "Janapada",
+   "Sultanate"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Pataliputra",
+   "lat": 25.61,
+   "lon": 85.14,
+   "from": -490,
+   "to": 600
+  },
+  {
+   "name": "Taxila",
+   "lat": 33.74,
+   "lon": 72.79
+  },
+  {
+   "name": "Delhi",
+   "lat": 28.61,
+   "lon": 77.21,
+   "from": 736
+  },
+  {
+   "name": "Thanjavur",
+   "lat": 10.79,
+   "lon": 79.14,
+   "from": 850
+  },
+  {
+   "name": "Agra",
+   "lat": 27.18,
+   "lon": 78.01,
+   "from": 1504
+  }
+ ],
+ "tags": [
+  "india",
+  "maurya",
+  "ashoka",
+  "gupta",
+  "mughal",
+  "chola",
+  "hindu",
+  "kushan"
+ ]
+}
