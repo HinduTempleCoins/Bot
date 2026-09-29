@@ -27,6 +27,7 @@ import * as archiveVideo from '../../integrations/soapbox/archive-video.mjs';
 import * as iptv from '../../integrations/soapbox/iptv-channels.mjs';
 import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
 import * as classics from '../../integrations/soapbox/classic-films.mjs';
+import * as speeches from '../../integrations/soapbox/speeches.mjs';
 import { horrorMapRoute, HORROR_MAP_PATHS, loadStills } from './horror-pages.mjs';
 import * as radio from '../../integrations/soapbox/radio.mjs';
 import * as podcasts from '../../integrations/soapbox/podcasts.mjs';
@@ -300,7 +301,7 @@ function pageShell(title, inner, { description, canonical } = {}) {
     title, description: desc, canonical: canonical || `${BASE_URL}/`, siteName: SITE_NAME,
     robots: 'index,follow,max-image-preview:large', site: { url: BASE_URL, name: SITE_NAME },
   });
-  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
+  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/speeches">🎙️ Speeches &amp; debates</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -318,6 +319,16 @@ function classicsRow() {
   const picks = ['his_girl_friday', 'metropolis-1927-english-titles', 'The_General_Buster_Keaton', 'AStarIsBorn', 'Detour', 'meet_john_doe', 'FairbanksRobinHood1922', 'TheStranger_0', 'road-to-bali', 'angel_and_the_badman', 'gullivers_travels1939', 'd.-o.-a.-1950']
     .map((id) => classics.PD_CLASSICS.find((f) => f.id === id)).filter(Boolean).map(classics.classicTile);
   return `<section class=row><h2><a href="/classics">Classics · free</a> <span class="badge lic">public domain</span><span class=see>All ${classics.PD_CLASSICS.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>`;
+}
+
+function speechesPage() {
+  const shelves = speeches.speechesByKind().map((k) => `<section class=row><h2>${esc(k.name)}</h2><div class=grid>${k.items.map((x) => tile(speeches.speechTile(x))).join('')}</div></section>`).join('');
+  const leads = speeches.LEADS.map((l) => `<li><b>${esc(l.title)}</b> (${esc(l.year)}) — ${esc(l.why)}. Watch it at <a href="${esc(safeHref(l.href))}" target=_blank rel="noopener noreferrer">${esc(l.where)} ↗</a></li>`).join('');
+  const inner = `<p class=lead>Famous speeches, inaugurations, addresses to the nation, debates, trials and the Moon landing, free and in the public domain: films made by the US government, and Universal Newsreel, which Universal gave to the American people in 1976. Where an official transcript exists, each page links it.</p>
+    ${shelves}
+    <section class=row><h2>Where to watch the rest</h2><p class=lead style="font-size:13px">These are famous, but we could not document a public-domain copy, so we point you to them instead of playing them.</p><ul>${leads}</ul>
+    <p class=lead style="font-size:12px">Not here on purpose: ${speeches.EXCLUDED.map((x) => `${esc(x.title)} (${esc(x.why)})`).join('; ')}.</p></section>`;
+  return pageShell(`Speeches & debates · free · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/speeches`, description: `${speeches.SPEECHES.length} famous speeches, inaugurations, debates, trials and Moon broadcasts to watch free: Roosevelt, Truman, Eisenhower, Kennedy, Johnson, Nixon, Nuremberg and Apollo 11, with official transcripts.` });
 }
 
 function classicsPage() {
@@ -459,6 +470,13 @@ function stageFor(item) {
 }
 
 // Watch ⇄ review: the film's SoapBox Films score and review link, beside the player.
+// Speeches: the official transcript beside the player (Pentecaust attaches timed subtitles later).
+function speechPanel(item) {
+  const sp = speeches.speechById(item && item.id);
+  if (!sp) return '';
+  return `<div class=licbox style="margin-top:10px"><b>${esc(sp.speaker || 'Speech')}</b>, ${esc(sp.year)} · ${esc(sp.why)}${sp.transcript ? `<br><a class=btn href="${esc(safeHref(sp.transcript))}" target=_blank rel="noopener noreferrer">📜 Official transcript ↗</a>` : ''} <a class=btn href="/speeches">All speeches &amp; debates</a></div>`;
+}
+
 function reviewPanel(item, film) {
   if (film) {
     return `<div class=licbox style="margin-top:10px"><b>SoapBox Films:</b> ${film.badge} &nbsp; <a class=btn href="${esc(film.reviewHref)}">★ Rate &amp; review</a> <a class=btn href="${esc(film.href)}">Reviews &amp; where else to watch</a></div>`;
@@ -476,6 +494,7 @@ function watchShell(item, film = null) {
     <div class=info>${licbox}
       <h1 style="font-size:20px;margin:.2em 0">${esc(item.title || 'Untitled')}</h1>
       ${meta ? `<p class=meta style="color:var(--mut)">${esc(meta)}</p>` : ''}
+      ${speechPanel(item)}
       ${reviewPanel(item, film)}
       <p><a class=btn href="/">← Back to Stream</a> ${item.href ? `<a class=btn href="${esc(safeHref(item.href))}" target=_blank rel="noopener noreferrer">Source ↗</a>` : ''}</p>
     </div>`;
@@ -537,7 +556,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', '/classics', ...CATEGORIES.map((c) => `/c/${c.id}`),
+export const SITEMAP_PATHS = ['/', '/classics', '/speeches', ...CATEGORIES.map((c) => `/c/${c.id}`),
   '/horror', ...HORROR_MAP_PATHS(), '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
@@ -619,6 +638,7 @@ export async function handler(req, res) {
     }
 
     if (path === '/classics') return sendHtml(res, classicsPage());
+    if (path === '/speeches') return sendHtml(res, speechesPage());
     const catM = path.match(/^\/c\/([a-z]+)$/);
     if (catM) {
       const cat = CATEGORIES.find((c) => c.id === catM[1]);
