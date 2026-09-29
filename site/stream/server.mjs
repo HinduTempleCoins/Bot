@@ -29,6 +29,8 @@ import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
 import { watchSafelyBody } from './watch-safely.mjs';
 import * as classics from '../../integrations/soapbox/classic-films.mjs';
 import * as pdMore from '../../integrations/soapbox/pd-films-more.mjs';
+import * as world from '../../integrations/soapbox/world-cinema.mjs';
+import { allFreeFilms } from '../../integrations/soapbox/free-film-registry.mjs';
 import * as speeches from '../../integrations/soapbox/speeches.mjs';
 import * as narco from '../../integrations/soapbox/narco-cinema.mjs';
 import { transcriptsRoute, trackTag, transcriptLink } from './transcripts-pages.mjs';
@@ -305,7 +307,7 @@ function pageShell(title, inner, { description, canonical } = {}) {
     title, description: desc, canonical: canonical || `${BASE_URL}/`, siteName: SITE_NAME,
     robots: 'index,follow,max-image-preview:large', site: { url: BASE_URL, name: SITE_NAME },
   });
-  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/free">🆓 Free films</a>', '<a href="/speeches">🎙️ Speeches &amp; debates</a>', '<a href="/narco">🌵 Narco cinema</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>', '<a href="/watch-free-safely">🛡️ Watch free, safely</a>'].join('');
+  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/free">🆓 Free films</a>', '<a href="/world">🌍 World cinema</a>', '<a href="/speeches">🎙️ Speeches &amp; debates</a>', '<a href="/narco">🌵 Narco cinema</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>', '<a href="/watch-free-safely">🛡️ Watch free, safely</a>'].join('');
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -359,6 +361,30 @@ function classicsPage() {
 }
 
 // ── /free — the wider public-domain shelf (integrations/soapbox/pd-films-more.mjs), by genre ─────────────────────
+// ── /world — foreign films by COUNTRY, then by type (never mixed into one pile) ─────────────────────────
+let _freeById = null;
+const freeById = () => (_freeById ||= new Map(allFreeFilms().map((f) => [String(f.id), f])));
+function worldIndexPage() {
+  const cs = world.countryCounts((id) => freeById().get(id));
+  const cards = cs.map((c) => `<a class=tile href="/world/${esc(c.id)}" style="text-decoration:none"><div class=body><h3>${esc(c.name)}</h3><div class=meta>${c.count} free film${c.count === 1 ? '' : 's'}${c.leads ? ` · ${c.leads} free-elsewhere lead${c.leads === 1 ? '' : 's'}` : ''}</div></div></a>`).join('');
+  const total = cs.reduce((n, c) => n + c.count, 0);
+  const inner = `<p class=lead>Films from around the world, one country at a time. Everything that plays here is public domain in the US — in practice, films published in 1930 or earlier. Later foreign films are still protected in the US (a 1996 treaty restored their copyright), so for those we point you to the studios and archives that stream them free themselves. Every title links to <a href="/films">SoapBox Films</a> to rate and review it.</p>
+    <section class=row><h2>Choose a country <span class=see>${total} films</span></h2><div class=grid>${cards}</div></section>`;
+  return pageShell(`World cinema · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/world`, description: `${total} free, public-domain films from France, Germany, Russia, Scandinavia, Britain, Italy, Japan, China, India and more — organised by country, then by type.` });
+}
+function worldCountryPage(id) {
+  const c = world.COUNTRIES.find((x) => x.id === id);
+  if (!c) return null;
+  const shelves = world.countryShelves(id, (fid) => freeById().get(fid));
+  const leads = world.WORLD_LEADS.filter((l) => l.country === id);
+  if (!shelves.length && !leads.length) return null;
+  const tabs = shelves.map((s) => `<a class=btn href="#${esc(s.id)}">${esc(s.name)} (${s.films.length})</a>`).join(' ');
+  const rows = shelves.map((s) => `<section class=row id="${esc(s.id)}"><h2>${esc(s.name)} <span class=see>${s.films.length}</span></h2><div class=grid>${s.films.map((f) => tile(world.worldTile(f))).join('')}</div></section>`).join('');
+  const leadRows = leads.length ? `<section class=row><h2>Free elsewhere, from the rights holders <span class=see>where to watch</span></h2><p class=lead>Newer ${esc(c.name)} films are still in copyright in the US. These studios and archives stream them free themselves:</p><ul>${leads.map((l) => `<li><b>${esc(l.title)}</b>${l.year ? ` (${l.year})` : ''} — <a href="${esc(l.url)}" target=_blank rel="noopener noreferrer">${esc(l.service)} ↗</a>${l.year ? ` · <a href="/films?q=${encodeURIComponent(`${l.title} ${l.year}`)}">reviews</a>` : ''}</li>`).join('')}</ul><p class=meta>Checked ${esc(leads[0].seen)}.</p></section>` : '';
+  const inner = `<p><a class=btn href="/world">← All countries</a></p><h1>${esc(c.name)}</h1>${tabs ? `<p>${tabs}</p>` : ''}${rows}${leadRows}`;
+  return pageShell(`${c.name} · World cinema · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/world/${id}`, description: `Free, public-domain ${c.name} films on SoapBox Stream, by type — plus where the studios stream newer ones free.` });
+}
+
 function freeRow() {
   const picks = pdMore.PD_MORE.filter((f) => f.pick).slice(0, 12).map(pdMore.moreTile);
   return picks.length ? `<section class=row><h2><a href="/free">More free films</a> <span class="badge lic">public domain</span><span class=see>All ${pdMore.ALL_MORE.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>` : '';
@@ -597,7 +623,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', '/classics', '/speeches', '/narco', '/free', ...pdMore.moreByGenre().map((g) => `/free/${g.id}`), ...CATEGORIES.map((c) => `/c/${c.id}`),
+export const SITEMAP_PATHS = ['/', '/classics', '/speeches', '/narco', '/free', '/world', ...world.countryCounts((id) => freeById().get(id)).map((c) => `/world/${c.id}`), ...pdMore.moreByGenre().map((g) => `/free/${g.id}`), ...CATEGORIES.map((c) => `/c/${c.id}`),
   '/horror', ...HORROR_MAP_PATHS(), '/watch-free-safely', '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
@@ -687,6 +713,9 @@ export async function handler(req, res) {
     if (path === '/classics') return sendHtml(res, classicsPage());
     if (path === '/speeches') return sendHtml(res, speechesPage());
     if (path === '/narco') return sendHtml(res, narcoPage());
+    if (path === '/world') return sendHtml(res, worldIndexPage());
+    const worldM = path.match(/^\/world\/([a-z-]+)$/);
+    if (worldM) { const html = worldCountryPage(worldM[1]); if (!html) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown country'); } return sendHtml(res, html); }
     if (path === '/free') return sendHtml(res, freePage());
     const freeM = path.match(/^\/free\/([a-z]+)$/);
     if (freeM) { const html = freePage(freeM[1]); if (!html) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown genre'); } return sendHtml(res, html); }
