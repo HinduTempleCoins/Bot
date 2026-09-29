@@ -320,6 +320,20 @@ test('/classics lists the public-domain classics by genre, each playable, with t
   assert.match(html, /Not here on purpose:[\s\S]*The Scarlet Pimpernel/);
 });
 
+test('/free lists the wider public-domain shelf by genre; /free/<genre> works; unknown genre 404', async () => {
+  const { PD_MORE, moreByGenre } = await import('../../integrations/soapbox/pd-films-more.mjs');
+  const st = (r) => r.status || r.statusCode || r.code;
+  const body = (r) => r.body || r.html || r.text || '';
+  const r = await get('/free');
+  assert.equal(st(r), 200);
+  assert.match(body(r), new RegExp(`${PD_MORE.length} more films`));
+  const g = moreByGenre()[0];
+  const one = await get(`/free/${g.id}`);
+  assert.equal(st(one), 200);
+  assert.match(body(one), /\/watch\?src=ia&amp;id=|\/watch\/ia\//);
+  assert.equal(st(await get('/free/nosuchgenre')), 404);
+});
+
 test('/speeches lists speeches by kind, each playable, with leads and exclusions; in the sitemap and nav', async () => {
   const r = await get('/speeches');
   assert.equal(r.code, 200);
