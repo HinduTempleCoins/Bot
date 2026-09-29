@@ -21,6 +21,9 @@ const ID_RE = /^[a-f0-9]{12}$/;
 const KEY_RE = /^[A-Za-z0-9-]{16,64}$/;
 export const COMMENT_MAX = 500;
 
+// motion + amplitude only mean something when a figure is animated (puppet, Hathor's scene)
+export const FIGURE_KINDS = new Set(['puppet', 'scene']);
+const FIGURE_ONLY = new Set(['motion', 'amplitude']);
 export const KIND_NAMES = { kenburns: 'Camera move', looks: 'Look morph', peoples: 'Peoples', puppet: 'Brought to life', scene: 'Hathor’s scene' };
 
 export function loadAnimManifest(dir = ANIMS_DIR()) {
@@ -63,7 +66,7 @@ export function aggregate(entries, manifest = { clips: [] }) {
     if (!s) continue;
     for (const p of ['kind', 'motion', 'amplitude', 'camera', 'pace', 'narrate']) {
       const v = clip[p];
-      if (!v) continue;
+      if (!v || (FIGURE_ONLY.has(p) && !FIGURE_KINDS.has(clip.kind))) continue; // a camera move has no motion to credit
       const a = ((arms[p] ||= {})[v] ||= { up: 0, down: 0 });
       a.up += s.up; a.down += s.down;
     }

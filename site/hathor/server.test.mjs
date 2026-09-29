@@ -653,7 +653,7 @@ test('/animations: clips render with recipe chips, votes count once per voter, f
   assert.equal((await call({ method: 'POST', url: '/api/animations/rate', body: 'id=abcdef012345&voter=voterkey-aaaaaaaaaaaa&vote=sideways' })).statusCode, 400);
   const fb = JSON.parse((await call({ url: '/animations/feedback.json' })).text());
   assert.equal(fb.clips.abcdef012345.up, 1);
-  assert.equal(fb.arms.motion.sway.down, 1);
+  assert.equal(fb.arms.motion.sway.down, 1); // a puppet clip: its motion is credited
   const again = (await call({ url: '/animations' })).text();
   assert.match(again, /more &lt;script&gt; motion/);
   assert.doesNotMatch(readFileSyncSafe(process.env.ANIM_FEEDBACK), /voterkey-/); // only hashes are stored
@@ -679,4 +679,13 @@ test('the nav collapses to a Menu button on phones and stays open on desktop', a
   assert.match(h, /\.navbox>\.topbar-r\{display:flex\}/);             // desktop: always shown despite <details>
   assert.match(h, /\.navbox:not\(\[open\]\)>\.topbar-r\{display:none\}/); // mobile: hidden until tapped
   assert.match(h, /\.navbox\[open\]>\.topbar-r\{max-height:60vh;overflow-y:auto/); // long menu scrolls, not overflows
+});
+
+test('animation arms: motion/strength are only credited for clips that animate a figure', async () => {
+  const { aggregate } = await import('./animations.mjs');
+  const m = { clips: [{ id: 'aaaaaaaaaaaa', kind: 'kenburns', motion: 'sway', amplitude: 'strong', camera: 'pan_left' }, { id: 'bbbbbbbbbbbb', kind: 'scene', motion: 'breathe', amplitude: 'subtle', camera: 'still' }] };
+  const a = aggregate([{ id: 'aaaaaaaaaaaa', voter: 'x', vote: 'up' }, { id: 'bbbbbbbbbbbb', voter: 'x', vote: 'down' }], m);
+  assert.equal(a.arms.camera.pan_left.up, 1);
+  assert.equal(a.arms.motion.sway, undefined);
+  assert.equal(a.arms.motion.breathe.down, 1);
 });

@@ -109,6 +109,8 @@ def arm_stats(out, feedback):
             continue
         for p in ARMS:
             v = r.get(p)
+            if p in ("motion", "amplitude") and r.get("kind") not in ("puppet", "scene"):
+                continue  # a camera move has no figure motion to credit or blame
             if v in stats[p]:
                 stats[p][v][0] += int(c.get("up", 0))
                 stats[p][v][1] += int(c.get("down", 0))
