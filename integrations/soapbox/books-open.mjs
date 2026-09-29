@@ -23,6 +23,8 @@
 //            renderList, dataNote, __setFetch } from './books-open.mjs'
 //   node integrations/soapbox/books-open.mjs "frankenstein"   # search the keyless sources
 
+import { readFileSync } from 'node:fs';
+
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
 
@@ -346,6 +348,23 @@ function postureLabel(posture) {
 }
 
 /** Escaped HTML list of books; shows posture + a Read/Download link (+ epub/text for PD). PURE; soft-handles empties. */
+// Books → films: a Gutenberg book that has been filmed links to SoapBox Films' "Films of this book" page.
+// Index built by integrations/films-based-on.mjs (data/films/based-on.json); read lazily, soft-fail to none.
+export const FILMS_BASE = () => (process.env.FILMS_URL || 'https://stream.soapbox.community/films').replace(/\/$/, '');
+let _filmed = null;
+export function filmedGutenbergIds() {
+  if (_filmed && Date.now() - _filmed.at < 600000) return _filmed.ids;
+  let ids = new Set();
+  try {
+    const dir = process.env.FILMS_DATA_DIR || new URL('../../data/films/', import.meta.url).pathname;
+    const j = JSON.parse(readFileSync(`${dir.replace(/\/$/, '')}/based-on.json`, 'utf8'));
+    ids = new Set(Object.keys(j.byGutenberg || {}));
+  } catch { /* no index yet */ }
+  _filmed = { at: Date.now(), ids };
+  return ids;
+}
+export function __setFilmed(ids) { _filmed = { at: Date.now(), ids: new Set(ids || []) }; }
+
 export function renderList(books = []) {
   const list = Array.isArray(books) ? books : [];
   const parts = ['<section class="books-open"><h2>Books &amp; documents</h2>'];
@@ -361,6 +380,8 @@ export function renderList(books = []) {
       const dl = [];
       if (fmt.epub) dl.push(`<a href="${esc(fmt.epub)}" rel="noopener noreferrer">epub</a>`);
       if (fmt.text) dl.push(`<a href="${esc(fmt.text)}" rel="noopener noreferrer">text</a>`);
+      const gid = /^gutenberg-(\d+)$/.exec(String(b.id || ''));
+      if (gid && filmedGutenbergIds().has(gid[1])) dl.push(`<a href="${esc(`${FILMS_BASE()}/book?gutenberg=${gid[1]}`)}">🎬 films of this book</a>`);
       const dlSpan = dl.length ? ` <span class="dl">[${dl.join(' · ')}]</span>` : '';
       parts.push(
         `<li>${link}${yr} — ${esc(b.author || 'Unknown')} `
