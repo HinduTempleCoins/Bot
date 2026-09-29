@@ -1,0 +1,89 @@
+{
+  "title": "A march with stops (sample)",
+  "subtitle": "route stops: zoom in, pictures, place card, pull back",
+  "bbox": [
+    -10,
+    30,
+    22,
+    48
+  ],
+  "years": [
+    -219,
+    -215
+  ],
+  "duration": 30,
+  "territories": {
+    "source": "cliopatria",
+    "names": [
+      "Carthage",
+      "Roman Republic"
+    ],
+    "context": true
+  },
+  "routes": [
+    {
+      "label": "The march",
+      "colour": "#f0c46a",
+      "points": [
+        {
+          "label": "Start",
+          "lat": 37.6,
+          "lon": -0.98,
+          "year": -217.58
+        },
+        {
+          "label": "Crossing",
+          "lat": 43.9,
+          "lon": 4.6,
+          "year": -217.33
+        },
+        {
+          "label": "Battle",
+          "lat": 41.3,
+          "lon": 16.1,
+          "year": -215.41
+        }
+      ]
+    }
+  ],
+  "stops": [
+    {
+      "label": "The start",
+      "lat": 37.6,
+      "lon": -0.98,
+      "year": -217.58,
+      "hold": 8,
+      "kind": "record",
+      "source": "your source",
+      "caption": "What happened here, in one or two lines.",
+      "media": [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/example.jpg/1280px-example.jpg"
+      ]
+    },
+    {
+      "label": "A crossing",
+      "lat": 43.9,
+      "lon": 4.6,
+      "year": -217.33,
+      "date": "September 218 BC",
+      "hold": 8,
+      "kind": "debated",
+      "media": [
+        {
+          "src": "pictures/crossing.png",
+          "credit": "your credit line"
+        }
+      ]
+    },
+    {
+      "label": "A battle",
+      "lat": 41.3,
+      "lon": 16.1,
+      "year": -215.41,
+      "date": "2 August 216 BC",
+      "hold": 10,
+      "kind": "record",
+      "zoom": 4
+    }
+  ]
+}

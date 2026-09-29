@@ -1,0 +1,554 @@
+{
+ "id": "hannibal-across-the-map",
+ "title": "Hannibal: Across the Map",
+ "subtitle": "219 – 201 BC · from New Carthage over the Alps, and back to Africa",
+ "bbox": [
+  -10,
+  30,
+  22,
+  48
+ ],
+ "years": [
+  -219,
+  -201
+ ],
+ "duration": 150,
+ "fps": 24,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Carthage",
+   "Roman Republic"
+  ],
+  "context": true
+ },
+ "routes": [
+  {
+   "label": "Hannibal",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "New Carthage",
+     "lat": 37.6,
+     "lon": -0.98,
+     "year": -218.75
+    },
+    {
+     "label": "Saguntum",
+     "lat": 39.68,
+     "lon": -0.27,
+     "year": -218.667
+    },
+    {
+     "label": "Saguntum falls",
+     "lat": 39.68,
+     "lon": -0.27,
+     "year": -218.083
+    },
+    {
+     "label": "New Carthage",
+     "lat": 37.6,
+     "lon": -0.98,
+     "year": -217.667
+    },
+    {
+     "label": "The Ebro",
+     "lat": 40.72,
+     "lon": 0.86,
+     "year": -217.583
+    },
+    {
+     "label": "The Pyrenees",
+     "lat": 42.45,
+     "lon": 2.9,
+     "year": -217.417
+    },
+    {
+     "label": "The Rhône",
+     "lat": 43.95,
+     "lon": 4.7,
+     "year": -217.333
+    },
+    {
+     "label": "The Alps",
+     "lat": 45.2,
+     "lon": 6.9,
+     "year": -217.25
+    },
+    {
+     "label": "The Taurini",
+     "lat": 45.07,
+     "lon": 7.69,
+     "year": -217.167
+    },
+    {
+     "label": "Ticinus",
+     "lat": 45.2,
+     "lon": 9.0,
+     "year": -217.147
+    },
+    {
+     "label": "Trebia",
+     "lat": 45.0,
+     "lon": 9.6,
+     "year": -217.083
+    },
+    {
+     "label": "Lake Trasimene",
+     "lat": 43.2,
+     "lon": 12.1,
+     "year": -216.583
+    },
+    {
+     "label": "Campania",
+     "lat": 41.2,
+     "lon": 14.0,
+     "year": -216.417
+    },
+    {
+     "label": "Cannae",
+     "lat": 41.3,
+     "lon": 16.1,
+     "year": -215.417
+    },
+    {
+     "label": "Capua",
+     "lat": 41.1,
+     "lon": 14.2,
+     "year": -215.25
+    },
+    {
+     "label": "Tarentum",
+     "lat": 40.47,
+     "lon": 17.24,
+     "year": -211.917
+    },
+    {
+     "label": "Before Rome",
+     "lat": 41.9,
+     "lon": 12.5,
+     "year": -210.75
+    },
+    {
+     "label": "Bruttium",
+     "lat": 39.08,
+     "lon": 17.12,
+     "year": -206.583
+    },
+    {
+     "label": "Leaves Italy",
+     "lat": 39.08,
+     "lon": 17.12,
+     "year": -202.333
+    },
+    {
+     "label": "Leptis Minor",
+     "lat": 35.67,
+     "lon": 10.86,
+     "year": -202.167
+    },
+    {
+     "label": "Zama",
+     "lat": 36.29,
+     "lon": 9.45,
+     "year": -201.25
+    }
+   ]
+  }
+ ],
+ "cities": [
+  {
+   "name": "Rome",
+   "lat": 41.9,
+   "lon": 12.5
+  },
+  {
+   "name": "Carthage",
+   "lat": 36.85,
+   "lon": 10.32
+  },
+  {
+   "name": "Syracuse",
+   "lat": 37.08,
+   "lon": 15.29
+  },
+  {
+   "name": "Massalia",
+   "lat": 43.3,
+   "lon": 5.37
+  }
+ ],
+ "testing": "We are testing these features and looking to develop them.",
+ "tags": [
+  "hannibal",
+  "carthage",
+  "rome",
+  "punic war",
+  "alps",
+  "cannae",
+  "zama",
+  "route"
+ ],
+ "sources": {
+  "record": [
+   "Polybius, Histories 3, 7–9, 15",
+   "Livy, History of Rome 21–30"
+  ],
+  "tradition": [
+   "Livy 21.1: the boy Hannibal's oath"
+  ],
+  "interpretation": []
+ },
+ "missing": [
+  "war elephants climbing an Alpine pass in snow",
+  "Numidian cavalry",
+  "Carthaginian officers in council",
+  "Balearic slingers",
+  "Celtiberian infantry",
+  "Gallic allies in the Po valley",
+  "the fog ambush at Lake Trasimene",
+  "Cannae: the double envelopment from above",
+  "Hannibal on his last elephant, Surus"
+ ],
+ "stops": [
+  {
+   "label": "New Carthage",
+   "lat": 37.6,
+   "lon": -0.98,
+   "year": -218.75,
+   "date": "spring 219 BC",
+   "kind": "record",
+   "source": "Polybius 3.13–15",
+   "caption": "Hannibal, commander in Spain since 221 BC, readies Carthage's army.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Benjamin_West_%281738-1820%29_-_The_Oath_of_Hannibal_-_RCIN_405417_-_Royal_Collection.jpg",
+     "credit": "Benjamin West, The Oath of Hannibal (1770), Royal Collection — public domain",
+     "caption": "Tradition (Livy 21.1): as a boy he swore enmity to Rome"
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Carthage%2C_quarter_shekel%2C_237-209_BC%2C_SNG_BM_Spain_102.jpg",
+     "credit": "Barcid quarter shekel, Spain 237–209 BC (CNG) — public domain",
+     "caption": "Silver struck by the Barcids in Spain"
+    }
+   ],
+   "hold": 20.0,
+   "chapter": "Spain",
+   "zoom": 3.2
+  },
+  {
+   "label": "Saguntum",
+   "lat": 39.68,
+   "lon": -0.27,
+   "year": -218.667,
+   "date": "219 BC · an eight-month siege",
+   "kind": "record",
+   "source": "Polybius 3.17; Livy 21.7–15",
+   "caption": "Rome's ally falls; Rome declares war.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/9/91/Siege_of_Saguntum%2C_219_BC_%28M._Teruel%29.png",
+     "credit": "Mariano Teruel, Siege of Saguntum — public domain",
+     "caption": ""
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/2/27/Quintus_Fabius_Maximus_Before_the_Senate_of_Carthage_Hermitage.jpg",
+     "credit": "G. B. Tiepolo, Quintus Fabius Maximus before the Senate of Carthage — public domain",
+     "caption": "An envoy offers the Carthaginian senate peace or war (Livy 21.18)"
+    }
+   ],
+   "hold": 20.0,
+   "chapter": "Spain",
+   "zoom": 3.2
+  },
+  {
+   "label": "Across the Ebro",
+   "lat": 40.72,
+   "lon": 0.86,
+   "year": -217.583,
+   "date": "summer 218 BC",
+   "kind": "record",
+   "source": "Polybius 3.35",
+   "caption": "The army crosses into northern Spain.",
+   "media": [],
+   "hold": 6,
+   "chapter": "The march",
+   "zoom": 3.2
+  },
+  {
+   "label": "The Rhône",
+   "lat": 43.95,
+   "lon": 4.7,
+   "year": -217.333,
+   "date": "September 218 BC",
+   "kind": "record",
+   "source": "Polybius 3.42–46",
+   "caption": "The elephants are floated across on earth-covered rafts.",
+   "media": [
+    {
+     "src": "parallax:hannibal_rhone_motte.mp4",
+     "credit": "Remake by Hathor Studio after Henri-Paul Motte, Hannibal crossing the Rhône (1878) · depth-parallax motion by Hathor Studio"
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/d/da/Carl_Emil_Doepler_-_The_elephants_crossing_the_Rhone%2C_218_BC.jpg",
+     "credit": "Carl Emil Doepler, The elephants crossing the Rhône, 218 BC — public domain",
+     "caption": ""
+    }
+   ],
+   "hold": 20.0,
+   "chapter": "The march",
+   "zoom": 3.2
+  },
+  {
+   "label": "The Alps",
+   "lat": 45.2,
+   "lon": 6.9,
+   "year": -217.25,
+   "date": "October 218 BC",
+   "kind": "debated",
+   "source": "Polybius 3.50–56; Livy 21.32–37",
+   "caption": "Which pass he took is still argued: the Traversette, Mont Cenis, the Little St Bernard…",
+   "media": [
+    {
+     "src": "parallax:hannibal_alps_poussin.mp4",
+     "credit": "Remake by Hathor Studio after Nicolas Poussin, Hannibal crossing the Alps · depth-parallax motion by Hathor Studio"
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/6/60/Joseph_Mallord_William_Turner_-_Snow_Storm%2C_Hannibal_and_his_Army_Crossing_the_Alps_-_WGA23167.jpg",
+     "credit": "J. M. W. Turner, Snow Storm: Hannibal and his Army Crossing the Alps (1812), Tate — public domain",
+     "caption": ""
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Hannibal_crossing_the_Alps_into_Italy.jpg",
+     "credit": "Hannibal crossing the Alps into Italy, Ward, Lock (New York) — public domain",
+     "caption": ""
+    }
+   ],
+   "hold": 26,
+   "chapter": "The march",
+   "zoom": 4
+  },
+  {
+   "label": "The Ticinus",
+   "lat": 45.2,
+   "lon": 9.0,
+   "year": -217.147,
+   "date": "November 218 BC",
+   "kind": "record",
+   "source": "Polybius 3.65",
+   "caption": "First clash in Italy: the consul Scipio is wounded.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Scipio_Africanus_Major.jpg",
+     "credit": "Scipio Africanus the Elder, engraving — public domain",
+     "caption": "Tradition (Livy 21.46): his seventeen-year-old son saved him"
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "Italy",
+   "zoom": 3.2
+  },
+  {
+   "label": "The Trebia",
+   "lat": 45.0,
+   "lon": 9.6,
+   "year": -217.083,
+   "date": "December 218 BC",
+   "kind": "record",
+   "source": "Polybius 3.72–74",
+   "caption": "A winter river, an ambush, a Roman army broken.",
+   "media": [
+    {
+     "src": "https://live.staticflickr.com/1731/40896405400_8abd33bf8c_b.jpg",
+     "credit": "War elephant, terracotta, Pompeii (2nd–1st c. BC), Naples MANN; photo Carlo Raso — public domain dedication",
+     "caption": "A war elephant as Italians remembered it"
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "Italy",
+   "zoom": 3.2
+  },
+  {
+   "label": "Lake Trasimene",
+   "lat": 43.2,
+   "lon": 12.1,
+   "year": -216.583,
+   "date": "June 217 BC",
+   "kind": "record",
+   "source": "Polybius 3.82–84; Livy 22.4–7",
+   "caption": "Out of the morning mist on the lakeshore: the largest ambush in history.",
+   "media": [],
+   "hold": 6,
+   "chapter": "Italy",
+   "zoom": 3.2
+  },
+  {
+   "label": "Fabius' delay",
+   "lat": 41.2,
+   "lon": 14.0,
+   "year": -216.417,
+   "date": "217 BC",
+   "kind": "record",
+   "source": "Polybius 3.87–94",
+   "caption": "Rome's dictator refuses battle and shadows Hannibal — 'the Delayer'.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/a/ab/N26FabiusCunctator.jpg",
+     "credit": "Statue of Fabius Maximus 'Cunctator', Vienna; photo schurl50 — public domain",
+     "caption": ""
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "Italy",
+   "zoom": 3.2
+  },
+  {
+   "label": "Cannae",
+   "lat": 41.3,
+   "lon": 16.1,
+   "year": -215.41400000000002,
+   "date": "2 August 216 BC",
+   "kind": "record",
+   "source": "Polybius 3.107–117; Livy 22.44–50",
+   "caption": "A thinner centre, horsemen closing the ring: a Roman army encircled.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Battle_of_Cannae_215_BC_-_Initial_Roman_attack-ar.png",
+     "credit": "Battle of Cannae, plan (after the US Military Academy maps) — public domain",
+     "caption": "The Roman attack into the Carthaginian centre"
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Lodovico_Pogliaghi_-_Roman_women_in_the_temple_of_Mars_after_Cannae%2C_215_BC.png",
+     "credit": "Lodovico Pogliaghi, Roman women in the temple of Mars after Cannae — public domain",
+     "caption": "Rome in mourning"
+    }
+   ],
+   "hold": 20.0,
+   "chapter": "Italy",
+   "zoom": 4
+  },
+  {
+   "label": "Capua",
+   "lat": 41.1,
+   "lon": 14.2,
+   "year": -215.25,
+   "date": "216 BC",
+   "kind": "record",
+   "source": "Livy 23.2–10",
+   "caption": "Italy's second city goes over to Hannibal.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Plan_of_the_first_battle_of_Capua.jpg",
+     "credit": "T. A. Dodge, plan of the first battle of Capua (1891) — public domain",
+     "caption": ""
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Hannibal_Barca_bust_from_Capua_photo.jpg",
+     "credit": "The 'Capuan bust', photo Fratelli Alinari — public domain",
+     "caption": "Debated: whether this bust shows Hannibal at all"
+    }
+   ],
+   "hold": 20.0,
+   "chapter": "Italy",
+   "zoom": 3.2
+  },
+  {
+   "label": "Tarentum",
+   "lat": 40.47,
+   "lon": 17.24,
+   "year": -211.917,
+   "date": "212 BC",
+   "kind": "record",
+   "source": "Polybius 8.24–34",
+   "caption": "The Greek city is taken by night; its citadel holds out.",
+   "media": [],
+   "hold": 6,
+   "chapter": "Italy",
+   "zoom": 3.2
+  },
+  {
+   "label": "Hannibal at the gates",
+   "lat": 41.9,
+   "lon": 12.5,
+   "year": -210.75,
+   "date": "211 BC",
+   "kind": "record",
+   "source": "Livy 26.7–11",
+   "caption": "He marches on Rome itself, to draw its armies from Capua — and turns away.",
+   "media": [],
+   "hold": 6,
+   "chapter": "Italy",
+   "zoom": 3.2
+  },
+  {
+   "label": "Bruttium",
+   "lat": 39.08,
+   "lon": 17.12,
+   "year": -206.583,
+   "date": "207–203 BC",
+   "kind": "record",
+   "source": "Livy 28.46; Polybius 3.33",
+   "caption": "Pinned in the toe of Italy, he leaves a bronze record of his army at the temple of Hera Lacinia.",
+   "media": [
+    {
+     "src": "library:landscapes/carthage_harbor.png",
+     "credit": "Hathor Studio render (our own CPU)",
+     "caption": "Carthage's harbour, far away"
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "Italy",
+   "zoom": 3.2
+  },
+  {
+   "label": "Zama",
+   "lat": 36.29,
+   "lon": 9.45,
+   "year": -201.25,
+   "date": "October 202 BC",
+   "kind": "record",
+   "source": "Polybius 15.5–16; Livy 30.29–35",
+   "caption": "The two generals meet before the battle; Scipio and the Numidian horse win the day.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/9/93/Hannibal_and_Scipio_Africanus.jpg",
+     "credit": "Bernardino Cesari, Hannibal and Scipio Africanus — public domain",
+     "caption": "The meeting before the battle (Polybius 15.6–8)"
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Cornelis_Cort_-_The_Battle_of_Zama_-_1990.563_-_Art_Institute_of_Chicago.jpg",
+     "credit": "Cornelis Cort after Giulio Romano, The Battle of Zama (1567), Art Institute of Chicago — public domain",
+     "caption": ""
+    },
+    {
+     "src": "remake:masinissa_coin_portrait/1_real_depicted.png",
+     "credit": "Remake by Hathor Studio after Bibliothèque nationale de France (Monnaies, médailles et antiques), public domain",
+     "caption": "Masinissa, the Numidian king who rode with Rome"
+    }
+   ],
+   "hold": 26,
+   "chapter": "Africa",
+   "zoom": 4
+  },
+  {
+   "label": "The peace of 201 BC",
+   "lat": 36.85,
+   "lon": 10.32,
+   "year": -201.0,
+   "date": "201 BC",
+   "kind": "record",
+   "source": "Polybius 15.18",
+   "caption": "Carthage keeps its city; its fleet is cut to ten ships.",
+   "media": [
+    {
+     "src": "remake:carthage_cothon_military_harbour/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after Norbert Schnitzler, photograph of a model, 2008. CC BY-SA 2.0",
+     "caption": "The round naval harbour, emptied"
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "Africa",
+   "zoom": 3.2
+  }
+ ]
+}

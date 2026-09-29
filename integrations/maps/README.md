@@ -37,6 +37,28 @@ fractional so a march moves smoothly within a year (month *m* of year *Y* BC = `
 
 **Route CSV** — header `label,lat,lon,year[,note]`, ≥ 2 rows, years never going backwards, ≤ 5,000 rows.
 
+**Route stops** (`stops`, optional) — the march pauses at each stop: the camera eases in to a sharp close-up map of
+the place (re-rendered, not a blurry zoom), cross-fades into the stop's pictures or clips with a place + date card
+(its kind — *historical record*, *tradition*, *debated*, *interpretation* — and its source), then pulls back and the
+year counter carries on. `--segments DIR` also writes one clip per stop.
+
+| Stop field | Required | Meaning |
+|---|---|---|
+| `label`, `lat`, `lon`, `year` | yes | place, position, and when (within `years`; fractions = months as above); stops in time order |
+| `date` | | the card's date text (default: the formatted year), e.g. `"2 August 216 BC"` |
+| `hold` | | seconds on the stop's pictures, 2..180 (default 12) |
+| `media` | | ≤ 12 items: `"remake:<scene>/<file>"`, `"library:<set>/<file>"`, `"anim:<id>/clip.mp4"`, `"parallax:<name>.mp4"` (our galleries by name), an `https://` image/mp4, or `{ "src", "credit", "caption" }` |
+| `caption`, `kind`, `source`, `zoom` (1.2..12, default 3), `chapter` | | card text and grouping |
+
+Remote pictures are cached once on the render host (`maps/stops/cache/`, polite retries); `render_map.py job.json
+--prefetch --out /dev/null` fetches them ahead of a render. Sample: [`samples/job-stops.json`](samples/job-stops.json).
+
+**Films** — `route_film.py clips/<id>.json --data data --maps-out out --docs-out <docs_out>` renders the stops film,
+lays our CC0 ambient bed under the 720p cut, writes the documentary (`film.mp4`, `poster.jpg`, `film.json` with
+chapters, cards, grouped sources, every picture credit, the Alpha + testing notice and the missing-assets list) and
+adds the clip + its per-stop segments to `out/index.json`. Our films: `clips/gen_route_films.py` writes
+*Hannibal: Across the Map* and *The Phoenician Colonies & Carthage*.
+
 Samples: [`samples/job.json`](samples/job.json), [`samples/territories.geojson`](samples/territories.geojson),
 [`samples/route.csv`](samples/route.csv). Validation (`spec.mjs` in Node, `validate()` in Python) fails with a
 clear message naming the field and row.
@@ -74,7 +96,14 @@ clear message naming the field and row.
       "colour": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" } } } },
     "cities": { "type": "array", "items": { "type": "object", "required": ["name", "lat", "lon"], "properties": {
       "name": { "type": "string" }, "lat": { "type": "number", "minimum": -90, "maximum": 90 }, "lon": { "type": "number", "minimum": -180, "maximum": 180 },
-      "from": { "type": "integer" }, "to": { "type": "integer" } } } }
+      "from": { "type": "integer" }, "to": { "type": "integer" } } } },
+    "stops": { "type": "array", "maxItems": 60, "items": { "type": "object", "required": ["label", "lat", "lon", "year"], "properties": {
+      "label": { "type": "string", "maxLength": 80 }, "lat": { "type": "number", "minimum": -90, "maximum": 90 }, "lon": { "type": "number", "minimum": -180, "maximum": 180 },
+      "year": { "type": "number" }, "date": { "type": "string", "maxLength": 60 }, "hold": { "type": "number", "minimum": 2, "maximum": 180 },
+      "media": { "type": "array", "maxItems": 12, "items": { "oneOf": [ { "type": "string" },
+        { "type": "object", "required": ["src"], "properties": { "src": { "type": "string" }, "credit": { "type": "string" }, "caption": { "type": "string" } } } ] } },
+      "caption": { "type": "string", "maxLength": 300 }, "kind": { "enum": ["record", "tradition", "debated", "interpretation", "none"] },
+      "source": { "type": "string" }, "zoom": { "type": "number", "minimum": 1.2, "maximum": 12 }, "chapter": { "type": "string" } } } }
   }
 }
 ```
