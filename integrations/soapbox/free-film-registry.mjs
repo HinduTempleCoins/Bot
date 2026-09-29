@@ -6,10 +6,13 @@ import * as horror from './horror-taxonomy.mjs';
 import * as classics from './classic-films.mjs';
 import * as pdMore from './pd-films-more.mjs';
 
+import * as narco from './narco-cinema.mjs';
+
 export const LISTS = [
   { name: 'horror', films: () => horror.PD_HORROR_FILMS || [] },
   { name: 'classics', films: () => classics.PD_CLASSICS || [] },
   { name: 'more', films: () => pdMore.PD_MORE || [] },
+  { name: 'narco', films: () => narco.NARCO_PD || [] },
 ];
 
 /** All free films across lists, first occurrence of an IA id wins. */
