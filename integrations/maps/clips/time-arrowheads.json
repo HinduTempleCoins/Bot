@@ -1,0 +1,397 @@
+{
+ "id": "time-arrowheads",
+ "fps": 24,
+ "palette": "night",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model. Sources: integrations/maps/data/arrowheads/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "title": "The Point: Arrowheads and the Bow",
+ "subtitle": "~71,000 years ago to the Iron Age · dates are estimates",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  -75000,
+  -2000
+ ],
+ "duration": 100,
+ "cities": [
+  {
+   "name": "Pinnacle Point microliths (debated)",
+   "lat": -34.2,
+   "lon": 22.09,
+   "from": -71000,
+   "to": 0
+  },
+  {
+   "name": "Sibudu points (debated)",
+   "lat": -29.52,
+   "lon": 31.08,
+   "from": -64000,
+   "to": 0
+  },
+  {
+   "name": "Aterian tanged points",
+   "lat": 31.0,
+   "lon": -3.0,
+   "from": -60000,
+   "to": 0
+  },
+  {
+   "name": "Grotte Mandrin points (debated)",
+   "lat": 44.49,
+   "lon": 4.78,
+   "from": -54000,
+   "to": 0
+  },
+  {
+   "name": "Solutrean leaf points",
+   "lat": 46.3,
+   "lon": 4.5,
+   "from": -22000,
+   "to": 0
+  },
+  {
+   "name": "Magdalenian harpoons",
+   "lat": 43.0,
+   "lon": 0.5,
+   "from": -15000,
+   "to": 0
+  },
+  {
+   "name": "Clovis",
+   "lat": 34.3,
+   "lon": -103.3,
+   "from": -13000,
+   "to": 0
+  },
+  {
+   "name": "Folsom",
+   "lat": 36.8,
+   "lon": -104.0,
+   "from": -12700,
+   "to": 0
+  },
+  {
+   "name": "Stellmoor arrows",
+   "lat": 53.62,
+   "lon": 10.2,
+   "from": -12000,
+   "to": 0
+  },
+  {
+   "name": "Dalton",
+   "lat": 36.0,
+   "lon": -91.0,
+   "from": -12000,
+   "to": 0
+  },
+  {
+   "name": "Holmegaard bows",
+   "lat": 55.28,
+   "lon": 11.8,
+   "from": -9000,
+   "to": 0
+  },
+  {
+   "name": "Ötzi's quiver",
+   "lat": 46.78,
+   "lon": 10.84,
+   "from": -5300,
+   "to": 0
+  },
+  {
+   "name": "Neolithic tanged & barbed points",
+   "lat": 51.0,
+   "lon": -1.8,
+   "from": -4500,
+   "to": 0
+  },
+  {
+   "name": "Bronze socketed arrowheads",
+   "lat": 36.1,
+   "lon": 114.3,
+   "from": -3200,
+   "to": 0
+  },
+  {
+   "name": "Scythian trilobate bronze points",
+   "lat": 47.0,
+   "lon": 35.0,
+   "from": -2600,
+   "to": 0
+  },
+  {
+   "name": "Iron arrowheads",
+   "lat": 50.0,
+   "lon": 10.0,
+   "from": -2500,
+   "to": 0
+  },
+  {
+   "name": "The bow reaches the Plains & Southwest",
+   "lat": 38.0,
+   "lon": -104.0,
+   "from": -2500,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "Points out of Africa (one model)",
+   "colour": "#c9a86a",
+   "points": [
+    {
+     "label": "South Africa",
+     "lat": -29.52,
+     "lon": 31.08,
+     "year": -64000.0
+    },
+    {
+     "label": "Maghreb",
+     "lat": 31,
+     "lon": -3,
+     "year": -60000.0
+    },
+    {
+     "label": "Rhône",
+     "lat": 44.49,
+     "lon": 4.78,
+     "year": -54000.0
+    }
+   ]
+  },
+  {
+   "label": "The bow in the Americas (one model)",
+   "colour": "#80d0e0",
+   "points": [
+    {
+     "label": "Arctic",
+     "lat": 66,
+     "lon": -150,
+     "year": -4500.0
+    },
+    {
+     "label": "Great Basin",
+     "lat": 40,
+     "lon": -117,
+     "year": -2000.0
+    },
+    {
+     "label": "Plains",
+     "lat": 38,
+     "lon": -104,
+     "year": -1800.0
+    },
+    {
+     "label": "Southeast",
+     "lat": 34,
+     "lon": -86,
+     "year": -1300.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Pinnacle Point microliths (debated)",
+   "lat": -34.2,
+   "lon": 22.09,
+   "year": -71000,
+   "kind": "debated",
+   "caption": "Tiny backed blades that may have tipped arrows or darts",
+   "source": "Brown et al. 2012 Nature 491:590",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Sibudu points (debated)",
+   "lat": -29.52,
+   "lon": 31.08,
+   "year": -64000,
+   "kind": "debated",
+   "caption": "Impact scars and residues suggest bow-and-arrow use ~64 ka",
+   "source": "Lombard 2011 J Hum Evol 61:635; Lombard & Phillipson 2010 Antiquity 84:635",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Aterian tanged points",
+   "lat": 31.0,
+   "lon": -3.0,
+   "year": -60000,
+   "kind": "record",
+   "caption": "Tanged points of North Africa (~145–30 ka range)",
+   "source": "Scerri 2013 Quat Sci Rev 70:3; Richter et al. 2010",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Grotte Mandrin points (debated)",
+   "lat": 44.49,
+   "lon": 4.78,
+   "year": -54000,
+   "kind": "debated",
+   "caption": "Tiny points read as the oldest arrows in Europe",
+   "source": "Metz et al. 2023 Sci Adv 9:eadd4675",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Solutrean leaf points",
+   "lat": 46.3,
+   "lon": 4.5,
+   "year": -22000,
+   "kind": "record",
+   "caption": "Pressure-flaked laurel-leaf points",
+   "source": "Smith 1966 Le Solutréen en France",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Magdalenian harpoons",
+   "lat": 43.0,
+   "lon": 0.5,
+   "year": -15000,
+   "kind": "record",
+   "caption": "Barbed antler harpoon heads",
+   "source": "Julien 1982 Les harpons magdaléniens",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Clovis",
+   "lat": 34.3,
+   "lon": -103.3,
+   "year": -13000,
+   "kind": "record",
+   "caption": "Fluted spear points",
+   "source": "Waters & Stafford 2007 Science 315:1122",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Folsom",
+   "lat": 36.8,
+   "lon": -104.0,
+   "year": -12700,
+   "kind": "record",
+   "caption": "Fluted points with extinct bison",
+   "source": "Meltzer 2006 Folsom",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Stellmoor arrows",
+   "lat": 53.62,
+   "lon": 10.2,
+   "year": -12000,
+   "kind": "record",
+   "caption": "Pine arrow shafts with tanged flint points",
+   "source": "Rust 1943; Rozoy 1992",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Dalton",
+   "lat": 36.0,
+   "lon": -91.0,
+   "year": -12000,
+   "kind": "record",
+   "caption": "Dalton points of the Southeast",
+   "source": "Goodyear 1982 Am Antiq 47:382",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Holmegaard bows",
+   "lat": 55.28,
+   "lon": 11.8,
+   "year": -9000,
+   "kind": "record",
+   "caption": "The oldest complete bows, elm, ~7000 BC",
+   "source": "Troels-Smith; Junkmanns 2013 Pfeil und Bogen",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Ötzi's quiver",
+   "lat": 46.78,
+   "lon": 10.84,
+   "year": -5300,
+   "kind": "record",
+   "caption": "Quiver with 14 arrows and an unfinished yew bow",
+   "source": "Spindler 1994 The Man in the Ice; Wierer et al. 2018 PLOS ONE 13:e0198292",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Neolithic tanged & barbed points",
+   "lat": 51.0,
+   "lon": -1.8,
+   "year": -4500,
+   "kind": "record",
+   "caption": "Barbed-and-tanged flint arrowheads of Beaker Britain",
+   "source": "Green 1980 BAR 75",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Bronze socketed arrowheads",
+   "lat": 36.1,
+   "lon": 114.3,
+   "year": -3200,
+   "kind": "record",
+   "caption": "Cast bronze arrowheads of the Shang",
+   "source": "Keightley 1999 in Cambridge History of Ancient China",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Scythian trilobate bronze points",
+   "lat": 47.0,
+   "lon": 35.0,
+   "year": -2600,
+   "kind": "record",
+   "caption": "Three-bladed socketed bronze points",
+   "source": "Cernenko 2012 The Scythians 700–300 BC (Osprey); Rolle 1989",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Iron arrowheads",
+   "lat": 50.0,
+   "lon": 10.0,
+   "year": -2500,
+   "kind": "record",
+   "caption": "Iron points of the Iron Age across Eurasia",
+   "source": "Snodgrass 1980 in The Coming of the Age of Iron",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "The bow reaches the Plains & Southwest",
+   "lat": 38.0,
+   "lon": -104.0,
+   "year": -2500,
+   "kind": "interpretation",
+   "caption": "Bow and arrow replace the atlatl ~2,500–1,500 years ago (one model)",
+   "source": "Blitz 1988 Am Antiq 53:123; Bettinger & Eerkens 1999 Am Antiq 64:231",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "arrowheads",
+  "bow",
+  "stone-tools",
+  "technology"
+ ],
+ "credit": "Lombard 2011; Brown 2012; Metz 2023; Scerri 2013; Waters 2007; Wierer 2018; Blitz 1988. Base map: Natural Earth (public domain)."
+}
