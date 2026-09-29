@@ -195,3 +195,11 @@ test('free play is offered only for US-public-domain years; "the" is ignored in 
   S.__resetCatalog();
   assert.equal(S.searchLocal('godfather')[0].id, 'Q901');
 });
+
+test('search: a trailing year picks between same-titled films instead of matching nothing', async () => {
+  const { splitYear } = await import('./server.mjs');
+  assert.deepEqual(splitYear('Martyrs 2008'), { q: 'Martyrs', year: 2008 });
+  assert.deepEqual(splitYear('Martyrs (2016)'), { q: 'Martyrs', year: 2016 });
+  assert.deepEqual(splitYear('2001: A Space Odyssey'), { q: '2001: A Space Odyssey', year: 0 });
+  assert.deepEqual(splitYear('Blade Runner 2049'), { q: 'Blade Runner 2049', year: 0 }); // not a release year
+});

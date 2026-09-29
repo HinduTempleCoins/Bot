@@ -27,6 +27,7 @@ test('Girl Has to Kill Everyone: trafficking/captivity is the heart; siege fits 
   assert.match(h, /Siege <span class=badge>fits · not primary · slower<\/span>/);
   assert.match(h, /Near the genre, but not in it[\s\S]*The Liability[\s\S]*Taken/);
   assert.match(h, /The Eyes of My Mother/);
+  assert.match(h, /Martyrs<\/i> <span class=hz-y>\(2016\)/);
   assert.match(h, /You&#39;re Next/); // escaped apostrophe
 });
 

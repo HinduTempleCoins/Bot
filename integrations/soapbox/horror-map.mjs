@@ -177,13 +177,14 @@ export const MAP_WHERE_TO_WATCH = {
 
 // ── "Girl Has to Kill Everyone" ────────────────────────────────────────────────────────────────────
 export const GIRL = {
-  primary: { t: 'Martyrs', y: '2008', note: 'dir. Pascal Laugier' },
+  primary: { t: 'Martyrs', y: '2008', note: 'dir. Pascal Laugier (and the 2016 American remake)' },
   heart: 'The heart of the genre is trafficking and captivity: she has to get through a whole operation — the handlers, the buyers, the guards, the ring — and "everyone" is plural on purpose. One girl against one attacker, and home or work invasion, fit the genre, but they are not primary to it, and they are much slower to watch.',
   tests: ['If she stops killing, does she die? → the Martyrs wing.', 'Is the film watching her be the monster, with or without a snapping point? → the Eyes of My Mother wing.', 'Neither → adjacent, or pass.'],
   wings: [
     { id: 'captivity-escape', title: 'Captivity & Escape', rank: 'core',
       intro: 'She is taken, caged, or locked in; the only door out is through every captor. Ordered by closeness to Martyrs — the top entries share its brutality and its bleakness, the lower ones trade some of that for stylization.',
       titles: [
+        { t: 'Martyrs', y: '2016', note: 'The American remake of the primary title: the same captivity, the same way out' },
         { t: 'Caged / Captifs', y: '2010', note: 'Held by organ traffickers; kills the surgeon, the handlers, and the dogs on the way out' },
         { t: 'Even Lambs Have Teeth', y: '2015', note: 'Two women escape holding cells in a town the captor family owns' },
         { t: 'Bound to Vengeance', y: '2015', note: 'Escaped captive forces her abductor to lead her through the whole trafficking ring' },
