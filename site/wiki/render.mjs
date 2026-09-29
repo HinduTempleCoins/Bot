@@ -176,7 +176,7 @@ export function tocAside(toc) {
   return `<aside class=toc aria-label="Table of contents"><div class=toctitle>On this page</div><nav>${items}</nav></aside>`;
 }
 
-export function layout({ title, description = '', canonical = '', jsonld = null, ogType = 'article', body = '', toc = '', crumbs = '', active = '' }) {
+export function layout({ title, description = '', canonical = '', jsonld = null, ogType = 'article', body = '', toc = '', crumbs = '', active = '', head = '' }) {
   const desc = esc(description || `${title} — the Library of Ashurbanipal, the Van Kush Family Research Institute knowledge base.`);
   const url = canonical ? esc(canonical) : '';
   // JSON-LD must never leak a {placeholder} template token; stringify + a defensive sweep below.
@@ -193,6 +193,7 @@ export function layout({ title, description = '', canonical = '', jsonld = null,
 <meta name="theme-color" content="#e0a11b">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${desc}"><meta property="og:type" content="${esc(ogType)}"><meta property="og:site_name" content="Library of Ashurbanipal">${url ? `<meta property="og:url" content="${url}">` : ''}
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${desc}">
+<link rel="alternate" type="application/atom+xml" title="Library of Ashurbanipal" href="/feed.xml">${head}
 ${ld ? `<script type="application/ld+json">${ld}</script>` : ''}${THEME_BOOT}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>
 <body><header class=top><a class=brand href="/"><span class=sun aria-hidden=true></span>Library of Ashurbanipal <small>· MELEK</small></a>
 <nav class=main>${nav}${THEME_BTN}</nav></header>

@@ -1,0 +1,206 @@
+{
+ "built": "2026-09-29T05:06:21.260Z",
+ "method": "exact English Wikipedia title (or its sentence case), Wikipedia normalisation + redirects, no disambiguation pages, own names excluded",
+ "count": 33,
+ "of": 245,
+ "bySlug": {
+  "Benefit_Societies": {
+   "qid": "Q1445536",
+   "wikipedia": "Benefit society",
+   "description": "Organization formed to provide mutual aid",
+   "via": "sentence-case"
+  },
+  "Legal_Maxims": {
+   "qid": "Q843515",
+   "wikipedia": "Legal maxim",
+   "description": "Established principle of law",
+   "via": "exact"
+  },
+  "Privacy_Law": {
+   "qid": "Q1247836",
+   "wikipedia": "Privacy law",
+   "description": "Area of law",
+   "via": "exact"
+  },
+  "Treaties": {
+   "qid": "Q131569",
+   "wikipedia": "Treaty",
+   "description": "Express agreement between nations under international law",
+   "via": "exact"
+  },
+  "8-Prenylnaringenin": {
+   "qid": "Q4644281",
+   "wikipedia": "8-Prenylnaringenin",
+   "description": "Chemical compound",
+   "via": "exact"
+  },
+  "Albert_Einstein": {
+   "qid": "Q937",
+   "wikipedia": "Albert Einstein",
+   "description": "German-born theoretical physicist (1879–1955)",
+   "via": "exact"
+  },
+  "Beta-Caryophyllene": {
+   "qid": "Q421614",
+   "wikipedia": "Caryophyllene",
+   "description": "Natural bicyclic sesquiterpene",
+   "via": "exact"
+  },
+  "Biological_Immortality": {
+   "qid": "Q1660153",
+   "wikipedia": "Biological immortality",
+   "description": "State in which the rate of mortality from senescence is stable or decreasing",
+   "via": "exact"
+  },
+  "Black_Pepper": {
+   "qid": "Q43084",
+   "wikipedia": "Black pepper",
+   "description": "Ground fruit of the family Piperaceae",
+   "via": "exact"
+  },
+  "Cannabis": {
+   "qid": "Q79817",
+   "wikipedia": "Cannabis",
+   "description": "Genus of flowering plants",
+   "via": "exact"
+  },
+  "Creatine": {
+   "qid": "Q223600",
+   "wikipedia": "Creatine",
+   "description": "Chemical compound",
+   "via": "exact"
+  },
+  "Datura": {
+   "qid": "Q192497",
+   "wikipedia": "Datura",
+   "description": "Genus of poisonous, potentially psychoactive plants",
+   "via": "exact"
+  },
+  "Egregore": {
+   "qid": "Q1299081",
+   "wikipedia": "Egregore",
+   "description": "Occult concept",
+   "via": "exact"
+  },
+  "FAAH": {
+   "qid": "Q21113274",
+   "wikipedia": "Fatty-acid amide hydrolase 1",
+   "description": "Mammalian protein found in humans",
+   "via": "exact"
+  },
+  "Galantamine": {
+   "qid": "Q412690",
+   "wikipedia": "Galantamine",
+   "description": "Chemical compound",
+   "via": "exact"
+  },
+  "Head_Cone": {
+   "qid": "Q2213984",
+   "wikipedia": "Head cone",
+   "description": "Conical ornament worn on the head in Ancient Egypt",
+   "via": "sentence-case"
+  },
+  "Kava": {
+   "qid": "Q161067",
+   "wikipedia": "Kava",
+   "description": "Species of plant",
+   "via": "exact"
+  },
+  "Khepri": {
+   "qid": "Q215940",
+   "wikipedia": "Khepri",
+   "description": "Ancient Egyptian god",
+   "via": "exact"
+  },
+  "Kyphi": {
+   "qid": "Q492041",
+   "wikipedia": "Kyphi",
+   "description": "Incense used in ancient Egypt",
+   "via": "exact"
+  },
+  "MAGL": {
+   "qid": "Q4678003",
+   "wikipedia": "Monoacylglycerol lipase",
+   "description": "Class of enzymes",
+   "via": "exact"
+  },
+  "Maca": {
+   "qid": "Q795158",
+   "wikipedia": "Lepidium meyenii",
+   "description": "Plant species native to South America",
+   "via": "exact"
+  },
+  "Melqart": {
+   "qid": "Q843408",
+   "wikipedia": "Melqart",
+   "description": "Major deity in the Phoenician and Punic pantheons",
+   "via": "exact"
+  },
+  "Mucuna_Pruriens": {
+   "qid": "Q953611",
+   "wikipedia": "Mucuna pruriens",
+   "description": "Species of flowering plant",
+   "via": "sentence-case"
+  },
+  "Neith": {
+   "qid": "Q191815",
+   "wikipedia": "Neith",
+   "description": "Ancient Egyptian goddess",
+   "via": "exact"
+  },
+  "Nikola_Tesla": {
+   "qid": "Q9036",
+   "wikipedia": "Nikola Tesla",
+   "description": "Serbian-American engineer and inventor (1856–1943)",
+   "via": "exact"
+  },
+  "Pashupata_Shaivism": {
+   "qid": "Q1587143",
+   "wikipedia": "Pashupata Shaivism",
+   "description": "Oldest of the major Shaivite Hindu schools",
+   "via": "exact"
+  },
+  "Racetams": {
+   "qid": "Q1649216",
+   "wikipedia": "Racetam",
+   "description": "Class of drugs",
+   "via": "exact"
+  },
+  "Shulgin_Rating_Scale": {
+   "qid": "Q4524905",
+   "wikipedia": "Shulgin Rating Scale",
+   "description": "Scale for reporting subjective effects of psychoactive substances",
+   "via": "exact"
+  },
+  "Swami_Vivekananda": {
+   "qid": "Q47478",
+   "wikipedia": "Swami Vivekananda",
+   "description": "Indian monk and philosopher (1863–1902)",
+   "via": "exact"
+  },
+  "Tanit": {
+   "qid": "Q877405",
+   "wikipedia": "Tanit",
+   "description": "Goddess of Carthage",
+   "via": "exact"
+  },
+  "Vitamin_K2": {
+   "qid": "Q7936967",
+   "wikipedia": "Vitamin K2",
+   "description": "Group of vitamins and bacterial metabolites",
+   "via": "exact"
+  },
+  "White_Sage": {
+   "qid": "Q899812",
+   "wikipedia": "Salvia apiana",
+   "description": "Species of shrub",
+   "via": "exact"
+  },
+  "Wirearchy": {
+   "qid": "Q25048979",
+   "wikipedia": "Wirearchy",
+   "description": "",
+   "via": "exact"
+  }
+ }
+}
