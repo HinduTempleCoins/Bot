@@ -371,3 +371,26 @@ test('/narco: shelves of leads linked to SoapBox Films, free services, and playa
   assert.match(res.body, /href="\/narco"/);
   assert.ok(SITEMAP_PATHS.includes('/narco'));
 });
+
+test('/world: country index → country pages shelved by type (not mixed), leads for newer films, in nav + sitemap', async () => {
+  const { handler, SITEMAP_PATHS } = await import('./server.mjs');
+  const get = async (url) => { const res = { code: 0, body: '', writeHead(c) { this.code = c; }, setHeader() {}, end(b) { this.body = String(b || ''); } }; await handler({ method: 'GET', url, headers: {} }, res); return res; };
+  const idx = await get('/world');
+  assert.equal(idx.code, 200);
+  assert.match(idx.body, /href="\/world\/france"/);
+  assert.match(idx.body, /href="\/world\/japan"/);
+  assert.match(idx.body, /1996 treaty/);
+  const fr = await get('/world/france');
+  assert.equal(fr.code, 200);
+  assert.match(fr.body, /<h1>France<\/h1>/);
+  assert.match(fr.body, /Drama|Comedy|Fantasy/);
+  assert.doesNotMatch(fr.body, /A Page of Madness/); // Japanese film stays on the Japan page
+  const jp = await get('/world/japan');
+  assert.match(jp.body, /A Page of Madness/);
+  const su = await get('/world/soviet');
+  assert.match(su.body, /Mosfilm/);
+  assert.match(su.body, /noopener/);
+  assert.equal((await get('/world/atlantis')).code, 404);
+  assert.match(idx.body, /href="\/world"/); // nav
+  assert.ok(SITEMAP_PATHS.includes('/world') && SITEMAP_PATHS.includes('/world/france'));
+});

@@ -7,6 +7,7 @@ import * as classics from './classic-films.mjs';
 import * as pdMore from './pd-films-more.mjs';
 import * as pdGap from './pd-films-gap.mjs';
 import * as narco from './narco-cinema.mjs';
+import * as world from './world-cinema.mjs';
 
 export const LISTS = [
   { name: 'horror', films: () => horror.PD_HORROR_FILMS || [] },
@@ -14,6 +15,7 @@ export const LISTS = [
   { name: 'more', films: () => pdMore.PD_MORE || [] },
   { name: 'gap', films: () => pdGap.PD_GAP || [] },
   { name: 'narco', films: () => narco.NARCO_PD || [] },
+  { name: 'world', films: () => world.WORLD_FILMS || [] },
 ];
 
 /** All free films across lists, first occurrence of an IA id wins. */
