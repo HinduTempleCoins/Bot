@@ -624,3 +624,14 @@ test('sharing carries the picture: result page -> /p/ share page with a social c
   assert.equal((await call({ url: '/p/..%2F..%2Fetc%2Fpasswd' })).statusCode, 404);
   __setGenerator(null);
 });
+
+test('the nav collapses to a Menu button on phones and stays open on desktop', async () => {
+  const r = await call({ url: '/' });
+  const h = r.text();
+  assert.match(h, /<details class=navbox><summary>Menu<\/summary>/); // collapsible, no JS
+  assert.match(h, /<\/div><\/details><\/header>/);                    // closed correctly
+  assert.match(h, /@media \(max-width:860px\)/);                      // a mobile layout exists at all
+  assert.match(h, /\.navbox>\.topbar-r\{display:flex\}/);             // desktop: always shown despite <details>
+  assert.match(h, /\.navbox:not\(\[open\]\)>\.topbar-r\{display:none\}/); // mobile: hidden until tapped
+  assert.match(h, /\.navbox\[open\]>\.topbar-r\{max-height:60vh;overflow-y:auto/); // long menu scrolls, not overflows
+});

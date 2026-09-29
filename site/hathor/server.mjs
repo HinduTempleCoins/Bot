@@ -170,6 +170,25 @@ const STYLE = `<style>
   .topbar-r{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
   .topbar-r a{color:var(--fg);font-weight:700;font-size:14px;border:1px solid var(--line2);border-radius:8px;padding:6px 13px;white-space:nowrap}
   .topbar-r a:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+  /* nav collapses to a Menu button on phones — 26 links were filling the whole first screen before any content */
+  .navbox{margin-left:auto;min-width:0}
+  .navbox>summary{display:none}
+  .navbox>.topbar-r{display:flex}
+  @media (max-width:860px){
+    header.topbar{padding:8px 14px;gap:8px}
+    .brand{font-size:16px} .brand span{display:none}
+    .navbox{width:100%;margin-left:0}
+    .navbox>summary{display:block;list-style:none;cursor:pointer;font-weight:700;font-size:14px;color:var(--fg);
+      border:1px solid var(--line2);border-radius:8px;padding:8px 13px;text-align:center;user-select:none}
+    .navbox>summary::-webkit-details-marker{display:none}
+    .navbox>summary::after{content:" ▾";color:var(--mut)}
+    .navbox[open]>summary{border-color:var(--blue);color:var(--blue);margin-bottom:8px}
+    .navbox[open]>summary::after{content:" ▴"}
+    .navbox:not([open])>.topbar-r{display:none}
+    .navbox[open]>.topbar-r{max-height:60vh;overflow-y:auto;gap:7px;padding-bottom:4px}
+    .topbar-r a{font-size:13px;padding:6px 11px}
+    .wrap{padding:16px 14px}
+  }
   .wrap{max-width:960px;margin:0 auto;padding:22px}
   h1{margin:0 0 6px;font-size:26px} h2{font-size:18px;margin:18px 0 10px} h3{font-size:15px;margin:0 0 6px}
   .muted{color:var(--mut)} .gold{color:var(--gold)}
@@ -221,7 +240,7 @@ function pageShell(title, body, opts = {}) {
 <meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></header>
+  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
