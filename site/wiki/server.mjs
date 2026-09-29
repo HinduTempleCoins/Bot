@@ -325,7 +325,7 @@ function categoriesPage() {
         <span class=muted style="font-weight:400;font-size:13px"><a href="/category/${esc(g.id)}" style="color:var(--mut);font-weight:400">${g.items.length} ${g.items.length === 1 ? 'article' : 'articles'} &rsaquo;</a></span>
       </h2>
       ${g.blurb ? `<p class=muted style="margin:0 0 12px;font-size:14px">${esc(g.blurb)}</p>` : ''}
-      <p class="cat-links" style="margin:0;line-height:2.0;font-size:15px">${g.items.map((a) => `<a class="cat-link" data-title="${esc(a.title.toLowerCase())}" href="/wiki/${esc(a.slug)}" style="color:var(--link);font-weight:500;text-decoration:none">${esc(a.title)}</a>`).join(' <span class=sep style="color:var(--line2);padding:0 3px">&middot;</span> ')}</p>
+      <p class="cat-links" style="margin:0;line-height:2.15;font-size:18px">${g.items.map((a) => `<a class="cat-link" data-title="${esc(a.title.toLowerCase())}" href="/wiki/${esc(a.slug)}" style="color:var(--link);font-weight:600;text-decoration:none">${esc(a.title)}</a>`).join(' <span class=sep style="color:var(--line2);padding:0 5px;font-size:16px">&middot;</span> ')}</p>
     </section>`).join('')}
     <section id="all-az" class=cat-section style="margin:44px 0;scroll-margin-top:80px;border-top:2px solid var(--line);padding-top:28px">
       <h2 style="margin:0 0 6px;font-size:22px;display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line2);padding-bottom:6px">
@@ -333,7 +333,7 @@ function categoriesPage() {
         <span class=muted style="font-weight:400;font-size:13px">${sortedArts.length} total articles</span>
       </h2>
       <p class=muted style="margin:0 0 16px;font-size:14px">Every verified monograph, reference sheet, and document in the Library of Ashurbanipal, listed alphabetically.</p>
-      <p class="cat-links" style="margin:0;line-height:2.0;font-size:15px">${sortedArts.map((a) => `<a class="cat-link" data-title="${esc(a.title.toLowerCase())}" href="/wiki/${esc(a.slug)}" style="color:var(--link);font-weight:500;text-decoration:none">${esc(a.title)}</a>`).join(' <span class=sep style="color:var(--line2);padding:0 3px">&middot;</span> ')}</p>
+      <p class="cat-links" style="margin:0;line-height:2.15;font-size:18px">${sortedArts.map((a) => `<a class="cat-link" data-title="${esc(a.title.toLowerCase())}" href="/wiki/${esc(a.slug)}" style="color:var(--link);font-weight:600;text-decoration:none">${esc(a.title)}</a>`).join(' <span class=sep style="color:var(--line2);padding:0 5px;font-size:16px">&middot;</span> ')}</p>
     </section>
     ${filterScript}`;
   return layout({ title: 'Contents', canonical: `${BASE_URL}/categories`, body, active: 'categories' });
@@ -346,7 +346,7 @@ function categoryPage(id) {
   }
   const crumbs = `<a href="/">Library</a><span class=sep>›</span><a href="/categories">Contents</a><span class=sep>›</span>${esc(g.name)}`;
   const body = `<h1>${esc(g.name)}<span class=lede-rule aria-hidden=true></span></h1><p class=muted>${esc(g.blurb || '')}</p>
-    <p style="margin:16px 0;line-height:2.0;font-size:15px">${g.items.map((a) => `<a href="/wiki/${esc(a.slug)}" style="color:var(--link);font-weight:500;text-decoration:none">${esc(a.title)}</a>`).join(' <span class=sep style="color:var(--line2);padding:0 3px">&middot;</span> ')}</p>
+    <p style="margin:16px 0;line-height:2.15;font-size:18px">${g.items.map((a) => `<a href="/wiki/${esc(a.slug)}" style="color:var(--link);font-weight:600;text-decoration:none">${esc(a.title)}</a>`).join(' <span class=sep style="color:var(--line2);padding:0 5px;font-size:16px">&middot;</span> ')}</p>
     <p style="margin-top:22px"><a href="/categories">← All contents</a></p>`;
   return { html: layout({ title: g.name, canonical: `${BASE_URL}/category/${id}`, body, active: 'categories', crumbs }), code: 200 };
 }
