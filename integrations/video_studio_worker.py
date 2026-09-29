@@ -226,6 +226,57 @@ def animate_plan(job):
     return {"title": title, "chapters": [{"title": title, "shots": shots}], "sources": [f"Your images ({imgs[0]['licence']})"] if imgs else []}
 
 
+# ── Hathor's production documentaries (tool 'hathor-documentary'): the posting host plans them with its own LLM keys
+# and posts the finished shot plan; here we run the real documentary pipeline (asset index → board with the era/region
+# filter → wordless render) and publish to /documentaries through media sync. Paths come from the env (see deploy/).
+DOC_REPO = os.environ.get("DOC_REPO", "/opt/melek-gen/repo")            # sparse checkout of this repository
+DOC_NODE = os.environ.get("DOC_NODE", "node")
+DOC_PY = os.environ.get("DOC_PY", sys.executable)
+DOC_WORK = os.environ.get("DOC_WORK", "/opt/melek-gen/documentary")
+DOC_OUT = os.environ.get("DOC_OUT", "/opt/melek-gen/docs_out")
+DOC_GEN = os.environ.get("DOC_GEN", "/opt/melek-gen")
+
+
+def do_documentary(job):
+    import re
+    doc_id = str(job.get("docId") or "")
+    if not re.match(r"^[a-z0-9][a-z0-9-]{1,60}$", doc_id): raise RuntimeError("bad docId")
+    plan = job.get("docPlan") or {}
+    if not isinstance(plan.get("scenes"), list) or len(plan["scenes"]) < 3: raise RuntimeError("docPlan has no scenes")
+    os.makedirs(DOC_WORK, exist_ok=True)
+    pipe = os.path.join(DOC_REPO, "integrations", "documentary")
+    pf, idx, bf = (os.path.join(DOC_WORK, f"{doc_id}.{x}.json") for x in ("plan", "assets", "board"))
+    json.dump(plan, open(pf, "w"))
+    progress(job["id"], "indexing parts", 5)
+    run(["nice", "-n", "15", DOC_PY, os.path.join(pipe, "index_assets.py"), "--root", DOC_GEN, "--out", idx])
+    progress(job["id"], "building the board", 10)
+    r = subprocess.run([DOC_NODE, os.path.join(pipe, "run.mjs"), "board", "--plan", pf, "--index", idx, "--out", bf, "--renders", "0"], capture_output=True, text=True)
+    if r.returncode == 3: raise RuntimeError("board has anachronisms: " + r.stderr[-300:])
+    if r.returncode != 0: raise RuntimeError("board failed: " + r.stderr[-400:])
+    board = json.load(open(bf)); board["id"] = doc_id; json.dump(board, open(bf, "w"))
+    # asset growth: the film's wanted assets (and a few of its missing scenes) join the queue the grower renders from
+    try:
+        qd = os.path.join(DOC_GEN, "asset-growth"); os.makedirs(qd, exist_ok=True)
+        with open(os.path.join(qd, "queue.jsonl"), "a") as q:
+            for w in list(plan.get("wantAssets") or [])[:12]:
+                q.write(json.dumps({"want": str(w)[:160], "docId": doc_id, "at": int(time.time())}) + "\n")
+    except Exception:
+        pass
+    progress(job["id"], "rendering", 15)
+    t0 = time.time()
+    out = os.path.join(DOC_OUT, doc_id)
+    log = open(os.path.join(DOC_WORK, f"render_{doc_id}.log"), "w")
+    rr = subprocess.run(["nice", "-n", "15", DOC_PY, os.path.join(pipe, "render_wordless.py"), bf, "--out", out], stdout=log, stderr=subprocess.STDOUT)
+    if rr.returncode != 0 or not os.path.exists(os.path.join(out, "film.mp4")): raise RuntimeError(f"render failed (see render_{doc_id}.log)")
+    render_s = time.time() - t0
+    progress(job["id"], "publishing", 95)
+    ms = os.path.join(os.path.dirname(os.path.abspath(__file__)), "media_sync.py")
+    rs = subprocess.run(["nice", "-n", "15", sys.executable, ms, "--only", "docs"], capture_output=True, text=True)
+    if rs.returncode != 0: raise RuntimeError("publish (media sync) failed: " + (rs.stderr or rs.stdout)[-300:])
+    dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", os.path.join(out, "film.mp4")], capture_output=True, text=True).stdout.strip() or 0)
+    return dur, render_s, len(board.get("shots", [])), len(board.get("missing", []))
+
+
 def one(max_renders):
     r = api("POST", "/video-studio/api/worker/next", {})
     job = r.get("job")
@@ -236,6 +287,11 @@ def one(max_renders):
     try:
         progress(job["id"], "starting", 2)
         tool = job.get("tool") or "film"
+        if tool == "hathor-documentary":
+            dur, render_s, shots, missing = do_documentary(job)
+            api("POST", f"/video-studio/api/worker/{job['id']}/done", {"published": True, "durationSecs": round(dur, 1), "renderSecs": round(render_s)})
+            print(f"{job['id']} documentary {job.get('docId')} published: {dur:.0f}s film, {shots} shots, {missing} missing parts, render {render_s:.0f}s", flush=True)
+            return True
         if tool == "subtitles":
             vtt, dur = do_subtitles(job, work)
             progress(job["id"], "uploading", 97)
@@ -278,7 +334,17 @@ if __name__ == "__main__":
         sys.exit("set VSTUDIO_BASE and VSTUDIO_WORKER_TOKEN")
     sync_child, last_sync = None, 0.0
     sync_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "media_sync.py")
+    pause_file = os.environ.get("PRODUCTION_PAUSE_FILE", "")  # set in the host's private env file
+    last_beat = 0.0
     while True:
+        paused = bool(pause_file) and os.path.exists(pause_file)
+        if time.time() - last_beat >= 300:  # heartbeat for the read-only /documentaries/status page
+            last_beat = time.time()
+            try: api("POST", "/video-studio/api/worker/heartbeat", {"paused": paused, "load": round(os.getloadavg()[0], 1)}, timeout=20)
+            except Exception: pass
+        if paused:  # stop switch: no jobs, no publishing while the flag file exists
+            if a.once: break
+            time.sleep(a.idle); continue
         # media sync: push finished remakes/animations/documentaries/maps/subtitles to the web host (HTTPS, same token),
         # as a low-priority child so rendering jobs keep flowing; never two at once.
         if a.sync_every and os.path.exists(sync_script) and (sync_child is None or sync_child.poll() is not None) and time.time() - last_sync >= a.sync_every:

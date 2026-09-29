@@ -1,0 +1,10 @@
+[Unit]
+Description=Hathor daily animations + character scenes + imagined scenes
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=-@CONF@/production-worker.env
+ExecStart=/opt/melek-gen/repo/deploy/production/worker/pausable.sh /opt/melek-gen/repo/deploy/production/worker/daily-media.sh
+Nice=12
+TimeoutStartSec=12h

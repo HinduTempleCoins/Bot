@@ -98,15 +98,16 @@ def main():
                         "text": f"{m.get('title', words(key))} {m.get('group', '')} {m.get('credit', '')} {words(key)} {mm.group(1).split('_')[1]}",
                         "people": mm.group(2), "look": mm.group(1), "licence": "Hathor Studio remake", "credit": m.get("credit", "")})
     for sub, typ in (("characters_sais", "character"), ("egypt_royal_military", "object"), ("objects", "object"),
-                     ("lotus", "object"), ("landscapes", "landscape")):
+                     ("lotus", "object"), ("landscapes", "landscape"), ("grown", None)):  # grown: typed by its own json
         for f in sorted(glob.glob(f"{R}/library/{sub}/*.png")):
             if f.endswith(".pose.png"):
                 continue
             j = load_json(f[:-4] + ".json", {}) or {}
+            typ_f = typ or (j.get("kind") if j.get("kind") in ("character", "object", "landscape") else "object")
             name = j.get("name") or j.get("title") or words(os.path.splitext(os.path.basename(f))[0])
             tags = " ".join(str(x) for x in (j.get("tags") or [])) + " " + str(j.get("era", "")) + " " + str(j.get("desc", j.get("description", "")))[:200]
             people = next((p for p in ("nubian", "egyptian", "libyan", "levantine", "pale", "greek", "punic") if p in f), "")
-            out.append({"id": f"{typ}:{sub}:{os.path.basename(f)[:-4]}", "type": typ, "path": f, "text": f"{name} {tags} {words(sub)}",
+            out.append({"id": f"{typ_f}:{sub}:{os.path.basename(f)[:-4]}", "type": typ_f, "path": f, "text": f"{name} {tags} {words(sub)}",
                         "people": people, "licence": "Hathor Studio render", "credit": "",
                         "posed": os.path.exists(f[:-4] + ".annot.json")})
     for rf in sorted(glob.glob(f"{R}/anims/*/recipe.json")):

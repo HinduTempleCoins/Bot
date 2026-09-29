@@ -8,6 +8,7 @@ import { Readable } from 'node:stream';
 
 process.env.VSTUDIO_DIR = mkdtempSync(join(tmpdir(), 'vs-'));
 process.env.VSTUDIO_WORKER_TOKEN = 'w'.repeat(40);
+process.env.VSTUDIO_PRODUCTION_TOKEN = 'p'.repeat(40);
 process.env.VSTUDIO_PER_VISITOR = '2';
 process.env.VSTUDIO_OURS_MINUTES = '12';
 const vs = await import('./video-studio.mjs');
@@ -107,4 +108,51 @@ test('pages: create form (engines per stage, keys client-side), tools, docs; eve
   const page = (await call(`/video-studio/job/${JSON.parse(r.body).id}`)).body.toString();
   assert.doesNotMatch(page, /<script>alert/);
   assert.equal((await call('/video-studio/media/0000000000000000/../x')).code, 404);
+});
+
+test('production jobs: own token, queued at once, worker gets docPlan, done only when published, capped', async () => {
+  const P = { authorization: `Bearer ${'p'.repeat(40)}` };
+  const scenes = [{ visual: 'a', seconds: 6 }, { visual: 'b', seconds: 6 }, { visual: 'c', seconds: 6 }];
+  assert.equal((await call('/video-studio/api/production/jobs', { method: 'GET' })).code, 401);
+  assert.equal((await call('/video-studio/api/production/jobs', { method: 'POST', body: { docId: 'kush-nile', docPlan: { scenes } }, headers: W })).code, 401); // worker token is not the production token
+  let r = await call('/video-studio/api/production/jobs', { method: 'POST', body: { docId: 'Bad Id', docPlan: { scenes } }, headers: P });
+  assert.equal(r.code, 400);
+  r = await call('/video-studio/api/production/jobs', { method: 'POST', body: { docId: 'giants-10', topic: 'giants', minutes: 10, style: 'wonder', docPlan: { topic: 'giants', scenes } }, headers: P });
+  assert.equal(r.code, 200);
+  const id = JSON.parse(r.body).id;
+  assert.equal((await call('/video-studio/api/production/jobs', { method: 'POST', body: { docId: 'giants-10', docPlan: { scenes } }, headers: P })).code, 409); // same film already open
+  const st = JSON.parse((await call('/video-studio/api/production/jobs', { method: 'GET', headers: P })).body);
+  assert.equal(st.queued >= 1, true);
+  // drain older public jobs until the worker hands out the production one
+  let got = null;
+  for (let i = 0; i < 20 && !got; i++) { const n = JSON.parse((await call('/video-studio/api/worker/next', { method: 'POST', body: {}, headers: W })).body); if (!n.job) break; if (n.job.id === id) got = n.job; }
+  assert.ok(got, 'worker receives the production job');
+  assert.equal(got.tool, 'hathor-documentary');
+  assert.equal(got.docId, 'giants-10');
+  assert.equal(got.docPlan.scenes.length, 3);
+  await call(`/video-studio/api/worker/${id}/done`, { method: 'POST', body: { published: false }, headers: W });
+  assert.equal(vs.getJob(id).status, 'failed');
+  r = await call('/video-studio/api/production/jobs', { method: 'POST', body: { docId: 'giants-10', docPlan: { scenes } }, headers: P });
+  const id2 = JSON.parse(r.body).id;
+  for (let i = 0; i < 20; i++) { const n = JSON.parse((await call('/video-studio/api/worker/next', { method: 'POST', body: {}, headers: W })).body); if (!n.job || n.job.id === id2) break; }
+  await call(`/video-studio/api/worker/${id2}/done`, { method: 'POST', body: { published: true }, headers: W });
+  assert.equal(vs.getJob(id2).status, 'done');
+});
+
+test('production status: submitter snapshot (production token) + worker heartbeat (worker token) → read-only page', async () => {
+  const { loadStatus, statusBody } = await import('./production-status.mjs');
+  const P = { authorization: `Bearer ${'p'.repeat(40)}` };
+  assert.equal((await call('/video-studio/api/production/status', { method: 'POST', body: { paused: true }, headers: W })).code, 401);
+  let r = await call('/video-studio/api/production/status', { method: 'POST', body: { paused: false, madeToday: 3, open: 1, queue: { total: 290, remaining: 280, published: 10, byLength: { 10: 220, 30: 40, 60: 0 } }, next: [{ docId: 'scheria-30', name: 'Scheria <b>', minutes: 30 }] }, headers: P });
+  assert.equal(r.code, 200);
+  r = await call('/video-studio/api/worker/heartbeat', { method: 'POST', body: { paused: true, load: 12.5 }, headers: W });
+  assert.equal(r.code, 200);
+  const st = loadStatus();
+  assert.equal(st.submitter.queue.remaining, 280);
+  assert.equal(st.worker.paused, true);
+  const html = statusBody(st, 10);
+  assert.match(html, /Paused/);
+  assert.match(html, /280 films waiting/);
+  assert.match(html, /Scheria &lt;b&gt;/);
+  assert.doesNotMatch(html, /<form|<button/); // no controls on the public web
 });

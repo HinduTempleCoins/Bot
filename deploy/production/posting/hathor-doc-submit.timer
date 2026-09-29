@@ -1,0 +1,10 @@
+[Unit]
+Description=Plan and queue the next documentary every 30 minutes (capped by open jobs)
+
+[Timer]
+OnBootSec=3min
+OnCalendar=*-*-* *:05,35:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

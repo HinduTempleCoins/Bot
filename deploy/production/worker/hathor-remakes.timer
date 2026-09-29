@@ -1,0 +1,10 @@
+[Unit]
+Description=Re-run the remake batch daily (picks up new remake_extra/*.jsonl)
+
+[Timer]
+OnBootSec=5min
+OnCalendar=*-*-* 03:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

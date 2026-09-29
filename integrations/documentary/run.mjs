@@ -130,8 +130,12 @@ async function planTest(out) {
   console.log(`default style: ${ranked[0].style}`);
 }
 
-async function fullPlan(topicId, style, minutes, out) {
-  const topic = TOPICS[topicId];
+export async function fullPlan(topicIdOrDef, style, minutes, out) {
+  // a hand-written topic (topics.mjs) by id, or a generated topic definition (topic-gen.mjs) carried in the plan
+  const generated = typeof topicIdOrDef === 'object' && topicIdOrDef;
+  const topic = generated || TOPICS[topicIdOrDef];
+  const topicId = generated ? generated.id : topicIdOrDef;
+  if (!topic || !Array.isArray(topic.outline) || !Array.isArray(topic.facts)) throw new Error(`unknown or invalid topic ${topicId}`);
   // per sequence, so long films stay within model output limits
   const scenes = [];
   for (let i = 0; i < topic.outline.length; i++) {
@@ -148,14 +152,14 @@ async function fullPlan(topicId, style, minutes, out) {
     console.log(`sequence ${i + 1} ${seq.title}: ${got.length} scenes (${r.provider || 'fallback'})`);
   }
   const score = scorePlan(scenes, { minutes, allowedSources: topic.facts.map((f) => f.source) });
-  fs.writeFileSync(out, JSON.stringify({ topic: topicId, title: topic.title, summary: topic.summary, style, minutes, sequences: topic.outline.map((c) => c.title), scenes, score, alpha: ALPHA_LINE }, null, 1));
+  fs.writeFileSync(out, JSON.stringify({ topic: topicId, title: topic.title, summary: topic.summary, style, minutes, sequences: topic.outline.map((c) => c.title), scenes, score, alpha: ALPHA_LINE, ...(generated ? { topicDef: generated } : {}) }, null, 1));
   console.log(`plan: ${scenes.length} scenes, ${score.seconds}s, score ${score.total}`);
 }
 
 /** plan + assets index → board for the wordless renderer. First wave is REUSE-ONLY (renderBudget 0): every scene is
  *  built from parts we already have; scenes nothing fits go to the film's MISSING list (the next render queue). */
 export function buildBoard(p, index, { renderBudget = 0 } = {}) {
-  const topic = TOPICS[p.topic] || { peoples: '' };
+  const topic = p.topicDef || TOPICS[p.topic] || { peoples: '' };
   const recent = []; const renders = []; const shots = []; const missing = []; const credits = new Set();
   const byPath = new Map(index.map((x) => [x.path, x]));
   // open on an animated map when one covers the topic (fork L's clips; CC BY credit travels with it)

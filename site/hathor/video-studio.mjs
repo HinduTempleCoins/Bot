@@ -18,6 +18,7 @@ import { syncRoute } from './media-sync.mjs';
 import { readFileSync, existsSync, appendFileSync, mkdirSync, statSync, createWriteStream, createReadStream, renameSync, openSync, readSync, closeSync } from 'node:fs';
 import { ENGINE_CLIENT_JS } from './engines.mjs';
 import * as TK from './video-studio-toolkit.mjs';
+import { saveSubmitterStatus, saveWorkerHeartbeat } from './production-status.mjs';
 import { join, dirname } from 'node:path';
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -319,6 +320,40 @@ function workerAuth(req) {
   try { return timingSafeEqual(Buffer.from(got), Buffer.from(want)); } catch { return false; }
 }
 
+// ── production jobs: Hathor's own documentaries (the submitter on the posting host plans them with its own LLM keys
+// and posts the finished plan here; the worker renders with the full documentary pipeline and publishes to
+// /documentaries). A separate scoped token — not a visitor key — so public limits (3/day, 90 min/day) stay for the
+// public. No provider key ever reaches this host.
+function productionAuth(req) {
+  const want = String(process.env.VSTUDIO_PRODUCTION_TOKEN || '');
+  const got = String((req.headers && req.headers.authorization) || '').replace(/^Bearer\s+/i, '');
+  if (want.length < 24 || got.length !== want.length) return false;
+  try { return timingSafeEqual(Buffer.from(got), Buffer.from(want)); } catch { return false; }
+}
+export const PRODUCTION_MAX_OPEN = 6;
+export function productionStatus(jobs = loadJobs()) {
+  const prod = [...jobs.values()].filter((j) => j.tool === 'hathor-documentary');
+  const open = prod.filter((j) => j.status === 'queued' || j.status === 'rendering');
+  return { open: open.length, queued: prod.filter((j) => j.status === 'queued').length, rendering: prod.filter((j) => j.status === 'rendering').length,
+    recent: prod.sort((a, b) => b.created - a.created).slice(0, 30).map((j) => ({ id: j.id, docId: j.docId, status: j.status, error: j.error || '', created: j.created, finished: j.finished || 0 })) };
+}
+/** body: { docId, topic, minutes, style, docPlan } → queued immediately (production has its own cap). */
+export function createProductionJob(body) {
+  if (!body || typeof body !== 'object') return { code: 400, body: { ok: false, error: 'bad request' } };
+  const docId = String(body.docId || '');
+  if (!/^[a-z0-9][a-z0-9-]{1,60}$/.test(docId)) return { code: 400, body: { ok: false, error: 'bad docId' } };
+  const docPlan = body.docPlan;
+  if (!docPlan || typeof docPlan !== 'object' || !Array.isArray(docPlan.scenes) || docPlan.scenes.length < 3 || docPlan.scenes.length > 2000) return { code: 400, body: { ok: false, error: 'docPlan.scenes must be an array of scenes' } };
+  const st = productionStatus();
+  if (st.open >= PRODUCTION_MAX_OPEN) return { code: 429, body: { ok: false, error: `${st.open} production jobs already open` } };
+  if ([...loadJobs().values()].some((j) => j.tool === 'hathor-documentary' && j.docId === docId && (j.status === 'queued' || j.status === 'rendering'))) return { code: 409, body: { ok: false, error: 'already queued' } };
+  const id = randomBytes(8).toString('hex');
+  const minutes = [1, 10, 30, 60].includes(+body.minutes) ? +body.minutes : 10;
+  const job = { id, tool: 'hathor-documentary', docId, topic: String(body.topic || docId).slice(0, 200), minutes, style: String(body.style || '').slice(0, 40), public: false, voter: 'production', day: today(), created: Date.now(), status: 'queued', queuedDay: today(), queuedAt: Date.now(), plan: null, docPlan };
+  if (!saveJob(job)) return { code: 500, body: { ok: false, error: 'store unavailable' } };
+  return { code: 200, body: { ok: true, id } };
+}
+
 /** Create a job from a browser request. → { code, body } */
 export function createJob(body, ip, manifest, base, keyVoter = null) {
   if (!body || typeof body !== 'object') return { code: 400, body: { ok: false, error: 'bad request' } };
@@ -452,23 +487,36 @@ export async function videoStudioRoute(req, res, path, ctx) {
       res.writeHead(303, { location: `/video-studio/job/${j.id}` }); res.end(); return true;
     }
 
+    // ── production API (its own token) — Hathor's documentaries, planned on the posting host ──
+    if (path === '/video-studio/api/production/jobs') {
+      if (!productionAuth(req)) { json(res, 401, { ok: false }); return true; }
+      if (method === 'GET') { json(res, 200, { ok: true, ...productionStatus() }); return true; }
+      if (method === 'POST') { const b = await readJson(req, 8 * 1024 * 1024); const r = createProductionJob(b); json(res, r.code, r.body); return true; }
+      json(res, 405, { ok: false }); return true;
+    }
+    if (path === '/video-studio/api/production/status' && method === 'POST') {
+      if (!productionAuth(req)) { json(res, 401, { ok: false }); return true; }
+      json(res, 200, { ok: saveSubmitterStatus(await readJson(req, 64 * 1024)) }); return true;
+    }
+
     // ── worker API (token) — the CPU worker pulls jobs and pushes results; no SSH between hosts ──
     if (path.startsWith('/video-studio/api/worker/')) {
       if (!workerAuth(req)) { json(res, 401, { ok: false }); return true; }
       if (path.startsWith('/video-studio/api/worker/sync/')) { if (await syncRoute(req, res, path, method, { vsDir: VS_DIR(), json })) return true; }
+      if (path === '/video-studio/api/worker/heartbeat' && method === 'POST') { json(res, 200, { ok: saveWorkerHeartbeat(await readJson(req, 16 * 1024)) }); return true; }
       if (path === '/video-studio/api/worker/next' && method === 'POST') {
         const next = [...loadJobs().values()].filter((j) => j.status === 'queued').sort((a, b) => a.queuedAt - b.queuedAt)[0];
         if (!next) { json(res, 200, { ok: true, job: null }); return true; }
         saveJob({ ...next, status: 'rendering', stage: 'starting', pct: 0, startedAt: Date.now() });
         const inputs = (next.inputs || []).map((u) => { const r = TK.getUpload(u); return r ? { id: u, kind: r.kind, type: r.type, licence: r.licence, url: `${ctx.base}/video-studio/u/${u}` } : null; }).filter(Boolean);
-        json(res, 200, { ok: true, job: { id: next.id, tool: next.tool || 'film', topic: next.topic, minutes: next.minutes, style: next.style, params: next.params || {}, inputs, plan: next.plan } }); return true;
+        json(res, 200, { ok: true, job: { id: next.id, tool: next.tool || 'film', topic: next.topic, minutes: next.minutes, style: next.style, params: next.params || {}, inputs, plan: next.plan, ...(next.tool === 'hathor-documentary' ? { docId: next.docId, docPlan: next.docPlan } : {}) } }); return true;
       }
       m = /^\/video-studio\/api\/worker\/([a-f0-9]{16})\/(progress|done|fail|video\.mp4|poster\.jpg|subtitles\.vtt)$/.exec(path);
       const j = m && getJob(m[1]);
       if (!j) { json(res, 404, { ok: false }); return true; }
       if (m[2] === 'progress' && method === 'POST') { const b = await readJson(req, 16 * 1024) || {}; saveJob({ ...j, stage: String(b.stage || '').slice(0, 60), pct: Math.max(0, Math.min(100, +b.pct || 0)) }); json(res, 200, { ok: true }); return true; }
       if ((m[2] === 'video.mp4' || m[2] === 'poster.jpg' || m[2] === 'subtitles.vtt') && method === 'PUT') { const n = await receiveUpload(req, j.id, m[2]); json(res, n ? 200 : 400, { ok: !!n, bytes: n || 0 }); return true; }
-      if (m[2] === 'done' && method === 'POST') { const b = await readJson(req, 16 * 1024) || {}; const ok = existsSync(join(MEDIA(j.id), (j.tool === 'subtitles' ? 'subtitles.vtt' : 'video.mp4'))); saveJob({ ...j, status: ok ? 'done' : 'failed', error: ok ? '' : 'no video uploaded', finished: Date.now(), durationSecs: +b.durationSecs || 0, renderSecs: +b.renderSecs || 0, stage: '', pct: 100 }); json(res, 200, { ok }); return true; }
+      if (m[2] === 'done' && method === 'POST') { const b = await readJson(req, 16 * 1024) || {}; const ok = j.tool === 'hathor-documentary' ? b.published === true : existsSync(join(MEDIA(j.id), (j.tool === 'subtitles' ? 'subtitles.vtt' : 'video.mp4'))); saveJob({ ...j, status: ok ? 'done' : 'failed', error: ok ? '' : (j.tool === 'hathor-documentary' ? 'not published' : 'no video uploaded'), finished: Date.now(), durationSecs: +b.durationSecs || 0, renderSecs: +b.renderSecs || 0, stage: '', pct: 100 }); json(res, 200, { ok }); return true; }
       if (m[2] === 'fail' && method === 'POST') { const b = await readJson(req, 16 * 1024) || {}; saveJob({ ...j, status: 'failed', error: String(b.error || 'render failed').slice(0, 300), finished: Date.now() }); json(res, 200, { ok: true }); return true; }
       json(res, 405, { ok: false }); return true;
     }

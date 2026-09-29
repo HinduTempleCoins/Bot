@@ -1,0 +1,11 @@
+[Unit]
+Description=Hathor remake batch (mythology first, then everything; skips finished outputs)
+After=network-online.target melek-cpu-diffusion.service
+
+[Service]
+Type=simple
+EnvironmentFile=-@CONF@/production-worker.env
+ExecStart=/opt/melek-gen/repo/deploy/production/worker/pausable.sh /opt/melek-gen/repo/deploy/production/worker/remakes-run.sh
+Nice=10
+Restart=on-failure
+RestartSec=300

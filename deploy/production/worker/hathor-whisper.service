@@ -1,0 +1,15 @@
+[Unit]
+Description=Hathor Pentecaust transcripts (Whisper queue, daily rescan) — lowest priority
+After=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-@CONF@/production-worker.env
+ExecStart=/opt/melek-gen/repo/deploy/production/worker/pausable.sh /opt/melek-gen/repo/deploy/production/worker/whisper-loop.sh
+Nice=19
+IOSchedulingClass=idle
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
