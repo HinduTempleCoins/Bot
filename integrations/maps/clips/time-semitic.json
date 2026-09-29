@@ -1,0 +1,358 @@
+{
+ "id": "time-semitic",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/languages/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "title": "Semitic and Afroasiatic Tongues",
+ "subtitle": "c. 3750 BC – AD 711 · inscriptions are record",
+ "bbox": [
+  -12,
+  5,
+  65,
+  45
+ ],
+ "years": [
+  -3900,
+  750
+ ],
+ "duration": 110,
+ "cities": [
+  {
+   "name": "Proto-Semitic (model)",
+   "lat": 33.0,
+   "lon": 36.5,
+   "from": -3750,
+   "to": 2100
+  },
+  {
+   "name": "Egyptian: first writing (Abydos U-j)",
+   "lat": 26.18,
+   "lon": 31.92,
+   "from": -3250,
+   "to": 2100
+  },
+  {
+   "name": "Akkadian",
+   "lat": 32.5,
+   "lon": 44.4,
+   "from": -2600,
+   "to": 2100
+  },
+  {
+   "name": "Eblaite",
+   "lat": 35.8,
+   "lon": 36.8,
+   "from": -2400,
+   "to": 2100
+  },
+  {
+   "name": "Ugaritic",
+   "lat": 35.6,
+   "lon": 35.78,
+   "from": -1400,
+   "to": 2100
+  },
+  {
+   "name": "Phoenician: Ahiram",
+   "lat": 34.12,
+   "lon": 35.65,
+   "from": -1000,
+   "to": 2100
+  },
+  {
+   "name": "Hebrew",
+   "lat": 31.86,
+   "lon": 34.92,
+   "from": -925,
+   "to": 2100
+  },
+  {
+   "name": "Old Aramaic: Tell Fekheriye",
+   "lat": 36.85,
+   "lon": 40.05,
+   "from": -850,
+   "to": 2100
+  },
+  {
+   "name": "Old South Arabian",
+   "lat": 15.5,
+   "lon": 45.3,
+   "from": -800,
+   "to": 2100
+  },
+  {
+   "name": "Libyco-Berber: Dougga",
+   "lat": 36.42,
+   "lon": 9.22,
+   "from": -138,
+   "to": 2100
+  },
+  {
+   "name": "Coptic: the last stage of Egyptian",
+   "lat": 25.7,
+   "lon": 32.6,
+   "from": 300,
+   "to": 2100
+  },
+  {
+   "name": "Arabic: the Namara inscription",
+   "lat": 32.9,
+   "lon": 36.6,
+   "from": 328,
+   "to": 2100
+  },
+  {
+   "name": "Ge'ez at Aksum",
+   "lat": 14.13,
+   "lon": 38.72,
+   "from": 340,
+   "to": 2100
+  },
+  {
+   "name": "Arabic reaches Iberia",
+   "lat": 37.88,
+   "lon": -4.78,
+   "from": 711,
+   "to": 2100
+  }
+ ],
+ "routes": [
+  {
+   "label": "Semitic spreads (one model)",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "Levant",
+     "lat": 33,
+     "lon": 36.5,
+     "year": -3750.0
+    },
+    {
+     "label": "Mesopotamia",
+     "lat": 32.5,
+     "lon": 44.4,
+     "year": -2600.0
+    },
+    {
+     "label": "Ebla",
+     "lat": 35.8,
+     "lon": 36.8,
+     "year": -2400.0
+    },
+    {
+     "label": "Yemen",
+     "lat": 15.5,
+     "lon": 45.3,
+     "year": -1000.0
+    },
+    {
+     "label": "Aksum",
+     "lat": 14.13,
+     "lon": 38.72,
+     "year": -500.0
+    }
+   ]
+  },
+  {
+   "label": "Arabic with Islam",
+   "colour": "#8fd07a",
+   "points": [
+    {
+     "label": "Hejaz",
+     "lat": 24.5,
+     "lon": 39.6,
+     "year": 630.0
+    },
+    {
+     "label": "Damascus",
+     "lat": 33.5,
+     "lon": 36.3,
+     "year": 640.0
+    },
+    {
+     "label": "Egypt",
+     "lat": 30,
+     "lon": 31.2,
+     "year": 642.0
+    },
+    {
+     "label": "Maghreb",
+     "lat": 36,
+     "lon": 10,
+     "year": 690.0
+    },
+    {
+     "label": "Iberia",
+     "lat": 37.88,
+     "lon": -4.78,
+     "year": 711.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Proto-Semitic (model)",
+   "lat": 33.0,
+   "lon": 36.5,
+   "year": -3750,
+   "kind": "interpretation",
+   "caption": "Levant, ~3750 BC (Bayesian phylogeny, one model)",
+   "source": "Kitchen et al. 2009 Proc R Soc B 276:2703",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Egyptian: first writing (Abydos U-j)",
+   "lat": 26.18,
+   "lon": 31.92,
+   "year": -3250,
+   "kind": "record",
+   "caption": "The first Egyptian signs on labels",
+   "source": "Dreyer 1998 Umm el-Qaab I",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Akkadian",
+   "lat": 32.5,
+   "lon": 44.4,
+   "year": -2600,
+   "kind": "record",
+   "caption": "Semitic names in Sumerian texts; Sargon's inscriptions ~2350 BC",
+   "source": "Huehnergard 2011 A Grammar of Akkadian",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Eblaite",
+   "lat": 35.8,
+   "lon": 36.8,
+   "year": -2400,
+   "kind": "record",
+   "caption": "The Ebla archives",
+   "source": "Pettinato 1981 The Archives of Ebla",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Ugaritic",
+   "lat": 35.6,
+   "lon": 35.78,
+   "year": -1400,
+   "kind": "record",
+   "caption": "A cuneiform alphabet at Ugarit",
+   "source": "Pardee 2012 The Ugaritic Texts and the Origins of West-Semitic Literary Composition",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Phoenician: Ahiram",
+   "lat": 34.12,
+   "lon": 35.65,
+   "year": -1000,
+   "kind": "record",
+   "caption": "The Ahiram sarcophagus inscription at Byblos",
+   "source": "Rollston 2010 Writing and Literacy in the World of Ancient Israel",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Hebrew",
+   "lat": 31.86,
+   "lon": 34.92,
+   "year": -925,
+   "kind": "record",
+   "caption": "The Gezer calendar (language debated)",
+   "source": "Rollston 2010",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Old Aramaic: Tell Fekheriye",
+   "lat": 36.85,
+   "lon": 40.05,
+   "year": -850,
+   "kind": "record",
+   "caption": "Bilingual statue, Akkadian and Aramaic",
+   "source": "Abou-Assaf, Bordreuil & Millard 1982",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Old South Arabian",
+   "lat": 15.5,
+   "lon": 45.3,
+   "year": -800,
+   "kind": "record",
+   "caption": "Sabaean inscriptions",
+   "source": "Stein 2013; Nebes",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Libyco-Berber: Dougga",
+   "lat": 36.42,
+   "lon": 9.22,
+   "year": -138,
+   "kind": "record",
+   "caption": "Punic–Libyan bilingual (138 BC)",
+   "source": "Chabot 1940 Recueil des inscriptions libyques",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Coptic: the last stage of Egyptian",
+   "lat": 25.7,
+   "lon": 32.6,
+   "year": 300,
+   "kind": "record",
+   "caption": "Egyptian written in Greek letters",
+   "source": "Loprieno 1995 Ancient Egyptian",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Arabic: the Namara inscription",
+   "lat": 32.9,
+   "lon": 36.6,
+   "year": 328,
+   "kind": "record",
+   "caption": "Arabic in Nabataean script",
+   "source": "Macdonald 2000 Arabian Archaeol Epigr 11:28",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Ge'ez at Aksum",
+   "lat": 14.13,
+   "lon": 38.72,
+   "year": 340,
+   "kind": "record",
+   "caption": "Ezana's inscriptions",
+   "source": "Weninger 2011",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Arabic reaches Iberia",
+   "lat": 37.88,
+   "lon": -4.78,
+   "year": 711,
+   "kind": "record",
+   "caption": "The Umayyad conquest",
+   "source": "Kennedy 1996 Muslim Spain and Portugal",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "languages",
+  "semitic",
+  "afroasiatic"
+ ],
+ "credit": "Kitchen 2009; Huehnergard 2011; Rollston 2010; Pardee 2012; Macdonald 2000. Base map: Natural Earth (public domain)."
+}

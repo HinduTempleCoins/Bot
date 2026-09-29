@@ -36,7 +36,7 @@
 // Route CSV: header `label,lat,lon,year[,note]`, ≥ 2 rows, years non-decreasing, ≤ 5,000 rows. Route years may be
 //   fractional so a march moves smoothly within a year: month m of year Y BC = -Y + (m - 1) / 12 (May 334 BC = -333.67).
 
-export const LIMITS = Object.freeze({ maxW: 3840, maxH: 2160, minFps: 12, maxFps: 60, minDur: 5, maxDur: 600, minYear: -4000, maxYear: 2100, minAgo: -3000000, logOffset: 1000, maxFeatures: 5000, maxRoutePoints: 5000, maxBytes: 50 * 1024 * 1024, maxStops: 60, maxStopMedia: 12 });
+export const LIMITS = Object.freeze({ maxW: 3840, maxH: 2160, minFps: 12, maxFps: 60, minDur: 5, maxDur: 600, minYear: -4000, maxYear: 2100, minAgo: -3500000, logOffset: 1000, maxFeatures: 5000, maxRoutePoints: 5000, maxBytes: 50 * 1024 * 1024, maxStops: 60, maxStopMedia: 12 });
 export const STOP_KINDS = Object.freeze(['record', 'tradition', 'debated', 'interpretation', 'none']);
 
 /** Validate route stops (mirrors render_map.validate_stops). Returns normalised stops; throws with a clear message. */

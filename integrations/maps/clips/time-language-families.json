@@ -1,0 +1,538 @@
+{
+ "id": "time-language-families",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/languages/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "title": "Tongues of the World: Language Families",
+ "subtitle": "how the big families spread · homelands are models; competing models shown",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  -10500,
+  -400
+ ],
+ "duration": 140,
+ "cities": [
+  {
+   "name": "Afroasiatic (origin debated)",
+   "lat": 15.0,
+   "lon": 38.0,
+   "from": -10000,
+   "to": 0
+  },
+  {
+   "name": "Indo-European: Anatolian / hybrid model",
+   "lat": 40.0,
+   "lon": 44.0,
+   "from": -8100,
+   "to": 0
+  },
+  {
+   "name": "Sino-Tibetan",
+   "lat": 36.0,
+   "lon": 108.0,
+   "from": -5900,
+   "to": 0
+  },
+  {
+   "name": "Pama-Nyungan",
+   "lat": -17.0,
+   "lon": 139.0,
+   "from": -5700,
+   "to": 0
+  },
+  {
+   "name": "Indo-European: steppe model",
+   "lat": 48.0,
+   "lon": 45.0,
+   "from": -5500,
+   "to": 0
+  },
+  {
+   "name": "Austronesian: out of Taiwan",
+   "lat": 23.7,
+   "lon": 121.0,
+   "from": -5200,
+   "to": 0
+  },
+  {
+   "name": "Bantu",
+   "lat": 6.0,
+   "lon": 11.0,
+   "from": -5000,
+   "to": 0
+  },
+  {
+   "name": "Uto-Aztecan (homeland debated)",
+   "lat": 33.0,
+   "lon": -111.0,
+   "from": -5000,
+   "to": 0
+  },
+  {
+   "name": "Dravidian",
+   "lat": 17.0,
+   "lon": 78.0,
+   "from": -4500,
+   "to": 0
+  },
+  {
+   "name": "Uralic",
+   "lat": 57.0,
+   "lon": 52.0,
+   "from": -4500,
+   "to": 0
+  },
+  {
+   "name": "Turkic",
+   "lat": 47.0,
+   "lon": 104.0,
+   "from": -2100,
+   "to": 0
+  },
+  {
+   "name": "Na-Dene: Apachean to the Southwest",
+   "lat": 36.0,
+   "lon": -107.0,
+   "from": -600,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "Indo-European (steppe model)",
+   "colour": "#ff7070",
+   "points": [
+    {
+     "label": "Pontic steppe",
+     "lat": 48,
+     "lon": 45,
+     "year": -5500.0
+    },
+    {
+     "label": "Central Europe",
+     "lat": 50,
+     "lon": 15,
+     "year": -4800.0
+    },
+    {
+     "label": "Anatolia",
+     "lat": 39,
+     "lon": 33,
+     "year": -4200.0
+    },
+    {
+     "label": "Urals",
+     "lat": 52.6,
+     "lon": 60.3,
+     "year": -4000.0
+    },
+    {
+     "label": "Punjab",
+     "lat": 30.5,
+     "lon": 75,
+     "year": -3500.0
+    },
+    {
+     "label": "Iran",
+     "lat": 32,
+     "lon": 53,
+     "year": -3200.0
+    }
+   ]
+  },
+  {
+   "label": "Afroasiatic → Semitic",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "NE Africa",
+     "lat": 15,
+     "lon": 38,
+     "year": -10000.0
+    },
+    {
+     "label": "Levant",
+     "lat": 33,
+     "lon": 36,
+     "year": -5750.0
+    },
+    {
+     "label": "Mesopotamia",
+     "lat": 33,
+     "lon": 44,
+     "year": -4600.0
+    },
+    {
+     "label": "Arabia",
+     "lat": 22,
+     "lon": 45,
+     "year": -3000.0
+    }
+   ]
+  },
+  {
+   "label": "Sino-Tibetan",
+   "colour": "#ff90b0",
+   "points": [
+    {
+     "label": "Yellow River",
+     "lat": 36,
+     "lon": 108,
+     "year": -5900.0
+    },
+    {
+     "label": "Tibet",
+     "lat": 31,
+     "lon": 91,
+     "year": -4000.0
+    },
+    {
+     "label": "Burma",
+     "lat": 21,
+     "lon": 96,
+     "year": -3000.0
+    }
+   ]
+  },
+  {
+   "label": "Austronesian",
+   "colour": "#80d0e0",
+   "points": [
+    {
+     "label": "Taiwan",
+     "lat": 23.7,
+     "lon": 121,
+     "year": -5200.0
+    },
+    {
+     "label": "Philippines",
+     "lat": 14,
+     "lon": 121,
+     "year": -4000.0
+    },
+    {
+     "label": "Borneo",
+     "lat": 1,
+     "lon": 114,
+     "year": -3500.0
+    },
+    {
+     "label": "Bismarck Arch.",
+     "lat": -4,
+     "lon": 152,
+     "year": -3300.0
+    },
+    {
+     "label": "Fiji",
+     "lat": -18,
+     "lon": 178.4,
+     "year": -2900.0
+    }
+   ]
+  },
+  {
+   "label": "Austronesian to Madagascar",
+   "colour": "#60b0c0",
+   "points": [
+    {
+     "label": "Borneo",
+     "lat": 1,
+     "lon": 114,
+     "year": -2000.0
+    },
+    {
+     "label": "Sumatra",
+     "lat": 0,
+     "lon": 101,
+     "year": -1800.0
+    },
+    {
+     "label": "Madagascar",
+     "lat": -19,
+     "lon": 47,
+     "year": -1300.0
+    }
+   ]
+  },
+  {
+   "label": "Bantu",
+   "colour": "#c05040",
+   "points": [
+    {
+     "label": "Cameroon",
+     "lat": 6,
+     "lon": 11,
+     "year": -5000.0
+    },
+    {
+     "label": "Congo",
+     "lat": -2,
+     "lon": 18,
+     "year": -3500.0
+    },
+    {
+     "label": "Great Lakes",
+     "lat": -2,
+     "lon": 33,
+     "year": -3000.0
+    },
+    {
+     "label": "Zambia",
+     "lat": -14,
+     "lon": 28,
+     "year": -2000.0
+    },
+    {
+     "label": "South Africa",
+     "lat": -26,
+     "lon": 28,
+     "year": -1500.0
+    }
+   ]
+  },
+  {
+   "label": "Uralic",
+   "colour": "#a0a0ff",
+   "points": [
+    {
+     "label": "Volga–Kama",
+     "lat": 57,
+     "lon": 52,
+     "year": -4500.0
+    },
+    {
+     "label": "Finland",
+     "lat": 62,
+     "lon": 25,
+     "year": -3000.0
+    },
+    {
+     "label": "Carpathian Basin (Hungarian)",
+     "lat": 47,
+     "lon": 19,
+     "year": -1100.0
+    }
+   ]
+  },
+  {
+   "label": "Turkic",
+   "colour": "#c0e080",
+   "points": [
+    {
+     "label": "Mongolia",
+     "lat": 47,
+     "lon": 104,
+     "year": -2100.0
+    },
+    {
+     "label": "Central Asia",
+     "lat": 42,
+     "lon": 66,
+     "year": -1400.0
+    },
+    {
+     "label": "Anatolia",
+     "lat": 39,
+     "lon": 33,
+     "year": -950.0
+    }
+   ]
+  },
+  {
+   "label": "Na-Dene",
+   "colour": "#d0b0ff",
+   "points": [
+    {
+     "label": "Alaska",
+     "lat": 64,
+     "lon": -150,
+     "year": -3000.0
+    },
+    {
+     "label": "Yukon",
+     "lat": 62,
+     "lon": -135,
+     "year": -2000.0
+    },
+    {
+     "label": "Southwest",
+     "lat": 36,
+     "lon": -107,
+     "year": -600.0
+    }
+   ]
+  },
+  {
+   "label": "Pama-Nyungan",
+   "colour": "#e0a060",
+   "points": [
+    {
+     "label": "Gulf of Carpentaria",
+     "lat": -17,
+     "lon": 139,
+     "year": -5700.0
+    },
+    {
+     "label": "Central Australia",
+     "lat": -24,
+     "lon": 133,
+     "year": -4500.0
+    },
+    {
+     "label": "Southwest",
+     "lat": -31,
+     "lon": 117,
+     "year": -3500.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Afroasiatic (origin debated)",
+   "lat": 15.0,
+   "lon": 38.0,
+   "year": -10000,
+   "kind": "debated",
+   "caption": "NE Africa or the Levant — origin and date debated",
+   "source": "Ehret 1995; Militarev 2002; Kitchen et al. 2009 Proc R Soc B 276:2703",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Indo-European: Anatolian / hybrid model",
+   "lat": 40.0,
+   "lon": 44.0,
+   "year": -8100,
+   "kind": "interpretation",
+   "caption": "Or ~8,000 years ago south of the Caucasus, with a steppe stage (competing model)",
+   "source": "Heggarty et al. 2023 Science 381:eabg0818; Bouckaert et al. 2012 Science 337:957",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Sino-Tibetan",
+   "lat": 36.0,
+   "lon": 108.0,
+   "year": -5900,
+   "kind": "interpretation",
+   "caption": "Northern China, with millet farmers ~5,900 years ago (one model)",
+   "source": "Zhang et al. 2019 Nature 569:112; Sagart et al. 2019 PNAS 116:10317",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Pama-Nyungan",
+   "lat": -17.0,
+   "lon": 139.0,
+   "year": -5700,
+   "kind": "interpretation",
+   "caption": "From the Gulf of Carpentaria ~5,700 years ago",
+   "source": "Bouckaert, Bowern & Atkinson 2018 Nat Ecol Evol 2:741",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Indo-European: steppe model",
+   "lat": 48.0,
+   "lon": 45.0,
+   "year": -5500,
+   "kind": "interpretation",
+   "caption": "From the Pontic–Caspian steppe ~6,000–5,000 years ago (one model)",
+   "source": "Haak et al. 2015 Nature 522:207; Anthony 2007",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Austronesian: out of Taiwan",
+   "lat": 23.7,
+   "lon": 121.0,
+   "year": -5200,
+   "kind": "interpretation",
+   "caption": "Spread from Taiwan ~5,200 years ago",
+   "source": "Gray, Drummond & Greenhill 2009 Science 323:479",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Bantu",
+   "lat": 6.0,
+   "lon": 11.0,
+   "year": -5000,
+   "kind": "interpretation",
+   "caption": "From the Nigeria–Cameroon borderlands ~5,000 years ago",
+   "source": "Grollemund et al. 2015 PNAS 112:13296; Koile et al. 2022 PNAS 119:e2112853119",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Uto-Aztecan (homeland debated)",
+   "lat": 33.0,
+   "lon": -111.0,
+   "year": -5000,
+   "kind": "debated",
+   "caption": "Southwest US or Mesoamerica — debated",
+   "source": "Hill 2001 Am Anthropol 103:913; Merrill 2012 Am Antiq 77:203",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Dravidian",
+   "lat": 17.0,
+   "lon": 78.0,
+   "year": -4500,
+   "kind": "interpretation",
+   "caption": "~4,500 years ago in South/Central India (one model)",
+   "source": "Kolipakam et al. 2018 R Soc Open Sci 5:171504",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Uralic",
+   "lat": 57.0,
+   "lon": 52.0,
+   "year": -4500,
+   "kind": "interpretation",
+   "caption": "Upper Volga–Kama ~4,500 years ago (one model)",
+   "source": "Grünthal et al. 2022 Diachronica 39:490",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Turkic",
+   "lat": 47.0,
+   "lon": 104.0,
+   "year": -2100,
+   "kind": "interpretation",
+   "caption": "Mongolia ~2,100 years ago",
+   "source": "Savelyev & Robbeets 2020 J Lang Evol 5:39",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Na-Dene: Apachean to the Southwest",
+   "lat": 36.0,
+   "lon": -107.0,
+   "year": -600,
+   "kind": "record",
+   "caption": "Athabaskan speakers reach the Southwest ~AD 1400–1500",
+   "source": "Seymour 2012; Kari & Potter 2010",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "languages"
+ ],
+ "credit": "Haak 2015; Heggarty 2023; Zhang 2019; Gray 2009; Grollemund 2015; Bouckaert 2018; Kolipakam 2018; Grünthal 2022. Base map: Natural Earth (public domain)."
+}

@@ -33,7 +33,7 @@ SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
 SERIF_B = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
 SANS = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 LIM = dict(maxW=3840, maxH=2160, minFps=12, maxFps=60, minDur=5, maxDur=600, minYear=-4000, maxYear=2100,
-           minAgo=-3_000_000, logOffset=1000,
+           minAgo=-3_500_000, logOffset=1000,
            maxFeatures=5000, maxRoutePoints=5000, maxStops=60)
 PALETTES = {
     "night": dict(sea=(12, 18, 26), land=(40, 36, 30), river=(58, 92, 120), grid=(30, 38, 48), text=(236, 222, 190),

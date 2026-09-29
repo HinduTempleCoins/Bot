@@ -1,0 +1,321 @@
+{
+ "id": "time-writing",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/languages/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "title": "Writing Systems: Time-Mapped",
+ "subtitle": "c. 3300 BC onward · where writing began and how the alphabet travelled",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  -3400,
+  0
+ ],
+ "duration": 110,
+ "cities": [
+  {
+   "name": "Proto-cuneiform, Uruk",
+   "lat": 31.3,
+   "lon": 45.6,
+   "from": -3300,
+   "to": 2100
+  },
+  {
+   "name": "Egyptian hieroglyphs, Abydos",
+   "lat": 26.18,
+   "lon": 31.92,
+   "from": -3250,
+   "to": 2100
+  },
+  {
+   "name": "Indus script (undeciphered)",
+   "lat": 27.33,
+   "lon": 68.14,
+   "from": -2600,
+   "to": 2100
+  },
+  {
+   "name": "Proto-Sinaitic",
+   "lat": 29.03,
+   "lon": 33.46,
+   "from": -1850,
+   "to": 2100
+  },
+  {
+   "name": "Linear A / Linear B",
+   "lat": 35.3,
+   "lon": 25.16,
+   "from": -1800,
+   "to": 2100
+  },
+  {
+   "name": "Oracle bones, Anyang",
+   "lat": 36.1,
+   "lon": 114.3,
+   "from": -1250,
+   "to": 2100
+  },
+  {
+   "name": "Phoenician alphabet",
+   "lat": 34.12,
+   "lon": 35.65,
+   "from": -1050,
+   "to": 2100
+  },
+  {
+   "name": "Aramaic script",
+   "lat": 36.85,
+   "lon": 40.05,
+   "from": -850,
+   "to": 2100
+  },
+  {
+   "name": "Greek alphabet: Dipylon",
+   "lat": 37.98,
+   "lon": 23.72,
+   "from": -740,
+   "to": 2100
+  },
+  {
+   "name": "Zapotec (debated date)",
+   "lat": 17.04,
+   "lon": -96.77,
+   "from": -600,
+   "to": 2100
+  },
+  {
+   "name": "Maya: San Bartolo",
+   "lat": 17.2,
+   "lon": -89.45,
+   "from": -300,
+   "to": 2100
+  },
+  {
+   "name": "Brahmi: Ashoka's edicts",
+   "lat": 25.6,
+   "lon": 85.1,
+   "from": -250,
+   "to": 2100
+  }
+ ],
+ "routes": [
+  {
+   "label": "The alphabet's journey",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "Serabit el-Khadim",
+     "lat": 29.03,
+     "lon": 33.46,
+     "year": -1850.0
+    },
+    {
+     "label": "Byblos",
+     "lat": 34.12,
+     "lon": 35.65,
+     "year": -1050.0
+    },
+    {
+     "label": "Athens",
+     "lat": 37.98,
+     "lon": 23.72,
+     "year": -740.0
+    },
+    {
+     "label": "Etruria",
+     "lat": 42.4,
+     "lon": 11.9,
+     "year": -700.0
+    },
+    {
+     "label": "Rome",
+     "lat": 41.89,
+     "lon": 12.48,
+     "year": -600.0
+    }
+   ]
+  },
+  {
+   "label": "Aramaic → Brahmi (one model)",
+   "colour": "#e8a060",
+   "points": [
+    {
+     "label": "Byblos",
+     "lat": 34.12,
+     "lon": 35.65,
+     "year": -1050.0
+    },
+    {
+     "label": "Syria",
+     "lat": 36.85,
+     "lon": 40.05,
+     "year": -850.0
+    },
+    {
+     "label": "Persia",
+     "lat": 29.9,
+     "lon": 52.9,
+     "year": -500.0
+    },
+    {
+     "label": "Taxila",
+     "lat": 33.75,
+     "lon": 72.8,
+     "year": -300.0
+    },
+    {
+     "label": "Pataliputra",
+     "lat": 25.6,
+     "lon": 85.1,
+     "year": -250.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Proto-cuneiform, Uruk",
+   "lat": 31.3,
+   "lon": 45.6,
+   "year": -3300,
+   "kind": "record",
+   "caption": "Accounting tablets become writing",
+   "source": "Nissen, Damerow & Englund 1993 Archaic Bookkeeping",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Egyptian hieroglyphs, Abydos",
+   "lat": 26.18,
+   "lon": 31.92,
+   "year": -3250,
+   "kind": "record",
+   "caption": "Tomb U-j labels",
+   "source": "Dreyer 1998",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Indus script (undeciphered)",
+   "lat": 27.33,
+   "lon": 68.14,
+   "year": -2600,
+   "kind": "record",
+   "caption": "Seals from Mohenjo-daro — still undeciphered",
+   "source": "Parpola 1994 Deciphering the Indus Script",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Proto-Sinaitic",
+   "lat": 29.03,
+   "lon": 33.46,
+   "year": -1850,
+   "kind": "record",
+   "caption": "Alphabet made from hieroglyphs by Semitic workers at Serabit el-Khadim",
+   "source": "Goldwasser 2010 BAR 36:2; Darnell et al. 2005 (Wadi el-Hol)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Linear A / Linear B",
+   "lat": 35.3,
+   "lon": 25.16,
+   "year": -1800,
+   "kind": "record",
+   "caption": "Linear A (undeciphered), then Linear B Greek",
+   "source": "Chadwick 1958 The Decipherment of Linear B",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Oracle bones, Anyang",
+   "lat": 36.1,
+   "lon": 114.3,
+   "year": -1250,
+   "kind": "record",
+   "caption": "The oldest Chinese writing",
+   "source": "Keightley 1978 Sources of Shang History",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Phoenician alphabet",
+   "lat": 34.12,
+   "lon": 35.65,
+   "year": -1050,
+   "kind": "record",
+   "caption": "The 22-letter alphabet (Ahiram)",
+   "source": "Rollston 2010",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Aramaic script",
+   "lat": 36.85,
+   "lon": 40.05,
+   "year": -850,
+   "kind": "record",
+   "caption": "Aramaic becomes the empire's script",
+   "source": "Naveh 1982 Early History of the Alphabet",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Greek alphabet: Dipylon",
+   "lat": 37.98,
+   "lon": 23.72,
+   "year": -740,
+   "kind": "record",
+   "caption": "Vowels added; the Dipylon jug",
+   "source": "Powell 1991 Homer and the Origin of the Greek Alphabet",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Zapotec (debated date)",
+   "lat": 17.04,
+   "lon": -96.77,
+   "year": -600,
+   "kind": "debated",
+   "caption": "San José Mogote / Monte Albán glyphs",
+   "source": "Marcus 1992 Mesoamerican Writing Systems",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Maya: San Bartolo",
+   "lat": 17.2,
+   "lon": -89.45,
+   "year": -300,
+   "kind": "record",
+   "caption": "Early Maya glyphs (~300 BC)",
+   "source": "Saturno, Stuart & Beltrán 2006 Science 311:1281",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Brahmi: Ashoka's edicts",
+   "lat": 25.6,
+   "lon": 85.1,
+   "year": -250,
+   "kind": "record",
+   "caption": "India's first widespread script",
+   "source": "Salomon 1998 Indian Epigraphy",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "languages",
+  "writing"
+ ],
+ "credit": "Nissen 1993; Dreyer 1998; Parpola 1994; Goldwasser 2010; Keightley 1978; Naveh 1982; Saturno 2006; Salomon 1998. Base map: Natural Earth (public domain)."
+}
