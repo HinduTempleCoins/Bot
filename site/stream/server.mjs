@@ -26,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 import * as archiveVideo from '../../integrations/soapbox/archive-video.mjs';
 import * as iptv from '../../integrations/soapbox/iptv-channels.mjs';
 import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
+import { horrorMapRoute, HORROR_MAP_PATHS, loadStills } from './horror-pages.mjs';
 import * as radio from '../../integrations/soapbox/radio.mjs';
 import * as podcasts from '../../integrations/soapbox/podcasts.mjs';
 import { scottubeFeed, __setFetch as tuneinSetFetch } from '../tunein/server.mjs';
@@ -377,7 +378,11 @@ function horrorLandingPage() {
         <div class=meta>${esc(s.thesis)}</div>
       </div></a>`;
   }).join('');
-  const inner = `<p class=lead>Horror organized by the map, not one word. Eight standalone genres — each with more internal grammar than the whole "thriller" category — plus the <b>Girl Has to Kill Everyone</b> survival wing. Public-domain titles play in-app; modern branches are where-to-watch leads.</p>
+  const stills = loadStills().slice(0, 4);
+  const october = `<section class=row><h2>October · getting ready for Halloween</h2>
+    <p class=lead>Read <a href="/horror/map"><b>A Map of Horror</b></a> — why horror is a family of genres, every shelf and its titles — and <a href="/horror/girl-has-to-kill-everyone"><b>Girl Has to Kill Everyone</b></a>, the genre mapped on its own. Every title links to where to watch it in <a href="/films">SoapBox Films</a>, where you can rate and review it.</p>
+    ${stills.length ? `<div class=grid>${stills.map((x) => `<a href="/horror/stills" class=tile style="text-decoration:none"><img src="/horror/img/${esc(x.file)}" alt="${esc(x.caption)}" loading=lazy style="width:100%;display:block"><div class=body><div class=meta>${esc(x.caption)}</div></div></a>`).join('')}</div>` : ''}</section>`;
+  const inner = october + `<p class=lead>Horror organized by the map, not one word. Eight standalone genres — each with more internal grammar than the whole "thriller" category — plus the <b>Girl Has to Kill Everyone</b> survival wing. Public-domain titles play in-app; modern branches are where-to-watch leads.</p>
     <section class=row><h2>The eight genres · <span class=see>A Map of Horror</span></h2><div class=grid>${genres}</div></section>
     <section class=row><h2>Girl Has to Kill Everyone · <span class=see>survival wing — led by the trafficking network</span></h2><div class=grid>${wing}</div></section>
     <p class=lead style="margin-top:20px">${esc(horror.dataNote())}</p>`;
@@ -502,7 +507,7 @@ function sendHtml(res, html, code = 200) {
 }
 
 export const SITEMAP_PATHS = ['/', ...CATEGORIES.map((c) => `/c/${c.id}`),
-  '/horror', '/films', '/films/reviews', '/films/genres', '/films/originals',
+  '/horror', ...HORROR_MAP_PATHS(), '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
 ];
@@ -557,6 +562,7 @@ export async function handler(req, res) {
 
     // /horror  (landing)  and  /horror/:id  (a top-level genre OR a survival-wing category)
     if (path === '/horror') return sendHtml(res, horrorLandingPage());
+    if (horrorMapRoute(path, res, { shell: pageShell, send: sendHtml, base: BASE_URL })) return;
     const horrorM = path.match(/^\/horror\/([a-z-]+)$/);
     if (horrorM) {
       const id = horrorM[1];
