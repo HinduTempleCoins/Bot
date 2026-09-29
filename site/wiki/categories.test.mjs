@@ -28,7 +28,7 @@ function getLiveArticles() {
 
 test('every article in the library is categorized with 0 unassigned items in other', () => {
   const arts = getLiveArticles();
-  assert.ok(arts.length >= 243, `Expected at least 243 articles, found ${arts.length}`);
+  assert.ok(arts.length >= 244, `Expected at least 244 articles, found ${arts.length}`);
 
   const groups = groupArticles(arts);
   const otherGroup = groups.find((g) => g.id === 'other');
@@ -94,6 +94,8 @@ test('new monographs for Balm of Gilead, Old World vs New World Herbs, Apotropai
   assert.ok(bupropion, 'Bupropion and Buspirone article must exist');
   const huasca = arts.find((a) => a.slug.toLowerCase().includes('huasca_phenomenon'));
   assert.ok(huasca, 'The Huasca Phenomenon article must exist');
+  const immuno = arts.find((a) => a.slug.toLowerCase().includes('immunometabolism'));
+  assert.ok(immuno, 'Immunometabolism article must exist');
 
   const gileadContent = fs.readFileSync(gilead.file, 'utf8');
   assert.ok(gileadContent.includes('Commiphora gileadensis'), 'Mentions Commiphora gileadensis');
@@ -144,6 +146,16 @@ test('new monographs for Balm of Gilead, Old World vs New World Herbs, Apotropai
   assert.ok(huascaContent.includes('Auvelity'), 'Mentions Auvelity');
   assert.ok(huascaContent.includes('ECA'), 'Mentions ECA stack');
   assert.ok(huascaContent.includes('transamination'), 'Mentions transamination hypothesis');
+
+  const immunoContent = fs.readFileSync(immuno.file, 'utf8');
+  assert.ok(immunoContent.includes('Octopamine'), 'Mentions Octopamine');
+  assert.ok(immunoContent.includes('Caffeine'), 'Mentions Caffeine');
+  assert.ok(immunoContent.includes('UCP-1'), 'Mentions UCP-1 thermogenin');
+  assert.ok(immunoContent.includes('Ketamine'), 'Mentions Ketamine immunosuppression');
+  assert.ok(immunoContent.includes('Xiao Chai Hu Tang'), 'Mentions Xiao Chai Hu Tang 7-herb formula');
+  assert.ok(immunoContent.includes('Paan'), 'Mentions Indian Paan comparison');
+  assert.ok(immunoContent.includes('Kupffer'), 'Mentions Kupffer cells');
+  assert.ok(immunoContent.includes('AMPK'), 'Mentions AMPK');
 
   // Verify Kyphi blend examples
   const kyphi = arts.find((a) => a.slug.toLowerCase() === 'kyphi');
