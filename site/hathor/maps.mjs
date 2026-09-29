@@ -19,6 +19,15 @@ export function formatYear(y) {
   return ad < 1000 ? `AD ${ad}` : String(ad);
 }
 
+export function formatAgo(y) {
+  const a = Math.max(0, -Number(y));
+  if (!Number.isFinite(a)) return '';
+  const step = a >= 100000 ? 1000 : a >= 10000 ? 100 : a >= 1000 ? 10 : 1;
+  const n = Math.round(a / step) * step;
+  return n === 0 ? 'Today' : `${n.toLocaleString('en-US')} year${n === 1 ? '' : 's'} ago`;
+}
+const when = (c, y) => (c.timeMode === 'ago' ? formatAgo(y) : formatYear(y));
+
 export function loadMapsIndex(dir = MAPS_DIR()) {
   try {
     const j = JSON.parse(readFileSync(join(dir, 'index.json'), 'utf8'));
@@ -34,7 +43,7 @@ export function mapsBody(index) {
       <video controls playsinline preload=none poster="/maps/media/${esc(c.poster || '')}">
         <source src="/maps/media/${esc(c.file720 || c.file)}" type="video/mp4"></video>
       <h3>${esc(c.title)}</h3>
-      <p class=muted style="font-size:13px;margin:2px 0">${esc(formatYear(c.fromYear))} – ${esc(formatYear(c.toYear))}${c.duration ? ` · ${esc(Math.round(c.duration))} s` : ''}${c.file720 ? ` · <a href="/maps/media/${esc(c.file)}" download>1080p</a>` : ''}</p>
+      <p class=muted style="font-size:13px;margin:2px 0">${esc(when(c, c.fromYear))} – ${esc(when(c, c.toYear))}${c.duration ? ` · ${esc(Math.round(c.duration))} s` : ''}${c.file720 ? ` · <a href="/maps/media/${esc(c.file)}" download>1080p</a>` : ''}</p>
       ${c.subtitle ? `<p style="font-size:13px;margin:4px 0">${esc(c.subtitle)}</p>` : ''}
       ${(c.polities || []).length ? `<p class=muted style="font-size:12px;margin:4px 0">${esc(c.polities.slice(0, 12).join(' · '))}</p>` : ''}
       ${c.documentary && /^\/documentaries\/[a-z0-9-]+$/.test(c.documentary) ? `<p style="font-size:13px;margin:6px 0 2px"><a href="${esc(c.documentary)}">▶ Watch the film, with every stop and its credits</a></p>` : ''}

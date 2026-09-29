@@ -1,0 +1,257 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Early Neanderthal lineage",
+    "fromYear": -430000,
+    "toYear": -250000,
+    "colour": "#c98a4a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -9,
+       43.5
+      ],
+      [
+       0,
+       44
+      ],
+      [
+       6,
+       47
+      ],
+      [
+       12,
+       50
+      ],
+      [
+       20,
+       46
+      ],
+      [
+       23,
+       41
+      ],
+      [
+       16,
+       38
+      ],
+      [
+       -6,
+       37
+      ],
+      [
+       -9,
+       43.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Neanderthals",
+    "fromYear": -250000,
+    "toYear": -45000,
+    "colour": "#c98a4a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -9.5,
+       36.5
+      ],
+      [
+       -9.5,
+       43.5
+      ],
+      [
+       -4,
+       48
+      ],
+      [
+       0,
+       52
+      ],
+      [
+       10,
+       53
+      ],
+      [
+       22,
+       52
+      ],
+      [
+       32,
+       50
+      ],
+      [
+       42,
+       46
+      ],
+      [
+       47,
+       43
+      ],
+      [
+       48,
+       38
+      ],
+      [
+       47,
+       33
+      ],
+      [
+       36,
+       31
+      ],
+      [
+       34,
+       33
+      ],
+      [
+       28,
+       36.5
+      ],
+      [
+       16,
+       38
+      ],
+      [
+       5,
+       37
+      ],
+      [
+       -9.5,
+       36.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Neanderthals (Central Asia & Altai, intermittent)",
+    "fromYear": -190000,
+    "toYear": -45000,
+    "colour": "#c98a4a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       47,
+       43
+      ],
+      [
+       56,
+       42
+      ],
+      [
+       66,
+       38
+      ],
+      [
+       71,
+       40
+      ],
+      [
+       70,
+       45
+      ],
+      [
+       80,
+       52
+      ],
+      [
+       87,
+       53
+      ],
+      [
+       88,
+       50
+      ],
+      [
+       80,
+       48
+      ],
+      [
+       60,
+       41
+      ],
+      [
+       47,
+       43
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Last Neanderthals",
+    "fromYear": -45000,
+    "toYear": -39000,
+    "colour": "#c98a4a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -9.5,
+       36.5
+      ],
+      [
+       -9.5,
+       43.5
+      ],
+      [
+       -4,
+       48
+      ],
+      [
+       4,
+       51
+      ],
+      [
+       16,
+       50
+      ],
+      [
+       18,
+       46
+      ],
+      [
+       12,
+       44
+      ],
+      [
+       3,
+       41
+      ],
+      [
+       -2,
+       37
+      ],
+      [
+       -9.5,
+       36.5
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}

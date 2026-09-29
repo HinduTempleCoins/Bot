@@ -9,6 +9,10 @@
 //   "title": "Alexander's march",                       (required, ≤ 120 chars)
 //   "bbox": [lonMin, latMin, lonMax, latMax],           (required, degrees)
 //   "years": [from, to],                                (required, from < to, within -4000..2100)
+//   "timeMode": "calendar" | "ago",                     (ago = deep time: years are -(years before present), -3,000,000..0,
+//                                                        the counter reads "70,000 years ago")
+//   "timeScale": "linear" | "log",                      (log needs ago: equal screen time per factor of years-ago)
+//   "note": "…", "endNote": "…",                        (a line under the title on every frame; the end card's caveat line)
 //   "size": [1920, 1080],  "fps": 24,  "duration": 60,  (optional; ≤ 3840x2160, fps 12..60, 5..600 s)
 //   "territories": { "source": "cliopatria", "names": ["Macedonian Empire", …], "match": ["Egypt"], "context": true }
 //                  (names = exact Cliopatria names; match = case-insensitive substrings; context = draw other polities faintly)
@@ -32,11 +36,11 @@
 // Route CSV: header `label,lat,lon,year[,note]`, ≥ 2 rows, years non-decreasing, ≤ 5,000 rows. Route years may be
 //   fractional so a march moves smoothly within a year: month m of year Y BC = -Y + (m - 1) / 12 (May 334 BC = -333.67).
 
-export const LIMITS = Object.freeze({ maxW: 3840, maxH: 2160, minFps: 12, maxFps: 60, minDur: 5, maxDur: 600, minYear: -4000, maxYear: 2100, maxFeatures: 5000, maxRoutePoints: 5000, maxBytes: 50 * 1024 * 1024, maxStops: 60, maxStopMedia: 12 });
+export const LIMITS = Object.freeze({ maxW: 3840, maxH: 2160, minFps: 12, maxFps: 60, minDur: 5, maxDur: 600, minYear: -4000, maxYear: 2100, minAgo: -3000000, logOffset: 1000, maxFeatures: 5000, maxRoutePoints: 5000, maxBytes: 50 * 1024 * 1024, maxStops: 60, maxStopMedia: 12 });
 export const STOP_KINDS = Object.freeze(['record', 'tradition', 'debated', 'interpretation', 'none']);
 
 /** Validate route stops (mirrors render_map.validate_stops). Returns normalised stops; throws with a clear message. */
-export function validateStops(stops, years) {
+export function validateStops(stops, years, mode = 'calendar') {
   if (stops == null) return [];
   if (!Array.isArray(stops) || stops.length > LIMITS.maxStops) throw new Error(`stops must be a list of at most ${LIMITS.maxStops}`);
   let prev = null;
@@ -62,7 +66,7 @@ export function validateStops(stops, years) {
     if (!STOP_KINDS.includes(kind)) throw new Error(`${where}: kind must be one of ${STOP_KINDS.join(', ')}`);
     const zoom = st.zoom ?? 3;
     if (!(zoom >= 1.2 && zoom <= 12)) throw new Error(`${where}: zoom must be 1.2..12`);
-    return { ...st, hold, media: norm, kind, zoom, date: String(st.date || formatYear(st.year)).slice(0, 60) };
+    return { ...st, hold, media: norm, kind, zoom, date: String(st.date || formatTime(st.year, mode)).slice(0, 60) };
   });
 }
 
@@ -77,10 +81,25 @@ export function formatYear(y) {
   return ad < 1000 ? `AD ${ad}` : String(ad);
 }
 
-/** year at frame i of n (linear from→to). */
-export function yearAt(i, n, from, to) {
+/** Deep time: y = -(years before present), rounded to the scale so the counter ticks cleanly. */
+export function formatAgo(y) {
+  const a = Math.max(0, -Number(y));
+  if (!Number.isFinite(a)) return '';
+  const step = a >= 100000 ? 1000 : a >= 10000 ? 100 : a >= 1000 ? 10 : 1;
+  const n = Math.round(a / step) * step;
+  if (n === 0) return 'Today';
+  return `${n.toLocaleString('en-US')} year${n === 1 ? '' : 's'} ago`;
+}
+
+export const formatTime = (y, mode = 'calendar') => (mode === 'ago' ? formatAgo(y) : formatYear(y));
+
+/** year at frame i of n: linear from→to, or log-ish in years-ago (300,000→100,000 as long as 30,000→10,000). */
+export function yearAt(i, n, from, to, scale = 'linear') {
   if (n <= 1) return from;
-  return from + (to - from) * (i / (n - 1));
+  const t = i / (n - 1);
+  if (scale !== 'log') return from + (to - from) * t;
+  const c = LIMITS.logOffset; const a0 = -from + c; const a1 = -to + c;
+  return -(a0 * (a1 / a0) ** t - c);
 }
 
 /** Position on a route at a year: { lat, lon, reached: index of last waypoint passed, done } */
@@ -98,7 +117,8 @@ export function routeAt(points, year) {
   return { lat: last.lat, lon: last.lon, reached: points.length - 1, done: true, started: true };
 }
 
-export function parseRouteCsv(text) {
+export function parseRouteCsv(text, mode = 'calendar') {
+  const lo = mode === 'ago' ? LIMITS.minAgo : LIMITS.minYear; const hi = mode === 'ago' ? 0 : LIMITS.maxYear;
   const lines = String(text || '').replace(/\r/g, '').split('\n').filter((l) => l.trim());
   if (lines.length < 3) throw new Error('route CSV needs a header and at least 2 waypoints');
   const head = lines[0].split(',').map((h) => h.trim().toLowerCase());
@@ -109,7 +129,7 @@ export function parseRouteCsv(text) {
     const c = splitCsv(l);
     const p = { label: (c[col('label')] || '').trim(), lat: Number(c[col('lat')]), lon: Number(c[col('lon')]), year: Number(c[col('year')]), note: col('note') >= 0 ? (c[col('note')] || '').trim() : '' };
     if (!(p.lat >= -90 && p.lat <= 90) || !(p.lon >= -180 && p.lon <= 180)) throw new Error(`route CSV row ${i + 2}: lat/lon out of range`);
-    if (!Number.isFinite(p.year) || p.year < LIMITS.minYear || p.year > LIMITS.maxYear) throw new Error(`route CSV row ${i + 2}: year must be a number ${LIMITS.minYear}..${LIMITS.maxYear} (fractions allowed: May 334 BC = -333.67)`);
+    if (!Number.isFinite(p.year) || p.year < lo || p.year > hi) throw new Error(`route CSV row ${i + 2}: year must be a number ${lo}..${hi}${mode === 'ago' ? ' (negative = years ago)' : ' (fractions allowed: May 334 BC = -333.67)'}`);
     return p;
   });
   for (let i = 1; i < pts.length; i++) if (pts[i].year < pts[i - 1].year) throw new Error(`route CSV row ${i + 2}: years must not go backwards`);
@@ -152,8 +172,13 @@ export function validateJob(job) {
   if (!j.title || String(j.title).length > 120) throw new Error('title is required (≤ 120 characters)');
   const b = j.bbox;
   if (!Array.isArray(b) || b.length !== 4 || !b.every(Number.isFinite) || b[0] >= b[2] || b[1] >= b[3] || b[1] < -90 || b[3] > 90 || b[0] < -180 || b[2] > 180) throw new Error('bbox must be [lonMin, latMin, lonMax, latMax] with min < max');
+  j.timeMode ??= 'calendar'; j.timeScale ??= 'linear';
+  if (!['calendar', 'ago'].includes(j.timeMode)) throw new Error('timeMode must be calendar or ago');
+  if (!['linear', 'log'].includes(j.timeScale) || (j.timeScale === 'log' && j.timeMode !== 'ago')) throw new Error('timeScale must be linear, or log (with timeMode ago)');
+  const [lo, hi] = j.timeMode === 'ago' ? [LIMITS.minAgo, 0] : [LIMITS.minYear, LIMITS.maxYear];
   const y = j.years;
-  if (!Array.isArray(y) || y.length !== 2 || !y.every(Number.isInteger) || y[0] >= y[1] || y[0] < LIMITS.minYear || y[1] > LIMITS.maxYear) throw new Error(`years must be [from, to] integers, from < to, within ${LIMITS.minYear}..${LIMITS.maxYear}`);
+  if (!Array.isArray(y) || y.length !== 2 || !y.every(Number.isInteger) || y[0] >= y[1] || y[0] < lo || y[1] > hi) throw new Error(`years must be [from, to] integers, from < to, within ${lo}..${hi}${j.timeMode === 'ago' ? ' (negative = years ago)' : ''}`);
+  if (String(j.note ?? '').length > 200) throw new Error('note must be ≤ 200 characters');
   const [w, h] = j.size;
   if (!Number.isInteger(w) || !Number.isInteger(h) || w < 320 || h < 240 || w > LIMITS.maxW || h > LIMITS.maxH || w % 2 || h % 2) throw new Error(`size must be even integers between 320x240 and ${LIMITS.maxW}x${LIMITS.maxH}`);
   if (!Number.isInteger(j.fps) || j.fps < LIMITS.minFps || j.fps > LIMITS.maxFps) throw new Error(`fps must be ${LIMITS.minFps}..${LIMITS.maxFps}`);
@@ -177,6 +202,6 @@ export function validateJob(job) {
     if (!c.name || !(c.lat >= -90 && c.lat <= 90) || !(c.lon >= -180 && c.lon <= 180)) throw new Error(`cities[${i}] needs name, lat, lon`);
   }
   if (!t && !(j.routes || []).length) throw new Error('a job needs territories and/or routes');
-  j.stops = validateStops(j.stops, j.years);
+  j.stops = validateStops(j.stops, j.years, j.timeMode);
   return j;
 }

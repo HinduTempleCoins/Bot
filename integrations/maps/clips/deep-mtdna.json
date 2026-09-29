@@ -1,0 +1,105 @@
+{
+ "id": "deep-mtdna",
+ "fps": 24,
+ "palette": "night",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "note": "Alpha · ranges and dates are scholarly estimates with wide uncertainty · outlines schematic · one current model",
+ "endNote": "Ranges, routes and dates are scholarly estimates with uncertainty — one current model, not settled fact. Debated and model-based items are labelled. Full per-item sources: integrations/maps/data/deep-time/SOURCES.md.",
+ "title": "mtDNA Haplogroup Journeys",
+ "subtitle": "one current model · ages approximate (PhyloTree 17, Behar 2012)",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  74
+ ],
+ "years": [
+  -200000,
+  -2500
+ ],
+ "duration": 140,
+ "routes": [
+  {
+   "label": "L0 (Khoe-San)",
+   "colour": "#9a7b5a",
+   "path": "../data/deep-time/mtdna/l0-khoe-san.csv"
+  },
+  {
+   "label": "L1 (Central Africa)",
+   "colour": "#b08850",
+   "path": "../data/deep-time/mtdna/l1-central-africa.csv"
+  },
+  {
+   "label": "L2 (West Africa)",
+   "colour": "#c09a60",
+   "path": "../data/deep-time/mtdna/l2-west-africa.csv"
+  },
+  {
+   "label": "L3 → out of Africa",
+   "colour": "#f0c46a",
+   "path": "../data/deep-time/mtdna/l3-out-of-africa.csv"
+  },
+  {
+   "label": "L4, L5 (Tanzania)",
+   "colour": "#a08070",
+   "path": "../data/deep-time/mtdna/l4-l5-tanzania.csv"
+  },
+  {
+   "label": "L6 (Yemen, Ethiopia)",
+   "colour": "#907060",
+   "path": "../data/deep-time/mtdna/l6-yemen-ethiopia.csv"
+  },
+  {
+   "label": "M → C, D (Asia)",
+   "colour": "#70c0ff",
+   "path": "../data/deep-time/mtdna/m-c-d-asia.csv"
+  },
+  {
+   "label": "N → A (East Asia)",
+   "colour": "#c080f0",
+   "path": "../data/deep-time/mtdna/n-a-east-asia.csv"
+  },
+  {
+   "label": "R → B (East Asia, Pacific)",
+   "colour": "#ff90b0",
+   "path": "../data/deep-time/mtdna/r-b-east-asia-pacific.csv"
+  },
+  {
+   "label": "U (U5 · European hunter-gatherers)",
+   "colour": "#60b0a0",
+   "path": "../data/deep-time/mtdna/u-u5-european-hunter-gatherers.csv"
+  },
+  {
+   "label": "K (U8b · farmers)",
+   "colour": "#a0d060",
+   "path": "../data/deep-time/mtdna/k-u8b-farmers.csv"
+  },
+  {
+   "label": "H (post-glacial Europe)",
+   "colour": "#ff7070",
+   "path": "../data/deep-time/mtdna/h-post-glacial-europe.csv"
+  },
+  {
+   "label": "J and T (Neolithic)",
+   "colour": "#ffd090",
+   "path": "../data/deep-time/mtdna/j-and-t-neolithic.csv"
+  },
+  {
+   "label": "X (Near East → Europe)",
+   "colour": "#d0d0d0",
+   "path": "../data/deep-time/mtdna/x-near-east-europe.csv"
+  },
+  {
+   "label": "A2, B2, C1, D1, X2a · the Americas",
+   "colour": "#40c0f0",
+   "path": "../data/deep-time/mtdna/a2-b2-c1-d1-x2a-the-americas.csv"
+  }
+ ],
+ "tags": [
+  "deep-time",
+  "haplogroup",
+  "mtdna"
+ ],
+ "credit": "Model: PhyloTree Build 17 (van Oven & Kayser 2009); Behar et al. 2012 AJHG 90:675 (ages rounded, Soares et al. 2009 rate). Base map: Natural Earth (public domain)."
+}

@@ -14,3 +14,8 @@ test('a route-with-stops clip links its documentary and lists its stop clips; ba
   const plain = mapsBody({ clips: [{ id: 'rome', title: 'Rome', fromYear: -509, toYear: 476, file: 'rome.mp4', documentary: 'javascript:alert(1)' }] });
   assert.doesNotMatch(plain, /Watch the film|Stops \(/);
 });
+
+test('deep-time clips show "years ago" on their card', () => {
+  const html = mapsBody({ clips: [{ id: 'neanderthals', title: 'Neanderthals', file: 'neanderthals.mp4', timeMode: 'ago', fromYear: -430000, toYear: -40000 }] });
+  assert.match(html, /430,000 years ago – 40,000 years ago/);
+});

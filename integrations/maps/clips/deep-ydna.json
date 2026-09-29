@@ -1,0 +1,135 @@
+{
+ "id": "deep-ydna",
+ "fps": 24,
+ "palette": "night",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "note": "Alpha · ranges and dates are scholarly estimates with wide uncertainty · outlines schematic · one current model",
+ "endNote": "Ranges, routes and dates are scholarly estimates with uncertainty — one current model, not settled fact. Debated and model-based items are labelled. Full per-item sources: integrations/maps/data/deep-time/SOURCES.md.",
+ "title": "Y-DNA Haplogroup Journeys",
+ "subtitle": "one current model · ages approximate (YFull, Poznik 2016, Karmin 2015)",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  74
+ ],
+ "years": [
+  -240000,
+  -1500
+ ],
+ "duration": 150,
+ "routes": [
+  {
+   "label": "A (A00 → A-M51)",
+   "colour": "#9a7b5a",
+   "path": "../data/deep-time/ydna/a-a00-a-m51.csv"
+  },
+  {
+   "label": "B (B2 · Mbuti, Biaka)",
+   "colour": "#b08850",
+   "path": "../data/deep-time/ydna/b-b2-mbuti-biaka.csv"
+  },
+  {
+   "label": "CT · the exit",
+   "colour": "#f0c46a",
+   "path": "../data/deep-time/ydna/ct-the-exit.csv"
+  },
+  {
+   "label": "C (C1b2 → Sahul)",
+   "colour": "#70c0ff",
+   "path": "../data/deep-time/ydna/c-c1b2-sahul.csv"
+  },
+  {
+   "label": "C2 (Siberia, Mongolia)",
+   "colour": "#5090d0",
+   "path": "../data/deep-time/ydna/c2-siberia-mongolia.csv"
+  },
+  {
+   "label": "D (Tibet, Japan, Andaman)",
+   "colour": "#c080f0",
+   "path": "../data/deep-time/ydna/d-tibet-japan-andaman.csv"
+  },
+  {
+   "label": "E (E-M96 back to Africa)",
+   "colour": "#e07060",
+   "path": "../data/deep-time/ydna/e-e-m96-back-to-africa.csv"
+  },
+  {
+   "label": "E-M2 · Bantu expansion",
+   "colour": "#c05040",
+   "path": "../data/deep-time/ydna/e-m2-bantu-expansion.csv"
+  },
+  {
+   "label": "F",
+   "colour": "#e0e070",
+   "path": "../data/deep-time/ydna/f.csv"
+  },
+  {
+   "label": "G (G2a · farmers)",
+   "colour": "#a0d060",
+   "path": "../data/deep-time/ydna/g-g2a-farmers.csv"
+  },
+  {
+   "label": "H (South Asia)",
+   "colour": "#d0a0a0",
+   "path": "../data/deep-time/ydna/h-south-asia.csv"
+  },
+  {
+   "label": "I (European hunter-gatherers)",
+   "colour": "#60b0a0",
+   "path": "../data/deep-time/ydna/i-european-hunter-gatherers.csv"
+  },
+  {
+   "label": "J (J1, J2)",
+   "colour": "#e0a0e0",
+   "path": "../data/deep-time/ydna/j-j1-j2.csv"
+  },
+  {
+   "label": "K → LT → L, T",
+   "colour": "#ffd090",
+   "path": "../data/deep-time/ydna/k-lt-l-t.csv"
+  },
+  {
+   "label": "S / M (K2b1 · New Guinea)",
+   "colour": "#90e0c0",
+   "path": "../data/deep-time/ydna/s-m-k2b1-new-guinea.csv"
+  },
+  {
+   "label": "NO → N (Siberia, Uralic)",
+   "colour": "#a0a0ff",
+   "path": "../data/deep-time/ydna/no-n-siberia-uralic.csv"
+  },
+  {
+   "label": "O (East Asia, Austronesia)",
+   "colour": "#ff90b0",
+   "path": "../data/deep-time/ydna/o-east-asia-austronesia.csv"
+  },
+  {
+   "label": "P → Q (Siberia)",
+   "colour": "#80e0ff",
+   "path": "../data/deep-time/ydna/p-q-siberia.csv"
+  },
+  {
+   "label": "Q-M3 · the Americas",
+   "colour": "#40c0f0",
+   "path": "../data/deep-time/ydna/q-m3-the-americas.csv"
+  },
+  {
+   "label": "R1a (Corded Ware; Z93 → India)",
+   "colour": "#ff7070",
+   "path": "../data/deep-time/ydna/r1a-corded-ware-z93-india.csv"
+  },
+  {
+   "label": "R1b (Yamnaya → Bell Beaker)",
+   "colour": "#ff4040",
+   "path": "../data/deep-time/ydna/r1b-yamnaya-bell-beaker.csv"
+  }
+ ],
+ "tags": [
+  "deep-time",
+  "haplogroup",
+  "ydna"
+ ],
+ "credit": "Model: YFull tree (ages rounded); Poznik et al. 2016 Nat Genet 48:593; Karmin et al. 2015 Genome Res 25:459; ISOGG 2019–2020. Base map: Natural Earth (public domain)."
+}

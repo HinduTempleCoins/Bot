@@ -33,6 +33,7 @@ SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
 SERIF_B = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
 SANS = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 LIM = dict(maxW=3840, maxH=2160, minFps=12, maxFps=60, minDur=5, maxDur=600, minYear=-4000, maxYear=2100,
+           minAgo=-3_000_000, logOffset=1000,
            maxFeatures=5000, maxRoutePoints=5000, maxStops=60)
 PALETTES = {
     "night": dict(sea=(12, 18, 26), land=(40, 36, 30), river=(58, 92, 120), grid=(30, 38, 48), text=(236, 222, 190),
@@ -57,8 +58,31 @@ def format_year(y):
     return f"AD {n}" if n < 1000 else str(n)
 
 
-def year_at(i, n, y0, y1):
-    return y0 if n <= 1 else y0 + (y1 - y0) * (i / (n - 1))
+def format_ago(y):
+    """deep time: y = -(years before present). Rounded to the scale so the counter ticks cleanly:
+    ≥100,000 → nearest 1,000; ≥10,000 → nearest 100; ≥1,000 → nearest 10."""
+    a = max(0.0, -float(y))
+    step = 1000 if a >= 100_000 else 100 if a >= 10_000 else 10 if a >= 1_000 else 1
+    n = int(round(a / step) * step)
+    if n == 0:
+        return "Today"
+    return f"{n:,} year{'s' if n != 1 else ''} ago"
+
+
+def format_time(y, mode="calendar"):
+    return format_ago(y) if mode == "ago" else format_year(y)
+
+
+def year_at(i, n, y0, y1, scale="linear"):
+    if n <= 1:
+        return y0
+    t = i / (n - 1)
+    if scale != "log":
+        return y0 + (y1 - y0) * t
+    # log-ish: equal screen time per factor of years-ago (300,000 → 100,000 takes as long as 30,000 → 10,000);
+    # the offset keeps a run that ends at the present (0) finite.
+    c = LIM["logOffset"]; a0, a1 = -y0 + c, -y1 + c
+    return -(a0 * (a1 / a0) ** t - c)
 
 
 def route_at(points, year):
@@ -103,9 +127,17 @@ def validate(job):
     b = j.get("bbox")
     if not (isinstance(b, list) and len(b) == 4 and b[0] < b[2] and b[1] < b[3] and -180 <= b[0] and b[2] <= 180 and -90 <= b[1] and b[3] <= 90):
         fail("bbox must be [lonMin, latMin, lonMax, latMax] with min < max")
+    j.setdefault("timeMode", "calendar"); j.setdefault("timeScale", "linear")
+    if j["timeMode"] not in ("calendar", "ago"):
+        fail("timeMode must be calendar or ago")
+    if j["timeScale"] not in ("linear", "log") or (j["timeScale"] == "log" and j["timeMode"] != "ago"):
+        fail("timeScale must be linear, or log (with timeMode ago)")
+    lo, hi = (LIM["minAgo"], 0) if j["timeMode"] == "ago" else (LIM["minYear"], LIM["maxYear"])
     y = j.get("years")
-    if not (isinstance(y, list) and len(y) == 2 and all(isinstance(v, int) for v in y) and y[0] < y[1] and y[0] >= LIM["minYear"] and y[1] <= LIM["maxYear"]):
-        fail("years must be [from, to] integers, from < to")
+    if not (isinstance(y, list) and len(y) == 2 and all(isinstance(v, int) for v in y) and y[0] < y[1] and y[0] >= lo and y[1] <= hi):
+        fail(f"years must be [from, to] integers, from < to, within {lo}..{hi}" + (" (negative = years ago)" if j["timeMode"] == "ago" else ""))
+    if len(str(j.get("note", ""))) > 200:
+        fail("note must be ≤ 200 characters")
     w, h = j["size"]
     if not (320 <= w <= LIM["maxW"] and 240 <= h <= LIM["maxH"] and w % 2 == 0 and h % 2 == 0):
         fail("size must be even, 320x240 .. 3840x2160")
@@ -117,7 +149,7 @@ def validate(job):
         fail("palette must be night or parchment")
     if not j.get("territories") and not j.get("routes"):
         fail("a job needs territories and/or routes")
-    j["stops"] = validate_stops(j.get("stops") or [], j["years"])
+    j["stops"] = validate_stops(j.get("stops") or [], j["years"], j["timeMode"])
     return j
 
 
@@ -125,7 +157,7 @@ STOP_KINDS = ("record", "tradition", "debated", "interpretation", "none")
 KIND_TEXT = {"record": "Historical record", "tradition": "Tradition", "debated": "Debated", "interpretation": "Interpretation", "none": ""}
 
 
-def validate_stops(stops, years):
+def validate_stops(stops, years, mode="calendar"):
     if not isinstance(stops, list) or len(stops) > LIM["maxStops"]:
         fail(f"stops must be a list of at most {LIM['maxStops']}")
     out, prev = [], None
@@ -163,7 +195,7 @@ def validate_stops(stops, years):
         if not isinstance(z, (int, float)) or not (1.2 <= z <= 12):
             fail(f"{where}: zoom must be 1.2..12")
         out.append({**st, "hold": float(hold), "media": norm, "kind": kind, "zoom": float(z),
-                    "date": str(st.get("date") or format_year(y))[:60], "caption": str(st.get("caption", ""))[:300],
+                    "date": str(st.get("date") or format_time(y, mode))[:60], "caption": str(st.get("caption", ""))[:300],
                     "source": str(st.get("source", ""))[:200], "chapter": str(st.get("chapter", ""))[:80]})
     return out
 
@@ -427,7 +459,7 @@ class Fonts:
         self.small = ImageFont.truetype(SANS, int(18 * scale)); self.city = ImageFont.truetype(SERIF, int(22 * scale))
         self.wp = ImageFont.truetype(SERIF_B, int(26 * scale)); self.place = ImageFont.truetype(SERIF_B, int(52 * scale))
         self.date = ImageFont.truetype(SERIF, int(34 * scale)); self.cap = ImageFont.truetype(SANS, int(24 * scale))
-        self.kind = ImageFont.truetype(SANS, int(19 * scale))
+        self.kind = ImageFont.truetype(SANS, int(19 * scale)); self.ago = ImageFont.truetype(SERIF_B, int(78 * scale))
 
 
 def draw_overlays(frame, proj, yr, j, routes, stops_seen, pal, F, scale, credit, show_year=True):
@@ -435,7 +467,7 @@ def draw_overlays(frame, proj, yr, j, routes, stops_seen, pal, F, scale, credit,
     w, h = frame.size
     d = ImageDraw.Draw(frame)
     for c in j.get("cities") or []:
-        if c.get("from", -10 ** 6) <= yr <= c.get("to", 10 ** 6):
+        if c.get("from", -10 ** 9) <= yr <= c.get("to", 10 ** 9):
             x, y = proj.px(c["lon"], c["lat"])
             r = 5 * scale
             d.ellipse([x - r, y - r, x + r, y + r], fill=(250, 236, 200, 255), outline=(0, 0, 0, 255))
@@ -462,10 +494,13 @@ def draw_overlays(frame, proj, yr, j, routes, stops_seen, pal, F, scale, credit,
         if r.get("label"):
             d.text((x + rr * 1.6, y + rr * 0.4), r["label"], font=F.small, fill=col + (255,), stroke_width=2, stroke_fill=(0, 0, 0, 230))
     if show_year:
-        ytxt = format_year(yr)
-        tw, th = d.textbbox((0, 0), ytxt, font=F.year)[2:]
-        d.text((w - tw - 48 * scale, h - th - 70 * scale), ytxt, font=F.year, fill=pal["text"] + (255,), stroke_width=4, stroke_fill=(0, 0, 0, 230))
+        ytxt = format_time(yr, j.get("timeMode", "calendar"))
+        f = F.year if len(ytxt) <= 9 else F.ago
+        tw, th = d.textbbox((0, 0), ytxt, font=f)[2:]
+        d.text((w - tw - 48 * scale, h - th - 70 * scale), ytxt, font=f, fill=pal["text"] + (255,), stroke_width=4, stroke_fill=(0, 0, 0, 230))
     d.text((40 * scale, 32 * scale), j["title"], font=F.title, fill=pal["text"] + (255,), stroke_width=2, stroke_fill=(0, 0, 0, 220))
+    if j.get("note"):
+        d.text((40 * scale, 76 * scale), j["note"], font=F.small, fill=pal["sub"] + (255,), stroke_width=2, stroke_fill=(0, 0, 0, 200))
     d.text((40 * scale, h - 34 * scale), "Alpha · " + credit[:150], font=F.small, fill=pal["sub"] + (255,))
     return frame
 
@@ -583,6 +618,9 @@ def render(job, out, out720=None, data_dir=".", base_dir=".", poster=None, segme
     y0, y1 = j["years"]; bbox = j["bbox"]
     t0 = time.time()
     proj = Proj(bbox, w, h, j.get("projection", "auto"))
+    t = j.get("territories") or {}
+    if t.get("source") == "geojson" and t.get("path") and not os.path.isabs(t["path"]):
+        j["territories"] = {**t, "path": os.path.join(base_dir, t["path"])}  # relative to the job file, like routes
     items = territories_for(j, data_dir, bbox)
     routes = [(r, read_route(r, base_dir)) for r in (j.get("routes") or [])]
     base = base_layer(proj, data_dir, bbox, pal, w, h)
@@ -591,18 +629,19 @@ def render(job, out, out720=None, data_dir=".", base_dir=".", poster=None, segme
     n_map = int(dur * fps); n_title = int(2.5 * fps); n_end = int(3.5 * fps); xfade = max(1, int(0.6 * fps))
     credit = j.get("credit") or (CLIO_CREDIT if (j.get("territories") or {}).get("source", "").startswith("cliopatria") else "Base map: Natural Earth (public domain).")
     testing = j.get("testing", "")
-    title_card = card(w, h, pal, j["title"], j.get("subtitle", f"{format_year(y0)} – {format_year(y1)}"), [testing] if testing else [])
-    end_lines = [credit, "Borders are one scholarly reconstruction; ancient frontiers were uncertain and changed within these years."]
+    mode, tscale = j["timeMode"], j["timeScale"]
+    title_card = card(w, h, pal, j["title"], j.get("subtitle", f"{format_time(y0, mode)} – {format_time(y1, mode)}"), ([j["note"]] if j.get("note") else []) + ([testing] if testing else []))
+    end_lines = [credit, j.get("endNote") or "Borders are one scholarly reconstruction; ancient frontiers were uncertain and changed within these years."]
     if j["stops"]:
         end_lines.append("Pictures at each stop: remakes and public-domain art — every credit is listed on the film's page.")
     end_card = card(w, h, pal, j["title"], "Alpha — Hathor's first maps; later versions will be more accurate.", end_lines + ([testing] if testing else []))
     layers, keyset_at = {}, []
-    step = int(j.get("stepYears") or max(1, round((y1 - y0) / 150)))
+    step = int(j.get("stepYears") or (1 if tscale == "log" else max(1, round((y1 - y0) / 150))))
     def keyset(yr):
         ky = y0 + math.floor((yr - y0) / step) * step
         return tuple(k for k, it in enumerate(items) if it["frm"] <= ky <= it["to"])
     for i in range(n_map):
-        key = keyset(year_at(i, n_map, y0, y1))
+        key = keyset(year_at(i, n_map, y0, y1, tscale))
         keyset_at.append(key)
         if key not in layers:
             layers[key] = territory_layer(proj, [items[k] for k in key], pal, w, h, scale)
@@ -689,7 +728,7 @@ def render(job, out, out720=None, data_dir=".", base_dir=".", poster=None, segme
     prev_key, change_at = keyset_at[0], -10 ** 9
     last = base
     for i in range(n_map):
-        yr = year_at(i, n_map, y0, y1); key = keyset_at[i]
+        yr = year_at(i, n_map, y0, y1, tscale); key = keyset_at[i]
         if key != prev_key:
             old, prev_key, change_at = layers[prev_key], key, i
         frame = base.copy()

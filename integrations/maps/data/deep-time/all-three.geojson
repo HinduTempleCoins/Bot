@@ -1,0 +1,1009 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Early Neanderthal lineage",
+    "fromYear": -430000,
+    "toYear": -250000,
+    "colour": "#c98a4a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -9,
+       43.5
+      ],
+      [
+       0,
+       44
+      ],
+      [
+       6,
+       47
+      ],
+      [
+       12,
+       50
+      ],
+      [
+       20,
+       46
+      ],
+      [
+       23,
+       41
+      ],
+      [
+       16,
+       38
+      ],
+      [
+       -6,
+       37
+      ],
+      [
+       -9,
+       43.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Neanderthals",
+    "fromYear": -250000,
+    "toYear": -45000,
+    "colour": "#c98a4a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -9.5,
+       36.5
+      ],
+      [
+       -9.5,
+       43.5
+      ],
+      [
+       -4,
+       48
+      ],
+      [
+       0,
+       52
+      ],
+      [
+       10,
+       53
+      ],
+      [
+       22,
+       52
+      ],
+      [
+       32,
+       50
+      ],
+      [
+       42,
+       46
+      ],
+      [
+       47,
+       43
+      ],
+      [
+       48,
+       38
+      ],
+      [
+       47,
+       33
+      ],
+      [
+       36,
+       31
+      ],
+      [
+       34,
+       33
+      ],
+      [
+       28,
+       36.5
+      ],
+      [
+       16,
+       38
+      ],
+      [
+       5,
+       37
+      ],
+      [
+       -9.5,
+       36.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Neanderthals (Central Asia & Altai, intermittent)",
+    "fromYear": -190000,
+    "toYear": -45000,
+    "colour": "#c98a4a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       47,
+       43
+      ],
+      [
+       56,
+       42
+      ],
+      [
+       66,
+       38
+      ],
+      [
+       71,
+       40
+      ],
+      [
+       70,
+       45
+      ],
+      [
+       80,
+       52
+      ],
+      [
+       87,
+       53
+      ],
+      [
+       88,
+       50
+      ],
+      [
+       80,
+       48
+      ],
+      [
+       60,
+       41
+      ],
+      [
+       47,
+       43
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Last Neanderthals",
+    "fromYear": -45000,
+    "toYear": -39000,
+    "colour": "#c98a4a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -9.5,
+       36.5
+      ],
+      [
+       -9.5,
+       43.5
+      ],
+      [
+       -4,
+       48
+      ],
+      [
+       4,
+       51
+      ],
+      [
+       16,
+       50
+      ],
+      [
+       18,
+       46
+      ],
+      [
+       12,
+       44
+      ],
+      [
+       3,
+       41
+      ],
+      [
+       -2,
+       37
+      ],
+      [
+       -9.5,
+       36.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Denisovans (Altai)",
+    "fromYear": -200000,
+    "toYear": -50000,
+    "colour": "#6aa0d8"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       81,
+       49.5
+      ],
+      [
+       81,
+       53
+      ],
+      [
+       88,
+       53
+      ],
+      [
+       88,
+       49.5
+      ],
+      [
+       81,
+       49.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Denisovans (fossil sites, schematic)",
+    "fromYear": -165000,
+    "toYear": -32000,
+    "colour": "#6aa0d8"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       84,
+       52
+      ],
+      [
+       100,
+       50
+      ],
+      [
+       128,
+       48
+      ],
+      [
+       131,
+       42
+      ],
+      [
+       122,
+       34
+      ],
+      [
+       121,
+       22
+      ],
+      [
+       106,
+       18
+      ],
+      [
+       100,
+       19
+      ],
+      [
+       97,
+       28
+      ],
+      [
+       98,
+       34
+      ],
+      [
+       88,
+       40
+      ],
+      [
+       84,
+       47
+      ],
+      [
+       84,
+       52
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Denisovans (inferred from living people's DNA)",
+    "fromYear": -60000,
+    "toYear": -30000,
+    "colour": "#3f6f9c"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       94,
+       20
+      ],
+      [
+       110,
+       22
+      ],
+      [
+       122,
+       18
+      ],
+      [
+       127,
+       6
+      ],
+      [
+       142,
+       -2
+      ],
+      [
+       151,
+       -8
+      ],
+      [
+       146,
+       -12
+      ],
+      [
+       132,
+       -10
+      ],
+      [
+       118,
+       -9
+      ],
+      [
+       105,
+       -8
+      ],
+      [
+       97,
+       2
+      ],
+      [
+       97,
+       10
+      ],
+      [
+       94,
+       20
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Homo sapiens (Africa)",
+    "fromYear": -315000,
+    "toYear": 0,
+    "colour": "#7fbf6a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -10,
+       35
+      ],
+      [
+       10,
+       33
+      ],
+      [
+       32,
+       32
+      ],
+      [
+       37,
+       22
+      ],
+      [
+       44,
+       12
+      ],
+      [
+       51,
+       11
+      ],
+      [
+       41,
+       -2
+      ],
+      [
+       40,
+       -12
+      ],
+      [
+       33,
+       -26
+      ],
+      [
+       20,
+       -35
+      ],
+      [
+       15,
+       -30
+      ],
+      [
+       13,
+       -12
+      ],
+      [
+       9,
+       4
+      ],
+      [
+       -5,
+       5
+      ],
+      [
+       -17,
+       10
+      ],
+      [
+       -17,
+       21
+      ],
+      [
+       -13,
+       28
+      ],
+      [
+       -10,
+       35
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Early sapiens in the Levant (debated exits)",
+    "fromYear": -190000,
+    "toYear": -90000,
+    "colour": "#a8d890"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       34,
+       30
+      ],
+      [
+       35.5,
+       36
+      ],
+      [
+       40,
+       37
+      ],
+      [
+       44,
+       33
+      ],
+      [
+       36,
+       29
+      ],
+      [
+       34,
+       30
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Homo sapiens (South & Southeast Asia)",
+    "fromYear": -60000,
+    "toYear": 0,
+    "colour": "#7fbf6a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       43,
+       12
+      ],
+      [
+       55,
+       17
+      ],
+      [
+       58,
+       24
+      ],
+      [
+       64,
+       26
+      ],
+      [
+       70,
+       34
+      ],
+      [
+       78,
+       33
+      ],
+      [
+       91,
+       27
+      ],
+      [
+       99,
+       22
+      ],
+      [
+       99,
+       12
+      ],
+      [
+       104,
+       1
+      ],
+      [
+       105,
+       -6
+      ],
+      [
+       118,
+       -8
+      ],
+      [
+       119,
+       5
+      ],
+      [
+       80,
+       8
+      ],
+      [
+       60,
+       22
+      ],
+      [
+       42,
+       16
+      ],
+      [
+       43,
+       12
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Homo sapiens (Sahul)",
+    "fromYear": -50000,
+    "toYear": 0,
+    "colour": "#7fbf6a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       131,
+       -10.5
+      ],
+      [
+       142,
+       -11
+      ],
+      [
+       147,
+       -6
+      ],
+      [
+       141,
+       -2
+      ],
+      [
+       150,
+       -8
+      ],
+      [
+       146,
+       -18
+      ],
+      [
+       153,
+       -28
+      ],
+      [
+       146,
+       -38
+      ],
+      [
+       117,
+       -35
+      ],
+      [
+       114,
+       -22
+      ],
+      [
+       126,
+       -14
+      ],
+      [
+       131,
+       -10.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Homo sapiens (Europe & Near East)",
+    "fromYear": -46000,
+    "toYear": 0,
+    "colour": "#7fbf6a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -9.5,
+       36.5
+      ],
+      [
+       -9,
+       44
+      ],
+      [
+       -3,
+       54
+      ],
+      [
+       10,
+       60
+      ],
+      [
+       28,
+       65
+      ],
+      [
+       50,
+       64
+      ],
+      [
+       60,
+       56
+      ],
+      [
+       50,
+       46
+      ],
+      [
+       44,
+       41
+      ],
+      [
+       36,
+       37
+      ],
+      [
+       24,
+       38
+      ],
+      [
+       10,
+       37
+      ],
+      [
+       -9.5,
+       36.5
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Homo sapiens (North & East Asia)",
+    "fromYear": -45000,
+    "toYear": 0,
+    "colour": "#7fbf6a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       55,
+       40
+      ],
+      [
+       60,
+       58
+      ],
+      [
+       70,
+       68
+      ],
+      [
+       125,
+       72
+      ],
+      [
+       160,
+       68
+      ],
+      [
+       175,
+       62
+      ],
+      [
+       132,
+       43
+      ],
+      [
+       122,
+       30
+      ],
+      [
+       110,
+       25
+      ],
+      [
+       90,
+       30
+      ],
+      [
+       72,
+       40
+      ],
+      [
+       55,
+       40
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Homo sapiens (the Americas)",
+    "fromYear": -16000,
+    "toYear": 0,
+    "colour": "#7fbf6a"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -168,
+       66
+      ],
+      [
+       -140,
+       70
+      ],
+      [
+       -90,
+       70
+      ],
+      [
+       -65,
+       60
+      ],
+      [
+       -55,
+       45
+      ],
+      [
+       -80,
+       30
+      ],
+      [
+       -60,
+       10
+      ],
+      [
+       -35,
+       0
+      ],
+      [
+       -55,
+       -35
+      ],
+      [
+       -68,
+       -55
+      ],
+      [
+       -75,
+       -45
+      ],
+      [
+       -77,
+       -15
+      ],
+      [
+       -80,
+       5
+      ],
+      [
+       -106,
+       18
+      ],
+      [
+       -121,
+       35
+      ],
+      [
+       -128,
+       50
+      ],
+      [
+       -150,
+       60
+      ],
+      [
+       -168,
+       66
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Contact: Neanderthal × sapiens (model-based)",
+    "fromYear": -60000,
+    "toYear": -44000,
+    "colour": "#e0c050"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       33,
+       29
+      ],
+      [
+       34,
+       38
+      ],
+      [
+       45,
+       40
+      ],
+      [
+       50,
+       34
+      ],
+      [
+       44,
+       29
+      ],
+      [
+       33,
+       29
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Contact: Denisovan × sapiens (model-based)",
+    "fromYear": -55000,
+    "toYear": -30000,
+    "colour": "#e0c050"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       97,
+       10
+      ],
+      [
+       122,
+       18
+      ],
+      [
+       142,
+       -2
+      ],
+      [
+       150,
+       -10
+      ],
+      [
+       118,
+       -10
+      ],
+      [
+       103,
+       -2
+      ],
+      [
+       97,
+       10
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
