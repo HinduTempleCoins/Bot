@@ -17,7 +17,7 @@ export const LOOKS = [
   { id: '2_half', name: 'Half vaporwave', note: 'The same scene, half-shifted into VR-vaporwave.' },
   { id: '3_full', name: 'Full MELEK aesthetic', note: 'Neon temple, glowing visors, gold and magenta.' },
 ];
-export const PEOPLES = { depicted: 'As depicted', egyptian: 'Egyptian', minoan: 'Minoan', punic: 'Punic (Carthaginian)', greek: 'Greek', indian: 'North Indian', dravidian: 'South Indian (Dravidian)', nubian: 'Nubian', libyan: 'Libyan (Amazigh)', levantine: 'Levantine', pale: 'Pale' };
+export const PEOPLES = { sheet: 'Contact sheet', lineup1: 'All species at height scale', lineup2: 'Neanderthal, Denisovan & sapiens', lineup3: 'The little ones', lineup4: 'At height scale — second guesses', face1: 'Possible face 1', face2: 'Possible face 2', face3: 'Possible face 3', face4: 'Possible face 4', face5: 'Possible face 5', face6: 'Possible face 6', body1: 'Possible body 1', body2: 'Possible body 2', body3: 'Possible body 3', body4: 'Possible body 4', depicted: 'As depicted', egyptian: 'Egyptian', minoan: 'Minoan', punic: 'Punic (Carthaginian)', greek: 'Greek', indian: 'North Indian', dravidian: 'South Indian (Dravidian)', nubian: 'Nubian', libyan: 'Libyan (Amazigh)', levantine: 'Levantine', pale: 'Pale' };
 
 export function loadManifest(dir = REMAKES_DIR()) {
   try {

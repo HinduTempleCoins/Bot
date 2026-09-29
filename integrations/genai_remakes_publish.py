@@ -46,8 +46,9 @@ SCENES = {
     "odysseus_alcinous_hayez": ("Greece & Scheria", "Odysseus at the court of Alcinous, Scheria", "Francesco Hayez (public domain)"),
     "odysseus_nausicaa_lastman": ("Greece & Scheria", "Nausicaa meets Odysseus on Scheria", "Pieter Lastman (public domain)"),
 }
-GROUP_ORDER = ["Greek myth on pottery", "Egyptian gods & myth", "Hindu myth: paintings & temple cloths", "Part human: gods & creatures", "Nefertiti", "Cleopatra", "Fayum portraits", "Headcones & perfume", "Lotus perfume", "The Nile", "Ports, the Nile & the coast", "The Amazigh", "Sais, Athens & Delphi", "Visitors & the Four Peoples", "Minoans", "Carthage & the Phoenicians", "Greece & Scheria", "Nubia", "Egypt"]
-PEOPLE_ORDER = ["depicted", "egyptian", "minoan", "punic", "greek", "indian", "dravidian", "nubian", "libyan", "levantine", "pale"]
+GROUP_ORDER = ["Human species, full body", "Skulls to faces", "Neolithic, Bronze Age & the Bible", "Greek myth on pottery", "Egyptian gods & myth", "Hindu myth: paintings & temple cloths", "Part human: gods & creatures", "Tombs, caves & musicians", "Mithras", "Boats, fishing & hunting", "Farming", "Beekeeping", "Nefertiti", "Cleopatra", "Fayum portraits", "Headcones & perfume", "Lotus perfume", "The Nile", "Ports, the Nile & the coast", "The Amazigh", "Sais, Athens & Delphi", "Visitors & the Four Peoples", "Minoans", "Carthage & the Phoenicians", "Greece & Scheria", "Nubia", "Egypt"]
+# sheet / lineupN / faceN / bodyN: prerendered variant sets (skullfaces.py) — several guesses, never one answer
+PEOPLE_ORDER = ["sheet", "lineup1", "lineup2", "lineup3", "lineup4", "face1", "face2", "face3", "face4", "face5", "face6", "body1", "body2", "body3", "body4", "depicted", "egyptian", "minoan", "punic", "greek", "indian", "dravidian", "nubian", "libyan", "levantine", "pale"]
 LOOKS = ["1_real", "2_half", "3_full"]
 
 
@@ -64,7 +65,11 @@ SET_GROUPS = {"headcones": "Headcones & perfume", "perfume": "Lotus perfume", "n
               "ports": "Ports, the Nile & the coast", "amazigh": "The Amazigh", "oracles": "Sais, Athens & Delphi",
               "fayum": "Fayum portraits", "cleopatra": "Cleopatra", "nefertiti": "Nefertiti",
               "myth_greek": "Greek myth on pottery", "myth_egypt": "Egyptian gods & myth", "myth_hindu": "Hindu myth: paintings & temple cloths",
-              "myth_hybrid": "Part human: gods & creatures"}
+              "myth_hybrid": "Part human: gods & creatures",
+              "skulls_to_faces": "Skulls to faces", "hominins_full_body": "Human species, full body",
+              "neolithic_bronze_bible": "Neolithic, Bronze Age & the Bible",
+              "art_tombs_caves": "Tombs, caves & musicians", "boats_fishing_hunting": "Boats, fishing & hunting",
+              "beekeeping": "Beekeeping", "mithras": "Mithras", "farming": "Farming"}
 
 
 def load_extra(paths):
