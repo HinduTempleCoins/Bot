@@ -2,7 +2,7 @@
 // adapter, rate limit, esc on nasty input, image serving + path-traversal guard. No network, no real keys.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync } from 'node:fs';
+import { mkdtempSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -623,4 +623,101 @@ test('sharing carries the picture: result page -> /p/ share page with a social c
   assert.equal((await call({ url: '/p/nope.png' })).statusCode, 404);
   assert.equal((await call({ url: '/p/..%2F..%2Fetc%2Fpasswd' })).statusCode, 404);
   __setGenerator(null);
+});
+
+test('/animations: clips render with recipe chips, votes count once per voter, feedback.json feeds the worker', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const { __resetAnimRate } = await import('./animations.mjs');
+  __resetAnimRate();
+  const d = mkdtempSync(join(tmpdir(), 'anims-'));
+  mkdirSync(join(d, 'abcdef012345'));
+  writeFileSync(join(d, 'abcdef012345', 'clip.mp4'), 'MP4DATA0123456789');
+  writeFileSync(join(d, 'abcdef012345', 'poster.jpg'), 'JPEGDATA');
+  writeFileSync(join(d, 'manifest.json'), JSON.stringify({ clips: [{ id: 'abcdef012345', kind: 'puppet', motion: 'sway', amplitude: 'medium', camera: 'push_in', pace: 'slow', narrate: 'no', title: 'Banquet <b>', puppet_title: 'The Pythia' }] }));
+  process.env.ANIMS_DIR = d;
+  process.env.ANIM_FEEDBACK = join(d, 'fb.jsonl');
+  const page = await call({ url: '/animations' });
+  assert.equal(page.statusCode, 200);
+  assert.match(page.text(), /The Pythia/);
+  assert.doesNotMatch(page.text(), /Banquet <b>/);
+  assert.match(page.text(), /\/animations\/media\/abcdef012345\/clip\.mp4/);
+  const vote = (v, voter = 'voterkey-aaaaaaaaaaaa', comment = '') => call({ method: 'POST', url: '/api/animations/rate', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ id: 'abcdef012345', voter, vote: v, comment }).toString() });
+  let r = await vote('up');
+  assert.equal(r.statusCode, 200);
+  r = await vote('down'); // same voter changes their mind: counts once
+  assert.deepEqual(JSON.parse(r.text()), { ok: true, up: 0, down: 1 });
+  r = await vote('up', 'voterkey-bbbbbbbbbbbb', 'more <script> motion');
+  assert.deepEqual(JSON.parse(r.text()), { ok: true, up: 1, down: 1 });
+  assert.equal((await call({ method: 'POST', url: '/api/animations/rate', body: 'id=ffffffffffff&voter=voterkey-aaaaaaaaaaaa&vote=up' })).statusCode, 404);
+  assert.equal((await call({ method: 'POST', url: '/api/animations/rate', body: 'id=abcdef012345&voter=x&vote=up' })).statusCode, 400);
+  assert.equal((await call({ method: 'POST', url: '/api/animations/rate', body: 'id=abcdef012345&voter=voterkey-aaaaaaaaaaaa&vote=sideways' })).statusCode, 400);
+  const fb = JSON.parse((await call({ url: '/animations/feedback.json' })).text());
+  assert.equal(fb.clips.abcdef012345.up, 1);
+  assert.equal(fb.arms.motion.sway.down, 1); // a puppet clip: its motion is credited
+  const again = (await call({ url: '/animations' })).text();
+  assert.match(again, /more &lt;script&gt; motion/);
+  assert.doesNotMatch(readFileSyncSafe(process.env.ANIM_FEEDBACK), /voterkey-/); // only hashes are stored
+  const full = await call({ url: '/animations/media/abcdef012345/clip.mp4' });
+  assert.equal(full.statusCode, 200);
+  const part = await call({ url: '/animations/media/abcdef012345/clip.mp4', headers: { range: 'bytes=3-6' } });
+  assert.equal(part.statusCode, 206);
+  assert.equal(part.text(), 'DATA');
+  for (const bad of ['/animations/media/..%2Fmanifest.json', '/animations/media/abcdef012345%2F..%2F..%2Fmanifest.json', '/animations/media/abcdef012345/recipe.json', '/animations/media/ABCDEF012345/clip.mp4']) {
+    assert.notEqual((await call({ url: bad })).statusCode, 200, bad);
+  }
+  delete process.env.ANIMS_DIR; delete process.env.ANIM_FEEDBACK;
+});
+
+function readFileSyncSafe(p) { try { return readFileSync(p, 'utf8'); } catch { return ''; } }
+
+test('the nav collapses to a Menu button on phones and stays open on desktop', async () => {
+  const r = await call({ url: '/' });
+  const h = r.text();
+  assert.match(h, /<details class=navbox><summary>Menu<\/summary>/); // collapsible, no JS
+  assert.match(h, /<\/div><\/details><\/header>/);                    // closed correctly
+  assert.match(h, /@media \(max-width:860px\)/);                      // a mobile layout exists at all
+  assert.match(h, /\.navbox>\.topbar-r\{display:flex\}/);             // desktop: always shown despite <details>
+  assert.match(h, /\.navbox:not\(\[open\]\)>\.topbar-r\{display:none\}/); // mobile: hidden until tapped
+  assert.match(h, /\.navbox\[open\]>\.topbar-r\{max-height:60vh;overflow-y:auto/); // long menu scrolls, not overflows
+});
+
+test('animation arms: motion/strength are only credited for clips that animate a figure', async () => {
+  const { aggregate } = await import('./animations.mjs');
+  const m = { clips: [{ id: 'aaaaaaaaaaaa', kind: 'kenburns', motion: 'sway', amplitude: 'strong', camera: 'pan_left' }, { id: 'bbbbbbbbbbbb', kind: 'scene', motion: 'breathe', amplitude: 'subtle', camera: 'still' }] };
+  const a = aggregate([{ id: 'aaaaaaaaaaaa', voter: 'x', vote: 'up' }, { id: 'bbbbbbbbbbbb', voter: 'x', vote: 'down' }], m);
+  assert.equal(a.arms.camera.pan_left.up, 1);
+  assert.equal(a.arms.motion.sway, undefined);
+  assert.equal(a.arms.motion.breathe.down, 1);
+});
+
+test('Studio SEO/GEO: sitemap lists the galleries, llms.txt is accurate, galleries carry JSON-LD', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const sm = (await call({ url: '/sitemap.xml' })).text();
+  for (const p of ['/remakes', '/animations', '/scripts', '/symbols', '/mythology', '/remake']) assert.match(sm, new RegExp(`<loc>[^<]*${p}</loc>`), p);
+  const llms = (await call({ url: '/llms.txt' })).text();
+  assert.match(llms, /^# Hathor Studio/);
+  assert.match(llms, /\/animations/);
+  assert.doesNotMatch(llms, /Cloudflare|Pollinations/); // images are made on our own servers
+  const d = mkdtempSync(join(tmpdir(), 'seo-'));
+  mkdirSync(join(d, 'sc'));
+  writeFileSync(join(d, 'manifest.json'), JSON.stringify({ scenes: [{ key: 'sc', title: 'Banquet </script>', group: 'Egypt', credit: 'Tomb of Nebamun', looks: { '1_real': { nubian: '1_real_nubian.jpg' } } }] }));
+  process.env.REMAKES_DIR = d;
+  const rm = (await call({ url: '/remakes' })).text();
+  const rld = JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(rm)[1]);
+  assert.equal(rld['@type'], 'ImageGallery');
+  assert.equal(rld.image[0].contentUrl.endsWith('/remakes/img/sc/1_real_nubian.jpg'), true);
+  assert.equal((rm.match(/<\/script>/g) || []).length >= 1, true);
+  assert.doesNotMatch(rm.split('application/ld+json')[1].split('</script>')[0], /<\/script/); // no breakout from the title
+  assert.match(rm, /og:image" content="[^"]*\/remakes\/img\/sc\/1_real_nubian\.jpg/);
+  delete process.env.REMAKES_DIR;
+  const a = mkdtempSync(join(tmpdir(), 'seo-a-'));
+  writeFileSync(join(a, 'manifest.json'), JSON.stringify({ clips: [{ id: 'abcdef012345', kind: 'scene', title: 'Nile', seconds: 8.1, made: 1790000000, narration_text: 'The Nile.' }] }));
+  process.env.ANIMS_DIR = a;
+  const an = (await call({ url: '/animations' })).text();
+  const ald = JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(an)[1]);
+  const v = ald.itemListElement[0].item;
+  assert.equal(v['@type'], 'VideoObject');
+  assert.equal(v.duration, 'PT8S');
+  assert.match(v.contentUrl, /\/animations\/media\/abcdef012345\/clip\.mp4$/);
+  delete process.env.ANIMS_DIR;
 });

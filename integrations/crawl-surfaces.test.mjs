@@ -66,7 +66,7 @@ const HOSTS = {
   'hathor.live': hathorLive,
   'farm.soapbox.community': farm,
   'seeds.soapbox.community': seeds,
-  'tokens.alpha.melek.salon': tokens,
+  'tokens.soapbox.community': tokens,
   'pool.soapbox.community': poolSeo,
 };
 
@@ -108,7 +108,7 @@ test('every sitemapped path is a route the server answers with a 200 page', asyn
     [hathorLive, 'https://hathor.live', HATHOR_PATHS],
     [farm, 'https://farm.soapbox.community', FARM_PATHS],
     [seeds, 'https://seeds.soapbox.community', SEEDS_PATHS],
-    [tokens, 'https://tokens.alpha.melek.salon', TOKENS_PATHS],
+    [tokens, 'https://tokens.soapbox.community', TOKENS_PATHS],
   ];
   for (const [fn, base, paths] of cases) {
     for (const p of paths) {

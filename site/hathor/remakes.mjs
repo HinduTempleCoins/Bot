@@ -17,7 +17,7 @@ export const LOOKS = [
   { id: '2_half', name: 'Half vaporwave', note: 'The same scene, half-shifted into VR-vaporwave.' },
   { id: '3_full', name: 'Full MELEK aesthetic', note: 'Neon temple, glowing visors, gold and magenta.' },
 ];
-export const PEOPLES = { depicted: 'As depicted', egyptian: 'Egyptian', minoan: 'Minoan', punic: 'Punic (Carthaginian)', greek: 'Greek', nubian: 'Nubian', libyan: 'Libyan (Amazigh)', levantine: 'Levantine', pale: 'Pale' };
+export const PEOPLES = { depicted: 'As depicted', egyptian: 'Egyptian', minoan: 'Minoan', punic: 'Punic (Carthaginian)', greek: 'Greek', indian: 'North Indian', dravidian: 'South Indian (Dravidian)', nubian: 'Nubian', libyan: 'Libyan (Amazigh)', levantine: 'Levantine', pale: 'Pale' };
 
 export function loadManifest(dir = REMAKES_DIR()) {
   try {
@@ -74,6 +74,28 @@ export function serveRemakeImage(res, rel, dir = REMAKES_DIR()) {
   const type = /\.png$/i.test(clean) ? 'image/png' : /\.webp$/i.test(clean) ? 'image/webp' : 'image/jpeg';
   res.writeHead(200, { 'content-type': type, 'cache-control': 'public, max-age=86400' });
   return res.end(readFileSync(full));
+}
+
+/** first realistic image, for og:image. → "<scene>/<file>" or '' */
+export function remakesHero(manifest) {
+  for (const s of manifest.scenes || []) { const set = s.looks && s.looks['1_real']; const k = set && Object.keys(set)[0]; if (k) return `${s.key}/${set[k]}`; }
+  return '';
+}
+
+/** schema.org ImageGallery: one ImageObject per scene (its first realistic remake), credited to the source. */
+export function remakesLd(manifest, base) {
+  const images = [];
+  for (const s of (manifest.scenes || [])) {
+    const set = (s.looks && (s.looks['1_real'] || s.looks['2_half'] || s.looks['3_full'])) || {};
+    const p = Object.keys(set)[0];
+    if (!p) continue;
+    images.push({ '@type': 'ImageObject', name: `${s.title} — ${PEOPLES[p] || p}, remade`, contentUrl: `${base}/remakes/img/${s.key}/${set[p]}`,
+      url: `${base}/remakes#${s.key}`, ...(s.credit ? { isBasedOn: s.credit, creditText: `Remake by Hathor Studio after ${s.credit}` } : {}),
+      creator: { '@type': 'Person', name: 'Hathor' } });
+    if (images.length >= 150) break;
+  }
+  return { '@context': 'https://schema.org', '@type': 'ImageGallery', name: 'Remakes — the ancient world, re-rendered', url: `${base}/remakes`,
+    description: 'Tomb paintings, stelae and frescoes remade realistic, half vaporwave and in the full MELEK look, in several peoples side by side.', image: images };
 }
 
 export default { LOOKS, PEOPLES, loadManifest, remakesBody, serveRemakeImage, REMAKES_DIR };
