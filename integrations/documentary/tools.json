@@ -1,0 +1,74 @@
+{
+  "about": "Free, permissively licensed tools and open-licence media sources Hathor's video pipeline can use. Paths are relative to GEN_HOME (the CPU worker's generation home). cpuSecondsPerUnit measured on the shared 18-core CPU worker (2026-09-29), warm, per 768x512 image or per stated unit.",
+  "tools": {
+    "cutout": {
+      "cmd": "tools-venv/bin/python tools/cutout.py IN.png OUT.png [--model isnet-general-use]",
+      "does": "background removal: cut a character out of its render to composite into a scene",
+      "licence": "rembg MIT; isnet-general-use / u2net models Apache-2.0",
+      "repo": "https://github.com/danielgatis/rembg",
+      "cpuSecondsPerUnit": 6.3, "unit": "image (first run +80 s model download)"
+    },
+    "depthParallax": {
+      "cmd": "face-venv/bin/python tools/depth_parallax.py IN.png OUT.mp4 [--seconds 6] [--move orbit|dolly|pan] [--strength 18]",
+      "does": "2.5D camera move from one still: depth estimate, then near pixels move more than far ones",
+      "licence": "Depth-Anything-V2-Small Apache-2.0 (the Base/Large checkpoints are CC BY-NC — not used)",
+      "repo": "https://github.com/DepthAnything/Depth-Anything-V2 (model depth-anything/Depth-Anything-V2-Small-hf)",
+      "cpuSecondsPerUnit": 14.1, "unit": "6-second 24 fps shot (11.5 s depth + 2.6 s frames)"
+    },
+    "upscale": {
+      "cmd": "tools-venv/bin/python tools/upscale.py IN.png OUT.png [--fit 1920x1280] [--tile 256]",
+      "does": "4x super-resolution (768x512 -> 3072x2048, fitted to a target size)",
+      "licence": "Real-ESRGAN weights BSD-3-Clause; spandrel loader MIT",
+      "repo": "https://github.com/xinntao/Real-ESRGAN ; https://github.com/chaiNNer-org/spandrel",
+      "cpuSecondsPerUnit": 209, "unit": "image — expensive on CPU: use for thumbnails and hero shots, not every frame"
+    },
+    "interpolate": {
+      "cmd": "bash tools/interpolate.sh IN.mp4 OUT.mp4 [fps=48]",
+      "does": "motion-compensated frame interpolation for smooth slow motion (ffmpeg minterpolate)",
+      "licence": "FFmpeg LGPL-2.1",
+      "repo": "https://ffmpeg.org",
+      "cpuSecondsPerUnit": 6.7, "unit": "second of 48 fps output from 12 fps input"
+    },
+    "kenBurns_crossfade_captions": {
+      "cmd": "face-venv/bin/python hathor_video.py storyboard.json --out film.mp4",
+      "does": "pans, crossfades, burned-in captions, optional Piper narration (existing)",
+      "licence": "our code; FFmpeg LGPL; Piper MIT (voices per model card)",
+      "repo": "integrations/hathor_video.py",
+      "cpuSecondsPerUnit": null, "unit": "—"
+    },
+    "posePuppets": {
+      "cmd": "face-venv/bin/python hathor_animate.py make --out anims --n N [--only …]",
+      "does": "pose-driven character motion, look morphs, peoples crossfades (existing)",
+      "licence": "our code",
+      "repo": "integrations/hathor_animate.py",
+      "cpuSecondsPerUnit": 15, "unit": "6-second clip"
+    },
+    "transcribe": {
+      "cmd": "face-venv/bin/python pentecaust/whisper_worker.py queue.json --out work",
+      "does": "speech to timed subtitles (existing, Pentecaust)",
+      "licence": "faster-whisper MIT; Whisper models MIT",
+      "repo": "https://github.com/SYSTRAN/faster-whisper",
+      "cpuSecondsPerUnit": 0.1, "unit": "second of audio (about 10x faster than real time)"
+    }
+  },
+  "notUsed": {
+    "RIFE": "not installed yet — Practical-RIFE (MIT) ships its model code outside pip; ffmpeg minterpolate covers interpolation for now",
+    "Coqui XTTS-v2": "excluded — Coqui Public Model License is non-commercial",
+    "Depth-Anything-V2 Base/Large": "excluded — CC BY-NC-4.0",
+    "Stable Video Diffusion": "excluded — SVD community licence restricts commercial use above a revenue threshold; revisit",
+    "ElevenLabs / Runway / Pika": "paid APIs — belong in the product's bring-your-own-key slots, not built in"
+  },
+  "media": [
+    { "source": "Openverse", "types": ["image", "audio"], "needsKey": null, "licence": "CC0 / PDM / CC BY / BY-SA per item (NC/ND filtered out)" },
+    { "source": "Wikimedia Commons", "types": ["image", "audio", "video"], "needsKey": null, "licence": "PD / CC0 / CC BY / BY-SA per file" },
+    { "source": "The Met Open Access", "types": ["image"], "needsKey": null, "licence": "CC0 (isPublicDomain works only)" },
+    { "source": "Cleveland Museum of Art Open Access", "types": ["image"], "needsKey": null, "licence": "CC0" },
+    { "source": "Art Institute of Chicago", "types": ["image"], "needsKey": null, "licence": "CC0 (is_public_domain works only)" },
+    { "source": "Library of Congress", "types": ["image"], "needsKey": null, "licence": "items marked 'No known restrictions on publication' only" },
+    { "source": "Internet Archive (public-domain audio)", "types": ["audio"], "needsKey": null, "licence": "items with a PD/CC0 licenseurl only" },
+    { "source": "Europeana", "types": ["image", "video", "audio"], "needsKey": "EUROPEANA_API_KEY", "licence": "reusability=open (PD/CC0/BY/BY-SA)" },
+    { "source": "Smithsonian Open Access", "types": ["image"], "needsKey": "SMITHSONIAN_API_KEY", "licence": "CC0" },
+    { "source": "Freesound", "types": ["audio"], "needsKey": "FREESOUND_API_KEY", "licence": "CC0 / CC BY per sound" }
+  ],
+  "mediaModule": "integrations/media-sources.mjs — search(query, {type, licence: 'pd'|'cc0'|'cc-by', limit}) -> [{url, thumb, title, creator, licence, attribution, source, page}]"
+}

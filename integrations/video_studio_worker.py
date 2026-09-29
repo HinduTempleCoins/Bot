@@ -170,6 +170,62 @@ def render(job, work, max_renders):
     return final, poster, dur
 
 
+WHISPER_PY = os.environ.get("VSTUDIO_WHISPER_PYTHON", sys.executable)  # a Python with faster-whisper installed
+WHISPER_SCRIPT = r"""
+import sys
+from faster_whisper import WhisperModel
+src, out, lang = sys.argv[1], sys.argv[2], (sys.argv[3] or None)
+m = WhisperModel("small", device="cpu", compute_type="int8", cpu_threads=4)
+segs, info = m.transcribe(src, language=lang, vad_filter=True)
+def ts(t):
+    h = int(t // 3600); mi = int(t % 3600 // 60); se = t % 60
+    return f"{h:02d}:{mi:02d}:{se:06.3f}"
+with open(out, "w") as f:
+    f.write("WEBVTT\n\nNOTE made by Whisper (small, on the Hathor Video Studio worker) - AI-made, please correct\n\n")
+    for s in segs:
+        f.write(f"{ts(s.start)} --> {ts(s.end)}\n{s.text.strip()}\n\n")
+print(info.duration)
+"""
+
+
+def download(url, dest, max_bytes=2 * 1024 ** 3):
+    req = urllib.request.Request(url, headers={"user-agent": "hathor-vstudio-worker/1"})
+    n = 0
+    with urllib.request.urlopen(req, timeout=120) as r, open(dest, "wb") as f:
+        while True:
+            b = r.read(1 << 20)
+            if not b: break
+            n += len(b)
+            if n > max_bytes: raise RuntimeError("video larger than 2 GB")
+            f.write(b)
+    return n
+
+
+def do_subtitles(job, work):
+    src = os.path.join(work, "in.media")
+    vids = [i for i in job.get("inputs", []) if i["kind"] == "video"]
+    url = vids[0]["url"] if vids else (job.get("params") or {}).get("url", "")
+    if not url.startswith("https://"): raise RuntimeError("no https video")
+    progress(job["id"], "downloading", 5)
+    download(url, src)
+    progress(job["id"], "transcribing", 20)
+    out = os.path.join(work, "subtitles.vtt")
+    lang = (job.get("params") or {}).get("lang", "") or ""
+    r = subprocess.run(["nice", "-n", "15", WHISPER_PY, "-c", WHISPER_SCRIPT, src, out, lang], capture_output=True, text=True)
+    if r.returncode != 0: raise RuntimeError("whisper failed: " + r.stderr[-400:])
+    dur = float((r.stdout.strip().splitlines() or ["0"])[-1] or 0)
+    return out, dur
+
+
+def animate_plan(job):
+    p = job.get("params") or {}
+    secs = max(3, min(20, float(p.get("secs") or 8)))
+    imgs = [i for i in job.get("inputs", []) if i["kind"] == "image"]
+    title = p.get("title") or job.get("topic") or "Your images"
+    shots = [{"image": i["url"], "card": "", "question": "", "secs": secs} for i in imgs]
+    return {"title": title, "chapters": [{"title": title, "shots": shots}], "sources": [f"Your images ({imgs[0]['licence']})"] if imgs else []}
+
+
 def one(max_renders):
     r = api("POST", "/video-studio/api/worker/next", {})
     job = r.get("job")
@@ -179,7 +235,17 @@ def one(max_renders):
     work = tempfile.mkdtemp(prefix=f"vs-{job['id']}-")
     try:
         progress(job["id"], "starting", 2)
-        cmd = os.environ.get("VSTUDIO_PIPELINE_CMD")
+        tool = job.get("tool") or "film"
+        if tool == "subtitles":
+            vtt, dur = do_subtitles(job, work)
+            progress(job["id"], "uploading", 97)
+            put_file(f"/video-studio/api/worker/{job['id']}/subtitles.vtt", vtt)
+            api("POST", f"/video-studio/api/worker/{job['id']}/done", {"durationSecs": round(dur, 1), "renderSecs": round(time.time() - t0)})
+            print(f"{job['id']} subtitles done: {dur:.0f}s audio in {time.time()-t0:.0f}s", flush=True)
+            return True
+        if tool == "animate":
+            job = {**job, "plan": animate_plan(job)}
+        cmd = os.environ.get("VSTUDIO_PIPELINE_CMD") if tool in ("film", "documentary") else None
         if cmd:
             pf = os.path.join(work, "plan.json"); json.dump(job, open(pf, "w"))
             run(cmd.split() + [pf, work])
