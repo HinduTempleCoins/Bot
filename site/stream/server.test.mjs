@@ -283,3 +283,16 @@ test('sitemap includes the horror paths', async () => {
   assert.match(sm.body, /\/horror<|\/horror\//);
   assert.match(sm.body, /\/horror\/trafficking-network/);
 });
+
+// ── /films delegates to SoapBox Films (site/films) ─────────────────────────────────────────────────
+test('/films/* is served by the films surface; nav links to it', async () => {
+  const { mkdtempSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  process.env.FILMS_DATA_DIR = mkdtempSync(tmpdir() + '/stream-films-');
+  const h = await get('/films/health');
+  assert.equal(h.code, 200);
+  assert.equal(JSON.parse(h.body).surface, 'films');
+  const home = await get('/films');
+  assert.equal(home.code, 200);
+  assert.match(String(home.body), /SoapBox<\/b> Films/);
+});

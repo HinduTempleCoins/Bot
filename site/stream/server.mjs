@@ -298,7 +298,7 @@ function pageShell(title, inner, { description, canonical } = {}) {
     title, description: desc, canonical: canonical || `${BASE_URL}/`, siteName: SITE_NAME,
     robots: 'index,follow,max-image-preview:large', site: { url: BASE_URL, name: SITE_NAME },
   });
-  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/horror">🩸 Horror</a>'].join('');
+  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -502,7 +502,7 @@ function sendHtml(res, html, code = 200) {
 }
 
 export const SITEMAP_PATHS = ['/', ...CATEGORIES.map((c) => `/c/${c.id}`),
-  '/horror',
+  '/horror', '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
 ];
@@ -537,6 +537,12 @@ export async function handler(req, res) {
         summary: 'A free, legal streaming catalog: public-domain films & classic TV (Internet Archive), free-to-air live TV (iptv-org), radio, podcasts, and on-chain MELEK creator video. Only public-domain, Creative-Commons, or free-to-air content is streamed; every title is labelled with its license and source.',
         links: [{ label: 'Home', path: '/' }, ...CATEGORIES.map((c) => ({ label: c.title, path: `/c/${c.id}` }))],
       }));
+    }
+
+    // /films/* — SoapBox Films (film database, where-to-watch, audience reviews) lives in site/films.
+    if (path === '/films' || path.startsWith('/films/')) {
+      const films = await import('../films/server.mjs');
+      return films.handler(req, res);
     }
 
     // /watch?src=&id=   OR   /watch/:src/:id
