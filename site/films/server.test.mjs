@@ -217,3 +217,32 @@ test('bridge: a Stream-curated public-domain copy gives a film "Watch free", and
   assert.equal(f.freeCopyFor({ id: 'Q1', t: pd.title, y: pd.year + 30, w: {} }), null); // same title, other film
   assert.equal(f.filmForStream({ ia: 'no-such-item', title: '', year: '' }), null);
 });
+
+test('books: a film based on a public-domain book links to Gutenberg + the Library; a copyrighted one says so; /?q= redirects to search', async () => {
+  const bo = await import('./based-on.mjs');
+  const pd = { id: 'Q150827', t: 'Frankenstein', a: ['Mary Shelley'], y: 1818, kind: ['novel'], gut: ['84'] };
+  const hp = { id: 'Q46751', t: 'Harry Potter and the Goblet of Fire', a: ['J. K. Rowling'], y: 2000, kind: ['literary work'], gut: [] };
+  assert.equal(bo.bookStatus(pd, 1930).free, true);
+  assert.equal(bo.bookStatus(hp, 1930).free, false);
+  assert.match(bo.bookStatus(hp, 1930).label, /Not public domain \(published 2000\)/);
+  const box = bo.basedOnBox([pd], { r: { y: 1931 }, freeHref: '/watch?src=ia&id=x', filmFree: true, pdYear: 1930 });
+  assert.match(box, /gutenberg\.org\/ebooks\/84/);
+  assert.match(box, /library\.soapbox\.community\/\?q=Frankenstein%20Mary%20Shelley/);
+  assert.match(box, /watch it free on SoapBox Stream/);
+  const hpBox = bo.basedOnBox([hp], { r: { y: 2005 }, filmFree: false, pdYear: 1930 });
+  assert.match(hpBox, /Book:<\/b> Not public domain/);
+  assert.match(hpBox, /Film:<\/b> not public domain/);
+  assert.match(hpBox, /Find it on SoapBox Library/); // always
+  assert.doesNotMatch(hpBox, /gutenberg\.org/);
+  const data = { byFilm: { Q1: [pd], Q2: [pd] }, byGutenberg: { 84: ['Q1', 'Q2'] }, byBook: { Q150827: ['Q1', 'Q2'] } };
+  assert.deepEqual(bo.filmsForBook(data, { gutenberg: '84' }).filmIds, ['Q1', 'Q2']);
+  assert.equal(bo.filmsForBook(data, { book: 'Q150827' }).book.t, 'Frankenstein');
+});
+
+test('library: filmed Gutenberg books get a "films of this book" link', async () => {
+  const bo = await import('../../integrations/soapbox/books-open.mjs');
+  bo.__setFilmed(['84']);
+  const html = bo.renderList([{ id: 'gutenberg-84', title: 'Frankenstein', author: 'Shelley', posture: 'host', source: 'gutenberg', license: 'PD', formats: {} }, { id: 'gutenberg-99999', title: 'Unfilmed', author: 'x', posture: 'host', source: 'gutenberg', license: 'PD', formats: {} }]);
+  assert.match(html, /\/films\/book\?gutenberg=84/);
+  assert.doesNotMatch(html, /gutenberg=99999/);
+});

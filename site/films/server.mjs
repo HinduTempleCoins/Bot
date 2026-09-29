@@ -16,6 +16,7 @@
 //   PORT=8214 BASE_URL=https://stream.soapbox.community node site/films/server.mjs
 //   Env: FILMS_DATA_DIR (default <repo>/data/films), TMDB_API_KEY (optional), FILMS_ADMIN_TOKEN (optional).
 
+import { loadBasedOn, basedOnBox, filmsForBook, bookStatus, librarySearch } from './based-on.mjs';
 import * as horrorTax from '../../integrations/soapbox/horror-taxonomy.mjs';
 import { createServer } from 'node:http';
 import { readFileSync, statSync, mkdirSync, appendFileSync } from 'node:fs';
@@ -586,6 +587,7 @@ ${links.listed.length ? `<p><b>Listed on</b> <span class=note>(availability vari
 <p><a href="${esc(links.justwatch)}" target=_blank rel="noopener noreferrer">Search every service on JustWatch ↗</a></p>
 ${links.refs.length ? `<p class=note>Elsewhere: ${links.refs.map((l) => `<a href="${esc(l.href)}" target=_blank rel="noopener noreferrer">${esc(l.name)}</a>`).join(' · ')}</p>` : ''}
 </div></div>
+${basedOnBox(loadBasedOn(dataDir()).byFilm[r.id], { r, freeHref: links.ours.length ? links.ours[0].href : '', filmFree: !!links.ours.length || !!(r.y && r.y <= PD_YEAR), pdYear: PD_YEAR })}
 ${reviewForm(r.id, r.t)}
 <h2>Reviews</h2>${revs.length ? revs.map((x) => reviewHtml(x)).join('') : '<p class=meta>No reviews yet — be the first.</p>'}
 ${CLIENT_JS}`;
@@ -693,6 +695,7 @@ export async function handler(req, res) {
 
     if (method !== 'GET' && method !== 'HEAD') return send(res, 405, 'method not allowed', 'text/plain');
 
+    if (p === '/' && url.searchParams.get('q')) { res.writeHead(302, { location: `${PREFIX}/search?q=${encodeURIComponent(String(url.searchParams.get('q')).slice(0, 120))}` }); return res.end(); }
     if (p === '/') return send(res, 200, homePage());
     if (p === '/search') {
       const q = String(url.searchParams.get('q') || '').slice(0, 120);
@@ -700,6 +703,20 @@ export async function handler(req, res) {
       const stats = statsMap();
       const inner = `<h1>Search: “${esc(q)}”</h1>${hits.length ? `<div class=grid>${hits.map((r) => card(r, stats)).join('')}</div>` : '<p class=meta>No films found. Try the original title or fewer words.</p>'}`;
       return send(res, 200, shell(`Search “${q}” · ${SITE}`, inner, { canonical: `${PREFIX}/search` }));
+    }
+    if (p === '/book') { // every film of one book (the SoapBox Library links here)
+      const data = loadBasedOn(dataDir());
+      const g = String(url.searchParams.get('gutenberg') || '').replace(/\D/g, '').slice(0, 10);
+      const bq = /^Q\d{1,12}$/.test(String(url.searchParams.get('book') || '')) ? String(url.searchParams.get('book')) : '';
+      const { book, filmIds } = filmsForBook(data, { gutenberg: g, book: bq });
+      const stats = statsMap();
+      const cat = catalog();
+      const recs = filmIds.map((id) => cat.byId.get(id)).filter(Boolean).sort((a, b) => (a.y || 0) - (b.y || 0));
+      const st = book ? bookStatus(book, PD_YEAR) : null;
+      const head = book ? `<h1>Films of <i>${esc(book.t)}</i></h1><p class=meta>${book.a && book.a.length ? `by ${esc(book.a.join(', '))} · ` : ''}${book.y ? `${esc(book.y)} · ` : ''}${esc(st.label)}</p>
+<p class=chips>${(book.gut || []).slice(0, 1).map((x) => `<a class="chip ours" href="https://www.gutenberg.org/ebooks/${encodeURIComponent(x)}" target=_blank rel="noopener noreferrer">📖 Read it free on Project Gutenberg ↗</a>`).join('')}<a class=chip href="${esc(librarySearch(book))}">🔎 Find it on SoapBox Library</a></p>` : '<h1>Films of this book</h1>';
+      const inner = `${head}${recs.length ? `<div class=grid>${recs.map((r) => card(r, stats)).join('')}</div>` : '<p class=meta>No films of this book in SoapBox Films yet.</p>'}`;
+      return send(res, recs.length ? 200 : 404, shell(`${book ? `Films of ${book.t}` : 'Films of this book'} · ${SITE}`, inner, { canonical: `${PREFIX}/book` }));
     }
     if (p === '/top') {
       const stats = statsMap();
