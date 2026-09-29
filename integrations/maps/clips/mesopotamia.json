@@ -1,0 +1,77 @@
+{
+ "id": "mesopotamia",
+ "title": "Mesopotamia",
+ "subtitle": "3400 – 500 BC · Sumer, Akkad, Babylon and Assyria",
+ "bbox": [
+  30,
+  24,
+  58,
+  42
+ ],
+ "years": [
+  -3400,
+  -500
+ ],
+ "duration": 100,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Sumerian City-States",
+   "Akkadian Empire",
+   "Gutian Dynasty",
+   "Babylonia",
+   "Neo-Babylonian Empire",
+   "Assyria",
+   "Neo-Assyrian Empire",
+   "Elam",
+   "Mitanni",
+   "Hittites",
+   "Median Kingdom",
+   "Kingdom of Urartu",
+   "Achaemenid Empire"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Ur",
+   "lat": 30.96,
+   "lon": 46.1
+  },
+  {
+   "name": "Uruk",
+   "lat": 31.32,
+   "lon": 45.64
+  },
+  {
+   "name": "Babylon",
+   "lat": 32.54,
+   "lon": 44.42,
+   "from": -2300
+  },
+  {
+   "name": "Nineveh",
+   "lat": 36.36,
+   "lon": 43.15
+  },
+  {
+   "name": "Assur",
+   "lat": 35.46,
+   "lon": 43.26
+  },
+  {
+   "name": "Susa",
+   "lat": 32.19,
+   "lon": 48.25
+  }
+ ],
+ "tags": [
+  "mesopotamia",
+  "sumer",
+  "akkad",
+  "babylon",
+  "assyria",
+  "babylonian empire",
+  "elam"
+ ]
+}

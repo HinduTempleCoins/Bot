@@ -1,0 +1,68 @@
+{
+ "id": "caliphates",
+ "title": "The caliphates",
+ "subtitle": "AD 632 – 1258 · from Medina to Córdoba and Baghdad",
+ "bbox": [
+  -14,
+  4,
+  76,
+  48
+ ],
+ "years": [
+  632,
+  1258
+ ],
+ "duration": 90,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Rashidun Caliphate",
+   "Umayyad Caliphate",
+   "Abbasid Caliphate",
+   "Fatimid Caliphate",
+   "Caliphate of Córdoba",
+   "Almohad Caliphate",
+   "Byzantine Empire",
+   "Sasanian Empire"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Medina",
+   "lat": 24.47,
+   "lon": 39.61
+  },
+  {
+   "name": "Damascus",
+   "lat": 33.51,
+   "lon": 36.29
+  },
+  {
+   "name": "Baghdad",
+   "lat": 33.31,
+   "lon": 44.36,
+   "from": 762
+  },
+  {
+   "name": "Córdoba",
+   "lat": 37.89,
+   "lon": -4.78
+  },
+  {
+   "name": "Cairo",
+   "lat": 30.04,
+   "lon": 31.24,
+   "from": 969
+  }
+ ],
+ "tags": [
+  "caliphate",
+  "islam",
+  "umayyad",
+  "abbasid",
+  "fatimid",
+  "baghdad",
+  "cordoba"
+ ]
+}

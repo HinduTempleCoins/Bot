@@ -1,0 +1,65 @@
+{
+ "id": "ottoman",
+ "title": "The Ottoman Empire",
+ "subtitle": "1299 – 1922 · from an Anatolian beylik to three continents",
+ "bbox": [
+  -10,
+  10,
+  62,
+  50
+ ],
+ "years": [
+  1299,
+  1922
+ ],
+ "duration": 100,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Ottoman Empire",
+   "Byzantine Empire",
+   "Safavid Empire"
+  ],
+  "match": [
+   "Mamluk",
+   "Habsburg",
+   "Safavid"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Bursa",
+   "lat": 40.19,
+   "lon": 29.06
+  },
+  {
+   "name": "Constantinople",
+   "lat": 41.01,
+   "lon": 28.98
+  },
+  {
+   "name": "Cairo",
+   "lat": 30.04,
+   "lon": 31.24
+  },
+  {
+   "name": "Baghdad",
+   "lat": 33.31,
+   "lon": 44.36
+  },
+  {
+   "name": "Vienna",
+   "lat": 48.21,
+   "lon": 16.37
+  }
+ ],
+ "tags": [
+  "ottoman",
+  "ottoman empire",
+  "turks",
+  "constantinople",
+  "istanbul",
+  "sultans"
+ ]
+}

@@ -1,0 +1,77 @@
+{
+ "id": "kush-nubia",
+ "title": "Kush and Nubia",
+ "subtitle": "1500 BC – AD 600 · the kingdoms of the upper Nile",
+ "bbox": [
+  22,
+  6,
+  44,
+  32
+ ],
+ "years": [
+  -1500,
+  600
+ ],
+ "duration": 90,
+ "territories": {
+  "source": "cliopatria",
+  "match": [
+   "Kush",
+   "Egypt",
+   "Makuria",
+   "Nobatia",
+   "Alodia",
+   "Axum"
+  ],
+  "names": [
+   "Ptolemaic Kingdom",
+   "Roman Empire",
+   "Eastern Roman Empire"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Kerma",
+   "lat": 19.6,
+   "lon": 30.41,
+   "from": -2500,
+   "to": -1500
+  },
+  {
+   "name": "Napata",
+   "lat": 18.53,
+   "lon": 31.84,
+   "from": -1000,
+   "to": -270
+  },
+  {
+   "name": "Meroë",
+   "lat": 16.94,
+   "lon": 33.75,
+   "from": -590,
+   "to": 350
+  },
+  {
+   "name": "Thebes",
+   "lat": 25.7,
+   "lon": 32.64
+  },
+  {
+   "name": "Aksum",
+   "lat": 14.13,
+   "lon": 38.72,
+   "from": -100
+  }
+ ],
+ "tags": [
+  "kush",
+  "nubia",
+  "meroe",
+  "napata",
+  "cush",
+  "axum",
+  "nile",
+  "sudan"
+ ]
+}

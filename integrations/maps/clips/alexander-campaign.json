@@ -1,0 +1,83 @@
+{
+ "id": "alexander-campaign",
+ "title": "Alexander's march",
+ "subtitle": "336 – 280 BC · from Pella to the Indus, and the kingdoms that split his empire",
+ "bbox": [
+  12,
+  18,
+  80,
+  48
+ ],
+ "years": [
+  -336,
+  -280
+ ],
+ "duration": 75,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Macedonian Empire",
+   "Achaemenid Empire",
+   "Ptolemaic Kingdom",
+   "Seleucid Empire",
+   "Antigonid Dynasty",
+   "Antigonid Macedonia",
+   "Maurya Empire",
+   "Carthage"
+  ],
+  "context": true
+ },
+ "routes": [
+  {
+   "label": "Alexander",
+   "path": "alexander-route.csv",
+   "colour": "#f0c46a"
+  }
+ ],
+ "cities": [
+  {
+   "name": "Pella",
+   "lat": 40.76,
+   "lon": 22.52
+  },
+  {
+   "name": "Athens",
+   "lat": 37.98,
+   "lon": 23.73
+  },
+  {
+   "name": "Babylon",
+   "lat": 32.54,
+   "lon": 44.42
+  },
+  {
+   "name": "Persepolis",
+   "lat": 29.93,
+   "lon": 52.89
+  },
+  {
+   "name": "Alexandria",
+   "lat": 31.2,
+   "lon": 29.92,
+   "from": -331
+  },
+  {
+   "name": "Memphis",
+   "lat": 29.85,
+   "lon": 31.25
+  }
+ ],
+ "tags": [
+  "alexander",
+  "macedon",
+  "persia",
+  "achaemenid",
+  "diadochi",
+  "seleucid",
+  "ptolemaic",
+  "greece",
+  "egypt",
+  "india",
+  "campaign"
+ ]
+}

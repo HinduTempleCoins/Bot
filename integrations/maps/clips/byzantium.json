@@ -1,0 +1,66 @@
+{
+ "id": "byzantium",
+ "title": "Byzantium",
+ "subtitle": "AD 395 – 1453 · the eastern Roman empire to the fall of Constantinople",
+ "bbox": [
+  4,
+  22,
+  52,
+  50
+ ],
+ "years": [
+  395,
+  1453
+ ],
+ "duration": 100,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Eastern Roman Empire",
+   "Byzantine Empire",
+   "Sasanian Empire",
+   "Rashidun Caliphate",
+   "Umayyad Caliphate",
+   "Abbasid Caliphate",
+   "Fatimid Caliphate",
+   "Ottoman Empire"
+  ],
+  "match": [
+   "Seljuk",
+   "Bulgar"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Constantinople",
+   "lat": 41.01,
+   "lon": 28.98
+  },
+  {
+   "name": "Ravenna",
+   "lat": 44.42,
+   "lon": 12.2,
+   "from": 540,
+   "to": 751
+  },
+  {
+   "name": "Antioch",
+   "lat": 36.2,
+   "lon": 36.16,
+   "to": 1084
+  },
+  {
+   "name": "Nicaea",
+   "lat": 40.43,
+   "lon": 29.72
+  }
+ ],
+ "tags": [
+  "byzantium",
+  "byzantine empire",
+  "constantinople",
+  "eastern roman empire",
+  "justinian"
+ ]
+}

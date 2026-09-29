@@ -1,0 +1,27 @@
+{
+ "id": "world",
+ "title": "The world's empires",
+ "subtitle": "3000 BC – AD 1900 · five thousand years of states",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  76
+ ],
+ "years": [
+  -3000,
+  1900
+ ],
+ "duration": 120,
+ "projection": "equirect",
+ "territories": {
+  "source": "cliopatria-bbox",
+  "minArea": 0
+ },
+ "tags": [
+  "world",
+  "overview",
+  "empires",
+  "history"
+ ]
+}
