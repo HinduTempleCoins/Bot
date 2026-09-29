@@ -87,5 +87,9 @@
   "weather.soapbox.community": "weather",
   "wiki.soapbox.community": "wiki",
   "witness.melek.salon": "witness",
-  "hathor.soapbox.community": "hathor"
+  "hathor.soapbox.community": "hathor",
+  "tokens.soapbox.community": "tokens",
+  "token-manage.soapbox.community": "token-manage",
+  "botanica.soapbox.community": "botanica",
+  "tutorial.soapbox.community": "tutorial"
 }
