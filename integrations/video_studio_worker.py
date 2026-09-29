@@ -272,10 +272,20 @@ if __name__ == "__main__":
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--max-renders", type=int, default=25)
     ap.add_argument("--idle", type=int, default=30)
+    ap.add_argument("--sync-every", type=int, default=1800, help="seconds between media_sync.py runs (0 = off)")
     a = ap.parse_args()
     if not BASE or len(TOK) < 24:
         sys.exit("set VSTUDIO_BASE and VSTUDIO_WORKER_TOKEN")
+    sync_child, last_sync = None, 0.0
+    sync_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "media_sync.py")
     while True:
+        # media sync: push finished remakes/animations/documentaries/maps/subtitles to the web host (HTTPS, same token),
+        # as a low-priority child so rendering jobs keep flowing; never two at once.
+        if a.sync_every and os.path.exists(sync_script) and (sync_child is None or sync_child.poll() is not None) and time.time() - last_sync >= a.sync_every:
+            last_sync = time.time()
+            log = open(os.path.join(os.path.dirname(sync_script), "media-sync.log"), "a")
+            sync_child = subprocess.Popen(["nice", "-n", "15", sys.executable, sync_script], stdout=log, stderr=subprocess.STDOUT)
+            print("media sync started", flush=True)
         try:
             got = one(a.max_renders)
         except Exception as e:

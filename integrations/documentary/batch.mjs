@@ -45,7 +45,15 @@ async function feedback() {
 }
 
 function publish(id) {
-  // worker → this machine → web host (tar pipe), then rebuild the manifest on the web host
+  // Preferred: the worker pushes the film to the web host itself over HTTPS (integrations/media_sync.py, worker token —
+  // no SSH between servers); it also rebuilds and uploads the manifest last. DOC_SYNC_ENVFILE = the worker's env file
+  // holding VSTUDIO_BASE + VSTUDIO_WORKER_TOKEN (private; set in the runner).
+  const SYNC_ENV = env('DOC_SYNC_ENVFILE');
+  if (SYNC_ENV) {
+    sh(WORKER, `cd ${path.dirname(W_OUT)} && set -a && . ${SYNC_ENV} && set +a && nice -n 15 python3 media_sync.py --only docs`, { timeout: 3600e3 });
+    return;
+  }
+  // Fallback: worker → this machine → web host (tar pipe), then rebuild the manifest on the web host
   execFileSync('bash', ['-c', `set -o pipefail; ssh -o BatchMode=yes ${WORKER} 'tar -C ${W_OUT} -cf - ${id}' | ssh -o BatchMode=yes ${WEB} 'mkdir -p ${WEB_DIR} && tar -C ${WEB_DIR} -xf - && chown -R 1000:1000 ${WEB_DIR}/${id}'`], { stdio: 'inherit', timeout: 3600e3 });
   sh(WEB, `cd ${WEB_DIR} && node -e 'const fs=require("fs");const films=[];for(const d of fs.readdirSync(".")){try{const f=JSON.parse(fs.readFileSync(d+"/film.json","utf8"));const {recipe,...rest}=f;films.push(rest)}catch{}}films.sort((a,b)=>(b.made||0)-(a.made||0));fs.writeFileSync("manifest.json",JSON.stringify({updated:Date.now(),films}))' && chown 1000:1000 manifest.json`);
 }
