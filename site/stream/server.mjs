@@ -26,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 import * as archiveVideo from '../../integrations/soapbox/archive-video.mjs';
 import * as iptv from '../../integrations/soapbox/iptv-channels.mjs';
 import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
+import { watchSafelyBody } from './watch-safely.mjs';
 import * as classics from '../../integrations/soapbox/classic-films.mjs';
 import * as pdMore from '../../integrations/soapbox/pd-films-more.mjs';
 import * as speeches from '../../integrations/soapbox/speeches.mjs';
@@ -304,7 +305,7 @@ function pageShell(title, inner, { description, canonical } = {}) {
     title, description: desc, canonical: canonical || `${BASE_URL}/`, siteName: SITE_NAME,
     robots: 'index,follow,max-image-preview:large', site: { url: BASE_URL, name: SITE_NAME },
   });
-  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/free">🆓 Free films</a>', '<a href="/speeches">🎙️ Speeches &amp; debates</a>', '<a href="/narco">🌵 Narco cinema</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
+  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/free">🆓 Free films</a>', '<a href="/speeches">🎙️ Speeches &amp; debates</a>', '<a href="/narco">🌵 Narco cinema</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>', '<a href="/watch-free-safely">🛡️ Watch free, safely</a>'].join('');
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -360,7 +361,7 @@ function classicsPage() {
 // ── /free — the wider public-domain shelf (integrations/soapbox/pd-films-more.mjs), by genre ─────────────────────
 function freeRow() {
   const picks = pdMore.PD_MORE.filter((f) => f.pick).slice(0, 12).map(pdMore.moreTile);
-  return picks.length ? `<section class=row><h2><a href="/free">More free films</a> <span class="badge lic">public domain</span><span class=see>All ${pdMore.PD_MORE.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>` : '';
+  return picks.length ? `<section class=row><h2><a href="/free">More free films</a> <span class="badge lic">public domain</span><span class=see>All ${pdMore.ALL_MORE.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>` : '';
 }
 
 function freePage(genreId = '') {
@@ -369,9 +370,9 @@ function freePage(genreId = '') {
   const tabs = pdMore.moreByGenre().map((g) => `<a class=btn href="/free/${esc(g.id)}"${g.id === genreId ? ' style="border-color:var(--acc)"' : ''}>${esc(g.name)} (${g.films.length})</a>`).join(' ');
   const shelves = groups.map((g) => `<section class=row><h2>${esc(g.name)} <span class=see>${g.films.length}</span></h2><div class=grid>${(genreId ? g.films : g.films.slice(0, 18)).map((f) => tile(pdMore.moreTile(f))).join('')}</div>${!genreId && g.films.length > 18 ? `<p><a class=btn href="/free/${esc(g.id)}">All ${g.films.length} ${esc(g.name.toLowerCase())} →</a></p>` : ''}</section>`).join('');
   const name = genreId ? groups[0].name : 'Free films';
-  const inner = `<p class=lead>${pdMore.PD_MORE.length} more films and shorts that are free for everyone: public domain in the US because they were published in 1930 or earlier, their copyright was never renewed or carried no notice, or they are works of the US government. Every one plays here and links to <a href="/films">SoapBox Films</a> to rate and review it. See also <a href="/classics">Classics</a> and <a href="/horror">Horror</a>.</p>
+  const inner = `<p class=lead>${pdMore.ALL_MORE.length} more films and shorts that are free for everyone: public domain in the US because they were published in 1930 or earlier, their copyright was never renewed or carried no notice, or they are works of the US government. Every one plays here and links to <a href="/films">SoapBox Films</a> to rate and review it. See also <a href="/classics">Classics</a> and <a href="/horror">Horror</a>.</p>
     <p>${tabs}</p>${shelves}`;
-  return pageShell(`${name} · free · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/free${genreId ? `/${genreId}` : ''}`, description: `${genreId ? `${groups[0].films.length} ${name.toLowerCase()}` : `${pdMore.PD_MORE.length} films and shorts`} in the public domain, free to watch: silent comedy, cartoons, westerns, war documentaries, noir and more.` });
+  return pageShell(`${name} · free · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/free${genreId ? `/${genreId}` : ''}`, description: `${genreId ? `${groups[0].films.length} ${name.toLowerCase()}` : `${pdMore.ALL_MORE.length} films and shorts`} in the public domain, free to watch: silent comedy, cartoons, westerns, war documentaries, noir and more.` });
 }
 
 function homePage(rows) {
@@ -597,7 +598,7 @@ function sendHtml(res, html, code = 200) {
 }
 
 export const SITEMAP_PATHS = ['/', '/classics', '/speeches', '/narco', '/free', ...pdMore.moreByGenre().map((g) => `/free/${g.id}`), ...CATEGORIES.map((c) => `/c/${c.id}`),
-  '/horror', ...HORROR_MAP_PATHS(), '/films', '/films/reviews', '/films/genres', '/films/originals',
+  '/horror', ...HORROR_MAP_PATHS(), '/watch-free-safely', '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
   `/horror/${horror.ROOTS_SHELF.id}`,
@@ -659,6 +660,7 @@ export async function handler(req, res) {
     }
 
     // /horror  (landing)  and  /horror/:id  (a top-level genre OR a survival-wing category)
+    if (path === '/watch-free-safely' || path === '/about') return sendHtml(res, pageShell(`Watch free films safely · ${SITE_NAME}`, watchSafelyBody(), { canonical: `${BASE_URL}/watch-free-safely`, description: 'Where to watch free films legally and safely, the real risks of unofficial streaming sites and how to spot them, what to do if you clicked something, and why everything on SoapBox Stream is free to use.' }));
     if (path === '/horror') return sendHtml(res, horrorLandingPage());
     if (horrorMapRoute(path, res, { shell: pageShell, send: sendHtml, base: BASE_URL })) return;
     const horrorM = path.match(/^\/horror\/([a-z-]+)$/);

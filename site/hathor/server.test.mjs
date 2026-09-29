@@ -639,6 +639,7 @@ test('/animations: clips render with recipe chips, votes count once per voter, f
   const page = await call({ url: '/animations' });
   assert.equal(page.statusCode, 200);
   assert.match(page.text(), /The Pythia/);
+  assert.match(page.text(), /<b>Alpha\.<\/b>[^<]*much better and more accurate/);
   assert.doesNotMatch(page.text(), /Banquet <b>/);
   assert.match(page.text(), /\/animations\/media\/abcdef012345\/clip\.mp4/);
   const vote = (v, voter = 'voterkey-aaaaaaaaaaaa', comment = '') => call({ method: 'POST', url: '/api/animations/rate', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ id: 'abcdef012345', voter, vote: v, comment }).toString() });
@@ -720,4 +721,31 @@ test('Studio SEO/GEO: sitemap lists the galleries, llms.txt is accurate, galleri
   assert.equal(v.duration, 'PT8S');
   assert.match(v.contentUrl, /\/animations\/media\/abcdef012345\/clip\.mp4$/);
   delete process.env.ANIMS_DIR;
+});
+
+test('/maps: history-map clips from MAPS_DIR index, Alpha + CC-BY credit, VideoObject JSON-LD, safe range-served media', async () => {
+  const { mkdtempSync, writeFileSync } = await import('node:fs');
+  const d = mkdtempSync(join(tmpdir(), 'maps-'));
+  writeFileSync(join(d, 'rome.mp4'), 'MP4DATA0123456789');
+  writeFileSync(join(d, 'rome_720.mp4'), 'MP4DATA720');
+  writeFileSync(join(d, 'rome.jpg'), 'JPG');
+  writeFileSync(join(d, 'index.json'), JSON.stringify({ updated: 1790000000, clips: [
+    { id: 'rome', title: 'Rome <city>', subtitle: 'Republic to empire', fromYear: -500, toYear: 476, polities: ['Roman Empire'], duration: 106, file: 'rome.mp4', file720: 'rome_720.mp4', poster: 'rome.jpg', credit: 'Territories: Cliopatria (CC BY 4.0)' },
+    { id: 'evil', title: 'x', file: '../../etc/passwd', poster: 'x.jpg' },
+  ] }));
+  process.env.MAPS_DIR = d;
+  const page = (await call({ url: '/maps' })).text();
+  assert.match(page, /<b>Alpha\.<\/b>/);
+  assert.match(page, /Rome &lt;city&gt;/);
+  assert.match(page, /500 BC – AD 476/);
+  assert.match(page, /Cliopatria \(CC BY 4\.0\)/);
+  assert.doesNotMatch(page, /etc\/passwd/); // a bad index entry is dropped
+  const ld = JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(page)[1]);
+  assert.equal(ld.itemListElement[0].item['@type'], 'VideoObject');
+  const part = await call({ url: '/maps/media/rome.mp4', headers: { range: 'bytes=0-2' } });
+  assert.equal(part.statusCode, 206);
+  assert.equal(part.text(), 'MP4');
+  for (const bad of ['/maps/media/index.json', '/maps/media/..%2Findex.json', '/maps/media/Rome.mp4']) assert.notEqual((await call({ url: bad })).statusCode, 200, bad);
+  assert.equal(JSON.parse((await call({ url: '/maps/index.json' })).text()).clips.length, 1);
+  delete process.env.MAPS_DIR;
 });

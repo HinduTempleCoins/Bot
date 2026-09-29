@@ -1,0 +1,66 @@
+{
+ "id": "mongols",
+ "title": "The Mongol Empire",
+ "subtitle": "AD 1206 – 1400 · the largest land empire and its khanates",
+ "bbox": [
+  20,
+  15,
+  142,
+  62
+ ],
+ "years": [
+  1206,
+  1400
+ ],
+ "duration": 80,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Mongol Empire",
+   "Yuan Dynasty",
+   "Golden Horde",
+   "Ilkhanate",
+   "Chagatai Khanate",
+   "Southern Song",
+   "Great Jin"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Karakorum",
+   "lat": 47.2,
+   "lon": 102.8
+  },
+  {
+   "name": "Samarkand",
+   "lat": 39.65,
+   "lon": 66.96
+  },
+  {
+   "name": "Baghdad",
+   "lat": 33.31,
+   "lon": 44.36
+  },
+  {
+   "name": "Khanbaliq (Beijing)",
+   "lat": 39.9,
+   "lon": 116.4,
+   "from": 1264
+  },
+  {
+   "name": "Sarai",
+   "lat": 47.3,
+   "lon": 46.8,
+   "from": 1242
+  }
+ ],
+ "tags": [
+  "mongols",
+  "genghis khan",
+  "yuan",
+  "golden horde",
+  "ilkhanate",
+  "steppe"
+ ]
+}

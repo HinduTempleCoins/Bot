@@ -1,0 +1,69 @@
+{
+ "id": "rome",
+ "title": "Rome, from city to empire",
+ "subtitle": "500 BC – AD 476 · the Republic, the Empire, and the split",
+ "bbox": [
+  -12,
+  20,
+  50,
+  56
+ ],
+ "years": [
+  -500,
+  476
+ ],
+ "duration": 100,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Roman Republic",
+   "Roman Empire",
+   "Western Roman Empire",
+   "Eastern Roman Empire",
+   "Carthage",
+   "Parthian Empire",
+   "Sasanian Empire",
+   "Ptolemaic Kingdom",
+   "Seleucid Empire"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Rome",
+   "lat": 41.9,
+   "lon": 12.5
+  },
+  {
+   "name": "Carthage",
+   "lat": 36.85,
+   "lon": 10.32,
+   "to": -146
+  },
+  {
+   "name": "Constantinople",
+   "lat": 41.01,
+   "lon": 28.98,
+   "from": 330
+  },
+  {
+   "name": "Alexandria",
+   "lat": 31.2,
+   "lon": 29.92
+  },
+  {
+   "name": "Londinium",
+   "lat": 51.51,
+   "lon": -0.09,
+   "from": 47
+  }
+ ],
+ "tags": [
+  "rome",
+  "roman empire",
+  "roman republic",
+  "caesar",
+  "augustus",
+  "carthage"
+ ]
+}

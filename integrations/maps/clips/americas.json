@@ -1,0 +1,58 @@
+{
+ "id": "americas",
+ "title": "The Aztec and the Inca",
+ "subtitle": "AD 1150 – 1572 · empires of the Americas before and at the conquest",
+ "bbox": [
+  -112,
+  -36,
+  -58,
+  32
+ ],
+ "years": [
+  1150,
+  1572
+ ],
+ "duration": 70,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Aztec Triple Alliance",
+   "Inca Empire",
+   "Puebloans - Aztec Regional System"
+  ],
+  "match": [
+   "Maya",
+   "Chimu",
+   "Tarascan"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Tenochtitlan",
+   "lat": 19.43,
+   "lon": -99.13,
+   "from": 1325,
+   "to": 1521
+  },
+  {
+   "name": "Cusco",
+   "lat": -13.53,
+   "lon": -71.97
+  },
+  {
+   "name": "Machu Picchu",
+   "lat": -13.16,
+   "lon": -72.55,
+   "from": 1450
+  }
+ ],
+ "tags": [
+  "aztec",
+  "inca",
+  "americas",
+  "mesoamerica",
+  "andes",
+  "tenochtitlan"
+ ]
+}

@@ -1,0 +1,8 @@
+{ "type": "FeatureCollection", "features": [
+  { "type": "Feature", "properties": { "name": "Kingdom A", "fromYear": -500, "toYear": -300, "colour": "#d6a43e" },
+    "geometry": { "type": "Polygon", "coordinates": [[[20,35],[30,35],[30,42],[20,42],[20,35]]] } },
+  { "type": "Feature", "properties": { "name": "Kingdom A", "fromYear": -299, "toYear": -100, "colour": "#d6a43e" },
+    "geometry": { "type": "Polygon", "coordinates": [[[20,33],[36,33],[36,42],[20,42],[20,33]]] } },
+  { "type": "Feature", "properties": { "name": "Kingdom B", "fromYear": -450, "toYear": -150 },
+    "geometry": { "type": "MultiPolygon", "coordinates": [[[[31,28],[40,28],[40,34],[31,34],[31,28]]]] } }
+] }

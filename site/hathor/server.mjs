@@ -70,6 +70,8 @@ import { loadSymbols, getSymbol, symbolsIndexBody, symbolPageBody, serveSymbolAs
 import { loadIndex as loadScripts, loadScript, scriptsIndexBody, scriptPageBody, serveGlyphAsset } from './scripts.mjs';
 import { loadDocs, loadFilm, aggregate as docsAggregate, readFeedback as docsFeedback, feedback as docsFeedbackPost, feedbackExport as docsFeedbackExport, listBody as docsListBody, filmBody as docsFilmBody, serveDocMedia, ld as docLd } from './documentaries.mjs';
 import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt, remakesLd, remakesHero } from './remakes.mjs';
+import { videoStudioRoute } from './video-studio.mjs';
+import { loadMapsIndex, mapsBody, mapsLd, serveMapsMedia } from './maps.mjs';
 import { loadAnimManifest, aggregate as animAggregate, animationsBody, rate as animRate, serveAnimMedia, readFeedback as animFeedback, animationsLd } from './animations.mjs';
 
 const PORT = +(process.env.PORT || 8131);
@@ -245,7 +247,7 @@ function pageShell(title, body, opts = {}) {
 <meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${opts.jsonld ? `<script type="application/ld+json">${ldJson(opts.jsonld)}</script>` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/documentaries">Documentaries</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
+  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/documentaries">Documentaries</a><a href="/maps">Maps</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
 <main class=wrap>${body}</main>
 ${FOOTER}</body></html>`;
 }
@@ -2187,7 +2189,7 @@ export function videoView() {
 
 const SITEMAP_PATHS = [
   '/', '/news', '/edit', '/webcam', '/ar-libraries', '/video', '/vectorize', '/cards', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
-  '/remakes', '/remake', '/animations', '/documentaries', '/mythology', '/visualize', '/compose', '/scripts', '/symbols', '/engines', '/learn/make', '/tools', '/pentecaust', '/pentecaust/bifrost',
+  '/remakes', '/remake', '/animations', '/documentaries', '/maps', '/mythology', '/visualize', '/compose', '/scripts', '/symbols', '/engines', '/learn/make', '/tools', '/pentecaust', '/pentecaust/bifrost',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -2246,6 +2248,7 @@ export async function handler(req, res) {
           { label: 'Google Colab notebooks', path: '/colab' },
           { label: 'Remakes data (JSON)', path: '/remakes/manifest.json', note: 'titles, credits, groups and image names for every remade scene' },
           { label: 'Animations data (JSON)', path: '/animations/manifest.json', note: 'every clip with the recipe that made it' },
+          { label: 'History maps', path: '/maps', note: 'animated empire maps with a ticking year (Cliopatria, CC BY 4.0); index at /maps/index.json' },
           { label: 'Library of Ashurbanipal', url: 'https://wiki.soapbox.community/llms.txt', note: 'the knowledge library of the same ecosystem' },
         ],
       }));
@@ -2467,6 +2470,7 @@ export async function handler(req, res) {
       res.writeHead(r.code, { 'content-type': 'application/json', 'cache-control': 'no-store' });
       return res.end(JSON.stringify(r.body));
     }
+    if (path === '/video-studio' || path.startsWith('/video-studio/')) { if (await videoStudioRoute(req, res, path, { pageShell, sendHtml, clientIp, base: BASE_URL, loadRemakes })) return; }
     if (path === '/animations') {
       const sort = new URL(req.url, BASE_URL).searchParams.get('sort') || 'new';
       const m = loadAnimManifest();
@@ -2483,6 +2487,13 @@ export async function handler(req, res) {
       return res.end(JSON.stringify(loadAnimManifest()));
     }
     if (path.startsWith('/animations/media/')) return serveAnimMedia(req, res, path.slice('/animations/media/'.length));
+    if (path === '/maps') {
+      const mi = loadMapsIndex();
+      const first = (mi.clips || [])[0];
+      return sendHtml(res, pageShell('History maps — empires over time', mapsBody(mi), { canonical: `${BASE_URL}/maps`, description: 'Animated history maps with a ticking year: Egypt, Kush, Mesopotamia, Persia, Alexander, Rome, Hannibal, Carthage, Byzantium, the Ottomans, China, India, the caliphates, the Mongols, the Aztec and Inca, and the world. Made on our own servers from Cliopatria (CC BY 4.0).', image: first ? `${BASE_URL}/maps/media/${first.poster}` : undefined, jsonld: mapsLd(mi, BASE_URL) }));
+    }
+    if (path === '/maps/index.json') { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' }); return res.end(JSON.stringify(loadMapsIndex())); }
+    if (path.startsWith('/maps/media/')) return serveMapsMedia(req, res, decodeURIComponent(path.slice('/maps/media/'.length)));
     if (path === '/api/animations/rate') {
       if (method !== 'POST') { res.writeHead(405, { 'content-type': 'text/plain', allow: 'POST' }); return res.end('POST only'); }
       const r = animRate(await readBody(req), clientIp(req));

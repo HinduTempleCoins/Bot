@@ -1,0 +1,4 @@
+label,lat,lon,year,note
+Start,40.76,22.52,-336,Where the march begins
+Midway,32.54,44.42,-330.5,Fractional years move the marker smoothly within a year
+End,29.93,52.89,-329,Where it ends

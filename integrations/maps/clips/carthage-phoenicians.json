@@ -1,0 +1,74 @@
+{
+ "id": "carthage-phoenicians",
+ "title": "Phoenicians and Carthage",
+ "subtitle": "1150 – 146 BC · a sea of trading cities",
+ "bbox": [
+  -12,
+  26,
+  40,
+  46
+ ],
+ "years": [
+  -1150,
+  -146
+ ],
+ "duration": 80,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "Phoenicia",
+   "Phoenician Colonies",
+   "Carthage",
+   "Roman Republic",
+   "Neo-Assyrian Empire",
+   "Neo-Babylonian Empire",
+   "Achaemenid Empire",
+   "Ptolemaic Kingdom"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Tyre",
+   "lat": 33.27,
+   "lon": 35.2
+  },
+  {
+   "name": "Sidon",
+   "lat": 33.56,
+   "lon": 35.37
+  },
+  {
+   "name": "Byblos",
+   "lat": 34.12,
+   "lon": 35.65
+  },
+  {
+   "name": "Carthage",
+   "lat": 36.85,
+   "lon": 10.32,
+   "from": -814,
+   "to": -146
+  },
+  {
+   "name": "Gades",
+   "lat": 36.53,
+   "lon": -6.29,
+   "from": -1100
+  },
+  {
+   "name": "Utica",
+   "lat": 37.06,
+   "lon": 10.06,
+   "from": -1100
+  }
+ ],
+ "tags": [
+  "phoenicians",
+  "carthage",
+  "tyre",
+  "punic",
+  "gades",
+  "mediterranean"
+ ]
+}

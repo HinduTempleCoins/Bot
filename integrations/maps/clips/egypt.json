@@ -1,0 +1,71 @@
+{
+ "id": "egypt",
+ "title": "Egypt through the ages",
+ "subtitle": "3000 – 30 BC · kingdoms, dynasties and foreign rulers of the Nile",
+ "bbox": [
+  22,
+  14,
+  40,
+  34
+ ],
+ "years": [
+  -3000,
+  -30
+ ],
+ "duration": 90,
+ "territories": {
+  "source": "cliopatria",
+  "match": [
+   "Egypt"
+  ],
+  "names": [
+   "Ptolemaic Kingdom",
+   "Achaemenid Empire",
+   "Kingdom of Kush",
+   "Hittites",
+   "Neo-Assyrian Empire",
+   "Roman Republic"
+  ],
+  "context": true
+ },
+ "cities": [
+  {
+   "name": "Memphis",
+   "lat": 29.85,
+   "lon": 31.25
+  },
+  {
+   "name": "Giza",
+   "lat": 29.98,
+   "lon": 31.13,
+   "from": -2600
+  },
+  {
+   "name": "Thebes",
+   "lat": 25.7,
+   "lon": 32.64,
+   "from": -2100
+  },
+  {
+   "name": "Amarna",
+   "lat": 27.65,
+   "lon": 30.9,
+   "from": -1346,
+   "to": -1332
+  },
+  {
+   "name": "Alexandria",
+   "lat": 31.2,
+   "lon": 29.92,
+   "from": -331
+  }
+ ],
+ "tags": [
+  "egypt",
+  "nile",
+  "pharaohs",
+  "old kingdom",
+  "new kingdom",
+  "ptolemaic"
+ ]
+}
