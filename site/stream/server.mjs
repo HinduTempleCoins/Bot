@@ -396,9 +396,14 @@ function horrorLandingPage() {
   const october = `<section class=row><h2>October · getting ready for Halloween</h2>
     <p class=lead>Read <a href="/horror/map"><b>A Map of Horror</b></a> — why horror is a family of genres, every shelf and its titles — and <a href="/horror/girl-has-to-kill-everyone"><b>Girl Has to Kill Everyone</b></a>, the genre mapped on its own. Every title links to where to watch it in <a href="/films">SoapBox Films</a>, where you can rate and review it.</p>
     ${stills.length ? `<div class=grid>${stills.map((x) => `<a href="/horror/stills" class=tile style="text-decoration:none"><img src="/horror/img/${esc(x.file)}" alt="${esc(x.caption)}" loading=lazy style="width:100%;display:block"><div class=body><div class=meta>${esc(x.caption)}</div></div></a>`).join('')}</div>` : ''}</section>`;
+  const byId = new Map(horror.PD_HORROR_FILMS.map((f) => [f.id, f]));
+  const picks = horror.HALLOWEEN_PICKS.map((id) => byId.get(id)).filter(Boolean).map(horror.toTile).filter(Boolean);
+  const halloween = picks.length ? `<section class=row><h2>🎃 Free for Halloween · <span class=see>public-domain horror you can watch right here</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>` : '';
   const inner = october + `<p class=lead>Horror organized by the map, not one word. Eight standalone genres — each with more internal grammar than the whole "thriller" category — plus the <b>Girl Has to Kill Everyone</b> survival wing. Public-domain titles play in-app; modern branches are where-to-watch leads.</p>
     <section class=row><h2>The eight genres · <span class=see>A Map of Horror</span></h2><div class=grid>${genres}</div></section>
+    ${halloween}
     <section class=row><h2>Girl Has to Kill Everyone · <span class=see>survival wing — led by the trafficking network</span></h2><div class=grid>${wing}</div></section>
+    <section class=row><h2>Near the genre, not in it</h2><div class=grid><a class=tile href="/horror/${esc(horror.ROOTS_SHELF.id)}" style="text-decoration:none"><div class=body><h3>${esc(horror.ROOTS_SHELF.title)} <span class=badge>free · public domain</span></h3><div class=meta>${esc(horror.ROOTS_SHELF.thesis)}</div></div></a></div></section>
     <p class=lead style="margin-top:20px">${esc(horror.dataNote())}</p>`;
   return pageShell(`Horror · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/horror`,
     description: 'Horror on SoapBox Stream, organized by the operator\'s taxonomy: eight standalone genres (A Map of Horror) and the Girl Has to Kill Everyone survival wing led by the sex-trafficking / network category. Public-domain horror streams in-app; other branches are where-to-watch leads.' });
@@ -423,7 +428,7 @@ function horrorSurvivalPage(s, tiles) {
   const inner = `<p><a class=btn href="/horror">← All horror</a></p>
     <section class=row><h2>${esc(s.title)} ${emph}</h2>
       <p class=lead>${esc(s.thesis)}</p>
-      <p class=lead style="font-size:12px">Test: ${esc(s.wing === 'martyrs' ? 'If she stops killing, does she die?' : 'Is the film watching her be the monster?')}</p>
+      <p class=lead style="font-size:12px">${s.wing === 'roots' ? 'Near the genre, not in it: these are rescue and exposé narratives, the history behind the trafficking premise.' : `Test: ${esc(s.wing === 'martyrs' ? 'If she stops killing, does she die?' : 'Is the film watching her be the monster?')}`}</p>
     </section>
     ${streamable}
     <section class=row><h2>Key titles · where-to-watch leads</h2>
@@ -536,6 +541,7 @@ export const SITEMAP_PATHS = ['/', '/classics', ...CATEGORIES.map((c) => `/c/${c
   '/horror', ...HORROR_MAP_PATHS(), '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
+  `/horror/${horror.ROOTS_SHELF.id}`,
 ];
 
 export async function handler(req, res) {
