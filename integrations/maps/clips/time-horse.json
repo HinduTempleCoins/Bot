@@ -1,0 +1,309 @@
+{
+ "id": "time-horse",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "title": "The Horse: Time-Mapped",
+ "subtitle": "c. 3500 BC – AD 1900 · DOM2 and the return to the Americas",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  -3700,
+  1900
+ ],
+ "duration": 110,
+ "cities": [
+  {
+   "name": "Botai (debated)",
+   "lat": 53.3,
+   "lon": 67.9,
+   "from": -3500,
+   "to": 2100
+  },
+  {
+   "name": "Lower Volga–Don: DOM2",
+   "lat": 49.0,
+   "lon": 44.0,
+   "from": -2200,
+   "to": 2100
+  },
+  {
+   "name": "Sintashta",
+   "lat": 52.6,
+   "lon": 60.3,
+   "from": -2000,
+   "to": 2100
+  },
+  {
+   "name": "Anatolia",
+   "lat": 39.0,
+   "lon": 35.0,
+   "from": -2000,
+   "to": 2100
+  },
+  {
+   "name": "Bohemia",
+   "lat": 50.0,
+   "lon": 14.5,
+   "from": -2000,
+   "to": 2100
+  },
+  {
+   "name": "Egypt",
+   "lat": 30.79,
+   "lon": 31.82,
+   "from": -1600,
+   "to": 2100
+  },
+  {
+   "name": "Anyang",
+   "lat": 36.1,
+   "lon": 114.3,
+   "from": -1200,
+   "to": 2100
+  },
+  {
+   "name": "Hispaniola",
+   "lat": 19.0,
+   "lon": -70.7,
+   "from": 1493,
+   "to": 2100
+  },
+  {
+   "name": "Veracruz",
+   "lat": 19.2,
+   "lon": -96.1,
+   "from": 1519,
+   "to": 2100
+  },
+  {
+   "name": "The Plains horse nations",
+   "lat": 40.0,
+   "lon": -103.0,
+   "from": 1630,
+   "to": 2100
+  },
+  {
+   "name": "Przewalski's horse",
+   "lat": 46.3,
+   "lon": 93.0,
+   "from": 1881,
+   "to": 2100
+  }
+ ],
+ "routes": [
+  {
+   "label": "DOM2 across Eurasia",
+   "colour": "#c98a4a",
+   "points": [
+    {
+     "label": "Volga–Don",
+     "lat": 49,
+     "lon": 44,
+     "year": -2200.0
+    },
+    {
+     "label": "Urals",
+     "lat": 52.6,
+     "lon": 60.3,
+     "year": -2000.0
+    },
+    {
+     "label": "Anatolia",
+     "lat": 39,
+     "lon": 35,
+     "year": -2000.0
+    },
+    {
+     "label": "Central Europe",
+     "lat": 50,
+     "lon": 14.5,
+     "year": -2000.0
+    },
+    {
+     "label": "Egypt",
+     "lat": 30.79,
+     "lon": 31.82,
+     "year": -1600.0
+    },
+    {
+     "label": "Yellow River",
+     "lat": 36.1,
+     "lon": 114.3,
+     "year": -1200.0
+    }
+   ]
+  },
+  {
+   "label": "Back to the Americas",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "Iberia",
+     "lat": 37.4,
+     "lon": -6.0,
+     "year": 1492.0
+    },
+    {
+     "label": "Hispaniola",
+     "lat": 19,
+     "lon": -70.7,
+     "year": 1493.0
+    },
+    {
+     "label": "Veracruz",
+     "lat": 19.2,
+     "lon": -96.1,
+     "year": 1519.0
+    },
+    {
+     "label": "Rio Grande",
+     "lat": 32,
+     "lon": -106,
+     "year": 1598.0
+    },
+    {
+     "label": "Great Plains",
+     "lat": 40,
+     "lon": -103,
+     "year": 1630.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Botai (debated)",
+   "lat": 53.3,
+   "lon": 67.9,
+   "year": -3500,
+   "kind": "debated",
+   "caption": "Horse milking and bridling claimed; genomes show these were the ancestors of Przewalski's horse, not of domestic horses",
+   "source": "Outram et al. 2009 Science 323:1332; Gaunitz et al. 2018 Science 360:111",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Lower Volga–Don: DOM2",
+   "lat": 49.0,
+   "lon": 44.0,
+   "year": -2200,
+   "kind": "record",
+   "caption": "Ancient genomes: the modern domestic horse lineage expands from here",
+   "source": "Librado et al. 2021 Nature 598:634",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Sintashta",
+   "lat": 52.6,
+   "lon": 60.3,
+   "year": -2000,
+   "kind": "record",
+   "caption": "DOM2 horses pull the first chariots",
+   "source": "Librado et al. 2021",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Anatolia",
+   "lat": 39.0,
+   "lon": 35.0,
+   "year": -2000,
+   "kind": "record",
+   "caption": "DOM2 horses replace local lineages",
+   "source": "Librado et al. 2021",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Bohemia",
+   "lat": 50.0,
+   "lon": 14.5,
+   "year": -2000,
+   "kind": "record",
+   "caption": "DOM2 horses in central Europe",
+   "source": "Librado et al. 2021",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Egypt",
+   "lat": 30.79,
+   "lon": 31.82,
+   "year": -1600,
+   "kind": "record",
+   "caption": "Horses arrive with the chariot",
+   "source": "Littauer & Crouwel 1979",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Anyang",
+   "lat": 36.1,
+   "lon": 114.3,
+   "year": -1200,
+   "kind": "record",
+   "caption": "Horses buried with Shang chariots",
+   "source": "Librado et al. 2021; Shaughnessy 1988",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Hispaniola",
+   "lat": 19.0,
+   "lon": -70.7,
+   "year": 1493,
+   "kind": "record",
+   "caption": "Columbus's second voyage brings horses back to the Americas",
+   "source": "Columbus's second voyage records",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Veracruz",
+   "lat": 19.2,
+   "lon": -96.1,
+   "year": 1519,
+   "kind": "record",
+   "caption": "Cortés lands sixteen horses",
+   "source": "Bernal Díaz del Castillo, Historia verdadera",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "The Plains horse nations",
+   "lat": 40.0,
+   "lon": -103.0,
+   "year": 1630,
+   "kind": "record",
+   "caption": "Horses among Plains peoples by the early 1600s",
+   "source": "Taylor et al. 2023 Science 379:1316",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Przewalski's horse",
+   "lat": 46.3,
+   "lon": 93.0,
+   "year": 1881,
+   "kind": "record",
+   "caption": "Described for science in 1881; saved from extinction and returned to Mongolia from 1992",
+   "source": "Gaunitz et al. 2018; Przewalski 1881",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "horse",
+  "domestication"
+ ],
+ "credit": "Librado 2021; Gaunitz 2018; Outram 2009; Taylor 2023. Base map: Natural Earth (public domain)."
+}

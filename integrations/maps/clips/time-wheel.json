@@ -1,0 +1,213 @@
+{
+ "id": "time-wheel",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "title": "The Wheel: Time-Mapped",
+ "subtitle": "c. 3500 – 1700 BC · invented once or many times? (debated)",
+ "bbox": [
+  -15,
+  20,
+  125,
+  60
+ ],
+ "years": [
+  -3700,
+  -1600
+ ],
+ "duration": 80,
+ "cities": [
+  {
+   "name": "Bronocice pot",
+   "lat": 50.4,
+   "lon": 20.6,
+   "from": -3500,
+   "to": 2100
+  },
+  {
+   "name": "Flintbek wheel ruts",
+   "lat": 54.25,
+   "lon": 10.08,
+   "from": -3400,
+   "to": 2100
+  },
+  {
+   "name": "Uruk wagon signs",
+   "lat": 31.3,
+   "lon": 45.6,
+   "from": -3300,
+   "to": 2100
+  },
+  {
+   "name": "Ljubljana Marshes wheel",
+   "lat": 45.95,
+   "lon": 14.55,
+   "from": -3150,
+   "to": 2100
+  },
+  {
+   "name": "Steppe wagon burials",
+   "lat": 47.5,
+   "lon": 38.9,
+   "from": -3000,
+   "to": 2100
+  },
+  {
+   "name": "Standard of Ur",
+   "lat": 30.96,
+   "lon": 46.1,
+   "from": -2600,
+   "to": 2100
+  },
+  {
+   "name": "Harappa toy carts",
+   "lat": 30.63,
+   "lon": 72.87,
+   "from": -2500,
+   "to": 2100
+  },
+  {
+   "name": "Erlitou wheel ruts",
+   "lat": 34.7,
+   "lon": 112.7,
+   "from": -1700,
+   "to": 2100
+  }
+ ],
+ "routes": [
+  {
+   "label": "The wheel spreads (one model)",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "Mesopotamia",
+     "lat": 31.3,
+     "lon": 45.6,
+     "year": -3400.0
+    },
+    {
+     "label": "Pontic steppe",
+     "lat": 47.5,
+     "lon": 38.9,
+     "year": -3200.0
+    },
+    {
+     "label": "Central Europe",
+     "lat": 50.4,
+     "lon": 20.6,
+     "year": -3100.0
+    },
+    {
+     "label": "Indus",
+     "lat": 30.63,
+     "lon": 72.87,
+     "year": -2600.0
+    },
+    {
+     "label": "Yellow River",
+     "lat": 34.7,
+     "lon": 112.7,
+     "year": -1700.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Bronocice pot",
+   "lat": 50.4,
+   "lon": 20.6,
+   "year": -3500,
+   "kind": "record",
+   "caption": "The oldest picture of a wagon, on a clay pot",
+   "source": "Milisauskas & Kruk 1982; Anthony 2007 The Horse, the Wheel, and Language; Bakker et al. 1999 Antiquity 73:778",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Flintbek wheel ruts",
+   "lat": 54.25,
+   "lon": 10.08,
+   "year": -3400,
+   "kind": "record",
+   "caption": "Cart tracks preserved under a barrow",
+   "source": "Mischka 2011 Antiquity 85:742",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Uruk wagon signs",
+   "lat": 31.3,
+   "lon": 45.6,
+   "year": -3300,
+   "kind": "record",
+   "caption": "Wagon pictographs on proto-cuneiform tablets",
+   "source": "Anthony 2007 The Horse, the Wheel, and Language; Bakker et al. 1999 Antiquity 73:778",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Ljubljana Marshes wheel",
+   "lat": 45.95,
+   "lon": 14.55,
+   "year": -3150,
+   "kind": "record",
+   "caption": "The oldest surviving wooden wheel and axle",
+   "source": "Velušček (ed.) 2009 Koliščarska naselbina Stare gmajne",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Steppe wagon burials",
+   "lat": 47.5,
+   "lon": 38.9,
+   "year": -3000,
+   "kind": "record",
+   "caption": "Yamnaya and Novotitorovka graves with whole wagons",
+   "source": "Anthony 2007 The Horse, the Wheel, and Language; Bakker et al. 1999 Antiquity 73:778",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Standard of Ur",
+   "lat": 30.96,
+   "lon": 46.1,
+   "year": -2600,
+   "kind": "record",
+   "caption": "Solid-wheeled battle wagons drawn by onagers",
+   "source": "British Museum 121201; Anthony 2007 The Horse, the Wheel, and Language; Bakker et al. 1999 Antiquity 73:778",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Harappa toy carts",
+   "lat": 30.63,
+   "lon": 72.87,
+   "year": -2500,
+   "kind": "record",
+   "caption": "Clay carts and wheels of the Indus cities",
+   "source": "Kenoyer 1998 Ancient Cities of the Indus Valley",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Erlitou wheel ruts",
+   "lat": 34.7,
+   "lon": 112.7,
+   "year": -1700,
+   "kind": "record",
+   "caption": "The oldest wheel tracks in China",
+   "source": "Institute of Archaeology CASS Erlitou reports 2004",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "wheel",
+  "technology"
+ ],
+ "credit": "Anthony 2007; Bakker et al. 1999; Velušček 2009; Mischka 2011. Base map: Natural Earth (public domain)."
+}
