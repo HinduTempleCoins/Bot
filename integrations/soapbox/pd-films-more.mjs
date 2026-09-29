@@ -9,8 +9,9 @@
 // The ids are registered as cleared with archive-video's licence check at import, so /watch plays them.
 
 import * as archiveVideo from './archive-video.mjs';
+import { PD_GAP } from './pd-films-gap.mjs';
 
-export const GENRES = [{"id": "comedy", "name": "Silent & early comedy"}, {"id": "animation", "name": "Cartoons"}, {"id": "silent", "name": "Silent world cinema"}, {"id": "documentary", "name": "Documentaries & wartime films"}, {"id": "western", "name": "Westerns"}, {"id": "drama", "name": "Drama"}, {"id": "adventure", "name": "Adventure"}, {"id": "war", "name": "War"}, {"id": "noir", "name": "Crime & noir"}, {"id": "romance", "name": "Romance"}, {"id": "musical", "name": "Musicals"}, {"id": "religious", "name": "Religious epics"}, {"id": "family", "name": "Family"}, {"id": "scifi", "name": "Sci-fi"}];
+export const GENRES = [{"id": "comedy", "name": "Silent & early comedy"}, {"id": "animation", "name": "Cartoons"}, {"id": "silent", "name": "Silent world cinema"}, {"id": "documentary", "name": "Documentaries & wartime films"}, {"id": "western", "name": "Westerns"}, {"id": "drama", "name": "Drama"}, {"id": "adventure", "name": "Adventure"}, {"id": "war", "name": "War"}, {"id": "noir", "name": "Crime & noir"}, {"id": "romance", "name": "Romance"}, {"id": "musical", "name": "Musicals"}, {"id": "religious", "name": "Religious epics"}, {"id": "family", "name": "Family"}, {"id": "scifi", "name": "Sci-fi"}, {"id": "horror", "name": "Horror & the uncanny"}];
 
 export const PD_MORE = Object.freeze([
   {"id": "tillies-punctured-romance-1914", "title": "Tillie's Punctured Romance", "year": 1914, "genre": "comedy", "why": "published ≤1930 — public domain in the US by age"},
@@ -532,7 +533,9 @@ export const EXCLUDED = Object.freeze([
 
 archiveVideo.registerClearedIds(PD_MORE.map((f) => f.id));
 
-export const moreByGenre = () => GENRES.map((g) => ({ ...g, films: PD_MORE.filter((f) => f.genre === g.id) })).filter((g) => g.films.length);
+// The /free shelf = this list + the gap audit's additions (pd-films-gap.mjs), de-duplicated by IA id.
+export const ALL_MORE = Object.freeze([...PD_MORE, ...PD_GAP.filter((g) => !PD_MORE.some((m) => m.id === g.id))]);
+export const moreByGenre = () => GENRES.map((g) => ({ ...g, films: ALL_MORE.filter((f) => f.genre === g.id).sort((a, b) => a.year - b.year) })).filter((g) => g.films.length);
 
 /** a stream tile — same shape as classic-films' classicTile; plays through IA's official player */
 export function moreTile(f) {

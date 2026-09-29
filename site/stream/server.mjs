@@ -343,7 +343,7 @@ function classicsPage() {
 // ── /free — the wider public-domain shelf (integrations/soapbox/pd-films-more.mjs), by genre ─────────────────────
 function freeRow() {
   const picks = pdMore.PD_MORE.filter((f) => f.pick).slice(0, 12).map(pdMore.moreTile);
-  return picks.length ? `<section class=row><h2><a href="/free">More free films</a> <span class="badge lic">public domain</span><span class=see>All ${pdMore.PD_MORE.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>` : '';
+  return picks.length ? `<section class=row><h2><a href="/free">More free films</a> <span class="badge lic">public domain</span><span class=see>All ${pdMore.ALL_MORE.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>` : '';
 }
 
 function freePage(genreId = '') {
@@ -352,9 +352,9 @@ function freePage(genreId = '') {
   const tabs = pdMore.moreByGenre().map((g) => `<a class=btn href="/free/${esc(g.id)}"${g.id === genreId ? ' style="border-color:var(--acc)"' : ''}>${esc(g.name)} (${g.films.length})</a>`).join(' ');
   const shelves = groups.map((g) => `<section class=row><h2>${esc(g.name)} <span class=see>${g.films.length}</span></h2><div class=grid>${(genreId ? g.films : g.films.slice(0, 18)).map((f) => tile(pdMore.moreTile(f))).join('')}</div>${!genreId && g.films.length > 18 ? `<p><a class=btn href="/free/${esc(g.id)}">All ${g.films.length} ${esc(g.name.toLowerCase())} →</a></p>` : ''}</section>`).join('');
   const name = genreId ? groups[0].name : 'Free films';
-  const inner = `<p class=lead>${pdMore.PD_MORE.length} more films and shorts that are free for everyone: public domain in the US because they were published in 1930 or earlier, their copyright was never renewed or carried no notice, or they are works of the US government. Every one plays here and links to <a href="/films">SoapBox Films</a> to rate and review it. See also <a href="/classics">Classics</a> and <a href="/horror">Horror</a>.</p>
+  const inner = `<p class=lead>${pdMore.ALL_MORE.length} more films and shorts that are free for everyone: public domain in the US because they were published in 1930 or earlier, their copyright was never renewed or carried no notice, or they are works of the US government. Every one plays here and links to <a href="/films">SoapBox Films</a> to rate and review it. See also <a href="/classics">Classics</a> and <a href="/horror">Horror</a>.</p>
     <p>${tabs}</p>${shelves}`;
-  return pageShell(`${name} · free · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/free${genreId ? `/${genreId}` : ''}`, description: `${genreId ? `${groups[0].films.length} ${name.toLowerCase()}` : `${pdMore.PD_MORE.length} films and shorts`} in the public domain, free to watch: silent comedy, cartoons, westerns, war documentaries, noir and more.` });
+  return pageShell(`${name} · free · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/free${genreId ? `/${genreId}` : ''}`, description: `${genreId ? `${groups[0].films.length} ${name.toLowerCase()}` : `${pdMore.ALL_MORE.length} films and shorts`} in the public domain, free to watch: silent comedy, cartoons, westerns, war documentaries, noir and more.` });
 }
 
 function homePage(rows) {

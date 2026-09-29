@@ -321,12 +321,12 @@ test('/classics lists the public-domain classics by genre, each playable, with t
 });
 
 test('/free lists the wider public-domain shelf by genre; /free/<genre> works; unknown genre 404', async () => {
-  const { PD_MORE, moreByGenre } = await import('../../integrations/soapbox/pd-films-more.mjs');
+  const { PD_MORE, ALL_MORE, moreByGenre } = await import('../../integrations/soapbox/pd-films-more.mjs');
   const st = (r) => r.status || r.statusCode || r.code;
   const body = (r) => r.body || r.html || r.text || '';
   const r = await get('/free');
   assert.equal(st(r), 200);
-  assert.match(body(r), new RegExp(`${PD_MORE.length} more films`));
+  assert.match(body(r), new RegExp(`${ALL_MORE.length} more films`));
   const g = moreByGenre()[0];
   const one = await get(`/free/${g.id}`);
   assert.equal(st(one), 200);
