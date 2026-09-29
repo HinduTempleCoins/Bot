@@ -8,13 +8,13 @@
 //
 // SEEK prefers human work: subtitle files uploaded with the Internet Archive item (.srt/.vtt/.sbv) are provenance
 // 'human-found'; a list entry's official `transcript` URL is 'official' (plain text). IA's own machine ASR files
-// (*.asr.*) are skipped — we'd rather run and label our own. No third-party subtitle sites (their files are users'
+// (*.asr.*) and release-named subtitle-site files are skipped — we'd rather run and label our own. No third-party subtitle sites (their files are users'
 // copyrighted uploads). Injectable fetch; soft-fail per item.
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { allFreeFilms } from '../../integrations/soapbox/free-film-registry.mjs';
-import { bestVideoFile } from '../../integrations/soapbox/archive-video.mjs';
+import { bestVideoFile, looksLikeRip } from '../../integrations/soapbox/archive-video.mjs';
 import { parseAny, toVtt, cleanCues, parseVtt } from './vtt.mjs';
 import { addTrack, getMeta, bestTrack, TRANSCRIPTS_DIR } from './store.mjs';
 
@@ -29,7 +29,8 @@ async function getText(u) { try { const r = await _fetch(u, { headers: UA }); re
 
 /** English-looking human subtitle files in an IA item, best first. */
 export function subtitleFiles(files = []) {
-  return (files || []).filter((f) => f && SUB_RE.test(f.name || '') && !/\.asr\./i.test(f.name || '') && !/(^|[._-])(de|fr|es|it|pt|ru|nl|ja|zh|ko|ar)([._-]|$)/i.test(f.name || ''))
+  // release-named files (720p.BluRay…[group].srt) come from subtitle sites, not the uploader — skipped
+  return (files || []).filter((f) => f && SUB_RE.test(f.name || '') && !/\.asr\./i.test(f.name || '') && !looksLikeRip(f.name) && !/\[[^\]]+\]/.test(f.name || '') && !/(^|[._-])(de|fr|es|it|pt|ru|nl|ja|zh|ko|ar)([._-]|$)/i.test(f.name || ''))
     .sort((a, b) => (/(^|[._-])(en|eng|english)([._-]|$)/i.test(b.name) ? 1 : 0) - (/(^|[._-])(en|eng|english)([._-]|$)/i.test(a.name) ? 1 : 0) || (/\.srt$/i.test(b.name) ? 1 : 0) - (/\.srt$/i.test(a.name) ? 1 : 0));
 }
 
