@@ -139,7 +139,7 @@ def plan(scenes, chars, stats, n, rng):
         sc = rng.choice(scenes)
         look = rng.choice([l for l in LOOK_ORDER if l in sc["looks"]])
         people = rng.choice(sorted(sc["looks"][look]))
-        if r["kind"] == "peoples" and len(sc["looks"][look]) < 3:
+        if r["kind"] == "peoples" and len(sc["looks"][look]) < 2:
             r["kind"] = "kenburns"
         if r["kind"] == "looks" and sum(people in sc["looks"].get(l, {}) for l in LOOK_ORDER) < 2:
             r["kind"] = "kenburns"
@@ -417,6 +417,9 @@ def render(r, scenes_by_key, outdir, voice):
 def cmd_make(a):
     rng = random.Random(a.seed)
     scenes, chars = gather(a.root)
+    if a.only:  # e.g. --only myth_ : scene keys or groups containing any of these words
+        words = [w.lower() for w in a.only]
+        scenes = [s for s in scenes if any(w in (s["key"] + " " + s["group"]).lower() for w in words)]
     if not scenes:
         sys.exit("no remakes found")
     fb = None
@@ -470,6 +473,7 @@ if __name__ == "__main__":
     m.add_argument("--feedback")
     m.add_argument("--voice", default="/opt/melek-gen/voices/en_GB-alba-medium.onnx")
     m.add_argument("--seed", type=int)
+    m.add_argument("--only", nargs="*", help="limit to scenes whose key or group contains any of these (e.g. greek_ egypt_ hindu_ myth)")
     p = sp.add_parser("publish")
     p.add_argument("--out", default="/opt/melek-gen/anims")
     p.add_argument("--bundle", default="/opt/melek-gen/anims_bundle")
