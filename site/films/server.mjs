@@ -17,6 +17,10 @@
 //   Env: FILMS_DATA_DIR (default <repo>/data/films), TMDB_API_KEY (optional), FILMS_ADMIN_TOKEN (optional).
 
 import * as horrorTax from '../../integrations/soapbox/horror-taxonomy.mjs';
+import * as classicFilms from '../../integrations/soapbox/classic-films.mjs';
+
+// Every free copy the Stream has cleared: curated public-domain horror + the public-domain classics.
+const freeLists = () => [...(horrorTax.PD_HORROR_FILMS || []), ...(classicFilms.PD_CLASSICS || [])];
 import { createServer } from 'node:http';
 import { readFileSync, statSync, mkdirSync, appendFileSync } from 'node:fs';
 import { createHash, randomBytes } from 'node:crypto';
@@ -212,7 +216,7 @@ let _free = null;
 function freeCopies() {
   if (_free) return _free;
   const byIa = new Map(); const byTitle = new Map();
-  for (const f of horrorTax.PD_HORROR_FILMS || []) {
+  for (const f of freeLists()) {
     byIa.set(String(f.id), f);
     const k = bare(norm(f.title));
     if (!byTitle.has(k)) byTitle.set(k, []);
@@ -520,10 +524,10 @@ function homePage() {
   const orig = originals();
   const popular = cat.list.slice(0, 24);
   const free = [];
-  for (const f of horrorTax.PD_HORROR_FILMS || []) {
+  for (const f of [...(classicFilms.PD_CLASSICS || []), ...(horrorTax.PD_HORROR_FILMS || [])]) {
     const m = filmForStream({ ia: f.id, title: f.title, year: f.year });
     if (m && cat.byId.get(m.id) && !free.some((x) => x.id === m.id)) free.push(cat.byId.get(m.id));
-    if (free.length >= 18) break;
+    if (free.length >= 24) break;
   }
   const inner = `<h1>Every film. Where to watch it. What people really thought.</h1>
 <p class=lead>${cat.list.length.toLocaleString('en-US')} films from Wikidata, with the streaming services each one is listed on, free copies we can play for you, and reviews from SoapBox viewers. Search any title — if it's not in our set yet, we look it up live.</p>
