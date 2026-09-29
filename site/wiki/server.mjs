@@ -27,9 +27,8 @@ const FLAG_STORE = process.env.KB_FLAG_STORE || path.join(__dir, '..', '..', 'li
 // but this is a second gate at the publish layer.
 const PRIVATE = /(_private|secret|operator|\.local|scripture)/i;
 // Article sources, first match wins per slug: the bot's generated articles (ARTICLES_DIR), then the articles
-// committed with the site (how our tools work, MELEK, Hathor…) and the seed articles. Before this, a host without
-// the bot's output dir (the web-tier move) served an EMPTY library.
-const ARTICLE_DIRS = [ARTICLES_DIR, SEED_DRAFTS_DIR, path.join(__dir, 'articles'), path.join(__dir, 'seed-articles')];
+// committed with the site (how our tools work, MELEK, Hathor…), the seed articles, and finally seed drafts.
+const ARTICLE_DIRS = [ARTICLES_DIR, path.join(__dir, 'articles'), path.join(__dir, 'seed-articles'), SEED_DRAFTS_DIR];
 function listArticles() {
   const seen = new Set(); const out = [];
   for (const dir of ARTICLE_DIRS) {
