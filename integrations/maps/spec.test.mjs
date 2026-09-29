@@ -11,7 +11,9 @@ test('formatYear: BC, AD below 1000, plain years after; no year 0', () => {
   assert.equal(formatYear(117), 'AD 117');
   assert.equal(formatYear(0), 'AD 1');
   assert.equal(formatYear(1453), '1453');
-  assert.equal(formatYear(-0.4), 'AD 1');
+  assert.equal(formatYear(-0.4), '1 BC'); // August of 1 BC: fractional years belong to their floor
+  assert.equal(formatYear(-217.42), '218 BC'); // July 218 BC, not "217 BC"
+  assert.equal(formatYear(-218.75), '219 BC');
 });
 
 test('yearAt ticks linearly from first to last frame', () => {
@@ -64,4 +66,28 @@ test('validateJob: sample job and every shipped clip job are valid; bad jobs fai
   assert.throws(() => validateJob({ ...sample, territories: { source: 'somewhere' } }), /source/);
   assert.throws(() => validateJob({ ...sample, territories: undefined, routes: [] }), /territories and\/or routes/);
   assert.throws(() => validateJob({ ...sample, projection: 'mercator' }), /projection/);
+});
+
+test('route stops: validated in time order, media normalised, kinds checked; the sample job with stops passes', async () => {
+  const { validateStops } = await import('./spec.mjs');
+  const years = [-219, -201];
+  const ok = validateStops([
+    { label: 'Rhône crossing', lat: 43.9, lon: 4.6, year: -217.33, media: ['remakes/rhone.png', { src: 'https://example.org/a.jpg', credit: 'PD' }], kind: 'record', source: 'Polybius 3.42–46' },
+    { label: 'Cannae', lat: 41.3, lon: 16.1, year: -215.41, date: '2 August 216 BC', hold: 20, kind: 'record' },
+  ], years);
+  assert.equal(ok[0].media[0].src, 'remakes/rhone.png');
+  assert.equal(ok[0].hold, 12);
+  assert.equal(ok[0].date, '218 BC');
+  assert.equal(ok[1].date, '2 August 216 BC');
+  assert.throws(() => validateStops([{ label: 'B', lat: 1, lon: 1, year: -210 }, { label: 'A', lat: 1, lon: 1, year: -215 }], years), /time order/);
+  assert.throws(() => validateStops([{ label: 'X', lat: 1, lon: 1, year: -100 }], years), /within the job's years/);
+  assert.throws(() => validateStops([{ label: 'X', lat: 1, lon: 1, year: -210, kind: 'maybe' }], years), /kind must be/);
+  assert.throws(() => validateStops([{ label: 'X', lat: 1, lon: 1, year: -210, media: ['../../etc/passwd'] }], years), /'\.\.'/);
+  assert.throws(() => validateStops([{ label: 'X', lat: 1, lon: 1, year: -210, hold: 900 }], years), /hold/);
+  assert.equal(validateStops([{ label: 'X', lat: 1, lon: 1, year: -210, media: ['remake:hannibal_alps_poussin/1_real_punic.png'] }], years)[0].media[0].src, 'remake:hannibal_alps_poussin/1_real_punic.png');
+  assert.throws(() => validateStops([{ label: 'X', lat: 1, lon: 1, year: -210, media: ['remake:../../etc/passwd'] }], years), /'\.\.'/);
+  assert.throws(() => validateStops([{ label: 'X', lat: 1, lon: 1, year: -210, media: ['library:/etc/passwd'] }], years), /'\.\.'/);
+  const job = JSON.parse(readFileSync(here('./samples/job-stops.json'), 'utf8'));
+  const { validateJob } = await import('./spec.mjs');
+  assert.equal(validateJob(job).stops.length, 3);
 });

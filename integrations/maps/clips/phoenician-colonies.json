@@ -1,0 +1,543 @@
+{
+ "id": "phoenician-colonies",
+ "title": "The Phoenician Colonies & Carthage",
+ "subtitle": "c. 1000 – 29 BC · the sea road from Tyre to the Atlantic, and the city that ruled it",
+ "bbox": [
+  -12,
+  28,
+  38,
+  46
+ ],
+ "years": [
+  -1100,
+  -29
+ ],
+ "duration": 130,
+ "fps": 24,
+ "territories": {
+  "source": "cliopatria",
+  "names": [
+   "(Phoenician Empire)",
+   "Carthage",
+   "Roman Republic"
+  ],
+  "context": true
+ },
+ "routes": [
+  {
+   "label": "The sea road",
+   "colour": "#c46ae8",
+   "points": [
+    {
+     "label": "Tyre",
+     "lat": 33.27,
+     "lon": 35.2,
+     "year": -1000.0
+    },
+    {
+     "label": "Kition",
+     "lat": 34.92,
+     "lon": 33.63,
+     "year": -850.0
+    },
+    {
+     "label": "Kommos",
+     "lat": 35.01,
+     "lon": 24.76,
+     "year": -820.0
+    },
+    {
+     "label": "Carthage",
+     "lat": 36.85,
+     "lon": 10.32,
+     "year": -814.0
+    },
+    {
+     "label": "Gades",
+     "lat": 36.53,
+     "lon": -6.29,
+     "year": -800.0
+    },
+    {
+     "label": "Nora",
+     "lat": 38.98,
+     "lon": 9.02,
+     "year": -790.0
+    },
+    {
+     "label": "Utica",
+     "lat": 37.06,
+     "lon": 10.06,
+     "year": -780.0
+    },
+    {
+     "label": "Lixus",
+     "lat": 35.2,
+     "lon": -6.11,
+     "year": -750.0
+    },
+    {
+     "label": "Motya",
+     "lat": 37.87,
+     "lon": 12.47,
+     "year": -720.0
+    },
+    {
+     "label": "Tharros",
+     "lat": 39.87,
+     "lon": 8.44,
+     "year": -700.0
+    },
+    {
+     "label": "Ebusus",
+     "lat": 38.91,
+     "lon": 1.44,
+     "year": -654.0
+    },
+    {
+     "label": "Mogador",
+     "lat": 31.51,
+     "lon": -9.77,
+     "year": -640.0
+    }
+   ]
+  }
+ ],
+ "cities": [
+  {
+   "name": "Sidon",
+   "lat": 33.56,
+   "lon": 35.37
+  },
+  {
+   "name": "Byblos",
+   "lat": 34.12,
+   "lon": 35.65
+  },
+  {
+   "name": "Syracuse",
+   "lat": 37.08,
+   "lon": 15.29,
+   "from": -733
+  },
+  {
+   "name": "Rome",
+   "lat": 41.9,
+   "lon": 12.5,
+   "from": -753
+  }
+ ],
+ "testing": "We are testing these features and looking to develop them.",
+ "tags": [
+  "phoenicians",
+  "carthage",
+  "tyre",
+  "gades",
+  "colonies",
+  "tanit",
+  "punic",
+  "route"
+ ],
+ "sources": {
+  "record": [
+   "Excavations at Tyre, Kition, Kommos, Carthage, Gades (Cádiz), Nora, Motya, Sa Caleta / Ebusus, Mogador",
+   "Herodotus 7.165–167 (Himera)",
+   "Diodorus 14.47–53 (Motya)",
+   "Polybius 1–3; Appian, Punic Wars"
+  ],
+  "tradition": [
+   "Justin 18.4–6: Elissa (Dido) and the oxhide",
+   "Velleius Paterculus 1.2: Gades founded 1104 BC",
+   "Pliny, Natural History 16.216: Utica's temple of 1178 years"
+  ],
+  "interpretation": []
+ },
+ "missing": [
+  "Phoenician merchant ships (gauloi) under sail",
+  "the island city of Tyre from the sea",
+  "murex purple-dye workshops",
+  "the temple of Melqart at Gades",
+  "the cothon harbours seen from the sea at their height",
+  "Motya on its lagoon island",
+  "the Nora stone"
+ ],
+ "stops": [
+  {
+   "label": "Tyre",
+   "lat": 33.27,
+   "lon": 35.2,
+   "year": -1000.0,
+   "date": "c. 1000 BC",
+   "kind": "record",
+   "source": "Excavations at Tyre; 1 Kings 5",
+   "caption": "The island city of Hiram, whose ships and purple dye reached the whole sea.",
+   "media": [
+    {
+     "src": "remake:tyre_port/1_real_levantine.png",
+     "credit": "Remake by Hathor Studio after David Roberts, 1839. Cleveland Museum of Art. CC0",
+     "caption": ""
+    },
+    {
+     "src": "remake:sidon_citadel/1_real_levantine.png",
+     "credit": "Remake by Hathor Studio after David Roberts, 1839. Cleveland Museum of Art. Public domain",
+     "caption": "Sidon, Tyre's sister city"
+    },
+    {
+     "src": "https://tile.loc.gov/storage-services/service/pnp/matpc/17000/17020v.jpg",
+     "credit": "Byblos, general view, American Colony photographers — Library of Congress, no known restrictions",
+     "caption": "Byblos, the oldest of the three"
+    }
+   ],
+   "hold": 26,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Kition",
+   "lat": 34.92,
+   "lon": 33.63,
+   "year": -850.0,
+   "date": "late 9th century BC",
+   "kind": "record",
+   "source": "Excavations at Kition (Larnaca)",
+   "caption": "Cyprus: a Phoenician temple of Astarte on older foundations.",
+   "media": [],
+   "hold": 6,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Kommos",
+   "lat": 35.01,
+   "lon": 24.76,
+   "year": -820.0,
+   "date": "c. 800 BC",
+   "kind": "record",
+   "source": "Excavations at Kommos, Crete",
+   "caption": "A small shrine with three standing stones, a sailors' stop on the way west.",
+   "media": [],
+   "hold": 6,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Carthage",
+   "lat": 36.85,
+   "lon": 10.32,
+   "year": -814.0,
+   "date": "traditionally 814 BC",
+   "kind": "tradition",
+   "source": "Justin 18.4–6; Timaeus via Dionysius",
+   "caption": "Elissa of Tyre buys as much land as an oxhide covers — and cuts it into strips. The earliest finds date to the late 9th–8th century BC.",
+   "media": [
+    {
+     "src": "remake:carthage_dido_building/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after J. M. W. Turner, 1815. Public domain",
+     "caption": "Tradition: Dido building Carthage"
+    },
+    {
+     "src": "remake:carthage_aeneas_farewell_dido/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after Claude Lorrain, 1676. Public domain",
+     "caption": "The later Roman story of Dido and Aeneas"
+    }
+   ],
+   "hold": 20.0,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Gades",
+   "lat": 36.53,
+   "lon": -6.29,
+   "year": -800.0,
+   "date": "c. 800 BC (tradition: 1104 BC)",
+   "kind": "record",
+   "source": "Excavations in Cádiz; Velleius 1.2 (tradition)",
+   "caption": "Beyond the Pillars of Heracles: the temple of Melqart, the westernmost Phoenician city.",
+   "media": [
+    {
+     "src": "remake:cadiz_gades_hoefnagel/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after Joris Hoefnagel (after), between 1564 and 1640. Bibliothèque nationale de France. Public domain",
+     "caption": ""
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Nora",
+   "lat": 38.98,
+   "lon": 9.02,
+   "year": -790.0,
+   "date": "9th–8th century BC",
+   "kind": "record",
+   "source": "The Nora stone",
+   "caption": "Sardinia: an inscription that may be the oldest Phoenician writing in the west.",
+   "media": [],
+   "hold": 6,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Utica",
+   "lat": 37.06,
+   "lon": 10.06,
+   "year": -780.0,
+   "date": "8th century BC (tradition: older than Carthage)",
+   "kind": "record",
+   "source": "Excavations at Utica; Pliny NH 16.216 (tradition)",
+   "caption": "Carthage's older neighbour on the same gulf.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/0/00/GRAHAM%281887%29_p085_RUINS_OF_UTICA.jpg",
+     "credit": "Ruins of Utica, engraving in Graham (1887) — public domain",
+     "caption": ""
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Lixus",
+   "lat": 35.2,
+   "lon": -6.11,
+   "year": -750.0,
+   "date": "8th century BC",
+   "kind": "record",
+   "source": "Excavations at Lixus, Morocco",
+   "caption": "On the Atlantic coast of Africa, where later writers placed the garden of the Hesperides.",
+   "media": [],
+   "hold": 6,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Motya",
+   "lat": 37.87,
+   "lon": 12.47,
+   "year": -720.0,
+   "date": "late 8th century BC",
+   "kind": "record",
+   "source": "Excavations at Motya (Mozia)",
+   "caption": "A small island in a Sicilian lagoon, joined to the shore by a causeway.",
+   "media": [],
+   "hold": 6,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Ebusus",
+   "lat": 38.91,
+   "lon": 1.44,
+   "year": -654.0,
+   "date": "7th century BC (tradition: 654 BC)",
+   "kind": "record",
+   "source": "Sa Caleta excavations; Diodorus 5.16 (tradition)",
+   "caption": "Ibiza: a Phoenician and then Carthaginian port.",
+   "media": [
+    {
+     "src": "library:objects/punic_amphora.png",
+     "credit": "Hathor Studio render (our own CPU)",
+     "caption": "A Punic amphora — the trade that tied the colonies together"
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Mogador",
+   "lat": 31.51,
+   "lon": -9.77,
+   "year": -640.0,
+   "date": "7th–6th century BC",
+   "kind": "record",
+   "source": "Excavations at Mogador (Essaouira)",
+   "caption": "The farthest Phoenician outpost found on the Atlantic.",
+   "media": [],
+   "hold": 6,
+   "chapter": "The sea road",
+   "zoom": 3.2
+  },
+  {
+   "label": "Carthage rises",
+   "lat": 36.85,
+   "lon": 10.32,
+   "year": -550.0,
+   "date": "6th century BC",
+   "kind": "record",
+   "source": "Justin 18.7–19.1",
+   "caption": "The Magonid generals turn a colony into a sea power with its own colonies.",
+   "media": [
+    {
+     "src": "remake:carthage_linton/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after William Linton, 1825. Cleveland Museum of Art. CC0",
+     "caption": ""
+    },
+    {
+     "src": "library:landscapes/carthage_harbor.png",
+     "credit": "Hathor Studio render (our own CPU)",
+     "caption": "Carthage's harbour"
+    }
+   ],
+   "hold": 20.0,
+   "chapter": "Carthage",
+   "zoom": 3.2
+  },
+  {
+   "label": "Himera",
+   "lat": 37.97,
+   "lon": 13.82,
+   "year": -480.0,
+   "date": "480 BC",
+   "kind": "record",
+   "source": "Herodotus 7.165–167; Diodorus 11.20–26",
+   "caption": "Carthage fights the Greeks for Sicily and loses a great battle.",
+   "media": [],
+   "hold": 6,
+   "chapter": "Carthage",
+   "zoom": 3.2
+  },
+  {
+   "label": "Tanit and Baal Hammon",
+   "lat": 36.85,
+   "lon": 10.32,
+   "year": -450.0,
+   "date": "5th–2nd century BC",
+   "kind": "debated",
+   "source": "The tophet of Carthage (excavations); Diodorus 20.14",
+   "caption": "Thousands of urns and stelae to Tanit and Baal Hammon: whether they record child sacrifice or a cemetery for infants is still argued.",
+   "media": [
+    {
+     "src": "library:objects/punic_tanit_stele.png",
+     "credit": "Hathor Studio render (our own CPU)",
+     "caption": "A stele with the sign of Tanit"
+    },
+    {
+     "src": "remake:carthage_salammbo_temple_steps/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after Anonymous illustration, 1926 (Flaubert, Salammbô). Public domain",
+     "caption": "A 19th-century imagining (after Flaubert's Salammbô), not the record"
+    }
+   ],
+   "hold": 20.0,
+   "chapter": "Carthage",
+   "zoom": 3.2
+  },
+  {
+   "label": "Motya falls",
+   "lat": 37.87,
+   "lon": 12.47,
+   "year": -397.0,
+   "date": "397 BC",
+   "kind": "record",
+   "source": "Diodorus 14.47–53",
+   "caption": "Dionysius of Syracuse storms the island city.",
+   "media": [],
+   "hold": 6,
+   "chapter": "Carthage",
+   "zoom": 3.2
+  },
+  {
+   "label": "The cothon",
+   "lat": 36.85,
+   "lon": 10.32,
+   "year": -220.0,
+   "date": "3rd–2nd century BC",
+   "kind": "record",
+   "source": "Excavations at the Punic ports; Appian, Punic Wars 96",
+   "caption": "A rectangular merchant harbour leading to a round naval harbour with sheds for some 220 warships and an admiral's island.",
+   "media": [
+    {
+     "src": "remake:carthage_punic_ports_aerial/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after Unknown author, before 1958. Public domain",
+     "caption": ""
+    },
+    {
+     "src": "remake:carthage_cothon_military_harbour/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after Norbert Schnitzler, photograph of a model, 2008. CC BY-SA 2.0",
+     "caption": ""
+    },
+    {
+     "src": "remake:carthage_cothon_from_byrsa/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after A. Mayer (draughtsman), lithograph after De Sinety. Bibliothèque nationale de France. Public domain",
+     "caption": ""
+    }
+   ],
+   "hold": 26,
+   "chapter": "Carthage",
+   "zoom": 3.2
+  },
+  {
+   "label": "The Punic Wars",
+   "lat": 36.85,
+   "lon": 10.32,
+   "year": -218.0,
+   "date": "264–146 BC",
+   "kind": "record",
+   "source": "Polybius 1–3",
+   "caption": "Sicily, then Spain and Italy — see 'Hannibal: Across the Map'.",
+   "media": [
+    {
+     "src": "remake:hannibal_alps_poussin/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after Nicolas Poussin (public domain)",
+     "caption": "Hannibal's march, 218 BC"
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "Rome",
+   "zoom": 3.2
+  },
+  {
+   "label": "Carthage destroyed",
+   "lat": 36.85,
+   "lon": 10.32,
+   "year": -146.0,
+   "date": "146 BC",
+   "kind": "record",
+   "source": "Appian, Punic Wars 127–135; Polybius 38.21–22",
+   "caption": "After a three-year siege the city is taken street by street and burned.",
+   "media": [
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Richard_Henry_Brock%CB%90_The_siege_of_Carthage_146_BC_-_Roman_soldiers_entering_Carthage.jpg",
+     "credit": "Richard Henry Brock, The siege of Carthage, 146 BC — public domain",
+     "caption": ""
+    },
+    {
+     "src": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Catapulta_by_Edward_Poynter.jpg",
+     "credit": "Edward Poynter, The Catapult (1868) — public domain",
+     "caption": ""
+    },
+    {
+     "src": "remake:carthage_decline_of_empire/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after J. M. W. Turner, 1817. Public domain",
+     "caption": "Turner's Decline of the Carthaginian Empire"
+    }
+   ],
+   "hold": 26,
+   "chapter": "Rome",
+   "zoom": 3.2
+  },
+  {
+   "label": "Roman Carthage",
+   "lat": 36.85,
+   "lon": 10.32,
+   "year": -29.0,
+   "date": "44–29 BC",
+   "kind": "record",
+   "source": "Appian, Punic Wars 136; Cassius Dio 43.50",
+   "caption": "Caesar plans and Augustus founds a Roman colony on the ruins; Byrsa hill is levelled for its forum.",
+   "media": [
+    {
+     "src": "remake:carthage_byrsa_hill/1_real_punic.png",
+     "credit": "Remake by Hathor Studio after Noomen9, photograph, 2021. CC BY-SA 4.0",
+     "caption": ""
+    }
+   ],
+   "hold": 13.5,
+   "chapter": "Rome",
+   "zoom": 3.2
+  }
+ ]
+}

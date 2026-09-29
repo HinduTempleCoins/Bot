@@ -26,6 +26,8 @@ export function loadMapsIndex(dir = MAPS_DIR()) {
   } catch { return { clips: [] }; }
 }
 
+const segs = (c) => (Array.isArray(c.segments) ? c.segments : []).filter((g) => g && FILE_RE.test(String(g.file || '')));
+
 export function mapsBody(index) {
   const clips = [...(index.clips || [])].sort((a, b) => (a.fromYear ?? 0) - (b.fromYear ?? 0));
   const cards = clips.map((c) => `<section class="card mp-card" id="${esc(c.id)}">
@@ -35,6 +37,8 @@ export function mapsBody(index) {
       <p class=muted style="font-size:13px;margin:2px 0">${esc(formatYear(c.fromYear))} – ${esc(formatYear(c.toYear))}${c.duration ? ` · ${esc(Math.round(c.duration))} s` : ''}${c.file720 ? ` · <a href="/maps/media/${esc(c.file)}" download>1080p</a>` : ''}</p>
       ${c.subtitle ? `<p style="font-size:13px;margin:4px 0">${esc(c.subtitle)}</p>` : ''}
       ${(c.polities || []).length ? `<p class=muted style="font-size:12px;margin:4px 0">${esc(c.polities.slice(0, 12).join(' · '))}</p>` : ''}
+      ${c.documentary && /^\/documentaries\/[a-z0-9-]+$/.test(c.documentary) ? `<p style="font-size:13px;margin:6px 0 2px"><a href="${esc(c.documentary)}">▶ Watch the film, with every stop and its credits</a></p>` : ''}
+      ${segs(c).length ? `<details style="font-size:12px;margin:4px 0"><summary>Stops (${segs(c).length})</summary><ol style="margin:4px 0 0 18px;padding:0">${segs(c).map((g) => `<li><a href="/maps/media/${esc(g.file)}">${esc(g.label)}</a> <span class=muted>· ${esc(g.date || '')}</span></li>`).join('')}</ol></details>` : ''}
       <p class=muted style="font-size:11px;margin:6px 0 0">${esc(c.credit || '')}</p>
     </section>`).join('');
   return `<style>.mp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}

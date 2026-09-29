@@ -33,5 +33,24 @@ class Pure(unittest.TestCase):
             m.validate({**ok, "years": [10, -10]})
 
 
+    def test_stops(self):
+        m = load()
+        years = [-219, -201]
+        st = m.validate_stops([{"label": "Cannae", "lat": 41.3, "lon": 16.1, "year": -215.41, "media": ["a.png", {"src": "https://x/y.jpg", "credit": "PD"}], "kind": "record"}], years)
+        self.assertEqual(st[0]["hold"], 12.0); self.assertEqual(st[0]["date"], "216 BC"); self.assertEqual(st[0]["media"][1]["credit"], "PD")
+        for bad in ([{"label": "B", "lat": 1, "lon": 1, "year": -210}, {"label": "A", "lat": 1, "lon": 1, "year": -215}],
+                    [{"label": "X", "lat": 1, "lon": 1, "year": -100}], [{"label": "X", "lat": 1, "lon": 1, "year": -210, "kind": "maybe"}],
+                    [{"label": "X", "lat": 1, "lon": 1, "year": -210, "media": ["../../etc/passwd"]}]):
+            with self.assertRaises(SystemExit):
+                m.validate_stops(bad, years)
+
+    def test_zoom_crop_and_ease(self):
+        m = load()
+        from PIL import Image
+        im = Image.new("RGBA", (200, 100), (255, 0, 0, 255))
+        self.assertEqual(m.zoom_crop(im, 190, 90, 3).size, (200, 100))  # clamped inside the picture
+        self.assertEqual(m.ease(0), 0); self.assertEqual(m.ease(1), 1); self.assertAlmostEqual(m.ease(0.5), 0.5)
+
+
 if __name__ == "__main__":
     unittest.main()

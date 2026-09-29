@@ -16,18 +16,62 @@
 //                | { "source": "geojson", "path": "territories.geojson" }  (user data)
 //   "routes": [ { "label": "Alexander", "path": "route.csv", "colour": "#e8c170" } ],   (optional)
 //   "cities": [ { "name": "Babylon", "lat": 32.54, "lon": 44.42, "from": -1900, "to": 200 } ],  (optional)
-//   "credit": "…", "palette": "night" | "parchment", "subtitle": "…", "projection": "auto" | "equirect"
+//   "credit": "…", "palette": "night" | "parchment", "subtitle": "…", "projection": "auto" | "equirect",
+//   "stops": [ {                                       (optional; the march pauses at each, in time order)
+//      "label": "Cannae", "lat": 41.3, "lon": 16.1, "year": -216.4,      (year within `years`; fractions allowed)
+//      "date": "2 August 216 BC",                        (shown on the card; default = the formatted year)
+//      "hold": 20,                                       (seconds on the stop's pictures, 2..180)
+//      "media": [ "remake:<scene>/<file>" | "library:<set>/<file>" | "https://…jpg" | { "src": "…", "credit": "…", "caption": "…" } ],
+//                 (≤ 12; images or mp4 clips; remake:/library:/anim:/parallax: name our own galleries)
+//      "caption": "…", "kind": "record" | "tradition" | "debated" | "interpretation" | "none", "source": "Polybius 3.107–117",
+//      "zoom": 3, "chapter": "Italy"
+//   } ]
 // }
 // GeoJSON user data: FeatureCollection; each feature Polygon/MultiPolygon with properties
 //   { name (required), fromYear (required), toYear (required), colour? }   — ≤ 5,000 features, ≤ 50 MB.
 // Route CSV: header `label,lat,lon,year[,note]`, ≥ 2 rows, years non-decreasing, ≤ 5,000 rows. Route years may be
 //   fractional so a march moves smoothly within a year: month m of year Y BC = -Y + (m - 1) / 12 (May 334 BC = -333.67).
 
-export const LIMITS = Object.freeze({ maxW: 3840, maxH: 2160, minFps: 12, maxFps: 60, minDur: 5, maxDur: 600, minYear: -4000, maxYear: 2100, maxFeatures: 5000, maxRoutePoints: 5000, maxBytes: 50 * 1024 * 1024 });
+export const LIMITS = Object.freeze({ maxW: 3840, maxH: 2160, minFps: 12, maxFps: 60, minDur: 5, maxDur: 600, minYear: -4000, maxYear: 2100, maxFeatures: 5000, maxRoutePoints: 5000, maxBytes: 50 * 1024 * 1024, maxStops: 60, maxStopMedia: 12 });
+export const STOP_KINDS = Object.freeze(['record', 'tradition', 'debated', 'interpretation', 'none']);
+
+/** Validate route stops (mirrors render_map.validate_stops). Returns normalised stops; throws with a clear message. */
+export function validateStops(stops, years) {
+  if (stops == null) return [];
+  if (!Array.isArray(stops) || stops.length > LIMITS.maxStops) throw new Error(`stops must be a list of at most ${LIMITS.maxStops}`);
+  let prev = null;
+  return stops.map((st, i) => {
+    const where = `stops[${i}]`;
+    if (!st || typeof st !== 'object' || !st.label || String(st.label).length > 80) throw new Error(`${where}: label is required (≤ 80 characters)`);
+    if (!(st.lat >= -90 && st.lat <= 90) || !(st.lon >= -180 && st.lon <= 180)) throw new Error(`${where}: lat/lon out of range`);
+    if (!Number.isFinite(st.year) || st.year < years[0] || st.year > years[1]) throw new Error(`${where}: year must lie within the job's years`);
+    if (prev != null && st.year < prev) throw new Error(`${where}: stops must be in time order`);
+    prev = st.year;
+    const hold = st.hold ?? 12;
+    if (!(hold >= 2 && hold <= 180)) throw new Error(`${where}: hold must be 2..180 seconds`);
+    const media = st.media ?? [];
+    if (!Array.isArray(media) || media.length > LIMITS.maxStopMedia) throw new Error(`${where}: media must be a list of at most ${LIMITS.maxStopMedia}`);
+    const norm = media.map((m, k) => {
+      const o = typeof m === 'string' ? { src: m } : m;
+      if (!o || typeof o.src !== 'string' || !o.src) throw new Error(`${where}.media[${k}]: needs src (a path or an http(s) URL)`);
+      const rel = /^(remake|library|anim|parallax):/.test(o.src) ? o.src.replace(/^[a-z]+:/, '') : o.src;
+      if (!/^https?:\/\//.test(o.src) && (rel.split('/').includes('..') || (rel !== o.src && rel.startsWith('/')))) throw new Error(`${where}.media[${k}]: '..' is not allowed in paths`);
+      return { src: o.src, credit: String(o.credit || '').slice(0, 300), caption: String(o.caption || '').slice(0, 200) };
+    });
+    const kind = st.kind ?? 'none';
+    if (!STOP_KINDS.includes(kind)) throw new Error(`${where}: kind must be one of ${STOP_KINDS.join(', ')}`);
+    const zoom = st.zoom ?? 3;
+    if (!(zoom >= 1.2 && zoom <= 12)) throw new Error(`${where}: zoom must be 1.2..12`);
+    return { ...st, hold, media: norm, kind, zoom, date: String(st.date || formatYear(st.year)).slice(0, 60) };
+  });
+}
 
 export function formatYear(y) {
-  const n = Math.round(Number(y));
-  if (!Number.isFinite(n)) return '';
+  // year Y BC runs from -Y up to -Y+1 (month m = -Y + (m-1)/12), so a fractional year belongs to its floor
+  // (rounding made July 218 BC, -217.42, read "217 BC"); float noise near an integer is snapped first.
+  const v = Number(y);
+  if (!Number.isFinite(v)) return '';
+  const n = Math.abs(v - Math.round(v)) < 1e-6 ? Math.round(v) : Math.floor(v);
   if (n < 0) return `${-n} BC`;
   const ad = n === 0 ? 1 : n;
   return ad < 1000 ? `AD ${ad}` : String(ad);
@@ -133,5 +177,6 @@ export function validateJob(job) {
     if (!c.name || !(c.lat >= -90 && c.lat <= 90) || !(c.lon >= -180 && c.lon <= 180)) throw new Error(`cities[${i}] needs name, lat, lon`);
   }
   if (!t && !(j.routes || []).length) throw new Error('a job needs territories and/or routes');
+  j.stops = validateStops(j.stops, j.years);
   return j;
 }
