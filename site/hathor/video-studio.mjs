@@ -14,6 +14,7 @@
 // Pentecaust Connect is the opt-in server-side custodian. Nothing here reads, logs or stores a provider key.
 // Everything carries the Alpha notice. Pure builders + a small JSONL store; esc() on every interpolation; soft-fail.
 
+import { syncRoute } from './media-sync.mjs';
 import { readFileSync, existsSync, appendFileSync, mkdirSync, statSync, createWriteStream, createReadStream, renameSync, openSync, readSync, closeSync } from 'node:fs';
 import { ENGINE_CLIENT_JS } from './engines.mjs';
 import * as TK from './video-studio-toolkit.mjs';
@@ -454,6 +455,7 @@ export async function videoStudioRoute(req, res, path, ctx) {
     // ── worker API (token) — the CPU worker pulls jobs and pushes results; no SSH between hosts ──
     if (path.startsWith('/video-studio/api/worker/')) {
       if (!workerAuth(req)) { json(res, 401, { ok: false }); return true; }
+      if (path.startsWith('/video-studio/api/worker/sync/')) { if (await syncRoute(req, res, path, method, { vsDir: VS_DIR(), json })) return true; }
       if (path === '/video-studio/api/worker/next' && method === 'POST') {
         const next = [...loadJobs().values()].filter((j) => j.status === 'queued').sort((a, b) => a.queuedAt - b.queuedAt)[0];
         if (!next) { json(res, 200, { ok: true, job: null }); return true; }
