@@ -439,7 +439,16 @@ function stageFor(item) {
   </video>`;
 }
 
-function watchShell(item) {
+// Watch ⇄ review: the film's SoapBox Films score and review link, beside the player.
+function reviewPanel(item, film) {
+  if (film) {
+    return `<div class=licbox style="margin-top:10px"><b>SoapBox Films:</b> ${film.badge} &nbsp; <a class=btn href="${esc(film.reviewHref)}">★ Rate &amp; review</a> <a class=btn href="${esc(film.href)}">Reviews &amp; where else to watch</a></div>`;
+  }
+  const q = `${item.title || ''}${item.year ? ` ${item.year}` : ''}`.trim();
+  return q ? `<div class=licbox style="margin-top:10px"><a class=btn href="/films?q=${encodeURIComponent(q)}">★ Find it on SoapBox Films to rate &amp; review</a></div>` : '';
+}
+
+function watchShell(item, film = null) {
   const g = gateWatch(item);
   const stage = stageFor(item);
   const meta = [item.year, item.creator].filter(Boolean).join(' · ');
@@ -448,6 +457,7 @@ function watchShell(item) {
     <div class=info>${licbox}
       <h1 style="font-size:20px;margin:.2em 0">${esc(item.title || 'Untitled')}</h1>
       ${meta ? `<p class=meta style="color:var(--mut)">${esc(meta)}</p>` : ''}
+      ${reviewPanel(item, film)}
       <p><a class=btn href="/">← Back to Stream</a> ${item.href ? `<a class=btn href="${esc(safeHref(item.href))}" target=_blank rel="noopener noreferrer">Source ↗</a>` : ''}</p>
     </div>`;
   return pageShell(`${item.title || 'Watch'} · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/watch` });
@@ -459,13 +469,15 @@ async function resolveItem(src, id) {
   if (!rawId) return null;
   if (src === 'ia') {
     const m = await archiveVideo.archiveMetadata(rawId);
+    // Our hand-verified public-domain list (horror-taxonomy) is cleared even when IA's item lacks a licenseurl.
+    const curated = horror.PD_HORROR_FILMS.find((x) => x.id === rawId);
     if (m) return m;
     // fall back to a minimal IA item (official player) even if metadata fails.
     return {
       id: rawId, title: rawId, kind: 'film', year: '', creator: '',
       thumb: `https://archive.org/services/img/${rawId}`,
       streamUrl: `https://archive.org/details/${rawId}`,
-      license: 'Public domain (Internet Archive — see item page)', licenseToken: 'public-domain',
+      license: curated ? 'Public domain (curated by SoapBox Stream)' : 'License not verified — see the Internet Archive page', licenseToken: curated ? 'public-domain' : 'unverified',
       source: 'Internet Archive', attribution: `Internet Archive — ${rawId}`, posture: 'window',
       href: `https://archive.org/details/${rawId}`,
     };
@@ -557,7 +569,9 @@ export async function handler(req, res) {
       const id = watchM ? watchM[2] : (url.searchParams.get('id') || '');
       const item = await resolveItem(src, id);
       if (!item) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown title'); }
-      return sendHtml(res, watchShell(item));
+      const films = await import('../films/server.mjs');
+      const film = films.filmForStream({ ia: src === 'ia' ? String(id) : '', title: item.title, year: item.year });
+      return sendHtml(res, watchShell(item, film));
     }
 
     // /horror  (landing)  and  /horror/:id  (a top-level genre OR a survival-wing category)

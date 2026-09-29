@@ -16,6 +16,7 @@
 //   PORT=8214 BASE_URL=https://stream.soapbox.community node site/films/server.mjs
 //   Env: FILMS_DATA_DIR (default <repo>/data/films), TMDB_API_KEY (optional), FILMS_ADMIN_TOKEN (optional).
 
+import * as horrorTax from '../../integrations/soapbox/horror-taxonomy.mjs';
 import { createServer } from 'node:http';
 import { readFileSync, statSync, mkdirSync, appendFileSync } from 'node:fs';
 import { createHash, randomBytes } from 'node:crypto';
@@ -106,7 +107,7 @@ export function catalog() {
   _cat = { byId, list, genres, stamp, checked: now };
   return _cat;
 }
-export function __resetCatalog() { _cat = null; _searchCache.clear(); _tmdbCache.clear(); _rate.clear(); _origCache = null; }
+export function __resetCatalog() { _free = null; _archIdx = null; _cat = null; _searchCache.clear(); _tmdbCache.clear(); _rate.clear(); _origCache = null; }
 
 function remember(recs) {
   const cat = catalog();
@@ -202,6 +203,54 @@ function titleFor(id) {
 }
 
 // ── where to watch ──────────────────────────────────────────────────────────────────────────────────
+// ── the Stream bridge ─────────────────────────────────────────────────────────────────────────────
+// SoapBox Stream plays only curated, license-cleared public-domain copies (horror-taxonomy's PD list is the
+// curated set). A film here gets "Watch free on SoapBox Stream" when the Stream holds a cleared copy of it —
+// matched by its Internet Archive id, or by title + year — and a Stream player page shows this film's score
+// and a review link (filmForStream). Watch ⇄ review, both ways.
+let _free = null;
+function freeCopies() {
+  if (_free) return _free;
+  const byIa = new Map(); const byTitle = new Map();
+  for (const f of horrorTax.PD_HORROR_FILMS || []) {
+    byIa.set(String(f.id), f);
+    const k = bare(norm(f.title));
+    if (!byTitle.has(k)) byTitle.set(k, []);
+    byTitle.get(k).push(f);
+  }
+  _free = { byIa, byTitle };
+  return _free;
+}
+/** The Stream's cleared free copy of a film record, or null. */
+export function freeCopyFor(r) {
+  if (!r) return null;
+  const F = freeCopies();
+  if (r.w && r.w.archive && F.byIa.has(r.w.archive)) return F.byIa.get(r.w.archive);
+  const cands = F.byTitle.get(bare(norm(r.t))) || [];
+  return cands.find((f) => r.y && f.year && Math.abs(+f.year - +r.y) <= 1) || null;
+}
+let _archIdx = null;
+/** The film record for a Stream item ({ ia, title, year }), with its review stats. Never throws. */
+export function filmForStream({ ia = '', title = '', year = '' } = {}) {
+  try {
+    const cat = catalog();
+    if (!_archIdx || _archIdx.stamp !== cat.stamp) {
+      const m = new Map();
+      for (const r of cat.list) if (r.w && r.w.archive) m.set(r.w.archive, r.id);
+      _archIdx = { stamp: cat.stamp, m };
+    }
+    let r = ia && _archIdx.m.has(ia) ? cat.byId.get(_archIdx.m.get(ia)) : null;
+    if (!r && ia) { const f = freeCopies().byIa.get(ia); if (f) { title = f.title; year = f.year; } } // IA titles are long; ours are clean
+    if (!r && title) {
+      const want = bare(norm(title));
+      r = searchLocal(`${title}${year ? ` ${year}` : ''}`, { limit: 5 }).find((x) => bare(norm(x.t)) === want && (!year || !x.y || Math.abs(+x.y - +year) <= 1)) || null;
+    }
+    if (!r) return null;
+    const stats = statsMap().get(r.id) || null;
+    return { id: r.id, t: r.t, y: r.y || '', href: `${PREFIX}/${r.id}`, reviewHref: `${PREFIX}/${r.id}#review`, stats, badge: scoreBadge(stats) };
+  } catch { return null; }
+}
+
 export function watchLinks(r) {
   const listed = [];
   const seenNames = new Set();
@@ -214,7 +263,9 @@ export function watchLinks(r) {
   const ours = [];
   // Only offer "play free here" when the film is old enough to be public domain in the US (published by
   // PD_YEAR). Newer Internet Archive uploads are often not licensed, so they are listed, never played.
-  if (r && r.w && r.w.archive && r.y && r.y <= PD_YEAR) ours.push({ name: 'Play free on SoapBox Stream', href: `/watch?src=ia&id=${encodeURIComponent(r.w.archive)}`, note: `Public domain in the US (published ${r.y}) — Internet Archive copy` });
+  const cleared = freeCopyFor(r);
+  if (cleared) ours.push({ name: 'Watch free on SoapBox Stream', href: `/watch?src=ia&id=${encodeURIComponent(cleared.id)}`, note: 'Public domain — a copy curated and cleared on SoapBox Stream' });
+  else if (r && r.w && r.w.archive && r.y && r.y <= PD_YEAR) ours.push({ name: 'Watch free on SoapBox Stream', href: `/watch?src=ia&id=${encodeURIComponent(r.w.archive)}`, note: `Public domain in the US (published ${r.y}) — Internet Archive copy` });
   const refs = [];
   for (const s of wd.REFS) {
     const id = r && r.r && r.r[s.key];
@@ -446,7 +497,7 @@ document.addEventListener('DOMContentLoaded',function(){
 function reviewForm(filmId, filmTitle) {
   const opts = [];
   for (let s = 5; s >= 0.5; s -= 0.5) opts.push(`<option value="${s}"${s === 4 ? ' selected' : ''}>${starStr(s)} ${s}</option>`);
-  return `<div class=box><h2 style="margin-top:0">Your review of ${esc(filmTitle)}</h2>
+  return `<div class=box id=review><h2 style="margin-top:0">Your review of ${esc(filmTitle)}</h2>
 <form class=review><input type=hidden name=film value="${esc(filmId)}">
 <label>Rating</label><select name=stars>${opts.join('')}</select>
 <label>Headline (optional)</label><input name=title maxlength=${LIMITS.title}>
@@ -468,8 +519,15 @@ function homePage() {
   const cardFor = (id) => (isOriginalId(id) ? (originalBySlug(id.slice(2)) ? originalCard(originalBySlug(id.slice(2)), stats) : '') : (cat.byId.get(id) ? card(cat.byId.get(id), stats) : ''));
   const orig = originals();
   const popular = cat.list.slice(0, 24);
+  const free = [];
+  for (const f of horrorTax.PD_HORROR_FILMS || []) {
+    const m = filmForStream({ ia: f.id, title: f.title, year: f.year });
+    if (m && cat.byId.get(m.id) && !free.some((x) => x.id === m.id)) free.push(cat.byId.get(m.id));
+    if (free.length >= 18) break;
+  }
   const inner = `<h1>Every film. Where to watch it. What people really thought.</h1>
 <p class=lead>${cat.list.length.toLocaleString('en-US')} films from Wikidata, with the streaming services each one is listed on, free copies we can play for you, and reviews from SoapBox viewers. Search any title — if it's not in our set yet, we look it up live.</p>
+${free.length ? `<h2>Free on SoapBox Stream <span class=meta style="font-size:13px">· public domain, watch then review</span></h2><div class=grid>${free.map((r) => card(r, stats)).join('')}</div>` : ''}
 ${orig.length ? `<h2>SoapBox originals</h2><div class=grid>${orig.slice(0, 12).map((o) => originalCard(o, stats)).join('')}</div>` : ''}
 ${byScore.length ? `<h2>Top rated by viewers</h2><div class=grid>${byScore.map((a) => cardFor(a.film)).join('')}</div>` : ''}
 ${byCount.length ? `<h2>Most reviewed</h2><div class=grid>${byCount.map((a) => cardFor(a.film)).join('')}</div>` : ''}

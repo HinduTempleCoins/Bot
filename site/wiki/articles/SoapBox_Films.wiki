@@ -1,0 +1,23 @@
+'''SoapBox Films''' is the film database and audience-review surface of the [[SoapBox]] ecosystem, published at stream.soapbox.community/films. It works alongside [[SoapBox Stream]]: Stream is where free films play, and Films is where any film can be looked up, located and reviewed.
+
+== What it holds ==
+* A catalogue of notable films of every kind, built from Wikidata, with director, cast, genre, year and runtime.
+* '''Where to watch''': links to the services a film is listed on (streaming, rental, free-with-ads), plus a general search link. Availability varies by region and changes over time, so these are listings, not guarantees.
+* '''Audience reviews''': anyone can rate a film from half a star to five and write a review, with no account. Each film gets an audience score: the share of ratings at 3.5 stars or more, with the average and the number of reviews.
+
+== Watch and review, both ways ==
+When SoapBox Stream holds a free, public-domain copy of a film, the film's page offers '''Watch free on SoapBox Stream'''. From the Stream player, the film's score and a '''Rate & review''' link sit beside the video. The Stream's horror shelves, including A Map of Horror and the Girl Has to Kill Everyone genre, link every title into Films.
+
+== Scope ==
+Films is a separate system from this Library. Individual films are not Library articles; they live on SoapBox Films.
+
+== See also ==
+* [[SoapBox Stream]]
+* [[SoapBox]]
+
+== Sources ==
+* [https://stream.soapbox.community/films stream.soapbox.community/films]
+* [https://stream.soapbox.community/horror/map A Map of Horror]
+
+== Coverage ==
+Describes the surface and how it connects to SoapBox Stream. The catalogue and the where-to-watch listings change as their sources change.

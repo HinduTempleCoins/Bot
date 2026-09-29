@@ -203,3 +203,17 @@ test('search: a trailing year picks between same-titled films instead of matchin
   assert.deepEqual(splitYear('2001: A Space Odyssey'), { q: '2001: A Space Odyssey', year: 0 });
   assert.deepEqual(splitYear('Blade Runner 2049'), { q: 'Blade Runner 2049', year: 0 }); // not a release year
 });
+
+test('bridge: a Stream-curated public-domain copy gives a film "Watch free", and a Stream item finds its film + review link', async () => {
+  const f = await import('./server.mjs');
+  const tax = await import('../../integrations/soapbox/horror-taxonomy.mjs');
+  const pd = tax.PD_HORROR_FILMS.find((x) => x.year > 1930) || tax.PD_HORROR_FILMS[0];
+  const rec = { id: 'Q999001', t: pd.title, y: pd.year, w: {} };
+  const copy = f.freeCopyFor(rec);
+  assert.equal(copy && copy.id, pd.id);
+  const links = f.watchLinks(rec);
+  assert.equal(links.ours[0].name, 'Watch free on SoapBox Stream');
+  assert.match(links.ours[0].href, new RegExp(`id=${encodeURIComponent(pd.id)}`));
+  assert.equal(f.freeCopyFor({ id: 'Q1', t: pd.title, y: pd.year + 30, w: {} }), null); // same title, other film
+  assert.equal(f.filmForStream({ ia: 'no-such-item', title: '', year: '' }), null);
+});

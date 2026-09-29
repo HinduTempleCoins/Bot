@@ -35,8 +35,14 @@ test('esc escapes the single quote too', () => {
 test('licenseLabel: CC0/PDM, PD, CC-BY, and collection fallback', () => {
   assert.equal(licenseLabel('https://creativecommons.org/publicdomain/mark/1.0/').token, 'cc0');
   assert.equal(licenseLabel('https://creativecommons.org/licenses/by/4.0/').token, 'cc-by');
-  assert.equal(licenseLabel('').token, 'public-domain');
+  assert.equal(licenseLabel('').token, 'unverified'); // no licence, no year, no PD collection → not free
   assert.match(licenseLabel('', ['prelinger']).label, /Prelinger/);
+  assert.equal(licenseLabel('', ['feature_films']).token, 'unverified'); // community uploads are not verified
+  assert.equal(licenseLabel('', ['feature_films'], { year: '1922' }).token, 'public-domain'); // PD by age
+  assert.equal(licenseLabel('', ['feature_films'], { year: '1968' }).token, 'unverified');
+  // rip-named uploads are refused even if they claim a public-domain licence
+  assert.equal(licenseLabel('https://creativecommons.org/publicdomain/mark/1.0/', [], { id: 'isi-ka-naam-zindagi-1992-dv-drip-x-264-esubs-ddr' }).token, 'refused-rip');
+  assert.equal(licenseLabel('', ['feature_films'], { id: 'nazar-ke-samne-1995-xvi-drip-mp-3-torrent', year: '1920' }).token, 'refused-rip');
 });
 
 test('toTile normalizes a doc → shared tile with a whitelisted IA player streamUrl + license', () => {
@@ -48,7 +54,7 @@ test('toTile normalizes a doc → shared tile with a whitelisted IA player strea
   assert.equal(t.source, 'Internet Archive');
   assert.match(t.streamUrl, /^https:\/\/archive\.org\/embed\/night_of_the_living_dead$/); // IA official player
   assert.ok(t.license, 'every tile carries a license label');
-  assert.equal(t.licenseToken, 'public-domain');
+  assert.equal(t.licenseToken, 'unverified'); // 1968 feature_films upload, no licenseurl: cleared only via the curated PD list
 });
 
 test('toTile handles array title/year/creator and drops no-identifier docs', () => {
@@ -63,15 +69,15 @@ test('toTile handles array title/year/creator and drops no-identifier docs', () 
 
 test('parseSearch parses the advancedsearch response, dropping the junk doc', () => {
   const tiles = parseSearch(SEARCH_JSON, 'film');
-  assert.equal(tiles.length, 2);
+  assert.equal(tiles.length, 1); // the unverified 1968 upload is not listed; the CC0 Prelinger film is
   assert.ok(tiles.every((t) => t.streamUrl && t.license && t.source === 'Internet Archive'));
 });
 
 test('searchArchive fetches + parses → tiles', async () => {
   __setFetch(mockJson(SEARCH_JSON));
   const out = await searchArchive({ q: 'zombie', rows: 5 });
-  assert.equal(out.length, 2);
-  assert.equal(out[0].id, 'night_of_the_living_dead');
+  assert.equal(out.length, 1);
+  assert.equal(out[0].id, 'PrelingerHomeMovie');
   __setFetch(null);
 });
 
