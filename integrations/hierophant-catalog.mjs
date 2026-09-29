@@ -588,7 +588,7 @@ export const TEXTS = [
     what: 'The Phoenicians\' own account of the beginning, surviving only because Eusebius quoted it in Praeparatio Evangelica I.6–7 in order to attack it. A cosmogony of wind and desire, then generations of culture-heroes who INVENT things — fire, fishing, letters, metal, the working of iron — and are afterwards worshipped as gods. Ouranos, El (given as Cronus), Dagon and Astarte are named in a line.',
     note: '⚠️ Contested for three centuries as a possible forgery by Philo. The Ugaritic tablets changed that: the correspondences are too many and too specific. Philo divided the work into nine books; what survives is fragments inside a hostile Christian apologetic, and Renan reconstructed the eight cosmogonies from Eusebius and Porphyry. ⭐ Its structure is the Watcher pattern in Phoenician dress — knowledge arrives with named teachers, and the teachers become gods.',
     links: { sacredTexts: `${ST}/cla/sanchun/index.htm`, archive: `${AR}/sanchoniathospho00cumb` }, verified: false,
-    entities: [],
+    entities: ['melqart'],
     companions: [
       { id: 'baal-cycle', why: 'The tablets that proved this text is carrying real Canaanite tradition.' },
       { id: 'first-enoch', why: 'The same shape: named beings bring the arts to humanity and are remembered for it.' },

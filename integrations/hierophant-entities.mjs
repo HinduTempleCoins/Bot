@@ -14,7 +14,7 @@
 // /Olympios|/Titan|/Khthonios|/Heros… path scheme; we cannot machine-verify them here (no network
 // in this data layer), so they use the canonical scheme and are surfaced as "→ Theoi" links.
 //
-// ICONOGRAPHY: Greek, Egyptian, Norse and Hindu figures also carry `look` (a concise, concrete description of
+// ICONOGRAPHY: Greek, Egyptian, Norse, Hindu and Canaanite & Phoenician figures also carry `look` (a concise, concrete description of
 // how the figure is traditionally depicted — attributes, dress, crown, colours, mounts, arms/heads — preferring
 // what ancient art/texts attest and flagging later conventions NOT to use) and `lookSources` (the pages the
 // look was taken from). Used to prompt the Studio image generator; summarised in
@@ -258,6 +258,24 @@ export const ENTITIES = [
     look: 'A woman wearing the Double Crown of Upper and Lower Egypt, in a bright red or blue dress, holding an ankh, sometimes with vulture wings and Maat\'s feather at her feet.',
     lookSources: [`${W}/Mut`],
   },
+  {
+    id: 'heka', name: 'Heka', tradition: 'egyptian', type: 'god',
+    epithets: ['Hike', 'Magic deified', 'Son of Khnum (at Esna)'],
+    desc: 'The deification of magic and medicine — a creative force said to have existed "before duality", made by Atum at the beginning of time; in the Pyramid Texts a power the gods possess, later a god who protects Osiris in the Duat and, at Esna, son of Khnum and Neith. Healers were called "priests of Heka".',
+    relationships: [{ rel: 'parent', to: 'neith' }],
+    texts: ['pyramid-texts', 'coffin-texts'], links: { wikipedia: `${W}/Heka_(god)` },
+    look: 'A man wearing the hemhem crown and the sidelock of youth, carrying crook, flail and ankh; in his magical form holding two serpents crossed over each other, with the hieroglyph of his name (a lion\'s hindquarters) on a standard on his head. Also shown as a man with a magic staff and a knife, the healer\'s tools. The crossed serpents are his own emblem — do not render them as the Greek winged caduceus.',
+    lookSources: [`${W}/Heka_(god)`, 'https://ancientegyptonline.co.uk/heka/'],
+  },
+  {
+    id: 'heqet', name: 'Heqet', tradition: 'egyptian', type: 'goddess',
+    epithets: ['Heket', 'She Who Hastens the Birth', 'the Frog Goddess'],
+    desc: 'Frog goddess of fertility and the last moments of childbirth, female counterpart of the potter-god Khnum, who breathes life into the bodies he shapes; she breathed life into Horus at his birth, and her amulets came to read "I am the resurrection". Named in the Pyramid Texts; identified with Hathor.',
+    relationships: [{ rel: 'aspect-of', to: 'hathor' }],
+    texts: ['pyramid-texts'], links: { wikipedia: `${W}/Heqet` },
+    look: 'A frog, or a woman with the head of a frog; in birth-house reliefs (Dendera mammisi) she attends Khnum as he moulds a child on his potter\'s wheel. Her name is written with a frog determinative, and Middle Kingdom ritual ivory knives and clappers used to ward off evil in childbirth carry it; frog amulets were worn in childbirth.',
+    lookSources: [`${W}/Heqet`, 'https://ancientegyptonline.co.uk/heqet/'],
+  },
 
   // ── Mesopotamian ─────────────────────────────────────────────────────────────────────────────
   {
@@ -313,6 +331,26 @@ export const ENTITIES = [
     epithets: ['the Faraway', 'the Babylonian Noah'],
     desc: 'The flood survivor granted immortality by the gods, who tells Gilgamesh the story of the deluge — the Mesopotamian precursor of Noah.',
     relationships: [], texts: ['gilgamesh'], links: { wikipedia: `${W}/Utnapishtim` },
+  },
+
+  // ── Canaanite & Phoenician ───────────────────────────────────────────────────────────────────
+  {
+    id: 'melqart', name: 'Melqart', tradition: 'phoenician', type: 'god',
+    epithets: ['Milk-qart ("King of the City")', 'Baal of Tyre', 'the Tyrian Heracles', 'Melkathros'],
+    desc: 'Tutelary god of Tyre and patron of Phoenician kings, merchants and colonies, with temples from Tyre to Gades; his death and rising were kept in the spring egersis ("awakening"). Philo of Byblos names him Melkathros "who is also called Heracles", and from at least the 6th century BCE he was equated with the Greek hero.',
+    relationships: [{ rel: 'aspect-of', to: 'heracles' }],
+    texts: ['phoenician-history'], links: { wikipedia: `${W}/Melqart` },
+    look: 'A striding bearded man, bare-chested and barefoot, in a short loincloth-skirt and a conical, dome-shaped cap, a fenestrated axe over his shoulder and an ankh or lotus flower in his other hand (the 9th–8th c. BCE Bir-Hadad stele from near Aleppo). On Tyrian silver coins he rides a hippocamp (seahorse) and holds a bow. The lion skin and club are Heraclean iconography adopted from the 6th c. BCE (Cyprus, Gades coins), a Hellenized form; at Tyre itself the Phoenicians made no large cult statue — he was represented by an eternal fire.',
+    lookSources: [`${W}/Melqart`, 'https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/melqart', 'https://www.worldhistory.org/Melqart/'],
+  },
+  {
+    id: 'tanit', name: 'Tanit', tradition: 'phoenician', type: 'goddess',
+    epithets: ['Tinnit', 'Pene Baal ("Face of Baal")', 'Rabat ("the Lady")', 'Juno Caelestis (Roman)'],
+    desc: 'Chief goddess of Punic Carthage from the 5th century BCE, consort of Baal Hammon, protector of the city, homes and families, of fertility and rain; worshipped across North Africa, Sicily, Malta and Gades and, after Carthage fell, as Juno Caelestis. The Greeks equated her with Athena, the Egyptians with Neith. "Tanit" is a modern vocalisation: Greek transcriptions give Tinnit.',
+    relationships: [],
+    texts: [], links: { wikipedia: `${W}/Tanit` },
+    look: 'Mostly aniconic: the sign of Tanit — a disc head over a horizontal bar of arms on a triangle or trapezium body, later a woman raising her hands — carved on Tophet votive stelae, often under a crescent moon and beside palm motifs. On Carthaginian coins, a woman\'s head, with a horse and a date palm on the reverse. Also shown riding a lion or lion-headed (her warrior aspect), sometimes naked or bare-breasted; dove, horse and date palm are her animals and tree. The sign\'s link to Tanit is widely but not universally accepted.',
+    lookSources: [`${W}/Tanit`, `${W}/Sign_of_Tanit`],
   },
 
   // ── Greek (theoi links) ──────────────────────────────────────────────────────────────────────
