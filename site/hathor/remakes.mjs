@@ -76,6 +76,28 @@ export function serveRemakeImage(res, rel, dir = REMAKES_DIR()) {
   return res.end(readFileSync(full));
 }
 
+/** first realistic image, for og:image. → "<scene>/<file>" or '' */
+export function remakesHero(manifest) {
+  for (const s of manifest.scenes || []) { const set = s.looks && s.looks['1_real']; const k = set && Object.keys(set)[0]; if (k) return `${s.key}/${set[k]}`; }
+  return '';
+}
+
+/** schema.org ImageGallery: one ImageObject per scene (its first realistic remake), credited to the source. */
+export function remakesLd(manifest, base) {
+  const images = [];
+  for (const s of (manifest.scenes || [])) {
+    const set = (s.looks && (s.looks['1_real'] || s.looks['2_half'] || s.looks['3_full'])) || {};
+    const p = Object.keys(set)[0];
+    if (!p) continue;
+    images.push({ '@type': 'ImageObject', name: `${s.title} — ${PEOPLES[p] || p}, remade`, contentUrl: `${base}/remakes/img/${s.key}/${set[p]}`,
+      url: `${base}/remakes#${s.key}`, ...(s.credit ? { isBasedOn: s.credit, creditText: `Remake by Hathor Studio after ${s.credit}` } : {}),
+      creator: { '@type': 'Person', name: 'Hathor' } });
+    if (images.length >= 150) break;
+  }
+  return { '@context': 'https://schema.org', '@type': 'ImageGallery', name: 'Remakes — the ancient world, re-rendered', url: `${base}/remakes`,
+    description: 'Tomb paintings, stelae and frescoes remade realistic, half vaporwave and in the full MELEK look, in several peoples side by side.', image: images };
+}
+
 export default { LOOKS, PEOPLES, loadManifest, remakesBody, serveRemakeImage, REMAKES_DIR };
 
 // ── /remake — the customer tool: upload a painting/relief/fresco, keep its layout, choose a look and a people ──

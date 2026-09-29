@@ -68,8 +68,8 @@ import { generateVideo, VIDEO_PROVIDERS, BYOK_INSTRUCTIONS, serverConfigured } f
 import { homeInterceptScript, enginesBody, learnBody, DOWNLOADS as ENGINE_DOWNLOADS } from './engines.mjs';
 import { loadSymbols, getSymbol, symbolsIndexBody, symbolPageBody, serveSymbolAsset } from './symbols.mjs';
 import { loadIndex as loadScripts, loadScript, scriptsIndexBody, scriptPageBody, serveGlyphAsset } from './scripts.mjs';
-import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt } from './remakes.mjs';
-import { loadAnimManifest, aggregate as animAggregate, animationsBody, rate as animRate, serveAnimMedia, readFeedback as animFeedback } from './animations.mjs';
+import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt, remakesLd, remakesHero } from './remakes.mjs';
+import { loadAnimManifest, aggregate as animAggregate, animationsBody, rate as animRate, serveAnimMedia, readFeedback as animFeedback, animationsLd } from './animations.mjs';
 
 const PORT = +(process.env.PORT || 8131);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -227,6 +227,9 @@ const FOOTER = `<footer>
   <div style="margin-top:6px">💬 <a href="${esc(DISCORD)}" target=_blank rel="noopener"><b>Chat on Discord</b></a> — Hathor is in there. Come say hi.</div>
 </footer>`;
 
+// JSON-LD safe to inline in <script>: no raw '<' (so no </script> breakout), no undefined fields.
+export const ldJson = (o) => JSON.stringify(o).replace(/</g, '\\u003c');
+
 function pageShell(title, body, opts = {}) {
   const desc = opts.description || 'Hathor Studio — make images, remakes of ancient art, and videos, free with no login, on our own servers. Templates, character effects, ancient scripts, and your own engine if you want more.';
   const canonical = opts.canonical || `${BASE_URL}/`;
@@ -239,7 +242,7 @@ function pageShell(title, body, opts = {}) {
 <link rel=canonical href="${esc(canonical)}">${opts.image ? `
 <meta property="og:type" content="website"><meta property="og:title" content="${esc(opts.ogTitle || title)}"><meta property="og:description" content="${esc(desc)}">
 <meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${opts.jsonld ? `<script type="application/ld+json">${ldJson(opts.jsonld)}</script>` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
   <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
 <main class=wrap>${body}</main>
@@ -2183,6 +2186,7 @@ export function videoView() {
 
 const SITEMAP_PATHS = [
   '/', '/news', '/edit', '/webcam', '/ar-libraries', '/video', '/vectorize', '/cards', '/templates', '/gallery', '/directory', '/comfyui', '/colab', '/reel-maker', '/char', '/hathor', '/halloween', '/school',
+  '/remakes', '/remake', '/animations', '/mythology', '/visualize', '/compose', '/scripts', '/symbols', '/engines', '/learn/make', '/tools', '/pentecaust', '/pentecaust/bifrost',
   ...TEMPLATES.map((t) => `/templates/${t.id}`),
   ...COMFY_TEMPLATES.map((t) => `/comfyui/${t.id}`),
   ...REEL_TEMPLATES.map((t) => `/reel-maker/${t.id}`),
@@ -2213,7 +2217,9 @@ export async function handler(req, res) {
     if (path === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
     if (path === '/sitemap.xml') {
       const today = new Date().toISOString().slice(0, 10);
-      const entries = SITEMAP_PATHS.map((u) => ({ path: u, lastmod: today, changefreq: u === '/' ? 'daily' : 'weekly', priority: u === '/' ? '1.0' : '0.6' }));
+      const dynamic = [...loadScripts().map((c) => `/scripts/${c.id}`), ...loadSymbols().map((x) => `/symbols/${x.id}`)];
+      const busy = new Set(['/', '/remakes', '/animations']);
+      const entries = [...SITEMAP_PATHS, ...dynamic].map((u) => ({ path: u, lastmod: today, changefreq: busy.has(u) ? 'daily' : 'weekly', priority: u === '/' ? '1.0' : busy.has(u) ? '0.8' : '0.6' }));
       res.writeHead(200, { 'content-type': 'application/xml' });
       return res.end(sitemapXml(BASE_URL, entries));
     }
@@ -2221,14 +2227,25 @@ export async function handler(req, res) {
     if (path === '/llms.txt') {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
       return res.end(llmsTxt({
-        name: 'Generative AI', baseUrl: BASE_URL,
-        summary: 'Make AI images now — free-first, no login. Prompt box, CapCut-style templates, and a gallery. Powered by Cloudflare Workers AI, Google Gemini, and Pollinations.ai (keyless fallback).',
+        name: 'Hathor Studio', baseUrl: BASE_URL,
+        summary: 'Hathor Studio is the free generative-AI studio of Hathor, the AI witness of the MELEK blockchain. It makes images, remakes of ancient art, and short animations on its own CPU servers: no login, no card. It remakes tomb paintings, stelae and frescoes realistic, half vaporwave or in the full MELEK look, showing the ancient Mediterranean as the many peoples it was (Egyptian, Nubian, Libyan/Amazigh, Levantine, Minoan, Punic, Greek). It also hosts real ancient scripts as images, sacred symbols, mythology, and ways to run the engine yourself.',
         links: [
+          { label: 'Remakes gallery', path: '/remakes', note: 'ancient scenes remade in three looks and several peoples, beside the source' },
+          { label: 'Animation lab', path: '/animations', note: 'short test animations Hathor makes; visitors vote and comment, and the next batch learns from the votes' },
+          { label: 'Remake tool', path: '/remake', note: 'upload an ancient artwork, keep its layout, choose a look and a people' },
+          { label: 'Ancient scripts', path: '/scripts', note: 'every sign of 29 real scripts as free images, plus an inscription maker' },
+          { label: 'Sacred symbols', path: '/symbols', note: 'religious and occult symbols across traditions and time' },
+          { label: 'Mythology', path: '/mythology', note: 'Greek, Egyptian, Norse and Hindu figures' },
+          { label: 'Characters', path: '/char', note: 'character effects: become an animal, a hero, a deity' },
+          { label: 'Appear with Hathor', path: '/hathor' },
           { label: 'Templates', path: '/templates' },
+          { label: 'Your engines', path: '/engines', note: 'use ours free, or bring your own worker (PC, Colab, Modal GPU) or a fal / Gemini key' },
+          { label: 'Make it yourself', path: '/learn/make', note: 'how the images are made, and how to run the engine yourself' },
           { label: 'ComfyUI workflows', path: '/comfyui' },
           { label: 'Google Colab notebooks', path: '/colab' },
-          { label: 'Reel template maker', path: '/reel-maker' },
-          { label: 'Gallery', path: '/gallery' },
+          { label: 'Remakes data (JSON)', path: '/remakes/manifest.json', note: 'titles, credits, groups and image names for every remade scene' },
+          { label: 'Animations data (JSON)', path: '/animations/manifest.json', note: 'every clip with the recipe that made it' },
+          { label: 'Library of Ashurbanipal', url: 'https://wiki.soapbox.community/llms.txt', note: 'the knowledge library of the same ecosystem' },
         ],
       }));
     }
@@ -2420,7 +2437,9 @@ export async function handler(req, res) {
     }
     if (path === '/remakes') {
       const look = new URL(req.url, BASE_URL).searchParams.get('look') || '1_real';
-      return sendHtml(res, pageShell('Remakes — the ancient world, re-rendered', remakesBody(loadRemakes(), { look, base: BASE_URL }), { canonical: `${BASE_URL}/remakes`, description: 'Tomb paintings, stelae and Minoan frescoes remade in three looks and in several peoples side by side — Egyptian, Minoan, Nubian, Libyan, Levantine — made on our own servers.' }));
+      const rm = loadRemakes();
+      const hero = remakesHero(rm);
+      return sendHtml(res, pageShell('Remakes — the ancient world, re-rendered', remakesBody(rm, { look, base: BASE_URL }), { canonical: `${BASE_URL}/remakes`, image: hero ? `${BASE_URL}/remakes/img/${hero}` : undefined, jsonld: remakesLd(rm, BASE_URL), description: 'Tomb paintings, stelae and Minoan frescoes remade in three looks and in several peoples side by side — Egyptian, Minoan, Nubian, Libyan, Levantine — made on our own servers.' }));
     }
     if (path === '/remakes/manifest.json') { // the gallery's scene list (titles, credits, image names) — what the page already shows
       const s = JSON.stringify(loadRemakes());
@@ -2431,7 +2450,8 @@ export async function handler(req, res) {
     if (path === '/animations') {
       const sort = new URL(req.url, BASE_URL).searchParams.get('sort') || 'new';
       const m = loadAnimManifest();
-      return sendHtml(res, pageShell('Animation lab — Hathor is learning to animate', animationsBody(m, animAggregate(animFeedback(), m), { sort }), { canonical: `${BASE_URL}/animations`, description: 'Short test animations Hathor makes on our own servers from the ancient-world remakes and her characters. Vote thumbs up or down and comment, and the next batch learns from you.' }));
+      const first = (m.clips || [])[0];
+      return sendHtml(res, pageShell('Animation lab — Hathor is learning to animate', animationsBody(m, animAggregate(animFeedback(), m), { sort }), { canonical: `${BASE_URL}/animations`, description: 'Short test animations Hathor makes on our own servers from the ancient-world remakes and her characters. Vote thumbs up or down and comment, and the next batch learns from you.', image: first ? `${BASE_URL}/animations/media/${first.id}/poster.jpg` : undefined, jsonld: animationsLd(m, BASE_URL) }));
     }
     if (path === '/animations/feedback.json') { // what the animation worker reads to favour what people liked
       const m = loadAnimManifest();

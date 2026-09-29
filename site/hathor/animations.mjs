@@ -194,4 +194,25 @@ export function serveAnimMedia(req, res, rel, dir = ANIMS_DIR()) {
   return res.end(readFileSync(full));
 }
 
+/** schema.org ItemList of VideoObjects (Google video results + AI engines). */
+export function animationsLd(manifest, base) {
+  const clips = (manifest.clips || []).slice(0, 100);
+  return {
+    '@context': 'https://schema.org', '@type': 'ItemList', name: 'Hathor Studio — Animation lab', url: `${base}/animations`,
+    itemListElement: clips.map((c, i) => ({
+      '@type': 'ListItem', position: i + 1,
+      item: {
+        '@type': 'VideoObject',
+        name: c.kind === 'puppet' ? (c.puppet_title || c.title) : c.title,
+        description: c.narration_text || `${KIND_NAMES[c.kind] || c.kind}: ${c.title} — a test animation Hathor made on our own servers.`,
+        thumbnailUrl: `${base}/animations/media/${c.id}/poster.jpg`,
+        contentUrl: `${base}/animations/media/${c.id}/clip.mp4`,
+        ...(c.made ? { uploadDate: new Date(c.made * 1000).toISOString() } : {}),
+        ...(c.seconds ? { duration: `PT${Math.max(1, Math.round(c.seconds))}S` } : {}),
+        creator: { '@type': 'Person', name: 'Hathor', url: 'https://melek.salon/@hathor' },
+      },
+    })),
+  };
+}
+
 export default { loadAnimManifest, aggregate, animationsBody, rate, serveAnimMedia, readFeedback, voterHash, ANIMS_DIR, FEEDBACK_PATH };

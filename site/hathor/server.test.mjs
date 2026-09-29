@@ -689,3 +689,35 @@ test('animation arms: motion/strength are only credited for clips that animate a
   assert.equal(a.arms.motion.sway, undefined);
   assert.equal(a.arms.motion.breathe.down, 1);
 });
+
+test('Studio SEO/GEO: sitemap lists the galleries, llms.txt is accurate, galleries carry JSON-LD', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const sm = (await call({ url: '/sitemap.xml' })).text();
+  for (const p of ['/remakes', '/animations', '/scripts', '/symbols', '/mythology', '/remake']) assert.match(sm, new RegExp(`<loc>[^<]*${p}</loc>`), p);
+  const llms = (await call({ url: '/llms.txt' })).text();
+  assert.match(llms, /^# Hathor Studio/);
+  assert.match(llms, /\/animations/);
+  assert.doesNotMatch(llms, /Cloudflare|Pollinations/); // images are made on our own servers
+  const d = mkdtempSync(join(tmpdir(), 'seo-'));
+  mkdirSync(join(d, 'sc'));
+  writeFileSync(join(d, 'manifest.json'), JSON.stringify({ scenes: [{ key: 'sc', title: 'Banquet </script>', group: 'Egypt', credit: 'Tomb of Nebamun', looks: { '1_real': { nubian: '1_real_nubian.jpg' } } }] }));
+  process.env.REMAKES_DIR = d;
+  const rm = (await call({ url: '/remakes' })).text();
+  const rld = JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(rm)[1]);
+  assert.equal(rld['@type'], 'ImageGallery');
+  assert.equal(rld.image[0].contentUrl.endsWith('/remakes/img/sc/1_real_nubian.jpg'), true);
+  assert.equal((rm.match(/<\/script>/g) || []).length >= 1, true);
+  assert.doesNotMatch(rm.split('application/ld+json')[1].split('</script>')[0], /<\/script/); // no breakout from the title
+  assert.match(rm, /og:image" content="[^"]*\/remakes\/img\/sc\/1_real_nubian\.jpg/);
+  delete process.env.REMAKES_DIR;
+  const a = mkdtempSync(join(tmpdir(), 'seo-a-'));
+  writeFileSync(join(a, 'manifest.json'), JSON.stringify({ clips: [{ id: 'abcdef012345', kind: 'scene', title: 'Nile', seconds: 8.1, made: 1790000000, narration_text: 'The Nile.' }] }));
+  process.env.ANIMS_DIR = a;
+  const an = (await call({ url: '/animations' })).text();
+  const ald = JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(an)[1]);
+  const v = ald.itemListElement[0].item;
+  assert.equal(v['@type'], 'VideoObject');
+  assert.equal(v.duration, 'PT8S');
+  assert.match(v.contentUrl, /\/animations\/media\/abcdef012345\/clip\.mp4$/);
+  delete process.env.ANIMS_DIR;
+});
