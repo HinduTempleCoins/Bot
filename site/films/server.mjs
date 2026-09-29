@@ -120,7 +120,17 @@ function remember(recs) {
 }
 
 /** Local search: every query word in the title (best), else in title + people. Ranked, then by fame. */
-export function searchLocal(q, { limit = 40 } = {}) {
+// A trailing year ("Martyrs 2008") picks between same-titled films: it is not a word to match, it ranks the film
+// from that year (±1, for festival vs release dates) above the others.
+export function splitYear(q) {
+  const m = /^(.*\S)\s+\(?((?:18|19|20)\d\d)\)?$/.exec(String(q || '').trim());
+  if (!m || +m[2] > new Date().getUTCFullYear() + 1) return { q: String(q || ''), year: 0 }; // "Blade Runner 2049"
+  return { q: m[1], year: +m[2] };
+}
+
+export function searchLocal(q0, { limit = 40 } = {}) {
+  let { q, year } = splitYear(q0);
+  if (year && catalog().list.some((r) => r._b === bare(norm(q0)))) { q = q0; year = 0; } // a title that ends in a year
   const words = norm(q).split(' ').filter(Boolean);
   if (!words.length) return [];
   const phrase = bare(words.join(' '));
@@ -133,7 +143,8 @@ export function searchLocal(q, { limit = 40 } = {}) {
     else if (words.every((w) => r._n.includes(w) || r._p.includes(w))) rank = 1;
     if (rank) hits.push([rank, r]);
   }
-  hits.sort((a, b) => b[0] - a[0] || (b[1].sl || 0) - (a[1].sl || 0));
+  const yr = (r) => (year && r.y && Math.abs(r.y - year) <= 1 ? 1 : 0);
+  hits.sort((a, b) => yr(b[1]) - yr(a[1]) || b[0] - a[0] || (b[1].sl || 0) - (a[1].sl || 0));
   return hits.slice(0, limit).map((h) => h[1]);
 }
 
@@ -146,7 +157,7 @@ export async function search(q, { limit = 40, ip = '' } = {}) {
   let live = _searchCache.get(key);
   if (!live) {
     if (!allow(`live:${ip}`, 30, 60000)) return local;
-    live = await wd.searchFilms(q, { limit: 10 }).catch(() => []);
+    live = await wd.searchFilms(splitYear(q).q, { limit: 10 }).catch(() => []);
     if (_searchCache.size > 500) _searchCache.clear();
     _searchCache.set(key, live);
     remember(live);
