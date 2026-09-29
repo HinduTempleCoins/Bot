@@ -393,6 +393,10 @@ export function dataNote() {
     + 'are shown as where-to-watch leads and link-outs — we never rehost.';
 }
 
+// Our verified public-domain list is what clears these items at the IA licence check (archive-video.mjs no
+// longer trusts IA community collections on their own).
+archiveVideo.registerClearedIds(PD_HORROR_FILMS.map((f) => f.id));
+
 // ── CLI (guarded) ──────────────────────────────────────────────────────────────────────────────────
 if (process.argv[1] && process.argv[1].endsWith('horror-taxonomy.mjs')) {
   const arg = (process.argv[2] || '').trim();
