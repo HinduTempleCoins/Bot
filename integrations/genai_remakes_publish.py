@@ -46,8 +46,8 @@ SCENES = {
     "odysseus_alcinous_hayez": ("Greece & Scheria", "Odysseus at the court of Alcinous, Scheria", "Francesco Hayez (public domain)"),
     "odysseus_nausicaa_lastman": ("Greece & Scheria", "Nausicaa meets Odysseus on Scheria", "Pieter Lastman (public domain)"),
 }
-GROUP_ORDER = ["Nefertiti", "Cleopatra", "Fayum portraits", "Headcones & perfume", "Lotus perfume", "The Nile", "Ports, the Nile & the coast", "The Amazigh", "Sais, Athens & Delphi", "Visitors & the Four Peoples", "Minoans", "Carthage & the Phoenicians", "Greece & Scheria", "Nubia", "Egypt"]
-PEOPLE_ORDER = ["depicted", "egyptian", "minoan", "punic", "greek", "nubian", "libyan", "levantine", "pale"]
+GROUP_ORDER = ["Greek myth on pottery", "Egyptian gods & myth", "Hindu myth: paintings & temple cloths", "Nefertiti", "Cleopatra", "Fayum portraits", "Headcones & perfume", "Lotus perfume", "The Nile", "Ports, the Nile & the coast", "The Amazigh", "Sais, Athens & Delphi", "Visitors & the Four Peoples", "Minoans", "Carthage & the Phoenicians", "Greece & Scheria", "Nubia", "Egypt"]
+PEOPLE_ORDER = ["depicted", "egyptian", "minoan", "punic", "greek", "indian", "dravidian", "nubian", "libyan", "levantine", "pale"]
 LOOKS = ["1_real", "2_half", "3_full"]
 
 
@@ -62,7 +62,8 @@ def web_jpg(src, dst, long_side=900):
 SET_GROUPS = {"headcones": "Headcones & perfume", "perfume": "Lotus perfume", "nile": "The Nile",
               "visitors": "Visitors & the Four Peoples", "hyperborea": "Hyperborea & Delos",
               "ports": "Ports, the Nile & the coast", "amazigh": "The Amazigh", "oracles": "Sais, Athens & Delphi",
-              "fayum": "Fayum portraits", "cleopatra": "Cleopatra", "nefertiti": "Nefertiti"}
+              "fayum": "Fayum portraits", "cleopatra": "Cleopatra", "nefertiti": "Nefertiti",
+              "myth_greek": "Greek myth on pottery", "myth_egypt": "Egyptian gods & myth", "myth_hindu": "Hindu myth: paintings & temple cloths"}
 
 
 def load_extra(paths):
