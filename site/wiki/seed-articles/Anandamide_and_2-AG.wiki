@@ -29,8 +29,16 @@ Two errors are common enough in the supplement literature to be worth naming:
 # '''Treating anandamide as the main endocannabinoid.''' It was discovered first and it has the better name. 2-AG is present at roughly 170 times the concentration and is the full agonist.
 # '''Treating "more endocannabinoid" as uniformly good.''' Chronic complete [[MAGL]] blockade produces CB1 '''desensitisation and tolerance''' in animal models. The system is homeostatic; saturating it is not the same as tuning it, and the failure mode of over-inhibition is losing the signal you were trying to raise.
 
+== Chemical stability, acyl migration, and structural analogues ==
+
+In aqueous solution or physiological tissue, 2-AG is chemically unstable:
+* '''Spontaneous 1,2-acyl migration:''' 2-AG undergoes rapid non-enzymatic isomerization into '''1-AG''' (1-arachidonoylglycerol), which has roughly a 10-fold lower affinity for CB1.
+* '''Non-migrating analogues:''' '''Noladin ether''' replaces the ester bond with an ether linkage, preventing acyl migration and MAGL degradation.
+* '''Virodhamine:''' The reverse ester isomer of anandamide, acting as an endogenous CB1 antagonist and CB2 agonist.
+* For the full organic synthesis, protecting group chemistry, and COX-2 oxygenation of 2-AG, see '''[[Endocannabinoid Chemistry and 2-AG Metabolism]]'''. For covalent adducts and Phase II fatty acid conjugation, see '''[[Cannabinoid Adducts and Conjugates]]'''.
+
 == Relevance to the stack ==
 
 The whole [[Cannabinoid Oilahuasca]] framework is built on this: rather than supplying cannabinoids from outside, inhibit the enzymes that clear the ones already present. That approach lives or dies on the distinction between the two ligands and their two enzymes.
 
-See also: [[MAGL]] · [[FAAH]] · [[Cannabinoid Oilahuasca]] · [[Beta-Caryophyllene]] · [[Stack Substances]]
+See also: [[MAGL]] · [[FAAH]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[Cannabinoid Adducts and Conjugates]] · [[Cannabinoid Oilahuasca]] · [[Beta-Caryophyllene]] · [[Stack Substances]]

@@ -52,7 +52,6 @@ const ADMIN = process.env.ADMIN_SITE || 'https://soapy.blog';
 export const PROPERTIES = [
   { group: 'Chains', items: [
     { name: 'MELEK', url: 'https://melek.salon', desc: 'The Graphene social chain — post, curate, earn. Block explorer and wallet built in.' },
-    { name: 'MELEK testnet', url: 'https://alpha.melek.salon', desc: 'The public testnet. Coins here are worthless by design.' },
     { name: 'Witness School', url: 'https://witness.melek.salon', desc: 'Learn to run a block producer, and how a Graphene chain is built.' },
     { name: 'MELEK-Engine', url: 'https://engine.melek.salon', desc: 'The side-token layer — issue a token without deploying a contract.' },
     { name: 'KulaSwap', url: 'https://kula.money', desc: 'The AMM and lending market on PRANA.' },
@@ -282,7 +281,7 @@ export const PHASES = [
     desc: 'An EVM chain built around useful work and compute. Public infrastructure — RPC, a web wallet, and a block explorer — is already live; a fair-launch mainnet and the compute layer light up the rest.',
     milestones: [
       { status: 'progress', title: 'PRANA public network live', detail: 'A public PRANA network with an RPC endpoint, a web wallet and a block explorer is live, and MetaMask connects to it. A fair-launch mainnet is next.' },
-      { status: 'progress', title: 'KulaSwap DeFi + value rails', detail: 'KulaSwap — a DEX/AMM with swaps, farms and collateral — is live in alpha; wallet, swap and grant rails connect PRANA value to the SoapBox surfaces.' },
+      { status: 'progress', title: 'KulaSwap DeFi + value rails', detail: 'KulaSwap — a DEX/AMM with swaps, farms and collateral — is live on PRANA mainnet (kula.money); wallet, swap and grant rails connect PRANA value to the SoapBox surfaces.' },
       { status: 'planned', title: 'Compute / useful-work layer', detail: 'The GPU / useful-work compute layer that gives PRANA its purpose — the way the AI brain earns the compute it runs on.' },
     ],
   },

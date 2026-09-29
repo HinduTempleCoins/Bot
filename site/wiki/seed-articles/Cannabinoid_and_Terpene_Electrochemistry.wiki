@@ -1,0 +1,66 @@
+'''Cannabinoid and Terpene Electrochemistry''' explores the application of electrical potentials, electron-transfer dynamics, and organic electrosynthesis to phytocannabinoids and volatile terpenes. By replacing stoichiometric chemical oxidants, hazardous reducing hydrides, and high-temperature thermal ovens with precisely tuned electrode potentials, electrochemistry provides clean, room-temperature synthetic and analytical pathways.
+
+This article details anodic oxidation of CBD into quinones (HU-331), cathodic electro-hydrogenation into HHC, low-temperature electrochemical decarboxylation preserving terpenes, and transdermal iontophoresis.
+
+== The electrochemical advantage: Electrodes as clean reagents ==
+
+In classical organic synthesis, adding or removing electrons requires stoichiometric chemical reagents (such as chromium oxidants, permanganates, or lithium hydrides) that generate toxic chemical waste streams and trigger side reactions. In organic electrosynthesis, the anode and cathode act as clean, infinitely tunable reagents:
+
+<code>
+                 [ VOLTAGE-CONTROLLED ELECTRODE SURFACE ]
+                                    │
+           ┌────────────────────────┴────────────────────────┐
+           ▼                                                 ▼
+[ Anode (+): Anodic Oxidation ]                   [ Cathode (-): Cathodic Reduction ]
+ • Electron abstraction (SET)                      • Electron donation
+ • Strips e⁻ from phenolic rings                   • Nascent hydrogen generation (H•)
+ • Decarboxylates THCA/CBDA at 25 °C               • Hydrogenates double bonds to HHC
+ • Synthesizes HU-331 without toxic metals         • Bypasses high-pressure H2 gas tanks
+</code>
+
+* By adjusting the cell voltage ($E_{cell}$) against a reference electrode (such as $Ag/AgCl$), chemists can select the exact thermodynamic threshold required to oxidize or reduce a specific functional group without disturbing other sensitive parts of the molecule.
+
+== Anodic oxidation: Clean synthesis of Cannabinoid Quinones ==
+
+The oxidation of cannabidiol (CBD) into its antineoplastic 1,4-benzoquinone derivative ('''HU-331''') is traditionally performed using chemical oxidants like potassium ferricyanide or silver oxide ($Ag_2O$). Electrochemistry eliminates these reagents entirely:
+
+* '''Electrode materials:''' Utilizes chemically inert, high-overpotential anodes—most notably '''Boron-Doped Diamond (BDD)''' or glassy carbon electrodes—suspended in an acetonitrile/water electrolyte containing a supporting salt (such as lithium perchlorate or tetrabutylammonium hexafluorophosphate).
+* '''Single-Electron Transfer (SET):'''
+# Setting the anodic potential to approximately '''+0.9 V to +1.2 V''' selectively strips a single electron from the electron-rich resorcinol ring of CBD, generating a transient phenoxyl radical cation.
+# A second electron transfer and deprotonation form an electrophilic quinoid intermediate.
+# Nucleophilic attack by water molecules across the ring inserts the second carbonyl oxygen, cleanly yielding crystalline HU-331 with zero toxic metal contamination.
+
+== Cathodic electro-hydrogenation: Synthesizing HHC without gas tanks ==
+
+Converting unsaturated cannabinoids (such as $\Delta^9$-THC or CBD) into fully saturated hexahydrocannabinol ('''HHC''') industrially requires high-pressure autoclaves, explosive hydrogen gas ($H_2$) cylinders, and noble metal catalysts (palladium on carbon, Pd/C). Cathodic electrosynthesis provides a benchtop alternative:
+
+* '''In situ nascent hydrogen generation:''' At a high-surface-area cathode (such as a nickel foam or palladium-modified mesh), electrons reduce protic solvent protons ($H^+$) into highly reactive, surface-adsorbed '''nascent hydrogen radicals ($H^\bullet$)''':
+: <code>H⁺ + e⁻ ──► H• (Surface-Adsorbed Nascent Radical)</code>
+* '''Atmospheric hydrogenation:''' The adsorbed hydrogen radicals transfer directly across the cyclohexenyl double bond of the cannabinoid molecule docked against the cathode surface.
+* '''Safety advantage:''' Because the reactive hydrogen is generated electrochemically in situ and consumed immediately at the electrode interface, the reaction proceeds cleanly at ambient room temperature ($20\text{–}25\text{ °C}$) and standard atmospheric pressure, eliminating the catastrophic explosion hazards of compressed hydrogen gas autoclaves.
+
+== Electrochemical decarboxylation: Preserving volatile monoterpenes ==
+
+In standard cannabis processing, converting non-psychoactive cannabinoid carboxylic acids (THCA and CBDA) into neutral cannabinoids (THC and CBD) requires baking raw plant material or crude resin in thermal ovens at '''110 °C to 125 °C for 30 to 60 minutes'''.
+* '''The thermal terpene sacrifice:''' High thermal decarboxylation evaporates and pyrolyzes delicate, low-boiling monoterpenes (such as $\alpha$-pinene, boiling point 156 °C, and myrcene, boiling point 168 °C), destroying the entourage profile and imparting a scorched, flat aroma to distillates.
+* '''The Kolbe-type electrochemical alternative:'''
+** Cannabinoid carboxylic acids possess a carboxylate group ($-COO^-$) anchored to the aromatic resorcinol ring.
+** Applying an anodic potential of ~+1.3 V selectively oxidizes the carboxylate group, abstracting an electron to form a transient carboxyl radical:
+: <code>Cannabinoid-COO⁻ ──(-e⁻)──► [Cannabinoid-COO•] ──► Cannabinoid• + CO2↑</code>
+** The unstable radical spontaneously expels carbon dioxide gas ($CO_2$), and rapid hydrogen abstraction from the electrolyte yields pure neutral cannabinoids.
+** Crucially, this reaction occurs at '''room temperature (20 °C)''', allowing processors to completely decarboxylate cannabis oils while retaining 100% of the native, heat-sensitive monoterpene profile.
+
+== Terpene electrochemistry and functionalization ==
+
+Volatile terpenes possess isolated and conjugated alkene bonds that can be selectively functionalized using electrochemistry:
+* '''Electrochemical Epoxidation:''' Anodic oxidation of $\beta$-caryophyllene in a biphasic water-organic emulsion generates transient hypohalite intermediates that cleanly convert the endocyclic double bond into '''caryophyllene oxide'''—a potent, non-psychoactive anti-inflammatory and food-preservative agent—without using dangerous organic peracids (like mCPBA).
+* '''Limonene transformations:''' The exocyclic double bond of citrus d-limonene can be electrochemically hydrated or aminated to synthesize novel terpene-derived aroma and therapeutic scaffolds.
+
+== Transdermal iontophoresis: Electrical cannabinoid delivery ==
+
+Because the human skin's outer stratum corneum is a highly resistive lipophilic barrier, standard topically applied cannabinoids penetrate slowly:
+* '''Iontophoretic driving force:''' By utilizing synthetic water-soluble cannabinoid prodrug salts—specifically '''THC-O-phosphate disodium salt''' or '''CBD-O-phosphate potassium salt'''—the cannabinoid carries a negative net electrical charge ($-PO_4^{2-}$).
+* '''Micro-current delivery:''' Placing an active cathode electrode pad (delivering a gentle, imperceptible micro-current of $0.1\text{–}0.5\text{ mA/cm}^2$) over an aqueous cannabinoid prodrug patch creates electrostatic repulsion.
+* Like charges repel: the negative electrode drives the negatively charged cannabinoid ions directly through the epidermis and dermal capillary beds into systemic circulation within minutes, achieving injection-like absorption rates without needles or inhalation.
+
+See also: [[Colloidal Metals, Electrochemistry, and Nanoparticles]] · [[Laboratory Equipment and Extraction Engineering]] · [[Universal Reaction Templates in Cannabinoid Chemistry]] · [[Cannabinoid Photochemistry and Degradation]] · [[Airway Irritation and Cannabinoid Prodrug Delivery]] · [[Stack Substances]]

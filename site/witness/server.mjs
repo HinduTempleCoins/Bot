@@ -42,18 +42,42 @@ const BASE_URL = (process.env.BASE_URL || 'https://witness.melek.salon').replace
 // Social-card image. Without og:image every link to this site posts as a bare URL with no
 // preview, which is the single cheapest conversion loss on any link we publish.
 const OG_IMAGE = process.env.OG_IMAGE || 'https://pool.soapbox.community/prana-logo.png';
-const ALPHA = process.env.MELEK_ALPHA || 'https://alpha.melek.salon';
+// The live chain people are sent to is MELEK mainnet (melek.salon). The testnet is not linked from here.
+const MELEK_HOME = (process.env.MELEK_HOME_URL || 'https://melek.salon').replace(/\/$/, '');
 // The Library of Ashurbanipal — the ecosystem's cited reference wiki. Witness School links to it
 // regularly (per operator): the deep documentation behind the school (witnessing, DPoS, Graphene,
 // each chain). Override with LIBRARY_URL if the wiki moves.
 const LIBRARY = (process.env.LIBRARY_URL || 'https://wiki.soapbox.community').replace(/\/$/, '');
-const libArticle = (slug, label) => `<a href="${esc(`${LIBRARY}/wiki/${slug}`)}">${esc(label)}</a>`;
+// Topic slugs the school cites -> the Library article that actually covers them (verified 200 on
+// the live wiki). Unmapped slugs pass through unchanged; a slug with no article falls to a search.
+const LIB_ALIASES = {
+  Blockchain_Forks_Hard_and_Soft: 'Forking',
+  Blockchain_Witness_Block_Producer_: 'Witness_School',
+  Building_a_Front_End_for_a_Graphene_Chain: 'Running_a_Condenser_Front-End',
+  Delegated_Proof_of_Stake_DPoS_: 'The_Graphene_Family',
+  Graphene_Blockchain_Framework: 'The_Graphene_Family',
+  EVM_the_Ethereum_Virtual_Machine: 'PRANA_Blockchain',
+  Smart_Contracts: 'PRANA_Blockchain',
+  Hive_Engine_and_Smart_Media_Tokens: 'Running_Tokens_on_MELEK-Engine',
+  KulaSwap_and_PRANA_DeFi: 'KulaSwap',
+  Proof_of_Work_Mining: 'Mining',
+  Running_a_Graphene_Witness_Node: 'Witness_School',
+  The_Steem_Hive_Fork_of_2020: 'HIVE_Blockchain',
+};
+const LIB_SEARCH = { ERC_20_Token_Standard: 'ERC-20' };
+const libHref = (slug) => {
+  if (slug === 'Special:RecentChanges') return `${LIBRARY}/contents`;
+  if (LIB_SEARCH[slug]) return `${LIBRARY}/search?q=${encodeURIComponent(LIB_SEARCH[slug])}`;
+  return `${LIBRARY}/wiki/${LIB_ALIASES[slug] || slug}`;
+};
+const libArticle = (slug, label) => `<a href="${esc(libHref(slug))}">${esc(label)}</a>`;
 // Where the "do this to earn/contribute" modules point. Docs site + token portal + the wiki's own
 // contribute/edit entry. Overridable so they can move without touching module copy.
 const DOCS = (process.env.DOCS_URL || 'https://docs.melek.salon').replace(/\/$/, '');
-const TOKENS_PORTAL = (process.env.TOKENS_URL || 'https://tokens.alpha.melek.salon').replace(/\/$/, '');
-const WIKI_CONTRIBUTE = process.env.WIKI_CONTRIBUTE_URL || `${LIBRARY}/wiki/Special:CreateAccount`;
-const TUTORIAL = process.env.TUTORIAL_SITE || `${ALPHA}/tutorial`;
+// Mainnet token surface = the MELEK-Engine mainnet UI (mse-mainnet-melek; verified /status 200).
+const TOKENS_PORTAL = (process.env.TOKENS_URL || 'https://engine.melek.salon').replace(/\/$/, '');
+const WIKI_CONTRIBUTE = process.env.WIKI_CONTRIBUTE_URL || `${LIBRARY}/about`;
+const TUTORIAL = process.env.TUTORIAL_SITE || `${LIBRARY}/wiki/Witness_School`;
 const POOL_SITE = process.env.POOL_SITE || 'https://pool.soapbox.community';
 const STRATUM_HOST = poolStatsMod.POOL_STRATUM_HOST;
 // PRANA Etchash stratum port on the pool (verified live-reachable). Override per-deploy.
@@ -75,7 +99,9 @@ const PRANA_MAINNET_CHAIN_ID_DEC = 712217;
 const PRANA_MAINNET_CHAIN_ID_HEX = '0xade19';
 const PRANA_RPC_URL = (process.env.PRANA_RPC_URL || 'https://rpc.prana.melek.salon').replace(/\/$/, '');
 const PRANA_EXPLORER = (process.env.PRANA_EXPLORER_URL || 'https://pranascan.soapbox.community').replace(/\/$/, '');
-const PRANA_FAUCET = (process.env.PRANA_FAUCET_URL || 'https://faucet.alpha.soapbox.community').replace(/\/$/, '');
+// No mainnet faucet exists yet (faucet.alpha.* drips the PRANA *testnet*, chainId 108369 — never link it
+// from a mainnet page). Listed as staged on /dev/services until a mainnet faucet is up.
+const PRANA_FAUCET = (process.env.PRANA_FAUCET_URL || 'https://faucet.prana.melek.salon').replace(/\/$/, '');
 // MELEK-Signer — the HiveSigner-model OAuth/consent boundary for keyless *writes* (posts/votes). It
 // is the auth path; reads never need it (they hit the public RPC directly, no key).
 const SIGNER_URL = (process.env.MELEK_SIGNER_URL || 'https://signer.melek.salon').replace(/\/$/, '');
@@ -83,7 +109,8 @@ const GH_ORG = 'https://github.com/HinduTempleCoins';
 // MELEK-Engine — our Hive-Engine-style side-token layer (SCOT / Nitrous). The TESTNET API+UI is
 // live-hosted (verified: /status answers); the MAINNET host is NOT up yet (verified 2026-08-31), so
 // the SCOT page is honest about "testnet live / mainnet coming, or run it yourself".
-const ENGINE_TESTNET_URL = (process.env.MELEK_ENGINE_TESTNET_URL || 'https://engine.alpha.melek.salon').replace(/\/$/, '');
+// UPDATE 2026-09-26: the MAINNET engine now answers (engine.melek.salon /status → mse-mainnet-melek,
+// chainId 907959e5…, feeToken APIS, APIS supply 0). The SCOT page now points at mainnet.
 const ENGINE_MAINNET_URL = (process.env.MELEK_ENGINE_MAINNET_URL || 'https://engine.melek.salon').replace(/\/$/, '');
 const KULA_APP = (process.env.KULA_APP_URL || 'https://kula.money').replace(/\/$/, '');
 const MELEK_SOCIAL = (process.env.MELEK_SOCIAL_URL || 'https://melek.salon').replace(/\/$/, '');
@@ -128,7 +155,7 @@ const PRANA_CONTRACTS = [
   ] },
 ];
 
-// MELEK testnet RPC for the live /hathor witness-status page (read-only condenser calls).
+// MELEK mainnet RPC for the live /hathor witness-status page (read-only condenser calls).
 const MELEK_RPC_URL = process.env.MELEK_RPC_URL || 'https://melek.salon/rpc';
 let _chainFetch = (...a) => globalThis.fetch(...a);
 export function __setChainFetch(fn) { _chainFetch = fn || ((...a) => globalThis.fetch(...a)); }
@@ -188,12 +215,12 @@ const FOOTER = `<footer>
   <b>Facts, not hype.</b> The pool page shows only what the live pool API reports; when it is
   unreachable we say so and never invent a number. A small pool fee goes to <b>Hathor</b>, the
   founding AI Witness — <b>not to PRANA</b> (PRANA <em>is</em> the pool); fees may later become part
-  of the DAO. This page is <b>read-only</b> — it holds no key and signs nothing. <b>TESTS</b> is the
-  MELEK testnet currency (test-only, no monetary value).
+  of the DAO. This page is <b>read-only</b> — it holds no key and signs nothing. Everything here is
+  <b>MELEK mainnet</b> and <b>PRANA mainnet</b>.
   <div style="margin-top:8px"><a href="/">Witness School</a> · <a href="/pool">Pool</a> ·
     <a href="/fees">Fees</a> · <a href="/servers">Servers</a> · <a href="/wallet">Wallet</a> ·
     <a href="${esc(LIBRARY)}">Library of Ashurbanipal</a> ·
-    <a href="${esc(ALPHA)}">MELEK testnet</a></div>
+    <a href="${esc(MELEK_HOME)}">MELEK</a></div>
 </footer>`;
 
 function page(title, body, opts = {}) {
@@ -268,7 +295,7 @@ export function homePage() {
 
     <div class=card><h2>The path to becoming a witness</h2>
       <ol class=steps>
-        <li><b>Learn.</b> Walk the staged tutorial — what DPoS is, what a node does, how voting
+        <li><b>Learn.</b> Read the primer — what DPoS is, what a node does, how voting
           works. <a href="${esc(TUTORIAL)}">Open the tutorial →</a></li>
         <li><b>Run a node.</b> Stand up a witness node (a synced chain daemon on a server that stays
           on). See <a href="/servers">Servers</a> for the specs and rental pointers.</li>
@@ -276,7 +303,7 @@ export function homePage() {
           so the community can find you.</li>
         <li><b>Get votes.</b> Earn community votes. Enough vote-weight puts you in the active set and
           you start producing blocks. Watch the live chain at
-          <a href="${esc(ALPHA)}">alpha.melek.salon</a>.</li>
+          <a href="${esc(MELEK_HOME)}">melek.salon</a>.</li>
       </ol>
     </div>
 
@@ -355,7 +382,7 @@ export async function poolView(readPools) {
         live to show — and we will not invent numbers. The pool runs Miningcore on our own
         infrastructure; when it is reachable this page lists every coin, its hashrate, miner count,
         fee, and the stratum line to connect. Check back shortly, or watch the chain at
-        <a href="${esc(ALPHA)}">alpha.melek.salon</a>.</p></div>`;
+        <a href="${esc(MELEK_HOME)}">melek.salon</a>.</p></div>`;
 
   return `<h1>Live pool status</h1>
     <p class=lead>What is actually running on the pool right now — one card per coin, pulled live
@@ -637,7 +664,7 @@ export function walletView() {
       <p class=muted style="font-size:14px">Akasha is read-and-sign in your hands — keys never leave
         the wallet, the way Keychain works on the Graphene side and EIP-1193 / EIP-6963 work on the
         EVM side. It coexists with MetaMask in the same browser. Connect it to the
-        <a href="/pool">pool</a> to set your payout address, and to <a href="${esc(ALPHA)}">MELEK</a>
+        <a href="/pool">pool</a> to set your payout address, and to <a href="${esc(MELEK_HOME)}">MELEK</a>
         to witness.</p>
     </div>`;
 }
@@ -701,7 +728,7 @@ export function learnPage() {
     earns back out — funding curation, grants to people doing valuable work, and lifting newcomers via the
     Karma system. <b>Being a witness here is a stewardship role, not a faucet.</b></p>
     <p class=muted style="font-size:13px">These programs are coming online now — built on the Karma and
-    AutoNetwork systems above. <a href="${esc(ALPHA)}">Watch the live chain →</a></p>
+    AutoNetwork systems above. <a href="${esc(MELEK_HOME)}">Watch the live chain →</a></p>
   </div>
 
   <div class=card><h2>Go deeper — the Library of Ashurbanipal</h2>
@@ -786,7 +813,7 @@ export function academyPage() {
     <b>Scotbot equivalent</b> — you configure the token's social-reward pool (daily emission, author/curator split,
     reward curve) as <i>settings, not code</i>. <code>tokens.issue</code> / <code>tokens.transfer</code> /
     <code>tokens.stake</code> do the rest. Manage it from the
-    <a href="https://tokens.alpha.melek.salon">Tokens portal</a>.</p>
+    <a href="${esc(TOKENS_PORTAL)}">Tokens portal</a>.</p>
   </div>
   <div class=card><h2>🐝 APIS — the fee token</h2>
     <p class=muted style="font-size:14px">APIS is the engine's fee/utility token (its "BEE"), named for <i>Apis</i>, the
@@ -1330,7 +1357,7 @@ export function devHubPage() {
       <div class=sec><a class=t href="/dev/scot">SCOT side-token (MELEK-Engine) →</a>
         <div class=d>Our <b>Hive-Engine</b>: launch a <b>tribe token</b> with <code>custom_json</code> —
           no Solidity. <b>APIS is our BEE.</b> Nitrous per-token front-end included.</div>
-        <div class=ref>tokens.create + scot.enable · testnet live · mainnet coming</div></div>
+        <div class=ref>tokens.create + scot.enable · mainnet engine live</div></div>
       <div class=sec><a class=t href="/dev/frontend">Build a front-end →</a>
         <div class=d>Fork a real template — the <b>condenser</b> (social), <b>KulaSwap</b> (DEX),
           <b>Nitrous</b> (SCOT). Plus the <b>APPICS</b> &amp; <b>PIZZA</b> app patterns.</div>
@@ -1703,12 +1730,11 @@ console.log('deployed at', await c.getAddress());
         does for the core set).</p>
     </div>
 
-    <div class=card><h2>4 · Gas — the faucet</h2>
-      <p class=muted style="font-size:14px">Deploying costs a little PRANA for gas. The ecosystem gas
-        faucet: <a href="${esc(PRANA_FAUCET)}">${esc(PRANA_FAUCET.replace(/^https?:\/\//, ''))}</a>.
-        A dedicated <b>developer faucet</b> (higher limits, dev allowlist) is <b>coming</b>; until then
-        the gas faucet above is the closest drip, and mining PRANA (it's a useful-work chain — see
-        <a href="/pool">the pool</a>) is the other way to fund a deployer.</p>
+    <div class=card><h2>4 · Gas — mine it (faucet coming)</h2>
+      <p class=muted style="font-size:14px">Deploying costs a little PRANA for gas. There is <b>no mainnet
+        faucet yet</b> — a dedicated <b>developer faucet</b> (higher limits, dev allowlist) is <b>coming</b>.
+        Until then, fund a deployer by <a href="/mine">mining PRANA</a> (it's a useful-work chain — see
+        <a href="/pool">the pool</a>).</p>
     </div>
 
     <p class=muted style="font-size:13px"><a href="/dev/contracts">Deployed contracts + ABIs →</a> ·
@@ -1859,8 +1885,8 @@ await (await router.addLiquidityETH(
       <h3 style="margin-top:12px">Deploy it</h3>
       <pre>${esc(deployCmds)}</pre>
       <p class=muted style="font-size:13px">Full toolchain config (Foundry / Hardhat / viem / ethers) is
-        on <a href="/dev/prana">PRANA contract dev</a>. Gas comes from the
-        <a href="${esc(PRANA_FAUCET)}">faucet</a> or from <a href="/mine">mining PRANA</a>.</p>
+        on <a href="/dev/prana">PRANA contract dev</a>. Gas comes from <a href="/mine">mining PRANA</a>
+        (a mainnet faucet is coming).</p>
     </div>
 
     <div class=card id=fork style="border-color:var(--gold)"><h2>2 · How copying / forking a contract actually works</h2>
@@ -1929,7 +1955,7 @@ await (await router.addLiquidityETH(
 
 // ── /dev/scot (alias /dev/engine) — Launch a SCOT side-token on MELEK-Engine (our Hive-Engine) ────
 export function devScotPage() {
-  const engine = ENGINE_TESTNET_URL;
+  const engine = ENGINE_MAINNET_URL;
   const createFee = '100';  // config.tokenCreationFee
   const scotFee = '100';    // config.scotFee
   // A real create envelope (engine.mjs folds { contractName, contractAction, contractPayload }).
@@ -1937,7 +1963,7 @@ export function devScotPage() {
 {
   "required_auths": ["youraccount"],
   "required_posting_auths": [],
-  "id": "mse-testnet-melek",            // the engine sidechain id (mainnet: mse-mainnet-melek)
+  "id": "mse-mainnet-melek",            // the MELEK mainnet engine sidechain id
   "json": {
     "contractName": "tokens",
     "contractAction": "create",
@@ -1953,7 +1979,7 @@ export function devScotPage() {
   const scotOp = `{
   "required_auths": ["youraccount"],
   "required_posting_auths": [],
-  "id": "mse-testnet-melek",
+  "id": "mse-mainnet-melek",
   "json": {
     "contractName": "scot",
     "contractAction": "enable",         // add a Scot Bot to an EXISTING token
@@ -1970,7 +1996,7 @@ export function devScotPage() {
 // + an optional founder issue in one op.)`;
   const statusCurl = `curl -s ${engine}/status
 # -> { sidechainId, chainId, lastBlock, stateHash, feeToken:"APIS", tokenCount, seams }
-curl -s "${engine}/contracts/tokens?symbol=APIS"   # the fee token, live on testnet`;
+curl -s "${engine}/contracts/tokens?symbol=APIS"   # the fee token on mainnet (supply 0 until mining settles)`;
   const heMap = [
     ['BEE', 'APIS', 'the engine\'s utility/fee coin — burned to create tokens & pay resource fees'],
     ['WORKERBEE', 'forever-locked wMELEK → APIS-Hash', 'mining/issuance stake (mainnet). Testnet keeps a DRONE governance token'],
@@ -2038,15 +2064,13 @@ POST /rpc/contracts                          JSON-RPC find { params:{contract,ta
       <pre>${esc(statusCurl)}</pre>
     </div>
 
-    <div class=card style="border-color:var(--gold)"><h2>Honest status — testnet live, mainnet coming</h2>
+    <div class=card style="border-color:var(--gold)"><h2>Honest status — mainnet engine live</h2>
       <ul class=muted style="font-size:14px;line-height:1.7">
-        <li><b>Testnet: LIVE.</b> The engine API + UI answer at
+        <li><b>Mainnet: LIVE.</b> The engine API + UI answer at
           <a href="${esc(engine)}">${esc(engine.replace(/^https?:\/\//, ''))}</a> — verified:
-          <code>/status</code> returns real state (APIS is the fee token there). Build tribes there now.</li>
-        <li><b>Mainnet: coming.</b> A hosted <b>mainnet</b> engine is <b>not up yet</b>. Until it is,
-          run the node yourself (<code>npm run engine</code> in the Bot repo) or use the testnet. We
-          will not point you at a mainnet endpoint that doesn't answer.</li>
-        <li><b>APIS on mainnet is not emitting yet</b> — see <a href="/dev/get">how to get each
+          <code>/status</code> returns real state for <code>mse-mainnet-melek</code> on MELEK mainnet
+          (APIS is the fee token). You can also run the node yourself (<code>npm run engine</code> in the Bot repo).</li>
+        <li><b>APIS on mainnet is not emitting yet</b> (supply 0) — see <a href="/dev/get">how to get each
           token</a> for the honest status.</li>
         <li><b>Keys stay in your browser.</b> The UI assembles the exact <code>custom_json</code> and
           signs client-side (dhive) or via <a href="${esc(SIGNER_URL)}">MELEK-Signer</a> — the key never
@@ -2060,7 +2084,7 @@ POST /rpc/contracts                          JSON-RPC find { params:{contract,ta
       <a href="/academy">Token Academy →</a></p>`;
   return page('Launch a SCOT side-token on MELEK-Engine — our Hive-Engine — Witness School', body, {
     canonical: `${BASE_URL}/dev/scot`,
-    description: 'MELEK-Engine is our Hive-Engine: launch a SCOT side-token (tribe token) on the MELEK Graphene chain with custom_json — APIS is our BEE (fee coin). Real fields for tokens.create and scot.enable (emissionPerWindow, windowBlocks, authorBps, curve), the Nitrous front-end generator, the Hive-Engine-shaped read API. Testnet is live-hosted; mainnet engine is coming.',
+    description: 'MELEK-Engine is our Hive-Engine: launch a SCOT side-token (tribe token) on the MELEK Graphene chain with custom_json — APIS is our BEE (fee coin). Real fields for tokens.create and scot.enable (emissionPerWindow, windowBlocks, authorBps, curve), the Nitrous front-end generator, the Hive-Engine-shaped read API. The mainnet engine is live-hosted at engine.melek.salon.',
   });
 }
 
@@ -2180,12 +2204,11 @@ export function devServicesPage() {
       ['Tokens portal', TOKENS_PORTAL, 'Ecosystem token portal / launch surface.', 'live'],
     ] },
     { group: 'MELEK-Engine (SCOT side-tokens)', items: [
-      ['MELEK-Engine API + UI (testnet)', ENGINE_TESTNET_URL, 'Our Hive-Engine: create tokens + tribes (SCOT). Verified: /status answers, APIS is the fee token.', 'live'],
-      ['MELEK-Engine (mainnet host)', ENGINE_MAINNET_URL, 'Hosted MAINNET engine — not up yet. Run the node yourself (npm run engine) meanwhile.', 'staged'],
+      ['MELEK-Engine API + UI (mainnet)', ENGINE_MAINNET_URL, 'Our Hive-Engine: create tokens + tribes (SCOT). Verified: /status answers (mse-mainnet-melek), APIS is the fee token.', 'live'],
     ] },
     { group: 'Mining, gas & wallet', items: [
       ['Mining pool', POOL_SITE, 'Mine PRANA (Etchash) + browser mining + APIS-Hash panel. Point a rig at the stratum.', 'live'],
-      ['Gas faucet', PRANA_FAUCET, 'Drip of PRANA for gas so you can deploy. A dedicated dev faucet is coming.', 'live'],
+      ['Gas faucet', PRANA_FAUCET, 'Mainnet PRANA gas faucet — not up yet; mine PRANA for gas meanwhile.', 'staged'],
       ['Akasha wallet', `${BASE_URL}/wallet`, 'The ecosystem wallet (MetaMask/TronLink-style) — add PRANA in one tap.', 'live'],
     ] },
     { group: 'Auth & reference', items: [
@@ -2318,8 +2341,8 @@ export function devGetTokensPage() {
       `KULA is the DeFi collateral coin. Acquire it by <b>swapping</b> for it or by <b>providing liquidity / farming</b> on <a href="${esc(KULA_APP)}">${esc(KULA_APP.replace(/^https?:\/\//, ''))}</a>. Verified on-chain: KULA <code>totalSupply()</code> is non-zero (it is emitting). It is emission-only — no god-mode mint (see <a href="/dev/contracts">/dev/contracts</a>).`],
     ['MWALI', 'staged', 'Proof-of-Liquidity reward — not emitting yet.',
       `MWALI is designed as a <b>Proof-of-Liquidity</b> reward token. <b>Verified on-chain: MWALI <code>totalSupply()</code> is 0 right now</b> — it is <b>not emitting</b>. Do not expect to earn MWALI today; PoL emissions are still to be turned on. We'll flip this to "do this now" when supply starts moving on-chain.`],
-    ['APIS', 'staged', 'Lock wMELEK → mine APIS (our BEE) — proven on testnet, mainnet coming.',
-      `APIS is our <b>BEE</b>: the MELEK-Engine fee coin. You get it by the <b>WorkerBee</b> model — <b>forever-lock wMELEK</b> → soulbound APIS-Hash → mine APIS on a fixed, decaying schedule (the pool has an APIS-Hash panel). <b>Verified: APIS is live and emitting on TESTNET</b> (${esc(ENGINE_TESTNET_URL.replace(/^https?:\/\//, ''))}, supply &gt; 1M). <b>But the MAINNET engine host does not answer yet</b> — so mainnet APIS mining is <b>not settling</b>. Treat this as <b>how it works / staged</b>, not "do this now," until the mainnet engine is up.`],
+    ['APIS', 'staged', 'Lock wMELEK → mine APIS (our BEE) — mainnet engine live, APIS supply 0 (not emitting yet).',
+      `APIS is our <b>BEE</b>: the MELEK-Engine fee coin. You get it by the <b>WorkerBee</b> model — <b>forever-lock wMELEK</b> → soulbound APIS-Hash → mine APIS on a fixed, decaying schedule (the pool has an APIS-Hash panel). <b>Verified: the MAINNET engine answers</b> (${esc(ENGINE_MAINNET_URL.replace(/^https?:\/\//, ''))}, APIS registered as the fee token) — <b>but APIS supply on mainnet is 0</b>, so mainnet APIS mining is <b>not settling yet</b>. Treat this as <b>how it works / staged</b>, not "do this now," until APIS emission starts.`],
   ];
   const cards = rows.map(([sym, status, tl, body]) => `<div class=card${status === 'staged' ? ' style="border-color:var(--gold)"' : ''}>
       <h2>${esc(sym)} ${badge(status)}</h2>
@@ -2337,14 +2360,14 @@ export function devGetTokensPage() {
         <li><b>MELEK</b> — post &amp; curate (<a href="${esc(MELEK_SOCIAL)}">${esc(MELEK_SOCIAL.replace(/^https?:\/\//, ''))}</a>). Live.</li>
         <li><b>KULA</b> — DeFi / LP on <a href="${esc(KULA_APP)}">${esc(KULA_APP.replace(/^https?:\/\//, ''))}</a>. Live (emitting on-chain).</li>
         <li><b>MWALI</b> — Proof-of-Liquidity. <b>Not emitting (supply 0).</b></li>
-        <li><b>APIS</b> — lock wMELEK → mine (our BEE). <b>Testnet live; mainnet engine coming.</b></li>
+        <li><b>APIS</b> — lock wMELEK → mine (our BEE). <b>Mainnet engine live; APIS not emitting yet (supply 0).</b></li>
       </ul>
     </div>
     <p class=muted style="font-size:13px"><a href="/dev/scot">What APIS &amp; SCOT are →</a> ·
       <a href="/dev/token">Make your own token →</a> · <a href="/dev/contracts">Deployed contracts →</a></p>`;
   return page('How to get each token — MELEK / PRANA / KULA / MWALI / APIS — Witness School', body, {
     canonical: `${BASE_URL}/dev/get`,
-    description: 'Honest acquisition paths for each ecosystem token: PRANA (mine it — live), MELEK (post & curate — live), KULA (DeFi/LP on KulaSwap — live, emitting on-chain), MWALI (Proof-of-Liquidity — NOT emitting, supply 0), and APIS (lock wMELEK → mine, our BEE — live on testnet, mainnet engine coming). Each status verified on-chain or by a live check.',
+    description: 'Honest acquisition paths for each ecosystem token: PRANA (mine it — live), MELEK (post & curate — live), KULA (DeFi/LP on KulaSwap — live, emitting on-chain), MWALI (Proof-of-Liquidity — NOT emitting, supply 0), and APIS (lock wMELEK → mine, our BEE — mainnet engine live, APIS supply 0). Each status verified on-chain or by a live check.',
   });
 }
 
@@ -2737,11 +2760,11 @@ export async function handler(req, res) {
           { label: 'PRANA contract dev — MetaMask add-network, Foundry/Hardhat/viem/ethers', path: '/dev/prana', note: `RPC ${PRANA_RPC_URL}, chainId ${PRANA_MAINNET_CHAIN_ID_DEC} (${PRANA_MAINNET_CHAIN_ID_HEX}), explorer ${PRANA_EXPLORER}` },
           { label: 'Deployed PRANA contracts + downloadable ABIs', path: '/dev/contracts', note: 'KULA, KulaSwap Router/Factory, bridge, wrapped assets, gauges, LP pairs — all eth_getCode-verified' },
           { label: 'Make a token on PRANA — deploy ERC-20, fork/copy contracts, list on KulaSwap', path: '/dev/token', note: 'OpenZeppelin + Foundry/Hardhat; how forking works (OZ Wizard, explorer source, Uniswap-V2, SPDX licenses); list/collateralize/LP' },
-          { label: 'Launch a SCOT side-token on MELEK-Engine (our Hive-Engine; APIS = BEE)', path: '/dev/scot', note: 'tokens.create + scot.enable via custom_json; Nitrous front-end; Hive-Engine-shaped API; testnet live, mainnet coming' },
+          { label: 'Launch a SCOT side-token on MELEK-Engine (our Hive-Engine; APIS = BEE)', path: '/dev/scot', note: 'tokens.create + scot.enable via custom_json; Nitrous front-end; Hive-Engine-shaped API; mainnet engine live' },
           { label: 'Build a front-end — fork condenser / KulaSwap / Nitrous; APPICS & PIZZA patterns', path: '/dev/frontend' },
           { label: 'Dev services index — every service URL, liveness-checked', path: '/dev/services' },
           { label: 'Tools & other chains — the EVM toolbox on PRANA; honest Polygon framing', path: '/dev/tools', note: 'wallets/libs/frameworks/OZ/Safe as custom-network; only live cross-chain is Hive-Engine↔PRANA attester bridge' },
-          { label: 'How to get each token — MELEK/PRANA/KULA/MWALI/APIS, verified live/staged', path: '/dev/get', note: 'PRANA mine (live), MELEK post (live), KULA DeFi (live), MWALI PoL (not emitting, supply 0), APIS lock wMELEK (testnet live, mainnet coming)' },
+          { label: 'How to get each token — MELEK/PRANA/KULA/MWALI/APIS, verified live/staged', path: '/dev/get', note: 'PRANA mine (live), MELEK post (live), KULA DeFi (live), MWALI PoL (not emitting, supply 0), APIS lock wMELEK (mainnet engine live, supply 0)' },
           { label: 'The Token Matrix — Graphene chains + token structure (float/staking/cooldown), not price', path: '/dev/matrix', note: 'real dated Hive-Engine data VKBT/CURE (@kalivankush); market cap is a pretend number, cost-to-maintain is the metric' },
           { label: 'Build community bots — Angelic Intelligence (The Beginning / Rule 1)', path: '/dev/bots', note: 'bots as durable community participants; MELEK-Signer scoped tokens, no key custody, no vote-farming; Hathor is the exemplar' },
           { label: 'Witness School (home)', path: '/' },

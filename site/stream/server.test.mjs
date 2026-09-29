@@ -6,14 +6,14 @@ import { handler, __setFetch, gateWatch, buildRows, tilesFor, esc, safeHref } fr
 const SEARCH_JSON = {
   response: {
     docs: [
-      { identifier: 'night_of_the_living_dead', title: 'Night of the Living Dead', year: '1968', creator: 'Romero', collection: ['feature_films'] },
+      { identifier: 'night_of_the_living_dead_dvd', title: 'Night of the Living Dead', year: '1968', creator: 'Romero', collection: ['feature_films'] },
       { identifier: 'evil<script>', title: '<script>alert(1)</script>', year: '1930', collection: ['prelinger'] },
     ],
   },
 };
 const META_JSON = {
   server: 'ia800100.us.archive.org', dir: '/12/items/notld',
-  metadata: { identifier: 'night_of_the_living_dead', title: 'Night of the Living Dead', collection: ['feature_films'] },
+  metadata: { identifier: 'night_of_the_living_dead_dvd', title: 'Night of the Living Dead', collection: ['feature_films'] },
   files: [{ name: 'notld.mp4', format: 'h.264' }],
 };
 const PLAYLIST = `#EXTM3U
@@ -50,7 +50,7 @@ async function get(path) {
 
 // ── gateWatch (the license gate — the load-bearing safety function) ─────────────────────────────────
 test('gateWatch: an official IA player URL → embed', () => {
-  const g = gateWatch({ kind: 'film', source: 'Internet Archive', license: 'Public domain', licenseToken: 'public-domain', streamUrl: 'https://archive.org/embed/night_of_the_living_dead' });
+  const g = gateWatch({ kind: 'film', source: 'Internet Archive', license: 'Public domain', licenseToken: 'public-domain', streamUrl: 'https://archive.org/embed/night_of_the_living_dead_dvd' });
   assert.equal(g.ok, true);
   assert.equal(g.mode, 'embed');
   assert.match(g.embed, /archive\.org\/embed\//);
@@ -143,7 +143,7 @@ test('hostile archive title is escaped in the rendered page (no live <script>)',
 
 test('watch page embeds a whitelisted IA player (official), showing license', async () => {
   useMock();
-  const res = await get('/watch?src=ia&id=night_of_the_living_dead');
+  const res = await get('/watch?src=ia&id=night_of_the_living_dead_dvd');
   assert.equal(res.code, 200);
   assert.match(res.body, /<video|<iframe/);       // a real player
   assert.match(res.body, /License:/);             // license shown on the watch page
@@ -261,17 +261,30 @@ test('/horror/:genre merges live IA results with the curated PD stock', async ()
   __setFetch(null);
 });
 
-test('/horror/trafficking-network: PD stock streams; copyrighted flagships are where-to-watch leads only', async () => {
+test('/horror/trafficking-network: copyrighted flagships are where-to-watch leads only (no old rescue films filed in the genre)', async () => {
   const res = await get('/horror/trafficking-network');
   assert.equal(res.code, 200);
   assert.match(res.body, /LEAD CATEGORY/);
-  // genuine PD stock streams in-app
-  assert.match(res.body, /Slaves in Bondage/);
-  assert.match(res.body, /\/watch\?src=ia&amp;id=slaves_in_bondage/);
-  // a modern copyrighted flagship is present but only as a lead, never a watch link
   assert.match(res.body, /Bound to Vengeance/);
   assert.match(res.body, /Reference only · not streamed here|not streamed/);
   assert.doesNotMatch(res.body, /watch\?src=ia&amp;id=Bound/);
+  assert.doesNotMatch(res.body, /Traffic in Souls/);
+});
+
+test('/horror/roots-white-slavery: the white-slavery films stream free, outside the genre', async () => {
+  const res = await get('/horror/roots-white-slavery');
+  assert.equal(res.code, 200);
+  assert.match(res.body, /near the genre, not in it/i);
+  assert.match(res.body, /\/watch\?src=ia&amp;id=silent-traffic-in-souls/);
+  assert.match(res.body, /Slaves in Bondage/); // a lead, not a stream
+  assert.doesNotMatch(res.body, /id=slaves_in_bondage/);
+});
+
+test('/horror landing has the Halloween row of free films and the roots shelf outside the genre', async () => {
+  const res = await get('/horror');
+  assert.match(res.body, /Free for Halloween/);
+  assert.match(res.body, /\/watch\?src=ia&amp;id=the-skeleton-dance_1929/);
+  assert.match(res.body, /Near the genre, not in it/);
 });
 
 test('/horror/:bad → 404, never a 500', async () => {
@@ -282,4 +295,27 @@ test('sitemap includes the horror paths', async () => {
   const sm = await get('/sitemap.xml');
   assert.match(sm.body, /\/horror<|\/horror\//);
   assert.match(sm.body, /\/horror\/trafficking-network/);
+});
+
+// ── /films delegates to SoapBox Films (site/films) ─────────────────────────────────────────────────
+test('/films/* is served by the films surface; nav links to it', async () => {
+  const { mkdtempSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  process.env.FILMS_DATA_DIR = mkdtempSync(tmpdir() + '/stream-films-');
+  const h = await get('/films/health');
+  assert.equal(h.code, 200);
+  assert.equal(JSON.parse(h.body).surface, 'films');
+  const home = await get('/films');
+  assert.equal(home.code, 200);
+  assert.match(String(home.body), /SoapBox<\/b> Films/);
+});
+
+test('/classics lists the public-domain classics by genre, each playable, with the exclusions named', async () => {
+  const r = await get('/classics');
+  assert.equal(r.status || r.statusCode || r.code, 200);
+  const html = r.body || r.html || r.text || '';
+  assert.match(html, /His Girl Friday/);
+  assert.match(html, /Silent classics/);
+  assert.match(html, /href="\/watch\?src=ia&amp;id=his_girl_friday"|href="\/watch\/ia\/his_girl_friday"/);
+  assert.match(html, /Not here on purpose:[\s\S]*The Scarlet Pimpernel/);
 });

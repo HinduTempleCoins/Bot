@@ -1,4 +1,4 @@
-// account-ui.mjs — shared glue for the MELEK testnet account pages (signup + key checker).
+// account-ui.mjs — shared glue for the MELEK account pages (mainnet + testnet, host-aware) (signup + key checker).
 // Everything secret stays in the browser (graphene-keys.mjs); this module only renders,
 // copies, and talks to the PUBLIC endpoints (/rpc chain reads, /faucet/create with public
 // keys only). Exported pure-ish helpers are offline-testable with an injected fetch/doc.
@@ -260,7 +260,7 @@ export async function runKeycheck({ name, secret, doc }) {
   if (!n || !secret) { out.innerHTML = `<p class="bad">Enter both the account name and the saved string.</p>`; return; }
   out.innerHTML = `<p class="muted">reading the account from the chain… (your pasted string does NOT leave this page)</p>`;
   const acct = await getAccount(n);
-  if (!acct) { out.innerHTML = `<p class="bad">No account "${esc(n)}" on the testnet — check the spelling (it must be exact).</p>`; return; }
+  if (!acct) { out.innerHTML = `<p class="bad">No account "${esc(n)}" on ${NET.mainnet ? 'MELEK' : 'the testnet'} — check the spelling (it must be exact).</p>`; return; }
   const verdict = await classifySecret(n, secret, chainPubs(acct));
   const cls = verdict.kind === 'no-match' ? 'bad' : 'ok';
   out.innerHTML = `<p class="${cls}"><b>${esc(verdict.hint)}</b></p>`;

@@ -1,0 +1,68 @@
+'''Airway Irritation and Cannabinoid Prodrug Delivery''' examines the neuro-receptor triggers, solvent irritants, and thermal degradation mechanisms that cause coughing and pulmonary distress during cannabinoid inhalation—alongside clean extraction and water-soluble prodrug strategies designed to bypass airway exposure.
+
+This article details the activation of transient receptor potential (TRP) channels by phenolic hydroxyls, monoterpene mucosal stripping, the chemistry of thermal ketene generation, the hydrophilic plant pre-wash protocol, and non-inhalation O-phosphate ester prodrugs.
+
+== Biological triggers of inhalation irritation ==
+
+<code>
+                         [ INHALATION HAZARDS ]
+                                     │
+           ┌─────────────────────────┴─────────────────────────┐
+           ▼                                                   ▼
+ [ Free Phenolic -OH Group ]                          [ Thermal Pyrolysis ]
+  • Direct TRPA1 / TRPV1 activation                    • Atomizer coil temps >200 °C
+  • Triggers sensory nerve cough                       • Esters break down into toxic
+    reflexes in airway C-fibers                          ketene gas (CH2=C=O)
+</code>
+
+=== 1. TRP channel activation by free phenols ===
+The acute cough reflex triggered by inhaling aerosolized cannabis extract is an involuntary neurochemical response:
+* Sensory nerve endings (vagal C-fibers) lining the larynx, trachea, and bronchi express transient receptor potential channels—predominantly '''TRPA1''' (the ankyrin receptor) and '''TRPV1''' (the capsaicin/vanilloid receptor).
+* Natural phytocannabinoids possessing free, unprotected phenolic hydroxyl groups (-OH)—such as Δ9-THC, CBD, and cannabigerol (CBG)—act as direct chemical agonists on these receptors.
+* Agonist binding opens cation channels, triggering rapid calcium influx and initiating the brainstem cough reflex to expel perceived airway toxins.
+
+=== 2. Monoterpene solvency on mucosal membranes ===
+* Volatile monoterpenes—including '''α-pinene''', '''d-limonene''', and '''myrcene'''—exhibit strong non-polar solvency.
+* When inhaled in concentrations exceeding 2% to 5% of a vape oil or concentrate formulation, these low-molecular-weight terpenes dissolve and strip the protective phospholipid bilayer from pulmonary epithelial linings.
+* This solvency effect produces localized stinging, mucosal inflammation, and heightened sensitivity to heat.
+
+=== 3. Coil pyrolysis and toxic ketene generation ===
+When acetate ester derivatives (such as THC-O-acetate or vitamin E acetate) are heated on electronic vaporizer coils exceeding 200–300 °C, the ester bond undergoes homolytic and concerted thermal cleavage (pyrolysis):
+: <code>THC-O-Acetate ──(>200 °C)──► Free THC + CH2=C=O↑ (Ketene Gas)</code>
+* '''Pulmonary toxicity:''' Ketene gas is an exceptionally toxic electrophilic gas. Upon contact with moist alveolar tissue, it reacts immediately with water:
+: <code>CH2=C=O + H2O ──► CH3COOH (Glacial Acetic Acid)</code>
+* The in situ formation of concentrated acid directly within delicate alveolar sacs acetylates cellular enzymes, ruptures capillary membranes, and causes delayed chemical pneumonitis and non-cardiogenic pulmonary edema (the identical pathology observed in EVALI).
+* Inhaling pyrolyzed acetate esters is fundamentally unsafe.
+
+== Advanced clean alternatives ==
+
+<code>
+                       [ ADVANCED CLEAN ALTERNATIVES ]
+                                       │
+         ┌─────────────────────────────┼─────────────────────────────┐
+         ▼                             ▼                             ▼
+[ Hydrophilic Pre-Wash ]     [ Sublingual / Nano-Emulsions ]   [ O-Phosphate Salts ]
+ • Strips water-soluble       • Bypasses pulmonary lungs        • Charged water-soluble salt
+   tannins & sugars           • Oral mucosal absorption         • Cleaved by gut phosphatases
+</code>
+
+=== 1. Hydrophilic plant pre-wash protocol ===
+Combusting or vaporizing unwashed botanical extracts frequently causes severe throat scratchiness independent of cannabinoid content, driven by water-soluble plant ballast:
+* '''Mechanism:''' Raw cannabis floral material contains high concentrations of hydrophilic impurities: hydrolyzable tannins, free plant sugars, chlorophyll degradation fragments, and mineral salts (nitrates, phosphates from fertilizers).
+* '''Protocol:'''
+# Raw floral material is washed or submerged in hot (60–80 °C) distilled water prior to solvent extraction.
+# The polar water layer dissolves and rinses away water-soluble tannins, bitter glycosides, and mineral salts.
+# Because neutral cannabinoids and terpenes are completely lipophilic and hydrophobic (logP > 6.0), they remain anchored inside the glandular trichome heads.
+# Following water drainage, standard solvent extraction (ethanol, hydrocarbons, or lipid infusion) yields a golden, transparent extract entirely free of harsh water-soluble combustion irritants.
+
+=== 2. Non-inhalation water-soluble prodrugs: O-phosphate salts ===
+To deliver high-potency cannabinoids without pulmonary irritation or delayed inhalation hazards, medicinal chemistry utilizes water-soluble prodrug salts:
+
+* '''Synthesis:''' Reacting the phenolic hydroxyl group of Δ9-THC or CBD with a phosphorylating reagent (e.g., phosphorus oxychloride, POCl3, or dibenzyl phosphorochloridate) followed by alkaline neutralization yields an '''O-phosphate sodium or potassium salt''' (e.g., THC-O-phosphate disodium salt).
+* '''Aqueous solubility:''' The ionized phosphate group (-O-PO3²⁻ 2Na⁺) converts the hydrophobic cannabinoid oil into a completely water-soluble crystalline salt that dissolves cleanly into aqueous beverages, oral drops, or sublingual tinctures without requiring chemical surfactants, emulsifiers, or polysorbates.
+* '''Metabolic activation:'''
+: <code>THC-O-Phosphate ──(Alkaline Phosphatase)──► Δ9-THC + Inorganic Phosphate (Pi)</code>
+* Endogenous '''alkaline phosphatase''' enzymes—abundantly expressed on the brush border of intestinal enterocytes, vascular endothelium, and hepatic sinusoids—rapidly cleave the phosphate ester bond, releasing pure neutral THC directly into the portal or systemic circulation.
+* This completely circumvents TRP channel airway irritation, avoids all coil pyrolysis risks, and eliminates inhalation toxicity.
+
+See also: [[Cannabinoid and Tryptamine Prodrugs]] · [[Cannabinoid Isomerization]] · [[Modified Cannabinoids Matrix]] · [[Cannabis Harm Reduction]] · [[Stack Substances]]

@@ -14,6 +14,60 @@ The organising idea across most of the botanical inventory:
 * '''[[MAGL]]''' — the enzyme that clears 2-AG, ~85% of it
 * '''[[FAAH]]''' — the enzyme that clears anandamide
 * '''[[Anandamide and 2-AG]]''' — the two endocannabinoids, and why they are not two versions of one thing
+* '''[[Endocannabinoid Chemistry and 2-AG Metabolism]]''' — 2-AG biosynthesis via DAGL, spontaneous 1,2-acyl migration to 1-AG, Noladin ether, and virodhamine
+* '''[[Cannabinoid Adducts and Conjugates]]''' — chlorinated adducts, macromolecular dimers, Phase II fatty acid conjugation, and cyclodextrin complexes
+
+== Organic chemistry and synthetic pharmacology ==
+
+Monographs detailing laboratory transformations, reaction kinetics, and pharmacology:
+
+* '''[[Cannabinoid Isomerization]]''' — acid-catalyzed pyran ring closure from CBD into Δ9/Δ8-THC, kinetic vs thermodynamic control, SALLE purification, and why kitchen acids fail
+* '''[[Cannabinoid and Tryptamine Prodrugs]]''' — esterification of phenolic hydroxyls, Shulgin's 4-AcO vs 4-OH framework, and the lethal ketene gas pyrolysis hazard of vaporized acetates
+* '''[[Stereochemistry in Cannabinoid and Psychedelic Synthesis]]''' — natural (-)-trans enantiomeric purity vs flat carbocation synthetic racemates across cannabinoids, amphetamines, and racetams
+* '''[[Airway Irritation and Cannabinoid Prodrug Delivery]]''' — TRPA1/TRPV1 airway triggers, monoterpene mucosal stripping, hydrophilic pre-wash protocol, and water-soluble O-phosphate salts
+* '''[[Modified Cannabinoids Matrix]]''' — comparative index and monographs of Δ8, Δ9, HHC (9R vs 9S), THC-O, THCp, THCJD, HU-331, and O-phosphate prodrugs
+* '''[[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]''' — the 10 botanical essential oils and their corresponding amphetamines, refutation of the amination hypothesis, and CYP450 cascades
+* '''[[Universal Reaction Templates in Cannabinoid Chemistry]]''' — hydration, hydrogenation, hydrolysis, epoxidation, and addition/removal templates for cannabinoids and terpenes
+* '''[[Cannabinoid Photochemistry and Degradation]]''' — UV-C cleavage (CBE), UV-B photo-oxidation (HU-331 pink oil), visible-light photoredox single-electron transfer, and solvent peroxide hazards
+* '''[[Antioxidants and Cannabinoid Stability]]''' — free-radical oxidation cascades, rosemary's sacrificial carnosic acid/carnosol protection, metal ion chelation, and membrane fluidization
+* '''[[Solvent Chemistry and Polarity in Botanical Extraction]]''' — dielectric constants, partition coefficients (log P), phase separation logic, and why ethanol fails as a nucleophile trap
+* '''[[Hemp Industry Scale-Up and Legal Synthesis Protocols]]''' — benchtop thermal runaway, fractional freezing of glacial acetic acid, d-limonene green extraction, SALLE quenching, and the hydrophilic plant pre-wash
+* '''[[Cannabinoid Quinones and Novel Derivatives]]''' — oxidation of CBD to HU-331, non-cardiotoxic Topoisomerase IIα catalytic inhibition, neuroprotective aminoquinones (VCE-003.2), and N,O-TMS silylation
+* '''[[Structure-Activity Relationships in Psychopharmacology]]''' — Shulgin's TIHKAL #55 (α,N,O-TMS) 2-position rule, cross-receptor migration (serotonin to melatonin to dopamine), and the 5-HT1A oxytocin entactogen bridge
+* '''[[69Ron and Oilahuasca Chemistry]]''' — 69Ron's non-toxic d-limonene extraction ("DryTek"), enzyme inhibition sequencing, vendor controversies, and the documented lack of classical psychedelic baseline
+* '''[[Allylbenzene Metabolism, Oswald Pathway, and Mace]]''' — E.O. Oswald's in vivo tertiary amine alkaloid pathway via vinyl ketones, and why mace eliminates the heavy trimyristin fat of nutmeg
+* '''[[Traditional Spiced Formulations and Synergistic Blends]]''' — the biochemical rationale behind the coffee-almond-cinnamon-vanilla-nutmeg blend, Bedouin spiced coffee, Roman/Medieval Hippocras, and South Asian Paan
+* '''[[Isomers, the Analogue Act, and Forensic Chemistry]]''' — chemical isomerism vs CSA statutory definitions, the 1986 Analogue Act, Shulgin's aMT entry, and the five-hole salt shaker metaphor
+* '''[[Religious Sacraments, RFRA, and the Temple of True Inner Light]]''' — James Madison's conscience doctrine, the Smith crisis, RFRA strict scrutiny, UDV ayahuasca precedent, and Shulgin's DPT reflection on the Temple of True Inner Light
+* '''[[Psychotropics Convention and the UDV Precedent]]''' — the 1971 UN treaty, scheduling tiers, the INCB botanical decoction distinction, and Chief Justice Roberts' unanimous rejection of the DEA's treaty defense in Gonzales v. UDV
+* '''[[Shulgin Rating Scale]]''' — Sasha and Ann Shulgin's +/- to ++++ qualitative phenomenological scale for standardizing subjective entheogenic bioassays
+* '''[[Colloidal Metals, Electrochemistry, and Nanoparticles]]''' — low-voltage electrolysis, Faraday's laws, constant-current regulation, the coin/copper contamination hazard, and argyria toxicology
+* '''[[Rasa Shastra and Ancient Indian Nanochemistry]]''' — Ayurvedic iatrochemistry, multi-cycle Puta calcination, Swarna/Rajata Bhasmas, and modern TEM/XRD characterization of ancient gold/silver nanoparticles
+* '''[[Laboratory Equipment and Extraction Engineering]]''' — short-path distillation, rotary evaporators, ultrasonic cavitation, microwave-assisted extraction (MAE), C1D1 cleanrooms, and solvent explosion hazards
+* '''[[Cannabinoid and Terpene Electrochemistry]]''' — anodic synthesis of HU-331 quinone, cathodic electro-hydrogenation to HHC, room-temperature Kolbe decarboxylation, and transdermal iontophoresis
+* '''[[Cannabinoid Chromatography and Genomics]]''' — HPLC active THC formulas, GC thermal artifacts, Centrifugal Partition Chromatography (CPC), the 5 chemotypes, and marker-assisted breeding
+* '''[[Bioelectricity, Forensic Genomics, and Alchemical Transmutation]]''' — gel/capillary electrophoresis, electroporation nanopores, morphogenetic bioelectric fields, STR profiling, headspace GC-MS fire forensics, and Paracelsian spagyric nanochemistry
+* '''[[Thiols and Oxygen Congeners in Medicinal Chemistry]]''' — sulfur vs oxygen periodic chemistry, cannabis skunk volatile sulfur compounds (32B1T), glutathione quinone trapping, and Shulgin's 2C-T sulfur series
+* '''[[Alkaline Earth Metals, Calcium Signaling, and Strontium Mimicry]]''' — hydroxyapatite crystal lattice substitution, strontium ranelate dual action, Strontium-90 bone seeker beta radiation, and presynaptic calcium channel CB1 inhibition
+* '''[[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]]''' — moles vs milligrams, the salt factor equation, bulk density variations, the lethal fallacy of eyeballing powders, and beta-arrestin GPCR tolerance kinetics
+* '''[[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]]''' — David E. Nichols' academic legacy, MDMA vs 6-APB benzofuran pharmacology, 5-HT2B cardiac valvulopathy hazards, and the Oilahuasca allylbenzene docking model
+* '''[[Colorimetric Reagents and Presumptive Chemical Testing]]''' — Marquis, Mecke, Mandelin, Froehde, Simon's secondary amine enamine reaction, Robadope primary amine, Ehrlich indole bis-indolyl dyes, master reaction matrix, and the fatal adulterant masking trap
+* '''[[Ecstasy Pill Forensics and Historical Adulteration Trends]]''' — Texas pre-ban era (Starck Club), the heroin-based pill myth vs GC-MS reality, the 2000s piperazine wave (BZP/TFMPP), synthetic cathinones (mephedrone/methylone), European super-pills, and fentanyl cross-contamination
+
+== Enzyme systems, inhibitors, and biological regulators ==
+
+Monographs detailing enzymatic kinetics, metabolic cascades, synaptic clearance, and macromolecular inhibitors:
+
+* '''[[The Expanded Endocannabinoid System and FAAH Science]]''' — the endocannabinoidome (eCBome), catalytic Ser-Ser-Lys triad, PEA/OEA signaling, BIA 10-2474 forensics, and C385A genetics
+* '''[[Cytochrome P450 System Inhibition and Induction]]''' — CYP3A4/2D6/1A2/2C9/2C19 kinetics, mechanism-based suicide inhibition (grapefruit/piperine), PXR/AhR induction, and prodrug vs active drug divergence
+* '''[[Bioavailability: Metabolic Enzymes, Transporters, and Synergistic Delivery]]''' — oral bioavailability equations ($F=f_a \times F_g \times F_h$), Ayahuasca MAOI lesson, grapefruit furanocoumarin suicide inhibition, Racetam/Choline/Alpha-GPC kinetics, Phenylpiracetam lipophilicity, Vitamin C redox shielding, and kitchen synergists (vanillin, cinnamaldehyde, turmeric/piperine 2000% boost, S-acetyl glutathione, ethanol)
+* '''[[Sublingual Absorption, Salivary Enzymes, and Mucosal Bioavailability]]''' — non-keratinized sublingual mucosa, internal jugular first-pass avoidance, salivary $\alpha$-amylase and lingual lipase, MUC5B/MUC7 barriers, saponin and terpene permeation drivers, and Henderson-Hasselbalch pH partition shifts
+* '''[[Ubulawu, African Oneirogens, and Saponin Pharmacokinetics]]''' — Southern African dream root science (*Silene undulata*, *Helinus integrifolius*, *Synaptolepis kirkii* kirkinine), biosurfactant micro-foams, salivary amylase inhibition, and convergence with Oilahuasca, Ukuphahla, Egyptian Head Cones, and Punic Wax
+* '''[[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]]''' — MAO-A vs MAO-B, irreversible vs RIMA (harmalas), dietary tyramine cheese effect, and serotonin syndrome pharmacology
+* '''[[Cholinergic Neurotransmission and Cholinesterase Inhibition]]''' — why intact ACh has no reuptake pump, AChE velocity, CHT1 rate-limiting bottleneck, galantamine, huperzine A, and organophosphate aging
+* '''[[Enzyme Inhibition Kinetics and Molecular Transporters]]''' — Lineweaver-Burk models (competitive, non-competitive, uncompetitive, suicide), the serine hydrolase superfamily, SLC6 transporters (SERT/DAT/NET), and VMAT2
+* '''[[Bacteriophages Endolysins and Biological Inhibitors]]''' — phage biology, holin-endolysin lytic machinery ("enzybiotics"), bacterial CRISPR defenses, Anti-CRISPR (Acr) biological protein inhibitors, and phage-antibiotic synergy
+* '''[[Virology, Antivenom Immunology, and Aromatic Antimicrobials]]''' — chlorine radical photolysis, active vs passive immunity, F(ab')2 antivenom fragments, convalescent plasma, and Thieves Oil protease / zinc ionophore enzymology
 
 == Compounds ==
 
@@ -24,9 +78,11 @@ The organising idea across most of the botanical inventory:
 == Plants ==
 
 * '''[[Imphepho]]''' — ''Helichrysum'' spp.; the ukuphahla incense, and the best vaporiser candidate in the inventory
+* '''[[Balm of Gilead, Uziza, and Ancient Resinous Synergies]]''' — ''Commiphora gileadensis'' and ''Piper guineense''; oleo-resins, guineensine/piperine FAAH inhibition, and transdermal penetration
+* '''[[Apotropaic Magic, Bes Mugs, Syrian Rue, and Egyptian Wax Alchemy]]''' — Bes vases, ''Peganum harmala'' harmine/harmaline fumigation, Bastet unguent jars, and beeswax-imphepho soap
 * '''[[Yin Chen Hao]]''' — ''Artemisia capillaris''; sold as a psychoactive, actually a liver medicine
 * '''[[Mucuna Pruriens]]''' — velvet bean; 3–7% L-DOPA, and the highest-risk material held
-* '''[[Kava]]''' — ''Piper methysticum''; yangonin inhibits FAAH, and the hepatotoxicity question is not closed
+* '''[[Kava]]''' and '''[[Kava Potentiation]]''' — ''Piper methysticum''; yangonin binds CB1 and inhibits FAAH; the 5-category potentiation framework, black pepper synergy, and the liver collision
 * '''[[Black Pepper]]''' — ''Piper nigrum''; four distinct activities from one kitchen spice
 * '''[[Maca]]''' — ''Lepidium meyenii''; macamides as structural analogues of anandamide
 * '''[[White Sage]]''' — ''Salvia apiana''; and why the sourcing question is the whole entry
@@ -50,7 +106,8 @@ The organising idea across most of the botanical inventory:
 
 == Recorded only as a warning ==
 
-* '''[[Datura]]''' — the single entry in this library where no dose is given, because no accurate dose exists to give
+* '''[[Datura]]''' — the single entry in this library where no dose is given, because no accurate dose exists to give; benztropine 1 mg clinical parallels, Sadhu smoke pyrolysis, and Shulgin tasting titration
+* '''[[Old World vs. New World Visionary Botanicals: Toxicity, Titration, and the Shulgin Method]]''' — Old World poison plants (henbane, wolfsbane, belladonna, foxglove) vs New World visionary flora (psilocybin, peyote, ayahuasca); Sadhu snake venom smoking on charas; and Shulgin museum-level titration
 
 == Preparation ==
 
@@ -73,7 +130,10 @@ Vaporisation temperature governs which fraction of a plant is actually delivered
 == The interactions worth knowing before anything else ==
 
 * '''L-DOPA + MAOI''' — hypertensive crisis. [[Mucuna Pruriens|Mucuna]] with any harmala-containing preparation, syrian rue, or a prescribed MAOI.
-* '''Piperine + prescription medication''' — [[Black Pepper|black pepper]] extract inhibits CYP3A4 and P-glycoprotein and is sold specifically to raise absorption. It raises the absorption of drugs too.
+* '''MAOIs/RIMAs + Serotonergic agents (SSRIs, SNRIs, MDMA, DXM, Tramadol)''' — fatal serotonin toxicity. Requires strict 2-to-5 week drug washout intervals; see [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+* '''Irreversible MAOIs + Aged food tyramine ("Cheese Effect")''' — severe hypertensive crisis and stroke from displaced peripheral norepinephrine; see [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+* '''Piperine / Grapefruit + Prescription medications''' — mechanism-based and competitive inhibition of CYP3A4, CYP2D6 and P-glycoprotein causes toxic blood accumulation of narrow-therapeutic-index drugs; see [[Cytochrome P450 System Inhibition and Induction]].
+* '''Cholinesterase inhibitors (Galantamine, Huperzine A) in cardiac conduction disease''' — stimulates cardiac M2 receptors, risking severe bradycardia, AV block, and syncope; see [[Cholinergic Neurotransmission and Cholinesterase Inhibition]].
 * '''Kava + alcohol, sedatives, or anything hepatic''' — see [[Kava]].
 * '''8-PN in hormone-sensitive conditions''' — see [[8-Prenylnaringenin]].
 * '''Folate without checking B12''' — see [[L-Methylfolate]].
@@ -81,7 +141,11 @@ Vaporisation temperature governs which fraction of a plant is actually delivered
 * '''Vitamin K2 with warfarin''' — direct antagonism of the drug's mechanism; see [[Vitamin K2]].
 * '''Galantamine with bradycardia, asthma or an anticholinergic''' — see [[Galantamine]].
 * '''Chronic complete MAGL inhibition''' causes CB1 desensitisation. More is not better; see [[MAGL]].
+* '''Vaporizing acetate prodrugs (THC-O-acetate, Vitamin E acetate)''' — coil temperatures >200&nbsp;°C pyrolyze esters into toxic ketene gas (CH2=C=O), causing severe acute chemical pneumonitis and pulmonary edema; see [[Cannabinoid and Tryptamine Prodrugs]] and [[Airway Irritation and Cannabinoid Prodrug Delivery]].
+* '''Unwashed acid-isomerized extracts''' — inhaling residual mineral acids (HCl, H2SO4, pTSA) or chlorinated adducts causes acute airway destruction; see [[Cannabinoid Isomerization]] and [[Cannabinoid Adducts and Conjugates]].
+* '''Space Paste or heavy nutmeg abuse''' — toxic anticholinergic-like delirium and possible DNA-reactive 1'-hydroxy sulfate metabolites; see [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]].
+* '''Open-blasting volatile hydrocarbon solvents (butane/propane)''' — catastrophic fuel-air thermobaric explosions; butane pools along floors (vapor density 2.08 g/L) and ignites at just 1.8% LEL from refrigerator relays, static electricity, or pilot lights; see [[Laboratory Equipment and Extraction Engineering]].
 
 == Related ==
 
-[[Library of Ashurbanipal]] · [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Food Pyramid and Supplements]] · [[Kyphi]]
+[[Library of Ashurbanipal]] · [[Ubulawu, African Oneirogens, and Saponin Pharmacokinetics]] · [[Sublingual Absorption, Salivary Enzymes, and Mucosal Bioavailability]] · [[Bioavailability: Metabolic Enzymes, Transporters, and Synergistic Delivery]] · [[Balm of Gilead, Uziza, and Ancient Resinous Synergies]] · [[Old World vs. New World Visionary Botanicals: Toxicity, Titration, and the Shulgin Method]] · [[Apotropaic Magic, Bes Mugs, Syrian Rue, and Egyptian Wax Alchemy]] · [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Modified Cannabinoids Matrix]] · [[The Expanded Endocannabinoid System and FAAH Science]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] · [[Cholinergic Neurotransmission and Cholinesterase Inhibition]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Bacteriophages Endolysins and Biological Inhibitors]] · [[Virology, Antivenom Immunology, and Aromatic Antimicrobials]] · [[Laboratory Equipment and Extraction Engineering]] · [[Cannabinoid and Terpene Electrochemistry]] · [[Cannabinoid Chromatography and Genomics]] · [[Bioelectricity, Forensic Genomics, and Alchemical Transmutation]] · [[Thiols and Oxygen Congeners in Medicinal Chemistry]] · [[Alkaline Earth Metals, Calcium Signaling, and Strontium Mimicry]] · [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]] · [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]] · [[Colorimetric Reagents and Presumptive Chemical Testing]] · [[Ecstasy Pill Forensics and Historical Adulteration Trends]] · [[Food Pyramid and Supplements]] · [[Kyphi]] · [[Ukuphahla]] · [[Head Cone]] · [[Punic Wax]]

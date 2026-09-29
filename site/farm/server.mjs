@@ -21,7 +21,7 @@ import { serveKeyFile } from '../../integrations/indexnow.mjs';
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
 // Engine reads point at the MAINNET engine when configured, else the live testnet engine (as now).
-const ENGINE_API = process.env.ENGINE_API || 'https://engine.alpha.melek.salon';
+const ENGINE_API = process.env.ENGINE_API || 'https://engine.melek.salon';
 const STAKE_TOKEN = (process.env.STAKE_TOKEN || 'WMELEK').toUpperCase();
 // Crawlability: the host served neither robots.txt nor sitemap.xml, so nothing pointed a crawler at
 // this page at all. One page today — the sitemap is deliberately the real route list, not a wish list.
@@ -175,7 +175,7 @@ function page() {
   const boostRow = (b) => `<tr><td>${esc(b.years)} yr <span class=mut>(${esc(b.weeks)}w)</span></td><td class=apr>${esc(b.boost)}×</td></tr>`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>KULA Farm — MELEK</title>
-<meta name=description content="Farm the MELEK tokens — provide liquidity, stake & lock KULA, earn emissions. PRANA testnet.">
+<meta name=description content="Farm the MELEK tokens — provide liquidity, stake & lock KULA, earn emissions. PRANA mainnet.">
 <style>
  :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--gold:#d9a441;--green:#36c08a;--blue:#4c8dff;--purple:#9a7bff}
  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:14px}
@@ -241,7 +241,7 @@ function page() {
  .arow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
  select{font:inherit;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px}
 </style></head><body><div class=wrap>
-<header><span class=brand>🌾 <b>KULA</b> Farm</span><span class=alpha>Alpha</span></header>
+<header><span class=brand>🌾 <b>KULA</b> Farm</span></header>
 <p class=lead>The Yield Farm is <b>Witness School for earning</b> — a guided hub that teaches <b>and</b> lets you do staking, burn-mining, hash-rate earning and regular yield farming, one step at a time. Grey tiles light up as you complete each one. The grow game (planting seeds) is at <a href="https://seeds.soapbox.community">seeds.soapbox.community</a>; this is where you farm the <b>tokens</b>.</p>
 
 <h2>Your farm path</h2>

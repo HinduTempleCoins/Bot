@@ -1,0 +1,42 @@
+# The Economics No Coin Dev Teaches — Buybacks, Utility, and Why DevCoin Failed
+
+Almost every token launch teaches its holders nothing about economics. It ships a coin, points at a chart, and hopes. A few developers have *gestured* at doing better — the DevCoin experiment (2013–14) around iGotSpots paid open-source contributors and writers from a shared pool, an early attempt to tie a coin to real work — but **no coin developer has ever made a point of both teaching this economics and practicing it.** MELEK's position, argued for over a decade in the operator's own writing<ref>Bitcointalk, "In Response to Peter Schiff", https://bitcointalk.org/index.php?topic=5582327.0 (VanKushFamily)</ref>, is that a sound token economy is *taught to its community* and *practiced by its issuer* — not left to speculation. This article is the capstone of the Economics 101 series and states that stance plainly.
+
+This is an **educational, neutral** reference. It is **not investment, financial, or legal advice**, it makes **no price prediction**, and it does not tell anyone what or when to trade (see § Not investment advice).
+
+== Summary ==
+
+Three ideas, each covered in its own article, come together here: **buybacks** ([[Token Buybacks, Market Fees, and the UIA Lineage]]) as a transparent act of issuer commitment; **real utility and outside revenue** as what makes a token *spendable* rather than merely tradeable; and **honest supply** ([[Tokenomics 101]], [[Inflation and Deflation — Token Emission and Burns]]) as the thing DevCoin got wrong. The through-line is **education over speculation**: a community that understands supply, walls, liquidity, and buybacks makes better decisions than one that is sold a dream<ref>Bitcointalk, "In Response to Peter Schiff", https://bitcointalk.org/index.php?topic=5582327.0</ref>.
+
+== What a buyback actually is (and why a dev would do one) ==
+
+Stated plainly, as in the source thread: *"A buyback is when you buy your coin back — you spend money on the market to get them back."*<ref>Bitcointalk, "In Response to Peter Schiff", https://bitcointalk.org/index.php?topic=5582327.0</ref> The point is not to promise a price. A buyback funded by **real revenue** is an issuer putting earnings back into the token — either **burning** what it buys (reducing supply) or adding it to **protocol-owned liquidity** (deepening the market). It is a visible signal of commitment that participants can see and plan around. It is treasury discipline, not a price guarantee — see the buyback article for the mechanics and the hard compliance line ([[Token Buybacks, Market Fees, and the UIA Lineage]]).
+
+== Utility: why "you can't buy gold with it — yet" ==
+
+A token is not truly money until you can spend it on real things, and you cannot spend it on real things until it has **real utility and liquidity** behind it. This is the argument in marsresident's well-known Steem piece, "Why can't I buy gold with STEEM yet"<ref>Steemit, @marsresident, "Why can't I buy gold with STEEM yet", https://steemit.com/steemit/@marsresident/why-can-t-i-buy-gold-with-steem-yet</ref><ref>knowledge/cryptocurrency/steem_economics_marsresident.json</ref>: speculation alone never makes a coin *spendable*; utility and outside revenue do. MELEK's answer is to build the utility first — a whole play-and-earn economy, real services, and outside revenue — so the token has somewhere to *be used*, not only traded.
+
+== Why DevCoin failed — oversupply, not the idea ==
+
+DevCoin's idea was good: pay contributors and writers a monthly share of a coin pool for real work. It failed on **supply**. Roughly 180 billion coins were issued — far more than the demand could absorb — so the value deflated toward nothing and the monthly payout shrank with it<ref>knowledge/cryptocurrency/devcoin_history.json</ref><ref>Bitcointalk, "In Response to Peter Schiff", https://bitcointalk.org/index.php?topic=5582327.0</ref>. The lesson is not "don't pay contributors"; it is **keep supply tight and fair-launched so a contributor's share holds its worth.** MELEK keeps issuance tight and no-premine for exactly this reason ([[Tokenomics 101]]).
+
+== Teach it, and do it ==
+
+That is the whole stance. We **teach** the economics — this Economics 101 series in the Library of Ashurbanipal, and the step-by-step how-to in the Witness School — and we **do** it: real buybacks through the token-management front end, honest fair-launch supply, outside revenue behind the token, and the discipline that [[Selling Isn't Profit — You Have to Buy to Sell Higher]] describes. A community that is taught how markets work, by a project that practices what it teaches, is the thing no coin dev has bothered to build. This is that.
+
+== Not investment advice ==
+
+Nothing here is investment, financial, tax, or legal advice. It describes economic mechanics and a project philosophy for education only. Buybacks are token-management and treasury discipline, **never** a promise that any token will rise in value. No content here is a recommendation to buy, sell, hold, or time any asset. Do your own research; consult a licensed professional for financial decisions.
+
+== Sources ==
+
+* Bitcointalk, "In Response to Peter Schiff" (VanKushFamily) — https://bitcointalk.org/index.php?topic=5582327.0
+* Steemit, @marsresident, "Why can't I buy gold with STEEM yet" — https://steemit.com/steemit/@marsresident/why-can-t-i-buy-gold-with-steem-yet
+* knowledge/cryptocurrency/steem_economics_marsresident.json
+* knowledge/cryptocurrency/devcoin_history.json
+* .local/pending-economics-post.md
+* [[Token Buybacks, Market Fees, and the UIA Lineage]]
+
+== Coverage ==
+
+Capstone of the Economics 101 series. Ties the buyback mechanics, the utility/spendability argument, and the DevCoin oversupply lesson into one stance — teach the economics and practice it. Educational and neutral; not investment advice; no price predictions.

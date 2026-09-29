@@ -43,7 +43,8 @@ test('home: "building now / watch this space" framing', () => {
 
 test('home: links the live ecosystem family', () => {
   const b = homePage();
-  assert.match(b, /alpha\.melek\.salon/);
+  assert.match(b, /href="https:\/\/melek\.salon"/);
+  assert.doesNotMatch(b, /alpha\.melek\.salon|testnet/i);
   assert.match(b, /data\.soapbox\.community/);
   assert.match(b, /oversight\.soapbox\.community/);
   assert.match(b, /law\.soapbox\.community/);

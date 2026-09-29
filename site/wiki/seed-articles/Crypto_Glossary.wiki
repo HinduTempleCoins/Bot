@@ -20,6 +20,7 @@ The '''Crypto Glossary''' is a plain-language dictionary of the blockchain terms
 * '''[[Cloning]]''' — copying open-source chain or contract code to launch your own.
 * '''Cold storage''' — keeping keys offline, disconnected from the internet, for safety.
 * '''Consensus''' — how a chain's computers agree on the one true history (e.g. [[Mining|PoW]], [[Delegated Proof of Stake DPoS|DPoS]], PoS).
+* '''[[Crypt-ology]]''' — the Van Kush Family's cryptographic research, alternate-reality puzzle games, and cipher-lore.
 * '''Curation''' — voting on content; on [[MELEK]] curators earn a share of the reward for backing good posts.
 
 == D ==

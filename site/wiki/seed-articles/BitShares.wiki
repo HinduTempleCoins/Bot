@@ -1,0 +1,42 @@
+# BitShares
+
+BitShares is a blockchain platform designed to function as a decentralized exchange (DEX) and financial ecosystem. It is built on the Graphene blockchain technology, which was developed by Dan Larimer and Cryptonomex<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>. BitShares was launched in 2014 and is recognized as one of the first blockchain platforms to enable the creation of smart contracts and tokens, known as User Issued Assets (UIAs)<ref>cryptocurrency/cryptocurrency/large_scale_crypto_project.json</ref>.
+
+== Key Features ==
+
+BitShares is powered by the Graphene blockchain, which is known for its high performance and scalability. The platform boasts a theoretical capacity of over 100,000 transactions per second and a block time of just three seconds, making it suitable for real-time applications. BitShares employs a Delegated Proof of Stake (DPoS) consensus mechanism, which is considered energy-efficient and allows for built-in governance through on-chain voting<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>.
+
+Some of the notable features of BitShares include<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref><ref>cryptocurrency/cryptocurrency/large_scale_crypto_project.json</ref>:
+- **User Issued Assets (UIAs):** These are custom tokens that users can create and trade on the platform.
+- **Market Pegged Assets:** These are tokens that are pegged to the value of real-world assets, such as fiat currencies or commodities.
+- **OpenLedger DEX:** A decentralized exchange that operates on the BitShares blockchain, allowing users to trade cryptocurrencies and other digital assets without relying on a centralized authority.
+
+== Purpose and Significance ==
+
+The primary purpose of BitShares is to serve as a decentralized exchange platform, enabling users to trade digital assets without the need for intermediaries. This aligns with the broader goal of decentralization in the blockchain space, where users retain control over their assets and data<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>. BitShares is also significant for being a pioneer in the blockchain industry, as it was the first platform to introduce the concept of smart contracts and tokens before Ethereum gained prominence<ref>cryptocurrency/cryptocurrency/large_scale_crypto_project.json</ref>.
+
+== Governance and Decentralization ==
+
+BitShares employs a unique governance model based on Delegated Proof of Stake (DPoS). In this system, stakeholders vote to elect delegates who are responsible for validating transactions and maintaining the network. This approach is designed to balance decentralization with efficiency, ensuring that the network remains secure and scalable while giving users a voice in its governance<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>.
+
+== Community and Ecosystem ==
+
+The BitShares community is described as stable and active, with various platforms available for discussion and collaboration, including the BitSharesTalk forum, Telegram groups, and other social media channels<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref><ref>https://bitsharestalk.org/</ref>. The platform's decentralized nature is further supported by its federated exchange model, where nodes are operated by individuals or organizations elected by the community<ref>cryptocurrency/cryptocurrency/large_scale_crypto_project.json</ref>.
+
+== Technical Resources ==
+
+For developers interested in building on the BitShares platform, several resources are available:
+- **GitHub Repositories:** The core and user interface codebases are hosted on GitHub<ref>cryptocurrency/cryptocurrency/large_scale_crypto_project.json</ref>.
+- **Graphene Blockchain Tutorials:** Guides for understanding and working with the Graphene blockchain<ref>cryptocurrency/cryptocurrency/large_scale_crypto_project.json</ref>.
+
+== Legacy and Influence ==
+
+BitShares has had a significant influence on the development of blockchain technology and decentralized applications. It serves as the foundation for other Graphene-based projects, including the social media blockchain Steem and its forks, Hive and Blurt<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>. These platforms have adopted and adapted the underlying technology of BitShares to create decentralized social media ecosystems.
+
+== Sources ==
+<ref>cryptocurrency/cryptocurrency/graphene_social_blockchain_guide.json</ref>  
+<ref>cryptocurrency/cryptocurrency/large_scale_crypto_project.json</ref>  
+<ref>https://bitsharestalk.org/</ref>  
+
+== Coverage ==
+This article is based on multiple sources, primarily from VKFRI's knowledge base and external documentation. While the article provides a comprehensive overview of BitShares, additional details on its current adoption, specific use cases, and recent developments are not covered in the available sources.

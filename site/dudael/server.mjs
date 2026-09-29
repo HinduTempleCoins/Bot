@@ -27,9 +27,9 @@ const BASE_URL = (process.env.BASE_URL || 'https://dudael.com').replace(/\/$/, '
 
 // Live ecosystem family — what's here NOW (concrete, linkable). Mirrors ecosystem-nav.mjs but the
 // landing wants short blurbs, so it's its own small list. Each is a real, live surface today.
-const ALPHA = process.env.MELEK_ALPHA || 'https://alpha.melek.salon';
+const MELEK_HOME = process.env.MELEK_HOME_URL || 'https://melek.salon';
 const FAMILY = [
-  ['MELEK Testnet', ALPHA, 'The live testnet chain — a founding AI Witness, fair-launch, zero pre-mine. Try it now.'],
+  ['MELEK', MELEK_HOME, 'The live MELEK chain — a founding AI Witness, fair-launch, zero pre-mine. Join now.'],
   ['SoapBox Data', 'https://data.soapbox.community', 'CoinMarketCap-style market data with a Clarity transparency score.'],
   ['Oversight', 'https://oversight.soapbox.community', '“Who do I call?” — the consumer-protection & oversight directory.'],
   ['Law', 'https://law.soapbox.community', 'A facts-not-verdicts lawyer & legal-aid directory.'],
@@ -108,7 +108,7 @@ export function homePage() {
     <p>Dudael's worlds are still being built. The rest of the ecosystem is already live, and Dudael is
       the doorway that ties it together:</p>
     <div class=grid>${family}</div>
-    <p style="margin-top:16px"><a class=cta href="${esc(ALPHA)}">Enter the MELEK Testnet →</a></p>
+    <p style="margin-top:16px"><a class=cta href="${esc(MELEK_HOME)}">Enter MELEK →</a></p>
   </div>
 
   <div class=card>
@@ -120,7 +120,7 @@ export function homePage() {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>Dudael — the MetaVerse</title>
-<meta name=description content="Dudael is the metaverse of the VanKush / SoapBox / MELEK ecosystem — open VR and OpenXR worlds layered over the MELEK chain, framed by the Convergence of AI, VR, and consciousness-interface technology. Building now; the live family (MELEK testnet, SoapBox, Oversight, Law, the mining pool) is already open.">
+<meta name=description content="Dudael is the metaverse of the VanKush / SoapBox / MELEK ecosystem — open VR and OpenXR worlds layered over the MELEK chain, framed by the Convergence of AI, VR, and consciousness-interface technology. Building now; the live family (MELEK, SoapBox, Oversight, Law, the mining pool) is already open.">
 <meta name=robots content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Dudael">
 <meta property="og:title" content="Dudael — the MetaVerse"><meta property="og:description" content="The metaverse of the MELEK ecosystem — VR/OpenXR worlds over the chain. Building now; the live family is already open.">
@@ -128,7 +128,7 @@ export function homePage() {
 <div class=navwrap>${navDrawer({ current: 'dudael' })}</div>
 <main class=wrap>${body}</main>
 <footer>Dudael — the MetaVerse of the VanKush · SoapBox · MELEK ecosystem. Building now.
-  <div style="margin-top:6px">A world held open over the MELEK chain · <a href="${esc(ALPHA)}">testnet</a> · <a href="https://soapbox.community">SoapBox</a></div>
+  <div style="margin-top:6px">A world held open over the MELEK chain · <a href="${esc(MELEK_HOME)}">melek.salon</a> · <a href="https://soapbox.community">SoapBox</a></div>
 </footer>
 ${NAV_DRAWER_JS}</body></html>`;
 }

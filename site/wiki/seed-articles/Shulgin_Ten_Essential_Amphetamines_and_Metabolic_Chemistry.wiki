@@ -1,0 +1,120 @@
+'''Shulgin's Ten Essential Amphetamines and Metabolic Chemistry''' bridges structural organic chemistry with enzymatic psychopharmacology. It traces the structural relationship between ten natural plant essential oils (allylbenzenes and propenylbenzenes) and their corresponding psychoactive phenethylamines, the refutation of the in vivo amination hypothesis, and the Cytochrome P450 (CYP450) metabolic cascade underlying "Oilahuasca" and "Space Paste."
+
+This article details the structural isomerism of plant precursors, the exact metabolic fates mediated by human liver enzymes, and the botanical synergies with kava and black pepper.
+
+== Space Paste vs. Oilahuasca ==
+
+A frequent misconception in informal pharmacology is that Space Paste derived from Oilahuasca. Historically and pharmacologically, the relationship is the reverse:
+
+* '''Space Paste (The Whole-Herb Precursor):''' Originated as an informal poly-herbal mixture combining nutmeg, black pepper, cinnamon, oregano, basil, and other culinary herbs. It relied on a crude, unrefined cocktail of botanical allylbenzenes (myristicin, elemicin, safrole) co-ingested with natural enzyme inhibitors (piperine, eugenol, cinnamaldehyde) in a single paste.
+* '''Oilahuasca (The Targeted Metabolic Hijack):''' Refined the crude Space Paste concept into a targeted, time-staggered biochemical sequence. Rather than consuming whole herbs simultaneously, Oilahuasca uses specific botanical inhibitors to block intestinal and hepatic CYP450 enzymes and aldehyde dehydrogenases *before* introducing isolated essential oils, preventing rapid metabolic clearance.
+
+== Shulgin's ten essential amphetamines ==
+
+In ''PIHKAL'' (Phenethylamines I Have Known and Loved, 1991) and earlier academic publications, Alexander Shulgin identified ten natural aromatic components of essential oils that share identical ring-substitution patterns with ten psychoactive phenethylamines:
+
+{| class="wikitable"
+! # !! Natural essential oil constituent !! Structural class !! Botanical source !! Corresponding psychoactive amphetamine
+|-
+| 1 || '''Myristicin''' || Allylbenzene || Nutmeg (''Myristica fragrans''), parsley || '''MMDA''' (5-methoxy-3,4-methylenedioxyamphetamine)
+|-
+| 2 || '''Safrole''' || Allylbenzene || Sassafras (''Sassafras albidum''), camphor || '''MDA''' (3,4-methylenedioxyamphetamine)
+|-
+| 3 || '''Elemicin''' || Allylbenzene || Nutmeg, elemi (''Canarium luzonicum'') || '''TMA''' (3,4,5-trimethoxyamphetamine)
+|-
+| 4 || '''Asarone''' (α and β) || Propenylbenzene || Calamus (''Acorus calamus'') || '''TMA-2''' (2,4,5-trimethoxyamphetamine)
+|-
+| 5 || '''Parsley Apiole''' || Allylbenzene || Parsley seed (''Petroselinum crispum'') || '''DMMDA''' (2,5-dimethoxy-3,4-methylenedioxyamphetamine)
+|-
+| 6 || '''Dill Apiole''' || Allylbenzene || Dill seed (''Anethum graveolens'') || '''DMMDA-2''' (2,3-dimethoxy-4,5-methylenedioxyamphetamine)
+|-
+| 7 || '''Eugenol / Isoeugenol''' || Allyl / Propenyl || Clove (''Syzygium aromaticum''), allspice || '''DME derivatives''' (dimethoxyamphetamines)
+|-
+| 8 || '''Anethole / Estragole''' || Propenyl / Allyl || Anise (''Pimpinella anisum''), fennel, tarragon || '''PMA''' (4-methoxyamphetamine)
+|-
+| 9 || '''Croweacin''' || Allylbenzene || ''Eriostemon crowei'' || '''2-Methoxy-3,4-MDA'''
+|-
+| 10 || '''Allylbenzene / Santalol''' || Allylbenzene || Sandalwood, cinnamon leaf || '''Amphetamine'''
+|}
+
+== Structural isomerism in plant precursors ==
+
+=== 1. Allylbenzene vs. propenylbenzene split ===
+The position of the side-chain double bond dictates chemical reactivity, volatility, and metabolic stability:
+* '''Allylbenzenes (-CH2-CH=C2):''' Possess a terminal double bond separated from the aromatic ring by a methylene bridge (-CH2-). Examples: myristicin, safrole, elemicin, estragole.
+* '''Propenylbenzenes (-CH=CH-CH3):''' The double bond is conjugated directly with the aromatic ring π-system. Examples: anethole, isoeugenol, α-asarone, β-asarone. Conjugation increases thermodynamic stability and alters the electrophilicity of metabolic intermediates.
+
+=== 2. Geometric isomerism (cis vs. trans) ===
+Propenylbenzenes exist as geometric stereoisomers:
+* '''Trans-isomers (E):''' Typically the dominant natural form (e.g., trans-anethole, α-asarone).
+* '''Cis-isomers (Z):''' Present in variable quantities (e.g., β-asarone in Indian diploid/tetraploid calamus). β-Asarone exhibits pronounced sedative properties but carries documented hepatotoxicity and rodent carcinogenicity through metabolic epoxidation.
+
+== In vivo metabolic fates: the amination hypothesis disproved ==
+
+=== Shulgin's historical amination hypothesis ===
+In the 1960s, Alexander Shulgin hypothesized that human liver enzymes might possess the capacity to directly aminate natural allylbenzenes in vivo:
+: <code>Elemicin + [NH3] ──(Hypothetical Hepatic Amination)──► TMA (Disproved)</code>
+He posited that an enzyme might add ammonia across the terminal double bond, explaining why nutmeg ingestion produced central effects resembling MDA and mescaline.
+
+=== The pharmacological reality ===
+Extensive metabolic tracing demonstrated that '''the human body does not aminate allylbenzenes into amphetamines'''. Neither MMDA, MDA, nor TMA are detected in human blood or urine following ingestion of myristicin, safrole, or elemicin. Instead, the liver metabolizes allylbenzenes via three primary CYP450 pathways:
+
+<code>
+                             [ Plant Allylbenzene ]
+                                        │
+           ┌────────────────────────────┼────────────────────────────┐
+           ▼                            ▼                            ▼
+  [ Side-Chain Epoxidation ]    [ 1'-Hydroxylation ]        [ O-Demethylation ]
+    (CYP2E1 / CYP3A4)             (Bioactivation)             (CYP2D6)
+           │                            │                            │
+           ▼                            ▼                            ▼
+  [ Epoxide Hydratase ]        [ Sulfotransferase (SULT) ]  [ Catechol Derivatives ]
+           │                            │                            │
+           ▼                            ▼                            ▼
+  [ Inactive Vicinal Diol ]    [ Reactive Sulfate Ester ]   [ Glucuronide Excretion ]
+                               (Carcinogen / Mutagen Risk)
+</code>
+
+# '''Side-Chain Epoxidation (Detoxification):''' CYP2E1 and CYP3A4 oxidize the terminal double bond into a three-membered cyclic epoxide (oxirane). Epoxide hydratase quickly hydrolyzes this epoxide into an inactive, water-soluble vicinal diol, which is cleared renally.
+# '''1'-Hydroxylation (The Bioactivation / Toxicity Pathway):''' CYP enzymes hydroxylate the methylene carbon adjacent to the benzene ring, forming a 1'-hydroxy metabolite (e.g., 1'-hydroxysafrole). Subsequent conjugation by sulfotransferases (SULT) creates a reactive sulfate ester leaving group. Spontaneous loss of the sulfate group generates an electrophilic carbocation capable of binding hepatic DNA and proteins—the mechanism underlying safrole's rodent hepatocarcinogenicity.
+# '''O-Demethylation (Ring Inactivation):''' Mediated primarily by '''CYP2D6'''. The enzyme removes methyl ether caps, generating free catechols and polar phenols that are rapidly conjugated with glucuronic acid or sulfate for rapid biliary/urinary excretion.
+
+== How Oilahuasca hijacks these pathways ==
+
+The Oilahuasca framework operates not by synthesizing amphetamines, but by '''selectively blocking the degradation enzymes''' that eliminate allylbenzenes:
+
+<code>
+[ Essential Oil / Allylbenzene ] ──► ( Ingestion )
+                                           │
+                                           ▼
+[ Gut / Intestinal Wall ] ──► [ CYP3A4 / CYP2D6 First-Pass Clearance ]
+                                           │
+                                           ├─► ( Normal Pathway: Rapid Clearance / Inactive )
+                                           │
+  [ CYP Inhibitor (e.g., Piperine) ] ──────┴─► ( Blocked Clearance: Systemic Bioavailability )
+</code>
+
+* By pre-dosing potent natural inhibitors of '''CYP3A4''' (piperine, bergamottin), '''CYP2D6''' (piperine, diphenhydramine), and '''P-glycoprotein''' 30 to 60 minutes beforehand, first-pass hepatic and intestinal clearance is arrested.
+* Unmetabolized, intact allylbenzenes and propenylbenzenes survive into systemic circulation and cross the blood-brain barrier.
+* In the central nervous system, intact allylbenzenes exert direct neurochemical actions: weak monoamine oxidase (MAO) inhibition, serotonin and norepinephrine transporter modulation, and GABAA receptor positive allosteric modulation.
+
+== Botanical synergies ==
+
+=== 1. Kava (Piper methysticum) ===
+* '''Direct CB1 Agonism:''' The kavalactone '''yangonin''' displays meaningful affinity for the human CB1 cannabinoid receptor (Ki ≈ 1.25 μM).
+* '''Metabolic Potentiation:''' Kavalactones (particularly desmethoxyyangonin and methysticin) are potent inhibitors of CYP3A4, CYP2C9, CYP2C19, and CYP2D6, significantly slowing the degradation of co-administered cannabinoids and allylbenzenes.
+* '''GABAergic activity:''' Kavalactones enhance GABAA receptor binding density and modulate voltage-gated sodium and L-type calcium channels.
+
+=== 2. Black Pepper (Piper nigrum) ===
+Black pepper provides four distinct pharmacological mechanisms:
+# '''Piperine:''' A master bioavailability enhancer. Potently inhibits CYP3A4, CYP2D6, P-glycoprotein efflux pumps, and UDP-glucuronosyltransferases (UGT), dramatically elevating blood plasma levels of co-ingested botanicals.
+# '''Guineensine:''' An inhibitor of both fatty acid amide hydrolase (FAAH) and the putative endocannabinoid membrane transporter (EMT), raising endogenous anandamide.
+# '''β-Caryophyllene:''' A dietary bicyclic sesquiterpene that acts as a full, selective agonist at the CB2 receptor.
+# '''TRPV1 Desensitization:''' Co-administration of vanilloid ligands (capsaicin, piperine) interacts with endocannabinoid signaling, as anandamide is an endogenous agonist at TRPV1.
+
+== Toxicology and harm reduction ==
+
+* '''Hepatotoxicity warning:''' Disabling liver enzymes to force high systemic exposures of allylbenzenes (especially safrole and β-asarone) carries real toxicological hazards. Inhibiting clearance routes can redirect metabolism toward DNA-reactive 1'-hydroxy sulfate esters.
+* '''Space Paste hazards:''' Crude mixtures containing large doses of unstandardized nutmeg (rich in myristicin) produce severe anticholinergic-like symptoms: tachycardia, severe dry mouth, facial flushing, urinary retention, nausea, and acute dysphoric delirium lasting up to 48 hours.
+
+See also: [[Cannabinoid Oilahuasca]] · [[Black Pepper]] · [[Kava]] · [[Beta-Caryophyllene]] · [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Stack Substances]]

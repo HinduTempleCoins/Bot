@@ -197,7 +197,7 @@ function shell(title, body) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=robots content="noindex,nofollow">
 <title>${esc(title)}</title>${STYLE}</head><body>
-<header><span class=brand>📈 ${esc(SITE_NAME)}</span> <span class=alpha>Alpha</span></header>
+<header><span class=brand>📈 ${esc(SITE_NAME)}</span> </header>
 <main class=wrap>${body}</main>
 <footer>First-party, cookieless analytics — no IP, no cookies, no PII. Admin-only.</footer>
 </body></html>`;

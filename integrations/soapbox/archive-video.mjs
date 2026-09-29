@@ -44,7 +44,7 @@ export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => 
 // tiles with when the item itself carries no explicit licenseurl.
 export const IA_COLLECTIONS = Object.freeze({
   prelinger: 'Public domain (Prelinger ephemeral films)',
-  feature_films: 'Public domain / open (feature films)',
+  feature_films: 'Feature films (community uploads — licence varies)',
   classic_tv: 'Public domain (classic TV)',
   silenthdgames: 'Public domain (silent film)',
   film_noir: 'Public domain (film noir)',
@@ -68,7 +68,25 @@ async function getJson(url) {
 // ── license labelling ─────────────────────────────────────────────────────────────────────────────
 // Turn an item's licenseurl (or its collection) into a { label, token } we show on every tile. The
 // token feeds license-router at the watch gate; the label is what the viewer reads.
-export function licenseLabel(licenseurl, collections = []) {
+// PUBLIC-DOMAIN BASIS, tightened 2026-09-29: IA's community collections (feature_films, classic_tv, film_noir,
+// SciFi_Horror, …) are user uploads and are NOT license-verified — pirated rips were being labelled public domain
+// and played. An item now counts as free only when (a) the item itself carries a PD/CC licenseurl, (b) it was
+// published in or before PD_YEAR (US public domain by age), or (c) it is in a collection IA documents as public
+// domain (Prelinger). Curated PD lists (horror-taxonomy) are cleared by the stream server. Rip-named uploads
+// (x264, DVDRip, torrent, 720p…) are refused whatever they claim. Everything else is 'unverified': not listed in
+// rows, never played.
+export const PD_YEAR = new Date().getUTCFullYear() - 96;
+export const PD_COLLECTIONS = ['prelinger'];
+export const RIP_RE = /(dvd-?rip|\bdrip\b|-drip-|x-?26[45]|h-?26[45]|web-?dl|web-?rip|blu-?ray|br-?rip|hd-?rip|hdtv|torrent|esubs|\b(480|720|1080|2160)p\b|yify|rarbg|\bac-?3\b|dual-?audio|hindi-?dubbed)/i;
+export const looksLikeRip = (...xs) => xs.some((x) => RIP_RE.test(String(x || '')));
+
+// Hand-verified public-domain items (e.g. horror-taxonomy's PD list registers its ids at import).
+const _cleared = new Set();
+export function registerClearedIds(ids = []) { for (const i of ids) if (i) _cleared.add(String(i)); }
+
+export function licenseLabel(licenseurl, collections = [], { year = '', id = '', title = '' } = {}) {
+  if (looksLikeRip(id, title)) return { label: 'Refused: looks like a ripped copy', token: 'refused-rip' };
+  if (id && _cleared.has(String(id))) return { label: 'Public domain (curated by SoapBox Stream)', token: 'public-domain' };
   const u = String(licenseurl || '').toLowerCase();
   if (/creativecommons\.org\/publicdomain\/(zero|mark)/.test(u)) return { label: 'Public domain (CC0/PDM)', token: 'cc0' };
   if (/creativecommons\.org\/licenses\/by-sa/.test(u)) return { label: 'CC BY-SA', token: 'cc-by-sa' };
@@ -76,15 +94,13 @@ export function licenseLabel(licenseurl, collections = []) {
   if (/creativecommons\.org\/licenses\/by-nd/.test(u)) return { label: 'CC BY-ND', token: 'cc-by-nd' };
   if (/creativecommons\.org\/licenses\/by/.test(u)) return { label: 'CC BY', token: 'cc-by' };
   if (/publicdomain/.test(u)) return { label: 'Public domain', token: 'public-domain' };
-  // No explicit license on the item → fall back to the collection's curated PD basis.
+  const y = parseInt(String(year || '').slice(0, 4), 10);
+  if (y && y <= PD_YEAR) return { label: `Public domain in the US (published ${y})`, token: 'public-domain' };
   const colls = [].concat(collections || []).map((c) => String(c).toLowerCase());
-  for (const c of colls) {
-    for (const key of Object.keys(IA_COLLECTIONS)) {
-      if (c === key.toLowerCase()) return { label: IA_COLLECTIONS[key], token: 'public-domain' };
-    }
-  }
-  return { label: 'Public domain (Internet Archive — see item page)', token: 'public-domain' };
+  for (const c of PD_COLLECTIONS) if (colls.includes(c)) return { label: IA_COLLECTIONS[c], token: 'public-domain' };
+  return { label: 'License not verified — see the Internet Archive page', token: 'unverified' };
 }
+export const isCleared = (tile) => !!tile && !/^(unverified|refused)/.test(String(tile.licenseToken || ''));
 
 // ── normalize an advancedsearch doc → shared tile ──────────────────────────────────────────────────
 export function toTile(doc = {}, kind = 'film') {
@@ -93,8 +109,8 @@ export function toTile(doc = {}, kind = 'film') {
   const details = `${ARCHIVE_BASE}/details/${id}`;
   const gate = allowedEmbed(`https://archive.org/details/${id}`); // route through embed-whitelist
   const collections = [].concat(doc.collection || []);
-  const lic = licenseLabel(doc.licenseurl, collections);
   const year = doc.year != null ? String(Array.isArray(doc.year) ? doc.year[0] : doc.year) : '';
+  const lic = licenseLabel(doc.licenseurl, collections, { year, id, title: Array.isArray(doc.title) ? doc.title[0] : doc.title });
   return {
     id,
     title: Array.isArray(doc.title) ? doc.title[0] : (doc.title || id),
@@ -120,7 +136,7 @@ export function toTile(doc = {}, kind = 'film') {
 export function parseSearch(json, kind = 'film') {
   const docs = json && json.response && Array.isArray(json.response.docs) ? json.response.docs : [];
   const out = [];
-  for (const d of docs) { const t = toTile(d, kind); if (t) out.push(t); }
+  for (const d of docs) { const t = toTile(d, kind); if (t && isCleared(t)) out.push(t); } // unverified never listed
   return out;
 }
 
@@ -177,7 +193,7 @@ export function parseMetadata(json) {
       : `${ARCHIVE_BASE}/download/${id}/${encodeURIComponent(name)}`;
   }
   const collections = [].concat(md.collection || []);
-  const lic = licenseLabel(md.licenseurl, collections);
+  const lic = licenseLabel(md.licenseurl, collections, { year: md.year || md.date, id, title: md.title });
   return {
     id,
     title: md.title || id,

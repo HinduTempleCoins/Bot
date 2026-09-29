@@ -27,7 +27,22 @@ Classical ayahuasca combines '''DMT''' — orally inactive on its own — with '
 
 == The Piperaceae convergence ==
 
-The pepper family supplies four different kinds of activity to this system: '''yangonin''' (kava) inhibits FAAH; '''guineensine''' (black pepper) inhibits FAAH and reuptake; '''piperine''' (black pepper) raises bioavailability generally; '''β-caryophyllene''' agonises CB2. That one family covers enzyme, transport, absorption and receptor is the strongest single argument for treating this as a framework rather than a list.
+The pepper family supplies four different kinds of activity to this system: '''yangonin''' (kava) inhibits FAAH and binds CB1; '''guineensine''' (black pepper) inhibits FAAH and reuptake; '''piperine''' (black pepper) inhibits CYP3A4, CYP2D6 and P-glycoprotein to raise bioavailability; '''β-caryophyllene''' agonises CB2. That one family covers enzyme, transport, absorption and receptor is the strongest single argument for treating this as a framework rather than a list.
+
+== Bioavailability Dynamics: First-Pass Avoidance and Grapefruit Inhibition ==
+
+A core limitation in oral cannabinoid and allylbenzene therapy is extensive hepatic Phase I oxidation and Phase II glucuronidation. Two complementary pharmacological strategies overcome this barrier:
+* '''Grapefruit Juice and Furanocoumarin Suicide Inhibition:''' Grapefruit (*Citrus paradisi*) contains furanocoumarins—principally '''6',7'-dihydroxybergamottin (6',7'-DHB)''' and '''bergamottin'''. These act as mechanism-based, irreversible ("suicide") inactivators of intestinal Cytochrome P450 3A4 (CYP3A4) and P-glycoprotein (P-gp / ABCB1). By permanently disabling enterocyte CYP3A4 until new enzymes are biosynthesized (24–72 hours), co-administering grapefruit juice dramatically boosts systemic AUC for orally ingested cannabinoids and terpenes (see '''[[Bioavailability: Metabolic Enzymes, Transporters, and Synergistic Delivery]]''').
+* '''Transmucosal and Sublingual Driving:''' Bypassing the gastrointestinal tract and portal vein entirely via [[Sublingual Absorption, Salivary Enzymes, and Mucosal Bioavailability|sublingual absorption]] routes lipophilic cannabinoids directly into the internal jugular vein and systemic circulation. When paired with natural biosurfactants like triterpenoid saponins from African [[Ubulawu, African Oneirogens, and Saponin Pharmacokinetics|Ubulawu]] (*Helinus integrifolius*, *Silene undulata*), mucosal tight junctions are loosened and salivary amylase/mucin barriers are bypassed, achieving rapid, injection-like bioavailability without first-pass hepatic loss.
+
+== Lineage: from Space Paste to Oilahuasca ==
+
+Pharmacologically and historically, Cannabinoid Oilahuasca adapts principles first explored in Alexander Shulgin's structural analysis of plant allylbenzenes, the underground "Space Paste" protocols, and the forum work of 69Ron:
+* '''Space Paste:''' Combined whole nutmeg, black pepper, cinnamon, and herbs in a crude poly-herbal mixture, relying on unstandardized allylbenzenes (myristicin, elemicin, safrole) alongside natural inhibitors.
+* '''69Ron and the Oilahuasca Formulation:''' Documented on DMT-Nexus and Herbpedia, 69Ron pioneered sequential enzyme inhibition paired with micro-doses of essential oils. His Herbpedia writings openly confirm that he had never consumed MDMA, mescaline, or LSD, explaining why psychonauts seeking heavy recreational trips were disappointed while those seeking subtle neuromodulation observed real shifts (see '''[[69Ron and Oilahuasca Chemistry]]''').
+* '''The Oswald Pathway and Mace:''' Biomedical research by E.O. Oswald established that allylbenzenes form tertiary amino-alkaloid metabolites in vivo via vinyl ketone intermediates and secondary amines (piperidine, dimethylamine). Furthermore, utilizing '''mace''' rather than whole nutmeg seed dramatically reduces heavy trimyristin fat ballast (see '''[[Allylbenzene Metabolism, Oswald Pathway, and Mace]]''').
+* '''Traditional Poly-Herbal Blends:''' For the biochemical rationale behind the classic ''"Coffee, Almond, Cinnamon, Vanilla, and Nutmeg"'' mixture alongside historical Bedouin spiced coffee, Roman/Medieval spiced wine (Hippocras), and Betel Nut (Paan) preparations, see '''[[Traditional Spiced Formulations and Synergistic Blends]]'''.
+* '''Metabolic and Structural Dynamics:''' For the precise enzymology of 2-AG biosynthesis, spontaneous 1,2-acyl migration, and clearance, see '''[[Endocannabinoid Chemistry and 2-AG Metabolism]]'''. For terpene membrane fluidization and antioxidant protection, see '''[[Antioxidants and Cannabinoid Stability]]'''.
 
 == ECRI ==
 
@@ -39,4 +54,4 @@ The enzymology is real and published: MAGL and FAAH do what is described, and th
 
 The clearest known hazard is on the other side: '''chronic complete MAGL inhibition causes CB1 desensitisation and tolerance''' in animal models. More inhibition is not better, and the reversible natural inhibitors may be preferable for exactly that reason.
 
-See also: [[MAGL]] · [[FAAH]] · [[Anandamide and 2-AG]] · [[Beta-Caryophyllene]] · [[8-Prenylnaringenin]] · [[Kava]] · [[Black Pepper]] · [[Maca]] · [[Stack Substances]] · [[Cannabis]]
+See also: [[MAGL]] · [[FAAH]] · [[Anandamide and 2-AG]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Antioxidants and Cannabinoid Stability]] · [[Beta-Caryophyllene]] · [[8-Prenylnaringenin]] · [[Kava]] · [[Black Pepper]] · [[Maca]] · [[Stack Substances]] · [[Cannabis]]

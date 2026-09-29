@@ -15,13 +15,21 @@
 Public-interest and utility sites, one per domain:
 * [[SoapBox Law]] — the public legal record and its explainer pages.
 * [[SoapBox Stream]] — free, license-clear streaming.
+* [[SoapBox Stocks]] — transparent financial market data and decentralized assets.
+* [[SoapBox Shopping]] — peer-to-peer commerce and merchant directories.
+* [[SoapBox Credentials]] — verifiable credentials, portable identity, and community badges.
+* [[SoapBox Pool]] and [[SoapBox Mining Pool]] — liquidity, staking, and proof-of-work coordination.
 * [[Library of Ashurbanipal]] — the reference library (this wiki).
-* [[SoapBox Mining Pool]], [[PranaScan]], [[Akasha Wallet]] — pool, explorer and wallet.
+* [[PranaScan]], [[Akasha Wallet]] — explorer and non-custodial wallet.
 * [[SoapBox Data Hub]] and the [[Token Price Ticker]] — ecosystem data and embeddable prices.
 * [[Soap Calculator]] and other utility tools.
+* [[The Surfaces]] — comprehensive architectural map of all public web endpoints.
+* [[Start Here]] — newcomer orientation and learning pathways.
 
 == See also ==
 * [[SoapBox Community]]
+* [[The Surfaces]]
+* [[Start Here]]
 * [[MELEK Blockchain]]
 * [[Witness School]]
 

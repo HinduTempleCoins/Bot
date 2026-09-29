@@ -1,0 +1,110 @@
+'''Alkaline Earth Metals, Calcium Signaling, and Strontium Mimicry''' explores the comparative physiology, skeletal crystallography, nuclear toxicology, and synaptic electrophysiology of Group 2 divalent cations—specifically '''Calcium ($Ca^{2+}$)''' and its molecular imposter '''Strontium ($Sr^{2+}$)'''.
+
+It traces how their near-identical atomic valence and ionic radii enable strontium to substitute into bone hydroxyapatite, how therapeutic strontium ranelate rebuilds bone density, why radioactive Strontium-90 acts as a lethal "bone seeker," and how calcium dynamics drive synaptic neurotransmitter exocytosis under endocannabinoid ($CB_1$) retrograde control.
+
+== Periodic chemistry: Group 2 Alkaline Earth Metals ==
+
+Calcium ($Z=20$) and strontium ($Z=38$) occupy adjacent periods in Group 2 of the periodic table, possessing identical outer valence shell electron configurations ($ns^2$):
+
+{| class="wikitable"
+! Element !! Atomic number ($Z$) !! Electron configuration !! Divalent ionic radius ($M^{2+}$) !! Hydration enthalpy (kJ/mol)
+|-
+| '''Calcium ($Ca$)''' || 20 || $[Ar]\,4s^2$ || '''100 pm''' (0.100 nm) || -1577 kJ/mol
+|-
+| '''Strontium ($Sr$)''' || 38 || $[Kr]\,5s^2$ || '''118 pm''' (0.118 nm) || -1443 kJ/mol
+|}
+
+* Both elements readily surrender their two outer $s$-orbital valence electrons to establish stable, noble-gas electronic configurations as divalent cations ($Ca^{2+}$ and $Sr^{2+}$).
+* Because $Sr^{2+}$ possesses an ionic radius only 18% larger than $Ca^{2+}$, biological transport systems, calcium-sensing receptors, and mineral crystal lattices frequently fail to distinguish between them, allowing strontium to act as a near-perfect biological analog.
+
+== Skeletal crystallography: Hydroxyapatite lattice substitution ==
+
+The human skeletal framework is composed of an inorganic mineral phase known as '''hydroxyapatite''' ($Ca_{10}(PO_4)_6(OH)_2$):
+
+<code>
+                    [ HYDROXYAPATITE CRYSTAL LATTICE ]
+                                    │
+    Ca₁₀(PO₄)₆(OH)₂   ──(Sr²⁺ Ingestion)──►   Ca₁₀₋ₓSrₓ(PO₄)₆(OH)₂
+                                    │
+           ┌────────────────────────┴────────────────────────┐
+           ▼                                                 ▼
+[ Stable Strontium (Sr-88) ]                      [ Radioactive Strontium (Sr-90) ]
+ • Strontium Ranelate / Citrate                    • Nuclear fission fallout ("Bone Seeker")
+ • Dual-action bone remodeling                     • High-energy beta irradiation of marrow
+ • Stimulates osteoblasts, stops osteoclasts       • Triggers leukemia and osteosarcoma
+</code>
+
+=== 1. Heteroionic substitution ===
+* When strontium is ingested, it is absorbed through intestinal divalent metal transporters into systemic circulation.
+* Because of its chemical mimicry, strontium undergoes isomorphous substitution into the bone mineral lattice, displacing calcium ions to form **strontium-substituted hydroxyapatite** ($Ca_{10-x}Sr_x(PO_4)_6(OH)_2$).
+* Strontium deposits primarily at sites of active bone formation (trabecular bone) and on crystal surface hydration layers.
+
+=== 2. Dual-action pharmacology: Strontium Ranelate ===
+While calcium simply serves as raw mineral building substrate, therapeutic strontium compounds (such as strontium ranelate and strontium citrate) exhibit a unique, dual-action pharmacological mechanism on bone cell dynamics:
+* '''Osteoblast stimulation:''' Strontium binds and activates the G-protein coupled '''Calcium-Sensing Receptor (CaSR)''' on the surface of pre-osteoblasts. This triggers intracellular $PLC\text{-}IP_3\text{–}Akt$ signaling cascades that stimulate osteoblast proliferation, enhance collagen synthesis, and accelerate bone matrix mineralization.
+* '''Osteoclast inhibition:''' Simultaneously, strontium agonism at the CaSR on mature osteoclasts suppresses their differentiation, induces apoptosis, and down-regulates the production of RANKL (Receptor Activator of Nuclear Factor $\kappa$B Ligand), effectively halting the enzymatic breakdown of existing bone.
+
+== Nuclear toxicology: The Strontium-90 "Bone Seeker" hazard ==
+
+The biological fidelity of strontium mimicry becomes catastrophic in the presence of nuclear contamination:
+* '''Fission byproduct:''' '''Strontium-90 ($^{90}Sr$)''' is one of the most prolific and long-lived fission isotopes produced by thermonuclear weapon detonations and nuclear reactor disasters (such as Chernobyl and Fukushima), possessing a physical radioactive half-life of '''28.8 years'''.
+* '''The "Bone Seeker" mechanism:''' When atmospheric fallout deposits $^{90}Sr$ onto soil, plants take it up as calcium. Grazing livestock secrete it into dairy milk. When ingested by humans (particularly growing children whose bone turnover is rapid), the gastrointestinal tract and skeletal osteoblasts incorporate $^{90}Sr$ directly into deep, permanent bone mineral.
+* '''Radiation biology:'''
+** Once locked in the bone matrix, $^{90}Sr$ cannot be easily eliminated or chelated.
+** It decays via pure beta decay ($0.546\text{ MeV}$) into its daughter isotope, Yttrium-90 ($^{90}Y$), which itself decays emitting intense, penetrating beta particles ($2.28\text{ MeV}$).
+** Sitting within sub-millimeter proximity of the hematopoietic stem cells inside the bone marrow cavity, this continuous ionizing bombardment shatters DNA double strands, inducing chronic bone marrow aplasia, acute myeloid leukemia, and malignant osteosarcomas.
+
+== Calcium signaling at the synapse and $CB_1$ retrograde control ==
+
+In the central nervous system, intracellular calcium dynamics serve as the universal electrical-to-chemical transducer governing neurotransmission:
+
+<code>
+[ Action Potential Influx ] ──► Depolarization opens Presynaptic VGCCs (Cav2.1 / Cav2.2)
+                                                 │
+                                                 ▼
+[ Localized Ca²⁺ Microdomain Surge (>10–100 µM) ] ──► Binds Synaptotagmin-1
+                                                 │
+                                                 ▼
+[ SNARE Complex Fusion ] ──────────────────────► Neurotransmitter Exocytosis (Glutamate/GABA)
+                                                 │
+                                                 ▼  Postsynaptic Over-Activation
+[ Postsynaptic Ca²⁺ Spike ] ───────────────────► Activates PLCβ and DGLα
+                                                 │
+                                                 ▼
+[ On-Demand Synthesis of 2-AG ] ──────────────► Retrograde Diffusion across Synapse
+                                                 │
+                                                 ▼
+[ Presynaptic CB1 Receptor Binding ] ──────────► Gβγ Subunit INHIBITS Presynaptic Ca²⁺ Influx
+                                                 │
+                                                 ▼
+[ Synaptic Transmission Terminated ] ──────────► Depolarization-Induced Suppression (DSE/DSI)
+</code>
+
+=== 1. Presynaptic exocytosis ===
+* Under resting conditions, neurons maintain an exceptionally low free intracellular calcium concentration ($[Ca^{2+}]_i \approx 50\text{–}100\text{ nM}$), compared to high extracellular levels ($[Ca^{2+}]_o \approx 1.2\text{–}2.0\text{ mM}$)—a steep 20,000-fold gradient.
+* When an electrical action potential invades the presynaptic nerve terminal, the membrane depolarization activates '''Voltage-Gated Calcium Channels (VGCCs)''', primarily the high-voltage-activated N-type ($Ca_v2.2$) and P/Q-type ($Ca_v2.1$) channels.
+* $Ca^{2+}$ ions rush inward down their electrochemical gradient, creating intense, localized nanodomain concentrations ($>10\text{–}100\,\mu\text{M}$) directly adjacent to docked synaptic vesicles.
+* The $Ca^{2+}$ ions bind to the low-affinity calcium sensor '''synaptotagmin-1''', triggering the physical zippering of the SNARE protein complex, which fuses the vesicle membrane with the presynaptic terminal, releasing neurotransmitters (such as glutamate, dopamine, or GABA) into the synaptic cleft within 200 microseconds.
+
+=== 2. Endocannabinoid retrograde inhibition of calcium channels ===
+When postsynaptic neurons experience prolonged depolarization or intense excitation, an emergency retrograde feedback circuit is engaged:
+# Postsynaptic calcium spikes activate calcium-dependent enzymes: phospholipase C$\beta$ (PLC$\beta$) and diacylglycerol lipase-$\alpha$ (DGL$\alpha$).
+# These enzymes immediately synthesize the endocannabinoid '''2-arachidonoylglycerol (2-AG)''' "on demand" from membrane lipids.
+# Because 2-AG is a lipophilic lipid, it diffuses backward across the synaptic cleft (retrograde transmission) and binds to presynaptic '''Cannabinoid Type 1 ($CB_1$) receptors'''.
+# The activated $CB_1$ receptor couples to inhibitory $G_{i/o}$ proteins. The dissociated $G_{\beta\gamma}$ protein subunits translocate across the presynaptic membrane and bind directly to presynaptic N-type and P/Q-type calcium channels, physically **blocking $Ca^{2+}$ entry ($I_{Ca}$ inhibition)** while opening inward-rectifying potassium channels (GIRK).
+# Deprived of calcium influx, the presynaptic terminal ceases vesicle fusion, terminating further neurotransmitter release—a neuroprotective mechanism known as Depolarization-Induced Suppression of Excitation (DSE) or Inhibition (DSI).
+
+=== 3. Strontium as a biophysical electrophysiology tool ===
+* In patch-clamp neurophysiology experiments, substituting extracellular calcium with strontium ($Sr^{2+}$) allows researchers to dissect synaptic mechanisms.
+* $Sr^{2+}$ passes readily through open voltage-gated calcium channels and binds synaptotagmin, but because intracellular clearing pumps (plasma membrane $Ca^{2+}$-ATPase, SERCA) and endogenous binding proteins (parvalbumin, calbindin) have low affinity for strontium, it remains in the terminal much longer.
+* This decouples fast, synchronized vesicle fusion and reveals slow, prolonged '''asynchronous neurotransmitter exocytosis'''.
+
+== Botanical extraction: Calcium hydroxide in green chemistry ==
+
+In botanical extraction, calcium's alkaline divalent chemistry provides an indispensable purification tool:
+* In 69Ron's non-toxic '''DryTek''' extraction protocol, '''calcium hydroxide ($Ca(OH)_2$, hydrated lime)''' is used rather than caustic sodium hydroxide ($NaOH$).
+* $Ca(OH)_2$ is virtually insoluble in non-polar solvents (like d-limonene) and has a self-buffering water pH of ~12.4.
+* '''Selective saponification:''' When ground botanical biomass is moistened with an aqueous $Ca(OH)_2$ paste, the divalent $Ca^{2+}$ ions react with plant free fatty acids, precipitating them as **insoluble calcium soaps** (calcium carboxylates, identical to insoluble hard-water soap scum).
+* Meanwhile, the alkaline environment deprotonates water-soluble alkaloid salts into lipophilic freebase molecules, allowing them to dissolve cleanly into d-limonene without carrying messy fatty acids or chlorophyll into the finished extract.
+
+See also: [[Chelated Minerals]] · [[The Expanded Endocannabinoid System and FAAH Science]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[69Ron and Oilahuasca Chemistry]] · [[Bioelectricity, Forensic Genomics, and Alchemical Transmutation]] · [[Stack Substances]]

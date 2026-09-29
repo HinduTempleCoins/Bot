@@ -1,0 +1,35 @@
+# Edgewood Arsenal
+
+**The Edgewood Arsenal human experiments** were a program of U.S. Army testing of chemical and psychochemical agents on volunteer soldiers, conducted at the Edgewood Arsenal in Maryland from roughly 1948 to 1975. This article follows a brief 2016 reference post by **marsresident** that pointed to the Edgewood history alongside commentary on Cold-War government psychotropic research<ref>https://steemit.com/@marsresident/edgewood-arsenal</ref>. It is treated here **strictly as research-ethics history and oversight reference**.
+
+This article covers the **history and the oversight lesson only**. Consistent with the Library's scope, it deliberately **excludes the chemical/biological/radiological agent and weaponization material** the source also linked; nothing here describes how any agent is made or used. It is a neutral, educational reference.
+
+== Summary ==
+
+The Edgewood program exposed several thousand military volunteers to a range of substances — from nerve agents and incapacitants to psychochemicals such as **LSD** and the deliriant **BZ (3-quinuclidinyl benzilate)** — as the Army studied their effects<ref>https://en.wikipedia.org/wiki/Edgewood_Arsenal_human_experiments</ref>. In retrospect the program is a landmark case in the history of **informed consent and human-subjects protection**: participants often could not give meaningfully informed consent, and the episode is now cited alongside other 20th-century abuses as part of why formal research-ethics safeguards exist. That oversight lesson — not the agents — is the reason the material belongs in the corpus.
+
+== The historical episode ==
+
+Edgewood is the specific, comparatively well-documented example the source names of a broader mid-century pattern of government testing of psychoactive and chemical substances on human subjects. It overlaps in time and theme with other Cold-War programs, and the source pairs it with **Alexander "Sasha" Shulgin's** commentary on U.S. and Russian government psychotropic research<ref>https://en.wikipedia.org/wiki/Alexander_Shulgin</ref>. The same government-testing history is referenced from the therapeutic side in [[Brain Balance]], which surveys how psychedelics were also being studied constructively in mid-century psychiatry — the light-and-shadow of the same era.
+
+== Why oversight exists ==
+
+Edgewood sits in the lineage of cases that produced modern human-subjects protections: the **Nuremberg Code** (1947), the **Declaration of Helsinki**, the U.S. **Common Rule**, and the requirement for **institutional review boards (IRBs)** and genuine informed consent<ref>https://en.wikipedia.org/wiki/Nuremberg_Code</ref><ref>https://en.wikipedia.org/wiki/Institutional_review_board</ref>. Read this way, the program is not sensational trivia but a **case study in accountability**: what happens without independent oversight, and why the rules that now govern research on people were written. That is the angle the Library keeps.
+
+== Scope note ==
+
+The original post also linked chemical/biological/radiological/nuclear (CBRN) "response" documents. Those are **not** summarized, linked, or described here: the Library's scope excludes agent synthesis and weaponization material entirely. This article is confined to the historical human-experimentation record and its oversight significance.
+
+== Where this sits in the corpus ==
+
+This is an **oversight / research-ethics history** reference, part of the same accountability thread as [[Constitutional Rights in the Military]] and the MELEK ecosystem's watchdog/oversight work (which documents public institutions and officials without rendering verdicts). It pairs directly with [[Brain Balance]] on the history of government psychotropic research.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/edgewood-arsenal</ref>
+<ref>https://en.wikipedia.org/wiki/Edgewood_Arsenal_human_experiments</ref>
+<ref>https://en.wikipedia.org/wiki/Alexander_Shulgin</ref>
+<ref>https://en.wikipedia.org/wiki/Nuremberg_Code</ref>
+<ref>https://en.wikipedia.org/wiki/Institutional_review_board</ref>
+
+== Coverage ==
+This article captures the in-scope substance of the 2016 marsresident post "Edgewood Arsenal" — the Edgewood human-experiments history and the Shulgin commentary on U.S./Russian government psychotropic research — and frames it, per the task's discipline, strictly as research-ethics history and an oversight lesson (Nuremberg Code, IRBs, informed consent). Per the Library's scope, the CBRN "response"/weaponization documents the original also linked are deliberately NOT summarized, linked, or described; no agent synthesis or weaponization detail appears. Attribution to the author and Steem source is preserved; claims are anchored to stable encyclopedic sources. Pairs with Brain Balance and cross-links Constitutional Rights in the Military. Neutral, educational tone.

@@ -1,0 +1,99 @@
+'''Thiols and Oxygen Congeners in Medicinal Chemistry''' examines the comparative physical chemistry of Group 16 elements (oxygen and sulfur), the discovery of volatile sulfur compounds (VSCs) as the true source of cannabis skunk aroma, cellular thiol redox defense against electrophilic quinones, and the unique pharmacology of sulfur-substituted phenethylamines (Alexander Shulgin's 2C-T series).
+
+By comparing the hard, electronegative oxygen atom ($-OH$, $-O-$) with its soft, highly polarizable congener sulfur ($-SH$, $-S-$), this article details how a single atomic substitution redirects chemical reactivity, human olfactory perception, and central nervous system receptor binding.
+
+== Periodic and physical chemistry: Oxygen vs. Sulfur ==
+
+Oxygen and sulfur share the outer valence electron configuration ($ns^2 np^4$) in Group 16 of the periodic table, yet their physical and chemical behaviors diverge sharply:
+
+{| class="wikitable"
+! Property !! Oxygen ($O$, Row 2) !! Sulfur ($S$, Row 3) !! Pharmacological & chemical consequence
+|-
+| '''Electronegativity (Pauling)''' || '''3.44''' (Highly electronegative) || '''2.58''' (Moderate electronegativity) || Oxygen pulls electron density tightly; sulfur is much more non-polar and lipophilic.
+|-
+| '''Atomic Radius & Orbitals''' || 66 pm ($2p$ valence orbitals) || 104 pm ($3p$ valence orbitals) || Sulfur is a larger, "soft" atom with diffuse, easily polarized electron clouds.
+|-
+| '''Hydrogen Bonding''' || Strong intermolecular H-bonds || Negligible H-bonding || Alcohols have high boiling points; thiols have low boiling points and high volatility.
+|-
+| '''Acidity ($pK_a$)''' || Alcohols: $pK_a \approx 15\text{–}16$ || Thiols: $pK_a \approx 10\text{–}11$ || At physiological pH (7.4), a substantial fraction of thiols exist as nucleophilic thiolate anions ($R-S^-$).
+|-
+| '''Oxidation States''' || -2 (almost exclusively) || -2, 0, +2, +4, +6 || Sulfur forms diverse oxidized states: disulfides ($R-S-S-R$), sulfoxides ($R-SO-R$), sulfones ($R-SO_2-R$).
+|}
+
+* '''The Hard-Soft Acid-Base (HSAB) principle:''' Oxygen is a "hard" nucleophile that prefers electrostatic interactions with hard electrophiles (protons, carbonyl carbons). Sulfur is a "soft," highly polarizable nucleophile that preferentially attacks soft electrophiles, such as $\alpha,\beta$-unsaturated enones (Michael acceptors).
+
+== Volatile Sulfur Compounds (VSCs): The true cannabis "Skunk" aroma ==
+
+For decades, popular cannabis culture attributed the pungent, gasoline-like "skunky" stench of potent cultivars to terpenes such as $\beta$-myrcene. Modern two-dimensional gas chromatography coupled with sulfur chemiluminescence detection (GC×GC-SCD) has conclusively proven that terpenes play zero role in this scent profile:
+
+<code>
+              [ CHOPPING / CURING CANNABIS TRICHOMES ]
+                                 │
+                                 ▼
+         [ Prenylated Volatile Sulfur Compounds (VSCs) ]
+                                 │
+         ┌───────────────────────┴───────────────────────┐
+         ▼                                               ▼
+[ 3-methyl-2-butene-1-thiol (32B1T) ]          [ Trace Secondary Thiols ]
+ • Prenyl-derived allylic thiol (-SH)           • VSC-4, VSC-5, VSC-6
+ • Identical to defensive skunk spray           • Synergizes diesel / funk aroma
+ • Olfactory threshold: <0.001 parts-per-billion
+</code>
+
+=== 1. The dominant molecule: 32B1T ===
+* The primary molecule responsible for the signature skunk odor is '''3-methyl-2-butene-1-thiol (32B1T)'''.
+* Structurally, 32B1T is an allylic thiol consisting of a dimethylallyl isoprenoid tail terminating in a free sulfhydryl group ($-SH$).
+* It is chemically identical to the primary defensive organosulfur compound found in the anal scent glands of the striped skunk (''Mephitis mephitis'').
+* '''Olfactory potency:''' The human nose possesses specialized olfactory receptors (OR2T11 and OR2M7) exquisitely tuned to detect copper-bound sulfur volatiles. Humans can detect 32B1T at concentrations below '''one part per trillion (ppt)''', explaining why trace microgram quantities in a curing jar overpower grams of monoterpenes.
+
+=== 2. Biosynthesis and post-harvest dynamics ===
+* 32B1T is biosynthesized via the plastidial methylerythritol 4-phosphate (MEP) pathway, where an isoprenoid intermediate (dimethylallyl pyrophosphate, DMAPP) is coupled to hydrogen sulfide ($H_2S$) or cysteine donors by specialized plant sulfur transferases.
+* VSC concentrations peak sharply during the final week of flowering and reach maximum volatility during early curing, but rapidly degrade upon exposure to solar UV-A light and heat.
+
+== Redox defense: Thiols as endogenous electrophile traps ==
+
+Within human cells, the unique nucleophilicity of the sulfur atom serves as the primary barrier against oxidative destruction and drug toxicity:
+
+=== 1. Glutathione (GSH) ===
+* The tripeptide '''glutathione''' ($\gamma$-L-glutamyl-L-cysteinylglycine, GSH) is present in intracellular concentrations of $5\text{–}10\text{ mM}$ in the liver.
+* The cysteine residue provides a free sulfhydryl group ($-SH$) that acts as a sacrificial electron donor, neutralizing reactive oxygen species (ROS) and forming oxidized glutathione disulfide (GSSG):
+: <code>2 GSH + H2O2 ──(Glutathione Peroxidase)──► GSSG + 2 H2O</code>
+
+=== 2. Thiol trapping of Cannabinoid Quinones ===
+When cannabidiol (CBD) or catecholamines oxidize into quinones (such as the topoisomerase-inhibiting quinone '''HU-331''' or toxic dopaminergic aminoquinones):
+* The quinone core is an intensely reactive, electron-deficient $\alpha,\beta$-unsaturated Michael acceptor.
+* If left unquenched, quinones covalently bond to critical cellular proteins and DNA bases, causing cytotoxicity and apoptosis.
+* The cellular thiolate anion of glutathione ($GS^-$) immediately attacks the electrophilic quinone ring via a '''1,4-Michael addition''':
+: <code>HU-331 + GSH ──► [GS-HU-331 Adduct] ──(Mercapturic Pathway)──► Renal Excretion</code>
+* This covalent thiol-trapping detoxifies the quinone, converting it into a water-soluble mercapturic acid conjugate that is safely eliminated in urine.
+
+== Sulfur in psychedelic pharmacology: Shulgin's 2C-T Series ==
+
+In classical medicinal chemistry, bioisosteric replacement of oxygen with sulfur ($-O- \rightarrow -S-$) dramatically alters receptor binding dynamics. In ''PIHKAL'', Alexander Shulgin exploited this by replacing the 4-position alkoxy oxygen of phenethylamines with an alkylthio sulfur group, creating the legendary '''2C-T family''' and amphetamine '''Aleph series''':
+
+<code>
+     [ 2C-D / 2C-I Family ]                          [ 2C-T Family ]
+           OCH3                                            OCH3
+         ┌──┴──┐                                         ┌──┴──┐
+         │  O  │                                         │  O  │
+         └──┬──┘                                         └──┬──┘
+           R (Alkyl or Halogen)                            S-R (Alkylthio: -SCH3, -SCH2CH3, etc.)
+     • Hard, compact oxygen ether                    • Soft, highly lipophilic sulfur ether
+     • Rapid CYP450 dealkylation                     • FMO sulfur oxidation to sulfoxides
+</code>
+
+=== 1. Pharmacological distinctions of the 2C-T series ===
+* '''Lipophilic binding:''' Because sulfur is larger and more polarizable than oxygen, the 4-alkylthio substituent docks deep into a hydrophobic lipophilic pocket within the transmembrane region of the serotonin '''$5\text{-HT}_{2A}$ receptor'''.
+* '''The compounds:'''
+** '''2C-T-2''' (4-ethylthio): Rapid onset, warm emotional tone, duration 8–12 hours.
+** '''2C-T-7''' (4-propylthio): Extremely potent, marked by intense visual architecture, deep cognitive introspection, and a protracted 12–18 hour duration.
+** '''2C-T-21''' (4-(2-fluoroethylthio)): Incorporates a terminal fluorine atom, further modulating metabolic stability.
+
+=== 2. Metabolic bifurcation and safety warnings ===
+The sulfur atom redirects metabolic clearance away from the standard Cytochrome P450 pathway:
+* While oxygenated phenethylamines (like 2C-B or mescaline) undergo CYP450-mediated $O$-demethylation or oxidative deamination via MAO, alkylthio compounds are primarily oxidized by hepatic '''Flavin-Containing Monooxygenases (FMOs)''':
+: <code>R-S-R&#39; ──(FMO3)──► R-SO-R&#39; (Sulfoxide) ──► R-SO2-R&#39; (Sulfone)</code>
+* '''The fatal MAO-A interaction:''' At high doses (or when insufflated rather than taken orally), 2C-T-7 exhibits unexpected intrinsic '''monoamine oxidase A (MAO-A) inhibition'''.
+* When combined with other monoaminergic stimulants (such as MDMA, amphetamines, or ephedrine), this dual action—acting simultaneously as a potent $5\text{-HT}_{2A}$ agonist and an MAOI—provoked catastrophic serotonin toxicity, malignant hyperthermia, and multiple documented fatalities, prompting its emergency federal placement into Schedule I.
+
+See also: [[Cannabinoid Quinones and Novel Derivatives]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] · [[Antioxidants and Cannabinoid Stability]] · [[Stack Substances]]

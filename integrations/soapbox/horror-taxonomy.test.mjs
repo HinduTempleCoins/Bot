@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  HORROR_GENRES, SURVIVAL_WING, PD_HORROR_FILMS,
+  HORROR_GENRES, SURVIVAL_WING, PD_HORROR_FILMS, ROOTS_SHELF, HALLOWEEN_PICKS,
   genreById, survivalById, pdFilmsFor, iaQueryFor,
   toTile, curatedTiles, horrorGenreRows, horrorFilms, dataNote, esc, __setFetch,
 } from './horror-taxonomy.mjs';
@@ -38,14 +38,43 @@ test('survival wing leads with the trafficking NETWORK category, separate from l
   }
 });
 
-test('trafficking-network has genuine PD stock AND reference leads', () => {
+test('trafficking-network is reference leads only; the white-slavery rescue films sit on ROOTS_SHELF, outside the genre', () => {
   const t = survivalById('trafficking-network');
-  assert.equal(t.stock, 'mixed');
-  assert.ok(t.pdTitles.length >= 3, 'needs PD stock');
+  assert.equal(t.pdTitles.length, 0, 'the old rescue/exposé films are not Girl Has to Kill Everyone');
   assert.ok(t.titles.length >= 3, 'needs reference leads');
-  // its PD stock is actually present in the curated PD film list
-  const pdIds = new Set(PD_HORROR_FILMS.map((f) => f.id));
-  for (const id of t.pdTitles) assert.ok(pdIds.has(id), `PD stock ${id} missing from PD_HORROR_FILMS`);
+  assert.equal(ROOTS_SHELF.emphasis, 'deemphasized');
+  assert.ok(!SURVIVAL_WING.some((s) => s.id === ROOTS_SHELF.id), 'roots shelf must not be part of the genre');
+  assert.equal(survivalById(ROOTS_SHELF.id), ROOTS_SHELF);
+  assert.match(ROOTS_SHELF.thesis, /rescue/);
+  const pd = new Map(PD_HORROR_FILMS.map((f) => [f.id, f]));
+  for (const id of ROOTS_SHELF.pdTitles) {
+    assert.ok(pd.has(id), `roots stock ${id} missing from PD_HORROR_FILMS`);
+    assert.equal(pd.get(id).g, 'exploitation');
+    assert.match(pd.get(id).sub, /^Roots:/);
+  }
+  assert.ok(!PD_HORROR_FILMS.some((f) => /Sex Trafficking/.test(f.sub)), 'no PD film is filed inside the genre');
+});
+
+test('every curated PD film: valid IA id, real genre, a year, a stated public-domain reason; no duplicates', () => {
+  const genreIds = new Set(HORROR_GENRES.map((g) => g.id));
+  const seen = new Set();
+  for (const f of PD_HORROR_FILMS) {
+    assert.match(f.id, /^[A-Za-z0-9._-]+$/, `bad IA id ${f.id}`);
+    assert.ok(!seen.has(f.id), `duplicate ${f.id}`); seen.add(f.id);
+    assert.ok(genreIds.has(f.g), `${f.id} genre ${f.g}`);
+    assert.ok(Number.isInteger(f.year) && f.year >= 1890 && f.year <= 1980, `${f.id} year ${f.year}`);
+    assert.ok(f.pd && f.pd.length > 20, `${f.id} has no public-domain reason`);
+    if (f.year > 1930) assert.match(f.pd, /Wikipedia/, `${f.id}: a post-1930 title needs a documented reason`);
+    else assert.match(f.pd, /by age|Wikipedia/, `${f.id}`);
+  }
+  assert.ok(PD_HORROR_FILMS.length >= 80, `only ${PD_HORROR_FILMS.length} titles`);
+  for (const g of genreIds) assert.ok(pdFilmsFor(g).length >= 2, `genre ${g} has under 2 free films`);
+});
+
+test('Halloween picks all come from the verified PD list', () => {
+  const ids = new Set(PD_HORROR_FILMS.map((f) => f.id));
+  assert.ok(HALLOWEEN_PICKS.length >= 8);
+  for (const id of HALLOWEEN_PICKS) assert.ok(ids.has(id), id);
 });
 
 test('genreById / survivalById lookups', () => {
@@ -63,7 +92,7 @@ test('every curated PD film maps to a real top-level genre', () => {
   }
   // the flagship PD titles are present
   const ids = PD_HORROR_FILMS.map((f) => f.id);
-  assert.ok(ids.includes('night_of_the_living_dead'));
+  assert.ok(ids.includes('night_of_the_living_dead_dvd'));
   assert.ok(ids.includes('Nosferatu1922'));
 });
 
@@ -114,12 +143,12 @@ test('horrorGenreRows returns a row per standalone genre with tiles', () => {
 
 test('horrorFilms does a live IA search through the injected fetch; soft-fails to []', async () => {
   const fakeDoc = {
-    response: { docs: [{ identifier: 'CarnivalOfSouls', title: 'Carnival of Souls', year: '1962', collection: ['SciFi_Horror'] }] },
+    response: { docs: [{ identifier: 'CarnivalofSouls', title: 'Carnival of Souls', year: '1962', collection: ['SciFi_Horror'] }] },
   };
   __setFetch(async () => ({ ok: true, json: async () => fakeDoc }));
   const films = await horrorFilms({ genre: 'supernatural', limit: 5 });
   assert.equal(films.length, 1);
-  assert.equal(films[0].id, 'CarnivalOfSouls');
+  assert.equal(films[0].id, 'CarnivalofSouls');
   assert.equal(films[0].source, 'Internet Archive');
 
   // soft-fail paths

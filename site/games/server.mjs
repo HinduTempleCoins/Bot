@@ -39,7 +39,7 @@ const URLS = {
   farm: U('FARM_URL', 'https://farm.soapbox.community'),
   school: U('SCHOOL_URL', 'https://witness.melek.salon'),
   chain: U('MELEK_URL', 'https://melek.salon'),
-  wallet: U('WALLET_URL', 'https://akasha.alpha.soapbox.community'),
+  wallet: U('WALLET_URL', 'https://akasha.soapbox.community'),
 };
 
 // The catalog — grouped by what the user actually gets. Each: name, blurb, url, emoji, tag.
@@ -59,7 +59,7 @@ export const SECTIONS = [
   ] },
   { key: 'own', title: 'One account, one wallet', lead: 'Everything above shares the same MELEK account — your coins, your character, your standing, everywhere.', items: [
     { name: 'Your MELEK account', emoji: '👤', blurb: 'Post, curate, play and earn on one identity. New here? It\'s free to join.', url: URLS.chain, tag: 'live' },
-    { name: 'Akasha wallet', emoji: '👛', blurb: 'Hold and send your PRANA-side tokens; resolve .melek names.', url: URLS.wallet, tag: 'alpha' },
+    { name: 'Akasha wallet', emoji: '👛', blurb: 'Hold and send your PRANA-side tokens; resolve .melek names.', url: URLS.wallet, tag: 'live' },
     { name: 'Witness School', emoji: '🎓', blurb: 'Learn to do any of it — mine, run a pool, make a token, curate — step by step.', url: URLS.school, tag: 'live' },
   ] },
 ];
@@ -94,7 +94,6 @@ export function homePage() {
     return `<section class=grp><h2>${esc(s.title)}</h2><p class=lead>${esc(s.lead)}</p><div class=grid>${cards}</div></section>`;
   }).join('');
   const body = `<header class=hero>
-      <div class=badge>Alpha</div>
       <h1>PRANA is where you play &amp; earn</h1>
       <p class=sub>An arcade, a casino, a farm, a daily spin, and walk-to-earn — all on one MELEK account. The mining
         keeps it honest; this is what it's <em>for</em>.</p>

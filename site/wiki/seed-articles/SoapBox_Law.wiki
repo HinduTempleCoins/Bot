@@ -1,16 +1,32 @@
-'''SoapBox Law''' is the legal-reference vertical of the [[SoapBox]] civic ecosystem. It gathers plain-language legal information, statute and case reference material, and legal-education resources in one place. It is built for education and orientation — not individualized legal advice, and not a substitute for a licensed attorney.
+'''SoapBox Law''' is the public-legal-record vertical of the [[SoapBox]] ecosystem, published at law.soapbox.community. It presents U.S. caselaw, statutes, regulations, judges and lawyer records — facts from the public reporters, source-linked, keyless and free — alongside a set of plain-English explainer pages on how the law is actually structured.
 
-== What it is ==
-SoapBox Law is a reference and learning surface for people trying to understand the law that affects them. It aims to translate dense statutory and case material into plain language, and to point readers toward the primary sources behind a topic. As with the wider [[Library of Ashurbanipal]], the goal is honest reference: explain what the law says and where to read it, without pretending to render a verdict on any reader's situation.
+The stated editorial rule is ''facts, not verdicts'': a case description says what a decision is cited for as a matter of legal-historical record, not whether the site thinks the decision is correct. Everything is informational, not legal advice.
 
-== What you can do ==
-* Look up plain-language explanations of legal concepts and terms.
-* Find pointers to statutes and case-law references for further reading.
-* Use legal-education resources to build background before speaking to a professional.
+== The record ==
+* '''Cases''' — searchable opinions from the public reporters, each linked to its source of record.
+* '''Statutes & Code''' and '''Regulations''' — the statutory and regulatory layers.
+* '''Judges''' and '''Lawyers''' — public records on the people in the system.
+* '''File a complaint''' — a routing page to legal aid, bar referral, and consumer/fraud complaint channels.
 
-For general legal information and education, see [https://law.soapbox.community law.soapbox.community].
+== The explainer pages ==
+These are short, cited guides to how U.S. law fits together. Each is its own article here:
+* [[Privacy Law]] — federal (sectoral) privacy law and where Texas replaces, adds to or limits it.
+* [[Rights That Hold Up in Court]] — which rights are real and which are pseudolegal folklore, with the actual cases.
+* [[Foundational Law]] — the Constitution: three branches, four layers, and how they check each other.
+* [[Treaties]] — how a treaty is made and when it becomes enforceable law inside the United States.
+* [[Legal Maxims]] — legal maxims, political axioms and idioms, each with a gloss and a source.
+* [[Benefit Societies]] — mutual aid organizations, fraternal beneficiary societies, and constitutional protection.
+* [[Isomers, the Analogue Act, and Forensic Chemistry]] — statutory isomer definitions under the CSA and the Federal Analogue Act.
+* [[Religious Sacraments, RFRA, and the Temple of True Inner Light]] — Madisonian religious freedom, the Smith crisis, and the Religious Freedom Restoration Act.
+* [[Psychotropics Convention and the UDV Precedent]] — international treaty mechanics and the unanimous Supreme Court ruling in Gonzales v. UDV.
 
-== How it fits ==
-SoapBox Law is one of several civic verticals in the [[SoapBox]] network, alongside [[SoapBox Politics]] and [[SoapBox Oversight]]. Together they form the civic-information corner of the [[MELEK]] ecosystem: law explains the rules, politics tracks who is making them, and oversight documents how they act.
+== See also ==
+* [[Congress.ink]]
+* [[SoapBox Oversight]]
+* [[SoapBox Community]]
 
-'''See also:''' [[SoapBox]] · [[SoapBox Politics]] · [[SoapBox Oversight]] · [[MELEK]]
+== Sources ==
+* [https://law.soapbox.community law.soapbox.community]
+
+== Coverage ==
+Describes the vertical's sections and its stated editorial rule. The underlying records change as the public reporters update.

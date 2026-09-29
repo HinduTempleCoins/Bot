@@ -33,7 +33,7 @@ test('home / returns 200 with the plot grid', async () => {
 
 test('home shows the Alpha badge and in-game-only note', async () => {
   const res = await call('/');
-  assert.match(res.body, /class=alpha>Alpha</);
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   assert.match(res.body, /no fiat/i);
 });
 

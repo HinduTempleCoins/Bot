@@ -1,0 +1,143 @@
+'''The Tryptamine Family and Endogenous Neurochemistry''' details the molecular architecture, biosynthetic pathways, receptor pharmacology, and phenomenological spectrum of the indolealkylamines. Spanning essential human neurotransmitters (serotonin, melatonin), classic entheogens (DMT, psilocin, 5-MeO-DMT), modern synthetic analogues (4-HO-MiPT, 4-AcO-DMT, aMT), and tetracyclic ergolines (LSD, LSA), this monograph examines how the indole nucleus interfaces with the central nervous system and contrasts with the phenethylamine family.
+
+== Molecular Architecture: The Indolealkylamine Core ==
+
+All tryptamines are built upon a bicyclic '''indole ring''' (a benzene ring fused to a five-membered nitrogen-containing pyrrole ring) joined to an ethylamine side chain at the 3-position:
+
+<code>
+                    [ THE GENERAL TRYPTAMINE SCAFFOLD ]
+                                  4
+                                ┌───┐  3
+                              5 │   │─── C(α)H2 ─ C(β)H2 ─ N(R1)(R2)
+                                │   │
+                              6 └───┘  2
+                                7   N1
+                                    H
+</code>
+
+* '''Biosynthetic Root:''' All natural tryptamines derive from the essential dietary amino acid '''L-tryptophan'''. Decarboxylation by aromatic L-amino acid decarboxylase (AADC) yields trace tryptamine, while sequential enzymatic ring-hydroxylations and methylations yield serotonin, melatonin, and botanical hallucinogens.
+* '''Tryptamines vs. Phenethylamines:''' While phenethylamines (dopamine, amphetamine, mescaline, 2C-B) possess a single, flexible benzene ring separated from an amino group by two carbons, tryptamines integrate the aromatic ring into a planar, electron-rich indole system. This bicyclic core confers distinct electronic resonance and hydrogen-bonding characteristics at serotonin GPCR active sites.
+
+== Endogenous Neurochemistry: The Serotonin-Melatonin Axis ==
+
+The mammalian brain natively produces two master tryptamine neurochemicals that govern conscious awareness, sensory filtration, mood, and circadian sleep architecture:
+
+<code>
+ [ L-Tryptophan ] 
+        │  (Tryptophan 5-Hydroxylase / TPH)
+        ▼
+ [ 5-Hydroxytryptophan (5-HTP) ]
+        │  (Aromatic L-Amino Acid Decarboxylase / AADC)
+        ▼
+ [ Serotonin (5-Hydroxytryptamine / 5-HT) ] ──► [ Synaptic Signaling / Gastrointestinal Motility ]
+        │  (Serotonin N-Acetyltransferase / AANAT — Pineal Gland / Dark Trigger)
+        ▼
+ [ N-Acetylserotonin (NAS) ]
+        │  (Hydroxyindole O-Methyltransferase / ASMT)
+        ▼
+ [ Melatonin (5-Methoxy-N-acetyltryptamine) ] ──► [ MT1/MT2 Suprachiasmatic Circadian Gating ]
+</code>
+
+=== 1. Serotonin (5-HT): The Architect of Sensory Gating ===
+* Serotonin acts as the central neuromodulator of mood, emotional stability, satiety, and sensory gating.
+* Over 90% of bodily serotonin resides in the enterochromaffin cells of the gastrointestinal tract, where it orchestrates intestinal motility and gut-brain signaling via the vagus nerve.
+* In the central nervous system, ascending serotonergic projections from the midbrain '''raphe nuclei''' innervate the cortex, thalamus, and limbic system.
+* Activation of cortical '''$5\text{-HT}_{2A}$ receptors''' on layer V pyramidal neurons modulates glutamate release and sensory gating. When exogenous psychedelics bind this locus, they disintegrate the thalamic filter, unleashing an influx of unfiltered sensory signals.
+
+=== 2. Melatonin: The Circadian Gatekeeper ===
+* In the pineal gland, darkness disinhibits sympathetic signaling from the suprachiasmatic nucleus (SCN), activating '''AANAT''' to convert serotonin into $N$-acetylserotonin, which is methylated into '''melatonin''' (5-methoxy-$N$-acetyltryptamine).
+* '''The Structural Lesson of Melatonin:''' Melatonin carries an $N$-acetyl group ($-NHCOCH_3$) on its side-chain nitrogen and a 5-methoxy group ($-OCH_3$) on the indole ring. This $N$-acetyl substitution completely destroys binding to $5\text{-HT}_{2A}$ and $5\text{-HT}_1$ receptors while creating sub-nanomolar affinity for melatonin '''$\text{MT}_1$ and $\text{MT}_2$ receptors'''.
+* Thus, an endogenous tryptamine chemically identical to classic psychedelics at positions 3 and 5 acts not as an entheogen, but as the master hormonal signal for rest, circadian entrainment, and restorative sleep.
+
+== Central Psychedelic Tryptamines: The Classic Suite ==
+
+The psychedelic tryptamines fall into three distinct structural classes based on substitution patterns around the indole ring:
+
+{| class="wikitable"
+! Compound !! Chemical Name !! Natural Source / Class !! Typical Dose !! Active Duration !! Phenomenological Character
+|-
+| '''DMT''' || $N,N$-Dimethyltryptamine || ''Psychotria viridis'', ''Mimosa hostilis'', mammalian brain || 20–50 mg (Vaporized / IV) || 10–20 min || Hyper-dimensional geometric architecture; complete breakthrough into autonomous visual realities; inactive orally without an MAOI.
+|-
+| '''Psilocin''' || 4-Hydroxy-$N,N$-dimethyltryptamine || Dephosphorylated active metabolite of ''Psilocybe'' mushrooms || 10–25 mg || 4–6 hours || Earthy, organic visual distortion; emotional catharsis; synesthesia; strong $5\text{-HT}_{2A}$ partial agonism.
+|-
+| '''Psilocybin''' || 4-Phosphoryloxy-$N,N$-dimethyltryptamine || Zwitterionic prodrug in ''Psilocybe'' mushrooms || 15–35 mg || 4–6 hours || Dephosphorylated by alkaline phosphatase in the liver/gut into active psilocin.
+|-
+| '''5-MeO-DMT''' || 5-Methoxy-$N,N$-dimethyltryptamine || ''Incilius alvarius'' (Colorado River Toad), ''Virola'' || 5–15 mg (Vaporized) || 15–30 min || "The God Molecule." Overwhelming non-visual ego dissolution; white-out void; intense $5\text{-HT}_{1A}$ agonist hypothermia and respiratory suppression hazard.
+|-
+| '''4-HO-MiPT''' || 4-Hydroxy-$N$-methyl-$N$-isopropyltryptamine || Synthetic (Alexander Shulgin / "Miprocin") || 10–20 mg || 4–6 hours || Rich acoustic synesthesia, luminous spatial distortion, warm tactile enhancement; less gastrointestinal load than psilocybin.
+|-
+| '''4-AcO-DMT''' || 4-Acetoxy-$N,N$-dimethyltryptamine || Synthetic ("Psilacetin") || 15–25 mg || 4–6 hours || Acetyl prodrug to psilocin; ultra-smooth onset, highly predictable dosing free of fungal chitin ballast.
+|-
+| '''Bufotenin''' || 5-Hydroxy-$N,N$-dimethyltryptamine || ''Anadenanthera colubrina'' (Vilca / Cebíl), toad venom || 50–100 mg (Insufflated) || 1–2 hours || Serotonin isomer with high peripheral $5\text{-HT}_2$ vascular affinity; profound facial flushing, nausea, heavy body load alongside vivid hallucinations.
+|-
+| '''$\alpha$-MT''' || $\alpha$-Methyltryptamine || Synthetic (Monase) || 20–40 mg || 12–18 hours || Rare tryptamine/stimulant hybrid; $\alpha$-methyl group sterically blocks MAO and triggers dopamine/norepinephrine release alongside $5\text{-HT}_{2A}$ agonism.
+|}
+
+=== 1. Dimethyltryptamine (DMT) and the MAO Enigma ===
+* Unsubstituted simple dialkyltryptamines like DMT and DET are instantly broken down by intestinal and hepatic '''monoamine oxidase A (MAO-A)''' into inactive indole-3-acetic acid (3-IAA).
+* Consequently, DMT is completely inactive when swallowed alone.
+* In traditional Amazonian '''Ayahuasca''', indigenous shamans discovered that boiling DMT-bearing foliage (''Psychotria viridis'') alongside an MAO-inhibiting vine (''Banisteriopsis caapi'', containing harmine, harmaline, and tetrahydroharmine) shields DMT from enzymatic destruction, granting it oral bioavailability and a 4-to-6-hour psychedelic duration.
+
+=== 2. The 4-Position Oxygen Shield (Psilocin and Miprocin) ===
+* Placing an oxygen atom at the 4-position (4-OH in psilocin; 4-HO-MiPT; 4-AcO-DMT) confers a remarkable pharmacological property: the 4-hydroxyl group forms an internal hydrogen bond with the protonated basic terminal amine, folding the ethylamine side chain back over the indole ring.
+* This pseudo-cyclic conformation physically shields the amine from monoamine oxidase enzymes, granting '''4-substituted tryptamines complete oral activity without the need for an MAO inhibitor'''.
+
+=== 3. 4-HO-MiPT (Miprocin) vs. Psilocin ===
+* Synthesized by Alexander Shulgin in 1979, '''4-HO-MiPT (Miprocin)''' replaces one of psilocin's terminal $N$-methyl groups with a bulky, branched isopropyl group:
+: <code>Psilocin: 4-HO-N(CH3)2 &nbsp;──►&nbsp; Miprocin: 4-HO-N(CH3)(CH(CH3)2)</code>
+* This asymmetrical dialkyl substitution increases lipophilicity and alters receptor selectivity. Subjectively, Miprocin exhibits a unique emphasis on auditory changes (pitch shifting, tonal reverberation, musical enrichment) and tactile warmth, paired with significantly less peripheral nausea and somatic lethargy than raw mushroom fungal material.
+
+== Ergolines and Lysergamides: The Chimeric Indole-Phenethylamine Bridge ==
+
+The lysergamides—most famously '''LSD''' (Lysergic Acid Diethylamide) and naturally occurring '''LSA''' (Ergine / $d$-lysergic acid amide found in Morning Glory seeds ''Ipomoea tricolor'' and Hawaiian Baby Woodrose ''Argyreia nervosa'')—represent the ultimate structural bridge in psychedelic chemistry:
+
+<code>
+                   [ THE TETRACYCLIC ERGOLINE SKELETON ]
+                                    O = C ─ N(R1)(R2)  (Amide at C8)
+                                        │
+                                   ┌────┴────┐
+                                   │  Ring D │── N(CH3)
+                                ┌──┴─────────┴──┐
+                                │     Ring C    │
+                                └──┬─────────┬──┘
+                              ┌────┴───┐     │
+                              │ Ring A │     │  (Ring B is Indole Pyrrole)
+                              └────────┘─────┘
+                               Indole Core      Embedded Phenethylamine
+</code>
+
+* '''The Dual Identity:''' The rigid tetracyclic ergoline nucleus (Rings A, B, C, and D) simultaneously contains:
+# An intact '''indole-3-ethylamine (tryptamine) backbone''' (Rings A, B, and the side chain running up to the basic nitrogen in Ring D).
+# An intact '''phenethylamine backbone''' (Ring A, Ring C carbons, and the basic nitrogen in Ring D).
+* Because both pharmacophores are fused into an inflexible, planar four-ring matrix, LSD cannot rotate freely to fit into a single receptor. Instead, its rigid shape locks into the orthosteric binding pockets of serotonin ($5\text{-HT}_{2A}$, $5\text{-HT}_{2C}$, $5\text{-HT}_{1A}$, $5\text{-HT}_{1B}$), dopamine ($D_1$, $D_2$, $D_3$, $D_4$), and adrenergic ($\alpha_1$, $\alpha_2$) receptors alike.
+* '''The Molecular Lid (Receptor Trapping):''' X-ray crystallography revealed that when LSD enters the human $5\text{-HT}_{2A}$ receptor, an extracellular loop (EL2) folds downward like a "lid" over the diethylamide moiety, trapping the molecule inside the binding pocket for up to 12 hours. This explains why LSD exhibits picomolar affinity and an extraordinarily long functional duration from microgram doses ($50\text{–}150\,\mu\text{g}$).
+* '''LSA (Ergine) vs. LSD:''' LSA carries an unsubstituted primary amide ($-CONH_2$) rather than a bulky diethylamide ($-CON(C_2H_5)_2$). LSA lacks the steric bulk to wedge the receptor's extracellular lid shut, binds with materially lower affinity, and produces pronounced vasoconstriction, sedation, and uterine contractions with far less cognitive visual brilliance.
+
+== The Mescaline Units (MU) Scale ==
+
+When Alexander Shulgin and early psychopharmacologists began systematically characterizing newly synthesized phenethylamines, amphetamines, and tryptamines in the 1960s, they lacked standardized in vitro radioligand binding assays. To quantify potency across human subjects, Shulgin established the '''Mescaline Units (MU) Scale''', adopting pure mescaline as the baseline universal standard:
+
+<code>
+                 [ THE MESCALINE UNIT (MU) FORMULA ]
+                               Active Dose of Mescaline (350 mg)
+                  MU Value = ──────────────────────────────────
+                               Active Dose of Target Substance (mg)
+</code>
+
+* '''Mescaline = 1.0 MU:''' The standard threshold entheogenic dose of mescaline hydrochloride is calibrated at '''350 milligrams'''.
+* '''Benchmarking Potencies Across Families:'''
+** '''TMA''' (3,4,5-trimethoxyamphetamine): Active at 175 mg $\rightarrow$ '''2.0 MU'''.
+** '''MDA''' (3,4-methylenedioxyamphetamine): Active at 100 mg $\rightarrow$ '''3.5 MU'''.
+** '''2C-B''' (4-bromo-2,5-dimethoxyphenethylamine): Active at 18 mg $\rightarrow$ '''20 MU'''.
+** '''DOM''' ("STP" / 4-methyl-2,5-dimethoxyamphetamine): Active at 3.5 mg $\rightarrow$ '''100 MU'''.
+** '''Psilocin''': Active at 12 mg $\rightarrow$ '''30 MU'''.
+** '''LSD''': Active at $0.07\text{ mg}$ ($70\,\mu\text{g}$) $\rightarrow$ '''5,000 MU'''.
+
+=== Why Mescaline in Peyote is a Phenethylamine, Not a Tryptamine ===
+* A ubiquitous misconception among lay observers is that because peyote (''Lophophora williamsii'') and psilocybin mushrooms (''Psilocybe cubensis'') are both sacred botanical entheogens, they belong to the same chemical lineage.
+* In reality, '''mescaline is chemically and pharmacologically a phenethylamine'''. It is a close structural sibling of MDMA, dopamine, and the 2C series, lacking the indole ring entirely.
+* Phenomenology reflects this chemical divide:
+** '''Tryptamines (Mushrooms, DMT):''' Characterized by shifting, morphing organic geometry, deep emotional interiority, alien encounters, linguistic synesthesia, and heavy sedation.
+** '''Phenethylamines (Mescaline, 2C-B, MDMA):''' Characterized by geometric clarity, sharp crystalline linear patterns, physical energy, somatic warmth, empathy, and active wakefulness.
+
+See also: [[PIHKAL and TIHKAL]] · [[The 2C Series and Extended Phenethylamines]] · [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]] · [[Structure-Activity Relationships in Psychopharmacology]] · [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Stack Substances]]

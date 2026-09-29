@@ -52,8 +52,8 @@ test('claim is off-chain first: deed mint labelled "will settle on-chain", never
 
 test('Alpha badge present (live-surface convention)', async () => {
   const res = await get('/');
-  assert.match(res.body, /class=alpha/);
-  assert.match(res.body, />Alpha</);
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
 });
 
 test('/health returns ok json', async () => {

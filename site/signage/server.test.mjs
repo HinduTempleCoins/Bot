@@ -85,7 +85,7 @@ test('/ renders the kiosk carousel container + an SSR first slide', async () => 
   assert.match(res.body, /data-slide-count=/);
   assert.match(res.body, /class="slide/);        // an SSR slide is present
   assert.match(res.body, /The Bedroom/);         // art slide SSR'd from the mocked reader
-  assert.match(res.body, /Alpha/);               // alpha badge
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces               // alpha badge
   restore();
 });
 
@@ -249,7 +249,7 @@ test('/safety returns 200, tiles, the fixed disclaimer bar, and a scanner audio 
   assert.ok(res.body.includes(DISCLAIMER_COPY), 'exact disclaimer copy present');
   assert.match(res.body, /<audio[^>]*id="scanaudio"/);   // scanner audio element
   assert.match(res.body, /Dallas Police &amp; Fire Scanner/); // esc'd station name
-  assert.match(res.body, /Alpha/);                        // alpha badge
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces                        // alpha badge
   restore();
 });
 

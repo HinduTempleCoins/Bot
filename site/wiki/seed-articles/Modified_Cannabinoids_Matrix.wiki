@@ -1,0 +1,52 @@
+'''Modified Cannabinoids Matrix''' is a comparative chemical and pharmacological index of semi-synthetic, rearranged, and prodrug cannabinoids derived from natural plant precursors. Modifying the dibenzopyran core, aromatic hydroxyl group, or alkyl side-chain yields compounds with radically altered stability, water solubility, receptor affinity, and toxicity profiles.
+
+This article details the summary matrix, synthesis routes, receptor dynamics, and safety considerations for each major class.
+
+== Summary comparison matrix ==
+
+{| class="wikitable"
+! Compound Class !! Synthesis / Reagents !! Structural Shift !! Pharmacokinetics & Properties !! Hazards & Notes
+|-
+| '''Δ9-THC''' || CBD + Mild Acid Catalyst (Kinetic) || Cyclization of CBD pyran ring (C9=C10 double bond) || High-affinity orthosteric CB1 partial agonist; psychoactive reference standard. || Labile; oxidizes to CBN under heat/air; psychoactive intoxication.
+|-
+| '''Δ8-THC''' || CBD + Stronger Acid / Prolonged Heat || Endocyclic double-bond migration to C8=C9 || ~50–66% potency of Δ9-THC; thermodynamically more stable. || Commercial crude extracts often carry residual acid or iso-THC byproducts.
+|-
+| '''HHC (Hexahydrocannabinol)''' || THC / CBD + H2 + Noble Metal Catalyst (Pd/C, Pt) || Catalytic hydrogenation of double bond into saturated cyclohexane ring || Extreme UV and thermal stability; mixture of active (9R) and inactive (9S) epimers. || Metal catalyst (palladium) must be completely filtered and certified absent on heavy metal COAs.
+|-
+| '''THC-O-Acetate''' || THC + Acetic Anhydride (Anhydrous) || Phenolic hydroxyl (-OH) capped as an acetyl ester || Lipophilic metabolic prodrug; 20–45 min metabolic delay; masks airway TRP irritation. || '''Severe inhalation toxicity:''' Pyrolyzes on vape coils (>200 °C) into toxic ketene gas (CH2=C=O).
+|-
+| '''THCp (Tetrahydrocannabiphorol)''' || 5-Heptylresorcinol + Terpene Cyclization || Side-chain extended from 5 carbons (pentyl) to 7 carbons (heptyl) || ~33× higher binding affinity for CB1 (Ki ≈ 1.2 nM); prolonged duration of action. || Extremely potent; high risk of severe anxiety, panic, and prolonged cognitive impairment.
+|-
+| '''THCJD''' || 5-Octylresorcinol + Terpene Cyclization || Side-chain extended to 8 carbons (octyl) || High CB1 affinity; lipophilic membrane anchoring. || Unregulated; market products frequently mislabeled or contaminated with synthesis isomers.
+|-
+| '''THC-O-Phosphate Salt''' || THC + POCl3 / Base || Phenolic hydroxyl converted to ionic sodium phosphate salt || Fully water-soluble; non-inhalation delivery; cleaved by gut/plasma alkaline phosphatases. || Oral/sublingual prodrug; non-inhalable; eliminates vaping and thermal risks.
+|-
+| '''HU-331 (CBD-Quinone)''' || CBD + High pH / Metal Oxidants / UV || Resorcinol ring oxidized to p-quinone diketone || Non-psychoactive; potent inhibitor of topoisomerase II; anti-neoplastic activity. || Reactive quinone species; potential cytotoxicity at elevated systemic concentrations.
+|-
+| '''Cannabielsoin (CBE)''' || CBD + UV-C Radiation (254 nm) || Intramolecular photo-cyclization across phenolic oxygen and terpene ring || Non-psychoactive; stable photo-degradant marker. || Formed during improper UV sterilization or direct sunlight exposure.
+|}
+
+== Detailed chemical profiles ==
+
+=== 1. Hexahydrocannabinol (HHC) ===
+* '''Synthesis:''' Prepared via catalytic hydrogenation. Hydrogen gas (H2) is bubbled through a solution of THC or CBD in the presence of a noble metal catalyst—typically palladium on carbon (Pd/C) or platinum oxide (Adams' catalyst)—under pressure:
+: <code>Δ9-THC + H2 ──(Pd/C)──► Hexahydrocannabinol (HHC)</code>
+* '''Epimeric split (9R vs. 9S):''' Hydrogenation creates a new stereocenter at C9, producing two diastereomers:
+** '''(9R)-HHC:''' The methyl group adopts an equatorial orientation. It fits snugly into the CB1 receptor pocket, possessing binding affinity comparable to Δ9-THC.
+** '''(9S)-HHC:''' The methyl group adopts an axial orientation. It exhibits vastly reduced CB1 binding affinity (roughly 10% of the 9R epimer).
+** The 9R:9S ratio determines the overall potency of commercial HHC distillates.
+* '''Shelf-life:''' Because the reactive cyclohexenyl double bond is completely saturated, HHC does not oxidize into cannabinol (CBN) when exposed to UV light, heat, or ambient oxygen, giving it unmatched shelf-life stability.
+
+=== 2. Alkyl chain-extended cannabinoids (THCp and THCJD) ===
+* '''The alkyl pharmacophore:''' The classical pentyl (5-carbon) alkyl chain of Δ9-THC fits into a hydrophobic binding groove in the CB1 receptor. Early cannabinoid structure-activity relationship (SAR) research demonstrated that extending this chain modulates affinity:
+** 1 to 3 carbons (THCC, THCV): Substantially reduced CB1 agonism; THCV acts as a neutral antagonist or weak partial agonist at standard doses.
+** 5 carbons (Δ9-THC): High-affinity partial agonism (Ki ≈ 10–40 nM).
+** 7 carbons (THCp / Δ9-tetrahydrocannabiphorol): Discovered naturally in trace amounts by Italian researchers in 2019. The 7-carbon heptyl chain spans the full depth of the receptor's hydrophobic tunnel, boosting CB1 affinity by roughly 33 times (Ki = 1.2 nM).
+** 8 carbons (THCJD / octyl-THC): Synthetic extension providing intense, prolonged receptor occupation.
+* '''Clinical risks:''' High-affinity chain-extended cannabinoids cause prolonged tachyphylaxis (rapid receptor downregulation), extreme tolerance spikes, and heightened incidence of acute cannabis-induced psychosis or panic episodes in unprimed users.
+
+=== 3. THC-O-phosphate: clean water-soluble delivery ===
+* '''Chemistry:''' Attaching an ionic phosphate group (-PO4²⁻) to the C1 phenolic hydroxyl transforms an insoluble, viscous resin (logP ≈ 6.3) into a crystalline salt with high aqueous solubility.
+* '''Non-inhalation delivery:''' Designed strictly for aqueous oral solutions, sublingual drops, or intravenous research models. Cleaved quantitatively by endogenous alkaline phosphatases into active Δ9-THC, completely eliminating pulmonary exposure, coil heat, and pyrolysis hazards.
+
+See also: [[Cannabinoid Isomerization]] · [[Cannabinoid and Tryptamine Prodrugs]] · [[Airway Irritation and Cannabinoid Prodrug Delivery]] · [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]] · [[Cannabis Harm Reduction]] · [[Stack Substances]]

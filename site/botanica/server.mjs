@@ -128,8 +128,7 @@ function page(account, now) {
     return `<tr><td>${esc(it.name)}</td><td class=muted>${esc(need)}</td><td>${esc(it.effect.stat)} +${esc(String(it.effect.pct))}%</td><td>${btn}</td></tr>`;
   }).join('');
 
-  const body = `<div class=alpha>Alpha</div>
-  <header><b>🌿 ${SITE_NAME}</b><nav><a href="/">Farm</a><a href="/factors">Non-growing shelf</a></nav><span class=muted>Playing as <b>${esc(account)}</b> · balance <span class=bal>${esc(String(bal))} ${CURRENCY}</span></span></header>
+  const body = `  <header><b>🌿 ${SITE_NAME}</b><nav><a href="/">Farm</a><a href="/factors">Non-growing shelf</a></nav><span class=muted>Playing as <b>${esc(account)}</b> · balance <span class=bal>${esc(String(bal))} ${CURRENCY}</span></span></header>
   <main>
     <p class=muted>The Botanica farm. Plant → grow → harvest materials → craft apothecary items. <b>Value = versatility</b>: a material's worth is how many domains it serves.</p>
     <div class=grid>${plotCards}</div>
@@ -201,8 +200,7 @@ function factorsPage() {
     .filter(([, v]) => v && typeof v === 'object')
     .map(([k, v]) => `<tr><td>${esc(k.replace(/_/g, ' '))}</td><td>${esc(String(v.lead))}</td><td>${esc(String(v.cadmium))}</td></tr>`).join('');
 
-  const body = `<div class=alpha>Alpha</div>
-  <header><b>🌿 ${SITE_NAME}</b><nav><a href="/">Farm</a><a href="/factors">Non-growing shelf</a></nav></header>
+  const body = `  <header><b>🌿 ${SITE_NAME}</b><nav><a href="/">Farm</a><a href="/factors">Non-growing shelf</a></nav></header>
   <main>
     <p class=muted>Half of a botanica never grew on the land: the earth you dust the beds with, the clay the pots
     are thrown from, the resin that burns on the charcoal, the bowl the offering sits in. These behave nothing like a

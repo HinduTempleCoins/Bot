@@ -15,7 +15,7 @@ export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => (
 
 // Canonical sign-up URL (the value the tools suite already standardized on). Overridable by env for staging.
 export const SIGNUP_URL = (typeof process !== 'undefined' && process.env && process.env.SIGNUP_URL) || 'https://wallet.melek.salon/signup';
-export const KULA_URL = 'https://alpha.kula.money';
+export const KULA_URL = 'https://kula.money';
 export const POOL_URL = 'https://pool.soapbox.community';
 
 // Append UTM attribution so the funnel can attribute a signup back to the surface + campaign that drove it.

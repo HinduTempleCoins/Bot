@@ -22,7 +22,7 @@ test('GET / returns 200 and lists cam tiles + the consent boundary', async () =>
   assert.equal(res.statusCode, 200);
   assert.match(res.headers['content-type'], /text\/html/);
   assert.match(res.body, /Public, consensual cameras only/);
-  assert.match(res.body, /class=alpha>Alpha/);            // alpha badge present
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces            // alpha badge present
   const first = listCams()[0];
   assert.ok(res.body.includes(first.name), 'index should render a cam tile');
 });

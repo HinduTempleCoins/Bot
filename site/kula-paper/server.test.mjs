@@ -28,7 +28,7 @@ test('GET / renders 200 HTML with the Alpha badge', async () => {
   const res = await get('/');
   assert.equal(res.statusCode, 200);
   assert.match(res.headers['content-type'], /text\/html/);
-  assert.match(res.body, /class=alpha>Alpha</, 'missing Alpha badge');
+  assert.doesNotMatch(res.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
 });
 
 test('honest-tone / no-price-promise disclaimer present', async () => {

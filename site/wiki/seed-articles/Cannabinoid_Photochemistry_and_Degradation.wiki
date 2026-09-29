@@ -1,0 +1,84 @@
+'''Cannabinoid Photochemistry and Degradation''' details the light-driven transformations, wavelength-dependent reactions, and photochemical degradation pathways of cannabinoids, solvents, and acids. Unlike thermal reactions that rely on kinetic ground-state collisions, photochemical excitation promotes electrons into higher-energy molecular orbitals, unlocking reaction pathways otherwise inaccessible at room temperature.
+
+This article details fundamental photophysical laws, wavelength-specific transformations of cannabidiol (forming Cannabielsoin, HU-331, and photoredox THC cyclization), and the hazardous photochemical breakdown of laboratory solvents and acids.
+
+== Fundamental principles of photochemistry ==
+
+Photochemical transformations are governed by two physical laws:
+# '''Grotthuss–Draper Law:''' Light must be absorbed by a chemical entity for a photochemical transformation to occur. Wavelengths for which a molecule has zero absorptivity pass through without inducing reaction.
+# '''Stark–Einstein Law:''' In a single-photon process, each absorbed photon activates exactly one molecule. Photon energy ($E$) is inversely proportional to wavelength ($\lambda$):
+: <code>E = hc / λ</code>
+Because shorter wavelengths deliver higher quantum energy, different regions of the electromagnetic spectrum trigger distinct chemical modes:
+
+<code>
+[ Wavelength (nm) ]   200 nm ────────── 280 nm ────────── 315 nm ────────── 400 nm ────────── 700 nm
+[ Light Spectrum  ]  │      UV-C       │      UV-B       │      UV-A       │     Visible Light    │
+[ Primary Mode    ]  └─ Homolytic Cleavage ─┴─ Photo-Oxidation ─┴─ Sensitized 1O2 ─┴─ Photoredox SET ─┘
+</code>
+
+{| class="wikitable"
+! Region !! Wavelength !! Quantum Energy !! Primary Reaction Mode !! Example
+|-
+| '''UV-C''' || 200 – 280 nm || >425 kJ/mol || Direct homolytic covalent bond cleavage ($C-C, C-H, O-O$) || Cleaves H2O2 into hydroxyl radicals ($\text{HO}^\bullet$); cyclizes CBD to Cannabielsoin.
+|-
+| '''UV-B''' || 280 – 315 nm || 380 – 425 kJ/mol || π ──► π* electronic excitation; pericyclic reactions || Drives auto-oxidation of CBD to HU-331 quinone ("pink oil"); [2+2] cycloadditions.
+|-
+| '''UV-A''' || 315 – 400 nm || 300 – 380 kJ/mol || Photosensitizer triplet energy transfer to O2 || Residual chlorophyll generates Singlet Oxygen ($^1\text{O}_2$), attacking double bonds.
+|-
+| '''Blue Light''' || 400 – 500 nm || 240 – 300 kJ/mol || Photoredox single-electron transfer (SET) || Metal complexes ($[\text{Ru(bpy)}_3]^{2+}$) catalyze neutral radical cyclization of CBD to THC.
+|}
+
+== Wavelength-specific photochemistry of CBD ==
+
+Cannabidiol (CBD) possesses two primary ultraviolet absorption bands:
+* '''Primary absorption maximum:''' ~207 – 212 nm (Far-UV / UV-C)
+* '''Secondary absorption band:''' ~270 – 280 nm (Mid-UV / UV-B border)
+
+=== 1. UV-C Light (200–280 nm): Cannabielsoin (CBE) formation ===
+Because CBD's dominant absorption peak lies in the UV-C region, short-wave ultraviolet radiation supplies sufficient energy (>425 kJ/mol) to rupture single bonds:
+* '''Intramolecular photo-cyclization:''' UV-C excitation of the resorcinol ring drives an intramolecular addition between the C1 phenolic hydroxyl and the isolated cyclohexenyl double bond, synthesizing '''Cannabielsoin (CBE)''' and methoxy-CBE adducts. CBD does *not* cyclize to THC under UV-C.
+* '''Homolytic radical polymerization:''' UV-C directly cleaves phenolic O-H bonds, generating free phenoxyl radicals that rapidly polymerize into insoluble, dark brown resins.
+
+=== 2. UV-B Light (280–315 nm): HU-331 and "Pink CBD" ===
+UV-B overlaps with CBD's secondary aromatic absorption band (~280 nm):
+* '''Conversion to HU-331 (Cannabidiol-Quinone):''' UV-B photons excite the resorcinol ring into an excited singlet state, followed by intersystem crossing to a triplet state. This excited species reacts with ground-state triplet oxygen (O2) to generate reactive superoxide radicals ($\text{O}_2^{\bullet-}$), converting the dihydroxybenzene ring into a ''p''-quinone:
+: <code>CBD (Colorless Resorcinol) + UV-B + O2 ──► HU-331 (CBD-Quinone) + Chromophoric Artifacts</code>
+* '''The "Pink Oil" phenomenon:''' Trace formation of HU-331 and related hydroxy-quinones produces an intense pink or purple hue in CBD isolates and clear distillates stored in transparent glass bottles exposed to daylight.
+
+=== 3. UV-A Light (315–400 nm) and singlet oxygen attacks ===
+Pure CBD is virtually transparent to UV-A light and remains photochemically stable in pure solution. However, when botanical extracts contain trace '''photosensitizers''' (such as residual chlorophyll a/b, pheophytin, or riboflavin):
+# The sensitizer absorbs UV-A photons, transitioning to an excited triplet state.
+# It transfers its excitation energy directly to ground-state triplet oxygen ($^3\text{O}_2$), generating highly reactive '''Singlet Oxygen ($^1\text{O}_2$)'''.
+# Singlet oxygen attacks the isolated cyclohexene double bond via an Alder-Ene reaction, forming allylic hydroperoxides that decompose into hydroxylated epoxy-cannabinoids.
+
+=== 4. Visible light photoredox conversion to THC ===
+Under ambient visible light (400–700 nm), pure CBD is inert. However, modern synthetic photochemistry utilizes visible light photoredox catalysts:
+* '''Catalysts:''' Ruthenium or iridium polypyridyl complexes (e.g., $[\text{Ru(bpy)}_3]^{2+}$, $[\text{Ir(dF(CF}_3)\text{ppy)}_2(\text{dtbbpy})]^+$) or organic dyes (Eosin Y).
+* '''Single-Electron Transfer (SET):''' Irradiating the reaction mixture with blue LEDs (~450 nm) photo-excites the catalyst, which abstracts a single electron from CBD to generate a transient radical cation.
+* '''Neutral cyclization:''' The radical intermediate lowers the activation barrier for intramolecular attack by the phenolic oxygen, driving cyclization into Δ9-THC and Δ8-THC at room temperature under completely neutral conditions without requiring strong liquid acids.
+
+== Hazardous photochemical breakdown of solvents and acids ==
+
+Reagent containers exposed to sunlight or UV lamps undergo hazardous chemical transformations:
+
+=== 1. Ether photo-oxidation (Explosive peroxides) ===
+* Solvents containing ether linkages—including diethyl ether, tetrahydrofuran (THF), and 1,4-dioxane—absorb ultraviolet light in the presence of air to form shock-sensitive '''organic hydroperoxides (ROOH)'''.
+* When peroxide-contaminated ether solutions are concentrated on a rotary evaporator, peroxides concentrate in the boiling flask, posing severe explosion hazards. Ethers must be stabilized with butylated hydroxytoluene (BHT) and stored in amber glass under nitrogen.
+
+=== 2. Chlorinated solvent photolysis (Phosgene generation) ===
+* Chloroform ($\text{CHCl}_3$) and dichloromethane ($\text{CH}_2\text{Cl}_2$) undergo UV-C homolytic cleavage to generate chlorine radicals ($\text{Cl}^\bullet$).
+* In the presence of atmospheric oxygen, chloroform decomposes into '''phosgene gas ($\text{COCl}_2$)''' and hydrochloric acid:
+: <code>2 CHCl3 + O2 ──(hν)──► 2 COCl2↑ (Phosgene) + 2 HCl↑</code>
+* Phosgene is a deadly pulmonary warfare agent that reacts with lung moisture, causing fatal pulmonary edema. Chloroform must be stabilized with ethanol or amylene and stored dark.
+
+=== 3. Mineral acid photolysis ===
+* '''Nitric acid (HNO3):''' Highly light-sensitive. UV photons trigger decomposition:
+: <code>4 HNO3 ──(hν)──► 4 NO2↑ + 2 H2O + O2↑</code>
+* Released nitrogen dioxide ($\text{NO}_2$) gas dissolves back into the acid, imparting a characteristic yellow or brown coloration and releasing toxic nitrogen oxide fumes.
+* '''Hydroiodic acid (HI):''' Photolyzes into elemental iodine ($\text{I}_2$), turning red-brown.
+
+=== 4. Photo-Acid Generators (PAGs) ===
+* Synthetic photolithography and modern organic chemistry utilize stable onium salts (such as triphenylsulfonium triflate).
+* These molecules are completely inert in darkness; upon exposure to a UV pulse, they photolyze instantly to release ultra-strong superacids (e.g., trifluoromethanesulfonic acid, $\text{CF}_3\text{SO}_3\text{H}$), allowing light-switched acid catalysis without manual reagent addition.
+
+See also: [[Antioxidants and Cannabinoid Stability]] · [[Cannabinoid Isomerization]] · [[Modified Cannabinoids Matrix]] · [[Universal Reaction Templates in Cannabinoid Chemistry]] · [[Stack Substances]]

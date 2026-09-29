@@ -25,7 +25,7 @@ test('health + robots + llms respond', async () => {
 test('home page renders the farm with the Alpha badge and versatility framing', async () => {
   const r = await call('/?account=viewer&now=0');
   assert.equal(r.code, 200);
-  assert.match(r.body, /Alpha/);
+  assert.doesNotMatch(r.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   assert.match(r.body, /Value = versatility|versatility/i);
   assert.ok(STARTERS.length >= 5);
 });

@@ -31,6 +31,17 @@ Following the '''Hierophant / link-out model''':
 * '''Harm-reduction reference, not a manufacturing manual.''' The Library serves '''dose ranges, duration, effects, interactions, contraindications, testing, and set/setting/aftercare''' — the information that keeps people safer. Consistent with its scope, it does '''not''' host synthesis or extraction routes; for the full chemistry entries we point to the licensed mirror.
 * '''Un-gated.''' This is reference and education for adults, presented plainly and without gatekeeping.
 
+== Pharmacological frameworks originating in the books ==
+
+Beyond individual compound monographs, Shulgin's research established foundational principles across organic psychopharmacology:
+
+* '''The Ten Essential Amphetamines:''' The structural mapping of ten natural plant essential oils (allylbenzenes and propenylbenzenes from nutmeg, sassafras, calamus, and parsley) to ten psychoactive phenethylamines. While Shulgin hypothesized in vivo amination, subsequent biochemistry disproved hepatic amination in favor of targeted Cytochrome P450 epoxidation and 1'-hydroxylation (see '''[[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]''').
+* '''Tryptamine Prodrug Architecture (4-OH vs. 4-AcO):''' Documented in TIHKAL, capping the vulnerable 4-position hydroxyl group of psilocin and related indoles with an acetyl ester protects against auto-oxidation and forms stable crystalline prodrugs (like 4-AcO-DMT) cleaved cleanly by plasma esterases in vivo (see '''[[Cannabinoid and Tryptamine Prodrugs]]''').
+* '''Stereocenters and Enantiomeric Potency:''' The α-methyl chiral center in phenethylamines fundamentally divides activity: the (R)-isomer drives 5-HT2A psychedelic agonism, while the (S)-isomer drives monoamine release and central stimulation (see '''[[Stereochemistry in Cannabinoid and Psychedelic Synthesis]]''').
+* '''Structure-Activity Relationships and the α,N,O-TMS Rule:''' In TIHKAL Entry #55 (α,N,O-TMS), Shulgin documented his "holy grail" 2-position indole rule: adding a 2-methyl group to an unsubstituted tryptamine (DMT, DET) abolishes activity, but adding it to 4- or 5-substituted tryptamines (Psilocin, 5-MeO-DMT) preserves potency. The entry also bridges analytical N,O-bis-TMS silylation with the structural shifts governing serotonin, melatonin, dopamine, and hypothalamic '''oxytocin''' release; see '''[[Structure-Activity Relationships in Psychopharmacology]]'''.
+* '''The Analogue Act and the Salt Shaker Critique (aMT, TIHKAL #48):''' In his entry on aMT (alpha-methyltryptamine), Shulgin presented his famous critique of the 1986 Federal Analogue Act, arguing that "substantial similarity" is an arbitrary legal net with a variable mesh size. He used his famous "salt shaker" metaphor (is a shaker with 6 holes substantially similar to one with 5?) to demonstrate that while an isomer is an objective chemical fact, an analogue is a subjective legal fiction; see '''[[Isomers, the Analogue Act, and Forensic Chemistry]]'''.
+* '''Sacramental Entheogens and the Temple of True Inner Light (DPT, TIHKAL #9):''' In his commentary on DPT (dipropyltryptamine), Shulgin explored the Manhattan-based Temple of True Inner Light, which openly used DPT as its central Eucharistic sacrament ("the True Flesh of God"). Shulgin marveled at why the DEA avoided scheduling DPT or prosecuting the congregation for decades, contemplating whether federal authorities feared a landmark First Amendment and RFRA showdown over synthetic religious sacraments; see '''[[Religious Sacraments, RFRA, and the Temple of True Inner Light]]'''.
+
 == Where to read the full entries ==
 
 The Part-Two chemistry entries are hosted, with the Shulgins' permission, at '''Erowid''':
@@ -41,4 +52,4 @@ The Part-Two chemistry entries are hosted, with the Shulgins' permission, at '''
 
 The complete books (both parts) are published by '''Transform Press'''.
 
-See also: [[Psychedelic and Psychopharmacology Glossary]] · [[Shulgin Ten Essential Oils]] · [[Glossaries]] · [[Kyphi]] · [[The Library of Ashurbanipal]]
+See also: [[The 2C Series and Extended Phenethylamines]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Structure-Activity Relationships in Psychopharmacology]] · [[Isomers, the Analogue Act, and Forensic Chemistry]] · [[Religious Sacraments, RFRA, and the Temple of True Inner Light]] · [[Cannabinoid Quinones and Novel Derivatives]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Cannabinoid and Tryptamine Prodrugs]] · [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]] · [[Glossaries]] · [[Kyphi]] · [[The Library of Ashurbanipal]]

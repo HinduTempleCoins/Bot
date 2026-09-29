@@ -14,7 +14,7 @@ test('GET / renders the wallet-gated Seeds NFT collection', async () => {
   const { res, o } = cap(); await handler(req('/'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /<b>Seeds<\/b>/);
-  assert.match(o.body, /Alpha/);
+  assert.doesNotMatch(o.body, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces
   assert.match(o.body, /Connect Wallet/);            // wallet-gated
   assert.match(o.body, /NFT/);                        // NFT framing
   assert.match(o.body, /MELEK-Engine/);

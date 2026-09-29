@@ -1,0 +1,96 @@
+'''Enzyme Inhibition Kinetics and Molecular Transporters''' establishes the physical-chemical laws, mathematical models, and structural biology governing how inhibitors suppress catalytic enzymes and how transporter proteins govern neurotransmitter clearance. From Michaelis-Menten dynamics to the serine hydrolase superfamily and solute carrier (SLC) transporters, this article provides the foundational framework connecting cannabinoid enzymes, monoamine oxidases, and cholinesterases.
+
+== Mathematical models of enzyme inhibition ==
+
+Enzyme velocity ($V$) as a function of substrate concentration ($[S]$) follows the classical Michaelis-Menten equation:
+: <code>V = (Vmax · [S]) / (Km + [S])</code>
+where $V_{max}$ is the maximum catalytic rate at substrate saturation, and $K_m$ (the Michaelis constant) represents the substrate concentration at which velocity is half-maximal ($V_{max}/2$), inversely reflecting substrate affinity.
+
+Inhibitors perturb this relationship through distinct kinetic modes, diagnosable via double-reciprocal Lineweaver-Burk plots ($1/V$ versus $1/[S]$):
+
+{| class="wikitable"
+! Inhibition mode !! Binding target !! Effect on Vmax !! Effect on Km !! Lineweaver-Burk intersection !! Biological example
+|-
+| '''Competitive''' || Free enzyme active site ($E$) || '''Unchanged''' || '''Increased''' (Lower affinity) || Intersects at y-axis ($1/V_{max}$) || Galantamine at AChE; Macamides at FAAH
+|-
+| '''Non-Competitive''' || Allosteric site on both $E$ and $ES$ equally || '''Decreased''' || '''Unchanged''' || Intersects at x-axis ($-1/K_m$) || Heavy metals; certain flavonoid allosteric modulators
+|-
+| '''Uncompetitive''' || Only the enzyme-substrate complex ($ES$) || '''Decreased''' || '''Decreased''' || Parallel lines (slope unchanged) || Lithium at inositol monophosphatase
+|-
+| '''Mixed''' || Allosteric site; unequal affinity for $E$ vs $ES$ || '''Decreased''' || '''Increased or Decreased''' || Intersects to the left of y-axis || Pristimerin at MAGL
+|-
+| '''Irreversible (Suicide)''' || Active catalytic residues (Covalent) || '''Permanently lowered''' || Apparent shift || Progressive time-dependent loss || Organophosphates at AChE; URB597 at FAAH
+|}
+
+=== 1. Competitive inhibition dynamics ===
+Because competitive inhibitors bind reversibly to the exact catalytic pocket used by the substrate, excess substrate can completely displace the inhibitor:
+* At infinite substrate concentration, maximal velocity ($V_{max}$) is fully achieved.
+* This property underpins why Reversible Inhibitors of MAO-A (RIMAs) avoid the tyramine "cheese crisis"—dietary tyramine surges displace the inhibitor and preserve clearance.
+
+=== 2. Irreversible and mechanism-based suicide inhibition ===
+* Suicide inhibitors are initially recognized as substrates by the enzyme.
+* The catalytic machinery converts the inhibitor into a chemically reactive species that forms a permanent covalent bond with active site amino acids, destroying the enzyme.
+* Restoring catalytic activity requires '''de novo protein synthesis''', explaining why the physiological effects of compounds like irreversible MAOIs (phenelzine) or mechanism-based CYP3A4 inhibitors (grapefruit furanocoumarins) outlast the presence of the drug in plasma by days or weeks.
+
+== The Serine Hydrolase Superfamily ==
+
+A remarkable unity across pharmacology is that '''FAAH, MAGL, Acetylcholinesterase (AChE), and Carboxylesterases''' all belong to the broader '''serine hydrolase superfamily'''. They share a common catalytic mechanism:
+
+<code>
+[ Free Enzyme: Enz-CH2-OH (Serine) ] + [ Substrate: R-CO-X ]
+                           │
+                           ▼  Nucleophilic Attack by Catalytic Serine
+[ Tetrahedral Intermediate 1 ]
+                           │
+                           ▼  Expulsion of Leaving Group (X-H)
+[ Covalent Acyl-Enzyme Intermediate: Enz-CH2-O-CO-R ]
+                           │
+                           ▼  Nucleophilic Attack by Water (H2O)
+[ Tetrahedral Intermediate 2 ]
+                           │
+                           ▼  Release of Carboxylic Acid (R-COOH)
+[ Regenerated Free Enzyme: Enz-CH2-OH ]
+</code>
+
+=== 1. The universal catalytic serine nucleophile ===
+* Whether organized as a canonical Ser-His-Asp triad (AChE, MAGL) or an amidase Ser-Ser-Lys triad (FAAH), the catalytic core relies on an activated serine hydroxyl ($-\text{CH}_2\text{-OH}$) acting as a powerful nucleophile.
+* The serine attacks the carbonyl carbon of esters, amides, or thioesters, forming a transient covalent '''acyl-enzyme intermediate'''.
+* Water attacks the intermediate (deacylation), releasing the reaction product and regenerating the active enzyme.
+
+=== 2. Cross-reactivity and target vulnerability ===
+* Because these enzymes share this identical catalytic nucleophile, electrophilic chemical classes—specifically '''carbamates''', '''ureas''', and '''organophosphates'''—can cross-react across multiple family members.
+* If a synthetic drug molecule is designed with excessive electrophilic reactivity, it will non-selectively carbamylate or phosphorylate off-target serine hydrolases throughout the brain. This exact mechanism produced the 2016 BIA 10-2474 trial tragedy, where an unselective candidate inhibited FAAH alongside ABHD6, ABHD11, and neuropathy target esterase (PNPLA6), destroying neuronal lipid homeostasis.
+
+== Molecular reuptake transporters ==
+
+Where enzymes clear neurotransmitters by chemical destruction, '''molecular transporters''' clear neurotransmitters by physically pumping them across cellular membranes against steep concentration gradients:
+
+<code>
+                         [ MOLECULAR TRANSPORTERS ]
+                                     │
+           ┌─────────────────────────┼─────────────────────────┐
+           ▼                         ▼                         ▼
+[ SLC6 Plasma Transporters ]  [ SLC18 Vesicular (VMAT2) ]  [ Intracellular Chaperones ]
+ • SERT (Serotonin / SSRIs)    • Pumps monoamines into      • FABP5 / FABP7 (Anandamide)
+ • DAT (Dopamine / Stimulants)   presynaptic vesicles       • Chaperones lipids through
+ • NET (Norepinephrine)        • Powered by H⁺-ATPase         cytosol to FAAH / MAGL
+ • GAT1 (GABA / Anticonvulsants) • Reserpine target
+</code>
+
+=== 1. The Solute Carrier 6 (SLC6) superfamily ===
+* The plasma membrane monoamine transporters—'''SERT (SLC6A4)''', '''DAT (SLC6A3)''', and '''NET (SLC6A2)'''—are $Na^+/Cl^-$-coupled symporters.
+* They utilize the steep electrochemical gradient generated by the $Na^+/K^+$-ATPase pump (two sodium ions and one chloride ion transported inward per neurotransmitter molecule) to drive high-affinity reuptake from the synaptic cleft into the presynaptic cytoplasm.
+* '''Inhibition:''' Selective Serotonin Reuptake Inhibitors (SSRIs) like fluoxetine or sertraline competitively block the substrate translocation pathway of SERT, trapping 5-HT in the cleft. Cocaine and methylphenidate block DAT, elevating synaptic dopamine.
+* '''Reversal:''' Amphetamines act as substrate-mimics, entering the terminal and reversing the direction of transporter flux, causing DAT and SERT to pump monoamines outward into the synapse independently of action potentials.
+
+=== 2. Vesicular Monoamine Transporter 2 (VMAT2 / SLC18A2) ===
+* Once monoamines are returned to the presynaptic cytoplasm by SLC6 transporters, they face immediate oxidative deamination by mitochondrial monoamine oxidase (MAO).
+* To prevent destruction and permit future release, '''VMAT2''' packages cytoplasmic monoamines into acidic storage vesicles, utilizing a proton electrochemical gradient generated by a vacuolar $H^+$-ATPase ($2\text{ }H^+$ pumped out per monoamine pumped in).
+* The classical antihypertensive reserpine irreversibly inhibits VMAT2, causing total monoamine depletion and severe clinical depression.
+
+=== 3. Endocannabinoid transport and FABP chaperones ===
+* Because endocannabinoids are lipophilic lipids, they cannot diffuse freely through the aqueous cytoplasm to reach membrane-bound intracellular degrading enzymes (FAAH and MAGL).
+* Intracellular transport is mediated by '''Fatty Acid Binding Proteins'''—specifically '''FABP5''' and '''FABP7'''—alongside heat shock protein 70 (HSP70).
+* Inhibiting FABPs prevents anandamide from reaching intracellular FAAH, functioning as a non-enzymatic method to elevate synaptic endocannabinoid signaling.
+
+See also: [[The Expanded Endocannabinoid System and FAAH Science]] · [[Cholinergic Neurotransmission and Cholinesterase Inhibition]] · [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Stack Substances]]

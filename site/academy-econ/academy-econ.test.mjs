@@ -107,5 +107,5 @@ test('homePage() is a pure string carrying the Alpha badge and the series lead',
   const html = homePage();
   assert.equal(typeof html, 'string');
   assert.match(html, /Economics 101/);
-  assert.match(html, /Alpha/); // the alpha badge convention
+  assert.doesNotMatch(html, /class="?(alpha|alpha-badge|badge)"?>(Alpha|ALPHA)</); // no Alpha badge on mainnet surfaces // the alpha badge convention
 });

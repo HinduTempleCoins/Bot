@@ -9,7 +9,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { handler, homePage, mainnetUrl, resolve, esc, SERVICES, renderMarkdown } from './server.mjs';
+import { handler, homePage, mainnetUrl, resolve, esc, SERVICES, PENDING_MAINNET, renderMarkdown } from './server.mjs';
 
 function mockRes() {
   return {
@@ -57,64 +57,47 @@ test('resolve(): main app, subdomain, and same-both forms', () => {
   assert.equal(pool.sameBoth, true);
 });
 
-test('home: 200 HTML with both an Alpha tree and a MainNet tree, laid out separately', async () => {
+test('home: 200 HTML with the MainNet tree (live) and no testnet tree or Alpha badge', async () => {
   const res = await drive('/');
   assert.equal(res.statusCode, 200);
   assert.match(res.headers['content-type'], /text\/html/);
   const b = res.body;
-  // two distinct net sections, each a full family tree
-  assert.match(b, /<section class="net alpha-net"/);
-  assert.match(b, /<section class="net mainnet-net"/);
-  assert.match(b, />Alpha<\/h2>/);
-  assert.match(b, />MainNet<\/h2>/);
-  // exactly two trees rendered (one per net)
-  assert.equal((b.match(/<div class=tree>/g) || []).length, 2, 'one tree per net');
-  // the standing alpha-badge convention beside the wordmark
-  assert.match(b, /class=alpha>Alpha</);
+  assert.match(b, /<section class="net mainnet-net" id=mainnet/);
+  assert.match(b, />MainNet<\/h2><span class="tag live">live</);
+  assert.doesNotMatch(b, /class="net alpha-net"|>Alpha<\/h2>|class=alpha>Alpha</);
+  assert.doesNotMatch(b, /testnet/i);
+  assert.doesNotMatch(b, /href="https:\/\/[a-z.]*alpha\./);
+  assert.equal((b.match(/<div class=tree>/g) || []).length, 1, 'one tree (mainnet)');
 });
 
-test('home: each tree is CENTERED on a SoapBox Community hub with the families fanning out bilaterally', () => {
+test('home: the tree is CENTERED on a SoapBox Community hub with the families fanning out bilaterally', () => {
   const b = homePage();
-  // a central hub node per tree (two total) — the focal node in the middle
-  const hubs = b.match(/class="node-box hub-box"/g) || [];
-  assert.equal(hubs.length, 2, 'one central hub per tree');
+  assert.equal((b.match(/class="node-box hub-box"/g) || []).length, 1, 'one central hub');
   assert.match(b, /<div class=fam>SoapBox Community<\/div>/);
-  // the three families are placed bilaterally: MELEK left, PRANA right, KULA down (two trees → two each)
-  assert.equal((b.match(/class="wing wing-left"/g) || []).length, 2, 'MELEK fans left in both trees');
-  assert.equal((b.match(/class="wing wing-right"/g) || []).length, 2, 'PRANA fans right in both trees');
-  assert.equal((b.match(/class="wing wing-down"/g) || []).length, 2, 'KULA hangs below in both trees');
+  assert.equal((b.match(/class="wing wing-left"/g) || []).length, 1, 'MELEK fans left');
+  assert.equal((b.match(/class="wing wing-right"/g) || []).length, 1, 'PRANA fans right');
+  assert.equal((b.match(/class="wing wing-down"/g) || []).length, 1, 'KULA hangs below');
 });
 
-test('home: the three chain families (MELEK / PRANA / KULA) appear in both trees as branch nodes', () => {
+test('home: the three chain families (MELEK / PRANA / KULA) appear as branch nodes', () => {
   const b = homePage();
-  // each family name shows once per tree → twice total, as a branch node
   for (const fam of ['MELEK', 'PRANA', 'KULA']) {
-    const hits = (b.match(new RegExp(`<div class=fam>${fam}<\\/div>`, 'g')) || []).length;
-    assert.ok(hits >= 2, `${fam} branch should appear in both the alpha and mainnet trees (saw ${hits})`);
+    assert.match(b, new RegExp(`<div class=fam>${fam}<\\/div>`), `${fam} branch`);
   }
 });
 
-test('home: Akasha is a clickable alpha leaf (under KULA) and shows its mainnet URL as soon', () => {
+test('home: Akasha is a clickable MAINNET leaf', () => {
   const b = homePage();
-  assert.match(b, /Akasha/);
-  // alpha leaf is a real clickable anchor
-  assert.match(b, /<a class="leaf-box node-box" href="https:\/\/akasha\.alpha\.soapbox\.community"/);
-  // mainnet URL is shown (as the future host) and tagged coming soon, NOT as an anchor
-  assert.match(b, /akasha\.soapbox\.community · coming soon/);
+  assert.match(b, /<a class="leaf-box node-box" href="https:\/\/akasha\.soapbox\.community"/);
 });
 
-test('home: a same-both service (pool) is a clickable leaf in BOTH trees', () => {
-  const b = homePage();
-  // pool.soapbox.community appears as a clickable leaf anchor (it has no alpha variant)
-  const anchors = b.match(/<a class="leaf-box node-box" href="https:\/\/pool\.soapbox\.community"/g) || [];
-  assert.ok(anchors.length >= 2, 'pool should be a live link in both the alpha and mainnet trees');
-});
-
-test('home: every service renders its alpha host as a clickable leaf', () => {
+test('home: every live mainnet service is a clickable leaf; pending ones say coming soon', () => {
   const b = homePage();
   for (const s of SERVICES) {
-    const host = resolve(s).alphaHost;
-    assert.match(b, new RegExp(`href="https://${host.replace(/\./g, '\\.')}"`), `missing alpha link for ${s.name}`);
+    const host = resolve(s).mainnetHost;
+    const re = host.replace(/\./g, '\\.');
+    if (PENDING_MAINNET.has(s.name)) assert.match(b, new RegExp(`${re} · coming soon`), `${s.name} pending`);
+    else assert.match(b, new RegExp(`href="https://${re}"`), `missing mainnet link for ${s.name}`);
   }
 });
 
@@ -147,13 +130,13 @@ test('routes: /health, /robots.txt, /sitemap.xml, /llms.txt, and unknown soft-40
 
   const l = await drive('/llms.txt');
   assert.equal(l.statusCode, 200);
-  assert.match(l.body, /Alpha \(live testnet\)/);
-  assert.match(l.body, /MainNet \(coming soon\)/);
+  assert.match(l.body, /MainNet \(live\)/);
+  assert.doesNotMatch(l.body, /testnet|alpha\./i);
 
   // unknown route still renders the map (never a dead end) but with a 404 code
   const nf = await drive('/nope');
   assert.equal(nf.statusCode, 404);
-  assert.match(nf.body, />Alpha<\/h2>/);
+  assert.match(nf.body, />MainNet<\/h2>/);
 });
 
 // ── /roadmap ────────────────────────────────────────────────────────────────────────────────────────

@@ -1,32 +1,41 @@
-'''SoapBox''' is the ecosystem of applications and communities built on top of the three chains — [[MELEK]] (social), [[PRANA]] (compute), and [[KULA]] (DeFi). One identity (your MELEK account) carries across all of it: your avatar, your [[REN]] name, your balances, and your credentials follow you from app to app. This page is the map; each entry links to the thing itself.
+'''SoapBox''' is the umbrella name for the whole ecosystem of public-facing apps and sites built around the [[MELEK Blockchain|MELEK]] and [[PRANA Blockchain|PRANA]] chains. Where MELEK is the social blockchain and PRANA the compute chain, SoapBox is everything people actually open in a browser — mapped here in one place.
 
-If you are new and want to understand "what is all this," this article and [[MELEK]] are the place to start, then the [https://witness.melek.salon Witness School].
+== The chains ==
+* [[MELEK Blockchain|MELEK]] — the social blockchain: post, vote, earn.
+* [[PRANA Blockchain|PRANA]] — the proof-of-work compute chain you can mine with a laptop.
+* [[KulaSwap]] and [[KULA]] — the DeFi layer: DEX, liquidity, and the [[Wrapped Tokens|wrapped assets]] that connect MELEK to outside value.
+* [[APIS]] — the MELEK-Engine side-token layer's fee token.
 
-== The three chains underneath ==
+== The community surfaces ==
+* [[SoapBox Community]] — the community hub at soapbox.community.
+* [[Pentecaust]] — private messaging, clans and cross-surface identity.
+* [[Hathor (AI Witness)|Hathor]] — the ecosystem's AI witness and help account.
 
-* '''[[MELEK]]''' — the social blockchain. Post, vote, curate, earn. Operated in part by the AI witness [[Hathor]].
-* '''[[PRANA]]''' — the proof-of-work compute chain. Mine it with a laptop; mining does useful AI work.
-* '''[[KULA]]''' — the DeFi layer. The KulaSwap exchange, collateral/borrowing, and the stable mechanism.
+== The verticals ==
+Public-interest and utility sites, one per domain:
+* [[SoapBox Law]] — the public legal record and its explainer pages.
+* [[SoapBox Stream]] — free, license-clear streaming.
+* [[SoapBox Stocks]] — transparent financial market data and decentralized assets.
+* [[SoapBox Shopping]] — peer-to-peer commerce and merchant directories.
+* [[SoapBox Credentials]] — verifiable credentials, portable identity, and community badges.
+* [[SoapBox Pool]] and [[SoapBox Mining Pool]] — liquidity, staking, and proof-of-work coordination.
+* [[Library of Ashurbanipal]] — the reference library (this wiki).
+* [[PranaScan]], [[Akasha Wallet]] — explorer and non-custodial wallet.
+* [[SoapBox Data Hub]] and the [[Token Price Ticker]] — ecosystem data and embeddable prices.
+* [[Soap Calculator]] and other utility tools.
+* [[The Surfaces]] — comprehensive architectural map of all public web endpoints.
+* [[Start Here]] — newcomer orientation and learning pathways.
 
-== The apps (verticals) ==
+== See also ==
+* [[SoapBox Community]]
+* [[The Surfaces]]
+* [[Start Here]]
+* [[MELEK Blockchain]]
+* [[Witness School]]
 
-Each of these is a live SoapBox surface, searchable through [https://search.soapbox.community Search]:
+== Sources ==
+* [https://soapbox.community soapbox.community]
+* [https://melek.salon melek.salon]
 
-* '''[https://search.soapbox.community Search]''' — one search engine across the whole ecosystem and the MELEK chain.
-* '''[https://wiki.soapbox.community Wiki]''' — this reference, [[The Library of Ashurbanipal]].
-* '''[https://witness.melek.salon Witness School]''' — learn to run a witness, mine the pool, and make a token.
-* '''[https://pool.soapbox.community Pool]''' — the mining pool (Etchash, RandomX, PRANA), browser-mineable.
-* '''[https://credentials.soapbox.community Credentials]''' — the free and low-cost credential paths, mapped.
-* '''[https://grants.soapbox.community Grants]''' — discretionary funding and grants.
-* '''[https://law.soapbox.community Law]''' · '''[https://politics.soapbox.community Politics]''' · '''[https://oversight.soapbox.community Oversight]''' — the civic surfaces (legal reference, political portals, accountability dossiers).
-* '''[https://hemp.soapbox.community Hemp]''' — the plant / harm-reduction reference vertical.
-* '''[https://travel.soapbox.community Travel]''' · '''[https://shopping.soapbox.community Shopping]''' · '''[https://stocks.soapbox.community Stocks]''' · '''[https://home.soapbox.community Home]''' — everyday utility surfaces.
-* '''[https://data.soapbox.community Data]''' — open data and ecosystem stats.
-
-More surfaces (a mega-forum, messaging via Pentecaust, the Move earn-by-walking app, the games/arcade layer, a credential academy) are live or coming; the [https://search.soapbox.community search] finds every one that is up.
-
-== How it fits together ==
-
-The chains provide the money, the compute, and the identity; SoapBox is what people actually '''use''' on top of them. A post earns [[MELEK]]; a mined block earns [[PRANA]]; value moves and settles through [[KULA]]; and every app reads the same account, so you are one person across the whole ecosystem — see [[Portable Identity]].
-
-See also: [[MELEK]] · [[PRANA]] · [[KULA]] · [[Hathor]] · [[The Library of Ashurbanipal]] · [https://witness.melek.salon Witness School]
+== Coverage ==
+A map of the ecosystem's surfaces as they exist at the time of writing; individual surfaces have their own articles with current detail.

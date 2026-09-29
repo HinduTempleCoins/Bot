@@ -1,0 +1,44 @@
+# Routes for Backpacking Pilgrimages
+
+**Routes for Backpacking Pilgrimages** is a 2016 travel-planning document by **marsresident** laying out three long-distance overland pilgrimage circuits, conceived to knit together a **Hindu temple network** — a distributed community of congregations the author had been building over several years, to be visited in person and then linked by newsletter and website<ref>https://steemit.com/@marsresident/routes-for-backpacking-pilgrimages</ref>. This article captures the plan as a **sacred-travel / pilgrimage-geography reference**. It connects to the ecosystem's **Travel app** (route-and-map planning) and the **Temple network** vision.
+
+This is a **neutral, educational** reference describing a historical travel plan. It is **not** travel, visa, legal, or safety advice; border rules, visa terms, and the legality of carrying seeds, plants, or any regulated material change constantly and vary by country (see § A note on borders, plants, and law). Nothing here is a guide to acquiring, transporting, preparing, or manufacturing any controlled substance.
+
+== Summary ==
+
+The document's purpose is **logistical and communal**: to plan routes where each stop is conveniently reachable from the previous one so that no traveler gets stranded, and to share those routes openly so a dispersed congregation can move, meet, and stay connected. The author frames it as the groundwork for a **Temple network** — described as "a network of churches, but for Hindus" — that could distribute religious materials worldwide, coordinated at first through then-current communication apps (Skype, Google Voice, WhatsApp, and others) and later a dedicated newsletter and website<ref>https://steemit.com/@marsresident/routes-for-backpacking-pilgrimages</ref>. Three multi-country circuits are laid out, each stop annotated with its typical visa allowance and the regional goods, crafts, and plants the author associated with the area.
+
+== The temple-network vision ==
+
+The connective idea is a **pilgrimage-linked religious community**: rather than a single site, a web of congregations across continents, visited on foot and by public transport, then bound together by ongoing communication. This is the sacred-travel expression of the same "distributed network" thinking that runs through the broader project — a **Temple network** as physical counterpart to the online community, with pilgrimage as the act that keeps it connected. In the present ecosystem this maps onto the **Travel app** (planning a journey as a sequence of legs over a map, with local information at each stop) and the operator's real-world Shaivite temple work.
+
+== The three routes ==
+
+Each route is a chain of countries and cities chosen so that each leg is reachable from the last, annotated in the source with visa-duration notes. Summarized as geography (the visa figures below are as the 2016 source stated them and should be re-verified — see § A note on borders):
+
+=== Route 1 — The Americas to the Indian subcontinent ===
+A South-America-to-Asia arc: **Colombia** (Medellín, Cali, Sincelejo, Cartagena) → **Venezuela** (Maturín) → **Brazil** (Manaus) → **Peru** (Cusco), then a flight Cusco → Los Angeles → **Delhi**, continuing through **India** (Delhi, Manali, Pushkar, Palolem, Palakkad / Parambikulam, Varanasi) → **Nepal** (Kathmandu) → **Tibet** (Lhasa, with the visa obtained in Kathmandu) → **China** (Chengdu) → **Guam**. The document tracks each country's typical stay allowance (e.g., 90-day tourist windows, India's 180 days, the 72-hour visa-free Chengdu transit).
+
+=== Route 2 — Western Europe, the Maghreb, and the Levant ===
+A Europe-to-Egypt loop crossing the Mediterranean twice by boat: **Ireland** (Cork, Waterford) → **England** (Swansea, Portsmouth, Norwich) → **Netherlands** → **Germany** → **France** → **Spain** (the Schengen countries sharing one 90-days-in-180 allowance) → by boat to **Morocco** → **Algeria** → **Tunisia** → by boat to **Italy** (Sicily) → **Albania** → **Macedonia** → **Bulgaria** → **Turkey** (Edirne, Istanbul, Eskişehir, Konya, Mersin) → by boat to **Lebanon** (Tyre) → by plane to **Cyprus** → **Israel** → **Egypt** (Sinai, Cairo, Alexandria, Luxor, Aswan). The route is built around the Schengen shared-window rule and short sea crossings between continents.
+
+=== Route 3 — Southern and Eastern Africa to Egypt ===
+A south-to-north African traverse: **South Africa** (Johannesburg, Durban) → **Swaziland (Eswatini)** → back through **South Africa** → **Zimbabwe** → **Mozambique** → **Malawi** → **Zambia** (South Luangwa) → back through **Malawi** → **Tanzania** → **Kenya** (Nairobi, Marsabit) → **Ethiopia** (obtaining a Sudan visa in Addis Ababa) → fly to **Sudan** (Khartoum, Wadi Halfa) → **Egypt** (Aswan, Luxor, Cairo). National-park stops (South Luangwa, Liwonde) are woven in.
+
+Across all three routes, the recurring stops are chosen for their religious significance (Varanasi, Pushkar, Lhasa, Tyre, the Egyptian temple cities) and their accessibility from one another — the document's core competence is **connectivity**, ensuring a continuous walkable/transitable chain.
+
+== Regional goods and ethnobotany (as listed) ==
+
+For each stop the source noted the region's characteristic **crafts, spices, gems, metals, seeds, and plants** — a traveler's catalogue of what each place is known for. Much of this is ordinary regional trade and craft material (Colombian coffee and emeralds, Nepali knotted rugs and chillums, Moroccan regalia, Tunisian textiles, Egyptian perfume components and dyes) and **ethnobotanical** items of religious or cultural note in each region (for example, South American and Amazonian plant traditions; South Asian sacred materials such as rudraksha seeds, shaligram, and parad). This article records that the source associated each region with its characteristic plants and goods **as an ethnographic and cultural inventory**. It deliberately does **not** reproduce the list as a procurement checklist, and it provides **no** guidance on acquiring, carrying, preparing, dosing, or processing any plant or substance — several of the plants named are controlled or restricted in many jurisdictions, and their traditional religious use is covered elsewhere in the Library at the level of history and ethnography only (see [[Oilahuasca]] and the ayahuasca / plant-medicine corpus).
+
+== A note on borders, plants, and law ==
+
+The visa allowances, transit rules, and border crossings in the 2016 source **are out of date and must be independently verified** before any real travel; entry rules, sea routes, and even country names (Swaziland is now Eswatini) have changed. Critically, **transporting seeds, cuttings, plants, animal products, or any regulated or controlled material across international borders is heavily regulated and is illegal in many cases** — agricultural quarantine and customs laws apply even to ordinary seeds, and many of the plants of ethnobotanical interest are controlled substances in destination countries. This article is a historical and cultural reference to a pilgrimage plan; it is **not** travel, legal, or customs advice, and it endorses nothing regarding the movement of plants or substances. Travelers must consult current official visa and customs sources and comply with all applicable laws.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/routes-for-backpacking-pilgrimages</ref>
+<ref>https://en.wikipedia.org/wiki/Pilgrimage</ref>
+<ref>https://en.wikipedia.org/wiki/Schengen_Area</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Routes for Backpacking Pilgrimages": the temple-network purpose (a distributed Hindu congregation linked by pilgrimage, newsletter, and website), the logistical design principle (each stop reachable from the last so no traveler is stranded), and the three multi-country routes with their city sequences and visa-window structure. Attribution to the author and the Steem source is preserved, and the piece is tied to the ecosystem's Travel app and Temple-network vision. Consistent with the Library's harm-reduction discipline, the per-country goods lists — which in the original include ethnobotanical and some controlled plant materials — are summarized as an ethnographic/cultural inventory rather than reproduced as a procurement checklist, and NO acquisition, transport, preparation, dosing, or manufacturing guidance is given. The § A note on borders, plants, and law section flags that the 2016 visa/border details are outdated and that cross-border movement of seeds, plants, and controlled materials is legally restricted. Nothing here is travel, legal, customs, or safety advice.

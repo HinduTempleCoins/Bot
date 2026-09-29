@@ -1,0 +1,62 @@
+'''Solvent Chemistry and Polarity in Botanical Extraction''' provides the foundational physical chemistry required for the hemp industry, clinical laboratories, and botanical extractors to reliably separate, purify, and synthesize active compounds. Understanding the dielectric constant, partition coefficients ($\log P$), and nucleophilic reactivity of solvents is what separates pharmaceutical-grade distillates from toxic, contaminated sludge.
+
+This article details the polarity spectrum, phase separation mechanics, the hydrophobic nature of cannabinoids, and the critical failure of alcohol (ethanol) in acid-catalyzed synthesis (the nucleophile trap).
+
+== The Polarity Spectrum ==
+
+Solvents are broadly classified by their polarity—the uneven distribution of electrical charge across the molecule, measured by the dielectric constant ($\varepsilon$):
+
+<code>
+[ NON-POLAR (Hydrophobic) ] ─────────► [ INTERMEDIATE ] ─────────► [ HIGHLY POLAR (Hydrophilic) ]
+ • Heptane, Hexane, Butane              • Ethyl Acetate             • Water, Methanol, Ethanol
+ • Dissolves lipids, terpenes           • Dissolves resins          • Dissolves salts, sugars
+ • Repels water                         • Mildly miscible           • Highly hydrogen-bonded
+</code>
+
+=== 1. Non-Polar Solvents (Alkanes and Terpenes) ===
+* '''Examples:''' Heptane, Hexane, Butane, Pentane, and '''d-Limonene'''.
+* '''Properties:''' These solvents consist entirely of carbon and hydrogen bonds with symmetrical charge distribution. They possess zero to negligible dipole moments.
+* '''Extraction Target:''' Non-polar solvents are the exclusive choice for dissolving neutral cannabinoids (THC, CBD), volatile monoterpenes, and freebase alkaloids, leaving behind water-soluble plant ballast (tannins, chlorophyll, and sugars).
+
+=== 2. Highly Polar and Protic Solvents ===
+* '''Examples:''' Water ($H_2O$), Ethanol ($CH_3CH_2OH$), Methanol ($CH_3OH$).
+* '''Properties:''' "Protic" solvents possess active hydrogen atoms bound to oxygen or nitrogen, enabling them to form strong hydrogen bonds and act as proton donors or acceptors.
+* '''Extraction Target:''' Polar solvents dissolve ionic salts, mineral acids, plant sugars, and polar glycosides.
+
+== The Partition Coefficient ($\log P$) and Phase Separation ==
+
+The octanol-water partition coefficient ($\log P$) dictates exactly how a molecule behaves in a biphasic (two-liquid) system:
+
+* '''Cannabinoids are extremely hydrophobic:''' Cannabidiol (CBD) and THC possess a $\log P$ of approximately **6.3**. This means that if CBD is placed in a jar containing half water and half heptane, $10^{6.3}$ (roughly 2,000,000) molecules of CBD will dissolve into the heptane layer for every 1 molecule that dissolves into the water layer.
+* '''Phase Separation (The Oil-and-Water Barrier):''' When attempting chemical reactions using aqueous acids (like 5% white vinegar or dilute muriatic acid), the hydrophobic CBD violently repels the water. The CBD floats to the surface or sticks to the glass, creating a physical phase boundary. Because the acid protons ($H^+$) are trapped in the water layer and the CBD is trapped in the oil layer, the reaction fails completely. Successful isomerization requires a single non-polar phase or a rigorously agitated biphasic emulsion with strong anhydrous catalysts.
+
+== The Nucleophile Trap: Why Alcohol Solvents Fail in Synthesis ==
+
+A widespread error in amateur and gray-market hemp synthesis is attempting to perform acid-catalyzed isomerizations (CBD to $\Delta^8$ or $\Delta^9$-THC) using high-proof ethanol (e.g., Everclear) as the mutual solvent. 
+
+<code>
+                   [ Carbocation Intermediate ]
+                                │
+          ┌─────────────────────┴─────────────────────┐
+          ▼                                           ▼
+[ Phenolic Oxygen Attack ]                [ Ethanol Solvent Attack ]
+ (Intramolecular Ring Closure)             (Intermolecular Nucleophilic Trap)
+          │                                           │
+          ▼                                           ▼
+   [ Δ9-THC / Δ8-THC ]                   [ Ethoxy-Cannabinoid Adduct ]
+ (Successful Isomerization)                (Inactive Toxic Byproduct)
+</code>
+
+* '''The Carbocation:''' Acid catalysis protonates the CBD double bond, forming a highly reactive, electron-deficient carbocation.
+* '''The Competing Nucleophile:''' For the pyran ring to close and form THC, the phenolic oxygen of the CBD molecule must attack the carbocation. However, ethanol ($CH_3CH_2OH$) is a polar protic solvent and a potent nucleophile. 
+* '''The Trap:''' The surrounding ocean of ethanol molecules attacks the carbocation faster than the internal phenolic oxygen can. This forms a permanent, covalent ether bond between the ethanol solvent and the cannabinoid, creating inactive **ethoxy-CBD** or **ethoxy-THC adducts**.
+* '''The Rule:''' Acid-catalyzed syntheses must *always* be conducted in non-polar, non-nucleophilic solvents (such as heptane or toluene) to prevent solvent-adduct trapping.
+
+== Aqueous Washes and Emulsion Breaking ==
+
+During the cleanup phase of botanical extraction or synthesis, removing polar contaminants (like mineral acids or basic lye) from the non-polar organic solvent requires aqueous washing.
+
+* '''The Emulsion Problem:''' Vigorous shaking of non-polar solvents with pure water often creates a milky emulsion—a stable suspension of microscopic oil droplets trapped in water that refuses to separate.
+* '''Salting Out (SALLE):''' To shatter the emulsion, extractors use a saturated sodium chloride ($NaCl$) brine wash. The dissolved salt dramatically increases the ionic strength and dielectric constant of the water layer. The water molecules cluster tightly around the $Na^+$ and $Cl^-$ ions, squeezing the hydrophobic oil droplets out of suspension and forcing an immediate, razor-sharp phase separation.
+
+See also: [[Hemp Industry Scale-Up and Legal Synthesis Protocols]] · [[Cannabinoid Isomerization]] · [[Airway Irritation and Cannabinoid Prodrug Delivery]] · [[Universal Reaction Templates in Cannabinoid Chemistry]] · [[Cannabinoid Adducts and Conjugates]] · [[Stack Substances]]

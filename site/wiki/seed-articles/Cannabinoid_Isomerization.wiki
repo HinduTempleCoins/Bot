@@ -1,0 +1,149 @@
+'''Cannabinoid Isomerization''' is the acid-catalyzed intramolecular cyclization of cannabidiol (CBD) into tetrahydrocannabinol (THC) isomers. The reaction transforms the open-chain monoterpene ring of CBD into the tricyclic dibenzopyran structure characteristic of psychoactive cannabinoids.
+
+This article details the chemical reaction dynamics, kinetic versus thermodynamic product distributions, catalytic systems (Brønsted, Lewis, and heterogeneous), workup and purification protocols, and the physical chemistry explaining why household natural acids fail.
+
+== Mechanism and reaction dynamics ==
+
+CBD and THC share the identical molecular formula (C21H30O2, MW 314.46 g/mol) and are constitutional isomers. The conversion proceeds through acidic protonation of the cyclohexenyl double bond in CBD, generating a tertiary carbocation intermediate. Intramolecular nucleophilic attack by the adjacent phenolic hydroxyl group closes the central pyran ring:
+
+<code>
+      [ CBD Isolate (Open Ring) ]
+                   │
+                   ▼  + Acid Catalyst (H+ or Lewis Acid) + Heat / Time
+   [ Cyclization of Central Pyran Ring ]
+                   │
+                   ├──► Δ9-THC (Kinetic Product)
+                   └──► Δ8-THC (Thermodynamic Product)
+</code>
+
+=== Kinetic vs. thermodynamic control ===
+
+* '''Δ9-THC (Kinetic Product):''' Formed initially during brief reaction intervals, mild acid catalysis, or lower thermal thresholds. It possesses a non-conjugated double bond at the C9–C10 position.
+* '''Δ8-THC (Thermodynamic Product):''' Thermodynamically more stable due to endocyclic double-bond conjugation and lower steric strain. Prolonged heating, exposure to stronger Brønsted acids, or extended residence times drive double-bond migration from the C9–C10 position to the more stable C8–C9 position.
+* '''Iso-THC and Minor Isomers:''' Extended exposure to harsh acids or excessive heat drives ring rearrangements yielding iso-THC derivatives, Δ10-THC, and tricyclic polymers that possess reduced CB1 receptor binding affinity.
+
+== Catalytic systems ==
+
+=== 1. Brønsted-Lowry mineral and organic acids ===
+* '''Sulfuric acid (H2SO4):''' A non-volatile diprotic mineral acid. Drives rapid cyclization, but prolonged contact or excess heat causes rapid resin darkening, charring, and polymerization. Requires aqueous-base extraction to remove, as it cannot be evaporated.
+* '''Hydrochloric acid (HCl):''' Strong monoprotic acid. Anhydrous HCl dissolved in non-polar solvents facilitates rapid cyclization. Aqueous HCl (muriatic acid) introduces phase-separation issues and side-product formation (see below).
+* '''p-Toluenesulfonic acid (pTSA):''' A solid organic sulfonic acid (pKa ≈ -2.8). Soluble in organic media, providing controlled proton donation with fewer oxidative side-reactions than concentrated mineral acids.
+
+=== 2. Lewis acid catalysts ===
+* '''Boron trifluoride etherate (BF3·Et2O), Zinc bromide (ZnBr2), Aluminum chloride (AlCl3):'''
+* Act as electron-pair acceptors that coordinate directly with the phenolic oxygen or alkene π-system, substantially lowering the activation barrier for cyclization.
+* BF3 complexes can achieve high Δ9-THC selectivity under strict temperature control (-10 °C to 20 °C) in anhydrous non-polar solvents within 1 to 2 hours.
+
+=== 3. Heterogeneous solid acid catalysts ===
+* '''Zeolites and Acidic Clays (Montmorillonite, Bentonite):'''
+* Solid aluminosilicate matrices with Brønsted and Lewis acid sites inside molecular pores.
+* Molten CBD passed through or refluxed with activated acidic clays at 100–150 °C undergoes heterogeneous cyclization predominantly into Δ8-THC.
+* Advantage: Catalyst can be removed entirely by mechanical filtration, avoiding aqueous acid-base wash steps.
+
+== Aqueous vs. anhydrous environments ==
+
+The physical chemistry of cannabinoid solutions dictates whether cyclization succeeds or produces unworkable degradants:
+
+{| class="wikitable"
+! Factor !! Aqueous systems (e.g., dilute mineral acids, vinegar, lemon juice) !! Anhydrous systems (e.g., anhydrous HCl in heptane, pTSA in toluene)
+|-
+| '''Phase compatibility''' || Severe phase separation; CBD is highly hydrophobic (logP ≈ 6.3) and forms a separate oil layer with minimal surface contact with aqueous protons. || Single homogeneous organic phase; non-polar solvents dissolve CBD completely, enabling direct catalytic collision.
+|-
+| '''Proton quenching''' || Water acts as a proton acceptor, forming hydronium ions (H3O+) which are far weaker proton donors than unquenched acid molecules. || Protons remain unquenched and highly reactive, directly protonating the cyclohexene double bond.
+|-
+| '''Side reactions''' || Water acts as a competing nucleophile, attacking carbocations to yield hydrated side-products (e.g., 11-hydroxy-THC derivatives, hydroxylated adducts). || Eliminates water-addition side products; cleanly yields cyclized pyran rings.
+|-
+| '''Oxidation rate''' || High thermal energy in open aqueous systems drives competitive oxidation of CBD and THC to cannabinol (CBN) and quinones faster than ring closure. || Under inert atmosphere (N2/Ar) or reflux, oxidation is suppressed while cyclization proceeds cleanly.
+|}
+
+=== Why household natural acids fail ===
+Popular internet claims suggest CBD can be converted to THC by boiling with household vinegar (acetic acid, ~5%), lemon juice (citric acid), or vitamin C (ascorbic acid). In controlled laboratory trials, this conversion fails:
+* '''Phase separation:''' Natural culinary solutions are >90% water. The hydrophobic CBD isolate separates entirely from the aqueous layer.
+* '''Activation energy and pKa limits:''' Acetic acid (pKa ≈ 4.76) and citric acid (pKa1 ≈ 3.13) possess insufficient acid strength in aqueous dilution to overcome the high activation energy barrier of the cyclohexenyl double bond. At ambient to moderate boiling temperatures, conversion rates remain below 0.1%.
+* '''Concentrating acetic acid:''' To function as an effective cyclization catalyst, acetic acid must be stripped of water into glacial grade (>99% anhydrous):
+** ''Fractional distillation:'' Water boils at 100 °C while pure acetic acid boils at 118.1 °C, allowing water-rich vapor to be rejected.
+** ''Fractional freezing (Freeze concentration):'' Pure acetic acid has a high melting point of 16.6 °C (62 °F). Chilling concentrated vinegar below 16 °C causes glacial acetic acid to crystallize into solid ice-like plates while liquid water is poured off.
+** ''Chemical drying:'' Treating concentrated acid with anhydrous sodium sulfate (Na2SO4) or magnesium sulfate (MgSO4) removes residual moisture, while adding stoichiometric acetic anhydride reacts with trace water to produce pure acetic acid.
+* '''Why alcohol solvents fail (The nucleophile trap):''' Dissolving CBD and acid in high-proof ethanol (Everclear) fails completely. Ethanol acts as a competing nucleophile: instead of the intramolecular phenolic oxygen attacking the carbocation to close the pyran ring, ethanol attacks the carbocation, yielding inactive '''ethoxy-cannabinoid adducts''' (ethoxy-CBD, ethoxy-THC).
+
+=== Muriatic acid (HCl) dynamics and chlorinated intermediates ===
+Muriatic acid is the historical commercial name for aqueous hydrochloric acid:
+* '''Industrial grades and trace iron:''' Hardware-store muriatic acid typically ranges from 14% to 31.45% HCl (pH < 1.0) and exhibits a characteristic yellowish or greenish tint caused by trace iron chloride (FeCl3) impurities. In cannabinoid processing, dissolved iron is dangerous because it acts as a transition metal catalyst for Fenton-like free-radical oxidation, rapidly turning oils dark brown or black.
+* '''Anhydrous HCl gas vs. aqueous muriatic acid:''' Aqueous muriatic acid causes immediate biphasic separation with CBD and fails to cyclize. Conversely, bubbling dry anhydrous HCl gas through non-polar hydrocarbon solvents (such as heptane) containing CBD drives rapid cyclization.
+* '''Chlorinated intermediates and base elimination:''' Because the chloride anion (Cl⁻) is a strong nucleophile, it can attack the carbocation intermediate before the pyran ring closes, forming chlorinated adducts (such as 8-chloro-iso-THC and 9-chloro-HHC). Restoring the active Δ9- or Δ8-THC alkene requires a subsequent base dehydrohalogenation wash to eliminate HCl.
+* '''Severe chemical hazard:''' Concentrations above 30% HCl off-gas corrosive white vapors that destroy respiratory membranes. Mixing muriatic acid with household bleach (sodium hypochlorite) releases lethal chlorine gas:
+: <code>NaClO + 2 HCl ──► NaCl + H2O + Cl2↑ (Toxic Chlorine Gas)</code>
+
+=== Carboxylic acid pKa thresholds ===
+
+{| class="wikitable"
+! Acid !! pKa range !! Cyclization efficacy on CBD !! Notes
+|-
+| '''Trifluoroacetic acid (TFA)''' || 0.23 – 0.51 || High || Strong haloacetic acid; drives rapid cyclization, but forms persistent ester adducts if not thoroughly stripped.
+|-
+| '''Maleic acid / Oxalic acid''' || 1.25 – 1.90 || Moderate to high || Di-acids with sufficient strength in anhydrous media; requires high thermal input.
+|-
+| '''Citric acid / Malic acid''' || 3.13 – 3.40 || Very low (aqueous) / Trace (neat) || Insufficient proton activity for cyclization; causes caramelization and decomposition when heated dry.
+|-
+| '''Acetic acid (Glacial)''' || 4.76 || Negligible alone; functional with Lewis promoters || In pure form lacks sufficient proton-donating power without mineral acid co-catalysts.
+|-
+| '''Cannabinoid acids (THCA, CBDA)''' || ~3.75 – 4.88 || None (endogenous carboxylic acids) || Endogenous phenolic carboxylic acids undergo thermal decarboxylation (-CO2) above 105 °C rather than self-catalyzing cyclization.
+|}
+
+== Workup, neutralization, and purification ==
+
+Leaving residual acid catalysts, acidic salts, or unreacted bases in cannabinoid extracts causes ongoing product darkening, acid-catalyzed decomposition into CBN, and acute pulmonary toxicity upon vaporization. Complete chemical workup is mandatory.
+
+<code>
+[ Crude Reaction Mixture: Cannabinoid Oil + Non-Polar Solvent + Acid Catalyst ]
+                                  │
+                                  ▼  Transfer to Separatory Funnel
+               [ Ice-Cold Saturated Brine Quench Bath ]
+                                  │
+               ┌──────────────────┴──────────────────┐
+               ▼                                     ▼
+     [ Upper Organic Phase ]                 [ Lower Aqueous Phase ]
+   (Solvent + Neutral Cannabinoids)        (Water + Quenched Inorganic Acids)
+               │                                     │
+               │ (Retain)                            └──► (Discard)
+               ▼
+   [ Saturated Sodium Bicarbonate (NaHCO3) Wash ]
+   (Neutralizes trace free acids; releases CO2 gas)
+               │
+               ▼
+   [ Neutral Distilled Water Polishing Washes ]
+   (Rinses trace inorganic salts until pH = 7.0)
+               │
+               ▼
+   [ Desiccation over Anhydrous Na2SO4 / MgSO4 ]
+               │
+               ▼
+   [ Vacuum Stripping of Solvent ] ──► [ Purified Cannabinoid Distillate ]
+</code>
+
+=== 1. Salting-Out Assisted Liquid-Liquid Extraction (SALLE) ===
+* '''Ice-cold brine quench:''' Pouring the reaction mixture into ice-cold saturated sodium chloride (NaCl) brine immediately halts reaction kinetics by lowering temperature and hydrating acid ions. The high ionic strength of the brine increases the dielectric constant of the aqueous layer, preventing emulsion formation and sharpening the phase boundary.
+* '''Partitioning:''' Neutral cannabinoids partition strictly into the non-polar hydrocarbon layer (e.g., heptane, hexane), while polar acids and inorganic salts partition into the aqueous phase.
+
+=== 2. Neutralization sequence ===
+* '''Bicarbonate wash:''' The organic phase is agitated with aqueous saturated sodium bicarbonate (NaHCO3). Bicarbonate reacts with residual mineral and organic acids:
+: <code>HCl + NaHCO3 ──► NaCl + H2O + CO2↑</code>
+: <code>H2SO4 + 2 NaHCO3 ──► Na2SO4 + 2 H2O + 2 CO2↑</code>
+* Frequent venting of the separatory funnel is required to release evolved carbon dioxide gas.
+* '''Polishing neutral washes:''' Successive washes with neutral deionized water remove residual dissolved sodium bicarbonate, sodium chloride, and water-soluble degradation byproducts until the aqueous wash tests neutral (pH 7.0).
+
+=== 3. Drying and solvent evaporation ===
+* '''Chemical drying:''' Trace water suspended in the organic phase is removed by stirring over anhydrous sodium sulfate (Na2SO4) or magnesium sulfate (MgSO4) followed by filtration.
+* '''Rotary evaporation / Vacuum desolventization:''' Solvent is removed under reduced pressure.
+
+== Physical and evaporative dynamics ==
+
+* '''Acid volatility and azeotropes:''' Hydrochloric acid is volatile; however, open evaporation of aqueous HCl solutions does not remove the acid ahead of water. At 108.6 °C, HCl forms a maximum-boiling azeotrope at 20.2% concentration. As water evaporates from dilute HCl, the remaining liquid concentrates until it reaches the azeotrope, drastically accelerating charring and resin decomposition.
+* '''Non-volatile mineral acids:''' Sulfuric acid (H2SO4) and phosphoric acid (H3PO4) possess extremely low vapor pressures and will never evaporate during vacuum purging. If an aqueous bicarbonate wash is omitted, non-volatile acids remain trapped in the cannabinoid matrix, catalyzing permanent resin darkening and yielding acrid, toxic sulfur dioxide or phosphoric fumes upon heating.
+
+== Hazards and quality standards ==
+
+* '''Respiratory hazard of unwashed extracts:''' Inhaling aerosolized cannabinoid oil containing even trace acid catalysts (HCl, pTSA, H2SO4) triggers acute bronchial constriction, severe airway epithelial damage, and toxic chemical pneumonitis.
+* '''Testing requirements:''' Any isomerized distillate must undergo full third-party testing via High-Performance Liquid Chromatography (HPLC) or Gas Chromatography–Mass Spectrometry (GC-MS) for cannabinoid potency, residual solvents, heavy metals, and residual acid/halide contaminants.
+
+See also: [[Modified Cannabinoids Matrix]] · [[Cannabinoid and Tryptamine Prodrugs]] · [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]] · [[Airway Irritation and Cannabinoid Prodrug Delivery]] · [[Cannabis]] · [[Cannabis Harm Reduction]] · [[Stack Substances]]

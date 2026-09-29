@@ -1,0 +1,43 @@
+'''The Shulgin Rating Scale''' is a qualitative phenomenological scale designed by Alexander "Sasha" Shulgin and his wife Ann Shulgin to standardize the subjective reporting of psychoactive drug effects. It was introduced as the foundational grading system for their self-bioassay research documented in ''PIHKAL'' (Phenethylamines I Have Known And Loved) and ''TIHKAL'' (Tryptamines I Have Known And Loved).
+
+Because human responses to entheogens are profoundly influenced by "set and setting" (mindset and environment), the Shulgin scale evaluates the **intensity and undeniable presence** of a compound's action rather than relying on purely qualitative descriptions of visual geometry or emotional tone.
+
+== The scale definitions ==
+
+The scale runs from MINUS to PLUS FOUR, representing distinct thresholds of psychoactive intensity:
+
+=== MINUS (-) ===
+* '''Definition:''' On the active compound, there are absolutely no effects observed.
+* '''Meaning:''' The substance is entirely inactive at the given dosage, or the dose falls completely below the threshold of human perception. 
+
+=== PLUS/MINUS (±) ===
+* '''Definition:''' The threshold of activity. There is a perceptible feeling that something has changed, but the effects are so subtle that they cannot be confidently distinguished from placebo, fatigue, or ordinary baseline shifts in mood.
+* '''Meaning:''' The "alert" state. The user knows they have ingested something, but cannot definitively characterize the nature of the drug's action.
+
+=== PLUS ONE (+) ===
+* '''Definition:''' The drug is unmistakably active. The effects are real and undeniable, but the user remains entirely in control of the experience.
+* '''Meaning:''' The baseline state is distinctly altered. However, the effects do not overwhelm the user. If an unexpected phone call occurs or a complex mundane task must be performed, the user can successfully "sober up" or ignore the drug's effects temporarily to handle reality.
+
+=== PLUS TWO (++) ===
+* '''Definition:''' The effects of the drug are unmistakable and cannot be ignored. The character of the compound is fully manifest.
+* '''Meaning:''' The drug is clearly doing what it does. However, the user still retains the *choice* to engage with the experience or not. While driving a car or conducting a serious interview would be difficult and ill-advised, the user's fundamental ego and grip on consensus reality remain intact.
+
+=== PLUS THREE (+++) ===
+* '''Definition:''' The maximum intensity of the drug's standard action. The experience is fully enveloping, and the user can no longer choose to ignore it.
+* '''Meaning:''' The peak of a standard psychedelic experience. The drug's effects completely dominate the user's sensory, cognitive, and emotional processing. Reality is thoroughly altered, and the user must surrender to the trajectory of the compound. Fighting the experience at a PLUS THREE level typically results in a "bad trip" or severe psychological distress.
+
+=== PLUS FOUR (++++) ===
+* '''Definition:''' A rare, transcendent, and profoundly mystical state of peak experience. 
+* '''Meaning:''' Crucially, a PLUS FOUR is **not merely "more than a PLUS THREE."** It is a categorical shift rather than a quantitative increase in dose. A PLUS FOUR is a state of absolute unity with the universe, ego death, divine revelation, or spiritual epiphany. 
+* Shulgin noted that a PLUS FOUR cannot be reliably reproduced simply by taking a larger dose of a chemical. It is a serendipitous alignment of the drug, the exact dosage, the perfect set, and the perfect setting. It is the defining mystical experience that permanently alters the user's worldview.
+
+== Application in harm reduction and bioassays ==
+
+The Shulgin scale revolutionized amateur and clinical psychopharmacology because it established a rigorous protocol for exploring uncharacterized novel compounds (the "Shulgin method"):
+1. **Microgram Thresholds:** Begin with a dose orders of magnitude below the predicted threshold (a MINUS).
+2. **Incremental Scaling:** Slowly scale the dose on separate days until the threshold alert (PLUS/MINUS) is achieved.
+3. **Characterization:** Ascend into PLUS ONE and PLUS TWO territory to safely map the drug's duration, physical side effects, and cognitive profile without risking overwhelming overdose.
+
+This cautious, tiered approach to establishing the dose-response curve remains the gold standard in psychedelic harm reduction today.
+
+See also: [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Structure-Activity Relationships in Psychopharmacology]] · [[The Amplification Framework]] · [[Stack Substances]]

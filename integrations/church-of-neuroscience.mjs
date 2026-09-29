@@ -664,7 +664,7 @@ function page(title, inner) {
   return '<!doctype html><html lang="en"><head><meta charset="utf-8">'
     + '<meta name="viewport" content="width=device-width,initial-scale=1">'
     + `<title>${esc(title)}</title><style>${STYLE}</style></head><body>`
-    + '<span class="alpha">Alpha</span>' + inner + '</body></html>';
+    + '' + inner + '</body></html>';
 }
 
 function disclaimerBlock() { return `<div class="disclaimer">${esc(DISCLAIMER)}</div>`; }

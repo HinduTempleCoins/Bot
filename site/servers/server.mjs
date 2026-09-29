@@ -139,7 +139,7 @@ function page() {
   .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px} .tags span{font-size:10px;color:var(--mut);border:1px solid var(--bd);border-radius:6px;padding:2px 7px}
   footer{color:var(--mut);font-size:12px;text-align:center;margin:24px 0 8px} a{color:var(--gold)}
 </style><script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body><div class=wrap>
-<header><span class=brand><b>SoapBox</b> Servers</span><span class=alpha>Alpha</span></header>
+<header><span class=brand><b>SoapBox</b> Servers</span></header>
 <p class=lead>Live status and join info for our community game servers. Pick one, copy the address, and hop in.</p>
 <div class=grid>${servers.map(card).join('')}</div>
 <footer>Live feeds refresh every ${Math.round(REFRESH_MS / 1000)}s · status read from public server pings (no game automation) ·
