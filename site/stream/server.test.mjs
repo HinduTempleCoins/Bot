@@ -319,3 +319,27 @@ test('/classics lists the public-domain classics by genre, each playable, with t
   assert.match(html, /href="\/watch\?src=ia&amp;id=his_girl_friday"|href="\/watch\/ia\/his_girl_friday"/);
   assert.match(html, /Not here on purpose:[\s\S]*The Scarlet Pimpernel/);
 });
+
+test('/speeches lists speeches by kind, each playable, with leads and exclusions; in the sitemap and nav', async () => {
+  const r = await get('/speeches');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Inaugurations/);
+  assert.match(r.body, /We choose to go to the Moon/);
+  assert.match(r.body, /href="\/watch\?src=ia&amp;id=1962-09-13_Kennedy_Tour"|href="\/watch\/ia\/1962-09-13_Kennedy_Tour"/);
+  assert.match(r.body, /Where to watch the rest[\s\S]*Kennedy–Nixon debates/);
+  assert.match(r.body, /Not here on purpose:[\s\S]*I Have a Dream/);
+  assert.match(r.body, /href="\/speeches"/);
+  const sm = await get('/sitemap.xml');
+  assert.match(sm.body, /\/speeches<\/loc>/);
+});
+
+test('a speech /watch page plays and links its official transcript', async () => {
+  __setFetch(async () => ({ ok: true, json: async () => ({ metadata: { identifier: '1962-09-13_Kennedy_Tour', title: 'Kennedy Tour', mediatype: 'movies', collection: ['universal_newsreels'], year: '1962' }, files: [{ name: 'k.mp4', format: 'h.264' }], server: 'ia800.us.archive.org', dir: '/1/items/x' }) }));
+  const r = await get('/watch?src=ia&id=1962-09-13_Kennedy_Tour');
+  __setFetch(null);
+  assert.equal(r.code, 200);
+  assert.match(r.body, /<video|<iframe/);
+  assert.match(r.body, /Public domain/);
+  assert.match(r.body, /Official transcript/);
+  assert.match(r.body, /er\.jsc\.nasa\.gov\/seh\/ricetalk\.htm/);
+});
