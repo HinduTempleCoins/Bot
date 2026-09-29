@@ -2,7 +2,7 @@
 // adapter, rate limit, esc on nasty input, image serving + path-traversal guard. No network, no real keys.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync } from 'node:fs';
+import { mkdtempSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -624,6 +624,51 @@ test('sharing carries the picture: result page -> /p/ share page with a social c
   assert.equal((await call({ url: '/p/..%2F..%2Fetc%2Fpasswd' })).statusCode, 404);
   __setGenerator(null);
 });
+
+test('/animations: clips render with recipe chips, votes count once per voter, feedback.json feeds the worker', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import('node:fs');
+  const { __resetAnimRate } = await import('./animations.mjs');
+  __resetAnimRate();
+  const d = mkdtempSync(join(tmpdir(), 'anims-'));
+  mkdirSync(join(d, 'abcdef012345'));
+  writeFileSync(join(d, 'abcdef012345', 'clip.mp4'), 'MP4DATA0123456789');
+  writeFileSync(join(d, 'abcdef012345', 'poster.jpg'), 'JPEGDATA');
+  writeFileSync(join(d, 'manifest.json'), JSON.stringify({ clips: [{ id: 'abcdef012345', kind: 'puppet', motion: 'sway', amplitude: 'medium', camera: 'push_in', pace: 'slow', narrate: 'no', title: 'Banquet <b>', puppet_title: 'The Pythia' }] }));
+  process.env.ANIMS_DIR = d;
+  process.env.ANIM_FEEDBACK = join(d, 'fb.jsonl');
+  const page = await call({ url: '/animations' });
+  assert.equal(page.statusCode, 200);
+  assert.match(page.text(), /The Pythia/);
+  assert.doesNotMatch(page.text(), /Banquet <b>/);
+  assert.match(page.text(), /\/animations\/media\/abcdef012345\/clip\.mp4/);
+  const vote = (v, voter = 'voterkey-aaaaaaaaaaaa', comment = '') => call({ method: 'POST', url: '/api/animations/rate', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ id: 'abcdef012345', voter, vote: v, comment }).toString() });
+  let r = await vote('up');
+  assert.equal(r.statusCode, 200);
+  r = await vote('down'); // same voter changes their mind: counts once
+  assert.deepEqual(JSON.parse(r.text()), { ok: true, up: 0, down: 1 });
+  r = await vote('up', 'voterkey-bbbbbbbbbbbb', 'more <script> motion');
+  assert.deepEqual(JSON.parse(r.text()), { ok: true, up: 1, down: 1 });
+  assert.equal((await call({ method: 'POST', url: '/api/animations/rate', body: 'id=ffffffffffff&voter=voterkey-aaaaaaaaaaaa&vote=up' })).statusCode, 404);
+  assert.equal((await call({ method: 'POST', url: '/api/animations/rate', body: 'id=abcdef012345&voter=x&vote=up' })).statusCode, 400);
+  assert.equal((await call({ method: 'POST', url: '/api/animations/rate', body: 'id=abcdef012345&voter=voterkey-aaaaaaaaaaaa&vote=sideways' })).statusCode, 400);
+  const fb = JSON.parse((await call({ url: '/animations/feedback.json' })).text());
+  assert.equal(fb.clips.abcdef012345.up, 1);
+  assert.equal(fb.arms.motion.sway.down, 1);
+  const again = (await call({ url: '/animations' })).text();
+  assert.match(again, /more &lt;script&gt; motion/);
+  assert.doesNotMatch(readFileSyncSafe(process.env.ANIM_FEEDBACK), /voterkey-/); // only hashes are stored
+  const full = await call({ url: '/animations/media/abcdef012345/clip.mp4' });
+  assert.equal(full.statusCode, 200);
+  const part = await call({ url: '/animations/media/abcdef012345/clip.mp4', headers: { range: 'bytes=3-6' } });
+  assert.equal(part.statusCode, 206);
+  assert.equal(part.text(), 'DATA');
+  for (const bad of ['/animations/media/..%2Fmanifest.json', '/animations/media/abcdef012345%2F..%2F..%2Fmanifest.json', '/animations/media/abcdef012345/recipe.json', '/animations/media/ABCDEF012345/clip.mp4']) {
+    assert.notEqual((await call({ url: bad })).statusCode, 200, bad);
+  }
+  delete process.env.ANIMS_DIR; delete process.env.ANIM_FEEDBACK;
+});
+
+function readFileSyncSafe(p) { try { return readFileSync(p, 'utf8'); } catch { return ''; } }
 
 test('the nav collapses to a Menu button on phones and stays open on desktop', async () => {
   const r = await call({ url: '/' });
