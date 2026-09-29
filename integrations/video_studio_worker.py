@@ -161,7 +161,7 @@ def render(job, work, max_renders):
     audio = os.path.join(work, "drone.m4a")
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", f"anoisesrc=color=brown:amplitude=0.25:d={dur:.2f}", "-f", "lavfi", "-i", f"sine=frequency=55:d={dur:.2f}",
          "-f", "lavfi", "-i", f"sine=frequency=82.4:d={dur:.2f}",
-         "-filter_complex", f"[0]lowpass=f=400,volume=0.6[n];[1]volume=0.18,tremolo=f=0.08:d=0.6[a];[2]volume=0.10,tremolo=f=0.05:d=0.7[b];[n][a][b]amix=inputs=3,afade=t=in:d=3,afade=t=out:st={max(0, dur-4):.2f}:d=4",
+         "-filter_complex", f"[0]lowpass=f=400,volume=0.6[n];[1]volume=0.18,tremolo=f=0.12:d=0.6[a];[2]volume=0.10,tremolo=f=0.1:d=0.7[b];[n][a][b]amix=inputs=3,afade=t=in:d=3,afade=t=out:st={max(0, dur-4):.2f}:d=4",
          "-c:a", "aac", "-b:a", "96k", audio])
     final = os.path.join(work, "video.mp4")
     run(["ffmpeg", "-y", "-loglevel", "error", "-i", silent, "-i", audio, "-c:v", "copy", "-c:a", "copy", "-shortest", "-movflags", "+faststart", final])
