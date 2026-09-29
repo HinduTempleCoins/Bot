@@ -1,0 +1,516 @@
+{
+ "id": "time-stone-tools",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model of spread, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/stone-tools/SOURCES.md.",
+ "testing": "We are testing these features and looking to develop them.",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "title": "Stone in the Hand: Tools Time-Mapped",
+ "subtitle": "Lomekwi to the pyramids and the Inca · dates are estimates",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  -3400000,
+  -500
+ ],
+ "duration": 140,
+ "cities": [
+  {
+   "name": "Lomekwi 3 (debated)",
+   "lat": 3.9,
+   "lon": 35.75,
+   "from": -3300000,
+   "to": 0
+  },
+  {
+   "name": "Gona: the Oldowan",
+   "lat": 11.1,
+   "lon": 40.3,
+   "from": -2600000,
+   "to": 0
+  },
+  {
+   "name": "Kokiselei: the first handaxes",
+   "lat": 4.0,
+   "lon": 35.8,
+   "from": -1760000,
+   "to": 0
+  },
+  {
+   "name": "Attirampakkam, India",
+   "lat": 13.2,
+   "lon": 79.9,
+   "from": -1510000,
+   "to": 0
+  },
+  {
+   "name": "The Movius line (debated idea)",
+   "lat": 30.0,
+   "lon": 90.0,
+   "from": -1000000,
+   "to": 0
+  },
+  {
+   "name": "Boxgrove, Britain",
+   "lat": 50.87,
+   "lon": -0.7,
+   "from": -500000,
+   "to": 0
+  },
+  {
+   "name": "Levallois / Middle Stone Age",
+   "lat": 1.0,
+   "lon": 36.0,
+   "from": -300000,
+   "to": 0
+  },
+  {
+   "name": "Mousterian (Neanderthals)",
+   "lat": 44.95,
+   "lon": 0.94,
+   "from": -160000,
+   "to": 0
+  },
+  {
+   "name": "Pinnacle Point: microliths & heat treatment",
+   "lat": -34.2,
+   "lon": 22.09,
+   "from": -71000,
+   "to": 0
+  },
+  {
+   "name": "Aurignacian",
+   "lat": 48.4,
+   "lon": 10.0,
+   "from": -42000,
+   "to": 0
+  },
+  {
+   "name": "Gravettian",
+   "lat": 48.9,
+   "lon": 16.6,
+   "from": -33000,
+   "to": 0
+  },
+  {
+   "name": "Solutrean pressure flaking",
+   "lat": 46.3,
+   "lon": 4.5,
+   "from": -22000,
+   "to": 0
+  },
+  {
+   "name": "Clovis",
+   "lat": 34.3,
+   "lon": -103.3,
+   "from": -13000,
+   "to": 0
+  },
+  {
+   "name": "Melos obsidian at Franchthi",
+   "lat": 37.42,
+   "lon": 23.13,
+   "from": -13000,
+   "to": 0
+  },
+  {
+   "name": "Folsom",
+   "lat": 36.8,
+   "lon": -104.0,
+   "from": -12700,
+   "to": 0
+  },
+  {
+   "name": "Çatalhöyük obsidian",
+   "lat": 37.67,
+   "lon": 32.83,
+   "from": -9000,
+   "to": 0
+  },
+  {
+   "name": "Alpine jadeite axes",
+   "lat": 44.7,
+   "lon": 7.1,
+   "from": -6500,
+   "to": 0
+  },
+  {
+   "name": "Langdale axe factory",
+   "lat": 54.45,
+   "lon": -3.1,
+   "from": -5700,
+   "to": 0
+  },
+  {
+   "name": "Egyptian quarrying: copper & dolerite",
+   "lat": 24.09,
+   "lon": 32.89,
+   "from": -4500,
+   "to": 0
+  },
+  {
+   "name": "Inca stone-working",
+   "lat": -13.51,
+   "lon": -71.98,
+   "from": -570,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "Handaxes out of Africa (one model)",
+   "colour": "#c9a86a",
+   "points": [
+    {
+     "label": "East Africa",
+     "lat": 4.0,
+     "lon": 35.8,
+     "year": -1760000.0
+    },
+    {
+     "label": "Levant ('Ubeidiya)",
+     "lat": 32.7,
+     "lon": 35.6,
+     "year": -1400000.0
+    },
+    {
+     "label": "India",
+     "lat": 13.2,
+     "lon": 79.9,
+     "year": -1300000.0
+    },
+    {
+     "label": "Europe",
+     "lat": 50.87,
+     "lon": -0.7,
+     "year": -600000.0
+    }
+   ]
+  },
+  {
+   "label": "Obsidian by sea",
+   "colour": "#9a7bd8",
+   "points": [
+    {
+     "label": "Melos",
+     "lat": 36.7,
+     "lon": 24.4,
+     "year": -13500.0
+    },
+    {
+     "label": "Franchthi",
+     "lat": 37.42,
+     "lon": 23.13,
+     "year": -13000.0
+    }
+   ]
+  },
+  {
+   "label": "Obsidian overland",
+   "colour": "#b090e8",
+   "points": [
+    {
+     "label": "Cappadocia",
+     "lat": 38.4,
+     "lon": 34.6,
+     "year": -10000.0
+    },
+    {
+     "label": "Çatalhöyük",
+     "lat": 37.67,
+     "lon": 32.83,
+     "year": -9000.0
+    },
+    {
+     "label": "Levant",
+     "lat": 32.5,
+     "lon": 35.5,
+     "year": -8500.0
+    }
+   ]
+  },
+  {
+   "label": "Alpine jade axes",
+   "colour": "#70c0a0",
+   "points": [
+    {
+     "label": "Monte Viso",
+     "lat": 44.7,
+     "lon": 7.1,
+     "year": -6500.0
+    },
+    {
+     "label": "Brittany",
+     "lat": 47.6,
+     "lon": -3.0,
+     "year": -6300.0
+    },
+    {
+     "label": "Britain",
+     "lat": 51.5,
+     "lon": -1.0,
+     "year": -5800.0
+    }
+   ]
+  },
+  {
+   "label": "Langdale axe trade",
+   "colour": "#a0d060",
+   "points": [
+    {
+     "label": "Langdale",
+     "lat": 54.45,
+     "lon": -3.1,
+     "year": -5700.0
+    },
+    {
+     "label": "Yorkshire",
+     "lat": 54.0,
+     "lon": -1.0,
+     "year": -5500.0
+    },
+    {
+     "label": "Wessex",
+     "lat": 51.2,
+     "lon": -1.8,
+     "year": -5300.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Lomekwi 3 (debated)",
+   "lat": 3.9,
+   "lon": 35.75,
+   "year": -3300000,
+   "kind": "debated",
+   "caption": "Flaked stones older than Homo — status debated",
+   "source": "Harmand et al. 2015 Nature 521:310; Domínguez-Rodrigo & Alcalá 2016 J Afr Archaeol",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Gona: the Oldowan",
+   "lat": 11.1,
+   "lon": 40.3,
+   "year": -2600000,
+   "kind": "record",
+   "caption": "The oldest Oldowan choppers and flakes",
+   "source": "Semaw et al. 1997 Nature 385:333",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Kokiselei: the first handaxes",
+   "lat": 4.0,
+   "lon": 35.8,
+   "year": -1760000,
+   "kind": "record",
+   "caption": "The oldest Acheulean handaxes",
+   "source": "Lepre et al. 2011 Nature 477:82",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Attirampakkam, India",
+   "lat": 13.2,
+   "lon": 79.9,
+   "year": -1510000,
+   "kind": "record",
+   "caption": "Acheulean handaxes in India ~1.5 Ma",
+   "source": "Pappu et al. 2011 Science 331:1596",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "The Movius line (debated idea)",
+   "lat": 30.0,
+   "lon": 90.0,
+   "year": -1000000,
+   "kind": "debated",
+   "caption": "The old idea that handaxes stop at a line across Asia — now contested",
+   "source": "Movius 1948; Lycett & Bae 2010 World Archaeol 42:521; Hou et al. 2000 Science 287:1622 (Bose)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Boxgrove, Britain",
+   "lat": 50.87,
+   "lon": -0.7,
+   "year": -500000,
+   "kind": "record",
+   "caption": "Acheulean handaxes in Europe",
+   "source": "Roberts & Parfitt 1999 Boxgrove (English Heritage)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Levallois / Middle Stone Age",
+   "lat": 1.0,
+   "lon": 36.0,
+   "year": -300000,
+   "kind": "record",
+   "caption": "Prepared-core flaking in Africa (Olorgesailie)",
+   "source": "Brooks et al. 2018 Science 360:90; Deino et al. 2018",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Mousterian (Neanderthals)",
+   "lat": 44.95,
+   "lon": 0.94,
+   "year": -160000,
+   "kind": "record",
+   "caption": "Neanderthal Levallois and scrapers",
+   "source": "Bordes 1961 Typologie du Paléolithique ancien et moyen",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Pinnacle Point: microliths & heat treatment",
+   "lat": -34.2,
+   "lon": 22.09,
+   "year": -71000,
+   "kind": "record",
+   "caption": "Heat-treated stone and tiny blades",
+   "source": "Brown et al. 2012 Nature 491:590",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Aurignacian",
+   "lat": 48.4,
+   "lon": 10.0,
+   "year": -42000,
+   "kind": "record",
+   "caption": "Blade industries of the first Europeans",
+   "source": "Higham et al. 2012 J Hum Evol 62:664",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Gravettian",
+   "lat": 48.9,
+   "lon": 16.6,
+   "year": -33000,
+   "kind": "record",
+   "caption": "Backed blades of the mammoth hunters (Dolní Věstonice)",
+   "source": "Svoboda 2007",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Solutrean pressure flaking",
+   "lat": 46.3,
+   "lon": 4.5,
+   "year": -22000,
+   "kind": "record",
+   "caption": "Laurel-leaf points by pressure flaking",
+   "source": "Smith 1966 Le Solutréen en France",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Clovis",
+   "lat": 34.3,
+   "lon": -103.3,
+   "year": -13000,
+   "kind": "record",
+   "caption": "Fluted Clovis points (Blackwater Draw)",
+   "source": "Waters & Stafford 2007 Science 315:1122",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Melos obsidian at Franchthi",
+   "lat": 37.42,
+   "lon": 23.13,
+   "year": -13000,
+   "kind": "record",
+   "caption": "Obsidian carried by sea from Melos",
+   "source": "Renfrew & Aspinall 1990; Perlès 1987",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Folsom",
+   "lat": 36.8,
+   "lon": -104.0,
+   "year": -12700,
+   "kind": "record",
+   "caption": "Fluted Folsom points with bison",
+   "source": "Meltzer 2006 Folsom",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Çatalhöyük obsidian",
+   "lat": 37.67,
+   "lon": 32.83,
+   "year": -9000,
+   "kind": "record",
+   "caption": "Obsidian from Cappadocia worked in the town",
+   "source": "Carter et al. 2006 J Archaeol Sci 33:893",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Alpine jadeite axes",
+   "lat": 44.7,
+   "lon": 7.1,
+   "year": -6500,
+   "kind": "record",
+   "caption": "Polished jade axes from Monte Viso traded across Europe",
+   "source": "Pétrequin et al. 2012 JADE",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Langdale axe factory",
+   "lat": 54.45,
+   "lon": -3.1,
+   "year": -5700,
+   "kind": "record",
+   "caption": "Greenstone axes traded all over Britain",
+   "source": "Bradley & Edmonds 1993 Interpreting the Axe Trade",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Egyptian quarrying: copper & dolerite",
+   "lat": 24.09,
+   "lon": 32.89,
+   "year": -4500,
+   "kind": "record",
+   "caption": "Copper chisels, saws with sand, dolerite pounders (Aswan)",
+   "source": "Stocks 2003 Experiments in Egyptian Archaeology; Klemm & Klemm 2008",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Inca stone-working",
+   "lat": -13.51,
+   "lon": -71.98,
+   "year": -570,
+   "kind": "record",
+   "caption": "Hammerstones and fitting of ashlar at Sacsayhuamán",
+   "source": "Protzen 1993 Inca Architecture and Construction at Ollantaytambo",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "stone-tools",
+  "technology",
+  "deep-time"
+ ],
+ "credit": "Harmand 2015; Semaw 1997; Lepre 2011; Pappu 2011; Brooks 2018; Brown 2012; Waters 2007; Pétrequin 2012; Stocks 2003; Protzen 1993. Base map: Natural Earth (public domain)."
+}
