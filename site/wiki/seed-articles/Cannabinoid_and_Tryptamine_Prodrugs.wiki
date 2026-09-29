@@ -1,0 +1,79 @@
+'''Cannabinoid and Tryptamine Prodrugs''' covers the chemical synthesis, pharmacokinetic activation, and safety profiles of esterified psychoactive molecules. Acylating phenolic hydroxyl groups (-OH) modifies chemical stability, receptor irritation, lipophilicity, and metabolic pathways across cannabinoids, tryptamines, and nootropics.
+
+This article details direct anhydrous acylation, Alexander Shulgin's pharmacokinetic framework for 4-substituted tryptamines, blood-brain barrier permeability enhancements in nootropics, and the critical thermal degradation hazard of acetate esters (ketene gas formation).
+
+== Esterification and phenolic acylation ==
+
+In organic pharmacology, a prodrug is an inert or less-active bioreversible derivative of an active drug molecule that undergoes enzymatic or chemical transformation in vivo to release the active parent moiety. Capping free phenolic hydroxyl groups (-OH) as esters (such as acetates, propionates, or hemisuccinates) alters physical and biological characteristics:
+
+<code>
+                         [ Free Phenolic -OH Group ]
+                                       │
+                                       ▼  + Anhydrous Acylating Agent (e.g., Acetic Anhydride)
+                         [ O-Acetyl Ester Capping ]
+                                       │
+                        ┌──────────────┴──────────────┐
+                        ▼                             ▼
+              [ Masked TRP Receptors ]       [ Increased Lipophilicity ]
+             (Reduced Airway Irritation)     (Altered Metabolic Kinetics)
+</code>
+
+=== 1. Direct anhydrous acylation mechanics ===
+* '''Reagents:''' Capping phenolic hydroxyl groups requires an acid anhydride (such as acetic anhydride) or an acyl chloride (such as acetyl chloride) in the presence of a mild non-nucleophilic base or acid catalyst (e.g., pyridine, 4-dimethylaminopyridine [DMAP], or sulfuric acid).
+* '''Omission of basic aqueous wash during workup:''' Unlike cannabinoid isomerization workups (which mandate basic bicarbonate washes to remove mineral acids), basic aqueous washes are strictly avoided during ester synthesis. Newly formed ester bonds are moisture-sensitive; exposure to water or alkaline solutions catalyzes nucleophilic acyl substitution, hydrolyzing the ester back into the parent phenol and free carboxylic acid:
+: <code>R-COO-R' + OH⁻ ──► R-COO⁻ + R'-OH (Hydrolysis back to free phenol)</code>
+* Unreacted acylating agents and volatile acids are instead removed under high vacuum and heat or co-evaporated using non-reactive azeotropic solvents.
+
+== Shulgin's tryptamine observations (4-OH vs. 4-AcO) ==
+
+In ''TIHKAL'' (Tryptamines I Have Known and Loved, 1997), [[Nikola Tesla|Alexander "Sasha" Shulgin]] documented the practical chemistry and human psychopharmacology of 4-substituted indolealkylamines:
+
+=== 1. Oxidative vulnerability of 4-hydroxyindoles ===
+Unprotected 4-hydroxy tryptamines—most notably '''psilocin''' (4-OH-DMT) and '''4-OH-MiPT'''—are notoriously unstable:
+* Atmospheric oxygen, heat, and light trigger rapid auto-oxidation of the electron-rich indole nucleus.
+* Oxidation yields quinoid and polymeric breakdown products characterized by intense blue or black staining, rapidly degrading pharmacological potency in solution or botanical extracts.
+
+=== 2. The acetate shield (4-AcO) ===
+By acetylating the 4-hydroxyl group to synthesize '''4-AcO-DMT''' (psilacetin) or '''4-AcO-MiPT''', the phenolic oxygen atom is stabilized as an ester:
+* The acetyl cap prevents electron donation into the aromatic ring, halting oxidative polymerization.
+* 4-AcO compounds demonstrate substantially prolonged shelf-life, crystallizing into stable, non-staining salts (fumarates or hydrochlorides).
+
+=== 3. In vivo enzymatic bioactivation ===
+4-AcO-tryptamines function as metabolic prodrugs:
+* Upon oral ingestion, endogenous non-specific carboxylesterases and alkaline phosphatases in the intestinal mucosa, blood plasma, and liver rapidly cleave the acetyl ester bond:
+: <code>4-AcO-DMT ──(Plasma Esterases)──► 4-OH-DMT (Psilocin) + Acetic Acid</code>
+* While some users debate whether 4-AcO-DMT possesses distinct receptor binding prior to cleavage, pharmacokinetic studies confirm extensive conversion to psilocin in systemic circulation.
+
+== Lipophilic esters in nootropics and amino acids ==
+
+The ester prodrug strategy is widely applied to nootropics, amino acid analogs, and racetam scaffolds:
+* '''Blood-Brain Barrier (BBB) permeability:''' Hydrophilic molecules containing free polar carboxylic acid or hydroxyl groups cross the lipophilic endothelial membranes of the blood-brain barrier poorly. Esterification increases the octanol-water partition coefficient (logP).
+* '''Hepatic bypass:''' Increased lipophilicity facilitates passive membrane diffusion, reducing degradation by first-pass gastrointestinal and hepatic enzymes. Once across the BBB, brain parenchymal esterases hydrolyze the ester linkage to release the active parent drug.
+
+== Cannabinoid prodrugs: THC-O-acetate ==
+
+=== Pharmacokinetics and potency ===
+THC-O-acetate (THC-O) is the acetate ester of Δ9-THC or Δ8-THC. 
+* '''Receptor masking:''' The free phenolic hydroxyl group at C1 is required for direct binding to CB1 and CB2 cannabinoid receptors. Capping this group temporarily prevents receptor activation.
+* '''Lipophilic transport:''' The acetyl ester increases lipid solubility, accelerating cell membrane permeation.
+* '''Delayed onset:''' Inhaled or ingested THC-O-acetate exhibits a characteristic metabolic delay of 20 to 45 minutes, representing the time required for endogenous carboxylesterases to cleave the acetate moiety and generate free, psychoactive THC.
+
+=== The lethal airway hazard: coil pyrolysis and ketene gas ===
+
+While oral ingestion of THC-O-acetate is metabolically processed via gut and plasma esterases safely, '''vaporizing or dabbing THC-O-acetate presents severe pulmonary toxicity''':
+
+<code>
+                 [ Thermal Coil Pyrolysis (>200–300 °C) ]
+    THC-O-Acetate ──────────────────────────────────────► Free THC + Ketene Gas (CH2=C=O)
+                                                                 │
+                                                                 ▼ + Alveolar Moisture (H2O)
+                                                       Acetic Acid Deep in Lungs
+</code>
+
+* '''Pyrolysis threshold:''' At electronic cigarette coil temperatures exceeding 200–300 °C, the ester bond undergoes thermal cleavage (pyrolysis), releasing free '''ketene gas''' (CH2=C=O).
+* '''Mechanism of toxicity:''' Ketene is a powerful, highly reactive acylating agent. Inhaled into the pulmonary alveoli, ketene reacts violently with moisture lining the lung epithelium:
+: <code>CH2=C=O (Ketene Gas) + H2O ──► CH3COOH (Concentrated Acetic Acid)</code>
+* '''Delayed acute pulmonary injury:''' Ketene acetylates cellular proteins, lyses alveolar membranes, and causes delayed pulmonary edema, chemical pneumonitis, and severe respiratory failure. This identical pyrolysis mechanism accounted for the 2019 EVALI (e-cigarette or vaping product use-associated lung injury) epidemic caused by vaporized vitamin E acetate.
+* '''Harm-reduction mandate:''' Inhaling, vaporizing, or smoking any acetate ester cannabinoid (THC-O, CBD-O, HHC-O) is dangerous. Acetate prodrugs should never be heated on high-temperature atomizers.
+
+See also: [[Airway Irritation and Cannabinoid Prodrug Delivery]] · [[Cannabinoid Isomerization]] · [[Modified Cannabinoids Matrix]] · [[PIHKAL and TIHKAL]] · [[Cannabis Harm Reduction]] · [[Stack Substances]]

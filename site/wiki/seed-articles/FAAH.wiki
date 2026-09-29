@@ -19,6 +19,10 @@ Two of the four natural FAAH inhibitors above come from the '''pepper family''':
 
 * '''Kava''' carries a genuine hepatotoxicity signal in the literature, disputed as to mechanism and to the role of preparation method, and it is the reason kava was withdrawn from several markets. It is not resolved by the fact that yangonin is interesting.
 * '''Biochanin A''' is oestrogenic; that is a systemic effect independent of the enzyme activity.
-* The most-publicised FAAH inhibitor of recent years was '''BIA 10-2474''', which caused one death and lasting neurological injury in a 2016 French Phase I trial. The damage is generally attributed to off-target activity rather than to FAAH inhibition as such — but it is the reason this target is approached carefully, and it belongs on any honest page about it.
+* The most-publicised FAAH inhibitor of recent years was '''BIA 10-2474''', which caused one death and lasting neurological injury in a 2016 French Phase I trial. Chemoproteomic profiling proved this was caused by off-target covalent inhibition of unrelated serine hydrolases (ABHD6, PNPLA6) rather than FAAH inhibition itself. Selective FAAH inhibitors (such as PF-04457845) and natural human genetic FAAH variants (C385A / rs324420) confirm that selective FAAH inhibition is safe in humans.
 
-See also: [[MAGL]] · [[Anandamide and 2-AG]] · [[Cannabinoid Oilahuasca]] · [[Kava]] · [[Black Pepper]] · [[Maca]] · [[Stack Substances]]
+== Comprehensive monograph ==
+
+For the complete molecular biology of FAAH, its catalytic Ser241–Ser217–Lys142 triad, the non-cannabinoid NAE family (PEA, OEA), lysosomal NAAA, and the full endocannabinoidome, see '''[[The Expanded Endocannabinoid System and FAAH Science]]'''. For enzyme kinetics and serine hydrolase cross-reactivity, see '''[[Enzyme Inhibition Kinetics and Molecular Transporters]]'''.
+
+See also: [[The Expanded Endocannabinoid System and FAAH Science]] · [[MAGL]] · [[Anandamide and 2-AG]] · [[Cannabinoid Oilahuasca]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Kava]] · [[Black Pepper]] · [[Maca]] · [[Stack Substances]]

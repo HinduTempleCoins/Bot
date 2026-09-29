@@ -1,0 +1,124 @@
+'''Monoamine Oxidase Inhibitors and Neurotransmitter Systems''' explores the mitochondrial biochemistry of monoamine oxidase (MAO-A and MAO-B), the enzymatic degradation of biogenic amines, the distinction between irreversible inhibitors and reversible inhibitors of MAO-A (RIMAs), the lethal hypertensive "cheese effect," and the neuropharmacology of serotonin syndrome.
+
+Monoamine oxidase inhibitors (MAOIs) were the earliest modern clinical antidepressants and remain the foundational enzymatic half of classical entheogenic preparations like '''ayahuasca'''. Understanding their precise substrate profiles and binding kinetics is essential for preventing fatal clinical interactions.
+
+== Mitochondrial biochemistry of MAO ==
+
+Monoamine oxidases are flavin adenine dinucleotide (FAD)-dependent enzymes anchored to the outer mitochondrial membrane in neuronal presynaptic terminals, astrocytes, hepatocytes, and intestinal enterocytes:
+
+<code>
+                 [ Biogenic Amine: R-CH2-NH2 ] + O2 + H2O
+                                    │
+                                    ▼  MAO (FAD Cofactor)
+                 [ Aldehyde: R-CHO ] + NH3 (Ammonia) + H2O2
+                                    │
+                                    ▼  Aldehyde Dehydrogenase
+                 [ Carboxylic Acid: R-COOH ]
+</code>
+
+* The enzyme abstracts two electrons from the amine substrate to reduce the cofactor to $FADH_2$, forming an imine intermediate that hydrolyzes spontaneously into an aldehyde and ammonia ($NH_3$).
+* Re-oxidation of $FADH_2$ by molecular oxygen generates hydrogen peroxide ($H_2O_2$), an oxidative byproduct cleared by catalase.
+
+== MAO-A vs. MAO-B: substrate divergence ==
+
+Two distinct genes on the X chromosome encode MAO-A and MAO-B, which exhibit ~70% sequence homology but possess radically different active site cavity volumes and substrate affinities:
+
+{| class="wikitable"
+! Feature !! Monoamine Oxidase A (MAO-A) !! Monoamine Oxidase B (MAO-B)
+|-
+| '''Dominant tissue expression''' || Intestinal mucosa, sympathetic nerves, placenta, liver || Basal ganglia / striatum, platelets, astrocytes, liver
+|-
+| '''Primary substrates''' || '''Serotonin (5-HT)''', '''Norepinephrine (NE)''', Epinephrine || '''Phenethylamine (PEA)''', Benzylamine
+|-
+| '''Shared substrates''' || Dopamine (cleared by both; in rodents predominantly MAO-A) || Dopamine (handles ~80% of striatal dopamine in adult humans)
+|-
+| '''Dietary substrate''' || '''Tyramine''' (primary intestinal clearance site) || Tyramine (clears high-concentration spillover)
+|-
+| '''Primary clinical role''' || Major depressive disorder, anxiety, panic || Parkinson's disease, cognitive enhancement, neuroprotection
+|}
+
+== Irreversible MAOIs vs. RIMAs ==
+
+<code>
+                             [ MAO INHIBITORS ]
+                                     │
+           ┌─────────────────────────┴─────────────────────────┐
+           ▼                                                   ▼
+[ Irreversible Non-Selective ]                         [ RIMAs (Reversible MAO-A) ]
+ • Phenelzine, Tranylcypromine                          • Harmine, Harmaline, Moclobemide
+ • Covalent destruction of FAD cofactor                 • Non-covalent competitive binding
+ • Recovery requires 2–3 weeks                          • Displaceable by dietary tyramine
+ • High "Cheese Effect" hazard                          • No dietary cheese hazard
+</code>
+
+=== 1. Irreversible non-selective inhibitors ===
+* '''Compounds:''' Phenelzine (Nardil), Tranylcypromine (Parnate), Isocarboxazid (Marplan).
+* '''Mechanism:''' Metabolized by the active enzyme into a reactive radical intermediate that forms a covalent carbon-nitrogen or carbon-sulfur bond with the FAD cofactor or active site residues.
+* '''Recovery:''' Catalytic activity is permanently lost. Complete restoration of baseline enzyme function requires 14 to 21 days—the biological half-life necessary for the body to transcribe, translate, and insert new MAO proteins into mitochondrial membranes.
+
+=== 2. RIMAs: Reversible Inhibitors of MAO-A ===
+* '''Compounds:''' '''Harmine''', '''harmaline''', and '''tetrahydroharmine''' (beta-carboline alkaloids found in ''Banisteriopsis caapi'' and Syrian rue / ''Peganum harmala''); moclobemide (pharmaceutical).
+* '''Mechanism:''' Bind non-covalently in the active site cavity of MAO-A via electrostatic and hydrophobic interactions.
+* '''Reversibility:''' Dissociate rapidly as circulating inhibitor concentrations fall (half-lives typically 2 to 8 hours). Crucially, high concentrations of physiological substrates (such as tyramine) competitively displace the RIMA from the enzyme pocket.
+
+== The "Cheese Effect" (Tyramine hypertensive crisis) ==
+
+Under physiological conditions, dietary '''tyramine'''—an indirect sympathomimetic amine produced by bacterial fermentation in aged cheeses, cured meats, red wine, soy sauce, and draft beer—is completely oxidized by intestinal and hepatic MAO-A during first-pass digestion:
+
+<code>
+[ Dietary Tyramine ] ──► ( Ingestion )
+                               │
+   ┌───────────────────────────┴───────────────────────────┐
+   ▼                                                       ▼
+[ Healthy Gut: Active MAO-A ]            [ Irreversible MAO-A Blockade ]
+   │                                                       │
+   ▼                                                       ▼
+[ Oxidized to Inactive Acid ]            [ Escapes into Systemic Circulation ]
+(Zero Cardiovascular Effect)                               │
+                                                           ▼
+                                         [ Uptake into Sympathetic Terminals via NET ]
+                                                           │
+                                                           ▼
+                                         [ Displaces Norepinephrine into Synapse ]
+                                                           │
+                                                           ▼
+                                         [ Severe Peripheral Vasoconstriction ]
+                                         (Acute Hypertensive Crisis / Stroke / Death)
+</code>
+
+=== Why RIMAs do not cause the cheese effect ===
+In patients taking reversible MAO-A inhibitors (such as harmine or moclobemide), a large bolus of dietary tyramine reaches the intestinal wall and directly competes for the enzyme pocket. Because tyramine possesses high affinity for MAO-A, it displaces the reversible inhibitor, allowing normal metabolic degradation to proceed and preventing hypertensive spikes.
+
+== Serotonin Syndrome: mechanism and lethal combinations ==
+
+Serotonin toxicity is an acute, life-threatening hypermetabolic state caused by excessive intrasynaptic serotonin overstimulating postsynaptic '''5-HT2A''' and '''5-HT1A''' receptors throughout the brainstem and spinal cord:
+
+=== 1. Clinical presentation ===
+* '''Neuromuscular excitation:''' Spontaneous or inducible clonus, hyperreflexia, ocular clonus, tremor, rigidity.
+* '''Autonomic instability:''' Extreme hyperthermia (>41 °C / 106 °F), tachycardia, diaphoresis, labile blood pressure.
+* '''Mental status:''' Acute delirium, agitation, confusion, seizures, followed by cardiovascular collapse and rhabdomyolysis.
+
+=== 2. Lethal combinations with MAOIs ===
+While combining an SSRI with another reuptake inhibitor merely causes mild side effects, '''combining an MAOI (irreversible or RIMA) with a serotonin-elevating agent is strictly contraindicated''':
+
+{| class="wikitable"
+! Contraindicated agent !! Mechanism of interaction !! Required washout period
+|-
+| '''SSRIs / SNRIs''' (Fluoxetine, Sertraline, Venlafaxine) || Simultaneous blockade of serotonin reuptake + serotonin degradation flooding synapses. || 2 weeks ('''5–6 weeks''' for fluoxetine due to norfluoxetine half-life)
+|-
+| '''MDMA / Entactogens''' || VMAT2 reversal / SERT dumping of 5-HT into synapses where degradation is completely blocked. || Minimum 2 weeks post-MAOI cessation
+|-
+| '''Dextromethorphan (DXM)''' || Potent SERT inhibitor; present in standard over-the-counter cough syrups. || Minimum 14 days
+|-
+| '''Tramadol / Meperidine''' || Opioid analgesics with intrinsic high-affinity serotonin reuptake inhibition. || Minimum 14 days
+|-
+| '''St. John's Wort''' || Contains hypericin and flavonoids with non-selective reuptake inhibition. || Minimum 14 days
+|}
+
+== Selective MAO-B inhibition and dopamine preservation ==
+
+* '''Selegiline (L-deprenyl) and Rasagiline:''' Selectively and irreversibly inhibit MAO-B at low clinical doses (≤10 mg/day for selegiline).
+* '''Pharmacological profile:''' Because MAO-A remains fully functional, intestinal tyramine clearance is unimpaired, eliminating the need for dietary restrictions.
+* '''Longevity and Parkinson's research:''' Inhibiting MAO-B protects striatal dopamine pools and eliminates the enzymatic generation of neurotoxic hydrogen peroxide ($H_2O_2$) and reactive aldehydes in dopaminergic substantia nigra neurons.
+
+See also: [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Cannabinoid Oilahuasca]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Stack Substances]]

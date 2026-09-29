@@ -1,0 +1,36 @@
+# The Ogdoad
+
+**The Ogdoad** — from the Greek for "the eight" — is the Egyptian cosmological grouping the author **marsresident** uses as the frame for a 2016 essay on **astronomy-as-religion**: the claim, as its opening line puts it, that "your calendar is a Religion"<ref>https://steemit.com/@marsresident/the-ogdoad</ref>. The essay traces how ancient sky-observation — the Sun, Moon, and visible planets read as gods — became the calendar, the zodiac, the days of the week, and even the origins of machines. The same material appears, embedded, in the survey [[Mystery Schools]]; this is its focused companion.
+
+This is a **neutral, educational** history-of-ideas reference. Where the source offers an interpretive or contested claim, it is noted as such.
+
+== Summary ==
+
+The essay's thesis is that the **planets-as-gods pattern** recurs across ancient Egypt, Sumeria, Greece, Rome, and India, and that our timekeeping still carries it: the calendar, the constellations that name our months, the metals and days assigned to the seven classical "planets," and the almanac's planting cycles are all fossils of an astronomy that was worshipped<ref>https://en.wikipedia.org/wiki/Ogdoad_(Egyptian)</ref><ref>https://en.wikipedia.org/wiki/Classical_planet</ref>.
+
+== The Solar boat and the planets as gods ==
+
+The essay begins with the Egyptian **Solar boat** — the vessel thought to move the Sun across the sky — noting that the boat carries *more gods than the Sun and Moon*, because the Egyptians named the visible **planets** as gods too. **Horus** is identified with **Mars** (the "horizon" and, to the Jewish nomads, "the Blushing One"); the seven classical heavenly bodies survive in the Gnostic Christian "Seven Heavens." The essay resists the common objection that "the planets were named after the gods, not the reverse," arguing the priority runs the other way, with Egypt and Sumeria first, then Greece, then Rome<ref>https://en.wikipedia.org/wiki/Planets_in_astrology</ref>.
+
+== The calendar, the zodiac, and the days of the week ==
+
+The essay explains the **365-day calendar** by the Egyptian technique of building a wall as a false horizon and marking the Sun's rising position each day until it returns to its start after 365 marks. The **constellations of the zodiac** — Aquarius, Taurus, Pisces, and the rest — are the stars the Sun passes through, and they name our months. The essay then lays out the classical correspondences that still structure the week: each of the seven bodies paired with a **metal** (Sun–gold, Moon–silver, Mercury–mercury, Venus–copper, Mars–iron, Jupiter–tin, Saturn–lead) and a **day** (Saturn–Saturday, Sun–Sunday, Moon–Monday, Mars–Tuesday, Mercury–Wednesday, Jupiter–Thursday, Venus–Friday)<ref>https://en.wikipedia.org/wiki/Names_of_the_days_of_the_week</ref>. Jupiter/Zeus is noted as the lightning-controller in a worldview that read the planets as governing weather before gravity and atmosphere were understood.
+
+== Almanac cycles and the origin of machines ==
+
+Two closing points extend the astronomy-as-religion thesis into practical life. First, many plants were long believed to follow **planetary rather than solar cycles**, a tradition surviving in the modern *Old Farmer's Almanac* and its planting calendars. Second, the essay claims the **history of machines and gears** grew out of measuring the sky at sea — the mechanical navigation devices built to track the heavens (the ancestral line that runs to devices like the Antikythera mechanism)<ref>https://en.wikipedia.org/wiki/Antikythera_mechanism</ref>.
+
+== Where this sits in the corpus ==
+
+This is the focused **Egyptian-cosmology / astronomy-as-religion** companion to [[Mystery Schools]] (which embeds the same material inside its broader initiatory-tradition survey). The Egyptian thread — planets-as-gods, the calendar, and, in the parent article, the **Ren** (name-as-soul) — connects to the MELEK **REN naming system** and to the Hathor/Egyptian lineage the ecosystem draws on. Its deep-history sweep parallels [[Humanity — Deep Time and the Human Story]], and its "sky-measuring gave us machines" point rhymes with the physics narrative in [[Electricity and Photovoltaics]].
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/the-ogdoad</ref>
+<ref>https://en.wikipedia.org/wiki/Ogdoad_(Egyptian)</ref>
+<ref>https://en.wikipedia.org/wiki/Classical_planet</ref>
+<ref>https://en.wikipedia.org/wiki/Planets_in_astrology</ref>
+<ref>https://en.wikipedia.org/wiki/Names_of_the_days_of_the_week</ref>
+<ref>https://en.wikipedia.org/wiki/Antikythera_mechanism</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "The Ogdoad" — the Solar boat and planets-as-gods across Egypt/Sumeria/Greece/Rome/India, Horus as Mars and the Seven Heavens, the false-horizon 365-day calendar, the zodiac naming the months, the planet–metal and planet–day correspondences, Jupiter/Zeus and weather, the Old Farmer's Almanac planetary planting cycles, and the claim that machines/gears descend from sky-measuring navigation devices. Attribution to the author and Steem source is preserved. The essay overlaps the embedded Ogdoad section of Mystery Schools by design; the Egyptian-cosmology / Ren thread is cross-linked to the MELEK REN naming system and Hathor/Egyptian lineage. The image links in the original are not reproduced; claims are anchored to stable encyclopedic sources, with priority/interpretation claims left as the author's. Neutral, educational tone.

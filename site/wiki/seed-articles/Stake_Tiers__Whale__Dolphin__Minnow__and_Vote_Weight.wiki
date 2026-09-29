@@ -1,0 +1,73 @@
+# Stake Tiers on Steem-Family Chains: Whale, Dolphin, Minnow, and What a Vote Is Worth
+
+On [[STEEM Blockchain|Steem]], [[HIVE Blockchain|Hive]], [[BLURT Blockchain|Blurt]], and the [[MELEK Blockchain|MELEK]] chain, an account's influence over the reward pool is proportional to its **staked** coin, not its liquid balance. Staked coin is called **Steem Power** on Steem (Hive Power on Hive, and the equivalent staked/vesting balance on MELEK). Because influence scales with stake, the community adopted a marine-life vocabulary — **plankton, minnow, dolphin, orca, whale** — to name the size tiers at a glance. This article explains the tiers, the ranges commonly attached to them, and the mechanism that makes them matter: **vote weight is proportional to stake.** It is descriptive of the shared Graphene design; the numbers are community conventions and rough thresholds, not consensus constants.
+
+== Stake, not balance ==
+
+Coins on these chains exist in two forms: a **liquid** transferable balance, and a **staked** (vested) balance that is locked and must be "powered down" over weeks to become liquid again. Staked coin is what grants:
+
+* **Voting influence** — how much a vote moves a post's payout;
+* **Resource credits / bandwidth** — how many actions the account can perform;
+* **Governance weight** — how strongly the account's [[Blockchain Witness (Block Producer)|witness]] votes count.
+
+Under the [[Delegated Proof of Stake (DPoS)]] "proof-of-brain" model, the reward pool is distributed by stake-weighted voting. Staking is therefore a deliberate commitment: you lock value in exchange for a voice in who gets rewarded. The tiers below are simply names for how large that locked voice is.<ref>https://steemit.com/steem/@dhimmel/steem-vest-ranks-plankton-minnow-dolphin-orca-whale</ref>
+
+== The five tiers ==
+
+The canonical five ranks, from smallest to largest, with the widely-cited approximate Steem Power thresholds (from the SteemPlus progression tool):<ref>https://hiveblog.c0ff33a.uk/utopian-io/@stoodkev/more-ranks-on-steemplus-to-track-your-progression</ref>
+
+* '''Plankton''' — below ~500 SP. The starting tier for a new account.
+* '''Minnow''' — ~500 SP. Roughly the point at which an account's own votes begin to register a visible payout.
+* '''Dolphin''' — ~5,000 SP. A meaningful individual curator; a dolphin's vote is noticed.
+* '''Orca''' — ~50,000 SP. A large stakeholder whose votes materially move payouts.
+* '''Whale''' — ~500,000 SP. The largest tier; a single whale vote can dominate a post's reward.
+
+Each tier is roughly an order of magnitude above the last (500 → 5,000 → 50,000 → 500,000). These are **conventions, not protocol constants** — different front-ends and tools have drawn the lines at different places over the years (early Steem writing variously used 10,000 / 50,000 / 100,000 / 1,000,000 SP as whale-ish thresholds), and the fiat value of a given SP amount drifts with the coin price.<ref>https://spencercoffman.com/what-is-steemit-rank/</ref><ref>https://steemit.com/steem/@pairmike/whales-dolphins-and-minnows-what-the-official-qualifier-in-units</ref>
+
+'''Note on "redfish."''' The term *redfish* is sometimes used informally (mostly in the Hive era) for the very smallest accounts, roughly synonymous with plankton or a sub-minnow tier. It is **not part of the canonical five** and different tools place it differently; treat it as community slang rather than a defined rank.<ref>Community usage; not present in the canonical SteemPlus/dhimmel rank lists — flagged as uncertain.</ref>
+
+== Vote weight is proportional to stake ==
+
+The load-bearing mechanic behind every tier is this: **the strength of a vote is proportional to the voter's staked coin.** When an account votes, the chain computes the vote's **rshares** (reward-shares) as, in essence:
+
+  rshares  ∝  (staked coin)  ×  (current voting power / mana)  ×  (vote weight %)
+
+The post's share of the reward pool is then a function of the total rshares it accumulates (passed through a **reward curve**), and the payout is split between author and curators. On MELEK the curator share is 25% and the author share 75%, with a square-root curation curve and a linear author curve — the standard Steem-fork values, kept unchanged.<ref>knowledge/steem-economy — MELEK get_config: SMT_DEFAULT_PERCENT_CURATION_REWARDS=2500 (25%), curation_reward_curve=square_root.</ref>
+
+Two consequences follow directly, and they are the whole reason the rest of this corpus exists:
+
+* '''A whale's vote is worth ~everything; a plankton's is worth ~nothing alone.''' Because rshares scale linearly with stake, a 500,000-SP whale vote is on the order of a thousand times stronger than a 500-SP minnow vote at the same weight. A minnow voting alone barely perturbs a payout.
+* '''Below a floor, a vote counts as zero.''' Chains apply a **dust threshold**: a vote whose rshares fall below the threshold is clamped to 0 and pays nothing. On MELEK the vote dust threshold is 50,000,000 rshares. For the smallest accounts this means an individual vote can be literally worthless until stake (or aggregation — see below) lifts it over the floor.<ref>knowledge/steem-economy — MELEK get_config: STEEM_VOTE_DUST_THRESHOLD=50000000 rshares.</ref>
+
+Voting also **costs mana**: each account has a voting-power / mana meter that drains with each vote and regenerates over time (5 days to full on MELEK). This caps how much even a whale can spread its influence per day, which is exactly the pressure that produced automation (see [[Why Curation Bots Were Made — Whale Coverage and Minnow Aggregation]]).<ref>knowledge/steem-economy — MELEK get_config: STEEM_VOTING_MANA_REGENERATION_SECONDS=432000 (5 days).</ref>
+
+== Delegation: renting stake without giving it away ==
+
+A stakeholder can **delegate** vested coin to another account with the standard Graphene `delegate_vesting_shares` operation. The delegatee gains the *voting influence and resource credits* of the delegated stake while the delegator keeps *ownership* (delegation is revocable, with a cool-down). This single primitive is what makes tier-crossing infrastructure possible:
+
+* A whale can **delegate to a curation guild or pool** so its stake votes on good content it never has to read itself.
+* Many minnows can **pool delegations** into one account whose combined stake clears the dust threshold and votes with real weight, then share the curation rewards back.
+
+Delegation is therefore the bridge between the tiers: it lets large stake act at scale and lets small stake aggregate into significance — the two moves the rest of this corpus is about.
+
+== Why MELEK keeps the tiers legible ==
+
+MELEK is a Steem/Blurt-family Graphene chain and inherits this stake-weighted model. A design choice worth noting: unlike [[BLURT Blockchain|Blurt]] — which dropped the resource-credit / mana "energy" model in favor of paid accounts and paid posts — MELEK **keeps the energy/mana meter and the full stat surface**, and surfaces it in a legible **account HUD** so a user can actually see their tier, their voting power, their delegations in and out, and what a vote of theirs is currently worth. The tiers are meant to be understood and acted on, not hidden. How MELEK turns whale reach and minnow aggregation into first-class, opt-in infrastructure (rather than informal favors) is covered in the companion design work and the [[Curation and Onboarding Programs — OCD, Curie, PAL, Curangel, Trails, and Bid Bots]] survey.
+
+== See also ==
+
+* [[Why Curation Bots Were Made — Whale Coverage and Minnow Aggregation]]
+* [[Curation and Onboarding Programs — OCD, Curie, PAL, Curangel, Trails, and Bid Bots]]
+* [[Curation Theory — Rewards, the Auction Window, and Honest Curation]]
+* [[Delegated Proof of Stake (DPoS)]]
+* [[Blockchain Witness (Block Producer)]]
+
+== Sources ==
+<ref>https://steemit.com/steem/@dhimmel/steem-vest-ranks-plankton-minnow-dolphin-orca-whale</ref>
+<ref>https://hiveblog.c0ff33a.uk/utopian-io/@stoodkev/more-ranks-on-steemplus-to-track-your-progression</ref>
+<ref>https://spencercoffman.com/what-is-steemit-rank/</ref>
+<ref>https://steemit.com/steem/@pairmike/whales-dolphins-and-minnows-what-the-official-qualifier-in-units</ref>
+<ref>https://www.steem.center/index.php?title=Dolphin</ref>
+
+== Coverage ==
+This article describes the shared Steem/Hive/Blurt/MELEK stake-tier vocabulary and the stake-proportional vote mechanic. Tier thresholds (~500 / 5,000 / 50,000 / 500,000 SP) are community conventions from the SteemPlus/dhimmel rank tools and are approximate, not consensus constants; historical writing used other whale thresholds, and fiat values drift with coin price. The "redfish" term is flagged as informal and non-canonical. The MELEK-specific constants (25% curation, square-root curve, 50,000,000-rshare dust threshold, 5-day mana regen) are the chain's live get_config values as recorded in the project's curation memory; they are the standard Steem-fork values kept unchanged. Educational and neutral; nothing here is investment advice, a promised yield, or a price prediction.

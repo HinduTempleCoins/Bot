@@ -1,0 +1,53 @@
+# Tokenomics 101
+
+**Tokenomics** — a portmanteau of *token* and *economics* — is the design of a token's supply, distribution, and incentives: how many tokens exist, who gets them, how new ones are created, and how they leave circulation. A token's tokenomics are its economic constitution; they determine whether the incentives point at real activity or at a closed circle. This article is the design-level companion to the rest of the Economics 101 series, pulling supply, emission, sinks, and distribution together into one picture<ref>.local/pending-economics-post.md</ref><ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+This is an **educational, neutral** reference. It is **not investment, financial, or legal advice**, it makes **no price prediction**, and it evaluates *design*, not any token's price prospects (see § Not investment advice).
+
+== Summary ==
+
+Good tokenomics balance four things: **supply** (how much exists, and the ceiling), **distribution** (who holds it and how they got it), **faucets** (how new tokens enter — emission), and **sinks** (how tokens leave — burns, fees, locks). A token where faucets vastly outrun sinks with no real demand behind the emission is inflating against nothing; a token whose emission is backed by real activity and balanced by real sinks can be durable. Tokenomics is about **where value comes from and where it goes**, not about promising a price<ref>.local/pending-economics-post.md</ref>.
+
+== Supply ==
+
+Supply is the starting point (see [[Market Cap vs Fully-Diluted Valuation]] for circulating vs total vs max supply). The key design choice is whether supply is **capped** and whether that cap is **immutable**. An immutable cap — BitShares' `lock_max_supply` + `disable_new_supply`, realized as the MELEK-Engine supply cap — is a public, irreversible trust move: the issuer renounces the power to ever inflate past a fixed ceiling, so holders can verify it will never happen<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>.
+
+== Distribution ==
+
+Distribution is *how tokens reach people*, and it shapes fairness and concentration:
+
+- **Fair-launch / no-premine** — no tokens set aside for founders before launch; everyone earns from the same start. MELEK mainnet launched no-premine<ref>.local/pending-economics-post.md</ref>.
+- **Premine / allocation** — a share reserved for team, investors, or treasury, usually **vesting** (unlocking gradually). Vesting unlocks are future supply that shows up in FDV.
+- **Earned distribution** — tokens paid for activity: posting and curating, and on MELEK also **walking** (the Move reward pool). The healthiest distributions tie issuance to real, verifiable acts.
+
+**Concentration** is the flip side: if a few accounts hold most of the supply, the market is fragile. The repo's `market-depth.mjs` reader measures exactly this — issuer percentage, top-3 holders, and how many holders exist outside the issuer<ref>integrations/market-depth.mjs</ref>.
+
+== Faucets and sinks ==
+
+Think of the circulating supply as a tank with taps in and drains out:
+
+- **Faucets (emission)** add supply: block rewards, the Move pool, author/curator rewards, and SCOT emission ([[Inflation and Deflation — Token Emission and Burns]]). Faucets are inflationary.
+- **Sinks** remove or lock supply: **burns** (`tokens.burn`), **buybacks → burn**, fees, and tokens **locked** in staking or liquidity ([[Token Buybacks, Market Fees, and the UIA Lineage]]). Sinks are deflationary.
+
+A sustainable design keeps faucets and sinks in a deliberate balance, and — crucially — makes sure the emission is **backed by real demand**. Emission that only pays holders to hold, with nothing real entering from outside, is the "closed jar" the MELEK design warns against; a design with real outside revenue, real goods, and real redemption is the intended opposite<ref>.local/pending-economics-post.md</ref>.
+
+== Emission schedules ==
+
+An **emission schedule** is the plan for how faucets run over time — the per-block reward and how it tapers. Publishing it lets holders see the supply trajectory in advance instead of guessing. A capped, tapering (disinflationary) schedule and an immutable max supply together tell a holder the most the supply can ever grow. This is the supply side of the picture that [[Market Cap vs Fully-Diluted Valuation]] reads on the valuation side<ref>[[Inflation and Deflation — Token Emission and Burns]]</ref>.
+
+== Utility, not speculation ==
+
+The governing principle in the MELEK economy is that a token should represent **real utility** — real earned reward, real goods, real redemption — rather than pure speculation. Reward splits are described as reward *rules* (the ecosystem default is 65/35 author-to-curator), never as a promised "APY" or yield<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>. A token's tokenomics can be well-designed and its price can still fall; good design reduces fragility and aligns incentives — it does not guarantee value.
+
+== Not investment advice ==
+
+This article explains how tokens are designed. It is **not** a rating of any token, **not** a claim that any design will make a price rise, and **not** a suggestion to buy, sell, or hold anything. Well-designed tokenomics reduce certain risks; they promise nothing about price. Education and mechanics are in scope; individualized financial advice is not — consult a qualified professional.
+
+== Sources ==
+<ref>.local/pending-economics-post.md</ref>
+<ref>integrations/market-depth.mjs</ref>
+<ref>https://en.wikipedia.org/wiki/Tokenomics</ref>
+<ref>[[Token Buybacks, Market Fees, and the UIA Lineage]]</ref>
+
+== Coverage ==
+This article is the design-level synthesis of the Economics 101 series: supply and immutable caps, distribution (fair-launch vs premine vs earned) and concentration, faucets vs sinks, and emission schedules, with a utility-not-speculation posture. It cross-links the valuation, emission/burn, buyback, and order-book articles, and cites the repo's `market-depth.mjs` concentration reader. It gives no token ratings. Nothing here is investment, financial, or legal advice, and nothing here predicts a price.

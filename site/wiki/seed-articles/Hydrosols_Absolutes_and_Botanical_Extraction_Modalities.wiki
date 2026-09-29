@@ -1,0 +1,175 @@
+'''Hydrosols, Absolutes, and Botanical Extraction Modalities''' provides an exhaustive technical and historical guide to the physical separation, distillation, solvent extraction, and lipid-transfer technologies used across traditional perfumery, pharmaceutical compounding, and modern herbal formulation. It details the precise thermodynamic and chemical differences between aqueous infusions (teas) and steam distillates (hydrosols), the two-phase physics of essential oil separation, the multi-step chemistry of floral concretes and absolutes (including winterization and wax precipitation), historical cold-fat enfleurage, and the biphasic culinary/medicinal lipid extraction mechanics behind "marijuana butter" (cannabutter) and medicinal pomades.
+
+== 1. The Separation Spectrum: From Simple Infusions to High-Vacuum Absolutes ==
+
+Botanical extraction relies on matching the polarity, volatility, and thermal stability of the target phytomolecules to the extracting medium and physical conditions:
+
+<code>
+[ AQUEOUS INFUSIONS (Teas) ] ──► [ STEAM DISTILLATES ] ──► [ LIPID INFUSIONS ] ──► [ SOLVENT EXTRACTS ]
+ • Hot/Cold Water Extraction       • Hydrosols (Water fraction) • Cannabutter / Ghee         • Concretes (Hexane/CO2)
+ • Non-volatile ballast extracted  • Essential Oils (Lipid)     • Direct fat transfer        • Absolutes (Ethanol rinse)
+ • Perishable in 24–48 hours       • Self-preserving distillates• Biphasic water separation • Wax-free fine perfumery
+</code>
+
+== 2. Hydrosols vs. Teas vs. Distillates: Phase Physics and Chemistry ==
+
+Although both are water-based preparations, an aqueous herbal tea and a botanical hydrosol operate on completely different chemical and physical planes:
+
+{| class="wikitable"
+! Attribute !! Herbal Infusion / Tea !! Botanical Hydrosol !! Pure Essential Oil
+|-
+| '''Extraction Method''' || Liquid-solid steeping ($70\text{–}100^\circ\text{C}$) || Steam distillation or hydrodistillation || Steam condensation & phase separation
+|-
+| '''Active Composition''' || Heavy water-soluble compounds: tannins, flavonoids, sugars, minerals, mucilage || Volatile water-soluble organics: carboxylic acids, light alcohols, suspended micro-droplets || Pure hydrophobic volatiles: monoterpenes, sesquiterpenes, phenylpropanoids
+|-
+| '''Non-Volatile Ballast''' || High (contains carbohydrates, proteins, salts) || Zero (pure condensed vapor) || Zero (volatile aromatic fraction only)
+|-
+| '''Shelf-Life & Stability''' || Highly perishable (24–48 hours; ferments rapidly) || Extended (12–24 months; naturally sterile and acidic) || Indefinite (lipophilic, resists microbial growth)
+|-
+| '''Internal/Topical Action''' || Nutritional, astringent, systemic tonic || Mild anti-inflammatory, cutaneous toner, eye wash || Highly concentrated; caustic if un-diluted
+|}
+
+=== The Chemistry of the Hydrosol ===
+When steam passes through plant material (such as rose petals, lavender, or chamomile), it vaporizes both water-soluble and oil-soluble aromatic molecules:
+# '''Vapor Transport:''' The steam breaks open botanical glandular trichomes and essential oil ducts.
+# '''Condensation:''' In the condenser coil, the mixed vapor cools and returns to a liquid state.
+# '''Phase Separation in the Florentine Receiver:''' The condensate flows into a separation vessel (a Florentine receiver or *essencier*). Because oil and water are immiscible, the hydrophobic essential oil separates into a distinct phase.
+# '''The Hydrosol Matrix:''' The underlying water is not ordinary distilled water. It is a saturated aqueous solution containing:
+#* '''Hydrophilic Volatiles:''' Low-molecular-weight polar alcohols (such as linalool, geraniol, phenylethyl alcohol in rosewater), organic acids, and aldehydes that prefer the aqueous phase.
+#* '''Colloidal Micro-Emulsion:''' Tiny micro-droplets of non-polar terpenes ($< 0.1\%$) permanently dispersed in the water matrix.
+#* '''Mild Acidic pH ($4.5\text{–}5.5$):''' Conferred by trace volatile carboxylic acids, which acts as a natural bacteriostatic barrier against microbial spoilage.
+
+== 3. Essential Oils and Density-Driven Phase Separation ==
+
+The separation of pure essential oils from hydrosol during distillation is dictated by the **Specific Gravity** ($SG$) of the volatile constituents relative to water ($SG = 1.00\text{ g/cm}^3$ at $20^\circ\text{C}$):
+
+=== 1. Light Oils ($SG < 1.0$) — Floating Fractions ===
+* '''Examples:''' Citrus oils (limonene $SG \approx 0.84$), Lavender (linalyl acetate $SG \approx 0.88$), Rosemary (pinene/cineole $SG \approx 0.90$), Pine, Mint.
+* '''Behavior:''' These oils are less dense than water. In the Florentine receiver, they float on the surface of the hydrosol. Continuous distillation allows the hydrosol to drain from the bottom while the pure oil layer is skimmed from the top.
+
+=== 2. Heavy Oils ($SG > 1.0$) — Sinking Fractions ===
+* '''Examples:''' Clove bud oil (eugenol $SG \approx 1.06$), Cinnamon bark oil (cinnamaldehyde $SG \approx 1.05$), Wintergreen (methyl salicylate $SG \approx 1.18$).
+* '''Behavior:''' Phenylpropanoids and aromatic esters containing heavy benzene rings and polar oxygen atoms have higher densities than water. They sink to the bottom of the Florentine flask, requiring a bottom-drain receiver to separate the oil from the overflowing top hydrosol.
+
+== 4. Concretes and Absolutes: The Science of Fine Floral Extraction ==
+
+Many delicate botanical blossoms—such as Jasmine (*Jasminum grandiflorum*), Tuberose (*Polianthes tuberosa*), Orange Blossom (*Neroli*), and Violet leaves—are severely damaged or altered by the high heat and water of steam distillation. High temperatures hydrolyze delicate esters and cook floral aromas into bitter vegetal notes. To capture their true aromatic profile, perfumers deploy **solvent extraction**:
+
+<code>
+[ Fresh Flower Blossoms ]
+           │
+           ▼  Non-Polar Solvent Wash (Hexane, Heptane, or supercritical CO2)
+[ Solvent + Volatiles + Waxes + Pigments ]
+           │
+           ▼  Low-Temperature Vacuum Distillation (Solvent Recovery)
+     [ CONCRETE ]  (Solid, waxy, highly fragrant paste)
+           │
+           ▼  Ethanol Agitation & Warming (Wax-Free Dissolution)
+[ Alcohol Solution + Insoluble Wax Precipitate ]
+           │
+           ▼  Winterization (-20°C Freezing & Micro-Filtration)
+[ Filtered Perfume Alcohol ]
+           │
+           ▼  Vacuum Stripping of Ethanol (Rotary Evaporator)
+     [ ABSOLUTE ]  (Pure, viscous, 100% alcohol-soluble aromatic elixir)
+</code>
+
+=== Step 1: Producing the Concrete ===
+* Freshly picked flowers are placed in large perforated metal baskets inside an extraction vessel.
+* A non-polar solvent (historically benzene or petroleum ether; modernly food-grade **hexane** or **supercritical $CO_2$**) is washed through the flowers at room temperature.
+* Non-polar solvents dissolve the aromatic terpenes and esters alongside the plant’s natural cuticular **waxes**, phytosterols, and pigments (chlorophyll, carotenoids).
+* The solvent is drained and evaporated under gentle vacuum ($30\text{–}40^\circ\text{C}$), recovering the solvent for re-use and leaving behind a solid or semi-solid, waxy mass called the '''Concrete'''. A concrete typically contains 50% pure aromatic oil and 50% odorless plant wax.
+
+=== Step 2: Refining the Absolute via Winterization ===
+Because plant waxes are insoluble in alcohol and would cause fine perfumes to cloud, precipitate, and clog atomizers, the concrete must be transformed into an '''Absolute''':
+# '''Ethanol Dissolution:''' The concrete is heated gently ($40\text{–}50^\circ\text{C}$) with pure 190–200 proof ethanol ($95\text{–}100\%$ ethyl alcohol). The volatile scent molecules dissolve completely into the alcohol, while the heavy plant waxes melt into suspension.
+# '''Winterization (Sub-Zero Freezing):''' The warm ethanolic solution is placed in a deep-freeze environment (typically $-15^\circ\text{C}\text{ to }-25^\circ\text{C}$) for 24 to 48 hours. At sub-zero temperatures, the solubility of long-chain aliphatic waxes drops to near zero; the waxes crystallize and agglomerate into heavy, white flocs that precipitate out of solution.
+# '''Vacuum Filtration:''' The chilled slurry is immediately filtered through a chilled Büchner funnel or sub-micron filter paper, catching 100% of the solid waxes while the fragrance-saturated alcohol passes through clear.
+# '''Alcohol Evaporation:''' The ethanol is evaporated under vacuum using a rotary evaporator. The final product is the '''Absolute'''—a concentrated, highly viscous, intensely aromatic liquid that dissolves completely in perfumer's alcohol.
+
+== 5. Enfleurage: The Ancient Art of Cold-Fat Absorption ==
+
+Before the invention of petroleum-derived hydrocarbon solvents in the 19th century, the French perfume capital of Grasse and ancient Egyptian temple apothecaries captured fragile floral scents through '''Enfleurage'''—the selective absorption of volatile aroma molecules into solid animal or vegetable lipids:
+
+=== 1. Cold Enfleurage (L'Enfleurage à Froid) ===
+* Glass plates mounted in sturdy wooden frames (called ***châssis***) are coated on both sides with a 5 mm layer of purified, completely odorless, neutral fat—traditionally a calibrated blend of 70% purified lard (porcine fat) and 30% beef tallow, or hydrogenated plant lipids.
+* Fresh, dewy blossoms (principally jasmine or tuberose) are placed by hand, face down, across the fat layer.
+* '''Post-Harvest Biosynthesis:''' Jasmine blossoms continue to live and enzymatically biosynthesize volatile odorants for up to 36 hours after being picked. As the blossoms "exhale" their scent molecules, the surrounding lipid matrix acts as an infinite non-polar solvent sink, capturing and trapping the lipophilic volatiles.
+* Every 24 to 48 hours, the exhausted, withered petals are removed by hand (*défleurage*), and a fresh layer of newly opened blossoms is laid onto the fat.
+* This labor-intensive cycle is repeated **30 to 40 times** across an entire harvest season until the fat becomes completely saturated with perfume.
+
+=== 2. Pomade and Enfleurage Absolute ===
+* The resulting highly fragrant fat is called an '''Enfleurage Pomade'''.
+* In ancient Egypt and classical Rome, this pomade was used directly on hair and skin as a solid perfume or molded into [[Head Cone|Head Cones]].
+* In modern Grasse perfumery, the pomade is agitated with pure alcohol to extract the floral essence away from the fat, chilled to precipitate any dissolved triglycerides, and evaporated into an ultra-rare, high-value '''Enfleurage Absolute'''.
+
+== 6. Lipid Extractions and "Marijuana Butter": Biphasic Separation Dynamics ==
+
+Direct lipid extraction—the foundational technique behind culinary "cannabutter," infused coconut oil, and Ayurvedic medicated ghees (*Ghrita*)—is a direct modern descendant of ancient unguent making:
+
+=== The Hydrophobic Imperative ===
+* Cannabinoids (THC, CBD, CBG) and lipophilic terpenes possess extremely high octanol-water partition coefficients ($\log P \approx 6.0\text{–}6.5$). They are completely insoluble in water ($< 2\text{–}10\ \mu\text{g/L}$), but have near-infinite solubility in neutral lipid triglycerides (butterfat, coconut MCTs, olive oil).
+* Prior to lipid extraction, dried plant material must undergo '''thermal decarboxylation''' ($110\text{–}120^\circ\text{C}$ for 30–45 minutes) to convert non-psychoactive carboxylic acid forms (THCA, CBDA) into neutral, lipophilic, bioavailable forms (THC, CBD) by liberating gaseous $CO_2$.
+
+=== The Water-Butter Biphasic Separation Trick ===
+Traditional cannabis culinary lore recommends simmering decarboxylated cannabis in a mixture of **butter and water**, rather than pure butter alone. This simple kitchen technique represents an elegant application of biphasic liquid-liquid extraction:
+
+<code>
+[ DECARBOXYLATED BOTANICAL MATERIAL ]
+                  │
+                  ▼  Simmered in Water (70%) + Clarified Butter / Fat (30%) at 100°C
+┌────────────────────────────────────────────────────────────────────────┐
+│                              THE EXTRACTION MATRIX                     │
+│                                                                        │
+│   [ Non-Polar Butterfat Layer ]           [ Polar Aqueous Water Layer ]│
+│    • Dissolves 100% of Cannabinoids        • Traps water-soluble contaminants:│
+│    • Dissolves Sesquiterpenes (Caryophyllene) chlorophyll, bitter tannins,  │
+│    • Absorbs fragrant lipophiles           • Dissolves harsh plant salts & sugars│
+│                                                                        │
+│   (Thermally buffered at exactly 100°C — boiling water prevents scorching)  │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼  Press through cheesecloth / mesh
+                    [ Liquid Biphasic Filtrate ]
+                                    │
+                                    ▼  Refrigerate at 4°C (Density Phase Separation)
+ ┌──────────────────────────────────┴──────────────────────────────────┐
+ ▼                                                                     ▼
+[ TOP LAYER: SOLIDIFIED BUTTER PUCK ]                 [ BOTTOM LAYER: DIRTY WATER ]
+ • Pure, fragrant, concentrated lipid                  • Brown-green wastewater containing
+ • Highly bioavailable, mild flavor                    chlorophyll, tannins, and impurities
+ • Lifts off cleanly as a solid disk                  • DISCARDED COMPLETELY
+</code>
+
+=== Three Critical Scientific Advantages of the Biphasic Water Simmer ===
+# '''Absolute Temperature Buffering:''' Pure butter consists of butterfat and delicate milk solids (casein, lactose) that burn, smoke, and oxidize at temperatures above $120\text{–}150^\circ\text{C}$, degrading cannabinoids into inactive CBN and generating bitter acrolein. Adding copious water locks the entire thermodynamic system at exactly **$100^\circ\text{C}$** (the boiling point of water at atmospheric pressure), making thermal degradation or burning physically impossible.
+# '''Impurity Stripping (Washing Out Chlorophyll and Tannins):''' Chlorophyll, hydrophilic polyphenols, bitter tannins, and degraded plant sugars are polar. While cannabinoids dissolve into the floating molten butterfat, the harsh, foul-tasting polar impurities dissolve exclusively into the hot water layer.
+# '''Effortless Density Separation:''' When the liquid mixture is chilled in a refrigerator ($4^\circ\text{C}$), the less dense butterfat ($SG \approx 0.91$) floats to the top and crystallizes into a solid, hard puck. The foul, brown-green water remains liquid beneath the puck. The solid medicated butter disk is simply lifted out, rinsed with cold water, and stored—producing a purified, delicious, and highly potent extract.
+
+== 7. Carrier Lipids Compared: Ghee, MCT, and Beeswax ==
+
+The choice of lipid carrier dictates digestive absorption pathways, shelf stability, and mucosal permeability:
+
+{| class="wikitable"
+! Lipid Carrier !! Dominant Fatty Acid Profile !! Digestion & Absorption Pathway !! Best Application
+|-
+| '''Clarified Butter (Ghee)''' || Saturated short-, medium-, and long-chain triglycerides; zero water or milk solids || Partially absorbed via portal vein (short-chain butyrate); highly stable against lipid peroxidation || Ayurvedic herbal compounding; high-heat cooking; traditional medicated balms.
+|-
+| '''MCT Oil'''<br>''(Coconut / Palm)'' || Caprylic ($C_8$) and Capric ($C_{10}$) medium-chain triglycerides || Bypasses lymphatic chylomicron packaging; absorbed directly via portal vein to liver for rapid ketone synthesis || Fast-acting sublingual drops; oral tinctures; maximum pharmacokinetic onset speed.
+|-
+| '''Cocoa Butter''' || Palmitic ($C_{16}$), Stearic ($C_{18}$), and Oleic ($C_{18:1}$) fatty acids || Melts sharply at human body temperature ($34\text{–}36^\circ\text{C}$) || Suppositories; solid cosmetic bars; edible chocolates; stable topical body butters.
+|-
+| '''Beeswax / Punic Wax''' || Palmitate and oleate esters of long-chain fatty alcohols; free cerotic acid || Non-digestible wax matrix; forms protective occlusive cutaneous films || Solid perfume [[Head Cone|Head Cones]]; [[Punic Wax]] emulsions; apotropaic barrier creams; herbal salves.
+|}
+
+== See Also ==
+* [[Solvent Chemistry and Polarity in Botanical Extraction]]
+* [[Laboratory Equipment and Extraction Engineering]]
+* [[Punic Wax]]
+* [[Head Cone]]
+* [[Kyphi]]
+* [[Cannabinoid Oilahuasca]]
+* [[Stack Substances]]
+* [[Bioavailability: Metabolic Enzymes, Transporters, and Synergistic Delivery]]
+* [[Sublingual Absorption, Salivary Enzymes, and Mucosal Bioavailability]]
+* [[Balm of Gilead, Uziza, and Ancient Resinous Synergies]]

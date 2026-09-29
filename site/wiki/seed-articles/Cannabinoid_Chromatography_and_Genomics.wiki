@@ -1,0 +1,72 @@
+'''Cannabinoid Chromatography and Genomics''' provides an exhaustive technical reference on analytical separation methods, preparative purification technologies, cannabis chemotype genetics, and marker-assisted breeding. From HPLC separation of cannabinoid acids to Centrifugal Partition Chromatography (CPC) and the codominant alleles governing THCA/CBDA synthases, this article details the science that defines the modern testing laboratory and cultivation facility.
+
+== Analytical chromatography: HPLC vs. GC ==
+
+In cannabinoid and terpene testing, selecting the appropriate chromatographic modality is critical to avoiding analytical artifacts:
+
+<code>
+                             [ RAW CANNABIS SAMPLE ]
+                                        │
+           ┌────────────────────────────┴────────────────────────────┐
+           ▼                                                         ▼
+[ High-Performance Liquid Chromatography (HPLC) ]   [ Gas Chromatography–Mass Spectrometry (GC-MS) ]
+ • Liquid mobile phase / Room temperature            • Heated injection port (250–280 °C)
+ • Separates THCA from THC without heat              • Thermally decarboxylates acids to neutral THC
+ • Regulatory gold standard for potency              • Gold standard for volatile terpenes & solvents
+</code>
+
+=== 1. High-Performance Liquid Chromatography (HPLC) ===
+* '''Configuration:''' Reversed-phase chromatography utilizing a non-polar **C18 silica column** ($4.6\text{ mm} \times 150\text{ mm}$, $3\text{–}5\text{ µm}$ particle size). The mobile phase uses a gradient elution of water and acetonitrile acidified with 0.1% formic acid or phosphoric acid to suppress ionic ionization.
+* '''Detection:''' Diode Array Detection (DAD) monitoring UV absorption at '''220 nm''' (general conjugated cannabinoid absorption) and '''280 nm''' (aromatic phenolic absorption).
+* '''The Non-Thermal Advantage:''' Because HPLC operates at ambient or low column temperatures ($30\text{–}40\text{ °C}$), it does not induce decarboxylation. It separates and quantifies neutral cannabinoids ($\Delta^9$-THC, CBD, CBG) and native carboxylic acids (THCA, CBDA, CBGA) independently.
+* '''The Active THC Formula:''' To calculate the theoretical maximum THC available upon combustion, analytical laboratories apply the molar decarboxylation formula:
+: <code>Total Potential THC = Free THC + (THCA · 0.877)</code>
+The factor '''0.877''' reflects the proportion of molecular mass retained when the heavy carboxyl group ($-COOH$, MW 45 g/mol) is irreversibly lost as carbon dioxide gas ($CO_2$, MW 44 g/mol).
+
+=== 2. Gas Chromatography (GC-MS / GC-FID) ===
+* '''Configuration:''' Utilizes a fused-silica capillary column (such as a 30-meter DB-5MS) with high-purity helium carrier gas. Detection is performed via Flame Ionization Detection (FID) or electron-impact Mass Spectrometry (MS).
+* '''The GC Decarboxylation Artifact:''' GC requires vaporizing liquid samples inside an injection port heated to '''250 °C to 280 °C'''. At this temperature, 100% of cannabinoid acids (THCA, CBDA) spontaneously decarboxylate on the column into neutral THC and CBD. Injecting raw, unheated cannabis into a standard GC yields a single "Total THC" peak, obscuring the plant's true acid profile unless samples are first silylated using BSTFA.
+* '''Primary Applications:''' GC is the regulatory standard for quantifying **volatile botanical monoterpenes** (pinene, myrcene, limonene, linalool) and screening for **residual extraction solvents** (butane, propane, ethanol, heptane down to parts-per-million limits).
+
+== Preparative chromatography: Scaling isolation ==
+
+While analytical chromatography processes micrograms for testing, industrial processors use preparative chromatography to isolate pure minor cannabinoids at kilogram scale:
+
+=== 1. Centrifugal Partition Chromatography (CPC) ===
+* Traditional preparative columns use solid silica gel, which suffers from irreversible adsorption, high solvent consumption, and toxic solid silica waste.
+* '''Liquid-Liquid Partition:''' CPC (and High-Speed Counter-Current Chromatography, HSCCC) utilizes a support-free liquid stationary phase held inside spinning rotor chambers by powerful centrifugal force, while an immiscible liquid mobile phase is pumped through it.
+* '''Advantages:'''
+** Zero solid stationary phase: eliminating column degradation, channeling, and silica contamination.
+** 100% mass recovery of injected crude extract.
+** Allows continuous, high-throughput isolation of rare minor cannabinoids—such as pure cannabinol (CBN), cannabichromene (CBC), cannabigerol (CBG), or $\Delta^8$-THC—at 99%+ pharmaceutical purity.
+
+== Cannabis genomics and the five chemotypes ==
+
+In botanical taxonomy, classifying cannabis by the traditional folk labels "Indica" and "Sativa" is scientifically obsolete. Whole-genome sequencing demonstrates that leaf shape (narrow-leaf vs. broad-leaf) does not correlate with cannabinoid or terpene chemotype. Formal pharmacology classifies cultivars into **five distinct chemotypes** (de Meijer et al., 2003):
+
+{| class="wikitable"
+! Chemotype !! Primary cannabinoid profile !! Dominant ratio !! Genetic synthase locus !! Commercial designation
+|-
+| '''Type I''' || High THC, low CBD || THC:CBD > 10:1 || Homozygous $B_T / B_T$ || Drug-type / Adult-use cannabis
+|-
+| '''Type II''' || Balanced THC and CBD || THC:CBD ≈ 1:1 || Heterozygous $B_T / B_D$ || Mixed-ratio medicinal cannabis
+|-
+| '''Type III''' || High CBD, low THC || CBD:THC > 10:1 || Homozygous $B_D / B_D$ || Industrial hemp / Broad-spectrum CBD
+|-
+| '''Type IV''' || High CBG, trace THC/CBD || CBGA dominant || Null mutation ($B_0$) blocking downstream synthases || CBG specialty cultivars
+|-
+| '''Type V''' || Cannabinoid-null || Cannabinoids < 0.05% || Resorcinolic acid pathway blocked || Industrial fiber / Grain hemp
+|}
+
+=== 1. The codominant synthase locus ===
+The inheritance of cannabinoid production is governed predominantly by a single genetic locus containing two codominant alleles:
+* '''Allele $B_T$:''' Encodes the enzyme **THCA synthase**, which cyclizes cannabigerolic acid (CBGA) into THCA.
+* '''Allele $B_D$:''' Encodes the enzyme **CBDA synthase**, which cyclizes CBGA into CBDA.
+* When both alleles are inherited ($B_T / B_D$), the two enzymes compete directly for the identical shared substrate pool of CBGA inside glandular trichomes, yielding an exact, balanced 1:1 ratio of THCA and CBDA.
+
+=== 2. Marker-Assisted Selection (MAS) and molecular breeding ===
+Modern agricultural breeding programs deploy DNA polymerase chain reaction (PCR) assays to accelerate cultivation:
+* '''Early Sex Determination:''' Cannabis is a dioecious species where male plants produce negligible cannabinoids and pollinate female crops, ruining flower quality. Using Sequence-Characterized Amplified Region (SCAR) primers, breeders test DNA extracted from young seedling cotyledons to identify male Y-chromosome markers, culling male plants weeks before flowering.
+* '''Compliance Screening:''' Genotyping seedlings for the $B_D / B_D$ homozygous state guarantees that crops will not express the functional THCA synthase enzyme, ensuring field harvests remain strictly compliant with the federal 0.3% THC hemp threshold.
+
+See also: [[Laboratory Equipment and Extraction Engineering]] · [[Cannabinoid and Terpene Electrochemistry]] · [[Cannabinoid Isomerization]] · [[Modified Cannabinoids Matrix]] · [[Cannabis]] · [[Stack Substances]]

@@ -101,6 +101,14 @@ const STYLE = `<style>
   .pylon{margin:22px 0 8px;padding:18px;border:1px solid var(--goldsoft);border-left:4px solid var(--gold);border-radius:var(--radius);background:linear-gradient(180deg,color-mix(in srgb,var(--goldsoft) 30%,var(--panel)),var(--panel));box-shadow:var(--shadow)}
   .chip{display:inline-block;font-family:system-ui,sans-serif;font-size:12px;font-weight:600;color:var(--lapisink);background:var(--lapissoft);border:1px solid color-mix(in srgb,var(--lapis) 25%,transparent);border-radius:20px;padding:3px 10px;margin:2px 4px 2px 0;text-decoration:none}
   .chip:hover{border-color:var(--lapis);text-decoration:none}
+  /* ── Pillars navigation and cards */
+  .pillar-card{font-family:system-ui,sans-serif;background:var(--panel);border:1px solid var(--line2);border-radius:var(--radius);padding:16px 18px;text-decoration:none;display:block;box-shadow:var(--shadow);transition:border-color .15s,transform .15s}
+  .pillar-card:hover{border-color:var(--gold);transform:translateY(-2px);text-decoration:none}
+  .pillar-card h3{margin:0 0 6px;font-size:17px;color:var(--fg);display:flex;align-items:center;justify-content:space-between}
+  .pillar-card p{margin:0;font-size:13px;line-height:1.45;color:var(--mut)}
+  .pill-btn{font-family:system-ui,sans-serif;font-size:13px;font-weight:600;background:var(--panel);color:var(--mut);border:1px solid var(--line2);border-radius:20px;padding:6px 13px;cursor:pointer;transition:all .12s}
+  .pill-btn:hover{color:var(--fg);border-color:var(--gold)}
+  .pill-btn.active{background:var(--panel2);color:var(--goldink);border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
   .flag{font-family:system-ui,sans-serif;background:color-mix(in srgb,var(--down) 8%,var(--panel));border:1px solid color-mix(in srgb,var(--down) 40%,transparent);border-radius:var(--radius);padding:13px 16px;margin:16px 0;font-size:13px}
   .flag b{color:var(--down)} code{background:var(--panel2);border:1px solid var(--line);padding:1px 5px;border-radius:5px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
   blockquote{border-left:3px solid var(--gold);margin:14px 0;padding:2px 0 2px 16px;color:var(--mut);font-style:italic}

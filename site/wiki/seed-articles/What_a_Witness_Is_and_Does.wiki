@@ -1,0 +1,63 @@
+# What a Witness Is and Does
+
+A **witness** on a Graphene / Delegated-Proof-of-Stake chain like MELEK is an elected **block producer**: an account the network's stakeholders have voted to trust with the job of collecting transactions, packing them into blocks, signing each block with a dedicated key, and broadcasting it to the network on a fixed schedule. On MELEK the founding witness account is **`hathor`**. This article explains what the witness role *is* — the schedule, the signing key, the price feed, the chain parameters — and *why witnesses matter* to a chain's security and legibility, grounded in the Graphene / Steem / Blurt lineage MELEK is built on<ref>library-of-ashurbanipal-bot/generated-articles/Blockchain_Witness__Block_Producer_.wiki</ref><ref>witness/bringup-check.mjs</ref>.
+
+This is an **educational, neutral** reference. It describes how the consensus role works; it is **not** financial or investment advice and makes **no** promise about any token's value.
+
+== Summary ==
+
+A DPoS chain does not let just anyone mine a block. Instead, stakeholders **vote** for a small set of witnesses, and only witnesses in the active set produce blocks — each in turn, one every few seconds, in a shuffled order. Producing blocks earns a reward and, more importantly, carries a duty: witnesses keep the chain running, publish the price feed the chain's internal economy needs, and set the chain's tunable parameters. Because the set is small and elected, the chain is fast and its block producers are publicly accountable — a witness that misbehaves or goes offline can be voted out<ref>library-of-ashurbanipal-bot/generated-articles/Delegated_Proof_of_Stake__DPoS_.wiki</ref>.
+
+== The active set and the schedule ==
+
+MELEK is a **Steem / Blurt fork** on the **Graphene** framework, and it keeps the standard block-production model<ref>library-of-ashurbanipal-bot/generated-articles/Graphene_Blockchain_Framework.wiki</ref>:
+
+- **A fixed number of block-producer slots per round** — 21 on the Steem-family schedule. Twenty are filled by the witnesses with the most approval-weighted stake behind them; the twenty-first is a rotating **timeshare** slot drawn from the ranked pool of everyone else, so smaller witnesses still get an occasional turn.
+- **A short, fixed block interval** — one block every three seconds. Each round the active witnesses are **shuffled** into a random order and each produces exactly one block in its slot, so no single producer can predict or monopolize the sequence.
+- **Missed blocks are visible.** If a witness fails to produce in its slot (its node is down, or its clock has drifted) the block is simply skipped and the miss is recorded against that witness. Persistent misses are a public signal to voters that the witness is unreliable. The repo's bring-up check reads exactly this — whether `hathor` is in the current shuffled schedule, whether a recent block carries its signature, and its missed-block count — by walking back roughly one full round of blocks<ref>witness/bringup-check.mjs</ref>.
+
+The active set is not fixed membership: it is continuously re-elected by stake-weighted approval voting, so the schedule reflects the network's current trust.
+
+== The signing key ==
+
+A witness signs each block it produces with a dedicated **signing key** (the block-signing / active key), which is separate from the account's owner and posting keys. This separation is load-bearing for security: the key that signs blocks lives on the witness's production node and does nothing else, so the account's higher-authority keys never need to touch the block-production host. In the MELEK operator's design the owner key stays **offline**, and the operational keys are fetched **just-in-time** for each run rather than stored on disk — the witness treats its account like any other Graphene witness account and never exposes higher authority than a given task needs<ref>witness/bringup-check.mjs</ref>. (Key-custody policy is detailed in the operator's `SECURITY.md`; this article covers only the role, not the custody mechanics.)
+
+== The price feed ==
+
+On a Steem-family chain the witnesses are also the chain's **price oracle**. Each witness periodically publishes a **price feed** — its honest estimate of the value of the chain's core token against the chain's dollar-denominated token — and the chain takes the **median** of the active witnesses' feeds as the number its internal economy uses (for example, to value the stable-token conversions). Publishing an accurate feed is part of the witness's duty; publishing a wild or manipulative feed is grounds to be voted out. On MELEK the witness publishes its feed on a timer, and — matching the chain-parameter discipline below — the value is an informational estimate the chain aggregates, never a promise about price<ref>library-of-ashurbanipal-bot/generated-articles/STEEM_Blockchain.wiki</ref>.
+
+== Chain parameters ==
+
+Witnesses also **vote the chain's tunable parameters** through their `witness_update` / witness-set-properties operation: the block size limit, the account-creation fee, the target inflation or reward parameters, and the like. These are not code changes — they are ranges the chain code already permits — and the value the chain uses is again the **median** of what the active witnesses have set. This is how a Graphene chain adjusts to load and conditions without a hard fork: the elected producers move a dial the code exposes, and the median rules. (A note on MELEK's fork specifically: as a Blurt-style clone it drops downvotes and the per-operation fee, so some parameters from the upstream Steem set do not apply<ref>library-of-ashurbanipal-bot/generated-articles/BLURT_Blockchain.wiki</ref>.)
+
+== Why witnesses matter ==
+
+The witness set is where a DPoS chain's **security, speed, and accountability** all live at once:
+
+- **Security / liveness** — blocks only advance because enough of the active set is online and honest. A chain reaches **irreversibility** once a supermajority of the recent producers have built on a block; a witness that stalls or forks threatens that, which is why keeping producers online and in sync is the core operational duty (the MELEK operator's recovery playbooks are entirely about restoring a healthy producing set after an outage).
+- **Speed** — because only ~21 known producers take turns, blocks come every three seconds without the energy race of Proof-of-Work ([[Proof of Work, Proof of Stake, and DPoS]]).
+- **Accountability** — producers are named accounts, their misses and feeds are public, and their slot is held only as long as stakeholders keep voting for them. Trust is explicit and revocable.
+
+On MELEK, `hathor` is a **genesis witness** with a time-limited, one-year protection of its active slot that lives in the chain code — after that window it reverts to ordinary stake-weighted election like any other witness. The protection is a chain-side property; the witness software in this repo simply treats `hathor` as a normal Graphene witness account and depends on none of it<ref>library-of-ashurbanipal-bot/generated-articles/Running_a_Graphene_Witness_Node.wiki</ref>.
+
+== Running one yourself ==
+
+Anyone can run a MELEK witness: create an account, run a `witness_node`, register a signing key with a `witness_update`, keep the node online and in sync, publish a price feed, and campaign for stake-weighted votes. The step-by-step operational guide is the Library's [[Running a Graphene Witness Node]] article and the Witness School course; this article is the *theory* companion — what the role is and why it exists — that those how-to surfaces point back to.
+
+== Not advice ==
+
+This article explains a consensus role. Running a witness earns a block reward denominated in the chain's token; that is a description of the mechanism, **not** a projection of income or of any token's price, and **not** investment advice. Whether running a witness is worthwhile depends on costs and conditions this article does not assess.
+
+== Sources ==
+<ref>library-of-ashurbanipal-bot/generated-articles/Blockchain_Witness__Block_Producer_.wiki</ref>
+<ref>library-of-ashurbanipal-bot/generated-articles/Delegated_Proof_of_Stake__DPoS_.wiki</ref>
+<ref>library-of-ashurbanipal-bot/generated-articles/Graphene_Blockchain_Framework.wiki</ref>
+<ref>library-of-ashurbanipal-bot/generated-articles/STEEM_Blockchain.wiki</ref>
+<ref>library-of-ashurbanipal-bot/generated-articles/BLURT_Blockchain.wiki</ref>
+<ref>library-of-ashurbanipal-bot/generated-articles/Running_a_Graphene_Witness_Node.wiki</ref>
+<ref>witness/bringup-check.mjs</ref>
+<ref>https://developers.hive.io/tutorials-recipes/understanding-configuration-values.html</ref>
+
+== Coverage ==
+This article is a Theory-strand companion to the Witness School: it explains the witness / block-producer role on MELEK — the 21-slot shuffled schedule and 3-second block interval, the signing key and its separation from higher authority, the price feed, and witness-voted chain parameters — and why the elected-producer model gives a DPoS chain its security, speed, and accountability. It cross-links the general [[Blockchain Witness (Block Producer)]], [[Delegated Proof of Stake (DPoS)]], [[Graphene Blockchain Framework]], and [[Running a Graphene Witness Node]] articles, and grounds the MELEK-specific schedule reads in `witness/bringup-check.mjs`. The `hathor` genesis-slot protection is described as a chain-side property the Bot repo does not implement. Nothing here is investment or financial advice, and nothing here predicts a price.
+</invoke>

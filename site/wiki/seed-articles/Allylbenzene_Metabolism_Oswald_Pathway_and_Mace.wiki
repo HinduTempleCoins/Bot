@@ -1,0 +1,68 @@
+'''Allylbenzene Metabolism, the Oswald Pathway, and Mace''' examines the in vivo biotransformation of plant allylbenzenes into tertiary amine alkaloids, the enzymatic cascade discovered by E.O. Oswald, and the chemical advantages of mace over whole nutmeg in ethnobotanical pharmacology.
+
+While early psychedelic lore hypothesized that the liver directly animated allylbenzenes with ammonia into classical primary amphetamines (e.g., myristicin into MMDA), published biomedical research established an alternative metabolic sequence involving endogenous secondary amines and phenyl vinyl ketone intermediates.
+
+== The Oswald pathway: in vivo alkaloid formation ==
+
+In the 1970s, toxicologists and pharmacologists led by '''E.O. Oswald''' (Oswald et al., 1971; Peele & Oswald, 1977) investigated the urinary and biliary metabolites of safrole, myristicin, and related allylbenzenes in mammalian models. They published the first empirical demonstration that '''allylbenzenes form nitrogen-containing alkaloid adducts in vivo''':
+
+<code>
+[ Plant Allylbenzene ] (e.g., Myristicin, Safrole, Elemicin)
+          │
+          ▼  Step 1: CYP2C9 / CYP2E1 (1'-Hydroxylation)
+[ 1'-Hydroxyallylic Alcohol ]
+          │
+          ▼  Step 2: ADH / 17β-HSD2 (Dehydrogenation / Oxidation)
+[ Electrophilic Phenyl Vinyl Ketone Intermediate ]
+          │
+          ▼  Step 3: Michael Addition with Endogenous Secondary Amines
+[ Tertiary Amino-Alkaloid Adducts ]
+ (Piperidine / Dimethylamine / Pyrrolidine Derivatives)
+</code>
+
+=== Step 1: 1'-Hydroxylation ===
+* Cytochrome P450 monooxygenases (predominantly '''CYP2C9''' and '''CYP2E1''') hydroxylate the benzylic methylene carbon adjacent to the aromatic ring.
+* This generates a secondary allylic alcohol (such as 1'-hydroxymyristicin or 1'-hydroxysafrole).
+
+=== Step 2: Oxidation to vinyl ketones and the 17β-HSD2 bottleneck ===
+* The secondary alcohol undergoes dehydrogenation to an $\alpha,\beta$-unsaturated ketone—a '''phenyl vinyl ketone'''.
+* This oxidation is catalyzed by alcohol dehydrogenases (ADH) and the steroid enzyme '''17β-hydroxysteroid dehydrogenase type 2 (17β-HSD2)'''.
+* '''Enzymatic Modulation:''' Natural polyphenols (such as high dietary concentrations of quercetin found in unpeeled onions or naringenin in grapefruit) are documented inhibitors of 17β-HSD2. Ingestion of these inhibitors blocks vinyl ketone formation, preventing downstream alkaloid generation and explaining delayed or absent effects in human trials.
+
+=== Step 3: Michael addition of endogenous amines ===
+* Phenyl vinyl ketones are powerful, electron-deficient Michael acceptors.
+* In hepatic and intestinal tissues, the terminal alkene carbon is attacked by available endogenous secondary amines—yielding stable tertiary amino-alkaloid metabolites:
+# '''Dimethylamine Adducts:''' Derived from endogenous choline and lecithin breakdown. Highly polar, faster renal clearance, shorter duration of action.
+# '''Piperidine Adducts:''' Derived from dietary piperine or L-lysine metabolism by gut microflora. Displays higher lipophilicity (XlogP) and superior blood-brain barrier permeation.
+# '''Pyrrolidine Adducts:''' Highest lipophilicity, prolonged central half-life.
+
+== Nutmeg vs. Mace (Myristica fragrans) ==
+
+The tropical evergreen tree ''Myristica fragrans'' (native to the Maluku Islands of Indonesia) produces a peach-like fruit containing two distinct culinary and medicinal spices:
+
+<code>
+      [ Outer Peach-like Fruit Flesh ]
+                     │
+      [ Crimson Lacy Aril: MACE ] ────► High volatile oil / High Elemicin / Low Fat
+                     │
+      [ Hard Woody Seed Shell ]
+                     │
+      [ Inner Kernel: NUTMEG ]    ────► High Trimyristin Fat (up to 40%) / High Myristicin
+</code>
+
+=== 1. The trimyristin dilemma in whole nutmeg ===
+The severe physical malaise, sluggish onset, and excruciating hangover associated with recreational whole-nutmeg ingestion are largely caused by non-psychoactive lipid ballast:
+* The inner nutmeg seed contains between '''30% and 40% fat by weight''', predominantly comprised of '''trimyristin''' (the glycerol tri-ester of myristic acid).
+* Ingesting 10 to 30 grams of raw powdered nutmeg forces a massive load of saturated trimyristin fat into the gastrointestinal tract.
+* Trimyristin dramatically slows gastric emptying, delays absorption of active volatiles for 4 to 8 hours, and provokes intense nausea, dry mouth, and liver stress.
+
+=== 2. The chemical profile of Mace ===
+'''Mace''' is the dried, lacy, reddish aril that wraps around the nutmeg shell:
+* '''Significantly lower lipid content:''' Mace contains very little trimyristin fat, eliminating the heavy, oily stomach ballast of the seed.
+* '''Higher volatile oil concentration:''' Mace yields up to 7% to 14% volatile essential oil by weight (compared to 2% to 8% for whole seed).
+* '''Enriched in Elemicin:''' The essential oil of mace exhibits a significantly higher ratio of '''elemicin''' to myristicin compared to nutmeg seed. Because elemicin is the structural analog of the trimethoxyphenethylamine (mescaline/TMA) family, historical herbalists consistently preferred mace over nutmeg for stimulating, cerebral applications.
+
+=== 3. Distilled essential oil vs. crude powder ===
+Steam-distilling the essential oil of nutmeg or mace extracts the volatile allylbenzenes (myristicin, elemicin, safrole, 5-methoxyeugenol) and monoterpenes (sabinene, pinene) while leaving non-volatile trimyristin completely behind in the distillation flask. Dosing isolated steam-distilled essential oil in micro-quantities (a few drops) avoids the gastrointestinal toxicity of crude plant powder.
+
+See also: [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[69Ron and Oilahuasca Chemistry]] · [[Traditional Spiced Formulations and Synergistic Blends]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Cannabinoid Oilahuasca]] · [[Stack Substances]]

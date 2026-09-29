@@ -1,0 +1,97 @@
+'''The Expanded Endocannabinoid System and FAAH Science''' explores the broader biochemistry of the endocannabinoidome (eCBome), the catalytic architecture of '''fatty acid amide hydrolase (FAAH)''', its endogenous substrates, natural and synthetic inhibitors, the BIA 10-2474 clinical trial disaster, and the human C385A genetic polymorphism.
+
+While early pharmacology framed the endocannabinoid system (ECS) simply as two receptors (CB1 and CB2) and two lipid ligands (anandamide and 2-AG), contemporary molecular biology recognizes an extensive lipid-signaling network comprising dozens of bioactive lipids, multiple G-protein coupled receptors, nuclear receptors, ion channels, and a complex network of synthesizing and degrading enzymes.
+
+== The endocannabinoidome (eCBome) architecture ==
+
+The extended endocannabinoid system encompasses multiple overlapping families of lipid mediators:
+
+<code>
+                         [ THE ENDOCANNABINOIDOME ]
+                                     │
+           ┌─────────────────────────┼─────────────────────────┐
+           ▼                         ▼                         ▼
+ [ Classical Receptors ]   [ Alternative GPCRs ]      [ Nuclear & Channels ]
+  • CB1 (Central CNS)       • GPR55 ("CB3" putative)   • PPAR-α (Neuroprotection)
+  • CB2 (Immune / Glia)     • GPR119 (Metabolic / GLP) • PPAR-γ (Metabolic control)
+                            • GPR18 (Microglial / NAGly)• TRPV1 (Vanilloid / Pain)
+</code>
+
+=== 1. Receptor superfamily ===
+* '''CB1 and CB2:''' The classical Gi/o-coupled cannabinoid receptors.
+* '''TRPV1 (Transient Receptor Potential Vanilloid 1):''' Anandamide acts as an endogenous ligand (an "endovanilloid") at the intracellular binding site of TRPV1, triggering calcium influx and participating in pain and inflammatory signaling.
+* '''GPR55:''' Often designated the putative "CB3" receptor; coupled to Gα12/13 and Gαq, activated by lysophosphatidylinositol (LPI) and modulated by both phytocannabinoids and endocannabinoids.
+* '''GPR119:''' Expressed in pancreatic β-cells and intestinal L-cells; activated by oleoylethanolamide (OEA) to stimulate glucagon-like peptide-1 (GLP-1) and insulin secretion.
+* '''PPARα and PPARγ:''' Peroxisome proliferator-activated nuclear receptors. Non-cannabinoid N-acylethanolamines (PEA and OEA) bind directly to PPARα, downregulating pro-inflammatory cytokine transcription (NF-κB pathway).
+
+=== 2. The N-acylethanolamine (NAE) family ===
+FAAH does not degrade cannabinoids in isolation; it is the master gatekeeper for the entire family of endogenous N-acylethanolamines:
+
+{| class="wikitable"
+! Molecule !! Full chemical name !! Target receptors !! Primary physiological function
+|-
+| '''AEA (Anandamide)''' || N-Arachidonoylethanolamine || CB1, CB2, TRPV1, GPR55 || Synaptic retrograde plasticity, mood regulation, nociceptive gating.
+|-
+| '''PEA''' || N-Palmitoylethanolamide || PPAR-α, GPR55, TRPV1 (indirect) || Potent endogenous anti-inflammatory, neuroprotective, mast cell stabilization.
+|-
+| '''OEA''' || N-Oleoylethanolamide || PPAR-α, GPR119, TRPV1 || Hypophagic satiety signaling, lipid metabolism, intestinal motility.
+|-
+| '''SEA''' || N-Stearoylethanolamide || Pro-apoptotic / Anti-inflammatory || Modulates cellular survival and inflammatory tone.
+|}
+
+== FAAH enzyme biochemistry ==
+
+=== 1. Catalytic architecture and the Ser-Ser-Lys triad ===
+Unlike classical serine proteases that utilize a Ser-His-Asp catalytic triad, FAAH belongs to the '''amidase signature superfamily''' and employs an unusual '''catalytic triad composed of Ser241–Ser217–Lys142''':
+* '''Ser241:''' The primary nucleophile. Attacks the carbonyl carbon of the fatty acid amide bond.
+* '''Ser217:''' Functions as a proton shuttle between the nucleophilic Ser241 and the catalytic base Lys142.
+* '''Lys142:''' Acts as the general base/acid, abstracting a proton from Ser217 to activate Ser241 for nucleophilic attack, and subsequently donating a proton to expel the ethanolamine leaving group.
+* '''Membrane anchoring:''' FAAH exists as a homodimer anchored to the intracellular face of the smooth endoplasmic reticulum and mitochondrial outer membrane by an amphipathic N-terminal α-helix, directly accessing hydrophobic substrates partitioned within the lipid bilayer.
+
+=== 2. Degradation pathways: FAAH vs. NAAA ===
+* '''FAAH-1:''' The principal enzyme hydrolyzing AEA, OEA, and PEA at neutral to alkaline pH (optimum pH 8.5–9.0).
+* '''FAAH-2:''' A second primate-specific isoform with distinct tissue distribution and lower AEA catalytic efficiency.
+* '''NAAA (N-Acylethanolamine-hydrolyzing Acid Amidase):''' A lysosomal cysteine hydrolase operating at acidic pH (optimum pH 4.5–5.0) that preferentially degrades '''PEA''' over AEA. In inflammatory models, selective NAAA inhibitors elevate PEA without altering brain anandamide.
+
+== Inhibitor science: natural vs. synthetic ==
+
+<code>
+                           [ FAAH INHIBITORS ]
+                                    │
+           ┌────────────────────────┴────────────────────────┐
+           ▼                                                 ▼
+[ Natural / Dietary Compounds ]                   [ Synthetic Drug Candidates ]
+ • Guineensine (Black Pepper)                      • URB597 (Carbamate / Irreversible)
+ • Macamides (Maca root)                           • PF-04457845 (Urea-based / High selectivity)
+ • Yangonin (Kava / Piperaceae)                    • BIA 10-2474 (Non-selective / Neurotoxic)
+ • Biochanin A / Kaempferol
+</code>
+
+=== 1. Natural botanical inhibitors ===
+* '''Guineensine (Piper nigrum):''' A lipophilic alkylamide alkaloid that acts as a nanomolar-affinity dual inhibitor of both FAAH and cellular endocannabinoid uptake, raising local AEA levels in tissue assays.
+* '''Macamides (Lepidium meyenii):''' Benzylated fatty acid amides structurally analogous to anandamide; act as reversible competitive FAAH inhibitors.
+* '''Yangonin (Piper methysticum):''' A kavalactone that simultaneously inhibits FAAH and exhibits direct binding affinity at the orthosteric CB1 pocket.
+* '''Flavonoids (Kaempferol, Genistein, Biochanin A):''' Dietary polyphenols exhibiting micromolar competitive FAAH inhibition.
+
+=== 2. Synthetic inhibitors and the BIA 10-2474 clinical disaster ===
+Pharmaceutical development designed FAAH inhibitors to treat chronic pain, anxiety, and depression without the intoxication, sedation, or cognitive deficits associated with direct CB1 agonists.
+
+* '''URB597 (KDS-4103):''' A prototypical O-aryl carbamate that covalently carbamylates the nucleophilic Ser241 residue, providing irreversible FAAH inhibition. Demonstrated potent analgesic and anxiolytic effects in rodent models without inducing cannabinoid tolerance.
+* '''PF-04457845:''' A highly selective, covalent, piperidine-urea based FAAH inhibitor developed by Pfizer. Demonstrated extraordinary human selectivity with zero off-target serine hydrolase reactivity; proved completely safe in human clinical trials, although clinical efficacy for osteoarthritis pain was modest.
+* '''The BIA 10-2474 Disaster (Rennes, France, 2016):'''
+** During a Phase I ascending-dose trial, Bial's candidate compound BIA 10-2474 caused acute necrotic brain lesions in the hippocampus and pons, leading to the death of one volunteer and permanent neurological damage in four others.
+** '''Forensic Mechanism:''' Subsequent chemoproteomic profiling revealed that BIA 10-2474 was '''fundamentally non-selective'''. At high doses, it covalently inhibited multiple off-target serine hydrolases across the central nervous system—including '''ABHD6''', '''ABHD11''', '''PNPLA6 (neuropathy target esterase)''', and carboxylesterases. Disrupting neuronal lipid metabolism and lipid membrane turnover across non-cannabinoid pathways precipitated acute, fatal neurotoxicity.
+** Highly selective FAAH inhibitors (such as PF-04457845) demonstrated zero neurotoxicity, confirming that the catastrophe was an off-target drug design flaw rather than an intrinsic consequence of FAAH inhibition.
+
+== Human genetics: the FAAH C385A polymorphism (rs324420) ==
+
+In human populations, an endogenous "FAAH knockdown" exists naturally through a common single nucleotide polymorphism (SNP):
+
+* '''Genetics:''' A cytosine-to-adenine transversion at cDNA nucleotide 385 ('''C385A''', cataloged as '''rs324420''') converts a conserved proline to threonine at amino acid position 129 ('''P129T''').
+* '''Biochemical phenotype:''' The mutant P129T enzyme is thermodynamically unstable and undergoes accelerated intracellular proteolytic degradation, cutting cellular FAAH protein expression and catalytic activity roughly in half.
+* '''Clinical characteristics:'''
+** Individuals homozygous for the A-allele (A/A) display significantly elevated circulating plasma concentrations of anandamide, PEA, and OEA.
+** They exhibit lower baseline anxiety, accelerated fear extinction, enhanced emotional resilience, reduced incidence of depression, and reduced physical withdrawal symptoms upon substance cessation.
+** The rare condition of congenital pain insensitivity documented in individual case studies has been traced to a microdeletion in a pseudo-gene (FAAH-OUT) alongside the C385A variant, confirming that lifelong FAAH suppression is viable and non-toxic in humans.
+
+See also: [[FAAH]] · [[MAGL]] · [[Anandamide and 2-AG]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[Cannabinoid Oilahuasca]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Stack Substances]]

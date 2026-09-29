@@ -8,6 +8,12 @@ The operator published an '''open-source claim''' on the technique on Steemit in
 
 Beeswax is not a fat but a mixture of long-chain esters, free fatty acids and hydrocarbons. The '''free acid fraction and the esters saponify''' with a strong base, producing wax soaps while the hydrocarbon fraction stays as wax. What comes out is neither wax nor soap but a hybrid: the soap fraction lets water carry it, the wax fraction gives it body and a high melting point.
 
+=== Amphiphilic Emulsification and Transdermal Delivery ===
+Because saponified beeswax contains both hydrophobic hydrocarbon tails and ionic carboxylate soap heads, it acts as a powerful amphiphilic emulsifier.
+* '''Lipid-Aqueous Micro-Emulsions:''' In ancient pharmacology and cosmetics, Punic wax served as the foundational matrix for complex unguents, ointments, and medicinal pomades. It could stably bind polar botanical extracts, gums, and wines alongside non-polar plant resins ([[Kyphi]], frankincense, myrrh, pine rosin) and essential oils.
+* '''Trans-Follicular Delivery:''' In [[Head Cone|Egyptian Head Cones]], Punic wax formulations allowed slow, temperature-dependent liquefaction ($37\text{–}40^\circ\text{C}$). The presence of saponified fatty acid soaps facilitated trans-follicular and transdermal penetration across the human scalp, delivering psychoactive alkaloids and aromatic terpenes directly into the cranial micro-vasculature while completely avoiding hepatic first-pass degradation.
+* '''Convergence with African Saponin Systems:''' This Mediterranean saponification technology shares direct pharmacological parallels with the southern African [[Ubulawu, African Oneirogens, and Saponin Pharmacokinetics|Ubulawu]] and [[Ukuphahla]] traditions. Where Punic wax creates amphiphilic lipid carriers through alkaline saponification of beeswax, Ubulawu utilizes high-potency plant saponins (*Helinus integrifolius*, *Silene undulata*) to generate aqueous micro-foams that lower mucosal surface tension, inhibit oral $\alpha$-amylase, and enhance sublingual permeability for ritual and ancestral dream communication.
+
 == The traditional recipe ==
 
 * '''150&nbsp;g''' pure beeswax

@@ -1,0 +1,49 @@
+# Brain Balance
+
+**"Brain Balance"** is a 2016 post by **marsresident** on the **history of neuropharmacology and psychedelic research** — how the Cold War split brain science into an Eastern and a Western tradition, and how a promising line of psychiatric research using psychedelics was "left hanging" after that era<ref>https://steemit.com/@marsresident/brain-balance</ref>. It sits on the Church-of-Neuroscience shelf as the shelf's **psychedelic-research-history** article, alongside [[The Church of Neuroscience and Biohacking]] and the government-experiments history in [[Edgewood Arsenal]].
+
+This is a **neutral, educational** history-and-science reference. It is **not** medical advice and **not** a use guide (see § Not medical advice).
+
+== Summary ==
+
+The post makes two historical arguments. First, that during the Cold War the scientific communities of the **Soviet East and the American West diverged**, so that molecules routinely prescribed in one bloc were unfamiliar — or later banned — in the other. Second, that mid-20th-century psychiatry saw **serious, published success using psychedelics**, a field that stalled after the 1970s and is only now being revisited<ref>https://en.wikipedia.org/wiki/Psychedelic_therapy</ref>.
+
+== The Cold-War East/West split ==
+
+The post's East/West thesis is illustrated with concrete cases:
+
+- **Piracetam** — considered a cognitive-enhancement medicine and prescribed in Russia, but not classified as a medicine in the United States<ref>https://en.wikipedia.org/wiki/Piracetam</ref>. (Piracetam recurs as a nootropic in [[Chemistry and Your Brain]].)
+- The observation that a number of molecules later placed on Western anti-doping/banned lists were, and are, prescribed across Russia — the same divergence that [[Using the WADA List as Health Reference]] examines from the anti-doping side.
+- Soviet research, prompted by the atomic bombings of Japan, into **tryptamines as anti-radiological agents**, which in turn fed research into the role of tryptamines such as **melatonin** in the brain.
+
+The Library reports these as the author's historical claims about how two research cultures diverged, anchored to encyclopedic sources.
+
+== Psychedelics in mid-century psychiatry ==
+
+The post's second half surveys the pre-prohibition psychiatric literature:
+
+- **MDMA** ("now called Ecstasy") was, in the 1970s, regarded by some clinicians as a valuable adjunct across a range of psychiatric treatment before its scheduling<ref>https://en.wikipedia.org/wiki/MDMA</ref>.
+- It cites (then-)recent 2016 research into **MDMA and psilocybin** in psychiatric therapy — the opening of the modern "psychedelic renaissance."
+- It cites research indicating **psilocybin and mescaline do not cause long-term mental-health problems**, and a study in which **Native American peyote (mescaline) users showed no neuropsychological deficit** compared with a control group that did show deficits from alcohol<ref>https://en.wikipedia.org/wiki/Psilocybin_therapy</ref>.
+- It notes the government-testing history — **Edgewood Arsenal** — as the darker counterpart to this therapeutic research; that history has its own article, [[Edgewood Arsenal]].
+
+The post's closing line — that this is "basically an entire scientific field that was left hanging after the Cold War" — is its thesis: a legitimate research program interrupted by prohibition rather than by disproof.
+
+== Where this sits in the corpus ==
+
+This is the **history-of-psychedelic-science** article of the Church-of-Neuroscience shelf. It pairs directly with [[Edgewood Arsenal]] (the government human-experiments history it references) and connects to the entheogenic-church survey in [[The Church of Neuroscience and Biohacking]] and the nootropic pharmacology in [[Chemistry and Your Brain]]. The religious-and-legal framework that governs sacramental use today (RFRA; the Native American Church peyote exemption; UDV/Santo Daime) is treated in the Library's plant-medicine monographs.
+
+== Not medical advice ==
+
+This article is an educational survey of the history of neuropharmacology and psychedelic research. It is **not medical advice**, **not a diagnosis or prescription**, and **not a use guide or protocol**. It does not recommend the use of any substance, and it states no doses. Many of the substances discussed are controlled; legal status varies by jurisdiction, and the historical/therapeutic research context is not permission. Anyone considering treatment should consult a qualified clinician.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/brain-balance</ref>
+<ref>https://en.wikipedia.org/wiki/Psychedelic_therapy</ref>
+<ref>https://en.wikipedia.org/wiki/Piracetam</ref>
+<ref>https://en.wikipedia.org/wiki/MDMA</ref>
+<ref>https://en.wikipedia.org/wiki/Psilocybin_therapy</ref>
+<ref>https://en.wikipedia.org/wiki/Edgewood_Arsenal_human_experiments</ref>
+
+== Coverage ==
+This article faithfully captures the substance of the 2016 marsresident post "Brain Balance" — the Cold-War East/West pharmacology split (Piracetam in Russia, banned-list divergence, Soviet tryptamine/melatonin anti-radiation research), and mid-century psychedelic psychiatry (MDMA in the 1970s, the 2016 MDMA/psilocybin research, the "no long-term harm" findings for psilocybin/mescaline, the peyote-vs-alcohol neuropsychology study), with the Edgewood government-testing history noted. Attribution to the author and Steem source is preserved; PubMed links are anchored to stable encyclopedic sources. The article is framed strictly as history and science — no doses, no use guidance — and carries a not-medical-advice footer. Pairs with Edgewood Arsenal.

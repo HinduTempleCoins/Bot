@@ -34,4 +34,6 @@ Galantamine is a prescription medicine in most jurisdictions, sold as a suppleme
 * '''Sleep disruption, vivid nightmares and next-day nausea''' are the common complaints even when it works.
 * Frequency matters: tolerance develops, and it is conventionally used no more than once or twice a week.
 
-See also: [[Choline Donors]] · [[Datura]] · [[Racetams]] · [[Stack Substances]]
+For the full physiology of the cholinergic synapse, the absence of an intact acetylcholine reuptake pump, CHT1 rate-limiting choline uptake, and organophosphate contrast, see '''[[Cholinergic Neurotransmission and Cholinesterase Inhibition]]'''.
+
+See also: [[Cholinergic Neurotransmission and Cholinesterase Inhibition]] · [[Choline Donors]] · [[Racetams]] · [[Datura]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Stack Substances]]

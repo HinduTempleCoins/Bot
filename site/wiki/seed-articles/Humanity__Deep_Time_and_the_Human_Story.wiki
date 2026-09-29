@@ -1,0 +1,68 @@
+# Humanity — Deep Time and the Human Story
+
+**"Humanity"** is a 2016 long-form essay by **marsresident** that tells the human story as a single continuous narrative — from the deep antiquity of language and fire, through the first rituals and the domestication of plants and animals, into the rise of civilizations, religions, and finally the scientific and electrical age<ref>https://steemit.com/@marsresident/humanity</ref>. This article captures that narrative faithfully as a **deep-time overview**. Its later companion, [[Human Origins and the Fossil Record]] ("Part 2"), supplies the physical fossil and DNA evidence underneath it.
+
+This is a **neutral, educational** reference. The source is a synthesis that blends well-established history and archaeology with traditional, scriptural, and legendary framings; where a claim is legendary or contested rather than settled, this article marks it as such rather than presenting it as fact (see § On sourcing and legend).
+
+== Summary ==
+
+The essay's organizing thesis is that the deep foundations of humanity — **language, fire, ritual, and abstract thought** — are far older than recorded history, and that the human story is one long braided continuity of migration, exchange, and accumulating knowledge, culminating in the modern scientific and electrical era. It moves in roughly chronological order across four arcs: deep prehistory and the origins of symbolic culture; the Neolithic (farming, domestication, the first cities and star-maps); the classical and religious world; and the road to modern science and electricity<ref>https://steemit.com/@marsresident/humanity</ref>.
+
+== Deep prehistory: fire, language, and the first rituals ==
+
+The source opens by pushing the origins of the defining human capacities far back: **control of fire** for on the order of a million years, **language** (through gesture, sound, and signaling) even older, and *Homo sapiens* itself for at least ~100,000 years. It notes the survival of **archaic ancestry** in living people (Neanderthal DNA outside Sub-Saharan Africa; Denisovan DNA in New Guinea) — the theme developed fully in [[Human Origins and the Fossil Record]]<ref>https://en.wikipedia.org/wiki/Control_of_fire_by_early_humans</ref>.
+
+The first named milestone of abstract thought is the **Python Cave** in the **Tsodilo Hills** of Botswana (~70,000 years ago), associated with the **San people** — a carved python-like stone and thousands of tools, some brought from far away specifically to be burned, evidence of early ritual. The Tsodilo Hills are still held sacred ("the Mountains of the Gods," "the Rock that Whispers")<ref>https://en.wikipedia.org/wiki/Tsodilo</ref>. Around ~50,000 years ago symbolic behavior spread more widely, seen in the **Diepkloof** ostrich-eggshell engravings and **Blombos Cave**; the source ties this southern-African region to ethnobotanical dream-herb traditions (*Silene undulata* / ubulawu of the Xhosa)<ref>https://en.wikipedia.org/wiki/Blombos_Cave</ref>. Humans spread out of Africa toward Australia along a **Southern Dispersal Route**, leaving early art such as the **Bhimbetka rock shelters** in India, and the **Lake Mungo** remains in Australia (one of the oldest known cremations) tied to the **Dreamtime** cosmology<ref>https://en.wikipedia.org/wiki/Southern_Dispersal</ref>.
+
+This is also, in the source, the horizon of the first **animal partnerships**: the domestication of dogs (with four main ancient strains — Asian, Carolina, Dingo, and New Guinea Singing Dog), some early dogs fed on seafood, and cooperative fishing relationships between people and **dolphins** in early Japan.
+
+== The Neolithic: farming, cities, and mapping the sky ==
+
+The narrative then reaches the agricultural revolution:
+
+- **The fig** at Gesher (~11,000 BC) as one of the first cultivated plants — humans taking over the pollination role of the fig wasp — and the fig's enduring sacred status<ref>https://en.wikipedia.org/wiki/Ficus</ref>.
+- The first **Native Americans** crossing from Siberia into Alaska (~10,000 BC).
+- **Nabta Playa** in Egypt (the people the source calls *Kemet*) as early star-mappers, with the vivid image of scarab beetles navigating by the Moon and stars inspiring astronomical attention — and the scarab deified as **Khepri**<ref>https://en.wikipedia.org/wiki/Nabta_Playa</ref>.
+- The submerged city of **Dwarka** in India (traditionally associated with Krishna), trade between farming and hunter-gatherer cultures at **Dąbki** in Poland (~5,000 BC, Funnel Beaker pottery), the first mass **wine** production in Armenia (~4,000 BC), **horse** domestication by the Botai (~3,500 BC), and the first **wheel** in Sumer (~3,000 BC) — which became a solar/astronomical religious symbol.
+
+The source stresses the **calendar**: Egyptians building artificial horizons and marking the sun daily to derive a 365-day year, with the Moon giving the twelve "moon-ths," and the seven-day week traced to the seven classical heavenly bodies (the **Ogdoad**, later echoed in the "seven heavens").
+
+== The classical and religious world ==
+
+The essay then sweeps through the ancient civilizations as a connected system:
+
+- **Imhotep** (~2,600 BC) credited with medicine, surgery, columns, stairs, and the **Step Pyramid**, later deified, his temple functioning as an early hospital; Egyptian awareness of petroleum products and of electricity in the form of static and the electric eel ("Thunderer of the Nile").
+- The **Indus Valley** civilization (~3,300–1,700 BC), precursor to Hinduism and the first grid-planned cities; **Minoan Crete** as a Mediterranean crossroads; the rise of **Babylon**; the writing of the **Vedas** (beginning with the Rig Veda, ~1,500 BC).
+- **Phoenicia** — its Tyrian purple dye, clear glass, advanced ships, and alphabet; the goddess **Europa** giving Europe its name and inspiring the Greek **Phoenix**; the founding of **Carthage** (~800 BC) by Queen Dido.
+- **Zoroaster** and the first monotheism; the founding of **Yerevan** (782 BC) and **Rome** (753 BC); the **Buddha** and the **Persian** empire of Cyrus; **Alexander the Great** and the **Hellenistic** fusion of East and West, with statues, spices, plants, and knowledge flowing both ways; the histories *Aegyptiaca* (Manetho) and *Babyloniaca* (Berossus); and the founding of the **Library of Alexandria** and the first **Musaeum**.
+- The **Punic Wars** between Rome and Carthage (the Barca family; Hannibal's tactics teaching Rome war); the **Rosetta Stone** (196 BC) that later unlocked Egyptian; **Cicero** reshaping politics and rhetoric; the founding of the Roman Empire (27 BC); and the turn into the common era.
+
+Into the medieval world: **Constantine** and the Christianization of Rome, the founding of Constantinople (330 AD); the composition of the **Quran** (~600 AD) and mosques as centers of science; the Arabic "Al-" inheritance (**alchemy**, **algebra**, **alcohol**); the **Assassins** and the **Knights Templar** and the Crusades; the **Magna Carta** (1215 AD) shifting judicial power toward juries and rights; the spread of Islam in Africa (Timbuktu); **Leonardo da Vinci**; and **Columbus** (1492 AD). The source notes India as the large civilization still practicing its ancient religion in its ancient temples.
+
+== The road to modern science and electricity ==
+
+The final arc is the scientific and electrical age, which the source treats as the culmination of the whole story:
+
+- **Galileo** and the telescope; **Newton** and gravity; the **steam engine** (1698); **Galvani** discovering bioelectricity.
+- **Volta** and the first battery (1799); early **electromagnetic engines** and **Faraday's law** (1820s–30s); the idea of the Earth as a circuit (Steinheil, 1837).
+- **Becquerel** discovering **photovoltaics** (the "Becquerel effect," 1839) — the seed of solar power, developed further in [[Electricity and Photovoltaics]]; the **telegraph** and **Morse code**; the **transatlantic cable** (1858); **Maxwell's equations** (1861) formalizing Faraday's law.
+- **Edison** and the light bulb (1879); **Oliver Heaviside** reformulating electrical theory; **Nikola Tesla** and alternating current, radio, wireless transmission, and the Tesla coil (Tesla's friendship with **Swami Vivekananda**, who brought the first Hindu temples to the US, is noted); **Steinmetz** and **Alexanderson** carrying the work into General Electric and broadcast; the **Wright brothers** (1903) and Ford's **Model T** (1908).
+- **Einstein**'s theories; the World Wars and the breakup of the Ottoman Empire; **Marcus Garvey** and Noble Drew Ali's **Moorish Science Temple**; **Farnsworth**'s fully electronic television (1927); and the atomic age.
+
+The essay ends where the electrical and nuclear age begins — presenting modern technology as continuous with the fire, ritual, and star-mapping of deep prehistory.
+
+== On sourcing and legend ==
+
+The source is a **synthesis essay**, not a peer-reviewed history, and it deliberately blends documented archaeology with traditional, scriptural, and legendary framings. Several items are legend or tradition rather than established fact — e.g., Dwarka's founding by Krishna, "Nero fiddling while Rome burned," and single-inventor attributions ("Imhotep invented medicine," "Tesla invented radio") that history treats as contested or shared. Some dates are approximate or use informal conventions (e.g., "0 BC"). This article preserves the author's narrative and attribution while flagging these as the author's framing; readers wanting the physical evidence for the deep-prehistory portions should read the companion [[Human Origins and the Fossil Record]]. The value of the piece is as a **connected deep-time narrative** and a map of how one thinker linked prehistory, religion, and science into one continuity.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/humanity</ref>
+<ref>https://en.wikipedia.org/wiki/Control_of_fire_by_early_humans</ref>
+<ref>https://en.wikipedia.org/wiki/Tsodilo</ref>
+<ref>https://en.wikipedia.org/wiki/Blombos_Cave</ref>
+<ref>https://en.wikipedia.org/wiki/Southern_Dispersal</ref>
+<ref>https://en.wikipedia.org/wiki/Nabta_Playa</ref>
+<ref>https://en.wikipedia.org/wiki/Ficus</ref>
+
+== Coverage ==
+This article faithfully captures the substance and sequence of the 2016 marsresident essay "Humanity": the deep-prehistory arc (fire, language, the Python Cave / San rituals, Blombos and Diepkloof symbolism, the Southern Dispersal, Lake Mungo and Dreamtime, dog and dolphin partnerships); the Neolithic arc (the fig at Gesher, Nabta Playa star-mapping, Dwarka, the wheel, the calendar and the seven heavenly bodies); the classical/religious arc (Imhotep, the Indus Valley, Phoenicia and Carthage, Zoroaster, the Hellenistic fusion, the Library of Alexandria, Rome and the Punic Wars, Constantine, the Quran, the Templars, Magna Carta); and the scientific/electrical arc (Galileo through Tesla, Farnsworth, and the atomic age). Attribution to the author and the Steem source is preserved. The § On sourcing and legend section marks the legendary, traditional, and single-inventor claims as the author's framing rather than settled fact. It cross-links its companion fossil article and the electricity/photovoltaics article. Neutral, educational tone throughout.

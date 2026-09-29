@@ -1,15 +1,35 @@
 '''Kyphi''' was an ancient Egyptian compound incense — used at once as an '''incense''', a '''perfume''', and a '''medicine'''. It was burned in temples (famously at dusk), worn on the body, and taken internally as a remedy. Recipes were preserved in temple inscriptions and later recorded by Greek and Roman writers such as Plutarch, Dioscorides, and Galen, which is why several versions survive.
 
-== Ingredients ==
+== Historical Blend Examples: The Temple and Classical Recipes ==
 
-Kyphi was a blend of many aromatic and sweet substances cooked together. Temple-preserved recipes commonly include:
+Kyphi was not a singular fixed commodity; it was an evolving sacred technology with specific regional and temporal traditions inscribed on temple walls and recorded by Greco-Roman physicians:
 
-* '''raisins''', '''wine''', and '''honey''' (the sweet, binding base),
-* the resins '''frankincense''', '''myrrh''', and '''mastic''',
-* '''pine''' resin and aromatic '''grasses''',
-* and warming spices such as '''cinnamon''' and '''cardamom'''.
+=== 1. The Edfu Temple Recipe (Temple of Horus at Edfu) ===
+Inscribed in hieroglyphs on the walls of the inner laboratory (*is*) of the Ptolemaic Temple of Horus at Edfu. This is the most complete and ritualized 16-ingredient formula:
+* '''The Base:''' 12 parts black raisins (macerated in wine), 6 parts Oasis wine, 10 parts raw desert honey.
+* '''The Heavy Resins:''' 4 parts frankincense (*senetjer*), 4 parts myrrh (*bol*), 3 parts mastic, 3 parts pine resin.
+* '''The Aromatic Woods & Roots:''' 2 parts sweet flag / calamus (*Acorus calamus*), 2 parts cyperus / galingale (*Cyperus esculentus* / *longus*), 2 parts camel grass (*Cymbopogon schoenanthus*), 2 parts aspalathus (*Convolvulus scoparius* / thorny broom), 1 part sweet cinnamon wood.
+* '''The Spices & Berries:''' 2 parts juniper berries (*Juniperus phoenicea*), 1 part cardamom pods.
+* '''Preparation Stages:''' Prepared in precise stages over several weeks. Dry herbs and woods are pulverized and steeped in macerating wine; raisins are mashed and steeped; the resins are melted with honey and boiled down to a viscous mass; all components are combined, rolled into small, glossy black pellets, and aged in darkness.
 
-The precise list varied between temples and authors; the sweet-resin-and-spice character is constant across versions.
+=== 2. The Philae Temple Recipe (Temple of Isis at Philae) ===
+Inscribed in the perfume laboratory at Philae, emphasizing sedative and apotropaic resins sacred to Isis:
+* Emphasizes a higher ratio of '''myrrh''', '''bdellium''' (*Commiphora mukul*), and '''labdanum''' (*Cistus ladanifer*), steeped alongside wine, honey, raisins, calamus, and juniper.
+* The resin balls were burned at twilight to protect the temple precincts from nocturnal demons and harmonize the autonomic nervous system before sleep.
+
+=== 3. Plutarch’s 16-Ingredient Recipe (*De Iside et Osiride*, §80) ===
+Recorded by the Greek essayist Plutarch in the 1st century CE:
+* '''Ingredients:''' Honey, wine, raisins, cyperus, pine resin, myrrh, aspalathus, seseli, mastic, bitumen (or asphaltum/mineral pitch), calamus, sorrel, both kinds of juniper (large and small), cardamom, and sweet flag.
+* '''Therapeutic Rationale:''' Plutarch noted that burning Kyphi at dusk lulled anxieties to sleep, brightened dreams, relaxed internal tensions, and functioned as an aromatic balm that cleaned the sensory faculties without intoxicating drunkenness.
+
+=== 4. Dioscorides’ Medical Formulation (*De Materia Medica*, I, 24) ===
+The 1st-century CE Greek physician Dioscorides recorded a version utilized in Greco-Roman pharmacopeias:
+* Emphasized equal parts of bdellium, calamus, cyperus, cinnamon, cardamom, and saffron, bonded with boiled raisin paste, honey, and wine.
+* Prescribed not merely as temple incense, but taken internally as an electuary (dissolved in warm wine or broth) to treat chest congestion, asthma, intestinal cramps, and snakebites.
+
+=== 5. Galen’s Imperial Kyphi (*De Antidotis*) ===
+Court physician to Emperor Marcus Aurelius, Galen incorporated Kyphi into the imperial medicine chest:
+* Added Kyphi pellets into complex compound theriacs and universal antidotes, noting that the combination of volatile monoterpenes (pinene, caryophyllene), cinnamic aldehyde, and resinous triterpenes eased bronchial spasms and calmed cardiac palpitations.
 
 == Etymology ==
 

@@ -15,7 +15,7 @@ Piperine raises the systemic exposure of a long list of co-administered compound
 
 '''This is the most dangerous thing on this page, and it is sold as a benefit.''' A compound that raises the bioavailability of whatever is taken with it raises the bioavailability of prescription medication too. CYP3A4 handles a very large share of clinical drugs; P-gp governs the absorption of many more. Piperine is added to supplement formulations specifically for this effect, at doses well above culinary exposure, and is routinely taken by people also on medication.
 
-Where an interaction matters — anticonvulsants, immunosuppressants, anticoagulants, antiretrovirals, chemotherapeutics, cardiac drugs with narrow therapeutic windows — '''a piperine-containing supplement is a pharmacokinetic intervention''', regardless of what the label says it is for.
+Where an interaction matters — anticonvulsants, immunosuppressants, anticoagulants, antiretrovirals, chemotherapeutics, cardiac drugs with narrow therapeutic windows — '''a piperine-containing supplement is a pharmacokinetic intervention''', regardless of what the label says it is for. In metabolic frameworks, piperine is also used to block intestinal CYP3A4 and CYP2D6 clearance of plant allylbenzenes; see '''[[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]'''.
 
 == Cautions ==
 
@@ -24,4 +24,4 @@ Where an interaction matters — anticonvulsants, immunosuppressants, anticoagul
 * Gastric irritation at high intake.
 * Guineensine's FAAH and reuptake activity is '''preclinical''', and dietary black pepper does not deliver anything approaching the concentrations used in those studies.
 
-See also: [[FAAH]] · [[Beta-Caryophyllene]] · [[Kava]] · [[Cannabinoid Oilahuasca]] · [[Stack Substances]]
+See also: [[FAAH]] · [[Beta-Caryophyllene]] · [[Kava]] · [[Cannabinoid Oilahuasca]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Antioxidants and Cannabinoid Stability]] · [[Stack Substances]]

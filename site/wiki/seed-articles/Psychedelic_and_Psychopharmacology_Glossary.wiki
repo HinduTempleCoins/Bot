@@ -2,58 +2,149 @@ The '''Psychedelic and Psychopharmacology Glossary''' defines the terms used acr
 
 '''This is reference, not advice or encouragement.''' Where a term touches safety, the safer-practice meaning is given.
 
+== # ==
+* '''25I-NBOMe''' — a potent synthetic phenethylamine full agonist at 5-HT2A active at microgram doses ($250\text{–}800\,\mu\text{g}$), dangerously mis-sold on blotter paper as counterfeit LSD; lacks an indole ring (no Ehrlich reaction) and exhibits a bitter, tongue-numbing metallic taste; see [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]].
+* '''2C-T Series''' — Alexander Shulgin's 4-alkylthio-substituted phenethylamines (2C-T-2, 2C-T-7, 2C-T-21) where sulfur replaces oxygen, increasing lipophilicity and 5-HT2A binding depth, metabolized by FMOs; see [[Thiols and Oxygen Congeners in Medicinal Chemistry]].
+* '''32B1T (3-methyl-2-butene-1-thiol)''' — a prenylated volatile sulfur compound (VSC) responsible for the pungent, skunky stench of cured cannabis flower, detectable by human olfactory receptors at parts-per-trillion levels; see [[Thiols and Oxygen Congeners in Medicinal Chemistry]].
+* '''5-HT2B Valvular Heart Disease (VHD)''' — mitogenic proliferation and fibrotic thickening of heart valve leaflets induced by potent full agonists (norfenfluramine, 6-APB, MDA), leading to valvular regurgitation and heart failure; see [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]].
+* '''5-MeO-DiPT ("Foxy Methoxy")''' — an orally active substituted tryptamine developed by Alexander Shulgin producing intense somatic tactile enhancement; circulated in early 2000s pressed ecstasy tablets; see [[Ecstasy Pill Forensics and Historical Adulteration Trends]].
+* '''6-APB (Benzofuran)''' — an entactogen and 5-HT2A psychedelic synthesized by David E. Nichols, bioisosterically replacing MDMA's methylenedioxy ring with a benzofuran; see [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]].
+* '''69Ron''' — online ethnobotanical researcher on DMT-Nexus and Herbpedia who formulated the modern Oilahuasca enzyme-sequencing framework and the non-toxic food-grade d-limonene extraction ("DryTek"); see [[69Ron and Oilahuasca Chemistry]].
+
 == A ==
+* '''Acyl Migration''' — non-enzymatic intramolecular transesterification where a fatty acyl group spontaneously relocates from a secondary to primary position (e.g. 2-AG shifting into 1-AG); see [[Endocannabinoid Chemistry and 2-AG Metabolism]].
 * '''Agonist''' — a molecule that binds a receptor and '''activates''' it, producing an effect. Most classic psychedelics are agonists (or partial agonists) at a particular serotonin receptor.
+* '''Allylbenzene''' — a plant phenylpropanoid with a terminal double bond (-CH2-CH=CH2); natural precursors to Shulgin's phenethylamines; see [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]].
+* '''aMT (alpha-Methyltryptamine)''' — a long-acting stimulant and psychedelic tryptamine (Soviet antidepressant Indopan) whose optical isomers ((S) stimulant vs (R)) and legal history formed the basis of Shulgin's critique of the Analogue Act; see [[Isomers, the Analogue Act, and Forensic Chemistry]].
+* '''Analogue Act (Federal Analogue Act of 1986)''' — a U.S. federal statute (21 U.S.C. § 813) treating unscheduled chemicals as Schedule I substances if they are "substantially similar" in structure and effect to a controlled substance and intended for human consumption; see [[Isomers, the Analogue Act, and Forensic Chemistry]].
 * '''Antagonist''' — a molecule that binds a receptor but '''blocks''' it, preventing activation.
 * '''Afterglow''' — a mood/clarity aftereffect some people report in the hours or days after an experience, once the acute effects have passed.
+* '''Argyria''' — a permanent, irreversible bluish-slate skin and ocular discoloration caused by chronic ingestion of ionic silver, which deposits in tissues and undergoes solar photoreduction into elemental metallic particles; see [[Colloidal Metals, Electrochemistry, and Nanoparticles]].
 
 == B ==
+* '''Bhasma (Swarna / Rajata)''' — traditional calcined herbo-metallic preparations of ancient Indian Rasa Shastra; modern TEM and XRD confirm they are 15–50 nm zero-valent metal nanoparticles capped with organic botanical ligands; see [[Rasa Shastra and Ancient Indian Nanochemistry]].
 * '''Bioassay''' — testing a substance's effect by taking a measured dose and recording the result. Alexander Shulgin's careful, low-to-high self-bioassays are the method behind [[PIHKAL and TIHKAL]].
+* '''Bioelectricity''' — endogenous transmembrane electrical potentials and ion fluxes regulating cellular morphogenesis, pattern memory, and gene expression; see [[Bioelectricity, Forensic Genomics, and Alchemical Transmutation]].
 * '''Bad trip / challenging experience''' — a frightening or distressing episode during a psychedelic experience; harm-reduction practice reframes it as something to move through with calm support, not fight.
+* '''BZP (1-Benzylpiperazine)''' — a synthetic piperazine stimulant acting as a dopamine/norepinephrine releaser, widely combined with TFMPP in mid-2000s counterfeit party pills during the global safrole shortage; see [[Ecstasy Pill Forensics and Historical Adulteration Trends]].
 
 == C ==
+* '''Capillary Electrophoresis (CE)''' — high-voltage electrical separation of DNA fragments in sub-millimeter fluid capillaries; powers Sanger sequencing and forensic STR fingerprinting; see [[Bioelectricity, Forensic Genomics, and Alchemical Transmutation]].
+* '''Chocolate Chip Cookie Effect (Hot-Spot Hazard)''' — non-uniform crystallization and capillary concentration when liquid-diluted microgram compounds (fentanyl, synthetic cannabinoids, 25I-NBOMe) are sprayed onto plant matter or blended into pills, creating localized lethal overdoses adjacent to inactive doses; see [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]].
+* '''Choline Transporter 1 (CHT1)''' — the high-affinity presynaptic $Na^+/Cl^-$-dependent symporter that pumps free choline into cholinergic neurons, serving as the rate-limiting step in acetylcholine synthesis; see [[Cholinergic Neurotransmission and Cholinesterase Inhibition]].
+* '''Colloidal Metal''' — a liquid suspension of zero-valent metal nanoparticles (1–100 nm) exhibiting localized surface plasmon resonance and light scattering (Tyndall effect); see [[Colloidal Metals, Electrochemistry, and Nanoparticles]].
 * '''Come-up / onset''' — the period as effects begin and build.
 * '''Contraindication''' — a condition or combination that makes a substance unsafe for a given person (e.g. certain medications, heart conditions, pregnancy). Checking contraindications is a core safety step.
+* '''Convalescent Plasma''' — antibody-rich blood plasma harvested from recovered individuals to confer immediate passive immunity, deployed against the 1918 flu, Junin virus, and SARS-CoV-2; see [[Virology, Antivenom Immunology, and Aromatic Antimicrobials]].
 * '''Cross-tolerance''' — when tolerance to one substance also reduces the effect of a related one (common among classic psychedelics), so taking them close together does not "stack" the way people expect.
+* '''Cyclization (Intramolecular)''' — acid-catalyzed ring closure converting open-chain terpenes like CBD into closed pyran-ring cannabinoids like THC; see [[Cannabinoid Isomerization]].
+* '''Cytochrome P450 (CYP450)''' — the primary hemoprotein monooxygenase enzyme superfamily in the liver and intestines responsible for drug clearance, bioactivation, and herb-drug interactions; see [[Cytochrome P450 System Inhibition and Induction]].
 
 == D ==
+* '''David E. Nichols''' — Professor Emeritus at Purdue University and pioneer of psychedelic medicinal chemistry; coined "entactogen," synthesized the APBs (6-APB) and NBOMes, and mapped serotonin GPCR docking; see [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]].
 * '''Deliriant''' — a class (e.g. certain anticholinergics) that produces confusion and true, often unpleasant, hallucinations; distinct from — and generally far riskier than — classic psychedelics.
 * '''Dissociative''' — a class (e.g. ketamine, DXM) that produces a sense of detachment from body/environment; a different mechanism from classic psychedelics.
 * '''Dose-response''' — the relationship between how much is taken and the effect; small differences in dose can mean large differences in experience, which is why '''start-low''' is the harm-reduction rule.
+* '''DPT (N,N-Dipropyltryptamine)''' — a potent synthetic psychedelic tryptamine utilized as the central holy sacrament ("the True Flesh of God") by the Temple of True Inner Light; see [[Religious Sacraments, RFRA, and the Temple of True Inner Light]].
+* '''DryTek (d-Limonene Extraction)''' — a green-chemistry extraction technique developed by 69Ron using food-grade d-limonene and calcium hydroxide to extract freebase alkaloids without neurotoxic petroleum solvents; see [[69Ron and Oilahuasca Chemistry]].
 * '''Duration''' — total length of effects, from onset through comedown; recorded alongside dose for every compound.
 
 == E ==
-* '''Entactogen / empathogen''' — a class (e.g. MDMA) whose signature is emotional openness, warmth, and connection rather than strong visual change. Many are phenethylamines.
+* '''Electroporation''' — applying brief, high-voltage electrical field pulses across cell membranes to create transient nanoscale pores for delivering CRISPR-Cas9, plasmids, and genetic cargo; see [[Bioelectricity, Forensic Genomics, and Alchemical Transmutation]].
+* '''Endocannabinoidome (eCBome)''' — the expanded lipid-signaling complex encompassing classical cannabinoid receptors (CB1/CB2), alternative GPCRs (GPR55, GPR119), nuclear receptors (PPAR-α), TRPV1, and non-cannabinoid N-acylethanolamines (PEA, OEA); see [[The Expanded Endocannabinoid System and FAAH Science]].
+* '''Endolysin''' — a phage-encoded peptidoglycan hydrolase ("enzybiotic") that rapidly lyses bacterial cell walls from within during viral burst or when applied exogenously against Gram-positive pathogens; see [[Bacteriophages Endolysins and Biological Inhibitors]].
+* '''Entactogen / empathogen''' — a pharmacological class coined by David E. Nichols ("producing a touching within") describing compounds like MDMA and 6-APB that foster emotional openness, empathy, and social bonding distinct from classic hallucinogens; see [[David E Nichols, Entactogen Pharmacology, and Receptor Mapping]].
+* '''Epoxidation''' — addition of an oxygen atom across an alkene double bond to yield a reactive three-membered oxirane ring, a key hepatic CYP450 detoxification and bioactivation pathway; see [[Universal Reaction Templates in Cannabinoid Chemistry]].
+
+== F ==
+* '''Fab / F(ab')2 Fragment''' — pepsin-cleaved divalent or monovalent antibody fragments preserving antigen/toxin neutralization while removing the immunogenic Fc stalk, eliminating fatal serum sickness in antivenom therapy; see [[Virology, Antivenom Immunology, and Aromatic Antimicrobials]].
+* '''Fentanyl Test Strip (FTS)''' — a lateral flow chromatographic immunoassay strip detecting fentanyl and major analogues down to 20–100 ng/mL; requires testing fully dissolved solutions to overcome hot-spot sampling errors; see [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]].
+
+== H ==
+* '''HU-331 (Cannabidiol-Quinone)''' — a 1,4-benzoquinone oxidation product of CBD that acts as a selective, non-cardiotoxic catalytic inhibitor of DNA Topoisomerase IIα without CB1 receptor activity; see [[Cannabinoid Quinones and Novel Derivatives]].
+
+== K ==
+* '''Ketene (CH2=C=O)''' — a highly reactive, toxic electrophilic gas released by thermal pyrolysis of acetate esters (THC-O-acetate, vitamin E acetate) above 200&nbsp;°C; causes chemical pneumonitis and acute lung injury upon contact with alveolar moisture; see [[Cannabinoid and Tryptamine Prodrugs]] and [[Airway Irritation and Cannabinoid Prodrug Delivery]].
 
 == M ==
-* '''MAOI (monoamine oxidase inhibitor)''' — a substance that blocks an enzyme which breaks down certain molecules. MAOIs can '''dangerously potentiate''' other drugs and foods and are a major source of interactions (the basis of ayahuasca's activity, and a serious contraindication with many medicines).
+* '''Mace''' — the lacy crimson aril surrounding the nutmeg seed (''Myristica fragrans''); rich in elemicin with significantly less heavy trimyristin fat than the inner seed; see [[Allylbenzene Metabolism, Oswald Pathway, and Mace]].
+* '''Main Protease (Mpro / 3CLpro)''' — the homodimeric cysteine protease of positive-sense single-stranded RNA viruses (including coronaviruses) essential for viral polyprotein cleavage, targeted by plant polyphenols like quercetin and EGCG; see [[Virology, Antivenom Immunology, and Aromatic Antimicrobials]].
+* '''Mandelin Reagent''' — ammonium metavanadate in sulfuric acid; transition-metal vanadium redox reagent useful for ketamine (orange) and detecting toxic PMA/PMMA; see [[Colorimetric Reagents and Presumptive Chemical Testing]].
+* '''MAOI (monoamine oxidase inhibitor)''' — a substance that blocks an enzyme which breaks down certain molecules. MAOIs can '''dangerously potentiate''' other drugs and foods and are a major source of interactions (the basis of ayahuasca's activity, and a serious contraindication with many medicines); see [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+* '''Marquis Reagent''' — concentrated sulfuric acid and formaldehyde; forms colored diarylmethane quinoid cations; turns dark purple/black with MDMA, orange/brown with amphetamines; see [[Colorimetric Reagents and Presumptive Chemical Testing]].
+* '''Mechanism-Based Inactivation (MBI / Suicide Inhibition)''' — irreversible enzyme inhibition where an enzyme metabolizes a pseudosubstrate into a reactive electrophile that covalently destroys the catalytic heme or apoprotein; see [[Cytochrome P450 System Inhibition and Induction]].
+* '''Mecke Reagent''' — selenious acid in sulfuric acid; selectively oxidizes catechol/dioxolane rings, flashing green to dark blue with MDMA; see [[Colorimetric Reagents and Presumptive Chemical Testing]].
+* '''Mephedrone (4-MMC)''' — an intensely euphoric synthetic cathinone monoamine releaser that dominated European club scenes in the late 2000s; see [[Ecstasy Pill Forensics and Historical Adulteration Trends]].
+* '''Methylone (bk-MDMA)''' — a $\beta$-keto synthetic cathinone analog of MDMA with shorter duration and higher dopamine release, widely substituted as counterfeit "Molly"; see [[Ecstasy Pill Forensics and Historical Adulteration Trends]].
 * '''Microdose''' — a sub-perceptual dose (well below a felt threshold) taken on a schedule; evidence for benefits is mixed and still debated.
+* '''Molar Stoichiometry & Salt Factor''' — dosing based on molecular count ($6.022 \times 10^{23}$ molecules per mole) rather than gross weight; calculating active freebase from ionic salt masses (HCl, fumarate, tartrate) to prevent accidental under- or overdoses; see [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]].
+
+== N ==
+* '''Naloxone (Narcan)''' — a pure competitive $\mu$-opioid receptor antagonist that rapidly displaces fentanyl and opioid agonists from receptors within 2–3 minutes, reversing life-threatening respiratory depression; see [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]].
+* '''Nucleophile Trap''' — the failure mode of acid-catalyzed cannabinoid isomerization when conducted in polar protic solvents (like ethanol), where the solvent attacks the carbocation intermediate, forming inactive ethoxy-cannabinoid adducts instead of closing the pyran ring; see [[Solvent Chemistry and Polarity in Botanical Extraction]].
+* '''N,O-TMS / α,N,O-TMS''' — in analytical chemistry, the silylation of protic hydrogens on amino and hydroxyl groups via BSTFA/BSA; in Shulgin's TIHKAL Entry #55, a chemical acronym for 5-methoxy-α,N-dimethyltryptamine and his "holy grail" 2-position indole SAR rule; see [[Structure-Activity Relationships in Psychopharmacology]].
+
+== O ==
+* '''Oswald Pathway''' — the in vivo metabolic pathway (discovered by E.O. Oswald) wherein allylbenzenes are hydroxylated, oxidized to phenyl vinyl ketones, and conjugated with endogenous secondary amines (piperidine, dimethylamine) into tertiary amino-alkaloids; see [[Allylbenzene Metabolism, Oswald Pathway, and Mace]].
+* '''Oxytocin''' — a hypothalamic nonapeptide neuropeptide governing trust, pair bonding, and social empathy, released centrally and peripherally via 5-HT1A/5-HT2C receptor stimulation by entactogens like MDMA and 5-MeO-DMT; see [[Structure-Activity Relationships in Psychopharmacology]].
 
 == P ==
+* '''Paan''' — an ancient South Asian ceremonial masticatory combining areca nut (arecoline), slaked lime ($Ca(OH)_2$), betel leaf (eugenol), and spices, producing synergistic cholinergic and monoaminergic activation; see [[Traditional Spiced Formulations and Synergistic Blends]].
+* '''Partition Coefficient (log P)''' — a physical chemistry measurement of lipophilicity determining how a molecule distributes between a non-polar solvent and water; CBD and THC have a highly hydrophobic log P of ~6.3; see [[Solvent Chemistry and Polarity in Botanical Extraction]].
 * '''Phenethylamine''' — the chemical family at the center of '''[[PIHKAL and TIHKAL|PIHKAL]]''' (the 2C-x and DOx series, the mescaline and MDMA relatives).
+* '''Photoredox Catalysis''' — using visible light (blue LEDs) and transition-metal complexes to drive single-electron transfer (SET) reactions at room temperature without harsh acids; see [[Cannabinoid Photochemistry and Degradation]].
 * '''Potentiation''' — one substance amplifying another's effect; can be intended or a hidden danger (see MAOI).
+* '''Presumptive Testing''' — rapid qualitative spot testing indicating the presence or absence of chemical functional groups, prone to adulterant masking; distinct from confirmatory chromatography (GC-MS/HPLC); see [[Colorimetric Reagents and Presumptive Chemical Testing]].
 * '''Prodrug''' — a compound inactive until the body converts it into the active form (e.g. psilocybin → psilocin).
+* '''Propenylbenzene''' — a plant phenylpropanoid with a double bond directly conjugated with the aromatic ring (-CH=CH-CH3), existing as cis and trans geometric isomers; see [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]].
 * '''Psychedelic (classic / serotonergic)''' — substances (e.g. LSD, psilocin, mescaline, DMT) that act mainly as agonists at the '''5-HT2A''' serotonin receptor, producing changes in perception, thought, and mood.
+* '''Psychotropics Convention (1971)''' — the United Nations multilateral treaty establishing global controls and four scheduling tiers for synthetic psychedelics, stimulants, and sedatives; see [[Psychotropics Convention and the UDV Precedent]].
+
+== Q ==
+* '''Quinone (Cannabinoid)''' — an oxidized aromatic dione derivative (such as HU-331 or VCE-003.2) that redirects cannabinoid targets from CB1 toward Topoisomerase IIα and PPARγ; see [[Cannabinoid Quinones and Novel Derivatives]].
 
 == R ==
+* '''Rasa Shastra''' — classical Indian iatrochemistry and metallurgical pharmaceutics; transforming metals into biocompatible, non-toxic organo-metallic nanoparticles (Bhasmas) via cyclic calcination; see [[Rasa Shastra and Ancient Indian Nanochemistry]].
 * '''Reagent testing''' — using chemical test kits (Marquis, Mecke, Simon's, etc.) to check what a substance actually is before use; a cornerstone of harm reduction because street material is frequently mis-sold.
-* '''Racemate / enantiomer''' — mirror-image forms of the same molecule; they can differ sharply in activity, a recurring theme in Shulgin's chemistry.
+* '''Racemate / enantiomer''' — mirror-image forms of the same molecule; they can differ sharply in activity, a recurring theme in Shulgin's chemistry; see [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]].
+* '''RFRA (Religious Freedom Restoration Act of 1993)''' — federal statute restoring strict scrutiny for religious exercise burdened by federal law, under which the Supreme Court unanimously protected the sacramental use of Schedule I ayahuasca in Gonzales v. UDV; see [[Religious Sacraments, RFRA, and the Temple of True Inner Light]].
+* '''RIMA (Reversible Inhibitor of MAO-A)''' — a reversible, competitive inhibitor of monoamine oxidase A (e.g. harmine, harmaline, moclobemide) that can be displaced by dietary tyramine, avoiding the hypertensive cheese crisis; see [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
 
 == S ==
+* '''SALLE (Salting-Out Assisted Liquid-Liquid Extraction)''' — a purification technique using ice-cold saturated brine to halt reaction kinetics and sharpen phase separation between non-polar solvents and water; see [[Cannabinoid Isomerization]].
+* '''Salt Shaker Metaphor''' — Alexander Shulgin's critique of the Federal Analogue Act: asking at what point a salt shaker with 5 holes becomes something else if you add or remove a hole, illustrating the vagueness of "substantial similarity"; see [[Isomers, the Analogue Act, and Forensic Chemistry]].
+* '''Serine Hydrolase Superfamily''' — an extensive enzyme family (including FAAH, MAGL, AChE, and lipases) sharing an active serine nucleophile; see [[Enzyme Inhibition Kinetics and Molecular Transporters]].
+* '''Serotonin Syndrome (Toxicity)''' — a potentially fatal hypermetabolic state caused by excessive synaptic serotonin overstimulating 5-HT2A/5-HT1A receptors, triggered by combining MAOIs/RIMAs with SSRIs, SNRIs, MDMA, or DXM; see [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
 * '''Set and setting''' — one's '''mindset''' (mood, intention, expectations) and the '''physical/social environment'''. Widely held to shape an experience as much as the substance and dose.
 * '''Shulgin Rating Scale''' — Shulgin's qualitative intensity scale, from minus (no effect) through +, ++, +++ to the rare ++++ (a distinct peak/transcendent state); see [[PIHKAL and TIHKAL]].
-* '''Structure–activity relationship (SAR)''' — how small changes to a molecule's structure change its effect; the systematic thread running through PIHKAL and TIHKAL.
+* '''Simon's Reagent''' — sodium nitroprusside and acetaldehyde in alkaline carbonate buffer; reacts specifically with secondary amines (MDMA, methamphetamine) to form an intense cobalt blue complex; see [[Colorimetric Reagents and Presumptive Chemical Testing]].
+* '''Spagyrics (Tria Prima)''' — Paracelsian alchemical pharmacy separating plants into Sulfur (essential oils/terpenes), Mercury (alcohol/active essence), and Salt (purified calcined mineral ash); see [[Bioelectricity, Forensic Genomics, and Alchemical Transmutation]].
+* '''Strontium Mimicry''' — the ability of divalent strontium ($Sr^{2+}$) to substitute isomorphously for calcium ($Ca^{2+}$) in bone hydroxyapatite, enabling dual-action osteoblast stimulation / osteoclast inhibition (strontium ranelate) and driving Strontium-90 bone marrow beta radiation; see [[Alkaline Earth Metals, Calcium Signaling, and Strontium Mimicry]].
+* '''Structure–activity relationship (SAR)''' — how small steric, electronic, and lipophilic changes to a molecule's structure redirect its affinity across receptors and enzymes; the systematic thread running through PIHKAL and TIHKAL; see [[Structure-Activity Relationships in Psychopharmacology]].
 * '''Serotonergic''' — acting on the serotonin system; the mechanism of the classic psychedelics.
 
 == T ==
+* '''Temple of True Inner Light''' — a Manhattan religious congregation (rooted in the Native American Church) that openly used the synthetic tryptamine DPT as its central Eucharistic sacrament for decades; see [[Religious Sacraments, RFRA, and the Temple of True Inner Light]].
 * '''Test dose / allergy dose''' — taking a small fraction first to check for a bad reaction before a full dose.
+* '''TFMPP (3-Trifluoromethylphenylpiperazine)''' — a non-selective serotonin receptor agonist combined with BZP in mid-2000s party pills to mimic MDMA, causing severe migraines and nausea; see [[Ecstasy Pill Forensics and Historical Adulteration Trends]].
 * '''Threshold dose''' — the smallest amount at which any effect is felt (the "±" on the scale).
 * '''Tolerance''' — reduced effect from repeated use, so more is needed for the same result; for classic psychedelics it builds fast and fades after a break.
 * '''Tripsitter''' — a sober, trusted person who stays present to keep someone safe and grounded during an experience.
 * '''Tryptamine''' — the chemical family at the center of '''[[PIHKAL and TIHKAL|TIHKAL]]''' (DMT and relatives, the psilocin group).
+* '''Tyramine Hypertensive Crisis ("Cheese Effect")''' — severe, life-threatening blood pressure spike caused by consuming aged tyramine-rich foods during irreversible MAO-A inhibition; see [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+
+== U ==
+* '''UDV Precedent (Gonzales v. UDV, 2006)''' — unanimous Supreme Court ruling establishing that RFRA protects the sacramental importation and consumption of hoasca (ayahuasca/DMT), decisively rejecting the DEA's international treaty defense under the 1971 Psychotropics Convention; see [[Psychotropics Convention and the UDV Precedent]].
+
+== V ==
+* '''Voltage-Gated Calcium Channels (VGCCs)''' — high-voltage-activated presynaptic channels (Cav2.1, Cav2.2) mediating calcium influx that triggers neurotransmitter exocytosis, directly inhibited by retrograde endocannabinoid CB1 activation; see [[Alkaline Earth Metals, Calcium Signaling, and Strontium Mimicry]].
+* '''Volumetric Liquid Dosing (VLD)''' — dissolving a known mass of powder into a measured volume of liquid to achieve microgram-accurate oral syringe dosing, eliminating the deadly error of eyeballing powders; see [[Molar Stoichiometry, Powder Density, and Tolerance Kinetics]].
+
+== Z ==
+* '''Zinc Ionophore''' — a lipophilic molecule (such as the flavonoid quercetin) that binds divalent zinc ($Zn^{2+}$) to transport it across hydrophobic cellular membranes, elevating intracellular zinc to inhibit viral RNA-dependent RNA polymerase (RdRp); see [[Virology, Antivenom Immunology, and Aromatic Antimicrobials]].
 
 == Sources ==
 
 Terminology reflects standard pharmacology and harm-reduction practice; compound-specific data and the rating scale trace to A. & A. Shulgin's [[PIHKAL and TIHKAL]], with full entries hosted at [https://www.erowid.org Erowid].
 
-See also: [[Glossaries]] · [[PIHKAL and TIHKAL]] · [[Crypto Glossary]] · [[The Library of Ashurbanipal]]
+See also: [[Glossaries]] · [[PIHKAL and TIHKAL]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[The Expanded Endocannabinoid System and FAAH Science]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] · [[Cholinergic Neurotransmission and Cholinesterase Inhibition]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Modified Cannabinoids Matrix]] · [[Cannabinoid Isomerization]] · [[Crypto Glossary]] · [[The Library of Ashurbanipal]]

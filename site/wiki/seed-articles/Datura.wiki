@@ -28,10 +28,35 @@ Plus tachycardia, urinary retention, seizures, coma. Hyperthermia and the injuri
 
 '''If someone has taken Datura, this is an emergency-department presentation.''' Treatment is supportive; physostigmine is used in hospital. Benzodiazepines control agitation. It is not something to sit with at home.
 
+== Inhalation vs. Oral Ingestion: The Sadhu Tradition and Pyrolysis ==
+
+While swallowing seeds or drinking seed decoctions is a notorious medical emergency, traditional ethnobotanical systems (specifically Indian Shaivite Sadhus and Aghoris) treat Datura very differently:
+* '''Smoking Leaf Fragments with Charas:''' Sadhus routinely blend tiny fragments of dried Datura leaf (*Datura metel*) with cannabis resin (charas) and tobacco in a clay pipe (*chillum*).
+* '''Pyrolytic Inactivation:''' Burning leaf material destroys between 80% and 90% of fragile tropane ester bonds through thermal decomposition before the smoke enters the lungs.
+* '''Instantaneous Pulmonary Titration:''' Inhaled vapor enters the pulmonary capillary bed with a $T_{\max}$ of seconds. The user receives immediate physiological feedback (slight dryness of mouth, bronchial relaxation) and can immediately set the pipe down. By contrast, swallowing 50 to 150 seeds traps the user in a 2-hour digestive delay before an uncontrollable, 48-hour life-threatening toxic delirium begins.
+
+== The Benztropine Model: Micro-Dosing as Antispasmodic Medicine ==
+
+In clinical medicine, synthetic anticholinergics like '''benztropine''' (Cogentin) and '''trihexyphenidyl''' (Artane) are prescribed at tiny, precise doses (0.5 mg to 2 mg) to:
+1. Balance acetylcholine-dopamine ratios in Parkinson's disease.
+2. Abort acute dystonic reactions and extrapyramidal tremors induced by dopamine antagonists (antipsychotics).
+3. Inhibit muscarinic $M_3$ receptors in airway smooth muscle to induce bronchodilation (the exact basis of 19th-century "Asthma Cigarettes" made from *Datura stramonium*).
+4. Dry excessive salivation and bronchial secretions.
+
+When ascetics micro-dose Datura via smoke, they are utilizing this exact sub-milligram anticholinergic stabilization—counteracting the heavy bronchial secretions, airway constriction, and nausea of potent cannabis resin—completely divorced from the lethal delirium of high-dose seed consumption.
+
+== The Shulgin "Tasting" Protocol and Museum Doses ==
+
+Because botanical potency fluctuates wildly, responsible pharmacological evaluation rejects arbitrary minimum doses. Instead, Alexander "Sasha" Shulgin formalized the '''"Tasting" Bioassay Protocol''' in ''PIHKAL'' and ''TIHKAL'':
+* '''Sub-threshold Microgram Baseline:''' Always begin at a fraction of the estimated threshold (10 to 50 micrograms), never jumping to an active dose.
+* '''Full Washout Windows:''' Allow multiple days between trials to confirm receptor clearance and absence of cardiac or autonomic liabilities.
+* '''Incremental Titration:''' Step up slowly (micrograms to milligrams) to establish the minimum active baseline.
+* '''The "Museum Level" Dose:''' As defined in Shulgin's 2C-B research, a museum dose is a gentle threshold (+ or ++) state that sharpens visual contrast, aesthetic appreciation, and sensory lucidity while leaving motor control, cognitive sobriety, and social composure completely intact. In tropane botany, exceeding this threshold into delirium is not an expansion of consciousness, but acute neurotoxic poisoning.
+
 == Related ==
 
 Other tropane-bearing Solanaceae carry the same hazard: ''Brugmansia'' (angel's trumpet), ''Atropa belladonna'' (deadly nightshade), ''Hyoscyamus niger'' (henbane), ''Mandragora'' (mandrake). The historical and ritual literature on all of them is genuinely interesting; none of it makes them safe.
 
 '''[[Galantamine]] is the pharmacological opposite''' — a cholinesterase inhibitor — and appears in the same dream-material list. They are directly antagonistic.
 
-See also: [[Galantamine]] · [[Stack Substances]] · [[Cannabis Harm Reduction]]
+See also: [[Old World vs. New World Visionary Botanicals: Toxicity, Titration, and the Shulgin Method]] · [[Galantamine]] · [[Stack Substances]] · [[Cannabis Harm Reduction]] · [[Virology, Antivenom Immunology, and Aromatic Antimicrobials]] · [[Shulgin Rating Scale]]

@@ -1,0 +1,89 @@
+'''Endocannabinoid Chemistry and 2-AG Metabolism''' examines the biosynthesis, organic synthesis, spontaneous isomer migration, and enzymatic degradation of '''2-arachidonoylglycerol (2-AG)'''. 2-AG is the most abundant endogenous cannabinoid in the mammalian brain, present at concentrations roughly 170 times higher than anandamide (AEA), and operates as a full agonist at both CB1 and CB2 cannabinoid receptors.
+
+This article details the canonical enzymatic synthesis by diacylglycerol lipase (DAGL), in vitro chemical protection strategies, the spontaneous 2-AG to 1-AG acyl migration, non-migrating ether analogs like Noladin ether, virodhamine, and the enzymatic degradation cascade.
+
+== Biological biosynthesis: the canonical pathway ==
+
+Unlike classical peptide or monoamine neurotransmitters, 2-AG is not packaged into pre-synaptic vesicles. It is biosynthesized "on demand" within the post-synaptic dendritic membrane in response to calcium influx (depolarization) or activation of Gq-protein coupled receptors (such as group I metabotropic glutamate receptors, mGluR1/5):
+
+<code>
+           [ Phosphatidylinositol 4,5-bisphosphate (PIP2) ]
+                                  │
+                                  ▼  Phospholipase C-β (PLC-β)
+                     [ 1,2-Diacylglycerol (DAG) ]
+                                  │
+                                  ▼  Diacylglycerol Lipase (DAGL-α / DAGL-β)
+                  [ 2-Arachidonoylglycerol (2-AG) ]
+                                  │
+                     (Retrograde Synaptic Flux)
+                                  │
+                                  ▼
+               [ Pre-synaptic CB1 Receptor Activation ]
+</code>
+
+# '''Phospholipase C-β (PLC-β) Activation:''' Cleaves membrane PIP2 to yield 1,2-diacylglycerol containing arachidonic acid at the ''sn-2'' position.
+# '''Diacylglycerol Lipase (DAGL-α and DAGL-β):''' Selectively hydrolyzes the fatty acyl chain from the ''sn-1'' position of DAG, releasing free 2-AG directly into the inner membrane leaflet.
+# '''Retrograde Signaling:''' 2-AG diffuses retrogradely across the synaptic cleft to bind pre-synaptic CB1 receptors, inhibiting voltage-gated calcium channels and shutting down further exocytosis of neurotransmitters (GABA or glutamate).
+
+== In vitro and organic chemical synthesis ==
+
+Synthesizing 2-AG in the laboratory requires strict stereochemical and regioselective control because glycerol's secondary (C2) hydroxyl group is sterically hindered and surrounded by two more reactive primary (C1 and C3) hydroxyl groups:
+
+=== 1. Regioselective 1,3-protection ===
+* Direct reaction of glycerol with arachidonic acid yields a complex mixture dominated by 1-monoacylglycerols, 1,3-diacylglycerols, and triglycerides.
+* '''Protecting group strategy:''' Glycerol is first condensed with benzaldehyde to form '''1,3-O-benzylidene glycerol''', or reacted to form a dihydroxyacetone ketal intermediate, completely blocking the C1 and C3 positions.
+* '''Steglich esterification:''' The free C2 secondary alcohol is coupled with arachidonic acid using dicyclohexylcarbodiimide (DCC) and 4-dimethylaminopyridine (DMAP) under anhydrous, inert conditions.
+* '''Deprotection:''' Removing the 1,3-protecting groups must be performed using neutral catalytic hydrogenolysis or mild Lewis acids (e.g., BCl3 at -78 °C). Strong acids or heating trigger immediate acyl migration.
+
+== Positional isomerization: spontaneous acyl migration ==
+
+The primary physical-chemical challenge of handling 2-AG is its thermodynamic instability:
+
+<code>
+      CH2-OH                             CH2-O-CO-Arachidonyl
+      │                                  │
+      CH-O-CO-Arachidonyl  ──────────►   CH-OH
+      │                 (Acyl Migration) │
+      CH2-OH                             CH2-OH
+
+  [ 2-Arachidonoylglycerol ]            [ 1-Arachidonoylglycerol ]
+       (Full CB1 Agonist)                    (~10× Lower Affinity)
+</code>
+
+* '''The 2-AG to 1-AG shift:''' In aqueous buffer, physiological serum, or protic solvents at room temperature, 2-AG undergoes a non-enzymatic intramolecular transesterification (1,2-acyl migration). The C1 primary hydroxyl attacks the C2 ester carbonyl via a 5-membered cyclic orthoester intermediate.
+* '''Thermodynamic equilibrium:''' Because primary esters are less sterically hindered and thermodynamically more stable than secondary esters, the reaction reaches an equilibrium favoring '''1-AG (roughly 85–90%)''' over 2-AG (10–15%) within hours.
+* '''Pharmacological consequence:''' 1-Arachidonoylglycerol (1-AG) displays roughly a 10-fold lower binding affinity for CB1 receptors compared to 2-AG. Analytical quantification of 2-AG in biological tissues requires flash-freezing in liquid nitrogen and rapid extraction in acidified organic solvents at -20 °C to prevent artifactual conversion to 1-AG.
+
+== Structural analogs: Noladin ether and Virodhamine ==
+
+=== 1. Noladin Ether (2-Arachidonyl glyceryl ether) ===
+To bypass the rapid acyl migration and enzymatic instability of 2-AG, medicinal chemists synthesized '''Noladin ether''':
+* The ester bond of 2-AG is replaced with an '''ether linkage''' (-O-):
+: <code>Glycerol-O-CH2-Arachidonyl instead of Glycerol-O-CO-Arachidonyl</code>
+* Because ethers cannot undergo transesterification, Noladin ether cannot migrate to the 1-position.
+* It cannot be hydrolyzed by monoacylglycerol lipase (MAGL), functioning as a stable, long-acting selective CB1 receptor agonist.
+
+=== 2. Virodhamine (O-Arachidonoyl ethanolamine) ===
+* Anandamide (AEA) is an amide (arachidonic acid linked to ethanolamine via an amide bond, -NH-CO-).
+* '''Virodhamine''' is the reverse ester isomer: arachidonic acid is esterified to the hydroxyl group of ethanolamine (-O-CO-).
+* Discovered in human brain and peripheral tissues, virodhamine acts as an endogenous '''CB1 receptor antagonist / partial inverse agonist''' while behaving as a full agonist at peripheral '''CB2 receptors''', providing an endogenous counterbalance to 2-AG signaling.
+
+== Metabolic degradation and clearance ==
+
+<code>
+                           [ 2-Arachidonoylglycerol ]
+                                       │
+           ┌───────────────────────────┼───────────────────────────┐
+           ▼                           ▼                           ▼
+    [ MAGL Hydrolysis ]       [ ABHD6 / ABHD12 ]            [ COX-2 Oxygenation ]
+       (~85% Brain)              (~15% Brain)                 (Neuroinflammation)
+           │                           │                           │
+           ▼                           ▼                           ▼
+ [ Arachidonic Acid + Glycerol ] [ Arachidonic Acid ]      [ Prostaglandin Glyceryl Esters ]
+</code>
+
+# '''Monoacylglycerol Lipase (MAGL):''' Hydrolyzes 2-AG into free arachidonic acid (AA) and glycerol. MAGL resides primarily on pre-synaptic axon terminals, terminating the retrograde signal and accounting for ~85% of total brain 2-AG clearance.
+# '''ABHD6 and ABHD12:''' Alpha/beta-hydrolase domain 6 (ABHD6) resides post-synaptically, controlling local dendritic 2-AG pools, while ABHD12 is expressed in microglia and astrocytes.
+# '''Cyclooxygenase-2 (COX-2):''' 2-AG is a direct substrate for COX-2, which oxygenates the arachidonoyl backbone to generate '''prostaglandin glyceryl esters (PG-Gs)''' (such as PGE2-G), modulating neuroinflammatory cascades independently of cannabinoid receptors.
+
+See also: [[MAGL]] · [[FAAH]] · [[Anandamide and 2-AG]] · [[Cannabinoid Oilahuasca]] · [[Cannabinoid Adducts and Conjugates]] · [[Stack Substances]]
