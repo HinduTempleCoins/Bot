@@ -1,7 +1,7 @@
 // pd-films-more.test.mjs — the wider public-domain shelf. Offline. node --test integrations/soapbox/pd-films-more.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PD_MORE, GENRES, EXCLUDED, moreByGenre, moreTile } from './pd-films-more.mjs';
+import { PD_MORE, GENRES, EXCLUDED, moreByGenre, moreTile, ALL_MORE } from './pd-films-more.mjs';
 import { PD_HORROR_FILMS } from './horror-taxonomy.mjs';
 import { PD_CLASSICS } from './classic-films.mjs';
 import { allFreeFilms } from './free-film-registry.mjs';
@@ -34,7 +34,7 @@ test('cleared at the licence check, in the free-film registry, grouped and tiled
   for (const f of PD_MORE) assert.equal(licenseLabel('', ['feature_films'], { id: f.id, year: '1960' }).token, 'public-domain', f.id);
   const reg = new Set(allFreeFilms().map((f) => f.id));
   for (const f of PD_MORE) assert.ok(reg.has(f.id), `${f.id} not in the registry`);
-  assert.equal(moreByGenre().reduce((n, g) => n + g.films.length, 0), PD_MORE.length);
+  assert.equal(moreByGenre().reduce((n, g) => n + g.films.length, 0), ALL_MORE.length); // + the gap audit's additions
   const t = moreTile(PD_MORE[0]);
   assert.match(t.streamUrl, /^https:\/\/archive\.org\/embed\//);
   assert.equal(t.licenseToken, 'public-domain');
