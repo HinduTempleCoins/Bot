@@ -173,6 +173,7 @@ export function buildBoard(p, index, { renderBudget = 0 } = {}) {
     if (sc.card && sc.source) {
       const f = facts.find((x) => norm(x.source) && (norm(sc.source).includes(norm(x.source)) || norm(x.source).includes(norm(sc.source))));
       if (f && sc.kind !== f.tag) { sc.kind = f.tag; if (f.card) sc.card = f.card; sc.corrected = true; }
+      if (f) sc.source = f.source; // the fact sheet's source name, never the model's paraphrase
       if (!f) { sc.kind = 'none'; sc.source = ''; } // unsourced claim: keep the words only if they carry no claim label
     }
     const topicWords = keywords(`${p.title} ${(p.sequences || [])[sc.sequence - 1] || ''}`);
