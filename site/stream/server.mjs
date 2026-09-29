@@ -27,6 +27,7 @@ import * as archiveVideo from '../../integrations/soapbox/archive-video.mjs';
 import * as iptv from '../../integrations/soapbox/iptv-channels.mjs';
 import * as horror from '../../integrations/soapbox/horror-taxonomy.mjs';
 import * as classics from '../../integrations/soapbox/classic-films.mjs';
+import * as pdMore from '../../integrations/soapbox/pd-films-more.mjs';
 import { horrorMapRoute, HORROR_MAP_PATHS, loadStills } from './horror-pages.mjs';
 import * as radio from '../../integrations/soapbox/radio.mjs';
 import * as podcasts from '../../integrations/soapbox/podcasts.mjs';
@@ -300,7 +301,7 @@ function pageShell(title, inner, { description, canonical } = {}) {
     title, description: desc, canonical: canonical || `${BASE_URL}/`, siteName: SITE_NAME,
     robots: 'index,follow,max-image-preview:large', site: { url: BASE_URL, name: SITE_NAME },
   });
-  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
+  const nav = [...CATEGORIES.map((c) => `<a href="/c/${esc(c.id)}">${esc(c.title)}</a>`), '<a href="/classics">🎞️ Classics</a>', '<a href="/free">🆓 Free films</a>', '<a href="/horror">🩸 Horror</a>', '<a href="/films">🎬 Films &amp; reviews</a>'].join('');
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
@@ -327,9 +328,26 @@ function classicsPage() {
   return pageShell(`Classics · free · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/classics`, description: `${classics.PD_CLASSICS.length} public-domain classic films to watch free: His Girl Friday, Metropolis, The General, A Star Is Born, Detour, Meet John Doe, Robin Hood and more.` });
 }
 
+// ── /free — the wider public-domain shelf (integrations/soapbox/pd-films-more.mjs), by genre ─────────────────────
+function freeRow() {
+  const picks = pdMore.PD_MORE.filter((f) => f.pick).slice(0, 12).map(pdMore.moreTile);
+  return picks.length ? `<section class=row><h2><a href="/free">More free films</a> <span class="badge lic">public domain</span><span class=see>All ${pdMore.PD_MORE.length} →</span></h2><div class=grid>${picks.map(tile).join('')}</div></section>` : '';
+}
+
+function freePage(genreId = '') {
+  const groups = pdMore.moreByGenre().filter((g) => !genreId || g.id === genreId);
+  if (genreId && !groups.length) return null;
+  const tabs = pdMore.moreByGenre().map((g) => `<a class=btn href="/free/${esc(g.id)}"${g.id === genreId ? ' style="border-color:var(--acc)"' : ''}>${esc(g.name)} (${g.films.length})</a>`).join(' ');
+  const shelves = groups.map((g) => `<section class=row><h2>${esc(g.name)} <span class=see>${g.films.length}</span></h2><div class=grid>${(genreId ? g.films : g.films.slice(0, 18)).map((f) => tile(pdMore.moreTile(f))).join('')}</div>${!genreId && g.films.length > 18 ? `<p><a class=btn href="/free/${esc(g.id)}">All ${g.films.length} ${esc(g.name.toLowerCase())} →</a></p>` : ''}</section>`).join('');
+  const name = genreId ? groups[0].name : 'Free films';
+  const inner = `<p class=lead>${pdMore.PD_MORE.length} more films and shorts that are free for everyone: public domain in the US because they were published in 1930 or earlier, their copyright was never renewed or carried no notice, or they are works of the US government. Every one plays here and links to <a href="/films">SoapBox Films</a> to rate and review it. See also <a href="/classics">Classics</a> and <a href="/horror">Horror</a>.</p>
+    <p>${tabs}</p>${shelves}`;
+  return pageShell(`${name} · free · ${SITE_NAME}`, inner, { canonical: `${BASE_URL}/free${genreId ? `/${genreId}` : ''}`, description: `${genreId ? `${groups[0].films.length} ${name.toLowerCase()}` : `${pdMore.PD_MORE.length} films and shorts`} in the public domain, free to watch: silent comedy, cartoons, westerns, war documentaries, noir and more.` });
+}
+
 function homePage(rows) {
   const inner = `<p class=lead>A free, legal streaming catalog. Public-domain films &amp; classic TV, free-to-air live channels, radio, podcasts, and on-chain MELEK creator video — every title labelled with its license and source.</p>
-    ${classicsRow()}${rows.map(rowSection).join('')}`;
+    ${classicsRow()}${freeRow()}${rows.map(rowSection).join('')}`;
   return pageShell(`${SITE_NAME} — free, legal streaming`, inner);
 }
 
@@ -537,7 +555,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/', '/classics', ...CATEGORIES.map((c) => `/c/${c.id}`),
+export const SITEMAP_PATHS = ['/', '/classics', '/free', ...pdMore.moreByGenre().map((g) => `/free/${g.id}`), ...CATEGORIES.map((c) => `/c/${c.id}`),
   '/horror', ...HORROR_MAP_PATHS(), '/films', '/films/reviews', '/films/genres', '/films/originals',
   ...horror.HORROR_GENRES.map((g) => `/horror/${g.id}`),
   ...horror.SURVIVAL_WING.map((s) => `/horror/${s.id}`),
@@ -619,6 +637,9 @@ export async function handler(req, res) {
     }
 
     if (path === '/classics') return sendHtml(res, classicsPage());
+    if (path === '/free') return sendHtml(res, freePage());
+    const freeM = path.match(/^\/free\/([a-z]+)$/);
+    if (freeM) { const html = freePage(freeM[1]); if (!html) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('unknown genre'); } return sendHtml(res, html); }
     const catM = path.match(/^\/c\/([a-z]+)$/);
     if (catM) {
       const cat = CATEGORIES.find((c) => c.id === catM[1]);
