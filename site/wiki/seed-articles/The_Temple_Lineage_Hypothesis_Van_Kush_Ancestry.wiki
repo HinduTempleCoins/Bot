@@ -1,0 +1,40 @@
+'''The Temple Lineage Hypothesis (Van Kush Ancestry)''' is a working hypothesis put forward by Rev. Ryan Van Kush. It is presented here as a hypothesis — stated in his terms, then tested against the evidence for and against it, with the evidence that could confirm or refute it. It is not a settled finding. Alpha: this page will change as evidence is added.
+
+== 1. The hypothesis, stated ==
+
+# An ancient human lineage — possibly carrying Denisovan and other archaic inputs, and reaching back tens of thousands of years — was unusually advanced: it crossed open sea, bred plants and animals into domestic forms, developed metallurgy, dyes and cloth, and founded the temple cultures of the ancient world, from India and China to the Near East and Europe.
+# Later populations descend in part from this lineage. The temple societies continued alongside the "ordinary" societies that grew up around them, admitting outsiders into their priesthoods.
+# Within the lineage, closed breeding — including the royal and priestly incest documented in several cultures — fixed particular traits, among them light hair and eye colours, facial structure, and patterns of hair.
+# The strength of the lineage lay not in purity but in heterosis: repeated mixing with other populations produced vigour, while closed breeding produced defects. Race is not defined by colour.
+# Myths of gods and angels mating with humans on sacred mountains (Genesis 6; 1 Enoch 6–8), and traditions of their offspring being destroyed, preserve a memory of this lineage and its encounters with others.
+
+== 2. Evidence that fits ==
+
+* '''Elite closed breeding is real:''' the Newgrange passage-tomb burial NG10 was the child of first-degree incest within an Irish Neolithic elite lineage (Cassidy et al. 2020); Egyptian, Ptolemaic, Inca and Hawaiian royal sibling marriage — see [[Ancestral Temple Elites Royal Inbreeding and Sacred Marriage]].
+* '''Archaic humans crossed water and mixed with us:''' early hominins reached Flores and Luzon across sea straits; Denisovan ancestry is highest east of the Wallace Line; several Denisovan populations mixed with modern humans — see [[Denisovans Ancestry Sea Crossings and the Fossil Record]].
+* '''Light-colour variants are old:''' several light-skin variants are older than Homo sapiens (Crawford et al. 2017), and some Neanderthals carried a pale-skin/red-hair ''MC1R'' variant — see [[Skin Hair and Eye Colour Ancestry and Genetics]].
+* '''Temple institutions were long-lived and hereditary:''' priesthoods passed within families in Egypt, Israel (the Cohanim, whose Y-chromosome haplotype is still traceable), India and elsewhere.
+* '''The Watchers texts''' credit teachers from outside humanity with metallurgy, dyes and cosmetics — the same crafts the hypothesis assigns to the lineage (1 Enoch 8).
+
+== 3. Evidence against, or not yet in its favour ==
+
+* '''Domestication was independent and plural.''' Plants and animals were domesticated in at least eleven separate regions by different populations with different ancestries (Larson et al. 2014) — see [[Domestication of Plants and Animals Farming Origins]].
+* '''No monuments are attributed to Denisovans.''' The earliest known temples (Göbekli Tepe, c. 9500 BCE) were built by Homo sapiens whose genomes show ordinary, low archaic ancestry.
+* '''Pigmentation spread by migration and selection.''' Light skin in Europe rose with Anatolian farmers and steppe herders under natural selection; blondness and light skin arose independently in East Asia and Melanesia. No ancient-DNA signal yet shows a separate breeding lineage fixing them.
+* '''Denisovan ancestry is low where temple cultures began''' (the Near East, Europe) and highest in Papua and Australia.
+* '''All populations are mixtures;''' ancient DNA has not yet identified one lineage that fathered the others.
+
+== 4. How it could be tested ==
+
+* Ancient genomes from temple elites (Egypt, Mesopotamia, the Indus, Shang China, Minoan Crete) compared with ordinary burials from the same sites: is there a distinct shared lineage across regions?
+* Identity-by-descent analysis for long shared segments between elite burials in different regions.
+* Dating the pigmentation variants in ancient genomes to see whether they cluster in elite burials before spreading.
+* Searching elite genomes for elevated archaic (Denisovan/Neanderthal) segments.
+* The operator's own genome (planned whole-genome sequencing) compared against ancient samples — see the DNA reader project.
+
+== 5. What it does not claim ==
+
+* It does not claim any living group is physically or mentally superior. Its own fourth point — that vigour comes from mixing, and purity breeds defects — rules that out.
+
+== Sources ==
+* See the linked articles for primary sources. Van Kush R. S., "Mythology as genealogy, allopatric divergence in human populations, and the legal recognition of genetic heritage…", ''Current Agriculture Updates''.
