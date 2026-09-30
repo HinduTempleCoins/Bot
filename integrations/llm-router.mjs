@@ -124,7 +124,10 @@ function providerUsable(p) {
   // A provider may need more than a key — the native brain also needs its URL, and a token pointing
   // nowhere would make it look available and then fail every call at the head of the ladder.
   if (typeof p.requires === 'function' && !p.requires()) return false;
-  return p.keyless ? true : Boolean(process.env[p.env]);
+  // PRIVATE documents (e.g. the digest bot on an operator's own email) must not go to a public keyless
+  // endpoint: LLM_NO_KEYLESS=1 drops the keyless backstop, so only the operator's keyed accounts are used.
+  if (p.keyless) return process.env.LLM_NO_KEYLESS !== '1';
+  return Boolean(process.env[p.env]);
 }
 
 /** Endpoints may be a literal or a thunk (the native brain's URL comes from env at call time). */

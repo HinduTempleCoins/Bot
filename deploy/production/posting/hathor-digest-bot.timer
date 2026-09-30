@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the Hathor digest bot every 20 minutes (resumes long books from its per-chunk cache)
+
+[Timer]
+OnBootSec=5min
+OnUnitInactiveSec=20min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
