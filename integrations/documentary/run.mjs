@@ -158,14 +158,50 @@ export async function fullPlan(topicIdOrDef, style, minutes, out) {
 
 /** plan + assets index → board for the wordless renderer. First wave is REUSE-ONLY (renderBudget 0): every scene is
  *  built from parts we already have; scenes nothing fits go to the film's MISSING list (the next render queue). */
+// Animated maps per topic region (ids of /opt/melek-gen/maps/index.json clips), strongest first.
+export const REGION_MAPS = {
+  nile: ['egypt', 'kush-nubia', 'mesopotamia'], levant: ['mesopotamia', 'carthage-phoenicians', 'time-semitic', 'egypt'],
+  punic: ['carthage-phoenicians', 'phoenician-colonies', 'hannibal'], maghreb: ['carthage-phoenicians', 'hannibal', 'phoenician-colonies'],
+  atlantic: ['phoenician-colonies', 'carthage-phoenicians'], persia: ['persia', 'alexander-campaign', 'mesopotamia'],
+  mesopotamia: ['mesopotamia', 'persia'], 'near-east': ['mesopotamia', 'time-dolmens-temples', 'time-domestication'],
+  india: ['india', 'time-indo-european'], asia: ['china', 'time-denisovans-sea'], italy: ['rome', 'hannibal'], greece: ['alexander-campaign', 'rome'],
+  europe: ['rome', 'time-dolmens', 'time-indo-european'], steppe: ['time-horse', 'time-chariot', 'time-wheel', 'mongols'],
+  'north-america': ['americas'], americas: ['americas'], world: ['world', 'time-domestication', 'deep-all-three'],
+};
+export const MAP_WORDS = /\b(maps?|routes?|journeys?|voyages?|empires?|migrations?|spread|expansion|kingdoms?|colonies|conquests?|across|lands?|homelands?)\b/i;
+const MAP_SYN = [['cush', 'kush', 'nubia', 'nubian', 'meroe', 'kerma'], ['havilah', 'arabia', 'arabian'], ['phoenicia', 'phoenician', 'phoenicians', 'punic', 'carthage', 'canaan', 'tyre', 'sidon'],
+  ['mesopotamia', 'babylon', 'babylonian', 'assyria', 'assyrian', 'sumer', 'akkad', 'ur'], ['persia', 'persian', 'achaemenid', 'iran'], ['egypt', 'egyptian', 'nile', 'pharaoh', 'pharaohs'],
+  ['india', 'indus', 'vedic'], ['rome', 'roman'], ['alexander', 'macedon', 'greek', 'greece'], ['hannibal', 'carthage'], ['china', 'chinese', 'shang'],
+  ['denisovan', 'denisovans'], ['neanderthal', 'neanderthals'], ['haplogroup', 'haplogroups', 'dna'], ['dolmen', 'dolmens', 'megalith', 'megaliths'], ['horse', 'horses', 'chariot', 'chariots', 'wheel']];
+const mapWords = (t) => { const w = new Set(String(t || '').toLowerCase().match(/[a-z]+/g) || []); for (const g of MAP_SYN) if (g.some((x) => w.has(x))) g.forEach((x) => w.add(x)); return w; };
+/** animated maps for a film, best first: the topic region's own maps, then any map sharing words (with synonyms). */
+export function pickMaps(p, maps, topic = {}) {
+  const want = mapWords(`${p.title || ''} ${(p.sequences || []).join(' ')} ${topic.hint || ''} ${topic.name || ''}`);
+  const pref = REGION_MAPS[topic.region] || [];
+  const scored = maps.map((m) => {
+    const id = String(m.id || '').replace(/^map:/, '');
+    const mw = mapWords(`${id.replace(/-/g, ' ')} ${m.text || ''}`);
+    let s = 0; for (const w of mw) if (w.length > 3 && want.has(w)) s += 1;
+    const r = pref.indexOf(id);
+    if (r >= 0) s += 10 - r;
+    return { m, s };
+  }).filter((x) => x.s > 0).sort((a, b) => b.s - a.s);
+  return scored.map((x) => x.m);
+}
+
 export function buildBoard(p, index, { renderBudget = 0 } = {}) {
   const topic = p.topicDef || TOPICS[p.topic] || { peoples: '' };
   const recent = []; const renders = []; const shots = []; const missing = []; const credits = new Set();
   const byPath = new Map(index.map((x) => [x.path, x]));
-  // open on an animated map when one covers the topic (fork L's clips; CC BY credit travels with it)
-  const maps = index.filter((x) => x.type === 'map');
-  const opener = maps.length ? matchImage(`${p.title} ${(p.sequences || []).join(' ')}`, maps, {}) : null;
-  if (opener) { shots.push({ sequence: 1, visual: opener.text, camera: 'still', seconds: Math.min(14, opener.seconds || 10), card: '', kind: 'none', source: '', image: opener.path, asset: opener.id }); credits.add(opener.credit || 'Cliopatria (CC BY 4.0)'); }
+  // REAL MAPS: open on the best animated map for the topic, and put one at the start of every chapter that talks about
+  // a map, route, empire, migration or spread (2026-09-30: "Havilah and Cush" titled a chapter "the Biblical Map" and
+  // showed only AI stills — keyword matching missed Cush/Kush). Picked by topic region first, then words + synonyms.
+  const mapCands = pickMaps(p, index.filter((x) => x.type === 'map'), topic);
+  const mapShot = (m, sequence) => { credits.add(m.credit || 'Cliopatria (CC BY 4.0)'); return { sequence, visual: m.text, camera: 'still', seconds: Math.min(14, m.seconds || 10), card: '', kind: 'none', source: '', image: m.path, asset: m.id, assetType: 'map' }; };
+  const maxMaps = Math.max(1, Math.min(4, Math.round((p.minutes || topic.minutes || 10) / 5)));
+  let mapsUsed = 0; const usedMaps = new Set();
+  if (mapCands.length) { shots.push(mapShot(mapCands[0], 1)); usedMaps.add(mapCands[0].id); mapsUsed++; }
+  let lastSeq = 1;
   const facts = (topic.facts || []);
   const sceneKey = (x) => String(x.id || '').split(':').slice(0, 2).join(':');
   const recentKeys = []; const useCount = new Map();
@@ -179,6 +215,14 @@ export function buildBoard(p, index, { renderBudget = 0 } = {}) {
   const norm = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   for (const sc0 of p.scenes) {
     const sc = { ...sc0 };
+    if (sc.sequence !== lastSeq) {
+      lastSeq = sc.sequence;
+      const title = (p.sequences || [])[sc.sequence - 1] || '';
+      if (mapCands.length && mapsUsed < maxMaps && MAP_WORDS.test(title)) {
+        const m = mapCands.find((x) => !usedMaps.has(x.id)) || mapCands[0];
+        shots.push(mapShot(m, sc.sequence)); usedMaps.add(m.id); mapsUsed++;
+      }
+    }
     // a factual card's KIND comes from the fact sheet, never from the model: if the source matches a fact whose tag
     // differs, correct the kind and use the fact's own card wording
     if (sc.card && sc.source) {
