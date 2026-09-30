@@ -100,3 +100,11 @@ test('extractText strips front matter; slugOf; prompt carries the text', () => {
   assert.equal(slugOf('/a/2026-09-30 DNA!.md'), '2026-09-30-dna');
   assert.match(chunkPrompt('SOMETEXT', { title: 'T', index: 1, total: 3 }), /part 2 of 3[\s\S]*SOMETEXT/);
 });
+
+test('LLM_NO_KEYLESS=1 removes the keyless provider from the router', async () => {
+  const { availableProviders } = await import('./llm-router.mjs');
+  const before = availableProviders().pollinations;
+  process.env.LLM_NO_KEYLESS = '1';
+  try { assert.equal(availableProviders().pollinations, false); } finally { delete process.env.LLM_NO_KEYLESS; }
+  assert.equal(availableProviders().pollinations, before);
+});
