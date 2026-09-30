@@ -122,22 +122,46 @@
      "year": -1800.0
     },
     {
-     "label": "Mitanni",
-     "lat": 36.8,
-     "lon": 40.1,
-     "year": -1500.0
+     "label": "Greece",
+     "lat": 37.73,
+     "lon": 22.76,
+     "year": -1600.0
+    }
+   ]
+  },
+  {
+   "label": "To Egypt (one model)",
+   "colour": "#ff7070",
+   "points": [
+    {
+     "label": "Anatolia",
+     "lat": 38.85,
+     "lon": 35.63,
+     "year": -1800.0
     },
     {
      "label": "Egypt",
      "lat": 25.7,
      "lon": 32.6,
      "year": -1550.0
+    }
+   ]
+  },
+  {
+   "label": "To Mitanni (one model)",
+   "colour": "#ff7070",
+   "points": [
+    {
+     "label": "Anatolia",
+     "lat": 38.85,
+     "lon": 35.63,
+     "year": -1800.0
     },
     {
-     "label": "Greece",
-     "lat": 37.73,
-     "lon": 22.76,
-     "year": -1600.0
+     "label": "Mitanni",
+     "lat": 36.8,
+     "lon": 40.1,
+     "year": -1500.0
     }
    ]
   },

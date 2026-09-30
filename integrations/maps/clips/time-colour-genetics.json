@@ -1,0 +1,228 @@
+{
+ "id": "time-colour-genetics",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics3/citations.json and the wiki articles.",
+ "testing": "We are testing these features and looking to develop them.",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "title": "Skin, Hair and Eye Colour: Time-Mapped",
+ "subtitle": "when and where the colour variants appear · several independent origins",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  -1000000,
+  -800
+ ],
+ "duration": 110,
+ "cities": [
+  {
+   "name": "Africa: ancient light and dark variants",
+   "lat": 0.0,
+   "lon": 30.0,
+   "from": -900000,
+   "to": 0
+  },
+  {
+   "name": "Neanderthal MC1R variant",
+   "lat": 42.0,
+   "lon": 3.0,
+   "from": -50000,
+   "to": 0
+  },
+  {
+   "name": "Afontova Gora: first blonde variant",
+   "lat": 56.0,
+   "lon": 92.8,
+   "from": -17000,
+   "to": 0
+  },
+  {
+   "name": "Cheddar Man: dark skin, blue eyes",
+   "lat": 51.28,
+   "lon": -2.77,
+   "from": -10000,
+   "to": 0
+  },
+  {
+   "name": "East Asia: OCA2 light skin (independent)",
+   "lat": 35.0,
+   "lon": 115.0,
+   "from": -10000,
+   "to": 0
+  },
+  {
+   "name": "Blue-eye founder (HERC2)",
+   "lat": 45.0,
+   "lon": 30.0,
+   "from": -8000,
+   "to": 0
+  },
+  {
+   "name": "SLC24A5 light-skin allele spreads",
+   "lat": 45.0,
+   "lon": 20.0,
+   "from": -7000,
+   "to": 0
+  },
+  {
+   "name": "Solomon Islands: TYRP1 blondness",
+   "lat": -9.4,
+   "lon": 160.0,
+   "from": -3000,
+   "to": 0
+  },
+  {
+   "name": "Scotland & Ireland: red-hair peak",
+   "lat": 56.5,
+   "lon": -4.5,
+   "from": -1000,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "SLC24A5 light-skin allele with farmers and herders (model)",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "Anatolia",
+     "lat": 38,
+     "lon": 32,
+     "year": -8500.0
+    },
+    {
+     "label": "Balkans",
+     "lat": 43,
+     "lon": 22,
+     "year": -7800.0
+    },
+    {
+     "label": "Central Europe",
+     "lat": 49,
+     "lon": 12,
+     "year": -7000.0
+    },
+    {
+     "label": "Britain",
+     "lat": 52,
+     "lon": -1,
+     "year": -5500.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Africa: ancient light and dark variants",
+   "lat": 0.0,
+   "lon": 30.0,
+   "year": -900000,
+   "kind": "record",
+   "caption": "Many pigmentation variants arose in Africa, some before Homo sapiens",
+   "source": "Crawford et al. 2017 Science 358:eaan8433",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Neanderthal MC1R variant",
+   "lat": 42.0,
+   "lon": 3.0,
+   "year": -50000,
+   "kind": "record",
+   "caption": "Some Neanderthals: pale skin, possibly red hair",
+   "source": "Lalueza-Fox et al. 2007 Science 318:1453",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Afontova Gora: first blonde variant",
+   "lat": 56.0,
+   "lon": 92.8,
+   "year": -17000,
+   "kind": "record",
+   "caption": "Earliest known KITLG blonde allele",
+   "source": "Mathieson et al. 2018 (ANE Afontova Gora 3)",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Cheddar Man: dark skin, blue eyes",
+   "lat": 51.28,
+   "lon": -2.77,
+   "year": -10000,
+   "kind": "record",
+   "caption": "Western hunter-gatherer colouring",
+   "source": "Brace et al. 2019 Nat Ecol Evol 3:765",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "East Asia: OCA2 light skin (independent)",
+   "lat": 35.0,
+   "lon": 115.0,
+   "year": -10000,
+   "kind": "interpretation",
+   "caption": "A different route to lighter skin",
+   "source": "Edwards et al. 2010 PLoS Genet 6:e1000867",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Blue-eye founder (HERC2)",
+   "lat": 45.0,
+   "lon": 30.0,
+   "year": -8000,
+   "kind": "interpretation",
+   "caption": "One ancestor, ~6,000–10,000 years ago",
+   "source": "Eiberg et al. 2008 Hum Genet 123:177",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "SLC24A5 light-skin allele spreads",
+   "lat": 45.0,
+   "lon": 20.0,
+   "year": -7000,
+   "kind": "record",
+   "caption": "Rises with Anatolian farmers and steppe herders under selection",
+   "source": "Mathieson et al. 2015 Nature 528:499",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Solomon Islands: TYRP1 blondness",
+   "lat": -9.4,
+   "lon": 160.0,
+   "year": -3000,
+   "kind": "record",
+   "caption": "Blondness evolved again, separately",
+   "source": "Kenny et al. 2012 Science 336:554",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Scotland & Ireland: red-hair peak",
+   "lat": 56.5,
+   "lon": -4.5,
+   "year": -1000,
+   "kind": "record",
+   "caption": "Highest MC1R red-hair frequencies today",
+   "source": "MC1R population surveys",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "genetics",
+  "pigmentation",
+  "ancestry"
+ ],
+ "credit": "Crawford 2017; Mathieson 2015/2018; Brace 2019; Eiberg 2008; Kenny 2012; Edwards 2010; Lalueza-Fox 2007. Base map: Natural Earth (public domain)."
+}

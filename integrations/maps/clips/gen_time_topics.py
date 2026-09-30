@@ -125,7 +125,9 @@ CHAR = [
     pt("Wetwang Slack", 54.0, -0.6, -300, "record", "A woman buried with her chariot in Yorkshire", "Hill 2002 Antiquity 76:410"),
     pt("Mons Graupius", 57.3, -2.6, 83, "record", "Britons' chariots at one of the last chariot battles", "Tacitus, Agricola 35–36"),
 ]
-CHAR_ROUTES = [route("The chariot spreads (one model)", "#ff7070", [("Sintashta", 52.6, 60.3, -2000), ("Anatolia", 38.85, 35.63, -1800), ("Mitanni", 36.8, 40.1, -1500), ("Egypt", 25.7, 32.6, -1550), ("Greece", 37.73, 22.76, -1600)]),
+CHAR_ROUTES = [route("The chariot spreads (one model)", "#ff7070", [("Sintashta", 52.6, 60.3, -2000), ("Anatolia", 38.85, 35.63, -1800), ("Greece", 37.73, 22.76, -1600)]),
+               route("To Egypt (one model)", "#ff7070", [("Anatolia", 38.85, 35.63, -1800), ("Egypt", 25.7, 32.6, -1550)]),
+               route("To Mitanni (one model)", "#ff7070", [("Anatolia", 38.85, 35.63, -1800), ("Mitanni", 36.8, 40.1, -1500)]),
                route("East", "#d0b0ff", [("Sintashta", 52.6, 60.3, -2000), ("Altai", 50, 88, -1700), ("Anyang", 36.1, 114.3, -1200)]),
                route("South", "#f0c46a", [("Sintashta", 52.6, 60.3, -2000), ("Bactria", 37, 67, -1800), ("Punjab", 30.5, 75, -1400)])]
 CITES["routes (chariot)"] = AW
@@ -170,7 +172,8 @@ DOLMENS = [
     pt("Algeria: Roknia", 36.55, 7.22, -2600, "debated", "Thousands of small dolmens; dates debated", "Camps 1961 Aux origines de la Berbérie"),
     pt("Kyushu dolmens", 33.30, 130.30, -2500, "record", "Yayoi-period dolmens from Korea", "Mizoguchi 2013 The Archaeology of Japan"),
 ]
-DOL_ROUTES = [route("Atlantic spread by sea (one model)", "#c9a86a", [("Brittany", 47.6, -3.0, -6700), ("Iberia", 37.02, -4.54, -5750), ("Ireland", 53.05, -9.14, -5800), ("Britain", 51.57, -1.6, -5600), ("Denmark", 56.24, 10.6, -5550)]),
+DOL_ROUTES = [route("Atlantic spread by sea (one model)", "#c9a86a", [("Brittany", 47.6, -3.0, -6700), ("Ireland", 53.05, -9.14, -5800), ("Britain", 51.57, -1.6, -5600), ("Denmark", 56.24, 10.6, -5550)]),
+              route("South to Iberia (one model)", "#c9a86a", [("Brittany", 47.6, -3.0, -6700), ("Iberia", 37.02, -4.54, -5750)]),
               route("Into the Mediterranean (one model)", "#e8a060", [("Iberia", 37.02, -4.54, -5700), ("Sardinia", 40.55, 9.03, -4600), ("Corsica", 41.56, 8.97, -4500), ("Apulia", 41.22, 16.48, -4000)])]
 CITES["routes (dolmens)"] = SP + " — the single-origin sea-spread model is debated"
 TEMPLES = [

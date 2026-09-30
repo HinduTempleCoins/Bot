@@ -208,12 +208,6 @@
      "year": -6700.0
     },
     {
-     "label": "Iberia",
-     "lat": 37.02,
-     "lon": -4.54,
-     "year": -5750.0
-    },
-    {
      "label": "Ireland",
      "lat": 53.05,
      "lon": -9.14,
@@ -230,6 +224,24 @@
      "lat": 56.24,
      "lon": 10.6,
      "year": -5550.0
+    }
+   ]
+  },
+  {
+   "label": "South to Iberia (one model)",
+   "colour": "#c9a86a",
+   "points": [
+    {
+     "label": "Brittany",
+     "lat": 47.6,
+     "lon": -3.0,
+     "year": -6700.0
+    },
+    {
+     "label": "Iberia",
+     "lat": 37.02,
+     "lon": -4.54,
+     "year": -5750.0
     }
    ]
   },

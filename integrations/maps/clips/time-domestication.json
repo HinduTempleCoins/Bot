@@ -1,0 +1,414 @@
+{
+ "id": "time-domestication",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics3/citations.json and the wiki articles.",
+ "testing": "We are testing these features and looking to develop them.",
+ "timeMode": "ago",
+ "title": "Domestication: Time-Mapped",
+ "subtitle": "plants and animals bred into food, ~12,000 BC onward · many independent centres",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  -14500,
+  -3400
+ ],
+ "duration": 130,
+ "cities": [
+  {
+   "name": "Bonn-Oberkassel: the dog",
+   "lat": 50.72,
+   "lon": 7.17,
+   "from": -14200,
+   "to": 0
+  },
+  {
+   "name": "Gilgal: seedless figs",
+   "lat": 31.99,
+   "lon": 35.45,
+   "from": -11400,
+   "to": 0
+  },
+  {
+   "name": "Karacadağ: einkorn wheat",
+   "lat": 37.75,
+   "lon": 39.8,
+   "from": -10700,
+   "to": 0
+  },
+  {
+   "name": "Zagros: goats and sheep",
+   "lat": 34.5,
+   "lon": 47.0,
+   "from": -10500,
+   "to": 0
+  },
+  {
+   "name": "Near East: cattle",
+   "lat": 36.5,
+   "lon": 38.5,
+   "from": -10500,
+   "to": 0
+  },
+  {
+   "name": "Shillourokambos: the cat",
+   "lat": 34.66,
+   "lon": 33.3,
+   "from": -9500,
+   "to": 0
+  },
+  {
+   "name": "Balsas valley: squash, then maize",
+   "lat": 18.3,
+   "lon": -99.5,
+   "from": -9000,
+   "to": 0
+  },
+  {
+   "name": "Yellow River: millet",
+   "lat": 35.0,
+   "lon": 113.0,
+   "from": -9000,
+   "to": 0
+  },
+  {
+   "name": "Indus: zebu cattle",
+   "lat": 29.4,
+   "lon": 67.6,
+   "from": -8500,
+   "to": 0
+  },
+  {
+   "name": "Andes: potato, llama",
+   "lat": -15.8,
+   "lon": -70.0,
+   "from": -8000,
+   "to": 0
+  },
+  {
+   "name": "Yangtze: rice",
+   "lat": 30.0,
+   "lon": 120.0,
+   "from": -8000,
+   "to": 0
+  },
+  {
+   "name": "Kuk Swamp: taro and banana",
+   "lat": -5.78,
+   "lon": 144.33,
+   "from": -7000,
+   "to": 0
+  },
+  {
+   "name": "Tian Shan: the apple",
+   "lat": 43.0,
+   "lon": 77.0,
+   "from": -6000,
+   "to": 0
+  },
+  {
+   "name": "Sahel: sorghum, pearl millet",
+   "lat": 15.0,
+   "lon": 0.0,
+   "from": -4500,
+   "to": 0
+  },
+  {
+   "name": "Hayden site: sunflower",
+   "lat": 36.0,
+   "lon": -85.0,
+   "from": -4300,
+   "to": 0
+  },
+  {
+   "name": "Lower Volga–Don: the horse (DOM2)",
+   "lat": 49.0,
+   "lon": 44.0,
+   "from": -4200,
+   "to": 0
+  },
+  {
+   "name": "Thailand: the chicken",
+   "lat": 16.0,
+   "lon": 101.0,
+   "from": -3500,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "Farming into Europe with Anatolian farmers",
+   "colour": "#f0c46a",
+   "points": [
+    {
+     "label": "Anatolia",
+     "lat": 38,
+     "lon": 32,
+     "year": -8800.0
+    },
+    {
+     "label": "Greece",
+     "lat": 40,
+     "lon": 22,
+     "year": -8500.0
+    },
+    {
+     "label": "Danube",
+     "lat": 45,
+     "lon": 20,
+     "year": -7700.0
+    },
+    {
+     "label": "Rhine",
+     "lat": 50,
+     "lon": 8,
+     "year": -7300.0
+    },
+    {
+     "label": "Britain",
+     "lat": 52,
+     "lon": -1,
+     "year": -6000.0
+    }
+   ]
+  },
+  {
+   "label": "Maize spreads south (model)",
+   "colour": "#80d0e0",
+   "points": [
+    {
+     "label": "Balsas",
+     "lat": 18.3,
+     "lon": -99.5,
+     "year": -9000.0
+    },
+    {
+     "label": "Andes",
+     "lat": -13,
+     "lon": -72,
+     "year": -6000.0
+    }
+   ]
+  },
+  {
+   "label": "Maize spreads north (model)",
+   "colour": "#80d0e0",
+   "points": [
+    {
+     "label": "Balsas",
+     "lat": 18.3,
+     "lon": -99.5,
+     "year": -9000.0
+    },
+    {
+     "label": "Southwest US",
+     "lat": 34,
+     "lon": -109,
+     "year": -4100.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Bonn-Oberkassel: the dog",
+   "lat": 50.72,
+   "lon": 7.17,
+   "year": -14200,
+   "kind": "record",
+   "caption": "Dog buried with people ~14,200 years ago — before farming",
+   "source": "Janssens et al. 2018; Bergström et al. 2022 Nature 607",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Gilgal: seedless figs",
+   "lat": 31.99,
+   "lon": 35.45,
+   "year": -11400,
+   "kind": "record",
+   "caption": "Parthenocarpic figs planted from cuttings",
+   "source": "Kislev et al. 2006 Science 312:1372",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Karacadağ: einkorn wheat",
+   "lat": 37.75,
+   "lon": 39.8,
+   "year": -10700,
+   "kind": "record",
+   "caption": "Domestic einkorn traces to these hills",
+   "source": "Heun et al. 1997 Science 278:1312",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Zagros: goats and sheep",
+   "lat": 34.5,
+   "lon": 47.0,
+   "year": -10500,
+   "kind": "record",
+   "caption": "Herding of goat and sheep",
+   "source": "Zeder & Hesse 2000 Science 287:2254",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Near East: cattle",
+   "lat": 36.5,
+   "lon": 38.5,
+   "year": -10500,
+   "kind": "record",
+   "caption": "Taurine cattle from a tiny aurochs herd",
+   "source": "Bollongino et al. 2012 MBE 29:2101",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Shillourokambos: the cat",
+   "lat": 34.66,
+   "lon": 33.3,
+   "year": -9500,
+   "kind": "record",
+   "caption": "Cat buried with a person",
+   "source": "Vigne et al. 2004 Science 304:259",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Balsas valley: squash, then maize",
+   "lat": 18.3,
+   "lon": -99.5,
+   "year": -9000,
+   "kind": "record",
+   "caption": "Maize bred from teosinte",
+   "source": "Piperno et al. 2009 PNAS 106:5019; Matsuoka et al. 2002 PNAS 99:6080",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Yellow River: millet",
+   "lat": 35.0,
+   "lon": 113.0,
+   "year": -9000,
+   "kind": "record",
+   "caption": "Foxtail and broomcorn millet",
+   "source": "Lu et al. 2009 PNAS 106:7367",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Indus: zebu cattle",
+   "lat": 29.4,
+   "lon": 67.6,
+   "year": -8500,
+   "kind": "record",
+   "caption": "Humped zebu at Mehrgarh",
+   "source": "Meadow 1996; Chen et al. 2010 MBE 27:1",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Andes: potato, llama",
+   "lat": -15.8,
+   "lon": -70.0,
+   "year": -8000,
+   "kind": "record",
+   "caption": "Potato, quinoa; llama and alpaca",
+   "source": "Spooner et al. 2005 PNAS 102:14694",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Yangtze: rice",
+   "lat": 30.0,
+   "lon": 120.0,
+   "year": -8000,
+   "kind": "record",
+   "caption": "Rice cultivation, fully domestic by ~5000 BC",
+   "source": "Fuller et al. 2009 Science 323:1607",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Kuk Swamp: taro and banana",
+   "lat": -5.78,
+   "lon": 144.33,
+   "year": -7000,
+   "kind": "record",
+   "caption": "Early gardens in New Guinea",
+   "source": "Denham et al. 2003 Science 301:189",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Tian Shan: the apple",
+   "lat": 43.0,
+   "lon": 77.0,
+   "year": -6000,
+   "kind": "interpretation",
+   "caption": "Malus sieversii — ancestor of the apple (spread along trade routes)",
+   "source": "Cornille et al. 2014 Trends Genet 30:57",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Sahel: sorghum, pearl millet",
+   "lat": 15.0,
+   "lon": 0.0,
+   "year": -4500,
+   "kind": "record",
+   "caption": "African crops",
+   "source": "Fuller & Hildebrand 2013",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Hayden site: sunflower",
+   "lat": 36.0,
+   "lon": -85.0,
+   "year": -4300,
+   "kind": "record",
+   "caption": "Domestic sunflower in eastern North America",
+   "source": "Smith 2006 PNAS 103:12223",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Lower Volga–Don: the horse (DOM2)",
+   "lat": 49.0,
+   "lon": 44.0,
+   "year": -4200,
+   "kind": "record",
+   "caption": "Modern horse lineage spreads",
+   "source": "Librado et al. 2021 Nature 598:634",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Thailand: the chicken",
+   "lat": 16.0,
+   "lon": 101.0,
+   "year": -3500,
+   "kind": "record",
+   "caption": "Red junglefowl → chicken",
+   "source": "Peters et al. 2022 PNAS 119:e2121978119",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "domestication",
+  "farming",
+  "plants",
+  "animals"
+ ],
+ "credit": "Larson 2014; Heun 1997; Kislev 2006; Piperno 2009; Bergström 2022; Librado 2021; Peters 2022. Base map: Natural Earth (public domain)."
+}

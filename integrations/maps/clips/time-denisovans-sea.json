@@ -1,0 +1,282 @@
+{
+ "id": "time-denisovans-sea",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics3/citations.json and the wiki articles.",
+ "testing": "We are testing these features and looking to develop them.",
+ "timeMode": "ago",
+ "timeScale": "log",
+ "title": "Denisovans and the Sea Crossings",
+ "subtitle": "fossils, water crossings and Denisovan DNA today · dates are estimates",
+ "bbox": [
+  60,
+  -45,
+  180,
+  60
+ ],
+ "years": [
+  -1100000,
+  -38000
+ ],
+ "duration": 120,
+ "cities": [
+  {
+   "name": "Flores: tools across the sea",
+   "lat": -8.6,
+   "lon": 121.1,
+   "from": -1000000,
+   "to": 0
+  },
+  {
+   "name": "Luzon: butchered rhino",
+   "lat": 17.4,
+   "lon": 121.4,
+   "from": -709000,
+   "to": 0
+  },
+  {
+   "name": "Denisova Cave",
+   "lat": 51.4,
+   "lon": 84.68,
+   "from": -300000,
+   "to": 0
+  },
+  {
+   "name": "Baishiya Karst Cave (Xiahe jaw)",
+   "lat": 35.45,
+   "lon": 102.57,
+   "from": -160000,
+   "to": 0
+  },
+  {
+   "name": "Cobra Cave, Laos (tooth)",
+   "lat": 20.2,
+   "lon": 103.4,
+   "from": -150000,
+   "to": 0
+  },
+  {
+   "name": "Harbin cranium",
+   "lat": 45.75,
+   "lon": 126.65,
+   "from": -146000,
+   "to": 0
+  },
+  {
+   "name": "Penghu, Taiwan (jaw)",
+   "lat": 23.5,
+   "lon": 119.6,
+   "from": -130000,
+   "to": 0
+  },
+  {
+   "name": "Sulawesi: tools",
+   "lat": -4.0,
+   "lon": 120.0,
+   "from": -118000,
+   "to": 0
+  },
+  {
+   "name": "Denisova 11: Neanderthal × Denisovan girl",
+   "lat": 51.4,
+   "lon": 84.68,
+   "from": -90000,
+   "to": 0
+  },
+  {
+   "name": "Sahul: modern humans arrive",
+   "lat": -12.5,
+   "lon": 132.9,
+   "from": -50000,
+   "to": 0
+  },
+  {
+   "name": "Papua: highest Denisovan ancestry today",
+   "lat": -6.0,
+   "lon": 145.0,
+   "from": -46000,
+   "to": 0
+  },
+  {
+   "name": "Tibet: EPAS1 altitude gene",
+   "lat": 29.65,
+   "lon": 91.1,
+   "from": -40000,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "Across the Wallace Line (model)",
+   "colour": "#e8a060",
+   "points": [
+    {
+     "label": "Sunda",
+     "lat": 0,
+     "lon": 110,
+     "year": -60000.0
+    },
+    {
+     "label": "Sulawesi",
+     "lat": -4,
+     "lon": 120,
+     "year": -55000.0
+    },
+    {
+     "label": "Timor",
+     "lat": -9,
+     "lon": 125,
+     "year": -52000.0
+    },
+    {
+     "label": "Sahul",
+     "lat": -12.5,
+     "lon": 132.9,
+     "year": -50000.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Flores: tools across the sea",
+   "lat": -8.6,
+   "lon": 121.1,
+   "year": -1000000,
+   "kind": "record",
+   "caption": "Hominins reach Flores across open water",
+   "source": "Brumm et al. 2010 Nature 464:748",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Luzon: butchered rhino",
+   "lat": 17.4,
+   "lon": 121.4,
+   "year": -709000,
+   "kind": "record",
+   "caption": "Hominins on Luzon ~709,000 years ago",
+   "source": "Ingicco et al. 2018 Nature 557:233",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Denisova Cave",
+   "lat": 51.4,
+   "lon": 84.68,
+   "year": -300000,
+   "kind": "record",
+   "caption": "Used by Denisovans and Neanderthals over ~300,000 years",
+   "source": "Jacobs et al. 2019 Nature 565:594",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Baishiya Karst Cave (Xiahe jaw)",
+   "lat": 35.45,
+   "lon": 102.57,
+   "year": -160000,
+   "kind": "record",
+   "caption": "Denisovan jaw on the Tibetan Plateau",
+   "source": "Chen et al. 2019 Nature 569:409",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Cobra Cave, Laos (tooth)",
+   "lat": 20.2,
+   "lon": 103.4,
+   "year": -150000,
+   "kind": "debated",
+   "caption": "Denisovan-like molar",
+   "source": "Demeter et al. 2022 Nat Commun 13:2557",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Harbin cranium",
+   "lat": 45.75,
+   "lon": 126.65,
+   "year": -146000,
+   "kind": "record",
+   "caption": "A Denisovan face (proteins + mtDNA)",
+   "source": "Fu et al. 2025",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Penghu, Taiwan (jaw)",
+   "lat": 23.5,
+   "lon": 119.6,
+   "year": -130000,
+   "kind": "record",
+   "caption": "Denisovan jaw from the sea floor",
+   "source": "Tsutaya et al. 2025 Science",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Sulawesi: tools",
+   "lat": -4.0,
+   "lon": 120.0,
+   "year": -118000,
+   "kind": "record",
+   "caption": "Hominins on Sulawesi",
+   "source": "van den Bergh et al. 2016 Nature 529:208",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Denisova 11: Neanderthal × Denisovan girl",
+   "lat": 51.4,
+   "lon": 84.68,
+   "year": -90000,
+   "kind": "record",
+   "caption": "First-generation hybrid",
+   "source": "Slon et al. 2018 Nature 561:113",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Sahul: modern humans arrive",
+   "lat": -12.5,
+   "lon": 132.9,
+   "year": -50000,
+   "kind": "record",
+   "caption": "By ≥50,000 years ago (65,000 at Madjedbebe debated)",
+   "source": "O'Connell et al. 2018 PNAS 115:8482; Clarkson et al. 2017",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Papua: highest Denisovan ancestry today",
+   "lat": -6.0,
+   "lon": 145.0,
+   "year": -46000,
+   "kind": "record",
+   "caption": "A few percent of the genome; several admixture pulses",
+   "source": "Jacobs et al. 2019 Cell 177:1010",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Tibet: EPAS1 altitude gene",
+   "lat": 29.65,
+   "lon": 91.1,
+   "year": -40000,
+   "kind": "record",
+   "caption": "Denisovan version of EPAS1 helps at altitude",
+   "source": "Huerta-Sánchez et al. 2014 Nature 512:194",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "denisovan",
+  "deep-time",
+  "ancestry"
+ ],
+ "credit": "Chen 2019; Jacobs 2019; Slon 2018; Ingicco 2018; Tsutaya 2025; Fu 2025; Huerta-Sánchez 2014. Base map: Natural Earth (public domain)."
+}
