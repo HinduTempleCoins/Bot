@@ -66,7 +66,7 @@ SET_GROUPS = {"headcones": "Headcones & perfume", "perfume": "Lotus perfume", "n
               "fayum": "Fayum portraits", "cleopatra": "Cleopatra", "nefertiti": "Nefertiti",
               "myth_greek": "Greek myth on pottery", "myth_egypt": "Egyptian gods & myth", "myth_hindu": "Hindu myth: paintings & temple cloths",
               "myth_hybrid": "Part human: gods & creatures",
-              "skulls_to_faces": "Skulls to faces", "skulls_round2": "Skulls round 2: one face, every colour", "hominins_full_body": "Human species, full body",
+              "skulls_to_faces": "Skulls to faces", "skulls_round2": "Skulls round 2: one face, every colour", "skulls_round3": "Skulls round 3: truer to the bone, every colour", "hominins_full_body": "Human species, full body",
               "neolithic_bronze_bible": "Neolithic, Bronze Age & the Bible",
               "art_tombs_caves": "Tombs, caves & musicians", "boats_fishing_hunting": "Boats, fishing & hunting",
               "beekeeping": "Beekeeping", "mithras": "Mithras", "farming": "Farming"}
