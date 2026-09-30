@@ -4,7 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { globSync } from 'node:fs';
+import { readdirSync, existsSync } from 'node:fs';
 import { BEACON_TAG, BEACON_JS, beaconTag, BEACON_BASE } from './beacon.mjs';
 
 test('the tag is quote-safe for splicing into any HTML template', () => {
@@ -53,7 +53,7 @@ test('the collector serves exactly the script this module defines — they canno
 test('the injected tag on the network matches this module byte for byte', () => {
   // If someone hand-edits a page's tag, this catches it — 99 copies of a string is exactly the kind of
   // thing that silently diverges.
-  const files = globSync('site/*/server.mjs', { cwd: new URL('../../', import.meta.url).pathname });
+  const files = (() => { const root = new URL('../../', import.meta.url).pathname; return readdirSync(root + 'site', { withFileTypes: true }).filter((d) => d.isDirectory() && existsSync(`${root}site/${d.name}/server.mjs`)).map((d) => `site/${d.name}/server.mjs`); })() // Node 20: no fs.globSync;
   let carriers = 0;
   for (const rel of files) {
     const src = readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8');
