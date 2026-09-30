@@ -51,7 +51,8 @@ DOM = [
 ]
 DOM_ROUTES = [
     route("Farming into Europe with Anatolian farmers", "#f0c46a", [("Anatolia", 38, 32, -6800), ("Greece", 40, 22, -6500), ("Danube", 45, 20, -5700), ("Rhine", 50, 8, -5300), ("Britain", 52, -1, -4000)]),
-    route("Maize spreads north and south (model)", "#80d0e0", [("Balsas", 18.3, -99.5, -7000), ("Southwest US", 34, -109, -2100), ("Andes", -13, -72, -4000)]),
+    route("Maize spreads south (model)", "#80d0e0", [("Balsas", 18.3, -99.5, -7000), ("Andes", -13, -72, -4000)]),
+    route("Maize spreads north (model)", "#80d0e0", [("Balsas", 18.3, -99.5, -7000), ("Southwest US", 34, -109, -2100)]),
 ]
 
 # ── DENISOVANS (years ago) ─────────────────────────────────────────────────────────────────────────

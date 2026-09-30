@@ -178,7 +178,25 @@
    ]
   },
   {
-   "label": "Maize spreads north and south (model)",
+   "label": "Maize spreads south (model)",
+   "colour": "#80d0e0",
+   "points": [
+    {
+     "label": "Balsas",
+     "lat": 18.3,
+     "lon": -99.5,
+     "year": -9000.0
+    },
+    {
+     "label": "Andes",
+     "lat": -13,
+     "lon": -72,
+     "year": -6000.0
+    }
+   ]
+  },
+  {
+   "label": "Maize spreads north (model)",
    "colour": "#80d0e0",
    "points": [
     {
@@ -192,12 +210,6 @@
      "lat": 34,
      "lon": -109,
      "year": -4100.0
-    },
-    {
-     "label": "Andes",
-     "lat": -13,
-     "lon": -72,
-     "year": -6000.0
     }
    ]
   }
