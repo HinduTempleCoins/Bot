@@ -70,3 +70,26 @@ test('era filter: an ancient film never uses a modern-scene asset; the anachroni
   assert.equal(b.anachronisms.length, 0);
   assert.equal(anachronismCheck({ shots: [{ image: 'cairo.png' }, { image: 'huy.png' }] }, index).length, 1);
 });
+
+test('board: real maps — region pick + Cush/Kush synonyms open the film, and a "Map" chapter gets its own map', async () => {
+  const { pickMaps } = await import('./run.mjs');
+  const maps = [
+    { id: 'map:kush-nubia', type: 'map', path: 'kush.mp4', seconds: 20, text: 'map Kush and Nubia nile', credit: 'Cliopatria (CC BY 4.0)' },
+    { id: 'map:egypt', type: 'map', path: 'egypt.mp4', seconds: 20, text: 'map Egypt nile', credit: 'Cliopatria (CC BY 4.0)' },
+    { id: 'map:china', type: 'map', path: 'china.mp4', seconds: 20, text: 'map China', credit: 'Cliopatria (CC BY 4.0)' },
+  ];
+  const topicDef = { region: 'nile', peoples: 'nubian', name: 'Havilah and Cush Before and After Noah' };
+  const plan = { topic: 'havilah-cush', topicDef, minutes: 10, title: 'Havilah and Cush Before and After Noah',
+    sequences: ['Genesis and the Biblical Map', 'Kush: Nubian Kingdom and Its Gold', 'Arabian Gold and the Havilah Region'],
+    scenes: [1, 2, 3].map((q) => ({ sequence: q, visual: 'gold ingots', camera: 'still', seconds: 8, card: '', kind: 'none', source: '' })) };
+  const picked = pickMaps(plan, maps, topicDef).map((m) => m.id);
+  assert.deepEqual(picked.slice(0, 2).sort(), ['map:egypt', 'map:kush-nubia']); assert.equal(picked[0], 'map:kush-nubia'); assert.ok(!picked.includes('map:china'));
+  const b = buildBoard(plan, [...maps, { id: 'remake:gold', type: 'remake', path: 'g.png', text: 'gold ingots', people: '' }]);
+  const mapShots = b.shots.filter((s) => s.assetType === 'map');
+  assert.ok(mapShots.length >= 2, `expected an opener + a chapter map, got ${mapShots.length}`);
+  assert.equal(b.shots[0].assetType, 'map');
+  assert.ok(b.credits.some((c) => /Cliopatria/.test(c)));
+  // a topic with no matching map gets none (no fake map)
+  const none = pickMaps({ title: 'Beekeeping', sequences: [] }, maps, { region: 'nowhere' });
+  assert.equal(none.length, 0);
+});
