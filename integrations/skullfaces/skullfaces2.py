@@ -85,8 +85,8 @@ ALT_COLOURS = {"skull2_cheddar_man": "medium brown skin, blue eyes, dark curly h
 ALT_DEFAULT = "medium brown skin, light brown wavy hair, green eyes"
 
 # CIELAB (L*, a*, b*) skin targets, very dark → very light (after Chardon 1991 / Del Bino 2006 ITA ranges)
-TONES = [("very dark", 28, 11, 13), ("dark", 36, 14, 18), ("medium dark", 46, 15, 21), ("medium", 56, 14, 22),
-         ("light medium", 65, 12, 20), ("light", 73, 10, 17), ("very light", 81, 8, 13)]
+TONES = [("very dark", 27, 14, 20), ("dark", 35, 15, 23), ("medium dark", 45, 16, 25), ("medium", 55, 15, 24),
+         ("light medium", 64, 13, 21), ("light", 72, 11, 18), ("very light", 80, 9, 14)]
 
 
 def load_src(key):
@@ -232,8 +232,10 @@ def recolour(path, tone):
     lab = cv2.cvtColor(rgb, cv2.COLOR_RGB2LAB).astype(np.float32)
     L = lab[..., 0] * 100 / 255; A = lab[..., 1] - 128; B = lab[..., 2] - 128
     sel = mask > 0.5
+    # reference = the lit skin, not hair/beard/shadow that the segmenter lets in: upper half of the masked L values
+    sel = sel & (L >= np.percentile(L[sel], 50))
     mL, mA, mB = np.median(L[sel]), np.median(A[sel]), np.median(B[sel])
-    mask = mask * np.clip((L - (mL - 32)) / 14, 0, 1)   # beard, brows, lashes: much darker than skin -> left alone
+    mask = mask * np.clip((L - (mL - 22)) / 10, 0, 1)   # beard, brows, lashes: much darker than skin -> left alone
     _, tL, tA, tB = tone
     k = min(1.0, 0.4 + 0.6 * tL / max(mL, 1))          # darker targets compress the shading; lighter keep it
     L2 = tL + (L - mL) * k
