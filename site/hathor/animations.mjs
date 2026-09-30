@@ -17,7 +17,8 @@ export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => (
 export const ANIMS_DIR = () => process.env.ANIMS_DIR || '/var/lib/hathor-anims';
 export const FEEDBACK_PATH = () => process.env.ANIM_FEEDBACK || join(process.env.DATA_DIR || join(process.cwd(), '.data', 'hathor'), 'anim-feedback.jsonl');
 const SALT = () => process.env.ANIM_VOTER_SALT || 'hathor-animations-v1';
-const ID_RE = /^[a-f0-9]{12}$/;
+// clip ids: the worker's 12-hex hashes, or a short named series id (dna-ep1). No dots or slashes, so never a path.
+const ID_RE = /^(?:[a-f0-9]{12}|[a-z][a-z0-9-]{2,40})$/;
 const KEY_RE = /^[A-Za-z0-9-]{16,64}$/;
 export const COMMENT_MAX = 500;
 
@@ -178,7 +179,7 @@ export function rate(params, ip, manifest = loadAnimManifest(), path = FEEDBACK_
 
 // ── media (mp4 with Range, poster jpg) ────────────────────────────────────────────────────────────
 export function serveAnimMedia(req, res, rel, dir = ANIMS_DIR()) {
-  const m = /^([a-f0-9]{12})\/(clip\.mp4|poster\.jpg)$/.exec(String(rel || ''));
+  const m = /^([a-f0-9]{12}|[a-z][a-z0-9-]{2,40})\/(clip\.mp4|poster\.jpg)$/.exec(String(rel || ''));
   const full = m && join(dir, m[1], m[2]);
   if (!m || !existsSync(full)) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
   const type = m[2].endsWith('.mp4') ? 'video/mp4' : 'image/jpeg';
