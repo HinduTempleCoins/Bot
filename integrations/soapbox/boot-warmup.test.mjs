@@ -9,6 +9,9 @@ import assert from 'node:assert/strict';
 import { bootWarmup, DEFAULT_WARMUP_MS } from './boot-warmup.mjs';
 
 const quiet = () => {}; // swallow the helper's progress logs in tests
+// bootWarmup unref()s its timer (correct in production). In a test with a never-settling task, that leaves the event
+// loop empty and Node 20's runner cancels the test as 'still pending'. Hold the loop open with a ref'd timer.
+const keepAlive = async (fn) => { const t = setInterval(() => {}, 1000); try { return await fn(); } finally { clearInterval(t); } };
 
 test('resolves true when the task finishes in time', async () => {
   const ok = await bootWarmup(() => Promise.resolve('primed'), { ms: 1000, log: quiet });
@@ -29,14 +32,14 @@ test('times out (does NOT hang) when the task never settles', async () => {
   const started = Date.now();
   // a never-resolving promise = a hung upstream socket. Without the timeout this await would hang
   // the test runner; with it, bootWarmup resolves false promptly.
-  const ok = await bootWarmup(() => new Promise(() => {}), { ms: 40, log: quiet });
+  const ok = await keepAlive(() => bootWarmup(() => new Promise(() => {}), { ms: 40, log: quiet }));
   assert.equal(ok, false);
   assert.ok(Date.now() - started < 1000, 'should have given up quickly, not waited on the hung task');
 });
 
 test('logs the timeout with the provided label', async () => {
   const lines = [];
-  await bootWarmup(() => new Promise(() => {}), { ms: 20, label: 'boot warmup: homepage', log: (m) => lines.push(m) });
+  await keepAlive(() => bootWarmup(() => new Promise(() => {}), { ms: 20, label: 'boot warmup: homepage', log: (m) => lines.push(m) }));
   assert.ok(lines.some((l) => l.includes('boot warmup: homepage') && /timed out/.test(l)), `got: ${JSON.stringify(lines)}`);
 });
 
