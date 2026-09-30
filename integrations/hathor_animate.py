@@ -9,8 +9,12 @@ When --feedback is given (the Studio's /animations/feedback.json), each choice i
 over Beta(1+up, 1+down) of the clips that used it: what people like gets made more, what they dislike less,
 and untried choices still get explored.
 
-Kinds:
-  kenburns  slow camera push / pan over one image
+Kinds (real motion first; kenburns is only the fallback when every motion engine fails):
+  cutout    the remake's own people cut into head/arms/legs along their pose bones and animated (cutout_anim.py)
+  flash     a Flash-style keyframed stick-figure scene: fights, haulers, rowers, marches, crowds (flash_anim.py)
+  alive     a real image-to-video model on a free ZeroGPU Space, within a daily budget (hathor_motion.py)
+  parallax  2.5D depth layers moving against each other + drifting particles, on our CPU (hathor_motion.py)
+  kenburns  slow camera push / pan over one image (fallback only)
   looks     one scene morphing realistic -> half vaporwave -> full MELEK aesthetic
   peoples   one scene crossfading through the peoples it was rendered in
   puppet    a character (or the people in a remake) moved by their own pose keypoints: breathing, head tilt,
@@ -31,7 +35,7 @@ LOOK_ORDER = ["1_real", "2_half", "3_full"]
 
 # The choices a recipe is made of. Each value is an "arm" that feedback can favour or disfavour.
 ARMS = {
-    "kind": ["kenburns", "looks", "peoples", "puppet", "scene"],
+    "kind": ["cutout", "flash", "alive", "parallax", "puppet", "scene"],
     "motion": ["breathe", "head_tilt", "sway", "arm_raise", "all"],
     "amplitude": ["subtle", "medium", "strong"],
     "camera": ["push_in", "pull_out", "pan_left", "pan_right", "still"],
@@ -143,6 +147,15 @@ def plan(scenes, chars, stats, n, rng):
             r["kind"] = "kenburns"
         if r["kind"] == "looks" and sum(people in sc["looks"].get(l, {}) for l in LOOK_ORDER) < 2:
             r["kind"] = "kenburns"
+        if r["kind"] == "cutout" and not load_pose(sc["looks"][look][people]):
+            posed = [(l, p) for l in sc["looks"] for p in sc["looks"][l] if load_pose(sc["looks"][l][p])]
+            if posed:
+                look, people = rng.choice(posed)
+            else:
+                r["kind"] = "parallax"
+        if r["kind"] == "flash":
+            import flash_anim
+            r["flash"] = rng.choice(sorted(flash_anim.BUILTINS))
         r.update({"scene": sc["key"], "title": sc["title"], "group": sc["group"], "look": look, "people": people})
         if r["kind"] in ("puppet", "scene"):
             # puppet: half the time a remake's own people (if posed), otherwise a character from the library
@@ -359,6 +372,36 @@ def narration(r):
     return r.get("puppet_title") or r["title"]
 
 
+# ── real-motion engines (each writes an mp4; None → fall back to camera moves) ─────────────────────
+PROMPTS = {"default": "the people move naturally, cloth and hair stir, light flickers, subtle camera drift, cinematic"}
+
+
+def motion_clip(r, img, out):
+    here = os.path.dirname(os.path.abspath(__file__))
+    if here not in sys.path:
+        sys.path.insert(0, here)
+    try:
+        if r["kind"] == "cutout":
+            import cutout_anim
+            return cutout_anim.render(img, out, 6 * PACE[r["pace"]], seed=int(r["id"][:6], 16))
+        if r["kind"] == "flash":
+            import flash_anim
+            desc = dict(flash_anim.BUILTINS[r["flash"]])
+            r["title"] = desc.get("title", r["title"])
+            return out if flash_anim.render(desc, out) else None
+        import hathor_motion
+        if r["kind"] == "alive":
+            p = hathor_motion.i2v(img, out, PROMPTS["default"], 3.5)
+            if p:
+                return p
+            r["kind"] = "parallax"  # quota spent / Space down: still real depth motion, on our CPU
+        cams = {"push_in": "dolly_in", "pull_out": "dolly_in", "pan_left": "orbit_left", "pan_right": "orbit_right", "still": "crane_up"}
+        return hathor_motion.parallax(img, out, 6 * PACE[r["pace"]], cams.get(r["camera"], "dolly_in"), AMP[r["amplitude"]])
+    except Exception as e:
+        print(f"motion engine {r['kind']} failed: {e}", flush=True)
+        return None
+
+
 # ── render one recipe ──────────────────────────────────────────────────────────────────────────────
 def render(r, scenes_by_key, outdir, voice):
     sc = scenes_by_key[r["scene"]]
@@ -366,7 +409,18 @@ def render(r, scenes_by_key, outdir, voice):
     look, people = r["look"], r["people"]
     main = sc["looks"][look][people]
     cap = r["title"] if r["kind"] != "puppet" else r.get("puppet_title", "")
-    if r["kind"] == "kenburns":
+    d = os.path.join(outdir, r["id"])
+    os.makedirs(d, exist_ok=True)
+    silent = os.path.join(d, "silent.mp4")
+    made = None
+    if r["kind"] in ("cutout", "flash", "alive", "parallax"):
+        made = motion_clip(r, main, silent)
+        if not made:
+            r["fell_back_from"] = r["kind"]
+            r["kind"] = "kenburns"
+    if made:
+        shots = None
+    elif r["kind"] == "kenburns":
         shots = [shot_kenburns(main, 6 * pace, r, cap)]
     elif r["kind"] == "looks":
         files = [sc["looks"][l][people] for l in LOOK_ORDER if people in sc["looks"].get(l, {})]
@@ -381,20 +435,26 @@ def render(r, scenes_by_key, outdir, voice):
         shots = [shot_kenburns(main, 3.5 * pace, r, r["title"]),
                  shot_puppet(r["puppet_src"], 4.5 * pace, r, r.get("puppet_title", "")),
                  shot_sequence(files or [main], 2.0 * pace, r, "")]
-    d = os.path.join(outdir, r["id"])
-    os.makedirs(d, exist_ok=True)
-    silent = os.path.join(d, "silent.mp4")
-    ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",
+    nframes, poster = 0, None
+    if made:
+        cap_ = cv2.VideoCapture(silent)
+        nframes = int(cap_.get(cv2.CAP_PROP_FRAME_COUNT))
+        fps_ = cap_.get(cv2.CAP_PROP_FPS) or FPS
+        cap_.set(cv2.CAP_PROP_POS_FRAMES, min(nframes - 1, int(1.5 * fps_)))
+        ok_, poster = cap_.read()
+        cap_.release()
+        nframes = int(nframes * FPS / fps_)
+    else:
+      ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",
                            "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
                            "-pix_fmt", "yuv420p", "-movflags", "+faststart", silent], stdin=subprocess.PIPE)
-    nframes, poster = 0, None
-    for fr in chain(shots):
+      for fr in chain(shots):
         ff.stdin.write(fr.tobytes())
         nframes += 1
         if nframes == int(1.5 * FPS):
             poster = fr
-    ff.stdin.close()
-    if ff.wait() != 0:
+      ff.stdin.close()
+      if ff.wait() != 0:
         raise RuntimeError("ffmpeg failed")
     if poster is not None:
         cv2.imwrite(os.path.join(d, "poster.jpg"), poster, [cv2.IMWRITE_JPEG_QUALITY, 82])
