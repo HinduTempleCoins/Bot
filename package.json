@@ -75,7 +75,8 @@
     "onnxruntime-node": "1.20.1"
   },
   "overrides": {
-    "undici": "^6.24.1"
+    "undici": "^6.24.1",
+    "tar": "7.5.22"
   },
   "devDependencies": {
     "playwright": "1.63.0"
