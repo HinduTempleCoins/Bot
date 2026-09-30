@@ -7,6 +7,7 @@ Type=oneshot
 WorkingDirectory=/opt/melek-bot/docmaker
 EnvironmentFile=@CONF@/guest-proxy.env
 Environment=DIGEST_OUT=@DATA@/digest/out
+Environment=LLM_NO_KEYLESS=1
 ExecStartPre=-/usr/bin/git -C /opt/melek-bot/docmaker pull --ff-only -q
 ExecStartPre=/usr/bin/mkdir -p @DATA@/digest/inbox @DATA@/digest/out
 ExecStart=/usr/bin/node /opt/melek-bot/docmaker/integrations/digest-bot.mjs --watch @DATA@/digest/inbox
