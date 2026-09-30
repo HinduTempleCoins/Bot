@@ -49,7 +49,7 @@ def seg_lines(t, dur):
             if s == "M" and x > 420:
                 cv2.rectangle(img, P(x - 5, y - 6), P(x + 5, y + 6), DAD, -1)
     f = down(img)
-    return text(f, "blue ring = mother's mtDNA (to every child) · orange bar = Y (father to son only)", 490, 16)
+    return text(f, "blue ring = mother's mtDNA (to every child) · orange bar = Y (father to son only)", 455, 16)
 
 
 def seg_mutations(t, dur):
@@ -72,7 +72,7 @@ def seg_mutations(t, dur):
     f = down(img)
     for (lx, ly, name) in labels:
         f = text(f, name, int(ly) - 12, 20, x=int(lx))
-    return text(f, "each yellow dot = one new mutation, inherited by every descendant", 470, 17)
+    return text(f, "each yellow dot = one new mutation, inherited by every descendant", 455, 17)
 
 
 # ── episode 3: recombination, heterosis, inbreeding ─────────────────────────────────────────────────
@@ -95,7 +95,7 @@ def seg_recombine(t, dur):
         if kids > 0.5:
             line(img, (cut, y), (cut + (800 - cut) * ease((kids - 0.5) * 2), y), b, 12)
     f = down(img)
-    return text(f, "crossing over: every child gets a different shuffle of both parents", 505, 17)
+    return text(f, "crossing over: every child gets a different shuffle of both parents", 455, 17)
 
 
 def seg_inbreed(t, dur):
@@ -113,7 +113,7 @@ def seg_inbreed(t, dur):
     f = down(img)
     f = text(f, "mixed (outbred)", 450, 20, x=150)
     f = text(f, "closed (inbred)", 450, 20, x=590)
-    return text(f, "red = two copies of the same harmful variant — rare when lines mix, common when they close", 490, 16)
+    return text(f, "red = two copies of the same harmful variant — rare when lines mix, common when they close", 455, 16)
 
 
 def seg_wolfdog(t, dur):
@@ -128,7 +128,7 @@ def seg_wolfdog(t, dur):
     f = down(img)
     for i, (name, v) in enumerate(bars):
         f = text(f, name, 170 + i * 110 + 8, 22, x=110)
-    return text(f, "genetic variety: closed breeding strips it out; crossing lines brings it back (heterosis)", 500, 16)
+    return text(f, "genetic variety: closed breeding strips it out; crossing lines brings it back (heterosis)", 455, 16)
 
 
 # ── episode 4: skin colour and sunlight ──────────────────────────────────────────────────────────────
@@ -150,7 +150,7 @@ def seg_sun(t, dur):
         cv2.circle(img, P(x, y), int(4 * SS), (30, 40, 60), -1, cv2.LINE_AA)
     f = down(img)
     f = text(f, f"latitude {lat:0.0f}°", 380, 24, x=140)
-    return text(f, "dark dots = melanin granules · more sun, more melanin; tanning is the same system turned up", 470, 16)
+    return text(f, "dark dots = melanin granules · more sun, more melanin; tanning is the same system turned up", 455, 16)
 
 
 def seg_origins(t, dur):
@@ -169,7 +169,7 @@ def seg_origins(t, dur):
     for n, (at, x, y, lab) in enumerate(pts):
         if t > dur * at + 0.8:
             f = text(f, "• " + lab, 395 + n * 22, 16, x=80)
-    return text(f, "lighter skin evolved more than once, by different genes", 470, 18)
+    return text(f, "lighter skin evolved more than once, by different genes", 455, 18)
 
 
 # ── episode 5: viruses in our DNA ────────────────────────────────────────────────────────────────────
@@ -192,7 +192,7 @@ def seg_insert(t, dur):
             line(img, (120, y), (840, y), (200, 180, 160), 10)
             cv2.rectangle(img, P(440, y - 5), P(520, y + 5), BAD, -1)
     f = down(img)
-    return text(f, "an endogenous retrovirus: once in an egg or sperm cell, inherited forever (~8% of our genome)", 490, 16)
+    return text(f, "an endogenous retrovirus: once in an egg or sperm cell, inherited forever (~8% of our genome)", 455, 16)
 
 
 def seg_spill(t, dur):
@@ -212,7 +212,7 @@ def seg_spill(t, dur):
     f = down(img)
     for (x, y, n) in hosts:
         f = text(f, n, y + 44, 16, x=x - 20)
-    return text(f, "each new species changes the virus — spillback brings back a different virus (mink, 2020)", 470, 16)
+    return text(f, "each new species changes the virus — spillback brings back a different virus (mink, 2020)", 455, 16)
 
 
 # ── episode 6: out of Africa and the cousins ─────────────────────────────────────────────────────────
@@ -231,7 +231,7 @@ def seg_streams(t, dur):
     f = text(f, "Homo sapiens", 228, 18, x=90)
     f = text(f, "Neanderthals", 118, 16, x=90)
     f = text(f, "Denisovans", 400, 16, x=90)
-    return text(f, "non-Africans carry ~1–2% Neanderthal DNA; Papuans a few % Denisovan", 470, 17)
+    return text(f, "non-Africans carry ~1–2% Neanderthal DNA; Papuans a few % Denisovan", 455, 17)
 
 
 SEGS2 = {"lines": seg_lines, "mutations": seg_mutations, "recombine": seg_recombine, "inbreed": seg_inbreed, "wolfdog": seg_wolfdog,
