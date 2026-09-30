@@ -1,0 +1,318 @@
+{
+ "id": "time-temple-elites",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics3/citations.json and the wiki articles.",
+ "testing": "We are testing these features and looking to develop them.",
+ "timeMode": "ago",
+ "title": "Temple Elites and Ritual Killing: Time-Mapped",
+ "subtitle": "royal inbreeding and sacrifice across the ancient world",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  -11800,
+  -400
+ ],
+ "duration": 130,
+ "cities": [
+  {
+   "name": "Göbekli Tepe",
+   "lat": 37.22,
+   "lon": 38.92,
+   "from": -11500,
+   "to": 0
+  },
+  {
+   "name": "Newgrange: incest in the elite",
+   "lat": 53.69,
+   "lon": -6.48,
+   "from": -5200,
+   "to": 0
+  },
+  {
+   "name": "Ur: royal death pits",
+   "lat": 30.96,
+   "lon": 46.1,
+   "from": -4600,
+   "to": 0
+  },
+  {
+   "name": "Amarna: Tutankhamun's parents siblings",
+   "lat": 27.65,
+   "lon": 30.9,
+   "from": -3330,
+   "to": 0
+  },
+  {
+   "name": "Anyang: Shang sacrifices",
+   "lat": 36.12,
+   "lon": 114.3,
+   "from": -3200,
+   "to": 0
+  },
+  {
+   "name": "Carthage: the Tophet (debated)",
+   "lat": 36.84,
+   "lon": 10.32,
+   "from": -2700,
+   "to": 0
+  },
+  {
+   "name": "Tollund Man",
+   "lat": 56.15,
+   "lon": 9.5,
+   "from": -2400,
+   "to": 0
+  },
+  {
+   "name": "Clonycavan & Old Croghan",
+   "lat": 53.4,
+   "lon": -7.3,
+   "from": -2300,
+   "to": 0
+  },
+  {
+   "name": "Alexandria: Ptolemaic sibling marriage",
+   "lat": 31.2,
+   "lon": 29.9,
+   "from": -2275,
+   "to": 0
+  },
+  {
+   "name": "Lindow Man: the triple death",
+   "lat": 53.33,
+   "lon": -2.27,
+   "from": -1950,
+   "to": 0
+  },
+  {
+   "name": "Hawaii: nīʻaupiʻo chiefs",
+   "lat": 19.6,
+   "lon": -155.5,
+   "from": -600,
+   "to": 0
+  },
+  {
+   "name": "Cusco: the Inca coya",
+   "lat": -13.53,
+   "lon": -71.97,
+   "from": -530,
+   "to": 0
+  },
+  {
+   "name": "Tenochtitlan: tzompantli",
+   "lat": 19.43,
+   "lon": -99.13,
+   "from": -514,
+   "to": 0
+  },
+  {
+   "name": "Llullaillaco: capacocha children",
+   "lat": -24.72,
+   "lon": -68.54,
+   "from": -500,
+   "to": 0
+  }
+ ],
+ "routes": [
+  {
+   "label": "Bog offerings across northern Europe",
+   "colour": "#a0d080",
+   "points": [
+    {
+     "label": "Jutland",
+     "lat": 56.15,
+     "lon": 9.5,
+     "year": -2400.0
+    },
+    {
+     "label": "Ireland",
+     "lat": 53.4,
+     "lon": -7.3,
+     "year": -2300.0
+    },
+    {
+     "label": "Netherlands",
+     "lat": 52.9,
+     "lon": 6.8,
+     "year": -2000.0
+    },
+    {
+     "label": "England",
+     "lat": 53.33,
+     "lon": -2.27,
+     "year": -1950.0
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Göbekli Tepe",
+   "lat": 37.22,
+   "lon": 38.92,
+   "year": -11500,
+   "kind": "record",
+   "caption": "Earliest known monumental temple",
+   "source": "Dietrich et al. 2012 Documenta Praehistorica 39",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Newgrange: incest in the elite",
+   "lat": 53.69,
+   "lon": -6.48,
+   "year": -5200,
+   "kind": "record",
+   "caption": "NG10 — child of first-degree incest",
+   "source": "Cassidy et al. 2020 Nature 582:384",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Ur: royal death pits",
+   "lat": 30.96,
+   "lon": 46.1,
+   "year": -4600,
+   "kind": "record",
+   "caption": "Attendants killed and buried with rulers",
+   "source": "Baadsgaard et al. 2011 Antiquity 85:27",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Amarna: Tutankhamun's parents siblings",
+   "lat": 27.65,
+   "lon": 30.9,
+   "year": -3330,
+   "kind": "record",
+   "caption": "Royal sibling marriage and its cost",
+   "source": "Hawass et al. 2010 JAMA 303:638",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Anyang: Shang sacrifices",
+   "lat": 36.12,
+   "lon": 114.3,
+   "year": -3200,
+   "kind": "record",
+   "caption": "Thousands of sacrificial victims",
+   "source": "Shang oracle bones; Anyang excavations",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Carthage: the Tophet (debated)",
+   "lat": 36.84,
+   "lon": 10.32,
+   "year": -2700,
+   "kind": "debated",
+   "caption": "Child sacrifice or infant cemetery?",
+   "source": "Smith et al. 2011 Antiquity 85; Schwartz et al. 2010 PLoS ONE",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Tollund Man",
+   "lat": 56.15,
+   "lon": 9.5,
+   "year": -2400,
+   "kind": "record",
+   "caption": "Hanged, laid in the bog",
+   "source": "Glob 1965",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Clonycavan & Old Croghan",
+   "lat": 53.4,
+   "lon": -7.3,
+   "year": -2300,
+   "kind": "interpretation",
+   "caption": "Kings sacrificed on boundaries (Kelly)",
+   "source": "Kelly 2006 Kingship and Sacrifice",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Alexandria: Ptolemaic sibling marriage",
+   "lat": 31.2,
+   "lon": 29.9,
+   "year": -2275,
+   "kind": "record",
+   "caption": "Ptolemy II marries Arsinoe II",
+   "source": "Ptolemaic sources",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Lindow Man: the triple death",
+   "lat": 53.33,
+   "lon": -2.27,
+   "year": -1950,
+   "kind": "record",
+   "caption": "Struck, garrotted, throat cut",
+   "source": "Stead et al. 1986",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Hawaii: nīʻaupiʻo chiefs",
+   "lat": 19.6,
+   "lon": -155.5,
+   "year": -600,
+   "kind": "record",
+   "caption": "Highest rank from sibling unions",
+   "source": "Kamakau; Kirch 2010",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Cusco: the Inca coya",
+   "lat": -13.53,
+   "lon": -71.97,
+   "year": -530,
+   "kind": "record",
+   "caption": "Sapa Inca marries his sister",
+   "source": "Garcilaso de la Vega; Guaman Poma",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Tenochtitlan: tzompantli",
+   "lat": 19.43,
+   "lon": -99.13,
+   "year": -514,
+   "kind": "record",
+   "caption": "Skull racks at the Templo Mayor",
+   "source": "INAH excavations 2015–",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Llullaillaco: capacocha children",
+   "lat": -24.72,
+   "lon": -68.54,
+   "year": -500,
+   "kind": "record",
+   "caption": "Mountain-top child sacrifice",
+   "source": "Wilson et al. 2013 PNAS 110:13322",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "temples",
+  "elites",
+  "inbreeding",
+  "sacrifice"
+ ],
+ "credit": "Cassidy 2020; Hawass 2010; Baadsgaard 2011; Wilson 2013; Kelly 2006; Glob 1965. Base map: Natural Earth (public domain)."
+}

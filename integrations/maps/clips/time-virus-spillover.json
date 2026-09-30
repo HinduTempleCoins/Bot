@@ -1,0 +1,286 @@
+{
+ "id": "time-virus-spillover",
+ "fps": 24,
+ "palette": "night",
+ "note": "Alpha · dates are scholarly estimates with uncertainty · one current model · debated items labelled",
+ "endNote": "Dates are scholarly estimates with uncertainty; routes are one current model, not tracks. Debated and model-based items are labelled. Sources: integrations/maps/data/time-topics3/citations.json and the wiki articles.",
+ "testing": "We are testing these features and looking to develop them.",
+ "title": "Viruses Between Species: Spillover and Spillback",
+ "subtitle": "from bats, birds, camels and mink into people — and back",
+ "bbox": [
+  -180,
+  -58,
+  180,
+  78
+ ],
+ "years": [
+  1930,
+  2025
+ ],
+ "duration": 100,
+ "cities": [
+  {
+   "name": "Uganda: West Nile virus identified",
+   "lat": 3.0,
+   "lon": 31.0,
+   "from": 1937,
+   "to": 2026
+  },
+  {
+   "name": "Australia: Hendra (bats → horses)",
+   "lat": -27.47,
+   "lon": 153.03,
+   "from": 1994,
+   "to": 2026
+  },
+  {
+   "name": "Malaysia: Nipah (bats → pigs → people)",
+   "lat": 2.5,
+   "lon": 101.8,
+   "from": 1998,
+   "to": 2026
+  },
+  {
+   "name": "New York: West Nile reaches the Americas",
+   "lat": 40.7,
+   "lon": -73.9,
+   "from": 1999,
+   "to": 2026
+  },
+  {
+   "name": "Guangdong: SARS (bats → civets)",
+   "lat": 23.1,
+   "lon": 113.3,
+   "from": 2002,
+   "to": 2026
+  },
+  {
+   "name": "Arabia: MERS (camels)",
+   "lat": 24.7,
+   "lon": 46.7,
+   "from": 2012,
+   "to": 2026
+  },
+  {
+   "name": "Wuhan: SARS-CoV-2",
+   "lat": 30.6,
+   "lon": 114.3,
+   "from": 2019,
+   "to": 2026
+  },
+  {
+   "name": "Bronx Zoo: tigers infected by a keeper",
+   "lat": 40.85,
+   "lon": -73.88,
+   "from": 2020,
+   "to": 2026
+  },
+  {
+   "name": "Denmark: mink spillback",
+   "lat": 56.0,
+   "lon": 9.5,
+   "from": 2020,
+   "to": 2026
+  },
+  {
+   "name": "North America: deer reservoir",
+   "lat": 43.0,
+   "lon": -84.0,
+   "from": 2021,
+   "to": 2026
+  },
+  {
+   "name": "Texas: H5N1 in dairy cattle",
+   "lat": 35.2,
+   "lon": -101.8,
+   "from": 2024,
+   "to": 2026
+  }
+ ],
+ "routes": [
+  {
+   "label": "West Nile across the Americas (birds)",
+   "colour": "#80d0e0",
+   "points": [
+    {
+     "label": "New York",
+     "lat": 40.7,
+     "lon": -73.9,
+     "year": 1999.0
+    },
+    {
+     "label": "Florida",
+     "lat": 27.9,
+     "lon": -82.5,
+     "year": 2001.0
+    },
+    {
+     "label": "Texas",
+     "lat": 31,
+     "lon": -97,
+     "year": 2002.0
+    },
+    {
+     "label": "California",
+     "lat": 34,
+     "lon": -118,
+     "year": 2004.0
+    }
+   ]
+  },
+  {
+   "label": "Spillback: human → mink → human",
+   "colour": "#ff8080",
+   "points": [
+    {
+     "label": "People",
+     "lat": 55.7,
+     "lon": 12.6,
+     "year": 2020.3
+    },
+    {
+     "label": "Mink farms",
+     "lat": 56.0,
+     "lon": 9.5,
+     "year": 2020.6
+    },
+    {
+     "label": "People (Cluster 5)",
+     "lat": 57.0,
+     "lon": 10.0,
+     "year": 2020.9
+    }
+   ]
+  }
+ ],
+ "stops": [
+  {
+   "label": "Uganda: West Nile virus identified",
+   "lat": 3.0,
+   "lon": 31.0,
+   "year": 1937,
+   "kind": "record",
+   "caption": "Birds → mosquitoes → people and horses (dead-end hosts)",
+   "source": "Smithburn et al. 1940",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Australia: Hendra (bats → horses)",
+   "lat": -27.47,
+   "lon": 153.03,
+   "year": 1994,
+   "kind": "record",
+   "caption": "Horses bridge a bat virus to people",
+   "source": "Murray et al. 1995 Science 268:94",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Malaysia: Nipah (bats → pigs → people)",
+   "lat": 2.5,
+   "lon": 101.8,
+   "year": 1998,
+   "kind": "record",
+   "caption": "Pig farms amplify a bat virus",
+   "source": "Chua et al. 2000 Science 288:1432",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "New York: West Nile reaches the Americas",
+   "lat": 40.7,
+   "lon": -73.9,
+   "year": 1999,
+   "kind": "record",
+   "caption": "Spread coast to coast via birds",
+   "source": "Lanciotti et al. 1999 Science 286:2333",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Guangdong: SARS (bats → civets)",
+   "lat": 23.1,
+   "lon": 113.3,
+   "year": 2002,
+   "kind": "record",
+   "caption": "Civets in markets carry a bat virus",
+   "source": "Guan et al. 2003 Science 302:276",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Arabia: MERS (camels)",
+   "lat": 24.7,
+   "lon": 46.7,
+   "year": 2012,
+   "kind": "record",
+   "caption": "Dromedary camels carry MERS",
+   "source": "Azhar et al. 2014 NEJM 370:2499",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Wuhan: SARS-CoV-2",
+   "lat": 30.6,
+   "lon": 114.3,
+   "year": 2019,
+   "kind": "record",
+   "caption": "Closest relatives in horseshoe bats; intermediate unconfirmed",
+   "source": "Worobey et al. 2022 Science 377:951",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Bronx Zoo: tigers infected by a keeper",
+   "lat": 40.85,
+   "lon": -73.88,
+   "year": 2020,
+   "kind": "record",
+   "caption": "Human → big cats",
+   "source": "McAloose et al. 2020 mBio 11:e02220-20",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Denmark: mink spillback",
+   "lat": 56.0,
+   "lon": 9.5,
+   "year": 2020,
+   "kind": "record",
+   "caption": "Human → mink → human, with new mutations; ~17 million mink culled",
+   "source": "Oude Munnink et al. 2021 Science 371:172",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "North America: deer reservoir",
+   "lat": 43.0,
+   "lon": -84.0,
+   "year": 2021,
+   "kind": "record",
+   "caption": "White-tailed deer carry lineages lost in humans",
+   "source": "Pickering et al. 2022 Nat Microbiol 7:2011",
+   "hold": 4,
+   "zoom": 3.0
+  },
+  {
+   "label": "Texas: H5N1 in dairy cattle",
+   "lat": 35.2,
+   "lon": -101.8,
+   "year": 2024,
+   "kind": "record",
+   "caption": "Bird flu jumps into cows",
+   "source": "USDA 2024; Caserta et al. 2024 Nature",
+   "hold": 4,
+   "zoom": 3.0
+  }
+ ],
+ "tags": [
+  "time-mapped",
+  "virology",
+  "zoonosis",
+  "genetics"
+ ],
+ "credit": "Oude Munnink 2021; McAloose 2020; Pickering 2022; Chua 2000; Guan 2003; Azhar 2014; Worobey 2022. Base map: Natural Earth (public domain)."
+}
