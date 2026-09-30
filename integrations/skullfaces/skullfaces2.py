@@ -343,7 +343,7 @@ CARD = [
 
 
 def card():
-    key = "skull2_explainer"
+    card_id = "skull2" + "_explainer"
     Wc = 1400
     c = Image.new("RGB", (Wc, 2400), (18, 16, 22))
     d = ImageDraw.Draw(c)
@@ -358,11 +358,11 @@ def card():
             y += 10
     d.text((24, y + 8), "Round 2 · Alpha · Sources as cited.", font=font(16), fill=(160, 160, 170))
     c = c.crop((0, 0, Wc, y + 40))
-    os.makedirs(f"{RENDERS}/{key}", exist_ok=True)
-    c.save(f"{RENDERS}/{key}/1_real_sheet.png")
+    os.makedirs(f"{RENDERS}/{card_id}", exist_ok=True)
+    c.save(f"{RENDERS}/{card_id}/1_real_sheet.png")
     recs = [json.loads(l) for l in open(JSONL)] if os.path.exists(JSONL) else []
-    recs = [r for r in recs if r["key"] != key]
-    recs.insert(0, {"key": key, "set": SET, "title": "Skulls, colour and 'race': the history and the evidence", "credit": "Text card · sources cited on the card",
+    recs = [r for r in recs if r["key"] != card_id]
+    recs.insert(0, {"key": card_id, "set": SET, "title": "Skulls, colour and 'race': the history and the evidence", "credit": "Text card · sources cited on the card",
                     "prerendered": True, "desc": "explainer"})
     with open(JSONL, "w") as fh:
         for r in recs:
