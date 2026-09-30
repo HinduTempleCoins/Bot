@@ -1,0 +1,14 @@
+[Unit]
+Description=Hathor digest bot: read every book/document dropped in the inbox, chunk by chunk, into a labelled digest (claims, entities, numbers, action items)
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/melek-bot/docmaker
+EnvironmentFile=@CONF@/guest-proxy.env
+Environment=DIGEST_OUT=@DATA@/digest/out
+ExecStartPre=-/usr/bin/git -C /opt/melek-bot/docmaker pull --ff-only -q
+ExecStartPre=/usr/bin/mkdir -p @DATA@/digest/inbox @DATA@/digest/out
+ExecStart=/usr/bin/node /opt/melek-bot/docmaker/integrations/digest-bot.mjs --watch @DATA@/digest/inbox
+TimeoutStartSec=6h
+Nice=10
