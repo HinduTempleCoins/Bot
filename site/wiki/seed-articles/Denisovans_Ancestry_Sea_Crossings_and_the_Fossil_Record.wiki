@@ -1,0 +1,51 @@
+'''Denisovans: Ancestry, Sea Crossings and the Fossil Record''' gathers what is actually known about the Denisovans — an archaic human population first identified from DNA rather than from bones — and keeps three kinds of statement apart: '''record''' (fossils, genomes, dates), '''debated''' (published but contested readings), and '''hypothesis''' (ideas not yet tested). Alpha — this page will grow as evidence is added.
+
+== 1. Discovered from a finger bone ==
+
+In 2010 a genome sequenced from a small finger bone found in Denisova Cave in the Altai Mountains of Siberia turned out to belong to neither Neanderthals nor modern humans (Krause et al. 2010, ''Nature''; Reich et al. 2010, ''Nature''). The population was named after the cave.
+
+* '''Record:''' Denisovans and Neanderthals share a common ancestor after the lineage leading to Homo sapiens split away; the two archaic groups diverged from each other roughly 400,000+ years ago (estimates vary by method).
+* '''Record:''' ''Denisova 11'' ("Denny"), a girl who lived about 90,000 years ago, had a Neanderthal mother and a Denisovan father — a first-generation hybrid (Slon et al. 2018, ''Nature'').
+* '''Record:''' Denisova Cave was used by Denisovans, Neanderthals and later modern humans over roughly 300,000 years (Douka et al. 2019; Jacobs et al. 2019, ''Nature'').
+
+== 2. The fossils ==
+
+For a decade Denisovans were known almost only from teeth and bone fragments. That has changed:
+
+* '''Xiahe mandible''' — a jaw from Baishiya Karst Cave on the Tibetan Plateau, at least 160,000 years old, identified as Denisovan from ancient proteins (Chen et al. 2019, ''Nature''). Sediment DNA shows Denisovans used the cave over a long span (Zhang et al. 2020, ''Science'').
+* '''Harbin cranium''' — a large, heavy-browed skull from northeast China, over 146,000 years old, identified as Denisovan from proteins and mitochondrial DNA in 2025 (Fu et al. 2025). It gives the first clear picture of a Denisovan face: broad, with large molars and a heavy brow.
+* '''Penghu 1''' — a jaw dredged from the sea floor off Taiwan, identified as Denisovan from proteins (Tsutaya et al. 2025, ''Science'').
+* '''Cobra Cave, Laos''' — a molar attributed to a Denisovan-like individual, 164,000–131,000 years old (Demeter et al. 2022, ''Nature Communications'').
+
+== 3. Denisovan DNA in people today ==
+
+* '''Record:''' Papuans, Aboriginal Australians and many Island Southeast Asian populations carry the most Denisovan ancestry of any living people — a few percent of the genome (Reich et al. 2011; Sankararaman et al. 2016).
+* '''Record:''' East Asians carry smaller amounts; South Asians and Native Americans small amounts; Europeans and Africans very little.
+* '''Record:''' There was more than one Denisovan population, and modern humans met several of them — at least two or three separate pulses of admixture are visible in present-day genomes (Browning et al. 2018, ''Cell''; Jacobs et al. 2019, ''Cell'').
+* '''Record:''' Tibetans' adaptation to high altitude comes partly from a Denisovan version of the ''EPAS1'' gene (Huerta-Sánchez et al. 2014, ''Nature'').
+
+== 4. Crossing water ==
+
+The islands east of the Wallace Line — Sulawesi, Flores, Timor, the Philippines and New Guinea — were never joined to mainland Asia, even at low sea levels. Reaching them meant crossing open water.
+
+* '''Record:''' Hominins reached some of these islands very early: stone tools on Flores ~1 million years ago; butchered rhinoceros bones on Luzon ~709,000 years ago (Ingicco et al. 2018, ''Nature''); tools on Sulawesi by ~118,000 years ago.
+* '''Record:''' Homo floresiensis (Flores) and Homo luzonensis (Luzon) are small-bodied island species descended from those early arrivals.
+* '''Debated:''' Because Denisovan ancestry is highest east of the Wallace Line, some researchers argue Denisovans themselves lived in Wallacea or near New Guinea and crossed these straits; others argue the mixing happened on the mainland or at the edges. No Denisovan fossil has yet been found east of the line.
+* '''Record:''' Modern humans reached Sahul (Australia–New Guinea) by at least ~50,000 years ago; a date of ~65,000 years at Madjedbebe is published but disputed.
+
+== 5. What Denisovans made ==
+
+* '''Debated:''' Ornaments and a polished stone bracelet from Denisova Cave were once attributed to Denisovans; re-dating suggests some belong to layers used by modern humans. Attribution remains open.
+* '''Record:''' No temple, monument or building has been attributed to Denisovans. The oldest known monumental temple sites (Göbekli Tepe and its neighbours, from c. 9500 BCE) were built by Homo sapiens.
+
+== 6. Open questions and hypotheses ==
+
+* How far south and east Denisovans ranged, and whether they made sea crossings themselves.
+* Whether Homo floresiensis or luzonensis ever met Denisovans.
+* '''Hypothesis:''' the operator's '''Temple Lineage Hypothesis''' proposes a much larger role for Denisovan-derived lines in later cultural history. It is set out, with the evidence for and against, on its own page: [[The Temple Lineage Hypothesis (Van Kush Ancestry)]].
+
+== Sources ==
+* Krause J. et al. 2010, ''Nature'' 464; Reich D. et al. 2010, ''Nature'' 468; Reich D. et al. 2011, ''AJHG'' 89.
+* Slon V. et al. 2018, ''Nature'' 561. Chen F. et al. 2019, ''Nature'' 569. Zhang D. et al. 2020, ''Science'' 370.
+* Browning S. et al. 2018, ''Cell'' 173. Jacobs G. et al. 2019, ''Cell'' 177. Huerta-Sánchez E. et al. 2014, ''Nature'' 512.
+* Ingicco T. et al. 2018, ''Nature'' 557. Demeter F. et al. 2022, ''Nature Communications'' 13. Tsutaya T. et al. 2025, ''Science''. Fu Q. et al. 2025 (Harbin cranium).

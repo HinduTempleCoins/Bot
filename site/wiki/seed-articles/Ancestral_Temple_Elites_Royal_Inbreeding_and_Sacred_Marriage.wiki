@@ -1,0 +1,64 @@
+'''Temple Elites, Royal Inbreeding and Sacred Marriage''' collects the evidence — genetic, textual and archaeological — that ancient ruling and priestly families married within their own close kin, why they did it, and what it did to them. It keeps '''record''' (DNA, mummies, inscriptions), '''tradition''' (what ancient texts claim) and '''hypothesis''' apart. Alpha.
+
+== 1. Newgrange: incest at the top of a Neolithic temple society ==
+
+* '''Record:''' Newgrange, in Ireland's Boyne valley, is a passage tomb built c. 3200 BCE whose passage is lit by the rising sun at the winter solstice.
+* '''Record:''' The man buried in its most elaborate chamber (sample NG10) was the child of '''first-degree incest''' — his parents were either full siblings or parent and child. His genome carries long runs of identical DNA on both copies of his chromosomes that only such a union produces (Cassidy et al. 2020, ''Nature'').
+* '''Record:''' He was related to other people buried in major passage tombs across Ireland, pointing to an elite lineage that held the great monuments for generations.
+* The study's authors compare this to the sibling marriages of Egyptian pharaohs and the Inca: a social elite so set apart that only its own members were considered fit partners.
+
+== 2. Egypt: pharaohs and siblings ==
+
+* '''Record:''' DNA and CT study of the Amarna royal mummies found that Tutankhamun's parents were full siblings (Hawass et al. 2010, ''JAMA''). He had a club foot and bone disease, and walked with canes found in his tomb. Later studies debate some of the identifications, not the sibling result.
+* '''Record:''' Brother–sister marriage was a royal custom, modelled on the gods Osiris and Isis. The Ptolemies made it routine: Ptolemy II married his full sister Arsinoe II, and it continued for generations down to Cleopatra VII.
+* '''Record:''' Among ordinary Egyptians of the Roman period, census returns show sibling marriage was also common for a time (Hopkins 1980; Shaw 1992).
+
+== 3. The Inca, Hawaii and Persia ==
+
+* '''Record (chronicles):''' From Túpac Inca Yupanqui onward the Sapa Inca took his full sister as principal wife (''coya''), so that the heir would be of wholly divine solar descent.
+* '''Record (oral and written history):''' Among Hawaiian high chiefs (''aliʻi''), children of full-sibling unions (''nīʻaupiʻo'') held the highest rank and the strongest ''kapu''.
+* '''Record (texts):''' Zoroastrian Persia praised ''xwēdōdah'' — marriage within the closest kin — as a religious merit; Greek writers reported it with shock. How widely it was practised outside the elite is debated.
+
+== 4. Why elites did it ==
+
+* To keep divine or sacred descent "pure" — the ruler as a god's child could only marry the god's other child.
+* To keep property, office and temple rights inside one line.
+* To imitate the gods, whose myths are full of sibling pairs.
+
+== 5. What inbreeding does ==
+
+* '''Record:''' Close inbreeding raises the chance that a child inherits two copies of the same harmful recessive variant — the cost seen in Tutankhamun and in later royal houses (the Spanish Habsburgs, whose "Habsburg jaw" and declining health were studied by Vilas et al. 2019).
+* '''Record:''' Animal and plant breeders use inbreeding deliberately to fix traits ("line breeding"), and then cross lines to recover vigour — ''heterosis'' or hybrid vigour. The same arithmetic applies to people, at a far higher human cost.
+
+=== Inbreeding is harmful: the wolf and the dog ===
+
+The clearest everyday picture of what closed breeding does is the difference between wolves and dogs.
+
+* '''Wolves in the wild''' mate with unrelated animals from other packs; a young wolf leaves its birth pack to find a mate. Natural selection keeps their instincts sharp.
+* '''Record:''' When wolves are cut off and forced to inbreed, they suffer. The isolated wolves of Isle Royale (Lake Superior) developed spinal deformities and the population nearly collapsed (Räikkönen et al. 2009); the Scandinavian wolf population, founded by a handful of animals, showed lower pup survival until one new immigrant wolf restored it (Vilà et al. 2003).
+* '''Record:''' Purebred dogs are, in effect, deliberately inbred lines. Many breeds have inbreeding levels equal to or higher than parent–offspring mating, and higher rates of inherited disease; more inbred breeds have more health problems (Bannasch et al. 2021, ''Canine Medicine and Genetics'').
+* '''Record:''' In problem-solving experiments, wolves persist longer and solve puzzles that dogs give up on — dogs tend to look to a human for help instead (Frank and Frank 1982; Udell 2015, ''Biology Letters''; Marshall-Pescini et al. 2017). Domestication traded independence for dependence on people.
+* '''Plants are different.''' Many crop plants tolerate self-pollination: breeders make inbred lines of maize or cannabis to make every plant uniform, and then cross two lines to get vigorous hybrid seed. Even in plants, inbred lines lose vigour (the reason hybrid maize outyields inbred maize), but there is no mind to lose. In animals, and above all in people, closed breeding costs health, fertility and — as Tutankhamun, the Habsburgs and many royal houses show — sometimes the family line itself.
+
+The lesson the evidence gives is the opposite of the ancient elites' belief: keeping a bloodline "pure" weakens it. Mixing — outbreeding — is what keeps a population strong.
+
+=== Hitler was wrong: the strength is in the mix ===
+
+The Nazi doctrine of "racial hygiene" held that a pure bloodline was a strong one and that mixing weakened it. Genetics shows the reverse.
+
+* '''Record:''' Every living human population is already a mixture. Europeans descend from at least three ancient groups — western hunter-gatherers, Anatolian farmers and steppe herders — who met and mixed within the last 8,000 years (Haak et al. 2015; Lazaridis et al. 2014). There never was a pure "Aryan" line to protect.
+* '''Record:''' ''Heterosis'' (hybrid vigour): crossing unrelated lines masks harmful recessive variants and often yields offspring healthier than either parent line. Mixed-breed dogs, on average, have fewer of the inherited disorders common in purebreds (Bellumori et al. 2013, ''JAVMA'').
+* '''Analogy:''' in dog terms, the "purebred" ideal is the weak one. Crossing lines — the mutt — recovers vigour, and much of what is recovered is the older, wolf-like variation that closed breeding stripped out.
+* The same evidence rules out ''any'' claim that one pure line is superior. The advantage lies in variety, not in a bloodline.
+
+== 6. Temple women and bee priestesses ==
+
+* '''Record:''' In South India, ''devadasis'' were women dedicated to temples as dancers and ritual servants; a Chola inscription at Thanjavur (11th century) lists some 400 attached to the Brihadishvara temple. The institution later declined into exploitation and was outlawed (Madras Devadasis Act 1947).
+* '''Record:''' Greek priestesses called ''Melissai'' ("bees") served Demeter, Artemis and the Delphic oracle; the bee was the emblem of Artemis of Ephesus. Minoan gold pendants show bees.
+* '''Hypothesis:''' the operator proposes that some temple societies were modelled on the beehive, with a single "queen" woman at the centre of reproduction. The sources above do not describe such a system directly; ancient writers (Aristotle) even thought the hive's leader was a ''king'' bee — its female sex was only shown in 1609 by Charles Butler. The hypothesis is set out on [[The Temple Lineage Hypothesis (Van Kush Ancestry)]].
+
+== Sources ==
+* Cassidy L. et al. 2020, ''Nature'' 582. Hawass Z. et al. 2010, ''JAMA'' 303.
+* Hopkins K. 1980, ''Comparative Studies in Society and History'' 22; Shaw B. 1992, ''Man'' 27.
+* Vilas R. et al. 2019, ''Annals of Human Biology'' 46.
+* Herodotus, Ctesias and later Greek writers on Persian kin marriage; Garcilaso de la Vega and Guaman Poma on the Inca.
