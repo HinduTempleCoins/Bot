@@ -1,0 +1,51 @@
+'''Skin, Hair and Eye Colour: Ancestry and Genetics''' sets out what ancient DNA and population genetics have shown about human colouring — when light skin, blue eyes, and blonde and red hair appeared, which genes are involved, how old those variants are, and what we know about Neanderthal and Denisovan colouring. Alpha.
+
+== 1. The starting point ==
+
+* '''Record:''' Early Homo sapiens in Africa had darkly pigmented skin. The gene ''MC1R'' shows strong constraint in Africa — variants that lighten skin were weeded out where ultraviolet light is intense (Rogers et al. 2004; Harding et al. 2000).
+* '''Record:''' Melanin protects against UV damage and folate loss; lighter skin makes vitamin D more easily in weak sunlight. Skin colour tracks latitude and sunlight far better than it tracks ancestry.
+* '''Record:''' Tanning is the same system turned up temporarily: UV exposure makes melanocytes produce more melanin.
+
+== 2. The variants are older than you think ==
+
+* '''Record:''' A study of pigmentation across African populations found that both "light" and "dark" variants at key genes (''SLC24A5'', ''MFSD12'', ''DDB1'', ''TMEM138'', ''OCA2'', ''HERC2'') are old, and many arose in Africa — some more than 900,000 years ago, before Homo sapiens existed (Crawford et al. 2017, ''Science'').
+* '''Record:''' The San of southern Africa are lighter-skinned than many other Africans; East Africa holds some of the darkest and some of the lightest skin tones on the continent.
+* So light-skin variants were not newly invented in Europe; some were already present in the ancestral gene pool and were later favoured by selection in low-sunlight regions.
+
+== 3. Europe: late and mixed ==
+
+* '''Record:''' Western European hunter-gatherers of 10,000 years ago, such as Cheddar Man, most likely had dark skin and blue eyes (Brace et al. 2019).
+* '''Record:''' The main European light-skin variants (''SLC24A5'' A111T and ''SLC45A2'' F374L) rose to high frequency with the arrival of Anatolian farmers and steppe herders over the last ~8,000 years, and under strong selection (Mathieson et al. 2015, ''Nature'').
+* '''Record:''' Blue eyes trace to a single variant near ''HERC2''/''OCA2'' carried by one ancestor perhaps 6,000–10,000 years ago (Eiberg et al. 2008).
+* '''Record:''' The earliest known carrier of the main European blonde-hair variant (in ''KITLG'') is a ~17,000-year-old Ancient North Eurasian from Afontova Gora in Siberia.
+* '''Record:''' Red hair comes from several ''MC1R'' variants; its highest frequencies today are in Scotland and Ireland.
+
+== 4. Elsewhere ==
+
+* '''Record:''' East Asian light skin arose largely through ''different'' variants (for example in ''OCA2''), an independent path to the same result (Edwards et al. 2010).
+* '''Record:''' Blonde hair in the Solomon Islands comes from a variant in ''TYRP1'' found nowhere in Europe — blondness evolved at least twice (Kenny et al. 2012, ''Science'').
+
+== 5. Neanderthals and Denisovans ==
+
+* '''Record:''' Two Neanderthals carried an ''MC1R'' variant that, in lab tests, reduces pigment function — suggesting pale skin and possibly red hair in some Neanderthals (Lalueza-Fox et al. 2007, ''Science''). Other Neanderthal genomes point to a range of skin tones; they were not uniform.
+* '''Record:''' Some variants Europeans inherited from Neanderthals affect skin tone and hair colour (Dannemann and Kelso 2017).
+* '''Record:''' Nothing yet is known about Denisovan skin colour.
+
+== 6. How new combinations appear: mutation, recombination, selection and inbreeding ==
+
+* '''Mutation''' creates a new variant — once, in one person.
+* '''Recombination''' shuffles existing variants every generation: each egg and sperm carries a new mix of the parent's two sets of chromosomes. New combinations of colour traits (dark skin with blue eyes, red hair with dark eyes) appear this way without anyone breeding for them.
+* '''Selection''' (sunlight, vitamin D, mate choice) and '''drift''' (chance, especially in small groups) make some variants common.
+* '''Recessive traits''' such as blue eyes or red hair show only when a child inherits two copies. That happens either when the variant is already common, or through inbreeding, which raises the chance of two identical copies.
+* So in most cases recombination plus selection does the work that breeders do by inbreeding — and without inbreeding's cost of doubling up harmful variants.
+
+== 7. Albinism ==
+
+* '''Record:''' Oculocutaneous albinism (several types) occurs in every population. Some communities have unusually high rates — the Hopi and the Guna (Kuna) of Panama, and parts of Tanzania.
+* '''Record:''' Albinism is a loss of function that also affects vision; it does not produce the pigmentation of lighter-skinned populations, whose variants are different.
+* '''Hypothesis:''' the operator proposes that albino individuals and pale archaic humans mixed and that later breeding "locked in" light phenotypes. The genetics above — ancient variants, several independent origins, and selection — are the evidence any such idea has to meet; see [[The Temple Lineage Hypothesis (Van Kush Ancestry)]].
+
+== Sources ==
+* Crawford N. et al. 2017, ''Science'' 358. Mathieson I. et al. 2015, ''Nature'' 528. Brace S. et al. 2019, ''Nature Ecology & Evolution'' 3.
+* Rogers A. et al. 2004, ''Current Anthropology'' 45. Harding R. et al. 2000, ''AJHG'' 66. Eiberg H. et al. 2008, ''Human Genetics'' 123.
+* Kenny E. et al. 2012, ''Science'' 336. Edwards M. et al. 2010, ''PLoS Genetics'' 6. Lalueza-Fox C. et al. 2007, ''Science'' 318. Dannemann M. and Kelso J. 2017, ''AJHG'' 101.

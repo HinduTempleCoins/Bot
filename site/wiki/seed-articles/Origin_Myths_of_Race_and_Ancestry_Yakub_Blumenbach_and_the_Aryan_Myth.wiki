@@ -1,0 +1,40 @@
+'''Origin Myths of Race: Yakub, Blumenbach and the Aryan Myth''' lays out, side by side, the major stories told about where "races" came from — religious, scientific and political — each in its own terms, followed by what genetics has since shown. Describing a teaching is not endorsing it. Alpha.
+
+== 1. The curse of Ham ==
+
+* '''Text:''' Genesis 9:20–27 has Noah curse Canaan, son of Ham, to be a servant of his brothers. The text says nothing about skin colour.
+* '''History:''' Medieval and early-modern writers — Jewish, Christian and Muslim — reread the curse as falling on Africans, and it was used to justify slavery in the Atlantic world.
+
+== 2. Blumenbach and "Caucasian" (1775–1795) ==
+
+* Johann Friedrich Blumenbach divided humanity into five "varieties": Caucasian, Mongolian, Ethiopian, American and Malay.
+* He named "Caucasians" after a skull from Georgia he considered the most beautiful, and believed the Caucasus the likely homeland of the first humans, from which the other varieties "degenerated" through climate.
+* Blumenbach himself stressed that the varieties blend into each other and rejected ranking them intellectually — later race science kept his names and dropped his caveats.
+
+== 3. The Aryan myth ==
+
+* 19th-century philologists found that Sanskrit, Persian, Greek, Latin and the Germanic languages were related ("Indo-European"); ''Arya'' was a self-name in the Rigveda and the Avesta.
+* Arthur de Gobineau (''Essay on the Inequality of the Human Races'', 1853) turned a language family into a master race whose purity decided the fate of civilisations. Houston Stewart Chamberlain and then the Nazis built on him.
+* '''Genetics:''' the Indo-European languages did spread in part with steppe ancestry (Haak et al. 2015), but that ancestry mixed everywhere it went; there was never a pure "Aryan" population, and speakers of the languages today span every appearance.
+
+== 4. The Hamitic hypothesis ==
+
+* Colonial-era writers (notably C. G. Seligman, 1930) claimed that anything advanced in Africa had been brought by lighter-skinned "Hamitic" invaders. The idea shaped Belgian rule in Rwanda, where ID cards classed Tutsi and Hutu partly by nose width and height — a policy later linked to the 1994 genocide.
+
+== 5. Yakub (Nation of Islam) ==
+
+* '''Teaching:''' In the teaching of W. D. Fard and Elijah Muhammad (''Message to the Blackman in America'', 1965), the original people were Black. About 6,600 years ago a scientist named Yakub, exiled to the island of Patmos with his followers, bred a white race over some 600 years by selecting lighter children in each generation. Louis Farrakhan has continued to teach versions of it.
+* '''Genetics:''' light-skin variants are far older than 6,600 years, some older than Homo sapiens itself; blondness and light skin arose several times independently; and their spread in Europe is explained by migration and natural selection (see [[Skin Hair and Eye Colour Ancestry and Genetics]]). The teaching's core claim — that all humans descend from dark-skinned African ancestors — ''is'' correct.
+
+== 6. What the evidence shows ==
+
+* All living humans descend mainly from African Homo sapiens populations, with small archaic contributions (Neanderthal, Denisovan, and in Africa other archaic groups).
+* Most genetic variation lies ''within'' populations, not between them (Lewontin 1972; confirmed by genome studies).
+* Skin colour is a sunlight adaptation that evolved in both directions many times; it is a poor guide to ancestry.
+* Every stated "pure race" dissolves in ancient DNA into mixtures of older populations.
+* '''Hypothesis:''' the operator offers his own account of how light phenotypes arose, set out with the evidence for and against on [[The Temple Lineage Hypothesis (Van Kush Ancestry)]].
+
+== Sources ==
+* Blumenbach J. F., ''De generis humani varietate nativa'' (3rd ed. 1795). Gobineau A. de, ''Essai sur l'inégalité des races humaines'' (1853–55).
+* Muhammad E., ''Message to the Blackman in America'' (1965). Seligman C. G., ''Races of Africa'' (1930).
+* Haak W. et al. 2015, ''Nature'' 522. Lewontin R. 1972, ''Evolutionary Biology'' 6.

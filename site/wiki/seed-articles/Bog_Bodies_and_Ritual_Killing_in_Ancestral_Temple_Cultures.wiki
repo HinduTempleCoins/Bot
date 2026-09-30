@@ -1,0 +1,44 @@
+'''Bog Bodies and Ritual Killing in Ancestral Temple Cultures''' covers the preserved bodies of northern Europe's peat bogs — who they were, how they died and why they were put in the water — and then looks outside the bogs at other ancient killings tied to sacred places and rulers. Record, interpretation and hypothesis are kept apart. Alpha.
+
+== 1. The bogs ==
+
+Acidic, oxygen-poor peat preserves skin, hair and stomach contents while dissolving bone. Hundreds of bodies have been found, most dating to the Iron Age (c. 800 BCE–200 CE).
+
+{| class="wikitable"
+! Body !! Found !! Date !! What happened
+|-
+| Tollund Man || Denmark, 1950 || c. 405–380 BCE || hanged; laid in a sleeping pose; last meal a gruel of grains and seeds
+|-
+| Grauballe Man || Denmark, 1952 || c. 290 BCE || throat cut
+|-
+| Lindow Man || England, 1984 || c. 2 BCE–119 CE || struck on the head, garrotted, throat cut — the "triple death"
+|-
+| Clonycavan Man || Ireland, 2003 || c. 392–201 BCE || axe blows; hair styled with a resin gel imported from southern France or Spain
+|-
+| Old Croghan Man || Ireland, 2003 || c. 362–175 BCE || very tall (~1.9 m); nipples cut; bound through the arms
+|-
+| Yde Girl || Netherlands, 1897 || c. 54 BCE–128 CE || strangled; half her head shaved
+|-
+| Haraldskær Woman || Denmark, 1835 || c. 490 BCE || staked into the bog
+|}
+
+== 2. Readings ==
+
+* '''Record (Roman):''' Tacitus (''Germania'' 12) says the Germans drowned "cowards, shirkers and the sexually disgraced" in swamps under wicker hurdles.
+* '''Interpretation:''' Irish archaeologist Eamonn Kelly noted that Irish bog bodies lie on ancient territorial boundaries and argued they were failed or sacrificed kings — the cut nipples of Old Croghan Man matching the old Irish custom of sucking a king's nipples as a sign of submission.
+* '''Interpretation:''' Many were in good health, with well-kept hands and hair — people of standing rather than the poor.
+* '''Hypothesis:''' the operator reads some bog deaths as the killing of a lineage's offspring at a crisis — a "Flood" memory, in the sense of Genesis 6 and 1 Enoch, where the children of the Watchers were destroyed. The bog record itself shows sacrifice and punishment but no single cause; see [[The Temple Lineage Hypothesis (Van Kush Ancestry)]].
+
+== 3. Outside the bogs ==
+
+* '''Ur, the royal tombs (c. 2600 BCE):''' Leonard Woolley's "death pits" held dozens of attendants buried with their rulers; CT scans of skulls show blunt-force blows (Baadsgaard et al. 2011).
+* '''Shang China (c. 1250–1046 BCE):''' thousands of sacrificial victims in the royal cemetery at Anyang, recorded on oracle bones.
+* '''Carthage, the Tophet:''' an urn cemetery of infants and animals with stelae to Baal Hammon and Tanit. Whether it shows child sacrifice (as Greek and Roman writers and the Bible claim of the Phoenicians) or a cemetery for children who died young is debated (Smith et al. 2011 vs Schwartz et al. 2010).
+* '''The Inca ''capacocha'':''' children taken to mountain summits and sacrificed; the Llullaillaco mummies (c. 1500 CE) show a year of increasing coca and alcohol before death (Wilson et al. 2013, ''PNAS'').
+* '''Aztec Tenochtitlan:''' the ''tzompantli'' skull racks at the Templo Mayor, excavated from 2015.
+* '''Scandinavia:''' Adam of Bremen (11th c.) describes men and animals hung in the sacred grove at Uppsala.
+
+== Sources ==
+* Glob P. V., ''The Bog People'' (1965). Kelly E. P., ''Kingship and Sacrifice: Iron Age Bog Bodies and Boundaries'' (2006). Tacitus, ''Germania'' 12.
+* Baadsgaard A. et al. 2011, ''Antiquity'' 85. Wilson A. et al. 2013, ''PNAS'' 110.
+* Smith P. et al. 2011, ''Antiquity'' 85; Schwartz J. et al. 2010, ''PLoS ONE'' 5.

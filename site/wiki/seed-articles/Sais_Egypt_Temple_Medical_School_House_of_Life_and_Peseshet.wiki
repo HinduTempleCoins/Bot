@@ -1,0 +1,33 @@
+'''Sais: the Temple Medical School, the House of Life and Peseshet''' covers the medical and scribal institution attached to the temple of the goddess Neith at Sais in the western Nile Delta, the record left by the official who restored it under Persian rule, and the woman often linked to it — Peseshet, Egypt's earliest named "overseer of women physicians". Record and tradition are kept apart. Alpha.
+
+== 1. Sais and Neith ==
+
+* '''Record:''' Sais (Egyptian ''Zau'', modern Sa el-Hagar) was the cult centre of '''Neith''', a creator and warrior goddess, and the capital of the 26th ("Saite") Dynasty, 664–525 BCE.
+* '''Tradition (Greek):''' Herodotus (2.28, 2.169–171) visited and describes the temple and its rites; Plato's ''Timaeus'' and ''Critias'' make Sais the place where the priest '''Sonchis''' told Solon the story of Atlantis. Plutarch reports the inscription on Neith's (identified with Isis) statue: "I am all that has been, and is, and shall be, and no mortal has ever lifted my veil."
+
+== 2. The House of Life (Per-Ankh) ==
+
+* '''Record:''' Egyptian temples had a ''Per-Ankh'' ("House of Life") — a scriptorium and school where priest-scribes copied and composed religious, magical, astronomical and medical texts. Physicians (''swnw'') trained in and around these institutions.
+* '''Record:''' The '''statue of Udjahorresnet''' (Vatican Museums, the "naophoros") carries his autobiography. A chief physician and priest of Neith who served the Persian kings Cambyses and Darius I, he records that Darius sent him back from Elam to Egypt:
+
+:: "His Majesty King Darius commanded me to go to Egypt… to restore the establishment of the House of Life… after it had fallen into ruin. … I furnished it with all its students, the sons of men of standing, no sons of poor men among them. … His Majesty did this because he knew the usefulness of this art for making every sick person live."
+
+* '''Record:''' This is the clearest ancient evidence of a state-sponsored medical school at Sais, and of its reopening c. 519–517 BCE.
+
+== 3. Peseshet ==
+
+* '''Record:''' Peseshet lived in the Old Kingdom (4th–5th Dynasty, c. 2500–2400 BCE). A false-door stela in the Giza mastaba of Akhethetep, probably her son, gives her titles, including '''imyt-r swnwt''' — "overseer of women physicians" (or "overseer of physicians" — the feminine reading is argued from the grammar).
+* '''Record:''' She is one of the earliest women known by name in the history of medicine.
+* '''Tradition (modern):''' Popular histories often say Peseshet taught or graduated midwives at a medical school at Sais. No ancient text states this; the Sais school is documented only much later (Udjahorresnet, 6th century BCE). The link is a modern tradition, not a record.
+
+== 4. Greek reports of Egyptian medicine ==
+
+* Homer (''Odyssey'' 4.227–232) calls Egypt the land where "every man is a physician".
+* Herodotus (2.84) says Egyptian doctors each specialised in one part of the body — eyes, head, teeth, belly.
+* Egyptian medical papyri (Edwin Smith, Ebers, Kahun gynaecological) survive and show surgery, pharmacology and gynaecology.
+
+== Sources ==
+* Udjahorresnet naophorous statue, Vatican Museums inv. 22690; translation in Lichtheim, ''Ancient Egyptian Literature'' III.
+* Herodotus 2.28, 2.84, 2.169–171; Plato, ''Timaeus'' 21e–25d; Plutarch, ''On Isis and Osiris'' 9.
+* Nunn J. F., ''Ancient Egyptian Medicine'' (1996), on Peseshet and the ''swnw''.
+* Gardiner A. H. 1938, "The House of Life", ''Journal of Egyptian Archaeology'' 24.

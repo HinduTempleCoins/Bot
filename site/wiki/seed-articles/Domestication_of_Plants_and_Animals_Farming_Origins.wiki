@@ -1,0 +1,67 @@
+'''Domestication of Plants and Animals: Farming Origins''' asks the question "when, where — and by whom — were wild things bred into food?" Many of the plants we eat are not naturally edible in the form we know: wild wheat shatters and drops its seed, wild almonds are poisonous, wild bananas are packed with hard seeds, wild maize (teosinte) is a stubby grass. Each change was bred in by people, at a particular time and place. Alpha — the dates below are the current published estimates and will be refined.
+
+== 1. What "domesticated" means ==
+
+A domesticated plant or animal has been changed by human selection until it depends on people or serves them better than its wild ancestor. Archaeologists recognise it by physical signs:
+
+* '''Grains:''' a ''tough rachis'' — the seed head no longer shatters, so seeds wait to be harvested. Bigger seeds, thinner seed coats, all seeds sprouting at once.
+* '''Fruits and nuts:''' loss of bitterness or poison (sweet almonds carry a single mutation that switched off amygdalin — Sánchez-Pérez et al. 2019, ''Science''); seedlessness (bananas, some figs).
+* '''Animals:''' smaller body size at first, changed horns, coat colours and piebald markings, altered herd age and sex ratios in bone assemblages, and genetic signatures.
+
+== 2. The independent centres ==
+
+Farming was not invented once. It arose independently in at least eleven regions (Larson et al. 2014, ''PNAS''), each with its own crops:
+
+{| class="wikitable"
+! Region !! Earliest crops and animals !! Approximate date
+|-
+| Fertile Crescent (Levant, Anatolia, Zagros) || einkorn, emmer, barley, lentil, pea, chickpea, flax; sheep, goat, cattle, pig || c. 9500–8500 BCE
+|-
+| Jordan Valley (Gilgal) || parthenocarpic (seedless) figs, planted from cuttings || c. 9400 BCE (Kislev et al. 2006, ''Science'')
+|-
+| Yangtze valley || rice || cultivation from c. 8000 BCE; fully domesticated by c. 5000 BCE
+|-
+| Yellow River valley || foxtail and broomcorn millet; pig || c. 8000–6000 BCE
+|-
+| New Guinea highlands (Kuk Swamp) || taro, banana, sugarcane || c. 5000 BCE and earlier
+|-
+| Mexico (Balsas valley, Oaxaca) || maize from teosinte; squash; beans || squash c. 8000 BCE; maize c. 7000 BCE (Piperno et al. 2009)
+|-
+| Andes and Amazonia || potato, quinoa, manioc; llama, alpaca, guinea pig || c. 8000–5000 BCE
+|-
+| Eastern North America || '''sunflower''', sumpweed, goosefoot, squash || c. 3000–2000 BCE
+|-
+| Sahel and West Africa || sorghum, pearl millet, African rice, yam || c. 3000–1500 BCE
+|-
+| Ethiopian highlands || teff, ensete, coffee || date uncertain
+|-
+| India || zebu cattle, some rice and millets, cotton || c. 7000–2500 BCE
+|}
+
+== 3. Case notes ==
+
+* '''Sunflower:''' domesticated in eastern North America; seeds from the Hayden site (Tennessee) date to about 4,300 years ago. A possible separate domestication in Mexico has been proposed (Lentz et al. 2008) and is debated.
+* '''Wheat:''' the domestic einkorn traces genetically to wild einkorn of the Karacadağ mountains in southeast Turkey (Heun et al. 1997, ''Science'') — a few dozen kilometres from Göbekli Tepe.
+* '''Maize:''' teosinte ears hold a handful of hard-cased kernels. It took thousands of years of selection to reach cob-bearing maize; the key genes (''tb1'', ''tga1'') are known.
+* '''Banana:''' edible bananas are seedless, sterile hybrids propagated by cuttings; their wild relatives are seedy.
+* '''Apple:''' the domestic apple comes mainly from ''Malus sieversii'' of the Tian Shan in Kazakhstan, spread along the trade routes.
+
+== 4. Animals ==
+
+* '''Dog — from wolves.''' The dog is the oldest domestic animal, before farming: a dog buried with people at Bonn-Oberkassel (Germany) about 14,200 years ago. Dogs descend from a wolf population that is now extinct, not from modern wolves (Bergström et al. 2022, ''Nature''). The wolf → dog relationship is the best-studied example of how a wild population becomes a domestic one.
+* '''Sheep and goat:''' Zagros and eastern Anatolia, c. 8500 BCE.
+* '''Cattle:''' taurine cattle from a very small founding herd of aurochs in the Near East, c. 8500 BCE (Bollongino et al. 2012); humped zebu separately in the Indus region.
+* '''Cat:''' a cat buried with a person at Shillourokambos, Cyprus, c. 7500 BCE.
+* '''Horse:''' the modern domestic horse lineage (DOM2) spread from the lower Volga–Don region c. 2200 BCE (Librado et al. 2021, ''Nature'').
+* '''Chicken:''' from red junglefowl in Southeast Asia, c. 1650–1250 BCE (Peters et al. 2022, ''PNAS'').
+
+== 5. Who did it ==
+
+* '''Record:''' domestication was carried out by many different peoples, independently, in the regions above — farmers of the Fertile Crescent, of China, of Mesoamerica, of the Andes, of New Guinea, of Africa and of eastern North America. Ancient DNA shows that farming then spread partly by the movement of farmers themselves (for example Anatolian farmers into Europe from c. 6500 BCE) and partly by neighbours adopting it.
+* '''Hypothesis:''' the operator's '''Temple Lineage Hypothesis''' proposes that the people behind these breakthroughs share a common ancient lineage. It is set out, with the evidence for and against, on [[The Temple Lineage Hypothesis (Van Kush Ancestry)]].
+
+== Sources ==
+* Larson G. et al. 2014, ''PNAS'' 111. Heun M. et al. 1997, ''Science'' 278. Kislev M. et al. 2006, ''Science'' 312.
+* Piperno D. et al. 2009, ''PNAS'' 106. Sánchez-Pérez R. et al. 2019, ''Science'' 364. Lentz D. et al. 2008, ''PNAS'' 105.
+* Bergström A. et al. 2022, ''Nature'' 607. Bollongino R. et al. 2012, ''Molecular Biology and Evolution'' 29.
+* Librado P. et al. 2021, ''Nature'' 598. Peters J. et al. 2022, ''PNAS'' 119.

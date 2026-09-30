@@ -1,0 +1,51 @@
+'''Viruses in Our Ancestry: Endogenous Retroviruses, Spillover and Spillback''' explains how viruses write themselves into animal and human DNA, how genes move between species through viruses and parasites, how viruses jump from animal to animal and into people — and back again, changed. Alpha.
+
+== 1. Viruses in our genome ==
+
+* '''Record:''' About 8% of the human genome is made of '''endogenous retroviruses''' (ERVs) — remnants of retroviruses that infected our ancestors' egg or sperm cells and were then inherited like any other gene (Lander et al. 2001).
+* '''Record:''' Shared ERVs at the same spot in the genome mark common ancestry: humans and chimpanzees share thousands of ERV insertions in identical positions.
+* '''Record:''' Some were put to work. ''Syncytin'' genes, captured from retroviral envelope genes, are needed to build the placenta; different mammal groups captured different syncytins independently (Mi et al. 2000; Dupressoir et al. 2012).
+* '''Record:''' Viral-derived sequences also help regulate the immune system and early embryo development.
+
+== 2. Genes that jumped between species ==
+
+* '''Record:''' ''BovB'', a stretch of mobile DNA, is found in cattle, snakes, lizards, elephants and marsupials; its family tree does not match the animals' tree, showing it jumped between species — probably carried by ticks and other parasites (Ivancevic et al. 2018, ''Genome Biology''). About a quarter of the cow genome derives from BovB and related elements.
+* This '''horizontal gene transfer''' is common in bacteria and happens, more rarely, in animals and plants.
+
+== 3. How viruses move between animals and people ==
+
+{| class="wikitable"
+! Virus !! Reservoir (where it lives) !! Bridge / amplifier !! Reaches humans how
+|-
+| West Nile virus || wild birds (amplifying hosts) || ''Culex'' mosquitoes || mosquito bite; humans and horses are "dead-end" hosts that do not pass it on
+|-
+| SARS (2003) || horseshoe bats || civets in live-animal markets || contact with infected animals, then person to person
+|-
+| MERS || bats (ancestrally) || dromedary camels || contact with camels, then limited person to person
+|-
+| SARS-CoV-2 || bats (closest relatives in horseshoe bats) || unconfirmed intermediate || person to person worldwide
+|-
+| Nipah || fruit bats || pigs (Malaysia 1998); date-palm sap (Bangladesh) || pigs, contaminated sap, person to person
+|-
+| Hendra || fruit bats || horses || contact with sick horses
+|-
+| Avian influenza H5N1 || wild waterbirds || poultry; since 2024 US dairy cattle || contact with infected birds or cattle
+|}
+
+== 4. Spillback: when a virus goes out and comes back ==
+
+* '''Record:''' Humans gave SARS-CoV-2 to farmed mink in the Netherlands and Denmark in 2020. The virus spread among the mink, acquired new mutations, and passed back to humans as mink-associated variants ("Cluster 5"). Denmark culled some 17 million mink (Oude Munnink et al. 2021, ''Science'').
+* '''Record:''' Tigers and lions at the Bronx Zoo caught COVID-19 from a keeper in 2020. White-tailed deer in North America became a large reservoir, carrying lineages that disappeared from humans, with at least one probable deer-to-human transmission (Pickering et al. 2022).
+* '''Mechanism:''' each new host species applies different pressure — different cell receptors, immune systems and population sizes — so a virus that circulates in another animal can change in ways it would not in us, and return with new properties. Two related viruses in the same host can also swap segments or recombine (as influenza does in pigs and birds).
+* '''Not always worse:''' a returning virus is sometimes milder, sometimes more transmissible, and occasionally more dangerous; the risk is that it is no longer the virus our immunity has learned.
+
+== 5. Using the immune memory of others ==
+
+* '''Record:''' '''Convalescent plasma''' — antibody-rich plasma from people who had recovered — was used against COVID-19, Ebola and the 1918 flu; its benefit for COVID-19 was greatest when given early with high antibody levels.
+* '''Record:''' '''Transchromosomic cattle''' (SAB Biotherapeutics) carry human antibody genes. Immunised with a pathogen, they make fully human antibodies in large amounts; their anti-SARS-CoV-2 antibody (SAB-185) went into clinical trials.
+* '''Record:''' Some people carry genetic variants that change how they respond to viruses — for example the ''CCR5-Δ32'' deletion, which protects against most HIV strains, and a Neanderthal-derived haplotype on chromosome 3 linked to severe COVID-19 (Zeberg and Pääbo 2020, ''Nature'').
+
+== Sources ==
+* Lander E. et al. 2001, ''Nature'' 409. Mi S. et al. 2000, ''Nature'' 403. Dupressoir A. et al. 2012, ''Placenta'' 33.
+* Ivancevic A. et al. 2018, ''Genome Biology'' 19. Oude Munnink B. et al. 2021, ''Science'' 371. Pickering B. et al. 2022, ''Nature Microbiology'' 7.
+* Zeberg H. and Pääbo S. 2020, ''Nature'' 587.
