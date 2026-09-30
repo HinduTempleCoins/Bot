@@ -35,11 +35,16 @@ def sunrise_azimuth(lat, dec, h=0.5):
 SITES = {
     "stonehenge": {"lat": 51.1789, "year": -2499, "event": "summer solstice sunrise", "sign": +1, "status": "established",
                    "note": "The Heel Stone axis points to the midsummer sunrise (and the opposite way to the midwinter sunset)."},
+    "newgrange": {"lat": 53.6947, "year": -3199, "event": "winter solstice sunrise", "sign": -1, "status": "established",
+                  "horizon": 0.9, "note": "At midwinter sunrise a beam enters the roof-box and runs 19 m up the passage to the chamber floor."},
 }
 S = SITES[SITE]
 EPS = obliquity(S["year"])
-AZ = sunrise_azimuth(S["lat"], S["sign"] * EPS)          # degrees east of north
+AZ = sunrise_azimuth(S["lat"], S["sign"] * EPS, S.get("horizon", 0.5))          # degrees east of north
 print(f"{SITE}: obliquity {EPS:.2f}°, sunrise azimuth {AZ:.2f}°", flush=True)
+import json as _json
+print("META " + _json.dumps({"title": f"{SITE.title()} — the {S['event']}, c. {-S['year'] + 1} BC (sun at azimuth {AZ:.1f}°, computed for that epoch)",
+                              "status": S["status"], "note": S["note"]}), flush=True)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 sc = bpy.context.scene
@@ -82,43 +87,89 @@ def block(x, y, z, sx, sy, sz, rot=0.0, m=STONE):
     bev = o.modifiers.new("b", "BEVEL"); bev.width = 0.12; bev.segments = 2
     return o
 
-# Stonehenge (after Cleal et al. 1995; Parker Pearson 2012): 30 sarsen uprights (r ≈ 16.5 m, ~4.1 m tall)
-# with a continuous lintel ring, a horseshoe of 5 trilithons opening to the NE axis, and the Heel Stone out on the axis.
 AX = math.radians(AZ)
-for i in range(30):
-    a = AX + (i + 0.5) * 2 * math.pi / 30
-    x, y = 16.5 * math.sin(a), 16.5 * math.cos(a)
-    block(x, y, 2.05, 2.1, 1.1, 4.1, rot=-a)
-    a2 = AX + (i + 1) * 2 * math.pi / 30
-    block(16.5 * math.sin(a2 - math.pi / 30), 16.5 * math.cos(a2 - math.pi / 30), 4.45, 3.5, 1.0, 0.8, rot=-(a2 - math.pi / 30))
-for k, (ang, r, hgt) in enumerate([(-100, 8.0, 6.0), (-60, 9.0, 6.5), (180, 9.5, 7.3), (60, 9.0, 6.5), (100, 8.0, 6.0)]):
-    a = AX + math.radians(ang)
-    cx, cy = r * math.sin(a), r * math.cos(a)
-    px, py = math.cos(a) * 1.2, -math.sin(a) * 1.2
-    block(cx + px, cy + py, hgt / 2, 1.3, 1.3, hgt, rot=-a); block(cx - px, cy - py, hgt / 2, 1.3, 1.3, hgt, rot=-a)
-    block(cx, cy, hgt + 0.45, 3.6, 1.2, 0.9, rot=-a)
-hx, hy = 77 * math.sin(AX), 77 * math.cos(AX)
-heel = block(hx, hy, 2.4, 2.4, 2.0, 4.8, rot=-AX + 0.3); heel.rotation_euler.x = math.radians(-8)
-
-# watchers: simple robed figures standing inside the circle, facing the sunrise
-for i, off in enumerate([-3.0, -1.2, 0.8, 2.6]):
-    px, py = -6 * math.sin(AX) + off * math.cos(AX), -6 * math.cos(AX) - off * math.sin(AX)
-    bpy.ops.mesh.primitive_cone_add(radius1=0.35, radius2=0.18, depth=1.5, location=(px, py, 0.75)); b = bpy.context.active_object; b.data.materials.append(CLOTH)
-    bpy.ops.mesh.primitive_uv_sphere_add(radius=0.14, location=(px, py, 1.62)); bpy.context.active_object.data.materials.append(CLOTH)
-
-# camera: behind the watchers on the axis, rising slowly as the sun clears the horizon
+U = Vector((math.sin(AX), math.cos(AX), 0))          # horizontal unit vector toward the event on the horizon
 cam_d = bpy.data.cameras.new("cam"); cam_d.lens = 35
 cam = bpy.data.objects.new("cam", cam_d); sc.collection.objects.link(cam); sc.camera = cam
 cam.rotation_mode = "QUATERNION"
-tgt = Vector((hx, hy, 3.0))
 n = sc.frame_end
-for f in range(1, n + 1):
-    t = (f - 1) / max(1, n - 1); e = 0.5 - 0.5 * math.cos(math.pi * t)
-    back = 5 - 4 * e
-    p = Vector((-back * math.sin(AX), -back * math.cos(AX), 1.7 + 0.8 * e))
-    cam.location = p; cam.keyframe_insert("location", frame=f)
-    cam.rotation_quaternion = (tgt - p).to_track_quat("-Z", "Y"); cam.keyframe_insert("rotation_quaternion", frame=f)
-    sky.sun_elevation = math.radians(0.3 + 1.2 * e); sky.keyframe_insert("sun_elevation", frame=f)
+
+
+def watchers(center, count=4, spacing=1.8):
+    side = Vector((U.y, -U.x, 0))
+    for i in range(count):
+        p = center + side * ((i - (count - 1) / 2) * spacing)
+        bpy.ops.mesh.primitive_cone_add(radius1=0.35, radius2=0.18, depth=1.5, location=(p.x, p.y, p.z + 0.75)); bpy.context.active_object.data.materials.append(CLOTH)
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=0.14, location=(p.x, p.y, p.z + 1.62)); bpy.context.active_object.data.materials.append(CLOTH)
+
+
+def stonehenge():
+    # after Cleal et al. 1995; Parker Pearson 2012: 30 sarsen uprights (r ≈ 16.5 m, ~4.1 m) with a lintel ring,
+    # a horseshoe of 5 trilithons opening to the NE axis, and the Heel Stone out on the axis
+    for i in range(30):
+        a = AX + (i + 0.5) * 2 * math.pi / 30
+        block(16.5 * math.sin(a), 16.5 * math.cos(a), 2.05, 2.1, 1.1, 4.1, rot=-a)
+        a2 = AX + (i + 1) * 2 * math.pi / 30 - math.pi / 30
+        block(16.5 * math.sin(a2), 16.5 * math.cos(a2), 4.45, 3.5, 1.0, 0.8, rot=-a2)
+    for ang, r, hgt in [(-100, 8.0, 6.0), (-60, 9.0, 6.5), (180, 9.5, 7.3), (60, 9.0, 6.5), (100, 8.0, 6.0)]:
+        a = AX + math.radians(ang); cx, cy = r * math.sin(a), r * math.cos(a); px, py = math.cos(a) * 1.2, -math.sin(a) * 1.2
+        block(cx + px, cy + py, hgt / 2, 1.3, 1.3, hgt, rot=-a); block(cx - px, cy - py, hgt / 2, 1.3, 1.3, hgt, rot=-a)
+        block(cx, cy, hgt + 0.45, 3.6, 1.2, 0.9, rot=-a)
+    heel = block(77 * U.x, 77 * U.y, 2.4, 2.4, 2.0, 4.8, rot=-AX + 0.3); heel.rotation_euler.x = math.radians(-8)
+    watchers(-6 * U)
+    tgt = Vector((77 * U.x, 77 * U.y, 3.0))
+    for f in range(1, n + 1):
+        t = (f - 1) / max(1, n - 1); e = 0.5 - 0.5 * math.cos(math.pi * t)
+        p = -(5 - 4 * e) * U + Vector((0, 0, 1.7 + 0.8 * e))
+        cam.location = p; cam.keyframe_insert("location", frame=f)
+        cam.rotation_quaternion = (tgt - p).to_track_quat("-Z", "Y"); cam.keyframe_insert("rotation_quaternion", frame=f)
+        sky.sun_elevation = math.radians(0.3 + 1.2 * e); sky.keyframe_insert("sun_elevation", frame=f)
+        sun.rotation_quaternion = (-dirvec(AZ, 0.3 + 1.2 * e)).to_track_quat("-Z", "Z"); sun.keyframe_insert("rotation_quaternion", frame=f)
+
+
+def newgrange():
+    # after O'Kelly 1982: a mound ~85 m across and ~12 m high, white quartz facade, a 19 m passage rising ~2 m to a
+    # cruciform chamber, and the ROOF-BOX over the entrance through which the midwinter sunrise beam reaches the chamber
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=42, segments=96, ring_count=48, location=(0, 0, -2)); mound = bpy.context.active_object
+    mound.scale = (1, 1, 0.33); mound.data.materials.append(mat("turf", (0.12, 0.17, 0.07)))
+    ent = 40.5 * U
+    cutters = []
+    def cutter(center, length, width, height, pitch=0.0):
+        bpy.ops.mesh.primitive_cube_add(location=center); c = bpy.context.active_object
+        c.scale = (width / 2, length / 2, height / 2); c.rotation_euler = (pitch, 0, -AX); c.hide_render = True; c.display_type = "WIRE"
+        cutters.append(c); return c
+    # passage: 5 stepped segments, floor rising 0.4 m each (≈2 m over 19 m), 1.0 m wide, 1.8 m high
+    for i in range(5):
+        c = ent - (2.0 + i * 3.9) * U
+        cutter(c + Vector((0, 0, 0.9 + i * 0.4 + 0.9)), 4.4, 1.0, 1.8)
+    cutter(ent - 22.0 * U + Vector((0, 0, 2.0 + 2.75)), 5.5, 5.5, 5.5)      # chamber, floor at +2.0 m
+    cutter(ent - 1.5 * U + Vector((0, 0, 3.05)), 4.0, 1.0, 0.5)              # roof-box slot above the entrance
+    for c in cutters:
+        m = mound.modifiers.new("cut", "BOOLEAN"); m.operation = "DIFFERENCE"; m.object = c
+    quartz = mat("quartz", (0.85, 0.85, 0.82), 0.6)
+    side = Vector((U.y, -U.x, 0))
+    for k in range(-14, 15):
+        if abs(k) <= 1:
+            continue
+        a = AX + k * math.radians(2.8)
+        block(41.5 * math.sin(a), 41.5 * math.cos(a), 1.6, 3.2, 0.6, 3.2, rot=-a, m=quartz)
+    block((ent + 3.2 * U).x, (ent + 3.2 * U).y, 0.6, 3.0, 0.9, 1.2, rot=-AX)          # the entrance kerbstone
+    CH = ent - 22.0 * U
+    side = Vector((U.y, -U.x, 0))
+    watchers(CH - 1.0 * U + 1.9 * side + Vector((0, 0, 2.0)), count=2, spacing=0.9)
+    sun_d.energy = 6.0
+    sc.view_settings.exposure = 1.2
+    for f in range(1, n + 1):
+        t = (f - 1) / max(1, n - 1); e = 0.5 - 0.5 * math.cos(math.pi * t)
+        p = CH - (2.2 - 0.8 * e) * U + 0.5 * side + Vector((0, 0, 3.6))
+        tgt = ent + Vector((0, 0, 1.6))
+        cam.location = p; cam.keyframe_insert("location", frame=f)
+        cam.rotation_quaternion = (tgt - p).to_track_quat("-Z", "Y"); cam.keyframe_insert("rotation_quaternion", frame=f)
+        sky.sun_elevation = math.radians(0.6 + 1.0 * e); sky.keyframe_insert("sun_elevation", frame=f)
+        sun.rotation_quaternion = (-dirvec(AZ, 0.6 + 1.0 * e)).to_track_quat("-Z", "Z"); sun.keyframe_insert("rotation_quaternion", frame=f)
+
+
+{"stonehenge": stonehenge, "newgrange": newgrange}[SITE]()
 
 frames = os.path.join(os.path.dirname(OUT) or ".", "frames_" + os.path.basename(OUT).replace(".mp4", ""))
 os.makedirs(frames, exist_ok=True)
