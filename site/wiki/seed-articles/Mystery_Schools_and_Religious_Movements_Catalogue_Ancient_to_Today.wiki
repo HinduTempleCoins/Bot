@@ -1,0 +1,184 @@
+'''Mystery Schools and Religious Movements: a Catalogue from Antiquity to Today''' lists, as fully as we can, the initiatory schools, mystery cults, esoteric orders and unusual religious movements of history and of the present — each with its dates, founder or centre, core teaching and status today. It is a catalogue, described neutrally in each movement's own terms; describing a group is not endorsing it, and groups that ended in harm are named as such. For the themes behind them, see [[Mystery Schools]]. Alpha — additions welcome.
+
+== 1. Mystery cults of the ancient world ==
+
+{| class="wikitable"
+! Name !! Where / when !! Centre of the teaching !! Status
+|-
+| Eleusinian Mysteries || Eleusis, Greece; c. 1500 BCE?–392 CE || Demeter and Persephone; initiates promised a better lot after death; the rite was never revealed || ended under Theodosius
+|-
+| Samothracian Mysteries || Samothrace; Archaic–4th c. CE || the Great Gods (Kabeiroi); protection at sea || ended
+|-
+| Orphic mysteries || Greece, S. Italy; 6th c. BCE– || Dionysus–Zagreus myth, the soul's purity, gold leaves for the dead || ended; texts survive (Derveni papyrus, gold tablets)
+|-
+| Dionysian / Bacchic mysteries || Greek and Roman world || ecstatic rites of Dionysus; suppressed in Rome 186 BCE (Senatus consultum de Bacchanalibus) || ended
+|-
+| Pythagorean brotherhood || Croton, S. Italy; 6th c. BCE || number as the order of the cosmos, transmigration, silence and diet rules || ended; revived as Neopythagoreanism
+|-
+| Mysteries of Isis || Egypt → Roman world; 3rd c. BCE–4th c. CE || initiation as death and rebirth (Apuleius, ''Metamorphoses'' 11) || ended
+|-
+| Magna Mater (Cybele and Attis) || Phrygia → Rome 204 BCE || the mother goddess, the dying Attis, the taurobolium || ended
+|-
+| Mysteries of Mithras || Roman Empire; late 1st–4th c. CE || seven grades, the bull-slaying, cave temples || ended
+|-
+| Hermeticism || Egypt (Greek texts, 1st–3rd c. CE) || ''Corpus Hermeticum''; knowledge (gnosis) of the divine mind || revived from 1463 (Ficino) to today
+|-
+| Gnostic schools || Mediterranean; 2nd–4th c. CE || Valentinians, Sethians, Basilideans; salvation by gnosis; the Nag Hammadi library || ended (texts found 1945)
+|-
+| Neoplatonist theurgy || Syria, Athens; 3rd–6th c. CE || Iamblichus, Proclus: ritual union with the gods || ended (school closed 529)
+|-
+| Essenes and Therapeutae || Judaea; Egypt; 2nd c. BCE–1st c. CE || communal purity, a solar calendar; the Dead Sea Scrolls community (debated link) || ended
+|}
+
+== 2. Living traditions with closed or initiatory cores ==
+
+{| class="wikitable"
+! Name !! Since !! Notes
+|-
+| Mandaeans || 1st–3rd c. CE (Iraq, Iran) || Gnostic baptists who honour John the Baptist; priestly initiation; still living, now largely in diaspora
+|-
+| Yazidis || 12th c. (roots older) || Kurdish faith around Melek Taus, the Peacock Angel; hereditary castes (sheikhs, pirs, murids); still living
+|-
+| Druze || 11th c. (Egypt, Levant) || a closed faith: no converts since 1043; the ''uqqal'' (initiated) and ''juhhal''; still living
+|-
+| Alawites and Nusayris || 9th–10th c. || initiatory Shi'i esoteric tradition; still living
+|-
+| Nizari Ismailis || 1094– || the Alamut castles ("Assassins" of legend); today led by the Aga Khan
+|-
+| Sufi orders (tariqas) || 12th c.– || initiation by a master; Mevlevi (whirling), Naqshbandi, Qadiri, Chishti; living
+|-
+| Kabbalah circles || 12th c. Provence; 16th c. Safed (Isaac Luria) || Jewish mystical tradition; living
+|-
+| Zoroastrian priesthood (mobeds) || ancient || hereditary priesthood with initiation (navar); living
+|}
+
+== 3. Medieval and early modern Europe ==
+
+{| class="wikitable"
+! Name !! Dates !! Notes
+|-
+| Bogomils || 10th–15th c. (Balkans) || dualist; crushed
+|-
+| Cathars || 12th–14th c. (Languedoc) || dualist ''Perfecti''; destroyed in the Albigensian Crusade and Inquisition
+|-
+| Brethren of the Free Spirit || 13th–15th c. || mystical freedom from sin; persecuted
+|-
+| Knights Templar || 1119–1312 || military order, dissolved by the Pope; its "secret teachings" are later legend
+|-
+| Rosicrucians || manifestos 1614–1617 || a legendary brotherhood of Christian Rosenkreuz; inspired many later orders
+|-
+| Freemasonry || first Grand Lodge 1717 || initiatory degrees using the builders' guild and Solomon's Temple; living worldwide
+|-
+| Bavarian Illuminati || 1776–1785 || Enlightenment secret society; banned; later the stuff of conspiracy legend
+|-
+| Martinism / Élus Coëns || 1760s– || Martinez de Pasqually, Louis-Claude de Saint-Martin; living
+|-
+| Swedenborgians (New Church) || 1787– || Emanuel Swedenborg's visions of heaven and the spiritual sense of Scripture; living
+|}
+
+== 4. The nineteenth century ==
+
+{| class="wikitable"
+! Name !! Founded !! Notes
+|-
+| Shakers || 1774 (America) || celibate communal sect, ecstatic dance; a few members remain
+|-
+| Harmony Society, Ephrata Cloister, Oneida || 1732–1880 || celibate or communal utopian sects; ended
+|-
+| Latter-day Saints || 1830 (Joseph Smith) || temple endowment rites; living worldwide
+|-
+| Spiritualism || 1848 (Fox sisters) || contact with the dead through mediums; living
+|-
+| Theosophical Society || 1875 (Blavatsky, Olcott, Judge) || Ascended Masters (Mahatmas), root races, synthesis of religions; living
+|-
+| Hermetic Order of the Golden Dawn || 1888 || ritual magic grades; split by 1903; successor orders living
+|-
+| Ordo Templi Orientis || c. 1904 || later led by Aleister Crowley (Thelema, 1904); living
+|-
+| Baháʼí Faith || 1863 || progressive revelation; living worldwide
+|-
+| Mazdaznan || c. 1890s (Otoman Zar-Adusht Ha'nish) || neo-Zoroastrian diet and breathing; small
+|}
+
+== 5. The twentieth century ==
+
+{| class="wikitable"
+! Name !! Founded !! Notes
+|-
+| Antoinism || 1910, Belgium (Louis-Joseph Antoine) || healing by faith; temples in Belgium and France; still living
+|-
+| Anthroposophy || 1912 (Rudolf Steiner) || spiritual science; Waldorf schools, biodynamic farming; living
+|-
+| Universal White Brotherhood || 1900s, Bulgaria (Peter Deunov) || sunrise prayers, Paneurhythmy dance; living
+|-
+| AMORC (Rosicrucian Order) || 1915 (H. Spencer Lewis) || mail-order Rosicrucian lessons; living
+|-
+| Moorish Science Temple of America || 1913/1925 (Noble Drew Ali) || Moorish identity and Islam for Black Americans; living
+|-
+| Self-Realization Fellowship || 1920 (Paramahansa Yogananda) || Kriya Yoga; living
+|-
+| Gurdjieff's "Fourth Way" || 1910s–1949 || self-remembering, sacred dances; groups living
+|-
+| Builders of the Adytum || 1922 (Paul Foster Case) || Tarot and Qabalah; living
+|-
+| Caodaism || 1926, Vietnam || a synthesis faith honouring Victor Hugo among its saints; millions of followers
+|-
+| Fraternitas Saturni || 1926, Germany || Saturnian magic lodge; living
+|-
+| Nation of Islam || 1930 (W. D. Fard, Elijah Muhammad) || see [[Origin Myths of Race and Ancestry Yakub Blumenbach and the Aryan Myth]]; living
+|-
+| Rastafari || 1930s, Jamaica || Haile Selassie as messiah, Ital diet, sacramental ganja; living
+|-
+| "I AM" Activity || 1930s (Guy and Edna Ballard) || Ascended Masters, Saint Germain met on Mount Shasta, decrees; the Ballards' 1944 fraud case (''United States v. Ballard'', 322 U.S. 78) set the rule that courts may not judge the truth of religious beliefs; still active
+|-
+| Santo Daime || 1930s, Brazil (Mestre Irineu) || ayahuasca sacrament; living
+|-
+| Native American Church || 1918 (incorporated) || peyote sacrament; protected by federal law
+|-
+| Umbanda || 1908, Brazil || African, Indigenous, Catholic and Spiritist; living
+|-
+| Wicca || 1954 (Gerald Gardner) || initiatory witchcraft; living
+|-
+| Aetherius Society || 1955 (George King) || messages from cosmic masters; living
+|-
+| União do Vegetal || 1961, Brazil || ayahuasca (hoasca) sacrament; won ''Gonzales v. O Centro Espírita'' (2006) under RFRA
+|-
+| Summit Lighthouse / Church Universal and Triumphant || 1958 (Mark and Elizabeth Clare Prophet) || from the "I AM" line; Ascended Masters; diminished, still active
+|-
+| Eckankar || 1965 (Paul Twitchell) || soul travel; living
+|-
+| Raëlism || 1974 (Claude Vorilhon) || creation by extraterrestrial Elohim; living
+|-
+| Unarius || 1954 || UFO and past-life teachings; living
+|}
+
+== 6. Movements that ended in harm ==
+Named so the record is complete:
+* '''Peoples Temple''' (Jim Jones) — over 900 dead at Jonestown, 1978.
+* '''Branch Davidians''' — Waco siege, 1993.
+* '''Order of the Solar Temple''' — murders and suicides, 1994–1997.
+* '''Aum Shinrikyo''' — sarin attack on the Tokyo subway, 1995.
+* '''Heaven's Gate''' — 39 suicides, 1997.
+
+== 7. Esotericists who influenced politics ==
+Influence, not endorsement — several of these fed movements that did great harm, and that is stated.
+* '''John Dee''' (1527–1608) — mathematician, astrologer and angel-magician; adviser to Elizabeth I on navigation and empire (he popularised the phrase "British Empire").
+* '''Freemasonry and the American founders''' — Washington, Franklin and many signers were Masons; Masonic ideals of fraternity and reason ran through the Enlightenment, though claims of a Masonic plot are legend.
+* '''Grigori Rasputin''' (1869–1916) — mystic healer at the Russian court; his influence over the Tsarina damaged the monarchy before 1917.
+* '''Annie Besant''' (1847–1933) — President of the Theosophical Society; founded the All-India Home Rule League (1916) and presided over the Indian National Congress (1917).
+* '''Ariosophy''' — Guido von List and Jörg Lanz von Liebenfels (''Ostara'') mixed occultism with racial mythology in Austria and Germany; the '''Thule Society''' (1918) was among the circles around the early Nazi party. The SS '''Ahnenerbe''' (1935) later sponsored pseudo-archaeology. The "Vril society" is a later fiction.
+* '''René Guénon''' (1886–1951) — founder of the Traditionalist school: a primordial Tradition behind all religions and a modern world in decline.
+* '''Julius Evola''' (1898–1974) — Italian esotericist; led the UR Group (''Ur'', ''Krur'', 1927–29) on magic and initiation; his ''Revolt Against the Modern World'' (1934) and writings on race and the state were read in Fascist circles, though Mussolini kept him at a distance; after the war he influenced the Italian and European far right.
+* '''Nicholas Roerich''' (1874–1947) — painter and Theosophist; the Roerich Pact (1935) to protect cultural monuments; his circle's letters with Henry Wallace (U.S. Secretary of Agriculture, later Vice President) — the "guru letters" — became a scandal in 1948.
+* '''Aleister Crowley''' (1875–1947) — founder of Thelema; claims that he worked for British intelligence are debated.
+
+== 8. Patterns ==
+* Initiation in '''grades''' (Mithras' seven, Masonic degrees, Golden Dawn grades) mirrors a journey of the soul.
+* Teachings attributed to '''hidden masters''' (Mahatmas, Ascended Masters, the Secret Chiefs) recur from Theosophy to the "I AM" line.
+* '''Sacraments''' — kykeon at Eleusis, peyote, ayahuasca, ganja — sit at the centre of several, and some now have legal protection (see [[Religious Sacraments RFRA and the Temple of True Inner Light]]).
+* Many claim descent from '''ancient Egypt''' or a lost temple lineage — see [[The Temple Lineage Hypothesis (Van Kush Ancestry)]].
+
+== Sources ==
+* Burkert W., ''Ancient Mystery Cults'' (1987). Meyer M. (ed.), ''The Ancient Mysteries: A Sourcebook'' (1987).
+* Hanegraaff W. (ed.), ''Dictionary of Gnosis and Western Esotericism'' (2005). Melton J. G., ''Encyclopedia of American Religions'' (8th ed., 2009).
+* ''United States v. Ballard'', 322 U.S. 78 (1944). ''Gonzales v. O Centro Espírita Beneficente União do Vegetal'', 546 U.S. 418 (2006).
