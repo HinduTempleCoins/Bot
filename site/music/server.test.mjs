@@ -9,9 +9,11 @@ import * as openMusic from '../../integrations/soapbox/music-catalog.mjs';
 
 const dir = mkdtempSync(join(tmpdir(), 'music-'));
 mkdirSync(join(dir, 'media'));
+mkdirSync(join(dir, 'notes'));
+writeFileSync(join(dir, 'notes', 'lamp.notes.json'), JSON.stringify({ melody: [[0, 0.5, 60], [0.5, 0.5, 64]] }));
 writeFileSync(join(dir, 'media', 'lamp.mp3'), Buffer.from('0123456789'));
 writeFileSync(join(dir, 'catalog.json'), JSON.stringify({ tracks: [
-  { id: 'lamp-upon-the-water', title: 'Lamp Upon the Water', artist: 'Hathor Sandalphon', genre: 'hymn', shelf: 'christian', seconds: 150, lyrics: 'A lamp <upon> the water', license: 'SoapBox original', file: 'lamp.mp3', made: 2 },
+  { id: 'lamp-upon-the-water', title: 'Lamp Upon the Water', artist: 'Hathor Sandalphon', genre: 'hymn', shelf: 'christian', seconds: 150, lyrics: 'A lamp <upon> the water', license: 'SoapBox original', file: 'lamp.mp3', notes: 'lamp.notes.json', made: 2 },
   { id: 'gentle-giants', title: 'Gentle Giants', album: 'Earths in the Universe', shelf: 'christian', license: 'SoapBox original', file: 'lamp.mp3', made: 1 },
   { id: 'no-file', title: 'Missing', license: 'x', file: 'gone.mp3' },
   { id: 'Bad ID', title: 'Bad', license: 'x', file: 'lamp.mp3' },
@@ -40,7 +42,8 @@ test('/music lists the originals on the Christian shelf first, with a player', a
   const r = await get('/music');
   assert.equal(r.code, 200);
   assert.match(r.body(), /Hymns, gospel and worship/);
-  assert.match(r.body(), /<audio controls preload=none src="\/music\/media\/lamp\.mp3">/);
+  assert.match(r.body(), /class="sbp" id=sbp/);                       // the standard panel
+  assert.match(r.body(), /data-sbp-track="[^"]*&quot;audio&quot;:&quot;\/music\/media\/lamp\.mp3&quot;/);
   assert.match(r.body(), /href="\/music\/t\/lamp-upon-the-water"/);
 });
 
@@ -82,4 +85,31 @@ test('album tracks are grouped under the album name, and the track page names th
   const home = (await get('/music')).body();
   assert.match(home, /<h3>Earths in the Universe<\/h3><ul class=tracks><li>.*gentle-giants/s);
   assert.match((await get('/music/t/gentle-giants')).body(), /From the album <b>Earths in the Universe<\/b>/);
+});
+
+test('notes are served for the player, and a song without notes gets none', async () => {
+  const t = loadCatalog();
+  assert.equal(t.find((x) => x.id === 'lamp-upon-the-water').notes, 'lamp.notes.json');
+  assert.equal(t.find((x) => x.id === 'gentle-giants').notes, '');
+  const r = await get('/music/notes/lamp.notes.json');
+  assert.equal(r.code, 200);
+  assert.deepEqual(JSON.parse(r.body()).melody[1], [0.5, 0.5, 64]);
+  assert.equal((await get('/music/notes/..%2Fcatalog.json')).code, 404);
+});
+
+test('the player shows notes and tablature, never a level meter or waveform', async () => {
+  const body = (await get('/music/t/lamp-upon-the-water')).body();
+  assert.match(body, /class=sbp-marquee/);          // the scrolling artist — song display
+  assert.match(body, /data-v=notes/);
+  assert.match(body, /data-v=tab/);
+  assert.match(body, /𝄞/);
+  assert.doesNotMatch(body, /AnalyserNode|createAnalyser|getByteFrequencyData/);
+  assert.match(body, /\/music\/embed\/lamp-upon-the-water/);   // embed snippet
+});
+
+test('the embed page is the panel alone', async () => {
+  const r = await get('/music/embed/lamp-upon-the-water');
+  assert.equal(r.code, 200);
+  assert.match(r.body(), /sbp-compact/);
+  assert.equal((await get('/music/embed/nope')).code, 404);
 });
