@@ -253,7 +253,8 @@ export const CATEGORIES = [
   },
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
-    pages: ['Violets Ionone and Orris The Flower That Disappears From Your Nose',
+    pages: ['Plant Nutrients and Diagnosing Deficiencies Reading a Leaf',
+            'Violets Ionone and Orris The Flower That Disappears From Your Nose',
             'Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds', 'Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma',
             'Imphepho', 'Yin Chen Hao', 'Mucuna Pruriens', 'Kava', 'Black Pepper', 'Maca', 'White Sage',
             'Recipes', 'Punic Wax', 'Kyphi', 'Cloning',
@@ -595,6 +596,7 @@ export const PILLARS = [
     icon: '🌿',
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
+      'Plant Nutrients and Diagnosing Deficiencies Reading a Leaf',
       'Violets Ionone and Orris The Flower That Disappears From Your Nose',
       'Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds',
       'Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma',

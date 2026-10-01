@@ -1,6 +1,8 @@
 '''A Field Guide to Smell Molecules: Classes, Key Odorants and the Reactions That Make Them''' is a working survey of the compounds that carry scent — what each class smells of, which molecules matter most, where they occur, and the standard reaction that produces them. The chemistry here is textbook and industrial; the point is to be able to '''read''' a fragrance or an extract and know what you are looking at. Alpha.
 
 == 1. How to read an odorant ==
+[[Figure:odour-thresholds|Detection thresholds span about twelve orders of magnitude.]]
+
 Four numbers decide how a molecule behaves in a blend.
 * '''Odour threshold''' — the concentration at which it becomes detectable. Spans roughly '''twelve orders of magnitude''' across known odorants. Some thiols are detected near a part per '''trillion'''; some terpenes need parts per '''thousand'''. '''Blending by weight without regard to threshold is the commonest beginner's error.'''
 * '''Volatility''' (boiling point, vapour pressure) — decides whether it is a top, heart or base note.

@@ -28,6 +28,8 @@ A redeposited resin needs something to live on, and the carrier decides how the 
 * '''Added binders change the chemistry.''' Honey, glycerin and propylene glycol all make a material tacky, and all of them bring their own combustion products. Glycerin and propylene glycol in particular degrade to '''acrolein''' and '''formaldehyde''' when overheated, which is a real reason to leave them out of anything that will be burned.
 
 == 4. Perfumery structure: how a scent is built ==
+[[Figure:note-pyramid|Volatility decides when you meet a material, and for how long.]]
+
 Botanical aroma work is perfumery, and perfumery has a vocabulary worth borrowing.
 * '''The three tiers.''' '''Top notes''' are the light, volatile materials you meet first and lose in minutes (citrus terpenes, light thiols). '''Heart notes''' carry the body of the scent over hours (floral, green, spice). '''Base notes''' are heavy and slow — woods, resins, musks — and hold everything else down. The structure was codified in the 19th century and is usually credited to '''Piesse''', who also laid scents out as a musical scale.
 * '''An accord''' is a group of materials blended until they read as one new smell rather than as their parts. "Gas", "dank" and "fruity candy" are accords, not single compounds.

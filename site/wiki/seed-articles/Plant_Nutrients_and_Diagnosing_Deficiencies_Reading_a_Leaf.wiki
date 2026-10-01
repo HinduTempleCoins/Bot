@@ -1,0 +1,62 @@
+'''Plant Nutrients and Diagnosing Deficiencies: Reading a Leaf''' is a working guide to what plants eat, what goes wrong, and — most importantly — '''how to tell which problem you actually have'''. The central skill is not memorising colours. It is knowing '''where on the plant''' a symptom appears, because that single observation eliminates most of the possibilities before you look at anything else. Written with cannabis as the worked example because the symptoms are well documented there, but the chemistry is the same for tomatoes, roses and maize. Alpha.
+
+== 1. The rule that does most of the work ==
+Plant nutrients divide into '''mobile''' and '''immobile'''.
+* '''Mobile''' — nitrogen, phosphorus, potassium, magnesium, molybdenum. The plant can '''dismantle them out of old leaves''' and send them to new growth. So when it runs short, it sacrifices the bottom of the plant to keep the top growing. '''The lower, older leaves go first.'''
+* '''Immobile''' — calcium, sulfur, iron, boron, manganese, copper. Once built into a leaf they stay there. The plant cannot rob the old leaves, so '''the new growth at the top suffers first''' while the bottom stays green. (Zinc sits in between, and in practice reads as an upper-growth problem.)
+
+[[Figure:mobile-immobile|Mobile nutrients are robbed from old leaves; immobile ones cannot move. Where you see it tells you which.]]
+
+So: '''yellowing at the bottom and green at the top''' means a mobile nutrient. '''Yellow new growth with a green base''' means an immobile one. That one observation halves the problem instantly, and it is the thing most growers never learn.
+
+== 2. What plants actually eat ==
+* '''From air and water''' — carbon, hydrogen, oxygen. Around 95% of a dry plant by weight, and not something you feed.
+* '''Macronutrients''' — '''nitrogen (N)''' for leaves, proteins and chlorophyll; '''phosphorus (P)''' for roots, energy transfer (ATP) and flowering; '''potassium (K)''' for water regulation, stomata, enzyme activation and stress tolerance. This is the '''N-P-K''' on every fertiliser bag, always in that order, always as percentages.
+* '''Secondary''' — '''calcium''' (cell walls and new growth), '''magnesium''' (the atom at the centre of every chlorophyll molecule), '''sulfur''' (amino acids and the aroma compounds in alliums and brassicas).
+* '''Micronutrients''' — iron, manganese, zinc, boron, copper, molybdenum, chlorine, nickel. Needed in milligrams, and a shortage stops growth just as hard as a shortage of nitrogen.
+* '''Liebig's law of the minimum:''' growth is limited by whichever nutrient is scarcest, not by the total. Adding more of what is already plentiful does nothing. The classic image is a barrel made of staves of different heights — the water level is set by the shortest stave.
+
+== 3. The chart ==
+[[Figure:nutrient-deficiency-chart|Each leaf drawn from its symptom description. Check pH before adding anything.]]
+
+== 4. Before you add anything: it is probably pH ==
+'''Most "deficiencies" are lockouts.''' The nutrient is present in the pot; the roots cannot take it up because the pH is wrong.
+* '''Soil:''' 6.0–6.5. '''Coco and hydroponics:''' 5.5–6.2.
+* '''Alkaline drift''' (too high) locks out '''iron, manganese, zinc and boron''' — which is why those four so often appear together, and why the fix is almost never "add iron".
+* '''Acidic drift''' (too low) locks out '''calcium, magnesium and phosphorus'''.
+* '''Therefore:''' measure the runoff pH and EC '''before''' feeding. Adding nutrient to a lockout makes the salt load worse and the plant sicker.
+* '''Over-feeding looks like deficiency.''' Salt build-up burns roots, and damaged roots cannot take up nutrients — so an over-fed plant shows hunger. The fix is a flush, not more food.
+
+== 5. Telling the lookalikes apart ==
+The pairs that fool people, and the question that separates each.
+* '''Magnesium vs iron''' — identical interveinal yellowing (yellow blade, green veins). ''Which end of the plant?'' Old leaves = magnesium. New growth = iron.
+* '''Nitrogen vs sulfur''' — identical uniform pale yellow. ''Which end?'' Bottom = nitrogen. Top = sulfur.
+* '''Potassium vs nutrient burn''' — both give brown crispy tips. ''Which leaves?'' Potassium hits '''old''' leaves and works inward from the margin; nutrient burn hits the '''newest, biggest''' leaves at the very tip, because that is where the feed is going.
+* '''Phosphorus vs cold, vs genetics''' — purple stems can be any of the three. ''Is it cold at the roots? Was it purple from the start?'' Many cultivars purple harmlessly.
+* '''Calcium vs light burn''' — both bleach and distort the top. ''How far from the lamp, and is it only directly under it?''
+* '''Any deficiency vs root problems''' — overwatering, pythium and compaction all starve a plant that has plenty of food. '''Check the roots: they should be white and smell of earth, not brown and sour.'''
+
+== 6. A diagnostic order that works ==
+# '''Where is it?''' Top, bottom, or everywhere. (Mobile vs immobile — §1.)
+# '''What is the pattern?''' Whole leaf, between the veins, edges only, or spots.
+# '''Check pH and EC of the runoff.''' Before touching the feed.
+# '''Check the roots and the watering.''' Most sick plants are drowned, not hungry.
+# '''Then''' consider feeding — one change at a time.
+# '''Wait.''' Damaged leaves do not recover. You are looking for '''new''' growth to come in clean, which takes 5–10 days. Changing three things in two days teaches you nothing.
+
+== 7. Why the chart is drawn and not photographed ==
+* Deficiency photographs are nearly always '''multiple problems at once''' — a real sick plant usually has two or three — plus whatever the camera did to the colour.
+* A drawn chart shows '''one symptom at a time, in its textbook form''', which is what a reference is for. The photographs are what you compare against afterwards.
+* Our chart is '''generated from the symptom descriptions in code''', so it is identical every time and can be corrected at the source. See [[A Field Guide to Smell Molecules: Classes, Key Odorants and the Reactions That Make Them]] for the same approach applied to chemistry.
+
+== 8. Where this connects ==
+* The same nutrients, in a human: [[Plant Nutrients for Humans: Minerals, Stacks and What the Evidence Supports]].
+* Feeding the soil rather than the plant, and the biology that does it: [[Beneficial Insects and Biological Pest Control]].
+* What the plant does with it across a season: the plant cycle and the weather that drives it.
+
+== Sources ==
+* Marschner H., ''Mineral Nutrition of Higher Plants'' (3rd ed., 2011) — the standard reference on mobility and deficiency.
+* Epstein E. and Bloom A. J., ''Mineral Nutrition of Plants: Principles and Perspectives'' (2nd ed., 2005).
+* Liebig J. von, ''Die organische Chemie in ihrer Anwendung auf Agricultur und Physiologie'' (1840) — the law of the minimum.
+* Cornell and UC Davis extension guides on nutrient-deficiency diagnosis and pH-dependent availability.
+* Published cannabis cultivation deficiency guides, cross-checked against the general plant-nutrition literature above.
