@@ -11,6 +11,34 @@
 // Anything still unmatched lands in 'Other', which is visible on purpose: an article nobody can
 // find by browsing is a bug, and the Other bucket is where that bug shows up.
 
+// The Ancient History, Ancestry & Genetics section — one list shared by the Contents category and the home pillar.
+const HISTORY_PAGES = [
+      'Ancestral Temple Elites Royal Inbreeding and Sacred Marriage',
+      'Bog Bodies and Ritual Killing in Ancestral Temple Cultures',
+      'Denisovans Ancestry Sea Crossings and the Fossil Record',
+      'Domestication of Plants and Animals Farming Origins',
+      'Hathor Sandalphon the Angel of Song Spirit and Guidance in Religious and Popular Music',
+      'Hyperborean Maidens of Delos Religion Myth and Offerings',
+      'Ancient Instruments by Family and Era Lyres Harps Horns Gongs and Hand and Star Methods of Teaching Music',
+      'Swedenborg Hidden Influence Johnny Appleseed Helen Keller and Ideas Everyone Uses',
+      'Moorish Iberia and Latin American Ancestry',
+      'Mountains of the Gods Religion Hermon Olympus and the Watchers Myth',
+      'Mystery Schools and Religious Movements Catalogue Ancient to Today',
+      'Origin Myths of Race and Ancestry Yakub Blumenbach and the Aryan Myth',
+      'Sacred Numbers and Ancestral Confederations Twelve Tribes Leagues and Divine Councils',
+      'Sais Egypt Temple Medical School House of Life and Peseshet',
+      'Skin Hair and Eye Colour Ancestry and Genetics',
+      'The Temple Lineage Hypothesis Van Kush Ancestry',
+      'Viruses in Our Ancestry Endogenous Retroviruses Spillover and Spillback',
+      // existing ancient-history articles also listed here (they keep their other sections too)
+      'Ancient Historians and Comparative Religion',
+      'Mystery Schools',
+      'The Ogdoad',
+      'Egyptian Wax Headcones',
+      'Apotropaic Magic Bes and Syrian Rue',
+      'Rasa Shastra and Ancient Indian Nanochemistry',
+];
+
 export const CATEGORIES = [
   {
     id: 'start', name: 'Start here', blurb: 'What this whole thing is, in the order it makes sense to read it.',
@@ -255,7 +283,8 @@ export const CATEGORIES = [
   },
   {
     id: 'religion', name: 'Religion and practice', blurb: 'Living traditions, their working materials, and their histories.',
-    pages: ['Pashupata Shaivism', 'Swami Vivekananda', 'Ukuphahla', 'Egyptian Five Souls', 'Head Cone',
+    pages: ['Pashupata Shaivism', 'Mystery Schools and Religious Movements Catalogue Ancient to Today', 'Mountains of the Gods Religion Hermon Olympus and the Watchers Myth', 'Hyperborean Maidens of Delos Religion Myth and Offerings', 'Sacred Numbers and Ancestral Confederations Twelve Tribes Leagues and Divine Councils', 'Bog Bodies and Ritual Killing in Ancestral Temple Cultures', 'Ancestral Temple Elites Royal Inbreeding and Sacred Marriage', 'Sais Egypt Temple Medical School House of Life and Peseshet', 'Hathor Sandalphon the Angel of Song Spirit and Guidance in Religious and Popular Music',
+            'Swedenborg Hidden Influence Johnny Appleseed Helen Keller and Ideas Everyone Uses', 'Swami Vivekananda', 'Ukuphahla', 'Egyptian Five Souls', 'Head Cone',
             'Egyptian Wax Headcones', 'The Ogdoad', 'Mystery Schools',
             'Ubulawu, African Oneirogens, and Saponin Pharmacokinetics',
             'Ubulawu and African Oneirogens', 'The Church of Neuroscience and Biohacking',
@@ -273,6 +302,11 @@ export const CATEGORIES = [
             'Bioelectricity, Forensic Genomics, and Alchemical Transmutation',
             'Bioelectricity Forensic Genomics and Alchemical Transmutation'],
     keywords: [/shaiv/i, /temple/i, /angel/i, /sacrament/i, /alchem/i, /ogdoad/i, /mystery/i, /church/i, /ancest/i, /deity/i, /myth/i, /apotropaic/i, /bes\b/i],
+  },
+  {
+    id: 'history', name: 'Ancient History, Ancestry & Genetics', blurb: 'Deep ancestry, ancient DNA and domestication; temple cultures, priesthoods and mystery schools; sacred numbers, myths and the record behind them.',
+    pages: HISTORY_PAGES,
+    keywords: [],
   },
   {
     id: 'people', name: 'People and ideas', blurb: 'Figures whose work this corpus builds on, with the folklore separated out.',
@@ -621,30 +655,7 @@ export const PILLARS = [
     icon: '🏺',
     blurb: 'Deep ancestry, ancient DNA and domestication; temple cultures, priesthoods and mystery schools; sacred numbers, myths and the record behind them.',
     // explicit list only (no keywords): the new history articles, plus existing ancient-history articles listed here too
-    pages: [
-      'Ancestral Temple Elites Royal Inbreeding and Sacred Marriage',
-      'Bog Bodies and Ritual Killing in Ancestral Temple Cultures',
-      'Denisovans Ancestry Sea Crossings and the Fossil Record',
-      'Domestication of Plants and Animals Farming Origins',
-      'Hathor Sandalphon the Angel of Song Spirit and Guidance in Religious and Popular Music',
-      'Hyperborean Maidens of Delos Religion Myth and Offerings',
-      'Moorish Iberia and Latin American Ancestry',
-      'Mountains of the Gods Religion Hermon Olympus and the Watchers Myth',
-      'Mystery Schools and Religious Movements Catalogue Ancient to Today',
-      'Origin Myths of Race and Ancestry Yakub Blumenbach and the Aryan Myth',
-      'Sacred Numbers and Ancestral Confederations Twelve Tribes Leagues and Divine Councils',
-      'Sais Egypt Temple Medical School House of Life and Peseshet',
-      'Skin Hair and Eye Colour Ancestry and Genetics',
-      'The Temple Lineage Hypothesis Van Kush Ancestry',
-      'Viruses in Our Ancestry Endogenous Retroviruses Spillover and Spillback',
-      // existing ancient-history articles also listed here (they keep their other sections too)
-      'Ancient Historians and Comparative Religion',
-      'Mystery Schools',
-      'The Ogdoad',
-      'Egyptian Wax Headcones',
-      'Apotropaic Magic Bes and Syrian Rue',
-      'Rasa Shastra and Ancient Indian Nanochemistry',
-    ],
+    pages: HISTORY_PAGES,
     keywords: [],
   },
   {
