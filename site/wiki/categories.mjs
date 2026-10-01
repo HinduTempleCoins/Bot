@@ -626,6 +626,7 @@ export const PILLARS = [
       'Bog Bodies and Ritual Killing in Ancestral Temple Cultures',
       'Denisovans Ancestry Sea Crossings and the Fossil Record',
       'Domestication of Plants and Animals Farming Origins',
+      'Hathor Sandalphon the Angel of Song Spirit and Guidance in Religious and Popular Music',
       'Hyperborean Maidens of Delos Religion Myth and Offerings',
       'Moorish Iberia and Latin American Ancestry',
       'Mountains of the Gods Religion Hermon Olympus and the Watchers Myth',
