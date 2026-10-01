@@ -1,0 +1,90 @@
+'''Functional Groups, Polarity and Separation: Indoles, Phenols, Rose Ketones and How Aroma Chemistry Works''' is the chemistry under the rest of the botanical shelf. It covers the groups that do the work ('''indole''', '''phenol''', '''phenyl''', carbonyls), what '''polar''' and '''non-polar''' actually mean and how that governs every extraction, how '''steam distillation''' lifts an oil out of a plant below the temperature that would destroy it, and the small set of reaction classes worth recognising. It closes on the '''rose ketones''' — damascones and ionones — and on where genuinely new work in this field is. Alpha.
+
+== 1. Naming: phenol, phenyl, benzyl, aryl ==
+These four get mixed up constantly, and the difference is not cosmetic.
+* '''Benzene''' — the six-carbon aromatic ring, C<sub>6</sub>H<sub>6</sub>.
+* '''Phenyl''' (–C<sub>6</sub>H<sub>5</sub>) — benzene acting as a '''substituent''', attached to something else. It is a group, not a compound. "Phenylethylamine" is an ethylamine carrying a phenyl ring.
+* '''Phenol''' — benzene with an '''–OH directly on the ring'''. That is a compound class, and the –OH on an aromatic ring behaves very differently from an ordinary alcohol: phenols are '''weakly acidic''' (pK<sub>a</sub> ≈ 10) because the ring stabilises the anion by delocalising the charge. An ordinary alcohol (pK<sub>a</sub> ≈ 16–18) is not.
+* '''Benzyl''' (–CH<sub>2</sub>C<sub>6</sub>H<sub>5</sub>) — a phenyl with a CH<sub>2</sub> spacer. One carbon changes the reactivity completely.
+* '''Aryl''' — any aromatic ring used as a substituent, the general term of which phenyl is the simplest case.
+* '''Why it matters practically:''' because phenols are acidic, they can be pulled into a basic water layer and back out again. That one property is the basis of separating phenolic compounds from neutral ones, and it is why '''thymol''', '''eugenol''', '''carvacrol''' and the cannabinoids behave the way they do in extraction.
+
+== 2. Indole: one scaffold behind a great deal of biology ==
+* '''Indole''' is a bicyclic aromatic: a benzene ring fused to a '''pyrrole''' (a five-membered nitrogen ring). Nearly flat, electron-rich, and reactive at the '''3-position''' — which is where almost everything biological is attached.
+* '''Made from tryptophan.''' The amino acid '''L-tryptophan''' carries an indole. Decarboxylate it and you get '''tryptamine'''; hydroxylate and decarboxylate and you get '''serotonin''' (5-hydroxytryptamine). Nearly every indole alkaloid in a plant or an animal traces back to tryptophan.
+* '''The family:''' serotonin and melatonin; the tryptamines; the ergolines of ''Claviceps''; the '''iboga''' and '''Strychnos''' alkaloids; '''reserpine'''; '''vincristine''' and '''vinblastine'''; the plant hormone '''indole-3-acetic acid''' (auxin).
+* '''Indole smells of two opposite things.''' Pure indole at high concentration smells faecal; at high dilution it is a central note of '''jasmine''', '''orange blossom''' and '''gardenia''', which all genuinely contain it. Its methylated relative '''skatole''' (3-methylindole) is the same story and is used, in traces, in perfumery. This is the clearest demonstration of a rule that runs through the whole subject: '''concentration changes identity, not just intensity.'''
+* '''Reactivity worth knowing:''' indoles are easily oxidised and are sensitive to light, air and acid. This is why tryptamine-bearing plant material degrades, why extracts darken, and why such compounds are stored cold, dark and dry.
+
+== 3. Polarity: the rule under every extraction ==
+'''"Like dissolves like"''' is the whole of it, stated loosely. Stated properly:
+* A bond between atoms of different '''electronegativity''' is polar; if a molecule's polar bonds do not cancel by symmetry, the molecule has a '''dipole'''.
+* '''Dielectric constant''' ranks solvents roughly: water ≈ 80, methanol ≈ 33, ethanol ≈ 24, acetone ≈ 21, dichloromethane ≈ 9, diethyl ether ≈ 4, toluene ≈ 2.4, hexane ≈ 1.9.
+* '''Protic versus aprotic''' matters as much as the number: water, methanol and ethanol donate hydrogen bonds; acetone and DCM accept but do not donate. Two solvents of similar polarity can behave very differently for this reason.
+* '''logP''' (the octanol–water partition coefficient) is the standard measure of how a compound itself divides between a fatty phase and water. A high logP compound stays in oil; a low one stays in water.
+
+=== Acid–base extraction, and why it is the central technique ===
+* Most alkaloids are '''basic''' (an amine). Add acid and the amine is protonated into a '''salt''' — now charged, now water-soluble. Add base and it reverts to the '''freebase''' — now neutral, now soluble in a non-polar solvent.
+* So a compound can be moved deliberately between a water layer and an oil layer by changing pH alone, leaving behind whatever does not respond. That is how an alkaloid is separated from plant fats, waxes and sugars.
+* '''Phenols work in reverse''': being acidic, they move into a '''basic''' water layer and come back out on acidification. A basic alkaloid and an acidic phenol can therefore be separated from one another and from neutral material in a single sequence.
+* '''Emulsions''' are the usual practical failure — the two layers refuse to separate because surfactant-like plant material stabilises the interface. Salt, time, gentle handling and sometimes filtration are the standard remedies.
+
+== 4. Steam distillation and the other separations ==
+* '''The problem:''' most aroma compounds boil well above 200 °C and decompose at that temperature. Distilling them straight destroys them.
+* '''The trick:''' two liquids that do not mix each exert their '''full vapour pressure''' independently. The mixture therefore boils when the '''sum''' of the two pressures reaches atmospheric — which happens '''below 100 °C''', below the boiling point of either one alone. The oil comes over with the steam and is condensed and separated.
+* '''Hydrodistillation''' (plant in the boiling water) versus '''steam distillation''' (steam passed through the plant) differ in how much hydrolysis and thermal damage occur; steam is gentler.
+* '''The water that comes back''' is the '''hydrosol''' — rose water, orange-flower water — and it carries the water-soluble fraction that the oil does not.
+* '''What steam cannot bring over:''' anything non-volatile. Resins, waxes, alkaloid salts and high-molecular-weight compounds stay behind. That is a feature: it is a clean cut between volatile and non-volatile.
+* '''The alternatives, in brief:'''
+** '''Enfleurage''' — cold fat absorbs aroma from delicate flowers that steam would wreck. Historic, slow, and still the reference for jasmine and tuberose.
+** '''Solvent extraction''' → a '''concrete''' (oil plus waxes), washed with alcohol to give an '''absolute'''. Captures compounds steam would miss.
+** '''Supercritical CO<sub>2</sub>''' — tunable, no residual solvent, cold enough to preserve the fragile fraction.
+** '''Fractional and short-path distillation''' — separating by boiling point, under vacuum to lower the temperature.
+** '''Winterisation''' — chilling an extract in alcohol so waxes and lipids drop out and can be filtered off.
+** '''Chromatography''' — separation by differential affinity for a stationary phase; '''TLC''' for a quick check, '''HPLC''' and '''GC''' for real measurement. See [[Standardized Extracts, Enhanced Leaf and the Perfumery of Botanical Aroma]].
+
+== 5. Reaction classes worth recognising ==
+A short vocabulary for reading the literature.
+* '''Oxidation and reduction''' — adding or removing oxygen, or removing or adding hydrogen. An alcohol oxidises to an aldehyde and on to a carboxylic acid; a ketone reduces to a secondary alcohol.
+* '''Isomerisation''' — the same atoms, rearranged. Acid-catalysed double-bond shifts are common in terpene chemistry, which is why '''citral''' and the pinenes rearrange so readily, and why an acidified essential oil changes smell.
+* '''Esterification and hydrolysis''' — acid plus alcohol gives an ester (most fruity aroma notes are esters); water and a catalyst reverse it.
+* '''Aldol and Claisen condensations''' — joining carbonyl compounds into larger carbon skeletons. The '''ionones''' are made industrially by an aldol condensation of citral with acetone, followed by acid cyclisation.
+* '''Electrophilic aromatic substitution''' — how rings are decorated; the existing substituents decide where the next one lands.
+* '''The haloform reaction''' — a methyl ketone treated with a halogen and base is halogenated three times at the same carbon and then cleaved, giving a carboxylate and a '''trihalomethane'''. With iodine this is the classic '''iodoform test''' for a methyl ketone, still taught in every undergraduate lab because the yellow precipitate is unmistakable.
+
+=== ⚠️ The haloform case, stated plainly ===
+'''Acetone and household bleach undergo the haloform reaction, and the products are genuinely dangerous. Do not mix them.'''
+* The reaction is '''strongly exothermic''' and, on any appreciable scale, prone to running away.
+* It produces '''chloroform''' — a hepatotoxin and a '''probable human carcinogen''' (IARC Group 2B) — which also oxidises in air and light to '''phosgene'''.
+* It produces '''chloroacetones''' as side products, which are '''potent lachrymators''' and were used as chemical weapons.
+* '''Chloral''' (trichloroacetaldehyde) is a '''controlled sedative''' in most jurisdictions, with a narrow margin between a sedative and a lethal dose, and a long history of criminal misuse.
+* Bleach and acetone are a well-known accidental household hazard for exactly this reason. '''This page explains why the chemistry happens; it is not a method and no procedure is given.'''
+* The same caution covers bleach with ammonia (chloramines) and bleach with acids (chlorine gas).
+
+== 6. Rose ketones: damascones, damascenone and the ionones ==
+* The '''rose ketones''' were found in Bulgarian rose oil in the 1960s and 1970s by '''Demole''' and colleagues at Firmenich. They are '''C13-norisoprenoids''' — fragments left when '''carotenoids''' are cleaved, which is why they turn up in rose, tea, tobacco, wine, apples and honey.
+* '''β-Damascenone''' is among the most powerful odorants known, with an odour threshold around '''0.002 parts per billion''' in water. It makes up a vanishingly small fraction of rose oil and contributes a large share of its character. It is a principal reason rose smells like rose.
+* '''α-, β- and δ-damascone''' are related: fruity, apple, plum, blackcurrant, tobacco.
+* '''The ionones''' (α- and β-ionone) are the violet notes, and the historical starting point — synthesised in 1893 by '''Tiemann and Krüger''' while chasing the smell of violets, and the compound that effectively began the modern fragrance industry. '''β-Ionone''' is also the degradation product of β-carotene, which is the same carotenoid-cleavage story.
+* '''In the plant,''' these arise through '''carotenoid cleavage dioxygenases''' (CCDs) acting on carotenoids — an enzymatic route, not a harsh one.
+* '''Structure and smell:''' tiny changes move the odour enormously. The position of a double bond in the ring, or the stereochemistry at one centre, is the difference between violet, rose and tobacco. This is the central unsolved problem of the field: '''odour cannot yet be predicted reliably from structure.'''
+
+== 7. Where the genuinely new work is ==
+If the question is what has '''not''' been done, these are the honest answers.
+* '''Structure–odour prediction.''' Machine-learning models (Google Research's work on graph neural networks for olfaction, 2019–2023) now predict odour descriptors from structure better than chance and sometimes better than trained panels — but far from solved. The '''"odour map"''' is an open research problem.
+* '''The trace fraction.''' Most natural materials have had their major components catalogued and their '''trace''' components barely touched. The prenylated volatile sulfur compounds in cannabis were only described in '''2021''' — in one of the most-studied plants in the world. See [[Hops, Cannabis and the Chemistry of "Dank": Terpenes and Volatile Sulfur Compounds]]. There is almost certainly more of this kind of thing waiting in less-studied species.
+* '''Biosynthesis instead of synthesis.''' Engineered yeast now makes nootkatone, valencene, farnesene and vanillin at commercial scale. Enzymatic routes are selective and mild where chemical routes are brutal — and the enzyme does in one step what takes a chemist five.
+* '''Carotenoid-cleavage chemistry.''' The CCD enzymes are understood in outline; which cleavage gives which norisoprenoid, in which plant, under what conditions, is not fully mapped.
+* '''Indole functionalisation.''' C–H activation methods for decorating the indole ring at positions other than C3 are an active area, and they open scaffolds that classical chemistry reaches only awkwardly.
+* '''Analytical reach.''' '''GC×GC''' with time-of-flight mass spectrometry is what found the cannabis sulfur compounds. The instrument, not the idea, was the limiting factor — which suggests the limiting factor elsewhere is also instrumental.
+* '''A caution about "novel".''' A reaction being unpublished usually means it was tried and failed, or that the product is useless, or that the hazard is unacceptable. The productive form of the question is not "has anyone combined X and Y" but "what does the mechanism predict, and is there a reason nobody wanted it."
+
+== Sources ==
+* Clayden J., Greeves N., Warren S., ''Organic Chemistry'' (2nd ed., 2012) — functional groups, polarity, haloform, aldol and Claisen chemistry.
+* Demole E. et al., "Structure et synthèse de la damascénone", ''Helvetica Chimica Acta'' 53 (1970) — the rose ketones.
+* Tiemann F. and Krüger P., ''Berichte der deutschen chemischen Gesellschaft'' 26 (1893) — the ionones.
+* Ohloff G., ''Scent and Fragrance: The Fascination of Odors and their Chemical Perspectives'' (1994).
+* Oswald I. W. H. et al., ''ACS Omega'' 6 (2021) — prenylated volatile sulfur compounds by GC×GC–TOFMS.
+* Lee B. K. et al., "A principal odor map unifies diverse tasks in olfactory perception", ''Science'' 381 (2023).
+* IARC Monographs on chloroform (Group 2B); standard toxicology references on chloroacetone and chloral hydrate.
+* Sudhakar P. et al. and the carotenoid-cleavage-dioxygenase literature on norisoprenoid formation.

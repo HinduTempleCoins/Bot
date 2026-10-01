@@ -165,7 +165,8 @@ export const CATEGORIES = [
   },
   {
     id: 'chemistry', name: 'Organic chemistry and synthesis', blurb: 'Reaction mechanisms, isomerizations, prodrugs, photochemistry, and purification protocols.',
-    pages: ['Cannabinoid Isomerization', 'Cannabinoid and Tryptamine Prodrugs',
+    pages: ['Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works',
+            'Cannabinoid Isomerization', 'Cannabinoid and Tryptamine Prodrugs',
             'Stereochemistry in Cannabinoid and Psychedelic Synthesis',
             'Airway Irritation and Cannabinoid Prodrug Delivery',
             'Modified Cannabinoids Matrix',
@@ -432,6 +433,7 @@ export const PILLARS = [
     icon: '🔬',
     blurb: 'Reaction mechanisms, isomerizations, prodrug architectures, photochemistry, and purification protocols.',
     pages: [
+      'Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works',
       'Cannabinoid Isomerization',
       'Cannabinoid and Tryptamine Prodrugs',
       'Stereochemistry in Cannabinoid and Psychedelic Synthesis',
