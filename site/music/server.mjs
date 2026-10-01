@@ -19,6 +19,7 @@ import { createReadStream, readFileSync, statSync } from 'node:fs';
 import { join, basename, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as openMusic from '../../integrations/soapbox/music-catalog.mjs';
+import { panelHtml, trackAttr, PLAYER_CSS, PLAYER_JS } from './player.mjs';
 
 const PORT = +(process.env.PORT || 8203);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -50,10 +51,15 @@ export function loadCatalog() {
     const file = basename(String(t.file));
     if (!AUDIO[extname(file).toLowerCase()]) continue;
     try { if (!statSync(join(DIR, 'media', file)).isFile()) continue; } catch { continue; }
-    out.push({ ...t, file, shelf: SHELVES.some((s) => s.id === t.shelf) ? t.shelf : 'other' });
+    let notes = '';
+    if (t.notes) { const n = basename(String(t.notes)); try { if (n.endsWith('.json') && statSync(join(DIR, 'notes', n)).isFile()) notes = n; } catch { /* no notes yet */ } }
+    out.push({ ...t, file, notes, shelf: SHELVES.some((s) => s.id === t.shelf) ? t.shelf : 'other' });
   }
   return out.sort((a, b) => (b.made || 0) - (a.made || 0));
 }
+
+/** what the player needs (same-origin URLs) */
+const forPlayer = (t) => ({ ...t, audio: `/music/media/${t.file}`, notesUrl: t.notes ? `/music/notes/${t.notes}` : '' });
 
 const dur = (s) => (s > 0 ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}` : '');
 
@@ -66,26 +72,26 @@ header a{color:var(--mut);text-decoration:none}.brand{color:var(--fg)!important;
 .wrap{max-width:1000px;margin:0 auto;padding:16px}a{color:var(--acc)}h1{font-size:24px;margin:6px 0}h2{font-size:18px;margin:22px 0 6px}h3{font-size:15px;margin:16px 0 2px}
 .lead{color:var(--mut)}.tracks{list-style:none;padding:0;margin:0}.tracks li{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);margin-top:8px}
 .tracks .t{flex:1;min-width:0}.tracks .t a{font-weight:700;text-decoration:none}.mut{color:var(--mut);font-size:13px}
-.tracks audio{width:260px;max-width:45vw}audio.big{width:100%;margin:12px 0}
+.tracks .play{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--acc);color:#111;cursor:pointer}
 .lyrics{white-space:pre-wrap;background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:14px}
 form.search{display:flex;gap:8px}form.search input{flex:1;padding:8px;border-radius:8px;border:1px solid var(--bd);background:transparent;color:inherit}
 form.search button{padding:8px 14px;border-radius:8px;border:0;background:var(--acc);color:#111}
 .music-list{padding-left:18px}.lic,.src{color:var(--mut);font-size:12px}
-@media(max-width:640px){.tracks li{flex-wrap:wrap}.tracks audio{width:100%;max-width:none}}
+@media(max-width:640px){.tracks li{flex-wrap:wrap}}
 </style>`;
 
 function shell(title, inner, { canonical = `${BASE_URL}/music`, description } = {}) {
   const desc = description || 'SoapBox Music — original songs made on our own servers with Hathor Sandalphon, and free public-domain and Creative-Commons music.';
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
-<title>${esc(title)}</title><meta name=description content="${esc(desc)}"><link rel=canonical href="${esc(canonical)}">${STYLE}</head><body>
+<title>${esc(title)}</title><meta name=description content="${esc(desc)}"><link rel=canonical href="${esc(canonical)}">${STYLE}${PLAYER_CSS}</head><body>
 <header><a class=brand href="/music"><b>SoapBox</b> Music</a><a href="/">SoapBox Stream</a><a href="/films">Films</a><a href="https://pentecaust.com/sandalphon">🎼 Make a song with Hathor Sandalphon</a></header>
-<div class=wrap>${inner}</div></body></html>`;
+<div class=wrap>${inner}</div>${PLAYER_JS}</body></html>`;
 }
 
 function row(t) {
   const meta = [t.artist, t.genre, dur(t.seconds)].filter(Boolean).map(esc).join(' · ');
   return `<li><div class=t><a href="/music/t/${esc(t.id)}">${esc(t.title)}</a><div class=mut>${meta}</div></div>
-<audio controls preload=none src="/music/media/${esc(t.file)}"></audio></li>`;
+<button class=play data-sbp-track="${trackAttr(forPlayer(t))}" aria-label="Play ${esc(t.title)}">▶ Play</button></li>`;
 }
 
 export function homePage(tracks = loadCatalog()) {
@@ -99,6 +105,7 @@ export function homePage(tracks = loadCatalog()) {
     return `<section><h2>${esc(s.title)}</h2><p class=lead>${esc(s.blurb)}</p>${singles.length ? `<ul class=tracks>${singles.map(row).join('')}</ul>` : ''}${groups}</section>`;
   }).join('');
   const inner = `<h1>SoapBox Music</h1>
+${tracks.length ? panelHtml(forPlayer(tracks[0])) : ''}
 <p class=lead>Original songs made on our own servers with <a href="https://pentecaust.com/sandalphon">Hathor Sandalphon</a>, and a search across free public-domain and Creative-Commons music. Alpha.</p>
 ${shelves || '<p class=lead>The first original songs are being made now — they will appear here.</p>'}
 <h2>Free &amp; open music</h2>
@@ -106,14 +113,24 @@ ${shelves || '<p class=lead>The first original songs are being made now — they
   return shell('SoapBox Music', inner);
 }
 
+export const embedCode = (t) => `<iframe src="${BASE_URL}/music/embed/${t.id}" width="700" height="300" style="border:0;max-width:100%" title="${t.title} — SoapBox Music" loading="lazy"></iframe>`;
+
+/** the small panel alone — for profiles and other sites (MySpace-style) */
+export function embedPage(t) {
+  return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(t.title)} · SoapBox Music</title>${PLAYER_CSS}
+<style>body{margin:0;background:transparent;font:13px system-ui,sans-serif}.sbp{margin:0}a{color:#8fb4ff}p{margin:4px 2px}</style></head><body>
+${panelHtml(forPlayer(t), { compact: true })}<p><a href="${esc(BASE_URL)}/music/t/${esc(t.id)}" target=_blank rel=noopener>${esc(t.title)} on SoapBox Music ↗</a></p>${PLAYER_JS}</body></html>`;
+}
+
 export function trackPage(t) {
   const credit = [t.artist && `By ${t.artist}`, t.engine && `made with ${t.engine}`].filter(Boolean).map(esc).join(' · ');
   const inner = `<p><a href="/music">← All music</a></p><h1>${esc(t.title)}</h1>
 ${t.album ? `<p class=mut>From the album <b>${esc(t.album)}</b></p>` : ''}<p class=mut>${credit}${t.genre ? ` · ${esc(t.genre)}` : ''}${t.seconds ? ` · ${dur(t.seconds)}` : ''}</p>
-<audio class=big controls preload=metadata src="/music/media/${esc(t.file)}"></audio>
+${panelHtml(forPlayer(t))}
 ${t.style ? `<p class=mut><b>Sound:</b> ${esc(t.style)}</p>` : ''}
 ${t.lyrics ? `<h2>Lyrics</h2><div class=lyrics>${esc(t.lyrics)}</div>` : ''}
-<p class=mut><b>Licence:</b> ${esc(t.license)}</p>`;
+<p class=mut><b>Licence:</b> ${esc(t.license)}</p>
+<p class=mut><b>Put this player on your page:</b> <code>${esc(embedCode(t))}</code></p>`;
   return shell(`${t.title} · SoapBox Music`, inner, { canonical: `${BASE_URL}/music/t/${t.id}`, description: `${t.title} — ${t.genre || 'an original song'} on SoapBox Music.` });
 }
 
@@ -158,6 +175,20 @@ export async function handler(req, res) {
     }
     const mm = path.match(/^\/music\/media\/([A-Za-z0-9._-]+)$/);
     if (mm && AUDIO[extname(mm[1]).toLowerCase()] && !mm[1].startsWith('.')) return sendAudio(req, res, mm[1]);
+    const nm = path.match(/^\/music\/notes\/([A-Za-z0-9._-]+\.json)$/);
+    if (nm && !nm[1].startsWith('.')) {
+      try {
+        const body = readFileSync(join(DIR, 'notes', nm[1]));
+        res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=86400' });
+        return res.end(body);
+      } catch { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+    }
+    const em = path.match(/^\/music\/embed\/([a-z0-9-]+)$/);
+    if (em) {
+      const t = loadCatalog().find((x) => x.id === em[1]);
+      if (!t) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendHtml(res, embedPage(t));
+    }
     if (path === '/music/search') {
       const q = String(url.searchParams.get('q') || '').slice(0, 120).trim();
       const tracks = q ? await openMusic.search({ query: q, limit: 15 }).catch(() => []) : [];
