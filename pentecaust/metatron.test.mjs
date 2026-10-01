@@ -36,3 +36,11 @@ test('logos: Metatron\'s Cube has 13 circles and 78 lines; the harp has strings;
   assert.ok(metatronPage().includes("aria-label=\"Metatron's Cube\"") && metatronPage().includes('rel=icon'));
   assert.ok(sandalphonPage().includes('aria-label="Harp"') && sandalphonPage().includes('rel=icon'));
 });
+
+test('the graphic maker tries your own key first and falls back to our CPU pool', () => {
+  const h = metatronPage();
+  assert.match(h, /\/api\/metatron\/graphic/);     // the fast lane, on Pentecaust
+  assert.match(h, /melek_me/);                      // acts as the signed-in account
+  assert.match(h, /gpool\(p\)/);                    // falls back to the shared pool
+  assert.match(h, /Integrations/);                  // tells people where to connect a key
+});

@@ -45,6 +45,8 @@ import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, setStatus, addLead, moveLead, leadStats } from './crm/model.mjs';
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
 import { getMailbox, sendViaMailbox, postalAddress } from './connect/mailbox.mjs';
+import { listKeys, setKey, removeKey } from './connect/apikeys.mjs';
+import { generateImage } from './connect/byok-image.mjs';
 import { chooseTransport, sendVia } from './herald/transport.mjs';
 import { planDay, runDay } from './herald/batch-runner.mjs';
 import { suppressionFrom, unsubscribeMailto } from './herald/send-gate.mjs';
@@ -249,6 +251,13 @@ export async function handler(req, res) {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
       return json(res, 200, { ok: true, account: me, mailbox: getMailbox(me) }, origin);
     }
+    // BRING YOUR OWN KEY: the account's own provider keys for Hathor Metatron and Hathor Sandalphon.
+    // Only ever MASKED on the way out ("…1234"); the secret never leaves connect/apikeys.mjs.
+    if (method === 'GET' && path === '/me/apikeys') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, providers: listKeys(me) }, origin);
+    }
+
     // ── invites (the signup gate) ─────────────────────────────────────────────────────────────────
     // Code-validity check is PUBLIC (codes are 64-bit-random, unguessable) so a landing page can pre-check
     // an invite link before asking someone to sign in.
@@ -305,6 +314,25 @@ export async function handler(req, res) {
       // else. (In dev-trust mode `who` falls back to the route's own actor field for the offline suite.)
       const who = (asserted) => whoami(req, asserted);
 
+      // BRING YOUR OWN KEY — connect / disconnect your own provider key, and spend it on a graphic.
+      // The key is read from the body once and handed straight to the store; it is never echoed back,
+      // never logged, and never written into a page.
+      if (path === '/me/apikeys') {
+        const me = who(b.account); if (!me) return unauth(res, origin);
+        const r = setKey(me, b.provider, b.key);
+        return json(res, r.ok ? 200 : 400, r, origin);
+      }
+      if (path === '/me/apikeys/remove') {
+        const me = who(b.account); if (!me) return unauth(res, origin);
+        return json(res, 200, removeKey(me, b.provider), origin);
+      }
+      // The fast lane for Hathor Metatron's graphics: your own provider, your own quota, seconds instead
+      // of minutes. { ok:false, reason:'no-key' } tells the page to fall back to our own CPU pool.
+      if (path === '/api/metatron/graphic') {
+        const me = who(b.account); if (!me) return unauth(res, origin);
+        const r = await generateImage(me, { prompt: b.prompt, size: b.size, provider: b.provider });
+        return json(res, r.ok ? 200 : 200, r, origin);
+      }
       if (path === '/teams') { const me = who(b.owner); if (!me) return unauth(res, origin); return json(res, 200, createTeam({ ...b, owner: me }), origin); }
       // PMs are open to every logged-in account (operator, 2026-09-08). Login is the floor and the
       // sender is the VERIFIED account — a body naming a different `from` is discarded, never honored,
@@ -642,6 +670,9 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <h2>🔌 Integrations</h2>
  <p class=mut>Connect the outside accounts MELEK can act with — the same "if this, then that" idea: link a service once, and your one MELEK identity can use it across the ecosystem (mail, feed, and the outreach tools).</p>
  <div id=connList class=feed style="margin-top:10px"><div class=empty>Loading connections…</div></div>
+ <h2 style="margin-top:18px;font-size:15px">🔑 Your own API keys</h2>
+ <p class=hint>Hathor Metatron and Hathor Sandalphon run on our own servers, which are shared — a picture takes a few minutes. Connect your own provider key and your work is made on your account instead, in seconds. Your key, your quota, your bill. It is stored for your account only, never shown again after you save it, and only ever sent to that provider.</p>
+ <div id=keyList class=feed style="margin-top:8px"><div class=empty>Sign in to connect a key.</div></div>
  <h2 style="margin-top:18px;font-size:15px">⚡ Automations</h2>
  <p class=hint>Recipes — <b>when</b> something happens on one connected service, <b>do</b> something on another — are being wired up on top of these connections. Connect an account above first; the recipe builder lands here next.</p>
 </div>
@@ -754,7 +785,26 @@ async function refreshStats(){if(!campId)return;const j=await api('/crm/campaign
 
 // ---- Integrations (IFTTT): connect external accounts to the one MELEK identity ----
 let _signedIn=false;
-async function loadIntegrations(){const box=$('connList');
+async function loadKeys(){const box=$('keyList');if(!me()){box.innerHTML='<div class=empty>Sign in above to connect a key.</div>';return;}
+ const j=await api('/me/apikeys?account='+encodeURIComponent(me()));const provs=(j&&j.providers)||[];
+ const frag=document.createDocumentFragment();
+ for(const p of provs){const row=document.createElement('div');row.className='fitem';
+  const part=p.part==='both'?'Metatron + Sandalphon':(p.part==='metatron'?'Hathor Metatron':'Hathor Sandalphon');
+  const left=document.createElement('div');left.style.flex='1';
+  left.innerHTML='<b>'+E(p.label)+'</b> '+(p.connected?'<span class=pill style="background:#173">Connected '+E(p.masked)+'</span>':'<span class=pill style="background:#633">Not connected</span>')+
+   '<br><small class=mut>'+E(p.what)+' · '+E(part)+' · sent only to '+E(p.host)+'</small>';
+  row.appendChild(left);
+  if(p.connected){const b=document.createElement('button');b.className='btn';b.textContent='Disconnect';
+   b.onclick=async()=>{await api('/me/apikeys/remove',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me(),provider:p.id})});loadKeys();};row.appendChild(b);}
+  else{const inp=document.createElement('input');inp.type='password';inp.placeholder=p.hint;inp.autocomplete='off';inp.style.maxWidth='210px';
+   const b=document.createElement('button');b.className='btn primary';b.textContent='Save';
+   b.onclick=async()=>{const v=inp.value.trim();if(!v)return;b.disabled=true;
+    const r=await api('/me/apikeys',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me(),provider:p.id,key:v})});
+    inp.value='';b.disabled=false;if(r&&r.ok===false)alert(r.reason||'could not save');loadKeys();};
+   row.appendChild(inp);row.appendChild(b);}
+  frag.appendChild(row);}
+ box.innerHTML='';box.appendChild(frag);}
+async function loadIntegrations(){loadKeys();const box=$('connList');
  // Herald sending mailbox — connect your own Gmail so Herald sends from YOUR address (never @pentecaust.com).
  let mbHtml='';
  if(me()){const mb=await api('/me/mailbox?account='+encodeURIComponent(me()));
