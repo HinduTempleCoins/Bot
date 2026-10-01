@@ -95,6 +95,7 @@ ${STYLE}${PINBOARD_CSS}</head><body>
 function homePage(pins) {
   const inner = `<h1>The picture side of MELEK</h1>
 <div class=alpha><b>Alpha. A MELEK front end.</b> Post a photo or a small album, or save a picture you found — in a MELEK blog post or anywhere on the web. A pin is an ordinary MELEK post, so it can be voted on and replied to like anything else on the chain; it just shows here as a wall of thumbnails instead of a column. A saved picture always keeps a link back to where it came from.</div>
+<p class=lead>Pins are MELEK posts: vote them, reply to them, and they stay on the chain. <a href="https://pact.pentecaust.com">Groups and clubs</a> get their own walls next.</p>
 <form class=add method=post action="/pin">
  <input name=url placeholder="Paste a picture's address (or a MELEK post to save all of its pictures)" aria-label="Picture or post address">
  <input name=title placeholder="Title (optional)" aria-label=Title>
