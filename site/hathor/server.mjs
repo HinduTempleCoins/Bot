@@ -26,6 +26,7 @@
 //   the free-tier note. The provider layer holds keys (env/JIT vault); this server never sees a key.
 
 import { statusBody as productionStatusBody, loadStatus as loadProductionStatus } from './production-status.mjs';
+import { pinItAll } from '../../integrations/pin-it.mjs';
 import { createServer } from 'node:http';
 import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync, statSync, rmSync } from 'node:fs';
 import { join, basename, dirname } from 'node:path';
@@ -251,7 +252,7 @@ function pageShell(title, body, opts = {}) {
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
   <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/documentaries">Documentaries</a><a href="/maps">Maps</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
 <main class=wrap>${body}</main>
-${FOOTER}</body></html>`;
+${FOOTER}${pinItAll()}</body></html>`;
 }
 
 // ── curated showcase — strong, on-brand examples of what the studio makes (better than random test

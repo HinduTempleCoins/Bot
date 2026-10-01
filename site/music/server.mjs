@@ -20,6 +20,7 @@ import { join, basename, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as openMusic from '../../integrations/soapbox/music-catalog.mjs';
 import { panelHtml, trackAttr, PLAYER_CSS, PLAYER_JS } from './player.mjs';
+import { pinItAll } from '../../integrations/pin-it.mjs';
 
 const PORT = +(process.env.PORT || 8203);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -90,7 +91,7 @@ function shell(title, inner, { canonical = `${BASE_URL}/music`, description } = 
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name=description content="${esc(desc)}"><link rel=canonical href="${esc(canonical)}">${STYLE}${PLAYER_CSS}</head><body>
 <header><a class=brand href="/music"><b>SoapBox</b> Music</a><a href="/">SoapBox Stream</a><a href="/films">Films</a><a href="https://pentecaust.com/sandalphon">🎼 Make a song with Hathor Sandalphon</a></header>
-<div class=wrap>${inner}</div>${PLAYER_JS}</body></html>`;
+<div class=wrap>${inner}</div>${PLAYER_JS}${pinItAll()}</body></html>`;
 }
 
 function row(t) {

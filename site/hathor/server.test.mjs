@@ -768,3 +768,10 @@ test('/maps: history-map clips from MAPS_DIR index, Alpha + CC-BY credit, VideoO
   assert.equal(JSON.parse((await call({ url: '/maps/index.json' })).text()).clips.length, 1);
   delete process.env.MAPS_DIR;
 });
+
+test('pictures on the Studio can be saved to the MELEK Pinboard in one click', async () => {
+  const res = await call({ url: '/' });
+  const body = String(res.body || res._body || '');
+  assert.match(body, /pin\.melek\.salon/);
+  assert.match(body, /pin-it-wrap/);
+});

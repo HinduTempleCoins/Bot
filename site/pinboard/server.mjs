@@ -74,7 +74,7 @@ code{font-size:12px;word-break:break-all;background:var(--panel);padding:2px 5px
 </style>`;
 
 function shell(title, inner, { canonical = `${BASE_URL}/`, description } = {}) {
-  const d = description || 'MELEK Pinboard — post photos and small albums, or save pictures from MELEK blog posts and anywhere on the web. Everything shows as one wall of thumbnails.';
+  const d = description || 'MELEK Pinboard — a MELEK front end for pictures: post photos and small albums, or save pictures from MELEK blog posts and anywhere on the web. Everything shows as one wall of thumbnails.';
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name=description content="${esc(d)}"><link rel=canonical href="${esc(canonical)}">
 ${STYLE}${PINBOARD_CSS}</head><body>
@@ -94,7 +94,7 @@ ${STYLE}${PINBOARD_CSS}</head><body>
 
 function homePage(pins) {
   const inner = `<h1>The picture side of MELEK</h1>
-<div class=alpha><b>Alpha.</b> Post a photo or a small album, or save a picture you found — in a MELEK blog post or anywhere on the web. Everything lands in one wall of thumbnails. A saved picture always keeps a link back to where it came from.</div>
+<div class=alpha><b>Alpha. A MELEK front end.</b> Post a photo or a small album, or save a picture you found — in a MELEK blog post or anywhere on the web. A pin is an ordinary MELEK post, so it can be voted on and replied to like anything else on the chain; it just shows here as a wall of thumbnails instead of a column. A saved picture always keeps a link back to where it came from.</div>
 <form class=add method=post action="/pin">
  <input name=url placeholder="Paste a picture's address (or a MELEK post to save all of its pictures)" aria-label="Picture or post address">
  <input name=title placeholder="Title (optional)" aria-label=Title>
