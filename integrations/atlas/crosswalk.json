@@ -1,0 +1,171 @@
+{
+  "_note": "Population-category crosswalk: what each public / government genetic resource calls people, and what those labels absorb. Every row is sourced. 'mena' says how Levantine, Mesopotamian and North African people are handled. Aggregate/population level only — no individual data. Alpha.",
+  "updated": "2026-09-30",
+  "systems": [
+    {
+      "id": "fbi-codis-popstats",
+      "name": "FBI PopStats — expanded CODIS core STR loci",
+      "operator": "FBI Laboratory, DNA Support Unit (US federal)",
+      "kind": "forensic",
+      "markers": "23 autosomal STR loci (identity markers; no ancestry or haplogroup inference)",
+      "categories": ["Caucasians", "Southwestern Hispanics", "Southeastern Hispanics", "African Americans", "Bahamians", "Jamaicans", "Trinidadians", "Chamorros", "Filipinos", "Apaches", "Navajos"],
+      "mena": "No Middle Eastern, North African or Levantine category. A person of Lebanese, Syrian, Iraqi, Assyrian or Phoenician-descended ancestry is scored against the 'Caucasians' frequency table.",
+      "source": "Moretti TR, Moreno LI, Smerick JB, Pignone ML, Hizon R, Buckleton JS, Bright JA, Onorato AJ. Population data on the expanded CODIS core STR loci for eleven populations of significance for forensic DNA analyses in the United States. Forensic Sci Int Genet. 2016 Nov;25:175-181. doi:10.1016/j.fsigen.2016.07.022. PMID 27620707.",
+      "public": "Paper + supplementary allele-frequency tables published; PopStats itself is FBI-internal."
+    },
+    {
+      "id": "nist-1036",
+      "name": "NIST 1036 U.S. population dataset (STRBase)",
+      "operator": "NIST (US federal)",
+      "kind": "forensic",
+      "markers": "29 autosomal STR loci; companion Y-STR and X-STR sets",
+      "categories": ["African American (n=342)", "Caucasian (n=361)", "Hispanic (n=236)", "Asian (n=97)"],
+      "mena": "Four self-identified categories, none of them Middle Eastern or North African. Levantine and Mesopotamian samples fall under 'Caucasian'.",
+      "source": "Hill CR, Duewer DL, Kline MC, Coble MD, Butler JM. U.S. population data for 29 autosomal STR loci. Forensic Sci Int Genet. 2013;7(3):e82-e83 (2017 revised genotypes and frequencies recommended). NIST STRBase population data.",
+      "public": "Yes — STRBase publishes the allele frequencies and genotypes."
+    },
+    {
+      "id": "afdil-mtgenome",
+      "name": "AFDIL/EMPOP U.S. forensic mtGenome reference data",
+      "operator": "Armed Forces DNA Identification Laboratory (US DoD) with Innsbruck",
+      "kind": "forensic",
+      "markers": "588 complete mitochondrial genomes",
+      "categories": ["African American", "Caucasian", "Hispanic"],
+      "mena": "Three U.S. population groups only. No Middle Eastern or North African reference group; such haplotypes are counted within 'Caucasian'.",
+      "source": "Just RS, Scheible MK, Fast SA, et al. Full mtGenome reference data: development and characterization of 588 forensic-quality haplotypes representing three U.S. populations. Forensic Sci Int Genet. 2015 Jan;14:141-55. PMID 25450785.",
+      "public": "Yes — via EMPOP."
+    },
+    {
+      "id": "us-y-str",
+      "name": "U.S. Y-STR Database (decommissioned; haplotypes moved to YHRD)",
+      "operator": "National Center for Forensic Science, Univ. of Central Florida; funded by the National Institute of Justice (US DOJ)",
+      "kind": "forensic",
+      "markers": "Y-STR haplotypes (SWGDAM / expanded panels); ~35,658 haplotypes at release 4.2.1 (Jan 2018)",
+      "categories": ["African American", "Asian", "Caucasian", "Hispanic", "Native American"],
+      "mena": "Five major groups, each subdivided by U.S. geographic region — not by ancestral origin. No Middle Eastern or North African group, although Y-STR haplotypes are exactly where Levantine and Arabian paternal lineages (J1, J2, E-M123) would be distinguishable.",
+      "source": "U.S. Y-STR Database, NCFS/UCF (NIJ-funded); transition notice to YHRD, yhrd.org/downloads/US_YHRD_Transition.pdf.",
+      "public": "Was public; now folded into YHRD."
+    },
+    {
+      "id": "yhrd",
+      "name": "YHRD — Y-Chromosome Haplotype Reference Database",
+      "operator": "Institute of Legal Medicine, Charité, Berlin (international, used by US and EU forensic labs)",
+      "kind": "forensic",
+      "markers": "Y-STR haplotypes; Y-SNP haplogroup assignment available",
+      "categories": ["national metapopulations (everyone sampled in a country, regardless of ancestry)", "continental", "linguistic/ethnic", "phylogenetic"],
+      "mena": "Better than the US systems: YHRD carries national metapopulations for Lebanon, Syria, Iraq, Jordan, Israel, Egypt, Tunisia and others, and a phylogenetic axis that can separate J1 and J2. But its US metapopulation still resolves to European-American / African-American / Hispanic-American / Asian-American, so a US Levantine sample is counted as European-American.",
+      "source": "YHRD metapopulations documentation, yhrd.org/pages/resources/metapopulations; Roewer L, et al. Online Y-chromosomal STR haplotype reference database (YHRD) for U.S. populations. PMID 12051329.",
+      "public": "Yes — aggregate haplotype frequencies searchable online."
+    },
+    {
+      "id": "empop",
+      "name": "EMPOP — forensic mtDNA database",
+      "operator": "Institute of Legal Medicine, Innsbruck (EDNAP/ENFSI; used by US and EU labs)",
+      "kind": "forensic",
+      "markers": "mtDNA control region and full mtGenome haplotypes",
+      "categories": ["sub-Saharan African", "West Eurasian", "East Asian", "Southeast Asian (basal metapopulations)"],
+      "mena": "At its basal level EMPOP has four metapopulations. Levantine, Mesopotamian and most North African maternal lineages are classed 'West Eurasian' — the same bin as Europeans. Country datasets exist underneath (e.g. Lebanon, Jordan, Bahrain: Forensic Sci Int Genet 2019, PMID 31284104), but the top-level category does not distinguish them.",
+      "source": "Parson W, Dür A. EMPOP — a forensic mtDNA database. Forensic Sci Int Genet. 2007;1(2):88-92; EMPOP database documentation.",
+      "public": "Yes — aggregate haplotype frequencies searchable online."
+    },
+    {
+      "id": "1000g",
+      "name": "1000 Genomes Project (phase 3)",
+      "operator": "International consortium; hosted by EMBL-EBI and NCBI (NIH-funded)",
+      "kind": "research reference panel",
+      "markers": "Whole genomes; published Y-haplogroup calls for 1,244 males and mtDNA sequences",
+      "categories": ["AFR", "AMR", "EAS", "EUR", "SAS (5 super-populations, 26 populations)"],
+      "mena": "No Middle Eastern, Levantine, Mesopotamian or North African population at all — not one of the 26. The most widely used human reference panel in the world has a zero-sample hole over the region this filing is about. (Counted directly from the project's own population table and Y-haplogroup call file; see integrations/atlas/build_1kg.py.)",
+      "source": "1000 Genomes Project Consortium. A global reference for human genetic variation. Nature 2015;526:68-74. Population table: ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/20131219.populations.tsv; Y calls: .../supporting/chrY/1000Y.sample_level_haplogroup_calls.ver5.txt.",
+      "public": "Yes — fully open."
+    },
+    {
+      "id": "hgdp",
+      "name": "HGDP-CEPH Human Genome Diversity Panel",
+      "operator": "CEPH / Fondation Jean Dausset (France), widely redistributed",
+      "kind": "research reference panel",
+      "markers": "Whole genomes / genotypes for ~1,050 individuals in ~52 populations",
+      "categories": ["Africa", "Middle East", "Europe", "Central/South Asia", "East Asia", "Oceania", "America"],
+      "mena": "Has a 'Middle East' region, but it is represented by only three sampled groups — Druze (Carmel), Palestinian (Central), Bedouin (Negev), ~127 individuals — plus Mozabite (Algeria) under Africa. No Lebanese, Syrian, Iraqi, Assyrian, Chaldean, Syriac or Phoenician-descended sampling.",
+      "source": "Cann HM, et al. A human genome diversity cell line panel. Science 2002;296:261-2; Bergström A, et al. Insights into human genetic variation and population history from 929 diverse genomes. Science 2020;367:eaay5012.",
+      "public": "Yes."
+    },
+    {
+      "id": "gnomad",
+      "name": "gnomAD (Genome Aggregation Database)",
+      "operator": "Broad Institute (NIH- and industry-funded); the de facto clinical allele-frequency reference",
+      "kind": "research/clinical aggregate",
+      "markers": "Exome and genome variant allele frequencies (v4.1: 730,947 exomes + 76,215 genomes)",
+      "categories": ["afr", "amr", "asj (Ashkenazi Jewish)", "eas", "fin", "mid (Middle Eastern)", "nfe (non-Finnish European)", "sas", "remaining"],
+      "mena": "One of the few systems with a named Middle Eastern group ('mid'), but it is small and undivided: it does not separate Levantine from Arabian, Mesopotamian, Iranian or North African, and North Africans are not clearly placed. gnomAD reports genetic-ancestry groups, not race or ethnicity.",
+      "source": "Chen S, et al. A genomic mutational constraint map using variation in 76,156 human genomes. Nature 2024 (gnomAD v4 release notes, gnomad.broadinstitute.org/news/2023-11-gnomad-v4-0/).",
+      "public": "Yes — aggregate frequencies fully open."
+    },
+    {
+      "id": "aadr",
+      "name": "AADR — Allen Ancient DNA Resource (v66.p1)",
+      "operator": "Reich Lab, Harvard (Harvard Dataverse)",
+      "kind": "ancient DNA",
+      "markers": "Per-individual Y and mtDNA haplogroup calls plus genotypes, with date, site, latitude and longitude",
+      "categories": ["archaeological Group ID, locality and political entity — no racial categories"],
+      "mena": "The ancient side is where Levantine, Canaanite, Punic, Mesopotamian, Anatolian and Egyptian people ARE individually resolved, by site and date. This is the comparison the forensic and clinical categories make impossible.",
+      "source": "Mallick S, et al. The Allen Ancient DNA Resource (AADR): A curated compendium of ancient human genomes. Sci Data 2024;11:182. doi:10.7910/DVN/FFIDCW.",
+      "public": "Yes — open download."
+    },
+    {
+      "id": "allofus",
+      "name": "NIH All of Us Research Program",
+      "operator": "NIH (US federal)",
+      "kind": "national cohort",
+      "markers": "Whole genomes (>400k); aggregate counts in the public Data Browser",
+      "categories": ["OMB SPD-15 self-report (incl. Middle Eastern or North African since the 2024 revision) plus computed genetic-ancestry groups modelled on gnomAD labels"],
+      "mena": "Self-reported MENA is collected, but the genomic ancestry axis used for analysis follows the gnomAD-style groups. Individual-level data is controlled access (Registered/Controlled Tier, institutional agreement required); only aggregate counts are public.",
+      "source": "All of Us Research Program public Data Browser; All of Us Research Hub data access tiers.",
+      "public": "Aggregate only; registered tier by application."
+    },
+    {
+      "id": "omb-spd15",
+      "name": "OMB Statistical Policy Directive No. 15 (the categories every federal system inherits)",
+      "operator": "White House Office of Management and Budget",
+      "kind": "statistical standard",
+      "markers": "n/a — the race and ethnicity standard itself",
+      "categories": ["American Indian or Alaska Native", "Asian", "Black or African American", "Hispanic or Latino", "Middle Eastern or North African", "Native Hawaiian or Pacific Islander", "White"],
+      "mena": "The 1997 standard defined people with origins in the Middle East and North Africa as White. The March 2024 revision added 'Middle Eastern or North African' as its own minimum reporting category and requires detailed sub-categories. Federal genetic systems built before 2024 still carry the old bin, and none of the forensic databases above has been revised to match.",
+      "source": "OMB, Revisions to OMB's Statistical Policy Directive No. 15, 89 Fed. Reg. 22182 (Mar. 29, 2024); 1997 Standards, 62 Fed. Reg. 58782.",
+      "public": "Yes."
+    }
+  ],
+  "international": [
+    { "id": "uk-biobank", "name": "UK Biobank", "country": "United Kingdom", "categories": "UK Census ethnic coding (field 21000): White / Mixed / Asian or Asian British / Black or Black British / Chinese / Other. No MENA category; Levantine and North African participants self-report as 'Other' or 'White'. Genetic-ancestry analyses mostly use a 'White British' PCA cluster.", "access": "Aggregate GWAS results public (e.g. Neale lab, Pan-UKBB); individual data by paid application.", "source": "UK Biobank data showcase field 21000; Pan-UKBB ancestry groups." },
+    { "id": "estonian-biobank", "name": "Estonian Biobank", "country": "Estonia", "categories": "National cohort; ethnicity self-reported, overwhelmingly Estonian. Not a MENA resource.", "access": "By application to the Estonian Genome Centre.", "source": "Leitsalu L, et al. Cohort profile: Estonian Biobank. Int J Epidemiol 2015;44:1137-47." },
+    { "id": "finngen", "name": "FinnGen", "country": "Finland", "categories": "Single national population (Finnish); used as the 'fin' group in gnomAD.", "access": "Summary statistics public; individual data restricted.", "source": "Kurki MI, et al. FinnGen provides genetic insights from a well-phenotyped isolated population. Nature 2023;613:508-518." },
+    { "id": "decode", "name": "deCODE genetics", "country": "Iceland", "categories": "Single national population.", "access": "Published frequencies only; the database is corporate.", "source": "Gudbjartsson DF, et al. Large-scale whole-genome sequencing of the Icelandic population. Nat Genet 2015;47:435-44." },
+    { "id": "qatar-genome", "name": "Qatar Genome Programme", "country": "Qatar", "categories": "Qatari sub-populations resolved genetically — commonly Bedouin / Persian-South Asian / African-admixed clusters. One of the few state programmes that resolves Arabian structure at all.", "access": "Aggregate published; data by application to QBB/QGP.", "source": "Mbarek H, et al. Qatar genome: insights on genomics from the Middle East. Hum Mutat 2022;43:499-510." },
+    { "id": "gme-variome", "name": "Greater Middle East (GME) Variome", "country": "multi-country (US-hosted)", "categories": "Northwest Africa, Northeast Africa, Turkish Peninsula, Syrian Desert, Arabian Peninsula, Persia and Pakistan — the only widely used resource that divides the region into sub-regions.", "access": "Public aggregate frequencies.", "source": "Scott EM, et al. Characterization of Greater Middle Eastern genetic variation for enhanced disease gene discovery. Nat Genet 2016;48:1071-1076." },
+    { "id": "saudi-genome", "name": "Saudi Human Genome Program", "country": "Saudi Arabia", "categories": "National cohort; regional sampling within the Kingdom.", "access": "Publications; data by application.", "source": "Abouelhoda M, et al. Clinical genomics can facilitate countrywide estimation of autosomal recessive disease burden. Genet Med 2016;18:1244-1249." },
+    { "id": "lebanon-uae", "name": "Lebanese and Emirati genome studies", "country": "Lebanon / UAE", "categories": "Academic cohorts, often by religious community or emirate rather than by national label.", "access": "Published aggregate; no open national database.", "source": "Haber M, et al. (2017) for Lebanon; Emirati Genome Programme announcements." },
+    { "id": "israel", "name": "Israeli / Jewish population genetic studies", "country": "Israel", "categories": "Studies group by community — Ashkenazi, Sephardi, Mizrahi, Yemenite, Ethiopian, Samaritan, Druze, Bedouin. The Cohen Modal Haplotype work reported Y lineages shared by Cohanim and by a Lemba clan.", "access": "Published aggregate; no open state database.", "source": "Thomas MG, et al. Y chromosomes traveling south: the Cohen modal haplotype and the origins of the Lemba. Am J Hum Genet 2000;66:674-686; Behar DM, et al. The genome-wide structure of the Jewish people. Nature 2010;466:238-242." },
+    { "id": "iranome", "name": "Iranome", "country": "Iran", "categories": "Eight Iranian ethnic groups: Arabs, Azeris, Baluchs, Kurds, Lurs, Persians, Persian Gulf Islanders, Turkmen. Resolves within-country ethnicity as few national databases do.", "access": "Public aggregate browser.", "source": "Fattahi Z, et al. Iranome: A catalog of genomic variations in the Iranian population. Hum Mutat 2019;40:1968-1984." },
+    { "id": "turkey", "name": "Turkish Variome / Turkish genome studies", "country": "Türkiye", "categories": "National cohort; Anatolian regional sampling.", "access": "Published aggregate.", "source": "Kars ME, et al. The genetic structure of the Turkish population reveals high levels of variation and admixture. PNAS 2021;118:e2026076118." },
+    { "id": "egypt-genome", "name": "Egypt Genome / Egyptian reference genome", "country": "Egypt", "categories": "National cohort.", "access": "Published aggregate; national programme data restricted.", "source": "Wohlers I, et al. An integrated personal and population-based Egyptian genome reference. Nat Commun 2020;11:4719." },
+    { "id": "h3africa", "name": "H3Africa and the Southern African Human Genome Programme", "country": "pan-African / South Africa", "categories": "By ethnolinguistic group and country rather than by race — the model the US forensic systems do not follow. Relevant to the Lemba comparison.", "access": "H3Africa data by application (EGA/dbGaP); SAHGP published aggregate.", "source": "H3Africa Consortium. Research capacity. Enabling the genomic revolution in Africa. Science 2014;344:1346-8; Choudhury A, et al. Whole-genome sequencing for an enhanced understanding of genetic variation among South Africans. Nat Commun 2017;8:2062." },
+    { "id": "chinamap", "name": "ChinaMAP", "country": "China", "categories": "Han plus minority nationalities, by province.", "access": "Public aggregate browser.", "source": "Cao Y, et al. The ChinaMAP analytics of deep whole genome sequences in 10,588 individuals. Cell Res 2020;30:717-731." },
+    { "id": "tommo", "name": "ToMMo jMorp", "country": "Japan", "categories": "Single national population (Japanese).", "access": "Public aggregate browser.", "source": "Tadaka S, et al. jMorp: Japanese Multi-Omics Reference Panel. Nucleic Acids Res 2018;46:D551-D557." },
+    { "id": "korea1k", "name": "Korea1K / KOVA", "country": "South Korea", "categories": "Single national population (Korean).", "access": "Public aggregate.", "source": "Jeon S, et al. Korea1K: 1,094 Korean personal genomes with clinical information. Sci Adv 2020;6:eaaz7835." },
+    { "id": "genomeindia", "name": "GenomeIndia / IndiGen", "country": "India", "categories": "By linguistic group, caste/community and region — explicitly sub-national.", "access": "Aggregate published; data by application.", "source": "IndiGen: Jain A, et al. IndiGenomes: a comprehensive resource of genetic variants from over 1000 Indian genomes. Nucleic Acids Res 2021;49:D1225-D1232; GenomeIndia Consortium 2025." },
+    { "id": "australia", "name": "Australian genomics / Indigenous genomics", "country": "Australia", "categories": "National cohorts plus Aboriginal and Torres Strait Islander governance frameworks; relevant to Denisovan ancestry in Oceania.", "access": "By application, under Indigenous data-governance rules.", "source": "Malaspinas AS, et al. A genomic history of Aboriginal Australia. Nature 2016;538:207-214." },
+    { "id": "brazil-mexico", "name": "Brazilian Initiative on Precision Medicine; Mexican Biobank", "country": "Brazil / Mexico", "categories": "Admixture proportions (European, African, Indigenous American) rather than discrete race bins.", "access": "Aggregate published.", "source": "Naslavsky MS, et al. Whole-genome sequencing of 1,171 elderly admixed individuals from Brazil. Nat Commun 2022;13:1004; Sohail M, et al. Mexican Biobank advances population and medical genomics. Nature 2023;622:775-783." },
+    { "id": "enfsi", "name": "ENFSI / EU national DNA databases (Prüm exchange)", "country": "European Union", "categories": "National, by country of the database — race categories are generally not recorded; statistics use national or YHRD/EMPOP metapopulations.", "access": "Law-enforcement only; aggregate methodology published.", "source": "ENFSI DNA Working Group documents; Council Decisions 2008/615/JHA and 2008/616/JHA (Prüm)." }
+  ],
+  "ancestry_models": {
+    "_note": "The operator's thesis: present-day Levantine and Mesopotamian populations are one PART of the ancient peoples, with later admixture layered on. These are MODEL ESTIMATES from published ancient-DNA studies, not measurements of any individual. Where a per-group percentage is not stated in the abstract or main text, it is marked NEEDS-EXTRACTION rather than guessed — the numbers live in the papers' supplementary qpAdm tables and must be read from them before use in a filing.",
+    "entries": [
+      { "group": "Lebanese (present-day)", "ancient_component": "Bronze Age Canaanite (Sidon)", "share": "most of their ancestry", "later_component": "Eurasian ancestry absent in Bronze Age or earlier Levantines", "later_date": "arrived ~3,750-2,170 years ago, during successive conquests", "source": "Haber M, et al. AJHG 2017;101:274-282. PMID 28757201.", "verified": "quoted from the published abstract" },
+      { "group": "Canaanite populations (Bronze Age Levant)", "ancient_component": "local Neolithic Levantine + eastern migrants related to Chalcolithic Iranians", "share": "two modelled sources", "later_component": "n/a", "later_date": "admixture estimated 6,600-3,550 years ago, coinciding with recorded mid-Holocene population movements in Mesopotamia", "source": "Haber M, et al. AJHG 2017; Agranat-Tamir L, et al. Cell 2020;181:1146-1157. PMID 32470400.", "verified": "quoted from the published abstracts" },
+      { "group": "Levant-related modern populations (as a class)", "ancient_component": "Bronze Age southern Levant", "share": "substantial ancestry", "later_component": "sources the authors state they cannot fully model", "later_date": "post-Bronze Age", "source": "Agranat-Tamir L, et al. Cell 2020;181:1146-1157.", "verified": "quoted from the published abstract; per-group percentages NEEDS-EXTRACTION from supplementary tables" },
+      { "group": "Near East (regional time course)", "ancient_component": "Bronze Age Near Eastern", "share": "NEEDS-EXTRACTION", "later_component": "Anatolian and southeast European ancestry from the Iron Age (~1000 BCE); a fusion of Asian and Near Eastern ancestry from 330 BCE; Caucasus-related ancestry from 1516 CE", "later_date": "as listed", "source": "Haber M, et al. A Genetic History of the Near East from an aDNA Time Course Sampling Eight Points in the Past 4,000 Years. AJHG 2020;107:149-157. PMID 32470374.", "verified": "quoted from the published abstract" },
+      { "group": "Punic / Carthaginian sites", "ancient_component": "Levantine Phoenician", "share": "almost none", "later_component": "largely Sicilian-Aegean-related, with North African contributions", "later_date": "1st millennium BCE", "source": "Ringbauer H, et al. Punic people were genetically diverse with almost no Levantine ancestors. Nature 2025;643:139-147. PMID 40269169.", "verified": "quoted from the published title and abstract", "note": "Cuts against a bloodline reading of Punic identity and must be addressed head-on in any filing: Punic identity travelled by religion, language and colony, not by descent from Tyre." },
+      { "group": "Syrians, Jordanians, Palestinians, Druze, Bedouin, Iraqis, Assyrians, Maltese, Sardinians, Tunisians", "ancient_component": "Bronze Age Levant / Mesopotamia", "share": "NEEDS-EXTRACTION", "later_component": "Arabian-related and other components", "later_date": "NEEDS-EXTRACTION", "source": "per-group qpAdm estimates are in the supplementary tables of Haber 2017/2020, Agranat-Tamir 2020, Lazaridis 2016 (Nature 536:419-424) and Lazaridis 2022 (Science 377:eabm4247); the Assyrian/Chaldean/Syriac figures in the Near-East literature", "verified": "NOT yet extracted — do not cite numbers for these groups until the supplementary tables are read" }
+    ]
+  }
+}
