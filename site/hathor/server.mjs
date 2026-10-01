@@ -715,19 +715,31 @@ export async function handleVideo(req, res) {
 }
 
 // ── /api/generate — the hot path. Rate-limit → adapter → store → result page. ──────────────────────
+// ?format=json: the same generation, answered as data for our own tools (Metatron on Pentecaust, Herald emails,
+// BiFrost thumbnails). CORS is granted only to our own origins.
+const JSON_ORIGINS = /^https:\/\/([a-z0-9-]+\.)*(pentecaust\.com|soapbox\.community|melek\.salon)$/;
+function genReply(req, res, code, html, data) {
+  if (!/(^|[?&])format=json(&|$)/.test(String(req.url || '').split('?')[1] || '')) return sendHtml(res, html, code);
+  const origin = String((req.headers && req.headers.origin) || '');
+  const h = { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' };
+  if (JSON_ORIGINS.test(origin)) { h['access-control-allow-origin'] = origin; h.vary = 'Origin'; }
+  res.writeHead(code, h);
+  return res.end(JSON.stringify(data));
+}
+
 export async function handleGenerate(req, res) {
   const ip = clientIp(req);
   if (!rateOk(ip)) {
-    return sendHtml(res, pageShell('Slow down — Generative AI',
+    return genReply(req, res, 429, pageShell('Slow down — Generative AI',
       `<h1>Easy there</h1><div class=card><p class=empty>You've hit the limit of ${esc(RATE_PER_HOUR)} images per hour.
         Try again later, or browse the <a href="/gallery">gallery</a>.</p></div>`,
-      { robots: 'noindex,follow' }), 429);
+      { robots: 'noindex,follow' }), { ok: false, error: `limit of ${RATE_PER_HOUR} images per hour` });
   }
   const params = await readBody(req);
   const { prompt, size, seed } = promptFromParams(params);
   const cleaned = String(prompt || '').trim();
   if (!cleaned) {
-    return sendHtml(res, homePage({ note: 'Please enter a prompt (or pick a template) before generating.' }), 400);
+    return genReply(req, res, 400, homePage({ note: 'Please enter a prompt (or pick a template) before generating.' }), { ok: false, error: 'empty prompt' });
   }
   // optional reference image → image conditioning (upload your photo, get new images of it). The value is a
   // /img/<file> we saved from an upload; resolve to an absolute URL so the provider can fetch it.
@@ -743,7 +755,7 @@ export async function handleGenerate(req, res) {
       : screen.reason === 'pornographic'
         ? 'That request was blocked. Tasteful nudity and figure art are welcome here — hardcore/pornographic content (sex acts, penetration, fluids) is not.'
         : 'That request was blocked. You can make nude or figure art of your own character, but the studio will not generate it from an uploaded photo of a real person.';
-    return sendHtml(res, homePage({ note }), 400);
+    return genReply(req, res, 400, homePage({ note }), { ok: false, error: note });
   }
   // With an uploaded photo, steer the edit model to PLACE that person into the scene (keep their face),
   // so templates/prompts "put THEM in a photo" instead of merely restyling. Saved prompt stays `cleaned`.
@@ -760,7 +772,7 @@ export async function handleGenerate(req, res) {
   catch { result = { ok: false, error: 'generation failed' }; }
 
   if (!result || !result.ok) {
-    return sendHtml(res, homePage({ note: failNote(result) }), 502);
+    return genReply(req, res, 502, homePage({ note: failNote(result) }), { ok: false, error: failNote(result) });
   }
   const meta = saveGeneration({
     base64: result.base64, mime: result.mime, prompt: cleaned,
@@ -768,9 +780,10 @@ export async function handleGenerate(req, res) {
     adult: screen.adult,
   });
   if (!meta) {
-    return sendHtml(res, homePage({ note: 'The image was made but could not be saved — please try again.' }), 500);
+    return genReply(req, res, 500, homePage({ note: 'The image was made but could not be saved — please try again.' }), { ok: false, error: 'could not save' });
   }
-  return sendHtml(res, resultPage(meta));
+  const origin = publicOrigin(req);
+  return genReply(req, res, 200, resultPage(meta), { ok: true, url: `${origin}/img/${meta.file}`, share: `${origin}/p/${meta.file}`, prompt: meta.prompt, adult: meta.adult });
 }
 
 // Why nothing came back, in words a customer can act on. "busy" = our CPU engine has people queued (traffic).

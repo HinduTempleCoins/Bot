@@ -203,6 +203,25 @@ test('POST /api/generate with injected adapter stores + serves image', async () 
   assert.equal(img.headers['content-type'], 'image/png');
 });
 
+test('POST /api/generate?format=json answers as data, with CORS only for our own origins (Metatron, Herald, BiFrost)', async () => {
+  __resetRate(); cannedAdapter();
+  const ok = await call({
+    method: 'POST', url: '/api/generate?format=json',
+    headers: { 'x-test-ip': '10.0.0.2', 'content-type': 'application/x-www-form-urlencoded', origin: 'https://pentecaust.com' },
+    body: 'prompt=' + encodeURIComponent('a gold-leaf header for an email'),
+  });
+  assert.equal(ok.statusCode, 200);
+  assert.equal(ok.headers['content-type'], 'application/json; charset=utf-8');
+  assert.equal(ok.headers['access-control-allow-origin'], 'https://pentecaust.com');
+  const j = JSON.parse(ok.text());
+  assert.ok(j.ok && /\/img\/[\w.-]+\.png$/.test(j.url) && /\/p\//.test(j.share));
+  const empty = await call({ method: 'POST', url: '/api/generate?format=json',
+    headers: { 'x-test-ip': '10.0.0.2', 'content-type': 'application/x-www-form-urlencoded', origin: 'https://evil.example' }, body: 'prompt=' });
+  assert.equal(empty.statusCode, 400);
+  assert.equal(JSON.parse(empty.text()).ok, false);
+  assert.equal(empty.headers['access-control-allow-origin'], undefined);
+});
+
 test('GET /api/generate is 405', async () => {
   const res = await call({ url: '/api/generate', method: 'GET' });
   assert.equal(res.statusCode, 405);
