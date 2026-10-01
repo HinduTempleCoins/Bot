@@ -19,6 +19,7 @@ const HISTORY_PAGES = [
       'Domestication of Plants and Animals Farming Origins',
       'Hathor Sandalphon the Angel of Song Spirit and Guidance in Religious and Popular Music',
       'Hyperborean Maidens of Delos Religion Myth and Offerings',
+      'Ancient Instruments by Family and Era Lyres Harps Horns Gongs and Hand and Star Methods of Teaching Music',
       'Swedenborg Hidden Influence Johnny Appleseed Helen Keller and Ideas Everyone Uses',
       'Moorish Iberia and Latin American Ancestry',
       'Mountains of the Gods Religion Hermon Olympus and the Watchers Myth',

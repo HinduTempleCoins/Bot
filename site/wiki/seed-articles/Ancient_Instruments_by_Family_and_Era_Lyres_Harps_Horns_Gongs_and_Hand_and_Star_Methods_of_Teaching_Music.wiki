@@ -1,0 +1,83 @@
+'''Ancient Instruments by Family and Era: Lyres, Harps, Horns, Gongs, and Hand and Star Methods of Teaching Music''' groups the oldest known instruments by how they make sound and when they appear. It then sets out the old ways of teaching and writing music: on the hand, in tablature, and against the stars. It is the study behind the ancient-music songs of '''Hathor Sandalphon'''. Where an idea is a hypothesis or a theme for songs rather than history, this page says so. Alpha.
+
+== 1. The line of Cain: Jubal and Tubal-cain ==
+* '''Genesis 4:20–22''' names three sons in the line of Cain:
+** '''Jabal''', "father of those who dwell in tents and have cattle";
+** '''Jubal''', "father of all who handle the '''kinnor''' and the '''ugab'''";
+** '''Tubal-cain''', "forger of every cutting instrument of bronze and iron".
+* The '''kinnor''' is a lyre (often translated "harp"). The '''ugab''' is a pipe or flute (older translations say "organ").
+* The three cover the main families: strings and wind from Jubal, and the metal that later makes trumpets, cymbals, bells and gongs from Tubal-cain.
+
+== 2. The four families ==
+The standard scientific grouping (Hornbostel–Sachs, 1914) sorts instruments by what vibrates.
+* '''Idiophones''' — the body itself sounds: rattles, clappers, the '''sistrum''', cymbals, bells, '''gongs''', stone chimes (lithophones) and slit drums.
+* '''Membranophones''' — a stretched skin: the frame drum (Hebrew ''tof'', Greek ''tympanon''), kettle drums (Mesopotamian ''lilissu''), the hourglass ''damaru''.
+* '''Chordophones''' — strings:
+** the '''lyre''' (strings from a crossbar);
+** the '''harp''' (strings rising from the sound-box);
+** the '''lute''' (strings along a neck, the ancestor of the oud and the guitar);
+** the '''zither''' (strings along a board, like the Chinese ''guqin'').
+* '''Aerophones''' — air:
+** '''flutes''' (bone, reed, the Egyptian and Persian ''ney'');
+** '''reeds''' (the Greek double-pipe ''aulos'');
+** '''horns and trumpets''' (the ''shofar'', the silver ''hatzotzerot'', the Bronze Age ''lur'', the Celtic ''carnyx'', conch trumpets);
+** '''pipes and organs''' (panpipes, and the water organ ''hydraulis'').
+
+== 3. By era ==
+* '''Stone Age.'''
+** The '''Hohle Fels''' flute from Germany is a vulture-bone flute about 35,000–40,000 years old, the oldest secure instrument.
+** The Divje Babe "flute" from Slovenia, linked to Neanderthals, is disputed: it may be a bone chewed by animals.
+** The '''Jiahu''' bone flutes from China, about 9,000 years old, can still play a scale.
+* '''Sumer and Ur (c. 2600–2400 BC).''' The '''lyres of Ur''', with a bull's head in gold and lapis lazuli, and a harp were found in the royal tombs. The ''balag'' (harp or drum) and the ''lilissu'' drum served in temple lament.
+* '''Egypt (Old Kingdom to New Kingdom).'''
+** The arched and angular '''harp''', the long-necked lute, the double pipe and the frame drum.
+** The '''sistrum''' was sacred to '''Hathor''': its loop is her face and horns, and shaking it calmed the goddess.
+** '''Tutankhamun's two trumpets''', one silver and one bronze or copper, were sounded on BBC radio in 1939.
+* '''Ugarit and the Hurrian Hymn (c. 1400 BC).''' Tablet '''h.6''' from Ugarit holds the oldest substantially complete written melody, a hymn to the goddess Nikkal. It is written as named string-pairs and intervals on a nine-string lyre, a kind of tablature. Babylonian tablets (CBS 10996; UET VII 126) name the lyre's strings and give tuning procedures.
+* '''Israel and the Temple.''' The '''kinnor''' (lyre), '''nevel''' (larger lyre or harp), '''tof''', '''metziltayim''' (cymbals), '''shofar''' (ram's horn) and two '''silver trumpets''' (Numbers 10). The Levites sang with them (1 Chronicles 15–16; 25).
+* '''Bronze Age north.''' The paired '''lurs''' of Denmark (c. 1000 BC), curved like mammoth tusks and tuned in pairs.
+* '''China.'''
+** The '''bianzhong''' bells of Marquis Yi of Zeng (433 BC): 65 bronze bells, each sounding '''two different notes''' depending on where it is struck. They show a deep working knowledge of vibration in bronze.
+** The stone chimes (''bianqing'').
+** The '''guqin''' zither. Its tablature, ''jianzipu'', records which string, which finger and which stud, and the oldest surviving piece, ''Jieshi Diao Youlan'', is a 6th–7th-century manuscript.
+* '''Southeast Asia: gongs and the Dong Son drums (c. 600 BC – AD 200).''' The bronze '''Dong Son drums''' of Vietnam have a '''star or sun with radiating rays''' cast at the centre of the striking face, ringed by birds, dancers and boats. Bronze gongs spread across the region.
+* '''India.''' The '''veena''' and early harps (''vina'' in the old sense), the conch (''shankha'') and drums (''mridangam'', ''damaru''). The ''Natya Shastra'' (c. 200 BC – AD 200) sets out scales (''grama''), modes and the tuning of strings.
+* '''Greece and Rome.''' The '''lyra''' and the concert '''kithara''' (Apollo's instrument), the '''aulos''', and the '''hydraulis''' water organ of Ctesibius (3rd century BC), the first keyboard. The '''Seikilos epitaph''' (1st century AD) is the oldest complete song with its notation.
+* '''The Andes.''' At '''Chavín de Huántar''' in Peru (c. 900–200 BC), decorated '''conch-shell trumpets''' (''pututus'') were found inside stone galleries whose acoustics seem built to carry them. Panpipes (''siku'') remain in use.
+* '''Mesoamerica.''' Clay whistles and ocarinas, the slit drum ''teponaztli'', the upright drum ''huehuetl'', and the much-debated "death whistles".
+
+== 4. Waves you can see ==
+* A struck '''gong''', bell or drumhead vibrates in '''modes''': rings and spokes of still and moving metal, radiating out from the centre.
+* '''Ernst Chladni''' showed this in 1787 by bowing a plate scattered with sand. The sand gathers on the still lines and draws star and sun patterns, now called '''Chladni figures'''.
+* The bianzhong's two-note bells could only be made by people who had mastered these modes in practice.
+* '''Hypothesis (not established):''' the sun-and-rays face of the Dong Son drums and the radiating designs on gongs picture the radiating vibration of the struck bronze, as well as a sun. This is a theme for our songs and an open question for study; no ancient text says so.
+
+== 5. Music and the stars ==
+* '''Pythagoras''' (6th century BC), as reported by later writers, linked musical ratios (2:1 octave, 3:2 fifth, 4:3 fourth) to the heavens. This is the "music of the spheres".
+* '''Ptolemy''', in the ''Harmonics'' (2nd century AD), matched musical systems to the planets. '''Nicomachus''' tied the seven-string lyre to the seven moving lights of the sky.
+* '''Johannes Kepler''', in ''Harmonices Mundi'' (1619), wrote out melodies for each planet from their speeds. From the same search he found his third law of planetary motion.
+* The constellation '''Lyra''' is the lyre of Orpheus, made by Hermes from a tortoise shell.
+* '''Music goes to the stars:''' the '''Voyager Golden Records''' (1977), now beyond the solar system, carry music from many cultures, from Bach to Chuck Berry, Peruvian panpipes and Navajo night chant.
+* '''Strings and Orion (a theme for songs, not history):''' the word ''guitar'' comes from the Greek ''kithara'', through Arabic ''qītāra'' and Spanish ''guitarra''. Egypt saw '''Orion''' as '''Sah''', the soul of Osiris. No ancient source joins the lute or guitar to Orion's Belt; our songs use that link as poetry.
+
+== 6. Hand and star methods of teaching ==
+* '''Egyptian chironomy.''' Old Kingdom tomb scenes show singers signalling with hand and arm in front of harpists. The musicologist Hans Hickmann read these as signs for notes or intervals. That reading is debated, but the scenes are real.
+* '''Jewish cantillation by hand.''' The Talmud (Berakhot 62a) speaks of showing the ''ta'amei Torah'', the reading marks, with the right hand. Some communities still teach the chant with hand signs.
+* '''Byzantine cheironomy''' — the choir leader's hand shows the melody.
+* '''The Guidonian Hand''' (after Guido of Arezzo, 11th century) puts each note of the scale on a joint or fingertip of the left hand. A singer learns the whole system by pointing to their own palm, using the syllables ''ut re mi fa sol la''.
+* '''Indian tala on the hand.''' Rhythm cycles are kept with claps, waves and finger counts (''kriya''), so the hand shows where the singer is in the cycle.
+* '''Curwen and Kodály hand signs''' (19th century) give a hand shape for each degree of the scale (do, re, mi…). They are still taught to children.
+* '''Tablature''' — writing where to put the fingers instead of what pitch sounds:
+** the Hurrian tablet's string names;
+** Chinese guqin ''jianzipu'';
+** later, lute and guitar tab.
+* '''The star method''' — teaching the ratios by the heavens: the octave, fifth and fourth as Pythagoras's harmony, and the planets as Kepler's melodies.
+
+== Sources ==
+* Genesis 4:19–22; Numbers 10:1–10; 1 Chronicles 15–16, 25; Babylonian Talmud, Berakhot 62a.
+* Conard N. J. et al., "New flutes document the earliest musical tradition in southwestern Germany", ''Nature'' 460 (2009). Zhang J. et al., "Oldest playable musical instruments found at Jiahu", ''Nature'' 401 (1999).
+* Kilmer A. D. and Crocker R. L., ''Sounds from Silence'' (1976). West M. L., ''Ancient Greek Music'' (1992).
+* Hickmann H., ''Musikgeschichte in Bildern: Ägypten'' (1961). Manniche L., ''Music and Musicians in Ancient Egypt'' (1991).
+* von Falkenhausen L., ''Suspended Music: Chime-Bells in the Culture of Bronze Age China'' (1993).
+* Chladni E. F. F., ''Entdeckungen über die Theorie des Klanges'' (1787). Kepler J., ''Harmonices Mundi'' (1619).
+* Kolar M. A., studies of the Chavín pututus and gallery acoustics (2013–). Hornbostel E. M. von and Sachs C., "Systematik der Musikinstrumente" (1914).
