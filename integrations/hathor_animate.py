@@ -383,7 +383,7 @@ def motion_clip(r, img, out):
     try:
         if r["kind"] == "cutout":
             import cutout_anim
-            return cutout_anim.render(img, out, 6 * PACE[r["pace"]], seed=int(r["id"][:6], 16))
+            return cutout_anim.render(img, out, 6 * PACE[r["pace"]], seed=int(r["id"][:6], 16), amp=max(1.2, 1.4 * AMP[r["amplitude"]]))  # motion must read as motion
         if r["kind"] == "flash":
             import flash_anim
             desc = dict(flash_anim.BUILTINS[r["flash"]])
