@@ -947,3 +947,17 @@ test('GET /api/dreams describes the build and serves no participant data', async
   assert.equal(json.interpretation, false);
   assert.equal(o.body.includes('pid'), false);
 });
+
+test('hathor.live is a front door to Hathor Metatron and Hathor Sandalphon (links + redirects to Pentecaust)', async () => {
+  const home = cap();
+  await handler(req('/'), home.res);
+  assert.match(home.o.body, /href="\/metatron"[^>]*>[^<]*Hathor Metatron/);
+  assert.match(home.o.body, /href="\/sandalphon"[^>]*>[^<]*Hathor Sandalphon/);
+  for (const p of ['/metatron', '/sandalphon']) {
+    let loc = '';
+    const res = { writeHead: (c, h) => { res.code = c; loc = h && h.location; }, end: () => {} };
+    await handler(req(p), res);
+    assert.equal(res.code, 302);
+    assert.equal(loc, `https://pentecaust.com${p}`);
+  }
+});
