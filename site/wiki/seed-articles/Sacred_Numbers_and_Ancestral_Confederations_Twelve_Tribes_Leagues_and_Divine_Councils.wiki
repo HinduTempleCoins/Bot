@@ -1,0 +1,46 @@
+'''Sacred Numbers and Ancestral Confederations: Twelve Tribes, Leagues and Divine Councils''' looks at the sevens, eights, nines and twelves of ancient religion — tribes, zodiacs, councils of gods — as a window on how ancient societies organised many groups into one: who held the sanctuary, who shared the burden, and how duties rotated. The recurring pattern is a '''plural structure with a sacred office inside it''', not one group ruling alone. Record, tradition and hypothesis are kept apart. Alpha.
+
+== 1. Twelve ==
+
+=== The tribes of Israel ===
+* '''Text:''' Jacob's twelve sons become twelve tribes (Genesis 29–35, 49). Levi receives no territory — "the LORD is their inheritance" (Numbers 18:20–24; Joshua 13:14) — and is set apart for the sanctuary; Joseph's portion is split into Ephraim and Manasseh, so the land is still divided twelve ways.
+* '''Text:''' The Levites serve the whole people; within them the descendants of Aaron (the Cohanim) are priests. The tribes support them with tithes and give them 48 cities scattered among all the others (Numbers 35).
+* '''Text:''' Solomon's twelve district officers each provision the court for one month of the year (1 Kings 4:7).
+* '''Text:''' The priests are divided into 24 "courses" serving the Temple in rotation (1 Chronicles 24); the Levitical singers likewise (1 Chronicles 25).
+* '''Record:''' A shared Y-chromosome haplotype among many Cohanim today is consistent with a common paternal line (Skorecki et al. 1997, ''Nature''; Hammer et al. 2009).
+* '''Debated:''' Martin Noth (1930) argued that early Israel was an ''amphictyony'' — a twelve-tribe league around a central shrine, like the Greek leagues below. Many scholars now reject the close parallel; the twelve-fold scheme may be partly literary.
+
+=== Twelve elsewhere ===
+* The Delphic Amphictyony: twelve peoples (''ethne'') sharing the sanctuaries of Delphi and Anthela, sending delegates, and regulating sacred affairs together.
+* The Etruscan League: twelve cities meeting yearly at the shrine of Voltumna.
+* The Ionian League (Dodecapolis): twelve cities with a common sanctuary, the Panionion.
+* The twelve Olympians; the twelve Hittite gods of the underworld; the twelve Ādityas of the Vedas.
+* Genesis also gives twelve princes to Ishmael (25:13–16) and twelve sons to Nahor (22:20–24).
+* The zodiac's twelve signs, from Babylonian astronomy, divided the heavens as the tribes divided the land; later Jewish synagogue mosaics (Beth Alpha, Hammat Tiberias) set the zodiac at their centre.
+
+== 2. Seven, eight and nine ==
+
+* '''Seven:''' the seven classical planets and the seven-day week; the Seven Sages (''apkallu'') of Mesopotamia who brought the arts of civilisation before the Flood; the Saptarishi (seven seers) of India; the seven Mithraic grades.
+* '''Eight:''' the Ogdoad of Hermopolis — four pairs of primordial gods (see [[The Ogdoad]]).
+* '''Nine:''' the Ennead of Heliopolis — Atum and his descendants (Shu and Tefnut, Geb and Nut, Osiris, Isis, Set, Nephthys): one family of gods, a court with its own rivalries.
+
+== 3. Rome: many cults, many bodies ==
+
+* '''Record:''' Rome's structure was plural: the curiae (30), the voting tribes (35), the assemblies, the Senate, and the colleges of priests — pontiffs, augurs, the Vestal Virgins, the fetials — with many cults side by side.
+* '''Record:''' The mysteries of Mithras spread from the late 1st century CE among soldiers, officials and merchants in seven grades; some emperors were said to be initiates. They were an important network inside the empire, never its government — one group among many, like the Levites among the tribes.
+
+== 4. The pattern ==
+
+Across these cases:
+* a '''confederation''' of several groups (often twelve) shares one sacred centre;
+* one group holds the '''sacred office''' — Levites, Cohanim, Brahmins, Magi, Roman priestly colleges — but does not rule alone;
+* duties and burdens '''rotate''' (monthly provisioning, priestly courses, league presidencies);
+* councils of gods ('''divine councils''' of seven, eight, nine or twelve) mirror councils of people.
+
+'''Hypothesis:''' the operator reads these structures as the organisation of ancient temple cultures and their wider societies — see [[The Temple Lineage Hypothesis (Van Kush Ancestry)]] and [[Ancestral Temple Elites Royal Inbreeding and Sacred Marriage]].
+
+== Sources ==
+* Genesis 29–35, 49; Numbers 18, 35; Joshua 13–21; 1 Kings 4:7; 1 Chronicles 24–25.
+* Noth M., ''Das System der zwölf Stämme Israels'' (1930). Skorecki K. et al. 1997, ''Nature'' 385; Hammer M. et al. 2009, ''Human Genetics'' 126.
+* Hall J., on the Delphic Amphictyony; Livy 5.1 and Dionysius of Halicarnassus on the Etruscan League; Herodotus 1.142–148 on the Ionian League.
+* Beck R., ''The Religion of the Mithras Cult in the Roman Empire'' (2006). Beard M., North J. and Price S., ''Religions of Rome'' (1998).
