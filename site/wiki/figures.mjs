@@ -168,6 +168,47 @@ export function mobileImmobile() {
     + `<marker id="ar4b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2f6bb3"/></marker></defs>${body}`);
 }
 
+// ── the methylation cycle, as the Amplification Framework describes it ──────────────────────────────
+// Folate → 5-MTHF → (BH4 regeneration) → the three hydroxylases → serotonin, dopamine, noradrenaline.
+// Drawn to match the operator's own papers (L-Methylfolate; The Amplification Framework), where the
+// point is that L-methylfolate acts on the COFACTOR, not the precursor — which is why precursor
+// loading (tryptophan, tyrosine) does not do the same thing.
+export function methylationCycle() {
+  const w = 780, h = 430;
+  const box = (x, y, bw, bh, label, sub, fill) =>
+    `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="10" fill="${fill}" stroke="${MUT}"/>`
+    + text(x + bw / 2, y + (sub ? bh / 2 - 2 : bh / 2 + 4), label, { size: 12.5, weight: 700 })
+    + (sub ? text(x + bw / 2, y + bh / 2 + 15, sub, { size: 10.5, fill: MUT }) : '');
+  const arrow = (x1, y1, x2, y2, label) =>
+    `<path d="M ${x1},${y1} L ${x2},${y2}" stroke="${MUT}" stroke-width="1.8" marker-end="url(#mc)"/>`
+    + (label ? text((x1 + x2) / 2, (y1 + y2) / 2 - 6, label, { size: 10, fill: MUT }) : '');
+  const body = [
+    box(30, 80, 120, 46, 'Dietary folate', '', '#eef3e8'),
+    arrow(150, 103, 196, 103, ''),
+    box(196, 80, 120, 46, 'MTHFR', 'C677T slows this', '#f6e9c8'),
+    arrow(316, 103, 362, 103, ''),
+    box(362, 72, 150, 62, 'L-methylfolate', '5-MTHF · crosses the BBB', '#dfeaf6'),
+    // down to BH4
+    arrow(437, 134, 437, 176, ''),
+    box(352, 176, 170, 56, 'BH4 regenerated', 'made · protected · recycled', '#e6f0e4'),
+    // the three hydroxylases
+    arrow(437, 232, 437, 268, ''),
+    box(282, 268, 310, 46, 'Tryptophan · tyrosine · phenylalanine hydroxylase', 'BH4 is the rate-limiting cofactor for all three', '#fff'),
+    arrow(437, 314, 437, 348, ''),
+    box(300, 348, 274, 46, 'Serotonin · dopamine · noradrenaline', '', '#f3e3ef'),
+    // homocysteine arm
+    arrow(422, 103, 560, 103, ''),
+    box(560, 80, 190, 46, 'Homocysteine → methionine', 'needs B12 — no B12, no use', '#f6e3e3'),
+    arrow(655, 126, 655, 166, ''),
+    box(590, 166, 130, 46, 'SAM-e', 'the methyl donor', '#efe8f6'),
+    text(655, 236, 'DNA methylation,', { size: 10.5, fill: MUT }),
+    text(655, 250, 'BDNF, myelination', { size: 10.5, fill: MUT }),
+  ].join('');
+  return frame(w, h, 'Where L-methylfolate acts', 'It supplies the COFACTOR, not the precursor — which is why loading tryptophan or tyrosine is not the same thing',
+    `<defs><marker id="mc" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${MUT}"/></marker></defs>${body}`
+    + text(w / 2, h - 10, 'Check B12 before loading folate: folate corrects the anaemia of B12 deficiency without correcting the nerve damage.', { size: 11, fill: '#b3261e' }));
+}
+
 // ── the registry ────────────────────────────────────────────────────────────────────────────────────
 export const FIGURES = {
   'nutrient-deficiency-chart': { fn: () => chartSvg({ cols: 4, cell: 200 }), alt: 'Cannabis nutrient deficiency chart, leaf by leaf' },
@@ -176,7 +217,30 @@ export const FIGURES = {
   'odour-thresholds': { fn: thresholdScale, alt: 'Odour thresholds on a logarithmic scale' },
   'steam-distillation': { fn: steamDistillation, alt: 'How steam distillation works' },
   'acid-base-extraction': { fn: acidBaseExtraction, alt: 'Acid–base extraction between water and solvent' },
+  'methylation-cycle': { fn: methylationCycle, alt: 'Where L-methylfolate acts in the methylation cycle' },
 };
+
+/**
+ * Figures attached to EXISTING articles by title — injected server-side at render time.
+ *
+ * The articles themselves are not edited. The operator's rule is that wiki article text is not ours to
+ * change; adding a [[Figure:…]] line to someone's article would be changing it. So the mapping lives
+ * here instead: slug → figure, applied when the page is built. The .wiki file on disk stays untouched.
+ *
+ * Pages we wrote ourselves carry [[Figure:…]] inline instead and must NOT be listed here, or they would
+ * render their figures twice. The test enforces exactly that.
+ */
+export const PAGE_FIGURES = {
+  'L-Methylfolate': ['methylation-cycle'],
+  'The_Amplification_Framework': ['methylation-cycle'],
+  'B-Vitamins': ['methylation-cycle'],
+};
+
+/** the figures for an article slug, already rendered — '' when there are none */
+export function figuresForPage(slug) {
+  const names = PAGE_FIGURES[String(slug || '')] || [];
+  return names.map((n) => figureHtml(n, (FIGURES[n] && FIGURES[n].alt) || '')).join('');
+}
 
 export const hasFigure = (name) => Object.prototype.hasOwnProperty.call(FIGURES, String(name || '').toLowerCase());
 

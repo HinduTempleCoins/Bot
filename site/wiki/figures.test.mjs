@@ -53,3 +53,19 @@ test('the figure styles ship with the page', () => {
   assert.match(FIGURE_CSS, /\.wiki-figure/);
   assert.match(FIGURE_CSS, /figcaption/);
 });
+
+test('existing articles get figures server-side — the .wiki file is never touched', async () => {
+  const { PAGE_FIGURES, figuresForPage } = await import('./figures.mjs');
+  const { readFileSync, existsSync } = await import('node:fs');
+  for (const slug of Object.keys(PAGE_FIGURES)) {
+    const html = figuresForPage(slug);
+    assert.match(html, /<svg/, slug);
+    const file = `site/wiki/seed-articles/${slug}.wiki`;
+    if (existsSync(file)) {
+      assert.equal(readFileSync(file, 'utf8').includes('[[Figure:'), false,
+        `${slug}.wiki must not have been edited to add a figure`);
+    }
+  }
+  assert.equal(figuresForPage('Not_A_Page'), '');
+  assert.equal(figuresForPage(''), '');
+});
