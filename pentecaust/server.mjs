@@ -54,6 +54,7 @@ import { handler as mediaHandler } from './media.mjs';
 import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage, tree as inviteTree} from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 import { metatronPage } from './metatron.mjs';
+import { sandalphonPage } from './sandalphon.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -180,6 +181,7 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'image/svg+xml; charset=utf-8', 'cache-control': 'public, max-age=86400' });
       return res.end('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28"><defs><linearGradient id="f" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e0453a"/><stop offset=".55" stop-color="#ff8c2b"/><stop offset="1" stop-color="#ffd76a"/></linearGradient></defs><path fill="url(#f)" d="M12 0c1.6 5.2-3.1 6.9-3.1 11.2 0 1.6.8 2.9 1.9 3.6-.5-2.6.7-4.4 2.2-5.6-.4 2.7 1.1 3.7 2.4 5.3 1.4 1.7 2.1 3.4 2.1 5.1C17.5 24.2 14.9 28 12 28S6.5 24.2 6.5 19.6c0-2.3.9-4.1 2.1-5.8C6.2 15.1 4 17.9 4 21.1 4 25.4 7.6 28 12 28s8-2.6 8-6.9C20 13.6 12.9 10.4 12 0z"/></svg>');
     }
+    if (path === '/sandalphon' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(sandalphonPage()); }
     if (path === '/metatron' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(metatronPage()); }
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
     // The drop-in "Translate this page?" widget — included by Pentecaust AND by every Condenser page. Served
@@ -598,6 +600,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nInt>🔌 Integrations</button>
  <button id=nCamp>📣 Herald</button>
  <button id=nMeta onclick="location.href='/metatron'">✍️ Hathor Metatron</button>
+ <button id=nSand onclick="location.href='/sandalphon'">🎼 Hathor Sandalphon</button>
 </div>
 
 <div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;flex-wrap:wrap;gap:8px;align-items:center"></div>

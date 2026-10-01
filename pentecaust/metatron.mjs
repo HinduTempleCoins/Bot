@@ -34,7 +34,7 @@ button.ghost{background:transparent;color:var(--fg);border:1px solid var(--bd)}.
 .sc .row{margin:4px 0 0}.sc button{padding:2px 7px;font-size:12px}img#gimg{max-width:100%;border-radius:10px;margin-top:8px;display:none}
 code{font-size:12px;word-break:break-all}
 </style></head><body>
-<header><a href="/">← Pentecaust</a><h1>✍️ Hathor Metatron</h1><span class=mut>Hathor become Metatron — write and make for Herald emails, BiFrost videos and our channels · powered by Hathor · Alpha</span></header>
+<header><a href="/">← Pentecaust</a><h1>✍️ Hathor Metatron</h1><a href="/sandalphon" style="order:9">🎼 Hathor Sandalphon →</a><span class=mut>Hathor become Metatron — write and make for Herald emails, BiFrost videos and our channels · powered by Hathor · Alpha</span></header>
 <main>
 <section class=card>
  <h2>Writing desk</h2>
