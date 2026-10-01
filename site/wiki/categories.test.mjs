@@ -179,10 +179,10 @@ test('new monographs for Balm of Gilead, Old World vs New World Herbs, Apotropai
   assert.ok(kyphiContent.includes('Galen'), 'Kyphi mentions Galen');
 });
 
-test('7 high-level knowledge pillars cover all disciplines', () => {
+test('8 high-level knowledge pillars cover all disciplines', () => {
   const arts = getLiveArticles();
   const pillars = groupArticlesByPillars(arts);
-  assert.equal(pillars.length, 7, 'Must have 7 pillars');
+  assert.equal(pillars.length, 8, 'Must have 8 pillars');
   for (const p of pillars) {
     assert.ok(p.items.length >= 20, `Pillar ${p.name} has ${p.items.length} items, expected >= 20`);
   }
