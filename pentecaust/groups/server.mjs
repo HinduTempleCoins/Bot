@@ -16,8 +16,9 @@
 import {
   createGroup, addMember, approve, invite, removeMember, setRole, setJoinPolicy, setAbout,
   postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam, setDues, setCharter, DUES_RAILS,
-  groupChannelId, ROLES, JOIN_POLICIES, KINDS,
+  groupChannelId, ROLES, JOIN_POLICIES, KINDS, voteOnPost, votesFor, setProgram, PROGRAMS,
 } from './model.mjs';
+import { kitFor } from './paperwork.mjs';
 
 const json = (res, code, obj) => {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8' });
@@ -74,6 +75,16 @@ export async function handler(req, res, deps = {}) {
       return json(res, 200, { ok: true, account: me, groups: groupsForAccount(me, opts) });
     }
     // Your own role + chat channel for one group. Session-only: a role is not public information.
+    // the paperwork a club of this kind actually needs — plain information, never filed for anyone
+    if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'paperwork') {
+      const g = getGroup(segs[1], opts);
+      if (!g) return json(res, 404, { ok: false, reason: 'no such group' });
+      return json(res, 200, kitFor((g.program && g.program.name) || q.get('program') || 'social-club'));
+    }
+    if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'votes') {
+      return json(res, 200, { ok: true, votes: votesFor(segs[1], q.get('author'), q.get('permlink'), q.get('voter'), opts) });
+    }
+    if (method === 'GET' && segs[0] === 'programs') return json(res, 200, { ok: true, programs: PROGRAMS });
     if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'me') {
       const me = who(req); if (!me) return unauth(res);
       const g = getGroup(segs[1], opts);
@@ -122,6 +133,12 @@ export async function handler(req, res, deps = {}) {
       case 'dues':      return json(res, 200, setDues(id, me, b.dues, opts));
       case 'charter':   return json(res, 200, setCharter(id, me, b.charter, opts));
       case 'post':      return json(res, 200, postToGroup(id, { ...b, author: me }, opts));
+      // Pact is a MELEK front end: a vote here is a standard Graphene `vote` op, returned for
+      // MELEK-Signer to broadcast. This surface holds no keys and writes nothing to the chain.
+      case 'vote':      return json(res, 200, voteOnPost(id, { ...b, voter: me }, opts));
+      // A club can plug into an existing MELEK system (mutual aid, a mystery school) or be a real-world
+      // club (auto, precious metals, social) — which also decides which paperwork kit it gets.
+      case 'program':   return json(res, 200, setProgram(id, me, b.program, b.detail || {}, opts));
       default:          return json(res, 404, { ok: false, reason: 'not-found' });
     }
   } catch { return json(res, 500, { ok: false, reason: 'error' }); }

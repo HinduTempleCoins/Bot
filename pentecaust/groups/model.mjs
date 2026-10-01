@@ -160,7 +160,7 @@ export function view(group) {
     team: group.team || null,
     id: group.id, name: group.name, about: group.about || '', kind: group.kind,
     joinPolicy: group.joinPolicy, owner: group.owner, account: group.account || null,
-    dues: group.dues || null, charter: group.charter || null,
+    dues: group.dues || null, charter: group.charter || null, program: group.program || null,
     tag: group.tag || null, category: groupCategory(group),
     tokenGate: Array.isArray(group.tokenGate) ? group.tokenGate : [],
     maxMembers: group.maxMembers, created: group.created,
@@ -401,6 +401,43 @@ export function setDues(id, actor, dues, opts = {}) {
  * started to fade". A club founded on an explanation dies when the explanation is finished — so
  * `feed` is a first-class field, not decoration.
  */
+// A club can run a PROGRAM — an existing MELEK system it plugs into, rather than a fork of it:
+//   • benefit-society — mutual aid: a charter, dues, standing and a claims ledger
+//     (integrations/benefit-society.mjs). RECORDS ONLY: we never hold or move members' money.
+//   • mystery-school   — degrees and a course of study, in the Library's mystery-school tradition.
+//   • study-circle     — a reading group working through a shelf of the Library.
+//   • auto-club        — a real-world car club: meets, drives, shows, a treasury and insurance questions.
+//   • metals-club      — members buying and holding precious metals together. RECORDS ONLY: the club never
+//     takes custody of anyone's metal or money, which is the line between a club and a regulated dealer.
+//   • social-club      — any other real-world club that meets and keeps a treasury.
+// The program says which system reads this club's roster; it never changes who may join or what dues are.
+// Real-world clubs are first-class: an auto club, a precious-metals club, a social club. Each one gets
+// the paperwork a real club actually needs (groups/paperwork.mjs) — forms and filings, plainly described.
+export const PROGRAMS = ['benefit-society', 'mystery-school', 'study-circle', 'auto-club', 'metals-club', 'social-club'];
+
+export function setProgram(id, actor, program, detail = {}, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file);
+  const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
+  if (program == null || program === '') { group.program = null; saveStore(fs, file, store); return { ok: true, group: view(group) }; }
+  const name = String(program).toLowerCase();
+  if (!PROGRAMS.includes(name)) return { ok: false, reason: `program must be one of ${PROGRAMS.join(', ')}` };
+  group.program = {
+    name,
+    // a mutual-aid club states its model and carries the standing licensing note — never a benefit promise
+    model: clamp(detail.model, 60),
+    // a mystery school states its degrees in order; a study circle its shelf
+    degrees: Array.isArray(detail.degrees) ? detail.degrees.slice(0, 12).map((d) => clamp(d, 40)).filter(Boolean) : [],
+    shelf: clamp(detail.shelf, 120),
+    note: clamp(detail.note, 300),
+    recordsOnly: true,          // this surface keeps records; it never custodies money or promises a benefit
+  };
+  saveStore(fs, file, store);
+  return { ok: true, group: view(group) };
+}
+
 export function setCharter(id, actor, charter, opts = {}) {
   const { fs, file } = ctx(opts);
   const store = loadStore(fs, file);
@@ -501,6 +538,54 @@ export function postToGroup(id, post = {}, opts = {}) {
   if (group.feed.length > KEEP_FEED) group.feed = group.feed.slice(-KEEP_FEED);
   saveStore(fs, file, store);
   return { ok: true, meta, feedRef, group: view(group) };
+}
+
+/**
+ * VOTE on a post in a group — Pact is a MELEK front end, so a vote here is an ordinary Graphene `vote`
+ * op. This module holds NO keys and makes NO chain write: it returns the op for MELEK-Signer to
+ * broadcast and keeps an off-chain tally so a group page can show standing without a chain scan.
+ * The chain is the record; this is the index. One vote per voter per post (a re-vote replaces it).
+ * weight is HIVE/STEEM-style: -10000..10000, where 10000 is a full upvote and 0 un-votes.
+ */
+export function voteOnPost(id, vote = {}, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const voter = acct(vote.voter);
+  if (!canParticipate(voter)) return { ok: false, reason: 'voter must be a valid MELEK account name' };
+  const author = acct(vote.author); const permlink = slug(vote.permlink);
+  if (!author || !permlink) return { ok: false, reason: 'author and permlink required' };
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  const role = roleOf(group, voter);
+  if (!role) return { ok: false, reason: 'only members can vote in this group' };
+  if (role === 'muted') return { ok: false, reason: 'muted members cannot vote' };
+  let weight = Math.round(Number(vote.weight));
+  if (!Number.isFinite(weight)) weight = 10000;
+  weight = Math.max(-10000, Math.min(10000, weight));
+
+  const key = `${author}/${permlink}`;
+  group.votes = group.votes || {};
+  const tally = group.votes[key] || (group.votes[key] = { up: 0, down: 0, by: {} });
+  const prev = tally.by[voter];
+  if (prev != null) { if (prev > 0) tally.up--; else if (prev < 0) tally.down--; }
+  if (weight > 0) tally.up++; else if (weight < 0) tally.down++;
+  if (weight === 0) delete tally.by[voter]; else tally.by[voter] = weight;
+  // keep the per-post record bounded; the chain holds the full truth
+  if (Object.keys(tally.by).length > 1000) delete tally.by[Object.keys(tally.by)[0]];
+
+  // the op MELEK-Signer broadcasts — standard Graphene, no custom op
+  const op = ['vote', { voter, author, permlink, weight }];
+  const ref = (group.feed || []).find((f) => f.author === author && f.permlink === permlink);
+  if (ref) { ref.up = tally.up; ref.down = tally.down; }
+  saveStore(fs, file, store);
+  return { ok: true, op, votes: { up: tally.up, down: tally.down, mine: weight || 0 } };
+}
+
+/** Standing of one post in a group (off-chain tally). */
+export function votesFor(id, author, permlink, voter, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const group = loadStore(fs, file).groups[id];
+  const t = group && group.votes && group.votes[`${acct(author)}/${slug(permlink)}`];
+  return { up: (t && t.up) || 0, down: (t && t.down) || 0, mine: (t && voter && t.by[acct(voter)]) || 0 };
 }
 
 /** Recent posts tagged to a group, newest-first (the off-chain feed index; not the chain of record). */
