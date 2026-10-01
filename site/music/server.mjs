@@ -63,7 +63,7 @@ const STYLE = `<style>
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,sans-serif}
 header{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--bd)}
 header a{color:var(--mut);text-decoration:none}.brand{color:var(--fg)!important;font-size:18px}
-.wrap{max-width:1000px;margin:0 auto;padding:16px}a{color:var(--acc)}h1{font-size:24px;margin:6px 0}h2{font-size:18px;margin:22px 0 6px}
+.wrap{max-width:1000px;margin:0 auto;padding:16px}a{color:var(--acc)}h1{font-size:24px;margin:6px 0}h2{font-size:18px;margin:22px 0 6px}h3{font-size:15px;margin:16px 0 2px}
 .lead{color:var(--mut)}.tracks{list-style:none;padding:0;margin:0}.tracks li{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);margin-top:8px}
 .tracks .t{flex:1;min-width:0}.tracks .t a{font-weight:700;text-decoration:none}.mut{color:var(--mut);font-size:13px}
 .tracks audio{width:260px;max-width:45vw}audio.big{width:100%;margin:12px 0}
@@ -92,7 +92,11 @@ export function homePage(tracks = loadCatalog()) {
   const shelves = SHELVES.map((s) => {
     const list = tracks.filter((t) => t.shelf === s.id);
     if (!list.length) return '';
-    return `<section><h2>${esc(s.title)}</h2><p class=lead>${esc(s.blurb)}</p><ul class=tracks>${list.map(row).join('')}</ul></section>`;
+    // singles first, then each album as its own group (album order = newest track first)
+    const singles = list.filter((t) => !t.album);
+    const albums = [...new Set(list.filter((t) => t.album).map((t) => t.album))];
+    const groups = albums.map((al) => `<h3>${esc(al)}</h3><ul class=tracks>${list.filter((t) => t.album === al).map(row).join('')}</ul>`).join('');
+    return `<section><h2>${esc(s.title)}</h2><p class=lead>${esc(s.blurb)}</p>${singles.length ? `<ul class=tracks>${singles.map(row).join('')}</ul>` : ''}${groups}</section>`;
   }).join('');
   const inner = `<h1>SoapBox Music</h1>
 <p class=lead>Original songs made on our own servers with <a href="https://pentecaust.com/sandalphon">Hathor Sandalphon</a>, and a search across free public-domain and Creative-Commons music. Alpha.</p>
@@ -105,7 +109,7 @@ ${shelves || '<p class=lead>The first original songs are being made now — they
 export function trackPage(t) {
   const credit = [t.artist && `By ${t.artist}`, t.engine && `made with ${t.engine}`].filter(Boolean).map(esc).join(' · ');
   const inner = `<p><a href="/music">← All music</a></p><h1>${esc(t.title)}</h1>
-<p class=mut>${credit}${t.genre ? ` · ${esc(t.genre)}` : ''}${t.seconds ? ` · ${dur(t.seconds)}` : ''}</p>
+${t.album ? `<p class=mut>From the album <b>${esc(t.album)}</b></p>` : ''}<p class=mut>${credit}${t.genre ? ` · ${esc(t.genre)}` : ''}${t.seconds ? ` · ${dur(t.seconds)}` : ''}</p>
 <audio class=big controls preload=metadata src="/music/media/${esc(t.file)}"></audio>
 ${t.style ? `<p class=mut><b>Sound:</b> ${esc(t.style)}</p>` : ''}
 ${t.lyrics ? `<h2>Lyrics</h2><div class=lyrics>${esc(t.lyrics)}</div>` : ''}
