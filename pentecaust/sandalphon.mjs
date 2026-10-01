@@ -69,7 +69,7 @@ pre{white-space:pre-wrap;font-size:12px;background:var(--bg);border:1px solid va
  <h2 style="margin-top:14px">Make it</h2>
  <div class=row><button id=exp>Prepare for the song engine</button><button class=ghost id=copyexp>Copy</button></div>
  <pre id=out class=mut>The plan, as the exact lyrics and style our song engine takes, appears here.</pre>
- <p class=mut>Our song engine runs on our own servers; sending a song straight from here comes when it is live. Original songs only.</p>
+ <p class=mut>Our song engine runs on our own servers (CPU — about an hour a song, and shared). Connect your own provider key in <a href="/#integrations">Pentecaust &rarr; Integrations</a> and your songs are made on your own account instead. Original songs only.</p>
 </section>
 <section class=card style="grid-column:1/-1">
  <h2>Song board</h2>

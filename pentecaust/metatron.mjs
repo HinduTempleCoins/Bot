@@ -79,7 +79,7 @@ code{font-size:12px;word-break:break-all}
   <p>For a <b>Herald</b> email: <code id=gherald></code> <button class=ghost id=gcopyh>Copy</button></p>
   <p>For a <b>BiFrost</b> thumbnail or a post: use the link above.</p>
  </div>
- <p class=mut>Made on our own servers (CPU, a few minutes per picture). Content rules of the Studio apply.</p>
+ <p class=mut>Made on our own servers (CPU, a few minutes per picture) — or in seconds on your own account if you connect a provider key in <a href="/#integrations">Pentecaust → Integrations</a>. Content rules of the Studio apply.</p>
 </section>
 </main>
 <script>
@@ -115,13 +115,20 @@ $('board').onclick=function(e){var t=e.target,cards=load('cards',[]);if(t.datase
 $('addScene').onclick=function(){var t=$('scene').value.trim();if(!t)return;var cards=load('cards',[]);cards.push({text:t.slice(0,200),pts:Math.max(1,Math.min(13,+$('pts').value||1)),col:0});save('cards',cards);$('scene').value='';board()};
 board();
 // graphic maker → our Studio
-$('gmake').onclick=function(){var p=$('gprompt').value.trim();if(!p){$('gstatus').textContent='Describe the picture first.';return}
- $('gmake').disabled=true;$('gstatus').textContent='Making it on our servers — this takes a few minutes…';$('guse').style.display='none';$('gimg').style.display='none';
+// The fast lane first: if you connected your own provider key in Integrations, the picture is made on
+// your account in seconds. Otherwise we fall back to our own (slower, shared) CPU pool.
+function gshow(url){$('gstatus').textContent='Done.';$('gimg').src=url;$('gimg').style.display='block';$('glink').textContent=url;
+ $('gherald').textContent='<img src="'+url+'" alt="" style="max-width:100%">';$('guse').style.display='block';$('gmake').disabled=false}
+function gpool(p){$('gstatus').textContent='Making it on our shared servers — this takes a few minutes. (Connect your own key in Pentecaust → Integrations to get it in seconds.)';
  fetch(STUDIO+'/api/generate?format=json',{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded'},body:'prompt='+encodeURIComponent(p)+'&size='+encodeURIComponent($('gsize').value)})
- .then(function(r){return r.json()}).then(function(j){$('gmake').disabled=false;if(!j.ok){$('gstatus').textContent=j.error||'Could not make it this time.';return}
-  $('gstatus').textContent='Done.';$('gimg').src=j.url;$('gimg').style.display='block';$('glink').textContent=j.url;
-  $('gherald').textContent='<img src="'+j.url+'" alt="" style="max-width:100%">';$('guse').style.display='block'})
- .catch(function(){$('gmake').disabled=false;$('gstatus').textContent='The studio did not answer — try again in a minute.'})};
+ .then(function(r){return r.json()}).then(function(j){$('gmake').disabled=false;if(!j.ok){$('gstatus').textContent=j.error||'Could not make it this time.';return}gshow(j.url)})
+ .catch(function(){$('gmake').disabled=false;$('gstatus').textContent='The studio did not answer — try again in a minute.'})}
+$('gmake').onclick=function(){var p=$('gprompt').value.trim();if(!p){$('gstatus').textContent='Describe the picture first.';return}
+ $('gmake').disabled=true;$('guse').style.display='none';$('gimg').style.display='none';$('gstatus').textContent='Making it…';
+ var acct='';try{acct=localStorage.getItem('melek_me')||''}catch(e){}
+ fetch('/api/metatron/graphic',{method:'POST',headers:{'content-type':'application/json'},credentials:'same-origin',body:JSON.stringify({account:acct,prompt:p,size:$('gsize').value})})
+ .then(function(r){return r.json()}).then(function(j){if(j&&j.ok&&j.image){gshow(j.image);return}gpool(p)})
+ .catch(function(){gpool(p)})};
 $('gcopy').onclick=function(){try{navigator.clipboard.writeText($('glink').textContent)}catch(e){}};
 $('gcopyh').onclick=function(){try{navigator.clipboard.writeText($('gherald').textContent)}catch(e){}};
 })();
