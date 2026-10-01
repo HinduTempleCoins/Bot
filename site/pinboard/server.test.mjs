@@ -110,3 +110,18 @@ test('the bookmarklet is offered and points back here', async () => {
   assert.match(o.body, /javascript:/);          // it is a bookmarklet by nature
   assert.match(o.body, /\/save\?url=/);
 });
+
+test('the post reader talks standard Graphene and soft-fails when the chain is unreachable', async () => {
+  reset();
+  const { __setFetch } = await import('./server.mjs');
+  let sent = null;
+  __setFetch(async (url, init) => { sent = JSON.parse(init.body); return { ok: true, json: async () => ({ result: { author: 'ryan', permlink: 'p1', title: 'T', body: `![a](${IMG})` } }) }; });
+  __setPostReader(null);                                   // back to the real reader
+  const o = await get('/save?post=@ryan/p1');
+  assert.equal(sent.method, 'condenser_api.get_content');
+  assert.deepEqual(sent.params, ['ryan', 'p1']);
+  assert.equal(o.code, 200);
+  assert.equal(loadPins().length, 1);
+  __setFetch(async () => { throw new Error('offline'); });
+  assert.equal((await get('/save?post=@ryan/p2')).code, 404);
+});

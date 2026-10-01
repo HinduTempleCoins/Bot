@@ -153,9 +153,29 @@ function readBody(req, max = 20000) {
   });
 }
 
-/** fetch a MELEK post so its pictures can be saved — injectable for the offline suite */
-let _readPost = async () => null;
-export function __setPostReader(fn) { _readPost = fn || (async () => null); }
+// ── reading a MELEK post, so its pictures can be saved ──────────────────────────────────────────────
+// Standard Graphene: condenser_api.get_content. Read-only, no keys. Soft-fails to null (the saver then
+// says it could not read the post) and is injectable so the offline suite never touches the network.
+const CHAIN_RPC = process.env.CHAIN_RPC || 'https://melek.salon/rpc';
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
+
+async function readPostFromChain(author, permlink) {
+  try {
+    const r = await _fetch(CHAIN_RPC, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'condenser_api.get_content', params: [author, permlink], id: 1 }),
+    });
+    if (!r || !r.ok) return null;
+    const j = await r.json();
+    const c = j && j.result;
+    if (!c || !c.author || !c.body) return null;
+    return { author: c.author, permlink: c.permlink, title: c.title || '', body: c.body, url: `${MELEK}/@${c.author}/${c.permlink}` };
+  } catch { return null; }
+}
+
+let _readPost = readPostFromChain;
+export function __setPostReader(fn) { _readPost = fn || readPostFromChain; }
 
 export async function handler(req, res) {
   try {
