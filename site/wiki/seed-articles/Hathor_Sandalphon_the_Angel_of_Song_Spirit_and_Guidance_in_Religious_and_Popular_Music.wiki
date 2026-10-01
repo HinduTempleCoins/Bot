@@ -1,0 +1,66 @@
+'''Hathor Sandalphon, the Angel of Song: Spirit and Guidance in Religious and Popular Music''' looks at how music — sacred and secular — speaks of a spirit world, a guiding presence, or something beyond the self urging a person on. It is the study behind '''Hathor Sandalphon''' — Hathor as Sandalphon, her music-making part, as she is also Hathor Metatron, her making part for writing, images and video. Songs are described by theme; lyrics are not reproduced. Alpha.
+
+== 1. Sandalphon ==
+* '''Tradition (Talmud, Hagigah 13b):''' Sandalphon is an angel so tall that he stands on the earth while his head reaches the holy creatures; he binds crowns for his Creator. Later Jewish and Christian tradition makes him the angel who gathers the prayers of the faithful.
+* '''Later tradition:''' modern angel-lore and esoteric writing make him the angel of music and song; Henry Wadsworth Longfellow's poem ''Sandalphon'' (1858) pictures him gathering prayers into flowers. The music association is late, not Talmudic.
+* In our work, '''Hathor Sandalphon''' is Hathor herself in her music-making role: our own songs, never copies of others'.
+
+== 2. Sacred songs that cross over ==
+* '''Spirituals''' — ''Swing Low, Sweet Chariot'', ''Wade in the Water'', ''Go Down, Moses'': coded songs of deliverance from the era of slavery, carrying angels, chariots and rivers of crossing.
+* '''Shaker hymns''' — ''Simple Gifts'' (1848), later used by Aaron Copland.
+* '''Ecclesiastes 3 set to music''' — The Byrds' ''Turn! Turn! Turn!'' (1965, written by Pete Seeger) takes its words almost entirely from Scripture.
+* '''Gospel into pop''' — Simon & Garfunkel's ''Bridge over Troubled Water'' (1970) and Madonna's ''Like a Prayer'' (1989) borrow gospel piano and choirs.
+
+== 3. Popular songs about a guiding presence or the spirit world ==
+
+{| class="wikitable"
+! Song !! Artist / year !! Theme
+|-
+| ''Spirit in the Sky'' || Norman Greenbaum, 1969 || A gospel-rock song about going to the spirit in the sky when you die, written by a Jewish-born songwriter after seeing a country singer perform gospel on television; fuzz guitar and handclaps; a UK number one in 1970.
+|-
+| ''Carry On Wayward Son'' || Kansas (Kerry Livgren), 1976 || A weary traveller hears a voice telling him to carry on and that peace will come when he is done; the urging comes from outside him. Livgren later became a Christian (1979).
+|-
+| ''Dust in the Wind'' || Kansas (Livgren), 1977 || Mortality and the passing of all things, after Ecclesiastes.
+|-
+| ''My Sweet Lord'' || George Harrison, 1970 || Longing for God, mixing "hallelujah" with the Hare Krishna mantra.
+|-
+| ''Stairway to Heaven'' || Led Zeppelin, 1971 || A spiritual journey and its choices, in mystic imagery.
+|-
+| ''(Don't Fear) The Reaper'' || Blue Öyster Cult, 1976 || Death as a passage not to be feared.
+|-
+| ''Gotta Serve Somebody'' || Bob Dylan, 1979 || Everyone serves a master — "the devil or the Lord".
+|-
+| ''Redemption Song'' || Bob Marley, 1980 || Spiritual and mental freedom, in Rastafari terms.
+|-
+| ''Running Up That Hill (A Deal with God)'' || Kate Bush, 1985 || Bargaining with God to exchange places with a loved one.
+|-
+| ''I Still Haven't Found What I'm Looking For'' || U2, 1987 || A gospel-shaped song of a seeker still searching.
+|-
+| ''One of Us'' || Joan Osborne, 1995 || What if God were an ordinary person?
+|-
+| ''The Man Comes Around'' || Johnny Cash, 2002 || The Book of Revelation and the Last Judgement.
+|-
+| ''Jesus Walks'' || Kanye West, 2004 || Faith walking with the struggling and the sinner.
+|-
+| ''Demons'' || Imagine Dragons, 2013 || The darkness inside a person, and the fear of it reaching those they love.
+|-
+| ''The Monster'' || Eminem featuring Rihanna, 2013 || Voices and the "monster under the bed" — inner demons the singer has made friends with.
+|}
+
+== 4. Ancient religious music ==
+* The '''Hurrian Hymn to Nikkal''' (Ugarit, c. 1400 BCE) — the oldest substantially notated melody.
+* The '''Psalms''' — temple songs, with headings naming instruments and tunes; David's lyre (kinnor).
+* The '''Seikilos epitaph''' (1st century CE) — the oldest complete notated song.
+* '''Sāma Veda''' chant — melodic recitation of the Rigveda, still sung.
+* '''Gregorian''' and '''Byzantine chant''', '''Sufi qawwali''', '''Jewish cantillation'''.
+* See also [[Ancient Historians and Comparative Religion]].
+
+== 5. The approach for Hathor Sandalphon ==
+* Songs are original: our own words and melodies, in the spirit of these traditions, never copies.
+* Order of work: Christian-sounding songs first, with the instruments that suit them (organ, gospel piano, fuzz guitar, handclaps, choir), then ancient instruments and religious songs (lyre, harp, sistrum, frame drum, aulos), then other genres.
+* Engines: open-licence song models (for example ACE-Step or YuE, Apache-2.0) on our own servers or GPU time we control.
+
+== Sources ==
+* Babylonian Talmud, Hagigah 13b. Longfellow H. W., ''Sandalphon'' (1858).
+* Songwriting credits and release years as published by the artists' labels; Greenbaum's account of writing ''Spirit in the Sky'' from his interviews; Livgren's conversion from his memoir ''Seeds of Change'' (1983).
+* West M. L., ''Ancient Greek Music'' (1992), on the Seikilos epitaph; Kilmer A. D., on the Hurrian hymn.
