@@ -32,6 +32,7 @@ test('the wall is a grid, and an empty board says so', async () => {
   assert.match(o.body, /The picture side of MELEK/);
   assert.match(o.body, /Nothing pinned yet/);
   assert.match(o.body, /<b>Alpha\. A MELEK front end\.<\/b>/);
+  assert.match(o.body, /small record — not a blog post/);
 });
 
 test('pinning a picture stores it and the wall shows a thumbnail', async () => {

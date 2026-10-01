@@ -94,8 +94,8 @@ ${STYLE}${PINBOARD_CSS}</head><body>
 
 function homePage(pins) {
   const inner = `<h1>The picture side of MELEK</h1>
-<div class=alpha><b>Alpha. A MELEK front end.</b> Post a photo or a small album, or save a picture you found — in a MELEK blog post or anywhere on the web. A pin is an ordinary MELEK post, so it can be voted on and replied to like anything else on the chain; it just shows here as a wall of thumbnails instead of a column. A saved picture always keeps a link back to where it came from.</div>
-<p class=lead>Pins are MELEK posts: vote them, reply to them, and they stay on the chain. <a href="https://pact.pentecaust.com">Groups and clubs</a> get their own walls next.</p>
+<div class=alpha><b>Alpha. A MELEK front end.</b> Post a photo or a small album, or save a picture you found — in a MELEK blog post or anywhere on the web. A pin is kept on the MELEK chain as a small record — not a blog post, so pinning a hundred pictures never drowns your blog. Write a post about them when you want to; that is a separate thing. A saved picture always keeps a link back to where it came from.</div>
+<p class=lead>Pins live on the MELEK chain as their own small records, so they stay yours and travel with your account — without filling anyone's blog. <a href="https://pact.pentecaust.com">Groups and clubs</a> get their own walls next.</p>
 <form class=add method=post action="/pin">
  <input name=url placeholder="Paste a picture's address (or a MELEK post to save all of its pictures)" aria-label="Picture or post address">
  <input name=title placeholder="Title (optional)" aria-label=Title>
@@ -130,7 +130,7 @@ function howPage() {
 <h2 style="font-size:16px">From a MELEK blog post</h2>
 <p class=lead>Paste the post's address on the wall, or open <code>${esc(BASE_URL)}/save?post=@author/permlink</code> — every picture in the post becomes a pin that links back to it and keeps the author's name.</p>
 <h2 style="font-size:16px">Back into a blog post</h2>
-<p class=lead>Every pin page gives you the markdown to paste into a MELEK post, with the credit line already written.</p>`;
+<p class=lead>Every pin page gives you the markdown to paste into a MELEK post, with the credit line already written — for when you do want to write about your pictures.</p>`;
   return shell('How to save pictures · MELEK Pinboard', inner, { canonical: `${BASE_URL}/how` });
 }
 

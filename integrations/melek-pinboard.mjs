@@ -14,9 +14,13 @@
 //   • a picture in a MELEK blog post → saved to the picture side in one click (pinsFromPost)
 //   • a pin → dropped into a MELEK blog post as markdown (markdownFor)
 //
-// A pin is an ordinary Graphene `comment` like every other MELEK post (app: 'melek/pinboard'), so pins are
-// on-chain content with the normal votes and comments. This module is the PURE model + HTML builders: no
-// network, no keys, no chain writes. The server wires storage and MELEK-Signer.
+// ON THE CHAIN, BUT NOT A BLOG POST. A pin is NOT a `comment`: a few hundred pins would drown somebody's
+// blog, and saving a picture is not publishing an article. It is stored as a `custom_json` — the standard
+// Graphene op apps use for small records (the same one Hive uses for follows and reblogs). It is signed
+// with the POSTING key, carries no payout, and never appears in the blog feed. If the person wants a real
+// post about their pictures, they write one; that is a separate act.
+// This module is the PURE model + HTML builders: no network, no keys, no chain writes. The server wires
+// storage and MELEK-Signer.
 //
 //   import { makePin, validatePin, pinsFromPost, gridHtml, pinHtml, markdownFor, boardOf } from './melek-pinboard.mjs'
 
@@ -126,6 +130,34 @@ export function markdownFor(pin, { baseUrl = 'https://pin.melek.salon' } = {}) {
     ? `\n\nSaved from ${pin.sourceAuthor ? `@${pin.sourceAuthor} — ` : ''}${pin.sourceUrl}`
     : `\n\n[On the pinboard](${baseUrl}/p/${encodeURIComponent(pin.id)})`;
   return `${body}${credit}`;
+}
+
+/**
+ * The chain record for a pin: a standard Graphene `custom_json`, posting-key signed, no payout, not a post.
+ * MELEK-Signer broadcasts it; nothing here holds a key. Kept small on purpose — the picture lives at its
+ * own address, and this is the note saying who pinned it and where it came from.
+ */
+export const PIN_OP_ID = 'melek_pin';
+export function pinOp(pin, { account } = {}) {
+  if (!pin || !pin.cover) return null;
+  const who = String(account || pin.author || '').toLowerCase();
+  if (!who) return null;
+  return ['custom_json', {
+    required_auths: [],
+    required_posting_auths: [who],
+    id: PIN_OP_ID,
+    json: JSON.stringify({
+      v: 1,
+      id: pin.id,
+      kind: pin.kind,
+      img: pin.images.map((i) => i.url).slice(0, MAX_ALBUM),
+      title: pin.title || undefined,
+      src: pin.sourceUrl || undefined,
+      by: pin.sourceAuthor || undefined,
+      board: pin.board || undefined,
+      ts: pin.createdAt,
+    }),
+  }];
 }
 
 /** group a list of pins into boards (a board is just a name a pin was filed under) */

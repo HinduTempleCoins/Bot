@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { makePin, validatePin, pinsFromPost, imagesIn, gridHtml, pinHtml, markdownFor, boardOf, isImageUrl, safeUrl, MAX_ALBUM } from './melek-pinboard.mjs';
+import { makePin, validatePin, pinsFromPost, imagesIn, gridHtml, pinHtml, markdownFor, boardOf, isImageUrl, safeUrl, MAX_ALBUM, pinOp } from './melek-pinboard.mjs';
 
 const IMG = 'https://hathor.soapbox.community/img/a1.png';
 const IMG2 = 'https://example.org/photos/b2.jpg';
@@ -81,4 +81,26 @@ test('boards filter, and titles cannot break out of the markup', () => {
   const html = pinHtml(nasty);
   assert.equal(html.includes('<script>'), false);
   assert.match(html, /&lt;script&gt;/);
+});
+
+test('a pin is stored on the chain as a small record, not as a blog post', () => {
+  const p = makePin({ author: 'ryan', title: 'The lyre', images: [IMG], board: 'Old Instruments' });
+  const op = pinOp(p);
+  assert.equal(op[0], 'custom_json');                      // never 'comment'
+  assert.deepEqual(op[1].required_posting_auths, ['ryan']); // posting key, not active
+  assert.deepEqual(op[1].required_auths, []);
+  assert.equal(op[1].id, 'melek_pin');
+  const j = JSON.parse(op[1].json);
+  assert.deepEqual(j.img, [IMG]);
+  assert.equal(j.board, 'old-instruments');
+  assert.ok(op[1].json.length < 2000, 'the record stays small');
+});
+
+test('a saved pin carries its source into the chain record, and a pin with no picture has no op', () => {
+  const saved = makePin({ author: 'ryan', kind: 'saved', images: [IMG2], sourceUrl: 'https://example.org/s', sourceAuthor: 'someone' });
+  const j = JSON.parse(pinOp(saved)[1].json);
+  assert.equal(j.src, 'https://example.org/s');
+  assert.equal(j.by, 'someone');
+  assert.equal(pinOp(makePin({ author: 'ryan', images: [] })), null);
+  assert.equal(pinOp(null), null);
 });
