@@ -75,6 +75,22 @@ export const UTILITIES = [
   { slug: 'diagram', emoji: '📊', name: 'Diagram Maker', tagline: 'Flowcharts from text', blurb: 'Type text and get a flowchart, sequence diagram, org chart or mind map.' },
 ];
 
+// Music tools live on their own sites; the cards link out to them.
+export const MUSIC = [
+  { emoji: '🥁', name: 'Metronome', tagline: 'Steady, sample-accurate', blurb: 'A real metronome for practice — set the tempo and beats per bar; it keeps time to the sample.', href: 'https://hathor.live/metronome' },
+  { emoji: '🎛️', name: 'Beat Maker', tagline: 'Make your own beat', blurb: 'Tap squares to build a beat — drums, frame drums, gong, lyre and bass — then share it or download it.', href: 'https://pentecaust.com/sandalphon/beats' },
+  { emoji: '🎼', name: 'Song Sheet', tagline: 'Plan and write a song', blurb: 'Write lyrics section by section with syllable counts, pick the sound, and keep a song board.', href: 'https://pentecaust.com/sandalphon' },
+  { emoji: '🎵', name: 'Music Library', tagline: 'Listen with the notes', blurb: 'Original songs and free open music, with a player that shows the melody as notes or guitar tab.', href: 'https://stream.soapbox.community/music' },
+];
+
+function musicCard(a) {
+  return `<a class=card href="${esc(a.href)}">
+    <span class=e>${esc(a.emoji)}</span>
+    <span class=t>${esc(a.name)}</span>
+    <span class=tl>${esc(a.tagline)}</span>
+    <span class=b>${esc(a.blurb)}</span></a>`;
+}
+
 export const GAMES = [
   { slug: 'idlegames', emoji: '🎮', name: 'Coffee-Break Games', tagline: 'A little pocket arcade', blurb: 'Quick original browser games — idle clicker, snake, merge and minesweeper.' },
 ];
@@ -195,6 +211,9 @@ export function landingPage() {
 
 <h2 class=shelf>Utilities</h2>
 <div class=grid>${utilities}</div>
+
+<h2 class=shelf>Music</h2>
+<div class=grid>${MUSIC.map(musicCard).join('')}</div>
 
 <h2 class=shelf>Games</h2>
 <div class=grid>${games}</div>

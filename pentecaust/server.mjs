@@ -55,6 +55,7 @@ import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as invite
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 import { metatronPage } from './metatron.mjs';
 import { sandalphonPage } from './sandalphon.mjs';
+import { beatsPage } from './beats.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -181,6 +182,7 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'image/svg+xml; charset=utf-8', 'cache-control': 'public, max-age=86400' });
       return res.end('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28"><defs><linearGradient id="f" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e0453a"/><stop offset=".55" stop-color="#ff8c2b"/><stop offset="1" stop-color="#ffd76a"/></linearGradient></defs><path fill="url(#f)" d="M12 0c1.6 5.2-3.1 6.9-3.1 11.2 0 1.6.8 2.9 1.9 3.6-.5-2.6.7-4.4 2.2-5.6-.4 2.7 1.1 3.7 2.4 5.3 1.4 1.7 2.1 3.4 2.1 5.1C17.5 24.2 14.9 28 12 28S6.5 24.2 6.5 19.6c0-2.3.9-4.1 2.1-5.8C6.2 15.1 4 17.9 4 21.1 4 25.4 7.6 28 12 28s8-2.6 8-6.9C20 13.6 12.9 10.4 12 0z"/></svg>');
     }
+    if ((path === '/sandalphon/beats' || path === '/beats') && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(beatsPage()); }
     if (path === '/sandalphon' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(sandalphonPage()); }
     if (path === '/metatron' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(metatronPage()); }
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
@@ -655,7 +657,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <div id=campList class=feed style="margin-top:10px"><div class=empty>Your campaigns appear here.</div></div>
  <div id=campDetail style="margin-top:12px;display:none">
   <h2 style="font-size:15px" id=campTitle></h2>
-  <div class=row><button class="btn primary" id=campPlan>✨ Draft plan</button><span id=campStat class=hint></span></div>
+  <div class=row><button class="btn primary" id=campPlan>✨ Draft plan</button><button class=btn id=campMeta style="display:none">📥 Add my Hathor Metatron draft as an email</button><span id=campStat class=hint></span></div>
   <div id=campPlanBox class=feed style="margin-top:8px"><div class=empty>Draft a plan to see the ICP + sequence.</div></div>
   <div class=row style="margin-top:8px"><input id=leadName placeholder="lead name"><input id=leadCo placeholder="company"><input id=leadEmail placeholder="email"></div>
   <div class=row style="margin-top:6px"><input id=leadSignal placeholder="signal — the verified reason to reach out"><button class="btn" id=leadAdd>Add lead</button></div>
@@ -690,10 +692,18 @@ function setTab(t){tab=t;
  $('paneMsg').style.display=t==='msg'?'':'none';$('paneMail').style.display=t==='mail'?'':'none';$('paneChan').style.display=t==='chan'?'':'none';$('paneInt').style.display=t==='int'?'':'none';$('paneCamp').style.display=t==='camp'?'':'none';
  $('nMsg').classList.toggle('on',t==='msg');$('nMail').classList.toggle('on',t==='mail');$('nChan').classList.toggle('on',t==='chan');$('nInt').classList.toggle('on',t==='int');$('nCamp').classList.toggle('on',t==='camp');
  if(t==='msg')loadFriends();if(t==='mail')syncMail();if(t==='int')loadIntegrations();if(t==='camp')loadCampaigns();}
+if(location.hash==='#herald')setTimeout(()=>setTab('camp'),0);
 $('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nChan').onclick=()=>setTab('chan');$('nInt').onclick=()=>setTab('int');$('nCamp').onclick=()=>setTab('camp');
 
 // ---- Campaigns (MoneyPrinter/AI-SDR): draft an ICP + outreach sequence; manage leads + pipeline ----
-let campId='';
+let campId='',campCur=null;
+// Hathor Metatron hands a piece of writing (and its graphic) to Herald: it becomes the next email step of a campaign.
+function metaDraft(){try{return JSON.parse(localStorage.getItem('metatron.toHerald')||'null')}catch(e){return null}}
+function metaBtn(){const d=metaDraft();const b=$('campMeta');if(b)b.style.display=d&&d.body?'':'none'}
+async function addMetaStep(){const d=metaDraft();if(!d||!campCur)return;const seq=(campCur.sequence||[]).slice();
+ const last=seq.length?seq[seq.length-1].delayDays:0;seq.push({channel:'email',delayDays:seq.length?last+3:0,subject:d.subject||'',body:d.body||''});
+ const j=await cpost('/crm/campaigns/'+encodeURIComponent(campId)+'/sequence',{sequence:seq});
+ if(j&&j.ok!==false){try{localStorage.removeItem('metatron.toHerald')}catch(e){}openCampaign(campId)}else alert('Could not add it — try again.')}
 const cpost=(p,body)=>api(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me(),...body})});
 // What this account may actually do. Anyone can build a campaign; SENDING is granted by the operator,
 // so the UI says that plainly instead of offering a button the server is about to refuse.
@@ -714,7 +724,7 @@ $('campCreate').onclick=async()=>{if(!me())return alert('Enter your @name first.
  const j=await cpost('/crm/campaigns',{name,goal:$('campGoal').value.trim(),website:$('campSite').value.trim()});
  if(j&&j.ok){$('campName').value=$('campGoal').value=$('campSite').value='';loadCampaigns();openCampaign(j.campaign.id);}else alert((j&&j.reason)||'could not create');};
 async function openCampaign(id){campId=id;const j=await api('/crm/campaigns/'+encodeURIComponent(id)+'?account='+encodeURIComponent(me()));
- if(!j||!j.ok){alert('could not open');return;}const c=j.campaign;
+ if(!j||!j.ok){alert('could not open');return;}const c=j.campaign;campCur=c;metaBtn();
  $('campDetail').style.display='';$('campTitle').textContent=c.name;renderPlan(c);renderLeads(c);loadCampaigns();refreshStats();}
 function renderLeads(c){const box=$('campLeads');const leads=(c.leads||[]);
  const note=$('campSendNote');if(note)note.innerHTML=me()?(canSendEmail()
@@ -742,6 +752,7 @@ function renderPlan(c){const box=$('campPlanBox');
  let h='<div style="margin-bottom:8px"><b>ICP</b><br><small class=mut>titles:</small> '+chips(icp.titles)+' <small class=mut>keywords:</small> '+chips(icp.keywords)+'</div>';
  h+='<b>Sequence</b>';for(const s of c.sequence){h+='<div class=msg style="margin-top:6px"><span class=src>day '+E(s.delayDays)+' · '+E(s.channel)+'</span><br><b>'+E(s.subject)+'</b><br>'+E(s.body).replace(/\\n/g,'<br>')+'</div>';}
  box.innerHTML=h;}
+$('campMeta').onclick=addMetaStep;
 $('campPlan').onclick=async()=>{if(!campId)return;$('campPlan').textContent='Drafting…';$('campPlan').disabled=true;
  const j=await cpost('/crm/campaigns/'+encodeURIComponent(campId)+'/plan',{save:true});
  $('campPlan').textContent='✨ Draft plan';$('campPlan').disabled=false;

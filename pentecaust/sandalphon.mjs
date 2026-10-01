@@ -46,7 +46,7 @@ input[type=text]{width:100%}button{cursor:pointer;background:var(--acc);color:#0
 .sc{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:6px;margin-top:6px;font-size:12px}.sc button{padding:2px 6px;font-size:11px}
 pre{white-space:pre-wrap;font-size:12px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:8px}
 </style></head><body>
-<header><a href="/">← Pentecaust</a>${LOGO}<h1>Hathor Sandalphon</h1><span class=mut>the angel of song — plan, write and arrange original songs · powered by Hathor · Alpha</span><a href="/metatron">Hathor Metatron →</a></header>
+<header><a href="/">← Pentecaust</a>${LOGO}<h1>Hathor Sandalphon</h1><span class=mut>the angel of song — plan, write and arrange original songs · powered by Hathor · Alpha</span><a href="/sandalphon/beats">🎛️ Beat maker</a><a href="https://hathor.live/metronome">🥁 Metronome</a><a href="https://stream.soapbox.community/music">🎵 Music library</a><a href="/metatron">Hathor Metatron →</a></header>
 <main>
 <section class=card>
  <h2>Song sheet</h2>
@@ -103,6 +103,9 @@ $('addsec').onclick=function(){S.secs.push({kind:$('newsec').value,text:''});ren
 $('dupchorus').onclick=function(){var c=S.secs.filter(function(s){return s.kind==='chorus'})[0];S.secs.push({kind:'chorus',text:c?c.text:''});render()};
 $('title').value=S.title||'';if(S.tag)$('tag').value=S.tag;if(S.genre)$('genre').value=S.genre;$('bpm').value=S.bpm||110;$('key').value=S.key||'C';$('mood').value=S.mood||'';if(S.voice)$('voice').value=S.voice;
 Array.prototype.forEach.call(document.querySelectorAll('.ins'),function(c){c.checked=(S.ins||[]).indexOf(c.dataset.i)>=0});
+// tempo/key handed over from the beat maker (#bpm=96&key=G)
+(function(){var m=location.hash.match(/bpm=(\\d+)/),k=location.hash.match(/key=([^&]+)/);if(m){S.bpm=+m[1];$('bpm').value=S.bpm}
+ if(k){var kv=decodeURIComponent(k[1]);for(var i=0;i<$('key').options.length;i++)if($('key').options[i].textContent===kv){S.key=kv;$('key').value=kv}}if(m||k)save('sheet',S)})();
 ['title','tag','genre','bpm','key','mood','voice'].forEach(function(id){$(id).addEventListener('input',function(){S[id]=$(id).value;save('sheet',S)})});
 document.addEventListener('change',function(e){if(e.target.classList.contains('ins')){S.ins=Array.prototype.filter.call(document.querySelectorAll('.ins'),function(c){return c.checked}).map(function(c){return c.dataset.i});save('sheet',S)}});
 render();
