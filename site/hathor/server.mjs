@@ -73,6 +73,7 @@ import { loadDocs, loadFilm, aggregate as docsAggregate, readFeedback as docsFee
 import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt, remakesLd, remakesHero } from './remakes.mjs';
 import { videoStudioRoute } from './video-studio.mjs';
 import { loadMapsIndex, mapsBody, mapsLd, serveMapsMedia } from './maps.mjs';
+import { atlasBody, atlasLd, ATLAS_DIR } from '../../integrations/atlas/atlas.mjs';
 import { loadAnimManifest, aggregate as animAggregate, animationsBody, rate as animRate, serveAnimMedia, readFeedback as animFeedback, animationsLd } from './animations.mjs';
 
 const PORT = +(process.env.PORT || 8131);
@@ -2493,6 +2494,15 @@ export async function handler(req, res) {
       const mi = loadMapsIndex();
       const first = (mi.clips || [])[0];
       return sendHtml(res, pageShell('History maps — empires over time', mapsBody(mi), { canonical: `${BASE_URL}/maps`, description: 'Animated history maps with a ticking year: Egypt, Kush, Mesopotamia, Persia, Alexander, Rome, Hannibal, Carthage, Byzantium, the Ottomans, China, India, the caliphates, the Mongols, the Aztec and Inca, and the world. Made on our own servers from Cliopatria (CC BY 4.0).', image: first ? `${BASE_URL}/maps/media/${first.poster}` : undefined, jsonld: mapsLd(mi, BASE_URL) }));
+    }
+    if (path === '/atlas') {
+      return sendHtml(res, pageShell('The marker atlas — genetic categories and ancient DNA', atlasBody(), { canonical: `${BASE_URL}/atlas`, description: 'Which categories forensic, clinical and research genetic databases use to classify people, where Levantine, Mesopotamian and North African people land in them, and a map of 19,000 ancient individuals by haplogroup, place and date. Alpha; sources on every row.', jsonld: atlasLd(undefined, BASE_URL) }));
+    }
+    if (path === '/atlas/ancient.json') {
+      const f = join(ATLAS_DIR(), 'ancient.json');
+      if (!existsSync(f)) { res.writeHead(404, { 'content-type': 'application/json' }); return res.end('{"ok":false}'); }
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=3600' });
+      return res.end(readFileSync(f));
     }
     if (path === '/maps/index.json') { res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' }); return res.end(JSON.stringify(loadMapsIndex())); }
     if (path.startsWith('/maps/media/')) return serveMapsMedia(req, res, decodeURIComponent(path.slice('/maps/media/'.length)));
