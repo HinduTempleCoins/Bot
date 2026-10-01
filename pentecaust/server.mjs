@@ -46,6 +46,8 @@ import { translate, translateBatch, getLang, setLang } from './translate.mjs';
 import { createCampaign, getCampaign, campaignsForOwner, setICP, setSequence, setStatus, addLead, moveLead, leadStats } from './crm/model.mjs';
 import { buildCampaignPlan, renderStep } from './crm/builder.mjs';
 import { getMailbox, sendViaMailbox, postalAddress } from './connect/mailbox.mjs';
+import { listKeys, setKey, removeKey } from './connect/apikeys.mjs';
+import { generateImage } from './connect/byok-image.mjs';
 import { chooseTransport, sendVia } from './herald/transport.mjs';
 import { planDay, runDay } from './herald/batch-runner.mjs';
 import { suppressionFrom, unsubscribeMailto } from './herald/send-gate.mjs';
@@ -56,6 +58,7 @@ import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as invite
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 import { metatronPage } from './metatron.mjs';
 import { sandalphonPage } from './sandalphon.mjs';
+import { beatsPage } from './beats.mjs';
 
 const PORT = +(process.env.PORT || 8157);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -190,6 +193,7 @@ export async function handler(req, res) {
       res.writeHead(200, { 'content-type': 'image/svg+xml; charset=utf-8', 'cache-control': 'public, max-age=86400' });
       return res.end('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28"><defs><linearGradient id="f" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e0453a"/><stop offset=".55" stop-color="#ff8c2b"/><stop offset="1" stop-color="#ffd76a"/></linearGradient></defs><path fill="url(#f)" d="M12 0c1.6 5.2-3.1 6.9-3.1 11.2 0 1.6.8 2.9 1.9 3.6-.5-2.6.7-4.4 2.2-5.6-.4 2.7 1.1 3.7 2.4 5.3 1.4 1.7 2.1 3.4 2.1 5.1C17.5 24.2 14.9 28 12 28S6.5 24.2 6.5 19.6c0-2.3.9-4.1 2.1-5.8C6.2 15.1 4 17.9 4 21.1 4 25.4 7.6 28 12 28s8-2.6 8-6.9C20 13.6 12.9 10.4 12 0z"/></svg>');
     }
+    if ((path === '/sandalphon/beats' || path === '/beats') && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(beatsPage()); }
     if (path === '/sandalphon' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(sandalphonPage()); }
     if (path === '/metatron' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(metatronPage()); }
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
@@ -258,6 +262,13 @@ export async function handler(req, res) {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
       return json(res, 200, { ok: true, account: me, mailbox: getMailbox(me) }, origin);
     }
+    // BRING YOUR OWN KEY: the account's own provider keys for Hathor Metatron and Hathor Sandalphon.
+    // Only ever MASKED on the way out ("…1234"); the secret never leaves connect/apikeys.mjs.
+    if (method === 'GET' && path === '/me/apikeys') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, providers: listKeys(me) }, origin);
+    }
+
     // ── invites (the signup gate) ─────────────────────────────────────────────────────────────────
     // Code-validity check is PUBLIC (codes are 64-bit-random, unguessable) so a landing page can pre-check
     // an invite link before asking someone to sign in.
@@ -314,6 +325,25 @@ export async function handler(req, res) {
       // else. (In dev-trust mode `who` falls back to the route's own actor field for the offline suite.)
       const who = (asserted) => whoami(req, asserted);
 
+      // BRING YOUR OWN KEY — connect / disconnect your own provider key, and spend it on a graphic.
+      // The key is read from the body once and handed straight to the store; it is never echoed back,
+      // never logged, and never written into a page.
+      if (path === '/me/apikeys') {
+        const me = who(b.account); if (!me) return unauth(res, origin);
+        const r = setKey(me, b.provider, b.key);
+        return json(res, r.ok ? 200 : 400, r, origin);
+      }
+      if (path === '/me/apikeys/remove') {
+        const me = who(b.account); if (!me) return unauth(res, origin);
+        return json(res, 200, removeKey(me, b.provider), origin);
+      }
+      // The fast lane for Hathor Metatron's graphics: your own provider, your own quota, seconds instead
+      // of minutes. { ok:false, reason:'no-key' } tells the page to fall back to our own CPU pool.
+      if (path === '/api/metatron/graphic') {
+        const me = who(b.account); if (!me) return unauth(res, origin);
+        const r = await generateImage(me, { prompt: b.prompt, size: b.size, provider: b.provider });
+        return json(res, r.ok ? 200 : 200, r, origin);
+      }
       if (path === '/teams') { const me = who(b.owner); if (!me) return unauth(res, origin); return json(res, 200, createTeam({ ...b, owner: me }), origin); }
       // PMs are open to every logged-in account (operator, 2026-09-08). Login is the floor and the
       // sender is the VERIFIED account — a body naming a different `from` is discarded, never honored,
@@ -651,6 +681,9 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <h2>🔌 Integrations</h2>
  <p class=mut>Connect the outside accounts MELEK can act with — the same "if this, then that" idea: link a service once, and your one MELEK identity can use it across the ecosystem (mail, feed, and the outreach tools).</p>
  <div id=connList class=feed style="margin-top:10px"><div class=empty>Loading connections…</div></div>
+ <h2 style="margin-top:18px;font-size:15px">🔑 Your own API keys</h2>
+ <p class=hint>Hathor Metatron and Hathor Sandalphon run on our own servers, which are shared — a picture takes a few minutes. Connect your own provider key and your work is made on your account instead, in seconds. Your key, your quota, your bill. It is stored for your account only, never shown again after you save it, and only ever sent to that provider.</p>
+ <div id=keyList class=feed style="margin-top:8px"><div class=empty>Sign in to connect a key.</div></div>
  <h2 style="margin-top:18px;font-size:15px">⚡ Automations</h2>
  <p class=hint>Recipes — <b>when</b> something happens on one connected service, <b>do</b> something on another — are being wired up on top of these connections. Connect an account above first; the recipe builder lands here next.</p>
 </div>
@@ -664,7 +697,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <div id=campList class=feed style="margin-top:10px"><div class=empty>Your campaigns appear here.</div></div>
  <div id=campDetail style="margin-top:12px;display:none">
   <h2 style="font-size:15px" id=campTitle></h2>
-  <div class=row><button class="btn primary" id=campPlan>✨ Draft plan</button><span id=campStat class=hint></span></div>
+  <div class=row><button class="btn primary" id=campPlan>✨ Draft plan</button><button class=btn id=campMeta style="display:none">📥 Add my Hathor Metatron draft as an email</button><span id=campStat class=hint></span></div>
   <div id=campPlanBox class=feed style="margin-top:8px"><div class=empty>Draft a plan to see the ICP + sequence.</div></div>
   <div class=row style="margin-top:8px"><input id=leadName placeholder="lead name"><input id=leadCo placeholder="company"><input id=leadEmail placeholder="email"></div>
   <div class=row style="margin-top:6px"><input id=leadSignal placeholder="signal — the verified reason to reach out"><button class="btn" id=leadAdd>Add lead</button></div>
@@ -699,6 +732,7 @@ function setTab(t){tab=t;
  $('paneMsg').style.display=t==='msg'?'':'none';$('paneMail').style.display=t==='mail'?'':'none';$('paneChan').style.display=t==='chan'?'':'none';$('paneInt').style.display=t==='int'?'':'none';$('paneCamp').style.display=t==='camp'?'':'none';
  $('nMsg').classList.toggle('on',t==='msg');$('nMail').classList.toggle('on',t==='mail');$('nChan').classList.toggle('on',t==='chan');$('nInt').classList.toggle('on',t==='int');$('nCamp').classList.toggle('on',t==='camp');
  if(t==='msg')loadFriends();if(t==='mail')syncMail();if(t==='int')loadIntegrations();if(t==='camp')loadCampaigns();}
+if(location.hash==='#herald')setTimeout(()=>setTab('camp'),0);
 $('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nChan').onclick=()=>setTab('chan');$('nInt').onclick=()=>setTab('int');$('nCamp').onclick=()=>setTab('camp');
 
 // 📎 Attach something you made — a song, a picture, a beat, a chart, a video. Paste its link into the
@@ -712,7 +746,14 @@ document.addEventListener('click',function(e){const b=e.target.closest&&e.target
  if(made&&made.trim()){box.value=(box.value?box.value+' ':'')+made.trim();box.focus();}});
 
 // ---- Campaigns (MoneyPrinter/AI-SDR): draft an ICP + outreach sequence; manage leads + pipeline ----
-let campId='';
+let campId='',campCur=null;
+// Hathor Metatron hands a piece of writing (and its graphic) to Herald: it becomes the next email step of a campaign.
+function metaDraft(){try{return JSON.parse(localStorage.getItem('metatron.toHerald')||'null')}catch(e){return null}}
+function metaBtn(){const d=metaDraft();const b=$('campMeta');if(b)b.style.display=d&&d.body?'':'none'}
+async function addMetaStep(){const d=metaDraft();if(!d||!campCur)return;const seq=(campCur.sequence||[]).slice();
+ const last=seq.length?seq[seq.length-1].delayDays:0;seq.push({channel:'email',delayDays:seq.length?last+3:0,subject:d.subject||'',body:d.body||''});
+ const j=await cpost('/crm/campaigns/'+encodeURIComponent(campId)+'/sequence',{sequence:seq});
+ if(j&&j.ok!==false){try{localStorage.removeItem('metatron.toHerald')}catch(e){}openCampaign(campId)}else alert('Could not add it — try again.')}
 const cpost=(p,body)=>api(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me(),...body})});
 // What this account may actually do. Anyone can build a campaign; SENDING is granted by the operator,
 // so the UI says that plainly instead of offering a button the server is about to refuse.
@@ -733,7 +774,7 @@ $('campCreate').onclick=async()=>{if(!me())return alert('Enter your @name first.
  const j=await cpost('/crm/campaigns',{name,goal:$('campGoal').value.trim(),website:$('campSite').value.trim()});
  if(j&&j.ok){$('campName').value=$('campGoal').value=$('campSite').value='';loadCampaigns();openCampaign(j.campaign.id);}else alert((j&&j.reason)||'could not create');};
 async function openCampaign(id){campId=id;const j=await api('/crm/campaigns/'+encodeURIComponent(id)+'?account='+encodeURIComponent(me()));
- if(!j||!j.ok){alert('could not open');return;}const c=j.campaign;
+ if(!j||!j.ok){alert('could not open');return;}const c=j.campaign;campCur=c;metaBtn();
  $('campDetail').style.display='';$('campTitle').textContent=c.name;renderPlan(c);renderLeads(c);loadCampaigns();refreshStats();}
 function renderLeads(c){const box=$('campLeads');const leads=(c.leads||[]);
  const note=$('campSendNote');if(note)note.innerHTML=me()?(canSendEmail()
@@ -761,6 +802,7 @@ function renderPlan(c){const box=$('campPlanBox');
  let h='<div style="margin-bottom:8px"><b>ICP</b><br><small class=mut>titles:</small> '+chips(icp.titles)+' <small class=mut>keywords:</small> '+chips(icp.keywords)+'</div>';
  h+='<b>Sequence</b>';for(const s of c.sequence){h+='<div class=msg style="margin-top:6px"><span class=src>day '+E(s.delayDays)+' · '+E(s.channel)+'</span><br><b>'+E(s.subject)+'</b><br>'+E(s.body).replace(/\\n/g,'<br>')+'</div>';}
  box.innerHTML=h;}
+$('campMeta').onclick=addMetaStep;
 $('campPlan').onclick=async()=>{if(!campId)return;$('campPlan').textContent='Drafting…';$('campPlan').disabled=true;
  const j=await cpost('/crm/campaigns/'+encodeURIComponent(campId)+'/plan',{save:true});
  $('campPlan').textContent='✨ Draft plan';$('campPlan').disabled=false;
@@ -773,7 +815,26 @@ async function refreshStats(){if(!campId)return;const j=await api('/crm/campaign
 
 // ---- Integrations (IFTTT): connect external accounts to the one MELEK identity ----
 let _signedIn=false;
-async function loadIntegrations(){const box=$('connList');
+async function loadKeys(){const box=$('keyList');if(!me()){box.innerHTML='<div class=empty>Sign in above to connect a key.</div>';return;}
+ const j=await api('/me/apikeys?account='+encodeURIComponent(me()));const provs=(j&&j.providers)||[];
+ const frag=document.createDocumentFragment();
+ for(const p of provs){const row=document.createElement('div');row.className='fitem';
+  const part=p.part==='both'?'Metatron + Sandalphon':(p.part==='metatron'?'Hathor Metatron':'Hathor Sandalphon');
+  const left=document.createElement('div');left.style.flex='1';
+  left.innerHTML='<b>'+E(p.label)+'</b> '+(p.connected?'<span class=pill style="background:#173">Connected '+E(p.masked)+'</span>':'<span class=pill style="background:#633">Not connected</span>')+
+   '<br><small class=mut>'+E(p.what)+' · '+E(part)+' · sent only to '+E(p.host)+'</small>';
+  row.appendChild(left);
+  if(p.connected){const b=document.createElement('button');b.className='btn';b.textContent='Disconnect';
+   b.onclick=async()=>{await api('/me/apikeys/remove',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me(),provider:p.id})});loadKeys();};row.appendChild(b);}
+  else{const inp=document.createElement('input');inp.type='password';inp.placeholder=p.hint;inp.autocomplete='off';inp.style.maxWidth='210px';
+   const b=document.createElement('button');b.className='btn primary';b.textContent='Save';
+   b.onclick=async()=>{const v=inp.value.trim();if(!v)return;b.disabled=true;
+    const r=await api('/me/apikeys',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me(),provider:p.id,key:v})});
+    inp.value='';b.disabled=false;if(r&&r.ok===false)alert(r.reason||'could not save');loadKeys();};
+   row.appendChild(inp);row.appendChild(b);}
+  frag.appendChild(row);}
+ box.innerHTML='';box.appendChild(frag);}
+async function loadIntegrations(){loadKeys();const box=$('connList');
  // Herald sending mailbox — connect your own Gmail so Herald sends from YOUR address (never @pentecaust.com).
  let mbHtml='';
  if(me()){const mb=await api('/me/mailbox?account='+encodeURIComponent(me()));

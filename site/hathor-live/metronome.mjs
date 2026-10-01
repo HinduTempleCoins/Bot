@@ -471,7 +471,9 @@ const buildPage = () => {
 .mn .row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;margin:.75rem 0}
 .mn button{padding:.6rem 1.1rem;font-size:1rem;cursor:pointer}
 .mn .note{opacity:.75;font-size:.9rem}
+.mnav{display:flex;gap:1rem;flex-wrap:wrap;padding:.7rem 1rem;border-bottom:1px solid rgba(128,128,128,.3)}.mnav a{text-decoration:none;font-weight:600}
 </style>
+<nav class="mnav" aria-label="More tools"><a href="/">Hathor</a><a href="https://tools.soapbox.community/">🧰 Tools</a><a href="https://pentecaust.com/sandalphon/beats">🎛️ Beat maker</a><a href="https://pentecaust.com/sandalphon">🎼 Hathor Sandalphon</a><a href="https://stream.soapbox.community/music">🎵 Music</a><a href="/40hz">40 Hz</a></nav>
 <main class="mn">
 <h1>Metronome</h1>
 <p class="note">${esc(disclaimer('entrainment'))}</p>
