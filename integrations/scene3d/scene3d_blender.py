@@ -91,7 +91,7 @@ for f in range(1, n + 1):
     if MOVE == "dolly":
         x, y, z = 0.0, 0.0, dist * (1.0 - 0.22 * e)
     elif MOVE == "crane":
-        x, y, z = 0.0, -0.55 + 1.1 * e, dist * (1.0 - 0.05 * e)
+        x, y, z = 0.0, -0.75 + 1.5 * e, dist * (1.0 - 0.10 * e)
     else:  # orbit
         a = math.radians(-4 + 8 * e)
         x, y, z = dist * math.sin(a) * 0.9, 0.05 * math.sin(math.pi * e), dist * math.cos(a)

@@ -140,7 +140,7 @@ def render(png, out, secs=6.0, seed=1, amp=1.0):
     for pts in people:
         parts = build_rig(img, pts)
         if parts:
-            rigs.append({"parts": parts, "g": rng.choice(GESTURES[:5]) if rng.random() < 0.85 else "idle",
+            rigs.append({"parts": parts, "g": rng.choice(GESTURES[:5]) if rng.random() < 0.97 else "idle",
                          "ph": rng.uniform(0, 6.28), "amp": amp * rng.uniform(0.7, 1.1), "delay": rng.uniform(0, 1.2)})
     if not rigs:
         return None
