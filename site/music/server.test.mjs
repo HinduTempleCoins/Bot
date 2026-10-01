@@ -113,3 +113,10 @@ test('the embed page is the panel alone', async () => {
   assert.match(r.body(), /sbp-compact/);
   assert.equal((await get('/music/embed/nope')).code, 404);
 });
+
+test('songs carry the same Alpha test notice the animation lab uses', async () => {
+  assert.match((await get('/music')).body(), /<b>Alpha\.<\/b> These are Hathor Sandalphon's first test songs, made on our own servers/);
+  const t = (await get('/music/t/lamp-upon-the-water')).body();
+  assert.match(t, /Alpha — a test song/);
+  assert.match(t, /read from the recording by machine/);
+});
