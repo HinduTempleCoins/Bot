@@ -250,7 +250,8 @@ export const CATEGORIES = [
   },
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
-    pages: ['Imphepho', 'Yin Chen Hao', 'Mucuna Pruriens', 'Kava', 'Black Pepper', 'Maca', 'White Sage',
+    pages: ['Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds', 'Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma',
+            'Imphepho', 'Yin Chen Hao', 'Mucuna Pruriens', 'Kava', 'Black Pepper', 'Maca', 'White Sage',
             'Recipes', 'Punic Wax', 'Kyphi', 'Cloning',
             'Ubulawu, African Oneirogens, and Saponin Pharmacokinetics',
             'Ubulawu and African Oneirogens', 'Egyptian Wax Headcones',
@@ -587,6 +588,8 @@ export const PILLARS = [
     icon: '🌿',
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
+      'Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds',
+      'Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma',
       'Cannabis',
       'Cannabis Harm Reduction',
       'Cannabinoid Oilahuasca', 'Oilahuasca', 'Space Paste', 'Shulgin Ten Essential Oils',

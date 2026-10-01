@@ -1,0 +1,58 @@
+'''Standardized Extracts, Enhanced Leaf and the Perfumery of Botanical Aroma''' explains what the numbers on a botanical extract actually mean — what a "10×" label does and does not promise — and how aroma is built in layers the way a perfumer builds one. It covers the '''extract-and-redeposit''' method that produces enhanced leaf, the carrier materials that hold a resin, and why a standardized milligram figure is worth far more than a multiplier. Alpha.
+
+== 1. What "10×" means, and what it does not ==
+A multiplier on a botanical extract is a '''mass ratio''', not a measured potency.
+* The method, in one line: take a large mass of raw plant, pull its resin out with a solvent, evaporate the solvent, then redeposit that resin onto a '''smaller''' mass of plain leaf.
+* 100 g of raw leaf, extracted and redeposited onto 10 g of plain leaf, is sold as '''10×''': the finished 10 g now carries the resin that had been spread across 100 g.
+* '''What the number does not tell you:''' how strong the starting plant was. Raw potency varies with harvest timing, soil, light exposure and drying. A 20× made from a weak batch can be weaker than a 10× made from a strong one. The multiplier describes a '''process''', not a result.
+* This is the model used across the ethnobotanical trade — the best-documented case being '''''Salvia divinorum''''' enhanced leaf, where 5×, 10×, 20× and higher are standard trade grades.
+
+=== Ratio extracts versus true standardization ===
+* '''Ratio-based (X-factor):''' priced and labelled from the starting weight alone. Cheap to do, honest only if the starting material is consistent.
+* '''Chemically standardized:''' the actual concentration of the marker compound is measured — by '''HPLC''' or at minimum '''TLC''' — and the product is made to hit a fixed figure, stated as '''milligrams of the marker per gram of finished material'''. For ''Salvia'', the marker is '''salvinorin A''', and raw leaf typically runs around 2.5 mg/g.
+* A label reading "standardized to X mg/g, HPLC" is a '''measurement'''. A label reading "20×" is a '''recipe'''. Only the first can be compared between suppliers.
+* The same distinction governs the mainstream herbal market: a ginkgo extract "standardized to 24% flavone glycosides" is a measured specification; "50:1 ginkgo" is not.
+
+== 2. The redeposit method, and what makes it work or fail ==
+The process is simple to describe and easy to do badly.
+* '''Solvent choice.''' The resin must dissolve and the solvent must leave. Food-grade '''ethanol''' is the usual choice for aroma and resin work; '''acetone''' extracts some resins more aggressively but is harsher to handle and harder to purge. Non-polar fractions may need a different solvent entirely. Whatever is used has to be fully removable, because '''whatever does not evaporate stays in the product'''.
+* '''Even deposition is the whole craft.''' Resin dissolved in solvent and poured over leaf will not distribute itself; it concentrates wherever the solvent pools and evaporates last. The standard fixes are to use enough solvent to wet the whole mass, to agitate continuously while it dries, and to dry in a thin layer rather than a heap. Uneven deposition is why one pinch of a home-made enhanced leaf can be inert and the next overwhelming — the hazard that makes an unmeasured product unpredictable.
+* '''Residual solvent is the main safety failure.''' Drying must continue well past the point where the material feels dry; solvent is held in the plant matrix after the surface is dry. Low heat, moving air and patience, in a well-ventilated space away from any ignition source. Ethanol and acetone vapour are both flammable and both accumulate in a closed room.
+* '''Heat destroys what you are concentrating.''' Terpenes and thiols are volatile by definition; a hot evaporation drives off the aroma along with the solvent. Aroma work uses the lowest practical temperature and accepts a longer dry.
+
+== 3. The carrier: what holds the resin ==
+A redeposited resin needs something to live on, and the carrier decides how the finished material behaves.
+* '''Structure beats surface area.''' A fluffy, fibrous carrier — whole hop cones, whole leaf — keeps air moving through it. A milled powder has more surface to hold resin but packs into a dense mass that blocks airflow and burns unevenly.
+* '''Neutral carriers''' are chosen so they contribute nothing: mullein, marshmallow leaf and damiana are the common smoking-blend bases, each with its own harshness and burn rate.
+* '''Moisture and tack.''' A resin-loaded material that has dried hard crumbles; one left damp moulds. Traditional practice holds a '''relative humidity of roughly 58–62%''' for cured plant material, maintained with two-way humidity packs. The "sticky" quality people associate with fresh flower is resin plus correct water activity, not a syrup added to it.
+* '''Added binders change the chemistry.''' Honey, glycerin and propylene glycol all make a material tacky, and all of them bring their own combustion products. Glycerin and propylene glycol in particular degrade to '''acrolein''' and '''formaldehyde''' when overheated, which is a real reason to leave them out of anything that will be burned.
+
+== 4. Perfumery structure: how a scent is built ==
+Botanical aroma work is perfumery, and perfumery has a vocabulary worth borrowing.
+* '''The three tiers.''' '''Top notes''' are the light, volatile materials you meet first and lose in minutes (citrus terpenes, light thiols). '''Heart notes''' carry the body of the scent over hours (floral, green, spice). '''Base notes''' are heavy and slow — woods, resins, musks — and hold everything else down. The structure was codified in the 19th century and is usually credited to '''Piesse''', who also laid scents out as a musical scale.
+* '''An accord''' is a group of materials blended until they read as one new smell rather than as their parts. "Gas", "dank" and "fruity candy" are accords, not single compounds.
+* '''Fixatives''' slow evaporation so the top notes do not simply vanish. Historically: '''labdanum, benzoin, orris root, oakmoss''', and the animal materials ('''ambergris, civet, castoreum, musk''') now largely replaced by synthetics.
+* '''Trace is character.''' The compounds that define a natural material are frequently present at parts per billion or trillion. This is why [[Hops, Cannabis and the Chemistry of "Dank": Terpenes and Volatile Sulfur Compounds|an isolate blend misses the mark]] — the bulk is reproduced and the character is not.
+* '''Thresholds vary enormously.''' Some thiols are detectable near a part per trillion; some terpenes need thousands of times more. Blending by weight without regard to detection threshold produces a scent ruled by whichever trace material you were careless with.
+* '''Everything dries down.''' A blend judged at the moment of mixing is judged on its top notes alone. Perfumers evaluate on a blotter over hours and days.
+
+== 5. Reading a label honestly ==
+* '''"5×, 10×, 80×"''' — a mass ratio. Says nothing measured.
+* '''"Standardized to N mg/g (HPLC)"''' — a measurement, comparable between suppliers.
+* '''"Full spectrum"''' — in principle the whole extract rather than an isolated fraction; in practice unregulated and inconsistently used.
+* '''"Terpene profile" / "strain profile"''' — a blend of isolated terpenes. Reproduces the bulk composition, not the trace compounds.
+* '''"Natural identical"''' — synthesised, chemically the same as the natural compound. Not a quality claim in either direction.
+
+== 6. Safety, plainly ==
+* Solvent work belongs '''outdoors or under real ventilation''', with no ignition source anywhere near. Ethanol and acetone vapour are flammable and heavier mixtures pool.
+* '''Purge thoroughly.''' Residual solvent is the single most common defect in home-made enhanced material.
+* '''An unmeasured product is an unknown dose.''' Without HPLC or at least TLC, the only honest position is that the potency is unknown and uneven, which matters enormously for an active plant and not at all for an aroma blend.
+* '''Legality varies.''' ''Salvia divinorum'' is controlled in many US states and several countries; hops are an ordinary agricultural commodity everywhere. The method is the same; the legal position is not.
+
+== Sources ==
+* Siebert K. et al. and the standardized-extract literature on ratio versus marker-compound standardization; USP and European Pharmacopoeia monographs on herbal extract specification.
+* Siebert D. J., ''Salvia divinorum'' and salvinorin A: analytical and trade-grade literature; Prisinzano T. E., reviews of salvinorin chemistry.
+* Piesse G. W. S., ''The Art of Perfumery'' (1857) — the note pyramid and the odophone.
+* Arctander S., ''Perfume and Flavor Materials of Natural Origin'' (1960); Calkin R. R. and Jellinek J. S., ''Perfumery: Practice and Principles'' (1994).
+* Oswald I. W. H. et al., ''ACS Omega'' 6 (2021), on trace volatile sulfur compounds as the carriers of character.
+* Standard references on glycerin and propylene glycol thermal degradation to acrolein and formaldehyde.
