@@ -255,7 +255,7 @@ export const CATEGORIES = [
   },
   {
     id: 'religion', name: 'Religion and practice', blurb: 'Living traditions, their working materials, and their histories.',
-    pages: ['Pashupata Shaivism', 'Swami Vivekananda', 'Ukuphahla', 'Egyptian Five Souls', 'Head Cone',
+    pages: ['Pashupata Shaivism', 'Swedenborg Hidden Influence Johnny Appleseed Helen Keller and Ideas Everyone Uses', 'Swami Vivekananda', 'Ukuphahla', 'Egyptian Five Souls', 'Head Cone',
             'Egyptian Wax Headcones', 'The Ogdoad', 'Mystery Schools',
             'Ubulawu, African Oneirogens, and Saponin Pharmacokinetics',
             'Ubulawu and African Oneirogens', 'The Church of Neuroscience and Biohacking',
@@ -628,6 +628,7 @@ export const PILLARS = [
       'Domestication of Plants and Animals Farming Origins',
       'Hathor Sandalphon the Angel of Song Spirit and Guidance in Religious and Popular Music',
       'Hyperborean Maidens of Delos Religion Myth and Offerings',
+      'Swedenborg Hidden Influence Johnny Appleseed Helen Keller and Ideas Everyone Uses',
       'Moorish Iberia and Latin American Ancestry',
       'Mountains of the Gods Religion Hermon Olympus and the Watchers Myth',
       'Mystery Schools and Religious Movements Catalogue Ancient to Today',
