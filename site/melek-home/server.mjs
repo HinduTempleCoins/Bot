@@ -13,6 +13,7 @@ const PORT = +(process.env.PORT || 8107);
 const HOST = process.env.HOST || '0.0.0.0';
 const BASE_URL = (process.env.BASE_URL || 'https://melek.salon').replace(/\/$/, '');
 const ALPHA = process.env.MELEK_ALPHA || 'https://alpha.melek.salon';
+const PACT_URL = (process.env.PACT_URL || 'https://pact.pentecaust.com').replace(/\/$/, '');
 
 const STYLE = `<style>
   :root{--bg:#0b0d10;--panel:#14181d;--fg:#e8edf2;--mut:#8b97a6;--acc:#d9a441;--line:#222a33;--line2:#222a33}
@@ -48,6 +49,17 @@ function homePage() {
   </div>
 
   <div class=card>
+    <h2>Groups and clubs</h2>
+    <p>MELEK accounts gather in <b>groups</b> (anyone can join) and <b>clubs</b> (a group with dues).
+      One membership, two ways in: browse and join them here, or use <b>Pact</b> — the surface built
+      around groups and clubs, with the charter, the roster and the feed — and chat to them through
+      <b>Pentecaust</b> messages.</p>
+    <div id=pacts class=muted>Loading groups…</div>
+    <a class=cta href="${esc(PACT_URL)}">Open Pact — groups and clubs →</a>
+    <p class=muted style="margin-top:10px">A pact has terms, members, and what you put into it. The roster lives off-chain; the community account and its posts live on MELEK.</p>
+  </div>
+
+  <div class=card>
     <h2>Status — launching after testnet validation</h2>
     <p>The live chain comes online once the public testnet has been exercised. You can try the testnet right now:</p>
     <a class=cta href="${esc(ALPHA)}">Enter the MELEK Testnet →</a>
@@ -58,11 +70,22 @@ function homePage() {
 <title>MELEK — the live chain with a founding AI Witness</title>
 <meta name=description content="MELEK: a fair-launch, zero-pre-mine blockchain with a founding AI Witness (Hathor). The live chain launches after testnet validation; try the testnet at alpha.melek.salon.">
 <meta name=robots content="index,follow">
-<link rel=canonical href="${BASE_URL}/">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+<link rel=canonical href="${BASE_URL}/"><script>var PACT=${JSON.stringify(PACT_URL)};</script>${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div style="background:var(--panel);border-bottom:1px solid var(--line2);padding:7px 18px">${navDrawer({ current: 'melek' })}</div>
 <main class=wrap>${body}</main>
 <footer>MELEK — always uppercase, five letters, the full word. Fair-launch, zero pre-mine. The live chain (this site) is launching; the testnet is at <a href="${esc(ALPHA)}">alpha.melek.salon</a>.</footer>
-${NAV_DRAWER_JS}</body></html>`;
+${NAV_DRAWER_JS}
+<script>
+// The same groups and clubs Pact shows — MELEK is the second way in, not a second list.
+(function(){var box=document.getElementById('pacts');if(!box)return;
+ var E=function(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+ fetch(PACT+'/groups').then(function(r){return r.json()}).then(function(j){
+  var gs=(j&&j.groups)||[];if(!gs.length){box.textContent='No groups yet — make the first one on Pact.';return}
+  box.innerHTML=gs.slice(0,8).map(function(g){
+   var dues=g.dues?(' · '+(g.dues.amount/100).toFixed(2)+' '+E(g.dues.currency)+'/'+E(g.dues.period)):'';
+   return '<div style="padding:6px 0;border-bottom:1px solid var(--line2)"><a href="'+PACT+'/groups/'+encodeURIComponent(g.id)+'"><b>'+E(g.name)+'</b></a> <span class=muted>'+E(g.joinPolicy)+dues+' · '+(g.members?g.members.length:0)+' member(s)</span></div>'}).join('');
+ }).catch(function(){box.textContent='Groups are on Pact — open it below.'})})();
+</script></body></html>`;
 }
 
 export { homePage };

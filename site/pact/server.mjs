@@ -84,7 +84,10 @@ what you put into it. A <b>group</b> is a pact anyone can join; a <b>club</b> is
   </div>
   <div id=list></div>
 </div>
-<footer>Pact · part of <a href="https://pentecaust.com">Pentecaust</a></footer>
+<p class=mut style="margin-top:14px">Two ways in, one membership: this is the surface built around groups and clubs —
+ <a href="https://melek.salon/#groups">MELEK</a> lists the same pacts beside the chain, and you chat to them through
+ <a href="https://pentecaust.com">Pentecaust messages</a>, where a song, picture, beat or chart someone made pastes in as a card.</p>
+<footer>Pact · groups and clubs on <a href="https://melek.salon">MELEK</a> · part of <a href="https://pentecaust.com">Pentecaust</a></footer>
 </div>
 <script>
 const $=id=>document.getElementById(id);

@@ -70,7 +70,7 @@ const STYLE = `<style>
 header{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--bd)}
 header a{color:var(--mut);text-decoration:none}.brand{color:var(--fg)!important;font-size:18px}
 .wrap{max-width:1000px;margin:0 auto;padding:16px}a{color:var(--acc)}h1{font-size:24px;margin:6px 0}h2{font-size:18px;margin:22px 0 6px}h3{font-size:15px;margin:16px 0 2px}
-.lead{color:var(--mut)}.tracks{list-style:none;padding:0;margin:0}.tracks li{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);margin-top:8px}
+.lead{color:var(--mut)}.alpha{border:1px solid #c9a64a;border-radius:10px;padding:10px 12px;margin:10px 0;background:var(--panel)}.tracks{list-style:none;padding:0;margin:0}.tracks li{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);margin-top:8px}
 .tracks .t{flex:1;min-width:0}.tracks .t a{font-weight:700;text-decoration:none}.mut{color:var(--mut);font-size:13px}
 .tracks .play{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--acc);color:#111;cursor:pointer}
 .lyrics{white-space:pre-wrap;background:var(--panel);border:1px solid var(--bd);border-radius:10px;padding:14px}
@@ -106,7 +106,8 @@ export function homePage(tracks = loadCatalog()) {
   }).join('');
   const inner = `<h1>SoapBox Music</h1>
 ${tracks.length ? panelHtml(forPlayer(tracks[0])) : ''}
-<p class=lead>Original songs made on our own servers with <a href="https://pentecaust.com/sandalphon">Hathor Sandalphon</a>, and a search across free public-domain and Creative-Commons music. Alpha.</p>
+<div class=alpha><b>Alpha.</b> These are Hathor Sandalphon's first test songs, made on our own servers. She is still being trained, and the songs she makes next are expected to be much better. The notes under the player are read from the recording by machine, so they are a test too.</div>
+<p class=lead>Original songs made on our own servers with <a href="https://pentecaust.com/sandalphon">Hathor Sandalphon</a>, and a search across free public-domain and Creative-Commons music.</p>
 ${shelves || '<p class=lead>The first original songs are being made now — they will appear here.</p>'}
 <h2>Free &amp; open music</h2>
 <form class=search action="/music/search" method=get><input name=q placeholder="Search public-domain and CC music — e.g. organ, hymn, harp" aria-label="Search open music"><button>Search</button></form>`;
@@ -125,6 +126,7 @@ ${panelHtml(forPlayer(t), { compact: true })}<p><a href="${esc(BASE_URL)}/music/
 export function trackPage(t) {
   const credit = [t.artist && `By ${t.artist}`, t.engine && `made with ${t.engine}`].filter(Boolean).map(esc).join(' · ');
   const inner = `<p><a href="/music">← All music</a></p><h1>${esc(t.title)}</h1>
+<div class=alpha><b>Alpha — a test song.</b> Made on our own servers while Hathor Sandalphon is still being trained; the next ones are expected to be better. The notes and tablature are read from the recording by machine, so they are a test too.</div>
 ${t.album ? `<p class=mut>From the album <b>${esc(t.album)}</b></p>` : ''}<p class=mut>${credit}${t.genre ? ` · ${esc(t.genre)}` : ''}${t.seconds ? ` · ${dur(t.seconds)}` : ''}</p>
 ${panelHtml(forPlayer(t))}
 ${t.style ? `<p class=mut><b>Sound:</b> ${esc(t.style)}</p>` : ''}

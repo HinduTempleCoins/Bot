@@ -186,3 +186,33 @@ test('⚠️ only owner/admin may set dues or the charter', async () => {
   assert.notEqual((await call('mallory', 'POST', `/groups/${id}/dues`, { dues: { amount: 1 } }, opts)).body.ok, true);
   assert.notEqual((await call('mallory', 'POST', `/groups/${id}/charter`, { charter: { purpose: 'x' } }, opts)).body.ok, true);
 });
+
+test('Pact is a MELEK front end: a vote returns a standard Graphene vote op, members only', async () => {
+  const opts = memOpts();
+  const id = (await call('owner', 'POST', '/groups', { name: 'Lyre Club', joinPolicy: 'open' }, opts)).body.group.id;
+  await call('owner', 'POST', `/groups/${id}/post`, { permlink: 'first-song', title: 'A song' }, opts);
+  const v = (await call('owner', 'POST', `/groups/${id}/vote`, { author: 'owner', permlink: 'first-song', weight: 10000 }, opts)).body;
+  assert.equal(v.ok, true);
+  assert.deepEqual(v.op, ['vote', { voter: 'owner', author: 'owner', permlink: 'first-song', weight: 10000 }]);
+  assert.equal(v.votes.up, 1);
+  const again = (await call('owner', 'POST', `/groups/${id}/vote`, { author: 'owner', permlink: 'first-song', weight: 10000 }, opts)).body;
+  assert.equal(again.votes.up, 1, 'a re-vote replaces, never doubles');
+  assert.equal((await call('stranger', 'POST', `/groups/${id}/vote`, { author: 'owner', permlink: 'first-song' }, opts)).body.ok, false);
+  const tally = (await call(null, 'GET', `/groups/${id}/votes?author=owner&permlink=first-song`, null, opts)).body;
+  assert.equal(tally.votes.up, 1);
+});
+
+test('a club can run a program, and that decides which paperwork it gets', async () => {
+  const opts = memOpts();
+  const id = (await call('owner', 'POST', '/groups', { name: 'Metals', joinPolicy: 'open' }, opts)).body.group.id;
+  assert.equal((await call('owner', 'POST', `/groups/${id}/program`, { program: 'nope' }, opts)).body.ok, false);
+  assert.equal((await call('stranger', 'POST', `/groups/${id}/program`, { program: 'metals-club' }, opts)).body.ok, false);
+  const r = (await call('owner', 'POST', `/groups/${id}/program`, { program: 'metals-club' }, opts)).body;
+  assert.equal(r.group.program.name, 'metals-club');
+  assert.equal(r.group.program.recordsOnly, true);
+  const kit = (await call(null, 'GET', `/groups/${id}/paperwork`, null, opts)).body;
+  assert.equal(kit.label, 'Precious-metals club');
+  assert.match(kit.disclaimer, /not legal, tax or financial advice/);
+  const auto = (await call(null, 'GET', `/groups/${id}/paperwork?program=auto-club`, null, opts)).body;
+  assert.equal(auto.label, 'Precious-metals club', 'a club with a program ignores a query override');
+});

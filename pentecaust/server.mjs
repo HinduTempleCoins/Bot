@@ -31,6 +31,7 @@ import {
   createTeam, joinTeam, leaveTeam, kick, setRole, approve, invite, setMotd, getTeam, teamsForAccount, listTeams, isMember,
 } from './model.mjs';
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
+import { renderText as embedText, EMBED_CSS } from '../integrations/maker-embeds.mjs';
 import { sessionFromReq, handler as authHandler, registerMethod } from './auth.mjs';
 import { makeMelekSignerVerify } from './melek-signer-login.mjs';
 // Bounties. The board is keyed on `socialId`, not a MELEK account — which is exactly the messenger
@@ -158,6 +159,14 @@ async function chainFollow(method, account, pick) {
 const getFollowing = (a) => chainFollow('condenser_api.get_following', a, 'following');  // who you follow
 const getFollowers = (a) => chainFollow('condenser_api.get_followers', a, 'follower');   // who follows you
 
+// Everything people make here — a song, a picture, a video, a beat, a chart, a map — pastes into a message
+// as a link and comes back as a CARD. The HTML is built and escaped on the server (integrations/maker-embeds),
+// so one implementation serves chat, group chat, Herald email and Pact.
+function withEmbeds(out) {
+  if (!out || !Array.isArray(out.messages)) return out;
+  return { ...out, messages: out.messages.map((m) => ({ ...m, html: embedText(m.text) })) };
+}
+
 export async function handler(req, res) {
   const origin = req.headers ? req.headers.origin : undefined;
   let url; try { url = new URL(req.url, BASE_URL); } catch { return json(res, 400, { ok: false, reason: 'bad-url' }, origin); }
@@ -282,7 +291,7 @@ export async function handler(req, res) {
       const me = whoami(req, q.get('me')); if (!me) return unauth(res, origin);
       const wth = _acct(q.get('with'));
       if (!wth) return json(res, 422, { ok: false, reason: 'with required' }, origin);
-      return json(res, 200, readDM(me, wth, { since: +q.get('since') || 0, tail: !q.get('since') }), origin);
+      return json(res, 200, withEmbeds(readDM(me, wth, { since: +q.get('since') || 0, tail: !q.get('since') })), origin);
     }
     const segs = path.split('/').filter(Boolean);
     if (method === 'GET' && segs[0] === 'teams' && segs[1] && segs[2] === 'chat') {
@@ -290,7 +299,7 @@ export async function handler(req, res) {
       if (!me) return unauth(res, origin);
       if (!isMember(id, me)) return json(res, 403, { ok: false, reason: 'team members only' }, origin);
       const team = getTeam(id);
-      return json(res, 200, { ok: true, team, ...readTeam(id, { since: +q.get('since') || 0, tail: !q.get('since') }) }, origin);
+      return json(res, 200, { ok: true, team, ...withEmbeds(readTeam(id, { since: +q.get('since') || 0, tail: !q.get('since') })) }, origin);
     }
     if (method === 'GET' && segs[0] === 'teams' && segs[1]) {
       const t = getTeam(segs[1]); return t ? json(res, 200, { ok: true, team: t }, origin) : json(res, 404, { ok: false, reason: 'no such team' }, origin);
@@ -618,7 +627,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  .pill{display:inline-block;font-size:10px;font-weight:700;color:#fff;padding:2px 7px;border-radius:9px;vertical-align:middle;margin-left:4px}
  h2{font-size:16px;margin:0 0 8px}a{color:var(--gold)}
  @media(max-width:620px){.im{flex-direction:column}.friends{width:auto;flex:none}}
-</style></head><body><div class=wrap>
+</style>${EMBED_CSS}</head><body><div class=wrap>
 <header>
  <span class=brand><svg class=mark viewBox="0 0 24 28" aria-hidden="true"><defs><linearGradient id="fl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e0453a"/><stop offset=".55" stop-color="#ff8c2b"/><stop offset="1" stop-color="#ffd76a"/></linearGradient></defs><path fill="url(#fl)" d="M12 0c1.6 5.2-3.1 6.9-3.1 11.2 0 1.6.8 2.9 1.9 3.6-.5-2.6.7-4.4 2.2-5.6-.4 2.7 1.1 3.7 2.4 5.3 1.4 1.7 2.1 3.4 2.1 5.1C17.5 24.2 14.9 28 12 28S6.5 24.2 6.5 19.6c0-2.3.9-4.1 2.1-5.8C6.2 15.1 4 17.9 4 21.1 4 25.4 7.6 28 12 28s8-2.6 8-6.9C20 13.6 12.9 10.4 12 0z"/></svg><b>Pentecaust</b> Messaging</span><span class=alpha>Alpha</span>
  <span class=me><span class=at>@</span><input id=me placeholder=sign-in-to-use autocapitalize=off spellcheck=false readonly></span>
@@ -645,7 +654,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <div class=thread>
    <h2 id=threadTitle>Direct messages</h2>
    <div class=feed id=feed><div class=empty>Pick a friend on the left — or add one by @name — to start a DM.</div></div>
-   <div class=compose><input id=dmText placeholder="message…" disabled><button class="btn primary" id=dmSend disabled>Send</button></div>
+   <div class=compose><input id=dmText placeholder="message…" disabled><button class=btn data-attach="dmText" title="Attach something you made" aria-label="Attach something you made">📎</button><button class="btn primary" id=dmSend disabled>Send</button></div>
   </div>
  </div>
 </div>
@@ -665,7 +674,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <div class=row style="margin-top:6px"><input id=newName placeholder="…or start a new channel"><select id=newKind style="flex:0 0 130px;width:130px"><option value=team>Team</option><option value=alliance>Alliance</option><option value=clan>Clan</option><option value=crew>Crew</option><option value=guild>Guild</option></select><button class="btn green" id=createTeam>Create</button></div>
  <div id=teamMeta class=hint></div>
  <div class=feed id=cfeed style="margin-top:8px"><div class=empty>Open or create a channel above.</div></div>
- <div class=compose><input id=cText placeholder="message the channel…" disabled><button class="btn primary" id=cSend disabled>Send</button></div>
+ <div class=compose><input id=cText placeholder="message the channel…" disabled><button class=btn data-attach="cText" title="Attach something you made" aria-label="Attach something you made">📎</button><button class="btn primary" id=cSend disabled>Send</button></div>
 </div>
 
 <div id=paneInt class=card style="display:none">
@@ -725,6 +734,16 @@ function setTab(t){tab=t;
  if(t==='msg')loadFriends();if(t==='mail')syncMail();if(t==='int')loadIntegrations();if(t==='camp')loadCampaigns();}
 if(location.hash==='#herald')setTimeout(()=>setTab('camp'),0);
 $('nMsg').onclick=()=>setTab('msg');$('nMail').onclick=()=>setTab('mail');$('nChan').onclick=()=>setTab('chan');$('nInt').onclick=()=>setTab('int');$('nCamp').onclick=()=>setTab('camp');
+
+// 📎 Attach something you made — a song, a picture, a beat, a chart, a video. Paste its link into the
+// message and it arrives as a playable card (integrations/maker-embeds renders it server-side).
+const MAKERS=[['🎼 Make a song','https://pentecaust.com/sandalphon'],['🎛️ Make a beat','https://pentecaust.com/sandalphon/beats'],
+ ['✍️ Write / make a picture','https://pentecaust.com/metatron'],['📊 Make a chart or diagram','https://tools.soapbox.community/diagram'],
+ ['🎵 Pick a song from the library','https://stream.soapbox.community/music'],['🎬 Pick a video','https://stream.soapbox.community']];
+document.addEventListener('click',function(e){const b=e.target.closest&&e.target.closest('[data-attach]');if(!b)return;
+ const box=$(b.dataset.attach);if(!box)return;
+ const made=prompt('Paste the link to what you made, or open a maker first:'+String.fromCharCode(10,10)+MAKERS.map(m=>m[0]+' — '+m[1]).join(String.fromCharCode(10)));
+ if(made&&made.trim()){box.value=(box.value?box.value+' ':'')+made.trim();box.focus();}});
 
 // ---- Campaigns (MoneyPrinter/AI-SDR): draft an ICP + outreach sequence; manage leads + pipeline ----
 let campId='',campCur=null;
@@ -854,7 +873,7 @@ async function loadFriends(){if(!me())return;const fl=$('flist');const seen=new 
 function openDM(who){dmWith=who;dmCursor=0;$('threadTitle').textContent='@'+who;$('dmText').disabled=false;$('dmSend').disabled=false;$('feed').innerHTML='';loadFriends();pollDM();if(dmTimer)clearInterval(dmTimer);dmTimer=setInterval(pollDM,3000);}
 async function pollDM(){if(!me()||!dmWith)return;const j=await api('/dm?me='+encodeURIComponent(me())+'&with='+encodeURIComponent(dmWith)+(dmCursor?('&since='+dmCursor):''));if(!j.ok)return;
  const f=$('feed');if(dmCursor===0&&j.messages.length)f.innerHTML='';for(const m of j.messages){const d=document.createElement('div');d.className='msg'+(m.from===me()?' mine':'');
-  d.innerHTML='<span class=who>'+E(m.from===me()?'you':('@'+m.from))+'</span>'+(m.game?(' <span class=src>['+E(m.game)+']</span>'):'')+': '+E(m.text);f.appendChild(d);}
+  d.innerHTML='<span class=who>'+E(m.from===me()?'you':('@'+m.from))+'</span>'+(m.game?(' <span class=src>['+E(m.game)+']</span>'):'')+': '+(m.html||E(m.text));f.appendChild(d);}
  if(j.messages.length){dmCursor=j.messages[j.messages.length-1].seq;f.scrollTop=f.scrollHeight;}}
 $('addBtn').onclick=()=>{const w=$('addWho').value.trim().toLowerCase().replace(/^@/,'');if(!w||!me())return;$('addWho').value='';openDM(w);};
 $('addWho').addEventListener('keydown',e=>{if(e.key==='Enter')$('addBtn').click();});
@@ -867,7 +886,7 @@ function openChan(id){chId=id;chCursor=0;$('teamId').value=id;$('cText').disable
 async function pollChan(){if(!me()||!chId)return;const j=await api('/teams/'+encodeURIComponent(chId)+'/chat?account='+encodeURIComponent(me())+(chCursor?('&since='+chCursor):''));
  if(!j.ok){if(j.reason)$('teamMeta').textContent=j.reason;return;}
  if(j.team)$('teamMeta').textContent=j.team.kind+' “'+j.team.name+'” · '+j.team.memberCount+' members'+(j.team.motd?(' · '+j.team.motd):'');
- const f=$('cfeed');if(chCursor===0&&j.messages.length)f.innerHTML='';for(const m of j.messages){const d=document.createElement('div');d.className='msg';d.innerHTML='<span class=who>@'+E(m.from)+'</span>'+(m.game?(' <span class=src>['+E(m.game)+']</span>'):'')+': '+E(m.text);f.appendChild(d);}
+ const f=$('cfeed');if(chCursor===0&&j.messages.length)f.innerHTML='';for(const m of j.messages){const d=document.createElement('div');d.className='msg';d.innerHTML='<span class=who>@'+E(m.from)+'</span>'+(m.game?(' <span class=src>['+E(m.game)+']</span>'):'')+': '+(m.html||E(m.text));f.appendChild(d);}
  if(j.messages.length){chCursor=j.messages[j.messages.length-1].seq;f.scrollTop=f.scrollHeight;}}
 $('loadTeam').onclick=()=>{const id=$('teamId').value.trim();if(id)openChan(id);};
 $('joinTeam').onclick=async()=>{const id=$('teamId').value.trim();if(!id||!me())return;const j=await api('/teams/'+encodeURIComponent(id)+'/join',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:me()})});if(j.ok)openChan(id);else alert(j.reason||'could not join');};
