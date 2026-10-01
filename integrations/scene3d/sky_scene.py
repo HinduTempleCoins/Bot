@@ -35,15 +35,24 @@ def sunrise_azimuth(lat, dec, h=0.5):
 SITES = {
     "stonehenge": {"lat": 51.1789, "year": -2499, "event": "summer solstice sunrise", "sign": +1, "status": "established",
                    "note": "The Heel Stone axis points to the midsummer sunrise (and the opposite way to the midwinter sunset)."},
+    "kalasasaya-posnansky": {"lat": -16.5546, "year": -14999, "event": "June solstice sunset", "sign": +1, "status": "debated",
+                  "eps": 23.1467, "set": True, "label": "under Posnansky's measured angle (23° 8′ 48″; his date: 15,000 BC)",
+                  "note": "Arthur Posnansky read the Kalasasaya's corner pillars as solstice sightlines and, from the angle they imply (23° 8′ 48″), dated the temple to 15,000 BC. Radiocarbon dates the Kalasasaya to roughly 200 BCE–600 CE. The two sunsets differ by only about half a degree — less than the placing error of the pillars — so the alignment cannot carry the 15,000 BC date. Kept alive in Atlantis literature."},
+    "kalasasaya-600ad": {"lat": -16.5546, "year": 600, "event": "June solstice sunset", "sign": +1, "status": "established (date); alignment debated",
+                  "set": True, "label": "at its archaeological date (c. AD 600)",
+                  "note": "The same sunset computed for c. AD 600, within the radiocarbon range for the Kalasasaya (c. 200 BCE–600 CE), for comparison with Posnansky's reading."},
     "newgrange": {"lat": 53.6947, "year": -3199, "event": "winter solstice sunrise", "sign": -1, "status": "established",
                   "horizon": 0.9, "note": "At midwinter sunrise a beam enters the roof-box and runs 19 m up the passage to the chamber floor."},
 }
 S = SITES[SITE]
-EPS = obliquity(S["year"])
+EPS = S.get("eps") or obliquity(S["year"])
 AZ = sunrise_azimuth(S["lat"], S["sign"] * EPS, S.get("horizon", 0.5))          # degrees east of north
+if S.get("set"):
+    AZ = 360.0 - AZ                                                                  # sunset mirrors sunrise across the meridian
 print(f"{SITE}: obliquity {EPS:.2f}°, sunrise azimuth {AZ:.2f}°", flush=True)
 import json as _json
-print("META " + _json.dumps({"title": f"{SITE.title()} — the {S['event']}, c. {-S['year'] + 1} BC (sun at azimuth {AZ:.1f}°, computed for that epoch)",
+_when = S.get("label") or (f"c. {-S['year'] + 1} BC" if S["year"] <= 0 else f"c. AD {S['year']}")
+print("META " + _json.dumps({"title": f"{SITE.split('-')[0].title()} — the {S['event']}, {_when} (sun at azimuth {AZ:.1f}°, obliquity {EPS:.2f}°)",
                               "status": S["status"], "note": S["note"]}), flush=True)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -79,7 +88,7 @@ def mat(name, rgb, rough=0.9):
     return m
 STONE, GRASS, CLOTH = mat("stone", (0.38, 0.36, 0.32)), mat("grass", (0.10, 0.16, 0.06)), mat("cloth", (0.22, 0.15, 0.10))
 
-bpy.ops.mesh.primitive_plane_add(size=600); g = bpy.context.active_object; g.data.materials.append(GRASS)
+bpy.ops.mesh.primitive_plane_add(size=6000); g = bpy.context.active_object; g.data.materials.append(GRASS)
 
 def block(x, y, z, sx, sy, sz, rot=0.0, m=STONE):
     bpy.ops.mesh.primitive_cube_add(location=(x, y, z)); o = bpy.context.active_object
@@ -169,7 +178,35 @@ def newgrange():
         sun.rotation_quaternion = (-dirvec(AZ, 0.6 + 1.0 * e)).to_track_quat("-Z", "Z"); sun.keyframe_insert("rotation_quaternion", frame=f)
 
 
-{"stonehenge": stonehenge, "newgrange": newgrange}[SITE]()
+def kalasasaya():
+    # after Posnansky 1945 and later surveys: a raised rectangular enclosure ~128 m E-W x ~118 m N-S, walls of tall
+    # sandstone pillars with ashlar infill, the west "balcony" wall, and the Gateway of the Sun near the NW corner
+    tan = mat("andesite", (0.36, 0.30, 0.26))
+    hx, hy = 64, 59
+    for x in range(-hx, hx + 1, 6):
+        for y in (-hy, hy):
+            block(x, y, 1.9, 1.0, 0.8, 3.8, m=tan); block(x + 3, y, 0.8, 5.0, 0.7, 1.6, m=tan)
+    for y in range(-hy, hy + 1, 6):
+        for x in (-hx, hx):
+            if x == hx and abs(y) < 6:
+                continue                                          # the eastern stairway opening
+            block(x, y, 1.9, 0.8, 1.0, 3.8, m=tan); block(x, y + 3, 0.8, 0.7, 5.0, 1.6, m=tan)
+    g1 = block(-hx + 8, hy - 8, 1.5, 3.8, 0.6, 3.0, m=tan)      # the Gateway of the Sun (simplified)
+    bpy.ops.mesh.primitive_cube_add(location=(-hx + 8, hy - 8, 1.0)); cut = bpy.context.active_object; cut.scale = (0.7, 0.5, 1.0); cut.hide_render = True
+    m = g1.modifiers.new("door", "BOOLEAN"); m.operation = "DIFFERENCE"; m.object = cut
+    watchers(Vector((hx - 46, 4, 0)), count=4, spacing=2.4)
+    D = dirvec(AZ, 0); tgt = Vector((D.x * 200, D.y * 200, 2.0))
+    for f in range(1, n + 1):
+        t = (f - 1) / max(1, n - 1); e = 0.5 - 0.5 * math.cos(math.pi * t)
+        p = Vector((hx - 14 - 10 * e, -6 + 6 * e, 1.8 + 0.6 * e))
+        cam.location = p; cam.keyframe_insert("location", frame=f)
+        cam.rotation_quaternion = (tgt - p).to_track_quat("-Z", "Y"); cam.keyframe_insert("rotation_quaternion", frame=f)
+        el = 1.6 - 1.4 * e                                        # setting: the sun goes DOWN
+        sky.sun_elevation = math.radians(el); sky.keyframe_insert("sun_elevation", frame=f)
+        sun.rotation_quaternion = (-dirvec(AZ, el)).to_track_quat("-Z", "Z"); sun.keyframe_insert("rotation_quaternion", frame=f)
+
+
+{"stonehenge": stonehenge, "newgrange": newgrange, "kalasasaya-posnansky": kalasasaya, "kalasasaya-600ad": kalasasaya}[SITE]()
 
 frames = os.path.join(os.path.dirname(OUT) or ".", "frames_" + os.path.basename(OUT).replace(".mp4", ""))
 os.makedirs(frames, exist_ok=True)
