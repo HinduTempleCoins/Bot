@@ -126,3 +126,43 @@ test('the post reader talks standard Graphene and soft-fails when the chain is u
   __setFetch(async () => { throw new Error('offline'); });
   assert.equal((await get('/save?post=@ryan/p2')).code, 404);
 });
+
+test('the tabs are there: wall, albums, saved, upload, make a post', async () => {
+  reset();
+  const o = await get('/');
+  for (const t of ['/boards', '/saved', '/upload', '/post']) assert.match(o.body, new RegExp(`href="${t}"`));
+});
+
+test('a pin can be filed into an album, and the album page shows it', async () => {
+  reset();
+  const pin = makePin({ author: 'ryan', images: [IMG], title: 'A lyre' });
+  addPin(pin);
+  const o = await get('/board', 'POST', `pin=${encodeURIComponent(pin.id)}&board=Old Instruments`);
+  assert.equal(o.code, 302);
+  assert.equal(o.headers.location, '/b/old-instruments');
+  assert.equal(loadPins()[0].board, 'old-instruments');
+  assert.match((await get('/b/old-instruments')).body, /class=pb-grid/);
+  assert.match((await get('/boards')).body, /old-instruments/);
+  assert.equal((await get('/board', 'POST', 'pin=nope&board=x')).code, 404);
+});
+
+test('Saved is a private bookmarks page — nothing is posted anywhere', async () => {
+  const o = await get('/saved');
+  assert.equal(o.code, 200);
+  assert.match(o.body, /bookmarks page/);
+  assert.match(o.body, /nothing here is posted anywhere/);
+});
+
+test('Make a post is deliberate, never automatic', async () => {
+  reset();
+  addPin(makePin({ author: 'ryan', images: [IMG], title: 'A lyre' }));
+  const o = await get('/post');
+  assert.match(o.body, /Nothing on the Pinboard is posted anywhere on its own/);
+  assert.match(o.body, /id=pick/);
+});
+
+test('Upload explains why the chain holds the record and not the picture', async () => {
+  const o = await get('/upload');
+  assert.match(o.body, /never the picture itself/);
+  assert.match(o.body, /imgbb/);
+});

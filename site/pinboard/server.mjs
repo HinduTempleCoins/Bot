@@ -64,7 +64,7 @@ const STYLE = `<style>
 header{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--bd)}
 header a{color:var(--mut);text-decoration:none}.brand{color:var(--fg)!important;font-size:18px;font-weight:700}
 .wrap{max-width:1300px;margin:0 auto;padding:16px}a{color:var(--acc)}h1{font-size:22px;margin:4px 0 10px}
-.lead{color:var(--mut)}form.add{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 18px}
+.lead{color:var(--mut)}.tabs{display:flex;gap:4px;flex-wrap:wrap}.tabs a{padding:5px 11px;border-radius:999px;border:1px solid var(--bd)}.tabs a:hover{border-color:var(--acc)}form.add{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 18px}
 input,button,textarea{font:inherit;color:inherit;background:transparent;border:1px solid var(--bd);border-radius:9px;padding:7px 10px}
 input{min-width:220px;flex:1}button{cursor:pointer;background:var(--acc);color:#111;border:0;font-weight:700}
 button.ghost{background:transparent;color:var(--fg);border:1px solid var(--bd);font-weight:400}
@@ -78,9 +78,9 @@ function shell(title, inner, { canonical = `${BASE_URL}/`, description } = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name=description content="${esc(d)}"><link rel=canonical href="${esc(canonical)}">
 ${STYLE}${PINBOARD_CSS}</head><body>
-<header><a class=brand href="/">MELEK Pinboard</a><a href="${esc(MELEK)}">MELEK</a>
-<a href="https://stream.soapbox.community/music">🎵 Music</a><a href="https://pentecaust.com/metatron">✍️ Make a picture</a>
-<a href="/boards">Boards</a><a href="/how">How to save</a></header>
+<header><a class=brand href="/">MELEK Pinboard</a>
+<nav class=tabs><a href="/">Wall</a><a href="/boards">Albums</a><a href="/saved">Saved</a><a href="/upload">Upload</a><a href="/post">Make a post</a></nav>
+<span style="margin-left:auto;display:flex;gap:12px"><a href="${esc(MELEK)}">MELEK</a><a href="https://pentecaust.com/metatron">✍️ Make a picture</a><a href="/how">How to save</a></span></header>
 <div class=wrap>${inner}</div>
 <script>
 (function(){
@@ -115,6 +115,8 @@ function pinPage(p) {
   const inner = `<p><a href="/">← The wall</a></p><h1>${esc(p.title || 'A picture')}</h1>${from}
 <div class=single>${p.images.map((i) => `<img src="${esc(i.url)}" alt="${esc(i.alt || p.title)}">`).join('')}</div>
 ${p.note ? `<p>${esc(p.note)}</p>` : ''}
+<form class=add method=post action="/board"><input type=hidden name=pin value="${esc(p.id)}">
+ <input name=board value="${esc(p.board || '')}" placeholder="Put it in an album" aria-label=Album><button>File it</button></form>
 <h2 style="font-size:16px">Put it in a MELEK blog post</h2>
 <p class=lead>Copy this into your post:</p><p><code id=md>${esc(md)}</code> <button class=ghost onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('md').textContent)">Copy</button></p>`;
   return shell(`${p.title || 'A picture'} · MELEK Pinboard`, inner, { canonical: `${BASE_URL}/p/${encodeURIComponent(p.id)}` });
@@ -140,6 +142,64 @@ function boardsPage(pins) {
     + (names.length ? `<ul>${names.map((b) => `<li><a href="/b/${esc(b)}">${esc(b)}</a> — ${pins.filter((p) => p.board === b).length} pins</li>`).join('')}</ul>`
       : '<p class=lead>No boards yet. Give a pin a board name and it shows up here.</p>');
   return shell('Boards · MELEK Pinboard', inner, { canonical: `${BASE_URL}/boards` });
+}
+
+// An album is just a name pins are filed under — Pinterest's boards, Instagram's collections.
+function savedPage() {
+  const inner = `<h1>Saved</h1>
+<p class=lead>Pins you tapped 📌 Save on. This is your bookmarks page: it is kept in this browser, nothing here is posted anywhere, and nobody else sees it.</p>
+<div id=savedWall><p class=pb-empty>Nothing saved yet — tap 📌 Save on any pin.</p></div>
+<script>
+(function(){var box=document.getElementById('savedWall');var ids=[];try{ids=JSON.parse(localStorage.getItem('pinboard.saved')||'[]')}catch(e){}
+ if(!ids.length)return;fetch('/pins.json').then(function(r){return r.json()}).then(function(j){
+  var mine=(j.pins||[]).filter(function(p){return ids.indexOf(p.id)>=0});
+  if(!mine.length){box.innerHTML='<p class=pb-empty>Those pins are gone.</p>';return}
+  box.innerHTML='<div class=pb-grid>'+mine.map(function(p){
+   return '<article class=pb-card><a href="/p/'+encodeURIComponent(p.id)+'"><img src="'+p.cover+'" alt="" loading=lazy></a>'
+    +'<div class=pb-meta><a class=pb-title href="/p/'+encodeURIComponent(p.id)+'">'+(p.title||'A picture').replace(/[<>&]/g,'')+'</a></div></article>'}).join('')+'</div>'})})();
+</script>`;
+  return shell('Saved · MELEK Pinboard', inner, { canonical: `${BASE_URL}/saved` });
+}
+
+function uploadPage() {
+  const inner = `<h1>Upload a picture</h1>
+<p class=lead>Put a picture online and pin it — the way imgbb or TinyPic works, without an account.</p>
+<div class=alpha><b>Where your picture lives.</b> We keep the <i>record</i> of a pin on the MELEK chain — who pinned it, what it is, and its address — never the picture itself. Pictures are far too big for a blockchain, and a chain record is permanent for everyone forever. So the bytes stay at their own address, and the pin points at them. That keeps pinning free for you and cheap for us.</div>
+<ol class=lead>
+ <li><b>Already online?</b> Paste its address on <a href="/">the wall</a> and you are done — nothing is copied or re-hosted.</li>
+ <li><b>On your computer?</b> Upload it to any free host (<a href="https://imgbb.com" target=_blank rel="noopener noreferrer">imgbb</a>, <a href="https://postimages.org" target=_blank rel="noopener noreferrer">postimages</a>), then paste the address here.</li>
+ <li><b>Ours:</b> MELEK's own image host is being wired back up; when it is, it appears here as the first choice.</li>
+</ol>
+<form class=add method=post action="/pin">
+ <input name=url placeholder="Paste the picture's address" aria-label="Picture address">
+ <input name=title placeholder="Title (optional)" aria-label=Title>
+ <input name=board placeholder="Album (optional)" aria-label=Album style="max-width:170px">
+ <input name=author placeholder="your MELEK name" aria-label="your name" style="max-width:160px">
+ <button>Pin it</button>
+</form>`;
+  return shell('Upload · MELEK Pinboard', inner, { canonical: `${BASE_URL}/upload` });
+}
+
+function postPage(pins) {
+  const recent = pins.slice().reverse().slice(0, 60);
+  const inner = `<h1>Make a post from your pictures</h1>
+<p class=lead>Nothing on the Pinboard is posted anywhere on its own. When you <i>want</i> a blog post, pick your pictures here and copy the result into MELEK.</p>
+<div class=pb-grid id=pick>${recent.map((p) => `<article class=pb-card><label style="display:block;cursor:pointer"><img src="${esc(p.cover)}" alt="" loading=lazy><div class=pb-meta><input type=checkbox value="${esc(p.id)}"> ${esc(p.title || 'A picture')}</div></label></article>`).join('')}</div>
+<p><input id=ptitle placeholder="Post title" style="min-width:260px"> <button id=mk>Write it</button></p>
+<p><code id=out></code></p>
+<script>
+(function(){var d=${JSON.stringify(recent.map((p) => ({ id: p.id, url: p.cover, t: p.title || '', src: p.sourceUrl || '', by: p.sourceAuthor || '' })))};
+ document.getElementById('mk').onclick=function(){
+  var picked=[].filter.call(document.querySelectorAll('#pick input:checked'),function(i){return i.checked}).map(function(i){return i.value});
+  var md=(document.getElementById('ptitle').value?'# '+document.getElementById('ptitle').value+String.fromCharCode(10,10):'');
+  d.forEach(function(p){if(picked.indexOf(p.id)<0)return;
+   md+='!['+(p.t||'A picture')+']('+p.url+')'+String.fromCharCode(10);
+   if(p.src)md+=(p.by?'Saved from @'+p.by+' — ':'Saved from ')+p.src+String.fromCharCode(10);
+   md+=String.fromCharCode(10)});
+  document.getElementById('out').textContent=md||'Pick a picture first.';
+  if(md&&navigator.clipboard)navigator.clipboard.writeText(md)};})();
+</script>`;
+  return shell('Make a post · MELEK Pinboard', inner, { canonical: `${BASE_URL}/post` });
 }
 
 function sendHtml(res, html, code = 200) {
@@ -237,6 +297,21 @@ export async function handler(req, res) {
       return res.end();
     }
 
+    if (path === '/saved') return sendHtml(res, savedPage());
+    if (path === '/upload') return sendHtml(res, uploadPage());
+    if (path === '/post') return sendHtml(res, postPage(pins));
+    if (path === '/board' && (req.method || 'GET') === 'POST') {
+      const body = new URLSearchParams(await readBody(req));
+      const id = String(body.get('pin') || '');
+      const name = String(body.get('board') || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+      const all = loadPins();
+      const p = all.find((x) => x.id === id);
+      if (!p) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('no such pin'); }
+      p.board = name;
+      savePins(all);
+      res.writeHead(302, { location: name ? `/b/${name}` : `/p/${encodeURIComponent(id)}` });
+      return res.end();
+    }
     if (path === '/') return sendHtml(res, homePage(pins));
     res.writeHead(404, { 'content-type': 'text/plain' });
     return res.end('not found');
