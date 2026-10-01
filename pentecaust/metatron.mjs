@@ -7,7 +7,8 @@
 //   • Scene board: Backlog → Writing → Review → Done cards with story points (kanban), saved in this browser.
 //   • Graphic maker: a prompt → our own Studio (hathor.soapbox.community /api/generate?format=json, the same CPU
 //     image pool) → the picture, a copy-link, and ready-made snippets for a Herald email or a BiFrost thumbnail.
-// Next slices: post directly to MELEK through MELEK-Signer, the dwell-and-discussion payout, shared boards.
+// Private by design: drafts stay in the browser. Optional: post on MELEK (the user's choice), or send a piece to Herald
+// on Pentecaust as an email step of a campaign. No payouts here (operator, 2026-10-01).
 // Pure builder; nothing user-supplied is interpolated server-side; the client escapes everything it renders.
 
 import { metatronCubeSvg, svgDataUri } from './logos.mjs';
@@ -55,9 +56,10 @@ code{font-size:12px;word-break:break-all}
  <div class=row>
   <button id=sprint>Start a 25-minute sprint</button><span id=timer class=mut></span>
   <button class=ghost id=copy>Copy with tag</button>
-  <a class=mut href="https://melek.salon/submit.html" target=_blank rel=noopener>Open the MELEK editor ↗</a>
+  <button class=ghost id=toHerald>📣 Use in a Herald mail campaign</button>
+  <a class=mut href="https://melek.salon/submit.html" target=_blank rel=noopener>Post it on MELEK (optional) ↗</a>
  </div>
- <p class=mut>Honest tags keep readers' trust: readers can choose a human-only feed or a tech-assisted one. Posting straight to MELEK from here comes in the next slice.</p>
+ <p class=mut>Your writing is private: it stays in this browser and is yours to use however you like — a book, a script, an email campaign through Herald, or a post on MELEK if you choose. Honest tags keep readers' trust when you do share it.</p>
 </section>
 <section class=card>
  <h2>Scene board</h2>
@@ -97,6 +99,10 @@ $('sprint').onclick=function(){if(tInt){clearInterval(tInt);tInt=null;$('sprint'
  tEnd=Date.now()+25*60000;tStart=words();$('sprint').textContent='Stop';tInt=setInterval(function(){var l=Math.max(0,tEnd-Date.now());
  $('timer').textContent=Math.floor(l/60000)+':'+('0'+Math.floor(l%60000/1000)).slice(-2)+' left · '+(words()-tStart)+' words this sprint';
  if(!l){clearInterval(tInt);tInt=null;$('sprint').textContent='Start a 25-minute sprint';var v=load('velocity',[]);v.push(words()-tStart);save('velocity',v.slice(-20));board()}},1000)};
+// hand the piece (and the last graphic made here) to Herald on Pentecaust as the next email of a campaign
+$('toHerald').onclick=function(){var body=$('body').value.trim();if(!body){$('toHerald').textContent='Write something first';return}
+ var img=$('glink').textContent;var d={subject:$('title').value||'',body:body+(img?'\\n\\n'+img:'')};
+ try{localStorage.setItem('metatron.toHerald',JSON.stringify(d))}catch(e){}location.href='/#herald'};
 $('copy').onclick=function(){var t=($('title').value?'# '+$('title').value+'\\n\\n':'')+$('body').value+'\\n\\n— '+$('tag').value;
  try{navigator.clipboard.writeText(t);$('copy').textContent='Copied'}catch(e){}};
 // scene board
