@@ -70,6 +70,17 @@ pre{white-space:pre-wrap;font-size:12px;background:var(--bg);border:1px solid va
  <div class=row><button id=exp>Prepare for the song engine</button><button class=ghost id=copyexp>Copy</button></div>
  <pre id=out class=mut>The plan, as the exact lyrics and style our song engine takes, appears here.</pre>
  <p class=mut>Our song engine runs on our own servers (CPU — about an hour a song, and shared). Connect your own provider key in <a href="/#integrations">Pentecaust &rarr; Integrations</a> and your songs are made on your own account instead. Original songs only.</p>
+ <h2 style="margin-top:14px">What the studio can do</h2>
+ <ul class=mut style="margin:6px 0 0;padding-left:18px">
+  <li><b>The parts.</b> Every song splits into vocals, drums, bass, guitar, piano and the rest — to remix, sing over, or learn from. Free, on every song.</li>
+  <li><b>Another take.</b> The same words performed again, as much or as little different as you ask.</li>
+  <li><b>Fix a patch.</b> Regenerate just the seconds that went wrong — a flat chorus, a bad line — and keep the rest.</li>
+  <li><b>Make it longer.</b> Add an intro, an outro or another verse to a song that stops too soon.</li>
+  <li><b>Change the words or the sound</b> while keeping the performance.</li>
+  <li><b>Play it another way.</b> The same song as a hymn, as gospel, on ancient instruments.</li>
+ </ul>
+ <p class=mut>All of it on our own servers with open-licence engines (ACE-Step, Apache-2.0; Demucs, MIT) — the same tools the paid song sites charge a subscription for. Only our own songs: we never restyle somebody else's recording.</p>
+
 </section>
 <section class=card style="grid-column:1/-1">
  <h2>Song board</h2>

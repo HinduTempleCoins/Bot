@@ -120,3 +120,19 @@ test('songs carry the same Alpha test notice the animation lab uses', async () =
   assert.match(t, /Alpha — a test song/);
   assert.match(t, /read from the recording by machine/);
 });
+
+test('a song with parts offers each one on its own, and refuses anything else', async () => {
+  mkdirSync(join(dir, 'stems', 'lamp-upon-the-water'), { recursive: true });
+  writeFileSync(join(dir, 'stems', 'lamp-upon-the-water', 'stems.json'), JSON.stringify({ parts: ['vocals', 'drums', '../etc'] }));
+  writeFileSync(join(dir, 'stems', 'lamp-upon-the-water', 'vocals.mp3'), Buffer.from('VOCALS'));
+  const t = loadCatalog().find((x) => x.id === 'lamp-upon-the-water');
+  assert.deepEqual(t.stems, ['vocals', 'drums']);          // the traversal entry is dropped
+  const page = (await get('/music/t/lamp-upon-the-water')).body();
+  assert.match(page, /The parts/);
+  assert.match(page, /\/music\/stems\/lamp-upon-the-water\/vocals\.mp3/);
+  const one = await get('/music/stems/lamp-upon-the-water/vocals.mp3');
+  assert.equal(one.code, 200);
+  assert.equal(one.body(), 'VOCALS');
+  assert.equal((await get('/music/stems/lamp-upon-the-water/nope.mp3')).code, 404);
+  assert.equal((await get('/music/stems/gentle-giants/vocals.mp3')).code, 404);
+});

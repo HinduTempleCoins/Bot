@@ -51,9 +51,14 @@ export function loadCatalog() {
     const file = basename(String(t.file));
     if (!AUDIO[extname(file).toLowerCase()]) continue;
     try { if (!statSync(join(DIR, 'media', file)).isFile()) continue; } catch { continue; }
+    let stems = [];
+    try {
+      const sj = JSON.parse(readFileSync(join(DIR, 'stems', String(t.id), 'stems.json'), 'utf8'));
+      if (Array.isArray(sj.parts)) stems = sj.parts.filter((x) => /^[a-z]+$/.test(String(x))).slice(0, 12);
+    } catch { /* no stems for this song yet */ }
     let notes = '';
     if (t.notes) { const n = basename(String(t.notes)); try { if (n.endsWith('.json') && statSync(join(DIR, 'notes', n)).isFile()) notes = n; } catch { /* no notes yet */ } }
-    out.push({ ...t, file, notes, shelf: SHELVES.some((s) => s.id === t.shelf) ? t.shelf : 'other' });
+    out.push({ ...t, file, notes, stems, shelf: SHELVES.some((s) => s.id === t.shelf) ? t.shelf : 'other' });
   }
   return out.sort((a, b) => (b.made || 0) - (a.made || 0));
 }
@@ -130,6 +135,9 @@ export function trackPage(t) {
 ${t.album ? `<p class=mut>From the album <b>${esc(t.album)}</b></p>` : ''}<p class=mut>${credit}${t.genre ? ` · ${esc(t.genre)}` : ''}${t.seconds ? ` · ${dur(t.seconds)}` : ''}</p>
 ${panelHtml(forPlayer(t))}
 ${t.style ? `<p class=mut><b>Sound:</b> ${esc(t.style)}</p>` : ''}
+${t.stems && t.stems.length ? `<h2>The parts</h2>
+<p class=mut>Every part of this song on its own — to remix it, sing over it, or learn it. Made with Demucs (MIT) on our own servers.</p>
+<ul class=tracks>${t.stems.map((p) => `<li><div class=t><b>${esc(p)}</b></div><audio controls preload=none src="/music/stems/${esc(t.id)}/${esc(p)}.mp3"></audio><a class=mut href="/music/stems/${esc(t.id)}/${esc(p)}.mp3" download>download</a></li>`).join('')}</ul>` : ''}
 ${t.lyrics ? `<h2>Lyrics</h2><div class=lyrics>${esc(t.lyrics)}</div>` : ''}
 <p class=mut><b>Licence:</b> ${esc(t.license)}</p>
 <p class=mut><b>Put this player on your page:</b> <code>${esc(embedCode(t))}</code></p>`;
@@ -144,6 +152,7 @@ function sendHtml(res, html, code = 200) {
 /** stream an audio file with HTTP Range support */
 function sendAudio(req, res, file) {
   const p = join(DIR, 'media', file);
+  if (!p.startsWith(join(DIR, 'media')) && !p.startsWith(join(DIR, 'stems'))) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
   let size;
   try { size = statSync(p).size; } catch { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
   const type = AUDIO[extname(file).toLowerCase()];
@@ -190,6 +199,12 @@ export async function handler(req, res) {
       const t = loadCatalog().find((x) => x.id === em[1]);
       if (!t) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
       return sendHtml(res, embedPage(t));
+    }
+    const sm = path.match(/^\/music\/stems\/([a-z0-9-]+)\/([a-z]+)\.mp3$/);
+    if (sm) {
+      const t = loadCatalog().find((x) => x.id === sm[1]);
+      if (!t || !t.stems.includes(sm[2])) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      return sendAudio(req, res, join('..', 'stems', sm[1], `${sm[2]}.mp3`));
     }
     if (path === '/music/search') {
       const q = String(url.searchParams.get('q') || '').slice(0, 120).trim();
