@@ -597,7 +597,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <button id=nChan>🎮 Channels</button>
  <button id=nInt>🔌 Integrations</button>
  <button id=nCamp>📣 Herald</button>
- <button id=nMeta onclick="location.href='/metatron'">✍️ Metatron</button>
+ <button id=nMeta onclick="location.href='/metatron'">✍️ Hathor Metatron</button>
 </div>
 
 <div id=authbar class=card style="display:none;margin-bottom:12px;padding:11px 14px;flex-wrap:wrap;gap:8px;align-items:center"></div>

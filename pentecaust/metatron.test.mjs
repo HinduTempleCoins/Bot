@@ -10,6 +10,7 @@ test('page: writing desk with the three transparency tags, scene board, graphic 
   assert.ok(h.includes('"https://studio.example"') && h.includes("/api/generate?format=json"));
   assert.ok(h.includes('Scene board') && h.includes('Backlog') && h.includes('Done'));
   assert.ok(h.includes('Herald') && h.includes('BiFrost'));
+  assert.ok(h.includes('Hathor Metatron') && h.includes('powered by Hathor'));
   assert.ok(!/\$\{/.test(h), 'no unrendered template expressions');
 });
 

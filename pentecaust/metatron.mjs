@@ -1,4 +1,4 @@
-// metatron.mjs — METATRON, the making side of Hathor on Pentecaust: write (the Writing Sandbox — the NaNoWriMo
+// metatron.mjs — HATHOR METATRON (powered by Hathor, part of Hathor: "Hathor become Metatron"), the making side on Pentecaust: write (the Writing Sandbox — the NaNoWriMo
 // successor) and make graphics, then use them in Herald emails, BiFrost videos and posts on our own channels.
 //
 // Slice 1 (this file): one self-contained page at /metatron —
@@ -15,8 +15,8 @@ export const STUDIO_BASE = () => (process.env.METATRON_STUDIO || 'https://hathor
 export function metatronPage(studio = STUDIO_BASE()) {
   const S = JSON.stringify(studio);
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
-<title>Metatron — write and make · Pentecaust</title>
-<meta name=description content="Metatron on Pentecaust: a writing desk with honest human/AI tags, story points and sprints, a scene board, and a graphic maker for your emails, videos and posts.">
+<title>Hathor Metatron — write and make · Pentecaust</title>
+<meta name=description content="Hathor Metatron on Pentecaust, powered by Hathor: a writing desk with honest human/AI tags, story points and sprints, a scene board, and a graphic maker for your emails, videos and posts.">
 <style>
 :root{--bg:#0f1117;--panel:#171a23;--bd:#2a2f3d;--fg:#e8e6e1;--mut:#9aa0ad;--acc:#c9a64a}
 @media (prefers-color-scheme:light){:root{--bg:#f6f4ef;--panel:#fff;--bd:#ddd6c8;--fg:#1d1b17;--mut:#6b665c;--acc:#8a6a12}}
@@ -34,7 +34,7 @@ button.ghost{background:transparent;color:var(--fg);border:1px solid var(--bd)}.
 .sc .row{margin:4px 0 0}.sc button{padding:2px 7px;font-size:12px}img#gimg{max-width:100%;border-radius:10px;margin-top:8px;display:none}
 code{font-size:12px;word-break:break-all}
 </style></head><body>
-<header><a href="/">← Pentecaust</a><h1>✍️ Metatron</h1><span class=mut>write and make — for Herald emails, BiFrost videos and our channels · Alpha</span></header>
+<header><a href="/">← Pentecaust</a><h1>✍️ Hathor Metatron</h1><span class=mut>Hathor become Metatron — write and make for Herald emails, BiFrost videos and our channels · powered by Hathor · Alpha</span></header>
 <main>
 <section class=card>
  <h2>Writing desk</h2>
