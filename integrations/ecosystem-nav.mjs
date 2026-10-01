@@ -56,6 +56,10 @@ export const ECOSYSTEM_LINKS = [
   // Mainnet only. The testnet (alpha.*) is dev infrastructure and is not linked from public surfaces.
   { label: 'MELEK', url: env('MELEK_SITE', 'https://melek.salon'), group: 'Chains', live: true, key: 'melek' },
   { label: 'Witness School', url: env('WITNESS_SITE', 'https://witness.melek.salon'), group: 'Chains', live: true, key: 'witness' },
+  // Groups and clubs on MELEK. Pact is the surface built around them (post, vote, dues, charter);
+  // Pentecaust is where you chat to them. Both reach the same roster.
+  { label: 'Pact — groups & clubs', url: env('PACT_SITE', 'https://pact.pentecaust.com'), group: 'Chains', live: true, key: 'pact' },
+  { label: 'Pentecaust', url: env('PENTECAUST_SITE', 'https://pentecaust.com'), group: 'Chains', live: true, key: 'pentecaust' },
   // PRANA links to where a person contributes: the copy-paste mining guide (see support-hathor.mjs).
   { label: 'PRANA', url: env('PRANA_SITE', 'https://witness.melek.salon/mine'), group: 'Chains', live: true, key: 'prana' },
 ];
