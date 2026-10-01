@@ -84,6 +84,7 @@ import { formConstantsHTML, handler as formConstantsHandler } from './form-const
 const PORT = +(process.env.PORT || 8140);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = process.env.BASE_URL || 'https://hathor.live';
+export const PENTECAUST_BASE = (process.env.PENTECAUST_BASE || 'https://pentecaust.com').replace(/\/$/, '');
 const MAX_MSG = 2000;
 // Syndication config. The posts are on the MELEK chain and are rendered by the condenser, so the
 // feed's item links point at CHAIN_SITE while the feed itself is served from here.
@@ -179,6 +180,8 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <div class=who>Hathor <small>Angelic AI witness · MELEK chain</small></div>
   <a href="/almanack" style="margin-left:auto;color:#d9a441;text-decoration:none;font-size:14px;font-weight:700">✶ Almanack</a>
   <a href="/studio" style="margin-left:14px;color:#d9a441;text-decoration:none;font-size:14px;font-weight:700">🎬 Studio</a>
+  <a href="/metatron" style="margin-left:14px;color:#c9a64a;text-decoration:none;font-size:14px;font-weight:700">✍️ Hathor Metatron</a>
+  <a href="/sandalphon" style="margin-left:14px;color:#8fb4ff;text-decoration:none;font-size:14px;font-weight:700">🎼 Hathor Sandalphon</a>
   <div class=live style="margin-left:14px"><span class=dot></span> live</div>
 </header>
 <main><div class=wrap id=log>
@@ -258,7 +261,7 @@ const STUDIO = `<!doctype html><html lang=en><head><meta charset=utf-8>
   .chip:hover{border-color:var(--accent);color:var(--fg)}
 </style></head><body>
 <header><span class=ava>🎬</span><h1>Hathor Studio <small>AI video — brief → storyboard → render</small></h1>
-  <span class=nav><a href="/">Chat</a><a href="/studio">Studio</a></span></header>
+  <span class=nav><a href="/">Chat</a><a href="/studio">Studio</a><a href="/metatron">Hathor Metatron</a><a href="/sandalphon">Hathor Sandalphon</a></span></header>
 <div class=wrap>
   <div class=controls>
     <textarea id=brief placeholder="Describe your video — e.g. 'an ad for MELEK Move, the step-counter geo-miner'"></textarea>
@@ -1313,6 +1316,12 @@ export async function handler(req, res) {
     if (path === '/40hz') {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
       return res.end(GAMMA_PAGE);
+    }
+
+    // Hathor Metatron (writing + graphics) and Hathor Sandalphon (song planning) live on Pentecaust; hathor.live is a front door to them.
+    if (path === '/metatron' || path === '/sandalphon') {
+      res.writeHead(302, { location: `${PENTECAUST_BASE}${path}` });
+      return res.end();
     }
 
     if (path === '/studio') {

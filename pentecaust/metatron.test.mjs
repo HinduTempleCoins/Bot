@@ -25,3 +25,14 @@ test('Pentecaust serves /metatron and shows the nav button', async () => {
   const home = await call('/');
   assert.ok(home.body.includes("location.href='/metatron'"));
 });
+
+test('logos: Metatron\'s Cube has 13 circles and 78 lines; the harp has strings; both pages carry their mark + icon', async () => {
+  const { metatronCubeSvg, harpSvg } = await import('./logos.mjs');
+  const m = metatronCubeSvg();
+  assert.equal((m.match(/<circle/g) || []).length, 13);
+  assert.equal((m.match(/<line/g) || []).length, 78);
+  assert.ok((harpSvg().match(/<line/g) || []).length >= 8);
+  const { sandalphonPage } = await import('./sandalphon.mjs');
+  assert.ok(metatronPage().includes("aria-label=\"Metatron's Cube\"") && metatronPage().includes('rel=icon'));
+  assert.ok(sandalphonPage().includes('aria-label="Harp"') && sandalphonPage().includes('rel=icon'));
+});

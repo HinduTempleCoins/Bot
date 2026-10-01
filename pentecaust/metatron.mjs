@@ -10,12 +10,16 @@
 // Next slices: post directly to MELEK through MELEK-Signer, the dwell-and-discussion payout, shared boards.
 // Pure builder; nothing user-supplied is interpolated server-side; the client escapes everything it renders.
 
+import { metatronCubeSvg, svgDataUri } from './logos.mjs';
+
 export const STUDIO_BASE = () => (process.env.METATRON_STUDIO || 'https://hathor.soapbox.community').replace(/\/$/, '');
 
 export function metatronPage(studio = STUDIO_BASE()) {
   const S = JSON.stringify(studio);
+  const LOGO = metatronCubeSvg(34), ICON = svgDataUri(metatronCubeSvg(64));
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>Hathor Metatron — write and make · Pentecaust</title>
+<link rel=icon href="${ICON}">
 <meta name=description content="Hathor Metatron on Pentecaust, powered by Hathor: a writing desk with honest human/AI tags, story points and sprints, a scene board, and a graphic maker for your emails, videos and posts.">
 <style>
 :root{--bg:#0f1117;--panel:#171a23;--bd:#2a2f3d;--fg:#e8e6e1;--mut:#9aa0ad;--acc:#c9a64a}
@@ -34,7 +38,7 @@ button.ghost{background:transparent;color:var(--fg);border:1px solid var(--bd)}.
 .sc .row{margin:4px 0 0}.sc button{padding:2px 7px;font-size:12px}img#gimg{max-width:100%;border-radius:10px;margin-top:8px;display:none}
 code{font-size:12px;word-break:break-all}
 </style></head><body>
-<header><a href="/">← Pentecaust</a><h1>✍️ Hathor Metatron</h1><a href="/sandalphon" style="order:9">🎼 Hathor Sandalphon →</a><span class=mut>Hathor become Metatron — write and make for Herald emails, BiFrost videos and our channels · powered by Hathor · Alpha</span></header>
+<header><a href="/">← Pentecaust</a>${LOGO}<h1>Hathor Metatron</h1><a href="/sandalphon" style="order:9">Hathor Sandalphon →</a><span class=mut>Hathor become Metatron — write and make for Herald emails, BiFrost videos and our channels · powered by Hathor · Alpha</span></header>
 <main>
 <section class=card>
  <h2>Writing desk</h2>

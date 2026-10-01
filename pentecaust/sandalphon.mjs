@@ -13,6 +13,8 @@
 
 // Order (operator): Christian-type songs first — a religious tone (the Spirit, God, heaven), not about Hathor and not
 // centred on one name — then ancient religious music, then other kinds.
+import { harpSvg, svgDataUri } from './logos.mjs';
+
 export const GENRES = ['hymn', 'worship ballad', 'gospel choir', 'southern gospel', 'Christian folk', 'spiritual', 'gospel rock (1970s)',
   'psalm chant', 'ancient temple song', 'Levantine lyre song', 'Egyptian harper song', 'Vedic chant', 'Sufi qawwali'];
 export const INSTRUMENTS = {
@@ -22,8 +24,10 @@ export const INSTRUMENTS = {
 
 export function sandalphonPage() {
   const G = JSON.stringify(GENRES), I = JSON.stringify(INSTRUMENTS);
+  const LOGO = harpSvg(34), ICON = svgDataUri(harpSvg(64));
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>Hathor Sandalphon — plan and write songs · Pentecaust</title>
+<link rel=icon href="${ICON}">
 <meta name=description content="Hathor Sandalphon, the angel of song, powered by Hathor: plan, write and arrange original songs — sacred, ancient and beyond.">
 <style>
 :root{--bg:#0f1117;--panel:#171a23;--bd:#2a2f3d;--fg:#e8e6e1;--mut:#9aa0ad;--acc:#8fb4ff}
@@ -42,7 +46,7 @@ input[type=text]{width:100%}button{cursor:pointer;background:var(--acc);color:#0
 .sc{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:6px;margin-top:6px;font-size:12px}.sc button{padding:2px 6px;font-size:11px}
 pre{white-space:pre-wrap;font-size:12px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:8px}
 </style></head><body>
-<header><a href="/">← Pentecaust</a><h1>🎼 Hathor Sandalphon</h1><span class=mut>the angel of song — plan, write and arrange original songs · powered by Hathor · Alpha</span><a href="/metatron">✍️ Hathor Metatron →</a></header>
+<header><a href="/">← Pentecaust</a>${LOGO}<h1>Hathor Sandalphon</h1><span class=mut>the angel of song — plan, write and arrange original songs · powered by Hathor · Alpha</span><a href="/metatron">Hathor Metatron →</a></header>
 <main>
 <section class=card>
  <h2>Song sheet</h2>
