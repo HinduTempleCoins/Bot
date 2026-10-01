@@ -1,0 +1,104 @@
+'''A Field Guide to Smell Molecules: Classes, Key Odorants and the Reactions That Make Them''' is a working survey of the compounds that carry scent — what each class smells of, which molecules matter most, where they occur, and the standard reaction that produces them. The chemistry here is textbook and industrial; the point is to be able to '''read''' a fragrance or an extract and know what you are looking at. Alpha.
+
+== 1. How to read an odorant ==
+Four numbers decide how a molecule behaves in a blend.
+* '''Odour threshold''' — the concentration at which it becomes detectable. Spans roughly '''twelve orders of magnitude''' across known odorants. Some thiols are detected near a part per '''trillion'''; some terpenes need parts per '''thousand'''. '''Blending by weight without regard to threshold is the commonest beginner's error.'''
+* '''Volatility''' (boiling point, vapour pressure) — decides whether it is a top, heart or base note.
+* '''logP''' — how it partitions between oil and water; governs extraction and how it behaves on skin.
+* '''Chirality''' — the two mirror images of the same molecule frequently smell '''different'''. See §11.
+* Molecules that smell at all are almost always '''under ~300 Da''' and reasonably volatile. Above that the nose cannot reach them.
+
+== 2. Esters — the fruit ==
+The largest and friendliest class. Nearly every simple fruit note is an ester.
+* '''Ethyl acetate''' — solvent, nail varnish, light pear. '''Isoamyl acetate''' — banana, pear drop. '''Ethyl butyrate''' — pineapple. '''Octyl acetate''' — orange. '''Benzyl acetate''' — jasmine. '''Methyl salicylate''' — wintergreen. '''Methyl anthranilate''' — grape (and the concord-grape note of artificial flavouring).
+* '''The reaction:''' '''Fischer esterification''' — a carboxylic acid and an alcohol under acid catalysis, water removed to drive the equilibrium. Discovered by '''Emil Fischer''' and '''Arthur Speier''' (1895). This is the standard school demonstration of fragrance chemistry precisely because it is clean and reversible.
+* '''Hydrolysis''' runs it backwards, which is why esters degrade in humid or alkaline conditions and why a fruity top note fades first.
+
+== 3. Aldehydes — the sparkle ==
+* '''Aliphatic:''' '''octanal (C-8)''' orange peel; '''nonanal (C-9)''' rose-citrus, waxy; '''decanal (C-10)''' orange rind; '''undecanal (C-11)'''; '''dodecanal (C-12)''' soapy, laundry, waxy. These are the "aldehydic" accord.
+* '''Chanel No. 5''' (1921, Ernest Beaux) made the overdose of C-10/C-11/C-12 famous and defined a genre.
+* '''Aromatic:''' '''benzaldehyde''' — almond, marzipan, the smell of cherry pits; '''cinnamaldehyde''' — cinnamon; '''vanillin''' — vanilla; '''2,6-nonadienal''' — violet leaf, cucumber.
+* '''The reaction:''' controlled '''oxidation of a primary alcohol'''. Stopping at the aldehyde rather than running on to the carboxylic acid is the whole difficulty; it is done with mild oxidants or by '''catalytic dehydrogenation''' industrially.
+* '''Aldehydes oxidise in air''' to their acids, which is why aldehydic perfumes go sour with age and why aldehyde stocks are kept sealed and cold.
+
+== 4. Alcohols and terpene alcohols — the florals ==
+* '''Geraniol''' and '''nerol''' (cis/trans pair) — rose. '''Citronellol''' — rose, citrus. '''Linalool''' — lavender, coriander, bergamot. '''Menthol''' — mint and cooling. '''α-Terpineol''' — lilac. '''Phenylethyl alcohol''' — rose, the single largest-volume rose material.
+* '''Terpenes''' generally are built from '''isoprene''' units (C5): monoterpenes C10, sesquiterpenes C15. In the plant they come from the '''MEP''' and '''mevalonate''' pathways.
+* '''The reactions:''' terpene chemistry is dominated by '''acid-catalysed rearrangement''' — carbocations shift readily, so pinene rearranges to camphene and on to terpineol with little provocation. This is why an acidified essential oil changes its smell, and why '''α-pinene''' is the cheap feedstock for a long list of other terpenoids.
+* '''Menthol''' is made both from natural ''Mentha arvensis'' and by asymmetric synthesis — the '''Takasago process''' using a rhodium–BINAP catalyst, one of the earliest industrial successes of asymmetric catalysis (and part of the work recognised by the 2001 Nobel Prize).
+
+== 5. Ketones and norisoprenoids — violet, rose, tobacco ==
+* '''α- and β-ionone''' — violet, woody. '''α-, β-, δ-damascone''' and '''β-damascenone''' — rose, apple, plum, tobacco. '''Irones''' — orris, the "true" violet of perfumery.
+* These are '''C13-norisoprenoids''', formed in the plant by '''carotenoid cleavage dioxygenases'''. They carry enormous character at trace level: '''β-damascenone''' has a threshold near '''0.002 ppb'''.
+* '''The reaction:''' '''aldol condensation''' of '''citral''' with '''acetone''' gives pseudoionone; '''acid-catalysed cyclisation''' closes the ring. Which acid is used decides the α/β ratio — a textbook case of conditions, not reagents, determining the product.
+* Full treatment: [[Violets, Ionone and Orris: The Flower That Disappears From Your Nose]].
+
+== 6. Lactones — creamy, coconut, peach ==
+* '''γ-Decalactone''' — peach. '''γ-Nonalactone''' — coconut ("aldehyde C-18", though it is not an aldehyde). '''δ-Decalactone''' — creamy, milky. '''Massoia lactone''' — coconut, creamy. '''Whisky lactone''' — oak, coconut, from barrel wood.
+* A lactone is simply a '''cyclic ester''' — the acid and alcohol are on the same molecule.
+* '''The reaction:''' '''intramolecular esterification''' of a hydroxy acid. Industrially the important route is now '''biotechnological''': yeast (''Yarrowia lipolytica'') β-oxidises ricinoleic acid from castor oil to γ-decalactone, which can be labelled '''natural'''. This is one of the clearest wins of biosynthesis over chemical synthesis.
+
+== 7. Phenylpropanoids and phenolics — spice, vanilla, smoke ==
+* '''Vanillin''' — vanilla. '''Eugenol''' — clove. '''Isoeugenol''' — carnation. '''Anethole''' — anise, fennel. '''Estragole''' — tarragon. '''Safrole''' — sassafras (now heavily restricted; a precursor control in most countries). '''Thymol''' and '''carvacrol''' — thyme and oregano, both phenols and both antimicrobial. '''Guaiacol''' — smoke, the central note of smoked food and peated whisky.
+* All are built in plants from '''phenylalanine''' via the '''shikimate''' pathway.
+* '''Vanillin's routes''' are a potted history of industrial chemistry:
+*# from '''eugenol''' (1870s–1920s);
+*# from '''lignin''' — a waste stream of sulfite pulping, which dominated the mid-20th century and still survives at Borregaard;
+*# from '''guaiacol + glyoxylic acid''' — the modern petrochemical route, the majority of world supply;
+*# from '''ferulic acid''' by '''fermentation''' — the "natural vanillin" of the label, now a large and growing share.
+* Real vanilla pods supply well under '''1%''' of world vanillin consumption. Almost all vanilla flavour is one of the four routes above.
+* '''Phenols are acidic''' (see [[Functional Groups, Polarity and Separation: Indoles, Phenols, Rose Ketones and How Aroma Chemistry Works]]), which is how they are separated from neutral material.
+
+== 8. Coumarin — hay, tonka, the smell of cut grass drying ==
+* '''Coumarin''' smells of new-mown hay, almond and tonka bean. It is a '''benzopyrone''', found in tonka beans, sweet clover, woodruff and cassia.
+* '''The reaction:''' the '''Perkin reaction''' (William Henry Perkin, 1868) — salicylaldehyde with acetic anhydride and a base. Coumarin was '''the first synthetic fragrance material made at scale''', and '''Houbigant's ''Fougère Royale''''' (1882) built an entire family — the '''fougère''' — on it.
+* '''Regulatory:''' banned as a direct food additive in the United States since 1954 (hepatotoxicity in rodents); permitted in fragrance under IFRA limits. Sweet clover spoiled by mould converts coumarin to '''dicoumarol''', an anticoagulant that killed cattle — and that investigation produced '''warfarin'''.
+
+== 9. Sulfur compounds — the loud ones ==
+* Thresholds here are the lowest known. '''Grapefruit mercaptan''' (1-p-menthene-8-thiol) is detectable near '''10<sup>-4</sup> ppb'''. '''4MMP''' — blackcurrant, "catty". '''3MH''' and '''3MHA''' — passionfruit, grapefruit, the modern hop and Sauvignon Blanc notes. '''Prenyl thiol''' — skunk, and the "lightstruck" fault in beer.
+* '''Dimethyl sulfide''' — cooked sweetcorn, the sea. '''Allyl isothiocyanate''' — mustard, horseradish, wasabi; released enzymatically when the plant is crushed, not present beforehand.
+* These are '''unstable, oxidation-prone and absent from commercial isolate blends''', which is precisely why reconstructions built only from terpenes miss the mark. See [[Hops, Cannabis and the Chemistry of "Dank": Terpenes and Volatile Sulfur Compounds]].
+
+== 10. Nitrogen compounds — roast, earth, animal ==
+* '''Pyrazines''' — roasted, nutty, earthy. '''2-Isobutyl-3-methoxypyrazine''' is the green-bell-pepper note of Cabernet and Sauvignon Blanc, detectable around '''2 parts per trillion'''. Pyrazines form in the '''Maillard reaction''', which is most of the smell of cooking.
+* '''Geosmin''' — the smell of rain on dry earth and of beetroot, made by ''Streptomyces'' bacteria; humans detect it near '''5 ppt'''.
+* '''Indole''' and '''skatole''' — faecal neat, floral at dilution; genuine constituents of jasmine and orange blossom.
+* '''Trimethylamine''' — spoiled fish.
+
+== 11. Chirality — the same molecule, two smells ==
+The cleanest demonstration that the receptor, not the molecule, defines the smell.
+* '''(R)-(−)-carvone''' is '''spearmint'''; '''(S)-(+)-carvone''' is '''caraway'''. Same formula, mirror images, unmistakably different.
+* '''(R)-(+)-limonene''' is '''orange'''; '''(S)-(−)-limonene''' is '''turpentine/pine'''.
+* '''(R)-linalool''' (woody, lavender) versus '''(S)-linalool''' (sweet, petitgrain).
+* Only '''(−)-menthol''' of the eight menthol stereoisomers gives the full cooling effect — which is why the asymmetric route in §4 was worth building.
+* Consequence: '''a racemic synthetic will not smell like the natural material''' if the plant makes one enantiomer. This is a frequent and under-appreciated reason reconstructions fail.
+
+== 12. Musks — the base that holds everything ==
+* '''Macrocyclic (natural type):''' '''muscone''' (musk deer), '''civetone''' (civet), '''exaltolide'''/pentadecalactone. Large rings, 15–17 atoms. Made industrially by '''ring-closing''' chemistry under high dilution, or now by '''ring-closing metathesis''' — part of what the 2005 Nobel Prize recognised. The animal sources are obsolete and, for musk deer, CITES-protected.
+* '''Nitro musks''' (musk ketone, musk xylene) — cheap 19th-century discoveries, now '''largely banned or restricted''' for persistence and toxicity. Historical interest only.
+* '''Polycyclic musks''' (galaxolide, tonalide) — the workhorses of 20th-century laundry scent, now '''restricted''' on environmental-persistence grounds.
+* '''Alicyclic / "white" musks''' (helvetolide, romandolide) — the current generation, designed around the regulatory problems of the last one.
+* '''Musk anosmia is common''': a substantial fraction of people cannot smell particular musks at all, which is another receptor-level difference like the ionone case.
+
+== 13. Where the routes are going ==
+* '''Biosynthesis is displacing synthesis''' for high-value materials: '''vanillin''' from ferulic acid, '''nootkatone''' and '''valencene''' from engineered yeast, '''farnesene''', '''sclareol''' to ambrox, '''γ-decalactone''' from castor oil. Selective, mild, and legally "natural".
+* '''Feedstock shifts:''' turpentine (α-pinene) and citrus waste (limonene) are the renewable entry points into a large share of terpenoid chemistry.
+* '''Prediction is the open problem:''' models now map structure to odour descriptors better than chance (Lee et al., ''Science'', 2023) but cannot reliably design a new smell. See [[Functional Groups, Polarity and Separation: Indoles, Phenols, Rose Ketones and How Aroma Chemistry Works]] §7.
+
+== 14. Safety and regulation, briefly ==
+* '''IFRA''' standards restrict or ban materials for '''skin sensitisation''', '''phototoxicity''' and '''environmental persistence'''. They are industry self-regulation, widely followed.
+* '''EU allergen labelling''' names 26 fragrance materials — including '''limonene, linalool, eugenol, citral, coumarin, geraniol''' — that must be declared. Several are the commonest natural materials in the field; "natural" and "non-allergenic" are unrelated claims.
+* '''Phototoxicity:''' '''bergapten''' (5-MOP) in bergamot causes severe phototoxic burns; FCF bergamot is the de-bergaptened grade used in perfumery.
+* '''Oxidised terpenes sensitise.''' Fresh limonene and linalool are weak sensitisers; their air-oxidation products are strong ones. Old, badly stored citrus oil is more likely to cause a reaction than fresh.
+* '''Restricted materials:''' '''safrole''' is a controlled precursor in most jurisdictions. Know the local position before sourcing anything on that list.
+* The reactions summarised here are '''industrial and textbook'''; none of this page is an operating procedure, and anything involving strong oxidants, anhydrides or high-dilution macrocyclisation belongs in a properly equipped lab.
+
+== Sources ==
+* Ohloff G., ''Scent and Fragrance: The Fascination of Odors and their Chemical Perspectives'' (1994); Ohloff, Pickenhagen and Kraft, ''Scent and Chemistry'' (2011).
+* Surburg H. and Panten J., ''Common Fragrance and Flavor Materials'' (6th ed., 2016) — the standard reference for routes and materials.
+* Arctander S., ''Perfume and Flavor Materials of Natural Origin'' (1960).
+* Fischer E. and Speier A., ''Berichte'' 28 (1895) — esterification. Perkin W. H., ''J. Chem. Soc.'' 21 (1868) — coumarin.
+* Noyori R. and the Takasago menthol process; Grubbs R. H., Schrock R. R., Chauvin Y. — metathesis (Nobel Prize in Chemistry 2005).
+* Lee B. K. et al., "A principal odor map unifies diverse tasks in olfactory perception", ''Science'' 381 (2023).
+* Buettner A. (ed.), ''Springer Handbook of Odor'' (2017) — thresholds and perception data.
+* IFRA Standards (51st Amendment); EU Regulation 1223/2009 Annex III (fragrance allergens).

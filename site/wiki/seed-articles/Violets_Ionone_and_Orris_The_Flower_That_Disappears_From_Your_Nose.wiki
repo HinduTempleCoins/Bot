@@ -1,0 +1,57 @@
+'''Violets, Ionone and Orris: The Flower That Disappears From Your Nose''' is about ''Viola odorata'' and the compound that carries its smell. The violet is the single best case study in all of olfaction, because it demonstrates three things at once that no other flower demonstrates so cleanly: '''a scent that switches itself off while you are smelling it''', '''a scent that some people genetically cannot smell at all''', and '''a scent that is not made by the plant everyone associates with it'''. It also founded the modern fragrance industry. Alpha.
+
+== 1. The compound ==
+* The violet note is carried by the '''ionones''' — '''α-ionone''' and '''β-ionone''' — with '''dihydro-β-ionone''' and relatives contributing.
+* They are '''C13-norisoprenoids''': fragments left over when '''carotenoids''' are cleaved. '''β-Ionone''' is literally a degradation product of '''β-carotene''', which is why it appears across rose, tea, tobacco, raspberry, apricot and wine, and why the same chemistry underlies the rose ketones. See [[Functional Groups, Polarity and Separation: Indoles, Phenols, Rose Ketones and How Aroma Chemistry Works]].
+* In the plant they are formed by '''carotenoid cleavage dioxygenases''' (CCDs) acting on carotenoids — an enzymatic cut, not a harsh one.
+* '''α-ionone''' reads more violet and powdery; '''β-ionone''' more woody, raspberry, cedar.
+
+== 2. The vanishing act ==
+* Smell a violet and the scent is there — then within seconds it is '''gone'''. Wait a little and it returns. Smell again and it vanishes again.
+* The cause is '''rapid receptor adaptation''': β-ionone binds the receptor and desensitises it almost immediately. The flower never stopped emitting; the receptor stopped reporting. It resets in moments and the scent reappears.
+* This is '''not''' ordinary olfactory fatigue, which takes minutes for most odours. Ionone does it in seconds, and reversibly, over and over.
+* The effect was famous long before the chemistry. Shakespeare has Laertes describe the violet as "''sweet, not lasting, / The perfume and suppliance of a minute''" (''Hamlet'' I.iii) — an accurate description of receptor adaptation written around 1600.
+* Perfumers have always known it: a violet accord has to be rebuilt around the problem, because the wearer stops perceiving the very note they bought.
+
+== 3. The flower some people cannot smell ==
+* '''β-Ionone sensitivity is close to a single-gene trait in humans''', which is extraordinarily rare for an odour.
+* The receptor is '''OR5A1'''. A single variant, '''rs6591536''', changes one amino acid (N183D) in the second extracellular loop, and that one change '''explains more than 96% of the variation''' in how strongly people smell β-ionone (Jaeger et al., ''Current Biology'', 2013).
+* Carry at least one '''G''' allele and you are sensitive: the smell is '''pleasant and floral'''.
+* Be '''AA''' homozygous and you are roughly '''100× less sensitive''', and at higher concentrations you do not smell violets at all — you smell something '''sour, pungent, vinegary'''.
+* So two people can smell the same flower, or eat the same raspberry, and genuinely disagree about what it smells like — not as a matter of taste, but of receptor affinity. The effect carries into '''food choice''', which is what the original study measured.
+* This is the clearest known example of a '''specific anosmia''' with a mapped cause, and it is the standard teaching case for why "what does it smell like" is not a question with one answer. It belongs beside the other heritable perception differences in [[Skin, Hair and Eye Colour: Ancestry and Genetics]].
+
+== 4. The violet that is not a violet ==
+* Here is the commercial twist: '''violet flowers yield almost no oil'''. Extraction is so poor and so costly that true violet-flower absolute is effectively a specialty curiosity.
+* What perfumery actually calls "violet" comes from two other places:
+** '''Orris root''' — the rhizome of ''Iris pallida'' and ''Iris germanica''. Its violet character comes from the '''irones''' (α-, β- and γ-irone), which are '''not present in the fresh root'''. They form slowly as precursors called '''iridals''' oxidise during '''three to five years of drying and ageing'''. The rhizome is then ground and distilled to '''orris butter'''. That multi-year wait makes orris one of the '''most expensive materials in perfumery''', historically rivalling gold by weight.
+** '''Synthetic ionones''' — cheap, abundant, and the reason a violet scent exists on an ordinary shelf at all.
+* '''Violet leaf''' is a separate material entirely and smells nothing like the flower: green, cucumber, wet earth. Its character compound is '''2,6-nonadienal''' ("violet leaf aldehyde"). Violet leaf absolute is a real and widely used material — the leaf gives what the flower will not.
+
+== 5. The compound that started an industry ==
+* In '''1893''' '''Ferdinand Tiemann''' and '''Paul Krüger''' synthesised ionone in Berlin while trying to reproduce the smell of violets from orris constituents.
+* It was the first time a prized natural scent could be made cheaply at scale, and it broke the dependence of perfumery on botanical supply.
+* '''Jacques Guerlain''' built '''Jicky''' (1889) and later houses built '''Après l'Ondée''' (1906) and '''Vol de Nuit''' on these new synthetics; '''Aimé Guerlain''' and his contemporaries treated them as a new palette rather than a substitute.
+* Industrially, ionones are made by an '''aldol condensation''' of '''citral''' with '''acetone''' to give pseudoionone, followed by '''acid-catalysed cyclisation''' — and which acid is used decides whether you get mostly α- or mostly β-ionone. It is a textbook demonstration that reaction conditions, not just reagents, determine the product.
+
+== 6. The violet elsewhere ==
+* '''As a chemical indicator.''' '''Syrup of violets''' was one of the earliest '''acid–base indicators'''. '''Robert Boyle''' used it in the 1660s: the anthocyanin pigment turns '''red''' with acid and '''green''' with alkali. A sweet made from flowers was, for a while, a laboratory instrument.
+* '''As food.''' Candied violets, Parma violet sweets, violet syrup and ''crème de violette''. The flavour is the same ionone story, which is why some people find violet sweets perfumed and delicious and others find them like soap — see the OR5A1 section above.
+* '''As medicine.''' ''Viola odorata'' has a long record as a demulcent for coughs and sore throats, usually as a syrup, and in traditional use for headaches and sleeplessness. It contains '''mucilage''', '''saponins''' and '''salicylates''' — the last being a plausible basis for the headache use.
+* '''As a symbol.''' The Greeks made it the flower of Athens. '''Napoleon''' took it as his emblem and was nicknamed '''Caporal Violette'''; his supporters wore violets to identify themselves while he was exiled, with the promise he would return "with the violets in spring". In the Victorian language of flowers it stood for modesty and faithfulness.
+* '''Sweet violet versus African violet.''' ''Viola odorata'' is the scented violet of this page. The ubiquitous houseplant "African violet" (''Saintpaulia'', now ''Streptocarpus'') is not a violet at all and has no scent.
+
+== 7. Why this page matters to the rest of the shelf ==
+* It is the cleanest proof that '''smell is a property of the perceiver as much as the molecule''' — one base-pair changes what the flower is.
+* It shows that '''a scent can be real and unsmellable at the same time''', which is a caution for anyone evaluating an extract by nose.
+* It shows that '''what a material is called has little to do with where it comes from''': the violet of commerce is an iris root and a synthetic.
+* And it is another case of '''trace carotenoid fragments''' carrying an entire identity, exactly as with the rose ketones and the sulfur compounds in [[Hops, Cannabis and the Chemistry of "Dank": Terpenes and Volatile Sulfur Compounds]].
+
+== Sources ==
+* Jaeger S. R. et al., "A Mendelian Trait for Olfactory Sensitivity Affects Odor Experience and Food Selection", ''Current Biology'' 23 (2013) 1601–1605 — OR5A1, rs6591536, N183D.
+* Knaapila A. et al., sensory characterisation of β-ionone stimuli by rs6591536 genotype, ''Food Quality and Preference'' (2014).
+* Tiemann F. and Krüger P., ''Berichte der deutschen chemischen Gesellschaft'' 26 (1893) — the synthesis of ionone.
+* Ohloff G., ''Scent and Fragrance'' (1994); Arctander S., ''Perfume and Flavor Materials of Natural Origin'' (1960) — orris, irones, violet leaf.
+* Roberts D. D. et al. and the irone/iridal literature on orris ageing.
+* Boyle R., ''Experiments and Considerations Touching Colours'' (1664) — syrup of violets as an indicator.
+* Shakespeare W., ''Hamlet'' I.iii.

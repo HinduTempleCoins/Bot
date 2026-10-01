@@ -165,7 +165,9 @@ export const CATEGORIES = [
   },
   {
     id: 'chemistry', name: 'Organic chemistry and synthesis', blurb: 'Reaction mechanisms, isomerizations, prodrugs, photochemistry, and purification protocols.',
-    pages: ['Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works',
+    pages: ['A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them',
+            'Novel Odorants How New Smell Molecules Are Actually Found and Where the Gaps Are',
+            'Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works',
             'Cannabinoid Isomerization', 'Cannabinoid and Tryptamine Prodrugs',
             'Stereochemistry in Cannabinoid and Psychedelic Synthesis',
             'Airway Irritation and Cannabinoid Prodrug Delivery',
@@ -251,7 +253,8 @@ export const CATEGORIES = [
   },
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
-    pages: ['Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds', 'Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma',
+    pages: ['Violets Ionone and Orris The Flower That Disappears From Your Nose',
+            'Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds', 'Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma',
             'Imphepho', 'Yin Chen Hao', 'Mucuna Pruriens', 'Kava', 'Black Pepper', 'Maca', 'White Sage',
             'Recipes', 'Punic Wax', 'Kyphi', 'Cloning',
             'Ubulawu, African Oneirogens, and Saponin Pharmacokinetics',
@@ -433,6 +436,8 @@ export const PILLARS = [
     icon: '🔬',
     blurb: 'Reaction mechanisms, isomerizations, prodrug architectures, photochemistry, and purification protocols.',
     pages: [
+      'A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them',
+      'Novel Odorants How New Smell Molecules Are Actually Found and Where the Gaps Are',
       'Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works',
       'Cannabinoid Isomerization',
       'Cannabinoid and Tryptamine Prodrugs',
@@ -590,6 +595,7 @@ export const PILLARS = [
     icon: '🌿',
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
+      'Violets Ionone and Orris The Flower That Disappears From Your Nose',
       'Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds',
       'Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma',
       'Cannabis',
