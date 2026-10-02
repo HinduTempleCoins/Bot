@@ -1,0 +1,76 @@
+'''Neem, Botanical Pesticides and What Actually Works''' covers the plant-derived pesticides — what each one really does, which ones are effective, which are more dangerous than the synthetics they are marketed against, and why '''how neem oil was extracted decides whether it works at all'''. The nerve-agent chemistry of organophosphates and carbamates is covered in [[Cholinergic Neurotransmission and Cholinesterase Inhibition]] and is not repeated here. Alpha.
+
+== 1. Neem ==
+'''''Azadirachta indica''''', the neem tree, is the most important botanical pesticide in the world and the most frequently misused.
+
+=== What the active compound does ===
+* The principal active is '''azadirachtin''', a tetranortriterpenoid (limonoid).
+* It is '''not a knock-down poison'''. It works as:
+** an '''insect growth regulator''' — it blocks '''ecdysone''', the moulting hormone, so larvae fail to moult and die at the next stage;
+** an '''antifeedant''' — treated foliage stops being eaten;
+** an '''oviposition deterrent''' — females will not lay on it;
+** a '''sterilant''' at sub-lethal doses.
+* '''The practical consequence:''' nothing appears to happen for days. Judged on the timescale of a contact insecticide, neem looks like a failure. It is working on the next generation, not this afternoon.
+* '''Neem oil also smothers''' soft-bodied pests physically — and '''that''' effect is immediate, but it is the oil doing it, not the azadirachtin.
+
+=== Cold pressed versus solvent extracted — the point that decides everything ===
+* '''Azadirachtin lives in the seed kernel''' and is '''destroyed by heat''' and degraded by UV and by alkaline pH.
+* '''Cold-pressed neem oil''' retains azadirachtin — typically '''1,000–3,000 ppm''' in a decent crude oil — and therefore has the hormonal and antifeedant activity.
+* '''Hot-pressed or solvent-extracted neem''', and especially '''"clarified hydrophobic extract of neem oil"''' (the common US-registered form), has had '''most or all of the azadirachtin removed'''. It still works as a '''smothering oil and fungicide''', but it is no longer an insect growth regulator.
+* '''So two bottles both labelled "neem oil" can be completely different products.''' If the label does not state azadirachtin content, assume it has little. See [[Cold Pressing, Expelling and Heat: Why the Same Seed Gives Different Oils]].
+* '''Azadirachtin concentrates''' (sold at 3–4.5% as separate products) are the standardised option when the growth-regulator effect is what is wanted.
+
+=== Using it ===
+* '''Emulsify properly.''' Oil and water do not mix; without a surfactant the oil floats and you spray water. A little mild soap, or a bought formulation with an emulsifier.
+* '''Spray at dusk or dawn.''' Azadirachtin is '''degraded by UV''' with a half-life of hours to a few days in sunlight, and oil on leaves in full sun causes '''phytotoxic burn'''.
+* '''Mix fresh''' — azadirachtin hydrolyses in water, faster at alkaline pH. Do not store diluted spray.
+* '''Test on a few leaves first.''' Oil damages some species, and damages anything that is already heat- or drought-stressed.
+* '''Do not spray open flowers.''' Neem is relatively kind to adult bees compared with most insecticides, but it is '''not harmless''' — and it is '''toxic to bee larvae''' if it reaches brood in contaminated pollen.
+* '''It is toxic to fish and aquatic invertebrates.''' Keep it out of water.
+
+=== Safety and the one serious warning ===
+* Neem oil has a long record of topical and agricultural use, and neem twigs are used as chewing sticks across South Asia.
+* '''⚠️ Neem oil taken internally is dangerous to infants and young children''' — it causes a '''Reye-like syndrome''' with vomiting, encephalopathy, seizures and deaths documented in the medical literature. It should never be given orally to a child.
+* '''Neem is an abortifacient and has documented antifertility effects''' in both sexes in animal studies. Avoid in pregnancy.
+* '''Neem is not azadirachtin-only:''' crude oil also contains '''nimbin, salannin''' and sulfurous compounds responsible for its garlic-peanut smell.
+
+== 2. The other botanicals, honestly rated ==
+* '''Pyrethrins''' — from '''''Tanacetum cinerariifolium''''' flowers. Fast, broad-spectrum knock-down acting on sodium channels. '''Extremely toxic to bees and fish''', and '''non-selective''' — it kills every beneficial insect you have been cultivating. Degrades in sunlight within hours, which limits residue but also means pests return. '''Synthetic pyrethroids''' (permethrin, deltamethrin) are the stabilised versions and are far more persistent and more damaging to beneficials.
+* '''Spinosad''' — from the soil bacterium '''''Saccharopolyspora spinosa'''''. Technically microbial rather than botanical. '''Highly effective on thrips, caterpillars and leaf miners''', low mammalian toxicity, and '''approved for organic use'''. '''Toxic to bees while wet''' — spray at dusk and it is substantially safer once dry. One of the genuinely good options.
+* '''Horticultural and insecticidal soaps''' — kill soft-bodied insects by disrupting the cuticle. '''Contact only, no residual''', cheap, and about as safe as it gets. Needs thorough coverage and repeat applications.
+* '''Horticultural oils''' (mineral, canola) — smother eggs and soft bodies. '''Dormant oils''' on bare wood in winter are one of the most effective and least damaging interventions available.
+* '''Diatomaceous earth''' — abrades the cuticle and desiccates. Works only '''dry''', kills indiscriminately including beneficials, and the '''dust is a genuine respiratory hazard''' — wear a mask. Use '''food grade''', never pool-filter grade (calcined, crystalline silica).
+* '''Capsaicin, garlic, essential-oil products''' — mostly '''repellents''' rather than insecticides. Evidence is weak and inconsistent; harmless to try, unwise to rely on.
+* '''Karanja oil''' (''Pongamia'') — pongamol and karanjin; often blended with neem and broadly similar in use.
+* '''Nicotine''' — historically used as a sulfate, '''extremely toxic to mammals''', and '''banned''' in most jurisdictions. Homemade tobacco tea is a genuinely bad idea and also spreads '''tobacco mosaic virus'''.
+* '''Rotenone''' — from ''Derris'' and ''Lonchocarpus''. '''Withdrawn in most countries.''' A mitochondrial complex I inhibitor, devastating to fish, and the subject of '''epidemiological association with Parkinson's disease'''. "Natural" did not make it safe.
+* '''Sabadilla, ryania, quassia''' — historic botanicals, largely obsolete.
+
+'''The lesson across this list:''' "botanical" says nothing about safety. '''Rotenone and nicotine are plant-derived and are among the most dangerous things on it; spinosad and soap are among the safest.'''
+
+== 3. The order to try things ==
+Integrated pest management, in the order that actually works:
+# '''Identify the pest.''' Everything else depends on it.
+# '''Culture first''' — right plant, right place, right water and feeding. Stressed plants attract pests; over-fed, nitrogen-lush growth attracts aphids specifically.
+# '''Physical''' — row cover, sticky traps, a jet of water, hand removal. Underrated and free.
+# '''Biological''' — predators and parasitoids. See [[Beneficial Insects and Biological Pest Control]].
+# '''Selective materials''' — Bt, spinosad, soaps, oils, neem. These leave most beneficials alive.
+# '''Broad-spectrum last, if at all.''' A pyrethrin spray resets your biological control to zero and the pest, which breeds faster, returns first. That is the '''pesticide treadmill'''.
+* '''Rotate modes of action''' to delay resistance — the '''IRAC''' group number on a label exists for this. Repeating one mode of action breeds resistance to it.
+
+== 4. Reading a label ==
+* '''"OMRI listed"''' — allowed in certified organic production. '''Not a safety claim''' (see rotenone).
+* '''Signal words''' — CAUTION, WARNING, DANGER, in increasing order of acute toxicity.
+* '''REI''' (restricted entry interval) and '''PHI''' (pre-harvest interval) are legally binding.
+* '''Bee advisory box''' — if present, it means something.
+* '''Active ingredient percentage and the IRAC group''' — the two most useful numbers on the bottle.
+* '''"Clarified hydrophobic extract of neem oil"''' — translated: the azadirachtin has been removed. It is a smothering oil.
+
+== Sources ==
+* Schmutterer H. (ed.), ''The Neem Tree: Azadirachta indica A. Juss. and Other Meliaceae Plants'' (2nd ed., 2002) — the standard reference on azadirachtin chemistry, degradation and use.
+* Mordue (Luntz) A. J. and Blackwell A., "Azadirachtin: an update", ''Journal of Insect Physiology'' 39 (1993).
+* Sundaravalli N. et al. and subsequent case series on neem-oil poisoning and Reye-like syndrome in infants, ''Indian Journal of Pediatrics''.
+* US EPA registration documents for azadirachtin and clarified hydrophobic extract of neem oil.
+* Tanner C. M. et al., "Rotenone, paraquat, and Parkinson's disease", ''Environmental Health Perspectives'' 119 (2011).
+* Biondi A. et al., "Spinosad effects on non-target organisms", ''Pest Management Science'' 68 (2012).
+* IRAC Mode of Action Classification Scheme (current edition).
