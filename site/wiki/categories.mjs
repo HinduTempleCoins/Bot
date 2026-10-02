@@ -253,7 +253,9 @@ export const CATEGORIES = [
   },
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
-    pages: ['Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils',
+    pages: ['Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
+            'Grow Lighting Metal Halide HPS CMH Fluorescent and LED',
+            'Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils',
             'Beneficial Insects and Biological Pest Control',
             'Neem Botanical Pesticides and What Actually Works',
             'Plant Nutrients and Diagnosing Deficiencies Reading a Leaf',
@@ -599,6 +601,8 @@ export const PILLARS = [
     icon: '🌿',
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
+      'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
+      'Grow Lighting Metal Halide HPS CMH Fluorescent and LED',
       'Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils',
       'Beneficial Insects and Biological Pest Control',
       'Neem Botanical Pesticides and What Actually Works',
