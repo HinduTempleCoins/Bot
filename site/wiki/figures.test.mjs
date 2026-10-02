@@ -84,3 +84,18 @@ test('the Graphene matrix shows every family member and does not present side to
     assert.ok(svg.includes(label), label);
   }
 });
+
+test('the token specs matrix compares tokens with tokens, on tokenomics', async () => {
+  const { tokenSpecsMatrix } = await import('./figures.mjs');
+  const svg = tokenSpecsMatrix();
+  for (const n of ['VKBT', 'CURE', 'POB', 'BBH', 'BLURT']) assert.ok(svg.includes(n), n);
+  for (const d of ['Total supply', 'Holders', 'Team-held', 'Emission']) assert.ok(svg.includes(d), d);
+  assert.ok(svg.includes('1,900,000') && svg.includes('55,575'), 'the real supply figures');
+  assert.ok(svg.includes('986') && svg.includes('999'), 'the real holder counts');
+  assert.match(svg, /A side token is not a chain/);
+  assert.match(svg, /never a guess/);
+  // chain dimensions must not appear here
+  for (const never of ['Consensus', 'Smart-contract VM', 'Throughput']) {
+    assert.equal(svg.includes(never), false, `${never} belongs to the chain matrix`);
+  }
+});

@@ -17,6 +17,7 @@
 import { chartSvg } from '../../integrations/plant-deficiency-chart.mjs';
 import { wheelSvg, wheelNames } from '../../integrations/aroma-wheel.mjs';
 import { table, GRAPHENE_MATRIX } from '../../integrations/chain-compare.mjs';
+import { specsTable, SPEC_DIMENSIONS } from '../../integrations/token-specs.mjs';
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -256,6 +257,53 @@ export function grapheneMatrix() {
     body + text(w / 2, h - 10, 'VKBT and CURE are engine side tokens: they inherit the security and consensus of whatever chain hosts them.', { size: 11, fill: MUT }));
 }
 
+// ── token SPECS matrix ──────────────────────────────────────────────────────────────────────────────
+// The right peer group for a side token is OTHER SIDE TOKENS, compared on tokenomics — supply, holders,
+// concentration, emission, venue, activity, cap. Numbers come from integrations/token-specs.mjs and an
+// unsourced figure renders as "—" rather than a guess.
+export function tokenSpecsMatrix() {
+  const t = specsTable(['vkbt', 'cure', 'pob', 'bbh', 'blurt']);
+  const cols = t.tokens.length;
+  const labelW = 148, colW = 150, rowH = 58, headH = 58;
+  const wrap = (str, max) => {
+    const words = String(str).split(' '); const lines = []; let cur = '';
+    for (const word of words) {
+      if ((cur + ' ' + word).trim().length > max) { if (cur) lines.push(cur); cur = word; } else cur = (cur + ' ' + word).trim();
+    }
+    if (cur) lines.push(cur);
+    return lines.slice(0, 3);
+  };
+  const w = labelW + cols * colW, h = 96 + headH + t.rows.length * rowH + 76;
+  let body = '';
+  t.tokens.forEach((tok, i) => {
+    const x = labelW + i * colW;
+    const premium = tok.id === 'vkbt' || tok.id === 'cure';
+    body += `<rect x="${x}" y="88" width="${colW - 2}" height="${headH - 4}" rx="8" fill="${premium ? '#e4dcc4' : '#e8e8e8'}" stroke="${LINE}"/>`
+      + text(x + colW / 2, 110, tok.name, { size: 14, weight: 800 })
+      + text(x + colW / 2, 126, premium ? 'premium — never dumped' : 'tradeable / fuel', { size: 9, fill: MUT })
+      + text(x + colW / 2, 139, tok.layer.replace('Hive-Engine ', '').replace('Chain coin, wrapped onto Hive-Engine', 'chain coin (wrapped)'), { size: 8.5, fill: MUT });
+  });
+  t.rows.forEach((r, ri) => {
+    const y = 96 + headH + ri * rowH;
+    body += `<rect x="0" y="${y}" width="${w}" height="${rowH - 3}" rx="6" fill="${ri % 2 ? '#ffffff' : '#f1ece1'}"/>`
+      + text(10, y + rowH / 2 + 4, r.label, { size: 12, weight: 700, anchor: 'start' });
+    r.values.forEach((v, ci) => {
+      const lines = wrap(v, 20);
+      const top = y + rowH / 2 - (lines.length - 1) * 6 + 3;
+      lines.forEach((line, li) => {
+        body += text(labelW + ci * colW + colW / 2, top + li * 12, line, { size: 10, fill: v === '—' ? MUT : INK });
+      });
+    });
+  });
+  const foot = 96 + headH + t.rows.length * rowH + 20;
+  return frame(w, h, 'Token specs — the comparison that actually applies',
+    'A side token is not a chain. Its peers are other Hive-Engine tokens, and the dimensions are tokenomics.',
+    body
+    + text(w / 2, foot, 'Supply alone means nothing; holders alone means nothing. The pair matters, and concentration decides whether to trust it.', { size: 11, fill: INK })
+    + text(w / 2, foot + 17, 'A majority held by the project team is anti-dump protection: the largest holder has the least reason to break the market.', { size: 11, fill: MUT })
+    + text(w / 2, foot + 36, '"—" means not recorded here, never a guess. Live figures belong to a Hive-Engine read.', { size: 10.5, fill: MUT }));
+}
+
 // ── the registry ────────────────────────────────────────────────────────────────────────────────────
 export const FIGURES = {
   'nutrient-deficiency-chart': { fn: () => chartSvg({ cols: 4, cell: 200 }), alt: 'Cannabis nutrient deficiency chart, leaf by leaf' },
@@ -265,6 +313,7 @@ export const FIGURES = {
   'steam-distillation': { fn: steamDistillation, alt: 'How steam distillation works' },
   'acid-base-extraction': { fn: acidBaseExtraction, alt: 'Acid–base extraction between water and solvent' },
   'methylation-cycle': { fn: methylationCycle, alt: 'Where L-methylfolate acts in the methylation cycle' },
+  'token-specs': { fn: tokenSpecsMatrix, alt: 'VKBT and CURE compared with other Hive-Engine tokens on supply, holders, concentration and emission' },
   'graphene-matrix': { fn: grapheneMatrix, alt: 'STEEM, HIVE, BLURT, MELEK, PRANA, VKBT and CURE compared side by side' },
   // one figure per aroma wheel: [[Figure:wheel-wine]], [[Figure:wheel-cannabis]] and so on
   ...Object.fromEntries(wheelNames().map((n) => [
@@ -288,7 +337,8 @@ export const PAGE_FIGURES = {
   'The_Amplification_Framework': ['methylation-cycle'],
   'B-Vitamins': ['methylation-cycle'],
   'The_Graphene_Family': ['graphene-matrix'],
-  'VKBT_and_CURE': ['graphene-matrix'],
+  'VKBT_and_CURE': ['token-specs', 'graphene-matrix'],
+  'Hive_Engine_and_Smart_Media_Tokens': ['token-specs'],
   'MELEK_Blockchain': ['graphene-matrix'],
 };
 
