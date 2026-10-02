@@ -5,15 +5,30 @@
 // and CURE is OTHER HIVE-ENGINE TOKENS, and the dimensions are tokenomics. The operator's long-standing
 // name for that set of numbers is the "SPECS":
 //
-//   supply · holders · concentration (what the team holds) · where it trades · market activity ·
-//   what it costs to move the price · market cap at parity · emission
+//   supply · holders · concentration (and HOW it was acquired) · where it trades · market activity ·
+//   what it costs to move the price · market cap at parity · emission · what the token is FOR
 //
 // WHY THESE AND NOT OTHERS. Supply alone is meaningless (anyone can mint a small number). Holders alone
 // is meaningless (a token can have many holders and no float). The pair is what matters, and the third
-// number — concentration — decides whether the first two can be trusted. The operator's framing of
-// concentration is deliberate and worth stating as he does: a majority held by the project team is
-// anti-dump protection rather than a red flag, because the largest holder is the party with the least
-// incentive to break the market.
+// number — concentration — decides whether the first two can be trusted.
+//
+// ⭐ BUT CONCENTRATION IS TWO FACTS, NOT ONE, AND THE SECOND IS THE ONE THAT MATTERS: how the holding was
+// ACQUIRED. A founder allocation minted to itself and a position BOUGHT on the open market produce the
+// same percentage and mean opposite things. The Van Kush holdings in VKBT and CURE were PURCHASED —
+// bought at market like any other holder, not allocated. Any matrix that prints "42% team-held" without
+// that distinction reports a number and loses the fact.
+//
+// ⭐ AND THE HOLDING IS NOT STATIC. These are not treasury tokens sitting still: they are DISTRIBUTED
+// through curation programs — given away as the system is built. A percentage is a snapshot of a position
+// that is deliberately being spread outward, which is the opposite of accumulation.
+//
+// The operator's framing of the remaining concentration is then straightforwardly true: a majority held
+// by the project team is anti-dump protection rather than a red flag, because the largest holder is the
+// party with the least incentive to break the market — and here that holder also bought in.
+//
+// ⭐ THE NAMES ARE NOT RANDOM. These were built with intention, and the name carries it. VKBT is the
+// Van Kush Bot Token. CURE's meaning is the operator's to state, and is left unrecorded here rather than
+// guessed at — see the sourcing rule below, which applies to meanings as much as to numbers.
 //
 // SOURCING RULE, LOAD-BEARING: every number carries a `source`. A spec with no source renders as "—",
 // never as a guess. Live figures belong to a Hive-Engine read, not to this file.
@@ -25,7 +40,9 @@ const VKFRI = 'VKFRI vkbt_cure_knowledge dataset (Jan 2026)';
 export const SPEC_DIMENSIONS = [
   { key: 'supply', label: 'Total supply' },
   { key: 'holders', label: 'Holders' },
-  { key: 'concentration', label: 'Team-held' },
+  { key: 'concentration', label: 'VKF position' },
+  { key: 'acquired', label: 'How acquired' },
+  { key: 'distribution', label: 'How it is distributed' },
   { key: 'emission', label: 'Emission' },
   { key: 'venue', label: 'Where it trades' },
   { key: 'activity', label: 'Market activity' },
@@ -40,26 +57,32 @@ export const TOKEN_SPECS = {
   vkbt: {
     id: 'vkbt', name: 'VKBT', full: 'Van Kush Bot Token', layer: 'Hive-Engine side token',
     supply: '1,900,000', holders: '986', concentration: '~800,000 (42%)',
+    acquired: 'Purchased at market',
+    distribution: 'Given away through curation programs',
     emission: 'Fixed — no ongoing mint',
     venue: 'TribalDEX vs HIVE / SWAP.HIVE',
     activity: 'Active — ~21 trades/week',
     capAtParity: '$579,000',
-    note: 'Wide distribution at small supply. The 42% team holding is the anti-dump floor.',
+    note: 'Wide distribution at small supply. The VKF position was bought at market and is being distributed through curation — it is a floor under the price, not a founder allocation.',
     source: VKFRI,
   },
   cure: {
     id: 'cure', name: 'CURE', full: 'CURE', layer: 'Hive-Engine side token',
     supply: '55,575', holders: '999', concentration: '~32,000 (58%)',
+    acquired: 'Purchased at market',
+    distribution: 'Given away through curation programs',
     emission: 'Fixed — no ongoing mint',
     venue: 'TribalDEX vs HIVE / SWAP.HIVE',
     activity: 'Sell orders present; thin buy side',
     capAtParity: '$16,700',
-    note: 'Extreme scarcity with nearly a thousand holders — the whole supply is about 61x Bitcoin\'s DAILY mint of 900.',
+    note: 'Extreme scarcity with nearly a thousand holders — the whole supply is about 61x Bitcoin\'s DAILY mint of 900. The VKF position was bought at market, and is being given away through curation.',
     source: VKFRI,
   },
   blurt: {
     id: 'blurt', name: 'BLURT', full: 'BLURT (chain coin, traded as SWAP.BLURT)', layer: "Chain coin, wrapped onto Hive-Engine",
     supply: '—', holders: '—', concentration: 'VKF holds 300,000+',
+    acquired: 'Purchased / earned',
+    distribution: 'Sold gradually as operating fuel',
     emission: 'Inflationary — chain reward pool',
     venue: 'TribalDEX as SWAP.BLURT',
     activity: 'Thin; sold gradually, top-order-only to preserve depth',
@@ -70,6 +93,8 @@ export const TOKEN_SPECS = {
   pob: {
     id: 'pob', name: 'POB', full: 'Proof of Brain', layer: 'Hive-Engine side token',
     supply: '—', holders: '—', concentration: 'VKF holds ~940',
+    acquired: 'Earned through posting/curation',
+    distribution: 'Sold when HIVE is needed',
     emission: 'Inflationary — post/curation rewards',
     venue: 'TribalDEX', activity: '—', capAtParity: '—',
     note: 'Tradeable tier: sold freely when HIVE is needed.',
@@ -78,6 +103,8 @@ export const TOKEN_SPECS = {
   bbh: {
     id: 'bbh', name: 'BBH', full: 'BBH', layer: 'Hive-Engine side token',
     supply: '—', holders: '—', concentration: 'VKF holds ~929',
+    acquired: 'Earned through posting/curation',
+    distribution: 'Sold when HIVE is needed',
     emission: 'Inflationary — tribe rewards',
     venue: 'TribalDEX', activity: '—', capAtParity: '—',
     note: 'Tradeable tier.',

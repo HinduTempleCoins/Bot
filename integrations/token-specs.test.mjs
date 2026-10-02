@@ -41,6 +41,18 @@ test('the table keeps order, skips unknowns, and defaults to everything recorded
   assert.equal(specsTable().tokens.length, Object.keys(TOKEN_SPECS).length);
 });
 
+test('⭐ a purchased position is recorded as purchased, and distribution is recorded too', () => {
+  for (const id of ['vkbt', 'cure']) {
+    assert.match(TOKEN_SPECS[id].acquired, /Purchased/, `${id} was bought at market, not allocated`);
+    assert.match(TOKEN_SPECS[id].distribution, /curation/i, `${id} is given away, not held static`);
+  }
+  const keys = SPEC_DIMENSIONS.map((d) => d.key);
+  assert.ok(keys.includes('acquired'), 'how a position was acquired is a spec in its own right');
+  assert.ok(keys.includes('distribution'));
+  // the label must not imply a founder allocation
+  assert.equal(SPEC_DIMENSIONS.find((d) => d.key === 'concentration').label.includes('Team-held'), false);
+});
+
 test('side tokens and chain coins are not conflated', () => {
   assert.match(TOKEN_SPECS.vkbt.layer, /side token/);
   assert.match(TOKEN_SPECS.blurt.layer, /Chain coin/);

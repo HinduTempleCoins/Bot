@@ -280,7 +280,7 @@ export function tokenSpecsMatrix() {
     const premium = tok.id === 'vkbt' || tok.id === 'cure';
     body += `<rect x="${x}" y="88" width="${colW - 2}" height="${headH - 4}" rx="8" fill="${premium ? '#e4dcc4' : '#e8e8e8'}" stroke="${LINE}"/>`
       + text(x + colW / 2, 110, tok.name, { size: 14, weight: 800 })
-      + text(x + colW / 2, 126, premium ? 'premium — never dumped' : 'tradeable / fuel', { size: 9, fill: MUT })
+      + text(x + colW / 2, 126, premium ? 'premium — bought, given away' : 'tradeable / fuel', { size: 9, fill: MUT })
       + text(x + colW / 2, 139, tok.layer.replace('Hive-Engine ', '').replace('Chain coin, wrapped onto Hive-Engine', 'chain coin (wrapped)'), { size: 8.5, fill: MUT });
   });
   t.rows.forEach((r, ri) => {
@@ -300,7 +300,7 @@ export function tokenSpecsMatrix() {
     'A side token is not a chain. Its peers are other Hive-Engine tokens, and the dimensions are tokenomics.',
     body
     + text(w / 2, foot, 'Supply alone means nothing; holders alone means nothing. The pair matters, and concentration decides whether to trust it.', { size: 11, fill: INK })
-    + text(w / 2, foot + 17, 'A majority held by the project team is anti-dump protection: the largest holder has the least reason to break the market.', { size: 11, fill: MUT })
+    + text(w / 2, foot + 17, 'The VKF position in VKBT and CURE was PURCHASED at market, not allocated — and is being given away through curation programs.', { size: 11, fill: MUT })
     + text(w / 2, foot + 36, '"—" means not recorded here, never a guess. Live figures belong to a Hive-Engine read.', { size: 10.5, fill: MUT }));
 }
 
