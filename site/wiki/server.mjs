@@ -12,6 +12,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { layout, renderWiki, esc, slugify, titleize, tocAside } from './render.mjs';
 import { figuresForPage } from './figures.mjs';
+import { noticesForPage } from './safety-notices.mjs';
 import { groupArticles, groupArticlesByPillars, categoriesFor, categoryById, PILLARS } from './categories.mjs';
 import { wikidataMap, aboutNode, articleMarkdown, llmsIndex, atomFeed, breadcrumbLd, websiteLd, collectionLd } from './geo.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
@@ -100,7 +101,8 @@ function articlePage(slug) {
   const { html: rendered, refs, footnotes, toc } = renderWiki(a.text);
   // Figures for an existing article are attached HERE, at render time, keyed by slug — the .wiki file
   // itself is never modified (wiki article text is not ours to edit; see site/wiki/figures.mjs).
-  const html = figuresForPage(slug) + rendered;
+  // A safety banner goes ABOVE everything, including figures — it is the first thing on the page.
+  const html = noticesForPage(slug) + figuresForPage(slug) + rendered;
   const flags = flagsForArticle(refs);
   const flagBlock = flags.length ? `<div class=flag><b>⚠️ Fact-check flags (${flags.length})</b> — the knowledge base sources for this article contain claims our fact-checker could not verify against external reality. Treat the following with caution:
     <ul>${flags.slice(0, 10).map((f) => `<li>[${esc(f.verdict)}] ${esc(f.claim)}${f.reason ? ` — <span class=muted>${esc(f.reason)}</span>` : ''}</li>`).join('')}</ul></div>` : '';

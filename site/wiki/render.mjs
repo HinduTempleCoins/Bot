@@ -10,6 +10,7 @@
 //   the pylon threshold you pass through into the library. Dark mode is the lapis-night sky.
 //   All colour lives in :root tokens so the whole surface re-themes from one place.
 import { figureHtml, FIGURE_CSS } from './figures.mjs';
+import { NOTICE_CSS } from './safety-notices.mjs';
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const slugify = (s) => String(s).trim().replace(/\.wiki$/, '').replace(/[\s_]+/g, '_').replace(/[^A-Za-z0-9_:-]/g, '');
@@ -131,7 +132,7 @@ const STYLE = `<style>
     h1{font-size:27px}
   }
   @media print{header.top,aside.toc,footer .fnav,.themebtn{display:none}}
-${FIGURE_CSS}
+${FIGURE_CSS}${NOTICE_CSS}
 </style>`;
 
 // Primary chrome nav. [href, label, matchKey] — matchKey marks the active tab.

@@ -254,7 +254,8 @@ export const CATEGORIES = [
   },
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
-    pages: ['Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
+    pages: ['Spiced Wine Bitters and the Colas',
+            'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
             'Grow Lighting Metal Halide HPS CMH Fluorescent and LED',
             'Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils',
             'Beneficial Insects and Biological Pest Control',
@@ -602,6 +603,7 @@ export const PILLARS = [
     icon: '🌿',
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
+      'Spiced Wine Bitters and the Colas',
       'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
       'Grow Lighting Metal Halide HPS CMH Fluorescent and LED',
       'Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils',
