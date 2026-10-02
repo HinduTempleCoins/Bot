@@ -48,7 +48,50 @@
 
 '''The lesson across this list:''' "botanical" says nothing about safety. '''Rotenone and nicotine are plant-derived and are among the most dangerous things on it; spinosad and soap are among the safest.'''
 
-== 3. The order to try things ==
+== 3. How plants actually defend themselves ==
+Every botanical pesticide is a plant's own chemical weapon, borrowed. Understanding the originals explains why they work, why insects beat them, and why some of them recruit help instead of killing.
+
+=== Constitutive versus induced ===
+* '''Constitutive''' defences are always present: thick cuticle, silica, trichomes, latex, stored alkaloids and terpenes. Expensive to maintain, instantly available.
+* '''Induced''' defences are built '''after''' an attack, within hours to days, and cost nothing until needed. This is why a plant that has already been chewed is harder to chew than its neighbour.
+* '''Two hormone systems split the labour.''' The '''jasmonate''' pathway answers chewing insects and wounding; the '''salicylate''' pathway answers pathogens and sap-suckers. '''They inhibit one another''' — so an aphid that triggers the salicylate arm can suppress the jasmonate defences that would have stopped a caterpillar. Pests exploit this crosstalk deliberately.
+* '''Priming:''' a plant that has met an attack, or smelled a neighbour's volatiles, responds '''faster and harder''' next time without paying the cost in advance.
+
+=== The chemical classes, and what they do to an insect ===
+* '''Alkaloids''' — nicotine (nicotinic acetylcholine receptor agonist), caffeine (a natural insecticide in seeds and nectar), atropine. '''Nerve poisons.'''
+* '''Terpenoids''' — pyrethrins (sodium channels), azadirachtin (ecdysone/moulting), limonene. Also the volatiles that do signalling (below).
+* '''Phenolics and tannins''' — bind proteins and gut enzymes, making the leaf '''indigestible rather than poisonous'''.
+* '''Glucosinolates''' (brassicas) — inert until the cell is crushed, when '''myrosinase''' converts them to '''isothiocyanates'''. The mustard "bomb" is a two-component system kept in separate compartments so the plant does not poison itself.
+* '''Cyanogenic glycosides''' (cassava, almond, sorghum, clover) — same trick, releasing '''hydrogen cyanide''' on tissue damage.
+* '''Protease inhibitors and lectins''' — block the insect's own digestive enzymes. Slow starvation rather than poisoning.
+* '''Latex and resin''' — physical. Milkweed latex glues mandibles shut; conifer resin traps bark beetles and sets.
+* '''Silica and phytoliths''' — grasses wear insect mandibles down abrasively. A purely mechanical defence, and one reason grasses survived grazing.
+
+=== Calling for help: the third trophic level ===
+This is the part that connects pesticides directly to [[Beneficial Insects and Biological Pest Control]].
+* A chewed plant releases '''herbivore-induced plant volatiles (HIPVs)''' — a blend including '''green leaf volatiles''', terpenes and methyl salicylate.
+* '''Parasitoid wasps and predatory mites use that blend to find the prey.''' The plant is not just defending; it is '''recruiting bodyguards'''.
+* The signal is '''specific''': maize attacked by one caterpillar species releases a different blend than when attacked by another, and the wasps can tell. Insect '''saliva''' carries elicitors — '''volicitin''' in ''Spodoptera'' — that the plant detects to identify its attacker.
+* '''Below ground too:''' maize roots attacked by rootworm release '''(E)-β-caryophyllene''', which attracts entomopathogenic nematodes. Many commercial US maize lines had '''lost''' this gene — and restoring it restored the nematode recruitment.
+* '''Plants eavesdrop on each other.''' Undamaged neighbours detecting these volatiles prime their own defences. Documented in sagebrush, lima bean, maize and poplar.
+* '''Practical consequence:''' spraying a broad-spectrum insecticide destroys the bodyguards the plant just summoned. The plant did its part; the spray undid it.
+
+=== How insects fight back ===
+* '''Detoxification enzymes''' — '''cytochrome P450s''', glutathione S-transferases and esterases. These are the same enzyme families that produce '''pesticide resistance''', because a synthetic insecticide is just another xenobiotic to a system already evolved to dismantle plant toxins.
+* '''Sequestration''' — monarch caterpillars store milkweed '''cardenolides''' and become toxic themselves; their sodium pump carries target-site mutations that make them insensitive. Same for cinnabar moths and ragwort alkaloids.
+* '''Rapid excretion and gut pH''' — many lepidopteran larvae run a highly alkaline gut that destroys tannins.
+* '''Behaviour''' — '''vein-cutting and trenching''': a caterpillar severs the latex canals upstream of where it intends to feed, draining the pressure first. Pure engineering.
+* '''Symbionts''' — gut bacteria that degrade plant toxins and, in some cases, insecticides.
+* '''Gall-formers and leaf-miners''' go '''inside''' the tissue, where surface sprays and many defences cannot reach.
+
+=== What this means for using a pesticide ===
+* '''Resistance is pre-adapted.''' Insects have been dismantling plant chemistry for 300 million years; the P450s that handle nicotine handle neonicotinoids. This is why '''mode-of-action rotation''' matters more than product choice.
+* '''Specialists are unimpressed by the defences they evolved with.''' A brassica pest is attracted '''by''' glucosinolates — the same compound that repels generalists is the specialist's host-finding cue. So a "repellent" is only repellent to the insects it was not co-evolved with.
+* '''Breeding has thinned the defences.''' Selection for yield, sweetness and low bitterness has removed defensive chemistry from crops; the modern cultivar is often chemically naked compared with its wild relative. '''Push-pull''' systems and the maize caryophyllene case are attempts to put it back.
+* '''Over-fertilising with nitrogen''' produces soft, protein-rich growth that is better food and comes with weaker defences — which is why an over-fed plant gets aphids. See [[Plant Nutrients and Diagnosing Deficiencies: Reading a Leaf]].
+* '''Companion planting works when it has a mechanism''' — masking volatiles, trap-cropping, or feeding parasitoid adults — and not when it is folklore. The best-evidenced example is '''push-pull''': ''Desmodium'' between the rows repels stemborers and suppresses ''Striga'', napier grass at the border pulls them out of the crop.
+
+== 4. The order to try things ==
 Integrated pest management, in the order that actually works:
 # '''Identify the pest.''' Everything else depends on it.
 # '''Culture first''' — right plant, right place, right water and feeding. Stressed plants attract pests; over-fed, nitrogen-lush growth attracts aphids specifically.
@@ -58,7 +101,7 @@ Integrated pest management, in the order that actually works:
 # '''Broad-spectrum last, if at all.''' A pyrethrin spray resets your biological control to zero and the pest, which breeds faster, returns first. That is the '''pesticide treadmill'''.
 * '''Rotate modes of action''' to delay resistance — the '''IRAC''' group number on a label exists for this. Repeating one mode of action breeds resistance to it.
 
-== 4. Reading a label ==
+== 5. Reading a label ==
 * '''"OMRI listed"''' — allowed in certified organic production. '''Not a safety claim''' (see rotenone).
 * '''Signal words''' — CAUTION, WARNING, DANGER, in increasing order of acute toxicity.
 * '''REI''' (restricted entry interval) and '''PHI''' (pre-harvest interval) are legally binding.
@@ -74,3 +117,10 @@ Integrated pest management, in the order that actually works:
 * Tanner C. M. et al., "Rotenone, paraquat, and Parkinson's disease", ''Environmental Health Perspectives'' 119 (2011).
 * Biondi A. et al., "Spinosad effects on non-target organisms", ''Pest Management Science'' 68 (2012).
 * IRAC Mode of Action Classification Scheme (current edition).
+* Howe G. A. and Jander G., "Plant immunity to insect herbivores", ''Annual Review of Plant Biology'' 59 (2008) — jasmonate/salicylate pathways and crosstalk.
+* Turlings T. C. J. and Erb M., "Tritrophic interactions mediated by herbivore-induced plant volatiles", ''Annual Review of Entomology'' 63 (2018).
+* Rasmann S. et al., "Recruitment of entomopathogenic nematodes by insect-damaged maize roots", ''Nature'' 434 (2005) — (E)-β-caryophyllene.
+* Alborn H. T. et al., "An elicitor of plant volatiles from beet armyworm oral secretion", ''Science'' 276 (1997) — volicitin.
+* Dussourd D. E. and Eisner T., "Vein-cutting behavior: insect counterploy to the latex defense of plants", ''Science'' 237 (1987).
+* Agrawal A. A., ''Monarchs and Milkweed'' (2017) — sequestration and target-site insensitivity.
+* Khan Z. R. et al., push-pull with ''Desmodium'' and napier grass, ''Philosophical Transactions of the Royal Society B'' 363 (2008).
