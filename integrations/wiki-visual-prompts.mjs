@@ -11,8 +11,16 @@
 // carries the sentence it came from, so a wrong picture can be traced back to the text that caused it.
 // Nothing here calls a model; it produces the prompts and the provenance, and the render lanes consume them.
 //
-// House style (operator, standing): historical/scientific media is NOT Hathor — no character unless asked.
-// Instructional content gets a drawn figure, not generated art.
+// ⚠️ SCOPE — THIS IS ONE NEW SET, NOT A NEW RULE FOR EVERYTHING.
+// What this module produces is a SEPARATE body of work: library illustrations, derived from library
+// articles, which will appear ALONGSIDE the remakes, the moving pictures and the songs in the
+// Śilpa Śāstra feed. It is not a change to how Hathor or Hathor Metatron make images generally.
+//   • The Studio (/api/generate), the image pool, Metatron's graphic maker, the remakes gallery, the
+//     animation lab and the documentaries are untouched and keep working exactly as they did.
+//   • "Draw it as a figure instead of generating it" applies to WIKI INSTRUCTIONAL CONTENT ONLY —
+//     a deficiency chart or a cycle diagram has to be correct. It is not a rule about art elsewhere.
+//   • The no-character default here follows the operator's standing note that historical and scientific
+//     media is not Hathor unless he asks for her — again, scoped to this set.
 //
 //   import { promptsFor, graphicPrompts, animationPrompts, figureCandidates } from './wiki-visual-prompts.mjs'
 

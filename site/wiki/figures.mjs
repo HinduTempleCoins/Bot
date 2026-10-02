@@ -5,8 +5,10 @@
 //   • it has to be right — a diagram that teaches a wrong diagnosis is worse than no diagram;
 //   • it has to be the same every time, so a page does not change meaning between loads;
 //   • it has to be readable at any size and in print, which means SVG rather than pixels.
-// Image-model art has its place elsewhere (the animation lab, the Studio). Instructional figures do not
-// get guessed.
+// Image-model art has its place elsewhere and is unchanged by this file: the Studio, the image pool, the
+// animation lab, the remakes gallery and Hathor Metatron all keep generating exactly as before. This
+// module covers WIKI FIGURES ONLY — the instructional diagrams inside library articles, which have to be
+// correct and therefore are not guessed.
 //
 // Adding a figure: write a function that returns an SVG string, register it in FIGURES, done.
 //
