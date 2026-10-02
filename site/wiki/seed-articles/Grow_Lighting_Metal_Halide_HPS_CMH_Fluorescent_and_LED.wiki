@@ -1,0 +1,103 @@
+'''Grow Lighting: Metal Halide, HPS, CMH, Fluorescent and LED''' covers how plant lighting is actually measured, what each lamp type does, and the electrical and heat realities behind them. The single most useful thing on this page: '''lumens are the wrong unit and will mislead you''', and the units that replace them are simple once named. Alpha.
+
+== 1. Lumens are for human eyes, not plants ==
+* A '''lumen''' is light '''weighted by the human eye's sensitivity curve''', which peaks in the green-yellow around 555 nm. Our eyes are poor at perceiving deep red and deep blue.
+* '''Plants want precisely the wavelengths our eyes are worst at.''' So a lamp optimised for lumens is optimised for looking bright, which is not the same as growing.
+* This is why '''HPS lamps look spectacular on a lumen spec''' — they pour out yellow-orange right where the eye is most sensitive — and why early LED panels looked dim and purple while performing well.
+* '''Use these instead:'''
+** '''PAR''' — photosynthetically active radiation, '''400–700 nm'''. A range, not a measurement.
+** '''PPF''' — photosynthetic '''photon flux''': total photons a fixture emits per second, in '''µmol/s'''. A property of the lamp.
+** '''PPFD''' — photon flux '''density''': photons landing on a given spot, in '''µmol/m²/s'''. This is what the plant experiences, and it falls off sharply with distance.
+** '''Efficacy''' — '''µmol/J''': photons out per watt in. '''The single most useful number for comparing fixtures.'''
+** '''DLI''' — daily light integral, '''mol/m²/day''' = PPFD × seconds of light ÷ 1,000,000. '''This is the number that actually predicts growth.'''
+* '''Rule of thumb for DLI:''' seedlings and leafy greens are happy around 12–20; fruiting and flowering crops want roughly 25–40; much above 45 and most plants stop responding unless CO₂ and everything else is also raised.
+* '''The inverse square law''' governs everything: double the distance, roughly a quarter of the intensity. Hanging height is not a detail.
+
+== 2. The lamp types ==
+
+=== Metal halide (MH) ===
+* An arc tube of mercury plus metal halide salts. '''Blue-rich, broad spectrum, good colour rendering.'''
+* Traditionally the '''vegetative''' lamp — blue light keeps plants compact and bushy.
+* Efficacy roughly '''1.2–1.6 µmol/J'''. Runs hot. Output decays noticeably over a season; they want replacing roughly yearly.
+
+=== High pressure sodium (HPS) ===
+* Sodium vapour. '''Red-orange dominant''', narrow and poor colour rendering — everything under it looks monochrome yellow.
+* Traditionally the '''flowering''' lamp, and for decades the highest-output option available.
+* Efficacy roughly '''1.6–1.9 µmol/J''' for a good double-ended fixture. '''Double-ended (DE)''' lamps are more efficient and hold output better than single-ended, but are more UV-transparent and '''require a closed, glassed fixture'''.
+* '''Very hot''', with most of that heat radiated straight down onto the canopy.
+
+=== Ceramic metal halide (CMH / LEC) ===
+* Metal halide in a '''ceramic''' arc tube rather than quartz, running hotter and more stable inside the tube.
+* '''Excellent full spectrum''', high colour rendering, and genuine '''UV-B''' output — which is the main reason people choose it.
+* Efficacy roughly '''1.7–1.9 µmol/J''' — comparable to HPS with much better spectrum and colour.
+* '''Long lamp life''', and the 315 W size is popular for small spaces.
+* '''⚠️ The UV is real.''' Do not look at a running CMH without eye protection, and do not work under one unshielded.
+
+=== Fluorescent and CFL ===
+* '''T5''' tubes and compact fluorescents. '''Low intensity, low heat, cheap, safe.'''
+* Efficacy roughly '''0.9–1.2 µmol/J'''.
+* Genuinely good for '''seedlings, clones and herbs''' — they can sit very close without burning, which is exactly what a cutting needs.
+* '''Not suitable for flowering a serious plant.''' The intensity is not there, and stacking enough tubes to get it is neither cheap nor cool.
+* Contain '''mercury''' — dispose of properly and clean up a breakage carefully.
+
+=== LED ===
+* Now the default. A modern fixture is an array of '''white diodes''' (a blue diode with a phosphor coating that converts some output to broad spectrum) usually '''supplemented with deep red''' around 660 nm, driven by a '''constant-current driver'''.
+* Efficacy '''2.5–3.5 µmol/J''' and still improving — roughly '''double HPS''' at the top end. That ratio is the whole reason the industry switched.
+* '''Advantages:''' far less heat at the canopy, long life, dimmable, and the heat that is produced sits in the heatsink and driver rather than radiating onto the plants.
+* '''Disadvantages:''' high purchase cost, quality varies enormously, and '''marketing is rampant'''.
+* '''How to read an LED spec honestly:'''
+** '''Actual wall watts''', not an "equivalent" figure. A "1000 W" fixture drawing 240 W is a 240 W fixture.
+** '''PPF (µmol/s)''' and '''efficacy (µmol/J)''' from a real test report — '''LM-79''' / '''LM-80''' data, not a drawing.
+** '''A PPFD map''' at a stated height, showing the edges, not just the centre.
+** '''Who made the diodes and the driver''' — Samsung, Osram, Cree, Bridgelux; Meanwell and Inventronics for drivers.
+** Be sceptical of '''"full spectrum"''' as a claim and of blurple-only fixtures, which make diagnosis impossible because you cannot see the plant's real colour.
+
+== 3. Spectrum, and what it actually does ==
+* The '''McCree curve''' (1972) measured photosynthetic response by wavelength: a broad response across 400–700 nm with peaks in blue and red and a '''real but lower''' response in green.
+* '''Green light is not wasted.''' It penetrates deeper into the canopy than red or blue, which are absorbed in the top layer. A white-rich fixture reaches lower leaves better than a red/blue one.
+* '''Blue''' → compact growth, thicker leaves, more stomata. Too little and plants stretch.
+* '''Red''' → the most photosynthetically efficient band per photon, and the main driver of flowering responses.
+* '''Far red (730 nm)''' → the '''Emerson enhancement effect''': far red combined with red is more efficient than either alone. Far red also drives '''shade-avoidance''' stretch through the '''phytochrome''' system, and an end-of-day far-red pulse can be used deliberately. Phytochrome is also why '''a brief light leak at night''' can disrupt a photoperiod crop.
+* '''UV-B''' → a stress response. Plants make protective compounds, and there is '''modest''' evidence for increased secondary metabolites, including trichome density. The effect is real but routinely overstated in marketing, and UV damages both plants and people in excess.
+* '''Photoperiod''' matters more than spectrum for flowering in short-day plants: it is the '''length of uninterrupted darkness''' that triggers it.
+
+== 4. Heat, electricity and the practical side ==
+* '''All of the power becomes heat eventually.''' A 600 W fixture puts 600 W of heat into the room no matter the technology. What differs is '''where''': HPS radiates it onto the canopy; LED moves most of it into the heatsink and driver, where a fan or the room's air handling can remove it.
+* '''That is why LED rooms can run hotter leaf-to-air than people expect''' — less radiant heat on the leaf means a '''cooler leaf''', which changes transpiration and can require '''higher''' air temperature to keep '''VPD''' in range.
+* '''VPD''' (vapour pressure deficit) is the number that ties temperature and humidity together and drives transpiration. It matters more than either alone.
+* '''Electrical realities:'''
+** '''Watts = volts × amps.''' A 1,000 W fixture on a 120 V circuit draws over 8 A; on 240 V it draws half the current for the same power.
+** '''240 V is modestly more efficient''' overall — lower current means lower resistive losses in the wiring and often a slightly better driver efficiency — which is why commercial rooms run 240 V.
+** '''The 80% rule:''' continuous loads should not exceed 80% of a circuit's rating. A 15 A circuit is good for about 12 A continuous — one 1,000 W fixture and little else.
+** '''Inrush current''' at switch-on can be several times the running current, which trips breakers when several fixtures start together. '''Stagger the start times.'''
+** '''Power factor''' matters for billing and capacity in larger installations; good drivers are above 0.9.
+** '''Ballasts:''' magnetic ones are heavy, hot, hum, and are less efficient. '''Digital/electronic''' ballasts are lighter, dimmable and more efficient, but cheap ones emit '''RF interference'''.
+* '''⚠️ Safety, plainly:''' hot lamps and water are a serious combination; use '''GFCI/RCD''' protection, keep connections off the floor, do not daisy-chain extension leads, and have real electrical work done properly. '''Heat and electricity cause far more grow-room fires than anything else.'''
+
+== 5. GaN and modern power electronics ==
+* '''Gallium nitride (GaN)''' is a '''wide-bandgap''' semiconductor replacing silicon in power switching. Its advantages are physical: a much higher breakdown field, higher electron mobility and '''far faster switching''' with lower losses.
+* '''What that gives you:''' a power supply that runs at much higher switching frequency, which allows '''much smaller magnetics''', so the same wattage fits in a far smaller, cooler, lighter package at higher efficiency. This is exactly why phone and laptop chargers suddenly shrank — the compact "GaN charger" is the consumer face of the same technology.
+* '''Silicon carbide (SiC)''' is the sibling technology, favoured at higher voltages and powers (EV drivetrains, industrial supplies), where GaN currently favours lower-voltage, higher-frequency applications.
+* '''In horticultural lighting''' this shows up as '''LED drivers''' that are smaller, cooler and a percentage point or two more efficient. '''It does not change the diodes''', which is where most of the loss still is — so GaN is an incremental efficiency gain on the driver side, not a revolution in light output.
+* '''Honest limits of this section:''' GaN in LED drivers is real and growing, but I have not verified specific horticultural products using it, and vendor efficiency claims in this area should be read with the same scepticism as LED wattage claims. '''If you have material on GaN drivers or the cabling work, send it and I will build this section out properly rather than from general electronics.'''
+
+== 6. Choosing, briefly ==
+* '''Seedlings and clones:''' fluorescent/T5 or a dimmed LED. Low intensity, close, cool.
+* '''Small space, limited budget, wants spectrum quality:''' CMH 315 W.
+* '''Best efficiency and lowest canopy heat:''' LED, bought on '''µmol/J and a real PPFD map''', not on claimed watts.
+* '''Cold room where the heat is useful:''' HPS is not obsolete — in a cold climate its radiant heat is doing a second job.
+* '''Measure what you have.''' A quantum PAR meter, or a decent phone-based approximation, beats every specification sheet.
+
+== 7. Where this connects ==
+* Shaping the plant to use the light evenly: [[Plant Training, Topping, FIMing, Cloning and the Old Outdoor Tricks]].
+* What the plant needs besides light: [[Plant Nutrients and Diagnosing Deficiencies: Reading a Leaf]].
+
+== Sources ==
+* McCree K. J., "The action spectrum, absorptance and quantum yield of photosynthesis in crop plants", ''Agricultural Meteorology'' 9 (1972).
+* Emerson R. et al., on the enhancement effect of combined red and far-red, ''PNAS'' 43 (1957).
+* Terashima I. et al., "Green light drives leaf photosynthesis more efficiently than red light in strong white light", ''Plant and Cell Physiology'' 50 (2009).
+* Nelson J. A. and Bugbee B., "Economic analysis of greenhouse lighting: light emitting diodes vs high intensity discharge fixtures", ''PLOS ONE'' 9 (2014) — the efficacy comparison.
+* Kusuma P., Pattison P. M. and Bugbee B., "From physics to fixtures to food: current and potential LED efficacy", ''Horticulture Research'' 7 (2020).
+* IES LM-79 and LM-80 test standards.
+* NFPA 70 (National Electrical Code) on continuous loads and circuit capacity.
+* Jones K. et al. and the general power-electronics literature on GaN and SiC wide-bandgap devices.

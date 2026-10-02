@@ -9,6 +9,8 @@
 //   a wesekh-collar register (the thin gold→lapis→green band) and the layout is axial/symmetric —
 //   the pylon threshold you pass through into the library. Dark mode is the lapis-night sky.
 //   All colour lives in :root tokens so the whole surface re-themes from one place.
+import { figureHtml, FIGURE_CSS } from './figures.mjs';
+import { NOTICE_CSS } from './safety-notices.mjs';
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const slugify = (s) => String(s).trim().replace(/\.wiki$/, '').replace(/[\s_]+/g, '_').replace(/[^A-Za-z0-9_:-]/g, '');
@@ -130,6 +132,7 @@ const STYLE = `<style>
     h1{font-size:27px}
   }
   @media print{header.top,aside.toc,footer .fnav,.themebtn{display:none}}
+${FIGURE_CSS}${NOTICE_CSS}
 </style>`;
 
 // Primary chrome nav. [href, label, matchKey] — matchKey marks the active tab.
@@ -240,7 +243,12 @@ export function renderWiki(text) {
   for (let raw of lines) {
     const line = raw.replace(/\r$/, '');
     let m;
-    if ((m = line.match(/^\s*(={2,6})\s*(.+?)\s*\1\s*$/))) {
+    // A figure stands alone on its line and is a BLOCK, so it is matched before the [[link]] rule
+    // (which would otherwise swallow it) and before any inline escaping.
+    if ((m = line.match(/^\s*\[\[Figure:([a-z0-9-]+)(?:\|([^\]]*))?\]\]\s*$/i))) {
+      closeList();
+      out.push(figureHtml(m[1], m[2] || ''));
+    } else if ((m = line.match(/^\s*(={2,6})\s*(.+?)\s*\1\s*$/))) {
       closeList();
       const lvl = Math.min(4, m[1].length);
       const inner = inline(m[2]);
@@ -266,5 +274,6 @@ export function renderWiki(text) {
   const footnotes = refs.length
     ? `<span class=hx id="references"></span><h2>References</h2><ol class=muted>${refs.map((f, i) => `<li id=ref${i + 1}><code>${esc(f)}</code></li>`).join('')}</ol>`
     : '';
+  // [[Figure:name|caption]] → a generated, deterministic diagram (site/wiki/figures.mjs)
   return { html: out.join('\n'), refs, footnotes, toc };
 }

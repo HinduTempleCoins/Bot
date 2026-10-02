@@ -1,0 +1,72 @@
+'''Novel Odorants: How New Smell Molecules Are Actually Found, and Where the Gaps Are''' is the research page of the aroma shelf. It covers how genuinely new odorants have been discovered historically, the methods that reliably produce novelty today, the chemical space that is '''demonstrably under-explored''', and the honest reasons why very few new molecules ever reach the market. It is written for someone who wants to do new work rather than read about old work. Alpha.
+
+== 1. The central problem ==
+'''Odour cannot be predicted from structure.''' That is the whole difficulty, and it has not been solved.
+* Two molecules differing by one double-bond position smell entirely different. Two molecules from unrelated families smell the same. '''Enantiomers''' — identical formulas, mirror images — smell different (spearmint versus caraway carvone).
+* There is no equation from structure to percept. There are correlations, heuristics, and now statistical models, but no theory.
+* Consequence: new odorants have historically been found by '''making many analogues and smelling them''' — a "molecule-first" approach that is slow and navigates a vast space badly.
+
+== 2. How new odorants have actually been discovered ==
+Five routes, in rough order of historical yield.
+* '''Serendipity.''' Coumarin, the nitro musks and a long list of others were accidents noticed by someone paying attention. Still happening, still unsystematic.
+* '''Analogue series.''' Take a known odorant and walk the structure — lengthen the chain, move a methyl, change the ring. This produced most of the 20th-century captives and most fragrance patents.
+* '''Trace analysis of real materials.''' Find what is already there but was never characterised. This is the highest-yield method available today and §3 is about it.
+* '''Degradation chemistry.''' Whole families of odorants are '''breakdown products''', not biosynthetic end-points: the '''norisoprenoids''' from carotenoid cleavage (ionones, damascenone), the '''Maillard''' products (pyrazines, furanones) from cooking, the '''lipid oxidation''' aldehydes. Deliberately degrading a cheap natural material is an underused source.
+* '''Receptor-side discovery.''' Start from a '''deorphanised olfactory receptor''' and screen for ligands that activate it. This reverses the usual direction and is the most genuinely new approach on the list.
+
+== 3. Sensomics — the method that finds what nobody catalogued ==
+The single most productive technique, developed largely by '''Werner Grosch''' and '''Peter Schieberle'''.
+* '''GC-O''' (gas chromatography–olfactometry): the column effluent is split, half to a detector, half to a '''human nose at a sniffing port'''. A mass spectrometer records what is present; a person records what is '''smellable'''. These two lists are strikingly different.
+* '''AEDA''' (aroma extract dilution analysis): dilute the extract repeatedly and re-sniff. The '''flavour dilution factor''' of a compound is how far it can be diluted and still be detected — a direct ranking of odour importance, independent of concentration.
+* '''Odour activity value (OAV)''' = concentration ÷ threshold. A compound at 0.001% with a threshold of 0.00001% matters more than one at 40% with a high threshold.
+* '''Recombination and omission.''' Rebuild the aroma from the identified compounds at measured concentrations. If the reconstruction smells right, the list is complete; leave one out and see whether anyone notices. '''This is the only honest test that a characterisation is finished''' — and most published characterisations never do it.
+* '''Why it finds new things:''' the potent odorants in a material are usually '''trace''' components sitting far below the detection limit of routine analysis, hidden under the bulk. The nose finds them; the instrument then has to be pushed to identify them.
+
+=== The instrument matters more than the idea ===
+* '''GC×GC–TOFMS''' (comprehensive two-dimensional GC with time-of-flight MS) is what found the '''prenylated volatile sulfur compounds''' in cannabis in '''2021''' — in one of the most intensively studied plants on earth. See [[Hops, Cannabis and the Chemistry of "Dank": Terpenes and Volatile Sulfur Compounds]].
+* The lesson generalises: '''if the limiting factor there was instrumental, it is instrumental everywhere else too.''' Most plants have never been looked at with that resolution.
+
+== 4. Chemical space that is demonstrably under-explored ==
+* '''Element switching (sila-, germa-, stanna-).''' Replace a carbon with '''silicon''' and you get a real molecule with a real smell. '''Reinhold Tacke''' and colleagues made silicon/germanium/tin analogues of the lily-of-the-valley odorants '''lilial''' and '''bourgeonal''', and '''sila-α-galbanone''' from the galbanum odorant. Findings worth knowing: the '''tin''' analogues exceed the dimensions the receptor will accept; the '''sila''' analogues smell recognisably like the parent but '''weaker'''; and because silicon is heavier, they are '''less volatile and therefore more substantive''' — they last longer on fabric and skin. That last property is commercially interesting on its own.
+* '''Sulfur beyond simple thiols.''' Thioesters, polysulfides, thiazoles and thiophenes are enormously potent and poorly mapped, largely because they are unpleasant to work with and unstable.
+* '''Uncommon carotenoid precursors.''' The CCD enzymes cleave carotenoids into norisoprenoids. Which cleavage of which carotenoid in which plant gives which product is '''not fully mapped''', and the common carotenoids have had far more attention than the rare ones.
+* '''Macrocycles beyond the musks.''' Large-ring chemistry is dominated by musk work; other ring sizes and heteroatom placements are thinly explored because ring-closing was historically hard. '''Ring-closing metathesis''' changed that.
+* '''Organofluorine.''' Rare in fragrance. Fluorine changes acidity, metabolic stability and lipophilicity sharply, and the few studies that exist suggest the olfactory consequences are not obvious.
+* '''Deuteration — and a real controversy.''' Replacing hydrogen with deuterium changes bond vibration but barely changes shape. '''Luca Turin''' argued this should change the smell if olfaction reads vibration. '''Keller and Vosshall''' (''Nature Neuroscience'', 2004) found humans could not reliably tell acetophenone from its deuterated form; '''Gane et al.''' (2013) reported humans could distinguish deuterated musk; '''Block et al.''' (''PNAS'', 2015) found no vibrational effect at the receptor. The '''shape-based''' account is the mainstream position. It remains the most interesting open question in the field, and cheap to test.
+
+== 5. Machine learning — what it does and does not do ==
+* '''It works for description.''' Graph neural networks trained on structure→odour-descriptor data now match or beat trained human panels at labelling what a molecule will smell like. '''Lee et al.''' (''Science'', 2023) published a '''principal odour map''' that generalises across tasks.
+* '''Newer work''' adds odour-'''strength''' prediction (ordinal models), '''blend''' prediction (how a novel odorant behaves mixed with common aroma chemicals), and '''generative''' design — QSAR-guided frameworks that propose molecules that are both novel and '''synthetically viable''', which is the practical constraint that earlier generative work ignored.
+* '''What it does not do:''' invent a smell that does not yet exist in the training distribution, or tell you whether a molecule is safe, stable, affordable or legal. The model proposes; chemistry, toxicology and a panel still dispose.
+* '''The honest framing:''' ML has turned "make 500 analogues and smell them" into "make 20 and smell them". That is a large improvement and not a solution.
+
+== 6. Biosynthesis as a source of novelty ==
+* Engineered organisms now make '''nootkatone''', '''valencene''', '''farnesene''', '''sclareol''' (to ambrox), '''vanillin''' from ferulic acid and '''γ-decalactone''' from castor oil.
+* The novelty is not only economic. Enzymes perform '''selective oxidations and cyclisations''' that are awkward or impossible chemically, which means '''biosynthesis reaches structures synthesis does not'''. Feeding an unnatural precursor to a terpene synthase is a direct route into unexplored space.
+* It also carries the '''"natural"''' label in most jurisdictions, which is a commercial fact rather than a chemical one.
+
+== 7. Why so few new molecules launch ==
+This is the part usually left out, and it governs everything.
+* '''Registration cost.''' Bringing a genuinely new substance to market in the EU means '''REACH''' registration — safety data, toxicology, environmental fate. The cost runs to hundreds of thousands of euros before a gram is sold.
+* '''IFRA and sensitisation.''' A new material must survive skin-sensitisation assessment. Many promising molecules fail here.
+* '''Environmental persistence''' retired the nitro musks and then restricted the polycyclic ones. Anything that does not degrade is now a liability by default.
+* '''Captives.''' The large houses (Givaudan, Firmenich/DSM, IFF, Symrise) hold new molecules as '''captive ingredients''' — patented, used only in their own formulas. This is where most genuine novelty actually sits, and much of it is never published.
+* '''The practical consequence:''' a new odorant is worth developing only if it is '''potent, stable, cheap, safe, biodegradable and different enough to matter'''. That conjunction is rare, which is why the field looks slower than the chemistry suggests it should be.
+
+== 8. A research programme that would actually work ==
+For anyone wanting to do new work with modest means, in order of expected yield per unit effort:
+# '''Pick an under-studied material''' — a regional plant, a fermentation, a traditional preparation — and run '''GC-O with AEDA''' on it. Most such materials have never had a sniffing port pointed at them.
+# '''Do the omission and recombination tests.''' This is what separates a characterisation from a compound list, and it is where surprises appear.
+# '''Degrade something cheap deliberately''' — heat, light, oxygen, acid, enzyme — and analyse the products. Carotenoid-rich and lipid-rich materials are the obvious starting points.
+# '''Chase the trace sulfur and nitrogen fraction''', which is where the potency is and where routine methods are blindest.
+# '''Use a model to rank analogues before making them''', not to replace making them.
+# '''Record thresholds, not just identities.''' A compound list without odour activity values says very little.
+
+== Sources ==
+* Grosch W., "Evaluation of the key odorants of foods by dilution experiments, aroma models and omission", ''Chemical Senses'' 26 (2001); Schieberle P. and Hofmann T. on the sensomics approach.
+* Oswald I. W. H. et al., ''ACS Omega'' 6 (2021) — GC×GC–TOFMS and the cannabis volatile sulfur compounds.
+* Tacke R. et al., silicon/germanium/tin analogues of lilial and bourgeonal; "Sila-α-galbanone and analogues: synthesis and olfactory characterization".
+* Lee B. K. et al., "A principal odor map unifies diverse tasks in olfactory perception", ''Science'' 381 (2023); Mol-PECO and subsequent QSOR models; QSAR-guided generative frameworks for synthetically viable odorants.
+* Keller A. and Vosshall L. B., ''Nature Neuroscience'' 7 (2004); Gane S. et al., ''PLOS ONE'' 8 (2013); Block E. et al., ''PNAS'' 112 (2015) — the vibration-theory exchange.
+* Surburg H. and Panten J., ''Common Fragrance and Flavor Materials'' (6th ed., 2016); Ohloff, Pickenhagen and Kraft, ''Scent and Chemistry'' (2011).
+* IFRA Standards; Regulation (EC) 1907/2006 (REACH).

@@ -42,7 +42,11 @@ export const DIMENSIONS = [
   { key: 'tokenStandards', label: 'Token standards' },
   { key: 'vm', label: 'Smart-contract VM' },
   { key: 'governance', label: 'Governance' },
+  { key: 'launched', label: 'Launched' },
 ];
+
+/** the Graphene family plus the tokens that ride on it, in the order the matrix shows them */
+export const GRAPHENE_MATRIX = ['steem', 'hive', 'blurt', 'melek', 'prana', 'vkbt', 'cure'];
 
 // ── CHAINS — static, public facts. Extensible: add same-keyed objects to compare. ───
 // Each value is a short factual string. No verdicts, no "better/worse" framing.
@@ -56,6 +60,77 @@ export const CHAINS = {
     tokenStandards: 'TRC-20, TRC-10, TRC-721',
     vm: 'TVM (TRON Virtual Machine, EVM-compatible)',
     governance: 'SR vote-based on-chain governance',
+  },
+  // ── The Graphene family: one codebase, several chains, and the tokens that ride on them. ──
+  steem: {
+    id: 'steem', name: 'STEEM', family: 'Graphene',
+    consensus: 'DPoS — 21 witnesses (20 elected + 1 timeshare)',
+    throughput: 'High for social ops (3-second blocks)',
+    feeTier: 'Feeless; cost is Resource Credits from staked POWER',
+    tokenStandards: 'Native STEEM/SBD/SP; UIA via Steem-Engine',
+    vm: 'None on L1 (fixed op set); side-chain for tokens',
+    governance: 'On-chain witness voting; stake-weighted',
+    launched: '2016', note: 'The original. Acquired 2020, which triggered the Hive fork.',
+  },
+  hive: {
+    id: 'hive', name: 'HIVE', family: 'Graphene',
+    consensus: 'DPoS — 21 witnesses',
+    throughput: 'High for social ops (3-second blocks)',
+    feeTier: 'Feeless; Resource Credits from staked HP',
+    tokenStandards: 'Native HIVE/HBD/HP; UIA via Hive-Engine',
+    vm: 'None on L1; Hive-Engine side-chain for tokens',
+    governance: 'On-chain witness voting; DHF proposal system',
+    launched: '2020', note: 'Forked from Steem in March 2020 over the stake takeover.',
+  },
+  blurt: {
+    id: 'blurt', name: 'BLURT', family: 'Graphene',
+    consensus: 'DPoS — witnesses',
+    throughput: 'High for social ops',
+    feeTier: 'Feeless; transaction cost from staked BLURT POWER',
+    tokenStandards: 'Native BLURT only (no second stablecoin)',
+    vm: 'None on L1',
+    governance: 'On-chain witness voting',
+    launched: '2020', note: 'Steem fork. Deliberately has NO curation rewards and no downvotes.',
+  },
+  melek: {
+    id: 'melek', name: 'MELEK', family: 'Graphene',
+    consensus: 'DPoS — witnesses; one slot protected at consensus for the AI witness in year one',
+    throughput: 'High for social ops (3-second blocks)',
+    feeTier: 'Feeless; Resource Credits from staked MELEK POWER',
+    tokenStandards: 'Native MELEK/MBD; side-tokens via MELEK-Engine',
+    vm: 'None on L1; MELEK-Engine side-chain',
+    governance: 'On-chain witness voting',
+    launched: '2026 (testnet)', note: 'Zero pre-mine. Hathor is a genesis witness; the slot protection is time-limited and scoped to that one account.',
+  },
+  prana: {
+    id: 'prana', name: 'PRANA', family: 'EVM / PoW',
+    consensus: 'Compute-gated Proof-of-Work (useful work)',
+    throughput: 'Moderate',
+    feeTier: 'Gas-metered',
+    tokenStandards: 'EVM token standards',
+    vm: 'EVM',
+    governance: 'Off-chain plus contract-level controls',
+    launched: 'in development', note: 'The compute side of the two-token design — how the brain gets GPUs.',
+  },
+  vkbt: {
+    id: 'vkbt', name: 'VKBT', family: 'Side-token',
+    consensus: 'Inherits its host chain (engine side-chain)',
+    throughput: 'Inherits host',
+    feeTier: 'Engine transaction fee',
+    tokenStandards: 'Engine-issued side token',
+    vm: 'Engine contract layer, not a general VM',
+    governance: 'Issuer-controlled',
+    launched: '—', note: 'Van Kush Family token. A side token, not a chain.',
+  },
+  cure: {
+    id: 'cure', name: 'CURE', family: 'Side-token',
+    consensus: 'Inherits its host chain (engine side-chain)',
+    throughput: 'Inherits host',
+    feeTier: 'Engine transaction fee',
+    tokenStandards: 'Engine-issued side token',
+    vm: 'Engine contract layer, not a general VM',
+    governance: 'Issuer-controlled',
+    launched: '—', note: 'A side token, not a chain.',
   },
   ethereum: {
     id: 'ethereum',
