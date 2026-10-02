@@ -15,6 +15,7 @@
 //   import { figureHtml, renderFigures, FIGURES, hasFigure } from './figures.mjs'
 
 import { chartSvg } from '../../integrations/plant-deficiency-chart.mjs';
+import { wheelSvg, wheelNames } from '../../integrations/aroma-wheel.mjs';
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -220,6 +221,11 @@ export const FIGURES = {
   'steam-distillation': { fn: steamDistillation, alt: 'How steam distillation works' },
   'acid-base-extraction': { fn: acidBaseExtraction, alt: 'Acid–base extraction between water and solvent' },
   'methylation-cycle': { fn: methylationCycle, alt: 'Where L-methylfolate acts in the methylation cycle' },
+  // one figure per aroma wheel: [[Figure:wheel-wine]], [[Figure:wheel-cannabis]] and so on
+  ...Object.fromEntries(wheelNames().map((n) => [
+    `wheel-${n.toLowerCase()}`,
+    { fn: () => wheelSvg(n, { size: 680 }), alt: `${n} aroma wheel` },
+  ])),
 };
 
 /**
