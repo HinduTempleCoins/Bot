@@ -16,6 +16,7 @@
 
 import { chartSvg } from '../../integrations/plant-deficiency-chart.mjs';
 import { wheelSvg, wheelNames } from '../../integrations/aroma-wheel.mjs';
+import { table, GRAPHENE_MATRIX } from '../../integrations/chain-compare.mjs';
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -212,6 +213,49 @@ export function methylationCycle() {
     + text(w / 2, h - 10, 'Check B12 before loading folate: folate corrects the anaemia of B12 deficiency without correcting the nerve damage.', { size: 11, fill: '#b3261e' }));
 }
 
+// ── the Graphene family matrix ──────────────────────────────────────────────────────────────────────
+// STEEM, HIVE, BLURT, MELEK side by side, plus PRANA and the side tokens — drawn from
+// integrations/chain-compare.mjs so the facts live in one place and the picture cannot drift from them.
+// Side tokens are shaded differently on purpose: VKBT and CURE are NOT chains, and a matrix that lines
+// them up with Steem without saying so would teach the wrong thing.
+export function grapheneMatrix() {
+  const t = table(GRAPHENE_MATRIX);
+  const cols = t.chains.length;
+  const labelW = 150, colW = 132, rowH = 64, headH = 54;
+  const w = labelW + cols * colW, h = 96 + headH + t.rows.length * rowH + 30;
+  const TOKEN = new Set(['vkbt', 'cure']);
+  const wrap = (str, max) => {
+    const words = String(str).split(' '); const lines = []; let cur = '';
+    for (const word of words) {
+      if ((cur + ' ' + word).trim().length > max) { if (cur) lines.push(cur); cur = word; } else cur = (cur + ' ' + word).trim();
+    }
+    if (cur) lines.push(cur);
+    return lines.slice(0, 4);
+  };
+  let body = '';
+  t.chains.forEach((c, i) => {
+    const x = labelW + i * colW;
+    const token = TOKEN.has(c.id);
+    body += `<rect x="${x}" y="88" width="${colW - 2}" height="${headH - 4}" rx="8" fill="${token ? '#e8e0ef' : '#dfe9f3'}" stroke="${LINE}"/>`
+      + text(x + colW / 2, 112, c.name, { size: 14, weight: 800 })
+      + text(x + colW / 2, 128, token ? 'side token' : 'chain', { size: 10, fill: MUT });
+  });
+  t.rows.forEach((r, ri) => {
+    const y = 96 + headH + ri * rowH;
+    body += `<rect x="0" y="${y}" width="${w}" height="${rowH - 3}" rx="6" fill="${ri % 2 ? '#ffffff' : '#f1ece1'}"/>`
+      + text(10, y + rowH / 2 + 4, r.label, { size: 12, weight: 700, anchor: 'start' });
+    r.values.forEach((v, ci) => {
+      const x = labelW + ci * colW;
+      wrap(v, 22).forEach((line, li) => {
+        body += text(x + colW / 2, y + 18 + li * 12, line, { size: 9.5, fill: INK });
+      });
+    });
+  });
+  return frame(w, h, 'The Graphene family, side by side',
+    'One codebase, several chains — and two things that are not chains at all',
+    body + text(w / 2, h - 10, 'VKBT and CURE are engine side tokens: they inherit the security and consensus of whatever chain hosts them.', { size: 11, fill: MUT }));
+}
+
 // ── the registry ────────────────────────────────────────────────────────────────────────────────────
 export const FIGURES = {
   'nutrient-deficiency-chart': { fn: () => chartSvg({ cols: 4, cell: 200 }), alt: 'Cannabis nutrient deficiency chart, leaf by leaf' },
@@ -221,6 +265,7 @@ export const FIGURES = {
   'steam-distillation': { fn: steamDistillation, alt: 'How steam distillation works' },
   'acid-base-extraction': { fn: acidBaseExtraction, alt: 'Acid–base extraction between water and solvent' },
   'methylation-cycle': { fn: methylationCycle, alt: 'Where L-methylfolate acts in the methylation cycle' },
+  'graphene-matrix': { fn: grapheneMatrix, alt: 'STEEM, HIVE, BLURT, MELEK, PRANA, VKBT and CURE compared side by side' },
   // one figure per aroma wheel: [[Figure:wheel-wine]], [[Figure:wheel-cannabis]] and so on
   ...Object.fromEntries(wheelNames().map((n) => [
     `wheel-${n.toLowerCase()}`,
@@ -242,6 +287,9 @@ export const PAGE_FIGURES = {
   'L-Methylfolate': ['methylation-cycle'],
   'The_Amplification_Framework': ['methylation-cycle'],
   'B-Vitamins': ['methylation-cycle'],
+  'The_Graphene_Family': ['graphene-matrix'],
+  'VKBT_and_CURE': ['graphene-matrix'],
+  'MELEK_Blockchain': ['graphene-matrix'],
 };
 
 /** the figures for an article slug, already rendered — '' when there are none */

@@ -69,3 +69,18 @@ test('existing articles get figures server-side — the .wiki file is never touc
   assert.equal(figuresForPage('Not_A_Page'), '');
   assert.equal(figuresForPage(''), '');
 });
+
+test('the Graphene matrix shows every family member and does not present side tokens as chains', async () => {
+  const { grapheneMatrix } = await import('./figures.mjs');
+  const svg = grapheneMatrix();
+  for (const name of ['STEEM', 'HIVE', 'BLURT', 'MELEK', 'PRANA', 'VKBT', 'CURE']) {
+    assert.ok(svg.includes(name), `${name} must be in the matrix`);
+  }
+  assert.ok(svg.includes('side token'), 'VKBT and CURE must be labelled as side tokens');
+  assert.ok(svg.includes('chain'), 'the chains must be labelled as chains');
+  assert.match(svg, /Inherits/, 'a side token inherits its host chain consensus');
+  // every dimension row is present
+  for (const label of ['Consensus', 'Throughput class', 'Governance', 'Launched']) {
+    assert.ok(svg.includes(label), label);
+  }
+});

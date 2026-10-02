@@ -1,0 +1,96 @@
+'''Batteries, Charging and Why There Is No Moore's Law for Energy''' covers how battery capacity is actually measured, why '''mAh is not a measure of energy''', what USB-C Power Delivery and GaN changed, the airline rules that now shape what you can carry — and the central point: '''energy storage does not improve exponentially the way computing does, and it cannot.''' Built on the Van Kush Family Research Institute research ''Electricity & Charging: The Complete Research'' (January 2026, expanded September 2026) and ''The Fast Charging Revolution''. Alpha.
+
+== 1. The unit problem: mAh is not energy ==
+* '''mAh''' (milliamp-hours) measures '''charge''', not energy. On its own it is meaningless for comparison, because the same charge at a different voltage is a different amount of energy.
+* '''Energy = charge × voltage.''' The conversion that matters:
+: '''Wh = mAh × V ÷ 1,000''' — and for a standard lithium cell, V ≈ 3.7.
+* So a '''20,000 mAh''' bank is '''74 Wh'''. A '''27,000 mAh''' bank is about '''100 Wh'''. A '''50,000 mAh''' brick is about '''185 Wh'''.
+* '''Why this is the load-bearing skill:''' the number printed in big type on the package is the one that cannot be compared, and the number regulators, airlines and physics use is the one usually printed in small type, if at all.
+* '''Phone capacity is quoted at cell voltage; power banks are too''' — but the energy actually delivered to a phone passes through a conversion step, so a 20,000 mAh bank does '''not''' deliver 20,000 mAh to a 5,000 mAh phone four times. Expect '''three to four''' charges, not four to five.
+* '''Efficiency is real and varies by build:''' premium banks deliver roughly '''85–90%''' of rated capacity; budget banks '''70–80%'''. A "50,000 mAh" budget brick realistically delivers around 40,000.
+
+=== Charge-time arithmetic ===
+Dividing energy by power gives time, and that one division defeats most marketing:
+* 74 Wh at '''18 W''' ≈ '''4 hours'''. At '''45 W''' ≈ '''1.6 hours'''. At '''100 W''' ≈ '''45 minutes'''.
+* '''The 1,000,000 mAh test case''' from the research: a true one-million-mAh unit is '''3,700 Wh'''. At 20 W that is '''~218 hours — nine days''' to fill. At 100 W it is '''~43.5 hours'''. The conclusion recorded there is the right one: '''the scam is usually the claim, not the concept''' — the charging infrastructure to make large capacity practical does exist; the printed number usually doesn't.
+
+== 2. Why there is no Moore's Law for batteries ==
+This is the heart of it, and it is a '''difference in kind''', not a difference in pace.
+
+=== What Moore's Law actually is ===
+* '''Transistor count on a chip has roughly doubled every two years''' for decades — exponential growth, sustained over ~60 years, a factor of a billion.
+* It works because computing is a problem of '''patterning''': making a feature smaller. Information has no minimum mass. A smaller transistor is a '''better''' transistor — faster, lower power, cheaper per unit.
+
+=== Why batteries cannot do that ===
+* A battery stores energy in a '''chemical reaction between real atoms'''. The energy available is set by the '''electrochemical potential''' of the element pair you choose and by the '''mass''' of the atoms carrying it. '''You cannot shrink an ion.'''
+* There is no equivalent of "make the feature smaller". Lithium is already the third-lightest element and the most electropositive metal — the periodic table does not have a replacement waiting.
+* '''The observed rate:''' lithium-ion energy density has improved roughly '''5–8% a year''', about '''3–5×''' since commercialisation in 1991. Over the same period transistor counts rose by a factor of '''roughly a million'''. Both are "progress"; they are not the same curve.
+* '''The ceiling is thermodynamic.''' Practical Li-ion cells sit around '''250–300 Wh/kg'''. Lithium-metal might reach 400–500. Lithium-sulfur and lithium-air promise more and have resisted commercialisation for decades. For scale: '''petrol is about 12,000 Wh/kg''' — though an engine wastes most of it, where a motor does not.
+* '''Safety is a constraint chips do not have.''' Energy density '''is''' the hazard: a denser cell is a larger stored-energy release if it fails. '''Thermal runaway''' puts a ceiling on how aggressive a commercial chemistry can be, and that ceiling tightens as density rises. A faster processor does not catch fire because it is fast.
+* '''What ''does'' fall exponentially is cost.''' Lithium-ion pack prices have dropped roughly '''97% since 1991''', following a '''learning curve''' (Wright's law — cost falls a fixed percentage per doubling of cumulative production) rather than a density curve. '''Batteries got dramatically cheaper, not dramatically denser.''' That distinction explains the last fifteen years of electrification better than any other single fact.
+* '''The practical conclusion:''' progress in portable power has come mostly from '''everything around the cell''' — faster charging, better power conversion, more efficient loads — rather than from the cell itself. Which is exactly why the charging research matters.
+
+== 3. USB-C and Power Delivery: the handshake ==
+From the research: '''USB-C is not "a new plug"''' — it is the engineered universal power-and-data standard the whole fast-charging ecosystem was designed around.
+* '''The negotiation''', completed in milliseconds when a cable connects:
+*# the device states what it can accept — "up to 100 W at 20 V / 5 A";
+*# the charger states what it can deliver;
+*# the '''cable's e-marker chip''' states what it is rated to carry;
+*# power flows at the maximum rate all three agree is safe.
+* '''The e-marker chip is the safety keystone.''' Without it, a charger might push 100 W through a 60 W cable and overheat it. '''This is why cable choice is a safety matter above about 60 W, not a preference.'''
+* '''PD 3.0''' covers the 100 W class. '''PD 3.1 EPR''' (Extended Power Range) extends to '''240 W at 48 V'''; 140 W single-port is now ordinary on premium hardware.
+* '''Same copper, opposite payloads:''' Wi-Fi and fibre carry high information at trivial energy; charging carries high energy at minimal information; '''Thunderbolt does both at once''' (40 Gbps plus 100 W).
+
+== 4. GaN — and why it is the ballast ==
+'''Gallium nitride''' switches faster and wastes less heat than silicon, which shrinks power conversion dramatically: the 2015 fist-sized 60 W silicon brick became the 2024 deck-of-cards '''240 W''' GaN block.
+
+The research's teaching frame is the one worth keeping, because it ties this page to [[Grow Lighting: Metal Halide, HPS, CMH, Fluorescent and LED]]:
+* '''GaN vs. silicon = LED vs. HPS/MH/CMH''' — less heat wasted, more usable output per watt.
+* '''The GaN block is the ballast.''' It generates nothing itself; it converts and regulates wall AC into the exact DC voltages (5/9/15/20 V) the load needs. '''Electronic vs. magnetic ballasts mirror GaN vs. silicon exactly.'''
+* '''The same evolution, twice:''' incandescent → halogen → CFL → LED → corncob LED, alongside 5 W → 20 W → 100 W → 240 W charging.
+* '''Where the premium is worth paying:''' GaN's thermal advantage becomes critical '''above about 45 W'''. Below 30 W, mature silicon designs are reliable and cheaper. '''Spend the GaN premium on 65 W and up.'''
+* '''Multi-port splitting:''' a 140 W three-port block allocates dynamically — 100 W laptop, 30 W tablet, 10 W phone — and reallocates when something unplugs. '''The total is the ceiling''': to get one true 100 W port, buy 120–200 W total.
+
+=== The three exponential curves ===
+The research's observation that '''memory density, GaN power density and LED efficacy ride the same semiconductor manufacturing improvements''' — a 256 MB USB drive in 2000 to a 512 GB microSD in 2025 (~2,000×); LED efficacy from 40–60 lm/W in the early 2000s to 150–200 today. '''When silicon gets better, everything using silicon gets better.''' Note the contrast with §2: '''the battery is the one part of the stack that is not on that curve.'''
+
+== 5. What changed by 2026 ==
+* '''Qi2 and magnetic alignment.''' The Magnetic Power Profile went from Qi2 15 W to '''Qi2 25 W''' (Qi2.2) in 2025–26 — faster largely because magnetic alignment '''eliminates coil-misalignment heat loss'''. Measured: 0→42% in 30 minutes wireless against 0→55% wired at 30 W. '''The rule that emerged: wireless for the 0→80% cruise, wired for urgency and the top-off.'''
+* '''Chemistry moved.''' '''Silicon-carbon anode''' cells are the current density leader in premium banks; semi-solid-state architectures are the emerging thermal-safety story. Note that these are '''incremental''' — consistent with §2, not a break from it.
+* '''Built-in cables became a category''' — above 45 W, cheap external cables cause voltage drop and handshake failure, so integrated validated cables solve the whole path by design.
+* '''TFT displays''' now print real-time watts in and out on the bank itself — the arithmetic this page teaches, shown live on the hardware.
+
+== 6. The rules layer: flying with it ==
+Regulation now shapes what is worth owning.
+* '''IATA Dangerous Goods Regulations, 67th edition''' (effective 1 January 2026): '''charging power banks from in-seat USB or aircraft outlets is prohibited for the whole flight.''' Several airlines ban in-flight power-bank use outright; some require the bank to be visible rather than in the overhead bin.
+* '''≤100 Wh (about 27,000 mAh): carry-on only, never checked.''' From May 2026 the emerging baseline is '''two portable chargers per passenger''', each ≤100 Wh, with no declaration needed under the limit. Larger units need airline pre-approval.
+* '''Label discipline:''' units without '''visible Wh labelling''' get confiscated even when they are actually compliant — which is the practical reason the mAh→Wh conversion in §1 is the skill that matters.
+* '''Qi2 and magnetic banks follow battery rules, not magnet rules'''; wireless use is typically barred during take-off and landing.
+* '''Consequence:''' the '''20,000 mAh (74 Wh)''' sweet spot is also the '''regulatory''' sweet spot. The 50,000 mAh budget brick (185 Wh) is effectively grounded.
+
+== 7. The AI convergence ==
+The research's largest claim: '''modern AI is power-limited, not compute-limited.'''
+* An NVIDIA H100 draws '''700 W''' for roughly 2,000 teraflops. Ten times the transistors would melt the chip, and ten thousand such chips need a '''100–120 MW''' data centre with dedicated generation. '''We can design chips we cannot power.'''
+* '''Therefore efficiency is capability:''' if power conversion and cooling get twice as efficient, the same building and the same electrical service host roughly '''50% more GPUs'''. The scaling story runs through power density, not only algorithms.
+* This is the same accounting the PRANA compute-gated design rests on, and the reason a page about phone chargers belongs in a research library at all.
+
+== 8. The checklist ==
+Consolidated from the research:
+* '''Charger:''' 100 W+ single-port or 120 W+ multi-port · GaN explicitly stated (essential above 45 W) · PD 3.0 minimum, PD 3.1 for 140–240 W · UL/CE/FCC marked · known per-port split behaviour.
+* '''Cable:''' 100 W (5 A / 20 V) with e-marker as the minimum · Thunderbolt 4 where data matters · EPR-rated for 240 W · integrated-cable designs preferred at high wattage.
+* '''Bank:''' 10,000–20,000 mAh · '''Wh printed visibly''' · input 45 W or better (input speed is the neglected spec and the thing that makes a rotation practical) · output matched to the device · Qi2 25 W if wireless matters · '''≤100 Wh always'''.
+* '''Phone truth:''' there is '''no benefit past the device's own cap''' — often 20–30 W wired and 15–25 W wireless. Paying for a 100 W output a phone cannot accept is wasted money.
+* '''The rotation:''' one bank carried, one charging, one in reserve; the GaN block refills the banks overnight; the phone never touches a wall.
+
+== 9. Where this connects ==
+* The ballast analogy, in its original domain: [[Grow Lighting: Metal Halide, HPS, CMH, Fluorescent and LED]].
+* Units that mislead — lumens there, mAh here — are the same failure: '''a number that is easy to print instead of the number that means something.'''
+
+== Sources ==
+* Van Kush R. S., ''Electricity & Charging: The Complete Research — From the Wall Outlet to the AI Data Center'' (Van Kush Family Research Institute; original 17 January 2026, expanded 6 September 2026).
+* Van Kush R. S., ''The Fast Charging Revolution: Unlocking 100W Speeds and True Phone Autonomy'' (VKFRI).
+* USB Implementers Forum, USB Power Delivery specification 3.0 and 3.1 (EPR).
+* Wireless Power Consortium, Qi2 and Qi2.2 Magnetic Power Profile.
+* IATA Dangerous Goods Regulations, 67th edition (2026).
+* Ziegler M. S. and Trancik J. E., "Re-examining rates of lithium-ion battery technology improvement and cost decline", ''Energy & Environmental Science'' 14 (2021) — the density-versus-cost distinction.
+* Moore G. E., "Cramming more components onto integrated circuits", ''Electronics'' 38 (1965).

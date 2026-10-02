@@ -46,7 +46,8 @@ export const CATEGORIES = [
   },
   {
     id: 'chains', name: 'Chains and how they work', blurb: 'The blockchains we run, and the machinery underneath them.',
-    pages: ['MELEK Blockchain', 'PRANA Blockchain', 'PRANA', 'STEEM Blockchain', 'HIVE Blockchain', 'BLURT Blockchain',
+    pages: ['Batteries Charging and Why There Is No Moores Law for Energy',
+            'MELEK Blockchain', 'PRANA Blockchain', 'PRANA', 'STEEM Blockchain', 'HIVE Blockchain', 'BLURT Blockchain',
             'BitShares', 'Delegated Proof of Stake (DPoS)', 'Delegated Proof of Stake DPoS', 'Proof of Work, Proof of Stake, and DPoS',
             'Proof of Work Proof of Stake and DPoS', 'Blockchain Witness (Block Producer)', 'Blockchain Witness  Block Producer ',
             'Building a Front End for a Graphene Chain', 'Graphene Blockchain Framework', 'Running a Graphene Witness Node',
