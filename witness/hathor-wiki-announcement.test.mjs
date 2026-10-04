@@ -44,6 +44,16 @@ test('the Autodidacts article is the first one a reader is sent to', () => {
   assert.match(BODY, /read this one first/);
 });
 
+test('the STEEM/HIVE/BLURT/MELEK/VKBT/CURE matrix is linked AND described', () => {
+  assert.ok(articleLinks.includes('The_STEEM_HIVE_BLURT_MELEK_VKBT_and_CURE_Matrix'), 'the matrix page must be linked');
+  // a bare link is not what was asked for — the post has to say what is in it
+  assert.match(BODY, /the Specs/);
+  assert.match(BODY, /how the\s*\n?\s*position was acquired/);
+  assert.match(BODY, /purchased at market/i);
+  assert.match(BODY, /given away through curation/i);
+  assert.match(BODY, /chains and tokens are not the same kind of thing/);
+});
+
 test('Witness School is named and tied to the library', () => {
   assert.ok(articleLinks.includes('Witness_School'));
   assert.match(BODY, /witness\.melek\.salon/);

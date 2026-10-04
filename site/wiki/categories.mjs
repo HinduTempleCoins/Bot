@@ -46,7 +46,8 @@ export const CATEGORIES = [
   },
   {
     id: 'chains', name: 'Chains and how they work', blurb: 'The blockchains we run, and the machinery underneath them.',
-    pages: ['Batteries Charging and Why There Is No Moores Law for Energy',
+    pages: ['The STEEM HIVE BLURT MELEK VKBT and CURE Matrix',
+            'Batteries Charging and Why There Is No Moores Law for Energy',
             'MELEK Blockchain', 'PRANA Blockchain', 'PRANA', 'STEEM Blockchain', 'HIVE Blockchain', 'BLURT Blockchain',
             'BitShares', 'Delegated Proof of Stake (DPoS)', 'Delegated Proof of Stake DPoS', 'Proof of Work, Proof of Stake, and DPoS',
             'Proof of Work Proof of Stake and DPoS', 'Blockchain Witness (Block Producer)', 'Blockchain Witness  Block Producer ',
@@ -751,6 +752,7 @@ export const PILLARS = [
     icon: '⛓️',
     blurb: 'Social blockchains, proof-of-work/compute networks, DeFi protocols, and cryptographic autonomy.',
     pages: [
+      'The STEEM HIVE BLURT MELEK VKBT and CURE Matrix',
       'MELEK',
       'MELEK Blockchain',
       'PRANA Blockchain',

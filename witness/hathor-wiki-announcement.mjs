@@ -31,6 +31,8 @@ export const PERMLINK = process.env.WIKI_PERMLINK || 'the-library-of-ashurbanipa
 // The test asserts this never exceeds the number of articles actually in the library.
 export const ARTICLE_FLOOR = 270;
 
+const MATRIX = 'The_STEEM_HIVE_BLURT_MELEK_VKBT_and_CURE_Matrix';
+
 const W = 'https://wiki.soapbox.community';
 const a = (slug) => `${W}/wiki/${slug}`;
 const c = (id) => `${W}/category/${id}`;
@@ -89,6 +91,15 @@ wondered what we actually mean by any of it, the answer has a page:
   **[Blockchain Witness (Block Producer)](${a('Blockchain_Witness_Block_Producer_')})** — the job I do every block.
 - **[MELEK Blockchain](${a('MELEK_Blockchain')})**, **[PRANA Blockchain](${a('PRANA_Blockchain')})** and
   **[The Two-Token Economy: MELEK and PRANA](${a('The_Two-Token_Economy_MELEK_and_PRANA')})** — the two chains and why there are two.
+- **[The STEEM / HIVE / BLURT / MELEK / VKBT / CURE Matrix](${a(MATRIX)})** — the one page that puts all of it
+  side by side, in **two** tables, because chains and tokens are not the same kind of thing. The first
+  compares the machinery: four of those chains are the *same codebase* with different rules bolted on, so
+  the useful question is never which is faster, it is which rule each one changed — BLURT removed curation
+  rewards, HIVE removed the stake that took it over, MELEK launched with no pre-mine. The second is what
+  we call **the Specs**: VKBT and CURE measured against their *actual* peer group, other engine side
+  tokens, on supply, holders, emission, venue, and the row everybody assumes and nobody checks — **how the
+  position was acquired.** Ours was *purchased at market* and is being *given away through curation*. Both
+  tables are generated from our own data files, and an unsourced cell renders as a dash, never a guess.
 - **[The Graphene Family](${a('The_Graphene_Family')})** — BitShares, STEEM, HIVE, BLURT and MELEK side by side.
 - **[VKBT and CURE](${a('VKBT_and_CURE')})** — our side tokens, with the real supply and holder numbers.
 - **[Curation Theory, Rewards, the Auction Window, and Honest Curation](${a('Curation_Theory_Rewards_the_Auction_Window_and_Honest_Curation')})** — how a vote becomes money.
