@@ -1,0 +1,103 @@
+'''Cannabinoids in the Hospital: Cancer, Bone, Oedema, and What Is Actually Proven''' is the clinical-pharmacology page, and it is organised by '''evidence tier''' rather than by enthusiasm. The receptors are real, they are in places most people do not expect — '''on tumour cells, in bone, on immune cells''' — and a great deal of serious work has been done on them. '''Almost none of it has produced an approved cannabinoid therapy for those conditions''', and the page says so plainly in each section. The reason to write it carefully rather than hopefully is that this is the field where overstatement has done the most damage.
+
+== 1. What is actually approved ==
+Start here, because it is short, and because everything after it is '''not''' this.
+* '''Nabiximols''' (Sativex) — a 1:1 THC:CBD oromucosal spray, approved in many countries for '''multiple-sclerosis spasticity'''. Established.
+* '''Cannabidiol''' (Epidiolex) — approved for '''Dravet syndrome, Lennox-Gastaut syndrome and tuberous-sclerosis-associated seizures'''. Real randomised evidence, real effect sizes.
+* '''Dronabinol''' and '''nabilone''' — synthetic THC and a THC analogue, approved for '''chemotherapy-induced nausea and vomiting''' and for '''AIDS-related anorexia'''. Older drugs, second-line now, but genuinely approved.
+* '''That is the list.''' Everything below is mechanism, preclinical work, early-phase trials or failed trials. '''None of it is a treatment.'''
+
+== 2. Cancer cells and cannabinoid receptors ==
+
+=== The finding ===
+'''Many tumour types express CB1 and CB2 receptors, often at higher density than the normal tissue they came from.''' This is well documented across glioma, breast, prostate, pancreatic, hepatocellular and colorectal tumours, and it is the reason the field exists. '''Expression is also prognostically ambiguous''' — in some tumours high CB expression tracks with worse outcomes, which is a signal that the system is doing something in the tumour's own biology, not that it is a convenient target.
+
+=== The mechanism, in preclinical models ===
+The work that defined this was done largely by '''Manuel Guzmán and Guillermo Velasco''' at the '''Complutense University of Madrid''':
+* THC and other agonists induce '''apoptosis''' in glioma cells, via '''ceramide accumulation''' and an '''ER-stress response''' that converges on '''autophagy''' as the upstream step.
+* Effects on '''angiogenesis''' and '''invasion''' are also reported — reduced VEGF signalling, reduced matrix metalloproteinase expression.
+* '''The selectivity claim''' — that cannabinoids kill tumour cells while sparing healthy ones — is reproduced in a lot of cell and mouse work, and the proposed basis is that transformed cells are already under metabolic and ER stress.
+
+=== Where the human evidence actually stands ===
+* A '''2006 pilot study''' (Guzmán et al., ''British Journal of Cancer'') delivered '''THC intratumourally''' to nine patients with recurrent glioblastoma. '''It was a safety study in nine people with no control arm.''' It showed the delivery was tolerated. '''It did not show efficacy, and it was never presented as having done so.'''
+* '''Nabiximols plus temozolomide''' has been through a small '''phase 1b/2''' study with a survival signal interesting enough to justify a larger trial, and a '''phase 2 (ARISTOCRAT)''' followed. '''This is the right way to find out, and the answer is not in yet.'''
+* '''The honest summary:''' '''strong, reproducible preclinical rationale; no demonstrated survival benefit in humans; trials ongoing.''' Anyone telling a cancer patient that cannabis oil treats their tumour is going beyond the evidence, and the cost of that error is measured in '''delayed standard treatment'''. '''Education is not a substitute for oncology.''' See [[Modified Cannabinoids Matrix]] and [[Cannabinoid Quinones and Novel Derivatives]].
+
+=== Where there IS human evidence, and it matters ===
+'''Palliative and supportive care is the real clinical footprint''': nausea and vomiting, appetite, pain, sleep. That is where the approved indications sit, and it is '''not a consolation prize''' — symptom control is a large fraction of what oncology actually does.
+
+== 3. The oils — coconut, olive, and what is going on ==
+Cannabinoids are '''lipophilic''', so the carrier is pharmacologically active, not inert.
+* '''Fat drives lymphatic absorption''', bypassing hepatic first pass. A high-fat meal multiplies oral THC and CBD exposure several-fold. '''Which oil, and with which meal, changes the dose.''' See [[Cannabinoid Oilahuasca]] and [[Bioavailability Metabolic Inhibition and Synergy|Bioavailability: Metabolic Inhibition and Synergy]].
+* '''Coconut oil / MCT''' is the common carrier because medium-chain triglycerides solubilise cannabinoids well and are '''directly portal-absorbed and rapidly ketogenic'''. '''The ketone story is a separate claim''' and it belongs to the Alzheimer's literature — see §6.
+* '''Olive oil''' has its own polyphenols — '''hydroxytyrosol, tyrosol, oleuropein, oleocanthal''' — which have their own pharmacology independent of whatever is dissolved in them. '''The carrier is a second drug.''' See §6.
+
+== 4. Bone — the receptor nobody expects ==
+'''This is one of the strongest and least-known parts of the field.'''
+* '''CB2''' is expressed on '''osteoblasts, osteocytes and osteoclasts'''. Work from '''Itai Bab and Andreas Zimmer''' showed that '''CB2-knockout mice develop accelerated age-related bone loss''', and that a '''CB2-selective agonist (HU-308)''' '''increased bone formation and slowed resorption''' in ovariectomised mice — the standard post-menopausal osteoporosis model.
+* '''Human genetics support it:''' polymorphisms in '''CNR2''' (the CB2 gene) are '''associated with low bone mineral density and osteoporosis''' in several populations. That is a genetic association in humans, not a mouse result — a meaningfully higher tier of evidence.
+* '''CB1''' also has a skeletal role, and '''GPR55''' — the orphan receptor often called a third cannabinoid receptor — is involved in '''osteoclast''' function, with its knockout showing a '''sex-dependent''' bone phenotype.
+* '''What this is:''' a validated target with a human genetic link. '''What it is not:''' an approved drug. '''No cannabinoid is licensed for osteoporosis anywhere''', and the mouse models that respond are not post-menopausal women. '''But if you are looking for the place this field is most likely to produce a real medicine, it is here rather than in oncology.''' See [[Silicon and Collagen]] and [[Vitamin K2]] for the rest of the bone-matrix picture, and [[Building Muscle Tissue]].
+
+== 5. Oedema, brain injury, and the hospital uses that were tried ==
+=== The rationale ===
+Cannabinoids are '''anti-inflammatory''' (largely CB2 and non-receptor mechanisms), they '''reduce glutamate release''' through presynaptic CB1 — the retrograde brake described in [[Anandamide and 2-AG]] — and some are '''antioxidant''' independent of any receptor. On paper that is close to an ideal profile for '''traumatic brain injury''', '''cerebral oedema''' and '''ischaemia-reperfusion injury'''.
+
+=== The honest history, which is a failure ===
+* '''Dexanabinol (HU-211)''' is the case everyone in the field should know. It is a '''non-psychotropic''' synthetic cannabinoid that is also an '''NMDA-receptor antagonist''' and an inhibitor of TNF-α. Preclinical data in TBI were '''excellent'''. A phase II signal was encouraging.
+* '''The phase III trial failed.''' In a large multicentre trial in severe traumatic brain injury (Maas et al., ''Lancet Neurology'', 2006), '''dexanabinol showed no benefit'''.
+* '''That result is the most useful thing on this page.''' An extensively mechanistically justified, non-psychoactive cannabinoid with clean preclinical data '''did not work in people'''. Every "it reduces inflammation, therefore it will help" argument in this field has to get past that precedent.
+* '''Where cannabinoids do appear in hospitals:''' antiemesis, spasticity, appetite, adjunct analgesia, and '''cannabidiol for specific epilepsies'''. '''Intraocular pressure''' reduction in glaucoma is real but the duration is too short and the dose too psychoactive for it to be a usable treatment, which is a textbook example of a true pharmacological effect that '''fails as a therapy'''.
+* '''Hyperemesis''' deserves naming in the other direction: '''cannabinoid hyperemesis syndrome''' is a genuine, under-recognised cause of cyclical vomiting in heavy users, and it '''responds to stopping''' — plus, oddly and reproducibly, to '''topical capsaicin''' and to hot showers. See [[Cannabis Harm Reduction]].
+
+== 6. The neurodegeneration end — and the AI story told straight ==
+'''Alzheimer's and Parkinson's get their own fuller treatment; here is the cannabinoid and dietary-lipid part.'''
+
+=== Coconut oil, MCT and ketones in Alzheimer's ===
+* '''The hypothesis:''' the Alzheimer's brain is '''glucose-hypometabolic''' well before symptoms, but can still use '''ketone bodies'''. '''Caprylic acid (C8) from MCT raises ketones''' within hours, so MCT might supply fuel the brain can still burn.
+* '''The evidence:''' a '''caprylic-acid medical food (AC-1202 / Axona)''' showed '''modest cognitive improvement''' in trials — but '''only in APOE4-negative patients''' (Henderson et al., 2009). Subsequent ketone-ester and ketogenic-diet studies are '''small, short, and mixed'''.
+* '''Verdict: plausible mechanism, weak and inconsistent human data, widely overstated.''' The viral version of this claim traces to '''one physician's account of her husband''' — a real and sympathetic story, and '''an anecdote'''. See [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience|Immunometabolism, Thermogenerative Stimulants and Hepatic Resilience]].
+
+=== Olive oil, Parkinson's, and what the AI actually did ===
+'''The claim in circulation is that "an AI discovered olive oil is good for Parkinson's." Two true things sit next to each other here, and they are not the same thing.'''
+* '''What the AI did:''' in 2024, '''Michele Vendruscolo's group at Cambridge''' published in ''Nature Chemical Biology'' a '''machine-learning''' pipeline that screened a chemical library of '''millions''' of compounds for inhibitors of '''α-synuclein aggregation''' — the protein-clumping process that defines Parkinson's — with top hits tested experimentally and the results fed back to retrain the model. They reported '''~10× faster''' initial screening at '''~1000× lower cost''', and identified compounds '''hundreds of times more potent''' than previously reported aggregation inhibitors. '''That is a genuine and significant result about method.'''
+* '''What the olive-oil work showed, separately:''' '''olive-oil tyrosols''' — '''hydroxytyrosol acetate''' and '''DOPAC''' — were found to '''abolish α-synuclein aggregation ''in vitro''''' and to reduce aggregation substantially '''in a ''Caenorhabditis elegans'' Parkinson's model after ingestion''' (2024). '''Oleuropein aglycone''' has separately been shown to '''stabilise monomeric α-synuclein''' and to be neuroprotective in several Parkinson's models.
+* '''So the accurate sentence is:''' AI dramatically accelerated the search for α-synuclein aggregation inhibitors, and '''independently''', olive-oil polyphenols turn out to be aggregation inhibitors in cells and in worms. '''A worm is not a person''', and no olive-oil intervention has shown benefit in human Parkinson's disease.
+* '''Why it is still worth the page:''' it is a '''good''' illustration of what machine learning is genuinely for — searching a space too large to search by hand — and a '''good''' illustration of the gap between an aggregation assay and a clinic. See [[Hidden Layers How AI Learns What Nobody Taught It|Hidden Layers: How AI Learns What Nobody Taught It]].
+
+=== The cannabinoid angle in neurodegeneration ===
+'''Preclinical only, and the trials that have run have been small and unconvincing.''' CB2 agonism reduces microglial activation in models; CBD is neuroprotective in vitro; nabilone has a small trial in '''agitation in Alzheimer's dementia''' with modest effect and sedation as a cost. '''There is no cannabinoid treatment for Alzheimer's or Parkinson's disease.''' What there may be is symptom management — sleep, agitation, pain — which is a different and smaller claim.
+
+== 7. 2-AG, Israel, and where the research tools came from ==
+'''The chemistry of this whole field is largely Israeli in origin, and the names matter.'''
+* '''Raphael Mechoulam''' and '''Yehiel Gaoni''' isolated and characterised '''Δ⁹-THC''' at the '''Weizmann Institute in 1964'''.
+* '''Anandamide''' — the first endocannabinoid — was identified in 1992 by '''William Devane, Lumír Hanuš and Mechoulam''' at the '''Hebrew University of Jerusalem'''. Hanuš named it from Sanskrit ''ānanda'', bliss.
+* '''2-arachidonoylglycerol (2-AG)''' was identified by '''Mechoulam's group in 1995''', simultaneously with '''Sugiura's''' group in Japan. '''2-AG is the one that matters quantitatively''': it is present at '''far higher concentrations''' than anandamide and is the principal mediator of the retrograde synaptic signalling in [[Anandamide and 2-AG]]. It is degraded by '''MAGL''' — see [[MAGL]].
+* '''HU compounds''' (HU-210, HU-211/dexanabinol, HU-308, HU-331) are named for '''Hebrew University'''. '''HU-331''' is a '''cannabinoid quinone''' and a topoisomerase-II poison — a genuinely distinct anticancer mechanism rather than a receptor one. See [[Cannabinoid Quinones and Novel Derivatives]].
+* '''The field has long since globalised''': Guzmán in Madrid, Di Marzo in Naples, Piomelli and Cravatt in California, Zimmer in Bonn, Pertwee in Aberdeen.
+
+=== JWH compounds — research tools, and a warning ===
+* The '''JWH''' series is named for '''John W. Huffman''' at '''Clemson University''', who synthesised hundreds of aminoalkylindole cannabinoid-receptor ligands '''as pharmacological tools'''. '''JWH-133''' and '''JWH-015''' are '''CB2-selective''' agonists, and they are used in exactly the cancer and neuroinflammation models described above — much of the "CB2 agonism reduces tumour growth" literature is '''JWH-133''' data.
+* '''⚠️ And this is where the warning goes.''' The same series — '''JWH-018''' above all — was taken out of the literature and '''sprayed onto plant material and sold as "spice" or "K2."''' These are '''full agonists''' at CB1, where THC is a '''partial''' agonist, with '''no CBD and no ceiling''', and they have caused '''seizures, psychosis, kidney failure and death'''. '''A research tool is not a drug and a drug is not a product.''' The Huffman compounds are a case study in how a tool compound becomes a public-health problem, and Huffman himself said publicly that people would be '''insane''' to use them. See [[Isomers the Analogue Act and Forensic Chemistry]] and [[Cannabis Harm Reduction]].
+
+== 8. How to read any claim in this field ==
+* '''Ask what species.''' Cell line, mouse, worm, human. Most of the exciting sentences are about the first three.
+* '''Ask what endpoint.''' "Reduced tumour volume in a xenograft" and "lived longer" are different claims.
+* '''Ask whether a receptor was proven to be involved.''' A CB-selective antagonist or a knockout that abolishes the effect is the control that makes a mechanism claim real — see the grading scheme in [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]].
+* '''Remember dexanabinol.''' Excellent mechanism, excellent preclinical data, failed phase III.
+* '''And remember the cost of being wrong in this direction specifically:''' a person who delays chemotherapy for cannabis oil has made an irreversible decision based on a sentence someone else wrote carelessly.
+
+== Sources ==
+* Mechoulam R. and Gaoni Y., "Isolation, structure and partial synthesis of an active constituent of hashish", ''JACS'' 86 (1964).
+* Devane W. A., Hanuš L., Mechoulam R. et al., "Isolation and structure of a brain constituent that binds to the cannabinoid receptor", ''Science'' 258 (1992).
+* Mechoulam R. et al., "Identification of an endogenous 2-monoglyceride, present in canine gut, that binds to cannabinoid receptors", ''Biochemical Pharmacology'' 50 (1995); Sugiura T. et al., ''BBRC'' 215 (1995).
+* Guzmán M. et al., "A pilot clinical study of Δ⁹-tetrahydrocannabinol in patients with recurrent glioblastoma multiforme", ''British Journal of Cancer'' 95 (2006).
+* Velasco G., Sánchez C. and Guzmán M., "Towards the use of cannabinoids as antitumour agents", ''Nature Reviews Cancer'' 12 (2012).
+* Ofek O., Bab I., Zimmer A. et al., "Peripheral cannabinoid receptor, CB2, regulates bone mass", ''PNAS'' 103 (2006).
+* Karsak M. et al., "Cannabinoid receptor type 2 gene is associated with human osteoporosis", ''Human Molecular Genetics'' 14 (2005).
+* Maas A. I. R. et al., "Efficacy and safety of dexanabinol in severe traumatic brain injury: results of a phase III randomised, placebo-controlled, clinical trial", ''Lancet Neurology'' 5 (2006).
+* Henderson S. T. et al., "Study of the ketogenic agent AC-1202 in mild to moderate Alzheimer's disease", ''Nutrition & Metabolism'' 6 (2009).
+* Ziaunys M. / Hervás R. et al. and the Vendruscolo group, machine-learning identification of α-synuclein aggregation inhibitors, ''Nature Chemical Biology'' (2024).
+* "Olive oil tyrosols reduce α-synuclein aggregation ''in vitro'' and ''in vivo'' after ingestion in a ''Caenorhabditis elegans'' Parkinson's model" (2024), PMID 38817211.
+* Luccarini I. et al. and Palazzi L. et al., on oleuropein aglycone and α-synuclein.
+* Huffman J. W., the JWH aminoalkylindole series; and the clinical toxicology literature on synthetic cannabinoid receptor agonists.

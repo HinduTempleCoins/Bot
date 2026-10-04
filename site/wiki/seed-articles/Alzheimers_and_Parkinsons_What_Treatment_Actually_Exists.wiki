@@ -1,0 +1,98 @@
+'''Alzheimer's and Parkinson's: What Treatment Actually Exists''' is a plain inventory of the two most common neurodegenerative diseases and '''what can be done about them today''', separated strictly into '''approved''', '''investigational''' and '''unproven'''. Both diseases attract an enormous volume of hopeful writing, and the reason to be severe about the tiers is that '''families make real decisions off these sentences'''. Nothing here is individual medical advice; it is the map of the territory so that a conversation with a neurologist starts further along.
+
+== 1. What the two diseases are ==
+* '''Alzheimer's disease''' — a '''proteinopathy''' with two signatures: '''extracellular amyloid-β plaques''' and '''intracellular hyperphosphorylated tau tangles''', plus synapse loss and neuroinflammation. Clinically it begins as '''episodic-memory''' failure. '''Pathology precedes symptoms by 15–20 years''', which is the single most important fact for understanding why treatments fail: by the time anyone is diagnosed, a great deal is already gone.
+* '''Parkinson's disease''' — loss of '''dopaminergic neurons in the substantia nigra pars compacta''', with '''α-synuclein''' aggregated into '''Lewy bodies'''. Motor signs (bradykinesia, rigidity, rest tremor, postural instability) appear once roughly '''50–60% of nigral neurons''' are already lost. The '''non-motor''' disease often comes first by years — '''REM sleep behaviour disorder''', '''constipation''', '''anosmia''' (loss of smell), depression — and is frequently what reduces quality of life most.
+* '''They are not one thing.''' "Parkinsonism" includes '''progressive supranuclear palsy''', '''multiple system atrophy''', '''corticobasal degeneration''' and '''drug-induced''' parkinsonism, which respond differently or not at all. '''Dementia with Lewy bodies''' sits between the two diseases on this page. An accurate diagnosis changes everything that follows.
+
+== 2. Alzheimer's — what is approved ==
+=== Symptomatic (decades old, modest, real) ===
+* '''Cholinesterase inhibitors''' — '''donepezil''', '''rivastigmine''', '''galantamine'''. They raise synaptic acetylcholine by blocking its breakdown. '''Effect size is modest''' and they do not alter the disease course, but the effect is real and measurable. Side effects are cholinergic: nausea, diarrhoea, bradycardia, vivid dreams.
+  * '''Galantamine''' is also a '''nicotinic allosteric modulator''', which is why it appears in the nootropic literature as well — see [[Galantamine]] and [[Cholinergic Neurotransmission and Cholinesterase Inhibition]].
+* '''Memantine''' — a '''low-affinity, uncompetitive NMDA antagonist''', used in moderate-to-severe disease, often with a cholinesterase inhibitor. The low affinity is the point: it blocks pathological tonic glutamate signalling while letting physiological bursts through.
+* '''Brexpiprazole''' is approved for '''agitation''' in Alzheimer's dementia. Symptom management, with the antipsychotic class risks.
+
+=== Disease-modifying — the anti-amyloid antibodies ===
+This is the genuinely new thing, and it needs stating with its costs.
+* '''Lecanemab''' (Leqembi) — approved in the US in 2023 — and '''donanemab''' (Kisunla) — 2024 — are '''monoclonal antibodies that clear amyloid''' from the brain. '''They work''': amyloid is measurably removed, and both slowed cognitive decline in phase III.
+* '''How much?''' Roughly a '''25–35% slowing''' on the trial scales over 18 months. '''That is a slowing, not a stopping, and not a reversal.''' Whether it is clinically perceptible to a family is '''actively debated by people who are not hostile to the drugs'''.
+* '''The risk is real and named: ARIA''' — '''amyloid-related imaging abnormalities''', meaning '''brain oedema (ARIA-E) and microhaemorrhage (ARIA-H)'''. Usually asymptomatic and detected on surveillance MRI; '''occasionally severe, and deaths have occurred''', particularly with anticoagulation.
+* '''Genotype decides the risk.''' '''APOE4 homozygotes''' have substantially higher ARIA rates, which is why '''APOE testing before treatment''' is now part of the pathway. This is '''real pharmacogenomics in routine neurology''' — see [[Skin Hair and Eye Colour Ancestry and Genetics]] for the population-genetics background on how such alleles distribute.
+* '''Aducanumab''' (Aduhelm) is the cautionary tale: approved in 2021 on an '''amyloid surrogate endpoint''' over the objection of the FDA's own advisory committee, never shown convincingly to help patients, and '''discontinued in 2024'''.
+* '''The honest summary:''' '''the amyloid hypothesis has finally produced drugs that do something.''' The effect is small, the infusion burden and MRI surveillance are heavy, the cost is high, and '''the window is early disease only'''. It is a beginning, and it is not a cure.
+
+=== What is coming ===
+* '''Blood biomarkers''' — '''plasma p-tau217''' is accurate enough to be changing diagnosis in practice, which matters more than it sounds: '''early, cheap, accurate diagnosis is the precondition for every early treatment.'''
+* '''Anti-tau''' approaches, '''active vaccines''', and combination amyloid-plus-tau regimens are in trials.
+
+== 3. Parkinson's — what is approved ==
+=== Dopamine replacement, which still dominates ===
+* '''Levodopa with carbidopa''' remains '''the most effective symptomatic treatment''', sixty years on. Carbidopa is a '''peripheral decarboxylase inhibitor''' — it does not cross the blood-brain barrier and exists purely to stop levodopa being converted to dopamine before it gets to the brain. '''That is combination pharmacology in its clearest form''' — see [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]].
+* '''The long-term problem is kinetics, not efficacy''': '''wearing off''', '''on-off fluctuations''' and '''levodopa-induced dyskinesia''' emerge as the storage capacity of surviving neurons declines and plasma levels start to matter directly. '''Most of modern Parkinson's pharmacology is an attempt to smooth that curve.'''
+* '''Protein competes with levodopa''' for the same intestinal and blood-brain-barrier amino-acid transporter, which is why dose timing relative to meals is a real clinical variable.
+* '''[[Mucuna Pruriens]]''' contains natural levodopa, and the library has a page on it. '''Variable content, no decarboxylase inhibitor''' — which means more peripheral dopamine, so more nausea and more cardiovascular effect per unit of benefit. '''That is a pharmacological argument, not a naturalistic one.'''
+
+=== Extending and smoothing it ===
+* '''COMT inhibitors''' — '''entacapone''', '''opicapone''' — block the other peripheral degradation route and extend each levodopa dose.
+* '''MAO-B inhibitors''' — '''selegiline''', '''rasagiline''', '''safinamide''' — slow central dopamine breakdown. Note that these are '''B-selective''', which is why they lack the dietary tyramine problem of the '''A'''-selective and non-selective MAOIs discussed in [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] — '''at licensed doses only; selectivity is dose-dependent.'''
+* '''Dopamine agonists''' — '''pramipexole''', '''ropinirole''', '''rotigotine''' patch. Useful, and with a side effect that must be stated because it destroys lives quietly: '''impulse control disorders''' — pathological gambling, compulsive shopping, hypersexuality, binge eating. '''Patients and families are frequently not warned. Warn them.'''
+* '''Amantadine''' is the main drug for '''dyskinesia''' itself (weak NMDA antagonism among other actions).
+* '''Istradefylline''' is an '''adenosine A2A antagonist''' for off episodes — a genuinely non-dopaminergic mechanism, and the same receptor caffeine antagonises, which is part of why '''caffeine consumption is epidemiologically associated with lower Parkinson's risk'''.
+* '''Apomorphine''' is the '''rescue''' therapy: a '''non-selective dopamine agonist''' given '''subcutaneously''' for sudden off periods, working in minutes. '''It is not an opiate''' — the name is a chemical accident of its synthesis from morphine, and it has '''no opioid activity'''. It is also the drug behind the '''emetic''' history and the apomorphine material in [[Spiced Wine Bitters and the Colas|Spiced Wine, Bitters and the Colas]]. '''Severe nausea''' is the limiting feature, usually pre-treated.
+* '''Continuous delivery''': '''levodopa-carbidopa intestinal gel''' via PEG-J, and the newer '''subcutaneous foslevodopa/foscarbidopa''' infusion, both aimed at eliminating the peaks and troughs rather than adding potency.
+
+=== Device therapy, which is often underused ===
+* '''Deep brain stimulation''' of the '''subthalamic nucleus''' or '''globus pallidus interna''' is '''well established''' for patients with good levodopa response and troublesome fluctuations. It is not a last resort and it is not experimental; the common error is referring too late.
+* '''MRI-guided focused ultrasound''' makes a lesion without opening the skull — approved for '''tremor''' and for Parkinson's with specific indications, including staged bilateral treatment. '''Irreversible''', unlike DBS.
+
+=== The non-motor disease, which deserves equal billing ===
+'''Constipation, orthostatic hypotension, REM sleep behaviour disorder, depression, apathy, pain, drooling, and the cognitive end of the disease.''' Each has its own management, and together they often matter more to a patient than tremor does. '''A treatment plan that only addresses movement is half a plan.'''
+
+=== Exercise, which is the most under-prescribed intervention in either disease ===
+'''For Parkinson's, exercise has better evidence than any supplement on the internet.''' High-intensity aerobic training, resistance training, and '''amplitude-based''' programmes (LSVT BIG, boxing-style classes, tango) all have trial support for function, and the '''SPARX''' line of trials has been testing whether high-intensity endurance exercise is '''disease-modifying'''. '''It is the one thing on this page that is free, available today, and unambiguously worth doing.''' See [[Routes for Backpacking Pilgrimages]] and [[Building Muscle Tissue]].
+
+== 4. The investigational tier, including the failures that teach most ==
+* '''⚠️ GLP-1 agonists — exenatide FAILED.''' This is the most important recent result in Parkinson's. Early-phase data were genuinely exciting and the hypothesis was good. The '''phase 3 Exenatide-PD3 trial''' (194 patients, 96 weeks, six UK centres) was '''published in ''The Lancet'' in February 2025 and met neither its primary nor its secondary endpoints'''. '''No benefit over placebo.''' Trials of '''semaglutide''' and '''liraglutide''' continue, and they may yet differ, '''but the honest state of GLP-1 for Parkinson's today is "the biggest trial was negative."'''
+* '''α-synuclein''' is the main disease-modifying target: aggregation inhibitors, immunotherapies (prasinezumab and others, with equivocal results so far), and '''reducing synuclein production'''. '''Machine learning has genuinely accelerated the search for aggregation inhibitors''' — the Vendruscolo group's 2024 ''Nature Chemical Biology'' work screened millions of compounds, reporting ~10× faster screening at ~1000× lower cost and hits '''hundreds of times more potent''' than previous ones. '''And separately''', '''olive-oil tyrosols''' (hydroxytyrosol acetate, DOPAC) and '''oleuropein aglycone''' turn out to inhibit α-synuclein aggregation '''in vitro and in a ''C. elegans'' model'''. '''A worm is not a person, and no olive-oil intervention has shown benefit in human Parkinson's.''' The full version of this, and why the "an AI discovered olive oil" headline conflates two separate true things, is in [[Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven|Cannabinoids in the Hospital]] §6.
+* '''GBA1 and LRRK2''' — the two most important genetic subtypes, each with targeted drugs in trials. '''This is where precision medicine in Parkinson's will start''', because a genetically defined subgroup is a tractable trial population.
+* '''Cell therapy''' — dopaminergic neurons from stem cells, in early human trials after decades of fetal-graft work. Early, and not nothing.
+* '''For Alzheimer's''': anti-tau, '''GLP-1 (semaglutide EVOKE)''', anti-inflammatory and metabolic approaches, and '''40 Hz sensory gamma entrainment''' — see §6.
+
+== 5. The unproven tier, stated as such ==
+These appear constantly and each gets one honest line.
+* '''Coconut oil / MCT ketones for Alzheimer's''' — plausible mechanism (the Alzheimer's brain is glucose-hypometabolic but can burn ketones), '''weak and inconsistent human data''', and the caprylic-acid medical-food result was '''positive only in APOE4-negative''' patients. '''Widely overstated; traceable in its viral form to a single anecdote.'''
+* '''Coenzyme Q10 for Parkinson's''' — large trial, '''futile'''. Stopped early for lack of benefit.
+* '''Creatine for Parkinson's''' — large NIH trial (NET-PD LS-1), '''no benefit'''. Creatine has good evidence for other things — see [[Creatine]] — '''just not this'''.
+* '''Vitamin E, ginkgo, DHA''' for Alzheimer's prevention — repeatedly tested, '''not supported'''.
+* '''Curcumin''' — poor bioavailability, no convincing clinical result despite excellent cell data. See [[Black Pepper]] for the bioavailability part.
+* '''Nicotine''' — the epidemiology (smokers get less Parkinson's) is robust and genuinely puzzling, but the '''nicotine patch trial in early Parkinson's was negative'''. '''An epidemiological association is a hypothesis, not a treatment.'''
+* '''Cannabinoids''' — no treatment for either disease. Possibly useful for '''symptoms''' (sleep, agitation, pain). Details in [[Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven|Cannabinoids in the Hospital]].
+* '''What ''is'' supported for risk reduction''' — and this list is unglamorous and real: '''treat hypertension''', '''treat hearing loss''' (one of the largest modifiable dementia risk factors), '''exercise''', '''don't smoke''', '''limit alcohol''', '''treat diabetes''', '''stay socially and cognitively engaged''', '''protect your head'''. The '''Lancet Commission on dementia prevention''' estimates a substantial fraction of cases are attributable to modifiable factors. '''Nothing in a bottle competes with that list.'''
+
+== 6. Where our own work touches this ==
+We have a research line here and it should be described at its true strength, which is '''early'''.
+* '''40 Hz gamma sensory entrainment''' — the MIT work (Tsai, Boyden and colleagues) showed that '''40 Hz light and sound reduced amyloid and improved cognition in mouse models''', and human trials (the '''Cognito Therapeutics''' device line) have run with '''mixed but non-trivial''' results. '''This is an investigational intervention, not a treatment''', and the library's pages say so: [[Gamma Entrainment]] · [[Hathor 40 Hz]] · [[Auditory Steady State Response]] · [[Invisible Spectral Flicker]] · [[Display Refresh and Flicker Delivery]] · [[The Medical Applications of Light]].
+* '''Why we care about the delivery details''' — refresh rate, flicker visibility, actual delivered modulation depth — is that '''a mis-delivered 40 Hz is not 40 Hz''', and a trial that delivers the wrong stimulus tests nothing. That is an engineering problem we can actually work on.
+* '''The neuroplasticity and neurogenesis background''': [[Synaptogenesis Neuroplasticity and Brain Rewiring]] · [[Neurogenesis Neuroprotectants and Synaptogenesis]] · [[Building Brains]] · [[Brain Balance]].
+
+== 7. How to read a claim about either disease ==
+# '''Approved, investigational or unproven?''' Say which. Most writing on these diseases blurs the three deliberately.
+# '''Slowing, stopping or reversing?''' Nothing reverses either disease. '''Lecanemab slows.'''
+# '''Which stage?''' A drug for early Alzheimer's is useless in late Alzheimer's, and may be harmful.
+# '''Species and endpoint.''' Mouse amyloid is not human cognition. A worm is not a person.
+# '''What did the biggest trial say?''' Not the most exciting trial — '''the biggest and most recent'''. Exenatide, CoQ10, creatine, nicotine and aducanumab are all cases where the small hopeful result was followed by a large disappointing one.
+# '''And remember who is reading.''' Somebody searching these words at 2 a.m. has a parent who just got a diagnosis. '''That is the reason the tiers are labelled, and the reason not to blur them.'''
+
+== Sources ==
+* van Dyck C. H. et al., "Lecanemab in early Alzheimer's disease", ''New England Journal of Medicine'' 388 (2023).
+* Sims J. R. et al., "Donanemab in early symptomatic Alzheimer disease (TRAILBLAZER-ALZ 2)", ''JAMA'' 330 (2023).
+* Hampel H. et al. and Palmqvist S. et al., on plasma p-tau217 diagnostic accuracy.
+* Livingston G. et al., "Dementia prevention, intervention, and care: 2024 report of the ''Lancet'' standing Commission".
+* Vijiaratnam N. et al. / Foltynie T. et al., "Exenatide once a week versus placebo as a potential disease-modifying treatment for people with Parkinson's disease in the UK: a phase 3, multicentre, double-blind, parallel-group, randomised, placebo-controlled trial", ''The Lancet'' (2025).
+* NINDS NET-PD LS-1 Investigators, "Effect of creatine monohydrate on clinical progression in patients with Parkinson disease", ''JAMA'' 313 (2015).
+* Parkinson Study Group QE3 Investigators, "A randomized clinical trial of high-dosage coenzyme Q10 in early Parkinson disease: no evidence of benefit", ''JAMA Neurology'' 71 (2014).
+* Iacono D. et al. and the nicotine-patch trial literature in early Parkinson's.
+* Schapira A. H. V., Chaudhuri K. R. and Jenner P., "Non-motor features of Parkinson disease", ''Nature Reviews Neuroscience'' 18 (2017).
+* Iaccarino H. F. et al., "Gamma frequency entrainment attenuates amyloid load and modifies microglia", ''Nature'' 540 (2016); Martorell A. J. et al., ''Cell'' 177 (2019).
+* Vendruscolo M. group, machine-learning identification of α-synuclein aggregation inhibitors, ''Nature Chemical Biology'' (2024).
+* "Olive oil tyrosols reduce α-synuclein aggregation ''in vitro'' and ''in vivo'' after ingestion in a ''Caenorhabditis elegans'' Parkinson's model" (2024), PMID 38817211.

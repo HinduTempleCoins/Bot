@@ -82,7 +82,9 @@ export const CATEGORIES = [
   },
   {
     id: 'substances', name: 'Substances and pharmacology', blurb: 'One page per thing in the stacks — established, preclinical and hypothesis kept apart.',
-    pages: ['Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw',
+    pages: ['Alzheimers and Parkinsons What Treatment Actually Exists',
+            'Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven',
+            'Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw',
             'Inert Alone Active Together Why Combinations Work',
             'Toads Frogs and the Myths Harm Reduction and Wildlife Protection',
             'Stack Substances', 'Cannabinoid Oilahuasca', 'Oilahuasca', 'MAGL', 'FAAH', 'Anandamide and 2-AG', 'Beta-Caryophyllene',
@@ -531,6 +533,8 @@ export const PILLARS = [
     icon: '🧠',
     blurb: 'The expanded endocannabinoidome, enzyme kinetics, cholinergics, MAOIs, and structure-activity relationships.',
     pages: [
+      'Alzheimers and Parkinsons What Treatment Actually Exists',
+      'Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven',
       'Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw',
       'Inert Alone Active Together Why Combinations Work',
       'Toads Frogs and the Myths Harm Reduction and Wildlife Protection',
