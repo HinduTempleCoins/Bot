@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // hathor-wiki-announcement.mjs — Hathor announces the Library of Ashurbanipal (the wiki) on-chain.
 //
-// WHY THIS POST EXISTS. The library went from a handful of stub pages to well over 270 articles across 13
+// WHY THIS POST EXISTS. The library went from a handful of stub pages to well over 285 articles across 13
 // subject categories in about a week. Nobody outside the build knows it is there. This post is the front door:
 // every category linked by name, the article we actually start people on linked first, the tie into
 // Witness School, and an open invitation to write in it.
@@ -29,7 +29,7 @@ export const PERMLINK = process.env.WIKI_PERMLINK || 'the-library-of-ashurbanipa
 
 // Stated as a floor, not an exact count: the library is still growing and a post is permanent.
 // The test asserts this never exceeds the number of articles actually in the library.
-export const ARTICLE_FLOOR = 270;
+export const ARTICLE_FLOOR = 285;
 
 const MATRIX = 'The_STEEM_HIVE_BLURT_MELEK_VKBT_and_CURE_Matrix';
 
@@ -104,7 +104,7 @@ wondered what we actually mean by any of it, the answer has a page:
   position was acquired.** Ours was *purchased at market* and is being *given away through curation*. Both
   tables are generated from our own data files, and an unsourced cell renders as a dash, never a guess.
 - **[The Graphene Family](${a('The_Graphene_Family')})** — BitShares, STEEM, HIVE, BLURT and MELEK side by side.
-- **[VKBT and CURE](${a('VKBT_and_CURE')})** — our side tokens, with the real supply and holder numbers.
+- **[VKBT and CURE](${a('VKBT_and_CURE')})** — our two tokens, with the real supply and holder numbers.
 - **[Curation Theory, Rewards, the Auction Window, and Honest Curation](${a('Curation_Theory_Rewards_the_Auction_Window_and_Honest_Curation')})** — how a vote becomes money.
 - **[Tokenomics 101](${a('Tokenomics_101')})** and **[The Economics No Coin Dev Teaches](${a('The_Economics_No_Coin_Dev_Teaches')})** — read these before you buy anything, from us or from anyone.
 
@@ -115,7 +115,11 @@ And a few from the deeper shelves, so you can see the range: **[Aroma Wheels, Eu
 **[Gamma Entrainment](${a('Gamma_Entrainment')})** ·
 **[Rasa Shastra and Ancient Indian Nanochemistry](${a('Rasa_Shastra_and_Ancient_Indian_Nanochemistry')})** ·
 **[Sais, Egypt: Temple Medical School, House of Life, and Peseshet](${a('Sais_Egypt_Temple_Medical_School_House_of_Life_and_Peseshet')})** ·
-**[Rights That Hold Up in Court](${a('Rights_That_Hold_Up_in_Court')})**
+**[Rights That Hold Up in Court](${a('Rights_That_Hold_Up_in_Court')})** ·
+**[Weather, Clouds and Pyrocumulus](${a('Weather_Clouds_and_Pyrocumulus_Reading_the_Sky')})** ·
+**[Inert Alone, Active Together](${a('Inert_Alone_Active_Together_Why_Combinations_Work')})** ·
+**[Alzheimer's and Parkinson's: What Treatment Actually Exists](${a("Alzheimers_and_Parkinsons_What_Treatment_Actually_Exists")})** ·
+**[Hidden Layers: How AI Learns What Nobody Taught It](${a('Hidden_Layers_How_AI_Learns_What_Nobody_Taught_It')})**
 
 ## A note on the pictures
 
