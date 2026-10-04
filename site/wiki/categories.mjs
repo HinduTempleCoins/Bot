@@ -82,7 +82,9 @@ export const CATEGORIES = [
   },
   {
     id: 'substances', name: 'Substances and pharmacology', blurb: 'One page per thing in the stacks — established, preclinical and hypothesis kept apart.',
-    pages: ['Toads Frogs and the Myths Harm Reduction and Wildlife Protection',
+    pages: ['Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw',
+            'Inert Alone Active Together Why Combinations Work',
+            'Toads Frogs and the Myths Harm Reduction and Wildlife Protection',
             'Stack Substances', 'Cannabinoid Oilahuasca', 'Oilahuasca', 'MAGL', 'FAAH', 'Anandamide and 2-AG', 'Beta-Caryophyllene',
             '8-Prenylnaringenin', 'L-Methylfolate', 'The Amplification Framework', 'Racetams', 'Choline Donors',
             'Creatine', 'Vitamin K2', 'Chelated Minerals', 'Liposomal Vitamin C', 'Silicon and Collagen', 'B-Vitamins',
@@ -529,6 +531,8 @@ export const PILLARS = [
     icon: '🧠',
     blurb: 'The expanded endocannabinoidome, enzyme kinetics, cholinergics, MAOIs, and structure-activity relationships.',
     pages: [
+      'Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw',
+      'Inert Alone Active Together Why Combinations Work',
       'Toads Frogs and the Myths Harm Reduction and Wildlife Protection',
       'The Expanded Endocannabinoid System and FAAH Science',
       'Endocannabinoid Chemistry and 2-AG Metabolism',
