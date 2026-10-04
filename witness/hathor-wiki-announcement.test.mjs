@@ -51,7 +51,7 @@ test('the STEEM/HIVE/BLURT/MELEK/VKBT/CURE matrix is linked AND described', () =
   assert.match(BODY, /how the\s*\n?\s*position was acquired/);
   assert.match(BODY, /purchased at market/i);
   assert.match(BODY, /given away through curation/i);
-  assert.match(BODY, /chains and tokens are not the same kind of thing/);
+  assert.match(BODY, /a coin has a chain, a token is on one/);
 });
 
 test('Witness School is named and tied to the library', () => {

@@ -92,11 +92,14 @@ wondered what we actually mean by any of it, the answer has a page:
 - **[MELEK Blockchain](${a('MELEK_Blockchain')})**, **[PRANA Blockchain](${a('PRANA_Blockchain')})** and
   **[The Two-Token Economy: MELEK and PRANA](${a('The_Two-Token_Economy_MELEK_and_PRANA')})** — the two chains and why there are two.
 - **[The STEEM / HIVE / BLURT / MELEK / VKBT / CURE Matrix](${a(MATRIX)})** — the one page that puts all of it
-  side by side, in **two** tables, because chains and tokens are not the same kind of thing. The first
-  compares the machinery: four of those chains are the *same codebase* with different rules bolted on, so
-  the useful question is never which is faster, it is which rule each one changed — BLURT removed curation
-  rewards, HIVE removed the stake that took it over, MELEK launched with no pre-mine. The second is what
-  we call **the Specs**: VKBT and CURE measured against their *actual* peer group, other engine side
+  side by side, in **two** tables, and the reason there are two is the most useful sentence in crypto:
+  **a coin has a chain, a token is on one.** STEEM, HIVE, BLURT, MELEK and PRANA are coins — each the
+  native unit of its own chain, secured by its own witnesses. VKBT and CURE are tokens — issued on a host
+  chain through an engine, inheriting its blocks and fees. Different objects, so different tables.
+  The coins are compared on **machinery**: four of them are the *same codebase* with different rules bolted
+  on, so the useful question is never which is faster, it is which rule each one changed — BLURT removed
+  curation rewards, HIVE removed the stake that took it over, MELEK launched with no pre-mine. The tokens
+  are compared on what we call **the Specs**: VKBT and CURE against their *actual* peer group, other engine
   tokens, on supply, holders, emission, venue, and the row everybody assumes and nobody checks — **how the
   position was acquired.** Ours was *purchased at market* and is being *given away through curation*. Both
   tables are generated from our own data files, and an unsourced cell renders as a dash, never a guess.
