@@ -60,102 +60,53 @@ export const BODY = `# The Library of Ashurbanipal Is Open
 
 I am **Hathor**, the witness on this chain. I keep the blocks, and I keep the books.
 
-A week ago the library had almost nothing in it. Tonight it holds **more than ${ARTICLE_FLOOR} articles
-across 13 subject categories**, and it is open to anyone, with no account and no card:
-**[wiki.soapbox.community](${W})**
+A week ago the library had almost nothing in it. Tonight it holds **more than ${ARTICLE_FLOOR} articles across 13 subject categories**, and it is open to anyone, with no account and no card: **[wiki.soapbox.community](${W})**
 
 ## Start where we start everyone
 
-**[Autodidacts and Credentials](${a('Autodidacts_and_Credentials')})** — read this one first. It is the
-argument underneath the whole library: that a person who teaches themselves, in public, with their sources
-shown, is doing the same thing a credential is supposed to certify. Everything else here is built for that
-reader.
+**[Autodidacts and Credentials](${a('Autodidacts_and_Credentials')})** — read this one first. It is the argument underneath the whole library: that a person who teaches themselves, in public, with their sources shown, is doing the same thing a credential is supposed to certify. Everything else here is built for that reader.
 
-Then: **[Start Here](${a('Start_Here')})** · **[The Surfaces](${a('The_Surfaces')})** ·
-**[SoapBox](${a('SoapBox')})** · **[MELEK](${a('MELEK')})** · **[Van Kush Family](${a('Van_Kush_Family')})** ·
-**[Crypt-ology](${a('Crypt-ology')})** · **[Glossaries](${a('Glossaries')})**
+Then: **[Start Here](${a('Start_Here')})** · **[The Surfaces](${a('The_Surfaces')})** · **[SoapBox](${a('SoapBox')})** · **[MELEK](${a('MELEK')})** · **[Van Kush Family](${a('Van_Kush_Family')})** · **[Crypt-ology](${a('Crypt-ology')})** · **[Glossaries](${a('Glossaries')})**
 
 ## The thirteen shelves
 
 ${CATEGORY_LINKS.map(([id, name, what]) => `- **[${name}](${c(id)})** — ${what}.`).join('\n')}
 
-Or take the whole thing at once: **[all 13 categories on one page](${W}/categories)**, or the
-**[A–Z](${W}/)**, or **[search](${W}/search)**.
+Or take the whole thing at once: **[all 13 categories on one page](${W}/categories)**, or the **[A–Z](${W}/)**, or **[search](${W}/search)**.
 
 ## This is how you understand our ecosystem
 
-The library is not a blog beside the project. It is the documentation *of* the project. If you have ever
-wondered what we actually mean by any of it, the answer has a page:
+The library is not a blog beside the project. It is the documentation *of* the project. If you have ever wondered what we actually mean by any of it, the answer has a page:
 
-- **[What a Witness Is and Does](${a('What_a_Witness_Is_and_Does')})** and
-  **[Blockchain Witness (Block Producer)](${a('Blockchain_Witness_Block_Producer_')})** — the job I do every block.
-- **[MELEK Blockchain](${a('MELEK_Blockchain')})**, **[PRANA Blockchain](${a('PRANA_Blockchain')})** and
-  **[The Two-Token Economy: MELEK and PRANA](${a('The_Two-Token_Economy_MELEK_and_PRANA')})** — the two chains and why there are two.
-- **[The STEEM / HIVE / BLURT / MELEK / VKBT / CURE Matrix](${a(MATRIX)})** — the one page that puts all of it
-  side by side, in **two** tables, and the reason there are two is the most useful sentence in crypto:
-  **a coin has a chain, a token is on one.** STEEM, HIVE, BLURT, MELEK and PRANA are coins — each the
-  native unit of its own chain, secured by its own witnesses. VKBT and CURE are tokens — issued on a host
-  chain through an engine, inheriting its blocks and fees. Different objects, so different tables.
-  The coins are compared on **machinery**: four of them are the *same codebase* with different rules bolted
-  on, so the useful question is never which is faster, it is which rule each one changed — BLURT removed
-  curation rewards, HIVE removed the stake that took it over, MELEK launched with no pre-mine. The tokens
-  are compared on what we call **the Specs**: VKBT and CURE against their *actual* peer group, other engine
-  tokens, on supply, holders, emission, venue, and the row everybody assumes and nobody checks — **how the
-  position was acquired.** Ours was *purchased at market* and is being *given away through curation*. Both
-  tables are generated from our own data files, and an unsourced cell renders as a dash, never a guess.
+- **[What a Witness Is and Does](${a('What_a_Witness_Is_and_Does')})** and **[Blockchain Witness (Block Producer)](${a('Blockchain_Witness_Block_Producer_')})** — the job I do every block.
+- **[MELEK Blockchain](${a('MELEK_Blockchain')})**, **[PRANA Blockchain](${a('PRANA_Blockchain')})** and **[The Two-Token Economy: MELEK and PRANA](${a('The_Two-Token_Economy_MELEK_and_PRANA')})** — the two chains and why there are two.
+- **[The STEEM / HIVE / BLURT / MELEK / VKBT / CURE Matrix](${a(MATRIX)})** — the one page that puts all of it side by side, in **two** tables, and the reason there are two is the most useful sentence in crypto: **a coin has a chain, a token is on one.** STEEM, HIVE, BLURT, MELEK and PRANA are coins — each the native unit of its own chain, secured by its own witnesses. VKBT and CURE are tokens — issued on a host chain through an engine, inheriting its blocks and fees. Different objects, so different tables. The coins are compared on **machinery**: four of them are the *same codebase* with different rules bolted on, so the useful question is never which is faster, it is which rule each one changed — BLURT removed curation rewards, HIVE removed the stake that took it over, MELEK launched with no pre-mine. The tokens are compared on what we call **the Specs**: VKBT and CURE against their *actual* peer group, other engine tokens, on supply, holders, emission, venue, and the row everybody assumes and nobody checks — **how the position was acquired.** Ours was *purchased at market* and is being *given away through curation*. Both tables are generated from our own data files, and an unsourced cell renders as a dash, never a guess.
 - **[The Graphene Family](${a('The_Graphene_Family')})** — BitShares, STEEM, HIVE, BLURT and MELEK side by side.
 - **[VKBT and CURE](${a('VKBT_and_CURE')})** — our two tokens, with the real supply and holder numbers.
 - **[Curation Theory, Rewards, the Auction Window, and Honest Curation](${a('Curation_Theory_Rewards_the_Auction_Window_and_Honest_Curation')})** — how a vote becomes money.
 - **[Tokenomics 101](${a('Tokenomics_101')})** and **[The Economics No Coin Dev Teaches](${a('The_Economics_No_Coin_Dev_Teaches')})** — read these before you buy anything, from us or from anyone.
 
-And a few from the deeper shelves, so you can see the range: **[Aroma Wheels, Euphoric Odours and the Science of Aromatherapy](${a('Aroma_Wheels_Euphoric_Odours_and_the_Science_of_Aromatherapy')})** ·
-**[Old World vs New World Magic Herbs](${a('Old_World_vs_New_World_Magic_Herbs')})** ·
-**[The Amplification Framework](${a('The_Amplification_Framework')})** ·
-**[Cytochrome P450: System Inhibition and Induction](${a('Cytochrome_P450_System_Inhibition_and_Induction')})** ·
-**[Gamma Entrainment](${a('Gamma_Entrainment')})** ·
-**[Rasa Shastra and Ancient Indian Nanochemistry](${a('Rasa_Shastra_and_Ancient_Indian_Nanochemistry')})** ·
-**[Sais, Egypt: Temple Medical School, House of Life, and Peseshet](${a('Sais_Egypt_Temple_Medical_School_House_of_Life_and_Peseshet')})** ·
-**[Rights That Hold Up in Court](${a('Rights_That_Hold_Up_in_Court')})** ·
-**[Weather, Clouds and Pyrocumulus](${a('Weather_Clouds_and_Pyrocumulus_Reading_the_Sky')})** ·
-**[Inert Alone, Active Together](${a('Inert_Alone_Active_Together_Why_Combinations_Work')})** ·
-**[Alzheimer's and Parkinson's: What Treatment Actually Exists](${a("Alzheimers_and_Parkinsons_What_Treatment_Actually_Exists")})** ·
-**[Hidden Layers: How AI Learns What Nobody Taught It](${a('Hidden_Layers_How_AI_Learns_What_Nobody_Taught_It')})**
+And a few from the deeper shelves, so you can see the range: **[Aroma Wheels, Euphoric Odours and the Science of Aromatherapy](${a('Aroma_Wheels_Euphoric_Odours_and_the_Science_of_Aromatherapy')})** · **[Old World vs New World Magic Herbs](${a('Old_World_vs_New_World_Magic_Herbs')})** · **[The Amplification Framework](${a('The_Amplification_Framework')})** · **[Cytochrome P450: System Inhibition and Induction](${a('Cytochrome_P450_System_Inhibition_and_Induction')})** · **[Gamma Entrainment](${a('Gamma_Entrainment')})** · **[Rasa Shastra and Ancient Indian Nanochemistry](${a('Rasa_Shastra_and_Ancient_Indian_Nanochemistry')})** · **[Sais, Egypt: Temple Medical School, House of Life, and Peseshet](${a('Sais_Egypt_Temple_Medical_School_House_of_Life_and_Peseshet')})** · **[Rights That Hold Up in Court](${a('Rights_That_Hold_Up_in_Court')})** · **[Weather, Clouds and Pyrocumulus](${a('Weather_Clouds_and_Pyrocumulus_Reading_the_Sky')})** · **[Inert Alone, Active Together](${a('Inert_Alone_Active_Together_Why_Combinations_Work')})** · **[Alzheimer's and Parkinson's: What Treatment Actually Exists](${a("Alzheimers_and_Parkinsons_What_Treatment_Actually_Exists")})** · **[Hidden Layers: How AI Learns What Nobody Taught It](${a('Hidden_Layers_How_AI_Learns_What_Nobody_Taught_It')})**
 
 ## A note on the pictures
 
-The charts in the library — the nutrient-deficiency leaves, the methylation cycle, the seven aroma
-wheels, both matrices — are **drawn from data files, not generated by an image model.** I make a great
-deal of art, and I am glad to; but a chart's only job is to be *correct*, and a generated picture of a
-chart invents plausible labels. So the figures here are rendered from the same numbers the text cites,
-which means they cannot drift away from it. **An unsourced cell renders as a dash, never as a guess.**
+The charts in the library — the nutrient-deficiency leaves, the methylation cycle, the seven aroma wheels, both matrices — are **drawn from data files, not generated by an image model.** I make a great deal of art, and I am glad to; but a chart's only job is to be *correct*, and a generated picture of a chart invents plausible labels. So the figures here are rendered from the same numbers the text cites, which means they cannot drift away from it. **An unsourced cell renders as a dash, never as a guess.**
 
 ## You can become a witness, and the library will teach you
 
-You do not have to stay a reader. **[Witness School](${a('Witness_School')})** is the course, and it runs on
-the library: every lesson sends you to the article that explains the thing, and the article sends you back.
-Start with the school at **[witness.melek.salon](https://witness.melek.salon)**, then
-**[Running a Graphene Witness Node](${a('Running_a_Graphene_Witness_Node')})**,
-**[Building a Front End for a Graphene Chain](${a('Building_a_Front_End_for_a_Graphene_Chain')})** and
-**[Running a Condenser Front-End](${a('Running_a_Condenser_Front-End')})**.
+You do not have to stay a reader. **[Witness School](${a('Witness_School')})** is the course, and it runs on the library: every lesson sends you to the article that explains the thing, and the article sends you back. Start with the school at **[witness.melek.salon](https://witness.melek.salon)**, then **[Running a Graphene Witness Node](${a('Running_a_Graphene_Witness_Node')})**, **[Building a Front End for a Graphene Chain](${a('Building_a_Front_End_for_a_Graphene_Chain')})** and **[Running a Condenser Front-End](${a('Running_a_Condenser_Front-End')})**.
 
-A witness is an ordinary account that produces blocks and gets voted in. Mine is protected for the first
-year because somebody had to go first. After that I stand for election like everyone else — and the point
-of the school is that by then there should be a lot of us.
+A witness is an ordinary account that produces blocks and gets voted in. Mine is protected for the first year because somebody had to go first. After that I stand for election like everyone else — and the point of the school is that by then there should be a lot of us.
 
 ## Come write in it
 
 This is the part I most want you to hear. **The library is not finished, and it is not meant to be mine.**
 
 - It is **growing** — a week of work put the whole thing up, and the gaps are obvious once you read a shelf.
-- **We intend to pay the writers.** Not yet, and I will not pretend otherwise: there is no contributor
-  payout running today. Building it is the plan, through curation and grants on our own chain, and when it
-  exists the people whose work is already in the library will be the first ones in line.
-- What we want now is **other hands**. Pick a subject you actually know. Write it with your sources shown.
-  Post it on **[MELEK](https://melek.salon)**, or tell me here, and I will read it.
+- **We intend to pay the writers.** Not yet, and I will not pretend otherwise: there is no contributor payout running today. Building it is the plan, through curation and grants on our own chain, and when it exists the people whose work is already in the library will be the first ones in line.
+- What we want now is **other hands**. Pick a subject you actually know. Write it with your sources shown. Post it on **[MELEK](https://melek.salon)**, or tell me here, and I will read it.
 
-The standard is simple and it is the only one: say what is established, say what is preclinical, say what is
-a guess, and never dress one up as another. Show your sources. If you are wrong, the next writer gets to
-fix it — that is what a library is for.
+The standard is simple and it is the only one: say what is established, say what is preclinical, say what is a guess, and never dress one up as another. Show your sources. If you are wrong, the next writer gets to fix it — that is what a library is for.
 
 *The lamps are lit. Come in and read, then come in and write.*
 

@@ -88,6 +88,19 @@ test('it asks for other writers and states the sourcing standard', () => {
   assert.match(BODY, /established.*preclinical.*guess/s);
 });
 
+test('⭐ no paragraph is hard-wrapped — the condenser renders a single newline as a line break', () => {
+  // Source readability is NOT worth a post that displays with ragged broken lines. Every paragraph and
+  // every list item must be ONE line; only blank lines separate blocks.
+  const offenders = BODY.split('\n\n')
+    .filter((b) => b.includes('\n'))
+    .filter((b) => !b.split('\n').every((l) => l.startsWith('- ') || l.startsWith('#')));
+  assert.deepEqual(offenders.map((b) => b.slice(0, 60)), [], 'these blocks are hard-wrapped');
+  // and no list item may be continued on a following indented line
+  for (const line of BODY.split('\n')) {
+    assert.equal(/^\s+\S/.test(line), false, `continuation line found: ${line.slice(0, 60)}`);
+  }
+});
+
 test('the post is well-formed: title, permlink, no unbalanced link syntax, no placeholders', () => {
   assert.match(TITLE, /Library of Ashurbanipal/);
   assert.match(PERMLINK, /^[a-z0-9-]+$/);
