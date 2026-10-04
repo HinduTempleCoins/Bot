@@ -1,0 +1,98 @@
+'''Weather, Clouds and Pyrocumulus: Reading the Sky''' is the meteorology page — the cloud taxonomy and what each genus tells you, how an ordinary cumulus becomes a '''cumulonimbus''', the '''fire-generated storms''' that are now a field of their own, the '''plant and weather cycles''' that growers and farmers actually work to, and the '''keyless public APIs''' that let any of it be read, charted or built into a scene. Our own free forecast app at '''weather.soapbox.community''' runs on one of those APIs, client-side, with no key and no account.
+
+== 1. The taxonomy, and why it is a taxonomy ==
+'''Luke Howard''' named the clouds in '''1802''' — ''cirrus'', ''cumulus'', ''stratus'', ''nimbus'' — in Latin, deliberately, so that the system would work in any language. Goethe wrote a poem about it. '''It is still the system''', formalised by the WMO into '''ten genera''' with species, varieties and supplementary features layered underneath, exactly like biological nomenclature.
+
+'''The ten genera, by altitude:'''
+* '''High (cirro-, roughly 5–13 km):''' '''cirrus''' (ice, wispy, often the leading edge of an approaching warm front), '''cirrocumulus''' (high ripples), '''cirrostratus''' (the thin sheet that makes a '''22° halo''' around the sun or moon — an ice-crystal optic and a classic "rain within a day" sign).
+* '''Middle (alto-, roughly 2–7 km):''' '''altocumulus''' (patches, the "mackerel sky"), '''altostratus''' (featureless grey, sun a vague disc).
+* '''Low (below ~2 km):''' '''stratus''' (fog that did not touch down), '''stratocumulus''' (lumpy sheet — '''the most common cloud on Earth''', and the reason the planet's albedo is what it is), '''nimbostratus''' (the steady all-day rain).
+* '''Vertical:''' '''cumulus''' (the fair-weather puff; its '''flat base is the lifting condensation level''', and every cumulus base in the same air mass is at the same height, which is why they look like they are sitting on a shelf — '''they are'''), and '''cumulonimbus''', the thunderstorm.
+* '''Newest addition:''' '''asperitas''' — the wave-like underside — was formally recognised in '''2017''', the first new entry in decades, and it was '''proposed by amateur observers''' through the Cloud Appreciation Society. '''A citizen-science result in the WMO atlas.'''
+
+'''What a taxonomy buys you''' is the same thing the [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy|aroma wheels]] buy: '''a shared vocabulary in which disagreement is still informative'''. "Looks stormy" is not a datum. "Towering cumulus with a hard cauliflower top and no anvil yet" is.
+
+== 2. From cumulus to cumulonimbus — the mechanics ==
+* '''Lapse rate''' — how fast temperature falls with height. If the environment cools faster than a rising parcel does, the parcel '''keeps''' being warmer, so it '''keeps''' rising. That is '''instability'''.
+* '''LCL''' (lifting condensation level) — the height at which the rising parcel's water vapour condenses. '''That is the cloud base.''' Above it, '''latent heat release''' from condensation '''adds energy to the updraft''', which is the engine of the whole system.
+* '''CAPE''' (convective available potential energy, in J/kg) — the total fuel. '''CIN''' (convective inhibition) — the lid. A '''capping inversion''' can hold a hot, humid afternoon down for hours and then break, which is why severe storms so often fire late in the day, all at once.
+* '''Growth:''' cumulus humilis → mediocris → congestus ("towering cumulus") → '''cumulonimbus''', when the top '''glaciates''' into ice and spreads out against the '''tropopause''' into the '''anvil'''. An '''overshooting top''' punching above the anvil means the updraft is strong enough to overshoot its own equilibrium — '''a sign of a serious storm visible from the ground and from orbit'''.
+* '''Hail''' grows by repeated circulation through the updraft, which is why '''hail size is a proxy for updraft strength'''.
+* '''The outflow''' is the part that hits you: the '''gust front''' and its '''shelf cloud''', the '''downburst''' and '''microburst''' (a localised, dangerous, downward blast — the cause of several airliner crashes before wind-shear detection), and in the dry west, the '''haboob''' when the outflow lifts dust.
+* '''Wind shear''' decides the storm's organisation. Weak shear gives a '''single-cell''' storm that rains into its own updraft and dies. Strong shear tilts the storm so the downdraft falls '''beside''' the updraft instead of through it — giving '''multicell''' lines, '''squall lines''', and the rotating '''supercell''' with its '''mesocyclone''', which is what produces most strong tornadoes.
+
+== 3. Pyrocumulus and pyroCb — when the fire makes its own weather ==
+'''This is the part of meteorology that has changed most in twenty years, and it deserves the detail.'''
+
+=== The mechanism ===
+A large fire supplies two things a thunderstorm needs:
+# '''Sensible heat''' — an enormous, concentrated buoyancy source, far stronger than solar heating of the ground.
+# '''Water vapour''' — from '''the vegetation itself'''. Live fuel is largely water; combustion also produces water. '''The fire supplies its own moisture.'''
+
+The result is '''pyrocumulus''' (''flammagenitus'' in the formal nomenclature) — a dirty, brown-grey convective cloud over the fire. If the atmosphere above is unstable enough, it keeps going and becomes '''pyrocumulonimbus''' — a '''pyroCb''', a '''full thunderstorm generated by a fire'''.
+
+=== Why it matters ===
+* '''pyroCb make lightning''', and that lightning starts '''new fires''', often '''ahead of''' the existing one and outside any containment line. '''The fire reproduces itself through the sky.'''
+* '''They inject smoke into the stratosphere.''' This is the finding that reframed the field. A pyroCb's updraft can deliver smoke aerosol '''above the weather''', where it does not rain out and instead circulates for '''months'''. The '''2019–20 Australian "Black Summer"''' injected smoke into the stratosphere at a mass comparable to '''a moderate volcanic eruption''', produced '''self-sustaining smoke-charged vortices''' that persisted for months, and measurably affected '''stratospheric chemistry and ozone'''. The '''2017 British Columbia''' event was the case that first made the scale undeniable.
+* '''They are lethal to firefighters.''' The convective column '''collapses''' when the updraft fails, dumping the whole downdraft onto the fireground and producing '''sudden, violent, direction-reversing winds'''. Fatality investigations repeatedly identify this.
+* '''Fire whirls and fire tornadoes''' are a related phenomenon: vorticity stretched by the fire's updraft. The '''Carr Fire (California, 2018)''' produced a fire-generated vortex with estimated winds in the '''EF3''' range, which killed a firefighter. The '''1923 Great Kantō earthquake''' firestorm and the '''1871 Peshtigo''' fire are the historical reference cases for fire generating its own circulation at scale.
+
+=== Fire weather, as it is actually forecast ===
+* '''The downslope winds''' that drive the worst fires are '''foehn''' winds — air forced over a range, drying and warming as it descends: '''Santa Ana''' and '''Sawtooth''' (southern California), '''Diablo''' (northern California), '''Chinook''' (Rockies), '''Zonda''' (Argentina), '''Bora''' and '''Mistral''' (Mediterranean, cold variants). '''A foehn is a compression-heating phenomenon''', and the '''föhn wall''' on the upwind side is where the moisture was left behind.
+* '''Indices:''' the '''Haines index''' (lower-atmosphere stability and dryness), and the newer '''Hot-Dry-Windy (HDW) index''', which multiplies the vapour-pressure deficit by wind speed — simpler and better-validated for '''extreme''' fire behaviour.
+* '''Fire danger rating systems''' — the US '''NFDRS''', Canada's '''FWI''', Australia's '''Fire Behaviour Index''' — all combine fuel moisture, weather and drought indices.
+
+== 4. Plant cycles and weather cycles ==
+'''Phenology''' is the study of biological timing, and growers use it as arithmetic.
+* '''Growing degree days (GDD)''' — accumulated heat above a crop-specific base temperature. '''Plants develop on heat accumulated, not on dates.''' GDD is why planting guides are converting from calendars to degree-day targets, and why climate shift shows up as phenology shift first.
+* '''Chill hours / vernalisation''' — the opposite requirement. Many fruit trees and biennials need a '''minimum accumulated cold''' before they will break dormancy or flower. '''Insufficient winter is a real crop failure mode''', and it is one of the clearest local signals of a warming climate.
+* '''Photoperiodism''' — the night-length switch. '''Short-day''' plants flower when nights lengthen; '''long-day''' plants when nights shorten. '''The plant measures the dark period, not the light one''', which is why a brief light interruption at night blocks flowering in a short-day plant. Cannabis is '''short-day''', except for '''day-neutral''' autoflowering types from ''ruderalis'' genetics — see [[Plant Training Topping FIMing Cloning and the Old Outdoor Tricks|Plant Training, Topping, FIMing, Cloning]] and [[Grow Lighting Metal Halide HPS CMH Fluorescent and LED|Grow Lighting]].
+* '''VPD — vapour-pressure deficit''' — is the variable that actually governs transpiration, and it is '''the single most useful number in controlled-environment growing'''. It combines temperature and humidity into "how hard the air is pulling water out of the leaf." '''Relative humidity alone is nearly useless''' because its meaning changes with temperature. Too low VPD and stomata stay open with no transpiration pull; too high and they close and growth stops.
+* '''Frost''' — '''radiative''' frost (clear, calm, still nights, cold air pooling in hollows — which is why orchards sit on slopes, not in valley bottoms) versus '''advective''' frost (a cold air mass arriving, wind and all, which no amount of row cover fixes).
+* '''The large cycles:''' '''ENSO''' (El Niño / La Niña), the '''monsoon''', the '''NAO''' and '''PDO'''. These are the '''seasonal-forecast''' timescale — months, not days — and they are what actually shift a growing season or a fire season. '''Köppen''' classification is the standing map of what climate a place has at all.
+* '''And the smell of it.''' You really can smell rain coming: '''ozone''' carried down by a storm's downdraft from aloft, '''geosmin''' released from wet soil by ''Streptomyces'', and plant oils flushed off dry surfaces — collectively '''petrichor'''. Humans detect geosmin at around '''5 parts per trillion'''. See [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy]] and [[A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them|A Field Guide to Smell Molecules]].
+
+== 5. The APIs — all of these are free, and most need no key ==
+'''This is the practical section. Every one of these is a public endpoint.'''
+* '''Open-Meteo''' (open-meteo.com) — '''no API key''' for non-commercial use. Forecast, '''historical reanalysis (ERA5)''', air quality, marine, and '''geocoding'''. '''This is what weather.soapbox.community uses''', fetched '''entirely in the browser''' so our server never touches it. The best starting point by a distance.
+* '''US National Weather Service''' — ''api.weather.gov''. '''No key.''' Official US forecasts, alerts, observations, and gridded forecast data. Requires a User-Agent header identifying you.
+* '''NOAA NCEI''' — the climate archive: '''GHCN''' daily station records, normals, and the long series. This is where "is this year unusual here" is actually answered.
+* '''GOES and Himawari''' satellite imagery — open, and the '''channel to watch for pyroCb''' is the combination of visible, infrared brightness temperature (a '''cold''' cloud top over a fire means it has gone deep) and fire-detection bands.
+* '''NASA FIRMS''' — '''active fire detections''' from MODIS and VIIRS, near-real-time, free. Overlay this with GOES cloud-top temperature and '''you can watch a pyroCb form from your desk.'''
+* '''Copernicus / CAMS''' — European reanalysis and atmospheric composition, including '''smoke aerosol''' transport.
+* '''USGS''' — streamflow and flood gauges, for the other end of the same storm.
+* '''Lightning''' — Vaisala and the '''GOES GLM''' (Geostationary Lightning Mapper) products.
+* '''House rule for using any of them:''' fetch '''client-side or on a timer, never on the request path''', soft-fail to a friendly message, and cache. That is how [[SoapBox Data Hub]] and the rest of the surfaces are built — see [[SoapBox Tools]].
+
+== 6. Building a scene from this ==
+'''Why a world-builder should care''' — and this is the thread back to [[Dudael]].
+
+A believable sky is '''not a texture'''. It is a '''state''', and it is fully specified by a small list of numbers that the APIs above will hand you for any place and any date:
+* '''Place and date''' → '''sun angle''' and day length (pure geometry, no API needed), '''Köppen''' zone, and the '''seasonal''' expectation.
+* '''Temperature, dew point and pressure''' → the '''LCL''', which '''tells you how high the cloud bases sit'''. Humid lowland: low, heavy bases. High desert: bases so high the cumulus look small and far.
+* '''Instability (CAPE) and shear''' → '''which cloud genus''' belongs in the shot, and whether it is building or decaying.
+* '''Wind''' → the '''direction everything leans''', including smoke and dust.
+* '''Aerosol and smoke load''' → the '''colour''' of the light. '''This is the single biggest lever on the mood of an outdoor scene''' and the one most often got wrong: smoke reddens and flattens, sea air cools and softens, dust browns.
+* '''And the smell layer''' — the 4D time-mapped model in [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy|the aroma page]]: petrichor before the rain, smoke downwind, hot dust at noon, cut grass in late afternoon.
+
+'''The discipline is the same one the whole library runs on:''' look the numbers up for the real place and the real date rather than inventing them, because '''the real ones are free and they are more interesting than the invented ones.'''
+
+== 7. Safety, briefly and specifically ==
+* '''Lightning: "when thunder roars, go indoors."''' The '''30-30 rule''' — if the flash-to-bang gap is under 30 seconds the storm is within about 10 km; wait '''30 minutes''' after the last thunder. '''Most lightning deaths occur before the rain or after it has passed.''' A car is safe; a shelter with no walls is not.
+* '''Flash flood:''' moving water, not depth, is what kills. '''Never drive into it.''' Desert washes flood from storms you cannot see.
+* '''Heat:''' '''wet-bulb globe temperature''' is the real metric, because humidity determines whether sweating works at all. A '''wet-bulb temperature around 35 °C is survivable for only a few hours''' regardless of fitness or acclimatisation.
+* '''Fire:''' '''a pyrocumulus column above a fire is a warning sign, not a spectacle.''' Column collapse produces sudden, violent, unpredictable winds, and pyroCb lightning starts new fires outside the line.
+* See [[Routes for Backpacking Pilgrimages]] for the field version of all of this.
+
+== Sources ==
+* Howard L., ''On the Modifications of Clouds'' (1803).
+* World Meteorological Organization, ''International Cloud Atlas'' (current edition) — the genera, species and varieties, and the 2017 addition of ''asperitas'' and the ''flammagenitus'' special cloud.
+* Fromm M. et al., "The untold story of pyrocumulonimbus", ''Bulletin of the American Meteorological Society'' 91 (2010).
+* Peterson D. A. et al., "Wildfire-driven thunderstorms cause a volcano-like stratospheric injection of smoke", ''npj Climate and Atmospheric Science'' 1 (2018) — the British Columbia case.
+* Khaykin S. et al., "The 2019/20 Australian wildfires generated a persistent smoke-charged vortex rising up to 35 km altitude", ''Communications Earth & Environment'' 1 (2020).
+* Solomon S. et al., on Australian wildfire smoke and stratospheric ozone chemistry, ''PNAS'' (2022).
+* Lareau N. P., Nauslar N. J. and Abatzoglou J. T., "The Carr Fire vortex: a case of pyrotornadogenesis?", ''Geophysical Research Letters'' 45 (2018).
+* Srock A. F. et al., "The Hot-Dry-Windy index: a new fire weather index", ''Atmosphere'' 9 (2018).
+* Haines D. A., "A lower atmosphere severity index for wildland fire", ''National Weather Digest'' 13 (1988).
+* Bear I. J. and Thomas R. G., "Nature of argillaceous odour", ''Nature'' 201 (1964) — petrichor.
+* Open-Meteo, NWS ''api.weather.gov'', NOAA NCEI, NASA FIRMS and Copernicus CAMS public API documentation.

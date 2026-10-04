@@ -82,7 +82,8 @@ export const CATEGORIES = [
   },
   {
     id: 'substances', name: 'Substances and pharmacology', blurb: 'One page per thing in the stacks — established, preclinical and hypothesis kept apart.',
-    pages: ['Do the Math Tryptophan Turkey Phenibut and Hair of the Dog',
+    pages: ['Why Oral DMT Is Inert Routes Changa and the 4 Position',
+            'Do the Math Tryptophan Turkey Phenibut and Hair of the Dog',
             'Alzheimers and Parkinsons What Treatment Actually Exists',
             'Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven',
             'Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw',
@@ -262,7 +263,8 @@ export const CATEGORIES = [
   },
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
-    pages: ['Spiced Wine Bitters and the Colas',
+    pages: ['Weather Clouds and Pyrocumulus Reading the Sky',
+            'Spiced Wine Bitters and the Colas',
             'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
             'Grow Lighting Metal Halide HPS CMH Fluorescent and LED',
             'Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils',
@@ -535,6 +537,7 @@ export const PILLARS = [
     icon: '🧠',
     blurb: 'The expanded endocannabinoidome, enzyme kinetics, cholinergics, MAOIs, and structure-activity relationships.',
     pages: [
+      'Why Oral DMT Is Inert Routes Changa and the 4 Position',
       'Do the Math Tryptophan Turkey Phenibut and Hair of the Dog',
       'Alzheimers and Parkinsons What Treatment Actually Exists',
       'Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven',
@@ -620,6 +623,7 @@ export const PILLARS = [
     icon: '🌿',
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
+      'Weather Clouds and Pyrocumulus Reading the Sky',
       'Spiced Wine Bitters and the Colas',
       'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
       'Grow Lighting Metal Halide HPS CMH Fluorescent and LED',

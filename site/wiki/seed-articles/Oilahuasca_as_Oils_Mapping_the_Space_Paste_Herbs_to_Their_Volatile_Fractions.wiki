@@ -1,0 +1,90 @@
+'''Oilahuasca as Oils: Mapping the Space Paste Herbs to Their Volatile Fractions''' is the bridge page between two frameworks the library already holds. [[Oilahuasca]] is built on '''essential-oil constituents''' — single volatile molecules with named enzyme targets. [[Space Paste]] is built on '''whole powdered herbs''' in a fat matrix. '''They are often the same pharmacology expressed in two different physical forms''', and this page maps one onto the other: for each herb in the Space Paste tradition, '''which volatile fraction is doing the work''', and '''what changes — pharmacokinetically — when you move from the ground herb to the oil'''.
+
+'''What this page is not:''' a preparation method. The existing pages hold what they hold. '''This is the mapping and the grading''', which is the part that was missing.
+
+== 1. Why the physical form changes the pharmacology ==
+Moving from '''ground herb''' to '''isolated volatile fraction''' changes '''five''' things, and every one of them matters more than people expect:
+# '''Concentration per unit mass''' changes by '''one to three orders of magnitude'''. An essential oil is typically '''0.1–3%''' of the dry plant. '''The same amount of active in a teaspoon of oil as in several hundred grams of herb''' is the single biggest practical difference, and it is where the risk concentrates.
+# '''Dose precision''' improves — a measured volume of a standardised oil is a far better-defined quantity than a scoop of powdered bark of unknown origin. '''This is an argument in favour of the oil form''', and it is a real one.
+# '''Composition changes.''' An oil contains '''only what distils''' (or only what the solvent took). The '''tannins, glycosides, fibre, polysaccharides, minerals and non-volatile alkaloids stay behind'''. Sometimes those were doing something; sometimes they were the reason the herb was tolerable.
+# '''Absorption route changes.''' Lipophilic oils in a fat vehicle recruit '''lymphatic''' uptake, '''bypassing hepatic first pass''' — which is the mechanical basis of the entire oilahuasca approach. See [[Bioavailability Metabolic Inhibition and Synergy|Bioavailability: Metabolic Inhibition and Synergy]].
+# '''Mucosal irritancy goes up sharply.''' '''Neat essential oils are caustic.''' Phenols and aldehydes in particular — eugenol, thymol, cinnamaldehyde — burn mucosa, and this is the most common immediate harm in the whole area. See the safety list on [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy]].
+
+== 2. The mapping ==
+'''Herb → its principal volatile fraction → the interaction claimed → evidence grade.''' The grades are the three used throughout the library: '''established''', '''plausible''', '''folklore''' — see [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]] §5.
+
+=== Nutmeg and mace — ''Myristica fragrans'' ===
+* '''Volatile fraction:''' '''myristicin''', '''elemicin''', '''safrole''', plus '''sabinene, α-pinene, terpinene''' as the bulk of the oil.
+* '''Interaction:''' '''myristicin is a weak reversible MAO-A inhibitor''' and a '''CYP inhibitor''' — its '''methylenedioxyphenyl''' group is a classic mechanism-based CYP-inhibiting motif. '''Established.'''
+* '''The amination hypothesis''' (elemicin → TMA, myristicin → MMDA ''in vivo'') is '''not established''' — see [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]] §1 and [[Allylbenzene Metabolism Oswald Pathway and Mace]].
+* '''Oil-form note:''' nutmeg oil concentrates exactly the fraction that '''causes the long unpleasant deliriant course and the tachycardia'''. '''Concentrating it concentrates the toxicity, not a cleaner effect.''' Nutmeg's problem has always been its '''kinetics''', and the oil makes the kinetics '''steeper'''.
+
+=== Parsley seed — ''Petroselinum crispum'' ===
+* '''Volatile fraction:''' '''apiole''', '''myristicin''', '''α-pinene'''.
+* '''Interaction:''' CYP inhibition via the same methylenedioxy motif. '''Plausible.'''
+* '''⚠️ Apiole is a documented abortifacient and hepatotoxin/nephrotoxin''' at the quantities an oil delivers, with a history of fatal poisonings in the abortifacient literature. '''This is the clearest case on the page where the oil form is categorically more dangerous than the herb.'''
+
+=== Calamus — ''Acorus calamus'' ===
+* '''Volatile fraction:''' '''α- and β-asarone'''.
+* '''Interaction:''' '''β-asarone''' is a '''genotoxic carcinogen in animal studies''' and is '''restricted in food''' in the EU and banned as a food additive in the US. '''Established as a hazard'''; the psychoactive claims are '''folklore to plausible'''.
+* '''Oil-form note:''' '''asarone content varies enormously by variety''' — the diploid American ''A. calamus var. americanus'' is low in β-asarone, the tetraploid Asian types are high. '''"Calamus oil" without a stated chemotype is an unknown.'''
+
+=== Clove — ''Syzygium aromaticum'' ===
+* '''Volatile fraction:''' '''eugenol''' (typically 70–90% of the oil), plus β-caryophyllene.
+* '''Interaction:''' eugenol '''modulates GABA-A''' and '''blocks voltage-gated sodium channels''' — which is '''why clove oil numbs a tooth'''. '''Established''' as a local anaesthetic mechanism. It also '''inhibits several CYPs''' and is a '''UGT substrate''' that can compete for glucuronidation. '''Plausible''' as a potentiator on that basis.
+* '''β-caryophyllene is a CB2 agonist''' — the only common dietary terpene that is — see [[Beta-Caryophyllene]].
+* '''⚠️ Eugenol is hepatotoxic in overdose''' (a glutathione-depleting mechanism, mechanistically analogous to paracetamol), and '''clove oil ingestion has caused fulminant liver failure in children'''.
+
+=== Cinnamon — ''Cinnamomum'' spp. ===
+* '''Volatile fraction:''' '''cinnamaldehyde''' (cassia and Ceylon bark) and '''eugenol''' (Ceylon leaf). '''Coumarin''' is the issue: '''high in cassia, low in Ceylon'''.
+* '''Interaction:''' CYP interactions, '''plausible'''. '''Cinnamaldehyde is a TRPA1 agonist''' — established, and the reason for the burn.
+* '''⚠️ Coumarin is hepatotoxic''' with a real tolerable daily intake; '''cassia versus Ceylon is a clinically meaningful distinction'''.
+
+=== Black pepper — ''Piper nigrum'' ===
+* '''Volatile fraction:''' '''β-caryophyllene, limonene, pinenes''' — but the '''pharmacologically important molecule is non-volatile''': '''piperine''', an alkaloid that '''stays in the oleoresin, not the essential oil'''.
+* '''Interaction:''' '''piperine inhibits CYP3A4, P-glycoprotein and UGT glucuronidation''' — '''established''', and the best-documented botanical bioavailability enhancer there is. See [[Black Pepper]].
+* '''⚠️ This is the most instructive entry on the page:''' '''distilling pepper to an essential oil leaves the active behind.''' If you want piperine you want the '''oleoresin or an extract''', '''not the volatile oil'''. '''"Make it an oil" is not a universally valid transformation''', and pepper is the counter-example that proves it.
+
+=== Turmeric — ''Curcuma longa'' ===
+* '''Volatile fraction:''' '''ar-turmerone''' and '''turmerones'''. '''Curcumin is non-volatile''' and is '''not''' in the essential oil.
+* '''Interaction:''' turmerones have their own activity; '''curcumin's notoriously poor bioavailability''' is the famous problem. '''Same lesson as pepper''' — the molecule people want is not in the distillate.
+
+=== Ginger — ''Zingiber officinale'' ===
+* '''Volatile fraction:''' '''zingiberene, β-bisabolene, citral'''. The '''pungent gingerols and shogaols are non-volatile.'''
+* '''Interaction:''' antiemetic effect is '''established''' (and clinically useful for the nausea that accompanies most of this material); '''6-shogaol''' is a '''TRPV1''' agonist. '''Again, the actives are in the oleoresin.'''
+
+=== Fennel, anise, star anise ===
+* '''Volatile fraction:''' '''anethole''' (''trans''-anethole), with '''estragole''' (methyl chavicol) alongside.
+* '''Interaction:''' '''estragole is a genotoxic carcinogen in animal studies''' and '''EFSA has restricted it''' — '''established as a hazard'''. Anethole is a '''mild''' CYP interactor, '''plausible'''.
+
+=== Caraway, dill, spearmint ===
+* '''Volatile fraction:''' '''carvone''' — and '''the two enantiomers smell completely different''' ('''''R''''' is spearmint, '''''S''''' is caraway), which is a clean demonstration that '''receptors are chiral''' and an oil's '''optical''' composition is part of its identity. See [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]] and [[Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works|Functional Groups, Polarity and Separation]].
+
+=== Thyme and oregano ===
+* '''Volatile fraction:''' '''thymol''' and '''carvacrol'''.
+* '''Interaction:''' '''positive allosteric modulation of GABA-A''' — '''established''' in receptor studies, and the structural kinship to '''propofol''' is covered in [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]] §3.
+* '''⚠️ Both are strongly caustic to mucosa and hepatotoxic at scale.'''
+
+=== Cannabis ===
+* '''Volatile fraction:''' the terpenes — '''myrcene, limonene, β-caryophyllene, linalool, pinenes''' — plus the '''volatile sulfur compounds''' that actually produce the "gas/skunk" note. The '''cannabinoids are non-volatile at ambient''' and are not in a steam distillate.
+* See [[Cannabinoid Oilahuasca]] · [[Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds|Hops, Cannabis, and the Chemistry of Dank]].
+
+== 3. The four rules this mapping produces ==
+# '''Check whether the active is volatile before you make an oil of it.''' '''Piperine, curcumin, gingerols, cannabinoids and most alkaloids are not.''' A distillate of a plant whose active is non-volatile is '''a different plant'''.
+# '''Concentration is the risk.''' The oil is '''10× to 1000×''' the herb by weight. '''Apiole, β-asarone, eugenol, estragole, thymol''' are each more dangerous in oil form, and parsley-seed oil is the sharpest case.
+# '''Chemotype is not optional information.''' '''Calamus (β-asarone), cinnamon (coumarin), thyme (thymol vs linalool chemotypes)''' all vary enough between varieties that an unlabelled oil is an unknown quantity. '''"Essential oil of X" is not a specification.'''
+# '''Better dosing precision is a real benefit, and it is the honest argument for the oil form.''' A measured volume of a '''standardised, chemotyped''' oil is a far better-characterised input than powdered bark of unknown provenance — '''which is exactly why the concentration and chemotype rules above have to be followed rather than waved at.'''
+
+== 4. Where this connects ==
+[[Oilahuasca]] · [[Cannabinoid Oilahuasca]] · [[Space Paste]] · [[69Ron and Oilahuasca Chemistry]] · [[The Huasca Phenomenon and Metabolic Redirection]] · [[Shulgin Ten Essential Oils]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Hydrosols Absolutes and Botanical Extraction Modalities|Hydrosols, Absolutes, and Botanical Extraction Modalities]] · [[Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils|Cold Pressing, Expelling, and Heat]] · [[Solvent Chemistry and Polarity in Botanical Extraction]] · [[Traditional Spiced Formulations and Synergistic Blends]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Kava Potentiation]]
+
+== Sources ==
+* Tisserand R. and Young R., ''Essential Oil Safety'' (2nd ed., 2014) — the standard reference for oil-form toxicity, chemotype variation and dermal/mucosal limits.
+* EFSA opinions on '''estragole''', '''methyleugenol''', '''β-asarone''' and '''coumarin''' in food.
+* Hallström H. and Thuvander A., "Toxicological evaluation of myristicin", ''Natural Toxins'' 5 (1997).
+* Shoba G. et al., "Influence of piperine on the pharmacokinetics of curcumin in animals and human volunteers", ''Planta Medica'' 64 (1998).
+* Atal C. K., Dubey R. K. and Singh J., "Biochemical basis of enhanced drug bioavailability by piperine", ''Journal of Pharmacology and Experimental Therapeutics'' 232 (1985).
+* Hall A. C. et al. and García D. A. et al., on thymol, carvacrol and eugenol at GABA-A.
+* Gertsch J. et al., "Beta-caryophyllene is a dietary cannabinoid", ''PNAS'' 105 (2008).
+* Janbaz K. H. et al. and the clove-oil hepatotoxicity case literature in paediatrics.
+* Leung A. Y. and Foster S., ''Encyclopedia of Common Natural Ingredients'' — composition data for the oils above.
