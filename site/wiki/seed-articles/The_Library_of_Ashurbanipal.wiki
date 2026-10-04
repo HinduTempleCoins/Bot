@@ -1,0 +1,26 @@
+The '''Library of Ashurbanipal''' is the cited, fact-checked reference wiki of the MELEK / SoapBox ecosystem — the place where the knowledge behind everything built here is written down plainly, with its sources, so anyone can check it rather than take our word.
+
+The name is taken from the [https://en.wikipedia.org/wiki/Library_of_Ashurbanipal library of Ashurbanipal], the last great king of Assyria, who gathered into Nineveh — on tens of thousands of clay tablets — the medicine, astronomy, law, myth, and letters of the world he knew. His palace burned, and because clay bakes hard in fire, the tablets survived the very thing that destroyed everything around them. We are still reading that library today. We took the name on purpose.
+
+== What it is ==
+
+A cited reference wiki: every claim is meant to be checkable against its sources. It already holds:
+
+* '''The chain itself''' — what a witness is, how DPoS and the Graphene framework work, how MELEK, PRANA and the tokens fit together. The reference behind the Witness School.
+* '''The plant-medicine & harm-reduction corpus''' — history, ethnobotany, pharmacology, and safety: dose ranges, interactions, testing, set and setting, aftercare. Reference and harm-reduction — never a manufacturing manual.
+* '''The ancient mysteries''' — the deep material most libraries won't touch: Atlantis and the Nephilim, the lost origins, the mystery traditions and comparative mythology — taken seriously and studied from the sources, not waved away and not swallowed whole.
+* '''The economics''' — how the reward pool, curation, and the token economy actually work, taught honestly.
+
+== What it will be ==
+
+The place you '''learn about MELEK''' — a library, not a marketing page — '''written by the community''', the way the tablets at Nineveh were copied and added to by many hands. Learning here will mean more than reading: you will '''study''' (our material and the good sources outside it), be '''tested''', and, when you are ready, '''learn to write for the Library yourself'''. Contributing a careful, cited article is how the next person gets in, and it will be '''credentialed''' work.
+
+== How it pays — the DevTome model ==
+
+A library needs scribes, and scribes need to eat. [https://en.wikipedia.org/wiki/Devcoin Devcoin] and its writing platform DevTome paid people, in coin, to write — funded straight out of the chain's own issuance. The Library follows that model: likely its '''own CPU-mined CryptoNote coin''', with the mining reward '''split by the protocol''' between the miner who secured the block and the '''writers of the Library''' — tilted further toward the Library than Devcoin's split was. Two ways to feed it, and both pay: '''mine it''' at the [https://pool.soapbox.community pool] (CryptoNote / RandomX, CPU-friendly, browser-mineable), or '''write it''' and earn from the writers' share.
+
+== How to reach it ==
+
+[https://wiki.soapbox.community wiki.soapbox.community] — reachable from across SoapBox. Use it the way you would any wiki: to look something up, to go deep, to check a claim against its sources. See also the [https://credentials.soapbox.community credentials directory] for the free and low-cost credential paths the wider world already offers.
+
+''The point of a library was never that one person knew everything. It is that the knowledge outlived them — legible to whoever came next.''

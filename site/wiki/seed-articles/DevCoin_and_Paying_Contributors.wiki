@@ -1,0 +1,31 @@
+# DevCoin and Paying Contributors
+
+**DevCoin** (launched 2011) was one of the earliest attempts to use a blockchain not just as money, but as a **way to pay people for open work** — writers, coders, and other contributors — automatically, from a shared pool. Its reward model is a direct ancestor of how the [[PRANA Compute Chain|PRANA]] chain pays contributors and how the **Library of Ashurbanipal** plans to pay its writers. This article explains DevCoin's idea, the mistake it made, and what the MELEK ecosystem keeps and fixes.
+
+== The Idea: One Pool, Paid to Contributors ==
+
+Most coins pay their block reward to whoever mines the block. DevCoin did something different: it routed the **bulk of each block's issuance into a shared pool** earmarked for people doing open-source and open-content work. Contributors earned **"shares"** for their work — writing documentation, articles, code — and each period a batch of new coins was **split among contributors in proportion to the shares** they had earned. In effect, the blockchain itself ran a payroll for the commons: contribute, earn shares, receive a monthly slice of the pool.
+
+This was radical. It meant a writer or coder could be paid **directly by the network**, with no employer, no invoice, and no gatekeeper deciding who gets funded — just a transparent share count and a fixed schedule.
+
+== The Mistake: Too Much Supply ==
+
+DevCoin's flaw was **tokenomics**. It issued coins on an enormous scale — on the order of **180,000,000,000** — far more than demand could absorb. With so many coins chasing so little use, the **price deflated toward nothing**, and because contributors were paid in that coin, the real value of their monthly payout dwindled with it. The mechanism for paying contributors was sound; the **supply was not**. A payment system only works if what it pays holds its worth.
+
+== What MELEK / PRANA Keeps and Fixes ==
+
+The ecosystem keeps DevCoin's best idea and repairs its worst:
+
+* '''Keep — the one-pool, pay-by-shares model.''' PRANA routes each period's issuance into **one on-chain pool** (the *UnifiedSharesLedger*) split pro-rata among everyone who contributed weighted shares — mining or verified compute. The **Library of Ashurbanipal** applies the same idea to writing: contributors earn shares for articles they write and improve, and a **monthly pool of coins is split among them by share count**. Contribution paid directly, exactly in DevCoin's spirit.
+* '''Fix — keep issuance tight and fair-launched.''' Unlike DevCoin's 180-billion flood, MELEK and PRANA launch with **no premine** and a disciplined, fair issuance, so a contributor's shares actually **hold their value**. The payroll only means something if the coin does.
+
+== See Also ==
+
+* [[PRANA Compute Chain]] — the one-pool reward model in action
+* [[GridCoin and Useful Work]] — the other lineage PRANA combines
+* [[Proof of Work Mining]] — how the pool is fed
+* [[Running Tokens on MELEK-Engine]] — issuing tokens with disciplined supply
+
+== Coverage ==
+
+Historical and first-party explanation of DevCoin's contributor-payment model, its supply problem, and how MELEK/PRANA adapt it. Exact PRANA issuance and Library reward parameters should be confirmed against the live configuration before use.

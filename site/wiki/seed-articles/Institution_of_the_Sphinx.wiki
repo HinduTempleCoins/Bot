@@ -1,0 +1,24 @@
+The available sources do not provide specific details regarding an "Institution of the Sphinx." While the "order of the sphinx" is listed as a key theme in the index for the Van Kush Family Research Institute's Comprehensive Master Synthesis, the document itself does not elaborate on this concept <ref>knowledge/scripture/_index.json</ref>.
+
+Within the framework of the Van Kush Family Research Institute (VKFRI), the Sphinx is identified with Mehit <ref>van_kush_master_synthesis.md</ref>.
+
+== The Sphinx in VKFRI Framework ==
+VKFRI's Comprehensive Master Synthesis identifies Mehit as "the Sphinx" <ref>van_kush_master_synthesis.md</ref>. Mehit is described as the wife of Anhur, a war god associated with the Royal Military tradition of ancient Nubia and Egypt <ref>van_kush_master_synthesis.md</ref>. Anhur is also linked to a temple in the Egyptian city of Sebennytos and is depicted with a four-plumed crown <ref>ancient_egypt</ref>. According to VKFRI's synthesis, Anhur brought Mehit from Nubia, which is identified with Cush (Biblical Nubia, modern Sudan/Ethiopia) <ref>van_kush_master_synthesis.md</ref><ref>ancient_egypt</ref>.
+
+== Connections to the Van Kush Family ==
+The Van Kush Family, within its own framework, connects its name to "Cush," meaning "From Cush," and associates itself with the ancient Nubian/Egyptian Royal Military tradition, which includes Anhur and Mehit <ref>van_kush_master_synthesis.md</ref>.
+
+== External Sources ==
+The provided external sources discuss topics unrelated to a historical or mythological "Institution of the Sphinx." These sources refer to software tools for Python in science <ref>https://doi.org/10.25080/ddee5226</ref>, a physical exercise called "Sphinx Stretch" <ref>https://doi.org/10.5040/9781350869073</ref>, and yearbooks titled "Sphinx årsbok" <ref>https://doi.org/10.54572/ssc.1019</ref><ref>https://doi.org/10.54572/ssc.1426</ref>. They do not provide information about an institution or order related to the mythological Sphinx.
+
+== Sources ==
+*   ancient_egypt
+*   knowledge/scripture/_index.json
+*   knowledge/scripture/van_kush_master_synthesis.md
+*   https://doi.org/10.25080/ddee5226
+*   https://doi.org/10.5040/9781350869073
+*   https://doi.org/10.54572/ssc.1019
+*   https://doi.org/10.54572/ssc.1426
+
+== Coverage ==
+The article's content is thin due to the limited direct information in the provided sources regarding an "Institution of the Sphinx." The primary information comes from VKFRI's internal documents, specifically the identification of Mehit as the Sphinx and her connection to Anhur and the Van Kush family's etymological framework. The external sources do not corroborate or provide additional information on this topic.

@@ -1,0 +1,42 @@
+# PRANA Compute Chain
+
+**PRANA** is a sovereign, EVM-compatible **proof-of-work** blockchain whose purpose is to turn mining energy into **useful computation** — it is the compute layer of the MELEK ecosystem and the home of its decentralized exchange, [[KulaSwap and the DEX Lineage]]. Where [[Proof of Work Mining|PoW mining]] normally spends electricity only to secure a chain, PRANA pays for both **hashing** and **verified AI/GPU work** out of one fair reward pool. This article explains what PRANA is, how it launches fairly, how its "the chain is the pool" reward model works, and how it relates to Ethereum and to MELEK.
+
+== What PRANA Is ==
+
+PRANA is a fork of the Ethereum-lineage client family (core-geth, the Ethereum Classic side), so it speaks the same JSON-RPC as Ethereum, runs the same **EVM** smart contracts (Solidity), and works with wallets like MetaMask by adding its network. It keeps **Proof of Work** rather than moving to Proof of Stake, because PoW is what lets mining hardware do real work. Its algorithm is **Etchash** (ECIP-1099 / "Thanos"), which is GPU-friendly and fits lower-VRAM cards, so ordinary machines can mine it.
+
+Relationship to Ethereum: Ethereum began as PoW and, in 2022, switched to **Proof of Stake** (validators stake coins instead of mining). **Ethereum Classic** is the original PoW Ethereum that kept mining. PRANA stands in that PoW-Ethereum tradition — full EVM smart-contract capability, but secured by work, and extended so the work is *useful*.
+
+== Fair Launch ==
+
+PRANA launches with **no premine**: the genesis allocation is empty, so no coins are created for insiders before the public can mine. Difficulty starts **low**, so laptops and single GPUs can win blocks in the first days, and it retargets upward naturally as more hashpower joins. This is a deliberate contrast to chains that mint a large founder supply up front — value accrues to the people who actually show up and contribute.
+
+== "The Chain Is the Pool" ==
+
+Most PoW coins have many competing mining pools, each taking a fee and fragmenting rewards. PRANA instead makes the **chain itself the pool**. Each period, a **fixed issuance** of PRANA flows into one on-chain ledger (the *UnifiedSharesLedger*) and is split **pro-rata among everyone who contributed weighted shares** — whether those shares came from hashing or from verified compute. Anyone may run a **coordinator** (a front-end/relay into the pool) by posting a slashable bond, so front-ends compete on service while the reward pool stays single and fair. This one-pool design descends directly from [[DevCoin and Paying Contributors|DevCoin's]] reward model.
+
+== Two Lanes: HASH and TASK ==
+
+PRANA pays two kinds of work from the same pot:
+
+* '''HASH''' — ordinary Etchash mining, which secures the chain.
+* '''TASK''' — verified **AI / GPU compute jobs** (the [[GridCoin and Useful Work|useful-work]] lane), where a coordinator posts a job, a worker computes it, and the result is verified before shares are credited.
+
+The split between the two is **governed** (DAO-tunable, default 1:1), so the network can balance security against useful throughput over time. A small miner and a heavy AI worker are therefore paid appropriately out of the same fixed issuance.
+
+== PRANA and MELEK ==
+
+MELEK is the **social** chain (a Graphene/DPoS network — see Delegated Proof of Stake DPoS) and the home of token issuance and rewards ([[Running Tokens on MELEK-Engine]], [[Hive Engine and Smart Media Tokens]]). PRANA is the **compute and DeFi** chain. They are linked: MELEK tokens (and the APIS creation-fuel) can be bridged onto PRANA as wrapped ERC-20s and traded on [[KulaSwap and the DEX Lineage|KulaSwap]]. In short — MELEK is where you create and reward; PRANA is where you compute and trade.
+
+== See Also ==
+
+* [[Proof of Work Mining]] — how PRANA is mined, and mining pools
+* [[KulaSwap and the DEX Lineage]] — PRANA's decentralized exchange
+* [[GridCoin and Useful Work]] — the useful-work lineage behind the TASK lane
+* [[DevCoin and Paying Contributors]] — the one-pool reward model
+* Delegated Proof of Stake DPoS — how MELEK, the paired social chain, reaches consensus
+
+== Coverage ==
+
+First-party description of the PRANA compute chain — its EVM/PoW design, Etchash algorithm, fair-launch, one-pool reward model, and HASH/TASK lanes. Live chain id, RPC endpoints, issuance and difficulty parameters, and governance weights should be confirmed against the running PRANA network before relying on them.

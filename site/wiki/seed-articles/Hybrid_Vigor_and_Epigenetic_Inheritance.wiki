@@ -1,0 +1,7 @@
+== Hybrid Vigor ==
+Hybrid vigor, also known as heterosis, is a phenomenon examined in relation to selective breeding and transgenerational epigenetic inheritance <ref>knowledge/scripture/heterosis_mechanism.md</ref>. Charles Darwin was aware of heterosis <ref>knowledge/scripture/heterosis_mechanism.md</ref>. The Green Revolution, associated with Norman Borlaug, has been cited as a demonstration of heterosis <ref>knowledge/scripture/heterosis_mechanism.md</ref>.
+
+Research has explored hybrid vigor in conjunction with transgenerational epigenetic effects on early mouse embryo phenotype <ref>https://pubmed.ncbi.nlm.nih.gov/18562704/</ref>.
+
+== Epigenetic Inheritance ==
+Ep

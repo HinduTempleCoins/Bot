@@ -1,0 +1,45 @@
+# APIS and Token Creation
+
+**APIS** is the creation-fuel of the MELEK token economy: you obtain it by permanently locking MELEK, and you spend it to **create your own token** and turn on its rewards. It is MELEK-Engine's equivalent of Hive-Engine's "BEE" fee token, named for *Apis*, the sacred bee. This article explains where APIS comes from, what you do with it, and how the token you create reaches the market. It builds on [[Running Tokens on MELEK-Engine]] and [[Hive Engine and Smart Media Tokens]].
+
+== Where APIS Comes From: Locking MELEK ==
+
+APIS is **earned**, not bought from a faucet. The mechanism follows Hive-Engine's WORKERBEE → BEE model, remapped:
+
+# You **forever-lock** MELEK (as the engine's wrapped-MELEK side token). The lock is **permanent** — there is no unstake.
+# Locking mints **APIS-Hash**, a soulbound (non-transferable) mining-power balance, 1:1 with what you locked.
+# APIS-Hash **mines APIS** on a fixed schedule — a set amount of APIS per day is split across all APIS-Hash holders by share. More lockers only split the same fixed pie; it is not inflationary.
+
+So "post on MELEK to lock MELEK and get APIS" resolves to: lock → earn mining power → mine the spendable APIS you then use to create things. Permanently converting MELEK into creation-power keeps the fuel scarce and earned.
+
+== What You Spend APIS On ==
+
+APIS is **burned** as the fee for the acts of creation on MELEK-Engine:
+
+* '''Create a token''' — burning a fixed amount of APIS registers a brand-new token (you set its symbol, precision, supply, and rules).
+* '''Add SCOT''' — burning APIS turns on the token's **social reward pool** ("Smart Contracts On Tokens"): posts tagged for your community earn your token, stake-weighted, on the schedule and author/curator split you choose.
+* '''Make a Seed''' — burning APIS makes a token into a Kush-Farm "seed" asset.
+* '''Resource fees''' — small APIS burns pay for engine operations beyond the free allowance.
+
+Because creation and rewards cost APIS, and APIS costs locked MELEK, the whole economy is anchored back to MELEK.
+
+== From Your Token to the Market ==
+
+Once your token exists and (optionally) rewards content via SCOT, it can leave the social layer and become **tradable**:
+
+# **Bridge** the token onto the [[PRANA Compute Chain|PRANA]] chain as a wrapped ERC-20.
+# **List** it on [[KulaSwap and the DEX Lineage|KulaSwap]] — create the pair, seed liquidity.
+# **Trade, provide liquidity, and farm** — your community now has a market and a little DeFi economy around its token.
+
+The full loop: **lock MELEK → earn APIS → create your token → reward your community with SCOT → bridge to KulaSwap → trade and farm.** You can enter at any point.
+
+== See Also ==
+
+* [[Running Tokens on MELEK-Engine]] — the side-token layer APIS operates on
+* [[Hive Engine and Smart Media Tokens]] — the BEE/SCOT model APIS descends from
+* [[KulaSwap and the DEX Lineage]] — where your token gets a market
+* [[Getting Started On-Ramp]] — how newcomers get the capital to take part
+
+== Coverage ==
+
+First-party explanation of APIS as MELEK-Engine's creation-fuel — how it is minted by locking MELEK and burned to create tokens, SCOT rewards, and seeds. Exact fees, emission schedules, and bridge parameters should be confirmed against the live MELEK-Engine and bridge configuration before use.

@@ -37,7 +37,8 @@ export async function holders(symbol, { issuer = TRADE_ACCOUNT, maxRows = 50000 
   const issuers = new Set([issuer, info.issuer].filter(Boolean));
   const rows = await findAll('tokens', 'balances', { symbol }, { maxRows });
   const all = rows.map(h => {
-    const bal = +h.balance + (+h.stake || 0);
+    // tokens mid-unstake are still owned — include pendingUnstake so this agrees with token-specs-refresh
+    const bal = +h.balance + (+h.stake || 0) + (+h.pendingUnstake || 0);
     return { account: h.account, bal, pct: supply ? bal / supply * 100 : 0,
       affiliated: AFFILIATED.has(h.account), issuer: issuers.has(h.account) };
   }).sort((a, b) => b.bal - a.bal); // numeric sort in code — never trust the HE string `balance` index
@@ -51,7 +52,19 @@ export async function holders(symbol, { issuer = TRADE_ACCOUNT, maxRows = 50000 
     issuerPct: +(all.filter(h => h.issuer).reduce((a, h) => a + h.pct, 0)).toFixed(2),
     affiliatedPct: +(all.filter(h => h.affiliated && !h.issuer).reduce((a, h) => a + h.pct, 0)).toFixed(2),
     realOutsidePct: +(realOutside.reduce((a, h) => a + h.pct, 0)).toFixed(2),
-    counts: { total: all.length, holders: holderCount, outside: outside.length, realOutside: realOutside.length },
+    counts: { total: all.length, holders: holderCount, outside: outside.length, realOutside: realOutside.length,
+      withAny: all.filter(h => h.bal > 0).length, emptyNow: all.filter(h => h.bal <= 0).length },
+    // ⭐ THE TIERS ARE THE HONEST DISTRIBUTION STORY. A raw holder count flatters an airdropped token:
+    // most of those accounts hold a fraction of one token. Publishing the count without the tiers makes
+    // dust look like a community, so callers get both or neither.
+    tiers: {
+      dust: all.filter(h => h.bal > 0 && h.bal < 1).length,
+      ge1: all.filter(h => h.bal >= 1).length,
+      ge10: all.filter(h => h.bal >= 10).length,
+      ge100: all.filter(h => h.bal >= 100).length,
+      ge1000: all.filter(h => h.bal >= 1000).length,
+    },
+    truncated: rows.truncated === true,
     topOutside: outside.slice(0, 12).map(h => ({ account: h.account, bal: +h.bal.toFixed(3), pct: +h.pct.toFixed(3), affiliated: h.affiliated })),
   };
 }

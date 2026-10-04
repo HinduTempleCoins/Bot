@@ -1,0 +1,51 @@
+# Getting Started On-Ramp
+
+This is the practical guide for newcomers: how to get from an ordinary exchange like **Coinbase** to having some **capital to trade** inside the MELEK / [[PRANA Compute Chain|PRANA]] ecosystem and its DEX, [[KulaSwap and the DEX Lineage|KulaSwap]]. It covers the cheapest way in, how **fees** work, an honest word about which coins to *hold* versus merely *move through*, and the ways you can **earn** the tokens that get you into the market without buying anything at all. Nothing here is financial advice or a price prediction — it is mechanics and paths.
+
+== The Rail: From an Exchange to Hive-Engine ==
+
+Big exchanges (Coinbase and the like) are where most people already have fiat and can buy crypto. The goal is to move value from there into the **Hive-Engine** side-token world ([[Hive Engine and Smart Media Tokens]]), and from there bridge onto **PRANA / KulaSwap**. The general path:
+
+# **Buy a low-fee transfer coin** on the exchange — a coin whose job is just to *move* cheaply and quickly.
+# **Send it** to a service or wallet that connects to the Hive/Hive-Engine world (or that lists a market you can hop through).
+# **Convert** into a Hive-side asset, then **bridge** onto PRANA and trade on KulaSwap.
+
+The key insight: you are not looking for the *best investment* to make this trip — you are looking for the **cheapest, fastest vehicle**. You get in and out of it quickly.
+
+== Fees, Plainly ==
+
+Every step on the exchange rail has a **fee**: a trading fee to buy, a **network fee** to send the coin, and often a small spread. Network fees vary enormously by coin and by how busy that coin's network is — sending on a congested chain at a bad moment can cost more than the amount you are moving. This is why the *choice of transfer coin matters*, and why you move in **meaningful chunks** rather than tiny dribbles across a fee-charging rail.
+
+Contrast this with what happens **once you are inside**: MELEK is **fee-less** (no per-transaction fee, no downvotes), so the **micro-transactions** the ecosystem is built around — small tips, rewards, token transfers — cost nothing. The expensive part is only the on-ramp rail; the ecosystem itself is designed for tiny, frequent, free movements.
+
+== A Word on What to Hold vs. What to Move Through ==
+
+Not every coin is meant to be held. **DOGE** is the clearest example: it is **inflationary by design** — new coins are minted continuously with no cap — so absent constant new demand, its value **decays** over time. Practically, that means DOGE is something you **trade or convert to fiat (USD) quickly**, not something you park. And because many holders understand this, they **sell** — which itself feeds the downward pressure, a self-reinforcing loop.
+
+The lesson is not "DOGE is bad" — it is a **fast, cheap, widely-listed transfer coin**, which is exactly what a rail wants. The lesson is: **use it as a vehicle, not a vault.** Move value through it; don't store value in it. The same caution applies to any high-inflation coin. For the trip itself, favor coins that are **cheap to send and easy to convert**; for what you actually *hold*, prefer assets with disciplined supply (see the fair-launch note in [[DevCoin and Paying Contributors]]).
+
+== Earning Your Way In — No Purchase Needed ==
+
+You do not have to buy your way in at all. Many people already hold, or can **earn**, the tokens that open the KULA market:
+
+* '''HIVE''' — earned by posting and curating on the Hive social chain; a widely-traded asset that bridges toward the Hive-Engine world.
+* '''VKBT''' ([[VKBT Token]]) and '''CURE''' — community tokens many people already hold, which can be **brought into the KULA market** so their holders arrive with capital to trade.
+* '''On MELEK itself''' — write and curate to earn rewards; **make a token** and reward a community ([[APIS and Token Creation]]); **mine** PRANA ([[Proof of Work Mining]]); **write for the Library** and earn shares ([[DevCoin and Paying Contributors]]). Each is a way to accumulate something tradable without spending a cent.
+
+So there are two doors: **buy a cheap transfer coin and ride the rail in**, or **earn HIVE / VKBT / CURE / MELEK-side tokens and bring them to KulaSwap.** Either way you arrive with capital to trade.
+
+== Into the KULA Market ==
+
+Once you hold a tradable asset on PRANA, [[KulaSwap and the DEX Lineage|KulaSwap]] is where it becomes active capital: **swap** it for other tokens, **provide liquidity** to earn swap fees, and **farm** the KULA token. From there the whole ecosystem — tokens, farms, DeFi — is open to you.
+
+== See Also ==
+
+* [[KulaSwap and the DEX Lineage]] — the DEX you are heading toward
+* [[APIS and Token Creation]] — earning your way in by creating a token
+* [[Proof of Work Mining]] — earning your way in by mining
+* [[Hive Engine and Smart Media Tokens]] — the side-token world the rail connects to
+* [[VKBT Token]] — one of the assets that opens the KULA market
+
+== Coverage ==
+
+First-party, educational guide to on-ramping into the MELEK/PRANA ecosystem — the exchange rail, fees, the hold-vs-move distinction, and earning routes. Not financial advice. Specific exchange fees, supported coins, and bridge/market details should be confirmed against live services before use.

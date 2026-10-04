@@ -1,0 +1,41 @@
+# KulaSwap and the DEX Lineage
+
+**KulaSwap** is the decentralized exchange (DEX) of the [[PRANA Compute Chain|PRANA]] chain — where tokens from across the MELEK ecosystem are swapped, pooled, and farmed. It belongs to a well-established family of DEX designs, and understanding that family is the fastest way to understand what KulaSwap does. This article places KulaSwap in the lineage of on-chain exchanges, explains the automated-market-maker model it uses, and shows how tokens from MELEK and other chains arrive in its markets.
+
+== What a DEX Is ==
+
+A **decentralized exchange** lets people trade tokens directly from their own wallets, with no company holding their funds and no order book run by a central operator. Early DEXs tried to put a traditional **order book** on-chain, but matching buyers and sellers block-by-block was slow and expensive. The breakthrough was a different model entirely: the **automated market maker**.
+
+== The Uniswap-V2 AMM Lineage ==
+
+The **automated market maker (AMM)** replaces the order book with a **liquidity pool** and a formula. Anyone can deposit a pair of tokens (say, TOKEN and the chain's coin) into a pool; the pool then quotes prices automatically using the **constant-product formula** `x · y = k`, where `x` and `y` are the two reserves. A trade shifts the reserves along that curve, which moves the price — larger trades move it more (**slippage**). People who deposit into the pool are **liquidity providers (LPs)** and earn a share of every swap's fee (commonly **0.30%**).
+
+This design was popularized by **Uniswap** on Ethereum. **Uniswap V2** — pooled pairs, the constant-product curve, LP tokens, and a **Factory/Router** contract pair that creates pools and routes trades — became the template that most DEXs copy. Its descendants are everywhere: **SushiSwap** (a V2 fork that added farming rewards), **PancakeSwap** (V2-style, on BNB Chain), **QuickSwap** (on Polygon), and many chain-native DEXs. On Hive-lineage and Graphene ecosystems, side-token layers grew their own internal markets ([[Hive Engine and Smart Media Tokens]]).
+
+**KulaSwap sits squarely in the Uniswap-V2 family.** It uses the same Factory + Router + constant-product-pair architecture, the same LP-and-fee model, running on PRANA's EVM. On top of the standard AMM it adds ecosystem-specific pieces — **farms** that reward liquidity with the KULA token, **proof-of-liquidity** accounting, and DeFi vaults — but the core a trader interacts with is the familiar V2 swap. If you have used Uniswap, SushiSwap, or PancakeSwap, you already know how to use KulaSwap.
+
+== How Tokens Reach KulaSwap ==
+
+KulaSwap trades **ERC-20** tokens on PRANA. Tokens come from several places:
+
+* '''Native PRANA tokens''' — KULA and anything issued directly on PRANA.
+* '''Bridged MELEK tokens''' — a token created on [[Running Tokens on MELEK-Engine|MELEK-Engine]] (via the APIS creation-fuel) can be bridged onto PRANA as a wrapped ERC-20 and listed.
+* '''Bridged outside assets''' — assets people already hold, such as **VKBT** ([[VKBT Token]]) and **CURE**, can be brought across into the KULA market so their holders arrive with capital to trade.
+
+Once a token is on PRANA, anyone can create its pair on the Factory and seed liquidity, and it is tradable.
+
+== Providing Liquidity and Farming ==
+
+Beyond swapping, users can **provide liquidity** (deposit both sides of a pair) to earn the swap fees, and **farm** the **KULA** token as an extra reward for that liquidity. KULA is the DEX's DeFi and governance token: it can be locked to borrow against, burned for governance weight, and used to vote on where farming rewards flow. This is the same "LP → farm → govern" pattern that SushiSwap and its descendants established, tuned for the PRANA ecosystem.
+
+== See Also ==
+
+* [[PRANA Compute Chain]] — the chain KulaSwap runs on
+* [[Running Tokens on MELEK-Engine]] — how a MELEK token is created before bridging to KulaSwap
+* [[Hive Engine and Smart Media Tokens]] — the side-token markets in the Graphene lineage
+* [[VKBT Token]] — one of the assets that can enter the KULA market
+* [[Proof of Work Mining]] — how PRANA, and the tokens traded here, are secured
+
+== Coverage ==
+
+First-party explanation of KulaSwap and its place in the Uniswap-V2 AMM lineage, plus how tokens reach its markets. Specific contract addresses, pair listings, fees, and farm parameters should be confirmed against the live KulaSwap deployment before use.

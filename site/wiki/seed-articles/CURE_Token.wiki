@@ -1,0 +1,44 @@
+The CURE Token is a specialized Smart Media Token designed to reward curation within the [[HIVE Blockchain|HIVE]] ecosystem. It is characterized by its rarity and operates on the [[Hive Engine and Smart Media Tokens|HIVE-Engine]] platform. CURE Token is identified as a health and wellness community token within the [[Van Kush Family|Van Kush Family Crypto Network]] <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref><ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref><ref>vankush/vankush/van_kush_crypto_network.json</ref>.
+
+== Tokenomics ==
+The CURE Token has a defined minting rate of 2.4 tokens per hour, resulting in an approximate annual inflation of 21,000 tokens. This rate is claimed to make it rarer than Bitcoin <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+Rewards from minted tokens are split, with 51% allocated to curators (voters) and 49% to content creators who receive votes <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+For staking, 75% of earned rewards are automatically staked. The unstaking process spans 150 days, with payouts occurring in 50 installments every three days <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+Regarding voting power, a 100% vote consumes 2% of a user's Vote Power, which fully regenerates over 24 hours. Downvotes consume 100% of downvote power and require 30 days to regenerate <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+== Earning CURE Tokens ==
+To be eligible for CURE rewards, posts must include specific hashtags: #vankushfamily, #actifit, #pepe, #proofofbrain, and #curators. Earning CURE is achieved by voting on posts that utilize these designated tags <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+== Market Strategy ==
+The market strategy for CURE Token includes a target price of $0.01 (one penny). Stabilization is planned through buy-back events, attributed to the token's low total supply. An analysis suggests that approximately $210 could acquire all 21,000 tokens <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+Price pumping is described as tearing down sell walls by purchasing the token itself, which reportedly achieved a peak value of 10 HIVE per CURE <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+The Van Kush Family's policy involves reinvesting 100% of earned HIVE into HIVE Power, aiming to increase voting influence and generate more earnings for the community <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+Within the Institute's framework, the curation business model is compared to starting a franchise by investing $10,000 in HIVE. This activity, involving daily voting on posts, is proposed to yield 50% of generated rewards as passive income <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>. The SocialFi goal is described as a "Union of Crypto Holders" where members vote for each other, leading to collective earnings of liquid HIVE, STEEM, BLURT, and CURE <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+== Roadmap ==
+The roadmap for CURE Token includes cross-chain expansion with planned bridges to Polygon (MATIC), TON, BSC, and ETH, intended to broaden accessibility for CURE and [[VKBT Token|Van Kush Beauty Token]] (VKBT) <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+Plans for real-world backing involve selling gemstones and silver for CURE, with the purpose of providing hard value backing <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+The organizational structure is envisioned as a Cryptocurrency 501(c)(3) Educational Organization, symbolized by the Caduceus (Hermes/Mercury), which is connected to ancient commerce <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+== Integration within the Van Kush Family Ecosystem ==
+CURE Token is listed as a recommended token within the [[Hive Engine and Smart Media Tokens|HIVE-Engine Ecosystem]] documentation <ref>cryptocurrency/cryptocurrency/hive_engine_ecosystem.json</ref>. It is also identified as a health and wellness community token within the broader [[Van Kush Family|Van Kush Family Crypto Network]], with utility for wellness product access and community governance <ref>vankush/vankush/van_kush_crypto_network.json</ref>. Van Kush Family Consulting Services offer token creation, including for HIVE-Engine <ref>vankush/vankush/vankush_consulting_services.json</ref>.
+
+== Current Status ==
+As of 2026, CURE Token is available on TribalDEX <ref>cryptocurrency/cryptocurrency/cure_token_documentation.json</ref>.
+
+== Sources ==
+* cryptocurrency/cryptocurrency/cure_token_documentation.json
+* cryptocurrency/cryptocurrency/hive_engine_ecosystem.json
+* vankush/vankush/van_kush_crypto_network.json
+* vankush/vankush/vankush_consulting_services.json
+
+== Coverage ==
+The article's content is primarily based on the `cryptocurrency/cryptocurrency/cure_token_documentation.json` source, supplemented by mentions in `cryptocurrency/cryptocurrency/hive_engine_ecosystem.json`, `vankush/vankush/van_kush_crypto_network.json`, and `vankush/vankush/vankush_consulting_services.json`. No external sources directly discuss the CURE Token cryptocurrency.
