@@ -81,7 +81,8 @@ export const CATEGORIES = [
   },
   {
     id: 'substances', name: 'Substances and pharmacology', blurb: 'One page per thing in the stacks — established, preclinical and hypothesis kept apart.',
-    pages: ['Stack Substances', 'Cannabinoid Oilahuasca', 'Oilahuasca', 'MAGL', 'FAAH', 'Anandamide and 2-AG', 'Beta-Caryophyllene',
+    pages: ['Toads Frogs and the Myths Harm Reduction and Wildlife Protection',
+            'Stack Substances', 'Cannabinoid Oilahuasca', 'Oilahuasca', 'MAGL', 'FAAH', 'Anandamide and 2-AG', 'Beta-Caryophyllene',
             '8-Prenylnaringenin', 'L-Methylfolate', 'The Amplification Framework', 'Racetams', 'Choline Donors',
             'Creatine', 'Vitamin K2', 'Chelated Minerals', 'Liposomal Vitamin C', 'Silicon and Collagen', 'B-Vitamins',
             'Galantamine', 'Datura', 'Cannabis', 'Cannabis Harm Reduction', 'PIHKAL and TIHKAL',
@@ -332,7 +333,8 @@ export const CATEGORIES = [
   },
   {
     id: 'tools', name: 'Tools', blurb: 'The apps and utilities anyone can use — free calculators, token prices, data, wallets, explorers.',
-    pages: ['SoapBox Tools', 'Soap Calculator', 'Dilution Calculator', 'Percentage Calculator', 'Unit Price Calculator',
+    pages: ['Hidden Layers How AI Learns What Nobody Taught It',
+            'SoapBox Tools', 'Soap Calculator', 'Dilution Calculator', 'Percentage Calculator', 'Unit Price Calculator',
             'Token Price Ticker', 'SoapBox Data Hub', 'KulaSwap', 'Akasha Wallet', 'PranaScan',
             'SoapBox Mining Pool', 'SoapBox Pool', 'SoapBox Search', 'SoapBox Directory', 'SoapBox Analytics',
             'Laboratory Equipment and Extraction Engineering',
@@ -524,6 +526,7 @@ export const PILLARS = [
     icon: '🧠',
     blurb: 'The expanded endocannabinoidome, enzyme kinetics, cholinergics, MAOIs, and structure-activity relationships.',
     pages: [
+      'Toads Frogs and the Myths Harm Reduction and Wildlife Protection',
       'The Expanded Endocannabinoid System and FAAH Science',
       'Endocannabinoid Chemistry and 2-AG Metabolism',
       'Anandamide and 2-AG',
@@ -690,6 +693,7 @@ export const PILLARS = [
     icon: '⚡',
     blurb: 'Sensory frequency driving (40 Hz), bio-rhythms, quantum theory, and historical lineages of natural philosophy.',
     pages: [
+      'Hidden Layers How AI Learns What Nobody Taught It',
       'Gamma Entrainment',
       'Auditory Steady State Response',
       'Display Refresh and Flicker Delivery',
