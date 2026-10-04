@@ -17,7 +17,7 @@
 import { chartSvg } from '../../integrations/plant-deficiency-chart.mjs';
 import { wheelSvg, wheelNames } from '../../integrations/aroma-wheel.mjs';
 import { table, GRAPHENE_MATRIX } from '../../integrations/chain-compare.mjs';
-import { specsTable, SPEC_DIMENSIONS } from '../../integrations/token-specs.mjs';
+import { specsTable, SPEC_DIMENSIONS, CAPTURE } from '../../integrations/token-specs.mjs';
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -303,7 +303,7 @@ export function tokenSpecsMatrix() {
     body
     + text(w / 2, foot, 'Supply alone means nothing; holders alone means nothing. The pair matters, and concentration decides whether to trust it.', { size: 11, fill: INK })
     + text(w / 2, foot + 17, 'The VKF position in VKBT and CURE was PURCHASED at market, not allocated — and is being given away through curation programs.', { size: 11, fill: MUT })
-    + text(w / 2, foot + 36, '"—" means not recorded here, never a guess. Live figures belong to a Hive-Engine read.', { size: 10.5, fill: MUT }));
+    + text(w / 2, foot + 36, `"—" means not recorded here, never a guess. Live Hive-Engine read, captured ${CAPTURE.date}; supply moves between reads.`, { size: 10.5, fill: MUT }));
 }
 
 // ── the registry ────────────────────────────────────────────────────────────────────────────────────
@@ -338,6 +338,10 @@ export const PAGE_FIGURES = {
   'L-Methylfolate': ['methylation-cycle'],
   'The_Amplification_Framework': ['methylation-cycle'],
   'B-Vitamins': ['methylation-cycle'],
+  // The older matrix article carries its own, now-superseded capture of these numbers and its own
+  // caveat about it. Its text is not ours to edit, so the LIVE, dated figures are attached above it —
+  // a reader who lands there first still sees the current numbers before the older prose.
+  'The_Matrix_Supply_Holders_and_Market_Cap': ['token-specs', 'graphene-matrix'],
   'The_Graphene_Family': ['graphene-matrix'],
   'VKBT_and_CURE': ['token-specs', 'graphene-matrix'],
   'Hive_Engine_and_Smart_Media_Tokens': ['token-specs'],

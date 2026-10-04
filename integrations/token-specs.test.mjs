@@ -9,14 +9,16 @@ test('the specs are the tokenomics dimensions, not chain dimensions', () => {
 });
 
 test("the operator's recorded numbers are carried exactly", () => {
-  assert.equal(TOKEN_SPECS.vkbt.supply, '1,900,000');
-  assert.equal(TOKEN_SPECS.vkbt.holders, '986');
-  assert.match(TOKEN_SPECS.vkbt.concentration, /42%/);
-  assert.equal(TOKEN_SPECS.cure.supply, '55,575');
-  assert.equal(TOKEN_SPECS.cure.holders, '999');
-  assert.match(TOKEN_SPECS.cure.concentration, /58%/);
-  assert.equal(TOKEN_SPECS.vkbt.capAtParity, '$579,000');
-  assert.equal(TOKEN_SPECS.cure.capAtParity, '$16,700');
+  assert.equal(TOKEN_SPECS.vkbt.supply, '2,315,564');
+  assert.equal(TOKEN_SPECS.vkbt.holders, '25,038');
+  assert.equal(TOKEN_SPECS.vkbt.realHolders, '5,375');
+  assert.match(TOKEN_SPECS.vkbt.concentration, /41\.9%/);
+  assert.equal(TOKEN_SPECS.cure.supply, '70,974');
+  assert.equal(TOKEN_SPECS.cure.holders, '14,965');
+  assert.equal(TOKEN_SPECS.cure.realHolders, '1,337');
+  assert.match(TOKEN_SPECS.cure.concentration, /52\.8%/);
+  assert.equal(TOKEN_SPECS.vkbt.capAtParity, '$129,672');
+  assert.equal(TOKEN_SPECS.cure.capAtParity, '$3,975');
 });
 
 test('⭐ every recorded figure cites a source — an unsourced spec is never invented', () => {
@@ -58,6 +60,20 @@ test('side tokens and chain coins are not conflated', () => {
   assert.match(TOKEN_SPECS.blurt.layer, /Chain coin/);
   assert.equal(tokensOn('Hive-Engine side token').every((t) => t.layer === 'Hive-Engine side token'), true);
   // fixed-supply vs inflationary is the distinction that matters most for a holder
-  assert.match(TOKEN_SPECS.vkbt.emission, /Fixed/);
+  // ⚠️ NOT 'fixed'. Both tokens are mintable to a cap and supply HAS grown between captures; an earlier
+  // revision of this file claimed 'Fixed — no ongoing mint', which the chain contradicts.
+  assert.match(TOKEN_SPECS.vkbt.emission, /Mintable to 500,000,000 cap/);
+  assert.match(TOKEN_SPECS.cure.emission, /Mintable to 20,000,000 cap/);
+  assert.doesNotMatch(TOKEN_SPECS.vkbt.emission, /Fixed/);
+  assert.doesNotMatch(TOKEN_SPECS.cure.emission, /Fixed/);
+  // the chain is the authority on the names
+  assert.equal(TOKEN_SPECS.vkbt.full, 'Van Kush Beauty Token');
+  assert.equal(TOKEN_SPECS.cure.full, 'Curator Rewards Token');
+  // a raw holder count without the >=1-token count would mislead — both are required
+  for (const id of ['vkbt', 'cure']) {
+    const t = TOKEN_SPECS[id];
+    assert.ok(Number(t.realHolders.replace(/,/g, '')) < Number(t.holders.replace(/,/g, '')),
+      `${id}: holders of >=1 token must be fewer than raw holders — most of them are dust`);
+  }
   assert.match(TOKEN_SPECS.pob.emission, /Inflationary/);
 });

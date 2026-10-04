@@ -82,26 +82,58 @@ export async function findOne(contract, table, query) {
 // natural order and sort numerically in the caller); this also avoids the string-sort window dropping
 // fully-staked holders whose liquid `balance` is "0". Soft by construction: stops on the first failed
 // page and returns what it has, so an unattended run never throws on a flaky later page.
-export async function findAll(contract, table, query, { pageSize = 1000, maxRows = 50000, indexes = [] } = {}) {
+// ⚠️ PAGE BY _id CURSOR, NOT BY offset. Hive-Engine REFUSES any offset above 10,000 with
+// {"code":400,"message":"Invalid request"} — it is a hard server-side cap, not a rate limit. The previous
+// implementation paged by offset inside a try/catch that `break`-ed on error, so for any table with more
+// than ~10,000 matching rows it SILENTLY returned a truncated list and the caller could not tell.
+//
+// That bug produced two wrong holder counts that both reached the public wiki: ~10,894 for VKBT and
+// ~10,526 for CURE (an offset-capped run), against true row counts of 26,066 and 15,692. A sibling call
+// site using a single find() at the 1,000-row limit produced the other wrong pair, ~986 and ~999.
+//
+// Cursor pagination has no ceiling: ask for rows with `_id` greater than the last one seen, ordered by
+// `_id` ascending. `truncated` is returned so a caller can SEE an incomplete read instead of trusting a
+// short list, and `onTruncate: 'throw'` turns it into a hard failure for callers that publish numbers.
+export async function findAllByCursor(contract, table, query, { pageSize = 1000, maxRows = 200000, onTruncate = 'flag' } = {}) {
   const out = [];
-  for (let offset = 0; out.length < maxRows; offset += pageSize) {
+  let last = null, truncated = false, failed = null;
+  while (out.length < maxRows) {
+    const q = last === null ? query : { ...query, _id: { $gt: last } };
     let page;
     try {
       page = await withFailover(RPC_NODES, async (node) => {
         const j = await fetchJSON(node, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'find', params: { contract, table, query, limit: pageSize, offset, indexes } }),
+          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'find', params: {
+            contract, table, query: q, limit: pageSize, offset: 0,
+            indexes: [{ index: '_id', descending: false }],
+          } }),
         });
         if (j.error) throw new Error(j.error.message);
         return j.result || [];
       });
-    } catch { break; }
+    } catch (e) { truncated = true; failed = String(e && e.message || e); break; }
     if (!Array.isArray(page) || page.length === 0) break;
     out.push(...page);
-    if (page.length < pageSize) break; // last (short) page → done
+    last = page[page.length - 1]._id;
+    if (typeof last !== 'number') { truncated = true; failed = 'rows have no numeric _id to page by'; break; }
+    if (page.length < pageSize) break;               // last (short) page → complete
   }
+  if (out.length >= maxRows) truncated = true;
+  if (truncated && onTruncate === 'throw') {
+    throw new Error(`incomplete read of ${contract}/${table}: ${out.length} rows${failed ? ` — ${failed}` : ' — hit maxRows'}`);
+  }
+  // non-enumerable so deepEqual / JSON.stringify / spread see a plain array of rows
+  Object.defineProperty(out, 'truncated', { value: truncated, enumerable: false, configurable: true });
   return out;
+}
+
+// findAll now pages by cursor. Kept as the name every existing caller already uses, so the fix reaches
+// them without a rename; the returned array carries `.truncated` for callers that check.
+export async function findAll(contract, table, query, { pageSize = 1000, maxRows = 200000, indexes = [], onTruncate = 'flag' } = {}) {
+  void indexes;   // the cursor read must order by _id; a caller-supplied index would break paging
+  return findAllByCursor(contract, table, query, { pageSize, maxRows, onTruncate });
 }
 
 // account market history — failover across history mirrors, single page

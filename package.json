@@ -42,7 +42,8 @@
     "trade:chain": "node integrations/chain-explorer.mjs",
     "trade:digest": "node integrations/digest.mjs",
     "trade:publish": "node integrations/publish-feed.mjs",
-    "trade:feed": "node integrations/digest.mjs && node integrations/trade-sanitizer.mjs && node integrations/publish-feed.mjs"
+    "trade:feed": "node integrations/digest.mjs && node integrations/trade-sanitizer.mjs && node integrations/publish-feed.mjs",
+    "token-specs:refresh": "node integrations/token-specs-refresh.mjs"
   },
   "keywords": [
     "discord",

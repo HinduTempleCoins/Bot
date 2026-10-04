@@ -87,22 +87,31 @@ test('historyPage: builds the query URL + parses JSON, with failover', async () 
   } finally { __setFetch(null); }
 });
 
-test('findAll: pages through offsets until a short page, concatenating all rows', async () => {
-  // 2300 rows served in pages of 1000 — findAll must request offset 0/1000/2000 and stop on the short
-  // (300-row) third page, yielding all 2300. This is the fix for single-page truncation at the HE cap.
-  const all = Array.from({ length: 2300 }, (_, i) => ({ account: `a${i}`, balance: String(i) }));
+test('findAll: walks an _id cursor until a short page, concatenating all rows', async () => {
+  // 2300 rows served in pages of 1000 — findAll must walk the cursor and stop on the short (300-row)
+  // third page, yielding all 2300.
+  const all = Array.from({ length: 2300 }, (_, i) => ({ _id: i + 1, account: `a${i}`, balance: String(i) }));
   const offsets = [];
+  // findAll pages by _id CURSOR, never by offset — Hive-Engine refuses offset > 10,000 outright, so an
+  // offset walk silently truncates any table bigger than that. Every request must carry offset 0 and a
+  // `_id: {$gt: <last seen>}` filter instead.
+  const cursors = [];
   __setFetch(async (_url, opts) => {
     const p = JSON.parse(opts.body).params;
     offsets.push(p.offset);
-    return jsonResponse({ result: all.slice(p.offset, p.offset + p.limit) });
+    cursors.push(p.query && p.query._id ? p.query._id.$gt : null);
+    const after = p.query && p.query._id ? p.query._id.$gt : null;
+    const pool = after === null ? all : all.filter((r) => r._id > after);
+    return jsonResponse({ result: pool.slice(0, p.limit) });
   });
   try {
     const rows = await findAll('tokens', 'balances', { symbol: 'CURE' });
     assert.equal(rows.length, 2300);
-    assert.deepEqual(offsets, [0, 1000, 2000]); // stopped on the short page, no needless 4th request
+    assert.deepEqual(offsets, [0, 0, 0]);            // never a non-zero offset
+    assert.deepEqual(cursors, [null, 1000, 2000]);   // walks by last _id seen; stops on the short page
     assert.equal(rows[0].account, 'a0');
     assert.equal(rows[2299].account, 'a2299');
+    assert.equal(rows.truncated, false);
   } finally { __setFetch(null); }
 });
 

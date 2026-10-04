@@ -31,42 +31,52 @@ Further reading: [[The Graphene Family]] · [[MELEK Blockchain]] · [[STEEM Bloc
 
 [[Figure:token-specs|VKBT and CURE against their actual peer group — other engine side tokens — on the dimensions that decide what a token is.]]
 
-'''VKBT and CURE are tokens, not coins.''' They have no chain of their own; they are '''engine-issued''' on a host chain and inherit its blocks, its witnesses and its fee model. So their peer group is '''other engine tokens''' — POB, BBH, SWAP.BLURT and the rest of the tribe-token layer — and never the coins in the table above. Comparing CURE's market cap to STEEM's is the category error this page exists to prevent: it makes a $16,700 number look like a failure instead of what it is, '''a deliberately tiny supply''' on a token that was never trying to be a chain.
+'''VKBT and CURE are tokens, not coins.''' They have no chain of their own; they are '''engine-issued''' on a host chain and inherit its blocks, its witnesses and its fee model. So their peer group is '''other engine tokens''' — POB, BBH, SWAP.BLURT and the rest of the tribe-token layer — and never the coins in the table above. Comparing CURE's market cap to STEEM's is the category error this page exists to prevent: it makes a four-figure number look like a failure instead of what it is, '''a deliberately tiny supply''' on a token that was never trying to be a chain.
 
 We call this table '''the Specs''', the way you would read the specs off a part. Every dimension is one that actually determines what the token is:
 
-* '''Total supply''' — the whole number in existence. '''VKBT: 1,900,000. CURE: 55,575.''' CURE's entire supply is about '''61 times Bitcoin's daily mint''' of 900 coins. That is the kind of scarcity that is hard to intuit until it is written next to something.
-* '''Holders''' — '''VKBT: 986. CURE: 999.''' Nearly a thousand distinct accounts each. Read those two rows together: '''CURE has fewer than 56,000 units spread across almost 1,000 holders.'''
-* '''VKF position''' — what the Van Kush Family actually holds: '''~800,000 VKBT (42%)''' and '''~32,000 CURE (58%)'''.
+* '''Total supply''' — the whole number in existence. '''VKBT: 2,315,564. CURE: 70,974.''' CURE's entire supply is about '''79 times Bitcoin's daily mint''' of 900 coins. That is the kind of scarcity that is hard to intuit until it is written next to something. '''Both numbers move''' — see §2.1.
+* '''Holders''' — '''VKBT: 25,038. CURE: 14,965''' accounts holding something. '''And the next row is the one that keeps that honest.'''
+* '''Holders of ≥1 whole token''' — '''VKBT: 5,375. CURE: 1,337.''' '''19,663 VKBT holders and 13,628 CURE holders hold less than a single token.''' That is '''airdrop dust''', and dust is not a community. Both numbers are published because publishing only the first would mislead. Going further up: '''VKBT''' has '''2,975''' holders of 10+ and '''1,074''' of 100+; '''CURE''' has '''430''' of 10+ and '''62''' of 100+.
+* '''Share staked''' — '''VKBT 42% (973,568). CURE 71% (50,245).''' Staked tokens are not on the market, so '''the liquid float is far smaller than the supply''' — on CURE, roughly 20,700 units.
+* '''VKF position''' — what the issuing account actually holds: '''970,224 VKBT (41.9%)''' and '''37,477 CURE (52.8%)'''.
 * '''How acquired''' — and this is the row that matters most, because it is the row everyone assumes. '''Purchased at market.''' Not a founder allocation, not a pre-mine, not minted to ourselves. '''Bought, at the going price, like anyone else.'''
 * '''How it is distributed''' — '''given away through curation programs'''. The position is not a stagnant bag; it is the float for a reward system being built. A large holding that is being '''distributed''' and a large holding that is being '''held for exit''' look identical in a market-cap chart and are '''opposites'''. See [[Curation Theory, Rewards, the Auction Window, and Honest Curation]].
-* '''Emission''' — '''fixed, no ongoing mint''' for both VKBT and CURE. That is a genuine structural difference from the inflationary tribe tokens (POB, BBH) whose supply grows with every post reward — and from a '''coin''' like BLURT, whose chain mints new units into a reward pool by consensus, because that is what a chain does.
+* '''Emission''' — '''and this is a correction.''' An earlier revision of this page said "fixed, no ongoing mint." '''The chain says otherwise.''' VKBT carries a '''maxSupply of 500,000,000''' and CURE one of '''20,000,000''', the issuer can mint up to those ceilings, and '''supply has in fact grown between captures''' (VKBT from roughly 1.9M to 2.32M). What is true is that the emission is '''discretionary issuance by the issuer''', not '''algorithmic inflation''' — which is a real difference from the tribe tokens (POB, BBH) whose supply grows automatically with every post reward, and from a '''coin''' like BLURT, whose chain mints new units into a reward pool by consensus, because that is what a chain does. '''But "fixed" was wrong, and the ceiling is 215x the current supply.'''
 * '''Where it trades''' — '''TribalDEX''', against HIVE / SWAP.HIVE.
-* '''Market activity''' — stated plainly, including when it is thin. '''VKBT: active, roughly 21 trades a week. CURE: sell orders present, thin buy side.''' A thin book is a fact about a token and belongs in its specs.
-* '''Cap at 1:1 HIVE''' — a '''reference calculation''', not a valuation: what the supply would be worth if the token traded at parity with HIVE. '''VKBT $579,000, CURE $16,700.''' It exists so the supply numbers have a scale, not to suggest a price.
+* '''Market activity''' — stated plainly, and it is '''thin to the point of being notional'''. In the 24 hours before capture, '''VKBT traded 0.018 HIVE''' — about a tenth of a US cent — and '''CURE traded 0.000003 HIVE'''. The '''ask/bid spread''' is '''5x on VKBT''' and '''2,203x on CURE'''. '''A thin book is a fact about a token and belongs in its specs''', and a spread of two thousand times means there is no price, only two opinions a long way apart.
+* '''Cap at 1:1 HIVE''' — a '''reference calculation''', not a valuation: what the supply would be worth if the token traded at parity with HIVE, at HIVE's own median feed price of '''$0.0560''' on the capture date. '''VKBT $129,672, CURE $3,975.''' It exists so the supply numbers have a scale, not to suggest a price — and note that '''this figure moves when HIVE moves''', which is most of why an earlier revision of this page carried much larger numbers.
 
 === The tiers ===
 Not every token we hold is held for the same reason, and the matrix separates them:
-* '''Premium positions — VKBT, CURE.''' Fixed supply, bought at market, being distributed through curation. '''Not for sale as operating fuel.'''
+* '''Premium positions — VKBT, CURE.''' Scarce supply, bought at market, being distributed through curation. '''Not for sale as operating fuel.'''
 * '''Operating fuel — SWAP.BLURT.''' 300,000+ held, sold gradually and top-order-only so the book is not broken. A different tier entirely — and note what it is: a '''coin''' (BLURT) '''wrapped''' into token form so it can trade on an engine. The wrapper is a token; the thing inside still has its own chain. See [[Wrapped Tokens]].
 * '''Tradeable — POB, BBH and similar.''' Earned by posting and curating, sold when HIVE is needed.
 
-'''The names are not random.''' VKBT is the '''Van Kush Bot Token''' — the token of the bot, which is the thing this whole repository builds. CURE is named for what it is for. They were built with intention, as part of a system that is still being built, and the matrix is how you check that claim against numbers instead of taking our word for it.
+'''The names are not random, and the chain is the authority on them.''' Both are registered in the token's own Hive-Engine record, so there is nothing to infer. '''VKBT is the "Van Kush Beauty Token"''' — "A Token for Rewarding Beauty, and Providing Liquid to the Beauty Economy." '''CURE is the "Curator Rewards Token"''' — "A Token to Reward Curators and Token Holders on HIVE Blog. The more You Hold, the more You get back for Your Curation." ('''An earlier revision of this page guessed "Van Kush Bot Token" for VKBT. It was wrong''' — the registered name was there to be read.) They were built with intention, as part of a system that is still being built, and the matrix is how you check that claim against numbers instead of taking our word for it.
 
-=== ⚠️ Two captures disagree, and this page will not pretend otherwise ===
-There is an '''older matrix page''' in this library — [[The Matrix Supply Holders and Market Cap|The Matrix: Supply, Holders, and Market Cap]] — built from a '''different capture''' of the same chains, and '''its figures do not match the ones above'''. Both are stated here so a reader is not misled by whichever they happen to find first:
+=== 2.1 Two earlier holder counts were published. Both were wrong, and the reason is worth more than the numbers ===
+This library previously carried '''two different holder counts''' for these tokens, on two different pages, neither matching the other:
 
-* '''VKBT supply''' — this page: '''1,900,000'''. The older page: '''2,251,387'''.
-* '''VKBT holders''' — this page: '''986'''. The older page: '''10,894'''.
-* '''CURE supply''' — this page: '''55,575'''. The older page: '''68,408'''.
-* '''CURE holders''' — this page: '''999'''. The older page: '''10,526'''.
+* an older matrix page, [[The Matrix Supply Holders and Market Cap|The Matrix: Supply, Holders, and Market Cap]], said '''VKBT 10,894''' and '''CURE 10,526''' holders;
+* this page, in its first revision, said '''VKBT 986''' and '''CURE 999'''.
 
-'''The supply differences are plausibly real drift''' between capture dates. '''The holder differences are not drift''' — an order of magnitude apart means the two captures were '''counting different things''', most likely '''all accounts that have ever held''' (including airdrop recipients with a dust balance, and zero-balance accounts) versus '''accounts holding a meaningful balance now'''. Hive-Engine's holder endpoints will return either depending on how they are queried.
+'''Neither was a real count.''' Both were '''artefacts of how the chain was being read''', and they were '''read with the same broken tool''' at two different settings:
 
-'''Until that is settled, treat the holder count as a range and the method as unknown.''' Both numbers support the same conclusion — these are scarce tokens with far more holders than a concentrated token would have — and '''neither should be quoted as a precise figure without saying which capture it came from'''. This page's numbers carry their source in the table; the older page states its own capture caveat.
+* '''The ~986 / ~999 pair''' came from a '''single query at Hive-Engine's 1,000-row page cap'''. The API will not return more than 1,000 balance rows in one request; after filtering out the empty ones you land just under a thousand. '''The number was a page size wearing a holder count's clothes''' — which is why both tokens, with wildly different supplies, returned almost exactly the same figure. '''That coincidence was the tell, and it was missed.'''
+* '''The ~10,894 / ~10,526 pair''' came from a '''paged read that walked by offset''' and stopped where '''Hive-Engine refuses any offset above 10,000''' — it returns `{"code":400,"message":"Invalid request"}` outright. The client caught that error and '''returned the short list without saying anything'''. So the count stopped a little past ten thousand '''because the server stopped answering''', not because the holders ran out.
+
+'''The true figures, read by walking an `_id` cursor instead of an offset''' (which has no ceiling), and verified against two independent passes:
+
+* '''VKBT''' — '''26,066''' accounts have ever held it; '''25,038''' hold something now; '''5,375''' hold a whole token or more.
+* '''CURE''' — '''15,692''' have ever held it; '''14,965''' hold something now; '''1,337''' hold a whole token or more.
+
+'''So the real holder base is far LARGER than either published figure''' — by 2.3x against the offset-capped count and by 25x against the page-capped one. '''And it is also far dustier than the raw number suggests''', which is why the ≥1-token row above exists.
+
+'''The lesson, which is the point of recording this at all:''' '''a number can be sourced and still be an artefact.''' Both wrong figures came from real queries against the real chain. What made them wrong was the '''reading method''', and the failure mode was '''silence''' — a client that truncates without complaining will hand you a confident, precise, wrong answer every time. The fix was to page by cursor and to make an incomplete read '''report itself''' rather than return quietly; a figure that looks suspiciously round, or suspiciously close to a page size, now gets re-derived instead of cited.
 
 === Where the numbers come from ===
-Every cell is read from the '''VKFRI ''vkbt_cure_knowledge'' dataset''' (January 2026) and rendered by `integrations/token-specs.mjs`. '''An unsourced cell renders as a dash, never as a guess''' — if you see `—` in the table, it means we do not have that number, not that it is zero.
+Every cell is a '''live Hive-Engine read''' captured on '''2026-10-04''' and rendered by `integrations/token-specs.mjs`; `integrations/token-specs-refresh.mjs` re-derives the whole block from the chain, so a stale number is a decision not to run it rather than an accident. '''An unsourced cell renders as a dash, never as a guess''' — if you see `—` in the table, it means we do not have that number, not that it is zero. '''And the refresher refuses to print anything from an incomplete read''', for the reason in §2.1.
 
 Further reading: [[VKBT and CURE]] · [[Hive Engine and Smart Media Tokens]] · [[Tokenomics 101]] · [[Inflation and Deflation, Token Emission and Burns]] · [[Market Cap vs Fully-Diluted Valuation]] · [[The Economics No Coin Dev Teaches]] · [[Order Books, Buy Walls, and Sell Walls]] · [[Selling Is Not Profit, Buy to Sell Higher]]
 

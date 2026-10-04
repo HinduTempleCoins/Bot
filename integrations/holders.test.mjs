@@ -16,21 +16,31 @@ const { holders, __setFetch } = await import('./holders.mjs');
 function jsonResponse(body) { return { ok: true, status: 200, async json() { return body; } }; }
 
 // Route he-client's JSON-RPC POST by the `table` in the request body: 'tokens' → token info,
-// 'balances' → the balance rows. balances is served OFFSET-AWARE in pages of `pageSize`, mirroring how
-// the real HE node paginates — so findAll()'s offset walk terminates on the short/empty page instead of
-// looping forever on a stub that ignores offset. The stub returns rows in WHATEVER order it's given (it
-// does NOT honour the `balance` sort index) — exactly like the real node's broken string-sort — so the
-// test proves holders() sorts numerically in code rather than trusting node order.
-function routeFetch({ token, balances, pageSize = 1000 }) {
+// 'balances' → the balance rows.
+//
+// The balances stub mirrors the REAL node on the two points that have burned us:
+//   1. it pages by `_id` CURSOR (`query._id.$gt`), which is how findAll must walk a large table;
+//   2. with `offsetCap` set it REJECTS any offset above that cap the way Hive-Engine really does
+//      ({"code":400,"message":"Invalid request"}) — so an offset-paging client is caught here instead of
+//      silently truncating in production.
+// Rows are returned in WHATEVER order they were given for the `balance` index — exactly like the real
+// node's broken string-sort — so the test proves holders() sorts numerically in code.
+function routeFetch({ token, balances, pageSize = 1000, offsetCap = 10000 }) {
+  // every row needs an _id for cursor paging, as the real table has
+  const rows = (balances || []).map((b, i) => ({ _id: b._id ?? i + 1, ...b }));
   return async (_url, opts) => {
     const body = JSON.parse(opts.body);
     const p = body?.params || {};
     if (p.table === 'tokens') return jsonResponse({ result: token ? [token] : [] });
     if (p.table === 'balances') {
-      const rows = balances || [];
       const offset = p.offset || 0;
+      if (offsetCap != null && offset > offsetCap) {
+        return jsonResponse({ error: { code: 400, message: 'Invalid request' } });
+      }
+      const after = p.query && p.query._id && typeof p.query._id.$gt === 'number' ? p.query._id.$gt : null;
+      const pool = after === null ? rows : rows.filter((r) => r._id > after);
       const limit = p.limit || pageSize;
-      return jsonResponse({ result: rows.slice(offset, offset + limit) });
+      return jsonResponse({ result: pool.slice(offset, offset + limit) });
     }
     return jsonResponse({ result: [] });
   };
@@ -130,4 +140,48 @@ test('holders: token issuer (not just TRADE_ACCOUNT) is treated as issuer', asyn
     assert.equal(h.counts.realOutside, 1);    // only alice
     assert.ok(!h.topOutside.find((o) => o.account === 'swap-bsc'));
   } finally { __setFetch(null); }
+});
+
+// ⭐ THE OFFSET-CAP BUG, pinned. Hive-Engine refuses any offset above 10,000 outright. The old findAll
+// paged by offset inside a try/catch that `break`-ed on error, so a table with more rows than that
+// returned a SHORT list and said nothing about it. Two wrong holder counts reached the public wiki that
+// way (~10,894 VKBT, ~10,526 CURE, against true row counts of 26,066 and 15,692). This test puts 12,000
+// rows behind a stub that enforces the real cap: a cursor-paging client sees all of them.
+test('⭐ holders: a table larger than the 10,000-offset cap is read in FULL, not silently truncated', async () => {
+  const balances = [{ account: 'kalivankush', balance: '5000', stake: '0' }];
+  for (let i = 0; i < 12000; i++) balances.push({ account: `h${i}`, balance: '0', stake: '1' });
+  __setFetch(routeFetch({
+    token: { issuer: 'kalivankush', circulatingSupply: '17000', supply: '17000' },
+    balances,
+    pageSize: 1000,
+    offsetCap: 10000,   // the real server-side ceiling
+  }));
+  try {
+    const h = await holders('VKBT');
+    assert.equal(h.counts.total, 12001, 'every row must be read past the offset cap');
+    assert.equal(h.counts.outside, 12000);
+  } finally { __setFetch(null); }
+});
+
+// A read that genuinely could not finish must SAY so rather than hand back a short list.
+test('⭐ an incomplete read is flagged, and can be made fatal for callers that publish numbers', async () => {
+  const { findAllByCursor, __setFetch: setHe } = await import('./he-client.mjs');
+  const rows = Array.from({ length: 2500 }, (_, i) => ({ _id: i + 1, symbol: 'X' }));
+  let calls = 0;
+  setHe(async (_u, opts) => {
+    calls += 1;
+    if (calls > 2) return { ok: true, status: 200, async json() { return { error: { code: 400, message: 'Invalid request' } }; } };
+    const p = JSON.parse(opts.body).params;
+    const after = p.query?._id?.$gt ?? 0;
+    return { ok: true, status: 200, async json() { return { result: rows.filter((r) => r._id > after).slice(0, 1000) }; } };
+  });
+  try {
+    const got = await findAllByCursor('tokens', 'balances', { symbol: 'X' });
+    assert.equal(got.length, 2000);
+    assert.equal(got.truncated, true, 'a short read must be flagged');
+    await assert.rejects(
+      () => findAllByCursor('tokens', 'balances', { symbol: 'X' }, { onTruncate: 'throw' }),
+      /incomplete read/,
+    );
+  } finally { setHe(null); }
 });
