@@ -82,7 +82,8 @@ export const CATEGORIES = [
   },
   {
     id: 'substances', name: 'Substances and pharmacology', blurb: 'One page per thing in the stacks — established, preclinical and hypothesis kept apart.',
-    pages: ['Alzheimers and Parkinsons What Treatment Actually Exists',
+    pages: ['Do the Math Tryptophan Turkey Phenibut and Hair of the Dog',
+            'Alzheimers and Parkinsons What Treatment Actually Exists',
             'Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven',
             'Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw',
             'Inert Alone Active Together Why Combinations Work',
@@ -366,7 +367,8 @@ export const CATEGORIES = [
   },
   {
     id: 'law', name: 'Law and your rights', blurb: 'The public legal record and the plain-English guides to how U.S. law actually works — facts, not verdicts.',
-    pages: ['SoapBox Law', 'Privacy Law', 'Rights That Hold Up in Court', 'Foundational Law', 'Treaties',
+    pages: ['The Legal Supply Chain Coca Leaf Poppy Straw DEA Quotas and the Federal Patients',
+            'SoapBox Law', 'Privacy Law', 'Rights That Hold Up in Court', 'Foundational Law', 'Treaties',
             'Legal Maxims', 'Congress.ink', 'Benefit Societies', 'Appeals and Writs',
             'Legal Lexicon', 'Sources of Legal Authority', 'World Law', 'The Spirit of the Laws',
             'Free Speech and Sedition', 'Legal Doctrines', 'The Case Law of Us',
@@ -533,6 +535,7 @@ export const PILLARS = [
     icon: '🧠',
     blurb: 'The expanded endocannabinoidome, enzyme kinetics, cholinergics, MAOIs, and structure-activity relationships.',
     pages: [
+      'Do the Math Tryptophan Turkey Phenibut and Hair of the Dog',
       'Alzheimers and Parkinsons What Treatment Actually Exists',
       'Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven',
       'Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw',
@@ -824,7 +827,8 @@ export const PILLARS = [
   },
   {
     id: 'law', name: 'Law and your rights', blurb: 'The public legal record and the plain-English guides to how U.S. law actually works — facts, not verdicts.',
-    pages: ['SoapBox Law', 'Rights That Hold Up in Court', 'Privacy Law', 'Foundational Law', 'Treaties',
+    pages: ['The Legal Supply Chain Coca Leaf Poppy Straw DEA Quotas and the Federal Patients',
+            'SoapBox Law', 'Rights That Hold Up in Court', 'Privacy Law', 'Foundational Law', 'Treaties',
             'Legal Maxims', 'Congress.ink', 'Benefit Societies', 'Appeals and Writs',
             'Legal Lexicon', 'Sources of Legal Authority', 'World Law', 'The Spirit of the Laws',
             'Free Speech and Sedition', 'Legal Doctrines', 'The Case Law of Us',

@@ -1,0 +1,130 @@
+'''Do the Math: Tryptophan, Turkey, Phenibut and Hair of the Dog''' is the arithmetic page. Four claims that circulate constantly — '''milk makes serotonin''', '''turkey makes you sleepy''', '''phenibut is a harmless supplement''', '''hair of the dog cures a hangover''' — and in each case the useful move is the same: '''work out the actual quantity, and work out what else arrives with it'''. Two of the four turn out to be true in a narrower form than advertised, one is false for a reason worth understanding, and one is a '''genuine physical dependence''' that people walk into because it is sold in a tub.
+
+== 1. The transporter is the whole story ==
+Before any of it: '''tryptophan does not get into the brain on its own merits.''' It crosses the blood-brain barrier on '''LAT1''', a transporter it '''shares with the other large neutral amino acids''' — leucine, isoleucine, valine, tyrosine, phenylalanine, methionine, histidine.
+
+'''So what matters is never how much tryptophan you ate. It is the ratio:'''
+
+'''Trp : ΣLNAA'''
+
+That single fact explains every result below, and it is why "high-tryptophan food" lists are nearly useless. '''A protein-rich food raises tryptophan and raises its competitors at the same time''' — often enough to leave the ratio '''unchanged or worse'''. See [[The Tryptamine Family and Endogenous Neurochemistry]] and [[Catecholamines Transporters and Monoamine Reuptake]].
+
+=== The two things that actually move the ratio ===
+* '''Carbohydrate.''' Insulin drives the branched-chain and other LNAAs into '''skeletal muscle'''. Tryptophan is largely '''bound to albumin''' and is taken up much less, so after a carbohydrate load the ratio '''rises'''. This is the Wurtman mechanism, and it is '''why a carbohydrate meal is mildly sedating and a steak is not'''.
+* '''A protein fraction with an unusually good ratio.''' Which brings us to milk.
+
+== 2. "Tryptamine from milk" — what is actually true ==
+'''The honest correction first:''' you do not get '''tryptamine''' from milk in any meaningful quantity. Tryptamine is a '''decarboxylation''' product of tryptophan and is a '''trace amine''' in humans. What milk supplies is '''tryptophan''', and the serotonin route is '''Trp → 5-HTP (via tryptophan hydroxylase, which needs BH4) → serotonin''' — see [[L-Methylfolate]] for why the cofactor is the bottleneck.
+
+'''What is genuinely established:'''
+* '''α-lactalbumin''', a whey protein fraction of milk, has '''the highest tryptophan content relative to its other large neutral amino acids of any common food protein''' — roughly '''4–6% tryptophan by weight''', several times that of casein or most meats.
+* '''Markus and colleagues''' showed that a diet with α-lactalbumin raised the '''plasma Trp:LNAA ratio by around 48%''' compared with casein, and that in '''stress-vulnerable subjects''' this was accompanied by '''reduced depressive mood under stress''' and '''improved cognitive performance'''. A follow-up found '''improved morning alertness''' after an evening dose.
+* '''So the real sentence is:''' "a specific whey fraction raises brain tryptophan availability by about half, with modest measured effects in people who were stressed." '''That is a good, small, true result''' — far more interesting than the version that gets repeated.
+* '''Caveats:''' it is '''α-lactalbumin''', not a glass of milk — whole milk's protein is ~80% casein, which has a '''poor''' ratio. Effects were '''largest in stress-vulnerable subjects''' and modest otherwise. And '''warm milk at bedtime''' is almost entirely '''habit, warmth and ritual''' — which, as [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy|the odour-hedonics section]] argues, is a real effect of a different kind, and should be labelled as such rather than dressed up as pharmacology.
+* '''⚠️ And the historical warning:''' '''L-tryptophan supplements were withdrawn in 1989''' after an epidemic of '''eosinophilia-myalgia syndrome''' — over a thousand cases and dozens of deaths — traced to contaminants in one manufacturer's product. Tryptophan is back on sale and modern product is not implicated, but the episode is '''the reference case for why "it's just an amino acid" is not a safety argument'''. Also: '''tryptophan or 5-HTP with any serotonergic drug risks serotonin syndrome''' — see [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]] §4.
+
+== 3. Turkey — the arithmetic, which settles it ==
+'''The claim:''' turkey is high in tryptophan, therefore the Thanksgiving nap.
+
+=== Step one: how much tryptophan is in turkey? ===
+Roughly '''250–350 mg per 100 g''' of cooked turkey breast.
+
+=== Step two: is that high? ===
+'''No. It is unremarkable.''' Per 100 g, '''chicken is about the same'''. '''Pork, beef, salmon and tuna''' are comparable or higher. '''Parmesan''' is roughly '''double'''. '''Soybeans, pumpkin seeds, sesame and spirulina''' are higher still per 100 g. '''Turkey is not special, and the entire premise of the myth is a food-composition error.'''
+
+=== Step three: what dose actually does anything? ===
+Studies of '''L-tryptophan''' for sleep onset use '''1 g and upward'''; the sedative and mood literature generally works in the '''1–5 g''' range.
+
+'''To get 3 g of tryptophan from turkey you would need roughly 1 kilogram of turkey breast.''' Not a portion — '''a kilogram'''.
+
+=== Step four: the step that actually kills the myth ===
+'''Even the kilogram would not work''', because turkey is '''protein'''. Eating it delivers tryptophan '''together with all of its competitors''' at LAT1. The '''Trp:LNAA ratio does not rise — it typically falls.''' '''A high-protein meal reduces brain tryptophan availability.''' That is the opposite of the claimed mechanism.
+
+=== So why is everyone asleep? ===
+* '''The size of the meal.''' A large meal is sedating on its own.
+* '''The carbohydrate''' — potatoes, stuffing, bread, pie — which '''does''' raise the Trp:LNAA ratio, by the insulin mechanism in §1. '''If anything on the table makes you sleepy, it is the stuffing, not the bird.'''
+* '''Alcohol.'''
+* '''Postprandial physiology''' and, honestly, '''a day off and an armchair'''.
+
+'''The turkey myth is the best short exercise in the library for why "contains X" is never an answer.''' The questions are always '''how much''', '''compared to what''', and '''what came with it'''. Compare [[Molar Stoichiometry Powder Density and Tolerance Kinetics]].
+
+== 4. Phenibut — the one that is genuinely physically addictive ==
+'''⚠️ This section is a warning, and it is the most important on the page.'''
+
+=== What it is ===
+* '''Phenibut''' is '''β-phenyl-γ-aminobutyric acid''' — GABA with a phenyl ring added, which is what lets it cross the blood-brain barrier when GABA itself cannot.
+* Developed in the '''Soviet Union in the 1960s''' (Perekalin's group, Leningrad), used clinically there for anxiety, and famously '''carried in the Soyuz cosmonaut medical kit''' because it is anxiolytic '''without''' being notably sedating or impairing performance.
+* '''Two mechanisms:''' it is a '''GABA-B receptor agonist''' (like baclofen, which it closely resembles — baclofen is the 4-chlorophenyl analogue) '''and''' it blocks the '''α2δ subunit of voltage-gated calcium channels''', which is the gabapentin and pregabalin target. '''That dual action is why it does not feel like either drug alone.'''
+
+=== Why it catches people ===
+* It is '''sold as a dietary supplement''' in several countries, in '''bulk powder''', with no prescription and no warning label. It is '''not''' an approved medicine in the US, UK, EU or Australia, and the '''FDA issued warning letters in 2019''' over its sale as a supplement.
+* '''Tolerance develops within days.''' This is the trap. A dose that worked on Monday does less by Friday, and the natural response — take more — is exactly wrong.
+* '''Onset is slow''' (two to four hours orally), which encourages redosing before the first dose has peaked. '''Stacking doses blind is how overdoses happen.'''
+
+=== The withdrawal, stated plainly ===
+'''Phenibut withdrawal is a GABAergic withdrawal, and it belongs in the same category as benzodiazepine and alcohol withdrawal — not in the same category as caffeine.''' Documented features include:
+* '''severe rebound anxiety''', '''insomnia''' for days to weeks, '''tremor''', '''palpitations''', '''derealisation''';
+* '''psychosis''' and '''hallucinations''' in case reports;
+* '''seizures''' in case reports.
+* It has required '''hospital admission''', and clinicians have managed it with '''baclofen substitution and a slow taper''' or with benzodiazepines, '''exactly as they would alcohol withdrawal'''.
+
+'''The harm-reduction content, which is the reason this is on the page rather than omitted:'''
+* '''Do not stop abruptly from a sustained daily habit.''' Abrupt discontinuation is where the seizures and psychosis appear. '''Taper.'''
+* '''Do not use it daily.''' The tolerance curve means daily use is the mechanism of dependence, not an intensity of it.
+* '''Never combine with alcohol, benzodiazepines, opioids, or other GABAergics.''' Additive respiratory depression — the pharmacodynamic synergy in [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]] §8, which is the leading mechanism of combination overdose death.
+* '''Tell the hospital what it is.''' Most emergency clinicians have not heard of it, and '''"it is like baclofen and pregabalin together, and I have been taking it daily"''' is the sentence that gets the right treatment.
+* See [[Eugeroics Wakefulness and Sleep Pharmacology]] and [[Psychotomimetics Sedation and the Evolution of Psychiatry]].
+
+== 5. Coffee, alcohol and nicotine — subtler, and not equivalent ==
+The operator's framing is right: these three are '''more subtle''' than phenibut, and they are '''not subtle in the same way as each other'''. The variable that separates them is '''what withdrawal does'''.
+
+* '''Caffeine''' — an '''adenosine A1/A2A antagonist'''. Tolerance comes from '''adenosine-receptor upregulation''', which is why a habitual drinker's morning coffee is largely '''restoring baseline rather than exceeding it''' — a result that survives blinded testing better than coffee drinkers like. Withdrawal is a '''headache, fatigue and irritability at 12–24 hours''', peaking at a day or two. '''Unpleasant. Not dangerous.''' Note the A2A link to [[Alzheimers and Parkinsons What Treatment Actually Exists|istradefylline and the Parkinson's epidemiology]].
+* '''Nicotine''' — '''nicotinic acetylcholine receptor''' agonist, with '''receptor upregulation''' driving tolerance. '''The fastest-escalating dependence of the three''', with withdrawal that is '''psychologically severe and physically safe'''. '''And the distinction that matters for harm reduction: nicotine is the addictive agent; combustion is what causes most of the mortality.''' Conflating the two has made public-health messaging worse, not better.
+* '''Alcohol''' — '''GABA-A positive modulation plus NMDA antagonism'''. Chronic use adapts in both directions: GABA-A downregulates, NMDA upregulates. '''⚠️ Alcohol withdrawal is one of the very few withdrawals that can kill you''' — '''seizures''' and '''delirium tremens''', with meaningful mortality untreated. '''A physically dependent drinker should not stop without medical cover.''' This is the asymmetry people get backwards: '''opioid withdrawal is agonising and rarely fatal; alcohol and GABAergic withdrawal is sometimes fatal.'''
+
+== 6. Hair of the dog ==
+=== Why it works, which is also why it is a bad idea ===
+'''There is a real mechanism''', and it is instructive:
+* Alcoholic drinks contain '''congeners''', including '''methanol''' — most in '''dark spirits, brandy and whisky''', least in '''vodka and gin'''.
+* '''Methanol''' is itself fairly harmless. '''Alcohol dehydrogenase''' converts it to '''formaldehyde''' and then '''formic acid''', which are not, and which correlate with hangover severity.
+* '''Ethanol competes for the same enzyme''' — with far higher affinity. So '''drinking more ethanol delays methanol metabolism''' and postpones the formic-acid load. (This is the '''same principle''' as the clinical treatment of actual methanol poisoning, where '''ethanol or fomepizole''' is given as an ADH competitor. Mechanistically identical, therapeutically nothing alike.)
+* '''So "hair of the dog" does not cure anything. It defers.''' And in a '''physically dependent''' drinker, a morning drink is not a remedy at all — it is '''relieving early withdrawal''', which is the beginning of a day-drinking cycle and a diagnostic sign in its own right.
+
+=== What the evidence supports ===
+Honestly: '''not much, and nothing cures a hangover.'''
+* '''Time''' and '''sleep''' are the only things that reliably work.
+* '''Water and electrolytes''' for the diuresis. '''Food''', particularly carbohydrate, for the hypoglycaemia.
+* '''An NSAID''' — ibuprofen, aspirin, naproxen — for the headache and the prostaglandin component.
+* '''⚠️ NOT paracetamol / acetaminophen.''' Alcohol induces '''CYP2E1''' and '''depletes glutathione''', which is exactly the combination that turns paracetamol's '''NAPQI''' metabolite into liver injury. '''This is the single most dangerous ordinary drug combination in the library''' — see [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]] §4.
+* '''Clear spirits over dark''' genuinely reduces congener load, with blinded studies to back it (bourbon vs vodka).
+* '''Prickly pear (''Opuntia'')''' extract has a small randomised trial showing reduced nausea and dry mouth; '''mechanism is probably anti-inflammatory''' and the effect is small. '''Plausible, not established.'''
+* '''What does not work:''' more coffee (adds diuresis), "detox" products, B-vitamin megadoses, and anything claiming to "flush" alcohol. '''Elimination is zero-order at about one standard drink per hour and nothing speeds it up.'''
+
+=== The recipes, as culture ===
+Worth having because they are '''real traditions''' and because almost all of them are '''salt, acid, capsaicin, broth and carbohydrate''' — i.e. '''rehydration and food wearing a costume''':
+* '''Bloody Mary''' / '''Michelada''' — tomato (salt, potassium, acid), capsaicin, and the alcohol that does the deferring.
+* '''Prairie Oyster''' — raw egg, Worcestershire, hot sauce, vinegar. '''Raw egg carries a ''Salmonella'' risk''', and the cysteine story is folklore.
+* '''Fernet-Branca''' and '''Underberg''' — bitter amari, traditionally digestive, and the bitters lineage is on [[Spiced Wine Bitters and the Colas|Spiced Wine, Bitters and the Colas]].
+* '''The broth tradition is the one with the best case''': Korean '''haejangguk''' (literally "soup to chase a hangover"), Mexican '''menudo''' and '''birria''', Vietnamese '''phở''', Turkish '''kelle paça''', Polish '''żurek''', Russian '''rassol''' (pickle brine — genuinely an electrolyte solution). '''Salt, water, fat, protein and warmth.''' Which is, in fact, the evidence-based answer, arrived at by every culture that drinks.
+
+== 7. Nootropics generally — the tiers ==
+Since this is the page people arrive at from that word:
+* '''Has real evidence:''' '''caffeine''' (and caffeine plus '''L-theanine''' for the jitter); '''creatine''', particularly in '''vegetarians and the sleep-deprived''', where the cognitive effect is measurable — see [[Creatine]]; '''omega-3''' in actual deficiency; '''treating your sleep, hearing, blood pressure and exercise''', which beats every capsule discussed here.
+* '''Prescription, real effects, real costs:''' '''modafinil''' and the stimulants. They work, and the literature on '''well-rested high performers''' shows '''much smaller gains than users believe''', with '''sleep architecture''' and dependence as the price. See [[Eugeroics Wakefulness and Sleep Pharmacology]].
+* '''Weak or specific-context evidence:''' the '''racetams''' — see [[Racetams]] — and the '''choline donors''' — see [[Choline Donors]]. Mostly clinical-population data, thin in healthy adults.
+* '''The pattern to notice:''' nearly every nootropic with a strong effect also has a '''withdrawal or a tolerance curve'''. '''That is not a coincidence''' — anything that pushes a receptor system gets pushed back on. '''A substance with no tolerance and no withdrawal is usually a substance with no effect.'''
+* [[Stack Substances]] · [[The Amplification Framework]] · [[Building Brains]] · [[Brain Balance]] · [[Chemistry and Your Brain]]
+
+== Sources ==
+* Fernstrom J. D. and Wurtman R. J., "Brain serotonin content: physiological regulation by plasma neutral amino acids", ''Science'' 178 (1972) — the carbohydrate/LNAA mechanism.
+* Markus C. R. et al., "The bovine protein α-lactalbumin increases the plasma ratio of tryptophan to the other large neutral amino acids, and in vulnerable subjects raises brain serotonin activity, reduces cortisol concentration, and improves mood under stress", ''American Journal of Clinical Nutrition'' 71 (2000).
+* Markus C. R. et al., "Evening intake of α-lactalbumin increases plasma tryptophan availability and improves morning alertness and brain measures of attention", ''AJCN'' 81 (2005).
+* Silber B. Y. and Schmitt J. A. J., "Effects of tryptophan loading on human cognition, mood, and sleep", ''Neuroscience & Biobehavioral Reviews'' 34 (2010).
+* Swygert L. A. et al., "Eosinophilia-myalgia syndrome: results of national surveillance", ''JAMA'' 264 (1990).
+* Lapin I., "Phenibut (β-phenyl-GABA): a tranquilizer and nootropic drug", ''CNS Drug Reviews'' 7 (2001).
+* Ahuja T. et al., "Phenibut withdrawal: a case report and systematic review", and the clinical-toxicology case series on phenibut dependence and baclofen-assisted taper.
+* US FDA warning letters on phenibut in dietary supplements (2019).
+* Rogers P. J. et al., "Association of the anxiogenic and alerting effects of caffeine with ADORA2A and ADORA1 polymorphisms and habitual level of caffeine consumption", ''Neuropsychopharmacology'' 35 (2010).
+* Rohsenow D. J. et al., "Intoxication with bourbon versus vodka: effects on hangover, sleep, and next-day neurocognitive performance", ''Alcoholism: Clinical and Experimental Research'' 34 (2010).
+* Wiese J. et al., "Effect of ''Opuntia ficus indica'' on symptoms of the alcohol hangover", ''Archives of Internal Medicine'' 164 (2004).
+* Zakhari S., "Overview: how is alcohol metabolized by the body?", ''Alcohol Research & Health'' 29 (2006).
