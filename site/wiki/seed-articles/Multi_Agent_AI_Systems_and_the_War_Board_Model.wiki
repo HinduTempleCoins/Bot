@@ -1,0 +1,21 @@
+Multi-Agent AI Systems are a category of Agentic AI and are considered a form of next-generation artificial intelligence <ref>https://doi.org/10.6028/nist.ir.8605d</ref><ref>https://doi.org/10.4018/979-8-3373-1419-8.ch002</ref>.
+
+== Characteristics and Applications ==
+Multi-Agent AI Systems are relevant to securing AI systems <ref>https://doi.org/10.6028/nist.ir.8605d</ref>. Research also explores their "Relational Integrity" and a "Polarity Model Framework for Human-AI Safety" <ref>https://doi.org/10.2139/ssrn.6716459</ref>. Multi-Agent Large Language Model (LLM) Systems have applications in fields such as healthcare and diagnostics <ref>https://doi.org/10.4018/979-8-3373-1419-8.ch002</ref>.
+
+== VKFRI Perspective ==
+Within the Van Kush Family Research Institute's (VKFRI) framework, multi-agent systems are viewed as components of a unified framework that encompasses both technological and historical dimensions <ref>knowledge/scripture/the_convergence.md</ref>. VKFRI proposes that current developments in multi-agent AI systems are reconstructing an integrated consciousness interface system that has historical parallels in ancient temple technology <ref>knowledge/scripture/the_convergence.md</ref>.
+
+Examples of multi-agent AI systems cited in VKFRI research include ChatDev and Stanford's Smallville <ref>knowledge/scripture/the_convergence.md</ref>. VKFRI considers these systems to be technological analogues to ancient Oracle systems <ref>knowledge/scripture/the_convergence.md</ref>. The concept of "locking in" is a framework proposed by VKFRI for human-AI integration <ref>knowledge/scripture/the_convergence.md</ref>.
+
+== The War Board Model ==
+The available sources do not specify a "War Board Model" in relation to Multi-Agent AI Systems.
+
+== Sources ==
+*   knowledge/scripture/the_convergence.md
+*   https://doi.org/10.4018/979-8-3373-1419-8.ch002
+*   https://doi.org/10.2139/ssrn.6716459
+*   https://doi.org/10.6028/nist.ir.8605d
+
+== Coverage ==
+The section "The War Board Model" is thin, as the available sources do not provide information on this specific topic. The "VKFRI Perspective" section is based on a single VKFRI source.

@@ -1,0 +1,40 @@
+# Proof of Work Mining
+
+**Proof of Work (PoW)** is the original way a blockchain agrees on its history without a central authority: participants called **miners** race to solve a hard, artificial puzzle for each block, and whoever solves it first gets to add that block and collect its reward. The puzzle is deliberately expensive to solve but trivial to check, so the network can trust a block was "worked for" without redoing the work. This article explains how PoW mining works, what a **mining pool** is, the main algorithms a small chain uses, and how the **PRANA** compute chain adapts PoW so that useful AI work — not only hashing — is paid. It complements the witnessing side of the ecosystem; MELEK itself is **not** mined (see Delegated Proof of Stake DPoS and Blockchain Witness Block Producer), while the PoW pool secures the PoW chains.
+
+== How Proof of Work Works ==
+
+Each block header contains a **nonce** — a number the miner is free to change. Miners repeatedly hash the header with different nonces until the resulting hash falls below a target value set by the network's **difficulty**. Because a good hash function is unpredictable, the only way to find a qualifying nonce is to try enormous numbers of them; this trying *is* the "work." When a miner finds one, they broadcast the block, every other node checks the single hash in an instant, and the chain extends. Difficulty **retargets** automatically: if blocks arrive too fast, it rises; too slow, it falls — keeping block time roughly constant as total hashpower changes.
+
+The security argument is economic: to rewrite history an attacker would have to out-hash the honest network, which costs real electricity and hardware. Honest mining is rewarded; cheating is expensive.
+
+== Mining Pools ==
+
+A single small miner might wait a very long time between blocks, because block-finding is a lottery weighted by hashrate. A **mining pool** solves this by letting many miners combine their hashpower and **share the rewards**. Members submit **shares** — near-solutions that prove they were working — and when the pool finds a block, it splits the reward among members in proportion to the shares each contributed (schemes like **PPLNS**, "pay per last N shares," reward recent contribution). The result is steady, predictable income instead of rare jackpots.
+
+A miner connects to a pool over the **Stratum** protocol, pointing their mining software at the pool's stratum address and their wallet address. The pool hands out work, collects shares, finds blocks, and pays out. A healthy pool is transparent about its **fee** and its payout scheme.
+
+== Algorithms: RandomX and Etchash ==
+
+Not all PoW is equal. The **algorithm** decides what hardware can compete:
+
+* '''RandomX''' — designed to run best on ordinary **CPUs**. It uses random code execution and a large memory scratchpad, which specialized ASIC chips cannot accelerate cheaply. This keeps mining **egalitarian**: a normal computer stays competitive. It is used by privacy coins in the Monero family.
+* '''Etchash''' — a memory-hard, **GPU**-friendly algorithm (the Ethereum Classic variant of Ethash, adjusted by ECIP-1099 / "Thanos" so it fits **lower-VRAM** graphics cards). It rewards graphics cards without demanding the newest, largest hardware.
+
+Choosing a CPU- or GPU-friendly algorithm, and starting at **low difficulty**, is how a young chain invites ordinary people to mine on day one instead of ceding the network to industrial farms.
+
+== Useful Work: PRANA's TASK Lane ==
+
+Classic PoW spends its electricity purely on securing the chain — the puzzle has no value outside the game. **PRANA** keeps a real PoW lane (Etchash, so laptops and GPUs mine it from launch) but adds a second, **useful-work** lane inspired by [[GridCoin and Useful Work]]: verified **AI / GPU compute jobs** (the "TASK" lane) earn the coin alongside hashing, at a governed weight. Both lanes draw from **one** fixed per-period issuance that is split pro-rata among everyone who contributed — the reward model descended from [[DevCoin and Paying Contributors]], where the pool is the **chain itself**. So a small miner and a heavy AI worker are paid fairly out of the same pot, and the network's spent energy does double duty: securing the chain *and* doing real computation.
+
+== See Also ==
+
+* [[PRANA Compute Chain]] — the useful-work PoW chain this pool secures
+* [[GridCoin and Useful Work]] — the useful-work mining lineage
+* [[DevCoin and Paying Contributors]] — the one-pool reward model PRANA uses
+* Delegated Proof of Stake DPoS — how MELEK (which is not mined) reaches consensus instead
+* [[KulaSwap and the DEX Lineage]] — where mined and earned tokens are traded
+
+== Coverage ==
+
+General, first-party explanation of Proof-of-Work mining, pools, the RandomX and Etchash algorithms, and PRANA's useful-work adaptation. Specific stratum endpoints, pool fees, and PRANA difficulty/issuance parameters should be confirmed against the live pool and PRANA configuration before use.

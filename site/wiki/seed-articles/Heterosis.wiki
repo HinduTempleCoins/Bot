@@ -1,0 +1,29 @@
+== Heterosis ==
+Heterosis, also known as hybrid vigor, refers to a phenomenon examined in the context of genetic recombination across domesticated species <ref>knowledge/scripture/heterosis_mechanism.md</ref>. It is considered interconnected with selective breeding and transgenerational epigenetic inheritance <ref>knowledge/scripture/heterosis_mechanism.md</ref>.
+
+== Mechanisms and Associated Phenomena ==
+Research on heterosis involves the study of selective breeding, epigenetic inheritance, and the mechanics of genetic recombination <ref>knowledge/scripture/heterosis_mechanism.md</ref>. It also encompasses the study of mitochondrial DNA (mtDNA) inheritance and the reactivation of dormant genetic material <ref>knowledge/scripture/heterosis_mechanism.md</ref>. Rapid phenotypic diversification under human-directed selection is considered a context for understanding these mechanisms <ref>knowledge/scripture/heterosis_mechanism.md</ref>.
+
+The mechanics of evolution are engaged through the study of heterosis <ref>knowledge/scripture/heterosis_mechanism.md</ref>. Charles Darwin was aware of heterosis <ref>knowledge/scripture/heterosis_mechanism.md</ref>.
+
+== Examples ==
+Heterosis has been examined in various domesticated species, including:
+*   Canine breeding (*Canis lupus* familiaris) <ref>knowledge/scripture/heterosis_mechanism.md</ref>
+*   Horticulture crops such as onion (*Allium cepa*), apple (*Malus domestica*), tomato (*Solanum lycopersicum*), chili pepper (*Capsicum chinense*), and grape (*Vitis vinifera*) <ref>knowledge/scripture/heterosis_mechanism.md</ref>
+*   Hop cultivation (*Humulus lupulus*) <ref>knowledge/scripture/heterosis_mechanism.md</ref>
+*   Cannabis breeding (*Cannabis sativa*) <ref>knowledge/scripture/heterosis_mechanism.md</ref>
+
+Studies on hybrid vigor or heterosis have also been conducted in rats <ref>https://doi.org/10.1093/genetics/15.1.17</ref>, larch <ref>https://doi.org/10.70675/29ec3e57z91a4z43bcza718z408468dd2645</ref>, and *Paramecium aurelia* <ref>https://doi.org/10.2307/2405861</ref>.
+
+== Van Kush Framework ==
+Within the Institute's framework, the Van Kush Family Research Institute (VKFRI) proposes a "Van Kush Framework" <ref>knowledge/scripture/heterosis_mechanism.md</ref>. This framework posits that epigenetic inheritance, instinctual behavior, and genetic recombination constitute a natural system <ref>knowledge/scripture/heterosis_mechanism.md</ref>.
+
+== Sources ==
+*   knowledge/scripture/heterosis_mechanism.md
+*   https://doi.org/10.1093/genetics/15.1.17
+*   https://doi.org/10.70675/29ec3e57z91a4z43bcza718z408468dd2645
+*   https://doi.org/10.1002/9783527678679.dg05484
+*   https://doi.org/10.2307/2405861
+
+== Coverage ==
+The sections "Mechanisms and Associated Phenomena," "Examples," and "Van Kush Framework" are primarily based on the abstract of a single VKFRI-authored paper, `scripture/scripture/heterosis_mechanism.md`, supplemented by titles from external sources. The external sources themselves were inaccessible for full content review.

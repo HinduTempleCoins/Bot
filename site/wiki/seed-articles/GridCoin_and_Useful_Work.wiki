@@ -1,0 +1,35 @@
+# GridCoin and Useful Work
+
+**GridCoin** (launched 2013) asked a simple question about [[Proof of Work Mining|proof-of-work]] mining: what if the enormous computation miners perform could do something **useful** instead of only solving an arbitrary puzzle? Its answer — pay people for real scientific computing — is the direct inspiration for the **TASK lane** of the [[PRANA Compute Chain|PRANA]] chain. This article explains GridCoin's useful-work model and how PRANA carries it forward.
+
+== The Problem GridCoin Addressed ==
+
+Classic PoW spends electricity purely on security: miners hash meaningless data until one wins the block. The energy is not wasted from a security standpoint — it is what makes attacks expensive — but it produces nothing beyond the hash. Critics called this a shame: all that hardware and power, and no by-product.
+
+== GridCoin's Answer: Reward Real Compute ==
+
+GridCoin connected mining rewards to **BOINC** — the Berkeley Open Infrastructure for Network Computing — the platform behind volunteer science projects like protein folding, astronomy, and climate modeling. Instead of (or alongside) hashing, participants ran **real research workloads**, and GridCoin rewarded them for the verified compute they contributed. The chain thus paid for **useful work**: the same hardware that might have hashed a puzzle now advanced science, and earned coins for doing so.
+
+The hard part is **verification** — proving that a claimed computation was actually done, and done correctly, before paying for it. GridCoin leaned on BOINC's project-side validation; any useful-work chain has to solve this trust problem in some form.
+
+== How PRANA Carries It Forward ==
+
+PRANA keeps a real [[Proof of Work Mining|Etchash PoW]] lane for security (so laptops and GPUs can mine from launch), and adds a **TASK lane** for useful work in GridCoin's spirit — but on-chain and aimed at **AI / GPU compute**:
+
+* A **coordinator** posts a compute job.
+* A **worker** performs it on their GPU.
+* The result is **verified** before **shares** are credited.
+* TASK shares are paid from the **same fixed pool** as hashing (see [[DevCoin and Paying Contributors]]), at a **governed weight** (default 1:1 with HASH), so security and useful throughput are balanced by the community over time.
+
+Where GridCoin pointed hardware at volunteer science, PRANA points it at the compute the ecosystem itself needs — turning mining energy into an on-chain market for **verified useful work**, paid fairly beside ordinary hashing.
+
+== See Also ==
+
+* [[PRANA Compute Chain]] — the chain with the HASH + TASK lanes
+* [[Proof of Work Mining]] — the security lane and mining pools
+* [[DevCoin and Paying Contributors]] — the one-pool reward model PRANA pays from
+* [[KulaSwap and the DEX Lineage]] — where earned coins are traded
+
+== Coverage ==
+
+Historical and first-party explanation of GridCoin's useful-work model and PRANA's TASK-lane adaptation. The specifics of PRANA's job market, verification, and HASH:TASK weighting should be confirmed against the live PRANA configuration before use.

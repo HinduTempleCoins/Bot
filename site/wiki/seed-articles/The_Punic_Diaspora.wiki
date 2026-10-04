@@ -1,0 +1,26 @@
+The Punic Diaspora refers to the dispersal of Punic populations following the destruction of Carthage in 146 BCE. The genetic signature of this diaspora is proposed to persist in Mediterranean and Atlantic populations <ref>knowledge/scripture/mythology_as_genealogy.md</ref>.
+
+== Background ==
+The Carthaginians were Western Phoenicians, also known as Punics, who were Canaanites and part of the same cultural sphere as the ancient Hebrews <ref>phoenician</ref>. The Van Kush Family Research Institute (VKFRI) identifies Phoenicians and Punics as part of an archaeologically recorded society that contributed to the founding of civilization, including temple culture and boats <ref>knowledge/scripture/van_kush_master_synthesis.md</ref>. The Phoenicians were described as cultural synthesis specialists involved in colony distribution <ref>knowledge/scripture/phoenix_protocol.md</ref>.
+
+== Causes and Extent ==
+The Punic Wars are identified as events that contributed to the creation of Rome <ref>knowledge/scripture/phoenix_protocol.md</ref>. The destruction of Carthage in 146 BCE is specifically cited as the event that created the Punic diaspora <ref>knowledge/scripture/mythology_as_genealogy.md</ref>.
+
+== Genetic Signature ==
+Within the VKFRI framework, the Punic diaspora left a genetic signature that can be traced through modern haplogroup analysis <ref>knowledge/scripture/mythology_as_genealogy.md</ref>. This genetic heritage is proposed to persist in populations across the Mediterranean and Atlantic regions <ref>knowledge/scripture/mythology_as_genealogy.md</ref>. Specific haplogroup markers associated with this lineage include J2a, I2a1, and E-M81, and E-M78 <ref>knowledge/scripture/mythology_as_genealogy.md</ref>. The J2a haplogroup is identified as a Phoenician/Canaanite marker <ref>history</ref>. Rev. Ryan Sasha-Shai Van Kush identifies himself as a Canaanite, Phaiakian, or Phoenician <ref>history</ref>.
+
+VKFRI proposes that ancient mythological genealogies, such as those found in Greek, Biblical, and Phoenician traditions, encode verifiable genetic and migration data that haplogroup analysis can confirm <ref>knowledge/scripture/mythology_as_genealogy.md</ref>. This perspective frames mythology as encrypted genealogy <ref>knowledge/scripture/mythology_as_genealogy.md</ref>.
+
+== Sources ==
+*   knowledge/scripture/history.json
+*   knowledge/scripture/mythology_as_genealogy.json
+*   knowledge/scripture/mythology_as_genealogy.md
+*   knowledge/scripture/phoenix_protocol.json
+*   knowledge/scripture/phoenix_protocol.md
+*   knowledge/scripture/phoenician.json
+*   knowledge/scripture/van_kush_master_synthesis.md
+*   https://doi.org/10.1515/9781575066851-009
+*   https://doi.org/10.1093/oxfordhb/9780190499341.013.14
+
+== Coverage ==
+The article's content regarding the Punic Diaspora's genetic signature and the interpretation of mythology as genealogy is primarily based on the VKFRI's peer-reviewed work by Rev. Ryan Sasha-Shai Van Kush, specifically `scripture/scripture/mythology_as_genealogy.md`. External sources confirm the academic study of the "Phoenician Diaspora" <ref>https://doi.org/10.1515/9781575066851-009</ref> and "Carthage after the Punic Wars and the Neo-Punic Legacy" <ref>https://doi.org/10.1093/oxfordhb/9780190499341.013.14</ref>, but their full content was not accessible to provide additional details.

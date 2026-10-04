@@ -53,6 +53,18 @@ Not every token we hold is held for the same reason, and the matrix separates th
 
 '''The names are not random.''' VKBT is the '''Van Kush Bot Token''' — the token of the bot, which is the thing this whole repository builds. CURE is named for what it is for. They were built with intention, as part of a system that is still being built, and the matrix is how you check that claim against numbers instead of taking our word for it.
 
+=== ⚠️ Two captures disagree, and this page will not pretend otherwise ===
+There is an '''older matrix page''' in this library — [[The Matrix Supply Holders and Market Cap|The Matrix: Supply, Holders, and Market Cap]] — built from a '''different capture''' of the same chains, and '''its figures do not match the ones above'''. Both are stated here so a reader is not misled by whichever they happen to find first:
+
+* '''VKBT supply''' — this page: '''1,900,000'''. The older page: '''2,251,387'''.
+* '''VKBT holders''' — this page: '''986'''. The older page: '''10,894'''.
+* '''CURE supply''' — this page: '''55,575'''. The older page: '''68,408'''.
+* '''CURE holders''' — this page: '''999'''. The older page: '''10,526'''.
+
+'''The supply differences are plausibly real drift''' between capture dates. '''The holder differences are not drift''' — an order of magnitude apart means the two captures were '''counting different things''', most likely '''all accounts that have ever held''' (including airdrop recipients with a dust balance, and zero-balance accounts) versus '''accounts holding a meaningful balance now'''. Hive-Engine's holder endpoints will return either depending on how they are queried.
+
+'''Until that is settled, treat the holder count as a range and the method as unknown.''' Both numbers support the same conclusion — these are scarce tokens with far more holders than a concentrated token would have — and '''neither should be quoted as a precise figure without saying which capture it came from'''. This page's numbers carry their source in the table; the older page states its own capture caveat.
+
 === Where the numbers come from ===
 Every cell is read from the '''VKFRI ''vkbt_cure_knowledge'' dataset''' (January 2026) and rendered by `integrations/token-specs.mjs`. '''An unsourced cell renders as a dash, never as a guess''' — if you see `—` in the table, it means we do not have that number, not that it is zero.
 
