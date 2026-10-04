@@ -1,0 +1,83 @@
+'''Kitchen Cabinet Chemistry: Vanillin, Almonds, and Why Pistachios Have to Be Raw''' is the companion page to [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] and [[Shulgin Ten Essential Oils]], covering three things in an ordinary kitchen that teach three different lessons about how molecules work: '''one carbon can triple potency''', '''water starts reactions that dry storage prevents''', and '''heat destroys what you were eating the food for'''. Everything here is about the real chemistry of real pantry items, including where the risk is genuine.
+
+== 1. Vanillin and ethylvanillin — one carbon, three times the smell ==
+
+=== The two molecules ===
+* '''Vanillin''' is '''4-hydroxy-3-methoxybenzaldehyde'''. It is the dominant aroma compound of cured vanilla, where it makes up roughly '''1–2% of the dry bean'''.
+* '''Ethylvanillin''' is '''3-ethoxy-4-hydroxybenzaldehyde'''. The '''methoxy''' group (–OCH₃) is replaced by an '''ethoxy''' group (–OCH₂CH₃). '''One extra carbon. That is the entire difference.'''
+* '''Ethylvanillin smells roughly three to four times as strong''' — the figure usually quoted is '''3.5×''' — and it '''does not occur in nature at all'''. It was made in the 1890s and is used because you need less of it.
+
+=== Why one carbon does that ===
+This is the same lesson as [[Inert Alone Active Together Why Combinations Work|propofol and thymol]], pointed at a smell receptor instead of an ion channel.
+* An olfactory receptor is a '''pocket'''. Binding affinity depends on how well the molecule '''fills''' it.
+* The methoxy group leaves a little space. '''The ethoxy group fills it better.''' Affinity goes up, so the '''detection threshold goes down''', so the same nose registers a smaller quantity.
+* '''Potency is fit.''' It is almost never a different kind of chemistry; it is the same chemistry positioned better. Go one carbon further — '''propylvanillin''' — and potency '''falls off again''', because now it is too big. That is the shape of every structure-activity curve in the library. See [[Structure Activity Relationships in Psychopharmacology]] and [[A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them|A Field Guide to Smell Molecules]].
+
+=== Where it comes from, and the "natural" question ===
+* '''Bean vanillin''' is extracted from cured ''Vanilla planifolia''. It is '''the most labour-intensive spice in the world''' and the reason real vanilla costs what it does.
+* '''Synthetic vanillin''' is made from '''guaiacol''' (petrochemical route, the majority of world supply), from '''ferulic acid''' by fermentation (sold as "natural" under food law, because the precursor is plant-derived), or historically from '''lignosulfonates''' — a '''by-product of wood pulping'''. For most of the twentieth century, a large share of the world's vanilla flavour was '''recovered from paper-mill waste'''.
+* '''Chemically, vanillin is vanillin.''' A bean molecule and a guaiacol molecule are indistinguishable. What '''real vanilla extract''' has that vanillin does not is '''the other two hundred compounds''' — vanillic acid, p-hydroxybenzaldehyde, guaiacol, creosol, anisyl compounds — which is why an extract tastes rounder than the single molecule. '''The argument for real vanilla is a composition argument, not a purity argument.'''
+* '''The castoreum story is a myth''' in the form it circulates. Castoreum (beaver) is a real, approved flavouring, and its use is '''vanishingly small and expensive''' — it is not in your ice cream. Compare the rumour patterns in [[Toads Frogs and the Myths Harm Reduction and Wildlife Protection|Toads, Frogs and the Myths]].
+
+=== Pharmacology — graded honestly ===
+* '''Established:''' both are '''metabolised by O-dealkylation''' and oxidation — vanillin to '''vanillic acid''', then conjugated and excreted. The '''ethoxy group is cleaved more slowly''' than the methoxy, which is a general rule for alkyl ethers and the same reason ethyl ethers persist longer in other drug series.
+* '''Plausible, not established:''' vanillin shows '''monoamine oxidase inhibition in vitro''' and '''antidepressant-like effects in rodent models''', and it is an antioxidant and a mild anti-inflammatory in cell work. '''At culinary doses in a human, none of this is demonstrated.''' A teaspoon of extract is not a drug.
+* '''Worth knowing:''' vanillin is one of the most reliably '''hedonically positive''' odours across cultures and reduces startle response — but that is largely '''learned''', and the mechanism is discussed under odour hedonics in [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy]].
+
+== 2. Almonds steeped in water overnight — the enzyme meets its substrate ==
+'''Something does happen when you soak almonds. It is enzymatic, it is well characterised, and in one variety it is dangerous.'''
+
+=== The mechanism ===
+Almonds carry a '''cyanogenic glycoside''', '''amygdalin''', and — stored '''separately in the seed''' — the enzymes that break it down, collectively called '''emulsin'''. Dry and intact, nothing happens. '''Crush the seed and add water''' and the two meet:
+
+'''amygdalin''' → (amygdalin β-glucosidase) → '''prunasin''' → (prunasin hydrolase) → '''mandelonitrile''' → (mandelonitrile lyase) → '''benzaldehyde''' + '''hydrogen cyanide'''
+
+* '''Benzaldehyde''' is the almond smell. '''Hydrogen cyanide''' is the poison. '''They come from the same reaction''', which is why the smell of bitter almonds is a classic cyanide tell.
+* '''This is also how bitter almond oil was traditionally made''': macerate the crushed kernels in water to let the enzymes run, '''then steam-distil'''. The grade sold for flavouring is labelled '''FFPA — "free from prussic acid"''' — because the hydrocyanic acid has been washed or scrubbed out afterwards. '''The processing step exists because the hazard is real.'''
+
+=== Sweet versus bitter — this distinction is the whole safety margin ===
+* '''Sweet almonds''' (the ones you eat) have been selected for a '''dominant allele that suppresses amygdalin'''. They contain '''trace''' amounts. Soaking them produces a '''faint marzipan note''' and a '''negligible''' quantity of cyanide. This is safe and ordinary.
+* '''Bitter almonds''' (''Prunus dulcis'' var. ''amara'', and the kernels of '''apricots, peaches, cherries and plums''') contain amygdalin at '''percent levels''' — figures around '''30–50 mg of amygdalin per gram''' of kernel are reported.
+* '''⚠️ Bitter almond and apricot kernels can kill.''' Published estimates put the lethal quantity at roughly '''5–10 bitter almonds for a small child''' and on the order of '''50 for an adult''', with serious poisonings documented well below that from '''apricot kernels''' sold as a health food. '''Children have died.''' Soaking, grinding, or making a "milk" '''increases''' the release because it is exactly the condition the enzymes need.
+* '''⚠️ "Laetrile" / "vitamin B17" is this chemistry sold as a cancer cure.''' It is '''not a vitamin''', it has '''failed controlled trials''', and it has caused '''cyanide poisoning and deaths''', with the oral route being the dangerous one because '''gut bacterial β-glucosidases''' do the same hydrolysis in the colon. It is the clearest example in the library of the point made in [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]]: '''the microbiome is a metabolic organ, and here it activates a poison.'''
+
+=== What soaking does that is actually useful ===
+* '''Reduces phytate.''' Soaking activates the seed's own '''phytase''', which cleaves phytic acid. Phytate binds '''iron, zinc, calcium and magnesium''', so less phytate means '''more absorbable minerals''' — the same absorption question as the ascorbate–iron case in [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]].
+* '''Removes skin tannins''' and lets the skin slip off, which is why soaked almonds taste sweeter and less astringent.
+* '''Begins germination chemistry''' — the "activated nuts" idea. Enzyme activity goes up, some antinutrients go down. The effect is '''modest and real'''; it is not a transformation.
+* '''Caveat on "raw" almonds in the United States:''' since 2007, almonds sold there must be '''pasteurised''' — steam or propylene oxide — after ''Salmonella'' outbreaks. '''Shell-"raw" is usually not biologically raw''', and the pasteurisation itself knocks down some enzyme activity. See [[Farming Fowl Reptiles Insects and Fungi]].
+
+== 3. Pistachios — why they have to be raw ==
+'''The claim:''' roasted pistachios lose something that raw ones have. '''It is true, and the strongest single reason is melatonin.'''
+
+=== Melatonin ===
+* '''Pistachios are reported as the richest known plant food source of melatonin''', in the region of '''660 nanograms per gram''' in the most-cited analysis — '''orders of magnitude above other nuts''', most of which sit in the single-digit ng/g range.
+* '''The arithmetic is the interesting part.''' At that concentration, a '''20 g handful''' carries roughly '''13 micrograms''' of melatonin. Common supplement tablets are '''0.5 to 3 milligrams''', but '''physiological''' nocturnal melatonin is in the '''tens of picograms per millilitre''' of plasma, and low-microgram doses are the range used in studies of '''physiological''' rather than pharmacological dosing. So a handful of raw pistachios is a '''plausible low physiological dose''', not a sleeping pill. '''That is a defensible claim and it is worth stating at that size rather than inflating it.'''
+* '''Melatonin is heat-labile and light-sensitive.''' '''Roasting degrades it.''' This is the direct answer to "why raw."
+* '''Honest caveats:''' the 660 ng/g figure comes from a '''small number of analyses''', cultivar and origin variance in plant melatonin is '''enormous''', and the measurement methods have been criticised. Treat it as '''plausible with a real mechanism''', not as settled. See [[MELEK Sleep and Focus]] and [[Eugeroics Wakefulness and Sleep Pharmacology]].
+
+=== What else roasting costs ===
+* '''The green and purple are pigments''': '''lutein and zeaxanthin''' in the kernel (pistachios are the highest-carotenoid nut) and '''anthocyanins''' in the skin. Both are '''degraded by heat''', which is why a heavily roasted pistachio is a duller colour. Colour loss is '''a direct read-out of pigment loss.'''
+* '''γ-tocopherol''' — pistachios are unusually rich in it rather than in α-tocopherol — and '''phenolics''' in the skin both decline with roasting.
+* '''Acrylamide''' forms during high-temperature roasting from '''asparagine plus reducing sugars''' (the Maillard route). It is present in roasted nuts, as in coffee, bread crust and crisps. '''The quantity from nuts is small''', and it is a reason among several rather than an alarm by itself.
+* '''What roasting gains:''' Maillard aroma, crunch, longer shelf life (lipase and lipoxygenase are denatured, so the oil goes rancid more slowly), and a '''microbiological kill step''' — which matters, because '''pistachios were the subject of a major ''Salmonella'' recall in 2009'''. '''Raw is a trade-off, not a free upgrade.'''
+
+=== One thing to know about the plant ===
+Pistachio is '''Anacardiaceae''' — the '''same family as cashew, mango and poison ivy'''. The family's signature is '''alkylphenol''' chemistry (the '''urushiol''' class), concentrated in '''hulls and shells''' rather than the kernel. Sensitive people can get '''contact dermatitis''' from handling raw hulls, and the family cross-reactivity with mango skin and cashew is real. Note the structural family resemblance to §1 and to the phenols in [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy]] — '''alkylated phenols keep turning up''', because that scaffold does a lot of different things.
+
+== 4. The four rules this page is really about ==
+# '''One carbon changes potency.''' Vanillin to ethylvanillin, thymol to propofol. Fit is potency, and the curve has a peak you can overshoot.
+# '''Water starts reactions that dry storage prevents.''' Amygdalin and emulsin sit in the same seed doing nothing until they are wet. '''A great many traditional preparations are nothing but "add water and wait" with an enzyme doing the work.'''
+# '''Heat destroys what you came for.''' Melatonin, carotenoids, anthocyanins, enzymes, volatile aroma. If a food's value is in a '''heat-labile''' compound, '''processing is the variable that matters more than the dose.''' Compare [[Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils|Cold Pressing, Expelling, and Heat]].
+# '''The dose from food is usually small, and occasionally not.''' A handful of pistachios is micrograms of melatonin — real, modest, worth knowing. A handful of '''bitter''' almonds is a '''poisoning'''. '''The same sentence structure, two completely different magnitudes''', and the only way to tell them apart is to do the arithmetic.
+
+== Sources ==
+* Walton N. J., Mayer M. J. and Narbad A., "Vanillin", ''Phytochemistry'' 63 (2003) — biosynthesis, production routes and the lignin story.
+* Ohloff G. et al., structure-odour relationships in the vanillin series; and the standard odour-threshold compilations for the vanillin/ethylvanillin/propylvanillin comparison.
+* Sánchez-Pérez R. et al., "Mandelonitrile lyase and the cyanogenic pathway in almond", and "Bitter taste of almond is controlled by a single gene" — ''Plant Physiology'' / ''Science'' 364 (2019).
+* EFSA CONTAM Panel, "Acute health risks related to the presence of cyanogenic glycosides in raw apricot kernels and products derived from raw apricot kernels", ''EFSA Journal'' (2016).
+* Milazzo S. and Horneber M., "Laetrile treatment for cancer", ''Cochrane Database of Systematic Reviews'' (2015).
+* Burkhardt S. et al., "Detection and quantification of the antioxidant melatonin in Montmorency and Balaton tart cherries", and Meng X. et al., "Dietary sources and bioactivities of melatonin", ''Nutrients'' 9 (2017) — the pistachio figure and its context.
+* Bolling B. W. et al., "Tree nut phytochemicals: composition, antioxidant capacity, bioactivity, impact factors", ''Nutrition Research Reviews'' 24 (2011).
+* FDA almond pasteurisation rule (2007) and the 2009 pistachio ''Salmonella'' recall record.
+* Gledhill A. J. et al. and the wider acrylamide-in-foods literature.

@@ -1,0 +1,74 @@
+'''Cold Pressing, Expelling and Heat: Why the Same Seed Gives Different Oils''' covers the '''mechanical''' side of extraction — pressing, expelling, and what heat does on the way — and why the same raw material yields oils of completely different character, yield, shelf life and price depending on how it was taken out. It is the companion to [[Laboratory Equipment and Extraction Engineering]], which covers the '''solvent''' and '''distillation''' side; nothing here repeats that page. Alpha.
+
+== 1. The trade-off that governs everything ==
+Every extraction method sits somewhere on one line:
+* '''More heat and more pressure → more yield, worse quality.'''
+* '''Less heat and less pressure → less yield, better quality, higher price per litre.'''
+There is no method that wins both ends. A mill choosing "cold pressed" is accepting a '''much lower yield''' in exchange for flavour, aroma, colour and intact minor compounds. A mill choosing heat and solvent is accepting degradation in exchange for getting nearly everything out.
+
+What heat actually destroys, in rough order of fragility:
+* '''Aroma volatiles and thiols''' — gone first, often below 40 °C. See [[A Field Guide to Smell Molecules: Classes, Key Odorants and the Reactions That Make Them]].
+* '''Vitamin E (tocopherols), polyphenols, carotenoids''' — degrade progressively with time × temperature.
+* '''Unsaturated fatty acids''' — oxidise; the more double bonds, the faster.
+* '''Enzymes''' — denatured, which is sometimes the '''point''' (see §5).
+Heat also '''creates''' things: Maillard and caramelisation products that give toasted sesame and roasted pumpkin-seed oil their entire character. Heat is not simply damage; it is a different product.
+
+== 2. Cold pressing and what the words legally mean ==
+* '''Cold pressed''' — pressed without applied external heat. Friction still raises the temperature, so "cold" does not mean cold.
+* '''In the EU''', for olive oil, '''"cold extraction" is defined''': below '''27 °C''' for the malaxation and extraction stage. That is a real legal definition with a number attached.
+* '''For most other oils, and in the United States, "cold pressed" is not legally defined at all.''' A seed oil labelled cold pressed may have reached 60–90 °C from screw friction alone. The term is largely marketing outside the olive-oil rules.
+* '''"Expeller pressed"''' means a continuous screw press with no solvent. It is '''honest about being warm''' — typically 60–100 °C from friction. It is not the same as cold pressed, and is often the more truthful label.
+* '''"Virgin" and "extra virgin"''' are '''grades, not methods''', defined for olive oil by chemistry (free acidity, peroxide value) and by a sensory panel finding zero defects. "Extra virgin" is a quality result; "cold pressed" is a process claim.
+* '''"Unrefined" / "crude"''' — pressed and filtered only. '''"Refined"''' — subsequently degummed, neutralised, bleached and deodorised ('''RBD'''), which strips colour, flavour and most minor compounds but gives a neutral, high-smoke-point, long-life oil.
+
+== 3. The press types ==
+* '''Hydraulic / batch press.''' Material wrapped and squeezed between plates. '''Slow, low temperature, low throughput, high quality.''' The traditional method, and still used for premium nut and seed oils.
+* '''Screw press (expeller).''' A continuous auger forces material down a tapering barrel against a choke. '''High throughput''', but the friction generates real heat; many are jacketed for cooling. The workhorse of the industry.
+* '''Two-stage pressing.''' A gentle first press for the premium oil, then a harder or heated second press of the same cake for a lower grade. This is why one harvest yields two products.
+* '''Ram / wedge presses and the old stone mills.''' Historic; the '''edge-runner mill''' crushing olives under a rolling stone is still in use and still produces good oil.
+* '''Centrifugal separation''' (olive, avocado) — the fruit paste is malaxed and then spun; the oil separates by density rather than being squeezed. A '''two-phase''' decanter yields oil and wet pomace; a '''three-phase''' adds water, gets slightly more oil, and '''washes out polyphenols''' into the wastewater. Two-phase gives better oil and less effluent.
+* '''Residual oil''' tells the story: a good screw press leaves '''6–12%''' oil in the cake. Solvent extraction takes it to '''under 1%'''. That gap is why commodity oil is solvent-extracted and why pressed oil costs more.
+
+== 4. Pressing versus the other routes ==
+* '''Solvent (hexane) extraction''' — nearly complete yield, then the solvent is stripped and the oil refined. Economically dominant for soy, canola and sunflower. Covered in [[Laboratory Equipment and Extraction Engineering]].
+* '''Supercritical CO₂''' — tunable, cold enough to preserve fragile compounds, no residual solvent, capital-intensive.
+* '''Steam distillation''' — an entirely different product. It takes the '''volatile''' fraction only and leaves the fat behind, so you get an '''essential oil''', not a '''fixed oil'''. Pressing lemon peel gives expressed lemon oil; steaming it gives a different, flatter lemon oil, because pressing keeps compounds steam destroys.
+* '''Expression for citrus''' specifically — citrus peel oil is '''cold-expressed''' (scarified and pressed) because the aroma cannot survive distillation. This is also why expressed citrus oils carry '''phototoxic furocoumarins''' such as '''bergapten''', which distillation would have left behind.
+* '''Enfleurage and maceration''' — fat absorbs the aroma from flowers too delicate for any of the above.
+
+== 5. When heat is the right answer ==
+Not everything should be cold.
+* '''Toasted sesame oil''' and '''roasted pumpkin-seed oil''' are defined by roasting. Cold-pressed versions are different products, not better ones.
+* '''Conditioning / cooking the seed''' before pressing ruptures oil cells, lowers viscosity and '''raises yield substantially'''. It is standard practice for a reason.
+* '''Deactivating enzymes.''' Many seeds carry '''lipase''', which splits the oil into free fatty acids the moment the cell is broken — raising acidity and ruining shelf life. Heat kills the lipase. '''Rice bran oil''' is the classic case: it must be stabilised quickly or it degrades fast.
+* '''Myrosinase''' in mustard and rapeseed, and '''alliinase''' in garlic, likewise act only after crushing. Whether you want them active is a product decision, not a quality one.
+* '''Toxins.''' Some press cakes need heat: '''cottonseed''' carries gossypol, '''castor''' carries ricin (not in the oil, but in the cake). Heat treatment is a safety step.
+
+== 6. Handling, storage and rancidity ==
+The best oil can be ruined after pressing.
+* '''Two rancidity routes.''' '''Oxidative''' — oxygen attacks double bonds, giving the stale, cardboard, painty smell. '''Hydrolytic''' — water and lipase split the fat, giving free fatty acids and, in coconut and butter, the distinctly sickly short-chain note.
+* '''The four enemies:''' oxygen, light, heat, and metal ions (copper and iron catalyse oxidation).
+* '''So:''' dark glass or tin, full containers, cool and dark, and used promptly. Unrefined oils have '''much shorter shelf lives''' than refined ones, which is the hidden cost of buying them.
+* '''The numbers that quantify it:''' '''peroxide value''' (early oxidation), '''free fatty acid / acid value''' (hydrolysis), '''p-anisidine''' (secondary, later oxidation). '''Totox''' combines them. A seller who can quote these knows their product.
+* '''Smoke point''' is mostly a function of '''free fatty acids and fine particles''', which is why unrefined oils smoke low and refined ones smoke high — and why smoke point drops as an oil ages or is reused.
+
+== 7. Judging an oil ==
+* '''Yield claimed versus method claimed.''' If a cold-pressed oil is cheap and abundant, one of the two claims is doing work it cannot support.
+* '''Colour and cloudiness''' indicate unrefined — not automatically better, but informative.
+* '''Harvest or press date''' matters more than a "best before" date for unrefined oil.
+* '''The lab numbers''' in §6 beat every adjective on the label.
+* '''Olive oil fraud is extensive''' and well documented; grade claims on olive oil in particular should be treated with scepticism unless there is panel testing behind them.
+
+== 8. Where this connects ==
+* The solvent, distillation and closed-loop side: [[Laboratory Equipment and Extraction Engineering]].
+* What the extracted aroma actually consists of: [[A Field Guide to Smell Molecules: Classes, Key Odorants and the Reactions That Make Them]].
+* Concentrating and redepositing a resin rather than pressing it: [[Standardized Extracts, Enhanced Leaf and the Perfumery of Botanical Aroma]].
+* An oil pressed as a pesticide rather than a food: [[Neem, Botanical Pesticides and What Actually Works]].
+
+== Sources ==
+* International Olive Council, trade standard on olive oils and olive-pomace oils (grades, acidity, peroxide value, panel test); EU Regulation 1308/2013 and 29/2012 on cold extraction below 27 °C.
+* Codex Alimentarius Standard 210 for named vegetable oils.
+* Gunstone F. D., ''Vegetable Oils in Food Technology'' (2nd ed., 2011).
+* Shahidi F. (ed.), ''Bailey's Industrial Oil and Fat Products'' (6th ed., 2005) — pressing, conditioning, refining and residual-oil figures.
+* Frankel E. N., ''Lipid Oxidation'' (2nd ed., 2012) — peroxide value, anisidine, Totox.
+* Rice-bran lipase stabilisation and gossypol/ricin cake-treatment literature in the above references.

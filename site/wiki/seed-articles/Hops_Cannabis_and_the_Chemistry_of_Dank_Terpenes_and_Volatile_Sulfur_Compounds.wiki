@@ -1,0 +1,59 @@
+'''Hops, Cannabis and the Chemistry of "Dank": Terpenes, Volatile Sulfur Compounds and Why Isolates Smell Like a Vape Pen''' is about where the smell of a plant actually comes from, using the two best-studied members of one small family. '''Hops''' (''Humulus lupulus'') and '''cannabis''' (''Cannabis sativa'') are the two surviving genera of the '''Cannabaceae''', and they share both a terpene palette and the trace compounds that make cannabis smell the way it does. Hops carry '''no THC and no CBD at all''', which makes them the clean case for studying the aroma by itself. Alpha.
+
+== 1. Two cousins in one family ==
+* The '''Cannabaceae''' family holds ''Cannabis'' and ''Humulus'' as its best-known genera (along with ''Celtis'', the hackberries, after a 2002 reclassification).
+* Both build their aroma in '''glandular trichomes''': the '''lupulin glands''' of a hop cone and the '''capitate-stalked trichomes''' of a cannabis flower are the same idea — a resin factory on a stalk.
+* Both resins are rich in '''terpenes''' and '''prenylated phenolics'''. Hop resin carries alpha and beta acids (humulone, lupulone); cannabis resin carries the cannabinoids. The '''aroma''' compounds are largely held in common; the '''active''' compounds are not.
+
+== 2. The terpenes they share ==
+The same handful of terpenes dominate both plants:
+* '''Myrcene''' — earthy, musky, mango. The most abundant terpene in many cannabis cultivars and in several hop varieties.
+* '''Alpha- and beta-pinene''' — pine, forest floor.
+* '''Beta-caryophyllene''' — black pepper, woody. Unusual among terpenes in binding the CB2 receptor, which is why it is often called a dietary cannabinoid.
+* '''Linalool''' — floral, lavender.
+* '''Humulene''' (alpha-caryophyllene) — hoppy, woody; named for ''Humulus''.
+* '''Valencene''', '''ocimene''', '''sabinene''', '''limonene''' — citrus and sweet top notes.
+* '''Geraniol''' and '''nerol''' — rose and sweet citrus, important in modern aroma hops.
+
+== 3. The missing piece: volatile sulfur compounds ==
+* For years the whole smell was credited to terpenes. That is not what the chemistry shows.
+* '''Oswald et al.''' (''ACS Omega'', 2021) identified a family of '''prenylated volatile sulfur compounds (VSCs)''' in cannabis — the strongest being '''3-methyl-2-butene-1-thiol''' (prenyl thiol, "'''VSC3'''") — and showed that these trace compounds, not the terpenes, carry the pungent "skunk" character. They are present at parts-per-billion and sit far below the terpenes in concentration while dominating the perceived smell.
+* The same prenyl thiol is well known in brewing as the compound behind '''"lightstruck" or "skunked" beer''', formed when light degrades hop-derived iso-alpha-acids in the presence of riboflavin. The skunk smell of bad beer and the skunk smell of cannabis are, chemically, close relatives.
+* '''Thiols''' in general are detectable by the human nose at extraordinarily low thresholds — often parts per trillion — which is why trace compounds can rule a scent profile.
+* Hops also carry prized thiols: '''4-mercapto-4-methylpentan-2-one (4MMP)''' (blackcurrant, "catty"), '''3-mercaptohexan-1-ol (3MH)''' and its acetate '''3MHA''' (passionfruit, grapefruit). These are the compounds behind the tropical character of modern hop varieties, and brewers chase them deliberately.
+
+=== Why a bottled terpene blend smells synthetic ===
+* A liquid terpene profile sold as a strain re-creation is a blend of '''isolated terpenes''' — purified d-limonene, beta-myrcene, beta-caryophyllene and so on.
+* Those blends '''leave the sulfur compounds out''', because the VSCs are trace, unstable, extremely smelly to work with, and not sold as commodity isolates.
+* The result smells like a '''distillate vape cartridge''': clean, bright, "perfumey", and missing the pungency that people mean by "dank" or "gas". The fault is not the terpenes being wrong; it is the trace compounds being absent.
+* The same lesson runs through perfumery generally: the '''character''' of a natural material usually lives in its trace fraction, not its bulk. See [[Standardized Extracts, Enhanced Leaf and the Perfumery of Botanical Aroma]].
+
+== 4. Hop varieties and the profiles they carry ==
+Hop breeding over the last two decades has chased exactly the compounds that cannabis is prized for. Rough correspondences, as described by growers and brewers:
+* '''Fuel, skunk and pepper:''' CTZ (Columbus/Tomahawk/Zeus) — black pepper, diesel; '''Comet''' — wild skunk and grapefruit rind; '''Chinook''' — deep pine and resin; '''Simcoe''' — heavy alpha-pinene, pine and wet earth; '''Cascade''' — grapefruit peel and damp pine.
+* '''Sweet, fruity and tropical:''' '''Galaxy''' (Australian) — very high oil content, passionfruit and peach with a damp floral funk; '''Strata''' — strawberry candy and passionfruit over a skunk undertone; '''Mosaic''' — blueberry, mango and papaya over a savoury garlic-gas base; '''Citra''' — lime rind, lychee, gooseberry with a resinous finish; '''Sabro''' — coconut, sweet cream and cedar; '''Ekuanot''' — eucalyptus, green pepper and lime.
+* Hop '''oil content''' is normally given in millilitres per 100 g; the modern aroma varieties run high, and Galaxy is among the highest.
+
+== 5. Whole cone versus pellets ==
+* '''T-90 pellets''' are flash-frozen, milled and extruded. Milling ruptures the lupulin glands, so pellets '''extract faster'''. They also crumble to a fine dust that blocks airflow in anything built for a fluffy herb.
+* '''Whole cones''' are kiln-dried intact flowers. The papery '''bracts''' keep a springy, open structure; extraction is slower because the glands are still closed.
+* The trade-off is general: '''break the glands for extraction, keep them intact for structure.'''
+
+== 6. Hops in medicine and tradition ==
+* Hops have a long record as a '''sedative and sleep aid''', usually paired with valerian; the hop pillow is a folk remedy of long standing.
+* '''8-prenylnaringenin''' from hops is among the most potent known '''phytoestrogens''', which is the basis of the old observation that hop pickers' menstrual cycles shifted, and of modern interest in hops for menopausal symptoms. See [[8-Prenylnaringenin]].
+* '''Xanthohumol''', the principal prenylflavonoid of hops, is heavily studied for antioxidant and metabolic effects.
+* Hops are '''toxic to dogs''' — a real hazard in homes where beer is brewed, causing malignant hyperthermia.
+
+== 7. What this is good for ==
+* It explains why '''aroma cannot be rebuilt from a terpene list''': the perceptual signature lives in compounds that do not appear on the list.
+* It gives a '''cannabinoid-free way to study, blend and teach''' the aroma, using a plant that is legal, cheap, agricultural and sold by the pound.
+* It is the botanical ground under the aroma work described in [[Standardized Extracts, Enhanced Leaf and the Perfumery of Botanical Aroma]].
+
+== Sources ==
+* Oswald I. W. H. et al., "Identification of a New Family of Prenylated Volatile Sulfur Compounds in Cannabis Revealed by Comprehensive Two-Dimensional Gas Chromatography", ''ACS Omega'' 6 (2021) 31667–31676.
+* Sanchez-Hernandez E. et al. and the brewing literature on hop thiols (4MMP, 3MH, 3MHA) and varietal aroma.
+* Burgess A. et al. on lightstruck flavour: 3-methyl-2-butene-1-thiol formation from iso-alpha-acids and riboflavin.
+* Milligan S. R. et al., "Identification of a potent phytoestrogen in hops", ''Journal of Clinical Endocrinology & Metabolism'' 84 (1999) — 8-prenylnaringenin.
+* Yang D. P. et al., Cannabaceae phylogeny (2013); Sytsma K. J. et al., ''American Journal of Botany'' 89 (2002) on the reclassification that placed ''Celtis'' in Cannabaceae.
+* Hop variety oil and aroma descriptors as published by growers (Yakima Chief, Hop Products Australia) and the Brewers Association.

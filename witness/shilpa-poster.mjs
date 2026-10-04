@@ -45,6 +45,7 @@ export const FACTS = [
 ];
 
 const STUDIO = 'https://hathor.soapbox.community';
+const MUSIC = (process.env.SHILPA_MUSIC_SITE || 'https://stream.soapbox.community').replace(/\/$/, '');
 export const TESTING = `*We are testing these features and looking to develop them. This is Hathor's alpha work, made on our own servers — the images and videos she makes next are expected to be much better and more accurate. Tell us what works and what doesn't: every video page has 👍/👎, comments and timestamped notes.*`;
 
 let _fetch = (...a) => globalThis.fetch(...a);
@@ -73,6 +74,43 @@ export async function collectVideos() {
   return out;
 }
 
+// Songs made with Hathor Sandalphon. Read from the music library's own catalogue so a song is posted
+// once it is actually live and playable — never before.
+export async function collectSongs() {
+  const cat = await getJson(`${MUSIC}/music/catalog.json`);
+  return ((cat && cat.tracks) || []).filter((t) => t && t.id && t.url).map((t) => ({
+    key: `song:${t.id}`,
+    title: t.title || t.id,
+    genre: t.genre || '',
+    album: t.album || '',
+    seconds: t.seconds || 0,
+    url: t.url,
+    audio: t.audio || '',
+    embed: `${MUSIC}/music/embed/${t.id}`,
+  }));
+}
+
+export function buildSongPost(items, setNo) {
+  const albums = [...new Set(items.map((s) => s.album).filter(Boolean))];
+  const title = `Songs, Set ${setNo}: ${albums.length ? albums.join(', ') : 'new songs'} from Hathor Sandalphon (testing)`.slice(0, 250);
+  const block = (s) => [
+    `### [${s.title}](${s.url})`,
+    `*${[s.genre, s.album, s.seconds ? mmss(s.seconds) : ''].filter(Boolean).join(' · ')}*`,
+    `▶ **[Listen here](${s.url})** — the player shows the melody as notes on a staff, or as guitar tab.`,
+  ].filter(Boolean).join('\n\n');
+  const body = [
+    'Hathor Sandalphon is the music-making part of Hathor. These songs were written and recorded on our own '
+    + 'servers with open-licence engines — original words and original music, never a copy of anyone else\'s song.',
+    TESTING,
+    '---',
+    ...items.map(block),
+    '---',
+    `Every song, with its notes and its separate parts: [the music library](${MUSIC}/music) · `
+    + 'make your own: [Hathor Sandalphon](https://pentecaust.com/sandalphon) · [the beat maker](https://pentecaust.com/sandalphon/beats)',
+  ].join('\n\n');
+  return { title, body, permlink: `shilpa-shastra-songs-set-${setNo}`, tags: ['shilpashastra', 'music', 'song', 'melek', 'ai'] };
+}
+
 export function buildVideoPost(items, setNo) {
   const kinds = [...new Set(items.map((v) => v.kind))];
   const title = `Moving Pictures, Set ${setNo}: ${kinds.join(', ')} from Hathor's studio (testing)`.slice(0, 250);
@@ -94,7 +132,7 @@ export function buildVideoPost(items, setNo) {
   return { title, body, permlink: `shilpa-shastra-moving-pictures-set-${setNo}`, tags: ['shilpashastra', 'video', 'history', 'animation', 'melek', 'ai'] };
 }
 
-const loadState = () => { try { return { videos: [], videoSets: 0, ...JSON.parse(readFileSync(STATE, 'utf8')) }; } catch { return { posted: [], sets: 0, videos: [], videoSets: 0 }; } };
+const loadState = () => { try { return { videos: [], videoSets: 0, songs: [], songSets: 0, ...JSON.parse(readFileSync(STATE, 'utf8')) }; } catch { return { posted: [], sets: 0, videos: [], videoSets: 0, songs: [], songSets: 0 }; } };
 const saveState = (s) => { mkdirSync(STATE_DIR, { recursive: true }); writeFileSync(STATE, JSON.stringify(s, null, 1)); };
 
 async function rpc(method, params) {
@@ -202,6 +240,23 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop()
       if (!r) process.exit(0);
       console.log(`posted video set ${vset}: ${vb.length} videos, ${r}`);
       st.videos = [...vdone, ...vb.map((v) => v.key)]; st.videoSets = vset; saveState(st);
+    }
+  }
+  // 3) the next "Songs" set — whatever is live in the music library and has not been posted yet
+  const songs = await collectSongs();
+  const sdone = new Set(st.songs || []);
+  const stodo = songs.filter((x) => !sdone.has(x.key));
+  console.log(`songs ${songs.length} · posted ${sdone.size} · to post ${stodo.length}`);
+  if (stodo.length) {
+    const sb = stodo.slice(0, +(process.env.SHILPA_SONG_BATCH || 6));
+    const sset = (st.songSets || 0) + 1;
+    const p = buildSongPost(sb, sset);
+    if (DRY) console.log(`would post song set ${sset}: "${p.title}" — ${sb.length} songs, ${p.body.length} chars`);
+    else {
+      const r = await postOnce(p, '', 'shilpa-shastra/songs').catch((e) => { console.log(`song set ${sset} not posted: ${e.message}`); return null; });
+      if (!r) process.exit(0);
+      console.log(`posted song set ${sset}: ${sb.length} songs, ${r}`);
+      st.songs = [...sdone, ...sb.map((x) => x.key)]; st.songSets = sset; saveState(st);
     }
   }
 }

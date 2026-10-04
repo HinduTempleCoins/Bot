@@ -1,0 +1,67 @@
+'''The Legal Supply Chain: Coca Leaf, Poppy Straw, DEA Quotas, and the Federal Patients''' documents something most people do not know exists: '''the United States legally imports coca leaf and opium raw material every year, in tons, under quota, by name.''' Schedule I and II substances are simultaneously '''prohibited''' and '''licensed commodities''', and the thing that decides which you are looking at is not the molecule — '''it is the registration'''. This page covers the actual machinery: who holds the licences, how the quotas are set and published, where the world's licit opiates are farmed, and the small federal programme that posted tins of government cannabis to a handful of named patients for decades.
+
+== 1. Why this exists at all ==
+'''Prohibition and licensed supply were designed together.''' The '''Single Convention on Narcotic Drugs (1961)''' does not ban these plants outright; it builds a '''closed system''' in which every gram of licit narcotic raw material is '''estimated, authorised, tracked and reported''' to the '''International Narcotics Control Board''', while everything outside that system is criminal.
+
+'''Article 27''' of that Convention is the specific hinge for coca: parties '''may''' permit the use of coca leaves '''for the preparation of a flavouring agent''', provided the '''alkaloids are removed'''. That one clause is why the next section is possible.
+
+In US law the implementing machinery is the '''Controlled Substances Act''' plus the '''DEA registration''' system: importer, bulk manufacturer and researcher registrations, each tied to an '''annual quota'''. '''Schedule II means "accepted medical use with severe restrictions"''' — and '''cocaine is Schedule II''', which surprises people who assume it is Schedule I.
+
+== 2. Coca leaf, Stepan, and the Coca-Cola flavouring ==
+=== The facts ===
+* '''Stepan Company''' operates a plant in '''Maywood, New Jersey''' — the former '''Maywood Chemical Works''', bought by Stepan in '''1959''' — which is '''the only commercial facility in the United States registered with the DEA to import coca leaf.'''
+* Roughly '''100 metric tons of dried coca leaf''' are imported annually, principally from '''Peru'''.
+* The plant performs the separation required by Article 27. It produces '''two''' products:
+  # a '''decocainised coca extract''', the flavouring ingredient historically known inside Coca-Cola's formula as '''"Merchandise No. 5"''', sold to '''The Coca-Cola Company'''; and
+  # '''cocaine hydrochloride''', the extracted alkaloid, sold onward to a '''pharmaceutical manufacturer''' — for decades '''Mallinckrodt''' — for '''medical''' use.
+* '''The medical use is real and current.''' Cocaine hydrochloride is used topically as a '''local anaesthetic with intrinsic vasoconstriction''' — one of the very few agents that numbs and shrinks mucosa simultaneously, which is why it has persisted in '''ENT (nasal and sinus) procedures''', in '''ophthalmology''', and in '''dentistry'''. Modern FDA-approved topical cocaine products were approved in '''2017 and 2020''' for nasal anaesthesia. It is '''also''' the reference agent in the '''cocaine test''' for diagnosing Horner's syndrome.
+* '''Importing cocaine was prohibited in 1921'''; the leaf-import arrangement survives as a '''registered exemption''' inside the closed system, not as a loophole anyone slipped through.
+
+=== Why it is worth knowing ===
+* '''"Coca-Cola contains cocaine" is false; "Coca-Cola contains coca" is true.''' The extract is '''decocainised by law''' before it reaches the beverage. Both halves of that sentence are usually got wrong in opposite directions.
+* '''The same shipment becomes a soft-drink flavouring and a Schedule II drug.''' That is the clearest single illustration of the principle on this page: '''the legal status attaches to the handler and the paperwork, not to the plant.'''
+* '''And it bears on the coca-leaf-chewing debate.''' Bolivia and Peru have argued for decades that '''traditional coca chewing''' should be outside the Convention — Bolivia '''denounced and re-acceded''' to the Single Convention in 2011–13 specifically to reserve the right to permit it. '''A country can be told its citizens may not chew the leaf while a New Jersey plant imports a hundred tons of it a year.''' That contradiction is the substance of the argument, and it is a fair one to state. See [[The Tropane Alkaloids Brugmansia Cocaine and Metabolic Chemistry]] and [[Spiced Wine Bitters and the Colas|Spiced Wine, Bitters and the Colas]] for the Vin Mariani and early-Coca-Cola history.
+
+== 3. The quota system, which is published every year ==
+'''This is the part that is genuinely public and almost never read.'''
+* Each year the DEA publishes, in the '''Federal Register''', '''aggregate production quotas''' for Schedule I and II controlled substances, plus '''assessments of annual needs''' for the narcotic raw materials. '''Anyone can read them.''' They are proposed, opened for public comment, and finalised.
+* Separate '''import quotas''' govern '''coca leaf''' and '''narcotic raw material''' (opium, and '''concentrate of poppy straw''').
+* Individual '''manufacturing quotas''' are then issued to named registrants against that national ceiling. '''A company cannot make a gram more than its quota.'''
+* '''The research quotas are the interesting ones to watch.''' DEA sets annual production ceilings for '''cannabis for research''', and for '''psilocybin, psilocin, MDMA, DMT, mescaline, LSD and ibogaine''' as research substances. '''Those numbers have risen by orders of magnitude in recent years''', which is a legible, documentary trace of the clinical-research revival — '''you can watch a scientific field reopen by reading a quota table'''. See [[Psychotropics Convention and the UDV Precedent]] and [[Religious Sacraments RFRA and the Temple of True Inner Light]].
+
+== 4. Opium, poppy straw, and where licit opiates actually come from ==
+* '''Two routes exist''' to the same alkaloids. '''Opium gum''' is lanced from the capsule by hand. '''Concentrate of poppy straw (CPS)''' is extracted industrially from the '''dried whole plant''' after the seed harvest. '''Most of the world's licit morphine, codeine and thebaine now comes via CPS''', because it is mechanised and far harder to divert.
+* '''The farms are where you would not guess.''' '''Tasmania''' (Australia) has long been a dominant supplier of '''thebaine''' — the precursor for '''oxycodone, oxymorphone, buprenorphine and naloxone''' — meaning a large share of the world's semi-synthetic opioids traces to a '''temperate island's contract-farmed poppy crop''' under licence. '''France, Spain, Hungary and Turkey''' are major CPS producers. '''India''' remains the principal licit exporter of '''opium gum'''.
+* '''The "80–20 rule":''' US regulations have long required that the majority of imported narcotic raw material come from the '''traditional supplier''' countries — in practice '''India and Turkey''' — a deliberate policy of keeping licit demand pointed at countries that cooperate with the closed system. '''Trade policy as drug control.'''
+* '''Naloxone — the overdose antidote — is made from thebaine.''' The licit poppy supply chain is therefore part of the '''harm-reduction''' supply chain, which is not how either is usually discussed.
+* '''And the asymmetry worth stating:''' the same regulatory apparatus that made opioid raw material abundant and cheap for manufacturers did not prevent the '''prescription-opioid epidemic'''. '''Quota control governs quantity at the factory, not prescribing at the clinic.'''
+
+== 5. The federal cannabis patients, and Ole Miss ==
+'''A small, strange and genuinely documented programme.'''
+* From '''1968''' until '''2021''', the '''University of Mississippi''' held the '''only federal contract''' to cultivate cannabis in the United States, for the '''National Institute on Drug Abuse'''. Every gram of legal research cannabis in the country came from '''one farm'''.
+* '''Robert Randall''', a '''glaucoma''' patient, was arrested for growing his own in the 1970s and won on a '''medical-necessity''' defence. The resulting settlement gave him legal access and became the template for the '''Compassionate Investigational New Drug (IND)''' programme, administered through the '''FDA's Center for Drug Evaluation and Research (CDER)''' — the same IND mechanism used for any investigational drug.
+* Enrolled patients received '''tins of pre-rolled cannabis cigarettes''', grown at Ole Miss and shipped to a pharmacy. '''Elvy Musikka''', also a glaucoma patient, received a reported '''300 cigarettes a month from 1988.'''
+* '''The programme was closed to new enrolment in 1991–92''', under the '''George H. W. Bush''' administration, as '''AIDS patients began applying in numbers'''. Roughly '''thirteen''' people were enrolled at closure. '''Those already enrolled were allowed to continue for life''', and the number dwindled by attrition — '''George McMahon''' died in 2019; by the early 2020s reporting indicated '''one''' patient remained, '''Irvin Rosenfeld''', who has received federal cannabis since 1982.
+* '''The quality was notoriously poor''' — low potency, stems and seeds included, years in freezer storage — and that became a scientific problem in its own right, because '''researchers could only study the one supply that existed''', which did not resemble what anyone was actually using.
+* '''In 2021 the DEA finally licensed additional bulk manufacturers''', ending the Ole Miss monopoly after '''fifty-three years'''.
+
+=== Why this story belongs in the library ===
+'''It is the clearest case of the federal government simultaneously holding two incompatible positions and documenting both.''' The same government that classified cannabis as having '''"no currently accepted medical use"''' was '''mailing it monthly to named patients as a medicine''', from a farm it ran, through a programme its own drug regulator administered. '''That is not a conspiracy theory. It is a paperwork trail.''' See [[Cannabis]] · [[Cannabis Harm Reduction]] · [[Cannabinoid Neuroprotection and Perinatal Development]] · [[Hemp Industry Scale-Up and Legal Synthesis Protocols]].
+
+== 6. The general lesson ==
+# '''Schedules are about registration, not chemistry.''' The same molecule is a felony in one building and inventory in another, a hundred metres away.
+# '''The closed system is public.''' Quotas, import authorisations and INCB estimates are '''published documents'''. If you want to know what a country legally consumes of something, '''the number exists'''.
+# '''Licit and illicit supply chains share precursors, geography and infrastructure''' — and sometimes the same farm.
+# '''A prohibition with a licensed exception is a statement about who is trusted''', not about what is dangerous. '''That is the honest reading of all of it''', and it is the reading the documents support.
+# '''And the practical consequence for research:''' for fifty years, what could be studied was decided by who held a cultivation contract. '''Supply control is research control.''' That is why the rising research quotas in §3 matter more than they look.
+
+== Sources ==
+* '''Single Convention on Narcotic Drugs''' (1961, as amended), especially Articles 26–27 (coca leaf) and the estimates/reporting system; and the '''Convention on Psychotropic Substances''' (1971).
+* DEA '''aggregate production quotas''' and '''assessment of annual needs''' notices, published annually in the '''Federal Register''' (e.g. the 1999 and 2011 notices in the public record).
+* International Narcotics Control Board, ''Narcotic Drugs: Estimated World Requirements'' — annual; the authoritative source on licit opiate and coca volumes.
+* Stepan Company corporate record and the public reporting on the Maywood facility's DEA coca-leaf import registration.
+* FDA approvals of topical cocaine hydrochloride solutions for nasal anaesthesia (2017, 2020).
+* Randall R. C. and O'Leary A. M., ''Marijuana Rx: The Patients' Fight for Medicinal Pot'' (1998) — the origin of the Compassionate IND programme, from the plaintiff.
+* NIDA / University of Mississippi cannabis cultivation contract record, 1968–2021; and the DEA 2021 announcement of additional registered bulk manufacturers.
+* Contemporary reporting on the remaining Compassionate IND patients (Rosenfeld, Musikka, McMahon).
+* Transnational Institute and WOLA reporting on Bolivia's 2011 denunciation of and 2013 re-accession to the Single Convention with a coca-chewing reservation.

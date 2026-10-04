@@ -1,9 +1,7 @@
 // chain-compare.test.mjs — offline tests for the TRON-vs-Ethereum honest comparison.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  CHAINS, DIMENSIONS, esc, getChain, compare, table, renderCompare,
-} from './chain-compare.mjs';
+import { CHAINS, DIMENSIONS, esc, getChain, compare, table, renderCompare, GRAPHENE_MATRIX } from './chain-compare.mjs';
 
 test('CHAINS holds static facts for TRON and Ethereum', () => {
   assert.ok(CHAINS.tron && CHAINS.ethereum);
@@ -64,11 +62,24 @@ test('compare soft-fails on unknown chains to n/a (never throws)', () => {
   }
 });
 
-test('table builds a matrix over all chains by default', () => {
+test('table builds a matrix over all registered chains by default', () => {
   const t = table();
-  assert.deepEqual(t.chains.map((c) => c.id).sort(), ['ethereum', 'tron']);
+  const ids = t.chains.map((c) => c.id);
+  assert.deepEqual(ids.sort(), Object.keys(CHAINS).sort(), 'every registered chain appears');
+  for (const must of ['tron', 'ethereum', 'steem', 'hive', 'blurt', 'melek']) assert.ok(ids.includes(must), must);
   assert.equal(t.rows.length, DIMENSIONS.length);
   for (const r of t.rows) assert.equal(r.values.length, t.chains.length);
+});
+
+test('the Graphene matrix is the family in order, and every entry is a real chain', () => {
+  const t = table(GRAPHENE_MATRIX);
+  assert.deepEqual(t.chains.map((c) => c.id), GRAPHENE_MATRIX, 'no entry silently dropped');
+  assert.equal(t.chains.length, 7);
+  for (const r of t.rows) for (const v of r.values) assert.ok(v && v !== 'n/a', `${r.label} must be filled in`);
+  // the side tokens must not be presented as chains with their own consensus
+  const consensus = t.rows.find((r) => r.dimension === 'consensus').values;
+  assert.match(consensus[GRAPHENE_MATRIX.indexOf('vkbt')], /Inherits/);
+  assert.match(consensus[GRAPHENE_MATRIX.indexOf('cure')], /Inherits/);
 });
 
 test('table accepts an explicit chain list and skips unknowns', () => {

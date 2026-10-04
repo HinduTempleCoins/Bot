@@ -1,0 +1,88 @@
+'''Beneficial Insects and Biological Pest Control''' is about using animals instead of chemicals: which predators eat which pests, how the '''industry that sells insects''' actually works, why the famous ladybird-and-aphid pairing is '''mostly sold wrong''', and how the whole thing connects to keeping poultry and — genuinely — to '''farming aphids on purpose'''. Alpha.
+
+== 1. The three kinds of biological control ==
+* '''Conservation''' — change the farm so the predators that already live there stay and breed: flowering strips, beetle banks, hedgerows, not spraying broad-spectrum insecticides. '''Cheapest, most durable, and the one most people skip.'''
+* '''Augmentation''' — buy and release natural enemies. Either '''inoculative''' (release a few early and let them build up, the greenhouse model) or '''inundative''' (release huge numbers as a living pesticide, with no expectation they persist).
+* '''Classical''' — import a specialist natural enemy from a pest's homeland against an invasive pest, release once, and it establishes permanently. Spectacular when it works, and the source of the field's worst disasters (§6).
+
+== 2. Who eats what ==
+
+=== Predators ===
+* '''Ladybirds / ladybugs''' (Coccinellidae) — aphids above all, plus scale, mealybugs, mites. A larva eats far more than the adult; '''the larva is the workhorse''' and looks nothing like the beetle (small, spiky, alligator-shaped, often black and orange). Many people kill them not recognising them.
+* '''Lacewings''' (''Chrysoperla'') — the larva is called the '''aphid lion''' and is a more reliable buy than ladybirds. Adults eat only nectar and pollen.
+* '''Hoverflies''' (Syrphidae) — larvae are serious aphid predators; adults are pollinators. '''Attracted by flowers, not bought''' — pure conservation control.
+* '''Predatory mites''' — '''''Phytoseiulus persimilis''''' is the specialist against two-spotted spider mite and is one of the most effective biological controls in existence. '''''Amblyseius''''' / '''''Neoseiulus''''' species handle thrips and broad mites.
+* '''''Orius''''' (minute pirate bugs) — thrips, mites, small larvae.
+* '''Rove and ground beetles''' — soil-dwelling pests, slugs, root maggots; conserved rather than bought.
+* '''Spiders''' — generalists, enormously important, almost never credited.
+
+=== Parasitoids — the ones that do the heavy lifting ===
+A parasitoid lays an egg in or on a host; the larva eats it from inside and kills it. '''This is the category commercial control mostly runs on.'''
+* '''''Aphidius''''' wasps — lay in aphids, which turn into bronze "'''mummies'''". Seeing mummies means control is already working.
+* '''''Encarsia formosa''''' — against glasshouse whitefly, '''used commercially since the 1920s''' and the oldest ongoing biological control programme in the world.
+* '''''Trichogramma''''' — tiny wasps that parasitise moth and butterfly '''eggs''', so the caterpillar never hatches. Sold by the million.
+* '''''Aphelinus'''''. '''''Diglyphus''''' — leafminers. '''''Dacnusa'''''. '''''Cotesia''''' — caterpillars.
+* '''None of these sting people.''' Most are a millimetre or two long.
+
+=== Pathogens and nematodes ===
+* '''''Bacillus thuringiensis''''' (Bt) — a bacterium whose crystal protein destroys the gut of specific larvae. '''''kurstaki''''' for caterpillars, '''''israelensis''''' for mosquito and fungus-gnat larvae. Selective and the backbone of organic caterpillar control.
+* '''''Beauveria bassiana''''' and '''''Metarhizium''''' — fungi that infect insects through the cuticle. Need humidity.
+* '''Entomopathogenic nematodes''' — '''''Steinernema''''' and '''''Heterorhabditis''''', microscopic worms that enter soil pests and release a lethal bacterium. Excellent for fungus gnats and grubs; must be watered in and kept moist.
+
+== 3. The ladybird problem — why the famous one is usually sold wrong ==
+This is the most instructive failure in the whole retail trade.
+* Most ladybirds sold in North America are '''''Hippodamia convergens''''' that were '''not reared — they were harvested'''. They aggregate in huge overwintering masses in the Sierra Nevada and are '''vacuumed up by the gallon''' from the wild.
+* Those beetles are physiologically primed to '''migrate''' when they warm up. Released on a garden, '''most simply fly away within a day or two'''.
+* They also arrive carrying whatever the wild population carried, including the parasite '''''Dinocampus coccinellae''''' and microsporidian infections — so you may be importing disease into your local population.
+* '''What actually helps if you buy them:''' refrigerate, release at '''dusk''', water the plants first (they will not leave while drinking), and release at the base of infested plants. Even then, expect heavy loss.
+* '''What actually works better:''' buy '''lacewing larvae''' or '''''Aphidius''''' instead — reared, not harvested, and they cannot fly off as larvae — or do conservation control and let your own hoverflies and ladybirds build up.
+* '''The honest summary:''' ladybirds are the product people recognise, which is why they are sold. They are rarely the right purchase.
+
+== 4. The industry ==
+* It is a real sector. The '''International Biocontrol Manufacturers Association''' represents it; the large firms are '''Koppert''' (Netherlands), '''Biobest''' (Belgium) and '''BioWorks''', alongside many regional insectaries.
+* '''Greenhouses are the economic engine''' — enclosed space, high-value crops, and pests that have evolved resistance to everything sprayable. Dutch and Belgian glasshouse tomato and pepper production runs substantially on bought predators.
+* '''How it is sold:''' mites and wasps in '''bottles with vermiculite carrier''', or in '''sachets''' that hang on a plant and release a trickle of mites over weeks; '''''Encarsia''''' as pupae glued to cards; '''''Trichogramma''''' likewise; nematodes as a wettable powder.
+* '''Banker plants''' are the elegant trick: grow a plant with a '''harmless''' pest on it — cereal plants with '''bird-cherry oat aphids''', which will not touch your tomatoes — so that the '''''Aphidius''''' population has something to breed on continuously. '''That is deliberate aphid farming, as infrastructure.'''
+* '''Living products have real constraints:''' they are perishable, they must arrive fast, they are inspected at borders, and in many countries releasing a non-native species requires a permit. '''Check before importing anything.'''
+* '''Quality varies.''' Reputable suppliers state species, life stage, count and a use-by date. A bag of unspecified "ladybugs" is the low end of the trade.
+
+== 5. Aphids, ants and farming them on purpose ==
+* '''Ants farm aphids''' — genuinely. They protect aphid colonies from predators, carry them to fresh growth, overwinter their eggs, and harvest the '''honeydew''' the aphids excrete. Some ants chemically suppress the aphids' winged forms to stop the herd dispersing.
+* '''Practical consequence:''' if you have ants running up a plant, '''your biological control will fail''', because the ants will fight off the ladybirds and wasps. '''Deal with the ants first''' — a sticky band on the stem is usually enough. This single point explains a great many "the predators didn't work" complaints.
+* '''People farm aphids too''', for two reasons: as '''banker-plant hosts''' to keep parasitoid wasps breeding (above), and as '''live feed''' for rearing predators in insectaries and for feeding small reptiles, fish and birds.
+* '''Honeydew''' is also the source of '''honeydew honey''' (fir, pine), which bees make from aphid excretion rather than nectar — a premium product in central Europe.
+
+== 6. Poultry, and the limits of letting animals do it ==
+* '''Chickens, ducks and guineafowl''' are real pest control. '''Guineafowl''' are the specialists for '''ticks''' and will patrol a perimeter. '''Ducks — Indian Runners especially — are better than chickens in a vegetable garden''', because they take slugs and snails without the destructive scratching chickens do.
+* The '''rice-duck''' system of East Asia is the classic integration: ducks in the paddy eat insects and weeds, fertilise as they go, and their paddling muddies the water enough to suppress weed germination.
+* '''Chickens following cattle''' break parasite cycles by scratching through dung and eating fly larvae.
+* '''The limits, stated plainly:''' birds are '''not selective'''. They eat your beneficial insects alongside the pests, they eat seedlings and fruit, they scratch out mulch and shallow roots, and their manure is a '''food-safety consideration''' near ready-to-eat crops — which is why commercial standards impose intervals between grazing poultry and harvest. '''Use them before planting and after harvest, or in an orchard, rather than in a bed of seedlings.'''
+
+== 7. When classical control goes wrong ==
+The field's honest record includes serious failures, and they all share one cause: '''a generalist was released.'''
+* '''Cane toads''' in Australia (1935), imported against cane beetles, which they largely failed to control while becoming a continental ecological disaster.
+* '''''Harmonia axyridis''''', the harlequin ladybird, introduced widely for aphid control, is now an invasive pest across Europe and North America that '''displaces native ladybirds''', eats fruit, and swarms into houses.
+* '''''Rodolia cardinalis''''' against cottony cushion scale in California (1888) is the great success and the founding case of the discipline — a '''specialist''', which is exactly the point.
+* '''The rule the field learned:''' release '''specialists''' with host-range testing, never generalists. Modern programmes require extensive pre-release testing for precisely this reason.
+
+== 8. Doing it in practice ==
+# '''Identify the pest correctly.''' Everything downstream depends on it; the right predator for a spider mite does nothing for thrips.
+# '''Stop spraying broad-spectrum insecticides.''' They kill predators faster than pests, and the pest rebounds first — the '''pesticide treadmill'''.
+# '''Deal with ants''' if there are any.
+# '''Release early, at low pest density.''' Biological control '''manages''' a population; it cannot rescue an infestation. This is the most common mistake.
+# '''Match the environment''' — nematodes need moisture, fungi need humidity, mites need the right temperature.
+# '''Give it weeks, not days''', and look for evidence it is working: '''aphid mummies''', larvae present, pest numbers flattening rather than crashing.
+# '''Provide flowers.''' Adult hoverflies, lacewings and parasitoid wasps feed on nectar and pollen; umbellifers (dill, fennel, coriander) and alyssum are the standard choices.
+
+== 9. Where this connects ==
+* Botanical and chemical alternatives, and when they are the right tool: [[Neem, Botanical Pesticides and What Actually Works]].
+* Feeding the plant rather than the pest: [[Plant Nutrients and Diagnosing Deficiencies: Reading a Leaf]].
+
+== Sources ==
+* van Lenteren J. C., "The state of commercial augmentative biological control", ''BioControl'' 57 (2012) — the industry, species sold, and quality control.
+* Caltagirone L. E. and Doutt R. L., "The history of the vedalia beetle importation to California", ''Annual Review of Entomology'' 34 (1989).
+* Roy H. E. and Wajnberg E. (eds.), ''From Biological Control to Invasion: the ladybird Harmonia axyridis'' (2008).
+* Stiling P. and Cornelissen T., meta-analysis of biological control success rates, ''Biological Control'' 34 (2005).
+* Way M. J., "Mutualism between ants and honeydew-producing Homoptera", ''Annual Review of Entomology'' 8 (1963).
+* Hoy M. A., ''Agricultural Acarology'' (2011) — ''Phytoseiulus'' and predatory mite practice.
+* University extension IPM guides (UC IPM, Cornell) on ''Hippodamia convergens'' collection, dispersal and release practice.

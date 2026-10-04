@@ -1,0 +1,64 @@
+'''Toads, Frogs and the Myths: Harm Reduction and Wildlife Protection''' exists to correct a specific set of dangerous and persistent falsehoods. Two of them get people hurt — '''"toad licking"''' and the idea that '''eating frog or toad skin''' does something — and both are false. A third, confusing the '''Colorado River toad''' with the '''cane toad''', has killed people. The page also covers '''Kambo''', which is a real practice that does '''not''' kill the frog, and the '''Church of the Toad of Light'''. Harm reduction and species protection, not instruction. Alpha.
+
+== 1. The myths, stated flatly ==
+* '''❌ There is no method of eating frog or toad skin to get high.''' None. Eating the skin or the animal delivers '''cardiotoxic bufadienolides''' straight to your gut. People and dogs have '''died''' doing this. There is no preparation, no dose and no species for which this works.
+* '''❌ "Toad licking" is not a thing.''' It is a media invention that has circulated since the late 1980s. Licking a toad delivers an unmeasured dose of a '''cardiac poison''' through the mouth. '''Nobody who knows what they are doing licks a toad.'''
+* '''❌ There is no hallucinogenic "toad" you can simply pick up.''' The compound people are reaching for is in the '''secretion''' of '''one''' species, and raw secretion is not the same as a prepared material.
+
+=== The same shape of lie, repeated for fifty years ===
+This family of rumour is worth naming, because recognising the pattern is itself protective.
+* '''Banana peels ("bananadine")''' — invented as a hoax in 1967, spread by the ''Berkeley Barb'' and amplified in '''Abbie Hoffman's''' ''Steal This Book''. Smoking banana peel does nothing.
+* '''"Toothpaste, orange peel and a penny" LSD in jail''' — chemically impossible. LSD synthesis requires ergot-derived precursors and real laboratory work.
+* '''"Cherries and eggs" PCP''' — impossible.
+* '''"PCP is embalming fluid"''' — two different things conflated. Embalming fluid is '''formaldehyde and methanol'''; PCP is a synthetic dissociative. The confusion arises because some people have dipped cigarettes in formaldehyde, which causes '''severe lung and neurological damage''' and is its own catastrophe.
+* '''"Lace"''' — a 1960s hoax compound.
+* '''The pattern:''' a household item plus a confident-sounding method, spread among people with no way to check. '''When a claim has that shape, assume it is false until a real source says otherwise.'''
+
+== 2. Which animal is which — the confusion that kills ==
+
+=== Colorado River toad — ''Incilius alvarius'' (formerly ''Bufo alvarius'') ===
+* The '''only''' toad whose secretion contains meaningful '''5-MeO-DMT''', alongside '''bufotenin (5-HO-DMT)'''.
+* Native to the '''Sonoran Desert''' — Arizona, extreme south-east California, north-western Mexico.
+* The secretion comes from the '''parotoid glands''' (behind the head) and other glands. In practice it is '''expressed by gently squeezing the gland''' so the secretion is caught on a surface and '''dried'''. '''The animal is released.'''
+* '''Even this is dangerous.''' The raw secretion also contains '''bufotenin and cardioactive compounds'''; dose is '''wildly variable''' between animals, seasons and glands; and 5-MeO-DMT is '''extremely potent''' — deaths have occurred, including from interaction with '''MAOIs and antidepressants'''.
+
+=== Cane toad — ''Rhinella marina'' (formerly ''Bufo marinus'') ===
+* '''Much larger'''. Invasive across Australia, the Pacific and the Caribbean; native to Central and South America.
+* '''Its venom contains essentially NO 5-MeO-DMT.''' It contains '''bufadienolides''' — '''cardiac glycosides''' acting on the same sodium-potassium pump as digitalis (see the foxglove warning on [[Old World vs New World Magic Herbs]]).
+* '''Smoking cane toad venom is reported as a sensation like needles being driven through the veins, and it causes cardiac events.''' People have '''died'''. It is a heart poison, not a psychedelic.
+* '''Historic ritual preparations treated bufadienolide-bearing material with calcium hydroxide (slaked lime)''' — the same alkalising step used in '''yopo''' snuff and in '''coca''' chewing and '''nixtamalisation'''. '''This does not make cane toad venom safe''', and this page describes the ethnographic fact, not a method.
+* '''If you cannot tell the two species apart, you have no business handling either.''' Size, range and gland shape differ, but in the dark, to an inexperienced person, they do not.
+
+=== Kambo — ''Phyllomedusa bicolor'', the giant monkey frog ===
+* '''Not a psychedelic at all.''' The secretion is a cocktail of '''peptides''' — '''dermorphin''' and '''deltorphin''' (potent opioid-receptor peptides), '''phyllocaerulein''', '''sauvagine''', '''phyllomedusin''' — producing violent '''vomiting, flushing, swelling and tachycardia'''.
+* '''The frog is not killed.''' In the traditional practice the frog is caught, its limbs gently tied to spread it, and the secretion is scraped from its back onto a '''flat stick''' as the animal secretes; it is then '''released'''. Done badly or repeatedly this still stresses the animal, which is a real welfare concern as demand grows.
+* '''The route is a deliberate burn''' through the skin — which bypasses the gut entirely. '''Deaths have occurred''', generally from '''hyponatraemia''' after enormous water intake, from cardiac events, and from use by people with existing heart or liver conditions. Several countries have issued warnings.
+* '''Dermorphin is a genuine pharmacological curiosity''' — far more potent than morphine by weight at the mu-opioid receptor — and it has a notorious second life as a '''racehorse doping agent'''.
+
+== 3. The Church of the Toad of Light ==
+* Founded by '''Ken Nelson''', writing as '''Albert Most''', who published the 1984 pamphlet ''Bufo alvarius: The Psychedelic Toad of the Sonoran Desert'' — the document that introduced the practice to a Western audience.
+* It is a small religious tradition, and its existence raises the same legal questions as other entheogenic churches — '''RFRA''' and the '''UDV''' and '''Santo Daime''' line of cases. See [[Religious Sacraments, RFRA, and the Temple of True Inner Light]].
+* '''5-MeO-DMT is Schedule I in the United States.''' The toad itself is not a controlled substance; its secretion contains one.
+
+== 4. The conservation problem — and the better answer ==
+This is the part that matters most, and it is where the page lands.
+* '''Demand is harming the species.''' ''Incilius alvarius'' is '''protected in New Mexico''', collection is '''restricted in Arizona''', and the rise of commercial "toad ceremonies" has driven poaching, rough handling, repeated milking and transport deaths across the Sonoran range. '''Mexican and US conservationists have asked people to stop.'''
+* '''Synthetic 5-MeO-DMT is identical.''' It is the '''same molecule''', available in '''known purity''' and '''measurable dose''', with none of the bufotenin and cardioactive contamination of raw secretion, and '''no animal involved at all'''.
+* '''So the harm-reduction and the conservation answer are the same answer:''' '''there is no reason to use a toad.''' The practitioners and researchers who know this field best — including those who introduced it — have said so publicly.
+* '''For Kambo''', the parallel point is that supply pressure on ''P. bicolor'' and on the communities that harvest it is growing, and synthetic peptide alternatives exist for research.
+
+== 5. If someone is in trouble ==
+* '''Cardiac symptoms after any toad exposure — chest pain, a very slow or irregular pulse, vomiting — are an emergency.''' Bufadienolide poisoning is treated as '''digitalis poisoning'''; '''digoxin-specific antibody fragments (Digibind/DigiFab)''' have been used successfully. '''Tell the hospital it was a toad''' — that single sentence changes the treatment.
+* '''Dogs''' mouth cane toads constantly and die of it. Rinse the mouth '''sideways''' with running water for ten minutes, do not let the animal swallow, and go to a vet immediately.
+* '''5-MeO-DMT with any MAOI or antidepressant is a documented fatal combination.''' This includes harmala-containing preparations.
+* '''Never alone.''' Every serious adverse outcome in this area involves someone who had nobody with them, or nobody who knew what to do.
+
+== Sources ==
+* Most A. (Ken Nelson), ''Bufo alvarius: The Psychedelic Toad of the Sonoran Desert'' (1984).
+* Weil A. T. and Davis W., "''Bufo alvarius'': a potent hallucinogen of animal origin", ''Journal of Ethnopharmacology'' 41 (1994).
+* Lyttle T., Goldstein D. and Gartz J., "Bufo toads and bufotenine: fact and fiction surrounding an alleged psychedelic", ''Journal of Psychoactive Drugs'' 28 (1996) — the standard correction of the licking myth.
+* Erspamer V. et al., on dermorphin and deltorphin in ''Phyllomedusa'' skin secretions, ''PNAS'' 86 (1989).
+* Case reports of cane toad (''Rhinella marina'') bufadienolide poisoning and digoxin-Fab treatment, clinical toxicology literature.
+* Kambo adverse-event reviews and national health-agency warnings (UK, Australia, Italy).
+* Arizona Game and Fish Department and New Mexico Department of Game and Fish regulations on ''Incilius alvarius''; conservation statements on toad poaching in the Sonoran Desert.
+* Hoffman A., ''Steal This Book'' (1971) — the bananadine hoax in its best-known vehicle.

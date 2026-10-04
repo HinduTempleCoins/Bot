@@ -1,0 +1,84 @@
+'''Plant Training, Topping, FIMing, Cloning and the Old Outdoor Tricks''' covers the physical methods growers use to change a plant's shape — and the single hormonal fact that explains why almost all of them work. It runs from low-stress tying through topping and supercropping to the old outdoor practice of '''weighting a plant sideways with a cinder block''' so every branch becomes its own vertical plant off a horizontal trunk. Alpha.
+
+== 1. The one mechanism behind nearly all of it ==
+'''Apical dominance.''' The growing tip at the top of a plant produces '''auxin''', which travels downward and '''suppresses the lateral buds''' below it. The plant puts its resources into one leader and keeps the side branches small. It is an evolutionary bet on winning a race for light.
+
+Every training method is a way of breaking or exploiting that:
+* '''Remove the tip''' → the auxin source is gone → the suppressed laterals below it wake up and compete. (Topping, FIMing.)
+* '''Bend the tip below the laterals''' → auxin is redistributed by gravity and the branch tips now sit higher → they take over. (Low-stress training, the cinder block.)
+* '''Damage the stem without cutting it''' → transport is disrupted and the plant repairs and thickens. (Supercropping.)
+* '''Remove lower growth instead''' → nothing is suppressed, resources are concentrated. (Lollipopping, defoliation.)
+* '''Cytokinin''' is auxin's counterpart: it comes up from the roots and '''promotes''' lateral budding. The ratio between them is what actually decides the shape, which is why a big healthy root system makes a bushier plant.
+
+== 2. Low-stress training (LST) ==
+* '''What it is:''' bending and tying growth down without breaking it. Soft wire, plant ties, garden twine — never anything that will cut in as the stem thickens.
+* '''Why it works:''' it flattens the canopy. The plant's energy goes to whatever is highest; if everything is the same height, everything gets an equal share and you get many even tops instead of one dominant cola.
+* '''When:''' during vegetative growth, while stems are still flexible. Early and gradually.
+* '''How:''' bend the main stem over to the side, tie it down, and keep tying new growth outward as it rises. Bend, do not fold. Check the ties weekly — a tie left on a thickening stem girdles it.
+* '''Advantages:''' no wound, no recovery time, no stress check to growth. It is the lowest-risk method and the one to learn first.
+
+== 3. Topping and FIMing ==
+* '''Topping''' — cut the growing tip off cleanly above a node. The two buds at that node both become leaders, so one top becomes two. Top again and you get four, then eight. '''Clean cut, clean result, a few days of recovery.'''
+* '''FIMing''' — "'''F''', '''I''' '''M'''issed" — a deliberate sloppy cut that removes about '''75% of the new growth''' and leaves the rest shredded. Because the growing point is damaged rather than removed, it often produces '''three to five''' tops instead of two. '''Less predictable, less stress, no clean wound.'''
+* '''Which to use:''' topping for a symmetrical, planned structure; FIMing for more tops with less setback and more mess.
+* '''Timing:''' once the plant has enough nodes to recover — a common rule of thumb is the fourth to sixth node — and '''not''' once flowering is under way, because the plant will not rebuild structure then.
+* '''Sterilise the blade.''' Every cut is an entry point for pathogens.
+
+== 4. High-stress methods ==
+* '''Supercropping''' — roll a stem between finger and thumb until the inner tissue crushes but the skin stays intact, then bend it over. The plant repairs the damage with a '''thickened knuckle''' and the branch can be held at a new angle permanently. Done right it increases flow and strength; done wrong it snaps.
+* '''Repairing a snap:''' tape it, splint it, and the plant will usually heal with a knuckle anyway. Plants are considerably harder to kill this way than people expect.
+* '''Main-lining / manifolding''' — top early down to a single node, train the two resulting shoots out symmetrically, then top each repeatedly to build a deliberate hub with 8 or 16 identical branches. '''Slow, highly structured, very even results.'''
+* '''Lollipopping''' — strip the lower third of growth that never receives real light. Those sites would make small, airy, larfy flower and cost resources to maintain.
+* '''Defoliation''' — removing fan leaves to expose lower sites. '''The most argued-over practice in growing.''' Leaves are the factory; removing them removes photosynthetic capacity. Moderate, targeted removal of leaves that are genuinely shading bud sites is defensible; wholesale stripping is a net loss, and the plant pays for it.
+
+== 5. Canopy systems ==
+* '''SCROG (screen of green)''' — a net above the plant; growth is tucked under and through it, filling the screen horizontally before flowering. Produces a single flat, even canopy, which is the ideal shape under a fixed light source.
+* '''SOG (sea of green)''' — the opposite strategy: many small plants, flowered almost immediately, each giving one main cola. '''Fast cycles, no training at all''', and best with clones so everything is identical.
+* '''The trade-off:''' SCROG gets the most from few plants; SOG gets the fastest turnaround from many. Plant-count laws often decide which is legal where you are.
+
+== 6. The old outdoor tricks ==
+These predate the indoor scene and are still the most effective methods outdoors, where there is no ceiling and no fixed light.
+
+=== Weighting the plant over — the cinder-block method ===
+* '''What it is:''' when the plant is young and flexible, the main stem is bent over near horizontal and '''held down with a weight''' — classically a cinder block on a rope, or a stake and a strap — so the trunk runs along the ground instead of upward.
+* '''What happens:''' every lateral along that horizontal trunk now finds itself the highest point on its own section. Apical dominance is broken along the entire stem at once, and '''each branch grows vertically as though it were its own plant''', all fed by one root system and one horizontal "trunk".
+* '''Why growers did it:''' '''height control''' above everything. A plant lying along the ground is hidden behind a fence line, is far harder to see from a road or from the air, and is far less exposed to wind. It also spreads the canopy wide where there is no ceiling, and the lower profile holds heat near the soil in cool climates.
+* '''The horticultural name for the same idea''' is '''espalier''' and '''cordon''' training, which orchardists have used for centuries on apples and pears for exactly the same reasons: a horizontal cordon produces evenly spaced vertical fruiting spurs along its length.
+* '''Doing it without breaking the plant:''' bend progressively over days rather than in one movement, bend at a young flexible stage, pad anything that bears on the stem, and expect the stem to thicken enormously along the horizontal run.
+* '''Stems will try to right themselves.''' Shoots are '''negatively gravitropic''' — they grow away from gravity — so the plant will push back for as long as it can. The weight has to stay until the new structure lignifies.
+* '''Watch the contact points''' — a stem resting on damp soil can root (which may be useful) or rot (which is not). Keep it off wet ground.
+
+=== Others ===
+* '''Staking and caging''' — tomato cages work perfectly well and spread a plant outward.
+* '''Burying the stem''' when transplanting leggy seedlings; many species root along a buried stem and gain a stronger base.
+* '''Pinching''' — the gardener's universal habit of nipping tips out to force bushiness, which is just topping by another name.
+* '''Air layering''' — root a branch while it is still attached by wounding it, wrapping it in moist medium, and cutting it free once roots form. Slow, nearly foolproof, and gives a large plant immediately.
+
+== 7. Cloning ==
+Taking a cutting makes a '''genetically identical''' copy, so the plant you liked is repeatable.
+* '''Take from a healthy, well-watered mother''', ideally one that has not been fed heavily with nitrogen immediately beforehand — a cutting with lower nitrogen roots more readily.
+* '''Cut at 45°''' through a lower, semi-hardwood shoot with a sterile blade, '''under water or straight into water''' to prevent an air embolism in the stem.
+* '''Reduce the leaf area''' — trim large leaves in half. A cutting has no roots and loses water through its leaves faster than it can take it up.
+* '''Rooting hormone''' is auxin: '''IBA''' or '''NAA''' in gel, powder or liquid. Gel coats most evenly. Honey and willow water are the folk versions — willow genuinely contains salicylates and some auxin, and works, slowly.
+* '''Medium:''' rockwool, peat plug, coco, perlite, aeroponic cloner, or plain water. All work; what matters is '''moisture plus oxygen''' at the stem base.
+* '''Conditions:''' high humidity (a dome), '''gentle''' light, warm root zone around 22–25 °C. '''Heat at the roots and dim light at the leaves''' is the formula.
+* '''Expect 7–14 days.''' Resist pulling them up to look.
+* '''Why some fail:''' too much light, too little humidity, a dirty blade, a crushed stem, or a mother plant already in flower.
+* '''Mother plants''' are kept permanently vegetative to supply cuttings. '''Genetic drift and accumulated virus''' are the long-term risks — plants kept and cut for years tend to decline, which is why commercial operations re-establish mothers from tissue culture or seed.
+* '''Monoculture risk:''' a field of clones has '''one''' immune system. A pathogen that defeats it defeats all of it. This is the same argument made at species scale in the heterosis and recombination material elsewhere in the library.
+
+== 8. What actually matters most ==
+Training is optimisation, not rescue.
+* '''Light''' is the limiting factor in almost every grow. Training only redistributes what the light gives you. See [[Grow Lighting: Metal Halide, HPS, CMH, Fluorescent and LED]].
+* '''Roots''' set the ceiling for everything above. Pot size, drainage and oxygen first.
+* '''Do not train a sick plant.''' Fix the nutrition and the watering before shaping anything. See [[Plant Nutrients and Diagnosing Deficiencies: Reading a Leaf]].
+* '''Stop high-stress work before flowering.''' Early flower is for recovery and stretch, not for structural damage.
+* '''Every technique has a recovery cost.''' A plant that is constantly cut and bent spends its time repairing. Pick a method, carry it out, and let the plant grow.
+
+== Sources ==
+* Cline M. G., "Concepts and terminology of apical dominance", ''American Journal of Botany'' 84 (1997).
+* Domagalska M. A. and Leyser O., "Signal integration in the control of shoot branching", ''Nature Reviews Molecular Cell Biology'' 12 (2011) — auxin/cytokinin and bud release.
+* Hartmann H. T. et al., ''Plant Propagation: Principles and Practices'' (9th ed., 2017) — cuttings, rooting hormones, air layering, mother-plant management.
+* Dirr M. A. and Heuser C. W., ''The Reference Manual of Woody Plant Propagation'' (2nd ed., 2006).
+* RHS and university extension guidance on espalier and cordon training.
+* Cannabis cultivation literature on topping, FIMing, supercropping and SCROG/SOG practice, cross-checked against the horticultural references above.

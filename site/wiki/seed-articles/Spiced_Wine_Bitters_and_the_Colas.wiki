@@ -1,0 +1,92 @@
+'''Spiced Wine, Bitters and the Colas''' traces one continuous practice across three thousand years: '''put botanicals in a solvent, drink it, and get an effect that none of the ingredients produce alone'''. Egyptian '''Kyphi''', Roman '''condita''', medieval '''hippocras''', monastic '''bitters''', and finally '''Coca-Cola''' and '''Dr Pepper''' are the same technique at different dates. The mechanism is in [[Functional Groups, Polarity and Separation: Indoles, Phenols, Rose Ketones and How Aroma Chemistry Works]] and in the CYP450 framework below. Alpha.
+
+== 1. Why putting spices in alcohol is a pharmacological act ==
+Two things happen at once, and the tradition exploits both.
+* '''Ethanol is a lipophilic solvent.''' The active molecules in most spices — the '''allylbenzenes''' (myristicin, elemicin, safrole, eugenol, β-asarone) — are poorly soluble in water and dissolve readily in wine. '''Water makes a weak tea; wine makes an extract.''' This is the same polarity logic as every other extraction on the shelf.
+* '''Ethanol modulates the enzymes that process what it dissolved.''' It is a '''biphasic''' modulator of '''CYP2E1''': an acute '''competitive inhibitor''' while you are drinking and a '''chronic inducer''' with sustained use. So the solvent changes how the solutes are metabolised.
+* '''The spices themselves are enzyme modulators.''' This is the part usually missed:
+** '''Black pepper''' → '''piperine''', a '''CYP3A4 and P-glycoprotein inhibitor''' — the reason pepper raises the bioavailability of many co-ingested compounds.
+** '''Cinnamon''' → a '''CYP2A6''' inhibitor.
+** '''Cloves and allspice''' → '''eugenol'''.
+** '''Nutmeg''' → '''myristicin and elemicin'''.
+** '''Calamus''' → '''β-asarone'''.
+* '''So a spiced wine is a three-part system:''' a solvent, a set of substrates, and a set of enzyme inhibitors that change what the body does with the substrates. '''The formula is not decorative.''' Whether the ancients described it this way is a separate question from whether it worked.
+
+== 2. Kyphi, condita, hippocras ==
+* '''Kyphi''' — the Egyptian compound incense and drink, made with wine, honey, raisins and a long list of resins and spices. See [[Kyphi]] for the formulation itself.
+* '''Condita''' — Roman spiced wine; '''conditum paradoxum''' in Apicius is honey, pepper, laurel, saffron, dates and mastic.
+* '''Hippocras''' — the medieval European descendant, named for the '''"Hippocratic sleeve"''' filter bag it was strained through. Cinnamon, ginger, grains of paradise, long pepper, sugar.
+* '''The shared core across all three is remarkably stable''': wine, a sweetener, '''pepper''', '''cinnamon''', '''cloves''' and '''nutmeg''' — which is to say, a solvent plus the strongest CYP inhibitors available in the ancient spice trade.
+* '''These were medicines as much as drinks.''' The line between a spiced wine, a tonic and a medicine did not exist; the apothecary and the vintner used the same shelf.
+
+== 3. Blue lotus — and what the evidence actually supports ==
+The best-known claim about Egyptian spiced wine, and one that needs separating into parts.
+* '''The practice is real and archaeologically supported.''' Tomb imagery repeatedly shows '''''Nymphaea caerulea''''' (blue lotus) with wine vessels, and residue analysis of a '''Tell el-Amarna''' pottery jug — a type used for ritual banquet drinking — found '''blue lotus compounds together with wine residues'''. Soaking the flowers in wine, rather than water, is exactly what §1 predicts you would do.
+* '''The pharmacology claim is contested, and currently looks weak.''' Blue lotus is popularly said to contain '''apomorphine''' and '''nuciferine'''.
+** Some commercial-product analyses have '''detected apomorphine''' in a minority of samples.
+** A more recent analysis of '''authentic''' plant material found '''apomorphine entirely absent''', with '''nuciferine''' present only at '''10–72 parts per billion''' — concentrations with no plausible pharmacological effect.
+** Commercial "blue lotus" products vary enormously and are frequently adulterated, which explains much of the contradictory literature.
+* '''The honest position:''' the ritual use is well evidenced; the mechanism is not established. A page that states "blue lotus contains apomorphine" as settled fact is repeating a claim the best analytical work does not support.
+
+=== Apomorphine itself ===
+Worth its own note, because it is the purest example of '''transmutation''' in this whole field.
+* '''Apomorphine is made from morphine''' by treatment with strong acid, which rearranges the molecule.
+* '''It is not an opioid.''' It has essentially '''no opioid-receptor activity'''. It is a '''non-selective dopamine agonist'''.
+* It is a licensed medicine for '''Parkinson's disease''' — used for sudden "off" episodes — and historically a powerful '''emetic''', used to induce vomiting.
+* '''The lesson:''' one chemical rearrangement took a molecule from one receptor system to an entirely different one, keeping almost nothing of the original pharmacology but the name. '''Structural similarity does not predict functional output''' — the same lesson as [[#6. Lisuride and LSD|Lisuride and LSD]] below.
+
+== 4. Bitters ==
+Monastic medicinal infusions, formalised commercially by '''Dr Johann Siegert''' in '''1824''' (Angostura). The structure is identical to spiced wine, with the bittering fraction made explicit:
+* '''Bittering agents:''' '''cinchona bark''' (quinine — a '''CYP2D6 inhibitor'''), '''angelica root''' (furanocoumarins — '''CYP3A4''' inhibitors, the same class as the grapefruit effect), '''gentian root''' (a '''TAS2R''' bitter-receptor agonist), '''wormwood''' ('''thujone''', a '''GABA-A antagonist''').
+* '''Aromatic fraction:''' cinnamon, cloves, nutmeg, allspice (eugenol), '''bitter orange peel''' ('''p-synephrine''', an adrenergic agonist).
+* '''The monastic pharmacopeia''' — Chartreuse, Bénédictine, countless abbey tonics — is the direct institutional ancestor. Monasteries kept the herb garden, the still and the library in the same building.
+* '''"Bitters" are still sold as a medicine in some jurisdictions''' and as a non-beverage flavouring in others, which is a regulatory artefact of exactly this history.
+
+== 5. The colas ==
+The modern end of the same line: a bitter botanical, a stimulant, an aromatic spice fraction, sugar and acid.
+
+=== Coca-Cola ===
+* Created 1886 by '''John Pemberton''', a pharmacist, as a descendant of his '''coca wine''' (itself modelled on '''Vin Mariani'''). The two founding botanicals are in the name: '''coca leaf''' and '''kola nut''' (caffeine).
+* '''The coca leaf never left.''' Coca-Cola still uses a '''decocainised coca-leaf extract''' as a flavour component.
+* '''The Stepan Company''' of Maywood, New Jersey is the '''only company in the United States federally licensed to import coca leaf'''. It performs the decocainisation, sends the flavour extract to Coca-Cola, and '''refines the extracted cocaine into pharmaceutical cocaine hydrochloride''', which is sold on to a medical manufacturer — historically '''Mallinckrodt''' — for legitimate clinical use.
+* '''What medical cocaine is for:''' it remains a genuinely useful drug as a '''topical anaesthetic with intrinsic vasoconstriction''' — one application producing both numbness and a bloodless field — which is why it persists in '''ear, nose and throat''' surgery and some '''ophthalmic''' procedures. (The operator's recollection of "optometrists" points at this ophthalmic use; the main market is ENT.)
+* '''This is all legal and quota-controlled.''' The DEA sets '''annual aggregate production quotas''' for controlled substances and issues '''import permits''' for '''coca leaf''' and for '''concentrate of poppy straw''' — the industrial feedstock for medical morphine, codeine and thebaine. '''There is a lawful, licensed, contracted supply chain for both coca and opium''', and it is the reason hospitals have morphine at all.
+* '''The parallel the operator draws is sound:''' this is the same structure as the federal '''University of Mississippi''' cannabis programme, which for decades was the only legal US source for research cannabis, and the '''Compassionate Investigational New Drug''' programme that still supplies a handful of surviving federal patients. '''A government can and does run a legal pipeline for a Schedule I or II plant when it decides there is a legitimate use.'''
+
+=== Dr Pepper ===
+* Created 1885 in Waco, Texas — '''a year before Coca-Cola''' — by '''Charles Alderton''', also a pharmacist, also at a soda fountain.
+* '''The famous number is 23, not 32.''' "'''23 flavors'''" is the long-standing marketing claim and appears on the packaging. The recipe is a trade secret; the commonly circulated lists of the 23 are speculation.
+* Unlike Coca-Cola it is not built on a named botanical pair, and the "prune juice" story is a persistent myth the company has denied.
+* '''The point for this page:''' both colas were invented '''by pharmacists, at pharmacy soda fountains''', as patent-medicine tonics. The soda fountain was a '''dispensary'''. The modern soft drink is a spiced medicinal tonic that lost its medical claim and kept its formula.
+
+=== Sufi spiced coffee (qahwa) ===
+* 15th-century Yemeni Sufi monasteries, to sustain wakefulness through nocturnal devotion — the same institutional pattern as the European monastic bitters.
+* '''Caffeine''' is both a substrate and an inducer of '''CYP1A2'''. Added '''green cardamom''' (1,8-cineole), '''cinnamon''', '''cloves''' and '''ginger'''; and '''fat''' (ghee or milk) to carry the lipophilic phenylpropanoids.
+
+== 6. Lisuride and LSD ==
+The clearest demonstration that '''structure does not predict function''', and the reason the whole "substantially similar structure" idea is shakier than it looks.
+* '''LSD''' and '''lisuride''' are both ergolines with '''nanomolar affinity for the 5-HT2A receptor'''. LSD is active at '''20 µg'''. Lisuride produces '''no hallucinogenic effect at doses up to 600 µg''' — thirty times as much.
+* '''Biased agonism (functional selectivity).''' LSD stabilises a receptor conformation that preferentially recruits '''β-arrestin-2''', driving the endosomal signalling associated with psychedelic effect. Lisuride biases toward the canonical '''Gα-q''' pathway instead. '''Same receptor, same affinity, different downstream consequence.'''
+* '''The 5-HT2A / mGluR2 heteromer.''' Psychedelic signalling appears to require the complex formed when 5-HT2A and metabotropic glutamate receptor 2 are co-expressed. Lisuride does not induce the necessary conformational shift in that complex.
+* '''Lisuride is a licensed medicine''' — a dopamine agonist used for Parkinson's and for prolactin disorders.
+* '''Consequence for policy:''' the '''Federal Analogue Act''' turns on "substantially similar chemical structure" and "substantially similar effect". Lisuride and LSD satisfy the first and flatly contradict the second. Structure and effect are not the same axis, and a legal test that assumes they are will misclassify in both directions.
+
+== 7. The pattern ==
+Across Kyphi, condita, hippocras, bitters, qahwa and the colas:
+* a '''solvent''' chosen for what it dissolves (wine, spirit, hot water, carbonated syrup);
+* a '''bitter or active principal''' (cinchona, wormwood, coca, kola, coffee);
+* an '''aromatic spice fraction''' that is also, in modern terms, a set of '''metabolic inhibitors''';
+* a '''sweetener''' to make the bitter drinkable;
+* and an '''institution''' — temple, monastery, pharmacy — that kept the formula.
+'''The practice long predates the explanation.''' Three millennia of empirical formulation arrived at combinations that modern pharmacology can now describe in terms of CYP450 isoforms and receptor bias. That convergence is the interesting claim, and it does not require anyone in antiquity to have known why.
+
+== Sources ==
+* Van Kush R. S., ''Transmutation of the Botanical Pharmacophore: CYP450-Mediated Biotransformation, Adduct Discovery, and Empirical Polypharmacology Across Three Millennia'' (Van Kush Family Research Institute, 2026).
+* Herrmann W. M. et al. (1977) on lisuride dosing without hallucinogenic effect; González-Maeso J. et al., "Identification of a serotonin/glutamate receptor complex implicated in psychosis", ''Nature'' 452 (2008) — the 5-HT2A/mGluR2 heteromer.
+* Bailey D. G., Dresser G. and Arnold J. M. O., "Grapefruit–medication interactions", ''CMAJ'' 185 (2013) — furanocoumarin CYP3A4 inhibition.
+* Chemical composition and safety assessment of ''Nymphaea caerulea'' extracts (2023) and subsequent analyses of authentic material finding apomorphine absent and nuciferine at ppb levels.
+* Tell el-Amarna vessel residue analysis reporting blue lotus compounds with wine residues.
+* Apicius, ''De re coquinaria'' — conditum paradoxum. Medieval hippocras recipes in ''Le Ménagier de Paris''.
+* US DEA, annual aggregate production quotas and import permits for coca leaf and concentrate of poppy straw (Federal Register, annual).
+* Reporting on the Stepan Company's coca-leaf import licence and the pharmaceutical cocaine supply chain.
+* Pendergrast M., ''For God, Country and Coca-Cola'' (3rd ed., 2013).

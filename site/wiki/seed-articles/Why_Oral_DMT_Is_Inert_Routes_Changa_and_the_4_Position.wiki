@@ -1,0 +1,73 @@
+'''Why Oral DMT Is Inert: Routes, Changa, and the 4-Position''' is a '''pharmacology''' page about one of the most instructive molecules in the library. '''N,N-dimethyltryptamine is essentially inactive by mouth and powerfully active by every other route''', and the reason is a single enzyme in the gut wall and liver. Change '''one substituent''' on the ring and the same molecule becomes orally active — which is the whole story of '''psilocin''', '''4-OH-DMT'''. This page covers the routes and their actual bioavailability, what '''changa''' is and the honest answer to "how bioavailable is it," and why the '''4-position''' is the most important position on a tryptamine. '''There are no preparation procedures here''' — the chemistry of ''why'' is the point, and it is more useful than a method.
+
+== 1. The enzyme is the whole explanation ==
+* '''DMT is a substrate for monoamine oxidase A''', and MAO-A is present at '''very high density in the intestinal wall and the liver'''.
+* An orally swallowed dose is therefore '''deaminated on first pass''' — oxidised to '''indole-3-acetic acid''' — before any meaningful quantity reaches systemic circulation. '''Oral bioavailability is effectively zero.'''
+* '''This is not "weak." It is a floor.''' Increasing the oral dose does not scale the way it would for a normally absorbed drug, because the limiting factor is an '''enzymatic gate''', not absorption or solubility.
+* '''Add a reversible MAO-A inhibitor''' — the '''β-carbolines''' harmine and harmaline, which occur in ''Banisteriopsis caapi'' and ''Peganum harmala'' — and '''the same molecule becomes orally active for hours'''. That is the ayahuasca principle, and it is the canonical demonstration in all of pharmacology that '''"inactive" often means "cleared," not "inert at the receptor."''' See [[The Huasca Phenomenon and Metabolic Redirection]] · [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] · [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]].
+* '''DMT is also endogenous.''' It is present in trace amounts in mammalian tissue, with '''INMT''' as the synthetic enzyme, and the fact that we clear it so efficiently by MAO is part of why trace endogenous DMT does not produce constant effects. See [[The Tryptamine Family and Endogenous Neurochemistry]].
+
+== 2. Routes, and what the numbers actually are ==
+'''Bioavailability is route-specific, and for this molecule the spread is enormous.'''
+* '''Oral, alone — effectively 0%.''' First-pass MAO-A. §1.
+* '''Oral, with an MAO-A inhibitor''' — becomes '''substantially''' available, with a long duration because peripheral clearance is also slowed. '''The inhibitor sets the duration''', not the DMT.
+* '''Intravenous / intramuscular — 100% by definition''' for IV. This is the route used in the '''controlled human research''' (Strassman's New Mexico studies, and the modern Imperial College and Small Pharma work), which is why '''the clinical literature on this molecule is unusually clean''': the dose actually delivered is known.
+* '''Insufflated''' — some bypass of gut MAO but '''high nasal and hepatic losses''' and poor absorption of the freebase; '''inefficient and not well characterised'''.
+* '''Vaporised or smoked''' — this is the route in general use, and '''the honest answer is that bioavailability is both high in principle and highly variable in practice.''' Pulmonary absorption of a vaporised amine is fast and efficient — the lung is a '''huge''' absorptive surface draining '''directly into arterial circulation''', so it reaches the brain '''before''' it has been through the liver at all, which is why onset is seconds. '''But:''' the material is '''thermally labile''', so a large and '''uncontrolled''' fraction is '''pyrolysed''' — destroyed by the heat rather than volatilised — and more is lost to sidestream smoke and to incomplete inhalation. '''Published pulmonary bioavailability estimates cluster in the tens of percent and vary widely with technique and apparatus.'''
+* '''The honest summary, which is the useful one:''' '''route changes the pharmacokinetics by orders of magnitude, and "smoked" is the route whose delivered dose is least knowable.''' Any sentence comparing a smoked and an oral experience as if they were the same drug at different amounts is wrong.
+
+== 3. Changa — what it is, and "how bioavailable" ==
+=== What it is ===
+'''Changa''' is '''DMT adsorbed onto a smokable herb blend that itself contains a monoamine oxidase inhibitor''' — most commonly ''Peganum harmala'' or ''Banisteriopsis caapi'' for the β-carbolines, plus inert or mildly active carrier herbs (mullein, passionflower, mint, calea and so on) chosen for how they burn. It is widely attributed to '''Julian Palmer''', who named it in Australia in the early 2000s. '''It is a delivery format, not a new substance.'''
+
+=== The honest pharmacology, which is usually stated backwards ===
+'''The common claim is that the MAOI in changa "increases the bioavailability." For the inhaled route, that is largely wrong, and understanding why is the point of this section.'''
+* '''MAO is not the gate for inhaled DMT.''' Pulmonary absorption delivers it into '''arterial''' blood that reaches the brain '''before''' significant hepatic or gut metabolism. The first-pass problem that destroys an oral dose '''does not apply''' to a route that bypasses the portal circulation.
+* '''So what does the MAOI actually do?''' Three things, none of them "more gets in":
+  # '''It extends duration.''' Slowing peripheral MAO-A clearance lengthens the tail considerably — the single most reported difference between changa and vaporised DMT alone. '''A change in half-life, not in bioavailability.'''
+  # '''It contributes its own pharmacology.''' β-carbolines are not inert. They are '''mildly psychoactive''', sedating, often nauseating, and they have their own receptor activity. '''Part of the subjective difference is the harmala, not the DMT.'''
+  # '''It changes the burn.''' A herb matrix vaporises more evenly than loose crystalline material on a hot surface, which '''plausibly reduces pyrolytic loss''' — and '''this''' is the one mechanism by which changa might genuinely deliver more of what is in it. '''It is a combustion-engineering effect, not an enzymatic one.'''
+* '''⚠️ And the risk that comes with it, which must be stated:''' changa '''contains an MAO inhibitor'''. That means it carries the '''full MAOI interaction profile''' — '''serotonin syndrome''' risk with SSRIs, SNRIs, tramadol, triptans, dextromethorphan, lithium and other serotonergics, and a '''hypertensive''' risk with tyramine-rich food and with stimulants. '''Documented deaths involve tryptamines combined with MAOIs.''' Someone who has smoked DMT safely has '''not''' thereby established that changa is safe for them, because '''the MAOI is a different drug with different contraindications''' — see [[Inert Alone Active Together Why Combinations Work|Inert Alone, Active Together]] §4 and [[Toads Frogs and the Myths Harm Reduction and Wildlife Protection|Toads, Frogs and the Myths]].
+
+== 4. The 4-position — the most important substituent on a tryptamine ==
+'''This is the structural lesson, and it explains a great deal at once.'''
+
+* '''DMT''' is the unsubstituted parent: '''N,N-dimethyltryptamine'''.
+* '''4-OH-DMT''' is '''psilocin''' — DMT with a '''hydroxyl at the 4-position''' of the indole ring.
+* '''Psilocybin''' is '''4-phosphoryloxy-DMT''' — psilocin with a '''phosphate ester''' on that hydroxyl. The phosphate is '''cleaved by alkaline phosphatase''' after ingestion, which makes '''psilocybin a prodrug for psilocin''' — a textbook case, and a well-chosen one by nature, because the phosphate also improves stability and water solubility.
+* '''And here is the payoff:''' '''psilocin is orally active and DMT is not.''' Same backbone, same amine, same receptor family. '''The difference is the 4-substituent''', which '''sterically and electronically hinders MAO''' from reaching the ethylamine side chain. '''The 4-position protects the molecule from the enzyme that destroys its unsubstituted parent.'''
+* '''5-substitution does something different again.''' '''5-MeO-DMT''' is '''far more potent by weight''' and shifts receptor preference strongly toward '''5-HT1A''' alongside 5-HT2A — a different experience and a different risk profile, including '''documented fatal interactions with MAOIs'''. '''Bufotenin is 5-HO-DMT''', the 5-position hydroxyl, which is '''much more peripherally active and cardiovascularly unpleasant''' — the reason raw toad secretion is dangerous and not merely strong. See [[Toads Frogs and the Myths Harm Reduction and Wildlife Protection|Toads, Frogs and the Myths]].
+* '''The general principle''' — '''a substituent that blocks a metabolic enzyme converts a parenteral-only drug into an oral one''' — is one of the standard moves in medicinal chemistry, and the '''4-substituted tryptamines are the cleanest natural demonstration of it'''. See [[Structure Activity Relationships in Psychopharmacology]] · [[The 2C Series and Extended Phenethylamines]] · [[Shulgin Rating Scale]].
+
+=== Receptor side, briefly ===
+All of these act principally as '''5-HT2A agonists''', with meaningful '''5-HT1A''' and '''5-HT2C''' activity, and '''DMT additionally binds sigma-1''' and is a substrate for '''SERT''' and the vesicular transporter — which is part of why it accumulates intracellularly. '''Biased agonism''' at 5-HT2A — which downstream pathway a given ligand favours — is an active research question and probably matters more than affinity rankings. See [[Structure Activity Relationships in Psychopharmacology]].
+
+== 5. Mimosa, and why availability is not a pharmacology fact ==
+The operator's point is a real one and worth recording accurately. '''''Mimosa tenuiflora''''' (formerly ''M. hostilis''; the root bark is widely sold as '''MHRB''') is '''a globally traded commodity for reasons that have nothing to do with tryptamines''':
+* It is a '''traditional dye''' — the root bark gives '''purples, mauves and browns''' on textiles, and is sold as a '''natural colourant for soap and cosmetics'''.
+* It is a long-standing '''burn and wound remedy''' in Mexican and Central American practice ('''tepezcohuite'''), sold as a skincare ingredient.
+* It is '''tannin-rich''', hence the dyeing and astringent uses.
+* So the bark is '''openly available at low cost''' as a '''dye and cosmetic raw material''' — which is a '''fact about commodity markets''', not a fact about pharmacology or legality.
+
+'''This page does not describe how to obtain a tryptamine from it, and that is deliberate''': the pharmacology above is what makes the subject comprehensible, and '''the thing most worth knowing about oral DMT is that it does not work and why''' — which is a sentence that prevents harm rather than enabling it. For the botanical and traditional context see [[Old World vs New World Magic Herbs]] and [[Religious Sacraments RFRA and the Temple of True Inner Light]]; for the broader framework, [[Oilahuasca]] · [[Space Paste]] · [[69Ron and Oilahuasca Chemistry]].
+
+== 6. Harm reduction, specifically ==
+* '''⚠️ Never combine any tryptamine with an MAOI if you are taking an SSRI, SNRI, MAOI, tramadol, triptan, lithium, dextromethorphan or St John's wort.''' '''Serotonin syndrome''' is the mechanism, it can be fatal, and the combination is the most common serious adverse event in this whole area.
+* '''⚠️ 5-MeO-DMT with any MAOI is a documented fatal combination.''' Including harmala-containing preparations. '''This is not a theoretical interaction.'''
+* '''Changa is an MAOI product.''' Its contraindication list is the MAOI list, not the DMT list.
+* '''Route is not a dial.''' Oral, inhaled and injected are '''different pharmacokinetic drugs''' with the same molecule in them.
+* '''Cardiovascular''' — β-carbolines and the tryptamines raise blood pressure and heart rate; bufotenin does so markedly. '''Existing cardiac disease, pregnancy, and uncontrolled hypertension are real contraindications.'''
+* '''Never alone.''' Every serious adverse outcome in the literature involves someone with nobody present who knew what to do.
+* See [[Cannabis Harm Reduction]] for the general framework and [[Psychedelic and Psychopharmacology Glossary]] for the vocabulary.
+
+== Sources ==
+* Strassman R. J., "Human psychopharmacology of N,N-dimethyltryptamine", ''Behavioural Brain Research'' 73 (1996); and ''DMT: The Spirit Molecule'' (2001) for the programme history.
+* Riba J. et al., on oral DMT pharmacokinetics with β-carbolines and the role of MAO-A in first-pass metabolism, ''Journal of Pharmacology and Experimental Therapeutics'' / ''British Journal of Clinical Pharmacology''.
+* Barker S. A., "N,N-dimethyltryptamine (DMT), an endogenous hallucinogen: past, present, and future research", ''Frontiers in Neuroscience'' 12 (2018).
+* Hofmann A. et al., the original isolation and structure of psilocybin and psilocin, and the identification of psilocybin as the phosphate ester prodrug (1958–59).
+* Passie T., Seifert J., Schneider U. and Emrich H. M., "The pharmacology of psilocybin", ''Addiction Biology'' 7 (2002).
+* Shulgin A. T. and Shulgin A., ''TIHKAL: The Continuation'' (1997) — the tryptamine series and the substituent-position argument.
+* Fontanilla D. et al., "The hallucinogen N,N-dimethyltryptamine (DMT) is an endogenous sigma-1 receptor regulator", ''Science'' 323 (2009).
+* Palmer J., ''Articulations: On the Utilisation and Meanings of Psychedelics'' (2014) — the naming and origin of changa.
+* Gillin J. C. et al. and the clinical-toxicology literature on serotonin syndrome with MAOI combinations.
+* Camargo-Ricalde S. L., "Description, distribution, anatomy, chemical composition and uses of ''Mimosa tenuiflora''", ''Revista de Biología Tropical'' 48 (2000) — the dye, tannin and tepezcohuite uses.

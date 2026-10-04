@@ -1,0 +1,69 @@
+'''Hidden Layers: How AI Learns What Nobody Taught It''' answers the most common objection to machine learning — '''"it can only do what a human programmed it to do"''' — which has not been true since the 1980s and is comprehensively false now. A neural network is given '''inputs''' and a '''measure of what counts as right'''; everything between those two is '''discovered by the system, not written by a person'''. This page explains how, what the "hidden" in hidden layer actually means, and the famous cases where a model found something no human had noticed. Alpha.
+
+== 1. What is actually programmed, and what is not ==
+A person writes:
+* the '''architecture''' — how many layers, how wide, how they connect;
+* the '''objective''' — a number saying how wrong the output was ('''the loss function''');
+* the '''data''' — the inputs and, in supervised learning, the labels;
+* the '''optimiser''' — the rule for adjusting in response to error.
+
+A person does '''not''' write:
+* '''the weights''' — the millions or billions of numbers that constitute what the model actually knows;
+* '''the features''' — what the model decided to pay attention to;
+* '''the strategy''' — how it gets from input to answer.
+
+'''That is the whole distinction.''' A programmer specifies a '''search space''' and a '''criterion'''. The model searches. What it finds is nobody's instruction — and frequently nobody's expectation.
+
+== 2. The mechanism, in plain terms ==
+* A '''neuron''' takes its inputs, multiplies each by a '''weight''', adds a '''bias''', and passes the total through a non-linear function. Alone it draws one dividing line.
+* A '''layer''' is many neurons in parallel. A '''deep''' network is many layers in sequence.
+* '''Non-linearity is what makes depth matter.''' Without it, any stack of layers collapses mathematically into a single layer. With it, each layer can compose the previous layer's outputs into something more abstract.
+* '''Training:''' show an example, measure the error, and use '''backpropagation''' — the chain rule — to compute how much each weight contributed. Nudge every weight slightly against its contribution to the error ('''gradient descent'''). Repeat millions of times.
+* '''Nobody chooses the weights.''' They are the residue of that long correction process. '''The model is its weights''', and those were grown, not authored.
+
+=== Why "hidden" ===
+* The '''input''' layer is observable (the pixels). The '''output''' layer is observable (the label). Every layer between is '''hidden''' — not secret by design, but '''not directly interpretable''', because its values are internal coordinates the network invented for itself.
+* Interpretability research can recover '''some''' of it: early vision layers reliably learn '''edges''', then '''textures''', then '''parts''', then '''objects'''. Nobody specified that progression; it emerges, and it emerges repeatedly across independently trained networks.
+* '''But most of it stays opaque.''' A model with billions of parameters is not a program a person can read. '''We can measure what it does far more easily than we can say why.'''
+
+== 3. The cases worth knowing ==
+
+=== Labradoodle or fried chicken ===
+* The viral image sets — '''labradoodle vs fried chicken''', '''chihuahua vs blueberry muffin''', '''sheepdog vs mop''' — are funny because they are genuinely hard, and they are a precise lesson about what a classifier is doing.
+* '''Both classes share low-level statistics''': the same golden-brown colour, the same clustered round textures, similar edge distributions. A model leaning on texture will confuse them; so, briefly, will a person.
+* '''What it demonstrates:''' the network is not matching a stored picture of "dog." It built its own internal description, and that description '''can be dominated by features a human would call incidental'''. Humans weight '''shape'''; convolutional networks were shown to weight '''texture''' far more heavily (Geirhos et al., 2019) — and nobody designed that preference. '''It was learned, and it was a surprise.'''
+
+=== Eyeballs: predicting sex from a retinal photograph ===
+* '''Poplin et al. (Google, ''Nature Biomedical Engineering'', 2018)''' trained a network on retinal fundus photographs and found it could predict a patient's '''sex''' with roughly '''97% accuracy (AUC ~0.97)'''.
+* '''This was not a known capability.''' Ophthalmologists '''cannot''' do it; shown the same images, expert performance is near chance. There was no textbook feature to point at.
+* The same models also predicted '''age''', '''smoking status''', '''blood pressure''' and '''cardiovascular risk''' from the retina.
+* '''This is the cleanest demonstration of the point.''' The researchers supplied images and labels. The model found a signal that '''the entire medical literature had missed''', in an organ photographed millions of times a year. '''It learned something nobody taught it, because nobody knew it.'''
+* Honest caveat: later work has argued some such signals can ride on confounders. The sex-prediction result has replicated widely and remains the standard example.
+
+=== Others in the same family ===
+* '''AlphaGo's move 37''' (2016) — a play professional commentators initially called a mistake, which proved to be the decisive move. It was not in the human corpus.
+* '''AlphaFold''' — protein structure prediction at a level that reorganised a field, from sequence and structure data rather than from physical rules written by hand.
+* '''Word embeddings''' — vector arithmetic in which "king − man + woman" lands near "queen". '''Nobody encoded gender as a direction'''; it fell out of predicting neighbouring words.
+* '''Shortcut learning, the cautionary twin''' — the pneumonia model that learned to read the '''hospital's scanner markings''' rather than the lungs; the husky-vs-wolf classifier that had learned '''snow'''. '''The same freedom that finds real signal finds spurious signal, and the model cannot tell you which it used.'''
+
+== 4. So what is the honest claim? ==
+* '''Yes:''' a model '''discovers representations and strategies that no human specified''', and sometimes discovers facts about the world that humans did not know. The retinal result is not a metaphor.
+* '''Yes:''' this is a form of '''learning''' — inductive generalisation from examples, closer to trial-and-error plus statistical inference than to deduction from stated premises.
+* '''No:''' it is not magic, and it is not unbounded. The model only ever searches the space its '''architecture''' allows, guided by the '''objective''' it was given, over the '''data''' it was shown. '''Change the objective and you change what it finds.''' Bias in the data becomes bias in the weights, reliably.
+* '''The useful formulation:''' the human supplies '''the input and the values''' — what counts as a better answer. Everything in between is the model's. That is a real transfer of authorship, and it is why "it only does what it was programmed to" is the wrong mental model.
+* '''And the reason this matters practically:''' because we cannot read the weights, we are obliged to '''test behaviour''' rather than inspect intent. Evaluation, red-teaming and measurement are not bureaucracy — they are the '''only''' instrument available.
+
+== 5. Where this connects ==
+* The power economics that decide how large such a system can be: [[Batteries, Charging and Why There Is No Moore's Law for Energy]].
+* The same "we can measure what it does better than we can say why" problem in olfaction: [[Novel Odorants: How New Smell Molecules Are Actually Found, and Where the Gaps Are]].
+
+== Sources ==
+* Rumelhart D. E., Hinton G. E. and Williams R. J., "Learning representations by back-propagating errors", ''Nature'' 323 (1986).
+* Poplin R. et al., "Prediction of cardiovascular risk factors from retinal fundus photographs via deep learning", ''Nature Biomedical Engineering'' 2 (2018).
+* Geirhos R. et al., "ImageNet-trained CNNs are biased towards texture", ''ICLR'' (2019).
+* Geirhos R. et al., "Shortcut learning in deep neural networks", ''Nature Machine Intelligence'' 2 (2020).
+* Zech J. R. et al., "Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs", ''PLOS Medicine'' 15 (2018).
+* Ribeiro M. T., Singh S. and Guestrin C., "'Why should I trust you?' Explaining the predictions of any classifier", ''KDD'' (2016) — the husky-and-snow case.
+* Mikolov T. et al., "Distributed representations of words and phrases and their compositionality", ''NIPS'' (2013).
+* Silver D. et al., "Mastering the game of Go with deep neural networks and tree search", ''Nature'' 529 (2016); Jumper J. et al., "Highly accurate protein structure prediction with AlphaFold", ''Nature'' 596 (2021).
+* Olah C. et al., "Zoom In: An Introduction to Circuits", ''Distill'' (2020) — what early layers actually learn.
