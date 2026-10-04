@@ -168,7 +168,8 @@ export const CATEGORIES = [
   },
   {
     id: 'chemistry', name: 'Organic chemistry and synthesis', blurb: 'Reaction mechanisms, isomerizations, prodrugs, photochemistry, and purification protocols.',
-    pages: ['A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them',
+    pages: ['Aroma Wheels Euphoric Odours and the Science of Aromatherapy',
+            'A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them',
             'Novel Odorants How New Smell Molecules Are Actually Found and Where the Gaps Are',
             'Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works',
             'Cannabinoid Isomerization', 'Cannabinoid and Tryptamine Prodrugs',
@@ -447,6 +448,7 @@ export const PILLARS = [
     icon: '🔬',
     blurb: 'Reaction mechanisms, isomerizations, prodrug architectures, photochemistry, and purification protocols.',
     pages: [
+      'Aroma Wheels Euphoric Odours and the Science of Aromatherapy',
       'A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them',
       'Novel Odorants How New Smell Molecules Are Actually Found and Where the Gaps Are',
       'Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works',

@@ -108,7 +108,8 @@ wondered what we actually mean by any of it, the answer has a page:
 - **[Curation Theory, Rewards, the Auction Window, and Honest Curation](${a('Curation_Theory_Rewards_the_Auction_Window_and_Honest_Curation')})** — how a vote becomes money.
 - **[Tokenomics 101](${a('Tokenomics_101')})** and **[The Economics No Coin Dev Teaches](${a('The_Economics_No_Coin_Dev_Teaches')})** — read these before you buy anything, from us or from anyone.
 
-And a few from the deeper shelves, so you can see the range: **[Old World vs New World Magic Herbs](${a('Old_World_vs_New_World_Magic_Herbs')})** ·
+And a few from the deeper shelves, so you can see the range: **[Aroma Wheels, Euphoric Odours and the Science of Aromatherapy](${a('Aroma_Wheels_Euphoric_Odours_and_the_Science_of_Aromatherapy')})** ·
+**[Old World vs New World Magic Herbs](${a('Old_World_vs_New_World_Magic_Herbs')})** ·
 **[The Amplification Framework](${a('The_Amplification_Framework')})** ·
 **[Cytochrome P450: System Inhibition and Induction](${a('Cytochrome_P450_System_Inhibition_and_Induction')})** ·
 **[Gamma Entrainment](${a('Gamma_Entrainment')})** ·

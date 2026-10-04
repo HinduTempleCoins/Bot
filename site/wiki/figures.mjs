@@ -215,10 +215,12 @@ export function methylationCycle() {
 }
 
 // ── the Graphene family matrix ──────────────────────────────────────────────────────────────────────
-// STEEM, HIVE, BLURT, MELEK side by side, plus PRANA and the side tokens — drawn from
+// STEEM, HIVE, BLURT, MELEK side by side, plus PRANA and the two tokens — drawn from
 // integrations/chain-compare.mjs so the facts live in one place and the picture cannot drift from them.
-// Side tokens are shaded differently on purpose: VKBT and CURE are NOT chains, and a matrix that lines
-// them up with Steem without saying so would teach the wrong thing.
+// THE DISTINCTION THE PICTURE HAS TO TEACH: a COIN has a chain; a TOKEN is on one. STEEM, HIVE, BLURT,
+// MELEK and PRANA are coins — each the native unit of its own chain. VKBT and CURE are tokens, issued on
+// a host chain through an engine. They are shaded differently on purpose, because a matrix that lines a
+// token up with a coin without saying so would teach the wrong thing.
 export function grapheneMatrix() {
   const t = table(GRAPHENE_MATRIX);
   const cols = t.chains.length;
@@ -239,7 +241,7 @@ export function grapheneMatrix() {
     const token = TOKEN.has(c.id);
     body += `<rect x="${x}" y="88" width="${colW - 2}" height="${headH - 4}" rx="8" fill="${token ? '#e8e0ef' : '#dfe9f3'}" stroke="${LINE}"/>`
       + text(x + colW / 2, 112, c.name, { size: 14, weight: 800 })
-      + text(x + colW / 2, 128, token ? 'side token' : 'chain', { size: 10, fill: MUT });
+      + text(x + colW / 2, 128, token ? 'token — on a chain' : 'coin — has a chain', { size: 10, fill: MUT });
   });
   t.rows.forEach((r, ri) => {
     const y = 96 + headH + ri * rowH;
@@ -252,9 +254,9 @@ export function grapheneMatrix() {
       });
     });
   });
-  return frame(w, h, 'The Graphene family, side by side',
-    'One codebase, several chains — and two things that are not chains at all',
-    body + text(w / 2, h - 10, 'VKBT and CURE are engine side tokens: they inherit the security and consensus of whatever chain hosts them.', { size: 11, fill: MUT }));
+  return frame(w, h, 'Coins and tokens, side by side',
+    'A coin has a chain. A token is on one. Five coins here, and two tokens',
+    body + text(w / 2, h - 10, 'VKBT and CURE are engine tokens: they have no chain of their own and inherit the security and consensus of whatever chain hosts them.', { size: 11, fill: MUT }));
 }
 
 // ── token SPECS matrix ──────────────────────────────────────────────────────────────────────────────

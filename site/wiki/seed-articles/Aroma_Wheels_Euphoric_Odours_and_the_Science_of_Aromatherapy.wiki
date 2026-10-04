@@ -1,0 +1,116 @@
+'''Aroma Wheels, Euphoric Odours and the Science of Aromatherapy''' is the chart page for smell. Seven '''aroma wheels''' are generated here — wine, beer, coffee, cannabis, essential oils, and the outdoor and indoor worlds — followed by the honest version of the '''euphoric odour''' question: which smells actually do something to the brain, by what mechanism, and where the folklore ends. It closes on '''time-mapping''', because a smell is not a point, it is a '''curve''', and that is what makes it usable in a scene.
+
+== 1. What a wheel is for ==
+A wheel is not decoration. It is a '''controlled vocabulary''' arranged so that the structure of the vocabulary is visible: '''broad families at the centre, specific descriptors at the rim'''. Two people who have both learned the same wheel can disagree about a wine and '''still be talking about the same axis''', which is the entire purpose.
+
+* '''Ann C. Noble''' built the first one at '''UC Davis in 1984'''. Before it, wine writing was private metaphor; after it, tasting had a shared coordinate system. Every wheel since is a copy of that idea applied to another product.
+* '''Morten Meilgaard's beer flavour wheel''' (1979) came out of brewing science and is the most rigorous of them, because most of its terms are '''tied to a named compound''' — "spicy/phenol" is 4-vinylguaiacol, "sulfury" is DMS or H₂S, "stale" is trans-2-nonenal.
+* The '''coffee''' wheel (SCA / World Coffee Research, 2016) was rebuilt on sensory lexicon research rather than tradition, and it is the model for how to do this properly.
+* '''Cannabis''' wheels are the newest and the least standardised, which is why ours stays at the family level.
+* The '''outdoor''' and '''indoor''' wheels are ours. Nobody sells a product for "rain on hot pavement" or "old building," so no industry built the vocabulary — but those are the smells a '''scene''' is made of, and a world-builder needs them more than a sommelier needs "cork taint."
+
+'''A note on how these are drawn.''' These wheels are '''generated''' from a data file (`integrations/aroma-wheel.mjs`), not produced by an image model. A chart whose job is to be '''correct''' has to be drawn, because a generated picture of a chart invents plausible labels. See [[Novel Odorants How New Smell Molecules Are Actually Found and Where the Gaps Are|Novel Odorants: How New Smell Molecules Are Actually Found, and Where the Gaps Are]].
+
+=== Wine ===
+[[Figure:wheel-wine|The wine aroma wheel, after Noble (1984) — eight families, with the descriptors each one contains.]]
+
+=== Beer ===
+[[Figure:wheel-beer|The beer flavour wheel, after Meilgaard — the one where most terms map to a named compound.]]
+
+=== Coffee ===
+[[Figure:wheel-coffee|Coffee flavour families, after the SCA / World Coffee Research lexicon.]]
+
+=== Cannabis ===
+[[Figure:wheel-cannabis|Cannabis aroma families. Note that "gas / skunk" is largely volatile sulfur compounds, not terpenes.]]
+
+=== Essential oils and perfumery ===
+[[Figure:wheel-essentialoils|Essential-oil families, labelled with their perfumery position — top, heart or base.]]
+
+The essential-oil wheel carries something the others do not: '''a time axis hidden inside the families'''. '''Citrus is a top note''' because its molecules are small and volatile and gone in twenty minutes. '''Floral is the heart.''' '''Woody and resinous are base notes''' because they are heavy and still there hours later. Perfumery has always been '''four-dimensional''' — see §4. For the structure underneath this, see [[Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma|Standardized Extracts, Enhanced Leaf, and the Perfumery of Botanical Aroma]] and [[Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works|Functional Groups, Polarity and Separation: Indoles, Phenols, Rose Ketones, and How Aroma Chemistry Works]].
+
+=== The outdoor world ===
+[[Figure:wheel-outdoor|Outdoor smells by family — the vocabulary a scene needs and no industry built.]]
+
+=== The indoor world ===
+[[Figure:wheel-indoor|Indoor smells by family.]]
+
+== 2. Euphoric odours: what is real ==
+People reliably report that certain smells produce something stronger than "pleasant" — '''relaxation, a rush, a drop in anxiety, occasionally something they describe as opioid-like'''. Some of that is real and has a mechanism. Some of it is learned association. And one category of "euphoria from smelling things" is not aromatherapy at all but '''solvent poisoning''' — which is in §3, because conflating them is how people get hurt.
+
+=== Confederate jasmine — the specific claim ===
+'''The claim:''' standing near flowering '''Confederate or star jasmine''' (''Trachelospermum jasminoides'') produces an '''opioid-like''' effect.
+
+'''What is true:'''
+* The effect people report — heavy relaxation, a warm flush, a slight dreaminess near a wall of it in bloom on a hot evening — is '''commonly and consistently described'''. It is not invented.
+* ''Trachelospermum jasminoides'' is '''not a true jasmine'''. True jasmine is ''Jasminum'' (Oleaceae); this is '''Apocynaceae''', the dogbane family — '''the same family as oleander'''. Its stem is a traditional Chinese materia medica (''luò shí téng'').
+* Its floral volatiles are the standard white-floral set: '''methyl benzoate, benzyl acetate, linalool, methyl anthranilate''' and relatives.
+
+'''What is not established:'''
+* '''There is no evidence of opioid-receptor activity from inhaling it.''' No binding study, no reversal-by-naloxone experiment, nothing. "Opioid-like" is a '''description of the feeling''', not an identification of the receptor.
+
+'''The mechanism that actually fits''' is '''GABA-A potentiation''', and that one is documented. '''Aoshima and Hamamoto (1999)''' perfused GABA-A receptors expressed in ''Xenopus'' oocytes with perfume and plant volatiles and found that many of them — '''benzyl acetate''' and related floral esters among them — '''potentiate the receptor''', in the same general manner as a barbiturate or a benzodiazepine, though far more weakly. A weak, inhaled, whole-body GABAergic nudge on a warm evening is a very good candidate for "it felt like a low dose of something."
+
+'''And the safety note, which matters more than the pharmacology:''' it is an '''Apocynaceae'''. The '''sap is irritant''' and the plant should '''not be eaten, brewed, tinctured or smoked'''. Smelling the flowers on the fence is the entire safe use. Compare [[Old World vs New World Magic Herbs]] for what this family does when people get ambitious.
+
+=== The documented cases ===
+* '''Linalool''' (lavender, coriander, many flowers) is the best-studied. '''Linck et al. (2010)''' showed '''inhaled''' linalool is anxiolytic in mice. '''Kashiwadani et al. (2018)''' then showed the effect '''disappears in anosmic mice''' — which is the crucial result: '''it works through the nose as a smell''', not by being absorbed into the blood. That is a real olfactory-pathway anxiolytic.
+* '''Lavender oil, taken orally''' as a standardised preparation ('''Silexan''') has repeated '''randomised clinical trial''' data for generalised anxiety. This is the strongest evidence in the whole field — and note that it is '''a capsule, not a diffuser'''.
+* '''Jasmine and other floral esters''' — the GABA-A potentiation above, plus consistent human reports of sedation or, at higher concentration, stimulation. The dose-direction flip is real and under-appreciated.
+* '''Rose and orange''' volatiles reduce measured anxiety markers in several small human trials.
+* '''Vanillin''' reduces startle response and is one of the most reliably '''hedonically positive''' odours across cultures — though it is also among the most '''learned''' (see below).
+* '''Geosmin''' — the smell of rain on dry earth, produced by ''Streptomyces'' bacteria. Humans detect it at around '''5 parts per trillion''', one of the lowest thresholds known for any compound, and nearly everyone finds it pleasant. That combination is almost certainly '''evolutionary''': it means water.
+* '''Petrichor''' is the broader phenomenon — geosmin plus plant oils released from soil plus ozone from lightning. See [[A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them|A Field Guide to Smell Molecules: Classes, Key Odorants, and the Reactions That Make Them]].
+
+=== The part that is learned, and why that is not a dismissal ===
+'''Odour is the most context-dependent of the senses.''' Olfactory input reaches the '''amygdala and hippocampus''' almost directly, without the thalamic relay the other senses use, which is why a smell can produce an emotional memory faster than you can name it.
+* '''Herz and von Clef (2001)''' gave people the '''same odour''' under two different labels and got '''significantly different pleasantness ratings'''. The label changed the percept.
+* So a large part of any aromatherapy effect is '''expectancy and association'''. '''This does not make it fake.''' An anxiolytic effect produced by expectancy is still an anxiolytic effect; it is just not pharmacology, and it will not survive blinding. The honest position is to '''say which kind you are claiming''' — exactly the standard used everywhere else in this library.
+
+== 3. What is NOT aromatherapy ==
+'''This section exists for harm reduction and it is the most important one on the page.'''
+
+'''Inhalant abuse is not aromatherapy.''' '''Solvents''' (toluene, butane, difluoroethane in dusters), '''nitrous oxide''', and '''alkyl nitrites''' do produce euphoria by inhalation, and they are '''not in the same category as smelling a flower''':
+* An odorant works at '''parts per billion''', as a '''signal''' to a receptor in the nose.
+* A solvent works at '''percent concentration''', as a '''drug absorbed through the lungs''' into the blood at near-injection speed.
+* '''The consequences are not comparable.''' Solvent inhalation causes '''sudden sniffing death''' (catecholamine-sensitised cardiac arrhythmia — it can kill a first-time user with no warning), irreversible '''white-matter damage''' from toluene, '''hypoxia''' from nitrous displacing oxygen, '''B12 depletion and nerve damage''' from repeated nitrous, and '''methaemoglobinaemia''' from nitrites. '''Alkyl nitrites with any PDE5 inhibitor (sildenafil and relatives) can be fatal''' through catastrophic hypotension.
+* '''There is no harm-reduction framing in which huffing is a fragrance practice.''' If that is where someone is, the relevant page is a drug page, not this one.
+
+'''Essential oils are not harmless because they are plants.'''
+* '''Pennyroyal oil''' — pulegone — causes '''fatal liver necrosis'''. There is no safe internal dose. People have died.
+* '''Wintergreen oil''' is '''~98% methyl salicylate'''; one teaspoon is roughly '''7 grams of aspirin''', and a small amount can kill a child.
+* '''Eucalyptus and camphor''' preparations applied to the face of an '''infant or small child''' can cause '''laryngospasm and apnoea'''. Do not.
+* '''Phototoxicity''' — '''bergapten''' in expressed bergamot causes severe burns on sun-exposed skin.
+* '''Undiluted application''' sensitises; once you are sensitised to a fragrance material you are sensitised for life.
+* '''Diffusers and animals''' — '''birds''' are exquisitely sensitive to aerosols, and '''cats''' metabolise phenols and monoterpenes poorly. Tea tree oil is '''toxic to cats'''.
+* '''Ingestion''' is a different practice from inhalation with a different risk profile, and the Silexan trials are the exception that proves the rule: it worked because it was '''standardised and dosed''', not because it was natural.
+
+== 4. Time-mapping: a smell is a curve, not a point ==
+This is the part we need for scenes, and it is why a wheel alone is not enough.
+
+* '''Perfumery has mapped smell against time for two centuries.''' '''Top notes''' (citrus, aldehydes) flash off in minutes. '''Heart notes''' (florals, spices) hold for an hour or three. '''Base notes''' (woods, resins, musks) are still there the next morning. A perfume is '''a composition in time''', and "top/heart/base" is a '''volatility''' axis wearing a poetic name.
+* '''The instrument agrees.''' In '''GC-MS''', retention time ''is'' volatility — the same ordering, measured. A chromatogram and a perfume pyramid are the '''same object''' plotted differently. See [[Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works|Functional Groups, Polarity and Separation: Indoles, Phenols, Rose Ketones, and How Aroma Chemistry Works]].
+* '''So the full map has four dimensions:''' '''family''' (where on the wheel), '''intensity''' (how far above threshold), '''position''' (where in the space it is coming from), and '''time''' (when in the sequence it arrives and how long it lasts). A wheel gives you the first. A pyramid gives you the fourth. '''You need both.'''
+* '''For a scene''', that is directly constructible: a room is a '''set of sources''', each with a family, a strength, a location and a decay curve, and what a person "smells" is the '''sum at their position at that moment'''. Walking past the bakery and then the bins is a '''time series''', not two labels. That is the model we are building toward for [[Dudael]].
+* '''The threshold table is the missing input''' that makes this quantitative — a compound detectable at parts per trillion dominates a mixture it is barely present in. That is on [[A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them|A Field Guide to Smell Molecules: Classes, Key Odorants, and the Reactions That Make Them]].
+
+== 5. Where this connects ==
+* The chemistry of the molecules on these wheels: [[A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them|A Field Guide to Smell Molecules: Classes, Key Odorants, and the Reactions That Make Them]] · [[Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works|Functional Groups, Polarity and Separation: Indoles, Phenols, Rose Ketones, and How Aroma Chemistry Works]] · [[Violets Ionone and Orris The Flower That Disappears From Your Nose|Violets, Ionone, and Orris: The Chemistry of a Smell That Switches Itself Off]]
+* How new ones get found: [[Novel Odorants How New Smell Molecules Are Actually Found and Where the Gaps Are|Novel Odorants: How New Smell Molecules Are Actually Found, and Where the Gaps Are]]
+* Getting them out of the plant: [[Hydrosols, Absolutes, and Botanical Extraction Modalities]] · [[Cold Pressing Expelling and Heat Why the Same Seed Gives Different Oils|Cold Pressing, Expelling, and Heat: What Each Method Does to an Oil]]
+* The cannabis end of the wheel: [[Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds|Hops, Cannabis, and the Chemistry of Dank]]
+* GABA-A, and what else binds there: [[Kava]] · [[Kava Potentiation]]
+
+== Sources ==
+* Noble A. C. et al., "Modification of a standardized system of wine aroma terminology", ''American Journal of Enology and Viticulture'' 38 (1987); the original wheel, 1984.
+* Meilgaard M. C., Dalgliesh C. E. and Clapperton J. F., "Beer flavour terminology", ''Journal of the Institute of Brewing'' 85 (1979).
+* Specialty Coffee Association / World Coffee Research, ''Sensory Lexicon'' and the Coffee Taster's Flavor Wheel (2016).
+* Aoshima H. and Hamamoto K., "Potentiation of GABA_A receptors expressed in ''Xenopus'' oocytes by perfume and phytoncid", ''Bioscience, Biotechnology, and Biochemistry'' 63 (1999).
+* Linck V. M. et al., "Effects of inhaled linalool in anxiety, social interaction and aggressive behavior in mice", ''Phytomedicine'' 17 (2010).
+* Kashiwadani H. et al., "Linalool odor-induced anxiolytic effects in mice", ''Frontiers in Behavioral Neuroscience'' 12 (2018) — the anosmia control.
+* Kasper S. et al., randomised controlled trials of Silexan (standardised lavender oil) in anxiety disorders.
+* Herz R. S. and von Clef J., "The influence of verbal labeling on the perception of odors", ''Perception'' 30 (2001).
+* Polak E. H. and Provasi J., "Odor sensitivity to geosmin enantiomers", ''Chemical Senses'' 17 (1992).
+* Bear I. J. and Thomas R. G., "Nature of argillaceous odour", ''Nature'' 201 (1964) — the paper that named petrichor.
+* Anderson I. B. et al., "Pennyroyal toxicity: measurement of toxic metabolite levels in two cases and review of the literature", ''Annals of Internal Medicine'' 124 (1996).
+* Bass M., "Sudden sniffing death", ''JAMA'' 212 (1970); and the subsequent inhalant-mortality literature.
+* Filley C. M., Halliday W. and Kleinschmidt-DeMasters B. K., "The effects of toluene on the central nervous system", ''Journal of Neuropathology and Experimental Neurology'' 63 (2004).
