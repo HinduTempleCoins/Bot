@@ -60,8 +60,11 @@ test('it takes no side on AI, and says why that is deliberate', () => {
   assert.doesNotMatch(BODY, /AI is (fine|bad|cheating)/i);
 });
 
-test('⭐ it teaches October as exploration and links the genre map', () => {
+test('⭐ it teaches The Watch and links the genre map', () => {
+  assert.match(BODY, /October is the watch\. November is the writing\./);
   assert.match(BODY, /ideas do not arrive in an empty room/);
+  // we send watchers to the 13-year-old tradition too, same as we name the writing competitors
+  assert.match(BODY, /Hooptober/);
   assert.match(BODY, /horror\/map/);
   assert.match(BODY, /girl-has-to-kill-everyone/);
   assert.match(BODY, /You do not have to write horror/);

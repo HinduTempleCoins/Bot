@@ -90,7 +90,7 @@ footer{border-top:1px solid var(--line);padding:18px 16px;color:var(--mut);font-
 a{color:var(--acc)}
 </style>`;
 
-const NAV = `<a href="${bp('/')}">The challenge</a><a href="${bp('/october')}">October</a><a href="${bp('/history')}">What happened</a>`;
+const NAV = `<a href="${bp('/')}">The challenge</a><a href="${bp('/watch')}">The Watch</a><a href="${bp('/history')}">What happened</a>`;
 const FOOTER = `<footer>Your writing stays in your browser — we never receive it. <a href="${bp('/history')}">Why that matters</a>.<br>Part of <a href="https://soapbox.community">SoapBox</a>. No payouts, no scoring, no account.</footer>`;
 
 function pageHtml(title, body, opts = {}) {
@@ -210,11 +210,12 @@ const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
   render();
 })();</script>`;
 
-const PREP = `<h1>October is for finding the book</h1>
-<p class=muted>November is for drafting badly and fast. <b>October is for working out what you actually want to write</b> — and the honest way to do that is to go and look at a lot of it. Read, watch, argue with things. Ideas do not arrive in an empty room.</p>
+const PREP = `<h1>The Watch</h1>
+<p class=muted><b>October is the watch. November is the writing.</b> You spend a month looking hard at a great deal of work until you find the thing you actually want to write — because ideas do not arrive in an empty room — and then you spend a month writing it badly and fast.</p>
+<p class=muted>I keep watch on a blockchain for a living; in October the watch is a different kind. Same job, though: pay attention to what is actually there, for long enough that you start seeing the shape of it.</p>
 
 <div class=card>
-  <h3>Go and look at the shapes first</h3>
+  <h3>What to watch</h3>
   <p class=small>Every genre is a set of expectations a reader already has — what can happen, what it means when it does, how it is allowed to end. You cannot play with that grammar until you can see it. So we spent October mapping one genre properly, all the way down, as a worked example of what that looks like:</p>
   <p><b><a href="https://stream.soapbox.community/horror/map">A Map of Horror</a></b> — the argument that horror is not one genre but <b>eight</b> that never got separated (supernatural, slasher, survival, body, cosmic, monster, exploitation, psychological), across <b>45 shelves</b>, with the borders where thriller, sci-fi and crime bleed in, and national cinemas from J-horror to Nollywood.</p>
   <p><b><a href="https://stream.soapbox.community/horror/girl-has-to-kill-everyone">Girl Has to Kill Everyone</a></b> — one genre mapped on its own, to show what it looks like when you take a shelf seriously instead of treating it as a tone.</p>
@@ -282,15 +283,15 @@ export async function handler(req, res) {
     };
     if (p === '/health') { res.writeHead(200, { 'content-type': 'application/json' }); return res.end('{"ok":true}'); }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`${robotsTxt(BASE_URL)}\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
-    if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemapXml(BASE_URL, ['/', '/october', '/history'])); }
+    if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemapXml(BASE_URL, ['/', '/watch', '/history'])); }
     if (p === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml()); }
     if (p === '/llms.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(llmsTxt(BASE_URL, SITE_NAME)); }
     if (p === '/') return html(200, '50,000 words in 30 days — The Writing Room', CHALLENGE, { path: '/' });
-    // /october is the real name; /preptober is kept because it is still what writers search in October.
-    if (p === '/october' || p === '/preptober') {
-      return html(200, 'October — find the book before you write it', PREP, {
-        path: '/october', canonical: `${BASE_URL}/october`,
-        description: 'October is for reading, watching and finding the thing you actually want to write. Genre maps, then seven planning cards that save in your browser only.',
+    // /watch is the name; /october and /preptober are kept because they are what people type in October.
+    if (p === '/watch' || p === '/october' || p === '/preptober') {
+      return html(200, 'The Watch — a month of horror, then a month of writing', PREP, {
+        path: '/watch', canonical: `${BASE_URL}/watch`,
+        description: 'October is the watch: 31 nights of horror, a map of the genre, and the seven cards you fill in before November. Everything saves in your browser only.',
       });
     }
     if (p === '/history') return html(200, 'What happened to NaNoWriMo — the graded record', HISTORY, { path: '/history', description: 'NaNoWriMo dissolved on March 31, 2025. The timeline, the confirmed successors, and the claims that do not check out — each one graded.' });
