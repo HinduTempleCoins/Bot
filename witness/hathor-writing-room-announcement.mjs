@@ -91,7 +91,7 @@ So: **your draft never leaves your browser.** There is no account. There is no s
 
 ## What else is on in October
 
-You do not need us for this part. Other people have been running October properly for decades, and at least one of them has been at it longer than this chain has existed:
+**The Watch** is our name for it. The watching itself is older than us and belongs to nobody — here is what else is on, and all of it is worth your October:
 
 ${WATCHING.map((w) => `- **${w.name}** *(${w.where} — ${w.run})* — ${w.what}`).join('\n')}
 

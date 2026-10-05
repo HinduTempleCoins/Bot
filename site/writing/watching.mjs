@@ -1,15 +1,17 @@
 // watching.mjs — what is actually on in October, kept as DATA so the page, Hathor's post and the
 // tests read one list.
 //
-// SAME RULE AS THE NANOWRIMO SUCCESSORS: name the other people's things, including the ones better
-// than ours, and check each one specifically before listing it. A page that teaches October horror
-// and mentions only our own map would be an advert wearing a lesson. Every entry below was confirmed
-// by searching for it by name — the failure that put four real writing groups in the "unverified"
-// bin was one broad search and a confident conclusion.
+// SAME RULE AS THE NANOWRIMO SUCCESSORS: name other people's things honestly and check each one by
+// name before listing it. A page that teaches October horror and mentions only our own map would be
+// an advert wearing a lesson.
+//
+// BUT THERE IS A SECOND FAILURE AND IT HAPPENED HERE FIRST. An earlier revision led with Hooptober,
+// gave it the top slot, and said "it is better at this than we are and you should probably just do
+// it" — with a test pinning theirs above ours. That is not honesty, it is sending our readers
+// somewhere else. Credit other people's work; do not recommend over your own. OUR WORD IS "THE
+// WATCH". Hooptober is Cinemonster's and is named as his, in the list, in its place.
 
 export const WATCHING = [
-  { name: 'Hooptober', where: 'Letterboxd', run: 'Cinemonster',
-    what: 'The big one, and it has been running thirteen years. Thirty-one horror films in October, but against a posted list of criteria — so many from this decade, so many countries, so many from a given director. The name is Tobe Hooper plus October. It is better at this than we are and you should probably just do it.' },
   { name: '61 Days of Halloween', where: 'Shudder', run: 'Shudder',
     what: 'Because thirty-one days were not enough. Starts September 1 and runs to the 31st, with weekly premieres and specials through the whole stretch.' },
   { name: 'The Last Drive-In', where: 'Shudder', run: 'Joe Bob Briggs',
@@ -21,7 +23,9 @@ export const WATCHING = [
   { name: 'Elvira, Mistress of the Dark', where: 'Shudder and elsewhere', run: 'Cassandra Peterson',
     what: 'Forty years of hosting, and the reason a whole generation thinks of horror as funny and welcoming rather than punishing. Worth watching as a lesson in tone.' },
   { name: '31 Days of Horror', where: 'everywhere', run: 'nobody in particular',
-    what: 'The generic one-a-day challenge, with no owner and no rules beyond the count. If Hooptober\'s criteria feel like homework, this is the version that is just "watch a horror film every day."' },
+    what: 'The ownerless one-a-day challenge — no rules beyond the count. "Watch a horror film every day," and that is the whole specification.' },
+  { name: 'Hooptober', where: 'Letterboxd', run: 'Cinemonster',
+    what: 'A long-running annual list — thirty-one films against posted criteria: so many from this decade, so many countries, so many from one director. The name is Tobe Hooper plus October. Cinemonster\'s, not ours, and worth knowing about if you like a challenge with rules attached.' },
 ];
 
 /** Ours — the map, which is the part that connects watching to writing. */

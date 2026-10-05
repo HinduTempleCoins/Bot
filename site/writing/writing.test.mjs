@@ -160,10 +160,13 @@ test('the word "pedagogy" is never used — this is not only about children', as
 test('⭐ the October page names other people\'s traditions, not just ours', async () => {
   const b = (await get('/watch')).body();
   for (const w of WATCHING) assert.ok(b.includes(esc(w.name)), `missing: ${w.name}`);
-  // the thirteen-year-old one is credited as better than ours
-  assert.match(b, /better at this than we are/);
-  // and the others' list comes before our own map
-  assert.ok(b.indexOf('Hooptober') < b.indexOf('A Map of Horror'), 'theirs first, ours second');
+  // ⭐ Credit other people's work; never recommend over our own. An earlier revision led with
+  // Hooptober and told readers to "just do it" instead — that is sending our readers away.
+  assert.doesNotMatch(b, /better at this than we are/);
+  assert.doesNotMatch(b, /you should probably just do it/);
+  assert.ok(b.indexOf('Hooptober') > b.indexOf('Shudder'), 'other names are credited, none is the headline');
+  // and the word for our own month is The Watch, nobody else's
+  assert.match(b, /<h1>The Watch<\/h1>/);
   for (const o of OURS) assert.ok(b.includes(esc(o.name)), `missing ours: ${o.name}`);
   // watching is framed as work, with a reason
   for (const [h] of WHY) assert.ok(b.includes(esc(h)), `missing why: ${h}`);

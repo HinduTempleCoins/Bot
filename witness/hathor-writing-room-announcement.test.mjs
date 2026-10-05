@@ -91,7 +91,10 @@ test('⭐ the child-safety position is stated before the timeline and is not eve
 test('⭐ it names the other October traditions too', async () => {
   const { WATCHING } = await import('../site/writing/watching.mjs');
   for (const w of WATCHING) assert.ok(BODY.includes(w.name), `missing: ${w.name}`);
-  assert.match(BODY, /you do not need our list/i);
+  // ⭐ name them, do not send readers to them over us, and keep our own word ours
+  assert.match(BODY, /\*\*The Watch\*\* is our name for it/);
+  assert.doesNotMatch(BODY, /better at this than we are/);
+  assert.doesNotMatch(BODY, /you should probably just do it/);
 });
 
 test('the word "pedagogy" never appears — this is not only about children', () => {
