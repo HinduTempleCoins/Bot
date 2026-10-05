@@ -58,8 +58,8 @@ import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as invite
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 import { metatronPage } from './metatron.mjs';
 // The November half of Metatron — the national-month challenge, The Watch (October viewing) and the
-// graded NaNoWriMo record. Built in site/writing/, mounted here because Metatron IS the writing
-// sandbox; it does not need a domain of its own.
+// graded NaNoWriMo record. Built in site/writing/, mounted here because Metatron is where the
+// writing lives; it does not need a domain of its own.
 import { CHALLENGE as NOV_CHALLENGE, PREP as NOV_WATCH, HISTORY as NOV_HISTORY, pageHtml as novPage } from '../site/writing/server.mjs';
 import { sandalphonPage } from './sandalphon.mjs';
 import { beatsPage } from './beats.mjs';

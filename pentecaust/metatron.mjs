@@ -1,4 +1,4 @@
-// metatron.mjs — HATHOR METATRON (powered by Hathor, part of Hathor: "Hathor become Metatron"), the making side on Pentecaust: write (the Writing Sandbox — the NaNoWriMo
+// metatron.mjs — HATHOR METATRON (powered by Hathor, part of Hathor: "Hathor become Metatron"), the making side on Pentecaust: write (the NaNoWriMo
 // successor) and make graphics, then use them in Herald emails, BiFrost videos and posts on our own channels.
 //
 // Slice 1 (this file): one self-contained page at /metatron —
