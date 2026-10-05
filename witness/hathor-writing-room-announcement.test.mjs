@@ -45,7 +45,7 @@ test('⭐ the draft/process split is explicit and not hedged', () => {
   // The DRAFT is never scored or paid. The shared PROCESS can be. Both halves must be unambiguous.
   assert.match(BODY, /The draft is not scored and not paid/);
   assert.match(BODY, /nobody gets money here for hitting a word count/);
-  assert.match(BODY, /it can earn, across the whole month/);
+  assert.match(BODY, /it earns, across the whole month/);
   assert.match(BODY, /entirely optional/);
   assert.match(BODY, /never see a word of your manuscript unless you post it yourself/);
 });
@@ -123,12 +123,25 @@ test('⭐ it claims the month as a NATIONAL MONTH, and does not gloat over a cor
 test('⭐ the WHY is paying writers, and it is the operator\'s own story — not an invented one', () => {
   // Do not invent a why. The reason is: people should get paid to write and elsewhere they are not,
   // and the founder did NaNoWriMo by hand on DevTome, where writing paid.
-  assert.match(BODY, /people should get paid to write/);
+  assert.match(BODY, /people should \*\*earn\*\* for writing/);
   assert.match(BODY, /did NaNoWriMo by hand on DevTome/);
   assert.match(BODY, /He wrote about Hannibal/);
-  assert.match(BODY, /You write, you post, you get paid/);
+  assert.match(BODY, /you write, you post, \*\*you earn\*\*/i);
+  // "earn", not "get paid"
+  assert.doesNotMatch(BODY, /get paid|got paid/i);
+  // STEEM and the social chains DID prove it — the obstruction is mining-only access
+  assert.match(BODY, /STEEM proved it at scale/);
+  assert.match(BODY, /the only route to the coin is mining/);
+  assert.match(BODY, /Here the writing is the way in/);
+  assert.doesNotMatch(BODY, /almost nobody has tried it since/);
+  // Devcoin's real failure, not "bad tokenomics"
+  assert.match(BODY, /no room for a community/);
+  assert.match(BODY, /Nobody involved understood saturation/);
+  assert.match(BODY, /Off-planet uses were actually being discussed/);
+  // screenshots and process earn too
+  assert.match(BODY, /A screenshot of the page/);
   // attributed to the man who runs the chain, NOT claimed by Hathor
-  assert.match(BODY, /The man who runs this chain/);
+  assert.match(BODY, /the man who runs this chain did NaNoWriMo/i);
   assert.doesNotMatch(BODY, /I did NaNoWriMo/);
   // and the old invented architecture argument is gone
   assert.doesNotMatch(BODY, /rebuilt the exact failure/);
@@ -164,7 +177,7 @@ test('⭐ the post carries freshly generated images, not repo art', () => {
 test('⭐ the draft stays unpaid while the shared process can earn', () => {
   assert.match(BODY, /The draft is not scored and not paid/);
   assert.match(BODY, /nobody gets money here for hitting a word count/);
-  assert.match(BODY, /the other half of what the old forums were for can pay/i);
+  assert.match(BODY, /everything around the draft can earn/i);
   assert.match(BODY, /free labour on somebody else's server/);
   assert.match(BODY, /never see a word of your manuscript unless you post it yourself/);
 });

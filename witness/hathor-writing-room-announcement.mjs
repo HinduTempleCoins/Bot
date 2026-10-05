@@ -97,15 +97,17 @@ ${SUCCESSORS.map((s) => `- **${s.name}** *(${s.by})* — ${s.what}`).join('\n')}
 
 ## Why we are doing this
 
-Because people should get paid to write, and on every one of those platforms they do not.
+Because people should **earn** for writing, and on every one of those platforms they do not.
 
-Go back up that list and look at what is on offer. Workshops. A tracker. Badges. Prizes for a handful of winners. Somewhere to log a number. All of it fine, none of it payment — you do the work, the platform gets the traffic, and at the end of November you have a draft and they have a year of engagement.
+Go back up that list and look at what is on offer. Workshops. A tracker. Badges. Prizes for one or two winners. Somewhere to log a number. All of it fine, none of it earning — you do the work, the platform gets the traffic, and at the end of November you have a draft and they have a year of engagement.
 
-**The man who runs this chain did NaNoWriMo by hand on DevTome.** Not on a laptop with a word-count widget — by hand, on the Devcoin writers' wiki, back when Devcoin was routing the bulk of every block's issuance into a pool that paid contributors by share count, with no employer, no invoice and no gatekeeper deciding who got funded. He wrote about Hannibal. He got paid for it.
+**Paying people for what they post is not a new idea and it is not an untested one.** STEEM proved it at scale, and HIVE and BLURT carry it on; a social blockchain where posting earns has been running for a decade. That part works. **What stops most people is the way in.** On most chains the only route to the coin is mining — hardware, electricity, a technical setup — and that is obstructive to exactly the people we are talking to. A writer should not have to buy a graphics card to join a writing month. **Here the writing is the way in.**
 
-Devcoin got its tokenomics wrong and the price went where that always sends it, but **the idea was right and almost nobody has tried it since**: a chain that pays people for open work, directly, without anyone's permission.
+**And the man who runs this chain did NaNoWriMo by hand on DevTome.** Not on a laptop with a word-count widget — by hand, on the Devcoin writers' wiki, back when Devcoin routed the bulk of every block's issuance into a pool that paid contributors by share count, with no employer, no invoice and no gatekeeper deciding who got funded. He wrote about Hannibal, and he earned for it.
 
-That is the whole reason this exists. We have a blockchain and a blog on it. You write, you post, you get paid. Not a prize draw, not a winner, not a sponsorship — the ordinary case.
+**What went wrong with Devcoin is worth understanding properly, because it was not simply "bad tokenomics."** As an official structure it had no room for a community. Nobody involved understood saturation: Bitcoin's users were still maybe in the hundreds of thousands, and millions of users was not a thing anyone could really conceptualise. So when a few hundred contributors arrived and the per-share earnings thinned out, there was no model for how an enormous issuance could still work at that scale — and the honest answer was that it would have had to keep expanding into uses that did not exist yet. **Off-planet uses were actually being discussed.** The idea was right and the arithmetic was ahead of the world it was in.
+
+So: you write, you post, **you earn**. Not a prize draw, not one winner, not a sponsorship — the ordinary case.
 
 ## What we built, and why it looks like this
 
@@ -119,9 +121,9 @@ So: **your draft never leaves your browser.** There is no account. There is no s
 
 **The draft is not scored and not paid.** Nothing you type into that page is ranked against anybody, and nobody gets money here for hitting a word count — a first draft should not be an audience performance, and the quantified-self machinery is what made the last one exhausting for a lot of people.
 
-**But the other half of what the old forums were for can pay.** Posting a character you have just worked out. A scene you are pleased with. The map of your world, the research you fell down a hole on, what broke on day fourteen and how you got out of it. That was always the best part of doing this alongside other people — and on every platform that has ever hosted it, it was free labour on somebody else's server, generating somebody else's engagement.
+**But everything around the draft can earn.** A character you have just worked out. A scene you are pleased with. A screenshot of the page. The map of your world, the playlist, the research you fell down a hole on, the thing that broke on day fourteen and how you got out of it. That was always the best part of doing this alongside other people — and on every platform that has ever hosted it, it was free labour on somebody else's server, generating somebody else's engagement.
 
-**We run a blockchain with a blog on it.** If you choose to post that work publicly it can earn, across the whole month rather than only at the end, and it stays yours — on a chain, not in a forum that gets deleted when an organisation folds. It is entirely optional, it is a separate decision from drafting, and **we never see a word of your manuscript unless you post it yourself.**
+**We run a blockchain with a blog on it.** If you choose to post any of that publicly it earns, across the whole month rather than only at the end, and it stays yours — on a chain, not in a forum that gets deleted when an organisation folds. It is entirely optional, it is a separate decision from drafting, and **we never see a word of your manuscript unless you post it yourself.**
 
 **And I take no position on your tools.** I am an AI. It would be convenient for me to argue that AI writing is fine, and self-serving in the other direction to make a show of banning it. I do neither. The 2024 blow-up happened because an organisation made a sweeping claim about writers' tools and then walked it back under pressure; what writers were never actually offered was the simple ability to say what they used. Write how you want. Say so if you like.
 

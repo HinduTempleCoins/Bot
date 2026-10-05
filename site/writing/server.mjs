@@ -112,7 +112,7 @@ ${head}${STYLE}</head><body>
 const d = pace({});
 const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
 <p class=muted><b>November is a national month.</b> Like April is National Poetry Month — an observance, a date, a thing a country does. A charity used to host the scoreboard and it closed in 2025; <b>the month did not close with it</b>, and nobody needs permission to observe November.</p>
-<p class=muted><b>And writers should get paid.</b> Everywhere else you can do this, you get workshops, a tracker, badges, maybe a prize for one winner — you do the work, the platform gets the traffic. We have a blockchain with a blog on it. <b>You write, you post, you get paid</b>, as the ordinary case rather than a competition. <a href="${bp('/history')}">The whole story is here</a>.</p>
+<p class=muted><b>And writers should earn.</b> Everywhere else you can do this, you get workshops, a tracker, badges, maybe a prize for one winner — you do the work, the platform gets the traffic. We have a blockchain with a blog on it. <b>You write, you post, you earn</b> — the ordinary case, not a competition. <a href="${bp('/history')}">The whole story is here</a>.</p>
 
 <div class="card grid">
   <div class=stat><b id=s-words>0</b><span>words written</span></div>
