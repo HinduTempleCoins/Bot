@@ -174,7 +174,21 @@ test('⭐ the October page names other people\'s traditions, not just ours', asy
 
 test('⭐ the surface claims the month too, not just the post', async () => {
   const b = (await get('/')).body();
-  assert.match(b, /NaNoWriMo is dead and we are taking November/);
-  assert.match(b, /never intellectual property/);
+  assert.match(b, /November is a national month/);
+  assert.match(b, /National Poetry Month/);
+  assert.match(b, /nobody needs permission to observe November/i);
+  assert.doesNotMatch(b, /NaNoWriMo is dead/i);
   assert.match(b, /rebuilt the thing that killed it/);
+});
+
+test('⭐ the draft stays unpaid, but sharing the process is where the chain comes in', async () => {
+  const b = (await get('/')).body();
+  // the tool itself must never pay or score — that rule does not move
+  assert.match(b, /Nothing you type above is scored, ranked or paid/);
+  assert.match(b, /nobody gets money for hitting a word count here/);
+  // but posting the process publicly is offered, and is clearly optional and separate
+  assert.match(b, /posting a character you just worked out/);
+  assert.match(b, /it can earn, through the whole month/);
+  assert.match(b, /entirely optional/);
+  assert.match(b, /never see a word of your novel unless you post it yourself/);
 });

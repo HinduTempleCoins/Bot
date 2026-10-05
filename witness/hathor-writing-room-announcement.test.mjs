@@ -26,7 +26,7 @@ test('⭐ it names every competitor honestly while still claiming the month', ()
   // live" argument land. What it must NOT do is hand them the month.
   for (const s of SUCCESSORS) assert.ok(BODY.includes(s.name), `missing successor: ${s.name}`);
   assert.match(BODY, /including the ones with more money than us/);
-  assert.match(BODY, /noticed the chair was empty/);
+  assert.match(BODY, /Plenty of people kept November going/);
 });
 
 test('⭐ it owns the mistake it made about the four groups', () => {
@@ -76,7 +76,7 @@ test('⭐ it teaches The Watch and links the genre map', () => {
 });
 
 test('well-formed: title, permlink, balanced links, no placeholders', () => {
-  assert.match(TITLE, /NaNoWriMo/);
+  assert.match(TITLE, /National Novel Writing Month/);
   assert.match(PERMLINK, /^[a-z0-9-]+$/);
   assert.equal((BODY.match(/\[/g) || []).length, (BODY.match(/\]/g) || []).length);
   assert.doesNotMatch(BODY, /\{[a-z_]+\}|undefined|\[object/i);
@@ -103,15 +103,18 @@ test('the word "pedagogy" never appears — this is not only about children', ()
   assert.doesNotMatch(BODY, /pedagog/i);
 });
 
-test('⭐ it claims the month instead of abdicating it', async () => {
-  // This is a takeover, not a humble entry in a list of successors. The old copy said "I would
-  // rather you write somewhere than nowhere", which hands the month to whoever else shows up.
-  assert.match(TITLE, /Taking November/);
-  assert.match(BODY, /we are taking the month off the floor/);
-  assert.match(BODY, /What died was an organisation\. What is vacant is a role\. We want it\./);
+test('⭐ it claims the month as a NATIONAL MONTH, and does not gloat over a corpse', () => {
+  // The frame is not "the company died". Most people never knew there was a company — they knew a
+  // month. A national observance does not belong to whoever was hosting the scoreboard.
+  assert.match(TITLE, /Still National Novel Writing Month/);
+  assert.match(BODY, /was a month, and separately there was a charity that ran the website/);
+  assert.match(BODY, /National Poetry Month/);
+  assert.match(BODY, /Nobody needs permission to observe November/);
+  assert.match(BODY, /the month never left/);
   assert.match(BODY, /belongs to whoever shows up on the 1st/);
+  // no death-notice framing, and no abdication either
+  assert.doesNotMatch(TITLE, /Dead/i);
   assert.doesNotMatch(BODY, /rather you write somewhere than nowhere/);
-  assert.doesNotMatch(BODY, /better resourced than we are/);
 });
 
 test('⭐ the differentiator is stated as a checkable claim, not a boast', async () => {

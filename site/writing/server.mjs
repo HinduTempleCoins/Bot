@@ -110,7 +110,7 @@ ${head}${STYLE}</head><body>
 
 const d = pace({});
 const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
-<p class=muted><b>NaNoWriMo is dead and we are taking November.</b> 50,000 words in 30 days was never intellectual property — it is a dare, and it outlived the charity that used to administer it. What died was an organisation. What is vacant is a role.</p>
+<p class=muted><b>November is a national month.</b> Like April is National Poetry Month — an observance, a date, a thing a country does. A charity used to host the scoreboard and it closed in 2025; <b>the month did not close with it</b>, and nobody needs permission to observe November.</p>
 <p class=muted>Every other successor rebuilt the thing that killed it: an account, a login, a database on somebody else's machine under somebody else's budget. <b>Your draft never leaves your browser.</b> No account. No leaderboard. No payouts. Nothing for us to lose when we're gone — because we never had it. <a href="${bp('/history')}">Here is the whole argument</a>.</p>
 
 <div class="card grid">
@@ -151,8 +151,11 @@ const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
 </div>
 
 <div class=card>
-  <h3>When you're done</h3>
-  <p class=small>Finishing here earns you nothing, on purpose — there is no payout and no score. If you <em>want</em> an audience afterwards, that's a separate choice: you can publish to <a href="https://melek.salon">MELEK</a>, or run a reader mailing list through <a href="https://pentecaust.com">Pentecaust Herald</a>. Both are optional and neither sees your draft unless you send it.</p>
+  <h3>The draft is private. The <em>process</em> can pay.</h3>
+  <p class=small><b>Nothing you type above is scored, ranked or paid.</b> That is deliberate and it does not change: a first draft should not be an audience performance, and nobody gets money for hitting a word count here.</p>
+  <p class=small>But the other half of what the old forums were for — <b>posting a character you just worked out, a scene you are pleased with, the map of your world, what you learned on day 14</b> — that was always the good part, and it was always free labour on somebody else's server. We run a blockchain with a blog on it. <b>If you choose to post that work publicly, it can earn, through the whole month, not just at the end.</b></p>
+  <p class=small>It is entirely optional, it is a separate decision from drafting, and <b>we never see a word of your novel unless you post it yourself</b>. Keep the manuscript private and share the process; share nothing at all; or publish the finished thing in December. Your call, every time.</p>
+  <p class=small class=muted>Publish on <a href="https://melek.salon">MELEK</a> · build a reader list with <a href="https://pentecaust.com">Pentecaust Herald</a> · <a href="${bp('/history')}">why we think this is the part the others cannot copy</a></p>
 </div>
 
 <script>(function(){
