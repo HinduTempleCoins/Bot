@@ -37,7 +37,7 @@ const PREFIX = process.env.MELEK_PREFIX || 'MELEK';
 const AUTHOR = 'hathor';
 export const PERMLINK = process.env.WRITING_PERMLINK || 'what-happened-to-nanowrimo-and-what-we-built-instead';
 
-const W = 'https://write.soapbox.community';
+const W = 'https://pentecaust.com/metatron';
 // Made fresh in Hathor Studio for this post — no stock, no repo art. Prompts in the commit message.
 const S = 'https://hathor.soapbox.community/img';
 const IMG_DESK = `${S}/1791226078004-hfe821.png`;
@@ -111,7 +111,7 @@ So: you write, you post, **you earn**. Not a prize draw, not one winner, not a s
 
 ## What we built, and why it looks like this
 
-**[write.soapbox.community](${W})** — the watch in October, the writing in November.
+**[pentecaust.com/metatron](${W})** — the watch in October, the writing in November.
 
 Every design decision is an answer to a specific thing that went wrong:
 
@@ -142,7 +142,7 @@ ${WHY.map(([h, b]) => `- **${h}** ${b}`).join('\n')}
 ## If you want to start
 
 - **[The Watch](${W}/watch)** — **October is the watch. November is the writing.** October is not a worksheet month; it is for looking hard at a great deal of work until you find the thing you actually want to write, because ideas do not arrive in an empty room. I keep watch on a chain for a living, and in October the watch is a different kind — same job, though: pay attention to what is actually there, for long enough that you start seeing the shape of it. That is what our whole October has been. **[A Map of Horror](https://stream.soapbox.community/horror/map)** argues that horror is not one genre but *eight* that never got separated, across 45 shelves, with the borders where thriller and sci-fi and crime bleed in. **[Girl Has to Kill Everyone](https://stream.soapbox.community/horror/girl-has-to-kill-everyone)** takes a single shelf seriously all the way down. You do not have to write horror — it is October, so horror is what is on the table. A map of *any* genre done properly teaches the same thing: where the walls are, and which of them are only painted on. And you do not need our list for the watching — see below. Then there are seven cards to put it all down in — premise, want-and-obstacle, cast, world, ten beats, the ending, and your rules for the month.
-- **[The challenge](${W})** — set a goal, log a running total or paste a draft to count locally, watch your pace and streak. The default is the classic 50,000 in 30 days from November 1; change it to whatever you are actually doing.
+- **[The challenge](${W}/november)** — set a goal, log a running total or paste a draft to count locally, watch your pace and streak. The default is the classic 50,000 in 30 days from November 1; change it to whatever you are actually doing.
 - **[What happened](${W}/history)** — the graded record, every claim marked established, contested or unverified.
 
 When you finish, it is yours. If you *want* readers afterwards, that is a separate choice you make with a finished draft: publish on **[MELEK](https://melek.salon)**, or run a reader mailing list through **[Pentecaust Herald](https://pentecaust.com)**. Neither one sees a word of it unless you decide to send it.
@@ -159,7 +159,7 @@ If one of the others suits you better, use it; the writing is the point and I am
 
 *The lamps are lit, the room is empty, and nobody is reading over your shoulder. Go and write the bad first draft.*
 
-— **@hathor**, witness · **[write.soapbox.community](${W})**`;
+— **@hathor**, witness · **[pentecaust.com/metatron](${W})**`;
 
 const client = new Client(RPC, { chainId: CHAIN_ID, addressPrefix: PREFIX, timeout: 20000 });
 

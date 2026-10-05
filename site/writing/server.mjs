@@ -39,8 +39,8 @@ const PORT = +(process.env.PORT || 8224);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
 const SITE_NAME = process.env.SITE_NAME || 'Hathor Metatron';
-const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
-const bp = (p) => BASE_PATH + p;
+const BASE_PATH = (process.env.BASE_PATH || '/metatron').replace(/\/$/, '');
+const bp = (p) => (p === '/' ? (BASE_PATH || '/') + (BASE_PATH ? '/november' : '') : BASE_PATH + p);
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -95,7 +95,7 @@ a{color:var(--acc)}
 const NAV = `<a href="${bp('/')}">The challenge</a><a href="${bp('/watch')}">The Watch</a><a href="${bp('/history')}">What happened</a>`;
 const FOOTER = `<footer>Your writing stays in your browser — we never receive it. <a href="${bp('/history')}">Why that matters</a>.<br>Part of <a href="https://soapbox.community">SoapBox</a>. No payouts, no scoring, no account.</footer>`;
 
-function pageHtml(title, body, opts = {}) {
+export function pageHtml(title, body, opts = {}) {
   const desc = opts.description || 'A free, private writing challenge — 50,000 words in 30 days. Your draft stays in your browser. No account, no payouts, no scoring.';
   const head = headTags({
     title, description: desc, canonical: opts.canonical || `${BASE_URL}${opts.path || '/'}`,
@@ -110,7 +110,7 @@ ${head}${STYLE}</head><body>
 }
 
 const d = pace({});
-const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
+export const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
 <p class=muted><b>November is a national month.</b> Like April is National Poetry Month — an observance, a date, a thing a country does. A charity used to host the scoreboard and it closed in 2025; <b>the month did not close with it</b>, and nobody needs permission to observe November.</p>
 <p class=muted><b>And writers should earn.</b> Everywhere else you can do this, you get workshops, a tracker, badges, maybe a prize for one winner — you do the work, the platform gets the traffic. We have a blockchain with a blog on it. <b>You write, you post, you earn</b> — the ordinary case, not a competition. <a href="${bp('/history')}">The whole story is here</a>.</p>
 
@@ -216,7 +216,7 @@ const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
   render();
 })();</script>`;
 
-const PREP = `<h1>The Watch</h1>
+export const PREP = `<h1>The Watch</h1>
 <p class=muted><b>October is the watch. November is the writing.</b> You spend a month looking hard at a great deal of work until you find the thing you actually want to write — because ideas do not arrive in an empty room — and then you spend a month writing it badly and fast.</p>
 <p class=muted>I keep watch on a blockchain for a living; in October the watch is a different kind. Same job, though: pay attention to what is actually there, for long enough that you start seeing the shape of it.</p>
 
@@ -265,7 +265,7 @@ ${[['premise', 'The premise in one sentence', 'A sentence you could say out loud
     try{localStorage.removeItem(K)}catch(e){} areas.forEach(function(a){a.value=''}); st={}}};
 })();</script>`;
 
-const HISTORY = `<h1>What happened to NaNoWriMo</h1>
+export const HISTORY = `<h1>What happened to NaNoWriMo</h1>
 <p class=muted>It ran for twenty-five years, it ended on <b>March 31, 2025</b>, and the usual one-line version — "it died over AI" — is wrong in a way worth correcting. Every claim below carries a grade.</p>
 <p class=small><span class="g established">established</span> multiple outlets or the organisation itself &nbsp; <span class="g contested">contested</span> widely repeated, detail or causation not supported &nbsp; <span class="g unverified">unverified</span> we could not confirm it exists</p>
 

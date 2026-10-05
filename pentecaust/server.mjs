@@ -57,6 +57,10 @@ import { handler as mediaHandler } from './media.mjs';
 import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage, tree as inviteTree} from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 import { metatronPage } from './metatron.mjs';
+// The November half of Metatron — the national-month challenge, The Watch (October viewing) and the
+// graded NaNoWriMo record. Built in site/writing/, mounted here because Metatron IS the writing
+// sandbox; it does not need a domain of its own.
+import { CHALLENGE as NOV_CHALLENGE, PREP as NOV_WATCH, HISTORY as NOV_HISTORY, pageHtml as novPage } from '../site/writing/server.mjs';
 import { sandalphonPage } from './sandalphon.mjs';
 import { beatsPage } from './beats.mjs';
 
@@ -196,6 +200,16 @@ export async function handler(req, res) {
     if ((path === '/sandalphon/beats' || path === '/beats') && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(beatsPage()); }
     if (path === '/sandalphon' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(sandalphonPage()); }
     if (path === '/metatron' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(metatronPage()); }
+    // Metatron's November wing. /watch and /history are the October viewing and the graded record.
+    if (method === 'GET' && (path === '/metatron/november' || path === '/metatron/watch' || path === '/metatron/history')) {
+      const [title, body] = path.endsWith('/watch')
+        ? ['The Watch — a month of horror, then a month of writing', NOV_WATCH]
+        : path.endsWith('/history')
+          ? ['What happened to NaNoWriMo — the graded record', NOV_HISTORY]
+          : ['50,000 words in 30 days — Hathor Metatron', NOV_CHALLENGE];
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(novPage(title, body, { path }));
+    }
     if (path === '/health') return json(res, 200, { ok: true, teams: listTeams().length }, origin);
     // The drop-in "Translate this page?" widget — included by Pentecaust AND by every Condenser page. Served
     // cross-origin (a <script src> tag needs no CORS); it then calls POST /translate (which is CORS-allowed).
