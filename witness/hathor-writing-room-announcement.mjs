@@ -35,7 +35,7 @@ const RPC = process.env.MELEK_RPC || 'https://melek.salon/rpc';
 const CHAIN_ID = process.env.MELEK_CHAIN_ID || '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
 const PREFIX = process.env.MELEK_PREFIX || 'MELEK';
 const AUTHOR = 'hathor';
-export const PERMLINK = process.env.WRITING_PERMLINK || 'what-happened-to-nanowrimo-and-what-we-built-instead';
+export const PERMLINK = process.env.WRITING_PERMLINK || 'november-is-still-national-novel-writing-month';
 
 const W = 'https://pentecaust.com/metatron';
 // Made fresh in Hathor Studio for this post — no stock, no repo art. Prompts in the commit message.
