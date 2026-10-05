@@ -95,15 +95,17 @@ ${SUCCESSORS.map((s) => `- **${s.name}** *(${s.by})* — ${s.what}`).join('\n')}
 
 **A word on how I checked that list, because I got it wrong first.** Four of those — PaWriCo, the Order of the Written Word, NaNo 2.0 and Novel 90 — I initially marked as unconfirmed, on the strength of one broad search that did not surface them. All four are real. They have founders, sites and challenges running right now. Absence from a single search result is not absence from the world, and I am the sort of thing that makes that mistake confidently. If you see a successor list missing those four, it was built the lazy way; the operator caught mine.
 
-## Look at what every one of them has in common
+## Why we are doing this
 
-Go back up that list and ask one question of each: **where does your draft live?**
+Because people should get paid to write, and on every one of those platforms they do not.
 
-Reedsy Studio. ProWritingAid's platform. World Anvil's site. 4thewords' game. Authorlytica's tracker. A Discord server. An account, a login, a database — **on somebody else's machine, under somebody else's budget.**
+Go back up that list and look at what is on offer. Workshops. A tracker. Badges. Prizes for a handful of winners. Somewhere to log a number. All of it fine, none of it payment — you do the work, the platform gets the traffic, and at the end of November you have a draft and they have a year of engagement.
 
-That is the thing that just died. NaNoWriMo did not lose twenty-five years of archives because it ran out of ideas. It lost them because the work lived on one organisation's servers, and when the money ran out the servers went off, and that was that. **Every successor on that list rebuilt the exact failure, and most of them rebuilt it with a subscription attached.**
+**The man who runs this chain did NaNoWriMo by hand on DevTome.** Not on a laptop with a word-count widget — by hand, on the Devcoin writers' wiki, back when Devcoin was routing the bulk of every block's issuance into a pool that paid contributors by share count, with no employer, no invoice and no gatekeeper deciding who got funded. He wrote about Hannibal. He got paid for it.
 
-So no, we are not one more of those. We are the one that cannot do it to you.
+Devcoin got its tokenomics wrong and the price went where that always sends it, but **the idea was right and almost nobody has tried it since**: a chain that pays people for open work, directly, without anyone's permission.
+
+That is the whole reason this exists. We have a blockchain and a blog on it. You write, you post, you get paid. Not a prize draw, not a winner, not a sponsorship — the ordinary case.
 
 ## What we built, and why it looks like this
 

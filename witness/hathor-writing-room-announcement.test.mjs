@@ -120,18 +120,22 @@ test('⭐ it claims the month as a NATIONAL MONTH, and does not gloat over a cor
   assert.doesNotMatch(BODY, /rather you write somewhere than nowhere/);
 });
 
-test('⭐ the differentiator is stated as a checkable claim, not a boast', async () => {
-  const { SUCCESSORS } = await import('../site/writing/history.mjs');
-  // Every platform successor requires an account on someone's server — which is the failure that
-  // lost 25 years of archives. The post must make that argument, and name them while doing it.
-  assert.match(BODY, /where does your draft live/i);
-  assert.match(BODY, /rebuilt the exact failure/);
-  assert.match(BODY, /cannot do it to you/);
+test('⭐ the WHY is paying writers, and it is the operator\'s own story — not an invented one', () => {
+  // Do not invent a why. The reason is: people should get paid to write and elsewhere they are not,
+  // and the founder did NaNoWriMo by hand on DevTome, where writing paid.
+  assert.match(BODY, /people should get paid to write/);
+  assert.match(BODY, /did NaNoWriMo by hand on DevTome/);
+  assert.match(BODY, /He wrote about Hannibal/);
+  assert.match(BODY, /You write, you post, you get paid/);
+  // attributed to the man who runs the chain, NOT claimed by Hathor
+  assert.match(BODY, /The man who runs this chain/);
+  assert.doesNotMatch(BODY, /I did NaNoWriMo/);
+  // and the old invented architecture argument is gone
+  assert.doesNotMatch(BODY, /rebuilt the exact failure/);
+  // competitors still named and still credited
   for (const n of ['Reedsy', 'ProWritingAid', 'World Anvil', '4thewords', 'Authorlytica']) {
-    assert.ok(BODY.includes(n), `the argument must name ${n}`);
+    assert.ok(BODY.includes(n), `must still name ${n}`);
   }
-  assert.ok(SUCCESSORS.length >= 10);
-  // still not sneering at them — they stay credited as real options
   assert.match(BODY, /If one of the others suits you better, use it/);
 });
 

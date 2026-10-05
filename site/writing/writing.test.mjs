@@ -179,7 +179,7 @@ test('⭐ the surface claims the month too, not just the post', async () => {
   assert.match(b, /National Poetry Month/);
   assert.match(b, /nobody needs permission to observe November/i);
   assert.doesNotMatch(b, /NaNoWriMo is dead/i);
-  assert.match(b, /rebuilt the thing that killed it/);
+  assert.match(b, /You write, you post, you get paid/);
 });
 
 test('⭐ the draft stays unpaid, but sharing the process is where the chain comes in', async () => {
