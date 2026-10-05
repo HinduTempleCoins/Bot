@@ -251,9 +251,9 @@ ${TIMELINE.map((t) => `<tr><td style="white-space:nowrap"><b>${esc(t.when)}</b><
 ${SUCCESSORS.map((s) => `<tr><td><b>${esc(s.name)}</b></td><td class=small>${esc(s.by)}</td><td class=small>${esc(s.what)}</td></tr>`).join('')}
 </tbody></table></div>
 
-<h2>What we could not confirm</h2>
-<p class=small class=muted>These circulate in summaries of the collapse. We looked and could not establish that they exist as described. They are listed here rather than quietly dropped, so nobody re-adds them from a stale list:</p>
-<div class=card><p class=small>${UNVERIFIED.map((u) => `<span class="g unverified">${esc(u)}</span>`).join(' ')}</p></div>
+${UNVERIFIED.length ? `<h2>What we could not confirm</h2>
+<p class=small class=muted>These circulate in summaries of the collapse and we could not establish that they exist as described. They are listed rather than quietly dropped, so nobody re-adds them from a stale list:</p>
+<div class=card><p class=small>${UNVERIFIED.map((u) => `<span class="g unverified">${esc(u)}</span>`).join(' ')}</p></div>` : `<div class=card><p class=small class=muted><b>A note on how this list was checked.</b> Four of the groups above were briefly marked "unverified" here because one broad search did not surface them. All four are real, with founders, sites and running challenges. Absence from a single search result is not absence from the world — if you see a successor list that is missing PaWriCo, O2W, NaNo 2.0 or Novel 90, it was built the lazy way.</p></div>`}
 
 <h2>What we took from it</h2>
 <div class=card><table><tbody>

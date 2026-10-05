@@ -80,21 +80,34 @@ test('the history is graded, and nothing ungraded sneaks in', () => {
   assert.equal(faulkner.grade, 'contested', 'we record the departure, not the motive');
 });
 
-test('⭐ unverified organisations are never presented as real', async () => {
+test('⭐ anything still graded unverified is badged, never listed as real', async () => {
   const names = SUCCESSORS.map((s) => s.name.toLowerCase());
   for (const u of UNVERIFIED) {
     assert.equal(names.some((n) => n.includes(u.toLowerCase().split(' ')[0])), false,
       `${u} must not appear in the confirmed successor list`);
   }
   const b = (await get('/history')).body();
-  // they may appear, but only inside the unverified badge
   for (const u of UNVERIFIED) {
     const i = b.indexOf(esc(u));
     if (i === -1) continue;
     assert.match(b.slice(Math.max(0, i - 120), i), /g unverified/, `${u} must carry the unverified badge`);
   }
-  assert.ok(SUCCESSORS.length >= 5);
+  assert.ok(SUCCESSORS.length >= 10, 'the successor list must stay comprehensive');
   for (const s of SUCCESSORS) assert.ok(s.what.length > 30, s.name);
+});
+
+test('⭐ the four that were wrongly doubted are listed as real, with who runs them', async () => {
+  // These were marked unverified off ONE broad search. All four exist. The page must name them and
+  // must carry the note explaining how the mistake happened, so it is not repeated.
+  const b = (await get('/history')).body();
+  for (const [name, by] of [['PaWriCo', 'Rain and Jen'], ['Order of the Written Word', 'Holly Rhiannon'],
+    ['NaNo 2.0', 'Kristina Horner'], ['Novel 90', 'AutoCrit']]) {
+    const s = SUCCESSORS.find((x) => x.name.includes(name));
+    assert.ok(s, `${name} must be a confirmed successor`);
+    assert.match(s.by, new RegExp(by.split(' ')[0]), `${name} must say who runs it`);
+    assert.ok(b.includes(esc(s.name)), `${name} must render on the page`);
+  }
+  assert.match(b, /Absence from a single search result is not absence from the world/);
 });
 
 test('every interpolated value is escaped', () => {

@@ -4,10 +4,12 @@
 // THE RULE HERE IS THE LIBRARY'S RULE: every claim carries a grade.
 //   'established' — reported by multiple outlets / the organisation itself
 //   'contested'   — widely repeated but the detail is disputed or the causation is not supported
-//   'unverified'  — circulated in summaries we were handed, but we could not confirm it exists
-// An unverified organisation is NOT listed as though it exists. Three entries in the briefing we were
-// given turned out to be unconfirmable and are recorded below as exactly that, rather than deleted —
-// so the next person does not "rediscover" them and put them back.
+//   'unverified'  — circulated in summaries, but we could not confirm it exists
+//
+// A CORRECTION WORTH KEEPING: four organisations here were briefly marked unverified on the strength
+// of ONE broad search that did not surface them. All four are real, with founders, sites and running
+// challenges. Absence from a single search result is not absence from the world — when an entity is
+// named specifically, search for it specifically before grading it unverified.
 
 export const TIMELINE = [
   { when: '1999', grade: 'established',
@@ -42,17 +44,20 @@ export const SUCCESSORS = [
     what: 'An RPG where your word count is the combat mechanic — you defeat monsters by writing. It absorbed a large share of displaced NaNoWriMo users.' },
   { name: 'Authorlytica', by: 'independent', kind: 'tracker',
     what: 'A year-round tracker: streaks, pace projection, 50,000-word goals in any month, with a free tier.' },
+  { name: 'Pathfinders Writing Collective (PaWriCo)', by: 'Rain and Jen', kind: 'grassroots',
+    what: 'Founded by two friends who met through NaNoWriMo. Deliberately flexible: you set your own goal and define your own success, over an extended November-to-January window that survives the holidays. Four challenges a year, run through Discord, no fee.' },
+  { name: 'Order of the Written Word (O2W)', by: 'Holly Rhiannon', kind: 'grassroots',
+    what: 'Founded by a YA author who spent three years as NaNoWriMo\'s Montreal Municipal Liaison, started in direct response to the generative-AI statement. Discord-native, with a Novelist\'s Initiation at 30,000 words and separate poetry and short-story tracks, plus sprint sessions and a word-count bot.' },
+  { name: 'NaNo 2.0', by: 'Kristina Horner and Liz Leo', kind: 'grassroots',
+    what: 'Built by long-time NaNoWriMo participants to replace the accountability machinery rather than the brand.' },
+  { name: 'Novel 90', by: 'AutoCrit', kind: 'commercial',
+    what: 'A free 90-day challenge on a different shape entirely: October to plan, November to draft, December to edit. Writers pick a Planner, Pantser or Plantser team with its own coach, plus sprints and daily mail.' },
   { name: 'Local Discords and regional groups', by: 'former Municipal Leaders', kind: 'grassroots',
     what: 'Many of the volunteers who ran local write-ins simply kept running them, independently, without the brand.' },
 ];
 
-/** Claims we were handed that we could NOT confirm. Kept visible on purpose. */
-export const UNVERIFIED = [
-  'Pathfinders Writing Collective (#PaWriCo)',
-  'Order of the Written Word (O2W)',
-  "AutoCrit's \"Novel 90\"",
-  '"NaNo 2.0" as an organisation distinct from Novel November',
-];
+/** Nothing is currently unverified. Kept as a slot, and as a warning about how it got populated. */
+export const UNVERIFIED = [];
 
 /** The lesson we actually built against. */
 export const LESSONS = [

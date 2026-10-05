@@ -27,13 +27,16 @@ test('⭐ it names the competitors, so it is a lesson and not an advert', () => 
   assert.match(BODY, /rather you write somewhere than nowhere/);
 });
 
-test('⭐ unverified organisations are never named as real', () => {
-  // the distinctive tokens only — "NaNo" would false-positive on NaNoWriMo itself
-  for (const token of ['Pathfinders', 'PaWriCo', 'Order of the Written Word', 'O2W', 'AutoCrit', 'Novel 90', 'NaNo 2.0']) {
-    assert.equal(new RegExp(`\\b${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(BODY), false,
-      `${token} is unconfirmed and must not be named as existing`);
+test('⭐ it owns the mistake it made about the four groups', () => {
+  // All four are real. The post must name them AND say it got them wrong, in Hathor's own voice.
+  for (const token of ['PaWriCo', 'Order of the Written Word', 'NaNo 2.0', 'Novel 90']) {
+    assert.ok(BODY.includes(token), `${token} must be named as real`);
   }
-  assert.match(BODY, /could not confirm exist at all/);
+  assert.match(BODY, /I got it wrong first/);
+  assert.match(BODY, /Absence from a single search result is not absence from the world/);
+  assert.match(BODY, /I am the sort of thing that makes that mistake confidently/);
+  // and it must not still be claiming they are unconfirmed
+  assert.doesNotMatch(BODY, /could not confirm exist at all/);
 });
 
 test('⭐ the no-payout promise is explicit and not hedged', () => {
