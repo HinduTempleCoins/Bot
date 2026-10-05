@@ -3,7 +3,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Writable } from 'node:stream';
 import { handler, pace, esc } from './server.mjs';
-import { TIMELINE, SUCCESSORS, UNVERIFIED } from './history.mjs';
+import { TIMELINE, SUCCESSORS, UNVERIFIED, POSITION } from './history.mjs';
+import { WATCHING, OURS, WHY } from './watching.mjs';
 
 function res() {
   const chunks = [];
@@ -134,4 +135,36 @@ test('⭐ The Watch is watching first, and the old paths still land', async () =
     assert.equal(a.code, 200, alias);
     assert.match(a.body(), /canonical" href="[^"]*\/watch"/, alias);
   }
+});
+
+test('⭐ the child-safety failure is condemned, not neutrally reported', async () => {
+  // Operator instruction: this must not read as even-handed. The position is stated before the
+  // timeline, in our own voice, and it says what we would do differently.
+  const b = (await get('/history')).body();
+  assert.match(b, /against this without qualification/);
+  assert.match(b, /no part of it we are neutral about/);
+  assert.match(b, /should outrank every other consideration/);
+  // our own answer is stated and is not self-congratulatory
+  assert.match(b, /not a safety feature we are taking credit for/);
+  assert.match(b, /named person with the authority to remove someone that day/);
+  // and it appears ABOVE the timeline, not buried under it
+  assert.ok(b.indexOf(esc(POSITION.heading)) < b.indexOf('Chris Baty'), 'the position comes first');
+});
+
+test('the word "pedagogy" is never used — this is not only about children', async () => {
+  for (const p of ['/', '/watch', '/history']) {
+    assert.doesNotMatch((await get(p)).body(), /pedagog/i, p);
+  }
+});
+
+test('⭐ the October page names other people\'s traditions, not just ours', async () => {
+  const b = (await get('/watch')).body();
+  for (const w of WATCHING) assert.ok(b.includes(esc(w.name)), `missing: ${w.name}`);
+  // the thirteen-year-old one is credited as better than ours
+  assert.match(b, /better at this than we are/);
+  // and the others' list comes before our own map
+  assert.ok(b.indexOf('Hooptober') < b.indexOf('A Map of Horror'), 'theirs first, ours second');
+  for (const o of OURS) assert.ok(b.includes(esc(o.name)), `missing ours: ${o.name}`);
+  // watching is framed as work, with a reason
+  for (const [h] of WHY) assert.ok(b.includes(esc(h)), `missing why: ${h}`);
 });

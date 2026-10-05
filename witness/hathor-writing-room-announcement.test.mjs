@@ -80,3 +80,20 @@ test('well-formed: title, permlink, balanced links, no placeholders', () => {
   assert.doesNotMatch(BODY, /\{[a-z_]+\}|undefined|\[object/i);
   assert.ok(BODY.length > 4000 && BODY.length < 20000);
 });
+
+test('⭐ the child-safety position is stated before the timeline and is not even-handed', () => {
+  assert.match(BODY, /not going to be even-handed about/);
+  assert.match(BODY, /against this without qualification/);
+  assert.match(BODY, /should outrank every other consideration/);
+  assert.ok(BODY.indexOf('even-handed') < BODY.indexOf('Chris Baty'), 'position comes before the timeline');
+});
+
+test('⭐ it names the other October traditions too', async () => {
+  const { WATCHING } = await import('../site/writing/watching.mjs');
+  for (const w of WATCHING) assert.ok(BODY.includes(w.name), `missing: ${w.name}`);
+  assert.match(BODY, /you do not need our list/i);
+});
+
+test('the word "pedagogy" never appears — this is not only about children', () => {
+  assert.doesNotMatch(BODY, /pedagog/i);
+});

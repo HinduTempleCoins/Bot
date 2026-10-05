@@ -31,7 +31,8 @@
 import { createServer } from 'node:http';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
-import { TIMELINE, SUCCESSORS, UNVERIFIED, LESSONS } from './history.mjs';
+import { TIMELINE, SUCCESSORS, UNVERIFIED, LESSONS, POSITION } from './history.mjs';
+import { WATCHING, OURS, WHY } from './watching.mjs';
 
 const PORT = +(process.env.PORT || 8224);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -214,13 +215,22 @@ const PREP = `<h1>The Watch</h1>
 <p class=muted><b>October is the watch. November is the writing.</b> You spend a month looking hard at a great deal of work until you find the thing you actually want to write — because ideas do not arrive in an empty room — and then you spend a month writing it badly and fast.</p>
 <p class=muted>I keep watch on a blockchain for a living; in October the watch is a different kind. Same job, though: pay attention to what is actually there, for long enough that you start seeing the shape of it.</p>
 
+<h2>What is on in October</h2>
+<p class=muted>Other people have been doing this for decades and several are better at it than we are. Pick any of them — the point is the watching, not whose list you use.</p>
+<div class=card><table><thead><tr><th>What</th><th>Where</th><th></th></tr></thead><tbody>
+${WATCHING.map((w) => `<tr><td><b>${esc(w.name)}</b><br><span class=small style="color:var(--mut)">${esc(w.run)}</span></td><td class=small>${esc(w.where)}</td><td class=small>${esc(w.what)}</td></tr>`).join('')}
+</tbody></table></div>
+
+<h2>And the map, which is the part that connects watching to writing</h2>
 <div class=card>
-  <h3>What to watch</h3>
-  <p class=small>Every genre is a set of expectations a reader already has — what can happen, what it means when it does, how it is allowed to end. You cannot play with that grammar until you can see it. So we spent October mapping one genre properly, all the way down, as a worked example of what that looks like:</p>
-  <p><b><a href="https://stream.soapbox.community/horror/map">A Map of Horror</a></b> — the argument that horror is not one genre but <b>eight</b> that never got separated (supernatural, slasher, survival, body, cosmic, monster, exploitation, psychological), across <b>45 shelves</b>, with the borders where thriller, sci-fi and crime bleed in, and national cinemas from J-horror to Nollywood.</p>
-  <p><b><a href="https://stream.soapbox.community/horror/girl-has-to-kill-everyone">Girl Has to Kill Everyone</a></b> — one genre mapped on its own, to show what it looks like when you take a shelf seriously instead of treating it as a tone.</p>
-  <p class=small class=muted>You do not have to write horror. It is October, so horror is the example on the table — and a map of <em>any</em> genre done properly teaches you the same thing: where the walls are, and which ones are only painted on. Browse <a href="https://stream.soapbox.community/films">the films</a>, or <a href="https://hathor.soapbox.community/halloween">make something</a> while you think.</p>
+${OURS.map((o) => `<p><b><a href="${esc(o.url)}">${esc(o.name)}</a></b> — ${esc(o.what)}</p>`).join('')}
+<p class=small class=muted>You do not have to write horror. It is October, so horror is what is on the table — and a map of <em>any</em> genre done properly teaches the same thing: where the walls are, and which ones are only painted on. Browse <a href="https://stream.soapbox.community/films">the films</a>, or <a href="https://hathor.soapbox.community/halloween">make something</a> while you think.</p>
 </div>
+
+<h2>How to watch so it counts as work</h2>
+<div class=card><table><tbody>
+${WHY.map(([h, b]) => `<tr><td style="width:36%"><b>${esc(h)}</b></td><td class=small>${esc(b)}</td></tr>`).join('')}
+</tbody></table></div>
 
 <h2>Then put it down</h2>
 <p class=muted>Fill in as much or as little as you like — <b>it saves in your browser only</b>, and the Export button hands you the whole thing as a Markdown file.</p>
@@ -253,6 +263,12 @@ ${[['premise', 'The premise in one sentence', 'A sentence you could say out loud
 const HISTORY = `<h1>What happened to NaNoWriMo</h1>
 <p class=muted>It ran for twenty-five years, it ended on <b>March 31, 2025</b>, and the usual one-line version — "it died over AI" — is wrong in a way worth correcting. Every claim below carries a grade.</p>
 <p class=small><span class="g established">established</span> multiple outlets or the organisation itself &nbsp; <span class="g contested">contested</span> widely repeated, detail or causation not supported &nbsp; <span class="g unverified">unverified</span> we could not confirm it exists</p>
+
+<div class=card style="border-left:5px solid #9a3b35">
+  <h3>${esc(POSITION.heading)}</h3>
+  <p>${esc(POSITION.body)}</p>
+  <p class=small>${esc(POSITION.ours)}</p>
+</div>
 <div class=card><table><tbody>
 ${TIMELINE.map((t) => `<tr><td style="white-space:nowrap"><b>${esc(t.when)}</b><br><span class="g ${esc(t.grade)}">${esc(t.grade)}</span></td><td>${esc(t.what)}</td></tr>`).join('')}
 </tbody></table></div>

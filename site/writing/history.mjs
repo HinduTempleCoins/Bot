@@ -15,9 +15,9 @@ export const TIMELINE = [
   { when: '1999', grade: 'established',
     what: 'Chris Baty starts NaNoWriMo with 21 friends in the San Francisco Bay Area. It becomes a non-profit and, at its peak, draws hundreds of thousands of writers a year to the same deal: 50,000 words, 30 days, start November 1.' },
   { when: 'May 2023', grade: 'established',
-    what: 'Users raise a child-safety complaint about a long-time volunteer moderator on the Young Writers Program forums, alleging that minors were being directed off-platform to adult content. Reports describe the organisation as slow to acknowledge or act.' },
+    what: 'Users raise a child-safety complaint about a long-time volunteer moderator on the Young Writers Program forums — the programme for CHILDREN — alleging that minors were being directed off-platform to adult content. This is the most serious thing in the whole story and the part that deserved the fastest response. Reports describe the organisation as slow to acknowledge or act.' },
   { when: 'November 2023', grade: 'established',
-    what: 'The forums are taken down entirely rather than moderated. The moderator is eventually removed — but for unrelated code-of-conduct violations, not the grooming allegation itself. That distinction matters and is usually dropped in retellings.' },
+    what: 'The forums are taken down entirely rather than moderated. The moderator is eventually removed — but for unrelated code-of-conduct violations, not the grooming allegation itself. That distinction is usually dropped in retellings and it should not be: the complaint about children was not what finally moved them. Deleting the forum also deleted the evidence and the thread the reporters had built.' },
   { when: '2023–2024', grade: 'contested',
     what: 'Executive director Grant Faulkner departs and Kilby Blades becomes interim executive director. Faulkner is often said to have resigned *over* the moderation scandal; the public record shows the departure but not that causation. We record the sequence, not the motive.' },
   { when: 'Early 2024', grade: 'contested',
@@ -59,10 +59,18 @@ export const SUCCESSORS = [
 /** Nothing is currently unverified. Kept as a slot, and as a warning about how it got populated. */
 export const UNVERIFIED = [];
 
+/** Where we stand, stated rather than implied. Rendered at the top of the history page and carried in
+ *  Hathor's post — the operator's instruction is that this must not read as neutral reporting. */
+export const POSITION = {
+  heading: 'Before the timeline: where we stand on the child-safety failure',
+  body: 'An adult volunteer was accused of using a writing programme for children to move minors toward adult material, and the organisation that ran it was slow. We are against this without qualification and there is no part of it we are neutral about. Nothing below is an attempt to be even-handed on that point. Two things are worth saying plainly, because they are the ones that get lost: a report about a child should outrank every other consideration an organisation has, including its own reputation and its lawyers — and when the eventual removal happens for some unrelated rule instead, that is not a loose end, it is the organisation telling you what it actually responded to. Deleting the forum also destroyed the record the people reporting it had built.',
+  ours: 'This surface has no forums, no accounts, no profiles, no messaging and no way for anyone to contact anyone. That is not a safety feature we are taking credit for — it is simply what a private drafting tool is, and it means the failure mode above cannot happen here. If we ever build a place where writers can talk to each other, especially one that young writers use, the rule is set now: reports about minors go to a named person with the authority to remove someone that day, and they are never routed through whoever is worried about the brand.',
+};
+
 /** The lesson we actually built against. */
 export const LESSONS = [
   ['The archive was the real loss.', 'Not the brand — the records. Twenty-five years of word counts and forum history vanished because they lived on one organisation\'s servers, under one organisation\'s budget. A writing tool should not be able to take your work with it when it dies.'],
-  ['Centralised moderation failed the people it was for.', 'Reports went to one inbox and sat there. The volunteers closest to the harm had the least power to act.'],
+  ['The child-safety report was the one that mattered and it moved slowest.', 'Reports went to one inbox and sat there, and the volunteers closest to the harm had the least power to act. An organisation that cannot act fast on a complaint about a child has already failed, whatever else it gets right.'],
   ['The AI fight was handled as PR, not as a position.', 'A sweeping claim, a backlash, a walk-back. Writers were never offered a way to simply say what they used.'],
   ['Unpaid volunteers carried it and were the first to be squeezed.', 'The local organisers were the product and were handed liability.'],
   ['Money, not drama, closed it.', 'Four deficit years out of six. The scandals cost trust and donors, but the arithmetic is what ended it.'],
