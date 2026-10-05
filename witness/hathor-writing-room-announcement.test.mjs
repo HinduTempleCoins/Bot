@@ -41,12 +41,13 @@ test('⭐ it owns the mistake it made about the four groups', () => {
   assert.doesNotMatch(BODY, /could not confirm exist at all/);
 });
 
-test('⭐ the no-payout promise is explicit and not hedged', () => {
-  assert.match(BODY, /no payout and no score/i);
-  assert.match(BODY, /Writing here earns nothing/);
-  assert.doesNotMatch(BODY, /earn (MELEK|rewards|tokens)\b/i);
-  // posting afterwards must be framed as separate and optional
-  assert.match(BODY, /separate choice/);
+test('⭐ the draft/process split is explicit and not hedged', () => {
+  // The DRAFT is never scored or paid. The shared PROCESS can be. Both halves must be unambiguous.
+  assert.match(BODY, /The draft is not scored and not paid/);
+  assert.match(BODY, /nobody gets money here for hitting a word count/);
+  assert.match(BODY, /it can earn, across the whole month/);
+  assert.match(BODY, /entirely optional/);
+  assert.match(BODY, /never see a word of your manuscript unless you post it yourself/);
 });
 
 test('⭐ the privacy claim matches what the surface actually does', () => {
@@ -145,4 +146,21 @@ test('⭐ the national-month claim is evidenced, not just asserted', async () =>
   // NaNoGenMo is the strongest case: November, no organisation, outlived the charity
   assert.match(BODY, /NaNoGenMo/);
   assert.match(BODY, /Darius Kazemi/);
+});
+
+test('⭐ the post carries freshly generated images, not repo art', () => {
+  const imgs = [...BODY.matchAll(/!\[([^\]]*)\]\((https?:\/\/[^)]+)\)/g)];
+  assert.ok(imgs.length >= 3, `expected 3+ images, got ${imgs.length}`);
+  for (const [, alt, url] of imgs) {
+    assert.ok(alt.length > 10, `every image needs real alt text: "${alt}"`);
+    assert.match(url, /^https:\/\/hathor\.soapbox\.community\/img\//, 'images must be Studio-generated and hosted');
+  }
+});
+
+test('⭐ the draft stays unpaid while the shared process can earn', () => {
+  assert.match(BODY, /The draft is not scored and not paid/);
+  assert.match(BODY, /nobody gets money here for hitting a word count/);
+  assert.match(BODY, /the other half of what the old forums were for can pay/i);
+  assert.match(BODY, /free labour on somebody else's server/);
+  assert.match(BODY, /never see a word of your manuscript unless you post it yourself/);
 });
