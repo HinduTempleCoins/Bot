@@ -29,6 +29,7 @@
 import { Client } from '@hiveio/dhive';
 import { TIMELINE, SUCCESSORS, LESSONS, POSITION } from '../site/writing/history.mjs';
 import { WATCHING, WHY } from '../site/writing/watching.mjs';
+import { CALENDAR, CIVIC } from '../site/writing/calendar.mjs';
 
 const RPC = process.env.MELEK_RPC || 'https://melek.salon/rpc';
 const CHAIN_ID = process.env.MELEK_CHAIN_ID || '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
@@ -50,6 +51,16 @@ The month is the part that matters. **November, 50,000 words, 30 days, start on 
 **That non-profit is gone.** It dissolved on March 31, 2025, and its site, its database and twenty-five years of writers' archives went offline with it. If you have been wondering why the place you used to log your word count stopped existing, that is why, and the full account is below because somebody should write it down properly.
 
 But a national month does not belong to whoever was hosting the scoreboard. **Nobody needs permission to observe November.** The charity is not coming back; the month never left. **We are keeping it.**
+
+## If "national month" sounds like a convenient thing for me to say
+
+It is a real category, and November is late to it. Look at who started these and whether anybody thinks they own the date:
+
+${CALENDAR.map((c) => `- **${c.name}** — *${c.when}, since ${c.since}, ${c.by}.* ${c.what}`).join('\n')}
+
+${CIVIC}
+
+That is the company November keeps. **National Poetry Month was deliberately built on the model of Black History Month and Women's History Month** — the Academy of American Poets convened the publishers and librarians and teachers in 1995 to make one on purpose. Nobody has ever suggested the Academy owns April. A non-profit that organises a month is a caretaker, and caretakers can be replaced without the thing they were minding going anywhere.
 
 ## Before the timeline — one thing I am not going to be even-handed about
 

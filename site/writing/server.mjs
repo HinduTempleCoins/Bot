@@ -33,6 +33,7 @@ import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../int
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 import { TIMELINE, SUCCESSORS, UNVERIFIED, LESSONS, POSITION } from './history.mjs';
 import { WATCHING, OURS, WHY } from './watching.mjs';
+import { CALENDAR, CIVIC } from './calendar.mjs';
 
 const PORT = +(process.env.PORT || 8224);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -276,6 +277,13 @@ const HISTORY = `<h1>What happened to NaNoWriMo</h1>
 <div class=card><table><tbody>
 ${TIMELINE.map((t) => `<tr><td style="white-space:nowrap"><b>${esc(t.when)}</b><br><span class="g ${esc(t.grade)}">${esc(t.grade)}</span></td><td>${esc(t.what)}</td></tr>`).join('')}
 </tbody></table></div>
+
+<h2>November is one of several</h2>
+<p class=muted>If the claim that November is a <em>national month</em> rather than a company's product sounds like a convenient thing for us to say, here is the category it belongs to.</p>
+<div class=card><table><thead><tr><th>Month</th><th>What</th><th></th></tr></thead><tbody>
+${CALENDAR.map((c) => `<tr><td style="white-space:nowrap"><b>${esc(c.when)}</b><br><span class=small style="color:var(--mut)">since ${esc(String(c.since))}</span></td><td><b>${esc(c.name)}</b><br><span class=small style="color:var(--mut)">${esc(c.by)}</span></td><td class=small>${esc(c.what)}</td></tr>`).join('')}
+</tbody></table>
+<p class=small>${esc(CIVIC)}</p></div>
 
 <h2>Where the challenge went</h2>
 <p class=muted>The 50,000-word deal outlived the organisation that ran it. These are the successors we could confirm.</p>

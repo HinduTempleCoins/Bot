@@ -5,6 +5,7 @@ import { Writable } from 'node:stream';
 import { handler, pace, esc } from './server.mjs';
 import { TIMELINE, SUCCESSORS, UNVERIFIED, POSITION } from './history.mjs';
 import { WATCHING, OURS, WHY } from './watching.mjs';
+import { CALENDAR } from './calendar.mjs';
 
 function res() {
   const chunks = [];
@@ -191,4 +192,17 @@ test('⭐ the draft stays unpaid, but sharing the process is where the chain com
   assert.match(b, /it can earn, through the whole month/);
   assert.match(b, /entirely optional/);
   assert.match(b, /never see a word of your novel unless you post it yourself/);
+});
+
+test('⭐ the national-month claim is backed by the actual calendar', async () => {
+  const b = (await get('/history')).body();
+  for (const c of CALENDAR) {
+    assert.ok(b.includes(esc(c.name)), `missing: ${c.name}`);
+    assert.ok(b.includes(esc(c.by)), `${c.name} must credit who started it`);
+  }
+  // the detail that settles the argument: April was modelled on civic observances nobody owns
+  assert.match(b, /Black History Month and Women's History Month/);
+  // and the one that proves no institution is needed at all
+  assert.match(b, /NaNoGenMo/);
+  assert.match(b, /nothing that can go bankrupt/);
 });

@@ -80,7 +80,9 @@ test('well-formed: title, permlink, balanced links, no placeholders', () => {
   assert.match(PERMLINK, /^[a-z0-9-]+$/);
   assert.equal((BODY.match(/\[/g) || []).length, (BODY.match(/\]/g) || []).length);
   assert.doesNotMatch(BODY, /\{[a-z_]+\}|undefined|\[object/i);
-  assert.ok(BODY.length > 4000 && BODY.length < 20000);
+  // Long on purpose: a full timeline, 11 successors, 7 October traditions, 5 national months and the
+  // design argument. The ceiling is a guard against runaway generation, not a style limit.
+  assert.ok(BODY.length > 4000 && BODY.length < 28000, `body is ${BODY.length} chars`);
 });
 
 test('⭐ the child-safety position is stated before the timeline and is not even-handed', () => {
@@ -130,4 +132,17 @@ test('⭐ the differentiator is stated as a checkable claim, not a boast', async
   assert.ok(SUCCESSORS.length >= 10);
   // still not sneering at them — they stay credited as real options
   assert.match(BODY, /If one of the others suits you better, use it/);
+});
+
+test('⭐ the national-month claim is evidenced, not just asserted', async () => {
+  const { CALENDAR } = await import('../site/writing/calendar.mjs');
+  for (const c of CALENDAR) {
+    assert.ok(BODY.includes(c.name), `missing: ${c.name}`);
+    assert.ok(BODY.includes(c.by), `${c.name} must credit who started it`);
+  }
+  assert.match(BODY, /Black History Month and Women's History Month/);
+  assert.match(BODY, /caretakers can be replaced/);
+  // NaNoGenMo is the strongest case: November, no organisation, outlived the charity
+  assert.match(BODY, /NaNoGenMo/);
+  assert.match(BODY, /Darius Kazemi/);
 });
