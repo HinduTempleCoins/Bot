@@ -21,10 +21,12 @@ test('⭐ it teaches the three corrections, not the popular version', () => {
   assert.match(BODY, /not what the arithmetic says|were not the sole cause/);
 });
 
-test('⭐ it names the competitors, so it is a lesson and not an advert', () => {
+test('⭐ it names every competitor honestly while still claiming the month', () => {
+  // Naming them is credibility, not deference: the list is what makes the "where does your draft
+  // live" argument land. What it must NOT do is hand them the month.
   for (const s of SUCCESSORS) assert.ok(BODY.includes(s.name), `missing successor: ${s.name}`);
-  assert.match(BODY, /better resourced than we are/);
-  assert.match(BODY, /rather you write somewhere than nowhere/);
+  assert.match(BODY, /including the ones with more money than us/);
+  assert.match(BODY, /noticed the chair was empty/);
 });
 
 test('⭐ it owns the mistake it made about the four groups', () => {
@@ -99,4 +101,30 @@ test('⭐ it names the other October traditions too', async () => {
 
 test('the word "pedagogy" never appears — this is not only about children', () => {
   assert.doesNotMatch(BODY, /pedagog/i);
+});
+
+test('⭐ it claims the month instead of abdicating it', async () => {
+  // This is a takeover, not a humble entry in a list of successors. The old copy said "I would
+  // rather you write somewhere than nowhere", which hands the month to whoever else shows up.
+  assert.match(TITLE, /Taking November/);
+  assert.match(BODY, /we are taking the month off the floor/);
+  assert.match(BODY, /What died was an organisation\. What is vacant is a role\. We want it\./);
+  assert.match(BODY, /belongs to whoever shows up on the 1st/);
+  assert.doesNotMatch(BODY, /rather you write somewhere than nowhere/);
+  assert.doesNotMatch(BODY, /better resourced than we are/);
+});
+
+test('⭐ the differentiator is stated as a checkable claim, not a boast', async () => {
+  const { SUCCESSORS } = await import('../site/writing/history.mjs');
+  // Every platform successor requires an account on someone's server — which is the failure that
+  // lost 25 years of archives. The post must make that argument, and name them while doing it.
+  assert.match(BODY, /where does your draft live/i);
+  assert.match(BODY, /rebuilt the exact failure/);
+  assert.match(BODY, /cannot do it to you/);
+  for (const n of ['Reedsy', 'ProWritingAid', 'World Anvil', '4thewords', 'Authorlytica']) {
+    assert.ok(BODY.includes(n), `the argument must name ${n}`);
+  }
+  assert.ok(SUCCESSORS.length >= 10);
+  // still not sneering at them — they stay credited as real options
+  assert.match(BODY, /If one of the others suits you better, use it/);
 });

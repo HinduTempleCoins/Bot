@@ -110,7 +110,8 @@ ${head}${STYLE}</head><body>
 
 const d = pace({});
 const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
-<p class=muted>The November challenge, run the way it should have been: <b>your draft never leaves your browser</b>. No account. No word-count leaderboard. No payouts. Nothing to lose when we're gone — because we never had it.</p>
+<p class=muted><b>NaNoWriMo is dead and we are taking November.</b> 50,000 words in 30 days was never intellectual property — it is a dare, and it outlived the charity that used to administer it. What died was an organisation. What is vacant is a role.</p>
+<p class=muted>Every other successor rebuilt the thing that killed it: an account, a login, a database on somebody else's machine under somebody else's budget. <b>Your draft never leaves your browser.</b> No account. No leaderboard. No payouts. Nothing for us to lose when we're gone — because we never had it. <a href="${bp('/history')}">Here is the whole argument</a>.</p>
 
 <div class="card grid">
   <div class=stat><b id=s-words>0</b><span>words written</span></div>

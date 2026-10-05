@@ -171,3 +171,10 @@ test('⭐ the October page names other people\'s traditions, not just ours', asy
   // watching is framed as work, with a reason
   for (const [h] of WHY) assert.ok(b.includes(esc(h)), `missing why: ${h}`);
 });
+
+test('⭐ the surface claims the month too, not just the post', async () => {
+  const b = (await get('/')).body();
+  assert.match(b, /NaNoWriMo is dead and we are taking November/);
+  assert.match(b, /never intellectual property/);
+  assert.match(b, /rebuilt the thing that killed it/);
+});
