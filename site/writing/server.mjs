@@ -90,7 +90,7 @@ footer{border-top:1px solid var(--line);padding:18px 16px;color:var(--mut);font-
 a{color:var(--acc)}
 </style>`;
 
-const NAV = `<a href="${bp('/')}">The challenge</a><a href="${bp('/preptober')}">Preptober</a><a href="${bp('/history')}">What happened</a>`;
+const NAV = `<a href="${bp('/')}">The challenge</a><a href="${bp('/october')}">October</a><a href="${bp('/history')}">What happened</a>`;
 const FOOTER = `<footer>Your writing stays in your browser — we never receive it. <a href="${bp('/history')}">Why that matters</a>.<br>Part of <a href="https://soapbox.community">SoapBox</a>. No payouts, no scoring, no account.</footer>`;
 
 function pageHtml(title, body, opts = {}) {
@@ -210,8 +210,19 @@ const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
   render();
 })();</script>`;
 
-const PREP = `<h1>Preptober</h1>
-<p class=muted>October is for the part that makes November survivable. Fill in as much or as little as you like — <b>it saves in your browser only</b>, and the Export button hands you the whole thing as a file.</p>
+const PREP = `<h1>October is for finding the book</h1>
+<p class=muted>November is for drafting badly and fast. <b>October is for working out what you actually want to write</b> — and the honest way to do that is to go and look at a lot of it. Read, watch, argue with things. Ideas do not arrive in an empty room.</p>
+
+<div class=card>
+  <h3>Go and look at the shapes first</h3>
+  <p class=small>Every genre is a set of expectations a reader already has — what can happen, what it means when it does, how it is allowed to end. You cannot play with that grammar until you can see it. So we spent October mapping one genre properly, all the way down, as a worked example of what that looks like:</p>
+  <p><b><a href="https://stream.soapbox.community/horror/map">A Map of Horror</a></b> — the argument that horror is not one genre but <b>eight</b> that never got separated (supernatural, slasher, survival, body, cosmic, monster, exploitation, psychological), across <b>45 shelves</b>, with the borders where thriller, sci-fi and crime bleed in, and national cinemas from J-horror to Nollywood.</p>
+  <p><b><a href="https://stream.soapbox.community/horror/girl-has-to-kill-everyone">Girl Has to Kill Everyone</a></b> — one genre mapped on its own, to show what it looks like when you take a shelf seriously instead of treating it as a tone.</p>
+  <p class=small class=muted>You do not have to write horror. It is October, so horror is the example on the table — and a map of <em>any</em> genre done properly teaches you the same thing: where the walls are, and which ones are only painted on. Browse <a href="https://stream.soapbox.community/films">the films</a>, or <a href="https://hathor.soapbox.community/halloween">make something</a> while you think.</p>
+</div>
+
+<h2>Then put it down</h2>
+<p class=muted>Fill in as much or as little as you like — <b>it saves in your browser only</b>, and the Export button hands you the whole thing as a Markdown file.</p>
 ${[['premise', 'The premise in one sentence', 'A sentence you could say out loud to a stranger. If it takes a paragraph, it is not a premise yet.'],
    ['want', 'What the main character wants, and what stands in the way', 'Want plus obstacle is the engine. Everything else is decoration on top of it.'],
    ['cast', 'The cast', 'Name, what they want, and what they are wrong about. Three lines each is plenty.'],
@@ -271,11 +282,17 @@ export async function handler(req, res) {
     };
     if (p === '/health') { res.writeHead(200, { 'content-type': 'application/json' }); return res.end('{"ok":true}'); }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(`${robotsTxt(BASE_URL)}\nSitemap: ${BASE_URL}/sitemap.xml\n`); }
-    if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemapXml(BASE_URL, ['/', '/preptober', '/history'])); }
+    if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemapXml(BASE_URL, ['/', '/october', '/history'])); }
     if (p === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml()); }
     if (p === '/llms.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(llmsTxt(BASE_URL, SITE_NAME)); }
     if (p === '/') return html(200, '50,000 words in 30 days — The Writing Room', CHALLENGE, { path: '/' });
-    if (p === '/preptober') return html(200, 'Preptober — plan the book before November', PREP, { path: '/preptober', description: 'Preptober planning worksheets that save in your browser only — premise, cast, beats and your rules for the month.' });
+    // /october is the real name; /preptober is kept because it is still what writers search in October.
+    if (p === '/october' || p === '/preptober') {
+      return html(200, 'October — find the book before you write it', PREP, {
+        path: '/october', canonical: `${BASE_URL}/october`,
+        description: 'October is for reading, watching and finding the thing you actually want to write. Genre maps, then seven planning cards that save in your browser only.',
+      });
+    }
     if (p === '/history') return html(200, 'What happened to NaNoWriMo — the graded record', HISTORY, { path: '/history', description: 'NaNoWriMo dissolved on March 31, 2025. The timeline, the confirmed successors, and the claims that do not check out — each one graded.' });
     return html(404, 'Not found — The Writing Room', `<h1>Not found</h1><p class=muted>That page doesn't exist. <a href="${bp('/')}">Start the challenge</a>.</p>`, { robots: 'noindex,follow' });
   } catch (e) {

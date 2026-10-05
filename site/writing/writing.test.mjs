@@ -113,3 +113,21 @@ test('⭐ the four that were wrongly doubted are listed as real, with who runs t
 test('every interpolated value is escaped', () => {
   assert.equal(esc('<script>"&'), '&lt;script&gt;&quot;&amp;');
 });
+
+test('⭐ October is exploration first, and /preptober still lands', async () => {
+  // The October work is reading and watching — ideas do not arrive in an empty room. The horror map
+  // is the worked example of a genre's grammar, and it must be linked before the planning cards.
+  const r = await get('/october');
+  assert.equal(r.code, 200);
+  const b = r.body();
+  assert.match(b, /finding the book/i);
+  assert.match(b, /stream\.soapbox\.community\/horror\/map/);
+  assert.match(b, /stream\.soapbox\.community\/horror\/girl-has-to-kill-everyone/);
+  assert.ok(b.indexOf('horror/map') < b.indexOf('data-prep'), 'look at the shapes before filling in cards');
+  // horror is the example, not a requirement
+  assert.match(b, /You do not have to write horror/);
+  // the old search term still resolves, to the same page, canonicalised to /october
+  const alias = await get('/preptober');
+  assert.equal(alias.code, 200);
+  assert.match(alias.body(), /canonical" href="[^"]*\/october"/);
+});
