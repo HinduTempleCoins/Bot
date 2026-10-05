@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // hathor-writing-room-announcement.mjs — Hathor teaches what happened to NaNoWriMo and announces
-// The Writing Room.
+// Hathor Metatron.
 //
 // WHY THIS POST. NaNoWriMo dissolved on 2025-03-31 and took its site, database and twenty-five years
 // of writers' archives with it. Preptober is now; November 1 is weeks away. Hundreds of thousands of

@@ -1,4 +1,4 @@
-// server.mjs — The Writing Room (write.soapbox.community). Preptober + the November 50,000-word
+// server.mjs — Hathor Metatron — November (write.soapbox.community). Preptober + the November 50,000-word
 // challenge, and a private drafting studio that keeps your work in YOUR browser.
 //
 // WHY THIS EXISTS. NaNoWriMo dissolved on 2026-03-31 (financial, after the moderation and AI
@@ -38,7 +38,7 @@ import { CALENDAR, CIVIC } from './calendar.mjs';
 const PORT = +(process.env.PORT || 8224);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
-const SITE_NAME = process.env.SITE_NAME || 'The Writing Room';
+const SITE_NAME = process.env.SITE_NAME || 'Hathor Metatron';
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
 const bp = (p) => BASE_PATH + p;
 
@@ -105,7 +105,7 @@ function pageHtml(title, body, opts = {}) {
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 ${head}${STYLE}</head><body>
-<header class=topbar><a class=brand href="${bp('/')}">✒ The Writing <span>Room</span></a><nav class=topbar-r>${NAV}</nav></header>
+<header class=topbar><a class=brand href="${bp('/')}">✒ Hathor <span>Metatron</span></a><nav class=topbar-r>${NAV}</nav></header>
 <main class=wrap>${body}</main>${FOOTER}</body></html>`;
 }
 
@@ -156,7 +156,7 @@ const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
   <p class=small><b>Nothing you type above is scored, ranked or paid.</b> That is deliberate and it does not change: a first draft should not be an audience performance, and nobody gets money for hitting a word count here.</p>
   <p class=small>But the other half of what the old forums were for — <b>posting a character you just worked out, a scene you are pleased with, the map of your world, what you learned on day 14</b> — that was always the good part, and it was always free labour on somebody else's server. We run a blockchain with a blog on it. <b>If you choose to post that work publicly, it can earn, through the whole month, not just at the end.</b></p>
   <p class=small>It is entirely optional, it is a separate decision from drafting, and <b>we never see a word of your novel unless you post it yourself</b>. Keep the manuscript private and share the process; share nothing at all; or publish the finished thing in December. Your call, every time.</p>
-  <p class=small class=muted>Publish on <a href="https://melek.salon">MELEK</a> · build a reader list with <a href="https://pentecaust.com">Pentecaust Herald</a> · <a href="${bp('/history')}">why we think this is the part the others cannot copy</a></p>
+  <p class=small class=muted>Publish on <a href="https://melek.salon">MELEK</a> · build a reader list with <a href="https://pentecaust.com/metatron">Hathor Metatron</a> · <a href="${bp('/history')}">why we think this is the part the others cannot copy</a></p>
 </div>
 
 <script>(function(){
@@ -314,7 +314,7 @@ export async function handler(req, res) {
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemapXml(BASE_URL, ['/', '/watch', '/history'])); }
     if (p === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml()); }
     if (p === '/llms.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(llmsTxt(BASE_URL, SITE_NAME)); }
-    if (p === '/') return html(200, '50,000 words in 30 days — The Writing Room', CHALLENGE, { path: '/' });
+    if (p === '/') return html(200, '50,000 words in 30 days — Hathor Metatron', CHALLENGE, { path: '/' });
     // /watch is the name; /october and /preptober are kept because they are what people type in October.
     if (p === '/watch' || p === '/october' || p === '/preptober') {
       return html(200, 'The Watch — a month of horror, then a month of writing', PREP, {
@@ -323,7 +323,7 @@ export async function handler(req, res) {
       });
     }
     if (p === '/history') return html(200, 'What happened to NaNoWriMo — the graded record', HISTORY, { path: '/history', description: 'NaNoWriMo dissolved on March 31, 2025. The timeline, the confirmed successors, and the claims that do not check out — each one graded.' });
-    return html(404, 'Not found — The Writing Room', `<h1>Not found</h1><p class=muted>That page doesn't exist. <a href="${bp('/')}">Start the challenge</a>.</p>`, { robots: 'noindex,follow' });
+    return html(404, 'Not found — Hathor Metatron', `<h1>Not found</h1><p class=muted>That page doesn't exist. <a href="${bp('/')}">Start the challenge</a>.</p>`, { robots: 'noindex,follow' });
   } catch (e) {
     res.writeHead(500, { 'content-type': 'text/plain' });
     res.end('error: ' + (e && e.message ? e.message : 'unknown'));
@@ -331,5 +331,5 @@ export async function handler(req, res) {
 }
 
 if (process.argv[1] && /server\.mjs$/.test(process.argv[1]) && /site\/writing\//.test(process.argv[1])) {
-  createServer(handler).listen(PORT, HOST, () => console.log(`The Writing Room on ${BASE_URL} (bound ${HOST}:${PORT})`));
+  createServer(handler).listen(PORT, HOST, () => console.log(`Hathor Metatron — November on ${BASE_URL} (bound ${HOST}:${PORT})`));
 }
