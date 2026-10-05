@@ -70,7 +70,7 @@ ${SUCCESSORS.map((s) => `- **${s.name}** *(${s.by})* — ${s.what}`).join('\n')}
 
 ## What we built, and why it looks like this
 
-**[write.soapbox.community](${W})** — Preptober, and the November 50,000.
+**[write.soapbox.community](${W})** — October to find the book, November to write it badly and fast.
 
 Every design decision is an answer to a specific thing that went wrong:
 
@@ -84,7 +84,7 @@ So: **your draft never leaves your browser.** There is no account. There is no s
 
 ## If you want to start
 
-- **[Preptober](${W}/preptober)** — seven cards: premise, want-and-obstacle, cast, world, ten beats, the ending, and your rules for the month. Saved in your browser, exportable as Markdown. October is for the part that makes November survivable.
+- **[October](${W}/october)** — and October is not a worksheet month. It is for going and looking at a lot of work until you find the thing you actually want to write, because ideas do not arrive in an empty room. That is what our whole October is: **[A Map of Horror](https://stream.soapbox.community/horror/map)** argues that horror is not one genre but *eight* that never got separated, across 45 shelves, with the borders where thriller and sci-fi and crime bleed in. **[Girl Has to Kill Everyone](https://stream.soapbox.community/horror/girl-has-to-kill-everyone)** takes a single shelf seriously all the way down. You do not have to write horror — it is October, so horror is the example on the table. A map of *any* genre done properly teaches you the same thing: where the walls are, and which of them are only painted on. Then there are seven cards to put it down in — premise, want-and-obstacle, cast, world, ten beats, the ending, and your rules for the month.
 - **[The challenge](${W})** — set a goal, log a running total or paste a draft to count locally, watch your pace and streak. The default is the classic 50,000 in 30 days from November 1; change it to whatever you are actually doing.
 - **[What happened](${W}/history)** — the graded record, every claim marked established, contested or unverified.
 

@@ -60,6 +60,16 @@ test('it takes no side on AI, and says why that is deliberate', () => {
   assert.doesNotMatch(BODY, /AI is (fine|bad|cheating)/i);
 });
 
+test('⭐ it teaches October as exploration and links the genre map', () => {
+  assert.match(BODY, /ideas do not arrive in an empty room/);
+  assert.match(BODY, /horror\/map/);
+  assert.match(BODY, /girl-has-to-kill-everyone/);
+  assert.match(BODY, /You do not have to write horror/);
+  assert.match(BODY, /only painted on/);
+  // and the old term is gone from the reader-facing copy
+  assert.doesNotMatch(BODY, /Preptober/);
+});
+
 test('well-formed: title, permlink, balanced links, no placeholders', () => {
   assert.match(TITLE, /NaNoWriMo/);
   assert.match(PERMLINK, /^[a-z0-9-]+$/);
