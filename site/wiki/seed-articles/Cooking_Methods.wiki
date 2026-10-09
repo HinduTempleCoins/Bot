@@ -1,0 +1,112 @@
+'''Cooking Methods''' are the systematic ways in which heat is transferred to food to transform its texture, flavor, color, and safety. Classical culinary education organizes them along a single master distinction: '''dry-heat methods''', in which heat reaches the food through hot air, hot metal, hot fat, or radiant energy — with no water involved — and '''moist-heat methods''', in which heat is carried by water or steam. A third family, the '''combination methods''' (braising and stewing), uses both in sequence. The choice of method is not arbitrary: it follows from the cut of food. Tender cuts with little connective tissue (a chicken breast, a tenderloin, a fish fillet) suit the fast, high-heat dry methods; tough cuts rich in collagen (shank, shoulder, brisket) need the long, low, moist methods that dissolve collagen into gelatin. This article maps the full family of methods — how each works, when to use it, examples, and a short example recipe for each — and then treats three techniques every cook must internalize: '''emulsions''', the '''creaming method''', and '''tempering'''. It extends the [[Culinary Arts]] reference and complements [[Stocks and Broths]] and [[The Five Mother Sauces]].
+
+== The Governing Principles ==
+* '''The Maillard reaction''' — the browning of proteins and sugars that begins around 300°F (150°C) and builds the deep, savory, roasted flavors of a seared steak, toasted bread, and brown stock. It requires a dry, hot surface; it cannot happen underwater, which caps at 212°F (100°C). This is the central reason dry-heat methods taste "roasted" and moist-heat methods taste "clean."
+* '''Caramelization''' — the browning of sugars alone, from about 320°F (160°C); responsible for the color of caramelized onions and roasted vegetables.
+* '''Conduction, convection, radiation''' — heat moves by direct contact (a pan), by a moving fluid (hot air in an oven, water in a pot), and by radiant waves (a broiler, glowing coals). Every method is a particular blend of these.
+* '''Carryover cooking''' — large roasts keep rising in internal temperature after they leave the heat; pull them a few degrees early and let them rest.
+* '''Connective tissue''' — collagen begins converting to gelatin around 160–180°F (70–82°C) and needs ''time'' at that temperature; this is why braises are long and why a tough cut cannot be made tender by cooking it faster or hotter.
+
+== Dry-Heat Methods ==
+
+=== Sauté ===
+'''How:''' Cook small, tender pieces quickly in a little hot fat over high heat, keeping the food moving (''sauter'' means "to jump"). '''When:''' Tender, bite-sized or thin cuts. '''Keys:''' The food must be '''dry''' (pat it with paper towel) and the pan '''hot''' before it goes in, and the pan must '''not be crowded''' — crowding drops the temperature and steams the food instead of browning it. The browned bits left in the pan (''fond'') are then deglazed with wine or stock to make a quick pan sauce.
+* '''Examples:''' sautéed mushrooms, shrimp scampi, chicken piccata, a quick stir-fry (the Chinese ''chao''), vegetables finished ''à la minute''.
+* '''Example recipe — Sautéed Garlic Shrimp:''' Pat 1 lb peeled shrimp very dry; season with salt. Heat 2 tbsp butter and 1 tbsp oil in a wide pan until shimmering. Add the shrimp in a single, uncrowded layer and cook 1–2 minutes per side until just pink. Add 3 minced garlic cloves and a pinch of chili flakes for 30 seconds, deglaze with 1/4 cup white wine and a squeeze of lemon, swirl in a knob of cold butter and chopped parsley, and serve.
+
+=== Pan-fry ===
+'''How:''' Cook in a moderate depth of fat (enough to come partway up the food) over medium to medium-high heat. More fat and lower heat than a sauté; the food is usually breaded or coated. '''When:''' Thicker items that need the interior cooked through while a crust forms — breaded cutlets, fritters. '''Keys:''' Keep the oil at a steady temperature; turn once.
+* '''Examples:''' chicken-fried steak, schnitzel, breaded pork cutlet, pan-fried fish, latkes.
+* '''Example recipe — Breaded Chicken Cutlet:''' Pound a chicken breast to 1/2 inch. Dredge in seasoned flour, then beaten egg, then breadcrumbs. Pan-fry in 1/4 inch of oil at about 350°F, 3–4 minutes per side, until golden and cooked through (165°F internal). Drain on a rack and salt immediately.
+
+=== Deep-fry ===
+'''How:''' Fully submerge food in hot fat, 350–375°F (175–190°C). '''When:''' Foods that benefit from an all-over crisp crust and fast cooking. '''Keys:''' Hold the temperature with a thermometer; frying too cool makes food greasy, too hot burns the coating before the inside cooks. Fry in small batches so the oil temperature does not crash, and drain on a rack, not paper (paper steams the bottom soft).
+* '''Examples:''' French fries, fried chicken, tempura, doughnuts, falafel.
+* '''Example recipe — Beer-Battered Fish:''' Whisk 1 cup flour, 1 tsp baking powder, salt, and about 1 cup cold beer to a loose batter. Dredge white-fish fillets in flour, dip in batter, and fry at 375°F for 4–6 minutes until golden and floating. Drain on a rack; salt at once.
+
+=== Roast and Bake ===
+'''How:''' Cook with dry, hot air in an oven, surrounded on all sides by convection and radiant heat. "Roast" is used for meats and vegetables, "bake" for breads, pastries, and casseroles, but the mechanism is the same. '''When:''' Large tender cuts, poultry, whole fish, root vegetables, and all baking. '''Keys:''' A high initial temperature browns the surface (Maillard); a lower finishing temperature cooks the interior evenly. Use a meat thermometer, let large roasts '''rest''' 10–20 minutes before carving so the juices redistribute, and account for carryover.
+* '''Examples:''' roast chicken, prime rib, roasted root vegetables, a baked potato, bread, cookies.
+* '''Example recipe — Simple Roast Chicken:''' Pat a 4 lb chicken bone-dry, salt it inside and out (ideally hours ahead, uncovered in the fridge, for crisp skin). Roast at 425°F (220°C) 60–75 minutes until the thigh reads 170–175°F and juices run clear. Rest 15 minutes before carving.
+
+=== Grill and Broil ===
+'''How:''' Cook by intense '''radiant''' heat — from below over coals, gas, or wood (grill) or from above with an overhead element (broil). '''When:''' Tender, relatively thin cuts and quick-cooking vegetables; anything that benefits from char and smoke. '''Keys:''' A clean, oiled, '''preheated''' grate; let the food sear undisturbed before turning so it releases cleanly and takes grill marks. Build two heat zones (hot for searing, cooler to finish). Broiling is essentially an upside-down grill — watch it constantly, as the close, fierce heat burns fast.
+* '''Examples:''' grilled steak, burgers, kebabs, grilled vegetables and corn; broiled fish, gratins finished under the broiler, crème brûlée tops.
+* '''Example recipe — Grilled Ribeye:''' Salt a 1-inch ribeye and let it come to room temperature. Sear over the hot zone 2–3 minutes per side for the crust, then move to the cooler zone and cook to 130°F internal for medium-rare. Rest 5–10 minutes before slicing.
+
+== Moist-Heat Methods ==
+
+=== Poach ===
+'''How:''' Cook gently submerged in liquid held at 160–180°F (71–82°C) — below a simmer, with no bubbles breaking the surface, only a faint shimmer. '''When:''' Delicate proteins that would toughen or fall apart with agitation. '''Keys:''' Keep the temperature low and steady; the liquid (often a [[Stocks and Broths|court bouillon]], stock, milk, or lightly salted water) should taste good, as its flavor enters the food.
+* '''Examples:''' poached eggs, poached salmon and other fish, poached chicken breast, poached fruit (pears in wine).
+* '''Example recipe — Poached Egg:''' Bring water with a splash of vinegar to 180°F (barely trembling). Crack an egg into a cup, swirl the water into a gentle vortex, slide the egg in, and poach 3 minutes for a runny yolk. Lift out with a slotted spoon and blot.
+
+=== Shallow-poach ===
+'''How:''' The food sits half-submerged in a small amount of liquid (wine, stock, aromatics) in a shallow pan, covered with a round of parchment (a ''cartouche''), so it cooks partly by poaching and partly by the trapped steam. '''When:''' Delicate fish fillets and similar items. '''Keys:''' The flavorful poaching liquid (the ''cuisson'') is then reduced and made into the sauce for the dish — nothing is wasted.
+* '''Examples:''' sole in white wine (''filets de sole bonne femme''), shallow-poached chicken paillard.
+* '''Example recipe — Shallow-Poached Sole:''' Butter a pan, scatter minced shallot, lay in seasoned sole fillets, and add white wine and fish stock to come halfway up. Cover with a parchment cartouche and poach gently 5–8 minutes. Remove the fish; reduce the cuisson, finish with cream or butter into a [[The Five Mother Sauces|vin blanc]] sauce, and nap the fish.
+
+=== Simmer ===
+'''How:''' Cook in liquid held at 185–200°F (85–93°C) — small bubbles rise gently and break the surface, but it is not a rolling boil. '''When:''' The default for soups, stocks, beans, grains, and tougher items that need gentle, sustained heat. '''Keys:''' A simmer is where most "boiled" dishes should actually be cooked; a true hard boil toughens meat and clouds stock.
+* '''Examples:''' simmering a soup or stock, cooking dried beans, pot of chili, rice by the absorption method.
+* '''Example recipe — Pot of Beans:''' Cover 1 lb soaked beans with stock or water by 2 inches, add an onion, garlic, and a bay leaf, bring to a boil, then drop to a bare simmer and cook 1–1.5 hours until creamy, salting only in the last 20 minutes.
+
+=== Boil ===
+'''How:''' Cook in liquid at a full rolling boil, 212°F (100°C) at sea level. '''When:''' Foods that stand up to vigorous agitation and need fast, hot cooking — pasta, green vegetables (briefly), potatoes for mashing. '''Keys:''' Use plenty of heavily salted water for pasta ("like the sea") and reserve some of the starchy water to bind the sauce; boil green vegetables only briefly, then '''shock''' in ice water to set their color.
+* '''Examples:''' pasta, blanched green beans, boiled potatoes, eggs, corn on the cob.
+* '''Example recipe — Pasta al Dente:''' Boil 4 quarts well-salted water. Add 1 lb pasta, stir, and cook to just firm to the bite (a minute less than the box). Reserve 1 cup pasta water, drain, and toss the pasta with the sauce and a splash of the starchy water to emulsify and coat.
+
+=== Steam ===
+'''How:''' Cook in the vapor rising from boiling water, with the food held above the liquid (a basket or perforated insert). '''When:''' Delicate items where you want to preserve moisture, color, nutrients, and shape. '''Keys:''' Steam at 212°F is gentler and more even than boiling and leaches out fewer water-soluble nutrients because the food never sits in the water.
+* '''Examples:''' steamed vegetables, dumplings, fish en papillote, shellfish (mussels, clams), custards, steamed buns.
+* '''Example recipe — Steamed Mussels:''' Sweat shallot and garlic in butter, add 1/2 cup white wine, bring to a boil, add 2 lb cleaned mussels, cover, and steam 4–6 minutes until they open (discard any that stay shut). Finish with cream, parsley, and the pan liquor.
+
+== Combination Methods ==
+
+=== Braise ===
+'''How:''' A two-stage method: first '''sear''' the food in hot fat (a dry-heat step, for Maillard flavor and color), then '''simmer''' it partly submerged in liquid in a covered vessel, low and slow, usually finished in the oven. '''When:''' Large tough cuts rich in collagen — the long, moist, low heat dissolves connective tissue into gelatin, turning a cheap, chewy cut meltingly tender. '''Keys:''' Keep the liquid at a bare simmer, never a boil; the braising liquid becomes the sauce.
+* '''Examples:''' pot roast, braised short ribs, osso buco, coq au vin, braised lamb shanks, red cabbage.
+* '''Example recipe — Braised Short Ribs:''' Season and sear short ribs on all sides in a hot Dutch oven; set aside. Brown mirepoix, add tomato paste and a bottle of red wine, scrape up the fond, return the ribs with brown [[Stocks and Broths|stock]] to come halfway up, and braise covered at 325°F for 2.5–3 hours until fork-tender. Reduce the liquid into a glossy sauce.
+
+=== Stew ===
+'''How:''' Like braising but with the food cut into '''smaller, uniform pieces''' and '''fully submerged''' in more liquid, simmered gently until tender. '''When:''' Tough cuts cut into chunks; the whole dish — meat, vegetables, and the thickened liquid — is served together. '''Keys:''' Brown the meat first for depth; thicken the liquid by flouring the meat, by reduction, or with a [[The Five Mother Sauces|roux]].
+* '''Examples:''' beef bourguignon, Irish stew, chili, curry, goulash, gumbo.
+* '''Example recipe — Simple Beef Stew:''' Toss 2 lb cubed chuck in seasoned flour and brown in batches. Sweat onion, carrot, and celery; add tomato paste, deglaze with red wine, return the beef with stock to cover, add herbs, and simmer gently (covered) 2 hours, adding potatoes in the last 40 minutes, until the beef is tender and the broth has thickened.
+
+== Emulsions ==
+An '''emulsion''' is a stable, uniform mixture of two liquids that do not naturally combine — classically oil and water. Left alone they separate; an '''emulsifier''' (egg yolk, mustard, honey, or lecithin) coats the dispersed droplets and keeps them suspended. The two broad types are:
+* '''Oil-in-water''' — oil droplets suspended in a water base. Examples: vinaigrette, mayonnaise, milk, cream, hollandaise.
+* '''Water-in-oil''' — water droplets suspended in fat. Examples: butter, margarine.
+
+The craft of an emulsion is in the '''rate of combination and the agitation''': the oil must be added slowly, especially at the start, while whisking vigorously, so it breaks into fine droplets the emulsifier can coat before more oil arrives. Add the fat too fast and the emulsion '''breaks''' (separates into a greasy curdle). A broken emulsion can often be re-formed by whisking it slowly into a fresh spoonful of the water phase plus a little emulsifier. Temperature matters too — a warm emulsion like [[The Five Mother Sauces|hollandaise]] breaks if overheated (the eggs scramble) or chilled (the butter solidifies).
+* '''Example recipe — Mayonnaise:''' Whisk 1 egg yolk with 1 tsp Dijon mustard, a pinch of salt, and 1 tsp lemon juice or vinegar. Drip in 3/4 to 1 cup of neutral oil '''extremely slowly''' at first — drop by drop — whisking constantly, then in a thin stream as it thickens. Thin with a few drops of water if it gets too stiff, and adjust acid and salt.
+
+== The Creaming Method ==
+The '''creaming method''' is the foundational mixing technique of Western baking. '''Solid (not melted) butter and sugar are beaten together until pale, light, and fluffy.''' As the hard sugar crystals cut through the butter, they drag thousands of tiny air pockets into the fat; this aeration is the '''primary leavening''' of pound cakes, butter cakes, and many cookies — the trapped air expands in the oven, and chemical leaveners (baking powder/soda) and steam enlarge the bubbles already created. Creaming is why a properly made butter cake is tender and risen rather than dense. '''Keys:''' the butter must be at cool room temperature (too cold will not aerate; too warm/melted will not hold air); cream a full 3–5 minutes; add eggs one at a time so the batter does not break; and fold in flour gently at the end to avoid toughening it with gluten.
+
+'''The classic pound cake (the 1:1:1:1 formula):'''
+
+'''1 lb Flour + 1 lb Sugar + 1 lb Butter + 1 lb Eggs + flavorings'''
+
+This equal-weight ratio, from which the cake takes its name, dates to eighteenth-century England, when a formula that was easy to remember mattered in kitchens where many could not read. Modern versions adjust the balance, add a little baking powder, and often fold in sour cream or buttermilk for moisture and a finer crumb.
+* '''Example recipe — Classic Pound Cake:''' Cream 1 cup (2 sticks) soft butter with 1 1/4 cups sugar until light, 4 minutes. Beat in 4 eggs one at a time, then 1 tsp vanilla. Fold in 1 1/2 cups flour with 1/4 tsp salt (and, if you like, 1/2 tsp baking powder) just until combined. Bake in a loaf pan at 325°F for about 60–70 minutes, until a skewer comes out clean.
+
+== Tempering ==
+'''Tempering''' is the gradual equalizing of temperature between a hot and a cold mixture so that neither is shocked. Its most important use is protecting '''eggs''', which scramble if dropped straight into a hot liquid. The technique: add a little of the hot liquid to the cold egg mixture '''slowly, while whisking''', raising its temperature a few degrees at a time, and only then combine the warmed mixture with the rest of the hot liquid. (The same word, confusingly, also names the separate process of '''tempering chocolate''' — controlled heating and cooling to set cocoa butter into stable, glossy crystals — which is unrelated to egg tempering.)
+'''When and why:'''
+* Finishing a soup or velouté with a '''liaison''' (egg yolk and cream): temper the hot soup into the egg-cream mixture first, then return it to the pot — and never let it boil afterward (see [[The Five Mother Sauces]]).
+* Making a '''custard''' or crème anglaise: whisk the hot milk slowly into the sugared yolks before cooking the mixture gently to a nappe.
+* Building a '''hollandaise''': the warm butter is tempered drop by drop into the warm yolks so the emulsion forms without the eggs cooking.
+* '''Example recipe — Crème Anglaise (tempered custard sauce):''' Heat 2 cups milk/cream with a split vanilla bean until steaming. Whisk 4 egg yolks with 1/3 cup sugar until pale. Temper: pour the hot milk into the yolks in a thin stream, whisking constantly. Return to low heat and stir with a spatula until it coats the back of a spoon (''nappe'', about 180°F) — do not boil. Strain and chill.
+
+== Sources ==
+* ''On Cooking: A Textbook of Culinary Fundamentals'', Labensky et al. — the dry/moist/combination taxonomy
+* The Culinary Institute of America, ''The Professional Chef''
+* Harold McGee, ''On Food and Cooking'' — the science of heat, Maillard, emulsions, and collagen
+* Auguste Escoffier, ''Le Guide Culinaire'' (1903)
+* [https://en.wikipedia.org/wiki/Cooking#Cooking_techniques Cooking techniques — Wikipedia]
+* [https://en.wikipedia.org/wiki/Maillard_reaction Maillard reaction — Wikipedia]
+* [https://en.wikipedia.org/wiki/Emulsion Emulsion — Wikipedia]
+* Van Kush Family Research Institute, ''The Culinary Arts'' (2026), Sections 4–5
+
+''Part of the Library of Ashurbanipal culinary foundations series. See also [[Culinary Arts]], [[Stocks and Broths]], and [[The Five Mother Sauces]].''

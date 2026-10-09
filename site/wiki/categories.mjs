@@ -133,7 +133,7 @@ export const CATEGORIES = [
             'Eugeroics, Wakefulness, and Sleep Pharmacology',
             'Eugeroics Wakefulness and Sleep Pharmacology',
             'Cannabinoid Neuroprotection and Perinatal Development'],
-    keywords: [/vitamin/i, /mineral/i, /cannabis/i, /nootropic/i, /inhibitor/i, /cyp/i, /maoi/i, /cholinerg/i, /phage/i, /quinone/i, /oxytocin/i, /oilahuasca/i, /spice/i, /kava/i, /psychotropic/i, /solvent/i, /scale-up/i, /colloid/i, /nanoparticle/i, /bhasma/i, /chromatograph/i, /genom/i, /thiol/i, /calcium/i, /strontium/i, /stoichiometr/i, /entactogen/i, /virolog/i, /antivenom/i, /plasma/i, /protease/i, /reagent/i, /marquis/i, /ehrlich/i, /ecstasy/i, /adulter/i, /piperazine/i, /phenethylamine/i, /2c\b/i, /tryptamine/i, /catecholamine/i, /reuptake/i, /psychotomimetic/i, /synaptogenesis/i, /neurogenesis/i, /neuroprotect/i, /brain/i, /eugeroic/i, /modafinil/i, /perinatal/i, /bioavail/i, /sublingual/i, /ubulawu/i, /oneirogen/i, /allylbenzene/i, /wada/i, /gilead/i, /uziza/i, /apotropaic/i, /syrian rue/i, /hydrosol/i, /enfleurage/i, /tropane/i, /brugmansia/i, /cocaine/i, /bupropion/i, /buspirone/i, /wellbutrin/i, /buspar/i, /huasca/i, /herbpedia/i, /immunometabolism/i, /octopamine/i, /thermogen/i, /shulgin/i],
+    keywords: [/pathogen/i, /\bviral\b/i, /bacteri/i, /\bvirus/i, /vitamin/i, /mineral/i, /cannabis/i, /nootropic/i, /inhibitor/i, /cyp/i, /maoi/i, /cholinerg/i, /phage/i, /quinone/i, /oxytocin/i, /oilahuasca/i, /spice/i, /kava/i, /psychotropic/i, /solvent/i, /scale-up/i, /colloid/i, /nanoparticle/i, /bhasma/i, /chromatograph/i, /genom/i, /thiol/i, /calcium/i, /strontium/i, /stoichiometr/i, /entactogen/i, /virolog/i, /antivenom/i, /plasma/i, /protease/i, /reagent/i, /marquis/i, /ehrlich/i, /ecstasy/i, /adulter/i, /piperazine/i, /phenethylamine/i, /2c\b/i, /tryptamine/i, /catecholamine/i, /reuptake/i, /psychotomimetic/i, /synaptogenesis/i, /neurogenesis/i, /neuroprotect/i, /brain/i, /eugeroic/i, /modafinil/i, /perinatal/i, /bioavail/i, /sublingual/i, /ubulawu/i, /oneirogen/i, /allylbenzene/i, /wada/i, /gilead/i, /uziza/i, /apotropaic/i, /syrian rue/i, /hydrosol/i, /enfleurage/i, /tropane/i, /brugmansia/i, /cocaine/i, /bupropion/i, /buspirone/i, /wellbutrin/i, /buspar/i, /huasca/i, /herbpedia/i, /immunometabolism/i, /octopamine/i, /thermogen/i, /shulgin/i],
   },
   {
     id: 'chemistry', name: 'Organic chemistry and synthesis', blurb: 'Reaction mechanisms, isomerizations, prodrugs, photochemistry, and purification protocols.',
@@ -251,7 +251,7 @@ export const CATEGORIES = [
             'Thiols and Oxygen Congeners in Medicinal Chemistry',
             'Virology, Antivenom Immunology, and Aromatic Antimicrobials',
             'Cannabinoid Neuroprotection and Perinatal Development'],
-    keywords: [/plant/i, /herb/i, /botan/i, /oneirogen/i, /ubulawu/i, /farming/i, /gilead/i, /uziza/i, /syrian rue/i, /hydrosol/i, /enfleurage/i, /brugmansia/i, /huasca/i, /herbpedia/i, /hepatic/i, /bupleurum/i],
+    keywords: [/cook/i, /culinar/i, /\bfood/i, /recipe/i, /ferment/i, /pickl/i, /sauce/i, /broth/i, /\bstock/i, /spice/i, /terpene/i, /\bhops?\b/i, /aromatherap/i, /essential oil/i, /plant/i, /herb/i, /botan/i, /oneirogen/i, /ubulawu/i, /farming/i, /gilead/i, /uziza/i, /syrian rue/i, /hydrosol/i, /enfleurage/i, /brugmansia/i, /huasca/i, /herbpedia/i, /hepatic/i, /bupleurum/i],
   },
   {
     id: 'religion', name: 'Religion and practice', blurb: 'Living traditions, their working materials, and their histories.',
@@ -272,7 +272,7 @@ export const CATEGORIES = [
             'Rasa Shastra and Ancient Indian Nanochemistry',
             'Bioelectricity, Forensic Genomics, and Alchemical Transmutation',
             'Bioelectricity Forensic Genomics and Alchemical Transmutation'],
-    keywords: [/shaiv/i, /temple/i, /angel/i, /sacrament/i, /alchem/i, /ogdoad/i, /mystery/i, /church/i, /ancest/i, /deity/i, /myth/i, /apotropaic/i, /bes\b/i],
+    keywords: [/\bwax\b/i, /beeswax/i, /encaustic/i, /fayum/i, /hieroglyph/i, /punic/i, /\bcera\b/i, /crypt-?ology/i, /angelic/i, /shaiv/i, /temple/i, /angel/i, /sacrament/i, /alchem/i, /ogdoad/i, /mystery/i, /church/i, /ancest/i, /deity/i, /myth/i, /apotropaic/i, /bes\b/i],
   },
   {
     id: 'people', name: 'People and ideas', blurb: 'Figures whose work this corpus builds on, with the folklore separated out.',
@@ -307,7 +307,7 @@ export const CATEGORIES = [
             'Stake Tiers, Whale, Dolphin, Minnow, and Vote Weight', 'Stake Tiers  Whale  Dolphin  Minnow  and Vote Weight',
             'Why Curation Bots Were Made: Whale Coverage and Minnow Aggregation',
             'Why Curation Bots Were Made  Whale Coverage and Minnow Aggregation'],
-    keywords: [/calculator/i, /distill/i, /extractor/i, /equipment/i, /chromatograph/i, /reagent/i, /photovoltaic/i, /electricity/i],
+    keywords: [/\bAI\b/i, /\bA\.I\./i, /\blora\b/i, /comfyui/i, /diffusion/i, /embedding/i, /\bbrain\b/i, /expert system/i, /rules engine/i, /\bRAG\b/i, /library index/i, /decades/i, /machine learning/i, /neural/i, /calculator/i, /distill/i, /extractor/i, /equipment/i, /chromatograph/i, /reagent/i, /photovoltaic/i, /electricity/i],
   },
   {
     id: 'law', name: 'Law and your rights', blurb: 'The public legal record and the plain-English guides to how U.S. law actually works — facts, not verdicts.',
@@ -613,7 +613,7 @@ export const PILLARS = [
       'Fast Food and Processed Food Nutrition',
       'Cannabinoid Neuroprotection and Perinatal Development',
     ],
-    keywords: [/plant/i, /herb/i, /cannabis/i, /botan/i, /vitamin/i, /mineral/i, /supplement/i, /cannabinoid/i, /perinatal/i, /ubulawu/i, /oneirogen/i, /farming/i, /gilead/i, /uziza/i, /syrian rue/i, /hydrosol/i, /enfleurage/i, /brugmansia/i, /huasca/i, /herbpedia/i, /hepatic/i, /bupleurum/i],
+    keywords: [/cook/i, /culinar/i, /\bfood/i, /recipe/i, /ferment/i, /pickl/i, /sauce/i, /broth/i, /\bstock/i, /spice/i, /terpene/i, /\bhops?\b/i, /aromatherap/i, /essential oil/i, /plant/i, /herb/i, /cannabis/i, /botan/i, /vitamin/i, /mineral/i, /supplement/i, /cannabinoid/i, /perinatal/i, /ubulawu/i, /oneirogen/i, /farming/i, /gilead/i, /uziza/i, /syrian rue/i, /hydrosol/i, /enfleurage/i, /brugmansia/i, /huasca/i, /herbpedia/i, /hepatic/i, /bupleurum/i],
   },
   {
     id: 'mind',
@@ -670,7 +670,7 @@ export const PILLARS = [
       'Eugeroics, Wakefulness, and Sleep Pharmacology',
       'Eugeroics Wakefulness and Sleep Pharmacology',
     ],
-    keywords: [/entrain/i, /flicker/i, /gamma/i, /steady.state/i, /binaural/i, /40 ?hz/i, /shaiv/i, /philosophy/i, /relig/i, /egypt/i, /sacrament/i, /bhasma/i, /bioelectric/i, /alchem/i, /psychotomimetic/i, /synaptogenesis/i, /neurogenesis/i, /brain/i, /eugeroic/i, /wakefulness/i, /light/i, /ogdoad/i, /mystery/i, /ancest/i, /apotropaic/i, /bes\b/i, /shulgin/i],
+    keywords: [/\bwax\b/i, /beeswax/i, /encaustic/i, /fayum/i, /hieroglyph/i, /punic/i, /\bcera\b/i, /crypt-?ology/i, /angelic/i, /entrain/i, /flicker/i, /gamma/i, /steady.state/i, /binaural/i, /40 ?hz/i, /shaiv/i, /philosophy/i, /relig/i, /egypt/i, /sacrament/i, /bhasma/i, /bioelectric/i, /alchem/i, /psychotomimetic/i, /synaptogenesis/i, /neurogenesis/i, /brain/i, /eugeroic/i, /wakefulness/i, /light/i, /ogdoad/i, /mystery/i, /ancest/i, /apotropaic/i, /bes\b/i, /shulgin/i],
   },
   {
     id: 'chains',
@@ -821,7 +821,7 @@ export const PILLARS = [
       'Colorimetric Reagents and Presumptive Chemical Testing',
       'Ecstasy Pill Forensics and Historical Adulteration Trends',
     ],
-    keywords: [/soapbox/i, /calculator/i, /tool/i, /phage/i, /endolysin/i, /virolog/i, /reagent/i, /ecstasy/i, /photovoltaic/i, /electricity/i],
+    keywords: [/\bAI\b/i, /\bA\.I\./i, /\blora\b/i, /comfyui/i, /diffusion/i, /embedding/i, /\bbrain\b/i, /expert system/i, /rules engine/i, /\bRAG\b/i, /library index/i, /decades/i, /machine learning/i, /neural/i, /pathogen/i, /\bviral\b/i, /bacteri/i, /soapbox/i, /calculator/i, /tool/i, /phage/i, /endolysin/i, /virolog/i, /reagent/i, /ecstasy/i, /photovoltaic/i, /electricity/i],
   },
 ];
 

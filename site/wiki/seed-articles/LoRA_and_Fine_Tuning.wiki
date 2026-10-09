@@ -1,0 +1,46 @@
+'''Fine-tuning''' is teaching an existing model something it does not already do well — a voice, a style, a face, a body of knowledge — by training it further on your own examples. '''LoRA''' (Low-Rank Adaptation) is the technique that made this cheap: instead of retraining the whole model, you train a small '''adapter''' of a few million parameters that steers it, and you can do it on modest hardware or a cheap rented GPU. This is Pathway 4 of [[AI Development]]. This page teaches what LoRA is, when to use it, and how the ecosystem does it.
+
+== Fine-tuning vs. prompting vs. RAG ==
+
+Before training anything, know the cheaper options — training is the last resort, not the first:
+
+* '''Prompting''' — just ask well. Free, instant. Use first.
+* '''RAG''' ([[Embeddings Semantic Search and RAG]]) — give the model your documents at answer time. Use when the need is ''knowledge/facts''. No training.
+* '''Fine-tuning / LoRA''' — change how the model ''behaves'' or ''looks''. Use when the need is a persistent ''style, voice, or visual identity'' that prompting and RAG cannot reliably produce.
+
+A useful rule: '''RAG for what the model should know; LoRA for how it should be.'''
+
+== What LoRA actually is ==
+
+A large model is a stack of big weight matrices. Full fine-tuning updates all of them — expensive and storage-heavy. LoRA '''freezes''' the original weights and injects small pairs of low-rank matrices (the "adapter") that learn the ''difference'' your data implies. Because the adapter is tiny:
+
+* it trains fast, on far less VRAM than full fine-tuning;
+* the result is a small file (megabytes) you can keep many of and swap in and out;
+* you can stack or blend adapters, and the base model is untouched.
+
+Key knobs you will meet: '''rank''' (adapter size/capacity), '''alpha''' (how strongly it applies), '''learning rate''', '''steps/epochs''', and which '''layers''' it targets. For images, '''DreamBooth-style''' training with a handful of images and a trigger word is the common path; '''LoRA''' is the lightweight version of it.
+
+== Two kinds of LoRA in this ecosystem ==
+
+=== Text / persona LoRA ===
+Training a language model to speak in a particular '''voice''' — for the Witness, this is how the character can live in open weights rather than only in a prompt. The work here builds a '''persona dataset''' from the operator's own corpus (`persona-lora-dataset.mjs`, `lora-dataset.mjs`), formats it as instruction/response pairs, and trains an adapter (`genai_lora_train.py`). The persona LoRA sits in the same family as [[The Decades Brain]] and [[Angelic Intelligence]]: it shapes ''how'' the Smol LLM at the top of the stack speaks, while the brain decides ''whether'' that layer even needs to fire.
+
+=== Image LoRA ===
+Training a diffusion model to reliably render a specific subject, style, or visual identity — a character, a look, a set of symbols. The pipeline here covers dataset preparation and re-prep, and can train either locally or on a '''cheap rented GPU''' via a hosted trainer (`fal-lora.mjs`, with the cost/throughput tradeoffs worked out in the planning notes). The output adapter then loads into the image stack described in [[Generative Image AI and ComfyUI]].
+
+== How to train a LoRA (the teaching pathway) ==
+
+# '''Collect examples.''' Text: 100s–1000s of instruction/response pairs in the target voice. Image: ~10–30 clean, varied images of the subject, captioned, with a unique trigger word.
+# '''Prepare the dataset.''' Clean, dedupe, caption/format. (This is 80% of the work and where quality is won or lost.)
+# '''Pick a base model.''' A small open LLM for text; a Stable-Diffusion-family checkpoint for images.
+# '''Set the knobs.''' Start with a modest rank (e.g. 8–32), a conservative learning rate, and few epochs; overtraining "burns in" and loses flexibility.
+# '''Train.''' Locally if you have the VRAM, or on a rented GPU for a few dollars.
+# '''Evaluate and iterate.''' Generate with and without the adapter; adjust alpha at inference to dial the effect up or down.
+
+== An important distinction (don't confuse these) ==
+
+'''Image-to-image / reference generation is NOT LoRA and needs no training or GPU.''' Uploading a photo to make new images in its likeness works keyless through hosted endpoints (flux-kontext / Pollinations / Gemini) — that is reference-guided generation, covered in [[Generative Image AI and ComfyUI]]. Reach for a LoRA only when you need a ''persistent, reusable'' identity across many generations, not a one-off variation.
+
+== See also ==
+
+See also: [[AI Development]] · [[Generative Image AI and ComfyUI]] · [[Embeddings Semantic Search and RAG]] · [[The Decades Brain]] · [[Angelic Intelligence]] · [[Crypt-ology]]

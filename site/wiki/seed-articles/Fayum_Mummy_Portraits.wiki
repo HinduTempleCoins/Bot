@@ -1,0 +1,34 @@
+[[File:fayum.jpg|A Fayum encaustic portrait]]
+
+The '''Fayum mummy portraits''' (also Faiyum portraits) are naturalistic painted portraits on wooden panels and linen that were bound over the faces of the dead in Roman Egypt, roughly '''100 BCE to 300 CE''', most famously found in the Faiyum basin. They are among the most arresting objects to survive from the ancient world: individual human faces, painted with highlights in the eyes and shadows on the cheek, that look out at the viewer with a presence that photography did not recapture for another seventeen centuries. For the Library they sit at a specific junction — they are the great surviving body of '''[[Encaustic|encaustic]]''' (hot-beeswax) painting, which places them directly on the Institute's '''wax-technology''' thread alongside the [[Head Cone|Egyptian head cone]], [[Punic Wax]] and [[Kyphi]]. This page treats them as both art-historical objects and as wax artifacts.
+
+== What they are ==
+
+A Fayum portrait is a bust-length, frontal likeness of the deceased, painted in life-like colour on a thin panel (lime, cedar, or other wood) or on linen. After death the panel was set into the mummy's wrappings over the face, so the painted likeness replaced the older idealised funerary mask. They were made for a Romanised, Greek-speaking, partly Egyptian population during the period when Egypt was a Roman province, and they fuse three traditions at once: Egyptian funerary practice (the body is still mummified and wrapped), Greek-Hellenistic painting (modelled light and shade, three-quarter and frontal naturalism), and Roman portrait convention (hairstyles, jewellery and dress that can be dated to within a reign or two). Around a thousand survive, in museums worldwide; the Faiyum oasis preserved them because its dry conditions protected the organic materials.
+
+== Why they are a wax subject: encaustic ==
+
+The reason the portraits concern this Library is the '''medium'''. Most of the finest Fayum panels are painted in '''encaustic''' — pigment suspended in hot, molten '''beeswax''' (often modified with resin), applied with a brush and a heated metal tool (the ''cauterium''), then fused and polished. Two things follow from that:
+
+* '''Beeswax is why they survived so vivid.''' Wax is chemically stable, water-repellent and does not yellow or crack the way an oil or egg medium can over two millennia. The same preservative property that made beeswax the material of mummification, sealing and the head cones is what kept these faces bright. The portraits are, in effect, '''paintings preserved by the preservation technology of the culture that made them''' — see [[Punic Wax]] and [[Encaustic]].
+* '''The texture is wax texture.''' The thick, buttery, almost sculptural highlights — the catch-light on an eyelid, the ridge of a nose — are possible because molten wax holds a loaded stroke. A thinner technique, '''tempera''' (pigment in animal glue or egg), was also used, and some portraits mix the two; the tempera pieces are flatter and more linear, the encaustic ones more plastic and luminous.
+
+The full treatment of the technique, its melting points, resin additives and modern revival is on the dedicated [[Encaustic]] page.
+
+== Dating, identity and the faces themselves ==
+
+Because the dress, jewellery, hairstyles and beard fashions track Roman metropolitan style, the portraits can be dated quite tightly and set against the wider Roman world. They record a genuinely '''multi-ethnic provincial society''' — Egyptians, Greeks, Romans and others — and preserve individuals by name in some cases (inscriptions, mummy labels). Scientific study (CT scanning of the still-wrapped mummies, pigment analysis) has in several cases matched the painted age and features to the body inside, confirming these were real likenesses of the specific dead, not generic types. They are, in a real sense, the oldest surviving gallery of ordinary human faces.
+
+== The Institute's reading: portraits on the wax continuum ==
+
+In the Van Kush Family Research Institute's reading of the Egyptian wax corpus, the Fayum portraits are not an isolated Greco-Roman curiosity but one more expression of a continuous '''wax-as-preservation-and-presence''' technology that runs from the dynastic period into Roman Egypt:
+
+* The '''[[Head Cone|head cone]]''' puts aromatic wax ''on'' the living head as a timed-release medium (see also [[Edible Waxes Hive Foods and Aromatic Resins]]).
+* '''Mummification''' uses resin-and-beeswax mixtures to preserve the body — confirmed by residue analysis of canopic-jar contents.
+* The '''Fayum portrait''' uses pigmented beeswax to preserve the ''face'' — the person's recognisable presence — over the preserved body.
+
+Read together, the argument runs, these are a single material grammar: beeswax as the substance that holds a thing against time, whether that thing is a scent, a body, a document, or a face. This is the same thread the Institute follows in [[Cera non Panis]], where the Egyptian writing sign long read as "bread" is reinterpreted as a cake of wax. The reading is the Institute's proposed synthesis, offered alongside the mainstream art-historical account, not in place of it.
+
+== See also ==
+
+See also: [[Encaustic]] · [[Punic Wax]] · [[Head Cone]] · [[Kyphi]] · [[Cera non Panis]] · [[Edible Waxes Hive Foods and Aromatic Resins]] · [[Crypt-ology]] · [[The Library of Ashurbanipal]]

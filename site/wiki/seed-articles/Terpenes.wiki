@@ -1,0 +1,75 @@
+'''Terpenes''' are the largest and most structurally diverse class of natural products — tens of thousands of compounds built from a single five-carbon brick, '''isoprene''' (C5H8). They are what you smell when you crush a pine needle, zest a lemon, rub rosemary between your fingers, or open a jar of cannabis or hops. The word ''terpene'' comes from ''turpentine'' (the pine oleoresin ''Terpentin''), the first of these oils to be studied chemically. This page is the hub for the terpene material in the Library: the common terpenes and the plants that carry them, how a plant builds them, why the same molecules keep reappearing across unrelated species, and how cannabis, hops and other aromatic plants relate at the level of the actual chemistry. For how to get them ''out'' of a plant, see [[Terpene Extraction]]; for making them in a vat instead of a field, see [[Yeast Terpenes and Biosynthesis]].
+
+== The isoprene rule ==
+
+In 1887 Otto Wallach noticed that terpene carbon counts are almost always multiples of five, and in the 1920s–50s Leopold Ružička formalised the '''biogenetic isoprene rule''': terpenes are assembled head-to-tail (and sometimes tail-to-tail) from the five-carbon isoprene unit. This gives the whole family its naming scheme by carbon count:
+
+* '''Hemiterpenes''' (C5, one unit) — isoprene itself; prenol; isovaleric acid.
+* '''Monoterpenes''' (C10, two units) — the light, volatile, sharp-smelling top notes: myrcene, limonene, the pinenes, linalool, terpinolene, ocimene. These are the backbone of most essential oils.
+* '''Sesquiterpenes''' (C15, three units) — heavier, slower to evaporate, often woody/spicy/earthy: β-caryophyllene, humulene, farnesene, bisabolol, guaiene, nerolidol.
+* '''Diterpenes''' (C20, four units) — resin acids (abietic acid in pine rosin), retinol (vitamin A), the taxane backbone of the chemotherapy drug paclitaxel, and the kaurene skeleton behind stevia's sweet glycosides.
+* '''Triterpenes''' (C30, six units) — squalene (the biosynthetic parent of all steroids), the saponins, ursolic and oleanolic acids, lanosterol.
+* '''Tetraterpenes''' (C40, eight units) — the carotenoids: β-carotene, lycopene, lutein. Colour, not just scent.
+* '''Polyterpenes''' — natural rubber (''cis''-polyisoprene) and gutta-percha, thousands of units long.
+
+A '''terpenoid''' is a terpene that has been chemically modified — oxidised, rearranged, or had carbons added or removed — so the carbon count may no longer be a clean multiple of five. In everyday usage, and on this page, "terpene" is used loosely to include terpenoids.
+
+== The two biosynthetic pathways ==
+
+Every terpene on Earth is built from two interconvertible five-carbon phosphates: '''isopentenyl pyrophosphate''' (IPP) and its isomer '''dimethylallyl pyrophosphate''' (DMAPP). A plant makes these by one of two routes, and this split matters for anything grown or engineered:
+
+* '''The MVA (mevalonate) pathway''' runs in the '''cytosol''' and starts from acetyl-CoA. It is the route animals and fungi use, and in plants it mainly feeds the '''sesquiterpenes and triterpenes'''. This is the pathway engineered yeast uses — see [[Yeast Terpenes and Biosynthesis]].
+* '''The MEP (methylerythritol phosphate, or DXP/non-mevalonate) pathway''' runs in the '''plastid''' and starts from pyruvate and glyceraldehyde-3-phosphate. It is the route bacteria and plant chloroplasts use, and in plants it mainly feeds the '''monoterpenes and diterpenes''' (and the carotenoids). This is why so much monoterpene synthesis happens in green tissue and glandular trichomes.
+
+The chain-building step is the same everywhere: a '''prenyltransferase''' condenses IPP and DMAPP head-to-tail into '''geranyl pyrophosphate''' (GPP, C10 → monoterpenes), then adds another IPP to make '''farnesyl pyrophosphate''' (FPP, C15 → sesquiterpenes), then '''geranylgeranyl pyrophosphate''' (GGPP, C20 → diterpenes). These universal prenyl-diphosphate intermediates are the junction box of the whole family, and they are also where terpene metabolism meets cannabinoid metabolism: the cannabinoid acids are built when GPP is prenylated onto a polyketide (olivetolic acid), so a cannabis plant is literally spending the same GPP pool on its terpenes and its cannabinoids. See [[Endocannabinoid Chemistry and 2-AG Metabolism]] and [[Cannabinoid Oilahuasca]].
+
+The last and most creative step is the '''terpene synthase''' (or cyclase). A single enzyme takes one linear prenyl-diphosphate and folds, cyclises and quenches the resulting carbocation into one (or often several) finished skeletons. This one-enzyme-many-products promiscuity is why a handful of synthases can generate the thousands of known terpene structures.
+
+== The common terpenes and where you meet them ==
+
+These are the terpenes most people will actually encounter, by scent and by source. Each is a real, nameable molecule, not a vibe.
+
+=== Myrcene ===
+β-Myrcene (C10, monoterpene). Earthy, musky, clove-like with a faintly fruity edge. The '''most abundant terpene in most commercial cannabis''', and the dominant hop oil component in many aroma varieties. Also in lemongrass, mango, bay, thyme and hops. It is used industrially as the starting material for menthol and citronellol synthesis. Low odour threshold; oxidises and polymerises readily, which is why old or heat-abused oils lose it first.
+
+=== Limonene ===
+D-Limonene (C10, monoterpene, chiral). The smell of citrus peel — the (R)-(+) enantiomer is orange, the (S)-(−) is more turpentine/pine. In citrus, caraway, dill and many cannabis cultivars. A workhorse '''green solvent''' (it dissolves oils and adhesives) and a common degreaser and flavouring. Autoxidises on air exposure to limonene oxides, which are notable contact allergens — a general lesson that ''terpenes go off'', see [[Antioxidants and Cannabinoid Stability]].
+
+=== Pinene ===
+α-Pinene and β-pinene (C10, bicyclic monoterpenes). The resinous smell of pine, rosemary, basil, sage and conifer forests, and a major component of turpentine. α-Pinene is a reported acetylcholinesterase inhibitor (part of why rosemary is folk-associated with memory — see [[Cholinergic Neurotransmission and Cholinesterase Inhibition]]) and a bronchodilator. Pinenes are the classic feedstock for semisynthesis of camphor, terpineol and other fragrance chemicals.
+
+=== Linalool ===
+Linalool (C10, acyclic monoterpene alcohol, chiral). Floral, lavender, with a hint of spice. In lavender, coriander seed, rosewood, basil and birch. Widely used in soaps and perfumes; studied for anxiolytic and sedative effects. Its oxidation product, linalool hydroperoxide, is another common fragrance allergen.
+
+=== β-Caryophyllene ===
+A C15 '''sesquiterpene''' and the one terpene with a drug-like trick: it is a selective '''CB2 cannabinoid-receptor agonist''', yet holds FDA GRAS food status and is not psychoactive. In black pepper, cloves, hops, rosemary and cannabis. The Library has a dedicated page: [[Beta-Caryophyllene]].
+
+=== Humulene ===
+α-Humulene (C15, sesquiterpene), named directly after hops (''Humulus lupulus''). Woody, "hoppy", earthy. The structural sibling of β-caryophyllene — they interconvert and almost always travel together. Prominent in hops, cannabis, sage, ginseng and balsam. See [[Hops]].
+
+=== Terpinolene, ocimene, nerolidol, bisabolol, farnesene ===
+* '''Terpinolene''' (C10) — fresh, piney-floral-citrus; apple, tea tree, lilac, nutmeg, and the marker terpene of a minority of cannabis cultivars.
+* '''Ocimene''' (C10) — sweet, herbaceous, woody; mint, parsley, orchids, mangoes; a plant volatile signal in response to herbivores.
+* '''Nerolidol''' (C15) — woody, citrus-apple; jasmine, tea tree, ginger; a penetration enhancer studied for transdermal delivery.
+* '''α-Bisabolol''' (C15) — soft floral; the main active of German chamomile; anti-inflammatory and a skincare staple.
+* '''Farnesene''' (C15) — green-apple/woody; the coating on apple skins and an alarm pheromone in aphids; a renewable-diesel and squalane precursor made at industrial scale in engineered yeast (see [[Yeast Terpenes and Biosynthesis]]).
+
+== Why the same molecules keep reappearing ==
+
+β-Caryophyllene turns up in pepper, cloves, hops ''and'' cannabis; myrcene in mango, bay, lemongrass, hops ''and'' cannabis; limonene in citrus and cannabis alike. This is not coincidence and not convergent taste — it is shared biochemistry. The terpene synthases are ancient and widely distributed, the prenyl-diphosphate substrates are universal, and a given synthase folds its substrate into the same skeleton whatever genome it sits in. A "cannabis terpene profile" is therefore not made of cannabis-exclusive molecules; it is a particular ''blend'' of terpenes that are individually common. That is the mechanistic basis for the '''entourage''' idea — that the effect of a plant preparation is shaped by the full terpene-plus-active mixture, not the headline molecule alone. It is discussed, with appropriate caution about how much is established versus hypothesised, in [[Bioavailability Metabolic Inhibition and Synergy]] and [[Cannabinoid Oilahuasca]].
+
+== Hops and cannabis: the family relationship ==
+
+Hops (''Humulus lupulus'') and cannabis (''Cannabis sativa'') are not merely both aromatic — they are the two best-known genera of the same small plant family, the '''Cannabaceae'''. They share the major terpenes (myrcene, humulene, caryophyllene) and both concentrate their chemistry in glandular trichomes (the hop '''lupulin''' glands are the direct counterpart of cannabis trichome heads). The key difference is what sits ''alongside'' the terpenes: cannabis trichomes build cannabinoids (THCA, CBDA) on the shared GPP pool, while hops build '''bitter acids''' (humulone/α-acids, lupulone/β-acids) and prenylflavonoids such as [[8-Prenylnaringenin]]. Neither 8-PN nor the bitter acids are intoxicating, but they are pharmacologically active, and the shared-terpene overlap is exactly why hop aroma reads as faintly "cannabis-like". The full comparison is on the [[Hops]] page.
+
+== Stability, storage and safety ==
+
+Terpenes are volatile and chemically reactive, which has direct practical consequences:
+
+* '''They evaporate.''' The lightest monoterpenes leave first, at room temperature, which is why aroma fades and why distillation separates them cleanly (see [[Terpene Extraction]]).
+* '''They oxidise.''' Air, light and heat convert limonene, linalool and the pinenes into oxides and hydroperoxides that smell "off" and are more allergenic than the parent. Store essential oils and terpene-rich extracts cold, dark, full and sealed. See [[Antioxidants and Cannabinoid Stability]].
+* '''Concentrated terpenes are not food.''' A terpene present at trace level in a spice is pleasant; the same terpene as a neat essential oil is a concentrated irritant. Undiluted essential oils can burn skin and mucous membranes, and ingesting them in bulk is genuinely dangerous — pennyroyal (pulegone), wintergreen (methyl salicylate) and eucalyptus (1,8-cineole) oils have all caused serious and fatal poisonings. Dilution, dose and route are the whole game; this is the same harm-reduction principle the Library applies throughout.
+
+== See also ==
+
+See also: [[Terpene Map]] · [[Terpene Extraction]] · [[Yeast Terpenes and Biosynthesis]] · [[Hops]] · [[Beta-Caryophyllene]] · [[8-Prenylnaringenin]] · [[Cannabinoid and Terpene Electrochemistry]] · [[Hydrosols Absolutes and Botanical Extraction Modalities]] · [[Solvent Chemistry and Polarity in Botanical Extraction]] · [[Antioxidants and Cannabinoid Stability]] · [[Bioavailability Metabolic Inhibition and Synergy]] · [[Cannabinoid Oilahuasca]] · [[Oilahuasca]] · [[Cannabis Oil and MHRB Extraction]] · [[Shulgin Ten Essential Oils]] · [[PIHKAL and TIHKAL]] · [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[Kyphi]]

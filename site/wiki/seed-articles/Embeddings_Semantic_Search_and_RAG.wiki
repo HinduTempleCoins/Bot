@@ -1,0 +1,44 @@
+'''Embeddings, semantic search and RAG''' are how you make a machine find things by '''meaning''' instead of exact words, and then answer grounded in your own documents rather than from thin air. This is Pathway 3 of [[AI Development]], the 2010s layer of [[The Decades Brain]], and the mechanism by which the [[Hathor|Witness]] answers from the [[The Library of Ashurbanipal|Library]] — the retrieval half of [[Crypt-ology]]. This page teaches the ideas and points at the working system, the [[Library Index]].
+
+== Embeddings: turning text into vectors ==
+
+An '''embedding''' is a list of numbers (a vector) that represents a piece of text's ''meaning''. An embedding model is trained so that texts with similar meaning land near each other in vector space — "dog" near "puppy," "RFRA exemption" near "religious freedom claim" — even when they share no words. Once your text is vectors, "find the most relevant passage" becomes "find the nearest vectors," which is fast geometry.
+
+* '''Local, CPU-friendly models''' — '''MiniLM''' (sentence-transformers) runs in-process with no GPU and is the default here (`minilm-embedder.mjs`); '''nomic-embed''' runs via a local Ollama server on the boxes.
+* '''The seam that matters''' — make the embedder '''injectable'''. If no real model loads, fall back to a deterministic hashed word-bag so search still works offline. (This repo does exactly that, which is why its tests need no network.)
+
+== Vector search: finding the nearest meaning ==
+
+With everything embedded, retrieval is '''nearest-neighbour search'''. For a few thousand items a brute-force '''cosine similarity''' scan is fine; at scale you use an '''approximate nearest-neighbour (ANN)''' index — '''FAISS''', or HNSW graphs (hnswlib) — which trades a hair of accuracy for enormous speed. In this repo `faiss-index.mjs` provides a FAISS-class HNSW index on the boxes and a cosine fallback in CI, behind one interface.
+
+Two complementary retrieval styles, and you usually want '''both''':
+
+* '''Keyword / TF-IDF''' — instant, zero-build, great for exact terms and names. (The committed `_library_catalog.json` gives this today with no embeddings.)
+* '''Semantic / embeddings''' — slower to build, finds meaning across different wording. (The vector index.)
+
+The [[Library Index]] offers both: `catalogLookup()` for instant keyword recall and `recall()` for semantic recall, over the same corpus.
+
+== RAG: Retrieval-Augmented Generation ==
+
+A language model only knows what it was trained on, and it will confidently make things up outside that. '''RAG''' fixes this: before answering, you '''retrieve''' the most relevant passages from your own corpus and hand them to the model as context, so it answers ''from your documents''. The loop:
+
+# '''Index''' your corpus: split documents into chunks, embed each, store the vectors.
+# '''Retrieve''': embed the user's question, find the nearest chunks.
+# '''Augment''': put those chunks in the prompt as grounding.
+# '''Generate''': the model answers from the retrieved context, and you can cite the sources.
+
+The payoff is answers that are current, grounded, and '''attributable''' — you can show which page each claim came from. In this ecosystem the retrieval step is the [[Library Index]], and the [[Crypt-ology]] brain uses it so the Witness answers from the actual wiki (and cites it) rather than hallucinating.
+
+== How to build it (the teaching pathway) ==
+
+# Pick an embedder (MiniLM locally is a fine start) and make it injectable.
+# Chunk your documents (≈1,000–1,500 characters with a little overlap) so passages are retrievable.
+# Embed and store the chunks, keyed by a content hash so indexing is '''resumable''' (a kill mid-run loses nothing).
+# Implement `recall(query, k)` = embed the query, return the k nearest chunks with scores.
+# For grounded answers, feed the top chunks to your model (or just return them — often the passage ''is'' the answer).
+
+That is the entire shape of `integrations/library-index.mjs`, which indexes this repo's libraries — and, since 2026-10-09, the '''whole wiki''' as its `library` domain.
+
+== See also ==
+
+See also: [[AI Development]] · [[Library Index]] · [[The Decades Brain]] · [[Expert Systems and Business Rules Engines]] · [[LoRA and Fine-Tuning]] · [[Crypt-ology]]

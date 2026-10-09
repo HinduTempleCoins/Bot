@@ -1,0 +1,38 @@
+The '''Library Index''' is this ecosystem's semantic index over its own knowledge — the system that lets the [[Hathor|Witness]], the brief/annal writers, and the [[Crypt-ology]] brain '''draw on the corpus''' instead of leaving it as files on disk. It is the working implementation of [[Embeddings Semantic Search and RAG]], and as of 2026-10-09 it indexes the '''entire wiki''' (this Library) alongside the healer, scripture, law, knowledge, chain and coding corpora. This page documents how it is organised and how to use it.
+
+== Domains ==
+
+The index is organised into '''domains''', each mapping to a set of source directories, so a query can be scoped (e.g. the doctor path asks the `healer` domain; the Law AI asks `law`). The domains:
+
+* '''healer''' — the plant-medicine and harm-reduction stacks (oilahuasca, ayahuasca, psychedelics, herbs, Shulgin PIHKAL/TIHKAL, synthesis, consciousness, spirituality).
+* '''scripture''' — the canonical operator documents and scraped primary texts (Ptahhotep, Emerald Tablet, and the like).
+* '''library''' — '''the whole public wiki''' (the Library of Ashurbanipal): every page you are reading. This is the newest domain, and it is what makes the Witness able to answer from its own published pages.
+* '''law''' — the legal reference and maxims; this domain is shared with the '''Law AI''' (its maxims map to the legal-knowledge-graph categories), so `recall({domain:'law'})` is the Law AI's retrieval. See [[Expert Systems and Business Rules Engines]].
+* '''languages''' — ingested grammars, corpora and dictionaries (the Language Center).
+* '''knowledge''' — general corpora (AI technology, ancient Egypt, history, linguistics, media, mystery schools, Phoenician, revolution, soapmaking, space, VanKush, cryptocurrency).
+* '''chain''' — blockchain developer portals, chain libraries, crypto protocols, trading knowledge.
+* '''coding''' — cookbooks, ML libraries and courses, devops, security corpus.
+
+== Two ways to recall ==
+
+The index offers both retrieval styles taught in [[Embeddings Semantic Search and RAG]], because each has its place:
+
+* '''`catalogLookup(query, {domain, k})`''' — '''instant keyword recall''' over a committed, lightweight catalog (`knowledge/_library_catalog.json`): each file scored by query-term overlap with its title and keywords. Zero build, always available, offline. This is what the writers and the brain call first.
+* '''`recall(query, {domain, k})`''' — '''semantic recall''': embeds the query and returns the nearest chunks by vector similarity (FAISS-class ANN on the boxes, cosine fallback in CI). Richer, but needs the vector index built.
+
+== Properties worth copying ==
+
+The Library Index is a good template for any retrieval system you build:
+
+* '''Injectable embedder''' — defaults to local MiniLM; the boxes can inject Ollama's nomic-embed; with no model it soft-falls to a deterministic hashed word-bag so recall '''never throws''' and works in CI.
+* '''Resumable indexing''' — chunks are keyed by content hash and the vector store is checkpointed, so a run killed by a timeout keeps every embedded chunk and the next run continues. The index fills in across runs.
+* '''Priority order''' — domains are walked most-valuable-first, so a partial index is already useful before it reaches the giant general corpora.
+* '''Chunked''' — documents are split (~1,400 chars, slight overlap) so passages are retrievable, with each chunk tagged by domain and source path for citation.
+
+== How it feeds Crypt-ology ==
+
+The [[Crypt-ology]] brain uses the Library Index as its retrieval layer: a question recalls the most relevant pages across the index (the whole wiki + law + healer + the rest), the [[The Decades Brain|Decades brain]] routes and answers cheapest-first, and the answer is grounded in — and can cite — the actual Library. Reading a page also '''moves the reader's position''' on the Crypt-ology map toward that page's subject axis. That loop — index ↔ map — is what makes the Library a living part of the Mystery School rather than a static reference shelf.
+
+== See also ==
+
+See also: [[Embeddings Semantic Search and RAG]] · [[AI Development]] · [[The Decades Brain]] · [[Expert Systems and Business Rules Engines]] · [[Crypt-ology]] · [[The Library of Ashurbanipal]]

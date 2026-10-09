@@ -1,0 +1,41 @@
+'''Expert systems''' and '''business rules engines (BREs)''' are the oldest practical form of artificial intelligence and still one of the most useful: you encode knowledge as explicit '''rules''', and the machine chains them to a conclusion while showing its work. No training data, no model weights, no GPU — and, unlike a neural network, the answer comes with a '''trace''' of exactly which rules fired and why. This is Pathway 1 of [[AI Development]], the 1980s layer of [[The Decades Brain]], and the engine behind this ecosystem's '''Law AI'''. This page teaches the technique and shows the working systems.
+
+== What an expert system is ==
+
+An expert system has three parts:
+
+# A '''knowledge base''' — rules of the form ''IF these facts hold, THEN this conclusion / action'', written by a domain expert.
+# A set of '''facts''' — what is currently known about the case in front of it.
+# An '''inference engine''' — the code that matches facts against rules and fires the ones whose conditions are met, possibly producing new facts that fire further rules (chaining), until it reaches conclusions.
+
+Because every conclusion is reached by named rules, an expert system is '''auditable''': you can always ask "why did it say that?" and get the rule chain. That property is why expert systems never went away in medicine, law, insurance, configuration and compliance — anywhere an answer has to be ''defensible'', not just probable.
+
+== A short history (so you know the vocabulary) ==
+
+* '''1960s — ELIZA''' — pattern/keyword matching; the ancestor of rule-based dialogue.
+* '''1970s — MYCIN''' — a medical expert system that introduced '''certainty factors''' for combining uncertain evidence into a confidence, without full probability theory.
+* '''1980s — production-rule systems / BREs''' — the mature form: large rule sets, forward-chaining engines (the Rete algorithm and its kin), and the commercial boom of expert systems. This is what "business rules engine" usually means today.
+
+== Rules engines in practice ==
+
+A production rule has a '''when''' (conditions over facts), a '''then''' (what to conclude or do), and usually a '''priority''' (which rule wins when several match). You feed the engine a bag of facts; it returns the fired outcomes and a trace. The teaching shape, as implemented in this repo's `integrations/rules-engine.mjs`:
+
+* A '''rule''' = `{ name, priority, when: [ {fact, op, value}, ... ], then: {...} }`.
+* The '''engine''' takes `{fact: value, ...}`, evaluates every rule's conditions, fires matches in priority order, and returns `{outcomes, trace}`.
+* '''Deterministic and offline''' — same facts in, same answer out, every time; no network, no model.
+
+To learn it: write five rules about a domain you know, run a few fact-sets through the engine, and read the trace. You will understand forward chaining faster than any lecture can teach it.
+
+== The Law AI — a real BRE in this ecosystem ==
+
+The clearest working example here is the '''Law AI'''. The founder's own legal doctrine tests are encoded as production rules (`legal_rules.mjs`) over the same rules engine. For instance, an RFRA substantial-burden rule fires when ''a religious practice is present'' AND ''the government conditions that practice on a penalty or a withheld benefit'' — and its `then` carries the doctrine, the statute (42 U.S.C. § 2000bb-1), the holding as used, and the supporting cases from the law book. The charter is strict and worth copying for any rules system that touches high-stakes decisions: it '''states what the law IS, with a trace — never a verdict''', and every treatment is marked non-authoritative (verify before relying on it). The Law AI shares the [[Library Index]]'s `law` domain for its reference corpus, and its rules teach directly into the 1980s layer of [[The Decades Brain]] and the [[Crypt-ology]] brain.
+
+== When to reach for rules vs. a model ==
+
+* Use '''rules''' when the knowledge is known, the logic must be explainable, the inputs are structured facts, and wrong-but-confident answers are unacceptable (law, safety, eligibility, routing).
+* Use a '''model''' (classifier, embeddings, LLM) when the pattern is statistical, the inputs are messy natural language, and some fuzziness is acceptable.
+* Best of all — '''stack them''': rules first (cheap, certain, explainable), model last (flexible, expensive). That is exactly what [[The Decades Brain]] does.
+
+== See also ==
+
+See also: [[AI Development]] · [[The Decades Brain]] · [[Embeddings Semantic Search and RAG]] · [[Library Index]] · [[Crypt-ology]] · [[Angelic Intelligence]]

@@ -1,0 +1,62 @@
+'''Encaustic''' (from Greek ''enkaustikos'', "burned in") is the technique of painting with '''pigment suspended in hot, molten beeswax''', fused to the surface with heat. It is one of the oldest painting media known, the medium of the [[Fayum Mummy Portraits|Fayum mummy portraits]], and — because its binder is beeswax — it belongs directly to the Library's '''wax-technology''' thread alongside [[Punic Wax]], the [[Head Cone|head cone]] and [[Kyphi]]. This page covers how encaustic works, the materials and their melting points, its history and modern revival, and its kinship with the other wax crafts. For the chemistry of saponifying wax into the water-dispersible "Punic wax" emulsion, see [[Punic Wax]]; for pulling the aromatic oils out of plants, see [[Terpene Extraction]].
+
+== How it works ==
+
+The binder is beeswax, usually hardened and clarified with a tree resin so that the finished paint film is tougher and less prone to softening in warm weather. The painter keeps the wax medium molten on a heated palette, mixes in pigment, and lays it down while liquid; as it hits the cooler surface it sets almost at once. The distinctive final step gives the technique its name: the surface is '''"burned in"''' — passed over with a heat source (historically a hot metal rod, the ''cauterium''; today a heat gun or torch) to fuse each layer to the one beneath and to the support, then often polished to a soft sheen. The result is a thick, luminous, slightly translucent paint film that can hold a loaded, sculptural stroke — which is exactly why the encaustic Fayum faces have that buttery highlight on an eyelid or a nose-ridge that flatter media cannot reach.
+
+=== The working sequence ===
+# '''Prepare the support''' — a rigid panel (wood, later board) primed so wax grips; linen was also used.
+# '''Keep the medium hot''' — beeswax (with resin) melted on a heated palette, kept just liquid.
+# '''Charge with pigment''' — dry pigments ground into the molten wax.
+# '''Lay it down fast''' — brush or spatula while liquid; it stiffens on contact.
+# '''Burn in''' — reheat the surface so layers fuse into one continuous film.
+# '''Polish''' — buff the cooled wax to a sheen.
+
+== Materials and melting points ==
+
+The behaviour of the paint is governed by the wax and the resin added to it, and the Library's extraction and resin pages carry straight across here:
+
+* '''Beeswax''' — pure beeswax melts at about '''62–64 °C (144–147 °F)'''. On its own it is soft and can bloom (develop a whitish surface haze).
+* '''Resin hardeners''' raise the melting point, add gloss and prevent blooming. The modern standard is '''damar gum''' (''Shorea'' spp.), typically '''10–25% by weight''', which lifts the working point to roughly '''80–93 °C (180–200 °F)'''. '''Mastic''' (''Pistacia lentiscus'', the "tears of Chios") was the classical Mediterranean choice at about 5–15%; '''copal''', '''kauri''' and others also harden. These are the same resins catalogued on [[Edible Waxes Hive Foods and Aromatic Resins]] and [[Punic Wax]].
+* '''Carnauba''' or '''microcrystalline''' waxes can be added for extra hardness.
+* '''Pigments''' are ordinary artists' dry pigments; because wax is inert and seals them from air, encaustic colours are famously stable and non-yellowing — the preservation property that kept the Fayum portraits bright for two thousand years.
+
+== History ==
+
+* '''Ancient origins.''' The Greeks used encaustic for panel painting and, notably, to paint and protect the marble of sculpture and architecture, and the wooden hulls and figureheads of ships (the wax waterproofed them) — Pliny the Elder discusses encaustic methods. Little Greek panel work survives, because wood does not last.
+* '''The Fayum portraits (c. 100 BCE–300 CE).''' Roman Egypt's dry climate preserved the great surviving body of ancient encaustic — the bound-in funerary portraits treated on the [[Fayum Mummy Portraits]] page. They are the reason we can see what ancient encaustic actually looked like.
+* '''Byzantine icons.''' Some of the earliest surviving Christian '''icons''' — notably at Saint Catherine's Monastery, Sinai — are encaustic, carrying the technique forward from the Fayum tradition into sacred portraiture.
+* '''The German rediscovery.''' The lost ancient formula was recovered in the 20th century by '''Fritz Faiss''' (1905–1981), a Bauhaus student of Paul Klee and Wassily Kandinsky, working with '''Dr Hans Schmid''' — they reconstructed the Punic-wax technique and hold two German patents on wax preparation for encaustic. The key finding to work from: boiling beeswax in sea water and soda '''three times''' raises the melting point from about 60 °C to 100 °C. The full recipe and its variations live on [[Punic Wax]].
+* '''Decline and revival.''' Encaustic faded as tempera and then oil took over (both easier to keep workable without constant heat). It was revived by experimenters in the 18th–19th centuries, decisively by Faiss and Schmid, and by 20th-century artists — '''Jasper Johns''' most famously built his flag and target paintings in encaustic, prizing the way each waxy stroke stays visible and fixed. It is now a widely practised fine-art medium again, helped by electric palettes and heat guns.
+
+== One base technology: soap before it was paint ==
+
+The crucial thing to understand is that encaustic is not really its own invention — it is one use of a single '''base technology''': '''saponified wax''' (Punic wax). You boil wax with an alkali until part of it turns to soap, and you have a water-workable wax base. From that one base, changing only what you add, you get very different materials:
+
+* add '''pigment''' → encaustic '''paint''' (this page);
+* add '''resins''' — '''mastic''', damar, copal, pine rosin — to harden it, raise the melting point, and tune the gloss ([[Edible Waxes Hive Foods and Aromatic Resins]]);
+* add '''different oils and fats''' — olive, almond, and the rest — to soften it into an unguent or cream;
+* add '''sodium silicate''' → "Punic milk," a coating and building material.
+
+That is why the modern world mostly meets this technology as '''paint''' (the encaustic revival, and the Cuní 2012 proof that Roman encaustic was literally a wax-and-soap paint), while in the '''ancient world it was first of all soap''' — the Institute's reading that Punic wax is the origin point of soap technology itself. Paint and soap are the same base, varied. The recipe, the alkali options, and the seven boiling procedures are all on [[Punic Wax]].
+
+== Kinship with the other wax crafts ==
+
+Encaustic is one node in a single material tradition the Institute traces across the whole corpus. The same beeswax, modified in different ways, becomes:
+
+* '''Encaustic''' — wax + resin + pigment, to '''preserve an image''' (this page, and [[Fayum Mummy Portraits]]).
+* '''Punic wax''' — wax saponified with alkali, to make a '''water-dispersible''' coating, emulsifier and soap ([[Punic Wax]]).
+* '''The head cone''' — wax + aromatics, as a '''timed-release''' scent/medicine medium ([[Head Cone]], [[Kyphi]]).
+* '''Mummification sealant''' — wax + resin, to '''preserve a body'''.
+
+Encaustic's specific contribution is the insight that wax preserves not just substances but ''appearances'' — colour and likeness — which is the direct link to the funerary portraits and to the broader reading developed in [[Cera non Panis]].
+
+== Practical notes and safety ==
+
+* '''Heat, not solvent.''' Encaustic needs no turpentine or thinner — heat does the work — which makes it low in solvent fumes, but the wax must be kept hot, so a controlled heat source (electric palette, heat gun) and good ventilation matter.
+* '''Do not overheat the wax.''' Beeswax and damar begin to smoke and degrade well below ignition, and overheated wax fumes are an irritant; keep the medium just molten (under ~100 °C / 212 °F working, never to smoking). A thermostatically controlled palette is the safe tool.
+* '''Resin dust and pigments.''' Grind resins and handle dry pigments with a mask; some pigments are toxic (as in any painting medium).
+
+== See also ==
+
+See also: [[Fayum Mummy Portraits]] · [[Punic Wax]] · [[Head Cone]] · [[Kyphi]] · [[Edible Waxes Hive Foods and Aromatic Resins]] · [[Cera non Panis]] · [[Terpene Extraction]] · [[Crypt-ology]]

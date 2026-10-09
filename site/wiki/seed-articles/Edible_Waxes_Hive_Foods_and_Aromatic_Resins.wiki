@@ -1,0 +1,76 @@
+[[File:edible-waxes.jpg|Beeswax, hive foods, and aromatic resins]]
+
+'''Edible waxes, hive foods and aromatic resins''' sit exactly on the line the ancient world drew faintly and the modern world drew hard: the line between food, medicine and cosmetic. Beeswax, honey, pollen, royal jelly, propolis, and the fragrant tree resins like frankincense, mastic and myrrh were, for most of history, all three at once — eaten, applied and burned. This page gathers the ''food and herb'' dimension of that tradition: which of these materials are genuinely food-grade and how they are used in the kitchen and the apothecary, which are for craft and ceremony only, and where the real safety lines fall. It is the culinary-and-herbal companion to the Library's wax corpus — [[Punic Wax]], [[Head Cone]] and [[Kyphi]] — and it connects the hive-and-resin world to the cooking shelf: [[Cooking with Herbs and Spices]], [[Fermentation]], [[Terpenes]] and [[Terpene Extraction]].
+
+== The food–medicine–cosmetic boundary ==
+
+The guiding observation, drawn from the operator's Punic Wax research (Van Kush, Van Kush Family Research Institute, 2026), is that '''Galen's Cold Cream and Egyptian Magic–style creams are composed entirely of food-grade ingredients''' — olive oil, beeswax, honey, bee pollen, royal jelly, propolis, rosewater. You could eat them. The ancients, the argument runs, did not file "food," "medicine" and "cosmetic" into separate drawers the way we do; a single beeswax-and-honey-and-herb preparation was nourishment, remedy and unguent together. That is the frame for everything below: these are materials that cross categories, and the useful question is not "is it food or medicine?" but "is it safe, at what dose, by what route?" — the same harm-reduction logic the Library applies everywhere.
+
+A note on the deeper reading: the operator's paper ''Cera non Panis'' ("wax, not bread") argues that the Egyptian T-hieroglyph (Gardiner X1), long read as a loaf of bread, is better read as a cake of '''saponified beeswax''' — partly because the baking of bread and the saponification of wax are process-level twins (heat, an alkali or leaven, a worked paste, a set cake). Whether or not one accepts the epigraphy, the kitchen point stands: ''bread and wax were made by analogous craft'', and the hive sat at the centre of the ancient pantry.
+
+== Beeswax as a food-grade material ==
+
+Beeswax (''Cera alba'' refined, ''Cera flava'' yellow) is an approved food additive — '''E901''', a '''glazing agent''' — and shows up in the kitchen more than people realise:
+
+* '''Confectionery glaze.''' A thin beeswax (often with carnauba) coat is what makes gummies, jelly beans and some chocolates glossy and non-stick.
+* '''Cheese rinds.''' Hard cheeses (classically Edam, Gouda) are dipped in wax to seal out air and control moisture while they age — a direct food-preservation use, kin to the sealing uses on [[Punic Wax]] and [[Pickling and Preservation]].
+* '''Comb honey.''' The whole edible comb — wax cells full of honey — is eaten directly; the wax is inert and passes through. Chewing comb is the oldest form of honey consumption.
+* '''Food wraps and coatings.''' Beeswax-cotton wraps are a reusable, food-safe alternative to plastic; wax is also brushed on some fruit and charcuterie to limit moisture loss.
+* '''Not a calorie source.''' Beeswax is indigestible; it is used for texture, gloss and barrier, not nutrition. In quantity it is a mild laxative, which is the only real caution.
+
+For how the same wax, '''saponified''' (boiled with an alkali), becomes the water-dispersible "Punic Wax" used as emulsifier, coating and time-release matrix — including the Kyphi enhancement below — see the dedicated [[Punic Wax]] page; the saponification recipes and safety (stainless steel only, gloves, vinegar to neutralise alkali) live there.
+
+== The hive foods ==
+
+The non-wax products of the hive are genuinely nutritional foods with real pharmacology — and real cautions. This is "apitherapy" in its food sense.
+
+=== Honey ===
+Supersaturated sugar (fructose + glucose) with trace enzymes, acids, aromatics and hydrogen peroxide. It is a humectant, a mild antibacterial (used on wounds — medical-grade manuka especially), a near-eternal keeper (low water activity plus acidity plus peroxide; sealed honey does not spoil), and the universal binder in the resin preparations below. '''Critical safety line: never give honey to infants under 12 months''' — it can carry ''Clostridium botulinum'' spores that a baby's gut cannot yet suppress, causing '''infant botulism'''. Adults and older children are not at this risk. See [[Food Safety]].
+
+=== Bee pollen ===
+The pollen pellets bees pack with nectar and enzymes — protein, amino acids, lipids, vitamins, flavonoids. Taken as a nutrient-dense "superfood" sprinkle. '''Caution:''' can trigger serious '''allergic reactions, including anaphylaxis''', in people allergic to pollen or bee products; start with a few grains.
+
+=== Royal jelly ===
+The glandular secretion fed to queen larvae — rich in proteins (including the royalactins), B-vitamins and the fatty acid 10-HDA. Traditional tonic. '''Caution:''' a documented cause of '''asthma and anaphylaxis''', especially in asthmatics and the atopic; not trivial.
+
+=== Propolis ===
+The resin bees gather from tree buds and process with wax and enzymes to seal and sterilise the hive — effectively the bees' own aromatic-resin medicine, rich in flavonoids and phenolic acids, strongly antimicrobial and antioxidant. Used in lozenges, tinctures and the Egyptian Magic–style cream as a natural preservative. '''Caution:''' a fairly common '''contact allergen''' (especially in those sensitive to bee products or balsams).
+
+== Aromatic resins: which are food, which are craft ==
+
+The fragrant tree resins are the bridge between the hive, the incense burner and the kitchen. Some are genuinely edible/culinary; others are for incense, encaustic and wax-craft only. Knowing which is which matters.
+
+=== Food-grade and culinary resins ===
+* '''Mastic (''Pistacia lentiscus'', "tears of Chios").''' The great edible resin. Chewed as the original chewing gum; ground into Greek/Middle Eastern sweets, the stretchy ice cream '''dondurma''', '''mastiha''' liqueur, breads and spoon-sweets. Piney-cedar flavour. Also a wax hardener (see [[Punic Wax]]).
+* '''Gum arabic / acacia gum (''Acacia senegal'').''' A mainstream food additive — '''E414''', an emulsifier and stabiliser — in soft drinks, wine gums, icings and as a glaze binder. Fully water-soluble; the classic emulsifier for both food and wax formulations.
+* '''Pine resin → retsina.''' Aleppo-pine resin has flavoured Greek '''retsina''' wine for millennia (a fermentation use — see [[Fermentation]]); pine and spruce "gum" were also chewed across the Americas and Europe. Use food/beverage-grade resin only.
+* '''Frankincense and myrrh (''Boswellia'', ''Commiphora'').''' Primarily incense and medicine, but both have a genuine ingestion tradition — frankincense is chewed and brewed as a bitter tonic (Boswellia extracts are studied for inflammation); myrrh tinctures are traditional for mouth and gum care. Bitter and resinous; use sparingly and sourced as food/supplement grade, not raw craft resin.
+* '''Benzoin (''Styrax'').''' Sweet, vanilla-like; the source of benzaldehyde-type notes and a flavour fixative; "friar's balsam" is a traditional benzoin tincture. Food-grade benzoin resinoid is used in flavouring at low levels.
+
+=== Ceremony/craft resins — aromatic, not for eating in bulk ===
+Copal, dragon's blood (Socotran ''Dracaena'' and Amazonian ''Croton'' sangre de drago), palo santo, breu branco/preto, damar, kauri gum, sal, guggul, opoponax. These are for incense, encaustic, wax-hardening and topical/traditional medicine. Several have real medicinal records (guggul for lipids and inflammation in Ayurveda; sangre de drago for wounds; copaiba oleoresin as an anti-inflammatory), but they are '''not culinary ingredients''' — treat them as herbs/medicines with doses, not as food. Sangre de drago and copaiba are taken internally only in traditional/clinical dosing, not as flavourings.
+
+== Herbal preparations from the wax tradition ==
+
+=== The headcone bridge: another subject, joined here through the herbs ===
+The Egyptian '''[[Head Cone]]''' is its own subject — a wax cone worn on the head that melted slowly in the heat of a feast, releasing scent and therapeutic compounds in a timed dose (effectively the world's first transdermal patch). Its deeper meanings — ceremony, consciousness, the Amarna finds — belong to that page, not this one. What ties the headcone to the '''culinary''' shelf is the one thing it was filled with: '''aromatic herbs and resins'''. The cone was a wax ''matrix''; the payload was the same frankincense, myrrh, mastic, cinnamon, cardamom, lotus and aromatic grasses that season food, flavour drink, and build incense like Kyphi. So the headcone enters the Library's food-and-herb world sideways — not as something eaten, but because it is one more use of the ''culinary and apothecary herb cabinet'', the same shelf that supplies [[Cooking with Herbs and Spices]], [[Traditional Spiced Formulations and Synergistic Blends]] and Kyphi below. Follow the herbs and the wax corpus and the cooking corpus turn out to draw from one pantry.
+
+=== Kyphi — the aromatic, fermented temple paste ===
+Kyphi is the sacred Egyptian incense, and it is also the clearest food–herb–incense hybrid in the corpus: '''raisins soaked in wine''' (a deliberate '''fermentation''' interface — see [[Fermentation]]), '''honey''', and a blend of '''frankincense, myrrh, mastic, pine resin, cinnamon''' and aromatic herbs, kneaded into a paste and formed into pellets. Burned at sunset, but built entirely from pantry and apothecary materials. Adding saponified Punic Wax to the paste turns it into a '''slow-release matrix''' — the same timed-release principle as the Egyptian [[Head Cone]]. The Library's dedicated [[Kyphi]] page covers the full recipe; what matters here is that it is an ''herbcraft'' object made of wine, honey, resin and spice.
+
+=== Galen's Cold Cream and the edible unguents ===
+'''Galen's Cold Cream''' (''cérat de Galien'', c. 170 CE) — the oldest continuously used pharmaceutical formula — is simply an emulsion of '''oil, beeswax and rosewater''' (classically 40 g almond or olive oil : 10 g beeswax : 40 g rosewater, with optional rose oil). You melt wax into oil, warm the rosewater to the same temperature, and whisk the water into the oil-wax in a thin stream to form a stable emulsion — the ''identical'' technique to making mayonnaise or hollandaise, just with wax as co-emulsifier. The 19th-century upgrade adds a pinch of borax, which saponifies a little of the wax into soap and stabilises the emulsion — the ancestor of all modern cold creams.
+* '''Herbal variations (all food-grade):''' swap the oil for olive, sweet almond, grapeseed, coconut, hemp, or a '''herb-infused oil''' (lavender, calendula, rosemary); swap the water phase for orange-flower water (neroli), chamomile hydrosol, tea-tree hydrosol or witch hazel. These are the same oils and hydrosols used in cooking and in [[Terpene Extraction]]/[[Hydrosols Absolutes and Botanical Extraction Modalities]].
+* '''Oils from every continent''' (for creams or for cooking): argan (Morocco), marula and baobab (southern/sub-Saharan Africa), jojoba (closest to human sebum — topical only), avocado, neem (antimicrobial, topical/traditional), black seed (''Nigella sativa''), sesame (the Ayurvedic base oil), castor. Edibility varies — sesame, avocado, almond, olive, hemp and black-seed are culinary; jojoba and neem are topical — so match the oil to the use.
+
+== Safety, plainly ==
+
+* '''Infant botulism:''' no honey (and nothing honey-sweetened) for babies under 12 months. The single most important line on this page. See [[Food Safety]].
+* '''Bee-product allergy:''' pollen, royal jelly and propolis can cause serious allergic reactions up to anaphylaxis — introduce tiny amounts, and avoid entirely if you are allergic to bees or have brittle asthma.
+* '''Resins are not snacks:''' only mastic, gum arabic, food-grade benzoin and beverage-grade pine are casual edibles. Frankincense/myrrh are bitter medicines taken in small, sourced doses; copal, dragon's blood, palo santo, damar, kauri and the rest are craft/ceremony/topical, not food.
+* '''Essential oils vs. the plant:''' a resin or herb as a whole food is gentle; its concentrated essential oil is a potent irritant and potentially toxic in bulk — dilution, dose and route decide everything (see [[Terpenes]]).
+* '''Saponification chemistry:''' making Punic Wax uses caustic alkali — stainless steel only, gloves, eye protection, vinegar on hand to neutralise. Those methods and cautions are on [[Punic Wax]].
+
+== See also ==
+
+See also: [[Punic Wax]] · [[Kyphi]] · [[Head Cone]] · [[Cooking with Herbs and Spices]] · [[Traditional Spiced Formulations and Synergistic Blends]] · [[Fermentation]] · [[Preservation Fermentation and Spice]] · [[Pickling and Preservation]] · [[Terpenes]] · [[Terpene Map]] · [[Terpene Extraction]] · [[Hydrosols Absolutes and Botanical Extraction Modalities]] · [[Hops]] · [[Food Safety]] · [[Cannabinoid Oilahuasca]] · [[Cannabis Oil and MHRB Extraction]] · [[Crypt-ology]]

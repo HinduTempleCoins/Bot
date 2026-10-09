@@ -1,0 +1,90 @@
+'''Fermentation''' is preservation by cultivated life rather than added acid. In vegetable fermentation — ''lacto-fermentation'' — salt and an oxygen-free environment select for naturally present lactic-acid bacteria (chiefly ''Leuconostoc'', then ''Lactobacillus'' species), which convert the vegetable's own sugars into lactic acid. That acid drops the pH below the range spoilage and pathogenic organisms tolerate, so the ferment preserves ''itself'' as it sours. It is the complement to [[Pickling and Preservation]]: a vinegar pickle has acid added to it; a ferment makes its own.
+
+This article covers the lacto-fermentation science (salt percentage, anaerobic conditions, keeping solids below the brine), the standard vegetable ferments with weights, troubleshooting (the crucial '''kahm yeast vs. mold''' distinction), and the safety logic that makes the practice reliable.
+
+== The science ==
+
+Three conditions do all the work. Get them right and the ferment is self-protecting.
+
+* '''Salt, by weight.''' Salt favors the lactic-acid bacteria you want and suppresses the ones you don't, while pulling juice from the vegetable to form brine. '''It is measured as a percentage of the weight of vegetable-plus-water, not by volume.''' A kitchen scale is non-negotiable — salt percentage is the whole game. Penn State Extension is explicit that salt is safety-critical and that you must not cut it below what a recipe requires ([https://extension.psu.edu/lets-preserve-fermentation Penn State Extension]).
+* '''Anaerobic (no oxygen).''' Lactic-acid bacteria tolerate low oxygen; most molds and spoilage organisms need air. Submerging everything under the brine removes their habitat.
+* '''Keep the solids below the brine line.''' This is the single most common point of failure. Anything poking above the liquid grows mold. Use a weight (a smaller jar, a brine-filled bag, a glass fermentation weight, or a clean cabbage-leaf cap) to hold the vegetables down. Burp or use an airlid so CO₂ escapes.
+
+Concentration reference (by weight): '''2% ≈ 20 g salt per litre of water; 3.5% ≈ 35 g/L; 5% ≈ 50 g/L'''. Shredded vegetables salted in their own juice (sauerkraut) run leaner, ~2%; whole vegetables submerged in a separate brine run higher, 3.5–5% ([https://extension.illinois.edu/food-preservation University of Illinois Extension]).
+
+== Standard ferments, with weights ==
+
+=== Sauerkraut — the one to learn on ===
+
+Cabbage and salt, nothing else. '''2% salt by weight.'''
+
+# Weigh shredded cabbage. Multiply grams by 0.02 to get grams of salt (e.g. 1000 g cabbage → 20 g salt).
+# Massage the salt into the cabbage until it releases enough liquid to submerge itself (5–10 minutes of squeezing).
+# Pack tightly into a jar or crock, pressing until brine rises over the top. Weight it down.
+# Ferment at cool room temperature (60–70 °F ideal) for '''1–4 weeks''', tasting from about day 7. Longer = more sour. Refrigerate when you like it. (The USDA-tested sauerkraut proportion is 25 lb cabbage to ¾ cup pickling salt, ≈ 2.25% by weight — [https://nchfp.uga.edu/ NCHFP].)
+
+=== Kimchi ===
+
+Napa cabbage brined, then coated in a spiced paste.
+
+* '''Brine stage:''' halve/chop 1 napa cabbage (~1 kg), salt heavily (~3% / 30 g, or a salt-water soak), rest 1–2 hours until floppy, then rinse and drain.
+* '''Paste:''' gochugaru (Korean chili flakes, 3–5 tablespoons), 4 garlic cloves, 1 thumb ginger, 1 tablespoon fish sauce (or salted shrimp; miso for vegan), optional 1 teaspoon sugar; mix with grated daikon and sliced scallion.
+# Massage paste into the drained cabbage (wear gloves).
+# Pack tightly into a jar, press under its own brine, leave headspace for bubbling.
+# Ferment 1–5 days at room temperature, then refrigerate. It keeps fermenting slowly cold.
+
+=== Curtido (Salvadoran) ===
+
+Fast, mild, forgiving. Shredded cabbage, grated carrot, thin-sliced onion, dried oregano. Salt at '''2%''' of total vegetable weight, massage, pack under brine. Ready in 2–3 days at room temperature; many make it as a quick vinegar slaw instead, but the ferment is better.
+
+=== Giardiniera (fermented) ===
+
+Cauliflower florets, carrot, celery, hot pepper. Submerge in a '''3.5–5% brine''' (35–50 g salt per litre), weight down, ferment 1–2 weeks, then (traditionally) drain and pack in oil for the refrigerator. '''Note the oil step is a refrigerator product''' — vegetables under oil at room temperature are a low-oxygen, low-acid environment and a botulism risk, so keep oil-packed giardiniera cold and eat within a couple of weeks.
+
+=== Lacto dill pickles ===
+
+Whole small cucumbers, '''3.5% brine''' (35 g salt per litre of water), plus garlic, dill seed/heads, and a '''tannin leaf''' (grape, oak, horseradish, or black tea) to keep them crisp. Submerge fully, weight, ferment 3–10 days at room temperature until pleasantly sour and the brine turns cloudy. Refrigerate. These are true sour (half-sour to full-sour) pickles — a different food from vinegar dills in [[Pickling and Preservation]].
+
+=== Fermented hot sauce ===
+
+# Stem chiles (seeds optional); pack into a jar with garlic and any aromatics.
+# Cover with '''3–5% brine by weight — 30–50 g salt per litre of water'''. Use 5% in hot-weather conditions, 3% when cool.
+# Weight everything below the liquid line.
+# Ferment at room temperature '''7–21 days'''. It will bubble and cloud, then settle; a longer ferment is more sour and complex.
+# Blend with some of the brine. '''Add vinegar to taste for shelf stability''' (this pushes the finished sauce below pH 4.6 for refrigerated keeping). Strain for a smooth sauce.
+
+Variations: a little mango or pineapple feeds the ferment with fruit sugars; carrot adds body and sweetness; roasted garlic stirred in ''after'' fermenting; smoked chiles for a chipotle character.
+
+=== Fermented garlic honey ===
+
+Peeled garlic cloves covered in raw honey; flip the jar daily so the cloves stay coated.
+
+* '''Mechanism:''' honey is normally too dry to support microbial life, but garlic is ~60% water. The garlic releases moisture, diluting the honey enough that wild yeasts and lactobacilli on the cloves become active. It bubbles for weeks, mellows over about a month, and keeps a long time. The garlic turns syrupy and loses its raw bite.
+* '''Safety — do not skip this.''' Honey can carry ''C. botulinum'' spores, and this is exactly a low-acid, low-oxygen environment. '''Add about a tablespoon of vinegar''' to bring the pH below 4.6 — cheap insurance against a real hazard. '''Never give honey (including fermented honey) to infants under 12 months.'''
+
+== Troubleshooting ==
+
+=== Kahm yeast vs. mold — the distinction that matters ===
+
+* '''Kahm yeast''' — a thin, flat, white-to-cream film, sometimes wrinkled, '''not fuzzy and not colored'''. It is harmless, if a little off-flavored. Skim it off; the ferment underneath is fine. It is more likely when salt is a touch low or the surface meets too much air ([https://extension.illinois.edu/food-preservation/fermenting-faq University of Illinois Extension — Fermenting FAQ]).
+* '''Mold''' — '''fuzzy, raised, and colored''': blue, black, green, pink, or furry white in round patches. This is spoilage. '''Discard the whole batch''' — do not scrape and save. Mold hyphae and byproducts reach well below the visible surface.
+* '''When in doubt, throw it out.''' Slimy texture, rotten or putrid (not sour) smell, or anything that makes you hesitate → discard ([https://extension.illinois.edu/food-preservation/fermenting-faq University of Illinois Extension]).
+
+=== Other signs ===
+
+* '''Cloudy brine, bubbles, sour smell''' — normal and expected. This is the ferment working.
+* '''Soft/mushy vegetables''' — too little salt, too warm, or no tannin leaf. Still safe if it smells sour, but texture is lost.
+* '''No activity after several days''' — too cold, or too much salt. Move somewhere warmer.
+
+== Safety summary ==
+
+Lacto-fermentation has an excellent safety record because the acid the bacteria produce is itself the preservative. The reliable path: '''enough salt, everything under the brine, a cool room, and your own senses.''' Keep oil-packed and honey ferments cold and acidified as noted. For long-term shelf storage of a ferment, use a tested canning recipe (see [[Pickling and Preservation]]) rather than guessing.
+
+== Sources ==
+
+* [https://extension.psu.edu/lets-preserve-fermentation Penn State Extension — Let's Preserve: Fermentation] (salt is safety-critical; do not reduce it)
+* [https://extension.illinois.edu/food-preservation/fermenting-faq University of Illinois Extension — Fermenting FAQ] (kahm yeast vs. mold; when-in-doubt-throw-it-out; brine percentages)
+* [https://nchfp.uga.edu/ National Center for Home Food Preservation] (USDA-tested sauerkraut proportion; fermentation guidance)
+* [https://extension.illinois.edu/food-preservation University of Illinois Extension — Food Preservation] (salt-brine concentration ranges by vegetable size)
+
+See also: [[Pickling and Preservation]] · [[Cannabis Oil and MHRB Extraction]]

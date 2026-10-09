@@ -234,7 +234,22 @@ export function position(profile, plane) {
 
 // Topic interests carried forward verbatim from the prior Crypt-ology structure (index.js). The map
 // is open: observe()/drift() can introduce new topic keys, but these are the seeded corpus axes.
-export const INTEREST_TOPICS = ['mythology', 'religion', 'archaeology', 'esoteric', 'genetics', 'philosophy'];
+// The LSD: Dream-Emulator map axes — UPGRADED WITH EVERYTHING (operator 2026-10-09). The original
+// six were the mystery/esoteric spine; the map now spans the WHOLE Library that is indexed into the
+// Crypt-ology brain (library-index.mjs domains + site/wiki categories), so a person's position moves
+// wherever they travel in the corpus. The map stays OPEN — observe()/drift() may still add keys — but
+// these are the seeded axes, each tied to a library-index domain / wiki category so crypt-ology-brain
+// can drift the right coordinate from what a person reads:
+//   mystery/esoteric spine → the wax/Crypt-ology corpus & ancient mysteries
+//   chemistry·pharmacology·botanicals·entrainment → the healer stacks (knowledge/*, substances/plants)
+//   chains → decentralized networks & compute (MELEK/PRANA/KULA)   law → the Law AI (domain:'law')
+//   ai → AI development (LoRA, graphics/ComfyUI, the Decades/BRE brain)   cooking → the culinary shelf
+//   history → history/people   consciousness → the Angelic-Intelligence / egregore spine (Rule 1)
+export const INTEREST_TOPICS = [
+  'mythology', 'religion', 'archaeology', 'esoteric', 'genetics', 'philosophy',
+  'chemistry', 'pharmacology', 'botanicals', 'entrainment', 'chains', 'law',
+  'ai', 'cooking', 'history', 'consciousness',
+];
 
 const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, Number.isFinite(+x) ? +x : 0));
 

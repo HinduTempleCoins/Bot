@@ -1,0 +1,41 @@
+'''Generative image AI''' makes and transforms pictures from text and from other pictures, using '''diffusion''' models. '''ComfyUI''' is the node-graph tool for building image pipelines you can see, save and share. This is Pathway 5 of [[AI Development]], and it ranges from "keyless, no GPU, runs from a phone" to "local Stable Diffusion with your own [[LoRA and Fine-Tuning|LoRA]]." This page teaches the ladder — from the cheapest route up — and shows how the ecosystem generates its graphics (the '''Metatron''' making-hand of the [[Hathor|Witness]]).
+
+== How diffusion works (the one-paragraph version) ==
+
+A diffusion model is trained by taking real images, adding noise step by step until they are static, and learning to reverse that. To generate, it starts from pure noise and '''denoises''' toward an image that matches your '''prompt''' (steered by a text encoder). The knobs you will meet: '''steps''' (how many denoise passes — more is slower, not always better), '''CFG / guidance''' (how hard it obeys the prompt vs. stays coherent), '''sampler/scheduler''' (the denoising algorithm), '''seed''' (reproducibility), and the '''checkpoint''' (the base model: SD1.5, SDXL, Flux, etc.).
+
+== The ladder: cheapest route first ==
+
+=== Rung 1 — keyless hosted endpoints (no GPU, no account) ===
+The cheapest way to generate is to call a free hosted endpoint. This ecosystem uses '''flux-kontext / Pollinations''' and '''Gemini''' for keyless text-to-image and, crucially, '''image-to-image''' (reference generation). Practical gotchas learned here: keep prompts '''short''', avoid slashes and newlines (they cause HTTP 500s), and expect best results from simple, concrete descriptions. This rung needs no GPU and runs from anywhere.
+
+=== Rung 2 — reference / image-to-image (still keyless) ===
+Upload a picture and generate new images in its likeness — a new pose, scene, or style of the same subject. '''This is not [[LoRA and Fine-Tuning|LoRA]] and needs no training or GPU'''; it is reference-guided diffusion, and it works through the same keyless endpoints. Use it for variations and remakes; reach for a LoRA only when you need the ''same identity reliably across many images''.
+
+=== Rung 3 — CPU diffusion (local, no GPU, slow) ===
+You can run small diffusion models on a plain CPU for private, offline generation when you can tolerate minutes-per-image. The ecosystem has a CPU diffusion worker for exactly this (`genai-cpu-diffusion.mjs`, `genai_cpu_worker.py`) — the "works on the box with no GPU" fallback.
+
+=== Rung 4 — local GPU + ComfyUI (full control) ===
+For speed and control, run Stable Diffusion locally and drive it with '''ComfyUI'''.
+
+== ComfyUI: pipelines you can see ==
+
+ComfyUI represents an image pipeline as a '''graph of nodes''' — load checkpoint → encode prompt → sample → decode → save — wired together on a canvas. Why it is the teaching tool of choice:
+
+* '''Everything is explicit.''' Each step is a node with visible inputs; you learn what a pipeline actually ''is'' instead of hiding it behind one button.
+* '''Workflows are shareable JSON.''' A ComfyUI workflow is a file you can hand to someone else and they get your exact pipeline. This ecosystem keeps reusable '''workflow templates''' (`genai-comfyui-templates.mjs`) and '''Colab templates''' (`genai-colab-templates.mjs`) so you can run on a free cloud GPU when you lack a local one.
+* '''It composes with LoRA and ControlNet.''' Drop in a [[LoRA and Fine-Tuning|LoRA]] node to apply a trained identity; add ControlNet to condition on pose/edges/depth.
+
+A good first ComfyUI pathway: load the default text-to-image graph, generate; add a LoRA loader node and a trigger word; add an image-input node for img2img; then save your graph as a template.
+
+== How the ecosystem generates graphics — the Metatron hand ==
+
+Image generation is '''Metatron''', the "Shilpa Shastra making" part of the Witness — the maker of forms. The pipeline is deliberately layered like everything else here: keyless hosted endpoints first (no GPU), CPU diffusion as an offline fallback, local/ComfyUI + LoRA when identity and quality matter. Supporting modules handle the pieces — providers and routing (`genai-providers.mjs`), reference-sheet compositing (`genai-compose.mjs`), effect and render-mode templates (`genai-effect-templates.mjs`, `genai-render-modes.mjs`), and annotation. The same "cheapest-capable-first" discipline as [[The Decades Brain]] applies: do not spin up a GPU for something a keyless endpoint renders fine.
+
+== A note on wiki images ==
+
+The wiki does not yet render embedded images — a `[[File:]]` shows as a plain link, and there is no media directory. Putting generated graphics on wiki pages therefore needs a small serving-code change first (an image route plus `[[File:]]`→`<img>` rendering), then hosting the keyless-generated images. That build is noted and separate from this teaching page.
+
+== See also ==
+
+See also: [[AI Development]] · [[LoRA and Fine-Tuning]] · [[The Decades Brain]] · [[Embeddings Semantic Search and RAG]] · [[Crypt-ology]] · [[Hathor]]

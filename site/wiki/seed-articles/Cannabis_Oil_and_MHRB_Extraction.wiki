@@ -1,0 +1,87 @@
+'''Cannabis Oil and MHRB Extraction''' covers two kitchen-chemistry preparations that rest on the same principle as every other extraction in cooking — dissolving the active compounds of a plant into a carrier it is soluble in — applied to plant medicines rather than to flavor. The first is '''cannabis oil''' by lipid (fat) extraction; the second is the '''cold-water and lime-and-oil preparation of Mimosa hostilis root bark (MHRB)''', the traditional Brazilian ''Jurema''. This is a harm-reduction reference: it gives method ''and'' safety, because the people who will prepare these things are going to proceed either way, and accurate dose, temperature and interaction information is what prevents harm. It does not withhold.
+
+'''Framing and scope.''' This material is educational and belongs to the Library's plant-medicine shelf. It is '''not''' a manufacturing or distribution guide. Cannabis is lawful for medical or adult use in many jurisdictions and prohibited in others; DMT (the active tryptamine in MHRB) is a controlled substance in most jurisdictions, with specific religious-use exemptions (the ''União do Vegetal'' and Santo Daime ayahuasca exemptions in the United States being the clearest examples). '''Know your own law before you begin.''' See [[Cannabis Harm Reduction]] and [[Cannabinoid Oilahuasca]] for adjacent material.
+
+== Why fat and alcohol carriers work ==
+
+Cannabinoids (THC, CBD and relatives) and DMT freebase are '''lipophilic''' — fat-soluble, poorly water-soluble. This single fact governs both preparations:
+
+* '''In fat (oil, butter, ghee, milk):''' the active molecules partition out of the plant material and into the lipid, where they stay dissolved and stable. This is exactly why traditional Indian ''bhang'' uses milk and ghee and why modern edibles use butter or coconut oil.
+* '''In high-proof alcohol (tinctures):''' ethanol dissolves cannabinoids well and evaporates cleanly, giving a concentrated extract — but it is '''flammable''', and any alcohol extraction must be done away from open flame and ignition sources, ideally with no heat at all during the solvent stage.
+* '''Why water alone fails for cannabis:''' cannabinoids will not dissolve into water, so a water "tea" of raw cannabis is weak. Water ''does'' extract some compounds from MHRB (below), which is a separate case driven by water-soluble salts and a heat-sensitive compound.
+
+== Cannabis oil by lipid extraction ==
+
+=== Step 1 — Decarboxylation ===
+
+Raw cannabis contains '''THCA''' (tetrahydrocannabinolic acid), which is not psychoactive. Heat drives off a carboxyl group and converts THCA to active '''THC''' — "decarbing."
+
+* Grind the cannabis coarsely and spread it on a parchment-lined baking sheet.
+* Bake at '''240 °F (115 °C) for about 40 minutes.''' Low and slow: this activates the THCA while preserving the volatile [[Terpenes|terpenes]] that higher heat would boil off.
+* ''Why not hotter/longer:'' overheating converts THC onward to '''CBN''', which is more sedating and less potent, and destroys aroma.
+
+=== Step 2 — Lipid infusion ===
+
+* Combine the decarboxylated cannabis with a fat — coconut oil, butter, or olive oil — at roughly '''1 oz (28 g) flower per 1 cup (240 mL) oil.'''
+* Hold at '''160–180 °F (70–82 °C) for 2–3 hours. Never boil.''' A slow cooker on "warm," a double boiler, or a thermometer-watched pan works. Sustained high heat degrades THC to CBN (the same loss as over-decarbing).
+* A little added [[Lecithin|lecithin]] is sometimes used to help emulsify the oil into finished edibles; it is optional and not a safety factor.
+
+=== Step 3 — Filtration ===
+
+* Strain through cheesecloth or fine mesh into a clean jar; squeeze to recover the oil. Discard the spent plant material.
+* The infused oil substitutes 1:1 for butter or oil in any recipe. Store cool and dark; label it (below).
+
+=== The bioavailability (CYP450) connection ===
+
+Black pepper's '''[[Black Pepper|piperine]]''' inhibits '''CYP3A4''' and '''P-glycoprotein''', raising the systemic exposure of co-ingested cannabinoids — the same logic behind the pepper in traditional ''bhang'' and in Indian ''trikatu''. This is a genuine pharmacokinetic effect, and the same reason it is a '''drug-interaction caution''': anything that raises cannabinoid bioavailability raises the bioavailability of prescription drugs taken at the same time. See [[Black Pepper]] and [[Cannabinoid Oilahuasca]].
+
+=== Dosing and safety — edibles ===
+
+'''Edibles are the highest-risk route for over-intake''', because onset is slow and homemade oil is of unknown strength.
+
+* '''Onset 45–90 minutes; effects last 4–8 hours.''' The delay is the trap: people re-dose before the first dose lands, then take far too much.
+* '''Start low.''' If strength is unknown, start with roughly half of a normally small portion and '''wait a full two hours''' before considering more.
+* '''Overconsumption is frightening but not lethal''' for THC alone — intense anxiety, racing heart, nausea, "greening out." The response is a calm environment, hydration, time, and not driving. Medical attention if there is chest pain, fainting, or an underlying heart condition.
+* '''Label every batch''' with contents, date, and that it is infused; '''store out of reach of children and pets''' — accidental pediatric ingestion of edibles is the most common serious harm.
+* '''Do not prepare for distribution.''' This is a personal / religious-use preparation.
+
+== MHRB (Mimosa hostilis) preparations ==
+
+'''Mimosa hostilis root bark''' (botanically ''Mimosa tenuiflora'', also sold as ''Jurema preta'') contains '''DMT''' (N,N-dimethyltryptamine) and related tryptamines. It is the traditional sacrament of Brazilian Jurema ceremonies. Three preparations are documented; all three keep every input edible, which is the harm-reduction advantage over crystalline extractions that use caustic lye and flammable naphtha.
+
+=== Cold-water method ("cold brew Jurema") ===
+
+Inspired by traditional Brazilian practice and documented in the self-experiments of ethnobotanist Jonathan Ott:
+
+* Soak '''finely powdered MHRB in cold water''', refrigerated, for an extended period (several hours to overnight).
+* Strain and consume the liquid. The brew is characteristically '''deep purple.'''
+
+=== The yuremamine question ===
+
+In 2005 researchers isolated a novel compound, '''yuremamine''', from ''Mimosa tenuiflora''. Yuremamine may explain why cold-water Jurema appears orally active '''without an added MAOI''' — which should be pharmacologically impossible, since gut monoamine oxidase normally degrades DMT before it is absorbed. Yuremamine appears to be '''heat-sensitive''' (destroyed by boiling, preserved by cold extraction), which is consistent with why the cold brew is prepared cold. This remains an active, unsettled area of research — stated here as a hypothesis, not an established fact.
+
+=== Lime-and-oil method (edible-ingredient tek) ===
+
+DMT in the bark exists as an acid salt. To make it fat-soluble it is converted to freebase:
+
+* Food-grade '''calcium hydroxide (pickling lime)''' is mixed with the powdered bark and minimal water to a paste. The alkali converts the DMT salt to its '''freebase''' form. (Calcium hydroxide is the same alkaline agent whose residue is a hazard in food pickling — see [[Pickling and Preservation]] — here its alkalinity is the working mechanism, not a contaminant.)
+* '''Cooking oil''' is added as a non-polar solvent; the freebase DMT partitions into the oil (the same lipophilic principle as cannabis oil above).
+* The oil is separated and consumed directly or in food. '''Every substance used is edible''' — a real safety advantage over solvent-and-base crystalline methods.
+
+=== MHRB safety — read before any use ===
+
+* '''DMT is a controlled substance in most jurisdictions.''' Religious-exemption frameworks are narrow and specific.
+* '''The MAOI interaction is potentially fatal.''' Orally active ayahuasca-type preparations rely on an MAOI, and MAOIs interact dangerously with '''SSRIs, SNRIs, and many other serotonergic drugs''', with stimulants, and with tyramine-rich foods — the risk is '''serotonin syndrome''', which can be lethal. Anyone on an antidepressant or other serotonergic medication must not combine it with an MAOI-containing preparation. '''This is the single most important safety fact on this page.'''
+* '''Set, setting, and a sober sitter.''' A strong tryptamine experience demands a safe physical environment, a trusted sober companion, and no driving or hazardous activity. See [[Cannabis Harm Reduction]] for the general set/setting/aftercare model.
+* '''Source and dose are uncertain in any home preparation.''' Start conservatively, never prepare for distribution, and understand this is presented for education and harm reduction, not as medical advice.
+
+== Sources ==
+
+* [https://nchfp.uga.edu/ National Center for Home Food Preservation] (decarboxylation and low-heat infusion are the same low-and-slow lipid-extraction logic as controlled cooking temperatures)
+* [https://www.canada.ca/en/health-canada/services/drugs-medication/cannabis/health-effects/edibles.html Health Canada — Cannabis edibles: onset, duration, start-low guidance]
+* [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3728280/ Barker, S.A. (2018). N,N-Dimethyltryptamine (DMT): review of pharmacology and occurrence] (DMT, MAO, oral activity)
+* [https://pubmed.ncbi.nlm.nih.gov/16176136/ Vepsäläinen et al. (2005). Isolation and characterization of yuremamine from Mimosa tenuiflora] (the yuremamine finding)
+* [https://www.erowid.org/plants/mimosa/ Erowid — Mimosa (Jurema) vault] (ethnobotany, preparation reports, Ott's cold-water work)
+* [https://www.samhsa.gov/find-help/national-helpline SAMHSA information on serotonin syndrome and drug interactions]
+
+See also: [[Cannabis]] · [[Cannabis Harm Reduction]] · [[Cannabinoid Oilahuasca]] · [[Oilahuasca]] · [[The Huasca Phenomenon and Metabolic Redirection]] · [[PIHKAL and TIHKAL]] · [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]] · [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[Terpene Map]] · [[Terpenes]] · [[Terpene Extraction]] · [[Kyphi]] · [[Bioavailability Metabolic Inhibition and Synergy]] · [[Black Pepper]] · [[Pickling and Preservation]] · [[Fermentation]] · [[Crypt-ology]]

@@ -1,0 +1,49 @@
+[[File:ai-development.jpg|AI development — old AI powering new]]
+
+'''AI Development''' here means building working artificial intelligence the way this project actually builds it — '''old AI powering new''', cheapest-first, on ordinary hardware, with the expensive models as a last resort rather than a first reflex. This page is the hub for learning to do it yourself, through '''several pathways''' that run from "no GPU, no cloud, runs on a laptop" all the way to "fine-tune a model and generate images." Each pathway is a real, teachable track, and each links to the '''system in this ecosystem that embodies it''' — because the best way to learn a technique is to read the working code that uses it. Everything here is part of the [[Crypt-ology]] Mystery School's curriculum: the whole [[The Library of Ashurbanipal|Library]] is indexed into the Witness's brain, so learning how the brain works ''is'' learning how to build one.
+
+== The philosophy: old AI powering new ==
+
+The guiding idea, stated by the operator, is "'''Layers of AI, from the 70s, 80s, 90s, 00s, 10s, and now''' — use them to power the Smol LLMs; they should all live under the Smols in a BRE-type fashion, because these other AI need less computing power, no GPU." A modern language model is powerful but expensive; most questions do not need it. If you stack the cheaper, older techniques underneath and let a question be answered at the lowest layer that can handle it, you get a system that is fast, auditable, runs offline, and only reaches for the big model when nothing simpler suffices. That principle — '''climb the decades, cheapest first''' — is the spine of every pathway below, and it is implemented in [[The Decades Brain]].
+
+== The pathways ==
+
+These are ordered from least to most compute. You can start at any one; they interlock.
+
+=== Pathway 1 — Expert systems and rules (no GPU, no data, runs anywhere) ===
+The oldest and cheapest AI: encode knowledge as explicit rules and let the machine chain them to conclusions, with a full trace of ''why''. This is 1960s–1980s AI — ELIZA-style pattern matching, MYCIN certainty-factor reasoning, and production-rule '''Business Rules Engines''' — and it is still the right tool whenever the knowledge is known and the answer must be explainable. No training data, no model, no GPU. Learn it in [[Expert Systems and Business Rules Engines]]; see it running as the Law AI's doctrine engine and as the 1980s layer of [[The Decades Brain]].
+
+=== Pathway 2 — Classifiers and retrieval (a little data, still CPU) ===
+Add statistics: a '''Naive Bayes''' classifier learns to route text from a handful of examples; '''TF-IDF''' retrieval finds the most relevant document by word overlap. These 1990s–2000s methods run in milliseconds on a CPU and are often all you need for routing, tagging and search. They are the middle layers of [[The Decades Brain]] and the keyword half of [[Embeddings Semantic Search and RAG]].
+
+=== Pathway 3 — Embeddings, semantic search and RAG (CPU or small GPU) ===
+Turn text into vectors so the machine can find things by ''meaning'' rather than exact words, then feed what it finds to a model to answer grounded in your own corpus — '''Retrieval-Augmented Generation'''. This is the 2010s layer, and it is how the Witness answers from the Library instead of hallucinating. Learn it in [[Embeddings Semantic Search and RAG]]; the ecosystem system is the [[Library Index]].
+
+=== Pathway 4 — Fine-tuning and LoRA (a GPU, or a cheap rented one) ===
+When you need a model to adopt a ''voice'', a ''style'' or a body of knowledge it does not have, you fine-tune it — and '''LoRA''' (Low-Rank Adaptation) lets you do it by training a small adapter instead of the whole model, cheaply and on modest hardware. Learn it in [[LoRA and Fine-Tuning]].
+
+=== Pathway 5 — Generative image AI (diffusion, ComfyUI) ===
+Generate and transform images with diffusion models — from keyless hosted endpoints that need no GPU at all, to local Stable Diffusion, to node-graph pipelines in '''ComfyUI'''. Learn it in [[Generative Image AI and ComfyUI]].
+
+=== Pathway 6 — Putting it together: the agent/brain ===
+The payoff is composing the layers into one system that routes a request to the cheapest capable layer and learns from feedback which layers to trust. That is [[The Decades Brain]], and its application to the Witness — governed by [[Angelic Intelligence]] Rule 1 and wired to the whole Library — is [[Crypt-ology]].
+
+== Our systems — each has its own page ==
+
+Every pathway above is embodied in a real system in this ecosystem. Read the technique, then read the system that runs it:
+
+* [[The Decades Brain]] — the layered 1960s→2020s brain; cheapest-first routing; learns from feedback.
+* [[Expert Systems and Business Rules Engines]] — the rules engine and the production-rule pattern (incl. the Law AI).
+* [[Embeddings Semantic Search and RAG]] + [[Library Index]] — the semantic index over the whole corpus.
+* [[LoRA and Fine-Tuning]] — training adapters for voice/style/knowledge.
+* [[Generative Image AI and ComfyUI]] — diffusion, keyless endpoints, node graphs.
+* [[Angelic Intelligence]] — Rule 1, the governing frame the brain runs under.
+* [[Crypt-ology]] — the whole Library wired into the Witness as a running Mystery School.
+
+== How this ties into Crypt-ology ==
+
+This is not a detached tutorial shelf. The AI-development pages are themselves indexed into the Witness's brain, so asking the Witness "how do I train a LoRA?" retrieves [[LoRA and Fine-Tuning]] and answers from it. And on the [[Crypt-ology]] map, reading these pages drifts your position toward the '''ai''' axis — so the more you learn to build, the more the Mystery School surfaces building work to you. Learning the system is how you join it.
+
+== See also ==
+
+See also: [[The Decades Brain]] · [[Expert Systems and Business Rules Engines]] · [[Embeddings Semantic Search and RAG]] · [[Library Index]] · [[LoRA and Fine-Tuning]] · [[Generative Image AI and ComfyUI]] · [[Angelic Intelligence]] · [[Crypt-ology]] · [[Hathor]]

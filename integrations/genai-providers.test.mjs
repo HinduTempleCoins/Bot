@@ -1,306 +1,70 @@
-// genai-providers.test.mjs — offline tests for the image-provider failover, breaker, and budget.
+// genai-providers.test.mjs — NATIVE-ONLY image generation (operator rule: no external AI, ever).
+// These tests assert the chain is our CPU worker and nothing else, and that no path ever contacts an
+// external API — if the worker is down, generateImage() fails rather than phoning out.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  generateImage, providerStatus, providerConfigured, normSize,
-  __setFetch, __setNow, __resetState,
-} from './genai-providers.mjs';
+import { generateImage, PROVIDERS, providerConfigured, __setFetch, __setNow, __resetState } from './genai-providers.mjs';
 
-// a tiny base64 image payload (not a real PNG, just non-empty bytes)
-const B64 = Buffer.from('fake-image-bytes').toString('base64');
+process.env.GENAI_CPU_SD_POLL_MS = '1';
+process.env.GENAI_CPU_SD_HEALTH_MS = '50';
+const WORKER = 'http://127.0.0.1:8510';
 
-function okResp(body, { json = false, ct } = {}) {
-  return {
-    ok: true, status: 200,
-    headers: { get: (k) => (k.toLowerCase() === 'content-type' ? (ct || (json ? 'application/json' : 'image/png')) : null) },
-    json: async () => body,
-    arrayBuffer: async () => Buffer.from('fake-image-bytes'),
-  };
-}
-function errResp(status = 500) {
-  return { ok: false, status, headers: { get: () => null }, json: async () => ({}), arrayBuffer: async () => new ArrayBuffer(0) };
+function okWorker() {
+  const calls = [];
+  __setFetch(async (url) => {
+    const u = String(url); calls.push(u);
+    if (u.endsWith('/health')) return { ok: true, json: async () => ({ ok: true, queued: 0 }) };
+    if (u.endsWith('/jobs')) return { ok: true, status: 200, json: async () => ({ ok: true, id: 'j1' }) };
+    if (u.includes('/jobs/')) return { ok: true, status: 200, json: async () => ({ ok: true, status: 'done', result: { ok: true, base64: 'QUJD', mime: 'image/png', ms: 1200, mode: 'txt2img' } }) };
+    throw new Error('UNEXPECTED external call to ' + u);
+  });
+  return calls;
 }
 
-function clearKeys() {
-  delete process.env.CF_ACCOUNT_ID; delete process.env.CF_API_TOKEN; delete process.env.GEMINI_API_KEY;
-  delete process.env.GENAI_BREAKER_THRESHOLD; delete process.env.GENAI_BREAKER_COOLDOWN_MS;
-  delete process.env.GENAI_DAILY_CAP; delete process.env.GENAI_CF_DAILY_CAP; delete process.env.GENAI_GEMINI_DAILY_CAP;
-}
-
-test('normSize parses and clamps', () => {
-  assert.equal(normSize('1024x768').label, '1024x768');
-  assert.equal(normSize('bad').label, '1024x1024');
-  assert.equal(normSize('99999x99999').label, '2048x2048');
+test('registry is NATIVE-ONLY — cpusd and nothing else', () => {
+  assert.deepEqual(PROVIDERS.map((p) => p.id), ['cpusd']);
+  for (const bad of ['cloudflare', 'gemini', 'pollinations', 'hfspace', 'aihorde']) {
+    assert.ok(!PROVIDERS.find((p) => p.id === bad), `${bad} must NOT be in the image chain`);
+  }
 });
 
-test('no keys → chain soft-fails all the way to pollinations', async () => {
-  clearKeys(); __resetState();
-  let calls = [];
-  __setFetch(async (url) => {
-    calls.push(String(url));
-    if (String(url).includes('pollinations')) return okResp(null);
-    return errResp();
-  });
-  const r = await generateImage({ prompt: 'a temple' });
+test('renders on our CPU worker, and only the worker is ever contacted', async () => {
+  __resetState(); process.env.GENAI_CPU_SD_URL = WORKER;
+  const calls = okWorker();
+  const r = await generateImage({ prompt: 'an egyptian temple at dawn', size: '512x512' });
   assert.equal(r.ok, true);
-  assert.equal(r.provider, 'pollinations');
-  // cloudflare + gemini skipped for no-key; only pollinations hit the network
-  assert.ok(calls.every((c) => c.includes('pollinations')));
-  const tried = r.tried || [];
-  assert.ok(tried.find((t) => t.id === 'cloudflare' && t.skipped === 'no-key'));
-  assert.ok(tried.find((t) => t.id === 'gemini' && t.skipped === 'no-key'));
+  assert.equal(r.provider, 'cpusd');
+  assert.ok(r.base64);
+  for (const u of calls) assert.ok(u.startsWith(WORKER), `only the worker should be called, saw ${u}`);
 });
 
-test('failover order: cloudflare first when keyed', async () => {
-  clearKeys(); __resetState();
-  process.env.CF_ACCOUNT_ID = 'acct'; process.env.CF_API_TOKEN = 'tok';
+test('worker down → ok:false, and NEVER a fallback to any external API', async () => {
+  __resetState(); process.env.GENAI_CPU_SD_URL = WORKER;
+  const seen = [];
   __setFetch(async (url) => {
-    if (String(url).includes('cloudflare')) return okResp({ result: { image: B64 }, success: true }, { json: true });
-    return errResp();
-  });
-  const r = await generateImage({ prompt: 'a temple' });
-  assert.equal(r.ok, true);
-  assert.equal(r.provider, 'cloudflare');
-  assert.ok(/Cloudflare/.test(r.note));
-});
-
-test('cloudflare fails → falls to gemini → pollinations', async () => {
-  clearKeys(); __resetState();
-  process.env.CF_ACCOUNT_ID = 'acct'; process.env.CF_API_TOKEN = 'tok'; process.env.GEMINI_API_KEY = 'g';
-  // cloudflare 500, gemini returns no image (image-out not available), pollinations ok
-  __setFetch(async (url) => {
-    const u = String(url);
-    if (u.includes('cloudflare')) return errResp(500);
-    if (u.includes('generativelanguage')) return okResp({ candidates: [{ content: { parts: [{ text: 'sorry no image' }] } }] }, { json: true });
-    return okResp(null); // pollinations
-  });
-  const r = await generateImage({ prompt: 'a temple' });
-  assert.equal(r.ok, true);
-  assert.equal(r.provider, 'pollinations');
-});
-
-test('gemini image-out works when key present and cloudflare absent', async () => {
-  clearKeys(); __resetState();
-  process.env.GEMINI_API_KEY = 'g';
-  __setFetch(async (url) => {
-    if (String(url).includes('generativelanguage'))
-      return okResp({ candidates: [{ content: { parts: [{ inlineData: { mimeType: 'image/png', data: B64 } }] } }] }, { json: true });
-    return errResp();
-  });
-  const r = await generateImage({ prompt: 'a temple' });
-  assert.equal(r.provider, 'gemini');
-  assert.equal(r.base64, B64);
-});
-
-test('circuit breaker opens after N consecutive failures and skips provider', async () => {
-  clearKeys(); __resetState();
-  process.env.CF_ACCOUNT_ID = 'a'; process.env.CF_API_TOKEN = 't';
-  process.env.GENAI_BREAKER_THRESHOLD = '2';
-  let cfCalls = 0;
-  __setFetch(async (url) => {
-    const u = String(url);
-    if (u.includes('cloudflare')) { cfCalls++; return errResp(500); }
-    return okResp(null); // pollinations always ok
-  });
-  await generateImage({ prompt: 'x' }); // cf fail #1
-  await generateImage({ prompt: 'x' }); // cf fail #2 → breaker opens
-  const callsBefore = cfCalls;
-  const r = await generateImage({ prompt: 'x' }); // cf should be skipped now
-  assert.equal(cfCalls, callsBefore, 'cloudflare not retried while breaker open');
-  assert.equal(r.provider, 'pollinations');
-  const st = providerStatus().find((p) => p.id === 'cloudflare');
-  assert.equal(st.breakerOpen, true);
-});
-
-test('breaker cooldown expires with injected clock', async () => {
-  clearKeys(); __resetState();
-  process.env.CF_ACCOUNT_ID = 'a'; process.env.CF_API_TOKEN = 't';
-  process.env.GENAI_BREAKER_THRESHOLD = '1'; process.env.GENAI_BREAKER_COOLDOWN_MS = '1000';
-  let t = 1000; __setNow(() => t);
-  let cfGen1 = true; // first generation: cloudflare (both models) fails entirely
-  __setFetch(async (url) => {
-    if (String(url).includes('cloudflare')) { if (cfGen1) return errResp(500); return okResp({ result: { image: B64 } }, { json: true }); }
-    return okResp(null);
-  });
-  await generateImage({ prompt: 'x' }); // both cf models fail → breaker opens (cooldown 1000ms)
-  cfGen1 = false; // cloudflare would succeed now if attempted
-  t = 1500; // still within cooldown
-  let r = await generateImage({ prompt: 'x' });
-  assert.equal(r.provider, 'pollinations'); // cf skipped
-  t = 3000; // past cooldown
-  r = await generateImage({ prompt: 'x' });
-  assert.equal(r.provider, 'cloudflare'); // recovered
-  __setNow(null);
-});
-
-test('daily budget cap skips provider when exhausted (no auto-retry loop)', async () => {
-  clearKeys(); __resetState();
-  process.env.CF_ACCOUNT_ID = 'a'; process.env.CF_API_TOKEN = 't';
-  process.env.GENAI_CF_DAILY_CAP = '2';
-  __setFetch(async (url) => {
-    if (String(url).includes('cloudflare')) return okResp({ result: { image: B64 } }, { json: true });
-    return okResp(null);
-  });
-  let r = await generateImage({ prompt: 'x' }); assert.equal(r.provider, 'cloudflare');
-  r = await generateImage({ prompt: 'x' }); assert.equal(r.provider, 'cloudflare');
-  r = await generateImage({ prompt: 'x' }); // cap hit → over-budget skip → pollinations
-  assert.equal(r.provider, 'pollinations');
-  assert.ok((r.tried || []).find((x) => x.id === 'cloudflare' && x.skipped === 'over-budget'));
-});
-
-test('empty prompt is rejected without any network', async () => {
-  clearKeys(); __resetState();
-  let hit = false; __setFetch(async () => { hit = true; return okResp(null); });
-  const r = await generateImage({ prompt: '   ' });
-  assert.equal(r.ok, false);
-  assert.equal(hit, false);
-});
-
-test('error messages are scrubbed of key-like material', async () => {
-  clearKeys(); __resetState();
-  process.env.GEMINI_API_KEY = 'g';
-  __setFetch(async (url) => {
-    if (String(url).includes('generativelanguage')) throw new Error('failed at key=AIzaSECRETKEY123456789 oops');
-    return okResp(null);
+    const u = String(url); seen.push(u);
+    if (u.endsWith('/health')) throw new Error('worker unreachable');
+    if (u.endsWith('/jobs')) return { ok: false, status: 503, json: async () => ({ ok: false, error: 'down' }) };
+    throw new Error('UNEXPECTED external call to ' + u);
   });
   const r = await generateImage({ prompt: 'x' });
-  // ended at pollinations; the gemini try error must not leak the key
-  const geminiTry = (r.tried || []).find((t) => t.id === 'gemini');
-  assert.ok(geminiTry && !/AIzaSECRET/.test(geminiTry.error || ''));
-});
-
-test('hfspace (gradio) two-step call returns an image, keyless, after pollinations fails', async () => {
-  clearKeys(); __resetState();
-  __setFetch(async (url) => {
-    const u = String(url);
-    if (u.includes('pollinations')) return errResp(502);              // free default down
-    if (u.includes('/gradio_api/call/infer/')) {                       // GET result stream (SSE)
-      const sse = 'event: generating\ndata: null\n\nevent: complete\n' +
-        'data: [{"path":"/tmp/x/image.webp","url":"https://sp.hf.space/gradio_api/file=/tmp/x/image.webp"}, 42]\n\n';
-      return { ok: true, status: 200, headers: { get: () => null }, text: async () => sse };
-    }
-    if (u.includes('/gradio_api/call/infer')) {                        // POST submit → event_id
-      return { ok: true, status: 200, headers: { get: () => null }, json: async () => ({ event_id: 'e1' }) };
-    }
-    if (u.includes('sp.hf.space/gradio_api/file=')) {                  // fetch the produced image
-      return { ok: true, status: 200, headers: { get: (k) => (k.toLowerCase() === 'content-type' ? 'image/webp' : null) }, arrayBuffer: async () => Buffer.from('webp-bytes') };
-    }
-    return errResp();
-  });
-  const r = await generateImage({ prompt: 'a temple' });
-  assert.equal(r.ok, true);
-  assert.equal(r.provider, 'hfspace');
-  assert.equal(r.mime, 'image/webp');
-  assert.ok(/HuggingFace Space/.test(r.note));
-});
-
-test('hfspace surfaces a gradio error event as a soft failover (→ aihorde skipped, ends elsewhere)', async () => {
-  clearKeys(); __resetState();
-  __setFetch(async (url) => {
-    const u = String(url);
-    if (u.includes('pollinations')) return errResp(502);
-    if (u.includes('/gradio_api/call/infer/')) {
-      return { ok: true, status: 200, headers: { get: () => null }, text: async () => 'event: error\ndata: null\n\n' };
-    }
-    if (u.includes('/gradio_api/call/infer')) return { ok: true, status: 200, headers: { get: () => null }, json: async () => ({ event_id: 'e1' }) };
-    if (u.includes('aihorde')) return errResp(500); // horde also down → all exhausted
-    return errResp();
-  });
-  const r = await generateImage({ prompt: 'a temple' });
   assert.equal(r.ok, false);
-  const hf = (r.tried || []).find((t) => t.id === 'hfspace');
-  assert.ok(hf && /gradio error/.test(hf.error || ''), 'hfspace recorded a soft error, did not throw');
+  assert.match(r.error, /exhausted/);
+  for (const u of seen) assert.ok(u.startsWith(WORKER), `must never call an external host, saw ${u}`);
 });
 
-test('image-conditioning skips hfspace (txt2img only)', async () => {
-  clearKeys(); __resetState();
-  // every network attempt fails so the chain runs to exhaustion and we can inspect the skip records
-  __setFetch(async () => errResp(500));
-  const r = await generateImage({ prompt: 'a temple', image: { url: 'https://ref/x.jpg' } });
-  assert.equal(r.ok, false); // pollinations + aihorde attempted (image-capable) but failed
-  const hf = (r.tried || []).find((t) => t.id === 'hfspace');
-  assert.ok(hf && hf.skipped === 'no-image-edit', 'hfspace skipped because it cannot condition on an image');
+test('no worker configured → cpusd skipped, ok:false, zero network calls', async () => {
+  __resetState(); delete process.env.GENAI_CPU_SD_URL;
+  let called = false;
+  __setFetch(async (u) => { called = true; throw new Error('should not fetch ' + u); });
+  const r = await generateImage({ prompt: 'x' });
+  assert.equal(r.ok, false);
+  assert.equal(called, false, 'with no worker URL, no API is contacted');
 });
 
-test('providerConfigured reflects env keys', () => {
-  clearKeys();
-  assert.equal(providerConfigured('pollinations'), true);
-  assert.equal(providerConfigured('cloudflare'), false);
-  process.env.CF_ACCOUNT_ID = 'a'; process.env.CF_API_TOKEN = 't';
-  assert.equal(providerConfigured('cloudflare'), true);
-  clearKeys();
-});
-
-test('our CPU worker (cpusd) goes first when configured, and carries the reference for img2img', async () => {
-  clearKeys(); __resetState();
-  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510';
-  let seen = null; let polls = 0;
-  __setFetch(async (url, opts) => {
-    process.env.GENAI_CPU_SD_POLL_MS = '1';
-    if (String(url) === 'http://127.0.0.1:8510/jobs') { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'j1', position: 0 }, { json: true }); }
-    if (String(url) === 'http://127.0.0.1:8510/jobs/j1') { polls++; if (polls === 1) throw new Error('slow worker'); return okResp(polls < 3 ? { ok: true, status: 'running' } : { ok: true, status: 'done', result: { ok: true, mime: 'image/png', base64: B64, mode: seen.image ? 'img2img' : 'txt2img', ms: 1000 } }, { json: true }); }
-    throw new Error('should not reach fallbacks');
-  });
-  const r = await generateImage({ prompt: 'Hathor in a temple', image: { base64: B64, mime: 'image/png' } });
-  assert.equal(r.ok, true);
-  assert.equal(r.provider, 'cpusd');
-  assert.equal(seen.image.base64, B64);
-  assert.ok(polls >= 3, 'retried a failed poll and kept polling until done');
-  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
-});
-
-test('cpusd is skipped (not counted as a failure) when no worker url is set', async () => {
-  clearKeys(); __resetState(); delete process.env.GENAI_CPU_SD_URL;
-  __setFetch(async () => okResp(null));
-  const r = await generateImage({ prompt: 'a temple' });
-  assert.deepEqual(r.tried.find((t) => t.id === 'cpusd'), { id: 'cpusd', skipped: 'no-key' });
-  __setFetch(null);
-});
-
-test('cpusd steps aside when customers are queued — "busy" is a skip, not a breaker failure', async () => {
-  clearKeys(); __resetState();
-  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510';
-  let submitted = false;
-  __setFetch(async (url) => {
-    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 5, background: 40 }, { json: true });
-    if (String(url).endsWith('/jobs')) { submitted = true; return errResp(500); }
-    return errResp(500); // every fallback fails too
-  });
-  const r = await generateImage({ prompt: 'a temple' });
-  assert.equal(submitted, false);
-  assert.deepEqual(r.tried.find((t) => t.id === 'cpusd'), { id: 'cpusd', skipped: 'busy' });
-  const { providerStatus } = await import('./genai-providers.mjs');
-  assert.equal(providerStatus().find((p) => p.id === 'cpusd').breakerOpen, false);
-  delete process.env.GENAI_CPU_SD_URL; __setFetch(null);
-});
-
-test('background batches do not make cpusd look busy; a remake goes only to cpusd with its structure', async () => {
-  clearKeys(); __resetState();
-  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510'; process.env.GENAI_CPU_SD_POLL_MS = '1';
-  let seen = null;
-  __setFetch(async (url, opts) => {
-    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 0, background: 99 }, { json: true });
-    if (String(url).endsWith('/jobs')) { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'r1' }, { json: true }); }
-    if (String(url).endsWith('/jobs/r1')) return okResp({ ok: true, status: 'done', result: { ok: true, base64: B64, mode: 'remake', ms: 1 } }, { json: true });
-    throw new Error('no other engine may take a remake');
-  });
-  const r = await generateImage({ prompt: 'banquet, realistic', structure: B64, structureScale: 0.5 });
-  assert.equal(r.provider, 'cpusd');
-  assert.deepEqual(seen.structure, { base64: B64 });
-  assert.equal(seen.structureScale, 0.5);
-  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
-});
-
-test('many characters: crowd + seated reach our worker', async () => {
-  clearKeys(); __resetState();
-  process.env.GENAI_CPU_SD_URL = 'http://127.0.0.1:8510'; process.env.GENAI_CPU_SD_POLL_MS = '1';
-  let seen = null;
-  __setFetch(async (url, opts) => {
-    if (String(url).endsWith('/health')) return okResp({ ok: true, queued: 0 }, { json: true });
-    if (String(url).endsWith('/jobs')) { seen = JSON.parse(opts.body); return okResp({ ok: true, id: 'c1' }, { json: true }); }
-    return okResp({ ok: true, status: 'done', result: { ok: true, base64: B64, mode: 'pose', ms: 1 } }, { json: true });
-  });
-  await generateImage({ prompt: 'three gods playing poker', crowd: 3, seated: true });
-  assert.equal(seen.crowd, 3); assert.equal(seen.seated, true);
-  delete process.env.GENAI_CPU_SD_URL; delete process.env.GENAI_CPU_SD_POLL_MS; __setFetch(null);
+test('providerConfigured reflects the worker URL only', () => {
+  process.env.GENAI_CPU_SD_URL = WORKER;
+  assert.equal(providerConfigured('cpusd'), true);
+  delete process.env.GENAI_CPU_SD_URL;
+  assert.equal(providerConfigured('cpusd'), false);
 });

@@ -1,0 +1,173 @@
+'''Stocks and Broths''' are the flavored liquids that form the foundation of professional cooking. A ''stock'' (French ''fond'', meaning "foundation" or "base") is the savory liquid extracted by gently simmering bones, aromatic vegetables, and seasonings in water. From it are built the sauces, soups, braises, risottos, and reductions that constitute the classical repertoire. Auguste Escoffier, who codified modern French kitchen practice, regarded stock-making as the single most important discipline a cook could master: "Indeed, stock is everything in cooking. Without it, nothing can be done." This article covers the master formula, the division into white and brown stocks, the specialty extractions (fish fumet, vegetable stock, Japanese dashi, long-simmered bone broth, remouillage), the great reductions (glace and demi-glace), the art of clarification into consommé, and several worked recipes with quantities. It extends the [[Culinary Arts]] reference maintained by the Van Kush Family Research Institute.
+
+== The Master Stock Formula ==
+The classical ratio taught in professional kitchens is a working guide rather than an inviolable law, but it produces a balanced, full-bodied stock every time:
+
+'''1 Gallon of Stock = 8 lb Bones + 6 Quarts of Water + 1 lb Mirepoix'''
+
+The water volume (6 quarts, or 1.5 gallons) exceeds the finished yield because evaporation and skimming remove roughly a quarter of the liquid over a long simmer. Bones should be cut or sawn into 3-to-4-inch lengths so that more surface area and marrow are exposed to the water. The pot is filled so the bones are covered by one to two inches of liquid; as the level drops, cold water is topped up to keep them submerged.
+
+'''Key rule — add aromatics late.''' Mirepoix, herbs, and the sachet go into the pot only during the final hour (for long meat stocks) or the final 20–30 minutes (for short stocks). Their flavor compounds are volatile; adding them at the start wastes them to hours of evaporation and leaves the vegetables spent and bitter.
+
+=== Mirepoix: the aromatic base ===
+Mirepoix is the standard French aromatic vegetable mixture, measured by weight:
+
+* '''50% onion'''
+* '''25% carrot'''
+* '''25% celery'''
+
+For '''white stocks''', a ''white mirepoix'' omits the carrot (whose orange pigment would tint the liquid) and substitutes leek, parsnip, or additional celery, sometimes with a little mushroom trimming. Regional variants exist: the Italian ''soffritto'' and the Spanish ''sofrito'' use the same trinity cooked in fat; the Cajun and Creole "holy trinity" replaces carrot with green bell pepper (onion, celery, bell pepper).
+
+=== The sachet d'épices and bouquet garni ===
+Seasonings are bundled so they can be lifted out cleanly and never cloud the stock:
+
+* '''Sachet d'épices''' — a cheesecloth pouch tied with string, holding parsley stems, a few sprigs of fresh thyme (or a pinch dried), a bay leaf, and about half a teaspoon of cracked black peppercorns; a crushed garlic clove and a single clove are optional additions.
+* '''Bouquet garni''' — the same aromatics tied into a bundle with leek leaves and twine, used when no cheesecloth is at hand.
+
+'''Stocks are not salted.''' Because a stock is almost always reduced, seasoned, and transformed downstream, salt is added only at the point of final use. Salting the stock itself risks an over-salted sauce or glace after reduction.
+
+== Cooking Times by Bone Type ==
+Simmering time is governed by the size and collagen content of the bones. The goal is to dissolve collagen into gelatin (which gives body) without simmering so long that the stock turns bitter or muddy.
+
+* '''Poultry stock''' (chicken, turkey, duck) — 4 to 6 hours. Light, versatile, the kitchen workhorse.
+* '''Veal stock''' — 6 to 8 hours. Rich in collagen from young joints; produces the gelatin-heavy body prized for sauces. The classical base for demi-glace.
+* '''Beef stock''' — 8 to 12 hours. Hearty and deep; the longer simmer extracts the heavier, denser bones.
+* '''Pork and ham stock''' — 4 to 6 hours. Often built from a ham hock or trotter.
+* '''Fish and shellfish (fumet)''' — 30 to 45 minutes only. Thin, delicate bones give up their flavor fast; overcooking turns the stock bitter and sour.
+* '''Vegetable stock''' — 45 to 60 minutes. No bones; a longer simmer dulls the fresh flavor and clouds the liquid.
+
+'''Collagen and gelatin.''' The body of a good stock comes from collagen, the connective protein in bones, skin, and cartilage. Slow simmering hydrolyzes it into gelatin, which is why a well-made veal or chicken stock sets to a soft jelly when chilled. Knuckle, neck, back, and foot bones, rich in cartilage, give more body than straight marrow bones.
+
+== White Stock vs. Brown Stock ==
+The single decision that most changes a stock's character is whether the bones are roasted first.
+
+=== White stock (fond blanc) ===
+The bones are '''not''' roasted. They are first '''blanched''': covered with cold water, brought just to a boil, then drained and rinsed. Blanching purges blood, scum, and impurities that would otherwise cloud the stock. The clean bones are returned to the pot, covered with fresh cold water, and brought slowly to a bare simmer. Starting in cold water is essential — it lets albumin proteins rise and coagulate into a skimmable scum rather than dispersing into a cloudy suspension. The result is a pale, clean, neutral liquid used for velouté, cream soups, blanquettes, and delicate preparations. Chicken, veal, and fish stocks are typically made white.
+
+=== Brown stock (fond brun) ===
+The bones are '''roasted''' at about 400–450°F (200–230°C) until deeply browned, 45 minutes to an hour and a half, turning once. Roasting drives the '''Maillard reaction''' — the browning of proteins and sugars — which builds hundreds of new aroma and flavor compounds and the deep brown color. The mirepoix is browned too, often in the roasting pan, and '''tomato paste''' is smeared over the bones for the last stretch of roasting (a process called ''pincé'', cooking the paste to a brick-red) to add color, acidity, and depth. Crucially, the roasting pan is '''deglazed''': after the bones come out, a little water or wine is simmered in the pan to dissolve the caramelized ''fond'' (the browned bits) stuck to the bottom, and that liquid is poured into the stockpot — this is pure concentrated flavor that must not be lost. Brown stock is the base for espagnole, demi-glace, and the brown sauces, and for braising liquids.
+
+== Specialty Stocks and Broths ==
+
+=== Fish fumet ===
+A fumet is a concentrated, aromatic fish stock. Unlike a plain fish stock, the bones and mirepoix are first ''sweated'' in a little butter (cooked gently without color), then white wine and water are added and the whole is simmered only 30–45 minutes. Use the bones and heads of lean white fish — sole, flounder, turbot, halibut, snapper, cod. Avoid oily fish (salmon, mackerel, sardine), whose fats turn a fumet greasy and strong. Rinse the bones of all blood first; the gills must be removed as they carry bitterness.
+
+=== Court bouillon ===
+Strictly a "short broth," the court bouillon is not a stock at all but a quickly made aromatic poaching liquid: water acidulated with white wine, lemon, or vinegar, seasoned with mirepoix, herbs, and salt, and simmered 30–45 minutes before use. It is the classic medium for poaching fish, shellfish, and ''variety meats''. The acid firms delicate proteins and keeps them white.
+
+=== Vegetable stock ===
+A clean, all-purpose vegetable stock is built from onion, carrot, celery, leek, and a handful of flavor-builders: tomato, mushroom trimmings, fennel, garlic, and herbs. The vegetables may be sweated in a little oil first for a rounder flavor or used raw for a fresher one. Avoid starchy vegetables (potato clouds the stock) and strong brassicas (cabbage, broccoli, cauliflower turn it sulfurous). Simmer only 45–60 minutes.
+
+=== Dashi ===
+Dashi is the foundational stock of Japanese cuisine and a masterclass in restraint — it is ready in minutes, not hours, and is the primary dietary source of the fifth taste, ''umami'', from naturally occurring glutamates and inosinates. The classic ''ichiban dashi'' (first dashi) is made from two ingredients: '''kombu''' (dried kelp) and '''katsuobushi''' (shavings of dried, smoked, fermented skipjack tuna, also called bonito flakes).
+
+* The kombu is never boiled — boiling draws out alginates that make the broth slimy and bitter. It is steeped in cold water and heated slowly to just below a simmer (about 60–70°C / 140–160°F), then removed.
+* The katsuobushi is added off or just off the heat, steeped about 5 minutes, then strained; it is never boiled hard or the dashi turns fishy and sour.
+* '''Niban dashi''' (second dashi), a weaker stock for miso soup and simmered dishes, is made by re-simmering the used kombu and bonito with a little fresh katsuobushi — the dashi world's equivalent of remouillage.
+* '''Vegan dashi''' uses kombu alone, or kombu with dried shiitake mushrooms (soaked cold for hours), whose guanylate combines with the kelp's glutamate for a deep savory synergy.
+
+=== Bone broth ===
+Bone broth is a stock taken to an extreme and treated as a finished beverage. Bones (often roasted first) are simmered far longer than a conventional stock — 12 to 24 hours and sometimes beyond — frequently with a splash of vinegar added at the start, which lowers the pH and is traditionally said to help draw minerals and dissolve collagen. The long extraction produces a liquid dense with gelatin that sets firm when chilled. Unlike a kitchen stock, bone broth is seasoned and consumed on its own. Nutritionally it supplies gelatin and the amino acids glycine and proline; many health claims made for it (notably "gut healing") outrun the clinical evidence, which remains limited.
+
+=== Remouillage ===
+''Remouillage'' means "re-wetting." After a batch of stock is drained, the spent bones still hold extractable flavor and gelatin. They are covered with fresh water and simmered again to produce a second, weaker stock. This remouillage is thrifty and classical: it is used in place of plain water for the ''next'' batch of stock, or reduced down to concentrate it. It is the direct ancestor of the ''niban dashi'' principle — nothing is wasted.
+
+== The Great Reductions: Glace and Demi-Glace ==
+Reduction is the simplest thickening and concentrating method — boiling or simmering a liquid to evaporate water and intensify everything that remains.
+
+=== Glace (glace de viande) ===
+A ''glace'' is a stock reduced until it is syrupy and coats the back of a spoon — roughly to one-tenth of its original volume. ''Glace de viande'' (from brown meat stock), ''glace de volaille'' (chicken), and ''glace de poisson'' (fish) set to a hard, rubbery, intensely flavored block when chilled and keep for weeks. A teaspoon stirred into a sauce or soup at the end adds enormous depth. A glace is the kitchen's homemade bouillon concentrate.
+
+=== Demi-glace ===
+Demi-glace ("half-glaze") is one of the crowning preparations of classical cooking. The traditional formula is '''equal parts espagnole sauce and brown stock, simmered and reduced by half''', then strained to a glossy, deeply savory, lightly thickened sauce. It is the base from which many of the classical brown "small sauces" (bordelaise, chasseur, Madère) are finished. Many modern kitchens make a lighter "demi" by reducing brown stock heavily without the roux-thickened espagnole, relying on the stock's own gelatin for body.
+
+== Clarification: From Stock to Consommé ==
+A ''consommé'' is a stock made perfectly, brilliantly clear and intensely flavored at the same time — a paradoxical achievement, since clarifying normally weakens flavor while this process concentrates it.
+
+Clarification uses a '''raft''' (French ''clarmeat''): a mixture of lean ground meat, egg whites, finely chopped mirepoix, a little tomato (for acidity and color), and sometimes crushed ice. This mixture is stirred into cold or cool stock, then the pot is heated slowly while stirring ''until'' it approaches a simmer. As the egg-white and meat proteins coagulate, they rise and knit together into a floating raft that traps the fine particles making the stock cloudy, filtering it as the liquid convects gently up through it. Once the raft forms, '''stirring stops'''. A small vent is opened in the raft with a ladle to let the liquid circulate, and the consommé simmers very gently (never a rolling boil, which would break the raft and re-cloud everything) for 60–90 minutes. It is then ladled out carefully and strained through a cloth-lined sieve. An ''oignon brûlé'' — an onion half charred cut-side-down on a dry pan — is often added for a natural amber color.
+
+== Technique Essentials ==
+* '''Start cold, for clarity.''' Bones go into cold water that is brought slowly to temperature, so proteins coagulate and rise rather than dispersing.
+* '''Simmer, never boil.''' Hold a stock at 180–190°F (82–88°C) — a bare simmer with only an occasional bubble. A hard boil emulsifies rendered fat back into the liquid and churns the sediment, turning the stock permanently cloudy and greasy.
+* '''Skim often.''' Remove the gray scum (coagulated albumin) and the fat that rise to the surface, especially in the first hour. A clean surface makes a clean stock.
+* '''Never cover tightly.''' A lid traps heat and can push a stock to a boil, and holds in odors; leave it off or ajar.
+* '''Strain gently.''' Ladle the finished stock out of the pot rather than pouring it, to avoid disturbing the settled sediment. Strain through a fine sieve or a cloth (''chinois'' or muslin).
+* '''Cool fast and safe.''' Cool stock quickly — an ice-water bath or a frozen "ice wand" — through the 140–40°F (60–4°C) danger zone within a few hours. A deep pot of warm stock left on the counter is a classic food-safety failure. Store chilled up to 4–5 days, or freeze for months.
+* '''Degrease.''' Chill the stock and lift off the solidified fat cap, or skim with a ladle while warm.
+
+== Worked Recipes ==
+
+=== White Chicken Stock (makes about 1 gallon) ===
+* 8 lb chicken bones (backs, necks, wings, carcasses), rinsed
+* 6 qt cold water, plus more to top up
+* 1 lb white mirepoix (8 oz onion, 4 oz leek, 4 oz celery), roughly chopped
+* 1 sachet d'épices (parsley stems, thyme, bay leaf, cracked peppercorns)
+
+# Place the rinsed bones in a tall stockpot. Cover with cold water, bring just to a boil, then drain and rinse the bones and pot to blanch them.
+# Return the bones to the pot, cover with 6 qt fresh cold water, and bring slowly to a bare simmer.
+# Skim the scum and fat from the surface for the first 30 minutes. Hold at 180–190°F, uncovered, topping up with cold water to keep the bones submerged.
+# After 3 hours, add the mirepoix and sachet. Simmer 1 hour more (4–6 hours total).
+# Ladle through a fine, cloth-lined strainer. Do not press the solids. Cool rapidly in an ice bath, then refrigerate and lift off the fat.
+
+=== Brown Beef (or Veal) Stock (makes about 1 gallon) ===
+* 8 lb beef or veal bones (knuckle, neck, shank, marrow), cut into 3–4 inch pieces
+* 6 qt cold water, plus more to top up
+* 1 lb mirepoix (8 oz onion, 4 oz carrot, 4 oz celery)
+* 6 oz tomato paste
+* 1 cup red wine or water (for deglazing)
+* 1 sachet d'épices
+
+# Heat the oven to 450°F (230°C). Roast the bones in a single layer about 1 hour, turning once, until deeply browned.
+# Add the mirepoix to the roasting pan and roast 20–30 minutes more. Brush the bones with tomato paste and roast a final 10–15 minutes until the paste turns brick-red (''pincé'').
+# Transfer bones and vegetables to a stockpot. Set the roasting pan on the stove, add the wine or water, and simmer, scraping up every browned bit (''fond''); pour this into the pot.
+# Cover with 6 qt cold water, add the sachet, and bring slowly to a bare simmer. Skim often.
+# Simmer uncovered 8–12 hours (6–8 for veal), topping up with water. Strain, cool rapidly, and degrease. For '''demi-glace''', combine equal parts of this stock with espagnole and reduce by half.
+
+=== Fish Fumet (makes about 2 quarts) ===
+* 3 lb bones and heads from lean white fish (sole, flounder, turbot), gills removed, rinsed of all blood
+* 2 oz butter
+* 8 oz white mirepoix (onion, leek, celery), thinly sliced
+* 1 cup dry white wine
+* about 2 qt cold water
+* a few parsley stems, 1 bay leaf, a few peppercorns, a little lemon
+
+# Melt the butter in a wide pot. Add the mirepoix and the fish bones and ''sweat'' gently, covered, 5–8 minutes, without letting them color.
+# Add the white wine and simmer 2 minutes to cook off the raw alcohol.
+# Add cold water just to cover, the herbs, and the lemon. Bring to a bare simmer and skim.
+# Simmer '''no more than 30–45 minutes'''. Strain gently through a cloth; do not press. Cool quickly.
+
+=== Ichiban Dashi (makes about 1 quart) ===
+* 1 quart (1 L) cold water
+* 10 g kombu (a piece about 4 x 4 inches), wiped, not washed
+* 20–30 g katsuobushi (bonito flakes)
+
+# Put the kombu in the cold water and let it steep 30 minutes (or several hours, refrigerated) to begin extraction without heat.
+# Heat slowly over 10 minutes toward a simmer. Just before the water simmers (about 60–70°C), lift out the kombu — do not let it boil, or the dashi turns slimy and bitter.
+# Bring to a brief simmer, turn off the heat, and add the katsuobushi. Let it steep off the heat about 5 minutes, until the flakes sink.
+# Strain through a cloth-lined sieve without pressing the flakes. Use the spent kombu and bonito to make ''niban dashi''.
+
+=== Beef Consommé (clarifying 1 gallon of brown stock) ===
+* 1 gallon cold, degreased brown beef stock
+* 1 lb very lean ground beef
+* 6 egg whites, lightly beaten
+* 8 oz mirepoix, finely chopped
+* 1 small tomato, chopped (or 2 tbsp tomato paste)
+* 1 oignon brûlé (half an onion charred on a dry pan)
+* salt, to finish only
+
+# In a tall pot, mix the ground beef, egg whites, mirepoix, and tomato into a loose "raft" paste. Stir in the cold stock until combined.
+# Heat slowly, stirring gently and constantly, until the mixture approaches a simmer and the raft begins to coagulate and float. '''Stop stirring once the raft forms.'''
+# Add the oignon brûlé. Open a small vent in the raft with a ladle. Hold at a very gentle simmer (never boil) 60–90 minutes.
+# Ladle the clear consommé out through the vent and strain through a cloth-lined sieve. Blot any surface fat with paper towel. Season with salt to serve.
+
+== Sources ==
+* Auguste Escoffier, ''Le Guide Culinaire'' (1903)
+* ''On Cooking: A Textbook of Culinary Fundamentals'', Labensky et al. (the standard professional stock and sauce ratios)
+* The Culinary Institute of America, ''The Professional Chef''
+* [https://www.seriouseats.com/how-to-make-dashi Serious Eats — How to Make Dashi]
+* [https://en.wikipedia.org/wiki/Stock_(food) Stock (food) — Wikipedia]
+* [https://en.wikipedia.org/wiki/Demi-glace Demi-glace — Wikipedia]
+* [https://en.wikipedia.org/wiki/Consomm%C3%A9 Consommé — Wikipedia]
+* Van Kush Family Research Institute, ''The Culinary Arts'' (2026), Section 1
+
+''This article is part of the Library of Ashurbanipal culinary foundations series. See also [[Culinary Arts]], [[The Five Mother Sauces]], and [[Cooking Methods]].''

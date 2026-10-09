@@ -313,6 +313,37 @@ export const LESSONS = [
     strand: 'defi',
     topic: 'bridge',
   },
+  // ---- Track 5 — The Library & the Mystery School (Tier C, strand 'library') ----
+  // Added 2026-10-09: today's new Library wings (Crypt-ology, the wiki itself, the
+  // AI-development pathways) folded into the tutorial series. Off the staged FSM except
+  // the Library lesson, which maps to the existing contribute_to_the_wiki stage.
+  {
+    id: 'crypt-ology',
+    file: '30-crypt-ology-the-not-a-game.md',
+    title: 'Crypt-ology — the Not-a-Game you are already in',
+    tier: 'C',
+    stageRef: null,
+    strand: 'library',
+    topic: 'crypt-ology',
+  },
+  {
+    id: 'the-library',
+    file: '31-the-library-of-ashurbanipal.md',
+    title: 'The Library of Ashurbanipal — learning, and contributing',
+    tier: 'C',
+    stageRef: 'contribute_to_the_wiki',
+    strand: 'library',
+    topic: 'library',
+  },
+  {
+    id: 'build-your-own-ai',
+    file: '32-build-your-own-ai.md',
+    title: 'Build your own AI — the several pathways',
+    tier: 'C',
+    stageRef: null,
+    strand: 'library',
+    topic: 'ai-development',
+  },
 ];
 
 /** The set of platform slugs a platforms-strand lesson may reference. */

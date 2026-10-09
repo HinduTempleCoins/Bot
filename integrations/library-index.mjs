@@ -40,7 +40,7 @@ const CATALOG_PATH = path.join(REPO_ROOT, 'knowledge', '_library_catalog.json');
 const CHUNK_CHARS = 1400;
 const CHUNK_OVERLAP = 150;
 const CHECKPOINT_EVERY = 20;
-const INDEX_EXTS = new Set(['.md', '.mdx', '.rst', '.txt', '.json', '.jsonl']);
+const INDEX_EXTS = new Set(['.md', '.mdx', '.rst', '.txt', '.json', '.jsonl', '.wiki']);
 
 // Domain → directories (relative to repo root), in PRIORITY ORDER.
 export const DOMAINS = [
@@ -48,6 +48,12 @@ export const DOMAINS = [
     'knowledge/herbs', 'knowledge/shulgin-pihkal-tihkal', 'knowledge/synthesis',
     'knowledge/consciousness', 'knowledge/spirituality']],
   ['scripture', ['knowledge/scripture', 'knowledge/teaching']],   // teaching = scraped primary texts (Ptahhotep, Emerald Tablet, Hercules, Yaksha Prashna)
+  // library = the public Wiki (the Library of Ashurbanipal). The WHOLE wiki is built into the same
+  // index as everything else, so the Witness recalls from its own published pages. This is the
+  // retrieval half of Crypt-ology: recall({domain:'library'}) returns the mysteries/curriculum the
+  // Mystery School teaches, and crypt-ology-brain.mjs moves a person's map-position by what they read.
+  ['library', ['site/wiki/seed-articles', 'site/wiki/articles', 'library-of-ashurbanipal-bot/seed-drafts']],
+  ['law', ['knowledge/legal', 'knowledge/maxims']],   // Law.SoapBox — legal reference + maxims; maxims map to legal-knowledge-graph SEED_CATEGORIES, so recall({domain:'law'}) shares the index with the Law AI
   ['languages', ['knowledge/languages']],  // Language Center datasets (ingested grammars/corpora/dicts)
   ['knowledge', ['knowledge/ai_technology', 'knowledge/ancient_egypt', 'knowledge/history',
     'knowledge/linguistics', 'knowledge/media', 'knowledge/mystery_schools',
@@ -260,7 +266,7 @@ function firstHeading(text, relPath) {
 // generic third-party docs (ml-libs, security-corpus, cookbooks) — useful for the RUNTIME vector
 // index but noise to commit, so it's excluded from the committed artifact (pass {domains:['coding']}
 // or all to include). The semantic buildIndex() still covers every domain.
-export const CATALOG_DOMAINS = ['healer', 'scripture', 'knowledge', 'chain'];
+export const CATALOG_DOMAINS = ['healer', 'scripture', 'library', 'law', 'knowledge', 'chain'];
 export function buildCatalog({ repo = REPO_ROOT, domains = CATALOG_DOMAINS } = {}) {
   const byDomain = {};
   let files = 0;

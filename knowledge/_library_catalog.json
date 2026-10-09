@@ -3,10 +3,12 @@
   "domains": [
     "healer",
     "scripture",
+    "library",
+    "law",
     "knowledge",
     "chain"
   ],
-  "fileCount": 1531,
+  "fileCount": 1903,
   "byDomain": {
     "healer": [
       {
@@ -428,6 +430,63 @@
         ]
       },
       {
+        "path": "knowledge/consciousness/conserved_library_genome_to_cosmos.json",
+        "title": "The Conserved Library: From Genome to Cosmos — A Cross-Species, Electromagnetic, and Neurospiritualist Framework",
+        "bytes": 23361,
+        "keywords": [
+          "same",
+          "through",
+          "electromagnetic",
+          "kush",
+          "system",
+          "circuit",
+          "human",
+          "speech",
+          "conserved",
+          "library",
+          "biological",
+          "beeswax"
+        ]
+      },
+      {
+        "path": "knowledge/consciousness/cosmic_circuit_planetary_electricity.json",
+        "title": "The Cosmic Circuit — Planetary Electricity, Gravitational Spirals, and the Electromagnetic Architecture of the Solar Sys",
+        "bytes": 9686,
+        "keywords": [
+          "lightning",
+          "circuit",
+          "planetary",
+          "system",
+          "earth",
+          "electromagnetic",
+          "solar",
+          "atmospheric",
+          "gravitational",
+          "mars",
+          "paper",
+          "confirmed"
+        ]
+      },
+      {
+        "path": "knowledge/consciousness/cotillion_and_cosmos_institutions.json",
+        "title": "The Cotillion and the Cosmos: Why Modern Freemasonry and Scientology Operate as Social Clubs and Screening Programs",
+        "bytes": 8377,
+        "keywords": [
+          "part",
+          "scientology",
+          "paper",
+          "institute",
+          "biohacking",
+          "freemasonry",
+          "author",
+          "argument",
+          "programme",
+          "test",
+          "same",
+          "does"
+        ]
+      },
+      {
         "path": "knowledge/consciousness/dream_yoga.json",
         "title": "Dream Yoga: Disciplined Lucid Dreaming for Real World Application",
         "bytes": 5379,
@@ -504,6 +563,25 @@
         ]
       },
       {
+        "path": "knowledge/consciousness/gamma_40hz_entrainment_and_neurostim.json",
+        "title": "40Hz Gamma Entrainment and Neurostimulation — Build, Buy, and the Line Between Them",
+        "bytes": 35474,
+        "keywords": [
+          "light",
+          "entrainment",
+          "current",
+          "stimulation",
+          "frequency",
+          "gamma",
+          "evidence",
+          "tens",
+          "research",
+          "visual",
+          "build",
+          "device"
+        ]
+      },
+      {
         "path": "knowledge/consciousness/global_consciousness_network.json",
         "title": "The Global Consciousness Network: Archaeological Evidence for Ancient Civilizational Continuity",
         "bytes": 11122,
@@ -542,6 +620,25 @@
         ]
       },
       {
+        "path": "knowledge/consciousness/l_methylfolate_trimonoamine_amplification.json",
+        "title": "L-Methylfolate as a Trimonoamine Modulator: Clinical Implications, Anatomical Pathways, and the Amplification Framework",
+        "bytes": 44069,
+        "keywords": [
+          "l-methylfolate",
+          "research",
+          "framework",
+          "brain",
+          "author",
+          "cofactor",
+          "amplification",
+          "stack",
+          "methylation",
+          "published",
+          "enzyme",
+          "folate"
+        ]
+      },
+      {
         "path": "knowledge/consciousness/lucid_dreaming.json",
         "title": "Lucid Dreaming: WILD, MILD & DILD Techniques",
         "bytes": 4425,
@@ -561,6 +658,25 @@
         ]
       },
       {
+        "path": "knowledge/consciousness/neurogenesis_neuroprotection_translation_gap.json",
+        "title": "Neurogenesis, Synaptogenesis, and Endocannabinoid Neuroprotection: A Case Study in Systemic Failure to Translate Brain R",
+        "bytes": 10082,
+        "keywords": [
+          "brain",
+          "repair",
+          "neurogenesis",
+          "paper",
+          "endocannabinoid",
+          "neuroprotection",
+          "author",
+          "argument",
+          "bdnf",
+          "mechanism",
+          "patent",
+          "synaptogenesis"
+        ]
+      },
+      {
         "path": "knowledge/consciousness/neurospirituality.json",
         "title": "Neurospirituality - The Science of Religious Experience",
         "bytes": 3033,
@@ -577,6 +693,82 @@
           "marijuana",
           "non-denominational",
           "impacts"
+        ]
+      },
+      {
+        "path": "knowledge/consciousness/seance_project_timeline.json",
+        "title": "The Séance Project — A Complete Timeline of Consciousness Transmission Technology, From Benjamin Franklin to Artificial ",
+        "bytes": 13681,
+        "keywords": [
+          "dead",
+          "year",
+          "first",
+          "figure",
+          "event",
+          "electrical",
+          "reading",
+          "consciousness",
+          "seance",
+          "built",
+          "franklin",
+          "patterns"
+        ]
+      },
+      {
+        "path": "knowledge/consciousness/seance_science_electromagnetic_mechanics.json",
+        "title": "The Séance Science — Integrating Electromagnetic Theory with Consciousness Transmission Mechanics",
+        "bytes": 10782,
+        "keywords": [
+          "light",
+          "specific",
+          "blue",
+          "sleep",
+          "rather",
+          "electromagnetic",
+          "through",
+          "brain",
+          "colour",
+          "activity",
+          "visible",
+          "lunar"
+        ]
+      },
+      {
+        "path": "knowledge/consciousness/swedenborg_invisible_architect.json",
+        "title": "The Invisible Architect: Emanuel Swedenborg, the Man Who Built the Western Afterlife and Filed the First Report from Ano",
+        "bytes": 9015,
+        "keywords": [
+          "aristides",
+          "swedenborg",
+          "section",
+          "claim",
+          "record",
+          "visions",
+          "dreams",
+          "built",
+          "corpus",
+          "biohacking",
+          "most",
+          "because"
+        ]
+      },
+      {
+        "path": "knowledge/consciousness/the_vibration_sound_and_consciousness.json",
+        "title": "The Vibration — A Complete History of Sound, Consciousness, and the Transmission of the Dead",
+        "bytes": 10705,
+        "keywords": [
+          "matter",
+          "consciousness",
+          "sound",
+          "through",
+          "part",
+          "driving",
+          "tesla",
+          "prana",
+          "life",
+          "gandhi",
+          "bose",
+          "photic"
         ]
       },
       {
@@ -1893,6 +2085,25 @@
         ]
       },
       {
+        "path": "knowledge/scripture/table_of_nations_tribes_judges_synthesis.json",
+        "title": "The Table of Nations, the Tribes, and the Judges: 'Not a Weapon'",
+        "bytes": 25386,
+        "keywords": [
+          "judges",
+          "text",
+          "genesis",
+          "israel",
+          "sisera",
+          "their",
+          "reference",
+          "kenite",
+          "unto",
+          "nations",
+          "hand",
+          "jael"
+        ]
+      },
+      {
         "path": "knowledge/scripture/the_convergence.md",
         "title": "The Convergence: AI, Metaverse, and the Reconstruction of Temple Technology",
         "bytes": 32709,
@@ -1947,6 +2158,6736 @@
           "patterns",
           "eternal",
           "knowledge"
+        ]
+      }
+    ],
+    "library": [
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Biological_Immortality.json",
+        "title": "Biological Immortality",
+        "bytes": 1405,
+        "keywords": [
+          "wiki",
+          "https",
+          "wikipedia",
+          "biological",
+          "immortality",
+          "steemit",
+          "marsresident",
+          "senescence",
+          "telomerase",
+          "antisense",
+          "epigenetics",
+          "source"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Biological_Immortality.wiki",
+        "title": "Biological Immortality",
+        "bytes": 16861,
+        "keywords": [
+          "cells",
+          "cell",
+          "senescence",
+          "telomeres",
+          "telomerase",
+          "text",
+          "human",
+          "telomere",
+          "senescent",
+          "cellular",
+          "biological",
+          "years"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Brain_Balance.json",
+        "title": "Brain Balance",
+        "bytes": 1321,
+        "keywords": [
+          "wiki",
+          "https",
+          "brain",
+          "wikipedia",
+          "balance",
+          "mdma",
+          "edgewood",
+          "steemit",
+          "marsresident",
+          "psychedelic",
+          "therapy",
+          "piracetam"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Brain_Balance.wiki",
+        "title": "Brain Balance",
+        "bytes": 5676,
+        "keywords": [
+          "research",
+          "https",
+          "wikipedia",
+          "wiki",
+          "history",
+          "brain",
+          "edgewood",
+          "post",
+          "psychedelic",
+          "article",
+          "arsenal",
+          "mdma"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Building_Brains.json",
+        "title": "Building Brains",
+        "bytes": 1331,
+        "keywords": [
+          "wiki",
+          "https",
+          "wikipedia",
+          "building",
+          "brains",
+          "brain",
+          "steemit",
+          "marsresident",
+          "remyelination",
+          "carnosine",
+          "neurogenesis",
+          "articleid"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Building_Brains.wiki",
+        "title": "Building Brains",
+        "bytes": 6261,
+        "keywords": [
+          "brain",
+          "https",
+          "wikipedia",
+          "wiki",
+          "research",
+          "glial",
+          "author",
+          "carnosine",
+          "cells",
+          "cycloastragenol",
+          "remyelination",
+          "note"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Building_Muscle_Tissue.json",
+        "title": "Building Muscle Tissue",
+        "bytes": 1286,
+        "keywords": [
+          "muscle",
+          "wiki",
+          "https",
+          "building",
+          "tissue",
+          "wikipedia",
+          "steemit",
+          "marsresident",
+          "creatine",
+          "source",
+          "sarms",
+          "articleid"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Building_Muscle_Tissue.wiki",
+        "title": "Building Muscle Tissue",
+        "bytes": 4972,
+        "keywords": [
+          "https",
+          "research",
+          "muscle",
+          "creatine",
+          "health",
+          "wikipedia",
+          "wiki",
+          "reference",
+          "source",
+          "injury",
+          "selective",
+          "androgen"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Chemistry_and_Your_Brain.json",
+        "title": "Chemistry and Your Brain",
+        "bytes": 1455,
+        "keywords": [
+          "wiki",
+          "https",
+          "brain",
+          "wikipedia",
+          "chemistry",
+          "steemit",
+          "marsresident",
+          "axis",
+          "nootropic",
+          "compounds",
+          "articleid",
+          "title"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Chemistry_and_Your_Brain.wiki",
+        "title": "Chemistry and Your Brain",
+        "bytes": 6612,
+        "keywords": [
+          "brain",
+          "https",
+          "wikipedia",
+          "wiki",
+          "compounds",
+          "receptor",
+          "research",
+          "chemistry",
+          "neuropeptides",
+          "systems",
+          "reference",
+          "named"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Constitutional_Rights_in_the_Military.json",
+        "title": "Constitutional Rights in the Military",
+        "bytes": 1437,
+        "keywords": [
+          "military",
+          "https",
+          "rights",
+          "constitutional",
+          "cornell",
+          "wiki",
+          "wikipedia",
+          "uscode",
+          "text",
+          "title",
+          "steemit",
+          "marsresident"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Constitutional_Rights_in_the_Military.wiki",
+        "title": "Constitutional Rights in the Military",
+        "bytes": 4825,
+        "keywords": [
+          "rights",
+          "military",
+          "https",
+          "cornell",
+          "reference",
+          "uscode",
+          "text",
+          "protections",
+          "uniform",
+          "directives",
+          "article",
+          "post"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Curation_Theory__Rewards__the_Auction_Window__and_Honest_Curation.json",
+        "title": "Curation Theory — Rewards, the Auction Window, and Honest Curation",
+        "bytes": 1640,
+        "keywords": [
+          "curation",
+          "window",
+          "rules",
+          "theory",
+          "voting",
+          "rewards",
+          "auction",
+          "honest",
+          "wiki",
+          "curation-engine",
+          "https",
+          "developers"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Curation_Theory__Rewards__the_Auction_Window__and_Honest_Curation.wiki",
+        "title": "Curation Theory — Rewards, the Auction Window, and Honest Curation",
+        "bytes": 9289,
+        "keywords": [
+          "curation",
+          "voting",
+          "reward",
+          "rules",
+          "window",
+          "post",
+          "melek",
+          "vote",
+          "curation-engine",
+          "pool",
+          "timing",
+          "honest"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Edgewood_Arsenal.json",
+        "title": "Edgewood Arsenal",
+        "bytes": 1261,
+        "keywords": [
+          "edgewood",
+          "arsenal",
+          "wiki",
+          "https",
+          "wikipedia",
+          "history",
+          "steemit",
+          "marsresident",
+          "shulgin",
+          "nuremberg",
+          "code",
+          "oversight"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Edgewood_Arsenal.wiki",
+        "title": "Edgewood Arsenal",
+        "bytes": 4885,
+        "keywords": [
+          "edgewood",
+          "https",
+          "history",
+          "oversight",
+          "wikipedia",
+          "wiki",
+          "arsenal",
+          "government",
+          "research",
+          "linked",
+          "human",
+          "program"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Electricity_and_Photovoltaics.json",
+        "title": "Electricity and Photovoltaics",
+        "bytes": 1438,
+        "keywords": [
+          "wiki",
+          "https",
+          "wikipedia",
+          "electricity",
+          "photovoltaics",
+          "steemit",
+          "marsresident",
+          "faraday",
+          "maxwell",
+          "equations",
+          "photovoltaic",
+          "effect"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Electricity_and_Photovoltaics.wiki",
+        "title": "Electricity and Photovoltaics",
+        "bytes": 10508,
+        "keywords": [
+          "electricity",
+          "solar",
+          "https",
+          "wikipedia",
+          "wiki",
+          "photovoltaic",
+          "effect",
+          "photovoltaics",
+          "physics",
+          "equations",
+          "cells",
+          "induction"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Farming__Fowl__Reptiles__Insects_and_Fungi.json",
+        "title": "Farming: Fowl, Reptiles, Insects and Fungi",
+        "bytes": 1676,
+        "keywords": [
+          "wiki",
+          "https",
+          "insects",
+          "wikipedia",
+          "farming",
+          "fowl",
+          "reptiles",
+          "fungi",
+          "steemit",
+          "marsresident",
+          "entomophagy",
+          "fungiculture"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Farming__Fowl__Reptiles__Insects_and_Fungi.wiki",
+        "title": "Farming: Fowl, Reptiles, Insects and Fungi",
+        "bytes": 8588,
+        "keywords": [
+          "https",
+          "insects",
+          "wikipedia",
+          "wiki",
+          "reptiles",
+          "species",
+          "cultivation",
+          "pollination",
+          "homestead",
+          "beneficial",
+          "entomophagy",
+          "farming"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Human_Origins_and_the_Fossil_Record.json",
+        "title": "Human Origins and the Fossil Record",
+        "bytes": 1398,
+        "keywords": [
+          "wiki",
+          "https",
+          "wikipedia",
+          "fossil",
+          "human",
+          "record",
+          "origins",
+          "steemit",
+          "marsresident",
+          "neanderthal",
+          "humanity",
+          "part"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Human_Origins_and_the_Fossil_Record.wiki",
+        "title": "Human Origins and the Fossil Record",
+        "bytes": 10279,
+        "keywords": [
+          "https",
+          "record",
+          "wikipedia",
+          "wiki",
+          "modern",
+          "source",
+          "denisovan",
+          "fossil",
+          "homo",
+          "humans",
+          "populations",
+          "neanderthal"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Humanity__Deep_Time_and_the_Human_Story.json",
+        "title": "Humanity — Deep Time and the Human Story",
+        "bytes": 1324,
+        "keywords": [
+          "wiki",
+          "https",
+          "wikipedia",
+          "humanity",
+          "deep",
+          "human",
+          "time",
+          "story",
+          "steemit",
+          "marsresident",
+          "author",
+          "articleid"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Humanity__Deep_Time_and_the_Human_Story.wiki",
+        "title": "Humanity — Deep Time and the Human Story",
+        "bytes": 11311,
+        "keywords": [
+          "https",
+          "first",
+          "wikipedia",
+          "wiki",
+          "source",
+          "early",
+          "fire",
+          "humanity",
+          "human",
+          "deep",
+          "essay",
+          "electrical"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Inflation_and_Deflation__Token_Emission_and_Burns.json",
+        "title": "Inflation and Deflation — Token Emission and Burns",
+        "bytes": 917,
+        "keywords": [
+          "inflation",
+          "deflation",
+          "token",
+          "emission",
+          "burns",
+          "wiki",
+          "https",
+          "wikipedia",
+          "article",
+          "burn",
+          "price",
+          "articleid"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Inflation_and_Deflation__Token_Emission_and_Burns.wiki",
+        "title": "Inflation and Deflation — Token Emission and Burns",
+        "bytes": 6020,
+        "keywords": [
+          "supply",
+          "token",
+          "emission",
+          "price",
+          "deflation",
+          "burn",
+          "inflation",
+          "tokens",
+          "market",
+          "demand",
+          "real",
+          "fees"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Liquidity__Slippage__and_AMMs.json",
+        "title": "Liquidity, Slippage, and AMMs",
+        "bytes": 933,
+        "keywords": [
+          "slippage",
+          "liquidity",
+          "amms",
+          "wiki",
+          "https",
+          "market",
+          "wikipedia",
+          "docs",
+          "article",
+          "articleid",
+          "title",
+          "bodyfile"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Liquidity__Slippage__and_AMMs.wiki",
+        "title": "Liquidity, Slippage, and AMMs",
+        "bytes": 6222,
+        "keywords": [
+          "price",
+          "liquidity",
+          "market",
+          "slippage",
+          "pool",
+          "trade",
+          "thin",
+          "order",
+          "token",
+          "walls",
+          "book",
+          "formula"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Market_Cap_vs_Fully-Diluted_Valuation.json",
+        "title": "Market Cap vs Fully-Diluted Valuation (FDV)",
+        "bytes": 851,
+        "keywords": [
+          "market",
+          "fully-diluted",
+          "valuation",
+          "supply",
+          "wiki",
+          "circulating",
+          "price",
+          "articleid",
+          "title",
+          "bodyfile",
+          "sources",
+          "local"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Market_Cap_vs_Fully-Diluted_Valuation.wiki",
+        "title": "Market Cap vs Fully-Diluted Valuation (FDV)",
+        "bytes": 4799,
+        "keywords": [
+          "supply",
+          "market",
+          "price",
+          "token",
+          "tokens",
+          "circulating",
+          "emission",
+          "advice",
+          "valuation",
+          "capitalization",
+          "exist",
+          "future"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Mystery_Schools.json",
+        "title": "Mystery Schools",
+        "bytes": 2052,
+        "keywords": [
+          "wiki",
+          "https",
+          "wikipedia",
+          "mystery",
+          "schools",
+          "library",
+          "phoenix",
+          "egyptian",
+          "ogdoad",
+          "steemit",
+          "marsresident",
+          "fire"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Mystery_Schools.wiki",
+        "title": "Mystery Schools",
+        "bytes": 12341,
+        "keywords": [
+          "https",
+          "wikipedia",
+          "wiki",
+          "post",
+          "library",
+          "egyptian",
+          "esoteric",
+          "temples",
+          "alexandria",
+          "asclepeion",
+          "phoenix",
+          "orders"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Neurogenesis__Neuroprotectants_and_Synaptogenesis.json",
+        "title": "Neurogenesis, Neuroprotectants and Synaptogenesis",
+        "bytes": 1444,
+        "keywords": [
+          "neurogenesis",
+          "synaptogenesis",
+          "wiki",
+          "https",
+          "wikipedia",
+          "neuroprotectants",
+          "steemit",
+          "marsresident",
+          "endocannabinoid",
+          "system",
+          "building",
+          "brains"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Neurogenesis__Neuroprotectants_and_Synaptogenesis.wiki",
+        "title": "Neurogenesis, Neuroprotectants and Synaptogenesis",
+        "bytes": 6583,
+        "keywords": [
+          "brain",
+          "https",
+          "research",
+          "neurogenesis",
+          "synaptogenesis",
+          "wikipedia",
+          "wiki",
+          "endocannabinoid",
+          "post",
+          "injury",
+          "system",
+          "neurons"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Order_Books__Buy_Walls__and_Sell_Walls.json",
+        "title": "Order Books, Buy Walls, and Sell Walls",
+        "bytes": 1276,
+        "keywords": [
+          "walls",
+          "sell",
+          "integrations",
+          "order",
+          "books",
+          "wiki",
+          "liquidity-walls",
+          "order-book-spread",
+          "market-depth",
+          "buybacks",
+          "market",
+          "https"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Order_Books__Buy_Walls__and_Sell_Walls.wiki",
+        "title": "Order Books, Buy Walls, and Sell Walls",
+        "bytes": 8733,
+        "keywords": [
+          "wall",
+          "price",
+          "integrations",
+          "book",
+          "liquidity",
+          "order",
+          "walls",
+          "sell",
+          "real",
+          "support",
+          "resistance",
+          "market"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Proof_of_Work__Proof_of_Stake__and_DPoS.json",
+        "title": "Proof of Work, Proof of Stake, and DPoS",
+        "bytes": 1429,
+        "keywords": [
+          "dpos",
+          "proof",
+          "stake",
+          "wiki",
+          "chain",
+          "work",
+          "graphene",
+          "https",
+          "bitcoin",
+          "library-of-ashurbanipal-bot",
+          "generated-articles",
+          "ethereum"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Proof_of_Work__Proof_of_Stake__and_DPoS.wiki",
+        "title": "Proof of Work, Proof of Stake, and DPoS",
+        "bytes": 8065,
+        "keywords": [
+          "proof",
+          "stake",
+          "dpos",
+          "melek",
+          "chain",
+          "block",
+          "work",
+          "delegated",
+          "prana",
+          "layer",
+          "bitcoin",
+          "library-of-ashurbanipal-bot"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Routes_for_Backpacking_Pilgrimages.json",
+        "title": "Routes for Backpacking Pilgrimages",
+        "bytes": 1395,
+        "keywords": [
+          "routes",
+          "backpacking",
+          "pilgrimages",
+          "wiki",
+          "https",
+          "steemit",
+          "marsresident",
+          "wikipedia",
+          "travel",
+          "controlled",
+          "materials",
+          "plants"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Routes_for_Backpacking_Pilgrimages.wiki",
+        "title": "Routes for Backpacking Pilgrimages",
+        "bytes": 8822,
+        "keywords": [
+          "plants",
+          "each",
+          "routes",
+          "visa",
+          "travel",
+          "temple",
+          "network",
+          "seeds",
+          "controlled",
+          "source",
+          "south",
+          "marsresident"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Selling_Is_Not_Profit__Buy_to_Sell_Higher.json",
+        "title": "Selling Isn't Profit — You Have to Buy to Sell Higher",
+        "bytes": 933,
+        "keywords": [
+          "selling",
+          "profit",
+          "sell",
+          "higher",
+          "article",
+          "dumping",
+          "price",
+          "articleid",
+          "title",
+          "bodyfile",
+          "wiki",
+          "sources"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Selling_Is_Not_Profit__Buy_to_Sell_Higher.wiki",
+        "title": "Selling Isn't Profit — You Have to Buy to Sell Higher",
+        "bytes": 5885,
+        "keywords": [
+          "price",
+          "sell",
+          "selling",
+          "profit",
+          "market",
+          "gain",
+          "higher",
+          "sale",
+          "lower",
+          "local",
+          "pending-economics-post",
+          "advice"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Steem___Hive_Bots___the_SteemBots___Steemcenter_ecosystem.json",
+        "title": "Steem & Hive Bots: The SteemBots / Steemcenter Ecosystem",
+        "bytes": 1406,
+        "keywords": [
+          "steemit",
+          "steem",
+          "steemcenter",
+          "bots",
+          "steembots",
+          "ecosystem",
+          "hive",
+          "marsresident",
+          "sources",
+          "articleid",
+          "title",
+          "bodyfile"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Steem___Hive_Bots___the_SteemBots___Steemcenter_ecosystem.wiki",
+        "title": "Steem & Hive Bots: The SteemBots / Steemcenter Ecosystem",
+        "bytes": 17879,
+        "keywords": [
+          "bots",
+          "steem",
+          "steemit",
+          "cryptocurrency",
+          "history",
+          "json",
+          "blockchain",
+          "witness",
+          "ecosystem",
+          "automated",
+          "melek",
+          "posts"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Supply_and_Demand__the_Price_Basics.json",
+        "title": "Supply and Demand — the Price Basics",
+        "bytes": 898,
+        "keywords": [
+          "supply",
+          "demand",
+          "price",
+          "wiki",
+          "basics",
+          "https",
+          "wikipedia",
+          "series",
+          "articles",
+          "articleid",
+          "title",
+          "bodyfile"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Supply_and_Demand__the_Price_Basics.wiki",
+        "title": "Supply and Demand — the Price Basics",
+        "bytes": 4682,
+        "keywords": [
+          "price",
+          "demand",
+          "supply",
+          "sell",
+          "market",
+          "token",
+          "buyers",
+          "want",
+          "more",
+          "walls",
+          "shifts",
+          "advice"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Church_of_Neuroscience_and_Biohacking.json",
+        "title": "The Church of Neuroscience and Biohacking",
+        "bytes": 1818,
+        "keywords": [
+          "wiki",
+          "https",
+          "wikipedia",
+          "church",
+          "neuroscience",
+          "biohacking",
+          "stimulation",
+          "steemit",
+          "marsresident",
+          "transcranial",
+          "shelf",
+          "links"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Church_of_Neuroscience_and_Biohacking.wiki",
+        "title": "The Church of Neuroscience and Biohacking",
+        "bytes": 10785,
+        "keywords": [
+          "https",
+          "post",
+          "stimulation",
+          "church",
+          "wikipedia",
+          "wiki",
+          "light",
+          "library",
+          "dream",
+          "brain",
+          "neuroscience",
+          "electrical"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Economics_No_Coin_Dev_Teaches.json",
+        "title": "The Economics No Coin Dev Teaches — Buybacks, Utility, and Why DevCoin Failed",
+        "bytes": 1256,
+        "keywords": [
+          "economics",
+          "buybacks",
+          "coin",
+          "devcoin",
+          "teaches",
+          "utility",
+          "marsresident",
+          "failed",
+          "https",
+          "bitcointalk",
+          "topic",
+          "steemit"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Economics_No_Coin_Dev_Teaches.wiki",
+        "title": "The Economics No Coin Dev Teaches — Buybacks, Utility, and Why DevCoin Failed",
+        "bytes": 5936,
+        "keywords": [
+          "token",
+          "economics",
+          "bitcointalk",
+          "real",
+          "coin",
+          "buybacks",
+          "devcoin",
+          "utility",
+          "https",
+          "marsresident",
+          "supply",
+          "steem"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Medical_Applications_of_Light.json",
+        "title": "The Medical Applications of Light",
+        "bytes": 1585,
+        "keywords": [
+          "https",
+          "light",
+          "medical",
+          "applications",
+          "wiki",
+          "steemit",
+          "marsresident",
+          "knowledge",
+          "media",
+          "json",
+          "wikipedia",
+          "health"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Medical_Applications_of_Light.wiki",
+        "title": "The Medical Applications of Light",
+        "bytes": 9162,
+        "keywords": [
+          "light",
+          "https",
+          "medical",
+          "blue",
+          "effects",
+          "post",
+          "brain",
+          "source",
+          "applications",
+          "tissue",
+          "clock",
+          "melanopsin"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Ogdoad.json",
+        "title": "The Ogdoad",
+        "bytes": 1365,
+        "keywords": [
+          "wiki",
+          "https",
+          "ogdoad",
+          "wikipedia",
+          "steemit",
+          "marsresident",
+          "egyptian",
+          "egyptian-cosmology",
+          "mystery",
+          "schools",
+          "articleid",
+          "title"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Ogdoad.wiki",
+        "title": "The Ogdoad",
+        "bytes": 5570,
+        "keywords": [
+          "https",
+          "wikipedia",
+          "wiki",
+          "essay",
+          "egyptian",
+          "planets",
+          "calendar",
+          "ogdoad",
+          "gods",
+          "days",
+          "week",
+          "machines"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Two-Token_Economy__MELEK_and_PRANA.json",
+        "title": "The Two-Token Economy — MELEK and PRANA",
+        "bytes": 1563,
+        "keywords": [
+          "prana",
+          "two-token",
+          "economy",
+          "melek",
+          "wiki",
+          "wmelek",
+          "buyback",
+          "floor",
+          "tokens",
+          "token",
+          "tokenomics",
+          "liquidity"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/The_Two-Token_Economy__MELEK_and_PRANA.wiki",
+        "title": "The Two-Token Economy — MELEK and PRANA",
+        "bytes": 9634,
+        "keywords": [
+          "token",
+          "market",
+          "melek",
+          "prana",
+          "tokens",
+          "price",
+          "chain",
+          "bridge",
+          "apis",
+          "kula",
+          "wmelek",
+          "lineage"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Token_Buybacks__Market_Fees__and_the_UIA_Lineage.json",
+        "title": "Token Buybacks, Market Fees, and the UIA Lineage",
+        "bytes": 1878,
+        "keywords": [
+          "bitshares",
+          "https",
+          "docs",
+          "buybacks",
+          "market",
+          "fees",
+          "lineage",
+          "token",
+          "wiki",
+          "local",
+          "latest",
+          "html"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Token_Buybacks__Market_Fees__and_the_UIA_Lineage.wiki",
+        "title": "Token Buybacks, Market Fees, and the UIA Lineage",
+        "bytes": 16784,
+        "keywords": [
+          "market",
+          "bitshares",
+          "asset",
+          "docs",
+          "token",
+          "supply",
+          "https",
+          "issuer",
+          "buyback",
+          "liquidity",
+          "local",
+          "buybacks"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Tokenomics_101.json",
+        "title": "Tokenomics 101",
+        "bytes": 874,
+        "keywords": [
+          "tokenomics",
+          "wiki",
+          "market-depth",
+          "token",
+          "concentration",
+          "emission",
+          "price",
+          "articleid",
+          "title",
+          "bodyfile",
+          "sources",
+          "local"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Tokenomics_101.wiki",
+        "title": "Tokenomics 101",
+        "bytes": 6199,
+        "keywords": [
+          "supply",
+          "token",
+          "real",
+          "emission",
+          "tokens",
+          "sinks",
+          "tokenomics",
+          "design",
+          "market",
+          "faucets",
+          "distribution",
+          "fees"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Using_the_WADA_List_as_Health_Reference.json",
+        "title": "Using the WADA List as Health Reference",
+        "bytes": 1611,
+        "keywords": [
+          "wiki",
+          "https",
+          "wikipedia",
+          "list",
+          "using",
+          "wada",
+          "health",
+          "reference",
+          "anti-doping",
+          "steemit",
+          "marsresident",
+          "blood"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Using_the_WADA_List_as_Health_Reference.wiki",
+        "title": "Using the WADA List as Health Reference",
+        "bytes": 6629,
+        "keywords": [
+          "prohibited",
+          "https",
+          "wikipedia",
+          "wiki",
+          "list",
+          "blood",
+          "anti-doping",
+          "wada",
+          "post",
+          "muscle",
+          "education",
+          "reference"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/What_a_Witness_Is_and_Does.json",
+        "title": "What a Witness Is and Does",
+        "bytes": 1783,
+        "keywords": [
+          "witness",
+          "wiki",
+          "library-of-ashurbanipal-bot",
+          "generated-articles",
+          "does",
+          "blockchain",
+          "graphene",
+          "dpos",
+          "bringup-check",
+          "block",
+          "steem",
+          "blurt"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/What_a_Witness_Is_and_Does.wiki",
+        "title": "What a Witness Is and Does",
+        "bytes": 9611,
+        "keywords": [
+          "witness",
+          "chain",
+          "block",
+          "graphene",
+          "witnesses",
+          "library-of-ashurbanipal-bot",
+          "generated-articles",
+          "wiki",
+          "melek",
+          "price",
+          "blockchain",
+          "feed"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Wirearchy.json",
+        "title": "Wirearchy",
+        "bytes": 1090,
+        "keywords": [
+          "wirearchy",
+          "wiki",
+          "https",
+          "wikipedia",
+          "steemit",
+          "flat",
+          "marsresident",
+          "organization",
+          "hierarchy",
+          "explainer",
+          "articleid",
+          "title"
+        ]
+      },
+      {
+        "path": "library-of-ashurbanipal-bot/seed-drafts/Wirearchy.wiki",
+        "title": "Wirearchy",
+        "bytes": 4066,
+        "keywords": [
+          "flat",
+          "wirearchy",
+          "https",
+          "wikipedia",
+          "knowledge",
+          "organization",
+          "wiki",
+          "governance",
+          "voluntary",
+          "essay",
+          "information",
+          "authority"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Akasha_Wallet.wiki",
+        "title": "Akasha_Wallet.wiki",
+        "bytes": 438,
+        "keywords": [
+          "akasha",
+          "prana",
+          "soapbox",
+          "community",
+          "wallet",
+          "blockchain",
+          "function",
+          "chain",
+          "published",
+          "provides",
+          "account",
+          "creation"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/APIS.wiki",
+        "title": "APIS.wiki",
+        "bytes": 2072,
+        "keywords": [
+          "apis",
+          "token",
+          "melek-engine",
+          "layer",
+          "tokens",
+          "melek",
+          "engine",
+          "apis-hash",
+          "blockchain",
+          "running",
+          "mechanic",
+          "wrapped"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Appeals_and_Writs.wiki",
+        "title": "Appeals_and_Writs.wiki",
+        "bytes": 5011,
+        "keywords": [
+          "court",
+          "writs",
+          "state",
+          "federal",
+          "soapbox",
+          "appeals",
+          "community",
+          "agency",
+          "step",
+          "deadlines",
+          "legal",
+          "habeas"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Benefit_Societies.wiki",
+        "title": "Benefit_Societies.wiki",
+        "bytes": 6514,
+        "keywords": [
+          "fraternal",
+          "societies",
+          "society",
+          "benefit",
+          "https",
+          "insurance",
+          "state",
+          "burial",
+          "members",
+          "friendly",
+          "member",
+          "under"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Congress.ink.wiki",
+        "title": "Congress.ink.wiki",
+        "bytes": 371,
+        "keywords": [
+          "congress",
+          "melek",
+          "surface",
+          "blockchain",
+          "pentecaust",
+          "short-form",
+          "social",
+          "ecosystem",
+          "published",
+          "posts",
+          "chain",
+          "shares"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Crypt-ology.wiki",
+        "title": "Crypt-ology.wiki",
+        "bytes": 10569,
+        "keywords": [
+          "library",
+          "witness",
+          "real",
+          "crypt-ology",
+          "system",
+          "built",
+          "runs",
+          "mysteries",
+          "first",
+          "toward",
+          "punic",
+          "not-a-game"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Curation_Trails_and_Auto-Voting.wiki",
+        "title": "Curation Trails and Auto-Voting",
+        "bytes": 4914,
+        "keywords": [
+          "curation",
+          "melek",
+          "votes",
+          "chain",
+          "their",
+          "voting",
+          "vote",
+          "running",
+          "auto-vote",
+          "service",
+          "witness",
+          "front-end"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Dilution_Calculator.wiki",
+        "title": "Dilution_Calculator.wiki",
+        "bytes": 1753,
+        "keywords": [
+          "dilution",
+          "target",
+          "calculator",
+          "concentration",
+          "stock",
+          "about",
+          "essential-oil",
+          "percentage",
+          "ratio",
+          "soapbox",
+          "much",
+          "solvent"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Dudael.wiki",
+        "title": "Dudael.wiki",
+        "bytes": 843,
+        "keywords": [
+          "dudael",
+          "metaverse",
+          "surface",
+          "live",
+          "family",
+          "soapbox",
+          "ecosystem",
+          "placeholder",
+          "describes",
+          "built",
+          "page",
+          "kush"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Faux_Law_Files.wiki",
+        "title": "Faux_Law_Files.wiki",
+        "bytes": 5122,
+        "keywords": [
+          "real",
+          "portal",
+          "code",
+          "soapbox",
+          "clip",
+          "legal",
+          "faux",
+          "files",
+          "sovereign",
+          "citizen",
+          "surface",
+          "clips"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Foundational_Law.wiki",
+        "title": "Foundational_Law.wiki",
+        "bytes": 1164,
+        "keywords": [
+          "constitution",
+          "soapbox",
+          "power",
+          "page",
+          "community",
+          "layer",
+          "three",
+          "branches",
+          "article",
+          "every",
+          "each",
+          "congress"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Free_Speech_and_Sedition.wiki",
+        "title": "Free_Speech_and_Sedition.wiki",
+        "bytes": 1184,
+        "keywords": [
+          "soapbox",
+          "speech",
+          "sedition",
+          "surface",
+          "free-speech",
+          "community",
+          "published",
+          "protected",
+          "advocacy",
+          "descriptive",
+          "hold",
+          "legal"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Hathor_(AI_Witness).wiki",
+        "title": "Hathor_(AI_Witness).wiki",
+        "bytes": 1545,
+        "keywords": [
+          "witness",
+          "account",
+          "melek",
+          "hathor",
+          "operator",
+          "blockchain",
+          "chain",
+          "public",
+          "software",
+          "rather",
+          "role",
+          "across"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Hathor_40_Hz.wiki",
+        "title": "Hathor_40_Hz.wiki",
+        "bytes": 1668,
+        "keywords": [
+          "hathor",
+          "entrainment",
+          "live",
+          "evidence",
+          "including",
+          "build",
+          "surface",
+          "session",
+          "hardware",
+          "gamma",
+          "melek",
+          "sleep"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Hathor_Studio.wiki",
+        "title": "Hathor_Studio.wiki",
+        "bytes": 4630,
+        "keywords": [
+          "studio",
+          "hathor",
+          "make",
+          "image",
+          "images",
+          "character",
+          "melek",
+          "free",
+          "engine",
+          "scene",
+          "keys",
+          "remakes"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/KulaSwap.wiki",
+        "title": "KulaSwap.wiki",
+        "bytes": 958,
+        "keywords": [
+          "kula",
+          "kulaswap",
+          "pairs",
+          "vkbt",
+          "cure",
+          "exchange",
+          "melek",
+          "prana",
+          "money",
+          "blockchain",
+          "asset",
+          "against"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Legal_Doctrines.wiki",
+        "title": "Legal_Doctrines.wiki",
+        "bytes": 3935,
+        "keywords": [
+          "states",
+          "united",
+          "doctrines",
+          "soapbox",
+          "page",
+          "case",
+          "sovereign-citizen",
+          "clause",
+          "legal",
+          "community",
+          "every",
+          "court"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Legal_Lexicon.wiki",
+        "title": "Legal_Lexicon.wiki",
+        "bytes": 1306,
+        "keywords": [
+          "legal",
+          "lexicon",
+          "soapbox",
+          "surface",
+          "community",
+          "sources",
+          "authority",
+          "published",
+          "advice",
+          "definition",
+          "meaning",
+          "american"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Legal_Maxims.wiki",
+        "title": "Legal_Maxims.wiki",
+        "bytes": 989,
+        "keywords": [
+          "maxims",
+          "soapbox",
+          "legal",
+          "maxim",
+          "community",
+          "axioms",
+          "idioms",
+          "page",
+          "collection",
+          "does",
+          "where",
+          "editorial"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Library_of_Ashurbanipal.wiki",
+        "title": "Library_of_Ashurbanipal.wiki",
+        "bytes": 1074,
+        "keywords": [
+          "wiki",
+          "soapbox",
+          "community",
+          "coverage",
+          "library",
+          "reference",
+          "ecosystem",
+          "editorial",
+          "model",
+          "served",
+          "article",
+          "does"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/MELEK_Blockchain.wiki",
+        "title": "MELEK_Blockchain.wiki",
+        "bytes": 2445,
+        "keywords": [
+          "melek",
+          "witness",
+          "blockchain",
+          "chain",
+          "blurt",
+          "salon",
+          "social",
+          "graphene",
+          "prana",
+          "block",
+          "supply",
+          "hathor"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/MELEK_Sleep_and_Focus.wiki",
+        "title": "MELEK_Sleep_and_Focus.wiki",
+        "bytes": 1441,
+        "keywords": [
+          "gamma",
+          "frequency",
+          "melek",
+          "sleep",
+          "preset",
+          "entrainment",
+          "salon",
+          "tones",
+          "flicker",
+          "surface",
+          "binaural",
+          "beats"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Melek.salon.wiki",
+        "title": "Melek.salon.wiki",
+        "bytes": 782,
+        "keywords": [
+          "melek",
+          "salon",
+          "front",
+          "social",
+          "blockchain",
+          "surfaces",
+          "wallet",
+          "witness",
+          "https",
+          "github",
+          "hindutemplecoins",
+          "melek-condenser"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Pact.wiki",
+        "title": "Pact.wiki",
+        "bytes": 795,
+        "keywords": [
+          "pentecaust",
+          "pact",
+          "group",
+          "melek",
+          "surface",
+          "messaging",
+          "direct",
+          "companion",
+          "spaces",
+          "clubs",
+          "function",
+          "blockchain"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Pentecaust.wiki",
+        "title": "Pentecaust.wiki",
+        "bytes": 834,
+        "keywords": [
+          "pentecaust",
+          "blockchain",
+          "melek",
+          "community",
+          "ecosystem",
+          "social",
+          "steem",
+          "hive",
+          "blurt",
+          "clans",
+          "identity",
+          "function"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Percentage_Calculator.wiki",
+        "title": "Percentage_Calculator.wiki",
+        "bytes": 1293,
+        "keywords": [
+          "percentage",
+          "calculator",
+          "percent",
+          "soapbox",
+          "number",
+          "tools",
+          "numbers",
+          "change",
+          "increase",
+          "decrease",
+          "subtract",
+          "splitter"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/PRANA_Blockchain.wiki",
+        "title": "PRANA_Blockchain.wiki",
+        "bytes": 1625,
+        "keywords": [
+          "prana",
+          "soapbox",
+          "melek",
+          "block",
+          "community",
+          "blockchain",
+          "compute",
+          "chain",
+          "https",
+          "proof-of-work",
+          "etchash",
+          "algorithm"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/PranaScan.wiki",
+        "title": "PranaScan.wiki",
+        "bytes": 862,
+        "keywords": [
+          "pranascan",
+          "block",
+          "prana",
+          "reward",
+          "explorer",
+          "soapbox",
+          "community",
+          "blocks",
+          "blockchain",
+          "chain",
+          "transaction",
+          "reading"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Privacy_Law.wiki",
+        "title": "Privacy_Law.wiki",
+        "bytes": 1298,
+        "keywords": [
+          "privacy",
+          "federal",
+          "soapbox",
+          "statute",
+          "texas",
+          "page",
+          "community",
+          "each",
+          "state",
+          "rule",
+          "topic",
+          "states"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Remakes.wiki",
+        "title": "Remakes.wiki",
+        "bytes": 3285,
+        "keywords": [
+          "scene",
+          "peoples",
+          "remakes",
+          "ancient",
+          "hathor",
+          "gallery",
+          "shown",
+          "side",
+          "egyptian",
+          "studio",
+          "remake",
+          "three"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Rights_That_Hold_Up_in_Court.wiki",
+        "title": "Rights_That_Hold_Up_in_Court.wiki",
+        "bytes": 1503,
+        "keywords": [
+          "rights",
+          "page",
+          "soapbox",
+          "community",
+          "real",
+          "legal",
+          "cases",
+          "material",
+          "police",
+          "stance",
+          "grievances",
+          "people"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Running_a_Condenser_Front-End.wiki",
+        "title": "Running a Condenser Front-End",
+        "bytes": 8726,
+        "keywords": [
+          "chain",
+          "condenser",
+          "front-end",
+          "melek",
+          "node",
+          "graphene",
+          "blurt",
+          "server",
+          "running",
+          "witness",
+          "against",
+          "blockchain"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Running_Tokens_on_MELEK-Engine.wiki",
+        "title": "Running Tokens on MELEK-Engine",
+        "bytes": 4920,
+        "keywords": [
+          "token",
+          "engine",
+          "chain",
+          "layer",
+          "tokens",
+          "community",
+          "running",
+          "node",
+          "curation",
+          "graphene",
+          "melek-engine",
+          "every"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Soap_Calculator.wiki",
+        "title": "Soap_Calculator.wiki",
+        "bytes": 3436,
+        "keywords": [
+          "calculator",
+          "oils",
+          "soap",
+          "water",
+          "fatty-acid",
+          "soapbox",
+          "tools",
+          "recipe",
+          "soapcalc",
+          "superfat",
+          "per-oil",
+          "breakdown"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox_Analytics.wiki",
+        "title": "SoapBox_Analytics.wiki",
+        "bytes": 1091,
+        "keywords": [
+          "soapbox",
+          "analytics",
+          "surface",
+          "ecosystem",
+          "community",
+          "dashboard",
+          "itself",
+          "rather",
+          "data",
+          "access-restricted",
+          "authentication",
+          "public"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox_Community.wiki",
+        "title": "SoapBox_Community.wiki",
+        "bytes": 603,
+        "keywords": [
+          "soapbox",
+          "community",
+          "melek",
+          "domain",
+          "verticals",
+          "library",
+          "mining",
+          "pool",
+          "prana",
+          "wallet",
+          "ecosystem",
+          "published"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox_Data_Hub.wiki",
+        "title": "SoapBox_Data_Hub.wiki",
+        "bytes": 1892,
+        "keywords": [
+          "data",
+          "soapbox",
+          "token",
+          "ecosystem",
+          "page",
+          "prices",
+          "live",
+          "prana",
+          "ticker",
+          "community",
+          "tokens",
+          "market"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox_Directory.wiki",
+        "title": "SoapBox_Directory.wiki",
+        "bytes": 872,
+        "keywords": [
+          "soapbox",
+          "directory",
+          "community",
+          "sites",
+          "ecosystem",
+          "published",
+          "curated",
+          "index",
+          "data",
+          "submission",
+          "site-rankings",
+          "crypto-resources"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox_Law.wiki",
+        "title": "SoapBox_Law.wiki",
+        "bytes": 2506,
+        "keywords": [
+          "soapbox",
+          "community",
+          "public",
+          "legal",
+          "each",
+          "records",
+          "reporters",
+          "record",
+          "religious",
+          "vertical",
+          "statutes",
+          "regulations"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox_Mining_Pool.wiki",
+        "title": "SoapBox_Mining_Pool.wiki",
+        "bytes": 605,
+        "keywords": [
+          "pool",
+          "soapbox",
+          "mining",
+          "community",
+          "prana",
+          "function",
+          "blockchain",
+          "ecosystem",
+          "published",
+          "serves",
+          "etchash",
+          "proof-of-work"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox_Stream.wiki",
+        "title": "SoapBox_Stream.wiki",
+        "bytes": 1093,
+        "keywords": [
+          "soapbox",
+          "sources",
+          "stream",
+          "community",
+          "surface",
+          "only",
+          "video",
+          "streaming",
+          "rows",
+          "license-clear",
+          "catalog",
+          "vertical"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox_Tools.wiki",
+        "title": "SoapBox_Tools.wiki",
+        "bytes": 2194,
+        "keywords": [
+          "tools",
+          "calculator",
+          "soapbox",
+          "data",
+          "free",
+          "ecosystem",
+          "tool",
+          "price",
+          "everyday",
+          "maker",
+          "soap",
+          "unit"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/SoapBox.wiki",
+        "title": "SoapBox.wiki",
+        "bytes": 2334,
+        "keywords": [
+          "soapbox",
+          "melek",
+          "community",
+          "blockchain",
+          "prana",
+          "surfaces",
+          "ecosystem",
+          "here",
+          "witness",
+          "data",
+          "sites",
+          "chains"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/The_Case_Law_of_Us.wiki",
+        "title": "The_Case_Law_of_Us.wiki",
+        "bytes": 1164,
+        "keywords": [
+          "soapbox",
+          "case",
+          "caselaw",
+          "history",
+          "legal",
+          "surface",
+          "published",
+          "community",
+          "courts",
+          "through",
+          "record",
+          "decisions"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/The_Surfaces.wiki",
+        "title": "The_Surfaces.wiki",
+        "bytes": 5357,
+        "keywords": [
+          "soapbox",
+          "community",
+          "melek",
+          "ecosystem",
+          "search",
+          "live",
+          "public",
+          "legal",
+          "surfaces",
+          "directory",
+          "surface",
+          "salon"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Token_Price_Ticker.wiki",
+        "title": "Token_Price_Ticker.wiki",
+        "bytes": 2224,
+        "keywords": [
+          "ticker",
+          "data",
+          "soapbox",
+          "price",
+          "kula",
+          "prana",
+          "token",
+          "prices",
+          "chain",
+          "image",
+          "live",
+          "ecosystem"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Treaties.wiki",
+        "title": "Treaties.wiki",
+        "bytes": 1267,
+        "keywords": [
+          "treaties",
+          "treaty",
+          "soapbox",
+          "page",
+          "community",
+          "court",
+          "explains",
+          "made",
+          "enforceable",
+          "states",
+          "president",
+          "advice"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Unit_Price_Calculator.wiki",
+        "title": "Unit_Price_Calculator.wiki",
+        "bytes": 1259,
+        "keywords": [
+          "unit",
+          "price",
+          "calculator",
+          "pack",
+          "soapbox",
+          "value",
+          "each",
+          "option",
+          "size",
+          "best",
+          "comparison",
+          "tools"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Van_Kush_Family.wiki",
+        "title": "Van_Kush_Family.wiki",
+        "bytes": 828,
+        "keywords": [
+          "family",
+          "roadmap",
+          "vankushfamily",
+          "melek",
+          "blockchain",
+          "surface",
+          "published",
+          "entry",
+          "page",
+          "ecosystem",
+          "projects",
+          "pick"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/VKBT_and_CURE.wiki",
+        "title": "VKBT_and_CURE.wiki",
+        "bytes": 1273,
+        "keywords": [
+          "melek",
+          "kula",
+          "vkbt",
+          "cure",
+          "hive-engine",
+          "tokens",
+          "hive",
+          "value",
+          "kush",
+          "been",
+          "external",
+          "pair"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Witness_School.wiki",
+        "title": "Witness_School.wiki",
+        "bytes": 1454,
+        "keywords": [
+          "witness",
+          "melek",
+          "chain",
+          "salon",
+          "school",
+          "structured",
+          "course",
+          "site",
+          "infrastructure",
+          "build",
+          "running",
+          "node"
+        ]
+      },
+      {
+        "path": "site/wiki/articles/Wrapped_Tokens.wiki",
+        "title": "Wrapped_Tokens.wiki",
+        "bytes": 1796,
+        "keywords": [
+          "melek",
+          "prana",
+          "wmelek",
+          "wrapped",
+          "bridge",
+          "vkbt",
+          "cure",
+          "chain",
+          "blockchain",
+          "kula",
+          "one-to-one",
+          "kulaswap"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/69Ron_and_Oilahuasca_Chemistry.wiki",
+        "title": "69Ron_and_Oilahuasca_Chemistry.wiki",
+        "bytes": 11548,
+        "keywords": [
+          "essential",
+          "metabolic",
+          "oilahuasca",
+          "oils",
+          "allylbenzenes",
+          "acid",
+          "extraction",
+          "d-limonene",
+          "forum",
+          "amphetamines",
+          "enzymes",
+          "hydroxide"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/8-Prenylnaringenin.wiki",
+        "title": "8-Prenylnaringenin.wiki",
+        "bytes": 3041,
+        "keywords": [
+          "hops",
+          "magl",
+          "oestrogenic",
+          "activity",
+          "reason",
+          "dose",
+          "above",
+          "taking",
+          "most",
+          "potent",
+          "inhibitor",
+          "among"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Airway_Irritation_and_Cannabinoid_Prodrug_Delivery.wiki",
+        "title": "Raw floral material is washed or submerged in hot (60–80 °C) distilled water prior to solvent extraction.",
+        "bytes": 6813,
+        "keywords": [
+          "code",
+          "water-soluble",
+          "cannabinoid",
+          "pulmonary",
+          "free",
+          "airway",
+          "inhalation",
+          "ketene",
+          "salts",
+          "irritation",
+          "thermal",
+          "activation"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Albert_Einstein.wiki",
+        "title": "Albert_Einstein.wiki",
+        "bytes": 4201,
+        "keywords": [
+          "einstein",
+          "patent",
+          "szil",
+          "papers",
+          "hold",
+          "refrigerator",
+          "germany",
+          "design",
+          "used",
+          "patented",
+          "because",
+          "field"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Alexander_Shulgin_Alchemy_Isotopes_and_Soul_Chemistry.wiki",
+        "title": "'''Mescaline:''' The foundational natural phenethylamine from Peyote and San Pedro cacti; the benchmark against which al",
+        "bytes": 11436,
+        "keywords": [
+          "shulgin",
+          "chemical",
+          "modern",
+          "soul",
+          "chemistry",
+          "alchemical",
+          "pihkal",
+          "synthesized",
+          "human",
+          "physical",
+          "foundational",
+          "tihkal"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Alkaline_Earth_Metals_Calcium_Signaling_and_Strontium_Mimicry.wiki",
+        "title": "Postsynaptic calcium spikes activate calcium-dependent enzymes: phospholipase C$\\beta$ (PLC$\\beta$) and diacylglycerol l",
+        "bytes": 11584,
+        "keywords": [
+          "calcium",
+          "strontium",
+          "bone",
+          "text",
+          "presynaptic",
+          "synaptic",
+          "nuclear",
+          "divalent",
+          "retrograde",
+          "beta",
+          "channels",
+          "hydroxyapatite"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Allylbenzene_Metabolism_Oswald_Pathway_and_Mace.wiki",
+        "title": "'''Dimethylamine Adducts:''' Derived from endogenous choline and lecithin breakdown. Highly polar, faster renal clearanc",
+        "bytes": 5979,
+        "keywords": [
+          "mace",
+          "nutmeg",
+          "trimyristin",
+          "oswald",
+          "myristicin",
+          "vinyl",
+          "elemicin",
+          "step",
+          "essential",
+          "allylbenzenes",
+          "endogenous",
+          "secondary"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Allylbenzene_Metabolism.wiki",
+        "title": "Allylbenzene_Metabolism.wiki",
+        "bytes": 9954,
+        "keywords": [
+          "oilahuasca",
+          "json",
+          "metabolism",
+          "allylbenzene",
+          "research",
+          "complete",
+          "marsresident",
+          "allylbenzenes",
+          "acid",
+          "glycine",
+          "metabolites",
+          "amino"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Anandamide_and_2-AG.wiki",
+        "title": "'''Treating anandamide as the main endocannabinoid.''' It was discovered first and it has the better name. 2-AG is prese",
+        "bytes": 3390,
+        "keywords": [
+          "anandamide",
+          "agonist",
+          "magl",
+          "enzymes",
+          "endocannabinoid",
+          "cannabinoid",
+          "affinity",
+          "full",
+          "system",
+          "acyl",
+          "migration",
+          "chemistry"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Ancient_Historians_and_Comparative_Religion.wiki",
+        "title": "Ancient_Historians_and_Comparative_Religion.wiki",
+        "bytes": 5304,
+        "keywords": [
+          "ancient",
+          "handbook",
+          "reports",
+          "does",
+          "ovid",
+          "bibliotheca",
+          "apollonius",
+          "library",
+          "judged",
+          "historians",
+          "kind",
+          "author"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Antioxidants_and_Cannabinoid_Stability.wiki",
+        "title": "'''Initiation:''' Heat, ultraviolet radiation, or transition metal catalysts abstract a hydrogen atom from a weak carbon",
+        "bytes": 7066,
+        "keywords": [
+          "text",
+          "radical",
+          "acid",
+          "cannabinoid",
+          "cannabinoids",
+          "rosemary",
+          "sacrificial",
+          "bullet",
+          "carnosic",
+          "oxidation",
+          "free",
+          "cascade"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Apotropaic_Magic_Bes_and_Syrian_Rue.wiki",
+        "title": "Apotropaic_Magic_Bes_and_Syrian_Rue.wiki",
+        "bytes": 8530,
+        "keywords": [
+          "ancient",
+          "beeswax",
+          "magic",
+          "egyptian",
+          "protective",
+          "harmala",
+          "were",
+          "apotropaic",
+          "head",
+          "barrier",
+          "sacred",
+          "syrian"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Auditory_Steady_State_Response.wiki",
+        "title": "Auditory_Steady_State_Response.wiki",
+        "bytes": 3904,
+        "keywords": [
+          "response",
+          "auditory",
+          "frequency",
+          "assr",
+          "entrainment",
+          "stimulus",
+          "artifact",
+          "phase-locked",
+          "rate",
+          "gamma",
+          "display",
+          "scalp"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Autodidacts_and_Credentials.wiki",
+        "title": "Autodidacts_and_Credentials.wiki",
+        "bytes": 8941,
+        "keywords": [
+          "paper",
+          "knowledge",
+          "melek",
+          "library",
+          "witness",
+          "school",
+          "learner",
+          "real",
+          "degree",
+          "autodidact",
+          "through",
+          "https"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/B-Vitamins.wiki",
+        "title": "B-Vitamins.wiki",
+        "bytes": 3036,
+        "keywords": [
+          "niacin",
+          "gaba",
+          "water-soluble",
+          "through",
+          "method",
+          "picamilon",
+          "does",
+          "most",
+          "deficiency",
+          "b-vitamins",
+          "material",
+          "specific"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Bacteriophages_Endolysins_and_Biological_Inhibitors.wiki",
+        "title": "Bacteriophages_Endolysins_and_Biological_Inhibitors.wiki",
+        "bytes": 8021,
+        "keywords": [
+          "bacterial",
+          "endolysins",
+          "phage",
+          "proteins",
+          "bacteria",
+          "biological",
+          "systems",
+          "phages",
+          "host",
+          "code",
+          "lysis",
+          "membrane"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Balm_of_Gilead_and_Uziza.wiki",
+        "title": "Balm_of_Gilead_and_Uziza.wiki",
+        "bytes": 6404,
+        "keywords": [
+          "gilead",
+          "balm",
+          "uziza",
+          "pepper",
+          "balsam",
+          "populus",
+          "beta",
+          "ancient",
+          "botanical",
+          "pungent",
+          "piperaceae",
+          "resins"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Beta-Caryophyllene.wiki",
+        "title": "Beta-Caryophyllene.wiki",
+        "bytes": 2471,
+        "keywords": [
+          "imphepho",
+          "cannabinoid",
+          "caryophyllene",
+          "black",
+          "pepper",
+          "dietary",
+          "receptor",
+          "status",
+          "compound",
+          "anti-inflammatory",
+          "sesquiterpene",
+          "cloves"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Bioavailability_Metabolic_Inhibition_and_Synergy.wiki",
+        "title": "When 6',7'-DHB enters the catalytic active pocket of Cytochrome P450 3A4 (CYP3A4), the heme iron ($Fe^{3+}$) oxidizes th",
+        "bytes": 19511,
+        "keywords": [
+          "text",
+          "bioavailability",
+          "intestinal",
+          "choline",
+          "glutathione",
+          "hepatic",
+          "absorption",
+          "metabolic",
+          "enzyme",
+          "oilahuasca",
+          "oral",
+          "acid"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Bioelectricity_Forensic_Genomics_and_Alchemical_Transmutation.wiki",
+        "title": "Extracting the active essence using fermented alcohol (Mercury).",
+        "bytes": 12324,
+        "keywords": [
+          "electrical",
+          "forensic",
+          "modern",
+          "genetic",
+          "code",
+          "electrophoresis",
+          "alchemy",
+          "volatile",
+          "membrane",
+          "text",
+          "through",
+          "cells"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Biological_Immortality.wiki",
+        "title": "Biological Immortality",
+        "bytes": 16861,
+        "keywords": [
+          "cells",
+          "cell",
+          "senescence",
+          "telomeres",
+          "telomerase",
+          "text",
+          "human",
+          "telomere",
+          "senescent",
+          "cellular",
+          "biological",
+          "years"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/BitShares.wiki",
+        "title": "BitShares",
+        "bytes": 5015,
+        "keywords": [
+          "cryptocurrency",
+          "blockchain",
+          "bitshares",
+          "json",
+          "graphene",
+          "social",
+          "guide",
+          "platform",
+          "assets",
+          "large",
+          "scale",
+          "crypto"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Black_Pepper.wiki",
+        "title": "Black_Pepper.wiki",
+        "bytes": 3140,
+        "keywords": [
+          "piperine",
+          "faah",
+          "bioavailability",
+          "inhibition",
+          "black",
+          "pepper",
+          "more",
+          "four",
+          "plant",
+          "cannabinoid",
+          "inhibitor",
+          "kava"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Blockchain_Witness__Block_Producer_.wiki",
+        "title": "Blockchain Witness (Block Producer)",
+        "bytes": 4253,
+        "keywords": [
+          "blockchain",
+          "cryptocurrency",
+          "witnesses",
+          "systems",
+          "social",
+          "json",
+          "witness",
+          "dpos",
+          "graphene",
+          "block",
+          "their",
+          "role"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/BLURT_Blockchain.wiki",
+        "title": "BLURT_Blockchain.wiki",
+        "bytes": 2553,
+        "keywords": [
+          "blurt",
+          "blockchain",
+          "steem",
+          "graphene",
+          "melek",
+          "chain",
+          "hive",
+          "blurtofficial",
+          "github",
+          "family",
+          "witnesses",
+          "blocks"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Brain_Balance.wiki",
+        "title": "Brain Balance",
+        "bytes": 5676,
+        "keywords": [
+          "research",
+          "https",
+          "wikipedia",
+          "wiki",
+          "history",
+          "brain",
+          "edgewood",
+          "post",
+          "psychedelic",
+          "article",
+          "arsenal",
+          "mdma"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Building_a_Front_End_for_a_Graphene_Chain.wiki",
+        "title": "Building a Front-End for a Graphene Chain",
+        "bytes": 4902,
+        "keywords": [
+          "blockchain",
+          "graphene",
+          "cryptocurrency",
+          "social",
+          "front-end",
+          "guide",
+          "json",
+          "building",
+          "content",
+          "chain",
+          "user",
+          "hive"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Building_Brains.wiki",
+        "title": "'''Life-Extension Compounds:''' Cycloastragenol, alongside the author's speculative primer hypothesis.",
+        "bytes": 4902,
+        "keywords": [
+          "brain",
+          "research",
+          "glial",
+          "ampakines",
+          "synaptogenesis",
+          "traumatic",
+          "injury",
+          "hypothesis",
+          "carnosine",
+          "endogenous",
+          "astrocytes",
+          "oligodendrocytes"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Building_Muscle_Tissue.wiki",
+        "title": "Building Muscle Tissue",
+        "bytes": 4972,
+        "keywords": [
+          "https",
+          "research",
+          "muscle",
+          "creatine",
+          "health",
+          "wikipedia",
+          "wiki",
+          "reference",
+          "source",
+          "injury",
+          "selective",
+          "androgen"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Bupropion_Buspirone_and_Atypical_Psychotropics.wiki",
+        "title": "Bupropion_Buspirone_and_Atypical_Psychotropics.wiki",
+        "bytes": 11652,
+        "keywords": [
+          "bupropion",
+          "text",
+          "buspirone",
+          "chemical",
+          "serotonin",
+          "receptors",
+          "dopamine",
+          "inhibition",
+          "alpha",
+          "butyl",
+          "cathinone",
+          "clinical"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_Adducts_and_Conjugates.wiki",
+        "title": "Cannabinoid_Adducts_and_Conjugates.wiki",
+        "bytes": 9692,
+        "keywords": [
+          "cannabinoid",
+          "acid",
+          "adducts",
+          "cannabinoids",
+          "code",
+          "covalent",
+          "dimers",
+          "caffeine",
+          "conjugates",
+          "phenolic",
+          "metabolic",
+          "fatty"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_and_Terpene_Electrochemistry.wiki",
+        "title": "Setting the anodic potential to approximately '''+0.9 V to +1.2 V''' selectively strips a single electron from the elect",
+        "bytes": 7991,
+        "keywords": [
+          "cannabinoid",
+          "hydrogen",
+          "electrode",
+          "electrochemistry",
+          "anodic",
+          "code",
+          "oxidation",
+          "electrochemical",
+          "cathode",
+          "electron",
+          "without",
+          "organic"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_and_Tryptamine_Prodrugs.wiki",
+        "title": "Cannabinoid_and_Tryptamine_Prodrugs.wiki",
+        "bytes": 7786,
+        "keywords": [
+          "ester",
+          "code",
+          "free",
+          "acid",
+          "ketene",
+          "cannabinoid",
+          "phenolic",
+          "acetate",
+          "hydroxyl",
+          "thc-o-acetate",
+          "acetic",
+          "pyrolysis"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_Chromatography_and_Genomics.wiki",
+        "title": "Cannabinoid_Chromatography_and_Genomics.wiki",
+        "bytes": 7612,
+        "keywords": [
+          "chromatography",
+          "cannabinoid",
+          "cannabis",
+          "thca",
+          "cbda",
+          "liquid",
+          "text",
+          "cannabinoids",
+          "analytical",
+          "hplc",
+          "phase",
+          "column"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_Isomerization.wiki",
+        "title": "Cannabinoid_Isomerization.wiki",
+        "bytes": 14570,
+        "keywords": [
+          "acid",
+          "aqueous",
+          "acids",
+          "cyclization",
+          "cannabinoid",
+          "water",
+          "anhydrous",
+          "code",
+          "phase",
+          "acetic",
+          "ring",
+          "organic"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_Neuroprotection_and_Perinatal_Development.wiki",
+        "title": "When a postsynaptic neuron experiences pathological over-excitation (whether from birth hypoxia, traumatic brain injury,",
+        "bytes": 12294,
+        "keywords": [
+          "brain",
+          "cannabinoids",
+          "text",
+          "neonatal",
+          "perinatal",
+          "patent",
+          "milk",
+          "neuroprotection",
+          "endocannabinoid",
+          "suckling",
+          "fetal",
+          "code"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_Oilahuasca.wiki",
+        "title": "Cannabinoid_Oilahuasca.wiki",
+        "bytes": 7672,
+        "keywords": [
+          "faah",
+          "pepper",
+          "oilahuasca",
+          "magl",
+          "black",
+          "cannabinoid",
+          "bioavailability",
+          "endocannabinoid",
+          "inhibitors",
+          "natural",
+          "inhibition",
+          "cannabinoids"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_Photochemistry_and_Degradation.wiki",
+        "title": "'''Grotthuss–Draper Law:''' Light must be absorbed by a chemical entity for a photochemical transformation to occur. Wav",
+        "bytes": 8523,
+        "keywords": [
+          "text",
+          "light",
+          "code",
+          "uv-c",
+          "oxygen",
+          "uv-b",
+          "acid",
+          "photochemical",
+          "reaction",
+          "hu-331",
+          "energy",
+          "photoredox"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabinoid_Quinones_and_Novel_Derivatives.wiki",
+        "title": "Cannabinoid_Quinones_and_Novel_Derivatives.wiki",
+        "bytes": 7684,
+        "keywords": [
+          "cannabinoid",
+          "quinones",
+          "quinone",
+          "hu-331",
+          "code",
+          "activity",
+          "topoisomerase",
+          "vce-003",
+          "derivatives",
+          "benzoquinone",
+          "potent",
+          "catalytic"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabis_Harm_Reduction.wiki",
+        "title": "Cannabis_Harm_Reduction.wiki",
+        "bytes": 14674,
+        "keywords": [
+          "cannabis",
+          "effects",
+          "products",
+          "people",
+          "history",
+          "more",
+          "dose",
+          "hours",
+          "risk",
+          "cannabinoid",
+          "drug",
+          "especially"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabis_Oil_and_MHRB_Extraction.wiki",
+        "title": "Cannabis_Oil_and_MHRB_Extraction.wiki",
+        "bytes": 9994,
+        "keywords": [
+          "cannabis",
+          "same",
+          "mimosa",
+          "mhrb",
+          "active",
+          "edibles",
+          "extraction",
+          "jurema",
+          "safety",
+          "harm",
+          "water",
+          "yuremamine"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cannabis.wiki",
+        "title": "Cannabis.wiki",
+        "bytes": 14659,
+        "keywords": [
+          "cannabis",
+          "cannabinoid",
+          "plant",
+          "sativa",
+          "cannabinoids",
+          "system",
+          "indica",
+          "endocannabinoid",
+          "guide",
+          "effects",
+          "high",
+          "more"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Catecholamines_Transporters_and_Monoamine_Reuptake.wiki",
+        "title": "'''Transporter Hijacking:''' Amphetamine is transported *into* the presynaptic cytoplasm by DAT and NET.",
+        "bytes": 16311,
+        "keywords": [
+          "dopamine",
+          "reuptake",
+          "code",
+          "norepinephrine",
+          "sert",
+          "transporter",
+          "cocaine",
+          "salience",
+          "synaptic",
+          "beta",
+          "methamphetamine",
+          "sleep"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cera_non_Panis.wiki",
+        "title": "Cera_non_Panis.wiki",
+        "bytes": 6803,
+        "keywords": [
+          "paper",
+          "bread",
+          "sign",
+          "punic",
+          "beeswax",
+          "material",
+          "reading",
+          "names",
+          "head",
+          "institute",
+          "gardiner",
+          "cake"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Chelated_Minerals.wiki",
+        "title": "Chelated_Minerals.wiki",
+        "bytes": 2966,
+        "keywords": [
+          "absorbed",
+          "iron",
+          "magnesium",
+          "mineral",
+          "absorption",
+          "zinc",
+          "chelate",
+          "bis-glycinate",
+          "elemental",
+          "laxative",
+          "citrate",
+          "liposomal"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Chemistry_and_Your_Brain.wiki",
+        "title": "Chemistry and Your Brain",
+        "bytes": 6612,
+        "keywords": [
+          "brain",
+          "https",
+          "wikipedia",
+          "wiki",
+          "compounds",
+          "receptor",
+          "research",
+          "chemistry",
+          "neuropeptides",
+          "systems",
+          "reference",
+          "named"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Choline_Donors.wiki",
+        "title": "Choline_Donors.wiki",
+        "bytes": 3032,
+        "keywords": [
+          "choline",
+          "alpha-gpc",
+          "bitartrate",
+          "tmao",
+          "cholinergic",
+          "amplification",
+          "framework",
+          "yield",
+          "reason",
+          "acetylcholine",
+          "synthesis",
+          "form"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cholinergic_Neurotransmission_and_Cholinesterase_Inhibition.wiki",
+        "title": "Cholinergic_Neurotransmission_and_Cholinesterase_Inhibition.wiki",
+        "bytes": 9684,
+        "keywords": [
+          "choline",
+          "acetylcholine",
+          "ache",
+          "cholinergic",
+          "presynaptic",
+          "reuptake",
+          "receptors",
+          "cht1",
+          "catalytic",
+          "code",
+          "aging",
+          "acetylcholinesterase"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cloning.wiki",
+        "title": "Cloning.wiki",
+        "bytes": 2159,
+        "keywords": [
+          "chain",
+          "graphene",
+          "cloning",
+          "melek",
+          "clone",
+          "blockchain",
+          "code",
+          "token",
+          "forking",
+          "blurt",
+          "contract",
+          "family"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Colloidal_Metals_Electrochemistry_and_Nanoparticles.wiki",
+        "title": "Colloidal_Metals_Electrochemistry_and_Nanoparticles.wiki",
+        "bytes": 11155,
+        "keywords": [
+          "silver",
+          "code",
+          "colloidal",
+          "current",
+          "water",
+          "ions",
+          "nanoparticles",
+          "metal",
+          "pure",
+          "electrical",
+          "metallic",
+          "chloride"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Colorimetric_Reagents_and_Presumptive_Chemical_Testing.wiki",
+        "title": "Concentrated sulfuric acid acts as a powerful dehydrating agent and Brønsted acid, protonating the sample and generating",
+        "bytes": 15198,
+        "keywords": [
+          "reaction",
+          "acid",
+          "reagent",
+          "dark",
+          "purple",
+          "amine",
+          "text",
+          "mdma",
+          "primary",
+          "orange",
+          "concentrated",
+          "black"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Congress.ink.wiki",
+        "title": "Congress.ink.wiki",
+        "bytes": 1450,
+        "keywords": [
+          "congress",
+          "melek",
+          "soapbox",
+          "ecosystem",
+          "identity",
+          "same",
+          "messaging",
+          "pentecaust",
+          "community",
+          "microblogging",
+          "surface",
+          "posts"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Constitutional_Rights_in_the_Military.wiki",
+        "title": "Constitutional Rights in the Military",
+        "bytes": 4825,
+        "keywords": [
+          "rights",
+          "military",
+          "https",
+          "cornell",
+          "reference",
+          "uscode",
+          "text",
+          "protections",
+          "uniform",
+          "directives",
+          "article",
+          "post"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cooking_Methods.wiki",
+        "title": "Cooking_Methods.wiki",
+        "bytes": 18824,
+        "keywords": [
+          "water",
+          "heat",
+          "food",
+          "until",
+          "liquid",
+          "example",
+          "recipe",
+          "butter",
+          "minutes",
+          "examples",
+          "temperature",
+          "cooking"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cooking_with_Herbs_and_Spices.wiki",
+        "title": "Heat a spoonful of oil, ghee, or butter over medium heat.",
+        "bytes": 18097,
+        "keywords": [
+          "herbs",
+          "spices",
+          "spice",
+          "dried",
+          "heat",
+          "fresh",
+          "whole",
+          "coriander",
+          "ground",
+          "flavor",
+          "seed",
+          "aromatics"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Creatine.wiki",
+        "title": "Creatine.wiki",
+        "bytes": 2817,
+        "keywords": [
+          "creatine",
+          "loading",
+          "muscle",
+          "nbsp",
+          "people",
+          "where",
+          "literature",
+          "forms",
+          "solubility",
+          "more",
+          "demonstrated",
+          "ethyl"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Crypt-ology.wiki",
+        "title": "Crypt-ology.wiki",
+        "bytes": 10569,
+        "keywords": [
+          "library",
+          "witness",
+          "real",
+          "crypt-ology",
+          "system",
+          "built",
+          "runs",
+          "mysteries",
+          "first",
+          "toward",
+          "punic",
+          "not-a-game"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Crypto_Glossary.wiki",
+        "title": "Crypto_Glossary.wiki",
+        "bytes": 8540,
+        "keywords": [
+          "chain",
+          "crypto",
+          "token",
+          "melek",
+          "glossary",
+          "mining",
+          "block",
+          "tokens",
+          "dpos",
+          "ecosystem",
+          "coin",
+          "proof"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Culinary_Arts.wiki",
+        "title": "Béchamel — The White Sauce",
+        "bytes": 32631,
+        "keywords": [
+          "butter",
+          "water",
+          "sauce",
+          "roux",
+          "stock",
+          "sauces",
+          "cannabis",
+          "cooking",
+          "mirepoix",
+          "cold",
+          "formula",
+          "used"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Culinary_Recipes.wiki",
+        "title": "Rinse the bones. For '''white stock''', place directly in the cold water. For '''brown stock''', roast the bones at 400°",
+        "bytes": 17883,
+        "keywords": [
+          "butter",
+          "minutes",
+          "until",
+          "salt",
+          "tbsp",
+          "pepper",
+          "garlic",
+          "stock",
+          "water",
+          "sugar",
+          "heat",
+          "herbs"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Curation_and_Onboarding_Programs__OCD_Curie_PAL_Curangel_Trails_BidBots.wiki",
+        "title": "Curation and Onboarding Programs: OCD, Curie, PAL, Curangel, Trails, and Bid Bots",
+        "bytes": 13541,
+        "keywords": [
+          "curation",
+          "steemit",
+          "hive",
+          "curangel",
+          "curie",
+          "steem",
+          "melek",
+          "steemstem",
+          "votes",
+          "posts",
+          "blog",
+          "community"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Curation_Theory__Rewards__the_Auction_Window__and_Honest_Curation.wiki",
+        "title": "Curation Theory — Rewards, the Auction Window, and Honest Curation",
+        "bytes": 9289,
+        "keywords": [
+          "curation",
+          "voting",
+          "reward",
+          "rules",
+          "window",
+          "post",
+          "melek",
+          "vote",
+          "curation-engine",
+          "pool",
+          "timing",
+          "honest"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Cytochrome_P450_System_Inhibition_and_Induction.wiki",
+        "title": "Cytochrome_P450_System_Inhibition_and_Induction.wiki",
+        "bytes": 10008,
+        "keywords": [
+          "active",
+          "inhibition",
+          "drug",
+          "code",
+          "inhibitor",
+          "induction",
+          "enzymes",
+          "clinical",
+          "receptor",
+          "substrate",
+          "cyp3a4",
+          "cyp450"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Datura.wiki",
+        "title": "Datura.wiki",
+        "bytes": 6486,
+        "keywords": [
+          "datura",
+          "because",
+          "delirium",
+          "dose",
+          "between",
+          "shulgin",
+          "tropane",
+          "plant",
+          "amount",
+          "anticholinergic",
+          "active",
+          "there"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/David_E_Nichols_Entactogen_Pharmacology_and_Receptor_Mapping.wiki",
+        "title": "David_E_Nichols_Entactogen_Pharmacology_and_Receptor_Mapping.wiki",
+        "bytes": 10997,
+        "keywords": [
+          "nichols",
+          "text",
+          "mdma",
+          "receptor",
+          "david",
+          "entactogen",
+          "serotonin",
+          "ring",
+          "potent",
+          "cyp2d6",
+          "heart",
+          "phenethylamines"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Delegated_Proof_of_Stake__DPoS_.wiki",
+        "title": "Delegated Proof of Stake (DPoS)",
+        "bytes": 5872,
+        "keywords": [
+          "cryptocurrency",
+          "dpos",
+          "blockchain",
+          "json",
+          "graphene",
+          "social",
+          "https",
+          "guide",
+          "delegates",
+          "governance",
+          "through",
+          "voting"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Display_Refresh_and_Flicker_Delivery.wiki",
+        "title": "Display_Refresh_and_Flicker_Delivery.wiki",
+        "bytes": 4819,
+        "keywords": [
+          "code",
+          "display",
+          "rate",
+          "refresh",
+          "most",
+          "flicker",
+          "entrainment",
+          "cannot",
+          "frequency",
+          "only",
+          "request",
+          "ratio"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Ecstasy_Pill_Forensics_and_Historical_Adulteration_Trends.wiki",
+        "title": "'''Pure High-Dose MDMA:''' At doses exceeding 120–150 mg, MDMA induces profound postural relaxation, heavy limb lethargy",
+        "bytes": 12300,
+        "keywords": [
+          "mdma",
+          "pills",
+          "ecstasy",
+          "pill",
+          "were",
+          "pure",
+          "texas",
+          "fentanyl",
+          "tablets",
+          "methamphetamine",
+          "early",
+          "clandestine"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Edgewood_Arsenal.wiki",
+        "title": "Edgewood Arsenal",
+        "bytes": 4885,
+        "keywords": [
+          "edgewood",
+          "https",
+          "history",
+          "oversight",
+          "wikipedia",
+          "wiki",
+          "arsenal",
+          "government",
+          "research",
+          "linked",
+          "human",
+          "program"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Edible_Waxes_Hive_Foods_and_Aromatic_Resins.wiki",
+        "title": "Edible_Waxes_Hive_Foods_and_Aromatic_Resins.wiki",
+        "bytes": 13266,
+        "keywords": [
+          "food",
+          "honey",
+          "punic",
+          "resin",
+          "beeswax",
+          "only",
+          "resins",
+          "used",
+          "kyphi",
+          "herbs",
+          "traditional",
+          "aromatic"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Egregore.wiki",
+        "title": "Egregore.wiki",
+        "bytes": 3877,
+        "keywords": [
+          "collective",
+          "attention",
+          "enoch",
+          "wakeful",
+          "term",
+          "word",
+          "greek",
+          "where",
+          "watchers",
+          "sense",
+          "systems",
+          "egregore"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Egyptian_Wax_Headcones.wiki",
+        "title": "Egyptian_Wax_Headcones.wiki",
+        "bytes": 8625,
+        "keywords": [
+          "phoenician",
+          "json",
+          "punic",
+          "synthesis",
+          "complete",
+          "headcone",
+          "consciousness",
+          "technology",
+          "vkfri",
+          "egyptian",
+          "research",
+          "headcones"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Electricity_and_Photovoltaics.wiki",
+        "title": "Electricity and Photovoltaics",
+        "bytes": 10508,
+        "keywords": [
+          "electricity",
+          "solar",
+          "https",
+          "wikipedia",
+          "wiki",
+          "photovoltaic",
+          "effect",
+          "photovoltaics",
+          "physics",
+          "equations",
+          "cells",
+          "induction"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Encaustic.wiki",
+        "title": "'''Prepare the support''' — a rigid panel (wood, later board) primed so wax grips; linen was also used.",
+        "bytes": 6538,
+        "keywords": [
+          "encaustic",
+          "heat",
+          "fayum",
+          "portraits",
+          "beeswax",
+          "resin",
+          "medium",
+          "punic",
+          "pigments",
+          "surface",
+          "mummy",
+          "head"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Endocannabinoid_Chemistry_and_2-AG_Metabolism.wiki",
+        "title": "'''Phospholipase C-β (PLC-β) Activation:''' Cleaves membrane PIP2 to yield 1,2-diacylglycerol containing arachidonic aci",
+        "bytes": 7753,
+        "keywords": [
+          "ether",
+          "code",
+          "arachidonic",
+          "acid",
+          "migration",
+          "receptors",
+          "acyl",
+          "arachidonoylglycerol",
+          "glycerol",
+          "cannabinoid",
+          "brain",
+          "agonist"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Enzyme_Inhibition_Kinetics_and_Molecular_Transporters.wiki",
+        "title": "Enzyme_Inhibition_Kinetics_and_Molecular_Transporters.wiki",
+        "bytes": 8803,
+        "keywords": [
+          "catalytic",
+          "enzyme",
+          "serine",
+          "substrate",
+          "faah",
+          "inhibition",
+          "transporters",
+          "inhibitors",
+          "monoamine",
+          "code",
+          "enzymes",
+          "decreased"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Eugeroics_Wakefulness_and_Sleep_Pharmacology.wiki",
+        "title": "Eugeroics_Wakefulness_and_Sleep_Pharmacology.wiki",
+        "bytes": 10912,
+        "keywords": [
+          "sleep",
+          "alpha",
+          "modafinil",
+          "orexin",
+          "text",
+          "wakefulness",
+          "tcas",
+          "quetiapine",
+          "receptor",
+          "dopamine",
+          "tricyclic",
+          "doral"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/FAAH.wiki",
+        "title": "FAAH.wiki",
+        "bytes": 3412,
+        "keywords": [
+          "faah",
+          "inhibition",
+          "enzyme",
+          "kava",
+          "pepper",
+          "inhibitor",
+          "anandamide",
+          "endocannabinoid",
+          "black",
+          "system",
+          "family",
+          "rather"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Farming__Fowl__Reptiles__Insects_and_Fungi.wiki",
+        "title": "Farming: Fowl, Reptiles, Insects and Fungi",
+        "bytes": 8588,
+        "keywords": [
+          "https",
+          "insects",
+          "wikipedia",
+          "wiki",
+          "reptiles",
+          "species",
+          "cultivation",
+          "pollination",
+          "homestead",
+          "beneficial",
+          "entomophagy",
+          "farming"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Fast_Food_and_Processed_Food_Nutrition.wiki",
+        "title": "Fast_Food_and_Processed_Food_Nutrition.wiki",
+        "bytes": 9299,
+        "keywords": [
+          "sugar",
+          "sodium",
+          "protein",
+          "chicken",
+          "sandwich",
+          "fries",
+          "library",
+          "food",
+          "nutrition",
+          "values",
+          "single",
+          "move"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Fayum_Mummy_Portraits.wiki",
+        "title": "Fayum_Mummy_Portraits.wiki",
+        "bytes": 5380,
+        "keywords": [
+          "portraits",
+          "encaustic",
+          "head",
+          "painted",
+          "roman",
+          "body",
+          "fayum",
+          "faces",
+          "institute",
+          "cone",
+          "egyptian",
+          "beeswax"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Fermentation.wiki",
+        "title": "Weigh shredded cabbage. Multiply grams by 0.02 to get grams of salt (e.g. 1000 g cabbage → 20 g salt).",
+        "bytes": 9086,
+        "keywords": [
+          "salt",
+          "brine",
+          "extension",
+          "ferment",
+          "weight",
+          "illinois",
+          "https",
+          "cabbage",
+          "garlic",
+          "below",
+          "honey",
+          "preservation"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Food_Pyramid_and_Supplements.wiki",
+        "title": "Food_Pyramid_and_Supplements.wiki",
+        "bytes": 9805,
+        "keywords": [
+          "food",
+          "sources",
+          "supplements",
+          "foods",
+          "people",
+          "dietary",
+          "vitamin",
+          "general",
+          "health",
+          "https",
+          "whole",
+          "usda"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Food_Safety.wiki",
+        "title": "Food_Safety.wiki",
+        "bytes": 13075,
+        "keywords": [
+          "food",
+          "nbsp",
+          "code",
+          "pathogens",
+          "temperature",
+          "safety",
+          "most",
+          "control",
+          "poultry",
+          "foodborne",
+          "virology",
+          "fsma"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Forking.wiki",
+        "title": "Forking.wiki",
+        "bytes": 2363,
+        "keywords": [
+          "chain",
+          "fork",
+          "hive",
+          "blockchain",
+          "community",
+          "steem",
+          "graphene",
+          "forking",
+          "split",
+          "change",
+          "code",
+          "family"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Galantamine.wiki",
+        "title": "Galantamine.wiki",
+        "bytes": 3544,
+        "keywords": [
+          "sleep",
+          "galantamine",
+          "dream",
+          "trial",
+          "inhibition",
+          "choline",
+          "cholinesterase",
+          "cholinergic",
+          "disease",
+          "acetylcholine",
+          "lucid",
+          "taken"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Gamma_Entrainment.wiki",
+        "title": "'''Luminance flicker''' — the strobe. Most studied, least comfortable.",
+        "bytes": 5457,
+        "keywords": [
+          "flicker",
+          "spectral",
+          "auditory",
+          "gamma",
+          "invisible",
+          "luminance",
+          "strobe",
+          "most",
+          "more",
+          "entrainment",
+          "stimulus",
+          "light"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Glossaries.wiki",
+        "title": "Glossaries.wiki",
+        "bytes": 1860,
+        "keywords": [
+          "library",
+          "glossaries",
+          "glossary",
+          "term",
+          "terms",
+          "more",
+          "ashurbanipal",
+          "soapbox",
+          "page",
+          "added",
+          "start",
+          "look"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Graphene_Blockchain_Framework.wiki",
+        "title": "Graphene Blockchain Framework",
+        "bytes": 6709,
+        "keywords": [
+          "cryptocurrency",
+          "json",
+          "graphene",
+          "blockchain",
+          "framework",
+          "decentralized",
+          "steemit",
+          "social",
+          "karma",
+          "media",
+          "platforms",
+          "merit"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Hathor.wiki",
+        "title": "Hathor.wiki",
+        "bytes": 2674,
+        "keywords": [
+          "hathor",
+          "witness",
+          "account",
+          "melek",
+          "graphene",
+          "on-chain",
+          "chain",
+          "votes",
+          "operator",
+          "does",
+          "slot",
+          "public"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Head_Cone.wiki",
+        "title": "Head_Cone.wiki",
+        "bytes": 10036,
+        "keywords": [
+          "cone",
+          "cones",
+          "beeswax",
+          "vkfri",
+          "where",
+          "institute",
+          "tomb",
+          "head",
+          "egyptian",
+          "banquet",
+          "catalog",
+          "library"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Hemp_Industry_Scale-Up_and_Legal_Synthesis_Protocols.wiki",
+        "title": "'''Basification:''' Powdered botanical biomass is mixed with food-grade calcium hydroxide ($Ca(OH)_2$, pickling lime) an",
+        "bytes": 7209,
+        "keywords": [
+          "acid",
+          "water",
+          "acetic",
+          "protocol",
+          "scale-up",
+          "reaction",
+          "hemp",
+          "cannabinoid",
+          "scale",
+          "d-limonene",
+          "extraction",
+          "containing"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/HIVE_Blockchain.wiki",
+        "title": "HIVE Blockchain",
+        "bytes": 6920,
+        "keywords": [
+          "cryptocurrency",
+          "hive",
+          "blockchain",
+          "ecosystem",
+          "json",
+          "token",
+          "engine",
+          "hive-engine",
+          "steem",
+          "decentralized",
+          "tokens",
+          "terracore"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Hive_Engine_and_Smart_Media_Tokens.wiki",
+        "title": "Hive-Engine and Smart Media Tokens",
+        "bytes": 4940,
+        "keywords": [
+          "cryptocurrency",
+          "hive-engine",
+          "ecosystem",
+          "hive",
+          "tokens",
+          "cure",
+          "json",
+          "token",
+          "smart",
+          "engine",
+          "decentralized",
+          "users"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Hops.wiki",
+        "title": "Hops.wiki",
+        "bytes": 9076,
+        "keywords": [
+          "hops",
+          "cannabis",
+          "terpenes",
+          "acids",
+          "aroma",
+          "both",
+          "bitter",
+          "cones",
+          "plant",
+          "terpene",
+          "chemistry",
+          "bitterness"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Human_Origins_and_the_Fossil_Record.wiki",
+        "title": "Human Origins and the Fossil Record",
+        "bytes": 10279,
+        "keywords": [
+          "https",
+          "record",
+          "wikipedia",
+          "wiki",
+          "modern",
+          "source",
+          "denisovan",
+          "fossil",
+          "homo",
+          "humans",
+          "populations",
+          "neanderthal"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Humanity__Deep_Time_and_the_Human_Story.wiki",
+        "title": "Humanity — Deep Time and the Human Story",
+        "bytes": 11311,
+        "keywords": [
+          "https",
+          "first",
+          "wikipedia",
+          "wiki",
+          "source",
+          "early",
+          "fire",
+          "humanity",
+          "human",
+          "deep",
+          "essay",
+          "electrical"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Hydrosols_Absolutes_and_Botanical_Extraction_Modalities.wiki",
+        "title": "'''Vapor Transport:''' The steam breaks open botanical glandular trichomes and essential oil ducts.",
+        "bytes": 17337,
+        "keywords": [
+          "water",
+          "text",
+          "extraction",
+          "separation",
+          "lipid",
+          "pure",
+          "solvent",
+          "circ",
+          "butter",
+          "alcohol",
+          "solid",
+          "plant"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Immunometabolism_Thermogenerative_Stimulants_and_Hepatic_Resilience.wiki",
+        "title": "Immunometabolism_Thermogenerative_Stimulants_and_Hepatic_Resilience.wiki",
+        "bytes": 18215,
+        "keywords": [
+          "metabolic",
+          "text",
+          "liver",
+          "beta",
+          "ketamine",
+          "protein",
+          "hepatic",
+          "immune",
+          "mitochondrial",
+          "fatty",
+          "caffeine",
+          "receptors"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Imphepho.wiki",
+        "title": "Imphepho.wiki",
+        "bytes": 4289,
+        "keywords": [
+          "nbsp",
+          "smoke",
+          "species",
+          "chemistry",
+          "imphepho",
+          "odoratissimum",
+          "pinene",
+          "common",
+          "helichrysum",
+          "petiolare",
+          "immortelle",
+          "italicum"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Inflation_and_Deflation__Token_Emission_and_Burns.wiki",
+        "title": "Inflation and Deflation — Token Emission and Burns",
+        "bytes": 6020,
+        "keywords": [
+          "supply",
+          "token",
+          "emission",
+          "price",
+          "deflation",
+          "burn",
+          "inflation",
+          "tokens",
+          "market",
+          "demand",
+          "real",
+          "fees"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Invisible_Spectral_Flicker.wiki",
+        "title": "Invisible_Spectral_Flicker.wiki",
+        "bytes": 2918,
+        "keywords": [
+          "luminance",
+          "flicker",
+          "entrainment",
+          "does",
+          "strobe",
+          "same",
+          "visual",
+          "steady",
+          "still",
+          "drive",
+          "colour",
+          "pair"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Isomers_the_Analogue_Act_and_Forensic_Chemistry.wiki",
+        "title": "'''Structural Prong:''' The chemical structure of the substance is '''substantially similar''' to the chemical structure",
+        "bytes": 10622,
+        "keywords": [
+          "analogue",
+          "schedule",
+          "isomers",
+          "under",
+          "statutory",
+          "legal",
+          "chemical",
+          "controlled",
+          "substance",
+          "federal",
+          "different",
+          "isomer"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Kava_Potentiation.wiki",
+        "title": "'''Piperine:''' Reversibly and irreversibly inhibits intestinal CYP3A4, CYP2C9, and P-glycoprotein efflux pumps, dramati",
+        "bytes": 9847,
+        "keywords": [
+          "kava",
+          "receptor",
+          "potentiation",
+          "black",
+          "pepper",
+          "endocannabinoid",
+          "gaba-a",
+          "piper",
+          "kavalactones",
+          "yangonin",
+          "inhibition",
+          "faah"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Kava.wiki",
+        "title": "Kava.wiki",
+        "bytes": 4119,
+        "keywords": [
+          "kava",
+          "liver",
+          "kavalactones",
+          "yangonin",
+          "oilahuasca",
+          "black",
+          "pepper",
+          "preparation",
+          "traditional",
+          "root",
+          "endocannabinoid",
+          "faah"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Khepri.wiki",
+        "title": "Beetles use the '''sun''' as a directional compass by day, to roll away from competitors at the dung pile in a straight ",
+        "bytes": 7312,
+        "keywords": [
+          "beetles",
+          "beetle",
+          "dung",
+          "celestial",
+          "version",
+          "khepri",
+          "across",
+          "paper",
+          "reading",
+          "institute",
+          "rather",
+          "night"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/KULA.wiki",
+        "title": "KULA.wiki",
+        "bytes": 2323,
+        "keywords": [
+          "kula",
+          "prana",
+          "melek",
+          "kulaswap",
+          "defi",
+          "ecosystem",
+          "token",
+          "coin",
+          "prc-20",
+          "layer",
+          "soapbox",
+          "collateral"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Kyphi.wiki",
+        "title": "Kyphi.wiki",
+        "bytes": 5487,
+        "keywords": [
+          "kyphi",
+          "parts",
+          "temple",
+          "wine",
+          "cone",
+          "incense",
+          "greek",
+          "honey",
+          "calamus",
+          "perfume",
+          "recorded",
+          "plutarch"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/L-Methylfolate.wiki",
+        "title": "L-Methylfolate.wiki",
+        "bytes": 4279,
+        "keywords": [
+          "folate",
+          "l-methylfolate",
+          "mthfr",
+          "cofactor",
+          "acid",
+          "drug",
+          "reduced",
+          "clinical",
+          "three",
+          "hydroxylase",
+          "significant",
+          "nbsp"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Laboratory_Equipment_and_Extraction_Engineering.wiki",
+        "title": "'''Ultrasonic-Assisted Extraction (UAE):''' Micro-jets blast against plant tissue, shattering cell walls and glandular t",
+        "bytes": 12519,
+        "keywords": [
+          "solvent",
+          "butane",
+          "extraction",
+          "solvents",
+          "cannabinoid",
+          "vapor",
+          "internal",
+          "liquid",
+          "thermal",
+          "pressure",
+          "explosive",
+          "botanical"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Liposomal_Vitamin_C.wiki",
+        "title": "Liposomal_Vitamin_C.wiki",
+        "bytes": 2839,
+        "keywords": [
+          "vitamin",
+          "oral",
+          "liposomal",
+          "nbsp",
+          "iron",
+          "ascorbate",
+          "dose",
+          "intravenous",
+          "absorption",
+          "absorbed",
+          "plasma",
+          "l-methylfolate"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Liquidity__Slippage__and_AMMs.wiki",
+        "title": "Liquidity, Slippage, and AMMs",
+        "bytes": 6222,
+        "keywords": [
+          "price",
+          "liquidity",
+          "market",
+          "slippage",
+          "pool",
+          "trade",
+          "thin",
+          "order",
+          "token",
+          "walls",
+          "book",
+          "formula"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Maca.wiki",
+        "title": "Maca.wiki",
+        "bytes": 2570,
+        "keywords": [
+          "maca",
+          "macamides",
+          "faah",
+          "does",
+          "fatty",
+          "most",
+          "brassicaceae",
+          "root",
+          "food",
+          "fertility",
+          "plant",
+          "reported"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/MAGL.wiki",
+        "title": "'''Raises 2-AG''' — more endocannabinoid signalling at CB1 and CB2, produced by the body's own machinery rather than sup",
+        "bytes": 3426,
+        "keywords": [
+          "magl",
+          "endocannabinoid",
+          "inhibition",
+          "most",
+          "enzyme",
+          "system",
+          "rather",
+          "reversible",
+          "faah",
+          "makes",
+          "does",
+          "more"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Market_Cap_vs_Fully-Diluted_Valuation.wiki",
+        "title": "Market Cap vs Fully-Diluted Valuation (FDV)",
+        "bytes": 4799,
+        "keywords": [
+          "supply",
+          "market",
+          "price",
+          "token",
+          "tokens",
+          "circulating",
+          "emission",
+          "advice",
+          "valuation",
+          "capitalization",
+          "exist",
+          "future"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/MELEK.wiki",
+        "title": "MELEK.wiki",
+        "bytes": 2807,
+        "keywords": [
+          "melek",
+          "witness",
+          "social",
+          "hathor",
+          "soapbox",
+          "chain",
+          "family",
+          "prana",
+          "graphene",
+          "blocks",
+          "founding",
+          "layer"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Melqart.wiki",
+        "title": "Melqart.wiki",
+        "bytes": 3706,
+        "keywords": [
+          "melqart",
+          "melek",
+          "same",
+          "tyre",
+          "phoenician",
+          "punic",
+          "hercules",
+          "gades",
+          "city",
+          "works",
+          "murex",
+          "purple"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Mining.wiki",
+        "title": "Mining.wiki",
+        "bytes": 2486,
+        "keywords": [
+          "mining",
+          "prana",
+          "pool",
+          "chain",
+          "soapbox",
+          "dpos",
+          "different",
+          "miners",
+          "block",
+          "mined",
+          "melek",
+          "reward"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Modified_Cannabinoids_Matrix.wiki",
+        "title": "Modified_Cannabinoids_Matrix.wiki",
+        "bytes": 6392,
+        "keywords": [
+          "receptor",
+          "affinity",
+          "carbons",
+          "synthesis",
+          "catalyst",
+          "prolonged",
+          "metal",
+          "cannabinoid",
+          "cannabinoids",
+          "prodrug",
+          "hydroxyl",
+          "group"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Molar_Stoichiometry_Powder_Density_and_Tolerance_Kinetics.wiki",
+        "title": "Molar_Stoichiometry_Powder_Density_and_Tolerance_Kinetics.wiki",
+        "bytes": 20984,
+        "keywords": [
+          "text",
+          "active",
+          "receptor",
+          "code",
+          "powder",
+          "salt",
+          "dose",
+          "blotter",
+          "milligrams",
+          "liquid",
+          "density",
+          "visual"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Monoamine_Oxidase_Inhibitors_and_Neurotransmitter_Systems.wiki",
+        "title": "Monoamine_Oxidase_Inhibitors_and_Neurotransmitter_Systems.wiki",
+        "bytes": 9538,
+        "keywords": [
+          "mao-a",
+          "tyramine",
+          "inhibitors",
+          "serotonin",
+          "mao-b",
+          "dietary",
+          "monoamine",
+          "irreversible",
+          "intestinal",
+          "code",
+          "enzyme",
+          "oxidase"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Mucuna_Pruriens.wiki",
+        "title": "Mucuna_Pruriens.wiki",
+        "bytes": 3243,
+        "keywords": [
+          "l-dopa",
+          "dopamine",
+          "seed",
+          "dopaminergic",
+          "extraction",
+          "inhibitor",
+          "powder",
+          "source",
+          "plant",
+          "where",
+          "fraction",
+          "mucuna"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Mystery_Schools.wiki",
+        "title": "Mystery Schools",
+        "bytes": 12341,
+        "keywords": [
+          "https",
+          "wikipedia",
+          "wiki",
+          "post",
+          "library",
+          "egyptian",
+          "esoteric",
+          "temples",
+          "alexandria",
+          "asclepeion",
+          "phoenix",
+          "orders"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Mysticism_and_Eastern_Philosophy_in_Science.wiki",
+        "title": "'''Structural analogy is not evidence.''' That two systems both describe a unified, interpenetrating reality does not me",
+        "bytes": 13890,
+        "keywords": [
+          "physics",
+          "einstein",
+          "tesla",
+          "religion",
+          "science",
+          "vivekananda",
+          "buddhism",
+          "most",
+          "real",
+          "heisenberg",
+          "philosophy",
+          "about"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Neith.wiki",
+        "title": "Neith.wiki",
+        "bytes": 4078,
+        "keywords": [
+          "neith",
+          "goddess",
+          "weaving",
+          "city",
+          "egyptian",
+          "venue",
+          "writing",
+          "origin",
+          "scriptorium",
+          "knowledge",
+          "greek",
+          "whose"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Neurogenesis_Neuroprotectants_and_Synaptogenesis.wiki",
+        "title": "'''Neurogenesis:''' The proliferation and integration of new functional neurons from stem cell niches.",
+        "bytes": 4799,
+        "keywords": [
+          "neurogenesis",
+          "brain",
+          "synaptogenesis",
+          "neurons",
+          "edema",
+          "neural",
+          "research",
+          "synaptic",
+          "dendritic",
+          "receptors",
+          "glutamate",
+          "adult"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Nikola_Tesla.wiki",
+        "title": "Nikola_Tesla.wiki",
+        "bytes": 6527,
+        "keywords": [
+          "tesla",
+          "system",
+          "transmission",
+          "energy",
+          "electrical",
+          "real",
+          "apparatus",
+          "vivekananda",
+          "patents",
+          "frequency",
+          "patent",
+          "polyphase"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Oilahuasca.wiki",
+        "title": "Oilahuasca.wiki",
+        "bytes": 8387,
+        "keywords": [
+          "oilahuasca",
+          "json",
+          "research",
+          "theory",
+          "enzyme",
+          "metabolism",
+          "allylbenzene",
+          "proposed",
+          "mechanistic",
+          "model",
+          "complete",
+          "synthesis"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Old_World_vs_New_World_Magic_Herbs.wiki",
+        "title": "Balance dopamine and acetylcholine tone in Parkinson’s disease.",
+        "bytes": 10206,
+        "keywords": [
+          "world",
+          "text",
+          "datura",
+          "shulgin",
+          "smoking",
+          "dose",
+          "venom",
+          "between",
+          "snake",
+          "cannabis",
+          "museum",
+          "delirium"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Order_Books__Buy_Walls__and_Sell_Walls.wiki",
+        "title": "Order Books, Buy Walls, and Sell Walls",
+        "bytes": 8733,
+        "keywords": [
+          "wall",
+          "price",
+          "integrations",
+          "book",
+          "liquidity",
+          "order",
+          "walls",
+          "sell",
+          "real",
+          "support",
+          "resistance",
+          "market"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Pashupata_Shaivism.wiki",
+        "title": "'''Karya''' — effect: the bound condition",
+        "bytes": 4556,
+        "keywords": [
+          "shiva",
+          "pashupata",
+          "lord",
+          "bound",
+          "method",
+          "ascetic",
+          "tradition",
+          "name",
+          "suffering",
+          "figure",
+          "stated",
+          "seal"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Pentecaust.wiki",
+        "title": "Pentecaust.wiki",
+        "bytes": 1430,
+        "keywords": [
+          "pentecaust",
+          "identity",
+          "soapbox",
+          "ecosystem",
+          "messaging",
+          "community",
+          "clan",
+          "single",
+          "melek",
+          "private",
+          "account",
+          "messages"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Pickling_and_Preservation.wiki",
+        "title": "'''Only high-acid foods may be water-bath canned.''' High-acid = pH 4.6 or lower (most properly acidified pickles, pickl",
+        "bytes": 11677,
+        "keywords": [
+          "vinegar",
+          "salt",
+          "pickle",
+          "extension",
+          "pickling",
+          "recipe",
+          "water",
+          "brine",
+          "https",
+          "canning",
+          "lime",
+          "refrigerator"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/PIHKAL_and_TIHKAL.wiki",
+        "title": "PIHKAL_and_TIHKAL.wiki",
+        "bytes": 7614,
+        "keywords": [
+          "shulgin",
+          "tihkal",
+          "library",
+          "books",
+          "chemistry",
+          "erowid",
+          "pihkal",
+          "compound",
+          "psychedelic",
+          "tryptamine",
+          "online",
+          "plus"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Portable_Identity.wiki",
+        "title": "Portable_Identity.wiki",
+        "bytes": 1431,
+        "keywords": [
+          "melek",
+          "account",
+          "soapbox",
+          "name",
+          "identity",
+          "same",
+          "every",
+          "portable",
+          "single",
+          "across",
+          "profile",
+          "avatar"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/PRANA.wiki",
+        "title": "PRANA.wiki",
+        "bytes": 2483,
+        "keywords": [
+          "prana",
+          "compute",
+          "melek",
+          "mining",
+          "kula",
+          "work",
+          "pool",
+          "soapbox",
+          "ecosystem",
+          "tokens",
+          "https",
+          "witness"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Preservation_Fermentation_and_Spice.wiki",
+        "title": "Stem the chiles; seeds optional. Pack into a jar with garlic and any aromatics.",
+        "bytes": 15600,
+        "keywords": [
+          "mustard",
+          "seed",
+          "horseradish",
+          "garlic",
+          "water",
+          "ginger",
+          "texas",
+          "vinegar",
+          "dill",
+          "root",
+          "more",
+          "heat"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Proof_of_Work__Proof_of_Stake__and_DPoS.wiki",
+        "title": "Proof of Work, Proof of Stake, and DPoS",
+        "bytes": 8065,
+        "keywords": [
+          "proof",
+          "stake",
+          "dpos",
+          "melek",
+          "chain",
+          "block",
+          "work",
+          "delegated",
+          "prana",
+          "layer",
+          "bitcoin",
+          "library-of-ashurbanipal-bot"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Psychedelic_and_Psychopharmacology_Glossary.wiki",
+        "title": "Psychedelic_and_Psychopharmacology_Glossary.wiki",
+        "bytes": 26751,
+        "keywords": [
+          "chemistry",
+          "shulgin",
+          "cannabinoid",
+          "receptor",
+          "effect",
+          "tihkal",
+          "inhibition",
+          "chemical",
+          "pihkal",
+          "mdma",
+          "testing",
+          "kinetics"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Psychotomimetics_Sedation_and_the_Evolution_of_Psychiatry.wiki",
+        "title": "'''Hyperactive Basolateral Amygdala:''' During severe life-threatening trauma (combat, catastrophic assault), massive su",
+        "bytes": 21029,
+        "keywords": [
+          "alpha",
+          "text",
+          "anxiety",
+          "dopamine",
+          "code",
+          "receptor",
+          "early",
+          "amygdala",
+          "chemical",
+          "cognitive",
+          "emotional",
+          "blunting"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Psychotropics_Convention_and_the_UDV_Precedent.wiki",
+        "title": "'''International Treaty Obligations:''' The United States is bound by the 1971 Convention on Psychotropic Substances to ",
+        "bytes": 11888,
+        "keywords": [
+          "international",
+          "treaty",
+          "schedule",
+          "convention",
+          "substances",
+          "under",
+          "government",
+          "court",
+          "rfra",
+          "church",
+          "united",
+          "supreme"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Punic_Wax_Consciousness_Synthesis.wiki",
+        "title": "Punic_Wax_Consciousness_Synthesis.wiki",
+        "bytes": 6634,
+        "keywords": [
+          "institute",
+          "synthesis",
+          "punic",
+          "cone",
+          "head",
+          "network",
+          "hermon",
+          "consciousness",
+          "thesis",
+          "mount",
+          "reads",
+          "fayum"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Punic_Wax.wiki",
+        "title": "'''Salt + baking soda in water + beeswax'''",
+        "bytes": 7447,
+        "keywords": [
+          "beeswax",
+          "water",
+          "nbsp",
+          "punic",
+          "soap",
+          "material",
+          "encaustic",
+          "saponified",
+          "point",
+          "head",
+          "cone",
+          "boiling"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Racetams.wiki",
+        "title": "Racetams.wiki",
+        "bytes": 3574,
+        "keywords": [
+          "piracetam",
+          "choline",
+          "family",
+          "phenylpiracetam",
+          "soviet",
+          "amplification",
+          "framework",
+          "racetams",
+          "giurgea",
+          "nootropic",
+          "against",
+          "part"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Rasa_Shastra_and_Ancient_Indian_Nanochemistry.wiki",
+        "title": "Rasa_Shastra_and_Ancient_Indian_Nanochemistry.wiki",
+        "bytes": 10413,
+        "keywords": [
+          "bhasma",
+          "metal",
+          "metallic",
+          "gold",
+          "silver",
+          "rasa",
+          "shastra",
+          "botanical",
+          "heavy",
+          "thermal",
+          "puta",
+          "crucible"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Recipes.wiki",
+        "title": "Recipes.wiki",
+        "bytes": 5188,
+        "keywords": [
+          "nbsp",
+          "mucuna",
+          "punic",
+          "institute",
+          "beeswax",
+          "material",
+          "imphepho",
+          "pruriens",
+          "temperature",
+          "water",
+          "bicarbonate",
+          "l-dopa"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Religious_Sacraments_RFRA_and_the_Temple_of_True_Inner_Light.wiki",
+        "title": "Is in furtherance of a '''compelling governmental interest'''; and",
+        "bytes": 8624,
+        "keywords": [
+          "religious",
+          "temple",
+          "rfra",
+          "true",
+          "light",
+          "federal",
+          "government",
+          "smith",
+          "shulgin",
+          "sacrament",
+          "inner",
+          "madison"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/REN.wiki",
+        "title": "REN.wiki",
+        "bytes": 1948,
+        "keywords": [
+          "melek",
+          "name",
+          "ecosystem",
+          "prana",
+          "wallet",
+          "address",
+          "identity",
+          "names",
+          "profile",
+          "soapbox",
+          "egyptian",
+          "hathor"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Routes_for_Backpacking_Pilgrimages.wiki",
+        "title": "Routes for Backpacking Pilgrimages",
+        "bytes": 8822,
+        "keywords": [
+          "plants",
+          "each",
+          "routes",
+          "visa",
+          "travel",
+          "temple",
+          "network",
+          "seeds",
+          "controlled",
+          "source",
+          "south",
+          "marsresident"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Running_a_Graphene_Witness_Node.wiki",
+        "title": "Running_a_Graphene_Witness_Node.wiki",
+        "bytes": 5118,
+        "keywords": [
+          "graphene",
+          "cryptocurrency",
+          "blockchain",
+          "guide",
+          "witness",
+          "node",
+          "social",
+          "json",
+          "sources",
+          "applications",
+          "community",
+          "running"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Scratch_Cooking_and_Culinary_Ratios.wiki",
+        "title": "'''300 g (about 2.5 cups) flour''', 1 tablespoon baking powder, 1 teaspoon salt, (optional 1 teaspoon sugar) — whisk tog",
+        "bytes": 11054,
+        "keywords": [
+          "flour",
+          "parts",
+          "salt",
+          "cooking",
+          "sugar",
+          "part",
+          "roux",
+          "water",
+          "dough",
+          "milk",
+          "about",
+          "cold"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Selling_Is_Not_Profit__Buy_to_Sell_Higher.wiki",
+        "title": "Selling Isn't Profit — You Have to Buy to Sell Higher",
+        "bytes": 5885,
+        "keywords": [
+          "price",
+          "sell",
+          "selling",
+          "profit",
+          "market",
+          "gain",
+          "higher",
+          "sale",
+          "lower",
+          "local",
+          "pending-economics-post",
+          "advice"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Shulgin_Rating_Scale.wiki",
+        "title": "Shulgin_Rating_Scale.wiki",
+        "bytes": 4650,
+        "keywords": [
+          "plus",
+          "drug",
+          "user",
+          "effects",
+          "shulgin",
+          "scale",
+          "experience",
+          "definition",
+          "meaning",
+          "minus",
+          "four",
+          "dose"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Shulgin_Ten_Essential_Amphetamines_and_Metabolic_Chemistry.wiki",
+        "title": "'''Side-Chain Epoxidation (Detoxification):''' CYP2E1 and CYP3A4 oxidize the terminal double bond into a three-membered ",
+        "bytes": 11031,
+        "keywords": [
+          "metabolic",
+          "allylbenzenes",
+          "allylbenzene",
+          "oilahuasca",
+          "essential",
+          "natural",
+          "paste",
+          "asarone",
+          "space",
+          "enzymes",
+          "safrole",
+          "piperine"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Shulgin_Ten_Essential_Oils.wiki",
+        "title": "Shulgin_Ten_Essential_Oils.wiki",
+        "bytes": 4562,
+        "keywords": [
+          "shulgin-pihkal-tihkal",
+          "shulgin",
+          "essential",
+          "oils",
+          "json",
+          "vkfri",
+          "framework",
+          "position",
+          "theory",
+          "indicates",
+          "psychoactive",
+          "sources"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Silicon_and_Collagen.wiki",
+        "title": "Silicon_and_Collagen.wiki",
+        "bytes": 2706,
+        "keywords": [
+          "silicon",
+          "essay",
+          "acid",
+          "dietary",
+          "horsetail",
+          "title",
+          "quartz",
+          "human",
+          "real",
+          "silicosis",
+          "species",
+          "orthosilicic"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Credentials.wiki",
+        "title": "SoapBox_Credentials.wiki",
+        "bytes": 1641,
+        "keywords": [
+          "credentials",
+          "soapbox",
+          "community",
+          "directory",
+          "free",
+          "credential",
+          "industry",
+          "where",
+          "academy",
+          "fits",
+          "https",
+          "maps"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Data.wiki",
+        "title": "SoapBox_Data.wiki",
+        "bytes": 908,
+        "keywords": [
+          "soapbox",
+          "data",
+          "ecosystem",
+          "statistics",
+          "surfaces",
+          "vertical",
+          "open",
+          "community",
+          "meant",
+          "melek",
+          "verticals",
+          "open-data"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Grants.wiki",
+        "title": "SoapBox_Grants.wiki",
+        "bytes": 1487,
+        "keywords": [
+          "grants",
+          "soapbox",
+          "ecosystem",
+          "discretionary",
+          "funding",
+          "chain",
+          "community",
+          "where",
+          "rewards",
+          "library",
+          "surface",
+          "support"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Hemp.wiki",
+        "title": "SoapBox_Hemp.wiki",
+        "bytes": 1071,
+        "keywords": [
+          "soapbox",
+          "hemp",
+          "reference",
+          "vertical",
+          "ecosystem",
+          "information",
+          "material",
+          "community",
+          "educational",
+          "cannabis",
+          "plant",
+          "uses"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Law.wiki",
+        "title": "SoapBox_Law.wiki",
+        "bytes": 2506,
+        "keywords": [
+          "soapbox",
+          "community",
+          "public",
+          "legal",
+          "each",
+          "records",
+          "reporters",
+          "record",
+          "religious",
+          "vertical",
+          "statutes",
+          "regulations"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Move.wiki",
+        "title": "SoapBox_Move.wiki",
+        "bytes": 1525,
+        "keywords": [
+          "soapbox",
+          "move",
+          "community",
+          "ecosystem",
+          "earn",
+          "rewards",
+          "melek",
+          "moving",
+          "movement",
+          "activity",
+          "identity",
+          "https"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Oversight.wiki",
+        "title": "SoapBox_Oversight.wiki",
+        "bytes": 1573,
+        "keywords": [
+          "soapbox",
+          "oversight",
+          "public",
+          "no-verdict",
+          "dossiers",
+          "officials",
+          "records",
+          "politics",
+          "accountability",
+          "civic",
+          "ecosystem",
+          "politicians"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Politics.wiki",
+        "title": "SoapBox_Politics.wiki",
+        "bytes": 1393,
+        "keywords": [
+          "soapbox",
+          "politics",
+          "political",
+          "portal",
+          "civic",
+          "ecosystem",
+          "oversight",
+          "together",
+          "information",
+          "civic-engagement",
+          "resources",
+          "readers"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Pool.wiki",
+        "title": "SoapBox_Pool.wiki",
+        "bytes": 1594,
+        "keywords": [
+          "pool",
+          "mining",
+          "soapbox",
+          "browser",
+          "prana",
+          "community",
+          "hashrate",
+          "algorithm",
+          "work",
+          "https",
+          "rewards",
+          "earn"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Search.wiki",
+        "title": "SoapBox_Search.wiki",
+        "bytes": 1622,
+        "keywords": [
+          "soapbox",
+          "search",
+          "melek",
+          "community",
+          "https",
+          "ecosystem",
+          "verticals",
+          "every",
+          "posts",
+          "whole",
+          "across",
+          "live"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Shopping.wiki",
+        "title": "SoapBox_Shopping.wiki",
+        "bytes": 824,
+        "keywords": [
+          "soapbox",
+          "shopping",
+          "ecosystem",
+          "vertical",
+          "discovery",
+          "deals",
+          "community",
+          "person",
+          "everyday",
+          "verticals",
+          "travel",
+          "place"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Stocks.wiki",
+        "title": "SoapBox_Stocks.wiki",
+        "bytes": 924,
+        "keywords": [
+          "soapbox",
+          "stocks",
+          "information",
+          "ecosystem",
+          "market",
+          "markets",
+          "vertical",
+          "education",
+          "community",
+          "educational",
+          "advice",
+          "does"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox_Travel.wiki",
+        "title": "SoapBox_Travel.wiki",
+        "bytes": 1304,
+        "keywords": [
+          "soapbox",
+          "travel",
+          "vertical",
+          "planning",
+          "options",
+          "traveler",
+          "trip",
+          "utility",
+          "community",
+          "compare",
+          "partners",
+          "rather"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/SoapBox.wiki",
+        "title": "SoapBox.wiki",
+        "bytes": 2334,
+        "keywords": [
+          "soapbox",
+          "melek",
+          "community",
+          "blockchain",
+          "prana",
+          "surfaces",
+          "ecosystem",
+          "here",
+          "witness",
+          "data",
+          "sites",
+          "chains"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Solar_Theory_and_Euhemerism.wiki",
+        "title": "Solar_Theory_and_Euhemerism.wiki",
+        "bytes": 5459,
+        "keywords": [
+          "solar",
+          "institute",
+          "ller",
+          "theory",
+          "euhemerism",
+          "interpretatio",
+          "ancient",
+          "where",
+          "myth",
+          "something",
+          "because",
+          "mythology"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Solvent_Chemistry_and_Polarity_in_Botanical_Extraction.wiki",
+        "title": "Solvent_Chemistry_and_Polarity_in_Botanical_Extraction.wiki",
+        "bytes": 6338,
+        "keywords": [
+          "solvents",
+          "water",
+          "ethanol",
+          "phase",
+          "non-polar",
+          "solvent",
+          "polar",
+          "hydrophobic",
+          "synthesis",
+          "heptane",
+          "layer",
+          "emulsion"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Space_Paste.wiki",
+        "title": "Space_Paste.wiki",
+        "bytes": 8800,
+        "keywords": [
+          "oilahuasca",
+          "space",
+          "json",
+          "recipe",
+          "paste",
+          "dmtnexus",
+          "thread",
+          "booze",
+          "community",
+          "described",
+          "active",
+          "parts"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Spanish_Glossary.wiki",
+        "title": "Spanish_Glossary.wiki",
+        "bytes": 23665,
+        "keywords": [
+          "basic",
+          "like",
+          "spanish",
+          "numbers",
+          "agua",
+          "station",
+          "english",
+          "library",
+          "people",
+          "hundred",
+          "right",
+          "drink"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Spiced_Coffee.wiki",
+        "title": "Spiced_Coffee.wiki",
+        "bytes": 23980,
+        "keywords": [
+          "coffee",
+          "wine",
+          "cyp1a2",
+          "spiced",
+          "enzyme",
+          "cinnamon",
+          "nutmeg",
+          "allylbenzene",
+          "caffeine",
+          "compounds",
+          "spice",
+          "induction"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Stack_Substances.wiki",
+        "title": "Stack_Substances.wiki",
+        "bytes": 20503,
+        "keywords": [
+          "cannabinoid",
+          "inhibition",
+          "shulgin",
+          "chemistry",
+          "inhibitors",
+          "kinetics",
+          "enzyme",
+          "extraction",
+          "vitamin",
+          "nbsp",
+          "mucuna",
+          "most"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Stake_Tiers__Whale__Dolphin__Minnow__and_Vote_Weight.wiki",
+        "title": "Stake Tiers on Steem-Family Chains: Whale, Dolphin, Minnow, and What a Vote Is Worth",
+        "bytes": 9121,
+        "keywords": [
+          "vote",
+          "stake",
+          "steem",
+          "melek",
+          "curation",
+          "whale",
+          "account",
+          "https",
+          "tiers",
+          "minnow",
+          "coin",
+          "voting"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Start_Here.wiki",
+        "title": "Start_Here.wiki",
+        "bytes": 4640,
+        "keywords": [
+          "soapbox",
+          "melek",
+          "about",
+          "entrainment",
+          "most",
+          "family",
+          "hathor",
+          "witness",
+          "here",
+          "page",
+          "https",
+          "salon"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Steem___Hive_Bots___the_SteemBots___Steemcenter_ecosystem.wiki",
+        "title": "Steem___Hive_Bots___the_SteemBots___Steemcenter_ecosystem.wiki",
+        "bytes": 7299,
+        "keywords": [
+          "github",
+          "https",
+          "hive",
+          "steem",
+          "bots",
+          "openhive-network",
+          "curation",
+          "hive-engine",
+          "blockchain",
+          "holgern",
+          "melek",
+          "account"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/STEEM_Blockchain.wiki",
+        "title": "STEEM Blockchain",
+        "bytes": 5873,
+        "keywords": [
+          "steem",
+          "blockchain",
+          "cryptocurrency",
+          "decentralized",
+          "social",
+          "json",
+          "media",
+          "users",
+          "tokens",
+          "vkfri",
+          "content",
+          "platforms"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Stereochemistry_in_Cannabinoid_and_Psychedelic_Synthesis.wiki",
+        "title": "Stereochemistry_in_Cannabinoid_and_Psychedelic_Synthesis.wiki",
+        "bytes": 7050,
+        "keywords": [
+          "racemic",
+          "chiral",
+          "natural",
+          "receptor",
+          "synthetic",
+          "enantiomers",
+          "binding",
+          "cannabinoid",
+          "affinity",
+          "potency",
+          "activity",
+          "trans-thc"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Stocks_and_Broths.wiki",
+        "title": "Place the rinsed bones in a tall stockpot. Cover with cold water, bring just to a boil, then drain and rinse the bones a",
+        "bytes": 19396,
+        "keywords": [
+          "stock",
+          "bones",
+          "water",
+          "simmer",
+          "cold",
+          "minutes",
+          "mirepoix",
+          "white",
+          "dashi",
+          "liquid",
+          "brown",
+          "fish"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Structure_Activity_Relationships_in_Psychopharmacology.wiki",
+        "title": "Structure_Activity_Relationships_in_Psychopharmacology.wiki",
+        "bytes": 16615,
+        "keywords": [
+          "receptor",
+          "methyl",
+          "oxytocin",
+          "group",
+          "serotonin",
+          "position",
+          "mdma",
+          "dopamine",
+          "molecule",
+          "steric",
+          "code",
+          "melatonin"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Sublingual_Absorption_and_Salivary_Enzymes.wiki",
+        "title": "'''Direct Venous Drainage:''' Capillaries beneath the non-keratinized sublingual mucosa drain directly into the deep lin",
+        "bytes": 8966,
+        "keywords": [
+          "sublingual",
+          "text",
+          "salivary",
+          "enzymes",
+          "mucosal",
+          "cavity",
+          "lingual",
+          "epithelial",
+          "lipophilic",
+          "membrane",
+          "amylase",
+          "barrier"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Supply_and_Demand__the_Price_Basics.wiki",
+        "title": "Supply and Demand — the Price Basics",
+        "bytes": 4682,
+        "keywords": [
+          "price",
+          "demand",
+          "supply",
+          "sell",
+          "market",
+          "token",
+          "buyers",
+          "want",
+          "more",
+          "walls",
+          "shifts",
+          "advice"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Swami_Vivekananda.wiki",
+        "title": "Swami_Vivekananda.wiki",
+        "bytes": 4381,
+        "keywords": [
+          "vivekananda",
+          "tesla",
+          "ramakrishna",
+          "yoga",
+          "rather",
+          "practice",
+          "vedanta",
+          "philosophy",
+          "vedantic",
+          "realisation",
+          "claim",
+          "chicago"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Synaptogenesis_Neuroplasticity_and_Brain_Rewiring.wiki",
+        "title": "Synaptogenesis_Neuroplasticity_and_Brain_Rewiring.wiki",
+        "bytes": 15207,
+        "keywords": [
+          "synaptogenesis",
+          "brain",
+          "synaptic",
+          "neurons",
+          "ketamine",
+          "bdnf",
+          "neurogenesis",
+          "dendritic",
+          "psilocybin",
+          "rapid",
+          "trkb",
+          "mtorc1"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Tanit.wiki",
+        "title": "Tanit.wiki",
+        "bytes": 3491,
+        "keywords": [
+          "tanit",
+          "neith",
+          "asherah",
+          "chain",
+          "libyan",
+          "punic",
+          "consort",
+          "baal",
+          "hammon",
+          "athena",
+          "plato",
+          "herodotus"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Terpene_Extraction.wiki",
+        "title": "'''Water distillation (hydrodistillation):''' material is immersed in boiling water. Simplest, but prolonged boiling can",
+        "bytes": 13208,
+        "keywords": [
+          "terpenes",
+          "extraction",
+          "solvent",
+          "terpene",
+          "acid",
+          "steam",
+          "cannabis",
+          "method",
+          "water",
+          "botanical",
+          "volatile",
+          "heat"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Terpenes.wiki",
+        "title": "Terpenes.wiki",
+        "bytes": 11714,
+        "keywords": [
+          "terpene",
+          "cannabis",
+          "terpenes",
+          "hops",
+          "cannabinoid",
+          "plant",
+          "same",
+          "oils",
+          "acids",
+          "most",
+          "yeast",
+          "units"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_2C_Series_and_Extended_Phenethylamines.wiki",
+        "title": "The_2C_Series_and_Extended_Phenethylamines.wiki",
+        "bytes": 11793,
+        "keywords": [
+          "hours",
+          "duration",
+          "series",
+          "group",
+          "text",
+          "carbon",
+          "position",
+          "code",
+          "methyl",
+          "shulgin",
+          "amphetamine",
+          "family"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Amplification_Framework.wiki",
+        "title": "The_Amplification_Framework.wiki",
+        "bytes": 3059,
+        "keywords": [
+          "l-methylfolate",
+          "framework",
+          "cofactor",
+          "inhibitor",
+          "stack",
+          "three",
+          "monoamine",
+          "substrate",
+          "l-tryptophan",
+          "l-tyrosine",
+          "degradation",
+          "vitamin"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Church_of_Neuroscience_and_Biohacking.wiki",
+        "title": "The Church of Neuroscience and Biohacking",
+        "bytes": 10785,
+        "keywords": [
+          "https",
+          "post",
+          "stimulation",
+          "church",
+          "wikipedia",
+          "wiki",
+          "light",
+          "library",
+          "dream",
+          "brain",
+          "neuroscience",
+          "electrical"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Economics_No_Coin_Dev_Teaches.wiki",
+        "title": "The Economics No Coin Dev Teaches — Buybacks, Utility, and Why DevCoin Failed",
+        "bytes": 5936,
+        "keywords": [
+          "token",
+          "economics",
+          "bitcointalk",
+          "real",
+          "coin",
+          "buybacks",
+          "devcoin",
+          "utility",
+          "https",
+          "marsresident",
+          "supply",
+          "steem"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Expanded_Endocannabinoid_System_and_FAAH_Science.wiki",
+        "title": "The_Expanded_Endocannabinoid_System_and_FAAH_Science.wiki",
+        "bytes": 9783,
+        "keywords": [
+          "faah",
+          "inhibitors",
+          "catalytic",
+          "receptors",
+          "anandamide",
+          "acid",
+          "lipid",
+          "trpv1",
+          "endocannabinoid",
+          "endogenous",
+          "clinical",
+          "human"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Five_Mother_Sauces.wiki",
+        "title": "Warm the milk with the oignon piqué until steaming; let it infuse 10 minutes off the heat, then discard the onion and ba",
+        "bytes": 18648,
+        "keywords": [
+          "sauce",
+          "roux",
+          "butter",
+          "white",
+          "velout",
+          "sauces",
+          "hollandaise",
+          "stock",
+          "brown",
+          "warm",
+          "tomato",
+          "finished"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Graphene_Family.wiki",
+        "title": "The_Graphene_Family.wiki",
+        "bytes": 2526,
+        "keywords": [
+          "steem",
+          "chain",
+          "blockchain",
+          "melek",
+          "hive",
+          "stake",
+          "graphene",
+          "dpos",
+          "community",
+          "witness",
+          "family",
+          "blurt"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Huasca_Phenomenon_and_Metabolic_Redirection.wiki",
+        "title": "'''The Substrate:''' An active or conditionally active compound that, when administered alone, suffers from extensive fi",
+        "bytes": 18384,
+        "keywords": [
+          "bupropion",
+          "metabolic",
+          "ephedrine",
+          "shield",
+          "hepatic",
+          "herbpedia",
+          "huasca",
+          "active",
+          "inhibitor",
+          "found",
+          "cyp2d6",
+          "botanical"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Medical_Applications_of_Light.wiki",
+        "title": "The Medical Applications of Light",
+        "bytes": 9162,
+        "keywords": [
+          "light",
+          "https",
+          "medical",
+          "blue",
+          "effects",
+          "post",
+          "brain",
+          "source",
+          "applications",
+          "tissue",
+          "clock",
+          "melanopsin"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Ogdoad.wiki",
+        "title": "The Ogdoad",
+        "bytes": 5570,
+        "keywords": [
+          "https",
+          "wikipedia",
+          "wiki",
+          "essay",
+          "egyptian",
+          "planets",
+          "calendar",
+          "ogdoad",
+          "gods",
+          "days",
+          "week",
+          "machines"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Tropane_Alkaloids_Brugmansia_Cocaine_and_Metabolic_Chemistry.wiki",
+        "title": "An equatorial ($3\\beta$) benzoyl ester linkage ($\\text{-OCOC}_6\\text{H}_5$).",
+        "bytes": 11252,
+        "keywords": [
+          "cocaine",
+          "text",
+          "beta",
+          "tropane",
+          "cocaethylene",
+          "brugmansia",
+          "alpha",
+          "world",
+          "muscarinic",
+          "ester",
+          "ethanol",
+          "chemical"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Tryptamine_Family_and_Endogenous_Neurochemistry.wiki",
+        "title": "An intact '''indole-3-ethylamine (tryptamine) backbone''' (Rings A, B, and the side chain running up to the basic nitrog",
+        "bytes": 14391,
+        "keywords": [
+          "text",
+          "ring",
+          "active",
+          "serotonin",
+          "mescaline",
+          "psilocin",
+          "code",
+          "indole",
+          "tryptamines",
+          "tryptamine",
+          "melatonin",
+          "receptor"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/The_Two-Token_Economy__MELEK_and_PRANA.wiki",
+        "title": "The Two-Token Economy — MELEK and PRANA",
+        "bytes": 9634,
+        "keywords": [
+          "token",
+          "market",
+          "melek",
+          "prana",
+          "tokens",
+          "price",
+          "chain",
+          "bridge",
+          "apis",
+          "kula",
+          "wmelek",
+          "lineage"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Thiols_and_Oxygen_Congeners_in_Medicinal_Chemistry.wiki",
+        "title": "Thiols_and_Oxygen_Congeners_in_Medicinal_Chemistry.wiki",
+        "bytes": 9481,
+        "keywords": [
+          "sulfur",
+          "oxygen",
+          "code",
+          "thiols",
+          "text",
+          "chemistry",
+          "group",
+          "compounds",
+          "skunk",
+          "quinones",
+          "atom",
+          "soft"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Token_Buybacks__Market_Fees__and_the_UIA_Lineage.wiki",
+        "title": "Token Buybacks, Market Fees, and the UIA Lineage",
+        "bytes": 16784,
+        "keywords": [
+          "market",
+          "bitshares",
+          "asset",
+          "docs",
+          "token",
+          "supply",
+          "https",
+          "issuer",
+          "buyback",
+          "liquidity",
+          "local",
+          "buybacks"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Tokenomics_101.wiki",
+        "title": "Tokenomics 101",
+        "bytes": 6199,
+        "keywords": [
+          "supply",
+          "token",
+          "real",
+          "emission",
+          "tokens",
+          "sinks",
+          "tokenomics",
+          "design",
+          "market",
+          "faucets",
+          "distribution",
+          "fees"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Traditional_Spiced_Formulations_and_Synergistic_Blends.wiki",
+        "title": "'''Areca Nut (Areca catechu):''' The primary active ingredient. Contains the alkaloid '''arecoline''', a powerful agonis",
+        "bytes": 7772,
+        "keywords": [
+          "coffee",
+          "cinnamon",
+          "spiced",
+          "traditional",
+          "nutmeg",
+          "vanilla",
+          "glutathione",
+          "mace",
+          "wines",
+          "almond",
+          "paan",
+          "spice"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Ubulawu_and_African_Oneirogens.wiki",
+        "title": "'''Cold Extraction:''' Dried roots or barks are finely crushed and placed in a clay pot or vessel filled with pure cold ",
+        "bytes": 13237,
+        "keywords": [
+          "ubulawu",
+          "oilahuasca",
+          "saponins",
+          "dream",
+          "african",
+          "xhosa",
+          "salivary",
+          "sublingual",
+          "saponin",
+          "botanical",
+          "triterpenoid",
+          "silene"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Ukuphahla.wiki",
+        "title": "'''Aromatic Inhalation (Imphepho):''' Smoldering ''Helichrysum'' leaves and flowers release dense airborne sesquiterpene",
+        "bytes": 5732,
+        "keywords": [
+          "imphepho",
+          "rite",
+          "plant",
+          "smoke",
+          "delivery",
+          "white",
+          "ukuphahla",
+          "ubulawu",
+          "sensory",
+          "head",
+          "sage",
+          "southern"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Universal_Reaction_Templates_in_Cannabinoid_Chemistry.wiki",
+        "title": "The terminal alkene is treated with borane (BH3·THF). Boron coordinates with the less hindered outer carbon due to steri",
+        "bytes": 6778,
+        "keywords": [
+          "carbon",
+          "code",
+          "alkene",
+          "acid",
+          "bond",
+          "cannabinoid",
+          "hydrogen",
+          "group",
+          "atoms",
+          "double",
+          "cannabinoids",
+          "adding"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Using_the_WADA_List_as_Health_Reference.wiki",
+        "title": "Using the WADA List as Health Reference",
+        "bytes": 6629,
+        "keywords": [
+          "prohibited",
+          "https",
+          "wikipedia",
+          "wiki",
+          "list",
+          "blood",
+          "anti-doping",
+          "wada",
+          "post",
+          "muscle",
+          "education",
+          "reference"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Virology_Antivenom_Immunology_and_Aromatic_Antimicrobials.wiki",
+        "title": "'''Protein Inactivation:''' Radicals rapidly oxidize sulfur-containing amino acids (methionine and cysteine) and aromati",
+        "bytes": 15645,
+        "keywords": [
+          "viral",
+          "code",
+          "chlorine",
+          "venom",
+          "plasma",
+          "zinc",
+          "radical",
+          "text",
+          "hocl",
+          "fragments",
+          "snake",
+          "antivenom"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Vitamin_K2.wiki",
+        "title": "Vitamin_K2.wiki",
+        "bytes": 3059,
+        "keywords": [
+          "vitamin",
+          "calcium",
+          "bone",
+          "half-life",
+          "mk-4",
+          "doses",
+          "nbsp",
+          "tissue",
+          "dietary",
+          "mk-7",
+          "does",
+          "evidence"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Western_Magical_Systems.wiki",
+        "title": "Western_Magical_Systems.wiki",
+        "bytes": 5788,
+        "keywords": [
+          "modern",
+          "egregore",
+          "material",
+          "traditions",
+          "their",
+          "institute",
+          "greek",
+          "tradition",
+          "watchers",
+          "collective",
+          "sustained",
+          "much"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/What_a_Witness_Is_and_Does.wiki",
+        "title": "What a Witness Is and Does",
+        "bytes": 9611,
+        "keywords": [
+          "witness",
+          "chain",
+          "block",
+          "graphene",
+          "witnesses",
+          "library-of-ashurbanipal-bot",
+          "generated-articles",
+          "wiki",
+          "melek",
+          "price",
+          "blockchain",
+          "feed"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/White_Sage.wiki",
+        "title": "White_Sage.wiki",
+        "bytes": 2252,
+        "keywords": [
+          "white",
+          "sage",
+          "salvia",
+          "cultivated",
+          "other",
+          "indigenous",
+          "southern",
+          "california",
+          "whom",
+          "leaf",
+          "cineole",
+          "camphor"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Why_Curation_Bots_Were_Made__Whale_Coverage_and_Minnow_Aggregation.wiki",
+        "title": "Why Curation Bots Were Made: Whale Coverage and Minnow Aggregation",
+        "bytes": 11566,
+        "keywords": [
+          "curation",
+          "stake",
+          "steem",
+          "whale",
+          "bots",
+          "vote",
+          "minnow",
+          "voting",
+          "melek",
+          "pool",
+          "steemit",
+          "aggregation"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Wirearchy.wiki",
+        "title": "Wirearchy",
+        "bytes": 4066,
+        "keywords": [
+          "flat",
+          "wirearchy",
+          "https",
+          "wikipedia",
+          "knowledge",
+          "organization",
+          "wiki",
+          "governance",
+          "voluntary",
+          "essay",
+          "information",
+          "authority"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Yeast_Terpenes_and_Biosynthesis.wiki",
+        "title": "Yeast_Terpenes_and_Biosynthesis.wiki",
+        "bytes": 9608,
+        "keywords": [
+          "yeast",
+          "terpenes",
+          "plant",
+          "terpene",
+          "fermentation",
+          "cannabinoids",
+          "engineered",
+          "same",
+          "aroma",
+          "chemistry",
+          "biotransformation",
+          "biosynthesis"
+        ]
+      },
+      {
+        "path": "site/wiki/seed-articles/Yin_Chen_Hao.wiki",
+        "title": "Yin_Chen_Hao.wiki",
+        "bytes": 2986,
+        "keywords": [
+          "liver",
+          "scoparone",
+          "sold",
+          "plant",
+          "pharmacology",
+          "hepatoprotective",
+          "choleretic",
+          "effect",
+          "taken",
+          "yerba",
+          "lena",
+          "yesca"
+        ]
+      }
+    ],
+    "law": [
+      {
+        "path": "knowledge/legal/admin-filing.json",
+        "title": "Administrative Filing — ALJ hearings, exhaustion, and the path into federal court",
+        "bytes": 8396,
+        "keywords": [
+          "agency",
+          "court",
+          "review",
+          "administrative",
+          "action",
+          "final",
+          "board",
+          "decision",
+          "authority",
+          "federal",
+          "detail",
+          "before"
+        ]
+      },
+      {
+        "path": "knowledge/legal/agency-exhaustion.json",
+        "title": "How to Contact Agencies to Build Standing and Exhaust Remedies Before You Sue",
+        "bytes": 21986,
+        "keywords": [
+          "agency",
+          "court",
+          "claim",
+          "point",
+          "administrative",
+          "deadline",
+          "authority",
+          "final",
+          "notice",
+          "federal",
+          "days",
+          "file"
+        ]
+      },
+      {
+        "path": "knowledge/legal/caselaw-as-history.json",
+        "title": "The Case Law of Us",
+        "bytes": 67236,
+        "keywords": [
+          "case",
+          "court",
+          "citation",
+          "year",
+          "figure",
+          "source",
+          "happened",
+          "matters",
+          "https",
+          "supreme",
+          "federal",
+          "cases"
+        ]
+      },
+      {
+        "path": "knowledge/legal/constitution.json",
+        "title": "The Constitution of the United States — the Bill of Rights and the later amendments, verbatim",
+        "bytes": 36582,
+        "keywords": [
+          "amendment",
+          "held",
+          "right",
+          "shall",
+          "name",
+          "cite",
+          "rights",
+          "states",
+          "text",
+          "state",
+          "president",
+          "cases"
+        ]
+      },
+      {
+        "path": "knowledge/legal/doctrines.json",
+        "title": "Body-cam: Florida officer arrests a 'sovereign citizen' who claimed the stop was 'illegal'",
+        "bytes": 23008,
+        "keywords": [
+          "name",
+          "note",
+          "cite",
+          "cases",
+          "states",
+          "definition",
+          "federal",
+          "commerce",
+          "clause",
+          "united",
+          "court",
+          "congress"
+        ]
+      },
+      {
+        "path": "knowledge/legal/flir-thermal-4a.json",
+        "title": "flir-thermal-4a.json",
+        "bytes": 7222,
+        "keywords": [
+          "court",
+          "held",
+          "search",
+          "name",
+          "cite",
+          "year",
+          "author",
+          "united",
+          "states",
+          "heat",
+          "home",
+          "circuit"
+        ]
+      },
+      {
+        "path": "knowledge/legal/judicial-complaints.json",
+        "title": "Judicial-Misconduct Complaints — how to complain about a federal judge",
+        "bytes": 10256,
+        "keywords": [
+          "judge",
+          "judicial",
+          "circuit",
+          "complaint",
+          "conduct",
+          "disability",
+          "council",
+          "chief",
+          "process",
+          "rules",
+          "review",
+          "committee"
+        ]
+      },
+      {
+        "path": "knowledge/legal/justices-doctrines.json",
+        "title": "justices-doctrines.json",
+        "bytes": 8063,
+        "keywords": [
+          "held",
+          "case",
+          "justice",
+          "year",
+          "doctrine",
+          "cite",
+          "amendment",
+          "court",
+          "test",
+          "later",
+          "against",
+          "judicial"
+        ]
+      },
+      {
+        "path": "knowledge/legal/lexicon.json",
+        "title": "The American Legal Lexicon",
+        "bytes": 40017,
+        "keywords": [
+          "cornell",
+          "name",
+          "https",
+          "term",
+          "technical",
+          "sources",
+          "slug",
+          "category",
+          "plain",
+          "foundingera",
+          "constitution",
+          "court"
+        ]
+      },
+      {
+        "path": "knowledge/legal/marriage-family-privacy.json",
+        "title": "marriage-family-privacy.json",
+        "bytes": 8480,
+        "keywords": [
+          "court",
+          "family",
+          "right",
+          "supreme",
+          "name",
+          "cite",
+          "year",
+          "held",
+          "state",
+          "liberty",
+          "children",
+          "marry"
+        ]
+      },
+      {
+        "path": "knowledge/legal/privileges.json",
+        "title": "privileges.json",
+        "bytes": 19076,
+        "keywords": [
+          "privilege",
+          "states",
+          "united",
+          "name",
+          "held",
+          "court",
+          "communications",
+          "confidential",
+          "federal",
+          "spouse",
+          "cite",
+          "year"
+        ]
+      },
+      {
+        "path": "knowledge/legal/README-spirit-of-the-laws.md",
+        "title": "Spirit of the Laws — teaching corpus",
+        "bytes": 5823,
+        "keywords": [
+          "montesquieu",
+          "quote",
+          "source",
+          "spirit",
+          "teaching",
+          "pincite",
+          "verified",
+          "purpose",
+          "real",
+          "cases",
+          "case",
+          "method"
+        ]
+      },
+      {
+        "path": "knowledge/legal/sanctions-guide.json",
+        "title": "How to Sanction Lawyers and Opposing Parties — and How to Defend Against Sanctions and Vexatious-Litigant Abuse",
+        "bytes": 20661,
+        "keywords": [
+          "court",
+          "rule",
+          "motion",
+          "order",
+          "authority",
+          "power",
+          "conduct",
+          "cases",
+          "tool",
+          "sanctions",
+          "fees",
+          "sanction"
+        ]
+      },
+      {
+        "path": "knowledge/legal/spirit-of-the-laws.json",
+        "title": "The Spirit of the Laws — Montesquieu, purposive interpretation, and the cases where judges read for the spirit",
+        "bytes": 30194,
+        "keywords": [
+          "montesquieu",
+          "court",
+          "source",
+          "spirit",
+          "https",
+          "purpose",
+          "words",
+          "united",
+          "case",
+          "statute",
+          "states",
+          "powers"
+        ]
+      },
+      {
+        "path": "knowledge/legal/where-to-file.json",
+        "title": "Where to File — which court hears what, including the specialized and obscure ones",
+        "bytes": 18159,
+        "keywords": [
+          "court",
+          "state",
+          "courts",
+          "federal",
+          "appeals",
+          "article",
+          "claims",
+          "district",
+          "hears",
+          "jurisdiction",
+          "authority",
+          "there"
+        ]
+      },
+      {
+        "path": "knowledge/maxims/maxims.json",
+        "title": "maxims.json",
+        "bytes": 8221,
+        "keywords": [
+          "gloss",
+          "provenance",
+          "term",
+          "lang",
+          "literal",
+          "domain",
+          "category",
+          "latin",
+          "legal",
+          "definitions",
+          "maxim",
+          "against"
         ]
       }
     ],
@@ -2275,6 +9216,25 @@
         ]
       },
       {
+        "path": "knowledge/ancient_egypt/aegyptiaca_manetho_egyptologists_synthesis.json",
+        "title": "Manetho's Aegyptiaca and the Egyptologists Who Read After Him",
+        "bytes": 24636,
+        "keywords": [
+          "manetho",
+          "egyptian",
+          "turin",
+          "kings",
+          "wikipedia",
+          "canon",
+          "hathor",
+          "egypt",
+          "gods",
+          "before",
+          "aegyptiaca",
+          "royal"
+        ]
+      },
+      {
         "path": "knowledge/ancient_egypt/ancient_egypt_knowledge.json",
         "title": "Knowledge in Ancient Egypt - Kemetic Wisdom & History",
         "bytes": 14029,
@@ -2351,6 +9311,25 @@
         ]
       },
       {
+        "path": "knowledge/cryptocurrency/ai_agent_payments_and_wallets.json",
+        "title": "AI Agents That Hold and Spend Money — Payment Rails, Wallets, Identity Standards and Agent Frameworks",
+        "bytes": 40555,
+        "keywords": [
+          "x402",
+          "prana",
+          "github",
+          "agent",
+          "https",
+          "status",
+          "mechanism",
+          "repo",
+          "license",
+          "apache-2",
+          "relevance",
+          "on-chain"
+        ]
+      },
+      {
         "path": "knowledge/cryptocurrency/bitcointalk_million_dollar_bitcoin.json",
         "title": "The Road to $1,000,000 Bitcoin - Bitcointalk Forum Discussions",
         "bytes": 9113,
@@ -2389,6 +9368,25 @@
         ]
       },
       {
+        "path": "knowledge/cryptocurrency/clonable_dapp_frontends.json",
+        "title": "Clonable Front Ends & dApp UIs — verified catalogue for MELEK / PRANA / KULA / SoapBox",
+        "bytes": 87197,
+        "keywords": [
+          "github",
+          "https",
+          "works",
+          "license",
+          "prana",
+          "build",
+          "name",
+          "last",
+          "melek",
+          "active",
+          "category",
+          "complexity"
+        ]
+      },
+      {
         "path": "knowledge/cryptocurrency/cryptocurrency_towns_part1.json",
         "title": "Cryptocurrency Towns Part 1: Getting Started - Complete Town-Building Guide",
         "bytes": 14166,
@@ -2405,6 +9403,25 @@
           "cryptocurrency",
           "towns",
           "sustainable"
+        ]
+      },
+      {
+        "path": "knowledge/cryptocurrency/cryptokitties_onchain_genetics.json",
+        "title": "CryptoKitties On-Chain Genetics and Its Successors",
+        "bytes": 35201,
+        "keywords": [
+          "https",
+          "github",
+          "prana",
+          "on-chain",
+          "melek",
+          "chain",
+          "verified",
+          "license",
+          "cryptokitties",
+          "contracts",
+          "index",
+          "aavegotchi"
         ]
       },
       {
@@ -2519,6 +9536,25 @@
           "through",
           "city",
           "devcoin"
+        ]
+      },
+      {
+        "path": "knowledge/cryptocurrency/decentralized_compute_for_ai.json",
+        "title": "Decentralized Compute for AI — How DePIN Networks Actually Gate and Pay for Work, and What PRANA Should Copy",
+        "bytes": 40751,
+        "keywords": [
+          "prana",
+          "https",
+          "github",
+          "token",
+          "task",
+          "mechanism",
+          "lane",
+          "verification",
+          "status",
+          "compute",
+          "network",
+          "repo"
         ]
       },
       {
@@ -2769,6 +9805,25 @@
         ]
       },
       {
+        "path": "knowledge/cryptocurrency/kyc_age_verification_law_and_vendors.json",
+        "title": "Age Verification, KYC/AML Law, and the Identity-Vendor Market — Research Brief for MELEK / Van Kush",
+        "bytes": 89134,
+        "keywords": [
+          "https",
+          "texas",
+          "money",
+          "verification",
+          "content",
+          "only",
+          "under",
+          "says",
+          "check",
+          "transmission",
+          "services",
+          "service"
+        ]
+      },
+      {
         "path": "knowledge/cryptocurrency/large_scale_crypto_project.json",
         "title": "Large Scale Cryptocurrency Project Guide - Minting Your Own Money",
         "bytes": 9489,
@@ -2785,6 +9840,25 @@
           "ethereum",
           "blockchain",
           "sudo"
+        ]
+      },
+      {
+        "path": "knowledge/cryptocurrency/silk_road_economy.json",
+        "title": "The Silk Road Economy — a Deep Dive, with the Aggroed \\",
+        "bytes": 12364,
+        "keywords": [
+          "escrow",
+          "market",
+          "silk",
+          "road",
+          "economy",
+          "trust",
+          "reputation",
+          "real",
+          "bitcoin",
+          "tokens",
+          "goods",
+          "legal"
         ]
       },
       {
@@ -2959,6 +10033,25 @@
         ]
       },
       {
+        "path": "knowledge/cryptocurrency/token_standards_and_factories.json",
+        "title": "Token Standards, Proxy Factories, Bonding Curves and Forkable Contract Libraries",
+        "bytes": 48119,
+        "keywords": [
+          "https",
+          "prana",
+          "github",
+          "eips",
+          "token",
+          "chain",
+          "license",
+          "melek",
+          "address",
+          "implementation",
+          "contracts",
+          "ethereum"
+        ]
+      },
+      {
         "path": "knowledge/cryptocurrency/tokenista_ecosystem_synthesis.json",
         "title": "Tokenista/FinShaggy Ecosystem Synthesis - Social Human Advocacy & Regenerative Coordination",
         "bytes": 11764,
@@ -2978,6 +10071,25 @@
         ]
       },
       {
+        "path": "knowledge/cryptocurrency/wallets_and_smart_accounts.json",
+        "title": "Wallets and Smart Accounts: Classic HD Keys to ERC-4337, EIP-7702 and Passkeys",
+        "bytes": 65790,
+        "keywords": [
+          "https",
+          "github",
+          "prana",
+          "account",
+          "eips",
+          "wallet",
+          "ethereum",
+          "license",
+          "address",
+          "name",
+          "works",
+          "pushed"
+        ]
+      },
+      {
         "path": "knowledge/cryptocurrency/where_defi_is_headed_bitcointalk.json",
         "title": "Where DeFi is Headed - Bitcointalk Thread Summary",
         "bytes": 48875,
@@ -2994,6 +10106,25 @@
           "like",
           "mining",
           "purpose"
+        ]
+      },
+      {
+        "path": "knowledge/cryptocurrency/zk_identity_and_age_proofs.json",
+        "title": "Privacy-Preserving Age Verification & Identity \\u2014 the technology and the actual code",
+        "bytes": 71080,
+        "keywords": [
+          "u2014",
+          "https",
+          "github",
+          "self",
+          "chain",
+          "license",
+          "stars",
+          "proves",
+          "name",
+          "privacy",
+          "active",
+          "last"
         ]
       },
       {
@@ -3092,6 +10223,25 @@
         ]
       },
       {
+        "path": "knowledge/history/babyloniaca_berossus_sumerology_synthesis.json",
+        "title": "Berossus's Babyloniaca and the Foundations of Sumerology",
+        "bytes": 28407,
+        "keywords": [
+          "wikipedia",
+          "name",
+          "berossus",
+          "king",
+          "https",
+          "reign",
+          "kings",
+          "years",
+          "list",
+          "wiki",
+          "oannes",
+          "flood"
+        ]
+      },
+      {
         "path": "knowledge/history/complete_ancient_timeline.json",
         "title": "THE COMPLETE ANCIENT TIMELINE",
         "bytes": 12094,
@@ -3127,6 +10277,101 @@
           "hebrew",
           "knowledge",
           "ruler"
+        ]
+      },
+      {
+        "path": "knowledge/history/deity-iconography.md",
+        "title": "Deity iconography — how the gods are traditionally depicted",
+        "bytes": 33405,
+        "keywords": [
+          "https",
+          "wikipedia",
+          "sources",
+          "wiki",
+          "holding",
+          "theoi",
+          "woman",
+          "html",
+          "often",
+          "wearing",
+          "head",
+          "sometimes"
+        ]
+      },
+      {
+        "path": "knowledge/history/egyptian-royalty-military-items.json",
+        "title": "egyptian-royalty-military-items.json",
+        "bytes": 37992,
+        "keywords": [
+          "https",
+          "wikipedia",
+          "wiki",
+          "egyptian",
+          "name",
+          "people",
+          "plain",
+          "category",
+          "description",
+          "sources",
+          "prompt",
+          "backdrop"
+        ]
+      },
+      {
+        "path": "knowledge/history/egyptian-royalty-military-templates.json",
+        "title": "Pharaoh Portrait by Era",
+        "bytes": 19364,
+        "keywords": [
+          "label",
+          "placeholder",
+          "example",
+          "title",
+          "category",
+          "promptpattern",
+          "slots",
+          "defaultsize",
+          "crown",
+          "setting",
+          "egyptian",
+          "scene"
+        ]
+      },
+      {
+        "path": "knowledge/history/egyptian-royalty-military.md",
+        "title": "Ancient Egyptian Royalty and Military, by Era",
+        "bytes": 57430,
+        "keywords": [
+          "https",
+          "wikipedia",
+          "wiki",
+          "egypt",
+          "dynasty",
+          "ancient",
+          "military",
+          "egyptian",
+          "hyksos",
+          "metmuseum",
+          "crown",
+          "collection"
+        ]
+      },
+      {
+        "path": "knowledge/history/greek_mythography_godkings_synthesis.json",
+        "title": "Greek Mythography and the God-Kings",
+        "bytes": 20980,
+        "keywords": [
+          "name",
+          "agenor",
+          "atlas",
+          "diodorus",
+          "https",
+          "wikipedia",
+          "cadmus",
+          "gods",
+          "greek",
+          "phoenician",
+          "bibliotheca",
+          "memnon"
         ]
       },
       {
@@ -3260,6 +10505,25 @@
           "evidence",
           "cultural",
           "educational"
+        ]
+      },
+      {
+        "path": "knowledge/history/sais-delphi-characters.md",
+        "title": "Sais & Delphi — character briefs for figures without surviving portraits",
+        "bytes": 17397,
+        "keywords": [
+          "neith",
+          "sais",
+          "wikipedia",
+          "linen",
+          "ancient",
+          "priest",
+          "temple",
+          "egypt",
+          "attested",
+          "white",
+          "secondary",
+          "peseshet"
         ]
       },
       {
@@ -3586,6 +10850,25 @@
         ]
       },
       {
+        "path": "knowledge/mystery_schools/western_esoteric_angelology_synthesis.json",
+        "title": "The Western Esoteric Tradition and the Order of Angels",
+        "bytes": 26163,
+        "keywords": [
+          "jude",
+          "enochian",
+          "magic",
+          "enoch",
+          "angelic",
+          "order",
+          "golden",
+          "dawn",
+          "solomon",
+          "language",
+          "angels",
+          "kelley"
+        ]
+      },
+      {
         "path": "knowledge/phoenician/adriatic_aegean_consciousness_network.json",
         "title": "THE ADRIATIC-AEGEAN CONSCIOUSNESS NETWORK: A Complete Synthesis",
         "bytes": 15667,
@@ -3602,6 +10885,25 @@
           "liburnian",
           "pattern",
           "bronze"
+        ]
+      },
+      {
+        "path": "knowledge/phoenician/carthage_melqart_mlk_tin_synthesis.json",
+        "title": "Carthage, Melqart, and the MLK Root: The Phoenician-Punic King-God Complex and the Bronze-Age Tin Trade",
+        "bytes": 19579,
+        "keywords": [
+          "wikipedia",
+          "phoenician",
+          "carthage",
+          "melqart",
+          "punic",
+          "sources",
+          "king",
+          "name",
+          "root",
+          "melek",
+          "moloch",
+          "ancient"
         ]
       },
       {
@@ -28017,269 +35319,41 @@
         ]
       },
       {
-        "path": "datasets/trading-knowledge/01-order-books-and-depth.md",
-        "title": "Order books & market depth",
-        "bytes": 2829,
+        "path": "knowledge/ecosystem/steem-hive-blurt-docs.json",
+        "title": "Steem / Hive / Blurt — Canonical Docs & Developer Portals",
+        "bytes": 12283,
         "keywords": [
-          "book",
-          "price",
-          "market",
-          "order",
-          "depth",
-          "orders",
-          "wikipedia",
-          "level",
+          "teaches",
+          "repos",
           "https",
-          "wiki",
-          "ibid",
-          "crossed"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/02-buy-sell-walls.md",
-        "title": "Buy walls & sell walls",
-        "bytes": 2821,
-        "keywords": [
-          "wall",
-          "book",
-          "wikipedia",
-          "order",
-          "walls",
-          "price",
-          "market",
-          "https",
-          "wiki",
-          "large",
-          "orders",
-          "slippage"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/03-bid-ask-spread.md",
-        "title": "Bid–ask spread",
-        "bytes": 2627,
-        "keywords": [
-          "spread",
-          "liquidity",
-          "cost",
-          "market",
-          "midpoint",
-          "price",
-          "quoted",
-          "wikipedia",
-          "orders",
-          "https",
-          "wiki",
-          "trade"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/04-market-making.md",
-        "title": "Market making",
-        "bytes": 2911,
-        "keywords": [
-          "market",
-          "wikipedia",
-          "maker",
-          "spread",
-          "inventory",
-          "https",
-          "wiki",
-          "quotes",
-          "price",
-          "sell",
-          "cost",
-          "makers"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/05-arbitrage.md",
-        "title": "Arbitrage (cross-exchange + triangular)",
-        "bytes": 3761,
-        "keywords": [
-          "arbitrage",
-          "price",
-          "triangular",
-          "wikipedia",
-          "risk",
-          "https",
-          "wiki",
-          "fees",
-          "same",
-          "prices",
-          "only",
-          "cross-exchange"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/06-scalping-and-volatility.md",
-        "title": "Scalping & volatility trading",
-        "bytes": 3471,
-        "keywords": [
-          "volatility",
-          "scalping",
-          "trading",
-          "wikipedia",
-          "spread",
-          "https",
-          "wiki",
-          "risk",
-          "price",
-          "time",
-          "positions",
-          "profit"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/07-slippage-and-liquidity.md",
-        "title": "Slippage & liquidity",
-        "bytes": 3341,
-        "keywords": [
-          "slippage",
-          "price",
-          "market",
-          "liquidity",
-          "wikipedia",
-          "book",
-          "https",
-          "wiki",
-          "order",
-          "execution",
-          "impact",
-          "finance"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/08-fees.md",
-        "title": "Fees (maker/taker, network, withdrawal)",
-        "bytes": 4115,
-        "keywords": [
-          "wikipedia",
-          "fees",
-          "exchange",
-          "spread",
-          "https",
-          "wiki",
-          "cryptocurrency",
-          "maker",
-          "withdrawal",
-          "arbitrage",
-          "liquidity",
-          "cost"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/09-risk-management.md",
-        "title": "Risk management (position sizing, stop-loss)",
-        "bytes": 3841,
-        "keywords": [
-          "risk",
-          "wikipedia",
-          "position",
-          "sizing",
-          "management",
-          "https",
-          "wiki",
-          "order",
-          "trade",
-          "stop",
-          "risk-to-reward",
-          "account"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/10-low-volume-token-risk.md",
-        "title": "Low-volume / illiquid-token risk",
-        "bytes": 3500,
-        "keywords": [
-          "wikipedia",
-          "slippage",
-          "https",
-          "wiki",
-          "book",
-          "thin",
-          "liquidity",
-          "market",
-          "order",
-          "finance",
-          "tokens",
-          "spread"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/11-cex-vs-dex.md",
-        "title": "CEX vs DEX mechanics",
-        "bytes": 4185,
-        "keywords": [
-          "wikipedia",
-          "exchange",
-          "https",
-          "wiki",
-          "market",
-          "order",
-          "price",
-          "decentralized",
-          "defi",
-          "cryptocurrency",
-          "trade",
-          "hive-engine"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/12-swap-wrapped-token-arbitrage.md",
-        "title": "SWAP / wrapped-token arbitrage (Hive-Engine / TribalDEX)",
-        "bytes": 3897,
-        "keywords": [
-          "swap",
-          "arbitrage",
-          "wikipedia",
-          "hive-engine",
-          "https",
+          "github",
+          "readme",
+          "openhive-network",
           "hive",
-          "wiki",
-          "wrapped",
-          "market",
-          "real",
-          "price",
-          "triangular"
+          "steem",
+          "docs",
+          "someguy123",
+          "doctorlai",
+          "reference"
         ]
       },
       {
-        "path": "datasets/trading-knowledge/README.md",
-        "title": "datasets/trading-knowledge/ — crypto day-trading reference corpus",
-        "bytes": 4646,
+        "path": "knowledge/ecosystem/steem-hive-blurt-docs.md",
+        "title": "Steem / Hive / Blurt — Canonical Docs & Developer Portals",
+        "bytes": 10711,
         "keywords": [
-          "wikipedia",
-          "market",
-          "source",
-          "arbitrage",
-          "fees",
-          "order",
-          "hive-engine",
-          "spread",
-          "scraper",
-          "trade",
-          "heuristics",
-          "topic"
-        ]
-      },
-      {
-        "path": "datasets/trading-knowledge/trading-rules.jsonl",
-        "title": "trading-rules.jsonl",
-        "bytes": 15217,
-        "keywords": [
-          "rule",
-          "source",
-          "topic",
-          "https",
-          "wikipedia",
-          "wiki",
-          "spread",
-          "price",
-          "book",
-          "slippage",
-          "fees",
-          "risk"
+          "readme",
+          "hive",
+          "openhive-network",
+          "docs",
+          "witness",
+          "reference",
+          "node",
+          "steem",
+          "blurt",
+          "keys",
+          "cloned",
+          "portal"
         ]
       },
       {
