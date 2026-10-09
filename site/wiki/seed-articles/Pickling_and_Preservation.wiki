@@ -1,0 +1,100 @@
+'''Pickling and Preservation''' is the family of acid-based methods for holding vegetables, fruit and eggs against spoilage by lowering pH below the range in which dangerous bacteria grow. This article covers the two structurally different kinds of pickle — quick (refrigerator) and processed (shelf-stable) — the brine chemistry that makes a vinegar pickle safe, the firming-agent question (including the real botulism hazard of pickling lime), salt-brine basics, and the water-bath canning rules that keep a sealed jar from becoming a culture vessel. It is a companion to [[Fermentation]], which covers the ''live'' (lactic-acid) preservation path rather than the added-acid path described here.
+
+The single governing number on this page is '''pH 4.6'''. ''Clostridium botulinum'' — the organism that produces botulinum toxin — cannot grow or produce toxin below that pH. Every safety rule below exists to get the finished product reliably under 4.6 and keep it there.
+
+== Two kinds of pickle ==
+
+They look alike in the jar and are not the same food.
+
+* '''Quick / refrigerator pickles.''' Vegetables packed in a hot or cold vinegar brine and stored '''in the refrigerator'''. They are never heat-processed and are not shelf-stable. The refrigerator (below 40 °F / 4 °C), not the acid alone, is doing much of the safety work. Ready in hours to a few days; keep for weeks to a couple of months. This is the forgiving, low-equipment path — the right place to start, and the right place to improvise with flavor.
+* '''Processed / canned pickles.''' Vegetables in a precisely acidified brine, sealed in jars and held in a '''boiling-water bath''' long enough to destroy spoilage organisms and seal the lid. These are shelf-stable at room temperature '''only if the recipe was followed exactly.''' This is where the safety rules stop being advisory. A canned low-acid pickle is the classic botulism vehicle.
+
+The practical rule: '''if you are inventing a recipe, make it a refrigerator pickle.''' Reserve canning for tested recipes.
+
+== Vinegar pickles and the acidity rule ==
+
+A vinegar pickle is safe because added acetic acid drives the brine — and, over time, the vegetable inside it — below pH 4.6.
+
+* '''Use vinegar of 5% acidity.''' Standard distilled white and cider vinegars are sold at 5%. This figure is printed on the label as "5% acidity" or "50 grain." Extension guidance is explicit: do not use a vinegar of unknown strength, and '''do not use homemade vinegar''' for canning, because its acidity is unverified ([https://extension.illinois.edu/food-preservation University of Illinois Extension]).
+* '''Do not dilute the acid below what the recipe calls for.''' You may add water to a recipe only in the proportion the recipe gives. Cutting the vinegar to make a milder pickle is the most common way home canners make an ''unsafe'' one. If you want it less sour, add sugar — never less vinegar ([https://fcs-hes.ca.uky.edu/content/home-food-preservation University of Kentucky Extension]).
+* '''A reliable refrigerator-pickle base ratio''' is equal parts 5% vinegar and water, plus salt and sugar to taste (a common starting point: 1 cup vinegar, 1 cup water, 1 tablespoon pickling salt, 1 tablespoon sugar). Because it lives in the refrigerator, this ratio has a wide safety margin. For a ''canned'' pickle, do not use a generic ratio — use the vinegar-to-water ratio in a tested recipe (many call for a far higher proportion of vinegar, e.g. 5 parts vinegar to 1 part water for pickled hot peppers).
+* '''Salt in a vinegar pickle is for flavor and texture, not safety''' — the acid is the preservative. Use '''canning/pickling salt''' (pure sodium chloride). Table salt's anti-caking agents cloud the brine and iodine can darken it.
+
+See [[Fermentation]] for the contrast: in a lactic ferment the acid is ''produced'' by bacteria from salt and time, not added from a bottle.
+
+== The firming-agent / "lime" question ==
+
+Pickles soften because enzymes (and, in a ferment, some microbes) break down pectin in the vegetable's cell walls. Firming agents counter this. The choice of agent is a genuine safety matter, not a flavor preference.
+
+=== Pickling lime — the hazard ===
+
+'''Pickling lime is calcium hydroxide, Ca(OH)₂. It is strongly alkaline, and that is the problem.''' It firms pectin effectively, and it was standard for generations, but it carries a real, documented risk:
+
+* '''Residual lime raises pH.''' Lime absorbed into the vegetable is alkaline; if it is not fully removed, it pushes the finished pickle back ''up'' toward and past pH 4.6 — exactly the condition ''C. botulinum'' needs in a sealed, low-oxygen jar. '''Botulism cases have been linked to incompletely rinsed lime pickles''' ([https://blogs.extension.iastate.edu/answerline/ Iowa State University Extension], Answerline).
+* '''If you use it, the rinse protocol is not optional.''' Per the USDA Complete Guide to Home Canning: soak the vegetables in the lime-water solution for '''12–24 hours''', then '''drain, rinse, and re-soak in fresh water for 1 hour, and repeat that fresh-water soak two more times''' — at least three rinses total — before pickling. The entire purpose is to remove the alkali so the recipe's acid can do its job.
+* '''It contributes nothing to flavor.''' Calcium hydroxide is not a spice. Its only function is firming produce destined for long storage. For anything eaten within a day or two, there is no mechanism by which it helps.
+
+=== Safer firming agents (use these instead) ===
+
+* '''Calcium chloride (Ball "Pickle Crisp," "Pickle Crisp Granules").''' The modern replacement. It supplies the same firming calcium '''without the hydroxide''', so it does '''not''' shift pH. Added directly to the jar in a small measured amount — no soaking, no rinsing, no acidity penalty ([https://blogs.extension.iastate.edu/answerline/ Iowa State University Extension]).
+* '''Tannin-bearing leaves''' — grape, oak, horseradish, blackcurrant, or a pinch of black tea. The traditional answer: plant tannins inhibit the pectin-softening enzymes. Horseradish earns its place twice over, supplying both the root to grate and the leaf for the jar.
+* '''Cold / ice-water soak''' — 4–5 hours in ice water before pickling firms the vegetable with no additive at all.
+
+== Salt-brine basics ==
+
+A pure salt brine (no vinegar) is the base both for some stored vegetables and for all vegetable [[Fermentation|ferments]]. Two things matter:
+
+* '''Weigh, don't guess.''' Salt concentration is expressed as a percentage '''by weight''' — grams of salt per grams (or mL) of water. A kitchen scale is the one non-negotiable tool.
+* '''Concentration ranges.''' A workable bench reference: 2% ≈ 20 g salt per litre of water; 3.5% ≈ 35 g/L; 5% ≈ 50 g/L. Larger, denser vegetables (whole cucumbers, carrots) take a higher-concentration brine than shredded ones ([https://extension.illinois.edu/food-preservation University of Illinois Extension]).
+* Use '''pickling/canning salt''' — no iodine, no anti-caking agents.
+
+== Water-bath canning safety essentials ==
+
+Canning is the step that makes a pickle shelf-stable, and it is the step with the real consequences. The non-negotiables:
+
+# '''Only high-acid foods may be water-bath canned.''' High-acid = pH 4.6 or lower (most properly acidified pickles, pickled fruit). '''Low-acid foods (pH above 4.6) require a pressure canner''', not a boiling-water bath, because botulinum spores survive boiling-water temperatures and are destroyed reliably only at 240–250 °F under pressure ([https://nchfp.uga.edu/ National Center for Home Food Preservation]).
+# '''Follow a tested recipe exactly.''' Added onion, garlic, extra peppers or low-acid vegetables can raise the pH of an otherwise-safe pickle above 4.6. Tested recipes are formulated so the final product clears the threshold; improvising defeats that.
+# '''Headspace.''' Leave the recipe's specified headspace — for most pickles this is '''½ inch''' (1.3 cm). ''☐ verify against the exact tested recipe'' — too little prevents a proper seal, too much leaves air that can spoil the pack.
+# '''Adjust processing time for altitude.''' Water boils cooler at elevation; higher ground needs longer processing. Use the altitude table in the tested recipe.
+# '''Check the seal, and when in doubt throw it out.''' A lid that flexes, a bulging jar, off smells, or cloudiness in a non-fermented pickle = discard, do not taste. Botulinum toxin is odorless and tasteless.
+
+== Worked recipes ==
+
+=== Quick refrigerator dill pickles ===
+
+* '''Produce:''' 1 lb (≈450 g) small pickling cucumbers (Kirby), halved or sliced.
+* '''Brine:''' 1 cup 5% white vinegar, 1 cup water, 1 tablespoon pickling salt, 1 teaspoon sugar.
+* '''Aromatics:''' 2 smashed garlic cloves, 1 teaspoon dill seed (or 2 fresh dill heads), ½ teaspoon black peppercorns, a grape or oak leaf for crunch.
+
+# Pack cucumbers and aromatics tightly into a clean jar.
+# Bring brine to a simmer to dissolve salt and sugar; pour over, submerging the cucumbers.
+# Cool, cap, refrigerate. Edible in 24 hours, best at 3–5 days. '''Refrigerate throughout; use within ~1 month. Not shelf-stable.'''
+
+=== Pickled red onions (same-day) ===
+
+* 1 red onion, thinly sliced; 1 cup warmed 5% cider or white vinegar; 2 teaspoons sugar; 1 teaspoon salt; optional bay leaf, a few peppercorns.
+# Pack onion into a jar. Dissolve sugar and salt in the warm vinegar; pour over.
+# Cool and refrigerate. Usable in 30 minutes, better the next day, keeps 2–3 weeks refrigerated.
+
+=== Gari (sushi ginger) ===
+
+* Young ginger, thinly sliced; salt; seasoned rice vinegar with a little sugar.
+# Salt the sliced young ginger briefly, then blanch 1–2 minutes and pat dry.
+# Pack into the sweetened rice vinegar. Ready in a day or two; keeps months refrigerated.
+# '''On color:''' young ginger turns pale pink on its own, from anthocyanins reacting with the acid. Mature ginger stays beige — beige is not a failure, and is why commercial gari is often dyed. Young ginger also matters for texture: mature ginger makes a stringy, harsh pickle.
+
+=== Dilly beans (refrigerator version) ===
+
+* 1 lb trimmed green beans; brine of 1¼ cups 5% vinegar + 1¼ cups water + 1 tablespoon pickling salt; per jar: 1 garlic clove, ½ teaspoon dill seed, pinch red pepper flakes.
+# Blanch beans 2 minutes, shock in ice water, pack upright in jars with aromatics.
+# Simmer brine, pour over to submerge, cool and refrigerate. Best after 3–4 days; keeps 3–4 weeks. (For a ''canned'' shelf-stable version, use a tested water-bath recipe and process to the specified time.)
+
+== Sources ==
+
+* [https://nchfp.uga.edu/how/general/ensuring-safe-canned-foods/ National Center for Home Food Preservation — Ensuring Safe Canned Foods] (pH 4.6 acid/low-acid threshold; why botulinum requires pressure canning for low-acid foods)
+* [https://extension.illinois.edu/food-preservation University of Illinois Extension — Food Preservation] (5% vinegar requirement; no homemade vinegar; salt-brine concentrations)
+* [https://fcs-hes.ca.uky.edu/content/home-food-preservation University of Kentucky Extension — Home Food Preservation] (do not alter vinegar ratio; acidity is a safety matter)
+* [https://blogs.extension.iastate.edu/answerline/ Iowa State University Extension — Answerline] (pickling lime raises pH and is linked to botulism; calcium chloride supplies calcium without the hydroxide)
+* [https://nchfp.uga.edu/publications/publications_usda.html USDA Complete Guide to Home Canning] (lime soak-and-rinse protocol; pickle headspace and processing)
+
+See also: [[Fermentation]] · [[Cannabis Oil and MHRB Extraction]]

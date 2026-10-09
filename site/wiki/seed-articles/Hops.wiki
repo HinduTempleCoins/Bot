@@ -1,0 +1,65 @@
+'''Hops''' are the dried female flower cones ("cones" or "strobiles") of the hop plant, '''''Humulus lupulus'''''. They are best known as the bittering and aroma ingredient in beer, but for the Library they matter for a second reason: hops are the closest widely-cultivated botanical relative of cannabis, and the two plants are built on much of the same terpene and trichome chemistry. A person who understands hops understands a great deal of cannabis chemistry already — minus the cannabinoids. This page covers the plant, where its chemistry lives, the terpenes and bitter acids and prenylflavonoids it makes, how it compares to marijuana at the level of the actual molecules, and how it is used.
+
+== The plant and the family ==
+
+''Humulus lupulus'' is a perennial, dioecious, climbing bine (it climbs by clinging hairs, not tendrils — a "bine", not a vine) in the small plant family '''Cannabaceae'''. That family has only a handful of genera, and its two famous members are '''''Humulus''''' (hops) and '''''Cannabis'''''. They are, in a real taxonomic sense, cousins. Both are dioecious, both are wind-pollinated, both concentrate their prized chemistry in '''glandular trichomes''', and growers of both chase ''unfertilised female'' flowers — seedless hop cones and ''sinsemilla'' cannabis are the same horticultural idea, because fertilisation diverts the plant from resin to seed.
+
+Only the '''female''' cones are used. Inside the cone, at the base of each papery '''bract''' and '''bracteole''', sit the '''lupulin glands''' — tiny yellow resinous spheres. Lupulin is to hops exactly what the trichome head is to cannabis: the gland where the terpenes and the signature acids are made and stored. When you rub a fresh hop cone and your fingers come away sticky and intensely aromatic, that is lupulin.
+
+== What hops are made of ==
+
+Three chemical families matter, and they are worth keeping separate because they do different jobs.
+
+=== The essential oil (the terpenes) ===
+The volatile oil is roughly 0.5–3% of the cone by weight and is dominated by terpenes shared with cannabis:
+
+* '''Myrcene''' — usually the largest single component of aroma-hop oil; earthy, resinous, "dank". The same terpene that dominates many cannabis cultivars. See [[Terpenes]].
+* '''Humulene''' (α-humulene) — the sesquiterpene ''named after hops'' (''Humulus''); woody, "noble-hop" character. Prominent in the classic European noble varieties.
+* '''β-Caryophyllene''' — the CB2-active, peppery sesquiterpene; the constant travelling companion of humulene. See [[Beta-Caryophyllene]].
+* '''Farnesene, linalool, geraniol, and various esters''' — contribute floral, citrus and fruity notes; the ratios are what distinguish a Saaz from a Citra.
+
+Because myrcene, humulene and caryophyllene are exactly the terpenes that define much of cannabis aroma, '''hop oil smells faintly cannabis-like''' — the overlap is chemical, not poetic.
+
+=== The bitter acids (the resins) ===
+This is where hops diverge from cannabis. Instead of cannabinoids, lupulin builds '''acylphloroglucinol bitter acids''':
+
+* '''α-Acids (humulones)''' — humulone, cohumulone, adhumulone. On their own they are only mildly bitter and poorly soluble. During the boil they '''isomerise''' into '''iso-α-acids''', which ''are'' soluble and are the principal bitterness of beer. This isomerisation is the whole reason hops are boiled rather than merely steeped, and "IBU" (International Bitterness Units) is essentially a measure of iso-α-acid concentration.
+* '''β-Acids (lupulones)''' — lupulone, colupulone, adlupulone. They do not isomerise usefully and contribute little direct bitterness, but their oxidation products add bitterness to aged hops, and they carry notable '''antimicrobial''' activity (see below).
+
+The α-acids and β-acids are structurally cousins of the cannabinoid precursors — both are prenylated polyketides built on a phloroglucinol-type core — which again reflects the shared Cannabaceae biochemistry, even though the finished molecules are completely different in effect.
+
+=== The prenylflavonoids ===
+Hops also make prenylated flavonoids, the most studied of which is '''[[8-Prenylnaringenin]]''' (8-PN) — simultaneously one of the most potent phytoestrogens known ''and'' a potent MAGL inhibitor. Its relatives include xanthohumol (an abundant hop chalcone studied as an antioxidant and anticancer candidate) and isoxanthohumol (which the gut can demethylate into 8-PN). The classic field observation tying this to real physiology is '''"hop-pickers' amenorrhoea"''' — menstrual disruption historically reported among women handling large volumes of hops. See the dedicated [[8-Prenylnaringenin]] page.
+
+== Hops versus marijuana: the honest comparison ==
+
+Because the two plants are cousins, the comparison is genuinely informative — but it is easy to overstate. Here is what is and is not true:
+
+* '''Same family, shared terpenes — true.''' Both are Cannabaceae; both lean on myrcene, humulene and caryophyllene; both store chemistry in trichome-type glands on unfertilised female flowers. The aroma overlap is real.
+* '''Hops contain no THC and no significant cannabinoids.''' This is the central difference. Hops do '''not''' make THCA/CBDA or anything intoxicating. Claims that hops are "legal weed" or that smoking hops gets you high are false.
+* '''Hops are not inert, though.''' β-Caryophyllene is a CB2 agonist in hops exactly as it is in cannabis (CB2 is peripheral/immune, not the "high" receptor). 8-PN is strongly oestrogenic and an MAGL inhibitor. Hop extracts have a long, legitimate folk and clinical record as mild '''sedatives and sleep aids''' (hop pillows; hops-plus-valerian preparations), which is plausibly tied to the myrcene, the bitter-acid metabolites, and effects on GABAergic signalling. So "hops do nothing but bitter beer" is also wrong.
+* '''The practical upshot.''' Hops are a lawful, food-grade teaching model for cannabis trichome chemistry — you can study lupulin, terpene extraction, isomerisation and trichome horticulture with a plant that is sold in every brew shop. They are a model for the ''terpene and gland'' side of cannabis, not for the cannabinoid side.
+
+== Using hops ==
+
+=== In brewing (the standard use) ===
+* '''Bittering additions''' go in early in the boil (typically a full 60-minute boil) to isomerise α-acids into iso-α-acids for bitterness; most of the volatile aroma boils off.
+* '''Flavour and aroma additions''' go in late in the boil or after flameout, to preserve the volatile terpenes that would otherwise evaporate.
+* '''Dry hopping''' adds hops to the fermenter or after fermentation, with no heat at all, to maximise terpene aroma — a cold-extraction of the oil into the finished beer. Note that live yeast can '''biotransform''' hop-derived compounds during dry hopping, changing the aroma; this is the bridge to [[Yeast Terpenes and Biosynthesis]].
+* '''Forms:''' whole cone, compressed '''T-90 pellets''' (milled and pelletised for better utilisation and storage), and concentrated '''CO2 hop extracts''' used for clean, oxygen-free bittering.
+
+=== Beyond brewing ===
+* '''Sleep and calm.''' Hops tea, tinctures, and the traditional hop-filled pillow; frequently paired with valerian. This is the best-attested non-beer use.
+* '''Culinary.''' Fresh hop shoots ("hop asparagus") are a prized springtime vegetable in parts of Europe; young shoots are blanched and dressed. Mature cones are far too bitter to eat directly but are used to bitter and aromatise some foods and sodas.
+* '''Cosmetic and botanical.''' Hop extracts (xanthohumol, 8-PN) appear in skincare and menopause-support products — the latter trading directly on the phytoestrogen activity, which is also the reason such products warrant caution rather than casual high-dose use.
+
+=== Storage ===
+Hops degrade like any terpene-and-resin material: oxygen and warmth oxidise the α-acids (dropping bitterness potential) and strip the volatile aroma. Store cold (freezer is ideal), oxygen-free and dark. The same stability logic covers all aromatic botanicals — see [[Antioxidants and Cannabinoid Stability]] and [[Terpenes]].
+
+== A note on safety ==
+
+Hops are a food ingredient with a very long safety record in beer. Two cautions are worth stating plainly. First, the '''phytoestrogen''' activity of 8-PN is real and potent on a molar basis, so concentrated hop extracts marketed for hormonal effects are not casual supplements — read [[8-Prenylnaringenin]] before high-dose use, particularly alongside hormone-sensitive conditions or medications. Second, '''hops are toxic to dogs''': ingested spent hops (and raw cones) can trigger malignant hyperthermia in dogs, which is a veterinary emergency — keep brewing waste away from them.
+
+== See also ==
+
+See also: [[Terpenes]] · [[Terpene Extraction]] · [[Yeast Terpenes and Biosynthesis]] · [[8-Prenylnaringenin]] · [[Beta-Caryophyllene]] · [[Cannabis]] · [[Cannabis Harm Reduction]] · [[Fermentation]] · [[Antioxidants and Cannabinoid Stability]]

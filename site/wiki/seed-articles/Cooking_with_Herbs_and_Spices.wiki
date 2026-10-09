@@ -1,0 +1,187 @@
+'''Cooking with Herbs and Spices''' is the working reference for the single skill that most separates good home cooking from flat, under-seasoned food: knowing '''what''' an aromatic is, '''when''' to add it, and '''how''' to extract its flavor. This page teaches the craft from first principles — fresh versus dried, the timing of hardy and delicate herbs, blooming and toasting, grinding, building a blend from scratch, the physics of fat-soluble versus water-soluble aromatics, salt and acid as amplifiers, and the classic pairings by protein and cuisine. It closes with the standard pickling-spice foundation and three regional templates drawn from the Van Kush Family Research Institute working reference ''Preservation, Fermentation and Spice''. The governing idea throughout: an herb or spice is a ''delivery problem'' — the flavor is locked in volatile oils, and your job is to release it into the dish without either destroying it or leaving it trapped.
+
+== Herb versus spice ==
+
+The working distinction is anatomical, not culinary. An '''herb''' is the leaf of a soft, usually non-woody plant — basil, parsley, cilantro, mint, thyme, rosemary. A '''spice''' is any other part: seed (coriander, cumin, mustard), bark (cinnamon), root or rhizome (ginger, turmeric), flower bud (clove), berry (allspice, black pepper), or stigma (saffron). A few plants give both — coriander leaf is the herb ''cilantro'', coriander seed is the spice; dill gives both leaf (dill weed) and seed.
+
+This matters because the two categories behave differently under heat. Leaves hold their aromatics in fragile, water-rich tissue that releases quickly and burns off quickly. Seeds, barks and roots hold theirs in dense, oil-rich structures that need time, heat, or crushing to open up. Almost every rule below follows from that one fact.
+
+== Fresh versus dried, and the conversion ratio ==
+
+Fresh herbs are roughly '''80–90% water'''. Drying evaporates that water and concentrates what remains — the essential oils — so dried herbs are stronger ''by volume'' and taste different, not merely weaker. Drying also drives off the brightest, most volatile top notes, which is why dried basil and dried cilantro are pale shadows of the fresh leaf while dried oregano and dried bay are arguably ''better'' than fresh for long cooking.
+
+=== The 3:1 rule ===
+
+The standard conversion is '''three parts fresh to one part dried'''.
+
+* '''1 tablespoon fresh = 1 teaspoon dried''' (there are 3 teaspoons in a tablespoon).
+* For '''delicate, high-moisture herbs''' — cilantro, dill, parsley, chives — use closer to '''2:1''', because so much of their character is in volatile compounds that drying destroys. Often they are simply not worth drying at all.
+* Treat 3:1 as a ''starting point'', not a law. Dried herbs vary enormously with age. A better working habit: add half of what the conversion suggests, taste, and climb from there. Dried herbs turn dusty and bitter when overused.
+
+=== Which to buy dried, which to buy fresh ===
+
+* '''Better dried (or no real loss):''' oregano, bay, thyme, marjoram, dill seed, most seed spices. Their flavor survives and even benefits from drying and long cooking.
+* '''Fresh only:''' basil, cilantro, parsley, chives, tarragon, mint. Dried versions lose the top notes that are the entire point. Add these fresh and late.
+* '''Rosemary and sage''' sit in between — they dry well but the fresh needle or leaf is noticeably brighter.
+
+== When to add: the timing of hardy and delicate herbs ==
+
+This is the single most common failure in home cooking — adding the right herb at the wrong time.
+
+=== Hardy herbs go in early ===
+
+'''Rosemary, thyme, bay, sage, oregano, marjoram''' are woody or leathery. Their oils are held tightly and released slowly, and they ''want'' prolonged contact with heat and liquid. Add them at the start of a braise, stew, roast, stock, or sauce — the classic ''bouquet garni'' (thyme, bay, parsley stems tied together, dropped into the pot) is added at the beginning and fished out at the end. Follow the stock-maker's instinct from classical practice: aromatics steep into the liquid over the full cook.
+
+=== Delicate herbs go in at the very end ===
+
+'''Basil, cilantro, parsley, chives, tarragon, mint, dill weed''' carry their flavor in volatile compounds that boil off in minutes. Heat them and you get grassy, muddy, or nothing at all. Add them off the heat, at the finish, or raw as a garnish — the fresh basil torn over the pasta after plating, the cilantro scattered on the curry at the table, the parsley stirred into the gremolata.
+
+A useful shorthand: '''if you can snap it, it goes in early; if it wilts, it goes in late.'''
+
+=== The split-addition trick ===
+
+For herbs that bridge both worlds, add in two stages. Put half the oregano into the simmering tomato sauce for depth, and stir the other half in fresh at the end for brightness. Professional kitchens do this constantly — building a base flavor with early aromatics and lifting it with a late hit of the same or a complementary herb.
+
+== Releasing flavor: the physics ==
+
+=== Fat-soluble versus water-soluble aromatics ===
+
+The most important flavor compounds in most spices are '''oil-soluble, not water-soluble'''. They need fat to extract. This is not folklore — a lab test steeping red pepper flakes and thyme in oil versus water at the same temperature found roughly '''ten times''' as much of the flavor compound thymol in the oil as in the water. Fat acts as a solvent that pulls the aromatics out and then carries them evenly through the whole dish.
+
+The practical consequences:
+
+* Stirring dry spices into a watery dish at the end leaves much of their flavor undelivered. Give them fat and heat first.
+* Spice-forward cuisines — Indian, Mexican, North African, Middle Eastern — almost all begin by cooking spices in fat for exactly this reason (the Indian ''tadka'' or ''tarka'', the Mexican sofrito, the start of a curry).
+* A few aromatics are genuinely water-soluble or extract into alcohol and acid (saffron into warm water or milk, the pigments and some flavor of paprika). Know which is which.
+
+=== Blooming spices in fat ===
+
+'''Blooming''' means cooking ground spices briefly in hot fat before the liquid goes in. It does two things at once: heat releases the fat-soluble compounds, and the fat then distributes them through the dish.
+
+# Heat a spoonful of oil, ghee, or butter over medium heat.
+# Add the ground spices (and often minced garlic, ginger, onion).
+# Stir constantly for about '''30 seconds to a minute''' — until fragrant, never longer.
+# Add the liquid or the rest of the dish immediately to stop the cooking.
+
+'''The hazard:''' ground spices scorch in seconds. Burnt spice tastes acrid and cannot be rescued — you start over. Keep the heat moderate, the spices moving, and your next ingredient within arm's reach. Butter burns faster than oil; for anything over a few seconds, use oil or ghee.
+
+=== Toasting whole spices ===
+
+'''Toasting''' is heat alone, no fat — a dry pan for whole seeds (cumin, coriander, mustard, fennel, cardamom). It drives off trace moisture and triggers browning reactions that build new, deeper, nuttier flavor compounds that were not there in the raw seed. From the Institute's spice reference: ''toasting whole spices before they meet liquid extracts more in an hour than a longer cold soak will.''
+
+* Use a dry skillet over medium heat, no oil.
+* Shake or stir constantly. Pull them the moment they smell fragrant and darken slightly and the first few start to pop — usually under two minutes.
+* Cool before grinding; warm seeds gum up a grinder and steam inside a sealed jar.
+* '''Toast whole, then bloom''' is the sequence used in many Indian and Middle Eastern dishes — dry-toast the whole seeds for depth, grind, then bloom the ground spice in fat for delivery.
+
+=== Grinding ===
+
+Whole spices keep their volatile oils sealed inside until you crack them, which is why '''whole spices stay potent far longer than ground''' — ground spice has enormous surface area exposed to air and starts fading immediately. The rule that follows: '''buy whole, grind as needed.'''
+
+* A dedicated electric coffee/spice grinder is the standard tool; a mortar and pestle gives more control and a coarser, more interesting texture.
+* Grind only what you need for the dish.
+* Volume is not interchangeable between whole and ground — round seeds like coriander pack loosely, so roughly '''¾ teaspoon ground ≈ 1 teaspoon whole''' for those, but the ratio shifts with the shape of the spice. Test once and write the result on the jar.
+
+== Salt and acid: the amplifiers ==
+
+Herbs and spices are only half of seasoning. The other half is the pair that makes everything else audible.
+
+* '''Salt''' does not merely taste salty — it suppresses bitterness, heightens sweetness and aroma, and makes the other flavors in the dish legible. An under-salted dish tastes ''flat'' even when the herbs are correct; cooks then wrongly add more herb. Salt in layers, through the cook, and taste at the end. Salt by weight, not volume, where precision matters — different salts have wildly different crystal sizes (a teaspoon of fine table salt is far saltier than a teaspoon of flaky salt).
+* '''Acid''' — lemon, vinegar, wine, tomato, yogurt, a splash of brine — is the lift. It cuts richness, brightens dull flavors, and often does the job a cook mistakes for "needs more salt" or "needs more herb." A finished braise or soup that tastes heavy and muddy is usually asking for a squeeze of acid, not another spice.
+
+A reliable finishing routine: taste, then ask in order — ''salt? acid? heat? fat?'' — before reaching for more herbs. Most "missing something" problems are salt or acid.
+
+== Building a spice blend from scratch ==
+
+A blend is architecture. Work in roles, not by throwing things together:
+
+* '''Base / body''' — the bulk, usually earthy and toasty: cumin, coriander, paprika.
+* '''Warmth''' — the sweet-warm layer: cinnamon, allspice, nutmeg, cardamom, clove (clove is aggressive — a little).
+* '''Heat''' — black pepper, cayenne, chile, Aleppo or Sichuan pepper.
+* '''Aromatic lift / top note''' — fennel, dried citrus peel, dried herbs (oregano, thyme), ginger.
+* '''Pungent / savory anchor''' — garlic powder, onion powder, mustard, asafoetida.
+
+Method: toast the whole seeds, cool, grind everything together, and — critically — '''write down the proportions''' so a good blend is repeatable. Start conservative on the aggressive players (clove, cinnamon, cayenne) and build. A simple, legitimate house garam masala, for example, is toasted-and-ground cumin, coriander, black pepper, cardamom, cinnamon, clove and bay — ground together. (For the pickling-spice blend specifically, see the next section.)
+
+== Classic pairings ==
+
+These are conventions, not rules, but they are conventions because they work. Use them as a backbone and deviate deliberately.
+
+=== By protein ===
+
+* '''Beef / lamb (red meat):''' rosemary, thyme, black pepper, garlic, bay, cumin, coriander, smoked paprika. Red meat takes assertive, resinous, earthy flavors.
+* '''Chicken / poultry:''' thyme, sage, tarragon, rosemary, lemon, paprika, garlic. Tarragon with chicken is a French classic; sage with poultry is the Thanksgiving backbone.
+* '''Pork:''' sage, fennel, caraway, mustard, black pepper, apple/sweet. Fennel-and-pork is the Italian sausage axis.
+* '''Fish / seafood:''' dill, parsley, tarragon, chives, lemon, fennel, bay (delicate — do not bury the fish). Thyme and bay for stews and chowders.
+* '''Eggs:''' chives, parsley, tarragon, black pepper, a little nutmeg in rich preparations.
+* '''Beans / lentils / vegetables:''' cumin, coriander, bay, thyme, smoked paprika, oregano. A bay leaf in the bean pot is non-negotiable.
+
+=== By cuisine (the signature aromatics) ===
+
+* '''Italian:''' basil, oregano, rosemary, garlic, fennel, parsley.
+* '''French:''' thyme, bay, tarragon, parsley, chervil, chives (the ''fines herbes'' and ''bouquet garni'' traditions).
+* '''Mexican:''' cumin, coriander, Mexican oregano, dried chiles, cinnamon, cilantro, epazote.
+* '''Indian:''' cumin, coriander, turmeric, cardamom, clove, cinnamon, mustard seed, fenugreek, asafoetida, curry leaf (built as blends — garam masala, and the tadka technique above).
+* '''Middle Eastern / North African:''' cumin, coriander, cinnamon, allspice, sumac, mint, parsley, caraway (za'atar, baharat, ras el hanout).
+* '''Chinese:''' star anise, Sichuan pepper, clove, cinnamon, fennel (the five-spice axis), ginger, garlic, scallion.
+* '''Thai / Southeast Asian:''' lemongrass, galangal, kaffir lime, cilantro (leaf and root), basil, chile, coriander seed.
+
+== The pickling-spice foundation ==
+
+The standard pickling-spice blend is itself a lesson in building from a core and accenting outward. Drawn from the Institute's ''Preservation, Fermentation and Spice'' reference:
+
+=== The four-part foundation ===
+
+Nearly every standard blend starts with these:
+
+* '''Mustard seed''' — and the three colors are '''not interchangeable'''. Yellow (''Sinapis alba'') is mild and acts as a thickener; brown (''Brassica juncea'') is the Dijon workhorse; black (''B. nigra'') is sharpest, the South Asian standard, bloomed in hot oil until it pops. A blend using all three has far more layered heat than yellow alone. Black and brown are cheap at any Indian grocery.
+* '''Black peppercorns''' — steady, classic heat.
+* '''Coriander seed''' — bright, faintly citrus.
+* '''Bay leaf''' — grounding and savory; crumble it for blends.
+
+=== Accents ===
+
+* '''Sweet and warm:''' allspice berries (read as clove, cinnamon and nutmeg together), cloves (aggressive — sparingly), broken cinnamon stick, cracked dried ginger.
+* '''Savory and spicy:''' dill seed (essential to classic dill pickles, far stronger than fresh dill weed), red pepper flakes, celery seed (the deli-pickle note).
+* '''Extended seed and warm range:''' fenugreek (bitter-savory, central to Indian pickles), nigella/kalonji, caraway, fennel, star anise, juniper berries (excellent with cabbage and game), grains of paradise, cardamom pods, mace.
+
+A working rule from the reference: toasting these whole spices before they meet the brine extracts more in an hour than a long cold soak will.
+
+== Regional pickling templates ==
+
+The same foundation bends toward three distinct traditions by swapping the accent layer:
+
+* '''Indian''' — black mustard, fenugreek, nigella, asafoetida, turmeric. Often finished with a hot-oil tadka poured over.
+* '''Japanese (tsukemono)''' — kombu, shiso, yuzu peel. Clean, marine, citrus-led; a very different logic from the warm-spice Western blend.
+* '''Middle Eastern (torshi)''' — mint, dill, turmeric, Aleppo pepper. Herbal and gently hot.
+
+== Common mistakes ==
+
+* '''Adding delicate herbs too early''' — basil and cilantro boiled for an hour contribute nothing. Add at the finish.
+* '''Adding hardy herbs too late''' — a sprig of raw rosemary thrown on at the end is harsh and piny; it needed the whole braise to mellow.
+* '''Stirring ground spice into a watery dish with no fat''' — the fat-soluble aromatics never come out. Bloom first.
+* '''Burning the bloom''' — ground spices scorch in seconds; acrid and unrescuable. Moderate heat, constant motion, next ingredient ready.
+* '''Dusty old ground spice''' — ground spice older than roughly a year is sawdust. Buy whole, grind fresh.
+* '''Treating under-seasoning as an herb problem''' — flat food usually needs salt or acid, not more herb.
+* '''Overusing the aggressive players''' — clove, cinnamon, cayenne, nutmeg dominate fast. Build up, don't dump in.
+* '''Not writing down a good blend''' — an unrepeatable triumph is a loss. Record proportions.
+
+== Storage and shelf life ==
+
+* '''Whole spices''' keep their volatile oils sealed and last '''3–4 years'''. This is the central argument for buying whole.
+* '''Ground spices''' fade fast — budget '''6 months to a year''' before they are noticeably flat. Date the jars.
+* '''Dried herbs''' — about '''1–3 years''', leaves fading faster than seeds.
+* '''Store cool, dark, dry, airtight.''' The spice rack over the stove is the worst possible location — heat, light and steam are exactly what strip aromatics. A closed drawer or cupboard away from the range is correct.
+* '''The smell test:''' crush a pinch. If it barely smells, it will barely flavor. Replace it.
+* '''Fresh herbs:''' treat tender herbs (parsley, cilantro, dill) like cut flowers — stems in a glass of water, loose bag over the top, in the fridge. Treat hardy herbs (rosemary, thyme) rolled in a damp paper towel in a bag. Or freeze chopped herbs in oil in ice-cube trays for cooking.
+
+See also: [[Black Pepper]] · [[Culinary Recipes]] · [[Allylbenzene Metabolism]] · [[Cannabinoid Oilahuasca]] · [[The Library of Ashurbanipal]]
+
+== Sources ==
+
+* Van Kush Family Research Institute, ''The Culinary Arts: From Classical French Technique to Ancient Ethnobotanical Extraction'' (Rev. Ryan Sasha-Shai Van Kush, 2026) — stocks, aromatics timing, cooking methods, and recipe base.
+* Van Kush Family Research Institute, ''Preservation, Fermentation and Spice'' (July 2026) — pickling-spice foundation, extended range, regional templates, and the toasting note.
+* Auguste Escoffier, ''Le Guide Culinaire'' (1903) — the bouquet garni and aromatic-timing tradition in classical French practice.
+* Cook's Illustrated / America's Test Kitchen, "Blooming in Oil for Flavor" — the oil-versus-water thymol extraction test (roughly tenfold) and the fat-solubility principle. [https://www.cooksillustrated.com/how_tos/6581-blooming-in-oil-for-flavor cooksillustrated.com]
+* Savory Spice Shop, "Spices 101: How to Bloom Spices in Oil." [https://www.savoryspiceshop.com/blogs/news/spices-101-how-to-bloom-spices-in-oil savoryspiceshop.com]
+* Harold McGee, ''On Food and Cooking: The Science and Lore of the Kitchen'' (2004) — moisture content of fresh herbs, fat-soluble aromatics, and spice-storage chemistry.

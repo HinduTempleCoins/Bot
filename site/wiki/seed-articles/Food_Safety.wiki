@@ -1,0 +1,115 @@
+'''Food Safety''' is the discipline of handling, preparing, and storing food so as to prevent foodborne illness. This article is a study guide for the two standard credentials — the '''Food Handler''' card and the '''Certified Food Protection Manager''' (CFPM) — and it grounds the rules in the federal framework that governs them. Because a large share of foodborne illness is ''viral'', it connects directly to the Library's virology research: see [[Virology Antivenom Immunology and Aromatic Antimicrobials]], [[Bacteriophages Endolysins and Biological Inhibitors]], and, for Hepatitis A and the liver, [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]].
+
+== The federal framework ==
+
+Food safety in the United States rests on a layered set of federal authorities. These are the "federal food-safety stuff" the certification exams test:
+
+* '''Federal Food, Drug, and Cosmetic Act (FD&C Act, 1938)''' — the foundational statute. It prohibits the adulteration and misbranding of food in interstate commerce and gives the Food and Drug Administration (FDA) its core authority.
+* '''FDA Food Code''' — a ''model'' code the FDA updates every few years (most recently the 2022 edition). It is not itself law; states and localities adopt it (often with amendments) as their retail food regulation. Nearly every rule below — the danger zone, cooking temperatures, cooling, the Certified Food Protection Manager requirement — comes from the Food Code.
+* '''Food Safety Modernization Act (FSMA, 2011)''' — the largest reform of U.S. food-safety law since 1938. It shifted the focus from ''responding'' to contamination to ''preventing'' it, and requires most food facilities to have a written, HACCP-based preventive-controls plan.
+* '''HACCP — Hazard Analysis and Critical Control Points''' — the systematic, preventive method at the center of modern food safety (see its own section below). Mandatory for juice, seafood, and USDA meat/poultry plants, and the backbone of FSMA.
+* '''USDA Food Safety and Inspection Service (FSIS)''' — regulates meat, poultry, and processed egg products (FDA regulates essentially everything else).
+* '''Certified Food Protection Manager (CFPM)''' — the Food Code requires at least one employee with managerial authority to hold a food-protection-manager certification from an '''ANSI-accredited''' program. The common exams are '''ServSafe''' (National Restaurant Association), the National Registry of Food Safety Professionals, Prometric, and 360training. A '''Food Handler''' card is the entry-level credential for line staff; the CFPM is the manager-level credential.
+
+== FAT TOM — the six conditions pathogens need ==
+
+Pathogens multiply when six conditions are met. Control any of them and you slow or stop growth. The mnemonic is '''FAT TOM''':
+
+* '''F'''ood — pathogens need nutrients, especially protein-rich and carbohydrate-rich "time/temperature control for safety" (TCS) foods: meat, poultry, seafood, dairy, eggs, cooked rice and beans, cut melons, cut leafy greens, cut tomatoes, garlic-in-oil, sprouts, tofu.
+* '''A'''cidity — most pathogens prefer a near-neutral pH (6.0–7.5). This is why acidic pickling (pH ≤ 4.6) and fermentation preserve food; see [[Pickling and Preservation]] and [[Fermentation]].
+* '''T'''ime — given four or more hours in the danger zone, populations reach infectious levels.
+* '''T'''emperature — the '''Temperature Danger Zone''' (below).
+* '''O'''xygen — some pathogens are aerobic, some anaerobic. ''Clostridium botulinum'' is anaerobic, which is why sealed low-acid jars are its hazard (see the lime/firming-agent warning in [[Pickling and Preservation]]).
+* '''M'''oisture — measured as water activity (a''w''). Pathogens generally need a''w'' above 0.85; drying, salting, and sugaring preserve food by lowering it.
+
+== Temperature control ==
+
+Temperature is the control most under a cook's direct command.
+
+=== The danger zone ===
+The '''Temperature Danger Zone''' under the FDA Food Code is '''41&nbsp;°F to 135&nbsp;°F (5&nbsp;°C to 57&nbsp;°C)'''. (Older materials say 40–140&nbsp;°F; use your jurisdiction's number.) TCS food should spend as little time as possible in this range; the Food Code limit is '''four hours cumulative''' before the food must be discarded.
+
+=== Safe minimum internal cooking temperatures ===
+Measured with a calibrated, clean thermometer at the thickest part. Hold for the time the Food Code specifies:
+
+* '''165&nbsp;°F (74&nbsp;°C)''' — poultry; stuffed meats/poultry; stuffing; anything reheated for hot holding; dishes combining already-cooked and raw TCS items.
+* '''155&nbsp;°F (68&nbsp;°C)''' — ground meat (beef, pork), ground/flaked fish, mechanically tenderized meat, shell eggs held for service.
+* '''145&nbsp;°F (63&nbsp;°C)''' — whole cuts of beef, pork, lamb, veal (steaks, chops, roasts); fish; eggs cooked to order and served immediately. (A rest/dwell time applies to some roasts.)
+* '''135&nbsp;°F (57&nbsp;°C)''' — fruits, vegetables, grains, and legumes that will be hot-held.
+
+=== Cooling, reheating, holding ===
+* '''Cooling (two-stage):''' from '''135&nbsp;°F to 70&nbsp;°F within 2 hours''', then '''70&nbsp;°F to 41&nbsp;°F within 4 more hours''' — six hours total. If the first stage is missed, reheat and start over. Use shallow pans, ice baths, ice paddles, and portioning to cool fast.
+* '''Reheating for hot holding:''' to '''165&nbsp;°F within 2 hours'''.
+* '''Hot holding:''' at or above '''135&nbsp;°F'''. '''Cold holding:''' at or below '''41&nbsp;°F'''.
+* '''Thawing:''' in the refrigerator; under running water ≤ 70&nbsp;°F; in the microwave if cooked immediately; or as part of the cooking process. Never thaw at room temperature.
+
+== The Big 6 pathogens (highly infectious, reportable) ==
+
+The Food Code names pathogens so contagious that an infected handler must be '''excluded''' from the operation and the case reported to the regulatory authority. Note that '''two of the six are viruses''':
+
+* '''Norovirus''' ''(virus)'' — the single most common cause of foodborne illness in the U.S. Spread fecal–oral, often by an ill handler touching ready-to-eat food; extremely low infectious dose; resists many sanitizers (needs higher chlorine concentrations). See [[Virology Antivenom Immunology and Aromatic Antimicrobials]].
+* '''Hepatitis A''' ''(virus)'' — fecal–oral, long incubation, attacks the liver; associated with shellfish and infected food workers; a vaccine exists. Liver context: [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]].
+* '''Salmonella Typhi''' — typhoid fever.
+* '''Shiga toxin–producing ''Escherichia coli'' (STEC)''' — e.g. O157:H7; undercooked ground beef, raw produce.
+* '''Shigella spp.''' — fecal–oral, flies, infected handlers.
+* '''Nontyphoidal ''Salmonella''''' — poultry, eggs, produce.
+
+Beyond the Big 6, know ''Clostridium botulinum'' (anaerobic; canning/low-acid hazard), ''Clostridium perfringens'' (improperly cooled meats — the "cafeteria germ"), ''Bacillus cereus'' (reheated rice), ''Listeria monocytogenes'' (grows at refrigeration temperatures; deli, soft cheese), ''Staphylococcus aureus'' (toxin from hands), and ''Vibrio'' and ''Campylobacter''.
+
+== Foodborne viruses — the virology connection ==
+
+Viruses do not grow ''in'' food — they hitchhike on it and need only a tiny dose to infect. That makes them a '''handling and hygiene''' problem rather than a temperature problem, and it is why the single most powerful control against them is excluding sick employees and rigorous handwashing. Norovirus, Hepatitis A, rotavirus, and Hepatitis E are the principal foodborne viruses. For the biology — viral structure, immune response, and the aromatic antimicrobials that act on enveloped pathogens — see the Library's virology research: [[Virology Antivenom Immunology and Aromatic Antimicrobials]] and [[Bacteriophages Endolysins and Biological Inhibitors]].
+
+== Personal hygiene and employee health ==
+
+* '''Handwashing''' — the single most important behavior. Wash for at least '''20 seconds''' with soap and warm water: after using the restroom, before starting work, after handling raw meat, after touching the face/hair/body, after taking out trash, after eating or smoking, and after any task that could contaminate the hands.
+* '''No bare-hand contact with ready-to-eat (RTE) food''' — use gloves, tongs, deli paper, or utensils. Gloves are single-use and not a substitute for handwashing.
+* '''Exclude or restrict ill employees.''' A handler must be '''excluded''' for vomiting, diarrhea, jaundice, or a diagnosed "Big 6" illness, and reported. The "Big 5" reportable symptoms/illnesses to a manager are vomiting, diarrhea, jaundice, sore throat with fever, and lesions with pus.
+* Clean uniforms, hair restraints, trimmed nails, no jewelry (a plain band may be allowed), no eating/gum in prep areas.
+
+== Cross-contamination ==
+
+* Store raw animal foods '''below and away''' from ready-to-eat foods; within the cooler, store by final cook temperature — ready-to-eat on top, then 135&nbsp;°F foods, 145&nbsp;°F, 155&nbsp;°F, and raw poultry (165&nbsp;°F) on the bottom.
+* Use separate or '''color-coded''' cutting boards and utensils for raw proteins vs. produce; clean and sanitize between tasks.
+* Practice '''FIFO''' (First In, First Out) and date-mark RTE TCS food held more than 24 hours (discard by day 7 at 41&nbsp;°F).
+
+== Allergens — the Big 9 ==
+
+Federal law requires labeling of the major allergens. The '''Big 9''' are '''milk, eggs, fish, crustacean shellfish, tree nuts, peanuts, wheat, soybeans, and sesame''' — sesame was added by the '''FASTER Act of 2021''', effective 2023. Prevent allergen cross-contact with clean hands, clean equipment, and clear communication between service and kitchen.
+
+== Cleaning and sanitizing ==
+
+''Cleaning'' removes soil; ''sanitizing'' reduces pathogens to safe levels — they are two steps.
+
+* '''Three-compartment sink:''' wash (detergent, ≥ 110&nbsp;°F) → rinse (clean water) → sanitize → air dry (never towel dry).
+* '''Chemical sanitizer concentrations (test with strips):''' chlorine '''50–100&nbsp;ppm''', quaternary ammonium per manufacturer (~200&nbsp;ppm), iodine '''12.5–25&nbsp;ppm'''. Contact time and water temperature/pH matter.
+* '''Heat sanitizing:''' in a dish machine, a final rinse that reaches '''171&nbsp;°F''' at the surface (or 180&nbsp;°F at the manifold), or immersion for 30 seconds at 171&nbsp;°F.
+
+== HACCP — the seven principles ==
+
+A written food-safety plan built on seven steps: (1) conduct a '''hazard analysis'''; (2) determine the '''critical control points (CCPs)'''; (3) establish '''critical limits'''; (4) establish '''monitoring''' procedures; (5) establish '''corrective actions'''; (6) establish '''verification'''; (7) establish '''record-keeping'''. Under FSMA this preventive approach is required of most food facilities.
+
+== Receiving and storage ==
+
+* Inspect deliveries immediately; reject TCS food received above '''41&nbsp;°F''' (or the specified receiving temperature), damaged packaging, pest evidence, or off odors/colors.
+* Store dry goods cool and dry (50–70&nbsp;°F, off the floor); label and date; keep chemicals stored '''away from and below''' food.
+
+== Study tips for the exam ==
+
+* Memorize the numbers cold: danger zone '''41–135&nbsp;°F''', the cook temps ('''165 / 155 / 145 / 135'''), cooling ('''135→70 in 2h, 70→41 in 4h'''), reheat '''165 in 2h''', sanitizer '''50–100&nbsp;ppm chlorine'''.
+* Know FAT TOM and the Big 6 (and which two are viruses).
+* Know who regulates what: '''FDA''' (Food Code, most food), '''USDA-FSIS''' (meat/poultry/egg products), '''FSMA''' (prevention), '''HACCP''' (the method).
+* For the manager (CFPM) exam, expect questions on supervision, training, active managerial control, and the documentation HACCP/FSMA require.
+
+== See also ==
+* [[Cooking Methods]] — the cooking-temperature side of the same rules.
+* [[Pickling and Preservation]] and [[Fermentation]] — pH, salt, and water activity as pathogen controls.
+* [[Virology Antivenom Immunology and Aromatic Antimicrobials]], [[Bacteriophages Endolysins and Biological Inhibitors]], [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]] — the biology behind foodborne viruses.
+
+== Sources ==
+* U.S. Food and Drug Administration, ''FDA Food Code'' (2022 ed.). [https://www.fda.gov/food/retail-food-protection/fda-food-code FDA Food Code]
+* FDA, ''Food Safety Modernization Act (FSMA)''. [https://www.fda.gov/food/food-safety-modernization-act-fsma FSMA]
+* Centers for Disease Control and Prevention, ''Foodborne Illness and the Burden of Norovirus''. [https://www.cdc.gov/norovirus/ CDC Norovirus]
+* National Restaurant Association, ''ServSafe Manager'' (ANSI-accredited CFPM).
+* USDA Food Safety and Inspection Service, ''Safe Minimum Internal Temperatures''. [https://www.fsis.usda.gov/ USDA FSIS]
+* FASTER Act of 2021 (sesame as the 9th major allergen).

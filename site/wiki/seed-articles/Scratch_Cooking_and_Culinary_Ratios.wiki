@@ -1,0 +1,96 @@
+'''Scratch cooking''' is making food from basic raw ingredients — flour, fat, sugar, eggs, liquid, salt — rather than from mixes, cans or ready-made components. This page is built on one liberating idea: '''a small number of ingredients, in the right ratio, become an astonishing number of dishes.''' Butter, sugar and flour alone are cookies. Flour, fat and liquid are biscuits, pie crust, or the roux that thickens gravy. Flour, water, salt and yeast are bread. Once you know the ratios, you stop needing recipes for the basics and start ''seeing'' them — and then you can build toward the complex dishes with confidence. This page teaches the foundational ratios and the plainest from-scratch recipes everyone should have, then shows how each one scales up into something more ambitious. It is the on-ramp to [[Culinary Recipes]], [[The Five Mother Sauces]], [[Stocks and Broths]], [[Cooking Methods]] and [[Cooking with Herbs and Spices]].
+
+== Why ratios beat recipes ==
+
+A recipe tells you how to make one dish once. A '''ratio''' tells you how a whole ''family'' of dishes works, so you can make any of them and improvise within them. Ratios are given by '''weight''', not volume, because weight is consistent (a cup of flour can vary 20% by how it is scooped) — a cheap kitchen scale is the single best scratch-cooking tool you can own. The classic reference for this way of thinking is Michael Ruhlman's ''Ratio''; the ones below are the load-bearing handful.
+
+* '''Cookie dough — 1 : 2 : 3''' — 1 part sugar : 2 parts fat : 3 parts flour (by weight).
+* '''Pie / short crust (pâte brisée) — 3 : 2 : 1''' — 3 parts flour : 2 parts fat : 1 part water.
+* '''Biscuits / scones — 3 : 1 : 2''' — 3 parts flour : 1 part fat : 2 parts liquid, plus leavening.
+* '''Roux-thickened sauce / gravy — 1 : 1 : ~12''' — equal fat and flour, to roughly 12 parts milk or stock (see [[The Five Mother Sauces]]).
+* '''Bread — 5 : 3''' — 5 parts flour : 3 parts water (by weight), plus salt and yeast.
+* '''Pasta dough — 3 : 2''' — 3 parts flour : 2 parts egg (about 1 large egg per 100 g flour).
+* '''Pancake / pourable batter — 2 : 2 : 1''' — 2 parts flour : 2 parts liquid : 1 part egg.
+* '''Vinaigrette — 3 : 1''' — 3 parts oil : 1 part acid.
+* '''Custard — 2 : 1''' — 2 parts dairy : 1 part egg.
+* '''Bread crumb / breading — the standard three-stage''' — flour, then beaten egg, then crumb.
+
+Hold those ten and you can cook most of what a home kitchen ever needs. The rest of this page works through the plainest versions and then opens each one up.
+
+== The three-ingredient wonders ==
+
+=== Butter, sugar, flour → shortbread and sugar cookies ===
+The operator's example is exactly right. Cream '''2 parts soft butter''' with '''1 part sugar''', then work in '''3 parts flour''' and a pinch of salt until it comes together. That is '''shortbread''' — press into a pan or roll and cut, bake at about 160–170 °C (325–340 °F) until pale gold. Add one egg and a little vanilla and baking powder to the same base and you have '''sugar cookies''' with a lighter, snappier crumb.
+* '''Open it up:''' swap some flour for cocoa (chocolate shortbread), add citrus zest or chopped herbs ([[Cooking with Herbs and Spices]]), sandwich with jam (linzer), or roll the log in demerara before slicing (sablés). The ratio never changes; the flavourings do.
+
+=== Flour, fat, liquid → biscuits ===
+American biscuits are the most forgiving scratch bread there is, and they teach the single most important pastry technique: '''keep the fat cold and in flakes.''' For about 12 biscuits:
+# '''300 g (about 2.5 cups) flour''', 1 tablespoon baking powder, 1 teaspoon salt, (optional 1 teaspoon sugar) — whisk together.
+# Cut in '''75 g (about 5 tablespoons) cold butter''' (or lard, or shortening) until it is in pea-sized and flake-sized pieces. Do '''not''' rub it smooth — the visible flat flakes become steam pockets and lift.
+# Stir in about '''240 ml (1 cup) cold buttermilk''' just until a shaggy dough forms. Over-mixing makes them tough.
+# Pat to about 2.5 cm (1 inch), cut straight down with a floured cutter (don't twist — twisting seals the edge and stops the rise), and bake at '''220 °C (425 °F)''' for 12–15 minutes until risen and golden.
+* '''Open it up:''' this exact dough, rolled thinner and layered, is the base for '''cobbler''' and '''shortcake'''; add grated cheese and chives for savoury biscuits; fold more carefully for flakier layers. The "cold fat, barely mixed" rule carries straight into pie crust below.
+
+=== Flour, fat, water → pie crust ===
+'''3 parts flour : 2 parts cold fat : 1 part ice water''', plus salt. Cut the cold fat into the salted flour (pea-sized, as with biscuits), drizzle in just enough ice water to make it ''just'' cohere, chill, roll. Blind-bake for custard/quiche; fill and double-crust for fruit pie. Same principle: cold fat in flakes, minimum handling, so the gluten stays short and the crust stays tender.
+
+== The sauce that starts everything: roux and gravy ==
+
+Gravy is the gateway to half of classic cooking, and it is three ingredients: '''fat, flour, liquid.''' This is also the mother-sauce technique — see [[The Five Mother Sauces]].
+
+=== Basic pan gravy (from the drippings) ===
+# After roasting or frying meat, pour off all but about '''2 tablespoons of fat''' from the pan, leaving the browned bits (the ''fond'').
+# Sprinkle in '''2 tablespoons flour''' and stir over medium heat for 1–2 minutes to cook out the raw-flour taste — this is a blond '''roux'''.
+# Whisk in about '''1.5–2 cups (350–475 ml) stock or milk''' a little at a time, scraping up the fond. Simmer until it coats a spoon. Salt and pepper.
+* That is '''brown gravy''' (stock) or '''sausage/cream gravy''' (milk — the biscuits-and-gravy classic: brown crumbled sausage, make the roux in its fat, whisk in milk, season heavily with black pepper).
+
+=== The same roux, scaled into the mother sauces ===
+* Roux + '''milk''' = '''béchamel''' → add cheese and it is '''Mornay''' (mac and cheese, gratins).
+* Roux + '''stock''' = '''velouté''' → the base of countless creamy soups and sauces.
+* These, plus '''tomato''', '''espagnole''' and '''hollandaise''', are the five mothers that generations of cooks build everything else from. The full tree is on [[The Five Mother Sauces]].
+
+== Bread: four ingredients, endless loaves ==
+
+Flour, water, salt, yeast. A simple everyday dough is '''500 g flour : 300–350 g water : 10 g salt : a little yeast''' (the 5:3 ratio, hydration adjusted to taste).
+# Mix to a shaggy dough; rest 20 minutes (autolyse) so the flour hydrates.
+# Knead (or stretch-and-fold) until smooth and elastic — this develops the gluten that traps gas.
+# Rise until roughly doubled, shape, prove again, and bake hot (230 °C / 450 °F), ideally with steam for crust.
+* '''Open it up:''' more water makes an open, chewy crumb (ciabatta, rustic loaves); a long, cold, slow ferment with a sourdough starter makes '''sourdough''' (see [[Fermentation]]); enrich the dough with egg, milk, butter and sugar and it becomes '''brioche''', '''dinner rolls''' or '''cinnamon rolls'''. The leavening chapter below explains why each of these rises.
+
+== Eggs, dairy and the custard family ==
+
+* '''Pancakes / waffles (2:2:1):''' 2 parts flour, 2 parts milk, 1 part egg, plus a little melted butter, sugar, salt and baking powder. Thin it for crêpes, thicken it for American pancakes.
+* '''Custard (2:1):''' 2 parts dairy to 1 part egg, sweetened and gently cooked. Baked, it is '''crème caramel''', '''flan''' and '''quiche''' (savoury); stirred on the stove, it is '''crème anglaise'''; frozen while churned, it is '''ice cream'''; thickened with a little starch, it is '''pastry cream''' for tarts and éclairs.
+* '''Scrambled eggs, omelettes, frittatas''' — the plainest scratch protein, and a lesson in gentle heat and carryover cooking (see [[Cooking Methods]]).
+* '''Mayonnaise and aioli''' — egg yolk + oil + acid, whisked into an emulsion; the cold cousin of hollandaise.
+
+== Vinaigrettes, dressings and the emulsion idea ==
+
+'''3 parts oil : 1 part acid''' (vinegar or citrus), plus salt, pepper and usually a little mustard. Mustard and a hard whisk hold it together as a temporary '''emulsion'''; shake it in a jar. From this base: add honey and herbs, swap in buttermilk for ranch-style, add minced shallot and dijon for a bistro dressing. Learning to taste-and-adjust a vinaigrette (more acid? more salt? more oil?) is how you learn to season everything.
+
+== Building toward complex ==
+
+Every "advanced" dish is a stack of these fundamentals:
+
+* A '''pot pie''' = pie crust (3:2:1) + velouté (roux) + cooked filling.
+* '''Lasagne''' = pasta dough (3:2) + béchamel (roux + milk) + tomato sauce (a mother) + cheese.
+* '''Chicken and dumplings''' = stock ([[Stocks and Broths]]) + biscuit dough dropped on top.
+* A fruit '''tart''' = short crust + pastry cream (custard) + fruit + glaze.
+* '''Beef stew''' = sear (Maillard — see [[Cooking Methods]]) + stock + long braise + a roux or reduction to finish.
+* '''Soufflé''' = béchamel base + whipped egg whites folded in for lift.
+
+Nothing on that list is new chemistry; it is the same handful of ratios combined and layered. That is the whole secret of cooking from scratch — and the reason a cook who owns the basics is never dependent on a box.
+
+== The pantry and the tools ==
+
+* '''Pantry staples''' that unlock the above: flour (plain/all-purpose and bread), sugar, salt, baking powder and baking soda, yeast, eggs, butter and a neutral oil, milk/buttermilk, vinegar, and stock (home-made per [[Stocks and Broths]], or good bought). With those you can make most of this page tonight.
+* '''Tools''' that matter most: a '''kitchen scale''' (for ratios), a bench scraper, a whisk, a wooden spoon, one good knife, and a heavy pan. Fancy equipment is optional; a scale is not.
+* '''Leavening quick-reference:''' '''yeast''' (biological, slow, for bread — makes CO2 by fermentation), '''baking soda''' (needs an acid like buttermilk present, acts immediately), '''baking powder''' (soda plus a built-in acid, for when the batter isn't acidic), '''steam''' (the lift in flaky biscuits, pastry and popovers), and '''whipped air''' (eggs in a soufflé or sponge). Knowing which leavener a recipe uses tells you why it is built the way it is.
+
+== Safety and good practice ==
+
+Scratch cooking is low-risk, but two habits matter: handle raw egg, poultry and meat cleanly and cook them to safe temperatures (the pancake/custard/mayonnaise notes above involve raw or barely-cooked egg — use pasteurised egg if serving vulnerable people), and treat hot fat, sugar syrup and steam with respect. The full framework is on [[Food Safety]].
+
+== See also ==
+
+See also: [[Culinary Recipes]] · [[The Five Mother Sauces]] · [[Stocks and Broths]] · [[Cooking Methods]] · [[Cooking with Herbs and Spices]] · [[Culinary Arts]] · [[Fermentation]] · [[Pickling and Preservation]] · [[Food Safety]]

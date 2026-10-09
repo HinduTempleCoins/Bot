@@ -1,0 +1,51 @@
+[[File:decades-brain.jpg|The Decades Brain: AI history stacked, cheapest-first]]
+
+'''The Decades Brain''' is this ecosystem's core AI reasoning engine: '''the whole history of artificial intelligence stacked in one module, cheapest layer first'''. A question climbs the eras — 1960s to 2020s — and is answered at the lowest layer that can handle it; the expensive language model at the top only wakes when every cheaper layer declines. It is how the [[Hathor|Witness]] thinks without burning compute, and it is the reference implementation for the "old AI powering new" philosophy taught across [[AI Development]]. This page explains how it works and how to build one like it.
+
+== Why stack the decades ==
+
+The operator's design intent, verbatim: "'''Layers of AI, from the 70s, 80s, 90s, 00s, 10s, and now''' — use them to power the Smol LLMs; they should all live under the Smols in a BRE-type fashion, because these other AI need less computing power, no GPU." A large language model can answer almost anything, but it is slow, costly, and cannot explain itself. Most real questions — a greeting, a routing decision, a lookup, a known rule — were solved decades ago by techniques that run in microseconds on one CPU core. Stack those underneath, answer at the lowest capable layer, and you get speed, auditability, offline operation, and the big model held in reserve.
+
+== The seven layers ==
+
+Each layer is a genuine era of AI history, and each runs on plain CPU (no GPU until, optionally, the very top):
+
+* '''1960s — pattern''' — ELIZA-style regular-expression / keyword intent matching. Microseconds. (Greetings, identity, obvious intents.)
+* '''1970s — MYCIN''' — certainty-factor evidence combination (Shortliffe & Buchanan): fold several weak signals into one confidence. Microseconds.
+* '''1980s — rules (the BRE)''' — a production-rule '''Business Rules Engine''': when-these-facts-hold, then-this-conclusion, with a full trace. This is the layer the Law AI's doctrine rules plug into. See [[Expert Systems and Business Rules Engines]].
+* '''1990s — Bayes''' — a trainable Naive-Bayes text classifier; learns to route from a handful of examples. Milliseconds.
+* '''2000s — TF-IDF''' — term-frequency retrieval over a corpus: find the most relevant document by word overlap. Milliseconds.
+* '''2010s — embeddings''' — dense vector nearest-neighbour search (FAISS-class ANN), so the brain matches by ''meaning''. CPU-friendly. See [[Embeddings Semantic Search and RAG]].
+* '''2020s — the LLM''' — the Smol language model, '''last resort''', only if a completer is wired in.
+
+== It learns ==
+
+The brain keeps a '''per-layer reliability weight''' (starting neutral, bounded). A `feedback()` call tells it whether a layer's answer was right; a layer that keeps being right is believed at lower raw confidence, and one that keeps being wrong has to clear a higher bar. This is the operator's "MYCIN thing that learns," generalised to the whole stack — outcome learning without retraining anything.
+
+== How to build one (the teaching pathway) ==
+
+The pattern is small enough to learn from directly. In this repo it is `integrations/decades-brain.mjs`; the shape is:
+
+# '''Create the brain''' — one object holding every layer and the learned weights.
+# '''Teach each layer its surface:'''
+#* a '''pattern''' (regex → answer) for the 1960s layer;
+#* '''certainty-factor rules''' (evidence function → answer) for the 1970s layer;
+#* '''production rules''' (facts → outcome) for the 1980s BRE;
+#* '''examples''' (text + label) to train the 1990s Bayes classifier;
+#* '''documents''' (id + text) for the 2000s TF-IDF index;
+#* '''memories''' (embedded text) for the 2010s nearest-neighbour layer;
+#* an optional '''LLM completer''' for the 2020s last resort.
+# '''Ask''' — the brain climbs the layers and returns the first confident answer, with the era and a trace of what fired.
+# '''Give feedback''' — tell it whether the answer was right, so the weights adapt.
+
+Everything is injectable (the store, the embedder, the LLM), which is why it runs fully offline in tests — a good habit for any AI system you build: '''make the expensive parts pluggable so the cheap path always works.'''
+
+== Where it runs in this ecosystem ==
+
+* The '''[[Crypt-ology]] brain''' is a Decades Brain wired to the whole [[Library Index]] and governed by [[Angelic Intelligence]] Rule 1 — it answers the Witness's questions from the Library, cheapest-first.
+* The '''[[Expert Systems and Business Rules Engines|Law AI]]''' teaches its doctrine rules into the 1980s layer.
+* The brief/annal pipeline uses the same brain to route and de-duplicate writing at near-zero CPU.
+
+== See also ==
+
+See also: [[AI Development]] · [[Expert Systems and Business Rules Engines]] · [[Embeddings Semantic Search and RAG]] · [[Library Index]] · [[Angelic Intelligence]] · [[Crypt-ology]] · [[LoRA and Fine-Tuning]]

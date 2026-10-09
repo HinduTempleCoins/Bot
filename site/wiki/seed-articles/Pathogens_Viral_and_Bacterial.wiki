@@ -1,0 +1,72 @@
+[[File:pathogens.jpg|Viral vs bacterial — the pathogen map]]
+
+'''Pathogens — viral and bacterial''' is the plain-language map of the germs people actually worry about: how the flu, the coronaviruses, SARS, and the common cold relate and differ; what pneumonia really is; and how the foodborne bacteria like ''E. coli'' and ''Salmonella'' fit in — all organised around the one distinction that changes everything about treatment: '''virus or bacterium?''' It is the companion to the Library's immunology pages ([[Virology Antivenom Immunology and Aromatic Antimicrobials]], [[Bacteriophages Endolysins and Biological Inhibitors]], [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]]) and to [[Food Safety]], which depends on exactly this knowledge. This is education and harm-reduction, not diagnosis or a substitute for a clinician.
+
+== The one distinction that matters: virus vs bacterium ==
+
+* A '''bacterium''' is a complete, living, single-celled organism. It eats, grows and divides on its own. Because it has its own machinery (a cell wall, ribosomes, metabolism), there are many drug targets, and '''antibiotics''' hit those targets.
+* A '''virus''' is not a cell and is barely "alive": it is genetic material (DNA or RNA) in a protein coat that can do nothing until it hijacks one of your cells and forces it to make copies. It has almost no machinery of its own to attack, which is why '''antibiotics do nothing to a virus.''' Viral illness is fought with '''antivirals''' (which block a specific viral step), '''vaccines''' (which train your immunity in advance), or simply your own immune system and time.
+
+The single most important public-health consequence: '''taking antibiotics for a cold or flu does not help and does real harm''' — it breeds antibiotic resistance and kills your protective bacteria, without touching the virus. Antibiotics are for bacterial infections.
+
+A quick sense of scale and defence: your body answers both with the same first lines — barriers, inflammation, fever, and the immune cells and antibodies described in [[Virology Antivenom Immunology and Aromatic Antimicrobials]] — but the specifics differ, and for bacteria there is a second front entirely: '''bacteriophages''', the viruses that prey on bacteria, covered in [[Bacteriophages Endolysins and Biological Inhibitors]].
+
+== The respiratory viruses: how flu, COVID, SARS and colds relate ==
+
+People lump these together as "a bug going around," but they are different virus '''families''', and the family explains the behaviour.
+
+=== Influenza (the flu) — family Orthomyxoviridae ===
+A segmented RNA virus. Its surface proteins — '''H'''emagglutinin and '''N'''euraminidase — are the "H1N1 / H3N2" names. Because the genome is segmented, two flu strains infecting the same host can '''swap whole segments''' (reassortment), which is how new pandemic strains appear suddenly. Flu is genuinely systemic: abrupt high fever, body aches, exhaustion — not just a runny nose. Antivirals (oseltamivir and newer agents) target neuraminidase; the vaccine is reformulated yearly because the virus drifts.
+
+=== Coronaviruses — family Coronaviridae ===
+Large RNA viruses with the "crown" (''corona'') of spike proteins. This family includes '''both''' ends of the severity range:
+* '''Four mild "common-cold" coronaviruses''' circulate endlessly and cause ordinary colds.
+* '''SARS-CoV''' (2003) — the original '''SARS''' (Severe Acute Respiratory Syndrome): high fatality, contained.
+* '''MERS-CoV''' — Middle East Respiratory Syndrome; camel-associated, very high fatality, limited spread.
+* '''SARS-CoV-2''' — the virus of '''COVID-19'''; the same family as the original SARS (hence the name), far more transmissible, with the whole range from symptomless to fatal.
+'''So "SARS" and "COVID" are cousins in one family''' — SARS-CoV-2 is a relative of the 2003 SARS virus, not the flu. Flu and coronaviruses are '''different families entirely''' that happen to cause overlapping symptoms.
+
+=== The common cold — many families at once ===
+"A cold" is a syndrome, not one germ. Most colds are '''rhinoviruses''' (family Picornaviridae, 100+ types — which is why you never build lasting immunity and catch them forever), but the mild coronaviruses, adenoviruses, and parainfluenza viruses all cause colds too. Symptoms stay in the upper airway (nose, throat); fever and body-wide misery point more toward flu or COVID.
+
+=== The others worth knowing ===
+* '''RSV''' (respiratory syncytial virus) — a major cause of bronchiolitis in infants and serious illness in the elderly.
+* '''Parainfluenza''' — croup in children (despite the name, not the flu).
+* '''Adenovirus''' — colds, pink eye, sometimes pneumonia.
+
+== Pneumonia: a place, not a germ ==
+
+'''Pneumonia means infection/inflammation of the lung's air sacs''' — it is a ''location'', and many different pathogens cause it:
+* '''Bacterial pneumonia''' — most classically '''''Streptococcus pneumoniae''''' (pneumococcus); also ''Haemophilus'', ''Staphylococcus'', ''Klebsiella''. This is the kind antibiotics treat, and the kind a pneumococcal vaccine prevents.
+* '''"Atypical" / walking pneumonia''' — ''Mycoplasma pneumoniae'' and ''Legionella'': milder-onset, need specific antibiotics.
+* '''Viral pneumonia''' — influenza, SARS-CoV-2 and RSV can inflame the lungs directly; antibiotics do nothing for this unless a bacterial infection piles on top (a common and dangerous '''secondary bacterial pneumonia''' after the flu).
+Because pneumonia can be viral or bacterial, "do antibiotics help?" genuinely depends on the cause — which is why clinicians test rather than guess.
+
+== The foodborne pathogens ==
+
+This is where the map connects to [[Food Safety]]. Most food poisoning is '''bacterial''', with two important viral exceptions.
+
+=== Bacterial (the ones antibiotics ''can'' target — though many are managed without them) ===
+* '''''Salmonella''''' — poultry, eggs, produce; fever, cramps, diarrhoea 6 h–6 days after eating. A leading cause of foodborne illness.
+* '''''Escherichia coli'' (E. coli)''' — most strains are harmless gut residents, but '''O157:H7''' and other Shiga-toxin-producing strains (from undercooked ground beef, raw produce, unpasteurised milk) cause bloody diarrhoea and can trigger '''haemolytic uraemic syndrome''' (kidney failure). '''Do not treat suspected O157:H7 with antibiotics''' — it can worsen toxin release. Cook ground beef to 71 °C / 160 °F.
+* '''''Campylobacter''''' — the other leading cause, from undercooked poultry and raw milk.
+* '''''Listeria monocytogenes''''' — deli meats, soft cheeses, unpasteurised dairy; dangerous specifically in '''pregnancy''' (miscarriage) and the immunocompromised; grows even at fridge temperatures.
+* '''''Clostridium botulinum''''' — the toxin of '''botulism''' from improperly canned/anaerobic foods, and the reason '''honey is banned for infants under 12 months''' (see [[Food Safety]] and [[Edible Waxes Hive Foods and Aromatic Resins]]).
+* '''''Clostridium perfringens''''' and '''''Staphylococcus aureus''''' — "cafeteria" bugs from food left in the danger zone; often a preformed toxin, so fast onset.
+* '''''Vibrio''''' — raw shellfish.
+These are the backbone of the '''"Big 6/9" highly infectious agents''' in the food-safety codes — the pathogens a Food Protection Manager must know ([[Food Safety]]).
+
+=== Viral (antibiotics useless; prevention is everything) ===
+* '''Norovirus''' — the real "stomach flu" (nothing to do with influenza): the single most common cause of foodborne illness, wildly contagious, from infected food handlers and surfaces. Hand-washing and excluding sick handlers is the only real control.
+* '''Hepatitis A''' — a liver virus spread by the faecal–oral route through food and water; vaccine-preventable.
+
+== Why the distinction keeps mattering ==
+
+* Respiratory '''cold/flu/COVID''' → usually '''viral''' → rest, fluids, antivirals/vaccines; antibiotics only if a bacterial complication (like secondary pneumonia or a sinus/ear infection) sets in.
+* '''Salmonella, E. coli, Campylobacter, Listeria''' → '''bacterial''' → prevented by cooking temperatures, cold-holding and hygiene; sometimes treated with antibiotics, sometimes deliberately not.
+* '''Norovirus, hepatitis A''' → '''viral''' foodborne → no antibiotic helps; hand-washing, handler exclusion and cooking are the defence.
+The whole of [[Food Safety]] — temperatures, the danger zone, cross-contamination, handler health — is applied pathogen control, and the immune side of the story is on [[Virology Antivenom Immunology and Aromatic Antimicrobials]] and [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]].
+
+== See also ==
+
+See also: [[Food Safety]] · [[Virology Antivenom Immunology and Aromatic Antimicrobials]] · [[Bacteriophages Endolysins and Biological Inhibitors]] · [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]] · [[Fermentation]] · [[Pickling and Preservation]] · [[Edible Waxes Hive Foods and Aromatic Resins]]

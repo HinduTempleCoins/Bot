@@ -32,6 +32,10 @@ const PRIVATE = /(_private|secret|operator|\.local|scripture)/i;
 // Article sources, first match wins per slug: the bot's generated articles (ARTICLES_DIR), then the articles
 // committed with the site (how our tools work, MELEK, Hathor…), the seed articles, and finally seed drafts.
 const ARTICLE_DIRS = [ARTICLES_DIR, path.join(__dir, 'articles'), path.join(__dir, 'seed-articles'), SEED_DRAFTS_DIR];
+// Wiki images (the Metatron GenAI graphics) are served from here via the /files/ route. Serving code
+// only — article text is untouched. Generated images live in site/wiki/files/.
+const FILES_DIR = process.env.WIKI_FILES_DIR || path.join(__dir, 'files');
+const IMG_TYPES = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.svg': 'image/svg+xml' };
 function listArticles() {
   const seen = new Set(); const out = [];
   for (const dir of ARTICLE_DIRS) {
@@ -421,6 +425,16 @@ export const handler = (req, res) => {
       return res.end(articleMarkdown({ title: a.title, url: `${BASE_URL}/wiki/${a.slug}`, description: a.description, sections: a.sections, text: a.text, modified: a.modified }));
     }
     if (p.startsWith('/wiki/')) { const r = articlePage(decodeURIComponent(p.slice('/wiki/'.length))); return send(r.html, r.code); }
+    if (p.startsWith('/files/')) {
+      const name = decodeURIComponent(p.slice('/files/'.length));
+      const ext = name.slice(name.lastIndexOf('.')).toLowerCase();
+      if (!/^[A-Za-z0-9._-]+$/.test(name) || name.includes('..') || !IMG_TYPES[ext]) { res.writeHead(404); return res.end('not found'); }
+      try {
+        const buf = fs.readFileSync(path.join(FILES_DIR, name));
+        res.writeHead(200, { 'content-type': IMG_TYPES[ext], 'cache-control': 'public, max-age=86400' });
+        return res.end(buf);
+      } catch { res.writeHead(404); return res.end('not found'); }
+    }
     if (p === '/search') return send(searchPage(url.searchParams.get('q')));
     if (p === '/api/search') {
       const q = (url.searchParams.get('q') || '').trim().toLowerCase();

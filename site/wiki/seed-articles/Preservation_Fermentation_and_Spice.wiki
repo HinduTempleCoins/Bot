@@ -1,0 +1,331 @@
+'''Preservation, Fermentation and Spice Reference'''
+Compiled for the Van Kush Family Research Institute / Botanica Coffee Co. Working
+reference — pickling, fermenting, spice blends, and the growing plan that feeds them.
+
+== I. Pickling Spice — Full Ingredient Range ==
+
+=== Foundation ===
+The four that appear in nearly every standard blend:
+
+   Mustard seed — yellow (Sinapis alba) is mild and acts as a thickener; brown (B. juncea)
+   is the Dijon workhorse; black (B. nigra) is sharpest and is the Indian and South Asian
+   standard, bloomed in hot oil until it pops. These are not interchangeable — a blend using
+   all three has more layered heat than yellow alone. Black and brown are cheap at any
+   Indian grocery.
+
+   Black peppercorns — steady classic heat
+
+   Coriander seed — bright, faintly citrus
+
+   Bay leaf — grounding and savory; crumble for blends
+
+=== Sweet and warm accents ===
+   Allspice berries — reads as clove, cinnamon and nutmeg together
+
+   Cloves — aggressive; use sparingly
+
+   Cinnamon stick — broken into pieces
+
+   Dried ginger — cracked, sharp and zesty
+
+=== Savory and spicy accents ===
+   Dill seed — essential to classic dill pickles, far stronger than fresh dill weed
+
+   Red pepper flakes
+
+   Celery seed — concentrated savory vegetable depth; the deli-pickle note
+=== Extended range — seeds and warm spices ===
+Fenugreek (bitter-savory, central to Indian pickles) · nigella / kalonji · caraway · fennel · star
+anise · juniper berries (excellent with cabbage and game) · grains of paradise · cardamom
+pods · mace
+
+=== Extended range — fresh and leaf ===
+Grape, oak and horseradish leaves (tannin sources — see firming agents below) · fresh bay ·
+tarragon · thyme · summer savory · lovage · sorrel · shiso
+
+=== Extended range — alliums and heat ===
+Garlic · shallot · whole dried chiles · Sichuan peppercorn · long pepper · cubeb
+
+=== Regional templates ===
+    Indian — black mustard, fenugreek, nigella, asafoetida, turmeric
+
+    Japanese (tsukemono) — kombu, shiso, yuzu peel
+
+    Middle Eastern (torshi) — mint, dill, turmeric, Aleppo pepper
+
+== II. Firming Agents — and the Lime Question ==
+Do not use pickling lime for flavor work. Calcium hydroxide is not a spice and contributes
+nothing to taste. Its only function is firming pectin in produce destined for long storage, and
+it works by pre-soaking raw vegetables 12–24 hours before brining, followed by three rinses
+in fresh water. For anything seasoned over a day or two there is no mechanism by which it
+helps.
+
+There is also a real hazard: residual lime raises pH, and in a sealed low-acid jar that is the
+condition C. botulinum favors. USDA removed it from recommended methods for this
+reason.
+
+=== Use instead: ===
+
+    Calcium chloride (Pickle Crisp) — modern replacement. Added directly to the jar. No
+    soaking, no rinsing, no pH shift.
+
+    Tannin-bearing leaves — grape, oak, horseradish, or black tea. These are the
+    traditional answer; tannins inhibit the enzyme that softens pickles. Horseradish is useful
+    here twice over, since the plant supplies both the root for grating and the leaf for the jar.
+III. Ferments
+
+=== Starting points ===
+   Sauerkraut — cabbage, 2% salt by weight, nothing else. The one to learn the process
+   on.
+
+   Kimchi — napa cabbage, gochugaru, garlic, ginger, fish sauce
+
+   Curtido — Salvadoran: cabbage, carrot, onion, oregano. Fast and mild.
+
+   Giardiniera — cauliflower, carrot, celery, hot pepper; brined then packed in oil. Chicago-
+   Italian households make this constantly and often store it in whatever container is at
+   hand. (The “Piggly” in the water bottle is almost certainly this. The alternative candidate
+   is Southern chow-chow, but the vegetable list matches giardiniera.)
+
+   Lacto dill pickles — cucumbers in 3.5% brine with a tannin leaf
+
+=== Fermented hot sauce — method ===
+# Stem the chiles; seeds optional. Pack into a jar with garlic and any aromatics.
+
+# Cover with 3–5% brine by weight — 30–50 g salt per liter of water. Use 5% in Texas
+   summer heat, 3% when cool.
+
+# Weight everything below the liquid line.
+
+# Room temperature, 7–21 days. It will bubble and turn cloudy, then settle. Longer
+   ferment yields more sour and more complex.
+
+# Blend with some of the brine. Add vinegar to taste for shelf stability. Strain for a smooth
+   sauce.
+
+Variations: mango or pineapple in the ferment (fruit sugars feed it) · carrot for body and
+sweetness · roasted garlic stirred in after fermentation · smoked chiles for chipotle
+character.
+
+Note: jalapeño jelly is unrelated — a sweet pectin preserve of peppers, sugar, vinegar and
+pectin, cooked and set. Served over cream cheese. Classic Texas market product, but not a
+ferment.
+
+=== Fermented garlic honey ===
+Peel cloves, cover with raw honey, flip the jar daily so the cloves stay coated.
+
+The mechanism: honey is normally too low in moisture to support microbial life, but garlic is
+roughly 60% water. The garlic releases moisture, diluting the honey enough that wild yeasts
+and lactobacilli already present on the cloves become active. It bubbles for several weeks.
+Ready in about a month, keeps indefinitely. The garlic loses its raw bite and turns syrupy
+and mellow.
+
+Safety: honey can carry C. botulinum spores and this is a low-acid anaerobic environment.
+Add a tablespoon of vinegar to bring pH below 4.6. Cheap insurance.
+
+Tepache
+Pineapple rind and core — the parts normally discarded — plus water and piloncillo or brown
+sugar. Cinnamon and clove optional. Covered, room temperature, 2–4 days, then strain and
+chill. Lightly fizzy, tart-sweet, minimal alcohol.
+
+The entire appeal is that it is made from waste, which makes it a natural fit alongside
+produce-rescue sourcing.
+
+Beyond vegetables
+Kefir (milk or water — the water version takes fruit and herbs well) · kombucha · jun (honey-
+based, accepts botanicals readily) · miso and koji (long project, deep payoff) · sourdough ·
+preserved lemons (salt only)
+
+Mead follows directly from garlic honey: honey, water, yeast. A 1-gallon carboy is most of
+the equipment. Metheglin — mead with herbs and spices — is where botanical work
+naturally goes.
+
+== IV. Vinegar Pickles — Fast Turnaround ==
+Red onion · jalapeño · carrot · beet · green bean (dilly beans) · okra · radish · daikon ·
+cauliflower · eggplant · mushroom · watermelon rind · eggs
+
+Gari (sushi ginger)
+Young ginger, salt, rice vinegar, sugar. Slice paper-thin, salt briefly, blanch, pack in the
+sweetened vinegar. A quick pickle rather than a ferment — ready in a day or two, keeps for
+months refrigerated.
+
+On the color: real gari turns pale pink on its own because young ginger contains
+anthocyanins that react with acid. Mature ginger will not, which is why commercial versions
+use dye or a slice of beet. Beige is not a failure.
+
+Why young ginger: thin skin, tender, no fibrous strings. Mature grocery ginger makes a
+harsh, stringy pickle. Growing ginger in a container and harvesting early is the only reliable
+way to get young ginger outside its brief market season.
+
+The same technique works on carrot, daikon and lotus root.
+
+== V. Chicken — Pickle Flavoring ==
+Method: pickle brine into a ziplock bag with the chicken, refrigerate, discard the bag
+afterward. No firming agent — there is nothing to firm.
+
+   Timing: 2–4 hours for pieces, up to overnight for thighs. Past roughly 12 hours the acid
+   leaves the surface chalky.
+
+   Pat dry before cooking. Wet from brine means it steams instead of browning.
+
+   Do not reuse brine that has contacted raw chicken. Keep a separate pouring jar.
+
+   Flavor drivers: dill seed, mustard seed, coriander, black pepper, garlic, celery seed, and
+   the vinegar itself. Bay and allspice sit in the background.
+
+   For a dry rub version: grind the same spices and add citric acid or powdered vinegar
+   for the sour note.
+
+== VI. Horseradish and Mustard — Product Range ==
+Horseradish, wasabi, mustard, radish and arugula all produce isothiocyanates from
+glucosinolates when their cells rupture. Same compound family, differing intensity — which
+is why they substitute for one another in principle, and why the heat registers in the sinuses
+rather than on the tongue the way capsaicin does.
+
+Horseradish-based
+   Prepared horseradish — grated root, vinegar, salt. The control is timing: vinegar added
+   immediately keeps it mild; waiting 2–3 minutes makes it fierce.
+
+   Cocktail sauce — ketchup, horseradish, lemon, Worcestershire
+
+   Horseradish cream — sour cream or crème fraîche base, for beef
+
+   Chrain — Ashkenazi, with beet; sweet-sharp and deep magenta
+
+   Bloody Mary mix
+
+   Compound butter — freezes well
+Mustard-based
+   Whole grain — soak seeds in vinegar with beer or wine, blend partially. Best value and
+   easiest.
+
+   Dijon-style — brown seeds, white wine
+
+   Honey mustard · beer mustard
+
+   Hot Chinese mustard — mustard powder and cold water; the enzyme reaction only
+   occurs cold
+
+   Mostarda — Italian, fruit candied in mustard syrup
+
+   Mustard oil pickles — Indian style
+
+Both prepared horseradish and whole grain mustard are shelf-stable, high-margin, and
+made from inputs that can be grown or bought cheaply in bulk.
+
+On wasabi
+Real wasabi (Wasabia japonica / Eutrema japonicum) is in the same family as horseradish
+and mustard. Almost nothing sold as wasabi is wasabi — the tube product and most
+restaurant paste is horseradish, mustard powder and green dye.
+
+It is among the most expensive crops in the world (roughly $100+/lb) because cultivation is
+genuinely difficult: cold running water, deep shade, 46–70°F, high humidity, and 18 months
+to two years to harvest. Even commercial growers lose crops routinely.
+
+Fresh-grated, it is aromatic and nearly sweet, with heat that hits the nose and fades in about
+fifteen minutes — the compounds begin degrading within minutes of grating, which is why it
+is grated tableside on a sharkskin grater.
+
+Not viable in North Texas outdoors. Horseradish is the practical substitute, and is what is
+in the tube regardless.
+
+VII. Growing Plan
+
+Start from the produce section — free plant stock
+From roots and bases: ginger and turmeric (pieces with visible growth buds, planted
+shallow in a wide pot) · garlic · potato and sweet potato · lemongrass (stalks root in water in
+about two weeks) · green onion, leek, celery, bok choy, cabbage, romaine (regrow from the
+cut base in shallow water, then transplant) · horseradish
+From seed inside the produce: hot peppers especially · tomatoes (ferment the seeds a few
+days, rinse, dry) · winter squash, pumpkin, melon · dry beans, lentils and chickpeas from the
+dry goods aisle
+
+Herb cuttings — root in water: basil, mint, rosemary, thyme, oregano, cilantro. Mint and
+basil root in under two weeks. A $2 clamshell becomes a Mediterranean bed.
+
+Won’t work: hybrid apples and citrus will not come true from seed. Some ginger and
+potatoes carry sprout inhibitor — organic avoids this.
+
+Note: SNAP purchases both produce and seed packets. For heterosis work, produce-
+section seed is open-pollinated in some cases and hybrid in others — worth recording
+which, since F2 segregation from a hybrid tomato is data rather than failure.
+
+Fall planting window — October to November, North Texas
+
+  Crop        Notes
+
+              Break head into cloves, skin on, pointy end up, 2” deep, 4–6” apart. Needs cold
+              exposure to split into a head — spring planting yields one fat single bulb instead.
+  Garlic      Softneck types suit Texas: ‘Texas Early White’, ‘Inchelium Red’, ‘Lorz Italian’.
+              Mulch, don’t overwater, stop watering weeks before harvest. Harvest when the
+              lower third of leaves brown; cure in shade with airflow.
+
+              Same method but shallower — tip at or just below the surface, 6” apart. Each
+              clove multiplies into a cluster of 5–10. No cold requirement, higher multiplication
+  Shallots
+              rate, more forgiving than garlic. Grocery shallots work; rarely sprout-treated.
+              Save the best cluster to replant and you never buy them again.
+
+              Direct seed late August–October. 50–70 days. Needs loose, deep soil for the
+  Daikon      taproot. Doubles as a cover crop — the root breaks compaction and decomposes
+              in place. Feeds takuan, kimchi and quick pickles off one crop.
+
+              Bolts hard in Texas summer — plant fall or very early spring, never August. Fall
+  Dill        planting in Zone 8 often overwinters for a long spring harvest. Self-seeds
+              aggressively; plant once and get volunteers for years.
+
+Dill varieties — they are genuinely different plants
+    Mammoth / Mammoth Long Island — bred for seed heads. Tall (4–5 ft), bolts fast,
+    large umbels. The pickling dill.
+
+    Bouquet — all-purpose. Good foliage and good heads, more compact. Best single
+    choice for pickling plus spice blending.
+    Dukat — bred for leaf. Slow to bolt, sweeter foliage, longer productive window. For fresh
+    dill weed.
+
+Horseradish
+Easy to the point of being a problem — famously invasive, since any root fragment left
+behind regrows.
+
+Grow it in a container. Five-gallon bucket or half barrel, 18–24” deep. Solves the spreading
+entirely and makes harvest a matter of dumping the pot.
+
+Hardy to Zone 3 and tolerant of heat, but prefers cool. The west-facing bed is wrong — full
+Texas afternoon sun will stress it. Partial shade, balcony or east side.
+
+Plant a root cutting (not seed) in early spring; harvest in fall after frost, when flavor
+sharpens with cold. One cutting yields a great deal; save pieces to replant. A grocery root
+will often start if untreated — costs nothing to try.
+
+West-facing bed — what belongs there
+Brutal afternoon sun from about 2 p.m. onward suits Mediterranean herbs, which produce
+more essential oil under that stress: rosemary, thyme, oregano, sage, lavender, Greek
+oregano. Also bay laurel, za’atar, and an established fig.
+
+On raspberries: among the few berries that genuinely struggle in DFW — they want chill
+and dislike sustained heat above 90°F, and a west bed is the hardest possible placement.
+Either use the heat-tolerant cultivars (‘Dorman Red’, ‘Bababerry’) or switch to blackberries
+— ‘Brazos’, ‘Rosborough’, ‘Kiowa’ were bred by Texas A&M for this climate and fruit heavily
+with little fuss.
+
+Timing: prep soil now — compost worked in, heavy mulch. Herb transplants late
+September–October. Brambles bare-root December–February.
+
+VIII. Practical Notes
+    A kitchen scale is the one non-negotiable tool. Salt percentage by weight is the entire
+    game in fermentation.
+
+    Toasting whole spices before they meet liquid extracts more in an hour than a longer
+    cold soak will.
+
+    Fermentation is the natural partner to dehydrating on produce-rescue sourcing: what
+    can’t be dried gets fermented. It is the traditional answer to too much cheap produce
+   arriving at once.
+
+   Coffee is itself a fermented product — the wet process is a controlled ferment. The
+   microbiology overlaps with the roasting side more than is generally appreciated.
+
+   Before selling anything: Texas cottage food law covers pickles and some ferments but
+   carries specific pH and labeling requirements. Read them before Botanica sells any of it.
+
+Prepared July 2026. Growing dates are calibrated to USDA Zone 8, North Texas.

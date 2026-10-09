@@ -1,0 +1,176 @@
+'''The Five Mother Sauces''' (French ''sauces mères'') are the five foundational sauces of classical French cuisine, from which the entire traditional sauce repertoire is derived. The system was first organized by Marie-Antoine Carême in the early nineteenth century — he named four grand sauces (béchamel, velouté, espagnole, and allemande) — and was refined into its modern form by Auguste Escoffier, who dropped allemande (reclassifying it as a derivative of velouté), added '''hollandaise''' and '''sauce tomate''', and so set the canonical five. Each mother sauce is defined by its liquid base and its thickening method; from each descend dozens of ''daughter sauces'' (also called ''small sauces'', ''secondary sauces'', or ''compound sauces''), made by adding a defined set of ingredients to the mother. Mastering the five — and the thickeners that build them — is the traditional gateway to mastering all of sauce-making. This article covers each mother sauce's method, its roux and slurry ratios, and its classic derivatives, with worked recipes. It extends the [[Culinary Arts]] reference and the companion article on [[Stocks and Broths]].
+
+== The Five, at a Glance ==
+* '''Béchamel''' — milk thickened with a white roux. The white sauce.
+* '''Velouté''' — a white stock thickened with a blond roux. The velvety sauce.
+* '''Espagnole''' — brown stock with tomato, thickened with a brown roux. The brown sauce.
+* '''Hollandaise''' — an emulsion of egg yolk and butter, acidulated with lemon or vinegar. The warm emulsion sauce.
+* '''Sauce tomate''' (tomato sauce) — tomatoes cooked down with aromatics and stock.
+
+== The Thickeners ==
+Before the sauces themselves comes the physics of thickening. Three of the five mothers are thickened with roux.
+
+=== Roux ===
+A '''roux''' is equal parts by weight of fat (usually butter) and flour, cooked together in a pan. Cooking does two things: it eliminates the raw, pasty taste of flour, and it determines the roux's color — and with it, both flavor and thickening power. The longer a roux cooks, the darker, nuttier, and more flavorful it becomes, but the '''less''' it thickens, because browning breaks down the starch's thickening ability.
+
+* '''White roux''' — cooked 2–3 minutes, just until the raw-flour smell goes. Palest color, '''maximum''' thickening power. Used for béchamel.
+* '''Blond roux''' — cooked 4–5 minutes to a pale gold with a nutty aroma. Used for velouté.
+* '''Brown roux''' — cooked 8–15 minutes (or much longer, as in Louisiana cooking) to a deep tan or chocolate color. Rich, toasty flavor but '''weak''' thickening — a brown-roux gumbo needs far more roux than a béchamel for the same body. Used for espagnole and for Creole and Cajun gumbo.
+
+'''Rules for a lump-free sauce.''' Combine hot roux with cold or cool liquid, or cold roux with hot liquid — but never hot into hot, which seizes into lumps. Add the liquid gradually, whisking constantly. A sauce thickened by roux must then simmer gently (at least 15–20 minutes) to cook out the starch and let it reach full thickening; it continues to thicken as it cooks and as it cools.
+
+'''Thickening ratio (a working guide).''' To thicken 1 gallon of liquid, use roughly:
+* '''Light sauce''' — about 10–12 oz roux per gallon.
+* '''Medium sauce''' (the usual sauce consistency) — about 12–14 oz roux per gallon.
+* '''Heavy / thick''' — about 16 oz roux per gallon.
+* A simple home-scale ratio for béchamel: about '''2 tablespoons each of butter and flour per 1 cup of milk''' gives a medium sauce; halve it for a thin sauce, double the fat-and-flour for a thick one. ☐ Exact per-gallon figures vary by source and by how dark the roux is cooked — treat these as starting points and adjust by eye.
+
+=== Cornstarch slurry ===
+A '''slurry''' is a pure-starch thickener: equal parts cornstarch and '''cold''' water (or stock), whisked smooth, then drizzled into hot, simmering liquid while stirring. Always add the slurry to the hot liquid, never the reverse, and add it gradually — the starch granules swell and burst on contact with heat and thicken almost at once, so it is easy to overshoot. Cornstarch gives a glossy, translucent, almost shiny finish, in contrast to the opaque, matte finish of a flour roux. It has roughly twice the thickening power of flour by weight, so about 1 tablespoon of cornstarch thickens a cup of liquid to a medium sauce. Cornstarch sauces should be brought just to a boil to set, but not held at a hard boil or over-stirred afterward, which thins them back out.
+
+=== Other thickeners ===
+* '''Liaison''' — a mixture of egg yolks and cream, used to finish (not boil) a velouté or a cream soup, adding richness and a slight thickening. It must be '''tempered''' (see [[Cooking Methods]]) and never boiled, or the yolks curdle.
+* '''Beurre manié''' ("kneaded butter") — equal parts soft butter and flour worked into a paste, then whisked bit by bit into a hot sauce at the very end to thicken it quickly without cooking out a roux.
+* '''Reduction''' — simply simmering a liquid to evaporate water, concentrating both flavor and body. The modern "demi" relies on reduction and natural gelatin rather than roux.
+* '''Beurre monté / mounting with butter (''monter au beurre'')''' — whisking cold butter into a sauce off the heat to enrich, thicken slightly, and add gloss.
+
+== 1. Béchamel — The White Sauce ==
+'''Method:''' Milk, gently heated (classically ''infused'' first with an onion studded with cloves and a bay leaf — an ''oignon piqué'' — and a grate of nutmeg), is thickened with a '''white roux''' and simmered smooth. It is the simplest of the mothers and the only one built on milk rather than stock. Season with salt, white pepper, and nutmeg; strain for silkiness. Béchamel is the base for macaroni and cheese, lasagne, moussaka, croque monsieur, soufflés, and gratins.
+
+=== Béchamel's daughter sauces ===
+* '''Mornay''' — add grated Gruyère and Parmesan (sometimes a little egg yolk). The classic cheese sauce for gratins and croque monsieur.
+* '''Crème (cream sauce)''' — add heavy cream and a little lemon.
+* '''Soubise''' — add a purée of butter-sweated onions. Served with eggs, veal, and lamb.
+* '''Mustard sauce''' — add Dijon mustard.
+* '''Nantua''' — add crayfish butter and cream; served with seafood quenelles.
+* '''Cheddar / cheese sauce''' — add sharp cheese and a touch of mustard; the Anglo-American macaroni-cheese sauce.
+
+== 2. Velouté — The Velvety Sauce ==
+'''Method:''' A clear '''white stock''' — chicken, veal, or fish — is thickened with a '''blond roux''' (or, in lighter modern kitchens, a cornstarch slurry) and simmered until velvety smooth. ''Velouté'' means "velvety." The stock names the sauce: chicken velouté, veal velouté, fish velouté. It is lighter and more savory than béchamel and is itself a base for many second-tier sauces; Escoffier treated '''allemande''' and '''suprême''' as the two intermediate "leading" veloutés from which further small sauces descend.
+
+=== Velouté's daughter sauces ===
+* '''Allemande''' (sauce parisienne) — veal or chicken velouté finished with a liaison of egg yolk and cream and a little lemon.
+* '''Suprême''' — chicken velouté enriched with cream and reduced with mushroom trimmings, finished with butter. Silky and pale.
+* '''Poulette''' — allemande with mushrooms, parsley, and lemon.
+* '''Aurore''' — velouté tinted and flavored with tomato purée.
+* '''Vin blanc (white-wine sauce)''' — fish velouté finished with white wine and butter (or egg yolk); for poached fish.
+* '''Bercy''' — fish velouté with shallots sweated in white wine, finished with parsley and butter.
+* '''Normande''' — fish velouté with mushroom and oyster liquor, cream, and egg yolk.
+* '''Hongroise (Hungarian)''' — velouté with onion and paprika sweated in white wine.
+* '''Ravigote''' — velouté sharpened with white wine, vinegar, shallots, and herbs.
+
+== 3. Espagnole — The Brown Sauce ==
+'''Method:''' Brown veal or beef stock is combined with additional browned mirepoix and '''tomato pincé''' (tomato paste cooked to a brick-red) and thickened with a '''brown roux''', then simmered for hours and repeatedly skimmed. Espagnole is the most labor-intensive mother and is rarely served as-is; its destiny is to be reduced further. Combined with an equal part of brown stock and reduced by half, it becomes '''demi-glace''' — the glossy, deeply savory base from which the classical brown small sauces are finished (see [[Stocks and Broths]] on reductions).
+
+=== Espagnole / demi-glace daughter sauces ===
+* '''Demi-glace''' — equal parts espagnole and brown stock, reduced by half. The great brown base; some call it a sauce in its own right.
+* '''Bordelaise''' — reduced red wine, shallots, thyme, and bay, finished with poached bone marrow and demi-glace. The classic steak sauce.
+* '''Chasseur (hunter's sauce)''' — sautéed mushrooms and shallots deglazed with white wine, tomato, and demi-glace, finished with tarragon and parsley.
+* '''Robert''' — onions sweated in butter, white wine, and demi-glace, finished with mustard. Classic with pork.
+* '''Charcutière''' — Robert sauce finished with julienned cornichons.
+* '''Lyonnaise''' — onions, white wine, and vinegar in demi-glace.
+* '''Madère (Madeira) / Porto''' — demi-glace reduced with Madeira or port.
+* '''Périgueux''' — Madeira sauce with chopped truffles.
+* '''Diable (deviled)''' — white wine, shallots, and cracked pepper or cayenne, reduced into demi-glace; spicy, for grilled poultry.
+* '''Piquante''' — shallots, white wine, and vinegar reduced with demi-glace, finished with cornichons, capers, and herbs.
+* '''Champignon''' — demi-glace with mushrooms, sherry, and lemon.
+
+== 4. Hollandaise — The Warm Emulsion Sauce ==
+'''Method:''' Hollandaise is an '''emulsion''' — it is not thickened by starch at all, but by suspending droplets of warm butter within egg yolks, which act as the emulsifier (their lecithin does the binding). Egg yolks are whisked with a little water and an acid (lemon juice or a white-wine-vinegar reduction) over gentle heat until they thicken into a foamy ''sabayon'' that ribbons off the whisk; then warm (ideally clarified) butter is whisked in slowly — drop by drop at first, then in a thin stream — until the sauce is thick and glossy. It is finished with salt, lemon, and sometimes a pinch of cayenne.
+
+Hollandaise is notoriously temperamental: '''too much heat scrambles the yolks; too little will not emulsify; adding the butter too fast "breaks" the sauce''' into a greasy curdle. (A broken hollandaise can often be rescued by whisking it, drop by drop, into a fresh yolk and a teaspoon of warm water.) It must be held warm — not hot — and used within a couple of hours; it cannot be refrigerated and reheated. Held too warm or too long it is also a food-safety risk, as it is a warm, protein-rich medium.
+
+'''Ratio.''' Proportions vary widely by source. A reliable starting point is '''1 large egg yolk per 3–4 oz (about 6–8 tablespoons) of butter''', with roughly 1 tablespoon of water and 1–2 teaspoons of acid per yolk. ☐ Published "classic" ratios range from about 1 yolk per 4 oz butter (Saveur) to richer 1-yolk-per-cup versions — adjust to the body you want; smaller eggs carry less yolk and may not hold as much butter.
+
+=== Hollandaise's daughter sauces ===
+* '''Béarnaise''' — made exactly like hollandaise but with a '''tarragon-shallot-vinegar reduction''' in place of the lemon, and finished with chopped fresh tarragon and chervil. The classic sauce for grilled steak.
+* '''Choron''' — béarnaise with tomato paste or purée added (no tarragon garnish, or less of it); pale coral.
+* '''Foyot (Valois)''' — béarnaise finished with a spoonful of glace de viande (meat glaze).
+* '''Maltaise''' — hollandaise flavored with the juice and zest of blood oranges; classic with asparagus.
+* '''Mousseline (sauce Chantilly)''' — hollandaise lightened by folding in whipped cream just before serving.
+* '''Noisette''' — hollandaise made with browned (''noisette'') butter for a nutty flavor.
+* '''Dijon (moutarde)''' — hollandaise with Dijon mustard whisked in.
+
+== 5. Sauce Tomate — The Tomato Sauce ==
+'''Method:''' The classical French ''sauce tomate'' is not Italian marinara. In the Escoffier tradition it is built on rendered salt pork or bacon, sweated mirepoix, and garlic, to which tomatoes (or purée) and white stock are added, along with a little roux or simply long cooking to thicken; it is seasoned, sometimes with a pinch of sugar to balance the acidity, and is often puréed and strained smooth. A ''pincé'' of tomato paste deepens the color and flavor. Modern and Italian-influenced versions simplify to tomatoes, olive oil, garlic, onion, and herbs, thickened only by reduction. Of the five mothers it is the most forgiving and the most adaptable across cuisines.
+
+=== Sauce tomate's daughter sauces ===
+* '''Creole''' — tomato sauce with onion, bell pepper, celery, garlic, and a kick of hot spice; a Louisiana staple.
+* '''Provençale''' — with garlic, basil, olive oil, and sometimes fennel and rosemary.
+* '''Portugaise''' — with sautéed onion, extra tomato, garlic, and parsley.
+* '''Espagnole-style (Spanish)''' — with onion, pepper, mushroom, and sometimes ham or chorizo (not to be confused with the mother sauce espagnole).
+* '''Milanaise''' — tomato sauce with mushrooms, ham, and tongue, served with pasta.
+* '''Bolognese / meat sauce''' — the modern derivative, tomato sauce enriched with browned ground meat and long simmering.
+
+== Worked Recipes ==
+
+=== Classic Béchamel (makes about 2 cups, medium) ===
+* 2 cups whole milk
+* 2 tbsp unsalted butter
+* 2 tbsp all-purpose flour
+* 1/2 small onion, 1 bay leaf, 1 clove (an ''oignon piqué''), optional
+* salt, white pepper, a grate of nutmeg
+
+# Warm the milk with the oignon piqué until steaming; let it infuse 10 minutes off the heat, then discard the onion and bay.
+# In a separate heavy pan, melt the butter, whisk in the flour, and cook the white roux 2–3 minutes without coloring.
+# Gradually whisk the warm milk into the roux. Bring to a gentle simmer, whisking, and cook 15–20 minutes until smooth and velvety.
+# Season with salt, white pepper, and nutmeg. Strain for the silkiest texture.
+
+=== Mornay (from the béchamel above) ===
+# To the hot béchamel, off direct high heat, whisk in 1/2 cup grated Gruyère and 1/4 cup grated Parmesan until melted and smooth.
+# Optionally whisk in 1 egg yolk for extra richness and a glaze that browns under the broiler. Do not boil after the cheese goes in, or it can turn grainy. Season and use for gratins, croque monsieur, or vegetables.
+
+=== Chicken Velouté and Suprême (makes about 2 cups) ===
+* 2 cups white chicken stock (see [[Stocks and Broths]])
+* 2 tbsp butter + 2 tbsp flour (a blond roux)
+* for suprême: 1/2 cup heavy cream, 2 oz mushroom trimmings, 1 tbsp cold butter, lemon
+
+# Cook the butter and flour to a blond roux, 4–5 minutes. Gradually whisk in the hot stock.
+# Simmer gently 20 minutes, skimming, until velvety. Season lightly. This is the velouté.
+# For '''suprême''': add the mushroom trimmings and cream and reduce until nap-coating. Strain, then finish off the heat with the cold butter (''monter au beurre'') and a squeeze of lemon.
+
+=== Classic Hollandaise (makes about 1 cup) ===
+* 3 large egg yolks
+* 1 tbsp water
+* 1 tbsp lemon juice (plus more to finish)
+* 10–12 oz (about 1 to 1 1/2 sticks, melted) warm butter, ideally clarified
+* salt; a pinch of cayenne
+
+# In a metal bowl over barely simmering water (a double boiler), whisk the yolks with the water and lemon juice until pale, foamy, and thick enough to ribbon — about 2–3 minutes. Do not let the bowl get hot enough to scramble the eggs.
+# Off the heat (or over very low heat), whisk in the warm butter a few drops at a time at first, then in a thin, steady stream, until the sauce is thick and glossy. If using whole melted butter, leave the milky solids behind.
+# Season with salt, a pinch of cayenne, and more lemon to taste. Hold warm (not hot) and serve within an hour or two. If it breaks, whisk it slowly into a fresh yolk beaten with a teaspoon of warm water.
+
+=== Béarnaise (from the hollandaise method) ===
+* 1/4 cup white wine vinegar
+* 2 tbsp dry white wine
+* 1 tbsp minced shallot
+* 1 tbsp chopped fresh tarragon (stems reserved) + more to finish
+* a few cracked peppercorns
+* then: 3 egg yolks and 10–12 oz warm butter, as for hollandaise
+
+# Simmer the vinegar, wine, shallot, tarragon stems, and peppercorns until reduced to about 2 tablespoons. Strain and cool slightly.
+# Make the sauce exactly as hollandaise, whisking the yolks with the warm reduction (in place of the lemon-and-water) over gentle heat, then emulsifying in the butter.
+# Finish with chopped fresh tarragon and chervil. Serve with grilled steak, roast beef, or salmon.
+
+=== Espagnole to Demi-Glace ===
+* 1 qt brown veal or beef stock (see [[Stocks and Broths]]) + more for the demi
+* 2 oz butter + 2 oz flour (a brown roux)
+* 4 oz mirepoix, browned
+* 3 oz tomato paste
+* 1 sachet d'épices
+
+# Cook the butter and flour slowly to a deep brown roux, 8–15 minutes, stirring constantly so it does not burn.
+# Whisk in the hot brown stock. Add the browned mirepoix, tomato paste, and sachet. Simmer gently 1 1/2–2 hours, skimming often. Strain. This is '''espagnole'''.
+# For '''demi-glace''', combine the finished espagnole with an equal volume of brown stock and reduce by half, skimming, until glossy and coating. Strain again. Finish small sauces (bordelaise, chasseur, Madère) from this base.
+
+== Sources ==
+* Auguste Escoffier, ''Le Guide Culinaire'' (1903) — the canonical five and their small sauces
+* Marie-Antoine Carême, ''L'Art de la cuisine française'' — the original grand-sauce system
+* ''On Cooking: A Textbook of Culinary Fundamentals'', Labensky et al. — roux and thickening ratios
+* The Culinary Institute of America, ''The Professional Chef''
+* [https://www.webstaurantstore.com/blog/3546/five-mother-sauces.html WebstaurantStore — The Five Mother Sauces]
+* [https://en.wikipedia.org/wiki/Mother_sauce Mother sauce — Wikipedia]
+* [https://en.wikipedia.org/wiki/Hollandaise_sauce Hollandaise sauce — Wikipedia]
+* Van Kush Family Research Institute, ''The Culinary Arts'' (2026), Sections 2–3
+
+''Part of the Library of Ashurbanipal culinary foundations series. See also [[Culinary Arts]], [[Stocks and Broths]], and [[Cooking Methods]].''

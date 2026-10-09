@@ -1,0 +1,107 @@
+[[File:terpene-map.jpg|The terpene map: aroma, family, and effect]]
+
+The '''Terpene Map''' is an aromatherapy atlas: it takes the terpenes — the molecules behind nearly every natural smell and a great many natural medicines — and maps them two ways, by '''scent family''' (what they smell like) and by '''effect''' (what they are used for), with the plant and essential-oil sources for each. It expands the Library's existing aromatherapy and terpene material ([[Terpenes]], [[Terpene Extraction]], [[Beta-Caryophyllene]], [[Hops]]) from a handful of headline compounds into a working reference you can actually navigate by nose or by intention. It is, and has long been, a [[Crypt-ology]] lesson module — terpene literacy is foundational to the healer stacks, to [[Cannabis Oil and MHRB Extraction|Oilahuasca]], and to the Van Kush spice and essential-oil blends.
+
+A discipline runs through the whole map, because aromatherapy is where good chemistry and loose marketing sit side by side: '''every effect is tagged by how strong the evidence is.''' (established) means replicated human or solid mechanistic data; (animal) means decent animal/behavioural data; (in-vitro) means cell/enzyme data often at concentrations far above what a nose or a cup delivers; (traditional) means long customary use without modern trials. Treat the aroma and the source as reliable; treat the effects with the tag's caution.
+
+== How to read the map ==
+
+Each terpene entry gives: '''aroma''' (the note), '''family''' (its scent group), '''sources''' (plants / essential oils richest in it), and '''effect''' (with an evidence tag). Terpenes are volatile and non-polar — they evaporate, they oxidise, and they dissolve in oil and alcohol, not water — which is why the same molecule is a top note in one oil and a fading memory in an old one. Boiling points are given where they matter for distillation and vaporization (see [[Terpene Extraction]]). Nothing here is a dose or a prescription; aromatherapy education and harm-reduction is in scope, individualized medical advice is not.
+
+== The Scent-Family Map ==
+
+The aromatherapist's first map is by smell. Eight families cover most of what you will meet; many terpenes sit on a border between two.
+
+=== Citrus (bright, zesty, fresh) ===
+* '''Limonene''' — aroma: orange/lemon peel. Sources: citrus rinds, caraway, dill, many cannabis cultivars. Effect: mood-lift / anti-anxiety (animal — lemon-oil vapour modulates 5-HT and dopamine in mice), a workhorse green solvent. Oxidises to allergenic limonene oxides.
+* '''Citral''' (geranial + neral) — aroma: intense lemon. Sources: lemongrass, lemon myrtle, lemon balm, Litsea. Effect: antimicrobial (in-vitro), calming (animal). A skin sensitiser at strength.
+* '''Citronellol''' — aroma: soft lemon-rose. Sources: rose, geranium, citronella. Effect: insect-repellent (established), calming (traditional).
+* '''Nerol / Geraniol''' — aroma: sweet rose-citrus. Sources: rose, palmarosa, geranium, citronella. Effect: antimicrobial and antioxidant (in-vitro); geraniol is a documented insect repellent (established). Yeast biotransforms geraniol to citronellol (see [[Yeast Terpenes and Biosynthesis]]).
+
+=== Pine, coniferous and woody ===
+* '''α-Pinene / β-pinene''' — aroma: pine forest, resin. Sources: pine, rosemary, sage, basil, conifers, turpentine. Effect: bronchodilation and acetylcholinesterase inhibition (in-vitro / animal — the basis of rosemary's folk link to alertness/memory), anti-inflammatory. Boils ~155 °C.
+* '''Camphene''' — aroma: damp pine/fir. Sources: fir, cypress, camphor, ginger. Effect: antioxidant, lipid-lowering (animal).
+* '''Cedrene / Cedrol''' — aroma: cedarwood, dry. Sources: cedar, juniper. Effect: calming, insect-repellent (traditional/animal).
+* '''Guaiol''' — aroma: pine-woody, faintly rosy. Sources: guaiacum, cypress pine, some cannabis. Effect: antimicrobial (in-vitro).
+* '''Longifolene''' — aroma: dry woody. Sources: pine resin. Mostly a fragrance fixative.
+
+=== Floral ===
+* '''Linalool''' — aroma: lavender, floral with a touch of spice. Sources: lavender, coriander seed, rosewood, basil. Effect: anxiolytic / sedative (animal, fairly solid), anticonvulsant (animal). Its hydroperoxide is a common fragrance allergen. Boils ~198 °C.
+* '''α-Terpineol''' — aroma: lilac. Sources: pine, cajuput, petitgrain. Effect: relaxant, antimicrobial (in-vitro).
+* '''Nerolidol''' — aroma: woody-floral, apple. Sources: neroli, jasmine, ginger, tea tree. Effect: sedative (animal), a notable skin-penetration enhancer (established) — relevant to transdermal delivery.
+* '''Farnesol''' — aroma: delicate floral. Sources: rose, neroli, lemongrass. Effect: antimicrobial, a quorum-sensing signal; fragrance fixative.
+* '''Benzyl-/phenyl-type florals''' (strictly phenylpropanoids, mapped here for the nose): jasmine, ylang-ylang, rose absolute notes — the heavy, heat-sensitive florals captured by solvent extraction, not steam (see [[Terpene Extraction]]).
+
+=== Herbaceous / green ===
+* '''Terpinolene''' — aroma: fresh, piney-herbal-citrus. Sources: tea tree, nutmeg, lilac, apple, the marker terpene of a minority of cannabis cultivars. Effect: antioxidant, sedative (animal).
+* '''γ-Terpinene''' — aroma: green-herbal. Sources: tea tree, cumin, marjoram. Effect: antioxidant (in-vitro).
+* '''Sabinene''' — aroma: fresh, peppery-woody. Sources: black pepper, nutmeg, marjoram, carrot seed. Effect: antimicrobial (in-vitro).
+* '''β-Phellandrene''' — aroma: minty-citrus-green. Sources: lavender, eucalyptus, dill, ginger.
+* '''p-Cymene''' — aroma: thin, solventy-herbal. Sources: thyme, oregano, cumin. Effect: anti-inflammatory (animal); a biosynthetic partner of thymol/carvacrol.
+
+=== Spicy and warm ===
+* '''β-Caryophyllene''' — aroma: black pepper, clove, warm. Sources: black pepper, cloves, hops, rosemary, cannabis. Effect: '''selective CB2 agonist''' (established — the one terpene with a clean, replicated receptor finding), anti-inflammatory. GRAS food flavour. Full page: [[Beta-Caryophyllene]].
+* '''Humulene''' (α-humulene) — aroma: hoppy, woody, earthy. Sources: hops, cannabis, sage, ginseng, coriander. Effect: anti-inflammatory (animal, with caryophyllene). See [[Hops]].
+* '''Eugenol''' (a phenylpropanoid, warm-spicy, mapped for the nose) — aroma: clove. Sources: clove, cinnamon leaf, basil. Effect: analgesic/antiseptic (established in dentistry); heavy, sinks in distillation.
+* '''Carvone''' — two mirror-image smells: '''(S)''' = caraway/dill, '''(R)''' = spearmint. Sources: caraway, dill, spearmint. A textbook example that chirality is smell.
+
+=== Earthy / musky ===
+* '''Myrcene''' — aroma: earthy, musky, clove with a fruity edge. Sources: the usually-dominant cannabis terpene, hops, lemongrass, mango, bay, thyme. Effect: sedative and naloxone-reversible analgesia (animal, documented); the famous "crosses the blood-brain barrier / mango boosts your high" claim is '''not''' supported in humans. Boils ~167 °C.
+* '''Patchoulol''' — aroma: deep earthy patchouli. Sources: patchouli. Effect: anti-inflammatory (in-vitro); a powerful base-note fixative.
+* '''Vetiverol / Khusimol''' — aroma: smoky, rooty. Sources: vetiver. Effect: calming (traditional), fixative.
+* '''β-Eudesmol''' — aroma: woody-earthy. Sources: Atractylodes, eucalyptus. Effect: neuro/vascular activity (animal).
+
+=== Minty / camphoraceous / cooling ===
+* '''Menthol''' — aroma: mint, cooling. Sources: peppermint, cornmint. Effect: TRPM8 cold-receptor agonist (established — the actual cooling sensation), topical analgesic, decongestant. Toxic in bulk.
+* '''1,8-Cineole (eucalyptol)''' — aroma: eucalyptus, sharp-camphoraceous. Sources: eucalyptus, rosemary, cajuput, cardamom. Effect: expectorant/mucolytic (established), anti-inflammatory; a CYP3A substrate (metabolic-interaction relevance). Boils ~176 °C.
+* '''Camphor''' — aroma: sharp, medicinal. Sources: camphor laurel, rosemary, sage. Effect: topical rubefacient/decongestant (established) — but '''neurotoxic and seizure-risk if ingested'''; a real poisoning hazard, especially in children.
+* '''Borneol / Fenchol''' — aroma: camphor-minty, earthy. Sources: rosemary, camphor, valerian, mugwort. Effect: borneol enhances drug penetration across membranes (animal) — a traditional "guide" herb in Chinese medicine.
+* '''Pulegone''' — aroma: strong minty (pennyroyal). Sources: pennyroyal, some mints. Effect: '''hepatotoxic and abortifacient — genuinely dangerous'''; pennyroyal oil has killed. A map entry that is mostly a warning.
+
+=== Balsamic / resinous ===
+* '''α-Bisabolol''' — aroma: soft, sweet-floral balsam. Sources: German chamomile, candeia. Effect: anti-inflammatory and skin-soothing (established in dermatology), penetration enhancer.
+* '''Chamazulene''' — aroma: deep, herbaceous; the compound that turns German-chamomile and yarrow oil '''blue'''. Effect: anti-inflammatory (animal) — forms from matricin during distillation.
+* '''Valencene / Nootkatone''' — aroma: grapefruit-woody. Sources: Valencia orange, grapefruit. Nootkatone is a strong, EPA-registered '''tick/mosquito repellent''' (established).
+* '''Santalol''' — aroma: creamy sandalwood. Sources: sandalwood. Effect: calming (traditional/animal), skin-soothing; a classic base-note fixative.
+* '''Resin notes''' — frankincense (α-pinene + incensole), myrrh (furanosesquiterpenes), mastic, benzoin: the heavy balsamic base of incense and of [[Kyphi]]; see [[Edible Waxes Hive Foods and Aromatic Resins]].
+
+== The Effect Map (aromatherapy by intention) ==
+
+The second map runs the other way — pick the outcome, find the terpenes and the oils. Evidence tags carry over; effects are educational, not prescriptions.
+
+* '''Calm / sleep''' → linalool (lavender), myrcene (hops, lemongrass), nerolidol (neroli), santalol (sandalwood), valerian's borneol. The hops-and-valerian tradition lives here (see [[Hops]]).
+* '''Uplift / mood''' → limonene (citrus), citral (lemongrass), geraniol (rose, palmarosa).
+* '''Focus / clarity''' → α-pinene and 1,8-cineole (rosemary, eucalyptus) — the rosemary-and-alertness thread.
+* '''Decongest / breathe''' → 1,8-cineole (eucalyptus), menthol (peppermint), camphor (topical only).
+* '''Anti-inflammatory''' → β-caryophyllene (pepper, copaiba), α-bisabolol (chamomile), chamazulene (blue chamomile), α-humulene.
+* '''Antimicrobial / clean''' → citral, geraniol, terpinen-4-ol and γ-terpinene (tea tree), carvacrol/thymol-adjacent p-cymene (thyme, oregano).
+* '''Repel insects''' → nootkatone (grapefruit), geraniol and citronellol (citronella, geranium), cedrene (cedar).
+* '''Digestive / settle the stomach''' → carvone (caraway, spearmint), (R)-limonene, ginger's zingiberene.
+
+== The classes, zoomed out ==
+
+The nose mostly meets '''monoterpenes''' (C10 — the light top notes above) and '''sesquiterpenes''' (C15 — the heavier, slower base notes: caryophyllene, humulene, bisabolol, nerolidol, farnesene, patchoulol, santalol). Beyond scent sit the larger isoprenoids: '''diterpenes''' (C20 — resin acids, retinol, the taxanes), '''triterpenes''' (C30 — squalene, the saponins, the sterol parents), and '''tetraterpenes''' (C40 — the carotenoid colours: β-carotene, lycopene, lutein). Terpenes are, as the 2016 notes put it, "found in pretty much every plant." The biosynthesis and the isoprene rule behind all of this are on [[Terpenes]].
+
+== Blending and synergy — honestly ==
+
+Aromatherapy blending is real craft (top / middle / base notes, built from the volatility order above) and the finished smell of a plant is always a '''mixture''', never one molecule. Whether that mixture changes a drug's action at the receptor — the '''entourage effect''' — is genuinely contested: one line of in-vitro work found no modulation of THC at human CB1/CB2 by the common cannabis terpenes, another reported additive and cannabimimetic effects for several of the same compounds. Both are cell studies; neither settles the human question. So: blend confidently for '''aroma''', and keep an honest question mark over '''pharmacological synergy''' claims. More in [[Bioavailability Metabolic Inhibition and Synergy]].
+
+== Safety map ==
+
+* '''Concentration is everything.''' A terpene at trace level in a spice is pleasant; the neat essential oil is a concentrated irritant. Dilute; do not swallow essential oils by the spoonful.
+* '''The genuinely dangerous ones:''' '''pulegone''' (pennyroyal — hepatotoxic, abortifacient, fatal), '''camphor''' (seizures if ingested, child hazard), '''thujone''' (wormwood, sage — neurotoxic/convulsant in quantity), '''methyl salicylate''' (wintergreen — deadly in small volumes to children).
+* '''Phototoxic:''' expressed citrus oils carry furanocoumarins (bergapten) — they burn skin in sunlight. See [[Terpene Extraction]].
+* '''Oxidation:''' limonene, linalool and the pinenes oxidise in air to more-allergenic forms; store oils cold, dark, full, sealed. See [[Antioxidants and Cannabinoid Stability]].
+* '''Pregnancy and pets:''' many essential oils are contraindicated in pregnancy; several (tea tree, citrus, pine, pennyroyal) are toxic to cats and dogs.
+
+== Van Kush connection and Crypt-ology ==
+
+This map is the applied face of the Library's terpene science: it feeds the '''Van Kush spice blends and essential-oil formulations''', the [[Cannabis Oil and MHRB Extraction|Oilahuasca]] preparation chemistry, and the aromatic-resin craft of [[Kyphi]] and [[Edible Waxes Hive Foods and Aromatic Resins]]. As a [[Crypt-ology]] lesson module (terpene basics → cannabis terpenes → the entourage question), reading the map drifts a person's position toward the '''botanicals''', '''pharmacology''' and '''chemistry''' axes — so the deeper you go into scent, the more the Mystery School surfaces the chemistry and the healer stacks to you.
+
+== Everything is everything ==
+
+A terpene map cannot stay in its lane, because the plant does not. The same MAOI-and-aromatics logic that makes a hop pillow calming runs, at higher stakes, through [[Cannabinoid Oilahuasca|oilahuasca]] — where a β-carboline MAO inhibitor redirects the metabolism of an orally-taken tryptamine, the principle behind the [[Cannabis Oil and MHRB Extraction|MHRB]] (Mimosa, a DMT-bearing bark) preparations and the whole [[The Huasca Phenomenon and Metabolic Redirection|huasca phenomenon]]. The terpene chemist and the psychedelic chemist turn out to be one person: [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry|Alexander "Sasha" Shulgin]] catalogued essential oils ([[Shulgin Ten Essential Oils]]) in the same breath as the phenethylamines and tryptamines of [[PIHKAL and TIHKAL]], because the allylbenzenes of nutmeg and the molecules of the lab sit on one metabolic road. The aromatic resins burned as [[Kyphi]] and the terpenes distilled here feed the same [[Endocannabinoid Chemistry and 2-AG Metabolism|endocannabinoid]] and receptor systems charted in [[The Tryptamine Family and Endogenous Neurochemistry|the tryptamine family]] and by [[David E Nichols Entactogen Pharmacology and Receptor Mapping|David Nichols]]. None of this is forced: it is one chemistry seen from the kitchen, the still, the temple and the lab at once. It is why the Library leans so hard on these sciences — precise, honest plant-and-receptor chemistry is the future of medicine — and why the [[Crypt-ology]] map is drawn so that following a scent leads you, link by link, into all of it.
+
+== See also ==
+
+See also: [[Terpenes]] · [[Terpene Extraction]] · [[Beta-Caryophyllene]] · [[Hops]] · [[Yeast Terpenes and Biosynthesis]] · [[Edible Waxes Hive Foods and Aromatic Resins]] · [[Kyphi]] · [[Cannabis Oil and MHRB Extraction]] · [[Cannabinoid Oilahuasca]] · [[The Huasca Phenomenon and Metabolic Redirection]] · [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]] · [[Shulgin Ten Essential Oils]] · [[PIHKAL and TIHKAL]] · [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]] · [[David E Nichols Entactogen Pharmacology and Receptor Mapping]] · [[Hydrosols Absolutes and Botanical Extraction Modalities]] · [[Cooking with Herbs and Spices]] · [[Bioavailability Metabolic Inhibition and Synergy]] · [[Antioxidants and Cannabinoid Stability]] · [[Crypt-ology]]

@@ -222,10 +222,24 @@ export function renderWiki(text) {
     return `<sup class=ref><a href="#ref${n}" title="${esc(f)}">[${n}]</a></sup>`;
   };
 
+  // [[File:name.jpg|caption]] → an inline image served from /files/. Image support is SERVING code
+  // (render + a static route in server.mjs); it never touches article text. The filename is sanitized
+  // to safe chars; the caption has already been through esc() with the rest of the line.
+  const fileName = (f) => String(f).trim().replace(/ /g, '_').replace(/[^A-Za-z0-9._-]/g, '');
+  const imgTag = (f, cap) => {
+    const src = `/files/${fileName(f)}`;
+    const alt = cap || fileName(f).replace(/\.[a-z0-9]+$/i, '').replace(/[_-]/g, ' ');
+    return `<figure style="margin:18px 0;text-align:center">`
+      + `<img src="${src}" alt="${alt}" loading="lazy" style="max-width:100%;height:auto;border-radius:10px">`
+      + (cap ? `<figcaption style="font-size:13px;color:var(--mut);margin-top:6px">${cap}</figcaption>` : '')
+      + `</figure>`;
+  };
   const inline = (s) => esc(s)
     .replace(/&lt;ref&gt;([^&]+?)&lt;\/ref&gt;/g, (_, f) => refMark(f))
     .replace(/'''(.+?)'''/g, '<b>$1</b>')
     .replace(/''(.+?)''/g, '<i>$1</i>')
+    .replace(/\[\[File:([^\]|]+)\|([^\]]+)\]\]/gi, (_, f, cap) => imgTag(f, cap))
+    .replace(/\[\[File:([^\]]+)\]\]/gi, (_, f) => imgTag(f, ''))
     .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, l, txt) => `<a href="/wiki/${slugify(l)}">${txt}</a>`)
     .replace(/\[\[([^\]]+)\]\]/g, (_, l) => `<a href="/wiki/${slugify(l)}">${l}</a>`)
     // external links (MediaWiki-style): [url text] and bare [url]; then autolink stray URLs. A reference

@@ -1,0 +1,82 @@
+'''Terpene extraction''' is the set of techniques for getting volatile terpenes out of plant material and into a usable concentrate — an essential oil, a hydrosol, a terpene isolate, or a terpene-rich resin fraction. Terpenes are volatile, heat-sensitive, oxidation-prone and mostly non-polar, and every method below is really a strategy for exploiting one of those properties while protecting the others. This page is the practical companion to [[Terpenes]], [[Hops]] and [[Yeast Terpenes and Biosynthesis]]; it overlaps deliberately with, and should be read alongside, the Library's existing [[Hydrosols Absolutes and Botanical Extraction Modalities]], [[Solvent Chemistry and Polarity in Botanical Extraction]] and [[Laboratory Equipment and Extraction Engineering]] pages. Consistent with the rest of the Library, it gives real method, dose and safety detail rather than withholding it — because the person reading is going to proceed, and construction, parameters and hazard engineering taught together is the harm reduction.
+
+== First principle: terpenes are fragile ==
+
+Before any method, hold these facts, because they decide the method:
+
+* '''They are volatile.''' The light monoterpenes (myrcene, limonene, pinene) evaporate readily at modest temperature. That is the ''lever'' distillation uses and the ''loss'' every other method must guard against.
+* '''They oxidise.''' Air, light and heat turn terpenes into oxides and hydroperoxides that smell off and are more irritating. Work cool where possible, exclude oxygen, and store the product cold, dark and full. See [[Antioxidants and Cannabinoid Stability]].
+* '''They are mostly non-polar.''' Terpenes dissolve in oils, fats, alcohol, hydrocarbons and supercritical CO2 — not in water. That is why non-polar solvents extract them and why they ''separate'' from water in a still.
+* '''Some are bound.''' A fraction of a plant's terpenes are locked as odourless '''glycosides''' and must be ''released'' (by acid or enzyme) before they are free and volatile — this is the entire basis of acid-catalysed release below, and of the yeast biotransformation on [[Yeast Terpenes and Biosynthesis]].
+
+== Steam distillation and hydrodistillation ==
+
+The oldest and still the most widely used route for essential oils. Steam carries the volatile terpenes out of the plant and condenses them into a separable oil layer.
+
+* '''How it works.''' Live steam (or boiling water, in hydrodistillation) passes through or around the plant material. The steam ruptures the oil-bearing glands and the volatile terpenes '''co-distil''' with the water vapour — the mixture boils below 100 °C because each component contributes its own vapour pressure (co-distillation). The vapour is cooled in a '''condenser coil''', and the condensate runs into a '''Florentine receiver''' (a ''séparateur''/essencier), where the immiscible oil and water split into two layers. Oils lighter than water (most monoterpene oils — citrus, lavender, rosemary) float and are skimmed off the top; heavier oils (clove's eugenol, cinnamon's cinnamaldehyde, wintergreen) sink and are drawn from the bottom. The remaining aromatic water is the '''hydrosol'''. This apparatus and the light-versus-heavy separation are covered in full on [[Hydrosols Absolutes and Botanical Extraction Modalities]].
+* '''The three configurations.'''
+# '''Water distillation (hydrodistillation):''' material is immersed in boiling water. Simplest, but prolonged boiling can hydrolyse and overheat delicate notes.
+# '''Water-and-steam:''' material sits on a grate above boiling water, contacted only by rising steam — gentler.
+# '''Direct steam:''' steam is generated separately and injected through the charge; best temperature control, the industrial standard.
+* '''Good for.''' Robust aromatic herbs and spices — lavender, rosemary, mint, eucalyptus, clove, citrus-leaf. '''Poor for''' heat-sensitive florals (jasmine, tuberose), which are better handled by solvent/en,fleurage routes (see below).
+* '''A note for resinous drug plants (cannabis, hops).''' Steam can strip the terpene fraction off cannabis or hops ''before'' or ''separately'' from the cannabinoid/bitter-acid resin, which is one way "terpene-only" fractions are made. But steam heat will also drive decarboxylation and degrade thermolabile actives, so it is used for the ''aroma'' fraction, not to recover intact acids. See [[Hops]] and [[Cannabis Oil and MHRB Extraction]].
+* '''Safety.''' This is pressurised hot steam. Use proper joints and a condenser that actually condenses, never seal the system without a vent path (a blocked still is a bomb), and keep the receiver separation clear so you are not boiling oil dry. Classic small-scale builds use a stovetop or a copper/stainless alembic; the engineering specifics (vessel ratings, coil sizing, cooling flow) are on [[Laboratory Equipment and Extraction Engineering]].
+
+== Acid-catalysed release and acid-catalysed rearrangement ==
+
+"Acid extraction" means two different real things, and both belong here because the operator asked for the acid route specifically.
+
+=== Releasing bound (glycosidic) terpenes with acid ===
+Many terpenes exist in the plant as odourless '''glycosides''' — the terpene tethered to a sugar. Mild '''acid hydrolysis''' (a weak acid, gentle heat, time) cleaves that bond and '''liberates the free volatile terpene''', exactly as yeast glycosidases do during fermentation ([[Yeast Terpenes and Biosynthesis]]). This is why acidifying a macerate, or simply the natural acidity of a fruit must, raises free-terpene aroma over time. It is a release step, not a destruction step, and it is the gentlest "acid" meaning.
+
+=== Acid-catalysed rearrangement (be careful) ===
+Terpenes are '''acid-sensitive'''. Strong acid protonates a double bond, generates a carbocation, and the skeleton '''rearranges, cyclises or hydrates''' into a different terpene. This is a real industrial tool and a real hazard:
+
+* '''α-Pinene + aqueous acid → terpin hydrate / terpineol''' — a century-old process; pine turpentine is acid-hydrated to make the fragrance alcohol terpineol.
+* '''Citral or linalool under acid → cyclised ionone-type products''' — the basis of some fragrance syntheses.
+* '''The hazard.''' If your goal is to ''preserve'' a terpene profile, strong acid is the enemy — it will quietly convert your limonene and linalool into oxides and rearranged skeletons and wreck the aroma. Acid-catalysed transformation is a technique when you ''want'' the new compound and a contamination mechanism when you do not. In cannabis chemistry the same sensitivity is why acidic conditions isomerise cannabinoids (CBD→THC-type conversions), discussed in [[Cannabinoid Isomerization]].
+* '''Safety.''' Concentrated acids, exotherms, and flammable terpene vapours together are genuinely dangerous — eye and skin protection, controlled addition, cooling, ventilation, and no open flame. This is lab work, not kitchen work.
+
+== Solvent extraction: concretes, absolutes, oleoresins, and "the easy way" ==
+
+When heat would destroy the aroma, dissolve the terpenes out cold with a non-polar solvent.
+
+* '''Concrete → absolute.''' A non-polar solvent (historically hexane) is washed over the botanical to pull oil ''plus'' waxes, giving a waxy '''concrete'''; the concrete is then stirred with ethanol, which dissolves the aromatics but not the wax, and the chilled wax is filtered off ('''winterisation'''). Evaporating the ethanol leaves the '''absolute''' — the method of choice for jasmine, rose, tuberose and other heat-sensitive florals steam cannot handle. Detailed on [[Hydrosols Absolutes and Botanical Extraction Modalities]] and [[Solvent Chemistry and Polarity in Botanical Extraction]].
+* '''Oleoresins.''' Solvent extraction of spices (pepper, paprika, ginger) gives oleoresins that capture both the volatile terpenes and the non-volatile flavour/pungency and colour — a fuller profile than the distilled oil alone.
+* '''Food-safe home solvents.''' High-proof ethanol is the practical, legal, food-grade terpene solvent for home use: it dissolves terpenes well, is removable by gentle low-heat evaporation, and is far safer than hydrocarbons. A '''fat or oil''' also works — infusing herbs into warm (not hot) oil is simply solvent extraction with a food-safe non-polar solvent, and is the basis of culinary infused oils and of cannabis edibles (see [[Cannabis Oil and MHRB Extraction]]).
+* '''Hydrocarbon solvents (butane/propane, "BHO").''' Fast and efficient at pulling terpenes and resins, and the basis of much cannabis extract, but '''flammable-vapour explosion is the leading cause of extraction injuries''' — open-blasting indoors has killed people. If done at all it demands a '''closed-loop''' system, '''no ignition sources''', forced ventilation, and thorough '''purging''' of residual solvent (vacuum oven) before the product is used. Choice of solvent polarity, miscibility and residue are covered on [[Solvent Chemistry and Polarity in Botanical Extraction]].
+
+== Supercritical CO2 ==
+
+Carbon dioxide above its critical point (about 31 °C and 74 bar) behaves as a tunable non-polar solvent that leaves '''no residual solvent''' when the pressure is released.
+
+* '''Tunability.''' Lower pressure/density runs selectively pull the light volatile terpenes (a "terpene-rich" or essential-oil-like fraction); higher density runs pull the heavier waxes, pigments and resins. Running a gentle terpene pass ''first'' and a heavy pass ''second'' is how CO2 systems separate a clean terpene fraction from the full-spectrum oleoresin. A little ethanol "co-solvent" extends it to more polar actives.
+* '''Pros.''' Low temperature protects terpenes, no toxic solvent residue, selective. '''Cons:''' high-pressure equipment is expensive and demands real engineering and pressure-safety discipline. This is the premium industrial method for both botanical oils and cannabis.
+
+== Mechanical and cold methods (no heat, no solvent) ==
+
+Sometimes the best "extraction" barely touches the terpenes at all.
+
+* '''Cold-pressing / expression.''' Citrus peel oil is simply squeezed/abraded out of the flavedo glands at room temperature — the only major commercial oil made with neither heat nor solvent, which is exactly why cold-pressed citrus oil smells so true to the fruit. (Caveat: expressed citrus oils carry non-volatile '''furanocoumarins''' and are phototoxic on skin.)
+* '''Dry sieving and ice-water separation (hashish-style).''' Agitating resin-bearing trichomes free from plant matter through screens ('''kief''') or in ice water ('''bubble/ice-water hash'''), then drying, concentrates the whole gland — terpenes ''and'' resin — with no heat and no solvent. The low temperature is specifically to keep the brittle trichomes and their terpenes intact. Applies directly to cannabis and, in principle, to hop lupulin (see [[Hops]] and [[Cannabis Oil and MHRB Extraction]]).
+* '''Enfleurage.''' The old fat-adsorption method for the most delicate florals: petals are laid on cold fat that slowly adsorbs the living flower's volatiles, then the fat is washed with alcohol to recover the absolute. Slow and historical, but gentle beyond any heated method.
+
+== Finishing: separating and preserving the terpenes ==
+
+* '''Fractional distillation / short-path.''' To isolate single terpenes or a narrow terpene cut from a crude oil or extract, fractional or short-path vacuum distillation separates by boiling point under reduced pressure so terpenes distil at lower temperature and degrade less. This is also how terpenes are ''stripped and later re-added'' in cannabis distillate workflows to rebuild a profile. Equipment on [[Laboratory Equipment and Extraction Engineering]].
+* '''Winterisation''' (chilling an ethanol solution to crash out waxes and fats, then cold-filtering) cleans an extract without heat and is standard before distillation.
+* '''Storage, again.''' Whatever the method, put the finished terpene product in a small, full, airtight, amber container and keep it cold and dark. Terpenes you worked hard to extract will oxidise away in weeks if stored warm and half-empty. See [[Antioxidants and Cannabinoid Stability]].
+
+== Choosing a method ==
+
+* '''Robust herb/spice, want the oil + the hydrosol:''' steam distillation.
+* '''Delicate floral:''' solvent (absolute) or enfleurage — not steam.
+* '''Citrus:''' cold-press.
+* '''Clean, residue-free, can afford the rig:''' supercritical CO2.
+* '''Home, food-grade, legal:''' ethanol or warm-oil infusion; ice-water/dry-sieve for trichome material.
+* '''You want to release bound aroma:''' mild acid or enzyme/yeast hydrolysis.
+* '''You want to transform one terpene into another:''' acid catalysis — deliberately, with full PPE, never by accident.
+
+== See also ==
+
+See also: [[Terpenes]] · [[Hops]] · [[Yeast Terpenes and Biosynthesis]] · [[Hydrosols Absolutes and Botanical Extraction Modalities]] · [[Solvent Chemistry and Polarity in Botanical Extraction]] · [[Laboratory Equipment and Extraction Engineering]] · [[Cannabis Oil and MHRB Extraction]] · [[Cannabinoid Isomerization]] · [[Antioxidants and Cannabinoid Stability]] · [[Fermentation]] · [[Terpene Map]] · [[Cannabinoid Oilahuasca]] · [[Oilahuasca]] · [[Shulgin Ten Essential Oils]] · [[Kyphi]] · [[The Huasca Phenomenon and Metabolic Redirection]]

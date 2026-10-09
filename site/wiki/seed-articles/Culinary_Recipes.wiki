@@ -1,0 +1,358 @@
+'''Culinary Recipes''' is the Library's working recipe collection — a teaching cookbook organized by course, built out from the Van Kush Family Research Institute paper ''The Culinary Arts'' and expanded with researched classics. Every recipe gives real quantities and clear steps; the aim is that a cook can execute any of them from this page alone. The collection is companion to [[Cooking with Herbs and Spices]], which teaches the seasoning craft the recipes assume. Measurements use US volume with metric where it matters; oven temperatures are given in both °F and °C. Where a recipe rests on a technique — the creaming method, a roux, an emulsion, tempering — the technique is named so it can be looked up and transferred to other dishes.
+
+== Foundations ==
+
+These are not finished dishes but the bases that dishes are built on. Learn these and most of the collection opens up.
+
+=== Basic Chicken Stock ===
+
+The liquid foundation. From the master formula: ''8 lb bones + 6 quarts water + 1 lb mirepoix'' per gallon, aromatics added late.
+
+* 3–4 lb (1.5–2 kg) chicken bones, backs, necks, or a carcass
+* 6 quarts (5.7 L) cold water
+* 1 large onion, 2 carrots, 2 celery stalks, roughly chopped (the mirepoix)
+* 1 bay leaf, a few thyme sprigs, parsley stems, 10 peppercorns
+
+# Rinse the bones. For '''white stock''', place directly in the cold water. For '''brown stock''', roast the bones at 400°F (200°C) until deep golden first, with a spoonful of tomato paste for depth.
+# Bring slowly to a bare simmer — never a rolling boil, which emulsifies fat and clouds the stock. Skim the gray foam off the top as it rises.
+# Simmer uncovered '''4–6 hours''', topping up water to keep bones covered.
+# '''Add the mirepoix and herbs for the last hour only''' — added early, their volatile compounds simmer away.
+# Strain through a fine sieve. Cool quickly (an ice bath), refrigerate, and lift off the set fat. Keeps 4 days refrigerated, months frozen.
+
+=== Béchamel (Mother Sauce) ===
+
+The white sauce, and the base for cheese sauce, gratins, lasagna, croque monsieur. A '''white roux''' thickening milk.
+
+* 2 tbsp (28 g) butter
+* 2 tbsp (16 g) flour
+* 2 cups (475 ml) whole milk, warmed
+* Pinch of nutmeg, salt, white pepper; optional bay leaf and a clove-studded onion piece steeped in the milk
+
+# Melt butter over medium heat, whisk in flour, cook '''2–3 minutes''' without browning (this is a white roux).
+# Add warm milk in a steady stream, whisking constantly to prevent lumps.
+# Simmer gently, whisking, until it coats the back of a spoon — 5–8 minutes.
+# Season with nutmeg, salt, pepper. For '''Mornay''', whisk in a cup of grated Gruyère off the heat.
+
+=== All-Purpose Vinaigrette ===
+
+The everyday emulsion, and the lesson in oil-and-acid. Standard ratio '''3 parts oil to 1 part acid'''.
+
+* 3 tbsp olive oil
+* 1 tbsp vinegar (red wine, sherry) or lemon juice
+* 1 tsp Dijon mustard (the emulsifier)
+* 1 small shallot, minced; salt and pepper
+
+# Whisk mustard, acid, shallot, salt and pepper together.
+# Add the oil in a thin stream while whisking — the mustard holds the emulsion so it does not separate on the plate.
+# Taste and balance: too sharp, add oil; too flat, add salt or a pinch of sugar.
+
+== Appetizers and small plates ==
+
+=== Bruschetta al Pomodoro ===
+
+* 1 baguette or ciabatta, sliced on the diagonal
+* 4 ripe tomatoes, diced and lightly salted and drained
+* 2 garlic cloves (1 minced, 1 whole)
+* 8–10 fresh basil leaves, torn
+* Good olive oil, salt, pepper
+
+# Toss the drained tomatoes with the minced garlic, torn basil (added at the end — a delicate herb), a glug of olive oil, salt and pepper.
+# Grill or toast the bread, then rub each slice with the cut face of the whole garlic clove.
+# Drizzle with oil, top with the tomato mixture. Serve immediately so the bread stays crisp.
+
+=== Deviled Eggs ===
+
+A lesson in egg cookery and emulsion.
+
+* 6 large eggs
+* 3 tbsp mayonnaise
+* 1 tsp Dijon mustard
+* 1 tsp white or cider vinegar
+* Salt, pepper; paprika and chives to finish
+
+# Place eggs in cold water, bring to a boil, cover, kill the heat, and let stand 11 minutes. Shock in ice water, then peel.
+# Halve, pop out the yolks, and mash them with mayonnaise, mustard, vinegar, salt and pepper until smooth.
+# Pipe or spoon back into the whites. Dust with paprika, scatter chives (fresh, at the end).
+
+== Soups ==
+
+=== Classic Chicken Noodle Soup (stock into soup) ===
+
+Shows the foundation becoming a finished dish.
+
+* 2 quarts (1.9 L) chicken stock (above)
+* 1 onion, 2 carrots, 2 celery stalks, diced
+* 2 cups shredded cooked chicken
+* 6 oz (170 g) egg noodles
+* 2 tbsp butter; 1 bay leaf, thyme (early); parsley and lemon (late); salt, pepper
+
+# Sweat the diced mirepoix in butter until soft, 6–8 minutes.
+# Add stock, bay and thyme; simmer 15 minutes.
+# Add noodles, cook until tender, then the chicken to warm through.
+# Off the heat, finish with chopped parsley and a squeeze of lemon — the acid lifts the whole bowl. Season.
+
+=== French Onion Soup ===
+
+A study in slow caramelization and a brown stock.
+
+* 3 lb (1.4 kg) yellow onions, thinly sliced
+* 3 tbsp butter
+* 1 tsp sugar; 2 tbsp flour
+* ½ cup (120 ml) dry white wine or dry sherry
+* 2 quarts (1.9 L) beef or brown stock
+* 1 bay leaf, thyme
+* Baguette slices and grated Gruyère to finish
+
+# Cook the onions in butter over medium-low heat, stirring, for '''45–60 minutes''' until deep mahogany brown. This slow Maillard browning is the entire flavor — do not rush it.
+# Add sugar near the end to help; stir in flour and cook 2 minutes.
+# Deglaze with wine, scraping the pan. Add stock, bay, thyme; simmer 30 minutes. Discard bay.
+# Ladle into oven-safe bowls, top with toasted baguette and a heap of Gruyère, and broil until bubbling and browned.
+
+=== Rustic Tomato Soup ===
+
+* 2 lb (900 g) ripe or canned whole tomatoes
+* 1 onion, 2 garlic cloves
+* 2 tbsp butter or oil
+* 2 cups stock; ½ cup cream (optional)
+* Fresh basil (late), salt, pepper, pinch of sugar
+
+# Sweat onion and garlic in the fat until soft.
+# Add tomatoes and stock, simmer 25 minutes.
+# Blend smooth; stir in cream if using. Finish with torn basil off the heat and balance salt, sugar and acid.
+
+== Sauces ==
+
+Beyond the Béchamel foundation above, the everyday workhorses.
+
+=== Simple Marinara ===
+
+Not the classical French ''sauce tomat'' but the Italian everyday sauce.
+
+* 2 tbsp olive oil
+* 4 garlic cloves, sliced
+* 1 can (28 oz / 800 g) whole peeled tomatoes, crushed by hand
+* Pinch of red pepper flakes; salt
+* Fresh basil (late) or a little dried oregano (early)
+
+# Warm the oil, add the garlic and pepper flakes, and cook gently just until the garlic is fragrant and pale gold — do not brown it.
+# Add the tomatoes and a little salt. Simmer 20–30 minutes until thickened and the raw edge is gone.
+# Stir in torn basil at the end, or add dried oregano earlier. Finish with a thread of raw olive oil.
+
+=== Pan Sauce (from the fond) ===
+
+The technique that turns any seared steak or chicken into a restaurant plate — built on the browned bits (''fond'') left in the pan.
+
+* Drippings in the pan after searing meat
+* 1 minced shallot
+* ½ cup (120 ml) wine or stock to deglaze
+* ½ cup stock
+* 2 tbsp cold butter; herbs
+
+# Pour off excess fat, leaving the browned bits. Soften the shallot in the pan.
+# Deglaze with wine or stock, scraping up every bit of fond — that is the flavor.
+# Reduce by half, add stock, reduce again.
+# Off the heat, swirl in cold butter a cube at a time to thicken and gloss (''monter au beurre''). Finish with thyme or tarragon. Do not boil once the butter is in.
+
+== Mains ==
+
+=== Classic Braised Beef (pot roast) ===
+
+The braise method: sear, then low-and-slow in liquid in a covered pot. Hardy herbs go in at the start.
+
+* 3–4 lb (1.5–2 kg) chuck roast, patted dry and salted
+* 2 tbsp oil
+* 1 onion, 2 carrots, 2 celery stalks, chopped
+* 3 garlic cloves; 2 tbsp tomato paste
+* 1 cup (240 ml) red wine; 3 cups (700 ml) beef stock
+* 2 bay leaves, 4 thyme sprigs, 1 rosemary sprig (all early)
+
+# Heat oven to 325°F (160°C). Sear the roast hard on all sides in the oil in a Dutch oven; set aside.
+# Soften the mirepoix and garlic; stir in tomato paste and cook until brick-red (this ''pincé'' deepens the sauce).
+# Deglaze with wine, scraping the pan. Add stock and the hardy herbs, return the meat, and bring to a simmer.
+# Cover and braise in the oven '''3–3½ hours''' until fork-tender. Skim fat, discard the herb stems, and reduce the liquid on the stovetop if a thicker sauce is wanted.
+
+=== Roast Chicken with Herbs ===
+
+* 1 whole chicken, 3½–4 lb (1.6–1.8 kg), patted very dry
+* 2 tbsp softened butter
+* 1 lemon, halved; a head of garlic, halved
+* Thyme, rosemary, sage (hardy — go inside and under the skin); salt, pepper
+
+# Heat oven to 425°F (220°C). Salt the bird generously, inside and out — ideally hours ahead, uncovered in the fridge, for crisp skin.
+# Rub butter and chopped hardy herbs under and over the skin. Stuff the cavity with lemon, garlic and herb sprigs.
+# Truss loosely, roast '''about 1 hour 10 minutes''', until the thigh reads 165°F (74°C) and juices run clear.
+# Rest 15 minutes before carving — resting is not optional; it keeps the juices in the meat.
+
+=== Spaghetti Aglio e Olio ===
+
+The lesson in pasta water as a sauce-binder, and in not burning garlic.
+
+* 1 lb (450 g) spaghetti
+* ½ cup (120 ml) olive oil
+* 6 garlic cloves, thinly sliced
+* ½ tsp red pepper flakes
+* Parsley (late), salt; optional grated Parmesan
+
+# Cook the spaghetti in heavily salted water ("like the sea"). '''Reserve a cup of the starchy pasta water before draining.'''
+# Meanwhile, warm the oil with the garlic and pepper flakes over medium-low heat until the garlic is just pale gold — not brown, which turns it bitter.
+# Add the drained pasta and a splash of the reserved water to the pan; toss hard. The starchy water emulsifies with the oil to coat the noodles.
+# Off the heat, add chopped parsley. Serve immediately.
+
+=== Pan-Seared Fish with Lemon-Butter ===
+
+* 4 fish fillets (snapper, cod, trout), patted dry and salted
+* 2 tbsp oil; 2 tbsp butter
+* Juice of 1 lemon; capers and dill or parsley (late)
+
+# Heat oil in a skillet until shimmering. Lay the fillets in skin-side down (away from you) and press flat for a few seconds.
+# Sear undisturbed until the edges turn opaque, 3–4 minutes; flip and cook 1–2 minutes more.
+# Remove the fish. Add butter and lemon to the pan, swirl, add capers and herbs, and spoon over the fish. Delicate herbs at the finish.
+
+== Sides ==
+
+=== Au Gratin Potatoes ===
+
+From ''The Culinary Arts''. Potato cookery plus a cream-and-cheese bake.
+
+* 1½ cups (355 ml) full-fat cream
+* 2 garlic cloves, minced
+* 2 tbsp unsalted butter, melted
+* 2.5 lb (1.1 kg) starchy potatoes (Russet), sliced thin
+* 1 tsp salt, ¼ tsp pepper
+* 2½ cups (250 g) Gruyère, freshly grated (or colby, cheddar, havarti)
+* 2 tsp fresh thyme leaves (optional but recommended)
+
+# Preheat oven to 375°F (190°C). Rub a baking dish with the butter.
+# Layer the sliced potatoes, seasoning each layer with salt, pepper, thyme and some cheese.
+# Combine the cream and garlic, pour over the potatoes, and top with the remaining cheese.
+# Cover with foil and bake 60 minutes. Remove the foil and bake 15–20 minutes more, until golden and bubbling.
+
+=== Perfect Fluffy Rice (absorption method) ===
+
+* 1 cup (185 g) long-grain white rice
+* 2 cups (475 ml) water — the standard '''2:1''' ratio
+* ½ tsp salt; 1 tbsp butter (optional)
+
+# Rinse the rice under cold water until the water runs clear — this removes surface starch that makes rice gummy.
+# Combine rice, water and salt; bring to a boil.
+# Cover, reduce to the lowest heat, and cook undisturbed 18 minutes. Do not lift the lid.
+# Off the heat, rest covered 5 minutes, then fluff with a fork.
+
+=== Garlic-Herb Roasted Vegetables ===
+
+* 2 lb (900 g) mixed root or hardy vegetables, cut in even pieces
+* 3 tbsp olive oil; 4 garlic cloves
+* Rosemary and thyme (hardy — roast from the start); salt, pepper
+
+# Heat oven to 425°F (220°C). Toss the vegetables with oil, smashed garlic, the hardy herbs, salt and pepper.
+# Spread in a single layer — crowding steams instead of browning.
+# Roast 30–40 minutes, turning once, until caramelized at the edges. Finish with a squeeze of lemon or a little fresh parsley.
+
+== Baking and desserts ==
+
+=== Classic Pound Cake (the 1:1:1:1 formula) ===
+
+From ''The Culinary Arts''. The creaming method: beaten butter and sugar trap air, which is the leavening.
+
+* 1 lb (450 g) flour
+* 1 lb (450 g) sugar
+* 1 lb (450 g) butter, softened
+* 1 lb (450 g) eggs (about 8–9 large), room temperature
+* Flavoring: 2 tsp vanilla, or lemon zest
+
+# Preheat oven to 325°F (160°C). Grease and flour a tube or two loaf pans.
+# '''Cream''' the butter and sugar together 5 minutes until pale and fluffy — this aeration is the only leavening, so do not shortcut it.
+# Add the eggs one at a time, beating fully between each; add the vanilla.
+# Fold in the flour in additions until just combined. Do not overmix.
+# Bake '''65–75 minutes''' until a skewer comes out clean. Cool in the pan 15 minutes before turning out.
+
+=== Butter Bars (Gooey Butter Cake Bars) ===
+
+From ''The Culinary Arts''.
+
+* 1 box (18.25 oz / 517 g) yellow cake mix
+* ½ cup (113 g) butter, melted
+* 4 large eggs, divided
+* 8 oz (225 g) cream cheese, softened
+* 4 cups (450 g) powdered sugar
+* 1 tsp vanilla extract
+
+# Preheat oven to 350°F (175°C). '''Bottom layer:''' mix the cake mix, melted butter and 1 egg; press into a greased 9×13 pan.
+# '''Top layer:''' beat the cream cheese, the remaining 3 eggs, powdered sugar and vanilla until smooth; pour over the base.
+# Bake 40–45 minutes, until golden and set at the edges but still slightly gooey in the center. Cool before cutting.
+
+=== Simple Homemade Biscuits ===
+
+From ''The Culinary Arts''. Cold fat and a light hand are everything.
+
+* 2 cups (250 g) all-purpose flour
+* 1 tbsp baking powder
+* 1 tsp sugar; ½ tsp salt
+* ⅓ cup (75 g) cold butter (frozen is best)
+* ¾ cup (180 ml) cold milk or buttermilk
+
+# Preheat oven to 425°F (220°C). Whisk the dry ingredients.
+# Grate the frozen butter into the flour and toss — the cold fat makes the steam pockets that give flaky layers.
+# Add the cold milk and stir until just combined; do not overmix.
+# Turn out, fold the dough 5–6 times, and pat to ¾" thick. Cut with a biscuit cutter pressed straight down (twisting seals the layers shut).
+# Place the biscuits touching on a sheet, bake 12–15 minutes until golden, and brush with melted butter immediately.
+
+=== Simple Homemade Brownies ===
+
+From ''The Culinary Arts''. Whisking the eggs hard is what makes the crackly top.
+
+* ½ cup (113 g) butter, melted
+* 1 cup (200 g) sugar
+* 2 large eggs; 1 tsp vanilla
+* ⅓ cup (30 g) unsweetened cocoa powder
+* ½ cup (65 g) all-purpose flour
+* ¼ tsp salt; ¼ tsp baking powder
+
+# Preheat oven to 350°F (175°C). Line an 8×8 pan with parchment.
+# Whisk the melted butter and sugar; add the eggs and vanilla and whisk vigorously 2 minutes (this dissolves the sugar and makes the shiny, crinkly top).
+# Fold in the cocoa, flour, salt and baking powder until just combined.
+# Spread in the pan and bake 25–30 minutes. Do not overbake — a toothpick should come out with moist crumbs, not wet batter.
+
+== Spiced beverages ==
+
+These are the clearest application of [[Cooking with Herbs and Spices]]: whole spices, gently heated, extracting into liquid.
+
+=== Masala Chai ===
+
+* 2 cups (475 ml) water; 1 cup (240 ml) milk
+* 2 tbsp loose black tea (Assam)
+* 4 green cardamom pods, 1 cinnamon stick, 4 cloves, 4 black peppercorns, a few slices of fresh ginger — all '''lightly crushed'''
+* 2–3 tsp sugar to taste
+
+# Crush the whole spices to crack them open, then simmer them in the water for about 5 minutes to extract — the gentle steeping is the lesson.
+# Add the tea and simmer 2 minutes.
+# Add the milk and sugar, bring just back to a simmer, then strain into cups.
+
+=== Mulled Wine ===
+
+* 1 bottle (750 ml) dry red wine
+* 1 orange, sliced
+* 1 cinnamon stick, 4 cloves, 2 star anise, 3 cardamom pods
+* ¼ cup (50 g) sugar or honey; optional splash of brandy
+
+# Combine everything in a pot.
+# Warm over low heat '''without boiling''' — boiling off the alcohol and scorching the spices both ruin it. Hold at a bare steam 20–30 minutes.
+# Strain and serve warm.
+
+=== Spiced Coffee ===
+
+The simplest oilahuasca-adjacent kitchen preparation — see the Institute's note that coffee is a CYP1A2 inducer and that warm spices interact with it; here it is used purely for flavor.
+
+* Ground coffee for 1 pot
+* A pinch of ground cinnamon and cardamom (and a scrape of nutmeg) added to the grounds before brewing
+* Brew as usual; the fat-adjacent aromatics carry into the cup with the coffee oils.
+
+See also: [[Cooking with Herbs and Spices]] · [[Black Pepper]] · [[Cannabinoid Oilahuasca]] · [[The Library of Ashurbanipal]]
+
+== Sources ==
+
+* Van Kush Family Research Institute, ''The Culinary Arts: From Classical French Technique to Ancient Ethnobotanical Extraction'' (Rev. Ryan Sasha-Shai Van Kush, 2026) — stocks, mother sauces, cooking methods, the creaming method, and the pound cake, butter bars, biscuits, brownies and au gratin potatoes recipes.
+* Van Kush Family Research Institute, ''Preservation, Fermentation and Spice'' (July 2026) — spiced-beverage and whole-spice extraction context.
+* Auguste Escoffier, ''Le Guide Culinaire'' (1903) — mother sauces, pan-sauce and braising technique.
+* Harold McGee, ''On Food and Cooking'' (2004) — the science behind caramelization, emulsion, egg cookery and starch.
+* ''The Joy of Cooking'' (Rombauer et al.) and ''How to Cook Everything'' (Mark Bittman) — cross-checked quantities and timings for the classic recipes added beyond the source paper.
