@@ -51,6 +51,16 @@ export const ITEMS = [
   // ── civil disturbance / crowd control doctrine (public-domain US gov manuals) ──
   { id: 'army-fm-civil-disturbance', title: 'US Army Civil Disturbance Operations (FM/ATP 3-39.33)', kind: 'manual', category: 'crowd-science',
     what: 'Doctrine on crowd dynamics & control from the authorities\' side — studied here to UNDERSTAND and anticipate it (legal-observer/defense frame). US Government work = public domain.', source: { url: 'https://armypubs.army.mil/' }, license: 'public-domain (US gov)' },
+
+  // ── protest rights & safety (defensive / know-your-rights / street-medic) ──
+  { id: 'steal-this-book', title: 'Steal This Book (Abbie Hoffman, 1971)', kind: 'text', category: 'rights',
+    what: 'The counterculture survival manual — movement self-defense, legal and street smarts, in its historical frame. The lineage for Hathor\'s protest-safety teaching (served through protest-safety.mjs as defensive guidance).', source: { url: 'https://archive.org/details/StealThisBook_201612' }, license: 'cite (in-copyright)' },
+  { id: 'aclu-kyr-protesters', title: 'ACLU — Know Your Rights: Protesters', kind: 'text', category: 'rights',
+    what: 'The authoritative US know-your-rights guidance for demonstrators (assembly, recording police, stops & searches, if detained).', source: { url: 'https://www.aclu.org/know-your-rights/protesters-rights' }, license: 'free (ACLU)' },
+  { id: 'nlg-legal-observers', title: 'National Lawyers Guild — Legal Observers & jail support', kind: 'text', category: 'rights',
+    what: 'The legal-observer program and jail/bail support — the defensive infrastructure of lawful protest.', source: { url: 'https://www.nlg.org/massdefenseprogram/' }, license: 'free (NLG)' },
+  { id: 'street-medic', title: 'Street-medic practice (chemical-irritant response, crowd first aid)', kind: 'text', category: 'rights',
+    what: 'Harm-reduction first aid for protests — tear-gas/pepper-spray flushing, crush injuries, heat, de-escalation (served through protest-safety.mjs).', source: {}, license: 'cite' },
 ];
 
 const norm = (s) => String(s || '').toLowerCase().trim();

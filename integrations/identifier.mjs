@@ -38,6 +38,7 @@ export const DOMAINS = {
   faces:        { note: 'historical figures in the wiki', labels: ['Albert Einstein', 'Nikola Tesla', 'Swami Vivekananda', 'Alexander Shulgin', 'a portrait of an unknown person'] },
   documents:    { note: 'legal/doc type (pair with OCR)', labels: ['a court filing', 'a government form', 'a handwritten letter', 'a contract', 'an ID card', 'a receipt', 'a printed article'] },
   sky:          { note: 'night-sky objects (coarse; pair with the sky lobe for exact positions)', labels: ['the Big Dipper', 'the constellation Orion', 'the Milky Way', 'a full moon', 'a crescent moon', 'the planet Jupiter', 'the Pleiades star cluster', 'a meteor or shooting star', 'a comet', 'an aurora', 'a star-filled night sky', 'a sunset or sunrise sky'] },
+  crowd:        { note: 'crowd density for SAFETY (coarse; CSRNet density-maps for precise crush risk)', labels: ['a nearly empty space', 'a sparse crowd with lots of room', 'a moderate crowd', 'a dense packed crowd', 'a dangerous crowd crush shoulder to shoulder', 'a protest or demonstration', 'a line of police'] },
 };
 
 const esc = (s) => String(s || '');
