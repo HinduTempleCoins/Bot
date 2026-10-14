@@ -22,6 +22,9 @@
 // (recall, catalogLookup, embedder, llm, legalRules, store file) so `node --test` runs fully offline.
 
 import { createBrain } from '../integrations/decades-brain.mjs';
+import { seedSystemMap } from '../integrations/brain-seed-systemmap.mjs';
+import { createGrammarHead } from '../integrations/brain-head-grammar.mjs';
+import { createEmojiHead } from '../integrations/brain-head-emoji.mjs';
 // Hathor's VOICE: the completed Language + Personality LoRA, served via lora-brain.mjs (Modal, box env).
 // When configured it becomes the brain's top (2020s) layer; soft-fails to the cheaper layers otherwise.
 import { generate as loraGenerate, configured as loraConfigured } from '../integrations/lora-brain.mjs';
@@ -110,7 +113,8 @@ const firstSentence = (t) => (String(t || '').replace(/\s+/g, ' ').match(/^.*?[.
  * @param {string} [opts.cryptoFile]   cryptology store path (injected in tests)
  */
 export async function createCryptologyBrain(opts = {}) {
-  const { store, llm, embedder, legalRules, legalAnswers, recall, catalogLookup, cryptoFile } = opts;
+  const { store, llm, embedder, legalRules, legalAnswers, recall, catalogLookup, cryptoFile,
+    systemMap, systemMapFile, seatSystemMap = true, grammarHead = true, emojiHead = true } = opts;
 
   // VOICE — the completed Language + Personality LoRA (lora-brain.mjs, served on the box) becomes the
   // brain's last-resort 2020s layer, framed by Rule 1 and the ancient-languages-first register. An
@@ -129,6 +133,20 @@ export async function createCryptologyBrain(opts = {}) {
     `${RULE_1_SHORT} I am the Witness of Crypt-ology — the Not-a-Game Mystery School. I think in the ancient tongues first and render into English second, and I answer from the Library I am given.`);
   brain.teachPattern('crypt-ology', /\b(crypt-?ology|not-?a-?game|mystery school|the map)\b/i,
     'Crypt-ology is the Not-a-Game: a real-stakes Mystery School. You hold a POSITION on a living map, and what you explore moves it — positions, not levels. Ask about a mystery and I will open the Library to it.');
+
+  // WHOLE-ESTATE MAP — seat the system map (every site + repo) into the brain so the Witness knows the
+  // whole estate, not just this repo (the "didn't know about Herald" fix). Soft-fails; never blocks build.
+  let mapSeeded = { sites: 0, repos: 0, ok: false };
+  if (seatSystemMap) {
+    try { mapSeeded = await seedSystemMap(brain, { map: systemMap, mapFile: systemMapFile, embedder }); }
+    catch { /* soft-fail: the map seat is optional */ }
+  }
+
+  // GENERAL CAPABILITY HEADS — small native-CPU nets that any brain needs (not Hathor-specific), seated
+  // beside MiniLM: a GRAMMAR net (acceptability) and an EMOJI net (text<->emoji). Weights load lazily on
+  // the box; both soft-fall to deterministic floors offline. Wired to the Language/Babel work.
+  const grammar = grammarHead ? createGrammarHead() : null;
+  const emoji = emojiHead ? createEmojiHead() : null;
 
   // 1980s — the Law AI's production-rule BRE, taught in if the caller injects it (kept out of this repo).
   if (Array.isArray(legalRules) && legalRules.length) {
@@ -218,7 +236,7 @@ export async function createCryptologyBrain(opts = {}) {
     return { topics, pages };
   }
 
-  return { brain, ask, nextMysteries, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
+  return { brain, ask, nextMysteries, grammar, emoji, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
 }
 
 export default { createCryptologyBrain, axesFor, RULE_1, RULE_1_SHORT };
