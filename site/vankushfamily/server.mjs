@@ -32,6 +32,7 @@ import { resendMailer } from '../../integrations/email-verify.mjs';
 import { promises as fsp } from 'node:fs';
 import { LIVING_ROOM_BODY } from './living-room.mjs';
 import { renderMapPage } from '../../integrations/system-brain-map.mjs';
+import { COMPARISONS, comparisonBySlug, renderComparison, renderComparisonIndex } from './comparisons.mjs';
 
 let _sysMap = null;
 function systemMapPage() {
@@ -464,7 +465,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/roadmap', '/living-room', '/map', '/properties.json'];
+const SITEMAP_PATHS = ['/', '/roadmap', '/living-room', '/map', '/vs', ...COMPARISONS.map((c) => '/vs/' + c.slug), '/properties.json'];
 
 // The public manifesto — its own clean standalone shell (page() hardcodes a roadmap topbar).
 function livingRoomPage() {
@@ -557,6 +558,12 @@ export async function handler(req, res) {
     if (path === '/roadmap') return sendHtml(res, roadmapPage());
     if (path === '/living-room' || path === '/sitting-room') return sendHtml(res, livingRoomPage());
     if (path === '/map' || path === '/system-map') return sendHtml(res, systemMapPage());
+    if (path === '/vs' || path === '/vs/') return sendHtml(res, renderComparisonIndex(BASE_URL));
+    const mVs = path.match(/^\/vs\/([a-z0-9-]+)$/);
+    if (mVs) {
+      const c = comparisonBySlug(mVs[1]);
+      if (c) return sendHtml(res, renderComparison(c, BASE_URL));
+    }
 
     // unknown → home
     res.writeHead(302, { location: '/' });
