@@ -64,6 +64,7 @@
     "dotenv": "16.6.1",
     "ethers": "6.16.0",
     "jimp": "0.22.12",
+    "kokoro-js": "1.2.0",
     "node-cache": "5.1.2",
     "node-cron": "3.0.3",
     "nodemailer": "10.0.10",

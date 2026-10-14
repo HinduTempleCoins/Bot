@@ -76,6 +76,21 @@ export async function decodeAudio(input, targetRate = 16000) {
   } catch { return input; }
 }
 
+// Kokoro-82M TTS (native, Apache-2.0, CPU) via kokoro-js. Lazy, cached, soft-fail to null.
+const KOKORO_MODEL = process.env.MELEK_KOKORO_MODEL || 'onnx-community/Kokoro-82M-v1.0-ONNX';
+let _kokoro = null, _kokoroTried = false;
+async function loadKokoro() {
+  if (_kokoroTried) return _kokoro;
+  _kokoroTried = true;
+  try {
+    const { createRequire } = await import('node:module');
+    const require = createRequire(import.meta.url);
+    const { KokoroTTS } = require('kokoro-js');
+    _kokoro = await KokoroTTS.from_pretrained(KOKORO_MODEL, { dtype: 'q8', device: 'cpu' });
+  } catch { _kokoro = null; }
+  return _kokoro;
+}
+
 async function run(spec, input, ...rest) {
   try {
     const pipe = await loadPipe(spec.task, spec.model);
@@ -100,9 +115,19 @@ export function createAudioHead(overrides = {}) {
       const out = await run(M.hearSound, audio, { topk: k });
       return out ? (Array.isArray(out) ? out : [out]).slice(0, k) : [];
     },
-    /** Text -> speech (SpeechT5). Returns { audio, sampling_rate } | null. Needs speaker embeddings. */
-    async speak(text, { speaker_embeddings = SPEAKER_EMB } = {}) {
-      return await run(M.speak, String(text || ''), { speaker_embeddings });
+    /** Text -> speech. Prefers Kokoro-82M (native, named voices); falls back to SpeechT5. Returns
+     *  { audio, sampling_rate, voice, backend } | null. */
+    async speak(text, { voice = process.env.MELEK_TTS_VOICE || 'af_heart', speaker_embeddings = SPEAKER_EMB } = {}) {
+      const t = String(text || '');
+      if (!t.trim()) return null;
+      if (!_factory) { // production: use Kokoro when present (tests inject a pipe and skip this)
+        try {
+          const k = await loadKokoro();
+          if (k) { const a = await k.generate(t, { voice }); return { audio: a.audio, sampling_rate: a.sampling_rate, voice, backend: 'kokoro' }; }
+        } catch { /* fall back to SpeechT5 */ }
+      }
+      const out = await run(M.speak, t, { speaker_embeddings });
+      return out ? { ...out, backend: out.backend || 'speecht5' } : null;
     },
     capabilities() { return Object.keys(M); },
   };
