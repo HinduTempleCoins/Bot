@@ -141,7 +141,23 @@ export function loadReleases(opts = {}) {
     const rec = normalizeRelease(meta, body);
     if (rec) out.push(rec);
   }
+  // Herald × GenAI merge: releases with no authored image fall back to native-generated art
+  // (sidecar data/release-art.json, produced by release-art.mjs on the CPU-SD worker). No network here.
+  const art = loadReleaseArt(opts);
+  if (art) for (const r of out) { if (!r.image && art[r.slug]) r.image = art[r.slug]; }
   return out;
+}
+
+let _artCache = null, _artAt = 0;
+function loadReleaseArt(opts = {}) {
+  if (opts.artMap) return opts.artMap;
+  const now = Date.now();
+  if (_artCache && now - _artAt < 60000) return _artCache;
+  try {
+    const file = env('RELEASE_ART_FILE', join(process.cwd(), 'data', 'release-art.json'));
+    _artCache = JSON.parse(realFs.read(file) || '{}'); _artAt = now;
+  } catch { _artCache = {}; _artAt = now; }
+  return _artCache;
 }
 
 // ── submission store (EIN-style; JSONL, append-only, moderated — mirrors the web ring) ──────────────────
