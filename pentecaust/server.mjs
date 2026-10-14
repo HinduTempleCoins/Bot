@@ -51,6 +51,7 @@ import { suppressionFrom, unsubscribeMailto } from './herald/send-gate.mjs';
 import { check as entitled, guardSend, capabilitiesFor } from './herald/entitlements.mjs';
 import { gateSend, ledgerFor, recordSend } from './herald/send-gate.mjs';
 import { handler as mediaHandler } from './media.mjs';
+import { handler as earnHandler } from './bounties/pool-server.mjs';
 import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage, tree as inviteTree} from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 
@@ -173,6 +174,8 @@ export async function handler(req, res) {
     if (path === '/' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', ...cors(origin) }); return res.end(PAGE); }
     // Media Hub — the home for ALL media (radio/podcasts/music/art/library/watch). Its own handler.
     if (path === '/media' || path.startsWith('/media/')) return mediaHandler(req, res);
+    // Bounty Pools — sponsors fund a pot, contributors do tasks and earn (pentecaust/bounties/).
+    if (path === '/earn' || path.startsWith('/earn/')) return earnHandler(req, res, { who: whoami(req) });
     // The mark: a tongue of fire (Acts 2:3). Inline SVG so there is no binary asset to deploy and no
     // second request that can 404 on a fresh box.
     if (path === '/icon.svg' && method === 'GET') {
@@ -643,6 +646,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <div id=paneCamp class=card style="display:none">
  <h2>📣 Pentecaust Herald</h2>
  <p class=mut>Your outreach assistant. Describe who you want to reach and what you offer — Herald drafts the ideal-customer profile and a multi-step outreach sequence you can edit. (Drafting + pipeline only; sending runs later on separate, warmed domains — never from your @pentecaust.com address.)</p>
+ <p class=hint>This is the mail &amp; outreach half of Herald. The <b>Newsroom, Press Wire, PR submission, the outreach + backlink tracker, and full campaigns</b> live on the Herald dashboard — <a href="https://herald.soapbox.community" target=_blank rel=noopener style="color:var(--gold)">herald.soapbox.community →</a>. One Herald, two halves.</p>
  <div class=row style="margin-top:8px"><input id=campName placeholder="campaign name (e.g. Q3 witnesses outreach)"></div>
  <div class=row style="margin-top:6px"><input id=campGoal placeholder="goal — who to reach + what you want (e.g. book demos with SaaS founders)"></div>
  <div class=row style="margin-top:6px"><input id=campSite placeholder="your website (optional)"><button class="btn green" id=campCreate>Create</button></div>
