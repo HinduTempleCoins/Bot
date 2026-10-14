@@ -9,6 +9,8 @@
 //   a wesekh-collar register (the thin gold→lapis→green band) and the layout is axial/symmetric —
 //   the pylon threshold you pass through into the library. Dark mode is the lapis-night sky.
 //   All colour lives in :root tokens so the whole surface re-themes from one place.
+import { figureHtml, FIGURE_CSS } from './figures.mjs';
+import { NOTICE_CSS } from './safety-notices.mjs';
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const slugify = (s) => String(s).trim().replace(/\.wiki$/, '').replace(/[\s_]+/g, '_').replace(/[^A-Za-z0-9_:-]/g, '');
@@ -130,6 +132,7 @@ const STYLE = `<style>
     h1{font-size:27px}
   }
   @media print{header.top,aside.toc,footer .fnav,.themebtn{display:none}}
+${FIGURE_CSS}${NOTICE_CSS}
 </style>`;
 
 // Primary chrome nav. [href, label, matchKey] — matchKey marks the active tab.
@@ -176,7 +179,7 @@ export function tocAside(toc) {
   return `<aside class=toc aria-label="Table of contents"><div class=toctitle>On this page</div><nav>${items}</nav></aside>`;
 }
 
-export function layout({ title, description = '', canonical = '', jsonld = null, ogType = 'article', body = '', toc = '', crumbs = '', active = '' }) {
+export function layout({ title, description = '', canonical = '', jsonld = null, ogType = 'article', body = '', toc = '', crumbs = '', active = '', head = '' }) {
   const desc = esc(description || `${title} — the Library of Ashurbanipal, the Van Kush Family Research Institute knowledge base.`);
   const url = canonical ? esc(canonical) : '';
   // JSON-LD must never leak a {placeholder} template token; stringify + a defensive sweep below.
@@ -193,6 +196,7 @@ export function layout({ title, description = '', canonical = '', jsonld = null,
 <meta name="theme-color" content="#e0a11b">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${desc}"><meta property="og:type" content="${esc(ogType)}"><meta property="og:site_name" content="Library of Ashurbanipal">${url ? `<meta property="og:url" content="${url}">` : ''}
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${desc}">
+<link rel="alternate" type="application/atom+xml" title="Library of Ashurbanipal" href="/feed.xml">${head}
 ${ld ? `<script type="application/ld+json">${ld}</script>` : ''}${THEME_BOOT}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head>
 <body><header class=top><a class=brand href="/"><span class=sun aria-hidden=true></span>Library of Ashurbanipal <small>· MELEK</small></a>
 <nav class=main>${nav}${THEME_BTN}</nav></header>
@@ -253,7 +257,12 @@ export function renderWiki(text) {
   for (let raw of lines) {
     const line = raw.replace(/\r$/, '');
     let m;
-    if ((m = line.match(/^\s*(={2,6})\s*(.+?)\s*\1\s*$/))) {
+    // A figure stands alone on its line and is a BLOCK, so it is matched before the [[link]] rule
+    // (which would otherwise swallow it) and before any inline escaping.
+    if ((m = line.match(/^\s*\[\[Figure:([a-z0-9-]+)(?:\|([^\]]*))?\]\]\s*$/i))) {
+      closeList();
+      out.push(figureHtml(m[1], m[2] || ''));
+    } else if ((m = line.match(/^\s*(={2,6})\s*(.+?)\s*\1\s*$/))) {
       closeList();
       const lvl = Math.min(4, m[1].length);
       const inner = inline(m[2]);
@@ -279,5 +288,6 @@ export function renderWiki(text) {
   const footnotes = refs.length
     ? `<span class=hx id="references"></span><h2>References</h2><ol class=muted>${refs.map((f, i) => `<li id=ref${i + 1}><code>${esc(f)}</code></li>`).join('')}</ol>`
     : '';
+  // [[Figure:name|caption]] → a generated, deterministic diagram (site/wiki/figures.mjs)
   return { html: out.join('\n'), refs, footnotes, toc };
 }
