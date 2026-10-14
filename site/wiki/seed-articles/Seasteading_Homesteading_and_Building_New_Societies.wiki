@@ -1,0 +1,56 @@
+# Seasteading, Homesteading, and Building New Societies
+
+Humans keep trying to build a '''new community outside the existing order''' — on the open ocean ('''seasteading'''), on unclaimed or underused land ('''homesteading'''), or as a brand-new city with its own rules ('''charter cities'''). This article surveys those movements, their record, this project's own 2013 attempt ('''Bitcoin Town'''), and one hard-earned lesson running through all of them: '''direction beats funding'''. Billions of dollars and hundreds of startups have produced floating-city vaporware and abandoned crypto-cities, while small, tightly-directed efforts have actually shipped. The project's own framing, from handwritten 2024 notes: '''"I can do more with $5,000 than the Government can with $1,000,000,000,000."'''
+
+== 1. Seasteading — Cities on the Ocean ==
+
+'''Seasteading''' is the idea of building permanent, autonomous communities in '''international waters''', beyond the jurisdiction of any nation — floating platforms or ships where residents can try new forms of governance. The record is a cautionary tale of funding without execution:
+* '''The Seasteading Institute (2008)''' — founded by Patri Friedman and Wayne Gramlich with '''Peter Thiel's ~$500,000''' seed capital. Its '''ClubStead''' design (a 200-person resort seastead) was '''never built'''.
+* '''BlueSeed (2011)''' — founded by former Seasteading Institute staff (Max Marty, Dario Mutabdzija); Thiel offered to lead its financing. '''336+ startups expressed interest'''; it tried to raise $18 million and reached about $10 million — then went "on hold" in 2014 and '''never launched'''.
+* '''French Polynesia (2017)''' — the Seasteading Institute signed an MOU for a floating-city prototype; by March 2018 the government called the agreement "expired" and "obsolete," and it '''collapsed'''.
+* '''Phuket, Thailand (2019)''' — a single-family seastead was launched near Phuket; the '''Thai Navy said it threatened sovereignty''', and the occupants '''fled the country facing possible capital charges'''.
+* '''Bottom line:''' after Thiel's money, Silicon Valley attention, engineering studies, and government negotiations, '''no functioning autonomous seastead exists'''. The two killers are the '''engineering cost''' of living on the ocean and the '''jurisdiction problem''' — "international waters" means no nation's rule, but also '''no nation's protection''' (as Phuket showed).
+
+== 2. Homesteading — Claiming Land by Living on It ==
+
+'''Homesteading''' is acquiring property rights by '''occupying and improving''' land — turning use into ownership.
+* '''Historically:''' the U.S. '''Homestead Act of 1862''' gave settlers title to public land they lived on and farmed for a set period — "prove up" the claim by working it.
+* '''The principle (homestead / adverse possession):''' across legal systems, continuous, open use of unclaimed or underused land can ripen into a right to it — the law favoring the person who '''actually uses''' a thing over an absentee claim.
+* '''Modern homesteading''' is the self-sufficiency version: a family producing its own food, water, and power on its own land (which connects directly to [[Solar Mining|solar power]] and off-grid energy).
+* '''Settlement homesteading''' — organized communities establishing themselves on contested or frontier land (e.g. Gush Katif) — shows both the power and the fragility of use-based claims when sovereignty is disputed.
+* '''Seasteading is "homesteading the ocean"''' — the same instinct (claim the commons by building on it), which runs straight into the ownership question of [[Common Heritage of All Mankind]] (can anyone own the ocean at all?).
+
+== 3. Charter Cities and New-City Projects ==
+
+A '''charter city''' is a new city built with its own legal/economic rules, meant to attract people and capital by offering something the surrounding nation won't. The record is mixed-to-poor:
+* '''Akon City (2018)''' — the musician Akon announced a '''$6 billion crypto-city in Senegal''' (to run on his "Akoin" token). After years, '''zero construction''' happened, and Senegal '''officially terminated the project in 2025'''.
+* '''Others:''' '''Próspera''' (a private charter zone in Honduras, now in legal conflict with the government), '''NEOM / The Line''' (Saudi Arabia's tens-of-billions megacity, repeatedly scaled back), and the historical "company town." The pattern repeats: enormous announced budgets, slow or no delivery, and friction with the host state.
+
+== 4. Direction Beats Funding ==
+
+The thread tying these together is that '''institutional backing does not correlate with results'''. Seasteading drew Thiel's money and 336 startups and built '''zero''' floating cities. Akon City announced '''$6 billion''' and broke ground on '''nothing'''. Meanwhile small, directed efforts ship. The project's own counter-example, run on personal income (cooking, casino dealing, convenience-store management): a '''live blockchain''', a token (VKBT) minted '''three days before El Salvador adopted Bitcoin''' as legal tender, a growing '''library''', and '''80+ live web properties''' — built for a rounding error of what the failed megaprojects raised. '''The lesson is not "money is bad"; it is that money without direction builds nothing, and direction with almost no money can build a great deal.'''
+
+== 5. Bitcoin Town (2013) — The Project's Own First Attempt ==
+
+This project's earliest "new society" attempt predates the MELEK chain by a decade: '''"Bitcoin Town: Let's Make the Future Come to Us,"''' a 2013 Bitcointalk thread that ran to '''728 posts'''. It is the direct ancestor of everything on this shelf, and it already fused the ocean idea, the land idea, and the mining idea into one plan.
+* '''The plan.''' Pool Bitcoin to buy '''600–6,000 acres''' (New Mexico was the target — cheap land, year-round sun for solar, and food-trade tax breaks), funded by '''200 people putting in $10,000 each''', with the entry money earnable by writing on '''Devtome''' (a crypto-paid wiki — the same DevCoin world covered in [[Crystal Technology, Signaling, and the Interplanetary Mesh]]). On the land: '''Earthship / cob / geodome FREE houses''' (you only build one if you want a free house; the normal free market stays for everyone else), communal '''solar power''', farming with an '''"eco-council"''' balancing the flora and fauna each year, '''on-site FPGA/ASIC mining''', a '''written constitution''', a '''51%-vote''' founding, and a '''"no-tax town" where "the town government is nothing but a service."''' The stated purpose was refuge — "a town where bitcoiners can seek refuge, like Virginia once gave sanctuary to debtors."
+* '''The island option (seasteading, a decade early and self-funded).''' From the opening posts the plan also contemplated buying a private island — or '''building''' one: "anchor the platforms and dump materials, concrete, dirt and rocks." The author tied it straight to §1: '''"Seasteading IS an option. The first post mentions making/buying an island... could be translated into a giant boat if enough people were willing."''' Same instinct as the Seasteading Institute, except pitched as a thing a group of ordinary people would pay for themselves.
+* '''The economic engine — the "Fully Unemployed Society."''' The thread's core thesis is that humanity has always tried to '''"let the machines do the work"''': Egyptian slavery, then feudalism and '''cottage industry''' (a town knits mittens, a company buys them cheap and resells them dear — see [[Cottagecore]]), then '''industrialization''' (one machine doing the work of 1,000 men), which bred "industry towns" and '''company scrip''' (wages spendable only at the company store), and finally today's "slave to the dollar." The way out proposed: '''mine coins''' — let the machines do the work, bring people income "basically for free," turn the free houses into '''mining pools''', until the only jobs left are "mechanic, inventor, and specialist." (The 1960s '''Youth International Party''' had floated the same "fully unemployed society.") This is the seed of the [[Solar Mining|mine-for-free]] argument the whole ecosystem now rests on.
+* '''Bottom line.''' Bitcoin Town, like the seasteads, was never built — but its '''blueprint''' (crypto-funded, solar-powered, self-governing, mining-as-income, a refuge that needs no permission) is exactly what MELEK rebuilt as a '''chain''' instead of a plot of land (§6).
+
+== 6. MELEK's Version — The Crypto Town ==
+
+MELEK's answer to "build a new society" is neither a floating island nor a $6-billion charter city; it is the '''Cryptocurrency Town''': a '''community currency''' plus a '''game economy''' and '''civic tools''' on a '''fair-launched chain any town can adopt''' (see [[Money, Currencies, and the Debt System]] and [[Economics 101 and 102]]). This solves the exact failure mode that sank the seasteads: a physical island in international waters has no protection and can be run off by a navy, but a '''blockchain lives everywhere and nowhere''' — it needs no sovereign territory to exist, so it cannot be towed away or evicted. You get the "new society outside the old order" that seasteading promised, without the platform in the water.
+
+== See also ==
+* [[Common Heritage of All Mankind]] — who can legally own the ocean, Antarctica, and space (and ''hostis humani generis'', its mirror)
+* [[Money, Currencies, and the Debt System]]
+* [[Economics 101 and 102]]
+* [[Solar Mining]] — the energy half of self-sufficiency
+
+== Sources ==
+* This project's "I Spend Money Better Than NASA" writing (comparative timelines; the "$5,000 vs. $1,000,000,000,000" thesis; the Van Kush Family Research Institute results on personal income).
+* This project's '''"Bitcoin Town: Let's Make the Future Come to Us"''' Bitcointalk thread (FinShaggy, 2013; topic 216139, 728 posts): the New Mexico land plan (200 × $10,000, Devtome funding), free Earthship/cob/geodome housing, communal solar power, eco-council, on-site FPGA/ASIC mining, the 51%-vote constitution and "no-tax town / government is only a service" model, the "bitcoiners' refuge" framing, the build-or-buy-an-island (seasteading) option, and the "Fully Unemployed Society — let the machines do the work" economic thesis (slavery → cottage industry → industrialization / company scrip → mining-as-income; the 1960s Youth International Party).
+* Seasteading history: the Seasteading Institute (2008, Friedman/Gramlich, Thiel seed), ClubStead, BlueSeed (2011, Thiel ~$1.7M, 336 startups, ~$10M raised), the 2017–18 French Polynesia MOU and collapse, and the 2019 Phuket seastead and Thai Navy response.
+* Charter-city record: Akon City ($6B, 2018 announcement, 2025 termination), Próspera, NEOM.
+* The U.S. Homestead Act of 1862, use-based property/adverse-possession principles, and modern self-sufficiency homesteading.

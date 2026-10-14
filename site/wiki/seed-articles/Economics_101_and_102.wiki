@@ -1,0 +1,79 @@
+# Economics 101 and 102
+
+A plain-language crypto-economics primer in the project's own voice, drawn from the "Economics 101" writing — how markets, money, politics, and blockchain fees actually work, so anyone can trade and build '''knowingly'''. It is the practical, markets-and-trading companion to the structural account in [[Money, Currencies, and the Debt System]]. This is '''education, not financial advice''' — trading is risky and most of the specific tactics below can lose money.
+
+== 1. Trade Instruments — Money Represents Value, It Isn't Value ==
+
+Currencies — fiat and crypto — and '''stocks''' are '''trade instruments''': tools that facilitate trade. They contain '''no value in themselves'''; they '''represent''' value. A stock represents a share of a company (the company does the work that makes the share worth something); fiat represents the goods and services of a nation; a cryptocurrency represents the goods and services of its network. Each trades in its own venue — fiat through banks and forex, stocks on exchanges like the NYSE, crypto on crypto exchanges — and each rises or falls with real factors (industrial/technological advancement, trade volume, inflation). The practical rule: trade your instruments at the '''highest value you can''' and convert them into '''real things''' — precious metals, livestock, software, machines, seeds, land — then use those to get more instruments.
+
+== 2. Trade Volume, Inflation, Supply and Demand, Bubbles ==
+
+* '''Trade volume''' — how many people are buying and selling a thing. More buyers → the value rises.
+* '''Inflation''' — when too much money is printed, each unit is worth less, so it takes more of it to buy the same goods (milk at $3/gallon one year, $5 the next). It drives minimum wage and benefits, which are pegged to the cost of living. '''Uncapped''' cryptocurrencies inflate forever and lose value unless demand keeps growing.
+* '''Supply and demand''' — how many want a thing vs. how many exist. A new iPhone is priced higher than it "should" be; as the tech ages, the price falls.
+* '''Bubbles''' — value held artificially high: the iPhone again, or gasoline, whose price rises on the mere speculation that we might run out.
+
+== 3. Whales, Bulls and Bears, Buy Walls and Sell Walls ==
+
+* '''A whale''' holds a large quantity of an instrument and can move the market — dump a big share to crash the price, or hold to make it scarce and dear.
+* '''Bulls strike upward''' (horns): a bull buys when a market is strong and likely to climb, then sells into the rise.
+* '''Bears strike downward''' (claws): a bear profits as the market falls — buying from frightened sellers who spent $5 and panic at $4, then waiting for the bounce. A bear hunts something that has done well long-term, is down now, and is likely to recover.
+* '''Buy walls / sell walls and the bear whale''' — a "buy wall" is the stack of standing orders below the last price. A '''bear whale''' (tens or hundreds of thousands of coins) dumps enough to smash through that wall; the falling price scares others into selling, driving it lower, and the whale buys the bottom — ending with far more coins than they started with, bought back cheaper than they sold.
+
+== 4. Coin Caps and Inflation — Milk vs. Gold ==
+
+A '''capped''' supply (Bitcoin ~21M; the project's own coins capped) can hold value like gold. An '''uncapped''' coin (DevCoin minted 180 billion a month) is "like holding '''milk, not gold'''" — it spoils in value unless the market constantly expands. The only way an infinitely-inflating currency survives is to '''keep growing the market'''; taken to its limit, "if you can colonize the Moon and Mars, you can maybe keep markets alive forever" — the frontier as the release valve for inflation (which ties to the [[Crystal Technology, Signaling, and the Interplanetary Mesh|interplanetary]] thread).
+
+== 5. Liquid vs. Commodities ==
+
+'''Liquid''' means instantly spendable: cash is liquid, Bitcoin is liquid. '''Gold, cattle, and oil are not liquid''' — you can't buy groceries with a gold bar or a cow. Those are '''commodities'''. The pattern: use your '''liquid trade instruments''' to acquire '''commodities, land, machines, software, and services''', which hold or build value, then convert back when it suits you.
+
+== 6. Politics Moves the Economy — ISIS, Brexit, and the Rest ==
+
+Politics directly moves a nation's currency and markets, and the same is true for crypto:
+* '''ISIS / Mosul:''' when ISIS took Mosul and seized the gold in its bank and the investment outlook collapsed, Iraqi money became far less valuable — even though Britain had printed Iraq new notes after Saddam's fall. A coup or invasion hits a currency the same way.
+* '''Vietnam (the opposite):''' a civil war the U.S. over-involved itself in, followed by '''opening the markets''' — and the currency and investment did well afterward.
+* '''Tax cuts (Trump):''' the wealthy who hold stocks and companies got tax breaks, so they spent and took bigger risks, trusting the administration — lifting markets.
+* '''Brexit:''' panic — stock markets dropped in the U.S., Britain, and Asia, and the '''pound fell'''. Bad for British savers (their money was worth less overnight); good for outsiders, who could buy pounds cheaply (a cheaper British vacation, or buy-low-and-wait-for-the-rebound). You can move back and forth within markets as events hurt and help different currencies.
+
+== 7. The Blockchain Bottleneck and Fees — The Toll Booth and the Immigration Line ==
+
+A blockchain can only fit so many transactions in each block. When more people want in than there's room, you get a '''bottleneck''' — and the clearest way to picture it is physical:
+* '''A toll booth / an immigration checkpoint.''' A wide highway narrows to a few toll lanes; travelers queue to enter a country at a few checkpoint windows. Throughput is capped by the number of lanes, so a line forms, and '''a fee is the priority lane''' — pay more and you're waved through first; pay too little and you wait, or get turned back.
+* '''What that looked like on Bitcoin.''' At peak congestion, sending any Bitcoin cost around '''$5 or more''' in fees (more for speed), low-fee transactions were '''rejected and returned''', and '''BitPay stopped processing payments under $100''' because the fee ate the value. The '''miners decide which transactions pass''' — they run the toll booth.
+* '''The monopoly point.''' Those miners are a '''de-facto chokepoint''' — "99% of the market, but given to them" by everyone choosing Bitcoin, not seized by a secret cartel. The project compared this to the old '''E.C. Knight "Sugar Trust"''' (which controlled ~99% of U.S. sugar, yet the Supreme Court said that wasn't legally a "monopoly," since a true monopoly is one the '''law''' grants exclusively). Either way, the effect is the same: a narrow pipe, and whoever controls it controls who gets through.
+* '''The lesson (and MELEK's answer).''' Usability is '''throughput plus fees'''. A chain with '''more lanes and no per-transaction toll''' doesn't jam. The '''Graphene chains MELEK runs''' are built for exactly that — four-second blocks and the feeless, resource-credit model of Steem/Hive/BLURT — so posting and transacting don't hit the Bitcoin toll booth. Fast lanes, no booth.
+
+== 8. Practical Strategy (Education, Not Advice) ==
+
+From the primer, with the caveat that each can lose money:
+* '''Arbitrage:''' the same coin can cost more on one exchange than another; sometimes you can buy on one and sell on another, especially crypto-to-crypto.
+* '''Use coins to create, not just consume:''' buy software, tools, and textbooks you can build value with — make a product.
+* '''Don't buy above spot:''' when trading instruments for a metal, buy as close to the metal's global spot price as you can.
+* '''Build the rails:''' you can '''create a currency''' (Satoshi open-sourced Bitcoin for this) or '''create an exchange''' (transaction fees add up and you can help new coins list).
+* '''Look beyond one country:''' America is not the be-all-end-all; invest abroad.
+
+== 9. The Legal Layer — Income, Corporations, and Rights ==
+
+The primer grounds the economics in law:
+* '''16th Amendment''' — Congress's power to tax incomes "from whatever source derived."
+* '''Eisner v. Macomber (1920)''' — capital is "the tree or the land," income is "the fruit or the crop": income is the gain '''severed''' from capital and received for your use, not mere growth in the value of the investment.
+* '''Santa Clara County v. Southern Pacific Railroad (1886)''' — the root of corporate "personhood" under the 14th Amendment.
+* '''Citizens United (2010)''' — corporate/union political spending as protected speech (PACs).
+* '''Burwell v. Hobby Lobby (2014) / RFRA''' — the religious-exercise standard the project's own case work relies on.
+
+== 10. The Vision — Everyone Makes a Currency ==
+
+The through-line: "when Google has a coin, your neighbor will start one for his T-shirt shop, your mayor will want one for your town, and McDonald's will hand out mining instructions instead of Monopoly pieces." The future of coins is '''not owned by programmers — only supplied by them'''. The path for an ordinary person runs from a '''comfortable social-media platform → an exchange → Bitcoin and other coins → making or joining a currency → building a company inside the network''' — "so everyone can always start from scratch." That is precisely what MELEK is built to be (see [[Money, Currencies, and the Debt System]] §7, DeFi).
+
+== 11. Safety — Not Financial Advice ==
+Everything here is educational. Markets are risky; leverage, whales, bubbles, and congestion fees can and do wipe people out. Never invest more than you can afford to lose, verify before you trade, and treat trading tactics as things to '''understand''', not instructions to follow.
+
+== See also ==
+* [[Money, Currencies, and the Debt System]]
+* [[Crystal Technology, Signaling, and the Interplanetary Mesh]] — DevCoin, the Galactic Milieu, interplanetary markets
+* [[Solar Mining]]
+
+== Sources ==
+* This project's "Economics 101" Bitcointalk thread (immakingacoin, 2018): trade instruments; inflation/volume/supply-demand/bubbles; whales, bulls/bears, buy-and-sell walls; coin caps (milk vs. gold, Moon/Mars frontier); liquid vs. commodities; politics (ISIS/Mosul, Vietnam, tax cuts, Brexit); the Bitcoin transaction bottleneck and the E.C. Knight "Sugar Trust" monopoly framing; practical trading notes; and the legal cases (16th Amendment, Eisner v. Macomber, Santa Clara, Citizens United, Hobby Lobby/RFRA).
+* Standard references for the toll-booth/immigration-line analogy of blockchain throughput and priority fees, and for the Graphene (Steem/Hive/BLURT/MELEK) block-time and resource-credit model.

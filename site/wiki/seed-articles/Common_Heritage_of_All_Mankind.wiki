@@ -1,0 +1,60 @@
+# Common Heritage of All Mankind
+
+Some things are held to belong to '''everyone and therefore to no one''' — the high seas, the deep seabed, Antarctica, outer space, the Moon. The legal name for that idea is the '''common heritage of (all) mankind''' (in the older Roman phrasing, ''res communis omnium'' — "things common to all"). This article traces the doctrine across the ocean, space, and Antarctica; its exact mirror image — ''hostis humani generis'', the '''enemy of all mankind''', the wrong so universal that any nation may punish it; and the strange case of '''Municipality of Ponce v. Roman Catholic Church''' (1908), about property and legal personhood that survive a change of sovereign. The thread tying them together is the central question behind [[Seasteading, Homesteading, and Building New Societies|seasteading and homesteading]]: '''can the commons be claimed at all, and if so, by whom?'''
+
+== 1. Two Roman Ideas — ''Res Communis'' vs. ''Res Nullius'' ==
+
+Roman law split "unowned" into two very different buckets, and almost every modern fight over the ocean and space is a fight over which bucket a thing is in:
+* '''''Res communis omnium''''' — things '''common to all''' by nature and incapable of private ownership: the air, running water, the sea. Nobody can appropriate them; everyone may use them.
+* '''''Res nullius''''' — things owned by '''no one yet''', open to the '''first taker''' who occupies them (the hunter's game, unclaimed land).
+The difference is everything. If the ocean floor and the Moon are ''res communis'', no one — no company, no nation — can own them. If they are ''res nullius'', they belong to whoever gets there first and plants a flag (or a mining rig). The "common heritage of mankind" doctrine is the deliberate choice of the first answer over the second.
+
+== 2. The Ocean — From ''Mare Liberum'' to "the Area" ==
+
+* '''The founding argument (1609).''' Hugo Grotius's ''Mare Liberum'' ("The Free Sea") argued the ocean cannot be owned by any nation — it is common to all, open to navigation and trade. John Selden answered with ''Mare Clausum'' ("The Closed Sea," 1635), arguing a state can control adjacent waters. The compromise that eventually won: a '''narrow territorial sea''' a state controls, and a vast '''high seas''' that is free to all.
+* '''UNCLOS (1982) and "the Area."''' The U.N. Convention on the Law of the Sea codified this, and went further for the '''deep seabed beyond any national jurisdiction''' — called '''"the Area."''' UNCLOS declares the Area and its mineral resources the '''"common heritage of mankind"''' (Art. 136): no state may claim it, its resources are to be developed for the benefit of all humankind, and an '''International Seabed Authority''' administers mining there. This is the high-water mark of the doctrine in actual, widely-ratified law.
+
+== 3. Space and the Moon — "The Province of All Mankind" ==
+
+* '''Outer Space Treaty (1967).''' The founding law of space, ratified by every major power. Its core: the exploration and use of outer space is '''"the province of all mankind"''' (Art. I), and space, including the Moon and other bodies, is '''"not subject to national appropriation by claim of sovereignty"''' (Art. II). No nation can own the Moon.
+* '''The Moon Agreement (1979).''' Tried to go all the way — declaring the Moon and its '''natural resources''' the '''"common heritage of mankind"''' and calling for an international regime to share any mining benefits. It '''failed in practice''': only a handful of states ratified it, and '''no major spacefaring nation''' (not the U.S., Russia, or China) signed on. "Common heritage" was a bridge too far once real resources were at stake.
+* '''The modern tension — is space ''res communis'' or ''res nullius''?''' Recent law tilts toward the first-taker. The U.S. '''Commercial Space Launch Competitiveness Act (2015)''' lets American companies own resources they extract from asteroids and the Moon, and the '''Artemis Accords''' build "safety zones" around operations — carefully worded to avoid "sovereignty" while functioning a lot like a claim. Space mining is reopening the exact Grotius-vs-Selden fight, 400 years later.
+
+== 4. Antarctica — The Claims Are Frozen ==
+
+The '''Antarctic Treaty (1959)''' takes a third path: it '''freezes''' all territorial claims (Art. IV — no new claims, no enlargement of existing ones), reserves the continent for '''peace and science''', and bans military use and (via later protocol) mining. Antarctica isn't declared the common heritage of mankind outright, but it is governed as a de-facto commons — the closest thing on Earth to a whole continent nobody owns.
+
+== 5. The Mirror — ''Hostis Humani Generis'', the Enemy of All Mankind ==
+
+The common heritage has an exact opposite. Just as some '''things''' belong to all humanity, some '''crimes''' are against all humanity — and the wrongdoer becomes '''''hostis humani generis''''', "the enemy of all mankind." The original example is the '''pirate''': because he preys on the shared high seas (the ultimate ''res communis''), '''any''' nation that catches him may try him, wherever the act occurred. This is the root of '''universal jurisdiction'''.
+* '''The classic list:''' pirates, and later '''slave traders'''.
+* '''The modern extension — ''Filártiga v. Peña-Irala'' (2d Cir. 1980).''' A U.S. federal appeals court held that '''"the torturer has become — like the pirate and slave trader before him — ''hostis humani generis'', an enemy of all mankind,"''' allowing the family of a Paraguayan torture victim to sue the torturer in U.S. court under the '''Alien Tort Statute''' of 1789 (which opens U.S. courts to foreigners for "torts committed in violation of the law of nations"). The court read that statute not as granting new rights but as opening a forum for rights '''already recognized by international law'''. (Later Supreme Court decisions — ''Sosa'', 2004; ''Kiobel'', 2013 — narrowed how far the statute reaches, especially for conduct entirely abroad.)
+* '''The symmetry:''' what belongs to all mankind (§§1–4) and what is answerable to all mankind (§5) are the two faces of one principle — that there is a human community above and beneath the nation-state, with both a shared estate and a shared law.
+
+== 6. ''Ponce v. Roman Catholic Church'' (1908) — Property That Outlives the Sovereign ==
+
+'''Municipality of Ponce v. Roman Catholic Apostolic Church''' (210 U.S. 296, decided 1908) is the quieter, stranger cousin of these ideas: it is about an '''owner that transcends the nation-state'''. When Spain ceded Puerto Rico to the United States by the '''Treaty of Paris (1898)''', a Puerto Rican municipality claimed that churches on its land now belonged to it. The U.S. Supreme Court said '''no''':
+* The '''Roman Catholic Church has its own legal personality''' — a ''juridical person'' recognized for centuries by Spanish law, by the concordats between Spain and the papacy, and by international law — and it '''owned its property in its own right'''.
+* That ownership '''survived the change of sovereign''': the Treaty of Paris and international law carried the Church's title intact from Spanish rule into American rule.
+* The fact that a '''municipality had contributed funds''' to build or repair some churches '''did not defeat''' the Church's title.
+The deep point: a '''religious institution can be a legal person whose identity and property persist across the rise and fall of the governments around it''' — it answers to a continuity older than any one state. That is the same shape as the common heritage (something standing outside national appropriation), seen from the inside of an institution rather than the outside of a commons — and it is directly relevant to how a '''church, a temple, or a decentralized network''' holds what is its own.
+
+== 7. Why This Matters Here ==
+
+* '''The seasteading / space-mining question.''' Whether you can build a nation on the open ocean, or mine the Moon, turns entirely on §1: is the commons ''res communis'' (can't be owned) or ''res nullius'' (first taker wins)? See [[Seasteading, Homesteading, and Building New Societies]].
+* '''A chain as a commons.''' A blockchain is a modern ''res communis'' — a shared ledger no single nation can appropriate, "owned" by everyone who uses it and by no one who can be evicted. It realizes the "new society outside the old order" that the physical seasteads could not, precisely because it needs no territory a sovereign could seize.
+* '''An institution that outlives sovereigns.''' ''Ponce'' is the legal template for an entity — a temple, a church, a witness — whose identity and holdings persist across changes of government and operator, which is exactly the '''forkable, durable''' design this project is built on.
+* '''A shared law.''' ''Hostis humani generis'' — the idea that some wrongs are answerable to all humanity — lives in this project's law library as the mirror of its shared-estate work.
+
+== See also ==
+* [[Seasteading, Homesteading, and Building New Societies]]
+* [[Crystal Technology, Signaling, and the Interplanetary Mesh]] — who owns space once we are living in it
+* [[Money, Currencies, and the Debt System]]
+
+== Sources ==
+* Roman-law ''res communis omnium'' / ''res nullius'' distinction; Grotius, ''Mare Liberum'' (1609) and Selden, ''Mare Clausum'' (1635).
+* U.N. Convention on the Law of the Sea (1982), Arts. 1, 136 and the "Area" / common-heritage regime and the International Seabed Authority.
+* Outer Space Treaty (1967), Arts. I–II ("province of all mankind," no national appropriation); the Moon Agreement (1979) "common heritage of mankind" and its near-total non-ratification; the U.S. Commercial Space Launch Competitiveness Act (2015) and the Artemis Accords.
+* Antarctic Treaty (1959), Art. IV (claims frozen).
+* ''Filártiga v. Peña-Irala'', 630 F.2d 876 (2d Cir. 1980) ("the torturer has become — like the pirate and slave trader before him — ''hostis humani generis''"); the Alien Tort Statute (1789); and the narrowing in ''Sosa v. Alvarez-Machain'' (2004) and ''Kiobel v. Royal Dutch Petroleum'' (2013).
+* ''Municipality of Ponce v. Roman Catholic Apostolic Church in Porto Rico'', 210 U.S. 296 (1908): the Church's juridical personality and property rights recognized through the Treaty of Paris (1898), municipal funding not defeating title.

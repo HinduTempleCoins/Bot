@@ -1,0 +1,77 @@
+# Enzyme Powders, Color, and Dye-Sensitized Solar Cells
+
+This article follows one arc all the way through: the '''industrial enzymes you can actually buy as powders''' do real chemical work; a particular family of them '''makes color'''; and those '''dyes can harvest sunlight and make electricity''' in a dye-sensitized solar cell. It is the applied, buildable companion to [[Enzyme Chemistry]] — the same catalysts, now turned toward dyeing, pigments, and buildable photovoltaics. The through-line is the Library's "everything is everything": a biocatalyst becomes a pigment becomes a watt.
+
+== 1. Industrial Enzyme Powders — the workhorses you can buy ==
+
+Enzymes are sold as stabilized powders and liquids, graded by activity, with a pH and temperature optimum on the spec sheet. They are the same classes described in [[Enzyme Chemistry]], packaged as reagents.
+
+* '''Proteases''' (papain from papaya, bromelain from pineapple, bacterial subtilisin): cut proteins. Meat tenderizer, laundry detergents, leather bating, brewing haze removal, contact-lens cleaner.
+* '''Amylases''' (α-/gluco-amylase): starch → sugars. Baking, brewing/distilling (mashing), glucose and high-fructose syrups, detergents.
+* '''Lipases''': split fats. Detergents (grease), dairy flavor, biodiesel transesterification, leather degreasing.
+* '''Cellulases''': cut cellulose. Textile "bio-polishing" and denim bio-stoning, detergents, biofuel pretreatment.
+* '''Pectinases''': break pectin. Fruit-juice and wine clarification, higher juice yield.
+* '''Lactase, invertase''': lactose → glucose+galactose (lactose-free dairy); sucrose → invert sugar (soft candy centers).
+* '''Rennet / chymosin''': clots milk casein — cheesemaking.
+* '''Glucose oxidase + catalase''': glucose + O₂ → gluconic acid + H₂O₂ (glucose test strips, oxygen scavenging/food preservation); catalase then splits the H₂O₂ to water + O₂.
+* '''Oxidases that make color — laccase, peroxidase, tyrosinase''': the bridge to §2.
+
+'''Using them:''' respect the enzyme's pH and temperature optimum (most die above ~60–70 °C and at extreme pH); for repeated use, '''immobilize''' the enzyme on a resin/bead so it can be filtered out and reused. Store cold and dry — activity decays.
+
+== 2. Enzymes That Make Color ==
+
+A subset of oxidoreductases turns small, often colorless aromatic compounds into colored dimers, oligomers, and polymers — making dye on the spot, greener than conventional chemical dyeing.
+
+* '''Laccase''' (a multicopper oxidase that uses ordinary O₂ and releases only water): oxidizes phenols and anilines to radicals that '''couple into colored oligomers/polymers'''. Used to dye cotton and wool (red and lilac shades on cotton have been achieved from precursors + laccase), for denim finishing and bleaching, and in '''oxidative hair dyes'''. pH is the key variable for the shade.
+* '''Peroxidases''' (horseradish peroxidase, soybean peroxidase): use '''H₂O₂''' instead of O₂ to drive the same oxidative coupling into colored products.
+* '''Tyrosinase''': oxidizes phenols to ''o''-quinones that polymerize into '''melanin''' — the browning of cut fruit, and the basis of enzymatic fur/hair coloration from tyrosine-type precursors.
+* '''Bio-indigo''': engineered bacteria expressing an oxygenase convert '''indole → indigo''' — the denim blue, grown instead of synthesized from aniline.
+* '''Plant pigments''' (anthocyanins, betalains) are made and modified by plant enzymes (glycosyltransferases, oxidases); these are exactly the dyes used in §3.
+* '''Dual use — the same enzymes also destroy color:''' laccase, peroxidase, and tyrosinase are workhorses for '''decolorizing azo and reactive dyes in wastewater''', breaking the chromophore apart. Make color or unmake it, same catalyst.
+
+== 3. From Dye to Electricity — Dye-Sensitized Solar Cells (Grätzel cells) ==
+
+A '''dye-sensitized solar cell (DSSC)''', invented by O'Regan and Grätzel in 1991, makes the dye do what chlorophyll does in a leaf: catch a photon and release an electron. It is, fairly literally, '''artificial photosynthesis''', and it is cheap and buildable.
+
+=== 1. The five parts and the electron's journey ===
+* Transparent '''conductive glass''' (FTO/ITO) as the front electrode.
+* A layer of '''nanoporous TiO₂''' (titanium dioxide, anatase) sintered onto it — a huge surface area of white semiconductor.
+* A single molecular layer of '''dye (the sensitizer)''' adsorbed onto the TiO₂.
+* An '''iodide/triiodide (I⁻/I₃⁻) redox electrolyte''' filling the gap.
+* A '''platinum- or graphite-coated counter electrode''' (back glass).
+* The cycle: a photon hits the dye → the dye's electron is excited and '''injected into the TiO₂ conduction band''' → it travels through the TiO₂ and out the external circuit (that is your current) → it returns at the counter electrode and '''reduces I₃⁻ to I⁻''' → the I⁻ '''regenerates the oxidized dye''', and the loop repeats. The TiO₂ carries charge; the dye catches light; the electrolyte is the shuttle.
+
+=== 2. The dyes and their efficiency ===
+* '''Ruthenium dyes''' (N3, N719, "black dye") are the benchmark at '''~11–13%''' power conversion, record near '''~14%''' — but they use rare, costly metal.
+* '''Natural dyes''' are the accessible option and the classic experiment: '''anthocyanins''' (berries, red cabbage, hibiscus, ''Melastoma'' — the best natural performers, up to ~3.16%), '''betalains''' (beetroot), '''chlorophyll''' (spinach, generally lower), and '''carotenoids'''. Real-world natural-dye cells usually land between ~0.1% and ~3%.
+* '''Why natural dyes underperform:''' their HOMO/LUMO energy levels often don't line up cleanly with the TiO₂ conduction band, so injection is inefficient, and the pigments '''degrade''' (poor stability).
+
+=== 3. Making natural-dye cells better ===
+* '''Acidify the extract''' — anthocyanins are more stable and better-injecting from '''acidified methanol'''; cell performance is pH-dependent.
+* '''Co-sensitize''' — mixing dyes broadens light capture; a spinach-chlorophyll + ''Ixora''-anthocyanin cell reached ~2.39%, several times either dye alone.
+* '''Copigmentation''' — adding a copigment stacks and stabilizes the anthocyanin; notably, '''caffeine copigmentation of anthocyanin dyes has been shown to raise DSSC efficiency''' — a direct tie-in to [[Caffeine Extraction]].
+
+=== 4. The garage / temple-tech build ===
+* Spread '''TiO₂ paste''' on conductive glass, '''sinter''' it (hot plate/kiln), cool, and '''soak it in berry, hibiscus, beet, or red-cabbage juice''' until stained. Add a drop of '''iodide electrolyte''', clamp a '''graphite (pencil) or platinized''' counter-electrode glass on top, clip the edges — it produces measurable voltage and current in sunlight. Cheap, non-toxic if you choose a safe electrolyte, and it genuinely makes power from a berry and a pane of glass.
+
+== 4. The Through-Line ==
+
+A '''biocatalyst''' (§1) is turned into a '''pigment''' (§2), and that pigment '''harvests light into electricity''' (§3) in a device modeled on '''photosynthesis''' itself. The same enzymes that dye a shirt can, via the dyes they make, help power a cell — and a molecule from one shelf of this Library (caffeine) improves a device on another. Everything is everything.
+
+== 5. Safety and Harm Reduction ==
+* '''Enzyme-powder dust is a respiratory sensitizer''' — inhaled protease/amylase dust causes occupational asthma (the classic detergent-industry hazard). Handle powders with a mask, avoid raising dust, work wetted-down where possible.
+* '''Peroxide and oxidizers:''' H₂O₂ (peroxidase reactions) and concentrated oxidative hair-dye precursors are corrosive/sensitizing — gloves and eye protection.
+* '''DSSC electrolyte:''' the standard iodide electrolyte is often dissolved in '''acetonitrile''', which is toxic and volatile — for DIY use a '''water-, gel-, or ionic-liquid-based''' electrolyte instead. Don't inhale '''TiO₂ nanopowder''', and respect the hot sintering step.
+
+== See also ==
+* [[Enzyme Chemistry]]
+* [[Caffeine Extraction]] — caffeine copigmentation of DSSC anthocyanin dyes
+* [[Cytochrome P450 System Inhibition and Induction]] — the oxidase cousins of laccase/peroxidase
+* [[Bioavailability Metabolic Inhibition and Synergy]]
+
+== Sources ==
+* Tandfonline (Biocatalysis & Biotransformation) and SAGE (Textile Research) — laccase/peroxidase enzymatic coloration; laccase dyeing of cotton (red/lilac shades); denim/hair-dye uses.
+* Google Patents US6296672B1 and related — enzymatic textile dyeing (laccase, tyrosinase precursors).
+* ScienceDirect / Frontiers — laccase/peroxidase/tyrosinase azo-dye decolorization (the reverse use).
+* O'Regan & Grätzel, Nature 1991 — the original dye-sensitized cell.
+* Academia/ScienceDirect/NCBI-PMC reviews (2018–2025) — anthocyanin/betalain/chlorophyll DSSC efficiencies (~0.1–3.16%), HOMO/LUMO mismatch and stability limits, acidification and co-sensitization improvements, and caffeine copigmentation of anthocyanin DSSCs.

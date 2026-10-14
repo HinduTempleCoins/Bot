@@ -1,0 +1,65 @@
+# Solar Mining
+
+'''Solar mining''' is running cryptocurrency mining hardware on electricity generated from the sun. It is the point where the physics of [[Electricity and Photovoltaics|photovoltaics]] meets the economics of a blockchain: once the panels are paid off, the power is effectively free and renewable, so the mining earns money at almost no marginal cost — and the usual objection that "crypto wastes electricity and pollutes" largely falls away, because the energy is clean and is often power that would otherwise be thrown away. This article covers the idea, a short history, how a rig is actually built, the honest economics, the pollution question, and how it connects to '''MELEK / PRANA''' and a '''Proof-of-Solar''' mint. The founding thesis is plain and old: give ordinary people the sun and a machine, and they can earn without capital — the project exists to '''provide''' that means, not to gatekeep it.
+
+== 1. The Idea: Income From the Sun ==
+
+The core claim, carried in this project's "Cryptocurrency Towns" writing since 2018, is that '''distributed solar mining is free income at community scale'''. If enough ordinary households each run modest solar panels and a miner, the combined, geographically spread hash power can rival or exceed a centralized farm — without a centralized farm's grid bill or fossil footprint. A town where every house uses the sun to mine turns sunlight into a local, shared income stream. The sun is the one input nobody has to buy; the only cost is the hardware, and that pays for itself.
+
+== 2. A Short History ==
+
+* '''2012 — the first forum experiments.''' Early Bitcointalk threads describe solar-powered mining rigs (including an off-grid setup in Australia at a remote mining town), back when the whole network was tiny — the first people to notice that "free sunlight + a miner" was a real idea.
+* '''2013–2017 — hobbyist off-grid builds.''' Raspberry-Pi and small-ASIC rigs run from a panel, charge controller, and battery; guides circulate on building a "solar-powered mining plant." The lesson repeated in every thread: it only pays when power is otherwise expensive, and batteries are the hard part.
+* '''2018 — the "Cryptocurrency Towns" thesis''' (this project's lineage): solar + alternators as community free-income infrastructure, bundled with local civic structure — the argument that a distributed base of home solar miners could outweigh industrial farms.
+* '''2020s — hybridization and the grid.''' The industry shifts from "fully off-grid" to '''hybrid''': miners act as a flexible load that soaks up otherwise-curtailed solar and wind. Off-grid and developing-market deployments appear (solar-plus-battery microgrids powering both mining and households). By the mid-2020s a majority of Bitcoin's hashrate reportedly runs on sustainable energy, with solar a growing share.
+
+== 3. How It Works ==
+
+A solar mining rig is a small power system feeding a computer:
+* '''Panels → charge controller → battery/inverter → miner.''' The panels generate DC; a charge controller manages the battery; an inverter (or a DC-DC setup) feeds the miner.
+* '''Grid-tied vs. off-grid.''' A grid-tied setup can use roughly 90–95% of a panel's rating (the grid buffers supply and demand); a battery/off-grid setup realistically uses only ~40–50%, because the battery is the bottleneck and wears out.
+* '''Daytime-only option.''' Skip the battery and mine only while the sun shines — simplest and cheapest, at the cost of idle hardware at night.
+* '''Sizing to the miner.''' A tiny miner like a Bitaxe (~15 W) runs off a single ~100 W panel and a small battery; a full-size ASIC (~3 kW+) needs a multi-kilowatt array. Match the array to the load, not the other way around.
+
+== 4. The Economics — "Mine for Free, Make Money" ==
+
+* '''After payback, the electricity is free.''' Solar's cost is almost entirely up front (panels, controller, battery, miner). Once that capital is recovered, each additional kWh is ~free, so the mining reward is nearly pure margin — the honest meaning of "mining for free."
+* '''It works best on power that would be wasted.''' Grids curtail (throw away) large amounts of solar and wind at peak generation; a miner is a flexible load that can turn that otherwise-lost energy into value, which is why hybrid solar mining improves a solar project's returns.
+* '''Honest caveats.''' Profit depends heavily on '''location''' (sun hours, and whether grid power is cheap — where grid power is very cheap, solar mining's ROI can be negative), on '''hardware efficiency''', on the '''coin's price and difficulty''', and on '''battery lifespan''' (batteries are the main recurring cost off-grid). "No ongoing cost" is not the same as "guaranteed profit" — the up-front hardware and the reward market still decide the outcome.
+
+== 5. Does It Make the Blockchain Clean? ==
+
+The common criticism is that proof-of-work mining "wastes electricity" and "pollutes." That objection is really about '''fossil-fired grid power'''. Solar mining answers it directly:
+* The energy is '''renewable''', and it is frequently power that '''would otherwise be curtailed and wasted''' — so the mining adds little or no new emissions and can even improve the economics that get more clean generation built.
+* '''Stated honestly:''' this makes the mining '''clean and effectively free''', not literally "zero pollution" — solar panels and batteries have an embodied manufacturing footprint, and a battery-backed off-grid rig has real materials cost. The defensible claim is the strong and true one: '''solar-mined blockchain removes the fossil-waste objection''', it does not claim a magic zero.
+* The trend supports it: a majority of Bitcoin's hashrate already runs on sustainable energy, and distributed home solar pushes that further.
+
+== 6. MELEK / PRANA and Proof-of-Solar ==
+
+This is where the idea becomes infrastructure in this ecosystem:
+* '''PRANA''' is designed as a '''compute-and-energy''' chain — the layer that turns energy and computation into on-chain value.
+* A '''Proof-of-Solar oracle mint''' (the `ProofOfSolarOracleMint` contract) issues tokens '''against verified solar generation''': an attestor confirms real kWh produced, and the mint releases tokens for it — with '''no pre-mine and no founder allocation''', so the supply is earned from real sunlight, not pre-allocated. It is designed as an improvement on earlier "SolarCoin"-style ideas.
+* The framing is '''Divine Providence''' — the project '''provides''' the means for ordinary people to earn from the sun: the knowledge (this Library), the mint (Proof-of-Solar), and the chain (MELEK/PRANA). We make it and give it; the sun does the rest.
+
+== 7. The Physics Underneath ==
+
+Solar mining rests on the physics taught elsewhere in this Library:
+* [[Electricity and Photovoltaics]] — the Becquerel photovoltaic effect, the pioneers (Franklin → Faraday → Maxwell → Heaviside → Tesla → Steinmetz), and the family of solar-cell technologies.
+* [[Enzyme Powders, Color, and Dye Sensitized Solar Cells|Enzyme Powders, Color, and Dye-Sensitized Solar Cells]] — the berry-juice Grätzel cell anyone can build, and the dyes that turn light into current.
+* [[Dye Chemistry]] — how a dye absorbs light and injects an electron, the chromophore behind a solar sensitizer.
+
+== 8. Safety and Harm Reduction ==
+* '''High DC voltage and current.''' Solar arrays produce dangerous DC even in moderate light; wire to code, fuse properly, and treat a live array as energized at all times.
+* '''Batteries.''' Lead-acid vents hydrogen (ventilate; explosion/acid hazard); lithium packs can thermal-runaway if over-charged or damaged — use a proper BMS and charge controller.
+* '''Heat and load.''' Miners run hot and draw continuous high current; size wiring and connectors for continuous load and provide cooling. This is an educational overview, not an electrical-installation guide — follow local electrical codes and use qualified help for real wiring.
+
+== See also ==
+* [[Electricity and Photovoltaics]]
+* [[Enzyme Powders, Color, and Dye Sensitized Solar Cells|Enzyme Powders, Color, and Dye-Sensitized Solar Cells]]
+* [[Dye Chemistry]]
+
+== Sources ==
+* Bitcointalk solar-mining threads (2012 onward) — early solar rigs, off-grid builds, grid-tied vs. battery realities.
+* This project's 2018 "Cryptocurrency Towns" writing — the solar-as-community-free-income thesis.
+* Braiins, Ledger Journal, and 2024–2026 analyses — hybrid mining, curtailment, location-dependent ROI, and the sustainable-energy share of hashrate.
+* `ProofOfSolarOracleMint` contract and the PRANA compute-energy design (this ecosystem).
