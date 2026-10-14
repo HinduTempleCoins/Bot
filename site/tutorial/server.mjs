@@ -25,6 +25,24 @@ import { createServer } from 'node:http';
 
 import { loadStagesDoc } from '../../tutorial/composers.mjs';
 
+// ── The Reading Path: book topics, alongside the on-chain stages (operator: "the tutorials should
+// have like Book Topics and Things also"). Each topic is a compiled book you can read free, plus the
+// live Library shelf it is drawn from. Ordered the way in: the frame first, then the subjects.
+const LIB = 'https://library.soapbox.community/our-books';
+const WIKI = 'https://wiki.soapbox.community';
+const BOOK_TOPICS = [
+  ['foundational-corpus', 'Start here — the Foundational Corpus', 'The Convergence, the Master Synthesis, Zar-AI and the Phoenix Protocol: why any of this exists.'],
+  ['melek-prana-kula-papers', 'The MELEK, PRANA & KULA Papers', 'The three whitepapers — the chain whose founding witness is an AI, the compute chain under it, the economy on top.'],
+  ['library-chains', 'Decentralized Networks & Compute', 'Social blockchains, proof-of-work and proof-of-compute, DeFi, and how the machinery actually works.'],
+  ['library-chemistry', 'Organic Chemistry & Synthesis', 'Reaction mechanisms, isomerizations, prodrugs, photochemistry and purification.'],
+  ['library-pharmacology', 'Neurobiology & Pharmacology', 'The endocannabinoidome, enzyme kinetics, MAOIs, structure-activity — dose, interaction and contraindication.'],
+  ['library-botanicals', 'Botanical Inventory & Herbal Science', 'Plant monographs, traditional preparations, extraction chemistry and nutrition.'],
+  ['library-mind', 'Entrainment, Mind & Natural Philosophy', '40 Hz sensory driving, bio-rhythms, neurostimulation you build yourself, and the history of mind.'],
+  ['library-law', 'Law & Your Rights', 'The public legal record and plain-English guides to how U.S. law really works — facts, not verdicts.'],
+  ['library-ecosystem', 'The SoapBox Ecosystem, Tools & Biology', 'The public-interest verticals, the free utilities, and the biology shelf.'],
+  ['library-of-ashurbanipal', 'The complete Library (Hathor Edition)', 'All 243 cross-linked monographs in one volume — the whole reference the Witness reads.'],
+];
+
 const PORT = +(process.env.PORT || 8147);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
@@ -64,6 +82,13 @@ const STYLE = `<style>
   .orient{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:12px 16px;margin:14px 0 6px;font-size:13.5px;line-height:1.9}
   .orient a{color:var(--blue);text-decoration:none}
   .orient strong{color:var(--fg);margin-right:6px}
+  h2.booktopics-h{margin:30px 0 4px;font-size:19px;color:var(--fg);border-top:1px solid var(--line2);padding-top:22px}
+  ol.topics{list-style:none;margin:14px 0 0;padding:0}
+  li.topic{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:12px 16px;margin:0 0 10px}
+  li.topic .t{font-weight:700;font-size:15px;color:var(--fg)}
+  li.topic .d{color:var(--mut);font-size:13px;margin-top:3px}
+  li.topic .res{font-size:12.5px;margin-top:6px}
+  li.topic .res a{color:var(--blue);text-decoration:none}
   .tier{font-size:11px;border-radius:8px;padding:1px 8px;margin-left:8px;white-space:nowrap;border:1px solid var(--line2)}
   .tier.A{background:#3fb95022;color:var(--up);border-color:#3fb95055}
   .tier.B{background:#d2992222;color:var(--gold);border-color:#d2992255}
@@ -106,6 +131,23 @@ export function renderTutorialHtml(lessons) {
   return `<ol class=lessons>${items}</ol>`;
 }
 
+// The book-topics reading path — rendered beneath the on-chain stages.
+function bookTopicsHtml() {
+  const rows = BOOK_TOPICS.map((t) => {
+    const [slug, name, blurb] = t;
+    return `<li class=topic>
+      <div class=body>
+        <div class=t>${esc(name)}</div>
+        <div class=d>${esc(blurb)}</div>
+        <div class=res>Read: <a href="${esc(LIB + '/' + slug)}">online</a> · <a href="${esc(LIB + '/' + slug + '.epub')}">EPUB</a> · <a href="${esc(LIB + '/' + slug + '.pdf')}">PDF</a> · <a href="${esc(WIKI)}">the live Library</a></div>
+      </div>
+    </li>`;
+  }).join('');
+  return `<h2 class=booktopics-h>The Reading Path <span class=muted style="font-size:13px;font-weight:400">· book topics, free to read</span></h2>
+    <p class=muted>The chain stages above teach you how to move; these teach you what we know. Every book is free — read it in the browser or take the EPUB/PDF — and each is drawn from the live <a href="${esc(WIKI)}">Library of Ashurbanipal</a>.</p>
+    <ol class=topics>${rows}</ol>`;
+}
+
 // ── page shell ──────────────────────────────────────────────────────────────────────────────────
 function page(lessons) {
   const count = Array.isArray(lessons) ? lessons.length : 0;
@@ -122,7 +164,8 @@ function page(lessons) {
       <a href="https://write.soapbox.community">The Writing Room</a> ·
       <a href="https://hathor.live">Meet Hathor</a>
     </div>
-    ${renderTutorialHtml(lessons)}`;
+    ${renderTutorialHtml(lessons)}
+    ${bookTopicsHtml()}`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(SITE_NAME)} — the staged onboarding path</title>
