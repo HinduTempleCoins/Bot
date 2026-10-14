@@ -1,0 +1,112 @@
+# MELEK / Van Kush Family — System Map (the whole estate)
+Generated 2026-10-14T02:17:22.178Z. 94 live sites across 86 apps; 12 repositories.
+
+## Live sites
+- https://abuck.soapbox.community — abuck.soapbox.community, the dedicated home of the TRUE-DOLLAR-STORE aggregator.
+- https://alpha.congress.beauty — Congress.ink (alpha.congress.ink). A Graphene "Twitter/X clone" — a short-form social
+- https://alpha.congress.ink — Congress.ink (alpha.congress.ink). A Graphene "Twitter/X clone" — a short-form social
+- https://analytics.soapbox.community — site/analytics/server.mjs — the first-party, COOKIELESS analytics COLLECTOR service.
+- https://arcade.soapbox.community — site/arcade/server.mjs — KULA ARCADE hub: the compliant, play-token front door that ties together
+- https://benefits.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
+- https://business.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
+- https://calculator.soapbox.community — Calculator.SoapBox.Community. A clean, free online calculator: the standard keypad plus a
+- https://cams.soapbox.community — site/cams/server.mjs — cams.soapbox.community: the live-view / camera app (Phase 1, Public cams).
+- https://caselaw.soapbox.community — "The Case Law of Us" (a.k.a. History in the Reporters). A standalone, zero-dependency,
+- https://comms.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
+- https://contact.soapbox.community — site/contact/server.mjs — the SoapBox CONTACT page (contact.soapbox.community).
+- https://convert.soapbox.community — Convert.SoapBox.Community. A free unit & currency converter. Everyday units (length,
+- https://costofliving.soapbox.community — CostOfLiving.SoapBox.Community. A cost-of-living calculator + programmatic per-city
+- https://coupons.soapbox.community — Coupons.SoapBox.Community. The coupons & cashback vertical as a standalone, zero-
+- https://credentials.soapbox.community — site/credentials/server.mjs — the SoapBox Credentialing Aggregator portal
+- https://credit.soapbox.community — site/credit/server.mjs — the SoapBox Credit-Score Help center (credit.soapbox.community).
+- https://data.soapbox.community — the SoapBox aggregator ("the front door"). A data-driven PAGE FACTORY: one template
+- https://diagram.soapbox.community — Diagram.SoapBox.Community. A free online flowchart & diagram maker in the SoapBox
+- https://directory.soapbox.community — Directory.SoapBox.Community. The crypto/markets resource directory as its own subdomain
+- https://dudael.com — dudael.com, the METAVERSE landing of the VanKush / SoapBox / MELEK ecosystem.
+- https://ecosystem.soapbox.community — the ECOSYSTEM MAP surface — ecosystem.soapbox.community / sitemap.soapbox.community.
+- https://encounters.soapbox.community — Faux Law Files (encounters.soapbox / hathor.live/encounters). The pop-culture front
+- https://farm.alpha.soapbox.community — site/farm/server.mjs — the KULA Token Farm page: where you FARM OUR TOKENS (DeFi yield-farming), as
+- https://farm.soapbox.community — site/farm/server.mjs — the KULA Token Farm page: where you FARM OUR TOKENS (DeFi yield-farming), as
+- https://fax.soapbox.community — site/fax/server.mjs — SOAPBOX FAX. The app that actually sends.
+- https://flashlight.soapbox.community — Flashlight.SoapBox.Community. A free online flashlight: a big, full-screen white page
+- https://forum.soapbox.community — Forum.SoapBox.Community. The MELEK forum vertical as a standalone, zero-dependency HTTP
+- https://free-speech.soapbox.community — Free Speech & Sedition. A self-contained, read-only legal-education surface in the
+- https://gambling.soapbox.community — Gambling EDUCATION Center for SoapBox. EDUCATION & HARM-REDUCTION ONLY.
+- https://games.soapbox.community — PRANA Games — the "what is PRANA for" front door (games.soapbox.community).
+- https://grants.soapbox.community — site/grants/server.mjs — the SoapBox Grant Aggregator portal (grants.soapbox.community).
+- https://habits.soapbox.community — Habits.SoapBox.Community. A free habit & streak tracker: add habits, check off each day,
+- https://hathor.live — site/hathor-live/server.mjs — hathor.live: Hathor's always-on public chat (her "24-hour channel,"
+- https://hathor.melek.salon — site/hathor-live/server.mjs — hathor.live: Hathor's always-on public chat (her "24-hour channel,"
+- https://hathor.soapbox.community — Hathor's studio (Phase 1) — hathor.soapbox.community.
+- https://health-providers.soapbox.community — HealthProviders.SoapBox.Community. The healthcare-provider-finder vertical as a
+- https://hemp.soapbox.community — Hemp.SoapBox.Community. The hemp/cannabis vertical as a standalone, zero-dependency HTTP
+- https://herald.soapbox.community — Herald (the MELEK/Pentecaust growth engine's public surface). ONE dashboard that ties
+- https://hierophant.soapbox.community — Hierophant.SoapBox.Community. The Temple's library of the world's sacred texts, as a
+- https://home.soapbox.community — soapbox.community ROOT — the ecosystem HOME PAGE.
+- https://idlegames.soapbox.community — Idle-Time Games (idlegames.soapbox.community). A hub of genuinely-playable, ORIGINAL
+- https://insurance.soapbox.community — Insurance.SoapBox.Community. The insurance price-comparison vertical as a standalone,
+- https://jobs.soapbox.community — Jobs.SoapBox.Community. The "find work + learn the skill" vertical as a standalone,
+- https://kula-paper.melek.salon — The KULA Paper: the public economic spec for the PRANA / KULA economy.
+- https://kush.soapbox.community — site/kush-farm/server.mjs — the Kush Farm play page (Pot-Farm / RS3-style). Surfaces the kush-farm model:
+- https://language.soapbox.community — Language.SoapBox.Community / the Hathor Language Center. A working
+- https://law.soapbox.community — Law.SoapBox.Community. The legal portal subdomain (operator decision 2026-06-03): a
+- https://lawyers.soapbox.community — Lawyers.SoapBox.Community. The attorney-directory vertical as a standalone,
+- https://lexicon.soapbox.community — Lexicon.MELEK: the Legal Lexicon & Sources of Authority vertical.
+- https://library.soapbox.community — The SoapBox Library: the public-domain-first books and documents surface.
+- https://map.soapbox.community — The Frontier (map.soapbox.community / tools hub /map). The persistent-world MAP surface
+- https://markdown.soapbox.community — Markdown.SoapBox.Community. A free live markdown editor: write markdown on the left, see a
+- https://melekd.hathor.live — MELEKd: the chain explorer, at melekd.hathor.live.
+- https://move.melek.salon — site/move-miner/server.mjs — MELEK Move: the FIRST consumer app — a Step Counter + GeoMiner PWA.
+- https://move.soapbox.community — site/move-miner/server.mjs — MELEK Move: the FIRST consumer app — a Step Counter + GeoMiner PWA.
+- https://news.soapbox.community — site/news/server.mjs — mounts the Herald Newsroom (our own originating wire) at
+- https://notes.soapbox.community — Notes.SoapBox.Community. A fast, private scratchpad: start typing immediately, and it
+- https://outliner.soapbox.community — Outliner.SoapBox.Community. A fast, keyboard-first collapsible outliner & to-do tree:
+- https://oversight.soapbox.community — Oversight.SoapBox.Community. The "Who do I call?" / consumer-protection AGENCY
+- https://pact.pentecaust.com — site/pact/server.mjs — PACT. Groups and Clubs, at pact.pentecaust.com.
+- https://passgen.soapbox.community — Passgen.SoapBox.Community. A strong password generator that runs 100% CLIENT-SIDE.
+- https://pets.soapbox.community — Critter Keep (pets.soapbox.community). A NeoPets-pattern virtual-pet / creature-keeper
+- https://plate.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
+- https://player.soapbox.community — site/player/server.mjs — the SoapBox Media Player / "Caster". A REAL, working web media player:
+- https://politics.soapbox.community — Politics.SoapBox.Community. The politics vertical as a standalone, zero-dependency HTTP
+- https://portfolio.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
+- https://prana-paper.melek.salon — The PRANA Paper: the public technical & consensus spec for the PRANA compute chain.
+- https://profile.soapbox.community — Profile / Portfolio front-door (v1) for the SoapBox Tools hub. A friendly, read-only
+- https://qr.soapbox.community — QR.SoapBox.Community. A free online QR code generator: turn any text, URL, Wi-Fi login, or
+- https://real-estate.soapbox.community — RealEstate.SoapBox.Community. The real-estate vertical as a standalone, zero-dependency
+- https://remote.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
+- https://scam-alert.soapbox.community — ScamAlert.SoapBox.Community. The consumer-protection / scam-alert vertical as a
+- https://search.soapbox.community — Search.SoapBox.Community. The public search front door (operator 2026-06-02). Toggles
+- https://seeds.alpha.soapbox.community — site/seeds/server.mjs — seeds.soapbox.community
+- https://seeds.soapbox.community — site/seeds/server.mjs — seeds.soapbox.community
+- https://shop.melek.salon — site/shop/server.mjs — shop.soapbox.community — the SEED SHOP storefront.
+- https://shopping.soapbox.community — Shopping.SoapBox.Community. The SHOPPING PARENT HUB in the SoapBox house style
+- https://sitemap.soapbox.community — the ECOSYSTEM MAP surface — ecosystem.soapbox.community / sitemap.soapbox.community.
+- https://soapbox.community — soapbox.community ROOT — the ecosystem HOME PAGE.
+- https://software-reviews.soapbox.community — SoftwareReviews.SoapBox.Community. The software / service reviews comparison vertical as a
+- https://spin.soapbox.community — Spin.SoapBox.Community. The free daily-spin vertical as a standalone, zero-dependency
+- https://stocks.soapbox.community — Stocks.SoapBox.Community. The stock-market subdomain (operator 2026-06-02): a Stock Index
+- https://stream.soapbox.community — site/stream/server.mjs — "SoapBox Stream": a REAL streaming service (catalog + player) sourcing ONLY
+- https://timer.soapbox.community — Timer.SoapBox.Community. A free focus timer, stopwatch, and countdown in one clean page.
+- https://tools.soapbox.community — Tools.SoapBox.Community. The unifying hub for the mundane-app suite
+- https://travel.soapbox.community — Travel.SoapBox.Community. The TRAVEL vertical as a standalone HTTP service in the
+- https://tunein.soapbox.community — site/tunein/server.mjs — "Tune In": a Netflix / Tubi-shaped browse + watch surface that AGGREGATES
+- https://vankushfamily.com — VanKushFamily.com public ROADMAP. A standalone, zero-dependency HTTP service in the
+- https://weather.soapbox.community — Weather.SoapBox.Community. A free, clean weather app: your local forecast with no ads,
+- https://wiki.soapbox.community — the Library of Ashurbanipal, served. A page factory over the (faithful, fact-checked)
+- https://witness.melek.salon — witness.melek.salon. The Mining Pool's public face and "WITNESS SCHOOL," in the
+- https://write.soapbox.community — The Writing Room (write.soapbox.community). Preptober + the November 50,000-word
+- https://www.soapbox.community — soapbox.community ROOT — the ecosystem HOME PAGE.
+
+## Repositories
+- Bot (JavaScript) —  · # Bot — the MELEK AI Witness  This repository is the **off-chain operator software, character, libraries, and knowledge corpus for the MELEK AI Witness** — a founding witness on the MELEK blockchain. The on-chain account is `hathor` (lowercase). The Bot is the Witness's hands; the chain code lives e
+- configs (?) — Public config files for forknote · ## Introduction  This repository contains configuration files for active Forknote networks.   ## How to start  The easiest way to start a Forknote network is to see the configuration file of an already existing coin and modify it.  You can also start from scratch and create a new configuration file 
+- cryptonote (C++) — CryptoNote protocol implementation. This is the reference repository for starting a new CryptoNote currency. See /src/cryptonote_config.h · This is the reference code for [CryptoNote](https://cryptonote.org) cryptocurrency protocol.  * Launch your own CryptoNote currency: [CryptoNote Starter](https://cryptonotestarter.org/) * CryptoNote reference implementation: [CryptoNoteCoin](https://cryptonote-coin.org) * Discussion board and suppor
+- KULASwap (Solidity) — A SunSwap Fork · # Cross-Platform-Token-Transfer This repo aims to fill the gap between TRON network and Binance Smart Chain and make a Bridge between them. 
+- Linux (?) — Setting Up Linux VMs and stuff 
+- MELEK (?) — Social Media Blockchain · # MELEK Social Media Blockchain 
+- melek-chain (C++) — MELEK blockchain node — forked from BLURT (Graphene family) · # melek-chain  MELEK is a Graphene-family social blockchain — a fork of BLURT (which forked Steem), rebranded and rebuilt around a Kurdish-themed identity and a first-class commitment to AI residency.  See [`CLAUDE.md`](CLAUDE.md) for the authoritative project brief: naming rule, locked chain parame
+- melek-condenser (?) — Blurt blockchain's Condenser · # Condenser  Condenser is the react.js web interface to [Blurt](https://gitlab.com/blurt/blurt).  ### Changelog  Please update the changelog with every change that you make to condenser.  #### Quick Start: Run your own Blurt front end  To bring up a running container fit for production, it's as simp
+- PRANA (JavaScript) — MELEK Ecosystem ETH Chain Clone · <h1 align="center">PRANA</h1>  <p align="center">   <b>An independent Proof-of-Work, Ethereum-compatible (EVM) blockchain.</b> </p>  <p align="center">   <!-- TODO: replace with the PRANA logo once designed -->   <i>[ logo coming soon ]</i> </p>  ---  ## What this is  PRANA is a private/independent 
+- Shaligram (?) — A Coin for Hindus 
+- TempleCoinWallet (?) — The First Hindu CryptoCurrency · # TempleCoinWallet The First Hindu CryptoCurrency 
+- VanKushBLURTDelegation (?) — Delegation Program · # blurtblock   URL Here  Clone command (https) to local directory   git clone https://github.com/tomoyan/blurtblock.git    ## Python   1. Create virtual environment:   python3 -m venv venv    2. ACTIVATE venv (Ubuntu command):   source venv/bin/activate    3. Install all pakcages from requirements f
