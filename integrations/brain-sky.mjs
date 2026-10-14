@@ -12,6 +12,14 @@
 //   sky.moonPhase(new Date());                                  // { angle, name, illumination }
 
 import { createRequire } from 'node:module';
+import { STARS, getStar } from './star-catalog.mjs';
+
+const DEG = Math.PI / 180;
+/** Angular separation (degrees) between two alt/az directions. */
+function angSep(a1, z1, a2, z2) {
+  const c = Math.sin(a1 * DEG) * Math.sin(a2 * DEG) + Math.cos(a1 * DEG) * Math.cos(a2 * DEG) * Math.cos((z1 - z2) * DEG);
+  return Math.acos(Math.max(-1, Math.min(1, c))) / DEG;
+}
 
 const BODIES = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
 const PHASES = [
@@ -76,6 +84,43 @@ export function createSky() {
     /** Only the bodies currently above the horizon, with their constellations. */
     whatsUp(opts = {}) { return this.positions(opts).filter((b) => b.visible); },
 
+    /** The bright NAMED stars currently above the horizon, brightest first, with alt/az. */
+    visibleStars({ date = new Date(), lat, lon, limit = 12 } = {}) {
+      const A = lib(); if (!A || typeof lat !== 'number' || typeof lon !== 'number') return [];
+      let obs; try { obs = new A.Observer(lat, lon, 0); } catch { return []; }
+      const out = [];
+      for (const s of STARS) {
+        try {
+          const hor = A.Horizon(date, obs, s.ra, s.dec, 'normal');
+          if (hor.altitude > 0) out.push({ name: s.name, constellation: s.constellation, mag: s.mag,
+            altitude: Math.round(hor.altitude * 10) / 10, azimuth: Math.round(hor.azimuth * 10) / 10 });
+        } catch { /* skip */ }
+      }
+      return out.sort((a, b) => a.mag - b.mag).slice(0, limit);
+    },
+
+    /** Look up a named star; with lat/lon/date also give its current alt/az + visibility. */
+    star(name, { date = new Date(), lat, lon } = {}) {
+      const s = getStar(name); if (!s) return null;
+      const base = { name: s.name, constellation: s.constellation, mag: s.mag, ra: s.ra, dec: s.dec };
+      const A = lib();
+      if (A && typeof lat === 'number' && typeof lon === 'number') {
+        try { const hor = A.Horizon(date, new A.Observer(lat, lon, 0), s.ra, s.dec, 'normal');
+          return { ...base, altitude: Math.round(hor.altitude * 10) / 10, azimuth: Math.round(hor.azimuth * 10) / 10, visible: hor.altitude > 0 }; }
+        catch { /* ignore */ }
+      }
+      return base;
+    },
+
+    /** "What's that bright star over there?" — nearest cataloged star to an alt/az direction. */
+    identifyStar({ altitude, azimuth, date = new Date(), lat, lon, maxDeg = 8 } = {}) {
+      const vis = this.visibleStars({ date, lat, lon, limit: STARS.length });
+      let best = null, bd = 1e9;
+      for (const s of vis) { const d = angSep(altitude, azimuth, s.altitude, s.azimuth); if (d < bd) { bd = d; best = s; } }
+      if (best && bd <= maxDeg) return { ...best, separationDeg: Math.round(bd * 10) / 10 };
+      return null;
+    },
+
     /** A human-readable "what's in the sky" summary. */
     identify({ date = new Date(), lat, lon } = {}) {
       const A = lib(); if (!A) return 'My sky lobe is offline.';
@@ -86,6 +131,8 @@ export function createSky() {
       if (mp) parts.push(`The Moon is a ${mp.name} (${Math.round(mp.illumination * 100)}% lit)`);
       if (planets.length) parts.push('Visible now: ' + planets.map((p) => `${p.body} in ${p.constellation || '—'}`).join(', '));
       else parts.push('No planets are above the horizon');
+      const bright = this.visibleStars({ date, lat, lon, limit: 1 })[0];
+      if (bright) parts.push(`The brightest star up is ${bright.name} in ${bright.constellation}`);
       return parts.join('. ') + '.';
     },
   };
