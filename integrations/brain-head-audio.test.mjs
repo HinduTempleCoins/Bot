@@ -38,6 +38,18 @@ test('audio: every method soft-returns when a model cannot load', async () => {
   A.__setPipelineFactory(null);
 });
 
+test('audio: decodeAudio passes through non-strings and decodes a wav to Float32', async () => {
+  const fa = new Float32Array([0.1, 0.2]);
+  assert.equal(await A.decodeAudio(fa), fa); // already-decoded passes through
+  const { createRequire } = await import('node:module');
+  const WF = createRequire(import.meta.url)('wavefile').WaveFile;
+  const wav = new WF(); wav.fromScratch(1, 16000, '32f', Float32Array.from({ length: 1600 }, (_, i) => Math.sin(i / 4) * 0.2));
+  const { writeFileSync } = await import('node:fs'); const p = `${process.env.TMPDIR || '/tmp'}/hathor-audio-test.wav`;
+  writeFileSync(p, wav.toBuffer());
+  const out = await A.decodeAudio(p);
+  assert.ok(out instanceof Float32Array && out.length === 1600);
+});
+
 test('audio: registry is overridable + capabilities list', () => {
   const a = A.createAudioHead({ listen: { task: 'automatic-speech-recognition', model: 'Xenova/whisper-tiny.en' } });
   assert.equal(a.models.listen.model, 'Xenova/whisper-tiny.en');
