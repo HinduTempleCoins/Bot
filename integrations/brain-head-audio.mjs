@@ -43,9 +43,41 @@ async function loadPipe(task, model) {
   const pipe = await p; _cache.set(key, pipe); return pipe;
 }
 
+// Node has no AudioContext, so transformers.js can't load audio from a path/URL — it needs decoded
+// samples. Decode a .wav path/URL/Buffer to a mono 16 kHz Float32Array (what Whisper/AST expect) via
+// `wavefile` (lazy import). Already-decoded input (Float32Array/Array) passes through. Soft-fails to the
+// original input so a fake pipe (tests) or a future backend still works.
+let _wf = null, _wfTried = false;
+async function loadWavefile() {
+  if (_wfTried) return _wf;
+  _wfTried = true;
+  try { ({ WaveFile: _wf } = await import('wavefile')); } catch { _wf = null; }
+  return _wf;
+}
+export async function decodeAudio(input, targetRate = 16000) {
+  if (!input || typeof input !== 'string') return input; // Float32Array/Array/tensor already
+  const WaveFile = await loadWavefile();
+  if (!WaveFile) return input; // no decoder → let the pipeline try (and soft-fail)
+  try {
+    let buf;
+    if (/^https?:\/\//.test(input)) { const r = await fetch(input); buf = Buffer.from(await r.arrayBuffer()); }
+    else { const { readFile } = await import('node:fs/promises'); buf = await readFile(input); }
+    const wav = new WaveFile(buf);
+    wav.toBitDepth('32f');
+    wav.toSampleRate(targetRate);
+    let samples = wav.getSamples();
+    if (Array.isArray(samples)) samples = samples[0]; // stereo → first channel (mono)
+    return samples instanceof Float32Array ? samples : Float32Array.from(samples);
+  } catch { return input; }
+}
+
 async function run(spec, input, ...rest) {
-  try { const pipe = await loadPipe(spec.task, spec.model); if (!pipe) return null; return await pipe(input, ...rest); }
-  catch { return null; }
+  try {
+    const pipe = await loadPipe(spec.task, spec.model);
+    if (!pipe) return null;
+    const audio = await decodeAudio(input);
+    return await pipe(audio, ...rest);
+  } catch { return null; }
 }
 
 export function createAudioHead(overrides = {}) {
