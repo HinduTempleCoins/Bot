@@ -29,6 +29,7 @@ import { createTranslateHead } from '../integrations/brain-head-translate.mjs';
 import { createLanguageTeacher } from '../integrations/brain-head-language-teacher.mjs';
 import { createVisionHead } from '../integrations/brain-head-vision.mjs';
 import { createAudioHead } from '../integrations/brain-head-audio.mjs';
+import { createIdentifier } from '../integrations/identifier.mjs';
 // Hathor's VOICE: the completed Language + Personality LoRA, served via lora-brain.mjs (Modal, box env).
 // When configured it becomes the brain's top (2020s) layer; soft-fails to the cheaper layers otherwise.
 import { generate as loraGenerate, configured as loraConfigured } from '../integrations/lora-brain.mjs';
@@ -161,6 +162,10 @@ export async function createCryptologyBrain(opts = {}) {
   const vision = visionHead ? createVisionHead() : null;
   // AUDITORY — hear speech (Whisper), name sounds (AST), speak (SpeechT5), native CPU.
   const audio = audioHead ? createAudioHead() : null;
+  // UNIVERSAL IDENTIFIER — one growing ID brain over every wiki domain (pills, plants, mushrooms, gems,
+  // soil, symbols, deities, artifacts, lab gear, dishes, logos, faces...): DINOv2+FAISS exemplars + CLIP
+  // zero-shot fallback. identify(image, domain) now; addExemplar(domain,label,image) sharpens it.
+  const identifier = (vision) ? createIdentifier({ vision }) : null;
   if (teacher && typeof brain.teachPattern === 'function') {
     try { brain.teachPattern('teach-language',
       /\b(teach me|help me learn|want to learn|learn (a|the)? ?language|can you teach|teach .*\b(language|tongue)\b)\b/i,
@@ -255,7 +260,7 @@ export async function createCryptologyBrain(opts = {}) {
     return { topics, pages };
   }
 
-  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, vision, audio, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
+  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, vision, audio, identifier, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
 }
 
 export default { createCryptologyBrain, axesFor, RULE_1, RULE_1_SHORT };

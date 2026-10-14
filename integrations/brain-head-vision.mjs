@@ -34,6 +34,7 @@ export const VISION_MODELS = {
   ocr:              { task: 'image-to-text',                   model: process.env.MELEK_VISION_OCR      || 'Xenova/trocr-small-printed' },
   depth:            { task: 'depth-estimation',                model: process.env.MELEK_VISION_DEPTH    || 'Xenova/depth-anything-small-hf' },
   segment:          { task: 'image-segmentation',              model: process.env.MELEK_VISION_SEGMENT  || 'Xenova/detr-resnet-50-panoptic' },
+  embed:            { task: 'image-feature-extraction',        model: process.env.MELEK_VISION_EMBED    || 'Xenova/dinov2-small' },
 };
 
 // Injectable factory for tests: async (pipelineTask, model) => (input, opts) => result. null = real loader.
@@ -100,6 +101,14 @@ export function createVisionHead(overrides = {}) {
     },
     async depth(image) { return await run(M.depth, image); },
     async segment(image) { return (await run(M.segment, image)) || []; },
+    /** DINOv2 image embedding (a flat Float32 vector) for similarity ID / FAISS. Returns number[] | null. */
+    async embed(image) {
+      const out = await run(M.embed, image, { pooling: 'mean', normalize: true });
+      if (!out) return null;
+      const data = out.data ?? out[0]?.data ?? out;
+      if (!data) return null;
+      return Array.from(data);
+    },
     /** The capabilities this lobe exposes (for introspection / the 'what can you see' answer). */
     capabilities() { return Object.keys(M); },
   };
