@@ -37,6 +37,7 @@ import { createSky } from '../integrations/brain-sky.mjs';
 import * as crowdStrategy from '../integrations/crowd-strategy-catalog.mjs';
 import { createCrowd, gridAgents } from '../integrations/crowd-sim.mjs';
 import * as protestSafety from '../integrations/protest-safety.mjs';
+import * as protestOrg from '../integrations/protest-organizing.mjs';
 import * as reagents from '../integrations/reagent-interpreter.mjs';
 // Hathor's VOICE: the completed Language + Personality LoRA, served via lora-brain.mjs (Modal, box env).
 // When configured it becomes the brain's top (2020s) layer; soft-fails to the cheaper layers otherwise.
@@ -188,7 +189,8 @@ export async function createCryptologyBrain(opts = {}) {
   const strategyShelf = { items: crowdStrategy.ITEMS, categories: crowdStrategy.CATEGORIES, byCategory: crowdStrategy.byCategory, search: crowdStrategy.search, ingestable: crowdStrategy.ingestableTexts };
   // CROWD SIM (native social-force dynamics) + PROTEST SAFETY teacher (defensive know-your-rights/medic).
   const crowdSim = { create: createCrowd, gridAgents };
-  const protest = { teach: protestSafety.teach, topics: protestSafety.topics };
+  const protest = { teach: protestSafety.teach, topics: protestSafety.topics,
+    organize: protestOrg.teach, organizeTopics: protestOrg.topics };
   const reward = createReward({ store: rewardStore });
   if (teacher && typeof brain.teachPattern === 'function') {
     try { brain.teachPattern('teach-language',

@@ -34,6 +34,12 @@ export const ITEMS = [
   // ── civil resistance (data + the methods) ──
   { id: 'sharp-198', title: 'The 198 Methods of Nonviolent Action (Gene Sharp)', kind: 'text', category: 'civil-resistance',
     what: 'Sharp\'s canonical enumeration — protest/persuasion, noncooperation, intervention. Published FREE by the Albert Einstein Institution.', source: { url: 'https://www.aeinstein.org/nonviolentaction/198-methods-of-nonviolent-action/' }, license: 'free (AEI)' },
+  { id: 'cia-psyops-guerrilla', title: 'Psychological Operations in Guerrilla Warfare (CIA/Tayacán, 1983)', kind: 'text', category: 'civil-resistance',
+    what: 'Declassified CIA manual. We mine ONLY its group-dynamics / organization-of-the-people lessons (cohesion, cadre->mass structure, how agitators are USED) and reframe them for disciplined NONVIOLENT protest; its violent/coercive content is rejected. On the CIA FOIA reading room.', source: { url: 'https://www.cia.gov/readingroom/docs/PSYCHOLOGICAL%20OPERATIONS%20%5B16344774%5D.pdf' }, license: 'public (declassified US gov)' },
+  { id: 'black-panther-organizing', title: 'Black Panther Party — organizing (10-Point Program, survival programs, political education, copwatch)', kind: 'text', category: 'civil-resistance',
+    what: 'The Panther model: a clear 10-point platform, meeting real needs via survival programs to build a base, political education, strict discipline, and copwatch — the ancestor of modern legal observing.', source: { url: 'https://www.marxists.org/history/usa/workers/black-panthers/' }, license: 'cite' },
+  { id: 'affinity-group-model', title: 'Affinity groups, clusters & spokescouncils (nonviolent direct action)', kind: 'text', category: 'civil-resistance',
+    what: 'The decentralized backbone of organized nonviolent mass action — small trusted teams coordinated via a spokescouncil, with defined roles (marshals, legal observers, medics, comms, jail support).', source: { url: 'https://libcom.org/organise/affinity-groups-an-introduction' }, license: 'free' },
   { id: 'navco', title: 'NAVCO datasets (Chenoweth et al.)', kind: 'dataset', category: 'civil-resistance',
     what: 'Nonviolent & Violent Campaigns and Outcomes — 100,000+ coded observations of tactics; the data behind the "3.5% rule".', source: { url: 'https://www.chenoweth.org/datasets' }, license: 'academic (free)' },
 
