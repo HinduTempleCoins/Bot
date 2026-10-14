@@ -28,6 +28,7 @@ import { createEmojiHead } from '../integrations/brain-head-emoji.mjs';
 import { createTranslateHead } from '../integrations/brain-head-translate.mjs';
 import { createLanguageTeacher } from '../integrations/brain-head-language-teacher.mjs';
 import { createVisionHead } from '../integrations/brain-head-vision.mjs';
+import { createAudioHead } from '../integrations/brain-head-audio.mjs';
 // Hathor's VOICE: the completed Language + Personality LoRA, served via lora-brain.mjs (Modal, box env).
 // When configured it becomes the brain's top (2020s) layer; soft-fails to the cheaper layers otherwise.
 import { generate as loraGenerate, configured as loraConfigured } from '../integrations/lora-brain.mjs';
@@ -118,7 +119,7 @@ const firstSentence = (t) => (String(t || '').replace(/\s+/g, ' ').match(/^.*?[.
 export async function createCryptologyBrain(opts = {}) {
   const { store, llm, embedder, legalRules, legalAnswers, recall, catalogLookup, cryptoFile,
     systemMap, systemMapFile, seatSystemMap = true, grammarHead = true, emojiHead = true,
-    translateHead = true, languageTeacher = true, visionHead = true } = opts;
+    translateHead = true, languageTeacher = true, visionHead = true, audioHead = true } = opts;
 
   // VOICE — the completed Language + Personality LoRA (lora-brain.mjs, served on the box) becomes the
   // brain's last-resort 2020s layer, framed by Rule 1 and the ancient-languages-first register. An
@@ -158,6 +159,8 @@ export async function createCryptologyBrain(opts = {}) {
   // OCCIPITAL — general vision: zero-shot classify, caption, detect, OCR, depth, segment (native CPU).
   // Not nature-specific; species/mushroom/bird fine-tunes + a DINOv2+FAISS exemplar index build on this.
   const vision = visionHead ? createVisionHead() : null;
+  // AUDITORY — hear speech (Whisper), name sounds (AST), speak (SpeechT5), native CPU.
+  const audio = audioHead ? createAudioHead() : null;
   if (teacher && typeof brain.teachPattern === 'function') {
     try { brain.teachPattern('teach-language',
       /\b(teach me|help me learn|want to learn|learn (a|the)? ?language|can you teach|teach .*\b(language|tongue)\b)\b/i,
@@ -252,7 +255,7 @@ export async function createCryptologyBrain(opts = {}) {
     return { topics, pages };
   }
 
-  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, vision, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
+  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, vision, audio, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
 }
 
 export default { createCryptologyBrain, axesFor, RULE_1, RULE_1_SHORT };
