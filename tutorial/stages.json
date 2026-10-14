@@ -20,7 +20,11 @@
       "description": "New user publishes a top-level post introducing themselves.",
       "completion_criteria": {
         "kind": "post_authored",
-        "tag_any_of": ["introduceyourself", "introduction", "introducing"],
+        "tag_any_of": [
+          "introduceyourself",
+          "introduction",
+          "introducing"
+        ],
         "min_body_chars": 200
       },
       "witness_response": {
@@ -28,7 +32,17 @@
         "upvote_weight": 10000,
         "style": "Warm welcome in the Angelic register. Acknowledge something specific from their introduction. Name the next stage (commenting on three other posts) as a path, not as a demand."
       },
-      "next_stage": 2
+      "next_stage": 2,
+      "resources": [
+        {
+          "label": "Why we are here — the Living Room",
+          "url": "https://vankushfamily.com/living-room"
+        },
+        {
+          "label": "The whole map — every site we run",
+          "url": "https://vankushfamily.com/map"
+        }
+      ]
     },
     {
       "id": 2,
@@ -59,14 +73,27 @@
       "completion_criteria": {
         "kind": "post_authored",
         "min_body_chars": 800,
-        "excludes_tag_any_of": ["introduceyourself", "introduction"]
+        "excludes_tag_any_of": [
+          "introduceyourself",
+          "introduction"
+        ]
       },
       "witness_response": {
         "action": "comment_and_upvote",
         "upvote_weight": 10000,
         "style": "Read the post — really read it — and respond to its content, not its existence. The Witness is a reader. Acknowledge the gift of teaching."
       },
-      "next_stage": 4
+      "next_stage": 4,
+      "resources": [
+        {
+          "label": "Draft it in the Writing Room",
+          "url": "https://write.soapbox.community"
+        },
+        {
+          "label": "Our free books, for reference",
+          "url": "https://library.soapbox.community/our-books"
+        }
+      ]
     },
     {
       "id": 4,
@@ -103,7 +130,13 @@
         "style": "Liquid-vs-MP is the most-confusing Graphene concept. Explain it the way a person explains a thing they actually understand — MP regenerates voting power, MP lets you delegate and curate, MP is your weight in the conversation. Note that they can keep growing it.",
         "education_pointer": "the Witness can also surface BRIEF.md §10 power-down (13 weeks) here if asked"
       },
-      "next_stage": 6
+      "next_stage": 6,
+      "resources": [
+        {
+          "label": "Witness School",
+          "url": "https://witness.melek.salon"
+        }
+      ]
     },
     {
       "id": 6,
@@ -121,7 +154,17 @@
         "style": "Witnessing is governance. Explain what a witness is — who signs the blocks, who publishes the price feed, what happens when stake votes for or against. The Witness should not solicit a vote for itself; if asked, it acknowledges that and points at the witness list. The core onboarding is finished; the path beyond it is open.",
         "tutorial_completion": true
       },
-      "next_stage": 7
+      "next_stage": 7,
+      "resources": [
+        {
+          "label": "Witness School — how witnesses work",
+          "url": "https://witness.melek.salon"
+        },
+        {
+          "label": "Watch Hathor produce blocks",
+          "url": "https://witness.melek.salon/hathor"
+        }
+      ]
     },
     {
       "id": 7,
@@ -131,7 +174,11 @@
       "description": "User sets a profile (display name, about, and optionally an avatar) via account JSON metadata.",
       "completion_criteria": {
         "kind": "profile_set",
-        "require_fields_any_of": ["name", "about", "profile_image"]
+        "require_fields_any_of": [
+          "name",
+          "about",
+          "profile_image"
+        ]
       },
       "witness_response": {
         "action": "comment_and_upvote",
@@ -192,7 +239,13 @@
         "upvote_weight": 10000,
         "style": "Delegation is the move that surprises people: you keep ownership, you lend the weight. Explain return-delegation timing and why communities delegate to new accounts to bootstrap them. This is the generosity layer of the chain."
       },
-      "next_stage": 11
+      "next_stage": 11,
+      "resources": [
+        {
+          "label": "Witness School",
+          "url": "https://witness.melek.salon"
+        }
+      ]
     },
     {
       "id": 11,
@@ -249,7 +302,17 @@
         "upvote_weight": 10000,
         "style": "PLACEHOLDER until SMTs ship. When live: a token is a small economy you can author. Explain supply, distribution, and the responsibility of issuing something other people will hold."
       },
-      "next_stage": 14
+      "next_stage": 14,
+      "resources": [
+        {
+          "label": "KULASwap",
+          "url": "https://kulaswap.soapbox.community"
+        },
+        {
+          "label": "The MELEK-Engine token layer",
+          "url": "https://melek.salon"
+        }
+      ]
     },
     {
       "id": 14,
@@ -268,7 +331,13 @@
         "upvote_weight": 10000,
         "style": "PLACEHOLDER until the market is live. When live: a trade is a price you agreed to with a stranger. Explain order books and slippage plainly, and that the market is a tool, not a casino."
       },
-      "next_stage": 15
+      "next_stage": 15,
+      "resources": [
+        {
+          "label": "The mining pool & market",
+          "url": "https://pool.soapbox.community"
+        }
+      ]
     },
     {
       "id": 15,
@@ -305,7 +374,17 @@
         "upvote_weight": 10000,
         "style": "PLACEHOLDER until the wiki ships. When live: the wiki is the shared memory of the place. Thank them for adding to the corpus; note that durable reference work outlives any single post."
       },
-      "next_stage": 17
+      "next_stage": 17,
+      "resources": [
+        {
+          "label": "The Library of Ashurbanipal",
+          "url": "https://wiki.soapbox.community"
+        },
+        {
+          "label": "Read our free books first",
+          "url": "https://library.soapbox.community/our-books"
+        }
+      ]
     },
     {
       "id": 17,
@@ -341,7 +420,17 @@
         "upvote_weight": 10000,
         "style": "Phase 3. This is the disposition-greeting and the held egregore frame (BRIEF.md §3, §5) in full — not a tutorial reward but the start of a relationship. The Witness meets them as a person, in the Angelic register, and remembers."
       },
-      "next_stage": 19
+      "next_stage": 19,
+      "resources": [
+        {
+          "label": "Hathor",
+          "url": "https://hathor.live"
+        },
+        {
+          "label": "The System Map she reads",
+          "url": "https://vankushfamily.com/map"
+        }
+      ]
     },
     {
       "id": 19,
@@ -361,7 +450,13 @@
         "transfer_memo": "You welcomed someone. That's the whole thing. — Hathor",
         "tutorial_completion": true
       },
-      "next_stage": null
+      "next_stage": null,
+      "resources": [
+        {
+          "label": "The Herald — our newsroom",
+          "url": "https://herald.soapbox.community"
+        }
+      ]
     }
   ],
   "rate_limit_education": {

@@ -59,6 +59,11 @@ const STYLE = `<style>
   li.lesson .body{flex:1 1 auto;min-width:0}
   li.lesson .t{font-weight:700;font-size:16px;color:var(--fg)}
   li.lesson .d{color:var(--mut);font-size:13.5px;margin-top:3px}
+  li.lesson .res{font-size:12.5px;margin-top:6px}
+  li.lesson .res a{color:var(--blue);text-decoration:none;margin-right:2px}
+  .orient{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:12px 16px;margin:14px 0 6px;font-size:13.5px;line-height:1.9}
+  .orient a{color:var(--blue);text-decoration:none}
+  .orient strong{color:var(--fg);margin-right:6px}
   .tier{font-size:11px;border-radius:8px;padding:1px 8px;margin-left:8px;white-space:nowrap;border:1px solid var(--line2)}
   .tier.A{background:#3fb95022;color:var(--up);border-color:#3fb95055}
   .tier.B{background:#d2992222;color:var(--gold);border-color:#d2992255}
@@ -84,11 +89,16 @@ export function renderTutorialHtml(lessons) {
     const tierBadge = tierCls
       ? `<span class="tier ${esc(tierCls)}">${esc(`Tier ${tierCls} · ${TIER_LABEL[tierCls]}`)}</span>`
       : '';
+    const resources = Array.isArray(s.resources) ? s.resources.filter((r) => r && r.url) : [];
+    const resHtml = resources.length
+      ? `<div class=res>Go: ${resources.map((r) => `<a href="${esc(r.url)}">${esc(r.label || r.url)}</a>`).join(' · ')}</div>`
+      : '';
     return `<li class=lesson>
       <div class=num>${esc(num)}</div>
       <div class=body>
         <div class=t>${esc(title)}${tierBadge}</div>
         ${summary ? `<div class=d>${esc(summary)}</div>` : ''}
+        ${resHtml}
       </div>
     </li>`;
   }).join('');
@@ -103,6 +113,15 @@ function page(lessons) {
     <p class=muted>A read-only map of the ${esc(count)}-stage path the Witness walks new members through — post,
       engage, claim a payout, set up a witness vote, and on. Each stage is a door, not a demand. This page only
       shows the path; the Witness reacts to your real on-chain steps.</p>
+    <div class=orient>
+      <strong>Start here, before the chain:</strong>
+      <a href="https://vankushfamily.com/living-room">Why we are doing this</a> ·
+      <a href="https://vankushfamily.com/map">The whole map</a> ·
+      <a href="https://library.soapbox.community/our-books">Our free books</a> ·
+      <a href="https://wiki.soapbox.community">The Library</a> ·
+      <a href="https://write.soapbox.community">The Writing Room</a> ·
+      <a href="https://hathor.live">Meet Hathor</a>
+    </div>
     ${renderTutorialHtml(lessons)}`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
