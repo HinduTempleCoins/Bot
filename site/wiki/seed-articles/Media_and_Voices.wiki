@@ -1,0 +1,31 @@
+'''Media and Voices''' is the section of [[The Library of Ashurbanipal]] that covers the people, outlets, and movements that shape public discourse — legacy news, independent and YouTube media, commentators, journalists, and the thinkers behind ideas that spread. It is written on a deliberately different model from a vanilla encyclopedia.
+
+== What this section is, and is not ==
+
+Most reference writing about a media figure or outlet reads like an authorized autobiography: a neutral list of jobs held and awards won, with every sharp edge sanded off. This section does the opposite. We are interested in what a voice actually '''says''' and '''does''' — the smart arguments and the foolish ones, the good instincts and the bad ideologies — held in the same hand. The point is not to award a verdict of "good person / bad person"; it is to give a reader enough to think with.
+
+Three editorial rules govern every entry here:
+
+* '''Dialectical, not black-and-white.''' A subject can be right about one thing and badly wrong about another, and we say both plainly. We quote people in their own words, praise what deserves praise, and criticize what deserves criticism, in the same article. A voice is a mix of signal and noise; our job is to separate them, not to flatten them into a mascot or a villain.
+* '''Curated, not a mass list.''' This is not a directory of every pundit and channel. We write about a subject when there is something worth understanding — a real history, an influential idea, a pattern worth naming. One considered entry per subject; we do not clutter the Library with a stub for everyone who ever held a microphone.
+* '''Connected to the rest of the estate.''' How we write about media is informed by the work in our own verticals. A claim about a cable network's coverage is read against the record in [[SoapBox Politics]] and [[SoapBox Law]]; a commentator's market or crypto takes are read against [[SoapBox Stocks]] and the [[Crypto Glossary]]; a reporter's story is tied to the actual case or filing it concerns. The media section does not float free of the facts the rest of the Library already holds.
+
+== How we write about a subject ==
+
+The treatment depends on the kind of subject. For '''legacy and cable outlets and major commentary shows''' a typical entry moves through: who they are and the real history (often the most important and least-told part); the core positions they are known for; '''the strong case''' — what they get right or what is genuinely valuable; '''the weak case''' — the errors, bad arguments, or harmful ideology, named specifically rather than gestured at; and the connective tissue to our other coverage. For '''individual YouTubers and channels''' the entry is lighter and content-first: who they are in a line or two, then their '''notable videos and the recurring series or formats''' they are known for — what they actually make and why people watch — rather than a heavy ideological audit. For '''the thinkers behind ideas''' the focus is the idea itself and its strong and weak case. Living people are written about carefully and from the record; we build from documented facts and direct quotes, not rumor.
+
+== The section's reach ==
+
+'''Legacy and cable media''' — outlets with long and complicated histories, where the history itself is half the story: Fox News, CNN, and their peers, read against the media-wide record (see [[White supremacy is media-wide]] framing in [[SoapBox Oversight]]).
+
+'''Independent and web media''' — [[The Young Turks]] and the online-commentary ecosystem, where we get into both the useful and the unserious of what gets said.
+
+'''YouTube and movement media''' — [[The Great Debate Era]] and Sa Neter's Black Conscious community; channels across history, mystery, and commentary such as The Theorizer, Taylor Alesia, Silvia (ailaughatmyownjokes), Wartime Stories, and others worth a considered look.
+
+'''Ideas and the people behind them''' — the thinkers whose frameworks drive a lot of this discourse, including the [[Alienism vs Angelicalism]] divide (ancient-astronaut readings of scripture versus an angelic one), Erich von Däniken, Chuck Missler, and the surrounding world of ancient-mystery media — plus adjacent cultural threads we have researched directly, such as "Egyptian Magic" skin cream and the [[Zar]] tradition.
+
+'''Individual journalists''' — selectively, where a reporter's body of work matters to a story we cover, not as a roster.
+
+== Related ==
+
+[[The Great Debate Era]] · [[Alienism vs Angelicalism]] · [[SoapBox Politics]] · [[SoapBox Law]] · [[SoapBox Oversight]] · [[Crypto Glossary]]
