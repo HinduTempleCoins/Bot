@@ -51,7 +51,12 @@ let _wf = null, _wfTried = false;
 async function loadWavefile() {
   if (_wfTried) return _wf;
   _wfTried = true;
-  try { ({ WaveFile: _wf } = await import('wavefile')); } catch { _wf = null; }
+  try {
+    const { createRequire } = await import('node:module');
+    const require = createRequire(import.meta.url);
+    const m = require('wavefile');
+    _wf = m.WaveFile || m.default || m;
+  } catch { _wf = null; }
   return _wf;
 }
 export async function decodeAudio(input, targetRate = 16000) {
