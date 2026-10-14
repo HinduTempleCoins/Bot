@@ -46,3 +46,19 @@ test('soft-fails without coordinates', () => {
   const sky = createSky();
   assert.deepEqual(sky.positions({ date: D }), []); // no lat/lon
 });
+
+test('visibleStars + identifyStar + named lookup', () => {
+  const sky = createSky();
+  if (!sky.available()) return;
+  const stars = sky.visibleStars({ date: D, ...NYC, limit: 5 });
+  assert.ok(stars.length >= 1 && stars[0].name, 'has a brightest visible star');
+  assert.ok(stars[0].mag <= stars[stars.length - 1].mag, 'sorted brightest first');
+  // point at the brightest star's own direction -> it identifies itself
+  const b = stars[0];
+  const id = sky.identifyStar({ altitude: b.altitude, azimuth: b.azimuth, date: D, ...NYC });
+  assert.equal(id.name, b.name);
+  // named lookup with position
+  const v = sky.star('Vega', { date: D, ...NYC });
+  assert.equal(v.name, 'Vega'); assert.equal(v.constellation, 'Lyra');
+  assert.equal(sky.star('NotAStar'), null);
+});
