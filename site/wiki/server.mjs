@@ -11,7 +11,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { layout, renderWiki, esc, slugify, titleize, tocAside } from './render.mjs';
+import { figuresForPage } from './figures.mjs';
+import { noticesForPage } from './safety-notices.mjs';
 import { groupArticles, groupArticlesByPillars, categoriesFor, categoryById, PILLARS } from './categories.mjs';
+import { wikidataMap, aboutNode, articleMarkdown, llmsIndex, atomFeed, breadcrumbLd, websiteLd, collectionLd } from './geo.mjs';
 import { robotsTxt, INDEXNOW_KEY, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
@@ -29,6 +32,9 @@ const PRIVATE = /(_private|secret|operator|\.local|scripture)/i;
 // Article sources, first match wins per slug: the bot's generated articles (ARTICLES_DIR), then the articles
 // committed with the site (how our tools work, MELEK, Hathor…), the seed articles, and finally seed drafts.
 const ARTICLE_DIRS = [ARTICLES_DIR, path.join(__dir, 'articles'), path.join(__dir, 'seed-articles'), SEED_DRAFTS_DIR];
+// The "Download the whole Library" export (built by integrations/wiki-export.mjs): JSONL dataset + corpus.
+const DL_DIR = path.join(__dir, 'download');
+const DL_TYPES = { 'library.jsonl': 'application/jsonl; charset=utf-8', 'library-corpus.txt': 'text/plain; charset=utf-8', 'manifest.json': 'application/json; charset=utf-8' };
 // Wiki images (the Metatron GenAI graphics) are served from here via the /files/ route. Serving code
 // only — article text is untouched. Generated images live in site/wiki/files/.
 const FILES_DIR = process.env.WIKI_FILES_DIR || path.join(__dir, 'files');
@@ -99,7 +105,11 @@ function articleDate(file) {
 function articlePage(slug) {
   const a = readArticle(slug);
   if (!a) return { code: 404, html: layout({ title: 'Not found', body: `<h1>Not found</h1><p class=muted>No article "${esc(slug)}". <a href="/">← Library</a></p>` }) };
-  const { html, refs, footnotes, toc } = renderWiki(a.text);
+  const { html: rendered, refs, footnotes, toc } = renderWiki(a.text);
+  // Figures for an existing article are attached HERE, at render time, keyed by slug — the .wiki file
+  // itself is never modified (wiki article text is not ours to edit; see site/wiki/figures.mjs).
+  // A safety banner goes ABOVE everything, including figures — it is the first thing on the page.
+  const html = noticesForPage(slug) + figuresForPage(slug) + rendered;
   const flags = flagsForArticle(refs);
   const flagBlock = flags.length ? `<div class=flag><b>⚠️ Fact-check flags (${flags.length})</b> — the knowledge base sources for this article contain claims our fact-checker could not verify against external reality. Treat the following with caution:
     <ul>${flags.slice(0, 10).map((f) => `<li>[${esc(f.verdict)}] ${esc(f.claim)}${f.reason ? ` — <span class=muted>${esc(f.reason)}</span>` : ''}</li>`).join('')}</ul></div>` : '';
@@ -120,17 +130,29 @@ function articlePage(slug) {
     isPartOf: { '@type': 'CreativeWorkSeries', name: 'Library of Ashurbanipal' },
   };
   const datePublished = articleDate(a.file);
-  if (datePublished) jsonld.datePublished = datePublished;
+  if (datePublished) { jsonld.datePublished = datePublished; jsonld.dateModified = datePublished; }
   // breadcrumbs: Library › <first real category> › <title> — orients a reader who arrived deep-linked.
   const catIds = categoriesFor(a.title).filter((c) => c !== 'other');
   const cat = catIds.length ? categoryById(catIds[0]) : null;
+  // GEO / WikiEO: language, section keywords, the matching Wikidata/Wikipedia entity, breadcrumb trail.
+  jsonld.inLanguage = 'en';
+  const kw = catIds.map((id) => (categoryById(id) || {}).name).filter(Boolean);
+  if (kw.length) { jsonld.keywords = kw.join(', '); jsonld.articleSection = kw[0]; }
+  const about = aboutNode(a.slug, a.title);
+  if (about) jsonld.about = about;
+  jsonld.isPartOf = { '@type': 'WebSite', '@id': `${BASE_URL}/#website`, name: 'Library of Ashurbanipal', url: `${BASE_URL}/` };
+  const crumbsLd = breadcrumbLd([{ name: 'Library', url: `${BASE_URL}/` }, ...(cat ? [{ name: cat.name, url: `${BASE_URL}/category/${cat.id}` }] : []), { name: a.title, url }]);
+  const graph = { '@context': 'https://schema.org', '@graph': [{ ...jsonld, '@context': undefined }, crumbsLd] };
+  delete graph['@graph'][0]['@context'];
   const crumbs = `<a href="/">Library</a><span class=sep>›</span>${cat ? `<a href="/category/${esc(cat.id)}">${esc(cat.name)}</a><span class=sep>›</span>` : ''}${esc(a.title)}`;
   // "filed under" category chips at the foot of the article — lateral navigation.
   const chipIds = categoriesFor(a.title);
   const chips = `<p style="margin-top:28px"><span class=faint style="font-family:system-ui,sans-serif;font-size:12px">Filed under &nbsp;</span>${chipIds.map((id) => { const g = categoryById(id) || { id, name: id }; return `<a class=chip href="/category/${esc(g.id)}">${esc(g.name)}</a>`; }).join('')}</p>`;
   const topToc = tocAside(toc);
   const body = `<h1>${esc(a.title)}<span class=lede-rule aria-hidden=true></span></h1>${flagBlock}${html}${footnotes}${chips}`;
-  return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld, ogType: 'article', body, toc: topToc, crumbs }) };
+  const elsewhere = about ? `<p class=faint style="font-family:system-ui,sans-serif;font-size:12px;margin-top:6px">Elsewhere: ${about.sameAs.map((u) => `<a href="${esc(u)}" rel="noopener" target=_blank>${/wikidata/.test(u) ? 'Wikidata' : 'Wikipedia'}</a>`).join(' · ')}</p>` : '';
+  const head = `<link rel="alternate" type="text/markdown" title="${esc(a.title)} (Markdown)" href="${esc(url)}.md">`;
+  return { code: 200, html: layout({ title: a.title, description: descText, canonical: url, jsonld: graph, ogType: 'article', body: body + elsewhere, toc: topToc, crumbs, head }) };
 }
 
 // "Start here" — the newcomer's learning path, surfaced above the A–Z list so the Library actually
@@ -237,7 +259,7 @@ function indexPage() {
     ${pillarSectionsHtml}
     ${clientScript}`;
 
-  return layout({ title: 'Library', canonical: `${BASE_URL}/`, body, active: 'home' });
+  return layout({ title: 'Library', description: 'The Library of Ashurbanipal: cited, fact-checked articles on blockchains and the MELEK / SoapBox ecosystem, harm reduction, plants and preparation, entrainment, religion, law and more, organised into browsable sections.', canonical: `${BASE_URL}/`, jsonld: websiteLd(BASE_URL), ogType: 'website', body, active: 'home' });
 }
 
 function searchPage(q) {
@@ -259,6 +281,26 @@ function searchPage(q) {
       ${hits.map((a) => `<div class=card><a href="/wiki/${a.slug}" style="font-size:16px;font-weight:700">${esc(a.title)}</a></div>`).join('')}`
       : '<p class=muted style="margin-top:14px">Type a term and press Enter.</p>'}`;
   return layout({ title: q ? `Search: ${q}` : 'Search', body, active: 'search' });
+}
+
+function downloadPage() {
+  let m = {};
+  try { m = JSON.parse(fs.readFileSync(path.join(DL_DIR, 'manifest.json'), 'utf8')); } catch { m = {}; }
+  const mb = (f) => { try { return (fs.statSync(path.join(DL_DIR, f)).size / 1048576).toFixed(1) + ' MB'; } catch { return ''; } };
+  const body = `<article>
+    <h1>Download the whole Library</h1>
+    <p class=muted>The entire Library of Ashurbanipal — <b>${esc(String(m.articles || ''))} articles</b> — as open files you can read offline, mirror, or <b>train your own AI</b> on. This is the same corpus that feeds Hathor's brain. Education and reference; attribution to the Van Kush Family Research Institute.</p>
+    <h2>Files</h2>
+    <ul>
+      <li><a href="/download/library.jsonl"><b>library.jsonl</b></a> — ${mb('library.jsonl')} — one JSON record per article (title, url, categories, full text). The format you fine-tune or build RAG on.</li>
+      <li><a href="/download/library-corpus.txt"><b>library-corpus.txt</b></a> — ${mb('library-corpus.txt')} — every article as plain text, concatenated.</li>
+      <li><a href="/download/manifest.json"><b>manifest.json</b></a> — counts, date, license/attribution.</li>
+    </ul>
+    <h2>Use it</h2>
+    <p>Train or retrieve over the library, mirror it, or read it offline. ${esc(String(m.license || ''))}</p>
+    <p class=muted>Generated ${esc(String(m.generated || '').slice(0, 10))}. The wiki is authored in the wiki; these are read-only exports.</p>
+  </article>`;
+  return layout({ title: 'Download the whole Library', description: 'The Library of Ashurbanipal as an open dataset — read offline, mirror, or train your own AI.', body, active: 'download' });
 }
 
 function aboutPage() {
@@ -339,7 +381,7 @@ function categoriesPage() {
       <p class="cat-links" style="margin:0;line-height:2.15;font-size:18px">${sortedArts.map((a) => `<a class="cat-link" data-title="${esc(a.title.toLowerCase())}" href="/wiki/${esc(a.slug)}" style="color:var(--link);font-weight:600;text-decoration:none">${esc(a.title)}</a>`).join(' <span class=sep style="color:var(--line2);padding:0 5px;font-size:16px">&middot;</span> ')}</p>
     </section>
     ${filterScript}`;
-  return layout({ title: 'Contents', canonical: `${BASE_URL}/categories`, body, active: 'categories' });
+  return layout({ title: 'Contents', description: 'Every section of the Library of Ashurbanipal and every article in it, from Start here and the SoapBox verticals to substances, plants, law and religion.', canonical: `${BASE_URL}/categories`, ogType: 'website', body, active: 'categories' });
 }
 
 function categoryPage(id) {
@@ -351,16 +393,45 @@ function categoryPage(id) {
   const body = `<h1>${esc(g.name)}<span class=lede-rule aria-hidden=true></span></h1><p class=muted>${esc(g.blurb || '')}</p>
     <p style="margin:16px 0;line-height:2.15;font-size:18px">${g.items.map((a) => `<a href="/wiki/${esc(a.slug)}" style="color:var(--link);font-weight:600;text-decoration:none">${esc(a.title)}</a>`).join(' <span class=sep style="color:var(--line2);padding:0 5px;font-size:16px">&middot;</span> ')}</p>
     <p style="margin-top:22px"><a href="/categories">← All contents</a></p>`;
-  return { html: layout({ title: g.name, canonical: `${BASE_URL}/category/${id}`, body, active: 'categories', crumbs }), code: 200 };
+  const description = `${g.name}: ${g.items.length} articles in the Library of Ashurbanipal${g.blurb ? ` — ${g.blurb}` : ''}`.slice(0, 300);
+  return { html: layout({ title: g.name, description, canonical: `${BASE_URL}/category/${id}`, jsonld: collectionLd({ base: BASE_URL, id, name: g.name, blurb: g.blurb, items: g.items }), ogType: 'website', body, active: 'categories', crumbs }), code: 200 };
 }
 
 function sitemap() {
   const statics = ['/', '/about', '/search', '/categories'].map((u) => ({ loc: u, lastmod: '' }));
-  const cats = groupArticles(listArticles()).map((g) => ({ loc: `/category/${g.id}`, lastmod: '' }));
+  const newest = (items) => items.map((a) => articleDate(a.file)).filter(Boolean).sort().pop() || '';
+  const cats = groupArticles(listArticles()).map((g) => ({ loc: `/category/${g.id}`, lastmod: newest(g.items) }));
+  const all = newest(listArticles());
+  for (const st of statics) if (st.loc === '/' || st.loc === '/categories') st.lastmod = all;
   const arts = listArticles().map((a) => ({ loc: `/wiki/${a.slug}`, lastmod: articleDate(a.file) }));
   const entries = [...statics, ...cats, ...arts];
   const node = (e) => `  <url><loc>${BASE_URL}${encodeURI(e.loc)}</loc>${e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ''}<changefreq>weekly</changefreq></url>`;
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.map(node).join('\n')}\n</urlset>`;
+}
+
+// ── GEO: what AI answer engines read ──────────────────────────────────────────────────────────────
+// The ecosystem map an AI should hand a newcomer (the wiki doubles as the ecosystem's navigation).
+const ECOSYSTEM = [
+  { label: 'Start here', url: `${BASE_URL}/category/start`, note: 'the way in for a newcomer' },
+  { label: 'The SoapBox verticals', url: `${BASE_URL}/category/verticals`, note: 'every app in the ecosystem, what it is for, how to get there' },
+  { label: 'Chains and how they work', url: `${BASE_URL}/category/chains`, note: 'MELEK, PRANA, witnesses, tokens, bridges' },
+  { label: 'MELEK (the social chain)', url: 'https://melek.salon', note: 'post, vote, earn' },
+  { label: 'Hathor Studio', url: 'https://hathor.soapbox.community', note: 'free image, remake and animation studio' },
+  { label: 'Witness School', url: 'https://witness.melek.salon', note: 'how block production and witnesses work' },
+];
+let _geoCache = null; let _geoAt = 0;
+function geoArticles() { // [{slug,title,file,description,modified,sections}] — cached 5 min (reads every file once)
+  if (_geoCache && Date.now() - _geoAt < 300e3) return _geoCache;
+  _geoCache = listArticles().map((a) => {
+    let text = ''; try { text = fs.readFileSync(a.file, 'utf8'); } catch {}
+    const sections = categoriesFor(a.title).filter((c) => c !== 'other').map((id) => (categoryById(id) || {}).name).filter(Boolean);
+    return { ...a, text, description: articleDescription(text, a.title), modified: articleDate(a.file), sections };
+  });
+  _geoAt = Date.now();
+  return _geoCache;
+}
+function llmsFull() {
+  return geoArticles().map((a) => articleMarkdown({ title: a.title, url: `${BASE_URL}/wiki/${a.slug}`, description: a.description, sections: a.sections, text: a.text, modified: a.modified })).join('\n\n---\n\n');
 }
 
 export const handler = (req, res) => {
@@ -369,6 +440,13 @@ export const handler = (req, res) => {
     const p = url.pathname;
     const send = (html, code = 200) => { res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=120' }); res.end(html); };
     if (p === '/' || p === '/wiki' || p === '/wiki/') return send(indexPage());
+    if (p.startsWith('/wiki/') && p.endsWith('.md')) { // clean Markdown of one article, for AI readers
+      const slug = decodeURIComponent(p.slice('/wiki/'.length, -3));
+      const a = geoArticles().find((x) => x.slug === slug);
+      if (!a) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      res.writeHead(200, { 'content-type': 'text/markdown; charset=utf-8', 'cache-control': 'public, max-age=600', link: `<${BASE_URL}/wiki/${a.slug}>; rel="canonical"` });
+      return res.end(articleMarkdown({ title: a.title, url: `${BASE_URL}/wiki/${a.slug}`, description: a.description, sections: a.sections, text: a.text, modified: a.modified }));
+    }
     if (p.startsWith('/wiki/')) { const r = articlePage(decodeURIComponent(p.slice('/wiki/'.length))); return send(r.html, r.code); }
     if (p.startsWith('/files/')) {
       const name = decodeURIComponent(p.slice('/files/'.length));
@@ -399,15 +477,30 @@ export const handler = (req, res) => {
     if (p === '/categories' || p === '/contents') return send(categoriesPage());
     if (p.startsWith('/category/')) { const r = categoryPage(decodeURIComponent(p.slice('/category/'.length))); return send(r.html, r.code); }
     if (p === '/about') return send(aboutPage());
+    if (p === '/download' || p === '/download/') return send(downloadPage());
+    if (p.startsWith('/download/')) {
+      const name = p.slice('/download/'.length);
+      if (!DL_TYPES[name]) { res.writeHead(404); return res.end('not found'); }
+      try {
+        const buf = fs.readFileSync(path.join(DL_DIR, name));
+        res.writeHead(200, { 'content-type': DL_TYPES[name], 'content-disposition': `attachment; filename="${name}"`, 'access-control-allow-origin': '*', 'cache-control': 'public, max-age=3600' });
+        return res.end(buf);
+      } catch { res.writeHead(404); return res.end('not found'); }
+    }
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemap()); }
     if (p === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10))); }
     if (p === '/llms.txt') {
-      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
-      return res.end(llmsTxt({
-        name: 'Library of Ashurbanipal', baseUrl: BASE_URL,
-        summary: 'A grounded, fact-checked knowledge library — articles synthesized from authoritative sources with citations.',
-        links: [{ label: 'Library', path: '/' }, { label: 'Contents', path: '/categories' }, { label: 'Search', path: '/search' }, { label: 'About', path: '/about' }],
-      }));
+      const by = new Map(geoArticles().map((a) => [a.slug, a]));
+      const groups = groupArticles(listArticles()).map((g) => ({ ...g, items: g.items.map((i) => by.get(i.slug) || i) }));
+      res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=600' });
+      return res.end(llmsIndex({ base: BASE_URL, groups, ecosystem: ECOSYSTEM }));
+    }
+    if (p === '/llms-full.txt') { res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=600' }); return res.end(llmsFull()); }
+    if (p === '/feed.xml') {
+      const recent = [...geoArticles()].sort((a, b) => (b.modified || '').localeCompare(a.modified || '')).slice(0, 50);
+      const entries = recent.map((a) => ({ title: a.title, url: `${BASE_URL}/wiki/${a.slug}`, updated: `${a.modified || '1970-01-01'}T00:00:00Z`, description: a.description }));
+      res.writeHead(200, { 'content-type': 'application/atom+xml; charset=utf-8', 'cache-control': 'public, max-age=600' });
+      return res.end(atomFeed({ base: BASE_URL, entries, updated: entries[0] ? entries[0].updated : new Date().toISOString() }));
     }
     if (p === '/robots.txt') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(robotsTxt(BASE_URL)); }
     if (p === `/${INDEXNOW_KEY}.txt`) { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end(INDEXNOW_KEY); }
@@ -427,3 +520,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     }
   });
 }
+export { listArticles as __listArticles };
