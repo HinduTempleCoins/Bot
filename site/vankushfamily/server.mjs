@@ -402,6 +402,7 @@ export function homePage() {
   <h2 class=sectionh>Come in — pick a door</h2>
   <div class=dests>${cards}</div>
   <p class=foot-note>New here? Start with <a href="https://melek.salon">MELEK</a> — your one account opens every door above.</p>
+  <p class=foot-note>Read why: <a href="/living-room">The Sitting Room and the Living Room</a> · <a href="/vs">us vs. everyone</a> · <a href="/map">the whole map</a> · <a href="https://library.soapbox.community/our-books">our free books</a></p>
   ${propertiesSection()}
   ${subscribeWidget({ base: BASE_URL, heading: 'Get the Van Kush Family dispatch' })}`;
   return landing('Van Kush Family — join the family', body,
@@ -502,7 +503,8 @@ em{color:var(--mut)}
 @media(max-width:640px){body{font-size:16px}h1{font-size:1.6em}main{padding:18px 16px 48px}}
 </style></head><body>
 <header class=mast><a href="/">← Van Kush Family</a></header>
-<main>${LIVING_ROOM_BODY}</main>
+<main>${LIVING_ROOM_BODY}
+<hr><p class=sub>Room by room: <a href="/vs">all the comparisons</a> · <a href="/map">the whole system map</a> · <a href="https://library.soapbox.community/our-books">our free books</a> · <a href="https://wiki.soapbox.community">the Library</a></p></main>
 </body></html>`;
 }
 
