@@ -30,6 +30,17 @@ import { navBar, NAV_STYLE, navDrawer, NAV_DRAWER_JS } from '../../integrations/
 import { subscribeWidget, handle as newsletterHandle } from '../../integrations/newsletter.mjs';
 import { resendMailer } from '../../integrations/email-verify.mjs';
 import { promises as fsp } from 'node:fs';
+import { LIVING_ROOM_BODY } from './living-room.mjs';
+import { renderMapPage } from '../../integrations/system-brain-map.mjs';
+
+let _sysMap = null;
+function systemMapPage() {
+  if (!_sysMap) {
+    try { _sysMap = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'knowledge', 'system-map.json'), 'utf8')); }
+    catch { _sysMap = { generated: new Date().toISOString(), counts: { sites: 0, repos: 0 }, sites: [], repos: [] }; }
+  }
+  return renderMapPage(_sysMap, BASE_URL);
+}
 
 const PORT = +(process.env.PORT || 8104);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -188,7 +199,10 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+<link rel=canonical href="${esc(canonical)}">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Van Kush Family"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${esc(canonical)}">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(desc)}">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://soapbox.community/#org","name":"Van Kush Family","url":"https://soapbox.community"},{"@type":"WebSite","@id":"${BASE_URL}/#website","url":"${BASE_URL}","name":"Van Kush Family","publisher":{"@id":"https://soapbox.community/#org"}}]}</script>${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <div class=enav-strip style="background:var(--panel,#14181d);border-bottom:1px solid var(--line2,#222a33);padding:7px 18px">${navDrawer({ current: 'roadmap' })}</div>
 <header class=topbar><a class=brand href="/">Van Kush Family <span>roadmap</span></a>
   <div class=topbar-r><a href="#shipped">Shipped</a><a href="#day0">MELEK&nbsp;live</a><a href="#prana">PRANA</a><a href="#soap">SOAP</a><a href="#beyond">Beyond</a></div></header>
@@ -399,6 +413,10 @@ function landing(title, body, opts = {}) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <meta name=description content="${esc(opts.desc || '')}"><link rel=canonical href="${esc(canonical)}">
+<meta name=robots content="index,follow,max-image-preview:large">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Van Kush Family"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(opts.desc || '')}"><meta property="og:url" content="${esc(canonical)}">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(opts.desc || '')}">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://soapbox.community/#org","name":"Van Kush Family","url":"https://soapbox.community","logo":{"@type":"ImageObject","@id":"${BASE_URL}/#crest","url":"${BASE_URL}/vankush-logo.png","contentUrl":"${BASE_URL}/vankush-logo.png","caption":"The Van Kush Family heraldic crest.","creditText":"Van Kush Family"}},{"@type":"WebSite","@id":"${BASE_URL}/#website","url":"${BASE_URL}","name":"Van Kush Family","publisher":{"@id":"https://soapbox.community/#org"}},{"@type":"ImageObject","@id":"${BASE_URL}/#crest","url":"${BASE_URL}/vankush-logo.png","contentUrl":"${BASE_URL}/vankush-logo.png","name":"Van Kush family crest","caption":"The Van Kush Family heraldic crest.","creditText":"Van Kush Family"}]}</script>
 <style>
  /* colorblock + vaporwave: neon magenta/cyan/purple over a deep dusk gradient, hard color blocks. */
  :root{--bg0:#1a0b2e;--bg1:#2a1250;--magenta:#ff2e97;--cyan:#25e8f2;--purple:#a24bff;--gold:#ffd23f;--teal:#00c2a8;--fg:#fdf4ff;--mut:#c7b3e6}
@@ -446,7 +464,46 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-const SITEMAP_PATHS = ['/', '/roadmap', '/properties.json'];
+const SITEMAP_PATHS = ['/', '/roadmap', '/living-room', '/map', '/properties.json'];
+
+// The public manifesto — its own clean standalone shell (page() hardcodes a roadmap topbar).
+function livingRoomPage() {
+  const title = 'The Sitting Room and the Living Room — Van Kush Family';
+  const desc = 'What we are building, measured against DMT-Nexus, Erowid, Justia, CaseText, Westlaw, Ballotpedia, Wikipedia, the exchanges and the press wires, NaNoWriMo, Scribd and Amazon — one shift, repeated: turning the parlor into the living room.';
+  const canonical = `${BASE_URL}/living-room`;
+  return `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>${esc(title)}</title>
+<meta name=description content="${esc(desc)}">
+<meta name=robots content="index,follow,max-image-preview:large">
+<link rel=canonical href="${esc(canonical)}">
+<meta property="og:type" content="article"><meta property="og:site_name" content="Van Kush Family"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${esc(canonical)}">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(desc)}">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":${JSON.stringify(title)},"author":{"@type":"Organization","name":"Van Kush Family Research Institute"},"publisher":{"@type":"Organization","name":"Van Kush Family"},"mainEntityOfPage":${JSON.stringify(canonical)}}</script>
+<style>
+:root{--bg:#0f1317;--panel:#161b21;--ink:#e8eef2;--mut:#9fb0bd;--line:#273039;--green:#49c37a;--link:#7fd6a0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 Georgia,'Times New Roman',serif}
+header.mast{padding:16px 18px;border-bottom:1px solid var(--line);background:var(--panel)}
+header.mast a{color:var(--green);text-decoration:none;font-weight:700;font-family:system-ui,sans-serif}
+main{max-width:46em;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:2em;line-height:1.2;margin:.2em 0 .1em}
+h2{color:var(--green);margin-top:1.8em;border-top:1px solid var(--line);padding-top:1em}
+a{color:var(--link)}
+p,li{color:var(--ink)}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;margin:1.2em 0;font-family:system-ui,sans-serif;font-size:.92em}
+th,td{border:1px solid var(--line);padding:.55em .7em;vertical-align:top;text-align:left}
+th{background:var(--panel);color:var(--green)}
+tr:nth-child(even) td{background:#12171c}
+blockquote{border-left:3px solid var(--green);margin:1.2em 0;padding:.3em 1em;color:var(--mut)}
+hr{border:none;border-top:1px solid var(--line);margin:2em 0}
+strong{color:#fff}
+em{color:var(--mut)}
+@media(max-width:640px){body{font-size:16px}h1{font-size:1.6em}main{padding:18px 16px 48px}}
+</style></head><body>
+<header class=mast><a href="/">← Van Kush Family</a></header>
+<main>${LIVING_ROOM_BODY}</main>
+</body></html>`;
+}
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -468,9 +525,12 @@ export async function handler(req, res) {
     }
     if (path === '/sitemap.xml') {
       const today = new Date().toISOString().slice(0, 10);
-      const entries = SITEMAP_PATHS.map((u) => ({
-        path: u, lastmod: today, changefreq: 'weekly', priority: '1.0',
-      }));
+      const entries = SITEMAP_PATHS.map((u) => {
+        const e = { path: u, lastmod: today, changefreq: 'weekly', priority: '1.0' };
+        // The homepage carries our OWN heraldic crest — list it so Google/Bing Images can index it.
+        if (u === '/') e.images = [{ loc: '/vankush-logo.png', title: 'Van Kush family crest', caption: 'The Van Kush Family heraldic crest.' }];
+        return e;
+      });
       res.writeHead(200, { 'content-type': 'application/xml' });
       return res.end(sitemapXml(BASE_URL, entries));
     }
@@ -495,6 +555,8 @@ export async function handler(req, res) {
     }
     if (path === '/') return sendHtml(res, homePage());
     if (path === '/roadmap') return sendHtml(res, roadmapPage());
+    if (path === '/living-room' || path === '/sitting-room') return sendHtml(res, livingRoomPage());
+    if (path === '/map' || path === '/system-map') return sendHtml(res, systemMapPage());
 
     // unknown → home
     res.writeHead(302, { location: '/' });

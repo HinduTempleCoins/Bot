@@ -114,3 +114,7 @@ apps/move/*.keystore
 
 # recovered session transcripts — contain hostnames/tokens, never commit
 archive/recovered-sessions/
+
+# generated books (deployed via scp, not committed)
+marketing/books/dist/
+site/library/ourbooks/

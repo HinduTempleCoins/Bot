@@ -24,6 +24,7 @@
 
 import { createServer } from 'node:http';
 import * as books from '../../integrations/soapbox/books-open.mjs';
+import { renderShelf, serveBook, catalog, OURBOOKS_STYLE } from './our-books.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 
 const PORT = +(process.env.PORT || 8195);
@@ -66,6 +67,7 @@ a{color:#1a4b8c}
 .data-note,.legend{color:var(--muted);font-size:.87rem}
 .legend dt{font-weight:600;margin-top:.5rem}
 .legend dd{margin:0 0 .2rem}
+${OURBOOKS_STYLE}
 </style>`;
 
 function page({ query = '', body = '' }) {
@@ -75,6 +77,11 @@ function page({ query = '', body = '' }) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(SITE_NAME)}${query ? ` — ${q}` : ''}</title>
 <meta name="description" content="A public-domain-first library of books and documents: Project Gutenberg texts served directly, Internet Archive in its own reader, Open Library for everything else.">
+<link rel="canonical" href="${esc(BASE_URL)}/${query ? `?q=${encodeURIComponent(query)}` : ''}">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="website"><meta property="og:site_name" content="${esc(SITE_NAME)}"><meta property="og:title" content="${esc(SITE_NAME)}${query ? ` — ${q}` : ''}"><meta property="og:description" content="A public-domain-first library of books and documents — Project Gutenberg, Internet Archive and Open Library.">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="${esc(SITE_NAME)}"><meta name="twitter:description" content="A public-domain-first library of books and documents.">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://soapbox.community/#org","name":"SoapBox","url":"https://soapbox.community"},{"@type":"WebSite","@id":"${BASE_URL}/#website","url":"${BASE_URL}","name":"${SITE_NAME}","publisher":{"@id":"https://soapbox.community/#org"}}]}</script>
 ${STYLE}</head><body>
 <h1>${esc(SITE_NAME)}</h1>
 <p class="tag">Public domain first. Nothing here is anybody else's file rehosted.</p>
@@ -120,6 +127,23 @@ export async function handler(req, res) {
       }));
     }
 
+    // ── Our own books (free, served directly — "our Scribd") ──────────────────────────────────
+    const mBook = path.match(/^\/our-books\/([a-z0-9-]+)(\.epub|\.pdf)?$/);
+    if (mBook) {
+      const slug = mBook[1];
+      const ext = mBook[2] ? mBook[2].slice(1) : 'html';
+      const f = serveBook(slug, ext);
+      if (!f) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
+      const headers = { 'content-type': f.type, 'cache-control': 'public, max-age=3600' };
+      if (f.download) headers['content-disposition'] = `attachment; filename="${slug}.${ext}"`;
+      res.writeHead(200, headers);
+      return res.end(f.buf);
+    }
+    if (path === '/our-books' || path === '/our-books/') {
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(page({ query: '', body: renderShelf() }));
+    }
+
     const query = String(url.searchParams.get('q') || '').slice(0, 200);
 
     if (path === '/api/search') {
@@ -136,7 +160,7 @@ export async function handler(req, res) {
         const found = await books.search({ query, limit: MAX_RESULTS });
         body = books.renderList(found);
       } else {
-        body = `<p class="data-note">${esc(books.dataNote())}</p>`;
+        body = renderShelf() + `<p class="data-note">${esc(books.dataNote())}</p>`;
       }
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
       return res.end(page({ query, body }));
