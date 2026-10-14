@@ -32,6 +32,7 @@ import { createAudioHead } from '../integrations/brain-head-audio.mjs';
 import { createIdentifier } from '../integrations/identifier.mjs';
 import { createInteroception } from '../integrations/brain-interoception.mjs';
 import { createReward } from '../integrations/brain-reward.mjs';
+import { createCouncil } from '../integrations/hathor-council.mjs';
 import * as reagents from '../integrations/reagent-interpreter.mjs';
 // Hathor's VOICE: the completed Language + Personality LoRA, served via lora-brain.mjs (Modal, box env).
 // When configured it becomes the brain's top (2020s) layer; soft-fails to the cheaper layers otherwise.
@@ -271,7 +272,10 @@ export async function createCryptologyBrain(opts = {}) {
     return { topics, pages };
   }
 
-  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, vision, audio, identifier, reagent, interoception, reward, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
+  // COUNCIL — the egregore of seats deciding together, over this brain's own ask/translate, weighted
+  // by the reward lobe. deliberate(q) -> one voice from many; feedback() teaches who to believe.
+  const council = createCouncil({ brain: { ask, translate, rule1Short: RULE_1_SHORT }, reward });
+  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, vision, audio, identifier, reagent, interoception, reward, council, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
 }
 
 export default { createCryptologyBrain, axesFor, RULE_1, RULE_1_SHORT };
