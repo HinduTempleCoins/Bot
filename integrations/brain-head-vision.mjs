@@ -58,11 +58,13 @@ async function loadPipe(task, model) {
   return pipe;
 }
 
-async function run(spec, input, opts) {
+// Call the pipe with whatever positional args the task needs. Zero-shot tasks take candidate_labels as a
+// POSITIONAL second arg in this transformers.js version (pipe(image, labels)), not inside an options object.
+async function run(spec, input, ...rest) {
   try {
     const pipe = await loadPipe(spec.task, spec.model);
     if (!pipe) return null;
-    return await pipe(input, opts || {});
+    return await pipe(input, ...rest);
   } catch { return null; }
 }
 
@@ -73,7 +75,7 @@ export function createVisionHead(overrides = {}) {
     /** Zero-shot with candidate `labels`, else ImageNet classification. Returns ranked [{label,score}] | null. */
     async classify(image, labels = null, k = 5) {
       if (Array.isArray(labels) && labels.length) {
-        const out = await run(M.zeroShotClassify, image, { candidate_labels: labels });
+        const out = await run(M.zeroShotClassify, image, labels); // candidate_labels positional
         return out ? (Array.isArray(out) ? out : [out]).slice(0, k) : null;
       }
       const out = await run(M.classify, image, { topk: k });
@@ -87,7 +89,7 @@ export function createVisionHead(overrides = {}) {
     },
     /** Objects in the image. labels -> zero-shot detection; else trained detector. Returns [] | detections. */
     async detect(image, labels = null) {
-      if (Array.isArray(labels) && labels.length) return (await run(M.zeroShotDetect, image, { candidate_labels: labels })) || [];
+      if (Array.isArray(labels) && labels.length) return (await run(M.zeroShotDetect, image, labels)) || []; // positional
       return (await run(M.detect, image)) || [];
     },
     /** Read text out of an image (OCR). Returns string | null. */
