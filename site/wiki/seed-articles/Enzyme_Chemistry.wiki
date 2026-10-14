@@ -1,0 +1,75 @@
+# Enzyme Chemistry
+
+'''Enzyme chemistry''' is the connective tissue of this whole Library. An enzyme is a biological catalyst — almost always a protein — that takes one molecule (the '''substrate''') and turns it into another (the '''product'''), fast and selectively, under body-temperature conditions. Every substance in this Library is on one or both sides of some enzyme's reaction: a plant '''builds''' a cannabinoid or an alkaloid with enzymes, and your '''body''' takes that same molecule apart (or switches it on) with other enzymes. This article teaches both directions at once — the '''anabolic / biosynthetic''' lens (how one thing *becomes* another, "this or that") and the '''metabolic''' lens (what is actually happening in your body when you take something) — and it maps the specific transformations onto the articles that already cover them in depth. For the quantitative side (Km, Vmax, Ki, competitive vs. non-competitive inhibition, transporters) see [[Enzyme Inhibition Kinetics and Molecular Transporters]].
+
+== 1. The Two Directions Every Enzyme Serves ==
+
+* '''Anabolism / biosynthesis (building up):''' small, cheap precursors are assembled into complex, valuable molecules — a plant turning fatty-acid and sugar scraps into THCA, or a cell methylating theobromine into caffeine. This is where "a synthesis that could be profitable" actually lives legitimately: give a microbe or a cell the right enzymes and feedstock and it ''grows'' the product (see §6, fermentation).
+* '''Catabolism / metabolism (breaking down or switching):''' the body transforms a molecule to use it, activate it, or clear it — oxidizing caffeine, hydrolyzing acetylcholine, deaminating serotonin. This is where '''dose, duration, interactions, and danger''' come from.
+* The same molecule is usually a ''product'' of one enzyme and a ''substrate'' of the next. Health, potency, and toxicity are all questions of '''which enzyme wins the competition for a given molecule''' — and that is something you can deliberately steer (§5).
+
+== 2. The Cofactors That Power the Transformations ==
+
+Most enzymes cannot act alone; they need a small-molecule '''cofactor''' that carries the group being moved. Learn these five and most biochemistry becomes readable:
+
+* '''SAM (S-adenosylmethionine) — the universal methyl donor.''' Every "add a methyl group" step runs on SAM: theobromine → caffeine, noradrenaline → adrenaline, the O-methylation of catecholamines by COMT. SAM is regenerated through the folate/methionine cycle — which is why [[L-Methylfolate]] and [[Choline Donors]] matter to methylation capacity.
+* '''PLP (pyridoxal-5′-phosphate, vitamin B6) — decarboxylation and transamination.''' Every "remove the carboxyl, make the amine" step: L-DOPA → dopamine, 5-HTP → serotonin, histidine → histamine.
+* '''BH4 (tetrahydrobiopterin) — aromatic hydroxylation.''' Tyrosine → L-DOPA and tryptophan → 5-HTP both need BH4.
+* '''NAD(P)H and FAD — the redox currency.''' Oxidations and reductions, including the [[Cytochrome P450 System Inhibition and Induction]] monooxygenases (which also use O₂) and the flavin of [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems|monoamine oxidase]].
+* '''CoA / acyl-CoA and ATP — activation and acyl transfer.''' Hexanoyl-CoA and malonyl-CoA feed the cannabinoid polyketide; acetyl-CoA + choline makes acetylcholine.
+
+== 3. The Enzyme Classes, With Library Examples ==
+
+* '''Transferases''' (move a group): methyltransferases (SAM) make caffeine and adrenaline; prenyltransferase builds the cannabinoid skeleton; ChAT transfers acetyl to choline.
+* '''Oxidoreductases''' (redox): [[Cytochrome P450 System Inhibition and Induction|CYP450]] (Phase-I oxidation), monoamine oxidase (deaminates serotonin/dopamine — see [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]]), tyrosine/tryptophan hydroxylases, dopamine-β-hydroxylase.
+* '''Hydrolases''' (add water, cleave): acetylcholinesterase ([[Cholinergic Neurotransmission and Cholinesterase Inhibition]]), [[Sublingual Absorption and Salivary Enzymes|salivary esterases]], and FAAH, which ends the anandamide signal ([[Endocannabinoid Chemistry and 2-AG Metabolism]]).
+* '''Lyases / decarboxylases''' (PLP): aromatic L-amino-acid decarboxylase makes dopamine and serotonin from their precursors.
+* '''Synthases / ligases''' (assemble): polyketide synthase + olivetolic-acid cyclase and the cannabinoid synthases (THCA/CBDA/CBCA synthase); caffeine synthase.
+* '''Isomerases''' (rearrange): e.g. the geranyl/neryl-PP isomerase that feeds cannabinoid prenylation.
+
+== 4. Worked Transformations — How One Thing Becomes Another ==
+
+Each line is ''substrate → product (enzyme, cofactor)'', with the article that covers it in depth.
+
+* '''Theobromine → caffeine''' (caffeine synthase / N-methyltransferase, SAM). The whole purine series — xanthosine → 7-methylxanthine → theobromine → caffeine — is one methyltransferase after another. See [[Caffeine Extraction]].
+* '''Hexanoyl-CoA + 3 malonyl-CoA → olivetolic acid → CBGA → THCA / CBDA / CBCA''' (polyketide synthase + olivetolic-acid cyclase; then prenyltransferase; then the Δ⁹-THCA / CBDA / CBCA synthases). THCA and CBDA then become THC and CBD by non-enzymatic decarboxylation (heat). This is the cannabinoid pathway, and the direct structural cousin of the caffeine purine pathway.
+* '''L-Tyrosine → L-DOPA''' (tyrosine hydroxylase, BH4) '''→ dopamine''' (AADC, PLP) '''→ noradrenaline''' (dopamine-β-hydroxylase) '''→ adrenaline''' (PNMT, SAM). Velvet bean (''Mucuna pruriens'') is a direct L-DOPA source that enters this chain. See [[Catecholamines Transporters and Monoamine Reuptake]].
+* '''L-Tryptophan → 5-HTP''' (tryptophan hydroxylase, BH4) '''→ serotonin''' (AADC, PLP) '''→ melatonin''' (N-acetylation + SAM methylation). See [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+* '''Choline + acetyl-CoA → acetylcholine''' (choline acetyltransferase); then '''acetylcholine → choline + acetate''' (acetylcholinesterase). The whole on/off switch of the cholinergic synapse. See [[Cholinergic Neurotransmission and Cholinesterase Inhibition]] and [[Choline Donors]].
+* '''Codeine → morphine''' (CYP2D6, O-demethylation) — a '''prodrug bioactivation''': the body's enzyme makes the active drug. See [[Cannabinoid and Tryptamine Prodrugs]] and [[Cytochrome P450 System Inhibition and Induction]].
+* '''Folate → dihydrofolate → tetrahydrofolate → L-methylfolate''', feeding methionine → SAM — the engine that powers every methylation above. See [[L-Methylfolate]].
+
+== 5. Metabolic Redirection — Utilizing Enzymes to Steer Where a Molecule Goes ==
+
+Because a molecule is fought over by competing enzymes, you can decide the outcome by three levers — the operational heart of this Library's pharmacology:
+
+* '''Supply the substrate and cofactor (precursor loading):''' give the body L-DOPA (mucuna), 5-HTP, choline, or methyl donors ([[L-Methylfolate]]) and you push the building pathway toward its product.
+* '''Inhibit the enzyme that would destroy it:''' this is the [[The Huasca Phenomenon and Metabolic Redirection|huasca phenomenon]] — an '''MAO inhibitor''' lets orally-taken tryptamines survive the gut and liver instead of being deaminated, and black-pepper piperine or grapefruit furanocoumarins inhibit CYP enzymes to raise and lengthen exposure. See [[Bioavailability Metabolic Inhibition and Synergy]], [[Oilahuasca]], [[Cannabinoid Oilahuasca]].
+* '''Induce the enzyme to clear it faster:''' chronic exposure (e.g. tobacco smoke inducing CYP1A2) speeds clearance, which is why smokers metabolize caffeine faster and why quitting can cause caffeine to pile up.
+
+== 6. Biosynthesis as the Modern "Profitable Synthesis" ==
+
+The legitimate, patentable way to ''make'' a valuable molecule is often to let an enzyme do it. Give an engineered microbe (yeast or ''E. coli'') the biosynthetic enzymes and cheap feedstock and it ferments the product: caffeine from the methyltransferase pathway (§4), or cannabinoids from the olivetolic-acid pathway — the same diagrams the cannabis plant runs, moved into a fermenter. This is clean, scalable, and lawful where the product is, and it is the honest home of "a synthesis that could be profitable." Chemical total synthesis (see [[Caffeine Extraction]] §9) is the alternative when no biological route is available.
+
+== 7. What Is Happening in Your Body — The Metabolism Lens ==
+
+When you take any substance, it runs a gauntlet of enzymes, and knowing the gauntlet is knowing the dose and the danger:
+
+* '''Phase I (functionalization):''' mostly [[Cytochrome P450 System Inhibition and Induction|CYP450]] oxidations that add or expose a reactive handle — and that can '''activate''' a prodrug (codeine → morphine) or '''inactivate''' a drug. First-pass metabolism in gut and liver is why oral doses differ so much from sublingual or inhaled ([[Sublingual Absorption and Salivary Enzymes]]).
+* '''Phase II (conjugation):''' glucuronidation, sulfation, methylation (COMT), acetylation, and glutathione tagging make the molecule water-soluble for excretion.
+* '''The amine-handling enzymes:''' MAO deaminates serotonin, dopamine, and tyramine; this is why an MAOI plus aged cheese (tyramine) risks a hypertensive crisis, and an MAOI plus a serotonergic risks serotonin syndrome. See [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+* '''The interaction map is the risk map:''' most dangerous combinations are enzyme-mediated — a CYP inhibitor stacking a drug to toxic levels, an MAOI removing a safety valve, an induced enzyme causing withdrawal of effect. This is covered quantitatively in [[Enzyme Inhibition Kinetics and Molecular Transporters]] and practically in [[Bioavailability Metabolic Inhibition and Synergy]].
+
+== 8. Safety and Harm Reduction ==
+
+The enzyme layer is exactly where the serious interactions live, so it is taught as part of the chemistry, not withheld. '''MAOI + tyramine''' (aged/fermented foods) → hypertensive crisis. '''MAOI + serotonergic''' (SSRIs, tryptamines, some cough suppressants) → serotonin syndrome. '''CYP inhibition''' (grapefruit, some antifungals, ritonavir) can multiply blood levels of an ordinary dose into an overdose. '''Enzyme induction''' (smoking, St. John's Wort, carbamazepine) can silently drop a drug below effect — including hormonal contraceptives. Before combining anything in this Library, ask the enzyme question first: ''what processes this, and what else am I giving that speeds it up or shuts it down?''
+
+== See also ==
+* [[Enzyme Inhibition Kinetics and Molecular Transporters]]
+* [[Cytochrome P450 System Inhibition and Induction]]
+* [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]]
+* [[The Huasca Phenomenon and Metabolic Redirection]]
+* [[Catecholamines Transporters and Monoamine Reuptake]]
+* [[Cholinergic Neurotransmission and Cholinesterase Inhibition]]
+* [[Bioavailability Metabolic Inhibition and Synergy]]
+* [[L-Methylfolate]] · [[Choline Donors]] · [[Caffeine Extraction]] · [[Cannabinoid and Tryptamine Prodrugs]] · [[Endocannabinoid Chemistry and 2-AG Metabolism]]

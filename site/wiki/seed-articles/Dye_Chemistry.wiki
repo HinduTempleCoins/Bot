@@ -1,0 +1,79 @@
+# Dye Chemistry
+
+'''Dye chemistry''' is the study of how molecules produce color and how that color is bound to a material. A dye is a colored compound that is '''applied from solution''' and holds to a fiber, surface, or — as this Library cares about especially — to the titanium-dioxide of a [[Enzyme Powders, Color, and Dye-Sensitized Solar Cells|dye-sensitized solar cell]]. This article covers why a molecule is colored at all (chromophores and auxochromes), the major dye classes by structure and by how they are applied, mordants, the great natural dyes (including Tyrian purple, the Phoenician royal color), the difference between dyes and pigments, and the special requirements of a dye that must turn light into electricity. For the enzymes that ''make'' dyes and for the solar cell itself, see [[Enzyme Powders, Color, and Dye-Sensitized Solar Cells]]; for how color is produced enzymatically in the body and in the plant, see [[Enzyme Chemistry]].
+
+== 1. Why a Molecule Has Color ==
+
+* Visible light runs ~400 nm (violet) to ~700 nm (red). A dye '''absorbs''' certain wavelengths and we see the '''complementary''' color of what is left — a dye that absorbs blue-green looks red.
+* Absorption happens when a photon lifts an electron from the molecule's highest occupied orbital (HOMO) to its lowest unoccupied orbital (LUMO). The '''size of that HOMO–LUMO gap sets the color'''. A small gap absorbs long-wavelength (red) light; a large gap absorbs in the UV and the compound looks colorless.
+* To shrink the gap into the visible, a molecule needs '''extended conjugation''' — alternating single/double bonds (a delocalized π-system). The more conjugated the system, the longer the wavelength absorbed. This is the whole secret of dye design.
+
+== 2. Chromophores and Auxochromes (Witt's theory, 1876) ==
+
+* A '''chromophore''' is the unsaturated, light-absorbing group that sits in the conjugated system. The classic chromophores: the '''azo''' group (–N=N–), the '''carbonyl''' (C=O, as in anthraquinone), '''nitro''' (–NO₂) and '''nitroso''' (–N=O), '''azomethine''' (C=N), quinoid rings, and the big ring systems of the '''porphyrins/phthalocyanines'''. No chromophore, no color.
+* An '''auxochrome''' is a substituent that does not make color by itself but '''deepens and intensifies''' the chromophore's absorption and gives the dye affinity and water-solubility: '''–OH, –NH₂, –NR₂''' (electron donors) and '''–SO₃H, –COOH''' (which also add solubility and a handle for binding). A donor on one end and an acceptor on the other make a "push–pull" dye with strong, deep color.
+* Vocabulary: a '''bathochromic''' shift moves absorption toward red (deeper color); '''hypsochromic''' toward blue; '''hyperchromic/hypochromic''' change the intensity.
+
+== 3. Dye Classes by Chromophore (structure) ==
+
+* '''Azo dyes''' (–N=N– joining aromatic rings): by far the largest class (~60–70% of all dyes), cheap, and span the whole spectrum. Mono-, dis-, tris-, and polyazo by the number of azo links.
+* '''Anthraquinone dyes''': the carbonyl-on-fused-rings chromophore — the second most important class, prized for brilliant, lightfast blues/reds (madder's alizarin, cochineal's carminic acid are natural anthraquinones).
+* '''Indigoid / vat''': indigo and its relatives — the denim blue; '''Tyrian purple''' is 6,6′-dibromoindigo (see §6).
+* '''Triarylmethane''': brilliant, intense greens/violets/blues (malachite green, crystal violet) — but generally poor lightfastness.
+* '''Phthalocyanine''': a large, flat, very stable ring usually chelating copper — the great industrial blues and greens (and a candidate solar sensitizer).
+* '''Xanthene''': fluorescein and the rhodamines — fluorescent.
+* '''Polymethine / cyanine''': long conjugated chains, absorbing far into the red and infrared — the dyes of photographic film and a natural fit as '''solar-cell sensitizers''' (§7).
+* '''Sulphur''' and '''nitro/nitroso''' dyes round out the cheaper end.
+
+== 4. Dye Classes by Application (how they go on) ==
+
+* '''Acid dyes''' — anionic, bind protein/nylon fibers through salt links (wool, silk).
+* '''Basic (cationic) dyes''' — bind acrylics and, historically, silk; very bright.
+* '''Direct dyes''' — large planar molecules that adsorb onto cotton straight from a salt bath; cheap, lower wash-fastness.
+* '''Disperse dyes''' — tiny, nearly insoluble dyes carried onto polyester.
+* '''Reactive dyes''' — form a '''covalent bond''' to cellulose (–OH) for excellent wash-fastness; the modern cotton standard.
+* '''Vat dyes''' — insoluble; '''reduced to a soluble "leuco" form''', soaked into the fiber, then '''re-oxidized in air''' back to the insoluble color locked inside the fiber. Indigo is the archetype — this redox step is why denim fades the way it does.
+* '''Sulphur dyes''' — cheap, dark cottons via a similar reduce-apply-oxidize cycle.
+* '''Mordant dyes''' — need a metal to hold (§5).
+
+== 5. Mordants — Fixing Color With a Metal ==
+
+* A '''mordant''' is a metal salt (alum/aluminium, chrome, iron, tin, copper) applied before, with, or after the dye. The metal ion forms a '''coordination complex''' bridging the dye molecule to the fiber, both fixing it and often '''changing the shade''' — iron "saddens" (darkens/greys) a color, tin and alum brighten it, chrome deepens it. One natural dye over several mordants yields a whole palette. Mordanting is the key craft of natural dyeing.
+
+== 6. The Great Natural Dyes (and the Phoenician thread) ==
+
+* '''Indigo''' (from woad and ''Indigofera'') — the blue, a vat dye.
+* '''Madder''' → '''alizarin''' (an anthraquinone) — the classic red ("Turkey red" with an alum/oil mordant).
+* '''Cochineal / kermes''' → '''carminic acid''' (anthraquinone) — crimson from insects.
+* '''Logwood''' → haematoxylin — blacks and purples with iron.
+* '''Weld, fustic, turmeric (curcumin), henna (lawsone), saffron''' — yellows and oranges.
+* '''Tyrian purple''' — '''6,6′-dibromoindigo''', extracted from ''Murex'' sea-snails by the '''Phoenicians''' of Tyre and Carthage. It took thousands of snails for a few grams, making it worth more than its weight in gold and reserving it for royalty — the original "royal purple." It is the most storied dye in history and sits directly on this project's '''Punic / Phoenician''' line (the Sera / wax / J2a diaspora thread).
+
+== 7. Dyes That Make Electricity — The Solar Requirement ==
+
+A dye for a [[Enzyme Powders, Color, and Dye-Sensitized Solar Cells|dye-sensitized solar cell]] has to do more than look colored; it has to '''inject an electron into titanium dioxide''', so it needs three things:
+* '''Broad, strong visible absorption''' — a good chromophore with extended conjugation (anthocyanins, cyanines, porphyrins/phthalocyanines, Ru-polypyridyl dyes like N719).
+* '''Energy levels that line up''' — its excited-state (LUMO) energy must sit '''above''' the TiO₂ conduction band so the electron flows downhill into the semiconductor, and its ground state (HOMO) must sit where the electrolyte can refill it. This matching is why many pretty natural dyes make poor cells.
+* '''An anchoring group''' — usually a '''–COOH (carboxyl)''' or hydroxyl that chemically grips the TiO₂ surface so the electron can jump across. Natural anthocyanins carry hydroxyls that do this; synthetic solar dyes are built with carboxyl anchors on purpose.
+
+So dye chemistry and solar chemistry are one subject: pick the chromophore for the color and the light, add the auxochrome/anchor for binding and energy-level tuning, and the same molecule that dyes a cloth can power a cell.
+
+== 8. Dyes vs. Pigments ==
+
+* A '''dye''' is soluble (or is solubilized during application) and binds to the substrate at the molecular level.
+* A '''pigment''' is an insoluble solid, ground into fine particles and '''dispersed''' in a binder (paint, ink, plastic). The same chromophore (e.g. phthalocyanine) can serve as a dye or, as an insoluble salt/complex, as a pigment.
+
+== 9. Safety and Harm Reduction ==
+* Some '''azo dyes''' can be reduced (in the gut or environment) to '''aromatic amines''', several of which are '''carcinogenic''' — the reason certain azo dyes are banned in textiles and food; prefer tested, compliant dyes for anything skin- or food-contacting.
+* '''Mordant metals''' — chromium (especially Cr(VI)), copper, and tin salts — are toxic and an environmental hazard; handle with gloves/ventilation and never pour spent chrome mordant down the drain. Alum and iron are the gentler mordants.
+* '''Vat/sulphur reduction''' uses strong reducing agents and alkali (sodium dithionite, lye) — caustic; ventilate and protect skin and eyes.
+
+== See also ==
+* [[Enzyme Powders, Color, and Dye-Sensitized Solar Cells]]
+* [[Enzyme Chemistry]]
+* [[Caffeine Extraction]] — caffeine copigments anthocyanin solar dyes
+
+== Sources ==
+* ScienceDirect (chromophore overview), IntechOpen "Structure and Properties of Dyes and Pigments," and university dye-chemistry notes — Witt's 1876 chromophore/auxochrome theory, HOMO–LUMO/conjugation basis of color, dye classes by chromophore and by application, mordanting.
+* Standard references on natural dyes and Tyrian purple (6,6′-dibromoindigo; Murex; Phoenician Tyre/Carthage).
+* DSSC literature (see the Dye-Sensitized Solar Cells article) — sensitizer requirements: absorption, energy-level alignment with TiO₂, and carboxyl anchoring.

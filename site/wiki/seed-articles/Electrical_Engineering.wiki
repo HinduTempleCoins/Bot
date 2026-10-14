@@ -1,0 +1,86 @@
+# Electrical Engineering
+
+'''Electrical engineering''' is the discipline of generating, moving, measuring, and using electricity — the field the original photovoltaics thread leaned on most heavily, because you cannot understand turning light into power without understanding circuits, current, induction, and the grid that carries it. This article covers the lineage of the field (Franklin to Steinmetz), the core laws, the DC-vs-AC War of the Currents, transformers and three-phase power, Steinmetz's mathematics of alternating current, Heaviside's transmission-line theory, grounding, Maxwell's electromagnetism, and the classic textbooks the thread pointed readers toward. It is the engineering backbone under [[Electricity and Photovoltaics]], [[Crystal Technology, Signaling, and the Interplanetary Mesh]], and [[Solar Mining]]. This is educational theory, not a wiring or installation guide.
+
+== 1. The Lineage of Electrical Engineering ==
+
+* '''Benjamin Franklin''' (1750s) — identified lightning as electricity; the convention of positive/negative charge.
+* '''Alessandro Volta''' (1800) — the voltaic pile, the first steady source of current (the "volt").
+* '''Ørsted and Ampère''' (1820s) — a current creates a magnetic field; the mathematics of electromagnetism (the "amp").
+* '''Georg Ohm''' (1827) — the relationship between voltage, current, and resistance (the "ohm").
+* '''Michael Faraday and Joseph Henry''' (1831) — electromagnetic induction: a changing magnetic field drives a current. The basis of generators, motors, and transformers.
+* '''James Clerk Maxwell''' (1861–1865) — unified electricity, magnetism, and light into one set of field equations.
+* '''Oliver Heaviside''' (1880s) — recast Maxwell's twenty equations into the modern four, invented vector calculus for fields and transmission-line theory, and predicted the ionospheric layer that bounces radio.
+* '''Thomas Edison''' (1882) — DC power systems and the first central station (Pearl Street).
+* '''Nikola Tesla and George Westinghouse''' (1887–1896) — the AC induction motor and polyphase systems; the winning side of the War of the Currents.
+* '''Charles Proteus Steinmetz''' (1890s–1920s) — "the Wizard of Schenectady"; made AC engineering computable and tamed magnetic hysteresis.
+* '''Guglielmo Marconi''' (1890s–1900s) — long-distance radio.
+* '''Philo Farnsworth''' (1927) — all-electronic television; the image dissector.
+
+== 2. The Core Laws ==
+
+* '''The quantities:''' '''charge''' (coulombs), '''current''' (amperes, charge per second), '''voltage''' (volts, the "pressure" or energy per charge), and '''resistance''' (ohms, opposition to flow).
+* '''Ohm's law:''' V = I × R — voltage equals current times resistance. The single most-used relationship in the field.
+* '''Power:''' P = V × I (and, by substitution, I²R or V²/R) — the rate energy is delivered, in watts.
+* '''Kirchhoff's laws:''' current into a node equals current out (charge is conserved); voltages around any loop sum to zero (energy is conserved). These two let you solve any network.
+
+== 3. DC vs. AC — and the War of the Currents ==
+
+* '''Direct current (DC)''' flows one way (a battery, a solar cell). '''Alternating current (AC)''' reverses direction many times a second (50 or 60 Hz on the grid).
+* '''Edison backed DC'''; '''Tesla and Westinghouse backed AC'''. AC '''won''' for one decisive reason: a '''transformer''' can step AC up to very high voltage for transmission and back down for use, and high voltage means low current, which means low I²R loss over long distances. DC could not be transformed easily at the time, so it could only serve a neighborhood.
+* '''The scare campaign:''' Edison publicized the dangers of high-voltage AC — including grim electrocution demonstrations and lobbying that AC be used for the electric chair — to frighten the public away from his rival's system. AC's technical advantage won anyway. (Modern high-voltage DC now exists for special long lines, but the grid is AC.)
+
+== 4. Transformers, Induction, and Three-Phase Power ==
+
+* '''Induction (Faraday)''' is the engine of the whole power system: move a magnet past a coil and you get a voltage. An '''alternator''' (see [[Electricity and Photovoltaics]]) spins a magnetic field past windings to make AC; a '''motor''' runs the same physics in reverse.
+* '''A transformer''' is two coils sharing an iron core: a changing current in one induces a voltage in the other, scaled by the turns ratio. This is why AC can be shipped at hundreds of thousands of volts and delivered at 120/240.
+* '''Three-phase power''' uses three AC waveforms 120° apart. It delivers constant power, runs motors smoothly, and uses conductors efficiently — which is why the grid and industrial power are three-phase.
+
+== 5. Steinmetz and the Mathematics of AC ==
+
+AC is hard to compute because voltage and current are constantly changing and often out of step (phase). '''Steinmetz''' made it tractable by representing each AC quantity as a '''complex number (a phasor)''' — magnitude and phase angle — so that AC circuit problems reduce to ordinary algebra with complex numbers. He also quantified '''hysteresis''' (the energy lost re-magnetizing iron each cycle), which let engineers design efficient machines. His work is the reason AC engineering became a precise discipline rather than trial and error.
+
+== 6. Heaviside — Transmission Lines and the Layer That Bounces Radio ==
+
+* '''Oliver Heaviside''' reduced Maxwell's cumbersome original equations to the '''four vector equations''' engineers use today, and invented much of the '''operational/vector calculus''' to do it.
+* His '''transmission-line (telegrapher's) equations''' describe how voltage and current travel along a long cable — essential for telegraph, telephone, power lines, and every high-speed signal path (ties to the signaling material in [[Crystal Technology, Signaling, and the Interplanetary Mesh]]).
+* He predicted a conducting layer high in the atmosphere that reflects radio waves — the '''Kennelly–Heaviside layer''', part of the '''ionosphere''' — which is how long-range AM radio skips over the horizon.
+
+== 7. Grounding and Earthing ==
+
+* '''Grounding''' uses the Earth itself as a conductor and a voltage reference. Early telegraphs used '''single-wire earth return''': one wire out, and the planet as the return path — the Earth was the first proof that grounding completes a circuit. You don't need two wires when the ground closes the loop.
+* In modern practice, grounding also serves '''safety''' (giving fault current a safe path and keeping exposed metal at earth potential) and '''signal reference''' (a common zero for measurements). Poor grounding is behind crosstalk and hum. (See the grounding/signaling detail in [[Crystal Technology, Signaling, and the Interplanetary Mesh]].)
+
+== 8. Electromagnetism — Maxwell's Equations ==
+
+Maxwell's four equations, with the Lorentz force law, are the foundation of classical electrodynamics, optics, and circuit theory:
+* '''Gauss's law''' — electric charge creates an electric field.
+* '''Gauss's law for magnetism''' — there are no magnetic monopoles.
+* '''Faraday's law''' — a changing magnetic field creates an electric field (induction).
+* '''Ampère–Maxwell law''' — currents and changing electric fields create magnetic fields.
+Together they predict '''electromagnetic waves travelling at the speed of light''' — showing that light itself is an electromagnetic wave, the deep link between electrical engineering and [[Electricity and Photovoltaics|photovoltaics]].
+
+== 9. From Electrical Engineering to Photovoltaics, Crystals, and Solar Power ==
+
+Everything above is the substrate for the rest of this shelf: a '''solar cell''' is a semiconductor junction that turns light into DC (the photovoltaic effect); a '''charge controller and inverter''' are electrical-engineering devices that condition that DC and turn it back into usable AC; '''quartz oscillators''' keep the timing; and the '''grid or mesh''' distributes it. [[Solar Mining]] is this engineering turned toward earning from the sun; [[Crystal Technology, Signaling, and the Interplanetary Mesh]] is where it extends into storage, signaling, and networks.
+
+== 10. The Classic Texts (as the thread pointed to) ==
+
+The original thread sent readers from the plain-language explanation into real engineering through standard references:
+* '''Horowitz & Hill, ''The Art of Electronics''''' — the practical bible of circuit design.
+* '''Panofsky & Phillips, ''Classical Electricity and Magnetism''''' — the rigorous field-theory text.
+* '''''Principles and Applications of Electrical Engineering''''' (McGraw-Hill) — a broad introductory survey.
+These remain the study path from the principles here into working electrical engineering.
+
+== 11. Safety ==
+Electricity is hazardous at every scale this article touches. Mains AC can kill; high-voltage DC from a solar array is dangerous even in daylight; transformers, capacitors, and charged lines can hold lethal energy after power is removed. Grounding and fusing exist to protect people and equipment and are governed by electrical codes. Nothing here is an installation or repair guide — real work requires qualified people and local code compliance.
+
+== See also ==
+* [[Electricity and Photovoltaics]]
+* [[Crystal Technology, Signaling, and the Interplanetary Mesh]]
+* [[Solar Mining]]
+* [[Enzyme Powders, Color, and Dye Sensitized Solar Cells|Enzyme Powders, Color, and Dye-Sensitized Solar Cells]]
+
+== Sources ==
+* The project's "History of electrical theory and pioneers" conversation and the original "Electricity & Photovoltaics" thread (pulled to `.local/photovoltaics-conversations/`), including the thread's own electrical-engineering reading list.
+* Standard references: Franklin, Volta, Ørsted/Ampère, Ohm, Faraday/Henry, Maxwell, Heaviside (four equations, transmission lines, Kennelly–Heaviside layer), Edison vs. Tesla/Westinghouse and the War of the Currents, Steinmetz (phasor AC analysis, hysteresis), Marconi, Philo Farnsworth; transformer and three-phase theory; single-wire earth return and grounding; Horowitz & Hill, Panofsky & Phillips.

@@ -1,4 +1,4 @@
-'''Media and Voices''' is the section of [[The Library of Ashurbanipal]] that covers the people, outlets, and movements that shape public discourse — legacy news, independent and YouTube media, commentators, journalists, and the thinkers behind ideas that spread. It is written on a deliberately different model from a vanilla encyclopedia.
+'''Media and Personalities''' is the section of [[The Library of Ashurbanipal]] that covers the people, outlets, and movements that shape public discourse — legacy news, independent and YouTube media, commentators, journalists, and the thinkers behind ideas that spread. It is written on a deliberately different model from a vanilla encyclopedia.
 
 == What this section is, and is not ==
 
@@ -21,7 +21,7 @@ The treatment depends on the kind of subject. For '''legacy and cable outlets an
 
 '''Independent and web media''' — [[The Young Turks]] and the online-commentary ecosystem, where we get into both the useful and the unserious of what gets said.
 
-'''YouTube and movement media''' — [[The Great Debate Era]] and Sa Neter's Black Conscious community; channels across history, mystery, and commentary such as The Theorizer, Taylor Alesia, Silvia (ailaughatmyownjokes), Wartime Stories, and others worth a considered look.
+'''YouTube and movement media''' — [[The Great Debate Era]] and Sa Neter's Black Conscious community; channels across history, mystery, commentary and the video essay such as The Theorizer, Taylor Alesia, Silvia (ailaughatmyownjokes), Wartime Stories, [[Sarah Davis Baker]], and others worth a considered look.
 
 '''The debate, apologetics and atheism arena''' — the interlocking world of public debaters and commentators who argue origins, scripture, and meaning: presuppositional apologists such as Sye Ten Bruggencate, atheist debaters such as Matt Dillahunty, cultural-psychology figures such as Jordan Peterson, and the many voices from Sa Neter's channel and the [[The Great Debate Era|Great Debate]] circuit (Captain Tazaryach, Taj Tarik Bey and others). Written for what is actually argued, not for a scorecard.
 

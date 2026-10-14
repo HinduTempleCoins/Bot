@@ -1,0 +1,216 @@
+# Caffeine Extraction
+
+'''Caffeine extraction''' is the family of techniques used to isolate '''caffeine''' (1,3,7-trimethylxanthine, a purine alkaloid, C₈H₁₀N₄O₂, MW 194.19 g·mol⁻¹) from plant material, or to remove it from a beverage matrix (''decaffeination''). The same compound is the target in a freshman organic-chemistry tea experiment, in a billion-dollar industrial decaffeination plant, and in a modern "green chemistry" laboratory optimizing deep-eutectic solvents — but the chemistry that makes all of them work is the same: caffeine is a weakly basic, water-soluble alkaloid whose solubility climbs steeply with temperature and which partitions strongly into chlorinated and other mid-polarity organic solvents. This article covers the molecule's behavior, the botanical sources and their yields, the best readily-available high-content/low-price feedstocks, the classic laboratory isolation, the major industrial decaffeination processes, modern green techniques, a solvent comparison, the other valuable compounds you can extract from the same feedstock (L-theanine, catechins, chlorogenic acids), how to synthesize caffeine from cheaper precursors than caffeine itself (theobromine from cacao, or total synthesis from bulk chemicals), and the safety and harm-reduction considerations that a research and religious institute treats as part of the method rather than a reason to withhold it.
+
+== 1. The Molecule: Why Caffeine Behaves the Way It Does ==
+
+Every method below exploits four physical facts about caffeine. Know these and the methods are obvious consequences.
+
+=== 1. Structure and class ===
+* Caffeine is '''1,3,7-trimethylxanthine''' — a xanthine (a purine: a fused pyrimidine–imidazole ring) fully methylated at the three available nitrogen positions. Its demethylated cousins are '''theobromine''' (3,7-dimethylxanthine, the chief alkaloid of cacao) and '''theophylline''' (1,3-dimethylxanthine). Collectively these are the '''methylxanthines'''; most "caffeine" extractions co-extract some theobromine and theophylline.
+* Full methylation matters: caffeine has '''no N–H hydrogen-bond donor''', which lowers its lattice energy, raises its volatility, and is why it sublimes cleanly.
+
+=== 2. Physical constants (approximate; verify against CRC / Merck for exact work) ===
+* '''Melting point:''' ~234–236.5 °C (literature).
+* '''Sublimation:''' sublimes readily at ~178 °C, especially under reduced pressure — the basis of purification by sublimation.
+* '''Water solubility (steep temperature dependence):'''
+** ~2.0–2.2 g / 100 mL at 20–25 °C (sparingly soluble — "cold").
+** ~20 g / 100 mL at 80 °C (freely soluble — "hot").
+** ~67 g / 100 mL at 100 °C (very soluble — "boiling").
+* The ~30-fold swing from room temperature to boiling is what makes '''hot-water solid–liquid extraction''' and '''hot-water recrystallization''' both work: pull caffeine out hot, drop it back out of solution cold.
+* '''Organic solubility:''' freely soluble in '''dichloromethane (DCM / methylene chloride)''' and '''chloroform'''; the chloroform/water partition coefficient is on the order of ~10 (caffeine strongly favors the organic phase). Also soluble in ethyl acetate, acetone, and hot ethanol / 2-propanol.
+
+=== 3. Weak basicity — the lever the acid–base trick pulls ===
+* Caffeine is an extremely '''weak base''' (pKₐ of its conjugate acid ~0.6). At any normal or basic pH it is '''neutral''', hence lipophilic and organic-soluble.
+* The co-extracted interferents in tea and coffee are '''acids''': '''tannins''' (polyphenolic gallate esters), '''gallic acid''', and '''chlorogenic acids'''. Add a base — typically '''sodium carbonate (Na₂CO₃)''' — and these acids become their '''charged carboxylate/phenolate salts''', which stay in the water and will '''not''' cross into the organic layer. Caffeine, neutral regardless, crosses freely.
+* Net effect: one base addition cleanly separates neutral caffeine (→ organic phase) from acidic tannins (→ aqueous phase). This is the single most important idea in laboratory caffeine isolation.
+
+== 2. Botanical Sources and Their Caffeine Yields ==
+
+Caffeine occurs in ~60 plant species as a natural pesticide. Dry-weight content varies widely between sources and cultivars; the figures below are typical ranges (sources disagree — orientation, not assay values).
+
+* '''Guarana seed''' (''Paullinia cupana''): ~2.5–8% (often ~3.6–5.8%; powder cited up to ~15%) — highest common natural source.
+* '''Tea leaf''' (''Camellia sinensis''): ~2–4% (to ~5%); also theobromine/theophylline '''and L-theanine'''; the classic lab source.
+* '''Guayusa''' (''Ilex guayusa''): ~1.7–3.5% (analyses ~2.9–3.28%), roughly robusta-coffee level; '''naturally contains L-theanine'''.
+* '''Kola nut''' (''Cola'' spp.): ~2–3.5%, plus theobromine.
+* '''Coffee bean (green)''': robusta ~2.2%, arabica ~1.0–1.5%; roasting changes mass more than total caffeine.
+* '''Yerba mate''' (''Ilex paraguariensis''): ~0.5–2.2% (peak ~1.4%) — '''moderate, NOT a supersource''' (see §3).
+* '''Cacao''' (''Theobroma cacao''): ~0.1–0.7%, mostly theobromine, little caffeine.
+
+== 3. Best Readily-Available Feedstocks (Highest Content, Lowest Price) ==
+
+A practical question deserves a practical answer: if you want the most caffeine per gram and per dollar from something you can actually buy, what do you reach for?
+
+=== 1. Is yerba mate a "supersource"? No. ===
+* Despite its reputation, yerba mate is '''on the low-to-moderate end''' (~0.5–2.2%, peak ~1.4%) — below guarana, guayusa, kola, and robusta coffee. It is pleasant and widely available, but it is '''not''' a high-yield extraction feedstock. If someone wants a supersource, point them elsewhere.
+
+=== 2. The actual high-content sources ===
+* '''Guarana''' is the natural champion: seed ~2.5–8%, and — critically for extraction — it is sold as a cheap '''bulk powder''' and as '''standardized extract''' (commonly 10–22% caffeine). A 22%-caffeine guarana extract is the '''most concentrated readily-available feedstock''' on the ordinary market.
+* '''Guayusa''' (~1.7–3.5%) is a genuine high-content leaf, roughly robusta level, and has the bonus of '''naturally co-occurring L-theanine''' (see §8).
+* '''Strong black tea / tea dust and fannings''' (~2–4%) is the cheapest-per-kilogram high-content source — tea "dust" (the cheap byproduct grade) is both high in caffeine and nearly free in bulk, and it carries L-theanine too.
+* '''Green (unroasted) robusta coffee beans''' (~2.2%) are cheap in bulk and higher than arabica.
+
+=== 3. Caffeine per dollar (rough; prices and shipping vary) ===
+* '''Standardized guarana extract (e.g. 22% caffeine)''' is the best value and the least work: ~100 g of 22% extract (order ~$15–20) is ~22 g of caffeine — on the order of ~1,000–1,400 mg of caffeine per dollar, in a matrix already stripped of much of the tannin load, so the extraction/purification is '''easier''' as well as cheaper.
+* '''Plain guarana powder''' (~4–8%) is higher content than most leaves but lower caffeine-per-dollar than the standardized extract.
+* '''Bulk cheap tea (dust/fannings)''' and '''green robusta beans''' are the best value if you want a whole-plant matrix rather than an extract — pennies per gram, 2–4% / ~2.2%.
+* '''Spent coffee grounds''' are '''free''' (a waste stream) but carry only residual caffeine; they are the feedstock of choice for the green-chemistry methods in §6, not for maximum yield.
+* '''Practical rule:''' for the most pure caffeine with the least effort and lowest cost, start from a '''standardized guarana extract'''; for a cheap whole-plant teaching extraction, use '''tea dust'''; yerba mate is for drinking, not for extracting.
+
+== 4. Classic Laboratory Extraction: Tea/Coffee → Pure Caffeine ==
+
+The canonical undergraduate isolation. It combines '''solid–liquid extraction''' (steeping) with '''acid–base liquid–liquid extraction''' (separatory funnel) and a final '''purification''' step. The flow is: solid feedstock → steep in hot water with Na₂CO₃ (dissolves caffeine; ionizes the acids) → filter off solids → cool → shake the aqueous liquor with DCM in a separatory funnel (caffeine moves into the lower organic layer; tannin salts stay in the upper aqueous layer) → dry and evaporate the DCM → crude caffeine → sublime or recrystallize → pure caffeine.
+
+=== 1. Step sequence ===
+* '''Steep:''' boil tea leaves / grounds in water with added Na₂CO₃ (a few grams per ~100 mL) for ~15–20 min. Hot water drives caffeine into solution; the base ionizes the acids.
+* '''Filter''' the hot mixture to remove solids (gravity or Büchner).
+* '''Cool''' the filtrate (DCM is volatile and emulsions worsen when hot).
+* '''Liquid–liquid extract:''' in a separatory funnel, shake the aqueous extract with DCM in several small portions (better than one large). Caffeine moves into the '''lower''' DCM layer; tannin salts stay above. Swirl gently rather than shake hard, to limit emulsions.
+* '''Dry''' the combined DCM extracts over an anhydrous drying agent (Na₂SO₄ or MgSO₄); decant/filter.
+* '''Evaporate''' the DCM (rotovap or gentle warm bath in a hood) → crude caffeine.
+
+=== 2. Yields and why they are low ===
+* Reported undergraduate yields are '''low and inconsistent''' — often ~1–3% of the tea mass as crude, with further loss on purification. One source reported as little as 0.15%; the high outliers are usually calculation errors.
+* Dominant losses: '''emulsion formation''' at the DCM/water interface (traps product), '''incomplete extraction''' (too few DCM portions), and small-scale '''handling losses'''.
+* '''Emulsion fixes:''' add brine (saturated NaCl), avoid vigorous shaking, give the layers time, or filter through Celite.
+
+=== 3. Purification — Sublimation ===
+* Caffeine sublimes at ~178 °C. Gently heating crude caffeine (hot plate / sand bath, often under reduced pressure) drives caffeine vapor onto a cold surface (iced watch glass, cold finger), leaving non-volatiles behind → fine white '''needle''' crystals.
+* Trade-off: sublimation can '''decompose''' caffeine and give '''poor recovery''' if overheated; control the temperature.
+
+=== 4. Purification — Recrystallization ===
+* Dissolve crude caffeine in a '''minimum of hot solvent''', then cool/precipitate pure crystals.
+* Common systems: '''hot water''' (needles, but the needle habit can occlude impurities); or '''acetone / ethanol / 2-propanol''' with '''petroleum ether''' added dropwise to the cloud point.
+
+== 5. Industrial Decaffeination Methods ==
+
+"Decaffeination" is caffeine extraction run in reverse intent — the beans/leaves are kept, the caffeine is removed (and usually sold on; recovered caffeine supplies the soft-drink and supplement industries). All start by swelling '''green (unroasted)''' beans with water or steam so caffeine can migrate.
+
+=== 1. Direct solvent process ===
+* Beans are steamed, then soaked '''directly''' in a solvent that selectively dissolves caffeine, repeatedly; solvent is drained and beans steamed again to remove residue.
+* Solvents: '''methylene chloride (DCM)''' or '''ethyl acetate (EA)'''; EA is regarded as less hazardous.
+
+=== 2. Indirect solvent process ("water-processed, solvent-assisted") ===
+* Beans soak in '''hot water''', which pulls out caffeine '''and''' flavor. The caffeine-laden water is drawn off and treated with '''solvent''' (DCM or EA) to strip the caffeine; the now-caffeine-free, flavor-rich water is '''returned to the beans''' so they reabsorb flavors. The solvent never touches the beans.
+
+=== 3. Swiss Water Process (SWP) and Mountain Water Process ===
+* '''Solvent-free, water-only.''' A '''Green Coffee Extract (GCE)''' — water pre-saturated with all of coffee's solubles '''except''' caffeine — is used: fresh beans soaked in GCE lose only caffeine (the solids are already at equilibrium, so flavor stays). The caffeine-bearing water is passed through '''activated-carbon filters''' that trap caffeine; the water is recycled.
+* The '''Mountain Water Process''' (Mexico) uses the same water/carbon principle.
+
+=== 4. Carbon dioxide / supercritical CO₂ ===
+* '''CO₂ turns "supercritical"''' above ~31 °C and ~73 bar, acting as a tunable mid-polarity solvent. Supercritical CO₂ percolated through wet green beans '''selectively dissolves caffeine''' while leaving larger flavor molecules; caffeine is recovered by dropping the pressure (it precipitates) or washing into water / onto carbon.
+* First demonstrated by '''Kurt Zosel''' (Max Planck Institute) in '''1967'''. Clean and residue-free; capital-intensive. At high pressure (~40 MPa) caffeine and coffee oil can even be separated by centrifuging the CO₂ extract.
+
+=== 5. Ethyl acetate / "sugarcane" (natural) process ===
+* Uses '''ethyl acetate''', which can be derived from sugarcane fermentation and is marketed as a "naturally occurring" solvent ("sugarcane process," common in Colombia). Chemically it is a direct- or indirect-solvent process; the "natural" label is about the solvent's origin, not a different mechanism. (Vendor terminology is inconsistent.)
+
+=== 6. Triglyceride / coffee-oil process ===
+* Beans soak in hot water, then are contacted with '''triglyceride oils — notably deodorized coffee oil''' from spent grounds — at elevated temperature; the oil's triglycerides extract surface caffeine. The oil is regenerated (e.g. vacuum distillation) and reused. Marketed as solvent-free; used for specialty/organic beans. (Patent literature is the reliable description.)
+
+== 6. Modern "Green" Extraction Techniques ==
+
+An active area aimed at replacing chlorinated solvents and cutting energy, often targeting '''waste streams''' (spent coffee grounds, cocoa bean shells) for caffeine plus co-products.
+
+* '''Ultrasound-assisted extraction (UAE):''' acoustic cavitation disrupts cell walls and boosts mass transfer; reported to raise caffeine removal by ~30% versus the same process without ultrasound. Pairs with CO₂, water, or DES.
+* '''Microwave-assisted extraction (MAE):''' volumetric dielectric heating ruptures cells and accelerates extraction; fast, lower solvent use.
+* '''Natural Deep Eutectic Solvents (NADES):''' low-toxicity, biodegradable "designer" solvents from a hydrogen-bond donor + acceptor — e.g. '''betaine–glycerol''', '''glycerol–urea''', '''betaine–sorbitol'''. Shown on spent coffee grounds, cocoa bean shells (ultrasound + glycerol–urea recovered ~2.46 mg caffeine per g dry matter), and green robusta decaffeination.
+* '''Ionic liquids (ILs):''' tunable salt solvents with negligible vapor pressure, used for selective caffeine partitioning (cost/toxicity questions vs NADES).
+* '''Subcritical / pressurized hot water extraction (PHWE / SWE):''' liquid water held under pressure above 100 °C; its polarity falls with temperature until it behaves like a mild organic solvent — a fully "green" solvent exploiting exactly the temperature–solubility curve in §1.
+* '''Aqueous DES (aquoDES):''' water-diluted binary mixtures (betaine/water, glycerol/water) for ultrasound extraction of caffeine and chlorogenic acids together.
+
+== 7. Solvent and Selectivity Comparison ==
+
+* '''DCM (direct/indirect, lab):''' high selectivity (partition ~10); chlorinated, suspected carcinogen, strict residual limits; cheap; lab and industry.
+* '''Ethyl acetate:''' good selectivity; "natural," flammable, milder than DCM; moderate cost; industry.
+* '''Swiss Water (carbon):''' moderate–high, flavor-sparing; no solvent residue; higher cost; specialty.
+* '''Supercritical CO₂:''' very high and tunable; no residue (CO₂ off-gasses); high capital, large scale.
+* '''Triglyceride / coffee oil:''' moderate; solvent-free (food oil); niche.
+* '''NADES / aquoDES:''' tunable and improving; low-toxicity, biodegradable; research → pilot.
+* '''Ionic liquids:''' high, tunable; cost/toxicity under study; research.
+* '''Subcritical water:''' moderate; greenest (just water); research → pilot.
+
+== 8. Extracting the Other Compounds From the Same Feedstock (L-Theanine, Catechins, and More) ==
+
+The same tea or coffee that yields caffeine carries several other valuable molecules. Because they differ in polarity and charge, '''one feedstock can be fractionated into several separate products''' — "caffeine extraction" and "L-theanine extraction" are two cuts of the same process, not different jobs.
+
+=== 1. L-theanine ===
+* '''L-theanine''' (γ-glutamylethylamide) is an amino acid, ~1–2% of dry '''tea''' (''Camellia sinensis''), also present in '''guayusa'''.
+* It is '''zwitterionic and very water-soluble''', so during the §4 acid–base DCM extraction it '''stays in the aqueous phase''' while caffeine leaves into the DCM. The classic caffeine workup therefore '''already separates the two''' for free: the DCM layer is your caffeine, the leftover water liquor is your crude L-theanine (mixed with polyphenols).
+* '''Isolating it from that aqueous liquor:''' remove the polyphenols/tannins (activated carbon or an adsorption resin), then purify the amino acid by '''cation-exchange chromatography''' (it binds a cation resin at low pH, elutes with ammonia/base) and '''crystallize'''. Yields from tea are low, which is why most commercial L-theanine is now made by '''microbial/enzymatic synthesis''' — but direct extraction is real and is the "clean-label" route.
+
+=== 2. Catechins / EGCG and other tea polyphenols ===
+* The "'''green tea extract'''" of supplements: the catechins '''EGCG, EGC, ECG, EC''' (EGCG is the headline antioxidant), plus theaflavins/thearubigins in black tea.
+* Extracted with '''hot water or aqueous ethanol''', then concentrated and purified on '''adsorption resins''' (e.g. HP-20-type) and by solvent partition. These are the same polyphenols the Na₂CO₃ step ionizes away from caffeine — so they report to the aqueous/waste stream of a caffeine extraction and can be recovered from it.
+
+=== 3. Chlorogenic acids — "green coffee bean extract" ===
+* '''Chlorogenic acid''' is the major phenolic of green (unroasted) coffee and the active of "green coffee bean extract." Water or aqueous-ethanol extraction, then resin purification.
+* Note the overlap: '''chlorogenic and gallic acids are exactly the "tannin acids"''' that the Na₂CO₃ basification converts to salts and holds in the water during caffeine extraction — so the caffeine process's aqueous waste stream '''is''' the chlorogenic-acid product stream.
+
+=== 4. Theobromine and theophylline ===
+* The two co-occurring methylxanthines (cacao and kola are theobromine-rich; tea carries small theophylline). They '''co-extract with caffeine''' into organic solvent and are separated from it afterward by '''chromatography''' or by '''fractional crystallization / sublimation''' (they differ in solubility and sublimation temperature).
+
+=== 5. The point ===
+* A single hot-water extraction of tea is a '''mixture'''. Rational fractionation turns one cheap feedstock into several products at once: '''DCM''' pulls the caffeine, '''ion-exchange''' recovers the L-theanine, '''adsorption resin''' captures the catechins, and the acidified water stream carries the chlorogenic/gallic acids. Design the workup around which product you actually want.
+
+== 9. Synthesizing Caffeine From Cheaper, More Available Precursors ==
+
+If caffeine itself is hard or expensive to obtain, the alternative to extraction is to '''build''' it. The useful insight is that caffeine (1,3,7-trimethylxanthine) is only one or two methyl groups away from compounds that are far more available than caffeine — and that a full total synthesis starts from cheap bulk chemicals and no plant material at all. The routes below are ordered by how easy the '''starting material''' is to get. (Synthetic and extracted caffeine are the identical molecule; "natural vs. synthetic" is a labeling/economic distinction, not a chemical one.)
+
+=== 1. From theobromine — one methyl group away, and cacao is everywhere ===
+* '''Theobromine''' is 3,7-dimethylxanthine; '''caffeine''' is 1,3,7-trimethylxanthine. The only difference is '''one methyl group at N1''' — so a single N-methylation of theobromine gives caffeine.
+* Theobromine is abundant and cheap in '''cacao''' (and cacao husk/shell waste) and kola — a far more available feedstock than caffeine for anyone near chocolate manufacturing or its by-products.
+* The reaction is a straightforward '''SN2 N-methylation'''. Historically: Strecker (1861) first converted theobromine to caffeine with methyl iodide; Fischer (~1898) methylated it with CH₃I under NaOH; Biltz & Damm used dimethyl sulfate. This is the classic "revived teaching-lab synthesis of caffeine."
+* '''This is the single most practical "make it cheaply" route:''' one step, from a ubiquitous precursor.
+
+=== 2. From theophylline ===
+* '''Theophylline''' is 1,3-dimethylxanthine (a cheap pharmaceutical); methylating it at '''N7''' gives caffeine. Industrially the '''theophylline sodium salt''' is the intermediate taken into the final methylation.
+
+=== 3. The methylating agent matters (toxicity, and the green option) ===
+* '''Methyl iodide:''' effective, but toxic and volatile.
+* '''Dimethyl sulfate:''' effective but '''carcinogenic, mutagenic, and volatile''' — avoid, especially in a teaching or home setting.
+* '''Methyl chloride:''' industrial, restricted.
+* '''Dimethyl carbonate (DMC) — the green choice:''' non-toxic; with a '''DBU''' catalyst on theophylline sodium it has been reported at '''~98% yield, >99% purity''' with essentially no hazardous waste. DMC itself is made from urea. '''Prefer this''' where the methylation is being done deliberately.
+
+=== 4. Total synthesis — the Traube route (from bulk chemicals, no xanthine needed) ===
+* '''Starting materials: N,N′-dimethylurea + cyanoacetic acid''' (cheap bulk chemicals; ethyl cyanoacetate is the common stand-in) — note it is cyanoacetic acid, '''not''' malonic acid.
+* Sequence: condensation → cyanoacetyl-dimethylurea → ring-closure to '''5-amino-1,3-dimethyluracil''' → nitrosation at C6 → reduction to '''5,6-diamino-1,3-dimethyluracil (DAU)''' → formylation (formic acid) → alkaline ring closure to '''theophylline''' → N7-methylation → '''caffeine'''.
+* This is the dominant '''commercial total synthesis''': more steps, but it starts from the cheapest possible feedstock and needs no plant material. Older procedures used POCl₃ and classic nitrosation; modern industrial variants use Pd/C or iron-powder reductions.
+
+=== 5. Historical — from uric acid ===
+* Emil Fischer's foundational purine work built the xanthine ring from '''uric acid''' (historically abundant from guano and urine). Multi-step and now mainly of historical interest; the exact conditions and dates vary between sources — verify against the original Fischer papers before relying on them.
+
+=== 6. Which route to choose ===
+* '''Have cacao / theobromine?''' One green methylation (DMC + DBU) → caffeine. Simplest and cleanest.
+* '''Have only bulk reagents?''' The Traube total synthesis from dimethylurea + cyanoacetic acid.
+* '''Want pure caffeine with least effort overall?''' Recall from §3 that a standardized guarana '''extract''' is often cheaper and easier than any synthesis — synthesis wins when plant material is unavailable or a "synthetic" product is specifically wanted.
+
+== 10. Safety and Harm Reduction ==
+
+Withholding method detail from someone who will proceed anyway is the harm this library exists to prevent; safety is taught '''as part of''' the method.
+
+=== 1. Solvent hazards ===
+* '''Dichloromethane / methylene chloride:''' volatile, a CNS depressant, metabolized to '''carbon monoxide''', and a '''suspected human carcinogen'''. Use only with '''a fume hood / effective ventilation''', never near open flame, and never ingest product carrying residual DCM. Industrial decaf has strict residual-solvent limits for exactly this reason.
+* '''Chloroform:''' similar toxicity/carcinogenicity; largely superseded by DCM in teaching labs.
+* '''Ethyl acetate / acetone / petroleum ether:''' '''flammable''' — keep away from ignition sources; ventilate.
+* Prefer '''water-based, supercritical-CO₂, or NADES / subcritical-water''' routes when the product is to be consumed.
+
+=== 2. The pure-compound hazard ===
+* Isolated caffeine is '''far more dangerous than any beverage'''. The estimated human lethal dose is roughly '''150–200 mg/kg''' (order of ~10 g for an adult; rat oral LD₅₀ ~192 mg/kg). Serious toxicity (tachycardia, arrhythmia, seizures, vomiting) can begin well below that.
+* '''A level teaspoon of pure caffeine powder is ~3–5 g — the caffeine of dozens of cups, enough to cause severe toxicity, and a small multiple of that can kill.''' The U.S. FDA has warned explicitly about pure/highly-concentrated powdered caffeine because household scales '''cannot''' safely measure a ~50–200 mg dose from bulk powder.
+* If you isolate caffeine, treat it as a '''potent drug''': never dose from bulk powder by eye; '''dilute to a known concentration''' before any use; keep it labeled and away from children and pets (it is especially toxic to dogs).
+
+== See also ==
+* [[Spiced Coffee]]
+* [[Cytochrome P450 System Inhibition and Induction]] — caffeine is a CYP1A2 substrate
+* [[Molar Stoichiometry Powder Density and Tolerance Kinetics]]
+* [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]]
+* [[Cannabis Oil and MHRB Extraction]] — a sibling acid–base / solvent extraction
+
+== Sources ==
+* Chemistry LibreTexts and university organic-chemistry lab handouts (Bennington, Cerritos, Winthrop) — tea-leaf extraction procedure and the Na₂CO₃ acid–base rationale.
+* Wikipedia, ''Decaffeination'' and ''Ilex guayusa''; Colipse / Crockett / RawBean / Mission Coffee overviews — direct, indirect, Swiss Water, CO₂, ethyl acetate methods; Kurt Zosel 1967; guayusa caffeine range.
+* U.S. patents on fatty-solvent / coffee-oil and acidified-CO₂ decaffeination.
+* ScienceDirect / Springer / NCBI-PMC (2021–2025) — NADES, aquoDES, ultrasound- and microwave-assisted green extraction from spent coffee grounds, cocoa bean shells, green coffee.
+* USDA/FDA/NIH caffeine review, caffeineinformer, and retailer listings — source caffeine contents and rough caffeine-per-dollar for guarana/guayusa/mate/tea/coffee.
+* Owen 2008, Nobre 2008, Einöther 2010, and a 2025 meta-analysis — caffeine + L-theanine attention effects (modest, task-specific).
+* Chemical databases (ChemicalBook) and lab reports — physical constants (mp ~235 °C, sublimation ~178 °C, water solubility, partition coefficient). Verify exact constants against CRC Handbook / Merck Index.
