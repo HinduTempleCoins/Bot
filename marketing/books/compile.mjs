@@ -189,7 +189,24 @@ const pillarBooks = groupArticlesByPillars(wikiArticles).map((p) => ({
   files: p.items.map((a) => a.file),
 }));
 
+// The Hathor tutorials add to the shelf: the 32 lessons become guide-books, grouped the way they
+// are learned (operator — the tutorials can add to the books).
+const tut = (n) => join(ROOT, 'tutorial', 'lessons', n);
+const guideBooks = [
+  { slug: 'guide-getting-started', title: 'How to Use MELEK — Getting Started',
+    files: ['01-welcome-create-account', '02-your-first-post', '03-comments-and-replies', '04-voting-and-curation', '05-transfers-and-memos', '06-your-profile', '07-claiming-rewards', '08-following-and-feeds', '09-sharing-what-you-know', '10-power-up-your-account'].map((n) => tut(n + '.md')) },
+  { slug: 'guide-governance-and-bots', title: 'How to Use MELEK — Witnessing, Governance & Running Your Own Bot',
+    files: ['11-witnessing-and-governance', '12-delegation', '13-automating-your-account-safely', '14-account-health-and-curation-bots', '15-running-your-own-bot', '24-tokens-curation-witnessing'].map((n) => tut(n + '.md')) },
+  { slug: 'guide-kula-defi', title: 'How to Use MELEK — KULA, the DEX & DeFi',
+    files: ['16-kula-arcade', '25-what-a-dex-is-and-swapping', '26-providing-liquidity', '27-farming-and-yield', '28-kula-cdp-and-the-dollar-stable', '29-the-bridge'].map((n) => tut(n + '.md')) },
+  { slug: 'guide-the-ecosystem', title: 'How to Use MELEK — Games, Move, Herald & the Tools',
+    files: ['17-games-and-idle-games', '18-melek-move', '19-herald-web-builder', '20-gambling-education-center', '21-the-forum', '22-tools-hub-and-profile', '23-ren-naming'].map((n) => tut(n + '.md')) },
+  { slug: 'guide-cryptology-library-ai', title: 'How to Use MELEK — Crypt-ology, the Library & Building Your Own AI',
+    files: ['30-crypt-ology-the-not-a-game', '31-the-library-of-ashurbanipal', '32-build-your-own-ai'].map((n) => tut(n + '.md')) },
+];
+
 const BOOKS = [
+  ...guideBooks,
   ...pillarBooks,
   {
     slug: 'library-of-ashurbanipal',

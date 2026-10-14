@@ -23,6 +23,7 @@ const human = (n) => n >= 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.
 
 // Reading order: the way in first, the big reference last.
 const ORDER = [
+  'guide-getting-started', 'guide-governance-and-bots', 'guide-kula-defi', 'guide-the-ecosystem', 'guide-cryptology-library-ai',
   'foundational-corpus', 'melek-prana-kula-papers',
   'library-chains', 'library-ecosystem', 'library-chemistry', 'library-pharmacology',
   'library-botanicals', 'library-mind', 'library-law', 'library-of-ashurbanipal',
