@@ -34,6 +34,7 @@ import { createInteroception } from '../integrations/brain-interoception.mjs';
 import { createReward } from '../integrations/brain-reward.mjs';
 import { createCouncil } from '../integrations/hathor-council.mjs';
 import { createSky } from '../integrations/brain-sky.mjs';
+import * as crowdStrategy from '../integrations/crowd-strategy-catalog.mjs';
 import * as reagents from '../integrations/reagent-interpreter.mjs';
 // Hathor's VOICE: the completed Language + Personality LoRA, served via lora-brain.mjs (Modal, box env).
 // When configured it becomes the brain's top (2020s) layer; soft-fails to the cheaper layers otherwise.
@@ -180,6 +181,9 @@ export async function createCryptologyBrain(opts = {}) {
   const interoception = createInteroception({ signals: bodySignals });
   // SKY — identify what's overhead (Sun/Moon/planets, phase, constellation, rise/set), native + exact.
   const sky = createSky();
+  // CROWD-DYNAMICS & STRATEGY shelf (crowd science/psychology, civil resistance, strategy) — reference
+  // + the LoRA corpus; the public-domain texts are ingestable.
+  const strategyShelf = { items: crowdStrategy.ITEMS, categories: crowdStrategy.CATEGORIES, byCategory: crowdStrategy.byCategory, search: crowdStrategy.search, ingestable: crowdStrategy.ingestableTexts };
   const reward = createReward({ store: rewardStore });
   if (teacher && typeof brain.teachPattern === 'function') {
     try { brain.teachPattern('teach-language',
@@ -278,7 +282,7 @@ export async function createCryptologyBrain(opts = {}) {
   // COUNCIL — the egregore of seats deciding together, over this brain's own ask/translate, weighted
   // by the reward lobe. deliberate(q) -> one voice from many; feedback() teaches who to believe.
   const council = createCouncil({ brain: { ask, translate, rule1Short: RULE_1_SHORT }, reward });
-  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, vision, audio, identifier, reagent, interoception, reward, council, sky, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
+  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, vision, audio, identifier, reagent, interoception, reward, council, sky, strategyShelf, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
 }
 
 export default { createCryptologyBrain, axesFor, RULE_1, RULE_1_SHORT };
