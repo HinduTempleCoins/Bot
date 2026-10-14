@@ -4,12 +4,13 @@ import * as V from './brain-head-vision.mjs';
 
 // a fake pipeline router: returns a canned result shaped per pipeline-task
 function fakeFactory() {
-  return async (task) => async (input, opts) => {
-    if (task === 'zero-shot-image-classification') return (opts.candidate_labels || []).map((l, i) => ({ label: l, score: i === 0 ? 0.92 : 0.02 }));
+  return async (task) => async (input, arg2) => {
+    // zero-shot tasks receive candidate_labels as a positional array (arg2)
+    if (task === 'zero-shot-image-classification') return (arg2 || []).map((l, i) => ({ label: l, score: i === 0 ? 0.92 : 0.02 }));
+    if (task === 'zero-shot-object-detection') return (arg2 || []).map((l) => ({ label: l, score: 0.5, box: {} }));
     if (task === 'image-classification') return [{ label: 'golden retriever', score: 0.8 }];
     if (task === 'image-to-text') return [{ generated_text: input.includes('receipt') ? 'TOTAL $12.00' : 'a dog sitting on grass' }];
     if (task === 'object-detection') return [{ label: 'dog', score: 0.95, box: {} }];
-    if (task === 'zero-shot-object-detection') return (opts.candidate_labels || []).map((l) => ({ label: l, score: 0.5, box: {} }));
     if (task === 'depth-estimation') return { depth: 'tensor' };
     if (task === 'image-segmentation') return [{ label: 'sky', score: 0.9 }];
     return null;
