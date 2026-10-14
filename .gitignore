@@ -118,3 +118,4 @@ archive/recovered-sessions/
 # generated books (deployed via scp, not committed)
 marketing/books/dist/
 site/library/ourbooks/
+site/wiki/download/

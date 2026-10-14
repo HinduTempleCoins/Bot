@@ -32,6 +32,9 @@ const PRIVATE = /(_private|secret|operator|\.local|scripture)/i;
 // Article sources, first match wins per slug: the bot's generated articles (ARTICLES_DIR), then the articles
 // committed with the site (how our tools work, MELEK, Hathor…), the seed articles, and finally seed drafts.
 const ARTICLE_DIRS = [ARTICLES_DIR, path.join(__dir, 'articles'), path.join(__dir, 'seed-articles'), SEED_DRAFTS_DIR];
+// The "Download the whole Library" export (built by integrations/wiki-export.mjs): JSONL dataset + corpus.
+const DL_DIR = path.join(__dir, 'download');
+const DL_TYPES = { 'library.jsonl': 'application/jsonl; charset=utf-8', 'library-corpus.txt': 'text/plain; charset=utf-8', 'manifest.json': 'application/json; charset=utf-8' };
 // Wiki images (the Metatron GenAI graphics) are served from here via the /files/ route. Serving code
 // only — article text is untouched. Generated images live in site/wiki/files/.
 const FILES_DIR = process.env.WIKI_FILES_DIR || path.join(__dir, 'files');
@@ -280,6 +283,26 @@ function searchPage(q) {
   return layout({ title: q ? `Search: ${q}` : 'Search', body, active: 'search' });
 }
 
+function downloadPage() {
+  let m = {};
+  try { m = JSON.parse(fs.readFileSync(path.join(DL_DIR, 'manifest.json'), 'utf8')); } catch { m = {}; }
+  const mb = (f) => { try { return (fs.statSync(path.join(DL_DIR, f)).size / 1048576).toFixed(1) + ' MB'; } catch { return ''; } };
+  const body = `<article>
+    <h1>Download the whole Library</h1>
+    <p class=muted>The entire Library of Ashurbanipal — <b>${esc(String(m.articles || ''))} articles</b> — as open files you can read offline, mirror, or <b>train your own AI</b> on. This is the same corpus that feeds Hathor's brain. Education and reference; attribution to the Van Kush Family Research Institute.</p>
+    <h2>Files</h2>
+    <ul>
+      <li><a href="/download/library.jsonl"><b>library.jsonl</b></a> — ${mb('library.jsonl')} — one JSON record per article (title, url, categories, full text). The format you fine-tune or build RAG on.</li>
+      <li><a href="/download/library-corpus.txt"><b>library-corpus.txt</b></a> — ${mb('library-corpus.txt')} — every article as plain text, concatenated.</li>
+      <li><a href="/download/manifest.json"><b>manifest.json</b></a> — counts, date, license/attribution.</li>
+    </ul>
+    <h2>Use it</h2>
+    <p>Train or retrieve over the library, mirror it, or read it offline. ${esc(String(m.license || ''))}</p>
+    <p class=muted>Generated ${esc(String(m.generated || '').slice(0, 10))}. The wiki is authored in the wiki; these are read-only exports.</p>
+  </article>`;
+  return layout({ title: 'Download the whole Library', description: 'The Library of Ashurbanipal as an open dataset — read offline, mirror, or train your own AI.', body, active: 'download' });
+}
+
 function aboutPage() {
   const body = `<h1>About the Library<span class=lede-rule aria-hidden=true></span></h1>
     <p>The Library of Ashurbanipal is the Van Kush Family Research Institute's knowledge base, rendered as reference articles. It is named for the ancient Nineveh library whose clay tablets were preserved by fire.</p>
@@ -454,6 +477,16 @@ export const handler = (req, res) => {
     if (p === '/categories' || p === '/contents') return send(categoriesPage());
     if (p.startsWith('/category/')) { const r = categoryPage(decodeURIComponent(p.slice('/category/'.length))); return send(r.html, r.code); }
     if (p === '/about') return send(aboutPage());
+    if (p === '/download' || p === '/download/') return send(downloadPage());
+    if (p.startsWith('/download/')) {
+      const name = p.slice('/download/'.length);
+      if (!DL_TYPES[name]) { res.writeHead(404); return res.end('not found'); }
+      try {
+        const buf = fs.readFileSync(path.join(DL_DIR, name));
+        res.writeHead(200, { 'content-type': DL_TYPES[name], 'content-disposition': `attachment; filename="${name}"`, 'access-control-allow-origin': '*', 'cache-control': 'public, max-age=3600' });
+        return res.end(buf);
+      } catch { res.writeHead(404); return res.end('not found'); }
+    }
     if (p === '/sitemap.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(sitemap()); }
     if (p === '/sitemap-index.xml') { res.writeHead(200, { 'content-type': 'application/xml' }); return res.end(publicSitemapIndexXml(new Date().toISOString().slice(0, 10))); }
     if (p === '/llms.txt') {
