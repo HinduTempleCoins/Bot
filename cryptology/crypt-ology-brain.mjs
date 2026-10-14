@@ -25,6 +25,8 @@ import { createBrain } from '../integrations/decades-brain.mjs';
 import { seedSystemMap } from '../integrations/brain-seed-systemmap.mjs';
 import { createGrammarHead } from '../integrations/brain-head-grammar.mjs';
 import { createEmojiHead } from '../integrations/brain-head-emoji.mjs';
+import { createTranslateHead } from '../integrations/brain-head-translate.mjs';
+import { createLanguageTeacher } from '../integrations/brain-head-language-teacher.mjs';
 // Hathor's VOICE: the completed Language + Personality LoRA, served via lora-brain.mjs (Modal, box env).
 // When configured it becomes the brain's top (2020s) layer; soft-fails to the cheaper layers otherwise.
 import { generate as loraGenerate, configured as loraConfigured } from '../integrations/lora-brain.mjs';
@@ -114,7 +116,8 @@ const firstSentence = (t) => (String(t || '').replace(/\s+/g, ' ').match(/^.*?[.
  */
 export async function createCryptologyBrain(opts = {}) {
   const { store, llm, embedder, legalRules, legalAnswers, recall, catalogLookup, cryptoFile,
-    systemMap, systemMapFile, seatSystemMap = true, grammarHead = true, emojiHead = true } = opts;
+    systemMap, systemMapFile, seatSystemMap = true, grammarHead = true, emojiHead = true,
+    translateHead = true, languageTeacher = true } = opts;
 
   // VOICE — the completed Language + Personality LoRA (lora-brain.mjs, served on the box) becomes the
   // brain's last-resort 2020s layer, framed by Rule 1 and the ancient-languages-first register. An
@@ -147,6 +150,15 @@ export async function createCryptologyBrain(opts = {}) {
   // the box; both soft-fall to deterministic floors offline. Wired to the Language/Babel work.
   const grammar = grammarHead ? createGrammarHead() : null;
   const emoji = emojiHead ? createEmojiHead() : null;
+  // BABEL — multilingual translation net + the language-teaching seat (over the vetted catalog + Jesuit
+  // method). So she reads/answers across languages and can TEACH a tongue when someone wants to learn.
+  const translate = translateHead ? createTranslateHead() : null;
+  const teacher = languageTeacher ? createLanguageTeacher() : null;
+  if (teacher && typeof brain.teachPattern === 'function') {
+    try { brain.teachPattern('teach-language',
+      /\b(teach me|help me learn|want to learn|learn (a|the)? ?language|can you teach|teach .*\b(language|tongue)\b)\b/i,
+      teacher.teach('').reply); } catch { /* soft-fail */ }
+  }
 
   // 1980s — the Law AI's production-rule BRE, taught in if the caller injects it (kept out of this repo).
   if (Array.isArray(legalRules) && legalRules.length) {
@@ -236,7 +248,7 @@ export async function createCryptologyBrain(opts = {}) {
     return { topics, pages };
   }
 
-  return { brain, ask, nextMysteries, grammar, emoji, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
+  return { brain, ask, nextMysteries, grammar, emoji, translate, teacher, mapSeeded, rule1: RULE_1, rule1Short: RULE_1_SHORT, axesFor };
 }
 
 export default { createCryptologyBrain, axesFor, RULE_1, RULE_1_SHORT };
