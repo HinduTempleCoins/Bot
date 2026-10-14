@@ -14,7 +14,21 @@
 // Model id env-overridable so the box can pin the ONNX emoji head it pulls:
 //   MELEK_EMOJI_MODEL=Xenova/twitter-roberta-base-emoji
 
-const DEFAULT_MODEL = process.env.MELEK_EMOJI_MODEL || 'Xenova/twitter-roberta-base-emoji';
+// Default to a real, ONNX-on-Hub affect net (verified to load CPU-native on the box). It classifies
+// GoEmotions (28 labels) and we render each to an emoji — the NET generalizes affect, the map renders.
+// A true emoji-labeled model also works: if its label is already an emoji char, normalize() passes it through.
+// Override to pin a different net:  MELEK_EMOJI_MODEL=SamLowe/roberta-base-go_emotions-onnx
+const DEFAULT_MODEL = process.env.MELEK_EMOJI_MODEL || 'SamLowe/roberta-base-go_emotions-onnx';
+
+// GoEmotions label -> emoji (the net classifies the feeling; this renders it).
+const EMO2EMOJI = {
+  admiration: '👏', amusement: '😂', anger: '😡', annoyance: '😒', approval: '👍', caring: '🤗',
+  confusion: '😕', curiosity: '🤔', desire: '😍', disappointment: '😞', disapproval: '👎', disgust: '🤢',
+  embarrassment: '😳', excitement: '🤩', fear: '😱', gratitude: '🙏', grief: '😢', joy: '😄', love: '❤️',
+  nervousness: '😬', optimism: '🌟', pride: '🦁', realization: '💡', relief: '😅', remorse: '😔',
+  sadness: '😢', surprise: '😲', neutral: '😐',
+};
+const isEmojiChar = (s) => !!s && !/^[\x00-\x7F]+$/.test(s) && s.length <= 4;
 
 let _factory = null;
 export function __setPipelineFactory(fn) { _factory = typeof fn === 'function' ? fn : null; _pipe = null; }
@@ -72,7 +86,12 @@ function normalize(out) {
   const arr = Array.isArray(out) ? out : [out];
   const res = arr
     .filter((r) => r && typeof r.score === 'number')
-    .map((r) => ({ emoji: String(r.label || '').trim(), score: r.score, backend: 'net' }))
+    .map((r) => {
+      const lab = String(r.label || '').trim();
+      // a true emoji-labeled net passes through; an affect net (GoEmotions) renders via the map.
+      const emoji = isEmojiChar(lab) ? lab : (EMO2EMOJI[lab.toLowerCase()] || '');
+      return { emoji, score: r.score, backend: 'net', feeling: isEmojiChar(lab) ? undefined : lab.toLowerCase() };
+    })
     .filter((r) => r.emoji);
   return res.length ? res : null;
 }

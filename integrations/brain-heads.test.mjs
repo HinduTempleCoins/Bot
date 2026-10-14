@@ -37,6 +37,15 @@ test('emoji head: injected net returns ranked emoji', async () => {
   E.__setPipelineFactory(null);
 });
 
+test('emoji head: renders a GoEmotions affect net to emoji (net path)', async () => {
+  E.__setPipelineFactory(async () => async () => [{ label: 'gratitude', score: 0.98 }, { label: 'joy', score: 0.4 }]);
+  const e = E.createEmojiHead();
+  const out = await e.suggestEmoji('thank you so much', 2);
+  assert.equal(out[0].emoji, '🙏'); assert.equal(out[0].backend, 'net'); assert.equal(out[0].feeling, 'gratitude');
+  assert.equal(out[1].emoji, '😄');
+  E.__setPipelineFactory(null);
+});
+
 test('emoji head: soft-falls to keyword floor offline', async () => {
   E.__setPipelineFactory(async () => null);
   const e = E.createEmojiHead();
