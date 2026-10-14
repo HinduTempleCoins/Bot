@@ -37,6 +37,7 @@ export const DOMAINS = {
   chart:        { note: 'candlestick chart patterns', labels: ['a bullish candlestick chart going up', 'a bearish candlestick chart going down', 'a sideways ranging chart', 'a double top pattern', 'a head and shoulders pattern', 'a breakout'] },
   faces:        { note: 'historical figures in the wiki', labels: ['Albert Einstein', 'Nikola Tesla', 'Swami Vivekananda', 'Alexander Shulgin', 'a portrait of an unknown person'] },
   documents:    { note: 'legal/doc type (pair with OCR)', labels: ['a court filing', 'a government form', 'a handwritten letter', 'a contract', 'an ID card', 'a receipt', 'a printed article'] },
+  sky:          { note: 'night-sky objects (coarse; pair with the sky lobe for exact positions)', labels: ['the Big Dipper', 'the constellation Orion', 'the Milky Way', 'a full moon', 'a crescent moon', 'the planet Jupiter', 'the Pleiades star cluster', 'a meteor or shooting star', 'a comet', 'an aurora', 'a star-filled night sky', 'a sunset or sunrise sky'] },
 };
 
 const esc = (s) => String(s || '');

@@ -58,6 +58,7 @@
     "@google/generative-ai": "0.21.0",
     "@hiveio/dhive": "1.3.2",
     "@huggingface/transformers": "4.2.0",
+    "astronomy-engine": "2.1.19",
     "axios": "1.17.0",
     "ccxt": "4.5.56",
     "discord.js": "14.25.1",
