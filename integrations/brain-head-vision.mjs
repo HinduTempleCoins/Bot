@@ -101,12 +101,21 @@ export function createVisionHead(overrides = {}) {
     },
     async depth(image) { return await run(M.depth, image); },
     async segment(image) { return (await run(M.segment, image)) || []; },
-    /** DINOv2 image embedding (a flat Float32 vector) for similarity ID / FAISS. Returns number[] | null. */
+    /** DINOv2 image embedding, mean-pooled to a compact Float32 vector for FAISS. Returns number[] | null. */
     async embed(image) {
       const out = await run(M.embed, image, { pooling: 'mean', normalize: true });
       if (!out) return null;
       const data = out.data ?? out[0]?.data ?? out;
       if (!data) return null;
+      // image-feature-extraction often returns patch tokens [1, tokens, hidden]; mean-pool over tokens.
+      const dims = out.dims || out[0]?.dims;
+      if (dims && dims.length === 3 && dims[0] === 1) {
+        const [, tokens, hidden] = dims;
+        const pooled = new Array(hidden).fill(0);
+        for (let t = 0; t < tokens; t++) for (let h = 0; h < hidden; h++) pooled[h] += data[t * hidden + h];
+        for (let h = 0; h < hidden; h++) pooled[h] /= tokens;
+        return pooled;
+      }
       return Array.from(data);
     },
     /** The capabilities this lobe exposes (for introspection / the 'what can you see' answer). */
