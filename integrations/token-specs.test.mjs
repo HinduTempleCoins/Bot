@@ -62,7 +62,7 @@ test('side tokens and chain coins are not conflated', () => {
   // fixed-supply vs inflationary is the distinction that matters most for a holder
   // ⚠️ NOT 'fixed'. Both tokens are mintable to a cap and supply HAS grown between captures; an earlier
   // revision of this file claimed 'Fixed — no ongoing mint', which the chain contradicts.
-  assert.match(TOKEN_SPECS.vkbt.emission, /Mintable to 500,000,000 cap/);
+  assert.match(TOKEN_SPECS.vkbt.emission, /Reward pool: 1 VKBT\/min.*cap 500,000,000/);
   assert.match(TOKEN_SPECS.cure.emission, /Mintable to 20,000,000 cap/);
   assert.doesNotMatch(TOKEN_SPECS.vkbt.emission, /Fixed/);
   assert.doesNotMatch(TOKEN_SPECS.cure.emission, /Fixed/);
