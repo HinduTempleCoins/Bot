@@ -63,7 +63,7 @@ test('side tokens and chain coins are not conflated', () => {
   // ⚠️ NOT 'fixed'. Both tokens are mintable to a cap and supply HAS grown between captures; an earlier
   // revision of this file claimed 'Fixed — no ongoing mint', which the chain contradicts.
   assert.match(TOKEN_SPECS.vkbt.emission, /Reward pool: 1 VKBT\/min.*cap 500,000,000/);
-  assert.match(TOKEN_SPECS.cure.emission, /Mintable to 20,000,000 cap/);
+  assert.match(TOKEN_SPECS.cure.emission, /Reward pool: 2.4 CURE\/hour.*cap 20,000,000/);
   assert.doesNotMatch(TOKEN_SPECS.vkbt.emission, /Fixed/);
   assert.doesNotMatch(TOKEN_SPECS.cure.emission, /Fixed/);
   // the chain is the authority on the names
