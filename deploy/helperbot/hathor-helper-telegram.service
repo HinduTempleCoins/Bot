@@ -1,0 +1,39 @@
+# Hathor helper bot on Telegram (integrations/soapbox/telegram-public.mjs + helperbot/), 24/7 TEMPLATE.
+# ---------------------------------------------------------------------------
+# Same 24/7 contract as hathor-helper-discord.service: always restart, and the watchdog pings only
+# while getUpdates keeps succeeding.
+# IDLE-WITHOUT-TOKEN is preserved: with no TELEGRAM_PUBLIC_BOT_TOKEN the process exits 0, and
+# RestartPreventExitStatus=0 stops systemd from restart-looping it. A crash (non-zero exit) or a
+# watchdog kill is always restarted.
+# Placeholders: __INSTALL_DIR__ __ENV_FILE__ __NODE_BIN__ __LOG_FILE__.
+# ---------------------------------------------------------------------------
+[Unit]
+Description=Hathor helper bot (Telegram) — MELEK steemd, tokenomics, faucet, PIZZA tips, guides
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__ENV_FILE__
+ExecStart=__NODE_BIN__ integrations/soapbox/telegram-public.mjs
+StandardOutput=append:__LOG_FILE__
+StandardError=append:__LOG_FILE__
+Restart=always
+RestartPreventExitStatus=0
+RestartSec=5
+WatchdogSec=180
+NotifyAccess=all
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=__INSTALL_DIR__
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

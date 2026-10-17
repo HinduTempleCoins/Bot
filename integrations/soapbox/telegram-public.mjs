@@ -57,10 +57,32 @@ async function send(chatId, text) {
   await tg('sendMessage', { chat_id: chatId, text: out.slice(0, 3900), parse_mode: 'Markdown', disable_web_page_preview: true });
 }
 
+// Helper-brain replies are written in Discord markdown; send them as plain text (no parse_mode) so an
+// odd underscore in an address can never make Telegram reject the message.
+async function sendPlain(chatId, text) {
+  const out = guardPublicReply(String(text || '').replace(/\*\*/g, ''), { seed: Date.now() }).text;
+  await tg('sendMessage', { chat_id: chatId, text: out.slice(0, 3900), disable_web_page_preview: true });
+}
+
 async function handle(msg) {
   const chatId = msg.chat?.id; const text = (msg.text || '').trim();
   if (!chatId || !text) return;
   if (!allowed(chatId)) return; // silently drop floods
+
+  // SECRET GUARD + Hathor helper brain (helperbot/brain.mjs) — runs before any lookup or log. A pasted
+  // key/seed/password is deleted (where the bot is allowed to) and answered with the rotate warning.
+  // Helper commands (steemd chain set, tokenomics, !faucet, !tip, !guide …) when HELPERBOT_ENABLED=1.
+  try {
+    const brain = await import('../../helperbot/brain.mjs');
+    const hb = await brain.handle({ platform: 'telegram', userId: String(msg.from?.id ?? chatId), userName: msg.from?.username ? '@' + msg.from.username : 'you', text }, { commandsEnabled: brain.enabled() });
+    if (hb && hb.secret) {
+      let deleted = false;
+      try { const d = await tg('deleteMessage', { chat_id: chatId, message_id: msg.message_id }); deleted = !!(d && d.ok); } catch { deleted = false; }
+      const { rotationWarning } = await import('../../helperbot/secret-guard.mjs');
+      return void sendPlain(chatId, rotationWarning(hb.secret.kinds, { deleted, platform: 'telegram' }));
+    }
+    if (hb && hb.handled && hb.reply) return void sendPlain(chatId, hb.reply);
+  } catch { /* helper unavailable → the steemd/resource path below still answers */ }
   if (/^\/start\b/i.test(text)) return void tg('sendMessage', { chat_id: chatId, text: WELCOME, parse_mode: 'Markdown', disable_web_page_preview: true });
 
   const q = text.replace(/^\/+/, '').replace(/@\w+bot/i, '').trim() || 'help';
@@ -96,12 +118,22 @@ async function run() {
   }
   const me = await tg('getMe', {});
   console.log(`Hathor public Telegram bot live: @${me.result?.username || '?'}`);
+  // 24/7: watchdog pings only while getUpdates keeps succeeding (a poll in the last 2 min); /health on
+  // HELPERBOT_HEALTH_PORT. No-ops when not configured (helperbot/uptime.mjs).
+  let lastPollOk = 0;
+  try {
+    const up = await import('../../helperbot/uptime.mjs');
+    up.startWatchdog({ isHealthy: () => Date.now() - lastPollOk < 120_000 });
+    up.startHealthServer();
+    globalThis.__tgUptime = up;
+  } catch { /* never block the bot */ }
   let offset = 0;
   for (;;) {
     try {
       const d = await tg('getUpdates', { offset, timeout: 50, allowed_updates: ['message'] });
-      for (const u of (d.result || [])) { offset = u.update_id + 1; if (u.message) await handle(u.message).catch(() => {}); }
-    } catch (e) { await new Promise((r) => setTimeout(r, 3000)); }
+      if (d && d.ok) { lastPollOk = Date.now(); globalThis.__tgUptime?.markReady(true); }
+      for (const u of (d.result || [])) { offset = u.update_id + 1; if (u.message) { globalThis.__tgUptime?.markInbound(); await handle(u.message).catch(() => {}); } }
+    } catch (e) { globalThis.__tgUptime?.markReady(false); await new Promise((r) => setTimeout(r, 3000)); }
   }
 }
 

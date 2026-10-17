@@ -241,6 +241,7 @@ export const COMMANDS = {
       '`price <sym>` · `clarity <sym>` · `holders <sym>` · `convert <amt> <sym>` · `compare <a> <b>`',
       '`markets [n]` · `gainers` · `losers` · `trending` · `chains` · `dapps` · `global` · `ecosystem` · `learn` · `library <topic>` · `search <query>`',
       '**MELEK chain** [TestNet not MELEK]: `status` · `hathor` · `block` · `witness [name]` · `account <name>` · `feed`',
+      '**MELEK mainnet**: `balance` `rc` `delegations` `followers` `following` `post` `payout` `votes` `replies` `blog` `trending` `hot` `new` `witnesses` `schedule` `missed` `chain` `hardfork` `rewardfund` `tx` `engine` `nodes`',
       '_Reads the condenser (one source of truth). Starts with the CMC; grows as MELEK and more apps come online._',
       'Full site: https://data.soapbox.community',
     ].join('\n'), Object.keys(COMMANDS));
@@ -261,7 +262,16 @@ export async function runCommand(input) {
   const verb = (parts.shift() || '').toLowerCase();
   if (!verb) return COMMANDS.help();
   const fn = COMMANDS[verb];
-  if (!fn) return err(`unknown command "${verb}". Try \`help\`.`);
+  if (!fn) {
+    // Grow the same router with the MELEK-mainnet chain set (helperbot/steemd.mjs): account, rc, post,
+    // payout, votes, followers, witnesses, schedule, feed, chain, rewardfund, tx, engine, …
+    try {
+      const { steemdCommand } = await import('../../helperbot/steemd.mjs');
+      const text = await steemdCommand(verb, parts);
+      if (text) return ok(text, null);
+    } catch { /* fall through to the unknown-command reply */ }
+    return err(`unknown command "${verb}". Try \`help\`.`);
+  }
   try { return await fn(parts); }
   catch (e) { return err(`error reading state: ${e.message}`); }
 }

@@ -270,8 +270,23 @@ export async function handleUpdate(update, ctx = {}) {
   if (!parsed) return null;
 
   const { chatId, user, text } = parsed;
+  const _m = update && (update.message || update.edited_message || update.channel_post || update.edited_channel_post);
+  const messageId = _m && typeof _m.message_id === 'number' ? _m.message_id : null;
   const operator = isOperator(chatId);
   const mode = operator ? 'operator' : 'public';
+
+  // 0) SECRET GUARD + helper brain (helperbot/brain.mjs) — the guard runs before anything else touches
+  //    the text. A pasted key/seed/password is refused and the message deleted (the run loop calls
+  //    transport.deleteMessage when available). Helper commands only when HELPERBOT_ENABLED=1.
+  let helper = null;
+  try {
+    const brain = await import('../helperbot/brain.mjs');
+    helper = await brain.handle({ platform: 'telegram', userId: user, userName: user, text }, { commandsEnabled: brain.enabled(), now: now() });
+  } catch { helper = null; }
+  if (helper && helper.secret) {
+    try { console.log(redactForLog({ chatId, user, text: '', mode })); } catch { /* never */ }
+    return { chatId, reply: helper.reply, mode, route: 'secret', deleteMessageId: messageId };
+  }
 
   // Privacy-safe log line (length + mode only, no content).
   try {
@@ -304,7 +319,10 @@ export async function handleUpdate(update, ctx = {}) {
       } catch { /* soft-fail */ }
       return { chatId, reply, mode, route: 'public-command' };
     }
-    // An unknown /command falls through to the dispatcher (which has its own !command menu + persona).
+    // An unknown /command falls through to the helper brain, then the dispatcher.
+  }
+  if (helper && helper.handled && helper.reply) {
+    return { chatId, reply: helper.reply, mode, route: `helper:${helper.route}` };
   }
 
   // 2) Everything else → Hathor's dispatcher (defensive/injected).
@@ -381,6 +399,9 @@ export async function run({ transport, now = () => Date.now(), signal, max = Inf
       if (!action) continue;
       stats.handled += 1;
 
+      if (action.deleteMessageId !== undefined && action.deleteMessageId !== null && typeof tx.deleteMessage === 'function') {
+        try { await tx.deleteMessage({ chatId: action.chatId, messageId: action.deleteMessageId }); } catch { /* no rights in this chat */ }
+      }
       if (typeof tx.sendMessage === 'function') {
         try {
           await tx.sendMessage({ chatId: action.chatId, text: action.reply });
