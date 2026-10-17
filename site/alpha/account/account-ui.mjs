@@ -261,7 +261,7 @@ export async function runKeycheck({ name, secret, doc }) {
   out.innerHTML = `<p class="muted">reading the account from the chain… (your pasted string does NOT leave this page)</p>`;
   const acct = await getAccount(n);
   if (!acct) { out.innerHTML = `<p class="bad">No account "${esc(n)}" on ${NET.mainnet ? 'MELEK' : 'the testnet'} — check the spelling (it must be exact).</p>`; return; }
-  const verdict = await classifySecret(n, secret, chainPubs(acct));
+  const verdict = await classifySecret(n, secret, chainPubs(acct), NET.prefix);
   const cls = verdict.kind === 'no-match' ? 'bad' : 'ok';
   out.innerHTML = `<p class="${cls}"><b>${esc(verdict.hint)}</b></p>`;
 }
