@@ -1,0 +1,43 @@
+'''PRANA Pool Payouts''' explains how [[PRANA]] pays miners: the chain itself is the mining pool. Consensus sends almost every block reward into one contract, the '''pot''', and the pot pays everyone by the shares they submitted to the pool, automatically, every few minutes. This is the [[DevCoin and Paying Contributors|DevCoin]] idea — one pool, paid by shares — enforced by every node instead of by trust.
+
+== The rule every node enforces ==
+
+* Since block '''169,532''' every PRANA block reward, and every uncle reward, is split by consensus: '''98%''' to the pot and '''2%''' to Hathor's treasury. The block's sealer gets nothing from issuance (only the gas fees of the transactions in it).
+* A block that pays anyone else is invalid, and every node rejects it.
+* Since block '''169,688''' the pot is the contract <code>0x0c033FF8f3eEF60981574816672E80dEc5404E3C</code>. Hathor's treasury is <code>0xF129608bF3BA681012CF82DFfCfBB92563df987e</code>.
+
+== How you get paid ==
+
+# Point any Etchash miner at <code>stratum+tcp://pool.soapbox.community:3333</code>, with your own checksummed PRANA <code>0x…</code> address as the login. Copy-paste configs for lolMiner, T-Rex and GMiner are in the [https://witness.melek.salon/mine Mine PRANA guide].
+# The pool records every share you submit, with its proof of work, in a public share log.
+# Every '''20 blocks''' (about 4 minutes) a round closes. The round's PRANA is divided among everyone by their shares.
+# Three independent signers each recompute the round from public data — the shares, each share's proof of work, and the pot's balance on their own node. When '''2 of 3''' agree, the round's Merkle root is posted to the pot.
+# The pot then '''pushes each miner's PRANA straight to their address'''. There is nothing to claim and no payout threshold.
+
+If nobody mines in a round, its PRANA is not lost: it carries into the next round that has shares.
+
+== Mined outside the pool? Lost and Found ==
+
+Because the pool is hardcoded into consensus, a block mined outside the pool still pays the pot. That reward is held in the pot's '''Lost and Found''' under the coinbase address written in the block. The moment that address submits a valid share to the pool, it is released to it. Nobody else can claim it.
+
+== Why it can't be spoofed ==
+
+* Every share is published with its proof of work, so anyone can re-check it.
+* Every AI job in the TASK lane is checked by having more than one worker run it.
+* A round needs 2 of 3 independent signers, each recomputing it from public data on its own node.
+* A guardian can pause the pot, and the DAO timelock controls the signer set.
+* The contract has no admin withdrawal and cannot be upgraded.
+
+== Check it yourself ==
+
+* [https://witness.melek.salon/pool Live pot status] — the current block, PRANA in the pot, and rounds paid, read straight from the chain.
+* [https://witness.melek.salon/fees The fee model] — where the 2% goes.
+* [https://pranascan.soapbox.community PRANAScan] — look up the pot contract, your address, and every payout transaction.
+
+== See also ==
+
+* [[PRANA]] · [[PRANA Compute Chain]] · [[Proof of Work Mining]] · [[SoapBox Pool]] · [[DevCoin and Paying Contributors]] · [[KULA]]
+
+== Coverage ==
+
+First-party description of PRANA's consensus pool and its payouts, as live on PRANA mainnet (chain id 712217) from October 17, 2026: the 98% pot / 2% treasury split, 20-block rounds, 2-of-3 signer roots, automatic push payouts and Lost and Found.

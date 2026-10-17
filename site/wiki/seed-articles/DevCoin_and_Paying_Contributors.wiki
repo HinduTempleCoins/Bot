@@ -16,7 +16,7 @@ DevCoin's flaw was **tokenomics**. It issued coins on an enormous scale — on t
 
 The ecosystem keeps DevCoin's best idea and repairs its worst:
 
-* '''Keep — the one-pool, pay-by-shares model.''' PRANA routes each period's issuance into **one on-chain pool** (the *UnifiedSharesLedger*) split pro-rata among everyone who contributed weighted shares — mining or verified compute. The **Library of Ashurbanipal** applies the same idea to writing: contributors earn shares for articles they write and improve, and a **monthly pool of coins is split among them by share count**. Contribution paid directly, exactly in DevCoin's spirit.
+* '''Keep — the one-pool, pay-by-shares model.''' PRANA's consensus routes 98% of every block reward into **one on-chain pot** that pays everyone pro-rata by their pool shares every 20 blocks — mining or verified compute (see [[PRANA Pool Payouts]]). The **Library of Ashurbanipal** applies the same idea to writing: contributors earn shares for articles they write and improve, and a **monthly pool of coins is split among them by share count**. Contribution paid directly, exactly in DevCoin's spirit.
 * '''Fix — keep issuance tight and fair-launched.''' Unlike DevCoin's 180-billion flood, MELEK and PRANA launch with **no premine** and a disciplined, fair issuance, so a contributor's shares actually **hold their value**. The payroll only means something if the coin does.
 
 == See Also ==
