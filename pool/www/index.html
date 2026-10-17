@@ -195,11 +195,11 @@
     <p class="muted" style="font-size:13px;margin:0 0 6px"><strong>What it provides:</strong> every coin on the pool in one menu (pick inside the app);
       the <strong>official</strong> miner pulled straight from the developer&rsquo;s GitHub and
       <strong>SHA256-checksum-verified</strong> before it runs; new coins appear in the menu automatically
-      (Monero mainnet, our ecosystem coins, PRANA at launch) with no re-download; mining goes to
+      (Monero mainnet and our ecosystem coins, as they are added) with no re-download; mining goes to
       <em>your</em> address &mdash; the launcher is plain text you can open and read.</p>
     <p class="muted" style="font-size:13px;margin:0 0 12px"><strong>For whom:</strong> CPU folks (RandomX on any laptop/desktop), GPU rigs (Etchash coins like ETC),
       Android phones (Termux QR, in the per-coin wizard below), and &mdash; as we add them &mdash;
-      <strong>our own currencies join this same menu</strong>: PRANA and the MELEK ecosystem coins at launch.</p>
+      <strong>our own currencies join this same menu</strong>: the MELEK ecosystem coins as they launch.</p>
 
     <div class="wiz-field">
       <label class="wiz-lab" for="l-xmr">Your Monero / RandomX payout address <span class="muted">(optional &mdash; it&rsquo;ll ask on first run if blank)</span></label>
@@ -221,7 +221,7 @@
       <summary>How it works &middot; how to switch coins later &middot; the SmartScreen warning</summary>
       <ul style="font-size:13px;line-height:1.55;margin:8px 0 0;padding-left:18px">
         <li><b>Switch coins:</b> just run the launcher again and pick a different number. It remembers your last choice.</li>
-        <li><b>New coins appear automatically:</b> the launcher checks the pool&rsquo;s live coin list each time it starts, so coins we add later (Monero mainnet, OCTA/CAU, PRANA at launch) show up in the menu of the launcher you already downloaded &mdash; no re-download.</li>
+        <li><b>New coins appear automatically:</b> the launcher checks the pool&rsquo;s live coin list each time it starts, so coins we add later (Monero mainnet, OCTA/CAU and more) show up in the menu of the launcher you already downloaded &mdash; no re-download.</li>
         <li><b>It&rsquo;s plain text:</b> open the script in Notepad / a text editor to read exactly what it does. It only contacts the pool (for the coin list + as your mining username) and the official miner&rsquo;s GitHub.</li>
         <li><b>Windows will warn you</b> (SmartScreen / Defender) because this is an unsigned community script &mdash; that warning appears for <em>any</em> unsigned <code>.ps1</code>/<code>.bat</code>, not because anything is wrong. The included <code>.bat</code> uses the standard per-file <code>-ExecutionPolicy Bypass</code> so you don&rsquo;t change any system setting. We do <strong>not</strong> ask you to disable Defender or SmartScreen. If you&rsquo;re unsure, read the <code>.ps1</code> first or use the per-coin one-liner below.</li>
         <li><b>macOS:</b> Apple Silicon uses the matching xmrig build automatically; Etchash GPU coins are not supported on macOS (the menu will say so).</li>
@@ -232,7 +232,7 @@
   <!-- THREE DOORS (operator design: pool-as-wallet). Honest labels — no fake functionality. -->
   <section id="doors-section">
     <h2>Three doors</h2>
-    <p class="sub">One wallet, three ways in. Today the <b>Mine</b> door is open; the other two arrive with PRANA. New to GPU mining? Read the <a href="https://witness.melek.salon/mine"><b>Mine PRANA guide</b></a> &mdash; copy-paste lolMiner / T-Rex / GMiner configs, the stratum URL, and how to get a payout address.</p>
+    <p class="sub">One wallet, three ways in. Today the <b>Mine</b> door is open, including PRANA; the other two are still being built. New to GPU mining? Read the <a href="https://witness.melek.salon/mine"><b>Mine PRANA guide</b></a> &mdash; copy-paste lolMiner / T-Rex / GMiner configs, the stratum URL, and how to get a payout address.</p>
     <div class="doors">
       <a class="door live" href="#mine">
         <div class="dh">Mine</div>
@@ -242,18 +242,18 @@
       <div class="door soon" role="group" aria-label="AI Work door">
         <div class="dh">AI Work</div>
         <div class="dd">Earn by tasking your hardware to AI work instead of (or alongside) hashing &mdash; the switching engine.</div>
-        <span class="pill">Opens with PRANA</span>
+        <span class="pill">Coming soon</span>
       </div>
       <div class="door soon" role="group" aria-label="Burn to Mine door">
         <div class="dh">Burn to Mine</div>
         <div class="dd">Commit capital instead of hardware &mdash; the Burn Coin path. Hardware-free participation.</div>
-        <span class="pill">Opens with PRANA</span>
+        <span class="pill">Coming soon</span>
       </div>
     </div>
   </section>
 
   <section id="ecosystem-note" class="note">
-    <strong>Coming to the menu:</strong> <b>PRANA</b> (our Ethash ETH-clone) joins this pool at its launch &mdash; that&rsquo;s the &ldquo;plus ours&rdquo;. MELEK-ecosystem coins follow. The pool already runs both algorithm families, so adding a coin is one config entry, not a rebuild.
+    <strong>PRANA is live:</strong> point any Etchash miner at <code>stratum+tcp://pool.soapbox.community:3333</code> with your PRANA <code>0x&hellip;</code> address as the login. PRANA's chain <em>is</em> the pool: consensus sends 98% of every block reward to the pot contract and 2% to Hathor's treasury, and every 20 blocks (about 4 minutes) the pot pushes each miner's share straight to their address &mdash; nothing to claim. <a href="https://witness.melek.salon/mine">Mine PRANA guide</a> &middot; <a href="https://witness.melek.salon/pool">live pot status</a>. MELEK-ecosystem coins follow.
   </section>
 
 
@@ -363,7 +363,7 @@
       wallet for its own operating address; for testnets that wallet holds zero-value keys only.
     </p>
     <p class="muted" style="font-size:13px;margin:0">
-      One-click mining (one HD seed shared with the Akasha wallet, a module per coin) arrives with PRANA.
+      One-click mining (one HD seed shared with the Akasha wallet, a module per coin) is coming.
     </p>
   </section>
 

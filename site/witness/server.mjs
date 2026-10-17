@@ -339,6 +339,58 @@ export function homePage() {
   return page('Witness School — learn to be a witness, connect to the pool', body, { canonical: `${BASE_URL}/` });
 }
 
+// ── PRANA: the chain IS the pool ───────────────────────────────────────────────────────────────
+// Consensus pays 98% of every PRANA block reward (and every uncle) to the pot contract and 2% to
+// Hathor's treasury. The pot pays miners by pool shares, in rounds of POT_ROUND_BLOCKS blocks, and
+// each round is pushed to every miner's address automatically. Live numbers come from the PRANA RPC.
+const PRANA_POT = process.env.PRANA_POT || '0x0c033FF8f3eEF60981574816672E80dEc5404E3C';
+const PRANA_TREASURY = process.env.PRANA_TREASURY || '0xF129608bF3BA681012CF82DFfCfBB92563df987e';
+const POT_ROUND_BLOCKS = +(process.env.POT_ROUND_BLOCKS || 20);
+
+export async function pranaPotStatus() {
+  const call = async (method, params) => {
+    const r = await _chainFetch(PRANA_RPC_URL, { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }) });
+    const j = await r.json();
+    if (!j || j.result == null) throw new Error('no result');
+    return j.result;
+  };
+  try {
+    const [head, bal, round] = await Promise.all([
+      call('eth_blockNumber', []),
+      call('eth_getBalance', [PRANA_POT, 'latest']),
+      call('eth_call', [{ to: PRANA_POT, data: '0x8a19c8bc' }, 'latest']), // currentRound()
+    ]);
+    return { head: parseInt(head, 16), potPrana: Number(BigInt(bal) / 10n ** 14n) / 1e4, roundsPaid: parseInt(round, 16) };
+  } catch { return null; }
+}
+
+function pranaCard(st) {
+  const live = st
+    ? `<div class=idx>
+      <div><div class=v>${esc(num(st.head))}</div><div class=l>block</div></div>
+      <div><div class=v>${esc(num(st.potPrana))}</div><div class=l>PRANA in the pot</div></div>
+      <div><div class=v>${esc(num(st.roundsPaid))}</div><div class=l>rounds paid</div></div>
+      <div><div class=v>~${esc(num(POT_ROUND_BLOCKS * 13 / 60))} min</div><div class=l>per round</div></div>
+    </div>`
+    : '<p class=empty>The PRANA RPC is unreachable right now, so the live pot numbers are not shown.</p>';
+  return `<div class=card>
+    <h3>PRANA <span class=muted>(PRANA)</span> <span class="badge algo">Etchash</span> <span class="badge live">chain is the pool</span></h3>
+    ${live}
+    <p class=muted style="font-size:14px">Consensus pays <b>98%</b> of every block reward (and every uncle)
+      to the pot contract <code>${esc(PRANA_POT)}</code> and <b>2%</b> to Hathor's treasury. Every
+      ${esc(POT_ROUND_BLOCKS)} blocks the pot pays every miner by their pool shares and <b>pushes the PRANA
+      straight to their address</b> — nothing to claim. A block mined outside the pool goes to
+      <b>Lost and Found</b> under that miner's address and is released once it submits a pool share.</p>
+    <h3 style="margin-top:10px">Connect</h3>
+    <div class=conn>${esc(poolStatsMod.stratumUrl(PRANA_STRATUM_PORT, { tls: false }))}</div>
+    <p class=muted style="font-size:13px">Login: your checksummed PRANA <code>0x…</code> address
+      (optionally <code>.worker</code>). Guide: <a href="/mine">Mine PRANA</a>.</p>
+  </div>`;
+}
+
+const isPrana = (p) => p && (/prana/i.test(String(p.id || '')) || /^prana$/i.test(String(p.symbol || '')) || /^prana$/i.test(String(p.coin || '')));
+
 // ── /pool — LIVE pool status ───────────────────────────────────────────────────────────────────
 function poolCard(p) {
   const live = p.connectedMiners > 0 || p.hashrate > 0;
@@ -367,22 +419,25 @@ function poolCard(p) {
   </div>`;
 }
 
-export async function poolView(readPools) {
+export async function poolView(readPools, readPrana = pranaPotStatus) {
   const reader = readPools || poolStatsMod.pools;
   let list = [];
   try { list = await reader(); } catch { list = []; }
   list = Array.isArray(list) ? list : [];
   // Only advertise pools whose daemon is actually reachable (a live network height or hashrate) or
   // that have real activity. A pool with a dead daemon isn't mineable, so we don't show a stale card.
-  list = list.filter((p) => p && (p.blockHeight != null || p.networkHashrate > 0 || p.connectedMiners > 0 || p.hashrate > 0));
+  // PRANA is not a Miningcore pool any more: it gets its own card from the chain.
+  list = list.filter((p) => p && !isPrana(p) && (p.blockHeight != null || p.networkHashrate > 0 || p.connectedMiners > 0 || p.hashrate > 0));
+  let prana = null;
+  try { prana = await readPrana(); } catch { prana = null; }
 
-  const cards = list.length
+  const cards = pranaCard(prana) + (list.length
     ? list.map(poolCard).join('')
     : `<div class=card><p class=empty>The pool API is unreachable right now, so there is nothing
         live to show — and we will not invent numbers. The pool runs Miningcore on our own
         infrastructure; when it is reachable this page lists every coin, its hashrate, miner count,
         fee, and the stratum line to connect. Check back shortly, or watch the chain at
-        <a href="${esc(MELEK_HOME)}">melek.salon</a>.</p></div>`;
+        <a href="${esc(MELEK_HOME)}">melek.salon</a>.</p></div>`);
 
   return `<h1>Live pool status</h1>
     <p class=lead>What is actually running on the pool right now — one card per coin, pulled live
@@ -561,12 +616,14 @@ export async function feesView(readPools) {
   try { list = await reader(); } catch { list = []; }
   list = Array.isArray(list) ? list : [];
 
-  const rows = list.length
-    ? list.map((p) => `<div class=conn>${esc(p.coin)}${p.symbol ? ` (${esc(p.symbol)})` : ''} — fee
+  const others = list.filter((p) => !isPrana(p));
+  const rows = `<div class=conn>PRANA (PRANA) — <b>2%</b> of every block reward by consensus → Hathor's treasury
+        <code>${esc(PRANA_TREASURY)}</code>; no pool fee on top</div>` + (others.length
+    ? others.map((p) => `<div class=conn>${esc(p.coin)}${p.symbol ? ` (${esc(p.symbol)})` : ''} — fee
         <b>${p.feePercent == null ? '—' : esc(num(p.feePercent)) + '%'}</b> → Hathor</div>`).join('')
-    : `<p class=empty>The live per-coin fee figures load from the pool API; it is unreachable right
-        now, so the exact percentages are not shown — but the destination of the fee does not change:
-        it goes to Hathor.</p>`;
+    : `<p class=empty>The live per-coin fee figures for the other pool coins load from the pool API; it
+        is unreachable right now, so the exact percentages are not shown — but the destination of the
+        fee does not change: it goes to Hathor.</p>`);
 
   return `<h1>The fee model — in plain terms</h1>
     <p class=lead>We disclose exactly where the money goes. There is one small fee and one
@@ -575,11 +632,13 @@ export async function feesView(readPools) {
       <blockquote>A small pool fee goes to <b>Hathor</b>, the founding AI Witness — <b>NOT to
         PRANA</b>. PRANA <em>is</em> the pool, so a "fee to PRANA" would be meaningless. The fee
         supports the founding AI Witness. Fees may become part of the <b>DAO</b> later.</blockquote>
-      <p class=muted style="font-size:14px">In mechanics: the pool engine skims a small
-        <code>percentage</code> of each block reward to a Hathor-controlled address <em>on that
-        coin's chain</em> (there is no single global fee address — each pool pays in its own coin).
-        Later these recipients can be repointed at the DAO / reward router. This off-chain pool fee
-        is separate from PRANA's own chain-level reward routing.</p>
+      <p class=muted style="font-size:14px">In mechanics, on <b>PRANA</b> the fee is not a pool
+        setting at all: consensus sends <b>2%</b> of every block reward to Hathor's treasury and
+        <b>98%</b> to the pot contract <code>${esc(PRANA_POT)}</code>, which pays miners by their pool
+        shares every ${esc(POT_ROUND_BLOCKS)} blocks. Every node rejects a block that pays anyone else.
+        On the <b>other coins</b> the pool runs (Monero and friends), the pool engine skims a small
+        <code>percentage</code> of each block reward to a Hathor-controlled address on that coin's
+        chain. Later these recipients can be repointed at the DAO.</p>
     </div>
     <div class=card><h2>Per-coin fee (live)</h2>
       ${rows}
@@ -2658,7 +2717,7 @@ pause`;
     </div>
 
     <div class=card><h2>2 · Point your rig at the pool</h2>
-      <p class=muted style="font-size:14px">Miningcore speaks the standard Ethereum/Etchash stratum, so
+      <p class=muted style="font-size:14px">The pool speaks the standard Ethereum/Etchash stratum, so
         every mainstream Etchash miner works. Replace <code>0xYOUR_PRANA_ADDRESS</code> with your address.</p>
       <h3>lolMiner (NVIDIA + AMD)</h3>
       <pre>${esc(lol)}</pre>
@@ -2689,13 +2748,14 @@ pause`;
     </div>
 
     <div class=card><h2>4 · Rewards, fees, and checking your stats</h2>
-      <p class=muted style="font-size:14px">The pool credits your <code>0x</code> address by contributed
-        shares; when your pending balance crosses the payout threshold, Miningcore sends PRANA to your
-        address. Miners earn <b>PRANA</b> (and <b>KULA</b>, the paired DeFi collateral coin) — like a
-        STEEM/SBD pair, but for EVM miners.</p>
+      <p class=muted style="font-size:14px">PRANA's chain <b>is</b> the pool. Consensus sends 98% of every
+        block reward to the pot contract <code>${esc(PRANA_POT)}</code>; every ${esc(POT_ROUND_BLOCKS)} blocks
+        (about ${esc(num(POT_ROUND_BLOCKS * 13 / 60))} minutes) the pot pays every address by its accepted
+        shares and <b>pushes the PRANA straight to your address</b> — no threshold, nothing to claim.
+        A round where nobody mined carries its PRANA into the next round.</p>
       <ul style="margin:6px 0 0 18px;padding:0;line-height:1.5">
-        <li><b>Two fees, both disclosed:</b> a <b>2% protocol fee</b> to the chain's governed treasury
-          (applies everywhere), plus a small <b>pool operator fee</b> — stated honestly on <a href="/fees">the fee page</a> (it supports Hathor, not PRANA itself).</li>
+        <li><b>One fee, disclosed:</b> <b>2%</b> of every block reward goes by consensus to Hathor's
+          treasury; there is no pool fee on top. Details on <a href="/fees">the fee page</a>.</li>
         <li><b>Live stats:</b> paste your address on <a href="/pool">the live pool page</a> to see your
           worker hashrate, shares, and pending/paid balance — and to confirm the pool's current network
           height before you commit a rig.</li>
@@ -2704,12 +2764,13 @@ pause`;
       </ul>
     </div>
 
-    <div class=card><h2>Run your own pool — PRANA is permissionless</h2>
-      <p class=muted style="font-size:14px">Anyone can run a pool and more are welcome — they decentralize
-        block production and give miners choice. The stack is a synced <b>PRANA node</b> serving
-        <code>eth_getWork</code>, a <b>Miningcore</b> Etchash <code>pools[]</code> entry pointing at it,
-        Postgres, and a payout wallet you control. Full reference: <a href="/dev/prana">PRANA contract dev</a>
-        and <code>pool/README.md</code> in the open-source repo. Depth on the algorithm and economics is in
+    <div class=card><h2>Mining outside the pool — Lost and Found</h2>
+      <p class=muted style="font-size:14px">PRANA's pool is hardcoded into consensus, so there is no
+        second pool to run: every block reward goes to the pot whoever seals it. If you solo-mine or
+        mine through some other software, the reward is held in the pot's <b>Lost and Found</b> under
+        the coinbase address written in your block, and it is released to that address the moment it
+        submits a valid share to the pool. Nobody else can claim it. Contract and RPC reference:
+        <a href="/dev/prana">PRANA contract dev</a>. Depth on the algorithm and economics is in
         the <a href="${esc(LIBRARY)}/wiki/Mining">Library — Mining</a> and
         <a href="${esc(LIBRARY)}/wiki/PRANA">PRANA</a> articles.</p>
     </div>
