@@ -1,0 +1,3567 @@
+[
+ {
+  "id": "create-melek-account",
+  "intent": "Create a MELEK account on testnet (alpha) or mainnet. Keys are generated in the browser and only public keys are sent.",
+  "phrasings": [
+   "how do i make a melek account",
+   "sign me up for melek",
+   "how to creat an acount on melek salon",
+   "i want a testnet account to try stuff",
+   "where do i register",
+   "can you make me an account?",
+   "get started on melek"
+  ],
+  "start_url": "https://alpha.melek.salon/account/signup.html",
+  "prerequisites": [
+   "A modern browser",
+   "Somewhere safe to store a text file or password (offline is best)",
+   "Mainnet only: an invite may be required (Witness School says 'invite-gated'). The testnet faucet has an INVITE_REQUIRED switch that ships OFF."
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://alpha.melek.salon/account/signup.html",
+    "do": "Type a name in 'Account name' (3–16 chars, lowercase letters/numbers/hyphens, must start with a letter), then click 'Generate my keys'",
+    "why": "The page checks the name is free using condenser_api.get_accounts over /rpc, then makes the master password and 4 keys in the browser",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://alpha.melek.salon/account/signup.html",
+    "do": "Click '⬇ Download my keys' or use any 'Copy' button to save the master password and keys",
+    "why": "Step 1 of the gate. 'Create my account' stays locked until the keys are saved.",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://alpha.melek.salon/account/signup.html",
+    "do": "Re-type the master password in the 'paste or type your master password' box",
+    "why": "Step 2 of the gate proves you kept the password",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://alpha.melek.salon/account/signup.html",
+    "do": "Click 'Create my account'",
+    "why": "The browser POSTs only the name and 4 PUBLIC keys to /faucet/create, and the faucet broadcasts the account creation",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://alpha.melek.salon/account/keycheck.html",
+    "do": "Optional: click 'Verify you saved it right'. Enter 'Account name' and 'The string you saved', then click 'Check (stays in your browser)'",
+    "why": "Confirms the saved secret matches the on-chain public keys. The check never leaves the browser.",
+    "http": 200
+   },
+   {
+    "n": 6,
+    "url": "https://alpha.melek.salon/account/welcome.html",
+    "do": "Click 'Continue to Welcome →', then 'Log in' with the account name and master password",
+    "why": "Within minutes Hathor's welcomer delegates POWER (RC), sends a 5–15 TESTS/MELEK grant and @-mentions you on the Welcome post",
+    "http": 200
+   },
+   {
+    "n": 7,
+    "url": "https://wallet.melek.salon/signup",
+    "do": "MAINNET variant: open the wallet signup link and follow the same page (it detects a non-alpha host and uses the MELEK key prefix and the melek.salon login)",
+    "why": "account-ui.mjs switches network by hostname; the mainnet faucet uses claim_account + create_claimed_account + delegate_vesting_shares",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "condenser_api.get_accounts via same-origin /rpc (availability check)",
+   "POST /faucet/create {name, ownerPub, activePub, postingPub, memoPub}",
+   "testnet: signup/faucet-testnet.mjs account_create (creator initminer, fee 0.001 TESTS, prefix TST)",
+   "mainnet: signup/faucet-mainnet.mjs claim_account + create_claimed_account (creator hathor) + delegate_vesting_shares",
+   "witness/welcomer.mjs: delegate_vesting_shares + transfer 5–15 + a comment ping on the Welcome post (signed by hathor via MELEK-Signer or a JIT key)"
+  ],
+  "keys": "The master password and the owner/active/posting/memo private keys are generated in the user's browser (graphene-keys.mjs) and only ever stored by the user. The server receives the name and PUBLIC keys only, and the faucet rejects anything shaped like a private key. The faucet's creator key signs the account creation server-side. Hathor never asks for, sees or stores any user key.",
+  "pitfalls": [
+   "Reloading the page makes a brand-new key set and resets the gate",
+   "There is no password recovery. Lose the master password and the account is gone unless an older key backup exists",
+   "Testnet keys start with TST and mainnet keys start with MELEK; they are not interchangeable",
+   "Names must be 3–16 chars and lowercase; taken names are rejected",
+   "Rate limit: the faucet answers 429 'rate-limited' after too many creates per IP or fingerprint",
+   "Never paste keys into chat (including Hathor's)"
+  ],
+  "sources": [
+   "site/alpha/account/signup.html:20-38",
+   "site/alpha/account/account-ui.mjs:17-28",
+   "site/alpha/account/account-ui.mjs:53-64",
+   "site/alpha/account/account-ui.mjs:162-238",
+   "site/alpha/account/account-ui.mjs:241-254",
+   "site/alpha/account/get-started.html",
+   "site/alpha/account/keycheck.html:20-27",
+   "signup/faucet-testnet.mjs:1-36",
+   "signup/faucet-testnet.mjs:260-320",
+   "signup/faucet-mainnet.mjs:1-25",
+   "signup/faucet-mainnet.mjs:155-157",
+   "signup/providers.mjs:20-55",
+   "witness/welcomer.mjs:1-30",
+   "src/trollbox/index.mjs:151-200"
+  ],
+  "verified": true,
+  "notes": "The testnet page code is verified, but which Caddy path serves site/alpha/account/* (assumed /account/) was not confirmed in the Bot repo. Mainnet: many sites link to https://wallet.melek.salon/signup and Caddy redirects there, but the redirect target lives in the condenser/Caddy config, not in this repo. Mainnet behaviour is inferred from account-ui.mjs host detection plus faucet-mainnet.mjs. A staged register.html (site/signup-pages) is a design for the condenser and is not live. Mainnet invite gating: run page says invite-gated, but faucet-mainnet.mjs has no invite check.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "alpha.melek.salon",
+   "wallet.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "login-with-melek",
+  "intent": "Sign in to one of our sites (Congress, Auto-Vote, Pentecaust and its sibling sites) using 'Login with MELEK' through MELEK-Signer.",
+  "phrasings": [
+   "how do i log in with melek",
+   "whats login with melek",
+   "sign in to congress",
+   "how to connect my melek account to autovote",
+   "logn with melek not working",
+   "do i give you my password to log in?"
+  ],
+  "start_url": "https://alpha.congress.ink/",
+  "prerequisites": [
+   "An existing MELEK account plus its master password"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://alpha.congress.ink/",
+    "do": "Click 'Post', a like (♡) or a reply (💬). Without a session the page redirects you to MELEK-Signer.",
+    "why": "Congress sends you to signer /oauth2/authorize?client_id=congress&scope=vote comment&redirect_uri=<page>",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://signer.melek.salon/oauth2/authorize",
+    "do": "Enter your MELEK account name and password on the signer page and approve",
+    "why": "The signer checks the password against the on-chain keys and redirects back with ?code=",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://alpha.congress.ink/",
+    "do": "Back on the site you see 'Posting as @you'",
+    "why": "The page exchanges the code at signer /oauth2/token and stores a bearer token in localStorage (congress_tok)",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://vote.melek.salon/",
+    "do": "Auto-Vote variant: choose 'Chain', open the MELEK-Signer tab, click 'Login with MELEK ›'",
+    "why": "/melek-signer/login redirects to the hosted signer (scope 'vote'); /melek-signer/callback stores the token",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://pentecaust.com/",
+    "do": "Pentecaust variant: in the 'Sign in:' bar click 'Login with MELEK', then answer the two prompts ('Your MELEK @name:' and 'Your MELEK password:')",
+    "why": "Pentecaust POSTs the account and password to /auth/method/melek-signer, which forwards them to the signer for verification",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "MELEK-Signer /oauth2/authorize, /oauth2/token, /v1/broadcast (Bearer token)",
+   "pentecaust /auth/method/melek-signer, /auth/sso, /auth/me",
+   "autovote /melek-signer/login, /melek-signer/callback"
+  ],
+  "keys": "The user types the MELEK password only on the signer page (Congress and Auto-Vote redirect flow). On Pentecaust the password is entered in a browser prompt on pentecaust.com and sent to Pentecaust's server, which forwards it to the signer and does not log it. The site keeps only a revocable bearer token. The Auto-Vote page says 'the signer holds your keys and votes on your behalf'. Hathor never sees the password.",
+  "pitfalls": [
+   "Always check that the address bar shows signer.melek.salon before typing a password (SECURITY.md warns about phishing clones of signer pages)",
+   "Pentecaust asks for the password in a browser prompt on pentecaust.com, not on the signer",
+   "Congress is TESTNET (alpha), so use a testnet account there",
+   "Pentecaust 'One-time code' needs email delivery, which is not wired yet; the UI says to use Login with MELEK or Google instead",
+   "Bearer tokens act for you within their scope; log out and revoke them when done",
+   "Sibling Pentecaust sites (Pact, Herald, Connect) use \"Sign in with MELEK\" via pentecaust.com /auth/sso; pact.pentecaust.com answered HTTP 502 on 2026-10-17."
+  ],
+  "sources": [
+   "site/congress/server.mjs:226-279",
+   "site/congress/server.mjs:299-322",
+   "autovote/views.js:63-75",
+   "autovote/views.js:169",
+   "autovote/server.js:160-210",
+   "pentecaust/server.mjs:960-985",
+   "pentecaust/server.mjs:1083",
+   "pentecaust/melek-signer-login.mjs:1-33",
+   "pentecaust/sso.mjs:138-183",
+   "site/pact/server.mjs:70"
+  ],
+  "verified": true,
+  "notes": "The signer UI and how it holds or derives user keys live in the private MELEK-Signer repo, so the exact signer page labels are unverified. Witness School lists signer /health and /oauth2/authorize as answering (site/witness/server.mjs:2215). vote.melek.salon is mapped to autovote/server.js from the live Caddy config, not from this repo.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "alpha.congress.ink",
+   "pentecaust.com",
+   "signer.melek.salon",
+   "vote.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "staged-tutorial",
+  "intent": "Work through the 19-stage MELEK onboarding tutorial and check progress.",
+  "phrasings": [
+   "what is the tutorial",
+   "what stages are there",
+   "how do i progress in the tutorial",
+   "whats my next step on melek",
+   "tutoral stage list pls",
+   "how do i know i finished a stage",
+   "!tutorial"
+  ],
+  "start_url": "https://alpha.melek.salon/tutorial/",
+  "prerequisites": [
+   "A MELEK account for stages 1+ (stage 0 is creating it)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://alpha.melek.salon/tutorial/",
+    "do": "Open \"Your path on MELEK\" (testnet tutorial) and tap a stage to see what it is and how to do it",
+    "why": "Self-paced map; ticks are saved in your browser only",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://alpha.melek.salon/account/chat.html",
+    "do": "In Chat with Hathor type \"!tutorial yourname\" (or tap \"!help\") and Send",
+    "why": "Reads your real on-chain progress and the next unlock",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://alpha.melek.salon/",
+    "do": "Do the stage on the testnet (post, comment, power up, vote...), then ask \"!tutorial yourname\" again",
+    "why": "Hathor reacts on-chain",
+    "http": 200
+   }
+  ],
+  "stages": [
+   "1 intro_post (A): top-level post tagged introduceyourself/introduction/introducing, body ≥200 chars",
+   "2 engage_three_posts (A): ≥3 comments on 3 different other authors, each ≥80 chars",
+   "3 share_what_you_know (A): a post ≥800 chars, not tagged introduceyourself/introduction",
+   "4 first_organic_upvote (A): ≥1 upvote received from someone other than hathor",
+   "5 power_up (A): transfer_to_vesting ≥1.000 MELEK",
+   "6 vote_for_a_witness (A): ≥1 account_witness_vote",
+   "7 set_profile (A): profile has name, about or profile_image",
+   "8 follow_three_authors (A): follow ≥3 distinct accounts (custom_json 'follow'), not yourself",
+   "9 send_first_transfer (A): transfer ≥0.001 MELEK to someone else",
+   "10 delegate_some_mp (A): delegate ≥1.000 MP to someone else",
+   "11 join_a_community (B, infra-gated): community post ≥200 chars",
+   "12 curate_with_intent (B, infra-gated): ≥1 curation reward",
+   "13 create_a_token (B, infra-gated): hold or create ≥1 SMT-style token",
+   "14 first_market_trade (B, infra-gated): ≥1 filled market trade",
+   "15 publish_a_video (B, infra-gated): a video post",
+   "16 contribute_to_the_wiki (B, infra-gated): ≥1 wiki edit",
+   "17 use_the_bridge (B, infra-gated): ≥1 completed bridge transfer",
+   "18 meet_the_witness (C): conversation with Hathor, ≥3 turns",
+   "19 become_a_node_of_the_network (C): welcome ≥1 newcomer whose account is newer than yours"
+  ],
+  "touches": [
+   "condenser_api.get_account_history / get_discussions_by_blog / get_accounts / get_active_votes (read-only)",
+   "signup/server.mjs GET /api/stages, /api/progress?account=, /api/next?account=",
+   "commands/menu.mjs !tutorial"
+  ],
+  "keys": "Only reads happen here. Each stage's on-chain action is signed by the user in their own front-end/signer. Hathor never holds user keys.",
+  "pitfalls": [
+   "The alpha tutorial page's checkboxes are local self-marks, not chain-verified",
+   "Tier B stages cannot be completed yet ('Coming soon')",
+   "Stage 4 does not count Hathor's own upvote",
+   "Self-transfers, self-delegations and self-follows do not count"
+  ],
+  "sources": [
+   "tutorial/stages.json",
+   "site/tutorial/server.mjs:1-22",
+   "site/tutorial/server.mjs:199-203",
+   "site/_dispatch/routes.json (tutorial.soapbox.community -> tutorial)",
+   "site/alpha/tutorial/tutorial-ui.mjs:27-105",
+   "signup/server.mjs:24-33",
+   "signup/server.mjs:114-214",
+   "commands/menu.mjs:323-329"
+  ],
+  "verified": true,
+  "notes": "live page check 2026-10-17: alpha tutorial + chat pages 200. tutorial.soapbox.community (404) dropped.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "alpha.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "first-post-melek-salon",
+  "intent": "Write and publish a first post (an introduction) on melek.salon.",
+  "phrasings": [
+   "how do i post on melek",
+   "write my first post",
+   "how do i introduce myself",
+   "where's the submit button",
+   "how to make a blog post on melek.salon",
+   "my post doesnt show up"
+  ],
+  "start_url": "https://melek.salon",
+  "prerequisites": [
+   "A MELEK account with its master password or posting key",
+   "Some RC/POWER (Hathor's welcomer delegates it to new accounts)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://melek.salon/",
+    "do": "Tap \"Login\" and sign in with your account name and master password (or posting key)",
+    "why": "Posting is signed in your browser",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://melek.salon/submit.html",
+    "do": "Tap \"Post\" to open the editor",
+    "why": "New top-level post",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://melek.salon/submit.html",
+    "do": "Write a title and a real body (200+ characters), add the tag \"introduceyourself\" plus a few topic tags, and publish",
+    "why": "Hathor watches the intro tags",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "comment op (parent_author '' , parent_permlink = first tag), posting authority"
+  ],
+  "keys": "The posting key or master password is entered only in the melek.salon condenser login and signs in the browser. Hathor never sees it.",
+  "pitfalls": [
+   "Posts are permanent; edits create a new version but the history stays",
+   "A brand-new account with zero RC cannot post until it gets a delegation or powers up",
+   "Comment rate limit is 1 per 3 seconds"
+  ],
+  "sources": [
+   "tutorial/lessons/02-your-first-post.md",
+   "tutorial/stages.json (stage 1)",
+   "pentecaust/metatron.mjs:60",
+   "site/alpha/account/account-ui.mjs:24-27",
+   "witness/welcomer.mjs:1-20"
+  ],
+  "verified": true,
+  "notes": "live page check 2026-10-17: melek.salon/submit.html 200 (condenser app; nav shows Login, Post). Editor field labels not rendered.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "testnet-faucet-tokens",
+  "intent": "Get test tokens: TESTS on MELEK testnet (via account creation and the welcome grant) and test PRANA gas from the PRANA faucet.",
+  "phrasings": [
+   "how do i get testnet tokens",
+   "faucet?",
+   "where can i get free TESTS",
+   "i need test prana for gas",
+   "faucet not giving me coins",
+   "how to get testnet melek"
+  ],
+  "start_url": "https://faucet.alpha.soapbox.community/",
+  "prerequisites": [
+   "MELEK side: a new testnet account. PRANA side: an EVM 0x address."
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://alpha.melek.salon/account/signup.html",
+    "do": "MELEK testnet: create an account (see the create-melek-account flow)",
+    "why": "MELEK has no gas. The 'MELEK faucet' gives an account, and Hathor's welcomer then grants 5–15 TESTS plus delegated POWER/RC",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://alpha.melek.salon",
+    "do": "Wait a few minutes for the @-mention on Hathor's Welcome post; your balance then shows the grant",
+    "why": "The welcomer runs delegate_vesting_shares, transfer and a comment ping",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://faucet.alpha.soapbox.community/",
+    "do": "PRANA testnet: paste your address into 'Your PRANA / EVM address' (0x…40 hex) and click 'Get test PRANA'",
+    "why": "POST /api/drip sends DRIP_PRANA (default 5) test PRANA, once per address every RATE_HOURS (default 24h)",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://pranascan.alpha.soapbox.community",
+    "do": "Click the Tx link shown after '✅ Sent … PRANA. Tx:'",
+    "why": "Confirms the drip on PRANA testnet (chainId 108369)",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "MELEK: faucet-testnet account_create, then welcomer transfer + delegate_vesting_shares + comment",
+   "PRANA: faucet/prana-server.mjs POST /api/drip (node-local personal_sendTransaction)"
+  ],
+  "keys": "The user gives only a public account name or 0x address. The faucet and Hathor sign with their own keys server-side. User keys are never involved.",
+  "pitfalls": [
+   "There is no standalone 'drip TESTS' endpoint on MELEK; TESTS come with the welcome grant",
+   "PRANA: one drip per address per 24h",
+   "Testnet coins have no value",
+   "Never link or expect a mainnet PRANA faucet; faucet.prana.melek.salon is listed as staged"
+  ],
+  "sources": [
+   "faucet/prana-server.mjs:1-25",
+   "faucet/prana-server.mjs:86-125",
+   "site/status/server.mjs:40",
+   "site/witness/server.mjs:102-104",
+   "signup/faucet-testnet.mjs:1-36",
+   "witness/welcomer.mjs:1-20",
+   "signup/welcome-grant.mjs:1-30"
+  ],
+  "verified": true,
+  "notes": "The live alpha host for faucet-testnet (/opt/melek-faucet/faucet-testnet.mjs) matches signup/faucet-testnet.mjs and creates accounts only. The PRANA faucet page itself links its MELEK section to wallet.melek.salon/signup. The faucet.alpha.soapbox.community host comes from site/status, not from Caddy in this repo.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "alpha.melek.salon",
+   "faucet.alpha.soapbox.community",
+   "pranascan.alpha.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "become-a-witness",
+  "intent": "Learn what a witness is and run and register a MELEK mainnet witness node.",
+  "phrasings": [
+   "how do i become a witness",
+   "run a melek witness node",
+   "witness school",
+   "what config.ini for melek witness",
+   "seed node for melek?",
+   "how to register as witness",
+   "how do witnesses get paid"
+  ],
+  "start_url": "https://witness.melek.salon/",
+  "prerequisites": [
+   "A MELEK mainnet account (invite-gated per the page)",
+   "An Ubuntu 24.04 x86_64 box with 8 GB RAM and ~40 GB disk",
+   "Comfort with a shell"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://witness.melek.salon/",
+    "do": "Read Witness School: what a witness is, and the path learn → run a node → register → get votes",
+    "why": "Orientation",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://witness.melek.salon/servers",
+    "do": "Pick a server (honest hardware pointers)",
+    "why": "Step 1 · Get a box",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://witness.melek.salon/run",
+    "do": "Clone github.com/HinduTempleCoins/melek-chain, run cmake with -DBUILD_STEEM_TESTNET=OFF, then make steemd cli_wallet",
+    "why": "Step 2 · Build the node (OFF = mainnet)",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://witness.melek.salon/run",
+    "do": "In cli_wallet run suggest_brain_key to make a dedicated block-signing key",
+    "why": "Step 3; only this signing key lives on the box",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://witness.melek.salon/run",
+    "do": "Write config.ini (p2p-endpoint 0.0.0.0:2003, the p2p-seed-node shown on the page, witness = \"youraccount\", private-key = signing WIF, plugins listed) and start ./steemd --data-dir=/opt/melek",
+    "why": "Steps 4–5 · Sync and produce",
+    "http": 200
+   },
+   {
+    "n": 6,
+    "url": "https://witness.melek.salon/run",
+    "do": "In an unlocked cli_wallet run update_witness \"youraccount\" \"<url>\" \"<signing PUB>\" {props} true",
+    "why": "Step 6 · Register (needs your account's active key in cli_wallet)",
+    "http": 200
+   },
+   {
+    "n": 7,
+    "url": "https://witness.melek.salon/run",
+    "do": "Post an intro thread, share your uptime and ask holders for votes",
+    "why": "Step 7 · Get voted in (stake-weighted DPoS)",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "witness_update (update_witness via cli_wallet, active authority)",
+   "p2p seed 2003, chain id 907959e5… (mainnet)"
+  ],
+  "keys": "The user generates their own block-signing key with cli_wallet on their own box. Owner/active keys never go on the witness box. Hathor and our servers never receive any of these keys.",
+  "pitfalls": [
+   "Use p2p port 2003, not 2001 (2001 on that host is another chain)",
+   "BUILD_STEEM_TESTNET must be OFF for mainnet",
+   "Do not put owner/active keys in config.ini",
+   "Check the chain id matches exactly"
+  ],
+  "sources": [
+   "site/witness/server.mjs:1-30",
+   "site/witness/server.mjs:851-925",
+   "site/witness/server.mjs:2782-2832",
+   "site/witness/RUN_A_WITNESS.md",
+   "site/witness-docs/how-to-run-a-witness.md"
+  ],
+  "verified": true,
+  "notes": "The seed IP/port are env-overridable defaults (MELEK_SEED_NODE); tell users to copy them from the live /run page rather than hardcoding them.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "witness.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "check-karma",
+  "intent": "See an account's off-chain karma score and the karma leaderboard.",
+  "phrasings": [
+   "whats my karma",
+   "check karma for @me",
+   "karma score?",
+   "how is karma calculated",
+   "karma leaderbord",
+   "why is my karma low"
+  ],
+  "start_url": "https://karma.melek.salon/",
+  "prerequisites": [
+   "An account name (nothing else)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://karma.melek.salon/",
+    "do": "Open the '◈ Karma — the highest standing' leaderboard",
+    "why": "/ and /leaderboard render the leaderboard",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://karma.melek.salon/karma/youraccount",
+    "do": "Replace 'youraccount' with your name to get your karma",
+    "why": "Returns JSON { score, tier, grantMultiplier, flagWeight, components }",
+    "http": null
+   }
+  ],
+  "touches": [
+   "karma/server.mjs GET /karma/<account> or ?account=; read-only RPC activity reads (default alpha RPC)"
+  ],
+  "keys": "None. Read-only, no keys involved.",
+  "pitfalls": [
+   "Karma is SOCIAL/advisory, not money",
+   "Results are cached for ~5 minutes",
+   "The per-account view is raw JSON, not a styled page",
+   "The default RPC is the testnet (alpha) unless MELEK_RPC_URL is set"
+  ],
+  "sources": [
+   "karma/server.mjs:1-20",
+   "karma/server.mjs:33-63",
+   "karma/leaderboard.mjs:61"
+  ],
+  "verified": true,
+  "notes": "karma.melek.salon is mapped to karma/server.mjs from the live Caddy config.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "karma.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "akasha-wallet",
+  "intent": "Use the Akasha / browser wallet: create or import a wallet and (eventually) send.",
+  "phrasings": [
+   "how do i use akasha wallet",
+   "create a wallet",
+   "import my seed into akasha",
+   "send coins from akasha",
+   "where's my wallet",
+   "akasha not sending"
+  ],
+  "start_url": "https://akasha.soapbox.community/",
+  "prerequisites": [
+   "A browser; pen and paper for the recovery phrase"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://akasha.soapbox.community/",
+    "do": "Open Akasha (the PRANA wallet) and choose \"Create new\" → \"Create vault\" to make a new vault (or import an existing key)",
+    "why": "Keys are made in your browser",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://akasha.soapbox.community/",
+    "do": "Follow \"Back up your recovery phrase\" and write it down offline",
+    "why": "Nobody can recover it for you",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://akasha.soapbox.community/",
+    "do": "To pay someone use \"Send PRANA\"; \"Add PRANA to a wallet\" adds the network to other wallets",
+    "why": "Signed in the app",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "Client-side key generation (BIP-39/32/44 EVM track; Graphene WIF track)",
+   "Graphene: transfer/comment/vote/custom_json/account_update signed client-side"
+  ],
+  "keys": "Self-custody: the seed and keys are generated and stored only in the user's browser/app. No server, pool or Hathor ever receives them.",
+  "pitfalls": [
+   "Never type your recovery phrase into any chat or website other than your own wallet"
+  ],
+  "sources": [
+   "https://akasha.soapbox.community/ (live app bundle strings: Create a new vault, Create vault, Back up your recovery phrase, Send PRANA, Add PRANA to a wallet, Imported Key)"
+  ],
+  "verified": true,
+  "notes": "Labels taken from the live app bundle; screen order not rendered (JS app).",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "akasha.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "explorer-lookup",
+  "intent": "Look up an account, block or witness in the MELEKd explorer.",
+  "phrasings": [
+   "look up an account",
+   "block explorer for melek",
+   "check a transaction",
+   "find block 12345",
+   "whats in my account on chain",
+   "explorer.melek.salon",
+   "where can i see my transfers"
+  ],
+  "start_url": "https://melekd.hathor.live/",
+  "prerequisites": [
+   "An account name or block number"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://melekd.hathor.live/",
+    "do": "Type an account name, '@account' or a block number in the search box ('account name, block number, or @account') and click 'look up'",
+    "why": "/go redirects to /@name or /b/<n>",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://melekd.hathor.live/@youraccount",
+    "do": "Read balances, stake, proxy, witness votes and the last 30 transfers",
+    "why": "Account view plus transfers",
+    "http": null
+   },
+   {
+    "n": 3,
+    "url": "https://melekd.hathor.live/b/1",
+    "do": "Open a block by number",
+    "why": "Block view",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://melekd.hathor.live/w/hathor",
+    "do": "Open a witness record",
+    "why": "Witness view leads with missed blocks, version and feed age",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://melekd.hathor.live/@youraccount?format=json",
+    "do": "Add ?format=json to any view for the raw record",
+    "why": "Raw truth like steemd",
+    "http": null
+   }
+  ],
+  "touches": [
+   "integrations/chain-explorer.mjs read-only RPC"
+  ],
+  "keys": "None. Read-only.",
+  "pitfalls": [
+   "There is NO transaction-id lookup route; find a tx via the account's transfers or its block",
+   "The 'witnesses' nav link has no route and redirects to /",
+   "explorer.melek.salon redirects here"
+  ],
+  "sources": [
+   "site/melekd/server.mjs:1-20",
+   "site/melekd/server.mjs:75-81",
+   "site/melekd/server.mjs:170-225",
+   "site/_dispatch/routes.json (melekd.hathor.live -> melekd)"
+  ],
+  "verified": true,
+  "notes": "Transaction lookup is unsupported in code.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "melekd.hathor.live"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "post-on-congress",
+  "intent": "Post, reply and like on Congress.ink (a short-form, X-style site on the MELEK testnet).",
+  "phrasings": [
+   "how do i post on congress",
+   "congress.ink login",
+   "tweet on melek",
+   "reply to a post on congress",
+   "like button not working congress",
+   "whats congress ink"
+  ],
+  "start_url": "https://alpha.congress.ink/",
+  "prerequisites": [
+   "A MELEK TESTNET account (alpha)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://alpha.congress.ink/",
+    "do": "Type in the composer box ('What's happening on-chain?', max 480 chars) and click 'Post'",
+    "why": "Without a session it redirects to MELEK-Signer (Login with MELEK)",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://signer.melek.salon/oauth2/authorize",
+    "do": "Sign in at MELEK-Signer and approve",
+    "why": "Redirect back with a code, exchanged for a token",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://alpha.congress.ink/",
+    "do": "Check it says 'Posting as @you', then click 'Post' again",
+    "why": "A comment op under tag 'congress' is broadcast via signer /v1/broadcast; the page refreshes after '✓ Posted.'",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://alpha.congress.ink/",
+    "do": "Reply: click 💬 on a post, type in 'Post your reply' and click 'Reply'. Like: click ♡",
+    "why": "A comment op with a parent, and a vote op at weight 10000",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://pentecaust.com",
+    "do": "Private messages: click '✉ Messages' in the header",
+    "why": "Congress DMs run through Pentecaust",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "comment op (parent_permlink 'congress', json_metadata app:'congress')",
+   "vote op",
+   "MELEK-Signer /oauth2/authorize, /oauth2/token, /v1/broadcast"
+  ],
+  "keys": "The password is entered only on the signer page. Congress stores just a bearer token in localStorage and its server holds no keys. Hathor never sees credentials.",
+  "pitfalls": [
+   "It is ALPHA/TESTNET with no real value",
+   "If the testnet RPC is down the timeline says so and is empty",
+   "Posts are capped at 480 characters"
+  ],
+  "sources": [
+   "site/congress/server.mjs:1-36",
+   "site/congress/server.mjs:226-322",
+   "site/congress/server.mjs:485-500"
+  ],
+  "verified": true,
+  "notes": "The same codebase serves alpha.congress.beauty with different branding/env.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "alpha.congress.ink",
+   "pentecaust.com",
+   "signer.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "message-on-pentecaust",
+  "intent": "Send a direct message to someone on Pentecaust.",
+  "phrasings": [
+   "how do i dm someone",
+   "message a friend on pentecaust",
+   "pentecaust chat how",
+   "send a pm on melek",
+   "cant send message pentecaust",
+   "add a friend pentecaust"
+  ],
+  "start_url": "https://pentecaust.com/",
+  "prerequisites": [
+   "A verified login on Pentecaust (Login with MELEK, or a configured social provider)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://pentecaust.com/",
+    "do": "In the 'Sign in:' bar click 'Login with MELEK' (or 'Continue with <provider>' if shown)",
+    "why": "Messaging needs a verified MELEK login",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://pentecaust.com/",
+    "do": "Open the '💬 Messages' tab",
+    "why": "Friends list and DM thread",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://pentecaust.com/",
+    "do": "Type their name in 'add by @name' and click 'Add' (or pick someone under Recent/Following/Followers)",
+    "why": "Opens the DM thread",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://pentecaust.com/",
+    "do": "Type in 'message…' and click 'Send'",
+    "why": "POST /dm {from, to, text}; the thread polls every 3s",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://pentecaust.com/",
+    "do": "Optional group chat: open '🎮 Channels', then use 'Open'/'Join' or 'Create'",
+    "why": "Team/alliance/clan channels",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "pentecaust POST /dm, GET /dm?me=&with=, GET /inbox (off-chain message store, pentecaust/messaging.mjs)",
+   "/following, /followers from the chain follow graph"
+  ],
+  "keys": "Messages are off-chain and need no key. Login sends the password to Pentecaust's server, which forwards it to MELEK-Signer and does not store it. The sender is always the verified session account. Hathor never holds keys.",
+  "pitfalls": [
+   "The password prompt is a browser prompt on pentecaust.com",
+   "DMs are not on-chain (not encrypted memos)",
+   "Without the 'pm' entitlement you get 401/403"
+  ],
+  "sources": [
+   "pentecaust/server.mjs:636-662",
+   "pentecaust/server.mjs:860-884",
+   "pentecaust/server.mjs:293-297",
+   "pentecaust/server.mjs:356-361",
+   "pentecaust/server.mjs:960-985",
+   "pentecaust/messaging.mjs"
+  ],
+  "verified": true,
+  "notes": "Entitlement rules live in the entitled() capability 'pm'; code comments say PMs are open to every logged-in account.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "pentecaust.com"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "chat-with-hathor",
+  "intent": "Have a conversation with Hathor, the AI witness.",
+  "phrasings": [
+   "can i talk to hathor",
+   "chat with the ai witness",
+   "hathor.live",
+   "ask hathor a question",
+   "is hathor a bot?",
+   "where do i talk to hathor"
+  ],
+  "start_url": "https://hathor.live/",
+  "prerequisites": [
+   "None"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://hathor.live/",
+    "do": "Type in 'Ask Hathor…' and click 'Send'",
+    "why": "POST /api/chat {message} goes to Hathor's shared brain, and the reply comes back with sources",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://alpha.melek.salon/account/chat.html",
+    "do": "Alternative guided chat: use 'Type a message…' and 'Send', or the quick buttons ('How do I sign up?', 'What is a key?', 'Is this free?', '!help')",
+    "why": "POST /chat runs the deterministic signup walkthrough and !commands, falling back to the AI brain",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://hathor.melek.salon/",
+    "do": "Same as hathor.live (alias host)",
+    "why": "routes.json maps both to hathor-live",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "site/hathor-live POST /api/chat",
+   "src/trollbox/chat-server.mjs POST /chat"
+  ],
+  "keys": "No keys are involved. The LLM provider keys stay server-side. Hathor never asks for, sees or stores private keys or the master password; do not paste them.",
+  "pitfalls": [
+   "When the brain is offline it replies 'My voice is resting…'",
+   "Messages are length-capped (MAX_MSG)",
+   "Tutorial stage 18 (≥3 turns with Hathor) may not be auto-detected"
+  ],
+  "sources": [
+   "site/hathor-live/server.mjs:1-14",
+   "site/hathor-live/server.mjs:193",
+   "site/hathor-live/server.mjs:394-412",
+   "site/hathor-live/server.mjs:1332-1335",
+   "site/alpha/chat.html:52-62",
+   "src/trollbox/chat-server.mjs:1-24",
+   "site/_dispatch/routes.json"
+  ],
+  "verified": true,
+  "notes": "The chat.html path on alpha comes from signup/providers.mjs and get-started.html (relative link); the file lives at site/alpha/chat.html, so the deployed /account/ path mapping is unverified.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "alpha.melek.salon",
+   "hathor.live",
+   "hathor.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "bang-commands",
+  "intent": "Use Hathor's deterministic !commands in the chat or troll-box.",
+  "phrasings": [
+   "what commands are there",
+   "!help",
+   "how do i check a balance with a command",
+   "troll box commands",
+   "bot commands melek",
+   "!tutorial how"
+  ],
+  "start_url": "https://alpha.melek.salon/account/chat.html",
+  "prerequisites": [
+   "None (account names are public)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://alpha.melek.salon/account/chat.html",
+    "do": "Type '!help' (or click the '!help' quick button) and 'Send'",
+    "why": "Lists commands",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://alpha.melek.salon/account/chat.html",
+    "do": "Use: !help [command] · !balance @account · !witness @account · !post-count @account · !price [symbol] (default HIVE) · !holders SYMBOL · !signup · !tutorial @account",
+    "why": "commands/menu.mjs COMMANDS registry (no LLM)",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://alpha.melek.salon/account/chat.html",
+    "do": "For signup help just say 'how do i sign up' and follow the steps; say 'next' / 'i saved them' / 'done'",
+    "why": "SIGNUP_STEPS walkthrough: name → keys → save → create → welcome",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "commands/menu.mjs handle() with read-only chainDeps (MELEK RPC, Hive-Engine holders, price oracle)",
+   "on-chain troll-box transport: custom_json id 'melek_trollbox' (posting auth)"
+  ],
+  "keys": "Commands are read-only and need no key. In an on-chain troll-box the user signs their own custom_json in the browser and Hathor replies via MELEK-Signer. Hathor never holds user keys.",
+  "pitfalls": [
+   "!price defaults to HIVE, not MELEK",
+   "The condenser TrollBox UI is not built yet; the on-chain melek_trollbox path is bot-side only",
+   "Comment-body !commands on-chain are dry-run until Hathor's posting key is placed (alpha-report)",
+   "Unknown command replies 'Unknown command: !x. Try !help.'"
+  ],
+  "sources": [
+   "commands/menu.mjs:281-332",
+   "commands/index.js:24-50",
+   "src/trollbox/index.mjs:1-40",
+   "src/trollbox/index.mjs:151-200",
+   "src/trollbox/chat-server.mjs:1-40",
+   "src/trollbox/CONDENSER_INTEGRATION.md:1-30",
+   "commands/alpha-report.mjs:1-12",
+   "site/alpha/chat.html:52-62"
+  ],
+  "verified": true,
+  "notes": "commands/index.js (the comment-listener path) registers only help/balance/witness/post-count/price. The menu.mjs used by chat/Discord/Telegram also has holders/signup/tutorial. The same brain is wired into the Discord and Telegram bridges.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "alpha.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "generate-image-hathor-studio",
+  "intent": "Generate an AI image for free in Hathor's studio.",
+  "phrasings": [
+   "make an ai image",
+   "hathor image generator",
+   "how do i use hathor studio",
+   "generate a picture free",
+   "put me in an image with hathor",
+   "image gen not working"
+  ],
+  "start_url": "https://hathor.soapbox.community/",
+  "prerequisites": [
+   "None (no login, no card)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://hathor.soapbox.community/",
+    "do": "Type into 'Your prompt'",
+    "why": "The prompt box on the home page",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://hathor.soapbox.community/",
+    "do": "Optional: '📎 Upload a photo' as a reference, pick a size, fill the optional place/clouds/seed fields",
+    "why": "The reference is uploaded via /api/upload first",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://hathor.soapbox.community/",
+    "do": "Click 'Generate'",
+    "why": "POST /api/generate tries free engines in order and names the one that made the image",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://hathor.soapbox.community/templates",
+    "do": "Or pick a template, fill its labelled slots and generate",
+    "why": "/templates/:id slot-fill form",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://hathor.soapbox.community/gallery",
+    "do": "See recent generations; each result has a share link /p/<file>",
+    "why": "Gallery plus share pages",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "site/hathor POST /api/generate (genai-providers failover: cloudflare → gemini → pollinations)",
+   "/api/upload",
+   "safety screenPrompt"
+  ],
+  "keys": "No user keys or login. Provider API keys stay server-side.",
+  "pitfalls": [
+   "Limit of 10 images per hour per IP (GENAI_RATE_PER_HOUR) by default",
+   "Blocked content: anything sexual involving minors, hardcore porn, and nude images made from an uploaded photo of a real person",
+   "Face likeness from uploads may drift (feature still being built)"
+  ],
+  "sources": [
+   "site/hathor/server.mjs:1-25",
+   "site/hathor/server.mjs:96",
+   "site/hathor/server.mjs:295-345",
+   "site/hathor/server.mjs:731-790",
+   "site/hathor/server.mjs:2273-2300",
+   "site/_dispatch/routes.json (hathor.soapbox.community -> hathor)"
+  ],
+  "verified": true,
+  "notes": "hathor.live/studio is a separate video-plan 'studio' page, not this image generator.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "hathor.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "autovote-curation",
+  "intent": "Set up curation auto-voting (trails, fanbase, scheduled votes) on Auto-Vote",
+  "phrasings": [
+   "how to set up autovote",
+   "whats a curation trail",
+   "auto vote my friends posts",
+   "set up a fanbase vote",
+   "schedule a vote"
+  ],
+  "start_url": "https://vote.melek.salon/",
+  "prerequisites": [
+   "A MELEK account; a \"Login with MELEK\" session"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://vote.melek.salon/",
+    "do": "Auto-Vote: pick 'Chain', then click 'Login with MELEK ›'",
+    "why": "Redirects to MELEK-Signer (scope 'vote') and returns a revocable token",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://vote.melek.salon/",
+    "do": "Under 'Curation trails' fill 'Leader account', 'Weight %', 'Delay (sec)', 'Daily cap (0=∞)' and click 'Add trail'",
+    "why": "POST /api/trail; copies another account's upvotes",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://vote.melek.salon/",
+    "do": "Under 'Fanbase' fill 'Authors (comma/space separated)', 'Weight %', 'Delay (sec)', 'Max / day' and click 'Add fanbase'",
+    "why": "POST /api/fanbase; auto-upvotes those authors' new posts",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://vote.melek.salon/",
+    "do": "Optional 'Scheduled votes': fill 'Author', 'Permlink', 'Weight %', 'Vote at' and click 'Schedule vote'. Review 'Vote history'; use 'Pause' or '✕' to stop a rule",
+    "why": "POST /api/schedule, /api/pause, /api/delete",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "vote ops via MELEK-Signer token"
+  ],
+  "keys": "Auto-Vote holds only a revocable MELEK-Signer token. Do not use the \"posting key\" login tab with a real key.",
+  "pitfalls": [
+   "Avoid the 'Log in with posting key' tab with any real-value key",
+   "HiveSigner login may show 'app registration is pending'",
+   "Hathor will not tell you who to vote for (lesson 11)"
+  ],
+  "sources": [
+   "autovote/views.js:56-100",
+   "autovote/views.js:180-226",
+   "autovote/server.js:1-16",
+   "autovote/server.js:160-210",
+   "autovote/server.js:283-360"
+  ],
+  "verified": true,
+  "notes": "live page check 2026-10-17: vote.melek.salon 200",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "vote.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "find-who-to-complain-to",
+  "intent": "Find which agency to file a consumer complaint with",
+  "phrasings": [
+   "who do i complain to about my bank",
+   "where do I file a complaint against a company",
+   "my landlord ripped me off who do I report to",
+   "what agency handles scams",
+   "consumer complaint where"
+  ],
+  "start_url": "https://oversight.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://oversight.soapbox.community/",
+    "do": "In the box 'What went wrong?' describe the problem (e.g. a robocall, a bank fee) and pick your State",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://oversight.soapbox.community/file",
+    "do": "Press \"Where do I file?\" - you get the office(s) that handle it, with contact details",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://oversight.soapbox.community/agencies",
+    "do": "Optional: browse all offices - search by name, filter by Category and State, press \"Filter\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "oversight.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "search-court-cases",
+  "intent": "Search case law by case name, topic or citation",
+  "phrasings": [
+   "how do i look up a court case",
+   "find case law about free speech",
+   "search a citation",
+   "case lookup",
+   "where can I read a court opinion"
+  ],
+  "start_url": "https://law.soapbox.community/cases",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://law.soapbox.community/cases",
+    "do": "Type a case name, topic or citation into the search box",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://law.soapbox.community/cases",
+    "do": "Press \"Search cases\" and open a result to read the opinion with its sources",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "law.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "search-court-dockets",
+  "intent": "Look up a court docket by party or docket number",
+  "phrasings": [
+   "find a docket number",
+   "look up my court case docket",
+   "search pacer docket free",
+   "docket search"
+  ],
+  "start_url": "https://law.soapbox.community/dockets",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://law.soapbox.community/dockets",
+    "do": "Enter a party, docket number, or case and choose a Court",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://law.soapbox.community/dockets",
+    "do": "Press \"Search dockets\"; each row links to the docket source",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "law.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "verify-a-lawyer",
+  "intent": "Check an attorney's bar license and discipline record",
+  "phrasings": [
+   "is this lawyer licensed",
+   "look up an attorney bar number",
+   "check a lawyer discipline",
+   "find a lawyer in CA"
+  ],
+  "start_url": "https://lawyers.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://lawyers.soapbox.community/",
+    "do": "Type the attorney's name and the State (e.g. CA)",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://lawyers.soapbox.community/search",
+    "do": "Press \"Look up\" - results show verified bar facts with sources (no ratings)",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "lawyers.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "look-up-legal-term",
+  "intent": "Look up a legal term",
+  "phrasings": [
+   "what does habeas corpus mean",
+   "legal dictionary",
+   "define a legal term",
+   "what is a writ"
+  ],
+  "start_url": "https://lexicon.soapbox.community/glossary",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://lexicon.soapbox.community/glossary",
+    "do": "Type the term into 'Search the lexicon'",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://lexicon.soapbox.community/glossary",
+    "do": "Press \"Search\" and read the definition and its source of authority",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "lexicon.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "find-my-representatives",
+  "intent": "Find your elected representatives",
+  "phrasings": [
+   "who is my congressman",
+   "find my senator",
+   "my representatives",
+   "who represents me"
+  ],
+  "start_url": "https://politics.soapbox.community/reps",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://politics.soapbox.community/reps",
+    "do": "Enter a member name or your State (e.g. CA)",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://politics.soapbox.community/reps",
+    "do": "Press \"Find reps\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "politics.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "research-a-politician",
+  "intent": "Look up a politician's file (dossier)",
+  "phrasings": [
+   "what do you have on my governor",
+   "look up a senator record",
+   "politician file",
+   "dossier on a politician"
+  ],
+  "start_url": "https://politics.soapbox.community/dossiers",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://politics.soapbox.community/",
+    "do": "Type any name (senator, governor, judge...) in the search box",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://politics.soapbox.community/dossiers",
+    "do": "Press \"Search files\" and open the dossier",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "politics.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "check-a-company-for-scams",
+  "intent": "Check official records about a company before you deal with it",
+  "phrasings": [
+   "is this company a scam",
+   "check a business complaints",
+   "company scam check",
+   "are they legit"
+  ],
+  "start_url": "https://scam-alert.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://scam-alert.soapbox.community/",
+    "do": "Enter the company or business name",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://scam-alert.soapbox.community/company",
+    "do": "Press \"Check records\" - you get sourced official records (CFPB, recalls, etc.); user reports are labeled unverified",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "scam-alert.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "search-the-web-or-our-sites",
+  "intent": "Search the web or the whole SoapBox/MELEK network",
+  "phrasings": [
+   "search engine",
+   "search your sites",
+   "find something on soapbox",
+   "web search without tracking"
+  ],
+  "start_url": "https://search.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://search.soapbox.community/",
+    "do": "Type your search and choose web or sitewide",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://search.soapbox.community/",
+    "do": "Press \"Search\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "search.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "translate-text",
+  "intent": "Translate a piece of text",
+  "phrasings": [
+   "translate this to spanish",
+   "translator",
+   "how do i translate text"
+  ],
+  "start_url": "https://search.soapbox.community/translate",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://search.soapbox.community/translate",
+    "do": "Paste the text, pick From and To languages",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://search.soapbox.community/translate",
+    "do": "Press \"Translate\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "search.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "submit-a-site-to-the-directory",
+  "intent": "Submit your website to the SoapBox directory",
+  "phrasings": [
+   "how do i add my website",
+   "submit my site",
+   "get my site listed",
+   "list my blog in the directory"
+  ],
+  "start_url": "https://directory.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://directory.soapbox.community/",
+    "do": "Scroll to the submit box; enter your URL (https://your-site.com), optional Site name, Category and a one-line note",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://directory.soapbox.community/",
+    "do": "Press \"Submit for review\" - it goes to moderation, nothing is auto-published",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [
+   "Submissions are reviewed before they appear."
+  ],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "directory.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "join-the-herald-ring",
+  "intent": "Submit your site/blog to the Herald backlink ring",
+  "phrasings": [
+   "how do i get backlinks",
+   "join the herald ring",
+   "submit my blog to herald",
+   "sub4sub but legit"
+  ],
+  "start_url": "https://herald.soapbox.community/ring",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://herald.soapbox.community/ring",
+    "do": "Choose what you are submitting, enter your URL, optional name, category and a one-line note (optionally link a Pact group)",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://herald.soapbox.community/ring",
+    "do": "Press \"Submit for review\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [
+   "Reviewed before listing."
+  ],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "herald.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "advertise-with-herald",
+  "intent": "Build an ad campaign on the Herald ad network",
+  "phrasings": [
+   "how do i advertise",
+   "buy ads on soapbox",
+   "run an ad campaign",
+   "advertise my deal"
+  ],
+  "start_url": "https://herald.soapbox.community/advertise",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://herald.soapbox.community/advertise",
+    "do": "Fill in headline, one-line body, landing URL, CPC and budget",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://herald.soapbox.community/advertise",
+    "do": "Press \"Build campaign intent\" to preview the campaign",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "Herald ad network"
+  ],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "Preview step; payment/activation not traced.",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "herald.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "monetize-your-site-with-herald",
+  "intent": "Sign up to earn from Herald ads on your site",
+  "phrasings": [
+   "how do i make money from my website",
+   "publisher sign up",
+   "monetize my blog"
+  ],
+  "start_url": "https://herald.soapbox.community/monetize",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://herald.soapbox.community/monetize",
+    "do": "Enter your email, payout method and your site's origin (example.com)",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://herald.soapbox.community/monetize",
+    "do": "Press \"Preview sign-up\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "Preview step only.",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "herald.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "subscribe-to-newsroom",
+  "intent": "Get the SoapBox newsroom by email or RSS",
+  "phrasings": [
+   "subscribe to your news",
+   "newsletter",
+   "news by email",
+   "rss feed"
+  ],
+  "start_url": "https://herald.soapbox.community/newsroom",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://herald.soapbox.community/newsroom",
+    "do": "Enter your email",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://herald.soapbox.community/newsroom",
+    "do": "Press \"Subscribe by email\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "herald.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "contact-soapbox",
+  "intent": "Contact the SoapBox team",
+  "phrasings": [
+   "how do i contact you",
+   "email the team",
+   "send a message to soapbox",
+   "support contact"
+  ],
+  "start_url": "https://soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://soapbox.community/",
+    "do": "Use the contact box: your email and your message",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://soapbox.community/",
+    "do": "Press \"Send\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "search-grants",
+  "intent": "Find grants for your field",
+  "phrasings": [
+   "find grants",
+   "grant money for research",
+   "where is the funding",
+   "grants search"
+  ],
+  "start_url": "https://grants.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://grants.soapbox.community/",
+    "do": "Type a field or keyword",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://grants.soapbox.community/search",
+    "do": "Press \"Search\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "grants.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "search-credentials",
+  "intent": "Find certifications/credentials and free paths to them",
+  "phrasings": [
+   "what certification do i need",
+   "find a credential",
+   "free certifications",
+   "credit by exam"
+  ],
+  "start_url": "https://credentials.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://credentials.soapbox.community/",
+    "do": "Type a credential or industry",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://credentials.soapbox.community/search",
+    "do": "Press \"Search\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "credentials.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "find-jobs-gigs-courses",
+  "intent": "Find jobs, freelance gigs or free courses",
+  "phrasings": [
+   "find a job",
+   "freelance work",
+   "learn a skill free",
+   "nurse jobs"
+  ],
+  "start_url": "https://jobs.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://jobs.soapbox.community/",
+    "do": "Jobs: type a role and press \"Search\"",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://jobs.soapbox.community/freelance",
+    "do": "Gigs: type a skill and press \"Search\"",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://jobs.soapbox.community/courses",
+    "do": "Courses: type a topic and press \"Search\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "jobs.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "compare-cost-of-living",
+  "intent": "Compare cost of living between two cities",
+  "phrasings": [
+   "is austin cheaper than denver",
+   "cost of living compare",
+   "moving cost comparison"
+  ],
+  "start_url": "https://costofliving.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://costofliving.soapbox.community/",
+    "do": "Enter From city and To city",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://costofliving.soapbox.community/compare",
+    "do": "Press \"Compare\"; every number is source-tagged",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "costofliving.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "find-coupons",
+  "intent": "Find coupons for a store",
+  "phrasings": [
+   "coupon for nike",
+   "promo codes",
+   "discount code for a store",
+   "cashback"
+  ],
+  "start_url": "https://coupons.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://coupons.soapbox.community/",
+    "do": "Type a store name",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://coupons.soapbox.community/store",
+    "do": "Press \"Find coupons\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "coupons.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "find-dollar-stores",
+  "intent": "Find real under-$2 stores near you",
+  "phrasings": [
+   "dollar store near me",
+   "cheap stores near my zip",
+   "real dollar stores"
+  ],
+  "start_url": "https://abuck.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://abuck.soapbox.community/",
+    "do": "Enter a ZIP, city or lat/long",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://abuck.soapbox.community/",
+    "do": "Submit - see the true dollar stores on the map",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "abuck.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "check-hemp-thc-legality",
+  "intent": "Classify a THC % under hemp law",
+  "phrasings": [
+   "is 0.3 thc legal",
+   "hemp or marijuana",
+   "is my product hemp",
+   "thc percent law"
+  ],
+  "start_url": "https://hemp.soapbox.community/law",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://hemp.soapbox.community/law",
+    "do": "Enter the Delta-9 THC % and optionally your State",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://hemp.soapbox.community/law",
+    "do": "Press \"Classify\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "hemp.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "check-drug-interactions",
+  "intent": "Check a supplement/medication/food stack for interactions",
+  "phrasings": [
+   "is it safe to mix these",
+   "drug interaction check",
+   "maoi and cheese",
+   "check my stack"
+  ],
+  "start_url": "https://hathor.live/interactions",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://hathor.live/interactions",
+    "do": "List what you are taking, one per line",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://hathor.live/interactions",
+    "do": "Press \"Check this stack\" and read the warnings",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [
+   "Education and harm-reduction information, not individualized medical advice."
+  ],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "hathor.live"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "ask-the-hierophant",
+  "intent": "Ask about sacred texts or search the original texts",
+  "phrasings": [
+   "what does the bible say about",
+   "search sacred texts",
+   "ask about a god",
+   "original texts search"
+  ],
+  "start_url": "https://hierophant.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://hierophant.soapbox.community/",
+    "do": "Type a question and press \"Ask\"",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://hierophant.soapbox.community/shelves",
+    "do": "Or search the original texts by keyword and Language, press \"Search\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "hierophant.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "search-library-books",
+  "intent": "Search free books and documents",
+  "phrasings": [
+   "free books",
+   "find a public domain book",
+   "library search"
+  ],
+  "start_url": "https://library.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://library.soapbox.community/",
+    "do": "Type a title, author or topic",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://library.soapbox.community/",
+    "do": "Press \"Search\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "library.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "look-up-hospital",
+  "intent": "Look up or compare hospitals",
+  "phrasings": [
+   "best hospital near me",
+   "compare hospitals",
+   "hospital ratings medicare"
+  ],
+  "start_url": "https://health-providers.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://health-providers.soapbox.community/",
+    "do": "Enter a hospital name or location",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://health-providers.soapbox.community/hospital",
+    "do": "Press \"Search\"; or use /compare to compare",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "health-providers.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "search-forum-or-post-thread",
+  "intent": "Search the MELEK forum or post a thread",
+  "phrasings": [
+   "forum",
+   "post on the forum",
+   "start a thread",
+   "search threads"
+  ],
+  "start_url": "https://forum.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://forum.soapbox.community/",
+    "do": "Search threads with the search box and press \"Search\"",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://forum.soapbox.community/post",
+    "do": "To post: pick a board, write a clear title and body, press \"Sign & post thread\" - signing happens in your own wallet",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "MELEK chain (signed post)"
+  ],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "forum.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "plan-a-trip",
+  "intent": "Plan a trip and compare travel options",
+  "phrasings": [
+   "plan a trip",
+   "cheap flights to lisbon",
+   "travel planner"
+  ],
+  "start_url": "https://travel.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://travel.soapbox.community/",
+    "do": "Enter starting city and destination",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://travel.soapbox.community/plan",
+    "do": "Press \"Plan trip\"",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "travel.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "search-real-estate",
+  "intent": "Search homes to rent or buy",
+  "phrasings": [
+   "apartments for rent in austin",
+   "houses for sale",
+   "rent search"
+  ],
+  "start_url": "https://real-estate.soapbox.community/",
+  "prerequisites": [],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://real-estate.soapbox.community/",
+    "do": "Choose Rent or buy, city/metro, beds and max price",
+    "why": "",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://real-estate.soapbox.community/search",
+    "do": "Press \"Search\" - ranked by value",
+    "why": "",
+    "http": 200
+   }
+  ],
+  "touches": [],
+  "keys": "No keys involved - this page needs no account or wallet.",
+  "pitfalls": [],
+  "sources": [
+   "live crawl 2026-10-17 (form + button labels as rendered)"
+  ],
+  "verified": true,
+  "notes": "",
+  "origin": "soapbox-civic-tools.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "real-estate.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "pool-browser-mine",
+  "intent": "Mine ZEPH or XMR-stagenet in the browser tab on the SoapBox pool",
+  "phrasings": [
+   "how do i mine in my browser",
+   "can i mine on my phone?",
+   "start mining without installing anything",
+   "whats the 5 second miner on the pool",
+   "mine zeph in browser pls",
+   "browser minning not starting",
+   "how do I pick which wallet gets paid when mining"
+  ],
+  "start_url": "https://pool.soapbox.community/",
+  "prerequisites": [
+   "A modern browser (a phone works too)",
+   "A ZEPH or XMR receive address, or make one in one tap from the wallet tiles"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://pool.soapbox.community/#browser-mine",
+    "do": "Scroll to the card 'Start mining in 5 seconds — no install, even on your phone'",
+    "why": "This is the in-browser RandomX miner (section #browser-mine)",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://pool.soapbox.community/#browser-mine",
+    "do": "Under 'Mine to your wallet', tap a coloured wallet tile you already have, or a grey dashed tile to make one (ZEPH is shown first). To use an outside wallet, tap the small 'use my own wallet' tile and fill 'Paste your own address'",
+    "why": "The tile you pick fills in the payout address. Only the public address is sent, as the mining username",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://pool.soapbox.community/#browser-mine",
+    "do": "Set the 'How hard to push' slider (5–100%, default 50%)",
+    "why": "Lower keeps the device cooler and saves battery",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://pool.soapbox.community/#browser-mine",
+    "do": "Press '▶ Start mining'",
+    "why": "Starts the RandomX worker, which sends shares to the pool over the /ws bridge",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://pool.soapbox.community/#browser-mine",
+    "do": "Watch Status, Hashrate, 'Accepted shares' and Threads. Press '■ Stop' when you are done",
+    "why": "Mining stops if you close the tab or move it to the background",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "pool/www browser-mine.mjs + miner-worker (RandomX in the browser)",
+   "pool/bridge WebSocket→stratum (/ws)",
+   "Miningcore pool (ZEPH mainnet; XMR stagenet)"
+  ],
+  "keys": "The pool only ever sees the public receive address (used as the stratum username). Wallet secrets made on the tiles stay in the user's browser. Hathor never sees or asks for any secret.",
+  "pitfalls": [
+   "Browser mining is slow: about 8–10 H/s per core on a computer, less on a phone. Earnings are fractions of a cent a day",
+   "On phones, keep it plugged in and use the throttle",
+   "Ad-blockers may hide the miner. Allow the page or use the download launcher",
+   "The Monero side is STAGENET. A mainnet XMR address is converted to its stagenet twin automatically (poolLoginAddress)"
+  ],
+  "sources": [
+   "pool/www/index.html:55-133",
+   "pool/www/index.html:71-99",
+   "pool/www/index.html:109-118",
+   "pool/www/index.html:127-133",
+   "pool/www/wizard.mjs:84-107",
+   "pool/www/wizard.mjs:183-212"
+  ],
+  "verified": true,
+  "notes": "index.html:102-107 says ZEPH browser mining is LIVE on mainnet. wizard.mjs:95 still has the ZEPH launcher entry enabled:false (affects the desktop launcher menu only).",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "pool.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "pool-own-miner-xmrig",
+  "intent": "Point xmrig (CPU) or a GPU miner at the SoapBox pool / PRANA Etchash stratum",
+  "phrasings": [
+   "what's the stratum address for the pool",
+   "xmrig config for soapbox pool",
+   "how do i point my rig at your pool",
+   "port for monero on pool.soapbox.community?",
+   "mine prana with lolminer",
+   "gpu miner setup prana",
+   "what do i put as username in xmrig"
+  ],
+  "start_url": "https://pool.soapbox.community/#mine",
+  "prerequisites": [
+   "xmrig (CPU, RandomX) or lolMiner/T-Rex/GMiner (GPU, Etchash)",
+   "A payout address: XMR/ZEPH for RandomX, or an EVM 0x address for PRANA/ETC"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://pool.soapbox.community/#mine",
+    "do": "Under 'Or pick one coin at a time', click the coin to open its detail panel",
+    "why": "The panel lists the live stratum ports and copy-paste miner commands",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://pool.soapbox.community/#mine",
+    "do": "In the panel's 'Let us set it up for you' wizard, paste the address into 'Your <coin> wallet address (this is who gets paid)' to get a ready-made config/start script. Or copy the 'Mine with xmrig' line: xmrig -o pool.soapbox.community:4444 -u YOUR_XMR_ADDRESS -p worker1 -a rx/0",
+    "why": "4444 is the Monero (stagenet) CPU port. The -u address is your payout address. The pool never holds your keys",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://pool.soapbox.community/#launcher",
+    "do": "Optional: in 'Want real earnings? Download the SoapBox Miner', enter the XMR and/or 0x address and click '⬇ Windows (.bat + .ps1)' or '⬇ Linux / macOS (.sh)'",
+    "why": "Builds a launcher with the stagenet-converted login already baked in",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://witness.melek.salon/mine",
+    "do": "For PRANA (GPU, Etchash): set the pool to stratum+tcp://pool.soapbox.community:3333 and the user to 0xYOUR_PRANA_ADDRESS.rig1 (lolMiner --algo ETCHASH / t-rex -a etchash / gminer --algo etchash)",
+    "why": "/mine sets out the three things to configure: stratum URL, a public 0x payout address, and a worker name",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://witness.melek.salon/pool/miner?addr=YOUR_ADDRESS",
+    "do": "Check your shares and balance by address (or use the live status at /pool)",
+    "why": "Read-only lookup by public address",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "Miningcore stratum on pool.soapbox.community (4444 XMR-stagenet CPU, 4447 ZEPH, 5550 ETC-Mordor GPU, 3333 PRANA Etchash)",
+   "witness.melek.salon /pool, /pool/miner"
+  ],
+  "keys": "The miner config holds only a PUBLIC address. Hathor must never ask for a seed or private key. The user's wallet keeps its own keys.",
+  "pitfalls": [
+   "The XMR side is stagenet. A mainnet 4… address is rejected at stratum login unless you use the pool-generated kit (which converts it to the stagenet twin)",
+   "Etchash needs a GPU. CPU mining PRANA/ETC is not practical",
+   "PRANA port 3333 is an env default (PRANA_STRATUM_PORT). The live ports are shown in the coin panel",
+   "Ports per coin come from the live /api/pools. If none are shown, the panel says 'Stratum ports are being provisioned'"
+  ],
+  "sources": [
+   "pool/www/pool.js:51",
+   "pool/www/pool.js:185-207",
+   "pool/www/wizard.mjs:93-114",
+   "pool/www/index.html:187-217",
+   "pool/www/index.html:376-401",
+   "site/witness/server.mjs:82-84",
+   "site/witness/server.mjs:2567-2625",
+   "site/witness/server.mjs:2813-2825",
+   "integrations/pool-stats.mjs:32"
+  ],
+  "verified": true,
+  "notes": "ZEPH port 4447 is in config but launcher.enabled:false at wizard.mjs:95.",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "pool.soapbox.community",
+   "witness.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "pool-wallet-mycoins",
+  "intent": "Generate a ZEPH/XMR/EVM wallet in the pool page, back it up, and see balances on My Coins",
+  "phrasings": [
+   "how do i make a wallet on the pool",
+   "generate monero wallet in browser",
+   "where do i see my mined coins",
+   "my coins page shows nothing",
+   "how do i claim my xmr with my seed",
+   "lost my pool wallet can you recover it",
+   "whats the 25 words for"
+  ],
+  "start_url": "https://pool.soapbox.community/wallet/",
+  "prerequisites": [
+   "Pen and paper (or an offline place) for the recovery phrase"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://pool.soapbox.community/wallet/",
+    "do": "On the coin's card under 'Your wallets', click '✦ Generate a wallet here' (or '＋ Paste an address I have', then 'Save address')",
+    "why": "The wallet is created on your device. The pool stores nothing",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://pool.soapbox.community/wallet/",
+    "do": "Read the warning, then click '👁 Reveal my backup (once)'. Write down the 'Recovery phrase (25 words)' (or the 'Private key' for EVM). Optionally click '⬇ Download backup (.txt)'",
+    "why": "The secret is shown once and never leaves the browser",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://pool.soapbox.community/wallet/",
+    "do": "Type the requested words in 'Confirm you wrote it down — type words …' and click '✓ Confirm & save this wallet' (EVM: tick 'I have saved my private key offline…' then '✓ Save this wallet')",
+    "why": "Checks that your paper backup is correct",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://pool.soapbox.community/wallet/",
+    "do": "Optional: choose a password and click '🔐 Encrypt & keep a copy here', or 'Skip — paper backup only'",
+    "why": "An AES-256-GCM encrypted copy kept in this browser. Nobody can reset the password",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://pool.soapbox.community/mycoins.html",
+    "do": "Open My Coins (top nav 'My Coins'). Each coin card shows 'Total pending', 'paid', H/s and workers per address. You can also add coins here with '✦ Generate a new wallet' / '＋ Paste an address I already have'",
+    "why": "Live pool stats for your saved addresses",
+    "http": 200
+   },
+   {
+    "n": 6,
+    "url": "https://pool.soapbox.community/mycoins.html",
+    "do": "To spend or claim payouts, restore the same 25-word phrase in your own Monero wallet. Use stagenet mode for the XMR-stagenet pool",
+    "why": "The pool logs you in with the stagenet twin of your mainnet address: same keys, same seed",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "pool/www/walletgen (in-browser keygen)",
+   "localStorage keystore (optional, encrypted)",
+   "Miningcore API for pending/paid"
+  ],
+  "keys": "The seed/private key is generated and shown ONLY in the user's browser. The pool and Hathor never receive it and cannot recover it. Only the public receive address leaves the device.",
+  "pitfalls": [
+   "The phrase is shown once. If it is lost, the coins are gone and nobody can recover it",
+   "Sending from the browser wallet does NOT exist yet. 'Outflow approval' / '↗ Send' are placeholders until PRANA/Akasha",
+   "XMR payouts are stagenet coins while the pool is testing",
+   "Saved wallets live in this browser's localStorage. Clearing site data removes them (the paper backup still works)"
+  ],
+  "sources": [
+   "pool/www/wallet/index.html:42-118",
+   "pool/www/wallet/wallet.mjs:50-58",
+   "pool/www/wallet/wallet.mjs:126-133",
+   "pool/www/wallet/wallet.mjs:172-200",
+   "pool/www/wallet/wallet.mjs:215-227",
+   "pool/www/wallet/wallet.mjs:264-297",
+   "pool/www/mycoins.html:83-117",
+   "pool/www/mycoins-ui.mjs:280-290",
+   "pool/www/wizard.mjs:183-189"
+  ],
+  "verified": true,
+  "notes": "'Claim with the mnemonic in stagenet mode' is stated only in a code comment (wizard.mjs:186-188). No UI step walks the user through restoring in an external wallet, and no specific external wallet is named.",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "pool.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "add-prana-metamask",
+  "intent": "Add the PRANA mainnet (or alpha testnet) network to MetaMask",
+  "phrasings": [
+   "how do i add prana to metamask",
+   "prana chain id?",
+   "whats the rpc for prana",
+   "metamask wont add prana network",
+   "add prana testnet to my wallet",
+   "prana network settings plz"
+  ],
+  "start_url": "https://witness.melek.salon/dev/prana",
+  "prerequisites": [
+   "MetaMask or another EIP-1193 browser wallet"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://witness.melek.salon/dev/prana",
+    "do": "In card '1 · Add PRANA to MetaMask', click 'Add PRANA network'",
+    "why": "Sends wallet_addEthereumChain (EIP-3085)",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://witness.melek.salon/dev/prana",
+    "do": "Approve in MetaMask. The message 'PRANA added — pick it in your wallet's network list' appears",
+    "why": "The wallet checks that the RPC reports chainId 0xade19",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://witness.melek.salon/dev/prana",
+    "do": "Manual alternative: Network name PRANA, RPC https://rpc.prana.melek.salon, Chain ID 712217 (0xade19), Symbol PRANA, Explorer https://pranascan.soapbox.community",
+    "why": "Same parameters as shown in the page's <pre> block",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://faucet.alpha.soapbox.community/",
+    "do": "For TESTNET instead: RPC https://rpc.prana.alpha.melek.salon, chainId 108369, symbol PRANA, explorer https://pranascan.alpha.soapbox.community",
+    "why": "Alpha chain parameters as printed on the faucet page",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "PRANA mainnet RPC (chainId 712217)",
+   "PRANA alpha RPC (chainId 108369)"
+  ],
+  "keys": "Adding a network needs no keys. MetaMask keeps the user's keys. Hathor never touches them.",
+  "pitfalls": [
+   "Do NOT use witness.melek.salon/wallet for this: its add-chain JSON uses placeholder URLs (rpc.prana.example)",
+   "Mainnet (712217) and testnet (108369) are different chains. Faucet coins are testnet only",
+   "If no wallet is detected the page says 'No EVM wallet detected — install MetaMask or copy the params below.'"
+  ],
+  "sources": [
+   "site/witness/server.mjs:98-101",
+   "site/witness/server.mjs:1596-1695",
+   "site/witness/server.mjs:634-660",
+   "faucet/prana-server.mjs:3-7",
+   "faucet/prana-server.mjs:94",
+   "kulaswap/kula-config.mjs:42-44"
+  ],
+  "verified": true,
+  "notes": "The same 'Add PRANA network' button is also on https://witness.melek.salon/mine.",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "faucet.alpha.soapbox.community",
+   "witness.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "prana-testnet-faucet",
+  "intent": "Get free test-PRANA (alpha chain) for gas",
+  "phrasings": [
+   "prana faucet",
+   "how do i get test prana",
+   "need gas on prana testnet",
+   "faucet says already funded",
+   "free prana for testing contracts",
+   "where's the alpha faucet"
+  ],
+  "start_url": "https://faucet.alpha.soapbox.community/",
+  "prerequisites": [
+   "An EVM 0x address (e.g. from MetaMask or the pool wallet page)",
+   "Optional: PRANA alpha network added to the wallet (chainId 108369)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://faucet.alpha.soapbox.community/",
+    "do": "Paste your address into 'Your PRANA / EVM address' (format 0x + 40 hex)",
+    "why": "The faucet checks the format and rejects anything else",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://faucet.alpha.soapbox.community/",
+    "do": "Click 'Get test PRANA'",
+    "why": "POSTs /api/drip. The faucet sends DRIP_PRANA (default 5) once per address every RATE_HOURS (default 24)",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://pranascan.alpha.soapbox.community/",
+    "do": "Click the tx link shown after '✅ Sent N PRANA. Tx:'",
+    "why": "Confirms it on the alpha explorer",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://wallet.melek.salon/signup",
+    "do": "Optional: for the MELEK testnet, use 'Create a MELEK account →' (MELEK has no gas. Hathor tops up TESTS + RC POWER)",
+    "why": "The second card on the faucet page",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "faucet/prana-server.mjs (personal_sendTransaction on the node's own account)",
+   "PRANA alpha chain 108369"
+  ],
+  "keys": "The user gives only a public address. The faucet signs with its own node-managed account. No user keys are involved.",
+  "pitfalls": [
+   "Testnet coins only, with no value. Mainnet has no faucet (/dev/prana says 'no mainnet faucet yet' and suggests mining)",
+   "'Already funded recently. Try again later.' means the per-address cooldown is active",
+   "'Faucet is not configured yet.' means the server env is missing on the box"
+  ],
+  "sources": [
+   "faucet/prana-server.mjs:1-24",
+   "faucet/prana-server.mjs:56-73",
+   "faucet/prana-server.mjs:86-111",
+   "faucet/prana-server.mjs:117-121",
+   "site/witness/server.mjs:1733-1738"
+  ],
+  "verified": true,
+  "notes": "The repo copy is faucet/prana-server.mjs. Live drip amount and cooldown come from env on the box and may differ from the defaults (5 PRANA / 24h).",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "faucet.alpha.soapbox.community",
+   "pranascan.alpha.soapbox.community",
+   "wallet.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "bridge-vkbt-cure-prana",
+  "intent": "Bridge VKBT or CURE from Hive-Engine to PRANA (wVKBT/wCURE) and back",
+  "phrasings": [
+   "how do i bridge vkbt to prana",
+   "move cure from hive engine to prana",
+   "get wvkbt",
+   "bridge back wcure to hive",
+   "whats the memo for the bridge",
+   "vkbt bridge deposit account?"
+  ],
+  "start_url": "https://kula.money/bridge.html",
+  "prerequisites": [
+   "VKBT or CURE on Hive-Engine and Hive Keychain",
+   "Your own PRANA (EVM) address, e.g. MetaMask; for the way back, an EVM wallet holding wVKBT/wCURE and some PRANA for gas"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://kula.money/bridge.html",
+    "do": "Open the Bridge (kula.money → Bridge). Step-by-step guide: https://kula.money/bridge-guide.html",
+    "why": "Bridge page",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://kula.money/bridge.html",
+    "do": "DEPOSIT: on the \"Deposit → PRANA\" tab pick the token (VKBT or CURE) and enter the amount",
+    "why": "Hive → PRANA",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://kula.money/bridge.html",
+    "do": "Enter your own PRANA address (where wVKBT/wCURE arrives) - double-check it is yours",
+    "why": "The memo is the only destination",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://kula.money/bridge.html",
+    "do": "Tap \"Send via Hive Keychain\" and approve: Keychain sends your tokens to @kula-bridge with your PRANA address as the memo",
+    "why": "Custody is the 3-of-5 @kula-bridge",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://kula.money/bridge.html",
+    "do": "Wait 12 confirmations; the relayer mints wVKBT/wCURE to your PRANA address. Then use it on KulaSwap like any PRANA token",
+    "why": "Mint on PRANA (chainId 712217)",
+    "http": 200
+   },
+   {
+    "n": 6,
+    "url": "https://kula.money/bridge.html",
+    "do": "WITHDRAW: open the \"Withdraw → Hive\" tab and tap \"Connect EVM wallet\" (switches you to PRANA)",
+    "why": "PRANA → Hive",
+    "http": 200
+   },
+   {
+    "n": 7,
+    "url": "https://kula.money/bridge.html",
+    "do": "Pick the token (wVKBT → VKBT or wCURE → CURE), enter the amount and your Hive username (where it is released)",
+    "why": "Destination = the username you sign",
+    "http": 200
+   },
+   {
+    "n": 8,
+    "url": "https://kula.money/bridge.html",
+    "do": "Tap \"Approve & Withdraw\" and confirm both transactions in your wallet; after 12 confirmations VKBT/CURE is released to your Hive-Engine account with memo bridge-withdraw:<n>",
+    "why": "approve + withdraw(bytes32,uint256,bytes32)",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "Hive-Engine transfer to @kula-bridge (memo = PRANA address)",
+   "PRANA bridge 0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505 withdraw",
+   "wVKBT 0xD915E757662c4234137aff167Bf93d588145f75e · wCURE 0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff"
+  ],
+  "keys": "Non-custodial: you sign the deposit in Hive Keychain and the withdraw in your own EVM wallet; the page and Hathor never see your keys.",
+  "pitfalls": [
+   "Put ONLY your PRANA address in the deposit memo - the bridge page fills it for you",
+   "Wait the 12 confirmations before checking",
+   "Verify the contract addresses on the page before approving"
+  ],
+  "sources": [
+   "https://kula.money/bridge.html (live 2026-10-17)",
+   "https://kula.money/bridge-guide.html (live 2026-10-17)",
+   "Hive-Engine history: @kula-bridge releases 2026-10-15 (bridge-withdraw:0..2)"
+  ],
+  "verified": true,
+  "notes": "Verified on the live page + on-chain releases (coordinator, 2026-10-17).",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "kula.money"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "melek-to-wmelek-engine",
+  "intent": "Deposit native MELEK to get WMELEK on MELEK-Engine (e.g. to forever-lock for APIS-Hash)",
+  "phrasings": [
+   "how do i get wmelek",
+   "deposit melek to engine",
+   "wmelek bridge memo",
+   "convert melek to wmelek",
+   "i sent melek where is my wmelek",
+   "how to get apis hash"
+  ],
+  "start_url": "https://engine.melek.salon/",
+  "prerequisites": [
+   "A MELEK mainnet account holding MELEK"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://wallet.melek.salon/",
+    "do": "In your own MELEK wallet, transfer MELEK to @wmelek-bridge; in the memo put the MELEK-Engine account that should receive WMELEK (blank = you)",
+    "why": "Native MELEK is locked by @wmelek-bridge",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://engine.melek.salon/",
+    "do": "Wait for the transfer to be final, then use \"Balance lookup\" → \"Look up balances\" for that account to see WMELEK",
+    "why": "The relayer mints WMELEK 1:1 on MELEK-Engine",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "MELEK L1 transfer to custody",
+   "integrations/wmelek-relayer (bridge.mintWrapped custom_json id mse-mainnet-melek)",
+   "MELEK-Engine bridge + workerbee contracts"
+  ],
+  "keys": "The user signs the L1 transfer in their own wallet. The relayer holds no key: it builds an unsigned op that MELEK-Signer broadcasts as @hathor. Hathor-the-helper never sees user keys.",
+  "pitfalls": [
+   "Use a small amount first",
+   "WMELEK on MELEK-Engine is a different token from wMELEK on PRANA"
+  ],
+  "sources": [
+   "https://melekd.hathor.live/@wmelek-bridge (live: deposit 2026-09-01, \"MELEK bridge withdrawal #3\" 2026-10-15)",
+   "https://engine.melek.salon/api/tokens (live: WMELEK supply 1.000)",
+   "integrations/wmelek-relayer.mjs:1-35"
+  ],
+  "verified": true,
+  "notes": "Custody account @wmelek-bridge confirmed live on chain. Forever-lock/APIS step left out: APIS mining not settling (APIS supply 0.000 live).",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "engine.melek.salon",
+   "wallet.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "kulaswap-swap",
+  "intent": "Swap tokens (KULA, WPRANA, wVKBT, wCURE) on KulaSwap on PRANA mainnet",
+  "phrasings": [
+   "how do i swap on kulaswap",
+   "buy kula",
+   "swap wvkbt for kula",
+   "kula.money swap button greyed out",
+   "what tokens can i trade on kulaswap",
+   "set slippage kulaswap"
+  ],
+  "start_url": "https://kula.money/",
+  "prerequisites": [
+   "MetaMask with PRANA mainnet (712217)",
+   "Some PRANA for gas, plus the token you want to sell"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://kula.money/",
+    "do": "Click 'Connect Wallet' (top right) and approve in MetaMask",
+    "why": "The 'Swap' button reads 'Connect a wallet' until you connect",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://kula.money/",
+    "do": "Make sure the 'Swap' tab is selected and the chip shows 'Network: PRANA · KulaSwap'",
+    "why": "PRANA mainnet is the default, live AMM",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://kula.money/",
+    "do": "Choose the pay token and receive token with the two selectors, and type an amount (or 'MAX')",
+    "why": "The tokens listed are KULA, WPRANA, wVKBT and wCURE",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://kula.money/",
+    "do": "Optional: gear icon → 'Slippage tolerance' (0.1 / 0.5 / 1.0% or custom) and 'Deadline (min)'",
+    "why": "Sets the minimum received and the deadline",
+    "http": 200
+   },
+   {
+    "n": 5,
+    "url": "https://kula.money/",
+    "do": "Check Rate, Price impact, 'Minimum received' and Route, then click 'Swap'. Confirm the token approval ('Approve the token in your wallet…') and then the swap ('Confirm the swap in your wallet…')",
+    "why": "ERC-20 approve, then Router.swapExactTokensForTokens",
+    "http": 200
+   },
+   {
+    "n": 6,
+    "url": "https://pranascan.soapbox.community/",
+    "do": "Open the tx from 'Swapped! …/tx/<hash>'",
+    "why": "On-chain confirmation",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "KulaSwap Router 0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5",
+   "Factory 0xFb5B83ed7F54e5fa45ED528dbe2167bB0b93b1E6",
+   "PRANA mainnet"
+  ],
+  "keys": "Every approve and swap is signed in the user's own MetaMask. The site and Hathor hold no keys.",
+  "pitfalls": [
+   "Native PRANA is not a swap token. The list has WPRANA (0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34), and app.mjs notes that native swaps are 'handled … in a fuller build'",
+   "LP fee is 0.30% (feeBps 30)",
+   "No liquidity means a high price impact. Check 'Pool depth'"
+  ],
+  "sources": [
+   "kulaswap/index.html:261-351",
+   "kulaswap/app.mjs:147-151",
+   "kulaswap/app.mjs:351-387",
+   "kulaswap/kula-config.mjs:42-60",
+   "site/witness/server.mjs:132-135"
+  ],
+  "verified": true,
+  "notes": "kula.money, www.kula.money and alpha.kula.money all serve this static app per the caller's Caddy mapping. index.html shows the badge 'Mainnet'.",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "kula.money",
+   "pranascan.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "daily-spin-arcade",
+  "intent": "Play the free daily spin / KULA Arcade for non-cashable PLAY points",
+  "phrasings": [
+   "daily spin how",
+   "where do i spin the wheel",
+   "can i cash out play points",
+   "arcade soapbox games",
+   "spin says already spun",
+   "is the arcade gambling"
+  ],
+  "start_url": "https://spin.soapbox.community/",
+  "prerequisites": [
+   "A MELEK account name (just the name, no keys)",
+   "18+ for the arcade"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://spin.soapbox.community/",
+    "do": "Enter your account in 'your MELEK account (e.g. hathor)' and spin the wheel",
+    "why": "One free spin per UTC day",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://spin.soapbox.community/",
+    "do": "Read the result and the 'Provably fair — verify: HMAC(serverSeed, \"account:day:0\")' note",
+    "why": "The draw is deterministic and can be verified",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://arcade.soapbox.community/",
+    "do": "Open KULA Arcade and pick a surface: 'Spin (free, once a day)', 'Open Lotto', 'Open Markets', 'Play dice'",
+    "why": "The PLAY-only hub",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "integrations/games/daily-spin.mjs (/api/spin)",
+   "site/arcade lotto/markets/verify"
+  ],
+  "keys": "No keys at all. Only an account name is entered.",
+  "pitfalls": [
+   "PLAY points are NON-CASHABLE. There is no withdraw path anywhere",
+   "Only one spin per UTC day",
+   "The arcade's local PLAY tally is a per-device demo counter that resets if site data is cleared",
+   "Arcade is 18+"
+  ],
+  "sources": [
+   "site/spin/server.mjs:1-20",
+   "site/spin/server.mjs:137-170",
+   "site/spin/server.mjs:215-221",
+   "site/arcade/server.mjs:1-12",
+   "site/arcade/server.mjs:42-43",
+   "site/arcade/server.mjs:76-90",
+   "site/arcade/server.mjs:125-133",
+   "site/arcade/shared.mjs:152-156"
+  ],
+  "verified": true,
+  "notes": "The exact spin button label comes from spin.renderWheel in integrations/games/daily-spin.mjs, which was not read.",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "arcade.soapbox.community",
+   "spin.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "mining-servers",
+  "intent": "Choose or set up a server for mining or a witness node",
+  "phrasings": [
+   "what server do i need to mine",
+   "rent a mining server",
+   "vps for melek witness",
+   "servers.soapbox.community mining?",
+   "specs for witness node",
+   "where can i rent a rig"
+  ],
+  "start_url": "https://witness.melek.salon/servers",
+  "prerequisites": [
+   "None to read. Your own VPS or hardware to act on it"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://witness.melek.salon/servers",
+    "do": "Read 'A witness node (for MELEK / DPoS)': a few cores, a few GB RAM, SSD, always-on network",
+    "why": "Witness work is about uptime, not hashing",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://witness.melek.salon/servers",
+    "do": "Read 'A mining rig (for the PoW pool)': RandomX = CPU, Etchash/PRANA = GPU with enough VRAM",
+    "why": "Pick hardware to match the algorithm",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://witness.melek.salon/pool",
+    "do": "Point the rig at the pool stratum line as wallet.worker (see the pool-own-miner-xmrig flow)",
+    "why": "Same steps as connecting your own miner",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://witness.melek.salon/run",
+    "do": "For a witness node, follow the Run-a-witness guide",
+    "why": "Node build/run steps",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "site/witness serversView",
+   "pool stratum"
+  ],
+  "keys": "Users run their own servers with their own keys. Hathor never takes server or witness signing keys.",
+  "pitfalls": [
+   "There is NO rental flow: 'Rental and affiliate slots are disabled by default here, pending operator review'",
+   "servers.soapbox.community is a GAME-SERVER hub (Minecraft/Luanti status + join info), not mining rentals",
+   "Use a provider you already trust"
+  ],
+  "sources": [
+   "site/witness/server.mjs:594-631",
+   "site/witness/server.mjs:2812",
+   "site/witness/server.mjs:2829-2831",
+   "site/servers/server.mjs:1-40"
+  ],
+  "verified": true,
+  "notes": "'Rent a mining server' cannot be fulfilled from the repo. Only the hardware guidance exists.",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "witness.melek.salon"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "profile-check-coins",
+  "intent": "Check MELEK/PRANA balances read-only on profile.soapbox.community",
+  "phrasings": [
+   "check my balance",
+   "see my coins in one place",
+   "profile soapbox how to add address",
+   "watch my melek account",
+   "connect wallet to profile safe?",
+   "why doesnt my kula show"
+  ],
+  "start_url": "https://profile.soapbox.community/",
+  "prerequisites": [
+   "A MELEK account name or EVM 0x address (no keys)"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://profile.soapbox.community/",
+    "do": "Under 'Watched addresses', paste a MELEK account or 0x address into the box (placeholder 'hathor · 0x1234…abcd') and click 'Watch'",
+    "why": "Live balance, read client-side",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://profile.soapbox.community/",
+    "do": "Optional: 'Connect a wallet (read-only)' → 'Connect wallet'",
+    "why": "Reads address + balance only. No signature is requested",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://profile.soapbox.community/",
+    "do": "Check 'Your coins across MELEK + PRANA'. Optionally add symbols under 'Watchlist' (e.g. MELEK, PRANA, BTC) → 'Add'",
+    "why": "Combined view of balances",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://profile.soapbox.community/?addr=YOUR_ADDRESS",
+    "do": "Bookmark with ?addr= to prefill",
+    "why": "Saves a step next time",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "MELEK RPC condenser_api.get_accounts",
+   "PRANA RPC eth_getBalance"
+  ],
+  "keys": "The page holds no keys, signs nothing and never asks for a seed. Hathor needs only a public address.",
+  "pitfalls": [
+   "Shows NATIVE balances only (MELEK, PRANA). No ERC-20 balanceOf, so KULA/wVKBT/wCURE will not appear",
+   "The watchlist is stored in browser localStorage",
+   "'☁ Save your profile across devices' is an optional MELEK-account upsell"
+  ],
+  "sources": [
+   "site/profile/server.mjs:1-30",
+   "site/profile/server.mjs:49-55",
+   "site/profile/server.mjs:203-254",
+   "site/profile/server.mjs:346-365",
+   "site/profile/server.mjs:476-477"
+  ],
+  "verified": true,
+  "notes": "For pool mining balances use pool.soapbox.community/mycoins.html or witness.melek.salon/pool/miner?addr= instead.",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "profile.soapbox.community"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "stake-kula-vekula",
+  "intent": "Lock KULA for veKULA (boost + votes) on KulaSwap",
+  "phrasings": [
+   "lock kula for vekula",
+   "how do i get vekula",
+   "stake kula on kulaswap",
+   "vekula lock length",
+   "what is vekula"
+  ],
+  "start_url": "https://kula.money/",
+  "prerequisites": [
+   "MetaMask on PRANA mainnet (712217) with KULA and some PRANA for gas"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://kula.money/",
+    "do": "Tap \"Connect Wallet\" and approve in your wallet",
+    "why": "Needed before locking",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://kula.money/",
+    "do": "Open the \"Stake\" tab (\"Stake KULA → veKULA\"), enter \"KULA to lock\" and \"Lock length (weeks)\"",
+    "why": "Longer lock = more boost",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://kula.money/",
+    "do": "Tap \"Approve & Lock\" and confirm both transactions in your wallet",
+    "why": "VoteEscrow 0x2a9da080BB38C9cfc4B9c8D7cFd4699fF57a5438",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "PRANA VoteEscrow (veKULA) 0x2a9da080BB38C9cfc4B9c8D7cFd4699fF57a5438"
+  ],
+  "keys": "Signed in your own wallet; KulaSwap and Hathor hold no keys.",
+  "pitfalls": [
+   "Locked KULA cannot be withdrawn until the lock ends (up to 4 years)"
+  ],
+  "sources": [
+   "kulaswap/index.html:417-432",
+   "kulaswap/app.mjs:336-348",
+   "https://kula.money/kula-config-addresses.mjs (live: veKULA set, veLive)"
+  ],
+  "verified": true,
+  "notes": "live page check 2026-10-17",
+  "origin": "tokens-defi-mining.json",
+  "live_check": {
+   "checked": "2026-10-17T05:33:20Z",
+   "non_200": []
+  },
+  "hosts": [
+   "kula.money"
+  ],
+  "status": "WORKS"
+ },
+ {
+  "id": "recover-account",
+  "status": "NOT FINISHED",
+  "answer": "Account recovery is under construction and not available yet."
+ },
+ {
+  "id": "vote-for-witness",
+  "status": "NOT FINISHED",
+  "answer": "Witness voting is under construction and not available yet."
+ },
+ {
+  "id": "create-engine-token",
+  "status": "NOT FINISHED",
+  "answer": "Creating a token on MELEK-Engine is under construction and not available yet."
+ },
+ {
+  "id": "seed-shop-buy",
+  "status": "NOT FINISHED",
+  "answer": "Buying seeds in the Seed Shop is under construction and not available yet."
+ },
+ {
+  "id": "farm-kula",
+  "status": "NOT FINISHED",
+  "answer": "KULA farming is under construction and not available yet."
+ },
+ {
+  "id": "move-to-earn",
+  "status": "NOT FINISHED",
+  "answer": "Move-to-earn payouts is under construction and not available yet."
+ },
+ {
+  "id": "stake-dmp-alti",
+  "status": "NOT FINISHED",
+  "answer": "SoapBox Staking (dMP to ALTI) is under construction and not available yet."
+ }
+]

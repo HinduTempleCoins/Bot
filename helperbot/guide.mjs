@@ -30,7 +30,7 @@ const FLOWS_TTL = 10 * 60_000;
 let _snapshot = null;
 function snapshot() {
   if (!_snapshot) {
-    try { _snapshot = JSON.parse(readFileSync(join(HERE, 'data', 'flows.snapshot.json'), 'utf8')); } catch { _snapshot = []; }
+    try { _snapshot = JSON.parse(readFileSync(join(HERE, 'flows.snapshot.json'), 'utf8')); } catch { _snapshot = []; }
   }
   return _snapshot;
 }

@@ -11,7 +11,7 @@ import { memoryStore } from './store.mjs';
 import { PRANA } from './addresses.mjs';
 import { baseState, fakeFetch, wei } from './test-fakes.mjs';
 
-const FLOWS = JSON.parse(readFileSync(new URL('./data/flows.snapshot.json', import.meta.url), 'utf8'));
+const FLOWS = JSON.parse(readFileSync(new URL('./flows.snapshot.json', import.meta.url), 'utf8'));
 const WORKS = FLOWS.filter((f) => f.status === 'WORKS');
 const ADDR = '0x00000000000000000000000000000000000a11ce';
 const lc = (a) => a.toLowerCase();
