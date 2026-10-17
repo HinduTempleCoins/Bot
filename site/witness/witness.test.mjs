@@ -10,13 +10,16 @@ import {
   handler, homePage, poolView, feesView, serversView, walletView, academyPage, buildPage, tokenStandardsPage, grapheneFamilyPage, runPage, whitepaperPage, esc,
   devHubPage, devMelekPage, devPranaPage, devContractsPage, minePage,
   devTokenPage, devScotPage, devFrontendPage, devServicesPage, devToolsPage, devGetTokensPage,
-  devMatrixPage, devBotsPage,
+  devMatrixPage, devBotsPage, __setChainFetch,
 } from './server.mjs';
 import { __setFetch as __setPoolFetch } from '../../integrations/pool-stats.mjs';
 
 // Keep the full-handler routes (/pool, /fees) fully offline: the pool API soft-fails to [] when
 // fetch throws, so those routes render their honest empty-state without touching the network.
 __setPoolFetch(async () => { throw new Error('offline test'); });
+// ...and the PRANA pot card's chain reads (pranaPotStatus) soft-fail the same way.
+__setChainFetch(async () => { throw new Error('offline test'); });
+const offPrana = async () => null;
 
 // A fake reader returning two normalized pools (the shape pool-stats.pools() yields).
 const fakePools = async () => ([
@@ -140,7 +143,7 @@ test('home links the primer and the MAINNET chain (melek.salon), never the testn
 });
 
 test('pool view renders live cards with stratum lines', async () => {
-  const h = await poolView(fakePools);
+  const h = await poolView(fakePools, offPrana);
   assert.match(h, /Monero/);
   assert.match(h, /PRANA/);
   assert.match(h, /RandomX/);
@@ -151,13 +154,25 @@ test('pool view renders live cards with stratum lines', async () => {
 });
 
 test('pool view shows honest empty-state when API unreachable', async () => {
-  const h = await poolView(emptyReader);
+  const h = await poolView(emptyReader, offPrana);
   assert.match(h, /unreachable/i);
-  assert.doesNotMatch(h, /stratum\+tcp/);
+  // the only stratum line left is PRANA's, which is consensus (not read from the pool API)
+  assert.equal((h.match(/stratum\+tcp:\/\/[^<\s]+/g) || []).join(' '), 'stratum+tcp://pool.soapbox.community:3333');
+});
+
+test('pool view: PRANA card is the consensus pot (98% pot / 2% treasury, auto-pushed rounds), live numbers from the chain', async () => {
+  const h = await poolView(async () => ([{ id: 'prana', coin: 'PRANA', symbol: 'PRANA', algorithm: 'Etchash', ports: [{ port: 5560 }],
+    blockHeight: 1, connectedMiners: 0, hashrate: 0, networkHashrate: 1, feePercent: 0, paymentScheme: 'PPLNS' }]),
+    async () => ({ head: 169999, potPrana: 12.5, roundsPaid: 3 }));
+  assert.match(h, /0x0c033FF8f3eEF60981574816672E80dEc5404E3C/);
+  assert.match(h, /98%/); assert.match(h, /2%/);
+  assert.match(h, /Lost and Found/);
+  assert.match(h, /169,999/); assert.match(h, /12\.5/);
+  assert.doesNotMatch(h, /5560|PPLNS/);           // the stale Miningcore PRANA entry is gone
 });
 
 test('pool view soft-fails (does not throw) when reader throws', async () => {
-  const h = await poolView(throwingReader);
+  const h = await poolView(throwingReader, offPrana);
   assert.match(h, /unreachable/i);
 });
 
@@ -360,7 +375,7 @@ test('pool-stats.minerStats normalizes the Miningcore miner object', async () =>
 // ---------------------------------------------------------------------------
 // /hathor — live witness status (#289)
 // ---------------------------------------------------------------------------
-import { hathorView, hathorStatus, __setChainFetch } from './server.mjs';
+import { hathorView, hathorStatus } from './server.mjs';
 
 const SNAP = {
   headBlock: 21767, lastConfirmed: 21766, blocksBehind: 1, totalMissed: 52,
@@ -420,7 +435,7 @@ test('/hathor route responds and home grid links to it', async () => {
 // pool-is-the-wallet front door (operator 2026-06-06)
 // ---------------------------------------------------------------------------
 test('/pool leads with create-your-wallet-here (non-custodial, spend-lock, Akasha)', async () => {
-  const html = await poolView(fakePools);
+  const html = await poolView(fakePools, offPrana);
   assert.match(html, /pool IS your wallet/i);
   assert.match(html, /mycoins\.html/);
   assert.match(html, /Zephyr \(ZEPH\)/);
