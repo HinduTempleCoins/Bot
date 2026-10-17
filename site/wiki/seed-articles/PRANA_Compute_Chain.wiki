@@ -14,7 +14,7 @@ PRANA launches with **no premine**: the genesis allocation is empty, so no coins
 
 == "The Chain Is the Pool" ==
 
-Most PoW coins have many competing mining pools, each taking a fee and fragmenting rewards. PRANA instead makes the **chain itself the pool**. Each period, a **fixed issuance** of PRANA flows into one on-chain ledger (the *UnifiedSharesLedger*) and is split **pro-rata among everyone who contributed weighted shares** — whether those shares came from hashing or from verified compute. Anyone may run a **coordinator** (a front-end/relay into the pool) by posting a slashable bond, so front-ends compete on service while the reward pool stays single and fair. This one-pool design descends directly from [[DevCoin and Paying Contributors|DevCoin's]] reward model.
+Most PoW coins have many competing mining pools, each taking a fee and fragmenting rewards. PRANA instead makes the **chain itself the pool**. It is enforced by consensus: since block 169,532 every node pays **98%** of every block reward (and every uncle) to the pot contract and **2%** to Hathor's treasury, and rejects any block that pays anyone else. Every 20 blocks the pot pays everyone **pro-rata by their pool shares** — whether those shares came from hashing or from verified compute — and pushes the PRANA straight to their address. The full mechanism, contract addresses and how to check it are on [[PRANA Pool Payouts]]. This one-pool design descends directly from [[DevCoin and Paying Contributors|DevCoin's]] reward model.
 
 == Two Lanes: HASH and TASK ==
 

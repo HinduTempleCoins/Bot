@@ -15,7 +15,7 @@ This is why PRANA exists: an AI needs GPUs to think, and GPUs cost money. Instea
 
 == PRANA and KULA ==
 
-Miners earn '''PRANA + [[KULA]]''' as a paired reward — like the STEEM/SBD pair, but for EVM miners. KULA is the ecosystem's DeFi collateral coin and the answer to the "stable" token MELEK deliberately left out.
+Miners are paid in '''PRANA''' from the pot (see [[PRANA Pool Payouts]]). [[KULA]] is the ecosystem's DeFi collateral coin and the base asset of KulaSwap — the answer to the "stable" token MELEK deliberately left out — and is earned by providing liquidity there, not by mining.
 
 == How to take part ==
 

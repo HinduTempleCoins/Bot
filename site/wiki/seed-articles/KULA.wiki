@@ -14,7 +14,7 @@ KulaSwap is the on-chain exchange: swap tab, liquidity pools, yield farms, and t
 
 == KULA and PRANA mining ==
 
-Miners of [[PRANA]] earn '''PRANA + KULA''' as a paired reward — the ecosystem's version of the STEEM/SBD pair, but for EVM miners. KULA is the piece that makes that pairing a real DeFi economy rather than just a second coin.
+[[PRANA]] miners are paid in PRANA (see [[PRANA Pool Payouts]]); KULA is earned on KulaSwap, by providing liquidity and staking LP tokens. KULA is the piece that turns PRANA into a real DeFi economy rather than just a second coin.
 
 == Opening pairs ==
 
