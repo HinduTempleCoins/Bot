@@ -226,6 +226,6 @@ export async function classifySecret(name, secret, chainPubs, prefix = DEFAULT_P
 
   return {
     kind: 'no-match',
-    hint: 'This string does not unlock this account — it may be from a different account name (check spelling) or an earlier signup attempt. Ask in signup-help; the operator can issue fresh keys.',
+    hint: 'This string does not unlock this account — it may be from a different account name (check spelling) or an earlier signup attempt. If you have lost access, see the recovery options: https://signer.melek.salon/recover',
   };
 }

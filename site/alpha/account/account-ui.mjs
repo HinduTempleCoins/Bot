@@ -10,6 +10,9 @@ import {
   newGateState, markDelivered, setConfirmInput, canCreate, gateReason,
 } from './account-gate.mjs';
 
+/** The one account-recovery destination: MELEK-Signer's recovery guide. */
+export const RECOVER_URL = 'https://signer.melek.salon/recover';
+
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
 ));
@@ -140,6 +143,7 @@ export function keysFileText(name, password, keys) {
     `WARNING: anyone with these lines controls this account. Nobody`,
     `can recover them for you — not the operator, not the witness.`,
     `Store this file somewhere private and back it up.`,
+    `Recovery options (optional): ${RECOVER_URL}`,
     `Generated in your browser; the server never saw the private lines.`,
     ``,
     `Account:          ${name}`,
@@ -181,7 +185,7 @@ export async function runSignup({ name, doc }) {
     keysBlockHtml(n, password, keys),
     `<div class="gate">`,
     `<h3>Before you can create the account</h3>`,
-    `<p class="muted small">There is no recovery. You must keep these credentials, then prove it below — the button stays locked until both steps are done.</p>`,
+    `<p class="muted small">There is no password reset (<a href="${RECOVER_URL}">recovery options</a>). You must keep these credentials, then prove it below — the button stays locked until both steps are done.</p>`,
     `<p class="gate-step"><b>1.</b> Get your keys: `,
     `<button type="button" id="dl" class="wiz-btn">⬇ Download my keys</button>`,
     ` <span class="muted small">(or use a Copy button above)</span> `,
@@ -245,7 +249,7 @@ export function createdReminderHtml(name, password, keys) {
     `<h3>One last time — this is your password. Make sure it is saved.</h3>`,
     `<div class="krow"><div class="klab">Master password <span class="muted">← log in with THIS</span></div>` +
       `<code class="kval">${esc(password)}</code>${copyButtonHtml(password)}</div>`,
-    `<p class="muted small">There is no recovery. If you have not saved your keys file yet, download it now from the field above before you leave this page.</p>`,
+    `<p class="muted small">There is no password reset (<a href="${RECOVER_URL}">recovery options</a>). If you have not saved your keys file yet, download it now from the field above before you leave this page.</p>`,
     `<p><a href="keycheck.html" class="wiz-btn">Verify you saved it right</a> ` +
       `<a href="welcome.html?name=${encodeURIComponent(name)}" class="wiz-btn">Continue to Welcome →</a></p>`,
     `<p class="muted small">Then <a href="/">log in</a> with your master password.</p>`,
