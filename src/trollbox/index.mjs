@@ -395,8 +395,18 @@ export function redactForLog({ user, text } = {}) {
  * the walkthrough still re-starts on an intent line, it just won't remember mid-conversation position.
  */
 export async function handleMessage({ user, text, state } = {}, ctx = {}) {
-  const { now = () => Date.now(), deps = {}, limiter } = ctx;
+  const { now = () => Date.now(), deps = {}, limiter, platform = 'trollbox' } = ctx;
   const priorSignup = state && typeof state === 'object' ? state.signup : null;
+
+  // 0) SECRET GUARD + helper brain (helperbot/brain.mjs) — before the rate-limiter, the menu, or any
+  //    log. On the on-chain troll-box a pasted secret is already public, so the reply says ROTATE NOW.
+  //    Helper commands (tokenomics, !faucet, !tip, !guide …) only when HELPERBOT_ENABLED=1.
+  try {
+    const brain = await import('../../helperbot/brain.mjs');
+    const hb = await brain.handle({ platform, userId: typeof user === 'string' ? user : 'anon', userName: typeof user === 'string' ? '@' + user : 'you', text: typeof text === 'string' ? text : '' }, { commandsEnabled: brain.enabled(), now: now() });
+    if (hb && hb.secret) return { reply: hb.reply, kind: 'secret', state: null };
+    if (hb && hb.handled && hb.reply) return { reply: hb.reply, kind: 'command', state: priorSignup ? { signup: priorSignup } : null };
+  } catch { /* the deterministic brain below still answers */ }
 
   // Rate-limit first (only when a shared limiter is supplied; a per-call one would never bite).
   if (limiter && typeof limiter.allow === 'function') {

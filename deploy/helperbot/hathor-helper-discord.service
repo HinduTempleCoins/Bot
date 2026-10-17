@@ -1,0 +1,50 @@
+# Hathor helper bot on Discord (index.js + helperbot/) — 24/7 systemd unit TEMPLATE.
+# ---------------------------------------------------------------------------
+# Supersedes deploy/discord/melek-discord.service for the helper-bot launch. The differences are
+# all about staying up:
+#   • Restart=always (not on-failure) + no start-rate limit: any exit, crash or kill → back in 5 s.
+#   • WatchdogSec=180 + NotifyAccess=all: index.js pings `systemd-notify WATCHDOG=1` every 90 s ONLY
+#     while the Discord gateway is connected (helperbot/uptime.mjs). A wedged or disconnected
+#     process stops pinging, and systemd kills and restarts it.
+#   • HELPERBOT_HEALTH_PORT serves GET /health and GET /ready on 127.0.0.1. Point the uptime
+#     monitor at it.
+# The deterministic commands (steemd chain set, tokenomics, faucet, tips, guides) never call the
+# LLM or the PRANA fleet queue, so they keep answering when the AI path is down. MELEK RPC fails
+# over across MELEK_RPC_NODES (put the local node first, then the other mainnet nodes).
+#
+# KEY CUSTODY: no chain key in this env. Tips stay SIMULATED unless HELPERBOT_TIP_TREASURY,
+# HELPERBOT_TIP_LIVE=1 and a host-injected signer are all present.
+#
+# Placeholders only (no real hostnames/paths committed): __INSTALL_DIR__ __ENV_FILE__ __NODE_BIN__
+# __LOG_FILE__. Substitute them the same way deploy/discord/install.sh does.
+# ---------------------------------------------------------------------------
+[Unit]
+Description=Hathor helper bot (Discord) — MELEK steemd, tokenomics, faucet, PIZZA tips, guides
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__ENV_FILE__
+ExecStart=__NODE_BIN__ index.js
+StandardOutput=append:__LOG_FILE__
+StandardError=append:__LOG_FILE__
+Restart=always
+RestartSec=5
+WatchdogSec=180
+NotifyAccess=all
+TimeoutStopSec=20
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=__INSTALL_DIR__
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

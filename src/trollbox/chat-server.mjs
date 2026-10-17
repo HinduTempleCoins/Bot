@@ -167,7 +167,7 @@ export async function handler(req, res) {
     let out;
     try {
       // 'web' is a non-identifying user tag for the deterministic brain; the rate-limit key handles abuse.
-      out = await handleMessage({ user: 'web', text: message, state }, { deps: MENU_DEPS });
+      out = await handleMessage({ user: 'web', text: message, state }, { deps: MENU_DEPS, platform: 'web' });
       // AI, not a command bot: the deterministic brain handles real commands/flows (command/signup/faq);
       // when NOTHING matched (`nudge`) and we're not mid-signup, hand the message to the ONE Hathor brain so
       // general talk is conversational — the same self, MELEK compartment. Soft: if the brain's down, keep

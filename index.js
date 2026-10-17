@@ -6851,6 +6851,21 @@ client.on('ready', async () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
   console.log(`🌿 Van Kush Family Bot is ready!`);
 
+  // 24/7: systemd watchdog (pings only while the Discord gateway is connected) + local /health endpoint
+  // (HELPERBOT_HEALTH_PORT). Both are no-ops when not configured. See helperbot/uptime.mjs.
+  try {
+    const up = await import('./helperbot/uptime.mjs');
+    up.markReady(true);
+    if (!globalThis.__hathorUptime) {
+      globalThis.__hathorUptime = true;
+      up.startWatchdog({ isHealthy: () => client.isReady() });
+      up.startHealthServer();
+      client.on('shardDisconnect', () => up.markReady(false));
+      client.on('shardResume', () => up.markReady(true));
+      client.on('shardReady', () => up.markReady(true));
+    }
+  } catch { /* uptime plumbing must never block the bot */ }
+
   // Initial price fetch
   await checkPriceAlerts();
   console.log('📊 Price monitoring initialized');
@@ -7110,12 +7125,44 @@ client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
 
   // Inbound trace (diagnostic): one line per human message so command delivery is observable in
-  // the journal. Logs author, channel kind, and a short content preview only — no secrets.
+  // the journal. NO message content and no raw username ever reach the journal (the old line logged
+  // the first 50 chars of every message — a pasted key/password went straight to the logs). The
+  // trace carries platform, opaque user/channel hashes, length, cmd/text and the secret-guard verdict.
   try {
-    const kind = message.guild ? `guild#${message.channel?.id}` : 'DM';
-    const c = String(message.content || '');
-    console.log(`📥 msg from @${message.author?.username} [${kind}] len=${c.length} "${c.slice(0, 50).replace(/\n/g, ' ')}"`);
+    const { inboundTrace } = await import('./helperbot/secret-guard.mjs');
+    console.log(inboundTrace({ platform: message.guild ? 'discord-guild' : 'discord-dm', user: message.author?.id, channel: message.channel?.id, text: message.content }));
   } catch { /* never let tracing break handling */ }
+
+  // ── Secret guard + Hathor helper brain (helperbot/brain.mjs) ────────────────────────────────────
+  // The guard ALWAYS runs first (before any command, AI call, or log): a pasted WIF / hex key / seed
+  // phrase / "password:" is refused, the message deleted where we have permission, and the user told
+  // to rotate. The helper commands (tokenomics, !faucet, !tip PIZZA-style, !guide …) only run when
+  // HELPERBOT_ENABLED=1 — otherwise the legacy handlers below answer exactly as before.
+  {
+    let hb = null;
+    try { (await import('./helperbot/uptime.mjs')).markInbound(); } catch { /* never */ }
+    try {
+      const brain = await import('./helperbot/brain.mjs');
+      hb = await brain.handle(
+        { platform: 'discord', userId: message.author?.id, userName: message.author?.username, text: message.content },
+        { commandsEnabled: brain.enabled() },
+      );
+    } catch { hb = null; }
+    if (hb && hb.secret) {
+      let deleted = false;
+      try { await message.delete(); deleted = true; } catch { deleted = false; }
+      try {
+        const { rotationWarning } = await import('./helperbot/secret-guard.mjs');
+        const warn = rotationWarning(hb.secret.kinds, { deleted, platform: 'discord' });
+        try { await message.author.send(warn); } catch { await message.channel.send(`<@${message.author.id}> ${warn}`); }
+      } catch { /* the message is already refused; never echo it */ }
+      return;
+    }
+    if (hb && hb.handled && hb.reply) {
+      try { await message.reply(hb.reply); } catch { /* channel gone / no perms */ }
+      return;
+    }
+  }
 
   // ── SoapBox "steemd" + MELEK chain + Resource Center hook ───────────────
   // The Discord bot as a queryable interface to the ecosystem state (the condenser) AND the live
