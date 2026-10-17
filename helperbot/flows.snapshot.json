@@ -3531,8 +3531,79 @@
  },
  {
   "id": "recover-account",
-  "status": "NOT FINISHED",
-  "answer": "Account recovery is under construction and not available yet."
+  "intent": "Recover a MELEK account (lost password, stolen account, or just checking) through MELEK-Signer's recovery options.",
+  "phrasings": [
+   "i lost my keys",
+   "forgot my password melek",
+   "account got hacked",
+   "recover my account",
+   "reset password?",
+   "my key doesnt work",
+   "account recovery",
+   "how do i recover my melek account"
+  ],
+  "start_url": "https://signer.melek.salon/recover",
+  "prerequisites": [
+   "Your MELEK account name"
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "url": "https://signer.melek.salon/recover",
+    "do": "Enter 'Your MELEK account name' and click 'Check my recovery options'",
+    "why": "Shows the account's on-chain recovery partner, whether the owner key changed in the last 30 days, and which MELEK-Signer options apply. The page never asks for a password or key",
+    "http": 200
+   },
+   {
+    "n": 2,
+    "url": "https://signer.melek.salon/login",
+    "do": "Still have your password or owner key? Sign in with MELEK on the signer to confirm it still controls the account",
+    "why": "If it works you are not locked out; nothing needs recovering",
+    "http": 200
+   },
+   {
+    "n": 3,
+    "url": "https://signer.melek.salon/recover",
+    "do": "Account stolen (owner key changed within 30 days)? If MELEK-Signer holds your recovery partner, the signer-assisted path applies; if not, contact your recovery partner directly",
+    "why": "Only the on-chain recovery partner can file a recovery request, and you still need a password/owner key that was valid in the last 30 days",
+    "http": 200
+   },
+   {
+    "n": 4,
+    "url": "https://signer.melek.salon/recover",
+    "do": "Lost your password? It can be reset only if MELEK-Signer holds that account's keys (signer-created accounts); otherwise it cannot be recovered by anyone",
+    "why": "A MELEK password is the key; the chain has no password reset",
+    "http": 200
+   }
+  ],
+  "touches": [
+   "GET /v1/recover/status (public on-chain recovery_account + last_owner_update, rate-limited)",
+   "request_account_recovery / recover_account (only via the recovery partner, chain-native)"
+  ],
+  "keys": "The recovery page never accepts a password or key. Keys are entered only on MELEK-Signer's own sign-in page. There is no password reset unless MELEK-Signer already holds the account's keys.",
+  "pitfalls": [
+   "Recovery is optional and runs only through MELEK-Signer",
+   "After 30 days, or with no recovery partner, a stolen account cannot be reversed",
+   "If MELEK-Signer does not hold your keys, a lost password cannot be reset",
+   "Never type a password or key into any page or chat other than the MELEK-Signer sign-in page"
+  ],
+  "sources": [
+   "MELEK-Signer src/recover.mjs (GET /recover, GET /v1/recover/status)",
+   "MELEK-Signer src/server.mjs (/recovery, /recover-account, /recover_account_step_1 -> /recover)",
+   "site/recovery/server.mjs (redirect to the signer page)",
+   "site/alpha/account/account-ui.mjs (RECOVER_URL)"
+  ],
+  "verified": true,
+  "notes": "All recover-account links (account pages, wallet side panel/change-password, wallet /recover_account_step_*) point to the MELEK-Signer recovery guide.",
+  "origin": "onboarding-chain.json",
+  "live_check": {
+   "checked": "2026-10-17T13:27:29Z",
+   "non_200": []
+  },
+  "hosts": [
+   "signer.melek.salon"
+  ],
+  "status": "WORKS"
  },
  {
   "id": "vote-for-witness",
