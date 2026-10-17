@@ -122,7 +122,7 @@ export async function hiveEngineReply(sym) {
   if (tok) {
     lines.push(`• Supply (live): ${fmt(Number(tok.supply))} / max ${fmt(Number(tok.maxSupply))} · circulating ${fmt(Number(tok.circulatingSupply))} · staked ${fmt(Number(tok.totalStaked))}`);
   } else lines.push(`• Supply: ${NA}`);
-  lines.push(`• Holders (live): ${hold ? (hold.capped ? '1000+' : String(hold.count)) : NA}`);
+  lines.push(`• Holders (live): ${hold ? `${fmt(hold.count)}${hold.capped ? '+ (first 1,000 balance records scanned)' : ''}` : NA}`);
   if (met) {
     lines.push(`• Price (live): last ${met.lastPrice} HIVE · bid ${met.highestBid} / ask ${met.lowestAsk} · 24h vol ${met.volume} HIVE`);
   } else lines.push(`• Price: ${NA}`);

@@ -287,17 +287,18 @@ function applyIdentity(s, tokens) {
   }
 }
 
-export async function listGuides() {
+export async function listGuides(all = false) {
   const flows = await loadFlows();
   const works = flows.filter((f) => f.status === 'WORKS');
   const byId = new Map(works.map((f) => [f.id, f]));
   const feat = FEATURED.filter((id) => byId.has(id));
   const others = works.filter((f) => !FEATURED.includes(f.id));
   const wip = flows.filter((f) => f.status !== 'WORKS').map((f) => f.id);
+  if (all) return `**All ${works.length} guides** → \`!guide <name>\`:\n${works.map((f) => f.id).join(' · ')}`;
   return [
     '**Guides** — I walk you step by step and check each step on-chain where it leaves a trace. I never need your password or keys.',
     ...feat.map((id) => `• \`!guide ${Object.keys(ALIASES).find((k) => ALIASES[k] === id) || id}\` — ${byId.get(id).intent}`),
-    others.length ? `Also: ${others.map((f) => f.id).join(', ')} → \`!guide <name>\`` : '',
+    others.length ? (all ? `Also: ${others.map((f) => f.id).join(', ')} → \`!guide <name>\`` : `+${others.length} more guides (law, politics, search, jobs, library, …) → \`!guide all\``) : '',
     wip.length ? `🚧 Under construction (no guide yet): ${wip.join(', ')}` : '',
   ].filter(Boolean).join('\n');
 }
@@ -322,7 +323,8 @@ async function _guide(cmd, args, who, store, now) {
 
   if (cmd === 'guide') {
     const sub = (args[0] || '').toLowerCase();
-    if (!sub || sub === 'list' || sub === 'all') return listGuides();
+    if (!sub || sub === 'list') return listGuides(false);
+    if (sub === 'all') return listGuides(true);
     if (sub === 'stop' || sub === 'end' || sub === 'quit') { store.del(key); return 'Guide ended. `!guide` to pick another.'; }
     if (sub === 'status') return s ? fmtStep(flowOf(s.flowId), s) : 'No guide running — `!guide` to pick one.';
     if (sub === 'set') {
