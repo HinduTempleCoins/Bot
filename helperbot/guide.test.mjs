@@ -140,7 +140,11 @@ test('NOT FINISHED flows only ever get the one-line Under Construction notice', 
     assert.match(r, /^🚧 /, f.id);
     assert.equal(r.split('\n').length, 1, f.id);
   }
-  assert.match(await g('guide', ['recover']), /under construction/);
+  assert.match(await g('guide', ['farm']), /under construction/);
+});
+
+test('recover guide points to the MELEK-Signer recovery page', async () => {
+  assert.match(await g('guide', ['recover']), /signer\.melek\.salon\/recover/);
 });
 
 test('list shows featured guides and the under-construction list, never Botanica', async () => {
