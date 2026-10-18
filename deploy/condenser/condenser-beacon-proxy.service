@@ -1,0 +1,20 @@
+[Unit]
+Description=MELEK condenser beacon proxy — strips Google Analytics, injects the first-party cookieless beacon and link-preview tags in front of 127.0.0.1:8087 (melek.salon)
+After=network-online.target melek-condenser-mainnet.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/melek-bot/repo
+Environment=UPSTREAM_HOST=127.0.0.1
+Environment=UPSTREAM_PORT=8087
+Environment=LISTEN_HOST=127.0.0.1
+Environment=LISTEN_PORT=8188
+Environment=ANALYTICS_BEACON_URL=https://analytics.soapbox.community/px
+ExecStart=/opt/node22/bin/node /opt/melek-bot/repo/deploy/condenser/condenser-beacon-proxy.mjs
+Restart=always
+RestartSec=3
+SyslogIdentifier=condenser-beacon-proxy
+
+[Install]
+WantedBy=multi-user.target

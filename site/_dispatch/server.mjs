@@ -10,9 +10,14 @@ import http from 'node:http';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { ensureBeacon, ensureSocialMeta, cardForHost } from '../../integrations/soapbox/page-meta.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = path.resolve(__dirname, '..'); // .../site
+// First-party, cookieless analytics on EVERY surface — injected here so no per-surface opt-in is needed.
+const BEACON_URL = process.env.ANALYTICS_BEACON_URL || 'https://analytics.soapbox.community/px';
+// Hosts that get no beacon / share tags: the private collector itself.
+const NO_FINISH = /^analytics\./i;
 
 // A single misbehaving surface (async throw after it loads, a rejected timer, etc.)
 // must never take down the whole web tier. Log and keep serving the other 80+.
@@ -50,9 +55,13 @@ export async function loadHandler(dir, siteRoot = SITE_ROOT) {
 // it can never take the tier down. Per-surface /sitemap.xml (real sub-URLs) and /llms.txt are left intact.
 export async function serveSeo(req, res, routes) {
   const p = String(req.url || '/').split('?')[0];
+  // IndexNow proof-of-ownership key — served at /<key>.txt on EVERY host so we can ping Bing/Yandex/Seznam/Naver for any surface.
+  const INDEXNOW_KEY = process.env.INDEXNOW_KEY || '7b6e04a11e3b7552a138e9cc098bf9be';
+  if (p === `/${INDEXNOW_KEY}.txt`) { res.writeHead(200, { 'content-type': 'text/plain', 'cache-control': 'public, max-age=86400' }); res.end(INDEXNOW_KEY); return true; }
   if (p !== '/robots.txt' && p !== '/sitemap-index.xml' && p !== '/sitemaps.xml') return false;
   const host = String((req.headers && req.headers.host) || '').toLowerCase().split(':')[0].replace(/^www\./, '');
   if (!host) return false;
+  if (NO_FINISH.test(host)) return false; // the private collector serves its own disallow-all robots.txt
   try {
     const c = await import('../../integrations/soapbox/crawlers.mjs');
     const base = `https://${host}`;
@@ -83,9 +92,18 @@ export function publicOrigin(req, res, internal) {
     const ct = String(res.getHeader('content-type') || '');
     if (!TEXTY.test(ct) || res.getHeader('content-encoding')) return chunk;
     const str = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : typeof chunk === 'string' ? chunk : null;
-    if (str == null || !str.includes(internal)) return chunk;
+    if (str == null) return chunk;
+    let out = str.includes(internal) ? str.split(internal).join(pub) : str;
+    // Every HTML page whose whole <head> is in this chunk: the analytics beacon (deduped by collector URL,
+    // so surfaces that self-emit aren't doubled) and link-preview tags built from the page's own title,
+    // description and canonical, with the share card when it has no image of its own.
+    if (/text\/html/i.test(ct) && !NO_FINISH.test(host) && /<head[\s>]/i.test(out) && out.includes('</head>')) {
+      out = ensureSocialMeta(out, { card: cardForHost(host) });
+      if (BEACON_URL) out = ensureBeacon(out, BEACON_URL);
+    }
+    if (out === str) return chunk;
     if (!res.headersSent) res.removeHeader('content-length');
-    return str.split(internal).join(pub);
+    return out;
   };
   const wh = res.writeHead.bind(res);
   res.writeHead = (code, a, b) => {
