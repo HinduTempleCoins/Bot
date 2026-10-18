@@ -62,10 +62,10 @@ export async function fetchWitnessAccounts({ rpcUrl = RPC(), fetch: f = globalTh
   } catch { return ['hathor']; }
 }
 
-// Ranks Hathor gives, Bitcointalk-style. Everyone starts in "New" (the All Posts feed); Hathor promotes people
-// out of it. Anyone holding one of these ranks is a Ranked User. Stored by account in RANKS_FILE:
-//   { "alice": { "rank": "Member", "by": "hathor", "ts": 1792290000000 }, … }
-export const RANKS = ['Jr. Member', 'Member', 'Full Member', 'Sr. Member', 'Hero Member', 'Legendary'];
+// Ranks Hathor gives, Bitcointalk-style but shorter. Everyone starts as a Jr. Member (the All Posts feed, not
+// stored); Hathor promotes people out of New. Anyone at Member or above shows on the Members tab.
+// Stored by account in RANKS_FILE:  { "alice": { "rank": "Member", "by": "hathor", "ts": 1792290000000 }, … }
+export const RANKS = ['Member', 'Sr. Member', 'Hero Member', 'Legendary'];
 const RANKS_FILE = () => env('RANKS_FILE', '/var/lib/melek-ranks/ranks.json');
 
 /** Ranked users, highest rank first. Soft-fail → {} (the page then says nobody is ranked yet). */
@@ -86,7 +86,7 @@ export const TABS = [
   { id: 'all', label: 'All Posts', href: `${SITE}/trending` },
   { id: 'admin', label: 'Admin Updates', href: `${SITE}/` },   // the home page
   { id: 'witness', label: 'Witness Updates', href: `${SITE}/witness-updates` },
-  { id: 'ranked', label: 'Ranked Users', href: `${SITE}/ranked` },
+  { id: 'ranked', label: 'Members', href: `${SITE}/members` },
   { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
 ];
 
@@ -97,9 +97,9 @@ const PAGES = {
   witness: { title: 'Witness Updates', path: '/witness-updates', h1: 'Witness Updates',
     lead: "News from the witnesses who run MELEK's blockchain: upgrades, hardforks, price feeds and what they're working on. Hathor, MELEK's AI witness, posts here too.",
     who: 'Posts by the active witnesses:' },
-  ranked: { title: 'Ranked Users', path: '/ranked', h1: 'Ranked Users',
-    lead: 'Posts from members Hathor has ranked: people brought up out of New for the quality of what they post. Ranks run Jr. Member, Member, Full Member, Sr. Member, Hero Member, Legendary.',
-    who: 'Posts by ranked members:', empty: 'Nobody has been ranked yet. Hathor promotes members out of New as they post.' },
+  ranked: { title: 'Members', path: '/members', h1: 'Members',
+    lead: 'Posts from people Hathor has brought up out of New for the quality of what they post. Everyone starts as a Jr. Member; the ranks above are Member, Sr. Member, Hero Member and Legendary.',
+    who: 'Posts by members:', empty: 'Nobody has been promoted yet. Hathor brings people up out of New as they post.' },
 };
 
 export function renderAdminPage(posts = [], { admins = ADMINS(), builtAt = new Date(), page = 'admin', ranks = {} } = {}) {
@@ -166,6 +166,6 @@ if (process.argv[1] && process.argv[1].endsWith('build.mjs') && process.argv[1].
   const ranks = loadRanks();
   const ranked = Object.keys(ranks);
   const rposts = ranked.length ? await fetchAdminPosts({ admins: ranked }) : [];
-  write(env('RANKED_OUT', '/var/www/melek-admin/ranked/index.html'),
+  write(env('RANKED_OUT', '/var/www/melek-admin/members/index.html'),
     renderAdminPage(rposts, { admins: ranked, page: 'ranked', ranks }), rposts.length, 'ranked-page');
 }

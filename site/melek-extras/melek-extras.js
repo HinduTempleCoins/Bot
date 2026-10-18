@@ -165,7 +165,7 @@
     { id: 'all', label: 'All Posts', href: '/trending' },
     { id: 'admin', label: 'Admin Updates', href: '/' },   // the home page
     { id: 'witness', label: 'Witness Updates', href: '/witness-updates' },
-    { id: 'ranked', label: 'Ranked Users', href: '/ranked' },
+    { id: 'ranked', label: 'Members', href: '/members' },
     { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
   ];
   var SORTS = [['hot', 'Hot'], ['trending', 'Trending'], ['created', 'New']];

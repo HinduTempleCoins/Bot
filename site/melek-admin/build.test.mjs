@@ -55,20 +55,21 @@ test('fetchWitnessAccounts keeps block producers, always includes hathor, soft-f
   assert.deepEqual(await fetchWitnessAccounts({ fetch: async () => { throw new Error('down'); } }), ['hathor']);
 });
 
-test('tab order: All Posts far left, then Admin, Witness, Ranked Users, Groups', () => {
-  assert.deepEqual(TABS.map((t) => t.label), ['All Posts', 'Admin Updates', 'Witness Updates', 'Ranked Users', 'Groups']);
+test('tab order: All Posts far left, then Admin, Witness, Members, Groups', () => {
+  assert.deepEqual(TABS.map((t) => t.label), ['All Posts', 'Admin Updates', 'Witness Updates', 'Members', 'Groups']);
 });
 
 test('ranks: only the ladder ranks count, highest first; bad file soft-fails to none', () => {
   const r = loadRanks('x', () => JSON.stringify({ alice: { rank: 'Member', by: 'hathor', ts: 1 }, bob: { rank: 'Legendary', by: 'hathor' },
-    eve: { rank: 'Supreme Overlord' }, 'BAD NAME': { rank: 'Member' } }));
-  assert.deepEqual(Object.keys(r), ['bob', 'alice']);
+    carl: { rank: 'Hero Member' }, jr: { rank: 'Jr. Member' }, gone: { rank: 'Full Member' }, eve: { rank: 'Supreme Overlord' }, 'BAD NAME': { rank: 'Member' } }));
+  assert.deepEqual(Object.keys(r), ['bob', 'carl', 'alice'], 'Jr. Member is everyone (not on the tab); Full Member is retired');
   assert.deepEqual(loadRanks('x', () => { throw new Error('missing'); }), {});
 });
 
-test('Ranked Users page: rank badge on each post, and an empty ladder says so', () => {
-  const html = renderAdminPage([post('alice', 'a1', '2026-10-10T00:00:00')], { admins: ['alice'], page: 'ranked', ranks: { alice: { rank: 'Full Member' } } });
-  assert.match(html, /<span class=rank>Full Member<\/span>/);
-  assert.match(html, /class=on aria-current=page>Ranked Users/);
-  assert.match(renderAdminPage([], { admins: [], page: 'ranked' }), /Nobody has been ranked yet/);
+test('Members page: rank badge on each post, and an empty ladder says so', () => {
+  const html = renderAdminPage([post('alice', 'a1', '2026-10-10T00:00:00')], { admins: ['alice'], page: 'ranked', ranks: { alice: { rank: 'Hero Member' } } });
+  assert.match(html, /<span class=rank>Hero Member<\/span>/);
+  assert.match(html, /class=on aria-current=page>Members/);
+  assert.match(html, /rel=canonical href="https:\/\/melek\.salon\/members"/);
+  assert.match(renderAdminPage([], { admins: [], page: 'ranked' }), /Nobody has been promoted yet/);
 });
