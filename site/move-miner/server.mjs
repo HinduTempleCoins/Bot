@@ -294,10 +294,21 @@ $('locate').onclick=()=>{
     coords={lat:p.coords.latitude,lng:p.coords.longitude};
     $('cell').textContent='you are at '+coords.lat.toFixed(5)+', '+coords.lng.toFixed(5);
     $('mine').disabled=false; drawMap();
-  },err=>{$('cell').textContent='location denied: '+E(err.message);$('locate').textContent='Read my location';},{enableHighAccuracy:true,timeout:10000,maximumAge:2000});
+  },err=>{$('cell').innerHTML=geoHelp(err);$('locate').textContent='Read my location';},{enableHighAccuracy:true,timeout:15000,maximumAge:2000});
 };
+// plain steps instead of the browser's raw error. code 1 = blocked (usually the phone's settings, not the site)
+function geoHelp(err){
+  const ua=navigator.userAgent||'';const ios=/iPhone|iPad|iPod/.test(ua);const crios=/CriOS/.test(ua);const fx=/FxiOS/.test(ua);
+  if(err&&err.code===1){
+    if(ios&&(crios||fx))return '<span class=err>Location is off for this browser.</span> On your iPhone: <b>Settings → Privacy &amp; Security → Location Services</b> → turn it on → find <b>'+(crios?'Chrome':'Firefox')+'</b> → <b>While Using the App</b>. Then come back and tap Read my location.';
+    if(ios)return '<span class=err>Location is off for this page.</span> On your iPhone: <b>Settings → Privacy &amp; Security → Location Services</b> → on → <b>Safari Websites</b> → <b>While Using the App</b>; and <b>Settings → Apps → Safari → Location → Ask</b>. Then reload and tap Read my location.';
+    return '<span class=err>Location is blocked for this page.</span> Tap the lock icon next to the address bar → <b>Permissions → Location → Allow</b>, and make sure your phone&#39;s location is on. Then tap Read my location.';
+  }
+  if(err&&err.code===3)return '<span class=err>Your location took too long.</span> Step outside or near a window and tap Read my location again.';
+  return '<span class=err>Could not read your location.</span> Make sure location is turned on for your phone, then try again.';
+}
 $('mine').onclick=async()=>{
-  if(badName()){$('geoOut').innerHTML='<span class=err>Enter your MELEK username first (or create one).</span>';return;}
+  if(badName()){$('geoOut').innerHTML='<span class=err>Sign in with MELEK first</span> (top of the page), or <a href="/auth/melek-signer/start">sign in now</a>.';return;}
   if(!coords){$('geoOut').innerHTML='<span class=err>Read your location first.</span>';return;}
   $('mine').disabled=true;$('geoOut').textContent='claiming…';
   try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:W.value.trim().toLowerCase(),lat:coords.lat,lng:coords.lng,steps,stake:Number(($('stake')||{}).value)||0})});
