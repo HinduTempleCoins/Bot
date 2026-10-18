@@ -20,7 +20,12 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { getIndexNowKey } from '../../integrations/soapbox/crawlers.mjs';
-import { subscribeForm, handleNewsletter } from './news-mailer.mjs';
+// The email arm (news-mailer.mjs) is loaded softly: where it is not deployed the newsroom still serves,
+// just without the subscribe box.
+let subscribeForm = () => '';
+let handleNewsletter = async () => false;
+try { ({ subscribeForm, handleNewsletter } = await import('./news-mailer.mjs')); } catch { /* soft: no email arm */ }
+import { CATEGORIES as WIKI_CATEGORIES } from '../../site/wiki/categories.mjs';
 
 const env = (k, d = '') => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 export const BASE_URL = () => env('NEWS_BASE_URL', env('BASE_URL', 'https://news.soapbox.community')).replace(/\/+$/, '');
@@ -252,6 +257,66 @@ export async function renderTopicRss(slug) {
   return ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', '<channel>', `  <title>${xesc(SITE_NAME())} — ${xesc(t.name)} news</title>`, `  <link>${xesc(BASE_URL())}/topic/${esc(slug)}</link>`, `  <description>Latest ${xesc(t.name)} news, aggregated.</description>`, entries, '</channel>', '</rss>'].join('\n');
 }
 
+// ── WIKI SUBJECTS — one news category per subject category of the wiki (site/wiki/categories.mjs) ──────
+// Names come straight from the wiki so the two stay in step. Each is filled the same way the topic beats
+// are: a Google News query (headline + link out, never rehosted). Wiki categories that are about the site
+// itself (Start here, Posting help, Tools, the verticals) are not news subjects and are left out. A subject
+// whose feed comes back empty is not shown (nav, portal) until it has headlines.
+const SUBJECT_QUERIES = {
+  chains: 'blockchain OR "proof of stake" OR "crypto mining" OR "Hive blockchain" OR Steem',
+  entrainment: '"gamma entrainment" OR "40 Hz" OR neurostimulation OR tDCS OR "brain stimulation"',
+  substances: 'psilocybin OR "psychedelic therapy" OR pharmacology OR "harm reduction"',
+  chemistry: '"organic chemistry" OR "total synthesis" OR "chemical synthesis" OR "natural product synthesis"',
+  plants: 'ethnobotany OR "medicinal plants" OR herbalism OR "plant medicine"',
+  religion: '"religious freedom" OR theology OR interfaith',
+  history: 'archaeology OR "ancient DNA" OR Egyptology OR "ancient history"',
+  people: '"history of science" OR "history of philosophy"',
+  law: '"Supreme Court" OR "civil rights" OR "court ruling" OR "constitutional law"',
+  philosophy: '"political philosophy" OR anarchism OR libertarianism OR "political theory"',
+};
+// which topic-beat groups and which of our own sections sit under each subject (for the "more" links)
+const SUBJECT_GROUPS = {
+  chains: ['Crypto & Blockchain'], entrainment: ['Neuroscience & Biohacking'], substances: ['Psychedelics', 'Drug Policy & Harm Reduction', 'Cannabis & Hemp'],
+  chemistry: ['Chemistry & Science'], plants: ['Plant Medicine & Herbal'], religion: ['History & Religion'], history: ['History & Religion'],
+};
+export const WIKI_SUBJECTS = WIKI_CATEGORIES.filter((c) => SUBJECT_QUERIES[c.id])
+  .map((c) => ({ slug: c.id, name: c.name, blurb: c.blurb, query: SUBJECT_QUERIES[c.id], wiki: `https://wiki.soapbox.community/category/${c.id}` }));
+const SUBJECT_BY_SLUG = Object.fromEntries(WIKI_SUBJECTS.map((x) => [x.slug, x]));
+export const isSubject = (s) => Object.prototype.hasOwnProperty.call(SUBJECT_BY_SLUG, s);
+const subjectUrl = (slug) => `${BASE_URL()}/subject/${encodeURIComponent(slug)}`;
+export async function fetchSubject(slug, { limit = 25, now = Date.now() } = {}) {
+  const t = SUBJECT_BY_SLUG[slug]; if (!t) return [];
+  const key = 'subject:' + slug; const hit = _aggCache.get(key);
+  if (hit && now - hit.at < AGG_TTL()) return hit.items.slice(0, limit);
+  let items = await fetchOne(GNEWS(t.query));
+  const seen = new Set(); items = items.filter((x) => x && x.title && x.link && (seen.has(x.link) ? false : (seen.add(x.link), true)));
+  items.sort((a, b) => (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0));
+  _aggCache.set(key, { at: now, items });
+  return items.slice(0, limit);
+}
+// Subjects known (from the last fetch) to have headlines — what the nav shows. Synchronous on purpose.
+const liveSubjects = () => WIKI_SUBJECTS.filter((x) => { const h = _aggCache.get('subject:' + x.slug); return h && h.items.length; });
+export async function renderSubjectRss(slug) {
+  const t = SUBJECT_BY_SLUG[slug]; if (!t) return null;
+  const list = await fetchSubject(slug, { limit: 25 });
+  const entries = list.map((x) => ['  <item>', `    <title>${xesc(x.title)}</title>`, `    <link>${xesc(x.link)}</link>`, `    <guid isPermaLink="true">${xesc(x.link)}</guid>`, x.date ? `    <pubDate>${xesc(rfc822(x.date))}</pubDate>` : '', `    <source>${xesc(x.source)}</source>`, '  </item>'].filter(Boolean).join('\n')).join('\n');
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', '<channel>', `  <title>${xesc(SITE_NAME())} — ${xesc(t.name)}</title>`, `  <link>${xesc(subjectUrl(slug))}</link>`, `  <description>${xesc(t.blurb)}</description>`, `  <atom:link href="${xesc(subjectUrl(slug))}/rss.xml" rel="self" type="application/rss+xml" />`, entries, '</channel>', '</rss>'].join('\n');
+}
+export async function renderSubject(slug) {
+  const t = SUBJECT_BY_SLUG[slug]; if (!t) return null;
+  const items = await fetchSubject(slug, { limit: 30 });
+  if (!items.length) return null;
+  const groups = SUBJECT_GROUPS[slug] || [];
+  const beats = TOPICS.filter((x) => groups.includes(x.group));
+  const ours = OUR_SECTIONS.filter((c) => c.wiki === slug);
+  const inner = `<h1 class=sec>${esc(t.name)}</h1>
+    <p style="color:var(--mut);margin-top:-4px">${esc(t.blurb)} · <a href="${esc(t.wiki)}">Library: ${esc(t.name)}</a> · <a href="${esc(subjectUrl(slug))}/rss.xml">RSS</a></p>
+    ${items.map(wireRow).join('')}
+    ${ours.length ? `<h1 class=sec style="margin-top:26px">SoapBox Originals</h1><div style="display:flex;flex-wrap:wrap;gap:6px 12px;font-size:14px">${ours.map((c) => `<a href="${esc(ourUrl(c.slug))}">${esc(c.name)}</a>`).join('')}</div>` : ''}
+    ${beats.length ? `<h1 class=sec style="margin-top:26px">News feeds</h1><div style="display:flex;flex-wrap:wrap;gap:6px 12px;font-size:14px">${beats.map((x) => `<a href="${esc(BASE_URL())}/topic/${esc(x.slug)}">${esc(x.name)}</a>`).join('')}</div>` : ''}`;
+  return PAGE(`${t.name} — ${SITE_NAME()}`, inner, { desc: t.blurb });
+}
+
 // aggregated wire category feed — re-points to the sources (headline + source link), never rehosts bodies.
 export async function renderWireRss(slug, opts = {}) {
   const cat = WIRE_BY_SLUG[slug]; if (!cat) return null;
@@ -315,6 +380,7 @@ export function selfFeedTargets() {
 
 // ── HTML (MSN/Yahoo-shaped) ─────────────────────────────────────────────────────────────────────────────
 const CATNAV = () => [...OUR_SECTIONS.map((c) => `<a href="${esc(ourUrl(c.slug))}">${esc(c.name)}</a>`),
+  ...(liveSubjects().length ? [`<span style="color:var(--line)">│</span>`, ...liveSubjects().map((x) => `<a href="${esc(subjectUrl(x.slug))}">${esc(x.name)}</a>`)] : []),
   `<span style="color:var(--line)">│</span>`, ...WIRE_CATEGORIES.map((c) => `<a href="${esc(wireUrl(c.slug))}">${esc(c.name)}</a>`)].join('');
 const PAGE = (title, inner, { desc = '' } = {}) => `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
@@ -349,6 +415,7 @@ article.story-full{max-width:720px}article.story-full .body p{margin:0 0 16px}
 <nav class=cats>${CATNAV()}</nav></div></header>
 <main>${inner}</main>
 <footer class=wrap><div class=foot>${esc(SITE_NAME())} — an originating wire of ${esc(ORG())}. Our feeds: <a href="${esc(BASE_URL())}/rss.xml">RSS</a> · <a href="${esc(BASE_URL())}/feed.json">JSON</a> · <a href="${esc(BASE_URL())}/sitemap.xml">sitemap</a>. Our stories publish here first and self-feed out; wire categories aggregate public sources (headline + link out, never rehosted).</div></footer>
+<script src="https://pentecaust.com/translate.js" defer></script>
 </body></html>`;
 
 const ourRow = (it) => `<a class=story href="${esc(itemUrl(it))}"><div class=t>${esc(it.title)}</div>${it.dek ? `<div class=d>${esc(it.dek)}</div>` : ''}<div class=m><b style=color:var(--acc)>EXCLUSIVE</b> · ${esc((OUR_BY_SLUG[it.category] || {}).name || it.category)} · ${esc(String(it.date).slice(0, 10))}</div></a>`;
@@ -367,8 +434,14 @@ export async function renderPortal(opts = {}) {
   const wireBlock = filled.filter(Boolean).length
     ? `<div class=zone><h1 class=sec>Industry Wire — filled from public sources</h1><div class=cols>${filled.filter(Boolean).map((b) => `<div>${b}</div>`).join('')}</div></div>`
     : `<div class=zone><h1 class=sec>Industry Wire</h1><div class=empty>The ${WIRE_CATEGORIES.length} EIN-style categories are set up; add RSS sources (HERALD_NEWS_SOURCES) to fill them.</div></div>`;
+  const subjects = await Promise.all(WIKI_SUBJECTS.map(async (x) => {
+    const items = await fetchSubject(x.slug, { limit: 4 });
+    return items.length ? `<div><h1 class=sec><a href="${esc(subjectUrl(x.slug))}">${esc(x.name)}</a></h1>${items.map(wireRow).join('')}</div>` : '';
+  }));
+  const subjectZone = subjects.some(Boolean)
+    ? `<div class=zone id=subjects><h1 class=sec>By Library subject — <a href="https://wiki.soapbox.community/categories">wiki.soapbox.community</a></h1><div class=cols>${subjects.filter(Boolean).join('')}</div></div>` : '';
   const subZone = subscribeForm({ base: BASE_URL() });
-  return PAGE(SITE_NAME(), oursZone + subZone + wireBlock, { desc: 'SoapBox Newsroom — our own wire plus the full industry-category portal.' });
+  return PAGE(SITE_NAME(), oursZone + subjectZone + subZone + wireBlock, { desc: 'SoapBox Newsroom — our own wire plus the full industry-category portal.' });
 }
 
 export function renderOurSection(slug, opts = {}) {
@@ -497,6 +570,8 @@ export async function handler(req, res, opts = {}) {
     if (p === '/widget.js') return send(res, 200, 'application/javascript; charset=utf-8', widgetJs(u.searchParams.get('cat') || 'all'));
     if (p === '/embed') return send(res, 200, 'text/html; charset=utf-8', renderEmbed(u.searchParams.get('cat') || 'all', opts));
     if (p === '/widgets') return send(res, 200, 'text/html; charset=utf-8', renderWidgetsPage(opts));
+    if ((m = p.match(/^\/subject\/([a-z0-9-]+)\/rss\.xml$/))) { const x = await renderSubjectRss(m[1]); return x ? send(res, 200, 'application/rss+xml', x) : send(res, 404, 'text/plain', 'no feed'); }
+    if ((m = p.match(/^\/subject\/([a-z0-9-]+)$/))) { const h = await renderSubject(m[1]); return h ? send(res, 200, 'text/html; charset=utf-8', h) : send(res, 404, 'text/html', PAGE('Not found', '<p>No headlines for that subject right now.</p>')); }
     if (p === '/topics') return send(res, 200, 'text/html; charset=utf-8', renderTopicsIndex());
     if ((m = p.match(/^\/topic\/([a-z0-9-]+)\/rss\.xml$/))) { const x = await renderTopicRss(m[1]); return x ? send(res, 200, 'application/rss+xml', x) : send(res, 404, 'text/plain', 'no feed'); }
     if ((m = p.match(/^\/topic\/([a-z0-9-]+)$/))) { const h = await renderTopic(m[1]); return h ? send(res, 200, 'text/html; charset=utf-8', h) : send(res, 404, 'text/html', PAGE('Not found', '<p>No such news feed.</p>')); }

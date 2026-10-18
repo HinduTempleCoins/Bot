@@ -828,3 +828,23 @@ test('the fire palette is defined without re-skinning what already existed', asy
   for (const v of ['--flame', '--ember', '--ash']) assert.ok(o.body.includes(v), `${v} must be defined`);
   assert.match(o.body, /--gold:#d9a441/, 'gold stays, so nothing existing changes colour');
 });
+
+test('/translate is CORS-allowed for our own page origins only; other routes keep the strict list', async () => {
+  const hdr = async (path, origin) => {
+    let h = {}; const res = { writeHead: (c, x) => { h = x || {}; }, end: () => {} };
+    await handler(req(path, 'OPTIONS', undefined, { origin }), res);
+    return h['access-control-allow-origin'] || '';
+  };
+  assert.strictEqual(await hdr('/translate', 'https://wallet.melek.salon'), 'https://wallet.melek.salon');
+  assert.strictEqual(await hdr('/translate', 'https://wiki.soapbox.community'), 'https://wiki.soapbox.community');
+  assert.strictEqual(await hdr('/translate', 'https://evil.example'), '');
+  assert.strictEqual(await hdr('/translate', 'https://wallet.melek.salon.evil.example'), '');
+  assert.strictEqual(await hdr('/teams', 'https://wallet.melek.salon'), '');
+});
+
+test('/translate.js carries the Google Translate page link and parses', async () => {
+  const { res, o } = cap();
+  await handler(req('/translate.js'), res);
+  assert.ok(o.body.includes('.translate.goog'));
+  assert.doesNotThrow(() => new Function(o.body));
+});

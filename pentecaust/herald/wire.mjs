@@ -484,6 +484,7 @@ export function renderRss({ pillar = null, beat = null } = {}, opts = {}) {
     '  <language>en-us</language>',
     `  <lastBuildDate>${xesc(rfc822(list[0] ? list[0].date : new Date().toISOString()))}</lastBuildDate>`,
     `  <atom:link href="${xesc(self)}" rel="self" type="application/rss+xml" />`,
+    `  <atom:link href="${xesc(env('HERALD_WEBSUB_HUB', 'https://pubsubhubbub.appspot.com/'))}" rel="hub" />`,
     entries, '</channel>', '</rss>'].join('\n');
 }
 export function renderFeedJson(opts = {}) {

