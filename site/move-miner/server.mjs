@@ -308,7 +308,7 @@ function geoHelp(err){
   return '<span class=err>Could not read your location.</span> Make sure location is turned on for your phone, then try again.';
 }
 $('mine').onclick=async()=>{
-  if(badName()){$('geoOut').innerHTML='<span class=err>Enter your MELEK username first (or create one).</span>';return;}
+  if(badName()){$('geoOut').innerHTML='<span class=err>Sign in with MELEK first</span> (top of the page), or <a href="/auth/melek-signer/start">sign in now</a>.';return;}
   if(!coords){$('geoOut').innerHTML='<span class=err>Read your location first.</span>';return;}
   $('mine').disabled=true;$('geoOut').textContent='claiming…';
   try{const r=await fetch('/api/geomine',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:W.value.trim().toLowerCase(),lat:coords.lat,lng:coords.lng,steps,stake:Number(($('stake')||{}).value)||0})});
