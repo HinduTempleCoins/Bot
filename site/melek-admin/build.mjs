@@ -140,6 +140,7 @@ nav a{color:var(--fg);text-decoration:none;margin:0 10px;padding:6px 0;border-bo
 nav a.on{border-bottom-color:var(--gold);font-weight:700}
 nav{white-space:nowrap}
 @media(max-width:640px){header{padding:10px 12px 0}nav{order:3;width:100%;overflow-x:auto;display:flex;gap:14px;margin:4px -12px 0;padding:0 12px;font-size:14px}nav a{margin:0;padding:8px 0}}
+.pill{display:inline-block;margin-right:8px;padding:5px 11px;border:2px solid #eab308;border-radius:6px;color:inherit;text-decoration:none;font-weight:700}
 .cta{background:#1a1d24;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-weight:700;border-bottom:3px solid var(--gold)}
 main{max-width:860px;margin:0 auto;padding:20px 16px}
 h1{margin:6px 0 4px}.lead{color:var(--mut);margin:0 0 18px}
@@ -155,7 +156,7 @@ footer{color:var(--mut);font-size:13px;text-align:center;padding:20px 16px}
 .rank{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:#1a1d24;color:#fff;border-bottom:2px solid var(--gold)}
 </style></head><body>
 <header><a class=brand href="${SITE}/explore" title="Explore MELEK">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}"${t.id === (P.tab || page) ? ' class=on aria-current=page' : ''}>${esc(t.label)}</a>`).join('')}</nav>
-<span><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
+<span><a class=pill href="${SITE}/submit.html">Post</a><a class=pill href="https://engine.melek.salon/">Trade</a><a class=pill href="${SITE}/~witnesses">Vote</a><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
 <main><h1>${esc(P.h1)}</h1>
 <p class=lead>${esc(P.lead)}</p>
 ${P.howto || ''}
