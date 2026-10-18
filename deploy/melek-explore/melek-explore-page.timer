@@ -1,0 +1,9 @@
+[Unit]
+Description=Rebuild the melek.salon Explore page every hour (drops any link that stops answering)
+
+[Timer]
+OnBootSec=120
+OnUnitActiveSec=3600
+
+[Install]
+WantedBy=timers.target

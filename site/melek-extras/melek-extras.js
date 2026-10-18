@@ -396,8 +396,46 @@
   d.addEventListener('click', categoryGuard, true);
   d.addEventListener('submit', categoryGuard, true);
 
+  // ── 9. Explore MELEK (/explore, a static page listing everything) ─────────────────────────────────
+  // Three ways in, so the tab bar stays short: the MELEK logo, the first item of the menu (hamburger), and
+  // a link at the top of the sidebar's "Explore MELEK?" box. /explore is served by the web server, not the
+  // app, so every click on it is a full page load (the logo is the app's own Link to "/").
+  var EXPLORE = '/explore';
+  function addExploreLinks() {
+    var logo = d.querySelector('header a .logo');
+    logo = logo && logo.closest('a');
+    if (logo && logo.getAttribute('href') !== EXPLORE) { logo.setAttribute('href', EXPLORE); logo.setAttribute('title', 'Explore MELEK'); logo.setAttribute('data-melek-explore', '1'); }
+    var panel = d.querySelector('.SidePanel > div');
+    if (panel && !panel.querySelector('.melek-explore-menu')) {
+      var ul = el('ul', { class: 'vertical menu melek-explore-menu' });
+      var li = el('li');
+      li.appendChild(el('a', { href: EXPLORE, 'data-melek-explore': '1', style: 'font-weight:700' }, 'Explore MELEK'));
+      ul.appendChild(li);
+      var close = panel.querySelector('.close-button');
+      panel.insertBefore(ul, close ? close.nextSibling : panel.firstChild);
+    }
+    var heads = d.querySelectorAll('.c-sidebar__module .c-sidebar__h3');
+    for (var i = 0; i < heads.length; i++) {
+      if (!/^Explore MELEK\??$/i.test((heads[i].textContent || '').trim())) continue;
+      var mod = heads[i].closest('.c-sidebar__module'), list = mod && mod.querySelector('.c-sidebar__list');
+      if (!list || list.querySelector('.melek-explore-all')) continue;
+      var item = el('li', { class: 'c-sidebar__list-item melek-explore-all', style: 'margin-bottom:6px' });
+      item.appendChild(el('a', { href: EXPLORE, class: 'c-sidebar__link', 'data-melek-explore': '1',
+        style: 'font-weight:700;color:#d4880f;font-size:1.05em' }, 'Explore everything →'));
+      list.insertBefore(item, list.firstChild);
+    }
+  }
+  d.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    if (!a.hasAttribute('data-melek-explore') && a.getAttribute('href') !== EXPLORE) return;
+    e.preventDefault(); e.stopPropagation();
+    w.location.href = EXPLORE;
+  }, true);
+
   function routeChanged() {
     if (homeIsAdminUpdates()) return;
+    addExploreLinks();
     addTabs();
     var col = d.getElementById('melek-tools');
     if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
