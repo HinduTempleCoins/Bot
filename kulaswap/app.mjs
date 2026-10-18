@@ -118,6 +118,14 @@ function mount(doc = document) {
     const opts = toks.map((t, i) => `<option value="${i}">${esc(t.symbol)}</option>`).join('');
     tinSel.innerHTML = opts; toutSel.innerHTML = opts;
     if (toks.length > 1) toutSel.value = '1';
+    // ?in=SYMBOL&out=SYMBOL pre-selects a market (the MELEK-Engine token pages link and embed this way)
+    try {
+      const qs = new URLSearchParams((doc.defaultView || window).location.search);
+      const idx = (sym) => toks.findIndex((t) => String(t.symbol).toLowerCase() === String(sym || '').toLowerCase());
+      const i = idx(qs.get('in')), o = idx(qs.get('out'));
+      if (i >= 0) tinSel.value = String(i);
+      if (o >= 0 && o !== i) toutSel.value = String(o);
+    } catch { /* no location (tests) */ }
     paintDots();
   }
   function curTokens() {
