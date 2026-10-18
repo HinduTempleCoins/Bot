@@ -5,14 +5,14 @@ MELEK-Engine is a side-chain-style token layer: it lets tokens be issued and tra
 
 == How APIS is earned — the WorkerBee mechanic, re-mapped ==
 APIS is not premined into circulation; it is mined by staking, on a design re-mapped from Hive-Engine's WorkerBee model:
-* '''Forever-lock''' — [[Wrapped Tokens|wMELEK]] (wrapped MELEK bridged onto [[PRANA Blockchain|PRANA]]) can be permanently locked.
+* '''Forever-lock''' — WMELEK (MELEK wrapped for the engine by sending it to <code>@wmelek-bridge</code> on MELEK) can be permanently locked.
 * '''APIS-Hash''' — a forever-lock mints '''APIS-Hash''', a non-transferable (soulbound) mining-power unit — the staked-WORKERBEE equivalent.
-* '''Drip''' — APIS-Hash then drips APIS continuously, at the holder's stake-weighted share of emission.
+* '''Mine and claim''' — APIS-Hash mines APIS at the holder's share of a fixed 1,000 APIS a day; the holder claims it whenever they like. Step by step: [[Getting APIS on MELEK-Engine]].
 
 Because APIS-Hash is soulbound, mining power cannot be sold on once it is committed; it stays with the account that locked the MELEK.
 
 == Status ==
-The engine layer runs on the testnet and bootstraps its APIS genesis there. APIS has no external market at the time of writing — where a live price would appear (for example on the [[Token Price Ticker]]) it is shown honestly as ''n/a'' rather than with an invented number.
+MELEK-Engine runs on the MELEK mainnet at engine.melek.salon. See [[MELEK-Engine]]. APIS has no external market at the time of writing — where a live price would appear (for example on the [[Token Price Ticker]]) it is shown honestly as ''n/a'' rather than with an invented number.
 
 == See also ==
 * [[Running Tokens on MELEK-Engine]]

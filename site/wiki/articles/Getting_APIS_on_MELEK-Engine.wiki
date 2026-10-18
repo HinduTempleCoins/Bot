@@ -1,0 +1,42 @@
+'''Getting APIS''' on [[MELEK-Engine]] takes four steps: wrap some MELEK, forever-lock it, let it mine, and claim. APIS is the engine's fee token; there was no pre-mine and nobody sells it, so mining is the way to get it. All of this happens on the MELEK mainnet.
+
+== Before you start ==
+You need a MELEK account with some MELEK in it. You earn MELEK by posting and curating; see [[Post Rewards on MELEK]]. Forever-locking is permanent, so only lock what you are content never to have back as MELEK.
+
+== Step 1: get WMELEK ==
+# Open your wallet at [https://wallet.melek.salon wallet.melek.salon] and choose '''Transfer'''.
+# Send MELEK to <code>wmelek-bridge</code>. Leave the memo '''empty''' to receive the WMELEK yourself, or put another MELEK account's name in the memo to send it to them.
+# Wait about a minute. The bridge waits for two blocks of confirmation, then credits the same amount of WMELEK to your engine wallet.
+# Check it with '''Balance lookup''' on [https://engine.melek.salon engine.melek.salon].
+Every WMELEK is backed by one MELEK held by <code>@wmelek-bridge</code>.
+
+== Step 2: forever-lock it ==
+# On [https://engine.melek.salon engine.melek.salon], go to the transaction builder and choose the action '''Forever-lock'''.
+# Enter the amount of WMELEK to lock.
+# Enter your account name and sign. Forever-lock moves value, so it needs your '''active''' key. The key is used only in your browser; or choose '''Build JSON''' and sign in your own wallet.
+The WMELEK is gone for good. In its place you get the same amount of '''APIS-Hash''': mining power that cannot be sent, sold or unlocked.
+
+== Step 3: let it mine ==
+The engine mines 1,000 APIS a day in total (the amount falls by 10% each year). Each account gets a share equal to its share of all APIS-Hash. With 1 APIS-Hash out of 10 in total, you mine 100 APIS a day. Check your mining power and what you have mined with the '''Mining''' lookup on the engine page.
+
+== Step 4: claim it ==
+Mined APIS waits until you claim it.
+# In the transaction builder, choose '''Claim mined APIS'''.
+# Enter your account name and sign. Claiming needs only your posting key.
+The claimed APIS lands in your engine wallet. Claim as often as you like; nothing is lost by waiting.
+
+== What APIS is for ==
+Creating a token on the engine burns APIS. See [[Running Tokens on MELEK-Engine]].
+
+== See also ==
+* [[MELEK-Engine]]
+* [[APIS]]
+* [[Running Tokens on MELEK-Engine]]
+* [[KulaSwap]]
+
+== Sources ==
+* [https://engine.melek.salon/contracts/workerbee engine.melek.salon/contracts/workerbee] (emission 1,000 APIS a day, 10% yearly decay, stake token WMELEK)
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot] (<code>engine/contracts/workerbee.mjs</code>, <code>integrations/wmelek-relayer-runner.mjs</code>)
+
+== Coverage ==
+The four steps from MELEK to APIS on the mainnet engine, checked 2026-10-18 (the bridge credited a deposit and a locked account showed mined APIS waiting to be claimed).

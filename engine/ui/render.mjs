@@ -68,10 +68,14 @@ a{color:var(--gold)}
 .alpha-badge{position:fixed;top:8px;left:8px;z-index:99;background:var(--gold);color:#1a1626;
   font:700 11px/1 system-ui,sans-serif;letter-spacing:.5px;text-transform:uppercase;
   padding:4px 8px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.enav{display:flex;flex-wrap:wrap;gap:6px 16px;max-width:1100px;margin:0 auto;padding:0 16px 10px}
+.enav a{color:var(--fg,#eee);text-decoration:none;font-weight:600;font-size:14px;padding:4px 0;border-bottom:2px solid transparent}
+.enav a:hover{border-bottom-color:var(--gold)}
+.q{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--gold);color:#1a1626!important;font:700 12px/1 system-ui,sans-serif;text-decoration:none;vertical-align:middle;margin-left:4px}
+.steps li{margin:8px 0;line-height:1.5}.links{margin:6px 0 0;padding-left:18px}.links li{margin:4px 0}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
 </style></head>
 <body>
-<div class="alpha-badge">Alpha</div>
 <header>
   <h1><span>MELEK</span>-Engine</h1>
   <div class="sub">Hive-Engine-style token layer for the MELEK chain · ${esc(netLabel)} ·
@@ -79,17 +83,41 @@ a{color:var(--gold)}
     sidechain id <code>${config.sidechainId}</code></div>
   <div class="sub" id="status">loading status…</div>
 </header>
+<nav class="enav" aria-label="MELEK-Engine">
+  <a href="/">Tokens</a><a href="/wallet">Wallet</a><a href="#get-apis">Get APIS</a><a href="#build">Create a token</a>
+  <a href="https://kula.money/">Trade on KulaSwap</a><a href="https://kula.money/bridge.html">Bridge</a>
+  <a href="https://witness.melek.salon/tokens">Witness School</a><a href="https://wiki.soapbox.community/wiki/MELEK-Engine">Learn</a>
+</nav>
 <main>
 
+  <div class="card" id="get-apis">
+    <h2>Get APIS, step by step <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine" target="_blank" rel="noopener" title="Help: getting APIS">?</a></h2>
+    <p class="sub">APIS is the engine's fee token: it pays to create a token. Nobody can buy it here; it is mined, like this.</p>
+    <ol class="steps">
+      <li><b>Have MELEK in your MELEK account.</b> You earn it by posting and curating on <a href="https://melek.salon">melek.salon</a>.
+        <a class="q" href="https://wiki.soapbox.community/wiki/Post_Rewards_on_MELEK" target="_blank" rel="noopener" title="Help: earning MELEK">?</a></li>
+      <li><b>Send MELEK to <code>@wmelek-bridge</code></b> from your wallet, with an empty memo. Within about a minute the same amount of
+        <b>WMELEK</b> appears in your engine wallet. (Put another account's name in the memo to send the WMELEK to them.)
+        <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine#step-1-get-wmelek" target="_blank" rel="noopener" title="Help: getting WMELEK">?</a></li>
+      <li><b>Forever-lock your WMELEK</b> with the builder below (action <i>Forever-lock</i>). This is permanent: the WMELEK never comes back.
+        You get the same amount of <b>APIS-Hash</b>, your mining power.
+        <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine#step-2-forever-lock-it" target="_blank" rel="noopener" title="Help: forever-lock">?</a></li>
+      <li><b>APIS mines for you.</b> 1,000 APIS a day is shared among everyone's APIS-Hash. Check yours under <i>Mining</i> below.
+        <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine#step-3-let-it-mine" target="_blank" rel="noopener" title="Help: mining">?</a></li>
+      <li><b>Claim it</b> with the builder below (action <i>Claim mined APIS</i>). Claimed APIS lands in your engine wallet.
+        <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine#step-4-claim-it" target="_blank" rel="noopener" title="Help: claiming">?</a></li>
+    </ol>
+  </div>
+
   <div class="card">
-    <h2>Tokens</h2>
+    <h2>Tokens <a class="q" href="https://wiki.soapbox.community/wiki/MELEK-Engine" target="_blank" rel="noopener" title="Help: MELEK-Engine tokens">?</a></h2>
     <table><thead><tr><th>Symbol</th><th>Name</th><th>Issuer</th>
       <th class="num">Supply</th><th class="num">Max</th><th class="num">Prec</th></tr></thead>
       <tbody>${rows || '<tr><td colspan=6>no tokens yet</td></tr>'}</tbody></table>
   </div>
 
   <div class="card">
-    <h2>Balance lookup</h2>
+    <h2>Balance lookup <a class="q" href="https://wiki.soapbox.community/wiki/MELEK-Engine#your-engine-wallet" target="_blank" rel="noopener" title="Help: balances">?</a></h2>
     <div class="grid">
       <div><label>Account</label><input id="balAcct" placeholder="hathor"></div>
       <div style="align-self:end"><button class="ghost" onclick="lookup()">Look up balances</button></div>
@@ -97,8 +125,8 @@ a{color:var(--gold)}
     <pre id="balOut" style="margin-top:14px">—</pre>
   </div>
 
-  <div class="card">
-    <h2>Create / Issue / Transfer — build a transaction</h2>
+  <div class="card" id="build">
+    <h2>Create / Issue / Transfer / Lock / Claim — build a transaction <a class="q" href="https://wiki.soapbox.community/wiki/Running_Tokens_on_MELEK-Engine" target="_blank" rel="noopener" title="Help: creating and running a token">?</a></h2>
     <p class="sub">This builds the exact <code>custom_json</code> for the MELEK chain.
     Your key is used <b>only in your browser</b> to sign &amp; broadcast — it is never sent to this server.</p>
     <label>Action</label>
@@ -107,12 +135,13 @@ a{color:var(--gold)}
       <option value="issue">tokens.issue — mint to an account (issuer only)</option>
       <option value="transfer">tokens.transfer — send tokens</option>
       <option value="stake">tokens.stake — stake tokens</option>
-      <option value="foreverLock">workerbee.foreverLock — PERMANENTLY lock ${esc(config.workerbee.stakeToken)} to mine ${genesis.feeToken}</option>
+      <option value="foreverLock">Forever-lock (workerbee.foreverLock) — PERMANENTLY lock ${esc(config.workerbee.stakeToken)} to mine ${genesis.feeToken}</option>
+      <option value="claim">Claim mined ${genesis.feeToken} (workerbee.claim)</option>
     </select>
     <div id="form"></div>
     <label>Your account (L1 username)</label><input id="acct" placeholder="hathor">
-    <label>Active private key (WIF) — stays in your browser <span class="warn">never sent to server</span></label>
-    <input id="wif" type="password" placeholder="5J… (testnet throwaway only)">
+    <label>Your private key (WIF): active key, or posting key for Claim. It stays in your browser <span class="warn">never sent to server</span></label>
+    <input id="wif" type="password" placeholder="5… your active key, or use Build JSON and sign in your own wallet">
     <div style="display:flex;gap:10px">
       <button onclick="buildOnly()" class="ghost">Build JSON (copy to wallet)</button>
       <button onclick="broadcast()">Sign &amp; broadcast (in browser)</button>
@@ -122,7 +151,7 @@ a{color:var(--gold)}
   </div>
 
   <div class="card">
-    <h2>Mining — WorkerBee (${genesis.feeToken})</h2>
+    <h2>Mining — WorkerBee (${genesis.feeToken}) <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine#step-3-let-it-mine" target="_blank" rel="noopener" title="Help: mining">?</a></h2>
     <p class="sub">There is <b>no pre-mine</b>. The only way to acquire <b>${genesis.feeToken}</b> is to
     <b>forever-lock ${esc(config.workerbee.stakeToken)}</b> (wrapped MELEK): the lock mints
     <b>${genesis.feeToken}-Hash</b> 1:1 — soulbound, non-transferable mining power — which mines
@@ -139,6 +168,35 @@ a{color:var(--gold)}
     <p class="sub">To forever-lock, use the builder above (action
     <code>workerbee.foreverLock</code>). Read: <a href="/contracts/workerbee">/contracts/workerbee</a> ·
     <a href="/contracts/workerbee/total">/total</a> · <a href="/contracts/workerbee/locks">/locks</a></p>
+  </div>
+
+  <div class="card" id="learn">
+    <h2>Learn and everything you need</h2>
+    <div class="grid">
+      <div><b>Wiki</b><ul class="links">
+        <li><a href="https://wiki.soapbox.community/wiki/MELEK-Engine">MELEK-Engine: tokens, WMELEK, APIS</a></li>
+        <li><a href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine">Getting APIS, step by step</a></li>
+        <li><a href="https://wiki.soapbox.community/wiki/Running_Tokens_on_MELEK-Engine">Creating and running your own token</a></li>
+        <li><a href="https://wiki.soapbox.community/wiki/APIS">APIS</a> · <a href="https://wiki.soapbox.community/wiki/KulaSwap">KulaSwap</a> · <a href="https://wiki.soapbox.community/wiki/Wrapped_Tokens">Wrapped tokens</a></li>
+      </ul></div>
+      <div><b>Witness School</b><ul class="links">
+        <li><a href="https://witness.melek.salon/tokens">Tokens on MELEK</a></li>
+        <li><a href="https://witness.melek.salon/dev/token">Build a token</a></li>
+        <li><a href="https://witness.melek.salon/academy">The academy</a></li>
+        <li><a href="https://witness.melek.salon/run">Run a witness</a> · <a href="https://witness.melek.salon/mine">Mine PRANA</a></li>
+      </ul></div>
+      <div><b>KulaSwap (the DEX, on PRANA)</b><ul class="links">
+        <li><a href="https://kula.money/">Swap, pool, farm, borrow, stake</a></li>
+        <li><a href="https://kula.money/bridge.html">Bridge VKBT and CURE to PRANA</a></li>
+        <li><a href="https://kula.money/learn.html">How KulaSwap works</a> · <a href="https://kula.money/learn.html#risk">Risks</a></li>
+        <li><a href="https://pranascan.soapbox.community/">PRANA explorer (verified contracts)</a></li>
+      </ul></div>
+      <div><b>MELEK</b><ul class="links">
+        <li><a href="https://wallet.melek.salon/">Your MELEK wallet</a></li>
+        <li><a href="https://melek.salon/account/signup.html">Create an account</a></li>
+        <li><a href="https://wiki.soapbox.community/wiki/Posting_on_MELEK">Posting on MELEK</a></li>
+      </ul></div>
+    </div>
   </div>
 
   <div class="card">
@@ -221,6 +279,7 @@ function renderForm(){
     foreverLock:'<p class="warn"><b>PERMANENT:</b> forever-locks '+STAKE_TOKEN+' with no unstake — '+
           'it never comes back. You receive soulbound APIS-Hash (mining power) 1:1 and mine '+FEE_TOKEN+'.</p>'+
           '<label>Amount of '+STAKE_TOKEN+' to forever-lock</label><input id="p_amount" placeholder="100">',
+    claim:'<p class="sub">Collects all the '+FEE_TOKEN+' your '+FEE_TOKEN+'-Hash has mined so far into your engine wallet. Nothing else to fill in.</p>',
   }[a];
   document.getElementById('form').innerHTML=f;
 }
@@ -237,6 +296,7 @@ function buildPayload(){
   if(a==='transfer')payload={symbol:g('p_symbol').toUpperCase(),to:g('p_to'),quantity:g('p_quantity')};
   if(a==='stake')payload={symbol:g('p_symbol').toUpperCase(),quantity:g('p_quantity')};
   if(a==='foreverLock')return {contractName:'workerbee',contractAction:'foreverLock',contractPayload:{amount:g('p_amount')}};
+  if(a==='claim')return {contractName:'workerbee',contractAction:'claim',contractPayload:{}};
   return {contractName:'tokens',contractAction:a,contractPayload:payload};
 }
 
@@ -255,7 +315,9 @@ async function broadcast(){
     if(!acct||!wif){out.textContent='enter account + key';return;}
     const client=new dhive.Client(RPC,{chainId:CHAIN_ID,addressPrefix:PREFIX});
     const key=dhive.PrivateKey.fromString(wif);
-    const op=['custom_json',{required_auths:[acct],required_posting_auths:[],
+    // claiming mined APIS needs only the posting key; everything else here is signed with the active key
+    const posting=json.contractName==='workerbee'&&json.contractAction==='claim';
+    const op=['custom_json',{required_auths:posting?[]:[acct],required_posting_auths:posting?[acct]:[],
       id:SIDECHAIN_ID,json:JSON.stringify(json)}];
     out.textContent='broadcasting…';
     const r=await client.broadcast.sendOperations([op],key);
