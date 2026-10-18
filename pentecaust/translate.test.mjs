@@ -122,3 +122,17 @@ test('labels are localized to the reader, English fallback', () => {
   assert.equal(translateLabel('xx'), 'Translate?');     // unknown → English
   assert.equal(originalLabel('de'), 'Original anzeigen');
 });
+
+test('a MyMemory out-of-quota warning is a failure, never shown as the translation', async () => {
+  const { translate: tr, __setFetch: setF } = await import('./translate.mjs');
+  setF(async () => ({ json: async () => ({ responseData: { translatedText: 'MYMEMORY WARNING: YOU USED ALL AVAILABLE FREE TRANSLATIONS FOR TODAY.' }, quotaFinished: true, responseStatus: 429 }) }));
+  const r = await tr({ text: 'Quota probe sentence one', to: 'es' });
+  assert.strictEqual(r.tr, null);
+  setF(async () => ({ json: async () => ({ responseData: { translatedText: 'MYMEMORY WARNING: quota' }, responseStatus: 200 }) }));
+  const r2 = await tr({ text: 'Quota probe sentence two', to: 'es' });
+  assert.strictEqual(r2.tr, null);
+  setF(async () => ({ json: async () => ({ responseData: { translatedText: 'Frase de prueba' }, responseStatus: 200 }) }));
+  const r3 = await tr({ text: 'Quota probe sentence one', to: 'es' });   // not cached as a failure: retries
+  assert.strictEqual(r3.tr, 'Frase de prueba');
+  setF(null);
+});

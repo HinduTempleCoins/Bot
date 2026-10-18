@@ -1090,6 +1090,8 @@ const TRANSLATE_JS = `(function(){
         .then(function(r){return r.json();}).then(function(j){var tr=(j&&j.translations)||[];for(var k=0;k<tr.length;k++)results[c[0]+k]=tr[k];}).catch(function(){});
     })).then(function(){
       store=[]; for(var i=0;i<ns.length;i++){var u=idx[ns[i].nodeValue.trim()];var t=(u!=null)?results[u]:null;if(t){store.push({node:ns[i],orig:ns[i].nodeValue});ns[i].nodeValue=t;}}
+      // nothing came back (e.g. the free engine's daily quota is used up): point at the Google Translate link
+      if(!store.length){ on=false; btn.disabled=false; btn.textContent=ASK[lang]||ASK.en; if(gt){gt.style.color='#d9a441';gt.style.textDecoration='underline';} return; }
       on=true; btn.disabled=false; btn.textContent=ORIG[lang]||ORIG.en;
     });
   }

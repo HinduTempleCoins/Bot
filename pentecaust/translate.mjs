@@ -120,8 +120,12 @@ async function callProvider(text, from, to) {
     const u = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent(langpair)}`;
     const r = await _fetch(u);
     const j = await r.json();
-    const t = j && j.responseData && j.responseData.translatedText;
-    return (typeof t === 'string' && t) ? t : null;
+    // Out of daily quota, MyMemory still answers 200 with the warning AS the "translation"
+    // ("MYMEMORY WARNING: YOU USED ALL AVAILABLE FREE TRANSLATIONS FOR TODAY…"). That is a failure, not text.
+    if (!j || j.quotaFinished === true || (j.responseStatus && Number(j.responseStatus) !== 200)) return null;
+    const t = j.responseData && j.responseData.translatedText;
+    if (typeof t !== 'string' || !t || /^\s*MYMEMORY WARNING/i.test(t)) return null;
+    return t;
   } catch { return null; }
 }
 
@@ -142,7 +146,7 @@ export async function translate({ text, to, from } = {}) {
   const out = await callProvider(original, source, target);
   // Treat an identical echo as "no translation" so the UI doesn't show a redundant duplicate line.
   const tr = (out && out.trim() && out.trim() !== original.trim()) ? out : null;
-  cacheSet(key, tr);
+  if (out != null) cacheSet(key, tr);   // a provider failure (null) is not cached — it retries next time
   return { text: original, tr, to: target, from: source };
 }
 
