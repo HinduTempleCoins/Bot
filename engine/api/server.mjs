@@ -125,7 +125,7 @@ function rateLimited(ip) {
 // mostly a JSON API, but it also serves four real HTML pages — those, and only those, go in the
 // sitemap. The JSON endpoints stay crawlable (they are public read-only data) but unlisted.
 const BASE_URL = (process.env.BASE_URL || (config.net === 'mainnet' ? 'https://engine.melek.salon' : 'https://engine.alpha.melek.salon')).replace(/\/$/, '');
-export const SITEMAP_PATHS = ['/', '/wallet', '/dtube', '/tools'];
+export const SITEMAP_PATHS = ['/', '/market', '/wallet', '/dtube', '/tools'];
 
 function send(res, code, body, type = 'application/json') {
   const payload = type === 'application/json' ? JSON.stringify(body) : body;
