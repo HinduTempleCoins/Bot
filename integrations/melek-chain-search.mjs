@@ -87,9 +87,10 @@ export async function searchMelek(query, opts = {}) {
   const postHits = posts.map((p) => ({ p, score: scorePost(p, ts) }))
     .filter((x) => x.score > 0).sort((a, b) => b.score - a.score).slice(0, k)
     .map(({ p, score }) => {
-      let tags = []; try { tags = JSON.parse(p.json_metadata || '{}').tags || []; } catch {}
+      let tags = [], image = ''; try { const md = JSON.parse(p.json_metadata || '{}'); tags = md.tags || []; image = (Array.isArray(md.image) ? md.image[0] : '') || ''; } catch {}
+      if (!/^https:\/\//.test(image)) image = (String(p.body || '').match(/https:\/\/\S+?\.(?:jpe?g|png|webp|gif)/i) || [''])[0];
       return { source: 'melek', kind: 'post', title: p.title || `@${p.author}/${p.permlink}`,
-        link: `${CONDENSER()}/@${p.author}/${p.permlink}`, author: p.author, tags,
+        link: `${CONDENSER()}/@${p.author}/${p.permlink}`, author: p.author, tags, image,
         snippet: snippetOf(p.body, ts), score };
     });
 
