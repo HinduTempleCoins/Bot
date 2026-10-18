@@ -43,3 +43,10 @@ test('the room page renders and escapes the topic', async () => {
   assert.ok(!p.body.includes('<script>x</script>'));
   assert.match(p.body, /#xss/);
 });
+
+test('?op=me lists only the channels the visitor operates (for the invite panel)', async () => {
+  await call('POST', '/channels', 'carol', { name: 'carols-room' });
+  const mine = JSON.parse((await call('GET', '/channels?op=me', 'carol')).body).channels.map((c) => c.name);
+  assert.deepEqual(mine, ['carols-room']);
+  assert.deepEqual(JSON.parse((await call('GET', '/channels?op=me', null)).body).channels, []);
+});
