@@ -18,6 +18,7 @@ import { createServer } from 'node:http';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { finishHtmlResponses } from '../../integrations/soapbox/page-meta.mjs';
 import { makePin, validatePin, pinsFromPost, gridHtml, markdownFor, isImageUrl, safeUrl, hostOf, PINBOARD_CSS, MAX_ALBUM } from '../../integrations/melek-pinboard.mjs';
 
 const PORT = +(process.env.PORT || 8201);
@@ -163,6 +164,7 @@ let _readPost = async () => null;
 export function __setPostReader(fn) { _readPost = fn || (async () => null); }
 
 export async function handler(req, res) {
+  finishHtmlResponses(res, { host: 'melek.salon', siteName: 'MELEK' });
   try {
     const url = new URL(req.url, BASE_URL || 'http://pin.local');
     let pth = url.pathname;

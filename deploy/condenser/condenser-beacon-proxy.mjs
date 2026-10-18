@@ -31,9 +31,16 @@ const BEACON_URL = process.env.ANALYTICS_BEACON_URL || 'https://analytics.soapbo
 // Remove any <script> element whose attributes/inline carry the GA property id.
 const GTAG_RE = /<script\b[^>]*G-63ZBEY1EVG[^>]*><\/script>/g;
 
-export function transformHtml(html, host = '') {
+export function transformHtml(html, host = '', reqPath = '') {
   let out = html.replace(GTAG_RE, '');
-  out = ensureSocialMeta(out, { card: cardForHost(host) });
+  // The condenser sets a canonical only on posts; every other page (feeds, profiles, the wallet) gets
+  // its own path, query dropped, so sorted/filtered variants fold into one URL.
+  const path = String(reqPath || '').split(/[?#]/)[0];
+  const self = host && path && /^[a-z0-9.-]+$/i.test(host) ? `https://${host.toLowerCase()}${path}` : '';
+  if (self && out.includes('</head>') && !/<link\b[^>]*\brel\s*=\s*["']?canonical/i.test(out.split('</head>')[0])) {
+    out = out.replace('</head>', `<link rel="canonical" href="${self.replace(/"/g, '%22').replace(/</g, '%3C')}"></head>`);
+  }
+  out = ensureSocialMeta(out, { card: cardForHost(host), url: self });
   if (BEACON_URL) out = ensureBeacon(out, BEACON_URL);
   return out;
 }
@@ -76,7 +83,7 @@ const server = http.createServer((req, res) => {
       try { str = body.toString('utf8'); } catch { str = null; }
       const outHeaders = { ...ur.headers };
       if (str != null) {
-        const transformed = transformHtml(str, String(req.headers.host || '').split(':')[0]);
+        const transformed = transformHtml(str, String(req.headers.host || '').split(':')[0], req.url);
         body = Buffer.from(transformed, 'utf8');
       }
       delete outHeaders['content-encoding'];   // we send identity
