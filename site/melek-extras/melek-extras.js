@@ -428,6 +428,8 @@
       row.appendChild(helpMark(f[1], f[2]));
       field.parentNode.insertBefore(row, field);
     });
+    var adv = [].filter.call(editor.querySelectorAll('.ReplyEditor__options a'), function (a) { return /advanced settings/i.test(a.textContent || ''); })[0];
+    if (adv && !adv.parentNode.querySelector('.melek-help')) adv.parentNode.insertBefore(helpMark('Post_Rewards_on_MELEK#choosing-a-payout', 'rewards and payout'), adv.nextSibling);
     var cat = d.querySelector('label[for="melek-category"]');
     if (cat && !cat.querySelector('.melek-help')) cat.appendChild(helpMark('Post_Categories_on_MELEK', 'categories'));
     var tools = d.querySelector('#melek-tools > div');

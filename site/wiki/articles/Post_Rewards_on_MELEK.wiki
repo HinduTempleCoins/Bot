@@ -7,10 +7,16 @@ Each upvote adds weight to a post. The weight depends on the voter's MELEK Power
 A post pays out exactly seven days after publication. Until then the post shows a pending amount, which can rise or fall as votes come in. In the last twelve hours before payout, new votes cannot raise a post's value (the upvote lockout), so a last-minute vote cannot change the result unchallenged.
 
 == Who gets the reward ==
-Half of a post's reward goes to its author and half to the curators who voted on it. The author's half is paid partly liquid (MELEK or MBD), which can be spent or sent, and partly as MELEK Power, staked weight that adds to your voting strength.
+Half of a post's reward goes to its author and half to the curators who voted on it. Posts written on melek.salon pay the author's half entirely as MELEK Power: staked weight that adds to your voting strength, and that can be powered down to liquid MELEK later. (Other apps can choose to pay part of the author's share in MBD.)
+
+== Choosing a payout ==
+In the post editor, the '''Rewards''' line under the post shows the payout setting, and '''Advanced Settings''' changes it:
+* '''Author rewards''': '''Power Up 100%''' (the author's half as MELEK Power) or '''Decline Payout''' (the post earns nothing; votes still lift it in the feeds).
+* '''Beneficiaries''': give a percentage of the author's reward to other accounts, for example a co-author or a project you support.
+Set these before publishing: the editor does not offer them when you edit a post later.
 
 == Claiming ==
-Rewards wait in your account until you claim them. Open your wallet and choose '''Redeem Rewards''' (or '''Claim''') to move them into your balance.
+Rewards wait in your account until you claim them. Open your wallet and choose '''Redeem Rewards (Transfer to Balance)'''.
 
 == Rewards are not dollars ==
 MELEK has no market price at present. A reward is an amount of MELEK, not a dollar value.
@@ -23,6 +29,7 @@ MELEK has no market price at present. A reward is an amount of MELEK, not a doll
 == Sources ==
 * MELEK chain configuration (<code>condenser_api.get_config</code>): STEEM_CASHOUT_WINDOW_SECONDS 604800 (7 days), STEEM_UPVOTE_LOCKOUT_SECONDS 43200 (12 hours).
 * MELEK post reward fund (<code>condenser_api.get_reward_fund</code>): percent_curation_rewards 5000 (50%).
+* melek.salon editor: posts are published with percent_steem_dollars 0 (all of the author's share as MELEK Power); payout choices Power Up 100% and Decline Payout.
 
 == Coverage ==
 How melek.salon posts earn MELEK, and how rewards are paid and claimed.
