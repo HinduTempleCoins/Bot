@@ -1,9 +1,12 @@
 // avatar-server.mjs — serves /u/:user/avatar[/:size] for the MELEK condenser, which was requesting them
 // and getting 404 everywhere (no avatar route existed), so no profile pictures ever showed.
 //
-// A user sets their picture in the Wallet → it lands in their account's json_metadata.profile.profile_image.
-// This service reads that from the chain and 302-REDIRECTS to it (the browser fetches it — no server-side
-// SSRF/proxy). When none is set, it returns a deterministic identicon PNG so every account still has a face.
+// A user sets their picture at melek.salon/account/profile.html (account_update2, posting key) → it lands in
+// posting_json_metadata.profile.profile_image; older wallets wrote json_metadata (account_update, active key).
+// This service reads posting_json_metadata first, then json_metadata, and 302-REDIRECTS to the image (the
+// browser fetches it — no server-side SSRF/proxy). When none is set, it returns a deterministic identicon PNG
+// so every account still has a face. Accounts are read with database_api.find_accounts: condenser_api
+// .get_accounts on this chain does NOT return posting_json_metadata, so posting-key profiles were invisible.
 // READ-ONLY, no keys, soft-fails (never throws; a bad account → identicon).
 //
 //   MELEK_RPC_URL=http://127.0.0.1:18090 AVATAR_PORT=7082 node integrations/avatar-server.mjs
@@ -41,25 +44,43 @@ export function identiconSvg(user, px = 128) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}"><rect width="${px}" height="${px}" fill="${bg}"/><g fill="${fg}">${rects}</g></svg>`;
 }
 
-/** Decide what to serve for an account object. Pure. → { redirect } | { identicon } */
-export function resolveAvatar(account, user, px) {
-  let img = '';
+/** profile_image from one metadata string, if it is a usable https URL. Pure. */
+export function profileImageFrom(metaStr) {
   try {
-    const meta = JSON.parse((account && (account.posting_json_metadata || account.json_metadata)) || '{}');
-    img = (meta.profile && meta.profile.profile_image) || '';
-  } catch { /* bad metadata → identicon */ }
-  if (/^https:\/\/[^\s"'<>]+$/i.test(img)) return { redirect: img };
+    const meta = JSON.parse(metaStr || '{}');
+    const img = meta && meta.profile && meta.profile.profile_image;
+    if (typeof img === 'string' && img.length <= 1024 && /^https:\/\/[^\s"'<>()\\]+$/i.test(img.trim())) return img.trim();
+  } catch { /* bad metadata → no image */ }
+  return '';
+}
+
+/** Decide what to serve for an account object. Pure. → { redirect } | { identicon }
+ *  posting_json_metadata wins (where the posting-key profile editor writes); json_metadata is the fallback,
+ *  field by field — a posting_json_metadata without a picture does not hide one set in json_metadata. */
+export function resolveAvatar(account, user, px) {
+  const img = profileImageFrom(account && account.posting_json_metadata) || profileImageFrom(account && account.json_metadata);
+  if (img) return { redirect: img };
   return { identicon: identiconSvg(user, px) };
 }
 
+async function rpc(method, params) {
+  const r = await _fetch(RPC(), {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+    signal: AbortSignal.timeout(6000),
+  });
+  return r.json();
+}
+
 async function fetchAccount(user) {
+  try {   // database_api carries posting_json_metadata
+    const j = await rpc('database_api.find_accounts', { accounts: [user] });
+    const a = j && j.result && j.result.accounts && j.result.accounts[0];
+    if (a) return a;
+  } catch { /* fall through */ }
   try {
-    const r = await _fetch(RPC(), {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'condenser_api.get_accounts', params: [[user]] }),
-    });
-    const j = await r.json();
-    return (j && j.result && j.result[0]) || null;
+    const j = await rpc('condenser_api.get_accounts', [[user]]);
+    return (j && Array.isArray(j.result) && j.result[0]) || null;
   } catch { return null; }
 }
 
@@ -72,14 +93,22 @@ export async function handler(req, res) {
     const account = await fetchAccount(p.user);
     const r = resolveAvatar(account, p.user, p.px);
     if (r.redirect) {
-      res.writeHead(302, { location: r.redirect, 'cache-control': 'public, max-age=600' });
+      res.writeHead(302, { location: r.redirect, 'cache-control': 'public, max-age=300' });
       return res.end();
     }
-    const sharpMod = await import('sharp');
-    const sharp = sharpMod.default || sharpMod;
-    const png = await sharp(Buffer.from(r.identicon)).png().toBuffer();
-    res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'public, max-age=3600' });
-    return res.end(png);
+    // short cache: someone who sets a picture should see it within minutes, not an hour later
+    let png = null;
+    try {   // PNG via sharp when installed (sharp is not a package.json dep); otherwise the SVG itself
+      const sharpMod = await import('sharp');
+      const sharp = sharpMod.default || sharpMod;
+      png = await sharp(Buffer.from(r.identicon)).png().toBuffer();
+    } catch { png = null; }
+    if (png) {
+      res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'public, max-age=300' });
+      return res.end(png);
+    }
+    res.writeHead(200, { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=300' });
+    return res.end(r.identicon);
   } catch (e) {
     res.writeHead(500); return res.end('avatar error');
   }
