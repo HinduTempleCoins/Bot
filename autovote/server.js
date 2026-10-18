@@ -6,8 +6,10 @@
  * in-browser session bootstrap.
  *
  * AUTH MODELS:
+ *   melek-signer — the ONLY login on MELEK chains: hosted redirect to MELEK-Signer
+ *                (/melek-signer/login → callback), revocable bearer token. Keyless.
  *   postingkey — username + posting WIF, validated on-chain, stored server-side.
- *                Least-preferred; testnet/throwaway only (MELEK default).
+ *                Least-preferred; NOT offered on MELEK chains (refused at /api/login).
  *   hivesigner — OAuth2 (Hive). Revocable bearer token used server-side so
  *                scheduled votes fire while the user is offline. Keyless.
  *   whalevault — browser-extension signing, ONLY while the tab is open. We hold
@@ -130,8 +132,12 @@ const server = http.createServer(async (req, res) => {
       const { chain, username, postingKey } = await readBody(req);
       const chainId = chain || config.defaultChain;
       if (!getChain(chainId)) return json(res, 400, { error: 'unknown chain' });
-      if (!chainSupportsAuth(chainId, 'postingkey'))
+      if (!chainSupportsAuth(chainId, 'postingkey')) {
+        // MELEK chains are MELEK-Signer only: refuse the WIF before it is ever read or stored.
+        if (chainSupportsAuth(chainId, 'melek-signer'))
+          return json(res, 400, { error: 'posting-key login is not offered on MELEK — use Login with MELEK (MELEK-Signer)', login: `/melek-signer/login?chain=${encodeURIComponent(chainId)}` });
         return json(res, 400, { error: 'posting-key login not enabled for this chain' });
+      }
       if (!username || !postingKey) return json(res, 400, { error: 'username and posting key required' });
       const acct = String(username).toLowerCase().trim();
       const c = new Chain(chainId);

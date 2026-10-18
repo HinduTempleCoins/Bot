@@ -32,8 +32,7 @@ import {
 } from './model.mjs';
 import { postTeamMessage, postDM, readTeam, readDM, inboxFor } from './messaging.mjs';
 import { renderText as embedText, EMBED_CSS } from '../integrations/maker-embeds.mjs';
-import { sessionFromReq, handler as authHandler, registerMethod } from './auth.mjs';
-import { makeMelekSignerVerify } from './melek-signer-login.mjs';
+import { sessionFromReq, handler as authHandler } from './auth.mjs';
 // Bounties. The board is keyed on `socialId`, not a MELEK account — which is exactly the messenger
 // handle: someone signs in with Google, gets '~go…', and earns from the first visit. linkWallet() is
 // the upgrade path when they later attach a real account. That is why this belongs HERE and not on a
@@ -913,19 +912,8 @@ async function initAuth(){const bar=$('authbar');
     +'<small class=mut style="flex-basis:100%">No MELEK account needed. You can attach one any time from your profile.</small>'
     +'<span style="flex-basis:100%;border-top:1px solid var(--bd);margin:6px 0"></span>'):'';
   bar.innerHTML=msgr+'<b>Welcome'+(email?(' '+E(email)):'')+'!</b> Or link this login to a MELEK account:'+
-   '<input id=linkAcct placeholder=your-melek-name style="width:150px;flex:0 0 auto" autocapitalize=off spellcheck=false>'+
-   '<input id=linkPw type=password placeholder="MELEK password" style="width:150px;flex:0 0 auto">'+
-   '<button class="btn primary" id=linkBtn>Link &amp; sign in</button>'+
-   '<small class=mut style="flex-basis:100%">Your password proves you own the account — it goes to the MELEK signer, never to '+E(email||'the social provider')+'.</small>';
-  $('linkAcct').value=_hintMe||'';
-  const doLink=async()=>{const a=$('linkAcct').value.trim().toLowerCase().replace(/^@/,'');const pw=$('linkPw').value;
-   if(!a)return alert('Enter your MELEK @name.');
-   const btn=$('linkBtn');btn.disabled=true;btn.textContent='Linking…';
-   const j=await api('/auth/link',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({claim:link,account:a,password:pw})});
-   btn.disabled=false;btn.textContent='Link & sign in';
-   if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not link');};
-  $('linkBtn').onclick=doLink;
-  $('linkPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLink();});
+   '<a class="btn primary" id=linkBtn href="/auth/melek-signer/start?link='+encodeURIComponent(link)+'">Login with MELEK &amp; link</a>'+
+   '<small class=mut style="flex-basis:100%">You sign in on the MELEK-Signer page — your password goes to the signer, never to this site or to '+E(email||'the social provider')+'.</small>';
   if($('msgrBtn'))$('msgrBtn').onclick=async()=>{
    const j=await api('/auth/messenger',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({claim:link})});
    if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not start a messenger session');};
@@ -964,7 +952,7 @@ async function initAuth(){const bar=$('authbar');
  const ready=((pj&&pj.providers)||[]).filter(p=>p.configured);
  const social=ready.map(p=>'<a class=btn href="/auth/'+E(p.id)+'">Continue with '+E(p.label)+'</a>').join('');
  bar.style.display='flex';bar.innerHTML='<span>Sign in:</span>'+
-  '<button class=btn id=mkBtn>Login with MELEK</button>'+
+  '<a class="btn primary" id=mkBtn href="/auth/melek-signer/start'+(_params.get('sso')?('?sso='+encodeURIComponent(_params.get('sso'))):'')+'">Login with MELEK</a>'+
   social+
   '<button class=btn id=otBtn>One-time code</button>'+
   (_params.get('sso')
@@ -972,11 +960,9 @@ async function initAuth(){const bar=$('authbar');
     : _params.get('switch')
       ? '<small class=mut>Signed out — pick the account to sign in as. Google will ask which one.</small>'
       : '<small class=mut>Messaging needs a verified MELEK login.</small>');
- $('otBtn').onclick=oneTime; $('mkBtn').onclick=melekLogin;}
-async function melekLogin(){const a=(prompt('Your MELEK @name:',_hintMe)||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
- const p=prompt('Your MELEK password:');if(!p)return;
- const r=await api('/auth/method/melek-signer',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:a,password:p})});
- if(r&&r.ok)location.href='/';else alert((r&&r.reason)||'login failed — check your @name and password');}
+ $('otBtn').onclick=oneTime;}
+// "Login with MELEK" is a plain link to /auth/melek-signer/start — the redirect flow. The password is typed
+// on the MELEK-Signer page, never here (no prompt(), no forwarding).
 async function oneTime(){const a=(me()||prompt('Your MELEK @name for a one-time login:',_hintMe)||'').trim().toLowerCase().replace(/^@/,'');if(!a)return;
  const r=await api('/auth/onetime',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:a})});
  if(!r||!r.ok){alert((r&&r.reason)||'could not request a code');return;}
@@ -1080,6 +1066,7 @@ if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
   // per-process random key and don't survive a restart (and dev-trust without it = no real auth at all).
   if (!process.env.PENTECAUST_SESSION_SECRET && !DEV_TRUST()) console.warn('[pentecaust] WARNING: PENTECAUST_SESSION_SECRET is unset — login sessions use a per-process random secret and will NOT survive a restart. Set it in production.');
   assertStartupSafe({ host: HOST });   // refuse to serve if a dev-trust flag is set in production (auth-bypass foot-gun)
-  registerMethod('melek-signer', makeMelekSignerVerify()); // "Login with MELEK" via the deployed signer (MELEK_SIGNER_URL)
+  // "Login with MELEK" is the MELEK-Signer REDIRECT flow (/auth/melek-signer/start → callback, in auth.mjs).
+  // No password-forwarding method is registered: Pentecaust never sees a MELEK password.
   createServer(handler).listen(PORT, HOST, () => console.log(`Pentecaust Messaging API + chat on http://${HOST}:${PORT} (${BASE_URL})${DEV_TRUST() ? ' — DEV_TRUST on (query-asserted identity; local only)' : ''}`));
 }

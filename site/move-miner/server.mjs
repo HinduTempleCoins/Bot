@@ -23,79 +23,35 @@ import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { PrivateKey } from '@hiveio/dhive';
 import { moveWeight, moveBudgetForEpoch, economySummary } from '../../integrations/games/move-economy.mjs';
 import { recordMine, standingFor, epochNow, forgetAccount } from '../../integrations/games/move-ledger.mjs';
 import { validAccountName } from '../../signup/welcome-grant.mjs';
+import { startLogin as signerStart, finishLogin as signerFinish, currentAccount, logoutCookie, signerSignupUrl, safeReturn } from '../../integrations/melek-signer-session.mjs';
 
 const PORT = +(process.env.PORT || 8142);
 const HOST = process.env.HOST || '127.0.0.1';
-const SIGNUP_URL = process.env.SIGNUP_URL || 'https://wallet.melek.salon/signup';
-// IN-APP account creation: the Move server derives the account's PUBLIC keys from username+password
-// (BLURT/Hive style — the password is the user's login+recovery, deterministic) and asks the testnet
-// faucet to create the account. Only PUBLIC keys leave this server; the private keys are transient
-// (derived to compute pubkeys, never stored, never logged). This is the seamless custodial-password model;
-// MELEK-Signer's /v1/account/create is the formal swap-in later (same contract).
-const FAUCET = process.env.MELEK_FAUCET || 'http://127.0.0.1:7790';
-const MELEK_PREFIX = process.env.MELEK_PREFIX || 'TST';
-const MELEK_RPC = process.env.MELEK_RPC || 'http://127.0.0.1:8090';
-let _fetch = globalThis.fetch;
-export function __setFetch(f) { _fetch = f; } // tests inject the faucet call
-
-function deriveAccountPubKeys(account, password) {
-  const pub = {};
-  for (const role of ['owner', 'active', 'posting', 'memo']) {
-    pub[role] = PrivateKey.fromLogin(account, password, role).createPublic(MELEK_PREFIX).toString();
-  }
-  return pub;
-}
-
-export async function createAccount({ username, password } = {}) {
-  const account = String(username || '').trim().toLowerCase();
-  if (!validAccountName(account)) return { ok: false, reason: 'pick a valid MELEK username (3–16 chars, a–z 0–9, no spaces)' };
-  if (!password || String(password).length < 8) return { ok: false, reason: 'password must be at least 8 characters' };
-  let pub; try { pub = deriveAccountPubKeys(account, password); } catch { return { ok: false, reason: 'could not derive keys' }; }
-  let j;
-  try {
-    const r = await _fetch(`${FAUCET}/faucet/create`, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ name: account, ownerPub: pub.owner, activePub: pub.active, postingPub: pub.posting, memoPub: pub.memo }),
-    });
-    j = await r.json().catch(() => ({ ok: false, reason: 'faucet-bad-response' }));
-  } catch { return { ok: false, reason: 'could not reach account service — try again' }; }
-  if (!j || !j.ok) return { ok: false, reason: (j && (j.reason === 'invalid-account-name' ? 'that username is taken or invalid' : j.reason)) || 'account creation failed' };
-  return { ok: true, account };
-}
-// Read an account's CURRENT on-chain posting key (condenser_api.get_accounts) — used to prove ownership
-// before deleting data. Soft-fails to null (never throws) so the handler can return a clean reason.
-async function onchainPostingKey(account) {
-  try {
-    const r = await _fetch(MELEK_RPC, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ jsonrpc: '2.0', method: 'condenser_api.get_accounts', params: [[account]], id: 1 }),
-    });
-    const j = await r.json().catch(() => null);
-    const acct = j && j.result && j.result[0];
-    const ka = acct && acct.posting && acct.posting.key_auths && acct.posting.key_auths[0];
-    return (ka && ka[0]) || null;
-  } catch { return null; }
-}
+// SIGN IN WITH MELEK — the MELEK-Signer redirect flow. Move never takes a password and never derives a key:
+// sign-in happens on the signer's own page (signer.melek.salon/oauth2/authorize) and account creation on the
+// signer's /signup page. The old in-app "username + password -> server derives keys -> faucet" path is retired
+// (operator directive: "Make sure Melek Signer signs people into everything").
+const MOVE_BASE_URL = (process.env.MOVE_BASE_URL || 'https://move.melek.salon').replace(/\/$/, '');
+const SIGNER_CLIENT_ID = process.env.MOVE_SIGNER_CLIENT || 'melek-move';
+const SIGNER_REDIRECT = process.env.MOVE_SIGNER_REDIRECT_URI || `${MOVE_BASE_URL}/auth/melek-signer/callback`;
+const SESSION_DOMAIN = process.env.MOVE_SESSION_DOMAIN ?? '.melek.salon';
+const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(f) { _fetch = typeof f === 'function' ? f : ((...a) => globalThis.fetch(...a)); } // tests inject the signer token exchange
+/** The walker's verified MELEK account (signer session cookie), or null. */
+export function moveUser(req) { return currentAccount(req && req.headers && req.headers.cookie); }
 
 // ACCOUNT / DATA DELETION (Google Play requirement). The only data we hold is the off-chain reward standing,
-// so deletion = erase the account from the ledger (move-ledger forgetAccount). Ownership is PROVEN first:
-// the password must derive the same posting key the account currently has on-chain — so only the owner can
-// clear their own data, and nobody can grief-delete another walker's pending rewards. The public chain
-// account and the user's own funds are untouched (we never held them; the chain is a public ledger).
-export async function deleteAccount({ username, password } = {}) {
-  const account = String(username || '').trim().toLowerCase();
-  if (!validAccountName(account)) return { ok: false, reason: 'enter a valid MELEK account name' };
-  if (!password) return { ok: false, reason: 'enter your password to confirm this is your account' };
-  let derivedPosting;
-  try { derivedPosting = PrivateKey.fromLogin(account, password, 'posting').createPublic(MELEK_PREFIX).toString(); }
-  catch { return { ok: false, reason: 'could not verify — check your password' }; }
-  const onchain = await onchainPostingKey(account);
-  if (!onchain) return { ok: false, reason: 'account not found on the MELEK chain' };
-  if (onchain !== derivedPosting) return { ok: false, reason: 'password does not match this account' };
+// so deletion = erase the account from the ledger (move-ledger forgetAccount). Ownership is PROVEN by a
+// MELEK-Signer session for that account (the route passes moveUser(req)) — so only the owner can clear
+// their own data, and nobody can grief-delete another walker's pending rewards. The public chain account
+// and the user's own funds are untouched (we never held them; the chain is a public ledger).
+export async function deleteAccount({ account: proven } = {}) {
+  const account = String(proven || '').trim().toLowerCase();
+  if (!validAccountName(account)) return { ok: false, reason: 'sign in with MELEK first to prove this is your account' };
   const r = forgetAccount(account);
   return {
     ok: true, account, removed: r.removed,
@@ -192,15 +148,13 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </header>
 
 <div class=card id=createCard>
-  <h2>✨ Create your MELEK account</h2>
-  <div class=sub style="text-align:left;margin:0 0 10px">New here? Make your account right in the app — pick a name and a password and you're earning. Your account also unlocks MELEK chat, mail, and your wallet. No seed phrase to write down.</div>
-  <label for=suUser>Username</label>
-  <input id=suUser placeholder="your-melek-name" autocapitalize=off autocomplete=off spellcheck=false>
-  <label for=suPass style="margin-top:10px">Password <span style="color:var(--mut)">(how you log in &amp; recover — keep it safe)</span></label>
-  <input id=suPass type=password placeholder="at least 8 characters" autocomplete=new-password>
-  <button id=suBtn class=primary style="margin-top:12px">Create my account</button>
-  <div class=out id=suOut></div>
-  <div class=hint>Already have an account? <a href="#" id=haveAcct>Use my username →</a></div>
+  <h2>✨ Sign in with MELEK</h2>
+  <div class=sub style="text-align:left;margin:0 0 10px">One MELEK account — your rewards, chat, mail and wallet. You sign in on the MELEK-Signer page; your password never touches this app.</div>
+  <a id=signinBtn href="/auth/melek-signer/start" rel=nofollow style="display:block;text-align:center;margin-top:12px;padding:12px;border-radius:10px;background:#d9a441;color:#0b0d12;font-weight:700;text-decoration:none">Sign in with MELEK</a>
+  <h2 style="margin-top:16px">Create your MELEK account</h2>
+  <div class=sub style="text-align:left;margin:0 0 10px">New here? Make your account on MELEK-Signer — it takes a minute, then come back and sign in.</div>
+  <a id=signupBtn href="${esc(signerSignupUrl())}" rel=nofollow style="display:block;text-align:center;padding:12px;border-radius:10px;border:1px solid #d9a441;color:#d9a441;font-weight:700;text-decoration:none">Create my account on MELEK-Signer</a>
+  <div class=hint>Just want to type a username for rewards? <a href="#" id=haveAcct>Use my username →</a></div>
 </div>
 
 <div class=card id=acctCard style="display:none">
@@ -208,7 +162,7 @@ export const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
   <input id=account placeholder="your-melek-name" autocomplete=off autocapitalize=off spellcheck=false>
   <label for=stake style="margin-top:10px">MELEK you hold (your stake — boosts your share, like vote weight)</label>
   <input id=stake type=number inputmode=numeric placeholder="0" autocomplete=off>
-  <div class=hint>New here? <a href="#" id=needAcct>Create an account →</a></div>
+  <div class=hint id=whoHint>New here? <a href="#" id=needAcct>Sign in or create an account →</a></div>
 </div>
 
 <div class=card>
@@ -245,28 +199,16 @@ const $=id=>document.getElementById(id);
 const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const W=$('account'); W.value=localStorage.getItem('melekmove_account')||''; W.addEventListener('input',()=>localStorage.setItem('melekmove_account',W.value.trim().toLowerCase()));
 
-// ---- in-app account creation (no web bounce): username + password → server derives keys → faucet creates ----
+// ---- Sign in with MELEK: the MELEK-Signer redirect flow (no password, no key ever on this app) ----
 function showCreate(){$('createCard').style.display='';$('acctCard').style.display='none';}
 function showAcct(){$('createCard').style.display='none';$('acctCard').style.display='';}
 (W.value ? showAcct : showCreate)();
 $('haveAcct').onclick=e=>{e.preventDefault();showAcct();W.focus();};
 $('needAcct').onclick=e=>{e.preventDefault();showCreate();};
-$('suBtn').onclick=async()=>{
-  const u=($('suUser').value||'').trim().toLowerCase(), p=$('suPass').value||'';
-  if(u.length<3){$('suOut').innerHTML='<span class=err>Pick a username (3–16 letters/numbers).</span>';return;}
-  if(p.length<8){$('suOut').innerHTML='<span class=err>Password must be at least 8 characters.</span>';return;}
-  $('suBtn').disabled=true;$('suOut').textContent='creating your account on the MELEK chain…';
-  try{
-    const r=await fetch('/api/create-account',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({username:u,password:p})});
-    const j=await r.json();
-    if(j&&j.ok){
-      localStorage.setItem('melekmove_account',j.account);W.value=j.account;
-      $('suOut').innerHTML='<span class=reward>✓ Account @'+E(j.account)+' created — you\\'re ready to earn!</span>';
-      setTimeout(showAcct,1200);
-    }else{$('suOut').innerHTML='<span class=err>'+E((j&&j.reason)||'could not create account')+'</span>';}
-  }catch(e){$('suOut').innerHTML='<span class=err>Network error — try again.</span>';}
-  $('suBtn').disabled=false;
-};
+// Signed in -> the verified account is where rewards go; lock the field to it.
+fetch('/api/me').then(r=>r.json()).then(j=>{if(j&&j.account){W.value=j.account;W.readOnly=true;
+  localStorage.setItem('melekmove_account',j.account);showAcct();
+  $('whoHint').innerHTML='Signed in as <b>@'+E(j.account)+'</b> · <a href="/auth/logout">Sign out</a>';}}).catch(()=>{});
 fetch('/health').then(r=>r.json()).then(j=>{const m=$('mode');m.textContent=j.live?'LIVE':'DEMO';m.className='mode '+(j.live?'live':'demo');
   if(j.geoPrecision>0){GEOP=j.geoPrecision;} drawMap();}).catch(()=>{});
 // MELEK Graphene account name: lowercase, dot segments, 3-16 each, no leading/trailing/double hyphen.
@@ -428,7 +370,8 @@ export const PRIVACY = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </div></body></html>`;
 
 // Account & data deletion page — REQUIRED by Google Play for apps that support account creation.
-// Lets a user request erasure of the only data we hold (their reward standing), proving ownership by password.
+// Lets a user request erasure of the only data we hold (their reward standing), proving ownership by a
+// MELEK-Signer sign-in (no password ever reaches this app).
 export const DELETE_PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><title>MELEK Move — Delete Account & Data</title>
 <style>body{margin:0;background:#0b0d12;color:#e9eef5;font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:24px}
@@ -439,12 +382,10 @@ button{margin-top:18px;width:100%;padding:13px;border:0;border-radius:10px;backg
 <body><div class=w>
 <h1>Delete your MELEK Move account & data</h1>
 <p class=mut>Developer: <b>SoapBox / MELEK</b>. App: <b>MELEK Move</b> (community.soapbox.move).</p>
-<p>Enter your MELEK account name and password to <b>permanently erase the data we hold about you</b> — your reward standing (your share of the pool). We confirm it is your account, then delete it from our records.</p>
-<form id=f onsubmit="return del(event)">
-<label for=u>MELEK account name</label>
-<input id=u autocomplete=off autocapitalize=off spellcheck=false placeholder="yourname">
-<label for=p>Password</label>
-<input id=p type=password autocomplete=off placeholder="your password">
+<p>Sign in with MELEK to <b>permanently erase the data we hold about you</b> — your reward standing (your share of the pool). Signing in on the MELEK-Signer page proves it is your account (your password goes to the signer, never to us); then we delete it from our records.</p>
+<p id=who class=mut>Checking sign-in…</p>
+<p><a id=signin href="/auth/melek-signer/start?return=/delete" rel=nofollow style="display:block;text-align:center;padding:13px;border-radius:10px;background:#d9a441;color:#0b0d12;font-weight:700;text-decoration:none">Sign in with MELEK</a></p>
+<form id=f onsubmit="return del(event)" style="display:none">
 <button type=submit>Permanently delete my data</button>
 </form>
 <div id=out></div>
@@ -458,9 +399,12 @@ button{margin-top:18px;width:100%;padding:13px;border:0;border-radius:10px;backg
 <p><a href="/privacy">Privacy Policy</a> · <a href="/">← Back to MELEK Move</a></p>
 </div>
 <script>
-async function del(e){e.preventDefault();var o=document.getElementById('out');o.style.display='block';o.textContent='Verifying…';
-try{var r=await fetch('/api/delete-account',{method:'POST',headers:{'content-type':'application/json'},
-body:JSON.stringify({username:document.getElementById('u').value.trim().toLowerCase(),password:document.getElementById('p').value})});
+fetch('/api/me').then(function(r){return r.json();}).then(function(j){var w=document.getElementById('who');
+if(j&&j.account){w.textContent='Signed in as @'+j.account+' — this is the account whose data will be erased.';
+document.getElementById('signin').style.display='none';document.getElementById('f').style.display='';}
+else{w.textContent='Not signed in.';}}).catch(function(){});
+async function del(e){e.preventDefault();var o=document.getElementById('out');o.style.display='block';o.textContent='Deleting…';
+try{var r=await fetch('/api/delete-account',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});
 var j=await r.json();o.textContent=j.ok?('✓ Deleted. '+(j.note||'')):('✕ '+(j.reason||'could not delete'));}
 catch(_){o.textContent='✕ Could not reach the server — try again.';}return false;}
 </script></body></html>`;
@@ -500,20 +444,33 @@ export async function handler(req, res) {
     if (path === '/privacy' || path === '/privacy.html') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(PRIVACY); }
     if (path === '/delete' || path === '/delete-account') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(DELETE_PAGE); }
 
-    // ACCOUNT / DATA DELETION (Play requirement): prove ownership by password, then erase off-chain standing.
+    // ── Sign in with MELEK (MELEK-Signer redirect flow) ──
+    if (path === '/auth/melek-signer/start' || path === '/login') {
+      const st = signerStart({ clientId: SIGNER_CLIENT_ID, redirectUri: SIGNER_REDIRECT, returnTo: url.searchParams.get('return') || '/' });
+      if (!st.ok) return json(res, 503, { ok: false, reason: st.reason });
+      res.writeHead(302, { location: st.location, 'set-cookie': st.cookie, 'cache-control': 'no-store' }); return res.end();
+    }
+    if (path === '/auth/melek-signer/callback') {
+      const r = await signerFinish({ query: url.searchParams, cookieHeader: req.headers && req.headers.cookie, clientId: SIGNER_CLIENT_ID, domain: SESSION_DOMAIN || undefined }, _fetch);
+      if (!r.ok) { res.writeHead(r.status, { 'content-type': 'text/html; charset=utf-8', 'set-cookie': r.cookies, 'cache-control': 'no-store' }); return res.end(`<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Sign in</title><p>Sign in failed: ${esc(r.reason)}</p><p><a href="/auth/melek-signer/start">Try again</a> · <a href="/">Back to MELEK Move</a></p>`); }
+      res.writeHead(302, { location: r.returnTo, 'set-cookie': r.cookies, 'cache-control': 'no-store' }); return res.end();
+    }
+    if (path === '/auth/logout' || path === '/logout') {
+      res.writeHead(302, { location: safeReturn(url.searchParams.get('return')), 'set-cookie': logoutCookie({ domain: SESSION_DOMAIN || undefined }), 'cache-control': 'no-store' }); return res.end();
+    }
+    if (path === '/api/me') return json(res, 200, { ok: true, account: moveUser(req), signup: signerSignupUrl() });
+    // ACCOUNT / DATA DELETION (Play requirement): the MELEK-Signer session proves ownership; erase off-chain standing.
     if (path === '/api/delete-account' && method === 'POST') {
-      let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
-      const out = await deleteAccount({ username: b.username || b.account, password: b.password });
+      const who = moveUser(req);
+      if (!who) return json(res, 401, { ok: false, reason: 'sign in with MELEK first to prove this is your account', login: '/auth/melek-signer/start?return=/delete' });
+      const out = await deleteAccount({ account: who });
       return json(res, out.ok ? 200 : 422, out);
     }
-
-    // IN-APP account creation: username + password → derive pubkeys → faucet creates the on-chain account.
-    if (path === '/api/create-account' && method === 'POST') {
-      let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
-      const out = await createAccount({ username: b.username || b.account, password: b.password });
-      return json(res, out.ok ? 200 : 422, out);
+    // RETIRED: in-app account creation (server-side password -> key derivation). Accounts are created on
+    // MELEK-Signer's /signup page; nothing here ever sees a password again.
+    if (path === '/api/create-account') {
+      return json(res, 410, { ok: false, reason: 'account creation moved to MELEK-Signer — create your account there, then Sign in with MELEK', signup: signerSignupUrl(), login: '/auth/melek-signer/start' });
     }
-
     // a walker's current standing this hour (read-only)
     if (path === '/api/standing') {
       const account = (url.searchParams.get('account') || '').trim().toLowerCase();
@@ -532,8 +489,9 @@ export async function handler(req, res) {
     // THE EARN: geo-mine → stake-weighted move-weight → recorded into this hour's MELEK pool ledger.
     if (path === '/api/geomine' && method === 'POST') {
       let b = {}; try { b = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, reason: 'bad json' }); }
-      const account = String(b.account || b.player || '').trim().toLowerCase();
-      if (!validAccountName(account)) return json(res, 422, { ok: false, reason: 'account must be a valid MELEK account name (create one at signup)' });
+      // A signed-in walker's rewards always go to their VERIFIED account; otherwise the typed recipient name.
+      const account = moveUser(req) || String(b.account || b.player || '').trim().toLowerCase();
+      if (!validAccountName(account)) return json(res, 422, { ok: false, reason: 'account must be a valid MELEK account name (sign in with MELEK, or create one on MELEK-Signer)' });
       let cell;
       if (b.cellId != null) { try { cell = BigInt(b.cellId); } catch { cell = null; } }
       else if (b.lat != null && b.lng != null) cell = cellIdFor(b.lat, b.lng);

@@ -22,9 +22,14 @@ test('chain registry: melek mainnet is default; melek-testnet is testnet; hive/s
 });
 
 test('auth methods per chain match operator policy', () => {
-  // MELEK: MELEK-Signer (keyless, our own signer) preferred, throwaway posting key as fallback.
-  assert.deepEqual(getChain('melek-testnet').authMethods, ['melek-signer', 'postingkey']);
-  assert.equal(chainSupportsAuth('melek-testnet', 'melek-signer'), true);
+  // MELEK chains: MELEK-Signer ONLY — no posting-key WIF login.
+  for (const id of ['melek', 'melek-testnet']) {
+    assert.deepEqual(getChain(id).authMethods, ['melek-signer'], id);
+    assert.equal(chainSupportsAuth(id, 'melek-signer'), true, id);
+    assert.equal(chainSupportsAuth(id, 'postingkey'), false, `${id} refuses posting-key login`);
+  }
+  // Other chains keep the posting-key fallback.
+  assert.equal(chainSupportsAuth('hive', 'postingkey'), true);
   // MELEK-Signer is MELEK-only (it knows our chain); not offered on Hive/Steem/Blurt.
   assert.equal(chainSupportsAuth('hive', 'melek-signer'), false);
   // Hive: HiveSigner works.

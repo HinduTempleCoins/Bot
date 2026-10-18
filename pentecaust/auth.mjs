@@ -43,6 +43,7 @@ import { validAccountName } from '../signup/welcome-grant.mjs';
 import { connectMailbox } from './connect/mailbox.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 import { mintTicket, returnUrlOk } from './sso.mjs';
+import { signerAuthorizeUrl, completeSignerLogin } from './melek-signer-login.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
@@ -65,6 +66,7 @@ const STATE_TTL_MS = Number(env('PENTECAUST_OAUTH_STATE_TTL_MS', String(10 * 60 
 const ONETIME_TTL_MS = Number(env('PENTECAUST_ONETIME_TTL_MS', String(15 * 60 * 1000))) || 15 * 60 * 1000;                    // one-time code lifetime
 const SESSION_COOKIE = 'pentecaust_session';
 const STATE_COOKIE = 'pentecaust_oauth_state';
+const MS_STATE_COOKIE = 'pentecaust_ms_state';   // MELEK-Signer redirect-flow CSRF state (signed, HttpOnly)
 
 const now = (opts) => (opts && opts.now != null ? opts.now : Date.now());
 
@@ -572,7 +574,9 @@ export function hasMethod(name) { return _methods.has(name); }
 //   GET  /auth/:provider/callback  → verify state (CSRF), exchange code, link account, set session, 302 /
 //   POST /auth/onetime  {account}            → requestOneTime  (testnet returns the code)
 //   POST /auth/onetime  {code}               → redeemOneTime → set session
-//   POST /auth/method/:name {…}    → run a registered method (e.g. melek-signer) → set session
+//   GET  /auth/melek-signer/start  → 302 to the hosted MELEK-Signer page (Login with MELEK — primary)
+//   GET  /auth/melek-signer/callback → verify state, exchange code, set session (+ sso / link), 302
+//   POST /auth/method/:name {…}    → run a registered method → set session (no password method is registered)
 //   GET  /auth/logout              → clear the session cookie, 302 /
 //   GET  /auth/me                  → current session { account, method } or 401
 export async function handler(req, res) {
@@ -688,29 +692,19 @@ export async function handler(req, res) {
       // complete: OAuth succeeded, the account-picker appeared, "Link & sign in" returned 403, and the link
       // store stayed empty forever. The gate was correct and the door was missing.
       //
-      // Two ways to prove the MELEK side, both of which close the takeover hole:
-      //   1. an ACTIVE SESSION — you already proved this account (MELEK-Signer); link the social to it.
-      //   2. account + password verified through the registered melek-signer method, in this request.
-      // Anything else is still refused.
+      // The proof is an ACTIVE SESSION — you already proved this account through MELEK-Signer. (The other
+      // way to link, with no session yet, is GET /auth/melek-signer/start?link=<claim>: the signer proves
+      // the account on ITS page and the callback binds the claim.) Passwords are never accepted here —
+      // Pentecaust does not see MELEK passwords at all. Anything else is refused.
       const linkSession = sessionFromReq(req);
       let proven = linkSession && linkSession.account ? _acct(linkSession.account) : null;
-
-      if (!proven && b.account && b.password) {
-        const verify = _methods.get('melek-signer');
-        if (verify) {
-          try {
-            const got = await verify(req, { account: b.account, password: b.password });
-            if (got && _acct(got) === _acct(b.account)) proven = _acct(got);
-          } catch { proven = null; }
-        }
-      }
 
       // Dev-trust keeps the old demo behaviour on the testnet store; production now has a real path.
       if (!proven && honorDevTrust(req, DEV_TRUST())) proven = _acct(b.account);
 
       if (!proven) {
         return send(403, { ok: false,
-          reason: 'sign in to that MELEK account first (or send account + password) to prove you own it' });
+          reason: 'sign in with MELEK (MELEK-Signer) first to prove you own that account', login: '/auth/melek-signer/start' });
       }
       // An explicitly named account must MATCH the proven one — never silently link somewhere else.
       if (b.account && _acct(b.account) !== proven) {
@@ -736,6 +730,44 @@ export async function handler(req, res) {
       if (!token) return send(500, { ok: false, reason: 'could not create a messenger identity' });
       return send(200, { ok: true, account: handle, messenger: true },
         { 'set-cookie': setCookie(SESSION_COOKIE, token, SESSION_TTL_MS) });
+    }
+
+    // ── LOGIN WITH MELEK — the MELEK-Signer REDIRECT flow (the primary login) ─────────────────────────
+    // GET /auth/melek-signer/start[?sso=<sibling return url>][&link=<oauth-claim>]
+    //   → signed CSRF state in an HttpOnly cookie, 302 to the hosted signer page. The password is typed
+    //     THERE; nothing secret passes through Pentecaust. `sso` survives the round-trip so a Pact / Herald /
+    //     Connect login bounces straight back; `link` binds a first social login to the proven account.
+    // GET /auth/melek-signer/callback?code&state → verify state, exchange code → session (+ link / sso).
+    if (method === 'GET' && segs[1] === 'melek-signer' && segs.length === 3 && segs[2] === 'start') {
+      const nonce = b64url(randomBytes(16));
+      const sso = q.get('sso') && returnUrlOk(q.get('sso')).ok ? q.get('sso') : '';
+      const lc = q.get('link') ? verifyToken(q.get('link')) : null;
+      const link = lc && lc.kind === 'oauth-claim' && lc.exp && now() < Number(lc.exp) ? q.get('link') : '';
+      const st = signToken({ kind: 'melek-signer', nonce, sso, link, exp: now() + STATE_TTL_MS });
+      let dest;
+      try { dest = signerAuthorizeUrl({ state: nonce }); } catch { dest = ''; }
+      if (!dest) return send(503, { ok: false, reason: 'MELEK-Signer not configured' });
+      return redirect(dest, { 'set-cookie': setCookie(MS_STATE_COOKIE, st, STATE_TTL_MS) });
+    }
+    if (method === 'GET' && segs[1] === 'melek-signer' && segs.length === 3 && segs[2] === 'callback') {
+      const clear = clearCookie(MS_STATE_COOKIE);
+      const sp = verifyToken(readCookie(req, MS_STATE_COOKIE));
+      const state = q.get('state') || '';
+      // CSRF guard: the state the signer echoes MUST equal the nonce in OUR signed, unexpired cookie.
+      if (!sp || sp.kind !== 'melek-signer' || !sp.nonce || !state || state !== sp.nonce || !sp.exp || now() >= Number(sp.exp)) {
+        return send(403, { ok: false, reason: 'state mismatch (csrf)' }, { 'set-cookie': clear });
+      }
+      if (q.get('error')) return redirect(`/?login_error=${encodeURIComponent(String(q.get('error')).slice(0, 64))}`, { 'set-cookie': clear });
+      const acct = await completeSignerLogin(q.get('code'), _fetch);
+      if (!acct) return send(502, { ok: false, reason: 'MELEK-Signer code exchange failed' }, { 'set-cookie': clear });
+      const token = makeSession(acct, 'melek-signer');
+      if (!token) return send(400, { ok: false, reason: 'invalid account' }, { 'set-cookie': clear });
+      // A pending first social login binds to the account the signer just proved. The MELEK login stands
+      // either way; a failed bind (e.g. that social is already linked elsewhere) is reported, not fatal.
+      const linked = sp.link ? completeOAuthLink(sp.link, acct) : null;
+      const back = sp.sso && returnUrlOk(sp.sso).ok ? `/auth/sso?return=${encodeURIComponent(sp.sso)}`
+        : linked && !linked.ok ? `/?link_error=${encodeURIComponent(linked.reason || 'link failed')}` : '/';
+      return redirect(back, { 'set-cookie': [setCookie(SESSION_COOKIE, token, SESSION_TTL_MS), clear] });
     }
 
     // POST /auth/method/:name — a registered method (e.g. melek-signer)
