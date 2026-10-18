@@ -53,12 +53,16 @@ const STYLE = `<style>
  .card{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
  .lead{color:var(--mut);max-width:60ch}
  .row{display:flex;gap:8px;flex-wrap:wrap}.row>input{flex:1;min-width:180px}
- input,select{padding:9px 11px;border:1px solid var(--bd);border-radius:9px;background:#0e131b;
+ input,select,textarea{padding:9px 11px;border:1px solid var(--bd);border-radius:9px;background:#0e131b;
    color:var(--fg);font:inherit}
  .item{display:flex;gap:10px;align-items:center;border:1px solid var(--bd);border-radius:11px;
    padding:10px 12px;margin-top:8px}
  .chip{font-size:11px;border:1px solid var(--bd);border-radius:999px;padding:2px 8px;color:var(--mut)}
  .mut{color:var(--mut)}
+ textarea{width:100%;min-height:90px;resize:vertical}
+ .lapsed{border-color:var(--ember);color:var(--ember)}
+ h2{font-size:18px;margin:4px 0 8px}h3{font-size:15px;margin:12px 0 4px}
+ .status{color:var(--gold);min-height:1.2em}
  footer{color:var(--mut);font-size:12px;margin-top:22px}
  a{color:var(--gold)}
 </style>`;
@@ -129,7 +133,7 @@ async function load(){const j=await api('/groups');const gs=(j&&j.groups)||[];
   const d=g.dues?(' · '+(g.dues.currency==='MELEK'?(g.dues.amount/1000).toFixed(3):(g.dues.amount/100).toFixed(2))+' '+E(g.dues.currency)+(g.dues.period==='once'?' once':'/'+E(g.dues.period==='yearly'?'year':'month'))):'';
   return '<div class=item><div style="flex:1"><b>'+E(g.name)+'</b> <span class=chip>'+E(g.joinPolicy)+'</span>'+d
    +'<br><span class=mut>'+E(g.about||'')+' '+(g.members?g.members.length:0)+' member(s)</span></div>'
-   +(ids.has(g.id)?'<span class=chip>joined</span>':(g.joinPolicy==='dues'&&g.dues&&g.dues.currency==='MELEK'
+   +(ids.has(g.id)?'<span class=chip>joined</span> <a class="btn primary" href="/g/'+encodeURIComponent(g.id)+'">Open</a>':(g.joinPolicy==='dues'&&g.dues&&g.dues.currency==='MELEK'
       ?'<button class=btn data-pay="'+E(g.id)+'" data-payee="'+E(g.dues.payee||g.owner)+'" data-amt="'+(g.dues.amount/1000).toFixed(3)+'">Pay dues</button>'
       :'<button class=btn data-j="'+E(g.id)+'">Join</button>'))+'</div>';}).join('');
  for(const b of document.querySelectorAll('[data-pay]'))b.onclick=()=>{
@@ -198,6 +202,117 @@ loadCh();
 </script></body></html>`;
 }
 
+// ── the club page: /g/<id> ────────────────────────────────────────────────────────────────────────────
+// One page per pact for its members: roster with club titles and offices, the private space, the board,
+// the door (Tyler and up), and setup (owner/admin). Everything here is a call to the JSON routes in
+// pentecaust/groups/server.mjs; the page decides nothing — the server's `reason` is shown as it comes.
+// ⚠️ This script lives inside a template literal: no backslashes, no apostrophes inside single-quoted strings.
+const jsStr = (v) => JSON.stringify(String(v == null ? '' : v)).replace(/</g, '\\u003c');
+function clubPage(who, id) {
+  const auth = who
+    ? `<span class=authbar>@${esc(who)} <a class=btn href="/auth/logout">Log out</a></span>`
+    : '<span class=authbar><a class="btn primary" href="/auth/login">Sign in with MELEK</a></span>';
+  return `<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>Pact — club</title>
+<meta name=theme-color content="#0b0d12">${STYLE}</head><body><div class=wrap>
+<header><a class=brand href="/" style="text-decoration:none">${MARK}<b>Pact</b></a>${auth}</header>
+<div class=card><h2 id=gname>${esc(id)}</h2><div id=ghead class=mut></div></div>
+<p class=status id=msg role=status></p>
+${who ? '' : '<div class=card><p>Sign in to open this club.</p><a class="btn primary" href="/auth/login">Sign in</a></div>'}
+<div id=body></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api=async(p,o)=>{try{const r=await fetch(p,o);return await r.json();}catch(e){return{ok:false,reason:'network'};}};
+const ID=${jsStr(id)};const SIGNED=${who ? 'true' : 'false'};const ME=${jsStr(who)};
+const RANK={owner:8,admin:6,mod:4,tyler:3,member:2,prospect:1,muted:0};
+const base='/groups/'+encodeURIComponent(ID);
+const post=(p,b)=>api(base+p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b||{})});
+const say=(r,okText)=>{$('msg').textContent=r&&r.ok?okText:((r&&r.reason)||'That did not work.');if(r&&r.ok)load();};
+const day=t=>{try{return new Date(t).toISOString().slice(0,10);}catch(e){return '';}};
+async function load(){
+ const g=((await api(base))||{}).group;
+ if(!g){$('gname').textContent='No such club';$('body').innerHTML='';return;}
+ $('gname').textContent=g.name;
+ const space=g.spaceName||'Club room';
+ $('ghead').innerHTML='<span class=chip>'+E(g.joinPolicy)+'</span> '+g.memberCount+' member(s) · private space: <b>'+E(space)+'</b>'+(g.about?'<br>'+E(g.about):'');
+ if(!SIGNED)return;
+ const me=(await api(base+'/me'))||{};const my=RANK[me.role]||0;
+ if(!me.role){$('body').innerHTML='<div class=card><p>You are not a member of this club.</p><a class=btn href="/">Back to Pact</a></div>';return;}
+ const adm=g.admissions||{};
+ let h='<div class=card><h2>Members</h2>'+g.members.map(m=>{
+  const credit=adm[m.account]?' <span class=chip title="admitted by them / still members">admitted '+adm[m.account].admitted+' · retained '+adm[m.account].retained+'</span>':'';
+  const canRm=m.account!==ME&&((my>=RANK.tyler&&m.role==='prospect')||(my>=RANK.mod&&my>(RANK[m.role]||0)));
+  return '<div class=item><div style="flex:1"><b>@'+E(m.account)+'</b> <span class=chip>'+E(m.title)+'</span>'
+   +(m.office?' <span class=chip>'+E(m.office)+'</span>':'')+(m.lapsed?' <span class="chip lapsed">dues lapsed</span>':'')+credit
+   +(m.admittedBy?'<br><span class=mut style="font-size:12px">let in by @'+E(m.admittedBy)+'</span>':'')+'</div>'
+   +(canRm?'<button class=btn data-rm="'+E(m.account)+'">Remove</button>':'')+'</div>';}).join('')+'</div>';
+ if(my>=RANK.tyler)h+='<div class=card><h2>At the door</h2><div id=apps class=mut>Loading…</div>'
+  +'<div class=row style="margin-top:8px"><input id=invwho placeholder="Invite an account" autocapitalize=off><button class=btn id=invgo>Invite</button></div></div>';
+ h+='<div class=card><h2>'+E(space)+' board</h2><p class=mut>Drafts stay off the chain and members-only. Publishing to the club feed takes the '+E(g.titles[g.publishRole]||g.publishRole)+' rank, or their approval.</p>'
+  +'<input id=btitle placeholder="Title" style="width:100%;margin-bottom:6px"><textarea id=bbody placeholder="Write a draft for the club"></textarea>'
+  +'<div class=row style="margin-top:6px"><button class="btn primary" id=bgo>Post draft</button></div><div id=board></div></div>';
+ if(my>=RANK.admin)h+='<div class=card><h2>Edit club setup</h2><div id=ranks></div>'
+  +'<div class=row style="margin-top:8px"><label style="min-width:150px"><b>Private space</b></label><select id=space></select><input id=spacecustom placeholder="Your own name" hidden maxlength=40></div>'
+  +'<div class=row style="margin-top:8px"><button class="btn primary" id=setupgo>Save setup</button></div>'
+  +'<h3>Title set</h3><div class=row><select id=tset></select><button class=btn id=tsetgo>Use these titles</button></div>'
+  +'<h3>Offices</h3><div class=row><select id=ofwho></select><select id=ofname></select><button class=btn id=ofgo>Give office</button></div>'
+  +'<h3>Who may publish to the feed</h3><div class=row><select id=prole></select><button class=btn id=prolego>Save</button></div></div>';
+ $('body').innerHTML=h;
+ for(const b of document.querySelectorAll('[data-rm]'))b.onclick=async()=>say(await post('/kick',{account:b.dataset.rm}),'Removed @'+b.dataset.rm+'.');
+ if(my>=RANK.tyler){
+  const a=await api(base+'/applicants');const list=(a&&a.applicants)||[];
+  $('apps').innerHTML=a&&a.ok?(list.length?list.map(x=>'<div class=item><div style="flex:1"><b>@'+E(x.account)+'</b> <span class=mut>applied '+E(day(x.ts))+'</span></div>'
+   +'<button class="btn primary" data-ap="'+E(x.account)+'">Approve</button> <button class=btn data-dc="'+E(x.account)+'">Decline</button></div>').join(''):'Nobody is waiting.'):E((a&&a.reason)||'');
+  for(const b of document.querySelectorAll('[data-ap]'))b.onclick=async()=>say(await post('/approve',{account:b.dataset.ap}),'Let in @'+b.dataset.ap+'.');
+  for(const b of document.querySelectorAll('[data-dc]'))b.onclick=async()=>say(await post('/decline',{account:b.dataset.dc}),'Declined @'+b.dataset.dc+'.');
+  $('invgo').onclick=async()=>{const w=$('invwho').value.trim().replace(/^@/,'');if(w)say(await post('/invite',{account:w}),'Invited @'+w+'.');};
+ }
+ const bd=(await api(base+'/board'))||{};
+ $('board').innerHTML=bd.ok?((bd.board||[]).map(d=>'<div class=item style="align-items:flex-start"><div style="flex:1"><b>'+E(d.title||'(untitled)')+'</b> <span class=chip>'+E(d.status)+'</span>'
+  +'<br><span class=mut style="font-size:12px">@'+E(d.author)+' · '+E(day(d.ts))+(d.approvedBy?' · approved by @'+E(d.approvedBy):'')+'</span>'
+  +'<div style="white-space:pre-wrap;margin-top:4px">'+E(d.body)+'</div></div>'
+  +(bd.canPublish&&d.status==='draft'?'<button class="btn primary" data-ok="'+E(d.id)+'">Approve</button>':'')+'</div>').join('')||'<p class=mut>Nothing on the board yet.</p>')
+  :'<p class=mut>'+E(bd.reason||'')+'</p>';
+ for(const b of document.querySelectorAll('[data-ok]'))b.onclick=async()=>say(await post('/board/'+encodeURIComponent(b.dataset.ok)+'/approve'),'Approved — its author may now publish it.');
+ $('bgo').onclick=async()=>say(await post('/board',{title:$('btitle').value,body:$('bbody').value}),'Draft posted.');
+ if(my>=RANK.admin)await adminForms(g);
+}
+async function adminForms(g){
+ const G=await api('/groups/setup-guide');if(!G||!G.ok)return;
+ const off=g.disabledRanks||[];
+ $('ranks').innerHTML=G.ranks.map(r=>{const cur=g.titles[r.role]||'';const known=r.names.includes(cur);
+  return '<div class=item style="align-items:flex-start;gap:10px"><label style="min-width:28px">'
+  +(r.canDisable?'<input type=checkbox data-on="'+r.role+'"'+(off.includes(r.role)?'':' checked')+' title="Use this rank">':'<input type=checkbox checked disabled title="Always used">')+'</label>'
+  +'<div style="flex:1"><select data-name="'+r.role+'">'+r.names.map(n=>'<option'+(n===cur?' selected':'')+'>'+E(n)+'</option>').join('')
+  +'<option value="__custom"'+(known?'':' selected')+'>Your own name…</option></select> '
+  +'<input data-custom="'+r.role+'" placeholder="Your own name" maxlength=40 value="'+(known?'':E(cur))+'"'+(known?' hidden':'')+'>'
+  +'<div class=mut style="font-size:12px;margin-top:3px">'+E(r.does)+'</div></div></div>';}).join('');
+ for(const s of document.querySelectorAll('[data-name]'))s.onchange=()=>{document.querySelector('[data-custom="'+s.dataset.name+'"]').hidden=s.value!=='__custom';};
+ const sp=g.spaceName||'';const spKnown=!sp||G.spaceNames.includes(sp);
+ $('space').innerHTML=G.spaceNames.map(n=>'<option'+(n===sp?' selected':'')+'>'+E(n)+'</option>').join('')+'<option value="__custom"'+(spKnown?'':' selected')+'>Your own name…</option>';
+ $('spacecustom').value=spKnown?'':sp;$('spacecustom').hidden=spKnown;
+ $('space').onchange=()=>{$('spacecustom').hidden=$('space').value!=='__custom';};
+ $('setupgo').onclick=async()=>{const titles={},disabled=[];
+  for(const r of G.ranks){const sel=document.querySelector('[data-name="'+r.role+'"]');
+   titles[r.role]=sel.value==='__custom'?document.querySelector('[data-custom="'+r.role+'"]').value.trim():sel.value;
+   const on=document.querySelector('[data-on="'+r.role+'"]');if(on&&!on.checked)disabled.push(r.role);}
+  const spaceName=$('space').value==='__custom'?$('spacecustom').value.trim():$('space').value;
+  say(await post('/setup',{titles,disabled,spaceName}),'Setup saved.');};
+ const sets=G.titleSets||{};
+ $('tset').innerHTML=Object.keys(sets).map(k=>'<option value="'+E(k)+'"'+(k===g.titleSet?' selected':'')+'>'+E(k)+' — '+E(sets[k].owner)+', '+E(sets[k].tyler)+', '+E(sets[k].member)+'</option>').join('');
+ $('tsetgo').onclick=async()=>say(await post('/titles',{set:$('tset').value}),'Title set changed.');
+ $('ofwho').innerHTML=g.members.map(m=>'<option value="'+E(m.account)+'">@'+E(m.account)+(m.office?' ('+E(m.office)+')':'')+'</option>').join('');
+ $('ofname').innerHTML='<option value="">No office</option>'+G.offices.map(o=>'<option>'+E(o)+'</option>').join('');
+ $('ofgo').onclick=async()=>say(await post('/office',{account:$('ofwho').value,office:$('ofname').value}),'Office updated.');
+ $('prole').innerHTML=['member','mod','admin','owner'].map(r=>'<option value="'+r+'"'+(r===g.publishRole?' selected':'')+'>'+E(g.titles[r]||r)+' and up</option>').join('');
+ $('prolego').onclick=async()=>say(await post('/publish-role',{role:$('prole').value}),'Publishing rank saved.');
+}
+load();
+</script></body></html>`;
+}
+
 export async function handler(req, res) {
   try {
     const path = (String((req && req.url) || '/').split('?')[0] || '/').replace(/\/+$/, '') || '/';
@@ -216,6 +331,13 @@ export async function handler(req, res) {
     }
     if (path === '/pages' || path.startsWith('/pages/') || path.startsWith('/p/')) {
       return pagesHandler(req, res, { whoami });
+    }
+    if (path.startsWith('/g/')) {
+      let id = '';
+      try { id = decodeURIComponent(path.slice(3)); } catch { id = ''; }
+      if (!/^[a-z0-9-]{1,40}$/.test(id)) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('no such club'); }
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end(clubPage(whoami(req), id));
     }
     if (path === '/') {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
