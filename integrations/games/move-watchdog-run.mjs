@@ -69,6 +69,8 @@ function pauseSettleTimer() {
   // ── current snapshot ──────────────────────────────────────────────────────────────────────────────
   const rf = await rpc(client, 'get_reward_fund', ['move']);
   const fund = rf ? num(rf.reward_balance) : NaN;
+  // RPC down → no reading. Skip the run and keep the last good snapshot: a missing fund is not an empty fund.
+  if (!Number.isFinite(fund)) { console.log(`[${new Date().toISOString()}] move-watchdog skipped — RPC gave no move fund reading`); process.exit(0); }
   const gp = await rpc(client, 'get_dynamic_global_properties', []);
   const ts = gp ? Math.floor(Date.parse((gp.time || '') + 'Z') / 1000) || Math.floor(Date.now() / 1000) : Math.floor(Date.now() / 1000);
 

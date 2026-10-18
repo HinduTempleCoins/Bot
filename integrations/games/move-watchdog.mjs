@@ -47,7 +47,9 @@ export function analyzeMove(current = {}, previous = null, cfg = {}) {
       ? Math.max(1, Math.round((current.ts - previous.ts) / 3600)) : null;
 
     // ── 1. PRIMARY: fund draining faster than ~1 capped payout per hour ──────────────────────────────
-    if (previous && Number.isFinite(num(previous.fund))) {
+    // a missing reading (RPC outage) is not a drained fund: num() would turn it into 0
+    const haveFund = current.fund != null && String(current.fund).trim() !== '' && Number.isFinite(Number(String(current.fund).split(' ')[0]));
+    if (haveFund && previous && Number.isFinite(num(previous.fund))) {
       const netDrop = num(previous.fund) - fund;                 // >0 means the fund shrank
       const h = hours != null ? hours : 1;                       // no timestamp → assume a single hour
       const maxLegitDrop = c.capPerEpoch * h * c.drainMargin;

@@ -94,3 +94,10 @@ test('DEFAULTS are sane', () => {
   assert.equal(DEFAULTS.capPerEpoch, 150);
   assert.equal(DEFAULTS.attester, 'hathor');
 });
+
+test('no fund reading (RPC outage) never reports a drain', () => {
+  for (const fund of [NaN, undefined, null, '']) {
+    const r = analyzeMove({ ...healthy, fund }, prev);
+    assert.ok(!r.alerts.some((a) => a.code === 'fund_drain'), `fund=${String(fund)}`);
+  }
+});
