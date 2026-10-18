@@ -197,3 +197,21 @@ test('loadConfig defaults confirmations to 20 and never exposes the key value', 
 
 // restore the global fetch after the suite
 test('cleanup', () => { __setFetch(); });
+
+test('a deposit the contract already processed is marked done, not retried forever', async () => {
+  installFakeChain();
+  const ctx = {};
+  let n = 0;
+  const submit = () => { n++; throw new Error('execution reverted (unknown custom error) (action="estimateGas", data="0x3f1fb2c8000000000000000000000000ab")'); };
+  const r = await runOnce(cfg(), submit, ctx);
+  assert.equal(r.failed.length, 0);
+  assert.ok(r.skipped.some((s) => s.ref === 'ref-final-deep' && s.reason === 'already-processed-on-prana'));
+  await runOnce(cfg(), submit, ctx);
+  assert.equal(n, 1, 'second pass does not resubmit');
+});
+
+test('any other revert still fails and is retried', async () => {
+  installFakeChain();
+  const r = await runOnce(cfg(), () => { throw new Error('execution reverted: 0x0c948eac'); }, {});
+  assert.equal(r.failed.length, 1);
+});

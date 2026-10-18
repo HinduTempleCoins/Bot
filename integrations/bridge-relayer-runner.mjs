@@ -234,6 +234,12 @@ export async function fetchDeposits(cfg, opts = {}) {
  * @returns {Promise<{ok, headBlock, submitted:object[], skipped:object[], failed:object[],
  *                     pending:object[], reason?:string}>}
  */
+// GrapheneDepositBridge custom errors that mean "nothing left to do for this deposit" (4-byte selectors).
+export const DONE_ERRORS = Object.freeze([
+  { selector: '0x3f1fb2c8', reason: 'already-processed-on-prana' },   // DepositAlreadyProcessed(bytes32)
+  { selector: '0xe7ddafdd', reason: 'already-attested-by-this-attester' }, // AlreadyAttested(bytes32,address)
+]);
+
 export async function runOnce(cfg, submit, ctx = {}) {
   const seen = ctx.seen instanceof Set ? ctx.seen : (ctx.seen = new Set());
   const submitted = [], failed = [], pending = [];
@@ -271,8 +277,13 @@ export async function runOnce(cfg, submit, ctx = {}) {
       seen.add(dep.depositRef);   // mark seen only AFTER a successful submit
       submitted.push({ ref: dep.depositRef, recipient: dep.recipient, amount: dep.amount, tokenId: dep.tokenId, result });
     } catch (e) {
+      const msg = String(e && e.message || e);
+      // the contract's own answer that this ref needs nothing more from us: minted already, or this
+      // attester already attested (quorum pending on the others). Retrying those forever is just noise.
+      const done = DONE_ERRORS.find((x) => msg.includes(x.selector));
+      if (done) { seen.add(dep.depositRef); skipped.push({ ref: dep.depositRef, reason: done.reason }); continue; }
       // soft-fail: log the failure, leave the ref UNSEEN so the next pass retries it
-      failed.push({ ref: dep.depositRef, reason: String(e && e.message || e) });
+      failed.push({ ref: dep.depositRef, reason: msg });
     }
   }
 
