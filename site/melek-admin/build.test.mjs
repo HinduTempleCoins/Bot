@@ -1,7 +1,7 @@
 // build.test.mjs — OFFLINE tests for the Admin Page generator (fake RPC).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { fetchAdminPosts, renderAdminPage, firstImage, excerpt } from './build.mjs';
+import { fetchAdminPosts, fetchWitnessAccounts, renderAdminPage, firstImage, excerpt } from './build.mjs';
 
 const post = (author, permlink, created, extra = {}) => ({ author, permlink, created, category: 'melek', title: `T ${permlink}`,
   body: 'Hello **world** ![x](https://img.example/a.png) more text', json_metadata: '{}', parent_author: '', ...extra });
@@ -35,4 +35,22 @@ test('helpers: first image from metadata or body; excerpt strips markdown', () =
 
 test('excerpt keeps underscores and dashes inside links and words', () => {
   assert.match(excerpt('Watch https://youtu.be/EKz?si=g03NAH3X5_xO9oYf now — a well-known one'), /g03NAH3X5_xO9oYf/);
+});
+
+test('tab bar on both pages marks the current one; witness page lists the active witnesses', async () => {
+  const admin = renderAdminPage([], { admins: ['alice'] });
+  assert.match(admin, /<a href="https:\/\/melek\.salon\/admin" class=on aria-current=page>Admin Updates<\/a>/);
+  for (const t of ['All Posts', 'Groups', 'Witness Updates']) assert.ok(admin.includes(`>${t}</a>`));
+  assert.ok(!/>Hot<\/a>|>Trending<\/a>/.test(admin), 'Hot/Trending are sorts inside All Posts, not tabs');
+  const wit = renderAdminPage([], { admins: ['hathor', 'bob'], page: 'witness' });
+  assert.match(wit, /<h1>Witness Updates<\/h1>/);
+  assert.match(wit, /class=on aria-current=page>Witness Updates/);
+  assert.match(wit, /rel=canonical href="https:\/\/melek\.salon\/witness-updates"/);
+});
+
+test('fetchWitnessAccounts keeps block producers, always includes hathor, soft-fails', async () => {
+  const f = async () => ({ json: async () => ({ result: [
+    { owner: 'bob', last_confirmed_block_num: 10 }, { owner: 'idle', last_confirmed_block_num: 0 }, { owner: 'hathor', last_confirmed_block_num: 5 }] }) });
+  assert.deepEqual(await fetchWitnessAccounts({ fetch: f }), ['hathor', 'bob']);
+  assert.deepEqual(await fetchWitnessAccounts({ fetch: async () => { throw new Error('down'); } }), ['hathor']);
 });

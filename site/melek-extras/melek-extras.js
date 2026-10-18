@@ -157,27 +157,67 @@
     msg.parentNode.insertBefore(a, msg.nextSibling);
   }
 
-  // ── 6. "Groups" in the top bar, beside Hot / Trending / New ──────────────────────────────────────
-  function addGroupsTab() {
-    if (d.querySelector('.melek-groups-tab')) return;
-    var links = d.querySelectorAll('header a, .Header a');
-    for (var i = 0; i < links.length; i++) {
-      if ((links[i].textContent || '').trim() === 'New') {
-        var g = links[i].cloneNode(false);
-        g.removeAttribute('class'); g.className = (links[i].className || '') + ' melek-groups-tab';
-        g.href = 'https://pact.pentecaust.com/#groups'; g.textContent = 'Groups';
-        g.removeAttribute('aria-current');
-        var host = links[i].parentNode.tagName === 'LI' ? links[i].parentNode : links[i];
-        var wrap = host === links[i] ? g : host.cloneNode(false);
-        if (wrap !== g) { wrap.removeAttribute('class'); wrap.className = host.className; wrap.appendChild(g); }
-        host.parentNode.insertBefore(wrap, host.nextSibling);
-        return;
-      }
+  // ── 6. the tab bar: All Posts · Groups · Admin Updates · Witness Updates ─────────────────────────
+  // Hot / Trending / New are not tabs: they are the sort row INSIDE All Posts (the Steemit/Hive/Blurt feed,
+  // kept as is). The header's own Hot/Trending/New links are hidden and replaced by the four tabs; on an
+  // All Posts page the sort row appears above the feed.
+  var TABS = [
+    { id: 'all', label: 'All Posts', href: '/trending' },
+    { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
+    { id: 'admin', label: 'Admin Updates', href: '/admin' },
+    { id: 'witness', label: 'Witness Updates', href: '/witness-updates' },
+  ];
+  var SORTS = [['hot', 'Hot'], ['trending', 'Trending'], ['created', 'New']];
+  function feedRoute() {   // /hot, /trending/<tag>, /created … → { sort, tag }
+    var m = w.location.pathname.match(/^\/(hot|trending|created|promoted|payout|muted)(?:\/([a-z0-9-]+))?\/?$/i);
+    return m ? { sort: m[1].toLowerCase(), tag: m[2] || '' } : null;
+  }
+  function addTabs() {
+    var links = d.querySelectorAll('header a, .Header a'), news = null;
+    for (var i = 0; i < links.length; i++) if ((links[i].textContent || '').trim() === 'New') { news = links[i]; break; }
+    var old = d.querySelector('.melek-groups-tab'); if (old) (old.parentNode.tagName === 'LI' ? old.parentNode : old).remove();
+    if (news && !d.querySelector('.melek-tabs')) {
+      var host = news.parentNode.tagName === 'LI' ? news.parentNode.parentNode : news.parentNode;   // the Hot/Trending/New list
+      var bar = el('nav', { class: 'melek-tabs', 'aria-label': 'Sections',
+        style: 'display:flex;gap:22px;align-items:center;justify-content:center;font-size:1.05em' });
+      TABS.forEach(function (t) {
+        bar.appendChild(el('a', { href: t.href, 'data-tab': t.id, style: 'color:inherit;text-decoration:none;padding:20px 0 17px;border-bottom:3px solid transparent' }, t.label));
+      });
+      host.style.display = 'none';
+      host.parentNode.insertBefore(bar, host);
     }
+    var on = feedRoute() ? 'all' : '';
+    var tabs = d.querySelectorAll('.melek-tabs a');
+    for (var j = 0; j < tabs.length; j++) {
+      var active = tabs[j].getAttribute('data-tab') === on;
+      tabs[j].style.borderBottomColor = active ? '#f5a623' : 'transparent';
+      tabs[j].style.fontWeight = active ? '700' : '';
+      if (active) tabs[j].setAttribute('aria-current', 'page'); else tabs[j].removeAttribute('aria-current');
+    }
+    addSortRow();
+  }
+  function addSortRow() {
+    var r = feedRoute(), row = d.querySelector('.melek-sorts');
+    if (!r) { if (row) row.remove(); return; }
+    var feed = d.querySelector('.PostsIndex__left, .PostsList, #posts_list, main');
+    if (!feed) return;
+    if (!row) {
+      row = el('div', { class: 'melek-sorts', role: 'tablist', 'aria-label': 'Sort all posts',
+        style: 'display:flex;gap:8px;margin:0 0 12px;font:14px system-ui,sans-serif' });
+      feed.parentNode.insertBefore(row, feed);
+    }
+    var want = SORTS.map(function (s) { return s[0] + ':' + (r.tag || ''); }).join('|') + '#' + r.sort;
+    if (row.getAttribute('data-k') === want) return;
+    row.setAttribute('data-k', want); row.textContent = '';
+    SORTS.forEach(function (s) {
+      var cur = s[0] === r.sort;
+      row.appendChild(el('a', { href: '/' + s[0] + (r.tag ? '/' + r.tag : ''), role: 'tab', 'aria-selected': cur ? 'true' : 'false',
+        style: 'padding:5px 14px;border-radius:999px;text-decoration:none;border:1px solid ' + (cur ? '#1a1d24;background:#1a1d24;color:#fff' : '#ccc;color:inherit') }, s[1]));
+    });
   }
 
   function routeChanged() {
-    addGroupsTab();
+    addTabs();
     var col = d.getElementById('melek-tools');
     if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
     addReportButton();
