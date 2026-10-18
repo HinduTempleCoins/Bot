@@ -103,6 +103,9 @@
     { id: 'autovote', title: 'Simple vote automation', help: ['Curation_Trails_and_Auto-Voting', 'vote automation'],
       text: 'Vote automatically for the authors you choose, at the strength and timing you set. Your votes are cast through MELEK-Signer; nobody holds your keys.',
       open: function () { return 'https://auto.melek.salon/'; }, label: 'Open Auto-Vote' },
+    { id: 'autoclaim', title: 'Auto-claim rewards', help: ['Post_Rewards_on_MELEK#claiming', 'claiming rewards'],
+      text: 'Rewards from posts and votes wait until they are claimed, and only count toward your MELEK Power once they are. Sign in to Auto-Vote and allow auto-claim on the MELEK-Signer screen; your rewards are then claimed for you every six hours.',
+      open: function () { return 'https://auto.melek.salon/melek-signer/login'; }, label: 'Turn on auto-claim' },
     { id: 'trails', title: 'Curation trails', help: ['Curation_Trails_and_Auto-Voting', 'curation trails'],
       text: 'Follow another curator: when they vote, you vote too, at your own strength. Set it up in Auto-Vote under trails.',
       open: function () { return 'https://auto.melek.salon/#trail'; }, label: 'Set up a trail' },
@@ -152,10 +155,34 @@
     var tab = d.getElementById('melek-automation-tab');
     if (tab) tab.classList.toggle('active', !!on);
   }
+  // Unclaimed rewards: author and curation rewards wait in a "to be claimed" balance until the owner redeems
+  // them, and until then they add nothing to MELEK Power (so the account's votes stay weightless). Say so,
+  // on the wallet, with the amount read from the chain.
+  var claimChecked = '';
+  function addUnclaimedNotice() {
+    var a = walletAccount(), menu = d.querySelector('.WalletSubMenu');
+    if (!a || !menu || claimChecked === a || d.getElementById('melek-unclaimed')) return;
+    claimChecked = a;
+    rpc('condenser_api.get_accounts', [[a]]).then(function (rows) {
+      var acct = rows && rows[0]; if (!acct || d.getElementById('melek-unclaimed')) return;
+      var mp = parseFloat(String(acct.reward_vesting_steem || '0').split(' ')[0]) || 0;
+      var liq = parseFloat(String(acct.reward_steem_balance || '0').split(' ')[0]) || 0;
+      if (mp <= 0 && liq <= 0) return;
+      var row = menu.closest('.row'); if (!row) return;
+      var box = el('div', { id: 'melek-unclaimed', class: 'row', style: 'display:block;margin:10px 0' });
+      var col = el('div', { class: 'column small-12', style: 'border:2px solid #eab308;border-radius:10px;padding:12px 14px' });
+      var h = el('strong', { style: 'font-size:16px' }, '@' + a + ' has rewards waiting to be claimed: ' + mp.toFixed(3) + ' MELEK Power' + (liq > 0 ? ' and ' + liq.toFixed(3) + ' MELEK' : ''));
+      col.appendChild(h); col.appendChild(q('Post_Rewards_on_MELEK#claiming', 'claiming rewards'));
+      col.appendChild(el('p', { style: 'margin:6px 0 0' }, 'Rewards from posts and votes wait here until they are claimed, and until then they add nothing to MELEK Power, so votes count for very little. If this is your account, sign in and choose Redeem Rewards on the Balances tab; it adds everything to your MELEK Power at once. Auto-claim in the Automation tab can do it for you every day.'));
+      box.appendChild(col);
+      row.parentNode.insertBefore(box, row);
+    });
+  }
+
   function addAutomationTab() {
     if (!d.getElementById('melek-automation-css')) {   // the wallet adds an external-link icon to new-tab links
       var css = el('style', { id: 'melek-automation-css' });
-      css.textContent = '#melek-automation a svg,#melek-automation a .Icon,#melek-automation a::after{display:none!important;content:none!important}';
+      css.textContent = '#melek-automation a svg,#melek-automation a .Icon,#melek-automation a::after,#melek-unclaimed a svg,#melek-unclaimed a .Icon,#melek-unclaimed a::after{display:none!important;content:none!important}';
       d.head.appendChild(css);
     }
     var menu = d.querySelector('.WalletSubMenu');
@@ -174,8 +201,9 @@
     scrub();
     relabel();
     addAutomationTab();
+    addUnclaimedNotice();
     var t = null;   // the wallet is a single-page app: re-run when its content changes
-    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { scrub(); fixHeader(); relabel(); addAutomationTab(); }, 150); })
+    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { scrub(); fixHeader(); relabel(); addAutomationTab(); addUnclaimedNotice(); }, 150); })
       .observe(d.body, { childList: true, subtree: true, characterData: true });
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start); else start();
