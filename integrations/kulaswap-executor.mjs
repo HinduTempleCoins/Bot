@@ -8,6 +8,8 @@
 // Strategies here are the plain, explainable ones a person would choose for their own account:
 //   arb   — a loop route that returns more of the start token than it spends (e.g. wVKBT→KULA→wCURE→wVKBT)
 //   dca   — swap a fixed amount on a schedule (e.g. 10 KULA → WPRANA each run)
+//   rebalance — keep two tokens at a target split by value (e.g. 50/50 KULA/WPRANA), swapping only past a band
+//   grid  — buy after the price falls a step, sell after it rises a step (never selling below the last buy)
 // Rule from the operator: money only comes out when it is profit — an arb trade is refused unless the
 // quote clears the minimum profit, and amountOutMin pins that, so a moved price makes the swap revert
 // instead of losing.
@@ -150,6 +152,81 @@ export async function runDca({ token, from, to, amount, dry = false }) {
   return { ok: s.ok, traded: s.ok, ...view, approveTx: approve, swapTx: s.hash };
 }
 
+// ── rebalance: keep two tokens at a target split by value ───────────────────────────────────────────────
+/**
+ * Decide a rebalance. Pure. `price` = value of 1 A in B. Returns the swap that brings A's share of total
+ * value back to `target` when it has drifted more than `band` (both fractions).
+ */
+export function planRebalance({ balA, balB, price, target = 0.5, band = 0.05 }) {
+  const valA = balA * price, total = valA + balB;
+  if (!(total > 0) || !(price > 0)) return { trade: false, share: 0, reason: 'nothing to rebalance' };
+  const share = valA / total;
+  if (Math.abs(share - target) <= band) return { trade: false, share, reason: `A is ${(share * 100).toFixed(1)}% of value, inside the band` };
+  const wantA = (total * target) / price;
+  return share > target
+    ? { trade: true, share, side: 'sellA', amount: balA - wantA, reason: 'A above target' }
+    : { trade: true, share, side: 'sellB', amount: (wantA - balA) * price, reason: 'A below target' };
+}
+
+export async function runRebalance({ token, a, b, target = 0.5, band = 0.05, dry = false }) {
+  const owner = (await signer('/v1/evm/address', {}, token)).address;
+  const [da, db] = [TOKENS[a].decimals, TOKENS[b].decimals];
+  const balA = fromUnits(BigInt(await ethCall(TOKENS[a].address, encodeBalanceOf(owner))), da);
+  const balB = fromUnits(BigInt(await ethCall(TOKENS[b].address, encodeBalanceOf(owner))), db);
+  const one = await quote(units('1', da), [a, b]);
+  const price = fromUnits(one[one.length - 1], db);
+  const plan = planRebalance({ balA, balB, price, target, band });
+  const view = { owner, pair: `${a}/${b}`, balA, balB, price, shareA: Number(plan.share.toFixed(4)), reason: plan.reason };
+  if (!plan.trade || dry) return { ok: true, traded: false, ...view, plan: plan.trade ? `${plan.side} ${plan.amount}` : undefined };
+  const [from, to, dec] = plan.side === 'sellA' ? [a, b, da] : [b, a, db];
+  const amountIn = units(plan.amount.toFixed(Math.min(dec, 6)), dec);
+  const q = await quote(amountIn, [from, to]);
+  const out = q[q.length - 1];
+  const approve = await ensureAllowance(token, owner, from, amountIn);
+  const sw = await swap(token, owner, [from, to], amountIn, out - out / 100n);
+  return { ok: sw.ok, traded: sw.ok, ...view, swapped: `${plan.amount.toFixed(4)} ${from} -> ${to}`, approveTx: approve, swapTx: sw.hash };
+}
+
+// ── grid: buy after the price falls a step, sell after it rises a step, never below the last buy ─────────
+/**
+ * Decide a grid step. Pure. `price` = value of 1 base in quote now; `last` = price of the last grid trade
+ * (null on the first run, which only records the level). Sells only at a profit over the last buy.
+ */
+export function planGrid({ price, last, lastSide = null, stepBps = 300 }) {
+  if (!(price > 0)) return { trade: false, reason: 'no price' };
+  if (!(last > 0)) return { trade: false, record: price, reason: 'first run: grid level set' };
+  const move = (price - last) / last, step = stepBps / 10000;
+  if (move >= step) {
+    if (lastSide === 'buy' || lastSide === null) return { trade: true, side: 'sell', reason: `price up ${(move * 100).toFixed(2)}% from the last level` };
+    return { trade: false, record: price, reason: 'up a step after a sell: level moved up, nothing to sell at a profit' };
+  }
+  if (move <= -step) return { trade: true, side: 'buy', reason: `price down ${(-move * 100).toFixed(2)}% from the last level` };
+  return { trade: false, reason: `price ${(move * 100).toFixed(2)}% from the last level, inside the step` };
+}
+
+export async function runGrid({ token, base, quoteSym, chunk, stepBps = 300, stateFile, dry = false }) {
+  const fs = await import('node:fs');
+  const owner = (await signer('/v1/evm/address', {}, token)).address;
+  const [dbs, dq] = [TOKENS[base].decimals, TOKENS[quoteSym].decimals];
+  const one = await quote(units('1', dbs), [base, quoteSym]);
+  const price = fromUnits(one[one.length - 1], dq);
+  let st = {}; try { st = JSON.parse(fs.readFileSync(stateFile, 'utf8')); } catch { /* first run */ }
+  const plan = planGrid({ price, last: st.last, lastSide: st.lastSide || null, stepBps });
+  const view = { owner, pair: `${base}/${quoteSym}`, price, last: st.last || null, reason: plan.reason };
+  const save = (o) => { if (!dry) fs.writeFileSync(stateFile, JSON.stringify({ ...st, ...o, at: new Date().toISOString() })); };
+  if (!plan.trade) { if (plan.record) save({ last: plan.record }); return { ok: true, traded: false, ...view }; }
+  if (dry) return { ok: true, traded: false, ...view, would: plan.side };
+  // sell = base -> quote ; buy = spend `chunk` base-worth of quote -> base
+  const [from, to, dec, amt] = plan.side === 'sell' ? [base, quoteSym, dbs, Number(chunk)] : [quoteSym, base, dq, Number(chunk) * price];
+  const amountIn = units(amt.toFixed(Math.min(dec, 6)), dec);
+  const q = await quote(amountIn, [from, to]);
+  const out = q[q.length - 1];
+  const approve = await ensureAllowance(token, owner, from, amountIn);
+  const sw = await swap(token, owner, [from, to], amountIn, out - out / 100n);
+  if (sw.ok) save({ last: price, lastSide: plan.side });
+  return { ok: sw.ok, traded: sw.ok, ...view, side: plan.side, spent: `${amt.toFixed(4)} ${from}`, approveTx: approve, swapTx: sw.hash };
+}
+
 if (process.argv[1] && process.argv[1].endsWith('kulaswap-executor.mjs')) {
   const a = process.argv.slice(2), get = (k, d) => { const i = a.indexOf(k); return i >= 0 ? a[i + 1] : d; };
   const token = process.env.KULABOT_TOKEN, dry = a.includes('--dry');
@@ -157,7 +234,11 @@ if (process.argv[1] && process.argv[1].endsWith('kulaswap-executor.mjs')) {
     if (!token) throw new Error('KULABOT_TOKEN not set');
     const r = a[0] === 'dca'
       ? await runDca({ token, from: get('--from', 'KULA'), to: get('--to', 'WPRANA'), amount: get('--amount', '10'), dry })
-      : await runArb({ token, amount: get('--amount', '50'), minProfitBps: +get('--min-profit-bps', 100), dry });
+      : a[0] === 'rebalance'
+        ? await runRebalance({ token, a: get('--a', 'KULA'), b: get('--b', 'WPRANA'), target: +get('--target', 0.5), band: +get('--band', 0.05), dry })
+        : a[0] === 'grid'
+          ? await runGrid({ token, base: get('--base', 'KULA'), quoteSym: get('--quote', 'wVKBT'), chunk: get('--chunk', '20'), stepBps: +get('--step-bps', 300), stateFile: get('--state', 'data/kulabot-grid.json'), dry })
+          : await runArb({ token, amount: get('--amount', '50'), minProfitBps: +get('--min-profit-bps', 100), dry });
     console.log(JSON.stringify(r));
     process.exit(r.ok ? 0 : 1);
   } catch (e) { console.error(`[kulaswap] ${String(e.message || e).slice(0, 200)}`); process.exit(1); }
