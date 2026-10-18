@@ -1,0 +1,152 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bridge — VKBT / CURE ↔ PRANA — KulaSwap</title>
+<style>
+  :root{--bg:#0a111e;--panel:#121c2e;--line:#25344d;--ink:#e8eef8;--muted:#8698b6;--teal:#2dd4bf;--teal-ink:#04231f;--amber:#f2b44c;--danger:#f0736b}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.6}
+  .wrap{max-width:680px;margin:0 auto;padding:40px 20px 80px}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0 0 22px}
+  .tabs{display:flex;gap:8px;margin-bottom:16px}
+  .tabs button{flex:1;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:15px;font-weight:700;cursor:pointer}
+  .tabs button.on{background:var(--teal);color:var(--teal-ink);border-color:var(--teal)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-bottom:16px}
+  .k{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
+  label{display:block;color:var(--muted);font-size:13px;margin:12px 0 5px}
+  input,select{width:100%;background:#0c1524;border:1px solid var(--line);border-radius:11px;color:var(--ink);padding:13px;font-size:16px;font-family:inherit}
+  code{font-family:ui-monospace,monospace;font-size:12px;color:var(--teal);word-break:break-all}
+  button.act{width:100%;background:var(--teal);color:var(--teal-ink);border:none;border-radius:13px;padding:16px;font-size:17px;font-weight:700;cursor:pointer;margin-top:14px}
+  button.act:disabled{opacity:.5;cursor:not-allowed}
+  button.ghost{background:transparent;color:var(--teal);border:1px solid var(--teal)}
+  .note{color:var(--muted);font-size:13.5px;margin-top:12px}
+  .steps{color:var(--muted);font-size:13.5px;padding-left:18px;margin:8px 0 0}
+  .steps li{margin:4px 0}
+  #status,#wstatus{margin-top:16px;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:#0c1524;font-size:14px;min-height:20px;word-break:break-all}
+  .ok{color:var(--teal)} .warn{color:var(--amber)} .err{color:var(--danger)}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  a{color:var(--teal)}
+  .hide{display:none}
+</style><meta name="description" content="Move VKBT and CURE between Hive-Engine and PRANA. Custody is the 3-of-5 @kula-bridge; the relayer watches both sides and never infers your address.">
+<link rel="canonical" href="https://kula.money/bridge.html">
+<meta property="og:title" content="Bridge — VKBT / CURE ↔ PRANA — KulaSwap"><meta property="og:description" content="Move VKBT and CURE between Hive-Engine and PRANA. Custody is the 3-of-5 @kula-bridge; the relayer watches both sides and never infers your address."><meta property="og:type" content="website"><meta property="og:url" content="https://kula.money/bridge.html"><meta property="og:site_name" content="KulaSwap"><meta property="og:image" content="https://melek.salon/og/kula-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="KULA"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Bridge — VKBT / CURE ↔ PRANA — KulaSwap"><meta name="twitter:description" content="Move VKBT and CURE between Hive-Engine and PRANA. Custody is the 3-of-5 @kula-bridge; the relayer watches both sides and never infers your address."><meta name="twitter:image" content="https://melek.salon/og/kula-card.png"><script>(function(){try{if(navigator.doNotTrack=='1'||window.doNotTrack=='1'||navigator.msDoNotTrack=='1')return;var u="https://analytics.soapbox.community/px",b=JSON.stringify({p:location.pathname,r:document.referrer});if(navigator.sendBeacon){navigator.sendBeacon(u,b);}else if(window.fetch){fetch(u,{method:'POST',body:b,keepalive:true,mode:'no-cors'});}}catch(e){}})();</script></head>
+<body><div class="wrap">
+  <div class="top">
+    <a href="/index.html" style="font-weight:700;text-decoration:none">← KulaSwap</a>
+    <button id="login" class="ghost" style="width:auto;padding:9px 14px;border-radius:11px;font-weight:700;cursor:pointer">Login with MELEK Signer</button>
+  </div>
+  <h1>Bridge</h1>
+  <p class="sub">Move VKBT and CURE between Hive-Engine and PRANA. Custody is the 3-of-5 <code>@kula-bridge</code>; the relayer watches both sides and never infers your address.</p>
+  <p style="margin:-10px 0 22px"><a href="/bridge-guide.html" style="color:var(--teal);font-weight:700;text-decoration:none">New here? Step-by-step guide →</a></p>
+
+  <div class="tabs">
+    <button id="t-dep" class="on" onclick="tab('dep')">Deposit → PRANA</button>
+    <button id="t-wd" onclick="tab('wd')">Withdraw → Hive</button>
+  </div>
+
+  <!-- DEPOSIT: Hive-Engine -> PRANA -->
+  <div id="dep" class="card">
+    <p class="k">Deposit — Hive-Engine → PRANA (wrapped)</p>
+    <label>Token</label>
+    <select id="d-token"><option value="VKBT">VKBT</option><option value="CURE">CURE</option></select>
+    <label>Amount</label>
+    <input id="d-amt" type="number" min="0" step="0.00000001" placeholder="1.0">
+    <label>Your PRANA address (where wrapped tokens arrive)</label>
+    <input id="d-prana" type="text" placeholder="0x…">
+    <button id="d-go" class="act">Send via Hive Keychain</button>
+    <ol class="steps">
+      <li>Keychain signs a Hive-Engine transfer of your tokens to <code>@kula-bridge</code>, memo = your PRANA address.</li>
+      <li>After <b>12 confirmations</b>, the 3-of-5 relayer mints the wrapped token (<b>wVKBT / wCURE</b>) to that PRANA address on PRANA (chainId 712217).</li>
+      <li>Then you can swap, stake, borrow, or trade it on KulaSwap.</li>
+    </ol>
+    <div id="status"></div>
+  </div>
+
+  <!-- WITHDRAW: PRANA -> Hive-Engine -->
+  <div id="wd" class="card hide">
+    <p class="k">Withdraw — PRANA → Hive-Engine</p>
+    <button id="w-connect" class="act ghost">Connect EVM wallet</button>
+    <label>Token</label>
+    <select id="w-token"><option value="VKBT">wVKBT → VKBT</option><option value="CURE">wCURE → CURE</option></select>
+    <label>Amount</label>
+    <input id="w-amt" type="number" min="0" step="0.00000001" placeholder="1.0">
+    <label>Your Hive username (where VKBT/CURE is released)</label>
+    <input id="w-hive" type="text" placeholder="kalivankush">
+    <button id="w-go" class="act" disabled>Approve &amp; Withdraw</button>
+    <ol class="steps">
+      <li>Your wallet approves the bridge to burn your wrapped token, then calls <code>withdraw</code>.</li>
+      <li>The relayer releases your <b>VKBT / CURE</b> to your Hive-Engine account, memo <code>bridge-withdraw:&lt;nonce&gt;</code>.</li>
+    </ol>
+    <div id="wstatus"></div>
+  </div>
+
+  <p class="note">Contracts (PRANA mainnet): bridge <code>0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505</code> · wVKBT <code>0xD915E757662c4234137aff167Bf93d588145f75e</code> · wCURE <code>0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff</code>.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+<script>
+const RPC="https://rpc.prana.melek.salon", CHAIN_HEX="0xade19"; // 712217
+const BRIDGE="0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505";
+const TOK={VKBT:{id:"0x91fa13cd301e5251cef8fafce427a7c636781556d24baf384cef525ea2bc20f8",w:"0xD915E757662c4234137aff167Bf93d588145f75e",dec:8},
+           CURE:{id:"0xec8d057b4fbd683692c47f9c66238dece9cfabb509f948e52ea693ed0a5cb3b8",w:"0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff",dec:8}};
+const CUSTODY="kula-bridge";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function note(el,cls,msg){el.className="";el.classList.add(cls);el.innerHTML=msg;}
+function tab(w){["dep","wd"].forEach(x=>{$(x).classList.toggle("hide",x!==w);$("t-"+x).classList.toggle("on",x===w);});}
+
+// ── MELEK Signer login (OAuth2, HiveSigner-compatible) ──
+$("login").onclick=()=>{
+  const u=new URL("https://signer.melek.salon/oauth2/authorize");
+  u.searchParams.set("client_id","kula.money");
+  u.searchParams.set("redirect_uri",location.origin+"/bridge.html");
+  u.searchParams.set("scope","login,custom_json");
+  u.searchParams.set("response_type","token");
+  location.href=u.toString();
+};
+(function(){const h=new URLSearchParams(location.hash.slice(1));const t=h.get("access_token")||h.get("token");
+  if(t){try{sessionStorage.setItem("melek_signer_token",t);}catch{};$("login").textContent="MELEK Signer ✓";}})();
+
+// ── DEPOSIT via Hive Keychain (Hive-Engine custom_json) ──
+$("d-go").onclick=()=>{
+  const sym=$("d-token").value, amt=$("d-amt").value.trim(), prana=$("d-prana").value.trim();
+  if(!/^0x[0-9a-fA-F]{40}$/.test(prana)) return note($("status"),"err","Enter a valid PRANA 0x address.");
+  if(!(parseFloat(amt)>0)) return note($("status"),"err","Enter an amount.");
+  if(!window.hive_keychain) return note($("status"),"err","Hive Keychain not found. Install the Keychain extension/app to sign the Hive-Engine transfer.");
+  const json=JSON.stringify({contractName:"tokens",contractAction:"transfer",contractPayload:{symbol:sym,to:CUSTODY,quantity:String(amt),memo:prana}});
+  note($("status"),"warn","Confirm the transfer in Hive Keychain…");
+  window.hive_keychain.requestCustomJson(null,"ssc-mainnet-hive","Active",json,`Bridge ${amt} ${sym} to PRANA ${prana.slice(0,8)}…`,
+    (r)=>{ if(r&&r.success) note($("status"),"ok",`Sent. Tx <code>${esc(r.result&&r.result.id||"broadcast")}</code>. After 12 confirmations the relayer mints w${sym} to <code>${esc(prana)}</code> on PRANA.`);
+           else note($("status"),"err","Keychain: "+esc((r&&r.message)||"cancelled")); });
+};
+
+// ── WITHDRAW via EVM wallet ──
+let provider,signer,account;
+async function ensureChain(){ try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:CHAIN_HEX}]});}
+  catch(e){ if(e.code===4902){ await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:CHAIN_HEX,chainName:"PRANA",rpcUrls:[RPC],nativeCurrency:{name:"PRANA",symbol:"PRANA",decimals:18}}]});} } }
+$("w-connect").onclick=async()=>{
+  try{ if(!window.ethereum) return note($("wstatus"),"err","No EVM wallet found. Install MetaMask or any injected wallet.");
+    await window.ethereum.request({method:"eth_requestAccounts"}); await ensureChain();
+    provider=new ethers.BrowserProvider(window.ethereum); signer=await provider.getSigner(); account=await signer.getAddress();
+    $("w-connect").textContent=account.slice(0,6)+"…"+account.slice(-4); $("w-go").disabled=false;
+    note($("wstatus"),"ok","Connected "+esc(account));
+  }catch(e){ note($("wstatus"),"err","Connect failed: "+esc(e.message||e)); }
+};
+$("w-go").onclick=async()=>{
+  try{
+    if(!signer) return note($("wstatus"),"err","Connect a wallet first.");
+    const sym=$("w-token").value, t=TOK[sym], amt=$("w-amt").value.trim(), hive=$("w-hive").value.trim().replace(/^@/,"");
+    if(!(parseFloat(amt)>0)) return note($("wstatus"),"err","Enter an amount.");
+    if(!/^[a-z0-9.-]{3,16}$/.test(hive)) return note($("wstatus"),"err","Enter your Hive username.");
+    const units=ethers.parseUnits(amt,t.dec);
+    const erc20=new ethers.Contract(t.w,["function allowance(address,address) view returns(uint256)","function approve(address,uint256) returns(bool)","function balanceOf(address) view returns(uint256)"],signer);
+    const bal=await erc20.balanceOf(account); if(bal<units) return note($("wstatus"),"err",`Not enough w${sym}. Balance ${ethers.formatUnits(bal,t.dec)}.`);
+    if(await erc20.allowance(account,BRIDGE)<units){ note($("wstatus"),"warn","Approve w"+sym+" in your wallet…"); await (await erc20.approve(BRIDGE,units)).wait(); }
+    note($("wstatus"),"warn","Confirm the withdrawal…");
+    const bridge=new ethers.Contract(BRIDGE,["function withdraw(bytes32 tokenId, uint256 amount, bytes32 destinationRef) returns(uint256)"],signer);
+    const dest=ethers.encodeBytes32String(hive);
+    const tx=await bridge.withdraw(t.id,units,dest); const rc=await tx.wait();
+    note($("wstatus"),"ok",`Withdrawn. Tx <code>${esc(tx.hash)}</code> (block ${rc.blockNumber}). The relayer releases ${amt} ${sym} to <code>@${esc(hive)}</code> on Hive-Engine after confirmations.`);
+  }catch(e){ note($("wstatus"),"err","Withdraw failed: "+esc((e&&(e.shortMessage||e.message))||e)); }
+};
+</script>
+</body></html>

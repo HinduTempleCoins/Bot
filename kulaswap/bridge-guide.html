@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to bridge VKBT &amp; CURE — step by step — KulaSwap</title>
+<style>
+  :root{--bg:#0a111e;--panel:#121c2e;--line:#25344d;--ink:#e8eef8;--muted:#8698b6;--teal:#2dd4bf;--amber:#f2b44c}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.65}
+  .wrap{max-width:720px;margin:0 auto;padding:40px 20px 90px}
+  h1{font-size:28px;margin:0 0 6px;letter-spacing:-.01em}
+  h2{font-size:20px;margin:34px 0 10px;border-top:1px solid var(--line);padding-top:26px}
+  .sub{color:var(--muted);margin:0 0 10px}
+  .back{color:var(--teal);text-decoration:none;font-weight:700;display:inline-block;margin-bottom:18px}
+  ol{padding-left:22px} li{margin:8px 0}
+  code{font-family:ui-monospace,monospace;font-size:12.5px;color:var(--teal);word-break:break-all}
+  img{width:100%;border-radius:13px;border:1px solid var(--line);margin:14px 0;display:block}
+  .cap{color:var(--muted);font-size:13px;margin:-6px 0 18px}
+  .cta{display:inline-block;background:var(--teal);color:#04231f;font-weight:700;text-decoration:none;border-radius:12px;padding:14px 22px;margin:8px 0}
+  .warn{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:12px;padding:14px 18px;margin:18px 0;color:var(--muted);font-size:14.5px}
+  a{color:var(--teal)}
+</style><meta name="description" content="KulaSwap's tokens VKBT and CURE live on Hive-Engine. To swap, stake, borrow, or trade them on PRANA, you bridge them over — and bridge them back whenever you want.">
+<link rel="canonical" href="https://kula.money/bridge-guide.html">
+<meta property="og:title" content="How to bridge VKBT &amp; CURE — step by step — KulaSwap"><meta property="og:description" content="KulaSwap's tokens VKBT and CURE live on Hive-Engine. To swap, stake, borrow, or trade them on PRANA, you bridge them over — and bridge them back whenever you want."><meta property="og:type" content="website"><meta property="og:url" content="https://kula.money/bridge-guide.html"><meta property="og:site_name" content="KulaSwap"><meta property="og:image" content="https://melek.salon/og/kula-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="KULA"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="How to bridge VKBT &amp; CURE — step by step — KulaSwap"><meta name="twitter:description" content="KulaSwap's tokens VKBT and CURE live on Hive-Engine. To swap, stake, borrow, or trade them on PRANA, you bridge them over — and bridge them back whenever you want."><meta name="twitter:image" content="https://melek.salon/og/kula-card.png"><script>(function(){try{if(navigator.doNotTrack=='1'||window.doNotTrack=='1'||navigator.msDoNotTrack=='1')return;var u="https://analytics.soapbox.community/px",b=JSON.stringify({p:location.pathname,r:document.referrer});if(navigator.sendBeacon){navigator.sendBeacon(u,b);}else if(window.fetch){fetch(u,{method:'POST',body:b,keepalive:true,mode:'no-cors'});}}catch(e){}})();</script></head>
+<body><div class="wrap">
+<a class="back" href="/bridge.html">← Open the Bridge</a>
+<h1>How to bridge VKBT &amp; CURE — step by step</h1>
+<p class="sub">KulaSwap's tokens VKBT and CURE live on Hive-Engine. To swap, stake, borrow, or trade them on PRANA, you bridge them over — and bridge them back whenever you want. It's non-custodial: your keys stay in your own wallet, the 3-of-5 <code>@kula-bridge</code> holds the lock, and the relayer does the mint and the release. Here is the whole process.</p>
+
+<h2>Where to start</h2>
+<p>Go to <a href="https://kula.money">kula.money</a> and tap <b>Bridge</b> at the top, or go straight to <a href="https://kula.money/bridge.html">kula.money/bridge.html</a>.</p>
+<img src="/bridge-guide/0-kula-home.png" alt="KulaSwap home with the Bridge link">
+<p class="cap">The Bridge link in the KulaSwap header.</p>
+
+<h2>Part 1 — Deposit: move VKBT / CURE from Hive to PRANA</h2>
+<ol>
+  <li>On the <b>Deposit → PRANA</b> tab, pick your token — <b>VKBT</b> or <b>CURE</b>.</li>
+  <li>Enter the <b>amount</b>.</li>
+  <li>Enter <b>your own PRANA address</b> — this is the wallet the wrapped token (wVKBT / wCURE) arrives in. Double-check it's yours.</li>
+  <li>Tap <b>Send via Hive Keychain</b> and approve. Keychain signs a Hive-Engine transfer of your tokens to <code>@kula-bridge</code>, with your PRANA address in the memo.</li>
+  <li>Wait <b>12 confirmations</b>. The 3-of-5 relayer then mints the wrapped token to your PRANA address. That's it — it's on PRANA.</li>
+</ol>
+<img src="/bridge-guide/2-deposit-filled.png" alt="Deposit form filled in">
+<p class="cap">Deposit: token, amount, and your PRANA address — then Send via Hive Keychain.</p>
+
+<h2>Part 2 — Use it on KulaSwap</h2>
+<p>Once it's wrapped on PRANA, connect your EVM wallet on <a href="https://kula.money">kula.money</a> and swap, stake, borrow against it, or trade — same as any PRANA token.</p>
+
+<h2>Part 3 — Withdraw: move it back to Hive</h2>
+<ol>
+  <li>Open the <b>Withdraw → Hive</b> tab and tap <b>Connect EVM wallet</b> (it switches you to PRANA automatically).</li>
+  <li>Pick the token, enter the <b>amount</b>, and enter <b>your Hive username</b> — where the tokens are released.</li>
+  <li>Tap <b>Approve &amp; Withdraw</b>. Your wallet approves the bridge and calls withdraw; the relayer releases VKBT / CURE back to your Hive account (memo <code>bridge-withdraw:&lt;nonce&gt;</code>).</li>
+</ol>
+<img src="/bridge-guide/4-withdraw-filled.png" alt="Withdraw form filled in">
+<p class="cap">Withdraw: connect your wallet, pick token and amount, enter your Hive username.</p>
+
+<div class="warn">
+  <b>Safety.</b> Non-custodial — your keys stay in Hive Keychain and your EVM wallet; this page never sees them. Your destination is taken only from what you sign (the memo on deposit, the username on withdraw), so the relayer cannot redirect your funds. Verify the contracts on PRANA mainnet: bridge <code>0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505</code> · wVKBT <code>0xD915E757662c4234137aff167Bf93d588145f75e</code> · wCURE <code>0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff</code>.
+</div>
+
+<a class="cta" href="/bridge.html">Open the Bridge →</a>
+<p style="margin-top:22px"><a href="https://kula.money">KulaSwap home</a> · <a href="/learn.html">How KulaSwap works</a></p>
+</div></body></html>

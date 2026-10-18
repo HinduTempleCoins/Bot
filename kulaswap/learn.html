@@ -21,10 +21,13 @@
   a{color:#2c7be5}.back{display:inline-block;margin-bottom:1rem}
   .tok{display:flex;gap:.6rem;align-items:baseline}.tok b{color:var(--gold);flex:0 0 70px}
 </style>
-</head><body>
+<meta name="description" content="A plain guide to swapping and pools.">
+<link rel="canonical" href="https://kula.money/learn.html">
+<meta property="og:title" content="How KulaSwap works"><meta property="og:description" content="A plain guide to swapping and pools."><meta property="og:type" content="website"><meta property="og:url" content="https://kula.money/learn.html"><meta property="og:site_name" content="KulaSwap"><meta property="og:image" content="https://melek.salon/og/kula-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="KULA"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="How KulaSwap works"><meta name="twitter:description" content="A plain guide to swapping and pools."><meta name="twitter:image" content="https://melek.salon/og/kula-card.png"><script>(function(){try{if(navigator.doNotTrack=='1'||window.doNotTrack=='1'||navigator.msDoNotTrack=='1')return;var u="https://analytics.soapbox.community/px",b=JSON.stringify({p:location.pathname,r:document.referrer});if(navigator.sendBeacon){navigator.sendBeacon(u,b);}else if(window.fetch){fetch(u,{method:'POST',body:b,keepalive:true,mode:'no-cors'});}}catch(e){}})();</script></head><body>
 <div class="wrap">
 <header><span class="logo"></span><div><h1>How KulaSwap works <span class="alpha">Mainnet</span></h1><div class="dim">the market logic, in plain terms · PRANA mainnet</div></div></header>
 <a class="back" href="index.html">← back to swap</a>
+<div class="card"><h2>Bridge — move VKBT / CURE between Hive-Engine and PRANA</h2><p>KulaSwap tokens like VKBT and CURE live on Hive-Engine. To swap, stake, borrow or trade them here, bridge them to PRANA first: send them to the 3-of-5 custody <code>@kula-bridge</code> with your PRANA address in the memo, and the relayer mints the wrapped token to you after 12 confirmations. Withdraw reverses it — burn the wrapped token on PRANA and the relayer releases the original to your Hive account.</p><p><a href="bridge.html"><b>Open the Bridge →</b></a></p></div>
 
 <div class="card">
 <h2>1. There's no order book — a formula is the market</h2>

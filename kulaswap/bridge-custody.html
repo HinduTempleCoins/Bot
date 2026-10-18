@@ -1,0 +1,96 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Create Bridge Custody — @kula-bridge</title>
+<style>
+  :root{--bg:#0a111e;--panel:#121c2e;--line:#25344d;--ink:#e8eef8;--muted:#8698b6;--teal:#2dd4bf;--teal-ink:#04231f;--amber:#f2b44c;--danger:#f0736b}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:680px;margin:0 auto;padding:44px 20px 80px}
+  h1{font-size:26px;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0 0 26px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-bottom:16px}
+  .k{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 6px}
+  .row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .row:last-child{border-bottom:none}
+  .row .v{font-weight:600;font-variant-numeric:tabular-nums}
+  code{font-family:ui-monospace,monospace;font-size:12px;color:var(--teal);word-break:break-all}
+  .keys{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--muted);line-height:1.9;margin:8px 0 0}
+  button{width:100%;background:var(--teal);color:var(--teal-ink);border:none;border-radius:13px;padding:16px;font-size:17px;font-weight:700;cursor:pointer;margin-top:8px}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .note{color:var(--muted);font-size:13.5px;margin-top:14px}
+  .ok{color:var(--teal)} .warn{color:var(--amber)} .err{color:var(--danger)}
+  #status{margin-top:18px;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:#0c1524;font-size:14px;min-height:20px;word-break:break-all}
+  a{color:var(--teal)}
+</style><script>(function(){try{if(navigator.doNotTrack=='1'||window.doNotTrack=='1'||navigator.msDoNotTrack=='1')return;var u="https://analytics.soapbox.community/px",b=JSON.stringify({p:location.pathname,r:document.referrer});if(navigator.sendBeacon){navigator.sendBeacon(u,b);}else if(window.fetch){fetch(u,{method:'POST',body:b,keepalive:true,mode:'no-cors'});}}catch(e){}})();</script></head>
+<body><div class="wrap">
+  <h1>Create the bridge custody account</h1>
+  <p class="sub">One click. Your key stays inside Hive Keychain — this page never sees it.</p>
+
+  <div class="card">
+    <p class="k">This will create</p>
+    <div class="row"><span>Account</span><span class="v">@kula-bridge</span></div>
+    <div class="row"><span>Created by</span><span class="v">@kalivankush (RC-funded, no HIVE fee)</span></div>
+    <div class="row"><span>Control</span><span class="v">3-of-5 multisig</span></div>
+    <div class="row"><span>Purpose</span><span class="v">VKBT / CURE / MELEK bridge custody</span></div>
+    <p class="k" style="margin-top:16px">Authority — 5 signer public keys, threshold 3</p>
+    <div class="keys" id="keys"></div>
+  </div>
+
+  <div class="card">
+    <p class="k">What gets broadcast (with your @kalivankush active key)</p>
+    <div class="row"><span>account_create</span><span class="v">create @kula-bridge with the 3-of-5</span></div>
+    <div class="row"><span>fee</span><span class="v">3.000 HIVE (must be liquid in @kalivankush)</span></div>
+    <button id="go" disabled>Checking for Hive Keychain…</button>
+    <div id="status">Detecting Hive Keychain…</div>
+    <p class="note warn">First make sure @kalivankush holds at least <b>3 HIVE liquid</b> — convert ~4 SWAP.HIVE → HIVE in Tribaldex if needed. Then click Create.</p>
+    <p class="note">Requires <b>Hive Keychain</b> with <b>@kalivankush</b> loaded. Nothing is signed until you approve in the popup; your active key never leaves the extension.</p>
+  </div>
+</div>
+
+<script>
+  var PUBS = [
+    "STM5AXEWdD9fVjPdx1w6qvK2HXsSNsdqi2WsVmkWt2QVFdNfhEXFA",
+    "STM5Rh6scWE8pmaHtrmaX2bCLxiRjPAig9XoKZMK5HoZGQbDCAWNR",
+    "STM5TmZG43AZsSrMMH5yykQKrPVPzEkuMChuBNvXZ3rdyQVocXgZ7",
+    "STM7prfFKv5kN5ftk3ovSQFvCZaNzTx7yCVsi9EP8UZFbKV5JZJVN",
+    "STM8an3BjBMjAZjNZPq9QtWXVVmTbnop7tXS564sZFU7kwbTuiz14"
+  ];
+  var CREATOR = "kalivankush", NEWACCT = "kula-bridge";
+  var auth = { weight_threshold: 3, account_auths: [], key_auths: PUBS.map(function(p){return [p,1];}) };
+  var ops = [
+    ["account_create", {
+      fee: "3.000 HIVE",
+      creator: CREATOR, new_account_name: NEWACCT,
+      owner: auth, active: auth, posting: auth, memo_key: PUBS[0],
+      json_metadata: JSON.stringify({ purpose: "MELEK/PRANA bridge custody (VKBT/CURE/MELEK) — 3-of-5; bot relays autonomously, operator override + on-chain caps/pause" })
+    }]
+  ];
+
+  document.getElementById("keys").innerHTML = PUBS.map(function(p,i){ return (i+1)+".&nbsp; "+p; }).join("<br>");
+  var btn = document.getElementById("go"), st = document.getElementById("status");
+  function set(msg, cls){ st.className = ""; if(cls) st.classList.add(cls); st.innerHTML = msg; }
+
+  var tries = 0;
+  (function detect(){
+    if (window.hive_keychain) {
+      btn.disabled = false; btn.textContent = "Create @kula-bridge custody (3-of-5)";
+      set("Hive Keychain detected. Ready when you are.", "ok");
+    } else if (tries++ < 40) { setTimeout(detect, 250); }
+    else { set("Hive Keychain not found. Install it and load @kalivankush, then refresh.", "warn"); btn.textContent = "Hive Keychain required"; }
+  })();
+
+  btn.addEventListener("click", function(){
+    if (!window.hive_keychain) { set("Hive Keychain not available.", "err"); return; }
+    btn.disabled = true; set("Approve the transaction in the Keychain popup…");
+    window.hive_keychain.requestBroadcast(CREATOR, ops, "active", function(res){
+      if (res && res.success) {
+        set("✅ Created! @kula-bridge exists with the 3-of-5. Tx: <code>"+(res.result && res.result.id || "broadcast")+"</code><br>Tell the operator's assistant it's done — next is the canary VKBT deposit.", "ok");
+      } else {
+        var m = (res && (res.message || res.error)) || "unknown error";
+        set("❌ Not created: "+m+"<br><span class='note'>If it says the token/name is taken or RC is low, tell the assistant and we'll adjust.</span>", "err");
+        btn.disabled = false;
+      }
+    });
+  });
+</script>
+</body></html>
