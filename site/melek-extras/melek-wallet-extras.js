@@ -6,7 +6,7 @@
 // removes them:
 //   • the "Estimated Account Value … $166.50 (1 MELEK = $0.00082792)" row is hidden
 //   • "Estimated curation rewards last week: 387.832 BP · $0.32" keeps the token amount and drops the "$"
-// Token amounts (MELEK, BP, MBD) are left exactly as the chain reports them.
+// Token amounts (MELEK, MP, MBD) are left exactly as the chain reports them.
 (function () {
   'use strict';
   var d = document, w = window;
@@ -61,11 +61,27 @@
     }
   }
 
+  // The wallet is a Blurt fork, and its labels still say BP / Blurt Power. On MELEK it is MELEK Power (MP).
+  var BLURT_WORDS = [[/\bBlurt Power\b/g, 'MELEK Power'], [/\bBLURT POWER\b/g, 'MELEK POWER'], [/(\d|\s)BP\b/g, '$1MP']];
+  function relabel() {
+    var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) {
+      var n = walker.currentNode, v = n.nodeValue || '';
+      if (!/BP|Blurt Power|BLURT POWER/.test(v)) continue;
+      var el = n.parentElement;
+      if (!el || /^(SCRIPT|STYLE|TEXTAREA|INPUT|CODE|PRE)$/.test(el.tagName)) continue;
+      var out = v;
+      BLURT_WORDS.forEach(function (r) { out = out.replace(r[0], r[1]); });
+      if (out !== v) n.nodeValue = out;
+    }
+  }
+
   function start() {
     fixHeader();
     scrub();
+    relabel();
     var t = null;   // the wallet is a single-page app: re-run when its content changes
-    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { scrub(); fixHeader(); }, 150); })
+    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { scrub(); fixHeader(); relabel(); }, 150); })
       .observe(d.body, { childList: true, subtree: true, characterData: true });
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start); else start();
