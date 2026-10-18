@@ -12,6 +12,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PALETTE = "cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
 OURS = {
     "art-nouveau": "Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, " + PALETTE,
+    # same register for plant/stone cards, without the Mucha name (it always pulls in a woman): the specimen is the subject
+    "art-nouveau-botanical": "Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, " + PALETTE,
     "glowing-engraving": "alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, " + PALETTE,
     "splendor-solis": "illuminated alchemical manuscript emblem in the style of Splendor Solis and Atalanta Fugiens, gold leaf, ornate tarot card frame, " + PALETTE,
     "vaporwave": "vaporwave, futuristic neon temple, holographic glyphs, chrome and gold, pastel pink purple and cyan light, grid horizon",
@@ -27,17 +29,22 @@ PIN = {
     "cottagecore-flatlay": "cottagecore flat lay, pressed flowers, dried herbs, glass apothecary jars, linen, top-down soft natural light",
 }
 BLANK = "blank banner and empty label scrolls, no text"
+NEG_NO_PEOPLE = ("woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, "
+                 "signature, logo, blurry, low quality, deformed")
 
 
 def seed_of(key):
     return zlib.crc32(key.encode()) % 100000
 
 
-def card(cid, kind, title, subject, ours, pin, facts, size="512x768", pin_subject=None, character=None):
+def card(cid, kind, title, subject, ours, pin, facts, size="512x768", pin_subject=None, character=None, no_people=False):
     c = {"id": cid, "kind": kind, "title": title, "size": size, "seed": seed_of(cid), "facts": facts,
          "overlay_labels": facts.get("labels", []),
          "prompts": {"ours": {"style": ours, "prompt": f"{subject}, {BLANK}, {OURS[ours]}"},
                      "pinterest": {"style": pin, "prompt": f"{pin_subject or subject}, {BLANK}, {PIN[pin]}"}}}
+    if no_people:  # Mucha-style prompts tend to add a woman; plant/gem cards must show the plant or stone
+        for v in c["prompts"].values():
+            v["negative"] = NEG_NO_PEOPLE
     if character:  # Hathor is only ever drawn through the worker's character mode (her canonical head reference)
         c["prompts"]["ours"]["character"] = character
     return c
@@ -156,14 +163,14 @@ def herb_card(h):
                                    "dose", "warnings", "element_or_dosha", "folk_correspondence", "source_ids")}
     facts["labels"] = [h["name"], h["latin"]] + list(h.get("uses", []))[:3]
     pin = "herbarium-plate" if seed_of(h["id"]) % 2 else "line-watercolor"
-    return card(f"herb-{h['id']}", "herb", h["name"], subj, "art-nouveau", pin, facts)
+    return card(f"herb-{h['id']}", "herb", h["name"], subj, "art-nouveau-botanical", pin, facts, no_people=True)
 
 
 def gem_card(g):
     subj = f"{g['name']} gemstone, raw crystal and polished cabochon, ancient amulet"
     facts = {k: g.get(k) for k in ("name", "mineral", "traditional_correspondences", "history", "evidence", "safety", "source_ids")}
     facts["labels"] = [g["name"]]
-    return card(f"gem-{g['id']}", "gem", g["name"], subj, "glowing-engraving", "crystal-watercolor", facts)
+    return card(f"gem-{g['id']}", "gem", g["name"], subj, "glowing-engraving", "crystal-watercolor", facts, no_people=True)
 
 
 def build(research):

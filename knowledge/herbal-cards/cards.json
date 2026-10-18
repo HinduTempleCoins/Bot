@@ -3,6 +3,7 @@
  "registers_source": ".local/research-casino/BOTANICA_ART_DIRECTION.md (locked 2026-09-02) + .local/BOTANICA_PANTHEON_PICKS.md v3 planet layer",
  "ours_styles": {
   "art-nouveau": "Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+  "art-nouveau-botanical": "Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
   "glowing-engraving": "alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
   "splendor-solis": "illuminated alchemical manuscript emblem in the style of Splendor Solis and Atalanta Fugiens, gold leaf, ornate tarot card frame, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
   "vaporwave": "vaporwave, futuristic neon temple, holographic glyphs, chrome and gold, pastel pink purple and cyan light, grid horizon"
@@ -79,12 +80,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Ginger (Zingiber officinale) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Ginger (Zingiber officinale) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Ginger (Zingiber officinale) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Ginger (Zingiber officinale) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -150,12 +153,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Peppermint (Mentha x piperita) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Peppermint (Mentha x piperita) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Peppermint (Mentha x piperita) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Peppermint (Mentha x piperita) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -218,12 +223,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "German Chamomile (Matricaria chamomilla) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "German Chamomile (Matricaria chamomilla) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "German Chamomile (Matricaria chamomilla) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "German Chamomile (Matricaria chamomilla) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -289,12 +296,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Garlic (Allium sativum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Garlic (Allium sativum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Garlic (Allium sativum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Garlic (Allium sativum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -359,12 +368,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Turmeric (Curcuma longa) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Turmeric (Curcuma longa) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Turmeric (Curcuma longa) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Turmeric (Curcuma longa) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -428,12 +439,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "raw honey dripping from a honeycomb with honeybees and wildflowers, a clay honey pot, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "raw honey dripping from a honeycomb with honeybees and wildflowers, a clay honey pot, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "raw honey dripping from a honeycomb with honeybees and wildflowers, a clay honey pot, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "raw honey dripping from a honeycomb with honeybees and wildflowers, a clay honey pot, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -490,12 +503,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Elderberry (Sambucus nigra) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Elderberry (Sambucus nigra) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Elderberry (Sambucus nigra) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Elderberry (Sambucus nigra) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -553,12 +568,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Echinacea (purple coneflower) (Echinacea purpurea) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Echinacea (purple coneflower) (Echinacea purpurea) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Echinacea (purple coneflower) (Echinacea purpurea) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Echinacea (purple coneflower) (Echinacea purpurea) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -624,12 +641,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "White Willow Bark (Salix alba) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "White Willow Bark (Salix alba) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "White Willow Bark (Salix alba) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "White Willow Bark (Salix alba) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -691,12 +710,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Feverfew (Tanacetum parthenium) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Feverfew (Tanacetum parthenium) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Feverfew (Tanacetum parthenium) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Feverfew (Tanacetum parthenium) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -759,12 +780,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Valerian (Valeriana officinalis) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Valerian (Valeriana officinalis) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Valerian (Valeriana officinalis) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Valerian (Valeriana officinalis) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -827,12 +850,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Lavender (Lavandula angustifolia) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Lavender (Lavandula angustifolia) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Lavender (Lavandula angustifolia) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Lavender (Lavandula angustifolia) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -895,12 +920,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "St John's Wort (Hypericum perforatum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "St John's Wort (Hypericum perforatum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "St John's Wort (Hypericum perforatum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "St John's Wort (Hypericum perforatum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -956,12 +983,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Cranberry (Vaccinium macrocarpon) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Cranberry (Vaccinium macrocarpon) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Cranberry (Vaccinium macrocarpon) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Cranberry (Vaccinium macrocarpon) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1025,12 +1054,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Fennel (Foeniculum vulgare) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Fennel (Foeniculum vulgare) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Fennel (Foeniculum vulgare) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Fennel (Foeniculum vulgare) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1092,12 +1123,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Clove (Syzygium aromaticum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Clove (Syzygium aromaticum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Clove (Syzygium aromaticum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Clove (Syzygium aromaticum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1161,12 +1194,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "aloe vera plant with a cut leaf showing clear gel, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "aloe vera plant with a cut leaf showing clear gel, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "aloe vera plant with a cut leaf showing clear gel, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "aloe vera plant with a cut leaf showing clear gel, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1229,12 +1264,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Asian ginseng (Panax ginseng) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Asian ginseng (Panax ginseng) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Asian ginseng (Panax ginseng) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Asian ginseng (Panax ginseng) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1297,12 +1334,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Ashwagandha (Withania somnifera) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Ashwagandha (Withania somnifera) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Ashwagandha (Withania somnifera) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Ashwagandha (Withania somnifera) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1364,12 +1403,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Holy Basil (Tulsi) (Ocimum tenuiflorum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Holy Basil (Tulsi) (Ocimum tenuiflorum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Holy Basil (Tulsi) (Ocimum tenuiflorum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Holy Basil (Tulsi) (Ocimum tenuiflorum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1431,12 +1472,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "three Ayurvedic fruits amla haritaki and bibhitaki on their branches, a brass bowl of powder, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "three Ayurvedic fruits amla haritaki and bibhitaki on their branches, a brass bowl of powder, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "three Ayurvedic fruits amla haritaki and bibhitaki on their branches, a brass bowl of powder, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "three Ayurvedic fruits amla haritaki and bibhitaki on their branches, a brass bowl of powder, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1504,12 +1547,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Licorice root (Glycyrrhiza glabra) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Licorice root (Glycyrrhiza glabra) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Licorice root (Glycyrrhiza glabra) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Licorice root (Glycyrrhiza glabra) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1568,12 +1613,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Astragalus (Huang Qi) (Astragalus membranaceus) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Astragalus (Huang Qi) (Astragalus membranaceus) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Astragalus (Huang Qi) (Astragalus membranaceus) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Astragalus (Huang Qi) (Astragalus membranaceus) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1635,12 +1682,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Ginkgo (Ginkgo biloba) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Ginkgo (Ginkgo biloba) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "herbarium-plate",
-     "prompt": "Ginkgo (Ginkgo biloba) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration"
+     "prompt": "Ginkgo (Ginkgo biloba) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, vintage botanical chromolithograph plate, Koehler's Medizinal-Pflanzen style, whole plant with numbered flower, fruit and root details, aged paper, scientific illustration",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1707,12 +1756,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Black Seed (Habbatus Sauda) (Nigella sativa) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Black Seed (Habbatus Sauda) (Nigella sativa) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Black Seed (Habbatus Sauda) (Nigella sativa) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Black Seed (Habbatus Sauda) (Nigella sativa) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1777,12 +1828,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "garden sage and rosemary sprigs, leaves and flowers, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "garden sage and rosemary sprigs, leaves and flowers, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "garden sage and rosemary sprigs, leaves and flowers, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "garden sage and rosemary sprigs, leaves and flowers, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1851,12 +1904,14 @@
    ],
    "prompts": {
     "ours": {
-     "style": "art-nouveau",
-     "prompt": "Fenugreek (Trigonella foenum-graecum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau illustration in the style of Alphonse Mucha, flowing botanical linework, ornamental border, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "style": "art-nouveau-botanical",
+     "prompt": "Fenugreek (Trigonella foenum-graecum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, Art Nouveau botanical poster, single plant specimen as the only subject, decorative flowing ornamental border, whiplash curves, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "line-watercolor",
-     "prompt": "Fenugreek (Trigonella foenum-graecum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels"
+     "prompt": "Fenugreek (Trigonella foenum-graecum) medicinal plant, detailed drawing of leaves flowers and roots, blank banner and empty label scrolls, no text, minimalist botanical line drawing with soft watercolor wash, white background, airy witchy herb guide pin, empty space for handwritten labels",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1886,11 +1941,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Amethyst gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Amethyst gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Amethyst gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Amethyst gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1920,11 +1977,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Rose Quartz gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Rose Quartz gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Rose Quartz gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Rose Quartz gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1955,11 +2014,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Clear Quartz (Rock Crystal) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Clear Quartz (Rock Crystal) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Clear Quartz (Rock Crystal) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Clear Quartz (Rock Crystal) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -1989,11 +2050,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Citrine gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Citrine gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Citrine gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Citrine gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2024,11 +2087,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Lapis Lazuli gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Lapis Lazuli gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Lapis Lazuli gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Lapis Lazuli gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2058,11 +2123,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Carnelian gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Carnelian gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Carnelian gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Carnelian gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2093,11 +2160,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Turquoise gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Turquoise gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Turquoise gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Turquoise gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2127,11 +2196,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Obsidian gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Obsidian gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Obsidian gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Obsidian gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2161,11 +2232,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Moonstone gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Moonstone gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Moonstone gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Moonstone gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2196,11 +2269,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Malachite gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Malachite gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Malachite gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Malachite gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2230,11 +2305,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Garnet gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Garnet gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Garnet gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Garnet gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2265,11 +2342,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Jade (Nephrite and Jadeite) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Jade (Nephrite and Jadeite) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Jade (Nephrite and Jadeite) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Jade (Nephrite and Jadeite) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2299,11 +2378,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Emerald gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Emerald gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Emerald gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Emerald gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
@@ -2333,11 +2414,13 @@
    "prompts": {
     "ours": {
      "style": "glowing-engraving",
-     "prompt": "Bloodstone (Heliotrope) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print"
+     "prompt": "Bloodstone (Heliotrope) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, alchemical copperplate engraving with soft golden glows, luminous cutscene illustration, fine crosshatching, cream parchment ground, black ink linework, teal jewel accents, terracotta orange accents, hand-tinted illuminated print",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     },
     "pinterest": {
      "style": "crystal-watercolor",
-     "prompt": "Bloodstone (Heliotrope) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin"
+     "prompt": "Bloodstone (Heliotrope) gemstone, raw crystal and polished cabochon, ancient amulet, blank banner and empty label scrolls, no text, watercolor crystal illustration, faceted gemstone with sparkle, soft pastel background, witchy crystal guide pin",
+     "negative": "woman, man, person, people, girl, figure, face, portrait, text, letters, words, writing, captions, watermark, signature, logo, blurry, low quality, deformed"
     }
    }
   },
