@@ -91,6 +91,7 @@
   // tabs open independently, and an opened tool stays loaded when collapsed so work isn't lost.
   var TOOLS = [
     ['novel', 'Novel Writing', 'Draft chapters, track your word count, export your book.', 'https://pentecaust.com/metatron'],
+    ['photos', 'Photos (Pinboard)', 'Post a photo or album to the MELEK Pinboard, or save one you found, then copy its markdown into your post.', 'https://melek.salon/pin'],
     ['image', 'Image Generation', 'Make pictures for your post with Hathor’s studio.', 'https://hathor.soapbox.community/'],
     ['music', 'Music', 'Write songs and build beats with Hathor Sandalphon.', 'https://pentecaust.com/sandalphon'],
     ['video', 'Video (Bifrost)', 'Upload a video to Bifrost, MELEK\u2019s video platform, then link it in your post.', 'https://hathor.soapbox.community/pentecaust/bifrost/upload'],
