@@ -1,7 +1,7 @@
 // games.test.mjs — offline tests for the PRANA Games hub (the "what is PRANA for" front door).
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { handler, homePage, esc, SECTIONS, SITEMAP_PATHS } from './server.mjs';
+import { handler, homePage, esc, SECTIONS, SITEMAP_PATHS, UC } from './server.mjs';
 
 function mockRes() {
   return { code: null, headers: null, body: '', writeHead(c, h) { this.code = c; this.headers = h || {}; }, end(s) { this.body = s == null ? '' : String(s); } };
@@ -20,6 +20,7 @@ test('home 200 leads with play-and-earn, not mining-only', async () => {
 test('every catalog surface is linked on the hub', async () => {
   const res = await get('/');
   for (const s of SECTIONS) for (const it of s.items) {
+    if (it.tag === UC) continue; // not deployed yet: labelled, deliberately unlinked (next test)
     assert.ok(res.body.includes(it.url), `missing link for ${it.name} (${it.url})`);
     assert.ok(res.body.includes(esc(it.name)), `missing name ${it.name}`);
   }
@@ -83,4 +84,15 @@ test('SITEMAP_PATHS covers the hub', () => {
 
 test('esc escapes hostile input', () => {
   assert.equal(esc('<b>x</b>'), '&lt;b&gt;x&lt;/b&gt;');
+});
+
+test('surfaces that are not deployed show Under Construction and are not linked', async () => {
+  const res = await get('/');
+  const uc = SECTIONS.flatMap((s) => s.items).filter((it) => it.tag === UC);
+  assert.ok(uc.some((it) => /Casino/.test(it.name)), 'casino is under construction');
+  for (const it of uc) {
+    assert.ok(!res.body.includes(`href="${esc(it.url)}"`), `${it.name} must not link to ${it.url}`);
+    assert.ok(res.body.includes(esc(it.name)), `${it.name} still listed`);
+  }
+  assert.match(res.body, /under construction/);
 });

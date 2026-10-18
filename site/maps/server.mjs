@@ -6,7 +6,7 @@
 //   • robots/sitemap helpers    — integrations/soapbox/crawlers.mjs
 // and cross-links to the wider ecosystem (Move geo-explore, coupons, local-business intel).
 //
-//   PORT=8144 BASE_URL=https://maps.melek.salon node site/maps/server.mjs
+//   PORT=8144 PATH_PREFIX=/maps BASE_URL=https://melek.salon/maps node site/maps/server.mjs
 //
 // ── Routes ──────────────────────────────────────────────────────────────────────────────────────
 //   /                 the map page — a search box, a Leaflet map div, and (on ?q=) the resolved place
@@ -33,6 +33,11 @@ import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 const PORT = +(process.env.PORT || 8144);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, '');
+// Mounted under a path on an existing host (PATH_PREFIX=/maps behind melek.salon/maps): page links are written
+// root-relative, so sendHtml/redirects prefix them, and the handler strips the prefix off requests.
+const PATH_PREFIX = (process.env.PATH_PREFIX || '').replace(/\/+$/, '');
+const prefixed = (html) => PATH_PREFIX ? String(html).replace(/(href|action|src)="\/(?!\/)/g, `$1="${PATH_PREFIX}/`) : html;
+const loc = (l) => (PATH_PREFIX && l.startsWith('/') && !l.startsWith('//') ? PATH_PREFIX + l : l);
 
 // Ecosystem tie-ins (links, not deps). Overridable by env; sensible live defaults.
 const MOVE = (process.env.MOVE_SITE || 'https://move.melek.salon').replace(/\/$/, '');
@@ -83,16 +88,31 @@ function normType(t) {
  * Never throws: any reader failure collapses to place:null / results:[] with ok reflecting whether a
  * place was resolved.
  */
+// Small TTL cache for the OSM reads. Only real answers are kept (null / empty lists are retried next time).
+const _memo = new Map();
+export function __clearCache() { _memo.clear(); }
+async function remember(key, ttlMs, fn) {
+  const hit = _memo.get(key);
+  if (hit && hit.exp > Date.now()) return hit.v;
+  const v = await fn();
+  if (v != null && !(Array.isArray(v) && !v.length)) {
+    if (_memo.size > 2000) _memo.clear();
+    _memo.set(key, { v, exp: Date.now() + ttlMs });
+  }
+  return v;
+}
+
 export async function searchData(q, { type, radiusM = DEFAULT_RADIUS_M } = {}) {
   const query = str(q);
   const ty = normType(type);
   const empty = { ok: false, query, type: ty, typeLabel: labelForType(ty), place: null, count: 0, results: [], attribution: ATTRIBUTION };
   if (!query) return empty;
   try {
-    const g = await nominatim.geocode(query).catch(() => null);
+    // Nominatim's policy asks callers to cache: the same place is geocoded once a day, not per view.
+    const g = await remember(`geo:${query.toLowerCase()}`, 86_400_000, () => nominatim.geocode(query).catch(() => null));
     if (!g || g.lat == null || g.lon == null) return empty;
     const place = { lat: g.lat, lon: g.lon, displayName: g.displayName || query };
-    const raw = await osmPoi.nearby({ lat: place.lat, lon: place.lon, amenity: ty, radiusM }).catch(() => []);
+    const raw = await remember(`poi:${place.lat},${place.lon}:${ty}:${radiusM}`, 3_600_000, () => osmPoi.nearby({ lat: place.lat, lon: place.lon, amenity: ty, radiusM }).catch(() => []));
     const results = (Array.isArray(raw) ? raw : []).map((p) => ({
       name: str(p.name) || labelForType(ty),
       type: str(p.type) || ty,
@@ -156,7 +176,7 @@ function page(title, body, opts = {}) {
 <title>${esc(title)}</title>
 <meta name=description content="${esc(desc)}">
 <meta name=robots content="${esc(robots)}">
-<link rel=canonical href="${esc(canonical)}">${STYLE}${head}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+<link rel=canonical href="${esc(canonical)}">${STYLE}${head}</head><body>
 <header class=topbar><a class=brand href="/">🗺️ MELEK <span>maps</span></a>
   <div class=topbar-r><a href="${esc(MOVE)}">Move</a><a href="${esc(COUPONS)}">Coupons</a><a href="${esc(DATA)}">Data</a></div></header>
 <main class=wrap>${body}</main>
@@ -266,7 +286,7 @@ export async function mapPage(q, type) {
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=120' });
-  res.end(html);
+  res.end(prefixed(html));
 }
 function sendJson(res, obj, code = 200) {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=60' });
@@ -279,7 +299,8 @@ const SITEMAP_PATHS = ['/'];
 export async function handler(req, res) {
   try {
     const url = new URL(req.url, BASE_URL);
-    const path = url.pathname;
+    let path = url.pathname;
+    if (PATH_PREFIX && (path === PATH_PREFIX || path.startsWith(PATH_PREFIX + '/'))) path = path.slice(PATH_PREFIX.length) || '/';
     const sp = url.searchParams;
 
     if (path === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
@@ -304,7 +325,7 @@ export async function handler(req, res) {
     }
 
     // unknown → home
-    res.writeHead(302, { location: '/' });
+    res.writeHead(302, { location: loc('/') });
     return res.end();
   } catch (e) {
     // last-ditch soft-fail: never leak a stack, never crash the process.

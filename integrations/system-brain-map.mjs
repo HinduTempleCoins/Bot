@@ -40,12 +40,23 @@ function purposeOf(app) {
   return '';
 }
 
+// Live surfaces the web dispatcher's host map can't show: ones served under a path on another host, or by
+// their own service. Each `host` is the live address (host + path) — never an old address that moved.
+export const EXTRA_SITES = [
+  { host: 'gallery.melek.salon', app: 'gallery' },
+  { host: 'herald.soapbox.community/newsroom', app: 'news', purpose: 'The Herald Newsroom: our own wire plus the full industry-category portal (moved here from news.soapbox.community).' },
+  { host: 'melek.salon/maps', app: 'maps', purpose: 'MELEK Maps: keyless OpenStreetMap place search and nearby places.' },
+  { host: 'melek.salon/pin', app: 'pinboard', purpose: 'MELEK Pinboard: post photos and albums, or save pictures you found (moved here from pin.melek.salon).' },
+  { host: 'pentecaust.com/metatron', app: 'writing', purpose: 'Hathor Metatron: Preptober and the November 50,000-word challenge, with a drafting studio that keeps your work in your browser (moved here from write.soapbox.community).' },
+];
+
 export function buildMap({ reposFile } = {}) {
   let routes = {};
   try { routes = JSON.parse(readFileSync(join(ROOT, 'site/_dispatch/routes.json'), 'utf8')); } catch {}
-  const sites = Object.entries(routes)
-    .map(([host, app]) => ({ host, app, purpose: purposeOf(app) }))
-    .sort((a, b) => a.host.localeCompare(b.host));
+  const sites = [
+    ...Object.entries(routes).map(([host, app]) => ({ host, app, purpose: purposeOf(app) })),
+    ...EXTRA_SITES.filter((e) => !routes[e.host]).map((e) => ({ host: e.host, app: e.app, purpose: e.purpose || purposeOf(e.app) })),
+  ].sort((a, b) => a.host.localeCompare(b.host));
 
   let repos = [];
   if (reposFile && existsSync(reposFile)) {

@@ -132,3 +132,11 @@ test('/factors is in the sitemap and the llms manifest', async () => {
   assert.match((await call('/sitemap.xml')).body, /\/factors/);
   assert.match((await call('/llms.txt')).body, /Non-growing shelf/);
 });
+
+test('Botanica is unfinished: every page shows the Under Construction label', async () => {
+  for (const p of ['/?account=viewer&now=0', '/factors']) {
+    const r = await call(p);
+    assert.equal(r.code, 200);
+    assert.match(r.body, /<div class=uc role=status>Under Construction<\/div>/);
+  }
+});

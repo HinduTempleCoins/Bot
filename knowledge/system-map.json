@@ -1,8 +1,8 @@
 {
-  "generated": "2026-10-14T02:17:22.178Z",
+  "generated": "2026-10-18T07:33:08.585Z",
   "counts": {
-    "sites": 94,
-    "apps": 86,
+    "sites": 100,
+    "apps": 93,
     "repos": 12
   },
   "sites": [
@@ -35,6 +35,11 @@
       "host": "benefits.soapbox.community",
       "app": "benefits",
       "purpose": "RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost"
+    },
+    {
+      "host": "botanica.soapbox.community",
+      "app": "botanica",
+      "purpose": "site/botanica/server.mjs — the Botanica farm SURFACE: the first served UI over the new economy stack"
     },
     {
       "host": "business.soapbox.community",
@@ -112,14 +117,9 @@
       "purpose": "dudael.com, the METAVERSE landing of the VanKush / SoapBox / MELEK ecosystem."
     },
     {
-      "host": "ecosystem.soapbox.community",
-      "app": "ecosystem",
-      "purpose": "the ECOSYSTEM MAP surface — ecosystem.soapbox.community / sitemap.soapbox.community."
-    },
-    {
       "host": "encounters.soapbox.community",
       "app": "encounters",
-      "purpose": "Faux Law Files (encounters.soapbox / hathor.live/encounters). The pop-culture front"
+      "purpose": "Faux Law Files (encounters.soapbox.community). The pop-culture front"
     },
     {
       "host": "farm.alpha.soapbox.community",
@@ -150,6 +150,11 @@
       "host": "free-speech.soapbox.community",
       "app": "free-speech",
       "purpose": "Free Speech & Sedition. A self-contained, read-only legal-education surface in the"
+    },
+    {
+      "host": "gallery.melek.salon",
+      "app": "gallery",
+      "purpose": "site/gallery/server.mjs — gallery.melek.salon: two browsable galleries of Hathor's visual identity."
     },
     {
       "host": "gambling.soapbox.community",
@@ -200,6 +205,11 @@
       "host": "herald.soapbox.community",
       "app": "herald",
       "purpose": "Herald (the MELEK/Pentecaust growth engine's public surface). ONE dashboard that ties"
+    },
+    {
+      "host": "herald.soapbox.community/newsroom",
+      "app": "news",
+      "purpose": "The Herald Newsroom: our own wire plus the full industry-category portal (moved here from news.soapbox.community)."
     },
     {
       "host": "hierophant.soapbox.community",
@@ -262,6 +272,11 @@
       "purpose": "The SoapBox Library: the public-domain-first books and documents surface."
     },
     {
+      "host": "mail.melek.salon",
+      "app": "maillist",
+      "purpose": "mail.melek.salon — the MAIL PREFERENCES + MELEK DIRECTORY hub."
+    },
+    {
       "host": "map.soapbox.community",
       "app": "map",
       "purpose": "The Frontier (map.soapbox.community / tools hub /map). The persistent-world MAP surface"
@@ -270,6 +285,16 @@
       "host": "markdown.soapbox.community",
       "app": "markdown",
       "purpose": "Markdown.SoapBox.Community. A free live markdown editor: write markdown on the left, see a"
+    },
+    {
+      "host": "melek.salon/maps",
+      "app": "maps",
+      "purpose": "MELEK Maps: keyless OpenStreetMap place search and nearby places."
+    },
+    {
+      "host": "melek.salon/pin",
+      "app": "pinboard",
+      "purpose": "MELEK Pinboard: post photos and albums, or save pictures you found (moved here from pin.melek.salon)."
     },
     {
       "host": "melekd.hathor.live",
@@ -285,11 +310,6 @@
       "host": "move.soapbox.community",
       "app": "move-miner",
       "purpose": "site/move-miner/server.mjs — MELEK Move: the FIRST consumer app — a Step Counter + GeoMiner PWA."
-    },
-    {
-      "host": "news.soapbox.community",
-      "app": "news",
-      "purpose": "site/news/server.mjs — mounts the Herald Newsroom (our own originating wire) at"
     },
     {
       "host": "notes.soapbox.community",
@@ -315,6 +335,11 @@
       "host": "passgen.soapbox.community",
       "app": "passgen",
       "purpose": "Passgen.SoapBox.Community. A strong password generator that runs 100% CLIENT-SIDE."
+    },
+    {
+      "host": "pentecaust.com/metatron",
+      "app": "writing",
+      "purpose": "Hathor Metatron: Preptober and the November 50,000-word challenge, with a drafting studio that keeps your work in your browser (moved here from write.soapbox.community)."
     },
     {
       "host": "pets.soapbox.community",
@@ -397,11 +422,6 @@
       "purpose": "Shopping.SoapBox.Community. The SHOPPING PARENT HUB in the SoapBox house style"
     },
     {
-      "host": "sitemap.soapbox.community",
-      "app": "ecosystem",
-      "purpose": "the ECOSYSTEM MAP surface — ecosystem.soapbox.community / sitemap.soapbox.community."
-    },
-    {
       "host": "soapbox.community",
       "app": "home",
       "purpose": "soapbox.community ROOT — the ecosystem HOME PAGE."
@@ -432,6 +452,16 @@
       "purpose": "Timer.SoapBox.Community. A free focus timer, stopwatch, and countdown in one clean page."
     },
     {
+      "host": "token-manage.soapbox.community",
+      "app": "token-manage",
+      "purpose": "token-manage.alpha.melek.salon. The \"Manage my token\" front-end for MELEK-Engine token"
+    },
+    {
+      "host": "tokens.soapbox.community",
+      "app": "tokens",
+      "purpose": "site/tokens/server.mjs — tokens.soapbox.community"
+    },
+    {
       "host": "tools.soapbox.community",
       "app": "tools",
       "purpose": "Tools.SoapBox.Community. The unifying hub for the mundane-app suite"
@@ -445,6 +475,11 @@
       "host": "tunein.soapbox.community",
       "app": "tunein",
       "purpose": "site/tunein/server.mjs — \"Tune In\": a Netflix / Tubi-shaped browse + watch surface that AGGREGATES"
+    },
+    {
+      "host": "tutorial.soapbox.community",
+      "app": "tutorial",
+      "purpose": "Tutorial (read-only) — a self-contained page that renders the existing"
     },
     {
       "host": "vankushfamily.com",
@@ -465,11 +500,6 @@
       "host": "witness.melek.salon",
       "app": "witness",
       "purpose": "witness.melek.salon. The Mining Pool's public face and \"WITNESS SCHOOL,\" in the"
-    },
-    {
-      "host": "write.soapbox.community",
-      "app": "writing",
-      "purpose": "The Writing Room (write.soapbox.community). Preptober + the November 50,000-word"
     },
     {
       "host": "www.soapbox.community",

@@ -1,4 +1,4 @@
-// server.mjs — Faux Law Files (encounters.soapbox / hathor.live/encounters). The pop-culture front
+// server.mjs — Faux Law Files (encounters.soapbox.community). The pop-culture front
 // door to the legal library: a curated, browsable gallery of real "sovereign citizen" / pseudolaw
 // encounter videos — the entertainment hook everyone already searches for ("window broken," "owned in
 // court") — with every clip sat next to the REAL law it misreads and a link into the live /doctrines

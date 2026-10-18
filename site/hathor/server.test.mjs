@@ -772,6 +772,6 @@ test('/maps: history-map clips from MAPS_DIR index, Alpha + CC-BY credit, VideoO
 test('pictures on the Studio can be saved to the MELEK Pinboard in one click', async () => {
   const res = await call({ url: '/' });
   const body = String(res.body || res._body || '');
-  assert.match(body, /pin\.melek\.salon/);
+  assert.match(body, /melek\.salon\/pin/);
   assert.match(body, /pin-it-wrap/);
 });

@@ -94,17 +94,19 @@ async function listPage({ page = 1 } = {}) {
   // #203 — the cycling Chiron ticker at the very TOP of the front page: world clocks +
   // rotating Top-5 panels (Crypto / Bitcoin / ETH / Altcoins / World / Markets), 4s cycle,
   // relevance-decay swaps entries as they go stale. Soft-fail: no ticker ≠ no homepage.
-  const tickerBlock = page === 1
-    ? await memo('tickerpanels', MEMO_TTL.clarity, async () => {
-        const t = await tickerPanels({});
-        return renderTickerHTML(t.panels, { cycleMs: 4000 });
-      }).catch(() => '')
-    : '';
-  const idx = page === 1 ? await marketIndex().catch(() => []) : [];
-  const scamHi = page === 1 ? await memo('scamhighlights', MEMO_TTL.clarity, () => scamHighlights({ pauseSample: 4 })).catch(() => null) : null;
-  const macroSum = page === 1 ? await macroSummary().catch(() => null) : null;
-  const commSum = page === 1 ? await commoditiesSummary().catch(() => null) : null;
-  const fxSum = page === 1 ? await forexSummary().catch(() => null) : null;
+  // Page-1 panels are independent upstream reads: fetch them together, not one after another (a cold
+  // cache used to add their latencies up and push the front page past client timeouts).
+  const [tickerBlock, idx, scamHi, macroSum, commSum, fxSum] = page === 1 ? await Promise.all([
+    memo('tickerpanels', MEMO_TTL.clarity, async () => {
+      const t = await tickerPanels({});
+      return renderTickerHTML(t.panels, { cycleMs: 4000 });
+    }).catch(() => ''),
+    marketIndex().catch(() => []),
+    memo('scamhighlights', MEMO_TTL.clarity, () => scamHighlights({ pauseSample: 4 })).catch(() => null),
+    macroSummary().catch(() => null),
+    commoditiesSummary().catch(() => null),
+    forexSummary().catch(() => null),
+  ]) : ['', [], null, null, null, null];
   const ourIds = new Set(ours.map((c) => c.id));
   const market = top.filter((c) => !ourIds.has(c.id));
   const rows = (page === 1 ? [...ours, ...market] : market).map((c, i) => coinRow(c, (page - 1) * PER_PAGE + i + 1)).join('');

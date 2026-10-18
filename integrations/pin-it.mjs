@@ -17,7 +17,7 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
 ));
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
-export const PINBOARD = () => String(env('PINBOARD_SITE', 'https://pin.melek.salon')).replace(/\/$/, '');
+export const PINBOARD = () => String(env('PINBOARD_SITE', 'https://melek.salon/pin')).replace(/\/$/, '');
 
 const ok = (u) => { try { const x = new URL(String(u)); return x.protocol === 'https:' || x.protocol === 'http:'; } catch { return false; } };
 
@@ -54,7 +54,7 @@ export const PIN_IT_CSS = `<style>
  */
 export const PIN_IT_JS = `<script>
 (function(){
-var PIN=${JSON.stringify('')}+(window.MELEK_PINBOARD||'https://pin.melek.salon');
+var PIN=${JSON.stringify('')}+(window.MELEK_PINBOARD||'https://melek.salon/pin');
 var MIN=160;                       // ignore icons, avatars and tracking pixels
 function who(){try{return localStorage.getItem('melek_me')||''}catch(e){return ''}}
 function href(src){

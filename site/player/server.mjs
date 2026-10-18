@@ -50,6 +50,7 @@ export function __setFetch(fn) {
   _fetch = fn || ((...a) => globalThis.fetch(...a));
   radio.__setFetch(_fetch);
   podcasts.__setFetch(_fetch);
+  _rows = null; _rowsAt = 0; _rowsPending = null;   // a new source of truth: drop the cached rows
 }
 
 // ── house-style esc (escapes the single quote too — attribute interpolation is always safe) ──────────
@@ -57,10 +58,34 @@ export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => 
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
 ));
 
-// Every source call is wrapped: on ANY failure (empty / network / throw) we degrade to [].
+// Every source call is wrapped: on ANY failure (empty / network / throw / too slow) we degrade to [].
+// A slow upstream (radio directory, a podcast feed, the RPC) used to hold the whole page open with no limit.
+const SOURCE_TIMEOUT_MS = +(process.env.PLAYER_SOURCE_TIMEOUT_MS || 4000);
 async function safe(fn) {
-  try { const v = await fn(); return Array.isArray(v) ? v : []; }
-  catch { return []; }
+  let t;
+  try {
+    const v = await Promise.race([fn(), new Promise((r) => { t = setTimeout(() => r([]), SOURCE_TIMEOUT_MS); })]);
+    return Array.isArray(v) ? v : [];
+  } catch { return []; } finally { clearTimeout(t); }
+}
+
+// The quick-add rows are the same for every visitor: build them once, serve them from memory, and refresh
+// in the background when they go stale — a page view never waits on the upstream sources after the first.
+const ROWS_TTL_MS = +(process.env.PLAYER_ROWS_TTL_MS || 300000);
+let _rows = null, _rowsAt = 0, _rowsPending = null;
+function refreshRows() {
+  if (!_rowsPending) {
+    _rowsPending = quickAddRows()
+      .then((rows) => { _rows = rows; _rowsAt = Date.now(); return rows; })
+      .catch(() => _rows || [])
+      .finally(() => { _rowsPending = null; });
+  }
+  return _rowsPending;
+}
+export async function cachedQuickAddRows() {
+  if (_rows && Date.now() - _rowsAt < ROWS_TTL_MS) return _rows;
+  if (_rows) { refreshRows(); return _rows; }   // stale: serve it now, refresh behind
+  return refreshRows();
 }
 
 // ── the safety gate: what may play ───────────────────────────────────────────────────────────────────
@@ -522,7 +547,7 @@ export async function handler(req, res) {
     }
 
     if (path === '/') {
-      const rows = await quickAddRows(); // already soft-failed per source
+      const rows = await cachedQuickAddRows(); // soft-failed + time-limited per source, cached for everyone
       return sendHtml(res, page(rows));
     }
 

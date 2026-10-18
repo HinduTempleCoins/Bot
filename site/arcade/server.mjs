@@ -80,19 +80,20 @@ function productTiles() {
   const P = [
     { name: 'Daily Spin', tag: 'Free · AMOE', tagClass: 'free', href: SPIN_URL, external: true, cta: 'Spin (free, once a day)',
       blurb: `The free daily wheel — one free spin per day paying non-cashable PLAY. The free spin IS the Alternative Means Of Entry (AMOE), which is what keeps this a lawful sweepstakes, not gambling. Published weights: ${weightRows}.` },
-    { name: 'KULA Lotto', tag: 'PLAY tickets', tagClass: 'play', href: bp('/lotto'), external: false, cta: 'Open Lotto',
+    { name: 'KULA Lotto', tag: 'PLAY tickets', tagClass: 'play', href: bp('/lotto'), external: false, cta: 'Open Lotto', uc: true,
       blurb: 'A VRF-style raffle — a ticket costs PLAY, the draw is settled from a verifiable seed, and the pool split + on-chain proof are shown up front. Verify any draw yourself.' },
-    { name: 'Event Markets', tag: 'PLAY stakes', tagClass: 'play', href: bp('/markets'), external: false, cta: 'Open Markets',
+    { name: 'Event Markets', tag: 'PLAY stakes', tagClass: 'play', href: bp('/markets'), external: false, cta: 'Open Markets', uc: true,
       blurb: 'Binary Yes/No markets where the price reads as the market-implied probability. Resolved by named public reference sources with a dispute window. Education-first; PLAY stakes only.' },
-    { name: 'Provably Fair', tag: 'Verify', tagClass: '', href: bp('/verify'), external: false, cta: 'Verify a draw',
+    { name: 'Provably Fair', tag: 'Verify', tagClass: '', href: bp('/verify'), external: false, cta: 'Verify a draw', uc: true,
       blurb: 'The trust differentiator — recompute any spin, draw, or market resolution yourself from the published seeds. Leaderboard + how-to-verify links.' },
-    { name: 'Casino Dice', tag: 'PLAY · provably fair', tagClass: 'play', href: CASINO_URL, external: true, cta: 'Play dice',
+    { name: 'Casino Dice', tag: 'PLAY · provably fair', tagClass: 'play', href: CASINO_URL, external: true, cta: 'Play dice', uc: true,
       blurb: 'The Satoshi-Dice-style provably-fair dice table — commit-reveal HMAC (no blockhash on our own chain), disclosed house edge, PLAY only. Instant, auditable.' },
   ];
   return P.map((p) => {
     const href = safeHref(p.href);
     const ext = p.external ? ' target=_blank rel=noopener' : '';
-    const cta = href ? `<a class="btn primary" href="${esc(href)}"${ext}>${esc(p.cta)}</a>` : '';
+    // Unfinished (not deployed): labelled Under Construction and not linked, never a link to a page that doesn't answer.
+    const cta = p.uc ? '<span class="tag">Under Construction</span>' : href ? `<a class="btn primary" href="${esc(href)}"${ext}>${esc(p.cta)}</a>` : '';
     return `<div class="card"><div style="display:flex;gap:8px;align-items:flex-start">
       <h3 style="flex:1">${esc(p.name)}</h3><span class="tag ${esc(p.tagClass)}">${esc(p.tag)}</span></div>
       <p class="blurb">${esc(p.blurb)}</p>${cta}</div>`;
@@ -115,9 +116,7 @@ function gameCard(g) {
 const NAV = [
   { label: 'Hub', href: '/' },
   { label: 'Daily Spin', href: SPIN_URL, external: true },
-  { label: 'Lotto', href: '/lotto' },
-  { label: 'Markets', href: '/markets' },
-  { label: 'Verify', href: '/verify' },
+  { label: 'Live', href: '/live' },
 ];
 
 function page(geoDecision) {
@@ -138,7 +137,7 @@ function page(geoDecision) {
    <ul class="muted" style="font-size:13.5px;line-height:1.7">
      <li><b>PLAY is non-cashable.</b> No fiat on-ramp, nothing to cash out — so there is no "consideration/prize" gambling exposure.</li>
      <li><b>The free Daily Spin is the AMOE.</b> A genuinely-free entry always available keeps the loop a lawful sweepstakes.</li>
-     <li><b>Provably fair + disclosed.</b> Weights, seeds, and pool splits are published; you can recompute every result on the <a href="${esc(bp('/verify'))}">verifier</a>.</li>
+     <li><b>Provably fair + disclosed.</b> Weights, seeds, and pool splits are published.</li>
      <li><b>Geofence scaffolding + disclaimers from day one.</b> "Not available where prohibited," age-gate, alpha/testnet framing — the plumbing a real-money gate would bolt onto is already here.</li>
      <li><b>Hathor is an educator only.</b> She explains how implied-probability and provably-fair draws work — she never sets a line or gives betting advice.</li>
    </ul>`;
@@ -171,8 +170,8 @@ export async function handler(req, res) {
     if (commonRoutes(req, res, path, {
       baseUrl: BASE_URL, name: 'KULA Arcade',
       summary: 'A free, provably-fair, play-token arcade (Daily Spin, KULA Lotto, Event Markets, games). PLAY is non-cashable — entertainment only, not gambling, not available where prohibited.',
-      sitemapPaths: ['/', '/lotto', '/markets', '/verify', '/live'],
-      links: [{ label: 'Lotto', path: '/lotto' }, { label: 'Markets', path: '/markets' }, { label: 'Verify', path: '/verify' }, { label: 'Live', path: '/live' }],
+      sitemapPaths: ['/', '/live'],
+      links: [{ label: 'Live', path: '/live' }],
       health: { games: loadGames().length, geoMode: geo.geoMode() },
     })) return;
 

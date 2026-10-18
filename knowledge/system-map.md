@@ -1,5 +1,5 @@
 # MELEK / Van Kush Family — System Map (the whole estate)
-Generated 2026-10-14T02:17:22.178Z. 94 live sites across 86 apps; 12 repositories.
+Generated 2026-10-18T07:33:08.585Z. 100 live sites across 93 apps; 12 repositories.
 
 ## Live sites
 - https://abuck.soapbox.community — abuck.soapbox.community, the dedicated home of the TRUE-DOLLAR-STORE aggregator.
@@ -8,6 +8,7 @@ Generated 2026-10-14T02:17:22.178Z. 94 live sites across 86 apps; 12 repositorie
 - https://analytics.soapbox.community — site/analytics/server.mjs — the first-party, COOKIELESS analytics COLLECTOR service.
 - https://arcade.soapbox.community — site/arcade/server.mjs — KULA ARCADE hub: the compliant, play-token front door that ties together
 - https://benefits.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
+- https://botanica.soapbox.community — site/botanica/server.mjs — the Botanica farm SURFACE: the first served UI over the new economy stack
 - https://business.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
 - https://calculator.soapbox.community — Calculator.SoapBox.Community. A clean, free online calculator: the standard keypad plus a
 - https://cams.soapbox.community — site/cams/server.mjs — cams.soapbox.community: the live-view / camera app (Phase 1, Public cams).
@@ -23,14 +24,14 @@ Generated 2026-10-14T02:17:22.178Z. 94 live sites across 86 apps; 12 repositorie
 - https://diagram.soapbox.community — Diagram.SoapBox.Community. A free online flowchart & diagram maker in the SoapBox
 - https://directory.soapbox.community — Directory.SoapBox.Community. The crypto/markets resource directory as its own subdomain
 - https://dudael.com — dudael.com, the METAVERSE landing of the VanKush / SoapBox / MELEK ecosystem.
-- https://ecosystem.soapbox.community — the ECOSYSTEM MAP surface — ecosystem.soapbox.community / sitemap.soapbox.community.
-- https://encounters.soapbox.community — Faux Law Files (encounters.soapbox / hathor.live/encounters). The pop-culture front
+- https://encounters.soapbox.community — Faux Law Files (encounters.soapbox.community). The pop-culture front
 - https://farm.alpha.soapbox.community — site/farm/server.mjs — the KULA Token Farm page: where you FARM OUR TOKENS (DeFi yield-farming), as
 - https://farm.soapbox.community — site/farm/server.mjs — the KULA Token Farm page: where you FARM OUR TOKENS (DeFi yield-farming), as
 - https://fax.soapbox.community — site/fax/server.mjs — SOAPBOX FAX. The app that actually sends.
 - https://flashlight.soapbox.community — Flashlight.SoapBox.Community. A free online flashlight: a big, full-screen white page
 - https://forum.soapbox.community — Forum.SoapBox.Community. The MELEK forum vertical as a standalone, zero-dependency HTTP
 - https://free-speech.soapbox.community — Free Speech & Sedition. A self-contained, read-only legal-education surface in the
+- https://gallery.melek.salon — site/gallery/server.mjs — gallery.melek.salon: two browsable galleries of Hathor's visual identity.
 - https://gambling.soapbox.community — Gambling EDUCATION Center for SoapBox. EDUCATION & HARM-REDUCTION ONLY.
 - https://games.soapbox.community — PRANA Games — the "what is PRANA for" front door (games.soapbox.community).
 - https://grants.soapbox.community — site/grants/server.mjs — the SoapBox Grant Aggregator portal (grants.soapbox.community).
@@ -41,6 +42,7 @@ Generated 2026-10-14T02:17:22.178Z. 94 live sites across 86 apps; 12 repositorie
 - https://health-providers.soapbox.community — HealthProviders.SoapBox.Community. The healthcare-provider-finder vertical as a
 - https://hemp.soapbox.community — Hemp.SoapBox.Community. The hemp/cannabis vertical as a standalone, zero-dependency HTTP
 - https://herald.soapbox.community — Herald (the MELEK/Pentecaust growth engine's public surface). ONE dashboard that ties
+- https://herald.soapbox.community/newsroom — The Herald Newsroom: our own wire plus the full industry-category portal (moved here from news.soapbox.community).
 - https://hierophant.soapbox.community — Hierophant.SoapBox.Community. The Temple's library of the world's sacred texts, as a
 - https://home.soapbox.community — soapbox.community ROOT — the ecosystem HOME PAGE.
 - https://idlegames.soapbox.community — Idle-Time Games (idlegames.soapbox.community). A hub of genuinely-playable, ORIGINAL
@@ -53,17 +55,20 @@ Generated 2026-10-14T02:17:22.178Z. 94 live sites across 86 apps; 12 repositorie
 - https://lawyers.soapbox.community — Lawyers.SoapBox.Community. The attorney-directory vertical as a standalone,
 - https://lexicon.soapbox.community — Lexicon.MELEK: the Legal Lexicon & Sources of Authority vertical.
 - https://library.soapbox.community — The SoapBox Library: the public-domain-first books and documents surface.
+- https://mail.melek.salon — mail.melek.salon — the MAIL PREFERENCES + MELEK DIRECTORY hub.
 - https://map.soapbox.community — The Frontier (map.soapbox.community / tools hub /map). The persistent-world MAP surface
 - https://markdown.soapbox.community — Markdown.SoapBox.Community. A free live markdown editor: write markdown on the left, see a
+- https://melek.salon/maps — MELEK Maps: keyless OpenStreetMap place search and nearby places.
+- https://melek.salon/pin — MELEK Pinboard: post photos and albums, or save pictures you found (moved here from pin.melek.salon).
 - https://melekd.hathor.live — MELEKd: the chain explorer, at melekd.hathor.live.
 - https://move.melek.salon — site/move-miner/server.mjs — MELEK Move: the FIRST consumer app — a Step Counter + GeoMiner PWA.
 - https://move.soapbox.community — site/move-miner/server.mjs — MELEK Move: the FIRST consumer app — a Step Counter + GeoMiner PWA.
-- https://news.soapbox.community — site/news/server.mjs — mounts the Herald Newsroom (our own originating wire) at
 - https://notes.soapbox.community — Notes.SoapBox.Community. A fast, private scratchpad: start typing immediately, and it
 - https://outliner.soapbox.community — Outliner.SoapBox.Community. A fast, keyboard-first collapsible outliner & to-do tree:
 - https://oversight.soapbox.community — Oversight.SoapBox.Community. The "Who do I call?" / consumer-protection AGENCY
 - https://pact.pentecaust.com — site/pact/server.mjs — PACT. Groups and Clubs, at pact.pentecaust.com.
 - https://passgen.soapbox.community — Passgen.SoapBox.Community. A strong password generator that runs 100% CLIENT-SIDE.
+- https://pentecaust.com/metatron — Hathor Metatron: Preptober and the November 50,000-word challenge, with a drafting studio that keeps your work in your browser (moved here from write.soapbox.community).
 - https://pets.soapbox.community — Critter Keep (pets.soapbox.community). A NeoPets-pattern virtual-pet / creature-keeper
 - https://plate.soapbox.community — RECOVERED STATIC SNAPSHOT. The original dynamic source for this surface was lost
 - https://player.soapbox.community — site/player/server.mjs — the SoapBox Media Player / "Caster". A REAL, working web media player:
@@ -80,21 +85,22 @@ Generated 2026-10-14T02:17:22.178Z. 94 live sites across 86 apps; 12 repositorie
 - https://seeds.soapbox.community — site/seeds/server.mjs — seeds.soapbox.community
 - https://shop.melek.salon — site/shop/server.mjs — shop.soapbox.community — the SEED SHOP storefront.
 - https://shopping.soapbox.community — Shopping.SoapBox.Community. The SHOPPING PARENT HUB in the SoapBox house style
-- https://sitemap.soapbox.community — the ECOSYSTEM MAP surface — ecosystem.soapbox.community / sitemap.soapbox.community.
 - https://soapbox.community — soapbox.community ROOT — the ecosystem HOME PAGE.
 - https://software-reviews.soapbox.community — SoftwareReviews.SoapBox.Community. The software / service reviews comparison vertical as a
 - https://spin.soapbox.community — Spin.SoapBox.Community. The free daily-spin vertical as a standalone, zero-dependency
 - https://stocks.soapbox.community — Stocks.SoapBox.Community. The stock-market subdomain (operator 2026-06-02): a Stock Index
 - https://stream.soapbox.community — site/stream/server.mjs — "SoapBox Stream": a REAL streaming service (catalog + player) sourcing ONLY
 - https://timer.soapbox.community — Timer.SoapBox.Community. A free focus timer, stopwatch, and countdown in one clean page.
+- https://token-manage.soapbox.community — token-manage.alpha.melek.salon. The "Manage my token" front-end for MELEK-Engine token
+- https://tokens.soapbox.community — site/tokens/server.mjs — tokens.soapbox.community
 - https://tools.soapbox.community — Tools.SoapBox.Community. The unifying hub for the mundane-app suite
 - https://travel.soapbox.community — Travel.SoapBox.Community. The TRAVEL vertical as a standalone HTTP service in the
 - https://tunein.soapbox.community — site/tunein/server.mjs — "Tune In": a Netflix / Tubi-shaped browse + watch surface that AGGREGATES
+- https://tutorial.soapbox.community — Tutorial (read-only) — a self-contained page that renders the existing
 - https://vankushfamily.com — VanKushFamily.com public ROADMAP. A standalone, zero-dependency HTTP service in the
 - https://weather.soapbox.community — Weather.SoapBox.Community. A free, clean weather app: your local forecast with no ads,
 - https://wiki.soapbox.community — the Library of Ashurbanipal, served. A page factory over the (faithful, fact-checked)
 - https://witness.melek.salon — witness.melek.salon. The Mining Pool's public face and "WITNESS SCHOOL," in the
-- https://write.soapbox.community — The Writing Room (write.soapbox.community). Preptober + the November 50,000-word
 - https://www.soapbox.community — soapbox.community ROOT — the ecosystem HOME PAGE.
 
 ## Repositories

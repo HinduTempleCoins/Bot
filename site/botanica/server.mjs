@@ -68,10 +68,14 @@ function plotState(plot, now) {
     ready, fraction: Math.min(1, grow ? elapsed / grow : 1), readyIn: Math.max(0, grow - elapsed), yields: materialsForPlant(plot.plantId) };
 }
 
+// Botanica is unfinished: every page carries the operator's public label for it.
+const UNDER_CONSTRUCTION = '<div class=uc role=status>Under Construction</div>';
+
 // ── HTML ────────────────────────────────────────────────────────────────────────────────────────
 const STYLE = `<style>
 :root{color-scheme:light dark}body{font:15px/1.5 system-ui,sans-serif;margin:0;background:#0d130d;color:#dfe8df}
 a{color:#8fd08f}header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#10180f;border-bottom:1px solid #1f2a1c}
+.uc{background:#3a2f0a;color:#ffd766;text-align:center;font-weight:700;letter-spacing:.04em;padding:6px 12px;border-bottom:1px solid #6b551a}
 .alpha{position:fixed;top:8px;left:8px;background:#3a2f0a;color:#ffd766;font-size:11px;padding:2px 7px;border-radius:4px;border:1px solid #6b551a;z-index:9}
 main{max-width:960px;margin:0 auto;padding:16px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -145,7 +149,7 @@ function page(account, now) {
 
     <p class=muted>In-game ${CURRENCY} only — no fiat, no cash-out. <a href="/api/state?account=${esc(account)}">state JSON</a></p>
   </main>`;
-  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — farm</title>${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>${body}</body></html>`;
+  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — farm</title>${STYLE}</head><body>${UNDER_CONSTRUCTION}${body}</body></html>`;
 }
 
 // ── the non-growing shelf: minerals, burnables, vessels, made goods ──────────────────────────────
@@ -223,7 +227,7 @@ function factorsPage() {
     ${sections}
     <p class=muted><a href="/api/factors">factors JSON</a> · <a href="/">back to the farm</a></p>
   </main>`;
-  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — non-growing shelf</title>${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>${body}</body></html>`;
+  return `<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${esc(SITE_NAME)} — non-growing shelf</title>${STYLE}</head><body>${UNDER_CONSTRUCTION}${body}</body></html>`;
 }
 
 function sendHtml(res, html, code = 200) {
@@ -250,7 +254,7 @@ export async function handler(req, res) {
     if (path === '/llms.txt') {
       res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8' });
       return res.end(llmsTxt({ name: SITE_NAME, baseUrl: BASE_URL,
-        summary: 'Botanica — plant → grow → harvest materials → craft apothecary items over the plant-catalog + botanica economy. Value = versatility. In-game Grain only; no fiat. Alpha.',
+        summary: 'Botanica — plant → grow → harvest materials → craft apothecary items over the plant-catalog + botanica economy. Value = versatility. In-game Grain only; no fiat. Under Construction.',
         links: [{ label: 'Farm', path: '/' }, { label: 'Non-growing shelf (minerals, burnables, vessels, made goods)', path: '/factors' }] }));
     }
 

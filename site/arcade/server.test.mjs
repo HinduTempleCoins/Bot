@@ -102,15 +102,21 @@ test('server does NO request-time network (page still 200s with fetch disabled)'
 
 test('BASE_PATH: unprefixed by default, prefixed when set (fresh import)', async () => {
   const { res, o } = cap(); await handler(req('/'), res);
-  assert.match(o.body, /href="\/lotto"/);
+  assert.match(o.body, /href="\/live"/);
   process.env.BASE_PATH = '/arcade';
   const mod = await import('./server.mjs?bp=1');
   const c = cap(); await mod.handler(req('/'), c.res);
-  assert.match(c.o.body, /href="\/arcade\/lotto"/);
+  assert.match(c.o.body, /href="\/arcade\/live"/);
   delete process.env.BASE_PATH;
 });
 
 test('unknown path → 404; garbage URL never throws', async () => {
   let { res, o } = cap(); await handler(req('/nope'), res); assert.equal(o.code, 404);
   ({ res, o } = cap()); await handler(req('/%%%bad%%'), res); assert.ok(o.code === 404 || o.code === 500 || o.code === 200);
+});
+
+test('unfinished pieces (Lotto, Markets, Verify, Casino Dice) are labelled Under Construction and not linked', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  assert.match(o.body, /Under Construction/);
+  for (const dead of ['href="/lotto"', 'href="/markets"', 'href="/verify"', 'casino.soapbox.community']) assert.ok(!o.body.includes(dead), `no link: ${dead}`);
 });

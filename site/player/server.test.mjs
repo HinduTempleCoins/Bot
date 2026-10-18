@@ -252,3 +252,17 @@ test('videoUrlOf: pulls a playable url out of json_metadata shapes', () => {
   assert.equal(videoUrlOf({}), null);
   assert.equal(videoUrlOf(null), null);
 });
+
+test('handler: a source that never answers cannot hold the page open, and rows are cached', async () => {
+  let calls = 0;
+  __setFetch(() => { calls++; return new Promise(() => {}); });   // every upstream hangs forever
+  const t0 = Date.now();
+  const res = await call('/');
+  assert.equal(res.statusCode, 200);
+  assert.ok(Date.now() - t0 < 9000, 'rendered within the per-source time limit');
+  const before = calls;
+  const again = await call('/');
+  assert.equal(again.statusCode, 200);
+  assert.equal(calls, before, 'second view served from the cached rows (no new upstream calls)');
+  __setFetch(null);
+});

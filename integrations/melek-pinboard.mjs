@@ -118,7 +118,7 @@ export function pinsFromPost(post = {}, { saver, one = false, baseUrl = 'https:/
 }
 
 /** a pin → markdown to paste into a MELEK blog post (the other direction) */
-export function markdownFor(pin, { baseUrl = 'https://pin.melek.salon' } = {}) {
+export function markdownFor(pin, { baseUrl = 'https://melek.salon/pin' } = {}) {
   if (!pin || !pin.images || !pin.images.length) return '';
   const title = pin.title || 'A picture';
   const body = pin.images.map((i) => `![${title}](${i.url})`).join('\n');
