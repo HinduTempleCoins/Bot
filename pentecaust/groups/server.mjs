@@ -15,10 +15,11 @@
 
 import {
   createGroup, addMember, approve, invite, removeMember, setRole, setJoinPolicy, setAbout,
-  postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam, setDues, setCharter, DUES_RAILS,
+  postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam, setDues, setCharter, DUES_RAILS, recordDuesPayment,
   groupChannelId, ROLES, JOIN_POLICIES, KINDS, voteOnPost, votesFor, setProgram, PROGRAMS,
 } from './model.mjs';
 import { kitFor } from './paperwork.mjs';
+import { findDuesPayment, periodMs } from './dues-verify.mjs';
 
 const json = (res, code, obj) => {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8' });
@@ -122,6 +123,26 @@ export async function handler(req, res, deps = {}) {
       // only by a settlement callback the rail itself authenticates, which does not exist yet, so a
       // dues club currently answers 'dues-required' to everyone and that is the correct behaviour.
       case 'join':      return json(res, 200, addMember(id, me, { ...opts, balances: b.balances }));
+      // The 'wallet' rail for MELEK dues: proof of payment is read from the chain (the payee's history),
+      // never from this request. A verified transfer admits the caller until the paid period ends.
+      case 'check-dues': {
+        const g = getGroup(id, opts);
+        if (!g) return json(res, 404, { ok: false, reason: 'no such group' });
+        const d = g.dues;
+        if (g.joinPolicy !== 'dues' || !d) return json(res, 200, { ok: false, reason: 'this group does not charge dues' });
+        if (d.rail !== 'wallet' || d.currency !== 'MELEK') {
+          return json(res, 200, { ok: false, reason: 'this club collects dues outside MELEK — ask the organiser' });
+        }
+        const payee = d.payee || g.owner;
+        const found = await findDuesPayment({ payer: me, payee, groupId: id, minUnits: d.amount, since: g.created || 0,
+          fetch: deps.fetch, rpcUrl: deps.rpcUrl });
+        if (!found.ok) return json(res, 200, { ok: false, status: 'not-paid', reason: found.reason, payee, memo: `pact:${id}` });
+        const until = found.paidAt + periodMs(d.period);
+        if (until < Date.now()) {
+          return json(res, 200, { ok: false, status: 'expired', reason: `Your last dues payment covered you until ${new Date(until).toISOString().slice(0, 10)}. Send a new one to renew.`, payee, memo: `pact:${id}` });
+        }
+        return json(res, 200, recordDuesPayment(id, me, { ...found, until }, opts));
+      }
       case 'leave':     return json(res, 200, removeMember(id, me, me, opts));
       case 'approve':   return json(res, 200, approve(id, me, b.account, opts));
       case 'invite':    return json(res, 200, invite(id, me, b.account, opts));

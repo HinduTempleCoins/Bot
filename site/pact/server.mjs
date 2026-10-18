@@ -84,6 +84,11 @@ what you put into it. A <b>group</b> is a pact anyone can join; a <b>club</b> is
       <option value=invite>Invite only</option><option value=dues>Club — dues</option></select>
     <button class="btn primary" id=make>Create</button>
   </div>
+  <div class=row id=duesrow hidden>
+    <input id=damount type=number min=0.001 step=0.001 placeholder="Dues in MELEK (e.g. 10)">
+    <select id=dperiod><option value=monthly>per month</option><option value=yearly>per year</option><option value=once>one time</option></select>
+    <input id=dpayee placeholder="Paid to (MELEK account — default you)" autocapitalize=off>
+  </div>
   <div id=list></div>
 </div>
 <h2 id=channels style="margin-top:22px">Channels</h2>
@@ -113,15 +118,33 @@ async function load(){const j=await api('/groups');const gs=(j&&j.groups)||[];
  const ids=new Set(mine.map(g=>g.id));
  if(!gs.length){$('list').innerHTML='<p class=mut>No pacts yet. Make the first one.</p>';return;}
  $('list').innerHTML=gs.map(g=>{
-  const d=g.dues?(' · '+(g.dues.amount/100).toFixed(2)+' '+E(g.dues.currency)+'/'+E(g.dues.period)):'';
+  const d=g.dues?(' · '+(g.dues.currency==='MELEK'?(g.dues.amount/1000).toFixed(3):(g.dues.amount/100).toFixed(2))+' '+E(g.dues.currency)+(g.dues.period==='once'?' once':'/'+E(g.dues.period==='yearly'?'year':'month'))):'';
   return '<div class=item><div style="flex:1"><b>'+E(g.name)+'</b> <span class=chip>'+E(g.joinPolicy)+'</span>'+d
    +'<br><span class=mut>'+E(g.about||'')+' '+(g.members?g.members.length:0)+' member(s)</span></div>'
-   +(ids.has(g.id)?'<span class=chip>joined</span>':'<button class=btn data-j="'+E(g.id)+'">Join</button>')+'</div>';}).join('');
+   +(ids.has(g.id)?'<span class=chip>joined</span>':(g.joinPolicy==='dues'&&g.dues&&g.dues.currency==='MELEK'
+      ?'<button class=btn data-pay="'+E(g.id)+'" data-payee="'+E(g.dues.payee||g.owner)+'" data-amt="'+(g.dues.amount/1000).toFixed(3)+'">Pay dues</button>'
+      :'<button class=btn data-j="'+E(g.id)+'">Join</button>'))+'</div>';}).join('');
+ for(const b of document.querySelectorAll('[data-pay]'))b.onclick=()=>{
+  if(!SIGNED){location.href='/auth/login';return;}
+  const id=b.dataset.pay,memo='pact:'+id,box=document.createElement('div');box.className='card';
+  box.innerHTML='<b>Pay your dues</b><p>Send <b>'+E(b.dataset.amt)+' MELEK</b> to <b>@'+E(b.dataset.payee)+'</b> from your own MELEK wallet, with this memo exactly:</p>'
+   +'<p><code>'+E(memo)+'</code></p><p class=mut>The money goes straight to the club, never to Pact. Pact reads the chain to see your payment — it takes about a minute to show up.</p>'
+   +'<a class=btn target=_blank rel=noopener href="https://wallet.melek.salon/@'+encodeURIComponent(b.dataset.payee)+'">Open the MELEK wallet</a> '
+   +'<button class="btn primary" data-check="'+E(id)+'">I\'ve paid — check</button><p class=mut role=status></p>';
+  b.closest('.item').after(box);b.disabled=true;
+  box.querySelector('[data-check]').onclick=async()=>{const st=box.querySelector('[role=status]');st.textContent='Checking the chain…';
+   const r=await api('/groups/'+encodeURIComponent(id)+'/check-dues',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});
+   if(r&&r.ok){st.textContent='Paid — welcome to the club'+(r.paid&&r.paid.until?' (until '+new Date(r.paid.until).toISOString().slice(0,10)+')':'')+'.';setTimeout(load,1500);}
+   else st.textContent=(r&&r.reason)||'Not found yet — try again in a minute.';};};
  for(const b of document.querySelectorAll('[data-j]'))b.onclick=async()=>{
   const r=await api('/groups/'+encodeURIComponent(b.dataset.j)+'/join',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});
   if(r&&r.ok)load();else alert((r&&r.reason)||'could not join');};}
+$('policy').onchange=()=>{$('duesrow').hidden=$('policy').value!=='dues';};
 $('make').onclick=async()=>{const name=$('name').value.trim();if(!name)return;
- const r=await api('/groups',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,joinPolicy:$('policy').value})});
+ const spec={name,joinPolicy:$('policy').value};
+ if(spec.joinPolicy==='dues'){const amt=Number($('damount').value);if(!(amt>0)){alert('Set the dues amount in MELEK.');return;}
+  spec.dues={amount:Math.round(amt*1000),currency:'MELEK',period:$('dperiod').value,rail:'wallet',payee:$('dpayee').value.trim().replace(/^@/,'')};}
+ const r=await api('/groups',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(spec)});
  if(r&&r.ok){$('name').value='';load();}else alert((r&&r.reason)||'could not create');};
 load();
 async function loadCh(){const j=await api('/channels');const cs=(j&&j.channels)||[];
