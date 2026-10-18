@@ -1,0 +1,111 @@
+'''Tinctures, Glycerites, Syrups and Infused Oils and Butters''' are the carrier liquids of [[Dosing in Liquids]]: the traditional and pharmacopoeial ways of getting a plant's or a powder's active constituents into a liquid you can measure. This page gives the ratios, the solvent strengths, the step-by-step methods, the preservation thresholds, how to standardize and label strength, and how long each one keeps.
+
+== Ratio notation ==
+Herbal preparations are written as '''herb : menstruum''', meaning grams of plant material to millilitres of solvent ("menstruum").
+* '''1:5''' = 1 g of dried herb per 5 mL of menstruum (for example 100 g herb + 500 mL of 60% alcohol). This is the common default for dried herbs in Western herbal practice and the British Herbal Pharmacopoeia tradition.
+* '''1:2''' = typical for '''fresh''' herbs, which carry their own water, and for stronger "concentrated" tinctures.
+* '''1:10''' = the historical pharmacopoeial strength for '''potent''' drugs. Older editions of the United States Pharmacopeia made tinctures of potent drugs at 10 g per 100 mL and most others at 20 g per 100 mL (1:5).
+* '''1:1''' = a '''fluid extract''' (1 mL represents 1 g of herb), usually made by percolation and concentration.
+* Practitioners do not all define ratios the same way (some count the menstruum added, some the final volume). Write both the ratio and the alcohol percentage on the label, e.g. "1:5, 60% ethanol".
+* '''A ratio is not a dose strength.''' 1:5 tells you how much plant went in, not how many mg of active per mL came out. That depends on the plant's potency and how efficiently the solvent extracted it. See ''Standardizing'' below.
+
+== Alcohol tinctures ==
+=== Alcohol strength by what you are extracting ===
+* '''25–40%''' (roughly 50–80 proof): water-soluble constituents such as mucilage-light leaves, flowers and many glycosides. 40% vodka is the convenient home menstruum.
+* '''45–60%''': the general-purpose range for most dried herbs (a mix of polar and moderately non-polar constituents).
+* '''70–95%''': resins, gums, oleoresins, essential-oil-rich material, cannabinoids and most fresh herbs (whose own water dilutes the alcohol). 95% "grain alcohol" or food-grade ethanol.
+* '''To dilute 95% to a target:''' volume of 95% = target % × final volume ÷ 95. For 500 mL of 60%: 0.60 × 500 ÷ 95 = 316 mL of 95%, topped up with water to 500 mL. Water and ethanol contract when mixed, so top up to the mark rather than adding a calculated volume of water. See [[Concentration Arithmetic and Serial Dilution]].
+
+=== Maceration (the home method; USP "Process M") ===
+# Weigh the dried herb and grind it coarsely (finer gives more surface but is harder to strain).
+# Put it in a clean glass jar and add the measured menstruum. Everything must be submerged.
+# Close the jar, label it with the date and ratio, and keep it at room temperature away from light.
+# Shake daily for '''7–14 days''' (pharmacopoeial maceration was typically 3–7 days with frequent agitation; herbalists commonly use 2–6 weeks).
+# Strain through cloth and '''press the marc''' (the spent herb) hard. A lot of tincture stays in the plant material; a tincture press or a potato ricer recovers it.
+# Let it settle for 24 hours, decant or filter, then bottle in amber glass.
+
+=== Percolation (USP "Process P") ===
+The ground, moistened herb is packed into a cone or column (a percolator) and fresh menstruum is dripped slowly through it. Because fresh solvent keeps meeting the plant, percolation extracts more completely and faster than maceration. It is the pharmacopoeial method for fluid extracts. It needs care with grind size and packing; see [[Laboratory Equipment and Extraction Engineering]].
+
+=== Preservation ===
+Alcohol at roughly '''20% or more''' in the finished liquid prevents microbial growth. Most tinctures at 40–60% keep for years when sealed, cool and dark. Over time they slowly lose potency and some precipitate (see [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]).
+
+== Glycerites (alcohol-free) ==
+* Glycerin is a sweet, viscous, polar solvent. It is a '''weaker solvent''' than alcohol for resins and non-polar compounds, but good for tannins, many flavonoids and sweet-tasting preparations for people who avoid alcohol.
+* A common menstruum is '''60% glycerin / 40% water''' (by volume) for dried herbs, often at 1:5. Fresh herbs can be done in straight glycerin because their water dilutes it.
+* '''Preservation:''' glycerin is self-preserving at roughly '''50–60% or more''' in the finished product. Below that, it ferments or grows mould. Keep the final glycerin share high and store cool. Shelf life is typically 1–2 years.
+* Gentle warmth (a warm water bath at about 40–60 °C for several hours) is often used to speed glycerin extraction because cold glycerin is so viscous.
+
+== Syrups ==
+* '''USP Simple Syrup''' is 85 g of sucrose per 100 mL of finished syrup (about 65% w/w). At that strength it is '''self-preserving''', because the sugar ties up so much water that microbes can't use it (low [[Sugar Stages and the Science of Candy|water activity]]).
+* Diluted syrups ferment and mould. An "herbal syrup" made as 1 part strong tea (decoction or infusion) to 1 part sugar by weight is about 50% sugar: refrigerate it and use it within a few weeks, or add alcohol (tincture) to a final 20% or more.
+* '''Honey syrups''' work the same way. Honey is about 80% sugars and self-preserving, but once you dilute it with tea it isn't.
+* '''Oxymels''' are honey plus vinegar (traditionally about 1 part vinegar to 2–4 parts honey). The acid and sugar preserve together, and vinegar extracts alkaloids well because it turns them into salts.
+* '''Dosing a syrup:''' dissolve a weighed active or add a measured volume of tincture to a known final volume, then dose by mL.
+
+== Infused oils ==
+* For fat-soluble constituents (cannabinoids, carotenoids, curcumin, many aromatics; see the solubility page).
+* '''Use dried plant material.''' Water from fresh herbs and garlic in oil creates the low-oxygen, low-acid conditions in which ''Clostridium botulinum'' can grow. University extension guidance is that home-made, unacidified garlic- or herb-in-oil must be '''refrigerated and used within about 2–4 days, or frozen'''. It must never be stored at room temperature.
+* '''Ratio:''' about 1:5 to 1:10 (g dried herb : mL oil) is common.
+* '''Warm method:''' hold the herb submerged in oil at a gentle, controlled temperature (commonly 40–80 °C; never smoking) for 2–6 hours, using a water bath, double boiler or slow cooker on warm. Higher heat extracts faster but oxidizes oils and degrades heat-sensitive compounds.
+* '''Cold (solar) method:''' herb in oil in a sealed jar for 2–6 weeks, shaken daily. Slow, and moisture and spoilage problems are more likely with less-than-dry herb.
+* Strain, press, settle, decant from any water layer at the bottom, and bottle in amber glass with minimal headspace. A little vitamin E (tocopherol) slows rancidity.
+* '''Shelf life:''' oils go rancid (they smell crayon-like or paint-like). Olive oil keeps for months, cool and dark. MCT oil is highly oxidation-stable. Refrigerate if unsure.
+* '''Acid-form actives:''' some plant compounds must be heated (decarboxylated) before they become the form that is active by mouth. Cannabis is the main example; see [[Cannabis]]. Infusion temperatures alone usually don't convert them fully.
+
+== Infused butter ==
+# Melt butter with an equal volume of water in a pot (the water keeps the temperature at or below 100 °C and stops the milk solids scorching).
+# Add the dried, prepared plant material. Hold it at a bare simmer or below (commonly about 70–90 °C) for 2–4 hours, stirring and topping up water as it evaporates.
+# Strain through cheesecloth while hot and press the solids.
+# Refrigerate. The butter sets as a disc on top of the water. Lift it off, discard the water (which carries away bitter water-soluble compounds and plant debris), and pat it dry.
+# '''Weigh the finished butter.''' That is your denominator for mg/g. You will have less than you started with.
+# '''Keeps''' about 1–2 weeks refrigerated, several months frozen. '''Ghee''' (clarified butter, milk solids removed) keeps much longer.
+* For dosing, '''melt and stir''' the butter before measuring it into a recipe, because actives can be unevenly distributed in a set disc.
+
+== Standardizing and labelling strength ==
+# '''Know what went in:''' the weight of material and its potency (from a supplier certificate of analysis or a lab test), or a weighed amount of pure extract.
+# '''Know what came out:''' the final volume (tincture, glycerite, syrup, oil) or weight (butter).
+# '''Calculate the maximum strength''' assuming 100% transfer (see [[Concentration Arithmetic and Serial Dilution]], Example 2). Real extraction is lower. Treat the figure as a ceiling, not a guarantee.
+# '''Better:''' have the finished liquid lab-tested. Then '''dilute it to a round number''' with blank menstruum. If a tincture tests at 13.4 mg/mL and you want 10 mg/mL, add blank menstruum: 100 mL × 13.4 ÷ 10 = 134 mL total, so add 34 mL.
+# '''Label:''' name, ratio and solvent ("1:5, 60% ethanol"), tested or calculated strength in mg/mL (and say which), dose volume, date, batch code, storage, and "keep out of reach of children". See [[Testing Labelling and Safe Storage of Dosed Preparations]].
+
+== Shelf life summary ==
+* Alcohol tincture (≥40%): several years, sealed, cool and dark.
+* Glycerite (≥50–60% glycerin): about 1–2 years.
+* Simple syrup (85% w/v): months at room temperature once opened if kept clean. Diluted herbal syrup: weeks, refrigerated.
+* Oxymel: about 6–12 months.
+* Dried-herb infused oil: months (watch for rancidity). '''Fresh herb or garlic in oil: 2–4 days refrigerated, or frozen.'''
+* Infused butter: 1–2 weeks refrigerated, months frozen. Ghee: months.
+
+== Established practice and folklore ==
+* '''Established:''' alcohol, sugar and glycerin preserving above the thresholds given; the botulism hazard of fresh herbs and garlic in oil; percolation extracting more completely than maceration; ratios not being potency.
+* '''Folklore:''' "start tinctures on the new moon" (no effect on extraction); "a dropperful is a dose" (droppers vary; calibrate them, see [[Measuring Tools Scales Syringes and Volumetric Dosing]]); "infused oil keeps forever" (it goes rancid, and with fresh material it can be dangerous).
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Concentration Arithmetic and Serial Dilution]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Solvent Chemistry and Polarity in Botanical Extraction]]
+* [[Standardized Extracts Enhanced Leaf and the Perfumery of Botanical Aroma]]
+* [[Hydrosols Absolutes and Botanical Extraction Modalities]]
+* [[Cannabis]]
+* [[Cannabis Harm Reduction]]
+* [[Edible Waxes Hive Foods and Aromatic Resins]]
+* [[Recipes]]
+* [[Food Safety]]
+
+== Sources ==
+* ''The United States Pharmacopeia'', historical editions (e.g. USP IX–XII). Tinctures (10% for potent drugs, 20% for others), Processes M (maceration) and P (percolation), fluid extracts; current USP–NF monograph for ''Syrup'' (85 g sucrose per 100 mL).
+* ''British Herbal Pharmacopoeia'' (British Herbal Medicine Association, 1983/1996). Tincture ratios and ethanol strengths.
+* Green, J. ''The Herbal Medicine-Maker's Handbook''. Crossing Press, 2000. Menstruum strengths, glycerites, oils, maceration and percolation.
+* Easley, T. and Horne, S. ''The Modern Herbal Dispensatory''. North Atlantic Books, 2016. Ratios, alcohol percentages and glycerite preservation.
+* Felter, H. W. and Lloyd, J. U. ''King's American Dispensatory'', 18th ed., 1898. [https://www.henriettes-herb.com/eclectic/kings/ online at Henriette's Herbal]
+* North Carolina State University Extension. "Making Garlic and Herb Infused Oils at Home." (NC State Extension food-safety publication, 2018)
+* University of Maine Cooperative Extension Bulletin #4385, "Safe Homemade Flavored and Infused Oils." [https://extension.umaine.edu/publications/4385e/ UMaine]
+* Washington State University Extension. "Herb and Vegetable Flavored Oils."
+* ''Remington: The Science and Practice of Pharmacy'', 23rd ed., 2021. Chapters on extraction and solutions (syrups, elixirs, tinctures).
+
+== Coverage ==
+Herb : menstruum ratio notation (1:1, 1:2, 1:5, 1:10) and its limits; alcohol strength by constituent and how to dilute 95% ethanol; maceration and percolation step by step; glycerites and their preservation threshold; USP simple syrup, diluted herbal syrups, honey syrups and oxymels; dried-herb infused oils, warm and cold methods, and the botulism rule for fresh herbs and garlic; infused butter by the water method; standardizing to a round mg/mL after lab testing; labelling; a shelf-life summary; established practice versus folklore.

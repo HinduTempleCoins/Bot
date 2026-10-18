@@ -102,6 +102,8 @@ A written food-safety plan built on seven steps: (1) conduct a '''hazard analysi
 * For the manager (CFPM) exam, expect questions on supervision, training, active managerial control, and the documentation HACCP/FSMA require.
 
 == See also ==
+* [[Candy Making]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
 * [[Cooking Methods]] — the cooking-temperature side of the same rules.
 * [[Pickling and Preservation]] and [[Fermentation]] — pH, salt, and water activity as pathogen controls.
 * [[Virology Antivenom Immunology and Aromatic Antimicrobials]], [[Bacteriophages Endolysins and Biological Inhibitors]], [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]] — the biology behind foodborne viruses.

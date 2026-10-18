@@ -1,0 +1,103 @@
+'''Gummies and Jellies: Gelatin, Pectin and Agar''' covers the gel candies of the [[Candy Making]] hub: gummy bears and gummy rings, fruit jellies, pâte de fruits, agar sweets, starch jellies and their relatives. In every one, a '''gelling agent''' sets a hot, concentrated sugar syrup into a chewy solid. Which agent you use decides the texture, the setting conditions, whether the candy melts in a warm car, and whether it suits vegetarians.
+
+== Choosing a gelling agent ==
+* '''Gelatin''': animal (pork skin, beef hide or bone, fish). Elastic, bouncy, "gummy bear" chew. Melts near body temperature (about 30–35 °C), so it melts in the mouth and in a hot car. Needs no acid or sugar to set. '''Damaged by boiling and by acid plus heat.'''
+* '''Pectin''': plant (citrus peel, apple pomace). Short, tender, clean-breaking "jelly" bite. Heat-stable once set (doesn't melt in a warm car). Vegan. High-methoxyl pectin needs high sugar and low pH to set.
+* '''Agar''': seaweed. Firm, brittle, short texture. Sets at about 32–40 °C and doesn't remelt until about 85 °C, so it is very heat-stable. Vegan. Must be boiled to dissolve.
+* '''Carrageenan''': seaweed. Kappa gives firm, brittle gels with potassium; iota gives soft, elastic gels with calcium. Often blended.
+* '''Starch''' (modified starches): Turkish delight, jelly-bean centres, starch gums. Long cooking.
+* '''Gum arabic''': the old pastille and wine-gum base. Slow-dissolving and very chewy. See [[Hard Candy Lollipops Lozenges and Mints]].
+
+== Gelatin gummies ==
+=== Bloom strength ===
+Gelatin is sold by '''Bloom''', a standard gel-strength test. It measures the force in grams needed to push a 12.7 mm plunger 4 mm into a 6.67% gel matured at 10 °C for about 17 hours.
+* Low Bloom (about 100–150) gives soft gels. Medium (about 200–230) is typical of grocery powders; Knox in the U.S. is commonly quoted at about 225. High (250–260+) is the standard for '''gummy candy''' because it gives a firmer chew with less gelatin.
+* '''Substituting between Bloom grades''' is approximate. A widely used rule is ''mass B = mass A × √(Bloom A ÷ Bloom B)''. Linear conversions are also published, and the sources disagree, so the best practice is to buy the Bloom the formula specifies.
+* Sheet (leaf) gelatin comes in grades: bronze about 140, silver about 160, gold about 200, platinum about 230–250.
+=== Hydrating ("blooming") ===
+# Sprinkle the gelatin over '''cold''' water, about 2 times its weight for gummies (up to 5–6 times for desserts). Don't dump water on top of it, or lumps form.
+# Let it stand 10–20 minutes until it is a uniform, swollen mass.
+# Melt it gently (a warm water bath or low power in the microwave) at about 50–60 °C until clear. '''Do not boil it.''' Prolonged heating above about 80 °C, and acid plus heat in particular, hydrolyses gelatin and weakens the set.
+=== Shelf-stable gummy method (confectioner style) ===
+Weights for one batch (about 500 g of gummies):
+* Gelatin, 250 Bloom: 35 g, bloomed in 70 g cold water.
+* Sugar: 180 g.
+* Glucose (corn) syrup: 180 g.
+* Water: 60 g.
+* Citric acid: 5–8 g dissolved in an equal weight of water (for tart gummies).
+* Flavour (concentrated, often oil- or propylene-glycol-based) and colour, to taste.
+# Bloom the gelatin as above.
+# Cook the sugar, glucose syrup and water to about '''113–118 °C''' (235–245 °F). This sets the final solids.
+# Take the pot off the heat and let it cool to about '''80–90 °C'''. Stir in the bloomed gelatin until fully melted.
+# Cool to about '''60–70 °C'''. Stir in flavour, colour and '''acid last'''. Skim off the foam.
+# Deposit into starch-dusted or silicone moulds with a squeeze bottle, dropper, funnel depositor or piping bag. Keep the mix warm (in a water bath at about 60 °C) while you work so it doesn't set in the jug.
+# Leave to set for 6–24 hours at room temperature, then de-mould.
+# '''Cure:''' spread the gummies on racks or parchment for 24–72 hours at room temperature and low humidity. They lose surface moisture, firm up, and take on a "skin". This is how commercial gummies are made (deposited into starch trays and "stoved" in drying rooms). Target final solids are about 78–82%.
+=== The quick "juice and gelatin" gummy ===
+Juice or flavoured gelatin dessert plus extra gelatin, poured into moulds. It is simple, but it is '''high in water''' (high water activity). It must be '''refrigerated''' and eaten within about 1–2 weeks, or it moulds. It also sweats and softens at room temperature. Fine for immediate use, not for storage.
+
+== Pectin jellies and pâte de fruits ==
+=== Pectin chemistry ===
+* '''High-methoxyl (HM) pectin''' (degree of esterification above 50%) gels only when '''soluble solids are about 55–80%''' (lots of sugar) '''and pH is about 2.8–3.5''' (acid). Under those conditions the pectin chains lose water and bond to each other. "Rapid-set" HM sets at a higher temperature and faster, "slow-set" HM at a lower temperature and more slowly (better for depositing). Confectioners' '''"yellow pectin"''' is a buffered slow-set HM pectin for pâte de fruits.
+* '''Low-methoxyl (LM) and amidated pectin''' gels with '''calcium''' instead of sugar. It is used for low-sugar or sugar-free jellies and is less sensitive to pH.
+* Pectin '''clumps''' if it is added straight to liquid. Always mix the dry pectin with 5–10 times its weight of sugar first, then whisk it into the liquid.
+=== Pâte de fruits method (per Greweling-style formulas) ===
+* Fruit purée: 1,000 g.
+* Yellow (HM) pectin: about 20–25 g, mixed with 100 g of the sugar.
+* Sugar: about 1,000 g total.
+* Glucose syrup: about 200 g.
+* Citric acid solution (50% w/v): about 15–20 g.
+# Heat the purée to about 50 °C. Whisk in the pectin–sugar mix and bring it to a boil.
+# Add the remaining sugar in additions, then the glucose, and boil to about '''106–107 °C''' (about 75 °Brix measured with a refractometer).
+# Off the heat, stir in the acid solution quickly. '''Setting starts within seconds to minutes once acid is in.'''
+# Pour at once into a frame lined with silicone or parchment, or deposit into moulds.
+# Set at room temperature (1–3 hours, or overnight). Cut with an oiled knife or a guitar cutter, and roll in granulated sugar.
+* The result is shelf-stable at room temperature for weeks thanks to the high solids and low pH.
+=== Pectin gummies ===
+The same chemistry deposited into gummy moulds, often with part of the sugar replaced by glucose for chew. Mixes that thicken too fast to deposit are usually too hot when acid goes in, or are using rapid-set pectin. Use slow-set pectin, or add the acid in the jug just before depositing.
+
+== Agar sweets ==
+* Use about '''0.5–1.5% agar''' of the total weight for jellies (powder; flakes and strips are weaker).
+* Agar '''must be boiled''' (at least 85–95 °C, ideally a full boil for 1–2 minutes) to dissolve. It then sets on cooling to about 32–40 °C, at room temperature with no fridge needed.
+* Acid weakens agar when it is heated in it. Add acidic juice after the agar has dissolved and the mixture has cooled slightly.
+* The texture is firm and short, not bouncy. Blending agar with a little locust bean gum softens it.
+* Classic agar sweets: Japanese '''yōkan''' (red bean paste plus agar plus sugar), '''kohakutō''' (crystal-crusted agar jellies), and many South and Southeast Asian jellies. See [[Regional Candies of the World]].
+
+== Starch jellies ==
+* '''Turkish delight (lokum):''' sugar syrup plus cornstarch slurry plus cream of tartar or citric acid, cooked slowly for about 1 hour or more, stirring, until very thick and translucent (about 78–80% solids). Flavoured with rosewater, bergamot, mastic or citrus, set in a starch-dusted tray, cut and dusted with icing sugar and cornstarch. See [[Regional Candies of the World]].
+* '''Jelly beans''' and '''gum drops:''' starch-based centres deposited into starch moulds, stoved, then '''soft-panned''' (see [[Candied Fruit Rock Candy Cotton Candy and Panning]]).
+
+== Finishing: sanding, sour coating and anti-stick ==
+* '''Sugar sanding:''' roll freshly de-moulded pieces in granulated sugar (lightly steam or mist them first so the sugar sticks).
+* '''Sour sanding:''' sugar mixed with citric and/or malic acid (often 5–10% acid). Plain acid draws moisture and makes the gummies '''weep'''. Apply it after curing, use encapsulated or buffered acids, and store airtight.
+* '''Anti-stick coating:''' a light tumble in a carnauba-wax and vegetable-oil blend (commercial "polishing" agents), or a little neutral oil, stops cured gummies sticking together.
+
+== Troubleshooting ==
+* '''Won't set (gelatin):''' gelatin was boiled, acid went in too hot, too little gelatin or too low a Bloom, or the mix contained '''raw pineapple, kiwi, papaya, mango, figs or ginger''', whose protein-digesting enzymes (bromelain, actinidin, papain, ficin, zingibain) destroy gelatin. Cook those fruits first, or use canned fruit, to inactivate the enzymes.
+* '''Won't set (HM pectin):''' sugar solids too low (undercooked), pH too high (not enough acid), or pectin clumped. Measure Brix and pH.
+* '''Sets in the pot (pectin):''' acid added too early or too hot, or rapid-set pectin used.
+* '''Sweating or sticky:''' undercooked or under-cured, humidity too high, too much invert sugar, or sour sanding on an uncured surface.
+* '''Grainy or crystallized:''' too much sucrose relative to glucose syrup.
+* '''Mould:''' water activity too high. Cook and cure longer, or refrigerate.
+* '''Bubbles:''' stirring too hard. Let the mix rest and skim before depositing, or tap the moulds.
+
+== See also ==
+* [[Candy Making]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Sugar-Free Candy Isomalt Allulose Erythritol and Polyols]]
+* [[Regional Candies of the World]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+
+== Sources ==
+* Gelatin Manufacturers Institute of America. ''Gelatin Handbook'' (GMIA, 2019) and ''Standard Testing Methods for Edible Gelatin'' (Bloom test).
+* Hartel, R. W., von Elbe, J. H. and Hofberger, R. ''Confectionery Science and Technology''. Springer, 2018. Jellies and gummies, starch moulding, stoving.
+* Greweling, P. P. ''Chocolates and Confections'', 2nd ed. CIA/Wiley, 2013. Pâte de fruits, gelatin gummies, Turkish delight.
+* Thakur, B. R., Singh, R. K. and Handa, A. K. "Chemistry and uses of pectin — a review." ''Critical Reviews in Food Science and Nutrition'' 37(1):47–73, 1997.
+* Armisen, R. and Galatas, F. "Agar." In Phillips and Williams (eds.), ''Handbook of Hydrocolloids'', 2nd ed. Woodhead, 2009. Gelling and melting temperatures and hysteresis.
+* ChefSteps, "Gelatin". Bloom conversion methods and their limits.
+* McGee, H. ''On Food and Cooking'', rev. ed., 2004. Gelatin and protease-containing fruits.
+* Burey, P. et al. "Confectionery gels: a review on formulation, rheological and structural aspects." ''International Journal of Food Properties'' 12(1):176–210, 2009.
+
+== Coverage ==
+Choosing among gelatin, pectin, agar, carrageenan, starch and gum arabic; the gelatin Bloom test, grades, sheet grades and substitution rules (with the caveat that they disagree); hydrating and melting gelatin; a weighed, shelf-stable gummy method with curing; the refrigerated juice-gummy variant; HM and LM pectin chemistry and a pâte de fruits method; pectin gummies; agar levels, boiling and setting; Turkish delight and other starch jellies; sanding, sour coating and anti-stick finishing; troubleshooting, including protease fruits.

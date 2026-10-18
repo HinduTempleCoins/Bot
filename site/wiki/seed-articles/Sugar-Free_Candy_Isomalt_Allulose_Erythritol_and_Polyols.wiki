@@ -1,0 +1,76 @@
+'''Sugar-Free Candy: Isomalt, Allulose, Erythritol and Polyols''' covers making candy without sucrose, as part of the [[Candy Making]] hub. Sugar does three jobs in candy: it '''sweetens''', it provides '''bulk and structure''' (the glass, the chew, the crystal), and it '''controls water'''. No single substitute does all three the way sucrose does, so each one suits particular candies. This page covers the main bulk sweeteners, which candies each is good for, how to cook them, and the digestive and pet-safety cautions.
+
+== Two kinds of substitute ==
+* '''Bulk sweeteners''' replace sugar weight for weight and build the structure: the polyols (sugar alcohols: isomalt, maltitol, erythritol, xylitol, sorbitol, mannitol), the rare sugar '''allulose''', and fibres (polydextrose, soluble corn fibre, inulin).
+* '''High-intensity sweeteners''' supply sweetness at tiny doses but no bulk: sucralose, acesulfame-K, stevia (steviol glycosides) and monk fruit (mogrosides). They are used to top up the sweetness of the less-sweet bulk sweeteners.
+
+== Isomalt ==
+* Made from sucrose (by enzymatic rearrangement and hydrogenation). Roughly '''45–60% as sweet''' as sugar.
+* '''Low hygroscopicity''': it pulls much less moisture from the air than sucrose glass, so isomalt candy stays clear and non-sticky longer. This is why sugar artists use it for showpieces and why most commercial sugar-free hard candy is isomalt.
+* '''Hard candy:''' cook isomalt with a little water (about 10 parts isomalt to 1–2 parts water) to about '''165–170 °C (330–340 °F)''', hotter than sucrose hard crack. Cool it slightly, add colour, flavour and a high-intensity sweetener (sucralose or acesulfame-K, a few hundred mg per kg), and pour. It stays water-clear because it doesn't brown like sucrose.
+* '''Not for:''' fudge or fondant-type crystalline candies.
+* '''Laxative''' in quantity (see cautions below).
+
+== Maltitol ==
+* About '''90% as sweet''' as sugar, with a similar taste and mouthfeel. It is the main bulk sweetener in sugar-free '''chocolate''' and in many sugar-free hard candies and caramels (as maltitol syrup).
+* It has a real glycaemic effect (it is partly digested; its glycaemic index is often cited around 35, versus 65 for sucrose), so "sugar-free" does not mean "no effect on blood sugar".
+* It is the polyol most notorious for '''laxative''' effects at candy-sized servings.
+
+== Erythritol ==
+* About '''60–70% as sweet''', with almost no calories. It is mostly absorbed and excreted unchanged, so it is better tolerated digestively than other polyols.
+* It has a strong '''cooling effect''' (negative heat of solution), which is ideal for '''mints''' and '''compressed tablets''' and odd in caramel.
+* It '''crystallizes readily''', so it gives gritty or recrystallized hard candy and fudge unless blended (with allulose, isomalt, or soluble fibre).
+* A 2023 observational study (Witkowski et al., ''Nature Medicine'') associated high blood erythritol levels with cardiovascular events and showed it enhanced platelet reactivity in lab tests. This is an association, not established causation, and is still being studied. People with cardiovascular risk may prefer other sweeteners.
+
+== Xylitol ==
+* About '''as sweet as sugar''', with cooling. It doesn't feed the bacteria that cause cavities, so it is used in sugar-free gum and mints for dental benefit.
+* It can be cooked to hard candy (it crystallizes into opaque candy).
+* '''Extremely toxic to dogs.''' Small amounts cause a dangerous insulin release and low blood sugar, and larger amounts cause liver failure (U.S. FDA warning). Keep xylitol candy, gum and baked goods away from dogs, and label them.
+
+== Sorbitol and mannitol ==
+* '''Sorbitol''' (about 60% as sweet): humectant, used as a syrup in sugar-free gummies and chews to keep them soft, and in compressed tablets.
+* '''Mannitol''' (about 50%): non-hygroscopic, used as a dusting powder for gum and in tablets.
+* Both are laxative. U.S. regulations require the warning "excess consumption may have a laxative effect" on foods where a reasonably foreseeable amount would supply 50 g of sorbitol (21 CFR 184.1835) or 20 g of mannitol (21 CFR 180.25).
+
+== Allulose ==
+* A '''rare sugar''' (D-psicose, a fructose epimer), not a polyol. About '''70% as sweet''' as sugar, with very few calories. The U.S. FDA allows it to be excluded from "total" and "added sugars" on nutrition labels (guidance 2019, updated 2020).
+* '''Browns fast''' through Maillard and caramelization at lower temperatures than sucrose, so it is good for '''caramels, toffee-style candies and gummies''', and you must watch the colour.
+* '''Hygroscopic''' and '''resists crystallizing''', so it keeps candy soft and chewy. That is good for caramel, gummies and soft fudge, and bad for hard candy, which turns sticky and tacky.
+* Digestive tolerance is better than most polyols but not unlimited.
+
+== Fibres and bulking agents ==
+* '''Polydextrose''', '''soluble corn fibre (resistant dextrin)''' and '''inulin''' (chicory): add bulk, body and chew with little sweetness. They are used in "low-sugar" gummies and chocolate. They can cause gas in quantity.
+* '''Tapioca and other low-sugar syrups''' are '''not''' sugar-free; check the labels.
+
+== Which sweetener for which candy ==
+* '''Clear hard candy and lollipops:''' isomalt, plus a high-intensity sweetener.
+* '''Chocolate:''' maltitol (closest to sugar), or erythritol plus stevia or monk fruit (cooling, less sweet).
+* '''Caramel and toffee:''' allulose, or maltitol syrup. Allulose browns faster.
+* '''Gummies:''' allulose, sorbitol or maltitol syrup, or soluble fibre, with gelatin. For pectin, use '''low-methoxyl pectin''' (it sets with calcium and doesn't need high sugar). See [[Gummies and Jellies Gelatin Pectin and Agar]].
+* '''Mints and compressed tablets:''' erythritol, xylitol, sorbitol or isomalt. See [[Hard Candy Lollipops Lozenges and Mints]].
+* '''Fudge:''' allulose-based or blended; true crystalline sugar-free fudge is difficult.
+
+== Cautions ==
+* '''Digestive effects:''' unabsorbed polyols draw water into the gut and are fermented, causing bloating, gas and diarrhoea. Tolerance varies a lot from person to person. Erythritol is best tolerated; maltitol and sorbitol cause the most trouble. Serving size matters, so label sugar-free candy and keep portions small.
+* '''Blood sugar:''' polyols other than erythritol, and maltitol in particular, have a glycaemic effect. "Net carbs" is a marketing term, not a regulated one.
+* '''Dogs:''' xylitol is dangerous to dogs even in small amounts. Other polyols are much less toxic but can still upset a dog's gut.
+* '''Dosed sugar-free candy''' carries the same child-safety rules as any dosed candy; see [[Testing Labelling and Safe Storage of Dosed Preparations]].
+
+== See also ==
+* [[Candy Making]]
+* [[Hard Candy Lollipops Lozenges and Mints]]
+* [[Gummies and Jellies Gelatin Pectin and Agar]]
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Food Pyramid and Supplements]]
+
+== Sources ==
+* O'Donnell, K. and Kearsley, M. W. (eds.) ''Sweeteners and Sugar Alternatives in Food Technology'', 2nd ed. Wiley-Blackwell, 2012.
+* Hartel, R. W., von Elbe, J. H. and Hofberger, R. ''Confectionery Science and Technology''. Springer, 2018. Sugar-free confections.
+* Witkowski, M. et al. "The artificial sweetener erythritol and cardiovascular event risk." ''Nature Medicine'' 29:710–718, 2023.
+* U.S. Food and Drug Administration. "Paws Off Xylitol; It's Dangerous for Dogs" (consumer update); ''The Declaration of Allulose and Calories from Allulose on Nutrition and Supplement Facts Labels'' (guidance for industry, 2019/2020).
+* U.S. 21 CFR 184.1835 (sorbitol) and 21 CFR 180.25 (mannitol) laxative-statement requirements.
+* Livesey, G. "Health potential of polyols as sugar replacers, with emphasis on low glycaemic properties." ''Nutrition Research Reviews'' 16(2):163–191, 2003.
+
+== Coverage ==
+Bulk versus high-intensity sweeteners; isomalt (low hygroscopicity, 165–170 °C hard candy method), maltitol (chocolate, glycaemic and laxative effects), erythritol (cooling, crystallization, the 2023 cardiovascular association), xylitol (dental use, danger to dogs), sorbitol and mannitol (U.S. laxative labelling thresholds), allulose (fast browning, hygroscopic, label treatment), fibre bulking agents; a matching guide from candy type to sweetener; digestive, glycaemic, pet and child-safety cautions.

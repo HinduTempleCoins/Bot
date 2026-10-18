@@ -39,6 +39,28 @@ const HISTORY_PAGES = [
       'Rasa Shastra and Ancient Indian Nanochemistry',
 ];
 
+// Dosing in liquids + candy making (operator request 2026-10-19) — one list shared by the
+// 'Plants and preparation' category and the Botanical pillar, so both stay in step.
+const DOSING_CANDY_PAGES = [
+      'Dosing in Liquids',
+      'Concentration Arithmetic and Serial Dilution',
+      'Measuring Tools Scales Syringes and Volumetric Dosing',
+      'Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions',
+      'Tinctures Glycerites Syrups and Infused Oils and Butters',
+      'Testing Labelling and Safe Storage of Dosed Preparations',
+      'Infused Confections Even Dosing in Gummies Chocolate and Hard Candy',
+      'Candy Making',
+      'Sugar Stages and the Science of Candy',
+      'Hard Candy Lollipops Lozenges and Mints',
+      'Gummies and Jellies Gelatin Pectin and Agar',
+      'Caramel Toffee Brittle Fudge and Fondant',
+      'Marshmallow Nougat Taffy and Aerated Candy',
+      'Chocolate Tempering Ganache Truffles and Bonbons',
+      'Sugar-Free Candy Isomalt Allulose Erythritol and Polyols',
+      'Candied Fruit Rock Candy Cotton Candy and Panning',
+      'Regional Candies of the World',
+];
+
 export const CATEGORIES = [
   {
     id: 'start', name: 'Start here', blurb: 'What this whole thing is, in the order it makes sense to read it.',
@@ -274,7 +296,8 @@ export const CATEGORIES = [
   },
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
-    pages: ['Weather Clouds and Pyrocumulus Reading the Sky',
+    pages: [...DOSING_CANDY_PAGES,
+            'Weather Clouds and Pyrocumulus Reading the Sky',
             'Spiced Wine Bitters and the Colas',
             'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
             'Grow Lighting Metal Halide HPS CMH Fluorescent and LED',
@@ -645,6 +668,7 @@ export const PILLARS = [
     icon: '🌿',
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
+      ...DOSING_CANDY_PAGES,
       'Weather Clouds and Pyrocumulus Reading the Sky',
       'Spiced Wine Bitters and the Colas',
       'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',

@@ -1,0 +1,89 @@
+'''Testing, Labelling and Safe Storage of Dosed Preparations''' covers the last step of [[Dosing in Liquids]]: making sure a batch really is as strong and as even as the arithmetic says, writing that on the container, and storing it so nobody takes it by accident. That last part matters most with dosed candy, which looks exactly like ordinary candy.
+
+== Why verify at all ==
+Calculated strength is a prediction. Real products miss it. In a 2015 study in ''JAMA'', researchers bought 75 edible cannabis products from dispensaries in San Francisco, Los Angeles and Seattle and tested them. Only about '''17% were labelled accurately''' (within 10% of the stated THC). About 23% contained more than labelled, and about 60% contained less, some almost none (Vandrey et al., 2015). Those were commercial makers. A home batch made without testing should be treated as '''strength unknown, within a calculated ceiling'''.
+
+== Two separate questions ==
+* '''Potency:''' is the batch as strong as intended overall?
+* '''Homogeneity (uniformity):''' is every serving the same? A batch can have exactly the right total and still hold one double-strength piece and one empty one.
+
+== Laboratory testing ==
+* Use a laboratory accredited to '''ISO/IEC 17025''' for the analyte you care about. Most active plant compounds are quantified by HPLC (high-performance liquid chromatography), and volatiles by GC.
+* '''For potency,''' send a well-mixed sample of a liquid, or several whole pieces of a solid.
+* '''For homogeneity,''' send several individual units drawn from the '''start, middle and end''' of the batch, kept separate.
+* '''Regulatory reference points''' (they show what "even enough" means in regulated markets; they are not personal advice):
+** Colorado has a statutory '''±15% potency tolerance''' for edibles (a "10 mg" piece may test 8.5–11.5 mg). Its homogeneity rule, revised in 2020, requires at least four single-serving units to show a '''relative standard deviation under 10%'''.
+** Mississippi's medical program requires three units to be within '''±15%''' of the labelled per-serving amount.
+** The pharmaceutical standard, USP <905> ''Uniformity of Dosage Units'', tests 10 units and combines their mean and spread into an "acceptance value" that must not exceed 15.0.
+* Ask the lab for its '''limit of quantitation''' and '''measurement uncertainty'''. A result of "10.2 mg ± 0.8 mg" is more useful than "10.2 mg".
+
+== Home checks (useful, but they don't replace a lab) ==
+=== Weight uniformity ===
+If the mass is evenly mixed, each piece's dose is proportional to its weight. Weigh every piece on a 0.01 g scale (0.001 g for small pieces):
+# Record each weight.
+# Mean = sum ÷ count.
+# Standard deviation (most phone calculators and spreadsheets have it: STDEV).
+# '''Relative standard deviation (RSD) = SD ÷ mean × 100%.'''
+# '''Worked example:''' six gummies weigh 3.92, 4.05, 4.10, 3.88, 4.01 and 4.04 g. Mean = 4.00 g, SD ≈ 0.08 g, RSD ≈ 2.1%. The pieces are uniform in size. Mixing evenness is a separate matter.
+# Reject, re-melt or re-portion pieces outside about ±10% of the mean.
+* USP <905> allows weight variation in place of an assay only when the active is a large share of the unit (≥25 mg and ≥25% of the unit's weight), because weight tells you nothing about how evenly a small amount of active was mixed in.
+
+=== Tracer colour ===
+Mix food colour into the active or its carrier before it goes into the batch, using an oil-soluble colour for oil-soluble actives and a water-soluble one for water-soluble actives. Even colour across the batch and across pieces is good evidence of good mixing. Streaks or pale and dark pieces are proof of bad mixing. See [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]].
+
+=== Split testing ===
+For a large or repeated recipe, send a few pieces from one batch to a lab while you validate the method. Once a method gives consistent results, weight checks plus the same procedure carry more confidence.
+
+=== First use ===
+For anything with a strong effect, the harm-reduction rule is '''start low, go slow''': take a fraction of a calculated serving from a new batch and wait for the full effect before taking more. Orally taken (eaten or drunk) preparations act more slowly than inhaled or sublingual ones. Onset is often 30–120 minutes, so redosing too early is the classic mistake. See [[Cannabis Harm Reduction]] and [[Sublingual Absorption and Salivary Enzymes]].
+
+== What a label must say ==
+* What it is (name of the active and the carrier).
+* '''Strength''' in mg per mL or mg per piece, and whether it is '''tested''' or '''calculated (maximum)'''.
+* '''Serving size''' in mL or pieces, and the number of servings in the container.
+* Date made, batch code, and a best-before date.
+* Storage instructions ("refrigerate", "shake well", "keep cool and dark").
+* '''"Contains [active]. Keep out of reach of children and pets."'''
+* Allergens in the carrier (milk in butter and chocolate, nuts, soy lecithin, gelatin source).
+* A batch log at home (date, input weights, potency source, final volume or weight, piece count, test results) lets anyone recompute or check the label later.
+
+== Storage ==
+* '''Light, heat and oxygen''' degrade most active compounds. Use amber or opaque containers, keep them cool, and keep headspace small (decant into smaller bottles as you use them).
+* '''Refrigerate''' anything with water and little preservative (diluted syrups, butters, ganache-filled chocolates, high-moisture gummies). '''Freeze''' for months-long storage. Thaw sealed, so condensation doesn't wet the product.
+* '''Humidity''' ruins hard candy and gummies (stickiness, crystallization, mould). Store them airtight with a food-safe desiccant. See [[Sugar Stages and the Science of Candy]].
+* Keep dosed products '''physically separate''' from ordinary food, never in the same tin as plain cookies.
+
+== Child safety ==
+Dosed candy is the highest-risk format because it is made to be attractive. U.S. poison-centre reports of edible-cannabis exposures in children under 6 rose from 207 in 2017 to 3,054 in 2021, a '''1,375% increase'''. About 97% happened at home, and hospital and intensive-care admissions rose over the period (Tweet et al., ''Pediatrics'', 2023). The same logic applies to any active ingredient.
+* '''Lock it up.''' A lockable box or cabinet, not a high shelf.
+* '''Child-resistant packaging''' certified to the U.S. Poison Prevention Packaging Act test protocol (16 CFR 1700.20) is the standard for regulated products. Reusable child-resistant jars and pouches are inexpensive.
+* '''Make it unmistakable.''' Never store dosed candy in a commercial candy wrapper or brand-name packaging. Label every container clearly. Several states ban edible shapes that appeal to children (animals, people, fruit) for this reason, and a plain square is safer than a bear.
+* '''Make and handle them when children aren't present,''' and clean up crumbs, drips and mould residue afterwards.
+* '''Pets:''' dogs are frequently poisoned by edibles. Chocolate (theobromine), xylitol (in sugar-free candy) and cannabis are all toxic to dogs.
+* '''If someone takes it by accident:''' in the U.S., call '''Poison Control at 1-800-222-1222''' (or use webPOISONCONTROL), or call emergency services if the person is very drowsy, hard to wake, having trouble breathing, or having a seizure. Have the package and your batch notes (strength, amount taken, time) ready.
+
+== Disposal ==
+Mix unwanted dosed products into something unappealing (used coffee grounds, cat litter) in a sealed bag, and put it in household rubbish out of reach of animals. Don't flush oils or butters.
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Cannabis Harm Reduction]]
+* [[Food Safety]]
+* [[Candy Making]]
+
+== Sources ==
+* Vandrey, R. et al. "Cannabinoid dose and label accuracy in edible medical cannabis products." ''JAMA'' 313(24):2491–2493, 2015.
+* Tweet, M. S., Nemanich, A. and Wahl, M. "Pediatric edible cannabis exposures and acute toxicity: 2017–2021." ''Pediatrics'' 151(2):e2022057761, 2023.
+* United States Pharmacopeia. General Chapter <905> ''Uniformity of Dosage Units''; <795> ''Pharmaceutical Compounding — Nonsterile Preparations'' (labelling, beyond-use dates).
+* ISO/IEC 17025:2017 ''General requirements for the competence of testing and calibration laboratories''.
+* Colorado Marijuana Enforcement Division, 1 CCR 212-3 (testing and homogeneity rules, 2020 revision) and C.R.S. potency-tolerance provisions; SC Laboratories, "Are your edibles consistent?" (summary of the 2020 Colorado homogeneity change).
+* Mississippi Medical Cannabis Program, testing regulation implementation bulletin, July 2024.
+* U.S. Consumer Product Safety Commission. Poison Prevention Packaging Act, 16 CFR 1700 (child-resistant packaging test protocol, 1700.20).
+* America's Poison Centers. [https://www.poison.org webPOISONCONTROL / 1-800-222-1222]
+* ASPCA Animal Poison Control Center, toxicity information on chocolate, xylitol and cannabis in dogs.
+
+== Coverage ==
+Why calculated strength must be verified (label-accuracy data); potency versus homogeneity; accredited lab testing and the regulatory reference points (Colorado ±15% and RSD under 10%, Mississippi ±15%, USP <905>); home weight-uniformity checks with a worked RSD example; tracer colour and split testing; start-low first use; what a label must contain; storage against light, heat, oxygen and humidity; child safety (paediatric exposure data, locking, child-resistant packaging, unmistakable packaging, pets, Poison Control); disposal.

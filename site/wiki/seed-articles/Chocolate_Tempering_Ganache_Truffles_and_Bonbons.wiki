@@ -1,0 +1,116 @@
+'''Chocolate: Tempering, Ganache, Truffles and Bonbons''' is the chocolate page of the [[Candy Making]] hub. Chocolate follows different rules from sugar candy. What matters is not how much water is left but '''which crystal form the cocoa butter sets in'''. This page covers that science, the tempering methods step by step, seizing and bloom, ganache ratios and shelf life, truffles, moulded and enrobed bonbons, gianduja and praliné, and compound coatings.
+
+== What chocolate is ==
+* '''Dark chocolate:''' cocoa mass (ground roasted cocoa nibs), cocoa butter, sugar, often lecithin (about 0.3–0.5%) and vanilla. "70%" means 70% of the weight comes from cocoa (mass plus added butter).
+* '''Milk chocolate:''' adds milk solids and milk fat.
+* '''White chocolate:''' cocoa butter, sugar and milk solids, with no cocoa mass. U.S. standards (21 CFR 163.124) require at least 20% cocoa butter.
+* '''Couverture:''' high-cocoa-butter chocolate (often 31–39% total fat), more fluid when melted, used for thin shells and enrobing.
+* '''Compound (coating) chocolate:''' cocoa butter replaced with other vegetable fats (palm kernel and similar). It needs '''no tempering''' and sets glossy on its own, but the flavour and snap are poorer. Sold as "candy melts" or "coating chocolate".
+
+== Why tempering matters: the six crystal forms ==
+Cocoa butter can crystallize in '''six polymorphs (Forms I–VI)''', each with its own melting point. The classic X-ray work is Wille and Lutton (1966).
+* Forms I–IV melt at roughly 17–29 °C. Chocolate set in these forms is soft, dull, streaky and crumbly, and melts in the hand.
+* '''Form V (β₂) melts at about 33–34 °C.''' This is the target: gloss, a clean snap, contraction (so it releases from moulds), and a melt just below mouth temperature.
+* Form VI forms slowly from Form V over months of storage and is associated with fat bloom.
+'''Tempering''' means melting out every crystal, then cooling and re-warming so that only Form V seed crystals survive. Those seeds then template the whole mass as it sets.
+
+== Tempering temperatures ==
+Typical working curves. Manufacturers print exact curves for each chocolate; follow those when you have them.
+* '''Dark:''' melt to 45–50 °C, cool to 27–28 °C, re-warm to '''31–32 °C''' working temperature.
+* '''Milk:''' melt to 40–45 °C, cool to 26–27 °C, re-warm to '''29–30 °C'''.
+* '''White:''' melt to 40 °C, cool to 25–26 °C, re-warm to '''28–29 °C'''.
+* Above the working temperature the Form V seeds melt and the temper is lost. Re-temper if that happens.
+
+== Tempering methods ==
+=== Seeding (easiest and most reliable at home) ===
+# Chop the chocolate finely. Melt about 2/3–3/4 of it to the full melt temperature (45–50 °C for dark) over a water bath or in the microwave in 20–30 s bursts, stirring.
+# Add the remaining 1/4–1/3, '''already-tempered''' chocolate (any good bar or callets from the bag), finely chopped.
+# Stir continuously as it melts and cools to the working temperature (31–32 °C dark). The seed chocolate supplies Form V crystals.
+# Remove any unmelted pieces. Test (below).
+=== Cocoa butter seeding ("silk", Mycryo) ===
+Melt the chocolate fully, cool it to about 34–35 °C, and stir in '''1% of its weight''' of powdered Form V cocoa butter (sold as Mycryo, or a "cocoa butter silk" made in a precision-controlled water bath). Stir until it reaches working temperature.
+=== Tabling (the classic method) ===
+# Melt all the chocolate to 45–50 °C.
+# Pour 2/3 of it onto a clean, dry marble slab. Spread and gather it with a palette knife and scraper until it thickens noticeably and reaches about 27–28 °C.
+# Scrape it back into the remaining warm chocolate and stir until the whole is at working temperature.
+=== Microwave "never fully melted" method ===
+If you start from tempered chocolate and melt it very gently, never letting it rise above about 32–33 °C (dark), the Form V crystals already present never melt and the chocolate stays tempered. Melt in short bursts and stir constantly. It is slow, but it needs no cooling step.
+=== Tempering machines and sous-vide ===
+Tempering machines automate melting, cooling and holding. A sous-vide bath with the chocolate sealed in a bag can hold the exact working temperature for hours.
+=== Test the temper ===
+Dip the tip of a knife or a strip of foil and leave it at about 20 °C. '''Well tempered:''' it sets in about 3–5 minutes, glossy and even, and snaps cleanly. '''Untempered:''' it stays tacky, then sets dull and streaky.
+
+== Seizing ==
+* A '''small amount of water''' (a few drops, or steam from the water bath) makes melted chocolate seize. It turns thick, grainy and matte, because the water dampens the sugar and cocoa particles and makes them stick together into clumps.
+* '''Large amounts of liquid''' (as in ganache) don't seize it. There is enough water to dissolve the sugar and form a smooth emulsion.
+* '''Rescue:''' you can't re-temper seized chocolate, but you can turn it into a ganache or sauce by adding more warm liquid (cream, or water) a spoonful at a time while whisking.
+* '''Practical consequences:''' keep tools dry; don't let steam reach the bowl; '''never stir water-based or alcohol-based liquids (tinctures, extracts, juices) into tempered chocolate'''. Use oil-based flavours and fat-soluble additions. See [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]].
+
+== Bloom ==
+* '''Fat bloom:''' greyish streaks or a whitish film that is soft and smears. Causes: poor temper, warm storage (which partly melts the cocoa butter, which then recrystallizes into the wrong forms), and fat migration from nut fillings. Prevent it by tempering properly and storing at 15–18 °C.
+* '''Sugar bloom:''' a dry, rough, white coating. Moisture (fridge condensation, humidity) dissolves surface sugar, which recrystallizes as it dries. Prevent it by keeping chocolate dry, and if you refrigerate, let it come to room temperature in its sealed wrapper.
+* Bloomed chocolate is safe to eat, and it can be melted and re-tempered.
+
+== Ganache ==
+Ganache is an emulsion of chocolate (cocoa butter and solids) with cream (water and milk fat). The ratio sets the texture. Ratios are '''by weight''', chocolate : cream.
+* '''Dark chocolate (60–70%):'''
+** 1 : 2 — sauce, or whipped ganache (chill, then whip).
+** 1 : 1 — glaze (warm), soft filling, cake ganache.
+** 1.5 : 1 — piping, frame-cut fillings.
+** 2 : 1 — firm ganache for '''hand-rolled truffles'''.
+* '''Milk chocolate:''' needs about 1.5–2 times as much chocolate as dark for the same firmness (about 2.5 : 1 for rolled truffles).
+* '''White chocolate:''' about 3 : 1 for rolled truffles, 2 : 1 for soft fillings.
+=== Method ===
+# Chop the chocolate finely.
+# Bring the cream just to a simmer (about 80–90 °C) and pour it over the chocolate. Wait for 1 minute.
+# Stir from the centre outward in small circles to form the emulsion (shiny and elastic), or use an immersion blender held under the surface for the finest emulsion.
+# Add soft butter (about 10–20% of the chocolate weight) at about 35 °C for richness. Add invert sugar or glucose (about 5–10%) for a smoother texture and longer shelf life.
+# For a '''broken''' ganache (oily or grainy): add a spoonful of warm cream or milk and re-blend.
+=== Shelf life ===
+Ganache has high water activity (about 0.80–0.90; see [[Sugar Stages and the Science of Candy]]). '''Classic cream ganache keeps about 1–2 weeks at cool room temperature, longer in the fridge.''' Professionals extend it by lowering water activity with more chocolate, invert sugar, sorbitol, glucose, butter instead of some cream, or a little spirit.
+
+== Truffles ==
+# Make a firm ganache (2 : 1 dark). Cool it until scoopable (room temperature for a few hours, or the fridge).
+# Scoop or pipe into even portions. '''Weigh them''' (e.g. 10–12 g each).
+# Roll them round in cool hands.
+# Finish by rolling in cocoa powder (the original "truffle", resembling the fungus), chopped nuts or coconut, or by '''enrobing''': dip in tempered chocolate with a dipping fork, tap off the excess, and set on parchment.
+* Pre-coating rolled centres with a thin layer of tempered chocolate between your palms ("pre-coating") before dipping gives a cleaner, more protective shell.
+
+== Moulded bonbons ==
+# Polish polycarbonate moulds with cotton. Optionally decorate them with coloured cocoa butter (at about 28–30 °C).
+# Fill the cavities with tempered chocolate, tap out the bubbles, then '''invert the mould''' and let the excess drain out, leaving a thin shell. Scrape the surface clean and let it set.
+# Pipe in the filling (ganache, caramel, praliné, fondant) '''at no more than about 28–30 °C''', so it doesn't melt the shell. Leave 1–2 mm below the rim.
+# Let the filling crystallize (12–24 hours for ganache).
+# '''Cap''' with tempered chocolate, scrape flush, and let it set.
+# Chill briefly (10–15 minutes) and turn the mould out. Well-tempered shells contract and fall out.
+
+== Enrobed and frame-cut pieces ==
+Spread ganache or praliné in a frame and let it crystallize. Brush one side with tempered chocolate (the "foot"), cut with a guitar cutter or a hot knife, then dip each piece with a dipping fork or run it through an enrober.
+
+== Gianduja and praliné ==
+* '''Praliné:''' caramelized nuts (classically almonds and hazelnuts) ground to a smooth paste. The nut oil makes it fluid.
+* '''Gianduja''' (Turin): chocolate plus very finely ground roasted hazelnuts (often around 30% hazelnut). Temper it like milk chocolate, but cooler, because the nut oil softens it.
+* Nut-oil fillings migrate into shells over time and cause fat bloom. Some fillings are stabilized with cocoa butter.
+
+== Bean to bar, in brief ==
+Ferment and dry the beans (at origin), roast (about 120–140 °C), crack and winnow out the shells to get nibs, grind and refine the nibs with sugar to under about 20–30 µm (a melanger or ball mill), conche (hours of heated agitation that drive off acids and smooth the texture), then temper and mould. See [[Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw]] for related flavour chemistry.
+
+== See also ==
+* [[Candy Making]]
+* [[Caramel Toffee Brittle Fudge and Fondant]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Regional Candies of the World]]
+* [[Edible Waxes Hive Foods and Aromatic Resins]]
+
+== Sources ==
+* Beckett, S. T. ''The Science of Chocolate'', 3rd ed. Royal Society of Chemistry, 2019.
+* Beckett, S. T., Fowler, M. S. and Ziegler, G. R. (eds.) ''Beckett's Industrial Chocolate Manufacture and Use'', 5th ed. Wiley-Blackwell, 2017.
+* Wille, R. L. and Lutton, E. S. "Polymorphism of cocoa butter." ''Journal of the American Oil Chemists' Society'' 43(8):491–496, 1966.
+* Greweling, P. P. ''Chocolates and Confections'', 2nd ed. CIA/Wiley, 2013. Tempering methods, ganache ratios and shelf life, moulding, enrobing.
+* Afoakwa, E. O. ''Chocolate Science and Technology'', 2nd ed. Wiley-Blackwell, 2016. Bloom mechanisms.
+* U.S. Code of Federal Regulations, 21 CFR Part 163 (cacao product standards, including white chocolate, 163.124).
+* McGee, H. ''On Food and Cooking'', rev. ed., 2004. Chapter 12, chocolate and seizing.
+
+== Coverage ==
+Dark, milk, white, couverture and compound chocolate; the six cocoa butter polymorphs and why Form V is the target; tempering curves for dark, milk and white; seeding, cocoa-butter silk, tabling, the never-fully-melted microwave method and machines; the temper test; seizing (cause, rescue, and why water- or alcohol-based additions don't go into tempered chocolate); fat and sugar bloom; ganache ratios by chocolate type, method, broken-ganache rescue and shelf life; truffles; moulded bonbons step by step; enrobed and frame pieces; praliné and gianduja; bean to bar in brief.

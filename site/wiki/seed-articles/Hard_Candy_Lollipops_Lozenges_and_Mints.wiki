@@ -1,0 +1,103 @@
+'''Hard Candy, Lollipops, Lozenges and Mints''' covers the hard and dry end of the [[Candy Making]] hub: boiled sweets and lollipops (sugar glass), pulled candy, honey candy, cough drops, old-style paste lozenges, gum pastilles, mints of several kinds, and compressed tablet candy. The science behind the glassy state is on [[Sugar Stages and the Science of Candy]].
+
+== Hard candy (boiled sweets) ==
+Hard candy is a sugar '''glass''': sucrose plus glucose syrup cooked to hard crack (149–154 °C / 300–310 °F), leaving about 1–3% water, then cooled fast enough that it can't crystallize.
+=== A basic home formula (by weight) ===
+* 400 g granulated sugar
+* 160 g light corn syrup (glucose syrup)
+* 150 g water
+* Flavouring: candy oils (super-strength, oil-based) at about 0.25–0.5% of batch weight, roughly ½–1 teaspoon per batch; or extracts at 1–2 teaspoons (alcohol and water extracts flash off and spit).
+* Colour: gel or liquid food colour, a few drops.
+* Optional: citric acid, about 0.5–1% of batch weight, for sour candy. Add it last; acid plus heat inverts sugar and makes candy sticky.
+=== Method ===
+# Oil or prepare the moulds (hard-candy moulds rated above 150 °C, or silicone), lollipop sticks, or a silicone mat.
+# Combine sugar, corn syrup and water in a heavy pot. Stir over medium heat until fully dissolved and clear.
+# Stop stirring. Wash down the pot walls with a wet pastry brush or cover the pot for 2–3 minutes. Insert a calibrated thermometer.
+# Boil without stirring to '''149–154 °C (300–310 °F)'''. Going beyond about 155 °C starts yellowing the syrup.
+# Remove from heat and let the bubbling stop (30–60 s). Stir in colour, then flavour and acid, briefly (stand back, as oils and acids flash).
+# Pour or spoon into moulds immediately. It sets in about 10–20 minutes.
+# '''Wrap individually''' as soon as it is cool. Hard candy pulls moisture from the air and turns sticky within hours in humid weather.
+=== Troubleshooting ===
+* '''Sticky:''' undercooked, too much invert sugar or acid, or too much humidity. Cook to the full temperature, wrap promptly and store with desiccant.
+* '''Cloudy or grainy:''' sugar crystals got back in (stirring, crusted walls), or too little glucose syrup.
+* '''Yellow when it should be clear:''' overcooked, or cooked too slowly. Isomalt stays clearer (see [[Sugar-Free Candy Isomalt Allulose Erythritol and Polyols]]).
+* '''Bubbles:''' over-stirring after cooking. Let it rest a few seconds before pouring.
+
+== Lollipops ==
+The same glass, poured onto sticks in lollipop moulds or freeform onto a silicone mat in coins. Twist the stick a half turn as you place it so the syrup grips it. For layered or swirled pops, cook small coloured batches or swirl colour on the mat with a toothpick.
+
+== Pulled candy (satin, ribbon candy, candy canes, humbugs) ==
+# Cook hard-candy syrup to about 145–150 °C and pour it onto an oiled marble slab or silicone mat.
+# Fold the edges in with a scraper as they cool. When it can be handled (about 50–60 °C, wearing heat-resistant gloves), start '''pulling''': stretch it, fold it back, and repeat.
+# Pulling traps tiny air bubbles. The candy turns '''opaque, silky and lighter in colour''' (that is the "satin" finish) and the texture gets slightly lighter.
+# Combine pulled white with clear coloured stripes, twist into canes, or crimp into ribbons. Work under a heat lamp or near a warm oven to keep it pliable.
+# Cut with oiled scissors while it is still warm.
+
+== Honey candy ==
+* Pure honey can be cooked to hard crack (about 149–150 °C) and poured. It foams up a lot (use a large pot) and '''browns and scorches early''' because of its fructose. Watch the colour as well as the thermometer.
+* Many recipes mix honey with sugar (1 part honey to 2–3 parts sugar) for a clearer, less sticky drop.
+* Honey candy is '''more hygroscopic''' than sugar candy. Wrap it immediately.
+* Honey must not be given to infants under 12 months (infant botulism risk). That applies to honey candy too.
+* Traditional honey drops are often flavoured with lemon, ginger, thyme, horehound or herbs.
+
+== Cough drops and medicated drops ==
+* Commercial cough drops are hard candy carrying '''menthol''' (often about 5–10 mg per drop), eucalyptus oil, honey and sometimes herbal extracts (horehound, Ricola-style herb blends).
+* At home: add menthol crystals dissolved in the flavour oil, or eucalyptus or peppermint oil, after cooking (as for flavours above). Menthol and eucalyptus are potent. Weigh them, divide the batch by the number of drops (see [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]), and keep them away from small children. Eucalyptus oil swallowed in quantity is a known poisoning risk in children.
+
+== Paste lozenges (the old apothecary lozenge) ==
+Before boiled sweets, a '''lozenge''' (Latin ''trochiscus'') was a dried, cut paste. Pharmacopoeias of the 19th and early 20th centuries listed medicated ''trochisci'' made this way.
+# Make a '''mucilage''': gum tragacanth (about 1 part to 20–30 parts water) or gum arabic soaked overnight into a thick gel.
+# Knead it with '''powdered (icing) sugar''' into a stiff, smooth paste. Roughly 1 part mucilage to 8–10 parts sugar, adjusted by feel.
+# Knead in flavour (peppermint, rose, violet, aniseed, liquorice) and colour, and any measured active ingredient, '''thoroughly''' (see the dosing note below).
+# Roll to an even thickness with guide sticks (e.g. 4–5 mm) and cut with a small cutter. Even thickness means even piece weight.
+# Dry on paper or racks for 24–48 hours until hard.
+* Victorian '''conversation lozenges''' (printed messages) and modern '''Love Hearts''' or Necco-style wafers descend from this method.
+
+== Gum pastilles ==
+* '''Gum arabic (acacia) pastilles''' are the old chewy, slow-dissolving pastille: gum arabic dissolved in water, combined with sugar, cooked to a heavy syrup, flavoured (blackcurrant, liquorice, violet, rose), deposited into '''starch moulds''' and '''stoved''' (dried warm) for days. French ''pâte de jujube'' and ''pâte de guimauve'' and English wine gums originally belong here. Many modern "pastilles" use pectin or gelatin instead; see [[Gummies and Jellies Gelatin Pectin and Agar]].
+* Liquorice pastilles add liquorice extract (glycyrrhizin) or anise.
+
+== Mints ==
+* '''Pressed (compressed) mints''' in the Altoids style: powdered sugar plus a binder (gum arabic or gelatin) plus peppermint oil, either compressed in a tablet press (see below) or made as a paste lozenge (above).
+* '''Pulled mints''': hard-candy syrup with peppermint oil, pulled until satiny and cut into pillows (old-fashioned "butter mints" are sometimes pulled with butter).
+* '''Cream mints and buttermints''': soft, melt-in-the-mouth. Powdered sugar kneaded with butter and a little cream (or cream cheese, or egg white), plus peppermint oil, rolled into ropes and cut. They can also be made with poured fondant (see [[Caramel Toffee Brittle Fudge and Fondant]]).
+* '''Peppermint patties''': fondant centres with peppermint oil, enrobed in tempered dark chocolate.
+* '''Strength:''' peppermint oil is about 0.1–0.5% of batch weight. It is easy to overdo. Add drop by drop and taste a cooled sample.
+
+== Compressed tablet candy ==
+'''Tablet candy''' (Smarties in the U.S., SweeTarts, Pez, Love Hearts, Altoids) is made like a pharmaceutical tablet. For dosing it is the most uniform candy format there is, provided the powder blend is uniform.
+=== Ingredients ===
+* '''Base:''' dextrose (direct-compressible grades), compressible sugar, or sorbitol, isomalt or erythritol for sugar-free versions.
+* '''Binder:''' about 1–5% (gum arabic, gelatin, maltodextrin, or none for direct-compression dextrose).
+* '''Lubricant:''' '''magnesium stearate''' or stearic acid, about 0.5–1%, so the tablet releases from the die. Add it '''last''' and blend briefly (2–3 minutes). Over-blending makes tablets soft.
+* Flavour (spray-dried powders, or oils absorbed onto the powder), colour, and citric or malic acid for tart versions.
+=== Method ===
+# Weigh every ingredient. Blend a small amount of active (if any) with the base by '''geometric dilution''' (see [[Measuring Tools Scales Syringes and Volumetric Dosing]]).
+# Optional '''wet granulation''' for better flow: moisten the blend with binder solution, push it through a sieve, dry it, and sieve again.
+# Add the lubricant and blend briefly.
+# Compress in a single-punch tablet press (manual or electric) set to a '''fixed fill depth''', so every tablet has the same weight.
+# Check tablet weights every few dozen. Tablet weight equals dose if the blend is uniform.
+* Tablet presses are regulated equipment in the United States (purchase and import must be reported to the DEA under 21 CFR 1310). Owning one is legal; buyers should know the paperwork exists.
+
+== See also ==
+* [[Candy Making]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Sugar-Free Candy Isomalt Allulose Erythritol and Polyols]]
+* [[Candied Fruit Rock Candy Cotton Candy and Panning]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Edible Waxes Hive Foods and Aromatic Resins]]
+* [[Shulgin Ten Essential Oils]]
+
+== Sources ==
+* Hartel, R. W., von Elbe, J. H. and Hofberger, R. ''Confectionery Science and Technology''. Springer, 2018. Hard candy, pulled candy, lozenges, tableting.
+* Greweling, P. P. ''Chocolates and Confections'', 2nd ed. CIA/Wiley, 2013. Hard candy, pulled sugar, mints, fondant.
+* Edwards, W. P. ''The Science of Sugar Confectionery''. RSC, 2000.
+* Jackson, E. B. (ed.) ''Sugar Confectionery Manufacture'', 2nd ed. Springer, 1995. Gum pastilles, lozenges, compressed tablets.
+* ''Remington: The Science and Practice of Pharmacy'', 23rd ed., 2021. Tablets, lubricants, granulation; historical troches and lozenges.
+* Felter and Lloyd, ''King's American Dispensatory'', 1898. ''Trochisci'' (lozenge) preparation.
+* U.S. 21 CFR 1310.05 and 1310.08 (reporting of tablet and encapsulating machines).
+* Centers for Disease Control and Prevention, infant botulism and honey guidance.
+* Exploratorium, "The Science of Candy", hard-crack stage. [https://annex.exploratorium.edu/cooking/candy/hardcrack.html Exploratorium]
+
+== Coverage ==
+Hard candy (a weighed home formula, the method, troubleshooting), lollipops, pulled satin, ribbon and cane candy, honey candy (including the infant-honey rule), cough drops and menthol and eucalyptus caution, apothecary paste lozenges with tragacanth or acacia mucilage, gum arabic pastilles, pressed, pulled, cream and butter mints and peppermint patties, and compressed tablet candy (bases, binders, magnesium stearate, granulation, fixed-fill pressing, weight checks, U.S. tablet-press reporting).
