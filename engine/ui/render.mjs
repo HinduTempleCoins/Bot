@@ -85,7 +85,7 @@ a{color:var(--gold)}
   <div class="sub" id="status">loading status…</div>
 </header>
 <nav class="enav" aria-label="MELEK-Engine">
-  <a href="/">Tokens</a><a href="/wallet">Wallet</a><a href="#get-apis">Get APIS</a><a href="#build">Create a token</a>
+  <a href="/">Tokens</a><a href="/market">Market</a><a href="/wallet">Wallet</a><a href="#get-apis">Get APIS</a><a href="#build">Create a token</a>
   <a href="https://kula.money/">Trade on KulaSwap</a><a href="https://kula.money/bridge.html">Bridge</a>
   <a href="https://witness.melek.salon/tokens">Witness School</a><a href="https://wiki.soapbox.community/wiki/MELEK-Engine">Learn</a>
 </nav>

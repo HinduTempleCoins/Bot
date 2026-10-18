@@ -1,0 +1,38 @@
+'''KulaSwap price mechanics''' explains how a token's price is set on [[KulaSwap]], the decentralised exchange on the [[PRANA Blockchain]]. Every MELEK-Engine market page at [https://engine.melek.salon/market engine.melek.salon/market] shows these numbers live for each token. Part of [[MELEK-Engine]].
+
+== Pools and reserves ==
+KulaSwap has no order book. Each market is a '''pool''' holding two tokens, for example KULA and wCURE. The '''price''' is simply the ratio of the two amounts in the pool: if a pool holds 945 KULA and 384 wCURE, one wCURE costs about 945 ÷ 384 = 2.46 KULA. Anyone can add both tokens to a pool to earn a share of its fees.
+
+== The constant product ==
+A trade must leave the product of the two reserves, called '''k''', at least as large as before. If you put tokens of one kind in, the pool pays out tokens of the other kind until reserve × reserve is back to k. Every trade pays a '''0.3% fee''', which stays in the pool and slowly grows k for the people who supplied it.
+
+The amount you receive for putting in ''a'' tokens is:
+<code>out = (a × 0.997 × reserve_out) ÷ (reserve_in + a × 0.997)</code>
+
+== Price impact ==
+Because each unit you buy makes the next one dearer, a large trade fills at a worse average price than a small one. The difference between the price you get and the pool's price before the trade is the '''price impact'''. The token pages show it for trades of 0.1%, 1%, 5%, 10% and 25% of a pool's reserve. As a rule of thumb, a trade of 1% of a pool moves the price by about 1% plus the fee; a trade of 10% moves it by about 10%.
+
+== Price history ==
+Every time a pool's reserves change, it records a '''Sync''' event on PRANA with the new reserves. The chart on each token page is drawn from those events over the last seven days, so it is the pool's real price after every trade and every deposit.
+
+== Recent trades ==
+Each trade records a '''Swap''' event: what went in and what came out. The token pages list the last day's trades, each linked to its transaction on [https://pranascan.soapbox.community PranaScan].
+
+== Arbitrage ==
+When two routes between the same tokens give different prices (for example buying wCURE directly with wVKBT, or through KULA), a trader can buy on the cheap route and sell on the dear one. Each such trade moves both pools towards the same price, which is how pools stay in line with each other.
+
+== Prices are not dollars ==
+These tokens have no USD or BTC market. A price on KulaSwap is only what the pool shows, in another token.
+
+== See also ==
+* [[KulaSwap]]
+* [[MELEK-Engine]]
+* [[Getting APIS on MELEK-Engine]]
+* [[Wrapped Tokens]]
+
+== Sources ==
+* [https://engine.melek.salon/market engine.melek.salon/market] (live reserves, Sync and Swap events from PRANA)
+* [https://kula.money kula.money]
+
+== Coverage ==
+How prices, price impact and price history work on KulaSwap pools.

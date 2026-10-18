@@ -14,6 +14,7 @@ import { createServer } from 'node:http';
 import { config, genesis } from '../config.mjs';
 import { fromBaseUnits } from '../lib/decimal.mjs';
 import { renderUI } from '../ui/render.mjs';
+import { renderMarket, renderToken } from '../ui/market.mjs';
 import { makeHandler as makeTokenToolsHandler } from '../lib/token-tools.mjs';
 import { workerbee } from '../contracts/workerbee.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
@@ -195,6 +196,16 @@ export function makeHandler(state, opts = {}) {
     if (serveKeyFile(req, res, { pathname: path })) return;
 
     // --- token tools (mounted under /tools, prefix stripped before delegating) ---
+    // KulaSwap market pages (read live from PRANA): /market and /market/<SYMBOL>
+    if (path === '/market' || path === '/market/' || path.startsWith('/market/')) {
+      const sym = path.replace(/^\/market\/?/, '').replace(/\/$/, '');
+      (sym ? renderToken(decodeURIComponent(sym)) : renderMarket()).then((html) => {
+        if (!html) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('no such token'); }
+        res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' });
+        res.end(html);
+      }).catch(() => { res.writeHead(500, { 'content-type': 'text/plain' }); res.end('market unavailable'); });
+      return;
+    }
     if (path === '/tools' || path === '/tools/' || path.startsWith('/tools/')) {
       const sub = path === '/tools' ? '/' : path.slice('/tools'.length) || '/';
       const subReq = Object.create(req);
