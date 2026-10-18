@@ -74,3 +74,10 @@ test('health, robots and sitemap answer; anything else is a 404', async () => {
   await handler(req('/nonsense'), res);
   assert.equal(o.code, 404);
 });
+
+test('the home page script parses (a broken quote once blanked the whole group list)', async () => {
+  const { res, o } = cap();
+  await handler(req('/', 'GET'), res);
+  const js = o.body.split('<script>')[1].split('</script>')[0];
+  assert.doesNotThrow(() => new Function(js));
+});
