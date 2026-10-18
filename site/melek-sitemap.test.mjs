@@ -20,6 +20,8 @@ test('fetchPostUrls builds @author/permlink URLs, soft-fails on bad fetch', asyn
   __setFetch(async () => ({ json: async () => ({ result: [{ author: 'hathor', permlink: 'hi', created: '2026-08-07T00:00:00' }] }) }));
   const urls = await fetchPostUrls({ perTag: 5 });
   assert.ok(urls.some((u) => u.loc === 'https://melek.salon/@hathor/hi'));
+  __setFetch(async () => ({ json: async () => ({ result: [{ author: 'hathor', permlink: 'hi', category: 'melek', created: '2026-08-07T00:00:00' }] }) }));
+  assert.ok((await fetchPostUrls({ perTag: 5 })).some((u) => u.loc === 'https://melek.salon/melek/@hathor/hi'));
   __setFetch(async () => { throw new Error('down'); });
   assert.deepEqual(await fetchPostUrls({}), []);
   __setFetch(null);

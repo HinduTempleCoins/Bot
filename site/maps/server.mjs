@@ -29,6 +29,7 @@ import { createServer } from 'node:http';
 import * as nominatim from '../../integrations/soapbox/nominatim.mjs';
 import * as osmPoi from '../../integrations/soapbox/osm-poi.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
+import { finishHtmlResponses } from '../../integrations/soapbox/page-meta.mjs';
 
 const PORT = +(process.env.PORT || 8144);
 const HOST = process.env.HOST || '127.0.0.1';
@@ -297,6 +298,7 @@ const SITEMAP_PATHS = ['/'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
+  finishHtmlResponses(res, { host: 'melek.salon', siteName: 'MELEK' }, req);
   try {
     const url = new URL(req.url, BASE_URL);
     let path = url.pathname;

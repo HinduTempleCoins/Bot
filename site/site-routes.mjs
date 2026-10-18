@@ -138,6 +138,28 @@ export const ROUTES = [
     description: 'The public technical/consensus spec for PRANA: Etchash PoW, chainId 712217, EIP-1559, the 2% consensus Hathor fee, and the "chain IS the pool" see-saw (HASH + TASK + BURN lanes → one per-epoch pot).',
   },
 
+  {
+    path: '/kula',
+    title: 'KULA Community Fund',
+    module: './kula/server.mjs',
+    public: true,
+    description: 'A community-funded pool on MELEK, run by @kula: members pay MELEK in and delegate MELEK Power; live membership read from the chain.',
+  },
+  {
+    path: '/maps',
+    title: 'MELEK Maps — keyless OpenStreetMap search',
+    module: './maps/server.mjs',
+    public: true,
+    description: 'Search a place and see what is near it, on OpenStreetMap.',
+  },
+  {
+    path: '/pin',
+    title: 'MELEK Pinboard — photos, albums and saved pictures',
+    module: './pinboard/server.mjs',
+    public: true,
+    description: 'Post photos and small albums, or save pictures from MELEK blog posts and anywhere on the web.',
+  },
+
   // ── admin / gated (public:false — mount behind operator auth) ───────────────
   {
     path: '/moderation',

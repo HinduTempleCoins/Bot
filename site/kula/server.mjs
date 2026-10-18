@@ -14,6 +14,7 @@
 import { createServer } from 'node:http';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { finishPage } from '../../integrations/soapbox/page-meta.mjs';
 
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
@@ -126,6 +127,7 @@ export async function completeJoin({ code, state }) {
 function layout(title, body) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><link rel=canonical href="${esc(BASE_URL)}">
+<meta name=description content="A community-funded pool on MELEK, run by the account @${esc(FUND)}. Members pay MELEK in and delegate MELEK Power on top. The pooled power curates for the fund, and members are paid back mostly in KULA-program tokens and airdrops, plus a small MELEK reward.">
 <style>
 :root{--bg:#f7f8fa;--fg:#1a1d24;--mut:#6b7280;--card:#fff;--line:#e5e7eb;--gold:#eab308}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1218;--fg:#e5e7eb;--mut:#9ca3af;--card:#161a22;--line:#2a2f3a}}
@@ -189,7 +191,7 @@ export async function renderFund() {
 function sendHtml(res, code, html) {
   const out = PATH_PREFIX ? String(html).replace(/(href|action)="\/(?!\/)/g, `$1="${PATH_PREFIX}/`) : html;
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' });
-  res.end(out);
+  res.end(finishPage(out, { host: 'melek.salon', siteName: 'MELEK' }));
 }
 const readForm = (req) => new Promise((resolve) => {
   let raw = ''; req.on('data', (c) => { raw += c; if (raw.length > 4096) req.destroy(); });

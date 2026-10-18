@@ -14,6 +14,7 @@
 //   import { CATALOG, checkLinks, renderExplorePage } from './build.mjs'   // tests
 import { writeFileSync, mkdirSync, renameSync } from 'node:fs';
 import { dirname } from 'node:path';
+import { finishPage } from '../../integrations/soapbox/page-meta.mjs';
 import { TABS, esc } from '../melek-admin/build.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
@@ -94,9 +95,10 @@ export const CATALOG = [
     ['🌌', 'Dudael', 'The metaverse.', 'https://dudael.com/'],
   ] },
   { id: 'money', title: 'Wallet & tokens', icon: '👛', items: [
-    ['👛', 'MELEK Wallet', 'Balances, transfers, staking and rewards.', 'https://wallet.melek.salon/'],
+    ['👛', 'MELEK Wallet', 'Balances, delegations, transfers, rewards and the Automation tab.', 'https://wallet.melek.salon/'],
     ['🗳️', 'Vote for witnesses', 'Choose who runs the chain.', 'https://wallet.melek.salon/~witnesses'],
     ['📋', 'Proposals', 'Funding proposals voted on by stake.', 'https://wallet.melek.salon/proposals'],
+    ['🤝', 'KULA Community Fund', 'A community-funded pool on MELEK: members pay MELEK in and delegate MELEK Power.', `${SITE}/kula`],
     ['🔁', 'KulaSwap', 'The MELEK ecosystem exchange.', 'https://kula.money/'],
     ['🌉', 'Bridge', 'Move VKBT and CURE to and from PRANA.', 'https://kula.money/bridge.html'],
     ['💡', 'How KulaSwap works', 'A plain guide to swapping and pools.', 'https://kula.money/learn.html'],
@@ -269,6 +271,23 @@ q.addEventListener('input',run);if(location.hash==='#search')q.focus();})();
 </body></html>`;
 }
 
+/**
+ * llms.txt for melek.salon (llmstxt.org shape), built from the same live, link-checked sections as the
+ * Explore page, so what an AI crawler is told exists is exactly what answered at build time.
+ */
+export function renderLlmsTxt(sections, { builtAt = new Date() } = {}) {
+  const clean = (s) => String(s == null ? '' : s).replace(/[\r\n]+/g, ' ').trim();
+  const lines = ['# MELEK', '', '> Links to MELEK sites and pages, grouped by section.', '',
+    `Full map: ${SITE}/explore · Sitemap: ${SITE}/sitemap.xml · Wiki for AI readers: https://wiki.soapbox.community/llms.txt`,
+    `Checked: ${builtAt.toISOString().slice(0, 10)}`, ''];
+  for (const s of sections) {
+    lines.push(`## ${clean(s.title)}`, '');
+    for (const i of s.items) lines.push(`- [${clean(i.name)}](${i.url}): ${clean(i.desc)}${i.label ? ` (${clean(i.label)})` : ''}`);
+    lines.push('');
+  }
+  return lines.join('\n');
+}
+
 if (process.argv[1] && process.argv[1].endsWith('build.mjs') && process.argv[1].includes('melek-explore')) {
   const urls = CATALOG.flatMap((s) => s.items.map((i) => i[3]));
   const checks = await checkLinks(urls, { timeoutMs: Number(env('EXPLORE_TIMEOUT_MS', '10000')) });
@@ -280,7 +299,12 @@ if (process.argv[1] && process.argv[1].endsWith('build.mjs') && process.argv[1].
   } else {
     const out = env('EXPLORE_OUT', '/var/www/melek-admin/explore/index.html');
     mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out + '.new', renderExplorePage(sections)); renameSync(out + '.new', out);
+    writeFileSync(out + '.new', finishPage(renderExplorePage(sections), { host: 'melek.salon', siteName: 'MELEK' })); renameSync(out + '.new', out);
     console.log(`[explore] ${total}/${urls.length} links live in ${sections.length} sections -> ${out}`);
+    const llms = env('EXPLORE_LLMS_OUT', '/var/www/melek-seo/llms.txt');
+    if (llms !== 'off') {
+      try { writeFileSync(llms + '.new', renderLlmsTxt(sections)); renameSync(llms + '.new', llms); console.log(`[explore] llms.txt -> ${llms}`); }
+      catch (e) { console.log(`[explore] llms.txt not written: ${e.message}`); }
+    }
   }
 }

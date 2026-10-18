@@ -44,6 +44,8 @@ export function renderUI(state) {
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MELEK-Engine · ${esc(netLabel)}</title>
+<meta name="description" content="Hive-Engine-style token layer for the MELEK chain · ${esc(netLabel)}">
+<link rel="canonical" href="${config.net === 'mainnet' ? 'https://engine.melek.salon/' : 'https://engine.alpha.melek.salon/'}">
 <style>
 :root{--bg:#0d0b14;--card:#16131f;--ink:#e9e4f5;--mut:#9a90b5;--gold:#d8b35a;--line:#2a2438}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
