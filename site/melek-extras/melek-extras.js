@@ -322,6 +322,66 @@
     });
   }
 
+
+  // ── 8. required Category on the post editor ─────────────────────────────────────────────────────
+  // Every post picks one category, forum/Reddit-style. The choice becomes the post's FIRST tag, which the
+  // chain stores as its category; free tags follow it. Post is blocked until a category is chosen.
+  var CATEGORIES = [
+    ['melek', 'MELEK & Witnesses'], ['photography', 'Photos'], ['nature', 'Nature & Plants'], ['art', 'Art & Design'],
+    ['crypto', 'Crypto & Web3'], ['ai', 'AI & Tech'], ['history', 'History & Mysticism'], ['life', 'Life & Blogs'],
+    ['music', 'Music & Video'], ['games', 'Games'], ['food', 'Food & Cooking'], ['travel', 'Travel & Places'],
+    ['writing', 'Writing'], ['introduceyourself', 'Introductions'], ['nsfw', 'NSFW (adults only)'],
+  ];
+  var CAT_SLUGS = CATEGORIES.map(function (c) { return c[0]; });
+  function setReactValue(input, v) {
+    var setter = Object.getOwnPropertyDescriptor(w.HTMLInputElement.prototype, 'value').set;
+    setter.call(input, v);
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  function tagsOf(input) { return (input.value || '').trim().split(/[\s,]+/).filter(Boolean); }
+  function addCategoryPicker() {
+    if (!/\/submit(\.html)?\/?$/.test(w.location.pathname)) return;
+    var tags = d.querySelector('.SubmitPost input[name="category"], .ReplyEditor input[name="category"]');
+    if (!tags || d.getElementById('melek-category')) return;
+    var wrap = el('div', { id: 'melek-category-wrap', style: 'margin:8px 0 6px;font:14px system-ui,sans-serif' });
+    var label = el('label', { for: 'melek-category', style: 'display:block;font-weight:700;margin-bottom:4px' }, 'Category (required)');
+    var sel = el('select', { id: 'melek-category', required: '', style: 'width:100%;max-width:420px;padding:6px' });
+    sel.appendChild(el('option', { value: '' }, 'Choose a category…'));
+    CATEGORIES.forEach(function (c) { sel.appendChild(el('option', { value: c[0] }, c[1])); });
+    var note = el('div', { id: 'melek-category-note', role: 'status', style: 'font-size:12px;color:#666;margin-top:4px' },
+      'Your category becomes your first tag. Add up to four more tags below.');
+    var first = tagsOf(tags)[0];
+    if (first && CAT_SLUGS.indexOf(first) >= 0) sel.value = first;
+    sel.onchange = function () {
+      var rest = tagsOf(tags).filter(function (t) { return CAT_SLUGS.indexOf(t) < 0; });
+      setReactValue(tags, [sel.value].concat(rest).filter(Boolean).slice(0, 5).join(' '));
+      note.style.color = '#666';
+      note.textContent = sel.value === 'nsfw' ? 'NSFW posts show behind a warning that people click to reveal, and anyone can hide them in Settings.' : 'Your category becomes your first tag. Add up to four more tags below.';
+    };
+    wrap.appendChild(label); wrap.appendChild(sel); wrap.appendChild(note);
+    tags.parentNode.insertBefore(wrap, tags);
+  }
+  // block Post until a category is chosen (capture phase, before the app's own handler)
+  function categoryGuard(e) {
+    if (!/\/submit(\.html)?\/?$/.test(w.location.pathname)) return;
+    var t = e.target && e.target.closest ? e.target.closest('button[type="submit"], form') : null;
+    if (!t) return;
+    if (e.type === 'click' && !/^post$/i.test((t.textContent || '').trim())) return;
+    var sel = d.getElementById('melek-category'), tags = d.querySelector('.SubmitPost input[name="category"]');
+    if (!sel || !tags) return;
+    var first = tagsOf(tags)[0];
+    if (sel.value && first === sel.value) return;
+    if (!sel.value && first && CAT_SLUGS.indexOf(first) >= 0) { sel.value = first; return; }
+    e.preventDefault(); e.stopPropagation();
+    if (sel.value) sel.onchange();
+    var note = d.getElementById('melek-category-note');
+    if (note) { note.style.color = '#b42318'; note.textContent = sel.value ? 'Category added as your first tag. Press Post again.' : 'Choose a category before posting.'; }
+    sel.focus();
+  }
+  d.addEventListener('click', categoryGuard, true);
+  d.addEventListener('submit', categoryGuard, true);
+
   function routeChanged() {
     if (homeIsAdminUpdates()) return;
     addTabs();
@@ -329,6 +389,7 @@
     if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
     addReportButton();
     addCreationTools();
+    addCategoryPicker();
     fixMessageLinks();
     addInviteButton();
     fixRewardsLinks();
