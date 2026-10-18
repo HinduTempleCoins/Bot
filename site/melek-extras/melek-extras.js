@@ -477,7 +477,29 @@
     row.style.position = 'relative'; row.style.zIndex = '5'; row.style.background = '#fff';
     row.style.top = fixed ? header.offsetHeight + 'px' : '0';
   }
+  // the pencil beside the magnifying glass, on every screen size: opens the post editor
+  function addPencil() {
+    if (d.getElementById('melek-pencil')) return;
+    var search = d.querySelector('header .Header__search');
+    if (!search || !search.parentNode) return;
+    var a = el('a', { id: 'melek-pencil', href: '/submit.html', title: 'Create a post', 'aria-label': 'Create a post',
+      style: 'display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;margin:0 4px;border-radius:50%;border:1px solid #d1d5db;color:inherit;text-decoration:none;vertical-align:middle;font-size:18px;line-height:1' }, '✎');
+    search.parentNode.insertBefore(a, search.nextSibling);
+  }
+
+  // the magnifying glass opens SoapBox search directly (no in-app hop through /static/search.html)
+  var SEARCH = 'https://search.soapbox.community/';
+  d.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('header .Header__search a, a[href="/static/search.html"]') : null;
+    if (!a || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault(); e.stopPropagation();
+    w.location.href = SEARCH;
+  }, true);
+
   function addHeaderLinks() {
+    addPencil();
+    var mag = d.querySelector('header .Header__search a');
+    if (mag && mag.getAttribute('href') !== SEARCH) { mag.setAttribute('href', SEARCH); mag.setAttribute('aria-label', 'Search'); }
     if (d.querySelector('.melek-hdr-link')) return;
     var post = d.querySelector('header .Header__post-link');
     var after = post || d.querySelector('header .Header__signup-link');
