@@ -192,6 +192,7 @@
     { id: 'witness', label: 'Witness Updates', href: '/witness-updates' },
     { id: 'ranked', label: 'Members', href: '/members' },
     { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
+    { id: 'move', label: 'MELEK Move', href: 'https://move.melek.salon/' },
   ];
   var SORTS = [['hot', 'Hot'], ['trending', 'Trending'], ['created', 'New']];
   function feedRoute() {   // /hot, /trending/<tag>, /created … → { sort, tag }
