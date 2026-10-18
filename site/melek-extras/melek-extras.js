@@ -186,7 +186,17 @@
     addInviteButton();
   }
 
+  // ── 7. signed-out visitors to the home page land on the Admin Page ────────────────────────────────
+  // The header shows a Login link only when nobody is signed in; signed-in people keep the normal home.
+  function adminHomeForVisitors() {
+    if (w.location.pathname !== '/') return false;
+    if (!d.querySelector('header a[href="/login.html"]')) return false;
+    w.location.replace('/admin');
+    return true;
+  }
+
   function start() {
+    if (adminHomeForVisitors()) return;
     cookieNotice();
     routeChanged();
     // the condenser is a single-page app: re-check when the page content changes (navigation)

@@ -90,7 +90,7 @@ export const RANK_GUIDE = [
   { role: 'mod', canDisable: true, does: 'Officers: keep order (kick, mute), approve board posts and publish to the club feed.',
     names: ['Officer', 'Junior Warden', 'Sergeant-at-Arms', 'Steward', 'Moderator', 'Director'] },
   { role: 'tyler', canDisable: true, does: 'The entry officer: explains what the club is about, admits applicants and sends invites.',
-    names: ['Tyler', 'Membership Chair', 'Ambassador', 'Recruitment Chair', 'Greeter', 'Herald'] },
+    names: ['Tyler', 'Doorkeeper', 'Doorman', 'Bouncer', 'Membership Chair', 'Ambassador', 'Recruitment Chair', 'Greeter', 'Herald'] },
   { role: 'member', canDisable: false, does: 'Full members: the club room, the board, drafts, voting on club matters.',
     names: ['Member', 'Fellowcraft', 'Master Mason', 'Patched Member', 'Brother / Sister', 'Associate'] },
   { role: 'prospect', canDisable: true, does: 'Probationary members: in the room, learning, not yet full members.',
