@@ -96,9 +96,8 @@ const PAGES = {
   admin: { title: 'Admin Updates', path: '/', h1: 'Admin Updates',
     lead: "What MELEK's admins are building, what is live, and what comes next. Sign up to post, vote and earn MELEK.",
     who: 'Posts by' },
-  // the home page ("/") carries the same feed as /admin but is titled for what MELEK is, so a
-  // search result or shared link for melek.salon doesn't read "Admin Updates — MELEK"
-  home: { title: 'MELEK — a social network on its own blockchain · Admin Updates', fullTitle: true, tab: 'admin',
+  // the home page ("/") carries the same feed and title as /admin
+  home: { title: 'Admin Updates — MELEK', fullTitle: true, tab: 'admin',
     path: '/', h1: 'Admin Updates',
     lead: "What MELEK's admins are building, what is live, and what comes next. Sign up to post, vote and earn MELEK.",
     who: 'Posts by' },
