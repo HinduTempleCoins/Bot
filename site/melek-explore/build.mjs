@@ -25,7 +25,7 @@ export const isBlocked = (url) => { try { const h = new URL(url).hostname; retur
 
 // [icon, name, one-line description, url, label?]  label: 'alpha' | 'testnet' | 'demo' (also detected from the page title)
 export const CATALOG = [
-  { id: 'social', title: 'Social & community', icon: '💬', lead: 'Read, post, vote and meet people.', items: [
+  { id: 'social', title: 'Social & community', icon: '💬', items: [
     ['📰', 'All Posts', 'Every post on MELEK: hot, trending and new.', `${SITE}/trending`],
     ['🆕', 'New posts', 'The newest posts, as they are published.', `${SITE}/created`],
     ['🏷️', 'Explore by tag', 'Browse posts by topic.', `${SITE}/tags`],
@@ -38,8 +38,8 @@ export const CATALOG = [
     ['🗂️', 'Forum', 'MELEK community boards.', 'https://forum.soapbox.community/'],
     ['🐦', 'Congress', 'Short-form social posts on the chain.', 'https://alpha.congress.ink/', 'alpha'],
   ] },
-  { id: 'create', title: 'Create', icon: '✍️', lead: 'Write, picture, compose and film, then post it to MELEK.', items: [
-    ['📝', 'Write a post', 'Post to MELEK and earn from votes.', `${SITE}/submit.html`],
+  { id: 'create', title: 'Create', icon: '✍️', items: [
+    ['📝', 'Write a post', 'Write and publish a post on MELEK.', `${SITE}/submit.html`],
     ['📌', 'Pinboard', 'Post photos and albums, or save pictures you found.', `${SITE}/pin`],
     ['📖', 'Hathor Metatron', 'Draft chapters, track your word count, export your book.', 'https://pentecaust.com/metatron'],
     ['🗓️', '50,000 words in November', 'The November novel challenge, with Hathor.', 'https://pentecaust.com/metatron/november'],
@@ -47,7 +47,7 @@ export const CATALOG = [
     ['🎨', 'Image studio', "Make pictures with Hathor's studio.", 'https://hathor.soapbox.community/'],
     ['🎬', 'Bifrost video', "Upload a video to MELEK's video platform.", 'https://hathor.soapbox.community/pentecaust/bifrost/upload'],
   ] },
-  { id: 'learn', title: 'Learn & library', icon: '📚', lead: 'Guides, libraries, papers and things to watch.', items: [
+  { id: 'learn', title: 'Learn & library', icon: '📚', items: [
     ['👋', 'Welcome guide', 'Quick start: how MELEK works.', `${SITE}/welcome`],
     ['❓', 'FAQ', 'Answers to common questions.', `${SITE}/faq.html`],
     ['🏛️', 'Library of Ashurbanipal', 'The wiki: history, plants, medicine, mysteries and MELEK itself.', 'https://wiki.soapbox.community/'],
@@ -58,12 +58,12 @@ export const CATALOG = [
     ['🔖', 'KULA Paper', 'The economic spec for PRANA and KULA.', 'https://kula-paper.melek.salon/'],
     ['🧾', 'PRANA Paper', 'The technical and consensus spec for the PRANA chain.', 'https://prana-paper.melek.salon/'],
     ['🎞️', 'Films', 'Where to watch any film, and audience reviews.', 'https://stream.soapbox.community/films'],
-    ['📺', 'SoapBox Stream', 'Free, legal streaming.', 'https://stream.soapbox.community/'],
-    ['📡', 'Tune In', 'Browse and watch free channels.', 'https://tunein.soapbox.community/'],
-    ['🎧', 'Music', 'Free music to listen to.', 'https://stream.soapbox.community/music'],
+    ['📺', 'SoapBox Stream', 'Films and shows to stream.', 'https://stream.soapbox.community/'],
+    ['📡', 'Tune In', 'Browse and watch channels.', 'https://tunein.soapbox.community/'],
+    ['🎧', 'Music', 'Music to listen to.', 'https://stream.soapbox.community/music'],
     ['▶️', 'Media Player', 'A web media player with playlists.', 'https://player.soapbox.community/'],
   ] },
-  { id: 'civic', title: 'Law, civics & consumer help', icon: '⚖️', lead: 'Reference sites for law, politics and protecting yourself.', items: [
+  { id: 'civic', title: 'Law, civics & consumer help', icon: '⚖️', items: [
     ['⚖️', 'SoapBox Law', 'Case law, statutes, regulations and judges.', 'https://law.soapbox.community/'],
     ['📘', 'Legal Lexicon', 'Dictionaries versus the law, and sources of authority.', 'https://lexicon.soapbox.community/'],
     ['🏛️', 'Politics', 'Congress, elections, lobbying and accountability.', 'https://politics.soapbox.community/'],
@@ -75,24 +75,24 @@ export const CATALOG = [
     ['🚨', 'Scam Alert', 'Check a company against official records.', 'https://scam-alert.soapbox.community/'],
     ['🎲', 'Gambling education', 'House edge, odds and expected value, explained.', 'https://gambling.soapbox.community/'],
   ] },
-  { id: 'play', title: 'Earn & play', icon: '🎮', lead: 'Walk, mine, play and grow.', items: [
-    ['👟', 'MELEK Move', 'Step counter and geo-miner: earn by walking.', 'https://move.melek.salon/'],
+  { id: 'play', title: 'Earn & play', icon: '🎮', items: [
+    ['👟', 'MELEK Move', 'Step counter and geo-miner app.', 'https://move.melek.salon/'],
     ['⛏️', 'Mining pool', 'Mine in your browser or with your own rig.', 'https://pool.soapbox.community/'],
     ['🖥️', 'Mine PRANA', 'Copy-paste GPU mining guide.', 'https://witness.melek.salon/mine'],
     ['🗳️', 'Auto-Vote', 'Set up automatic curation votes.', 'https://vote.melek.salon/'],
-    ['🕹️', 'KULA Arcade', 'Free, provably-fair play-token games.', 'https://arcade.soapbox.community/'],
+    ['🕹️', 'KULA Arcade', 'Games played with play tokens.', 'https://arcade.soapbox.community/'],
     ['🎯', 'PRANA Games', 'Play on the MELEK ecosystem.', 'https://games.soapbox.community/'],
-    ['⏳', 'Idle-Time Games', 'Free browser games for a quick break.', 'https://idlegames.soapbox.community/'],
+    ['⏳', 'Idle-Time Games', 'Browser games.', 'https://idlegames.soapbox.community/'],
     ['🐾', 'Critter Keep', 'Adopt and raise a virtual critter.', 'https://pets.soapbox.community/'],
     ['🌱', 'Kush Farm', 'A farming game.', 'https://kush.soapbox.community/'],
     ['🚜', 'KULA Farm', 'Farm the ecosystem tokens.', 'https://farm.soapbox.community/'],
     ['🌰', 'Seeds', 'Seeds for the farm games.', 'https://seeds.soapbox.community/'],
     ['🛒', 'Seed Shop', 'Buy seeds, tools and compost for the farm.', 'https://shop.melek.salon/'],
-    ['🎡', 'Daily Spin', 'A free daily spin for PLAY points.', 'https://spin.soapbox.community/'],
+    ['🎡', 'Daily Spin', 'A daily spin for PLAY points.', 'https://spin.soapbox.community/'],
     ['🗺️', 'The Frontier', 'Claim land on the game map.', 'https://map.soapbox.community/'],
     ['🌌', 'Dudael', 'The metaverse.', 'https://dudael.com/'],
   ] },
-  { id: 'money', title: 'Wallet & tokens', icon: '👛', lead: 'Hold, send, swap and look things up on the chains.', items: [
+  { id: 'money', title: 'Wallet & tokens', icon: '👛', items: [
     ['👛', 'MELEK Wallet', 'Balances, transfers, staking and rewards.', 'https://wallet.melek.salon/'],
     ['🗳️', 'Vote for witnesses', 'Choose who runs the chain.', 'https://wallet.melek.salon/~witnesses'],
     ['📋', 'Proposals', 'Funding proposals voted on by stake.', 'https://wallet.melek.salon/proposals'],
@@ -105,18 +105,18 @@ export const CATALOG = [
     ['🧪', 'MELEK Tokens', 'Create and trade tokens.', 'https://tokens.alpha.melek.salon/', 'alpha'],
     ['📈', 'Staking', 'Delegate and earn.', 'https://staking.alpha.melek.salon/', 'alpha'],
   ] },
-  { id: 'hathor', title: 'Hathor (AI)', icon: '☥', lead: "MELEK's founding AI witness.", items: [
+  { id: 'hathor', title: 'Hathor (AI)', icon: '☥', items: [
     ['💬', 'Talk to Hathor', 'Her always-on public chat.', 'https://hathor.live/'],
     ['✍️', "Hathor's posts", 'What Hathor writes on MELEK.', `${SITE}/@hathor`],
     ['📊', 'Hathor, live', 'Her witness status: blocks, feed and votes.', 'https://witness.melek.salon/hathor'],
     ['⌨️', "Hathor's !commands", 'The command menu she answers.', 'https://alpha.melek.salon/commands/', 'testnet'],
     ['🌐', 'Hathor on the fediverse', 'Follow Hathor from Mastodon and other fediverse apps.', 'https://hathor.social.melek.salon/'],
-    ['🧠', 'Your engines', 'Use our AI engines free, or bring your own.', 'https://hathor.soapbox.community/engines'],
+    ['🧠', 'Your engines', 'Choose which AI engine Hathor uses, or add your own.', 'https://hathor.soapbox.community/engines'],
     ['🔊', '40Hz', 'Binaural-beat and entrainment sessions.', 'https://hathor.live/40hz'],
   ] },
-  { id: 'tools', title: 'Tools & data', icon: '🧰', lead: 'Everyday tools and reference data.', items: [
+  { id: 'tools', title: 'Tools & data', icon: '🧰', items: [
     ['🔎', 'SoapBox Search', 'Search the web and our sites.', 'https://search.soapbox.community/'],
-    ['🧰', 'SoapBox Tools', 'Free everyday web tools, no sign-up.', 'https://tools.soapbox.community/'],
+    ['🧰', 'SoapBox Tools', 'Everyday web tools.', 'https://tools.soapbox.community/'],
     ['📊', 'Global Markets', 'Market data across asset classes.', 'https://data.soapbox.community/'],
     ['📈', 'Stocks', 'The stock index.', 'https://stocks.soapbox.community/'],
     ['📁', 'Directory', 'Site rankings and crypto resources.', 'https://directory.soapbox.community/'],
@@ -127,7 +127,7 @@ export const CATALOG = [
     ['📷', 'Cams', 'Live public cameras.', 'https://cams.soapbox.community/'],
     ['📠', 'Fax', 'Send a fax from the browser.', 'https://fax.soapbox.community/'],
   ] },
-  { id: 'dev', title: 'Developers', icon: '🛠️', lead: 'Build on MELEK and PRANA.', items: [
+  { id: 'dev', title: 'Developers', icon: '🛠️', items: [
     ['📘', 'Developer docs', 'Guides for building on MELEK and PRANA.', 'https://witness.melek.salon/dev'],
     ['⛓️', 'MELEK API', 'The public RPC and how to call it.', 'https://witness.melek.salon/dev/melek'],
     ['🧱', 'PRANA API', 'The PRANA EVM chain for developers.', 'https://witness.melek.salon/dev/prana'],
@@ -141,10 +141,10 @@ export const CATALOG = [
     ['💻', 'PRANA on GitHub', 'The PRANA chain: node, contracts, wallet.', 'https://github.com/HinduTempleCoins/PRANA'],
     ['💻', 'KULASwap on GitHub', 'The exchange contracts.', 'https://github.com/HinduTempleCoins/KULASwap'],
   ] },
-  { id: 'account', title: 'Account & safety', icon: '🔐', lead: 'Your keys stay in your browser.', items: [
-    ['✨', 'Sign up', 'Create a free MELEK account.', `${SITE}/account/signup.html`],
+  { id: 'account', title: 'Account & safety', icon: '🔐', items: [
+    ['✨', 'Sign up', 'Create a MELEK account.', `${SITE}/account/signup.html`],
     ['🔑', 'Log in', 'Sign in to melek.salon.', `${SITE}/login.html`],
-    ['🖊️', 'MELEK Signer', 'Log in to MELEK apps without sharing your keys.', 'https://signer.melek.salon/'],
+    ['🖊️', 'MELEK Signer', 'Log in to MELEK apps with your MELEK account.', 'https://signer.melek.salon/'],
     ['🆕', 'Signer sign-up', 'Create an account through the Signer.', 'https://signer.melek.salon/signup'],
     ['🛟', 'Recover an account', 'Get back into an account you lost.', 'https://signer.melek.salon/recover'],
     ['🖼️', 'Profile picture', 'Change your profile picture.', `${SITE}/account/profile.html`],
@@ -152,9 +152,9 @@ export const CATALOG = [
     ['📄', 'Terms', 'Terms of service.', `${SITE}/tos.html`],
     ['📮', 'Contact', 'Reach the team.', 'https://contact.soapbox.community/'],
   ] },
-  { id: 'family', title: 'The wider family', icon: '🌳', lead: 'The hubs MELEK belongs to.', items: [
-    ['🌳', 'SoapBox Community', 'The MELEK · PRANA · KULA family tree.', 'https://soapbox.community/'],
-    ['🏡', 'Van Kush Family', 'The family behind it all, and the roadmap.', 'https://vankushfamily.com/'],
+  { id: 'family', title: 'The wider family', icon: '🌳', items: [
+    ['🌳', 'SoapBox Community', 'Map of the MELEK, PRANA and KULA sites.', 'https://soapbox.community/'],
+    ['🏡', 'Van Kush Family', 'The Van Kush Family site and roadmap.', 'https://vankushfamily.com/'],
   ] },
 ];
 
@@ -201,10 +201,10 @@ export function liveCatalog(checks, catalog = CATALOG) {
 
 export function renderExplorePage(sections, { builtAt = new Date() } = {}) {
   const total = sections.reduce((n, s) => n + s.items.length, 0);
-  const lead = 'Everything in the MELEK family on one page: social, creating, learning, playing, wallets and tokens, Hathor, and the tools for developers.';
+  const lead = 'Links to MELEK sites and pages, grouped by section.';
   const jump = sections.map((s) => `<a href="#${esc(s.id)}">${esc(s.icon)} ${esc(s.title)}</a>`).join('');
   const body = sections.map((s) => `<section class=sec id="${esc(s.id)}"><h2>${esc(s.icon)} ${esc(s.title)} <small>${s.items.length}</small></h2>
-<p class=slead>${esc(s.lead)}</p><ul class=grid>
+<ul class=grid>
 ${s.items.map((i) => `<li class=it data-q="${esc(`${i.name} ${i.desc} ${s.title} ${new URL(i.url).hostname}`.toLowerCase())}"><a href="${esc(i.url)}"><span class=ic aria-hidden=true>${esc(i.icon)}</span><span class=tx><b>${esc(i.name)}</b>${i.label ? ` <span class=lab>${esc(i.label)}</span>` : ''}<span class=d>${esc(i.desc)}</span><span class=h>${esc(new URL(i.url).hostname + (new URL(i.url).pathname === '/' ? '' : new URL(i.url).pathname))}</span></span></a></li>`).join('\n')}
 </ul></section>`).join('\n');
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
@@ -222,14 +222,13 @@ nav{white-space:nowrap}
 @media(max-width:640px){header{padding:10px 12px 0}nav{order:3;width:100%;overflow-x:auto;display:flex;gap:14px;margin:4px -12px 0;padding:0 12px;font-size:14px}nav a{margin:0;padding:8px 0}}
 .cta{background:#1a1d24;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-weight:700;border-bottom:3px solid var(--gold)}
 main{max-width:1100px;margin:0 auto;padding:20px 16px}
-h1{margin:6px 0 4px}.lead{color:var(--mut);margin:0 0 14px}
+h1{margin:6px 0 10px}
 .search{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 10px}
 .search input{width:100%;font:inherit;font-size:17px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);outline-color:var(--gold)}
 .jump{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 6px}
 .jump a{font-size:13px;color:var(--fg);text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:3px 10px}
 .count{color:var(--mut);font-size:13px;margin:4px 0 0}
-.sec{margin:22px 0 0}.sec h2{font-size:20px;margin:0 0 2px;scroll-margin-top:80px}.sec h2 small{color:var(--mut);font-weight:400;font-size:13px}
-.slead{color:var(--mut);margin:0 0 10px;font-size:14px}
+.sec{margin:22px 0 0}.sec h2{font-size:20px;margin:0 0 10px;scroll-margin-top:80px}.sec h2 small{color:var(--mut);font-weight:400;font-size:13px}
 .grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
 .it a{display:flex;gap:10px;height:100%;padding:10px 12px;background:var(--card);border:1px solid var(--line);border-radius:10px;color:inherit;text-decoration:none}
 .it a:hover,.it a:focus{border-color:var(--gold)}
@@ -243,7 +242,6 @@ footer{color:var(--mut);font-size:13px;text-align:center;padding:24px 16px}
 <header><a class=brand href="${SITE}/explore" aria-current=page title="Explore MELEK">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}">${esc(t.label)}</a>`).join('')}</nav>
 <span><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
 <main><h1>Explore MELEK</h1>
-<p class=lead>${esc(lead)}</p>
 <div class=search><input id=q type=search placeholder="Search ${total} places: wallet, mining, music, library…" aria-label="Search everything on MELEK" autocomplete=off>
 <p class=count id=count aria-live=polite>${total} places in ${sections.length} sections</p></div>
 <div class=jump>${jump}</div>
