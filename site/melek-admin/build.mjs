@@ -153,7 +153,7 @@ footer{color:var(--mut);font-size:13px;text-align:center;padding:20px 16px}
 .howto h2{font-size:18px;margin:0 0 6px}.howto ol{margin:6px 0 0;padding-left:20px}.howto li{margin:4px 0}.howto a{color:inherit}
 .rank{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:#1a1d24;color:#fff;border-bottom:2px solid var(--gold)}
 </style></head><body>
-<header><a class=brand href="${SITE}/">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}"${t.id === (P.tab || page) ? ' class=on aria-current=page' : ''}>${esc(t.label)}</a>`).join('')}</nav>
+<header><a class=brand href="${SITE}/explore" title="Explore MELEK">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}"${t.id === (P.tab || page) ? ' class=on aria-current=page' : ''}>${esc(t.label)}</a>`).join('')}</nav>
 <span><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
 <main><h1>${esc(P.h1)}</h1>
 <p class=lead>${esc(P.lead)}</p>

@@ -34,7 +34,7 @@ export function comingSoonPage({ section = 'SoapBox', blurb = '', current = '' }
 <title>${title}</title>
 <meta name=description content="${esc(section)} on SoapBox — a surface we're building. Explore the live ecosystem from the nav above.">
 <meta name=robots content="noindex,follow">
-${STYLE}${NAV_STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
+${STYLE}${NAV_STYLE}</head><body>
 ${navDrawer({ current, brand: 'SoapBox' })}
 <main>
   <h1>${esc(section)} </h1>
