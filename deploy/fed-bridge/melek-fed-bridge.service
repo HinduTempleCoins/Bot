@@ -1,0 +1,15 @@
+[Unit]
+Description=MELEK Fediverse/Bluesky bridge: rebuild Bridgy Fed h-card/h-entry sites from the chain, webmention new posts
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# __INSTALL_DIR__ = the checked-out Bot repo on the web host; __RPC__ = the local MELEK RPC.
+WorkingDirectory=__INSTALL_DIR__
+Environment=FED_RPC=__RPC__
+Environment=FED_OUT=/var/www/melek-fed
+Environment=FED_STATE=/var/lib/melek-fed
+# Set to 1 only after each account's domain has been opted in at https://fed.brid.gy/web-site
+Environment=FED_WEBMENTIONS=1
+ExecStart=/usr/bin/node site/fed-bridge/build.mjs

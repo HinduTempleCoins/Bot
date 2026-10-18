@@ -1,0 +1,9 @@
+[Unit]
+Description=Rebuild the MELEK Bridgy Fed sites every 5 minutes
+
+[Timer]
+OnBootSec=90
+OnUnitActiveSec=300
+
+[Install]
+WantedBy=timers.target

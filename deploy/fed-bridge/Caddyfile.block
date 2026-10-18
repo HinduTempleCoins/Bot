@@ -1,0 +1,17 @@
+# MELEK -> Fediverse/Bluesky via Bridgy Fed. One domain per bridged account (Bridgy Fed bridges websites by
+# domain; a path can't be its own account). For hathor.melek.salon the chat app stays on every other path;
+# only the profile home page, the post pages, the feed and the avatar are the static Bridgy site.
+# To add an account: DNS for its domain, a block like this, an entry in site/fed-bridge/accounts.json, then
+# POST url=<domain>&confirm=true to https://fed.brid.gy/web-site.
+hathor.melek.salon {
+	import indexnow_key
+	@fed path / /index.html /feed.xml /hathor.jpg /posts/*
+	@notfed not path / /index.html /feed.xml /hathor.jpg /posts/*
+	root @fed /var/www/melek-fed/hathor.melek.salon
+	header /feed.xml Content-Type "application/atom+xml; charset=utf-8"
+	file_server @fed
+	reverse_proxy @notfed 127.0.0.1:8143
+	log {
+		output file /var/log/caddy/hathor.melek.salon.log
+	}
+}
