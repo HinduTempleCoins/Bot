@@ -253,7 +253,7 @@ export async function fetchTopic(slug, { limit = 25, now = Date.now() } = {}) {
 export async function renderTopicRss(slug) {
   const t = TOPIC_BY_SLUG[slug]; if (!t) return null;
   const list = await fetchTopic(slug, { limit: 25 });
-  const entries = list.map((x) => ['  <item>', `    <title>${xesc(x.title)}</title>`, `    <link>${xesc(x.link)}</link>`, `    <guid isPermaLink="true">${xesc(x.link)}</guid>`, x.date ? `    <pubDate>${xesc(rfc822(x.date))}</pubDate>` : '', `    <source>${xesc(x.source)}</source>`, '  </item>'].filter(Boolean).join('\n')).join('\n');
+  const entries = list.map((x) => ['  <item>', `    <title>${xesc(x.title)}</title>`, `    <link>${xesc(x.link)}</link>`, `    <guid isPermaLink="true">${xesc(x.link)}</guid>`, x.date ? `    <pubDate>${xesc(rfc822(x.date))}</pubDate>` : '', (x.source ? `    <source url="${xesc(/^https?:/.test(x.source) ? x.source : 'https://' + x.source + '/')}">${xesc(x.source)}</source>` : ''), '  </item>'].filter(Boolean).join('\n')).join('\n');
   return ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', '<channel>', `  <title>${xesc(SITE_NAME())} — ${xesc(t.name)} news</title>`, `  <link>${xesc(BASE_URL())}/topic/${esc(slug)}</link>`, `  <description>Latest ${xesc(t.name)} news, aggregated.</description>`, entries, '</channel>', '</rss>'].join('\n');
 }
 
@@ -299,7 +299,7 @@ const liveSubjects = () => WIKI_SUBJECTS.filter((x) => { const h = _aggCache.get
 export async function renderSubjectRss(slug) {
   const t = SUBJECT_BY_SLUG[slug]; if (!t) return null;
   const list = await fetchSubject(slug, { limit: 25 });
-  const entries = list.map((x) => ['  <item>', `    <title>${xesc(x.title)}</title>`, `    <link>${xesc(x.link)}</link>`, `    <guid isPermaLink="true">${xesc(x.link)}</guid>`, x.date ? `    <pubDate>${xesc(rfc822(x.date))}</pubDate>` : '', `    <source>${xesc(x.source)}</source>`, '  </item>'].filter(Boolean).join('\n')).join('\n');
+  const entries = list.map((x) => ['  <item>', `    <title>${xesc(x.title)}</title>`, `    <link>${xesc(x.link)}</link>`, `    <guid isPermaLink="true">${xesc(x.link)}</guid>`, x.date ? `    <pubDate>${xesc(rfc822(x.date))}</pubDate>` : '', (x.source ? `    <source url="${xesc(/^https?:/.test(x.source) ? x.source : 'https://' + x.source + '/')}">${xesc(x.source)}</source>` : ''), '  </item>'].filter(Boolean).join('\n')).join('\n');
   return ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', '<channel>', `  <title>${xesc(SITE_NAME())} — ${xesc(t.name)}</title>`, `  <link>${xesc(subjectUrl(slug))}</link>`, `  <description>${xesc(t.blurb)}</description>`, `  <atom:link href="${xesc(subjectUrl(slug))}/rss.xml" rel="self" type="application/rss+xml" />`, entries, '</channel>', '</rss>'].join('\n');
 }
 export async function renderSubject(slug) {
@@ -323,7 +323,7 @@ export async function renderWireRss(slug, opts = {}) {
   const list = await fetchWire(slug, { limit: 25 });
   const entries = list.map((x) => ['  <item>', `    <title>${xesc(x.title)}</title>`, `    <link>${xesc(x.link)}</link>`,
     `    <guid isPermaLink="true">${xesc(x.link)}</guid>`, x.date ? `    <pubDate>${xesc(rfc822(x.date))}</pubDate>` : '',
-    `    <source>${xesc(x.source)}</source>`, '  </item>'].filter(Boolean).join('\n')).join('\n');
+    (x.source ? `    <source url="${xesc(/^https?:/.test(x.source) ? x.source : 'https://' + x.source + '/')}">${xesc(x.source)}</source>` : ''), '  </item>'].filter(Boolean).join('\n')).join('\n');
   return ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', '<channel>',
     `  <title>${xesc(SITE_NAME())} — ${xesc(cat.name)} (aggregated)</title>`, `  <link>${xesc(wireUrl(slug))}</link>`,
     `  <description>Aggregated headlines for ${xesc(cat.name)} — links point to the original source.</description>`,
