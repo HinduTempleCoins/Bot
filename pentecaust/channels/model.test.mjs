@@ -91,3 +91,19 @@ test('unknown commands explain what exists', () => {
   createChannel({ name: 'chat', founder: 'alice' }, ctx(fs));
   assert.match(runCommand('chat', 'alice', '/nick bob', ctx(fs)).reason, /Try:/);
 });
+
+test('a club room (linked to a group) admits only that group\'s members; the founder can always enter', () => {
+  const fs = memFs();
+  createChannel({ name: 'lodge', founder: 'hathor' }, ctx(fs));
+  return import('./model.mjs').then(({ linkGroup: lg }) => {
+    assert.equal(lg('lodge', 'bob', 'club-1', ctx(fs)).ok, false);       // only the founder links
+    assert.equal(lg('lodge', 'hathor', 'club-1', ctx(fs)).ok, true);
+    const members = new Set(['alice']);
+    const o = (who) => ({ ...ctx(fs), memberOf: (gid, w) => gid === 'club-1' && members.has(w) });
+    assert.equal(joinChannel('lodge', 'alice', o()).ok, true);
+    assert.equal(joinChannel('lodge', 'mallory', o()).ok, false);
+    assert.equal(postMessage('lodge', 'mallory', 'hi', o()).ok, false);
+    assert.equal(joinChannel('lodge', 'hathor', o()).ok, true);
+    assert.equal(listChannels(ctx(fs))[0].membersOnly, true);
+  });
+});
