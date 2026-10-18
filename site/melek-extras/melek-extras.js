@@ -450,7 +450,33 @@
   // Trade and Vote beside the header's Post pill (signed out, beside Sign up): Trade opens MELEK-Engine,
   // Vote opens the witness voting page.
   var HDR_LINKS = [['trade', 'Trade', 'https://engine.melek.salon/', 'Trade MELEK-Engine tokens'],
-    ['vote', 'Vote', '/~witnesses', 'Vote for witnesses']];
+    ['vote', 'Vote', 'https://wallet.melek.salon/~witnesses', 'Vote for witnesses']];
+  // phones: the header has no room, so Post · Trade · Vote become one row of three equal buttons under it
+  function addMobileActions() {
+    if (!d.getElementById('melek-actions-css')) {
+      var css = el('style', { id: 'melek-actions-css' });
+      css.textContent = '@media (max-width:700px){header .melek-hdr-link,header .Header__post-link{display:none!important}}'
+        + '@media (min-width:701px){#melek-actions{display:none!important}}'
+        + '#melek-actions{display:flex;gap:8px;padding:8px 12px;background:inherit}'
+        + '#melek-actions a{flex:1;text-align:center;padding:7px 0;border-radius:6px;border:2px solid #eab308;color:inherit;font:700 15px system-ui,sans-serif;text-decoration:none}'
+        + '#melek-actions a.post{background:#eab308;color:#171f24}';
+      d.head.appendChild(css);
+    }
+    var header = d.querySelector('header');
+    if (!header) return;
+    var row = d.getElementById('melek-actions');
+    if (!row) {
+      row = el('nav', { id: 'melek-actions', 'aria-label': 'Post, trade and vote' });
+      row.appendChild(el('a', { href: '/submit.html', class: 'post' }, 'Post'));
+      HDR_LINKS.forEach(function (h) { row.appendChild(el('a', { href: h[2], title: h[3] }, h[1])); });
+      var after = d.querySelector('.melek-tabs-m') || header;   // under the phone tab row
+      after.parentNode.insertBefore(row, after.nextSibling);
+    }
+    // like the phone tab row: the app's header is positioned, so shift the row into view below it
+    var fixed = /fixed|sticky|absolute/.test(w.getComputedStyle(header).position);
+    row.style.position = 'relative'; row.style.zIndex = '5'; row.style.background = '#fff';
+    row.style.top = fixed ? header.offsetHeight + 'px' : '0';
+  }
   function addHeaderLinks() {
     if (d.querySelector('.melek-hdr-link')) return;
     var post = d.querySelector('header .Header__post-link');
@@ -513,6 +539,7 @@
     addExploreLinks();
     addHeaderLinks();
     addTabs();
+    addMobileActions();
     var col = d.getElementById('melek-tools');
     if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
     addReportButton();
