@@ -93,6 +93,7 @@
     ['novel', 'Novel Writing', 'Draft chapters, track your word count, export your book.', 'https://pentecaust.com/metatron'],
     ['image', 'Image Generation', 'Make pictures for your post with Hathor’s studio.', 'https://hathor.soapbox.community/'],
     ['music', 'Music', 'Write songs and build beats with Hathor Sandalphon.', 'https://pentecaust.com/sandalphon'],
+    ['video', 'Video (Bifrost)', 'Upload a video to Bifrost, MELEK\u2019s video platform, then link it in your post.', 'https://hathor.soapbox.community/pentecaust/bifrost/upload'],
   ];
   function addCreationTools() {
     if (!/\/submit(\.html)?\/?$/.test(w.location.pathname)) return;
