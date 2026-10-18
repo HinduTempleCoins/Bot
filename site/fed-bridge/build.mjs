@@ -1,7 +1,7 @@
 // site/fed-bridge/build.mjs — puts MELEK accounts on the Fediverse (Mastodon) and Bluesky through Bridgy Fed
 // (https://fed.brid.gy/docs#web-get-started). Bridgy Fed bridges a *website* per *domain*: the home page's h-card
 // is the profile, each post is an h-entry page on that domain, and a webmention to fed.brid.gy publishes it.
-// So each bridged MELEK account gets its own domain (hathor → hathor.melek.salon), configured in accounts.json.
+// So each bridged MELEK account gets its own domain (hathor → hathor.social.melek.salon), configured in accounts.json.
 //
 // Per account, built from the chain on a timer into OUT_ROOT/<domain>/:
 //   index.html               h-card profile + h-feed of recent posts (+ <link rel=alternate> to the feed)
@@ -39,6 +39,14 @@ const iso = (t) => { const s = String(t || ''); return s ? (/[zZ]|[+-]\d\d:?\d\d
 export const home = (a) => `https://${a.domain}/`;
 export const postUrl = (a, p) => `https://${a.domain}/posts/${encodeURIComponent(p.permlink)}/`;
 export const melekUrl = (p) => `${MELEK}/${encodeURIComponent(p.category || 'melek')}/@${encodeURIComponent(p.author)}/${encodeURIComponent(p.permlink)}`;
+/** Body excerpt without a leading copy of the title (posts usually open with "# <title>"). */
+export function bodyText(p, n = 400) {
+  const title = String(p.title || '').trim(), t = excerpt(p.body, n + title.length + 2);
+  const out = title && t.toLowerCase().startsWith(title.toLowerCase()) ? t.slice(title.length).replace(/^[\s:.\-–—]+/, '') : t;
+  return out.length > n ? out.slice(0, n).replace(/\s+\S*$/, '') + '…' : out;
+}
+// Bump when the post HTML changes in a way worth re-sending to Bridgy Fed (it re-bridges as an edit).
+export const RENDER_VERSION = 'r2';
 const avatarUrl = (a) => (a.avatar ? (/^https?:/.test(a.avatar) ? a.avatar : home(a) + a.avatar) : '');
 export function tags(p) {
   try { const m = JSON.parse(p.json_metadata || '{}'); if (Array.isArray(m.tags)) return [...new Set(m.tags.map(String).filter((t) => /^[a-z0-9-]{2,32}$/.test(t)))].slice(0, 5); } catch { /* soft */ }
@@ -91,14 +99,14 @@ ${items || '<p class=mut>No posts yet.</p>'}
  */
 export function renderPost(a, p) {
   const h = home(a), av = avatarUrl(a), url = postUrl(a, p), orig = melekUrl(p), img = firstImage(p), t = tags(p);
-  const sum = excerpt(p.body, 400);
+  const sum = bodyText(p, 400);
   return head(`${p.title || '(untitled)'} — ${a.name}`, excerpt(p.body, 160), orig, `
 <link rel=alternate type="application/atom+xml" href="${esc(h)}feed.xml">${img ? `<meta property="og:image" content="${esc(img)}">` : ''}`) + `
 <article class="card entry h-entry">
 <p class="small-author p-author h-card"><a class=u-url href="${esc(h)}">${av ? `<img class=u-photo src="${esc(av)}" alt="">` : ''}<span class=p-name>${esc(a.name)}</span></a></p>
 <h1 style="font-size:24px;margin:6px 0">${esc(p.title || '(untitled)')}</h1>
 <p class=mut><a class=u-url href="${esc(url)}"><time class=dt-published datetime="${esc(iso(p.created))}">${esc(String(p.created || '').slice(0, 10))}</time></a>${p.last_update && p.last_update !== p.created ? ` · <time class=dt-updated datetime="${esc(iso(p.last_update))}">updated</time>` : ''}</p>
-<div class=e-content><p><b>${esc(p.title || '(untitled)')}</b></p>
+<div class=e-content><p>${esc(p.title || '(untitled)')}</p>
 <p>${esc(sum)}</p>
 <p>Read the whole post on MELEK: <a href="${esc(orig)}">${esc(orig)}</a></p>
 ${t.length ? `<p class=tags>${t.map((x) => `<a href="${esc(MELEK)}/trending/${esc(x)}">#${esc(x)}</a>`).join(' ')}</p>` : ''}</div>
@@ -119,7 +127,7 @@ export function renderFeed(a, posts = [], { builtAt = new Date() } = {}) {
 <updated>${esc(updated)}</updated><author><name>${esc(a.name)}</name><uri>${esc(h)}</uri></author>${a.avatar ? `<icon>${esc(avatarUrl(a))}</icon>` : ''}
 ${posts.map((p) => `<entry><activity:object-type>http://activitystrea.ms/schema/1.0/note</activity:object-type><title>${esc(p.title || '(untitled)')}</title><id>${esc(postUrl(a, p))}</id><link rel="alternate" type="text/html" href="${esc(postUrl(a, p))}"/>
 <published>${esc(iso(p.created))}</published><updated>${esc(iso(p.last_update || p.created))}</updated>
-<content type="html">${esc(`<p><b>${esc(p.title || '(untitled)')}</b></p><p>${esc(excerpt(p.body, 400))}</p><p>Read the whole post on MELEK: <a href="${esc(melekUrl(p))}">${esc(melekUrl(p))}</a></p>`)}</content>${tags(p).map((x) => `<category term="${esc(x)}"/>`).join('')}</entry>`).join('\n')}
+<content type="html">${esc(`<p>${esc(p.title || '(untitled)')}</p><p>${esc(bodyText(p, 400))}</p><p>Read the whole post on MELEK: <a href="${esc(melekUrl(p))}">${esc(melekUrl(p))}</a></p>`)}</content>${tags(p).map((x) => `<category term="${esc(x)}"/>`).join('')}</entry>`).join('\n')}
 </feed>`;
 }
 
@@ -131,7 +139,7 @@ ${posts.map((p) => `<entry><activity:object-type>http://activitystrea.ms/schema/
 export async function sendWebmentions(a, posts, state = {}, { fetch: f = globalThis.fetch, now = Date.now() } = {}) {
   const out = { state: { ...state }, sent: [], skipped: [], failed: [] };
   for (const p of [...posts].reverse()) {
-    const ver = String(p.last_update || p.created || '');
+    const ver = `${p.last_update || p.created || ''}|${RENDER_VERSION}`;
     if (out.state[p.permlink] === ver) continue;
     const age = now - Date.parse(iso(p.created));
     if (!(age >= 0 && age < MAX_AGE_MS)) { out.state[p.permlink] = ver; out.skipped.push(p.permlink); continue; }
