@@ -1,7 +1,7 @@
 // build.test.mjs — OFFLINE tests for the Admin Page generator (fake RPC).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { fetchAdminPosts, fetchWitnessAccounts, renderAdminPage, firstImage, excerpt } from './build.mjs';
+import { fetchAdminPosts, fetchWitnessAccounts, renderAdminPage, firstImage, excerpt, loadRanks, TABS } from './build.mjs';
 
 const post = (author, permlink, created, extra = {}) => ({ author, permlink, created, category: 'melek', title: `T ${permlink}`,
   body: 'Hello **world** ![x](https://img.example/a.png) more text', json_metadata: '{}', parent_author: '', ...extra });
@@ -53,4 +53,22 @@ test('fetchWitnessAccounts keeps block producers, always includes hathor, soft-f
     { owner: 'bob', last_confirmed_block_num: 10 }, { owner: 'idle', last_confirmed_block_num: 0 }, { owner: 'hathor', last_confirmed_block_num: 5 }] }) });
   assert.deepEqual(await fetchWitnessAccounts({ fetch: f }), ['hathor', 'bob']);
   assert.deepEqual(await fetchWitnessAccounts({ fetch: async () => { throw new Error('down'); } }), ['hathor']);
+});
+
+test('tab order: Admin, Witness, Ranked Users, All Posts, Groups', () => {
+  assert.deepEqual(TABS.map((t) => t.label), ['Admin Updates', 'Witness Updates', 'Ranked Users', 'All Posts', 'Groups']);
+});
+
+test('ranks: only the ladder ranks count, highest first; bad file soft-fails to none', () => {
+  const r = loadRanks('x', () => JSON.stringify({ alice: { rank: 'Member', by: 'hathor', ts: 1 }, bob: { rank: 'Legendary', by: 'hathor' },
+    eve: { rank: 'Supreme Overlord' }, 'BAD NAME': { rank: 'Member' } }));
+  assert.deepEqual(Object.keys(r), ['bob', 'alice']);
+  assert.deepEqual(loadRanks('x', () => { throw new Error('missing'); }), {});
+});
+
+test('Ranked Users page: rank badge on each post, and an empty ladder says so', () => {
+  const html = renderAdminPage([post('alice', 'a1', '2026-10-10T00:00:00')], { admins: ['alice'], page: 'ranked', ranks: { alice: { rank: 'Full Member' } } });
+  assert.match(html, /<span class=rank>Full Member<\/span>/);
+  assert.match(html, /class=on aria-current=page>Ranked Users/);
+  assert.match(renderAdminPage([], { admins: [], page: 'ranked' }), /Nobody has been ranked yet/);
 });
