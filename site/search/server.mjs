@@ -91,7 +91,7 @@ const STYLE = `<style>
   .tile .im{aspect-ratio:1/1;background:#0b0f14;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:26px}
   .tile.poster .im{aspect-ratio:2/3}
   .tile .im img{width:100%;height:100%;object-fit:cover;display:block}
-  .tile .cap{font-size:12px;padding:6px 8px;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .tile .cap{font-size:12px;padding:6px 8px;line-height:1.35} .tile .cap .tt{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
   .tile .cap .b{color:var(--mut);display:block;font-size:11px}
   .more{font-size:13px;margin:6px 0 0}
   .res a.t{overflow-wrap:anywhere}
@@ -122,14 +122,14 @@ ${headTags({
 const searchHero = (q, mode) => `
   <div class="hero${q ? ' compact' : ''}">
     <a href="/"><h1 class=title>SoapBox <span class=s>Search</span></h1></a>
-    <p class=desc>Search for anything you want — across our websites, or the entire web.</p>
+    <p class=desc>MELEK posts and people, the Library, films, pictures and music — then the whole web.</p>
     <div class=toggle>
       <a href="/?q=${encodeURIComponent(q)}" class="${mode === 'all' ? 'on' : ''}">✦ All</a>
       <a href="/?q=${encodeURIComponent(q)}&mode=site" class="${mode === 'site' ? 'on' : ''}">◈ Our Sites</a>
       <a href="/?q=${encodeURIComponent(q)}&mode=web" class="${mode === 'web' ? 'on' : ''}">🌐 Web</a>
     </div>
     <form method=get action="/">
-      <input class=q name=q value="${esc(q)}" placeholder="Search MELEK, the Library, films, pictures, music — or the web…" autofocus autocomplete=off>
+      <input class=q name=q value="${esc(q)}" placeholder="Search posts, people, films, the web…" autofocus autocomplete=off>
       ${mode === 'all' ? '' : `<input type=hidden name=mode value="${esc(mode)}">`}
       <div class=btnrow><button>Search</button></div>
     </form>
@@ -297,7 +297,7 @@ const hitRow = (r, g) => `<div class="hit${g === 'people' ? ' person' : ''}"><di
   <a class=ht href="${esc(r.url)}">${esc(r.title)}</a>${r.tag ? `<span class=badge>${esc(r.tag)}</span>` : ''}
   <div class=u>${esc(r.url.replace(/^https:\/\//, ''))}</div>${r.snippet ? `<div class=s>${esc(r.snippet)}</div>` : ''}</div></div>`;
 const tile = (r, g) => `<a class="tile${g === 'films' ? ' poster' : ''}" href="${esc(r.url)}" title="${esc(r.snippet || r.title)}"><div class=im>${thumbHtml(r, g)}</div>
-  <div class=cap>${esc(r.title)}<span class=b>${esc(r.tag || '')}</span></div></a>`;
+  <div class=cap><span class=tt>${esc(r.title)}</span><span class=b>${esc(r.tag || '')}</span></div></a>`;
 function moreLink(key, q) {
   const e = encodeURIComponent(q);
   if (key === 'films') return `<p class=more><a href="https://stream.soapbox.community/films/search?q=${e}">All films for “${esc(q)}” →</a></p>`;

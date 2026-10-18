@@ -168,7 +168,7 @@ export async function srcChain(q) {
         if (!prof.name && !prof.about) { try { prof = (JSON.parse(a.json_metadata || '{}').profile) || prof; } catch {} }
         const thumb = /^https:\/\//.test(prof.profile_image || '') ? prof.profile_image : '';
         return { group: 'people', title: prof.name ? `${prof.name} (@${a.name})` : `@${a.name}`, url: `${CONDENSER()}/@${a.name}`,
-          snippet: clip(prof.about || `MELEK member since ${String(a.created || '').slice(0, 10)} · ${a.post_count || 0} posts`, 160),
+          snippet: clip(prof.about || `MELEK member${String(a.created || '') > '2000' ? ` since ${String(a.created).slice(0, 10)}` : ''} · ${a.post_count || 0} posts`, 160),
           thumb, tag: 'MELEK', score: a.name === norm(q).replace(/^@/, '').trim() ? 1 : matchScore(q, `${a.name} ${prof.name || ''}`) * 0.9 };
       });
     }
