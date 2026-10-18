@@ -460,7 +460,8 @@ export async function handler(req, res) {
         text: [`A reader flagged something on MELEK.`, '', `Target: ${target}`, url ? `Link: ${url}` : '', `Kind: ${kind}`,
           `Reason: ${reason || '(none given)'}`, `Reporter: ${reporter || '(anonymous)'}`, `Report id: ${result.report.id}`]
           .filter((l) => l !== '').join('\n'),
-      })).catch(() => {});
+      })).then((r) => console.log(`[report] ${result.report.id} email ${r && r.ok ? 'sent' : 'NOT sent'}${r && r.error ? ` (${r.error})` : ''}`))
+        .catch(() => console.log(`[report] ${result.report.id} email NOT sent`));
     }
 
     return sendJson(res, 200, {
