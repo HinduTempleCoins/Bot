@@ -300,7 +300,7 @@ export async function renderSubjectRss(slug) {
   const t = SUBJECT_BY_SLUG[slug]; if (!t) return null;
   const list = await fetchSubject(slug, { limit: 25 });
   const entries = list.map((x) => ['  <item>', `    <title>${xesc(x.title)}</title>`, `    <link>${xesc(x.link)}</link>`, `    <guid isPermaLink="true">${xesc(x.link)}</guid>`, x.date ? `    <pubDate>${xesc(rfc822(x.date))}</pubDate>` : '', (x.source ? `    <source url="${xesc(/^https?:/.test(x.source) ? x.source : 'https://' + x.source + '/')}">${xesc(x.source)}</source>` : ''), '  </item>'].filter(Boolean).join('\n')).join('\n');
-  return ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', '<channel>', `  <title>${xesc(SITE_NAME())} — ${xesc(t.name)}</title>`, `  <link>${xesc(subjectUrl(slug))}</link>`, `  <description>${xesc(t.blurb)}</description>`, `  <atom:link href="${xesc(subjectUrl(slug))}/rss.xml" rel="self" type="application/rss+xml" />`, entries, '</channel>', '</rss>'].join('\n');
+  return ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', '<channel>', `  <title>${xesc(SITE_NAME())} — ${xesc(t.name)}</title>`, `  <link>${xesc(subjectUrl(slug))}</link>`, `  <description>${xesc(t.blurb)}</description>`, `  <atom:link href="${xesc(subjectUrl(slug))}/rss.xml" rel="self" type="application/rss+xml" />`, `  <atom:link href="${xesc(env('HERALD_WEBSUB_HUB', 'https://pubsubhubbub.appspot.com/'))}" rel="hub" />`, entries, '</channel>', '</rss>'].join('\n');
 }
 export async function renderSubject(slug) {
   const t = SUBJECT_BY_SLUG[slug]; if (!t) return null;
