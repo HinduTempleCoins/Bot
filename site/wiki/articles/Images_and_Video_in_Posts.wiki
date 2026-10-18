@@ -1,0 +1,30 @@
+'''Images and video''' make up much of what is posted on [[Melek.salon|melek.salon]]. Pictures are stored on MELEK's image host and shown in the post through Markdown; video is hosted on Bifrost and linked. Part of [[Posting on MELEK]].
+
+== Uploading a picture ==
+Drag a picture into the editor, paste it, or use the editor's image button to pick a file. It uploads to MELEK's image host, and the editor inserts its Markdown, <code>![name](address)</code>, where the cursor was. You can move that line anywhere in the post. The first picture in a post becomes its thumbnail in feeds.
+
+== Photos (Pinboard) ==
+The '''Photos (Pinboard)''' tool in the editor's Creation tools panel opens the [https://melek.salon/pin MELEK Pinboard]. Post a photo or an album there, or save one you found, then copy its Markdown into your post. See [[MELEK Pinboard]]. Photo posts go in the '''Photos''' category. See [[Post Categories on MELEK]].
+
+== Making a picture ==
+The '''Image Generation''' tool opens [[Hathor Studio]], where you can make pictures for a post from a description. See [[Making an Image for Your Post]].
+
+== Video ==
+The '''Video (Bifrost)''' tool opens Bifrost, MELEK's video platform. Upload the video there, then link it in your post. See [[Bifrost Video]]. A YouTube address pasted on its own line also shows as a player.
+
+== Pictures you did not make ==
+Say where a picture came from, and link the source. Posting other people's work as your own is a common reason for posts to be downvoted.
+
+== See also ==
+* [[Formatting Posts with Markdown]]
+* [[Hathor Studio]]
+* [[MELEK Pinboard]]
+* [[Bifrost Video]]
+* [[Making an Image for Your Post]]
+
+== Sources ==
+* [https://melek.salon/pin MELEK Pinboard]
+* [https://hathor.soapbox.community/ Hathor Studio]
+
+== Coverage ==
+Adding pictures and video to melek.salon posts.

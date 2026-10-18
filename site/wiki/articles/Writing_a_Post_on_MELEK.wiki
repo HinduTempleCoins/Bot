@@ -1,0 +1,34 @@
+'''Writing a post''' on [[Melek.salon|melek.salon]] takes a title, a body, a category and tags. A post is stored on the [[MELEK Blockchain]] as a <code>comment</code> operation that has no parent; a reply is the same operation with a parent. Part of [[Posting on MELEK]].
+
+== Opening the editor ==
+Sign in (see [[Signing In to Post on MELEK]]), then choose '''Post''' in the header. The editor opens at <code>melek.salon/submit.html</code>. On a wide screen the '''Creation tools''' panel sits to the right of the editor: Novel Writing, Photos (Pinboard), Image Generation, Music and Video (Bifrost).
+
+== Title ==
+The title is the headline people see in feeds. Plain and specific works best. The title also becomes the post's web address (its ''permlink''), which does not change if you edit the title later.
+
+== Body ==
+The body is written in Markdown. See [[Formatting Posts with Markdown]]. Add pictures by uploading them or by pasting their markdown. See [[Images and Video in Posts]]. The preview under the editor shows the post as readers will see it.
+
+== Category ==
+Every post needs a category, chosen from the '''Category (required)''' menu. The category becomes the post's first tag. See [[Post Categories on MELEK]].
+
+== Tags ==
+After the category, a post can carry up to four more tags, five in total. See [[Tags on MELEK]].
+
+== Publishing ==
+Choose '''Post'''. Your browser signs the operation with your posting key, and the post is written into the next block, usually within three seconds. The chain allows one new top-level post every five minutes per account; replies can be made every 20 seconds.
+
+== Editing and permanence ==
+You can edit a post at any time. An edit is a new version of the same <code>comment</code>, and the earlier versions stay in the chain's history. Write as if on the record. A post with no votes and no replies can be deleted; once it has either, it stays.
+
+== See also ==
+* [[Posting on MELEK]]
+* [[Post Rewards on MELEK]]
+* [[Comments and Replies on MELEK]]
+
+== Sources ==
+* [https://melek.salon/submit.html melek.salon post editor]
+* MELEK chain configuration (<code>condenser_api.get_config</code>): STEEM_MIN_ROOT_COMMENT_INTERVAL 5 minutes, STEEM_MIN_REPLY_INTERVAL 20 seconds.
+
+== Coverage ==
+The parts of the melek.salon post editor and what happens when a post is published.

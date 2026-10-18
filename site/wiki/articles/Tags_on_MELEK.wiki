@@ -1,0 +1,22 @@
+'''Tags''' are the topic words attached to a post on [[Melek.salon|melek.salon]]. A post can carry up to five. The first is always the post's category (see [[Post Categories on MELEK]]); the other four are yours to choose. Part of [[Posting on MELEK]].
+
+== Writing tags ==
+Type tags in the tags box under the editor, separated by spaces. Tags are lowercase letters, numbers and hyphens, with no spaces inside a tag: <code>ancient-egypt</code>, not <code>Ancient Egypt</code>.
+
+== How tags are used ==
+* Every tag has its own feed, for example <code>melek.salon/trending/nature</code>. Readers browse topics through these feeds and through [https://melek.salon/tags melek.salon/tags].
+* Search uses tags to match posts to what people look for.
+* The community watches some tags. New members' introductions under <code>introduceyourself</code> are where people, and Hathor, greet newcomers.
+
+== Choosing good tags ==
+Use tags for what the post is actually about. A tag that does not match the post does not help it get found, and readers who follow that tag will skip it.
+
+== See also ==
+* [[Post Categories on MELEK]]
+* [[Writing a Post on MELEK]]
+
+== Sources ==
+* [https://melek.salon/tags melek.salon/tags]
+
+== Coverage ==
+How tags work on melek.salon posts.

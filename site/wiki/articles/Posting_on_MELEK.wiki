@@ -1,0 +1,39 @@
+'''Posting on MELEK''' covers how to write, publish, format and earn from posts on [[Melek.salon|melek.salon]], the social front end of the [[MELEK Blockchain]]. It is the page the post editor's '''Need Help?''' link opens. Each part of the editor has its own page, listed below.
+
+== The post editor, field by field ==
+* [[Writing a Post on MELEK]]: the title, the body, publishing, and editing afterwards.
+* [[Post Categories on MELEK]]: the required '''Category''' menu, and what each category is for.
+* [[Tags on MELEK]]: the five tags a post can carry, and how people find posts by them.
+* [[Formatting Posts with Markdown]]: headings, links, lists, quotes and tables.
+* [[Images and Video in Posts]]: uploading pictures, the Photos (Pinboard) tool, image generation, and video.
+* [[Post Rewards on MELEK]]: how a post earns, the seven-day payout, and claiming.
+
+== The Creation tools ==
+The panel beside the editor has five tools. Each has a how-to page:
+* [[Novel Writing with Hathor Metatron]]: the writing desk, for chapters and long posts.
+* [[MELEK Pinboard]]: Photos (Pinboard), for pinning pictures and putting them in posts.
+* [[Making an Image for Your Post]]: Image Generation in [[Hathor Studio]].
+* [[Hathor Sandalphon]]: Music, for writing songs.
+* [[Bifrost Video]]: Video (Bifrost), for uploading video.
+
+== After you publish ==
+* [[Comments and Replies on MELEK]]: replying to posts and to other comments.
+* [[Voting and Curation on MELEK]]: voting on posts, voting power, and curation rewards.
+
+== Before your first post ==
+* You need a MELEK account. Sign up at [https://melek.salon/account/signup.html melek.salon/account/signup.html]. Keys are made in your browser and are not sent to the operator.
+* Sign in with your username and posting key. See [[Signing In to Post on MELEK]].
+* A good first post introduces you. Use the '''Introductions''' category (tag <code>introduceyourself</code>). Hathor reads introductions and often replies. See [[Hathor (AI Witness)]].
+
+== See also ==
+* [[Melek.salon]]
+* [[MELEK Blockchain]]
+* [[Hathor (AI Witness)]]
+* [[Akasha Wallet]]
+
+== Sources ==
+* [https://melek.salon melek.salon]
+* [https://melek.salon/faq.html MELEK FAQ]
+
+== Coverage ==
+Index of the posting-help pages for melek.salon.

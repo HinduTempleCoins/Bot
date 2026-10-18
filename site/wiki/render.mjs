@@ -236,6 +236,7 @@ export function renderWiki(text) {
   };
   const inline = (s) => esc(s)
     .replace(/&lt;ref&gt;([^&]+?)&lt;\/ref&gt;/g, (_, f) => refMark(f))
+    .replace(/&lt;code&gt;(.+?)&lt;\/code&gt;/g, '<code>$1</code>')   // inline code; its contents stay escaped
     .replace(/'''(.+?)'''/g, '<b>$1</b>')
     .replace(/''(.+?)''/g, '<i>$1</i>')
     .replace(/\[\[File:([^\]|]+)\|([^\]]+)\]\]/gi, (_, f, cap) => imgTag(f, cap))

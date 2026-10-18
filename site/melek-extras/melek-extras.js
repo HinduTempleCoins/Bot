@@ -397,6 +397,54 @@
   d.addEventListener('click', categoryGuard, true);
   d.addEventListener('submit', categoryGuard, true);
 
+  // "Need Help?" above the editor and a ? beside each field, each opening its Posting help page on the wiki
+  var HELP = 'https://wiki.soapbox.community/wiki/';
+  function helpMark(page, what) {
+    return el('a', { href: HELP + page, target: '_blank', rel: 'noopener', class: 'melek-help', title: 'Help: ' + what, 'aria-label': 'Help: ' + what,
+      style: 'display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:20px;height:20px;padding:0;margin-left:6px;border-radius:50%;background:#1a1d24;color:#fff;font:700 13px/1 system-ui,sans-serif;letter-spacing:0;text-transform:none;text-decoration:none;vertical-align:middle' }, '?');
+  }
+  function addHelpLinks() {
+    if (!/\/submit(\.html)?\/?$/.test(w.location.pathname)) return;
+    var editor = d.querySelector('.SubmitPost');
+    if (!editor) return;
+    if (!d.getElementById('melek-help-css')) {   // the app adds an external-link icon to new-tab links; not on a ?
+      var css = el('style', { id: 'melek-help-css' });
+      css.textContent = 'a.melek-help::after,a.melek-help::before{content:none!important;display:none!important}a.melek-help svg,a.melek-help .Icon{display:none!important}';
+      d.head.appendChild(css);
+    }
+    if (!d.getElementById('melek-need-help')) {
+      var need = el('div', { id: 'melek-need-help', style: 'margin:0 0 8px;font:600 14px system-ui,sans-serif' });
+      need.appendChild(el('a', { href: HELP + 'Posting_on_MELEK', target: '_blank', rel: 'noopener', style: 'color:#d4880f' }, 'Need Help?'));
+      var form = editor.querySelector('form') || editor;
+      form.insertBefore(need, form.firstChild);
+    }
+    [['input[name="title"]', 'Writing_a_Post_on_MELEK#title', 'the title'],
+     ['textarea[name="body"]', 'Formatting_Posts_with_Markdown', 'formatting your post'],
+     ['input[name="category"]', 'Tags_on_MELEK', 'tags']].forEach(function (f) {
+      var field = editor.querySelector(f[0]);
+      if (!field || field.hasAttribute('data-melek-help')) return;
+      field.setAttribute('data-melek-help', '1');
+      var row = el('div', { style: 'text-align:right;margin:2px 0 -2px' });
+      row.appendChild(helpMark(f[1], f[2]));
+      field.parentNode.insertBefore(row, field);
+    });
+    var cat = d.querySelector('label[for="melek-category"]');
+    if (cat && !cat.querySelector('.melek-help')) cat.appendChild(helpMark('Post_Categories_on_MELEK', 'categories'));
+    var tools = d.querySelector('#melek-tools > div');
+    if (tools && !tools.querySelector('.melek-help')) tools.appendChild(helpMark('Posting_on_MELEK#the-creation-tools', 'the creation tools'));
+    var TOOL_HELP = { novel: 'Novel_Writing_with_Hathor_Metatron', photos: 'MELEK_Pinboard', image: 'Making_an_Image_for_Your_Post',
+      music: 'Hathor_Sandalphon', video: 'Bifrost_Video' };
+    TOOLS.forEach(function (t) {
+      var head = d.querySelector('#melek-tools button[aria-controls="melek-tool-' + t[0] + '"]');
+      var box = head && head.parentNode;
+      if (!box || !TOOL_HELP[t[0]] || box.querySelector('.melek-help')) return;
+      box.style.position = 'relative';
+      var q = helpMark(TOOL_HELP[t[0]], t[1]);
+      q.style.position = 'absolute'; q.style.top = '10px'; q.style.right = '10px';
+      box.appendChild(q);
+    });
+  }
+
   // ── 9. Explore MELEK (/explore, a static page listing everything) ─────────────────────────────────
   // Three ways in, so the tab bar stays short: the MELEK logo, the first item of the menu (hamburger), and
   // a link at the top of the sidebar's "Explore MELEK?" box. /explore is served by the web server, not the
@@ -450,6 +498,7 @@
     addReportButton();
     addCreationTools();
     addCategoryPicker();
+    addHelpLinks();
     fixMessageLinks();
     addInviteButton();
     fixRewardsLinks();

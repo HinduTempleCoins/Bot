@@ -1,0 +1,33 @@
+'''Hathor Metatron''' is the writing desk on [[Pentecaust]], at pentecaust.com/metatron. It is the '''Novel Writing''' tool in the melek.salon post editor. It is built for long writing such as the November novel challenge, and it can also make a graphic for a post. Part of [[Posting on MELEK]].
+
+== What it has ==
+* '''Writing desk''': a title, the text, a live word count and story points (one point is about 500 words).
+* '''Transparency tag''': mark the piece 📝 100% Human, 🤖 AI-Assisted Planning or ⚡ AI-Generated. The tag is copied out with the text.
+* '''Sprint timer''': '''Start a 25-minute sprint''' to write without stopping.
+* '''Scene board''': cards for scenes or chapters that move from Backlog to Writing, Review and Done.
+* '''Make a graphic''': type a description and '''Make it'''; the picture is made by [[Hathor Studio]].
+
+== How to: write a chapter and post it ==
+# In the post editor, open '''Novel Writing''' in the Creation tools panel, or go to pentecaust.com/metatron.
+# Type a title and write. The word count and story points update as you go.
+# Choose the transparency tag that fits how the piece was written.
+# Choose '''Copy with tag'''.
+# Paste it into the body of your post, add a title, choose the '''Writing''' category, and post. See [[Writing a Post on MELEK]].
+
+== How to: keep a backup ==
+Drafts autosave in your browser only; they are not sent anywhere. Use '''Export .md''' or '''Export .txt''' to save a copy as a file, especially before clearing your browser or changing devices.
+
+== How to: plan with the scene board ==
+# Under '''Scene board''', type a scene and its story points, then '''Add'''.
+# Move each card along as you work: Backlog, Writing, Review, Done.
+
+== See also ==
+* [[Posting on MELEK]]
+* [[Pentecaust]]
+* [[Hathor Studio]]
+
+== Sources ==
+* [https://pentecaust.com/metatron Hathor Metatron]
+
+== Coverage ==
+Using the Hathor Metatron writing desk and posting what you write to melek.salon.

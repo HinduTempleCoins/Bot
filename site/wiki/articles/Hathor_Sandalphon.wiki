@@ -1,0 +1,32 @@
+'''Hathor Sandalphon''' is the song studio on [[Pentecaust]], at pentecaust.com/sandalphon. It is the '''Music''' tool in the melek.salon post editor. It is laid out like [[Novel Writing with Hathor Metatron|Hathor Metatron]]: plan the song, write it, arrange it, then make it. It is for original songs only; it never imports anyone else's lyrics. Part of [[Posting on MELEK]].
+
+== What it has ==
+* '''Song sheet''': the title, a transparency tag (📝 Human, 🤖 AI-Assisted or ⚡ AI-Generated), and the song's sections in order: intro, verse, pre-chorus, chorus, bridge, outro. It counts syllables per line, so you can check a line is singable.
+* '''Sound''': genre, tempo, key, mood and instruments.
+* '''Make it''': '''Prepare for the song engine''' turns the plan into the exact lyrics and style an open song engine takes (the ACE-Step format). Sending it to MELEK's own song engine is not live yet.
+* '''Song board''': cards for each song, from Idea to Lyrics, Arrangement, Recording and Released.
+
+== How to: write a song ==
+# Open '''Music''' in the post editor's Creation tools panel, or go to pentecaust.com/sandalphon.
+# Give the song a title and choose its tag.
+# Choose '''Add section''' for each part, and write its lines. Use '''Repeat the chorus''' to reuse the chorus.
+# Watch the syllable count on each line; lines of similar length in a section sing more easily.
+# Under '''Sound''', choose the genre, tempo, key, mood and instruments.
+
+== How to: post it ==
+# Under '''Make it''', choose '''Prepare for the song engine''', then '''Copy'''.
+# Paste the lyrics into the body of your post, choose the '''Music & Video''' category, and post. If you recorded the song, upload the video to [[Bifrost Video|Bifrost]] and link it.
+
+== How to: keep track of songs ==
+Use '''Add the current song''' on the song board, and move the card along as the song progresses. The board is saved in your browser only.
+
+== See also ==
+* [[Novel Writing with Hathor Metatron]]
+* [[Bifrost Video]]
+* [[Posting on MELEK]]
+
+== Sources ==
+* [https://pentecaust.com/sandalphon Hathor Sandalphon]
+
+== Coverage ==
+Writing a song in Hathor Sandalphon and posting it to melek.salon.
