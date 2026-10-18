@@ -238,6 +238,7 @@ h1{margin:6px 0 10px}
 .ic{font-size:22px;line-height:1.2;flex:none;width:28px;text-align:center}
 .tx{min-width:0}.tx b{font-size:15px}.d{display:block;color:var(--mut);font-size:13px}.h{display:block;color:var(--mut);font-size:11px;opacity:.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lab{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:0 6px;border-radius:999px;background:#1a1d24;color:#fff;border-bottom:2px solid var(--gold);vertical-align:2px}
+.wiki{display:flex;gap:10px;align-items:center;margin:0 0 8px;padding:12px 14px;background:var(--card);border:2px solid var(--gold);border-radius:10px;color:inherit;text-decoration:none}.wiki b{font-size:18px}
 .none{color:var(--mut);display:none}
 footer{color:var(--mut);font-size:13px;text-align:center;padding:24px 16px}
 @media(max-width:600px){.grid{grid-template-columns:1fr}}
@@ -245,6 +246,7 @@ footer{color:var(--mut);font-size:13px;text-align:center;padding:24px 16px}
 <header><a class=brand href="${SITE}/explore" aria-current=page title="Explore MELEK">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}">${esc(t.label)}</a>`).join('')}</nav>
 <span><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
 <main><h1>Explore MELEK</h1>
+<a class=wiki href="https://wiki.soapbox.community/"><span class=ic>🏛️</span><span class=tx><b>Wiki</b><span class=d>Library of Ashurbanipal</span></span></a>
 <div class=search><input id=q type=search placeholder="Search ${total} places: wallet, mining, music, library…" aria-label="Search everything on MELEK" autocomplete=off>
 <p class=count id=count aria-live=polite>${total} places in ${sections.length} sections</p></div>
 <div class=jump>${jump}</div>
