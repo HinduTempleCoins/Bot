@@ -1,0 +1,37 @@
+'''MELEK-Engine''' is the token layer of the [[MELEK Blockchain]], built the way Hive-Engine is built on Hive. Anyone can create a token there, send it, stake it and mine with it, without any change to the MELEK chain itself. It runs on the MELEK mainnet at [https://engine.melek.salon engine.melek.salon]. Its trading happens on [[KulaSwap]], the DEX on the [[PRANA Blockchain|PRANA]] chain.
+
+== How it works ==
+Every engine action is a <code>custom_json</code> operation on the MELEK chain, with the id <code>mse-mainnet-melek</code>. The engine reads the chain block by block, applies those operations in order, and keeps the token ledger. Anyone can replay the chain and get the same ledger; the engine publishes a fingerprint of its state (a SHA-256 hash) at [https://engine.melek.salon/status engine.melek.salon/status] so it can be checked. The engine holds no keys and never signs anything: you sign your own operations.
+
+== The engine's own tokens ==
+* '''APIS''': the fee token. Creating a token burns APIS. It is only mined, never sold by us. See [[Getting APIS on MELEK-Engine]].
+* '''WMELEK''': MELEK, wrapped for the engine. You get it by sending MELEK to <code>@wmelek-bridge</code>; every WMELEK is backed by one MELEK held there.
+* '''APIS-Hash''': mining power. You get it by forever-locking WMELEK. It cannot be sent, sold or unlocked.
+
+Engine WMELEK is not the same as '''wMELEK on PRANA''', the ERC-20 token that the PRANA bridge mints. They are both backed by MELEK, through different bridge accounts.
+
+== Your engine wallet ==
+Your engine balances belong to your MELEK account name. Look them up at [https://engine.melek.salon/wallet engine.melek.salon/wallet] or with the '''Balance lookup''' on the engine page.
+
+== What you can do ==
+* '''Get APIS''': [[Getting APIS on MELEK-Engine]].
+* '''Create and run a token''': [[Running Tokens on MELEK-Engine]].
+* '''Trade''': on [[KulaSwap]], at [https://kula.money kula.money].
+* '''Learn more''': the tokens course at [https://witness.melek.salon/tokens Witness School].
+
+== Signing engine actions ==
+The engine page builds the exact <code>custom_json</code> for each action. You can sign it in the page with your key (the key stays in your browser), or choose '''Build JSON''' and sign it in your own wallet. Actions that move value, such as forever-locking, need your '''active''' key; claiming mined APIS needs only the posting key.
+
+== See also ==
+* [[APIS]]
+* [[Getting APIS on MELEK-Engine]]
+* [[Running Tokens on MELEK-Engine]]
+* [[KulaSwap]]
+* [[Wrapped Tokens]]
+
+== Sources ==
+* [https://engine.melek.salon engine.melek.salon] and its [https://engine.melek.salon/status status], [https://engine.melek.salon/contracts/tokens token list] and [https://engine.melek.salon/contracts/workerbee mining] endpoints
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot] (<code>engine/</code>)
+
+== Coverage ==
+What MELEK-Engine is, its tokens, and where to go for each task. Checked against the live mainnet engine on 2026-10-18.
