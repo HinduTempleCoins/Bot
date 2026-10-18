@@ -401,6 +401,7 @@
   // a link at the top of the sidebar's "Explore MELEK?" box. /explore is served by the web server, not the
   // app, so every click on it is a full page load (the logo is the app's own Link to "/").
   var EXPLORE = '/explore';
+  var WIKI = 'https://wiki.soapbox.community/';   // Library of Ashurbanipal
   function addExploreLinks() {
     var logo = d.querySelector('header a .logo');
     logo = logo && logo.closest('a');
@@ -411,6 +412,9 @@
       var li = el('li');
       li.appendChild(el('a', { href: EXPLORE, 'data-melek-explore': '1', style: 'font-weight:700' }, 'Explore MELEK'));
       ul.appendChild(li);
+      var wli = el('li');   // the Wiki sits right under Explore, just as prominent
+      wli.appendChild(el('a', { href: WIKI, style: 'font-weight:700' }, 'Wiki'));
+      ul.appendChild(wli);
       var close = panel.querySelector('.close-button');
       panel.insertBefore(ul, close ? close.nextSibling : panel.firstChild);
     }
@@ -423,6 +427,9 @@
       item.appendChild(el('a', { href: EXPLORE, class: 'c-sidebar__link', 'data-melek-explore': '1',
         style: 'font-weight:700;color:#d4880f;font-size:1.05em' }, 'Explore everything →'));
       list.insertBefore(item, list.firstChild);
+      var wiki = el('li', { class: 'c-sidebar__list-item melek-explore-all', style: 'margin-bottom:6px' });
+      wiki.appendChild(el('a', { href: WIKI, class: 'c-sidebar__link', style: 'font-weight:700;color:#d4880f;font-size:1.05em' }, 'Wiki →'));
+      list.insertBefore(wiki, item.nextSibling);
     }
   }
   d.addEventListener('click', function (e) {
