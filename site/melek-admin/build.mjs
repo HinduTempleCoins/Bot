@@ -8,9 +8,10 @@
 //
 //   ADMIN_ACCOUNTS=vankushfamily,kalivankush ADMIN_OUT=/var/www/melek-admin/index.html \
 //     WITNESS_OUT=/var/www/melek-admin/witness-updates/index.html node site/melek-admin/build.mjs
+//   ADMIN_OUT is the home page ("/"); the /admin copy goes to admin/index.html beside it (ADMIN_PAGE_OUT).
 //   import { fetchAdminPosts, fetchWitnessAccounts, renderAdminPage } from './build.mjs'   // tests
 import { writeFileSync, mkdirSync, renameSync, readFileSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 export const ADMINS = () => env('ADMIN_ACCOUNTS', 'vankushfamily,kalivankush,angelicalist,vankush,hathor,melek').split(/[\s,]+/).filter(Boolean);
@@ -95,6 +96,12 @@ const PAGES = {
   admin: { title: 'Admin Updates', path: '/', h1: 'Admin Updates',
     lead: "What MELEK's admins are building, what is live, and what comes next. Sign up to post, vote and earn MELEK.",
     who: 'Posts by' },
+  // the home page ("/") carries the same feed as /admin but is titled for what MELEK is, so a
+  // search result or shared link for melek.salon doesn't read "Admin Updates — MELEK"
+  home: { title: 'MELEK — a social network on its own blockchain · Admin Updates', fullTitle: true, tab: 'admin',
+    path: '/', h1: 'Admin Updates',
+    lead: "What MELEK's admins are building, what is live, and what comes next. Sign up to post, vote and earn MELEK.",
+    who: 'Posts by' },
   witness: { title: 'Witness Updates', path: '/witness-updates', h1: 'Witness Updates',
     lead: "News from the witnesses who run MELEK's blockchain: upgrades, hardforks, price feeds and what they're working on. Hathor, MELEK's AI witness, posts here too.",
     who: 'Posts by the active witnesses:' },
@@ -120,7 +127,7 @@ export function renderAdminPage(posts = [], { admins = ADMINS(), builtAt = new D
 <p>${esc(excerpt(p.body))}</p></div></a></article>`;
   }).join('\n') : `<p class=empty>${esc(P.empty || 'No posts yet.')}</p>`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
-<title>${esc(P.title)} — MELEK</title>
+<title>${esc(P.fullTitle ? P.title : `${P.title} — MELEK`)}</title>
 <meta name=description content="${esc(P.lead)}">
 <link rel=canonical href="${SITE}${P.path}">
 <style>
@@ -147,7 +154,7 @@ footer{color:var(--mut);font-size:13px;text-align:center;padding:20px 16px}
 .howto h2{font-size:18px;margin:0 0 6px}.howto ol{margin:6px 0 0;padding-left:20px}.howto li{margin:4px 0}.howto a{color:inherit}
 .rank{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:#1a1d24;color:#fff;border-bottom:2px solid var(--gold)}
 </style></head><body>
-<header><a class=brand href="${SITE}/">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}"${t.id === page ? ' class=on aria-current=page' : ''}>${esc(t.label)}</a>`).join('')}</nav>
+<header><a class=brand href="${SITE}/">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}"${t.id === (P.tab || page) ? ' class=on aria-current=page' : ''}>${esc(t.label)}</a>`).join('')}</nav>
 <span><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
 <main><h1>${esc(P.h1)}</h1>
 <p class=lead>${esc(P.lead)}</p>
@@ -165,7 +172,12 @@ if (process.argv[1] && process.argv[1].endsWith('build.mjs') && process.argv[1].
     console.log(`[${label}] ${n} posts -> ${out}`);
   };
   const posts = await fetchAdminPosts();
-  if (posts.length) write(env('ADMIN_OUT', '/var/www/melek-admin/index.html'), renderAdminPage(posts), posts.length, 'admin-page');
+  const adminOut = env('ADMIN_OUT', '/var/www/melek-admin/index.html');
+  if (posts.length) {
+    // "/" = home title; "/admin" = admin/index.html beside it, titled "Admin Updates — MELEK"
+    write(adminOut, renderAdminPage(posts, { page: 'home' }), posts.length, 'home-page');
+    write(env('ADMIN_PAGE_OUT', join(dirname(adminOut), 'admin', 'index.html')), renderAdminPage(posts), posts.length, 'admin-page');
+  }
   else console.log('[admin-page] no posts fetched — keeping the last good page');
   const witnesses = await fetchWitnessAccounts();
   const wposts = await fetchAdminPosts({ admins: witnesses });
