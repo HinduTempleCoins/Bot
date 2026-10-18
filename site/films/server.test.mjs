@@ -304,3 +304,26 @@ test('bridge: a public-domain classic on the Stream gives its film "Watch free o
   assert.equal(links.ours[0].name, 'Watch free on SoapBox Stream');
   assert.match(links.ours[0].href, new RegExp(`id=${c.id}`));
 });
+
+test('full cast & crew: film page credits, person page filmography, people in search, escaping', async () => {
+  writeFileSync(DIR + '/credits.ndjson', [
+    { id: 'Q151599', dir: [['Q19504', 'Fritz Lang']], wri: [['Q65001', 'Thea von Harbou']], cast: [['Q66117', 'Brigitte Helm'], ['Q999', '<b>Evil</b> Name']] },
+  ].map((r) => JSON.stringify(r)).join('\n') + '\n');
+  writeFileSync(DIR + '/people.ndjson', [
+    { q: 'Q19504', n: 'Fritz Lang', sl: 90, f: [['Q151599', 'dir']] },
+    { q: 'Q66117', n: 'Brigitte Helm', sl: 30, f: [['Q151599', 'cast']] },
+    { q: 'Q999', n: '<b>Evil</b> Name', sl: 1, f: [['Q151599', 'cast'], ['Q404404', 'cast']] },
+  ].map((r) => JSON.stringify(r)).join('\n') + '\n');
+  const film = await call('GET', '/films/Q151599');
+  assert.match(film.body, /<h2>Cast &amp; crew<\/h2>/);
+  assert.match(film.body, /<b>Written by<\/b> <a href="\/films\/person\/Q65001">Thea von Harbou<\/a>/);
+  assert.match(film.body, /Cast <span class=note>\(2\)<\/span>/);
+  assert.ok(!film.body.includes('<b>Evil</b>'), 'names are escaped');
+  const pe = await call('GET', '/films/person/Q19504');
+  assert.equal(pe.status, 200);
+  assert.match(pe.body, /<h1>Fritz Lang<\/h1>/);
+  assert.match(pe.body, /Metropolis/);
+  assert.equal((await call('GET', '/films/person/Q1')).status, 404);
+  const s = await call('GET', '/films/search?q=brigitte');
+  assert.match(s.body, /<b>People:<\/b> <a href="\/films\/person\/Q66117">Brigitte Helm<\/a>/);
+});
