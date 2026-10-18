@@ -27,7 +27,7 @@ const PATH_PREFIX = (process.env.PATH_PREFIX || '').replace(/\/+$/, '');
 const prefixed = (html) => PATH_PREFIX ? String(html).replace(/(href|action|src)="\/(?!\/)/g, `$1="${PATH_PREFIX}/`) : html;
 const loc = (l) => (PATH_PREFIX && l.startsWith('/') && !l.startsWith('//') ? PATH_PREFIX + l : l);
 const HOST = process.env.HOST || '127.0.0.1';
-const BASE_URL = (process.env.BASE_URL || 'https://pin.melek.salon').replace(/\/$/, '');
+const BASE_URL = (process.env.BASE_URL || 'https://melek.salon/pin').replace(/\/$/, '');
 const MELEK = (process.env.MELEK_SITE || 'https://melek.salon').replace(/\/$/, '');
 let DATA = process.env.PINBOARD_DATA || join(process.cwd(), 'data', 'pins.json');
 export function __setData(p) { DATA = p; }
@@ -84,7 +84,7 @@ function shell(title, inner, { canonical = `${BASE_URL}/`, description } = {}) {
 <title>${esc(title)}</title><meta name=description content="${esc(d)}"><link rel=canonical href="${esc(canonical)}">
 ${STYLE}${PINBOARD_CSS}</head><body>
 <header><a class=brand href="/">MELEK Pinboard</a><a href="${esc(MELEK)}">MELEK</a>
-<a href="https://stream.soapbox.community/music">🎵 Music</a><a href="https://pentecaust.com/metatron">✍️ Make a picture</a>
+<a href="https://stream.soapbox.community/music">🎵 Music</a><a href="https://hathor.soapbox.community/">✍️ Make a picture</a>
 <a href="/boards">Boards</a><a href="/how">How to save</a></header>
 <div class=wrap>${inner}</div>
 <script>
@@ -99,7 +99,7 @@ ${STYLE}${PINBOARD_CSS}</head><body>
 
 function homePage(pins) {
   const inner = `<h1>The picture side of MELEK</h1>
-<div class=alpha><b>Alpha. A MELEK front end.</b> Post a photo or a small album, or save a picture you found — in a MELEK blog post or anywhere on the web. A pin is an ordinary MELEK post, so it can be voted on and replied to like anything else on the chain; it just shows here as a wall of thumbnails instead of a column. A saved picture always keeps a link back to where it came from.</div>
+<div class=alpha><b>Alpha. A MELEK front end.</b> Post a photo or a small album, or save a picture you found — in a MELEK blog post or anywhere on the web. Pins show here as a wall of thumbnails instead of a column. Each pin gives you the markdown to put it in a MELEK post, where it can be voted on and replied to. A saved picture always keeps a link back to where it came from.</div>
 <form class=add method=post action="/pin">
  <input name=url placeholder="Paste a picture's address (or a MELEK post to save all of its pictures)" aria-label="Picture or post address">
  <input name=title placeholder="Title (optional)" aria-label=Title>
