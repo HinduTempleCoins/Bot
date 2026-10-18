@@ -29,6 +29,21 @@ export function firstImage(p) {
   return '';
 }
 
+/**
+ * A post's video, if it has one: a Bifrost video post (json_metadata.video, with its own thumbnail) or a
+ * YouTube link in the body. Returns { thumb, kind } so the card can show the frame with a play mark.
+ */
+export function firstVideo(p) {
+  try {
+    const m = JSON.parse(p.json_metadata || '{}');
+    if (m && m.video && m.video.url) return { thumb: String(m.video.thumbnail || '') || firstImage(p), kind: 'bifrost' };
+  } catch { /* soft */ }
+  const b = String(p.body || '');
+  const yt = /(?:youtube\.com\/(?:watch\?(?:[^\s)"']*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/.exec(b);
+  if (yt) return { thumb: `https://i.ytimg.com/vi/${yt[1]}/hqdefault.jpg`, kind: 'youtube' };
+  return null;
+}
+
 /** Plain-text excerpt: strip markdown/HTML, collapse whitespace. */
 export function excerpt(body, n = 220) {
   const t = String(body || '').replace(/!\[[^\]]*\]\([^)]*\)/g, ' ').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
@@ -120,9 +135,11 @@ export function renderAdminPage(posts = [], { admins = ADMINS(), builtAt = new D
   const P = PAGES[page] || PAGES.admin;
   const cards = posts.length ? posts.map((p) => {
     const url = `${SITE}/${encodeURIComponent(p.category || 'melek')}/@${encodeURIComponent(p.author)}/${encodeURIComponent(p.permlink)}`;
-    const img = firstImage(p);
+    const vid = firstVideo(p);
+    const img = (vid && vid.thumb) || firstImage(p);
     const date = String(p.created || '').slice(0, 10);
-    return `<article class=card><a class=hit href="${esc(url)}">${img ? `<img loading=lazy src="${esc(img)}" alt="">` : ''}
+    const pic = img ? (vid ? `<span class=vthumb><img loading=lazy src="${esc(img)}" alt=""><span class=play aria-label="Video">▶</span></span>` : `<img loading=lazy src="${esc(img)}" alt="">`) : '';
+    return `<article class=card><a class=hit href="${esc(url)}">${pic}
 <div class=txt><h2>${esc(p.title || '(untitled)')}</h2><p class=meta>@${esc(p.author)}${ranks[p.author] ? ` <span class=rank>${esc(ranks[p.author].rank)}</span>` : ''} · ${esc(date)} · in ${esc(p.category || 'melek')}</p>
 <p>${esc(excerpt(p.body))}</p></div></a></article>`;
   }).join('\n') : `<p class=empty>${esc(P.empty || 'No posts yet.')}</p>`;
@@ -149,8 +166,9 @@ h1{margin:6px 0 4px}.lead{color:var(--mut);margin:0 0 18px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:0 0 14px;overflow:hidden}
 .hit{display:flex;gap:14px;color:inherit;text-decoration:none;padding:12px}
 .hit img{width:180px;height:120px;object-fit:cover;border-radius:6px;flex:none}
+.vthumb{position:relative;flex:none;display:block}.vthumb .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;padding-left:3px;box-sizing:border-box}
 .card h2{font-size:19px;margin:0 0 4px}.meta{color:var(--mut);font-size:13px;margin:0 0 6px}
-@media(max-width:600px){.hit{flex-direction:column}.hit img{width:100%;height:180px}}
+@media(max-width:600px){.hit{flex-direction:column}.hit img{width:100%;height:180px}.vthumb{width:100%}}
 footer{color:var(--mut);font-size:13px;text-align:center;padding:20px 16px}
 .empty{color:var(--mut)}
 .howto{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:12px 16px;margin:0 0 18px}
