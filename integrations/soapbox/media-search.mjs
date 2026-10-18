@@ -34,7 +34,9 @@ const STREAM = () => env('STREAM_SITE', 'https://stream.soapbox.community');
 const HATHOR = () => env('HATHOR_SITE', 'https://hathor.soapbox.community');
 const PIN = () => env('PIN_SITE', 'https://melek.salon/pin');
 const CONDENSER = () => env('MELEK_CONDENSER_URL', 'https://melek.salon');
-const RPC = () => env('MELEK_RPC_URL', 'https://melek.salon/rpc');
+// The public RPC carries the tags API (get_discussions_by_*); a bare local witness node does not, so chain
+// search uses SEARCH_RPC_URL (default: the public endpoint), not MELEK_RPC_URL.
+const RPC = () => env('SEARCH_RPC_URL', 'https://melek.salon/rpc');
 const TIMEOUT = () => +(process.env.SEARCH_SOURCE_TIMEOUT_MS || 4000);
 
 // Never surface these: the admin/back-office hosts, and analytics/console style surfaces.
@@ -126,7 +128,7 @@ async function cachedList(key, fn) {
 async function chainSearch(q) {
   if (_chain) return _chain(q);
   const { searchMelek } = await import('../melek-chain-search.mjs');
-  return searchMelek(q, { k: 10 });
+  return searchMelek(q, { k: 10, rpc });
 }
 
 /** Posts + People from the MELEK chain. */
