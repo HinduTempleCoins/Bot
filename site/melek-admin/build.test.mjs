@@ -87,7 +87,7 @@ test('home page is titled for MELEK itself; /admin keeps "Admin Updates — MELE
   const posts = [post('alice', 'a1', '2026-10-10T00:00:00')];
   const home = renderAdminPage(posts, { admins: ['alice'], page: 'home' });
   const admin = renderAdminPage(posts, { admins: ['alice'] });
-  assert.match(home, /<title>MELEK — a social network on its own blockchain · Admin Updates<\/title>/);
+  assert.match(home, /<title>Admin Updates — MELEK<\/title>/);
   assert.match(admin, /<title>Admin Updates — MELEK<\/title>/);
   for (const html of [home, admin]) assert.match(html, /<a href="https:\/\/melek\.salon\/" class=on aria-current=page>Admin Updates<\/a>/);
 });
