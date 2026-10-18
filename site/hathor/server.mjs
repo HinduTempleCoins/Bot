@@ -73,6 +73,7 @@ import { loadIndex as loadScripts, loadScript, scriptsIndexBody, scriptPageBody,
 import { loadDocs, loadFilm, aggregate as docsAggregate, readFeedback as docsFeedback, feedback as docsFeedbackPost, feedbackExport as docsFeedbackExport, listBody as docsListBody, filmBody as docsFilmBody, serveDocMedia, ld as docLd } from './documentaries.mjs';
 import { loadManifest as loadRemakes, remakesBody, serveRemakeImage, remakeToolBody, remakePrompt, remakesLd, remakesHero } from './remakes.mjs';
 import { videoStudioRoute } from './video-studio.mjs';
+import { startLogin as signerStart, finishLogin as signerFinish, currentAccount, logoutCookie, signInHtml, safeReturn } from '../../integrations/melek-signer-session.mjs';
 import { loadMapsIndex, mapsBody, mapsLd, serveMapsMedia } from './maps.mjs';
 import { atlasBody, atlasLd, ATLAS_DIR } from '../../integrations/atlas/atlas.mjs';
 import { loadAnimManifest, aggregate as animAggregate, animationsBody, rate as animRate, serveAnimMedia, readFeedback as animFeedback, animationsLd } from './animations.mjs';
@@ -82,6 +83,15 @@ const HOST = process.env.HOST || '127.0.0.1';
 // one dispatcher serves many sites, so a global BASE_URL can't be right for all of them — the Studio names its own
 const BASE_URL = (process.env.HATHOR_STUDIO_URL || process.env.BASE_URL || 'https://hathor.soapbox.community').replace(/\/$/, '');
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
+// "Sign in with MELEK" — MELEK-Signer redirect flow. Identity comes ONLY from the signed session cookie this
+// mints (Domain=.soapbox.community → shared across *.soapbox), never from a request header or body field.
+const SIGNER_CLIENT_ID = process.env.HATHOR_SIGNER_CLIENT || 'hathor-studio';
+const SIGNER_REDIRECT = process.env.HATHOR_SIGNER_REDIRECT_URI || `${BASE_URL}/auth/melek-signer/callback`;
+const SESSION_DOMAIN = process.env.HATHOR_SESSION_DOMAIN ?? '.soapbox.community';
+let _signerFetch = (...a) => globalThis.fetch(...a);
+export function __setSignerFetch(fn) { _signerFetch = typeof fn === 'function' ? fn : ((...a) => globalThis.fetch(...a)); }
+/** The verified MELEK account signed in to the Studio, or null. The ONLY identity source. */
+export function studioUser(req) { return currentAccount(req && req.headers && req.headers.cookie); }
 const WIKI = process.env.WIKI_SITE || 'https://wiki.soapbox.community';
 const FORUM = process.env.FORUM_SITE || 'https://forum.soapbox.community';
 const MELEK_SALON = (process.env.MELEK_SALON_SITE || 'https://melek.salon').replace(/\/$/, '');
@@ -250,7 +260,7 @@ function pageShell(title, body, opts = {}) {
 <meta property="og:image" content="${esc(opts.image)}"><meta property="og:url" content="${esc(canonical)}"><meta property="og:site_name" content="Hathor Studio">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${esc(opts.image)}">` : ''}${opts.jsonld ? `<script type="application/ld+json">${ldJson(opts.jsonld)}</script>` : ''}${STYLE}<script defer src="https://soapy.blog/b.js"></script><noscript><img src="https://soapy.blog/px.gif" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript></head><body>
 <header class=topbar><a class=brand href="/">✦ Hathor <span>· make with the Witness</span></a>
-  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/documentaries">Documentaries</a><a href="/maps">Maps</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a></div></details></header>
+  <details class=navbox><summary>Menu</summary><div class=topbar-r><a href="/char">Characters</a><a href="/mythology">Mythology</a><a href="/visualize">Visualize</a><a href="/hathor">With Hathor</a><a href="/compose">Reference Studio</a><a href="/remake">Remake</a><a href="/remakes">Remakes</a><a href="/animations">Animations</a><a href="/documentaries">Documentaries</a><a href="/maps">Maps</a><a href="/scripts">Scripts</a><a href="/symbols">Symbols</a><a href="/pentecaust">Pentecaust</a><a href="/pentecaust/bifrost">Bifrost</a><a href="/pentecaust/harddrive">HardDrive</a><a href="/halloween">Halloween</a><a href="/tools">Tools</a><a href="/edit">Editor</a><a href="/convert">Convert</a><a href="/webcam">Webcam</a><a href="/video">Video</a><a href="/templates">Templates</a><a href="/reel-maker">Reels</a><a href="/cards">Cards</a><a href="/school">School</a><a href="/gallery">Shilpa Shastra</a><a href="${esc(ALMANACK)}">Almanack</a><a href="${esc(WIKI)}">Library</a><a href="${esc(DISCORD)}" target=_blank rel="noopener" style="color:#5865F2;font-weight:700">💬 Discord</a><a href="/auth/melek-signer/start" rel="nofollow" style="font-weight:700">Sign in with MELEK</a></div></details></header>
 <main class=wrap>${body}</main>
 ${FOOTER}${pinItAll()}</body></html>`;
 }
@@ -882,11 +892,13 @@ export function bifrostWatchView(author, permlink) {
   return pageShell(`${p.title} — MELEK Bifrost`, body, { canonical: `${BASE_URL}/pentecaust/bifrost/watch/${esc(p.author)}/${esc(p.permlink)}`, description: String(p.description || p.title).slice(0, 160) });
 }
 
-export function bifrostUploadView() {
+export function bifrostUploadView({ account = null } = {}) {
   const cfg = hdStorageConfig();
+  const who = `<div class=card>${signInHtml({ account, returnTo: '/pentecaust/bifrost/upload' })}${account ? '' : ' <span class=muted>— to publish under your MELEK name. Signed out, it posts as @anon.</span>'}</div>`;
   const banner = cfg.configured ? '' : `<div class=card style="border-color:var(--gold)"><b>Storage connecting.</b> <span class=muted>Uploads go live the moment the Cloudflare R2 bucket is set (same storage as HardDrive). You can fill the details now.</span></div>`;
   const body = `<h1>Upload to MELEK Bifrost</h1>
   <p class=muted>Your video uploads straight to storage; the post is chain-ready. Make a thumbnail or intro in the <a href="/tools">Studio</a> first if you like.</p>
+  ${who}
   ${banner}
   <div class=card>
     <label class="pill" style="cursor:pointer">🎬 Choose a video <input type=file id=bfvid accept="video/*" hidden></label> <span class=muted id=bfvidname>no file</span><br><br>
@@ -931,7 +943,8 @@ export async function handleBifrostPublish(req, res) {
   if (!rateOk(ip)) return j(429, { ok: false, error: 'rate-limited' });
   const raw = await readRawBody(req, 1 << 18);
   let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
-  const author = String((req.headers['x-melek-user'] || b.author || 'anon')).replace(/[^a-z0-9._-]/gi, '').slice(0, 40) || 'anon';
+  // Author = the signed-in MELEK account, or 'anon'. Never a header or body field (that was impersonation).
+  const author = studioUser(req) || 'anon';
   const post = makeVideoPost({ author, title: b.title, description: b.description, videoUrl: b.videoUrl, thumbUrl: b.thumbUrl, durationSec: b.durationSec, tags: b.tags });
   const v = validateVideoPost(post);
   if (!v.valid) return j(400, { ok: false, error: v.errors.join('; ') });
@@ -946,11 +959,13 @@ const HD_DIR = join(DATA_DIR, 'harddrive');
 function hdSaveLink(rec) { try { mkdirSync(HD_DIR, { recursive: true }); writeFileSync(join(HD_DIR, `${rec.id}.json`), JSON.stringify(rec)); return true; } catch { return false; } }
 function hdLoadLink(id) { try { if (!/^[\w-]{6,40}$/.test(String(id))) return null; return JSON.parse(readFileSync(join(HD_DIR, `${basename(id)}.json`), 'utf8')); } catch { return null; } }
 
-export function hardDriveView() {
+export function hardDriveView({ account = null } = {}) {
   const cfg = hdStorageConfig();
+  const who = `<div class=card>${signInHtml({ account, returnTo: '/pentecaust/harddrive' })}</div>`;
   const banner = cfg.configured ? '' : `<div class=card style="border-color:var(--gold)"><b>Storage not yet connected.</b> <span class=muted>HardDrive goes live the moment a Cloudflare R2 bucket + token is set (DRIVE_S3_* env). The page and links work as soon as it is.</span></div>`;
   const body = `<h1>HardDrive <span class=muted style="font-size:.5em">· Pentecaust</span></h1>
   <p class=muted>Send <b>very big files</b> — you share a <b>link</b>, not the file, so there is no email size limit. The file uploads straight from your browser to storage; nobody emails gigabytes. Docs, builds, asset packs, anything.</p>
+  ${who}
   ${banner}
   <div class=card>
     <label class="pill" style="cursor:pointer">📎 Choose a file <input type=file id=hdfile hidden></label> <span class=muted id=hdname>no file chosen</span>
@@ -996,7 +1011,7 @@ export async function handleHardDrivePresign(req, res) {
   const raw = await readRawBody(req, 1 << 16);
   let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
   const filename = String(b.filename || 'file').slice(0, 200);
-  const owner = String((req.headers['x-melek-user'] || 'anon')).slice(0, 40); // wired to MELEK login later
+  const owner = studioUser(req) || 'anon'; // the signed-in MELEK account (session cookie), never a header
   const q = hdCheckQuota(ip, b.size);   // free tier: per-file + per-day limit; the size is signed into the URL
   if (!q.ok) return j(q.code, { ok: false, error: q.error });
   try {
@@ -1017,7 +1032,7 @@ export async function handleHardDriveShare(req, res) {
   let b; try { b = JSON.parse(raw ? raw.toString('utf8') : '{}'); } catch { b = {}; }
   if (!b.key || typeof b.key !== 'string') return j(400, { ok: false, error: 'missing key' });
   const days = Number.isFinite(+b.expiresDays) ? Math.max(0, Math.min(365, +b.expiresDays)) : 7;
-  const rec = hdMakeShareLink({ key: b.key, owner: String(b.owner || 'anon').slice(0, 40), filename: String(b.filename || '').slice(0, 200), bytes: +b.bytes || 0, expiresIn: days ? days * 86400 : 0, password: String(b.password || '').slice(0, 100), requireLogin: !!b.requireLogin });
+  const rec = hdMakeShareLink({ key: b.key, owner: studioUser(req) || 'anon', filename: String(b.filename || '').slice(0, 200), bytes: +b.bytes || 0, expiresIn: days ? days * 86400 : 0, password: String(b.password || '').slice(0, 100), requireLogin: !!b.requireLogin });
   if (!hdSaveLink(rec)) return j(500, { ok: false, error: 'could not save link' });
   return j(200, { ok: true, id: rec.id, url: `${publicOrigin(req)}/harddrive/d/${rec.id}` });
 }
@@ -1026,7 +1041,7 @@ export async function handleHardDriveDownload(req, res, id) {
   const rec = hdLoadLink(id);
   const u = new URL(req.url, BASE_URL);
   const pw = u.searchParams.get('pw') || '';
-  const access = hdCheckAccess(rec, { password: pw, loggedIn: !!(req.headers['x-melek-user']) });
+  const access = hdCheckAccess(rec, { password: pw, loggedIn: !!studioUser(req) });
   if (access.ok) {
     const cfg = hdStorageConfig();
     if (!cfg.configured) return sendHtml(res, pageShell('HardDrive', '<h1>Unavailable</h1><div class=card><p class=empty>Storage is not connected.</p></div>', { robots: 'noindex' }), 503);
@@ -1040,7 +1055,8 @@ export async function handleHardDriveDownload(req, res, id) {
     return sendHtml(res, pageShell('HardDrive — protected', body, { robots: 'noindex' }), 401);
   }
   const note = reason === 'expired' ? 'This link has expired.' : reason === 'login-required' ? 'This file requires you to be signed in to MELEK.' : 'This link is not valid.';
-  return sendHtml(res, pageShell('HardDrive', `<h1>Can’t open that</h1><div class=card><p class=empty>${esc(note)}</p></div>`, { robots: 'noindex' }), 404);
+  const signIn = reason === 'login-required' ? `<p>${signInHtml({ returnTo: `/harddrive/d/${basename(String(id))}` })}</p>` : '';
+  return sendHtml(res, pageShell('HardDrive', `<h1>Can’t open that</h1><div class=card><p class=empty>${esc(note)}</p>${signIn}</div>`, { robots: 'noindex' }), reason === 'login-required' ? 401 : 404);
 }
 
 // ── /compose — MULTI-REFERENCE composition. Upload several references (characters + objects + a scene),
@@ -2349,12 +2365,27 @@ export async function handler(req, res) {
       return handleUpload(req, res);
     }
     // MELEK Bifrost — video platform under Pentecaust.
+    // ── Sign in with MELEK (MELEK-Signer redirect flow) ──
+    if (path === '/auth/melek-signer/start' || path === '/login') {
+      const st = signerStart({ clientId: SIGNER_CLIENT_ID, redirectUri: SIGNER_REDIRECT, returnTo: url.searchParams.get('return') || '/' });
+      if (!st.ok) return sendHtml(res, pageShell('Sign in', `<h1>Sign in unavailable</h1><div class=card><p class=empty>${esc(st.reason)}</p></div>`, { robots: 'noindex' }), 503);
+      res.writeHead(302, { location: st.location, 'set-cookie': st.cookie, 'cache-control': 'no-store' }); return res.end();
+    }
+    if (path === '/auth/melek-signer/callback') {
+      const r = await signerFinish({ query: url.searchParams, cookieHeader: req.headers.cookie, clientId: SIGNER_CLIENT_ID, domain: SESSION_DOMAIN || undefined }, _signerFetch);
+      if (!r.ok) { res.writeHead(r.status, { 'content-type': 'text/html; charset=utf-8', 'set-cookie': r.cookies, 'cache-control': 'no-store' }); return res.end(pageShell('Sign in', `<h1>Sign in failed</h1><div class=card><p class=empty>${esc(r.reason)}</p><p>${signInHtml({})}</p></div>`, { robots: 'noindex' })); }
+      res.writeHead(302, { location: r.returnTo, 'set-cookie': r.cookies, 'cache-control': 'no-store' }); return res.end();
+    }
+    if (path === '/auth/logout' || path === '/logout') {
+      res.writeHead(302, { location: safeReturn(url.searchParams.get('return')), 'set-cookie': logoutCookie({ domain: SESSION_DOMAIN || undefined }), 'cache-control': 'no-store' }); return res.end();
+    }
+    if (path === '/auth/me') { res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' }); return res.end(JSON.stringify({ ok: true, account: studioUser(req) })); }
     if (path === '/pentecaust/bifrost') return sendHtml(res, bifrostFeedView({ mode: url.searchParams.get('mode') === 'scroll' ? 'scroll' : 'grid' }));
-    if (path === '/pentecaust/bifrost/upload') return sendHtml(res, bifrostUploadView());
+    if (path === '/pentecaust/bifrost/upload') return sendHtml(res, bifrostUploadView({ account: studioUser(req) }));
     if (path === '/api/bifrost/publish') { if (method !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); } return handleBifrostPublish(req, res); }
     if (path.startsWith('/pentecaust/bifrost/watch/')) { const parts = path.slice('/pentecaust/bifrost/watch/'.length).split('/'); return sendHtml(res, bifrostWatchView(decodeURIComponent(parts[0] || ''), decodeURIComponent(parts[1] || ''))); }
     // HardDrive — big-file sharing by link. Lives under Pentecaust (the creator hub).
-    if (path === '/pentecaust/harddrive') return sendHtml(res, hardDriveView());
+    if (path === '/pentecaust/harddrive') return sendHtml(res, hardDriveView({ account: studioUser(req) }));
     if (path === '/harddrive') { res.writeHead(302, { location: '/pentecaust/harddrive', 'cache-control': 'no-store' }); return res.end(); }
     if (path === '/api/harddrive/presign') { if (method !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); } return handleHardDrivePresign(req, res); }
     if (path === '/api/harddrive/share') { if (method !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); } return handleHardDriveShare(req, res); }

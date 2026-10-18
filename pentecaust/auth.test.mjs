@@ -593,18 +593,15 @@ test('an ACTIVE SESSION is proof enough — link the social to the account alrea
   assert.equal(J(o).account, 'melekbot-pip');
 });
 
-test('account + password is proof too — verified through the registered melek-signer method', async () => {
+test('a password is NEVER proof — Pentecaust does not accept MELEK passwords (signer redirect only)', async () => {
+  // Even with a password-checking method registered, /auth/link ignores account+password: the only
+  // proofs are an existing session or the /auth/melek-signer/start?link=… redirect round-trip.
   registerMethod('melek-signer', async (_req, b) => (b && b.password === 'correct-horse' ? b.account : null));
   const claim = signClaim('google', 'sub-nova', 'nova@example.com');
-
-  let { res, o } = cap();
-  await handler(postReq('/auth/link', { claim, account: 'melekbot-nova', password: 'wrong' }), res);
-  assert.equal(o.code, 403, 'a wrong password must not link');
-
-  ({ res, o } = cap());
+  const { res, o } = cap();
   await handler(postReq('/auth/link', { claim, account: 'melekbot-nova', password: 'correct-horse' }), res);
-  assert.equal(o.code, 200, J(o).reason);
-  assert.equal(J(o).account, 'melekbot-nova');
+  assert.equal(o.code, 403, 'a password must not link');
+  assert.equal(J(o).login, '/auth/melek-signer/start');
 });
 
 test('⚠️ a proved account cannot be used to link a DIFFERENT account', async () => {

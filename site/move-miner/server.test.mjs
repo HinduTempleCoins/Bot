@@ -1,9 +1,14 @@
 // server.test.mjs — MELEK Move PWA. OFFLINE. Earn = MELEK to a MELEK account, recorded into the hourly
 // ledger (no chain, no keys, no EVM voucher). MOVE_DATA points at a temp file. Never throws.
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert';
-import { PrivateKey } from '@hiveio/dhive';
-process.env.MOVE_DATA = `/tmp/move-test-${process.pid}.json`;   // isolate the ledger file
+import { unlinkSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+process.env.MOVE_DATA = fileURLToPath(new URL(`./.test-move-${process.pid}.json`, import.meta.url));   // isolate the ledger file
+after(() => { try { unlinkSync(process.env.MOVE_DATA); } catch {} });
+process.env.MELEK_SESSION_SECRET = 'move-test-secret';
+delete process.env.MELEK_SIGNER_URL; delete process.env.MELEK_SIGNER_PUBLIC_URL; delete process.env.MELEK_SIGNER_SIGNUP_URL;
+delete process.env.MOVE_BASE_URL; delete process.env.MOVE_SIGNER_CLIENT; delete process.env.MOVE_SIGNER_REDIRECT_URI;
 const { handler } = await import('./server.mjs');
 
 function cap() {
@@ -128,86 +133,89 @@ test('unknown route → 404', async () => {
   assert.equal(o.code, 404);
 });
 
-// ── in-app account creation ──────────────────────────────────────────────────────────────────────
+
+// ── Sign in with MELEK (MELEK-Signer redirect flow) — no password, no key derivation in Move ─────────
 const mod = await import('./server.mjs');
+const { mintSession, SESSION_COOKIE } = await import('../../integrations/melek-login.mjs');
+const sess = (a) => `${SESSION_COOKIE}=${mintSession(a, { provider: 'melek' })}`;
+function capH() {
+  const o = { code: 0, headers: {}, body: '' };
+  return { res: { writeHead: (c, h) => { o.code = c; o.headers = h || {}; }, end: (b) => { o.body = b || ''; } }, o };
+}
+function reqH(path, method = 'GET', bodyObj, headers = {}) {
+  const r = req(path, method, bodyObj); r.headers = headers; return r;
+}
 
-test('createAccount: derives prefixed pubkeys + calls the faucet, returns ok', async () => {
-  let captured;
-  mod.__setFetch(async (url, opts) => { captured = { url, body: JSON.parse(opts.body) }; return { json: async () => ({ ok: true }) }; });
-  const r = await mod.createAccount({ username: 'walker1', password: 'hunter2pw' });
-  assert.strictEqual(r.ok, true);
-  assert.strictEqual(r.account, 'walker1');
-  assert.match(captured.url, /\/faucet\/create$/);
-  assert.strictEqual(captured.body.name, 'walker1');
-  assert.match(captured.body.ownerPub, /^TST/);
-  assert.ok(captured.body.activePub && captured.body.postingPub && captured.body.memoPub);
+test('the home page offers Sign in with MELEK + the signer /signup link — no password field', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  assert.match(o.body, /href="\/auth\/melek-signer\/start"/);
+  assert.match(o.body, /https:\/\/signer\.melek\.salon\/signup/);
+  assert.doesNotMatch(o.body, /type=password/);
+  assert.doesNotMatch(o.body, /\/api\/create-account/);
+});
+
+test('/auth/melek-signer/start → signer authorize (client melek-move, registered redirect_uri)', async () => {
+  const { res, o } = capH(); await handler(reqH('/auth/melek-signer/start?return=/delete'), res);
+  assert.equal(o.code, 302);
+  const u = new URL(o.headers.location);
+  assert.equal(u.origin + u.pathname, 'https://signer.melek.salon/oauth2/authorize');
+  assert.equal(u.searchParams.get('client_id'), 'melek-move');
+  assert.equal(u.searchParams.get('redirect_uri'), 'https://move.melek.salon/auth/melek-signer/callback');
+});
+
+test('callback → session; /api/me names the verified account; geomine pays the SESSION account', async () => {
+  mod.__setFetch(async (_u, opts) => {
+    const { code, client_id } = JSON.parse(opts.body);
+    return { json: async () => (code === 'good' && client_id === 'melek-move' ? { access_token: 't', account: 'sess-walker', scope: 'identity' } : { error: 'invalid_grant' }) };
+  });
+  const s = capH(); await handler(reqH('/auth/melek-signer/start?return=/'), s.res);
+  const state = new URL(s.o.headers.location).searchParams.get('state');
+  const stCookie = String(s.o.headers['set-cookie']).split(';')[0];
+  const bad = capH(); await handler(reqH(`/auth/melek-signer/callback?code=good&state=forged`, 'GET', undefined, { cookie: stCookie }), bad.res);
+  assert.equal(bad.o.code, 403);
+  const c = capH(); await handler(reqH(`/auth/melek-signer/callback?code=good&state=${state}`, 'GET', undefined, { cookie: stCookie }), c.res);
+  assert.equal(c.o.code, 302);
+  const sc = [].concat(c.o.headers['set-cookie']).find((x) => x.startsWith(`${SESSION_COOKIE}=`));
+  assert.match(sc, /Domain=\.melek\.salon/);
+  const me = capH(); await handler(reqH('/api/me', 'GET', undefined, { cookie: sc.split(';')[0] }), me.res);
+  assert.equal(JSON.parse(me.o.body).account, 'sess-walker');
+  const g = capH(); await handler(reqH('/api/geomine', 'POST', { account: 'someone-else', lat: 1, lng: 1, steps: 100 }, { cookie: sc.split(';')[0] }), g.res);
+  assert.equal(JSON.parse(g.o.body).account, 'sess-walker');
   mod.__setFetch(globalThis.fetch);
 });
 
-test('createAccount: rejects bad name / short password WITHOUT calling the faucet', async () => {
-  let called = false; mod.__setFetch(async () => { called = true; return { json: async () => ({ ok: true }) }; });
-  assert.strictEqual((await mod.createAccount({ username: 'AB', password: 'longenough' })).ok, false);
-  assert.strictEqual((await mod.createAccount({ username: 'walker1', password: 'short' })).ok, false);
-  assert.strictEqual(called, false);
-  mod.__setFetch(globalThis.fetch);
+test('POST /api/create-account is retired (410) and points at MELEK-Signer — no key derivation', async () => {
+  const { res, o } = capH(); await handler(reqH('/api/create-account', 'POST', { username: 'walker2', password: 'hunter2pw' }), res);
+  assert.equal(o.code, 410);
+  const j = JSON.parse(o.body);
+  assert.equal(j.signup, 'https://signer.melek.salon/signup');
+  assert.equal(j.login, '/auth/melek-signer/start');
+  assert.equal(typeof mod.createAccount, 'undefined');
 });
 
-test('createAccount: surfaces a taken/invalid name from the faucet', async () => {
-  mod.__setFetch(async () => ({ json: async () => ({ ok: false, reason: 'invalid-account-name' }) }));
-  const r = await mod.createAccount({ username: 'walker1', password: 'longenough' });
-  assert.strictEqual(r.ok, false);
-  assert.match(r.reason, /taken or invalid/);
-  mod.__setFetch(globalThis.fetch);
-});
-
-test('POST /api/create-account routes through createAccount', async () => {
-  mod.__setFetch(async () => ({ json: async () => ({ ok: true }) }));
-  const chunks = [];
-  const req = { url: '/api/create-account', method: 'POST', on: (ev, cb) => { if (ev === 'data') cb(JSON.stringify({ username: 'walker2', password: 'hunter2pw' })); if (ev === 'end') cb(); } };
-  let code, body; const res = { writeHead: (c) => { code = c; }, end: (b) => { body = b; } };
-  await mod.handler(req, res);
-  assert.strictEqual(code, 200);
-  assert.strictEqual(JSON.parse(body).account, 'walker2');
-  mod.__setFetch(globalThis.fetch);
-});
-
-test('GET /delete serves the Play-required account & data deletion page', async () => {
+test('GET /delete serves the Play-required account & data deletion page (sign in with MELEK, no password)', async () => {
   const { res, o } = cap(); await handler(req('/delete'), res);
   assert.equal(o.code, 200); assert.match(o.type, /text\/html/);
   assert.match(o.body, /Delete your MELEK Move account/i);
   assert.match(o.body, /What is deleted/i);
   assert.match(o.body, /public blockchain/i);                 // honest about what we can't erase
   assert.match(o.body, /community\.soapbox\.move/);           // names the app/developer per Play guidance
+  assert.match(o.body, /\/auth\/melek-signer\/start\?return=\/delete/);
+  assert.doesNotMatch(o.body, /type=password/);
 });
 
-// helper: the on-chain posting key the chain WOULD report for (account,password) — what the verifier checks.
-const postingPub = (account, password) => PrivateKey.fromLogin(account, password, 'posting').createPublic('TST').toString();
-
-test('deleteAccount erases standing only after proving ownership by password', async () => {
-  const A = 'delwalker', P = 'walkerpw12';
-  // accrue a standing for A so there is something to delete
+test('delete-account: needs a MELEK-Signer session; erases ONLY the signed-in account (body names ignored)', async () => {
+  const A = 'delwalker', B = 'otherwalker';
   await handler(req('/api/geomine', 'POST', { account: A, lat: 5, lng: 5, steps: 3000, stake: 100 }), cap().res);
-  // chain reports A's REAL on-chain posting key → ownership proven → erase
-  mod.__setFetch(async () => ({ json: async () => ({ result: [{ posting: { key_auths: [[postingPub(A, P), 1]] } }] }) }));
-  const ok = await mod.deleteAccount({ username: A, password: P });
-  assert.strictEqual(ok.ok, true);
-  assert.ok(ok.removed >= 1);
-  assert.match(ok.note, /blockchain/i);
-  // standing is now gone
-  const { o } = cap(); const c = cap(); await handler(req('/api/standing?account=' + A), c.res);
-  assert.strictEqual(JSON.parse(c.o.body).accountWeight, 0);
-  mod.__setFetch(globalThis.fetch);
-});
-
-test('deleteAccount refuses a wrong password (derived key ≠ on-chain key) — no grief-delete', async () => {
-  const A = 'delwalker2';
-  mod.__setFetch(async () => ({ json: async () => ({ result: [{ posting: { key_auths: [[postingPub(A, 'the-real-pw'), 1]] } }] }) }));
-  const bad = await mod.deleteAccount({ username: A, password: 'wrong-password' });
-  assert.strictEqual(bad.ok, false);
-  assert.match(bad.reason, /password/i);
-  // unknown account (chain returns nothing) → clean refusal, never throws
-  mod.__setFetch(async () => ({ json: async () => ({ result: [null] }) }));
-  const gone = await mod.deleteAccount({ username: 'ghostwalker', password: 'whatever12' });
-  assert.strictEqual(gone.ok, false);
-  mod.__setFetch(globalThis.fetch);
+  await handler(req('/api/geomine', 'POST', { account: B, lat: 6, lng: 6, steps: 3000, stake: 100 }), cap().res);
+  const anon = capH(); await handler(reqH('/api/delete-account', 'POST', { username: A, password: 'x' }), anon.res);
+  assert.equal(anon.o.code, 401);
+  const ok = capH(); await handler(reqH('/api/delete-account', 'POST', { username: B }, { cookie: sess(A) }), ok.res);
+  assert.equal(ok.o.code, 200);
+  const j = JSON.parse(ok.o.body);
+  assert.equal(j.account, A); assert.ok(j.removed >= 1); assert.match(j.note, /blockchain/i);
+  const sa = cap(); await handler(req('/api/standing?account=' + A), sa.res);
+  assert.strictEqual(JSON.parse(sa.o.body).accountWeight, 0);
+  const sb = cap(); await handler(req('/api/standing?account=' + B), sb.res);
+  assert.ok(JSON.parse(sb.o.body).accountWeight > 0, 'another walker is untouched');
 });

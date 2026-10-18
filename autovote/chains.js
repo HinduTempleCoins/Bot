@@ -18,7 +18,8 @@
  *                 hivesigner — account + password, server-usable offline. Keyless; best for MELEK.
  *   hivesigner  — OAuth2 bearer token; server-usable while user is offline. Best for scheduled votes.
  *   whalevault  — browser-extension signing; ONLY while the user's tab is open. In-browser mode only.
- *   postingkey  — username + posting WIF stored server-side. Least-preferred; testnet default for MELEK.
+ *   postingkey  — username + posting WIF stored server-side. Least-preferred; NOT offered on MELEK chains
+ *                 (MELEK-Signer only). Still offered on HIVE/STEEM/BLURT.
  */
 export const AUTH_METHODS = ['melek-signer', 'hivesigner', 'whalevault', 'postingkey'];
 
@@ -30,9 +31,10 @@ export const CHAINS = {
     rpcs: ['https://melek.salon/rpc'],
     chainId: '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b',
     addressPrefix: 'MELEK',
-    // Our own mainnet. MELEK-Signer is the keyless path (account + password); a
-    // posting key stays available as a fallback for scripts/bots.
-    authMethods: ['melek-signer', 'postingkey'],
+    // Our own mainnet. MELEK-Signer is the ONLY login (operator 2026-10-18: "Melek Signer signs
+    // people into everything"). No posting-key WIF login for MELEK — new postingKey logins are
+    // refused by /api/login. Already-stored keys are left untouched (not deleted).
+    authMethods: ['melek-signer'],
     signerNote: 'Log in with MELEK-Signer — your MELEK account + password. Keyless: the signer holds the keys and votes on your behalf even while you are offline; you never hand us a key.',
     explorer: 'https://melek.salon',
     stream: true,
@@ -48,9 +50,8 @@ export const CHAINS = {
     addressPrefix: 'TST',
     // Auth methods that actually work on this chain. HiveSigner/WhaleVault do
     // NOT know our chain (maintainer-gated). MELEK-Signer is OUR signer for this
-    // chain — keyless login with account + password — so it's preferred; a
-    // throwaway posting key stays available as a fallback.
-    authMethods: ['melek-signer', 'postingkey'],
+    // chain — the ONLY login offered here (no posting-key WIF option).
+    authMethods: ['melek-signer'],
     signerNote: 'Log in with MELEK-Signer — your MELEK account + password. Keyless: the signer holds the keys and votes on your behalf even while you are offline; you never hand us a key.',
     explorer: 'https://alpha.melek.salon',
     // Stream blocks for active rules on this chain (it's ours; polite cadence).

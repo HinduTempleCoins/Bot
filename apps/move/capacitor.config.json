@@ -5,6 +5,7 @@
   "server": {
     "url": "https://move.melek.salon",
     "cleartext": false,
+    "allowNavigation": ["signer.melek.salon"],
     "androidScheme": "https"
   },
   "android": {
