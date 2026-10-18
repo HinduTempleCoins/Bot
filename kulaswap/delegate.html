@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delegate HP</title>
+<style>
+  :root{color-scheme:dark}*{box-sizing:border-box}
+  body{margin:0;background:#08080c;color:#f2f3f8;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 16px;
+    background-image:radial-gradient(60rem 40rem at 50% -10%,rgba(84,217,212,.10),transparent 60%)}
+  .card{width:100%;max-width:420px;background:#101018;border:1px solid #23233a;border-radius:20px;padding:22px 18px 24px;box-shadow:0 30px 70px -30px #000}
+  h1{font-size:1.15rem;margin:0 0 2px}.sub{color:#9aa0c4;font-size:.86rem;margin:0 0 18px}.sub b{color:#f2f3f8}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+  button.amt{display:flex;align-items:center;justify-content:center;gap:.35rem;background:#171826;border:1px solid #2b2c44;color:#f2f3f8;font-weight:800;font-size:1.05rem;padding:16px;border-radius:14px;cursor:pointer;min-height:56px;transition:.12s}
+  button.amt:hover{border-color:#54d9d4;background:#1b1c2e}button.amt small{color:#9aa0c4;font-weight:600;font-size:.7rem}
+  .custom{display:flex;gap:10px}.custom input{flex:1;background:#0d0d16;border:1px solid #2b2c44;color:#f2f3f8;border-radius:12px;padding:14px;font:inherit;font-weight:700}
+  .go{background:linear-gradient(180deg,#f6d488,#e0b552);color:#241804;border:0;border-radius:12px;padding:0 18px;font-weight:800;cursor:pointer}
+  #msg{margin-top:16px;font-size:.86rem;min-height:1.2em}
+  #msg.ok{color:#3fd08a}#msg.err{color:#ef7169}#msg.warn{color:#e6b74e}
+  .banner{background:#2a1c0a;border:1px solid #5a3d12;color:#f0d9a8;border-radius:12px;padding:12px 14px;font-size:.82rem;margin-bottom:16px;line-height:1.45;display:none}
+  .banner.show{display:block}.banner b{color:#fff}
+</style><script>(function(){try{if(navigator.doNotTrack=='1'||window.doNotTrack=='1'||navigator.msDoNotTrack=='1')return;var u="https://analytics.soapbox.community/px",b=JSON.stringify({p:location.pathname,r:document.referrer});if(navigator.sendBeacon){navigator.sendBeacon(u,b);}else if(window.fetch){fetch(u,{method:'POST',body:b,keepalive:true,mode:'no-cors'});}}catch(e){}})();</script></head><body>
+<div class="card">
+  <h1>Delegate Hive Power</h1>
+  <p class="sub">from <b>@kalivankush</b> → <b>@angelicalist</b></p>
+  <div class="banner" id="needkc">Open this page <b>inside the Hive Keychain app's browser</b> (tap the globe / browser icon in Keychain, then load this URL). Then the buttons sign with Keychain directly.</div>
+  <div class="grid" id="grid"></div>
+  <div class="custom"><input id="amt" type="number" inputmode="decimal" placeholder="Custom HP" min="0"><button class="go" onclick="go()">Delegate</button></div>
+  <p id="msg"></p>
+</div>
+<script>
+  function msg(t,c){var m=document.getElementById('msg');m.textContent=t;m.className=c||''}
+  function delegate(hp){
+    if(!window.hive_keychain){document.getElementById('needkc').classList.add('show');msg('No Keychain here — open this page in the Keychain app browser.','warn');return;}
+    var amount=Number(hp).toFixed(3);
+    msg('Requesting '+amount+' HP… approve in Keychain.','warn');
+    window.hive_keychain.requestDelegation('kalivankush','angelicalist',amount,'HP',function(r){
+      if(r&&r.success)msg('Delegated '+amount+' HP to @angelicalist ✓','ok');
+      else msg('Not completed: '+((r&&(r.message||r.error))||'cancelled'),'err');
+    });
+  }
+  [100,250,500,1000].forEach(function(hp){var b=document.createElement('button');b.className='amt';b.innerHTML=hp+' <small>HP</small>';b.onclick=function(){delegate(hp)};document.getElementById('grid').appendChild(b);});
+  function go(){var v=parseFloat(document.getElementById('amt').value);if(!(v>=0)){document.getElementById('amt').focus();return;}delegate(v);}
+  if(!window.hive_keychain)document.getElementById('needkc').classList.add('show');
+</script>
+</body></html>
