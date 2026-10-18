@@ -223,6 +223,7 @@ header .brand{font-weight:800;font-size:20px;color:#f39c12;text-decoration:none}
 nav a{color:var(--fg);text-decoration:none;margin:0 10px;padding:6px 0;border-bottom:3px solid transparent}
 nav{white-space:nowrap}
 @media(max-width:640px){header{padding:10px 12px 0}nav{order:3;width:100%;overflow-x:auto;display:flex;gap:14px;margin:4px -12px 0;padding:0 12px;font-size:14px}nav a{margin:0;padding:8px 0}}
+.pill{display:inline-block;margin-right:8px;padding:5px 11px;border:2px solid #eab308;border-radius:6px;color:inherit;text-decoration:none;font-weight:700}
 .cta{background:#1a1d24;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-weight:700;border-bottom:3px solid var(--gold)}
 main{max-width:1100px;margin:0 auto;padding:20px 16px}
 h1{margin:6px 0 10px}
@@ -244,7 +245,7 @@ footer{color:var(--mut);font-size:13px;text-align:center;padding:24px 16px}
 @media(max-width:600px){.grid{grid-template-columns:1fr}}
 </style></head><body>
 <header><a class=brand href="${SITE}/explore" aria-current=page title="Explore MELEK">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}">${esc(t.label)}</a>`).join('')}</nav>
-<span><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
+<span><a class=pill href="${SITE}/submit.html">Post</a><a class=pill href="https://engine.melek.salon/">Trade</a><a class=pill href="${SITE}/~witnesses">Vote</a><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
 <main><h1>Explore MELEK</h1>
 <a class=wiki href="https://wiki.soapbox.community/"><span class=ic>🏛️</span><span class=tx><b>Wiki</b><span class=d>Library of Ashurbanipal</span></span></a>
 <div class=search><input id=q type=search placeholder="Search ${total} places: wallet, mining, music, library…" aria-label="Search everything on MELEK" autocomplete=off>

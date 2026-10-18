@@ -447,6 +447,23 @@
     });
   }
 
+  // Trade and Vote beside the header's Post pill (signed out, beside Sign up): Trade opens MELEK-Engine,
+  // Vote opens the witness voting page.
+  var HDR_LINKS = [['trade', 'Trade', 'https://engine.melek.salon/', 'Trade MELEK-Engine tokens'],
+    ['vote', 'Vote', '/~witnesses', 'Vote for witnesses']];
+  function addHeaderLinks() {
+    if (d.querySelector('.melek-hdr-link')) return;
+    var post = d.querySelector('header .Header__post-link');
+    var after = post || d.querySelector('header .Header__signup-link');
+    after = after && (post ? after : after.parentNode);
+    if (!after || !after.parentNode) return;
+    HDR_LINKS.slice().reverse().forEach(function (h) {
+      var a = el('a', { href: h[2], class: 'melek-hdr-link melek-hdr-' + h[0], title: h[3],
+        style: 'display:inline-block;margin-right:0.6rem;padding:0.3rem 0.85rem;border-radius:6px;border:2px solid #eab308;color:inherit;font-weight:700;text-decoration:none;white-space:nowrap' }, h[1]);
+      after.parentNode.insertBefore(a, after.nextSibling);
+    });
+  }
+
   // ── 9. Explore MELEK (/explore, a static page listing everything) ─────────────────────────────────
   // Three ways in, so the tab bar stays short: the MELEK logo, the first item of the menu (hamburger), and
   // a link at the top of the sidebar's "Explore MELEK?" box. /explore is served by the web server, not the
@@ -494,6 +511,7 @@
   function routeChanged() {
     if (homeIsAdminUpdates()) return;
     addExploreLinks();
+    addHeaderLinks();
     addTabs();
     var col = d.getElementById('melek-tools');
     if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
