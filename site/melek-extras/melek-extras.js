@@ -232,6 +232,19 @@
     }
   }
 
+  // The app's router handles the click itself (from its own route, not the href), so the rewritten link
+  // still landed on /portal/wallet.html/… — take the click first and follow the href.
+  d.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    var href = a.getAttribute('href') || '';
+    var m = href.match(/\/portal\/wallet\.html\/(@[a-z0-9.-]+)\/(curation-rewards|author-rewards)/i);
+    if (m) href = 'https://wallet.melek.salon/' + m[1] + '/' + m[2];
+    if (!/^https:\/\/wallet\.melek\.salon\/@[a-z0-9.-]+\/(curation|author)-rewards$/i.test(href)) return;
+    e.preventDefault(); e.stopPropagation();
+    w.location.href = href;
+  }, true);
+
   // Follow while signed out: the app's old login pop-up crashes (login moved to /login.html), so the click
   // did nothing. Signed out, Follow now goes to Log in and comes back to this profile.
   function signedOut() { return !!d.querySelector('header a[href="/login.html"]'); }
