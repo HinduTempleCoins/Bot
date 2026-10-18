@@ -1,0 +1,9 @@
+# Explore MELEK: goes inside the melek.salon site block, beside the /members and /witness-updates blocks.
+# The page is a static file built by site/melek-explore/build.mjs (melek-explore-page.timer).
+	handle /explore {
+		header Cache-Control "public, max-age=300"
+		root * /var/www/melek-admin
+		rewrite * /explore/index.html
+		file_server
+	}
+	redir /explore/ /explore permanent

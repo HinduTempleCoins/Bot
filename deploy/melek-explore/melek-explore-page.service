@@ -1,0 +1,11 @@
+[Unit]
+Description=Build the melek.salon Explore page (every MELEK site, link-checked)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# __INSTALL_DIR__ = the checked-out Bot repo on the web host
+WorkingDirectory=__INSTALL_DIR__
+Environment=EXPLORE_OUT=/var/www/melek-admin/explore/index.html
+ExecStart=/usr/bin/node site/melek-explore/build.mjs
