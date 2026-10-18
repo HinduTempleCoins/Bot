@@ -1,0 +1,46 @@
+'''Building a MELEK signup page''' lets any website create [[MELEK Blockchain|MELEK]] accounts for its visitors. The page generates the account's keys in the visitor's browser, and only the public keys leave it. This is how the signup page at [https://melek.salon/account/signup.html melek.salon/account/signup.html] works, and its source is public. See also [[Building a MELEK Front End]].
+
+== How a MELEK account is made ==
+A MELEK account is a name plus four public keys (owner, active, posting and memo). Creating it is a chain operation signed by an existing account, the '''creator'''. MELEK uses the free, resource-credit model: the creator signs <code>claim_account</code> (fee 0.000 MELEK, paid in Resource Credits) and then <code>create_claimed_account</code> with the new name and keys.
+
+== Step 1: generate the keys in the browser ==
+# Generate a long random master password in the browser.
+# Derive each role's private key the standard Graphene way: <code>sha256(name + role + password)</code>, for the roles owner, active, posting and memo.
+# Turn each private key into its public key, written with the prefix <code>MELEK</code>.
+Never send the password or a private key to any server. melek.salon's own code for this is in <code>site/alpha/account/graphene-keys.mjs</code> in the [https://github.com/HinduTempleCoins/Bot HinduTempleCoins/Bot] repository.
+
+== Step 2: make sure the visitor has kept the keys ==
+A MELEK password cannot be reset by anyone. Before creating the account, melek.salon makes the visitor download or copy the keys and type the master password back in. Do the same: an account whose keys were never saved is lost the moment the tab closes.
+
+== Step 3: create the account ==
+There are two ways.
+
+'''Use the melek.salon signup service.''' Send the name and the four public keys:
+<code>POST https://melek.salon/faucet/create</code> with the JSON body <code>{"name": "...", "ownerPub": "MELEK...", "activePub": "MELEK...", "postingPub": "MELEK...", "memoPub": "MELEK..."}</code>.
+It allows requests from any website. The answer is <code>{"ok": true, ...}</code>, or <code>{"ok": false, "reason": "..."}</code> with one of: <code>invalid-account-name</code>, <code>name-taken</code>, <code>rate-limited</code> (five accounts per visitor address a day) or an error. <code>GET https://melek.salon/faucet/health</code> reports whether the service is up.
+
+'''Be your own creator.''' Any MELEK account with enough MELEK Power can create accounts. From your server, sign <code>claim_account</code> and then <code>create_claimed_account</code> with your creator account's active key, which stays on your server. Add your own limits so one visitor cannot use up your resource credits.
+
+== Step 4: check it worked ==
+Read the account back from the chain: <code>condenser_api.get_accounts</code> with the new name at <code>https://melek.salon/rpc</code>. Show the visitor their name, remind them to keep the password, and send them to sign in. See [[Signing In to Post on MELEK]].
+
+== Account names ==
+3 to 16 characters: lowercase letters, numbers and hyphens, starting with a letter. Check a name is free with <code>get_accounts</code> before generating keys.
+
+== Chain values ==
+* Chain id: <code>907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b</code>
+* Public-key prefix: <code>MELEK</code>
+* Public RPC: <code>https://melek.salon/rpc</code> (allows requests from any website)
+
+== See also ==
+* [[Building a MELEK Front End]]
+* [[Signing In to Post on MELEK]]
+* [[MELEK Blockchain]]
+
+== Sources ==
+* [https://melek.salon/account/signup.html melek.salon signup page]
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot] (<code>site/alpha/account/</code>)
+* Tested 2026-10-18: an account was created end to end through melek.salon/account/signup.html and read back from the chain.
+
+== Coverage ==
+How to build a signup page that creates MELEK accounts, using the melek.salon service or your own creator account.
