@@ -44,3 +44,11 @@ test('the graphic maker tries your own key first and falls back to our CPU pool'
   assert.match(h, /gpool\(p\)/);                    // falls back to the shared pool
   assert.match(h, /Integrations/);                  // tells people where to connect a key
 });
+
+test('the writing desk offers export — the post promises it and the draft lives only in the browser', async () => {
+  const { metatronPage } = await import('./metatron.mjs');
+  const h = metatronPage();
+  assert.match(h, /id=exportMd/);
+  assert.match(h, /id=exportTxt/);
+  assert.match(h, /href="\/metatron\/november"/);
+});

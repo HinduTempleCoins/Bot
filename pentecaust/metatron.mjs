@@ -26,7 +26,7 @@ export function metatronPage(studio = STUDIO_BASE()) {
 :root{--bg:#0f1117;--panel:#171a23;--bd:#2a2f3d;--fg:#e8e6e1;--mut:#9aa0ad;--acc:#c9a64a}
 @media (prefers-color-scheme:light){:root{--bg:#f6f4ef;--panel:#fff;--bd:#ddd6c8;--fg:#1d1b17;--mut:#6b665c;--acc:#8a6a12}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
-header{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bd)}header a{color:var(--mut);text-decoration:none}
+header{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bd)}header>.mut{flex-basis:100%}header a{color:var(--mut);text-decoration:none}
 h1{font-size:20px;margin:0}main{max-width:1180px;margin:0 auto;padding:16px;display:grid;gap:16px;grid-template-columns:1fr}
 @media(min-width:980px){main{grid-template-columns:1.25fr 1fr}}
 .card{background:var(--panel);border:1px solid var(--bd);border-radius:12px;padding:14px}
@@ -34,7 +34,9 @@ h2{font-size:16px;margin:0 0 10px}input,select,textarea,button{font:inherit;colo
 textarea{width:100%;min-height:300px;resize:vertical}input[type=text]{width:100%}button{cursor:pointer;background:var(--acc);color:#111;border:0}
 button.ghost{background:transparent;color:var(--fg);border:1px solid var(--bd)}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
 .mut{color:var(--mut);font-size:13px}.board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.col{border:1px dashed var(--bd);border-radius:10px;padding:6px;min-height:80px}.col b{font-size:13px}
+.col{border:1px dashed var(--bd);border-radius:10px;padding:6px;min-height:80px;min-width:0;overflow-wrap:anywhere}
+.row input,.row select{min-width:0}main>*{min-width:0}
+@media(max-width:560px){.board{grid-template-columns:repeat(2,1fr)}}.col b{font-size:13px}
 .sc{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:6px;margin-top:6px;font-size:13px}
 .sc .row{margin:4px 0 0}.sc button{padding:2px 7px;font-size:12px}img#gimg{max-width:100%;border-radius:10px;margin-top:8px;display:none}
 code{font-size:12px;word-break:break-all}
@@ -57,6 +59,8 @@ code{font-size:12px;word-break:break-all}
  <div class=row>
   <button id=sprint>Start a 25-minute sprint</button><span id=timer class=mut></span>
   <button class=ghost id=copy>Copy with tag</button>
+  <button class=ghost id=exportMd>⬇ Export .md</button>
+  <button class=ghost id=exportTxt>⬇ Export .txt</button>
   <button class=ghost id=toHerald>📣 Use in a Herald mail campaign</button>
   <a class=mut href="https://melek.salon/submit.html" target=_blank rel=noopener>Post it on MELEK (optional) ↗</a>
  </div>
@@ -106,6 +110,11 @@ $('toHerald').onclick=function(){var body=$('body').value.trim();if(!body){$('to
  try{localStorage.setItem('metatron.toHerald',JSON.stringify(d))}catch(e){}location.href='/#herald'};
 $('copy').onclick=function(){var t=($('title').value?'# '+$('title').value+'\\n\\n':'')+$('body').value+'\\n\\n— '+$('tag').value;
  try{navigator.clipboard.writeText(t);$('copy').textContent='Copied'}catch(e){}};
+// export — the draft only ever lives in this browser, so a file on your own disk is the copy that cannot be switched off
+function fname(ext){var t=($('title').value||'draft').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60)||'draft';return t+'.'+ext}
+function dl(name,type,data){var b=new Blob([data],{type:type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1000)}
+$('exportMd').onclick=function(){dl(fname('md'),'text/markdown',($('title').value?'# '+$('title').value+'\\n\\n':'')+$('body').value+'\\n\\n— '+$('tag').value+'\\n')};
+$('exportTxt').onclick=function(){dl(fname('txt'),'text/plain',($('title').value?$('title').value+'\\n\\n':'')+$('body').value+'\\n')};
 // scene board
 var COLS=['Backlog','Writing','Review','Done'];
 function board(){var cards=load('cards',[]);var h='';COLS.forEach(function(c,ci){h+='<div class=col><b>'+c+'</b>';cards.forEach(function(k,i){if(k.col!==ci)return;
