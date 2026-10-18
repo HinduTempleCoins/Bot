@@ -262,11 +262,12 @@
   // All Posts page the sort row appears above the feed.
   var TABS = [   // All Posts far left (easy to reach), then the hierarchy
     { id: 'all', label: 'All Posts', href: '/trending' },
+    { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
     { id: 'admin', label: 'Admin Updates', href: '/' },   // the home page
     { id: 'witness', label: 'Witness Updates', href: '/witness-updates' },
     { id: 'ranked', label: 'Members', href: '/members' },
-    { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
     { id: 'move', label: 'MELEK Move', href: 'https://move.melek.salon/' },
+    { id: 'news', label: 'News', href: 'https://herald.soapbox.community/newsroom' },   // Newsroom + Press Wire
   ];
   var SORTS = [['hot', 'Hot'], ['trending', 'Trending'], ['created', 'New']];
   function feedRoute() {   // /hot, /trending/<tag>, /created … → { sort, tag }

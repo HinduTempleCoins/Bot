@@ -85,11 +85,12 @@ export function loadRanks(file = RANKS_FILE(), read = (f) => readFileSync(f, 'ut
 // reach, then the hierarchy Admin → Witness → Ranked, then Groups.
 export const TABS = [
   { id: 'all', label: 'All Posts', href: `${SITE}/trending` },
+  { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
   { id: 'admin', label: 'Admin Updates', href: `${SITE}/` },   // the home page
   { id: 'witness', label: 'Witness Updates', href: `${SITE}/witness-updates` },
   { id: 'ranked', label: 'Members', href: `${SITE}/members` },
-  { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
   { id: 'move', label: 'MELEK Move', href: 'https://move.melek.salon/' },
+  { id: 'news', label: 'News', href: 'https://herald.soapbox.community/newsroom' },   // Newsroom + Press Wire
 ];
 
 const PAGES = {
