@@ -167,6 +167,7 @@ export function view(group) {
     members: Object.entries(group.members).map(([account, m]) => ({ account, role: m.role, joined: m.joined }))
       .sort((a, b) => rank(b.role) - rank(a.role) || a.joined - b.joined),
     memberCount: Object.keys(group.members).length,
+    duesPaid: group.duesPaid || {},
     pending: Object.keys(group.applicants || {}).length,
     posts: (group.feed || []).length,
   };
@@ -373,6 +374,23 @@ function normDues(d) {
     benefitsValue: Math.max(0, Math.floor(Number(d.benefitsValue) || 0)),
     deductible: false,                          // only a Witness School determination may raise this
   };
+}
+
+/**
+ * Record a dues payment the RAIL proved (dues-verify.mjs reads it from the chain) and admit the payer if
+ * they are not a member yet. `until` is when the paid period ends (Infinity for 'once', stored as null).
+ * Callers must only pass a payment the rail verified — this function trusts its input by design.
+ */
+export function recordDuesPayment(id, account, { paidAt, until, trx_id = '', units = 0 } = {}, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const who = acct(account);
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (!who) return { ok: false, reason: 'bad account' };
+  group.duesPaid = { ...(group.duesPaid || {}), [who]: { paidAt, until: Number.isFinite(until) ? until : null, trx_id, units } };
+  if (!group.members[who]) group.members[who] = { role: 'member', joined: now(opts) };
+  saveStore(fs, file, store);
+  return { ok: true, status: 'member', paid: group.duesPaid[who], group: view(group) };
 }
 
 /** Set or clear a club's dues terms. Owner/admin only. */
