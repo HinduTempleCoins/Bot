@@ -87,7 +87,20 @@ async function getText(url, ms = TIMEOUT()) {
     return await r.text();
   } catch { return ''; }
 }
+// Discussion lists (the chain searcher's candidate sweep) are the same for every query: cache them briefly
+// so only the query's own tag is fetched cold.
+const _rpcCache = new Map();
 async function rpc(method, params) {
+  if (method.startsWith('get_discussions_by_')) {
+    const k = method + JSON.stringify(params); const hit = _rpcCache.get(k);
+    if (hit && Date.now() - hit.at < 300_000) return hit.v;
+    const v = await rpcRaw(method, params);
+    if (v) { if (_rpcCache.size > 400) _rpcCache.clear(); _rpcCache.set(k, { at: Date.now(), v }); }
+    return v;
+  }
+  return rpcRaw(method, params);
+}
+async function rpcRaw(method, params) {
   const r = await (async () => {
     try {
       const x = await _fetch(RPC(), { method: 'POST', signal: AbortSignal.timeout(TIMEOUT()), headers: { 'content-type': 'application/json' },
@@ -104,7 +117,7 @@ const deadline = (p, ms, fallback) => Promise.race([Promise.resolve(p).catch(() 
 // ── caches ──────────────────────────────────────────────────────────────────────────────────────────
 const _q = new Map();      // `${src}|${q}` -> { at, v }
 const _list = new Map();   // list-source key -> { at, v }
-export function clearCache() { _q.clear(); _list.clear(); }
+export function clearCache() { _q.clear(); _list.clear(); _rpcCache.clear(); }
 const Q_TTL = 5 * 60_000, LIST_TTL = 10 * 60_000;
 async function cachedQ(src, q, fn) {
   const k = `${src}|${norm(q)}`; const hit = _q.get(k);
