@@ -151,3 +151,23 @@ test('GET /api/translate returns JSON (translate soft-fails offline to passthrou
   assert.equal(j.to, 'es');
   assert.equal(typeof j.translated, 'string');
 });
+
+// ── grouped results (Posts / People / Library / Films / Pictures / Videos & Music / Our sites) ──
+import { groupsHtml } from './server.mjs';
+test('groupsHtml renders labelled groups, media as thumbnail tiles, and escapes everything', () => {
+  const h = groupsHtml([
+    { key: 'films', label: 'Films', total: 3, items: [{ title: 'Nosferatu (1922)', url: 'https://stream.soapbox.community/films/Q151895', thumb: 'https://commons.wikimedia.org/x.jpg', tag: 'Film' }] },
+    { key: 'posts', label: 'Posts', total: 1, items: [{ title: '<b>x</b>', url: 'https://melek.salon/@a/b', snippet: 's', thumb: 'javascript:alert(1)' }] },
+  ], 'nosferatu');
+  assert.match(h, /data-group="films"/);
+  assert.match(h, /class="tile poster"/);
+  assert.match(h, /1 of 3/);
+  assert.match(h, /All films for/);
+  assert.match(h, /&lt;b&gt;x&lt;\/b&gt;/);
+  assert.ok(!h.includes('javascript:alert'));
+});
+test('the home page defaults to the All toggle', async () => {
+  const res = await drive('/');
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /class="on">✦ All/);
+});

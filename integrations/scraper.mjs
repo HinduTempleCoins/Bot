@@ -426,10 +426,12 @@ export function cleanSnippet(s, max = 220) {
  * where `digest` is a one-line "why this result" hint. Backward compatible: existing callers reading
  * title/url/snippet/providers keep working; score/digest are additive.
  */
-export async function searchAll(query, { limit = 12, knowledge = true } = {}) {
+export async function searchAll(query, { limit = 12, knowledge = true, deadlineMs = 0 } = {}) {
   if (!query) return [];
   const names = knowledge ? [...Object.keys(PROVIDERS), ...Object.keys(KNOWLEDGE)] : Object.keys(PROVIDERS);
-  const lists = await Promise.all(names.map((n) => search(query, { limit: 10, provider: n }).catch(() => [])));
+  // deadlineMs (optional): a slow provider contributes [] after this long instead of holding the whole merge.
+  const capped = (p) => (deadlineMs > 0 ? Promise.race([p, new Promise((r) => { const t = setTimeout(() => r([]), deadlineMs); t.unref?.(); })]) : p);
+  const lists = await Promise.all(names.map((n) => capped(search(query, { limit: 10, provider: n }).catch(() => []))));
   const terms = queryTerms(query);
 
   // 1) dedup on normalized URL, COMBINING provider lists + keeping the longest clean snippet/best title.

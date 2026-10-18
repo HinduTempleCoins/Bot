@@ -13,6 +13,7 @@ import { LEARN } from '../soapbox/content.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 import { robotsTxt, submitToIndexNow, pingSitemap, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { rankHybrid, facets } from '../../integrations/soapbox/search-quality.mjs';
+import { searchGroups, isPrivateUrl } from '../../integrations/soapbox/media-search.mjs';
 
 const PORT = +(process.env.PORT || 8092);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -74,8 +75,28 @@ const STYLE = `<style>
   .tresult{max-width:680px;margin:22px auto 0;background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:16px 18px}
   .tmeta{color:var(--mut);font-size:13px;margin:0 0 8px} .tmeta:last-child{margin:10px 0 0}
   .tout{font-size:17px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+  /* grouped results (Posts / People / Library / Films / Pictures / Videos & Music / Our sites / Web) */
+  .grp{margin:18px 0 6px} .grp h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 4px;display:flex;gap:8px;align-items:baseline}
+  .grp h2 .n{font-weight:400;letter-spacing:0;text-transform:none}
+  .hit{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);min-width:0}
+  .hit .th{flex:0 0 64px;height:64px;border-radius:8px;overflow:hidden;background:var(--panel);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:22px}
+  .hit .th img{width:100%;height:100%;object-fit:cover;display:block}
+  .hit.person .th{border-radius:50%}
+  .hit .tx{min-width:0;flex:1}
+  .hit a.ht{font-size:16px;font-weight:600;overflow-wrap:anywhere} .hit .u{color:var(--gold);font-size:12px;word-break:break-all}
+  .hit .s{color:var(--mut);font-size:13px;margin-top:2px;overflow-wrap:anywhere}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:6px}
+  .tile{display:block;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--panel);color:var(--fg)}
+  .tile:hover{border-color:var(--blue);text-decoration:none}
+  .tile .im{aspect-ratio:1/1;background:#0b0f14;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:26px}
+  .tile.poster .im{aspect-ratio:2/3}
+  .tile .im img{width:100%;height:100%;object-fit:cover;display:block}
+  .tile .cap{font-size:12px;padding:6px 8px;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .tile .cap .b{color:var(--mut);display:block;font-size:11px}
+  .more{font-size:13px;margin:6px 0 0}
+  .res a.t{overflow-wrap:anywhere}
   footer{color:var(--mut);font-size:12px;text-align:center;padding:28px;margin-top:24px}
-  @media(max-width:560px){.title{font-size:34px}.input.q{font-size:16px}}
+  @media(max-width:560px){.title{font-size:34px}input.q{font-size:16px}.wrap{padding:16px}header.topbar{padding:9px 16px;flex-wrap:wrap;gap:8px}.topbar-r{margin-left:0;flex-wrap:wrap;gap:6px}.topbar-r a{padding:4px 9px;font-size:13px}.tiles{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}.toggle a{padding:7px 13px}}
 </style>`;
 
 // The Search WebSite node carries a SearchAction: this subdomain HAS a real GET HTML results URL
@@ -103,12 +124,13 @@ const searchHero = (q, mode) => `
     <a href="/"><h1 class=title>SoapBox <span class=s>Search</span></h1></a>
     <p class=desc>Search for anything you want — across our websites, or the entire web.</p>
     <div class=toggle>
-      <a href="/?q=${encodeURIComponent(q)}&mode=web" class="${mode === 'web' ? 'on' : ''}">🌐 Web</a>
+      <a href="/?q=${encodeURIComponent(q)}" class="${mode === 'all' ? 'on' : ''}">✦ All</a>
       <a href="/?q=${encodeURIComponent(q)}&mode=site" class="${mode === 'site' ? 'on' : ''}">◈ Our Sites</a>
+      <a href="/?q=${encodeURIComponent(q)}&mode=web" class="${mode === 'web' ? 'on' : ''}">🌐 Web</a>
     </div>
     <form method=get action="/">
-      <input class=q name=q value="${esc(q)}" placeholder="Search the entire web, or our sites…" autofocus autocomplete=off>
-      <input type=hidden name=mode value="${esc(mode)}">
+      <input class=q name=q value="${esc(q)}" placeholder="Search MELEK, the Library, films, pictures, music — or the web…" autofocus autocomplete=off>
+      ${mode === 'all' ? '' : `<input type=hidden name=mode value="${esc(mode)}">`}
       <div class=btnrow><button>Search</button></div>
     </form>
     ${q ? '' : '<p class=desc style="margin-top:14px">Going global? <a href="/translate">Translate text between languages →</a></p>'}
@@ -196,7 +218,7 @@ function facetLine(rows) {
 
 // Collect raw web-search rows ({ title, url, snippet, providers[] }) — no rendering here.
 async function webRows(q) {
-  return await searchAll(q, { limit: 20 }).catch(() => []);
+  return await searchAll(q, { limit: 20, deadlineMs: +(process.env.SEARCH_WEB_DEADLINE_MS || 6000) }).catch(() => []);
 }
 
 async function webSearch(q) {
@@ -207,7 +229,7 @@ async function webSearch(q) {
 // Collect raw sitewide rows ({ title, url, snippet, tag }) — no rendering here. `scope` (optional)
 // narrows the ALL-INTERNALS index to one surface (e.g. 'law') — the pre-scoped "search our legal
 // corpus" doorway. It only affects the index source; the live sources are unaffected.
-async function siteRows(q, scope = null) {
+async function siteRows(q, scope = null, { chain = true, wiki = true } = {}) {
   const ql = q.toLowerCase();
   const out = [];
   // ALL-INTERNALS index: every internal page from every surface's sitemap (law/wiki/stocks/data/
@@ -223,23 +245,23 @@ async function siteRows(q, scope = null) {
   // When a scope is set, the pre-scoped index above is authoritative — skip the broad live fan-out.
   if (scope) return out.slice(0, 30);
   // MELEK chain — posts + accounts (so "search MELEK" finds on-chain content, linked to melek.salon)
-  try {
+  if (chain) try {
     const { searchMelek } = await import('../../integrations/melek-chain-search.mjs');
     for (const h of await searchMelek(q, { k: 8 }))
       out.push({ title: h.title, url: h.link, snippet: h.snippet, tag: h.kind === 'account' ? 'MELEK account' : 'MELEK' });
   } catch {}
   // Library / wiki
-  try {
-    const r = await fetch(`${WIKI}/api/search?q=${encodeURIComponent(q)}`, { signal: AbortSignal.timeout(8000) });
+  if (wiki) try {
+    const r = await fetch(`${WIKI}/api/search?q=${encodeURIComponent(q)}`, { signal: AbortSignal.timeout(4000) });
     const d = await r.json();
     for (const a of (d.results || []).slice(0, 6)) out.push({ title: a.title, url: a.url, snippet: a.snippet, tag: 'Library' });
   } catch {}
   // markets / coins (filter the live api/coins)
   try {
-    const r = await fetch(`${DATA}/api/coins`, { signal: AbortSignal.timeout(8000) });
+    const r = await fetch(`${DATA}/api/coins`, { signal: AbortSignal.timeout(4000) });
     const d = await r.json();
     for (const c of [...(d.ours || []), ...(d.market || [])].filter((c) => `${c.name} ${c.symbol}`.toLowerCase().includes(ql)).slice(0, 6))
-      out.push({ title: `${c.name} (${c.symbol})`, url: `${DATA}/coins/${c.id}`, snippet: `Price ${c.price_usd ? '$' + c.price_usd : '—'}`, tag: 'Markets' });
+      out.push({ title: `${c.name} (${c.symbol})`, url: `${DATA}/coins/${c.id}`, snippet: `Live market page for ${c.name}`, tag: 'Markets' });
   } catch {}
   // directory
   for (const g of DIRECTORY) for (const it of g.items)
@@ -258,12 +280,48 @@ async function siteRows(q, scope = null) {
       if (hay.includes(ql) || ql.includes(l.key)) out.push({ title: `${l.label} — SoapBox`, url: l.url, snippet: `Open the ${l.label} site`, tag: 'SoapBox' });
     }
   } catch {}
-  return out.slice(0, 30);
+  return out.filter((r) => r && r.url && !isPrivateUrl(r.url)).slice(0, 30);
 }
 
 async function siteSearch(q, scope = null) {
   const rows = await applyRanking(await siteRows(q, scope), q);
   return facetLine(rows) + (rows.map(resultRow).join('') || '<p class=muted>Nothing in the ecosystem matches yet. Try Web search, or browse <a href="' + DATA + '">Markets</a> / <a href="' + WIKI + '">the Library</a>.</p>');
+}
+
+// ── grouped results ("our content first") ────────────────────────────────────────────────────────────
+const ICON = { posts: '✎', people: '☺', library: '📜', films: '🎬', pictures: '🖼', media: '♪', sites: '◈' };
+const TILE_GROUPS = new Set(['films', 'pictures', 'media']);
+const safeImg = (u) => (/^https:\/\/[^\s"'<>]+$/.test(String(u || '')) ? u : '');
+const thumbHtml = (r, g) => { const im = safeImg(r.thumb); return im ? `<img src="${esc(im)}" alt="" loading=lazy referrerpolicy=no-referrer onerror="this.remove()">` : esc(r.icon || ICON[g] || '•'); };
+const hitRow = (r, g) => `<div class="hit${g === 'people' ? ' person' : ''}"><div class=th>${thumbHtml(r, g)}</div><div class=tx>
+  <a class=ht href="${esc(r.url)}">${esc(r.title)}</a>${r.tag ? `<span class=badge>${esc(r.tag)}</span>` : ''}
+  <div class=u>${esc(r.url.replace(/^https:\/\//, ''))}</div>${r.snippet ? `<div class=s>${esc(r.snippet)}</div>` : ''}</div></div>`;
+const tile = (r, g) => `<a class="tile${g === 'films' ? ' poster' : ''}" href="${esc(r.url)}" title="${esc(r.snippet || r.title)}"><div class=im>${thumbHtml(r, g)}</div>
+  <div class=cap>${esc(r.title)}<span class=b>${esc(r.tag || '')}</span></div></a>`;
+function moreLink(key, q) {
+  const e = encodeURIComponent(q);
+  if (key === 'films') return `<p class=more><a href="https://stream.soapbox.community/films/search?q=${e}">All films for “${esc(q)}” →</a></p>`;
+  if (key === 'library') return `<p class=more><a href="${WIKI}/search?q=${e}">Search the whole Library →</a></p>`;
+  return '';
+}
+export function groupsHtml(groups, q) {
+  return (groups || []).map((g) => `<section class=grp data-group="${esc(g.key)}"><h2>${esc(g.label)} <span class=n>${g.total > g.items.length ? `${g.items.length} of ${g.total}` : g.items.length}</span></h2>
+    ${TILE_GROUPS.has(g.key) ? `<div class=tiles>${g.items.map((r) => tile(r, g.key)).join('')}</div>` : g.items.map((r) => hitRow(r, g.key)).join('')}${moreLink(g.key, q)}</section>`).join('');
+}
+// Our-content groups. The site-index/directory rows ("Our sites" extras) are gathered alongside the media
+// sources: searchGroups is handed a promise so both fan-outs run at once.
+async function groupsFor(q) {
+  const extra = siteRows(q, null, { chain: false, wiki: false }).catch(() => []);
+  return searchGroups(q, { extraSites: extra }).catch(() => []);
+}
+async function groupedSearch(q, { web = true } = {}) {
+  const groups = await groupsFor(q);
+  let html = groupsHtml(groups, q);
+  if (!groups.length) html += `<p class=muted>Nothing on our sites matches “${esc(q)}” yet.</p>`;
+  if (web) html += `<section class=grp data-group="web" id=web><h2>Web</h2><div id=webbody><p class=muted>Searching the web…</p></div>
+    <noscript><p class=more><a href="/?q=${encodeURIComponent(q)}&mode=web">See web results →</a></p></noscript></section>
+    <script>(function(){var b=document.getElementById('webbody');fetch('/api/web?q='+encodeURIComponent(${JSON.stringify(q).replace(/</g, '\\u003c')})).then(function(r){return r.text()}).then(function(h){b.innerHTML=h||'<p class=muted>No web results.</p>'}).catch(function(){b.innerHTML='<p class=more><a href="/?q='+encodeURIComponent(${JSON.stringify(q).replace(/</g, '\\u003c')})+'&mode=web">See web results →</a></p>'})})()</script>`;
+  return html;
 }
 
 // Read a urlencoded POST body (bounded), returning a URLSearchParams.
@@ -297,6 +355,21 @@ export async function handler(req, res) {
         summary: 'A metasearch storefront across verticals with a Clarity transparency filter and Hathor AI mode.',
         links: [{ label: 'Search', path: '/' }, { label: 'Translate', path: '/translate' }],
       }));
+    }
+
+    // Grouped JSON search — for other sites / Hathor. /api/search?q=
+    if (url.pathname === '/api/search') {
+      const q = (url.searchParams.get('q') || '').trim().slice(0, 120);
+      const groups = q ? await groupsFor(q) : [];
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*', 'cache-control': 'public, max-age=120' });
+      return res.end(JSON.stringify({ q, groups: groups.map(({ key, label, total, items }) => ({ key, label, total, items })) }));
+    }
+    // Web results as an HTML fragment (the "All" page loads these after our own groups are on screen).
+    if (url.pathname === '/api/web') {
+      const q = (url.searchParams.get('q') || '').trim().slice(0, 120);
+      const html = q ? await webSearch(q) : '';
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=300', 'x-robots-tag': 'noindex' });
+      return res.end(html);
     }
 
     // JSON translate endpoint — for other sites / Hathor. /api/translate?text=&to=&from=
@@ -334,9 +407,14 @@ export async function handler(req, res) {
     // A scope (?scope=law) pre-scopes the "Our Sites" index to one surface and forces site mode — the
     // "search our legal corpus" doorway used by the post widget.
     const scope = (url.searchParams.get('scope') || '').trim().toLowerCase() || null;
-    const mode = scope ? 'site' : (url.searchParams.get('mode') === 'site' ? 'site' : 'web');
+    const m = url.searchParams.get('mode');
+    const mode = scope ? 'site' : (m === 'site' || m === 'web' ? m : 'all');
     let body = searchHero(q, mode);
-    if (q) body += `<div class=results><p class=muted>${mode === 'web' ? '🌐 Web' : '◈ Our sites'} results for "${esc(q)}"${scope ? ` <span class=badge>${esc(scope)}</span>` : ''}</p>${mode === 'web' ? await webSearch(q) : await siteSearch(q, scope)}</div>`;
+    if (q) {
+      const label = mode === 'web' ? '🌐 Web' : mode === 'site' ? '◈ Our sites' : '✦ Everything';
+      const inner = mode === 'web' ? await webSearch(q) : scope ? await siteSearch(q, scope) : await groupedSearch(q, { web: mode === 'all' });
+      body += `<div class=results><p class=muted>${label} results for "${esc(q)}"${scope ? ` <span class=badge>${esc(scope)}</span>` : ''}</p>${inner}</div>`;
+    }
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' });
     res.end(page(q ? `${q} — SoapBox Search` : 'SoapBox Search', body, {
       // a results page (?q=…) is a thin, query-specific view: keep it out of the index, point the
