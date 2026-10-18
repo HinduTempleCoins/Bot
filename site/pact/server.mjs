@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { handler as ssoHandler, sessionFromCookie, selfOriginFor } from '../../pentecaust/sso.mjs';
 import { handler as groupsHandler } from '../../pentecaust/groups/server.mjs';
 import { handler as pagesHandler } from '../../pentecaust/pages/server.mjs';
+import { handler as channelsHandler } from './channels.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 
 const PORT = +(process.env.PORT || 8175);
@@ -84,6 +85,18 @@ what you put into it. A <b>group</b> is a pact anyone can join; a <b>club</b> is
   </div>
   <div id=list></div>
 </div>
+<h2 id=channels style="margin-top:22px">Channels</h2>
+<p class=mut>IRC-style chat rooms. Start a <b>#channel</b> and you are its operator (@): set the topic, give op and voice,
+kick, ban, invite, and make it moderated (+m) or invite-only (+i). Type <code>/join #name</code> in any room to hop.</p>
+<div class=card>
+  <div class=row>
+    <input id=cname placeholder="#channel-name" autocapitalize=off>
+    <input id=ctopic placeholder="Topic (optional)">
+    <select id=cmode><option value="">Open</option><option value=i>Invite only (+i)</option><option value=m>Moderated (+m)</option></select>
+    <button class="btn primary" id=cmake>Start channel</button>
+  </div>
+  <div id=clist></div>
+</div>
 <p class=mut style="margin-top:14px">Two ways in, one membership: this is the surface built around groups and clubs —
  <a href="https://melek.salon/#groups">MELEK</a> lists the same pacts beside the chain, and you chat to them through
  <a href="https://pentecaust.com">Pentecaust messages</a>, where a song, picture, beat or chart someone made pastes in as a card.</p>
@@ -110,6 +123,16 @@ $('make').onclick=async()=>{const name=$('name').value.trim();if(!name)return;
  const r=await api('/groups',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,joinPolicy:$('policy').value})});
  if(r&&r.ok){$('name').value='';load();}else alert((r&&r.reason)||'could not create');};
 load();
+async function loadCh(){const j=await api('/channels');const cs=(j&&j.channels)||[];
+ $('clist').innerHTML=cs.length?cs.map(c=>'<div class=item><div style="flex:1"><a href="/c/'+E(c.name)+'"><b>#'+E(c.name)+'</b></a>'
+  +(c.modes&&c.modes.i?' <span class=chip>+i</span>':'')+(c.modes&&c.modes.m?' <span class=chip>+m</span>':'')
+  +'<br><span class=mut>'+E(c.topic||'')+' · '+c.online+' here</span></div><a class=btn href="/c/'+E(c.name)+'">Join</a></div>').join('')
+  :'<p class=mut>No channels yet. Start the first one.</p>';}
+$('cmake').onclick=async()=>{if(!SIGNED){location.href='/auth/login';return;}const name=$('cname').value.trim();if(!name)return;
+ const m=$('cmode').value;const r=await api('/channels',{method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify({name,topic:$('ctopic').value,inviteOnly:m==='i',moderated:m==='m'})});
+ if(r&&r.ok)location.href='/c/'+encodeURIComponent(r.channel.name);else alert((r&&r.reason)||'could not start the channel');};
+loadCh();
 </script></body></html>`;
 }
 
@@ -125,6 +148,9 @@ export async function handler(req, res) {
     }
     if (path === '/groups' || path.startsWith('/groups/') || path === '/me/groups') {
       return groupsHandler(req, res, { whoami });
+    }
+    if (path === '/channels' || path.startsWith('/channels/') || path.startsWith('/c/')) {
+      if (await channelsHandler(req, res, { whoami, style: STYLE })) return;
     }
     if (path === '/pages' || path.startsWith('/pages/') || path.startsWith('/p/')) {
       return pagesHandler(req, res, { whoami });
