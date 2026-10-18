@@ -25,6 +25,7 @@ const CLIENT_ID = 'kula-fund';
 const PATH_PREFIX = (process.env.PATH_PREFIX || '').replace(/\/+$/, '');
 const BASE_URL = (process.env.BASE_URL || 'https://melek.salon/kula').replace(/\/+$/, '');
 const WIKI = 'https://wiki.soapbox.community/wiki/';
+const RC_GIFTERS = new Set((process.env.KULA_RC_GIFTERS || 'onboarder').split(',').map((x) => x.trim()).filter(Boolean));
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const q = (page, what) => `<a class=q href="${WIKI}${page}" target=_blank rel=noopener title="Help: ${esc(what)}" aria-label="Help: ${esc(what)}">?</a>`;
@@ -55,7 +56,8 @@ export function membersFrom(history, fund = FUND) {
     const op = row && row[1] && row[1].op;
     if (!Array.isArray(op)) continue;
     const [kind, b] = op;
-    if (kind === 'delegate_vesting_shares' && b && b.delegatee === fund) delegations.set(b.delegator, num(b.vesting_shares));
+    // the signup service lends every new account a sliver of power for Resource Credits: not a member
+    if (kind === 'delegate_vesting_shares' && b && b.delegatee === fund && !RC_GIFTERS.has(b.delegator)) delegations.set(b.delegator, num(b.vesting_shares));
     if (kind === 'transfer' && b && b.to === fund && /\sMELEK$/.test(String(b.amount))) deposits.set(b.from, (deposits.get(b.from) || 0) + num(b.amount));
   }
   const names = new Set([...delegations.keys(), ...deposits.keys()]);

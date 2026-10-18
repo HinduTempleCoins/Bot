@@ -15,6 +15,7 @@ test('members: last delegation wins, deposits add up, withdrawn members drop out
     row(['transfer', { from: 'carol', to: 'kula', amount: '5.500 MELEK', memo: '' }]),
     row(['transfer', { from: 'dave', to: 'kula', amount: '9.000 MBD', memo: '' }]),
     row(['delegate_vesting_shares', { delegator: 'eve', delegatee: 'someone-else', vesting_shares: '9.000000 VESTS' }]),
+    row(['delegate_vesting_shares', { delegator: 'onboarder', delegatee: 'kula', vesting_shares: '0.050000 VESTS' }]),
   ], 'kula');
   assert.deepEqual(m.map((x) => x.account).sort(), ['alice', 'carol']);
   assert.equal(m.find((x) => x.account === 'alice').vests, 3000);
