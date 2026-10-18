@@ -186,13 +186,15 @@ export const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
     var v=$('verdict');
     if(total>=st.goal){v.innerHTML='<b>You finished.</b> Export it, then go do whatever you like with it.';}
     else if(!keys.length){v.textContent='Set your goal and log your first day.';}
+    else if(today()<st.start){var dd=Math.round((new Date(st.start+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000);
+      v.innerHTML='The challenge starts <b>'+st.start+'</b> — '+dd+' day'+(dd===1?'':'s')+' to go. What you log before then is warm-up.';}
     else{var ah=total-par; v.innerHTML= ah>=0
       ? 'Day '+day+' of '+st.days+' — <b>'+ah.toLocaleString()+' words ahead</b> of pace. '+need.toLocaleString()+'/day to finish.'
       : 'Day '+day+' of '+st.days+' — '+Math.abs(ah).toLocaleString()+' behind pace. <b>'+need.toLocaleString()+'/day</b> gets you there.';}
     var tb=$('logbody'); tb.innerHTML='';
     keys.forEach(function(k,i){var prevTot=i>0?st.log[keys[i-1]]:0;
       var a=new Date(st.start+'T00:00:00'),b=new Date(k+'T00:00:00');
-      var dn=Math.round((b-a)/86400000)+1;
+      var dn=Math.round((b-a)/86400000)+1; if(dn<1)dn='prep';
       var tr=document.createElement('tr');
       [dn,k,st.log[k].toLocaleString(),'+'+(st.log[k]-prevTot).toLocaleString()].forEach(function(c){
         var td=document.createElement('td'); td.textContent=c; tr.appendChild(td)});
@@ -260,7 +262,7 @@ ${[['premise', 'The premise in one sentence', 'A sentence you could say out loud
   document.getElementById('p-export').onclick=function(){
     var txt=areas.map(function(a){return '## '+a.previousElementSibling.previousElementSibling.textContent+'\\n\\n'+(a.value||'')}).join('\\n\\n');
     var b=new Blob([txt],{type:'text/markdown'}),u=URL.createObjectURL(b),el=document.createElement('a');
-    el.href=u;el.download='preptober.md';el.click();URL.revokeObjectURL(u)};
+    el.href=u;el.download='the-watch.md';el.click();URL.revokeObjectURL(u)};
   document.getElementById('p-clear').onclick=function(){if(confirm('Clear your prep from this browser?')){
     try{localStorage.removeItem(K)}catch(e){} areas.forEach(function(a){a.value=''}); st={}}};
 })();</script>`;
