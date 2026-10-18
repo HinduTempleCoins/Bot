@@ -71,6 +71,7 @@ a{color:var(--gold)}
 .enav{display:flex;flex-wrap:wrap;gap:6px 16px;max-width:1100px;margin:0 auto;padding:0 16px 10px}
 .enav a{color:var(--fg,#eee);text-decoration:none;font-weight:600;font-size:14px;padding:4px 0;border-bottom:2px solid transparent}
 .enav a:hover{border-bottom-color:var(--gold)}
+@media(max-width:640px){table{display:block;overflow-x:auto;white-space:nowrap}}
 .q{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--gold);color:#1a1626!important;font:700 12px/1 system-ui,sans-serif;text-decoration:none;vertical-align:middle;margin-left:4px}
 .steps li{margin:8px 0;line-height:1.5}.links{margin:6px 0 0;padding-left:18px}.links li{margin:4px 0}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
