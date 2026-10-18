@@ -1368,7 +1368,7 @@ function shareCta(intro = 'Share your creation —', meta = null) {
     <div style="margin-top:8px">
       ${native}
       <a class=pill id=sharemelek style="border-color:var(--gold);color:var(--gold)" href="${esc(melek)}" target=_blank rel="noopener"${meta ? ` data-post="${esc(melekPost)}"` : ''}>✦ Share on MELEK</a>
-      ${meta ? `<script>(function(){var a=document.getElementById('sharemelek');a.addEventListener('click',function(){try{navigator.clipboard.writeText(a.dataset.post.replace(/\\n/g,'\n'));a.textContent='✓ Copied — paste it into your post';}catch(e){}});})();</script>` : ''}
+      ${meta ? `<script>(function(){var a=document.getElementById('sharemelek');a.addEventListener('click',function(){try{navigator.clipboard.writeText(a.dataset.post.replace(/\\n/g,'\\n'));a.textContent='✓ Copied — paste it into your post';}catch(e){}});})();</script>` : ''}
       <a class=pill style="border-color:#5865F2;color:#5865F2" href="${esc(DISCORD)}" target=_blank rel="noopener">💬 Show it on Discord</a>
       <a class=pill href="https://twitter.com/intent/tweet?text=${t}&url=${u}" target=_blank rel="noopener">Share on X</a>
       <a class=pill href="https://www.facebook.com/sharer/sharer.php?u=${u}" target=_blank rel="noopener">Facebook</a>
