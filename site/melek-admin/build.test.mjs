@@ -73,3 +73,12 @@ test('Members page: rank badge on each post, and an empty ladder says so', () =>
   assert.match(html, /rel=canonical href="https:\/\/melek\.salon\/members"/);
   assert.match(renderAdminPage([], { admins: [], page: 'ranked' }), /Nobody has been promoted yet/);
 });
+
+test('Members page always shows how to get listed, linked to Hathor\'s commands', () => {
+  for (const posts of [[], [post('alice', 'a1', '2026-10-10T00:00:00')]]) {
+    const html = renderAdminPage(posts, { admins: ['alice'], page: 'ranked', ranks: { alice: { rank: 'Member' } } });
+    assert.match(html, /<h2>How to get listed here<\/h2>/);
+    assert.match(html, /bridges-open-prana-pool-pays-hathor-online-24-7#hathor-247-like-pizza-bot-but-better/);
+  }
+  assert.ok(!renderAdminPage([], { page: 'admin' }).includes('How to get listed here'));
+});
