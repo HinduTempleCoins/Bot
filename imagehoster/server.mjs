@@ -15,21 +15,59 @@
 // process.argv[1], PORT/BASE_URL/STORE_DIR from env, soft-fail (never throw out
 // of the handler). Zero external deps — multipart is parsed in-process.
 //
-// NOTE (follow-up, tracked): this v1 does not cryptographically verify the
-// Graphene posting-key signature in the URL (that needs the secp256k1/base58
-// recover stack). Abuse is bounded instead by: image-only magic-byte sniff,
-// a hard size cap, and content-hash dedup. Real sig-verify can be layered on
-// later without changing the wire contract.
+// Signature check: {sig} must be the account's posting (or active) key signing
+// sha256("ImageSigningChallenge" || imageBytes) — the same challenge Steemit's
+// and Blurt's imagehosters check. The account's keys are read from the chain
+// (MELEK_RPC_URL, database_api.find_accounts). An upload that does not verify,
+// or that cannot be checked because the chain is unreachable, is refused.
+// Plus: image-only magic-byte sniff, a hard size cap, content-hash dedup.
 
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { verifyDigest, imageChallengeDigest } from './graphene-sig.mjs';
 
 const PORT = Number(process.env.IMGHOST_PORT || process.env.PORT || 8145);
 const BASE_URL = (process.env.IMGHOST_BASE_URL || 'https://img.melek.salon').replace(/\/+$/, '');
 const STORE_DIR = process.env.IMGHOST_STORE_DIR || '/opt/melek-imagehoster/uploads';
 const MAX_BYTES = Number(process.env.IMGHOST_MAX_BYTES || 12 * 1024 * 1024); // 12 MB
+const RPC_URL = process.env.MELEK_RPC_URL || 'https://melek.salon/rpc';
+
+let _fetch = (...a) => globalThis.fetch(...a);
+export function __setFetch(fn) { _fetch = typeof fn === 'function' ? fn : ((...a) => globalThis.fetch(...a)); }
+
+/** The account's posting + active public keys from the chain → string[] | null (null = chain unreachable / no account). */
+export async function accountSigningKeys(username, rpcUrl = RPC_URL) {
+    try {
+        const r = await _fetch(rpcUrl, {
+            method: 'POST', headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'database_api.find_accounts', params: { accounts: [username] } }),
+            signal: AbortSignal.timeout(8000),
+        });
+        const j = await r.json();
+        const a = j && j.result && j.result.accounts && j.result.accounts[0];
+        if (!a || a.name !== username) return null;
+        const keys = [];
+        for (const role of ['posting', 'active']) {
+            for (const ka of (a[role] && a[role].key_auths) || []) if (ka && typeof ka[0] === 'string') keys.push(ka[0]);
+        }
+        return keys;
+    } catch {
+        return null;
+    }
+}
+
+/** Does `sigHex` sign the upload challenge for `bytes` with one of `username`'s keys? → { ok } | { error } */
+export async function checkUploadSignature(username, sigHex, bytes, rpcUrl) {
+    if (!/^[a-z][a-z0-9.-]{1,15}$/.test(username || '')) return { error: 'invalid account name' };
+    if (!/^[0-9a-f]{130}$/i.test(sigHex || '')) return { error: 'missing or malformed signature' };
+    const keys = await accountSigningKeys(username, rpcUrl);
+    if (keys === null) return { error: `could not look up account @${username} on the chain` };
+    const digest = imageChallengeDigest(bytes);
+    if (keys.some((k) => verifyDigest(digest, sigHex, k))) return { ok: true };
+    return { error: `signature does not match @${username}'s posting key` };
+}
 
 // image magic-byte sniff -> extension + content-type (image formats only)
 const SNIFFERS = [
@@ -146,7 +184,7 @@ export function extractImageBytes(parsed) {
     return null;
 }
 
-async function handleUpload(req, res, storeDir, baseUrl) {
+async function handleUpload(req, res, storeDir, baseUrl, segs, opts) {
     const ct = req.headers['content-type'] || '';
     const bM = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(ct);
     if (!/multipart\/form-data/i.test(ct) || !bM) {
@@ -163,6 +201,9 @@ async function handleUpload(req, res, storeDir, baseUrl) {
 
     const kind = sniffImage(bytes);
     if (!kind) return json(res, { error: 'unsupported file type (images only: jpg/png/gif/webp/bmp)' });
+
+    const check = await checkUploadSignature(String(segs[0] || '').toLowerCase(), segs[1], bytes, opts.rpcUrl);
+    if (!check.ok) return json(res, { error: check.error });
 
     const hash = crypto.createHash('sha256').update(bytes).digest('hex').slice(0, 40);
     const name = `${hash}.${kind.ext}`;
@@ -222,7 +263,7 @@ export async function handler(req, res, opts = {}) {
         }
         // POST /<username>/<sig>
         if (req.method === 'POST' && segs.length >= 1) {
-            return await handleUpload(req, res, storeDir, baseUrl);
+            return await handleUpload(req, res, storeDir, baseUrl, segs, opts);
         }
         return json(res, { error: 'not found' }, 404);
     } catch (e) {

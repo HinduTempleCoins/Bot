@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Profile picture — MELEK</title>
+<link rel="stylesheet" href="account.css">
+<style>
+  .pp-row { display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin:12px 0; }
+  .pp-pic { width:128px; height:128px; border-radius:50%; background:#eee center/cover no-repeat; border:1px solid #ddd; flex:none; }
+  .pp-msg { margin:8px 0; min-height:1.4em; }
+  .pp-msg.err { color:#b00020; } .pp-msg.ok { color:#0a7d32; }
+  .pp-saved { padding:8px 10px; border-radius:6px; background:#f3f7ff; border:1px solid #d6e2ff; }
+</style>
+<!-- dsteem signs in this browser (same library the MELEK wallet page uses); pinned + integrity-checked -->
+<script src="https://cdn.jsdelivr.net/npm/dsteem@0.11.1/dist/dsteem.js"
+  integrity="sha384-JpE1CXyijwdhOQECVl+PxPe8ON3JgSO0ncRZ+I/oy+Dt9Bl5LGtcOn65GTprh91b" crossorigin="anonymous"></script>
+</head><body>
+<div class="wrap"><div class="card">
+  <h1>Profile picture</h1>
+  <p class="muted">Your picture shows next to your name on posts, comments, your profile and the header.
+  It is saved on the chain with your <b>posting key</b>. <b>Your key never leaves this page</b>: it signs here,
+  in your browser, and only the signed result is sent.</p>
+
+  <div class="pp-row">
+    <div class="pp-pic" id="pic" role="img" aria-label="Current profile picture"></div>
+    <div>
+      <label class="wiz-lab" for="name">Account</label>
+      <input id="name" class="wiz-input mono" type="text" autocomplete="username" spellcheck="false" placeholder="e.g. hathor">
+    </div>
+  </div>
+
+  <div id="keybox">
+    <p id="saved" class="pp-saved small" hidden></p>
+    <div id="keyfield">
+      <label class="wiz-lab" for="secret">Posting key or master password</label>
+      <input id="secret" class="wiz-input mono" type="password" autocomplete="current-password" spellcheck="false" placeholder="5… or P5…">
+    </div>
+  </div>
+
+  <label class="wiz-lab" for="file">Upload from this device</label>
+  <input id="file" type="file" accept="image/png,image/jpeg,image/gif,image/webp">
+
+  <label class="wiz-lab" for="url">…or the address of an image (https)</label>
+  <input id="url" class="wiz-input mono" type="url" spellcheck="false" placeholder="https://…">
+
+  <p><button type="button" id="save" class="wiz-btn">Save picture</button>
+     <button type="button" id="remove" class="wiz-btn" style="background:transparent;color:inherit;border:1px solid #bbb">Remove picture</button></p>
+  <div id="msg" class="pp-msg" role="status" aria-live="polite"></div>
+
+  <p class="muted small"><a href="/" id="back">Back to the forum</a> · <a href="keycheck.html">Not sure which key you have?</a></p>
+</div></div>
+<script type="module">
+  import { NET, chainPubs } from './account-ui.mjs';
+  import { privFromWif, compressedPub, pubToString, keysFromLogin, looksLikeWif } from './graphene-keys.mjs';
+  import {
+    readSavedLogin, isUsableImageUrl, buildPostingMetadata, accountUpdate2Tx, serializeAccountUpdate2Tx,
+    refBlock, txDigest, uploadChallengeDigest, bytesToHex,
+  } from './profile-ops.mjs';
+
+  const $ = (id) => document.getElementById(id);
+  const say = (text, kind = '') => { const m = $('msg'); m.textContent = text; m.className = 'pp-msg ' + kind; };
+  const rpc = async (method, params) => {
+    const r = await fetch('/rpc', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }) });
+    const j = await r.json();
+    if (j.error) throw new Error((j.error.data && j.error.data.message) || j.error.message || 'chain error');
+    return j.result;
+  };
+  const getAccount = async (name) => ((await rpc('database_api.find_accounts', { accounts: [name] })).accounts || [])[0] || null;
+
+  let saved = null;
+  try { saved = readSavedLogin(localStorage.getItem('autopost2')); } catch { saved = null; }
+  const qs = new URLSearchParams(location.search);
+  const name0 = (qs.get('account') || (saved && saved.username) || '').toLowerCase().replace(/^@/, '').split('/')[0];
+  $('name').value = name0;
+
+  function showPic(src) {
+    const n = $('name').value.trim().toLowerCase();
+    const u = src || (n ? '/u/' + encodeURIComponent(n) + '/avatar/large?v=' + Date.now() : '');
+    $('pic').style.backgroundImage = u ? 'url("' + u.replace(/"/g, '') + '")' : '';
+  }
+  function refreshKeyBox() {
+    const n = $('name').value.trim().toLowerCase();
+    const useSaved = saved && saved.postingWif && saved.username === n;
+    $('saved').hidden = !useSaved;
+    $('keyfield').hidden = !!useSaved;
+    if (useSaved) $('saved').textContent = 'Signed in as @' + n + ' on this browser: your saved login signs this change (it stays in this browser).';
+    $('back').href = n ? '/@' + n : '/';
+  }
+  $('name').addEventListener('change', () => { refreshKeyBox(); showPic(); });
+  refreshKeyBox(); showPic();
+
+  /** → { name, account, wif } — the posting (or active) WIF for this account, checked against the chain. */
+  async function signer() {
+    const name = $('name').value.trim().toLowerCase();
+    if (!/^[a-z][a-z0-9.-]{1,15}$/.test(name)) throw new Error('Enter your account name.');
+    const account = await getAccount(name);
+    if (!account) throw new Error('No account @' + name + ' on the MELEK chain.');
+    const pubs = chainPubs(account);
+    const allowed = new Set([...pubs.posting, ...pubs.active]);
+    let wif = '';
+    if (saved && saved.username === name && saved.postingWif) wif = saved.postingWif;
+    else {
+      const s = $('secret').value.trim();
+      if (!s) throw new Error('Enter your posting key (starts with 5) or your master password.');
+      if (looksLikeWif(s)) wif = s;
+      else {
+        const k = await keysFromLogin(name, s, NET.prefix);
+        wif = allowed.has(k.posting.pub) ? k.posting.wif : (allowed.has(k.active.pub) ? k.active.wif : '');
+        if (!wif) throw new Error('That password does not unlock @' + name + '.');
+      }
+    }
+    const pub = pubToString(compressedPub(await privFromWif(wif)), NET.prefix);
+    if (!allowed.has(pub)) throw new Error('That key is not @' + name + "'s posting key.");
+    return { name, account, wif };
+  }
+  function signDigest(wif, digest) {
+    const d = window.dsteem;
+    if (!d) throw new Error('The signing library did not load. Reload the page.');
+    const Buf = d.cryptoUtils.sha256('x').constructor;
+    return d.PrivateKey.fromString(wif).sign(Buf.from(digest)).toString();
+  }
+
+  $('file').addEventListener('change', async () => {
+    const f = $('file').files[0];
+    if (!f) return;
+    try {
+      if (f.size > 12 * 1024 * 1024) throw new Error('That image is over 12 MB.');
+      say('Checking your key…');
+      const { name, wif } = await signer();
+      const bytes = new Uint8Array(await f.arrayBuffer());
+      const sig = signDigest(wif, await uploadChallengeDigest(bytes));
+      say('Uploading…');
+      const fd = new FormData();
+      fd.append('file', f, f.name);
+      const r = await fetch('/img/' + encodeURIComponent(name) + '/' + sig, { method: 'POST', body: fd });
+      const j = await r.json().catch(() => ({ error: 'upload failed (' + r.status + ')' }));
+      if (j.error || !j.url) throw new Error(j.error || 'upload failed');
+      $('url').value = j.url;
+      showPic(j.url);
+      say('Uploaded. Press "Save picture" to put it on your profile.', 'ok');
+    } catch (e) { say(e.message || String(e), 'err'); }
+  });
+  $('url').addEventListener('change', () => { const u = $('url').value.trim(); if (isUsableImageUrl(u)) showPic(u); });
+
+  async function save(image) {
+    try {
+      if (image && !isUsableImageUrl(image)) throw new Error('Use an https:// image address (or upload one).');
+      say('Checking your key…');
+      const { name, account, wif } = await signer();
+      const meta = buildPostingMetadata(account.posting_json_metadata, account.json_metadata, { profile_image: image });
+      const [props, ver] = await Promise.all([rpc('database_api.get_dynamic_global_properties', {}), rpc('condenser_api.get_version', [])]);
+      const tx = accountUpdate2Tx({ ...refBlock(props), account: name, posting_json_metadata: meta });
+      const bytes = serializeAccountUpdate2Tx(tx);
+      const nodeHex = await rpc('condenser_api.get_transaction_hex', [{ ...tx, signatures: [] }]);
+      if (nodeHex !== bytesToHex(bytes) + '00') throw new Error('Safety check failed: this page and the chain disagree on the transaction. Nothing was sent.');
+      const sig = signDigest(wif, await txDigest(ver.chain_id, bytes));
+      say('Saving to the chain…');
+      const res = await rpc('condenser_api.broadcast_transaction_synchronous', [{ ...tx, signatures: [sig] }]);
+      showPic(image ? image : '/u/' + name + '/avatar/large?v=' + Date.now());
+      say((image ? 'Saved' : 'Removed') + ' in block ' + res.block_num + '. It shows across melek.salon within a few minutes.', 'ok');
+    } catch (e) { say(e.message || String(e), 'err'); }
+  }
+  $('save').addEventListener('click', () => {
+    const u = $('url').value.trim();
+    if (!u) return say('Upload an image or paste its https:// address first.', 'err');
+    save(u);
+  });
+  $('remove').addEventListener('click', () => save(''));
+</script>
+</body></html>

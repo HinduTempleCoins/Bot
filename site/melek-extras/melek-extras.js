@@ -171,6 +171,49 @@
       if (m) links[i].href = 'https://wallet.melek.salon/' + m[1] + '/' + m[2];
     }
   }
+  // ── 5c. profile pictures ────────────────────────────────────────────────────────────────────────
+  // Every account has a picture (its own, or an identicon from /u/<name>/avatar). The profile header only
+  // drew one when json_metadata held a profile_image (Userpic hideIfDefault), so pictures saved with the
+  // posting key (posting_json_metadata) and identicons never showed there: draw it when the app did not.
+  function profileAccount() {
+    var m = w.location.pathname.match(/^\/@([a-z0-9.-]{2,16})(?:\/|$)/i);
+    return m ? m[1].toLowerCase() : '';
+  }
+  function savedUser() {   // the condenser's saved login: hex of "user\t…" — only the name is read
+    try {
+      var hex = store('autopost2') || '';
+      if (!/^[0-9a-f]+$/i.test(hex)) return '';
+      var s = '';
+      for (var i = 0; i < hex.length && s.indexOf('\t') < 0; i += 2) s += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+      return s.split('\t')[0];
+    } catch (e) { return ''; }
+  }
+  var PROFILE_EDITOR = '/account/profile.html?account=';
+  function addProfilePicture() {
+    var acct = profileAccount();
+    var h1 = acct && d.querySelector('.UserProfile__banner h1');
+    if (h1 && !h1.querySelector('.Userpic')) {
+      var pic = el('div', { class: 'Userpic melek-userpic', role: 'img', 'aria-label': '@' + acct });
+      pic.style.backgroundImage = 'url(/u/' + acct + '/avatar/large)';
+      h1.insertBefore(pic, h1.firstChild);
+    }
+    if (h1 && acct === savedUser() && !d.querySelector('.melek-change-pic')) {
+      var a = el('a', { href: PROFILE_EDITOR + acct, class: 'melek-change-pic',
+        style: 'display:inline-block;font-size:13px;margin:0 0 6px;color:inherit;text-decoration:underline' }, 'Change profile picture');
+      h1.parentNode.insertBefore(a, h1.nextSibling);
+    }
+    // Settings: "To update your public profile, visit wallet.melek.salon" pointed at a wallet page with no
+    // profile editor. Point it at the profile-picture editor.
+    var links = d.querySelectorAll('.Settings a[href*="/settings"]');
+    for (var i = 0; i < links.length; i++) {
+      var m = links[i].getAttribute('href').match(/\/@([a-z0-9.-]+)\/settings/i);
+      if (m && /wallet/i.test(links[i].textContent || '')) {
+        links[i].href = PROFILE_EDITOR + m[1].toLowerCase();
+        links[i].textContent = 'your profile picture page';
+      }
+    }
+  }
+
   // Follow while signed out: the app's old login pop-up crashes (login moved to /login.html), so the click
   // did nothing. Signed out, Follow now goes to Log in and comes back to this profile.
   function signedOut() { return !!d.querySelector('header a[href="/login.html"]'); }
@@ -272,6 +315,7 @@
     fixMessageLinks();
     addInviteButton();
     fixRewardsLinks();
+    addProfilePicture();
   }
 
   // ── 7. the home page IS Admin Updates ─────────────────────────────────────────────────────────────
