@@ -13,7 +13,7 @@ import { writeFileSync, mkdirSync, renameSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
-export const ADMINS = () => env('ADMIN_ACCOUNTS', 'vankushfamily,kalivankush,angelicalist,vankush').split(/[\s,]+/).filter(Boolean);
+export const ADMINS = () => env('ADMIN_ACCOUNTS', 'vankushfamily,kalivankush,angelicalist,vankush,hathor,melek').split(/[\s,]+/).filter(Boolean);
 const RPC = () => env('ADMIN_RPC', 'https://melek.salon/rpc');
 const SITE = 'https://melek.salon';
 
