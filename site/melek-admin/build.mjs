@@ -100,7 +100,13 @@ const PAGES = {
     who: 'Posts by the active witnesses:' },
   ranked: { title: 'Members', path: '/members', h1: 'Members',
     lead: 'Posts from people Hathor has brought up out of New for the quality of what they post. Everyone starts as a Jr. Member; the ranks above are Member, Sr. Member, Hero Member and Legendary. Above the member ranks are MELEK\'s admins and the witnesses who run the chain; their posts have their own tabs, Admin Updates and Witness Updates.',
-    who: 'Posts by members:', empty: 'Nobody has been promoted yet. Hathor brings people up out of New as they post.' },
+    who: 'Posts by members:', empty: 'Nobody has been promoted yet. Hathor brings people up out of New as they post.',
+    // shown on the Members page always, with or without posts: how to get listed here
+    howto: `<section class=howto><h2>How to get listed here</h2>
+<p>Members are chosen by Hathor, MELEK's AI witness, from the people who interact with her. Talk to her, use her commands and post well, and she brings you up out of New.</p>
+<ol><li><b>Start with her commands.</b> Read <a href="${SITE}/hathor/@hathor/bridges-open-prana-pool-pays-hathor-online-24-7#hathor-247-like-pizza-bot-but-better">Hathor, 24/7: her commands</a> and try <code>!guide</code>, <code>!account</code> or <code>!tokenomics</code>.</li>
+<li><b>Talk to her</b> in the comments on <a href="${SITE}/@hathor">her posts</a>, in the MELEK troll-box, or on Discord and Telegram.</li>
+<li><b>Post on MELEK.</b> Your posts start in <a href="${SITE}/created">All Posts</a>. Hathor reads them and promotes members from there.</li></ol></section>` },
 };
 
 export function renderAdminPage(posts = [], { admins = ADMINS(), builtAt = new Date(), page = 'admin', ranks = {} } = {}) {
@@ -137,12 +143,15 @@ h1{margin:6px 0 4px}.lead{color:var(--mut);margin:0 0 18px}
 @media(max-width:600px){.hit{flex-direction:column}.hit img{width:100%;height:180px}}
 footer{color:var(--mut);font-size:13px;text-align:center;padding:20px 16px}
 .empty{color:var(--mut)}
+.howto{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:12px 16px;margin:0 0 18px}
+.howto h2{font-size:18px;margin:0 0 6px}.howto ol{margin:6px 0 0;padding-left:20px}.howto li{margin:4px 0}.howto a{color:inherit}
 .rank{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:#1a1d24;color:#fff;border-bottom:2px solid var(--gold)}
 </style></head><body>
 <header><a class=brand href="${SITE}/">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}"${t.id === page ? ' class=on aria-current=page' : ''}>${esc(t.label)}</a>`).join('')}</nav>
 <span><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
 <main><h1>${esc(P.h1)}</h1>
 <p class=lead>${esc(P.lead)}</p>
+${P.howto || ''}
 ${cards}
 </main>
 <footer>${esc(P.who)} ${admins.map((a) => '@' + esc(a)).join(', ')} · updated ${esc(builtAt.toISOString().slice(0, 16).replace('T', ' '))} UTC · <a href="${SITE}/created">see everything on MELEK →</a></footer>
