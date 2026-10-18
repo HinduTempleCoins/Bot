@@ -196,14 +196,30 @@
     if (w.location.hash === '#automation') showAutomation(true);
   }
 
+  // ── Pageviews: the wallet's CSP allows no inline script and no outside connect-src, but any image. So the
+  // first-party, cookieless pageview goes as the collector's 1x1 GIF (path + referrer only; DNT honoured),
+  // once per page, including the wallet's in-app navigations.
+  var lastPv = '';
+  function pageview() {
+    try {
+      if (navigator.doNotTrack == '1' || w.doNotTrack == '1' || navigator.msDoNotTrack == '1') return;
+      var p = w.location.pathname;
+      if (p === lastPv) return;
+      var r = lastPv ? '' : (d.referrer || '');
+      lastPv = p;
+      new Image(1, 1).src = 'https://analytics.soapbox.community/px.gif?p=' + encodeURIComponent(p) + '&r=' + encodeURIComponent(r);
+    } catch (e) { /* never break the wallet */ }
+  }
+
   function start() {
+    pageview();
     fixHeader();
     scrub();
     relabel();
     addAutomationTab();
     addUnclaimedNotice();
     var t = null;   // the wallet is a single-page app: re-run when its content changes
-    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { scrub(); fixHeader(); relabel(); addAutomationTab(); addUnclaimedNotice(); }, 150); })
+    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { pageview(); scrub(); fixHeader(); relabel(); addAutomationTab(); addUnclaimedNotice(); }, 150); })
       .observe(d.body, { childList: true, subtree: true, characterData: true });
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start); else start();
