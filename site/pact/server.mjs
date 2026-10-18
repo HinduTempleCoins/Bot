@@ -130,7 +130,7 @@ async function load(){const j=await api('/groups');const gs=(j&&j.groups)||[];
   box.innerHTML='<b>Pay your dues</b><p>Send <b>'+E(b.dataset.amt)+' MELEK</b> to <b>@'+E(b.dataset.payee)+'</b> from your own MELEK wallet, with this memo exactly:</p>'
    +'<p><code>'+E(memo)+'</code></p><p class=mut>The money goes straight to the club, never to Pact. Pact reads the chain to see your payment — it takes about a minute to show up.</p>'
    +'<a class=btn target=_blank rel=noopener href="https://wallet.melek.salon/@'+encodeURIComponent(b.dataset.payee)+'">Open the MELEK wallet</a> '
-   +'<button class="btn primary" data-check="'+E(id)+'">I\'ve paid — check</button><p class=mut role=status></p>';
+   +'<button class="btn primary" data-check="'+E(id)+'">I&#39;ve paid — check</button><p class=mut role=status></p>';
   b.closest('.item').after(box);b.disabled=true;
   box.querySelector('[data-check]').onclick=async()=>{const st=box.querySelector('[role=status]');st.textContent='Checking the chain…';
    const r=await api('/groups/'+encodeURIComponent(id)+'/check-dues',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});
