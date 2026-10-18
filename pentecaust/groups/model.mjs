@@ -77,7 +77,27 @@ export const TITLE_SETS = {
 };
 // Named offices a club can give its officers on top of their rank (the legal officers + the C-suite).
 export const OFFICES = ['Secretary', 'Treasurer', 'CFO', 'CIO', 'CTO', 'CMO', 'Chaplain', 'Steward', 'Historian', 'Events Coordinator'];
-export const titleFor = (group, role) => (TITLE_SETS[(group && group.titleSet) || 'classic'] || TITLE_SETS.classic)[role] || role;
+export const titleFor = (group, role) => ((group && group.titles && group.titles[role])
+  || (TITLE_SETS[(group && group.titleSet) || 'classic'] || TITLE_SETS.classic)[role] || role);
+
+// What a club owner sees in setup: each rank, what it can do, and the names people already know for it.
+// owner and member always exist; the others can be switched off.
+export const RANK_GUIDE = [
+  { role: 'owner', canDisable: false, does: 'Runs the club: everything, including handing the club to someone else.',
+    names: ['President', 'CEO', 'Chair', 'Worshipful Master', 'Founder', 'Grand Master'] },
+  { role: 'admin', canDisable: true, does: 'Second in command: settings, dues, titles and offices; can give any rank below theirs.',
+    names: ['Vice President', 'COO', 'Senior Warden', 'President-elect', 'Deputy'] },
+  { role: 'mod', canDisable: true, does: 'Officers: keep order (kick, mute), approve board posts and publish to the club feed.',
+    names: ['Officer', 'Junior Warden', 'Sergeant-at-Arms', 'Steward', 'Moderator', 'Director'] },
+  { role: 'tyler', canDisable: true, does: 'The entry officer: explains what the club is about, admits applicants and sends invites.',
+    names: ['Tyler', 'Membership Chair', 'Ambassador', 'Recruitment Chair', 'Greeter', 'Herald'] },
+  { role: 'member', canDisable: false, does: 'Full members: the club room, the board, drafts, voting on club matters.',
+    names: ['Member', 'Fellowcraft', 'Master Mason', 'Patched Member', 'Brother / Sister', 'Associate'] },
+  { role: 'prospect', canDisable: true, does: 'Probationary members: in the room, learning, not yet full members.',
+    names: ['Prospect', 'Entered Apprentice', 'Initiate', 'Pledge', 'Novice', 'Probationary Member'] },
+];
+export const SPACE_NAMES = ['Lodge', 'Clubhouse', 'Chamber', 'Inner Sanctum', 'Boardroom', 'Conclave', 'Chapter House', 'Salon', 'Parlor', 'Den', 'Hall'];
+const enabledRole = (group, role) => !(group && Array.isArray(group.disabledRanks) && group.disabledRanks.includes(role));
 
 const MAX_MEMBERS_DEFAULT = Number(env('GROUPS_MAX_MEMBERS', '100000')) || 100000;
 const KEEP_FEED = Number(env('GROUPS_FEED_KEEP', '200')) || 200; // ring-buffered recent-post pointers
@@ -179,6 +199,9 @@ export function view(group) {
     tokenGate: Array.isArray(group.tokenGate) ? group.tokenGate : [],
     maxMembers: group.maxMembers, created: group.created,
     titleSet: group.titleSet || 'classic',
+    titles: Object.fromEntries(RANK_GUIDE.map((r) => [r.role, titleFor(group, r.role)])),
+    disabledRanks: Array.isArray(group.disabledRanks) ? group.disabledRanks : [],
+    spaceName: group.spaceName || null,
     members: Object.entries(group.members).map(([account, m]) => ({ account, role: m.role, title: titleFor(group, m.role),
       office: (group.offices || {})[account] || null, joined: m.joined }))
       .sort((a, b) => rank(b.role) - rank(a.role) || a.joined - b.joined),
@@ -358,6 +381,8 @@ export function setRole(id, actor, account, role, opts = {}) {
     return { ok: true, group: view(group) };
   }
   if (!SETTABLE_ROLES.includes(role)) return { ok: false, reason: 'unknown role' };
+  { const g0 = loadStore(ctx(opts).fs, ctx(opts).file).groups[id];
+    if (g0 && !enabledRole(g0, role)) return { ok: false, reason: `this club does not use the ${titleFor(g0, role)} rank` }; }
   const byRank = rank(roleOf(group, by));
   if (byRank < ROLES.admin) return { ok: false, reason: 'not allowed (admin+ only)' };
   if (byRank <= rank(roleOf(group, who))) return { ok: false, reason: 'cannot manage an equal or higher member' };
@@ -661,6 +686,33 @@ export function setTitleSet(id, actor, set, opts = {}) {
   if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
   if (!TITLE_SETS[set]) return { ok: false, reason: `title set must be one of ${Object.keys(TITLE_SETS).join(', ')}` };
   group.titleSet = set;
+  saveStore(fs, file, store);
+  return { ok: true, group: view(group) };
+}
+
+/**
+ * Club setup: the owner/admin names each rank, switches optional ranks on or off, and names the private
+ * space. titles: { role: name } (any text, 40 chars); disabled: [role] (only canDisable ranks, and only if
+ * nobody holds them now); spaceName: free text (40 chars) or ''.
+ */
+export function setupClub(id, actor, { titles = {}, disabled = [], spaceName } = {}, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
+  const guide = Object.fromEntries(RANK_GUIDE.map((r) => [r.role, r]));
+  const t = {};
+  for (const [role, name] of Object.entries(titles || {})) {
+    if (!guide[role]) continue;
+    const n = clamp(name, 40).trim();
+    if (n) t[role] = n;
+  }
+  const off = [...new Set((Array.isArray(disabled) ? disabled : []).filter((r) => guide[r] && guide[r].canDisable))];
+  const held = off.filter((r) => Object.values(group.members).some((m) => m.role === r));
+  if (held.length) return { ok: false, reason: `someone holds ${held.map((r) => titleFor(group, r)).join(', ')} — change their rank first` };
+  group.titles = t;
+  group.disabledRanks = off;
+  if (spaceName !== undefined) group.spaceName = clamp(spaceName, 40).trim() || null;
   saveStore(fs, file, store);
   return { ok: true, group: view(group) };
 }
