@@ -161,11 +161,12 @@
   // Hot / Trending / New are not tabs: they are the sort row INSIDE All Posts (the Steemit/Hive/Blurt feed,
   // kept as is). The header's own Hot/Trending/New links are hidden and replaced by the four tabs; on an
   // All Posts page the sort row appears above the feed.
-  var TABS = [
-    { id: 'all', label: 'All Posts', href: '/trending' },
-    { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
+  var TABS = [   // top of the hierarchy first
     { id: 'admin', label: 'Admin Updates', href: '/' },   // the home page
     { id: 'witness', label: 'Witness Updates', href: '/witness-updates' },
+    { id: 'ranked', label: 'Ranked Users', href: '/ranked' },
+    { id: 'all', label: 'All Posts', href: '/trending' },
+    { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
   ];
   var SORTS = [['hot', 'Hot'], ['trending', 'Trending'], ['created', 'New']];
   function feedRoute() {   // /hot, /trending/<tag>, /created … → { sort, tag }

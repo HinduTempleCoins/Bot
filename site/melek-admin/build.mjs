@@ -9,7 +9,7 @@
 //   ADMIN_ACCOUNTS=vankushfamily,kalivankush ADMIN_OUT=/var/www/melek-admin/index.html \
 //     WITNESS_OUT=/var/www/melek-admin/witness-updates/index.html node site/melek-admin/build.mjs
 //   import { fetchAdminPosts, fetchWitnessAccounts, renderAdminPage } from './build.mjs'   // tests
-import { writeFileSync, mkdirSync, renameSync } from 'node:fs';
+import { writeFileSync, mkdirSync, renameSync, readFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
@@ -62,12 +62,31 @@ export async function fetchWitnessAccounts({ rpcUrl = RPC(), fetch: f = globalTh
   } catch { return ['hathor']; }
 }
 
-// The site's tab bar (same four tabs melek-extras.js puts on the condenser).
+// Ranks Hathor gives, Bitcointalk-style. Everyone starts in "New" (the All Posts feed); Hathor promotes people
+// out of it. Anyone holding one of these ranks is a Ranked User. Stored by account in RANKS_FILE:
+//   { "alice": { "rank": "Member", "by": "hathor", "ts": 1792290000000 }, … }
+export const RANKS = ['Jr. Member', 'Member', 'Full Member', 'Sr. Member', 'Hero Member', 'Legendary'];
+const RANKS_FILE = () => env('RANKS_FILE', '/var/lib/melek-ranks/ranks.json');
+
+/** Ranked users, highest rank first. Soft-fail → {} (the page then says nobody is ranked yet). */
+export function loadRanks(file = RANKS_FILE(), read = (f) => readFileSync(f, 'utf8')) {
+  let raw = {};
+  try { raw = JSON.parse(read(file)) || {}; } catch { return {}; }
+  const out = {};
+  for (const [acct, v] of Object.entries(raw)) {
+    const rank = v && RANKS.includes(v.rank) ? v.rank : null;
+    if (rank && /^[a-z0-9.-]{3,16}$/.test(acct)) out[acct] = { rank, by: String(v.by || ''), ts: Number(v.ts) || 0 };
+  }
+  return Object.fromEntries(Object.entries(out).sort((a, b) => RANKS.indexOf(b[1].rank) - RANKS.indexOf(a[1].rank)));
+}
+
+// The site's tab bar (same tabs melek-extras.js puts on the condenser), top of the hierarchy first.
 export const TABS = [
-  { id: 'all', label: 'All Posts', href: `${SITE}/trending` },
-  { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
   { id: 'admin', label: 'Admin Updates', href: `${SITE}/` },   // the home page
   { id: 'witness', label: 'Witness Updates', href: `${SITE}/witness-updates` },
+  { id: 'ranked', label: 'Ranked Users', href: `${SITE}/ranked` },
+  { id: 'all', label: 'All Posts', href: `${SITE}/trending` },
+  { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
 ];
 
 const PAGES = {
@@ -77,18 +96,21 @@ const PAGES = {
   witness: { title: 'Witness Updates', path: '/witness-updates', h1: 'Witness Updates',
     lead: "News from the witnesses who run MELEK's blockchain: upgrades, hardforks, price feeds and what they're working on. Hathor, MELEK's AI witness, posts here too.",
     who: 'Posts by the active witnesses:' },
+  ranked: { title: 'Ranked Users', path: '/ranked', h1: 'Ranked Users',
+    lead: 'Posts from members Hathor has ranked: people brought up out of New for the quality of what they post. Ranks run Jr. Member, Member, Full Member, Sr. Member, Hero Member, Legendary.',
+    who: 'Posts by ranked members:', empty: 'Nobody has been ranked yet. Hathor promotes members out of New as they post.' },
 };
 
-export function renderAdminPage(posts = [], { admins = ADMINS(), builtAt = new Date(), page = 'admin' } = {}) {
+export function renderAdminPage(posts = [], { admins = ADMINS(), builtAt = new Date(), page = 'admin', ranks = {} } = {}) {
   const P = PAGES[page] || PAGES.admin;
   const cards = posts.length ? posts.map((p) => {
     const url = `${SITE}/${encodeURIComponent(p.category || 'melek')}/@${encodeURIComponent(p.author)}/${encodeURIComponent(p.permlink)}`;
     const img = firstImage(p);
     const date = String(p.created || '').slice(0, 10);
     return `<article class=card><a class=hit href="${esc(url)}">${img ? `<img loading=lazy src="${esc(img)}" alt="">` : ''}
-<div class=txt><h2>${esc(p.title || '(untitled)')}</h2><p class=meta>@${esc(p.author)} · ${esc(date)} · in ${esc(p.category || 'melek')}</p>
+<div class=txt><h2>${esc(p.title || '(untitled)')}</h2><p class=meta>@${esc(p.author)}${ranks[p.author] ? ` <span class=rank>${esc(ranks[p.author].rank)}</span>` : ''} · ${esc(date)} · in ${esc(p.category || 'melek')}</p>
 <p>${esc(excerpt(p.body))}</p></div></a></article>`;
-  }).join('\n') : '<p class=empty>No posts yet.</p>';
+  }).join('\n') : `<p class=empty>${esc(P.empty || 'No posts yet.')}</p>`;
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(P.title)} — MELEK</title>
 <meta name=description content="${esc(P.lead)}">
@@ -113,6 +135,7 @@ h1{margin:6px 0 4px}.lead{color:var(--mut);margin:0 0 18px}
 @media(max-width:600px){.hit{flex-direction:column}.hit img{width:100%;height:180px}}
 footer{color:var(--mut);font-size:13px;text-align:center;padding:20px 16px}
 .empty{color:var(--mut)}
+.rank{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:#1a1d24;color:#fff;border-bottom:2px solid var(--gold)}
 </style></head><body>
 <header><a class=brand href="${SITE}/">MELEK</a><nav>${TABS.map((t) => `<a href="${esc(t.href)}"${t.id === page ? ' class=on aria-current=page' : ''}>${esc(t.label)}</a>`).join('')}</nav>
 <span><a href="${SITE}/login.html" style="margin-right:10px;color:inherit">Log in</a><a class=cta href="${SITE}/account/signup.html">Sign up</a></span></header>
@@ -138,4 +161,10 @@ if (process.argv[1] && process.argv[1].endsWith('build.mjs') && process.argv[1].
   if (wposts.length) write(env('WITNESS_OUT', '/var/www/melek-admin/witness-updates/index.html'),
     renderAdminPage(wposts, { admins: witnesses, page: 'witness' }), wposts.length, 'witness-page');
   else console.log('[witness-page] no posts fetched — keeping the last good page');
+  // Ranked Users: always written, so the tab never 404s (an empty ladder says so)
+  const ranks = loadRanks();
+  const ranked = Object.keys(ranks);
+  const rposts = ranked.length ? await fetchAdminPosts({ admins: ranked }) : [];
+  write(env('RANKED_OUT', '/var/www/melek-admin/ranked/index.html'),
+    renderAdminPage(rposts, { admins: ranked, page: 'ranked', ranks }), rposts.length, 'ranked-page');
 }
