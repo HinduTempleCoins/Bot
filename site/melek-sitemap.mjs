@@ -11,7 +11,10 @@ export function __setFetch(fn) { _fetch = typeof fn === 'function' ? fn : ((...a
 const RPC = () => process.env.MELEK_RPC_URL || 'https://melek.salon/rpc';
 const BASE = () => (process.env.MELEK_CONDENSER_URL || 'https://melek.salon').replace(/\/$/, '');
 const ACTIVE_TAGS = ['melek', 'vankush', 'move', 'life', 'photography', 'art', 'crypto', 'hive', 'story', 'news'];
-const STATIC_PAGES = ['/', '/created', '/trending', '/hot', '/@hathor', '/@melek', '/kula-paper', '/prana-paper'];
+// Pages served on melek.salon itself, at their canonical URLs. (kula-paper / prana-paper are permanent
+// redirects to their own subdomains, which carry their own sitemaps, so they are not listed here.)
+const STATIC_PAGES = ['/', '/explore', '/witness-updates', '/members', '/kula', '/pin/', '/maps/',
+  '/created', '/trending', '/hot', '/@hathor', '/@melek'];
 
 const xmlEsc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
 
@@ -46,7 +49,8 @@ export async function fetchPostUrls({ perTag = 40 } = {}) {
   const seen = new Set(); const out = [];
   for (const b of (batches || [])) for (const p of (Array.isArray(b) ? b : [])) {
     if (!p.author || !p.permlink) continue;
-    const loc = `${base}/@${p.author}/${p.permlink}`;
+    // the condenser's canonical post URL carries the category: /<category>/@author/permlink
+    const loc = p.category ? `${base}/${encodeURIComponent(p.category)}/@${p.author}/${p.permlink}` : `${base}/@${p.author}/${p.permlink}`;
     if (seen.has(loc)) continue; seen.add(loc);
     out.push({ loc, lastmod: (p.created || '').split('T')[0] || undefined, priority: '0.6' });
   }

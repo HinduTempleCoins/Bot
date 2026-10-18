@@ -63,3 +63,11 @@ test('page: tab bar, logo to /explore, search box, escaped content, no dollar va
   assert.doesNotMatch(evil, /<script>alert|<b> /);
   assert.ok(evil.includes('&lt;script&gt;'));
 });
+
+test('llms.txt lists the live sections as markdown links', async () => {
+  const { renderLlmsTxt } = await import('./build.mjs');
+  const txt = renderLlmsTxt([{ id: 'm', title: 'Wallet & tokens', icon: 'x', items: [{ icon: 'i', name: 'KULA Community Fund', desc: 'A pool.', url: 'https://melek.salon/kula', label: '' }] }], { builtAt: new Date('2026-10-18T00:00:00Z') });
+  assert.match(txt, /^# MELEK/);
+  assert.match(txt, /## Wallet & tokens/);
+  assert.match(txt, /- \[KULA Community Fund\]\(https:\/\/melek.salon\/kula\): A pool\./);
+});

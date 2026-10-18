@@ -27,6 +27,7 @@
 
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
+import { finishHtmlResponses } from '../integrations/soapbox/page-meta.mjs';
 import {
   createTeam, joinTeam, leaveTeam, kick, setRole, approve, invite, setMotd, getTeam, teamsForAccount, listTeams, isMember,
 } from './model.mjs';
@@ -184,6 +185,7 @@ function withEmbeds(out) {
 }
 
 export async function handler(req, res) {
+  finishHtmlResponses(res, { siteName: 'Pentecaust' }, req);
   const origin = req.headers ? req.headers.origin : undefined;
   let url; try { url = new URL(req.url, BASE_URL); } catch { return json(res, 400, { ok: false, reason: 'bad-url' }, origin); }
   const path = url.pathname.replace(/\/+$/, '') || '/';

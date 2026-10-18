@@ -19,6 +19,7 @@ import { makeHandler as makeTokenToolsHandler } from '../lib/token-tools.mjs';
 import { workerbee } from '../contracts/workerbee.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
 import { serveKeyFile } from '../../integrations/indexnow.mjs';
+import { finishHtmlResponses } from '../../integrations/soapbox/page-meta.mjs';
 
 // The MELEK-Engine wallet + payouts viewer. Self-contained, no build, read-only. Shows YOUR token
 // balances and the payouts for the tokens of YOUR choosing (a watchlist). Uses textContent only.
@@ -123,7 +124,7 @@ function rateLimited(ip) {
 // Crawlability: engine.alpha.melek.salon served neither robots.txt nor sitemap.xml. The engine is
 // mostly a JSON API, but it also serves four real HTML pages — those, and only those, go in the
 // sitemap. The JSON endpoints stay crawlable (they are public read-only data) but unlisted.
-const BASE_URL = (process.env.BASE_URL || 'https://engine.alpha.melek.salon').replace(/\/$/, '');
+const BASE_URL = (process.env.BASE_URL || (config.net === 'mainnet' ? 'https://engine.melek.salon' : 'https://engine.alpha.melek.salon')).replace(/\/$/, '');
 export const SITEMAP_PATHS = ['/', '/wallet', '/dtube', '/tools'];
 
 function send(res, code, body, type = 'application/json') {
@@ -176,6 +177,7 @@ export function makeHandler(state, opts = {}) {
   const tokenTools = makeTokenToolsHandler({ state, smtSummary: opts.smtSummary });
 
   return function handler(req, res) {
+    finishHtmlResponses(res, { siteName: 'MELEK-Engine', url: BASE_URL + String(req.url || '/').split('?')[0] }, req);
     const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
     if (rateLimited(ip)) return send(res, 429, { error: 'rate limited' });
 

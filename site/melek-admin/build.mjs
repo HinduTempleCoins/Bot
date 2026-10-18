@@ -12,6 +12,7 @@
 //   import { fetchAdminPosts, fetchWitnessAccounts, renderAdminPage } from './build.mjs'   // tests
 import { writeFileSync, mkdirSync, renameSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { finishPage } from '../../integrations/soapbox/page-meta.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 export const ADMINS = () => env('ADMIN_ACCOUNTS', 'vankushfamily,kalivankush,angelicalist,vankush,hathor,melek').split(/[\s,]+/).filter(Boolean);
@@ -190,7 +191,7 @@ ${cards}
 if (process.argv[1] && process.argv[1].endsWith('build.mjs') && process.argv[1].includes('melek-admin')) {
   const write = (out, html, n, label) => {
     mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out + '.new', html); renameSync(out + '.new', out);
+    writeFileSync(out + '.new', finishPage(html, { host: 'melek.salon', siteName: 'MELEK' })); renameSync(out + '.new', out);
     console.log(`[${label}] ${n} posts -> ${out}`);
   };
   const posts = await fetchAdminPosts();
