@@ -15,6 +15,9 @@ Every post needs a category, chosen from the '''Category (required)''' menu. The
 == Tags ==
 After the category, a post can carry up to four more tags, five in total. See [[Tags on MELEK]].
 
+== Rewards and Advanced Settings ==
+Under the editor, '''Rewards''' shows how the post will pay, and '''Advanced Settings''' lets you choose '''Power Up 100%''' or '''Decline Payout''', and add '''Beneficiaries''' who share the author's reward. Set these before you publish. See [[Post Rewards on MELEK]].
+
 == Publishing ==
 Choose '''Post'''. Your browser signs the operation with your posting key, and the post is written into the next block, usually within three seconds. The chain allows one new top-level post every five minutes per account; replies can be made every 20 seconds.
 

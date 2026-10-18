@@ -1,7 +1,7 @@
 '''Images and video''' make up much of what is posted on [[Melek.salon|melek.salon]]. Pictures are stored on MELEK's image host and shown in the post through Markdown; video is hosted on Bifrost and linked. Part of [[Posting on MELEK]].
 
 == Uploading a picture ==
-Drag a picture into the editor, paste it, or use the editor's image button to pick a file. It uploads to MELEK's image host, and the editor inserts its Markdown, <code>![name](address)</code>, where the cursor was. You can move that line anywhere in the post. The first picture in a post becomes its thumbnail in feeds.
+Drag a picture into the editor, paste it from the clipboard, or choose '''selecting them''' under the editor to pick a file. It uploads to MELEK's image host, and the editor inserts its Markdown, <code>![name](address)</code>, where the cursor was. You can move that line anywhere in the post. The first picture in a post becomes its thumbnail in feeds.
 
 == Photos (Pinboard) ==
 The '''Photos (Pinboard)''' tool in the editor's Creation tools panel opens the [https://melek.salon/pin MELEK Pinboard]. Post a photo or an album there, or save one you found, then copy its Markdown into your post. See [[MELEK Pinboard]]. Photo posts go in the '''Photos''' category. See [[Post Categories on MELEK]].
