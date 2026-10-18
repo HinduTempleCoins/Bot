@@ -149,7 +149,7 @@ $('make').onclick=async()=>{const name=$('name').value.trim();if(!name)return;
 load();
 async function loadCh(){const j=await api('/channels');const cs=(j&&j.channels)||[];
  $('clist').innerHTML=cs.length?cs.map(c=>'<div class=item><div style="flex:1"><a href="/c/'+E(c.name)+'"><b>#'+E(c.name)+'</b></a>'
-  +(c.modes&&c.modes.i?' <span class=chip>+i</span>':'')+(c.modes&&c.modes.m?' <span class=chip>+m</span>':'')
+  +(c.modes&&c.modes.i?' <span class=chip>+i</span>':'')+(c.modes&&c.modes.m?' <span class=chip>+m</span>':'')+(c.membersOnly?' <span class=chip>members only</span>':'')
   +'<br><span class=mut>'+E(c.topic||'')+' · '+c.online+' here</span></div><a class=btn href="/c/'+E(c.name)+'">Join</a></div>').join('')
   :'<p class=mut>No channels yet. Start the first one.</p>';}
 $('cmake').onclick=async()=>{if(!SIGNED){location.href='/auth/login';return;}const name=$('cname').value.trim();if(!name)return;

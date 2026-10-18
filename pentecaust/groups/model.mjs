@@ -62,8 +62,22 @@ export const KINDS = ['community', 'group', 'topic', 'board', 'circle', 'hub'];
 // holds here too.
 export const JOIN_POLICIES = ['open', 'apply', 'invite', 'token', 'dues'];
 // Moderation hierarchy (HIVE roles). Higher rank manages lower. 'muted' is below member (can read, not post).
-export const ROLES = { owner: 4, admin: 3, mod: 2, member: 1, muted: 0 };
-const SETTABLE_ROLES = ['admin', 'mod', 'member', 'muted']; // owner is transferred, never "set"
+// The ladder. TYLER is the entry officer: the one who explains the club, admits people (approve + invite)
+// and guards the door — the first of the officer ranks, below the moderators. PROSPECT is a probationary
+// member. Only the ORDER matters; the numbers are compared, never stored.
+export const ROLES = { owner: 8, admin: 6, mod: 4, tyler: 3, member: 2, prospect: 1, muted: 0 };
+const SETTABLE_ROLES = ['admin', 'mod', 'tyler', 'member', 'prospect', 'muted']; // owner is transferred, never "set"
+
+// What each club calls its ranks. The club picks a set; Tyler is the entry officer in every one.
+export const TITLE_SETS = {
+  classic: { owner: 'President', admin: 'Vice President', mod: 'Officer', tyler: 'Tyler', member: 'Member', prospect: 'Prospect', muted: 'Muted' },
+  corporate: { owner: 'CEO', admin: 'COO', mod: 'Officer', tyler: 'Tyler', member: 'Member', prospect: 'Prospect', muted: 'Muted' },
+  lodge: { owner: 'Worshipful Master', admin: 'Senior Warden', mod: 'Junior Warden', tyler: 'Tyler', member: 'Fellowcraft', prospect: 'Entered Apprentice', muted: 'Muted' },
+  car: { owner: 'President', admin: 'Vice President', mod: 'Sergeant-at-Arms', tyler: 'Tyler', member: 'Member', prospect: 'Prospect', muted: 'Muted' },
+};
+// Named offices a club can give its officers on top of their rank (the legal officers + the C-suite).
+export const OFFICES = ['Secretary', 'Treasurer', 'CFO', 'CIO', 'CTO', 'CMO', 'Chaplain', 'Steward', 'Historian', 'Events Coordinator'];
+export const titleFor = (group, role) => (TITLE_SETS[(group && group.titleSet) || 'classic'] || TITLE_SETS.classic)[role] || role;
 
 const MAX_MEMBERS_DEFAULT = Number(env('GROUPS_MAX_MEMBERS', '100000')) || 100000;
 const KEEP_FEED = Number(env('GROUPS_FEED_KEEP', '200')) || 200; // ring-buffered recent-post pointers
@@ -164,10 +178,13 @@ export function view(group) {
     tag: group.tag || null, category: groupCategory(group),
     tokenGate: Array.isArray(group.tokenGate) ? group.tokenGate : [],
     maxMembers: group.maxMembers, created: group.created,
-    members: Object.entries(group.members).map(([account, m]) => ({ account, role: m.role, joined: m.joined }))
+    titleSet: group.titleSet || 'classic',
+    members: Object.entries(group.members).map(([account, m]) => ({ account, role: m.role, title: titleFor(group, m.role),
+      office: (group.offices || {})[account] || null, joined: m.joined }))
       .sort((a, b) => rank(b.role) - rank(a.role) || a.joined - b.joined),
     memberCount: Object.keys(group.members).length,
     duesPaid: group.duesPaid || {},
+    publishRole: publishRoleOf(group),
     pending: Object.keys(group.applicants || {}).length,
     posts: (group.feed || []).length,
   };
@@ -274,7 +291,7 @@ export function approve(id, actor, account, opts = {}) {
   const who = acct(account); const by = acct(actor);
   const store = loadStore(fs, file); const group = store.groups[id];
   if (!group) return { ok: false, reason: 'no such group' };
-  if (rank(roleOf(group, by)) < ROLES.mod) return { ok: false, reason: 'not allowed (mod+ only)' };
+  if (rank(roleOf(group, by)) < ROLES.tyler) return { ok: false, reason: 'not allowed (Tyler and up only)' };
   if (!group.applicants[who]) return { ok: false, reason: 'no such applicant' };
   if (Object.keys(group.members).length >= group.maxMembers) return { ok: false, reason: 'group is full' };
   delete group.applicants[who];
@@ -290,7 +307,7 @@ export function invite(id, actor, account, opts = {}) {
   if (!canParticipate(who)) return { ok: false, reason: 'account must be a valid MELEK account name or messenger handle' };
   const store = loadStore(fs, file); const group = store.groups[id];
   if (!group) return { ok: false, reason: 'no such group' };
-  if (rank(roleOf(group, by)) < ROLES.mod) return { ok: false, reason: 'not allowed (mod+ only)' };
+  if (rank(roleOf(group, by)) < ROLES.tyler) return { ok: false, reason: 'not allowed (Tyler and up only)' };
   group.invites[who] = now(opts); saveStore(fs, file, store);
   return { ok: true, status: 'invited', group: view(group) };
 }
@@ -539,6 +556,17 @@ export function postToGroup(id, post = {}, opts = {}) {
   const role = roleOf(group, author);
   if (!role) return { ok: false, reason: 'only members can post to this group' };
   if (role === 'muted') return { ok: false, reason: 'muted members cannot post' };
+  // Publishing into the group's public feed takes rank (clubs: mod and up by default). Below that rank a
+  // member writes on the private board instead, and a post approved there may be published by its author.
+  const need = publishRoleOf(group);
+  const approved = post.boardId && (group.board || []).some((d) => d.id === post.boardId && d.author === author && d.status === 'approved');
+  if (rank(role) < rank(need) && !approved) {
+    return { ok: false, status: 'needs-rank', reason: `Publishing to ${group.name}'s feed takes the ${need} rank. Put it on the club board — a ${need} can approve it.` };
+  }
+  if (approved) {
+    const d = group.board.find((x) => x.id === post.boardId);
+    d.status = 'published'; d.permlink = permlink;
+  }
 
   const category = groupCategory(group);
   const tags = [group.tag, ...(Array.isArray(post.tags) ? post.tags.map(slug) : [])].filter(Boolean);
@@ -613,6 +641,99 @@ export function listFeed(id, { limit = 50 } = {}, opts = {}) {
   if (!group) return [];
   const cap = Math.max(1, Math.min(KEEP_FEED, limit));
   return (group.feed || []).slice(-cap).reverse();
+}
+
+// ── publishing rank + the private club board ────────────────────────────────────────────────────────
+// Clubs keep their own space: the BOARD is off the chain and visible only to members. Anyone in the club
+// may write a draft there; publishing into the group's public feed takes `publishRole` (clubs default to
+// mod, plain groups to member), or an approval from someone who holds it.
+const KEEP_BOARD = 300;
+export function publishRoleOf(group) {
+  if (group && group.publishRole && ROLES[group.publishRole] != null) return group.publishRole;
+  return group && group.joinPolicy === 'dues' ? 'mod' : 'member';
+}
+
+/** Owner/admin picks which names the club uses for its ranks. */
+export function setTitleSet(id, actor, set, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
+  if (!TITLE_SETS[set]) return { ok: false, reason: `title set must be one of ${Object.keys(TITLE_SETS).join(', ')}` };
+  group.titleSet = set;
+  saveStore(fs, file, store);
+  return { ok: true, group: view(group) };
+}
+
+/** Owner/admin gives a member a named office (Secretary, Treasurer, CFO, CIO…), or clears it with ''. */
+export function setOffice(id, actor, account, office, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
+  const who = acct(account);
+  if (!group.members[who]) return { ok: false, reason: 'not a member' };
+  if (office && !OFFICES.includes(office)) return { ok: false, reason: `office must be one of ${OFFICES.join(', ')}` };
+  const o = { ...(group.offices || {}) };
+  if (office) o[who] = office; else delete o[who];
+  group.offices = o;
+  saveStore(fs, file, store);
+  return { ok: true, group: view(group) };
+}
+
+/** Owner/admin sets the rank needed to publish into the group feed. */
+export function setPublishRole(id, actor, role, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.admin) return { ok: false, reason: 'admin or owner only' };
+  if (!['member', 'mod', 'admin', 'owner'].includes(role)) return { ok: false, reason: 'role must be member, mod, admin or owner' };
+  group.publishRole = role;
+  saveStore(fs, file, store);
+  return { ok: true, publishRole: role };
+}
+
+/** A member writes on the private board. Stays off the chain; members only. */
+export function boardPost(id, actor, { title = '', body = '' } = {}, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const who = acct(actor);
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  const role = roleOf(group, who);
+  if (!role || role === 'muted') return { ok: false, reason: 'members only' };
+  const text = String(body || '').trim();
+  if (!text) return { ok: false, reason: 'write something first' };
+  const d = { id: `b${now(opts).toString(36)}${Math.random().toString(36).slice(2, 6)}`, author: who,
+    title: clamp(title, 200), body: text.slice(0, 20000), ts: now(opts), status: 'draft' };
+  group.board = [...(group.board || []), d].slice(-KEEP_BOARD);
+  saveStore(fs, file, store);
+  return { ok: true, post: d };
+}
+
+/** Members read the board (newest first). Non-members get nothing. */
+export function listBoard(id, actor, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const group = loadStore(fs, file).groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  const role = roleOf(group, acct(actor));
+  if (!role) return { ok: false, reason: 'members only' };
+  return { ok: true, publishRole: publishRoleOf(group), canPublish: rank(role) >= rank(publishRoleOf(group)),
+    board: [...(group.board || [])].reverse() };
+}
+
+/** Someone holding the publish rank approves a board post; its author may then publish it on MELEK. */
+export function approveBoardPost(id, actor, boardId, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < rank(publishRoleOf(group))) {
+    return { ok: false, reason: `approving takes the ${publishRoleOf(group)} rank` };
+  }
+  const d = (group.board || []).find((x) => x.id === boardId);
+  if (!d) return { ok: false, reason: 'no such board post' };
+  d.status = 'approved'; d.approvedBy = acct(actor); d.approvedAt = now(opts);
+  saveStore(fs, file, store);
+  return { ok: true, post: d };
 }
 
 // ── reads ─────────────────────────────────────────────────────────────────────────────────────────

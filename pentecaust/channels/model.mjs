@@ -49,11 +49,14 @@ export const isOp = (ch, who) => !!ch && (ch.founder === who || has(ch.ops, who)
 export const isVoiced = (ch, who) => !!ch && has(ch.voiced, who);
 export const canSpeak = (ch, who) => !!ch && !has(ch.banned, who) && (!ch.modes.m || isOp(ch, who) || isVoiced(ch, who));
 export const canJoin = (ch, who) => !!ch && !has(ch.banned, who) && (!ch.modes.i || isOp(ch, who) || has(ch.invited, who));
+// A club room: linked to a Pact group, open only to that group's members (checked by the caller-supplied
+// memberOf, so this module never reads the groups store). Ops always get in.
+const clubOk = (ch, who, o) => !ch.group || isOp(ch, who) || (o && typeof o.memberOf === 'function' && o.memberOf(ch.group, who));
 
 function publicView(ch, t) {
   const here = Object.entries(ch.seen || {}).filter(([, ts]) => t - ts < PRESENCE_MS).map(([w]) => w);
   return { name: ch.name, topic: ch.topic, founder: ch.founder, modes: ch.modes, created: ch.created,
-    lastActive: ch.lastActive, online: here.length };
+    lastActive: ch.lastActive, online: here.length, group: ch.group || null, membersOnly: !!ch.group };
 }
 
 /** Start a channel. The founder becomes its permanent operator. */
@@ -92,6 +95,7 @@ export function joinChannel(name, who, o = {}) {
   if (!ch) return { ok: false, reason: `#${n} does not exist` };
   if (has(ch.banned, w)) return { ok: false, reason: `You are banned from #${n}.` };
   if (!canJoin(ch, w)) return { ok: false, reason: `#${n} is invite-only.` };
+  if (!clubOk(ch, w, o)) return { ok: false, reason: `#${n} is the club room of ${ch.group} — members only.` };
   ch.seen = { ...(ch.seen || {}), [w]: now(o) };
   save(store, o);
   return { ok: true };
@@ -133,7 +137,7 @@ export function postMessage(name, who, text, o = {}) {
   if (body.startsWith('/')) return runCommand(name, who, body, o);
   const store = load(o); const ch = store.channels[n];
   if (!ch) return { ok: false, reason: `#${n} does not exist` };
-  if (!canJoin(ch, w)) return { ok: false, reason: 'join the channel first' };
+  if (!canJoin(ch, w) || !clubOk(ch, w, o)) return { ok: false, reason: 'join the channel first' };
   if (!canSpeak(ch, w)) return { ok: false, reason: `#${n} is moderated (+m): only ops and voiced people can talk.` };
   ch.seen = { ...(ch.seen || {}), [w]: now(o) };
   const m = append(store, ch, { kind: 'msg', from: w, text: body.slice(0, MAX_TEXT) }, o);
@@ -187,4 +191,14 @@ export function runCommand(name, who, line, o = {}) {
     case '/unban': ch.banned = drop(ch.banned, target); return notice(`${w} unbanned ${target}`);
     default: return { ok: false, reason: 'unknown command' };
   }
+}
+
+/** Founder links a room to a Pact group (club room: members only), or unlinks it with ''. */
+export function linkGroup(name, actor, groupId, o = {}) {
+  const n = normName(name); const store = load(o); const ch = n && store.channels[n];
+  if (!ch) return { ok: false, reason: 'no such channel' };
+  if (normWho(actor) !== ch.founder) return { ok: false, reason: 'only the founder can link a room to a club' };
+  ch.group = String(groupId || '').trim() || undefined;
+  save(store, o);
+  return { ok: true, channel: publicView(ch, now(o)) };
 }

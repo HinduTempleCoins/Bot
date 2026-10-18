@@ -16,6 +16,7 @@
 import {
   createGroup, addMember, approve, invite, removeMember, setRole, setJoinPolicy, setAbout,
   postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam, setDues, setCharter, DUES_RAILS, recordDuesPayment,
+  setPublishRole, boardPost, listBoard, approveBoardPost, setTitleSet, setOffice,
   groupChannelId, ROLES, JOIN_POLICIES, KINDS, voteOnPost, votesFor, setProgram, PROGRAMS,
 } from './model.mjs';
 import { kitFor } from './paperwork.mjs';
@@ -63,6 +64,13 @@ export async function handler(req, res, deps = {}) {
     if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs.length === 2) {
       const g = getGroup(segs[1], opts);
       return g ? json(res, 200, { ok: true, group: g }) : json(res, 404, { ok: false, reason: 'no such group' });
+    }
+    // the private club board — members only, session identity only
+    if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'board') {
+      const me = who(req);
+      if (!me) return json(res, 401, { ok: false, reason: 'sign in first' });
+      const r = listBoard(segs[1], me, opts);
+      return json(res, r.ok ? 200 : 403, r);
     }
     if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'feed') {
       const g = getGroup(segs[1], opts);
@@ -154,6 +162,12 @@ export async function handler(req, res, deps = {}) {
       case 'dues':      return json(res, 200, setDues(id, me, b.dues, opts));
       case 'charter':   return json(res, 200, setCharter(id, me, b.charter, opts));
       case 'post':      return json(res, 200, postToGroup(id, { ...b, author: me }, opts));
+      case 'board':     return segs[3] && segs[4] === 'approve'
+        ? json(res, 200, approveBoardPost(id, me, segs[3], opts))
+        : json(res, 200, boardPost(id, me, b, opts));
+      case 'publish-role': return json(res, 200, setPublishRole(id, me, b.role, opts));
+      case 'titles':    return json(res, 200, setTitleSet(id, me, b.set, opts));
+      case 'office':    return json(res, 200, setOffice(id, me, b.account, b.office, opts));
       // Pact is a MELEK front end: a vote here is a standard Graphene `vote` op, returned for
       // MELEK-Signer to broadcast. This surface holds no keys and writes nothing to the chain.
       case 'vote':      return json(res, 200, voteOnPost(id, { ...b, voter: me }, opts));

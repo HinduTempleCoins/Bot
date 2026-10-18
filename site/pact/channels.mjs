@@ -8,6 +8,10 @@
 // Identity comes from the injected whoami (the Pact session) — never from a body field. Reading a public room
 // needs no sign-in; talking, starting a room and running commands do. Raw text is escaped at render time.
 import * as model from '../../pentecaust/channels/model.mjs';
+import { isMember as groupMember } from '../../pentecaust/groups/model.mjs';
+
+// club rooms are members-only: membership comes from the Pact groups store
+const memberOf = (gid, who) => { try { return groupMember(gid, who); } catch { return false; } };
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -98,19 +102,19 @@ export async function handler(req, res, { whoami, style = '' } = {}) {
     const ch = model.getChannel(name);
     if (!ch) { sendJson(res, 404, { ok: false, reason: 'no such channel' }); return true; }
     if (method === 'GET') {
-      if (who) { const j = model.joinChannel(name, who); if (!j.ok) { sendJson(res, 403, j); return true; } }
-      else if (ch.modes.i) { sendJson(res, 403, { ok: false, reason: `#${ch.name} is invite-only — sign in.` }); return true; }
+      if (who) { const j = model.joinChannel(name, who, { memberOf }); if (!j.ok) { sendJson(res, 403, j); return true; } }
+      else if (ch.modes.i || ch.membersOnly) { sendJson(res, 403, { ok: false, reason: `#${ch.name} is invite-only — sign in.` }); return true; }
       const since = Number(new URLSearchParams(qs).get('since')) || 0;
       sendJson(res, 200, { ok: true, topic: ch.topic, modes: ch.modes, messages: model.readMessages(name, { since }), roster: model.roster(name) });
       return true;
     }
     if (method === 'POST') {
       if (!who) { sendJson(res, 401, { ok: false, reason: 'sign in to talk' }); return true; }
-      const j = model.joinChannel(name, who);
+      const j = model.joinChannel(name, who, { memberOf });
       if (!j.ok) { sendJson(res, 403, j); return true; }
       const b = await readJson(req);
       if (!b) { sendJson(res, 400, { ok: false, reason: 'bad body' }); return true; }
-      const r = model.postMessage(name, who, b.text);
+      const r = model.postMessage(name, who, b.text, { memberOf });
       sendJson(res, r.ok ? 200 : 400, r); return true;
     }
   }
