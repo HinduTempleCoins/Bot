@@ -82,3 +82,12 @@ test('Members page always shows how to get listed, linked to Hathor\'s commands'
   }
   assert.ok(!renderAdminPage([], { page: 'admin' }).includes('How to get listed here'));
 });
+
+test('home page is titled for MELEK itself; /admin keeps "Admin Updates — MELEK"; both mark the Admin tab', () => {
+  const posts = [post('alice', 'a1', '2026-10-10T00:00:00')];
+  const home = renderAdminPage(posts, { admins: ['alice'], page: 'home' });
+  const admin = renderAdminPage(posts, { admins: ['alice'] });
+  assert.match(home, /<title>MELEK — a social network on its own blockchain · Admin Updates<\/title>/);
+  assert.match(admin, /<title>Admin Updates — MELEK<\/title>/);
+  for (const html of [home, admin]) assert.match(html, /<a href="https:\/\/melek\.salon\/" class=on aria-current=page>Admin Updates<\/a>/);
+});
