@@ -226,7 +226,6 @@ export function visitorPanel(id, lookup = getGroup) {
 <li>Come back here and press <b>I've paid — check</b>. Pact reads the chain to confirm it; the money goes straight to @${esc(payee)}, never through Pact.</li></ol>`
     : '<ol><li><a href="/auth/login">Sign in with MELEK</a>.</li><li>Press <b>Join</b> on this page.</li></ol>';
   return `<div class=card>
-<p>${esc(g.about || g.description || '')}</p>
 ${d ? `<p><b>Dues:</b> ${esc(duesText(d))}${payee ? `, paid to @${esc(payee)}` : ''}.</p>` : '<p><b>Free to join.</b></p>'}
 <p><b>How to join</b></p>${steps}
 <a class="btn primary" href="/auth/login">Sign in to join</a></div>`;
