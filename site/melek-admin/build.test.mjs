@@ -91,3 +91,14 @@ test('home page is titled for MELEK itself; /admin keeps "Admin Updates — MELE
   assert.match(admin, /<title>Admin Updates — MELEK<\/title>/);
   for (const html of [home, admin]) assert.match(html, /<a href="https:\/\/melek\.salon\/" class=on aria-current=page>Admin Updates<\/a>/);
 });
+
+test('video posts get a thumbnail with a play mark', async () => {
+  const { firstVideo, renderAdminPage } = await import('./build.mjs');
+  assert.equal(firstVideo({ body: 'watch https://www.youtube.com/watch?v=dQw4w9WgXcQ now' }).thumb, 'https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg');
+  assert.equal(firstVideo({ body: 'https://youtu.be/dQw4w9WgXcQ' }).kind, 'youtube');
+  assert.equal(firstVideo({ json_metadata: JSON.stringify({ video: { url: 'https://x/v.mp4', thumbnail: 'https://x/t.jpg' } }) }).thumb, 'https://x/t.jpg');
+  assert.equal(firstVideo({ body: 'no video here' }), null);
+  const html = renderAdminPage([{ author: 'hathor', permlink: 'p', title: 'T', body: 'https://youtu.be/dQw4w9WgXcQ', created: '2026-10-18T00:00:00' }]);
+  assert.match(html, /class=vthumb><img loading=lazy src="https:\/\/i\.ytimg\.com\/vi\/dQw4w9WgXcQ\/hqdefault\.jpg"/);
+  assert.match(html, /class=play/);
+});
