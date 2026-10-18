@@ -76,6 +76,7 @@ function page(who) {
 <header><span class=brand>${MARK}<b>Pact</b></span>${auth}</header>
 <p class=lead>A pact is a binding agreement between people. It has terms, it has members, and it has
 what you put into it. A <b>group</b> is a pact anyone can join; a <b>club</b> is one with dues.</p>
+<div class=card id=invitebox hidden></div>
 <div class=card>
   <div class=row>
     <input id=name placeholder="Name a pact" autocapitalize=off>
@@ -133,6 +134,18 @@ $('cmake').onclick=async()=>{if(!SIGNED){location.href='/auth/login';return;}con
   body:JSON.stringify({name,topic:$('ctopic').value,inviteOnly:m==='i',moderated:m==='m'})});
  if(r&&r.ok)location.href='/c/'+encodeURIComponent(r.channel.name);else alert((r&&r.reason)||'could not start the channel');};
 loadCh();
+// ?invite=<account> — opened from the Invite to Pact button on a MELEK profile
+(async()=>{const inv=(new URLSearchParams(location.search).get('invite')||'').toLowerCase().replace(/[^a-z0-9.~_-]/g,'');
+ if(!inv)return;const box=$('invitebox');box.hidden=false;
+ if(!SIGNED){box.innerHTML='<b>Invite @'+E(inv)+'</b><p class=mut>Sign in to invite them to one of your groups or channels.</p><a class="btn primary" href="/auth/login">Sign in</a>';return;}
+ const gs=(((await api('/me/groups'))||{}).groups)||[];const cs=(((await api('/channels?op=me'))||{}).channels)||[];
+ const rows=gs.map(g=>'<div class=item><div style="flex:1"><b>'+E(g.name)+'</b> <span class=chip>group</span></div><button class=btn data-g="'+E(g.id)+'">Invite</button></div>')
+  .concat(cs.map(c=>'<div class=item><div style="flex:1"><b>#'+E(c.name)+'</b> <span class=chip>channel</span></div><button class=btn data-c="'+E(c.name)+'">Invite</button></div>'));
+ box.innerHTML='<b>Invite @'+E(inv)+' to…</b>'+(rows.length?rows.join(''):'<p class=mut>You have no groups or channels yet. Make one below, then invite them.</p>')+'<p class=mut id=invmsg></p>';
+ const done=(r)=>{$('invmsg').textContent=r&&r.ok?'Invited @'+inv+'.':((r&&r.reason)||'could not invite');};
+ for(const b of box.querySelectorAll('[data-g]'))b.onclick=async()=>done(await api('/groups/'+encodeURIComponent(b.dataset.g)+'/invite',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({account:inv})}));
+ for(const b of box.querySelectorAll('[data-c]'))b.onclick=async()=>done(await api('/channels/'+encodeURIComponent(b.dataset.c)+'/messages',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:'/invite '+inv})}));
+})();
 </script></body></html>`;
 }
 

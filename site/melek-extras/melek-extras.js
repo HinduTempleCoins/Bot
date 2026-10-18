@@ -144,12 +144,45 @@
       if (m) links[i].href = 'https://pentecaust.com/?dm=' + m[1];
     }
   }
+  // ── 5. profile "Invite to Pact" button, beside Message ───────────────────────────────────────────
+  function addInviteButton() {
+    var msg = d.querySelector('a[href^="https://pentecaust.com/?dm="]');
+    if (!msg || msg.parentNode.querySelector('.melek-invite')) return;
+    var acct = (msg.href.match(/[?&]dm=([^&]+)/) || [])[1];
+    if (!acct) return;
+    var a = el('a', { href: 'https://pact.pentecaust.com/?invite=' + acct, target: '_blank', rel: 'noopener',
+      class: (msg.className || '') + ' melek-invite', title: 'Invite them to one of your Pact groups or channels',
+      style: 'margin-left:8px' }, 'Invite to Pact');
+    msg.parentNode.insertBefore(a, msg.nextSibling);
+  }
+
+  // ── 6. "Groups" in the top bar, beside Hot / Trending / New ──────────────────────────────────────
+  function addGroupsTab() {
+    if (d.querySelector('.melek-groups-tab')) return;
+    var links = d.querySelectorAll('header a, .Header a');
+    for (var i = 0; i < links.length; i++) {
+      if ((links[i].textContent || '').trim() === 'New') {
+        var g = links[i].cloneNode(false);
+        g.removeAttribute('class'); g.className = (links[i].className || '') + ' melek-groups-tab';
+        g.href = 'https://pact.pentecaust.com/#groups'; g.textContent = 'Groups';
+        g.removeAttribute('aria-current');
+        var host = links[i].parentNode.tagName === 'LI' ? links[i].parentNode : links[i];
+        var wrap = host === links[i] ? g : host.cloneNode(false);
+        if (wrap !== g) { wrap.removeAttribute('class'); wrap.className = host.className; wrap.appendChild(g); }
+        host.parentNode.insertBefore(wrap, host.nextSibling);
+        return;
+      }
+    }
+  }
+
   function routeChanged() {
+    addGroupsTab();
     var col = d.getElementById('melek-tools');
     if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
     addReportButton();
     addCreationTools();
     fixMessageLinks();
+    addInviteButton();
   }
 
   function start() {

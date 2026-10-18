@@ -79,7 +79,12 @@ export async function handler(req, res, { whoami, style = '' } = {}) {
     res.end(roomPage(decodeURIComponent(room[1]), who, style));
     return true;
   }
-  if (path === '/channels' && method === 'GET') { sendJson(res, 200, { ok: true, channels: model.listChannels() }); return true; }
+  if (path === '/channels' && method === 'GET') {
+    let list = model.listChannels();
+    // ?op=me — the channels the signed-in visitor can invite people into (they are an operator there)
+    if (new URLSearchParams(qs).get('op') === 'me') list = who ? list.filter((c) => model.isOp(model.getChannel(c.name), who)) : [];
+    sendJson(res, 200, { ok: true, channels: list }); return true;
+  }
   if (path === '/channels' && method === 'POST') {
     if (!who) { sendJson(res, 401, { ok: false, reason: 'sign in to start a channel' }); return true; }
     const b = await readJson(req);
