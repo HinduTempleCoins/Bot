@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { layout, renderWiki, esc, slugify, titleize, tocAside } from './render.mjs';
+import { videosSection } from './videos.mjs';
 import { figuresForPage } from './figures.mjs';
 import { noticesForPage } from './safety-notices.mjs';
 import { groupArticles, groupArticlesByPillars, categoriesFor, categoryById, PILLARS } from './categories.mjs';
@@ -39,7 +40,7 @@ const DL_TYPES = { 'library.jsonl': 'application/jsonl; charset=utf-8', 'library
 // only — article text is untouched. Generated images live in site/wiki/files/.
 const FILES_DIR = process.env.WIKI_FILES_DIR || path.join(__dir, 'files');
 const IMG_TYPES = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.svg': 'image/svg+xml' };
-function listArticles() {
+export function listArticles() {
   const seen = new Set(); const out = [];
   for (const dir of ARTICLE_DIRS) {
     let files = [];
@@ -109,7 +110,7 @@ function articlePage(slug) {
   // Figures for an existing article are attached HERE, at render time, keyed by slug — the .wiki file
   // itself is never modified (wiki article text is not ours to edit; see site/wiki/figures.mjs).
   // A safety banner goes ABOVE everything, including figures — it is the first thing on the page.
-  const html = noticesForPage(slug) + figuresForPage(slug) + rendered;
+  const html = noticesForPage(slug) + figuresForPage(slug) + rendered + videosSection(a.slug, a.title);
   const flags = flagsForArticle(refs);
   const flagBlock = flags.length ? `<div class=flag><b>⚠️ Fact-check flags (${flags.length})</b> — the knowledge base sources for this article contain claims our fact-checker could not verify against external reality. Treat the following with caution:
     <ul>${flags.slice(0, 10).map((f) => `<li>[${esc(f.verdict)}] ${esc(f.claim)}${f.reason ? ` — <span class=muted>${esc(f.reason)}</span>` : ''}</li>`).join('')}</ul></div>` : '';
