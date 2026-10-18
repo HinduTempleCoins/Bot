@@ -50,7 +50,7 @@ test('the collector serves exactly the script this module defines — they canno
   assert.match(server, /res\.end\(BEACON_JS\)/);
 });
 
-test('the injected tag on the network matches this module byte for byte', () => {
+test('the beacon is only on private pages, and where present it is the canonical tag', () => {
   // If someone hand-edits a page's tag, this catches it — 99 copies of a string is exactly the kind of
   // thing that silently diverges.
   const files = (() => { const root = new URL('../../', import.meta.url).pathname; return readdirSync(root + 'site', { withFileTypes: true }).filter((d) => d.isDirectory() && existsSync(`${root}site/${d.name}/server.mjs`)).map((d) => `site/${d.name}/server.mjs`); })() // Node 20: no fs.globSync;
@@ -62,17 +62,16 @@ test('the injected tag on the network matches this module byte for byte', () => 
     carriers++;
     assert.ok(src.includes(BEACON_TAG), `${rel} carries a tag that is not the canonical one`);
   }
-  // ⚠️ NOT every page may carry it, and that is deliberate — do not "fix" this into a 100% coverage
-  // assertion. A blanket injection was tried and broke real invariants held by other suites:
-  //   · site/idlegames + site/flashlight assert NO external <script src> at all — they are offline-
-  //     capable by promise, and a beacon tag is an external script.
-  //   · site/hub, site/witness, site/hathor-live, site/oversight assert soapy.blog appears NOWHERE on
-  //     a public page — the collector is the PRIVATE admin host and naming it on a public surface leaks
-  //     it. Those invariants landed AFTER the beacon was hand-injected on the box, and the two were
-  //     never reconciled; the invariant wins, so those six directories carry no beacon.
-  // The real anti-drift property is the assert above: every page that DOES carry a tag carries the
-  // canonical one. The floor just catches a mass-removal.
-  assert.ok(carriers > 50, `expected the network to be instrumented, found ${carriers}`);
+  // Operator decision (2026-10-18): the soapy.blog beacon is OFF every public page — it named the private
+  // admin host on public surfaces and contradicted "No tracking" footers. Only private, operator-only
+  // pages may still carry it.
+  const PRIVATE_ONLY = new Set(['site/admin/server.mjs', 'site/console/server.mjs', 'site/credentials/server.mjs', 'site/moderation/server.mjs']);
+  for (const rel of files) {
+    const src = readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8');
+    if (rel === 'site/analytics/server.mjs' || PRIVATE_ONLY.has(rel)) continue;
+    assert.ok(!src.includes('soapy.blog/b.js'), `${rel} is public and must not load the soapy.blog beacon`);
+  }
+  assert.ok(carriers <= PRIVATE_ONLY.size, `beacon found on ${carriers} pages; only private pages may carry it`);
 });
 
 test('the collector is on the PRIVATE admin host, never a public subdomain', () => {
