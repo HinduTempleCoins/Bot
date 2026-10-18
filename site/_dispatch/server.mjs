@@ -10,7 +10,7 @@ import http from 'node:http';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { ensureBeacon, ensureSocialMeta, cardForHost } from '../../integrations/soapbox/page-meta.mjs';
+import { ensureBeacon, ensureSocialMeta, ensureJsonLd, cardForHost } from '../../integrations/soapbox/page-meta.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = path.resolve(__dirname, '..'); // .../site
@@ -98,7 +98,7 @@ export function publicOrigin(req, res, internal) {
     // so surfaces that self-emit aren't doubled) and link-preview tags built from the page's own title,
     // description and canonical, with the share card when it has no image of its own.
     if (/text\/html/i.test(ct) && !NO_FINISH.test(host) && /<head[\s>]/i.test(out) && out.includes('</head>')) {
-      out = ensureSocialMeta(out, { card: cardForHost(host) });
+      out = ensureJsonLd(ensureSocialMeta(out, { card: cardForHost(host) }));
       if (BEACON_URL) out = ensureBeacon(out, BEACON_URL);
     }
     if (out === str) return chunk;

@@ -104,3 +104,17 @@ test('a wide header logo as og:image is swapped for the share card', () => {
   assert.match(out, /twitter:card" content="summary_large_image"/);
   assert.equal(ensureSocialMeta(out), out);
 });
+
+test('ensureJsonLd adds one WebPage node from the page, only when there is none', async () => {
+  const { ensureJsonLd } = await import('./page-meta.mjs');
+  const out = ensureJsonLd(BARE, { siteName: 'MELEK' });
+  const m = /<script type="application\/ld\+json">(.*?)<\/script>/.exec(out);
+  const j = JSON.parse(m[1]);
+  assert.equal(j['@type'], 'WebPage');
+  assert.equal(j.name, 'KULA Community Fund — MELEK');
+  assert.equal(j.url, 'https://melek.salon/kula');
+  assert.deepEqual(j.isPartOf, { '@type': 'WebSite', name: 'MELEK', url: 'https://melek.salon/' });
+  assert.equal(ensureJsonLd(out), out);
+  const evil = ensureJsonLd(BARE.replace('KULA Community Fund — MELEK', '&lt;/script&gt;x'));
+  assert.ok(!/<\/script>x/.test(evil));
+});

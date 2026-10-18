@@ -20,7 +20,7 @@
 // compression; Caddy re-applies `encode gzip` to the client. Native-only: no deps, no external calls.
 import http from 'node:http';
 import zlib from 'node:zlib';
-import { ensureBeacon, ensureSocialMeta, cardForHost } from '../../integrations/soapbox/page-meta.mjs';
+import { ensureBeacon, ensureSocialMeta, ensureJsonLd, cardForHost } from '../../integrations/soapbox/page-meta.mjs';
 
 const UPSTREAM_HOST = process.env.UPSTREAM_HOST || '127.0.0.1';
 const UPSTREAM_PORT = +(process.env.UPSTREAM_PORT || 8087);
@@ -41,7 +41,7 @@ export function transformHtml(html, host = '', reqPath = '') {
   if (self && out.includes('</head>') && !/<link\b[^>]*\brel\s*=\s*["']?canonical/i.test(out.split('</head>')[0])) {
     out = out.replace('</head>', `<link rel="canonical" href="${self.replace(/"/g, '%22').replace(/</g, '%3C')}"></head>`);
   }
-  out = ensureSocialMeta(out, { card: cardForHost(host), url: self });
+  out = ensureJsonLd(ensureSocialMeta(out, { card: cardForHost(host), url: self }), { url: self });
   if (BEACON_URL) out = ensureBeacon(out, BEACON_URL);
   return out;
 }
