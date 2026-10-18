@@ -21,6 +21,11 @@ import { fileURLToPath } from 'node:url';
 import { makePin, validatePin, pinsFromPost, gridHtml, markdownFor, isImageUrl, safeUrl, hostOf, PINBOARD_CSS, MAX_ALBUM } from '../../integrations/melek-pinboard.mjs';
 
 const PORT = +(process.env.PORT || 8201);
+// Mounted under a path on an existing host (e.g. PATH_PREFIX=/pin behind melek.salon/pin): the page links are
+// written root-relative, so sendHtml/redirects prefix them, and the handler strips the prefix off requests.
+const PATH_PREFIX = (process.env.PATH_PREFIX || '').replace(/\/+$/, '');
+const prefixed = (html) => PATH_PREFIX ? String(html).replace(/(href|action|src)="\/(?!\/)/g, `$1="${PATH_PREFIX}/`) : html;
+const loc = (l) => (PATH_PREFIX && l.startsWith('/') && !l.startsWith('//') ? PATH_PREFIX + l : l);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://pin.melek.salon').replace(/\/$/, '');
 const MELEK = (process.env.MELEK_SITE || 'https://melek.salon').replace(/\/$/, '');
@@ -143,7 +148,7 @@ function boardsPage(pins) {
 
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' });
-  res.end(html);
+  res.end(prefixed(html));
 }
 function readBody(req, max = 20000) {
   return new Promise((resolve) => {
@@ -160,7 +165,9 @@ export function __setPostReader(fn) { _readPost = fn || (async () => null); }
 export async function handler(req, res) {
   try {
     const url = new URL(req.url, BASE_URL || 'http://pin.local');
-    const path = url.pathname.replace(/\/+$/, '') || '/';
+    let pth = url.pathname;
+    if (PATH_PREFIX && (pth === PATH_PREFIX || pth.startsWith(PATH_PREFIX + '/'))) pth = pth.slice(PATH_PREFIX.length) || '/';
+    const path = pth.replace(/\/+$/, '') || '/';
     const pins = loadPins();
 
     if (path === '/health') { res.writeHead(200, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ ok: true, surface: 'pinboard', pins: pins.length })); }
@@ -206,13 +213,13 @@ export async function handler(req, res) {
       const raw = String(body.get('url') || '').trim();
       const postRef = raw.match(/@([a-z0-9.-]+)\/([\w-]+)/i);
       if (postRef && !isImageUrl(raw)) {
-        res.writeHead(302, { location: `/save?post=@${postRef[1]}/${postRef[2]}&as=${encodeURIComponent(body.get('author') || '')}` });
+        res.writeHead(302, { location: loc(`/save?post=@${postRef[1]}/${postRef[2]}&as=${encodeURIComponent(body.get('author') || '')}`) });
         return res.end();
       }
       const pin = makePin({ author: body.get('author') || 'anon', title: body.get('title') || '', images: [{ url: raw }], board: body.get('board') || '' });
       const r = addPin(pin);
       if (!r.ok) return sendHtml(res, shell('Not pinned · MELEK Pinboard', `<p>${esc(r.reason)} <a href="/">Back</a></p>`), 400);
-      res.writeHead(302, { location: `/p/${encodeURIComponent(pin.id)}` });
+      res.writeHead(302, { location: loc(`/p/${encodeURIComponent(pin.id)}`) });
       return res.end();
     }
 
