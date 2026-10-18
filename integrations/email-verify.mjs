@@ -147,6 +147,27 @@ export function resendMailer() {
   };
 }
 
+/** Send one plain-text email through Resend (same capability scope as the verify mailer). Soft-fail. */
+export async function resendSend({ to, subject, text } = {}) {
+  if (!to || !subject) return { ok: false, error: 'missing-fields' };
+  if (!has(RESEND_KEY_NAME)) return { ok: false, error: 'no-resend-key' };
+  const from = process.env[RESEND_FROM_NAME];
+  if (!from) return { ok: false, error: 'no-from-address' };
+  try {
+    return await getCapability(RESEND_KEY_NAME).use(async (key) => {
+      const res = await _fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', authorization: `Bearer ${key}` },
+        body: JSON.stringify({ from, to, subject, text: String(text || '') }),
+      });
+      if (!res || !res.ok) return { ok: false, error: `resend HTTP ${res ? res.status : 'no-response'}` };
+      return { ok: true };
+    });
+  } catch {
+    return { ok: false };
+  }
+}
+
 // Active mailer. Defaults to Resend; tests/deployment inject their own.
 let _mailer = resendMailer();
 export function __setMailer(fn) { _mailer = fn || resendMailer(); }

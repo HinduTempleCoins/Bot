@@ -38,7 +38,7 @@ import { createServer } from 'node:http';
 
 import { loadStages, detectCompletedStages, nextStageFor } from '../tutorial/detector.js';
 import { composeLessonPost } from '../tutorial/composers.mjs';
-import { startVerification, isValidEmail } from '../integrations/email-verify.mjs';
+import { startVerification, isValidEmail, resendSend } from '../integrations/email-verify.mjs';
 import { Limiter, clientIp } from '../integrations/rate-limit.mjs';
 import { moderationFlags, normalizeKind, REPORT_KINDS } from '../integrations/moderation-flags.mjs';
 import { listProviders, PROVIDER_SCHEMA } from './providers.mjs';
@@ -76,6 +76,12 @@ export function __setReportLimiter(l) { _reportLimiter = l || _reportLimiter; }
 // The moderation flag store is injectable so tests use a temp/in-memory store, never the real file.
 let _modStore = moderationFlags;
 export function __setModerationStore(s) { _modStore = s || moderationFlags; }
+
+// Every NEW (non-deduped) report is emailed to the operator so a human sees it right away.
+// REPORT_NOTIFY_EMAIL empty → no email (store only). Fire-and-forget; never blocks or fails the report.
+const REPORT_NOTIFY_EMAIL = process.env.REPORT_NOTIFY_EMAIL ?? 'Ryan.VanKush@icloud.com';
+let _reportMailer = resendSend;
+export function __setReportMailer(fn) { _reportMailer = fn || resendSend; }
 
 // Injectable fetch (offline tests never touch the network).
 let _chainFetch = (...a) => globalThis.fetch(...a);
@@ -446,6 +452,16 @@ export async function handler(req, res) {
     }
     // Count a genuinely-new report against the cap; a deduped retry does NOT burn a slot.
     if (!result.deduped) _reportLimiter.record(rlKey);
+    if (!result.deduped && REPORT_NOTIFY_EMAIL) {
+      const url = /^@?[a-z0-9.-]+\/[^\s]+$/i.test(target) ? `https://melek.salon/${target.startsWith('@') ? target : '@' + target}` : '';
+      Promise.resolve(_reportMailer({
+        to: REPORT_NOTIFY_EMAIL,
+        subject: `MELEK report: ${kind} — ${target}`.slice(0, 180),
+        text: [`A reader flagged something on MELEK.`, '', `Target: ${target}`, url ? `Link: ${url}` : '', `Kind: ${kind}`,
+          `Reason: ${reason || '(none given)'}`, `Reporter: ${reporter || '(anonymous)'}`, `Report id: ${result.report.id}`]
+          .filter((l) => l !== '').join('\n'),
+      })).catch(() => {});
+    }
 
     return sendJson(res, 200, {
       ok: true,

@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import {
   handler, ALLOWED_ORIGIN, validAccountName, stageCatalog,
   computeProgress, readAccountActivity, __setChainFetch, __setEmailLimiter,
-  __setReportLimiter, __setModerationStore,
+  __setReportLimiter, __setModerationStore, __setReportMailer,
 } from './server.mjs';
 import { createModerationStore } from '../integrations/moderation-flags.mjs';
 import {
@@ -456,4 +456,20 @@ test('POST /api/report rate-limits a flood (anti-abuse, POLICY.md §1)', async (
   assert.equal(b.statusCode, 200);
   assert.equal(c.statusCode, 429); // third distinct report from same IP is throttled
   assert.equal(json(c).reason, 'rate-limited');
+});
+
+test('POST /api/report emails the operator once per new report (a deduped retry sends nothing)', async () => {
+  __setReportLimiter(freshReportLimiter());
+  __setModerationStore(freshModStore());
+  const sent = [];
+  __setReportMailer(async (m) => { sent.push(m); return { ok: true }; });
+  const body = JSON.stringify({ target: '@juba/spam-post', kind: 'spam', reason: 'posts every 5 min', reporter: 'bob' });
+  await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body });
+  await route('/api/report', { method: 'POST', origin: ALLOWED_ORIGIN, body });
+  await new Promise((r) => setTimeout(r, 0));
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].to, 'Ryan.VanKush@icloud.com');
+  assert.match(sent[0].subject, /spam/);
+  assert.match(sent[0].text, /https:\/\/melek\.salon\/@juba\/spam-post/);
+  __setReportMailer(null);
 });
