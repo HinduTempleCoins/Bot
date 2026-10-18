@@ -280,7 +280,7 @@
     if (news && !d.querySelector('.melek-tabs')) {
       var host = news.parentNode.tagName === 'LI' ? news.parentNode.parentNode : news.parentNode;   // the Hot/Trending/New list
       var bar = el('nav', { class: 'melek-tabs', 'aria-label': 'Sections',
-        style: 'display:flex;gap:22px;align-items:center;justify-content:center;font-size:1.05em;white-space:nowrap;flex-wrap:nowrap' });
+        style: 'display:flex;gap:22px;align-items:center;justify-content:center;font-size:1.05em;white-space:nowrap;flex-wrap:nowrap;position:relative;z-index:3' });
       TABS.forEach(function (t) {
         bar.appendChild(el('a', { href: t.href, 'data-tab': t.id, style: 'color:inherit;text-decoration:none;padding:20px 0 17px;border-bottom:3px solid transparent;white-space:nowrap' }, t.label));
       });
