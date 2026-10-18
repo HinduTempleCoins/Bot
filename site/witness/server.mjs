@@ -157,6 +157,9 @@ const PRANA_CONTRACTS = [
 
 // MELEK mainnet RPC for the live /hathor witness-status page (read-only condenser calls).
 const MELEK_RPC_URL = process.env.MELEK_RPC_URL || 'https://melek.salon/rpc';
+// What pages SHOW developers. The server itself may read the chain over a private local node (MELEK_RPC_URL),
+// but a page must never publish that address: it always shows the public endpoint.
+const MELEK_PUBLIC_RPC = process.env.MELEK_PUBLIC_RPC || 'https://melek.salon/rpc';
 let _chainFetch = (...a) => globalThis.fetch(...a);
 export function __setChainFetch(fn) { _chainFetch = fn || ((...a) => globalThis.fetch(...a)); }
 
@@ -1399,7 +1402,7 @@ export function devHubPage() {
         <div class=d>Connect over JSON-RPC, read the feed, and make your first post in 60 seconds — in
           <b>both JS (dhive)</b> and <b>Python</b>. Plus the "Sign in with MELEK" (MELEK-Signer / OAuth)
           auth boundary.</div>
-        <div class=ref>condenser_api · dhive · beem-style · RPC <code>${esc(MELEK_RPC_URL)}</code></div></div>
+        <div class=ref>condenser_api · dhive · beem-style · RPC <code>${esc(MELEK_PUBLIC_RPC)}</code></div></div>
       <div class=sec><a class=t href="/dev/prana">PRANA contract dev (EVM) →</a>
         <div class=d>Add the network to MetaMask in one click, wire up <b>Foundry / Hardhat / viem /
           ethers</b>, and deploy your first contract to PRANA mainnet (chainId
@@ -1477,7 +1480,7 @@ export function devHubPage() {
 // ── /dev/melek — MELEK app dev (Graphene social chain) ──────────────────────────────────────────
 export function devMelekPage() {
   const cid = MELEK_MAINNET_CHAIN_ID;
-  const rpc = MELEK_RPC_URL;
+  const rpc = MELEK_PUBLIC_RPC;
   // Read example — condenser_api.get_discussions_by_created, verified to respond on the live RPC.
   const curlRead = `curl -s ${rpc} -H 'content-type: application/json' -d '{
   "jsonrpc":"2.0","id":1,
@@ -2161,7 +2164,7 @@ const client = createPublicClient({ chain: prana, transport: http() });
 document.body.textContent = 'PRANA head block: ' + await client.getBlockNumber();
 </script>`;
   const socialSnippet = `// A read-only MELEK feed widget — no SDK, no key, works in any page.
-const r = await fetch('${MELEK_RPC_URL}', {
+const r = await fetch('${MELEK_PUBLIC_RPC}', {
   method: 'POST', headers: { 'content-type': 'application/json' },
   body: JSON.stringify({ jsonrpc: '2.0', id: 1,
     method: 'condenser_api.get_discussions_by_created',
@@ -2253,7 +2256,7 @@ export function devServicesPage() {
     { group: 'Chains — RPC & explorers', items: [
       ['PRANA RPC (EVM)', PRANA_RPC_URL, 'JSON-RPC for the PRANA EVM chain, chainId 712217. Verified: eth_chainId → 0xade19.', 'live'],
       ['PRANAScan (explorer)', PRANA_EXPLORER, 'Block explorer for PRANA — addresses, txs, contracts.', 'live'],
-      ['MELEK RPC (Graphene)', MELEK_RPC_URL, 'JSON-RPC for the MELEK social chain (condenser_api). Verified: returns the chain head.', 'live'],
+      ['MELEK RPC (Graphene)', MELEK_PUBLIC_RPC, 'JSON-RPC for the MELEK social chain (condenser_api). Verified: returns the chain head.', 'live'],
       ['MELEK social (condenser)', MELEK_SOCIAL, 'The MELEK social front-end — read the global feed, post, vote.', 'live'],
     ] },
     { group: 'Contracts, tokens & DeFi', items: [
@@ -2817,7 +2820,7 @@ export async function handler(req, res) {
         links: [
           // Developer track first — we are AI-native, so lead the machine-readable index with it.
           { label: 'Developer track (hub)', path: '/dev', note: 'both chains, SDK chooser, open-source repos' },
-          { label: 'MELEK app dev — read the feed & first post (JS + Python)', path: '/dev/melek', note: `RPC ${MELEK_RPC_URL}, chain_id ${MELEK_MAINNET_CHAIN_ID}, prefix MELEK, ~4s blocks, condenser_api` },
+          { label: 'MELEK app dev — read the feed & first post (JS + Python)', path: '/dev/melek', note: `RPC ${MELEK_PUBLIC_RPC}, chain_id ${MELEK_MAINNET_CHAIN_ID}, prefix MELEK, ~4s blocks, condenser_api` },
           { label: 'PRANA contract dev — MetaMask add-network, Foundry/Hardhat/viem/ethers', path: '/dev/prana', note: `RPC ${PRANA_RPC_URL}, chainId ${PRANA_MAINNET_CHAIN_ID_DEC} (${PRANA_MAINNET_CHAIN_ID_HEX}), explorer ${PRANA_EXPLORER}` },
           { label: 'Deployed PRANA contracts + downloadable ABIs', path: '/dev/contracts', note: 'KULA, KulaSwap Router/Factory, bridge, wrapped assets, gauges, LP pairs — all eth_getCode-verified' },
           { label: 'Make a token on PRANA — deploy ERC-20, fork/copy contracts, list on KulaSwap', path: '/dev/token', note: 'OpenZeppelin + Foundry/Hardhat; how forking works (OZ Wizard, explorer source, Uniswap-V2, SPDX licenses); list/collateralize/LP' },
