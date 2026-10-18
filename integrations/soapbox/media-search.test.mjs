@@ -85,3 +85,9 @@ test('a dead source soft-fails: the other groups still come back', async () => {
   assert.deepEqual(await ms.searchGroups('   '), []);
   assert.deepEqual(await ms.searchGroups(''), []);
 });
+
+test('MELEK post pages from the site index are grouped as Posts', async () => {
+  const g = await ms.searchGroups('sojol', { extraSites: [{ title: 'Flower', url: 'https://melek.salon/@sojol/flower', snippet: '' }] });
+  assert.ok(g.find((x) => x.key === 'posts').items.some((i) => i.url === 'https://melek.salon/@sojol/flower' && i.tag === '@sojol'));
+  assert.ok(!(g.find((x) => x.key === 'sites') || { items: [] }).items.some((i) => i.url.includes('/@sojol/')));
+});
