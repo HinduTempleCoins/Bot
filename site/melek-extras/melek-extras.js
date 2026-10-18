@@ -134,11 +134,22 @@
       d.body.appendChild(col);
     } else editor.parentNode.insertBefore(col, editor.nextSibling);
   }
+  // ── 4. profile "Message" button → the Pentecaust page that handles sign-in ─────────────────────────
+  // For logged-in viewers the condenser links /dm?me=…&with=…, which answers a raw 401 JSON unless the
+  // visitor already has a Pentecaust session. /?dm=<account> works for everyone and signs them in there.
+  function fixMessageLinks() {
+    var links = d.querySelectorAll('a[href^="https://pentecaust.com/dm?"]');
+    for (var i = 0; i < links.length; i++) {
+      var m = links[i].href.match(/[?&]with=([^&]+)/);
+      if (m) links[i].href = 'https://pentecaust.com/?dm=' + m[1];
+    }
+  }
   function routeChanged() {
     var col = d.getElementById('melek-tools');
     if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
     addReportButton();
     addCreationTools();
+    fixMessageLinks();
   }
 
   function start() {
