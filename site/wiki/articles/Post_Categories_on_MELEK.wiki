@@ -1,0 +1,36 @@
+'''Post categories''' on [[Melek.salon|melek.salon]] sort every post into one of fifteen sections. Choosing one is required: the editor will not publish a post without it. The chosen category is written as the post's first tag. Part of [[Posting on MELEK]].
+
+== The categories ==
+Each entry shows the menu name, the tag it writes, and what it is for.
+* '''MELEK & Witnesses''' (tag <code>melek</code>): The chain, its witnesses, tokens and updates.
+* '''Photos''' (tag <code>photography</code>): Photo posts and albums.
+* '''Nature & Plants''' (tag <code>nature</code>): Plants, gardens, wildlife, the outdoors.
+* '''Art & Design''' (tag <code>art</code>): Drawing, painting, design, generated art.
+* '''Crypto & Web3''' (tag <code>crypto</code>): Other chains, tokens, DeFi, Web3.
+* '''AI & Tech''' (tag <code>ai</code>): Artificial intelligence, software, hardware.
+* '''History & Mysticism''' (tag <code>history</code>): History, religion, ancient mysteries.
+* '''Life & Blogs''' (tag <code>life</code>): Personal posts and daily life.
+* '''Music & Video''' (tag <code>music</code>): Songs, beats, film and video.
+* '''Games''' (tag <code>games</code>): Games, arcades, play.
+* '''Food & Cooking''' (tag <code>food</code>): Recipes and food.
+* '''Travel & Places''' (tag <code>travel</code>): Places and trips.
+* '''Writing''' (tag <code>writing</code>): Fiction, poetry, essays, the November novel challenge.
+* '''Introductions''' (tag <code>introduceyourself</code>): Your first post: who you are.
+* '''NSFW (adults only)''' (tag <code>nsfw</code>): Adult content
+|}.
+
+== NSFW posts ==
+Posts in the NSFW category show behind a warning that readers click to reveal, and anyone can hide them entirely in Settings.
+
+== Changing a category ==
+Picking a different category in the menu replaces the first tag and keeps the others. On a published post, the category is fixed by the chain; edits can change the other tags.
+
+== See also ==
+* [[Tags on MELEK]]
+* [[Writing a Post on MELEK]]
+
+== Sources ==
+* [https://melek.salon/submit.html melek.salon post editor]
+
+== Coverage ==
+The category menu of the melek.salon post editor.

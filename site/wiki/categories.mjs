@@ -47,6 +47,12 @@ export const CATEGORIES = [
             'Start Here', 'SoapBox', 'The Surfaces', 'Van Kush Family', 'MELEK', 'Hathor', 'Hathor (AI Witness)', 'Crypt-ology', 'Crypto Glossary', 'Glossaries', 'Autodidacts and Credentials'],
   },
   {
+    id: 'posting-help', name: 'Posting help', blurb: 'How to write, format, publish and earn from posts on melek.salon.',
+    pages: ['Posting on MELEK', 'Signing In to Post on MELEK', 'Writing a Post on MELEK', 'Post Categories on MELEK', 'Tags on MELEK',
+            'Formatting Posts with Markdown', 'Images and Video in Posts', 'Post Rewards on MELEK', 'Comments and Replies on MELEK',
+            'Voting and Curation on MELEK', 'Novel Writing with Hathor Metatron', 'MELEK Pinboard', 'Making an Image for Your Post', 'Hathor Sandalphon', 'Bifrost Video'],
+  },
+  {
     id: 'chains', name: 'Chains and how they work', blurb: 'The blockchains we run, and the machinery underneath them.',
     pages: ['DevCoin and Paying Contributors',
             'GridCoin and Useful Work',
@@ -933,6 +939,10 @@ export const PILLARS = [
       'Library of Ashurbanipal',
       'The Library of Ashurbanipal',
       'Melek.salon',
+      'Posting on MELEK', 'Signing In to Post on MELEK', 'Writing a Post on MELEK', 'Post Categories on MELEK', 'Tags on MELEK',
+      'Formatting Posts with Markdown', 'Images and Video in Posts', 'Post Rewards on MELEK', 'Comments and Replies on MELEK',
+      'Voting and Curation on MELEK',
+      'Novel Writing with Hathor Metatron', 'MELEK Pinboard', 'Making an Image for Your Post', 'Hathor Sandalphon', 'Bifrost Video',
       'Dudael',
       'Van Kush Family',
       'Spanish Glossary',

@@ -1,0 +1,29 @@
+'''Signing in''' to [[Melek.salon|melek.salon]] lets you post, reply, vote and follow. Every one of those actions is a transaction signed with one of your account's keys. Part of [[Posting on MELEK]].
+
+== How to sign in ==
+Open [https://melek.salon/login.html melek.salon/login.html], or choose '''Log in''' in the header. Enter your account name, then your '''posting key''' (a private key starting with 5) or your account password. Tick '''Keep me logged in''' on a device only you use. You can also sign in with the Keychain browser extension, which keeps keys in the extension instead of the page.
+
+== Which key to use ==
+A MELEK account has several keys with different powers:
+* '''Posting key''': posts, replies, votes, follows. This is the key to sign in with.
+* '''Active key''': transfers, powering up, witness votes. Use it only in the wallet, when you move funds.
+* '''Owner key''': changes the other keys and recovers the account. Keep it offline. Never type it into a website to post.
+* '''Memo key''': encrypts and decrypts private memos.
+Signing in with only the posting key means a lost or stolen session cannot move your money.
+
+== Where your keys go ==
+The key is used in your browser to sign each action. It is not sent to the operator's server. Keys for new accounts are generated in the browser at [https://melek.salon/account/signup.html signup] for the same reason.
+
+== Lost a key? ==
+If you still have your password or owner key, set new keys with '''Change Account Password''' in the menu. If an account is taken over, recovery runs through [https://signer.melek.salon/recover signer.melek.salon/recover].
+
+== See also ==
+* [[Posting on MELEK]]
+* [[Akasha Wallet]]
+* [[MELEK Blockchain]]
+
+== Sources ==
+* [https://melek.salon/login.html melek.salon login page]
+
+== Coverage ==
+Signing in to melek.salon and the role of each account key.

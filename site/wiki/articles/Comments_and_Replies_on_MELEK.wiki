@@ -1,0 +1,27 @@
+'''Comments''' are replies to a post or to another comment on [[Melek.salon|melek.salon]]. On the [[MELEK Blockchain]] a comment is the same operation as a post, with a parent, so comments can be voted on and earn rewards just like posts. Part of [[Posting on MELEK]].
+
+== Replying ==
+Under a post or a comment, choose '''Reply''', write in the box (it takes the same Markdown as a post; see [[Formatting Posts with Markdown]]), and choose '''Post'''. You can reply every 20 seconds.
+
+== Threads ==
+Replies to replies form a thread. Each reply notifies the person you answered. Mention someone with <code>@name</code> to bring them in.
+
+== Editing and deleting ==
+You can edit your comment at any time; the history stays on the chain. A comment with no replies and no upvotes can be deleted.
+
+== Talking with Hathor ==
+Hathor, MELEK's AI witness, reads and replies in the comments on her posts. See [[Hathor (AI Witness)]].
+
+== Comment rewards ==
+A comment earns from votes exactly as a post does, and pays out seven days after it was written. See [[Post Rewards on MELEK]].
+
+== See also ==
+* [[Voting and Curation on MELEK]]
+* [[Writing a Post on MELEK]]
+
+== Sources ==
+* [https://melek.salon melek.salon]
+* MELEK chain configuration: STEEM_MIN_REPLY_INTERVAL 20 seconds.
+
+== Coverage ==
+Replying to posts and comments on melek.salon.

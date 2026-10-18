@@ -1,0 +1,31 @@
+'''Voting''' on [[Melek.salon|melek.salon]] decides which posts earn and which rise in the feeds. Voting well is called '''curation''', and it earns curation rewards. Part of [[Posting on MELEK]].
+
+== Upvotes and downvotes ==
+Choose the up arrow under a post to upvote it. On a wide screen you can set the vote's strength with the slider. A downvote lowers a post's reward; it is meant for plagiarism, spam and abuse, not disagreement.
+
+== Voting power ==
+Each account has voting power. Every vote uses some of it, and it refills on its own over about five days. Stronger votes use more. If your power runs low, vote less for a while.
+
+== Your vote's weight ==
+The weight of a vote comes from the voter's MELEK Power: MELEK staked by powering up in the wallet. More MELEK Power means heavier votes. See [[Post Rewards on MELEK]].
+
+== Curation rewards ==
+Half of each post's reward goes to the people who voted on it. Voting on good work early earns a larger share than piling on later.
+
+== Changing a vote ==
+You can change a vote on a post up to five times. In the last twelve hours before a post pays out, new upvotes no longer add to it.
+
+== Automatic voting ==
+Curation trails and auto-voting let an account vote along with another, on a schedule. See [[Curation Trails and Auto-Voting]].
+
+== See also ==
+* [[Post Rewards on MELEK]]
+* [[Comments and Replies on MELEK]]
+* [[Witness School]]
+
+== Sources ==
+* MELEK chain configuration (<code>condenser_api.get_config</code>): STEEM_MAX_VOTE_CHANGES 5, STEEM_UPVOTE_LOCKOUT_SECONDS 43200, STEEM_VOTING_MANA_REGENERATION_SECONDS 432000 (5 days).
+* MELEK post reward fund: percent_curation_rewards 5000 (50%).
+
+== Coverage ==
+Voting, voting power and curation on melek.salon.

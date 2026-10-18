@@ -1,0 +1,34 @@
+'''Markdown''' is the formatting language of posts on [[Melek.salon|melek.salon]]. You type plain text with a few marks, and the preview under the editor shows the formatted result. Part of [[Posting on MELEK]].
+
+== Common formatting ==
+* Heading: start a line with <code>#</code> (largest), <code>##</code> or <code>###</code>.
+* Bold: <code>**bold**</code>. Italic: <code>*italic*</code>. Strikethrough: <code>~~struck~~</code>.
+* Link: <code>[words people click](web address)</code>.
+* Picture: <code>![description](picture address)</code>. See [[Images and Video in Posts]].
+* List: start lines with <code>-</code> or <code>*</code>; numbered lists with <code>1.</code>, <code>2.</code>.
+* Quote: start a line with <code>></code>.
+* Horizontal line: a line with only <code>---</code>.
+* Code: wrap a word in backticks, or put a block between lines of three backticks.
+* Table: rows of cells separated by <code>|</code>, with a <code>|---|---|</code> line under the header row.
+
+== Mentions and links to posts ==
+* Write <code>@name</code> to mention an account. The name becomes a link to that profile, and the account is notified.
+* Paste a melek.salon post address on its own line to link it.
+* Write <code>#tag</code> to link a tag feed.
+
+== HTML ==
+A small set of HTML also works, such as <code><center></code>, <code><sub></code>, <code><sup></code> and <code><br></code>. Scripts, forms and styles are removed when the post is shown.
+
+== Line breaks ==
+Leave an empty line between paragraphs. A single line break inside a paragraph shows as a break in the preview; if it does not, end the line with two spaces.
+
+== See also ==
+* [[Writing a Post on MELEK]]
+* [[Images and Video in Posts]]
+
+== Sources ==
+* [https://melek.salon/submit.html melek.salon post editor]
+* [https://commonmark.org/help/ CommonMark reference]
+
+== Coverage ==
+The Markdown and HTML accepted in melek.salon posts.

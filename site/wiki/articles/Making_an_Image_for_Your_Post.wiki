@@ -1,0 +1,33 @@
+'''Making an image for your post''' uses [[Hathor Studio]], MELEK's free image studio at hathor.soapbox.community. It is the '''Image Generation''' tool in the melek.salon post editor. No account or card is needed. This page is the how-to; [[Hathor Studio]] describes everything the studio can do. Part of [[Posting on MELEK]].
+
+== How to: make a picture from a description ==
+# In the post editor, open '''Image Generation''' in the Creation tools panel, or go to hathor.soapbox.community.
+# Under '''Your prompt''', describe the picture: who or what is in it, where, the light, and the style.
+# Choose '''Generate'''. An image takes about one to three minutes on the free engine. If many people are waiting, the studio says so and offers other engines.
+# When it is done, copy the image's address.
+# In your post, add it with <code>![description](address)</code>. See [[Formatting Posts with Markdown]].
+
+== How to: put yourself or a character in the picture ==
+Use '''Upload a photo''' next to the prompt. The photo steers the new image, so the same face or character appears in a new scene. '''Turn a character into anything''' and '''Appear with Hathor''' work the same way.
+
+== How to: start from a template ==
+Choose '''Start from a template''' and fill in a few fields; the template writes the prompt for you. There are templates for posters, avatars and historical scenes.
+
+== Writing a good prompt ==
+* Name the subject first, then the setting, then the style: "a cat on a temple roof at sunset, oil painting".
+* Make one thing at a time. For a complex scene, make the character and the objects first, then compose them.
+* If a result is close, keep the prompt and change one detail.
+
+== Saying how it was made ==
+Say in your post that the picture was generated, for example "Image made with Hathor Studio".
+
+== See also ==
+* [[Hathor Studio]]
+* [[Images and Video in Posts]]
+* [[MELEK Pinboard]]
+
+== Sources ==
+* [https://hathor.soapbox.community/ Hathor Studio]
+
+== Coverage ==
+Making a picture in Hathor Studio and adding it to a melek.salon post.

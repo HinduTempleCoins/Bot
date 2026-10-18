@@ -1,0 +1,33 @@
+'''MELEK Pinboard''' is the picture side of MELEK, at [https://melek.salon/pin melek.salon/pin]. It shows photos as a wall of thumbnails, the way Pinterest and Instagram do. It is the '''Photos (Pinboard)''' tool in the melek.salon post editor. Part of [[Posting on MELEK]]. The Pinboard is in alpha.
+
+== What a pin is ==
+A pin is a picture on the wall: one you posted, or one you saved from a MELEK post or anywhere on the web. A saved picture always keeps a link back to where it came from. Every pin page gives you the Markdown to put that picture into a MELEK post.
+
+== How to: pin a picture ==
+# Go to melek.salon/pin, or open '''Photos (Pinboard)''' in the post editor's Creation tools panel.
+# Paste the picture's address into the first box.
+# Add a title if you like, and your MELEK name.
+# Choose '''Pin it'''.
+
+== How to: save every picture from a MELEK post ==
+Paste the address of a MELEK post instead of a picture, and choose '''Pin it'''. All of the post's pictures are saved to the wall, each linked to the post.
+
+== How to: put a pin in your post ==
+# Open the pin.
+# Copy the Markdown shown on its page.
+# Paste it into the body of your post. See [[Images and Video in Posts]].
+Photo posts go in the '''Photos''' category. See [[Post Categories on MELEK]].
+
+== How to: save from any web page ==
+Drag the '''Save to MELEK''' button from the Pinboard to your browser's bookmarks bar. On any page, click the bookmark to save a picture from it to the Pinboard.
+
+== See also ==
+* [[Images and Video in Posts]]
+* [[Bifrost Video]]
+* [[Posting on MELEK]]
+
+== Sources ==
+* [https://melek.salon/pin MELEK Pinboard]
+
+== Coverage ==
+Using the MELEK Pinboard and putting pins into melek.salon posts.

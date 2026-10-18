@@ -1,0 +1,25 @@
+'''Bifrost''' is MELEK's video platform. It is the '''Video (Bifrost)''' tool in the melek.salon post editor. A Bifrost video is posted to the [[MELEK Blockchain]] as a post that carries the video, its thumbnail and its tags, the same model dTube and 3Speak use, so it can be voted on and replied to like any post. The name comes from the Bifröst, the bridge between the world of people and the world of the gods. Part of [[Posting on MELEK]].
+
+== How to: upload a video ==
+# Open '''Video (Bifrost)''' in the post editor's Creation tools panel, or go to hathor.soapbox.community/pentecaust/bifrost/upload.
+# Choose '''Choose a video''' and pick the file. It uploads straight to storage.
+# Type a title, a description and up to five tags. See [[Tags on MELEK]].
+# Choose '''Thumbnail''' to add a picture shown before the video plays. This is optional.
+# Choose '''Publish'''.
+
+== How to: make a thumbnail ==
+Make the thumbnail in [[Hathor Studio]] first; see [[Making an Image for Your Post]]. A clear picture with large, readable text works best at small sizes.
+
+== How to: put the video in a written post ==
+Copy the video's Bifrost address and paste it into your post on its own line. A YouTube address on its own line also shows as a player. See [[Images and Video in Posts]].
+
+== See also ==
+* [[Images and Video in Posts]]
+* [[MELEK Pinboard]]
+* [[Making an Image for Your Post]]
+
+== Sources ==
+* [https://hathor.soapbox.community/pentecaust/bifrost/upload Bifrost upload]
+
+== Coverage ==
+Uploading a video to Bifrost and using it in melek.salon posts.
