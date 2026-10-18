@@ -1,0 +1,85 @@
+'''Keeping Liquids Evenly Mixed: Solubility, Emulsions and Suspensions''' explains why a dosed liquid that was even when you made it can be uneven when you pour it, and how to prevent that. It is the mixing page of [[Dosing in Liquids]]. The short version: '''only a true solution stays uniform at rest.''' Everything else (an oil in water, a powder in syrup, a resin in honey) is separating at some speed, and the dose follows the separation.
+
+== Three kinds of mixture ==
+* '''True solution:''' the active is dissolved molecule by molecule. It is clear (it may be coloured, but it is not cloudy), it does not settle, and it is uniform indefinitely as long as it stays dissolved. This is the goal whenever it is possible.
+* '''Emulsion:''' droplets of one liquid dispersed in another (oil-in-water, like milk; water-in-oil, like butter). Usually cloudy. Without a stabilizer it separates: oil '''creams''' to the top or droplets '''coalesce'''.
+* '''Suspension:''' solid particles dispersed in a liquid. Cloudy or gritty. Particles '''settle''' to the bottom (or float, if lighter than the liquid). The first pour from an unshaken bottle is weak and the last is strong, or the other way round.
+
+== Solubility: pick a solvent the active actually dissolves in ==
+"Like dissolves like." Polar compounds dissolve in polar solvents and non-polar compounds in non-polar ones. See [[Solvent Chemistry and Polarity in Botanical Extraction]] for the full scale.
+* '''Water''' (most polar): sugars, salts, most '''alkaloid salts''' (hydrochlorides, sulfates, citrates), many glycosides, vitamin C, B vitamins, caffeine (moderately; strongly when hot).
+* '''Glycerin''' (polar, viscous): tannins, many flavonoids and sugars, some alkaloid salts. A weaker solvent than alcohol for resins, oils and most non-polar compounds.
+* '''Ethanol''' (intermediate): the broadest home solvent. It dissolves both fairly polar and fairly non-polar compounds, which is why tinctures work. High proof (90%+) dissolves resins, cannabinoids, terpenes and essential oils. Lower proof (25–40%) favours water-soluble constituents.
+* '''Propylene glycol''' (intermediate): used in flavour carriers and vape liquids. It dissolves many flavours and some lipophilic compounds.
+* '''Oils and fats''' (non-polar): '''cannabinoids, curcumin, fat-soluble vitamins (A, D, E, K), carotenoids, terpenes and essential oils''', and freebase alkaloids generally. MCT oil, olive oil, coconut oil, butter and cocoa butter all qualify.
+* '''Freebase versus salt:''' the same alkaloid is usually water-soluble as a salt and oil- or alcohol-soluble as a freebase. Changing pH flips it. This is the basis of acid–base extraction, and the reason a vinegar or lemon preparation can dissolve what plain water won't.
+
+=== Saturation and "crashing out" ===
+* Every solvent has a limit. Above it, the excess stays undissolved and the liquid is a suspension, whatever it looks like.
+* Solubility usually falls with temperature. A tincture or syrup made warm and close to its limit can '''precipitate''' (form crystals or sediment) in the fridge or in winter. The settled crystals are concentrated active. Warm and shake before dosing, or make the batch weaker.
+* '''Adding a tincture to water''' lowers the alcohol strength. Oil-soluble compounds then come out of solution as fine droplets (the cloudiness of ouzo or absinthe with water, called the "ouzo effect" or louche). They can then stick to the glass or float. The dose is still in the glass, but it may not all be drunk.
+
+== Emulsions: getting oil-soluble actives into water evenly ==
+=== Why they separate: Stokes' law ===
+The speed at which a droplet rises or a particle sinks is proportional to '''radius squared × density difference ÷ viscosity'''. That gives three levers:
+* '''Make droplets smaller.''' Halving the droplet size makes separation four times slower. This is what homogenizing does.
+* '''Match densities.''' Oils are about 0.9 g/mL and water and syrups 1.0–1.3, so oil rises. Beverage makers add "weighting agents" (glycerol ester of rosin, SAIB; regulated food additives with use limits) to oil phases so they neither rise nor sink.
+* '''Thicken the continuous phase.''' Viscosity slows everything. Syrups, glycerin and a little xanthan gum help.
+
+=== Emulsifiers ===
+Emulsifiers have a water-loving end and an oil-loving end. They sit at the droplet surface and stop droplets merging. The '''HLB''' (hydrophilic–lipophilic balance, Griffin 1949) scale ranks them: low HLB (3–6) favours water-in-oil, high HLB (8–18) favours oil-in-water.
+* '''Lecithin''' (soy or sunflower; phospholipids; HLB about 4–9 depending on grade). Food-grade, cheap, and the standard in chocolate (about 0.3–0.5%) and in home infusions. Typical home use is about 1 part lecithin to 10–20 parts oil, mixed into the oil before it meets water. Lecithin on its own makes coarse, moderately stable emulsions.
+* '''Gum arabic''' (acacia gum; a protein–polysaccharide from ''Acacia senegal''). The classic emulsifier for flavour-oil emulsions in soft drinks. Used at roughly as much gum as oil by weight or more, it forms a protective film that makes very stable, fine emulsions when homogenized.
+* '''Polysorbate 80''' (Tween 80; HLB 15) and '''polysorbate 20''' (HLB about 16.7): synthetic, very effective oil-in-water emulsifiers, used in pharmaceuticals and some foods. A few percent of the oil weight is typical. They taste bitter-soapy in excess.
+* '''Quillaja saponins:''' natural surfactants used for clear beverage emulsions.
+* '''Egg yolk''' (lecithin plus proteins): mayonnaise and custards.
+* '''Mustard, honey and milk proteins:''' weak, kitchen-scale emulsifiers.
+
+=== Making an emulsion that lasts ===
+# Dissolve the active completely in the oil phase first (warm gently if needed).
+# Mix the oil-soluble emulsifier (lecithin) into the oil, or the water-soluble one (gum arabic, polysorbate) into the water.
+# Add the oil to the water slowly under '''high shear''': an immersion blender for 1–3 minutes, a high-speed blender, or a lab homogenizer. Ultrasonic probes give finer "nanoemulsions" (droplets under about 200 nm, often translucent), which are the most stable and are used in commercial water-soluble preparations.
+# Thicken the water phase if you can (glycerin, syrup, 0.1–0.3% xanthan).
+# '''Test:''' leave a sample standing for 24 hours. A cream layer, an oil ring or clear and cloudy zones mean it isn't stable. Shake it before every dose, and label it "shake well".
+
+== Suspensions ==
+* Use them when the active won't dissolve in any acceptable solvent.
+* Fine particles settle more slowly (grind finely or buy micronized). Thicken the liquid. In pharmacy, suspending vehicles (methylcellulose- or xanthan-based, such as the commercial Ora-Plus) are used for exactly this.
+* '''Shake immediately before measuring every dose.''' A suspension measured a minute after shaking can already be uneven.
+* Labelling a suspension "shake well before use" is a compounding requirement, not a courtesy.
+
+== Where hot spots come from ==
+* '''Oil floating on a water-based liquid''' (an oil-soluble active added to tea, juice or a gelatin mix without an emulsifier): the top serving gets the oil.
+* '''Powder settling''' in drinks, syrups and batter.
+* '''Crystals''' forming in a cold tincture or syrup.
+* '''Solid fat lumps''' (infused butter or coconut oil added cold, or partly set) folded into a batter or candy mass: each lump is a concentrated dose. Melt it fully and stir it through while warm.
+* '''Late, brief stirring''' into a thick mass (fudge, ganache, gummy mixture just before setting). Viscous masses need long, deliberate folding.
+* '''Adding the active at the end, into one spot,''' then depositing straight away. The first pieces poured get most of it.
+* '''Separation during depositing:''' a gummy or chocolate mix sitting in a jug while you fill moulds. Stir between fills.
+* '''Uneven cutting''' of a sheet (brownies, fudge, caramel): weight differences become dose differences. Weigh pieces, or use moulds.
+
+== Checking evenness ==
+* '''Tracer dye:''' add a few drops of food colour to the active (or its carrier) before mixing. Streaks and pale or dark zones show poor mixing. Colour is a good proxy only if the dye goes where the active goes, which means oil-soluble colour for oil-soluble actives and water-soluble colour for water-soluble ones.
+* '''Weigh every piece''' of a solid or candy batch. Weight spread is the minimum dose spread.
+* '''Lab-test samples''' from the start, middle and end of a batch. See [[Testing Labelling and Safe Storage of Dosed Preparations]].
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Concentration Arithmetic and Serial Dilution]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Solvent Chemistry and Polarity in Botanical Extraction]]
+* [[Bioavailability Metabolic Inhibition and Synergy]]
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]
+
+== Sources ==
+* Griffin, W. C. "Classification of surface-active agents by 'HLB'." ''Journal of the Society of Cosmetic Chemists'' 1(5):311–326, 1949.
+* McClements, D. J. ''Food Emulsions: Principles, Practices, and Techniques'', 3rd ed. CRC Press, 2015. Stokes' law, creaming, emulsifiers, homogenization, nanoemulsions.
+* Tan, C.-T. "Beverage emulsions." In Friberg, Larsson and Sjöblom (eds.), ''Food Emulsions'', 4th ed. Marcel Dekker, 2004. Gum arabic and weighting agents.
+* ''Remington: The Science and Practice of Pharmacy'', 23rd ed. Academic Press, 2021. Chapters on solutions, emulsions and suspensions.
+* United States Pharmacopeia General Chapter <795>. Labelling of suspensions and emulsions ("shake well").
+* U.S. 21 CFR 172.735 (glycerol ester of wood rosin as a beverage weighting agent and its limits).
+* Vitale, S. A. and Katz, J. L. "Liquid droplet dispersions formed by homogeneous liquid–liquid nucleation: 'The ouzo effect'." ''Langmuir'' 19(10):4105–4110, 2003.
+
+== Coverage ==
+Solutions versus emulsions versus suspensions; solvent choice for water-, glycerin-, alcohol-, propylene-glycol- and oil-soluble actives, including salt versus freebase; saturation, cold precipitation and the ouzo effect; Stokes' law and its three levers; emulsifiers (lecithin, gum arabic, polysorbates, quillaja, egg) and HLB; a step-by-step stable emulsion; suspensions and shaking; a checklist of hot-spot causes; tracer-dye and weight checks for evenness.

@@ -1,0 +1,105 @@
+'''Measuring Tools: Scales, Syringes and Volumetric Dosing''' is the equipment page of [[Dosing in Liquids]]. It covers what each measuring tool can and cannot do, how much error each one carries, how to check them, and the '''aliquot (volumetric dosing) method''' for amounts too small to weigh directly.
+
+== Scales ==
+=== Readability is not accuracy ===
+A scale that shows 0.001 g ("milligram scale") '''displays''' milligrams. That does not mean it is '''accurate''' to a milligram. Three different numbers matter:
+* '''Readability (d):''' the smallest step the display shows (0.01 g or 0.001 g).
+* '''Repeatability:''' how closely repeated weighings of the same object agree (the standard deviation).
+* '''Accuracy / linearity:''' how close the reading is to the true weight across the range.
+Inexpensive 0.01 g pocket scales typically repeat to within about ±0.01–0.03 g. Inexpensive 0.001 g scales typically manage about ±0.002–0.005 g, and only when used well. Find out what yours actually does by testing it (below).
+
+=== Checking a scale ===
+# Put it on a hard, level, vibration-free surface, out of drafts, fans and air-conditioning vents. Let it warm up for a few minutes.
+# Calibrate it with the weight it was designed for, following the manual.
+# '''Check''' it with a separate known weight (calibration weights are sold in OIML classes such as M1, F2 and F1, or ASTM classes; even a cheap certified set beats none). Weigh it 10 times, lifting it off each time.
+# Note the spread. Twice the standard deviation of those readings is a fair estimate of your weighing error at small loads.
+# Check it again whenever the scale is moved, dropped or a battery is changed.
+
+'''Common errors:''' static on plastic weigh boats (use paper, metal or glass, or touch a grounded object first), breath and hand warmth on 0.001 g scales (use tweezers and close the draft shield), weighing near the scale's capacity limit, weighing a warm container (rising air makes it read light), and weighing a liquid that is still evaporating (alcohol).
+
+=== The minimum weighable quantity rule ===
+Pharmacy textbooks give a simple rule for the smallest amount you may weigh on a given balance and stay within an acceptable error:
+
+'''Minimum weighable quantity = balance error (sensitivity) ÷ acceptable fractional error'''
+
+* The classic textbook case is a Class A prescription torsion balance with a 6 mg sensitivity requirement. For a 5% maximum error: 6 mg ÷ 0.05 = '''120 mg'''.
+* A 0.01 g pocket scale you have verified to ±20 mg: 20 ÷ 0.05 = '''400 mg''' minimum for 5% error. For 1% error, 2 g.
+* A 0.001 g scale verified to ±4 mg: 4 ÷ 0.05 = '''80 mg''' minimum for 5% error.
+* '''Practical meaning:''' if a dose is smaller than your scale's minimum weighable quantity, '''do not weigh the dose.''' Weigh a larger amount and divide it with the aliquot method.
+
+The pharmacopoeial standard for analytical balances, USP General Chapter <41>, makes the same point more strictly. A balance is fit for a given minimum weight only if twice the standard deviation of replicate weighings, divided by that weight, is no more than 0.10%. Good weighing practice is described in USP <1251>.
+
+== The aliquot method (volumetric dosing) ==
+This is the standard answer to "my dose is too small to weigh".
+=== Liquid aliquot, step by step ===
+# Decide the dose (say 2 mg) and the dose volume you can measure well (say 0.5 mL with a 1 mL oral syringe). The target concentration is therefore 4 mg/mL.
+# Pick an amount above your scale's minimum weighable quantity. With the ±4 mg 0.001 g scale above, 200 mg gives about ±2%.
+# Volume needed = 200 mg ÷ 4 mg/mL = '''50 mL'''.
+# Weigh 200 mg. Dissolve it in part of a suitable solvent. Transfer it to a 50 mL graduated cylinder or volumetric flask, rinse the weighing vessel into it, and top up to the 50 mL mark. Mix by inverting 20 times or more.
+# Every 0.5 mL now contains 2 mg.
+
+=== Solid aliquot (geometric dilution), for powders ===
+# Weigh an amount above the minimum weighable quantity, e.g. 120 mg of active.
+# Mix it with an equal volume of an inert diluent (lactose, microcrystalline cellulose, powdered sugar, maltodextrin) and blend thoroughly. Then add diluent equal to the mixture's volume and blend again, and keep doubling until the diluent is all in. This is '''geometric dilution''', and it avoids the uneven blend you get from dumping a small amount of active into a large amount of diluent.
+# For example, 120 mg active + diluent to a total of 960 mg = 1 part in 8. Then 120 mg of the blend contains 15 mg of active.
+# Powders can '''segregate''' when particle sizes differ, so shaking a jar can unmix it. Liquid aliquots are usually more reliable.
+
+== Measuring volume ==
+=== Oral syringes (best for doses) ===
+* Sizes of 0.5, 1, 3, 5 and 10 mL. Markings on a 1 mL syringe are usually every 0.01 mL.
+* Most accurate when the dose fills a large part of the syringe. Use a 1 mL syringe for 0.2–1 mL, not a 10 mL syringe.
+* Read at the edge of the plunger seal that faces the tip, with the syringe vertical and air bubbles removed (draw past the mark, point upward, tap, push to the mark).
+* In a controlled trial, parents made dosing errors far more often with dosing cups than with oral syringes, especially at small volumes (Yin et al., 2016). U.S. paediatric guidance recommends mL-only labelling and syringes for this reason.
+* Viscous liquids (glycerin, honey, cold oils) cling to the barrel and leave air gaps. Warm them slightly, draw slowly, and for the best accuracy dose by weight instead (see gravimetric dosing below).
+
+=== Pipettes ===
+* '''Graduated and volumetric glass pipettes''' (Class A volumetric pipettes are accurate to about ±0.1–0.2% of their volume) and '''adjustable micropipettes''' (10–1000 µL) are the laboratory standard. Micropipettes need the right tip, a vertical draw and a slow release. Viscous or volatile liquids (oils, alcohol) need reverse pipetting or positive-displacement pipettes.
+* '''Plastic transfer pipettes''' have rough graduations. Treat them as droppers.
+
+=== Graduated cylinders and volumetric flasks ===
+* For making up a batch to a final volume. Read the '''bottom of the meniscus''' at eye level. Oils give a flatter meniscus.
+* Class A volumetric flasks are accurate to about ±0.08 mL at 100 mL (±0.08%). Graduated cylinders are about ±0.5–1% of capacity. Beakers and measuring jugs are only about ±5–10% and should never set a dose.
+* Measure at room temperature. Liquids expand when warm.
+
+=== Droppers ===
+* The USP standard medicine dropper is defined so that it delivers 20 drops of water per mL (each drop weighing about 45–55 mg). '''This applies only to water and only to that dropper.''' Alcohol, glycerin and oils have different surface tension and viscosity. Alcohol tinctures and oils usually give smaller drops, often 30–60 per mL, and the angle and squeeze change the drop size.
+* "A dropperful" is not a unit. Squeezing the bulb fills it partway, typically around 0.5–1 mL.
+* '''Calibrate your dropper:''' count drops of the actual liquid into a 1 mL syringe barrel, or weigh 20 drops on a 0.001 g scale and divide by the liquid's density. Write "1 mL ≈ N drops" on the label.
+
+=== Kitchen spoons and cups ===
+* Household "teaspoons" hold anything from 2.5 to 7.3 mL (Falagas et al., 2010). Even with a real 5 mL spoon, people pour about 8% under or 12% over depending on spoon shape (van Ittersum and Wansink, 2010).
+* Measuring spoons sold as 5 mL are only as good as the person levelling them. They are acceptable for ingredients, '''not for doses'''.
+
+== Gravimetric dosing: weighing liquids ==
+Weighing a liquid on a 0.01 g scale is often more accurate than reading a cup.
+* ''Volume = mass ÷ density''. 10.00 g of glycerin is 7.94 mL (density 1.26).
+* '''Weighing by difference:''' weigh the bottle, dispense, and weigh it again. The loss is the dose. This avoids residue errors with honey, glycerin and oils.
+* In candy work, weighing each deposited piece is the most direct dose check. See [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]].
+
+== Error budget ==
+Errors add up. Roughly add the percentage errors of every step for a worst-case figure:
+* Weighing 200 mg at ±4 mg = ±2%.
+* Making up to 50 mL in a graduated cylinder = ±1%.
+* Measuring a 0.5 mL dose in a 1 mL syringe = about ±2–4%.
+* Worst case ≈ ±5–7%, which is well inside the ±10–15% that regulated edible markets allow (see [[Testing Labelling and Safe Storage of Dosed Preparations]]). Guessing with a dropper and a kitchen spoon can easily be ±30–50%.
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Concentration Arithmetic and Serial Dilution]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Laboratory Equipment and Extraction Engineering]]
+* [[Dilution Calculator]]
+
+== Sources ==
+* United States Pharmacopeia. General Chapter <41> ''Balances''; <1251> ''Weighing on an Analytical Balance''; <1101> ''Medicine Dropper''; <795> ''Pharmaceutical Compounding — Nonsterile Preparations''. [https://www.usp.org USP]
+* Ansel, H. C. ''Pharmaceutical Calculations'', 15th ed. Wolters Kluwer, 2016. The sensitivity requirement and minimum weighable quantity (the 6 mg / 120 mg Class A example) and the aliquot method.
+* Allen, L. V. ''The Art, Science, and Technology of Pharmaceutical Compounding'', 6th ed. APhA, 2020. Geometric dilution and liquid measurement.
+* ASTM E288 (volumetric flasks) and ASTM E969 (volumetric transfer pipettes), Class A tolerances; OIML R 111 (classes of standard weights).
+* Falagas, M. E. et al. "Inaccuracies in dosing drugs with teaspoons and tablespoons." ''International Journal of Clinical Practice'' 64(9):1185–1189, 2010.
+* van Ittersum, K. and Wansink, B. "Spoons systematically bias dosing of liquid medicine." ''Annals of Internal Medicine'' 152(1):66–67, 2010.
+* Yin, H. S. et al. "Liquid medication errors and dosing tools: a randomized controlled experiment." ''Pediatrics'' 138(4):e20160357, 2016.
+* Paul, I. M. et al. "Metric units and the preferred dosing of orally administered liquid medications." ''Pediatrics'' 135(4):784–787, 2015 (AAP policy statement).
+
+== Coverage ==
+Scale readability, repeatability and accuracy; checking a scale with calibration weights; the minimum weighable quantity rule with worked figures for 0.01 g and 0.001 g scales and the USP <41> criterion; liquid and solid (geometric dilution) aliquot methods step by step; oral syringes, pipettes, cylinders, volumetric flasks, droppers and kitchen spoons with their typical errors; dropper calibration; gravimetric dosing and weighing by difference; a worked error budget.

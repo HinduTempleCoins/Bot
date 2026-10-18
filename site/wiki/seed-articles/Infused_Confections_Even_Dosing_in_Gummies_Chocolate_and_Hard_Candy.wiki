@@ -1,0 +1,99 @@
+'''Infused Confections: Even Dosing in Gummies, Chocolate and Hard Candy''' is where the [[Dosing in Liquids]] hub meets the [[Candy Making]] hub. It covers how to put a measured amount of any active ingredient (a herbal extract, a tincture, an infused oil or butter, an essential oil, a vitamin, a supplement) into candy so that '''every piece carries the same dose'''. The method is the same for every ingredient: '''know the total, protect it from heat, mix it completely, deposit equal masses, and verify.'''
+
+Candy is the format where uneven dosing happens most often, and where an accidental dose is most likely, because the product looks and tastes like ordinary candy. The safety rules at the end are part of the method.
+
+== Step 1: know the total going in ==
+* Start from a '''measured active''': a weighed amount of a standardized extract, a measured volume of a tincture or oil of known (preferably tested) mg/mL, or a weighed amount of infused butter of known mg/g. See [[Concentration Arithmetic and Serial Dilution]] and [[Tinctures Glycerites Syrups and Infused Oils and Butters]].
+* If potency is calculated rather than tested, treat it as a '''maximum''' (it assumes 100% transfer). Real pieces will contain that much or less, and the uncertainty is large. Label it "calculated maximum".
+* Write the batch plan down before you start: active amount (mg), batch mass (g), target piece mass (g), and therefore target mg per piece.
+
+== Step 2: choose a carrier the candy can accept ==
+The active has to dissolve or disperse in the candy's own matrix. See [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]].
+* '''Gelatin and pectin gummies''' are '''water-based'''. Water-soluble actives (alkaloid salts, many vitamins, glycerites, water extracts) dissolve directly. '''Oil-soluble actives''' (infused oils, most resins, cannabinoids, curcumin, essential oils) '''will separate''' into droplets that float and collect in the first or last pieces. Emulsify them first: mix the oil with '''sunflower or soy lecithin''' (about 1 part lecithin to 4–10 parts oil, warmed and stirred until uniform), or use a commercial water-soluble (emulsified) form, then blend it into the gummy mix with an immersion blender for 30–60 seconds.
+* '''Chocolate''' is '''fat-based'''. Oil- and fat-soluble actives dissolve directly in the cocoa butter. Use the active in a little '''melted cocoa butter''', a neutral oil (no more than a few percent of the chocolate, or it softens and won't temper), or infused butter (for ganache). '''Never add water-, alcohol- or glycerin-based tinctures to melted chocolate.''' Even a little causes [[Chocolate Tempering Ganache Truffles and Bonbons|seizing]]. If the active is only available as a tincture, evaporate the alcohol completely (gently, below about 60–70 °C, with no flame; ethanol vapour is flammable) to leave a resin, then dissolve that resin in cocoa butter or oil. In '''ganache''', which already contains water, small amounts of water-based actives can go in with the cream.
+* '''Hard candy''' is a '''sugar glass with almost no water'''. Small volumes of concentrated oil or resin (dissolved in the flavour oil) mix in. Alcohol tinctures '''boil off violently''' and spatter when poured into syrup at 140–150 °C, and the water they carry softens the candy. Evaporate them to a concentrate first. Water-based glycerites also add moisture, so use them sparingly.
+* '''Caramel, fudge and toffee''' are '''fat- and sugar-based'''. Infused butter can replace part of the butter in the recipe, and oil-soluble actives go in with the fat.
+* '''Compressed tablets''' are dry. Powdered actives are blended by '''geometric dilution''' and then pressed. This gives the most uniform result of all candy formats; see [[Hard Candy Lollipops Lozenges and Mints]].
+
+== Step 3: add it at the right temperature ==
+Many active compounds, and most aromatic compounds, are '''damaged or lost by heat''': they evaporate (terpenes and essential oils, some of which boil well below candy-cooking temperatures), oxidize, or break down. The rule is '''cook the candy first; add the active as late and as cool as the candy allows, while it is still fluid enough to mix completely.'''
+* '''Gelatin gummies:''' cook the syrup (113–118 °C), cool it to 80–90 °C, add the gelatin, then '''cool to about 60–70 °C''' and add the active together with the flavour, colour and acid. Keep the mix at about 55–65 °C in a water bath while depositing.
+* '''Pectin gummies:''' pectin mixes must be deposited hot (often 85–95 °C) because they set as they cool and once acid is in. Add the active '''immediately before the acid''', blend fast, deposit fast. Accept that heat-sensitive volatiles will lose more here than in gelatin. For very heat-sensitive actives, gelatin is the better choice.
+* '''Chocolate:''' add the active (in cocoa butter or oil) to the chocolate '''before tempering''' (while it is melted at 45–50 °C), then temper as usual. Or stir it into already-tempered chocolate at working temperature (31–32 °C dark) as a small volume of cocoa butter at about the same temperature. A cold or warm addition throws the temper off. Re-test the temper afterwards.
+* '''Ganache:''' add the active to the warm cream or the melted butter, at about 35–60 °C, and emulsify.
+* '''Hard candy:''' cook to hard crack, take it off the heat, let the bubbling stop and cool to about '''125–135 °C''' (it is still pourable, though thicker), then stir in the active with the flavour oil. Work quickly, because the candy sets as it cools.
+* '''Caramel, toffee and fudge:''' cooked to 115–155 °C with the dairy in the pot. Add infused butter or an oil-soluble active '''after cooking''' (stir it in off the heat; for fudge, add it with the butter during the cooling stage and beat it in). If the infused butter must go in at the start, as in some toffee and caramel methods, expect some loss and have the product tested.
+* '''Acid-form actives''' that need heat to convert (decarboxylation, for example cannabinoid acids; see [[Cannabis]]) should be '''converted before''' they go into the candy. Candy-making time and temperature do not do it reliably.
+
+== Step 4: mix for uniformity ==
+* '''Mix longer than looks necessary.''' Viscous masses hide streaks. Fold or stir for at least 1–2 minutes after the mix looks uniform, scraping the bottom and sides.
+* '''Use an immersion blender''' for gummy mixes containing emulsified oils, with the blade under the surface (keeping it under avoids beating in air bubbles).
+* '''Tracer colour:''' add the colour to the active (or its carrier) rather than to the batch. If the colour is even everywhere, the active almost certainly is too. Use oil-soluble candy colour for oil-based actives.
+* '''Pre-dilute small amounts.''' A few drops of a strong concentrate into 500 g of mass is very hard to distribute. Dilute it first in some of the batch's own liquid or fat (geometric dilution, for liquids), then add that.
+* '''Keep it mixed while depositing.''' Oils rise, and particles sink. Stir the jug or bowl between every few moulds.
+
+== Step 5: deposit equal masses ==
+=== Know the mould ===
+* '''Measure a mould cavity's volume:''' fill several cavities with water from a syringe and note the mL, or weigh a filled mould minus an empty one (1 g of water ≈ 1 mL). Moulds sold as "2 mL" or "4 mL" often hold somewhat more or less.
+* '''Piece mass = cavity volume × density of the candy mass.''' Gummy mixes are about 1.3–1.4 g/mL, chocolate about 1.2–1.3 g/mL, hard candy about 1.4–1.5 g/mL. Better: weigh a few filled pieces from a test run.
+=== Calculate per piece ===
+* '''Concentration in the mass (mg/g) = total active (mg) ÷ total batch mass (g).'''
+* '''Dose per piece = piece mass (g) × concentration (mg/g).'''
+* '''Worked example:''' 300 mg of active is mixed into a gummy batch that weighs 520 g on the scale after cooking (weigh the pot, since evaporation changes the mass). Concentration = 300 ÷ 520 = 0.577 mg/g. A mould that gives 3.5 g gummies gives '''2.0 mg per gummy'''. If 40 g of the mass stays behind in the pot and the dropper, you get fewer gummies (about 137 instead of 148), but each one is still 2.0 mg, because the concentration is unchanged. '''Calculate from concentration × piece mass, not "total ÷ number of cavities".'''
+* '''Target doses:''' choose the active amount so the per-piece dose is a round number, and so the dose people want is one piece or a half piece, not "a quarter of a gummy".
+=== Fill evenly ===
+* Use a '''squeeze bottle, a graduated dropper, an oral syringe, a funnel depositor or a piping bag'''. Fill each cavity to the same level and scrape level (for chocolate and firm masses).
+* For bars, sheets and fudge, '''don't cut by eye'''. Use a frame and a ruler or a guitar cutter, then weigh the pieces.
+* For chocolate, use '''moulds rather than hand-dipping''' when dose matters. Hand-dipped coatings vary in thickness.
+
+== Step 6: verify ==
+* '''Weigh every piece''' (or a sample of at least 10–20). Calculate the mean and the relative standard deviation (see [[Testing Labelling and Safe Storage of Dosed Preparations]]). Re-melt or reject pieces outside about ±10% of the mean.
+* '''Check the tracer colour''' across pieces from the start, middle and end of depositing.
+* '''For a recipe you will repeat, lab-test''' pieces from the start, middle and end, kept separate. That measures both potency (did the heat and the process lose any?) and homogeneity. In regulated U.S. markets, the reference points are about ±15% potency tolerance and a relative standard deviation under about 10% between pieces.
+* '''Curing changes mass, not dose.''' Gummies lose water while curing, so they get lighter, but the mg per piece stays the same. Do weight-based dose calculations on the '''freshly deposited''' mass, or on the batch mass before curing.
+
+== Step 7: label, store and protect ==
+* '''Label:''' mg per piece (tested or calculated maximum), pieces per container, active ingredient, date, batch, "keep out of reach of children and pets".
+* '''Store:''' cool, dark and airtight (gummies and hard candy with desiccant; chocolate at 15–18 °C; ganache refrigerated).
+* '''Child safety:''' dosed candy should be '''locked away''', in '''child-resistant''' containers, in packaging that '''does not look like ordinary candy''', and never in a commercial candy brand's wrapper. Plain shapes (squares, discs) are safer than animals, fruit or cartoon shapes. U.S. poison-centre reports of edible exposures in children under 6 rose from 207 to 3,054 between 2017 and 2021 (Tweet et al., ''Pediatrics'', 2023). See [[Testing Labelling and Safe Storage of Dosed Preparations]].
+* '''First use of a new batch:''' start with a fraction of a piece and wait for the full onset before taking more. Eaten preparations act slowly (often 30–120 minutes), and redosing too early is the most common cause of taking too much. See [[Cannabis Harm Reduction]].
+
+== Quick reference by candy type ==
+* '''Gelatin gummies:''' water-based. Emulsify oils with lecithin. Add at 60–70 °C. Deposit warm, stirring. Weigh pieces after de-moulding.
+* '''Pectin gummies:''' water-based, hot deposit. Add just before the acid and work fast. More heat loss.
+* '''Chocolate (moulded):''' fat-based. Oil- or cocoa-butter-dissolved active, '''no water or alcohol'''. Add before tempering or at working temperature. Moulds, not dipping.
+* '''Ganache truffles:''' fat plus water. Add with the cream or butter at 35–60 °C. Scoop by weight.
+* '''Hard candy and lollipops:''' sugar glass. Concentrated oil or resin only. Add at about 125–135 °C off the heat. Fixed-volume moulds.
+* '''Caramel and fudge:''' fat-based. Infused butter or oil added after cooking where possible. Frame and weigh.
+* '''Compressed tablets:''' dry powder, geometric dilution, fixed-fill press. The most uniform format.
+* '''Syrups and honey:''' see [[Tinctures Glycerites Syrups and Infused Oils and Butters]].
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Candy Making]]
+* [[Concentration Arithmetic and Serial Dilution]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Gummies and Jellies Gelatin Pectin and Agar]]
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]
+* [[Hard Candy Lollipops Lozenges and Mints]]
+* [[Caramel Toffee Brittle Fudge and Fondant]]
+* [[Cannabis]]
+* [[Cannabis Harm Reduction]]
+* [[Sublingual Absorption and Salivary Enzymes]]
+* [[Bioavailability Metabolic Inhibition and Synergy]]
+
+== Sources ==
+* Vandrey, R. et al. "Cannabinoid dose and label accuracy in edible medical cannabis products." ''JAMA'' 313(24):2491–2493, 2015. Why infused confections must be verified.
+* Tweet, M. S., Nemanich, A. and Wahl, M. "Pediatric edible cannabis exposures and acute toxicity: 2017–2021." ''Pediatrics'' 151(2):e2022057761, 2023.
+* United States Pharmacopeia. General Chapter <905> ''Uniformity of Dosage Units''; <795> ''Pharmaceutical Compounding — Nonsterile Preparations'' (geometric dilution, compounded troches and lozenges).
+* Allen, L. V. ''The Art, Science, and Technology of Pharmaceutical Compounding'', 6th ed. APhA, 2020. Compounded troches, lozenges and gummies (gelatin and polyethylene-glycol bases), mould calibration and per-unit calculation.
+* Colorado Marijuana Enforcement Division homogeneity rule (2020 revision) as summarized by SC Laboratories, "Are your edibles consistent?"; Mississippi Medical Cannabis Program testing bulletin (2024).
+* McClements, D. J. ''Food Emulsions'', 3rd ed. CRC Press, 2015. Lecithin and emulsified delivery of lipophilic actives.
+* Greweling, P. P. ''Chocolates and Confections'', 2nd ed. CIA/Wiley, 2013. Gummy, pâte de fruits, hard candy and chocolate processing temperatures.
+* Beckett, S. T. ''The Science of Chocolate'', 3rd ed. RSC, 2019. Seizing and fat additions to chocolate.
+
+== Coverage ==
+A seven-step method for evenly dosed candy: knowing the total (tested versus calculated maximum); matching the carrier to the matrix (water-based gummies need emulsified oils, chocolate takes fat-soluble forms only and no tinctures, hard candy takes concentrates only, tablets use geometric dilution); adding the active at the coolest workable temperature for each candy type; mixing technique, tracer colour and pre-dilution; mould calibration and per-piece dose by concentration × mass, with a worked example; verification by weighing, colour and start/middle/end lab tests, and how curing affects mass but not dose; labelling, storage, child safety and first-use guidance; a quick-reference list by candy type.

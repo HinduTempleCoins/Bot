@@ -1,0 +1,101 @@
+'''Sugar Stages and the Science of Candy''' is the reference page of the [[Candy Making]] hub. It covers what the "stages" mean, how to measure them, and the physical chemistry behind every candy: boiling-point elevation, crystallization and how to stop it, invert sugar, browning reactions, the glassy state, water activity and humidity.
+
+== Why temperature measures concentration ==
+A sugar solution boils above 100 °C, and the more concentrated it is, the higher it boils (boiling-point elevation, a colligative property). As a syrup boils, water leaves and the boiling point climbs. '''So the thermometer reading is really a reading of sugar concentration.''' A syrup at 150 °C is about 99% sugar whatever recipe it came from, which is why candy recipes give temperatures rather than times.
+
+== The stages ==
+Sea-level temperatures. Sugar concentrations are approximate (from the Exploratorium and standard confectionery texts).
+* '''Thread''' — 106–112 °C (223–235 °F), about 80% sugar. A drop in cold water forms a loose thread. Syrups, candied-fruit syrups, some glazes and Indian "one-thread" syrup.
+* '''Soft ball''' — 112–116 °C (235–240 °F), about 85%. Forms a soft ball that flattens in the hand. '''Fudge, fondant, pralines, maple candy''', some buttercreams (Italian meringue).
+* '''Firm ball''' — 118–120 °C (245–250 °F), about 87%. A ball that holds its shape but is still pliable. '''Caramels''', marshmallow (some formulas).
+* '''Hard ball''' — 121–130 °C (250–265 °F), about 90–92%. A firm ball that still gives a little. '''Nougat, marshmallow, divinity, gummies''' (some formulas), saltwater taffy.
+* '''Soft crack''' — 132–143 °C (270–290 °F), about 95%. Threads that bend before they break. '''Butterscotch''', saltwater taffy (firm), some toffees.
+* '''Hard crack''' — 149–154 °C (300–310 °F), about 99%. Brittle threads that snap. '''Hard candy, lollipops, brittle, English toffee, candy apples, spun sugar'''. The highest temperature most recipes call for.
+* '''Caramel''' — about 160–182 °C (320–360 °F). The sugar itself breaks down and browns (caramelization; see below). Light caramel at the low end, dark and bitter at the high end, burnt above that.
+
+=== The cold-water test ===
+Drop half a teaspoon of syrup into a glass of very cold water, gather it, and feel it against the descriptions above. It is the old method and is still a useful cross-check on a thermometer.
+
+=== Calibrate your thermometer ===
+Put it in a pot of rolling boiling water for a few minutes. At sea level it should read 100 °C (212 °F). If it reads 99 °C, add 1 °C to every recipe temperature; if it reads 101 °C, subtract 1 °C. Recheck it before each candy session. Thermometers drift and dial types get knocked.
+
+=== Altitude ===
+Water boils lower at altitude (about 1 °C lower per 300 m, or 1 °F per 500 ft), and so does every sugar stage. '''Subtract the difference between your measured boiling point of water and 100 °C from every recipe temperature''' (the Exploratorium and Colorado State University Extension give the same rule of thumb: 1 °F per 500 ft). At 1,500 m (5,000 ft) water boils at about 95 °C (203 °F), so cook soft-ball fudge to about 107–111 °C (226–231 °F) instead of 112–116 °C.
+
+== Sucrose solubility and supersaturation ==
+* At 20 °C water dissolves about 2 g of sucrose per gram of water (about 67% w/w). Hot water dissolves far more.
+* A cooked syrup cooled to room temperature holds much more sugar than it "should". It is '''supersaturated''' and unstable, waiting for a reason to crystallize. Every candy decision is about either preventing that (hard candy, caramel) or controlling it (fudge, fondant).
+
+== Crystallization: nucleation and growth ==
+Crystallization has two steps: '''nucleation''' (new crystals start) and '''growth''' (existing crystals get bigger).
+* '''Many nuclei at once''' gives many small crystals and a smooth, creamy texture (fudge, fondant).
+* '''Few nuclei''' gives a few big crystals and a gritty, grainy texture (failed fudge). Leave it for days and you get huge crystals (rock candy).
+
+=== What triggers unwanted crystallization (graining) ===
+* Undissolved sugar crystals on the pot walls or spoon falling back in ("seeding").
+* Stirring or agitating a supersaturated syrup, especially while it cools.
+* Dust, a dirty spoon, or a crystal-crusted thermometer.
+* Pouring and scraping the pot (the scrapings are often already crystallizing).
+
+=== How confectioners prevent it ===
+* '''Dissolve the sugar completely''' before boiling. Stir until clear, then stop.
+* '''Wash down the pot walls''' with a pastry brush dipped in water, or '''cover the pot''' for the first 2–3 minutes of boiling so condensation rinses the walls.
+* '''Add "doctors" (interfering agents):''' glucose syrup or corn syrup, invert sugar, honey, or acid (cream of tartar, lemon juice), which converts some sucrose to invert sugar in the pot. Other molecules get in the way of sucrose molecules lining up into a crystal lattice. Fats and proteins (butter, milk, cream) interfere physically as well.
+* '''Don't scrape''' the pot into the batch.
+
+=== How confectioners cause controlled crystallization ===
+* '''Fudge and fondant:''' cook to soft ball, then '''cool undisturbed''' to about 43–50 °C (110–120 °F), then '''beat'''. Cooling first builds a high supersaturation. Beating then sets off a burst of nucleation and gives many tiny crystals: smooth fudge. Beat while hot and you get few, large crystals and grainy fudge. See [[Caramel Toffee Brittle Fudge and Fondant]].
+* '''Seeding''' with fine crystals (a spoon of finished fondant, or powdered sugar) can start crystallization deliberately.
+
+== Sugars and syrups ==
+* '''Sucrose''' (table sugar): glucose + fructose bonded together. It crystallizes readily.
+* '''Glucose (corn) syrup''': partially hydrolysed starch, graded by '''DE''' (dextrose equivalent). Low-DE (e.g. 42 DE, the common confectioner's grade) is viscous and less sweet and gives body and chew. High-DE is sweeter and more hygroscopic. It strongly inhibits sucrose crystallization. Typical hard-candy formulas use sucrose : glucose syrup solids from about 70:30 to 50:50.
+* '''Invert sugar''': sucrose split into equal glucose + fructose by acid and heat or by the enzyme invertase. Sweeter, more hygroscopic, an excellent crystallization inhibitor, and a moisture retainer (keeps candy soft). Golden syrup is a partially inverted syrup.
+* '''Honey''': a natural invert-type syrup (mostly fructose and glucose). It browns faster and attracts moisture more than sucrose.
+* '''Dextrose''' (glucose): crystallizes as a different, cooling-tasting crystal. Used in compressed tablets.
+* '''Fructose''': very hygroscopic and browns at low temperature.
+* '''Too much inversion''' (too much acid, or cooking too long with acid) gives sticky, soft candy that weeps in humid air.
+
+== Browning: caramelization and Maillard ==
+* '''Caramelization''': sugar decomposing on its own when heated. Sucrose begins to caramelize noticeably around 160–170 °C, fructose much lower (around 110 °C). It produces caramel colour, buttery and nutty flavours, and a little bitterness.
+* '''Maillard reaction''': sugars reacting with amino acids from proteins (milk, cream, butter solids, nuts). It happens at lower temperatures than caramelization and gives the flavour and brown colour of '''caramels and toffee''', which are cooked to only 118–150 °C. Most "caramel" flavour in a dairy caramel is Maillard, not true caramelization.
+* Alkaline conditions (baking soda) speed browning; acid slows it.
+
+== The glassy state ==
+Hard candy is not crystalline. It is a '''glass''': an amorphous solid, a liquid that has become too viscous to flow. Below its '''glass-transition temperature (Tg)''' it is hard and brittle. Water is a strong plasticizer, so every bit of absorbed moisture lowers Tg. When a hard candy's surface takes up humidity, its Tg drops below room temperature: it turns sticky, then the now-mobile sucrose crystallizes ("graining", a white cloudy crust). Hard candy is about 1–3% water. Keeping it dry keeps it glassy.
+
+== Water activity (aw) ==
+'''Water activity''' measures how "available" water is to microbes and to chemical change, from 0 (bone dry) to 1.0 (pure water). It is not the same as water content. Sugar binds water, so a syrup can contain water and still have low aw. Most bacteria need about 0.90 or above, most moulds about 0.70–0.80, and osmophilic yeasts and xerophilic moulds about 0.60. Below about 0.60 there is no microbial growth. Typical values (Ergun, Lietha and Hartel, 2010):
+* Hard candy: about 0.25–0.40. Very stable.
+* Caramel and toffee: about 0.40–0.60.
+* Fudge and fondant: about 0.60–0.75.
+* Marshmallow: about 0.60–0.75.
+* Gummies and jellies: about 0.50–0.75 (cooking and curing to lower values gives a longer shelf life).
+* Ganache: about 0.75–0.90. Short shelf life; refrigerate. See [[Chocolate Tempering Ganache Truffles and Bonbons]].
+* Moisture moves from high-aw parts to low-aw parts (a soft centre drying out in a hard shell, or a caramel making a biscuit soggy). Combining components with similar aw prevents it.
+
+== Humidity and storage ==
+* '''Hygroscopic''' candies (hard candy, cotton candy, anything high in fructose or invert sugar) pull water from the air and turn sticky. Make them on dry days if you can (relative humidity below about 50%), wrap them individually, and store them airtight with desiccant.
+* '''Low-humidity damage''' affects high-aw candies (fudge, marshmallow), which dry out and harden in dry air. Store them airtight too.
+* '''Chocolate''' wants about 15–18 °C and under about 50–60% RH. The fridge causes condensation and sugar bloom when the chocolate is taken out.
+
+== See also ==
+* [[Candy Making]]
+* [[Hard Candy Lollipops Lozenges and Mints]]
+* [[Caramel Toffee Brittle Fudge and Fondant]]
+* [[Gummies and Jellies Gelatin Pectin and Agar]]
+* [[Candied Fruit Rock Candy Cotton Candy and Panning]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+
+== Sources ==
+* Exploratorium, "The Science of Candy": sugar stages, concentrations and altitude correction. [https://annex.exploratorium.edu/cooking/candy/sugar-stages.html Sugar stages]
+* Hartel, R. W., von Elbe, J. H. and Hofberger, R. ''Confectionery Science and Technology''. Springer, 2018. Crystallization, the glassy state, glucose syrups, water activity.
+* Ergun, R., Lietha, R. and Hartel, R. W. "Moisture and shelf life in sugar confections." ''Critical Reviews in Food Science and Nutrition'' 50(2):162–192, 2010.
+* Hartel, R. W. ''Crystallization in Foods''. Aspen, 2001.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 12.
+* Colorado State University Extension. "High Altitude Food Preparation" (fact sheet 9.300). Candy temperatures at altitude.
+* Labuza, T. P. and Altunakar, B. "Water activity prediction and moisture sorption isotherms." In Barbosa-Cánovas et al. (eds.), ''Water Activity in Foods''. Blackwell/IFT Press, 2007. Microbial aw limits.
+
+== Coverage ==
+Boiling-point elevation as a concentration gauge; the seven stages with °C, °F, approximate concentration and the candies made at each; the cold-water test; thermometer calibration and altitude correction; sucrose solubility and supersaturation; nucleation versus growth, what triggers graining and how to prevent or deliberately cause it; sucrose, glucose syrup (DE), invert sugar, honey, dextrose and fructose; caramelization versus Maillard browning; the glassy state and Tg; water activity limits and typical candy values; humidity and storage.

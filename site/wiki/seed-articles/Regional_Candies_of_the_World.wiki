@@ -1,0 +1,96 @@
+'''Regional Candies of the World''' is the gazetteer of the [[Candy Making]] hub. It lists traditional confections region by region, and for each one gives what it is made of and '''which technique''' it uses, linked to the page that teaches that technique. Most of the world's candies turn out to be a handful of methods (cooked syrup, reduced milk, nut paste, starch gel, pulled sugar, panning) applied to local ingredients.
+
+== Middle East, Turkey, Iran and the Caucasus ==
+* '''Lokum (Turkish delight)''': sugar syrup and a cornstarch slurry with cream of tartar or lemon, cooked slowly for an hour or more with constant stirring until thick and translucent. Flavoured with rosewater, bergamot, mastic, lemon or pistachio, set in a tray, cut and dusted with icing sugar and cornstarch. The Istanbul confectioner Hacı Bekir (from 1777) is credited with popularizing the modern version. Technique: starch jelly ([[Gummies and Jellies Gelatin Pectin and Agar]]).
+* '''Tahini halva (helva)''': sugar syrup cooked hot (soft crack range), whipped with a foaming agent, traditionally the saponin-rich root extract of soapwort (''çöven'', ''Gypsophila'' or ''Saponaria'' root) or egg white, then '''kneaded with tahini''' (sesame paste) until it forms the fibrous, flaky texture. Technique: aerated sugar mass plus nut paste ([[Marshmallow Nougat Taffy and Aerated Candy]]).
+* '''Pişmaniye''': hand-pulled sugar floss worked into flour roasted in butter. Technique: pulled floss ([[Candied Fruit Rock Candy Cotton Candy and Panning]]).
+* '''Gaz''' (Isfahan, Iran): nougat of egg white, sugar and rosewater with pistachios or almonds, traditionally with ''angebin'' (a manna-like sap from ''Astragalus'' species). Technique: nougat.
+* '''Sohan''' (Qom, Iran): a saffron, butter, wheat-sprout-flour and sugar brittle topped with pistachios and almonds. Technique: brittle ([[Caramel Toffee Brittle Fudge and Fondant]]).
+* '''Nabat''': Persian saffron rock sugar on threads. Technique: rock candy.
+* '''Pestil''' and '''köme''' (Turkey), '''churchkhela''' (Georgia): fruit-leather sheets, and strings of walnuts dipped repeatedly in thickened grape must and dried.
+* '''Cezerye''': a carrot and sugar paste with nuts and coconut.
+
+== South Asia ==
+* '''Barfi''': '''khoa''' (milk boiled down slowly to a thick solid) cooked with sugar, flavoured (cardamom, pistachio, coconut, saffron), set and cut. Technique: reduced-milk fudge, related to fudge crystallization.
+* '''Peda''': khoa and sugar kneaded into discs, often with cardamom and saffron.
+* '''Kaju katli''': cashew powder cooked into a '''one-thread''' sugar syrup (thread stage) to a smooth dough, rolled thin, cut into diamonds and topped with edible silver leaf (''vark''). Technique: nut paste (like marzipan).
+* '''Mysore pak''': gram (chickpea) flour roasted in a lot of ghee and cooked into sugar syrup until it aerates and sets porous.
+* '''Soan papdi''': gram flour roasted in ghee, worked into pulled sugar until flaky and thread-like. Technique: pulled sugar.
+* '''Chikki''': jaggery syrup cooked to the hard-crack range with peanuts or sesame, rolled thin. '''Gajak''' is a sesame and jaggery brittle, pounded. Technique: brittle.
+* '''Til ladoo''' and '''laddu''': balls of roasted sesame, flours or nuts bound with jaggery syrup or ghee.
+* '''Petha''' (Agra): candied ash gourd. Technique: candied fruit.
+* '''Rasgulla''' and '''sandesh''' (Bengal): sweets of '''chhena''' (fresh acid-set curd), poached in syrup or kneaded with sugar.
+
+== East Asia ==
+* '''Mochi and daifuku''' (Japan): glutinous rice, pounded after steaming (traditional) or mixed from flour (shiratamako, mochiko) and steamed. Daifuku wraps sweet bean paste (anko). Note: mochi is a well-known '''choking hazard''', especially for elderly people and young children, so cut it small and chew it thoroughly.
+* '''Yōkan''': sweet red-bean paste set with '''agar''' and sugar, in firm (neri) and soft (mizu) styles. Technique: agar jelly.
+* '''Konpeitō''': star-shaped sugar candy panned for 1–2 weeks. Technique: hard panning.
+* '''Kohakutō''': agar jellies dried until a sugar crust crystallizes on the outside around a soft interior.
+* '''Wagashi''' in general: the Japanese tea-confectionery family (nerikiri bean-paste sculptures, higashi dry pressed sugar sweets of wasanbon sugar).
+* '''Tanghulu''' (northern China): skewered hawthorn fruit (or strawberries, grapes) dipped in sugar cooked to hard crack. Technique: hard candy coating.
+* '''Dragon's beard candy''' (China) and '''kkultarae''' (Korea): maltose or honey rings pulled and doubled in starch into fine threads, wrapped around nuts. Technique: pulled floss.
+* '''White Rabbit''' and other '''milk candies''' (China): a chewy milk-and-sugar candy wrapped in edible rice paper.
+* '''Haw flakes''' (China): thin discs of hawthorn fruit paste and sugar.
+* '''Yeot''' (Korea): rice or other grain cooked and '''saccharified with malted barley''' (whose enzymes convert starch into maltose), strained, boiled down, then pulled until white. A traditional enzymatic candy. '''Mizuame''' (Japan) is the clear malt syrup.
+* '''Dalgona / ppopgi''' (Korea): melted sugar with a pinch of baking soda, pressed flat and stamped. Technique: honeycomb ([[Caramel Toffee Brittle Fudge and Fondant]]).
+
+== Southeast Asia ==
+* '''Dodol''' (Indonesia, Malaysia, Philippines): glutinous rice flour, coconut milk and palm sugar, stirred over heat for hours into a dense, toffee-like paste.
+* '''Kuih''' and '''nyonya''' layered sweets: often starch or agar gels with pandan and coconut. Technique: starch and agar jellies.
+* '''Pastillas de leche''' (Philippines): carabao or cow milk (or condensed milk) cooked down with sugar, rolled in sugar.
+
+== Europe ==
+* '''Nougat de Montélimar''' (France): honey and sugar nougat with at least 30% almonds (or 28% almonds plus 2% pistachios), with honey at least 25% of the sweeteners. A protected geographical indication is being registered (INAO). Technique: nougat ([[Marshmallow Nougat Taffy and Aerated Candy]]).
+* '''Calissons d'Aix''' (France): a paste of ground almonds and candied melon and orange on wafer paper, glazed with royal icing.
+* '''Turrón''' (Spain): '''Alicante''' (hard, whole almonds) and '''Jijona''' (soft, ground almond paste), both PGI. Technique: nougat.
+* '''Torrone''' (Italy) and '''cubbaita''' (Sicily): nougat; and a sesame and honey brittle.
+* '''Marzipan''': ground almonds and sugar worked into a paste. Lübeck (Germany) and Toledo (Spain) are classic centres. Lübeck's top grades carry a very high almond-to-sugar ratio. Technique: nut paste (cooked-syrup or raw method).
+* '''Kendal mint cake''' (England): sugar and glucose boiled with peppermint oil, then stirred to grain and set into a crystalline bar. Technique: controlled crystallization ([[Caramel Toffee Brittle Fudge and Fondant]]).
+* '''Scottish tablet''' and '''Edinburgh rock''' (a pulled, then deliberately crystallized, crumbly stick).
+* '''Salmiakki''' (Finland, the Nordic countries, the Netherlands): liquorice flavoured with '''ammonium chloride''' (salmiak), salty and pungent. Liquorice itself is an extruded paste of wheat flour, sugar and liquorice extract. Excess liquorice (glycyrrhizin) raises blood pressure and lowers potassium.
+* '''Pasteli''' (Greece): sesame and honey bars.
+* '''Ovos moles''' (Aveiro, Portugal, PGI): egg yolk and sugar paste in wafer shells.
+* '''Membrillo''' (Spain; '''marmelada''' in Portugal): quince paste set by the fruit's own pectin. Technique: pectin paste ([[Gummies and Jellies Gelatin Pectin and Agar]]).
+* '''Fudge''', '''toffee''' and '''humbugs''' (Britain).
+
+== Latin America ==
+* '''Brigadeiro''' (Brazil): sweetened condensed milk, cocoa powder and butter, stirred over heat until it pulls away from the pan in one mass, cooled, rolled into balls and coated in chocolate sprinkles. '''Beijinho''' is the coconut version, '''cajuzinho''' the peanut and cashew one. Technique: reduced condensed milk (a no-thermometer fudge).
+* '''Dulce de leche''' (Argentina, Uruguay and elsewhere) and '''cajeta''' (Mexico, from goat's milk): milk and sugar simmered for hours until thick and deep brown through Maillard browning. Some recipes add a pinch of baking soda, which neutralizes acidity, prevents curdling and speeds browning.
+* '''Alegría''' (Mexico): popped '''amaranth''' seed bound with honey or piloncillo syrup, pressed into bars. Technique: brittle-style binding.
+* '''Cocadas''': coconut and sugar (sometimes milk and egg) cooked and baked or set.
+* '''Ate''' (Mexico): fruit pastes (guava, quince, mango) set by fruit pectin.
+* '''Alfeñique''' (Mexico): a moulded sugar paste, the material of Day of the Dead sugar skulls (''calaveras de azúcar'') and figures (some are cast from boiled sugar).
+* '''Paçoca''' (Brazil): ground roasted peanuts with sugar and salt, pressed into crumbly cakes.
+* '''Tamarind candies''' (Mexico): tamarind pulp with sugar and chili.
+
+== North America ==
+* '''Saltwater taffy''' (Atlantic City), '''pralines''' (New Orleans), '''divinity''' (the U.S. South), '''peanut brittle''', '''fudge''', '''candy corn''' (a fondant-and-marshmallow mass, deposited into starch), '''candy canes''' (pulled hard candy), '''maple sugar candy''' and '''sugar on snow''' (Québec, New England). Techniques: see [[Marshmallow Nougat Taffy and Aerated Candy]] and [[Caramel Toffee Brittle Fudge and Fondant]].
+
+== Africa ==
+* '''Nkate cake''' (Ghana) and '''groundnut candy''' (Nigeria and across West Africa): roasted peanuts in caramelized sugar. Technique: brittle.
+* '''Shuku shuku''' (Nigeria): coconut and egg-yolk sweets, baked.
+* '''Kashata''' (East Africa, Swahili coast): coconut or peanut in cooked sugar, cut into squares, often with cardamom.
+* '''Arousset el-mulid''' (Egypt): sugar dolls and horsemen made for the Prophet's birthday (Mawlid). Moulded boiled sugar (alfeñique-like).
+* '''Sesame and honey brittles''' across North Africa (related to Greek pasteli and Sicilian cubbaita).
+
+== See also ==
+* [[Candy Making]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Gummies and Jellies Gelatin Pectin and Agar]]
+* [[Caramel Toffee Brittle Fudge and Fondant]]
+* [[Marshmallow Nougat Taffy and Aerated Candy]]
+* [[Candied Fruit Rock Candy Cotton Candy and Panning]]
+* [[Edible Waxes Hive Foods and Aromatic Resins]]
+* [[Culinary Recipes]]
+
+== Sources ==
+* Goldstein, D. (ed.) ''The Oxford Companion to Sugar and Sweets''. Oxford University Press, 2015. Entries on lokum, halva, barfi, mochi, wagashi, turrón, nougat, marzipan, brigadeiro, dulce de leche, alfeñique, konpeitō, salmiakki, Kendal mint cake and others.
+* Davidson, A. ''The Oxford Companion to Food'', 3rd ed. Oxford University Press, 2014.
+* INAO. "IGP Nougat de Montélimar." [https://www.inao.gouv.fr/en/igp-nougat-de-montelimar INAO]
+* European Commission, eAmbrosia register of geographical indications: Jijona and Turrón de Alicante (PGI), Ovos Moles de Aveiro (PGI), Lübecker Marzipan (PGI). [https://ec.europa.eu/agriculture/eambrosia/geographical-indications-register/ eAmbrosia]
+* Hartel, R. W., von Elbe, J. H. and Hofberger, R. ''Confectionery Science and Technology''. Springer, 2018.
+* Japan's Food Safety Commission / Tokyo Fire Department annual mochi-choking advisories (New Year period).
+* U.S. FDA consumer update, "Black Licorice: Trick or Treat?" (glycyrrhizin, potassium and blood-pressure effects).
+
+== Coverage ==
+A region-by-region gazetteer (Middle East, Turkey, Iran and the Caucasus; South Asia; East Asia; Southeast Asia; Europe; Latin America; North America; Africa) of more than 60 traditional confections, each with its ingredients and the technique family it belongs to, linked to the technique pages; plus the protected-origin rules for nougat, turrón, marzipan and ovos moles, and safety notes on mochi choking and liquorice.

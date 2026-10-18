@@ -1,0 +1,89 @@
+'''Marshmallow, Nougat, Taffy and Aerated Candy''' covers the confections of the [[Candy Making]] hub that owe their texture to air: marshmallow, divinity, hard and soft nougat (including nougat de Montélimar, torrone and turrón), saltwater taffy and frappé. Air gets in three ways: '''whipping''' a foam (marshmallow, divinity, nougat), '''pulling''' (taffy, pulled sugar), or '''chemical leavening''' (honeycomb, which is on [[Caramel Toffee Brittle Fudge and Fondant]]).
+
+== Marshmallow ==
+=== Gelatin marshmallow (the modern standard) ===
+* 25 g gelatin (about 3½ U.S. envelopes, roughly 225 Bloom), bloomed in 120 g cold water.
+* 400 g sugar, 160 g corn syrup (or invert sugar), 120 g water, a pinch of salt.
+* Vanilla or other flavour.
+* Dusting: equal parts cornstarch and icing sugar.
+# Bloom the gelatin in the mixer bowl.
+# Cook the sugar, corn syrup and water to '''115–118 °C (240–245 °F)'''.
+# With the mixer running on low, pour the hot syrup down the side of the bowl onto the gelatin.
+# Whip on high for '''8–12 minutes''' until thick, white, roughly tripled in volume, and just warm (about 40 °C). Add flavour near the end.
+# Spread into a dusted, lined pan. Dust the top.
+# Leave uncovered for 6–12 hours to set and dry. Cut with an oiled knife or scissors and toss in dusting powder.
+* The syrup temperature sets the texture: lower gives a softer, more spreadable mallow; higher gives a firmer one that is better for toasting.
+* '''Vegan marshmallow''' replaces the gelatin with '''aquafaba''' (chickpea liquid) whipped to a foam plus agar or carrageenan for the set.
+* '''Egg-white marshmallow''' (French guimauve): Italian meringue (hot syrup into whipped egg whites) stabilized with gelatin. Lighter and more delicate.
+* '''Historical note:''' the original ''pâte de guimauve'' used the mucilage of marsh-mallow root (''Althaea officinalis'') as the gelling and foaming agent, which is where the name comes from. Gelatin replaced it in the 19th century.
+* '''Marshmallow creme (fluff):''' a softer, spoonable foam of egg whites and syrup, with no gelatin set.
+
+== Divinity ==
+A Southern U.S. candy: egg whites whipped stiff, with a sugar–corn syrup syrup cooked to '''hard ball, 121–127 °C (250–260 °F)''' streamed in, then beaten until it '''loses its gloss''' and holds peaks. Pecans are folded in and it is spooned into mounds. Divinity is famously humidity-sensitive. On humid days it may never set, because the sugar foam picks up moisture. Cook a couple of degrees higher on damp days, or wait for a dry one. This is established, not folklore.
+
+== Nougat ==
+=== Hard (white) nougat: nougat de Montélimar, torrone ===
+Nougat is a '''meringue foam (egg whites) stabilized with cooked honey and sugar syrup''', packed with toasted nuts and pressed between sheets of edible wafer (rice) paper.
+* 2 egg whites (about 60 g)
+* 250 g honey (lavender honey is traditional for Montélimar)
+* 300 g sugar, 100 g glucose syrup, 80 g water
+* 400–500 g toasted almonds (and pistachios), kept warm
+* Edible wafer paper
+# Start whipping the egg whites to soft peaks.
+# Heat the honey to about '''120–125 °C''' and stream it into the whites while whipping.
+# Meanwhile cook the sugar, glucose and water to about '''145–150 °C''' (hard crack for chewy-firm nougat; lower, about 135–140 °C, for softer). Stream it into the honey meringue with the mixer running.
+# Whip for several more minutes until the mass is thick and stiff and cooling. Some confectioners dry it further over a bain-marie.
+# Fold in the '''warm''' nuts (cold nuts set the nougat on contact).
+# Spread it between wafer paper in a frame, press it flat, and leave overnight. Cut with a serrated knife.
+* '''Nougat de Montélimar''' (France) is defined by a minimum nut content of 30% almonds, or 28% almonds plus 2% pistachios, and honey making up at least 25% of the sweetening ingredients. Its protected geographical indication (IGP/PGI) has been in the process of formal registration (INAO).
+* '''Torrone''' (Italy; Cremona's is famous) is the same family, often with hazelnuts.
+=== Turrón (Spain) ===
+Two protected styles, both under PGI regulation:
+* '''Turrón de Alicante''' (hard): whole toasted almonds bound in a honey–sugar–egg-white nougat, cut into bars. The top grade, Suprema, has a high regulated almond minimum.
+* '''Turrón de Jijona''' (soft): the same ingredients, but the almonds are ground into the mass and worked to a soft, oily, fudge-like paste.
+=== Soft nougat and frappé ===
+* '''Frappé''': a whipped foam of egg-white (or milk or soy protein) and syrup, made ahead and folded into a cooked syrup to aerate it.
+* '''Soft (candy-bar) nougat''': syrup cooked lower (about 120–130 °C) and lightened with frappé. Fat and sometimes powdered milk are added. This is the chewy layer in many chocolate bars.
+* '''Persian gaz''': a nougat made with egg white and, traditionally, the manna-like sap ''angebin'' (from ''Astragalus'' species), with pistachios and rosewater. See [[Regional Candies of the World]].
+
+== Taffy ==
+=== Saltwater taffy ===
+* 400 g sugar, 200 g corn syrup, 150 g water, 30 g butter, 5 g salt, 1 tsp cornstarch (optional, for body), flavour oil and colour.
+# Cook the sugar, corn syrup, water and salt to about '''121–127 °C (250–260 °F)''' (hard ball). Use the low end for soft taffy and the high end, up to soft crack at about 132 °C, for a firmer chew.
+# Off the heat, stir in the butter, flavour and colour. Pour onto a buttered marble slab or a buttered baking sheet.
+# As it cools, fold the edges in. When it can be handled, butter your hands (or wear buttered gloves) and '''pull''': stretch it to arm's length, fold it back, twist, and repeat for 10–15 minutes.
+# It turns '''opaque, lighter in colour and satiny''' and gets harder to pull. Stop when it holds ridges.
+# Roll it into ropes, cut it with buttered scissors, and wrap each piece in wax paper at once (it flows and sticks if left).
+* '''Why pull:''' pulling folds in fine air bubbles and aligns the mass. That is what makes taffy light and soft-chewy rather than a dense caramel. Commercial taffy is pulled on a mechanical "taffy puller" (rotating arms).
+* The "salt water" in the name is a marketing story from Atlantic City in the 1880s. It contains salt and water, but no seawater.
+=== Other pulled chews ===
+* '''Molasses taffy''' and '''pulled mints''' (see [[Hard Candy Lollipops Lozenges and Mints]]).
+* '''Korean yeot''' and '''Japanese mizuame''' chews: malt-converted rice syrups, cooked down and pulled until white. See [[Regional Candies of the World]].
+
+== Why aerated candies fail ==
+* '''Foam collapses:''' syrup too cool when added (the foam isn't set), grease in the bowl (it kills egg-white foams), or under-whipping.
+* '''Weeping or sticky:''' undercooked syrup or humid storage. Dust it and store it airtight.
+* '''Grainy nougat or divinity:''' sucrose crystallized. Use glucose syrup and wash down the pot walls.
+* '''Rubbery marshmallow:''' too much gelatin, or the syrup cooked too high.
+* '''Sticky taffy:''' undercooked, or not pulled enough.
+
+== See also ==
+* [[Candy Making]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Caramel Toffee Brittle Fudge and Fondant]]
+* [[Gummies and Jellies Gelatin Pectin and Agar]]
+* [[Regional Candies of the World]]
+* [[Edible Waxes Hive Foods and Aromatic Resins]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+
+== Sources ==
+* Greweling, P. P. ''Chocolates and Confections'', 2nd ed. CIA/Wiley, 2013. Marshmallow, nougat, frappé, divinity, taffy.
+* Hartel, R. W., von Elbe, J. H. and Hofberger, R. ''Confectionery Science and Technology''. Springer, 2018. Aerated confections, foam stability.
+* INAO (Institut national de l'origine et de la qualité). "IGP Nougat de Montélimar." [https://www.inao.gouv.fr/en/igp-nougat-de-montelimar INAO]
+* Atlas Obscura. "The history of Montélimar nougat" (the 30% / 28%+2% nut and 25% honey rule).
+* Consejo Regulador IGP Jijona y Turrón de Alicante. Product specifications for the two turrón PGIs.
+* McGee, H. ''On Food and Cooking'', rev. ed., 2004. Egg foams, gelatin, marshmallow history.
+* Exploratorium, "The Science of Candy". Soft-crack and saltwater taffy. [https://annex.exploratorium.edu/cooking/candy/softcrack.html Exploratorium]
+
+== Coverage ==
+Gelatin marshmallow (weighed formula and method), vegan and egg-white versions, marsh-mallow root history and marshmallow creme; divinity and its real humidity sensitivity; hard nougat (honey and sugar syrups into meringue with warm nuts) with the Montélimar composition rule, torrone, turrón de Alicante and Jijona, soft nougat and frappé, Persian gaz; saltwater taffy (temperatures, pulling and why, the name story), other pulled chews; failure causes for aerated candies.

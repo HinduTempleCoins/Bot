@@ -1,0 +1,92 @@
+'''Concentration Arithmetic and Serial Dilution''' covers the numbers behind [[Dosing in Liquids]]: how strength is expressed, how to work from a batch total to a per-serving dose, how to dilute a stock to a target strength, and how to make very weak solutions accurately through serial dilution. Everything here is ordinary pharmacy and chemistry arithmetic, as taught in pharmaceutical-calculations courses.
+
+== Ways of expressing strength ==
+* '''mg/mL''' (milligrams per millilitre): the most useful unit for dosing. A dose is ''dose (mg) ÷ concentration (mg/mL) = volume (mL)''.
+* '''mg/g''': the same idea for solids and semi-solids (butter, chocolate, gummy mass). A piece's dose is ''piece weight (g) × concentration (mg/g)''.
+* '''% w/v''' (weight in volume): grams per 100 mL. '''1% w/v = 1 g/100 mL = 10 mg/mL.''' Pharmacy convention: a "%" with a solid dissolved in a liquid means w/v unless stated otherwise.
+* '''% w/w''' (weight in weight): grams per 100 g. Used for ointments, butters and candy masses, and for any mixture whose volume is uncertain.
+* '''% v/v''' (volume in volume): mL per 100 mL. Used for alcohol strength. "40% ABV" is 40% v/v ethanol.
+* '''Ratio strength''' 1:''n'': 1 g in ''n'' mL (for solids in liquids). 1:1000 = 1 mg/mL. Herbal tinctures use the same notation differently (1 g of herb per ''n'' mL of solvent); see [[Tinctures Glycerites Syrups and Infused Oils and Butters]].
+* '''ppm''' (parts per million): mg per kg, or for dilute water solutions about mg per L. 1 ppm = 0.001 mg/mL.
+
+=== Converting between them ===
+* % w/v to mg/mL: multiply by 10. (2.5% w/v = 25 mg/mL.)
+* mg/mL to % w/v: divide by 10.
+* % w/w to mg/mL: multiply % w/w by 10 and by the liquid's density in g/mL. (5% w/w in glycerin, density about 1.26 g/mL, ≈ 5 × 10 × 1.26 = 63 mg/mL.)
+* Mass to volume: ''volume = mass ÷ density''. Approximate densities at room temperature: water 1.00; ethanol 0.79; 40% vodka about 0.95; glycerin 1.26; propylene glycol 1.04; olive oil about 0.91; MCT oil about 0.94–0.95; melted butter about 0.91; honey about 1.40–1.45; simple syrup (USP) about 1.31 g/mL.
+
+== The core formula ==
+'''Concentration = total amount of active ÷ final total volume (or mass).'''
+
+The word that matters is ''final''. Dissolving 10 g of solid in 100 mL of water does not give 100 mL of solution. The volume grows. Measure the volume at the end, or dissolve in less than you need and then '''top up to the mark''' (''quantum sufficit'', written q.s.).
+
+== Per-serving dose from a batch total ==
+''Per-serving dose = total active in the batch ÷ number of equal servings.'' This holds only if the batch is truly uniform and the servings are truly equal. Both conditions are why weighing pieces and mixing properly matter.
+
+=== Example 1: a dosed syrup ===
+* 600 mg of active is dissolved into syrup, with a final volume of 300 mL.
+* Concentration = 600 ÷ 300 = '''2 mg/mL'''.
+* A 5 mL serving = 10 mg. The bottle holds 60 servings of 5 mL.
+
+=== Example 2: working back from a starting material of known potency ===
+* You have 7.0 g of dried plant material labelled (or lab-tested) at 18% of the active compound by weight.
+* Maximum active = 7.0 g × 0.18 = 1.26 g = '''1260 mg'''.
+* It is infused into 250 g of butter. If transfer were 100%, the butter would hold 1260 ÷ 250 = '''5.04 mg/g'''.
+* A recipe uses 100 g of that butter and makes 24 equal cookies: 100 × 5.04 = 504 mg ÷ 24 = '''21 mg per cookie (maximum)'''.
+* '''Why "maximum":''' infusion never moves 100% of the active into the fat. Some stays in the strained plant material and some breaks down. Real yields vary widely with time, temperature and fat, and are unknown unless the product is tested. Assuming 100% gives an upper bound. You may get less than you calculated, but never more, and for safety that is the right direction to be wrong in. If the product is then lab-tested, use the tested number.
+
+=== Example 3: dose per piece from a mould ===
+* A gummy mass weighs 480 g in total and contains 400 mg of active, so it carries 0.833 mg/g.
+* Each mould cavity holds a 4.0 g gummy: 4.0 × 0.833 = '''3.3 mg per gummy'''.
+* Base the count on the mass you actually deposited, not on the cavity count. Mass left on the pot, spatula and dropper is lost dose. See [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]].
+
+== Correction factors: what the label is really weighing ==
+* '''Salt forms.''' Many alkaloids and drugs are sold as salts (hydrochloride, citrate, sulfate). The salt's weight includes the counter-ion. ''Amount of base = amount of salt × (MW of base ÷ MW of salt)''. Caffeine citrate is the textbook case: 20 mg of caffeine citrate contains 10 mg of caffeine base.
+* '''Hydrates.''' Water of crystallization adds weight in the same way. Use the same MW-ratio correction.
+* '''Acid forms that lose CO₂ on heating (decarboxylation).''' Some plant compounds occur as carboxylic acids that turn into the neutral compound when heated. The mass ratio is MW(neutral) ÷ MW(acid). For the cannabinoid acids THCA → THC and CBDA → CBD the factor is '''0.877''', so 100 mg of THCA can give at most 87.7 mg of THC. Lab certificates usually report "total THC = THC + 0.877 × THCA" on exactly this basis. See [[Cannabis]].
+* '''Standardized extracts.''' A "10% extract" is 100 mg of marker compound per gram of extract powder. Dose the marker, not the powder.
+
+== C₁V₁ = C₂V₂: diluting a stock ==
+''Stock concentration × stock volume = final concentration × final volume.''
+* '''Example:''' you have a 30 mg/mL stock and want 50 mL at 5 mg/mL. V₁ = (5 × 50) ÷ 30 = '''8.33 mL''' of stock, topped up to 50 mL with the same solvent.
+* Use the same solvent, or one the active stays dissolved in. Diluting an alcohol tincture of an oil-soluble compound with water can make the compound '''come out of solution''' (it turns cloudy, coats the bottle walls, or floats). See [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]].
+* The [[Dilution Calculator]] does this arithmetic in the browser.
+
+== Serial dilution: making very weak solutions accurately ==
+When the target is too dilute to make in one step, for example 0.1 mg/mL from a 10 mg/mL stock, a single 1:100 step needs either a tiny measured volume (large error) or a very large final volume. Use '''tenfold steps''' instead:
+# 1.0 mL of 10 mg/mL stock + solvent to 10.0 mL = '''1 mg/mL'''. Mix thoroughly.
+# 1.0 mL of that + solvent to 10.0 mL = '''0.1 mg/mL'''. Mix thoroughly.
+# A third step would give 0.01 mg/mL (10 µg/mL), and so on.
+'''Rules:''' mix completely before every transfer; use a fresh or rinsed pipette/syringe for each step; label each intermediate; and remember that '''errors compound'''. Each step adds its own measuring error, so roughly add the percentage errors (three steps at ±2% each ≈ ±6% worst case). Measuring larger volumes at each step (5 mL into 50 mL instead of 1 mL into 10 mL) reduces the error.
+
+== Alligation: mixing two strengths to get a third ==
+To mix a strong and a weak preparation into a target strength, pharmacy uses '''alligation alternate''':
+* Parts of the strong = target − weak. Parts of the weak = strong − target.
+* '''Example:''' make 45% alcohol from 95% alcohol and water (0%). Parts of 95% = 45 − 0 = 45; parts of water = 95 − 45 = 50. Mix 45 volumes of 95% with 50 volumes of water.
+* '''Ethanol caveat:''' ethanol and water '''contract''' when mixed (the volumes don't add, and the shortfall is a few percent near 50:50). For exact work, mix to the calculated proportions and top up to a measured final volume, or work by weight.
+
+== Choosing a concentration that is easy to dose ==
+* Pick the concentration so that '''one dose is a volume your tool measures accurately'''. With a 1 mL oral syringe marked in 0.01 mL, doses of 0.2–1.0 mL are reliable. Doses of 0.05 mL are not.
+* Round numbers prevent mistakes: 1, 2, 5 or 10 mg/mL.
+* Write the arithmetic on the label or in a batch log, so anyone can check it later.
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Dilution Calculator]]
+* [[Percentage Calculator]]
+* [[Cannabis]]
+
+== Sources ==
+* Ansel, H. C. ''Pharmaceutical Calculations'', 15th ed. Wolters Kluwer, 2016. Expressions of concentration, dilution and concentration, alligation, the aliquot method.
+* Zatz, J. L. and Teixeira, M. G. ''Pharmaceutical Calculations'', 4th ed. Wiley, 2005.
+* United States Pharmacopeia. General Notices (strength expressions, "about", q.s.) and General Chapter <795> ''Pharmaceutical Compounding — Nonsterile Preparations''.
+* Haynes, W. M. (ed.) ''CRC Handbook of Chemistry and Physics''. CRC Press. Densities and ethanol–water mixing data.
+* The 0.877 THCA→THC conversion is the molecular-weight ratio (314.46 / 358.47) used in U.S. state cannabis testing rules for "total THC"; see e.g. the USDA Agricultural Marketing Service domestic hemp production rule, 7 CFR Part 990.
+
+== Coverage ==
+Expressions of strength (mg/mL, mg/g, % w/v, % w/w, % v/v, ratio strength, ppm) and conversions between them with densities; the final-volume rule and q.s.; three worked per-serving examples, including the 100%-transfer upper bound; salt, hydrate, decarboxylation and standardized-extract correction factors; C₁V₁ = C₂V₂ dilution; serial dilution and how its error compounds; alligation and ethanol volume contraction; choosing a concentration that is easy to dose.

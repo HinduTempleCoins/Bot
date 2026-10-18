@@ -1,0 +1,74 @@
+'''Candied Fruit, Rock Candy, Cotton Candy and Panning''' covers four techniques from the [[Candy Making]] hub that don't fit the "cook a syrup and pour it" pattern. '''Candying''' replaces a fruit's water with sugar by osmosis. '''Rock candy''' grows large crystals on purpose. '''Cotton candy''' spins sugar glass into fibres. '''Panning''' builds a coating layer by layer in a rotating pan.
+
+== Candied citrus peel ==
+# Cut the peel of 3–4 oranges (or lemons or grapefruit) into strips 5–8 mm wide. Keep some white pith for body, or scrape it thinner for less bitterness.
+# '''Blanch:''' cover with cold water, bring to a boil, drain. '''Repeat 2–3 times''' with fresh water. This removes bitterness (the flavonoid glycosides naringin and limonin) and softens the peel so the syrup can get in.
+# Make a syrup of equal weights of sugar and water (for example 300 g + 300 g). Add the peel.
+# Simmer gently, uncovered, for 45–75 minutes, until the peel is '''translucent''' and the syrup reaches about 106–110 °C (thread stage).
+# Drain (keep the syrup; it is excellent flavoured syrup) and spread the peel on a rack.
+# Dry for 12–48 hours until tacky, not wet. Roll it in granulated sugar, or dip it in tempered chocolate (orangettes).
+# Store airtight. Sugared peel keeps for months at room temperature, refrigerated or frozen longer.
+
+== Glacé (candied) whole fruit: the slow method ==
+Whole or large pieces of fruit (cherries, pineapple, apricots, figs, ginger, chestnuts for ''marrons glacés'') collapse and toughen if dropped straight into heavy syrup. Water rushes out faster than sugar can get in. The traditional answer is to '''raise the syrup concentration gradually over days''':
+# Prepare the fruit: pit or peel it, prick it, and blanch it briefly until just tender.
+# Day 1: cover it with a light syrup (about 30% sugar, or 30 °Brix), bring to a boil, then leave it to stand for 24 hours.
+# Each following day: drain the syrup, add sugar to raise it by about 10 percentage points (corn syrup or glucose for part of it helps prevent crystallization), boil the syrup, pour it back over the fruit, and stand for 24 hours.
+# Continue until the syrup is about 70–75% sugar (about 70–75 °Brix, or about 108 °C when boiled). This takes 1–2 weeks.
+# Drain, rinse briefly in hot water, and dry on racks. Glaze with a thin coat of fresh, heavy syrup (glacé finish) or roll in sugar (crystallized finish).
+* '''Candied ginger:''' slice fresh young ginger, simmer it in water until tender (30–60 minutes), then simmer it in syrup to about 107–110 °C and dry it. Rolling it in sugar is traditional.
+* '''Cherries:''' the bright red maraschino-style cherry is brined, bleached and dyed. Home-candied cherries from fresh cherries by the slow method are dark and natural-looking.
+
+== Crystallized (sugared) flowers and leaves ==
+Paint edible flowers (violets, roses, pansies, borage, mint leaves) with lightly beaten egg white (pasteurized whites avoid the ''Salmonella'' risk) or gum arabic solution, dust them with superfine sugar, and dry them for 24–48 hours. Use only flowers that are known to be edible and unsprayed. Many garden flowers are toxic (foxglove, lily of the valley, oleander and others).
+
+== Rock candy ==
+Rock candy is the deliberate opposite of hard candy: '''large, well-formed sucrose crystals''' grown slowly from a supersaturated solution.
+# Dissolve '''about 2.5–3 parts sugar in 1 part water by weight''' (for example 750 g sugar in 250 mL water) by heating and stirring until it is completely clear. Bring it just to a boil.
+# Let it cool for 15–20 minutes. Add colour and flavour if you like.
+# '''Seed the sticks:''' dampen wooden skewers or cotton string and roll them in granulated sugar, then let them dry completely. These crystals give the sugar a place to grow from.
+# Pour the warm syrup into clean, tall glass jars. Suspend the seeded sticks (with a clothes-peg across the rim) so they don't touch the sides or bottom.
+# Cover loosely (paper, to keep dust out) and leave the jars '''completely undisturbed''' at room temperature for '''7–14 days'''. Crystals grow as the syrup slowly cools and evaporates.
+# Break the crust that forms on top if needed, lift out the sticks, and dry them.
+* Agitation or dust causes many small crystals instead of large ones, the same nucleation principle as in fudge (see [[Sugar Stages and the Science of Candy]]).
+* Traditional '''Chinese rock sugar''' and '''Persian nabat''' (often with saffron) are made the same way, on threads.
+
+== Cotton candy (candy floss, fairy floss) ==
+* The machine's spinning head '''melts''' granulated sugar (it is heated to roughly 150–190 °C) and flings the molten sugar out through fine holes by centrifugal force. The threads cool instantly into '''glass fibres''' (amorphous sugar, like hard candy), which collect on the bowl and are wound onto a cone.
+* Use '''floss sugar''' (coloured and flavoured granulated sugar) or plain sugar mixed with a small amount of flavouring powder. Don't use powdered sugar (it burns) or isomalt in a machine not rated for it.
+* '''Humidity''' collapses cotton candy within minutes to hours, because the fibres absorb moisture and shrink. Bag it airtight right away.
+* '''History:''' the electric cotton candy machine was patented in 1897 by confectioner John C. Wharton and William Morrison (a Nashville dentist) and sold as "Fairy Floss" at the 1904 St. Louis World's Fair. Hand-spun sugar was made by European confectioners long before that.
+* '''Hand-pulled sugar floss:''' Turkish '''pişmaniye''', Chinese '''dragon's beard candy''' and Korean '''kkultarae''' are made by repeatedly stretching and doubling a ring of cooked sugar (or maltose) in flour or starch until it becomes thousands of fine threads. See [[Regional Candies of the World]].
+
+== Panning ==
+Panning coats a centre (nut, seed, fruit, jelly, chocolate) by '''tumbling it in a rotating pan''' and adding coating in many thin layers, drying each layer before the next.
+=== Hard panning (dragées) ===
+* Centres are tumbled with repeated small additions of '''concentrated sugar syrup''' (about 65–75% sugar), each dried with warm air to a hard, crystalline shell. Dozens to hundreds of layers make the smooth, crunchy shell of '''Jordan almonds''' (''confetti'' in Italy, ''koufeta'' in Greece) and of the sugar-coated chocolate lentils sold as M&M's and Smarties.
+* Finishing: final very thin syrup layers for smoothness, colour in the last layers, and a polish (carnauba wax or shellac "confectioner's glaze").
+* '''Konpeitō''' (Japan) is the extreme case: a single grain of sugar (or a poppy seed) tumbled with syrup in a heated pan for '''1–2 weeks''' grows its characteristic bumpy star.
+=== Soft panning ===
+Centres are coated with alternating additions of '''glucose syrup''' and '''fine (caster) sugar''', which dry to a soft, uncrystallized shell. This is how '''jelly beans''' get their skin.
+=== Chocolate panning ===
+Nuts, raisins, coffee beans or cereal centres are tumbled while tempered chocolate is sprayed or ladled in, with cool air blowing to set each layer. They are then polished and sealed with gum arabic or shellac glaze. A home version: a cheap rotating pan or a drum (a "panning machine"), or for small batches a bowl that is tossed continuously.
+=== Panning for dosing ===
+Because the coating is applied in measured layers, panning can be used to put a coating of known strength on centres of known size, as commercial coated tablets are made. The dose per piece depends on the coating being spread evenly across all the centres, so it is harder to make uniform than a pre-dosed centre. See [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]].
+
+== See also ==
+* [[Candy Making]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Hard Candy Lollipops Lozenges and Mints]]
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]
+* [[Regional Candies of the World]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+
+== Sources ==
+* National Center for Home Food Preservation (University of Georgia). Guidance on candied fruit and fruit syrups. [https://nchfp.uga.edu NCHFP]
+* Jackson, E. B. (ed.) ''Sugar Confectionery Manufacture'', 2nd ed. Springer, 1995. Panning (hard, soft, chocolate), candied and glacé fruit.
+* Hartel, R. W., von Elbe, J. H. and Hofberger, R. ''Confectionery Science and Technology''. Springer, 2018. Panning, crystallization, cotton candy as a glassy product.
+* Greweling, P. P. ''Chocolates and Confections'', 2nd ed. CIA/Wiley, 2013. Candied peel, panning.
+* McGee, H. ''On Food and Cooking'', rev. ed., 2004. Candied fruits (osmosis and gradual syruping), sugar glass.
+* U.S. Patent 618,428 (1899; filed 1897), J. C. Wharton and W. J. Morrison, "Candy machine".
+* Exploratorium, "Rock Candy" (Science of Cooking). [https://annex.exploratorium.edu/cooking/candy/recipe-rockcandy.html Exploratorium]
+
+== Coverage ==
+Candied citrus peel (repeated blanching, syruping, drying); the multi-day gradual-syrup method for glacé whole fruit, candied ginger and natural cherries; crystallized flowers with the edible-flower and egg caution; rock candy (ratio, seeding, undisturbed growth; rock sugar and nabat); cotton candy (how the spinner works, humidity, the 1897 patent, hand-pulled floss); hard panning (dragées, Jordan almonds, konpeitō), soft panning (jelly beans), chocolate panning and polishing; panning as a dosing method and its limits.

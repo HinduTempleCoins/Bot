@@ -9,6 +9,8 @@ The '''Dilution Calculator''' is a free dilution and ratio tool in the [[SoapBox
 Choose the mode, enter the numbers, and the result updates as you type. It runs entirely in the browser with no account and no data leaving the device. A JSON API is available at /api/dilute.
 
 == See also ==
+* [[Dosing in Liquids]]
+* [[Concentration Arithmetic and Serial Dilution]]
 * [[SoapBox Tools]]
 * [[Soap Calculator]]
 * [[Percentage Calculator]]

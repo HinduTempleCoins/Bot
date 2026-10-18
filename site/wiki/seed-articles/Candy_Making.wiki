@@ -1,0 +1,60 @@
+'''Candy Making''' is the hub for the Library's confectionery pages: the types of candy, the techniques that make them, and the science underneath. Nearly every candy is a controlled answer to two questions: '''how much water is left''' (set by how hot the syrup was cooked), and '''whether the sugar is allowed to crystallize''' (set by ingredients, temperature and stirring). Learn those two controls and most recipes stop being mysterious.
+
+For putting a measured dose of a herb or other active ingredient into candy, see [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]], which joins this hub to [[Dosing in Liquids]].
+
+== The two families ==
+* '''Non-crystalline (amorphous) candies''': the sugar is kept from crystallizing and sets as a glass or a chewy mass. Hard candy, lollipops, brittle, toffee, caramel, taffy, marshmallow, gummies, jellies, cotton candy, nougat.
+* '''Crystalline candies''': the sugar is deliberately crystallized into many tiny crystals for a smooth, creamy texture. Fudge, fondant, pralines, Scottish tablet, cream centres, divinity. Rock candy and candied peel are deliberately large-crystal.
+* Three further groups follow their own rules: '''chocolate''' (fat crystallization, i.e. tempering), '''gels''' (gelatin, pectin, agar and starch set the texture), and '''compressed and panned''' candies (tablets and coated sweets).
+
+== The pages ==
+* [[Sugar Stages and the Science of Candy]]: thread to hard crack with temperatures and sugar concentrations, the cold-water test, thermometer calibration and altitude correction, crystallization control, invert sugar, caramelization and Maillard browning, the glass state, water activity and humidity.
+* [[Hard Candy Lollipops Lozenges and Mints]]: boiled sweets, lollipops, pulled and ribbon candy, honey candy, cough drops, paste lozenges, gum pastilles, pressed mints and buttermints, compressed tablet candy.
+* [[Gummies and Jellies Gelatin Pectin and Agar]]: gelatin bloom and hydration, pectin chemistry (high- and low-methoxyl), agar and carrageenan, starch jellies, pâte de fruits, depositing, setting, curing, sanding and troubleshooting.
+* [[Caramel Toffee Brittle Fudge and Fondant]]: caramel, butterscotch, English toffee, brittle and honeycomb, pralines, fudge, tablet, poured fondant and cream centres.
+* [[Marshmallow Nougat Taffy and Aerated Candy]]: marshmallow, divinity, hard and soft nougat, torrone and turrón, saltwater taffy, frappé.
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]: cocoa butter crystal forms, tempering curves and methods, seizing and bloom, ganache ratios, truffles, moulded bonbons, enrobing, gianduja.
+* [[Sugar-Free Candy Isomalt Allulose Erythritol and Polyols]]: isomalt, maltitol, erythritol, xylitol, sorbitol, allulose, high-intensity sweeteners and bulking agents, and the digestive and pet-safety cautions.
+* [[Candied Fruit Rock Candy Cotton Candy and Panning]]: candied peel and glacé fruit, crystallized flowers, rock candy, cotton candy and hand-pulled sugar floss, hard and soft panning, dragées and konpeitō.
+* [[Regional Candies of the World]]: halva, barfi, kaju katli, mochi, yōkan, Turkish delight, nougat de Montélimar, turrón, brigadeiros, dulce de leche, alegría, tanghulu, yeot and more, each tied to its technique.
+
+== Basic equipment ==
+* A '''heavy-bottomed pot''' (thin pots scorch). It should be 3–4 times the volume of the syrup, because syrups foam, especially with dairy, honey or baking soda.
+* A '''candy or digital probe thermometer''', calibrated (see the sugar stages page). This is the single most important tool.
+* A '''scale''' (0.1 g or 1 g resolution for ingredients). Confectioners work by weight, and cup measures of sugar vary by 10% or more.
+* A heat-resistant silicone spatula, a pastry brush and a cup of water (for washing crystals off the pot walls), and a bench scraper.
+* '''Silicone mats, moulds''' and a marble slab or heavy baking sheet for cooling.
+* Heat-resistant gloves for pulling sugar.
+* Airtight containers and food-safe desiccant packets for storage.
+
+== Safety ==
+* '''Hot sugar causes severe burns.''' At 150 °C it is far hotter than boiling water and it sticks to skin. Keep a bowl of ice water nearby, never taste from the spoon, keep children and pets away from the stove, and don't pour hot syrup over your hand or toward yourself.
+* Foaming syrups (with baking soda, honey or cream) can overflow fast. Use a large pot.
+* Clean a hardened pot by filling it with water and boiling it. Don't chisel.
+* Raw egg whites (divinity, some nougats and royal icing) carry a small ''Salmonella'' risk. Cooked-syrup methods heat the whites partway. Pasteurized whites remove the risk.
+* See [[Food Safety]] for general handling.
+
+== Established practice and folklore ==
+* '''Established:''' temperature tracks sugar concentration; corn syrup, invert sugar and acid limit crystallization; stirring or agitating a supersaturated syrup triggers graining; high humidity makes hard candy sticky and keeps divinity and meringue from setting; chocolate must be tempered to set glossy and snap.
+* '''Partly true:''' "never stir candy". It's true for many crystalline candies while they cool and for clear syrups once they boil, but caramels, toffee and dairy candies must be stirred to avoid scorching. "Don't make candy on a rainy day" matters for hard candy, divinity, meringue and cotton candy, much less for caramel or fudge cooked by thermometer.
+* '''Folklore:''' "a drop of vinegar makes any candy foolproof" (acid helps prevent graining in some syrups but can over-invert and make candy sticky); "candy thermometers are always right" (they drift; test them in boiling water).
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Edible Waxes Hive Foods and Aromatic Resins]]
+* [[Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw]]
+* [[Culinary Recipes]]
+* [[Recipes]]
+* [[Food Safety]]
+
+== Sources ==
+* Hartel, R. W., von Elbe, J. H. and Hofberger, R. ''Confectionery Science and Technology''. Springer, 2018.
+* Greweling, P. P. ''Chocolates and Confections: Formula, Theory, and Technique for the Artisan Confectioner'', 2nd ed. The Culinary Institute of America / Wiley, 2013.
+* Edwards, W. P. ''The Science of Sugar Confectionery''. Royal Society of Chemistry, 2000.
+* McGee, H. ''On Food and Cooking: The Science and Lore of the Kitchen'', rev. ed. Scribner, 2004. Chapter 12, "Sugars, Chocolate, and Confectionery".
+* Exploratorium. "The Science of Candy — Sugar Stages." [https://annex.exploratorium.edu/cooking/candy/sugar-stages.html Exploratorium]
+* Jackson, E. B. (ed.) ''Sugar Confectionery Manufacture'', 2nd ed. Springer, 1995.
+
+== Coverage ==
+The hub for confectionery: the two governing controls (water content and crystallization); the crystalline and non-crystalline families plus chocolate, gels, compressed and panned candies; an index of the nine focused technique pages; basic equipment; hot-sugar and raw-egg safety; established practice versus folklore ("never stir", rainy days, vinegar, thermometers).

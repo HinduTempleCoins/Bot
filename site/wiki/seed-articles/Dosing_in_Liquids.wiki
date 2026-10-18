@@ -1,0 +1,58 @@
+'''Dosing in Liquids''' is the hub for one practical skill: putting a known amount of something into a liquid so that every measured serving carries the same amount. It applies to anything a person wants to take in a measured way — a herb, an extract, a supplement, a medicine, a flavouring, an essential oil — and to every carrier: water, alcohol, glycerin, syrup, oil, butter, and the candies and chocolates built from them (see [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]).
+
+The whole method fits in one sentence: '''weigh the active ingredient, dissolve or disperse it evenly in a measured total volume, then measure the volume.''' Pharmacists call this the '''aliquot''' or '''volumetric''' method. It is how compounding pharmacies turn an amount too small to weigh into a dose a person can measure with an ordinary oral syringe. Each of the pages below takes one step and works through it exactly.
+
+Where a preparation is risky, this library gives the hazard together with the method and does not hold the method back. Someone who is going to dose a liquid anyway is safer with the arithmetic, the tools and the failure modes than without them.
+
+== The five rules ==
+# '''Weigh, don't guess.''' Use mass (grams, milligrams), never "a pinch", "a dropperful" or "a teaspoon". Household spoons vary from 2.5 to 7.3 mL for a "teaspoon" (Falagas et al., 2010), and people pour 8–12% off target even with the right spoon (van Ittersum and Wansink, 2010).
+# '''Know the concentration.''' Write it down in mg per mL (or mg per g). Every dose is then just ''dose ÷ concentration = volume''. See [[Concentration Arithmetic and Serial Dilution]].
+# '''Make it a true solution, or keep it evenly mixed.''' Only a true solution stays uniform when left standing. Oils in water, powders in liquid and resins in syrup separate, and when they do they leave '''hot spots''' (servings that are too strong). See [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]].
+# '''Measure with the right tool.''' For small volumes use an oral syringe, not a cup. Use a scale that is accurate at the weight you are weighing, not just one that displays digits. See [[Measuring Tools Scales Syringes and Volumetric Dosing]].
+# '''Label, verify, lock up.''' Label every container with its strength and date, check the batch for evenness, and store it where children and pets cannot reach it and where nobody could take it for ordinary food. See [[Testing Labelling and Safe Storage of Dosed Preparations]].
+
+== The pages ==
+* [[Concentration Arithmetic and Serial Dilution]]: mg/mL, % w/v, % w/w, % v/v, ratio strength, C₁V₁ = C₂V₂, serial dilution, alligation, salt-to-base and acid-to-neutral conversion factors, and worked examples, including working out a per-serving dose from a batch total.
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]: 0.01 g and 0.001 g scales, calibration weights, the pharmacy '''minimum weighable quantity''' rule, oral syringes, pipettes, droppers, graduated cylinders and volumetric flasks, the error each one carries, and the aliquot method step by step.
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]: water, alcohol, glycerin and oil as solvents; emulsifiers (lecithin, gum arabic, polysorbate); suspensions; Stokes' law; homogenizing; where hot spots come from and how to remove them.
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]: 1:2, 1:5 and 1:10 ratios, alcohol strength by material, maceration and percolation, glycerites, simple syrup, oxymels, infused oils and butters, preservation thresholds, standardizing strength, and shelf life.
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]: lab potency and homogeneity testing, home checks (weight uniformity, tracer dye, relative standard deviation), what a label must say, storage, child-resistant packaging, and what to do after an accidental ingestion.
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]: where the dosing hub meets the [[Candy Making]] hub.
+
+== A complete worked example ==
+''Goal: a liquid where 1 mL contains 5 mg of a powdered extract, and you have a 0.001 g scale.''
+# Check the scale with a calibration weight. Say it reads a 100 mg check weight as 0.098–0.102 g, so it is good to about ±2–3 mg.
+# Choose a batch large enough that the weighing error is small. Weighing 250 mg with ±3 mg of error gives about ±1.2%. Weighing 5 mg directly would give ±60%, which is why you never weigh a single dose of a strong substance.
+# Weigh 250 mg of the extract into a clean container.
+# Dissolve it in a little of a solvent it actually dissolves in. See the solubility page; for an oil-soluble extract that means oil or high-proof alcohol, not water.
+# Transfer it to a graduated cylinder or volumetric flask, rinse the container into it, and '''top up to exactly 50 mL''' (pharmacy shorthand: ''q.s. to 50 mL''). Concentration = 250 mg ÷ 50 mL = '''5 mg/mL'''.
+# Mix thoroughly and label it: "5 mg/mL — 1 mL = 5 mg — made [date] — batch [code] — keep locked away from children".
+# Dose with a 1 mL oral syringe: 1 mL = 5 mg, 0.5 mL = 2.5 mg, 0.2 mL = 1 mg.
+
+== Established practice and folklore ==
+* '''Established:''' weighing by mass; the aliquot/volumetric method; oral syringes being more accurate than cups and spoons; emulsions and suspensions separating unless stabilized and shaken; alcohol above roughly 20% and sugar syrup near 85% w/v preserving a liquid on their own.
+* '''Folklore, or true only sometimes:''' "a dropperful is 1 mL" (droppers deliver anything from about 0.5 to 1+ mL depending on the bulb and the liquid); "20 drops = 1 mL" (true only for water from a standard dropper; alcohol tinctures and oils give smaller drops, often 30–60 per mL); "it's all mixed in once it looks mixed" (oils and fine powders can look uniform and still separate within minutes); "the recipe says it's 10 mg each, so it is" (label accuracy studies say otherwise; see the testing page).
+
+== See also ==
+* [[Candy Making]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Dilution Calculator]]
+* [[Percentage Calculator]]
+* [[Cannabis Harm Reduction]]
+* [[Sublingual Absorption and Salivary Enzymes]]
+* [[Bioavailability Metabolic Inhibition and Synergy]]
+* [[Solvent Chemistry and Polarity in Botanical Extraction]]
+* [[Laboratory Equipment and Extraction Engineering]]
+* [[Food Safety]]
+* [[Recipes]]
+
+== Sources ==
+* Ansel, H. C. ''Pharmaceutical Calculations'', 15th ed. Wolters Kluwer, 2016. Chapters on the aliquot method, minimum weighable quantity, concentration expressions and alligation.
+* Allen, L. V. ''The Art, Science, and Technology of Pharmaceutical Compounding'', 6th ed. American Pharmacists Association, 2020.
+* United States Pharmacopeia. General Chapter <795> ''Pharmaceutical Compounding — Nonsterile Preparations''; <41> ''Balances''; <1251> ''Weighing on an Analytical Balance''. [https://www.usp.org USP]
+* Falagas, M. E. et al. "Inaccuracies in dosing drugs with teaspoons and tablespoons." ''International Journal of Clinical Practice'' 64(9):1185–1189, 2010.
+* van Ittersum, K. and Wansink, B. "Spoons systematically bias dosing of liquid medicine." ''Annals of Internal Medicine'' 152(1):66–67, 2010.
+* Yin, H. S. et al. "Liquid medication errors and dosing tools: a randomized controlled experiment." ''Pediatrics'' 138(4):e20160357, 2016.
+
+== Coverage ==
+The hub for measured dosing in liquids. It sets out the five rules (weigh, know the concentration, keep it evenly mixed, measure properly, label and lock up), works one aliquot example end to end, separates established practice from dropper and spoon folklore, and links the focused pages on arithmetic, tools, mixing, tinctures and carriers, testing and storage, and infused confections.
