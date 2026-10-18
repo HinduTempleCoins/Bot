@@ -161,6 +161,23 @@
     }
   }
 
+  // ── 5a. heading anchors in posts: "## Hathor, 24/7: Like PIZZA Bot" → id hathor-247-like-pizza-bot, so
+  // links can point at a section (the Members page links straight to Hathor's commands) ─────────────
+  var anchorScrolled = '';
+  function addHeadingAnchors() {
+    var hs = d.querySelectorAll('.PostFull__body h1, .PostFull__body h2, .PostFull__body h3, .MarkdownViewer h1, .MarkdownViewer h2, .MarkdownViewer h3');
+    for (var i = 0; i < hs.length; i++) {
+      if (hs[i].id) continue;
+      var slug = (hs[i].textContent || '').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+      if (slug && !d.getElementById(slug)) hs[i].id = slug;
+    }
+    var h = decodeURIComponent((w.location.hash || '').slice(1));
+    if (h && anchorScrolled !== w.location.href) {
+      var t = d.getElementById(h);
+      if (t) { anchorScrolled = w.location.href; t.scrollIntoView({ block: 'start' }); w.scrollBy(0, -80); }
+    }
+  }
+
   // ── 5b. profile fixes ───────────────────────────────────────────────────────────────────────────
   // Rewards → Curation / Author rewards pointed at /portal/wallet.html/@x/…-rewards, which the app can't
   // route (404). Those pages live on wallet.melek.salon.
@@ -316,6 +333,7 @@
     addInviteButton();
     fixRewardsLinks();
     addProfilePicture();
+    addHeadingAnchors();
   }
 
   // ── 7. the home page IS Admin Updates ─────────────────────────────────────────────────────────────
