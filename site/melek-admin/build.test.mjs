@@ -39,7 +39,7 @@ test('excerpt keeps underscores and dashes inside links and words', () => {
 
 test('tab bar on both pages marks the current one; witness page lists the active witnesses', async () => {
   const admin = renderAdminPage([], { admins: ['alice'] });
-  assert.match(admin, /<a href="https:\/\/melek\.salon\/admin" class=on aria-current=page>Admin Updates<\/a>/);
+  assert.match(admin, /<a href="https:\/\/melek\.salon\/" class=on aria-current=page>Admin Updates<\/a>/);
   for (const t of ['All Posts', 'Groups', 'Witness Updates']) assert.ok(admin.includes(`>${t}</a>`));
   assert.ok(!/>Hot<\/a>|>Trending<\/a>/.test(admin), 'Hot/Trending are sorts inside All Posts, not tabs');
   const wit = renderAdminPage([], { admins: ['hathor', 'bob'], page: 'witness' });

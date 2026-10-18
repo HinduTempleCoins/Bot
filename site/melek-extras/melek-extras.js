@@ -164,7 +164,7 @@
   var TABS = [
     { id: 'all', label: 'All Posts', href: '/trending' },
     { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
-    { id: 'admin', label: 'Admin Updates', href: '/admin' },
+    { id: 'admin', label: 'Admin Updates', href: '/' },   // the home page
     { id: 'witness', label: 'Witness Updates', href: '/witness-updates' },
   ];
   var SORTS = [['hot', 'Hot'], ['trending', 'Trending'], ['created', 'New']];
@@ -179,12 +179,31 @@
     if (news && !d.querySelector('.melek-tabs')) {
       var host = news.parentNode.tagName === 'LI' ? news.parentNode.parentNode : news.parentNode;   // the Hot/Trending/New list
       var bar = el('nav', { class: 'melek-tabs', 'aria-label': 'Sections',
-        style: 'display:flex;gap:22px;align-items:center;justify-content:center;font-size:1.05em' });
+        style: 'display:flex;gap:22px;align-items:center;justify-content:center;font-size:1.05em;white-space:nowrap;flex-wrap:nowrap' });
       TABS.forEach(function (t) {
-        bar.appendChild(el('a', { href: t.href, 'data-tab': t.id, style: 'color:inherit;text-decoration:none;padding:20px 0 17px;border-bottom:3px solid transparent' }, t.label));
+        bar.appendChild(el('a', { href: t.href, 'data-tab': t.id, style: 'color:inherit;text-decoration:none;padding:20px 0 17px;border-bottom:3px solid transparent;white-space:nowrap' }, t.label));
       });
       host.style.display = 'none';
       host.parentNode.insertBefore(bar, host);
+    }
+    // phones: the condenser hides the header's middle on small screens, so the tabs also get their own
+    // scrollable row under the header, shown only below 640px
+    var header = d.querySelector('header');
+    if (header && !d.querySelector('.melek-tabs-m')) {
+      d.head.appendChild(el('style', {}, '.melek-tabs-m{display:none}@media (max-width:639px){.melek-tabs-m{display:flex}}'));
+      var m = el('nav', { class: 'melek-tabs melek-tabs-m', 'aria-label': 'Sections',
+        style: 'gap:14px;overflow-x:auto;white-space:nowrap;padding:0 12px;background:#fff;border-bottom:1px solid #e5e7eb;font:14px system-ui,sans-serif' });
+      TABS.forEach(function (t) {
+        m.appendChild(el('a', { href: t.href, 'data-tab': t.id, style: 'color:#1a1d24;text-decoration:none;padding:10px 0 8px;border-bottom:3px solid transparent;white-space:nowrap' }, t.label));
+      });
+      header.parentNode.insertBefore(m, header.nextSibling);
+    }
+    // the condenser's header is fixed, so the row sits in flow under it: shift it into the strip the header covers
+    var mbar = d.querySelector('.melek-tabs-m');
+    if (mbar && header) {
+      var fixed = /fixed|sticky|absolute/.test(w.getComputedStyle(header).position);
+      mbar.style.position = 'relative'; mbar.style.zIndex = '5';
+      mbar.style.top = fixed ? header.offsetHeight + 'px' : '0';
     }
     var on = feedRoute() ? 'all' : '';
     var tabs = d.querySelectorAll('.melek-tabs a');
@@ -217,6 +236,7 @@
   }
 
   function routeChanged() {
+    if (homeIsAdminUpdates()) return;
     addTabs();
     var col = d.getElementById('melek-tools');
     if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
@@ -226,17 +246,21 @@
     addInviteButton();
   }
 
-  // ── 7. signed-out visitors to the home page land on the Admin Page ────────────────────────────────
-  // The header shows a Login link only when nobody is signed in; signed-in people keep the normal home.
-  function adminHomeForVisitors() {
+  // ── 7. the home page IS Admin Updates ─────────────────────────────────────────────────────────────
+  // The web server serves the Admin Updates page at "/". When the condenser itself lands on "/" (the logo
+  // link inside the app), reload so the server answers. A loop guard falls back to /admin if "/" ever
+  // comes back as the condenser.
+  function homeIsAdminUpdates() {
     if (w.location.pathname !== '/') return false;
-    if (!d.querySelector('header a[href="/login.html"]')) return false;
-    w.location.replace('/admin');
+    var k = 'melek-home-reload', last = Number(store(k) || 0), now = Date.now();
+    if (now - last < 5000) { w.location.replace('/admin'); return true; }
+    store(k, String(now));
+    w.location.replace('/');
     return true;
   }
 
   function start() {
-    if (adminHomeForVisitors()) return;
+    if (homeIsAdminUpdates()) return;
     cookieNotice();
     routeChanged();
     // the condenser is a single-page app: re-check when the page content changes (navigation)
