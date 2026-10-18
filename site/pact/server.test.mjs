@@ -135,3 +135,14 @@ test('the club page script runs end to end for an owner against the real routes 
   assert.match(els.ofname.innerHTML, /Treasurer/);
   assert.match(els.prole.innerHTML, /and up/);
 });
+
+test('club page for a signed-out visitor shows the dues and the exact join steps', async () => {
+  const { visitorPanel } = await import('./server.mjs');
+  const g = { id: 'the-ai-club', about: 'AI club', dues: { amount: 10000, currency: 'MELEK', period: 'monthly', rail: 'wallet', payee: 'hathor' } };
+  const html = visitorPanel('the-ai-club', () => g);
+  assert.match(html, /10\.000 MELEK a month/);
+  assert.match(html, /send <b>10\.000 MELEK a month<\/b> to <b>@hathor<\/b> with the memo <code>pact:the-ai-club<\/code>/);
+  assert.match(html, /Sign in to join/);
+  assert.match(visitorPanel('free', () => ({ id: 'free', about: 'x' })), /Free to join/);
+  assert.match(visitorPanel('gone', () => null), /Sign in to open this club/);
+});
