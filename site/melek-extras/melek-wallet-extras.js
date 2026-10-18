@@ -76,12 +76,106 @@
     }
   }
 
+  // ── Automation tab: beside Balances / Delegations. The wallet's security policy allows no outside frames,
+  // so each tool is a card that opens it, signed in through MELEK-Signer with this account filled in.
+  var WIKI = 'https://wiki.soapbox.community/wiki/';
+  var SIGNER = 'https://signer.melek.salon';
+  function el(tag, attrs, text) {
+    var e = d.createElement(tag);
+    for (var k in attrs || {}) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function q(page, what) {
+    return el('a', { href: WIKI + page, target: '_blank', rel: 'noopener', title: 'Help: ' + what, 'aria-label': 'Help: ' + what,
+      style: 'display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#eab308;color:#171f24;font:700 12px/1 system-ui,sans-serif;text-decoration:none;margin-left:6px;vertical-align:middle' }, '?');
+  }
+  function walletAccount() { var m = w.location.pathname.match(/^\/@([a-z0-9.-]+)/); return m ? m[1] : ''; }
+  function rpc(method, params) {
+    return fetch('https://melek.salon/rpc', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: method, params: params }) })
+      .then(function (r) { return r.json(); }).then(function (j) { return j && j.result; }).catch(function () { return null; });
+  }
+  var TOOLS = [
+    { id: 'connect', title: 'Connect everything: MELEK-Signer + PRANA wallet', help: ['Signing_In_to_Post_on_MELEK', 'MELEK-Signer'],
+      text: 'Sign in once with MELEK-Signer to use every MELEK tool without typing your keys again. Anything with tokens (MELEK-Engine, KulaSwap, the KULA fund) also uses your PRANA wallet, which MELEK-Signer keeps connected to this account.',
+      open: function (a) { return SIGNER + '/login?account=' + encodeURIComponent(a); }, label: 'Sign in with MELEK-Signer' },
+    { id: 'autovote', title: 'Simple vote automation', help: ['Curation_Trails_and_Auto-Voting', 'vote automation'],
+      text: 'Vote automatically for the authors you choose, at the strength and timing you set. Your votes are cast through MELEK-Signer; nobody holds your keys.',
+      open: function () { return 'https://auto.melek.salon/'; }, label: 'Open Auto-Vote' },
+    { id: 'trails', title: 'Curation trails', help: ['Curation_Trails_and_Auto-Voting', 'curation trails'],
+      text: 'Follow another curator: when they vote, you vote too, at your own strength. Set it up in Auto-Vote under trails.',
+      open: function () { return 'https://auto.melek.salon/#trail'; }, label: 'Set up a trail' },
+    { id: 'kula', title: 'KULA Community Fund', help: ['KULA_Community_Fund', 'the KULA fund'],
+      text: 'A community fund: delegate MELEK Power or deposit MELEK into @kula. The pooled power curates for members, who are paid back mostly in KULA-program tokens and airdrops, plus a small MELEK reward.',
+      open: function () { return 'https://melek.salon/kula'; }, label: 'Open the fund', status: kulaStatus },
+    { id: 'tokens', title: 'Tokens and trading', help: ['MELEK-Engine', 'MELEK-Engine'],
+      text: 'MELEK-Engine tokens, mining APIS, and trading on KulaSwap, the DEX on PRANA. Trading bots for automating your account are being tested on KulaSwap now.',
+      open: function () { return 'https://engine.melek.salon/'; }, label: 'Open MELEK-Engine' },
+  ];
+  function kulaStatus(a, out) {
+    rpc('condenser_api.get_vesting_delegations', [a, '', 100]).then(function (rows) {
+      var mine = (rows || []).filter(function (r) { return r.delegatee === 'kula'; })[0];
+      out.textContent = mine ? ('@' + a + ' delegates ' + mine.vesting_shares + ' to @kula.') : ('@' + a + ' is not delegating to @kula yet.');
+    });
+  }
+  function automationPanel(a) {
+    var box = el('div', { id: 'melek-automation', class: 'row', style: 'display:block;margin:12px 0' });
+    var col = el('div', { class: 'column small-12' });
+    var h = el('h4', { style: 'margin:0 0 4px' }, 'Automation');
+    h.appendChild(q('Curation_Trails_and_Auto-Voting', 'automating your account'));
+    col.appendChild(h);
+    col.appendChild(el('p', { style: 'opacity:.8;margin:0 0 10px' }, 'Tools that act for @' + a + ' while you are away. Each one signs through MELEK-Signer, so your keys stay yours.'));
+    TOOLS.forEach(function (t) {
+      var c = el('div', { style: 'border:1px solid rgba(127,127,127,.35);border-radius:10px;padding:12px 14px;margin:0 0 10px' });
+      var th = el('strong', { style: 'font-size:16px' }, t.title); c.appendChild(th); c.appendChild(q(t.help[0], t.help[1]));
+      c.appendChild(el('p', { style: 'margin:6px 0' }, t.text));
+      if (t.status) { var st = el('p', { style: 'margin:0 0 6px;opacity:.8;font-size:13px' }, 'Checking…'); c.appendChild(st); t.status(a, st); }
+      c.appendChild(el('a', { href: t.open(a), target: '_blank', rel: 'noopener', class: 'button hollow', style: 'margin:0' }, t.label));
+      col.appendChild(c);
+    });
+    var more = el('p', { style: 'margin:6px 0 0;font-size:14px' });
+    [['MELEK data', 'https://data.soapbox.community/'], ['Akasha wallet', 'https://akasha.soapbox.community/'], ['KulaSwap', 'https://kula.money/'], ['Witness School', 'https://witness.melek.salon/']]
+      .forEach(function (l, i) { if (i) more.appendChild(d.createTextNode(' · ')); more.appendChild(el('a', { href: l[1], target: '_blank', rel: 'noopener' }, l[0])); });
+    col.appendChild(more);
+    box.appendChild(col);
+    return box;
+  }
+  function showAutomation(on) {
+    var menu = d.querySelector('.WalletSubMenu'); if (!menu) return;
+    var row = menu.closest('.row'); if (!row) return;
+    var sib = row.nextElementSibling;
+    for (; sib; sib = sib.nextElementSibling) if (sib.id !== 'melek-automation') sib.style.display = on ? 'none' : '';
+    var panel = d.getElementById('melek-automation');
+    if (on && !panel) row.parentNode.insertBefore(automationPanel(walletAccount()), row.nextSibling);
+    if (!on && panel) panel.remove();
+    var tab = d.getElementById('melek-automation-tab');
+    if (tab) tab.classList.toggle('active', !!on);
+  }
+  function addAutomationTab() {
+    if (!d.getElementById('melek-automation-css')) {   // the wallet adds an external-link icon to new-tab links
+      var css = el('style', { id: 'melek-automation-css' });
+      css.textContent = '#melek-automation a svg,#melek-automation a .Icon,#melek-automation a::after{display:none!important;content:none!important}';
+      d.head.appendChild(css);
+    }
+    var menu = d.querySelector('.WalletSubMenu');
+    if (!menu || d.getElementById('melek-automation-tab') || !walletAccount()) return;
+    var li = el('li', { id: 'melek-automation-tab' });
+    var a = el('a', { href: '#automation' }, 'Automation');
+    a.addEventListener('click', function (e) { e.preventDefault(); w.history.replaceState(null, '', '#automation'); showAutomation(true); });
+    li.appendChild(a); menu.appendChild(li);
+    var others = menu.querySelectorAll('a:not([href="#automation"])');
+    for (var i = 0; i < others.length; i++) others[i].addEventListener('click', function () { showAutomation(false); });
+    if (w.location.hash === '#automation') showAutomation(true);
+  }
+
   function start() {
     fixHeader();
     scrub();
     relabel();
+    addAutomationTab();
     var t = null;   // the wallet is a single-page app: re-run when its content changes
-    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { scrub(); fixHeader(); relabel(); }, 150); })
+    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { scrub(); fixHeader(); relabel(); addAutomationTab(); }, 150); })
       .observe(d.body, { childList: true, subtree: true, characterData: true });
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start); else start();
