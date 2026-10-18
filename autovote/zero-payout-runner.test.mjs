@@ -37,7 +37,7 @@ test('excludedAccounts covers curator + self-deal guard + affiliated', () => {
 
 test('dry run selects real $0.00 payable top-level posts, casts nothing', async () => {
   const dbPath = tmpDb();
-  const res = await runZeroPayoutCuration({
+  const res = await runZeroPayoutCuration({ mode: 'zero', 
     fetch: fakeFetch(POSTS), castVote: undefined, dbPath, minAgeSec: 0, curator: 'hathor',
   });
   assert.equal(res.dryRun, true);
@@ -50,7 +50,7 @@ test('live run casts gentle-weight votes, dedupes, persists, caps at topN', asyn
   const dbPath = tmpDb();
   const votes = [];
   const castVote = async (v) => { votes.push(v); return { id: 'tx-' + votes.length }; };
-  const res = await runZeroPayoutCuration({
+  const res = await runZeroPayoutCuration({ mode: 'zero', 
     fetch: fakeFetch(POSTS), castVote, dbPath, minAgeSec: 0, curator: 'hathor', weight: 3000, topN: 1,
   });
   assert.equal(res.dryRun, false);
@@ -68,7 +68,7 @@ test('dedupe set skips a post already voted in a prior round', async () => {
   saveVoted(new Set(['alice/p1']), dbPath);
   const votes = [];
   const castVote = async (v) => { votes.push(v); return { id: 'x' }; };
-  const res = await runZeroPayoutCuration({
+  const res = await runZeroPayoutCuration({ mode: 'zero', 
     fetch: fakeFetch(POSTS), castVote, dbPath, minAgeSec: 0, curator: 'hathor', topN: 10,
   });
   const voted = votes.map((v) => `${v.author}/${v.permlink}`);
@@ -79,7 +79,7 @@ test('dedupe set skips a post already voted in a prior round', async () => {
 test('soft-fails to a dry-ish result when the RPC throws', async () => {
   const dbPath = tmpDb();
   const badFetch = async () => { throw new Error('boom'); };
-  const res = await runZeroPayoutCuration({ fetch: badFetch, castVote: async () => ({}), dbPath, curator: 'hathor' });
+  const res = await runZeroPayoutCuration({ mode: 'zero',  fetch: badFetch, castVote: async () => ({}), dbPath, curator: 'hathor' });
   assert.equal(res.selected.length, 0);
   assert.equal(res.cast.length, 0);            // nothing selected → nothing cast, no throw
 });
@@ -97,7 +97,7 @@ test('voteGapMs spaces casts between votes (each vote awaits the gap)', async ()
   const dbPath = tmpDb();
   const stamps = [];
   const castVote = async () => { stamps.push(Date.now()); return { id: 'x' }; };
-  await runZeroPayoutCuration({
+  await runZeroPayoutCuration({ mode: 'zero', 
     fetch: fakeFetch(POSTS), castVote, dbPath, minAgeSec: 0, curator: 'hathor', topN: 2, voteGapMs: 40,
   });
   assert.equal(stamps.length, 2);

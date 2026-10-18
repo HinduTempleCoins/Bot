@@ -38,6 +38,12 @@ export const DEFAULTS = {
   // the service env); the neutral fallback keeps it out of the repo tree when unset.
   dbPath: process.env.ZERO_PAYOUT_DB || join(tmpdir(), 'melek-zero-payout-voted.json'),
   voteGapMs: clampInt(process.env.ZERO_PAYOUT_VOTE_GAP_MS, 0), // spacing between casts (chain min-vote interval)
+  // Operator rule 2026-10-18: back admins' posts + posts real people already upvoted ('social'); the old
+  // 'zero' mode (lift any unvoted $0.00 post) rewarded spam. ZERO_PAYOUT_MODE=zero restores it.
+  mode: process.env.ZERO_PAYOUT_MODE === 'zero' ? 'zero' : 'social',
+  admins: String(process.env.ZERO_PAYOUT_ADMINS || 'vankushfamily,kalivankush,angelicalist,vankush').split(/[\s,]+/).filter(Boolean),
+  minOtherVoters: clampInt(process.env.ZERO_PAYOUT_MIN_OTHER_VOTERS, 1),
+  authorCooldownSec: clampInt(process.env.ZERO_PAYOUT_AUTHOR_COOLDOWN_SEC, 86400),
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -78,13 +84,21 @@ export function loadVoted(dbPath = DEFAULTS.dbPath) {
   } catch { return new Set(); }
 }
 
-/** Persist the dedupe set (best-effort; never throws). Caps size so the file can't grow unbounded. */
-export function saveVoted(set, dbPath = DEFAULTS.dbPath, cap = 5000) {
+/** Load our last-vote time per author (the per-author cooldown). Soft-fail → {}. */
+export function loadAuthorLog(dbPath = DEFAULTS.dbPath) {
+  try {
+    const j = JSON.parse(readFileSync(dbPath, 'utf8'));
+    return j && !Array.isArray(j) && j.authors && typeof j.authors === 'object' ? { ...j.authors } : {};
+  } catch { return {}; }
+}
+
+/** Persist the dedupe set (+ per-author log) best-effort; never throws. Caps size so the file can't grow unbounded. */
+export function saveVoted(set, dbPath = DEFAULTS.dbPath, cap = 5000, authors = null) {
   try {
     const arr = [...(set instanceof Set ? set : new Set(set || []))];
     const kept = arr.length > cap ? arr.slice(arr.length - cap) : arr;   // keep the most-recent
     mkdirSync(dirname(dbPath), { recursive: true });
-    writeFileSync(dbPath, JSON.stringify(kept));
+    writeFileSync(dbPath, JSON.stringify(authors ? { voted: kept, authors } : kept));
     return kept.length;
   } catch { return -1; }
 }
@@ -108,15 +122,20 @@ export async function runZeroPayoutCuration(cfg = {}) {
     minAgeSec = DEFAULTS.minAgeSec, weight = DEFAULTS.weight, topN = DEFAULTS.topN,
     curator = DEFAULTS.curator, dbPath = DEFAULTS.dbPath, castVote, extraExclude = [],
     voteGapMs = DEFAULTS.voteGapMs, now = Date.now(),
+    mode = DEFAULTS.mode, admins = DEFAULTS.admins, minOtherVoters = DEFAULTS.minOtherVoters,
+    authorCooldownSec = DEFAULTS.authorCooldownSec,
   } = cfg;
 
   const excludeAuthors = excludedAccounts({ curator, extra: extraExclude });
   const alreadyVoted = loadVoted(dbPath);
+  const authorLog = loadAuthorLog(dbPath);
 
-  // select real $0.00, still-payable, top-level posts (freshest first), minus self/affiliated + dupes.
+  // 'social': admins' posts + posts other real accounts already upvoted (votes from us don't count),
+  // one vote per non-admin author per cooldown. 'zero': the old unvoted-$0.00 lift.
   const selected = await fetchZeroPayoutPosts({
-    fetch: f, rpcUrl, tag, fetchLimit,
-    excludeAuthors, alreadyVoted, minAgeSec, limit: topN,
+    fetch: f, rpcUrl, tag, fetchLimit, mode,
+    excludeAuthors, alreadyVoted, minAgeSec, limit: topN, now,
+    admins, ignoreVoters: excludeAuthors, minOtherVoters, authorLastVoted: authorLog, authorCooldownSec,
   });
 
   const dryRun = typeof castVote !== 'function';
@@ -135,7 +154,8 @@ export async function runZeroPayoutCuration(cfg = {}) {
   const round = await runZeroPayoutRound({
     curator: { account: curator }, posts: selected, castVote: spaced, weight, topN, alreadyVoted,
   });
-  saveVoted(alreadyVoted, dbPath);
+  for (const c of round.cast) authorLog[c.author] = now;
+  saveVoted(alreadyVoted, dbPath, 5000, mode === 'social' ? authorLog : null);
 
   return {
     curator, dryRun: false, considered: round.considered, selected,
@@ -163,8 +183,8 @@ if (process.argv[1] && process.argv[1].endsWith('zero-payout-runner.mjs')) {
     const res = await runZeroPayoutCuration({ castVote });
     console.log(`[zero-payout] curator=@${res.curator} ${res.dryRun ? 'DRY-RUN' : 'LIVE'} rpc=${DEFAULTS.rpcUrl} tag=${DEFAULTS.tag} weight=${DEFAULTS.weight / 100}% cap=${DEFAULTS.topN} minAge=${DEFAULTS.minAgeSec}s gap=${DEFAULTS.voteGapMs}ms`);
     console.log(`[zero-payout] excluded (self/affiliated): ${res.excluded.join(', ')}`);
-    console.log(`[zero-payout] selected ${res.selected.length} real $0.00 post(s):`);
-    for (const p of res.selected) console.log(`   @${p.author}/${p.permlink}  age=${Math.round(p.ageSec)}s pending=${p.pending}`);
+    console.log(`[zero-payout] mode=${DEFAULTS.mode} admins=${DEFAULTS.admins.join(',')} selected ${res.selected.length} post(s):`);
+    for (const p of res.selected) console.log(`   @${p.author}/${p.permlink}  age=${Math.round(p.ageSec)}s ${p.admin ? 'admin' : `others=${p.otherVoters ?? '-'}`}`);
     if (!res.dryRun) {
       console.log(`[zero-payout] cast ${res.cast.length} vote(s):`);
       for (const c of res.cast) console.log(`   ✓ @${c.author}/${c.permlink}  w=${c.weight} id=${c.id}`);

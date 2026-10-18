@@ -157,3 +157,50 @@ test('a single tag still works unchanged — the fix is backwards compatible', a
   assert.equal(seen, 'melek');
   assert.equal(out.length, 1);
 });
+
+// ── social mode (operator rule 2026-10-18): admins + posts others already upvoted, 1/author/day ─────
+import { selectCurationPosts, otherUpvoters } from './zero-payout-posts.mjs';
+
+const T0 = Date.parse('2026-10-18T12:00:00Z');
+const sp = (author, permlink, voters = [], extra = {}) => ({
+  author, permlink, parent_author: '', created: '2026-10-18T11:00:00', cashout_time: '2026-10-25T11:00:00',
+  pending_payout_value: '0.000 MELEK', active_votes: voters.map((v) => ({ voter: v, rshares: 1000, percent: 10000 })), ...extra,
+});
+
+test('otherUpvoters ignores the author, our own accounts and downvote/zero votes', () => {
+  const p = sp('juba', 'a', ['juba', 'hathor', 'megareigns']);
+  p.active_votes.push({ voter: 'nobody', rshares: 0, percent: 0 });
+  assert.deepEqual([...otherUpvoters(p, new Set(['hathor']))], ['megareigns']);
+});
+
+test('social mode: unvoted posts from unknowns are skipped; posts others upvoted qualify', () => {
+  const out = selectCurationPosts([sp('spammer', 'x', []), sp('spammer2', 'y', ['hathor']), sp('real', 'z', ['alice'])],
+    { ignoreVoters: ['hathor'], now: T0 });
+  assert.deepEqual(out.map((r) => r.author), ['real']);
+});
+
+test('social mode: admins always qualify (even unvoted, even if on the affiliated exclude list) and sort first', () => {
+  const out = selectCurationPosts([sp('real', 'z', ['alice']), sp('vankush', 'm', [])],
+    { admins: ['vankush'], excludeAuthors: ['vankush', 'hathor'], ignoreVoters: ['hathor'], now: T0 });
+  assert.deepEqual(out.map((r) => [r.author, r.admin]), [['vankush', true], ['real', false]]);
+});
+
+test('social mode: one vote per non-admin author per cooldown, across rounds and within a round', () => {
+  const posts = [sp('juba', 'p1', ['megareigns']), sp('juba', 'p2', ['udabeu']), sp('sojol', 'q1', ['megareigns'])];
+  const one = selectCurationPosts(posts, { now: T0 });
+  assert.equal(one.filter((r) => r.author === 'juba').length, 1);
+  const later = selectCurationPosts(posts, { now: T0, authorLastVoted: { juba: T0 - 3600e3 } });
+  assert.deepEqual(later.map((r) => r.author), ['sojol']);
+  const nextDay = selectCurationPosts(posts, { now: T0, authorLastVoted: { juba: T0 - 90000e3 } });
+  assert.ok(nextDay.some((r) => r.author === 'juba'));
+});
+
+test('social mode keeps the old guards: comments, already-voted, unpayable, too-young', () => {
+  const out = selectCurationPosts([
+    sp('a', 'c', ['x'], { parent_author: 'b' }),
+    sp('b', 'v', ['x']),
+    sp('c', 'paid', ['x'], { cashout_time: '1969-12-31T23:59:59' }),
+    sp('d', 'young', ['x'], { created: '2026-10-18T11:59:00' }),
+  ], { alreadyVoted: new Set(['b/v']), minAgeSec: 300, now: T0 });
+  assert.equal(out.length, 0);
+});

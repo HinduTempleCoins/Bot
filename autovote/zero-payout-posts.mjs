@@ -79,12 +79,85 @@ export function selectZeroPayoutPosts(posts = [], opts = {}) {
   return n > 0 ? rows.slice(0, Math.floor(n)) : rows;
 }
 
+/** Upvoters who count as "someone else liked this": not the author, not the curator/our own accounts. */
+export function otherUpvoters(post = {}, ignore = new Set()) {
+  const author = String(post.author || '').toLowerCase();
+  const out = new Set();
+  for (const v of Array.isArray(post.active_votes) ? post.active_votes : []) {
+    const voter = String(v?.voter || '').toLowerCase();
+    const up = num(v?.rshares) > 0 || num(v?.percent) > 0 || num(v?.weight) > 0;
+    if (voter && up && voter !== author && !ignore.has(voter)) out.add(voter);
+  }
+  return out;
+}
+
+/**
+ * Select the posts the witness should back (operator rule 2026-10-18): admins' own posts, plus posts
+ * that real people have ALREADY upvoted — never unvoted posts from unknowns, which is where spam sits.
+ * @param {Array} posts  raw post objects (condenser shape, with active_votes)
+ * @param {object} [opts]
+ *   admins          : Set|array — these authors always qualify (still deduped, payable, aged)
+ *   excludeAuthors  : Set|array — never vote these (self/affiliated); admins override this
+ *   ignoreVoters    : Set|array — votes from these don't count as "someone else voted" (curator + ours)
+ *   minOtherVoters  : how many other upvoters a non-admin post needs (default 1)
+ *   authorLastVoted : { author: msTimestamp } of our last vote per author (persisted across rounds)
+ *   authorCooldownSec : min gap between our votes on the same non-admin author (default 86400 = 1/day)
+ *   alreadyVoted, minAgeSec, maxAgeSec, limit, now : as selectZeroPayoutPosts
+ */
+export function selectCurationPosts(posts = [], opts = {}) {
+  const { alreadyVoted, minAgeSec = 0, maxAgeSec = 0, limit = 0, now = Date.now(),
+    minOtherVoters = 1, authorLastVoted = {}, authorCooldownSec = 86400 } = opts;
+  const lower = (s) => new Set([...(s instanceof Set ? s : new Set(s || []))].map((a) => String(a).toLowerCase()));
+  const admins = lower(opts.admins);
+  const excl = lower(opts.excludeAuthors);
+  const ignore = lower(opts.ignoreVoters);
+  const voted = alreadyVoted instanceof Set ? alreadyVoted : new Set(alreadyVoted || []);
+  const lastByAuthor = { ...authorLastVoted };
+
+  const rows = [];
+  for (const p of (Array.isArray(posts) ? posts : [])) {
+    try {
+      const author = String(p?.author || '').trim().toLowerCase();
+      const permlink = String(p?.permlink || '').trim();
+      if (!author || !permlink || p.parent_author) continue;
+      const isAdmin = admins.has(author);
+      if (!isAdmin && excl.has(author)) continue;
+      if (voted.has(`${author}/${permlink}`)) continue;
+      if (!isPayable(p, now)) continue;
+      const created = ms(p.created);
+      const ageSec = Number.isFinite(created) ? (now - created) / 1000 : Infinity;
+      if (minAgeSec && ageSec < minAgeSec) continue;
+      if (maxAgeSec && ageSec > maxAgeSec) continue;
+      const voters = otherUpvoters(p, ignore);
+      if (!isAdmin && voters.size < Math.max(0, Number(minOtherVoters) || 0)) continue;
+      rows.push({ author, permlink, admin: isAdmin, otherVoters: voters.size, created: p.created,
+        cashout_time: p.cashout_time, ageSec, pending: num(p.pending_payout_value ?? p.pending_payout) });
+    } catch { /* soft */ }
+  }
+  // admins first, then most-supported, then freshest
+  rows.sort((a, b) => (b.admin - a.admin) || (b.otherVoters - a.otherVoters) || ((ms(b.created) || 0) - (ms(a.created) || 0))
+    || (a.author < b.author ? -1 : a.author > b.author ? 1 : a.permlink < b.permlink ? -1 : 1));
+
+  // one vote per non-admin author per cooldown window (stops post-every-five-minutes farming)
+  const out = [];
+  for (const r of rows) {
+    if (!r.admin) {
+      const last = Number(lastByAuthor[r.author]) || 0;
+      if (authorCooldownSec && now - last < authorCooldownSec * 1000) continue;
+      lastByAuthor[r.author] = now;
+    }
+    out.push(r);
+  }
+  const n = Number(limit);
+  return n > 0 ? out.slice(0, Math.floor(n)) : out;
+}
+
 /**
  * Live fetch of recent posts + zero-payout select. Injectable fetch; soft-fail → [].
  * @param {object} cfg { fetch, rpcUrl, tag='melek', fetchLimit=100, ...selectOpts }
  */
 export async function fetchZeroPayoutPosts(cfg = {}) {
-  const { fetch: f = (typeof fetch !== 'undefined' ? fetch : null), rpcUrl, tag = 'melek', fetchLimit = 100, ...selOpts } = cfg;
+  const { fetch: f = (typeof fetch !== 'undefined' ? fetch : null), rpcUrl, tag = 'melek', fetchLimit = 100, mode = 'zero', ...selOpts } = cfg;
   if (typeof f !== 'function' || !rpcUrl) return [];
   const limit = Math.max(1, Math.min(100, Number(fetchLimit) || 100));
 
@@ -108,7 +181,9 @@ export async function fetchZeroPayoutPosts(cfg = {}) {
       }
     } catch { /* soft: one dead tag never kills the round */ }
   }
-  return selectZeroPayoutPosts([...byKey.values()], selOpts);
+  return mode === 'social'
+    ? selectCurationPosts([...byKey.values()], selOpts)
+    : selectZeroPayoutPosts([...byKey.values()], selOpts);
 }
 
 /**
