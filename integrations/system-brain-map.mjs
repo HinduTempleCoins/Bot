@@ -107,7 +107,7 @@ th,td{border:1px solid var(--line);padding:.45em .6em;text-align:left;vertical-a
 th{background:var(--panel);color:var(--green)}a{color:var(--link)}
 td:first-child{white-space:nowrap}
 tr:nth-child(even) td{background:#12171c}
-@media(max-width:640px){td:first-child{white-space:normal}}
+@media(max-width:640px){td:first-child{white-space:normal}td{overflow-wrap:anywhere}}
 </style></head><body>
 <header><a href="https://vankushfamily.com">← Van Kush Family</a></header>
 <main>
