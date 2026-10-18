@@ -141,9 +141,35 @@ export function ensureSocialMeta(html, opts = {}) {
   } catch { return html; }
 }
 
-/** Both, in one call: what every public page should get. */
+/**
+ * A schema.org WebPage node, from the page's own title/description/canonical, for pages that carry no
+ * JSON-LD at all. isPartOf names the site (opts.siteName, else the og:site_name the page sets).
+ */
+export function ensureJsonLd(html, opts = {}) {
+  try {
+    if (typeof html !== 'string') return html;
+    const h = headOf(html);
+    if (!h || /application\/ld\+json/i.test(html)) return html;
+    const head = h.head;
+    const titleM = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(head);
+    const name = titleM ? decode(titleM[1].trim()) : '';
+    if (!name) return html;
+    const desc = metaContent(head, 'description');
+    const canonM = /<link\b[^>]*\brel\s*=\s*["']?canonical["']?[^>]*>/i.exec(head);
+    const url = (canonM && ((/\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i.exec(canonM[0]) || []).slice(1).find((x) => x != null))) || opts.url || '';
+    const site = opts.siteName || decode(metaContent(head, 'og:site_name') || '');
+    const node = { '@context': 'https://schema.org', '@type': 'WebPage', name };
+    if (desc) node.description = decode(desc);
+    if (url) node.url = decode(url);
+    if (site && url) { try { node.isPartOf = { '@type': 'WebSite', name: site, url: new URL(decode(url)).origin + '/' }; } catch { /* no site node */ } }
+    const json = JSON.stringify(node).replace(/<\/(script)/gi, '<\\/$1').replace(/<!--/g, '<\\!--');
+    return html.slice(0, h.end) + `<script type="application/ld+json">${json}</script>` + html.slice(h.end);
+  } catch { return html; }
+}
+
+/** All three, in one call: what every public page should get. */
 export function finishPage(html, opts = {}) {
-  return ensureBeacon(ensureSocialMeta(html, opts), opts.beaconUrl || beaconUrl());
+  return ensureBeacon(ensureJsonLd(ensureSocialMeta(html, opts), opts), opts.beaconUrl || beaconUrl());
 }
 
 /**
