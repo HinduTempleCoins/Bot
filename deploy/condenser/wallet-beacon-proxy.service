@@ -10,7 +10,8 @@ Environment=UPSTREAM_HOST=127.0.0.1
 Environment=UPSTREAM_PORT=8088
 Environment=LISTEN_HOST=127.0.0.1
 Environment=LISTEN_PORT=8198
-Environment=ANALYTICS_BEACON_URL=https://analytics.soapbox.community/px
+# the wallet's CSP blocks inline script: pageviews come from melek-wallet-extras.js (px.gif) instead
+Environment=ANALYTICS_BEACON_URL=off
 ExecStart=/opt/node22/bin/node /opt/melek-bot/repo/deploy/condenser/condenser-beacon-proxy.mjs
 Restart=always
 RestartSec=3

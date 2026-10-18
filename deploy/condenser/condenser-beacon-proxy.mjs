@@ -26,7 +26,8 @@ const UPSTREAM_HOST = process.env.UPSTREAM_HOST || '127.0.0.1';
 const UPSTREAM_PORT = +(process.env.UPSTREAM_PORT || 8087);
 const LISTEN_PORT = +(process.env.LISTEN_PORT || 8188);
 const LISTEN_HOST = process.env.LISTEN_HOST || '127.0.0.1';
-const BEACON_URL = process.env.ANALYTICS_BEACON_URL || 'https://analytics.soapbox.community/px';
+// 'off' for an upstream whose CSP forbids inline script (the wallet counts pageviews from its extras script).
+const BEACON_URL = process.env.ANALYTICS_BEACON_URL === 'off' ? '' : (process.env.ANALYTICS_BEACON_URL || 'https://analytics.soapbox.community/px');
 
 // Remove any <script> element whose attributes/inline carry the GA property id.
 const GTAG_RE = /<script\b[^>]*G-63ZBEY1EVG[^>]*><\/script>/g;
