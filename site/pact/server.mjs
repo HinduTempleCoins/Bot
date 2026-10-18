@@ -19,6 +19,7 @@ import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { handler as ssoHandler, sessionFromCookie, selfOriginFor } from '../../pentecaust/sso.mjs';
 import { handler as groupsHandler } from '../../pentecaust/groups/server.mjs';
+import { getGroup } from '../../pentecaust/groups/model.mjs';
 import { handler as pagesHandler } from '../../pentecaust/pages/server.mjs';
 import { handler as channelsHandler } from './channels.mjs';
 import { robotsTxt, sitemapXml } from '../../integrations/soapbox/crawlers.mjs';
@@ -208,6 +209,29 @@ loadCh();
 // pentecaust/groups/server.mjs; the page decides nothing — the server's `reason` is shown as it comes.
 // ⚠️ This script lives inside a template literal: no backslashes, no apostrophes inside single-quoted strings.
 const jsStr = (v) => JSON.stringify(String(v == null ? '' : v)).replace(/</g, '\\u003c');
+// What a signed-out visitor sees on /g/<id>: what the club is, what it costs, and exactly how to join.
+function duesText(d) {
+  if (!d) return '';
+  const amt = d.currency === 'MELEK' ? (d.amount / 1000).toFixed(3) : String(d.amount);
+  const per = d.period === 'once' ? 'once' : d.period === 'yearly' ? 'a year' : 'a month';
+  return `${amt} ${d.currency} ${per}`;
+}
+export function visitorPanel(id, lookup = getGroup) {
+  let g = null; try { g = lookup(id); } catch { g = null; }
+  if (!g) return '<div class=card><p>Sign in to open this club.</p><a class="btn primary" href="/auth/login">Sign in with MELEK</a></div>';
+  const d = g.dues, payee = d && d.payee ? d.payee.replace(/^@/, '') : '';
+  const steps = d && d.rail === 'wallet' && d.currency === 'MELEK' && payee
+    ? `<ol><li><a href="/auth/login">Sign in with MELEK</a>.</li>
+<li>From your own wallet, send <b>${esc(duesText(d))}</b> to <b>@${esc(payee)}</b> with the memo <code>pact:${esc(g.id || id)}</code>. <a href="https://wallet.melek.salon/@${esc(payee)}" target=_blank rel=noopener>Open the wallet</a></li>
+<li>Come back here and press <b>I've paid — check</b>. Pact reads the chain to confirm it; the money goes straight to @${esc(payee)}, never through Pact.</li></ol>`
+    : '<ol><li><a href="/auth/login">Sign in with MELEK</a>.</li><li>Press <b>Join</b> on this page.</li></ol>';
+  return `<div class=card>
+<p>${esc(g.about || g.description || '')}</p>
+${d ? `<p><b>Dues:</b> ${esc(duesText(d))}${payee ? `, paid to @${esc(payee)}` : ''}.</p>` : '<p><b>Free to join.</b></p>'}
+<p><b>How to join</b></p>${steps}
+<a class="btn primary" href="/auth/login">Sign in to join</a></div>`;
+}
+
 function clubPage(who, id) {
   const auth = who
     ? `<span class=authbar>@${esc(who)} <a class=btn href="/auth/logout">Log out</a></span>`
@@ -218,7 +242,7 @@ function clubPage(who, id) {
 <header><a class=brand href="/" style="text-decoration:none">${MARK}<b>Pact</b></a>${auth}</header>
 <div class=card><h2 id=gname>${esc(id)}</h2><div id=ghead class=mut></div></div>
 <p class=status id=msg role=status></p>
-${who ? '' : '<div class=card><p>Sign in to open this club.</p><a class="btn primary" href="/auth/login">Sign in</a></div>'}
+${who ? '' : visitorPanel(id)}
 <div id=body></div>
 </div>
 <script>
