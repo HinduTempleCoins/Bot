@@ -78,7 +78,7 @@ export const CATEGORIES = [
             'The Economics No Coin Dev Teaches', 'Inflation and Deflation: Token Emission and Burns',
             'Inflation and Deflation  Token Emission and Burns', 'Wirearchy',
             'The Graphene Family', 'Forking', 'Mining', 'SoapBox Mining Pool', 'SoapBox Pool', 'KULA', 'KulaSwap',
-            'Akasha Wallet', 'PranaScan', 'MELEK-Engine', 'Getting APIS on MELEK-Engine', 'Running Tokens on MELEK-Engine', 'Running a Condenser Front-End',
+            'Akasha Wallet', 'PranaScan', 'KULA Community Fund', 'MELEK-Engine', 'Getting APIS on MELEK-Engine', 'Running Tokens on MELEK-Engine', 'Running a Condenser Front-End',
             'Witness School', 'Curation Trails and Auto-Voting', 'Hathor (AI Witness)', 'VKBT and CURE', 'REN',
             'APIS', 'Wrapped Tokens', 'wMELEK', 'Crypt-ology',
             'Steem   Hive Bots   the SteemBots   Steemcenter ecosystem'],

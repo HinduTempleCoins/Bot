@@ -1,0 +1,31 @@
+The '''KULA Community Fund''' is a community-funded pool on the [[MELEK Blockchain]], run by the account <code>@kula</code> and open at [https://melek.salon/kula melek.salon/kula]. Members pay MELEK into it and delegate MELEK Power on top. The pooled power curates for the fund, and members are paid back mostly in KULA-program tokens and airdrops, plus a small MELEK reward. It is built on the delegation-mining model that Nutbox made popular on Steem, but it is a shared fund that its members grow together, closer to a credit union than to a vote-selling service.
+
+== How it differs from a curation service ==
+Services such as Tomoyan or UPVU take delegations, vote for the delegators, keep a fee and return most of the rewards. The KULA fund is different in two ways:
+* '''Members put MELEK in.''' Deposits raise the fund's own balance and power, so the fund grows with its members rather than being one well-funded account.
+* '''Rewards are mostly other tokens.''' Members are paid in KULA-program tokens (starting with SOULAVA), airdrops, and a small MELEK reward, with more rewards to be added.
+
+== Joining ==
+Open [https://melek.salon/kula melek.salon/kula] and choose '''Delegate''' or '''Deposit'''. Each button sends you to MELEK-Signer, which asks for your MELEK password and approves only that one action. The fund's page never sees your password or keys, and the permission is withdrawn as soon as the action is done.
+
+== Delegating ==
+A delegation lends your MELEK Power to <code>@kula</code>. You still own it, and it comes back if you delegate 0 (on MELEK, returned power takes five days to become usable again). Delegating again replaces your previous amount: enter the new total, not an extra amount. Delegated power is what the fund curates with.
+
+== Depositing ==
+A deposit sends MELEK into the fund's balance. Deposits are how members build the fund's own power. Unlike a delegation, a deposit belongs to the fund. The fund's rules for rewards and exits are posted on its page before rewards start.
+
+== Members ==
+The members table on the fund's page is read straight from the MELEK chain: every deposit and delegation to <code>@kula</code> is a public operation, so anyone can check the fund's books against a block explorer.
+
+== See also ==
+* [[Voting and Curation on MELEK]]
+* [[Curation Trails and Auto-Voting]]
+* [[MELEK-Engine]]
+* [[KulaSwap]]
+
+== Sources ==
+* [https://melek.salon/kula melek.salon/kula]
+* [https://github.com/HinduTempleCoins/Bot github.com/HinduTempleCoins/Bot] (<code>site/kula/</code>, <code>integrations/delegation-program.mjs</code>)
+
+== Coverage ==
+What the KULA fund is and how to join it. The reward schedule is being set and will be added here.
