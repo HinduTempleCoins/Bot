@@ -1,4 +1,4 @@
-// metatron.mjs — HATHOR METATRON (powered by Hathor, part of Hathor: "Hathor become Metatron"), the making side on Pentecaust: write (the Writing Sandbox — the NaNoWriMo
+// metatron.mjs — HATHOR METATRON (powered by Hathor, part of Hathor: "Hathor become Metatron"), the making side on Pentecaust: write (the NaNoWriMo
 // successor) and make graphics, then use them in Herald emails, BiFrost videos and posts on our own channels.
 //
 // Slice 1 (this file): one self-contained page at /metatron —
@@ -42,6 +42,7 @@ code{font-size:12px;word-break:break-all}
 <header><a href="/">← Pentecaust</a>${LOGO}<h1>Hathor Metatron</h1><a href="/sandalphon" style="order:9">Hathor Sandalphon →</a><span class=mut>Hathor become Metatron — write and make for Herald emails, BiFrost videos and our channels · powered by Hathor · Alpha</span></header>
 <main>
 <section class=card>
+ <p style="margin:0 0 14px"><a href="/metatron/november"><b>November — 50,000 words in 30 days</b></a> · <a href="/metatron/watch">The Watch (October)</a> · <a href="/metatron/history">What happened to NaNoWriMo</a></p>
  <h2>Writing desk</h2>
  <input id=title type=text placeholder="Title">
  <div class=row>
