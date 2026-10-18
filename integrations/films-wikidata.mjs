@@ -215,7 +215,7 @@ export function foldBindings(bindings) {
   return out;
 }
 
-async function sparql(query, { timeoutMs = 70000 } = {}) {
+export async function sparql(query, { timeoutMs = 70000 } = {}) {
   const ctl = typeof AbortController === 'function' ? new AbortController() : null;
   const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs) : null;
   if (timer && timer.unref) timer.unref();

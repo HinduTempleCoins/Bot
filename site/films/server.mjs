@@ -32,6 +32,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as wd from '../../integrations/films-wikidata.mjs';
+import { indexNdjson, readRecord, ROLE_ORDER, ROLE_NAMES } from '../../integrations/films-credits.mjs';
 import * as store from './reviews-store.mjs';
 import { normalizeKey, isValidKey, KEY_ALPHABET, KEY_LENGTH } from '../hathor-live/participant-key.mjs';
 
@@ -567,6 +568,46 @@ function listPage(title, films, { page = 1, base = '', lead = '' } = {}) {
   return shell(`${title} · ${SITE}`, inner, { canonical: base });
 }
 
+// ── full cast & crew (integrations/films-credits.mjs) — read on demand through a byte-offset index ─────────
+const _credIdx = { credits: null, people: null };
+function creditIndex(which) {
+  const file = path.join(dataDir(), which === 'credits' ? 'credits.ndjson' : 'people.ndjson');
+  const cur = _credIdx[which];
+  let m = 0; try { m = statSync(file).mtimeMs; } catch { return null; }
+  if (!cur || cur.mtime !== m) _credIdx[which] = indexNdjson(file, which === 'credits' ? 'id' : 'q', { nameField: which === 'people' ? 'n' : null });
+  return _credIdx[which];
+}
+export function creditsFor(id) { return readRecord(creditIndex('credits'), id); }
+export function person(q) { return readRecord(creditIndex('people'), q); }
+/** People whose name matches the query (all words, case/accent-insensitive), best-known first (file order). */
+export function searchPeople(q, limit = 12) {
+  const ix = creditIndex('people'); if (!ix) return [];
+  const words = norm(q).split(' ').filter(Boolean); if (!words.length) return [];
+  const out = [];
+  for (const [id, n] of ix.names) { const nn = norm(n); if (words.every((w) => nn.includes(w))) { out.push([id, n]); if (out.length >= limit) break; } }
+  return out;
+}
+const personLink = ([q, n]) => `<a href="${PREFIX}/person/${esc(q)}">${esc(n)}</a>`;
+function creditsBox(c) {
+  if (!c) return '';
+  const rows = ROLE_ORDER.filter((k) => k !== 'cast' && c[k] && c[k].length).map((k) => `<p><b>${esc(ROLE_NAMES[k])}</b> ${c[k].map(personLink).join(', ')}</p>`).join('');
+  const cast = c.cast && c.cast.length ? `<h3>Cast <span class=note>(${c.cast.length})</span></h3><p class=credits>${c.cast.map(personLink).join(' · ')}</p>` : '';
+  return rows || cast ? `<h2>Cast &amp; crew</h2>${rows}${cast}<p class=note>Credits from Wikidata (CC0).</p>` : '';
+}
+function personPage(pe) {
+  const byRole = {};
+  for (const [f, role] of pe.f) (byRole[role] ||= []).push(f);
+  const stats = statsMap();
+  const sections = ROLE_ORDER.filter((k) => byRole[k]).map((k) => {
+    const films = byRole[k].map((id) => catalog().byId.get(id)).filter(Boolean).sort((a, b) => (b.y || 0) - (a.y || 0));
+    if (!films.length) return '';
+    const label = k === 'cast' ? 'Actor' : ROLE_NAMES[k].replace(/ by$/, '');
+    return `<h2>${esc(label)} <span class=note>(${films.length})</span></h2><div class=grid>${films.map((r) => card(r, stats)).join('')}</div>`;
+  }).join('');
+  const inner = `<h1>${esc(pe.n)}</h1><p class=note><a href="https://www.wikidata.org/wiki/${esc(pe.q)}" target=_blank rel="noopener noreferrer">Wikidata</a></p>${sections || '<p class=meta>No films in our catalog yet.</p>'}`;
+  return shell(`${pe.n} — films · ${SITE}`, inner, { canonical: `${PREFIX}/person/${pe.q}`, description: `Films with ${pe.n}: cast and crew credits, where to watch and reviews.` });
+}
+
 async function filmPage(r, region) {
   const stats = statsMap();
   const a = stats.get(r.id);
@@ -579,9 +620,10 @@ ${row('Stream', tmdb.stream)}${row('Free', tmdb.free)}${row('Rent', tmdb.rent)}$
 ${!tmdb.stream.length && !tmdb.free.length && !tmdb.rent.length && !tmdb.buy.length ? '<p class=meta>No providers listed for this region.</p>' : ''}
 ${tmdb.link ? `<p><a href="${esc(tmdb.link)}" target=_blank rel="noopener noreferrer">All options for ${esc(tmdb.region)} ↗</a></p>` : ''}
 <form method=get class=note>Region: <input name=region value="${esc(tmdb.region)}" size=3 maxlength=2 style="width:4em"> <button>Change</button></form></div>` : '';
+  const credits = creditsFor(r.id);
   const facts = [
-    r.d && r.d.length ? `<p><b>Directed by</b> ${r.d.map((n) => `<a href="${PREFIX}/search?q=${encodeURIComponent(n)}">${esc(n)}</a>`).join(', ')}</p>` : '',
-    r.c && r.c.length ? `<p><b>Starring</b> ${r.c.map((n) => `<a href="${PREFIX}/search?q=${encodeURIComponent(n)}">${esc(n)}</a>`).join(', ')}</p>` : '',
+    !credits && r.d && r.d.length ? `<p><b>Directed by</b> ${r.d.map((n) => `<a href="${PREFIX}/search?q=${encodeURIComponent(n)}">${esc(n)}</a>`).join(', ')}</p>` : '',
+    !credits && r.c && r.c.length ? `<p><b>Starring</b> ${r.c.map((n) => `<a href="${PREFIX}/search?q=${encodeURIComponent(n)}">${esc(n)}</a>`).join(', ')}</p>` : '',
     r.g && r.g.length ? `<p><b>Genre</b> ${r.g.map((g) => `<a href="${PREFIX}/genre/${esc(wd.slug(g))}">${esc(g)}</a>`).join(', ')}</p>` : '',
     r.co && r.co.length ? `<p><b>Country</b> ${esc(r.co.join(', '))}</p>` : '',
     r.rt ? `<p><b>Runtime</b> ${esc(r.rt)} min</p>` : '',
@@ -599,6 +641,7 @@ ${links.listed.length ? `<p><b>Listed on</b> <span class=note>(availability vari
 ${links.refs.length ? `<p class=note>Elsewhere: ${links.refs.map((l) => `<a href="${esc(l.href)}" target=_blank rel="noopener noreferrer">${esc(l.name)}</a>`).join(' · ')}</p>` : ''}
 </div></div>
 ${basedOnBox(loadBasedOn(dataDir()).byFilm[r.id], { r, freeHref: links.ours.length ? links.ours[0].href : '', filmFree: !!links.ours.length || !!(r.y && r.y <= PD_YEAR), pdYear: PD_YEAR })}
+${creditsBox(credits)}
 ${relationsBox(loadRelations(dataDir()), r.id, titleOfFilm)}
 ${videosBox(r, await videosFor(dataDir(), r).catch(() => ({})))}
 ${reviewForm(r.id, r.t)}
@@ -710,11 +753,15 @@ export async function handler(req, res) {
 
     if (p === '/' && url.searchParams.get('q')) { res.writeHead(302, { location: `${PREFIX}/search?q=${encodeURIComponent(String(url.searchParams.get('q')).slice(0, 120))}` }); return res.end(); }
     if (p === '/') return send(res, 200, homePage());
+    const pm = p.match(/^\/person\/(Q\d{1,12})$/);
+    if (pm) { const pe = person(pm[1]); return pe ? send(res, 200, personPage(pe)) : send(res, 404, shell(`Not found · ${SITE}`, '<h1>Person not found</h1>')); }
     if (p === '/search') {
       const q = String(url.searchParams.get('q') || '').slice(0, 120);
       const hits = q ? await search(q, { ip, limit: 60 }) : [];
       const stats = statsMap();
-      const inner = `<h1>Search: “${esc(q)}”</h1>${hits.length ? `<div class=grid>${hits.map((r) => card(r, stats)).join('')}</div>` : '<p class=meta>No films found. Try the original title or fewer words.</p>'}`;
+      const ppl = q ? searchPeople(q) : [];
+      const peopleRow = ppl.length ? `<p><b>People:</b> ${ppl.map(personLink).join(' · ')}</p>` : '';
+      const inner = `<h1>Search: “${esc(q)}”</h1>${peopleRow}${hits.length ? `<div class=grid>${hits.map((r) => card(r, stats)).join('')}</div>` : '<p class=meta>No films found. Try the original title or fewer words.</p>'}`;
       return send(res, 200, shell(`Search “${q}” · ${SITE}`, inner, { canonical: `${PREFIX}/search` }));
     }
     if (p === '/studios') return send(res, 200, shell(`Studios, universes & franchises · ${SITE}`, studiosBody(loadRelations(dataDir())), { canonical: `${PREFIX}/studios` }));
