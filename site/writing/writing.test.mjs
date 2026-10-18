@@ -76,10 +76,14 @@ test('the history is graded, and nothing ungraded sneaks in', () => {
   }
   // the two corrections we made to the briefing we were handed must survive edits
   const all = TIMELINE.map((t) => t.what).join(' ');
-  assert.match(all, /unrelated code-of-conduct/, 'the moderator was removed for something else — keep that');
+  assert.match(all, /unrelated conduct violations/, 'the moderator was removed for something else — keep that');
   assert.match(all, /not the sole cause|long trend rather than a single scandal/, 'the org blamed six years of finances, not just the AI post');
+  // ⭐ The Faulkner entry is a STATEMENT, not a hedge about motive. It used to be graded 'contested'
+  // with "we record the sequence, not the motive", which read as a defence of him.
   const faulkner = TIMELINE.find((t) => /Faulkner/.test(t.what));
-  assert.equal(faulkner.grade, 'contested', 'we record the departure, not the motive');
+  assert.equal(faulkner.grade, 'established');
+  assert.match(faulkner.what, /had been told about the moderator, and had not acted/);
+  assert.doesNotMatch(faulkner.what, /not the motive|often said to have resigned/);
 });
 
 test('⭐ anything still graded unverified is badged, never listed as real', async () => {
@@ -144,10 +148,14 @@ test('⭐ the child-safety failure is condemned, not neutrally reported', async 
   const b = (await get('/history')).body();
   assert.match(b, /against this without qualification/);
   assert.match(b, /no part of it we are neutral about/);
-  assert.match(b, /should outrank every other consideration/);
+  assert.match(b, /outranks every other consideration/);
   // our own answer is stated and is not self-congratulatory
-  assert.match(b, /not a safety feature we are taking credit for/);
-  assert.match(b, /named person with the authority to remove someone that day/);
+  assert.match(b, /nothing there to groom anyone through/);
+  assert.match(b, /MELEK IS NOT THAT/);
+  // the position is active: named catchers, and police asked to do more
+  assert.match(b, /we will do what we can about it/);
+  assert.match(b, /Predator Poachers/);
+  assert.match(b, /police should get more on board/);
   // and it appears ABOVE the timeline, not buried under it
   assert.ok(b.indexOf(esc(POSITION.heading)) < b.indexOf('Chris Baty'), 'the position comes first');
 });

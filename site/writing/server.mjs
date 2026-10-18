@@ -273,6 +273,10 @@ export const HISTORY = `<h1>What happened to NaNoWriMo</h1>
   <h3>${esc(POSITION.heading)}</h3>
   <p>${esc(POSITION.body)}</p>
   <p class=small>${esc(POSITION.ours)}</p>
+  <p><b>${esc(POSITION.stance)}</b></p>
+  <p class=small>The people already doing this work, who deserve more help than they get:</p>
+  <ul class=small>${POSITION.catchers.map(([n, w]) => `<li><b>${esc(n)}</b> — ${esc(w)}</li>`).join('')}</ul>
+  <p class=small>${esc(POSITION.police)}</p>
 </div>
 <div class=card><table><tbody>
 ${TIMELINE.map((t) => `<tr><td style="white-space:nowrap"><b>${esc(t.when)}</b><br><span class="g ${esc(t.grade)}">${esc(t.grade)}</span></td><td>${esc(t.what)}</td></tr>`).join('')}

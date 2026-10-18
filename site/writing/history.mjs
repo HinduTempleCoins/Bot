@@ -17,9 +17,9 @@ export const TIMELINE = [
   { when: 'May 2023', grade: 'established',
     what: 'Users raise a child-safety complaint about a long-time volunteer moderator on the Young Writers Program forums — the programme for CHILDREN — alleging that minors were being directed off-platform to adult content. This is the most serious thing in the whole story and the part that deserved the fastest response. Reports describe the organisation as slow to acknowledge or act.' },
   { when: 'November 2023', grade: 'established',
-    what: 'The forums are taken down entirely rather than moderated. The moderator is eventually removed — but for unrelated code-of-conduct violations, not the grooming allegation itself. That distinction is usually dropped in retellings and it should not be: the complaint about children was not what finally moved them. Deleting the forum also deleted the evidence and the thread the reporters had built.' },
-  { when: '2023–2024', grade: 'contested',
-    what: 'Executive director Grant Faulkner departs and Kilby Blades becomes interim executive director. Faulkner is often said to have resigned *over* the moderation scandal; the public record shows the departure but not that causation. We record the sequence, not the motive.' },
+    what: 'The forums are taken down entirely rather than moderated. When the moderator is finally removed it is for unrelated conduct violations — the complaint about children was never what moved them. Deleting the forum destroyed the evidence and the thread the people reporting it had built.' },
+  { when: '2023–2024', grade: 'established',
+    what: 'Executive director Grant Faulkner departs. Kilby Blades becomes interim executive director. The leadership that had been told about the moderator, and had not acted, was the leadership that left.' },
   { when: 'Early 2024', grade: 'contested',
     what: 'A new contract for Municipal Leaders — the unpaid volunteers who ran local write-ins — is widely reported to have demanded non-disparagement and liability terms that volunteers found unacceptable, prompting resignations. The resignations are well attested; the exact contract terms circulate mostly second-hand.' },
   { when: 'September 2024', grade: 'established',
@@ -62,9 +62,23 @@ export const UNVERIFIED = [];
 /** Where we stand, stated rather than implied. Rendered at the top of the history page and carried in
  *  Hathor's post — the operator's instruction is that this must not read as neutral reporting. */
 export const POSITION = {
-  heading: 'Before the timeline: where we stand on the child-safety failure',
-  body: 'An adult volunteer was accused of using a writing programme for children to move minors toward adult material, and the organisation that ran it was slow. We are against this without qualification and there is no part of it we are neutral about. Nothing below is an attempt to be even-handed on that point. Two things are worth saying plainly, because they are the ones that get lost: a report about a child should outrank every other consideration an organisation has, including its own reputation and its lawyers — and when the eventual removal happens for some unrelated rule instead, that is not a loose end, it is the organisation telling you what it actually responded to. Deleting the forum also destroyed the record the people reporting it had built.',
-  ours: 'This surface has no forums, no accounts, no profiles, no messaging and no way for anyone to contact anyone. That is not a safety feature we are taking credit for — it is simply what a private drafting tool is, and it means the failure mode above cannot happen here. If we ever build a place where writers can talk to each other, especially one that young writers use, the rule is set now: reports about minors go to a named person with the authority to remove someone that day, and they are never routed through whoever is worried about the brand.',
+  heading: 'On the child-safety failure',
+  body: 'An adult volunteer was accused of using a writing programme for children to move minors toward adult material. The organisation that ran it was told, and was slow. We are against this without qualification and there is no part of it we are neutral about. A report about a child outranks every other consideration an organisation has, including its reputation and its lawyers. When the removal finally came it was for an unrelated rule — that is the organisation telling you what it actually responded to. And deleting the forum destroyed the record the people reporting it had built.',
+  // ⭐ BE PRECISE ABOUT WHICH SURFACE. The drafting tool genuinely has no accounts or messaging.
+  // MELEK does — it is a blockchain with a blog on it, with accounts, posts and comments. Claiming
+  // "nobody can contact anybody here" across both would be false the moment somebody publishes.
+  ours: 'Two different things, and the difference matters. THE WRITING TOOL has no accounts, no profiles, no forums, no messaging and no way for one person to reach another — it is a page that saves to your own browser, so there is nothing there to groom anyone through. MELEK IS NOT THAT. It is a public blockchain with a blog on it: accounts, posts, comments, people talking to each other. Anywhere people can reach each other, somebody will try this.',
+  stance: 'So our position on MELEK is not a disclaimer. If people use our platforms to groom children, we will do what we can about it — and we would rather be loud about that than quietly hope it never comes up.',
+  // The people doing the work, named, because the operator wants them introduced rather than
+  // gestured at. Each one checked by name.
+  catchers: [
+    ['Chris Hansen', '*To Catch a Predator*, and now *Predator Takedown with Chris Hansen*. The one who started the format.'],
+    ['Alex Rosen — Predator Poachers', 'Houston, founded 2019. As of late 2025 the group claims arrests in all fifty states and convictions in forty-one.'],
+    ['Omma', 'Started catching predators on Discord in 2020 — the platform where a great many children actually are.'],
+    ['Skeeter Jean', 'Works as "Skeet Hansen", catching since 2021.'],
+    ['JiDion', 'Brings an audience to it that would not otherwise be watching.'],
+  ],
+  police: 'And the police should get more on board with this, here and everywhere else. Not grudgingly, not after the fact — showing up, taking the handoff seriously, and giving people a legal way to do this so the evidence holds and the case survives court. The catchers keep finding them. The gap is what happens next.',
 };
 
 /** The lesson we actually built against. */
