@@ -83,30 +83,40 @@ function coinRow(c, i) {
   </tr>`;
 }
 
+// The front page waits at most this long for any one upstream panel. A panel that isn't ready renders empty
+// this time; its fetch keeps running and fills the cache, so the next view has it. (After every restart the
+// cache is cold, and the slowest upstream used to hold the whole page for ~20s.)
+const PANEL_BUDGET_MS = +(process.env.DATA_PANEL_BUDGET_MS || 6000);
+function within(p, fallback, ms = PANEL_BUDGET_MS) {
+  let t;
+  return Promise.race([
+    Promise.resolve(p).catch(() => fallback),
+    new Promise((r) => { t = setTimeout(() => r(fallback), ms); }),
+  ]).finally(() => clearTimeout(t));
+}
+
 async function listPage({ page = 1 } = {}) {
-  const [ours, top, g, trend, fng] = await Promise.all([
-    ourCoins().catch(() => []),
-    topCoins({ limit: PER_PAGE, page }).catch(() => []),
-    globalStats().catch(() => null),
-    page === 1 ? trending().catch(() => []) : Promise.resolve([]),
-    page === 1 ? fearGreed().catch(() => null) : Promise.resolve(null),
-  ]);
   // #203 — the cycling Chiron ticker at the very TOP of the front page: world clocks +
   // rotating Top-5 panels (Crypto / Bitcoin / ETH / Altcoins / World / Markets), 4s cycle,
   // relevance-decay swaps entries as they go stale. Soft-fail: no ticker ≠ no homepage.
-  // Page-1 panels are independent upstream reads: fetch them together, not one after another (a cold
-  // cache used to add their latencies up and push the front page past client timeouts).
-  const [tickerBlock, idx, scamHi, macroSum, commSum, fxSum] = page === 1 ? await Promise.all([
-    memo('tickerpanels', MEMO_TTL.clarity, async () => {
+  // All panels are independent upstream reads: fetch them together, each within the budget.
+  const p1 = page === 1;
+  const [ours, top, g, trend, fng, tickerBlock, idx, scamHi, macroSum, commSum, fxSum] = await Promise.all([
+    within(ourCoins(), []),
+    within(topCoins({ limit: PER_PAGE, page }), []),
+    within(globalStats(), null),
+    p1 ? within(trending(), []) : [],
+    p1 ? within(fearGreed(), null) : null,
+    p1 ? within(memo('tickerpanels', MEMO_TTL.clarity, async () => {
       const t = await tickerPanels({});
       return renderTickerHTML(t.panels, { cycleMs: 4000 });
-    }).catch(() => ''),
-    marketIndex().catch(() => []),
-    memo('scamhighlights', MEMO_TTL.clarity, () => scamHighlights({ pauseSample: 4 })).catch(() => null),
-    macroSummary().catch(() => null),
-    commoditiesSummary().catch(() => null),
-    forexSummary().catch(() => null),
-  ]) : ['', [], null, null, null, null];
+    }), '') : '',
+    p1 ? within(marketIndex(), []) : [],
+    p1 ? within(memo('scamhighlights', MEMO_TTL.clarity, () => scamHighlights({ pauseSample: 4 })), null) : null,
+    p1 ? within(macroSummary(), null) : null,
+    p1 ? within(commoditiesSummary(), null) : null,
+    p1 ? within(forexSummary(), null) : null,
+  ]);
   const ourIds = new Set(ours.map((c) => c.id));
   const market = top.filter((c) => !ourIds.has(c.id));
   const rows = (page === 1 ? [...ours, ...market] : market).map((c, i) => coinRow(c, (page - 1) * PER_PAGE + i + 1)).join('');
