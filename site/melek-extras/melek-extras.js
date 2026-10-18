@@ -86,12 +86,67 @@
     footer.appendChild(btn);
   }
 
+  // ── 3. creation tools beside the post editor ──────────────────────────────────────────────────────
+  // A column of collapsible tabs. Nothing loads until a tab is opened (the iframe gets its src then),
+  // tabs open independently, and an opened tool stays loaded when collapsed so work isn't lost.
+  var TOOLS = [
+    ['novel', 'Novel Writing', 'Draft chapters, track your word count, export your book.', 'https://pentecaust.com/metatron'],
+    ['image', 'Image Generation', 'Make pictures for your post with Hathor’s studio.', 'https://hathor.soapbox.community/'],
+    ['music', 'Music', 'Write songs and build beats with Hathor Sandalphon.', 'https://pentecaust.com/sandalphon'],
+  ];
+  function addCreationTools() {
+    if (!/\/submit(\.html)?\/?$/.test(w.location.pathname)) return;
+    var editor = d.querySelector('.SubmitPost');
+    if (!editor || d.getElementById('melek-tools')) return;
+    var wide = w.innerWidth >= 1100;
+    var col = el('aside', { id: 'melek-tools', 'aria-label': 'Creation tools',
+      style: wide ? 'position:absolute;top:90px;right:16px;width:420px;max-height:calc(100vh - 110px);overflow:auto;font:14px system-ui,sans-serif'
+        : 'margin:16px;font:14px system-ui,sans-serif' });
+    col.appendChild(el('div', { style: 'font-weight:700;margin:0 0 8px' }, 'Create with Hathor'));
+    TOOLS.forEach(function (t) {
+      var box = el('section', { style: 'border:1px solid #ddd;border-radius:8px;margin-bottom:8px;overflow:hidden;background:#fff' });
+      var head = el('button', { type: 'button', 'aria-expanded': 'false', 'aria-controls': 'melek-tool-' + t[0],
+        style: 'display:block;width:100%;text-align:left;padding:10px 12px;background:#f7f7f7;border:0;cursor:pointer;font:600 14px system-ui,sans-serif' },
+        '▸ ' + t[1]);
+      var body = el('div', { id: 'melek-tool-' + t[0], hidden: '' });
+      body.appendChild(el('div', { style: 'padding:6px 12px;font-size:12px;color:#666' }, t[2] + ' '));
+      var open = el('a', { href: t[3], target: '_blank', rel: 'noopener', style: 'font-size:12px;margin-left:12px' }, 'Open full screen ↗');
+      body.firstChild.appendChild(open);
+      var frame = null;
+      head.onclick = function () {
+        var show = body.hasAttribute('hidden');
+        if (show) {
+          if (!frame) {
+            frame = el('iframe', { title: t[1], src: t[3], loading: 'lazy',
+              allow: 'clipboard-write; microphone; autoplay',
+              style: 'display:block;width:100%;height:' + (wide ? '640px' : '560px') + ';border:0' });
+            body.appendChild(frame);
+          }
+          body.removeAttribute('hidden');
+        } else body.setAttribute('hidden', '');
+        head.setAttribute('aria-expanded', show ? 'true' : 'false');
+        head.textContent = (show ? '▾ ' : '▸ ') + t[1];
+      };
+      box.appendChild(head); box.appendChild(body); col.appendChild(box);
+    });
+    if (wide) {
+      editor.style.marginRight = '452px';
+      d.body.appendChild(col);
+    } else editor.parentNode.insertBefore(col, editor.nextSibling);
+  }
+  function routeChanged() {
+    var col = d.getElementById('melek-tools');
+    if (col && !/\/submit(\.html)?\/?$/.test(w.location.pathname)) col.remove();
+    addReportButton();
+    addCreationTools();
+  }
+
   function start() {
     cookieNotice();
-    addReportButton();
+    routeChanged();
     // the condenser is a single-page app: re-check when the page content changes (navigation)
     var t = null;
-    new MutationObserver(function () { clearTimeout(t); t = setTimeout(addReportButton, 150); })
+    new MutationObserver(function () { clearTimeout(t); t = setTimeout(routeChanged, 150); })
       .observe(d.body, { childList: true, subtree: true });
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start); else start();
