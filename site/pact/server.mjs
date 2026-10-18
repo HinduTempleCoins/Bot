@@ -84,6 +84,14 @@ what you put into it. A <b>group</b> is a pact anyone can join; a <b>club</b> is
       <option value=invite>Invite only</option><option value=dues>Club — dues</option></select>
     <button class="btn primary" id=make>Create</button>
   </div>
+  <details id=setup style="margin:10px 0"><summary><b>Club setup</b> — name your ranks, choose which ones exist, name your private space</summary>
+    <p class=mut>Every club has a head and members. The other ranks are optional: switch them off if you don't need them,
+    and call each one whatever you like. You can change this later.</p>
+    <div id=ranks></div>
+    <div class=row style="margin-top:8px"><label style="min-width:150px"><b>Private space</b></label>
+      <select id=space></select><input id=spacecustom placeholder="Your own name" hidden></div>
+    <p class=mut>The private space is the members-only room and board where the club talks and drafts posts before anything is published.</p>
+  </details>
   <div class=row id=duesrow hidden>
     <input id=damount type=number min=0.001 step=0.001 placeholder="Dues in MELEK (e.g. 10)">
     <select id=dperiod><option value=monthly>per month</option><option value=yearly>per year</option><option value=once>one time</option></select>
@@ -139,13 +147,31 @@ async function load(){const j=await api('/groups');const gs=(j&&j.groups)||[];
  for(const b of document.querySelectorAll('[data-j]'))b.onclick=async()=>{
   const r=await api('/groups/'+encodeURIComponent(b.dataset.j)+'/join',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});
   if(r&&r.ok)load();else alert((r&&r.reason)||'could not join');};}
-$('policy').onchange=()=>{$('duesrow').hidden=$('policy').value!=='dues';};
+$('policy').onchange=()=>{$('duesrow').hidden=$('policy').value!=='dues';if($('policy').value==='dues')$('setup').open=true;};
+let GUIDE=null;
+(async()=>{const g=await api('/groups/setup-guide');if(!g||!g.ok)return;GUIDE=g;
+ $('ranks').innerHTML=g.ranks.map(r=>'<div class=item style="align-items:flex-start;gap:10px">'
+  +'<label style="min-width:28px">'+(r.canDisable?'<input type=checkbox data-on="'+r.role+'" checked title="Use this rank">':'<input type=checkbox checked disabled title="Always used">')+'</label>'
+  +'<div style="flex:1"><select data-name="'+r.role+'">'+r.names.map(n=>'<option>'+E(n)+'</option>').join('')+'<option value="__custom">Your own name…</option></select> '
+  +'<input data-custom="'+r.role+'" placeholder="Your own name" hidden maxlength=40>'
+  +'<div class=mut style="font-size:12px;margin-top:3px">'+E(r.does)+'</div></div></div>').join('');
+ for(const s of document.querySelectorAll('[data-name]'))s.onchange=()=>{document.querySelector('[data-custom="'+s.dataset.name+'"]').hidden=s.value!=='__custom';};
+ $('space').innerHTML=g.spaceNames.map(n=>'<option>'+E(n)+'</option>').join('')+'<option value="__custom">Your own name…</option>';
+ $('space').onchange=()=>{$('spacecustom').hidden=$('space').value!=='__custom';};})();
+function setupSpec(){if(!GUIDE)return null;const titles={},disabled=[];
+ for(const r of GUIDE.ranks){const sel=document.querySelector('[data-name="'+r.role+'"]');
+  titles[r.role]=sel.value==='__custom'?document.querySelector('[data-custom="'+r.role+'"]').value.trim():sel.value;
+  const on=document.querySelector('[data-on="'+r.role+'"]');if(on&&!on.checked)disabled.push(r.role);}
+ const spaceName=$('space').value==='__custom'?$('spacecustom').value.trim():$('space').value;
+ return {titles,disabled,spaceName};}
 $('make').onclick=async()=>{const name=$('name').value.trim();if(!name)return;
  const spec={name,joinPolicy:$('policy').value};
  if(spec.joinPolicy==='dues'){const amt=Number($('damount').value);if(!(amt>0)){alert('Set the dues amount in MELEK.');return;}
   spec.dues={amount:Math.round(amt*1000),currency:'MELEK',period:$('dperiod').value,rail:'wallet',payee:$('dpayee').value.trim().replace(/^@/,'')};}
  const r=await api('/groups',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(spec)});
- if(r&&r.ok){$('name').value='';load();}else alert((r&&r.reason)||'could not create');};
+ if(r&&r.ok){const st=setupSpec();if(st&&r.group&&($('setup').open||spec.joinPolicy==='dues'))
+  await api('/groups/'+encodeURIComponent(r.group.id)+'/setup',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(st)});
+ $('name').value='';load();}else alert((r&&r.reason)||'could not create');};
 load();
 async function loadCh(){const j=await api('/channels');const cs=(j&&j.channels)||[];
  $('clist').innerHTML=cs.length?cs.map(c=>'<div class=item><div style="flex:1"><a href="/c/'+E(c.name)+'"><b>#'+E(c.name)+'</b></a>'

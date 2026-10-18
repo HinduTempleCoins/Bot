@@ -16,7 +16,7 @@
 import {
   createGroup, addMember, approve, invite, removeMember, setRole, setJoinPolicy, setAbout,
   postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam, setDues, setCharter, DUES_RAILS, recordDuesPayment,
-  setPublishRole, boardPost, listBoard, approveBoardPost, setTitleSet, setOffice,
+  setPublishRole, boardPost, listBoard, approveBoardPost, setTitleSet, setOffice, setupClub, RANK_GUIDE, SPACE_NAMES, OFFICES,
   groupChannelId, ROLES, JOIN_POLICIES, KINDS, voteOnPost, votesFor, setProgram, PROGRAMS,
 } from './model.mjs';
 import { kitFor } from './paperwork.mjs';
@@ -58,6 +58,10 @@ export async function handler(req, res, deps = {}) {
     // ── public reads ────────────────────────────────────────────────────────────────────────────
     // The directory is open on purpose: somebody deciding whether to join should see what exists
     // before signing up. invite-only groups are already hidden by listGroups().
+    // what club setup offers: every rank, what it does, the names people already know, space names, offices
+    if (method === 'GET' && path === '/groups/setup-guide') {
+      return json(res, 200, { ok: true, ranks: RANK_GUIDE, spaceNames: SPACE_NAMES, offices: OFFICES });
+    }
     if (method === 'GET' && path === '/groups') {
       return json(res, 200, { ok: true, roles: Object.keys(ROLES), joinPolicies: JOIN_POLICIES, duesRails: DUES_RAILS, kinds: KINDS, groups: listGroups(opts) });
     }
@@ -168,6 +172,7 @@ export async function handler(req, res, deps = {}) {
       case 'publish-role': return json(res, 200, setPublishRole(id, me, b.role, opts));
       case 'titles':    return json(res, 200, setTitleSet(id, me, b.set, opts));
       case 'office':    return json(res, 200, setOffice(id, me, b.account, b.office, opts));
+      case 'setup':     return json(res, 200, setupClub(id, me, b, opts));
       // Pact is a MELEK front end: a vote here is a standard Graphene `vote` op, returned for
       // MELEK-Signer to broadcast. This surface holds no keys and writes nothing to the chain.
       case 'vote':      return json(res, 200, voteOnPost(id, { ...b, voter: me }, opts));

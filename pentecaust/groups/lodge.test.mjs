@@ -59,3 +59,19 @@ test('title sets rename ranks — Tyler in every set — and offices sit on top 
   assert.equal(g.members.find((m) => m.account === 'off').office, 'CFO');
   assert.equal(setOffice(id, 'mem', 'off', 'CIO', o).ok, false);
 });
+
+test('club setup: custom names per rank, optional ranks switched off, a named space; held ranks cannot be switched off', async () => {
+  const { setupClub, RANK_GUIDE } = await import('./model.mjs');
+  const o = mem(); const id = club(o);
+  assert.ok(RANK_GUIDE.find((r) => r.role === 'tyler').names.includes('Tyler'));
+  // tyl currently holds 'tyler', so switching it off is refused
+  assert.equal(setupClub(id, 'ceo', { disabled: ['tyler'] }, o).ok, false);
+  setRole(id, 'ceo', 'tyl', 'member', o);
+  const r = setupClub(id, 'ceo', { titles: { owner: 'High Priestess', tyler: 'Doorkeeper' }, disabled: ['tyler', 'prospect', 'owner'], spaceName: 'Inner Sanctum' }, o);
+  assert.equal(r.ok, true);
+  assert.equal(r.group.titles.owner, 'High Priestess');
+  assert.deepEqual(r.group.disabledRanks, ['tyler', 'prospect']);       // owner can never be switched off
+  assert.equal(r.group.spaceName, 'Inner Sanctum');
+  assert.equal(setRole(id, 'ceo', 'mem', 'tyler', o).ok, false);          // switched-off ranks cannot be given
+  assert.equal(setupClub(id, 'mem', { spaceName: 'x' }, o).ok, false);    // admins and owners only
+});
