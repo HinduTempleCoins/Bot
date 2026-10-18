@@ -47,10 +47,25 @@
     }
   }
 
+  // The profile header's Message button showed "missing translation: en.g.send_a_pm", and its picture came
+  // from Blurt's image proxy (a blank silhouette for MELEK accounts). Label it, and use MELEK's own picture.
+  function fixHeader() {
+    var btns = d.querySelectorAll('a.button[href^="https://pentecaust.com/?dm="]');
+    for (var i = 0; i < btns.length; i++) {
+      if (/missing translation/i.test(btns[i].textContent || '')) btns[i].textContent = 'Message';
+    }
+    var pics = d.querySelectorAll('.Userpic[style*="imgp.blurt.blog/profileimage/"]');
+    for (var j = 0; j < pics.length; j++) {
+      var m = pics[j].style.backgroundImage.match(/profileimage\/([a-z0-9.-]+)\//i);
+      if (m) pics[j].style.backgroundImage = 'url("https://melek.salon/u/' + m[1].toLowerCase() + '/avatar/small")';
+    }
+  }
+
   function start() {
+    fixHeader();
     scrub();
     var t = null;   // the wallet is a single-page app: re-run when its content changes
-    new MutationObserver(function () { clearTimeout(t); t = setTimeout(scrub, 150); })
+    new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { scrub(); fixHeader(); }, 150); })
       .observe(d.body, { childList: true, subtree: true, characterData: true });
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start); else start();
