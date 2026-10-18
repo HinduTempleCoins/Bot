@@ -147,15 +147,40 @@
   }
   // ── 5. profile "Invite to Pact" button, beside Message ───────────────────────────────────────────
   function addInviteButton() {
-    var msg = d.querySelector('a[href^="https://pentecaust.com/?dm="]');
-    if (!msg || msg.parentNode.querySelector('.melek-invite')) return;
-    var acct = (msg.href.match(/[?&]dm=([^&]+)/) || [])[1];
-    if (!acct) return;
-    var a = el('a', { href: 'https://pact.pentecaust.com/?invite=' + acct, target: '_blank', rel: 'noopener',
-      class: (msg.className || '') + ' melek-invite', title: 'Invite them to one of your Pact groups or channels',
-      style: 'margin-left:8px' }, 'Invite to Pact');
-    msg.parentNode.insertBefore(a, msg.nextSibling);
+    // every Message link on the page: the desktop button block and the phone one (show-for-small-only)
+    var msgs = d.querySelectorAll('a[href^="https://pentecaust.com/?dm="]');
+    for (var i = 0; i < msgs.length; i++) {
+      var msg = msgs[i];
+      if (msg.parentNode.querySelector('.melek-invite')) continue;
+      var acct = (msg.href.match(/[?&]dm=([^&]+)/) || [])[1];
+      if (!acct) continue;
+      var a = el('a', { href: 'https://pact.pentecaust.com/?invite=' + acct, target: '_blank', rel: 'noopener',
+        class: (msg.className || '') + ' melek-invite', title: 'Invite them to one of your Pact groups or channels',
+        style: 'margin-left:8px' }, 'Invite to Pact');
+      msg.parentNode.insertBefore(a, msg.nextSibling);
+    }
   }
+
+  // ── 5b. profile fixes ───────────────────────────────────────────────────────────────────────────
+  // Rewards → Curation / Author rewards pointed at /portal/wallet.html/@x/…-rewards, which the app can't
+  // route (404). Those pages live on wallet.melek.salon.
+  function fixRewardsLinks() {
+    var links = d.querySelectorAll('a[href*="/portal/wallet.html/@"]');
+    for (var i = 0; i < links.length; i++) {
+      var m = links[i].getAttribute('href').match(/\/portal\/wallet\.html\/(@[a-z0-9.-]+)\/(curation-rewards|author-rewards)/i);
+      if (m) links[i].href = 'https://wallet.melek.salon/' + m[1] + '/' + m[2];
+    }
+  }
+  // Follow while signed out: the app's old login pop-up crashes (login moved to /login.html), so the click
+  // did nothing. Signed out, Follow now goes to Log in and comes back to this profile.
+  function signedOut() { return !!d.querySelector('header a[href="/login.html"]'); }
+  d.addEventListener('click', function (e) {
+    var t = e.target && e.target.closest ? e.target.closest('label.button, button, a') : null;
+    if (!t || !signedOut()) return;
+    if (!/^(un)?follow$/i.test((t.textContent || '').trim())) return;
+    e.preventDefault(); e.stopPropagation();
+    w.location.href = '/login.html?return=' + encodeURIComponent(w.location.pathname);
+  }, true);
 
   // ── 6. the tab bar: All Posts · Groups · Admin Updates · Witness Updates ─────────────────────────
   // Hot / Trending / New are not tabs: they are the sort row INSIDE All Posts (the Steemit/Hive/Blurt feed,
@@ -245,6 +270,7 @@
     addCreationTools();
     fixMessageLinks();
     addInviteButton();
+    fixRewardsLinks();
   }
 
   // ── 7. the home page IS Admin Updates ─────────────────────────────────────────────────────────────

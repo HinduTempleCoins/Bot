@@ -98,7 +98,7 @@ const PAGES = {
     lead: "News from the witnesses who run MELEK's blockchain: upgrades, hardforks, price feeds and what they're working on. Hathor, MELEK's AI witness, posts here too.",
     who: 'Posts by the active witnesses:' },
   ranked: { title: 'Members', path: '/members', h1: 'Members',
-    lead: 'Posts from people Hathor has brought up out of New for the quality of what they post. Everyone starts as a Jr. Member; the ranks above are Member, Sr. Member, Hero Member and Legendary.',
+    lead: 'Posts from people Hathor has brought up out of New for the quality of what they post. Everyone starts as a Jr. Member; the ranks above are Member, Sr. Member, Hero Member and Legendary. Above the member ranks are MELEK\'s admins and the witnesses who run the chain; their posts have their own tabs, Admin Updates and Witness Updates.',
     who: 'Posts by members:', empty: 'Nobody has been promoted yet. Hathor brings people up out of New as they post.' },
 };
 
