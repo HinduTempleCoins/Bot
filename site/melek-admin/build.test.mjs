@@ -55,8 +55,8 @@ test('fetchWitnessAccounts keeps block producers, always includes hathor, soft-f
   assert.deepEqual(await fetchWitnessAccounts({ fetch: async () => { throw new Error('down'); } }), ['hathor']);
 });
 
-test('tab order: Admin, Witness, Ranked Users, All Posts, Groups', () => {
-  assert.deepEqual(TABS.map((t) => t.label), ['Admin Updates', 'Witness Updates', 'Ranked Users', 'All Posts', 'Groups']);
+test('tab order: All Posts far left, then Admin, Witness, Ranked Users, Groups', () => {
+  assert.deepEqual(TABS.map((t) => t.label), ['All Posts', 'Admin Updates', 'Witness Updates', 'Ranked Users', 'Groups']);
 });
 
 test('ranks: only the ladder ranks count, highest first; bad file soft-fails to none', () => {

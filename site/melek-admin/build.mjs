@@ -80,12 +80,13 @@ export function loadRanks(file = RANKS_FILE(), read = (f) => readFileSync(f, 'ut
   return Object.fromEntries(Object.entries(out).sort((a, b) => RANKS.indexOf(b[1].rank) - RANKS.indexOf(a[1].rank)));
 }
 
-// The site's tab bar (same tabs melek-extras.js puts on the condenser), top of the hierarchy first.
+// The site's tab bar (same tabs melek-extras.js puts on the condenser): All Posts far left so it's easy to
+// reach, then the hierarchy Admin → Witness → Ranked, then Groups.
 export const TABS = [
+  { id: 'all', label: 'All Posts', href: `${SITE}/trending` },
   { id: 'admin', label: 'Admin Updates', href: `${SITE}/` },   // the home page
   { id: 'witness', label: 'Witness Updates', href: `${SITE}/witness-updates` },
   { id: 'ranked', label: 'Ranked Users', href: `${SITE}/ranked` },
-  { id: 'all', label: 'All Posts', href: `${SITE}/trending` },
   { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
 ];
 
