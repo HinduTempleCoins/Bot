@@ -18,6 +18,7 @@ import {
   postToGroup, listFeed, getGroup, isMember, listGroups, groupsForAccount, setTeam, setDues, setCharter, DUES_RAILS, recordDuesPayment,
   setPublishRole, boardPost, listBoard, approveBoardPost, setTitleSet, setOffice, setupClub, RANK_GUIDE, SPACE_NAMES, OFFICES,
   groupChannelId, ROLES, JOIN_POLICIES, KINDS, voteOnPost, votesFor, setProgram, PROGRAMS,
+  decline, listApplicants, sweepLapsed, TITLE_SETS,
 } from './model.mjs';
 import { kitFor } from './paperwork.mjs';
 import { findDuesPayment, periodMs } from './dues-verify.mjs';
@@ -60,7 +61,7 @@ export async function handler(req, res, deps = {}) {
     // before signing up. invite-only groups are already hidden by listGroups().
     // what club setup offers: every rank, what it does, the names people already know, space names, offices
     if (method === 'GET' && path === '/groups/setup-guide') {
-      return json(res, 200, { ok: true, ranks: RANK_GUIDE, spaceNames: SPACE_NAMES, offices: OFFICES });
+      return json(res, 200, { ok: true, ranks: RANK_GUIDE, spaceNames: SPACE_NAMES, offices: OFFICES, titleSets: TITLE_SETS });
     }
     if (method === 'GET' && path === '/groups') {
       return json(res, 200, { ok: true, roles: Object.keys(ROLES), joinPolicies: JOIN_POLICIES, duesRails: DUES_RAILS, kinds: KINDS, groups: listGroups(opts) });
@@ -73,10 +74,12 @@ export async function handler(req, res, deps = {}) {
     if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'board') {
       const me = who(req);
       if (!me) return json(res, 401, { ok: false, reason: 'sign in first' });
+      sweepLapsed(segs[1], opts);   // opportunistic: a read is when lapsed dues get noticed
       const r = listBoard(segs[1], me, opts);
       return json(res, r.ok ? 200 : 403, r);
     }
     if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'feed') {
+      sweepLapsed(segs[1], opts);
       const g = getGroup(segs[1], opts);
       if (!g) return json(res, 404, { ok: false, reason: 'no such group' });
       return json(res, 200, { ok: true, id: segs[1], feed: listFeed(segs[1], { limit: Number(q.get('limit')) || 50 }, opts) });
@@ -96,6 +99,12 @@ export async function handler(req, res, deps = {}) {
     }
     if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'votes') {
       return json(res, 200, { ok: true, votes: votesFor(segs[1], q.get('author'), q.get('permlink'), q.get('voter'), opts) });
+    }
+    // who is knocking — Tyler and up only
+    if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'applicants') {
+      const me = who(req); if (!me) return unauth(res);
+      const r = listApplicants(segs[1], me, opts);
+      return json(res, r.ok ? 200 : 403, r);
     }
     if (method === 'GET' && segs[0] === 'programs') return json(res, 200, { ok: true, programs: PROGRAMS });
     if (method === 'GET' && segs[0] === 'groups' && segs[1] && segs[2] === 'me') {
@@ -138,6 +147,7 @@ export async function handler(req, res, deps = {}) {
       // The 'wallet' rail for MELEK dues: proof of payment is read from the chain (the payee's history),
       // never from this request. A verified transfer admits the caller until the paid period ends.
       case 'check-dues': {
+        sweepLapsed(id, opts);
         const g = getGroup(id, opts);
         if (!g) return json(res, 404, { ok: false, reason: 'no such group' });
         const d = g.dues;
@@ -150,13 +160,15 @@ export async function handler(req, res, deps = {}) {
           fetch: deps.fetch, rpcUrl: deps.rpcUrl });
         if (!found.ok) return json(res, 200, { ok: false, status: 'not-paid', reason: found.reason, payee, memo: `pact:${id}` });
         const until = found.paidAt + periodMs(d.period);
-        if (until < Date.now()) {
+        if (until < (opts.now != null ? opts.now : Date.now())) {
           return json(res, 200, { ok: false, status: 'expired', reason: `Your last dues payment covered you until ${new Date(until).toISOString().slice(0, 10)}. Send a new one to renew.`, payee, memo: `pact:${id}` });
         }
         return json(res, 200, recordDuesPayment(id, me, { ...found, until }, opts));
       }
       case 'leave':     return json(res, 200, removeMember(id, me, me, opts));
       case 'approve':   return json(res, 200, approve(id, me, b.account, opts));
+      // the Tyler turns an applicant away
+      case 'decline':   return json(res, 200, decline(id, me, b.account, opts));
       case 'invite':    return json(res, 200, invite(id, me, b.account, opts));
       case 'kick':      return json(res, 200, removeMember(id, me, b.account, opts));
       case 'role':      return json(res, 200, setRole(id, me, b.account, b.role, opts));

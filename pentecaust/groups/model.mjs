@@ -139,6 +139,39 @@ function canManage(group, actor, target) {
   if (ar < ROLES.mod) return false;
   return ar > rank(roleOf(group, target));
 }
+// The TYLER is the doorkeeper: he may show a PROSPECT out (and decline applicants), but removing a full
+// member or anyone above stays with the moderators. Everything else about kicking goes through canManage.
+function canRemove(group, actor, target) {
+  if (canManage(group, actor, target)) return true;
+  return rank(roleOf(group, actor)) >= ROLES.tyler && roleOf(group, target) === 'prospect';
+}
+
+// ── lapsed dues ──────────────────────────────────────────────────────────────────────────────────────
+// A dues-club member whose paid period has ended is LAPSED. Officers who run the club (mod and up) are
+// exempt, and a comped/invited member with no duesPaid entry is never lapsed — nothing was ever owed.
+// 'once' payments store until=null and never lapse.
+const LAPSE_EXEMPT = ROLES.mod;
+export function isLapsed(group, account, t = Date.now()) {
+  if (!group || group.joinPolicy !== 'dues') return false;
+  const who = acct(account);
+  const m = group.members && group.members[who];
+  if (!m || rank(m.role) >= LAPSE_EXEMPT) return false;
+  const p = group.duesPaid && group.duesPaid[who];
+  return !!(p && p.until != null && Number(p.until) < t);
+}
+
+// Who admitted whom: approve() and an invite that is redeemed both record the officer. The counts are the
+// Tyler's credit — how many he brought in, and how many of those are still here.
+function admissions(group) {
+  const out = {};
+  for (const [who, a] of Object.entries(group.admittedBy || {})) {
+    if (!a || !a.by) continue;
+    const o = out[a.by] || (out[a.by] = { admitted: 0, retained: 0 });
+    o.admitted++;
+    if (group.members[who]) o.retained++;
+  }
+  return out;
+}
 
 // The chat-channel id a group's chat lives under.
 //
@@ -188,7 +221,7 @@ export function groupCategory(group) {
 }
 
 // Public, store-free view (safe to hand a client). Omits raw internal maps.
-export function view(group) {
+export function view(group, t = Date.now()) {
   if (!group) return null;
   return {
     team: group.team || null,
@@ -203,12 +236,15 @@ export function view(group) {
     disabledRanks: Array.isArray(group.disabledRanks) ? group.disabledRanks : [],
     spaceName: group.spaceName || null,
     members: Object.entries(group.members).map(([account, m]) => ({ account, role: m.role, title: titleFor(group, m.role),
-      office: (group.offices || {})[account] || null, joined: m.joined }))
+      office: (group.offices || {})[account] || null, joined: m.joined,
+      admittedBy: ((group.admittedBy || {})[account] || {}).by || null,
+      lapsed: isLapsed(group, account, t) }))
       .sort((a, b) => rank(b.role) - rank(a.role) || a.joined - b.joined),
     memberCount: Object.keys(group.members).length,
     duesPaid: group.duesPaid || {},
     publishRole: publishRoleOf(group),
     pending: Object.keys(group.applicants || {}).length,
+    admissions: admissions(group),
     posts: (group.feed || []).length,
   };
 }
@@ -267,6 +303,9 @@ export function addMember(id, account, opts = {}) {
   if (Object.keys(group.members).length >= group.maxMembers) return { ok: false, reason: 'group is full' };
   const t = now(opts);
   const admit = () => {
+    const inv = group.invitedBy && group.invitedBy[who];
+    if (group.invites[who] && inv && inv.by) group.admittedBy = { ...(group.admittedBy || {}), [who]: { by: inv.by, ts: t } };
+    if (group.invitedBy) delete group.invitedBy[who];
     delete group.invites[who]; delete group.applicants[who];
     group.members[who] = { role: 'member', joined: t };
     saveStore(fs, file, store);
@@ -318,9 +357,34 @@ export function approve(id, actor, account, opts = {}) {
   if (!group.applicants[who]) return { ok: false, reason: 'no such applicant' };
   if (Object.keys(group.members).length >= group.maxMembers) return { ok: false, reason: 'group is full' };
   delete group.applicants[who];
-  group.members[who] = { role: 'member', joined: now(opts) };
+  const t = now(opts);
+  group.members[who] = { role: 'member', joined: t };
+  group.admittedBy = { ...(group.admittedBy || {}), [who]: { by, ts: t } };
   saveStore(fs, file, store);
-  return { ok: true, status: 'joined', group: view(group) };
+  return { ok: true, status: 'joined', group: view(group, t) };
+}
+
+/** The Tyler (or above) turns a pending applicant away. Nothing else about them is recorded. */
+export function decline(id, actor, account, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const who = acct(account); const by = acct(actor);
+  const store = loadStore(fs, file); const group = store.groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, by)) < ROLES.tyler) return { ok: false, reason: 'not allowed (Tyler and up only)' };
+  if (!group.applicants || !group.applicants[who]) return { ok: false, reason: 'no such applicant' };
+  delete group.applicants[who];
+  saveStore(fs, file, store);
+  return { ok: true, status: 'declined', group: view(group, now(opts)) };
+}
+
+/** Pending applicants, oldest first — Tyler and up only (who is knocking is not public). */
+export function listApplicants(id, actor, opts = {}) {
+  const { fs, file } = ctx(opts);
+  const group = loadStore(fs, file).groups[id];
+  if (!group) return { ok: false, reason: 'no such group' };
+  if (rank(roleOf(group, acct(actor))) < ROLES.tyler) return { ok: false, reason: 'not allowed (Tyler and up only)' };
+  const applicants = Object.entries(group.applicants || {}).map(([account, ts]) => ({ account, ts })).sort((a, b) => a.ts - b.ts);
+  return { ok: true, applicants };
 }
 
 /** Mod+ invites an account (invite/token/apply policies); the invitee then addMember()s. */
@@ -331,7 +395,9 @@ export function invite(id, actor, account, opts = {}) {
   const store = loadStore(fs, file); const group = store.groups[id];
   if (!group) return { ok: false, reason: 'no such group' };
   if (rank(roleOf(group, by)) < ROLES.tyler) return { ok: false, reason: 'not allowed (Tyler and up only)' };
-  group.invites[who] = now(opts); saveStore(fs, file, store);
+  group.invites[who] = now(opts);
+  group.invitedBy = { ...(group.invitedBy || {}), [who]: { by, ts: now(opts) } };
+  saveStore(fs, file, store);
   return { ok: true, status: 'invited', group: view(group) };
 }
 
@@ -346,8 +412,10 @@ export function removeMember(id, actor, account, opts = {}) {
   if (!group) return { ok: false, reason: 'no such group' };
   if (!group.members[who]) return { ok: false, reason: 'not a member' };
   const selfLeave = who === by;
-  if (!selfLeave && !canManage(group, by, who)) {
-    return { ok: false, reason: 'not allowed (need a higher role than the target)' };
+  if (!selfLeave && !canRemove(group, by, who)) {
+    return { ok: false, reason: rank(roleOf(group, by)) === ROLES.tyler
+      ? 'a Tyler may only remove prospects — removing members takes a moderator'
+      : 'not allowed (need a higher role than the target)' };
   }
   const wasOwner = roleOf(group, who) === 'owner';
   delete group.members[who];
@@ -431,8 +499,14 @@ export function recordDuesPayment(id, account, { paidAt, until, trx_id = '', uni
   if (!who) return { ok: false, reason: 'bad account' };
   group.duesPaid = { ...(group.duesPaid || {}), [who]: { paidAt, until: Number.isFinite(until) ? until : null, trx_id, units } };
   if (!group.members[who]) group.members[who] = { role: 'member', joined: now(opts) };
+  else if (group.members[who].lapsedFrom) {
+    // renewed after sweepLapsed demoted them: give back the rank they held
+    const back = group.members[who].lapsedFrom;
+    if (ROLES[back] != null && rank(back) < ROLES.owner) group.members[who].role = back;
+    delete group.members[who].lapsedFrom;
+  }
   saveStore(fs, file, store);
-  return { ok: true, status: 'member', paid: group.duesPaid[who], group: view(group) };
+  return { ok: true, status: 'member', paid: group.duesPaid[who], group: view(group, now(opts)) };
 }
 
 /** Set or clear a club's dues terms. Owner/admin only. */
@@ -788,23 +862,49 @@ export function approveBoardPost(id, actor, boardId, opts = {}) {
   return { ok: true, post: d };
 }
 
+/**
+ * Demote lapsed dues members to prospect (not delete — the record and their history stay). Returns who
+ * changed. Pure apart from the store write, which only happens when something changed; the clock is
+ * opts.now. If the club switched the prospect rank off, a lapsed member drops to muted instead.
+ * A later recordDuesPayment() gives back the rank they held (kept as `lapsedFrom`).
+ */
+export function sweepLapsed(id, opts = {}) {
+  try {
+    const { fs, file } = ctx(opts);
+    const store = loadStore(fs, file); const group = store.groups[id];
+    if (!group) return { ok: false, reason: 'no such group', changed: [] };
+    const t = now(opts);
+    const to = enabledRole(group, 'prospect') ? 'prospect' : 'muted';
+    const changed = [];
+    for (const [who, m] of Object.entries(group.members || {})) {
+      if (!isLapsed(group, who, t) || rank(m.role) <= rank(to)) continue;
+      changed.push({ account: who, from: m.role, to });
+      m.lapsedFrom = m.lapsedFrom || m.role;
+      m.role = to;
+    }
+    if (changed.length) saveStore(fs, file, store);
+    return { ok: true, changed };
+  } catch { return { ok: false, reason: 'error', changed: [] }; }
+}
+
 // ── reads ─────────────────────────────────────────────────────────────────────────────────────────
-export function getGroup(id, opts = {}) { const { fs, file } = ctx(opts); return view(loadStore(fs, file).groups[id]); }
+export function getGroup(id, opts = {}) { const { fs, file } = ctx(opts); return view(loadStore(fs, file).groups[id], now(opts)); }
+/** Member for room access: a LAPSED dues member is not (owner/admin/mod and comped members are exempt). */
 export function isMember(id, account, opts = {}) {
   const { fs, file } = ctx(opts); const group = loadStore(fs, file).groups[id];
-  return !!(group && group.members[acct(account)]);
+  return !!(group && group.members[acct(account)] && !isLapsed(group, account, now(opts)));
 }
 /** Every group an account belongs to (one identity, all its groups). */
 export function groupsForAccount(account, opts = {}) {
   const { fs, file } = ctx(opts); const who = acct(account);
-  return Object.values(loadStore(fs, file).groups).filter((g) => g.members[who]).map(view);
+  return Object.values(loadStore(fs, file).groups).filter((g) => g.members[who]).map((g) => view(g, now(opts)));
 }
 /** Browse joinable groups — open/apply/token are listed; invite-only is hidden from the directory. */
 export function listGroups(opts = {}) {
   const { fs, file } = ctx(opts);
   return Object.values(loadStore(fs, file).groups)
     .filter((g) => g.joinPolicy !== 'invite')
-    .map(view).sort((a, b) => b.memberCount - a.memberCount);
+    .map((g) => view(g, now(opts))).sort((a, b) => b.memberCount - a.memberCount);
 }
 
 // ── CLI (guarded) — offline demo on a temp store ───────────────────────────────────────────────────
