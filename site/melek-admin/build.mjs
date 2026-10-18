@@ -66,12 +66,12 @@ export async function fetchWitnessAccounts({ rpcUrl = RPC(), fetch: f = globalTh
 export const TABS = [
   { id: 'all', label: 'All Posts', href: `${SITE}/trending` },
   { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
-  { id: 'admin', label: 'Admin Updates', href: `${SITE}/admin` },
+  { id: 'admin', label: 'Admin Updates', href: `${SITE}/` },   // the home page
   { id: 'witness', label: 'Witness Updates', href: `${SITE}/witness-updates` },
 ];
 
 const PAGES = {
-  admin: { title: 'Admin Updates', path: '/admin', h1: 'Admin Updates',
+  admin: { title: 'Admin Updates', path: '/', h1: 'Admin Updates',
     lead: "What MELEK's admins are building, what is live, and what comes next. Sign up to post, vote and earn MELEK.",
     who: 'Posts by' },
   witness: { title: 'Witness Updates', path: '/witness-updates', h1: 'Witness Updates',
@@ -101,6 +101,8 @@ header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:s
 header .brand{font-weight:800;font-size:20px;color:#f39c12;text-decoration:none}
 nav a{color:var(--fg);text-decoration:none;margin:0 10px;padding:6px 0;border-bottom:3px solid transparent}
 nav a.on{border-bottom-color:var(--gold);font-weight:700}
+nav{white-space:nowrap}
+@media(max-width:640px){header{padding:10px 12px 0}nav{order:3;width:100%;overflow-x:auto;display:flex;gap:14px;margin:4px -12px 0;padding:0 12px;font-size:14px}nav a{margin:0;padding:8px 0}}
 .cta{background:#1a1d24;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-weight:700;border-bottom:3px solid var(--gold)}
 main{max-width:860px;margin:0 auto;padding:20px 16px}
 h1{margin:6px 0 4px}.lead{color:var(--mut);margin:0 0 18px}
