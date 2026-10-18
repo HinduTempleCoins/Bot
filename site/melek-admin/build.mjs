@@ -88,6 +88,7 @@ export const TABS = [
   { id: 'witness', label: 'Witness Updates', href: `${SITE}/witness-updates` },
   { id: 'ranked', label: 'Members', href: `${SITE}/members` },
   { id: 'groups', label: 'Groups', href: 'https://pact.pentecaust.com/#groups' },
+  { id: 'move', label: 'MELEK Move', href: 'https://move.melek.salon/' },
 ];
 
 const PAGES = {

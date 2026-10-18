@@ -56,7 +56,7 @@ test('fetchWitnessAccounts keeps block producers, always includes hathor, soft-f
 });
 
 test('tab order: All Posts far left, then Admin, Witness, Members, Groups', () => {
-  assert.deepEqual(TABS.map((t) => t.label), ['All Posts', 'Admin Updates', 'Witness Updates', 'Members', 'Groups']);
+  assert.deepEqual(TABS.map((t) => t.label), ['All Posts', 'Admin Updates', 'Witness Updates', 'Members', 'Groups', 'MELEK Move']);
 });
 
 test('ranks: only the ladder ranks count, highest first; bad file soft-fails to none', () => {
