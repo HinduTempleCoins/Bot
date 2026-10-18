@@ -328,6 +328,9 @@ export async function searchGroups(q, { extraSites = [] } = {}) {
   for (const r of extraSites || []) {
     if (!r || !r.url || isPrivateUrl(r.url)) continue;
     const k = r.url.replace(/\/$/, ''); if (seen.has(k)) continue; seen.add(k);
+    // a MELEK post page that came in through the site index belongs with the Posts, not "Our sites"
+    const pm = r.url.match(/^https:\/\/(?:www\.)?melek\.salon\/@([a-z0-9.-]+)\/[^/?#]+$/);
+    if (pm) { all.push({ group: 'posts', title: r.title, url: r.url, snippet: clip(r.snippet, 180), tag: `@${pm[1]}`, score: matchScore(q, r.title, `${r.url} ${r.snippet || ''}`) * 0.9 }); continue; }
     all.push({ group: 'sites', title: r.title, url: r.url, snippet: clip(r.snippet, 180), tag: r.tag || 'SoapBox', score: matchScore(q, r.title, r.snippet) * 0.95 });
   }
   return GROUPS.map((g, i) => {
