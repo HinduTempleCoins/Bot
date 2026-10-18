@@ -1,4 +1,4 @@
-// server.mjs — Hathor Metatron — November (write.soapbox.community). Preptober + the November 50,000-word
+// server.mjs — Hathor Metatron — November (pentecaust.com/metatron). Preptober + the November 50,000-word
 // challenge, and a private drafting studio that keeps your work in YOUR browser.
 //
 // WHY THIS EXISTS. NaNoWriMo dissolved on 2026-03-31 (financial, after the moderation and AI
@@ -16,7 +16,7 @@
 //     tag on an exported draft, because the thing writers were never offered was simply saying what
 //     they used.
 //
-//   PORT=8224 BASE_URL=https://write.soapbox.community node site/writing/server.mjs
+//   PORT=8224 BASE_URL=https://pentecaust.com/metatron node site/writing/server.mjs
 //
 // ── Routes ────────────────────────────────────────────────────────────────────────────────────
 //   /            the challenge: goal, daily target, pace, streak, log, export

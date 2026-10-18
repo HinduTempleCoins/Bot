@@ -6,7 +6,7 @@
 // "Where to find us" matter page, per-chapter back-links, live cross-links out to the wiki, and a
 // closing index of every MELEK surface. The finished files are what gets uploaded to Amazon KDP,
 // Draft2Digital, archive.org, Google Play Books, etc. — and the same pipeline is the back end for
-// the Writing Room (write.soapbox.community): a writer's exported draft becomes a book the same way.
+// the Writing Room (pentecaust.com/metatron): a writer's exported draft becomes a book the same way.
 //
 // NATIVE ONLY (no API): pandoc (a local binary) does markup -> EPUB/HTML; Playwright (local
 // Chromium) renders HTML -> PDF. Nothing leaves this machine.
@@ -37,7 +37,7 @@ const SURFACES = [
   ['The Library of Ashurbanipal', 'https://wiki.soapbox.community', 'The open reference corpus — 243 cross-linked, source-cited monographs.'],
   ['The Mining Pool', 'https://pool.soapbox.community', 'Browser mining + an in-browser wallet you alone hold the keys to.'],
   ['The Herald', 'https://herald.soapbox.community', 'The MELEK newsroom and press wire.'],
-  ['The Writing Room', 'https://write.soapbox.community', 'A drafting studio whose words never leave your browser — successor to NaNoWriMo.'],
+  ['The Writing Room', 'https://pentecaust.com/metatron', 'A drafting studio whose words never leave your browser — successor to NaNoWriMo.'],
   ['Van Kush Family', 'https://vankushfamily.com', 'The research institute and its roadmap.'],
   ['Dudael', 'https://dudael.com', 'The metaverse — 3D scenes toward an embodied, agentic world.'],
   ['Pentecaust', 'https://pentecaust.com', 'The outreach and backlink engine.'],

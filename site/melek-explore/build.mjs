@@ -61,6 +61,7 @@ export const CATALOG = [
     ['📺', 'SoapBox Stream', 'Films and shows to stream.', 'https://stream.soapbox.community/'],
     ['📡', 'Tune In', 'Browse and watch channels.', 'https://tunein.soapbox.community/'],
     ['🎧', 'Music', 'Music to listen to.', 'https://stream.soapbox.community/music'],
+    ['🗞️', 'SoapBox Newsroom', 'Our own wire plus the full industry-category portal.', 'https://herald.soapbox.community/newsroom'],
     ['▶️', 'Media Player', 'A web media player with playlists.', 'https://player.soapbox.community/'],
   ] },
   { id: 'civic', title: 'Law, civics & consumer help', icon: '⚖️', items: [
@@ -113,6 +114,7 @@ export const CATALOG = [
     ['🌐', 'Hathor on the fediverse', 'Follow Hathor from Mastodon and other fediverse apps.', 'https://hathor.social.melek.salon/'],
     ['🧠', 'Your engines', 'Choose which AI engine Hathor uses, or add your own.', 'https://hathor.soapbox.community/engines'],
     ['🔊', '40Hz', 'Binaural-beat and entrainment sessions.', 'https://hathor.live/40hz'],
+    ['🖼️', 'Hathor Gallery', 'Reference set and design lineage of Hathor.', 'https://gallery.melek.salon/'],
   ] },
   { id: 'tools', title: 'Tools & data', icon: '🧰', items: [
     ['🔎', 'SoapBox Search', 'Search the web and our sites.', 'https://search.soapbox.community/'],
@@ -125,6 +127,7 @@ export const CATALOG = [
     ['🎓', 'Credentials', 'Get credentialed, by industry.', 'https://credentials.soapbox.community/'],
     ['🧑‍💼', 'Jobs', 'Jobs, freelance gigs and courses.', 'https://jobs.soapbox.community/'],
     ['📷', 'Cams', 'Live public cameras.', 'https://cams.soapbox.community/'],
+    ['🗺️', 'MELEK Maps', 'Search a place and see what is near it, on OpenStreetMap.', 'https://melek.salon/maps'],
     ['📠', 'Fax', 'Send a fax from the browser.', 'https://fax.soapbox.community/'],
   ] },
   { id: 'dev', title: 'Developers', icon: '🛠️', items: [

@@ -161,7 +161,7 @@ function page(lessons) {
       <a href="https://vankushfamily.com/map">The whole map</a> ·
       <a href="https://library.soapbox.community/our-books">Our free books</a> ·
       <a href="https://wiki.soapbox.community">The Library</a> ·
-      <a href="https://write.soapbox.community">The Writing Room</a> ·
+      <a href="https://pentecaust.com/metatron">The Writing Room</a> ·
       <a href="https://hathor.live">Meet Hathor</a>
     </div>
     ${renderTutorialHtml(lessons)}

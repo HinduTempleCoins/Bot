@@ -6,7 +6,7 @@ const IMG = 'https://hathor.soapbox.community/img/a1.png';
 
 test('the save link carries the picture, the page it was on, and the title', () => {
   const href = pinItHref({ url: IMG, source: 'https://melek.salon/@ryan/post', title: 'The Lyre', as: 'friend' });
-  assert.match(href, /^https:\/\/pin\.melek\.salon\/save\?/);
+  assert.match(href, /^https:\/\/melek\.salon\/pin\/save\?/);
   const q = new URL(href).searchParams;
   assert.equal(q.get('url'), IMG);
   assert.equal(q.get('source'), 'https://melek.salon/@ryan/post');
@@ -18,7 +18,7 @@ test('a picture address that is not http(s) gets no button at all', () => {
   assert.equal(pinItHref({ url: 'javascript:alert(1)' }), '');
   assert.equal(pinItHref({ url: 'data:image/png;base64,AA' }), '');
   assert.equal(pinItButton({ url: 'javascript:alert(1)' }), '');
-  assert.match(pinItButton({ url: IMG }), /class=pin-it href="https:\/\/pin\.melek\.salon\/save\?/);
+  assert.match(pinItButton({ url: IMG }), /class=pin-it href="https:\/\/melek\.salon\/pin\/save\?/);
 });
 
 test('a bad source is dropped rather than passed through', () => {

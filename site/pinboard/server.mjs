@@ -1,4 +1,4 @@
-// site/pinboard/server.mjs — MELEK PINBOARD at pin.melek.salon: the picture side of MELEK.
+// site/pinboard/server.mjs — MELEK PINBOARD at melek.salon/pin: the picture side of MELEK.
 //
 // BiFrost is the video side; this is pictures. Post a photo or a small album, or SAVE one you found —
 // in a MELEK blog post or anywhere on the web — and it all lands in one wall of thumbnails, the way
@@ -12,7 +12,7 @@
 // (one JSON file, injectable fs, same discipline as the other stores) plus routes. It holds NO keys and
 // makes NO chain writes: publishing a pin as an on-chain comment goes through MELEK-Signer elsewhere.
 //
-//   PORT=8201 BASE_URL=https://pin.melek.salon node site/pinboard/server.mjs
+//   PORT=8201 PATH_PREFIX=/pin BASE_URL=https://melek.salon/pin node site/pinboard/server.mjs
 
 import { createServer } from 'node:http';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';

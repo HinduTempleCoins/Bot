@@ -32,7 +32,7 @@ const URLS = {
   casino: U('CASINO_URL', 'https://casino.soapbox.community'),
   spin: U('SPIN_URL', 'https://spin.soapbox.community'),
   tribulum: U('TRIBULUM_URL', 'https://tribulum.soapbox.community'),
-  shop: U('SHOP_URL', 'https://shop.soapbox.community'),
+  shop: U('SHOP_URL', 'https://shop.melek.salon'),
   move: U('MOVE_URL', 'https://move.soapbox.community'),
   dex: U('DEX_URL', 'https://kula.money'),
   gauge: U('GAUGE_URL', 'https://gauge.soapbox.community'),
@@ -42,20 +42,24 @@ const URLS = {
   wallet: U('WALLET_URL', 'https://akasha.soapbox.community'),
 };
 
+// Built but not yet deployed (no live host): shown with the Under Construction label and NOT linked, so the hub
+// never sends anyone to an address that doesn't answer.
+export const UC = 'under construction';
+
 // The catalog — grouped by what the user actually gets. Each: name, blurb, url, emoji, tag.
 export const SECTIONS = [
   { key: 'play', title: 'Play', lead: 'Games that run on the chain — provably-fair, native-token, no fiat.', items: [
     { name: 'Arcade', emoji: '🕹️', blurb: 'The hub of quick games — raffles, skill boards, more added constantly.', url: URLS.arcade, tag: 'live' },
-    { name: 'Casino — Dice', emoji: '🎰', blurb: 'Provably-fair dice you can verify yourself. Native token, entertainment — never real money.', url: URLS.casino, tag: 'live' },
+    { name: 'Casino — Dice', emoji: '🎰', blurb: 'Provably-fair dice you can verify yourself. Native token, entertainment — never real money.', url: URLS.casino, tag: UC },
     { name: 'Daily Spin', emoji: '🎡', blurb: 'One free spin a day for PLAY points. No purchase, no cashout — just a daily reason to come back.', url: URLS.spin, tag: 'live' },
-    { name: 'Tribulum — Farm', emoji: '🚜', blurb: 'Plant, grow, harvest, sell. A living farm economy; Ranch and beyond are coming.', url: URLS.tribulum, tag: 'live' },
+    { name: 'Tribulum — Farm', emoji: '🚜', blurb: 'Plant, grow, harvest, sell. A living farm economy; Ranch and beyond are coming.', url: URLS.tribulum, tag: UC },
   ] },
   { key: 'earn', title: 'Earn', lead: 'Turn attention, effort, and stake into value — on one account.', items: [
     { name: 'Move — walk to earn', emoji: '🚶', blurb: 'Your steps earn real MELEK — a stake-weighted share of the hourly pool, paid on-chain. Walk, earn, withdraw. On Android now.', url: URLS.move, tag: 'live' },
     { name: 'Seed Shop', emoji: '🌱', blurb: 'Buy seeds, tools and compost for the farm — the inputs that grow your yield.', url: URLS.shop, tag: 'live' },
     { name: 'Farm KULA', emoji: '🌾', blurb: 'Provide liquidity, farm KULA, and stake for boosts and a share of the pot.', url: URLS.farm, tag: 'live' },
     { name: 'KulaSwap — DEX', emoji: '🔁', blurb: 'Swap the ecosystem\'s tokens, add liquidity, and take part in the market.', url: URLS.dex, tag: 'live' },
-    { name: 'veKULA + Gauges', emoji: '🗳️', blurb: 'Lock KULA for voting power and steer where the rewards flow.', url: URLS.gauge, tag: 'alpha' },
+    { name: 'veKULA + Gauges', emoji: '🗳️', blurb: 'Lock KULA for voting power and steer where the rewards flow.', url: URLS.gauge, tag: UC },
   ] },
   { key: 'own', title: 'One account, one wallet', lead: 'Everything above shares the same MELEK account — your coins, your character, your standing, everywhere.', items: [
     { name: 'Your MELEK account', emoji: '👤', blurb: 'Post, curate, play and earn on one identity. New here? It\'s free to join.', url: URLS.chain, tag: 'live' },
@@ -81,16 +85,20 @@ const STYLE = `<style>
   .card .t{font-weight:700;font-size:1.02rem;color:var(--fg)} .card .e{font-size:1.3rem;margin-right:6px}
   .card .b{color:var(--mut);font-size:.88rem;margin-top:6px}
   .tag{float:right;font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;border-radius:10px;padding:1px 7px;border:1px solid var(--line)}
-  .tag.live{color:var(--up)} .tag.alpha{color:var(--gold)}
+  .tag.live{color:var(--up)} .tag.alpha{color:var(--gold)} .tag.uc{color:var(--gold)}
+  .card.uc{opacity:.75;cursor:default} .card.uc:hover{border-color:var(--line);transform:none}
   footer{color:var(--mut);font-size:.8rem;text-align:center;padding:26px 18px;margin-top:20px;border-top:1px solid var(--line);line-height:1.7}
 </style>`;
 
 export function homePage() {
   const groups = SECTIONS.map((s) => {
-    const cards = s.items.map((it) =>
-      `<a class=card href="${esc(it.url)}" rel="noopener"><span class="tag ${esc(it.tag)}">${esc(it.tag)}</span>`
-      + `<div class=t><span class=e>${esc(it.emoji)}</span>${esc(it.name)}</div>`
-      + `<div class=b>${esc(it.blurb)}</div></a>`).join('');
+    const cards = s.items.map((it) => {
+      const uc = it.tag === UC;
+      const inner = `<span class="tag ${uc ? 'uc' : esc(it.tag)}">${esc(it.tag)}</span>`
+        + `<div class=t><span class=e>${esc(it.emoji)}</span>${esc(it.name)}</div>`
+        + `<div class=b>${esc(it.blurb)}</div>`;
+      return uc ? `<div class="card uc" aria-disabled=true>${inner}</div>` : `<a class=card href="${esc(it.url)}" rel="noopener">${inner}</a>`;
+    }).join('');
     return `<section class=grp><h2>${esc(s.title)}</h2><p class=lead>${esc(s.lead)}</p><div class=grid>${cards}</div></section>`;
   }).join('');
   const body = `<header class=hero>

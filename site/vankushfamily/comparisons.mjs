@@ -87,7 +87,7 @@ export const COMPARISONS = [
     slug: 'writing-room-vs-nanowrimo',
     h: 'The Writing Room vs. NaNoWriMo',
     incumbent: 'NaNoWriMo',
-    our: ['The Writing Room', 'https://write.soapbox.community'],
+    our: ['The Writing Room', 'https://pentecaust.com/metatron'],
     lead: 'NaNoWriMo was the 25-year writing commons that ended: the forums were taken down in November 2023, a September 2024 statement on AI cost it trust and donors, the non-profit announced its dissolution on 31 March 2025, and the site, database and archives went offline with it. The challenge survived; the commons did not.',
     weDo: 'The Writing Room rebuilds it as a room nobody can switch off: Preptober, the November 50,000, a drafting studio where your words never leave your browser — no account, no server-side store — export first-class, and no payout pressure. We cannot lose your draft or take it with us.',
     table: [
@@ -95,7 +95,7 @@ export const COMPARISONS = [
       ['If it shuts down', 'Archives went dark', 'You already hold the copy'],
       ['Payouts', 'Donations + controversy', 'None; writing earns nothing here'],
     ],
-    sources: [['The Writing Room', 'https://write.soapbox.community/history']],
+    sources: [['The Writing Room', 'https://pentecaust.com/metatron/history']],
   },
   {
     slug: 'books-vs-scribd-kdp',

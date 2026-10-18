@@ -8,7 +8,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { handler, searchData, esc } from './server.mjs';
+import { handler, searchData, esc, __clearCache } from './server.mjs';
 import * as nominatim from '../../integrations/soapbox/nominatim.mjs';
 import * as osmPoi from '../../integrations/soapbox/osm-poi.mjs';
 
@@ -45,11 +45,12 @@ function fakeFetch({ nominatim = NOMINATIM_HIT, overpass = OVERPASS_HIT, ok = tr
 // Both readers keep their own _fetch; set the same routing fake on each, then restore.
 function installFetch(cfg) {
   const f = fakeFetch(cfg);
+  __clearCache();
   nominatim.__setFetch(f);
   osmPoi.__setFetch(f);
   return f;
 }
-function restore() { nominatim.__setFetch(null); osmPoi.__setFetch(null); }
+function restore() { __clearCache(); nominatim.__setFetch(null); osmPoi.__setFetch(null); }
 
 // Minimal mock response object capturing what the handler wrote.
 function mockRes() {
@@ -145,7 +146,7 @@ test('empty geocode → shaped empty JSON (ok:false)', async () => {
 
 test('a thrown fetch soft-fails to the empty shape (no throw)', async () => {
   const boom = async () => { throw new Error('network down'); };
-  nominatim.__setFetch(boom); osmPoi.__setFetch(boom);
+  __clearCache(); nominatim.__setFetch(boom); osmPoi.__setFetch(boom);
   const data = await searchData('Dallas');
   restore();
   assert.equal(data.ok, false);
@@ -208,4 +209,21 @@ test('unknown path redirects home', async () => {
   const res = await get('/does-not-exist');
   assert.equal(res.statusCode, 302);
   assert.equal(res.headers.location, '/');
+});
+
+test('PATH_PREFIX: mounted at /maps, links and redirects carry the prefix (fresh import)', async () => {
+  process.env.PATH_PREFIX = '/maps';
+  try {
+    const mod = await import('./server.mjs?prefix=1');
+    let out = { code: 0, headers: {}, body: '' };
+    const res = { writeHead(c, h) { out.code = c; out.headers = h || {}; }, end(b) { out.body = b || ''; } };
+    await mod.handler({ url: '/maps/health', method: 'GET', headers: {} }, res);
+    assert.equal(out.body, 'ok');
+    await mod.handler({ url: '/maps', method: 'GET', headers: {} }, res);
+    assert.equal(out.code, 200);
+    assert.match(out.body, /action="\/maps\/"/);
+    assert.ok(!/href="\/"/.test(out.body), 'no un-prefixed root link');
+    await mod.handler({ url: '/maps/nope', method: 'GET', headers: {} }, res);
+    assert.equal(out.code, 302); assert.equal(out.headers.location, '/maps/');
+  } finally { delete process.env.PATH_PREFIX; }
 });

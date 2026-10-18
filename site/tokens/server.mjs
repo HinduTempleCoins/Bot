@@ -19,8 +19,8 @@ import { serveKeyFile } from '../../integrations/indexnow.mjs';
 
 const ENGINE_API = process.env.ENGINE_API || 'https://engine.melek.salon';
 const AUTO_URL = process.env.AUTO_URL || 'https://auto.melek.salon';
-const MANAGE_URL = process.env.MANAGE_URL || 'https://manage.melek.salon';   // token-management + buyback front-end
-const ACADEMY_URL = process.env.ACADEMY_URL || 'https://academy.melek.salon'; // Token Academy (how-to) + Economics 101
+const MANAGE_URL = process.env.MANAGE_URL || 'https://token-manage.soapbox.community';   // token-management + buyback front-end
+const ACADEMY_URL = process.env.ACADEMY_URL || 'https://witness.melek.salon/academy'; // Token Academy (how-to)
 const CHAIN_RPC = process.env.CHAIN_RPC || 'https://melek.salon/rpc';
 const PORT = +(process.env.PORT || process.env.TOKENS_PORT || 8130);
 

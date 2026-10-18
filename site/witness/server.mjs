@@ -73,7 +73,8 @@ const libHref = (slug) => {
 const libArticle = (slug, label) => `<a href="${esc(libHref(slug))}">${esc(label)}</a>`;
 // Where the "do this to earn/contribute" modules point. Docs site + token portal + the wiki's own
 // contribute/edit entry. Overridable so they can move without touching module copy.
-const DOCS = (process.env.DOCS_URL || 'https://docs.melek.salon').replace(/\/$/, '');
+// Developer docs live on this host at /dev (a separate docs host was planned and never stood up).
+const DOCS = (process.env.DOCS_URL || '/dev').replace(/\/$/, '');
 // Mainnet token surface = the MELEK-Engine mainnet UI (mse-mainnet-melek; verified /status 200).
 const TOKENS_PORTAL = (process.env.TOKENS_URL || 'https://engine.melek.salon').replace(/\/$/, '');
 const WIKI_CONTRIBUTE = process.env.WIKI_CONTRIBUTE_URL || `${LIBRARY}/about`;
@@ -2277,7 +2278,7 @@ export function devServicesPage() {
       ['MELEK-Signer (OAuth / consent)', SIGNER_URL, 'Keyless-write boundary (HiveSigner model). Verified: /health + /oauth2/authorize answer. Public third-party app registration is coming.', 'live'],
       ['Whitepaper', `${BASE_URL}/whitepaper`, 'The MELEK whitepaper — design, economics, no-premine launch.', 'live'],
       ['Library of Ashurbanipal (wiki)', LIBRARY, 'The ecosystem reference wiki — witnessing, DPoS, Graphene, each chain.', 'live'],
-      ['Dev docs site', DOCS, 'A dedicated docs host — not up yet; the /dev track here is the live reference.', 'staged'],
+      ['Developer docs', DOCS, 'The /dev track here is the live developer reference.', 'live'],
     ] },
   ];
   const badge = (s) => s === 'live'
