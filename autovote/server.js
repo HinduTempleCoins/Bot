@@ -193,7 +193,7 @@ const server = http.createServer(async (req, res) => {
       oauthStates.set(state, { chain: chainId, at: Date.now() });
       const base = `https://${req.headers.host}`;
       const url = melekSignerOauth.authorizeUrl({
-        clientId: MELEK_SIGNER_CLIENT_ID, scope: 'vote',
+        clientId: MELEK_SIGNER_CLIENT_ID, scope: 'vote claim_reward_balance',
         redirectUri: `${base}/melek-signer/callback`, state,
       });
       return send(res, 302, '', { Location: url });
