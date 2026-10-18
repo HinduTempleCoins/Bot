@@ -31,3 +31,21 @@ test('profit only: refuse below the minimum, pin amountOutMin above break-even',
   assert.ok(p.amountOutMin >= 1010n, 'never below break-even + minimum profit');
   assert.ok(p.amountOutMin <= 1160n);
 });
+
+test('rebalance: only past the band, and the swap restores the target', async () => {
+  const { planRebalance } = await import('./kulaswap-executor.mjs');
+  assert.equal(planRebalance({ balA: 100, balB: 100, price: 1 }).trade, false);
+  const p = planRebalance({ balA: 1000, balB: 10, price: 0.74, target: 0.5 });
+  assert.equal(p.trade, true); assert.equal(p.side, 'sellA');
+  const afterA = 1000 - p.amount, afterB = 10 + p.amount * 0.74;
+  assert.ok(Math.abs((afterA * 0.74) / (afterA * 0.74 + afterB) - 0.5) < 1e-9);
+});
+
+test('grid: first run sets the level, then buy on a fall, sell on a rise after a buy', async () => {
+  const { planGrid } = await import('./kulaswap-executor.mjs');
+  assert.equal(planGrid({ price: 18, last: null }).record, 18);
+  assert.equal(planGrid({ price: 18.2, last: 18 }).trade, false);
+  assert.equal(planGrid({ price: 17.4, last: 18 }).side, 'buy');
+  assert.equal(planGrid({ price: 18.6, last: 18, lastSide: 'buy' }).side, 'sell');
+  assert.equal(planGrid({ price: 18.6, last: 18, lastSide: 'sell' }).trade, false, 'no sell right after a sell');
+});
