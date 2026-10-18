@@ -13,7 +13,7 @@ The '''Image Generation''' tool opens [[Hathor Studio]], where you can make pict
 The '''Video (Bifrost)''' tool opens Bifrost, MELEK's video platform. Upload the video there, then link it in your post. See [[Bifrost Video]]. A YouTube address pasted on its own line also shows as a player.
 
 == Pictures you did not make ==
-Say where a picture came from, and link the source. Posting other people's work as your own is a common reason for posts to be downvoted.
+Say where a picture came from, and link the source. Posting other people's work as your own is plagiarism, and readers can report it.
 
 == See also ==
 * [[Formatting Posts with Markdown]]

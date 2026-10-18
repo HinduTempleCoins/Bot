@@ -1,10 +1,10 @@
 '''Voting''' on [[Melek.salon|melek.salon]] decides which posts earn and which rise in the feeds. Voting well is called '''curation''', and it earns curation rewards. Part of [[Posting on MELEK]].
 
-== Upvotes and downvotes ==
-Choose the up arrow under a post to upvote it. On a wide screen you can set the vote's strength with the slider. A downvote lowers a post's reward; it is meant for plagiarism, spam and abuse, not disagreement.
+== Voting on a post ==
+Choose the up arrow under a post or comment to upvote it. Once your account holds more than 50 MELEK Power, choosing the arrow opens a slider so you can set how strong the vote is; below that, every vote is full strength. melek.salon has no downvote button. To report plagiarism, spam or abuse, use the post's '''Report''' link.
 
 == Voting power ==
-Each account has voting power. Every vote uses some of it, and it refills on its own over about five days. Stronger votes use more. If your power runs low, vote less for a while.
+Each account has voting power. Every vote uses some of it, and it refills on its own over five days. Stronger votes use more. If your power runs low, vote less for a while.
 
 == Your vote's weight ==
 The weight of a vote comes from the voter's MELEK Power: MELEK staked by powering up in the wallet. More MELEK Power means heavier votes. See [[Post Rewards on MELEK]].

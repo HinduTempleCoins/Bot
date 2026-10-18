@@ -1,0 +1,37 @@
+'''Building a MELEK front end''' means running your own website on the [[MELEK Blockchain]]: your own version of [[Melek.salon|melek.salon]], or a smaller site that shows and writes MELEK posts. Everything on the chain is public and open to read; anyone can build on it. There are three ways, from the most complete to the lightest.
+
+== 1. Run the MELEK condenser ==
+The condenser is the full social site: feeds, posts, profiles, the editor, the wallet links. melek.salon runs it. Its source is public at [https://github.com/HinduTempleCoins/melek-condenser github.com/HinduTempleCoins/melek-condenser], a fork of the Blurt condenser.
+# Clone the repository and install it with Node.
+# Point it at MELEK: chain id, the <code>MELEK</code> key prefix, and the RPC address (<code>https://melek.salon/rpc</code>, or your own node).
+# Set the token symbols: MELEK, MELEK Power and MBD.
+# Build, run it behind a web server with HTTPS, and put your own name on it.
+The full walkthrough, with the settings and the mistakes to avoid, is [[Running a Condenser Front-End]].
+
+== 2. Build a light site on the RPC ==
+Any website can read MELEK straight from <code>https://melek.salon/rpc</code>, which accepts requests from any website. For example:
+* <code>condenser_api.get_discussions_by_created</code> for the newest posts, by tag if you like;
+* <code>condenser_api.get_content</code> for one post;
+* <code>condenser_api.get_accounts</code> for profiles and balances.
+To let visitors post or vote, have their browser sign the operation with their posting key (a Graphene library such as dhive does this), or use the Keychain browser extension. Keys must stay in the visitor's browser.
+
+== 3. Add MELEK to a site you already have ==
+* '''Signup''': let visitors create a MELEK account on your site. See [[Building a MELEK Signup Page]].
+* '''Tokens''': show MELEK-Engine tokens and balances from <code>https://engine.melek.salon</code>. See [[Running Tokens on MELEK-Engine]].
+* '''Posts''': show a tag's posts with the RPC calls above.
+
+== Running your own node ==
+A front end is only as reliable as the node it reads. For a busy site, run your own MELEK node; see [[Witness School]].
+
+== See also ==
+* [[Running a Condenser Front-End]]
+* [[Building a MELEK Signup Page]]
+* [[Melek.salon]]
+* [[Witness School]]
+
+== Sources ==
+* [https://github.com/HinduTempleCoins/melek-condenser github.com/HinduTempleCoins/melek-condenser]
+* [https://melek.salon/rpc melek.salon/rpc]
+
+== Coverage ==
+The ways to build a website on MELEK, from a full condenser to a light site on the public RPC.

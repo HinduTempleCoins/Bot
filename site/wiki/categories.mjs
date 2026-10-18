@@ -50,7 +50,7 @@ export const CATEGORIES = [
     id: 'posting-help', name: 'Posting help', blurb: 'How to write, format, publish and earn from posts on melek.salon.',
     pages: ['Posting on MELEK', 'Signing In to Post on MELEK', 'Writing a Post on MELEK', 'Post Categories on MELEK', 'Tags on MELEK',
             'Formatting Posts with Markdown', 'Images and Video in Posts', 'Post Rewards on MELEK', 'Comments and Replies on MELEK',
-            'Voting and Curation on MELEK', 'Novel Writing with Hathor Metatron', 'MELEK Pinboard', 'Making an Image for Your Post', 'Hathor Sandalphon', 'Bifrost Video'],
+            'Voting and Curation on MELEK', 'Novel Writing with Hathor Metatron', 'MELEK Pinboard', 'Making an Image for Your Post', 'Hathor Sandalphon', 'Bifrost Video', 'Building a MELEK Signup Page', 'Building a MELEK Front End'],
   },
   {
     id: 'chains', name: 'Chains and how they work', blurb: 'The blockchains we run, and the machinery underneath them.',
@@ -942,7 +942,7 @@ export const PILLARS = [
       'Posting on MELEK', 'Signing In to Post on MELEK', 'Writing a Post on MELEK', 'Post Categories on MELEK', 'Tags on MELEK',
       'Formatting Posts with Markdown', 'Images and Video in Posts', 'Post Rewards on MELEK', 'Comments and Replies on MELEK',
       'Voting and Curation on MELEK',
-      'Novel Writing with Hathor Metatron', 'MELEK Pinboard', 'Making an Image for Your Post', 'Hathor Sandalphon', 'Bifrost Video',
+      'Novel Writing with Hathor Metatron', 'MELEK Pinboard', 'Making an Image for Your Post', 'Hathor Sandalphon', 'Bifrost Video', 'Building a MELEK Signup Page', 'Building a MELEK Front End',
       'Dudael',
       'Van Kush Family',
       'Spanish Glossary',
