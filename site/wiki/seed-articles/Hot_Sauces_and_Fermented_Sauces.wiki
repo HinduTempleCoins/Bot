@@ -1,0 +1,83 @@
+'''Hot Sauces and Fermented Sauces''' is the page of the [[Sauces]] hub on chilli sauces, both '''vinegar-based''' and '''lacto-fermented''', and on the great salted, fermented sauces of the world: '''fish sauce, soy sauce, miso and chilli pastes'''. These are among the oldest condiments in existence (Roman ''garum'', Chinese ''jiang''), and they are shelf-stable for the same three reasons: '''salt''', '''acid''' (from fermentation or vinegar) and, in some, '''low water activity'''. Making them at home is safe when the numbers are right: the salt percentage, and above all a '''final pH of 4.6 or lower''', measured, not guessed. The general method of lactic fermentation is on [[Fermentation]]; the safety rules for bottling are on [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]].
+
+== Heat: capsaicin and Scoville ==
+* The heat of chillies is '''capsaicin''' and related '''capsaicinoids''', made in the pale placental tissue ("ribs") around the seeds, not in the seeds themselves. Remove ribs to cut heat.
+* '''Scoville heat units (SHU)''' were defined by Wilbur Scoville in 1912 by dilution tasting. Today they are calculated from HPLC measurement (1 ppm capsaicin ≈ 16 SHU). Rough values: bell pepper 0; jalapeño 2,500–8,000; cayenne and Tabasco pepper 30,000–50,000; habanero and Scotch bonnet 100,000–350,000; ghost pepper (bhut jolokia) about 1 million; Carolina Reaper about 1.5–2.2 million; pure capsaicin 16 million.
+* Capsaicin is '''fat- and alcohol-soluble''', poorly water-soluble. Milk, yogurt, sugar and starch soothe a burning mouth better than water or beer.
+* '''Handling:''' wear '''nitrile gloves''' with hot varieties; don't touch eyes, contact lenses or genitals. Blending or cooking superhot chillies releases capsaicin aerosol, which causes coughing and eye pain. Ventilate the room, and don't lean over the blender when you open it.
+
+== Vinegar (unfermented) hot sauces ==
+* '''Louisiana-style:''' chillies (cayenne, tabasco), vinegar and salt, simmered and blended, or blended raw and strained. Typical starting ratio: '''about 500 g chillies : 250–500 mL distilled vinegar (5% acidity) : 10–15 g salt'''.
+* '''Method:''' simmer chillies, garlic and onion (optional) in vinegar for 10–15 minutes, blend, adjust thickness with water or more vinegar, strain if a smooth sauce is wanted.
+* '''Safety:''' vinegar sauces are safe at room temperature when the '''finished pH is ≤4.6''' (aim for 3.5–4.0 to keep a margin). Low-acid additions (garlic, onion, carrots, fruit, oil) raise the pH, so the more vegetables, the more vinegar is needed. Measure.
+* '''Variations:''' '''Caribbean pepper sauces''' (Scotch bonnet, mustard, vinegar, papaya or mango), '''Mexican-style table sauces''' (chile de árbol or guajillo, vinegar, garlic, spices, such as Valentina, Cholula and Tapatío styles), '''pepper vinegar''' (whole small chillies steeped in vinegar, a Southern U.S. table condiment), '''piri-piri''' (bird's-eye chillies, lemon, garlic, oil, vinegar).
+
+== Lacto-fermented hot sauce ==
+The bacteria naturally on the chillies and other vegetables, mainly '''lactic acid bacteria''' (''Leuconostoc'', ''Lactobacillus'' / ''Lactiplantibacillus'', ''Pediococcus''), turn sugars into '''lactic acid''' in salty, airless conditions, lowering the pH and preserving the sauce. Salt suppresses spoilage organisms while lactic acid bacteria tolerate it.
+=== Mash method ===
+* '''Chop or coarsely grind''' chillies (stems removed), with garlic, onion, carrot or fruit if wanted.
+* '''Salt at 2–5% of the total weight''' of the mash, weighed: for 1,000 g of mash, 20–50 g of non-iodized salt. '''2–3%''' gives a fast, lively ferment for sauces used within months; 3–5% is slower and keeps better. Very low salt (under about 2%) invites soft, mouldy or yeasty ferments.
+* '''Pack''' into a clean jar or crock, pressing out air, and '''weigh it down''' so the mash stays below its own liquid. Leave headspace; ferments bubble and rise.
+=== Brine method (whole or chunked peppers) ===
+* Make a '''3.5–5% brine''' (35–50 g of salt per litre of water) and pour it over the chillies so they are submerged by at least 2–3 cm, under a weight.
+* Afterwards, blend the peppers with some of the brine to the desired thickness.
+=== Conditions ===
+* '''Temperature:''' about '''18–24 °C'''. Below about 15 °C it is very slow; above about 27 °C it is fast but can go soft, yeasty or off-flavoured.
+* '''Time:''' about '''1–4 weeks''' for most home sauces, until bubbling slows and it smells pleasantly sour. Longer ferments (months) develop deeper flavour.
+* '''Airlock or loose lid''': use an airlock lid, or burp a closed jar daily. Fermentation produces CO₂.
+* '''Kahm yeast''' (a flat, white, wrinkled film on the surface) is harmless but off-flavoured; skim it. '''Fuzzy, coloured mould''' (blue, green, black, pink) on the surface or in the mash means the batch should be discarded.
+=== Finishing ===
+* '''Measure pH''' with a calibrated meter (or narrow-range strips as a check). A healthy ferment usually reaches about '''pH 3.3–3.8'''. '''Do not bottle for room-temperature storage above pH 4.6''', and in practice aim for '''≤4.0'''; extension and food-protection guidance treat a steady, sustained fall to below 4.6 as the critical control point for fermented vegetables (Snyder et al., 2020).
+* '''Blend''' the mash, add '''vinegar''' (typically 10–30% of the volume) to lower pH further, stop the ferment's fizz and brighten the flavour. Strain for a thin sauce; keep the pulp for a thicker one (or dry it into chilli flakes or powder).
+* '''Stabilize''': fermentation continues in the bottle and can build pressure. Either '''refrigerate''', or '''heat the finished sauce to about 70–80 °C''' (pasteurize, which stops fermentation) and hot-fill clean bottles. A little xanthan gum (about 0.1–0.2%) stops the solids from separating.
+* '''Classic fermented sauces:''' '''Tabasco''' (tabasco peppers mashed with salt and aged in white-oak barrels for up to three years, then mixed with distilled vinegar), traditional Thai '''sriracha''' (from Si Racha; fermented red chillies, garlic, sugar, salt, vinegar), '''sambal''' variants, '''Korean gochujang''' (below), '''Sichuan doubanjiang''' (below), '''yuzu kosho''' (Japan; green or red chilli, yuzu zest and salt, fermented a few weeks), '''harissa''' (North African; usually not fermented: dried chillies, garlic, caraway, coriander, olive oil).
+
+== Fish sauce and garum ==
+* '''Fish sauce''' (''nam pla'' in Thailand, ''nước mắm'' in Vietnam, ''patis'' in the Philippines, ''colatura di alici'' in Italy): small whole fish, usually anchovies, layered with salt at roughly '''2–3 parts fish to 1 part salt''' by weight, and fermented '''9–18 months''' in tanks or barrels. The fish's own enzymes (and halophilic bacteria) break proteins down into amino acids, especially '''glutamate''', which is why fish sauce is so savoury. Salt in the finished sauce is about '''20–30%'''.
+* '''Grade''' is judged largely by '''total nitrogen''' (protein content). First-press ("nhĩ") Vietnamese sauces may be 30–40 g N/L or higher; standard grades lower.
+* '''Garum''' and '''liquamen''' of the Roman world were made the same way, often from mackerel guts, and were traded across the Mediterranean in amphorae; production sites survive at Pompeii, Baelo Claudia and elsewhere.
+* Homemade fish sauce takes many months, smells strongly and needs the full salt ratio; under-salted fish ferments putrefy. It is rarely worth making when good commercial sauce exists.
+
+== Soy sauce, miso and grain-based ferments ==
+* '''Soy sauce''': cooked soybeans and roasted cracked wheat are inoculated with '''koji''' mould (''Aspergillus oryzae'' or ''A. sojae''), grown 2–3 days, then mixed into a '''brine of about 17–19% salt''' to make '''moromi''', which ferments with salt-tolerant yeasts (''Zygosaccharomyces rouxii'') and lactic bacteria (''Tetragenococcus halophilus'') for '''6 months to several years''', then is pressed, pasteurized and filtered. Japanese ''koikuchi'' (dark, ~50:50 soy and wheat), ''usukuchi'' (light-coloured, saltier), ''tamari'' (mostly soy, little or no wheat), ''shiro'' (mostly wheat). '''Chemically made''' ("hydrolysed vegetable protein") soy sauces are made in days with hydrochloric acid and lack the fermented aroma.
+* '''Miso''': soybeans plus rice or barley koji and salt (about '''5–13%''': white miso is low-salt and young, weeks to months; red and hatcho misos are saltier and aged 1–3 years).
+* '''Doenjang''' and '''ganjang''' (Korea): soybean blocks (''meju'') fermented naturally, then brined. '''Gochujang''': chilli powder, glutinous rice, fermented soybean powder (''meju''), salt and malt, fermented in earthenware (''onggi'') jars.
+* '''Doubanjiang''' (Pixian, Sichuan): broad beans fermented with mould, then mixed with salted chillies and aged in open jars in the sun for months to years. The base of mapo tofu and twice-cooked pork.
+* '''Worcestershire sauce''': a 19th-century English sauce of malt vinegar, molasses, tamarind, anchovies, onion, garlic and spices, aged before straining. A distant European descendant of fish sauce.
+* '''Fermented black beans''' (''douchi''), '''shrimp paste''' (''belacan'', ''kapi'', ''bagoong''), '''XO sauce''' (not fermented: dried scallop and shrimp, ham, chilli, oil).
+
+== Safety summary ==
+* '''Weigh the salt.''' Salt percentage is calculated by weight of the whole mash or of the water, not by spoonful.
+* '''Measure the pH''' before room-temperature storage: '''≤4.6, aim ≤4.0'''. Calibrate the meter with pH 4 and 7 buffers before use.
+* '''Garlic, onion, fresh herbs and oil''' are the high-risk ingredients in shelf-stable sauces. If you add garlic or herbs to oil as a topping or a chilli oil, refrigerate it (see [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]).
+* '''Selling''' bottled acidified sauce in the United States falls under FDA rules for acidified foods (21 CFR Part 114), which require a scheduled process from a process authority. Fermented sauces have their own rules; check your state's cottage-food law.
+* '''Bulging, leaking, foul-smelling or spurting bottles''' should be discarded without tasting.
+
+== See also ==
+* [[Sauces]]
+* [[Fermentation]]
+* [[Pickling and Preservation]]
+* [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]
+* [[Barbecue Sauces Marinades and Glazes]]
+* [[Salsas Pestos and Chutneys]]
+* [[Regional Sauces of the World]]
+* [[Sauce Thickeners Roux Slurries Liaisons and Gums]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Food Safety]]
+* [[Culinary Recipes]]
+* [[Baking]]
+
+== Sources ==
+* Snyder, A., Breidt, F., Andress, E. L. and Ingham, B. H. "Manufacture of traditionally fermented vegetable products: best practice for small businesses and retail food establishments." ''Food Protection Trends'' 40(4):251–263, 2020. [https://www.foodprotection.org/publications/food-protection-trends/archive/2020-07-manufacture-of-traditionally-fermented-vegetable-products-best-practice-for-small-businesses/ IAFP]
+* National Center for Home Food Preservation. "General Information on Fermenting." University of Georgia. [https://nchfp.uga.edu/how/ferment/general-information-on-fermenting/general-information-on-fermenting/ NCHFP]
+* U.S. Food and Drug Administration. 21 CFR Part 114, ''Acidified Foods''. [https://www.ecfr.gov/current/title-21/chapter-I/subchapter-B/part-114 eCFR]
+* Breidt, F., McFeeters, R. F., Pérez-Díaz, I. and Lee, C.-H. "Fermented vegetables." In ''Food Microbiology: Fundamentals and Frontiers'', 4th ed., ASM Press, 2013.
+* Lopetcharat, K., Choi, Y. J., Park, J. W. and Daeschel, M. A. "Fish sauce products and manufacturing: a review." ''Food Reviews International'' 17(1):65–88, 2001.
+* Shurtleff, W. and Aoyagi, A. ''History of Soy Sauce (160 CE to 2012)''. Soyinfo Center, 2012.
+* Scoville, W. L. "Note on capsicums." ''Journal of the American Pharmaceutical Association'' 1(5):453–454, 1912.
+* Katz, S. E. ''The Art of Fermentation''. Chelsea Green, 2012. Chilli mash, brine fermentation, kahm yeast and mould.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Capsaicin chemistry; soy sauce, miso and fish sauce.
+* Grainger, S. ''The Story of Garum: Fermented Fish Sauce and Salted Fish in the Ancient World''. Routledge, 2021.
+
+== Coverage ==
+Capsaicin and the Scoville scale with typical values, solubility and safe handling of superhot chillies; vinegar hot sauces (Louisiana ratio, method, pH, Caribbean, Mexican, pepper vinegar, piri-piri); lacto-fermented hot sauce by mash (2–5% salt by weight) and brine (3.5–5%) methods, temperature, time, airlocks, kahm yeast versus mould, pH finishing (≤4.6, aim ≤4.0), vinegar addition, pasteurizing and gum stabilization; Tabasco, sriracha, yuzu kosho, harissa; fish sauce and garum (salt ratios, months of fermentation, nitrogen grade); soy sauce (koji, moromi brine, types), miso, doenjang, gochujang, doubanjiang, Worcestershire and other ferments; a safety summary including U.S. acidified-food rules.

@@ -1,0 +1,104 @@
+'''Sauce Thickeners: Roux, Slurries, Liaisons and Gums''' is the page of the [[Sauces]] hub on how liquids are given body. There are five families: '''starches''' (flour, cornstarch, arrowroot, potato, tapioca and rice starch), '''proteins''' (egg yolk, gelatin, blood), '''emulsions''' (butter or oil dispersed in the liquid), '''purées and reductions''' (vegetables, nuts, bread, concentrated stock), and '''hydrocolloid gums''' (xanthan, guar, agar, pectin, carrageenan, methylcellulose). Each one thickens at a different temperature, behaves differently with acid, dairy, freezing and long cooking, and gives a different look (opaque or clear, matte or glossy). This page gives the amounts and the reasons.
+
+== How starch thickens ==
+* Starch granules are packed chains of '''amylose''' and '''amylopectin'''. Heated in water they absorb it and swell ('''gelatinization'''), and some chains leak out and tangle. That swelling and tangling is the thickening.
+* '''Gelatinization ranges:''' wheat flour about '''52–85 °C''', cornstarch about '''62–80 °C''' with full thickening only near the '''boil (about 95 °C)''', potato starch about '''58–68 °C''', tapioca about '''52–65 °C''', arrowroot similar to tapioca. Root and tuber starches thicken at lower temperatures than cereal starches.
+* '''Overcooking and over-stirring''' break swollen granules, and the sauce thins out again. This happens fastest with root starches (potato, arrowroot, tapioca).
+* '''Acid''' (lemon juice, vinegar, wine, fruit) breaks starch chains during long cooking and thins sauces. Add acid late, or use a starch that tolerates it (tapioca, arrowroot, modified starches).
+* '''Sugar''' competes for water and raises the gelatinization temperature. Very sweet sauces need more starch and more heat.
+* '''Retrogradation:''' as a starch sauce cools, amylose chains realign, so it thickens, turns opaque and may "weep" water (syneresis) on standing or after freezing. Cornstarch and wheat flour retrograde strongly; waxy starches (waxy maize, tapioca) and modified starches resist it.
+* '''Egg-yolk amylase:''' raw yolks contain an enzyme that digests starch. A starch-thickened custard or pie filling with yolks (pastry cream, lemon meringue filling) '''must be boiled for a minute or so after the yolks are added''' or it will thin to liquid overnight (McGee).
+
+== Roux ==
+* '''What it is:''' flour cooked in fat (clarified butter, butter, oil, lard, bacon or duck fat). The fat coats each flour particle so the particles disperse into the liquid without lumping, and cooking removes raw-flour taste.
+* '''Proportions:''' classically '''equal weights of flour and fat''' (Peterson, CIA). Ruhlman's ''Ratio'' gives '''3 parts flour to 2 parts fat''' by weight.
+* '''Amounts:''' per litre of liquid, about '''30–40 g flour''' for a thin sauce or soup, '''50–60 g''' for a medium coating sauce, '''80–100 g''' for a thick binding sauce (plus the same weight of fat). See [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]].
+* '''Colours:'''
+* '''White roux''': cooked 2–3 minutes, no colour. For béchamel.
+* '''Blond roux''': 5–7 minutes, straw-coloured, nutty smell. For velouté and gravies.
+* '''Brown roux''': 15–20 minutes or more on low heat, the colour of peanut butter or milk chocolate. For espagnole and brown gravies.
+* '''Dark (Cajun "chocolate" or "brick") roux''': 30–60 minutes in oil, stirred constantly, for gumbo and étouffée. In the oven at about 175 °C, it takes about 1.5 hours with less stirring.
+* '''Darker roux thicken less.''' Browning breaks starch into dextrins that no longer gel. A dark roux has roughly '''a third to a half of the thickening power''' of a white roux, which is why gumbo uses so much of it (and often okra or filé as well).
+* '''No lumps:''' cool roux into hot liquid, or hot roux into cool liquid, whisking. Never hot into boiling.
+* '''Simmer''' flour-thickened sauces at least 15–30 minutes after they reach the boil, to finish gelatinization and cook out the raw-flour flavour.
+* '''Storage:''' roux keeps for weeks refrigerated (made with clarified butter or oil) and can be frozen in portions.
+
+== Beurre manié and whitewash ==
+* '''Beurre manié''' ("kneaded butter"): '''equal weights of soft butter and flour''' kneaded into a paste. Whisked in small pieces into a simmering sauce at the end, it thickens in a few minutes. Use it to adjust a sauce that is too thin. Simmer at least 2–5 minutes so it doesn't taste of raw flour.
+* '''Whitewash''' (flour shaken with cold water): lumps easily and tastes floury; an old shortcut, not recommended.
+* '''Instant (granulated) flour''' (such as Wondra) is pre-gelatinized and agglomerated; it disperses directly into hot liquid without lumping.
+
+== Starch slurries ==
+* '''Slurry:''' pure starch mixed with '''about twice its volume of cold water''' (or stock, wine), stirred in at the end and brought to a simmer or boil. Starch can't be added dry to hot liquid; it lumps.
+* '''Cornstarch (cornflour in the UK):''' about '''1 Tbsp (8 g) per 250 mL''' for a medium sauce, 1½–2 Tbsp for a thick sauce or pie filling (roughly '''2–4% of the liquid by weight'''). Opaque-glossy, slightly cloudy. Needs a full '''boil for about 1 minute''' to reach full thickness and lose its starchy taste. Thins if boiled long, stirred hard or frozen. Twice the thickening power of flour.
+* '''Arrowroot:''' about '''2 tsp per 250 mL'''. Thickens at a lower temperature, '''very clear and glossy''', tolerates acid, freezes well. But it '''breaks down if cooked long''', and with dairy it can turn slimy. Ideal for fruit sauces, glazes and jus lié; add at the end.
+* '''Potato starch:''' about '''2 tsp per 250 mL'''. Very strong, clear, thickens well below boiling; don't boil long. Common in Japanese, Chinese and Scandinavian cooking (the sauces of katakuriko dishes, Swedish fruit soups).
+* '''Tapioca starch:''' clear, glossy, slightly stringy if overused; tolerates freezing and acid. For fruit pies and Asian sauces.
+* '''Rice flour:''' resists weeping on freezing; good for frozen sauces and gravies.
+* '''Waxy starches''' (waxy maize, waxy rice) and '''modified food starches''' (cross-linked, pre-gelatinized such as Ultra-Sperse, Clearjel): used commercially and in canning because they don't retrograde or break down under heat, acid or freezing. '''Clearjel''' is the starch that USDA and extension guidelines allow in home-canned pie fillings.
+* '''Chinese velveting and gloss:''' a slurry stirred into a stir-fry in its last 30 seconds gives the clinging glaze of many Chinese sauces.
+
+== Egg liaison ==
+* A '''liaison''' is '''egg yolk and cream''', classically '''1 part yolk to 3 parts heavy cream''' by volume, used to thicken and enrich a velouté or soup at the end (allemande, blanquette, avgolemono).
+* '''Method:''' whisk yolks and cream; '''temper''' by whisking in a ladle or two of the hot sauce; then whisk the tempered mix back into the pot off the boil.
+* '''Heat it only to about 80–85 °C''' and do not boil. Yolks thicken from about 63–70 °C and curdle above about 85 °C (higher in the presence of starch, which protects them; McGee).
+* '''Avgolemono''' (Greek): whole eggs and lemon juice tempered with hot broth, then stirred back in, thickening a chicken-and-rice soup or sauce.
+* '''Custard sauces''' (crème anglaise) are a liaison in sweet form. See [[Sweet Sauces Caramel Chocolate and Fruit Coulis]].
+
+== Protein and other traditional thickeners ==
+* '''Gelatin:''' gives body when cold and lip-sticking richness when hot. Thick stocks are thick because of gelatin. See [[Pan Sauces Reductions and Gravies]].
+* '''Blood''' (pig, duck, rabbit): stirred in at the end below the boil for ''civet'', ''coq au vin'' in its original form, ''czernina''. It curdles if it boils.
+* '''Bread and nuts:''' medieval and modern ''salmorejo'', ''romesco'', ''skordalia'', ''picada'' and English bread sauce. See [[Salsas Pestos and Chutneys]].
+* '''Vegetable purées:''' cooked onion, roasted pepper, potato or the sauce's own vegetables blended in. Ideal for gluten-free sauces.
+* '''Okra''' (its mucilage) and '''filé''' (powdered sassafras leaves, stirred in off the heat) in gumbo.
+* '''Masa harina''' (nixtamalized corn flour) for chili con carne and some moles.
+* '''Cheese and cream:''' reduce cream by a third to thicken it. Cheese melts best into a sauce that is below the boil, with some starch or an emulsifying salt to keep it smooth.
+
+== Hydrocolloid gums and modern thickeners ==
+These work at very low concentrations and are measured as a '''percentage of the liquid's weight'''. Use a 0.01 g or 0.1 g scale (see [[Measuring Tools Scales Syringes and Volumetric Dosing]]). Disperse them by blending or by mixing with sugar or oil first, or they form "fish-eyes" (lumps with a dry centre).
+* '''Xanthan gum:''' '''0.1–0.3%''' for a light body in dressings and sauces, 0.3–0.5% for thick sauces, up to about 1% for a gel-like texture. Works cold or hot, with acid and salt, and survives freezing. Stabilizes vinaigrettes and emulsions. Too much makes a slimy, snotty texture.
+* '''Guar gum:''' '''0.2–0.5%''', cold-soluble, often combined with xanthan. Common in gluten-free baking and ice cream.
+* '''Methylcellulose and hydroxypropyl methylcellulose:''' unusual in that they '''gel when hot''' and thin when cold. For hot foams and binding.
+* '''Agar:''' gels at about 0.5–1% and sets at about 35–45 °C, melting only near 85 °C. Fluid gels (gelled then sheared in a blender) make pourable, stable sauces. See [[Gummies and Jellies Gelatin Pectin and Agar]].
+* '''Pectin''': the thickener of fruit sauces and jams, needs sugar and acid (high-methoxyl) or calcium (low-methoxyl).
+* '''Iota and kappa carrageenan''': dairy-reactive; very small amounts (0.02–0.05%) thicken chocolate milk and cream sauces.
+* '''Ultra-Sperse, Ultra-Tex''' (modified tapioca starches): instant thickeners, cold or hot, about 2–5%.
+* '''Lecithin''' is an emulsifier, not a thickener, but stabilizes emulsified sauces and foams at about 0.5–1%.
+
+== Choosing a thickener ==
+* '''Classic French white or brown sauce:''' roux.
+* '''Last-minute adjustment:''' beurre manié or a slurry.
+* '''Clear and glossy (fruit sauce, glaze, Asian sauce):''' arrowroot, potato or tapioca starch.
+* '''Will be frozen:''' rice flour, waxy or modified starch, xanthan.
+* '''Acidic (fruit, tomato, sweet-and-sour):''' arrowroot, tapioca, xanthan; add acid late with flour or cornstarch.
+* '''Cold sauce or dressing:''' xanthan or guar (no cooking), or an emulsion.
+* '''Gluten-free:''' cornstarch, arrowroot, potato, rice flour, xanthan, vegetable purée.
+* '''Rich and silky without starch:''' reduction, egg liaison, butter mounting.
+* '''Carrying an oil-soluble ingredient evenly:''' a stable emulsion with a gum or starch to keep it suspended; see [[Infused Sauces and Dressings Even Dosing per Serving]] and [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]].
+
+== See also ==
+* [[Sauces]]
+* [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]
+* [[Pan Sauces Reductions and Gravies]]
+* [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]
+* [[Sweet Sauces Caramel Chocolate and Fruit Coulis]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Gummies and Jellies Gelatin Pectin and Agar]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Baking]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Culinary Recipes]]
+
+== Sources ==
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 11, "Sauces": starch gelatinization, retrogradation, root versus cereal starches, egg-yolk amylase, yolk coagulation in liaisons.
+* Peterson, J. ''Sauces: Classical and Contemporary Sauce Making'', 4th ed. Houghton Mifflin Harcourt, 2017. Roux colours, beurre manié, slurries, liaisons, blood and bread thickeners.
+* Ruhlman, M. ''Ratio''. Scribner, 2009. Roux and sauce ratios.
+* The Culinary Institute of America. ''The Professional Chef'', 9th ed. Wiley, 2011. Thickener selection and amounts.
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Chapter on thickening and gelling agents: starch types, gelatinization ranges, modified starches, gums.
+* Imeson, A. (ed.) ''Food Stabilisers, Thickeners and Gelling Agents''. Wiley-Blackwell, 2010. Xanthan, guar, agar, carrageenan, cellulose derivatives.
+* Lersch, M. ''Texture: A Hydrocolloid Recipe Collection'' (v. 3.0), Khymos, 2014. Use percentages for xanthan, agar, methylcellulose and other gums.
+* National Center for Home Food Preservation. Guidance on ''Clearjel'' (modified cornstarch) for home-canned pie fillings. [https://nchfp.uga.edu/ NCHFP, University of Georgia]
+
+== Coverage ==
+How sauces get body: starch gelatinization temperatures by starch type, breakdown by overcooking, acid and sugar, retrogradation and weeping, and the egg-yolk amylase rule; roux proportions, colours from white to dark Cajun, why darker roux thicken less, lump-free method and simmering time; beurre manié and instant flour; slurries with amounts for cornstarch, arrowroot, potato, tapioca, rice and modified starches; the egg-and-cream liaison with tempering and temperature limits, avgolemono; gelatin, blood, bread, nuts, purées, okra, filé and masa; hydrocolloid gums with use percentages (xanthan, guar, methylcellulose, agar, pectin, carrageenan, lecithin); a guide to choosing a thickener for each situation.

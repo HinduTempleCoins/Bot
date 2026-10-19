@@ -1,0 +1,80 @@
+'''Macarons, Meringues and Biscotti''' covers the cookies of the [[Baking]] hub that do not follow the butter-sugar-flour rules of [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]. '''Meringues''' are structured by egg-white foam and dried sugar. '''Macarons''' are a meringue folded with almond flour and baked into smooth shells with a ruffled "foot". '''Biscotti''' are twice-baked, low-fat logs dried until crisp. All three are mostly about '''controlling water''': whipping it into a stable foam, or baking it out.
+
+== Egg-white foams: the basis of meringue ==
+* Egg white is about 88% water and 10–11% protein. Whipping unfolds (denatures) some of the proteins at the air-water surface, and they bond into a film around each bubble.
+* '''Fat stops foaming.''' Even a trace of yolk (fat) or grease in the bowl can cut the volume sharply. Use a clean metal or glass bowl (plastic holds grease) and separate eggs cold, one at a time, over a small bowl.
+* '''Copper bowls''' and '''acid''' stabilize the foam. Copper ions bind to the protein conalbumin; cream of tartar or lemon juice (about 1/8 teaspoon cream of tartar per white) lowers the pH and makes the foam slower to over-whip and slower to collapse.
+* '''Room-temperature whites''' (about 20 °C) whip faster and to more volume than cold ones. '''Aged whites''' (separated and kept in the fridge for 1–3 days), which lose a little water, are favoured for macarons.
+* '''Stages:''' foamy (large bubbles), '''soft peaks''' (the peak folds over), '''firm or stiff peaks''' (the peak stands up and the foam is glossy), and '''overbeaten''' (dry, grainy, separating and weeping water). Stop at stiff and glossy. Overbeaten whites can't be rescued for macarons; for other uses, beating in another white sometimes helps.
+* '''Sugar''' stabilizes the foam (it thickens the liquid between the bubbles) but slows foaming. Add it '''gradually after soft peaks''', a spoonful at a time, so it dissolves. Undissolved sugar beads as syrup droplets on baked meringue. Rub a little meringue between your fingers: it should feel smooth, not gritty. The usual ratio is '''about 2 parts sugar to 1 part egg white by weight''' (roughly 50–60 g sugar per large white, which weighs about 30–33 g).
+
+== The three meringues ==
+* '''French meringue:''' raw whites whipped with granulated or superfine sugar. Lightest and least stable. Used for baked meringue cookies, pavlova, folded into soufflés and sponge cakes, and in most home macaron recipes.
+* '''Swiss meringue:''' whites and sugar warmed together over a water bath to about '''71 °C (160 °F)''' while whisking until the sugar dissolves, then whipped to stiff peaks as they cool. Dense, glossy and stable. The heating makes the whites safe to eat (see [[Food Safety]]) and is the base for Swiss meringue buttercream.
+* '''Italian meringue:''' a hot sugar syrup cooked to '''soft ball, about 115–121 °C (240–250 °F)''' is poured in a thin stream into whites whipping at medium-high, then whipped until cool. The most stable meringue, used for macarons (Italian method), Italian buttercream, marshmallow-like toppings, baked Alaska and lemon meringue pie. See [[Sugar Stages and the Science of Candy]] for syrup stages.
+
+== Baked meringue cookies and pavlova ==
+* Pipe or spoon stiff meringue onto parchment and bake '''very low''', at 90–110 °C (200–225 °F), for 1–2 hours until crisp and dry, then let them cool in the switched-off oven with the door ajar. The goal is to dry them out, not to brown them.
+* '''Humidity''' is the enemy. Meringues absorb moisture and turn sticky; a rainy day makes them hard to dry, and they must be stored airtight with a desiccant packet.
+* '''Pavlova''' is a large meringue with a crisp shell and soft, marshmallowy centre. About 1 teaspoon each of cornstarch and white vinegar per 4 whites gives the centre. Bake at about 120 °C (250 °F) for 60–90 minutes. Top just before serving with whipped cream and fruit; it softens quickly.
+* '''Dacquoise''' and '''japonaise''' fold ground nuts into meringue for layer-cake discs.
+* '''Weeping''' (beads of syrup) means undissolved sugar or overbaking; '''shrinking or cracking''' means the oven was too hot; '''sticky centres''' mean it was underdried or the air was humid.
+
+== French macarons ==
+=== Ingredients and ratio ===
+* A macaron shell is '''almond flour, icing sugar, egg white and granulated sugar'''. A widely used ratio, by weight, is about '''1 : 1 : 0.8–1 : 0.8–1''': for example 100 g almond flour, 100 g icing sugar, about 75–80 g egg white and 75–100 g granulated sugar.
+* Use '''finely ground blanched almond flour''', sifted with the icing sugar. Discard or re-grind the coarse bits left in the sieve; they give bumpy tops. Don't grind your own in a processor too long, or the almonds turn oily.
+* Gel or powdered colour only. Liquid colour adds water and ruins the batter.
+=== Methods ===
+* '''French method:''' make a stiff French meringue, then fold in the sifted almond flour and icing sugar. Simpler, but more sensitive to over- or under-mixing.
+* '''Italian method:''' mix the almond flour and icing sugar with half the egg white into a paste, make an Italian meringue with the other half, then fold the two together. More stable and consistent, and the professional standard.
+* '''Swiss method''' sits in between.
+=== Macaronage ===
+* '''Macaronage''' is folding the meringue into the almond mixture until it deflates to the right point: it flows off the spatula in a thick, continuous ribbon, and a ribbon dropped back in sinks into the surface within about 10–20 seconds (the "lava" or figure-eight test).
+* '''Under-mixed''' batter is stiff, pipes with peaks that don't settle, and bakes into lumpy, cracked, hollow shells. '''Over-mixed''' batter is runny and spreads into flat, wide, footless shells. Fold in stages and test often.
+=== Piping, resting and baking ===
+* Pipe 3–4 cm rounds with a round tip held vertically, using a template under the parchment so all shells are the same size. '''Rap the tray''' firmly on the counter several times to release air bubbles, then pop any remaining bubbles with a toothpick.
+* '''Rest''' the piped shells for 20–60 minutes, until a skin forms and the surface is no longer tacky to a light touch (longer in humid weather). The skin makes the steam escape out the bottom, which lifts the shell and forms the '''foot'''. Many Italian-method bakers skip the rest.
+* '''Bake''' at about 140–150 °C (285–300 °F) for 12–18 minutes. Oven accuracy is critical here (see [[Oven Temperature Heat Transfer and High-Altitude Baking]]). An oven thermometer and a doubled tray protect the bottoms.
+* '''Troubleshooting:''' cracked tops (too hot, under-rested, or air bubbles), no feet (batter over-mixed or too wet, or no skin), hollow shells (oven too hot or meringue overwhipped), browned shells (too hot or too long), lopsided feet (uneven convection; rotate the tray).
+=== Filling and maturing ===
+* Fill with ganache, buttercream, jam or curd. Pipe a disc of the same weight on every shell.
+* '''Mature''' assembled macarons in the fridge for '''24 hours''' before serving. Moisture from the filling softens the inside of the shell to the classic chewy texture. Serve at room temperature. They freeze well.
+
+== Coconut macaroons ==
+* Not to be confused with macarons, '''coconut macaroons''' are mounds of shredded coconut bound with egg white and sugar (or sweetened condensed milk), baked at about 165–175 °C (325–350 °F) until golden. They are flourless and are a traditional Passover sweet.
+* '''Amaretti''' are Italian almond-meringue cookies, crisp (amaretti di Saronno) or soft (amaretti morbidi).
+
+== Biscotti ==
+* '''Biscotti''' ("twice-baked") are Italian cookies of flour, sugar, eggs and nuts (classic Tuscan cantucci are made with almonds), with '''little or no fat'''. The low fat is what makes them very hard and dry, and good for dunking in coffee or vin santo.
+* '''Method:''' mix a stiff dough, shape it into logs about 5–8 cm wide and 2 cm high, and '''bake once''' at about 175 °C (350 °F) for 25–35 minutes until firm and lightly golden. '''Cool 10–20 minutes''' (too hot and the slices crumble; too cold and they shatter). Slice diagonally with a serrated knife into 1–2 cm slices, lay them cut side down, and '''bake again''' at 150–165 °C (300–325 °F) for 10–20 minutes, turning once, until dry.
+* '''Butter-enriched''' American-style biscotti are more tender and less hard; the more fat, the more cookie-like.
+* Equal slices (same width) from logs of the same thickness give equal-weight pieces, which makes biscotti easy to portion.
+* Biscotti are dry enough to keep for '''2–4 weeks''' airtight, longer than nearly any other cookie.
+* Related twice-baked breads include '''mandelbrot''' (Ashkenazi Jewish), '''paximadia''' (Greek barley rusks), '''zwieback''' (German) and '''rusks''' (South African beskuit, Indian toast rusk). See [[Regional Baked Goods of the World]].
+
+== See also ==
+* [[Baking]]
+* [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]
+* [[Oven Temperature Heat Transfer and High-Altitude Baking]]
+* [[Frosting Icing and Glazes]]
+* [[Cakes and Cupcakes]]
+* [[Regional Baked Goods of the World]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Marshmallow Nougat Taffy and Aerated Candy]]
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]
+* [[Candy Making]]
+* [[Food Safety]]
+
+== Sources ==
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 2, "Eggs": egg-white foams, copper bowls, acid and sugar.
+* Corriher, S. O. ''BakeWise''. Scribner, 2008. Meringues and macarons.
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Egg-white foams and meringue types.
+* Gisslen, W. ''Professional Baking'', 7th ed. Wiley, 2016. French, Swiss and Italian meringues; biscotti and macarons.
+* Hermé, P. ''Macarons''. Grub Street, 2015 (English ed.). Italian-meringue macaron method and maturing.
+* Field, C. ''The Italian Baker'', rev. ed. Ten Speed Press, 2011. Biscotti and cantucci.
+* U.S. Department of Agriculture Food Safety and Inspection Service. Egg products and safe minimum internal temperatures (160 °F / 71 °C for egg dishes).
+
+== Coverage ==
+Foam-based and twice-baked cookies: egg-white foam science (protein films, fat, copper, acid, temperature, aged whites, stages of whipping, sugar ratio and dissolving); French, Swiss and Italian meringues with temperatures; baked meringue cookies, pavlova, dacquoise and troubleshooting; French macarons (ratio, almond flour, French versus Italian methods, macaronage test, piping, resting, baking temperatures, troubleshooting, filling and maturing); coconut macaroons and amaretti; biscotti (low-fat dough, two bakes with temperatures and timing, slicing, storage) and related rusks.

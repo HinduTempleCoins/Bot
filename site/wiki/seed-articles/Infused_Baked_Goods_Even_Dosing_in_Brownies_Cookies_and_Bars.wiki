@@ -1,0 +1,124 @@
+'''Infused Baked Goods: Even Dosing in Brownies, Cookies and Bars''' is where the [[Dosing in Liquids]] hub meets the [[Baking]] hub. It covers how to put a measured amount of any active ingredient (a herbal extract, a tincture, an infused butter or oil, a vitamin, a supplement) into brownies, cookies, bars, muffins or cakes so that '''every piece carries the same dose'''. The method is the same for every ingredient: '''know the total, put it in the right carrier, mix it completely, divide by weight, protect it from heat, and verify.'''
+
+Baked goods are the classic case of uneven dosing: one corner of the pan is strong and the middle is weak, or one cookie spreads into twice the size of another. They are also the case where an accidental dose is most likely, because an infused brownie looks and smells exactly like an ordinary one. The safety rules at the end are part of the method.
+
+== Step 1: know the total going in ==
+* Start from a '''measured active''': a weighed amount of a standardized extract, a measured volume of a tincture of known (preferably tested) mg/mL, or a weighed amount of infused butter or oil of known mg/g. See [[Concentration Arithmetic and Serial Dilution]] and [[Tinctures Glycerites Syrups and Infused Oils and Butters]].
+* If the strength of the butter or oil is '''calculated rather than tested''', treat it as a '''maximum''' (it assumes 100% transfer from the plant into the fat). The real figure is lower, often by a wide margin. Label it "calculated maximum".
+* '''Melt and stir infused butter before weighing it out.''' Actives are not evenly spread through a set disc of butter (see the infused-butter section of the tinctures page).
+* '''Weigh what actually goes in.''' Butter left on the wrapper, the scale bowl or the spatula is dose that never reached the batter. Weigh the container before and after, or scrape it into the batter with some of the recipe's own sugar.
+* Write the batch plan down: active amount (mg), carrier amount (g), expected batch mass, number of pieces, and therefore target mg per piece.
+
+== Step 2: choose the carrier ==
+Batters and doughs are mixtures of fat, water, sugar, flour and egg. The active has to go into the part of the recipe it dissolves in, and that part has to be spread through the whole batch. See [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]].
+* '''Infused butter''' is the traditional carrier for brownies, cookies, blondies, shortbread and cakes, because nearly every recipe already contains butter. Replace the recipe's butter, '''gram for gram''', with infused butter (or a weighed mix of infused and plain butter to reach the target strength). Butter is about 80–82% fat and 16–18% water; infused butter made by the water method (see the tinctures page) is close to plain butter once it is patted dry, so the recipe behaves normally.
+* '''Infused oil''' suits oil-based brownies, oil cakes, muffins, quick breads like banana bread, granola and energy bites. Replace the recipe's oil gram for gram. Oil gives a moister crumb but cannot be creamed, so it does not suit recipes that rise from creamed butter.
+* '''Ghee''' (clarified butter) is about 99% fat. If you substitute it for butter, use about 80–85% of the butter weight and add a little water or milk, or the batter will be greasy and spread more.
+* '''Tinctures (alcohol-based)''' go in with the '''wet ingredients''' (eggs, milk, vanilla). Small volumes (a few millilitres) are harmless; the alcohol largely evaporates during baking, though not entirely (USDA retention data show 25–45% of alcohol can remain after 15–60 minutes of baking in a mixture). Large volumes of tincture thin the batter and change the bake; for those, evaporate the alcohol first (gently, below about 60–70 °C, no flame) and dissolve the residue in the recipe's butter or oil.
+* '''Glycerites''' and '''water-based extracts''' go in with the wet ingredients. Glycerin is hygroscopic and keeps baked goods soft; more than a few percent of the batter weight makes them gummy.
+* '''Dry powdered actives''' must be spread by '''geometric dilution''' into a small part of the dry ingredients (or the sugar) first, then into the rest. Don't sprinkle a few hundred milligrams of powder onto a kilogram of batter. See [[Measuring Tools Scales Syringes and Volumetric Dosing]].
+
+== Step 3: mix for uniformity ==
+Uneven dosing in baked goods almost always starts in the bowl, not the oven.
+* '''Get the active into the fat or liquid phase completely first.''' Creaming infused butter with the sugar for 2–4 minutes spreads the fat (and the active) across every sugar crystal. For oil recipes, whisk the infused oil with the eggs and sugar until fully combined before the flour goes in.
+* '''Scrape the bowl.''' Butter sticks to the sides and the bottom of a stand-mixer bowl and to the beater. A streak of unmixed infused butter at the bottom of the bowl ends up as one strong corner. Stop and scrape the bowl, bottom and beater at least twice.
+* '''Then mix the flour in gently.''' The active is already distributed by the time the flour goes in; mixing the flour longer only builds gluten (tough, cakey results; see [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]). The even distribution comes from the creaming or whisking stage.
+* '''Mix-ins dilute unevenly.''' Chocolate chips, nuts and fruit carry no active. A piece that happens to contain more chips contains less batter and therefore less dose. Fold them in evenly, use smaller mix-ins (mini chips, chopped nuts), and keep them to a modest share of the batch weight. Dose per piece is still calculated on the whole batch mass including mix-ins.
+* '''Tracer colour:''' in pale batters (blondies, shortbread, sugar cookies, vanilla cake), add a few drops of food colour to the infused butter or oil before mixing. Even colour through the batter means the fat, and almost certainly the active, is evenly spread. In brownies the colour cannot be seen; mix by time and scraping instead.
+* '''Pre-dilute small amounts.''' A few drops of a strong concentrate are very hard to spread through a whole batch. Stir them into the recipe's full amount of melted butter or oil first.
+
+== Step 4: why baked goods dose unevenly in the pan and oven ==
+Even a well-mixed batter can give uneven pieces. The causes, and their fixes:
+* '''Uneven thickness.''' Batter spread by eye is thicker in some places than others, and brownies and cakes dome in the middle and sink at the edges. Equal-'''area''' pieces are only equal-'''dose''' pieces if the slab is the same thickness everywhere. Spread the batter level with an offset spatula and tap the pan; cut by weight (Step 5).
+* '''Edges versus centre.''' The edges and surface get hotter and dry out more than the middle (see the heat section below), so edge pieces weigh less for the same amount of batter. Their dose is the same as the centre piece that came from the same amount of batter, but '''pieces cut to equal baked weight''' from an edge contain slightly more batter, and so slightly more active, than equal-weight centre pieces. The effect is small (a few percent) for brownies and bars and is the reason to trim very dry edges if exact uniformity matters (trimmings carry dose too: keep, label or discard them, never throw them in the treat jar).
+* '''Fat leaking out.''' Butter that pools on top of a brownie, greases the parchment, or runs out from a spreading cookie takes active with it. Underbeaten butter, too much fat, or a too-hot oven cause leaking. If you see a pool of fat, the pieces near it are weaker and the pool is strong.
+* '''Pan size.''' The same batter in a larger pan gives a thinner slab, more surface and edge, more drying, and more heat exposure. Use the pan size the recipe was written for and record it.
+* '''Cookies spread.''' A cookie's dose is fixed by the '''weight of the dough ball''', not by how far it spreads. Two 40 g dough balls give the same dose even if one spreads to 9 cm and the other to 7 cm. That is why cookies are portioned '''before''' baking (Step 5). See [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]].
+
+== Step 5: divide into equal pieces by weight ==
+=== The rule ===
+* '''Concentration in the batch (mg/g) = total active (mg) ÷ total batch mass (g).'''
+* '''Dose per piece = piece mass (g) × concentration (mg/g).'''
+* If every piece is the same weight, this is the same as '''total dose ÷ number of equal-weight pieces'''. Equal number of pieces is not enough: they must be equal '''weight'''.
+=== Slab bakes: brownies, blondies, bars, sheet cakes ===
+# Weigh the empty pan (with parchment) before adding batter, and weigh it again after baking and cooling. The difference is the '''baked slab mass'''.
+# Let it cool completely (chill brownies for clean cuts). Warm slabs crumble and smear.
+# Score a grid with a ruler: an 8 × 8 inch (20 × 20 cm) pan cut 4 × 4 gives 16 squares of about 5 × 5 cm; a 9 × 13 inch (23 × 33 cm) pan cut 4 × 6 gives 24 pieces.
+# Cut with a long sharp knife, wiped (or dipped in hot water and dried) between cuts, or a bench scraper pressed straight down.
+# '''Weigh every piece.''' Trim or swap slivers from the heaviest to the lightest until they are within about ±5% of the target weight.
+=== Portioned bakes: cookies, muffins, cupcakes, energy bites ===
+* Weigh the dough or batter, divide by the number of pieces, and '''portion every piece on the scale''' (a scoop gets you close; the scale makes it exact). The baked weight will be lower because water evaporates, but the dose per piece is set by the raw portion.
+* For slice-and-bake logs, roll the log to an even diameter, mark it with a ruler, and weigh a few slices.
+=== Worked example ===
+* An 8 × 8 inch brownie recipe uses 113 g of butter. The baker uses 113 g of infused butter that a lab has tested at 4.0 mg of active per gram, so the batter contains 113 × 4.0 = '''452 mg'''.
+* The batter weighs 850 g. After baking and cooling the slab weighs 780 g (about 8% of the mass is lost as steam). Concentration in the baked slab = 452 ÷ 780 = '''0.58 mg/g'''.
+* Cut into 16 pieces of equal weight: 780 ÷ 16 = 48.75 g each, so each piece carries 48.75 × 0.58 = '''28.3 mg''' (the same as 452 ÷ 16).
+* '''Batter left in the bowl takes dose with it.''' If 30 g of the 850 g batter stays on the bowl and spatula, the pan holds 820 ÷ 850 of the active, about 436 mg, not 452 mg. Scrape the bowl clean, or weigh the batter that actually goes into the pan and work from batter concentration (452 ÷ 850 = 0.53 mg/g of batter × 820 g = 436 mg).
+* If the pieces had been cut by eye and ranged from 40 g to 58 g, the dose would range from about '''23 mg to 34 mg''', a 1.5-fold spread, from cutting alone.
+* '''Rounding to a useful dose:''' to get exactly 25 mg per piece in 16 pieces you need 400 mg in the batter. Use 100 g of the 4.0 mg/g butter plus 13 g of plain butter.
+* '''Smaller doses:''' to get a smaller dose, cut more, smaller pieces (a 6 × 6 grid gives 36 pieces of about 12.6 mg each) rather than asking people to eat "a quarter of a brownie".
+
+== Step 6: oven temperature and heat-sensitive actives ==
+* '''Inside the batter, the temperature stays at or below about 100 °C''' for as long as there is water left to evaporate. Moist interiors of brownies and cakes finish at roughly 88–99 °C. The '''surface, edges and base''' get much hotter (above 140–150 °C, where browning happens) because they dry out. See [[Oven Temperature Heat Transfer and High-Altitude Baking]].
+* So most of the active in a moist interior sees a gentler heat than the oven dial suggests, while what sits in the crust and edges sees more. Losses are greatest for '''volatile''' compounds (terpenes and essential oils evaporate well below baking temperatures) and for actives that '''oxidize or break down''' with time at temperature.
+* '''To limit heat loss:''' don't raise the oven above the recipe temperature; for long bakes, consider baking 10–15 °C lower for a little longer; use light-coloured metal pans rather than dark or glass ones (which overheat the edges); don't overbake (take brownies out when a toothpick shows moist crumbs); and avoid very thin layers.
+* '''Crisp, dry, thin products''' (crackers, thin cookies, biscotti's second bake, granola) dry out completely and reach oven temperature through. They lose more volatile and heat-sensitive actives than moist, thick bakes. For those, add the active after baking where the recipe allows (a glaze, a drizzle of infused chocolate, a filling; see [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]] and [[Frosting Icing and Glazes]]).
+* '''Acid-form actives''' that need heat to convert (decarboxylation; cannabinoid acids are the main example, see [[Cannabis]]) should be '''converted before''' they are infused or baked. The time and temperature of a bake does not do it reliably, because the interior stays below 100 °C. Published decarboxylation kinetics (Wang et al., 2016) show conversion takes tens of minutes at 110–130 °C.
+* '''No-bake''' bars and energy bites avoid heat loss entirely, which is why they are a good format for heat-sensitive actives. See [[Crackers Granola and Energy Bites]] and [[Brownies Blondies and Bars]].
+
+== Step 7: test evenness ==
+* '''Weigh every piece''' (or a sample of at least 10–20). Calculate the mean and the relative standard deviation (see [[Testing Labelling and Safe Storage of Dosed Preparations]]). Aim for every piece within about ±10% of the mean; recut or reject outliers.
+* '''Check tracer colour''' in pale bakes across corners, edges and the centre.
+* '''For a recipe you will repeat, lab-test''' pieces from a corner, an edge and the centre (or the first, middle and last cookies portioned), kept separate. That measures both potency (did the heat lose any?) and homogeneity. Label accuracy surveys of commercial edibles (Vandrey et al., 2015) found that only 17% of products were within ±10% of their labelled content, which is why home-made baked goods without a test should be treated as '''uncertain'''.
+* Record the recipe, pan, oven temperature, bake time, batch mass, piece count and results, so the next batch can be made the same way.
+
+== Step 8: label, store and protect ==
+* '''Label every container:''' mg per piece (tested, or calculated maximum), number of pieces, active ingredient, date made, and "contains [active]: keep out of reach of children and pets". Label the trimmings and crumbs too.
+* '''Storage:''' brownies and bars keep 3–4 days airtight at room temperature, about a week refrigerated, and 2–3 months frozen (wrap each piece). Cookies keep about a week airtight. Products with cream cheese, custard or fresh fruit must be refrigerated. Freezing slows the slow loss of active in storage.
+* '''Child safety: it looks like ordinary food.''' An infused brownie is indistinguishable from a plain one. '''Lock it away''', in a '''child-resistant''' container, in a place separate from the household's ordinary snacks, and never on a plate on the counter or in the family cookie tin. U.S. poison-centre reports of edible exposures in children under 6 rose from 207 to 3,054 between 2017 and 2021 (Tweet et al., ''Pediatrics'', 2023), most from products found at home.
+* '''Adults are also dosed by accident:''' the brownie at the party, the cookie taken from the freezer by a housemate. Never serve dosed baked goods to anyone who has not been told and agreed, and keep dosed and undosed batches in clearly different containers.
+* '''Pets:''' dogs find and eat baked goods readily, and chocolate, xylitol and raisins are toxic to them before any active ingredient is counted. Keep them out of reach.
+* '''First use of a new batch:''' start with a fraction of a piece and wait for the full onset before taking more. Eaten preparations act slowly (often 30–120 minutes, sometimes longer after a large meal), and redosing too early is the most common cause of taking too much. See [[Cannabis Harm Reduction]].
+
+== Quick reference by baked good ==
+* '''Brownies and blondies:''' infused butter (creamed or melted with sugar) or infused oil. Weigh the pan before and after. Chill, grid-cut, weigh pieces.
+* '''Drop cookies:''' infused butter creamed with sugar, scraped well. Portion dough balls by weight before baking. Spread doesn't change dose.
+* '''Shortbread and sugar cookies:''' infused butter, tracer colour visible. Rolled dough: cut equal shapes from an even-thickness sheet (rolling guides), weigh a sample.
+* '''Muffins and cupcakes:''' infused oil or butter whisked into the wet ingredients. Portion batter by weight into each cup.
+* '''Banana bread and loaves:''' infused oil or melted butter. Weigh the loaf, slice to equal weight; end slices are drier and lighter.
+* '''Cakes:''' infused butter or oil; or dose the frosting or a soak syrup instead, which avoids heat but needs even spreading.
+* '''Crackers, biscotti, granola:''' high heat exposure; add the active in a glaze, coating or filling after baking where possible.
+* '''No-bake bars and energy bites:''' no heat loss. Mix the active into the binding fat or nut butter, press into a frame, grid-cut and weigh, or roll bites by weight.
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Baking]]
+* [[Brownies Blondies and Bars]]
+* [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]
+* [[Muffins Quick Breads and Scones]]
+* [[Crackers Granola and Energy Bites]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+* [[Concentration Arithmetic and Serial Dilution]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Candy Making]]
+* [[Cannabis]]
+* [[Cannabis Harm Reduction]]
+* [[Food Safety]]
+
+== Sources ==
+* Vandrey, R. et al. "Cannabinoid dose and label accuracy in edible medical cannabis products." ''JAMA'' 313(24):2491–2493, 2015.
+* Tweet, M. S., Nemanich, A. and Wahl, M. "Pediatric edible cannabis exposures and acute toxicity: 2017–2021." ''Pediatrics'' 151(2):e2022057761, 2023.
+* Wang, M. et al. "Decarboxylation study of acidic cannabinoids: a novel approach using ultra-high-performance supercritical fluid chromatography/photodiode array-mass spectrometry." ''Cannabis and Cannabinoid Research'' 1(1):262–271, 2016.
+* U.S. Department of Agriculture, Nutrient Data Laboratory. ''USDA Table of Nutrient Retention Factors'', Release 6, 2007. Alcohol retention by cooking method.
+* United States Pharmacopeia. General Chapter <905> ''Uniformity of Dosage Units''; <795> ''Pharmaceutical Compounding — Nonsterile Preparations'' (geometric dilution).
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Heat transfer, crumb and crust temperatures, fats and mixing methods.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 10; why the interior of a baked good stays near 100 °C.
+* Corriher, S. O. ''BakeWise''. Scribner, 2008. Creaming, fat substitutions and spread.
+* McClements, D. J. ''Food Emulsions'', 3rd ed. CRC Press, 2015. Partitioning of lipophilic compounds in fat and water phases.
+
+== Coverage ==
+An eight-step method for evenly dosed baked goods: knowing the total (tested versus calculated maximum, melting and stirring infused butter, weighing what actually goes in); choosing the carrier (infused butter, oil, ghee, tinctures, glycerites, powders by geometric dilution); mixing in the creaming or whisking stage, scraping, mix-ins and tracer colour; the in-pan causes of uneven dosing (thickness, edges, fat leakage, pan size, cookie spread); dividing by weight with slab and portion methods and a worked brownie example; how baking heat reaches the active and how to limit loss; testing evenness; labelling, storage, child, adult and pet safety and first-use guidance; a quick reference by baked good.

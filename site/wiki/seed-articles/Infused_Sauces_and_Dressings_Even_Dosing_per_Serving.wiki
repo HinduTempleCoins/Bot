@@ -1,0 +1,103 @@
+'''Infused Sauces and Dressings: Even Dosing per Serving''' is where the [[Dosing in Liquids]] hub meets the [[Sauces]] hub. It covers how to put a measured amount of any active ingredient (a herbal extract, a tincture, an infused oil or butter, a vitamin, a supplement) into a sauce, dressing, dip, condiment or drink mixer so that '''every serving carries the same dose'''. The method is the same for every ingredient: '''know the total, put it in the phase it dissolves in, keep it evenly mixed, measure the final volume, serve by measure, and verify.'''
+
+Sauces are harder to dose than candy or baked goods because they are poured, not counted: a dose depends on '''how much sauce each person takes'''. They also separate, reduce and get reheated. And a bottle of dressing or hot sauce looks like every other condiment in the fridge. The safety rules at the end are part of the method.
+
+== Step 1: know the total going in ==
+* Start from a '''measured active''': a weighed amount of a standardized extract, a measured volume of a tincture or oil of known (preferably tested) mg/mL, or a weighed amount of infused butter of known mg/g. See [[Concentration Arithmetic and Serial Dilution]] and [[Tinctures Glycerites Syrups and Infused Oils and Butters]].
+* If potency is calculated rather than tested, treat it as a '''maximum''' and label it "calculated maximum".
+* Write the batch plan down: active amount (mg), final sauce volume (mL) or mass (g), serving size, and therefore mg per serving.
+
+== Step 2: carry it in the right phase ==
+Every sauce is mostly water, mostly fat, or an emulsion of the two. The active must go into the phase it dissolves in, and that phase must be spread evenly through the sauce. See [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]].
+* '''Oil-based sauces''' (chilli oil, pesto, herb oils, oil-based dips, garlic butter, compound butters): oil-soluble actives dissolve directly. Use infused oil or butter as part of the recipe's fat.
+* '''Stable emulsions''' (mayonnaise, aioli, hollandaise, béarnaise, emulsified dressings such as Caesar or ranch): put an oil-soluble active '''into the oil before emulsifying'''. Each fat droplet then carries the same concentration, and a stable emulsion keeps the droplets spread evenly. This is the most uniform sauce format for oil-soluble actives. See [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]].
+* '''Unstable emulsions''' (shaken vinaigrette): a plain vinaigrette separates within minutes, and an oil-soluble active rises with the oil. The first pour from the top is strong; the last pour from the bottom is mostly vinegar. Either '''stabilize it''' (Dijon mustard at about 1 teaspoon per 120 mL, a little honey or a raw yolk, lecithin at about 0.5–1% of the oil, or xanthan gum at about 0.1–0.3% of the total weight, blended in), or '''shake it hard immediately before every single pour'''.
+* '''Water-based sauces''' (vinegar hot sauce, barbecue sauce, salsa, ketchup, soy-based sauces, fruit coulis, drink syrups): water-soluble actives (glycerites, water extracts, many salts and vitamins) dissolve directly. '''Oil-soluble actives will float''' as a slick on top or cling to the bottle; emulsify them first with lecithin or use a commercial water-soluble (emulsified) form, then blend.
+* '''Starch-thickened and dairy sauces''' (gravy, béchamel, cheese sauce, cream sauces): fat-soluble actives go into the butter of the roux or the cream; the starch or casein keeps the fat dispersed. Stir before serving.
+* '''Tinctures''' (alcohol-based): stir small volumes into a finished, cooled sauce. Don't add them to hot oil (spattering, flammable vapour) or to a simmering sauce (the alcohol and some volatile actives boil off unevenly).
+* '''Drink mixers''' (syrups, shrubs, cordials and cocktail bases): these follow the syrup rules on the tinctures page, and oil-soluble actives need emulsifying exactly as for water-based sauces. Combining an active with '''alcohol''' in a drink can change both effects; dose the mixer separately from the spirit so the two can be controlled independently.
+
+== Step 3: add it at the right point (heat limits) ==
+Many actives, and nearly all aromatic compounds, are '''lost or damaged by heat''': volatile terpenes and essential oils evaporate, and many compounds oxidize or break down with time at temperature. Sauces are often simmered, reduced and reheated, which multiplies the exposure.
+* '''Cook the sauce first; add the active at the end, off the heat''', once the sauce has dropped below a simmer (ideally under about 60–70 °C), and stir it in completely.
+* '''Never add it before reducing.''' Reduction both exposes the active to boiling for longer and changes the final volume, so the mg/mL is unknown until you measure again.
+* '''Hot-oil sauces''' (chilli crisp, tempered spice oils, tadka, garlic oil) are made at 120–180 °C. Make the oil first, let it cool to below about 60 °C, then stir in the active.
+* '''Emulsions''' are made cool or warm (mayonnaise at room temperature, hollandaise at about 60–65 °C), which suits heat-sensitive actives.
+* '''Reheating''': reheat only the portion being served, gently, and avoid repeated reheating of the whole batch. A sauce held hot on a stove for hours keeps losing volatile actives.
+* '''Acid-form actives''' that need heat to convert (decarboxylation; see [[Cannabis]]) should be converted '''before''' they go into the sauce. Sauce temperatures and times don't do it reliably.
+
+== Step 4: mix and keep it mixed ==
+* '''Blend, don't just stir''', for emulsions and for anything with an oil-soluble active in a water-based sauce: an immersion blender for 30–60 seconds, blade under the surface.
+* '''Pre-dilute small amounts.''' A few drops of strong concentrate into a litre of sauce are hard to spread. Stir them into a small part of the sauce's own oil or liquid first, then add that to the rest.
+* '''Tracer colour:''' add a drop of food colour to the active's carrier (oil-soluble colour for oils). Even colour means even mixing. This works in pale sauces (mayonnaise, ranch, béchamel, vinaigrette) but not in dark ones.
+* '''Suspensions settle.''' Puréed sauces, pestos, salsas and chutneys contain solids that settle and oils that rise. Stir or shake before every serving.
+* '''Particles carry no dose.''' In a chunky salsa or chutney, a spoonful with more chunks contains less liquid. Measure by weight of the whole mixture, or purée it smooth if precision matters.
+
+== Step 5: measure the final volume and serve by measure ==
+=== The rule ===
+* '''Concentration (mg/mL) = total active (mg) ÷ total batch volume (mL)''' at the moment the active is mixed in. Measure the volume '''after''' all cooking and reducing (evaporation concentrates a sauce) and '''before''' any transfers, in the pot, a measuring jug or by weight (for thick sauces use mg/g and a scale; most sauces are about 1.0–1.2 g/mL). Sauce lost afterwards, clinging to a blender or a strainer, takes its share of the dose with it but does not change the concentration of what is left.
+* '''Dose per serving = serving volume (mL) × concentration (mg/mL).'''
+=== Worked example: a vinaigrette ===
+* 250 mg of active, dissolved in the oil, goes into a vinaigrette whose ingredients (oil, vinegar, mustard, seasoning) total '''300 mL''' in the blender jug. Concentration = 250 ÷ 300 = '''0.83 mg/mL'''.
+* A '''30 mL''' serving (2 tablespoons) carries 30 × 0.83 = '''25 mg'''. A 15 mL serving (1 tablespoon) carries about 12.5 mg.
+* If 20 mL clings to the blender, the 280 mL poured into the bottle is still 0.83 mg/mL; there are simply fewer servings. The common mistake is the reverse: dividing 250 mg by the 280 mL that reached the bottle (0.89 mg/mL) labels every serving about 7% too high.
+=== Worked example: a reduced pan sauce ===
+* 400 mL of stock and wine is reduced to 160 mL. If the active had gone in at the start, its concentration would have risen 2.5-fold, and some would have been lost to boiling. Instead, add it after reducing: 80 mg into the measured 160 mL = 0.5 mg/mL; a 40 mL portion = 20 mg.
+=== Serving ===
+* '''Plate dosed sauces per person with a measure''' (a measuring spoon, a ladle of known volume, an oral syringe or a portion cup). Don't put a dosed sauce in a gravy boat or a shared bowl, where each person takes an unknown amount.
+* '''Sauce on a dish is not a dose.''' A pasta sauce stirred through a whole pot, or a marinade, ends up unevenly on each portion (and a marinade is mostly discarded). Dose the plated portion, or a measured drizzle, not the cooking liquid.
+* '''Keep dosed and undosed sauce separate''' and visibly different (different containers, labelled), so that someone serving seconds does not pour from the wrong one.
+
+== Step 6: verify ==
+* '''Volume and weight checks:''' check that measured servings weigh what they should (a 30 mL serving of a 1.1 g/mL sauce should weigh about 33 g).
+* '''Top, middle and bottom''': for any sauce that might separate, lab-test samples drawn from the top, middle and bottom of the container (or the first, middle and last pours), kept separate. That shows whether the active is staying suspended. See [[Testing Labelling and Safe Storage of Dosed Preparations]].
+* '''Re-test after storage''' for a recipe kept more than a few days: emulsions can cream (oil rising) slowly in the fridge, and some actives degrade.
+
+== Step 7: food safety, labelling and child safety ==
+* '''Food-safety rules still apply first.''' An infused oil sauce made with fresh garlic, herbs or chillies carries a botulism risk unless refrigerated and used within about 4 days, or frozen, or properly acidified; dosed egg and dairy sauces are high-risk foods. See [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]].
+* '''Label every container:''' mg per serving and the serving size (for example "25 mg per 30 mL / 2 tbsp"), mg per mL, active ingredient, date made, use-by date, and "contains [active]: keep out of reach of children and pets". '''Shake well''' on anything that can separate.
+* '''It looks like an ordinary condiment.''' A dosed hot sauce, dressing or syrup is indistinguishable from the ordinary one, and condiments are used freely and by everyone in a household. Store dosed sauces '''apart from''' the household's normal condiments, in a '''locked''' or child-resistant container (a lockable fridge box works), never in a re-used commercial sauce bottle with its original label, and never in a squeeze bottle on the table.
+* '''Drinks are the highest-risk format''' for accidental dosing: a dosed syrup or mixer in the fridge looks like juice or cordial. Label prominently and lock it away.
+* '''Never serve a dosed sauce to anyone who has not been told and agreed.'''
+* '''First use of a new batch:''' start with a fraction of a serving and wait for the full onset before taking more. Eaten preparations act slowly (often 30–120 minutes), and redosing too early is the most common cause of taking too much. See [[Cannabis Harm Reduction]].
+
+== Quick reference by sauce type ==
+* '''Mayonnaise, aioli, emulsified dressings:''' active in the oil before emulsifying. The most uniform sauce format. Refrigerate.
+* '''Vinaigrette:''' active in the oil; stabilize with mustard, lecithin or xanthan, or shake before every pour.
+* '''Pesto, herb and chilli oils:''' active in the oil. Stir before serving; refrigerate (fresh garlic and herbs).
+* '''Hot sauce, barbecue sauce, ketchup-style:''' water-based; water-soluble actives dissolve, oil-soluble ones need emulsifying. Add after cooking and cooling. Shake before use.
+* '''Pan sauces, gravies, cream and cheese sauces:''' add after reducing, off the heat, into the fat; measure the final volume. Serve by ladle.
+* '''Sweet sauces:''' caramel and chocolate sauces are fat-and-sugar based (oil-soluble actives into the butter or cream, off the heat); fruit coulis is water-based. See [[Sweet Sauces Caramel Chocolate and Fruit Coulis]] and [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]].
+* '''Syrups and drink mixers:''' see [[Tinctures Glycerites Syrups and Infused Oils and Butters]]; emulsify oil-soluble actives; label and lock away.
+* '''Salsas and chutneys:''' chunky, so measure by weight or purée.
+
+== See also ==
+* [[Dosing in Liquids]]
+* [[Sauces]]
+* [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]
+* [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+* [[Concentration Arithmetic and Serial Dilution]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
+* [[Baking]]
+* [[Candy Making]]
+* [[Cannabis]]
+* [[Cannabis Harm Reduction]]
+* [[Food Safety]]
+
+== Sources ==
+* McClements, D. J. ''Food Emulsions: Principles, Practices, and Techniques'', 3rd ed. CRC Press, 2015. Oil-phase partitioning, creaming and stabilizers.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 11, "Sauces": emulsions, starch and reductions.
+* Peterson, J. ''Sauces'', 4th ed. Houghton Mifflin Harcourt, 2017. Emulsified sauces and finishing techniques.
+* U.S. Department of Agriculture. ''USDA Table of Nutrient Retention Factors'', Release 6, 2007. Alcohol retention in cooked dishes.
+* United States Pharmacopeia. General Chapter <795> ''Pharmaceutical Compounding — Nonsterile Preparations'' (oral liquids, "shake well" labelling of suspensions and emulsions).
+* Vandrey, R. et al. "Cannabinoid dose and label accuracy in edible medical cannabis products." ''JAMA'' 313(24):2491–2493, 2015.
+* Tweet, M. S., Nemanich, A. and Wahl, M. "Pediatric edible cannabis exposures and acute toxicity: 2017–2021." ''Pediatrics'' 151(2):e2022057761, 2023.
+* National Center for Home Food Preservation and university extension guidance on herbs and garlic in oil (see the sauce food-safety page).
+
+== Coverage ==
+A seven-step method for evenly dosed sauces, dressings and drink mixers: knowing the total; choosing the phase (oil sauces, stable and unstable emulsions, water-based sauces, starch and dairy sauces, tinctures, drink mixers and the alcohol caution); heat limits and adding the active after cooking and reducing; blending, pre-dilution, tracer colour and settling; final-volume concentration and serving by measure, with worked vinaigrette and pan-sauce examples; verification by volume and top/middle/bottom testing; food safety, labelling, condiment and drink child safety, consent and first-use guidance; a quick reference by sauce type.

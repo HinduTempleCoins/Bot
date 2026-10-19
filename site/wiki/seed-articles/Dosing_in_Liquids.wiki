@@ -45,6 +45,10 @@ Where a preparation is risky, this library gives the hazard together with the me
 * [[Laboratory Equipment and Extraction Engineering]]
 * [[Food Safety]]
 * [[Recipes]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Baking]]
+* [[Sauces]]
 
 == Sources ==
 * Ansel, H. C. ''Pharmaceutical Calculations'', 15th ed. Wolters Kluwer, 2016. Chapters on the aliquot method, minimum weighable quantity, concentration expressions and alligation.

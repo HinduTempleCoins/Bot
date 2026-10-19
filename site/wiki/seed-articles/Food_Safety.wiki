@@ -107,6 +107,9 @@ A written food-safety plan built on seven steps: (1) conduct a '''hazard analysi
 * [[Cooking Methods]] — the cooking-temperature side of the same rules.
 * [[Pickling and Preservation]] and [[Fermentation]] — pH, salt, and water activity as pathogen controls.
 * [[Virology Antivenom Immunology and Aromatic Antimicrobials]], [[Bacteriophages Endolysins and Biological Inhibitors]], [[Immunometabolism Thermogenerative Stimulants and Hepatic Resilience]] — the biology behind foodborne viruses.
+* [[Baking]]
+* [[Sauces]]
+* [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]
 
 == Sources ==
 * U.S. Food and Drug Administration, ''FDA Food Code'' (2022 ed.). [https://www.fda.gov/food/retail-food-protection/fda-food-code FDA Food Code]

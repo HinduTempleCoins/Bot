@@ -1,0 +1,93 @@
+'''Pan Sauces, Reductions and Gravies''' is the page of the [[Sauces]] hub on the sauces made from what a roast or a seared piece of meat leaves behind: the browned '''fond''' stuck to the pan, the rendered fat, and the juices. A '''pan sauce''' is made in minutes in the same pan; a '''reduction''' concentrates a liquid (stock, wine, juice) by boiling off water; a '''gravy''' is pan drippings thickened, usually with a roux. All three rely on the same two principles: '''flavour comes from browning''' (the Maillard reaction) and '''body comes from concentrated gelatin, a starch, or emulsified butter'''.
+
+== The fond and why it matters ==
+* When meat, poultry or vegetables sear above about '''140–150 °C''', proteins and sugars on the surface react (the '''Maillard reaction''') and leave a brown, intensely savoury film on the pan. This is the '''fond''' (French for "base").
+* '''Stainless steel and cast iron''' build fond; non-stick pans largely don't, so pan sauces from non-stick are weaker.
+* '''Brown, not black.''' A fond that has burnt (black, acrid smell) will make the sauce bitter. Lower the heat while searing if the pan is darkening too fast, and discard burnt fond.
+* '''Deglazing''' dissolves the fond: pour in a liquid (wine, stock, water, vinegar, cider, beer, juice) and scrape with a wooden spoon or flat spatula while it boils.
+
+== The basic pan sauce ==
+A pan sauce for 2–4 people, after searing steaks, chops or chicken (rest the meat on a plate while you make it):
+# '''Pour off excess fat''', leaving about 1 Tbsp in the pan.
+# '''Sweat aromatics''' over medium heat: 1 finely chopped shallot (or garlic, or onion) for 30–60 seconds.
+# '''Deglaze''' with about '''120 mL wine''' (or vermouth, brandy, cider or vinegar), scraping up the fond. Reduce until nearly dry and syrupy.
+# '''Add about 250 mL stock''' (ideally a gelatin-rich homemade stock) and any juices from the resting meat. Reduce by about two-thirds, to roughly 80–100 mL, until it coats a spoon.
+# '''Off the heat, mount with cold butter''' (''monter au beurre''): swirl or whisk in '''1–3 Tbsp of cold cubed butter'''. The butter emulsifies into the reduction and gives gloss and body. Don't boil it afterward, or it separates.
+# '''Season and finish''': salt, pepper, a squeeze of lemon or a few drops of vinegar, chopped herbs, Dijon mustard, capers or cream.
+
+* '''Classic variations:''' '''steak au poivre''' (cracked peppercorns, brandy flamed, cream), '''Diane''' (shallot, mushrooms, brandy, Worcestershire, Dijon, cream), '''piccata''' (white wine, lemon, capers, butter), '''marsala''' (mushrooms, Marsala, stock), '''normande''' (cider, Calvados, cream, apples), '''balsamic and red wine''' reductions.
+* '''Flambéing:''' when adding spirits to a hot pan, '''take the pan off the heat''' first, pour from a measuring cup (never from the bottle), then return it and tilt to ignite or light with a long lighter. Keep a lid nearby to smother flames.
+
+== Why stock matters: gelatin ==
+* Commercial carton stock contains little '''gelatin''', so it reduces to a thin, salty liquid. Homemade stock from bones, joints, skin and feet (chicken wings and feet, veal knuckle, pig trotters) is rich in collagen that becomes '''gelatin''' when simmered for hours.
+* Gelatin is what lets a reduction become '''syrupy without starch''': as water evaporates, the gelatin concentration rises and the sauce thickens and turns glossy and lip-sticking.
+* '''Cheat:''' bloom 1–2 tsp (3–6 g) of powdered unflavoured gelatin in a little cold water and add it to 500 mL of carton stock before reducing (a López-Alt technique). It gives store stock much of the body of homemade.
+* '''Salt concentrates too.''' A stock reduced by two-thirds is three times as salty. Use unsalted or low-sodium stock and season only at the end.
+
+== Reductions ==
+* '''Reduction''' is boiling a liquid to remove water and concentrate flavour, sugars, acids, gelatin and salt.
+* '''Speed:''' a wide, shallow pan reduces several times faster than a tall pot (evaporation is proportional to surface area).
+* '''Flavour changes:''' long boiling drives off volatile aromatics and caramelizes sugars, so a heavily reduced sauce becomes sweeter, deeper and less fresh. Add fresh herbs, citrus zest or a splash of the original wine at the end to bring back brightness.
+* '''Classic reductions:'''
+* '''Glace de viande''' (meat glaze): brown stock reduced by about 90%, until it sets to a firm, rubbery jelly when cold. A spoonful enriches any sauce.
+* '''Demi-glace''': half espagnole and half brown stock, reduced by half (Escoffier), or, in modern kitchens, brown stock reduced to a syrup. See [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]].
+* '''Jus''' and '''jus lié''': the natural roasting juices, degreased and reduced (jus), or lightly thickened with a slurry of arrowroot or cornstarch (jus lié).
+* '''Gastrique''': sugar caramelized, then deglazed with vinegar, reduced to a sweet-sour syrup, often finished with fruit or stock. For duck, pork and game.
+* '''Balsamic reduction''': balsamic vinegar simmered to a syrup (about one-third of its original volume). It thickens further as it cools.
+* '''Wine reduction''' for bordelaise and beurre rouge: red wine with shallots reduced to about a quarter.
+
+== Alcohol after cooking ==
+Cooking does not remove all the alcohol. The USDA's ''Table of Nutrient Retention Factors'' (Release 6, 2007) gives the share of alcohol remaining:
+* Alcohol added to a boiling liquid and removed from the heat: about '''85%''' remains.
+* '''Flamed''': about '''75%'''.
+* Stored overnight without heat: about 70%.
+* Baked or simmered in the dish '''15 minutes''': about '''40%'''. '''30 minutes''': 35%. '''1 hour''': 25%. '''2 hours''': 10%. '''2.5 hours''': 5%.
+* A quick pan sauce therefore keeps a good part of its wine or brandy. Take this into account for children, people who don't drink, people in recovery, and pregnancy.
+
+== Gravy ==
+* '''Pan gravy (roast gravy):''' pour the drippings from a roasting pan into a fat separator (or a jug and wait for the fat to rise). For each '''500 mL of finished gravy''', return about '''3–4 Tbsp (40–50 g) of fat''' to the pan, whisk in '''3–4 Tbsp (25–35 g) of flour''' and cook 2–4 minutes to a blond or light-brown roux. Whisk in '''500 mL of warm stock plus the defatted juices''', scraping up the fond. Simmer 5–10 minutes, season, strain.
+* '''Make-ahead gravy:''' roast wings or necks with onion and carrot, make a stock, then a roux gravy days ahead; stir in the roast's defatted drippings on the day.
+* '''Cream (country, sawmill) gravy''': sausage or bacon fat + flour + milk, heavily peppered. A béchamel cousin, served with biscuits and chicken-fried steak.
+* '''Red-eye gravy''': country-ham drippings deglazed with black coffee. Thin, unthickened.
+* '''Onion gravy''': onions cooked slowly to a deep brown, flour, then beef stock.
+* '''Giblet gravy''': turkey or chicken gravy with chopped cooked giblets and sometimes hard-boiled egg.
+* '''Cornstarch gravy''' (gluten-free): skip the roux; whisk 1 Tbsp (8 g) cornstarch with 2 Tbsp cold water per 250 mL of liquid, whisk into the simmering juices, and boil 1 minute. See [[Sauce Thickeners Roux Slurries Liaisons and Gums]].
+* '''Lumps:''' whisk hard or blend with an immersion blender, then strain.
+* '''Greasy gravy:''' skim, or float a paper towel on the surface to blot fat, or chill and lift off the fat.
+* '''Pale gravy:''' darken the roux longer, or add a little soy sauce, browned onions or a spoonful of glace de viande. Commercial "browning" (caramel colour) is cosmetic only.
+
+== Vegetable and vegetarian pan sauces ==
+* Fond forms from seared mushrooms, onions, tofu or tempeh too. Deglaze with wine or vegetable stock.
+* '''Mushroom gravy''': sautéed mushrooms, onions, a roux, mushroom-soaking liquid (from dried porcini or shiitake), soy sauce or miso for depth.
+* Gelatin-free body comes from a little starch, puréed vegetables, or mounted butter or olive oil.
+
+== Holding and storing ==
+* Butter-mounted pan sauces don't hold. Make them at the last minute. If held, keep them warm (about 50–60 °C), never boiling.
+* Roux gravies hold well hot and reheat well. They thicken in the refrigerator because of the gelatin and starch; whisk in a little stock when reheating.
+* Cool gravy quickly (within 2 hours), refrigerate and use within 3–4 days, or freeze. '''Bring reheated gravy to a boil''' before serving. Meat-based gravy left warm is a classic source of ''Clostridium perfringens'' food poisoning, which multiplies in large, slowly cooling batches (for example after holiday meals). See [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]] and [[Food Safety]].
+
+== See also ==
+* [[Sauces]]
+* [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]
+* [[Sauce Thickeners Roux Slurries Liaisons and Gums]]
+* [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]
+* [[Barbecue Sauces Marinades and Glazes]]
+* [[Sweet Sauces Caramel Chocolate and Fruit Coulis]]
+* [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Cooking Methods]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Food Safety]]
+* [[Culinary Recipes]]
+
+== Sources ==
+* Peterson, J. ''Sauces: Classical and Contemporary Sauce Making'', 4th ed. Houghton Mifflin Harcourt, 2017. Fond, deglazing, jus and jus lié, modern reductions in place of roux sauces.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 11, "Sauces": gelatin, stock reduction, Maillard browning.
+* López-Alt, J. K. ''The Food Lab: Better Home Cooking Through Science''. W. W. Norton, 2015. Pan sauces, gelatin-fortified store stock, gravy.
+* Escoffier, A. ''Le Guide Culinaire'', 1903 (Cracknell and Kaufmann translation, Wiley, 1979). Glace de viande, demi-glace, jus.
+* U.S. Department of Agriculture, Agricultural Research Service. ''USDA Table of Nutrient Retention Factors, Release 6'', 2007. Alcohol retention by cooking method. [https://www.ars.usda.gov/ARSUserFiles/80400525/Data/retn/retn06.pdf USDA ARS (PDF)]
+* Centers for Disease Control and Prevention. "''Clostridium perfringens''" food-poisoning information: gravies and large cooked-meat batches as common vehicles.
+* The Culinary Institute of America. ''The Professional Chef'', 9th ed. Wiley, 2011. Pan sauces and pan gravy method and proportions.
+
+== Coverage ==
+Pan sauces, reductions and gravies: the fond and the Maillard reaction, deglazing; a six-step pan sauce with quantities and mounting with butter, classic variations and safe flambéing; why gelatin-rich stock matters and the gelatin trick for carton stock; reductions (glace de viande, demi-glace, jus lié, gastrique, balsamic, wine) and how reducing changes flavour and saltiness; USDA alcohol-retention figures by cooking method; roast pan gravy with per-500 mL proportions, cream, red-eye, onion, giblet and cornstarch gravies and their fixes; vegetarian pan sauces; holding, cooling and the ''C. perfringens'' risk of warm-held gravy.

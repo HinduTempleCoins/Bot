@@ -1,0 +1,79 @@
+'''Sauces''' is the hub for the Library's pages on sauces: the classical French mother sauces and their families, emulsions such as mayonnaise and vinaigrette, pan sauces and gravies, thickeners, hot sauces and ferments, barbecue sauces and marinades, salsas, pestos and chutneys, sweet sauces, the sauces of the world, and how to make and keep them safely. Nearly every sauce is a controlled answer to two questions: '''what gives it body''' (a starch, a protein, an emulsion of fat and water, a reduction, or a purée), and '''what balances it''' (salt, acid, fat, sweetness, heat and savouriness against each other). Learn those two controls and most sauces become variations rather than separate recipes.
+
+For putting a measured dose of a herb or other active ingredient into a sauce or dressing, see [[Infused Sauces and Dressings Even Dosing per Serving]], which joins this hub to [[Dosing in Liquids]].
+
+== How sauces get their body ==
+* '''Starch-thickened''': flour cooked in fat (roux), cornstarch, arrowroot or potato starch slurries. Béchamel, velouté, espagnole, most gravies, many Chinese sauces. See [[Sauce Thickeners Roux Slurries Liaisons and Gums]].
+* '''Emulsified''': fat droplets held in water (or water in fat) by an emulsifier such as egg yolk lecithin or mustard. Mayonnaise, aioli, hollandaise, béarnaise, beurre blanc, vinaigrettes. See [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]].
+* '''Reduced''': stock, wine or juice boiled down until gelatin and dissolved solids give it body. Demi-glace, jus, pan sauces, balsamic reductions. See [[Pan Sauces Reductions and Gravies]].
+* '''Puréed''': vegetables, fruit, nuts or herbs blended smooth or coarse. Tomato sauce, coulis, romesco, pesto, salsas, chutneys. See [[Salsas Pestos and Chutneys]].
+* '''Protein- and gum-thickened''': egg-yolk liaisons, gelatin, cream reductions, and modern hydrocolloids (xanthan, guar) used at fractions of a percent.
+* '''Sugar-based''': caramel, butterscotch, chocolate and fruit sauces, where dissolved sugar and fat give the body. See [[Sweet Sauces Caramel Chocolate and Fruit Coulis]].
+
+== Balance ==
+* '''Salt''' brings out flavour and suppresses bitterness. Season at the end, after reducing: reduction concentrates salt.
+* '''Acid''' (vinegar, citrus, wine, tomato, fermentation) brightens a heavy sauce and is also, in bottled sauces, the main '''safety''' control. See [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]].
+* '''Fat''' carries fat-soluble flavours and gives a rich mouthfeel; it is mounted in at the end (''monter au beurre'') or emulsified.
+* '''Sweetness''' balances acid and heat, as in barbecue sauce, ketchup, sweet chilli sauce and gastriques.
+* '''Savouriness (umami)''' from glutamates and nucleotides: reduced stocks, soy and fish sauce, tomato, Parmesan, mushrooms, anchovy.
+* '''Heat''' from capsaicin (chillies), piperine (pepper), and isothiocyanates (mustard, horseradish, wasabi). Capsaicin is fat- and alcohol-soluble, which is why dairy calms it. See [[Hot Sauces and Fermented Sauces]].
+
+== The pages ==
+* [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]: Escoffier's five ''grandes sauces'', their ratios and methods, and the small sauces made from each (Mornay, suprême, bordelaise, béarnaise and more).
+* [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]: emulsion science, mayonnaise and aioli, vinaigrette ratios, beurre blanc, why emulsions break and how to rescue them.
+* [[Pan Sauces Reductions and Gravies]]: deglazing the fond, reductions, mounting with butter, jus and demi-glace, roast and sausage gravies.
+* [[Sauce Thickeners Roux Slurries Liaisons and Gums]]: roux colours and ratios, starch slurries and their behaviour with acid and freezing, egg liaisons, beurre manié, gelatin, xanthan and other gums with use percentages.
+* [[Hot Sauces and Fermented Sauces]]: vinegar hot sauces, lacto-fermented chilli mash and its salt percentages, fermented fish, soy and bean sauces, and the safe pH for each.
+* [[Barbecue Sauces Marinades and Glazes]]: the American regional barbecue sauces, how marinades and brines actually work, and sugar glazes.
+* [[Salsas Pestos and Chutneys]]: fresh and cooked salsas, pesto and its relatives, chutneys, relishes and herb sauces such as chimichurri and salsa verde.
+* [[Sweet Sauces Caramel Chocolate and Fruit Coulis]]: caramel and butterscotch sauce, chocolate and fudge sauce, crème anglaise, fruit coulis and compotes.
+* [[Regional Sauces of the World]]: the gazetteer, from mole and nuoc cham to harissa and tahini sauce, each tied to its technique.
+* [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]: the pH 4.6 line, acidified foods, botulism and garlic- or herb-in-oil, fermented sauces, hot-fill bottling, refrigeration times, and holding egg and dairy sauces.
+* [[Infused Sauces and Dressings Even Dosing per Serving]]: carrying an active ingredient in a sauce's fat or emulsion, keeping it suspended, dose per serving by volume or weight, heat limits, labelling and child safety.
+
+== Basic equipment ==
+* A '''heavy-bottomed saucepan''' and a '''sauteuse''' or straight-sided pan for reductions (a wide pan reduces faster).
+* A '''whisk''', a flat-edged wooden spoon or spatula (to reach the corners where roux and starch scorch), and a ladle.
+* A '''fine-mesh strainer''' (chinois) for smooth sauces, and a '''blender''' or immersion blender for purées and emulsions.
+* An '''instant-read thermometer''' for egg-based sauces (hollandaise holds at about 60–65 °C and scrambles above about 80 °C) and for safety cooling.
+* '''Measuring jugs and a scale''': sauces are often made by ratio (see [[Scratch Cooking and Culinary Ratios]]), and dosed sauces must be measured by volume or weight (see [[Measuring Tools Scales Syringes and Volumetric Dosing]]).
+* Clean glass bottles and jars with new lids for anything stored, and pH strips or a meter for bottled sauces.
+
+== Safety ==
+* '''Garlic, herbs or chillies in oil''' must be refrigerated and used within a few days, or acidified by a tested method, because they can support ''Clostridium botulinum''. See the food-safety page.
+* '''Shelf-stable bottled sauces''' must be acidic enough (pH 4.6 or lower, and home recipes should aim well below, at 4.0 or less) or be refrigerated.
+* '''Egg and dairy sauces''' (hollandaise, mayonnaise, crème anglaise, cream sauces) are high-risk foods. Keep them out of the 5–60 °C danger zone for no more than 2 hours in total, or 1 hour above 32 °C.
+* '''Hot chilli work''': wear gloves with hot peppers, don't touch your eyes, and ventilate when cooking chillies in hot oil or reducing them (capsaicin aerosol is a strong irritant).
+* See [[Food Safety]], [[Fermentation]] and [[Pickling and Preservation]].
+
+== Established practice and folklore ==
+* '''Established:''' season after reducing; a cooked roux must be whisked into liquid of a different temperature (cool liquid into hot roux, or hot liquid into cool roux) to avoid lumps; acid weakens starch thickening over long cooking; a broken emulsion can be rescued by whisking it slowly into a fresh yolk or a spoonful of water; fermented hot sauces are safe when their pH is low.
+* '''Partly true:''' "alcohol cooks off". Much of it does, but simmered and flambéed sauces can retain 5–85% of the alcohol depending on time and method (USDA retention table). "Marinades penetrate deep into meat": most act only on the outer few millimetres; salt is the exception because it diffuses inward.
+* '''Folklore:''' "searing seals in the juices" (it builds flavour, not a seal); "oil in pasta water stops sticking" (stirring does that; oil only stops sauce clinging).
+
+== See also ==
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Dosing in Liquids]]
+* [[Baking]]
+* [[Candy Making]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Cooking Methods]]
+* [[Cooking with Herbs and Spices]]
+* [[Fermentation]]
+* [[Pickling and Preservation]]
+* [[Culinary Recipes]]
+* [[Recipes]]
+* [[Food Safety]]
+
+== Sources ==
+* Escoffier, A. ''Le Guide Culinaire'' (1903); English translation ''The Complete Guide to the Art of Modern Cookery'', trans. H. L. Cracknell and R. J. Kaufmann. Heinemann, 1979.
+* Peterson, J. ''Sauces: Classical and Contemporary Sauce Making'', 4th ed. Houghton Mifflin Harcourt, 2017.
+* McGee, H. ''On Food and Cooking: The Science and Lore of the Kitchen'', rev. ed. Scribner, 2004. Chapter 11, "Sauces".
+* López-Alt, J. K. ''The Food Lab: Better Home Cooking Through Science''. W. W. Norton, 2015.
+* Ruhlman, M. ''Ratio: The Simple Codes Behind the Craft of Everyday Cooking''. Scribner, 2009.
+* U.S. Department of Agriculture. ''USDA Table of Nutrient Retention Factors'', Release 6, 2007. Alcohol retention.
+* National Center for Home Food Preservation. [https://nchfp.uga.edu/ nchfp.uga.edu]
+
+== Coverage ==
+The hub for sauces: the two governing controls (body and balance); the six ways sauces get their body (starch, emulsion, reduction, purée, protein and gum, sugar); the six elements of balance; an index of the eleven focused pages, including the infused-sauce dosing page; basic equipment; garlic-in-oil, bottling pH, egg and dairy holding and chilli-handling safety; established practice versus folklore (alcohol cooking off, marinades, searing).

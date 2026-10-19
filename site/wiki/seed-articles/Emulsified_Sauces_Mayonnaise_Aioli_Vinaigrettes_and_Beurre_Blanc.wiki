@@ -1,0 +1,83 @@
+'''Emulsified Sauces: Mayonnaise, Aioli, Vinaigrettes and Beurre Blanc''' is the page of the [[Sauces]] hub on sauces made by dispersing one liquid in another that it does not mix with: '''oil or butterfat in water''' (mayonnaise, aioli, hollandaise, beurre blanc, most creamy dressings) or, more rarely, water in fat (butter itself). An emulsion's body comes from crowded droplets, not from starch, so it is light, glossy and rich. It is also '''fragile''': it can '''break''' (separate) from too much oil too fast, the wrong temperature, or too little water. Knowing why lets you prevent breaking and repair it. The general physics is on [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]; this page applies it to the kitchen.
+
+== How a kitchen emulsion works ==
+* '''Two phases:''' the '''continuous phase''' (the liquid the droplets float in: water, vinegar, lemon juice, the water in egg yolk) and the '''dispersed phase''' (the droplets: oil, melted butter).
+* '''An emulsifier''' coats each droplet with molecules that have one end attracted to water and one to fat, so the droplets don't merge. In the kitchen these are '''egg-yolk lecithin and lipoproteins''', '''mustard''' (its seed-coat mucilage and proteins), '''garlic''' (when pounded), '''milk proteins''' (in cream and butter), '''honey''', and '''gelatin'''.
+* '''Viscosity:''' the more droplets and the smaller they are, the thicker the sauce. A mayonnaise can be '''75–80% oil''' by volume; above roughly 74% the droplets must deform against each other, which is why a full mayonnaise is stiff enough to hold a peak.
+* '''Mechanical work''' breaks oil into droplets: whisking, a blender, an immersion blender, a mortar and pestle. Faster, finer shearing gives smaller droplets and a thicker, whiter, more stable sauce.
+
+== Why emulsions break ==
+* '''Oil added too fast at the start.''' Until enough droplets exist to build viscosity, new oil just pools and forms large drops that coalesce. Add the first quarter of the oil '''drop by drop''' (or in a thin thread with a blender).
+* '''Too little water phase.''' The droplets need water to sit in. If a mayonnaise turns stiff, greasy-looking and glossy-translucent, it is short of water. Whisk in a teaspoon of water or lemon juice before adding more oil.
+* '''Too cold or too hot.''' Cold oil or yolks straight from the refrigerator emulsify poorly. In butter emulsions, butterfat crystallizes below about 30–35 °C (the sauce stiffens and turns grainy) and the egg or milk proteins fail above about 65–70 °C (they coagulate or let go of the fat).
+* '''Too much oil for the emulsifier.''' One yolk can emulsify a great deal of oil in theory (McGee notes far more than a cup), but in practice about '''200–250 mL of oil per yolk''' is a safe working limit for a hand-whisked mayonnaise.
+* '''Freezing''' breaks almost all egg emulsions (ice crystals pierce the droplet coatings). Commercial mayonnaise and dressings use modified starch and gums to survive freezing and long shelf life.
+* '''Blending extra-virgin olive oil''' at high speed can make it bitter: the shearing disperses bitter polyphenols. Make olive-oil mayonnaise with a neutral oil base and whisk the olive oil in by hand at the end.
+
+== How to fix a broken emulsion ==
+* '''Restart method (most reliable):''' put a fresh yolk, or 1 tsp of prepared mustard, or 1 Tbsp of water in a clean bowl. Whisk the broken sauce into it '''a few drops at a time''', then in a thin stream once it thickens.
+* '''Water rescue (for a slightly broken or over-stiff sauce):''' whisk in 1–2 tsp of water, lemon juice or warm water.
+* '''For hollandaise and beurre blanc''' that have broken from heat: take off the heat, whisk 1 Tbsp of '''cold''' water or cream into a clean bowl, then the broken sauce into it a little at a time. If they broke from cold, warm gently over a water bath while whisking.
+* '''Prevention:''' room-temperature ingredients, a damp towel under the bowl, slow oil at the start, and enough water.
+
+== Mayonnaise ==
+* '''Proportions:''' 1 egg yolk, 1–2 tsp lemon juice or vinegar, ½–1 tsp Dijon mustard, a pinch of salt, '''200–250 mL neutral oil''' (canola, grapeseed, sunflower), 1–2 tsp water as needed.
+* '''Whisk method:''' whisk yolk, mustard, acid and salt; add oil drop by drop until it thickens, then in a thin stream, thinning with water whenever it gets stiff.
+* '''Immersion-blender method (López-Alt, ''The Food Lab''):''' put a whole egg, acid, mustard and salt in a jar only slightly wider than the blender head, pour all the oil on top, put the blender head flat on the bottom, turn it on, and lift it slowly as the emulsion climbs. Works in under a minute. A jar that is too wide or too tall usually fails.
+* '''Whole egg vs yolk:''' whole-egg mayonnaise is lighter and looser; yolk-only is richer, yellower and firmer.
+* '''Raw-egg safety:''' homemade mayonnaise contains raw egg. Use '''pasteurized-in-shell eggs''' for children, pregnant people, the elderly and the immunocompromised, refrigerate it, and use it within about 4 days. Acid does not reliably make raw-egg mayonnaise safe at home pH (commercial mayonnaise is acidified to about pH 3.6–4.1 and made with pasteurized eggs). See [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]].
+* '''Derivatives:''' '''tartar''' (+ capers, cornichons, shallot, herbs), '''rémoulade''' (+ mustard, capers, anchovy, herbs), '''sauce verte''' (+ blanched puréed herbs), '''rouille''' (+ garlic, saffron, chilli, bread or potato), '''Marie Rose''' and '''comeback''' sauces (+ ketchup and spices), '''Kewpie-style''' (yolk-only, rice vinegar, MSG), '''sriracha mayo''', '''aïoli-style flavoured mayos'''.
+
+== Aioli and allioli ==
+* '''Traditional aioli''' (Provence) and '''allioli''' (Catalonia, Valencia) are '''garlic and olive oil emulsified in a mortar''', with no egg in the strictest Catalan version: the pounded garlic itself is the emulsifier. A pinch of salt helps grind the garlic. It is slow and needs patience; it breaks easily.
+* '''Provençal aioli''' usually adds yolk and is served with ''le grand aïoli'' (poached salt cod, vegetables, eggs).
+* '''Modern "aioli"''' in restaurants is usually garlic mayonnaise.
+* '''Toum''' (Lebanon) is an egg-free emulsion of garlic, neutral oil, lemon and salt, whipped in a food processor: about '''1 part garlic to 4 parts oil by volume''', oil added very slowly, alternating with lemon juice and ice water. It is very stiff and white.
+* '''Raw garlic in an emulsion''' must be refrigerated and used within days; garlic in oil is a botulism risk (see the safety page).
+
+== Vinaigrettes and dressings ==
+* '''Classic ratio:''' '''3 parts oil to 1 part acid''' by volume (Ruhlman's ''Ratio''), seasoned with salt and pepper. Sharper dressings for rich greens go 2:1; mild dressings for delicate leaves 4:1.
+* '''Temporary vs stable:''' a plain vinaigrette is a '''temporary emulsion''' that separates within minutes. '''Mustard''' (1 tsp per 60 mL acid), '''honey''', '''miso''', '''tahini''', a little '''mayonnaise''' or '''yolk''', or puréed '''shallot or garlic''' make it last hours. A blender gives smaller droplets that stay mixed longer.
+* '''Method:''' dissolve salt in the acid first (salt does not dissolve in oil), add the emulsifier, then whisk in the oil or shake in a jar.
+* '''Creamy dressings:''' ranch, blue cheese, Caesar, green goddess and Thousand Island are '''mayonnaise or dairy emulsions''' (buttermilk, sour cream, yogurt). Caesar is classically raw yolk, anchovy, garlic, lemon, Worcestershire and olive oil.
+* '''Warm vinaigrettes''' (bacon fat, brown butter) separate fastest; dress and serve immediately.
+
+== Beurre blanc and butter emulsions ==
+* '''Beurre blanc''' (Nantes): reduce '''60 mL dry white wine + 60 mL white wine vinegar + 1 finely chopped shallot''' to about 2 Tbsp, then whisk in '''about 225 g cold butter''' in cubes, a few at a time, over low heat. Season; strain or leave the shallot in.
+* '''Why it works:''' butter is already an emulsion (about 80% fat, 16% water, plus milk proteins). Whisking cold butter into a hot reduction melts it gradually so the milk proteins keep the fat dispersed in the reduction's water.
+* '''The temperature window:''' hold at '''about 50–60 °C'''. Above about 65 °C it separates into clear fat; below about 35 °C the butterfat solidifies and it turns waxy. Hold in a thermos or a warm (not hot) water bath.
+* '''Stabilizer:''' 1–2 Tbsp of reduced cream added to the reduction before the butter (''beurre nantais'') makes it far more forgiving.
+* '''Relatives:''' '''beurre rouge''' (red wine reduction), '''beurre monté''' (butter whisked into a little water, used for poaching and finishing), '''monter au beurre''' (cold butter swirled into a pan sauce at the end; see [[Pan Sauces Reductions and Gravies]]).
+* '''Brown butter''' (''beurre noisette'') and '''clarified butter''' are '''not''' emulsions; they are butterfat with the water removed.
+
+== Hollandaise family ==
+Hollandaise and béarnaise are warm egg-yolk-and-butter emulsions. Their proportions, temperatures and small sauces are on [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]. The breaking and repair rules above apply directly.
+
+== Emulsions as carriers ==
+Because an emulsion disperses fat evenly through water, it is the natural way to carry an oil-soluble ingredient (an infused oil or butter, an extract) evenly through a water-based sauce or dressing. A temporary emulsion (a plain vinaigrette) separates, so the oil and whatever is dissolved in it end up in the last spoonfuls. See [[Infused Sauces and Dressings Even Dosing per Serving]].
+
+== See also ==
+* [[Sauces]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]
+* [[Pan Sauces Reductions and Gravies]]
+* [[Sauce Thickeners Roux Slurries Liaisons and Gums]]
+* [[Salsas Pestos and Chutneys]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]
+* [[Dosing in Liquids]]
+* [[Food Safety]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Culinary Recipes]]
+
+== Sources ==
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 11, "Sauces": emulsion structure, egg-yolk emulsifiers, how much oil a yolk can hold, breaking and repair, butter sauces.
+* McClements, D. J. ''Food Emulsions: Principles, Practices, and Techniques'', 3rd ed. CRC Press, 2015. Droplet packing, emulsifiers and stability.
+* López-Alt, J. K. ''The Food Lab: Better Home Cooking Through Science''. W. W. Norton, 2015. Immersion-blender mayonnaise, vinaigrette emulsifiers, hollandaise.
+* Peterson, J. ''Sauces: Classical and Contemporary Sauce Making'', 4th ed. Houghton Mifflin Harcourt, 2017. Beurre blanc and hollandaise holding temperatures.
+* Ruhlman, M. ''Ratio''. Scribner, 2009. The 3:1 vinaigrette and mayonnaise ratios.
+* Escoffier, A. ''Le Guide Culinaire'', 1903 (Cracknell and Kaufmann translation, Wiley, 1979). Mayonnaise, tartare, rémoulade and the cold sauces.
+* Corriher, S. O. ''CookWise''. William Morrow, 1997. Emulsion repair and stabilizers.
+
+== Coverage ==
+Kitchen emulsions: the two phases, emulsifiers (yolk lecithin, mustard, garlic, milk proteins), droplet packing and viscosity; why emulsions break (oil too fast, too little water, temperature, too much oil per yolk, freezing, bitter blended olive oil) and the restart and water-rescue fixes; mayonnaise (proportions, whisk and immersion-blender methods, raw-egg safety, derivatives); aioli, allioli and toum; vinaigrette ratios, temporary versus stabilized dressings and creamy dressings; beurre blanc, its 50–60 °C holding window and relatives; why an emulsion is the right carrier for oil-soluble ingredients.

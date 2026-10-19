@@ -1,0 +1,69 @@
+'''Baking''' is the hub for the Library's pages on baked goods: brownies, bars, cookies, cakes, muffins, quick breads, scones, pastry, crackers and the baked foods of the world, with the science underneath them. Nearly every baked good is a controlled answer to three questions: '''how much gluten forms''' (set by the flour, the water and the mixing), '''how the structure gets its air''' (creaming, whipped eggs, steam, or chemical leavening), and '''how the heat sets it''' (oven temperature, pan and time). Learn those three controls and the difference between a fudgy and a cakey brownie, or a flat and a domed cookie, stops being luck.
+
+For putting a measured dose of a herb or other active ingredient into baked goods, see [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]], which joins this hub to [[Dosing in Liquids]]. The same method for candy is on [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]].
+
+== The three controls ==
+* '''Gluten.''' Wheat flour contains two protein groups, glutenins and gliadins, which form an elastic network (gluten) once they are wet and worked. More protein, more water and more mixing give more gluten: chewy bread, tough muffins. Fat, sugar and acid coat or interrupt the proteins and give tenderness. Cake flour (about 7–9% protein) makes tender cakes; bread flour (about 12–14%) makes chewy bread; all-purpose (about 10–12%) sits between. See [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]].
+* '''Air.''' Baked goods rise because gas bubbles already in the batter expand in the heat and fill with steam and carbon dioxide. The bubbles come from '''creaming''' butter with sugar, '''whipping eggs''', '''steam''' (choux, puff pastry, popovers) or '''chemical leaveners''' (baking soda and baking powder). Leaveners only enlarge bubbles that mixing already made; they do not create new ones.
+* '''Heat.''' Starch gelatinizes and egg and gluten proteins set between roughly 60 and 95 °C, which fixes the structure. The surface dries and browns (Maillard reactions and caramelization) once it rises above about 140–150 °C. The oven temperature decides how fast the outside sets relative to the inside. See [[Oven Temperature Heat Transfer and High-Altitude Baking]].
+
+== Work by weight ==
+* '''Bakers work by weight.''' A cup of all-purpose flour weighs anywhere from about 113 g (spooned and levelled, King Arthur's figure is 120 g) to over 150 g (scooped and packed), a 30% swing that turns a tender cake into a dry one. A kitchen scale with 1 g resolution is the most useful tool after the oven.
+* '''Baker's percentages''' express each ingredient as a percentage of the flour weight (flour = 100%). They let you scale any recipe and compare recipes at a glance. A lean bread is about 100% flour, 60–70% water, 2% salt, 1–2% yeast.
+* For small amounts (leaveners, salt, spices, and any active ingredient) use a 0.1 g or 0.01 g scale. See [[Measuring Tools Scales Syringes and Volumetric Dosing]].
+
+== The pages ==
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]: flour types and protein, gluten development, butter, oil and shortening, the roles of sugar beyond sweetness, eggs as structure, emulsifier and leavener, baking soda and baking powder with their ratios, salt, mixing methods.
+* [[Oven Temperature Heat Transfer and High-Altitude Baking]]: conduction, convection and radiation, oven calibration and hot spots, pan material and colour, convection ovens, doneness temperatures, and the high-altitude adjustments.
+* [[Brownies Blondies and Bars]]: fudgy, chewy and cakey brownies and the ratios that cause each, the shiny crust, blondies, lemon bars, bar cookies, crispy rice treats and no-bake bars.
+* [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]: the spread, chew and crisp science, drop cookies, rolled and cut-out cookies, icebox and slice-and-bake, sandwich cookies and shortbread.
+* [[Macarons Meringues and Biscotti]]: French, Swiss and Italian meringue, macarons and macaronage, twice-baked biscotti and their relatives.
+* [[Cakes and Cupcakes]]: butter cakes, oil cakes, sponge and chiffon, the creaming, reverse-creaming and foaming methods, cupcakes, and troubleshooting.
+* [[Frosting Icing and Glazes]]: American and meringue buttercreams, cream cheese frosting, ganache, royal icing, glazes and fondant.
+* [[Muffins Quick Breads and Scones]]: the muffin method, banana bread and other loaves, biscuits and scones, and why overmixing tunnels a muffin.
+* [[Pie Crust and Pastry Basics]]: flaky and mealy pie dough, the butter-and-water balance, blind baking, shortcrust, puff, rough puff and choux.
+* [[Crackers Granola and Energy Bites]]: crackers and flatbreads, granola clusters, granola bars and no-bake energy bites.
+* [[Regional Baked Goods of the World]]: the gazetteer, from baklava and mooncakes to alfajores, each tied to its technique.
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]: carrying an active ingredient in infused butter, oil or tincture, mixing it evenly, cutting equal pieces by weight, heat limits, testing, labelling and child safety.
+
+== Basic equipment ==
+* An '''oven thermometer'''. Home ovens commonly run 10–25 °C off their dial, and the dial cannot tell you about hot spots.
+* A '''digital scale''' (1 g for ingredients, 0.1 g or finer for leaveners and actives) and an '''instant-read probe thermometer''' for doneness.
+* '''Light-coloured aluminium''' sheet pans and cake pans (dark and glass pans brown faster; see the oven page), an 8 × 8 inch (20 × 20 cm) and a 9 × 13 inch (23 × 33 cm) pan, a muffin tin, and parchment paper.
+* A stand or hand mixer, a whisk, a flexible spatula, a bench scraper, a rolling pin, and a portion scoop (a #40 scoop holds about 1½ tablespoons of dough).
+* A wire cooling rack. Baked goods keep cooking from stored heat, and a rack stops the base going soggy.
+
+== Safety ==
+* '''Raw flour is a raw food.''' Flour has been linked to outbreaks of ''E. coli'' O157 and other strains (including a 2016 U.S. outbreak that led to recalls of about 10 million pounds of flour). Don't eat raw dough or batter unless the flour has been heat-treated and the eggs are pasteurized. See [[Food Safety]].
+* '''Raw eggs''' carry a small ''Salmonella'' risk. Baking to the doneness temperatures on the oven page removes it; uncooked fillings and buttercreams can use pasteurized eggs.
+* '''Allergens:''' wheat, eggs, milk, tree nuts, peanuts, soy and sesame are all common in baking. Label anything you give away.
+* '''Burns:''' sheet pans at 180–220 °C, steam from a water bath, and caramel or sugar syrups (see [[Sugar Stages and the Science of Candy]]).
+* '''Pets:''' chocolate (theobromine), xylitol, raisins and macadamia nuts are toxic to dogs. Keep baked goods off low counters.
+
+== Established practice and folklore ==
+* '''Established:''' weighing beats measuring by volume; room-temperature butter and eggs cream and emulsify better; chilling cookie dough reduces spread and deepens flavour; an oven thermometer is more accurate than the dial; resting pie dough relaxes gluten and stops shrinkage.
+* '''Partly true:''' "never open the oven door". Opening it early in a cake's bake can drop the temperature enough to sink a rising sponge, but brownies, cookies and bars tolerate a quick check. "Baking is chemistry, cooking is art": baking is less forgiving of ratio changes, but ovens, flours and altitudes vary so much that bakers still adjust by eye.
+* '''Folklore:''' "sifting is always necessary" (modern flour is not lumpy; sift for cocoa, icing sugar and delicate sponges); "baking soda and baking powder are interchangeable" (they are not; see the science page).
+
+== See also ==
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Dosing in Liquids]]
+* [[Candy Making]]
+* [[Sauces]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Cooking Methods]]
+* [[Culinary Recipes]]
+* [[Recipes]]
+* [[Food Safety]]
+* [[Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw]]
+
+== Sources ==
+* Figoni, P. ''How Baking Works: Exploring the Fundamentals of Baking Science'', 3rd ed. Wiley, 2011.
+* Corriher, S. O. ''BakeWise: The Hows and Whys of Successful Baking''. Scribner, 2008.
+* McGee, H. ''On Food and Cooking: The Science and Lore of the Kitchen'', rev. ed. Scribner, 2004. Chapter 10, "Bread, Cakes, Pastry, and Pasta".
+* Ruhlman, M. ''Ratio: The Simple Codes Behind the Craft of Everyday Cooking''. Scribner, 2009.
+* King Arthur Baking. "Ingredient Weight Chart." [https://www.kingarthurbaking.com/learn/ingredient-weight-chart King Arthur Baking]
+* Crowe, S. J. et al. "Shiga toxin-producing ''E. coli'' infections associated with flour." ''New England Journal of Medicine'' 377:2036–2043, 2017.
+
+== Coverage ==
+The hub for baked goods: the three governing controls (gluten, air and heat); working by weight and baker's percentages; an index of the twelve focused pages, including the infused-baking dosing page; basic equipment; raw flour, raw egg, allergen, burn and pet safety; established practice versus folklore (oven door, sifting, soda versus powder).

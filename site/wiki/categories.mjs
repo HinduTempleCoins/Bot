@@ -59,6 +59,33 @@ const DOSING_CANDY_PAGES = [
       'Sugar-Free Candy Isomalt Allulose Erythritol and Polyols',
       'Candied Fruit Rock Candy Cotton Candy and Panning',
       'Regional Candies of the World',
+      // Baking (operator request 2026-10-19: "add like Brownies and Cookies and Things like that").
+      'Baking',
+      'Baking Science Flour Gluten Fats Sugars Eggs and Leaveners',
+      'Oven Temperature Heat Transfer and High-Altitude Baking',
+      'Brownies Blondies and Bars',
+      'Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread',
+      'Macarons Meringues and Biscotti',
+      'Cakes and Cupcakes',
+      'Frosting Icing and Glazes',
+      'Muffins Quick Breads and Scones',
+      'Pie Crust and Pastry Basics',
+      'Crackers Granola and Energy Bites',
+      'Regional Baked Goods of the World',
+      'Infused Baked Goods Even Dosing in Brownies Cookies and Bars',
+      // Sauces (operator request 2026-10-19: "And Sauces").
+      'Sauces',
+      'The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise',
+      'Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc',
+      'Pan Sauces Reductions and Gravies',
+      'Sauce Thickeners Roux Slurries Liaisons and Gums',
+      'Hot Sauces and Fermented Sauces',
+      'Barbecue Sauces Marinades and Glazes',
+      'Salsas Pestos and Chutneys',
+      'Sweet Sauces Caramel Chocolate and Fruit Coulis',
+      'Regional Sauces of the World',
+      'Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration',
+      'Infused Sauces and Dressings Even Dosing per Serving',
 ];
 
 export const CATEGORIES = [
