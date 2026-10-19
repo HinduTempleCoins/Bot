@@ -110,7 +110,7 @@ export const PLANTS = [
   { id: 'allspice', name: 'Allspice', latin: 'Pimenta dioica', part: 'berry', c: [
     ['eugenol', 'phenylpropanoid', 60, 80], ['β-caryophyllene', 'terpene', 5, 15] ] },
   { id: 'calamus', name: 'Calamus', latin: 'Acorus calamus', part: 'rhizome', c: [
-    ['β-asarone', 'phenylpropanoid', 0, 96] ], note: 'ploidy decides: the North American diploid is near zero, the Indian tetraploid is near all of it' },
+    ['β-asarone', 'phenylpropanoid', 0, 96] ], note: 'ploidy is CORRELATED with β-asarone but is not a safety test: North American and Siberian diploid material is reported at zero to trace, yet measured Himalayan diploid populations carried 7.4% and 11.7%, and one 20-accession study found no ploidy correlation at all. Treat unanalysed calamus as the high-β-asarone type.' },
   { id: 'black-pepper', name: 'Black pepper', latin: 'Piper nigrum', part: 'fruit', c: [
     ['piperine', 'alkaloid', 5, 9], ['β-caryophyllene', 'terpene', 10, 30], ['limonene', 'terpene', 10, 20] ], note: 'piperine is non-volatile — it is in the fruit, not the distilled oil' },
   { id: 'betel', name: 'Betel leaf', latin: 'Piper betle', part: 'leaf', c: [
