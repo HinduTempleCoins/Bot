@@ -84,6 +84,7 @@ Errors add up. Roughly add the percentage errors of every step for a worst-case 
 * Worst case ≈ ±5–7%, which is well inside the ±10–15% that regulated edible markets allow (see [[Testing Labelling and Safe Storage of Dosed Preparations]]). Guessing with a dropper and a kitchen spoon can easily be ±30–50%.
 
 == See also ==
+* [[Making Colloidal Silver A Step-by-Step Guide]]
 * [[Dosing in Liquids]]
 * [[Concentration Arithmetic and Serial Dilution]]
 * [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]

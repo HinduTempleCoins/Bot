@@ -1,0 +1,103 @@
+'''Colloidal Silver in Law and Medicine''' collects the legal and medical record on colloidal silver: how US law decides whether a silver product is a drug, cosmetic, supplement or pesticide; the FDA rule of 1999; the FTC and FDA enforcement actions; the federal and state court cases of the COVID-19 period; and the best-documented cases of argyria. The how-to is [[Making Colloidal Silver A Step-by-Step Guide]], and the chemistry is [[Colloidal Metals, Electrochemistry, and Nanoparticles]].
+
+Everything below is cited to a regulator, court record, government press release or peer-reviewed source. Where a detail could not be confirmed, it is marked '''(unverified)'''.
+
+== A short medical history ==
+* '''Before antibiotics''' silver compounds were mainstream medicine. Credé introduced silver nitrate eye drops against gonococcal eye infection of newborns in 1881. '''Argyrol''', a mild silver protein, was developed in 1902 by Albert C. Barnes and Hermann Hille and sold for eye, nose and throat infections. Barnes's fortune from it founded the Barnes Foundation art collection. '''Collargol''' and other "colloidal silver" preparations were given by mouth, by injection and as nose drops.
+* That era produced most of the recorded argyria. Gaul and Staud (1935) described seventy cases of generalised argyria after organic and colloidal silver medication. Hill and Pillsbury's monograph ''Argyria: The Pharmacology of Silver'' (1939) summarised the field. The intravenous cases in Gaul and Staud are still the basis of the EPA oral reference dose (see [[Making Colloidal Silver A Step-by-Step Guide]]).
+* Sulfa drugs (1930s) and penicillin (1940s) displaced silver for internal use. Silver kept its place in '''topical''' care: silver sulfadiazine burn cream (1960s onward) and, later, silver-impregnated wound dressings.
+* Colloidal silver returned as a '''dietary supplement''' in the 1990s, after the Dietary Supplement Health and Education Act of 1994.
+
+== How US law classifies a silver product ==
+The same bottle of silver in water can be a drug, a cosmetic, a dietary supplement or a pesticide. '''What is claimed for it''' decides which.
+* '''Drug''': FD&C Act §201(g)(1), 21 U.S.C. §321(g)(1). This covers articles "intended for use in the diagnosis, cure, mitigation, treatment, or prevention of disease", and articles (other than food) intended to affect the structure or function of the body. Intent is read from labels, advertising, websites and social media. A claim to treat or prevent any disease makes the product a drug. An unapproved drug is illegal to sell.
+* '''Cosmetic''': §201(i), 21 U.S.C. §321(i). This covers articles applied to the body "for cleansing, beautifying, promoting attractiveness, or altering the appearance". A silver soap or skin toner sold only for those purposes is a cosmetic. The same product sold "to heal acne" or "kill infection" is a drug. FDA's guidance ''Is It a Cosmetic, a Drug, or Both? (Or Is It Soap?)'' walks through this line.
+* '''Dietary supplement''': §201(ff), 21 U.S.C. §321(ff), added by DSHEA 1994. A supplement may carry '''structure/function''' claims ("supports immune health") with the standard disclaimer (§403(r)(6)). It may not carry disease claims. Most colloidal silver sold in the US today is marketed this way.
+* '''Pesticide''': a silver product claiming to kill germs on surfaces or in water is a pesticide under FIFRA (7 U.S.C. §136 et seq.) and must be registered with EPA. Several silver-ion disinfectants are registered.
+* '''Advertising''': the FTC Act §5 (deceptive acts) and §12 (false advertising of food, drugs, devices and cosmetics) require competent and reliable scientific evidence for health claims, whatever FDA category the product falls in.
+
+== The FDA rule (1999) ==
+* After a 1996 proposal, FDA issued a final rule on '''August 17, 1999''' (64 Fed. Reg. 44653), codified at '''21 CFR 310.548'''. It states that over-the-counter drug products containing colloidal silver ingredients or silver salts, for internal or external use, are '''not generally recognized as safe and effective''' and are '''misbranded'''. FDA found no adequate data for any disease claim. Such a product now needs an approved new drug application.
+* The rule covers silver sold '''as a drug'''. It does not ban colloidal silver sold as a supplement without disease claims. That is why the products are still on shelves, and why enforcement since 1999 has turned on '''claims'''.
+* NCCIH (NIH) and FDA consumer guidance repeat the finding: colloidal silver "isn't safe or effective for treating any disease or condition".
+
+== FTC actions (2001–2002) ==
+* '''Aaron Company / Robert C. and Lisa M. Spencer''' (2001). The FTC complaint said the company falsely claimed its Colloidal Silver had been "medically proven to kill over 650 disease-causing organisms" and treated all known infections. The consent order bars the claims without competent and reliable scientific evidence, and requires refunds to past purchasers.
+* '''Mor, Inc. et al.''' (2001). A consent order covering health claims for several products, including colloidal silver.
+* '''Raw Health / Kris Pletschke''' (2002). A consent order against the rawhealth.net seller, whose site claimed colloidal silver cured 650 diseases and killed anthrax and Ebola. It bars deceptive therapeutic claims and requires refunds. The FTC made it effective immediately, without the usual comment period, because of "substantial and imminent public harm".
+
+== COVID-19 warning letters (2020) ==
+* On '''March 9, 2020''', FDA and FTC jointly announced warning letters (dated March 6) to seven sellers of products claimed to prevent or treat COVID-19. They were Vital Silver, Quinessence Aromatherapy, Xephyr LLC (N-Ergetics), GuruNanda, Vivify Holistic Clinic, Herbal Amy and '''The Jim Bakker Show'''. Several of the products were colloidal silver. The letters gave 48 hours to respond and warned of seizure or injunction.
+* Further joint letters followed through 2020, including one to '''Colloidal Vitality''' and one in August 2020 to '''SilveryGuy''' over colloidal silver COVID claims.
+
+== Court cases ==
+=== United States v. Gordon H. Pedersen and My Doctor Suggests LLC (D. Utah) ===
+* '''Civil''' (April 2020). The Department of Justice sued in the US District Court for the District of Utah to stop Gordon Pedersen and his companies My Doctor Suggests LLC and GP Silver LLC from selling silver products as COVID-19 treatment and prevention. Judge David Barlow issued a temporary restraining order, and the court later ordered the sales halted. (DOJ press releases, April–May 2020.)
+* '''Criminal''' (July 2020). A federal grand jury indicted Pedersen. The charges included posing as a medical doctor to promote an ingestible silver product as a COVID-19 cure. My Doctor Suggests LLC agreed to plead guilty to a one-count criminal information. Pedersen '''failed to appear and was a fugitive for three years'''. He was arrested in August 2023.
+* '''Plea and sentence.''' On the second day of trial (March 2024), Pedersen, then 64, pleaded guilty to '''mail fraud''' and '''introducing misbranded drugs into interstate commerce with intent to defraud or mislead'''. On '''July 29, 2024''' he was sentenced to '''36 months in prison''' and one year of supervised release. Prosecutors said he lied about his credentials and claimed his silver lozenges, "probiotics", soap, mouthwash and gel worked against influenza, diabetes, arthritis, pneumonia and COVID-19. They estimated the scheme's revenue at about '''$6.1 million'''. (US Attorney's Office, District of Utah, July 30, 2024.)
+
+=== State of Missouri ex rel. Schmitt v. Morningside Church Productions and Jim Bakker (Stone County Circuit Court) ===
+* The Missouri Attorney General sued in '''March 2020''' over "Silver Solution", sold on ''The Jim Bakker Show'' after a guest said it could kill the coronavirus.
+* '''Consent judgment, June 2021''', signed by Judge Alan Blankenship. Bakker and Morningside agreed to restitution of about '''$156,000''': refunds already issued plus a further $90,000 to Missouri buyers who purchased between February 12 and March 10, 2020. They are barred from marketing Silver Solution, or any silver product, as able to diagnose, prevent, mitigate, treat or cure any disease. They denied wrongdoing.
+* '''Arkansas''': the Arkansas Attorney General also investigated and sought restitution. '''(Outcome unverified.)''' Separate private class-action claims against Bakker over Silver Solution were reported. '''(Outcome unverified.)'''
+
+=== Other state actions ===
+State attorneys general sent COVID-19 cease-and-desist letters to many sellers in 2020, some of them silver sellers. No other state court judgment specific to colloidal silver could be confirmed for this page. '''(Unverified; not listed.)'''
+
+== Argyria cases on record ==
+=== Stan Jones (Montana) ===
+* A Libertarian candidate for US Senate in Montana (2002 and 2006) and for governor (2000, 2004, 2008). He began drinking '''home-made colloidal silver''' in 1999, afraid that Y2K would make antibiotics unavailable. His skin turned permanently blue-grey. He continued to say the silver had kept him healthy. Reported in ''The New Yorker'' (2002), ''The Washington Post'' (Harden, 2006) and NPR's ''All Things Considered'' (2010).
+
+=== Rosemary Jacobs ===
+* A US woman, described in press accounts as a Montessori teacher, who developed generalised argyria as a child after a doctor prescribed '''colloidal silver nose drops''' for allergies. The grey discolouration was permanent. She became a long-running public opponent of silver marketing, through her first-person account "My Story" (1998), press interviews (''The Telegraph'', WebMD, 2008) and her blog (2010–2013). Her case shows that '''nasal''' use alone can cause systemic argyria.
+
+=== Paul Karason ===
+* A California man ("the blue man") whose skin turned deep blue after years of drinking a '''home-made silver solution''' made with salt, so largely silver chloride, and applying a silver salve to his face for dermatitis, sinus trouble and reflux. He appeared widely in 2008 (ABC News, NBC ''Today''). He died in 2013 of a heart attack, aged 62. His family cited long-standing heart disease and heavy smoking, and the silver was not established as the cause. His preparation shows two common home-making errors at once: '''salt''' (chloride) and '''very high daily volume'''.
+
+=== Published clinical cases (selection) ===
+* Kim et al., ''Annals of Dermatology'' 2009: generalised argyria after more than five years of colloidal silver, with silver deposits in skin and colon.
+* Chang et al., ''Journal of Cutaneous Pathology'' 2006: argyria after colloidal silver ingestion.
+* Mirsattari et al., ''Neurology'' 2004: myoclonic status epilepticus after repeated oral colloidal silver, a rare neurological outcome.
+* Wadhera and Fung, ''Dermatology Online Journal'' 2005: systemic argyria from colloidal silver ingestion.
+* Reports in ''Journal of Drugs in Dermatology'' (2015), ''Cutis'' (2012) and ''Cureus'' (2022) describe 2 to more than 10 years of use, including gargle-only use and argyria confined to the nails.
+
+== What the record shows, in short ==
+* No silver product is an approved oral drug in the US. Disease claims are what bring enforcement.
+* The legal risk to sellers is '''claims''' (drug law, FTC Act, mail and wire fraud). The medical risk to users is '''cumulative total silver''', ionic or particulate.
+* Every well-known argyria case involved years of daily use, and usually high-strength or salted home preparations or nasal use. These are exactly the mistakes the how-to's dose arithmetic is designed to prevent.
+
+== See also ==
+* [[Making Colloidal Silver A Step-by-Step Guide]]
+* [[Colloidal Metals, Electrochemistry, and Nanoparticles]]
+* [[Colloids in Cerebrospinal Fluid Lange Gold Test Oncotic Pressure and Nanoparticles]]
+* [[Rasa Shastra and Ancient Indian Nanochemistry]]
+* [[Dosing in Liquids]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Legal Doctrines]]
+
+== Sources ==
+* Federal Food, Drug, and Cosmetic Act §201(g), (i), (ff); 21 U.S.C. §321. [https://www.law.cornell.edu/uscode/text/21/321 21 U.S.C. §321]
+* US FDA. "Over-the-counter drug products containing colloidal silver ingredients or silver salts; final rule." 64 Fed. Reg. 44653 (Aug. 17, 1999); 21 CFR 310.548. [https://www.ecfr.gov/current/title-21/chapter-I/subchapter-D/part-310/subpart-E/section-310.548 eCFR]
+* US FDA. "Is It a Cosmetic, a Drug, or Both? (Or Is It Soap?)" [https://www.fda.gov/cosmetics/cosmetics-laws-regulations/it-cosmetic-drug-or-both-or-it-soap FDA]
+* National Center for Complementary and Integrative Health. "Colloidal Silver: What You Need To Know." [https://www.nccih.nih.gov/health/colloidal-silver NCCIH]
+* Federal Trade Commission. ''In the Matter of Robert C. Spencer and Lisa M. Spencer, d/b/a Aaron Company'', analysis of proposed consent order, 2001. [https://www.ftc.gov/sites/default/files/documents/cases/2001/06/aaronanalysis.htm FTC]
+* Federal Trade Commission. ''In the Matter of Mor, Inc. et al.'', analysis of proposed consent order, 2001. [https://www.ftc.gov/sites/default/files/documents/federal_register_notices/mor-inc.et-al.analysis-aid-public-comment/010620formorinc.pdf FTC]
+* Federal Trade Commission. ''In the Matter of Kris A. Pletschke, d/b/a Raw Health'', 2002; 67 Fed. Reg. (March 6, 2002). [https://www.ftc.gov/sites/default/files/documents/cases/2002/02/rawhealthana.htm FTC]
+* US FDA and FTC. "FDA and FTC warn seven companies selling fraudulent products that claim to treat or prevent COVID-19", March 9, 2020; warning letters to Colloidal Vitality and others. [https://www.ftc.gov/system/files/warning-letters/fda-covid-19-letter-colloidal-vitality.pdf FTC/FDA letter]
+* US Department of Justice. "Department of Justice acts to stop sale of nano silver product as treatment for COVID-19" (April 2020) and "Court orders halt to sale of silver product fraudulently touted as COVID-19 cure" (2020). [https://www.justice.gov/opa/pr/court-orders-halt-sale-silver-product-fraudulently-touted-covid-19-cure DOJ]
+* US Attorney's Office, District of Utah. "Fake doctor selling unproven COVID-19 cure sentenced to 36 months", July 30, 2024; and "On second day of trial, fake doctor pleads guilty to mail fraud", 2024. [https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/doj-press-releases-involving-fda-oci/fake-doctor-selling-unproven-covid-19-cure-sentenced-36-months FDA-OCI/USAO]
+* Missouri Attorney General. Consent judgment, ''State of Missouri v. Morningside Church Productions, Inc. and James Bakker'', Stone County Circuit Court, June 2021; reported by ''Courthouse News'', KY3 and the ''Springfield Business Journal'', June 23–24, 2021. [https://www.ky3.com/2021/06/23/missouri-attorney-general-televangelist-jim-bakker-settle-lawsuit-over-silver-claims/ KY3]
+* Gaul, L. E. and Staud, A. H. "Clinical spectroscopy: seventy cases of generalized argyrosis following organic and colloidal silver medication." ''JAMA'' 104:1387–1390, 1935.
+* Hill, W. R. and Pillsbury, D. M. ''Argyria: The Pharmacology of Silver''. Williams & Wilkins, 1939.
+* Fung, M. C. and Bowen, D. L. "Silver products for medical indications: risk-benefit assessment." ''Journal of Toxicology: Clinical Toxicology'' 34(1):119–126, 1996.
+* ''The New Yorker'' (Sullivan), 2002; Harden, B. ''The Washington Post'', 2006; NPR ''All Things Considered'', 2010.
+* Jacobs, R. "My Story" (1998); "Silver lady" interviews, ''The Telegraph'' and WebMD, 2008.
+* ABC News and NBC ''Today'' reports on Paul Karason, 2008 and 2013.
+* Kim, Y. et al. "A case of generalized argyria after ingestion of colloidal silver solution." ''Annals of Dermatology'' 21(2):151–153, 2009. [https://pmc.ncbi.nlm.nih.gov/articles/PMC2861249/ PMC2861249]
+* Chang, A. L., Khosravi, V. and Egbert, B. "A case of argyria after colloidal silver ingestion." ''Journal of Cutaneous Pathology'' 33(12):809–811, 2006.
+* Wadhera, A. and Fung, M. "Systemic argyria associated with ingestion of colloidal silver." ''Dermatology Online Journal'' 11(1):12, 2005.
+* Mirsattari, S. M. et al. "Myoclonic status epilepticus following repeated oral ingestion of colloidal silver." ''Neurology'' 62(8):1408–1410, 2004.
+* "Argyria" (overview of the Jones, Jacobs and Karason cases with press citations). [https://en.wikipedia.org/wiki/Argyria Wikipedia]
+
+== Coverage ==
+The law and the medical record on colloidal silver. The drug / cosmetic / supplement / pesticide line under FD&C Act §201(g), (i) and (ff), FIFRA and the FTC Act. FDA's 1999 final rule (21 CFR 310.548). FTC consent orders (Aaron Company, Mor Inc., Raw Health). The 2020 FDA–FTC COVID-19 warning letters. ''United States v. Pedersen'': civil TRO, indictment, fugitive arrest, guilty plea, 36-month sentence. Missouri's consent judgment with Jim Bakker and Morningside ($156,000). Unverified state matters are marked as such. Recorded argyria in Stan Jones, Rosemary Jacobs and Paul Karason, with clinical case reports. The pre-antibiotic history (Credé, Argyrol, Collargol) that produced the original argyria data.
