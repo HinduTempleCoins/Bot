@@ -106,4 +106,4 @@ farming, move-to-earn, and staking DMP/ALTI. These give only the 🚧 notice.
 ## Everything else
 
 `!help` lists all of this. `!ask <question>` searches the Resource Center. Discord:
-https://discord.gg/6pyjAv2Qu (this invite expires 2026-11-14).
+https://discord.gg/Ghz672dW7Z (permanent invite, no expiry).

@@ -22,6 +22,9 @@ export const anchorId = (s) => String(s == null ? '' : s)
   .toLowerCase().replace(/<[^>]*>/g, '').replace(/[^\w\s-]/g, '').trim()
   .replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'section';
 
+// The Van Kush Community Discord: a permanent invite (no expiry), env-overridable.
+const DISCORD_INVITE = process.env.DISCORD_INVITE || 'https://discord.gg/Ghz672dW7Z';
+
 const STYLE = `<style>
   /* ── Signature palette (aesthetic_canon): gold+lapis on quartz, amethyst light. One source of truth. */
   :root{
@@ -201,7 +204,7 @@ ${ld ? `<script type="application/ld+json">${ld}</script>` : ''}${THEME_BOOT}${S
 <body><header class=top><a class=brand href="/"><span class=sun aria-hidden=true></span>Library of Ashurbanipal <small>· MELEK</small></a>
 <nav class=main>${nav}${THEME_BTN}</nav></header>
 ${inner}
-<footer><div class=fnav><a href="/">Library</a><a href="/categories">Contents</a><a href="/search">Search</a><a href="/about">About</a><a href="https://witness.melek.salon">Witness School</a></div>
+<footer><div class=fnav><a href="/">Library</a><a href="/categories">Contents</a><a href="/search">Search</a><a href="/about">About</a><a href="https://witness.melek.salon">Witness School</a><a href="${esc(DISCORD_INVITE)}">Discord</a></div>
 The Library of Ashurbanipal — synthesized from the VKFRI knowledge base, grounded in cited sources and audited by a fact-checker. Claims attributed to VKFRI are the Institute's own; established science is marked as such.</footer>
 <script src="https://pentecaust.com/translate.js" defer></script>
 </body></html>`;

@@ -18,7 +18,7 @@ import { createBrain } from './decades-brain.mjs';
 
 const STUDIO = () => process.env.HATHOR_STUDIO || 'https://hathor.soapbox.community';
 const WIKI = () => process.env.WIKI_SITE || 'https://wiki.soapbox.community';
-const DISCORD = () => process.env.DISCORD_INVITE || 'https://discord.gg/5QAF9JuBF';
+const DISCORD = () => process.env.DISCORD_INVITE || 'https://discord.gg/Ghz672dW7Z';
 
 // Build + seed the brain once. Cheapest layers first (pattern → bayes → tfidf); no GPU, no network.
 export function buildHathorBrain() {

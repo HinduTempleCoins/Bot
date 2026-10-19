@@ -40,5 +40,5 @@ export const LINKS = Object.freeze({
   hiveEngine: (sym) => `https://tribaldex.com/trade/${sym}`,
   map: 'https://melek.salon/map/',
   // Discord invite supplied by the operator 2026-10-17 — EXPIRES 2026-11-14; replace with a permanent one.
-  discord: process.env.HELPERBOT_DISCORD_INVITE || 'https://discord.gg/6pyjAv2Qu',
+  discord: process.env.HELPERBOT_DISCORD_INVITE || 'https://discord.gg/Ghz672dW7Z',
 });

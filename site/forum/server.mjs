@@ -67,6 +67,7 @@ const RPC_URL = process.env.FORUM_RPC_URL || DEFAULT_RPC;
 const APP_NAME = process.env.FORUM_APP || 'forum';
 const SITE_NAME = 'SoapBox Forum';
 const DATA = process.env.SOAPBOX_SITE || 'https://data.soapbox.community';
+const DISCORD_INVITE = process.env.DISCORD_INVITE || 'https://discord.gg/Ghz672dW7Z';
 // IndexNow-on-create ping: opt-in (FORUM_INDEXNOW=1) + fire-and-forget so the render path stays network-free.
 const INDEXNOW_ON = process.env.FORUM_INDEXNOW === '1';
 
@@ -296,7 +297,7 @@ const FOOTER = `<footer>
   <b>${esc(SITE_NAME)}</b> — a forum on the MELEK chain. Posts are on-chain <code>comment</code> operations, signed
   in your browser through <b>MELEK-Signer</b>; this site holds no keys. Standing is <b>${esc(FORUM_TOKEN)} merit</b> —
   scarce, peer-awarded, never bought and never self-minted. MELEK mainnet.
-  <div style="margin-top:8px"><a href="${P('/')}">Forum</a> · <a href="${safeHref(DATA)}">Data</a></div>
+  <div style="margin-top:8px"><a href="${P('/')}">Forum</a> · <a href="${safeHref(DATA)}">Data</a> · <a href="${safeHref(DISCORD_INVITE)}">Discord</a></div>
 </footer>`;
 
 // ── MELEK-Signer client (keyless): OAuth capture + broadcast(comment/vote) in the browser ─────────

@@ -129,10 +129,10 @@ test('Video (/video) renders with CapCut starts + BYOK, and /api/video returns n
 
 test('Discord invite is linked in nav, home callout, footer, and share CTA', async () => {
   const html = (await call({ url: '/' })).text();
-  assert.ok(html.includes('discord.gg/5QAF9JuBF'));
+  assert.ok(html.includes('discord.gg/Ghz672dW7Z'));
   assert.ok(html.includes('Chat with Hathor on Discord'));
   assert.ok(charIndexViewHasDiscord());
-  function charIndexViewHasDiscord() { return srv.charIndexView().includes('discord.gg/5QAF9JuBF'); } // shareCta
+  function charIndexViewHasDiscord() { return srv.charIndexView().includes('discord.gg/Ghz672dW7Z'); } // shareCta
 });
 
 test('Photo Editor (/edit) renders with background-removal cutout + new-background options', async () => {
