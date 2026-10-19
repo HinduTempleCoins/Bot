@@ -15,6 +15,7 @@
 //   import { figureHtml, renderFigures, FIGURES, hasFigure } from './figures.mjs'
 
 import { allylbenzeneMapSvg, plantConstituentsSvg } from '../../integrations/herb-atlas.mjs';
+import { CHARTS as HERB_CHARTS } from '../../integrations/herb-charts.mjs';
 import { chartSvg } from '../../integrations/plant-deficiency-chart.mjs';
 import { wheelSvg, wheelNames } from '../../integrations/aroma-wheel.mjs';
 import { table, GRAPHENE_MATRIX } from '../../integrations/chain-compare.mjs';
@@ -318,6 +319,9 @@ export const FIGURES = {
   'methylation-cycle': { fn: methylationCycle, alt: 'Where L-methylfolate acts in the methylation cycle' },
   'allylbenzene-map': { fn: allylbenzeneMapSvg, alt: 'The allylbenzenes drawn side by side, each ring position colour-coded' },
   'plant-constituents': { fn: plantConstituentsSvg, alt: 'What is in each plant: the major constituents of each essential oil as a share of the whole' },
+  'all-plants': { fn: HERB_CHARTS['all-plants'], alt: 'Every plant in the atlas, by what is in its essential oil' },
+  'enzyme-matrix': { fn: HERB_CHARTS['enzyme-matrix'], alt: 'Which plants inhibit or induce which drug-metabolising enzyme' },
+  'dye-plants': { fn: HERB_CHARTS['dye-plants'], alt: 'Dye plants, the compound that makes each colour, and the mordant that fixes it' },
   'token-specs': { fn: tokenSpecsMatrix, alt: 'VKBT and CURE compared with other Hive-Engine tokens on supply, holders, concentration and emission' },
   'graphene-matrix': { fn: grapheneMatrix, alt: 'STEEM, HIVE, BLURT, MELEK, PRANA, VKBT and CURE compared side by side' },
   // one figure per aroma wheel: [[Figure:wheel-wine]], [[Figure:wheel-cannabis]] and so on
