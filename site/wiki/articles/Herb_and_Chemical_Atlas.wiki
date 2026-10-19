@@ -1,0 +1,238 @@
+The '''Herb and Chemical Atlas''' is the one-page index to everything in this library about plants, the chemicals in them, what those chemicals do to each other inside a person, and what people make out of them — cooking first, then lotions and balms, then diffusers and candles. Every entry here is a short line. The detail lives on the page each line links to.
+
+It exists because the same plant turns up in four different conversations — a kitchen spice, a scent, a dye, and a drug interaction — and nowhere were those four facts on one line next to each other. Cooking is the centre of this page because cooking is where almost everyone meets these plants first.
+
+== The charts ==
+Two diagrams carry the structural part of this page. Both are drawn from the data files beside this article rather than copied from anywhere, so they are the same on every load and correct in print.
+
+[[Figure:allylbenzene-map|The allylbenzene series, each ring position colour-coded. Two molecules can be compared by eye: what is at position 4 decides the class, position 2 and 5 are said to shift the character.]]
+
+The colour key is the one from the chart the operator has used since 2018, published on Herbpedia: position 1 black (the side chain), 2 brown, 3 red, 4 green, 5 blue, 6 purple. '''What each position is said to do is a community claim''', from the 69Ron material, and is not a verified structure–activity result. It is on the chart because it is how this family has been read for twenty years, not because it has been demonstrated.
+
+[[Figure:plant-constituents|What is in each plant: the major constituents of each essential oil, as a share of the whole. Bars are the midpoint of the published range.]]
+
+Read that chart with one thing in mind: '''it is the composition of the oil, not of the plant.''' Piperine is 5–9% of black pepper but almost none of its distilled oil; curcumin is the colour and the pharmacology of turmeric and is not volatile at all; the grapefruit furanocoumarins that cause the famous drug interaction are in the juice, not the peel oil. A plant and its essential oil are not interchangeable, and most bad advice in this subject comes from treating them as if they were.
+
+== Shulgin's ten essential oils ==
+Shulgin noticed that ten common essential oils carry the ring substitution patterns of ten known amphetamines, and that adding ammonia across the side chain would, on paper, turn each oil into its partner. His own words are "in theory" and "in principle", and that qualifier is the whole point: '''no human in vivo conversion of an allylbenzene into an amphetamine has ever been demonstrated.''' Every pair below is hypothetical.
+
+'''What is actually documented is different.''' Allylbenzenes fed to animals yield tertiary aminopropiophenone alkaloids - dimethylamine, piperidine and pyrrolidine types - detected in urine by GLC/CIMS, NOT amphetamines (Peele & Oswald, PMID 870079). Propenylbenzenes (anethole, alpha/beta-asarone, isoeugenol, isosafrole) form no such alkaloid metabolites at all. The only amphetamine-adjacent experimental claim in the series is the rabbit-liver myristicin to MMDA report Shulgin himself cites, and the repo's own knowledge file concedes the products were most likely aminopropiophenones.
+
+The pairs, each one hypothetical:
+* '''4-methoxy''' — estragole (methyl chavicol, 4-allylanisole) → 4-MA, 4-methoxyamphetamine
+* '''3,4-dimethoxy''' — methyleugenol → 3,4-DMA, 3,4-dimethoxyamphetamine
+* '''3,4-methylenedioxy''' — safrole → MDA, 3,4-methylenedioxyamphetamine
+* '''3-methoxy-4,5-methylenedioxy''' — myristicin → MMDA, 3-methoxy-4,5-methylenedioxyamphetamine
+* '''2-methoxy-3,4-methylenedioxy''' — croweacin → MMDA-3a, 2-methoxy-3,4-methylenedioxyamphetamine
+* '''2-methoxy-4,5-methylenedioxy''' — asaricin → MMDA-2, 2-methoxy-4,5-methylenedioxyamphetamine
+* '''3,4,5-trimethoxy''' — elemicin → TMA, 3,4,5-trimethoxyamphetamine
+* '''2,4,5-trimethoxy''' — asarone → TMA-2, 2,4,5-trimethoxyamphetamine. Shulgin names 'asarone'. The common calamus isomers alpha- and beta-asarone are PROPENYL and form no alkaloid metabolites; only the rare ALLYL isomer gamma-asarone (euasarone, sekishone) fits the series.
+* '''2,5-dimethoxy-3,4-methylenedioxy''' — apiole → DMMDA, 2,5-dimethoxy-3,4-methylenedioxyamphetamine
+* '''2,3-dimethoxy-4,5-methylenedioxy''' — dillapiole → DMMDA-2, 2,3-dimethoxy-4,5-methylenedioxyamphetamine
+* '''2,3,4,5-tetramethoxy''' — 2,3,4,5-tetramethoxyallylbenzene → TA, 2,3,4,5-tetramethoxyamphetamine
+
+See [[Shulgin Ten Essential Oils]], [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] and [[Oilahuasca]].
+
+== The chemicals, grouped by how alike they are ==
+The grouping below is computed, not editorial: RDKit Morgan fingerprint (radius 2, 2048 bits), Tanimoto distance, SciPy average-linkage hierarchical clustering, cut at distance 0.65. Molecules that sit together here are built the same way, which is usually why they smell alike, are metabolised by the same enzymes, or show up in the same plants.
+
+* piperidine (C8082) · pyrrolidine (C31268)
+* bixin (C5281226) · norbixin (C5281249)
+* linalool (C6549) · myrcene (C31253) · citral (C638011) · geraniol (C637566) · nerolidol (C5284507) · farnesene (C5281516) · linalyl acetate (C8294) · geranyl acetate (C1549026)
+* cannabidiol (C644019) · tetrahydrocannabinol (C16078) · cannabidiolic acid (C160570)
+* cannabigerol (C5315659) · cannabinol (C2543) · cannabichromene (C30219)
+* valerenic acid (C6440940) · valerenal (C6440942)
+* alpha-thujone (C261491) · beta-thujone (C91456)
+* borneol (C64685) · patchoulol (C10955174) · bornyl acetate (C93009)
+* eucalyptol (C2758) · cineole (C2758)
+* valencene (C9855795) · nootkatone (C1268142)
+* limonene (C22311) · carvone (C7439) · perillyl alcohol (C10819)
+* beta-caryophyllene (C5281515) · caryophyllene oxide (C1742210)
+* alpha-pinene (C6654) · beta-pinene (C14896)
+* caffeine (C2519) · theobromine (C5429) · theophylline (C2153)
+* N,N-Dimethyltryptamine (C6089) · 5-MeO-DMT (C1832) · bufotenine (C10257) · N-methyltryptamine (C6088) · tryptamine (C1150) · serotonin (C5202) · melatonin (C896)
+* harmaline (C3564) · tetrahydroharmine (C442118)
+* harmine (C5280953) · harman (C5281404) · norharman (C64961)
+* bergamottin (C5471349) · 6,7-dihydroxybergamottin (C6440498) · bergapten (C2355)
+* myristicin (C4276) · apiole (C10659) · dillapiole (C10231) · croweacin (C5316141) · gamma-asarone (C636750) · sarisan (C95289) · asaricin (C95289) · isomyristicin (C6436484) · MMDA (C26175)
+* TMA-2 (C31014) · DMMDA (C44349928) · 4-methoxyamphetamine (C31721) · 3,4-dimethoxyamphetamine (C8423) · 3,4,5-trimethoxyamphetamine (C31016) · MMDA-2 (C90966) · MMDA-3a (C90967) · DMMDA-2 (C16766527)
+* elemicin (C10248) · estragole (C8815) · methyleugenol (C7127) · eugenol (C3314) · chavicol (C68148) · chavibetol (C596375) · hydroxychavicol (C70775) · allylbenzene (C9309) · eugenyl acetate (C7136)
+* capsaicin (C1548943) · gingerol (C442793) · shogaol (C5281794) · zingerone (C31211)
+* 1-hydroxyestragole (C40003) · 1'-hydroxysafrole (C21268)
+* safrole (C5144) · isosafrole (C637796) · piperonal (C8438) · piperine (C638024) · 3,4-methylenedioxyamphetamine (C1614) · safrole 2',3'-oxide (C101123)
+* kavain (C5281565) · dihydrokavain (C10220256) · methysticin (C5281567)
+* chlorogenic acid (C1794427) · rosmarinic acid (C5281792)
+* caffeic acid (C689043) · cinnamic acid (C444539) · p-coumaric acid (C637542) · resveratrol (C445154) · naringenin chalcone (C5280960)
+* anethole (C637563) · anisaldehyde (C31244) · yangonin (C5281575) · desmethoxyyangonin (C5273621)
+* alpha-asarone (C636822) · beta-asarone (C5281758) · carpacin (C5281763)
+* isoeugenol (C853433) · methyl isoeugenol (C7128) · isoelemicin (C5318557) · vanillin (C1183) · ferulic acid (C445858) · sinapic acid (C10743) · curcumin (C969516)
+* naringin (C442428) · rutin (C5280805) · hesperidin (C10621) · luteolin 7-glucoside (C5280637) · naringin dihydrochalcone (C9894584) · apiin (C5280746)
+* cyanidin (C128861) · delphinidin (C128853) · pelargonidin (C440832)
+* quercetin (C5280343) · kaempferol (C5280863) · apigenin (C5280443) · luteolin (C5280445) · galangin (C5281616) · myricetin (C5281672) · baicalein (C5281605)
+* genistein (C5280961) · daidzein (C5281708) · puerarin (C5281807)
+* epigallocatechin gallate (C65064) · catechin (C9064) · epicatechin (C72276)
+* naringenin (C439246) · hesperetin (C72281) · silybin (C31553)
+* hematoxylin (C442514) · brazilin (C73384)
+* thymol (C6989) · carvacrol (C10364) · p-cymene (C7463)
+* alizarin (C6293) · lawsone (C6755) · purpurin (C6683)
+* cocaine (C446220) · atropine (C174174) · scopolamine (C3000322) · hyoscyamine (C154417)
+* cinnamaldehyde (C637511) · benzaldehyde (C240)
+* phenelzine (C3675) · tyramine (C5610) · phenethylamine (C1001)
+* phenylalanine (C6140) · tryptophan (C6305)
+* '''On their own:''' allicin · sulforaphane · crocin · glutathione · citronellol · alpha-bisabolol · santalol · hyperforin · chamazulene · pulegone · menthone · menthol · guaiol · sabinene · ascaridole · camphor · cedrol · beta-elemene · terpinen-4-ol · humulene · terpinolene · gamma-terpinene · safranal · glycyrrhizin · moclobemide · iproniazid · nicotine · genipin · harmol · xanthotoxin · coumarin · mescaline · sanguinarine · piperonyl butoxide · xanthohumol · berberine · hydrastine · boldine · colchicine · mitragynine · oleuropein · betanin · carthamin · ellagic acid · gallic acid · hypericin · glabridin · thymoquinone · nigellone · carnosic acid · emodin · carminic acid · juglone · thujaplicin · indigo · methyl salicylate · shikonin · ephedrine · salicylaldehyde · azulene · benzyl benzoate · selegiline · dimethylamine
+
+Each name is a PubChem compound id (C number), so any of them can be looked up directly. Identity data — formula, weight, log P and the structure itself — was taken from PubChem rather than written from memory; the file is <code>knowledge/herb-atlas/pubchem.json</code>.
+
+== Plant oils, butters and waxes ==
+69 of them, with the numbers that decide what each one is good for. [object Object]
+
+=== Oils ===
+* '''Olive oil (extra virgin / virgin / refined / pomace)''' — Olea europaea; mainly oleic 69%, palmitic 14%, linoleic 12%; melts clouds 0-10 C; solidifies about -6 C; NaOH SAP 0.135; cooking, infusion_carrier, soap (castile), balm, lotion
+* '''Sweet almond oil''' — Prunus dulcis; mainly oleic 71%, linoleic 18%, palmitic 7%; melts about -18 C (pour point); NaOH SAP 0.139; massage, lotion, balm, infusion_carrier, soap (up to ~20%), cooking
+* '''Apricot kernel oil''' — Prunus armeniaca; mainly oleic 66%, linoleic 27%, palmitic 6%; melts about -15 C; NaOH SAP 0.139; face oil, lotion, massage, infusion_carrier
+* '''Grapeseed oil''' — Vitis vinifera; mainly linoleic 68%, oleic 20%, palmitic 8%; melts about -10 C; NaOH SAP 0.129; lotion (light), massage, cooking (moderate heat)
+* '''Sunflower oil, high-oleic''' — Helianthus annuus; mainly oleic 83%, stearic 4%, linoleic 4%; NaOH SAP 0.135; cooking, lotion, balm, soap, infusion_carrier
+* '''Sunflower oil, standard (high-linoleic)''' — Helianthus annuus; mainly linoleic 70%, oleic 16%, palmitic 7%; NaOH SAP 0.135; cooking, lotion, soap (<=15-20%)
+* '''Safflower oil, high-oleic''' — Carthamus tinctorius; mainly oleic 77%, linoleic 15%, palmitic 5%; NaOH SAP 0.135; cooking, lotion, soap, infusion_carrier
+* '''Safflower oil, high-linoleic''' — Carthamus tinctorius; mainly linoleic 75%, oleic 15%, palmitic 7%; NaOH SAP 0.137; lotion (light), cooking (cold)
+* '''Coconut oil, fractionated / MCT''' — Cocos nucifera (fraction); mainly caprylic 54%, capric 43%, lauric 2%; melts liquid down to about -5 C; NaOH SAP 0.232; infusion_carrier, tincture-like oil dosing, roll-ons, perfume oil, reed diffuser base (some), massage
+* '''Avocado oil''' — Persea americana; mainly oleic 58%, palmitic 20%, linoleic 12%; NaOH SAP 0.133; cooking, soap, balm, lotion (rich), infusion_carrier
+* '''Argan oil''' — Argania spinosa; mainly oleic 46%, linoleic 34%, palmitic 14%; NaOH SAP 0.136; face oil, hair oil, lotion, cooking (roasted, finishing)
+* '''Rosehip seed oil''' — Rosa canina / R. rubiginosa; mainly linoleic 46%, linolenic 31%, oleic 12%; NaOH SAP 0.133; face serum, lotion (oil phase, small %)
+* '''Sea buckthorn seed oil''' — Hippophae rhamnoides; mainly linolenic 38%, linoleic 36%, oleic 14%; NaOH SAP 0.139; face serum (small %)
+* '''Sea buckthorn fruit (pulp/berry) oil''' — Hippophae rhamnoides; mainly palmitoleic C16:1 (omega-7) 25-40%, palmitic 25-35%, oleic 15-25%; NaOH SAP 0.13; face serum (low %), balm colourant
+* '''Castor oil''' — Ricinus communis; mainly ricinoleic 90%, oleic 4%, linoleic 4%; melts pour point about -10 to -18 C; NaOH SAP 0.128; soap (5-10%: stabilises lather), lip balm/gloss, hair, balm (small %)
+* '''Hemp seed oil''' — Cannabis sativa (seed); mainly linoleic 57%, linolenic 21%, oleic 12%; NaOH SAP 0.138; cooking (cold), lotion, soap (<=15%)
+* '''Black seed oil (Nigella sativa, "black cumin")''' — Nigella sativa; mainly linoleic 60%, oleic 22%, palmitic 13%; NaOH SAP 0.139; face/hair oil (low %), balm, cooking (cold)
+* '''Sesame oil (untoasted; toasted noted)''' — Sesamum indicum; mainly linoleic 43%, oleic 40%, palmitic 10%; NaOH SAP 0.134; cooking, massage (abhyanga), infusion_carrier (Ayurvedic taila)
+* '''Rice bran oil''' — Oryza sativa; mainly oleic 38%, linoleic 34%, palmitic 22%; NaOH SAP 0.133; cooking, soap, lotion
+* '''Camellia (tsubaki / tea seed) oil''' — Camellia oleifera / C. japonica; mainly oleic 77%, palmitic 9%, linoleic 8%; NaOH SAP 0.138; cooking, hair oil, face oil, lotion
+* '''Macadamia nut oil''' — Macadamia integrifolia / tetraphylla; mainly oleic 55-65%, palmitoleic C16:1 16-23%, palmitic 7-10%; NaOH SAP 0.139; face oil, lotion, balm, cooking, soap
+* '''Meadowfoam seed oil''' — Limnanthes alba; mainly 5-eicosenoic C20:1 58-64%, docosenoic C22:1 (5- and 13-) 10-20%, 5,13-docosadienoic C22:2 10-20%; NaOH SAP 0.12; lotion, lip balm, hair, stabilising blends with fragile oils
+* '''Evening primrose oil''' — Oenothera biennis; mainly linoleic 70-77%, gamma-linolenic GLA 8-11%, oleic 6-10%; NaOH SAP 0.135; face serum (low %), lotion oil phase
+* '''Borage (starflower) seed oil''' — Borago officinalis; mainly linoleic 35-38%, gamma-linolenic GLA 20-24%, oleic 16-20%; NaOH SAP 0.135; face serum (low %)
+* '''Pomegranate seed oil''' — Punica granatum; mainly punicic acid (9c,11t,13c-C18:3, conjugated) 65-80%, linoleic 5-8%, oleic 5-8%; NaOH SAP 0.135; face serum (low %)
+* '''Tamanu (foraha, kamani) oil''' — Calophyllum inophyllum; mainly linoleic 38%, oleic 34%, stearic 13%; NaOH SAP 0.148; balm (scar/wound-care tradition, low %), salve
+* '''Neem seed oil''' — Azadirachta indica; mainly oleic 46%, palmitic 21%, stearic 16%; melts partly solid below ~25 C (clouds); NaOH SAP 0.138; balm/salve (1-10%), soap (up to ~10%), pet/plant sprays
+* '''Moringa (ben) oil''' — Moringa oleifera; mainly oleic 70-76%, behenic C22:0 5-7%, palmitic 5-7%; NaOH SAP 0.137; perfume carrier, face oil, balm, cooking
+* '''Baobab seed oil''' — Adansonia digitata; mainly oleic 37%, linoleic 28%, palmitic 24%; NaOH SAP 0.143; lotion, balm, hair
+* '''Marula oil''' — Sclerocarya birrea; mainly oleic 75%, palmitic 11%, stearic 7%; NaOH SAP 0.137; face oil, lotion, hair
+* '''Kukui (candlenut) oil''' — Aleurites moluccanus; mainly linoleic 42%, linolenic 29%, oleic 20%; NaOH SAP 0.135; face oil, lotion
+* '''Flaxseed (linseed) oil''' — Linum usitatissimum; mainly linolenic 50%, oleic 27%, linoleic 13%; NaOH SAP 0.135; cooking (cold)
+* '''Walnut oil''' — Juglans regia; mainly linoleic 50-65%, alpha-linolenic 10-15%, oleic 15-25%; NaOH SAP 0.135; cooking (cold)
+* '''Pumpkin seed oil (Styrian roasted)''' — Cucurbita pepo; mainly linoleic 50%, oleic 33%, palmitic 11%; NaOH SAP 0.139; cooking (cold)
+* '''Peanut (arachis / groundnut) oil''' — Arachis hypogaea; mainly oleic 56%, linoleic 26%, palmitic 8%; NaOH SAP 0.137; cooking
+* '''Canola / low-erucic rapeseed oil''' — Brassica napus / B. rapa (LEAR); mainly oleic 61%, linoleic 21%, linolenic 9%; NaOH SAP 0.133; cooking, soap (<=15-20%; DOS risk), container-candle wax base (rapeseed wax = hydrogenated)
+* '''Rapeseed oil, traditional (high-erucic)''' — Brassica napus / B. rapa; NaOH SAP 0.125; industrial
+* '''Mustard oil (kachi ghani, Indian cold-pressed)''' — Brassica juncea / B. nigra; NaOH SAP 0.123; cooking, pickling, massage (traditional)
+* '''Corn (maize) oil''' — Zea mays; mainly linoleic 51%, oleic 32%, palmitic 12%; NaOH SAP 0.137; cooking, soap (small %)
+* '''Soybean oil''' — Glycine max; mainly linoleic 50%, oleic 24%, palmitic 11%; NaOH SAP 0.136; cooking
+* '''Hazelnut oil''' — Corylus avellana; mainly oleic 75%, linoleic 10%, palmitic 5%; NaOH SAP 0.139; face oil (oily skin), cooking
+* '''Wheat germ oil''' — Triticum aestivum; mainly linoleic 58%, palmitic 17%, oleic 17%; NaOH SAP 0.13; lotion oil phase (low %)
+* '''Cottonseed oil''' — Gossypium spp.; mainly linoleic 52%, oleic 18%, palmitic 13%; NaOH SAP 0.138; cooking
+
+=== Butters ===
+* '''Shea butter''' — Vitellaria paradoxa; mainly oleic 48%, stearic 40%, linoleic 6%; melts 32-45 C (unrefined ~32-38; broad); NaOH SAP 0.128; balm, lotion, body butter, soap (5-15%), lip balm
+* '''Cocoa butter''' — Theobroma cacao; mainly oleic 35%, stearic 33%, palmitic 28%; melts 34-38 C; NaOH SAP 0.138; balm, lip balm, lotion bar, soap (<=15%), chocolate
+* '''Mango (kernel) butter''' — Mangifera indica; mainly oleic 45%, stearic 42%, palmitic 7%; melts 30-38 C; NaOH SAP 0.136; balm, body butter, soap, lip balm
+* '''Kokum butter''' — Garcinia indica; mainly stearic 56%, oleic 36%, palmitic 4%; melts 38-42 C; NaOH SAP 0.135; lotion bars, lip balm, soap hardness, chocolate CBE
+* '''Cupuacu butter''' — Theobroma grandiflorum; mainly oleic 38-45%, stearic 30-35%, arachidic C20:0 8-11%; melts 27-32 C; NaOH SAP 0.137; balm, lotion, hair
+* '''Murumuru butter''' — Astrocaryum murumuru; mainly lauric 47%, myristic 26%, oleic 15%; melts 30-35 C; NaOH SAP 0.196; soap (lather), balm, lip balm, hair
+* '''Illipe butter (Borneo tallow)''' — Shorea stenoptera (and other Shorea); mainly stearic 45%, oleic 35%, palmitic 17%; melts 34-39 C; NaOH SAP 0.132; lip balm, lotion bar, soap
+* '''Sal butter''' — Shorea robusta; mainly stearic 40-48%, oleic 35-42%, arachidic C20:0 6-8%; melts 30-38 C; NaOH SAP 0.132; lotion bar, balm, soap
+
+=== Waxes ===
+* '''Beeswax (yellow and white)''' — Apis mellifera (secretion); mainly monoesters (mainly myricyl palmitate C46) ~35%, hydroxy/di/tri-esters ~30-35%, hydrocarbons (C25-C33) 12-16%; melts 61-66 C (USP/NF white and yellow wax: 62-65 C); NaOH SAP 0.067; balm (stiffener), lip balm, candle (dipped/moulded/pillar; needs bigger wick, burns hot), wax wraps, emulsion co-stabiliser (cold cream, with borax - historic)
+* '''Candelilla wax''' — Euphorbia antisyphilitica; mainly hydrocarbons (mainly hentriacontane C31) ~50%, wax esters 28-29%, free acids/alcohols/resins balance%; melts 68.5-72.5 C (NF/FCC); NaOH SAP 0.031; vegan balm/lip balm (use ~half the beeswax weight), stick products
+* '''Carnauba wax''' — Copernicia prunifera; mainly wax esters (C24-C34 acids x C30-C34 alcohols) ~80-85%, free alcohols 10-16%, acids/hydrocarbons/resins balance%; melts 80-86 C (NF/FCC); vegan stiffener (1/3-1/2 the beeswax weight; high-melt sticks), polish, candle hardener (small %)
+* '''Rice bran wax''' — Oryza sativa; mainly wax esters (C16-C26 acids x C24-C36 alcohols) ~90+%, free acids/alcohols balance%; melts 75-80 C; vegan lip balm/stick stiffener, candle additive
+* '''Sunflower wax''' — Helianthus annuus (dewaxing by-product); mainly wax esters C40-C60 ~95+%; melts 74-80 C (supplier data); vegan stiffener (strong gelling: ~1/2 to 1/3 of beeswax weight), lip balm
+* '''Lanolin (wool wax; non-plant comparison)''' — Ovis aries (sebaceous wax); melts 38-44 C (USP anhydrous lanolin); NaOH SAP 0.076; nipple balm, lip balm, w/o emulsions (cold cream), soap (small %)
+
+''Comedogenic numbers come from the rabbit-ear assay (Kligman/Fulton era, e.g. Fulton 1989 J Soc Cosmet Chem 40:321-333; Fulton 1984 J Am Acad Dermatol PMID 6229554). The rabbit ear over-predicts human comedogenicity, tested many materials neat or at 10% in propylene glycol, and popular 0-5 lists online frequently cite no source at all. Treat as a weak hint; a finished formula must be judged on its own.''
+
+== Cooking ==
+Cooking is where the chemistry on this page was worked out long before anyone named it. Four rules carry most of it.
+
+* '''Most of what you are after is not water-soluble.''' The aroma compounds in the chart above are oils. That is why a spice blooms in hot fat and not in a watery sauce, why tempering — tadka, the Indian technique of frying whole spices in ghee and pouring it over the dish — extracts more in thirty seconds than an hour of simmering, and why an infused oil tastes of the herb while an infused broth often does not.
+* '''Heat both makes and destroys flavour.''' Toasting builds new compounds through the Maillard reaction and the breakdown of sugars; it also drives off the volatile ones that were already there. This is the whole reason whole spices go in early and ground spices go in late, and why delicate herbs — basil, coriander leaf, dill — are added off the heat.
+* '''Spice use tracks climate, and the usual explanation is antimicrobial.''' Billing and Sherman's 1998 survey across thousands of traditional recipes found hotter climates use more spices, and the most-used spices are the most strongly antibacterial. It is a correlation with a plausible mechanism rather than a proven cause, and it is often overstated — but the pattern is real and it is why the preserving traditions and the flavouring traditions are the same traditions.
+* '''Pairings are not arbitrary.''' Shared aroma compounds explain a good deal of why certain things go together, and also why the rule inverts by cuisine — Western pairings tend to share compounds, East Asian pairings tend not to (Ahn and colleagues, 2011).
+
+'''Infused oils, honeys and vinegars carry a real safety rule.''' Fresh plant material in oil, garlic above all, is a botulism risk: oil excludes air, the plant brings the spores and the water, and nothing in the jar stops them. Use dried material, or acidify, keep it refrigerated and use it inside a week. See [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]] and [[Tinctures Glycerites Syrups and Infused Oils and Butters]].
+
+More: [[Cooking with Herbs and Spices]] · [[Scratch Cooking and Culinary Ratios]] · [[Cooking Methods]] · [[Preservation Fermentation and Spice]] · [[Traditional Spiced Formulations and Synergistic Blends]]
+
+== Lotions, balms and salves ==
+A balm is anhydrous — oil, butter and wax, no water. A lotion or cream has water in it, and the moment there is water there is something living in it within days.
+
+* '''Balm ratio.''' Roughly 1 part wax to 4 parts oil by weight gives a soft salve; 1 to 3 gives a firm stick; 1 to 6 or 8 gives something barely set. Butters sit between: they add body without the brittleness wax gives. Test a spoonful in the freezer for two minutes rather than guessing at the whole batch.
+* '''Anything with water needs a real preservative.''' Vitamin E is an antioxidant — it slows oils going rancid and does nothing whatever to bacteria or mould. A broad-spectrum preservative at its stated use rate and within its stated pH range is not optional in a water-containing product, and "natural" alternatives marketed as preservatives are mostly not.
+* '''Essential oils have dermal limits, and they are lower than people expect.''' Around 1% for a leave-on body product is a common working figure — about 6 drops in 30 ml — and lower on the face, lower again for children, with several oils restricted much further. Cinnamon bark, oakmoss and isoeugenol are sensitisers; expressed citrus oils are phototoxic and have bergapten limits for leave-on use. Tisserand and Young is the reference that actually gives per-oil numbers.
+* '''Infusing the oil.''' Dry plant material only, unless you intend to use it immediately and refrigerate it — the same water rule as the kitchen, for the same reason.
+
+More: [[Tinctures Glycerites Syrups and Infused Oils and Butters]] · [[Soap Calculator]]
+
+== Diffusers, candles and the air ==
+* '''Diffusers.''' A few drops in 100 ml of water is a normal strength in an ultrasonic unit, run in short sessions rather than continuously. Intermittent is both more effective and safer: the nose stops registering a constant smell within minutes, so running it all day mostly just raises the dose.
+* '''Cats are the serious exception.''' Cats lack much of the glucuronidation capacity other mammals use to clear phenols and terpenes, so oils that are unremarkable to a person accumulate in them. Tea tree is the best-documented harm. Birds are more sensitive still, by way of how their lungs work. A diffuser in a shared room is a dose for everyone in it, including the ones who cannot leave.
+* '''Terpenes react with indoor ozone.''' Limonene and the pinenes in particular react to form formaldehyde and fine secondary aerosol. It is not a reason to avoid them; it is a reason to ventilate rather than to seal a room and run a diffuser into it.
+* '''Candles.''' Fragrance load is typically 6–10% by weight of wax and is capped by what the wax will actually hold; above that it sweats out or pools. Soy is usually scented around 85 °C so the fragrance binds rather than flashing off. Wick size has to be tested against the actual vessel diameter, and a cured candle — a week or two — throws noticeably better than a fresh one. Essential oils have flash points, which matters for both the pour and the burn.
+
+== Potentiation and drug interactions ==
+This is the part of the page that can actually hurt someone. "Potentiation" and "drug interaction" are the same mechanism described by someone who wants the effect and by someone who doesn't — a plant that makes a drug stronger does it by blocking the enzyme that clears it, and the enzyme does not know which outcome was intended.
+
+Most of these run through the cytochrome P450 enzymes, which metabolise the majority of drugs. '''Inhibit one and everything it clears rises in the blood; induce one and everything it clears falls''' — including the drug somebody depends on.
+
+The ones that put people in hospital:
+* '''MAOIs with tyramine-rich food''' — aged cheese, cured meat, soy sauce, miso, yeast extract, unpasteurised beer. Monoamine oxidase in the gut and liver normally destroys dietary tyramine; blocked, it reaches the circulation and can cause a hypertensive crisis. This applies to the β-carbolines in ayahuasca and Syrian rue as much as to prescription MAOIs.
+* '''MAOIs with serotonergic drugs''' — SSRIs, SNRIs, tramadol, triptans, dextromethorphan. Serotonin syndrome. This is the single most dangerous combination in this whole subject, and the overlap between people taking an antidepressant and people interested in harmala alkaloids is not small.
+* '''Grapefruit with CYP3A4 substrates''' — the furanocoumarins irreversibly disable intestinal CYP3A4, so the enzyme has to be rebuilt. The effect lasts far beyond the glass of juice, and for some drugs the resulting blood level is several times intended.
+* '''St John's wort''' — the opposite problem. It induces CYP3A4 and P-glycoprotein, dropping the levels of immunosuppressants, antiretrovirals, anticoagulants and hormonal contraceptives, with pregnancies and transplant rejections in the literature.
+* '''Kava with alcohol or other hepatotoxins''', against the background of the kava hepatotoxicity signal that took it off several markets.
+* '''Nutmeg in quantity''' is genuinely toxic — prolonged, unpleasant and occasionally hospitalising — and the dose is the kind of amount a recipe would never call for.
+
+Quieter but real: piperine from black pepper raises the absorption of many drugs and supplements by inhibiting CYP3A4 and P-glycoprotein, which is exactly why it is added to turmeric products; licorice can drive potassium down; ginkgo and garlic are discussed with anticoagulants; cassia carries enough coumarin to have a tolerable daily intake set for it; and caffeine is cleared by CYP1A2, so CYP1A2 inhibitors leave it in circulation much longer.
+
+See [[Enzyme Inhibition Kinetics and Molecular Transporters]] and [[Kava Potentiation]].
+
+== See also ==
+* [[Oilahuasca]]
+* [[Allylbenzene Metabolism]]
+* [[Shulgin Ten Essential Oils]]
+* [[Terpenes]]
+* [[Terpene Map]]
+* [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy]]
+* [[Cooking with Herbs and Spices]]
+* [[Culinary Arts]]
+* [[Dye Chemistry]]
+* [[Enzyme Inhibition Kinetics and Molecular Transporters]]
+* [[Kava Potentiation]]
+* [[Soap Calculator]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+* [[Traditional Spiced Formulations and Synergistic Blends]]
+
+== Sources ==
+* PubChem (identity, structure, formula, weight, log P) — every compound record on this page
+* PIHKAL, and <code>knowledge/shulgin-pihkal-tihkal/</code> in this repository
+* Peele & Oswald, PMID 870079 — what allylbenzenes actually become in vivo
+* [https://herbpedia.wikidot.com/allylbenzenes Herbpedia, the allylbenzene chart and the 69Ron material] — the colour key, labelled on this page as a community model
+* Codex Alimentarius CXS 210-1999 (Amended 2005, 2011, 2013, 2015) Standard for Named Vegetable Oils
+* Codex Alimentarius CXS 33-1981 (rev. 2015) Standard for Olive Oils and Olive Pomace Oils
+* SoapCalc oil list (SAP KOH/NaOH)
+* Soapee seed oil database (mirrors SoapCalc fatty acids, iodine, INS)
+* Hourihane JO et al. 1997 BMJ - allergenicity of peanut oils
+* Lack G et al. 2003 NEJM - factors associated with peanut allergy
+* Danby SG et al. 2013 Pediatr Dermatol - olive vs sunflower oil and the skin barrier
+* Lin TK, Zhong L, Santiago JL 2017 Int J Mol Sci - topical plant oils and barrier repair (review)
+* Chawla KK et al. 2011 JACI - shea butter contains no IgE-binding soluble proteins
+* Le Coz CJ 2004 Contact Dermatitis - tamanu oil ACD
+* Romita P et al. 2019 Contact Dermatitis - neem oil ACD
+* Dhongade RK et al. 2008 Indian Pediatr - neem oil poisoning
+* Fulton JE 1984 J Am Acad Dermatol - comedogenicity in the rabbit ear
+* Fulton JE 1989 J Soc Cosmet Chem 40:321-333 - comedogenicity and irritancy of common ingredients
+* EFSA CONTAM Panel 2016 - erucic acid in feed and food, EFSA J 14(11):4593
+* USDA FoodData Central (fatty-acid profiles for edible oils)
+
+== Coverage ==
+One-page index to the plants, the chemicals in them, their enzyme and interaction profiles, their smell, taste, dye and medical profiles, the oils and butters, and what to make with all of it.

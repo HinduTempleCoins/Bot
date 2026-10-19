@@ -1,0 +1,666 @@
+{
+ "method": "RDKit Morgan fingerprint (radius 2, 2048 bits), Tanimoto distance, SciPy average-linkage hierarchical clustering, cut at distance 0.65",
+ "n": 223,
+ "display_order": [
+  "piperidine",
+  "pyrrolidine",
+  "dimethylamine",
+  "allicin",
+  "sulforaphane",
+  "glutathione",
+  "crocin",
+  "bixin",
+  "norbixin",
+  "alpha-bisabolol",
+  "citronellol",
+  "linalyl acetate",
+  "linalool",
+  "nerolidol",
+  "geranyl acetate",
+  "citral",
+  "geraniol",
+  "myrcene",
+  "farnesene",
+  "santalol",
+  "hyperforin",
+  "chamazulene",
+  "tetrahydrocannabinol",
+  "cannabidiol",
+  "cannabidiolic acid",
+  "cannabinol",
+  "cannabigerol",
+  "cannabichromene",
+  "glycyrrhizin",
+  "guaiol",
+  "valerenic acid",
+  "valerenal",
+  "menthol",
+  "pulegone",
+  "menthone",
+  "ascaridole",
+  "sabinene",
+  "alpha-thujone",
+  "beta-thujone",
+  "cedrol",
+  "patchoulol",
+  "borneol",
+  "bornyl acetate",
+  "camphor",
+  "eucalyptol",
+  "cineole",
+  "beta-elemene",
+  "valencene",
+  "nootkatone",
+  "carvone",
+  "limonene",
+  "perillyl alcohol",
+  "beta-caryophyllene",
+  "caryophyllene oxide",
+  "alpha-pinene",
+  "beta-pinene",
+  "safranal",
+  "terpinen-4-ol",
+  "humulene",
+  "terpinolene",
+  "gamma-terpinene",
+  "theophylline",
+  "caffeine",
+  "theobromine",
+  "genipin",
+  "nicotine",
+  "moclobemide",
+  "iproniazid",
+  "N-methyltryptamine",
+  "N,N-Dimethyltryptamine",
+  "tryptamine",
+  "melatonin",
+  "serotonin",
+  "5-MeO-DMT",
+  "bufotenine",
+  "harmaline",
+  "tetrahydroharmine",
+  "harmol",
+  "norharman",
+  "harmine",
+  "harman",
+  "coumarin",
+  "xanthotoxin",
+  "bergapten",
+  "bergamottin",
+  "6,7-dihydroxybergamottin",
+  "gamma-asarone",
+  "sarisan",
+  "asaricin",
+  "apiole",
+  "dillapiole",
+  "croweacin",
+  "isomyristicin",
+  "myristicin",
+  "MMDA",
+  "4-methoxyamphetamine",
+  "3,4-dimethoxyamphetamine",
+  "3,4,5-trimethoxyamphetamine",
+  "TMA-2",
+  "MMDA-2",
+  "DMMDA",
+  "MMDA-3a",
+  "DMMDA-2",
+  "estragole",
+  "elemicin",
+  "eugenyl acetate",
+  "methyleugenol",
+  "eugenol",
+  "chavibetol",
+  "allylbenzene",
+  "chavicol",
+  "hydroxychavicol",
+  "mescaline",
+  "capsaicin",
+  "zingerone",
+  "gingerol",
+  "shogaol",
+  "1-hydroxyestragole",
+  "1'-hydroxysafrole",
+  "piperonyl butoxide",
+  "sanguinarine",
+  "3,4-methylenedioxyamphetamine",
+  "safrole",
+  "safrole 2',3'-oxide",
+  "piperine",
+  "isosafrole",
+  "piperonal",
+  "dihydrokavain",
+  "kavain",
+  "methysticin",
+  "chlorogenic acid",
+  "rosmarinic acid",
+  "xanthohumol",
+  "caffeic acid",
+  "cinnamic acid",
+  "p-coumaric acid",
+  "resveratrol",
+  "naringenin chalcone",
+  "yangonin",
+  "desmethoxyyangonin",
+  "anethole",
+  "anisaldehyde",
+  "carpacin",
+  "alpha-asarone",
+  "beta-asarone",
+  "isoelemicin",
+  "isoeugenol",
+  "methyl isoeugenol",
+  "sinapic acid",
+  "vanillin",
+  "ferulic acid",
+  "curcumin",
+  "mitragynine",
+  "colchicine",
+  "boldine",
+  "berberine",
+  "hydrastine",
+  "carthamin",
+  "betanin",
+  "oleuropein",
+  "naringin dihydrochalcone",
+  "naringin",
+  "hesperidin",
+  "rutin",
+  "luteolin 7-glucoside",
+  "apiin",
+  "hypericin",
+  "ellagic acid",
+  "gallic acid",
+  "delphinidin",
+  "cyanidin",
+  "pelargonidin",
+  "kaempferol",
+  "galangin",
+  "quercetin",
+  "myricetin",
+  "baicalein",
+  "apigenin",
+  "luteolin",
+  "puerarin",
+  "genistein",
+  "daidzein",
+  "epigallocatechin gallate",
+  "catechin",
+  "epicatechin",
+  "silybin",
+  "naringenin",
+  "hesperetin",
+  "glabridin",
+  "hematoxylin",
+  "brazilin",
+  "carnosic acid",
+  "thymol",
+  "carvacrol",
+  "p-cymene",
+  "thymoquinone",
+  "nigellone",
+  "emodin",
+  "carminic acid",
+  "shikonin",
+  "methyl salicylate",
+  "indigo",
+  "thujaplicin",
+  "juglone",
+  "lawsone",
+  "alizarin",
+  "purpurin",
+  "ephedrine",
+  "cocaine",
+  "scopolamine",
+  "atropine",
+  "hyoscyamine",
+  "azulene",
+  "salicylaldehyde",
+  "cinnamaldehyde",
+  "benzaldehyde",
+  "selegiline",
+  "phenelzine",
+  "tyramine",
+  "phenethylamine",
+  "benzyl benzoate",
+  "phenylalanine",
+  "tryptophan"
+ ],
+ "groups": {
+  "50": [
+   "myristicin",
+   "apiole",
+   "dillapiole",
+   "croweacin",
+   "gamma-asarone",
+   "sarisan",
+   "asaricin",
+   "isomyristicin",
+   "MMDA"
+  ],
+  "52": [
+   "elemicin",
+   "estragole",
+   "methyleugenol",
+   "eugenol",
+   "chavicol",
+   "chavibetol",
+   "hydroxychavicol",
+   "allylbenzene",
+   "eugenyl acetate"
+  ],
+  "51": [
+   "TMA-2",
+   "DMMDA",
+   "4-methoxyamphetamine",
+   "3,4-dimethoxyamphetamine",
+   "3,4,5-trimethoxyamphetamine",
+   "MMDA-2",
+   "MMDA-3a",
+   "DMMDA-2"
+  ],
+  "7": [
+   "linalool",
+   "myrcene",
+   "citral",
+   "geraniol",
+   "nerolidol",
+   "farnesene",
+   "linalyl acetate",
+   "geranyl acetate"
+  ],
+  "65": [
+   "isoeugenol",
+   "methyl isoeugenol",
+   "isoelemicin",
+   "vanillin",
+   "ferulic acid",
+   "sinapic acid",
+   "curcumin"
+  ],
+  "43": [
+   "N,N-Dimethyltryptamine",
+   "5-MeO-DMT",
+   "bufotenine",
+   "N-methyltryptamine",
+   "tryptamine",
+   "serotonin",
+   "melatonin"
+  ],
+  "79": [
+   "quercetin",
+   "kaempferol",
+   "apigenin",
+   "luteolin",
+   "galangin",
+   "myricetin",
+   "baicalein"
+  ],
+  "56": [
+   "safrole",
+   "isosafrole",
+   "piperonal",
+   "piperine",
+   "3,4-methylenedioxyamphetamine",
+   "safrole 2',3'-oxide"
+  ],
+  "71": [
+   "naringin",
+   "rutin",
+   "hesperidin",
+   "luteolin 7-glucoside",
+   "naringin dihydrochalcone",
+   "apiin"
+  ],
+  "61": [
+   "caffeic acid",
+   "cinnamic acid",
+   "p-coumaric acid",
+   "resveratrol",
+   "naringenin chalcone"
+  ],
+  "63": [
+   "anethole",
+   "anisaldehyde",
+   "yangonin",
+   "desmethoxyyangonin"
+  ],
+  "53": [
+   "capsaicin",
+   "gingerol",
+   "shogaol",
+   "zingerone"
+  ],
+  "97": [
+   "cocaine",
+   "atropine",
+   "scopolamine",
+   "hyoscyamine"
+  ],
+  "64": [
+   "alpha-asarone",
+   "beta-asarone",
+   "carpacin"
+  ],
+  "45": [
+   "harmine",
+   "harman",
+   "norharman"
+  ],
+  "102": [
+   "phenelzine",
+   "tyramine",
+   "phenethylamine"
+  ],
+  "28": [
+   "limonene",
+   "carvone",
+   "perillyl alcohol"
+  ],
+  "85": [
+   "thymol",
+   "carvacrol",
+   "p-cymene"
+  ],
+  "23": [
+   "borneol",
+   "patchoulol",
+   "bornyl acetate"
+  ],
+  "38": [
+   "caffeine",
+   "theobromine",
+   "theophylline"
+  ],
+  "59": [
+   "kavain",
+   "dihydrokavain",
+   "methysticin"
+  ],
+  "82": [
+   "naringenin",
+   "hesperetin",
+   "silybin"
+  ],
+  "47": [
+   "bergamottin",
+   "6,7-dihydroxybergamottin",
+   "bergapten"
+  ],
+  "81": [
+   "epigallocatechin gallate",
+   "catechin",
+   "epicatechin"
+  ],
+  "80": [
+   "genistein",
+   "daidzein",
+   "puerarin"
+  ],
+  "12": [
+   "cannabidiol",
+   "tetrahydrocannabinol",
+   "cannabidiolic acid"
+  ],
+  "13": [
+   "cannabigerol",
+   "cannabinol",
+   "cannabichromene"
+  ],
+  "91": [
+   "alizarin",
+   "lawsone",
+   "purpurin"
+  ],
+  "78": [
+   "cyanidin",
+   "delphinidin",
+   "pelargonidin"
+  ],
+  "55": [
+   "1-hydroxyestragole",
+   "1'-hydroxysafrole"
+  ],
+  "44": [
+   "harmaline",
+   "tetrahydroharmine"
+  ],
+  "31": [
+   "alpha-pinene",
+   "beta-pinene"
+  ],
+  "30": [
+   "beta-caryophyllene",
+   "caryophyllene oxide"
+  ],
+  "24": [
+   "eucalyptol",
+   "cineole"
+  ],
+  "20": [
+   "alpha-thujone",
+   "beta-thujone"
+  ],
+  "27": [
+   "valencene",
+   "nootkatone"
+  ],
+  "99": [
+   "cinnamaldehyde",
+   "benzaldehyde"
+  ],
+  "60": [
+   "chlorogenic acid",
+   "rosmarinic acid"
+  ],
+  "4": [
+   "bixin",
+   "norbixin"
+  ],
+  "83": [
+   "hematoxylin",
+   "brazilin"
+  ],
+  "1": [
+   "piperidine",
+   "pyrrolidine"
+  ],
+  "103": [
+   "phenylalanine",
+   "tryptophan"
+  ],
+  "15": [
+   "valerenic acid",
+   "valerenal"
+  ],
+  "46": [
+   "harmol"
+  ],
+  "39": [
+   "moclobemide"
+  ],
+  "105": [
+   "selegiline"
+  ],
+  "40": [
+   "iproniazid"
+  ],
+  "54": [
+   "mescaline"
+  ],
+  "18": [
+   "menthol"
+  ],
+  "25": [
+   "camphor"
+  ],
+  "8": [
+   "citronellol"
+  ],
+  "32": [
+   "terpinen-4-ol"
+  ],
+  "9": [
+   "alpha-bisabolol"
+  ],
+  "14": [
+   "chamazulene"
+  ],
+  "16": [
+   "pulegone"
+  ],
+  "17": [
+   "menthone"
+  ],
+  "21": [
+   "sabinene"
+  ],
+  "34": [
+   "terpinolene"
+  ],
+  "35": [
+   "gamma-terpinene"
+  ],
+  "33": [
+   "humulene"
+  ],
+  "19": [
+   "guaiol"
+  ],
+  "26": [
+   "cedrol"
+  ],
+  "10": [
+   "santalol"
+  ],
+  "22": [
+   "ascaridole"
+  ],
+  "49": [
+   "coumarin"
+  ],
+  "95": [
+   "methyl salicylate"
+  ],
+  "100": [
+   "salicylaldehyde"
+  ],
+  "104": [
+   "benzyl benzoate"
+  ],
+  "36": [
+   "safranal"
+  ],
+  "41": [
+   "nicotine"
+  ],
+  "66": [
+   "berberine"
+  ],
+  "67": [
+   "hydrastine"
+  ],
+  "70": [
+   "mitragynine"
+  ],
+  "98": [
+   "ephedrine"
+  ],
+  "57": [
+   "sanguinarine"
+  ],
+  "68": [
+   "boldine"
+  ],
+  "69": [
+   "colchicine"
+  ],
+  "75": [
+   "ellagic acid"
+  ],
+  "76": [
+   "gallic acid"
+  ],
+  "37": [
+   "glycyrrhizin"
+  ],
+  "84": [
+   "glabridin"
+  ],
+  "77": [
+   "hypericin"
+  ],
+  "11": [
+   "hyperforin"
+  ],
+  "62": [
+   "xanthohumol"
+  ],
+  "72": [
+   "oleuropein"
+  ],
+  "88": [
+   "carnosic acid"
+  ],
+  "94": [
+   "indigo"
+  ],
+  "74": [
+   "carthamin"
+  ],
+  "5": [
+   "crocin"
+  ],
+  "92": [
+   "juglone"
+  ],
+  "73": [
+   "betanin"
+  ],
+  "96": [
+   "shikonin"
+  ],
+  "89": [
+   "emodin"
+  ],
+  "90": [
+   "carminic acid"
+  ],
+  "42": [
+   "genipin"
+  ],
+  "6": [
+   "glutathione"
+  ],
+  "106": [
+   "dimethylamine"
+  ],
+  "93": [
+   "thujaplicin"
+  ],
+  "2": [
+   "allicin"
+  ],
+  "3": [
+   "sulforaphane"
+  ],
+  "101": [
+   "azulene"
+  ],
+  "86": [
+   "thymoquinone"
+  ],
+  "87": [
+   "nigellone"
+  ],
+  "58": [
+   "piperonyl butoxide"
+  ],
+  "29": [
+   "beta-elemene"
+  ],
+  "48": [
+   "xanthotoxin"
+  ]
+ }
+}

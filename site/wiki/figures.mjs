@@ -14,6 +14,7 @@
 //
 //   import { figureHtml, renderFigures, FIGURES, hasFigure } from './figures.mjs'
 
+import { allylbenzeneMapSvg, plantConstituentsSvg } from '../../integrations/herb-atlas.mjs';
 import { chartSvg } from '../../integrations/plant-deficiency-chart.mjs';
 import { wheelSvg, wheelNames } from '../../integrations/aroma-wheel.mjs';
 import { table, GRAPHENE_MATRIX } from '../../integrations/chain-compare.mjs';
@@ -315,6 +316,8 @@ export const FIGURES = {
   'steam-distillation': { fn: steamDistillation, alt: 'How steam distillation works' },
   'acid-base-extraction': { fn: acidBaseExtraction, alt: 'Acid–base extraction between water and solvent' },
   'methylation-cycle': { fn: methylationCycle, alt: 'Where L-methylfolate acts in the methylation cycle' },
+  'allylbenzene-map': { fn: allylbenzeneMapSvg, alt: 'The allylbenzenes drawn side by side, each ring position colour-coded' },
+  'plant-constituents': { fn: plantConstituentsSvg, alt: 'What is in each plant: the major constituents of each essential oil as a share of the whole' },
   'token-specs': { fn: tokenSpecsMatrix, alt: 'VKBT and CURE compared with other Hive-Engine tokens on supply, holders, concentration and emission' },
   'graphene-matrix': { fn: grapheneMatrix, alt: 'STEEM, HIVE, BLURT, MELEK, PRANA, VKBT and CURE compared side by side' },
   // one figure per aroma wheel: [[Figure:wheel-wine]], [[Figure:wheel-cannabis]] and so on

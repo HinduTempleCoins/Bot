@@ -1,0 +1,32 @@
+{
+  "title": "Shulgin's Ten Essential Oils and the Ten Essential Amphetamines",
+  "status_of_the_whole_series": "HYPOTHETICAL as a human in vivo conversion. Shulgin's wording is 'in theory' / 'in principle': adding ammonia across the allyl side chain of each oil would, on paper, give the corresponding amphetamine. No human in vivo amination of an allylbenzene to an amphetamine has been demonstrated.",
+  "what_is_actually_documented": "Allylbenzenes fed to animals yield tertiary aminopropiophenone alkaloids - dimethylamine, piperidine and pyrrolidine types - detected in urine by GLC/CIMS, NOT amphetamines (Peele & Oswald, PMID 870079). Propenylbenzenes (anethole, alpha/beta-asarone, isoeugenol, isosafrole) form no such alkaloid metabolites at all. The only amphetamine-adjacent experimental claim in the series is the rabbit-liver myristicin to MMDA report Shulgin himself cites, and the repo's own knowledge file concedes the products were most likely aminopropiophenones.",
+  "verified_against": [
+    "knowledge/shulgin-pihkal-tihkal/shulgin_ten_essential_oils.json (category_1 .. category_10, read 2026-10-19)",
+    "knowledge/shulgin-pihkal-tihkal/pihkal_quotes.json (TMA entry, Shulgin's own enumeration)",
+    "PIHKAL commentary"
+  ],
+  "pairs": [
+    { "n": 1, "pattern": "4-methoxy", "oil": "estragole", "oil_aka": ["methyl chavicol", "4-allylanisole"], "amphetamine": "4-MA", "amphetamine_full": "4-methoxyamphetamine", "status": "hypothetical" },
+    { "n": 2, "pattern": "3,4-dimethoxy", "oil": "methyleugenol", "amphetamine": "3,4-DMA", "amphetamine_full": "3,4-dimethoxyamphetamine", "status": "hypothetical" },
+    { "n": 3, "pattern": "3,4-methylenedioxy", "oil": "safrole", "amphetamine": "MDA", "amphetamine_full": "3,4-methylenedioxyamphetamine", "status": "hypothetical" },
+    { "n": 4, "pattern": "3-methoxy-4,5-methylenedioxy", "oil": "myristicin", "amphetamine": "MMDA", "amphetamine_full": "3-methoxy-4,5-methylenedioxyamphetamine", "status": "hypothetical; the rabbit-liver report is the only experimental hook in the series" },
+    { "n": 5, "pattern": "2-methoxy-3,4-methylenedioxy", "oil": "croweacin", "amphetamine": "MMDA-3a", "amphetamine_full": "2-methoxy-3,4-methylenedioxyamphetamine", "status": "hypothetical" },
+    { "n": 6, "pattern": "2-methoxy-4,5-methylenedioxy", "oil": "asaricin", "amphetamine": "MMDA-2", "amphetamine_full": "2-methoxy-4,5-methylenedioxyamphetamine", "status": "hypothetical" },
+    { "n": 7, "pattern": "3,4,5-trimethoxy", "oil": "elemicin", "amphetamine": "TMA", "amphetamine_full": "3,4,5-trimethoxyamphetamine", "status": "hypothetical" },
+    { "n": 8, "pattern": "2,4,5-trimethoxy", "oil": "asarone", "oil_note": "Shulgin names 'asarone'. The common calamus isomers alpha- and beta-asarone are PROPENYL and form no alkaloid metabolites; only the rare ALLYL isomer gamma-asarone (euasarone, sekishone) fits the series.", "amphetamine": "TMA-2", "amphetamine_full": "2,4,5-trimethoxyamphetamine", "status": "hypothetical" },
+    { "n": 9, "pattern": "2,5-dimethoxy-3,4-methylenedioxy", "oil": "apiole", "amphetamine": "DMMDA", "amphetamine_full": "2,5-dimethoxy-3,4-methylenedioxyamphetamine", "status": "hypothetical" },
+    { "n": 10, "pattern": "2,3-dimethoxy-4,5-methylenedioxy", "oil": "dillapiole", "amphetamine": "DMMDA-2", "amphetamine_full": "2,3-dimethoxy-4,5-methylenedioxyamphetamine", "status": "hypothetical" },
+    { "n": "bonus", "pattern": "2,3,4,5-tetramethoxy", "oil": "2,3,4,5-tetramethoxyallylbenzene", "amphetamine": "TA", "amphetamine_full": "2,3,4,5-tetramethoxyamphetamine", "status": "hypothetical; Shulgin's own 'synthetic intermediate' aside" }
+  ],
+  "corrections_to_our_wiki": [
+    { "page": "Shulgin_Ten_Essential_Amphetamines_and_Metabolic_Chemistry", "error": "MMDA given as '5-methoxy-3,4-methylenedioxyamphetamine'", "correct": "3-methoxy-4,5-methylenedioxyamphetamine" },
+    { "page": "Shulgin_Ten_Essential_Amphetamines_and_Metabolic_Chemistry", "error": "estragole paired with PMA and merged into one row with anethole", "correct": "estragole pairs with 4-MA. Anethole is a PROPENYLbenzene and is not a precursor in this series at all." },
+    { "page": "Shulgin_Ten_Essential_Amphetamines_and_Metabolic_Chemistry", "error": "row 'eugenol/isoeugenol -> DME derivatives'", "correct": "not one of PIHKAL's ten; remove" },
+    { "page": "Shulgin_Ten_Essential_Amphetamines_and_Metabolic_Chemistry", "error": "row 'allylbenzene/santalol -> amphetamine'", "correct": "not one of PIHKAL's ten; santalol is a sesquiterpene alcohol and does not belong in this series; remove" },
+    { "page": "Shulgin_Ten_Essential_Amphetamines_and_Metabolic_Chemistry", "error": "the table presents the ten as realised conversions while the body text correctly says in vivo amination was never demonstrated", "correct": "mark every pair hypothetical, in the table as well as the text" },
+    { "page": "Shulgin_Ten_Essential_Amphetamines_and_Metabolic_Chemistry", "error": "alpha/beta-asarone presented as the series precursor", "correct": "they are propenyl; only the rare allyl gamma-asarone fits" },
+    { "page": "Allylbenzene_Metabolism", "error": "ring-position substituent/activity rules stated as fact, sourced to one internal file", "correct": "label them anecdotal community claims - Herbpedia's own equivalent section is headed 'PURELY BASED ON ANECDOTAL DATA'" }
+  ]
+}

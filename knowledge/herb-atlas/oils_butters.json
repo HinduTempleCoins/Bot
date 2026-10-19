@@ -1,0 +1,3957 @@
+{
+ "title": "Carrier oils, butters and waxes - data table",
+ "compiled": "2026-10-19",
+ "count": 69,
+ "how_to_read": {
+  "saponification": "naoh/koh = grams of lye per gram of oil (soapmaker SAP). mg KOH/g (lab SV) / 1000 = koh; koh x 40.00/56.11 = naoh.",
+  "iodine_value": "g I2 absorbed per 100 g (Wijs). Higher = more double bonds = softer, faster rancidity, and (above ~130-140) drying-oil behaviour.",
+  "fatty_acids": "percent of total fatty acids. Soapee/SoapCalc rows often do not sum to 100 and omit minor or unusual acids - several are corrected below with literature ranges.",
+  "codex_ranges": "where Codex covers an oil these ranges are authoritative for food-grade identity and override the soaper table."
+ },
+ "comedogenic_caveat": "Comedogenic numbers come from the rabbit-ear assay (Kligman/Fulton era, e.g. Fulton 1989 J Soc Cosmet Chem 40:321-333; Fulton 1984 J Am Acad Dermatol PMID 6229554). The rabbit ear over-predicts human comedogenicity, tested many materials neat or at 10% in propylene glycol, and popular 0-5 lists online frequently cite no source at all. Treat as a weak hint; a finished formula must be judged on its own.",
+ "smoke_point_caveat": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified.",
+ "oils": [
+  {
+   "id": "olive",
+   "name": "Olive oil (extra virgin / virgin / refined / pomace)",
+   "latin": "Olea europaea",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 14,
+     "stearic": 3,
+     "oleic": 69,
+     "linoleic": 12,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "7.5-20.0",
+    "C16:1": "0.3-3.5",
+    "C18:0": "0.5-5.0",
+    "C18:1": "55.0-83.0",
+    "C18:2": "3.5-21.0",
+    "C18:3": "<=1.0 (footnote limit)",
+    "saponification_mg_KOH_g": "184-196 (refined/olive oil); 182-193 (pomace)",
+    "iodine_wijs": "75-94 (refined/olive oil); 75-92 (pomace)",
+    "free_acidity_EVOO_max": "0.8 g oleic/100 g",
+    "source": "Codex Alimentarius CXS 33-1981 (rev. 2015) Standard for olive oils and olive pomace oils"
+   },
+   "iodine_value": {
+    "value": 85,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 105,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.19,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "clouds 0-10 C; solidifies about -6 C",
+    "note": "refrigeration clouding is wax/saturate crystallisation, not a purity test"
+   },
+   "oxidative_stability": {
+    "rating": "good (EVOO) / moderate (refined)",
+    "shelf_life": "18-24 months from harvest for EVOO, cool and dark",
+    "native_antioxidants": "hydroxytyrosol, oleuropein-aglycone secoiridoids, tocopherols (EVOO only; refining strips polyphenols)"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "attributed to Fulton 1989 (original table not re-checked)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "rich, slightly heavy, slow-absorbing",
+    "skin_note": "Danby 2013 (PMID 22995032): neat olive oil on adult forearms for 4 weeks damaged the stratum corneum barrier and raised TEWL, sunflower oil did not; caution on neonatal/atopic skin."
+   },
+   "smoke_point_c": {
+    "unrefined_EVOO": "190-210",
+    "refined_light": "230-240",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified. EVOO is oxidatively robust in frying studies despite its modest smoke point because of MUFA plus polyphenols."
+   },
+   "culinary": "All-purpose; EVOO for dressings, finishing, saute and moderate frying; refined/pomace for high heat.",
+   "refined_vs_unrefined": "EVOO: mechanical only, below 27 C malaxation for \"cold extraction\" (EU Reg. 29/2012). Refined/pomace: deodorised, polyphenol-poor, neutral.",
+   "allergen": "Rare (olive pollen allergy is common, olive-oil food allergy is very rare).",
+   "best_uses": [
+    "cooking",
+    "infusion_carrier",
+    "soap (castile)",
+    "balm",
+    "lotion"
+   ],
+   "notes": "Pure-olive (castile) soap is slow to trace, soft at first and needs 6+ months cure; its lather is low and slimy-feeling.",
+   "verification": "Codex ranges verified from CXS 33 PDF; SAP verified vs SoapCalc; Danby PMID verified via PubMed E-utilities."
+  },
+  {
+   "id": "sweet_almond",
+   "name": "Sweet almond oil",
+   "latin": "Prunus dulcis",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 7,
+     "oleic": 71,
+     "linoleic": 18
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 62-76, linoleic 15-30, palmitic 5-8"
+   },
+   "iodine_value": {
+    "value": 99,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 97,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.139,
+    "koh": 0.195,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "about -18 C (pour point)"
+   },
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "12 months",
+    "native_antioxidants": "alpha-tocopherol (high)"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "attributed to Fulton 1989 (original table not re-checked)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "medium, slightly oily, slip for massage",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "unrefined": "~160",
+    "refined": "~215-220",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Baking, dressings; refined for frying.",
+   "refined_vs_unrefined": "Cold-pressed: faint marzipan-free (bitter almond aroma comes from benzaldehyde in BITTER almond, not this oil). Refined: neutral.",
+   "allergen": "TREE NUT. Refined oil is low-protein but not a guaranteed-safe exemption the way FALCPA treats highly refined oils; cold-pressed carries protein. Avoid on almond-allergic people.",
+   "best_uses": [
+    "massage",
+    "lotion",
+    "balm",
+    "infusion_carrier",
+    "soap (up to ~20%)",
+    "cooking"
+   ],
+   "verification": "SAP verified against SoapCalc table; FA/IV from Soapee (secondary); melting point, shelf life, smoke point, feel: commonly cited, unverified against a primary source this session"
+  },
+  {
+   "id": "apricot_kernel",
+   "name": "Apricot kernel oil",
+   "latin": "Prunus armeniaca",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 6,
+     "oleic": 66,
+     "linoleic": 27
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 58-73, linoleic 20-34"
+   },
+   "iodine_value": {
+    "value": 100,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 91,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.139,
+    "koh": 0.195,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "about -15 C"
+   },
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "12 months",
+    "native_antioxidants": "tocopherols"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "lighter than almond, silky",
+    "absorption": "moderate-fast"
+   },
+   "smoke_point_c": {
+    "refined": "~230 (claimed)",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Used as a cooking oil in some markets; the KERNELS (not the expressed oil) carry amygdalin.",
+   "refined_vs_unrefined": "Cold-pressed or refined; refined is odourless.",
+   "allergen": "Prunus-kernel oil; possible cross-reaction with almond and stone-fruit allergy. Not a botanical tree nut but treat as one for labelling caution.",
+   "best_uses": [
+    "face oil",
+    "lotion",
+    "massage",
+    "infusion_carrier"
+   ],
+   "notes": "Raw apricot kernels are a cyanide (amygdalin) hazard if eaten; the pressed, filtered fixed oil is not the same thing.",
+   "verification": "SAP verified against SoapCalc table; FA/IV from Soapee (secondary); melting point, shelf life, smoke point, feel: commonly cited, unverified against a primary source this session"
+  },
+  {
+   "id": "grapeseed",
+   "name": "Grapeseed oil",
+   "latin": "Vitis vinifera",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 8,
+     "stearic": 4,
+     "oleic": 20,
+     "linoleic": 68
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "5.5-11.0",
+    "C18:0": "3.0-6.5",
+    "C18:1": "12.0-28.0",
+    "C18:2": "58.0-78.0",
+    "C18:3": "ND-1.0",
+    "saponification_mg_KOH_g": "188-194",
+    "iodine_wijs": "128-150",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 131,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 66,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.129,
+    "koh": 0.181,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "about -10 C"
+   },
+   "oxidative_stability": {
+    "rating": "poor (high linoleic)",
+    "shelf_life": "6-12 months",
+    "native_antioxidants": "tocopherols/tocotrienols (low after refining)"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "very light, dry, astringent-feeling",
+    "absorption": "fast"
+   },
+   "smoke_point_c": {
+    "refined": "~200-216",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified. High-PUFA oils oxidise quickly in frying regardless of smoke point."
+   },
+   "culinary": "Neutral; often solvent-extracted. Better for dressings than deep frying because of linoleic content.",
+   "refined_vs_unrefined": "Almost all commercial grapeseed is solvent-extracted and refined; cold-pressed exists but is rare.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "lotion (light)",
+    "massage",
+    "cooking (moderate heat)"
+   ],
+   "notes": "Soap: keep below ~15% (DOS/rancidity risk).",
+   "verification": "Codex verified; SAP verified (SoapCalc 0.129 NaOH)."
+  },
+  {
+   "id": "sunflower_ho",
+   "name": "Sunflower oil, high-oleic",
+   "latin": "Helianthus annuus",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 3,
+     "stearic": 4,
+     "oleic": 83,
+     "linoleic": 4,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "2.6-5.0",
+    "C18:0": "2.9-6.2",
+    "C18:1": "75-90.7",
+    "C18:2": "2.1-17",
+    "saponification_mg_KOH_g": "182-194",
+    "iodine_wijs": "78-90",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 83,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 106,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.189,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "very good",
+    "shelf_life": "18-24 months",
+    "native_antioxidants": "alpha-tocopherol"
+   },
+   "comedogenic": {
+    "rating_0_5": 0,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light-medium, non-greasy",
+    "absorption": "moderate",
+    "skin_note": "Linoleic sunflower preserved barrier integrity vs olive in Danby 2013 (PMID 22995032)."
+   },
+   "smoke_point_c": {
+    "refined": "~230-250",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "High-heat frying workhorse; stable in fryers.",
+   "refined_vs_unrefined": "Mostly refined; check \"high oleic\" on the label - standard sunflower is high-linoleic and far less stable.",
+   "allergen": "Rare; sunflower seed allergy exists, refined oil is low-protein.",
+   "best_uses": [
+    "cooking",
+    "lotion",
+    "balm",
+    "soap",
+    "infusion_carrier"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "sunflower_linoleic",
+   "name": "Sunflower oil, standard (high-linoleic)",
+   "latin": "Helianthus annuus",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 7,
+     "stearic": 4,
+     "oleic": 16,
+     "linoleic": 70,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "5.0-7.6",
+    "C18:0": "2.7-6.5",
+    "C18:1": "14.0-39.4",
+    "C18:2": "48.3-74.0",
+    "saponification_mg_KOH_g": "188-194",
+    "iodine_wijs": "118-141",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 133,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 63,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.189,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor-moderate",
+    "shelf_life": "9-12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 0,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "refined": "~225-230",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "General cooking; not for repeated frying.",
+   "refined_vs_unrefined": "Usually refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "cooking",
+    "lotion",
+    "soap (<=15-20%)"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "safflower_ho",
+   "name": "Safflower oil, high-oleic",
+   "latin": "Carthamus tinctorius",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 5,
+     "stearic": 2,
+     "oleic": 77,
+     "linoleic": 15
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "3.6-6.0",
+    "C18:1": "70.0-83.7",
+    "C18:2": "9.0-19.9",
+    "saponification_mg_KOH_g": "186-194",
+    "iodine_wijs": "80-100",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 93,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 97,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.19,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "very good",
+    "shelf_life": "18-24 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 0,
+    "basis": "attributed to Fulton 1989 (safflower)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light, non-greasy",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "refined": "~240-265",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "High-heat frying.",
+   "refined_vs_unrefined": "Mostly refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "cooking",
+    "lotion",
+    "soap",
+    "infusion_carrier"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "safflower_linoleic",
+   "name": "Safflower oil, high-linoleic",
+   "latin": "Carthamus tinctorius",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 7,
+     "oleic": 15,
+     "linoleic": 75
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "5.3-8.0",
+    "C18:1": "8.4-21.3",
+    "C18:2": "67.8-83.2",
+    "saponification_mg_KOH_g": "186-198",
+    "iodine_wijs": "136-148",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 145,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 47,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.137,
+    "koh": 0.192,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor",
+    "shelf_life": "6-12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 0,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light",
+    "absorption": "fast"
+   },
+   "smoke_point_c": {
+    "refined": "~230",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Dressings; not for frying.",
+   "refined_vs_unrefined": "Refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "lotion (light)",
+    "cooking (cold)"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "coconut_virgin",
+   "name": "Coconut oil, virgin (and refined \"76 degree\")",
+   "latin": "Cocos nucifera",
+   "category": "oil (solid below ~24 C)",
+   "fatty_acids": {
+    "values_pct": {
+     "lauric": 48,
+     "myristic": 19,
+     "palmitic": 9,
+     "stearic": 3,
+     "oleic": 8,
+     "linoleic": 2
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C6:0": "ND-0.7",
+    "C8:0": "4.6-10.0",
+    "C10:0": "5.0-8.0",
+    "C12:0": "45.1-53.2",
+    "C14:0": "16.8-21.0",
+    "C16:0": "7.5-10.2",
+    "C18:0": "2.0-4.0",
+    "C18:1": "5.0-10.0",
+    "C18:2": "1.0-2.5",
+    "saponification_mg_KOH_g": "248-265",
+    "iodine_wijs": "6.3-10.6",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 10,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 258,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.183,
+    "koh": 0.257,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "24-26 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent (saturated) but prone to hydrolytic/soapy rancidity if wet",
+    "shelf_life": "2+ years"
+   },
+   "comedogenic": {
+    "rating_0_5": 4,
+    "basis": "attributed to Fulton 1989 (original table not re-checked)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "melts on contact, then slick; can feel drying in soap",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "unrefined_virgin": "~175-177",
+    "refined": "~200-230",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Baking, curries, frying (refined). Highest saturated-fat cooking oil (~90% saturated).",
+   "refined_vs_unrefined": "Virgin (fresh meat, coconut aroma) vs RBD (copra, refined-bleached-deodorised, neutral). \"76 degree\" refers to melt point in F.",
+   "allergen": "FDA historically listed coconut as a tree nut for labelling; botanically a drupe/palm seed; true coconut allergy is uncommon. (FDA tree-nut list was narrowed in its 2025 allergen guidance - status not re-verified here.)",
+   "best_uses": [
+    "cooking",
+    "soap (cleansing/lather; usually <=30% at 5%+ superfat, or 100% at ~20% superfat)",
+    "balm",
+    "lip balm",
+    "wax-melt/candle blends",
+    "infusion_carrier"
+   ],
+   "verification": "Codex verified; SAP verified (0.183 NaOH)."
+  },
+  {
+   "id": "coconut_fractionated",
+   "name": "Coconut oil, fractionated / MCT",
+   "latin": "Cocos nucifera (fraction)",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "caprylic": 54,
+     "capric": 43,
+     "lauric": 2,
+     "myristic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "Caprylic C8:0 50-65 + capric C10:0 30-45 (MCT oil spec); lauric removed. Soapee lists 54/43."
+   },
+   "iodine_value": {
+    "value": 1,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 324,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.232,
+    "koh": 0.325,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "liquid down to about -5 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2-3+ years"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced (often listed 1-2)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "very light, dry, non-staining",
+    "absorption": "fast"
+   },
+   "smoke_point_c": {
+    "refined": "~160 (MCT burns/smokes low; not a frying oil)",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Food MCT oil in drinks; not for frying.",
+   "refined_vs_unrefined": "Always fractionated/esterified; odourless.",
+   "allergen": "As coconut.",
+   "best_uses": [
+    "infusion_carrier",
+    "tincture-like oil dosing",
+    "roll-ons",
+    "perfume oil",
+    "reed diffuser base (some)",
+    "massage"
+   ],
+   "notes": "Do NOT use in soap calculations as ordinary coconut - SAP 0.232 NaOH, and it does not make a bar. Highly stable carrier for dosed oils.",
+   "verification": "SAP verified (0.232 NaOH SoapCalc)."
+  },
+  {
+   "id": "jojoba",
+   "name": "Jojoba oil (a liquid wax ester, not a triglyceride)",
+   "latin": "Simmondsia chinensis",
+   "category": "liquid wax",
+   "fatty_acids": {
+    "values_pct": {
+     "eicosenoic C20:1 (acid moiety)": "66-71",
+     "erucic C22:1 (acid moiety)": "13-15",
+     "oleic C18:1": "10-13",
+     "alcohol moieties": "eicosenol C20:1 ~44, docosenol C22:1 ~45"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "~97% straight-chain wax esters (C38-C44). Only ~50% saponifiable -> SAP is low; it stays as unsaponifiable \"superfat\" in soap."
+   },
+   "iodine_value": {
+    "value": "80-85",
+    "source": "Soapee 83; literature 80-85"
+   },
+   "saponification": {
+    "naoh": 0.066,
+    "koh": 0.092,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "solidifies ~7-10 C (reversible)"
+   },
+   "oxidative_stability": {
+    "rating": "excellent - among the most oxidation-stable carriers",
+    "shelf_life": "3-5+ years"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "dry, satiny, resembles human sebum wax esters",
+    "absorption": "moderate-fast"
+   },
+   "smoke_point_c": null,
+   "culinary": "Not a food oil: largely indigestible wax esters, laxative; not GRAS as a food oil.",
+   "refined_vs_unrefined": "Golden (virgin) or clear (refined/filtered).",
+   "allergen": "Rare contact allergy reported.",
+   "best_uses": [
+    "face oil",
+    "lotion",
+    "balm",
+    "perfume carrier",
+    "infusion_carrier (stable)",
+    "soap (<=5-10%, as superfat)"
+   ],
+   "verification": "SAP verified (0.066 NaOH SoapCalc); composition from literature, unverified this session."
+  },
+  {
+   "id": "avocado",
+   "name": "Avocado oil",
+   "latin": "Persea americana",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 20,
+     "stearic": 2,
+     "oleic": 58,
+     "linoleic": 12
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 50-74, palmitic 10-25, palmitoleic 2-12, linoleic 8-15 (Soapee omits palmitoleic)"
+   },
+   "iodine_value": {
+    "value": 86,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 99,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.133,
+    "koh": 0.186,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "12-18 months",
+    "native_antioxidants": "tocopherols, carotenoids/chlorophyll (unrefined)"
+   },
+   "comedogenic": {
+    "rating_0_5": 3,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "rich, heavy, green (unrefined)",
+    "absorption": "slow"
+   },
+   "smoke_point_c": {
+    "unrefined": "~190-205",
+    "refined": "~250-270",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Refined: one of the highest-smoke-point common oils. Unrefined: green, buttery, finishing.",
+   "refined_vs_unrefined": "Pressed from fruit flesh (not seed). Adulteration of \"avocado oil\" is widely documented (Green & Wang 2020, Food Control - not re-verified).",
+   "allergen": "Latex-fruit syndrome cross-reactivity (avocado-latex) is real for the fruit; oil protein content is low.",
+   "best_uses": [
+    "cooking",
+    "soap",
+    "balm",
+    "lotion (rich)",
+    "infusion_carrier"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "argan",
+   "name": "Argan oil",
+   "latin": "Argania spinosa",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "myristic": 1,
+     "palmitic": 14,
+     "oleic": 46,
+     "linoleic": 34,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature (Moroccan standard): oleic 43-49, linoleic 29-36, palmitic 11-15, stearic 4-7"
+   },
+   "iodine_value": {
+    "value": 95,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 95,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.136,
+    "koh": 0.191,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate-good",
+    "shelf_life": "12-24 months",
+    "native_antioxidants": "gamma-tocopherol (high), schottenol/spinasterol sterols"
+   },
+   "comedogenic": {
+    "rating_0_5": 0,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light-medium, dry finish",
+    "absorption": "moderate-fast"
+   },
+   "smoke_point_c": {
+    "culinary_roasted": "~ moderate; used as a finishing oil",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Culinary argan is pressed from ROASTED kernels (nutty, amlou); cosmetic from unroasted.",
+   "refined_vs_unrefined": "Cosmetic: cold-pressed unroasted, often deodorised. Culinary: roasted.",
+   "allergen": "Argan is a Sapotaceae kernel; occasional contact/food allergy case reports exist (not re-verified).",
+   "best_uses": [
+    "face oil",
+    "hair oil",
+    "lotion",
+    "cooking (roasted, finishing)"
+   ],
+   "sustainability": "Women's cooperatives in SW Morocco; UNESCO biosphere (Arganeraie) - goat-tree pressure.",
+   "verification": "SAP verified."
+  },
+  {
+   "id": "rosehip",
+   "name": "Rosehip seed oil",
+   "latin": "Rosa canina / R. rubiginosa",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 4,
+     "stearic": 2,
+     "oleic": 12,
+     "linoleic": 46,
+     "linolenic": 31
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: linoleic 44-50, alpha-linolenic 30-35, oleic 13-17"
+   },
+   "iodine_value": {
+    "value": 188,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 10,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.133,
+    "koh": 0.187,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor",
+    "shelf_life": "6 months; refrigerate",
+    "antioxidant_add": "0.1-0.5% tocopherol or rosemary CO2"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "dry, light",
+    "absorption": "fast"
+   },
+   "smoke_point_c": null,
+   "culinary": "Not a cooking oil.",
+   "refined_vs_unrefined": "Cold-pressed or CO2; CO2 extract carries more carotenoids (orange).",
+   "allergen": "Rare.",
+   "best_uses": [
+    "face serum",
+    "lotion (oil phase, small %)"
+   ],
+   "notes": "\"Natural tretinoin\" claim: trans-retinoic acid content is trace and disputed; do not market as a retinoid. Keep out of soap (rancidity).",
+   "verification": "SAP verified; retinoid claim unverified."
+  },
+  {
+   "id": "sea_buckthorn_seed",
+   "name": "Sea buckthorn seed oil",
+   "latin": "Hippophae rhamnoides",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 7,
+     "stearic": 3,
+     "oleic": 14,
+     "linoleic": 36,
+     "linolenic": 38
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: linoleic 30-40, alpha-linolenic 20-35, oleic 13-20, palmitic 7-9"
+   },
+   "iodine_value": {
+    "value": 165,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 30,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.139,
+    "koh": 0.195,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor",
+    "shelf_life": "6-12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light",
+    "absorption": "fast"
+   },
+   "smoke_point_c": null,
+   "culinary": "Supplement use.",
+   "refined_vs_unrefined": "Cold-pressed or CO2.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "face serum (small %)"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "sea_buckthorn_fruit",
+   "name": "Sea buckthorn fruit (pulp/berry) oil",
+   "latin": "Hippophae rhamnoides",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitoleic C16:1 (omega-7)": "25-40",
+     "palmitic": "25-35",
+     "oleic": "15-25",
+     "linoleic": "5-15"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee entry omits palmitoleic; the pulp oil is the main natural source of omega-7. Intensely orange (carotenoids) - stains skin and fabric."
+   },
+   "iodine_value": null,
+   "saponification": {
+    "naoh": 0.13,
+    "koh": 0.183,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate (carotenoids help)",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "staining, use at 1-5% of oil phase",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Supplement use.",
+   "refined_vs_unrefined": "CO2 or pressed.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "face serum (low %)",
+    "balm colourant"
+   ],
+   "verification": "SAP verified (blend entry 0.130 NaOH); FA from literature."
+  },
+  {
+   "id": "castor",
+   "name": "Castor oil",
+   "latin": "Ricinus communis",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "ricinoleic": 90,
+     "oleic": 4,
+     "linoleic": 4
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "Ricinoleic acid (12-hydroxy-oleic) 85-95%. Viscous, humectant-like, solvent for resins and pigments."
+   },
+   "iodine_value": {
+    "value": 86,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 95,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.128,
+    "koh": 0.18,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "pour point about -10 to -18 C"
+   },
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "1-2 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "very thick, sticky, glossy",
+    "absorption": "slow"
+   },
+   "smoke_point_c": null,
+   "culinary": "Not a cooking oil; stimulant laxative (ricinoleic acid acts on EP3 prostanoid receptors - Tunaru 2012 PNAS, not re-verified).",
+   "refined_vs_unrefined": "Cold-pressed (the oil is free of ricin; ricin stays in the meal/cake, which is why heat-treated cake is a safety step).",
+   "allergen": "Castor-bean (meal) allergy is occupational; the oil itself rarely.",
+   "best_uses": [
+    "soap (5-10%: stabilises lather)",
+    "lip balm/gloss",
+    "hair",
+    "balm (small %)"
+   ],
+   "notes": "In soap above ~10-15% it makes a soft, sticky bar.",
+   "verification": "SAP verified (0.128 NaOH)."
+  },
+  {
+   "id": "hemp_seed",
+   "name": "Hemp seed oil",
+   "latin": "Cannabis sativa (seed)",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 6,
+     "stearic": 2,
+     "oleic": 12,
+     "linoleic": 57,
+     "linolenic": 21
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: linoleic 55-60, alpha-linolenic 15-20, GLA 1-4, stearidonic 0.5-2, oleic 9-16. Contains no meaningful cannabinoids (pressed seed); THC traces come from surface contamination."
+   },
+   "iodine_value": {
+    "value": 165,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 39,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.138,
+    "koh": 0.193,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor",
+    "shelf_life": "6-12 months; refrigerate"
+   },
+   "comedogenic": {
+    "rating_0_5": 0,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light, green",
+    "absorption": "fast"
+   },
+   "smoke_point_c": {
+    "unrefined": "~165 (do not fry)",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Cold uses only (dressings, drizzle).",
+   "refined_vs_unrefined": "Unrefined (green, nutty) or refined (clear, rare).",
+   "allergen": "Cannabis allergy exists (Can s 3 lipid transfer protein); rare with oil.",
+   "best_uses": [
+    "cooking (cold)",
+    "lotion",
+    "soap (<=15%)"
+   ],
+   "notes": "NOT a cannabinoid carrier by itself - CBD/THC products use hemp seed oil or MCT as solvent.",
+   "verification": "SAP verified."
+  },
+  {
+   "id": "black_seed",
+   "name": "Black seed oil (Nigella sativa, \"black cumin\")",
+   "latin": "Nigella sativa",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 13,
+     "stearic": 3,
+     "oleic": 22,
+     "linoleic": 60,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: linoleic 50-60, oleic 20-25, palmitic 12-14, eicosadienoic C20:2 2-3; volatile fraction 0.4-2.5% with thymoquinone, p-cymene."
+   },
+   "iodine_value": {
+    "value": 133,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 62,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.139,
+    "koh": 0.195,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "pungent, peppery-medicinal aroma",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Supplement/culinary drizzle; spice seeds (kalonji) are the culinary form.",
+   "refined_vs_unrefined": "Cold-pressed; thymoquinone content varies widely by batch.",
+   "allergen": "Contact dermatitis to topical black seed oil is documented (case reports; not re-verified).",
+   "best_uses": [
+    "face/hair oil (low %)",
+    "balm",
+    "cooking (cold)"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "sesame",
+   "name": "Sesame oil (untoasted; toasted noted)",
+   "latin": "Sesamum indicum",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 10,
+     "stearic": 5,
+     "oleic": 40,
+     "linoleic": 43
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "7.9-12.0",
+    "C18:0": "4.5-6.7",
+    "C18:1": "34.4-45.5",
+    "C18:2": "36.9-47.9",
+    "saponification_mg_KOH_g": "186-195",
+    "iodine_wijs": "104-120",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 110,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 81,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.134,
+    "koh": 0.188,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good despite linoleic (sesamin, sesamolin -> sesamol)",
+    "shelf_life": "12-24 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 3,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "medium; Ayurvedic abhyanga base (often \"cured\" by heating)",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "unrefined": "~175",
+    "refined": "~210-230",
+    "toasted": "finishing oil - do not fry",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Untoasted for frying (Indian gingelly, Middle East); toasted (East Asian) as a seasoning at the end.",
+   "refined_vs_unrefined": "Untoasted cold-pressed, refined, or toasted (roast-pressed; flavour from Maillard pyrazines).",
+   "allergen": "SESAME IS A MAJOR ALLERGEN (US FASTER Act 2021, 9th major allergen from 1 Jan 2023; EU Annex II). Unrefined/toasted sesame oil carries allergenic protein.",
+   "best_uses": [
+    "cooking",
+    "massage (abhyanga)",
+    "infusion_carrier (Ayurvedic taila)"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "rice_bran",
+   "name": "Rice bran oil",
+   "latin": "Oryza sativa",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "myristic": 1,
+     "palmitic": 22,
+     "stearic": 3,
+     "oleic": 38,
+     "linoleic": 34,
+     "linolenic": 2
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "14-23",
+    "C18:1": "38-48",
+    "C18:2": "21-42",
+    "C18:3": "0.1-2.9",
+    "saponification_mg_KOH_g": "180-199",
+    "iodine_wijs": "90-115",
+    "unsaponifiable": "<=65 g/kg",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 100,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 87,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.133,
+    "koh": 0.187,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "12-18 months",
+    "native_antioxidants": "gamma-oryzanol (~1-2%), tocotrienols"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light-medium",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "refined": "~230-250",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "High-heat frying (Japan, India).",
+   "refined_vs_unrefined": "Bran must be stabilised quickly (lipase) or FFA climbs - see our Cold_Pressing page.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "cooking",
+    "soap",
+    "lotion"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "camellia",
+   "name": "Camellia (tsubaki / tea seed) oil",
+   "latin": "Camellia oleifera / C. japonica",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 9,
+     "stearic": 2,
+     "oleic": 77,
+     "linoleic": 8
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 75-85, linoleic 6-10, palmitic 8-10"
+   },
+   "iodine_value": {
+    "value": 78,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 115,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.138,
+    "koh": 0.193,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "12-24 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light, silky, traditional hair/knife oil in Japan",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "refined": "~250 (claimed)",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Southern China cooking oil (C. oleifera).",
+   "refined_vs_unrefined": "Pressed; not the same as \"tea tree oil\" (Melaleuca essential oil).",
+   "allergen": "Rare.",
+   "best_uses": [
+    "cooking",
+    "hair oil",
+    "face oil",
+    "lotion"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "macadamia",
+   "name": "Macadamia nut oil",
+   "latin": "Macadamia integrifolia / tetraphylla",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "oleic": "55-65",
+     "palmitoleic C16:1": "16-23",
+     "palmitic": "7-10",
+     "stearic": "2-5",
+     "linoleic": "1-3",
+     "C20:1": "2-3"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee omits palmitoleic (its row sums to 75%). Palmitoleic is the selling point (sebum-like)."
+   },
+   "iodine_value": {
+    "value": "74-76",
+    "source": "Soapee 76"
+   },
+   "ins_value": {
+    "value": 119,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.139,
+    "koh": 0.195,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "12-24 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "cushiony, rich but absorbs",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "refined": "~210",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Cooking and dressings.",
+   "refined_vs_unrefined": "Cold-pressed or refined.",
+   "allergen": "TREE NUT.",
+   "best_uses": [
+    "face oil",
+    "lotion",
+    "balm",
+    "cooking",
+    "soap"
+   ],
+   "verification": "SAP verified; FA literature."
+  },
+  {
+   "id": "meadowfoam",
+   "name": "Meadowfoam seed oil",
+   "latin": "Limnanthes alba",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "5-eicosenoic C20:1": "58-64",
+     "docosenoic C22:1 (5- and 13-)": "10-20",
+     "5,13-docosadienoic C22:2": "10-20"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": ">95% C20+ fatty acids with unusual delta-5 unsaturation - exceptionally oxidation-stable."
+   },
+   "iodine_value": {
+    "value": 92,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 77,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.12,
+    "koh": 0.169,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2-3 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "cushiony, non-greasy",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Not marketed as food.",
+   "refined_vs_unrefined": "Refined cosmetic grade.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "lotion",
+    "lip balm",
+    "hair",
+    "stabilising blends with fragile oils"
+   ],
+   "verification": "SAP verified (0.120 NaOH)."
+  },
+  {
+   "id": "evening_primrose",
+   "name": "Evening primrose oil",
+   "latin": "Oenothera biennis",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "linoleic": "70-77",
+     "gamma-linolenic GLA": "8-11",
+     "oleic": "6-10",
+     "palmitic": "5-7",
+     "stearic": "1.5-3.5"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee lists linoleic 80 / linolenic 9 - the \"linolenic\" there is GLA, not ALA."
+   },
+   "iodine_value": {
+    "value": "~150-160",
+    "source": "Soapee 160"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.19,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor",
+    "shelf_life": "6 months; refrigerate"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light",
+    "absorption": "fast"
+   },
+   "smoke_point_c": null,
+   "culinary": "Supplement (capsules).",
+   "refined_vs_unrefined": "Cold-pressed or refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "face serum (low %)",
+    "lotion oil phase"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "borage",
+   "name": "Borage (starflower) seed oil",
+   "latin": "Borago officinalis",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "linoleic": "35-38",
+     "gamma-linolenic GLA": "20-24",
+     "oleic": "16-20",
+     "palmitic": "9-12",
+     "stearic": "3-4",
+     "eicosenoic C20:1": "3-5",
+     "erucic C22:1": "1.5-3"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee omits GLA (lists linolenic 5) - a significant error for formulators selecting it for GLA."
+   },
+   "iodine_value": {
+    "value": "~135-145",
+    "source": "Soapee 135"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.19,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor",
+    "shelf_life": "6 months; refrigerate"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light",
+    "absorption": "fast"
+   },
+   "smoke_point_c": null,
+   "culinary": "Supplement. The PLANT contains hepatotoxic pyrrolizidine alkaloids; quality oils are certified PA-free.",
+   "refined_vs_unrefined": "Cold-pressed / refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "face serum (low %)"
+   ],
+   "verification": "SAP verified; FA literature."
+  },
+  {
+   "id": "pomegranate_seed",
+   "name": "Pomegranate seed oil",
+   "latin": "Punica granatum",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "punicic acid (9c,11t,13c-C18:3, conjugated)": "65-80",
+     "linoleic": "5-8",
+     "oleic": "5-8",
+     "palmitic": "3-4",
+     "stearic": "2-3"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee lists \"linolenic 78\" - it is punicic acid, a conjugated isomer, not ALA. Iodine-value figures in soaping tables (22) are not credible for a ~75% triene oil; literature IV is ~ 200+ by Wijs although conjugation distorts the test."
+   },
+   "iodine_value": {
+    "value": "disputed: Soapee 22 (implausible); conjugated trienes give anomalous Wijs results",
+    "source": "flagged"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.19,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor-moderate",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "thick, slightly tacky",
+    "absorption": "slow"
+   },
+   "smoke_point_c": null,
+   "culinary": "Supplement.",
+   "refined_vs_unrefined": "Cold-pressed / CO2.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "face serum (low %)"
+   ],
+   "verification": "SAP verified; FA literature; Soapee IV flagged as wrong."
+  },
+  {
+   "id": "tamanu",
+   "name": "Tamanu (foraha, kamani) oil",
+   "latin": "Calophyllum inophyllum",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 12,
+     "stearic": 13,
+     "oleic": 34,
+     "linoleic": 38,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 30-40, linoleic 25-35, palmitic 12-15, stearic 12-15; resinous fraction with calophyllolide and other 4-phenylcoumarins."
+   },
+   "iodine_value": {
+    "value": 111,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 82,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.148,
+    "koh": 0.208,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "12-24 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "thick, green, strong nutty-curry odour",
+    "absorption": "slow"
+   },
+   "smoke_point_c": null,
+   "culinary": "Not edible (resin/coumarin fraction; toxic seed).",
+   "refined_vs_unrefined": "Unrefined cosmetic.",
+   "allergen": "Allergic contact dermatitis from tamanu documented (Le Coz 2004, Contact Dermatitis, PMID 15500678). Seed is a nut - nut-allergy caution.",
+   "best_uses": [
+    "balm (scar/wound-care tradition, low %)",
+    "salve"
+   ],
+   "verification": "SAP verified (0.148 NaOH - high; SoapCalc); PMID verified."
+  },
+  {
+   "id": "neem",
+   "name": "Neem seed oil",
+   "latin": "Azadirachta indica",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "myristic": 2,
+     "palmitic": 21,
+     "stearic": 16,
+     "oleic": 46,
+     "linoleic": 12
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 40-50, linoleic 10-20, palmitic 14-20, stearic 15-20; limonoids (azadirachtin, nimbin) and sulfur volatiles (garlic-like smell)."
+   },
+   "iodine_value": {
+    "value": 72,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 121,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.138,
+    "koh": 0.193,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "partly solid below ~25 C (clouds)"
+   },
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "1-2 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "heavy, pungent",
+    "absorption": "slow"
+   },
+   "smoke_point_c": null,
+   "culinary": "NOT edible: ingestion by infants has caused Reye-like encephalopathy and metabolic acidosis (e.g. Dhongade 2008 Indian Pediatr, PMID 18250509).",
+   "refined_vs_unrefined": "Cold-pressed (higher azadirachtin) vs solvent/clarified hydrophobic neem oil (pesticide grade).",
+   "allergen": "Allergic contact dermatitis reported (Romita 2019 Contact Dermatitis, PMID 30834541).",
+   "best_uses": [
+    "balm/salve (1-10%)",
+    "soap (up to ~10%)",
+    "pet/plant sprays"
+   ],
+   "verification": "SAP verified; PMIDs verified."
+  },
+  {
+   "id": "moringa",
+   "name": "Moringa (ben) oil",
+   "latin": "Moringa oleifera",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "oleic": "70-76",
+     "behenic C22:0": "5-7",
+     "palmitic": "5-7",
+     "stearic": "4-6",
+     "arachidic C20:0": "2-4"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee omits behenic/arachidic. Historically prized as a non-rancidifying perfumery (enfleurage) and watch oil."
+   },
+   "iodine_value": {
+    "value": 68,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 124,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.137,
+    "koh": 0.192,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "very good",
+    "shelf_life": "1-2+ years"
+   },
+   "comedogenic": {
+    "rating_0_5": 3,
+    "basis": "popular_list_unsourced (lists vary 2-3)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light-medium, clear",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Edible in producer regions.",
+   "refined_vs_unrefined": "Cold-pressed.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "perfume carrier",
+    "face oil",
+    "balm",
+    "cooking"
+   ],
+   "verification": "SAP verified; FA literature."
+  },
+  {
+   "id": "baobab",
+   "name": "Baobab seed oil",
+   "latin": "Adansonia digitata",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "myristic": 1,
+     "palmitic": 24,
+     "stearic": 4,
+     "oleic": 37,
+     "linoleic": 28,
+     "linolenic": 2
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: palmitic 18-30, oleic 30-40, linoleic 20-35; cyclopropenoid fatty acids (sterculic, malvalic, dihydrosterculic ~ a few %)."
+   },
+   "iodine_value": {
+    "value": 75,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 125,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.143,
+    "koh": 0.2,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "1-2 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "medium, semi-solid in cold",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Cyclopropenoid FAs are an argument against heavy dietary use of unrefined oil (refining/heat reduces them) - unverified.",
+   "refined_vs_unrefined": "Cold-pressed.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "lotion",
+    "balm",
+    "hair"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "marula",
+   "name": "Marula oil",
+   "latin": "Sclerocarya birrea",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 11,
+     "stearic": 7,
+     "oleic": 75,
+     "linoleic": 4
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 70-78, palmitic 9-12, stearic 5-8, linoleic 4-7"
+   },
+   "iodine_value": {
+    "value": 73,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 119,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.137,
+    "koh": 0.192,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2+ years"
+   },
+   "comedogenic": {
+    "rating_0_5": 3,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light, quick absorbing",
+    "absorption": "fast"
+   },
+   "smoke_point_c": null,
+   "culinary": "Edible locally.",
+   "refined_vs_unrefined": "Cold-pressed.",
+   "allergen": "Anacardiaceae (cashew/mango family) - theoretical cross-reactivity.",
+   "best_uses": [
+    "face oil",
+    "lotion",
+    "hair"
+   ],
+   "sustainability": "Wild-harvested by southern African communities.",
+   "verification": "SAP verified."
+  },
+  {
+   "id": "kukui",
+   "name": "Kukui (candlenut) oil",
+   "latin": "Aleurites moluccanus",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 6,
+     "stearic": 2,
+     "oleic": 20,
+     "linoleic": 42,
+     "linolenic": 29
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: linoleic 38-45, alpha-linolenic 25-30, oleic 18-25"
+   },
+   "iodine_value": {
+    "value": 168,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 24,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.189,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor",
+    "shelf_life": "6-12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "light",
+    "absorption": "fast"
+   },
+   "smoke_point_c": null,
+   "culinary": "Raw candlenuts are purgative/toxic; roasted nuts are a SE Asian spice (kemiri).",
+   "refined_vs_unrefined": "Cold-pressed.",
+   "allergen": "Nut (Euphorbiaceae); limited allergy data.",
+   "best_uses": [
+    "face oil",
+    "lotion"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "babassu",
+   "name": "Babassu oil",
+   "latin": "Attalea speciosa",
+   "category": "oil (solid below ~24 C)",
+   "fatty_acids": {
+    "values_pct": {
+     "lauric": 50,
+     "myristic": 20,
+     "palmitic": 11,
+     "stearic": 4,
+     "oleic": 10
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C8:0": "2.6-7.3",
+    "C10:0": "1.2-7.6",
+    "C12:0": "40.0-55.0",
+    "C14:0": "11.0-27.0",
+    "C16:0": "5.2-11.0",
+    "C18:1": "9.0-20.0",
+    "saponification_mg_KOH_g": "245-256",
+    "iodine_wijs": "10-18",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 15,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 230,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.175,
+    "koh": 0.245,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "22-26 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "melts on skin, drier than coconut",
+    "absorption": "fast"
+   },
+   "smoke_point_c": null,
+   "culinary": "Edible locally (Brazil).",
+   "refined_vs_unrefined": "Refined or virgin.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "soap (coconut substitute)",
+    "balm",
+    "lip balm"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "palm",
+   "name": "Palm oil (and red palm)",
+   "latin": "Elaeis guineensis (mesocarp)",
+   "category": "semi-solid fat",
+   "fatty_acids": {
+    "values_pct": {
+     "myristic": 1,
+     "palmitic": 44,
+     "stearic": 5,
+     "oleic": 39,
+     "linoleic": 10
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "39.3-47.5",
+    "C18:0": "3.5-6.0",
+    "C18:1": "36.0-44.0",
+    "C18:2": "9.0-12.0",
+    "saponification_mg_KOH_g": "190-209",
+    "iodine_wijs": "50.0-55.0",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 53,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 145,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.142,
+    "koh": 0.199,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "33-39 C"
+   },
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "1-2 years",
+    "native_antioxidants": "tocotrienols, carotenoids (red palm)"
+   },
+   "comedogenic": {
+    "rating_0_5": 4,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "firm, waxy",
+    "absorption": "slow"
+   },
+   "smoke_point_c": {
+    "refined": "~230",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Frying, shortening; red palm in West African cooking.",
+   "refined_vs_unrefined": "Red (unrefined, carotene-rich) vs RBD. Process contaminants (3-MCPD, glycidyl esters) form in high-temp refining; EFSA 2016/2018 opinions (not re-verified).",
+   "allergen": "Rare.",
+   "best_uses": [
+    "soap (hardness)",
+    "cooking",
+    "candle/container blends (palm wax = hydrogenated/fractionated)"
+   ],
+   "sustainability": "Leading driver of tropical deforestation in SE Asia; RSPO certification (Identity Preserved / Segregated / Mass Balance / credits - only IP and Segregated physically guarantee certified oil). Many soapers avoid it.",
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "palm_kernel",
+   "name": "Palm kernel oil",
+   "latin": "Elaeis guineensis (kernel)",
+   "category": "oil (solid below ~25 C)",
+   "fatty_acids": {
+    "values_pct": {
+     "lauric": 49,
+     "myristic": 16,
+     "palmitic": 8,
+     "stearic": 2,
+     "oleic": 15,
+     "linoleic": 3
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C6:0": "ND-0.8",
+    "C8:0": "2.4-6.2",
+    "C10:0": "2.6-5.0",
+    "C12:0": "45.0-55.0",
+    "C14:0": "14.0-18.0",
+    "C16:0": "6.5-10.0",
+    "C18:1": "12.0-19.0",
+    "saponification_mg_KOH_g": "230-254",
+    "iodine_wijs": "14.1-21.0",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 20,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 227,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.176,
+    "koh": 0.247,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "24-29 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "like coconut",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Confectionery fats.",
+   "refined_vs_unrefined": "Mostly RBD.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "soap (cleansing, lather)"
+   ],
+   "sustainability": "Same deforestation issues as palm.",
+   "notes": "CONFLICT: our soapcalc.mjs uses SAP 0.156 NaOH; SoapCalc gives 0.176 and Codex SV 230-254 mg KOH/g = 0.164-0.181 g NaOH/g. 0.156 is below the Codex range.",
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "flaxseed",
+   "name": "Flaxseed (linseed) oil",
+   "latin": "Linum usitatissimum",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 6,
+     "stearic": 3,
+     "oleic": 27,
+     "linoleic": 13,
+     "linolenic": 50
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: alpha-linolenic 45-60, linoleic 13-17, oleic 15-27, palmitic 5-7"
+   },
+   "iodine_value": {
+    "value": 180,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": -6,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.19,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "very poor (drying oil)",
+    "shelf_life": "3-6 months refrigerated"
+   },
+   "comedogenic": {
+    "rating_0_5": 4,
+    "basis": "attributed to Fulton 1989 (linseed)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "tacky as it oxidises",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "unrefined": "~107 - do not heat",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Cold only (quark-linseed oil, supplements).",
+   "refined_vs_unrefined": "Food flax is cold-pressed unrefined; \"boiled linseed oil\" from hardware stores contains metal driers - not food or skin grade.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "cooking (cold)"
+   ],
+   "notes": "SPONTANEOUS COMBUSTION: rags soaked in linseed (and other high-iodine drying oils) can self-heat and ignite - spread flat to dry or store in a sealed metal can with water. Never in soap or balms at meaningful %.",
+   "verification": "SAP verified."
+  },
+  {
+   "id": "walnut",
+   "name": "Walnut oil",
+   "latin": "Juglans regia",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "linoleic": "50-65",
+     "alpha-linolenic": "10-15",
+     "oleic": "15-25",
+     "palmitic": "6-8",
+     "stearic": "2-3"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee omits ALA (10-15%)."
+   },
+   "iodine_value": {
+    "value": "~145-150",
+    "source": "Soapee 145"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.189,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor",
+    "shelf_life": "6-12 months refrigerated"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "light",
+    "absorption": "fast"
+   },
+   "smoke_point_c": {
+    "unrefined": "~160 (finishing)",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Dressings, finishing.",
+   "refined_vs_unrefined": "Roasted-pressed (French huile de noix) or refined.",
+   "allergen": "TREE NUT.",
+   "best_uses": [
+    "cooking (cold)"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "pumpkin_seed",
+   "name": "Pumpkin seed oil (Styrian roasted)",
+   "latin": "Cucurbita pepo",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 11,
+     "stearic": 8,
+     "oleic": 33,
+     "linoleic": 50
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: linoleic 35-60, oleic 20-40, palmitic 10-15"
+   },
+   "iodine_value": {
+    "value": 128,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 67,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.139,
+    "koh": 0.195,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "9-12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "dark green, dichromatic, stains",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "unrefined": "~120 (finishing only)",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Finishing oil (Kurbiskernol g.g.A., Styria) on salad, soup, vanilla ice cream.",
+   "refined_vs_unrefined": "Roasted then pressed.",
+   "allergen": "Seed allergy rare.",
+   "best_uses": [
+    "cooking (cold)"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "peanut",
+   "name": "Peanut (arachis / groundnut) oil",
+   "latin": "Arachis hypogaea",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 8,
+     "stearic": 3,
+     "oleic": 56,
+     "linoleic": 26
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "8.0-14.0",
+    "C18:0": "1.0-4.5",
+    "C18:1": "35.0-69",
+    "C18:2": "12.0-43.0",
+    "C20:0": "1.0-2.0",
+    "C22:0": "1.5-4.5",
+    "C24:0": "0.5-2.5",
+    "saponification_mg_KOH_g": "187-196",
+    "iodine_wijs": "86-107",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 92,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 99,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.137,
+    "koh": 0.192,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "12-24 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "medium",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "refined": "~230",
+    "unrefined": "~160",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Deep frying, wok; long-chain saturates (behenic/lignoceric) make it cloud in the fridge.",
+   "refined_vs_unrefined": "Refined (RBD) vs cold-pressed/gourmet (roasted, aromatic).",
+   "allergen": "PEANUT - THE REFINING QUESTION: Hourihane et al. 1997 BMJ (PMID 9133891), double-blind challenge of 60 peanut-allergic people: refined peanut oil caused no reactions; crude (cold-pressed) oil caused reactions in 6 of 60 (10%). Highly refined oils are exempt from US major-allergen labelling under FALCPA 2004 (and EU Annex II for refined soy oil; EU does NOT exempt peanut oil generally). Gourmet/roasted/expeller oils, and refined oil that has been used to fry other foods, are not safe assumptions. Topical: Lack 2003 NEJM (PMID 12637607) associated peanut-oil-containing skin preparations in infancy with later peanut allergy - avoid peanut oil in baby balms/lotions.",
+   "best_uses": [
+    "cooking"
+   ],
+   "verification": "Codex verified; SAP verified; both PMIDs verified via PubMed E-utilities."
+  },
+  {
+   "id": "canola",
+   "name": "Canola / low-erucic rapeseed oil",
+   "latin": "Brassica napus / B. rapa (LEAR)",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 4,
+     "stearic": 2,
+     "oleic": 61,
+     "linoleic": 21,
+     "linolenic": 9
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "2.5-7.0",
+    "C18:1": "51.0-70.0",
+    "C18:2": "15.0-30.0",
+    "C18:3": "5.0-14.0",
+    "C20:1": "0.1-4.3",
+    "C22:1": "ND-2.0",
+    "saponification_mg_KOH_g": "182-193",
+    "iodine_wijs": "105-126",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 110,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 56,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.133,
+    "koh": 0.186,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate (ALA)",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "medium",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "refined": "~205-240",
+    "cold_pressed": "~ 107-160",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "All-purpose; high-oleic canola for frying.",
+   "refined_vs_unrefined": "Mostly solvent-extracted RBD; cold-pressed is golden and grassy.",
+   "allergen": "Mustard-family; rare.",
+   "best_uses": [
+    "cooking",
+    "soap (<=15-20%; DOS risk)",
+    "container-candle wax base (rapeseed wax = hydrogenated)"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "rapeseed_high_erucic",
+   "name": "Rapeseed oil, traditional (high-erucic)",
+   "latin": "Brassica napus / B. rapa",
+   "category": "oil",
+   "fatty_acids": {
+    "note": "Soapee \"unrefined canola\" row omits erucic (sums to 44%) - unusable as a profile."
+   },
+   "codex_ranges": {
+    "C18:1": "8.0-60.0",
+    "C18:2": "11.0-23.0",
+    "C18:3": "5.0-13.0",
+    "C20:1": "3.0-15.0",
+    "C22:1": ">2.0-60.0",
+    "saponification_mg_KOH_g": "168-181",
+    "iodine_wijs": "94-120",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": null,
+   "saponification": {
+    "naoh": 0.125,
+    "koh": 0.175,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": null,
+   "smoke_point_c": null,
+   "culinary": "See mustard: erucic acid limits apply.",
+   "refined_vs_unrefined": "Industrial/lubricant grade today.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "industrial"
+   ],
+   "notes": "EU Reg. 2019/1870 caps erucic acid in vegetable oils/fats for food (20 g/kg in general; mustard oil exempted at 50 g/kg) - not re-verified. EFSA 2016 TDI 7 mg/kg bw/day (EFSA J 14(11):4593; not re-verified).",
+   "verification": "Codex verified; SAP verified (0.125 NaOH)."
+  },
+  {
+   "id": "mustard",
+   "name": "Mustard oil (kachi ghani, Indian cold-pressed)",
+   "latin": "Brassica juncea / B. nigra",
+   "category": "oil",
+   "fatty_acids": {
+    "note": "ERUCIC ACID 22-50% (Codex). Soapee row omits erucic (sums to 45%)."
+   },
+   "codex_ranges": {
+    "C16:0": "0.5-4.5",
+    "C18:1": "8.0-23.0",
+    "C18:2": "10.0-24.0",
+    "C18:3": "6.0-18.0",
+    "C20:1": "5.0-13.0",
+    "C22:1": "22.0-50.0",
+    "saponification_mg_KOH_g": "168-184",
+    "iodine_wijs": "92-125",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": null,
+   "saponification": {
+    "naoh": 0.123,
+    "koh": 0.173,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "12+ months"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "pungent (allyl isothiocyanate forms when seed is wetted/crushed with myrosinase; kachi ghani carries it)",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": {
+    "refined": "~250",
+    "traditional": "heated to smoking briefly (\"smoking the oil\") to mellow pungency before tempering",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Bengali, Punjabi, Kashmiri, Bihari cooking, pickles (achar); infant/adult massage oil in South Asia.",
+   "refined_vs_unrefined": "Kachi ghani (cold, pungent) vs refined.",
+   "allergen": "MUSTARD is an EU major allergen (Annex II, Reg. 1169/2011).",
+   "best_uses": [
+    "cooking",
+    "pickling",
+    "massage (traditional)"
+   ],
+   "notes": "Erucic acid: myocardial lipidosis in rats drove the move to LEAR canola. US FDA does not permit expressed mustard oil to be sold as a food oil (import alert; sold labelled \"for external use only\") - not re-verified. EFSA 2016 TDI 7 mg/kg bw/day. Argemone-oil adulteration of mustard oil caused epidemic dropsy outbreaks in India (Delhi 1998) - buy from trusted sources.",
+   "verification": "Codex verified; SAP verified (0.123 NaOH); regulatory notes unverified this session."
+  },
+  {
+   "id": "corn",
+   "name": "Corn (maize) oil",
+   "latin": "Zea mays",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 12,
+     "stearic": 2,
+     "oleic": 32,
+     "linoleic": 51,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "8.6-16.5",
+    "C18:1": "20.0-42.2",
+    "C18:2": "34.0-65.6",
+    "C18:3": "ND-2.0",
+    "saponification_mg_KOH_g": "187-195",
+    "iodine_wijs": "103-135",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 117,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 69,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.137,
+    "koh": 0.192,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 3,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": null,
+   "smoke_point_c": {
+    "refined": "~230",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Frying.",
+   "refined_vs_unrefined": "RBD.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "cooking",
+    "soap (small %)"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "soybean",
+   "name": "Soybean oil",
+   "latin": "Glycine max",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 11,
+     "stearic": 5,
+     "oleic": 24,
+     "linoleic": 50,
+     "linolenic": 8
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "8.0-13.5",
+    "C18:1": "17-30",
+    "C18:2": "48.0-59.0",
+    "C18:3": "4.5-11.0",
+    "saponification_mg_KOH_g": "189-195",
+    "iodine_wijs": "124-139",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 131,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 61,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.136,
+    "koh": 0.191,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate-poor",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 3,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": null,
+   "smoke_point_c": {
+    "refined": "~230-235",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Generic \"vegetable oil\".",
+   "refined_vs_unrefined": "RBD; hydrogenated forms = soy wax.",
+   "allergen": "Soy is a major allergen; fully refined soybean oil is exempt from EU allergen labelling (Annex II) and FALCPA.",
+   "best_uses": [
+    "cooking"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "hazelnut",
+   "name": "Hazelnut oil",
+   "latin": "Corylus avellana",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 5,
+     "stearic": 3,
+     "oleic": 75,
+     "linoleic": 10
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 75-82, linoleic 8-12"
+   },
+   "iodine_value": {
+    "value": 97,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 94,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.139,
+    "koh": 0.195,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "light, astringent-feeling, quick-absorbing",
+    "absorption": "fast"
+   },
+   "smoke_point_c": {
+    "refined": "~220",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Roasted-pressed for dressings/baking.",
+   "refined_vs_unrefined": "Roasted or refined.",
+   "allergen": "TREE NUT.",
+   "best_uses": [
+    "face oil (oily skin)",
+    "cooking"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "wheat_germ",
+   "name": "Wheat germ oil",
+   "latin": "Triticum aestivum",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 17,
+     "stearic": 2,
+     "oleic": 17,
+     "linoleic": 58
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: linoleic 50-60, oleic 15-20, palmitic 15-18, ALA 5-8"
+   },
+   "iodine_value": {
+    "value": 128,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 58,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.13,
+    "koh": 0.183,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "poor despite very high tocopherol",
+    "shelf_life": "6 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 5,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "thick, strong odour",
+    "absorption": "slow"
+   },
+   "smoke_point_c": null,
+   "culinary": "Supplement.",
+   "refined_vs_unrefined": "Cold-pressed.",
+   "allergen": "WHEAT/gluten - protein traces possible in unrefined oil (coeliac/wheat-allergy caution).",
+   "best_uses": [
+    "lotion oil phase (low %)"
+   ],
+   "notes": "Popular as a \"natural antioxidant\" add-in; it is itself perishable. Pure tocopherol is better.",
+   "verification": "SAP verified."
+  },
+  {
+   "id": "cottonseed",
+   "name": "Cottonseed oil",
+   "latin": "Gossypium spp.",
+   "category": "oil",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 13,
+     "stearic": 13,
+     "oleic": 18,
+     "linoleic": 52,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)"
+   },
+   "codex_ranges": {
+    "C16:0": "21.4-26.4",
+    "C18:1": "14.7-21.7",
+    "C18:2": "46.7-58.2",
+    "saponification_mg_KOH_g": "189-198",
+    "iodine_wijs": "100-123",
+    "source": "Codex Alimentarius CXS 210-1999 (rev. 2015), Table 1 and Appendix (GLC ranges, % of total fatty acids; SV mg KOH/g; IV Wijs)"
+   },
+   "iodine_value": {
+    "value": 108,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 89,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.138,
+    "koh": 0.194,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": null,
+   "oxidative_stability": {
+    "rating": "moderate",
+    "shelf_life": "12 months"
+   },
+   "comedogenic": {
+    "rating_0_5": 3,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": null,
+   "smoke_point_c": {
+    "refined": "~216-230",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Frying (fast food), shortening.",
+   "refined_vs_unrefined": "Must be refined to remove gossypol.",
+   "allergen": "Cottonseed protein allergy rare.",
+   "best_uses": [
+    "cooking"
+   ],
+   "verification": "Codex verified; SAP verified."
+  },
+  {
+   "id": "tallow_beef",
+   "name": "Beef tallow (non-plant comparison)",
+   "latin": "Bos taurus",
+   "category": "animal fat",
+   "fatty_acids": {
+    "values_pct": {
+     "lauric": 2,
+     "myristic": 6,
+     "palmitic": 28,
+     "stearic": 22,
+     "oleic": 36,
+     "linoleic": 3,
+     "linolenic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 36-45, palmitic 24-30, stearic 15-25, myristic 3-6, palmitoleic 2-4; ruminant trans (vaccenic) 2-5%."
+   },
+   "iodine_value": {
+    "value": 45,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 147,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.143,
+    "koh": 0.2,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "40-50 C"
+   },
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "1 year+ (rendered, dry)"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "firm, waxy; \"tallow balm\" trend",
+    "absorption": "slow"
+   },
+   "smoke_point_c": {
+    "rendered": "~205-250",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Frying (chips), pastry.",
+   "refined_vs_unrefined": "Rendered (wet or dry); dry-rendered smells beefier.",
+   "allergen": "Alpha-gal syndrome: mammalian fat can carry alpha-gal glycolipids - reactions reported to lard/tallow-rich foods (not re-verified).",
+   "best_uses": [
+    "soap (hard, creamy)",
+    "balm",
+    "cooking",
+    "traditional candles (smoky, smelly - why beeswax and later paraffin replaced it)"
+   ],
+   "notes": "Codex CXS 211-1999 covers named animal fats; not fetched this session.",
+   "verification": "SAP verified (0.143 NaOH)."
+  },
+  {
+   "id": "lard",
+   "name": "Lard (non-plant comparison)",
+   "latin": "Sus scrofa",
+   "category": "animal fat",
+   "fatty_acids": {
+    "values_pct": {
+     "myristic": 1,
+     "palmitic": 28,
+     "stearic": 13,
+     "oleic": 46,
+     "linoleic": 6
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: oleic 40-50, palmitic 24-28, stearic 12-16, linoleic 6-15 (diet-dependent)"
+   },
+   "iodine_value": {
+    "value": 57,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 139,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.141,
+    "koh": 0.198,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "30-45 C"
+   },
+   "oxidative_stability": {
+    "rating": "moderate (no native antioxidant)",
+    "shelf_life": "6 months room temp; 1 year cold"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "creamy",
+    "absorption": "slow"
+   },
+   "smoke_point_c": {
+    "rendered": "~180-190",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Pastry (lamination), frying.",
+   "refined_vs_unrefined": "Leaf lard (kidney fat) is the mildest.",
+   "allergen": "See tallow (alpha-gal).",
+   "best_uses": [
+    "soap (creamy, mild)",
+    "cooking",
+    "balm"
+   ],
+   "verification": "SAP verified (0.141 NaOH)."
+  },
+  {
+   "id": "ghee",
+   "name": "Ghee / butterfat (non-plant comparison)",
+   "latin": "Bos taurus (milk fat)",
+   "category": "animal fat",
+   "fatty_acids": {
+    "values_pct": {
+     "butyric C4:0": "3-4",
+     "caproic-capric C6-C10": "4-7",
+     "lauric": "2-4",
+     "myristic": "8-12",
+     "palmitic": "24-32",
+     "stearic": "9-13",
+     "oleic": "20-28",
+     "linoleic": "1-3"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee row sums to 77% and omits short chains."
+   },
+   "iodine_value": null,
+   "saponification": {
+    "naoh": 0.162,
+    "koh": 0.227,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "28-36 C"
+   },
+   "oxidative_stability": {
+    "rating": "good once water and milk solids removed",
+    "shelf_life": "months at room temp"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": null,
+   "smoke_point_c": {
+    "ghee": "~230-250",
+    "whole_butter": "~150 (milk solids burn)",
+    "note": "Smoke point is method-dependent and falls with free fatty acids, age and reuse; figures are commonly cited ranges, not primary-verified."
+   },
+   "culinary": "Tadka/tempering fat of choice; brown butter (beurre noisette) is Maillard on milk solids.",
+   "refined_vs_unrefined": "Clarified.",
+   "allergen": "Milk protein traces - not safe for severe milk allergy.",
+   "best_uses": [
+    "cooking",
+    "infusion_carrier (ayurvedic ghrita)",
+    "soap"
+   ],
+   "verification": "SAP verified (0.162 NaOH)."
+  },
+  {
+   "id": "shea",
+   "name": "Shea butter",
+   "latin": "Vitellaria paradoxa",
+   "category": "butter",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 5,
+     "stearic": 40,
+     "oleic": 48,
+     "linoleic": 6
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: stearic 30-50, oleic 40-55, palmitic 3-8, linoleic 4-8; unsaponifiables 4-11% (triterpene alcohol cinnamates/acetates, karitene) - very high, which is why its SAP is low."
+   },
+   "iodine_value": {
+    "value": 59,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 116,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.128,
+    "koh": 0.179,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "32-45 C (unrefined ~32-38; broad)"
+   },
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "1-2 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 0,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "rich, slightly waxy, cushiony",
+    "absorption": "slow"
+   },
+   "smoke_point_c": null,
+   "culinary": "Edible (West Africa; chocolate CBE/CBS ingredient).",
+   "refined_vs_unrefined": "Unrefined (smoky-nutty, ivory) vs refined (white, odourless).",
+   "allergen": "Botanically a tree nut. Chawla et al. 2011 JACI (PMID 21146867): shea butter contains no IgE-binding soluble proteins; reactions are very unlikely.",
+   "best_uses": [
+    "balm",
+    "lotion",
+    "body butter",
+    "soap (5-15%)",
+    "lip balm"
+   ],
+   "notes": "GRAININESS: shea (and mango, cocoa) form grainy crystals when melted and cooled slowly. Fix: melt fully, hold at ~75-80 C for 15-20 min, then cool fast (fridge/freezer) - \"tempering\" the butter.",
+   "verification": "SAP verified; PMID verified."
+  },
+  {
+   "id": "cocoa_butter",
+   "name": "Cocoa butter",
+   "latin": "Theobroma cacao",
+   "category": "butter",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 28,
+     "stearic": 33,
+     "oleic": 35,
+     "linoleic": 3
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: palmitic 24-30, stearic 30-37, oleic 32-37, linoleic 2-4; mostly POP/POS/SOS triglycerides; 6 polymorphs (form V melts ~33.8 C)."
+   },
+   "iodine_value": {
+    "value": "33-42",
+    "source": "Soapee 37; literature 33-42"
+   },
+   "ins_value": {
+    "value": 157,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.138,
+    "koh": 0.194,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "34-38 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2-5 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 4,
+    "basis": "attributed to Fulton 1989",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "hard, brittle, melts at body temperature",
+    "absorption": "slow"
+   },
+   "smoke_point_c": null,
+   "culinary": "Chocolate; tempering (see our Candy pages).",
+   "refined_vs_unrefined": "Natural (chocolate aroma) vs deodorised.",
+   "allergen": "Cocoa allergy rare.",
+   "best_uses": [
+    "balm",
+    "lip balm",
+    "lotion bar",
+    "soap (<=15%)",
+    "chocolate"
+   ],
+   "verification": "SAP verified (0.138 NaOH)."
+  },
+  {
+   "id": "mango_butter",
+   "name": "Mango (kernel) butter",
+   "latin": "Mangifera indica",
+   "category": "butter",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 7,
+     "stearic": 42,
+     "oleic": 45,
+     "linoleic": 3
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: stearic 35-45, oleic 40-50, palmitic 5-10, linoleic 3-6. Commercial \"mango butter\" is sometimes a blend with hydrogenated oils - check INCI (Mangifera Indica Seed Butter)."
+   },
+   "iodine_value": {
+    "value": 45,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 146,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.136,
+    "koh": 0.191,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "30-38 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2 years"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "softer and less greasy than shea",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "CBE in chocolate.",
+   "refined_vs_unrefined": "Usually refined.",
+   "allergen": "Anacardiaceae - cross-reactivity with mango/cashew allergy theoretical.",
+   "best_uses": [
+    "balm",
+    "body butter",
+    "soap",
+    "lip balm"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "kokum",
+   "name": "Kokum butter",
+   "latin": "Garcinia indica",
+   "category": "butter",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 4,
+     "stearic": 56,
+     "oleic": 36,
+     "linoleic": 1
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: stearic 50-60, oleic 35-40; ~75% SOS triglyceride - very hard."
+   },
+   "iodine_value": {
+    "value": 35,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 155,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.135,
+    "koh": 0.19,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "38-42 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2+ years"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "very hard, brittle, non-greasy",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Edible; kokum fruit rind is a souring agent (Konkan, Goa).",
+   "refined_vs_unrefined": "Refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "lotion bars",
+    "lip balm",
+    "soap hardness",
+    "chocolate CBE"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "cupuacu",
+   "name": "Cupuacu butter",
+   "latin": "Theobroma grandiflorum",
+   "category": "butter",
+   "fatty_acids": {
+    "values_pct": {
+     "oleic": "38-45",
+     "stearic": "30-35",
+     "arachidic C20:0": "8-11",
+     "palmitic": "6-9",
+     "linoleic": "2-5"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee omits arachidic (row sums to 87%)."
+   },
+   "iodine_value": {
+    "value": "~39",
+    "source": "Soapee"
+   },
+   "saponification": {
+    "naoh": 0.137,
+    "koh": 0.192,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "27-32 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2 years"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "soft, water-absorbing (cited as taking up ~ 2-4x its weight in water - marketing claim, unverified)",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "\"Cupulate\" chocolate analogue.",
+   "refined_vs_unrefined": "Refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "balm",
+    "lotion",
+    "hair"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "murumuru",
+   "name": "Murumuru butter",
+   "latin": "Astrocaryum murumuru",
+   "category": "butter",
+   "fatty_acids": {
+    "values_pct": {
+     "lauric": 47,
+     "myristic": 26,
+     "palmitic": 6,
+     "stearic": 3,
+     "oleic": 15,
+     "linoleic": 3
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "Lauric-type (like coconut/babassu): lauric 45-50, myristic 25-30."
+   },
+   "iodine_value": {
+    "value": 25,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 250,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.196,
+    "koh": 0.275,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "30-35 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2 years"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "firm, melts like coconut",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Edible locally.",
+   "refined_vs_unrefined": "Refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "soap (lather)",
+    "balm",
+    "lip balm",
+    "hair"
+   ],
+   "notes": "SoapCalc SAP 0.196 NaOH reflects the lauric profile (vs ~0.135 for ordinary butters).",
+   "verification": "SAP verified."
+  },
+  {
+   "id": "illipe",
+   "name": "Illipe butter (Borneo tallow)",
+   "latin": "Shorea stenoptera (and other Shorea)",
+   "category": "butter",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 17,
+     "stearic": 45,
+     "oleic": 35
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "literature: stearic 40-46, oleic 32-38, palmitic 16-20"
+   },
+   "iodine_value": {
+    "value": 33,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 152,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.132,
+    "koh": 0.185,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "34-39 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2+ years"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "hard, like cocoa butter",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "Cocoa-butter equivalent (EU Directive 2000/36/EC lists illipe, sal, kokum, shea, mango kernel and palm among permitted CBEs - not re-verified).",
+   "refined_vs_unrefined": "Refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "lip balm",
+    "lotion bar",
+    "soap"
+   ],
+   "sustainability": "Wild-harvested in Borneo; irregular mast fruiting.",
+   "verification": "SAP verified."
+  },
+  {
+   "id": "sal",
+   "name": "Sal butter",
+   "latin": "Shorea robusta",
+   "category": "butter",
+   "fatty_acids": {
+    "values_pct": {
+     "stearic": "40-48",
+     "oleic": "35-42",
+     "arachidic C20:0": "6-8",
+     "palmitic": "4-8",
+     "linoleic": "1-3"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Soapee omits arachidic."
+   },
+   "iodine_value": {
+    "value": "~39",
+    "source": "Soapee"
+   },
+   "ins_value": {
+    "value": 146,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.132,
+    "koh": 0.185,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "30-38 C"
+   },
+   "oxidative_stability": {
+    "rating": "excellent",
+    "shelf_life": "2 years"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "firm",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "CBE.",
+   "refined_vs_unrefined": "Refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "lotion bar",
+    "balm",
+    "soap"
+   ],
+   "verification": "SAP verified."
+  },
+  {
+   "id": "avocado_butter",
+   "name": "Avocado butter",
+   "latin": "Persea americana (+ hydrogenated oil)",
+   "category": "butter (manufactured)",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 21,
+     "stearic": 10,
+     "oleic": 53,
+     "linoleic": 6,
+     "linolenic": 2
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "Not a natural butter: avocado oil hydrogenated or blended with hydrogenated vegetable oil to make it solid; composition varies by supplier."
+   },
+   "iodine_value": {
+    "value": 67,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 120,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.133,
+    "koh": 0.187,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "~35-40 C (supplier-dependent)"
+   },
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "1-2 years"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "soft, buttery",
+    "absorption": "moderate"
+   },
+   "smoke_point_c": null,
+   "culinary": "No.",
+   "refined_vs_unrefined": "Manufactured.",
+   "allergen": "As avocado.",
+   "best_uses": [
+    "body butter",
+    "balm"
+   ],
+   "verification": "SAP verified (0.133 NaOH)."
+  },
+  {
+   "id": "beeswax",
+   "name": "Beeswax (yellow and white)",
+   "latin": "Apis mellifera (secretion)",
+   "category": "wax",
+   "fatty_acids": {
+    "values_pct": {
+     "monoesters (mainly myricyl palmitate C46)": "~35",
+     "hydroxy/di/tri-esters": "~30-35",
+     "hydrocarbons (C25-C33)": "12-16",
+     "free fatty acids (C24-C32)": "12-14"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session"
+   },
+   "iodine_value": {
+    "value": "7-16",
+    "source": "literature (Soapee 10)"
+   },
+   "saponification": {
+    "naoh": 0.067,
+    "koh": 0.094,
+    "source": "SoapCalc",
+    "pharmacopoeial": "Ph. Eur. yellow wax: acid value 17-24, ester value 70-80 (so SV ~87-104 mg KOH/g); only ~50% of beeswax saponifies"
+   },
+   "melting_point_c": {
+    "value": "61-66 C (USP/NF white and yellow wax: 62-65 C)"
+   },
+   "oxidative_stability": {
+    "rating": "indefinite",
+    "shelf_life": "years; blooms (white surface crystals) harmlessly"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced (0-2)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "protective, tacky, occlusive film",
+    "absorption": "none"
+   },
+   "smoke_point_c": null,
+   "culinary": "Food-contact coating (E901), cheese wax, canele moulds, wraps.",
+   "refined_vs_unrefined": "Yellow (filtered) vs white (bleached by sun or peroxide/filtration).",
+   "allergen": "Propolis contamination is the usual cause of \"beeswax allergy\" (propolis is a common contact allergen).",
+   "best_uses": [
+    "balm (stiffener)",
+    "lip balm",
+    "candle (dipped/moulded/pillar; needs bigger wick, burns hot)",
+    "wax wraps",
+    "emulsion co-stabiliser (cold cream, with borax - historic)"
+   ],
+   "notes": "Adulteration with paraffin is common; real beeswax has a tight melt range and sweet honey odour.",
+   "verification": "SAP verified (SoapCalc); melting point from USP/NF monograph range (recalled, not re-fetched)."
+  },
+  {
+   "id": "candelilla",
+   "name": "Candelilla wax",
+   "latin": "Euphorbia antisyphilitica",
+   "category": "wax",
+   "fatty_acids": {
+    "values_pct": {
+     "hydrocarbons (mainly hentriacontane C31)": "~50",
+     "wax esters": "28-29",
+     "free acids/alcohols/resins": "balance"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session"
+   },
+   "iodine_value": {
+    "value": "14-27",
+    "source": "literature (Soapee 32)"
+   },
+   "saponification": {
+    "naoh": 0.031,
+    "koh": 0.044,
+    "source": "SoapCalc",
+    "pharmacopoeial": "NF/FCC: SV 43-65, acid value 12-22"
+   },
+   "melting_point_c": {
+    "value": "68.5-72.5 C (NF/FCC)"
+   },
+   "oxidative_stability": {
+    "rating": "indefinite"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "glossy, harder than beeswax",
+    "absorption": "none"
+   },
+   "smoke_point_c": null,
+   "culinary": "E902 glazing agent.",
+   "refined_vs_unrefined": "Refined (yellow-brown).",
+   "allergen": "Rare.",
+   "best_uses": [
+    "vegan balm/lip balm (use ~half the beeswax weight)",
+    "stick products"
+   ],
+   "verification": "SAP verified; mp from NF range (recalled)."
+  },
+  {
+   "id": "carnauba",
+   "name": "Carnauba wax",
+   "latin": "Copernicia prunifera",
+   "category": "wax",
+   "fatty_acids": {
+    "values_pct": {
+     "wax esters (C24-C34 acids x C30-C34 alcohols)": "~80-85",
+     "free alcohols": "10-16",
+     "acids/hydrocarbons/resins": "balance"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session"
+   },
+   "iodine_value": {
+    "value": "7-14",
+    "source": "literature"
+   },
+   "saponification": {
+    "naoh": null,
+    "koh": null,
+    "source": "not in SoapCalc",
+    "pharmacopoeial": "NF/FCC: SV 78-95 mg KOH/g (=0.056-0.068 g NaOH/g), acid value 2-7"
+   },
+   "melting_point_c": {
+    "value": "80-86 C (NF/FCC)"
+   },
+   "oxidative_stability": {
+    "rating": "indefinite"
+   },
+   "comedogenic": {
+    "rating_0_5": 1,
+    "basis": "popular_list_unsourced",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "very hard, glossy",
+    "absorption": "none"
+   },
+   "smoke_point_c": null,
+   "culinary": "E903 glazing (sweets, fruit).",
+   "refined_vs_unrefined": "Grades T1 (yellow) to T4 (dark).",
+   "allergen": "Rare.",
+   "best_uses": [
+    "vegan stiffener (1/3-1/2 the beeswax weight; high-melt sticks)",
+    "polish",
+    "candle hardener (small %)"
+   ],
+   "verification": "Values from NF/FCC ranges (recalled, not re-fetched)."
+  },
+  {
+   "id": "soy_wax",
+   "name": "Soy wax (hydrogenated soybean oil)",
+   "latin": "Glycine max (hydrogenated)",
+   "category": "wax (triglyceride)",
+   "fatty_acids": {
+    "values_pct": {
+     "palmitic": 11,
+     "stearic": 87
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "Fully hydrogenated: stearic ~85-90, palmitic ~10-11. Container blends (e.g. \"464\"-type) are partly hydrogenated and may contain other vegetable waxes/additives."
+   },
+   "iodine_value": {
+    "value": 1,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 191,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.137,
+    "koh": 0.192,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "container blends ~46-54 C; pillar blends ~54-60 C; fully hydrogenated ~65-70 C"
+   },
+   "oxidative_stability": {
+    "rating": "good",
+    "shelf_life": "1-2 years (prone to frosting/bloom, not rancidity)"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "creamy, soft (massage-candle blends)",
+    "absorption": "n/a"
+   },
+   "smoke_point_c": null,
+   "culinary": "No.",
+   "refined_vs_unrefined": "Hydrogenated + often bleached/deodorised.",
+   "allergen": "Fully refined; protein-free in practice.",
+   "best_uses": [
+    "container candles",
+    "wax melts",
+    "massage candles (low-melt blends)"
+   ],
+   "notes": "Frosting is polymorphic recrystallisation; cosmetic only.",
+   "verification": "SAP verified (0.137 NaOH)."
+  },
+  {
+   "id": "rice_bran_wax",
+   "name": "Rice bran wax",
+   "latin": "Oryza sativa",
+   "category": "wax",
+   "fatty_acids": {
+    "values_pct": {
+     "wax esters (C16-C26 acids x C24-C36 alcohols)": "~90+",
+     "free acids/alcohols": "balance"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session"
+   },
+   "iodine_value": null,
+   "saponification": {
+    "naoh": null,
+    "koh": null,
+    "source": "not in SoapCalc",
+    "pharmacopoeial": "FCC rice bran wax: SV 75-120, mp 75-80 C (recalled, not re-fetched)"
+   },
+   "melting_point_c": {
+    "value": "75-80 C"
+   },
+   "oxidative_stability": {
+    "rating": "indefinite"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "hard, glossy",
+    "absorption": "none"
+   },
+   "smoke_point_c": null,
+   "culinary": "Permitted food additive (E908) / chewing-gum base.",
+   "refined_vs_unrefined": "Refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "vegan lip balm/stick stiffener",
+    "candle additive"
+   ],
+   "verification": "unverified this session."
+  },
+  {
+   "id": "sunflower_wax",
+   "name": "Sunflower wax",
+   "latin": "Helianthus annuus (dewaxing by-product)",
+   "category": "wax",
+   "fatty_acids": {
+    "values_pct": {
+     "wax esters C40-C60": "~95+"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session"
+   },
+   "iodine_value": null,
+   "saponification": {
+    "naoh": null,
+    "koh": null,
+    "source": "not in SoapCalc"
+   },
+   "melting_point_c": {
+    "value": "74-80 C (supplier data)"
+   },
+   "oxidative_stability": {
+    "rating": "indefinite"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "hard, crystalline, gels oils at low % (oleogels at 2-5%)",
+    "absorption": "none"
+   },
+   "smoke_point_c": null,
+   "culinary": "Oleogel research; not a common food additive.",
+   "refined_vs_unrefined": "Refined.",
+   "allergen": "Rare.",
+   "best_uses": [
+    "vegan stiffener (strong gelling: ~1/2 to 1/3 of beeswax weight)",
+    "lip balm"
+   ],
+   "verification": "unverified this session."
+  },
+  {
+   "id": "bayberry_wax",
+   "name": "Bayberry (myrtle) wax",
+   "latin": "Morella (Myrica) cerifera / M. pensylvanica",
+   "category": "wax (actually a fat)",
+   "fatty_acids": {
+    "values_pct": {
+     "triglycerides of palmitic, myristic, lauric (myristin/palmitin)": "~ majority"
+    },
+    "source": "literature range, compiled from general lipid references (Gunstone, The Lipid Handbook; Firestone, Physical and Chemical Characteristics of Oils, Fats and Waxes) - not re-checked line by line this session",
+    "note": "Botanically a fruit-coat fat, not a true wax ester; brittle, green, aromatic. Colonial American Christmas candles."
+   },
+   "iodine_value": null,
+   "saponification": {
+    "naoh": null,
+    "koh": null,
+    "source": "not in SoapCalc",
+    "literature": "SV ~205-215 mg KOH/g (unverified)"
+   },
+   "melting_point_c": {
+    "value": "~45-49 C (unverified)"
+   },
+   "oxidative_stability": {
+    "rating": "good"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "brittle",
+    "absorption": "n/a"
+   },
+   "smoke_point_c": null,
+   "culinary": "No.",
+   "refined_vs_unrefined": "Boiled from berries; ~ 1.8-2 kg berries per 0.45 kg wax (folk figure, unverified).",
+   "allergen": "Rare.",
+   "best_uses": [
+    "traditional candles (often blended with beeswax)"
+   ],
+   "verification": "unverified this session."
+  },
+  {
+   "id": "japan_wax",
+   "name": "Japan wax / sumac \"berry wax\"",
+   "latin": "Toxicodendron vernicifluum / T. succedaneum",
+   "category": "wax (actually a fat)",
+   "fatty_acids": {
+    "values_pct": {
+     "myristic": 1,
+     "palmitic": 80,
+     "stearic": 7,
+     "oleic": 4
+    },
+    "source": "Soapee/SoapCalc seed database (github nazar/soapee-api seed/oils.js)",
+    "note": "Mostly tripalmitin (palmitic ~80%) plus dibasic acids (japanic acid)."
+   },
+   "iodine_value": {
+    "value": 11,
+    "source": "Soapee/SoapCalc"
+   },
+   "ins_value": {
+    "value": 204,
+    "source": "Soapee/SoapCalc (INS = SAP(KOH mg/g) - iodine; a soaper heuristic, not a lab standard)"
+   },
+   "saponification": {
+    "naoh": 0.153,
+    "koh": 0.215,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "48-53 C"
+   },
+   "oxidative_stability": {
+    "rating": "good"
+   },
+   "comedogenic": null,
+   "skin_feel_absorption": {
+    "feel": "tough, kneadable",
+    "absorption": "n/a"
+   },
+   "smoke_point_c": null,
+   "culinary": "No.",
+   "refined_vs_unrefined": "Bleached.",
+   "allergen": "Urushiol family plant; refined wax is not reported as a common sensitiser (unverified).",
+   "best_uses": [
+    "candles (Japanese warosoku)",
+    "cosmetics"
+   ],
+   "verification": "SAP verified (0.153 NaOH)."
+  },
+  {
+   "id": "lanolin",
+   "name": "Lanolin (wool wax; non-plant comparison)",
+   "latin": "Ovis aries (sebaceous wax)",
+   "category": "wax",
+   "fatty_acids": {
+    "note": "Complex esters of sterols (cholesterol, lanosterol) and aliphatic alcohols with ~ 200 fatty acids incl. branched and hydroxy acids."
+   },
+   "iodine_value": null,
+   "saponification": {
+    "naoh": 0.076,
+    "koh": 0.106,
+    "source": "SoapCalc oil list (soapcalc.net/calc/OilList.asp), fetched 2026-10-19"
+   },
+   "melting_point_c": {
+    "value": "38-44 C (USP anhydrous lanolin)"
+   },
+   "oxidative_stability": {
+    "rating": "good"
+   },
+   "comedogenic": {
+    "rating_0_5": 2,
+    "basis": "popular_list_unsourced (acetylated lanolin rated higher)",
+    "caveat": "see top-level comedogenic_caveat"
+   },
+   "skin_feel_absorption": {
+    "feel": "sticky, very occlusive, absorbs water (w/o emulsifier, ~2x its weight)",
+    "absorption": "slow"
+   },
+   "smoke_point_c": null,
+   "culinary": "Vitamin D3 source (not eaten).",
+   "refined_vs_unrefined": "Medical-grade (HPA, low free alcohols) is far less allergenic.",
+   "allergen": "Wool-alcohol contact allergy is classic (patch-test series \"wool alcohols\"); prevalence in general population is low.",
+   "best_uses": [
+    "nipple balm",
+    "lip balm",
+    "w/o emulsions (cold cream)",
+    "soap (small %)"
+   ],
+   "verification": "SAP verified (SoapCalc liquid lanolin 0.076 NaOH)."
+  }
+ ],
+ "sources": [
+  {
+   "name": "Codex Alimentarius CXS 210-1999 (Amended 2005, 2011, 2013, 2015) Standard for Named Vegetable Oils",
+   "url": "https://www.fao.org/input/download/standards/336/CXS_210e_2015.pdf",
+   "verified": true
+  },
+  {
+   "name": "Codex Alimentarius CXS 33-1981 (rev. 2015) Standard for Olive Oils and Olive Pomace Oils",
+   "url": "https://www.fao.org/input/download/standards/88/CXS_033e_2015.pdf",
+   "verified": true
+  },
+  {
+   "name": "SoapCalc oil list (SAP KOH/NaOH)",
+   "url": "http://soapcalc.net/calc/OilList.asp",
+   "verified": true
+  },
+  {
+   "name": "Soapee seed oil database (mirrors SoapCalc fatty acids, iodine, INS)",
+   "url": "https://github.com/nazar/soapee-api/blob/master/seed/oils.js",
+   "verified": true
+  },
+  {
+   "name": "Hourihane JO et al. 1997 BMJ - allergenicity of peanut oils",
+   "pmid": "9133891",
+   "verified": true
+  },
+  {
+   "name": "Lack G et al. 2003 NEJM - factors associated with peanut allergy",
+   "pmid": "12637607",
+   "verified": true
+  },
+  {
+   "name": "Danby SG et al. 2013 Pediatr Dermatol - olive vs sunflower oil and the skin barrier",
+   "pmid": "22995032",
+   "verified": true
+  },
+  {
+   "name": "Lin TK, Zhong L, Santiago JL 2017 Int J Mol Sci - topical plant oils and barrier repair (review)",
+   "pmid": "29280987",
+   "verified": true
+  },
+  {
+   "name": "Chawla KK et al. 2011 JACI - shea butter contains no IgE-binding soluble proteins",
+   "pmid": "21146867",
+   "verified": true
+  },
+  {
+   "name": "Le Coz CJ 2004 Contact Dermatitis - tamanu oil ACD",
+   "pmid": "15500678",
+   "verified": true
+  },
+  {
+   "name": "Romita P et al. 2019 Contact Dermatitis - neem oil ACD",
+   "pmid": "30834541",
+   "verified": true
+  },
+  {
+   "name": "Dhongade RK et al. 2008 Indian Pediatr - neem oil poisoning",
+   "pmid": "18250509",
+   "verified": true
+  },
+  {
+   "name": "Fulton JE 1984 J Am Acad Dermatol - comedogenicity in the rabbit ear",
+   "pmid": "6229554",
+   "verified": true
+  },
+  {
+   "name": "Fulton JE 1989 J Soc Cosmet Chem 40:321-333 - comedogenicity and irritancy of common ingredients",
+   "pmid": null,
+   "verified": "citation confirmed via SCC library listing; table values not re-checked"
+  },
+  {
+   "name": "EFSA CONTAM Panel 2016 - erucic acid in feed and food, EFSA J 14(11):4593",
+   "pmid": null,
+   "verified": false
+  },
+  {
+   "name": "USDA FoodData Central (fatty-acid profiles for edible oils)",
+   "url": "https://fdc.nal.usda.gov/",
+   "verified": "not queried this session (no API key used); Codex used instead for edible oils"
+  }
+ ]
+}

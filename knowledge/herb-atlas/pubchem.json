@@ -1,0 +1,2229 @@
+[
+ {
+  "CID": 5144,
+  "MolecularFormula": "C10H10O2",
+  "MolecularWeight": "162.18",
+  "SMILES": "C=CCC1=CC2=C(C=C1)OCO2",
+  "ConnectivitySMILES": "C=CCC1=CC2=C(C=C1)OCO2",
+  "IUPACName": "5-prop-2-enyl-1,3-benzodioxole",
+  "XLogP": 3,
+  "_query": "safrole"
+ },
+ {
+  "CID": 637796,
+  "MolecularFormula": "C10H10O2",
+  "MolecularWeight": "162.18",
+  "SMILES": "C/C=C/C1=CC2=C(C=C1)OCO2",
+  "ConnectivitySMILES": "CC=CC1=CC2=C(C=C1)OCO2",
+  "IUPACName": "5-[(E)-prop-1-enyl]-1,3-benzodioxole",
+  "XLogP": 3.1,
+  "_query": "isosafrole"
+ },
+ {
+  "CID": 4276,
+  "MolecularFormula": "C11H12O3",
+  "MolecularWeight": "192.21",
+  "SMILES": "COC1=CC(=CC2=C1OCO2)CC=C",
+  "ConnectivitySMILES": "COC1=CC(=CC2=C1OCO2)CC=C",
+  "IUPACName": "4-methoxy-6-prop-2-enyl-1,3-benzodioxole",
+  "XLogP": 2.9,
+  "_query": "myristicin"
+ },
+ {
+  "CID": 10248,
+  "MolecularFormula": "C12H16O3",
+  "MolecularWeight": "208.25",
+  "SMILES": "COC1=CC(=CC(=C1OC)OC)CC=C",
+  "ConnectivitySMILES": "COC1=CC(=CC(=C1OC)OC)CC=C",
+  "IUPACName": "1,2,3-trimethoxy-5-prop-2-enylbenzene",
+  "XLogP": 2.5,
+  "_query": "elemicin"
+ },
+ {
+  "CID": 8815,
+  "MolecularFormula": "C10H12O",
+  "MolecularWeight": "148.20",
+  "SMILES": "COC1=CC=C(C=C1)CC=C",
+  "ConnectivitySMILES": "COC1=CC=C(C=C1)CC=C",
+  "IUPACName": "1-methoxy-4-prop-2-enylbenzene",
+  "XLogP": 3.4,
+  "_query": "estragole"
+ },
+ {
+  "CID": 7127,
+  "MolecularFormula": "C11H14O2",
+  "MolecularWeight": "178.23",
+  "SMILES": "COC1=C(C=C(C=C1)CC=C)OC",
+  "ConnectivitySMILES": "COC1=C(C=C(C=C1)CC=C)OC",
+  "IUPACName": "1,2-dimethoxy-4-prop-2-enylbenzene",
+  "XLogP": 2.5,
+  "_query": "methyleugenol"
+ },
+ {
+  "CID": 3314,
+  "MolecularFormula": "C10H12O2",
+  "MolecularWeight": "164.20",
+  "SMILES": "COC1=C(C=CC(=C1)CC=C)O",
+  "ConnectivitySMILES": "COC1=C(C=CC(=C1)CC=C)O",
+  "IUPACName": "2-methoxy-4-prop-2-enylphenol",
+  "XLogP": 2,
+  "_query": "eugenol"
+ },
+ {
+  "CID": 853433,
+  "MolecularFormula": "C10H12O2",
+  "MolecularWeight": "164.20",
+  "SMILES": "C/C=C/C1=CC(=C(C=C1)O)OC",
+  "ConnectivitySMILES": "CC=CC1=CC(=C(C=C1)O)OC",
+  "IUPACName": "2-methoxy-4-[(E)-prop-1-enyl]phenol",
+  "XLogP": 2.6,
+  "_query": "isoeugenol"
+ },
+ {
+  "CID": 637563,
+  "MolecularFormula": "C10H12O",
+  "MolecularWeight": "148.20",
+  "SMILES": "C/C=C/C1=CC=C(C=C1)OC",
+  "ConnectivitySMILES": "CC=CC1=CC=C(C=C1)OC",
+  "IUPACName": "1-methoxy-4-[(E)-prop-1-enyl]benzene",
+  "XLogP": 3.3,
+  "_query": "anethole"
+ },
+ {
+  "CID": 10659,
+  "MolecularFormula": "C12H14O4",
+  "MolecularWeight": "222.24",
+  "SMILES": "COC1=C2C(=C(C(=C1)CC=C)OC)OCO2",
+  "ConnectivitySMILES": "COC1=C2C(=C(C(=C1)CC=C)OC)OCO2",
+  "IUPACName": "4,7-dimethoxy-5-prop-2-enyl-1,3-benzodioxole",
+  "XLogP": 2.7,
+  "_query": "apiole"
+ },
+ {
+  "CID": 10231,
+  "MolecularFormula": "C12H14O4",
+  "MolecularWeight": "222.24",
+  "SMILES": "COC1=C(C2=C(C=C1CC=C)OCO2)OC",
+  "ConnectivitySMILES": "COC1=C(C2=C(C=C1CC=C)OCO2)OC",
+  "IUPACName": "4,5-dimethoxy-6-prop-2-enyl-1,3-benzodioxole",
+  "XLogP": 2.7,
+  "_query": "dillapiole"
+ },
+ {
+  "CID": 5316141,
+  "MolecularFormula": "C11H12O3",
+  "MolecularWeight": "192.21",
+  "SMILES": "COC1=C(C=CC2=C1OCO2)CC=C",
+  "ConnectivitySMILES": "COC1=C(C=CC2=C1OCO2)CC=C",
+  "IUPACName": "4-methoxy-5-prop-2-enyl-1,3-benzodioxole",
+  "XLogP": 2.8,
+  "_query": "croweacin"
+ },
+ {
+  "CID": 68148,
+  "MolecularFormula": "C9H10O",
+  "MolecularWeight": "134.17",
+  "SMILES": "C=CCC1=CC=C(C=C1)O",
+  "ConnectivitySMILES": "C=CCC1=CC=C(C=C1)O",
+  "IUPACName": "4-prop-2-enylphenol",
+  "XLogP": 2.9,
+  "_query": "chavicol"
+ },
+ {
+  "CID": 596375,
+  "MolecularFormula": "C10H12O2",
+  "MolecularWeight": "164.20",
+  "SMILES": "COC1=C(C=C(C=C1)CC=C)O",
+  "ConnectivitySMILES": "COC1=C(C=C(C=C1)CC=C)O",
+  "IUPACName": "2-methoxy-5-prop-2-enylphenol",
+  "XLogP": 2,
+  "_query": "chavibetol"
+ },
+ {
+  "CID": 70775,
+  "MolecularFormula": "C9H10O2",
+  "MolecularWeight": "150.17",
+  "SMILES": "C=CCC1=CC(=C(C=C1)O)O",
+  "ConnectivitySMILES": "C=CCC1=CC(=C(C=C1)O)O",
+  "IUPACName": "4-prop-2-enylbenzene-1,2-diol",
+  "XLogP": 0.8,
+  "_query": "hydroxychavicol"
+ },
+ {
+  "CID": 636822,
+  "MolecularFormula": "C12H16O3",
+  "MolecularWeight": "208.25",
+  "SMILES": "C/C=C/C1=CC(=C(C=C1OC)OC)OC",
+  "ConnectivitySMILES": "CC=CC1=CC(=C(C=C1OC)OC)OC",
+  "IUPACName": "1,2,4-trimethoxy-5-[(E)-prop-1-enyl]benzene",
+  "XLogP": 3,
+  "_query": "alpha-asarone"
+ },
+ {
+  "CID": 5281758,
+  "MolecularFormula": "C12H16O3",
+  "MolecularWeight": "208.25",
+  "SMILES": "C/C=C\\C1=CC(=C(C=C1OC)OC)OC",
+  "ConnectivitySMILES": "CC=CC1=CC(=C(C=C1OC)OC)OC",
+  "IUPACName": "1,2,4-trimethoxy-5-[(Z)-prop-1-enyl]benzene",
+  "XLogP": 3,
+  "_query": "beta-asarone"
+ },
+ {
+  "CID": 636750,
+  "MolecularFormula": "C12H16O3",
+  "MolecularWeight": "208.25",
+  "SMILES": "COC1=CC(=C(C=C1CC=C)OC)OC",
+  "ConnectivitySMILES": "COC1=CC(=C(C=C1CC=C)OC)OC",
+  "IUPACName": "1,2,4-trimethoxy-5-prop-2-enylbenzene",
+  "XLogP": 3.1,
+  "_query": "gamma-asarone"
+ },
+ {
+  "CID": 9309,
+  "MolecularFormula": "C9H10",
+  "MolecularWeight": "118.18",
+  "SMILES": "C=CCC1=CC=CC=C1",
+  "ConnectivitySMILES": "C=CCC1=CC=CC=C1",
+  "IUPACName": "prop-2-enylbenzene",
+  "XLogP": 3.2,
+  "_query": "allylbenzene"
+ },
+ {
+  "CID": 95289,
+  "MolecularFormula": "C11H12O3",
+  "MolecularWeight": "192.21",
+  "SMILES": "COC1=CC2=C(C=C1CC=C)OCO2",
+  "ConnectivitySMILES": "COC1=CC2=C(C=C1CC=C)OCO2",
+  "IUPACName": "5-methoxy-6-prop-2-enyl-1,3-benzodioxole",
+  "XLogP": 2.8,
+  "_query": "sarisan"
+ },
+ {
+  "CID": 95289,
+  "MolecularFormula": "C11H12O3",
+  "MolecularWeight": "192.21",
+  "SMILES": "COC1=CC2=C(C=C1CC=C)OCO2",
+  "ConnectivitySMILES": "COC1=CC2=C(C=C1CC=C)OCO2",
+  "IUPACName": "5-methoxy-6-prop-2-enyl-1,3-benzodioxole",
+  "XLogP": 2.8,
+  "_query": "asaricin"
+ },
+ {
+  "CID": 5281763,
+  "MolecularFormula": "C11H12O3",
+  "MolecularWeight": "192.21",
+  "SMILES": "C/C=C/C1=CC2=C(C=C1OC)OCO2",
+  "ConnectivitySMILES": "CC=CC1=CC2=C(C=C1OC)OCO2",
+  "IUPACName": "5-methoxy-6-[(E)-prop-1-enyl]-1,3-benzodioxole",
+  "XLogP": 2.7,
+  "_query": "carpacin"
+ },
+ {
+  "CID": 7128,
+  "MolecularFormula": "C11H14O2",
+  "MolecularWeight": "178.23",
+  "SMILES": "CC=CC1=CC(=C(C=C1)OC)OC",
+  "ConnectivitySMILES": "CC=CC1=CC(=C(C=C1)OC)OC",
+  "IUPACName": "1,2-dimethoxy-4-prop-1-enylbenzene",
+  "XLogP": 2.5,
+  "_query": "methyl isoeugenol"
+ },
+ {
+  "CID": 6436484,
+  "MolecularFormula": "C11H12O3",
+  "MolecularWeight": "192.21",
+  "SMILES": "C/C=C/C1=CC2=C(C(=C1)OC)OCO2",
+  "ConnectivitySMILES": "CC=CC1=CC2=C(C(=C1)OC)OCO2",
+  "IUPACName": "4-methoxy-6-[(E)-prop-1-enyl]-1,3-benzodioxole",
+  "XLogP": 2.7,
+  "_query": "isomyristicin"
+ },
+ {
+  "CID": 5318557,
+  "MolecularFormula": "C12H16O3",
+  "MolecularWeight": "208.25",
+  "SMILES": "C/C=C/C1=CC(=C(C(=C1)OC)OC)OC",
+  "ConnectivitySMILES": "CC=CC1=CC(=C(C(=C1)OC)OC)OC",
+  "IUPACName": "1,2,3-trimethoxy-5-[(E)-prop-1-enyl]benzene",
+  "XLogP": 2.5,
+  "_query": "isoelemicin"
+ },
+ {
+  "CID": 40003,
+  "MolecularFormula": "C10H12O2",
+  "MolecularWeight": "164.20",
+  "SMILES": "COC1=CC=C(C=C1)C(C=C)O",
+  "ConnectivitySMILES": "COC1=CC=C(C=C1)C(C=C)O",
+  "IUPACName": "1-(4-methoxyphenyl)prop-2-en-1-ol",
+  "XLogP": 1.9,
+  "_query": "1-hydroxyestragole"
+ },
+ {
+  "CID": 6089,
+  "MolecularFormula": "C12H16N2",
+  "MolecularWeight": "188.27",
+  "SMILES": "CN(C)CCC1=CNC2=CC=CC=C21",
+  "ConnectivitySMILES": "CN(C)CCC1=CNC2=CC=CC=C21",
+  "IUPACName": "2-(1H-indol-3-yl)-N,N-dimethylethanamine",
+  "XLogP": 2.5,
+  "_query": "N,N-Dimethyltryptamine"
+ },
+ {
+  "CID": 1832,
+  "MolecularFormula": "C13H18N2O",
+  "MolecularWeight": "218.29",
+  "SMILES": "CN(C)CCC1=CNC2=C1C=C(C=C2)OC",
+  "ConnectivitySMILES": "CN(C)CCC1=CNC2=C1C=C(C=C2)OC",
+  "IUPACName": "2-(5-methoxy-1H-indol-3-yl)-N,N-dimethylethanamine",
+  "XLogP": 1.5,
+  "_query": "5-MeO-DMT"
+ },
+ {
+  "CID": 10257,
+  "MolecularFormula": "C12H16N2O",
+  "MolecularWeight": "204.27",
+  "SMILES": "CN(C)CCC1=CNC2=C1C=C(C=C2)O",
+  "ConnectivitySMILES": "CN(C)CCC1=CNC2=C1C=C(C=C2)O",
+  "IUPACName": "3-[2-(dimethylamino)ethyl]-1H-indol-5-ol",
+  "XLogP": 1.2,
+  "_query": "bufotenine"
+ },
+ {
+  "CID": 6088,
+  "MolecularFormula": "C11H14N2",
+  "MolecularWeight": "174.24",
+  "SMILES": "CNCCC1=CNC2=CC=CC=C21",
+  "ConnectivitySMILES": "CNCCC1=CNC2=CC=CC=C21",
+  "IUPACName": "2-(1H-indol-3-yl)-N-methylethanamine",
+  "XLogP": 2.1,
+  "_query": "N-methyltryptamine"
+ },
+ {
+  "CID": 1150,
+  "MolecularFormula": "C10H12N2",
+  "MolecularWeight": "160.22",
+  "SMILES": "C1=CC=C2C(=C1)C(=CN2)CCN",
+  "ConnectivitySMILES": "C1=CC=C2C(=C1)C(=CN2)CCN",
+  "IUPACName": "2-(1H-indol-3-yl)ethanamine",
+  "XLogP": 1.6,
+  "_query": "tryptamine"
+ },
+ {
+  "CID": 5202,
+  "MolecularFormula": "C10H12N2O",
+  "MolecularWeight": "176.21",
+  "SMILES": "C1=CC2=C(C=C1O)C(=CN2)CCN",
+  "ConnectivitySMILES": "C1=CC2=C(C=C1O)C(=CN2)CCN",
+  "IUPACName": "3-(2-aminoethyl)-1H-indol-5-ol",
+  "XLogP": 0.2,
+  "_query": "serotonin"
+ },
+ {
+  "CID": 896,
+  "MolecularFormula": "C13H16N2O2",
+  "MolecularWeight": "232.28",
+  "SMILES": "CC(=O)NCCC1=CNC2=C1C=C(C=C2)OC",
+  "ConnectivitySMILES": "CC(=O)NCCC1=CNC2=C1C=C(C=C2)OC",
+  "IUPACName": "N-[2-(5-methoxy-1H-indol-3-yl)ethyl]acetamide",
+  "XLogP": 0.8,
+  "_query": "melatonin"
+ },
+ {
+  "CID": 5280953,
+  "MolecularFormula": "C13H12N2O",
+  "MolecularWeight": "212.25",
+  "SMILES": "CC1=NC=CC2=C1NC3=C2C=CC(=C3)OC",
+  "ConnectivitySMILES": "CC1=NC=CC2=C1NC3=C2C=CC(=C3)OC",
+  "IUPACName": "7-methoxy-1-methyl-9H-pyrido[3,4-b]indole",
+  "XLogP": 3.6,
+  "_query": "harmine"
+ },
+ {
+  "CID": 3564,
+  "MolecularFormula": "C13H14N2O",
+  "MolecularWeight": "214.26",
+  "SMILES": "CC1=NCCC2=C1NC3=C2C=CC(=C3)OC",
+  "ConnectivitySMILES": "CC1=NCCC2=C1NC3=C2C=CC(=C3)OC",
+  "IUPACName": "7-methoxy-1-methyl-4,9-dihydro-3H-pyrido[3,4-b]indole",
+  "XLogP": 2.1,
+  "_query": "harmaline"
+ },
+ {
+  "CID": 442118,
+  "MolecularFormula": "C13H16N2O",
+  "MolecularWeight": "216.28",
+  "SMILES": "C[C@@H]1C2=C(CCN1)C3=C(N2)C=C(C=C3)OC",
+  "ConnectivitySMILES": "CC1C2=C(CCN1)C3=C(N2)C=C(C=C3)OC",
+  "IUPACName": "(1R)-7-methoxy-1-methyl-2,3,4,9-tetrahydro-1H-pyrido[3,4-b]indole",
+  "XLogP": 1.9,
+  "_query": "tetrahydroharmine"
+ },
+ {
+  "CID": 68094,
+  "MolecularFormula": "C12H10N2O",
+  "MolecularWeight": "198.22",
+  "SMILES": "CC1=C2C(=C3C=CC(=O)C=C3N2)C=CN1",
+  "ConnectivitySMILES": "CC1=C2C(=C3C=CC(=O)C=C3N2)C=CN1",
+  "IUPACName": "1-methyl-2,9-dihydropyrido[3,4-b]indol-7-one",
+  "XLogP": 0.7,
+  "_query": "harmol"
+ },
+ {
+  "CID": 5281404,
+  "MolecularFormula": "C12H10N2",
+  "MolecularWeight": "182.22",
+  "SMILES": "CC1=NC=CC2=C1NC3=CC=CC=C23",
+  "ConnectivitySMILES": "CC1=NC=CC2=C1NC3=CC=CC=C23",
+  "IUPACName": "1-methyl-9H-pyrido[3,4-b]indole",
+  "XLogP": 3.6,
+  "_query": "harman"
+ },
+ {
+  "CID": 64961,
+  "MolecularFormula": "C11H8N2",
+  "MolecularWeight": "168.19",
+  "SMILES": "C1=CC=C2C(=C1)C3=C(N2)C=NC=C3",
+  "ConnectivitySMILES": "C1=CC=C2C(=C1)C3=C(N2)C=NC=C3",
+  "IUPACName": "9H-pyrido[3,4-b]indole",
+  "XLogP": 3.2,
+  "_query": "norharman"
+ },
+ {
+  "CID": 4235,
+  "MolecularFormula": "C13H17ClN2O2",
+  "MolecularWeight": "268.74",
+  "SMILES": "C1COCCN1CCNC(=O)C2=CC=C(C=C2)Cl",
+  "ConnectivitySMILES": "C1COCCN1CCNC(=O)C2=CC=C(C=C2)Cl",
+  "IUPACName": "4-chloro-N-(2-morpholin-4-ylethyl)benzamide",
+  "XLogP": 1.5,
+  "_query": "moclobemide"
+ },
+ {
+  "CID": 3675,
+  "MolecularFormula": "C8H12N2",
+  "MolecularWeight": "136.19",
+  "SMILES": "C1=CC=C(C=C1)CCNN",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)CCNN",
+  "IUPACName": "2-phenylethylhydrazine",
+  "XLogP": 1.2,
+  "_query": "phenelzine"
+ },
+ {
+  "CID": 26757,
+  "MolecularFormula": "C13H17N",
+  "MolecularWeight": "187.28",
+  "SMILES": "C[C@H](CC1=CC=CC=C1)N(C)CC#C",
+  "ConnectivitySMILES": "CC(CC1=CC=CC=C1)N(C)CC#C",
+  "IUPACName": "(2R)-N-methyl-1-phenyl-N-prop-2-ynylpropan-2-amine",
+  "XLogP": 2.8,
+  "_query": "selegiline"
+ },
+ {
+  "CID": 3748,
+  "MolecularFormula": "C9H13N3O",
+  "MolecularWeight": "179.22",
+  "SMILES": "CC(C)NNC(=O)C1=CC=NC=C1",
+  "ConnectivitySMILES": "CC(C)NNC(=O)C1=CC=NC=C1",
+  "IUPACName": "N'-propan-2-ylpyridine-4-carbohydrazide",
+  "XLogP": 0.4,
+  "_query": "iproniazid"
+ },
+ {
+  "CID": 26175,
+  "MolecularFormula": "C11H15NO3",
+  "MolecularWeight": "209.24",
+  "SMILES": "CC(CC1=CC2=C(C(=C1)OC)OCO2)N",
+  "ConnectivitySMILES": "CC(CC1=CC2=C(C(=C1)OC)OCO2)N",
+  "IUPACName": "1-(7-methoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+  "XLogP": 1.6,
+  "_query": "MMDA"
+ },
+ {
+  "CID": 31014,
+  "MolecularFormula": "C12H19NO3",
+  "MolecularWeight": "225.28",
+  "SMILES": "CC(CC1=CC(=C(C=C1OC)OC)OC)N",
+  "ConnectivitySMILES": "CC(CC1=CC(=C(C=C1OC)OC)OC)N",
+  "IUPACName": "1-(2,4,5-trimethoxyphenyl)propan-2-amine",
+  "XLogP": 1.7,
+  "_query": "TMA-2"
+ },
+ {
+  "CID": 44349928,
+  "MolecularFormula": "C12H17NO4",
+  "MolecularWeight": "239.27",
+  "SMILES": "CC(CC1=CC(=C2C(=C1OC)OCO2)OC)N",
+  "ConnectivitySMILES": "CC(CC1=CC(=C2C(=C1OC)OCO2)OC)N",
+  "IUPACName": "1-(4,7-dimethoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+  "XLogP": 1.4,
+  "_query": "DMMDA"
+ },
+ {
+  "CID": 31721,
+  "MolecularFormula": "C10H15NO",
+  "MolecularWeight": "165.23",
+  "SMILES": "CC(CC1=CC=C(C=C1)OC)N",
+  "ConnectivitySMILES": "CC(CC1=CC=C(C=C1)OC)N",
+  "IUPACName": "1-(4-methoxyphenyl)propan-2-amine",
+  "XLogP": 1.8,
+  "_query": "4-methoxyamphetamine"
+ },
+ {
+  "CID": 8423,
+  "MolecularFormula": "C11H17NO2",
+  "MolecularWeight": "195.26",
+  "SMILES": "CC(CC1=CC(=C(C=C1)OC)OC)N",
+  "ConnectivitySMILES": "CC(CC1=CC(=C(C=C1)OC)OC)N",
+  "IUPACName": "1-(3,4-dimethoxyphenyl)propan-2-amine",
+  "XLogP": 1.2,
+  "_query": "3,4-dimethoxyamphetamine"
+ },
+ {
+  "CID": 4076,
+  "MolecularFormula": "C11H17NO3",
+  "MolecularWeight": "211.26",
+  "SMILES": "COC1=CC(=CC(=C1OC)OC)CCN",
+  "ConnectivitySMILES": "COC1=CC(=CC(=C1OC)OC)CCN",
+  "IUPACName": "2-(3,4,5-trimethoxyphenyl)ethanamine",
+  "XLogP": 0.7,
+  "_query": "mescaline"
+ },
+ {
+  "CID": 6549,
+  "MolecularFormula": "C10H18O",
+  "MolecularWeight": "154.25",
+  "SMILES": "CC(=CCCC(C)(C=C)O)C",
+  "ConnectivitySMILES": "CC(=CCCC(C)(C=C)O)C",
+  "IUPACName": "3,7-dimethylocta-1,6-dien-3-ol",
+  "XLogP": 2.7,
+  "_query": "linalool"
+ },
+ {
+  "CID": 22311,
+  "MolecularFormula": "C10H16",
+  "MolecularWeight": "136.23",
+  "SMILES": "CC1=CCC(CC1)C(=C)C",
+  "ConnectivitySMILES": "CC1=CCC(CC1)C(=C)C",
+  "IUPACName": "1-methyl-4-prop-1-en-2-ylcyclohexene",
+  "XLogP": 3.4,
+  "_query": "limonene"
+ },
+ {
+  "CID": 6654,
+  "MolecularFormula": "C10H16",
+  "MolecularWeight": "136.23",
+  "SMILES": "CC1=CCC2CC1C2(C)C",
+  "ConnectivitySMILES": "CC1=CCC2CC1C2(C)C",
+  "IUPACName": "2,6,6-trimethylbicyclo[3.1.1]hept-2-ene",
+  "XLogP": 2.8,
+  "_query": "alpha-pinene"
+ },
+ {
+  "CID": 14896,
+  "MolecularFormula": "C10H16",
+  "MolecularWeight": "136.23",
+  "SMILES": "CC1(C2CCC(=C)C1C2)C",
+  "ConnectivitySMILES": "CC1(C2CCC(=C)C1C2)C",
+  "IUPACName": "6,6-dimethyl-2-methylidenebicyclo[3.1.1]heptane",
+  "XLogP": 3.1,
+  "_query": "beta-pinene"
+ },
+ {
+  "CID": 31253,
+  "MolecularFormula": "C10H16",
+  "MolecularWeight": "136.23",
+  "SMILES": "CC(=CCCC(=C)C=C)C",
+  "ConnectivitySMILES": "CC(=CCCC(=C)C=C)C",
+  "IUPACName": "7-methyl-3-methylideneocta-1,6-diene",
+  "XLogP": 4.3,
+  "_query": "myrcene"
+ },
+ {
+  "CID": 5281515,
+  "MolecularFormula": "C15H24",
+  "MolecularWeight": "204.35",
+  "SMILES": "C/C/1=C\\CCC(=C)[C@H]2CC([C@@H]2CC1)(C)C",
+  "ConnectivitySMILES": "CC1=CCCC(=C)C2CC(C2CC1)(C)C",
+  "IUPACName": "(1R,4E,9S)-4,11,11-trimethyl-8-methylidenebicyclo[7.2.0]undec-4-ene",
+  "XLogP": 4.4,
+  "_query": "beta-caryophyllene"
+ },
+ {
+  "CID": 2758,
+  "MolecularFormula": "C10H18O",
+  "MolecularWeight": "154.25",
+  "SMILES": "CC1(C2CCC(O1)(CC2)C)C",
+  "ConnectivitySMILES": "CC1(C2CCC(O1)(CC2)C)C",
+  "IUPACName": "1,3,3-trimethyl-2-oxabicyclo[2.2.2]octane",
+  "XLogP": 2.5,
+  "_query": "eucalyptol"
+ },
+ {
+  "CID": 6989,
+  "MolecularFormula": "C10H14O",
+  "MolecularWeight": "150.22",
+  "SMILES": "CC1=CC(=C(C=C1)C(C)C)O",
+  "ConnectivitySMILES": "CC1=CC(=C(C=C1)C(C)C)O",
+  "IUPACName": "5-methyl-2-propan-2-ylphenol",
+  "XLogP": 3.3,
+  "_query": "thymol"
+ },
+ {
+  "CID": 10364,
+  "MolecularFormula": "C10H14O",
+  "MolecularWeight": "150.22",
+  "SMILES": "CC1=C(C=C(C=C1)C(C)C)O",
+  "ConnectivitySMILES": "CC1=C(C=C(C=C1)C(C)C)O",
+  "IUPACName": "2-methyl-5-propan-2-ylphenol",
+  "XLogP": 3.1,
+  "_query": "carvacrol"
+ },
+ {
+  "CID": 1254,
+  "MolecularFormula": "C10H20O",
+  "MolecularWeight": "156.26",
+  "SMILES": "CC1CCC(C(C1)O)C(C)C",
+  "ConnectivitySMILES": "CC1CCC(C(C1)O)C(C)C",
+  "IUPACName": "5-methyl-2-propan-2-ylcyclohexan-1-ol",
+  "XLogP": 3,
+  "_query": "menthol"
+ },
+ {
+  "CID": 2537,
+  "MolecularFormula": "C10H16O",
+  "MolecularWeight": "152.23",
+  "SMILES": "CC1(C2CCC1(C(=O)C2)C)C",
+  "ConnectivitySMILES": "CC1(C2CCC1(C(=O)C2)C)C",
+  "IUPACName": "1,7,7-trimethylbicyclo[2.2.1]heptan-2-one",
+  "XLogP": 2.2,
+  "_query": "camphor"
+ },
+ {
+  "CID": 261491,
+  "MolecularFormula": "C10H16O",
+  "MolecularWeight": "152.23",
+  "SMILES": "C[C@@H]1[C@H]2C[C@]2(CC1=O)C(C)C",
+  "ConnectivitySMILES": "CC1C2CC2(CC1=O)C(C)C",
+  "IUPACName": "(1S,4R,5R)-4-methyl-1-propan-2-ylbicyclo[3.1.0]hexan-3-one",
+  "XLogP": 2.3,
+  "_query": "alpha-thujone"
+ },
+ {
+  "CID": 91456,
+  "MolecularFormula": "C10H16O",
+  "MolecularWeight": "152.23",
+  "SMILES": "C[C@H]1[C@H]2C[C@]2(CC1=O)C(C)C",
+  "ConnectivitySMILES": "CC1C2CC2(CC1=O)C(C)C",
+  "IUPACName": "(1S,4S,5R)-4-methyl-1-propan-2-ylbicyclo[3.1.0]hexan-3-one",
+  "XLogP": 2.3,
+  "_query": "beta-thujone"
+ },
+ {
+  "CID": 638011,
+  "MolecularFormula": "C10H16O",
+  "MolecularWeight": "152.23",
+  "SMILES": "CC(=CCC/C(=C/C=O)/C)C",
+  "ConnectivitySMILES": "CC(=CCCC(=CC=O)C)C",
+  "IUPACName": "(2E)-3,7-dimethylocta-2,6-dienal",
+  "XLogP": 3,
+  "_query": "citral"
+ },
+ {
+  "CID": 637566,
+  "MolecularFormula": "C10H18O",
+  "MolecularWeight": "154.25",
+  "SMILES": "CC(=CCC/C(=C/CO)/C)C",
+  "ConnectivitySMILES": "CC(=CCCC(=CCO)C)C",
+  "IUPACName": "(2E)-3,7-dimethylocta-2,6-dien-1-ol",
+  "XLogP": 2.9,
+  "_query": "geraniol"
+ },
+ {
+  "CID": 8842,
+  "MolecularFormula": "C10H20O",
+  "MolecularWeight": "156.26",
+  "SMILES": "CC(CCC=C(C)C)CCO",
+  "ConnectivitySMILES": "CC(CCC=C(C)C)CCO",
+  "IUPACName": "3,7-dimethyloct-6-en-1-ol",
+  "XLogP": 3.2,
+  "_query": "citronellol"
+ },
+ {
+  "CID": 64685,
+  "MolecularFormula": "C10H18O",
+  "MolecularWeight": "154.25",
+  "SMILES": "CC1(C2CCC1(C(C2)O)C)C",
+  "ConnectivitySMILES": "CC1(C2CCC1(C(C2)O)C)C",
+  "IUPACName": "1,7,7-trimethylbicyclo[2.2.1]heptan-2-ol",
+  "XLogP": 2.7,
+  "_query": "borneol"
+ },
+ {
+  "CID": 11230,
+  "MolecularFormula": "C10H18O",
+  "MolecularWeight": "154.25",
+  "SMILES": "CC1=CCC(CC1)(C(C)C)O",
+  "ConnectivitySMILES": "CC1=CCC(CC1)(C(C)C)O",
+  "IUPACName": "4-methyl-1-propan-2-ylcyclohex-3-en-1-ol",
+  "XLogP": 2.2,
+  "_query": "terpinen-4-ol"
+ },
+ {
+  "CID": 5284507,
+  "MolecularFormula": "C15H26O",
+  "MolecularWeight": "222.37",
+  "SMILES": "CC(=CCC/C(=C/CCC(C)(C=C)O)/C)C",
+  "ConnectivitySMILES": "CC(=CCCC(=CCCC(C)(C=C)O)C)C",
+  "IUPACName": "(6E)-3,7,11-trimethyldodeca-1,6,10-trien-3-ol",
+  "XLogP": 4.6,
+  "_query": "nerolidol"
+ },
+ {
+  "CID": 1549992,
+  "MolecularFormula": "C15H26O",
+  "MolecularWeight": "222.37",
+  "SMILES": "CC1=CC[C@@H](CC1)[C@@](C)(CCC=C(C)C)O",
+  "ConnectivitySMILES": "CC1=CCC(CC1)C(C)(CCC=C(C)C)O",
+  "IUPACName": "(2R)-6-methyl-2-[(1R)-4-methylcyclohex-3-en-1-yl]hept-5-en-2-ol",
+  "XLogP": 3.8,
+  "_query": "alpha-bisabolol"
+ },
+ {
+  "CID": 10719,
+  "MolecularFormula": "C14H16",
+  "MolecularWeight": "184.28",
+  "SMILES": "CCC1=CC2=C(C=CC2=C(C=C1)C)C",
+  "ConnectivitySMILES": "CCC1=CC2=C(C=CC2=C(C=C1)C)C",
+  "IUPACName": "7-ethyl-1,4-dimethylazulene",
+  "XLogP": 4.4,
+  "_query": "chamazulene"
+ },
+ {
+  "CID": 7439,
+  "MolecularFormula": "C10H14O",
+  "MolecularWeight": "150.22",
+  "SMILES": "CC1=CCC(CC1=O)C(=C)C",
+  "ConnectivitySMILES": "CC1=CCC(CC1=O)C(=C)C",
+  "IUPACName": "2-methyl-5-prop-1-en-2-ylcyclohex-2-en-1-one",
+  "XLogP": 2.4,
+  "_query": "carvone"
+ },
+ {
+  "CID": 442495,
+  "MolecularFormula": "C10H16O",
+  "MolecularWeight": "152.23",
+  "SMILES": "C[C@@H]1CCC(=C(C)C)C(=O)C1",
+  "ConnectivitySMILES": "CC1CCC(=C(C)C)C(=O)C1",
+  "IUPACName": "(5R)-5-methyl-2-propan-2-ylidenecyclohexan-1-one",
+  "XLogP": 2.8,
+  "_query": "pulegone"
+ },
+ {
+  "CID": 26447,
+  "MolecularFormula": "C10H18O",
+  "MolecularWeight": "154.25",
+  "SMILES": "C[C@@H]1CC[C@H](C(=O)C1)C(C)C",
+  "ConnectivitySMILES": "CC1CCC(C(=O)C1)C(C)C",
+  "IUPACName": "trans-(2S,5R)-5-methyl-2-propan-2-ylcyclohexan-1-one",
+  "XLogP": 2.7,
+  "_query": "menthone"
+ },
+ {
+  "CID": 18818,
+  "MolecularFormula": "C10H16",
+  "MolecularWeight": "136.23",
+  "SMILES": "CC(C)C12CCC(=C)C1C2",
+  "ConnectivitySMILES": "CC(C)C12CCC(=C)C1C2",
+  "IUPACName": "4-methylidene-1-propan-2-ylbicyclo[3.1.0]hexane",
+  "XLogP": 3.1,
+  "_query": "sabinene"
+ },
+ {
+  "CID": 11463,
+  "MolecularFormula": "C10H16",
+  "MolecularWeight": "136.23",
+  "SMILES": "CC1=CCC(=C(C)C)CC1",
+  "ConnectivitySMILES": "CC1=CCC(=C(C)C)CC1",
+  "IUPACName": "1-methyl-4-propan-2-ylidenecyclohexene",
+  "XLogP": 2.8,
+  "_query": "terpinolene"
+ },
+ {
+  "CID": 7461,
+  "MolecularFormula": "C10H16",
+  "MolecularWeight": "136.23",
+  "SMILES": "CC1=CCC(=CC1)C(C)C",
+  "ConnectivitySMILES": "CC1=CCC(=CC1)C(C)C",
+  "IUPACName": "1-methyl-4-propan-2-ylcyclohexa-1,4-diene",
+  "XLogP": 2.8,
+  "_query": "gamma-terpinene"
+ },
+ {
+  "CID": 7463,
+  "MolecularFormula": "C10H14",
+  "MolecularWeight": "134.22",
+  "SMILES": "CC1=CC=C(C=C1)C(C)C",
+  "ConnectivitySMILES": "CC1=CC=C(C=C1)C(C)C",
+  "IUPACName": "1-methyl-4-propan-2-ylbenzene",
+  "XLogP": 4.1,
+  "_query": "p-cymene"
+ },
+ {
+  "CID": 5281520,
+  "MolecularFormula": "C15H24",
+  "MolecularWeight": "204.35",
+  "SMILES": "C/C/1=C\\CC(/C=C/C/C(=C/CC1)/C)(C)C",
+  "ConnectivitySMILES": "CC1=CCC(C=CCC(=CCC1)C)(C)C",
+  "IUPACName": "(1E,4E,8E)-2,6,6,9-tetramethylcycloundeca-1,4,8-triene",
+  "XLogP": 4.5,
+  "_query": "humulene"
+ },
+ {
+  "CID": 5281516,
+  "MolecularFormula": "C15H24",
+  "MolecularWeight": "204.35",
+  "SMILES": "CC(=CCC/C(=C/C/C=C(\\C)/C=C)/C)C",
+  "ConnectivitySMILES": "CC(=CCCC(=CCC=C(C)C=C)C)C",
+  "IUPACName": "(3E,6E)-3,7,11-trimethyldodeca-1,3,6,10-tetraene",
+  "XLogP": 6.1,
+  "_query": "farnesene"
+ },
+ {
+  "CID": 227829,
+  "MolecularFormula": "C15H26O",
+  "MolecularWeight": "222.37",
+  "SMILES": "C[C@H]1CC[C@H](CC2=C1CC[C@@H]2C)C(C)(C)O",
+  "ConnectivitySMILES": "CC1CCC(CC2=C1CCC2C)C(C)(C)O",
+  "IUPACName": "2-[(3S,5R,8S)-3,8-dimethyl-1,2,3,4,5,6,7,8-octahydroazulen-5-yl]propan-2-ol",
+  "XLogP": 3.1,
+  "_query": "guaiol"
+ },
+ {
+  "CID": 1742210,
+  "MolecularFormula": "C15H24O",
+  "MolecularWeight": "220.35",
+  "SMILES": "C[C@@]12CC[C@@H]3[C@H](CC3(C)C)C(=C)CC[C@H]1O2",
+  "ConnectivitySMILES": "CC1(CC2C1CCC3(C(O3)CCC2=C)C)C",
+  "IUPACName": "(1R,4R,6R,10S)-4,12,12-trimethyl-9-methylidene-5-oxatricyclo[8.2.0.04,6]dodecane",
+  "XLogP": 3.6,
+  "_query": "caryophyllene oxide"
+ },
+ {
+  "CID": 65575,
+  "MolecularFormula": "C15H26O",
+  "MolecularWeight": "222.37",
+  "SMILES": "C[C@@H]1CC[C@@H]2[C@]13CC[C@@]([C@H](C3)C2(C)C)(C)O",
+  "ConnectivitySMILES": "CC1CCC2C13CCC(C(C3)C2(C)C)(C)O",
+  "IUPACName": "(1S,2R,5S,7R,8R)-2,6,6,8-tetramethyltricyclo[5.3.1.01,5]undecan-8-ol",
+  "XLogP": 3.9,
+  "_query": "cedrol"
+ },
+ {
+  "CID": 10955174,
+  "MolecularFormula": "C15H26O",
+  "MolecularWeight": "222.37",
+  "SMILES": "C[C@H]1CC[C@@]2([C@@]3([C@H]1C[C@H](C2(C)C)CC3)C)O",
+  "ConnectivitySMILES": "CC1CCC2(C(C3CCC2(C1C3)C)(C)C)O",
+  "IUPACName": "(1R,3R,6S,7S,8S)-2,2,6,8-tetramethyltricyclo[5.3.1.03,8]undecan-3-ol",
+  "XLogP": 4.1,
+  "_query": "patchoulol"
+ },
+ {
+  "CID": 5368798,
+  "MolecularFormula": "C15H24O",
+  "MolecularWeight": "220.35",
+  "SMILES": "C/C(=C\\CCC1(C2CCC(C2)C1=C)C)/CO",
+  "ConnectivitySMILES": "CC(=CCCC1(C2CCC(C2)C1=C)C)CO",
+  "IUPACName": "(E)-2-methyl-5-(2-methyl-3-methylidene-2-bicyclo[2.2.1]heptanyl)pent-2-en-1-ol",
+  "XLogP": 4,
+  "_query": "santalol"
+ },
+ {
+  "CID": 9855795,
+  "MolecularFormula": "C15H24",
+  "MolecularWeight": "204.35",
+  "SMILES": "C[C@@H]1CCC=C2[C@]1(C[C@@H](CC2)C(=C)C)C",
+  "ConnectivitySMILES": "CC1CCC=C2C1(CC(CC2)C(=C)C)C",
+  "IUPACName": "(3R,4aS,5R)-4a,5-dimethyl-3-prop-1-en-2-yl-2,3,4,5,6,7-hexahydro-1H-naphthalene",
+  "XLogP": 5.2,
+  "_query": "valencene"
+ },
+ {
+  "CID": 1268142,
+  "MolecularFormula": "C15H22O",
+  "MolecularWeight": "218.33",
+  "SMILES": "C[C@@H]1CC(=O)C=C2[C@]1(C[C@@H](CC2)C(=C)C)C",
+  "ConnectivitySMILES": "CC1CC(=O)C=C2C1(CC(CC2)C(=C)C)C",
+  "IUPACName": "(4R,4aS,6R)-4,4a-dimethyl-6-prop-1-en-2-yl-3,4,5,6,7,8-hexahydronaphthalen-2-one",
+  "XLogP": 3.9,
+  "_query": "nootkatone"
+ },
+ {
+  "CID": 8294,
+  "MolecularFormula": "C12H20O2",
+  "MolecularWeight": "196.29",
+  "SMILES": "CC(=CCCC(C)(C=C)OC(=O)C)C",
+  "ConnectivitySMILES": "CC(=CCCC(C)(C=C)OC(=O)C)C",
+  "IUPACName": "3,7-dimethylocta-1,6-dien-3-yl acetate",
+  "XLogP": 3.3,
+  "_query": "linalyl acetate"
+ },
+ {
+  "CID": 1549026,
+  "MolecularFormula": "C12H20O2",
+  "MolecularWeight": "196.29",
+  "SMILES": "CC(=CCC/C(=C/COC(=O)C)/C)C",
+  "ConnectivitySMILES": "CC(=CCCC(=CCOC(=O)C)C)C",
+  "IUPACName": "[(2E)-3,7-dimethylocta-2,6-dienyl] acetate",
+  "XLogP": 3.5,
+  "_query": "geranyl acetate"
+ },
+ {
+  "CID": 93009,
+  "MolecularFormula": "C12H20O2",
+  "MolecularWeight": "196.29",
+  "SMILES": "CC(=O)O[C@@H]1C[C@@H]2CC[C@]1(C2(C)C)C",
+  "ConnectivitySMILES": "CC(=O)OC1CC2CCC1(C2(C)C)C",
+  "IUPACName": "[(1S,2R,4S)-1,7,7-trimethyl-2-bicyclo[2.2.1]heptanyl] acetate",
+  "XLogP": 3.3,
+  "_query": "bornyl acetate"
+ },
+ {
+  "CID": 10819,
+  "MolecularFormula": "C10H16O",
+  "MolecularWeight": "152.23",
+  "SMILES": "CC(=C)C1CCC(=CC1)CO",
+  "ConnectivitySMILES": "CC(=C)C1CCC(=CC1)CO",
+  "IUPACName": "(4-prop-1-en-2-ylcyclohexen-1-yl)methanol",
+  "XLogP": 2.1,
+  "_query": "perillyl alcohol"
+ },
+ {
+  "CID": 10545,
+  "MolecularFormula": "C10H16O2",
+  "MolecularWeight": "168.23",
+  "SMILES": "CC(C)C12CCC(C=C1)(OO2)C",
+  "ConnectivitySMILES": "CC(C)C12CCC(C=C1)(OO2)C",
+  "IUPACName": "1-methyl-4-propan-2-yl-2,3-dioxabicyclo[2.2.2]oct-5-ene",
+  "XLogP": 2.3,
+  "_query": "ascaridole"
+ },
+ {
+  "CID": 637511,
+  "MolecularFormula": "C9H8O",
+  "MolecularWeight": "132.16",
+  "SMILES": "C1=CC=C(C=C1)/C=C/C=O",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)C=CC=O",
+  "IUPACName": "(E)-3-phenylprop-2-enal",
+  "XLogP": 1.9,
+  "_query": "cinnamaldehyde"
+ },
+ {
+  "CID": 323,
+  "MolecularFormula": "C9H6O2",
+  "MolecularWeight": "146.14",
+  "SMILES": "C1=CC=C2C(=C1)C=CC(=O)O2",
+  "ConnectivitySMILES": "C1=CC=C2C(=C1)C=CC(=O)O2",
+  "IUPACName": "chromen-2-one",
+  "XLogP": 1.4,
+  "_query": "coumarin"
+ },
+ {
+  "CID": 1183,
+  "MolecularFormula": "C8H8O3",
+  "MolecularWeight": "152.15",
+  "SMILES": "COC1=C(C=CC(=C1)C=O)O",
+  "ConnectivitySMILES": "COC1=C(C=CC(=C1)C=O)O",
+  "IUPACName": "4-hydroxy-3-methoxybenzaldehyde",
+  "XLogP": 1.2,
+  "_query": "vanillin"
+ },
+ {
+  "CID": 240,
+  "MolecularFormula": "C7H6O",
+  "MolecularWeight": "106.12",
+  "SMILES": "C1=CC=C(C=C1)C=O",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)C=O",
+  "IUPACName": "benzaldehyde",
+  "XLogP": 1.5,
+  "_query": "benzaldehyde"
+ },
+ {
+  "CID": 4133,
+  "MolecularFormula": "C8H8O3",
+  "MolecularWeight": "152.15",
+  "SMILES": "COC(=O)C1=CC=CC=C1O",
+  "ConnectivitySMILES": "COC(=O)C1=CC=CC=C1O",
+  "IUPACName": "methyl 2-hydroxybenzoate",
+  "XLogP": 2.3,
+  "_query": "methyl salicylate"
+ },
+ {
+  "CID": 6998,
+  "MolecularFormula": "C7H6O2",
+  "MolecularWeight": "122.12",
+  "SMILES": "C1=CC=C(C(=C1)C=O)O",
+  "ConnectivitySMILES": "C1=CC=C(C(=C1)C=O)O",
+  "IUPACName": "2-hydroxybenzaldehyde",
+  "XLogP": 1.8,
+  "_query": "salicylaldehyde"
+ },
+ {
+  "CID": 445858,
+  "MolecularFormula": "C10H10O4",
+  "MolecularWeight": "194.18",
+  "SMILES": "COC1=C(C=CC(=C1)/C=C/C(=O)O)O",
+  "ConnectivitySMILES": "COC1=C(C=CC(=C1)C=CC(=O)O)O",
+  "IUPACName": "(E)-3-(4-hydroxy-3-methoxyphenyl)prop-2-enoic acid",
+  "XLogP": 1.5,
+  "_query": "ferulic acid"
+ },
+ {
+  "CID": 689043,
+  "MolecularFormula": "C9H8O4",
+  "MolecularWeight": "180.16",
+  "SMILES": "C1=CC(=C(C=C1/C=C/C(=O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=C(C=C1C=CC(=O)O)O)O",
+  "IUPACName": "(E)-3-(3,4-dihydroxyphenyl)prop-2-enoic acid",
+  "XLogP": 1.2,
+  "_query": "caffeic acid"
+ },
+ {
+  "CID": 1794427,
+  "MolecularFormula": "C16H18O9",
+  "MolecularWeight": "354.31",
+  "SMILES": "C1[C@H]([C@H]([C@@H](C[C@@]1(C(=O)O)O)OC(=O)/C=C/C2=CC(=C(C=C2)O)O)O)O",
+  "ConnectivitySMILES": "C1C(C(C(CC1(C(=O)O)O)OC(=O)C=CC2=CC(=C(C=C2)O)O)O)O",
+  "IUPACName": "(1S,3R,4R,5R)-3-[(E)-3-(3,4-dihydroxyphenyl)prop-2-enoyl]oxy-1,4,5-trihydroxycyclohexane-1-carboxylic acid",
+  "XLogP": -0.4,
+  "_query": "chlorogenic acid"
+ },
+ {
+  "CID": 444539,
+  "MolecularFormula": "C9H8O2",
+  "MolecularWeight": "148.16",
+  "SMILES": "C1=CC=C(C=C1)/C=C/C(=O)O",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)C=CC(=O)O",
+  "IUPACName": "(E)-3-phenylprop-2-enoic acid",
+  "XLogP": 2.1,
+  "_query": "cinnamic acid"
+ },
+ {
+  "CID": 637542,
+  "MolecularFormula": "C9H8O3",
+  "MolecularWeight": "164.16",
+  "SMILES": "C1=CC(=CC=C1/C=C/C(=O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C=CC(=O)O)O",
+  "IUPACName": "(E)-3-(4-hydroxyphenyl)prop-2-enoic acid",
+  "XLogP": 1.5,
+  "_query": "p-coumaric acid"
+ },
+ {
+  "CID": 10743,
+  "MolecularFormula": "C11H12O5",
+  "MolecularWeight": "224.21",
+  "SMILES": "COC1=CC(=CC(=C1O)OC)C=CC(=O)O",
+  "ConnectivitySMILES": "COC1=CC(=CC(=C1O)OC)C=CC(=O)O",
+  "IUPACName": "3-(4-hydroxy-3,5-dimethoxyphenyl)prop-2-enoic acid",
+  "XLogP": 1.5,
+  "_query": "sinapic acid"
+ },
+ {
+  "CID": 2345,
+  "MolecularFormula": "C14H12O2",
+  "MolecularWeight": "212.24",
+  "SMILES": "C1=CC=C(C=C1)COC(=O)C2=CC=CC=C2",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)COC(=O)C2=CC=CC=C2",
+  "IUPACName": "benzyl benzoate",
+  "XLogP": 4,
+  "_query": "benzyl benzoate"
+ },
+ {
+  "CID": 31244,
+  "MolecularFormula": "C8H8O2",
+  "MolecularWeight": "136.15",
+  "SMILES": "COC1=CC=C(C=C1)C=O",
+  "ConnectivitySMILES": "COC1=CC=C(C=C1)C=O",
+  "IUPACName": "4-methoxybenzaldehyde",
+  "XLogP": 1.8,
+  "_query": "anisaldehyde"
+ },
+ {
+  "CID": 8438,
+  "MolecularFormula": "C8H6O3",
+  "MolecularWeight": "150.13",
+  "SMILES": "C1OC2=C(O1)C=C(C=C2)C=O",
+  "ConnectivitySMILES": "C1OC2=C(O1)C=C(C=C2)C=O",
+  "IUPACName": "1,3-benzodioxole-5-carbaldehyde",
+  "XLogP": 1.1,
+  "_query": "piperonal"
+ },
+ {
+  "CID": 61041,
+  "MolecularFormula": "C10H14O",
+  "MolecularWeight": "150.22",
+  "SMILES": "CC1=C(C(CC=C1)(C)C)C=O",
+  "ConnectivitySMILES": "CC1=C(C(CC=C1)(C)C)C=O",
+  "IUPACName": "2,6,6-trimethylcyclohexa-1,3-diene-1-carbaldehyde",
+  "XLogP": 2.1,
+  "_query": "safranal"
+ },
+ {
+  "CID": 7136,
+  "MolecularFormula": "C12H14O3",
+  "MolecularWeight": "206.24",
+  "SMILES": "CC(=O)OC1=C(C=C(C=C1)CC=C)OC",
+  "ConnectivitySMILES": "CC(=O)OC1=C(C=C(C=C1)CC=C)OC",
+  "IUPACName": "(2-methoxy-4-prop-2-enylphenyl) acetate",
+  "XLogP": 2.3,
+  "_query": "eugenyl acetate"
+ },
+ {
+  "CID": 638024,
+  "MolecularFormula": "C17H19NO3",
+  "MolecularWeight": "285.34",
+  "SMILES": "C1CCN(CC1)C(=O)/C=C/C=C/C2=CC3=C(C=C2)OCO3",
+  "ConnectivitySMILES": "C1CCN(CC1)C(=O)C=CC=CC2=CC3=C(C=C2)OCO3",
+  "IUPACName": "(2E,4E)-5-(1,3-benzodioxol-5-yl)-1-piperidin-1-ylpenta-2,4-dien-1-one",
+  "XLogP": 3.5,
+  "_query": "piperine"
+ },
+ {
+  "CID": 1548943,
+  "MolecularFormula": "C18H27NO3",
+  "MolecularWeight": "305.4",
+  "SMILES": "CC(C)/C=C/CCCCC(=O)NCC1=CC(=C(C=C1)O)OC",
+  "ConnectivitySMILES": "CC(C)C=CCCCCC(=O)NCC1=CC(=C(C=C1)O)OC",
+  "IUPACName": "(E)-N-[(4-hydroxy-3-methoxyphenyl)methyl]-8-methylnon-6-enamide",
+  "XLogP": 3.6,
+  "_query": "capsaicin"
+ },
+ {
+  "CID": 2519,
+  "MolecularFormula": "C8H10N4O2",
+  "MolecularWeight": "194.19",
+  "SMILES": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+  "ConnectivitySMILES": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+  "IUPACName": "1,3,7-trimethylpurine-2,6-dione",
+  "XLogP": -0.1,
+  "_query": "caffeine"
+ },
+ {
+  "CID": 5429,
+  "MolecularFormula": "C7H8N4O2",
+  "MolecularWeight": "180.16",
+  "SMILES": "CN1C=NC2=C1C(=O)NC(=O)N2C",
+  "ConnectivitySMILES": "CN1C=NC2=C1C(=O)NC(=O)N2C",
+  "IUPACName": "3,7-dimethylpurine-2,6-dione",
+  "XLogP": -0.8,
+  "_query": "theobromine"
+ },
+ {
+  "CID": 2153,
+  "MolecularFormula": "C7H8N4O2",
+  "MolecularWeight": "180.16",
+  "SMILES": "CN1C2=C(C(=O)N(C1=O)C)NC=N2",
+  "ConnectivitySMILES": "CN1C2=C(C(=O)N(C1=O)C)NC=N2",
+  "IUPACName": "1,3-dimethyl-7H-purine-2,6-dione",
+  "XLogP": 0,
+  "_query": "theophylline"
+ },
+ {
+  "CID": 89594,
+  "MolecularFormula": "C10H14N2",
+  "MolecularWeight": "162.23",
+  "SMILES": "CN1CCC[C@H]1C2=CN=CC=C2",
+  "ConnectivitySMILES": "CN1CCCC1C2=CN=CC=C2",
+  "IUPACName": "3-[(2S)-1-methylpyrrolidin-2-yl]pyridine",
+  "XLogP": 1.2,
+  "_query": "nicotine"
+ },
+ {
+  "CID": 2353,
+  "MolecularFormula": "C20H18NO4+",
+  "MolecularWeight": "336.4",
+  "SMILES": "COC1=C(C2=C[N+]3=C(C=C2C=C1)C4=CC5=C(C=C4CC3)OCO5)OC",
+  "ConnectivitySMILES": "COC1=C(C2=C[N+]3=C(C=C2C=C1)C4=CC5=C(C=C4CC3)OCO5)OC",
+  "IUPACName": "16,17-dimethoxy-5,7-dioxa-13-azoniapentacyclo[11.8.0.02,10.04,8.015,20]henicosa-1(13),2,4(8),9,14,16,18,20-octaene",
+  "XLogP": 3.6,
+  "_query": "berberine"
+ },
+ {
+  "CID": 197835,
+  "MolecularFormula": "C21H21NO6",
+  "MolecularWeight": "383.4",
+  "SMILES": "CN1CCC2=CC3=C(C=C2[C@@H]1[C@@H]4C5=C(C(=C(C=C5)OC)OC)C(=O)O4)OCO3",
+  "ConnectivitySMILES": "CN1CCC2=CC3=C(C=C2C1C4C5=C(C(=C(C=C5)OC)OC)C(=O)O4)OCO3",
+  "IUPACName": "(3S)-6,7-dimethoxy-3-[(5R)-6-methyl-7,8-dihydro-5H-[1,3]dioxolo[4,5-g]isoquinolin-5-yl]-3H-2-benzofuran-1-one",
+  "XLogP": 2.7,
+  "_query": "hydrastine"
+ },
+ {
+  "CID": 5281565,
+  "MolecularFormula": "C14H14O3",
+  "MolecularWeight": "230.26",
+  "SMILES": "COC1=CC(=O)O[C@H](C1)/C=C/C2=CC=CC=C2",
+  "ConnectivitySMILES": "COC1=CC(=O)OC(C1)C=CC2=CC=CC=C2",
+  "IUPACName": "(2R)-4-methoxy-2-[(E)-2-phenylethenyl]-2,3-dihydropyran-6-one",
+  "XLogP": 2.5,
+  "_query": "kavain"
+ },
+ {
+  "CID": 10220256,
+  "MolecularFormula": "C14H16O3",
+  "MolecularWeight": "232.27",
+  "SMILES": "COC1=CC(=O)O[C@H](C1)CCC2=CC=CC=C2",
+  "ConnectivitySMILES": "COC1=CC(=O)OC(C1)CCC2=CC=CC=C2",
+  "IUPACName": "(2S)-4-methoxy-2-(2-phenylethyl)-2,3-dihydropyran-6-one",
+  "XLogP": 2.8,
+  "_query": "dihydrokavain"
+ },
+ {
+  "CID": 5281567,
+  "MolecularFormula": "C15H14O5",
+  "MolecularWeight": "274.27",
+  "SMILES": "COC1=CC(=O)O[C@H](C1)/C=C/C2=CC3=C(C=C2)OCO3",
+  "ConnectivitySMILES": "COC1=CC(=O)OC(C1)C=CC2=CC3=C(C=C2)OCO3",
+  "IUPACName": "(2R)-2-[(E)-2-(1,3-benzodioxol-5-yl)ethenyl]-4-methoxy-2,3-dihydropyran-6-one",
+  "XLogP": 2.4,
+  "_query": "methysticin"
+ },
+ {
+  "CID": 5281575,
+  "MolecularFormula": "C15H14O4",
+  "MolecularWeight": "258.27",
+  "SMILES": "COC1=CC=C(C=C1)/C=C/C2=CC(=CC(=O)O2)OC",
+  "ConnectivitySMILES": "COC1=CC=C(C=C1)C=CC2=CC(=CC(=O)O2)OC",
+  "IUPACName": "4-methoxy-6-[(E)-2-(4-methoxyphenyl)ethenyl]pyran-2-one",
+  "XLogP": 2.7,
+  "_query": "yangonin"
+ },
+ {
+  "CID": 5273621,
+  "MolecularFormula": "C14H12O3",
+  "MolecularWeight": "228.24",
+  "SMILES": "COC1=CC(=O)OC(=C1)/C=C/C2=CC=CC=C2",
+  "ConnectivitySMILES": "COC1=CC(=O)OC(=C1)C=CC2=CC=CC=C2",
+  "IUPACName": "4-methoxy-6-[(E)-2-phenylethenyl]pyran-2-one",
+  "XLogP": 2.8,
+  "_query": "desmethoxyyangonin"
+ },
+ {
+  "CID": 3034396,
+  "MolecularFormula": "C23H30N2O4",
+  "MolecularWeight": "398.5",
+  "SMILES": "CC[C@@H]1CN2CCC3=C([C@@H]2C[C@@H]1/C(=C\\OC)/C(=O)OC)NC4=C3C(=CC=C4)OC",
+  "ConnectivitySMILES": "CCC1CN2CCC3=C(C2CC1C(=COC)C(=O)OC)NC4=C3C(=CC=C4)OC",
+  "IUPACName": "methyl (E)-2-[(2S,3S,12bS)-3-ethyl-8-methoxy-1,2,3,4,6,7,12,12b-octahydroindolo[2,3-a]quinolizin-2-yl]-3-methoxyprop-2-enoate",
+  "XLogP": 3.4,
+  "_query": "mitragynine"
+ },
+ {
+  "CID": 446220,
+  "MolecularFormula": "C17H21NO4",
+  "MolecularWeight": "303.35",
+  "SMILES": "CN1[C@H]2CC[C@@H]1[C@H]([C@H](C2)OC(=O)C3=CC=CC=C3)C(=O)OC",
+  "ConnectivitySMILES": "CN1C2CCC1C(C(C2)OC(=O)C3=CC=CC=C3)C(=O)OC",
+  "IUPACName": "methyl (1R,2R,3S,5S)-3-benzoyloxy-8-methyl-8-azabicyclo[3.2.1]octane-2-carboxylate",
+  "XLogP": 2.3,
+  "_query": "cocaine"
+ },
+ {
+  "CID": 9294,
+  "MolecularFormula": "C10H15NO",
+  "MolecularWeight": "165.23",
+  "SMILES": "C[C@@H]([C@@H](C1=CC=CC=C1)O)NC",
+  "ConnectivitySMILES": "CC(C(C1=CC=CC=C1)O)NC",
+  "IUPACName": "(1R,2S)-2-(methylamino)-1-phenylpropan-1-ol",
+  "XLogP": 0.9,
+  "_query": "ephedrine"
+ },
+ {
+  "CID": 5154,
+  "MolecularFormula": "C20H14NO4+",
+  "MolecularWeight": "332.3",
+  "SMILES": "C[N+]1=C2C(=C3C=CC4=C(C3=C1)OCO4)C=CC5=CC6=C(C=C52)OCO6",
+  "ConnectivitySMILES": "C[N+]1=C2C(=C3C=CC4=C(C3=C1)OCO4)C=CC5=CC6=C(C=C52)OCO6",
+  "IUPACName": "24-methyl-5,7,18,20-tetraoxa-24-azoniahexacyclo[11.11.0.02,10.04,8.014,22.017,21]tetracosa-1(24),2,4(8),9,11,13,15,17(21),22-nonaene",
+  "XLogP": 4.4,
+  "_query": "sanguinarine"
+ },
+ {
+  "CID": 10154,
+  "MolecularFormula": "C19H21NO4",
+  "MolecularWeight": "327.4",
+  "SMILES": "CN1CCC2=CC(=C(C3=C2[C@@H]1CC4=CC(=C(C=C43)OC)O)OC)O",
+  "ConnectivitySMILES": "CN1CCC2=CC(=C(C3=C2C1CC4=CC(=C(C=C43)OC)O)OC)O",
+  "IUPACName": "(6aS)-1,10-dimethoxy-6-methyl-5,6,6a,7-tetrahydro-4H-dibenzo[de,g]quinoline-2,9-diol",
+  "XLogP": 2.7,
+  "_query": "boldine"
+ },
+ {
+  "CID": 6167,
+  "MolecularFormula": "C22H25NO6",
+  "MolecularWeight": "399.4",
+  "SMILES": "CC(=O)N[C@H]1CCC2=CC(=C(C(=C2C3=CC=C(C(=O)C=C13)OC)OC)OC)OC",
+  "ConnectivitySMILES": "CC(=O)NC1CCC2=CC(=C(C(=C2C3=CC=C(C(=O)C=C13)OC)OC)OC)OC",
+  "IUPACName": "N-[(7S)-1,2,3,10-tetramethoxy-9-oxo-6,7-dihydro-5H-benzo[a]heptalen-7-yl]acetamide",
+  "XLogP": 1,
+  "_query": "colchicine"
+ },
+ {
+  "CID": 174174,
+  "MolecularFormula": "C17H23NO3",
+  "MolecularWeight": "289.4",
+  "SMILES": "CN1[C@@H]2CC[C@H]1CC(C2)OC(=O)C(CO)C3=CC=CC=C3",
+  "ConnectivitySMILES": "CN1C2CCC1CC(C2)OC(=O)C(CO)C3=CC=CC=C3",
+  "IUPACName": "[(1S,5R)-8-methyl-8-azabicyclo[3.2.1]octan-3-yl] 3-hydroxy-2-phenylpropanoate",
+  "XLogP": 1.8,
+  "_query": "atropine"
+ },
+ {
+  "CID": 3000322,
+  "MolecularFormula": "C17H21NO4",
+  "MolecularWeight": "303.35",
+  "SMILES": "CN1[C@@H]2CC(C[C@H]1[C@H]3[C@@H]2O3)OC(=O)[C@H](CO)C4=CC=CC=C4",
+  "ConnectivitySMILES": "CN1C2CC(CC1C3C2O3)OC(=O)C(CO)C4=CC=CC=C4",
+  "IUPACName": "[(1S,2S,4R,5R)-9-methyl-3-oxa-9-azatricyclo[3.3.1.02,4]nonan-7-yl] (2S)-3-hydroxy-2-phenylpropanoate",
+  "XLogP": 0.9,
+  "_query": "scopolamine"
+ },
+ {
+  "CID": 154417,
+  "MolecularFormula": "C17H23NO3",
+  "MolecularWeight": "289.4",
+  "SMILES": "CN1[C@@H]2CC[C@H]1CC(C2)OC(=O)[C@H](CO)C3=CC=CC=C3",
+  "ConnectivitySMILES": "CN1C2CCC1CC(C2)OC(=O)C(CO)C3=CC=CC=C3",
+  "IUPACName": "[(1R,5S)-8-methyl-8-azabicyclo[3.2.1]octan-3-yl] (2S)-3-hydroxy-2-phenylpropanoate",
+  "XLogP": 1.8,
+  "_query": "hyoscyamine"
+ },
+ {
+  "CID": 5280343,
+  "MolecularFormula": "C15H10O7",
+  "MolecularWeight": "302.23",
+  "SMILES": "C1=CC(=C(C=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=C(C=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O)O)O",
+  "IUPACName": "2-(3,4-dihydroxyphenyl)-3,5,7-trihydroxychromen-4-one",
+  "XLogP": 1.5,
+  "_query": "quercetin"
+ },
+ {
+  "CID": 5280863,
+  "MolecularFormula": "C15H10O6",
+  "MolecularWeight": "286.24",
+  "SMILES": "C1=CC(=CC=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O)O",
+  "IUPACName": "3,5,7-trihydroxy-2-(4-hydroxyphenyl)chromen-4-one",
+  "XLogP": 1.9,
+  "_query": "kaempferol"
+ },
+ {
+  "CID": 439246,
+  "MolecularFormula": "C15H12O5",
+  "MolecularWeight": "272.25",
+  "SMILES": "C1[C@H](OC2=CC(=CC(=C2C1=O)O)O)C3=CC=C(C=C3)O",
+  "ConnectivitySMILES": "C1C(OC2=CC(=CC(=C2C1=O)O)O)C3=CC=C(C=C3)O",
+  "IUPACName": "(2S)-5,7-dihydroxy-2-(4-hydroxyphenyl)-2,3-dihydrochromen-4-one",
+  "XLogP": 2.4,
+  "_query": "naringenin"
+ },
+ {
+  "CID": 442428,
+  "MolecularFormula": "C27H32O14",
+  "MolecularWeight": "580.5",
+  "SMILES": "C[C@H]1[C@@H]([C@H]([C@H]([C@@H](O1)O[C@@H]2[C@H]([C@@H]([C@H](O[C@H]2OC3=CC(=C4C(=O)C[C@H](OC4=C3)C5=CC=C(C=C5)O)O)CO)O)O)O)O)O",
+  "ConnectivitySMILES": "CC1C(C(C(C(O1)OC2C(C(C(OC2OC3=CC(=C4C(=O)CC(OC4=C3)C5=CC=C(C=C5)O)O)CO)O)O)O)O)O",
+  "IUPACName": "(2S)-7-[(2S,3R,4S,5S,6R)-4,5-dihydroxy-6-(hydroxymethyl)-3-[(2S,3R,4R,5R,6S)-3,4,5-trihydroxy-6-methyloxan-2-yl]oxyoxan-2-yl]oxy-5-hydroxy-2-(4-hydroxyphenyl)-2,3-dihydrochromen-4-one",
+  "XLogP": -0.5,
+  "_query": "naringin"
+ },
+ {
+  "CID": 5471349,
+  "MolecularFormula": "C21H22O4",
+  "MolecularWeight": "338.4",
+  "SMILES": "CC(=CCC/C(=C/COC1=C2C=CC(=O)OC2=CC3=C1C=CO3)/C)C",
+  "ConnectivitySMILES": "CC(=CCCC(=CCOC1=C2C=CC(=O)OC2=CC3=C1C=CO3)C)C",
+  "IUPACName": "4-[(2E)-3,7-dimethylocta-2,6-dienoxy]furo[3,2-g]chromen-7-one",
+  "XLogP": 5.6,
+  "_query": "bergamottin"
+ },
+ {
+  "CID": 6440498,
+  "MolecularFormula": "C21H24O6",
+  "MolecularWeight": "372.4",
+  "SMILES": "C/C(=C\\COC1=C2C=CC(=O)OC2=CC3=C1C=CO3)/CCC(C(C)(C)O)O",
+  "ConnectivitySMILES": "CC(=CCOC1=C2C=CC(=O)OC2=CC3=C1C=CO3)CCC(C(C)(C)O)O",
+  "IUPACName": "4-[(E)-6,7-dihydroxy-3,7-dimethyloct-2-enoxy]furo[3,2-g]chromen-7-one",
+  "XLogP": 3.4,
+  "_query": "6,7-dihydroxybergamottin"
+ },
+ {
+  "CID": 65064,
+  "MolecularFormula": "C22H18O11",
+  "MolecularWeight": "458.4",
+  "SMILES": "C1[C@H]([C@H](OC2=CC(=CC(=C21)O)O)C3=CC(=C(C(=C3)O)O)O)OC(=O)C4=CC(=C(C(=C4)O)O)O",
+  "ConnectivitySMILES": "C1C(C(OC2=CC(=CC(=C21)O)O)C3=CC(=C(C(=C3)O)O)O)OC(=O)C4=CC(=C(C(=C4)O)O)O",
+  "IUPACName": "[(2R,3R)-5,7-dihydroxy-2-(3,4,5-trihydroxyphenyl)-3,4-dihydro-2H-chromen-3-yl] 3,4,5-trihydroxybenzoate",
+  "XLogP": 1.2,
+  "_query": "epigallocatechin gallate"
+ },
+ {
+  "CID": 5280443,
+  "MolecularFormula": "C15H10O5",
+  "MolecularWeight": "270.24",
+  "SMILES": "C1=CC(=CC=C1C2=CC(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C2=CC(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "IUPACName": "5,7-dihydroxy-2-(4-hydroxyphenyl)chromen-4-one",
+  "XLogP": 1.7,
+  "_query": "apigenin"
+ },
+ {
+  "CID": 5280445,
+  "MolecularFormula": "C15H10O6",
+  "MolecularWeight": "286.24",
+  "SMILES": "C1=CC(=C(C=C1C2=CC(=O)C3=C(C=C(C=C3O2)O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=C(C=C1C2=CC(=O)C3=C(C=C(C=C3O2)O)O)O)O",
+  "IUPACName": "2-(3,4-dihydroxyphenyl)-5,7-dihydroxychromen-4-one",
+  "XLogP": 1.4,
+  "_query": "luteolin"
+ },
+ {
+  "CID": 5280805,
+  "MolecularFormula": "C27H30O16",
+  "MolecularWeight": "610.5",
+  "SMILES": "C[C@H]1[C@@H]([C@H]([C@H]([C@@H](O1)OC[C@@H]2[C@H]([C@@H]([C@H]([C@@H](O2)OC3=C(OC4=CC(=CC(=C4C3=O)O)O)C5=CC(=C(C=C5)O)O)O)O)O)O)O)O",
+  "ConnectivitySMILES": "CC1C(C(C(C(O1)OCC2C(C(C(C(O2)OC3=C(OC4=CC(=CC(=C4C3=O)O)O)C5=CC(=C(C=C5)O)O)O)O)O)O)O)O",
+  "IUPACName": "2-(3,4-dihydroxyphenyl)-5,7-dihydroxy-3-[(2S,3R,4S,5S,6R)-3,4,5-trihydroxy-6-[[(2R,3R,4R,5R,6S)-3,4,5-trihydroxy-6-methyloxan-2-yl]oxymethyl]oxan-2-yl]oxychromen-4-one",
+  "XLogP": -1.3,
+  "_query": "rutin"
+ },
+ {
+  "CID": 5281616,
+  "MolecularFormula": "C15H10O5",
+  "MolecularWeight": "270.24",
+  "SMILES": "C1=CC=C(C=C1)C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "IUPACName": "3,5,7-trihydroxy-2-phenylchromen-4-one",
+  "XLogP": 2.3,
+  "_query": "galangin"
+ },
+ {
+  "CID": 5281855,
+  "MolecularFormula": "C14H6O8",
+  "MolecularWeight": "302.19",
+  "SMILES": "C1=C2C3=C(C(=C1O)O)OC(=O)C4=CC(=C(C(=C43)OC2=O)O)O",
+  "ConnectivitySMILES": "C1=C2C3=C(C(=C1O)O)OC(=O)C4=CC(=C(C(=C43)OC2=O)O)O",
+  "IUPACName": "6,7,13,14-tetrahydroxy-2,9-dioxatetracyclo[6.6.2.04,16.011,15]hexadeca-1(15),4,6,8(16),11,13-hexaene-3,10-dione",
+  "XLogP": 1.1,
+  "_query": "ellagic acid"
+ },
+ {
+  "CID": 370,
+  "MolecularFormula": "C7H6O5",
+  "MolecularWeight": "170.12",
+  "SMILES": "C1=C(C=C(C(=C1O)O)O)C(=O)O",
+  "ConnectivitySMILES": "C1=C(C=C(C(=C1O)O)O)C(=O)O",
+  "IUPACName": "3,4,5-trihydroxybenzoic acid",
+  "XLogP": 0.7,
+  "_query": "gallic acid"
+ },
+ {
+  "CID": 969516,
+  "MolecularFormula": "C21H20O6",
+  "MolecularWeight": "368.4",
+  "SMILES": "COC1=C(C=CC(=C1)/C=C/C(=O)CC(=O)/C=C/C2=CC(=C(C=C2)O)OC)O",
+  "ConnectivitySMILES": "COC1=C(C=CC(=C1)C=CC(=O)CC(=O)C=CC2=CC(=C(C=C2)O)OC)O",
+  "IUPACName": "(1E,6E)-1,7-bis(4-hydroxy-3-methoxyphenyl)hepta-1,6-diene-3,5-dione",
+  "XLogP": 3.2,
+  "_query": "curcumin"
+ },
+ {
+  "CID": 445154,
+  "MolecularFormula": "C14H12O3",
+  "MolecularWeight": "228.24",
+  "SMILES": "C1=CC(=CC=C1/C=C/C2=CC(=CC(=C2)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C=CC2=CC(=CC(=C2)O)O)O",
+  "IUPACName": "5-[(E)-2-(4-hydroxyphenyl)ethenyl]benzene-1,3-diol",
+  "XLogP": 3.1,
+  "_query": "resveratrol"
+ },
+ {
+  "CID": 10621,
+  "MolecularFormula": "C28H34O15",
+  "MolecularWeight": "610.6",
+  "SMILES": "C[C@H]1[C@@H]([C@H]([C@H]([C@@H](O1)OC[C@@H]2[C@H]([C@@H]([C@H]([C@@H](O2)OC3=CC(=C4C(=O)C[C@H](OC4=C3)C5=CC(=C(C=C5)OC)O)O)O)O)O)O)O)O",
+  "ConnectivitySMILES": "CC1C(C(C(C(O1)OCC2C(C(C(C(O2)OC3=CC(=C4C(=O)CC(OC4=C3)C5=CC(=C(C=C5)OC)O)O)O)O)O)O)O)O",
+  "IUPACName": "(2S)-5-hydroxy-2-(3-hydroxy-4-methoxyphenyl)-7-[(2S,3R,4S,5S,6R)-3,4,5-trihydroxy-6-[[(2R,3R,4R,5R,6S)-3,4,5-trihydroxy-6-methyloxan-2-yl]oxymethyl]oxan-2-yl]oxy-2,3-dihydrochromen-4-one",
+  "XLogP": -1.1,
+  "_query": "hesperidin"
+ },
+ {
+  "CID": 72281,
+  "MolecularFormula": "C16H14O6",
+  "MolecularWeight": "302.28",
+  "SMILES": "COC1=C(C=C(C=C1)[C@@H]2CC(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "ConnectivitySMILES": "COC1=C(C=C(C=C1)C2CC(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "IUPACName": "(2S)-5,7-dihydroxy-2-(3-hydroxy-4-methoxyphenyl)-2,3-dihydrochromen-4-one",
+  "XLogP": 2.4,
+  "_query": "hesperetin"
+ },
+ {
+  "CID": 5281672,
+  "MolecularFormula": "C15H10O8",
+  "MolecularWeight": "318.23",
+  "SMILES": "C1=C(C=C(C(=C1O)O)O)C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "ConnectivitySMILES": "C1=C(C=C(C(=C1O)O)O)C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O",
+  "IUPACName": "3,5,7-trihydroxy-2-(3,4,5-trihydroxyphenyl)chromen-4-one",
+  "XLogP": 1.2,
+  "_query": "myricetin"
+ },
+ {
+  "CID": 9064,
+  "MolecularFormula": "C15H14O6",
+  "MolecularWeight": "290.27",
+  "SMILES": "C1[C@@H]([C@H](OC2=CC(=CC(=C21)O)O)C3=CC(=C(C=C3)O)O)O",
+  "ConnectivitySMILES": "C1C(C(OC2=CC(=CC(=C21)O)O)C3=CC(=C(C=C3)O)O)O",
+  "IUPACName": "(2R,3S)-2-(3,4-dihydroxyphenyl)-3,4-dihydro-2H-chromene-3,5,7-triol",
+  "XLogP": 0.4,
+  "_query": "catechin"
+ },
+ {
+  "CID": 72276,
+  "MolecularFormula": "C15H14O6",
+  "MolecularWeight": "290.27",
+  "SMILES": "C1[C@H]([C@H](OC2=CC(=CC(=C21)O)O)C3=CC(=C(C=C3)O)O)O",
+  "ConnectivitySMILES": "C1C(C(OC2=CC(=CC(=C21)O)O)C3=CC(=C(C=C3)O)O)O",
+  "IUPACName": "(2R,3R)-2-(3,4-dihydroxyphenyl)-3,4-dihydro-2H-chromene-3,5,7-triol",
+  "XLogP": 0.4,
+  "_query": "epicatechin"
+ },
+ {
+  "CID": 31553,
+  "MolecularFormula": "C25H22O10",
+  "MolecularWeight": "482.4",
+  "SMILES": "COC1=C(C=CC(=C1)[C@@H]2[C@H](OC3=C(O2)C=C(C=C3)[C@@H]4[C@H](C(=O)C5=C(C=C(C=C5O4)O)O)O)CO)O",
+  "ConnectivitySMILES": "COC1=C(C=CC(=C1)C2C(OC3=C(O2)C=C(C=C3)C4C(C(=O)C5=C(C=C(C=C5O4)O)O)O)CO)O",
+  "IUPACName": "(2R,3R)-3,5,7-trihydroxy-2-[(2R,3R)-3-(4-hydroxy-3-methoxyphenyl)-2-(hydroxymethyl)-2,3-dihydro-1,4-benzodioxin-6-yl]-2,3-dihydrochromen-4-one",
+  "XLogP": 2.4,
+  "_query": "silybin"
+ },
+ {
+  "CID": 5281605,
+  "MolecularFormula": "C15H10O5",
+  "MolecularWeight": "270.24",
+  "SMILES": "C1=CC=C(C=C1)C2=CC(=O)C3=C(O2)C=C(C(=C3O)O)O",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)C2=CC(=O)C3=C(O2)C=C(C(=C3O)O)O",
+  "IUPACName": "5,6,7-trihydroxy-2-phenylchromen-4-one",
+  "XLogP": 1.7,
+  "_query": "baicalein"
+ },
+ {
+  "CID": 5280961,
+  "MolecularFormula": "C15H10O5",
+  "MolecularWeight": "270.24",
+  "SMILES": "C1=CC(=CC=C1C2=COC3=CC(=CC(=C3C2=O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C2=COC3=CC(=CC(=C3C2=O)O)O)O",
+  "IUPACName": "5,7-dihydroxy-3-(4-hydroxyphenyl)chromen-4-one",
+  "XLogP": 2.7,
+  "_query": "genistein"
+ },
+ {
+  "CID": 5281708,
+  "MolecularFormula": "C15H10O4",
+  "MolecularWeight": "254.24",
+  "SMILES": "C1=CC(=CC=C1C2=COC3=C(C2=O)C=CC(=C3)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C2=COC3=C(C2=O)C=CC(=C3)O)O",
+  "IUPACName": "7-hydroxy-3-(4-hydroxyphenyl)chromen-4-one",
+  "XLogP": 2.5,
+  "_query": "daidzein"
+ },
+ {
+  "CID": 5281807,
+  "MolecularFormula": "C21H20O9",
+  "MolecularWeight": "416.4",
+  "SMILES": "C1=CC(=CC=C1C2=COC3=C(C2=O)C=CC(=C3[C@H]4[C@@H]([C@H]([C@@H]([C@H](O4)CO)O)O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C2=COC3=C(C2=O)C=CC(=C3C4C(C(C(C(O4)CO)O)O)O)O)O",
+  "IUPACName": "7-hydroxy-3-(4-hydroxyphenyl)-8-[(2S,3R,4R,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]chromen-4-one",
+  "XLogP": 0,
+  "_query": "puerarin"
+ },
+ {
+  "CID": 14982,
+  "MolecularFormula": "C42H62O16",
+  "MolecularWeight": "822.9",
+  "SMILES": "C[C@]12CC[C@](C[C@H]1C3=CC(=O)[C@@H]4[C@]5(CC[C@@H](C([C@@H]5CC[C@]4([C@@]3(CC2)C)C)(C)C)O[C@@H]6[C@@H]([C@H]([C@@H]([C@H](O6)C(=O)O)O)O)O[C@H]7[C@@H]([C@H]([C@@H]([C@H](O7)C(=O)O)O)O)O)C)(C)C(=O)O",
+  "ConnectivitySMILES": "CC1(C2CCC3(C(C2(CCC1OC4C(C(C(C(O4)C(=O)O)O)O)OC5C(C(C(C(O5)C(=O)O)O)O)O)C)C(=O)C=C6C3(CCC7(C6CC(CC7)(C)C(=O)O)C)C)C)C",
+  "IUPACName": "(2S,3S,4S,5R,6R)-6-[(2S,3R,4S,5S,6S)-2-[[(3S,4aR,6aR,6bS,8aS,11S,12aR,14aR,14bS)-11-carboxy-4,4,6a,6b,8a,11,14b-heptamethyl-14-oxo-2,3,4a,5,6,7,8,9,10,12,12a,14a-dodecahydro-1H-picen-3-yl]oxy]-6-carboxy-4,5-dihydroxyoxan-3-yl]oxy-3,4,5-trihydroxyoxane-2-carboxylic acid",
+  "XLogP": 3.7,
+  "_query": "glycyrrhizin"
+ },
+ {
+  "CID": 124052,
+  "MolecularFormula": "C20H20O4",
+  "MolecularWeight": "324.4",
+  "SMILES": "CC1(C=CC2=C(O1)C=CC3=C2OC[C@H](C3)C4=C(C=C(C=C4)O)O)C",
+  "ConnectivitySMILES": "CC1(C=CC2=C(O1)C=CC3=C2OCC(C3)C4=C(C=C(C=C4)O)O)C",
+  "IUPACName": "4-[(3R)-8,8-dimethyl-3,4-dihydro-2H-pyrano[2,3-f]chromen-3-yl]benzene-1,3-diol",
+  "XLogP": 3.9,
+  "_query": "glabridin"
+ },
+ {
+  "CID": 3663,
+  "MolecularFormula": "C30H16O8",
+  "MolecularWeight": "504.4",
+  "SMILES": "CC1=CC(=O)C2=C(C3=C(C=C(C4=C3C5=C2C1=C6C(=CC(=O)C7=C(C8=C(C=C(C4=C8C5=C67)O)O)O)C)O)O)O",
+  "ConnectivitySMILES": "CC1=CC(=O)C2=C(C3=C(C=C(C4=C3C5=C2C1=C6C(=CC(=O)C7=C(C8=C(C=C(C4=C8C5=C67)O)O)O)C)O)O)O",
+  "IUPACName": "9,11,13,16,18,20-hexahydroxy-5,24-dimethyloctacyclo[13.11.1.12,10.03,8.04,25.019,27.021,26.014,28]octacosa-1(26),2,4(25),5,8,10,12,14(28),15(27),16,18,20,23-tridecaene-7,22-dione",
+  "XLogP": 5.7,
+  "_query": "hypericin"
+ },
+ {
+  "CID": 441298,
+  "MolecularFormula": "C35H52O4",
+  "MolecularWeight": "536.8",
+  "SMILES": "CC(C)C(=O)[C@]12C(=O)C(=C([C@](C1=O)(C[C@@H]([C@@]2(C)CCC=C(C)C)CC=C(C)C)CC=C(C)C)O)CC=C(C)C",
+  "ConnectivitySMILES": "CC(C)C(=O)C12C(=O)C(=C(C(C1=O)(CC(C2(C)CCC=C(C)C)CC=C(C)C)CC=C(C)C)O)CC=C(C)C",
+  "IUPACName": "(1R,5R,7S,8R)-4-hydroxy-8-methyl-3,5,7-tris(3-methylbut-2-enyl)-8-(4-methylpent-3-enyl)-1-(2-methylpropanoyl)bicyclo[3.3.1]non-3-ene-2,9-dione",
+  "XLogP": 9.6,
+  "_query": "hyperforin"
+ },
+ {
+  "CID": 639665,
+  "MolecularFormula": "C21H22O5",
+  "MolecularWeight": "354.4",
+  "SMILES": "CC(=CCC1=C(C(=C(C=C1O)OC)C(=O)/C=C/C2=CC=C(C=C2)O)O)C",
+  "ConnectivitySMILES": "CC(=CCC1=C(C(=C(C=C1O)OC)C(=O)C=CC2=CC=C(C=C2)O)O)C",
+  "IUPACName": "(E)-1-[2,4-dihydroxy-6-methoxy-3-(3-methylbut-2-enyl)phenyl]-3-(4-hydroxyphenyl)prop-2-en-1-one",
+  "XLogP": 5.1,
+  "_query": "xanthohumol"
+ },
+ {
+  "CID": 5281544,
+  "MolecularFormula": "C25H32O13",
+  "MolecularWeight": "540.5",
+  "SMILES": "C/C=C/1\\[C@@H](C(=CO[C@H]1O[C@H]2[C@@H]([C@H]([C@@H]([C@H](O2)CO)O)O)O)C(=O)OC)CC(=O)OCCC3=CC(=C(C=C3)O)O",
+  "ConnectivitySMILES": "CC=C1C(C(=COC1OC2C(C(C(C(O2)CO)O)O)O)C(=O)OC)CC(=O)OCCC3=CC(=C(C=C3)O)O",
+  "IUPACName": "methyl (4S,5E,6S)-4-[2-[2-(3,4-dihydroxyphenyl)ethoxy]-2-oxoethyl]-5-ethylidene-6-[(2S,3R,4S,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]oxy-4H-pyran-3-carboxylate",
+  "XLogP": -0.4,
+  "_query": "oleuropein"
+ },
+ {
+  "CID": 65126,
+  "MolecularFormula": "C20H28O4",
+  "MolecularWeight": "332.4",
+  "SMILES": "CC(C)C1=C(C(=C2C(=C1)CC[C@@H]3[C@@]2(CCCC3(C)C)C(=O)O)O)O",
+  "ConnectivitySMILES": "CC(C)C1=C(C(=C2C(=C1)CCC3C2(CCCC3(C)C)C(=O)O)O)O",
+  "IUPACName": "(4aR,10aS)-5,6-dihydroxy-1,1-dimethyl-7-propan-2-yl-2,3,4,9,10,10a-hexahydrophenanthrene-4a-carboxylic acid",
+  "XLogP": 4.9,
+  "_query": "carnosic acid"
+ },
+ {
+  "CID": 5281792,
+  "MolecularFormula": "C18H16O8",
+  "MolecularWeight": "360.3",
+  "SMILES": "C1=CC(=C(C=C1C[C@H](C(=O)O)OC(=O)/C=C/C2=CC(=C(C=C2)O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=C(C=C1CC(C(=O)O)OC(=O)C=CC2=CC(=C(C=C2)O)O)O)O",
+  "IUPACName": "(2R)-3-(3,4-dihydroxyphenyl)-2-[(E)-3-(3,4-dihydroxyphenyl)prop-2-enoyl]oxypropanoic acid",
+  "XLogP": 2.4,
+  "_query": "rosmarinic acid"
+ },
+ {
+  "CID": 644019,
+  "MolecularFormula": "C21H30O2",
+  "MolecularWeight": "314.5",
+  "SMILES": "CCCCCC1=CC(=C(C(=C1)O)[C@@H]2C=C(CC[C@H]2C(=C)C)C)O",
+  "ConnectivitySMILES": "CCCCCC1=CC(=C(C(=C1)O)C2C=C(CCC2C(=C)C)C)O",
+  "IUPACName": "2-[(1R,6R)-3-methyl-6-prop-1-en-2-ylcyclohex-2-en-1-yl]-5-pentylbenzene-1,3-diol",
+  "XLogP": 6.5,
+  "_query": "cannabidiol"
+ },
+ {
+  "CID": 16078,
+  "MolecularFormula": "C21H30O2",
+  "MolecularWeight": "314.5",
+  "SMILES": "CCCCCC1=CC(=C2[C@@H]3C=C(CC[C@H]3C(OC2=C1)(C)C)C)O",
+  "ConnectivitySMILES": "CCCCCC1=CC(=C2C3C=C(CCC3C(OC2=C1)(C)C)C)O",
+  "IUPACName": "(6aR,10aR)-6,6,9-trimethyl-3-pentyl-6a,7,8,10a-tetrahydrobenzo[c]chromen-1-ol",
+  "XLogP": 7,
+  "_query": "tetrahydrocannabinol"
+ },
+ {
+  "CID": 5315659,
+  "MolecularFormula": "C21H32O2",
+  "MolecularWeight": "316.5",
+  "SMILES": "CCCCCC1=CC(=C(C(=C1)O)C/C=C(\\C)/CCC=C(C)C)O",
+  "ConnectivitySMILES": "CCCCCC1=CC(=C(C(=C1)O)CC=C(C)CCC=C(C)C)O",
+  "IUPACName": "2-[(2E)-3,7-dimethylocta-2,6-dienyl]-5-pentylbenzene-1,3-diol",
+  "XLogP": 7.4,
+  "_query": "cannabigerol"
+ },
+ {
+  "CID": 2543,
+  "MolecularFormula": "C21H26O2",
+  "MolecularWeight": "310.4",
+  "SMILES": "CCCCCC1=CC(=C2C(=C1)OC(C3=C2C=C(C=C3)C)(C)C)O",
+  "ConnectivitySMILES": "CCCCCC1=CC(=C2C(=C1)OC(C3=C2C=C(C=C3)C)(C)C)O",
+  "IUPACName": "6,6,9-trimethyl-3-pentylbenzo[c]chromen-1-ol",
+  "XLogP": 6.1,
+  "_query": "cannabinol"
+ },
+ {
+  "CID": 30219,
+  "MolecularFormula": "C21H30O2",
+  "MolecularWeight": "314.5",
+  "SMILES": "CCCCCC1=CC(=C2C=CC(OC2=C1)(C)CCC=C(C)C)O",
+  "ConnectivitySMILES": "CCCCCC1=CC(=C2C=CC(OC2=C1)(C)CCC=C(C)C)O",
+  "IUPACName": "2-methyl-2-(4-methylpent-3-enyl)-7-pentylchromen-5-ol",
+  "XLogP": 6.9,
+  "_query": "cannabichromene"
+ },
+ {
+  "CID": 160570,
+  "MolecularFormula": "C22H30O4",
+  "MolecularWeight": "358.5",
+  "SMILES": "CCCCCC1=CC(=C(C(=C1C(=O)O)O)[C@@H]2C=C(CC[C@H]2C(=C)C)C)O",
+  "ConnectivitySMILES": "CCCCCC1=CC(=C(C(=C1C(=O)O)O)C2C=C(CCC2C(=C)C)C)O",
+  "IUPACName": "2,4-dihydroxy-3-[(1R,6R)-3-methyl-6-prop-1-en-2-ylcyclohex-2-en-1-yl]-6-pentylbenzoic acid",
+  "XLogP": 6.6,
+  "_query": "cannabidiolic acid"
+ },
+ {
+  "CID": 10215,
+  "MolecularFormula": "C16H10N2O2",
+  "MolecularWeight": "262.26",
+  "SMILES": "C1=CC=C2C(=C1)C(=C(N2)C3=NC4=CC=CC=C4C3=O)O",
+  "ConnectivitySMILES": "C1=CC=C2C(=C1)C(=C(N2)C3=NC4=CC=CC=C4C3=O)O",
+  "IUPACName": "2-(3-hydroxy-1H-indol-2-yl)indol-3-one",
+  "XLogP": 2.7,
+  "_query": "indigo"
+ },
+ {
+  "CID": 6293,
+  "MolecularFormula": "C14H8O4",
+  "MolecularWeight": "240.21",
+  "SMILES": "C1=CC=C2C(=C1)C(=O)C3=C(C2=O)C(=C(C=C3)O)O",
+  "ConnectivitySMILES": "C1=CC=C2C(=C1)C(=O)C3=C(C2=O)C(=C(C=C3)O)O",
+  "IUPACName": "1,2-dihydroxyanthracene-9,10-dione",
+  "XLogP": 3.2,
+  "_query": "alizarin"
+ },
+ {
+  "CID": 135565560,
+  "MolecularFormula": "C43H42O22",
+  "MolecularWeight": "910.8",
+  "SMILES": "C1=CC(=CC=C1/C=C/C(=O)C2=C([C@@](C(=C(C2=O)/C=C\\3/C(=O)C(=C([C@](C3=O)([C@H]4[C@@H]([C@H]([C@@H]([C@H](O4)CO)O)O)O)O)O)C(=O)/C=C/C5=CC=C(C=C5)O)O)([C@H]6[C@@H]([C@H]([C@@H]([C@H](O6)CO)O)O)O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C=CC(=O)C2=C(C(C(=C(C2=O)C=C3C(=O)C(=C(C(C3=O)(C4C(C(C(C(O4)CO)O)O)O)O)O)C(=O)C=CC5=CC=C(C=C5)O)O)(C6C(C(C(C(O6)CO)O)O)O)O)O)O",
+  "IUPACName": "(2Z,6S)-5,6-dihydroxy-4-[(E)-3-(4-hydroxyphenyl)prop-2-enoyl]-6-[(2R,3R,4S,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]-2-[[(3S)-2,3,4-trihydroxy-5-[(E)-3-(4-hydroxyphenyl)prop-2-enoyl]-6-oxo-3-[(2R,3R,4S,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]cyclohexa-1,4-dien-1-yl]methylidene]cyclohex-4-ene-1,3-dione",
+  "XLogP": -2.5,
+  "_query": "carthamin"
+ },
+ {
+  "CID": 5281233,
+  "MolecularFormula": "C44H64O24",
+  "MolecularWeight": "977.0",
+  "SMILES": "C/C(=C\\C=C\\C=C(\\C=C\\C=C(\\C(=O)O[C@@H]1O[C@@H]([C@H]([C@@H]([C@H]1O)O)O)CO[C@@H]2O[C@@H]([C@H]([C@@H]([C@H]2O)O)O)CO)/C)/C)/C=C/C=C(/C(=O)O[C@@H]3O[C@@H]([C@H]([C@@H]([C@H]3O)O)O)CO[C@@H]4O[C@@H]([C@H]([C@@H]([C@H]4O)O)O)CO)\\C",
+  "ConnectivitySMILES": "CC(=CC=CC=C(C)C=CC=C(C)C(=O)OC1C(C(C(C(O1)COC2C(C(C(C(O2)CO)O)O)O)O)O)O)C=CC=C(C)C(=O)OC3C(C(C(C(O3)COC4C(C(C(C(O4)CO)O)O)O)O)O)O",
+  "IUPACName": "bis[(2S,3R,4S,5S,6R)-3,4,5-trihydroxy-6-[[(2R,3R,4S,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]oxymethyl]oxan-2-yl] (2E,4E,6E,8E,10E,12E,14E)-2,6,11,15-tetramethylhexadeca-2,4,6,8,10,12,14-heptaenedioate",
+  "XLogP": -2.5,
+  "_query": "crocin"
+ },
+ {
+  "CID": 5281226,
+  "MolecularFormula": "C25H30O4",
+  "MolecularWeight": "394.5",
+  "SMILES": "C/C(=C\\C=C\\C=C(/C)\\C=C\\C=C(\\C)/C=C/C(=O)OC)/C=C/C=C(\\C)/C=C/C(=O)O",
+  "ConnectivitySMILES": "CC(=CC=CC=C(C)C=CC=C(C)C=CC(=O)OC)C=CC=C(C)C=CC(=O)O",
+  "IUPACName": "(2E,4E,6E,8E,10E,12E,14E,16Z,18E)-20-methoxy-4,8,13,17-tetramethyl-20-oxoicosa-2,4,6,8,10,12,14,16,18-nonaenoic acid",
+  "XLogP": 7.5,
+  "_query": "bixin"
+ },
+ {
+  "CID": 5281249,
+  "MolecularFormula": "C24H28O4",
+  "MolecularWeight": "380.5",
+  "SMILES": "C/C(=C\\C=C\\C=C(\\C=C\\C=C(\\C=C\\C(=O)O)/C)/C)/C=C/C=C(/C=C/C(=O)O)\\C",
+  "ConnectivitySMILES": "CC(=CC=CC=C(C)C=CC=C(C)C=CC(=O)O)C=CC=C(C)C=CC(=O)O",
+  "IUPACName": "(2E,4E,6E,8E,10E,12E,14E,16E,18E)-4,8,13,17-tetramethylicosa-2,4,6,8,10,12,14,16,18-nonaenedioic acid",
+  "XLogP": 7.2,
+  "_query": "norbixin"
+ },
+ {
+  "CID": 6755,
+  "MolecularFormula": "C10H6O3",
+  "MolecularWeight": "174.15",
+  "SMILES": "C1=CC=C2C(=C1)C(=CC(=O)C2=O)O",
+  "ConnectivitySMILES": "C1=CC=C2C(=C1)C(=CC(=O)C2=O)O",
+  "IUPACName": "4-hydroxynaphthalene-1,2-dione",
+  "XLogP": 0.9,
+  "_query": "lawsone"
+ },
+ {
+  "CID": 3806,
+  "MolecularFormula": "C10H6O3",
+  "MolecularWeight": "174.15",
+  "SMILES": "C1=CC2=C(C(=O)C=CC2=O)C(=C1)O",
+  "ConnectivitySMILES": "C1=CC2=C(C(=O)C=CC2=O)C(=C1)O",
+  "IUPACName": "5-hydroxynaphthalene-1,4-dione",
+  "XLogP": 1.9,
+  "_query": "juglone"
+ },
+ {
+  "CID": 442514,
+  "MolecularFormula": "C16H14O6",
+  "MolecularWeight": "302.28",
+  "SMILES": "C1C2=CC(=C(C=C2[C@H]3[C@@]1(COC4=C3C=CC(=C4O)O)O)O)O",
+  "ConnectivitySMILES": "C1C2=CC(=C(C=C2C3C1(COC4=C3C=CC(=C4O)O)O)O)O",
+  "IUPACName": "(6aS,11bR)-7,11b-dihydro-6H-indeno[2,1-c]chromene-3,4,6a,9,10-pentol",
+  "XLogP": 1.2,
+  "_query": "hematoxylin"
+ },
+ {
+  "CID": 73384,
+  "MolecularFormula": "C16H14O5",
+  "MolecularWeight": "286.28",
+  "SMILES": "C1C2=CC(=C(C=C2[C@H]3[C@@]1(COC4=C3C=CC(=C4)O)O)O)O",
+  "ConnectivitySMILES": "C1C2=CC(=C(C=C2C3C1(COC4=C3C=CC(=C4)O)O)O)O",
+  "IUPACName": "(6aS,11bR)-7,11b-dihydro-6H-indeno[2,1-c]chromene-3,6a,9,10-tetrol",
+  "XLogP": 1.5,
+  "_query": "brazilin"
+ },
+ {
+  "CID": 5280637,
+  "MolecularFormula": "C21H20O11",
+  "MolecularWeight": "448.4",
+  "SMILES": "C1=CC(=C(C=C1C2=CC(=O)C3=C(C=C(C=C3O2)O[C@H]4[C@@H]([C@H]([C@@H]([C@H](O4)CO)O)O)O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=C(C=C1C2=CC(=O)C3=C(C=C(C=C3O2)OC4C(C(C(C(O4)CO)O)O)O)O)O)O",
+  "IUPACName": "2-(3,4-dihydroxyphenyl)-5-hydroxy-7-[(2S,3R,4S,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]oxychromen-4-one",
+  "XLogP": 0.5,
+  "_query": "luteolin 7-glucoside"
+ },
+ {
+  "CID": 6540685,
+  "MolecularFormula": "C24H26N2O13",
+  "MolecularWeight": "550.5",
+  "SMILES": "C1[C@H](N=C(C=C1/C=C/N2[C@@H](CC3=CC(=C(C=C32)O)O[C@H]4[C@@H]([C@H]([C@@H]([C@H](O4)CO)O)O)O)C(=O)O)C(=O)O)C(=O)O",
+  "ConnectivitySMILES": "C1C(N=C(C=C1C=CN2C(CC3=CC(=C(C=C32)O)OC4C(C(C(C(O4)CO)O)O)O)C(=O)O)C(=O)O)C(=O)O",
+  "IUPACName": "(2S)-4-[(E)-2-[(2S)-2-carboxy-6-hydroxy-5-[(2S,3R,4S,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]oxy-2,3-dihydroindol-1-yl]ethenyl]-2,3-dihydropyridine-2,6-dicarboxylic acid",
+  "XLogP": -1.3,
+  "_query": "betanin"
+ },
+ {
+  "CID": 128861,
+  "MolecularFormula": "C15H11O6+",
+  "MolecularWeight": "287.24",
+  "SMILES": "C1=CC(=C(C=C1C2=[O+]C3=CC(=CC(=C3C=C2O)O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=C(C=C1C2=[O+]C3=CC(=CC(=C3C=C2O)O)O)O)O",
+  "IUPACName": "2-(3,4-dihydroxyphenyl)chromenylium-3,5,7-triol",
+  "_query": "cyanidin"
+ },
+ {
+  "CID": 128853,
+  "MolecularFormula": "C15H11O7+",
+  "MolecularWeight": "303.24",
+  "SMILES": "C1=C(C=C(C(=C1O)O)O)C2=[O+]C3=CC(=CC(=C3C=C2O)O)O",
+  "ConnectivitySMILES": "C1=C(C=C(C(=C1O)O)O)C2=[O+]C3=CC(=CC(=C3C=C2O)O)O",
+  "IUPACName": "2-(3,4,5-trihydroxyphenyl)chromenylium-3,5,7-triol",
+  "_query": "delphinidin"
+ },
+ {
+  "CID": 440832,
+  "MolecularFormula": "C15H11O5+",
+  "MolecularWeight": "271.24",
+  "SMILES": "C1=CC(=CC=C1C2=[O+]C3=CC(=CC(=C3C=C2O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C2=[O+]C3=CC(=CC(=C3C=C2O)O)O)O",
+  "IUPACName": "2-(4-hydroxyphenyl)chromenylium-3,5,7-triol",
+  "_query": "pelargonidin"
+ },
+ {
+  "CID": 479503,
+  "MolecularFormula": "C16H16O5",
+  "MolecularWeight": "288.29",
+  "SMILES": "CC(=CC[C@H](C1=CC(=O)C2=C(C=CC(=C2C1=O)O)O)O)C",
+  "ConnectivitySMILES": "CC(=CCC(C1=CC(=O)C2=C(C=CC(=C2C1=O)O)O)O)C",
+  "IUPACName": "5,8-dihydroxy-2-[(1R)-1-hydroxy-4-methylpent-3-enyl]naphthalene-1,4-dione",
+  "XLogP": 3,
+  "_query": "shikonin"
+ },
+ {
+  "CID": 6683,
+  "MolecularFormula": "C14H8O5",
+  "MolecularWeight": "256.21",
+  "SMILES": "C1=CC=C2C(=C1)C(=O)C3=C(C2=O)C(=C(C=C3O)O)O",
+  "ConnectivitySMILES": "C1=CC=C2C(=C1)C(=O)C3=C(C2=O)C(=C(C=C3O)O)O",
+  "IUPACName": "1,2,4-trihydroxyanthracene-9,10-dione",
+  "XLogP": 2.9,
+  "_query": "purpurin"
+ },
+ {
+  "CID": 3220,
+  "MolecularFormula": "C15H10O5",
+  "MolecularWeight": "270.24",
+  "SMILES": "CC1=CC2=C(C(=C1)O)C(=O)C3=C(C2=O)C=C(C=C3O)O",
+  "ConnectivitySMILES": "CC1=CC2=C(C(=C1)O)C(=O)C3=C(C2=O)C=C(C=C3O)O",
+  "IUPACName": "1,3,8-trihydroxy-6-methylanthracene-9,10-dione",
+  "XLogP": 2.7,
+  "_query": "emodin"
+ },
+ {
+  "CID": 10255083,
+  "MolecularFormula": "C22H20O13",
+  "MolecularWeight": "492.4",
+  "SMILES": "CC1=C2C(=CC(=C1C(=O)O)O)C(=O)C3=C(C2=O)C(=C(C(=C3O)O)[C@H]4[C@@H]([C@H]([C@@H]([C@H](O4)CO)O)O)O)O",
+  "ConnectivitySMILES": "CC1=C2C(=CC(=C1C(=O)O)O)C(=O)C3=C(C2=O)C(=C(C(=C3O)O)C4C(C(C(C(O4)CO)O)O)O)O",
+  "IUPACName": "3,5,6,8-tetrahydroxy-1-methyl-9,10-dioxo-7-[(2S,3R,4R,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]anthracene-2-carboxylic acid",
+  "XLogP": 0.5,
+  "_query": "carminic acid"
+ },
+ {
+  "CID": 442424,
+  "MolecularFormula": "C11H14O5",
+  "MolecularWeight": "226.23",
+  "SMILES": "COC(=O)C1=CO[C@H]([C@H]2[C@@H]1CC=C2CO)O",
+  "ConnectivitySMILES": "COC(=O)C1=COC(C2C1CC=C2CO)O",
+  "IUPACName": "methyl (1R,4aS,7aS)-1-hydroxy-7-(hydroxymethyl)-1,4a,5,7a-tetrahydrocyclopenta[c]pyran-4-carboxylate",
+  "XLogP": -0.7,
+  "_query": "genipin"
+ },
+ {
+  "CID": 124886,
+  "MolecularFormula": "C10H17N3O6S",
+  "MolecularWeight": "307.33",
+  "SMILES": "C(CC(=O)N[C@@H](CS)C(=O)NCC(=O)O)[C@@H](C(=O)O)N",
+  "ConnectivitySMILES": "C(CC(=O)NC(CS)C(=O)NCC(=O)O)C(C(=O)O)N",
+  "IUPACName": "(2S)-2-amino-5-[[(2R)-1-(carboxymethylamino)-1-oxo-3-sulfanylpropan-2-yl]amino]-5-oxopentanoic acid",
+  "XLogP": -4.5,
+  "_query": "glutathione"
+ },
+ {
+  "CID": 5280960,
+  "MolecularFormula": "C15H12O5",
+  "MolecularWeight": "272.25",
+  "SMILES": "C1=CC(=CC=C1/C=C/C(=O)C2=C(C=C(C=C2O)O)O)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1C=CC(=O)C2=C(C=C(C=C2O)O)O)O",
+  "IUPACName": "(E)-3-(4-hydroxyphenyl)-1-(2,4,6-trihydroxyphenyl)prop-2-en-1-one",
+  "XLogP": 2.8,
+  "_query": "naringenin chalcone"
+ },
+ {
+  "CID": 8082,
+  "MolecularFormula": "C5H11N",
+  "MolecularWeight": "85.15",
+  "SMILES": "C1CCNCC1",
+  "ConnectivitySMILES": "C1CCNCC1",
+  "IUPACName": "piperidine",
+  "XLogP": 0.8,
+  "_query": "piperidine"
+ },
+ {
+  "CID": 674,
+  "MolecularFormula": "C2H7N",
+  "MolecularWeight": "45.08",
+  "SMILES": "CNC",
+  "ConnectivitySMILES": "CNC",
+  "IUPACName": "N-methylmethanamine",
+  "XLogP": -0.2,
+  "_query": "dimethylamine"
+ },
+ {
+  "CID": 31268,
+  "MolecularFormula": "C4H9N",
+  "MolecularWeight": "71.12",
+  "SMILES": "C1CCNC1",
+  "ConnectivitySMILES": "C1CCNC1",
+  "IUPACName": "pyrrolidine",
+  "XLogP": 0.5,
+  "_query": "pyrrolidine"
+ },
+ {
+  "CID": 5610,
+  "MolecularFormula": "C8H11NO",
+  "MolecularWeight": "137.18",
+  "SMILES": "C1=CC(=CC=C1CCN)O",
+  "ConnectivitySMILES": "C1=CC(=CC=C1CCN)O",
+  "IUPACName": "4-(2-aminoethyl)phenol",
+  "XLogP": 1.1,
+  "_query": "tyramine"
+ },
+ {
+  "CID": 1001,
+  "MolecularFormula": "C8H11N",
+  "MolecularWeight": "121.18",
+  "SMILES": "C1=CC=C(C=C1)CCN",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)CCN",
+  "IUPACName": "2-phenylethanamine",
+  "XLogP": 1.4,
+  "_query": "phenethylamine"
+ },
+ {
+  "CID": 6140,
+  "MolecularFormula": "C9H11NO2",
+  "MolecularWeight": "165.19",
+  "SMILES": "C1=CC=C(C=C1)C[C@@H](C(=O)O)N",
+  "ConnectivitySMILES": "C1=CC=C(C=C1)CC(C(=O)O)N",
+  "IUPACName": "(2S)-2-amino-3-phenylpropanoic acid",
+  "XLogP": -1.5,
+  "_query": "phenylalanine"
+ },
+ {
+  "CID": 6305,
+  "MolecularFormula": "C11H12N2O2",
+  "MolecularWeight": "204.22",
+  "SMILES": "C1=CC=C2C(=C1)C(=CN2)C[C@@H](C(=O)O)N",
+  "ConnectivitySMILES": "C1=CC=C2C(=C1)C(=CN2)CC(C(=O)O)N",
+  "IUPACName": "(2S)-2-amino-3-(1H-indol-3-yl)propanoic acid",
+  "XLogP": -1.1,
+  "_query": "tryptophan"
+ },
+ {
+  "CID": 80297,
+  "MolecularFormula": "C10H12O2",
+  "MolecularWeight": "164.20",
+  "SMILES": "CC(C)C1=C(C(=O)C=CC=C1)O",
+  "ConnectivitySMILES": "CC(C)C1=C(C(=O)C=CC=C1)O",
+  "IUPACName": "2-hydroxy-3-propan-2-ylcyclohepta-2,4,6-trien-1-one",
+  "XLogP": 2.1,
+  "_query": "thujaplicin"
+ },
+ {
+  "CID": 65036,
+  "MolecularFormula": "C6H10OS2",
+  "MolecularWeight": "162.3",
+  "SMILES": "C=CCSS(=O)CC=C",
+  "ConnectivitySMILES": "C=CCSS(=O)CC=C",
+  "IUPACName": "3-prop-2-enylsulfinylsulfanylprop-1-ene",
+  "XLogP": 1.3,
+  "_query": "allicin"
+ },
+ {
+  "CID": 5350,
+  "MolecularFormula": "C6H11NOS2",
+  "MolecularWeight": "177.3",
+  "SMILES": "CS(=O)CCCCN=C=S",
+  "ConnectivitySMILES": "CS(=O)CCCCN=C=S",
+  "IUPACName": "1-isothiocyanato-4-methylsulfinylbutane",
+  "XLogP": 1.4,
+  "_query": "sulforaphane"
+ },
+ {
+  "CID": 442793,
+  "MolecularFormula": "C17H26O4",
+  "MolecularWeight": "294.4",
+  "SMILES": "CCCCC[C@@H](CC(=O)CCC1=CC(=C(C=C1)O)OC)O",
+  "ConnectivitySMILES": "CCCCCC(CC(=O)CCC1=CC(=C(C=C1)O)OC)O",
+  "IUPACName": "(5S)-5-hydroxy-1-(4-hydroxy-3-methoxyphenyl)decan-3-one",
+  "XLogP": 2.5,
+  "_query": "gingerol"
+ },
+ {
+  "CID": 5281794,
+  "MolecularFormula": "C17H24O3",
+  "MolecularWeight": "276.4",
+  "SMILES": "CCCCC/C=C/C(=O)CCC1=CC(=C(C=C1)O)OC",
+  "ConnectivitySMILES": "CCCCCC=CC(=O)CCC1=CC(=C(C=C1)O)OC",
+  "IUPACName": "(E)-1-(4-hydroxy-3-methoxyphenyl)dec-4-en-3-one",
+  "XLogP": 3.7,
+  "_query": "shogaol"
+ },
+ {
+  "CID": 31211,
+  "MolecularFormula": "C11H14O3",
+  "MolecularWeight": "194.23",
+  "SMILES": "CC(=O)CCC1=CC(=C(C=C1)O)OC",
+  "ConnectivitySMILES": "CC(=O)CCC1=CC(=C(C=C1)O)OC",
+  "IUPACName": "4-(4-hydroxy-3-methoxyphenyl)butan-2-one",
+  "XLogP": 0.8,
+  "_query": "zingerone"
+ },
+ {
+  "CID": 2758,
+  "MolecularFormula": "C10H18O",
+  "MolecularWeight": "154.25",
+  "SMILES": "CC1(C2CCC(O1)(CC2)C)C",
+  "ConnectivitySMILES": "CC1(C2CCC(O1)(CC2)C)C",
+  "IUPACName": "1,3,3-trimethyl-2-oxabicyclo[2.2.2]octane",
+  "XLogP": 2.5,
+  "_query": "cineole"
+ },
+ {
+  "CID": 9231,
+  "MolecularFormula": "C10H8",
+  "MolecularWeight": "128.17",
+  "SMILES": "C1=CC=C2C=CC=C2C=C1",
+  "ConnectivitySMILES": "C1=CC=C2C=CC=C2C=C1",
+  "IUPACName": "azulene",
+  "XLogP": 3.2,
+  "_query": "azulene"
+ },
+ {
+  "CID": 10281,
+  "MolecularFormula": "C10H12O2",
+  "MolecularWeight": "164.20",
+  "SMILES": "CC1=CC(=O)C(=CC1=O)C(C)C",
+  "ConnectivitySMILES": "CC1=CC(=O)C(=CC1=O)C(C)C",
+  "IUPACName": "2-methyl-5-propan-2-ylcyclohexa-2,5-diene-1,4-dione",
+  "XLogP": 2,
+  "_query": "thymoquinone"
+ },
+ {
+  "CID": 398941,
+  "MolecularFormula": "C20H24O4",
+  "MolecularWeight": "328.4",
+  "SMILES": "CC(C)C1=CC(=O)C2(C(C1=O)C3(C2C(=O)C(=CC3=O)C(C)C)C)C",
+  "ConnectivitySMILES": "CC(C)C1=CC(=O)C2(C(C1=O)C3(C2C(=O)C(=CC3=O)C(C)C)C)C",
+  "IUPACName": "4b,8b-dimethyl-3,7-di(propan-2-yl)-4a,8a-dihydrobiphenylene-1,4,5,8-tetrone",
+  "XLogP": 2.1,
+  "_query": "nigellone"
+ },
+ {
+  "CID": 1614,
+  "MolecularFormula": "C10H13NO2",
+  "MolecularWeight": "179.22",
+  "SMILES": "CC(CC1=CC2=C(C=C1)OCO2)N",
+  "ConnectivitySMILES": "CC(CC1=CC2=C(C=C1)OCO2)N",
+  "IUPACName": "1-(1,3-benzodioxol-5-yl)propan-2-amine",
+  "XLogP": 1.6,
+  "_query": "3,4-methylenedioxyamphetamine"
+ },
+ {
+  "CID": 31016,
+  "MolecularFormula": "C12H19NO3",
+  "MolecularWeight": "225.28",
+  "SMILES": "CC(CC1=CC(=C(C(=C1)OC)OC)OC)N",
+  "ConnectivitySMILES": "CC(CC1=CC(=C(C(=C1)OC)OC)OC)N",
+  "IUPACName": "1-(3,4,5-trimethoxyphenyl)propan-2-amine",
+  "XLogP": 1.2,
+  "_query": "3,4,5-trimethoxyamphetamine"
+ },
+ {
+  "CID": 21268,
+  "MolecularFormula": "C10H10O3",
+  "MolecularWeight": "178.18",
+  "SMILES": "C=CC(C1=CC2=C(C=C1)OCO2)O",
+  "ConnectivitySMILES": "C=CC(C1=CC2=C(C=C1)OCO2)O",
+  "IUPACName": "1-(1,3-benzodioxol-5-yl)prop-2-en-1-ol",
+  "XLogP": 1.9,
+  "_query": "1'-hydroxysafrole"
+ },
+ {
+  "CID": 90966,
+  "MolecularFormula": "C11H15NO3",
+  "MolecularWeight": "209.24",
+  "SMILES": "CC(CC1=CC2=C(C=C1OC)OCO2)N",
+  "ConnectivitySMILES": "CC(CC1=CC2=C(C=C1OC)OCO2)N",
+  "IUPACName": "1-(6-methoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+  "XLogP": 1.5,
+  "_query": "MMDA-2"
+ },
+ {
+  "CID": 90967,
+  "MolecularFormula": "C11H15NO3",
+  "MolecularWeight": "209.24",
+  "SMILES": "CC(CC1=C(C2=C(C=C1)OCO2)OC)N",
+  "ConnectivitySMILES": "CC(CC1=C(C2=C(C=C1)OCO2)OC)N",
+  "IUPACName": "1-(4-methoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+  "XLogP": 1.5,
+  "_query": "MMDA-3a"
+ },
+ {
+  "CID": 16766527,
+  "MolecularFormula": "C12H17NO4",
+  "MolecularWeight": "239.27",
+  "SMILES": "CC(CC1=CC2=C(C(=C1OC)OC)OCO2)N",
+  "ConnectivitySMILES": "CC(CC1=CC2=C(C(=C1OC)OC)OCO2)N",
+  "IUPACName": "1-(6,7-dimethoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+  "XLogP": 1.4,
+  "_query": "DMMDA-2"
+ },
+ {
+  "CID": 101123,
+  "MolecularFormula": "C10H10O3",
+  "MolecularWeight": "178.18",
+  "SMILES": "C1C(O1)CC2=CC3=C(C=C2)OCO3",
+  "ConnectivitySMILES": "C1C(O1)CC2=CC3=C(C=C2)OCO3",
+  "IUPACName": "5-(oxiran-2-ylmethyl)-1,3-benzodioxole",
+  "XLogP": 1.8,
+  "_query": "safrole 2',3'-oxide"
+ },
+ {
+  "CID": 5794,
+  "MolecularFormula": "C19H30O5",
+  "MolecularWeight": "338.4",
+  "SMILES": "CCCCOCCOCCOCC1=CC2=C(C=C1CCC)OCO2",
+  "ConnectivitySMILES": "CCCCOCCOCCOCC1=CC2=C(C=C1CCC)OCO2",
+  "IUPACName": "5-[2-(2-butoxyethoxy)ethoxymethyl]-6-propyl-1,3-benzodioxole",
+  "XLogP": 3.7,
+  "_query": "piperonyl butoxide"
+ },
+ {
+  "CID": 9894584,
+  "MolecularFormula": "C27H34O14",
+  "MolecularWeight": "582.5",
+  "SMILES": "C[C@H]1[C@@H]([C@H]([C@H]([C@@H](O1)O[C@@H]2[C@H]([C@@H]([C@H](O[C@H]2OC3=CC(=C(C(=C3)O)C(=O)CCC4=CC=C(C=C4)O)O)CO)O)O)O)O)O",
+  "ConnectivitySMILES": "CC1C(C(C(C(O1)OC2C(C(C(OC2OC3=CC(=C(C(=C3)O)C(=O)CCC4=CC=C(C=C4)O)O)CO)O)O)O)O)O",
+  "IUPACName": "1-[4-[(2S,3R,4S,5S,6R)-4,5-dihydroxy-6-(hydroxymethyl)-3-[(2S,3R,4R,5R,6S)-3,4,5-trihydroxy-6-methyloxan-2-yl]oxyoxan-2-yl]oxy-2,6-dihydroxyphenyl]-3-(4-hydroxyphenyl)propan-1-one",
+  "XLogP": -0.3,
+  "_query": "naringin dihydrochalcone"
+ },
+ {
+  "CID": 6918391,
+  "MolecularFormula": "C15H24",
+  "MolecularWeight": "204.35",
+  "SMILES": "CC(=C)[C@@H]1CC[C@@]([C@@H](C1)C(=C)C)(C)C=C",
+  "ConnectivitySMILES": "CC(=C)C1CCC(C(C1)C(=C)C)(C)C=C",
+  "IUPACName": "(1S,2S,4R)-1-ethenyl-1-methyl-2,4-bis(prop-1-en-2-yl)cyclohexane",
+  "XLogP": 6.1,
+  "_query": "beta-elemene"
+ },
+ {
+  "CID": 6440940,
+  "MolecularFormula": "C15H22O2",
+  "MolecularWeight": "234.33",
+  "SMILES": "C[C@@H]1CC[C@H](C2=C(CC[C@H]12)C)/C=C(\\C)/C(=O)O",
+  "ConnectivitySMILES": "CC1CCC(C2=C(CCC12)C)C=C(C)C(=O)O",
+  "IUPACName": "(E)-3-[(4S,7R,7aR)-3,7-dimethyl-2,4,5,6,7,7a-hexahydro-1H-inden-4-yl]-2-methylprop-2-enoic acid",
+  "XLogP": 3.2,
+  "_query": "valerenic acid"
+ },
+ {
+  "CID": 6440942,
+  "MolecularFormula": "C15H22O",
+  "MolecularWeight": "218.33",
+  "SMILES": "C[C@@H]1CC[C@H](C2=C(CC[C@H]12)C)/C=C(\\C)/C=O",
+  "ConnectivitySMILES": "CC1CCC(C2=C(CCC12)C)C=C(C)C=O",
+  "IUPACName": "(E)-3-[(4S,7R,7aR)-3,7-dimethyl-2,4,5,6,7,7a-hexahydro-1H-inden-4-yl]-2-methylprop-2-enal",
+  "XLogP": 3.2,
+  "_query": "valerenal"
+ },
+ {
+  "CID": 5280746,
+  "MolecularFormula": "C26H28O14",
+  "MolecularWeight": "564.5",
+  "SMILES": "C1[C@@]([C@H]([C@@H](O1)O[C@@H]2[C@H]([C@@H]([C@H](O[C@H]2OC3=CC(=C4C(=C3)OC(=CC4=O)C5=CC=C(C=C5)O)O)CO)O)O)O)(CO)O",
+  "ConnectivitySMILES": "C1C(C(C(O1)OC2C(C(C(OC2OC3=CC(=C4C(=C3)OC(=CC4=O)C5=CC=C(C=C5)O)O)CO)O)O)O)(CO)O",
+  "IUPACName": "7-[(2S,3R,4S,5S,6R)-3-[(2S,3R,4R)-3,4-dihydroxy-4-(hydroxymethyl)oxolan-2-yl]oxy-4,5-dihydroxy-6-(hydroxymethyl)oxan-2-yl]oxy-5-hydroxy-2-(4-hydroxyphenyl)chromen-4-one",
+  "XLogP": -0.4,
+  "_query": "apiin"
+ },
+ {
+  "CID": 2355,
+  "MolecularFormula": "C12H8O4",
+  "MolecularWeight": "216.19",
+  "SMILES": "COC1=C2C=CC(=O)OC2=CC3=C1C=CO3",
+  "ConnectivitySMILES": "COC1=C2C=CC(=O)OC2=CC3=C1C=CO3",
+  "IUPACName": "4-methoxyfuro[3,2-g]chromen-7-one",
+  "XLogP": 2.3,
+  "_query": "bergapten"
+ },
+ {
+  "CID": 4114,
+  "MolecularFormula": "C12H8O4",
+  "MolecularWeight": "216.19",
+  "SMILES": "COC1=C2C(=CC3=C1OC=C3)C=CC(=O)O2",
+  "ConnectivitySMILES": "COC1=C2C(=CC3=C1OC=C3)C=CC(=O)O2",
+  "IUPACName": "9-methoxyfuro[3,2-g]chromen-7-one",
+  "XLogP": 1.9,
+  "_query": "xanthotoxin"
+ }
+]

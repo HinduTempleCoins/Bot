@@ -330,6 +330,7 @@ export const CATEGORIES = [
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
     pages: [...DOSING_CANDY_PAGES,
+            'Herb and Chemical Atlas',
             'Weather Clouds and Pyrocumulus Reading the Sky',
             'Spiced Wine Bitters and the Colas',
             'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
@@ -705,6 +706,7 @@ export const PILLARS = [
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
       ...DOSING_CANDY_PAGES,
+      'Herb and Chemical Atlas',
       'Weather Clouds and Pyrocumulus Reading the Sky',
       'Spiced Wine Bitters and the Colas',
       'Plant Training Topping FIMing Cloning and the Old Outdoor Tricks',
