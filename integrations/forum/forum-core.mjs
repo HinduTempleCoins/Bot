@@ -286,8 +286,11 @@ export function createForum({ store, now, merit, config, registry } = {}) {
       const posts = _posts(rows);
       const root = posts.find((p) => p.id === id && p.parentId === null);
       if (!root) return null;
+      // root first, then chronological (ts), then append order (seq). Ordering by ts as well as seq lets
+      // entries that were not appended in time order (seeded or chain-mirrored posts) sit where they belong.
       const inThread = posts.filter((p) => p.threadId === root.id)
-        .sort((a, b) => a.seq - b.seq);
+        .sort((a, b) => (a.id === root.id ? -1 : b.id === root.id ? 1 : 0)
+          || (num(a.ts) - num(b.ts)) || (num(a.seq) - num(b.seq)));
       const byId = new Map(inThread.map((p) => [p.id, p]));
       const depthOf = (p) => {
         let d = 0; let cur = p;

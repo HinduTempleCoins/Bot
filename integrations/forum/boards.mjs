@@ -35,6 +35,9 @@ export function seoTypeForKind(kind) {
 // ── the ten categories (design §1) ─────────────────────────────────────────────
 // Each: { id, name, comparable, desc }. `name` is the human label shown as a group header + breadcrumb.
 export const CATEGORIES = [
+  // Make comes first: it is the largest pillar (.local FORUM_BOARD_DESIGN.md §0/§5.1) — teaching people to
+  // make things with AI and graphics, as a craft, with the method in the post.
+  { id: 'make',        name: 'Make / AI & Graphics', comparable: 'r/StableDiffusion + CivitAI', desc: 'Making images, type, motion and design with AI — taught as a craft. Every post carries its method: prompt, seed, route, settings. Free to try, no login, runs on our own CPUs.' },
   { id: 'melek',       name: 'MELEK / Ecosystem', comparable: '', desc: 'The MELEK chain, its economy, witnesses, and the forum itself.' },
   { id: 'crypto',      name: 'Crypto',            comparable: 'Bitcointalk / Altcoinstalks', desc: 'Coin culture, DeFi, mining, trading, and project announcements.' },
   { id: 'local',       name: 'Local / City-Data', comparable: 'City-Data', desc: 'Per-city boards, neighborhoods, local events, and genealogy.' },
@@ -62,7 +65,31 @@ export function listCategories() { return CATEGORIES.map((c) => ({ ...c })); }
 // Library of Ashurbanipal — reference posture, NOT manufacture manuals (CLAUDE.md moderation policy).
 const WIKI = 'https://wiki.soapbox.community';
 const GAMBLING = 'https://gambling.soapbox.community';   // the Gambling Education Center (odds/EV/help)
+const STUDIO = 'https://hathor.soapbox.community';
 const STATIC_BOARDS = [
+  // ── Make / AI & Graphics — the launch set of four (design §5.1). Second-wave boards (make/motion,
+  // make/design) open when there is traffic to fill them; make/critique is deliberately not opened.
+  { id: 'make/images',    title: 'Image Generation Craft', categoryId: 'make', kind: 'discussion',
+    desc: 'Getting a specific image out of a model on purpose — prompt structure, seeds, sampling, composition, reference, fixing hands and faces.',
+    belongs: 'Here is the prompt, the seed and the three failures before it worked.',
+    elsewhere: 'Finished work with no parameters goes to the gallery at hathor.soapbox.community/remakes.',
+    links: [{ label: 'Hathor Studio', href: STUDIO }, { label: 'Generative image AI and ComfyUI', href: `${WIKI}/wiki/Generative_Image_AI_and_ComfyUI` }] },
+  { id: 'make/character', title: 'Characters & Consistency', categoryId: 'make', kind: 'discussion',
+    desc: 'The same person, object or world across many images — character records, reference images, seeds, what actually holds and what drifts.',
+    belongs: 'A reproducible recipe, with the drift shown.',
+    elsewhere: '"Rate my OC" goes to Image Generation Craft.',
+    links: [{ label: 'Reference Studio', href: `${STUDIO}/compose` }, { label: 'LoRA and fine tuning', href: `${WIKI}/wiki/LoRA_and_Fine_Tuning` }] },
+  { id: 'make/engines',   title: 'Models, Engines & Self-Hosting', categoryId: 'make', kind: 'discussion',
+    desc: 'Running it yourself — our CPU pipeline, your PC, Colab, Modal, bringing your own key. RAM/VRAM, times, quantisation, and what CPU-only genuinely cannot do.',
+    belongs: 'The command you ran and what it cost you in minutes.',
+    elsewhere: 'Model downloads and LoRA hosting belong on CivitAI and Hugging Face; link out and discuss here.',
+    links: [{ label: 'Your engines', href: `${STUDIO}/engines` }] },
+  { id: 'make/type',      title: 'Type, Scripts & Symbols', categoryId: 'make', kind: 'discussion',
+    desc: 'Letterforms, glyphs and symbol systems in graphics — including the ancient writing systems in the Scripts tool, and getting them right rather than decorative.',
+    belongs: 'Here is the transliteration, the source for the sign values, and the render.',
+    elsewhere: 'The language and history argument goes to Ancient History.',
+    links: [{ label: 'Scripts tool', href: `${STUDIO}/scripts` }] },
+
   // ── Internet History ──────────────────────────────────────────────────────────────────────────
   // Thread-shaped on purpose. Most of this material has a DISPUTED origin, and freezing a disputed
   // origin into a wiki page silently picks a winner; a thread can hold the competing accounts and
@@ -91,8 +118,8 @@ const STATIC_BOARDS = [
   { id: 'witness',       title: 'Witnesses & Governance',  categoryId: 'melek', kind: 'discussion', desc: 'Block production, voting, and running a node.' },
   { id: 'development',   title: 'Development',              categoryId: 'melek', kind: 'discussion', desc: 'Building on the chain — apps, APIs, the condenser, and tooling.' },
   { id: 'marketplace',   title: 'Marketplace & Services',  categoryId: 'melek', kind: 'discussion', desc: 'Offer or find services, goods, and bounties.' },
-  { id: 'library',       title: 'Library of Ashurbanipal', categoryId: 'melek', kind: 'wiki-linkout', desc: 'Plant-medicine & harm-reduction reference — history, ethnobotany, preparation, dosing and safety.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
-  { id: 'studio',        title: 'Hathor Studio (GenAI)',   categoryId: 'melek', kind: 'discussion', desc: 'Make images, remakes of ancient art, and videos with Hathor Studio — how-tos, bringing your own engine, and showing your work.', links: [{ label: 'Hathor Studio', href: 'https://hathor.soapbox.community' }, { label: 'Remakes gallery', href: 'https://hathor.soapbox.community/remakes' }] },
+  { id: 'library',       title: 'Library of Ashurbanipal', categoryId: 'melek', kind: 'wiki-linkout', desc: 'Plant-medicine & harm-reduction reference — history, ethnobotany, preparation, dosing and safety. For the corpus itself: new shelves, corrections to pages, and "where in the library is X".', belongs: 'A correction to a wiki page, with its source. Corrections are the most welcome post on this board.', elsewhere: 'Mechanism questions go to Pharmacology & Interactions; experience reports go to Case Reports.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }, { label: 'Scripture shelves', href: 'https://hierophant.soapbox.community/shelves' }] },
+  { id: 'studio',        title: 'Hathor Studio (GenAI)',   categoryId: 'melek', kind: 'discussion', desc: 'The Hathor Studio tool itself — what a setting does, what broke, what you wish it did.', belongs: 'A reproducible bug with the route and inputs.', elsewhere: 'Craft and technique go to the Make boards; finished work goes to the gallery.', links: [{ label: 'Hathor Studio', href: 'https://hathor.soapbox.community' }, { label: 'Remakes gallery', href: 'https://hathor.soapbox.community/remakes' }] },
   { id: 'meta',          title: 'Forum Feedback',          categoryId: 'melek', kind: 'discussion', desc: 'Bugs, ideas, and moderation for the forum itself.' },
 
   // Crypto — Bitcointalk / Altcoinstalks sub-boards (finite, native).
@@ -108,9 +135,10 @@ const STATIC_BOARDS = [
   { id: 'crypto/services',      title: 'Services & Marketplace', categoryId: 'crypto', kind: 'discussion', desc: 'Escrow, jobs, and campaigns — reframed as real-utility token work.' },
 
   // Local / City-Data — programmatic city/<slug> below; these are the cross-city static boards.
-  { id: 'neighborhoods', title: 'Neighborhoods', categoryId: 'local', kind: 'discussion', desc: 'Hyper-local — HOAs, crime, schools, and "is X a good area".' },
-  { id: 'genealogy',     title: 'Genealogy',     categoryId: 'local', kind: 'discussion', desc: 'Surname boards, ancestor lookups, and regional genealogy help.' },
-  { id: 'local-events',  title: 'Local Events',  categoryId: 'local', kind: 'discussion', desc: 'Current events and local news for a place.' },
+  { id: 'neighborhoods', title: 'Neighborhoods', categoryId: 'local', kind: 'discussion', desc: 'Hyper-local answers with a date on them — HOAs, crime, schools, and "is X a good area".', belongs: 'A scoped question, an "as of" month and year, specifics, and what would change the answer. Undated advice is what rotted City-Data.', elsewhere: 'Citywide and relocation questions go to your city board; events go to Local Events.' },
+  { id: 'genealogy',     title: 'Genealogy',     categoryId: 'local', kind: 'discussion', desc: 'Finding and evidencing an ancestor — surname boards, record lookups, and regional genealogy help.', belongs: 'The record you found, the repository and reference, and what it does and does not prove.', elsewhere: 'DNA ethnicity estimates are welcome, labelled as estimates rather than records.' },
+  { id: 'local-events',  title: 'Local Events',  categoryId: 'local', kind: 'discussion', desc: 'What is actually happening in a place, with dates and a source.', belongs: 'Date, place, and a source link.', elsewhere: 'Durable local knowledge goes to Neighborhoods or your city board.' },
+  { id: 'local-history', title: 'Local History & the Almanack', categoryId: 'local', kind: 'discussion', desc: 'The history of a place — old maps, plats, almanacs, vanished towns, and how a street got its name. The thing that makes a city board interesting to someone who already lives there.', belongs: 'A dated claim with its source: the map, the deed, the census table, the newspaper page.', elsewhere: 'Period history with no particular place goes to the History boards.' },
 
   // Gaming — programmatic game/<slug> below; these are the cross-game static boards.
   { id: 'gaming/general',  title: 'Gaming — General', categoryId: 'gaming', kind: 'discussion', desc: 'Cross-game chat and community.' },
@@ -118,8 +146,8 @@ const STATIC_BOARDS = [
   { id: 'gaming/hardware', title: 'Gaming Hardware',  categoryId: 'gaming', kind: 'discussion', desc: 'PCs, consoles, peripherals, and builds.' },
 
   // Travel — programmatic travel/<dest> below (qa); these are the cross-destination static boards.
-  { id: 'travel/general', title: 'Travel — General', categoryId: 'travel', kind: 'discussion', desc: 'Cross-destination travel talk, gear, and points/miles.' },
-  { id: 'travel/tips',    title: 'Travel Tips',       categoryId: 'travel', kind: 'discussion', desc: 'Practical travel advice and how-tos.' },
+  { id: 'travel/general', title: 'Travel — General', categoryId: 'travel', kind: 'discussion', desc: 'Cross-destination travel talk, gear, and points/miles.', belongs: 'Answers with a season and a year.', elsewhere: 'Affiliate links, referral codes and booking spam are removed; that is what made the travel forums unusable.' },
+  { id: 'travel/tips',    title: 'Travel Tips',       categoryId: 'travel', kind: 'discussion', desc: 'Practical travel advice and how-tos.', belongs: 'Answers with a season and a year.', elsewhere: 'Affiliate links, referral codes and booking spam are removed; that is what made the travel forums unusable.' },
 
   // Reviews — kind:'review' SEAM (Phase 2). Registered so the category exists; programmatic biz/<slug> below.
   // TODO(Phase 2): review capture UI + AggregateRating + LocalBusiness pages over local-business-intel.mjs.
@@ -143,9 +171,11 @@ const STATIC_BOARDS = [
   { id: 'history/mysteries', title: 'Speculative History', categoryId: 'history', kind: 'discussion', desc: 'Ancient-mystery and esoteric-history discussion, treated as scholarship.' },
 
   // Mind / Medicine — Ashurbanipal-fed, harm-reduction discipline (reference, never manufacture manuals).
-  { id: 'witchy',     title: 'Witchy',     categoryId: 'mind', kind: 'discussion', desc: 'Folk practice, herbalism-as-tradition, ritual, and diaspora brujería.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
-  { id: 'herb',       title: 'Herb',       categoryId: 'mind', kind: 'discussion', desc: 'Ethnobotany, plant medicine, and harm reduction — history, dose ranges, interactions, testing, set/setting/aftercare, and documented traditional preparation.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
-  { id: 'nootropics', title: 'Nootropics', categoryId: 'mind', kind: 'discussion', desc: 'Cognitive enhancement, stacks, sourcing safety, and neurostimulation (TENS/tDCS builds, entrainment) — with the safety engineering taught as part of the build.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'witchy',     title: 'Witchy',     categoryId: 'mind', kind: 'discussion', desc: 'Practice as practice — the rite, the lineage, the plant in it, and the text where it is attested. Folk practice, herbalism-as-tradition, ritual, and diaspora brujería.', belongs: 'A named tradition, a primary source or a stated teacher, and where the pharmacology is known, the pharmacology. We cite the chemistry and the tradition for the same question.', elsewhere: 'The receptor argument goes to Herb or Pharmacology; net-era occult fiction goes to Net Folklore.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'herb',       title: 'Herb',       categoryId: 'mind', kind: 'discussion', desc: 'Ethnobotany, plant medicine, and harm reduction — history, dose ranges, interactions, testing, set/setting/aftercare, and documented traditional preparation.', belongs: 'A mechanism question with a citation, a COA read, a preparation documented to its tradition, or a case report using the template.', elsewhere: 'Cultivation logs go to ICMag or Rollitup; sourcing and vendor requests are not posted here (vendor accountability with a published COA is welcome); "what should I take" is answered by the wiki dose and interaction pages, which are public and stay public.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'nootropics', title: 'Nootropics', categoryId: 'mind', kind: 'discussion', desc: 'Cognitive enhancement, stacks, sourcing safety, and neurostimulation (TENS/tDCS builds, entrainment) — with the safety engineering taught as part of the build.', belongs: 'A stack with the interaction check done, a build with its current-regulation and verification steps, or a negative result.', elsewhere: '"Rate my stack for me personally" works better as the mechanism question; sourcing is not posted here.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
+  { id: 'pharmacology', title: 'Pharmacology & Interactions', categoryId: 'mind', kind: 'discussion', desc: 'Mechanism, measured: which enzyme, which receptor, which transporter, and where it was measured. CYP450 inhibition and induction, MAO, UGT/SULT, transporters, and the interaction tables.', belongs: 'A mechanism claim with its citation, with in-vitro labelled as in-vitro.', elsewhere: 'Experience narratives go to Case Reports; tradition and rite go to Witchy.', links: [{ label: 'Cytochrome P450', href: `${WIKI}/wiki/Cytochrome_P450_System_Inhibition_and_Induction` }, { label: 'MAOIs and neurotransmitter systems', href: `${WIKI}/wiki/Monoamine_Oxidase_Inhibitors_and_Neurotransmitter_Systems` }] },
+  { id: 'case-reports', title: 'Case Reports', categoryId: 'mind', kind: 'discussion', desc: 'The experience-vault format, live: what was taken, what else was in the system, a clock-time timeline, what happened, and what would have been worth checking first.', belongs: 'A report that uses the case-report template, including the "what else was in the system" field.', elsewhere: 'Mechanism questions go to Pharmacology & Interactions.', links: [{ label: 'Library of Ashurbanipal', href: WIKI }] },
   { id: 'gambling-education', title: 'Gambling Education & Odds', categoryId: 'mind', kind: 'discussion', desc: 'The math of gambling — odds, expected value, the house edge, and the lottery reality. Education and harm-reduction, never promotion; the Forum never takes a wager or runs a game. If gambling has become a problem, help is one click away.', links: [{ label: 'Odds & EV — Gambling Education Center', href: GAMBLING }, { label: 'House edge by game', href: `${GAMBLING}/games` }, { label: 'Lottery odds & the −EV reality', href: `${GAMBLING}/lottery` }, { label: 'Get help — responsible gambling', href: `${GAMBLING}/help` }] },
 
   // Style — Fashion / Beauty (Van Kush).
@@ -212,6 +242,8 @@ function shape(b, { programmatic = false } = {}) {
     board: b.id,
     title: b.title,
     desc: b.desc || '',
+    belongs: b.belongs || '',
+    elsewhere: b.elsewhere || '',
     kind: b.kind,
     seoType: seoTypeForKind(b.kind),
     categoryId: b.categoryId,
@@ -280,7 +312,8 @@ export function boardsInCategory(categoryId) {
 
 // ── flagship demo boards (proven end-to-end by the site seed) ──────────────────
 // One static crypto board + two programmatic boards, so the resolver is exercised in production content.
-export const FLAGSHIP_BOARDS = ['crypto/bitcoin', 'city/austin-tx', 'game/minecraft'];
+export const FLAGSHIP_BOARDS = ['crypto/bitcoin', 'city/austin-tx', 'game/minecraft',
+  'make/images', 'make/character', 'make/engines', 'make/type', 'pharmacology', 'case-reports', 'local-history'];
 
 /**
  * Sitemap entries for the board network: every static board (`/b/<id>`), every category (`/c/<id>`), plus
