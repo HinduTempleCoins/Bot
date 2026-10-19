@@ -1,0 +1,78 @@
+'''Brownies, Blondies and Bars''' covers the pan-baked and pan-set treats of the [[Baking]] hub: brownies, blondies, lemon bars, layered and crumb bars, cereal-and-marshmallow treats and no-bake bars. They are the easiest baked goods to make in quantity and to cut into equal pieces, which is why they are the usual format for dosed baked goods (see [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]).
+
+A brownie is a '''chocolate-rich, under-leavened cake batter baked shallow and pulled early'''. Whether it comes out fudgy, cakey or chewy is not mysterious. It depends on a handful of ratios: '''fat and chocolate to flour''', '''the number of eggs''', '''added liquid and leavener''', '''the kind of fat''', and '''how long it bakes'''.
+
+== The three brownie textures ==
+* '''Fudgy:''' dense, moist and almost truffle-like. More fat and chocolate relative to flour (melted chocolate plus butter, with roughly '''two to three times as much fat-plus-chocolate as flour by weight'''), relatively few eggs, '''no added liquid and little or no baking powder''', and a slightly underbaked centre.
+* '''Cakey:''' lighter, taller, with an open crumb. '''More flour''' and '''more eggs''', '''added liquid''' (milk, water or coffee), and some '''baking powder'''. Often made with creamed butter (which traps air) rather than melted butter.
+* '''Chewy:''' dense but elastic, with a pull, like a boxed-mix brownie. '''More sugar''' (especially some brown sugar), '''some oil''' alongside butter, cocoa powder rather than all melted chocolate, and no added liquid or leavener. ''Cook's Illustrated'' (Andrea Geary's chewy-brownie recipe, around 2010) traced the chew of box mixes to their fat blend, roughly '''three parts unsaturated fat (oil) to one part saturated fat (butter, cocoa butter)''', and reproduced it from scratch with a mix of butter and vegetable oil.
+* King Arthur Baking's comparison of its own recipes, in baker's percentages (flour = 100%), puts its '''fudge brownie''' at about 126% fat, 248% sugar, 59% cocoa, 189% chocolate and 111% egg with no extra liquid, and its '''cakey brownie''' at about 125% fat, 248% sugar, 59% cocoa, 94% chocolate, 139% egg and 63% added liquid. The cakey version has half the chocolate, more egg and added liquid, and uses baking powder.
+
+== What each ingredient does in a brownie ==
+* '''Chocolate''' supplies cocoa butter (fat), cocoa solids (which absorb liquid like flour does, so chocolate also adds structure) and, unless unsweetened, sugar. Unsweetened chocolate is about 50–55% fat; 60–70% dark chocolate is about 35–45% fat and 30–40% sugar. Swapping chocolate types changes all three numbers at once.
+* '''Cocoa powder''' is cocoa solids with only 10–24% fat. It gives the most intense chocolate flavour per gram but dries the batter, so cocoa-only recipes need more butter or oil. Blooming cocoa in the hot melted butter deepens its flavour.
+* '''Butter versus oil:''' melted butter gives flavour and a firmer, fudgier set when cool. Oil keeps brownies softer in the fridge and adds chew. Creamed butter adds air and pushes toward cakey.
+* '''Eggs''' bind and set the batter. More eggs give more lift and a cakier, drier texture. An extra yolk gives a fudgier, richer one.
+* '''Sugar''' tenderizes, keeps brownies moist and makes the '''shiny, crackly top'''. That crust is a thin meringue-like film: sugar dissolved in the eggs whips up and dries on the surface. Get it by '''whisking the eggs and sugar vigorously for 3–5 minutes''' (or until pale and slightly thick), by dissolving the sugar in hot melted butter, or both. King Arthur also found chocolate chips in the batter help the gloss.
+* '''Flour''' is the main toughener. Brownies use little: often 60–130 g per 20 × 20 cm (8 × 8 in) pan. Mix it in gently and only until it disappears.
+* '''Salt and espresso powder''' (about 1/2–1 teaspoon) sharpen chocolate flavour without tasting of coffee.
+
+== Baking brownies ==
+* '''Pan:''' a light metal pan gives the most even result. Glass bakes edges faster; lower the oven by about 14 °C (25 °F). Line the pan with a parchment sling for clean lifting and cutting.
+* '''Temperature:''' usually 175 °C (350 °F). Fudgy brownies are done when a toothpick from the centre comes out with '''moist crumbs, not wet batter''' (centre about 80–90 °C). Cakey brownies bake to a clean or nearly clean toothpick (about 93–96 °C).
+* '''Carry-over:''' brownies keep cooking in the hot pan, so pull them early. Overbaking is the most common reason a fudgy recipe comes out cakey and dry.
+* '''Cool completely''' before cutting, at least 1–2 hours, or chill. Warm brownies tear. A hot knife (dipped in hot water and wiped) cuts clean squares.
+* '''Edges versus centre:''' edges bake faster and become chewier and drier. Edge-piece pans and smaller, deeper pans change the proportion. The centre stays moister. For dosed batches this matters, because edge pieces lose more water and so weigh less.
+
+== Blondies ==
+* A '''blondie''' (butterscotch brownie) is a brownie with no chocolate in the batter: '''melted butter, brown sugar, eggs, vanilla, flour''', usually with a little baking powder, plus mix-ins (nuts, chocolate chips, toffee, coconut).
+* Its flavour comes from brown sugar's molasses and from browned butter. Browning the butter (see [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]) is the single biggest improvement.
+* Blondie batter has no cocoa solids absorbing liquid, so it needs more flour than a brownie and sets more like a dense cookie bar. It is done when golden at the edges and just set in the centre.
+
+== Bar cookies ==
+* '''Bar cookies''' are cookie dough pressed or spread in a pan instead of scooped: chocolate-chip cookie bars, oatmeal bars, magic or seven-layer bars (graham crust, sweetened condensed milk, chocolate, coconut, nuts), and shortbread-based bars. They bake faster per batch than drop cookies and cut evenly.
+* '''Crust-and-filling bars''' start with a '''par-baked shortbread or crumb crust''' (butter, sugar, flour; or graham crumbs and melted butter), baked at about 175 °C (350 °F) for 15–25 minutes until set and lightly golden, then topped and baked again.
+* '''Lemon bars:''' a shortbread crust topped with a curd-like filling of eggs, sugar, lemon juice and zest and a little flour. A typical filling is about 4 eggs, 300 g (1 1/2 cups) sugar, 120 mL (1/2 cup) lemon juice and 2–3 tablespoons flour. Pour it onto the '''hot''' crust (which seals it and prevents a soggy layer), bake at about 160–175 °C until the centre barely jiggles (about 20–25 minutes), cool, then chill before cutting and dusting with icing sugar. Overbaked filling turns rubbery and weeps. Key lime and passion fruit bars follow the same method.
+* '''Crumb bars and fruit bars''' (date squares, raspberry bars): a single butter-oat-flour crumb mixture is pressed in as the base, covered with fruit filling or jam, and topped with the rest of the crumb.
+* '''Cheesecake bars''' use a crust plus a cheesecake batter, baked low (about 160 °C) to avoid cracking.
+
+== Cereal treats and no-bake bars ==
+* '''Marshmallow cereal treats''' (the Rice Krispies Treats style) melt butter and marshmallows together and fold in crisp rice cereal. The original Kellogg's recipe is '''3 tablespoons butter, 10 oz (about 285 g, about 40 regular) marshmallows and 6 cups (about 170 g) cereal''' for a 23 × 33 cm (9 × 13 in) pan. Melt over '''low''' heat: overheated marshmallow loses moisture and the bars set hard. A pinch of salt, browned butter and a few extra marshmallows stirred in at the end keep them soft. Press lightly with buttered hands or a spatula; packing them hard makes them dense.
+* '''No-bake bars''' set by cooling rather than baking: oat-peanut butter bars, chocolate fridge cake (tiffin), Nanaimo bars, millionaire's shortbread layers, date-nut bars and granola bars (see [[Crackers Granola and Energy Bites]]). The binder is melted chocolate, nut butter, a honey or syrup cooked briefly (cooking to about 112–116 °C, soft ball, makes it set firmer; see [[Sugar Stages and the Science of Candy]]), sweetened condensed milk, or dates.
+* '''Chocolate layers''' on bars crack and smear unless tempered or loosened with a little neutral oil or cocoa butter (about 1 teaspoon per 100 g). Score the chocolate while it is still soft. See [[Chocolate Tempering Ganache Truffles and Bonbons]].
+* '''Raw-ingredient caution:''' no-bake bars made with raw flour need heat-treated flour (heat to at least 74 °C / 165 °F), because raw flour has caused ''E. coli'' outbreaks. Raw eggs in uncooked fillings carry a small ''Salmonella'' risk unless pasteurized. See [[Food Safety]].
+
+== Cutting into equal pieces ==
+* Chill bars completely (30–60 minutes in the fridge, or briefly in the freezer) before cutting. Use a long, thin knife or bench scraper, pressed straight down rather than sawed, and wipe it between cuts.
+* '''Measure, don't eye it.''' Mark the edges with a ruler, cut the outer edges off first if they are dry or irregular, and divide the remaining slab into a grid. A 20 × 20 cm pan cut 4 × 4 gives 16 pieces about 5 cm square; a 23 × 33 cm pan cut 4 × 6 gives 24 pieces about 5.5 × 5.75 cm.
+* '''Weigh pieces''' when they need to be equal. Cut size is only a proxy; thickness varies across a pan, typically being thinner at the edges and corners. For dosing, see [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]], which covers weighing, trimming and dose per piece.
+
+== Storage ==
+* Brownies and most bars keep 3–4 days airtight at room temperature, a week refrigerated and about 3 months frozen (wrapped, cut or uncut). Lemon, cheesecake and cream-cheese bars must be refrigerated.
+* Brownies stay moister uncut. Cut them as needed, or wrap pieces individually.
+
+== See also ==
+* [[Baking]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]
+* [[Oven Temperature Heat Transfer and High-Altitude Baking]]
+* [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]
+* [[Crackers Granola and Energy Bites]]
+* [[Cakes and Cupcakes]]
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Candy Making]]
+* [[Dosing in Liquids]]
+* [[Food Safety]]
+
+== Sources ==
+* King Arthur Baking. "How to make your absolute favorite brownie" (2016). Fudgy, cakey and chewy recipes compared in baker's percentages. [https://www.kingarthurbaking.com/blog/2016/08/28/make-absolute-favorite-brownie King Arthur Baking]
+* Corriher, S. O. ''BakeWise''. Scribner, 2008. Brownies, shiny crusts and the effects of fat and sugar.
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Chocolate and cocoa as ingredients, and cookie and bar formulations.
+* Geary, A. "Chewy Brownies", ''Cook's Illustrated'' (America's Test Kitchen), c. 2010; and America's Test Kitchen, "This is the magic ratio for chewy, crispy brownies." [https://www.americastestkitchen.com/articles/5546-this-is-the-magic-ratio-for-chewy-crispy-brownies America's Test Kitchen] The roughly 1:3 saturated-to-unsaturated fat ratio behind boxed-mix chew.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chocolate composition and egg foams.
+* U.S. Food and Drug Administration. "Handling flour safely: what you need to know" (consumer update, 2016 onwards). Why raw flour and raw dough are not ready to eat.
+* Kellogg's. "The Original Rice Krispies Treats Recipe." [https://www.wkkellogg.com/en-us/recipes/the-original-treats-recipe.html WK Kellogg Co]
+
+== Coverage ==
+Brownies by texture (fudgy, cakey, chewy) and the ratios that cause each, with King Arthur's baker's percentages and the fat-blend explanation of chew; the roles of chocolate, cocoa, butter versus oil, eggs, sugar (and the crackly top), flour and flavour boosters; pan, temperature, doneness, carry-over and cutting; blondies; bar cookies, crust-and-filling bars, lemon bars, crumb and cheesecake bars; marshmallow cereal treats and no-bake bars, chocolate layers and raw-flour safety; cutting into equal pieces by measurement and weight; storage. Points to the infused baked goods page for dosed batches.

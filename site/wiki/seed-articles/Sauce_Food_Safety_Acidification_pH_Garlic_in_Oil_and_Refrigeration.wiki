@@ -1,0 +1,89 @@
+'''Sauce Food Safety: Acidification, pH, Garlic in Oil and Refrigeration''' is the safety page of the [[Sauces]] hub. Sauces are moist, often low-acid, frequently made in large batches, held warm for hours, cooled slowly and bottled to give away. Each of those is a known route to food poisoning. The one hazard that sets sauces apart is '''botulism''': the sealed bottle, the jar of garlic under oil and the fermented pepper mash all create the low-oxygen conditions ''Clostridium botulinum'' needs. The rules below are what separate a sauce that keeps safely from one that can kill.
+
+== The pH 4.6 line ==
+* '''''C. botulinum'' spores do not germinate and produce toxin at pH 4.6 or below.''' That number is the legal and scientific dividing line between '''acid foods''' (pH ≤ 4.6, which can be safely preserved with a boiling-water process or hot-filling) and '''low-acid foods''' (pH > 4.6, which need a pressure-canning process, refrigeration, freezing or other barriers).
+* '''Typical pH values:''' vinegar 2.4–3.4; lemon and lime juice 2.0–2.6; most hot sauces 3.0–4.0; ketchup about 3.5–3.9; commercial mayonnaise about 3.6–4.1; tomatoes 4.2–4.9 (some varieties and over-ripe fruit exceed 4.6); onions 5.3–5.8; garlic 5.3–6.3; fresh chillies and peppers 4.6–6.5; dairy 6.4–6.8; stocks and meats 5.5–6.5.
+* '''Margin of safety:''' because measurements and batches vary, most process authorities set a target well under the line, commonly '''pH 4.2 or lower''', and many hot-sauce makers aim for 4.0 or below.
+* '''The other barriers''' that stop ''C. botulinum'': water activity at or below about 0.94 for the proteolytic strains (0.97 for non-proteolytic), roughly 10% salt in the water phase, refrigeration (proteolytic strains do not grow below about 10 °C, but non-proteolytic type E strains can grow slowly down to about 3 °C), and freezing. Heat-resistant spores survive boiling; the toxin itself is destroyed by thorough heating (about 85 °C for 5 minutes, or a rolling boil for several minutes), but '''reheating is not a safety plan''' for a suspect product.
+
+== Measuring pH ==
+* '''Use a pH meter, not taste.''' Sourness depends on the acid and the sugar, not just pH. A digital meter with automatic temperature compensation, '''calibrated before each session''' with pH 4.0 and 7.0 buffer solutions, is the standard tool.
+* '''Measure the blended product.''' Purée a representative sample, including the solids, at room temperature. Chunks of vegetable take time to reach the same pH as the liquid around them, so the meaningful figure is the '''equilibrium pH''', measured after the product has stood (a day for chunky products).
+* '''pH strips''' are only rough. U.S. regulations allow colorimetric (indicator) methods only for products at pH 4.0 or lower (21 CFR 114.90).
+* Record the pH of every batch you bottle for storage or gifts.
+
+== Acidified foods and the U.S. rules ==
+* Under '''21 CFR 114''', an '''acidified food''' is a low-acid food to which acid or acid foods are added, with water activity above 0.85 and a '''finished equilibrium pH of 4.6 or below'''. Peppers, onions, garlic, beans and many sauce ingredients fall here. Excluded: carbonated drinks; jams, jellies and preserves; acid foods (including dressings and condiment sauces) that contain only small amounts of low-acid food and whose pH is not significantly different from the main acid ingredient; and foods stored, distributed and sold under refrigeration.
+* '''Commercial producers''' of shelf-stable acidified sauces must register the facility and file each process with the FDA (21 CFR 108.25), operate under the supervision of someone who has completed an approved course (the '''Better Process Control School''', 21 CFR 114.10), have the process established by a qualified process authority, control and record pH for every batch, and keep records. Foods whose acidity comes from '''fermentation''' are treated differently from acidified foods, but a fermented product above pH 4.6 is still a low-acid food.
+* '''Home cooks''' giving away bottled sauce should use '''tested recipes''' (USDA ''Complete Guide to Home Canning'', the National Center for Home Food Preservation, university extension) or keep their own recipes refrigerated or frozen.
+
+== Garlic, herbs and chillies in oil ==
+* '''Why it is dangerous:''' garlic, fresh herbs, chillies, sun-dried tomatoes and other plant material carry ''C. botulinum'' spores from soil; they are low in acid; and covering them with oil excludes oxygen. At room temperature, that is everything the organism needs. The toxin gives no off smell or taste.
+* '''Documented outbreaks:''' chopped garlic in soybean oil caused 36 cases of botulism traced to a Vancouver restaurant in 1985 (St. Louis et al., 1988); a garlic-in-oil product caused three cases in Kingston, New York, in 1989, after which the FDA required commercial refrigerated garlic-in-oil products to contain added acid or microbial inhibitors (Morse et al., 1990).
+* '''Rules for home infused oils:'''
+* Refrigerate homemade garlic or herb oils and '''use them within 4 days''' (CDC guidance; Clemson and others give 2–3 days), or '''freeze''' them.
+* Never leave them at room temperature more than 2 hours.
+* '''Heating the oil does not make it safe''' for room-temperature storage, because the spores survive cooking temperatures and the oil is still anaerobic afterwards.
+* '''Dried''' garlic, herbs and chillies are far lower risk, because of their low water activity, but still best refrigerated.
+* '''The tested acidification method''' (University of Idaho, Abo et al., 2014; Clemson HGIC 3471): soak peeled, chopped garlic (pieces no larger than about 6 mm / ¼ in) in a '''3% citric acid solution''' (1 tablespoon citric acid in 2 cups water) at '''1 part garlic to 3 parts solution by weight''' for '''24 hours''' at room temperature (for basil, oregano or rosemary, 1 part herb to 10 parts solution), drain, then infuse in oil at about 1:10. Only citric acid was tested; vinegar and lemon juice are not substitutes. Done exactly, this permits shelf storage; refrigeration still gives the longest life. It was validated only for garlic, basil, oregano and rosemary.
+* The same reasoning applies to '''pesto, chimichurri, toum, salsa macha, chilli crisp, confit garlic''' and any '''garlic or herb sauce under oil''': refrigerate and use within days, or freeze.
+
+== Fermented sauces ==
+* '''A healthy lacto-ferment drops below pH 4.6 quickly.''' Pepper mashes and brine ferments (typically 2–5% salt by weight; see [[Hot Sauces and Fermented Sauces]]) usually reach pH 3.3–3.8 within 1–3 weeks as lactic acid bacteria convert sugars. '''Confirm it with a meter''' before bottling; a stalled ferment can stay above 4.6.
+* '''Keep it submerged and the salt right.''' Too little salt lets spoilage organisms win; solids poking above the brine grow mould. A white film of '''kahm yeast''' is harmless but off-flavoured; fuzzy, coloured mould means the batch should be discarded.
+* '''Bottled ferments keep producing gas.''' Live sauce sealed at room temperature can build enough pressure to burst bottles. Either '''refrigerate''' it, '''pasteurize''' it (heat to about 75–85 °C) after adding vinegar to bring the pH to 4.0 or below, or leave headspace and vent it.
+
+== Bottling: hot-fill and water-bath ==
+* '''Hot-fill-hold''' is the usual small-batch commercial method for acid sauces (pH ≤ 4.6, target ≤ 4.2): heat the sauce to at least '''85 °C (185 °F)''', fill clean, preheated bottles, cap immediately, '''invert for 2–3 minutes''' so the hot sauce sterilizes the cap and headspace, then cool. It relies entirely on the pH being right; it is '''not''' safe for low-acid sauces.
+* '''Boiling-water canning''' of tested acid-food recipes (salsas, tomato sauces with added acid, chutneys, ketchup) follows the times in the USDA guide, adjusted for altitude. Tomatoes need added acid: the USDA standard is '''1 tablespoon bottled lemon juice or ¼ teaspoon citric acid per pint''' (2 tablespoons or ½ teaspoon per quart).
+* '''Low-acid sauces''' (meat sauces, mushroom sauces, cream or cheese sauces, pesto, peanut sauce, gravies) are '''not''' home-canned in a water bath. Meat-containing tomato sauces need a tested pressure-canning process; dairy, flour-thickened and pesto-type sauces have no tested home-canning process at all; freeze them.
+* '''Discard''' any jar or bottle that is bulging, leaking, spurting or foaming on opening, cloudy when it should be clear, or smells off. Do not taste it. "If in doubt, throw it out" (CDC).
+
+== Holding, cooling and refrigeration ==
+* '''The danger zone''' is 4–60 °C (40–140 °F), where bacteria multiply fastest. Don't leave perishable sauces in it for more than '''2 hours''' (1 hour above 32 °C / 90 °F).
+* '''Hot holding''': at or above '''57 °C (135 °F)''' (FDA Food Code) for buffet and service. '''Cold holding''': at or below '''5 °C (41 °F)'''.
+* '''Cooling large batches''': gravy, stock and meat sauces cooled slowly in a deep pot are a classic source of ''Clostridium perfringens'' outbreaks. The Food Code standard is from 57 °C to 21 °C within 2 hours, and to 5 °C within a further 4 hours. Divide into shallow containers (5 cm deep or less), use an ice bath or ice wand, and stir.
+* '''Reheating''': bring gravies, soups and sauces to a '''rolling boil''' (USDA), or to at least 74 °C (165 °F) for thick sauces; reheat only the portion you'll use.
+* '''Refrigerated storage times (approximate)''': gravy and meat sauces 1–2 days (USDA lists 1–2 days for gravy); cooked sauces, béchamel and cheese sauces 3–4 days; raw-egg mayonnaise and aïoli 2–4 days; homemade vinaigrette with fresh garlic or herbs about 4 days; cooked tomato sauce 4–5 days; vinegar-based hot sauce, barbecue sauce and ketchup-style sauces several weeks to months; unopened commercial shelf-stable sauces until their date, then refrigerated once open.
+* '''Freezing''': most stock-based, tomato and puréed sauces freeze well for 3–6 months. Emulsions (mayonnaise, hollandaise, beurre blanc) break; flour-thickened sauces may weep (waxy starches freeze better); cream sauces may separate and need whisking on reheating.
+
+== Egg and dairy sauces ==
+* '''Hollandaise and béarnaise''' are held warm at 60–65 °C, right in the range where bacteria grow if the sauce slips cooler. The Food Code allows such sauces to be held under '''time as a public health control''' for up to '''4 hours''', then discarded. Make them fresh, in small batches, and never top up an old batch with new.
+* '''Raw-egg sauces''' (homemade mayonnaise, aïoli, Caesar dressing, some mousses) carry a small ''Salmonella'' risk; use '''pasteurized eggs''' for anyone pregnant, very young, elderly or immunocompromised. The acid in mayonnaise helps but does not reliably kill ''Salmonella'' in homemade versions.
+* '''Custard sauces''' are safe once cooked to about 71 °C (160 °F); see [[Sweet Sauces Caramel Chocolate and Fruit Coulis]].
+
+== Labelling and giving sauces away ==
+* Label every bottle with '''the name, the date made, the ingredients''' (including allergens: nuts, sesame, soy, fish, shellfish, egg, milk, wheat, mustard), whether it must be '''refrigerated''', and a '''use-by''' date. Bottles of hot sauce should carry a heat warning; extract-based sauces can be dangerous to children and to the eyes.
+* '''Infused sauces''' need the dose per serving on the label and child-resistant, locked storage; see [[Infused Sauces and Dressings Even Dosing per Serving]] and [[Testing Labelling and Safe Storage of Dosed Preparations]].
+* '''Selling''' sauces generally needs a licensed kitchen. State cottage-food laws in the U.S. usually '''exclude''' acidified and low-acid sauces, or require a process review and pH records.
+
+== See also ==
+* [[Sauces]]
+* [[Hot Sauces and Fermented Sauces]]
+* [[Salsas Pestos and Chutneys]]
+* [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]
+* [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]
+* [[Pan Sauces Reductions and Gravies]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Tinctures Glycerites Syrups and Infused Oils and Butters]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Pickling and Preservation]]
+* [[Fermentation]]
+* [[Food Safety]]
+* [[Dosing in Liquids]]
+* [[Baking]]
+
+== Sources ==
+* U.S. Code of Federal Regulations, Title 21, Part 114, "Acidified Foods" (definitions §114.3, supervision §114.10, pH methodology §114.90), and §108.25 (registration and process filing). [https://www.law.cornell.edu/cfr/text/21/114.3 21 CFR 114.3]
+* U.S. Food and Drug Administration. ''Food Code'' 2022: hot and cold holding temperatures, cooling (3-501.14) and time as a public health control (3-501.19).
+* Centers for Disease Control and Prevention. "Preventing Botulism: Home-Canned Foods." [https://www.cdc.gov/botulism/prevention/home-canned-foods.html CDC]
+* USDA National Institute of Food and Agriculture. ''Complete Guide to Home Canning'', 2015 revision; and the National Center for Home Food Preservation. [https://nchfp.uga.edu/ NCHFP]
+* Abo, B. et al. "Acidification of garlic and herbs for consumer preparation of infused oils." ''Food Protection Trends'' 34(4):247–257, 2014; and Hoover, A. and Hegler, M. ''Herb Infused Oils'', HGIC 3471, Clemson Cooperative Extension, 2017. [https://hgic.clemson.edu/factsheet/herb-infused-oils/ Clemson HGIC]
+* St. Louis, M. E. et al. "Botulism from chopped garlic: delayed recognition of a major outbreak." ''Annals of Internal Medicine'' 108(3):363–368, 1988.
+* Morse, D. L. et al. "Garlic-in-oil associated botulism: episode leads to product modification." ''American Journal of Public Health'' 80(11):1372–1373, 1990.
+* Smittle, R. B. "Microbiology of mayonnaise and salad dressing: a review." ''Journal of Food Protection'' 40(6):415–422, 1977.
+* Peck, M. W. "Biology and genomic analysis of ''Clostridium botulinum''." ''Advances in Microbial Physiology'' 55:183–265, 2009. Growth limits (pH, temperature, water activity, salt).
+* USDA Food Safety and Inspection Service. "Leftovers and Food Safety" and "Danger Zone (40 °F – 140 °F)."
+
+== Coverage ==
+The pH 4.6 line and why it exists, typical pH values of sauce ingredients, safety margins and the other botulism barriers (water activity, salt, cold, freezing); measuring pH with a calibrated meter and equilibrium pH; the U.S. acidified-food rules (21 CFR 114 definition and exclusions, process filing, Better Process Control School) and tested recipes for home cooks; garlic, herbs and chillies in oil (the hazard, the 1985 and 1989 outbreaks, refrigeration times, the tested citric-acid method); fermented sauces (pH confirmation, salt, mould and yeast, bottle pressure); hot-fill-hold and water-bath bottling, added acid for tomatoes, which sauces cannot be home-canned, spoilage signs; holding, cooling, reheating, refrigerated and frozen storage times; egg and dairy sauces (hollandaise holding, raw eggs, custards); labelling, gifting and selling.

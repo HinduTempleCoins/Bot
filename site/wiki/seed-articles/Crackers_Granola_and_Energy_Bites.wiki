@@ -1,0 +1,70 @@
+'''Crackers, Granola and Energy Bites''' covers the savoury, dry and no-bake end of the [[Baking]] hub: crackers and flatbread crisps, granola and baked granola bars, and no-bake energy bites and seed bars. What they share is '''low moisture''': a cracker is a dough baked until almost all its water is gone (often 2–5% moisture), granola is oats toasted dry and bound with sugar, and energy bites are held together by sticky ingredients instead of an oven. Low water is what makes them crisp, and what lets most of them keep for weeks.
+
+For bar-shaped treats bound with syrup, marshmallow or chocolate, see also [[Brownies Blondies and Bars]]. For dosing a granola, bite or bar batch evenly, see [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]].
+
+== Crackers: the principles ==
+* '''A cracker is a thin, lean dough baked dry.''' Typical proportions: flour 100%, water 30–45%, fat 10–25% (more fat gives a shorter, more tender "butter cracker"), salt 1.5–2%, and sometimes a little sugar, baking powder or yeast.
+* '''Roll thin and even.''' About 1.5–3 mm. Thickness controls both crispness and baking time; uneven sheets give burnt edges and soft centres. A pasta machine or rolling guides make the thickness uniform.
+* '''Dock''' (prick) the sheet all over with a fork or docker. The holes let steam escape so the cracker bakes flat instead of puffing into a pillow, which is why commercial crackers have their characteristic hole patterns.
+* '''Bake moderately until dry and golden''', about 175–200 °C for 12–25 minutes depending on thickness. Crackers usually '''crisp further as they cool'''. If a cooled cracker bends, return it to a 150 °C oven for 5–10 minutes.
+* '''Cut before baking''' with a pizza wheel or pastry cutter, so they snap apart cleanly afterwards.
+
+== Cracker types ==
+* '''Water crackers and matzo:''' flour and water only (water crackers sometimes with a little fat). Matzo, for Passover, must by rabbinic rule be mixed and baked within '''18 minutes''' so no fermentation can begin. Baked very hot (300 °C or more in matzo bakeries) for 1–3 minutes.
+* '''Saltines (soda crackers):''' traditionally made from a yeast "sponge" fermented for many hours, then neutralized with baking soda, laminated (folded) for layers, docked, topped with coarse salt and baked.
+* '''Butter and cheese crackers:''' more fat, often with grated hard cheese (cheese straws, cheddar crackers). Chill the dough before rolling; it handles like short pastry ([[Pie Crust and Pastry Basics]]).
+* '''Graham crackers:''' whole-wheat ("graham") flour, honey or brown sugar, and butter, rolled and docked. Named after the 19th-century American dietary reformer Sylvester Graham, whose plain, sugar-free graham bread was quite unlike today's sweet cracker.
+* '''Seed crackers (gluten-free):''' flax and chia seeds soaked in water form a sticky '''mucilage''' gel that binds sunflower, pumpkin and sesame seeds into a sheet, spread thin and baked low (150–160 °C) for about an hour until fully dry.
+* '''Flatbread crisps:''' lavash, knäckebröd (Swedish crispbread, a rye flatbread with a hole in the centre for hanging on a pole to dry), pita chips and crostini (thin bread slices brushed with oil and toasted). See [[Regional Baked Goods of the World]].
+* '''Sourdough discard crackers:''' unfed starter mixed with flour, fat and salt. The acid flavour carries through; a common way to use discard.
+
+== Granola ==
+* '''Base:''' rolled oats (old-fashioned, not instant), with nuts, seeds and sometimes coconut. A typical ratio is about '''4 parts oats and nuts to 1 part liquid sweetener and fat combined''' by volume (for example 4 cups oats and nuts to 1/2 cup maple syrup or honey and 1/2 cup oil), plus about 1/2 tsp salt.
+* '''Bake low and slow''': about '''150–165 °C (300–325 °F) for 30–45 minutes''', on a large sheet in a thin layer, until golden and fragrant. Hotter ovens scorch the sugar and nuts before the oats dry.
+* '''Clusters:''' press the mixture flat on the sheet and '''don't stir''' (or stir only once), then let it cool completely on the pan before breaking it up. The sugar is soft while hot and only hardens into a binding glass as it cools. An egg white (one per 3–4 cups of oats) or a spoonful of nut butter makes larger, firmer clusters.
+* '''Dried fruit goes in after baking''': baked raisins and cranberries turn hard and bitter.
+* '''Crisp versus chewy:''' more sugar and a longer bake gives crisp; more oil and fruit purée gives softer.
+
+== Baked granola bars ==
+* '''Chewy bars:''' oats, nuts and fruit bound with a mixture of honey or brown-rice syrup, brown sugar and butter or nut butter, pressed '''very firmly''' into a lined pan (a flat-bottomed glass or a second pan helps), and baked at about 165–175 °C for 20–30 minutes.
+* '''Crunchy bars:''' the binder syrup is cooked first to about the soft-ball to firm-ball stage (113–120 °C), so it sets harder. See [[Sugar Stages and the Science of Candy]].
+* '''Cut when cool but not cold:''' warm bars crumble, fully cold ones shatter. Chilling for 30 minutes and cutting with a long, sharp knife pressed straight down gives clean edges. For even pieces, use a ruler.
+
+== No-bake energy bites and bars ==
+* '''What holds them together''': sticky, low-moisture ingredients. Dates and other dried fruit (pulsed to a paste), nut and seed butters, honey or syrup, and melted chocolate or coconut oil, which set firm when chilled.
+* '''A typical formula''': about 1 cup rolled oats, 1/2 cup nut butter, 1/3 cup honey or syrup, plus 1/2 cup add-ins (seeds, chocolate chips, coconut, ground flax). Or a fruit-and-nut base: equal weights of pitted dates and nuts, processed until the mixture holds when pinched.
+* '''Too dry and crumbly:''' add more nut butter or a teaspoon of water. '''Too sticky:''' add oats, ground nuts, or protein powder, and chill 20–30 minutes before rolling.
+* '''Portion by weight or with a scoop''' (a #40 scoop, about 1.5 tablespoons, gives about 25–30 g bites), then roll between damp palms.
+* '''Raw flour or raw cookie dough in no-bake bites''' is a food-safety concern: raw flour has caused ''E. coli'' outbreaks (Crowe et al., ''NEJM'', 2017). Use rolled oats (which are steamed during processing) or '''heat-treat flour''' to an internal 74 °C (165 °F) in the microwave or oven before use.
+
+== Allergens and storage ==
+* Granola and bites often contain '''tree nuts, peanuts, sesame, wheat (unless certified gluten-free oats) and dairy''', all among the major food allergens. Label them, especially if they are given away ([[Food Safety]]).
+* '''Crackers and granola:''' an airtight container at room temperature for 2–4 weeks. Humidity softens them; recrisp in a low oven. The oils in nuts and seeds go rancid with time, light and heat, so freeze large batches.
+* '''Energy bites:''' refrigerate for up to about 1 week, or freeze for 2–3 months. Date-and-nut bites keep better than ones with fresh fruit or yogurt.
+
+== See also ==
+* [[Baking]]
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]
+* [[Oven Temperature Heat Transfer and High-Altitude Baking]]
+* [[Brownies Blondies and Bars]]
+* [[Pie Crust and Pastry Basics]]
+* [[Muffins Quick Breads and Scones]]
+* [[Regional Baked Goods of the World]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Candy Making]]
+* [[Sauces]]
+* [[Food Safety]]
+* [[Culinary Recipes]]
+
+== Sources ==
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Lean doughs, docking, moisture and crispness.
+* Zhou, W. and Hui, Y. H. (eds.) ''Bakery Products Science and Technology'', 2nd ed. Wiley-Blackwell, 2014. Cracker manufacture (sponge-and-dough saltines, lamination, docking, final moisture).
+* Manley, D. ''Manley's Technology of Biscuits, Crackers and Cookies'', 4th ed. Woodhead, 2011.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Grains, oats and seed mucilages (Ch. 9); nuts and rancidity (Ch. 9).
+* Ruhlman, M. ''Ratio''. Scribner, 2009. Lean dough proportions.
+* Crowe, S. J. et al. "Shiga toxin–producing ''E. coli'' infections associated with flour." ''New England Journal of Medicine'' 377:2036–2043, 2017.
+* Nissenbaum, S. ''Sex, Diet, and Debility in Jacksonian America: Sylvester Graham and Health Reform''. Greenwood, 1980.
+
+== Coverage ==
+Low moisture as the common principle; cracker proportions, rolling thickness, docking, baking and recrisping; water crackers, matzo and the 18-minute rule, saltines, butter and cheese crackers, graham crackers and their history, flax and chia seed crackers, flatbread crisps and sourdough discard crackers; granola ratios, low-and-slow baking, clusters and when to add fruit; chewy and crunchy granola bars and clean cutting; no-bake energy bites and bars, binders, fixes, portioning and the raw-flour precaution; allergens, rancidity and storage.

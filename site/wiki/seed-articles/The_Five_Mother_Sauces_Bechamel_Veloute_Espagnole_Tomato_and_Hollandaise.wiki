@@ -1,0 +1,100 @@
+'''The Five Mother Sauces: Béchamel, Velouté, Espagnole, Tomato and Hollandaise''' is the page of the [[Sauces]] hub that covers the classical French system: five base sauces from which hundreds of "small" (derivative) sauces are made by adding one or two ingredients. The system is useful far outside French cooking because it teaches the '''three ways a sauce gets its body''': a '''starch''' (roux-thickened béchamel, velouté and espagnole), a '''purée''' (tomato), or an '''emulsion''' (hollandaise). Learn the five and you can read almost any sauce recipe as "base + garnish".
+
+== Where the five came from ==
+* '''Antonin Carême''' (1784–1833), in ''L'Art de la cuisine française au XIXe siècle'' (1833–1847), grouped sauces under four ''grandes sauces'': '''espagnole, velouté, allemande and béchamel'''.
+* '''Auguste Escoffier''', in ''Le Guide Culinaire'' (1903), kept the idea of "leading sauces" but reorganized it: '''espagnole, velouté, béchamel and tomato''' as the basic warm sauces, with '''allemande''' demoted to a velouté derivative, and '''hollandaise''' and '''mayonnaise''' heading the emulsified warm and cold sauces.
+* The tidy modern list of '''five mother sauces''' (béchamel, velouté, espagnole, tomato, hollandaise) is a 20th-century teaching simplification, standard in culinary schools and in Peterson's ''Sauces''. Mayonnaise is often taught as a sixth, cold "mother"; see [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]].
+
+== The roux-thickened sauces: proportions ==
+Béchamel, velouté and espagnole are all '''liquid + roux''', simmered. The roux is equal weights of fat (usually clarified butter) and flour cooked together; its colour (white, blond, brown) matches the sauce. See [[Sauce Thickeners Roux Slurries Liaisons and Gums]] for the full science.
+* '''Light (thin) sauce:''' about '''30–40 g flour + the same weight of butter per litre''' of liquid. For soups and cream soups.
+* '''Medium (standard) sauce:''' about '''50–60 g flour + 50–60 g butter per litre'''. The coating sauce of most recipes. It coats the back of a spoon (''nappe'').
+* '''Heavy (thick) sauce:''' about '''80–100 g flour per litre'''. For binding croquettes, soufflé bases and gratins.
+* Ruhlman's ''Ratio'' gives the roux itself as roughly '''3 parts flour to 2 parts fat by weight''' (stiffer, more flour-forward) and a sauce at about '''1 part roux to 10 parts liquid'''. Both conventions land in the medium range.
+* '''Simmer at least 15–30 minutes''' after it thickens. Flour-thickened sauces taste raw and slightly gritty until the starch has fully gelatinized and the flour flavour has cooked out. Skim the skin and scum that rise (classically "dépouillement").
+* '''Lumps''' form when a hot roux meets hot liquid all at once. Add '''cool or warm liquid to a hot roux''' (or hot liquid to a cooled roux), whisking, and bring it up to a simmer. Strain through a fine sieve (chinois) at the end.
+
+== 1. Béchamel ==
+* '''What it is:''' '''milk thickened with a white roux''', seasoned with salt, white pepper and nutmeg. Escoffier's version also simmered lean veal and an onion studded with clove and thyme in it; most modern cooks infuse the milk with an ''oignon piqué'' (onion, bay leaf, clove) instead.
+* '''Method:''' melt 50 g butter, cook in 50 g flour for 2–3 minutes without colouring, whisk in 1 L warm milk, bring to a simmer, cook 20–30 minutes stirring the bottom, season, strain.
+* '''Small sauces:'''
+* '''Mornay''': béchamel + grated Gruyère (and/or Parmesan), sometimes yolk and cream. For gratins and croque-monsieur.
+* '''Cream sauce''': béchamel finished with heavy cream.
+* '''Soubise''': béchamel + puréed sweated onion.
+* '''Nantua''': béchamel + cream + crayfish butter and tails.
+* '''Cheddar sauce''': the American macaroni-and-cheese sauce, Mornay with Cheddar and mustard.
+* '''Cardinal''' (fish béchamel or velouté + lobster butter), '''écossaise''' (+ chopped hard-boiled egg).
+* '''Shelf behaviour:''' béchamel thickens as it cools and forms a skin. Press buttered paper or plastic on the surface. Refrigerate within 2 hours (see [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]).
+
+== 2. Velouté ==
+* '''What it is:''' '''a light (white) stock thickened with a blond roux''': chicken, veal or fish stock (''fumet''). The quality of the stock is the quality of the sauce.
+* '''Method:''' blond roux (cooked until it smells nutty and turns straw-coloured, 5–7 minutes), whisk in hot stock, simmer 30–60 minutes, skimming, then strain.
+* '''Secondary (classical "intermediate") sauces:'''
+* '''Allemande''' (veal velouté + egg-yolk liaison + lemon juice, sometimes mushroom liquor).
+* '''Suprême''' (chicken velouté + cream, reduced).
+* '''Vin blanc''' and '''Bercy''' (fish velouté + white wine, shallots, butter), '''normande''' (fish velouté + mushroom and oyster liquor, yolks, cream).
+* '''Small sauces from those:''' '''poulette''' (allemande + mushrooms, parsley, lemon), '''aurore''' (suprême + tomato purée), '''Albufera''' (suprême + meat glaze), '''ivoire''', '''hongroise''' (+ paprika and onion), '''Venetian''' (+ tarragon and herbs).
+* '''Modern use:''' most "cream of chicken" style pan gravies, pot-pie fillings and chicken fricassee sauces are veloutés.
+
+== 3. Espagnole (brown sauce) ==
+* '''What it is:''' '''brown stock thickened with a brown roux''', simmered with browned '''mirepoix''' (onion, carrot, celery, roughly 2:1:1), '''tomato purée''' and a ''bouquet garni'', for hours, then strained. It is the base of '''demi-glace'''.
+* '''Demi-glace (Escoffier):''' equal parts espagnole and brown stock, reduced by about half and strained. Rich, glossy, coats a spoon. Most restaurant brown sauces start here.
+* '''Modern practice:''' many kitchens now skip the flour and make a '''jus lié''' (brown stock reduced and lightly thickened with arrowroot or cornstarch) or a pure reduction to glaze (''glace de viande''). These are lighter and clearer than roux espagnole. See [[Pan Sauces Reductions and Gravies]].
+* '''Small sauces (from demi-glace):'''
+* '''Bordelaise''': red wine, shallot, thyme, reduced, + demi-glace, finished with diced poached '''bone marrow'''.
+* '''Chasseur''' (hunter's): mushrooms, shallots, white wine, tomato, tarragon.
+* '''Robert''': onion, white wine, finished with mustard. '''Charcutière''' = Robert + cornichons.
+* '''Madère''' (Madeira) and '''Périgueux''' (Madeira + truffle).
+* '''Poivrade''' (peppercorns, vinegar, for game), '''lyonnaise''' (onion, white wine, vinegar), '''diable''' (shallot, white wine, cayenne).
+
+== 4. Tomato sauce ==
+* '''Escoffier's version''' was not a simple purée: salt pork and mirepoix sweated, flour sprinkled in, fresh tomatoes and white stock added, a ham bone, garlic, baked slowly for 2 hours, then sieved. The roux makes it cling.
+* '''Modern versions''' drop the flour and get body from '''reduction and tomato pectin''': tomatoes (fresh peeled, or canned whole San Marzano-type) sweated with onion or garlic in olive oil or butter, simmered 30–90 minutes. Marcella Hazan's famous version is just tomatoes, butter and a halved onion, simmered 45 minutes.
+* '''Body:''' cooking concentrates the soluble solids. Puréeing through a food mill (rather than a blender) gives a smoother sauce without aerating it or turning it orange.
+* '''Acidity:''' tomatoes are about '''pH 4.2–4.9''', near the 4.6 line that matters for canning. This is why bottled tomato sauces must have added acid. See [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]].
+* '''Small sauces:''' '''Créole''' (onions, celery, peppers, garlic, cayenne), '''Portugaise''' (concassé tomatoes, onion, garlic), '''Provençale''' (garlic, olives, herbs), '''Spanish''', '''marinara''' and '''arrabbiata''' (Italian-American and Roman analogues; see [[Regional Sauces of the World]]).
+
+== 5. Hollandaise ==
+* '''What it is:''' a '''warm emulsion of butter in egg yolk''', acidified with lemon juice or a vinegar reduction. Unlike the others it has no starch: its body is millions of tiny butterfat droplets held apart by yolk proteins and lecithin. The mechanics of why it works and why it breaks are on [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]].
+* '''Proportions:''' about '''1 yolk to 60–90 g butter''' (classical texts allow more), plus 1–2 tsp of lemon or reduction and 1 Tbsp of water per yolk.
+* '''Method:''' whisk yolks with water and acid over a barely simmering water bath until thick and ribbony and about '''60–70 °C''' (yolks thicken from about 63 °C and scramble above about 75–80 °C). Off the heat, whisk in warm melted or clarified butter (50–60 °C), drop by drop at first. Season with salt and cayenne.
+* '''Blender hollandaise:''' yolks, lemon and water in a blender or jar with an immersion blender, then stream in very hot (about 90 °C) melted butter. The hot butter cooks the yolks as it emulsifies.
+* '''Holding:''' keep at '''60–65 °C''' for no more than about 1–2 hours (a thermos or a water bath). Below about 40 °C the butter firms and the sauce stiffens; above about 70 °C the yolks curdle. Because it sits in the temperature range where bacteria grow, food-safety codes generally allow hollandaise to be held warm only for a few hours and then discarded.
+* '''Small sauces:'''
+* '''Béarnaise''': yolks emulsified with butter onto a reduction of white wine, vinegar, shallot, tarragon and peppercorn, finished with chopped tarragon and chervil. Escoffier treats it as a separate sauce; modern teaching files it under hollandaise.
+* '''Choron''' (béarnaise + tomato), '''Foyot''' (béarnaise + meat glaze), '''paloise''' (mint in place of tarragon).
+* '''Maltaise''' (hollandaise + blood-orange juice and zest), '''mousseline''' or '''Chantilly''' (+ whipped cream), '''moutarde''' (+ Dijon).
+
+== Fixing common mother-sauce problems ==
+* '''Lumpy roux sauce:''' whisk hard, then strain, or blend with an immersion blender.
+* '''Too thin:''' simmer longer to reduce, or whisk in a little '''beurre manié''' (kneaded butter and flour) and simmer 5 minutes. Too thick: whisk in more hot liquid.
+* '''Raw-flour taste:''' it has not simmered long enough.
+* '''Scorched bottom:''' don't scrape it in. Pour the unburnt sauce into a clean pot immediately.
+* '''Greasy brown sauce:''' fat separates when the sauce is held too long or reduced too far. Skim, or whisk in a little cold stock.
+* '''Broken hollandaise:''' see the repair methods on the emulsion page (a new yolk, or a spoonful of hot water whisked into the broken sauce a little at a time).
+
+== See also ==
+* [[Sauces]]
+* [[Sauce Thickeners Roux Slurries Liaisons and Gums]]
+* [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]
+* [[Pan Sauces Reductions and Gravies]]
+* [[Regional Sauces of the World]]
+* [[Sweet Sauces Caramel Chocolate and Fruit Coulis]]
+* [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Cooking Methods]]
+* [[Culinary Recipes]]
+* [[Baking]]
+
+== Sources ==
+* Escoffier, A. ''Le Guide Culinaire'' (1903); English translation by H. L. Cracknell and R. J. Kaufmann, ''The Complete Guide to the Art of Modern Cookery''. Wiley, 1979. Chapter 1, "Sauces": the leading sauces, demi-glace, and the derivative-sauce lists.
+* Carême, M.-A. ''L'Art de la cuisine française au XIXe siècle'', 5 vols. Paris, 1833–1847. The four ''grandes sauces''.
+* Peterson, J. ''Sauces: Classical and Contemporary Sauce Making'', 4th ed. Houghton Mifflin Harcourt, 2017. Roux proportions, modern jus lié, hollandaise and béarnaise technique.
+* The Culinary Institute of America. ''The Professional Chef'', 9th ed. Wiley, 2011. Chapter 11, "Sauces": light/medium/heavy roux ratios and the five grand sauces.
+* Ruhlman, M. ''Ratio: The Simple Codes Behind the Craft of Everyday Cooking''. Scribner, 2009. Roux and sauce ratios.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 11, "Sauces": starch-thickened sauces, egg-yolk emulsions, coagulation temperatures.
+* Hazan, M. ''Essentials of Classic Italian Cooking''. Knopf, 1992. Tomato sauce with butter and onion.
+
+== Coverage ==
+The classical French sauce system: its history from Carême's four grandes sauces through Escoffier to the modern teaching list of five; roux proportions for light, medium and heavy sauces (per-litre and Ruhlman ratios), cooking time, lump-free method; béchamel, velouté, espagnole/demi-glace, tomato and hollandaise, each with method, proportions and its family of small sauces (Mornay, Soubise, Nantua; allemande, suprême, Bercy, poulette; bordelaise, chasseur, Robert, Madère; Créole, Provençale; béarnaise, Choron, maltaise, mousseline); hollandaise temperatures and holding; troubleshooting lumps, thinness, raw flour, scorching, greasiness and breaking.

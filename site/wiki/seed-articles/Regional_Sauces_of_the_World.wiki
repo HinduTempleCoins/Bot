@@ -1,0 +1,99 @@
+'''Regional Sauces of the World''' is the gazetteer of the [[Sauces]] hub. It lists traditional sauces region by region, says what each is made of, and names '''the technique''' it uses, linked to the page that teaches it. As with candy, most of the world's sauces turn out to be a few methods applied to local ingredients: '''starch- or roux-thickened''' liquids, '''emulsions''', '''reductions''', '''purées and pounded pastes''', '''ferments''', and '''acid-and-chilli''' condiments.
+
+== France ==
+* '''The mother sauces''' (béchamel, velouté, espagnole, tomato, hollandaise) and their derivatives (Mornay, suprême, bordelaise, béarnaise and so on), codified by Carême and then Escoffier. Technique: roux, reduction, emulsion ([[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]).
+* '''Beurre blanc''' (Loire): shallot, white wine and vinegar reduced, then cold butter whisked in. Technique: butter emulsion ([[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]).
+* '''Aïoli''' and '''rouille''' (Provence): garlic pounded with oil (and often yolk); rouille adds saffron, chilli and bread, for bouillabaisse. Technique: emulsion.
+* '''Sauce ravigote, gribiche, rémoulade''': vinaigrette- and mayonnaise-based cold sauces with capers, herbs, pickles or egg.
+* '''Pistou''': basil, garlic and oil ([[Salsas Pestos and Chutneys]]).
+
+== Italy ==
+* '''Ragù alla bolognese''': soffritto, beef and pork, a little tomato, milk and wine, simmered for hours. The Bologna delegation of the Accademia Italiana della Cucina registered a reference recipe in 1982. Technique: braise and reduction ([[Pan Sauces Reductions and Gravies]]).
+* '''Sugo di pomodoro, marinara, amatriciana, puttanesca, arrabbiata''': tomato sauces differing in fat (olive oil, guanciale) and seasoning. Technique: tomato sauce ([[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]).
+* '''Pesto genovese, pesto trapanese, salsa verde''': pounded herb sauces ([[Salsas Pestos and Chutneys]]).
+* '''Bagna càuda''' (Piedmont): garlic and anchovy warmed in olive oil (and sometimes butter), kept warm for dipping vegetables. Technique: infused oil; serve hot and don't store at room temperature.
+* '''Cacio e pepe''' and '''carbonara''': sauces made in the pan from cheese, pepper, pasta water (and egg yolk for carbonara). Technique: starch-stabilized emulsion; the egg sets into curds above about 70 °C, so it is mixed off the heat.
+
+== Spain and Portugal ==
+* '''Romesco''' (Catalonia): roasted tomato, garlic and dried ñora pepper with almonds or hazelnuts, bread, vinegar and oil. Technique: pounded paste.
+* '''Allioli''': garlic and oil pounded into an emulsion without egg (the egg version is easier). Technique: emulsion.
+* '''Sofrito''': onion, garlic, pepper and tomato cooked slowly in oil; the base of many Spanish and Latin American dishes. Technique: reduction.
+* '''Mojo picón and mojo verde''' (Canary Islands): chilli or coriander pounded with garlic, cumin, vinegar and oil, for ''papas arrugadas''.
+* '''Piri-piri''' (Portugal and Lusophone Africa): African bird's-eye chilli, garlic, lemon or vinegar and oil. Technique: chilli-acid sauce ([[Hot Sauces and Fermented Sauces]]).
+
+== Britain and Ireland ==
+* '''Gravy''' from roast drippings, '''bread sauce''' (milk infused with onion, clove and bay, thickened with breadcrumbs), '''mint sauce''' (mint, vinegar, sugar), '''Cumberland sauce''' (redcurrant jelly, port, orange). Technique: pan sauce, infusion.
+* '''Worcestershire sauce''': a fermented and aged sauce of anchovy, tamarind, vinegar, molasses and spices, first sold by Lea & Perrins of Worcester in 1837. '''Brown sauce''' (HP): tomato, malt vinegar, dates and tamarind. Technique: ferment and reduction ([[Hot Sauces and Fermented Sauces]]).
+* '''Custard''' (crème anglaise or the starch-based ''Bird's'' powder of 1837) ([[Sweet Sauces Caramel Chocolate and Fruit Coulis]]).
+
+== The Americas ==
+* '''Mole poblano and mole negro''' (Mexico): many dried chillies (ancho, mulato, pasilla, chilhuacle), toasted seeds and nuts, spices, dried fruit, bread or tortilla and, in some, chocolate, ground and fried into a paste, then simmered with stock. '''Pipián''' is a pumpkin-seed mole. Technique: pounded paste thickened by nuts and seeds.
+* '''Salsas roja, verde, macha and taquera''' ([[Salsas Pestos and Chutneys]]); '''adobo''' (dried chilli and vinegar paste) ([[Barbecue Sauces Marinades and Glazes]]).
+* '''Mojo''' (Cuba): sour orange, garlic and oil. '''Sofrito''' and '''recaíto''' (Puerto Rico). '''Pepper sauces''' of the Caribbean (scotch bonnet, vinegar, mustard or papaya). Technique: acid-chilli sauce.
+* '''Huancaína''' (Peru): ají amarillo, fresh cheese, evaporated milk and crackers blended smooth. '''Ají verde''' and '''ocopa''' (with huacatay). Technique: blended emulsion.
+* '''Chimichurri''' (Argentina, Uruguay), '''pebre''' (Chile) ([[Salsas Pestos and Chutneys]]).
+* '''American barbecue sauces''' by region, '''buffalo sauce''' (hot sauce and butter; credited to the Anchor Bar, Buffalo, 1964), '''ranch''' (buttermilk–mayonnaise dressing, 1950s), '''sausage gravy''', '''comeback sauce''' (Mississippi) ([[Barbecue Sauces Marinades and Glazes]], [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]).
+
+== Middle East and Caucasus ==
+* '''Toum''' (Lebanon): garlic, oil, lemon and salt emulsified without egg into a white, fluffy sauce. Technique: garlic-stabilized emulsion; keep refrigerated.
+* '''Tahini sauce (tarator)''': sesame paste, lemon, garlic and water; it seizes thick with the first water, then thins as more is added. Technique: emulsion.
+* '''Muhammara''' (Syria): roasted pepper, walnut, pomegranate molasses. '''Zhug''' (Yemen). '''Amba''' (Iraqi Jewish): fermented, pickled mango with fenugreek and turmeric. Technique: pounded paste, ferment.
+* '''Pomegranate molasses''': pomegranate juice reduced to a syrup. '''Satsebeli''' and '''tkemali''' (Georgia): tomato and walnut sauces, and sour-plum sauce. Technique: reduction and purée.
+
+== Africa ==
+* '''Harissa''' (Tunisia): dried chillies, garlic, caraway, coriander and oil; added to UNESCO's intangible-heritage list in 2022. '''Chermoula''' (Morocco). Technique: chilli paste.
+* '''Shito''' (Ghana): chilli, dried fish or shrimp, ginger and garlic fried slowly in plenty of oil. Technique: oil-preserved chilli paste.
+* '''Groundnut (peanut) sauces and stews''' of West Africa (''maafe'', ''nkatenkwan''). Technique: nut-thickened sauce.
+* '''Awaze''' (Ethiopia, Eritrea): berbere spice blended with tej or water and oil. '''Peri-peri''' (Mozambique, southern Africa). '''Chakalaka''' (South Africa): a spiced vegetable relish.
+
+== South Asia ==
+* '''Chutneys''' (coriander-mint, coconut, tamarind, mango), '''raita''' and '''achar''' ([[Salsas Pestos and Chutneys]]).
+* '''Curry gravies''': onion–tomato ''masala'' bases, '''makhani''' (tomato, butter, cream), '''korma''' (yogurt, nut or seed paste), '''kadhi''' (yogurt and chickpea flour). Technique: reduction and paste thickening; yogurt needs gentle heat or a little flour to stop it splitting.
+* '''Tadka (tempering)''': spices sizzled in ghee or oil and poured over at the end. Technique: infused fat.
+
+== Southeast Asia ==
+* '''Fish sauce''' (''nam pla'', ''nước mắm'', ''patis''): anchovies and salt fermented for 12–18 months. '''Nước chấm''' (Vietnam): fish sauce, lime, sugar, water, garlic, chilli. '''Nam prik''' (Thailand): pounded chilli relishes, many with shrimp paste. Technique: ferment, acid-sweet balance ([[Hot Sauces and Fermented Sauces]]).
+* '''Sambal''' (Indonesia, Malaysia): chilli pounded with shallot, garlic and often ''terasi'' (shrimp paste); hundreds of variants. '''Sambal oelek''' is chilli, salt and vinegar.
+* '''Peanut (satay) sauce''', '''kecap manis''' (sweet palm-sugar soy), '''sweet chilli sauce'''. Technique: reduction and nut thickening.
+
+== East Asia ==
+* '''Soy sauce''' (China, Japan, Korea): soybeans and wheat fermented with ''Aspergillus'' mould (koji), then brine-fermented for months. '''Doubanjiang''' (Sichuan, Pixian broad-bean chilli paste), '''hoisin''', '''oyster sauce''' (Lee Kum Kee, 1888), '''XO sauce''' (Hong Kong, 1980s; dried scallop, ham and chilli in oil). Technique: ferment, oil-preserved paste.
+* '''Gochujang''' and '''doenjang''' (Korea): fermented chilli–rice–soy and soybean pastes; '''ssamjang''' combines them. Technique: ferment.
+* '''Ponzu''' (citrus and soy with dashi), '''tare''' (yakitori and ramen bases), '''tonkatsu sauce''', '''Japanese curry roux''' (a flour–fat roux block with spices). Technique: reduction, roux ([[Sauce Thickeners Roux Slurries Liaisons and Gums]]).
+* '''Chilli crisp and chilli oil''' (Sichuan ''hóng yóu'', Guizhou ''Lao Gan Ma'', from the 1990s): chilli, Sichuan pepper and aromatics fried in oil. Technique: infused oil.
+
+== The ancient world ==
+* '''Garum''' (Rome): fish entrails and salt fermented in the sun, the ancestor of modern fish sauces; recipes survive in the ''Geoponika'' and in ''Apicius''. Technique: ferment ([[Hot Sauces and Fermented Sauces]]).
+
+== Storage notes for traditional sauces ==
+Many of these are '''oil-based garlic and chilli preparations''' (toum, bagna càuda, shito, chilli crisp, mojo, salsa macha) or '''low-acid purées''' (huancaína, peanut sauce, curry gravies). Homemade versions should be refrigerated and used within days, or frozen. Commercial shelf-stable versions are acidified or have very low water content under a tested process. See [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]].
+
+== See also ==
+* [[Sauces]]
+* [[The Five Mother Sauces Bechamel Veloute Espagnole Tomato and Hollandaise]]
+* [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]]
+* [[Pan Sauces Reductions and Gravies]]
+* [[Sauce Thickeners Roux Slurries Liaisons and Gums]]
+* [[Hot Sauces and Fermented Sauces]]
+* [[Barbecue Sauces Marinades and Glazes]]
+* [[Salsas Pestos and Chutneys]]
+* [[Sweet Sauces Caramel Chocolate and Fruit Coulis]]
+* [[Regional Candies of the World]]
+* [[Fermentation]]
+* [[Cooking with Herbs and Spices]]
+* [[Culinary Recipes]]
+* [[Baking]]
+
+== Sources ==
+* Escoffier, A. ''Le Guide Culinaire'', 1903; English translation ''The Complete Guide to the Art of Modern Cookery'', trans. H. L. Cracknell and R. J. Kaufmann. Heinemann, 1979.
+* Peterson, J. ''Sauces: Classical and Contemporary Sauce Making'', 4th ed. Wiley, 2017. Includes chapters on Asian, Latin American and Mediterranean sauces.
+* Davidson, A. ''The Oxford Companion to Food'', 3rd ed., ed. T. Jaine. Oxford University Press, 2014. Entries for garum, Worcestershire sauce, mole, romesco, harissa, soy sauce, fish sauce and others.
+* Kennedy, D. ''The Essential Cuisines of Mexico''. Clarkson Potter, 2000. Moles and salsas.
+* Dunlop, F. ''The Food of Sichuan''. W. W. Norton, 2019. Doubanjiang, chilli oil and Sichuan sauces.
+* Helou, A. ''Feast: Food of the Islamic World''. Ecco, 2018. Toum, tarator, muhammara, harissa.
+* Shurtleff, W. and Aoyagi, A. ''History of Soy Sauce (160 CE to 2012)''. Soyinfo Center, 2012.
+* Grainger, S. ''The Story of Garum: Fermented Fish Sauce and Salted Fish in the Ancient World''. Routledge, 2021.
+* UNESCO Intangible Cultural Heritage. "Harissa, knowledge, skills and culinary and social practices" (Tunisia), inscribed 2022.
+
+== Coverage ==
+A region-by-region gazetteer of traditional sauces, each with its main ingredients and the technique page that teaches it: France (mother sauces, beurre blanc, aïoli, rouille, cold sauces), Italy (bolognese, tomato sauces, pestos, bagna càuda, cacio e pepe and carbonara), Spain and Portugal (romesco, allioli, sofrito, mojos, piri-piri), Britain (gravy, bread and mint sauces, Worcestershire, brown sauce, custard), the Americas (moles, salsas, Caribbean mojo and pepper sauces, Peruvian ají sauces, chimichurri, American regional sauces), the Middle East (toum, tarator, muhammara, amba, Georgian sauces), Africa (harissa, shito, peanut sauces, awaze), South Asia (chutneys, curry gravies, tadka), Southeast Asia (fish sauce, nước chấm, nam prik, sambal, satay), East Asia (soy sauce, doubanjiang, XO, gochujang, ponzu, curry roux, chilli crisp), ancient garum; and storage notes for oil-based and low-acid traditional sauces.

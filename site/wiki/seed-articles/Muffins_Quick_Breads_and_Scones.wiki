@@ -1,0 +1,75 @@
+'''Muffins, Quick Breads and Scones''' covers the chemically leavened breads of the [[Baking]] hub: muffins, loaf quick breads (banana bread, zucchini bread, pumpkin bread, cornbread, Irish soda bread), scones and biscuits. They are called "quick" because they rise with '''baking soda or baking powder''' in the oven instead of yeast over hours. They are made by one of two mixing methods, and the method, more than the recipe, decides the texture: the '''muffin method''' (liquid fat stirred in, giving a tender, cake-like crumb) and the '''biscuit method''' (cold solid fat cut in, giving flaky, layered pieces).
+
+For how the leaveners work and how to substitute one for the other, see [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]. For dosing a loaf or muffin batch evenly with an active ingredient, see [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]].
+
+== The muffin method ==
+* '''Whisk the dry ingredients''' (flour, sugar, leavener, salt, spices) together in one bowl so the leavener is evenly distributed.
+* '''Whisk the wet ingredients''' (eggs, milk or buttermilk, melted butter or oil, mashed fruit) in another.
+* '''Pour the wet into the dry and fold with a spatula for 10–15 strokes''', only until no dry flour shows. '''The batter should be lumpy.''' Mississippi State University Extension's quick-bread guide warns that over-mixing gives a heavy crumb with irregular '''tunnels''' and peaked tops; the extra stirring develops gluten and lets gas escape into long channels.
+* Many muffin and loaf batters can rest 15–30 minutes (or overnight, refrigerated, with double-acting powder) before baking; the flour hydrates and the tops rise higher.
+
+== Muffins ==
+* '''Typical ratio''' (Ruhlman's ''Ratio''): 2 parts flour, 2 parts liquid, 1 part egg, 1 part fat by weight, plus about 5–6% baking powder on the flour weight. Sugar ranges from 25% of the flour weight (a plain or savoury muffin) to 60% or more (a bakery-style muffin, which is really a cupcake).
+* '''Tall domes:''' fill the cups to the top (or above), bake at a high starting temperature, about '''220 °C (425 °F) for 5–7 minutes''', then reduce to 180–190 °C (350–375 °F) for the rest. The initial burst of heat sets the edges while the centre is still rising.
+* '''Mix-ins:''' toss berries or chocolate chips in a spoonful of the measured flour so they stay suspended instead of sinking, and fold them in at the end. Frozen berries go in frozen, to limit streaking.
+* '''Size and time:''' a standard cup (about 60–70 g of batter) takes 18–25 minutes; a jumbo cup 25–30 minutes; minis 10–14 minutes. A tester comes out clean, and the internal temperature is about 93–96 °C (200–205 °F).
+* '''Paper liners''' make portion sizes uniform and are easier to weigh than greased tins.
+
+== Loaf quick breads ==
+* '''Banana bread:''' use very ripe bananas (heavily freckled or black). As bananas ripen, their starch converts to sugars, so they are sweeter and more aromatic. About 3 medium bananas (about 340 g peeled) per 23 × 13 cm (9 × 5 in) loaf. Most recipes use '''baking soda''', which the bananas' acidity (and any buttermilk, yogurt or brown sugar) neutralizes; excess soda makes the loaf dark, coarse and soapy-tasting.
+* '''Zucchini and carrot bread:''' grated vegetables add a lot of water (zucchini is about 95% water). Squeeze zucchini lightly in a towel, or the centre stays gummy.
+* '''Pumpkin bread:''' canned pumpkin purée is denser and more consistent than fresh. Pumpkin and sweet potato breads are typically oil-based and stay moist for days.
+* '''Baking a loaf:''' 165–180 °C (325–350 °F) for 50–70 minutes. The large mass needs a moderate oven so the centre bakes before the crust burns; tent with foil after 40–45 minutes if it is browning too fast. A '''crack down the centre''' is normal: the crust sets before the centre has finished rising.
+* '''Doneness:''' a skewer in the centre comes out clean or with a few dry crumbs, and the centre reads about '''93–99 °C (200–210 °F)'''. Under-baked banana bread has a dense, wet streak just under the crack.
+* '''Cool in the pan 10–15 minutes''', then on a rack. Slice when fully cool, ideally the next day; the crumb firms and the flavour evens out.
+
+== Cornbread and soda bread ==
+* '''Cornbread:''' cornmeal (all or partly) with flour, buttermilk, egg and soda or powder. Southern U.S. cornbread is little or no sugar, baked in a '''preheated, greased cast-iron skillet''' at 220–230 °C so the bottom fries crisp; Northern cornbread is sweeter and more cake-like.
+* '''Irish soda bread:''' flour, buttermilk, baking soda and salt only. Shape quickly, cut a deep cross in the top (so heat reaches the centre), bake at about 220 °C. The soda starts reacting as soon as it meets the buttermilk, so the dough should go in the oven within minutes.
+
+== The biscuit method ==
+* '''Cut cold fat into the dry ingredients''' with a pastry blender, your fingertips, a food processor (pulse), or by '''grating frozen butter''' on a box grater, until the largest pieces are the size of peas.
+* '''Add cold liquid''' all at once and stir until the dough barely holds together. Shaggy is right.
+* '''Fold and pat''': pat the dough out, fold it in thirds like a letter, and repeat 2–4 times. Each fold stacks thin layers of butter between thin layers of dough; in the oven the butter melts and its water turns to steam, pushing the layers apart.
+* '''Keep everything cold.''' If the butter softens and smears into the flour, the result is tender but not flaky. Chill the shaped dough 15–30 minutes before baking if the kitchen is warm.
+* '''Cut straight down''' with a sharp cutter and do not twist; twisting seals the edges and stops the layers rising.
+
+== Scones ==
+* '''British scones:''' flour, a little sugar, baking powder, cold butter (about 20–25% of the flour weight), and milk; sometimes an egg. Rolled about 2–2.5 cm thick, cut into rounds, glazed with egg or milk, and baked hot, '''about 220 °C (425 °F) for 10–15 minutes'''. Served with jam and clotted cream.
+* '''American scones:''' richer and sweeter, often with cream, more butter, eggs and mix-ins, shaped into a disc and cut into wedges.
+* '''Cream scones:''' heavy cream supplies both the fat and the liquid; no cutting in. The most forgiving scone.
+* King Arthur Baking's scone guide gives the adjustments: all-purpose flour for taller scones that hold their shape, cake flour for more delicate and lower-rising ones; replacing about 1/4 cup (57 g) of the liquid with one egg gives a softer, more open crumb; and '''freezing the shaped scones for about 30 minutes''' before baking gives a higher rise and less spread.
+* '''Dry, crumbly scones''' come from too much flour or over-baking; '''tough''' ones from over-working the dough. Handle as little as possible.
+
+== Biscuits (American) ==
+* The same method as scones with little or no sugar, and usually buttermilk with soda plus powder. Southern biscuits traditionally use '''soft, low-protein wheat flour''' (about 8–9% protein), which gives a tender, fluffy interior.
+* Set biscuits '''touching''' on the pan for soft sides and a higher rise, or apart for crisp sides.
+
+== Storage ==
+* Muffins, scones and biscuits are best on the day they are baked; reheat at 150–175 °C for 5 minutes to refresh. Freeze within a day for up to 2–3 months.
+* Loaf quick breads keep 3–4 days wrapped at room temperature. Breads with cream cheese fillings, or very moist vegetable breads in warm, humid weather, should be refrigerated.
+
+== See also ==
+* [[Baking]]
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]
+* [[Oven Temperature Heat Transfer and High-Altitude Baking]]
+* [[Cakes and Cupcakes]]
+* [[Pie Crust and Pastry Basics]]
+* [[Frosting Icing and Glazes]]
+* [[Brownies Blondies and Bars]]
+* [[Regional Baked Goods of the World]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Culinary Recipes]]
+* [[Food Safety]]
+
+== Sources ==
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Quick breads, the muffin and biscuit methods, chemical leaveners and flour protein.
+* Corriher, S. O. ''BakeWise''. Scribner, 2008. Biscuits, scones, muffins and soft Southern flour.
+* Ruhlman, M. ''Ratio''. Scribner, 2009. Quick-bread, muffin and biscuit ratios.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chemical leavening and quick breads (Ch. 10); fruit ripening and starch-to-sugar conversion (Ch. 7).
+* Mississippi State University Extension. ''4-H Bread Project: Fun with Quick Breads'' (Publication 1576). [https://extension.msstate.edu/publications/4-h-bread-project-fun-quick-breads MSU Extension]
+* King Arthur Baking. "Scone Baking" guide. [https://www.kingarthurbaking.com/learn/guides/scone King Arthur Baking]
+
+== Coverage ==
+Why quick breads are "quick" and how the muffin and biscuit methods differ; the muffin method and over-mixing tunnels; muffin ratios, high-start baking for domes, mix-ins, sizes and times; banana, zucchini and pumpkin breads, loaf baking, the centre crack and doneness temperatures; cornbread and soda bread; the biscuit method (cutting in, folding, cold fat, straight cuts); British, American and cream scones and King Arthur's adjustments; Southern biscuits and soft flour; storage.

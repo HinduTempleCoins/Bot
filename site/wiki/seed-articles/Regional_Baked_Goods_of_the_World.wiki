@@ -1,0 +1,95 @@
+'''Regional Baked Goods of the World''' is the gazetteer of the [[Baking]] hub. It lists traditional breads, pastries, cakes and cookies region by region, and for each one gives what it is made of and '''which technique''' it uses, linked to the page that teaches that technique. Like the world's candies (see [[Regional Candies of the World]]), the world's baking turns out to be a small set of methods (laminated or stretched pastry, short dough, egg-foam cake, quick-leavened batter, enriched yeast dough, flatbread) applied to local grains, fats and sweeteners.
+
+== Middle East, Turkey, Iran and the Levant ==
+* '''Baklava''': dozens of sheets of '''phyllo''', each brushed with clarified butter, layered with chopped walnuts or pistachios, cut into diamonds before baking, then soaked in cold syrup (sugar, lemon, sometimes rose or orange-flower water) while hot. The hot-pastry, cold-syrup rule keeps it crisp. Technique: phyllo ([[Pie Crust and Pastry Basics]]).
+* '''Ma'amoul''': semolina and butter shortbread, filled with dates, walnuts or pistachios and pressed into carved wooden moulds; made for Eid and Easter across the Levant. Technique: short dough ([[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]).
+* '''Kunafa (knafeh)''': shredded kataifi pastry or fine semolina dough baked with butter over soft white cheese (Nabulsi) and soaked in syrup. Nablus is especially associated with it.
+* '''Ghraybeh''': a very short, melt-in-the-mouth butter (often clarified butter) cookie with powdered sugar, often topped with a pistachio.
+* '''Flatbreads''': pita (a very hot oven, about 260 °C or more, puffs a pocket with steam), Iranian sangak (baked on hot pebbles) and barbari, Turkish pide and simit (a sesame-coated ring dipped in grape-molasses water before baking).
+
+== North and East Africa ==
+* '''Basbousa (harissa, revani)''': a semolina cake with yogurt or coconut, soaked in syrup after baking. Egypt, the Levant and Turkey. Technique: quick-leavened cake ([[Cakes and Cupcakes]]).
+* '''Feteer meshaltet''': Egyptian layered pastry, dough stretched paper-thin, buttered (with ghee) and folded many times, baked very hot.
+* '''M'hanncha''': Moroccan "snake" cake, almond paste rolled in thin warqa pastry and coiled. '''Ghriba''': crackled almond or semolina cookies.
+* '''Dabo''': Ethiopian wheat breads, often spiced with nigella and fenugreek; ''defo dabo'' is a large celebration loaf baked wrapped in leaves.
+
+== Southern Africa ==
+* '''Melktert (milk tart)''': a shortcrust shell with a light cinnamon-topped milk custard. Technique: blind-baked crust and custard ([[Pie Crust and Pastry Basics]]).
+* '''Beskuit (rusks)''': buttermilk dough baked as a loaf, cut into fingers, and dried for hours in a low oven, made for dunking in coffee. Technique: twice baked ([[Macarons Meringues and Biscotti]]).
+* '''Malva pudding''': a spongy apricot-jam cake soaked with a hot cream-and-butter sauce as it comes from the oven.
+
+== South Asia ==
+* '''Naan''': leavened wheat flatbread, often enriched with yogurt, slapped onto the wall of a tandoor clay oven at about 400–480 °C, where it cooks in 1–2 minutes.
+* '''Nankhatai''': shortbread-like cookie with ghee, flour and gram (chickpea) flour, cardamom and nuts; said to have developed in Surat under Dutch influence. Technique: short dough ([[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]).
+* '''Rusk (toast biscuit)''': twice-baked, lightly sweetened bread, eaten with chai across India and Pakistan.
+* '''Bebinca''': Goan layered cake of coconut milk, egg yolks, sugar and ghee, each thin layer grilled from above before the next goes on (traditionally seven to sixteen layers).
+* '''Mawa cake''': the Parsi cafés of Mumbai and Pune bake it with reduced milk solids (mawa or khoa), cardamom and butter.
+
+== East Asia ==
+* '''Mooncakes''' (China, for the Mid-Autumn Festival): Cantonese style is a thin crust of flour, golden syrup, oil and '''lye water''' (alkaline water, which tenderizes and darkens the crust), around lotus-seed or red-bean paste, often with a salted duck-egg yolk, pressed in a carved mould. Suzhou-style mooncakes use a flaky lard pastry instead.
+* '''Egg tarts (dan tat)''': Hong Kong style uses either a flaky (puff) crust or a short, cookie-like crust around a smooth egg custard. The Macanese version is closer to the Portuguese pastel de nata.
+* '''Castella''': Nagasaki honey sponge cake, descended from a Portuguese cake brought by 16th-century traders. Technique: whole-egg foam ([[Cakes and Cupcakes]]).
+* '''Melonpan''': Japanese sweet bun covered with a thin layer of cookie dough that cracks into a melon-like pattern. '''Shokupan''' (Japanese milk bread) uses '''yudane''' or '''tangzhong''', a cooked flour-and-water or flour-and-milk paste that holds more water and keeps the bread soft for days.
+* '''Hotteok''': Korean yeast pancake filled with brown sugar, cinnamon and nuts, pressed flat and pan-fried. '''Hodu-gwaja''': walnut-shaped cakes with red-bean filling.
+
+== Southeast Asia and the Philippines ==
+* '''Pandan chiffon cake''': Malaysia, Singapore and Indonesia, flavoured and coloured with pandan-leaf juice and coconut milk. Technique: chiffon ([[Cakes and Cupcakes]]).
+* '''Kuih bahulu''': small egg-foam sponge cakes baked in flower- or fish-shaped moulds.
+* '''Ensaymada''' and '''pan de sal''': Philippine enriched yeast breads, the first a buttery coiled bun with sugar and cheese, the second a slightly sweet breadcrumb-coated roll. '''Bibingka''': rice-flour cake baked in a banana-leaf-lined pan between charcoal fires. '''Ube''' (purple yam) colours cakes, rolls and crinkles.
+
+== Western Europe ==
+* '''France''': '''croissant''' (laminated yeast dough); '''madeleines''' (butter sponge in shell moulds, rested batter, high oven for the hump); '''financiers''' (egg whites, ground almonds and browned butter, ''beurre noisette''); '''canelés''' (Bordeaux; a thin crêpe-like batter rested 24–48 hours, baked in copper moulds coated with beeswax for a dark, caramelized shell and custardy centre); '''tarte Tatin''' (upside-down caramelized apple tart); '''galette des rois''' (puff pastry with frangipane, for Epiphany); '''macarons''' ([[Macarons Meringues and Biscotti]]).
+* '''Italy''': '''biscotti''' and cantucci (twice-baked, Prato); '''amaretti''' (almond and egg-white cookies); '''panettone''' (Milan; a sweet yeast bread fermented with a stiff natural starter, ''lievito madre'', over two or three days, then hung upside down to cool so it does not collapse); '''crostata''' (jam tart in pasta frolla); '''sfogliatella''' (Naples; a shell of many thin, lard-stretched dough layers around semolina and ricotta).
+* '''Spain and Portugal''': '''pastel de nata''' (puff-pastry custard tart baked very hot so the custard blisters; sold from 1837 at the bakery beside the Jerónimos Monastery in Belém, Lisbon); '''polvorones''' (shortbread made with '''toasted flour''' and lard that crumbles to powder, ''polvo''); '''magdalenas'''; '''roscón de reyes'''.
+* '''Germany, Austria and Switzerland''': '''Stollen''' (a dense, fruited Christmas yeast bread coated in butter and powdered sugar, Dresden); '''Lebkuchen''' (honey-spice cookies, Nuremberg); '''Linzer torte''' (a lattice tart of nut pastry and red-currant jam, said to be among the oldest named cakes); '''Sachertorte''' (Vienna; chocolate sponge, apricot jam, chocolate glaze); '''apple strudel''' (dough stretched by hand over a cloth until you can read through it); '''Schwarzwälder Kirschtorte''' (Black Forest cake). Technique: glazes ([[Frosting Icing and Glazes]]).
+
+== Britain and Ireland ==
+* '''Scones''', '''Irish soda bread''' and '''Welsh cakes''' (griddle-baked scone dough with currants). Technique: [[Muffins Quick Breads and Scones]].
+* '''Scottish shortbread''': 1 part sugar, 2 parts butter, 3 parts flour by weight, sometimes with rice flour for a sandier snap ([[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]).
+* '''Victoria sponge''' (creamed butter cake with jam and cream), '''Bakewell tart''' (shortcrust, jam and frangipane), '''Eccles cakes''' (flaky pastry around currants), '''flapjacks''' (oats baked with butter and golden syrup; see [[Brownies Blondies and Bars]]).
+
+== Northern and Eastern Europe ==
+* '''Scandinavia''': '''kanelbullar''' (Swedish cardamom-scented cinnamon buns); '''kransekake''' (Norwegian and Danish tower of almond-paste rings); '''krumkake''' (thin cookies baked on a patterned iron and rolled while hot); '''pepparkakor''' (thin ginger cookies); knäckebröd ([[Crackers Granola and Energy Bites]]).
+* '''Poland, Ukraine and Russia''': '''babka''' (enriched yeast cake), '''medovik''' (many thin honey-cake layers with sour-cream frosting), '''sernik''' (Polish cheesecake with twaróg). '''Rugelach''' (Ashkenazi Jewish; cream-cheese or yeast dough rolled around jam, nuts and chocolate). '''Kolaches''' (Czech; sweet yeast buns with fruit or poppy-seed fillings, carried to Texas by 19th-century immigrants).
+* '''Greece''': '''kourabiedes''' (butter and almond cookies buried in powdered sugar), '''koulourakia''' (twisted Easter butter cookies), '''spanakopita''' (spinach and feta in phyllo).
+
+== The Americas ==
+* '''United States''': '''brownies''' (late 19th to early 20th century; see [[Brownies Blondies and Bars]]); the '''chocolate chip cookie''' (Ruth Wakefield, Toll House Inn, Massachusetts, published 1938); '''pecan pie''' and '''pumpkin pie''' (custard pies); Southern '''biscuits''' and '''cornbread'''.
+* '''Canada''': '''butter tarts''' (a runny butter, sugar and egg filling in pastry) and '''Nanaimo bars''' (a no-bake, three-layer bar of crumb base, custard buttercream and chocolate).
+* '''Mexico''': '''conchas''' (pan dulce buns topped with a shell-patterned sugar-paste crust), '''pan de muerto''' (orange-blossom bread for the Day of the Dead), '''rosca de reyes''', '''polvorones''' or "Mexican wedding cookies", and baked '''empanadas'''.
+* '''Brazil''': '''pão de queijo''': cassava starch (''polvilho'') scalded with hot milk and oil, beaten with eggs and cheese (Minas Gerais), which gives a crisp shell and a chewy, hollow interior, rather like choux ([[Pie Crust and Pastry Basics]]). '''Bolo de rolo''' (a very thin rolled guava sponge from Pernambuco).
+* '''Argentina, Uruguay and Peru''': '''alfajores''': two soft cornstarch shortbread cookies sandwiched with dulce de leche, often rolled in coconut ([[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]; dulce de leche is in [[Regional Candies of the World]]).
+* '''Caribbean''': '''Jamaican patties''' (turmeric-coloured short pastry around spiced meat), '''black cake''' (a dark fruitcake made with rum- and wine-soaked fruit and burnt-sugar "browning", for Christmas and weddings), '''coconut drops''' and '''sweet bread'''.
+
+== Oceania ==
+* '''Anzac biscuits''' (Australia and New Zealand): rolled oats, flour, coconut, golden syrup, butter and baking soda, with '''no eggs''', associated with the First World War. The syrup and soda foam together, and the lack of eggs gives a long shelf life.
+* '''Lamingtons''': cubes of sponge cake dipped in thin chocolate icing and rolled in desiccated coconut.
+* '''Pavlova''': a large meringue with a crisp shell and soft, marshmallowy centre (from cornstarch and vinegar), topped with cream and fruit, named after the dancer Anna Pavlova after her 1920s tours. Both Australia and New Zealand claim it. Technique: meringue ([[Macarons Meringues and Biscotti]]).
+
+== See also ==
+* [[Baking]]
+* [[Regional Candies of the World]]
+* [[Cakes and Cupcakes]]
+* [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]
+* [[Macarons Meringues and Biscotti]]
+* [[Brownies Blondies and Bars]]
+* [[Pie Crust and Pastry Basics]]
+* [[Muffins Quick Breads and Scones]]
+* [[Crackers Granola and Energy Bites]]
+* [[Frosting Icing and Glazes]]
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Sauces]]
+* [[Candy Making]]
+* [[Culinary Recipes]]
+
+== Sources ==
+* Goldstein, D. (ed.) ''The Oxford Companion to Sugar and Sweets''. Oxford University Press, 2015. Entries on baklava, ma'amoul, mooncakes, pastel de nata, Lebkuchen, Stollen, pavlova, lamingtons, Anzac biscuits, alfajores and others.
+* Davidson, A. ''The Oxford Companion to Food'', 3rd ed. (ed. T. Jaine). Oxford University Press, 2014. Regional breads, pastries and cakes.
+* Hamelman, J. ''Bread: A Baker's Book of Techniques and Recipes'', 2nd ed. Wiley, 2012. Stollen, panettone-type and flatbread techniques.
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Laminated, short and foam methods used throughout.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Pastry and bread chapters; alkaline doughs.
+* Wakefield, R. G. ''Toll House Tried and True Recipes''. M. Barrows, 1938 (the first published chocolate chip cookie).
+
+== Coverage ==
+A region-by-region gazetteer of baked goods, each tied to its technique page: the Middle East and Levant (baklava, ma'amoul, kunafa, ghraybeh, flatbreads); North, East and Southern Africa (basbousa, feteer, m'hanncha, dabo, melktert, beskuit, malva pudding); South Asia (naan, nankhatai, rusk, bebinca, mawa cake); East Asia (mooncakes, egg tarts, castella, melonpan, shokupan, hotteok); Southeast Asia and the Philippines (pandan chiffon, kuih bahulu, ensaymada, bibingka, ube); Western Europe (France, Italy, Spain and Portugal, the German-speaking countries); Britain and Ireland; Scandinavia, Eastern Europe and Greece; the Americas (U.S., Canada, Mexico, Brazil, the River Plate, the Caribbean); Oceania (Anzac biscuits, lamingtons, pavlova).

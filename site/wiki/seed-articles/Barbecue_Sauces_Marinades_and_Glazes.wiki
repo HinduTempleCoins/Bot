@@ -1,0 +1,82 @@
+'''Barbecue Sauces, Marinades and Glazes''' covers the three liquids that go onto meat, fish, tofu and vegetables '''before or during''' cooking rather than at the table: '''marinades''' (a soak before cooking), '''mops and bastes''' (thin liquids brushed on during long cooking) and '''glazes and finishing sauces''' (sugar-rich coatings applied at the end). It belongs to the [[Sauces]] hub. Most of what goes wrong with all three comes down to two facts: '''flavour and acid barely penetrate''' (salt is the exception), and '''sugar burns''' long before meat is cooked.
+
+== What a marinade actually does ==
+* '''It works mostly on the surface.''' Oil, acid, herbs, spices and aromatics move into muscle very slowly, millimetres over many hours, not centimetres. A marinade seasons the outside layer and the crust. Thick cuts are not flavoured to the centre no matter how long they soak (McGee; López-Alt, ''The Food Lab'').
+* '''Salt is what penetrates.''' Salt diffuses inward, dissolves part of the muscle protein myosin and lets the meat hold more water, so it cooks juicier. That is why salty marinades (soy sauce, fish sauce, brine-strength mixtures) do more than oil-and-herb ones. A '''wet brine''' is usually '''3–6% salt by weight''' (30–60 g per litre of water). A '''dry brine''' is about '''1% of the meat's weight''' in salt (10 g per kg), left uncovered in the fridge from 1 hour (steaks, chops) to 1–3 days (whole birds, roasts).
+* '''Acid works on the surface and can over-work it.''' Vinegar, citrus and wine denature the outer proteins. A short soak brightens flavour; a long one turns the surface chalky or mushy. Ceviche is acid "cooking" taken all the way. Practical limits: '''fish and shrimp 15–30 minutes''', chicken 2–12 hours, beef and lamb up to about 24 hours in a mild acid marinade.
+* '''Enzymes soften, then destroy.''' Papain (papaya), bromelain (fresh pineapple), actinidin (kiwi), ficin (fig) and zingibain (fresh ginger) digest protein. They work fast and keep working until the food is hot, so a few hours can turn meat pasty. Canned or cooked pineapple has had the enzyme destroyed by heat.
+* '''Dairy is the gentle option.''' Yogurt and buttermilk marinades (tandoori, Persian joojeh, Southern fried chicken) are mildly acidic, tenderize slowly and help browning through their milk sugars and proteins. 4–24 hours is typical.
+* '''Oil carries fat-soluble flavour''' (garlic, chilli, many spice compounds) and helps the marinade cling, but too much oil drips into flames and causes flare-ups.
+* '''Sugar in a marinade''' (honey, sugar, mirin, fruit juice) helps browning but scorches on a hot grill. Wipe excess off before high-heat cooking.
+
+== Marinade formulas ==
+* '''Basic proportion:''' roughly 3 parts oil to 1 part acid, plus salt (about 1–2% of the liquid weight, or soy/fish sauce in its place), aromatics and spices. About '''120–250 mL per 500 g''' of food is enough if it is turned or bagged.
+* '''Soy-based (East Asian):''' soy sauce, mirin or sugar, sake or rice wine, garlic, ginger, sesame oil. '''Teriyaki''' is classically equal parts soy sauce, mirin and sake, sweetened to taste and reduced to a glaze. '''Bulgogi''' adds grated Asian pear, whose enzymes soften thin-sliced beef within an hour.
+* '''Citrus-based:''' Cuban '''mojo''' (sour orange, garlic, cumin, oregano), Yucatecan '''recado''' with bitter orange and achiote, Peruvian '''anticucho''' marinade (vinegar, ají panca, cumin).
+* '''Yogurt-based:''' tandoori (yogurt, lemon, ginger, garlic, chilli, garam masala), 4–24 hours.
+* '''Paste marinades (wet rubs):''' Jamaican jerk (scotch bonnet, allspice, thyme, scallion), Filipino '''adobo''' (vinegar, soy, garlic, bay; marinade and braise in one), Mexican '''adobo''' (dried chillies, vinegar, garlic).
+
+== Dry rubs and the bark ==
+* A '''rub''' is salt, sugar and spices (paprika, black pepper, garlic, chilli, mustard, cumin). On long-smoked meat it forms the '''bark''', a dark crust built from drying, Maillard browning and smoke deposits.
+* '''Memphis-style''' ribs are often served "dry" with only the rub; '''Central Texas''' brisket rub is classically only coarse black pepper and salt, often near 1:1 by volume.
+* Sugar-heavy rubs work at '''smoking temperatures (107–135 °C, 225–275 °F)''' but burn over direct high heat.
+
+== Regional American barbecue sauces ==
+* '''Eastern North Carolina:''' cider vinegar, crushed red pepper, black pepper, salt, sometimes a little sugar. No tomato. Served with chopped whole hog; thin enough to soak into the meat.
+* '''Lexington / Piedmont North Carolina ("dip"):''' the eastern vinegar sauce with ketchup or tomato and sugar added. Served on pork shoulder and in the red slaw.
+* '''South Carolina mustard ("Carolina Gold"):''' yellow mustard, vinegar, sugar or honey, black pepper. Associated with the Midlands, whose settlers included many German immigrants.
+* '''Kansas City:''' thick, sweet tomato–molasses sauce with vinegar, brown sugar and spices; the model for most bottled American barbecue sauces.
+* '''Memphis:''' thinner and tangier tomato–vinegar sauce, often served on the side.
+* '''Texas:''' sauce is optional. Where used it is thin, often based on beef drippings, tomato, vinegar, Worcestershire and chilli. A '''mop''' (beef stock, vinegar, Worcestershire, butter, onion) is swabbed on during smoking.
+* '''Alabama white sauce:''' mayonnaise, vinegar, black pepper, horseradish and lemon. Credited to Big Bob Gibson Bar-B-Q of Decatur, Alabama (founded 1925), for smoked chicken, which is dunked in it straight off the pit.
+* '''St. Louis''' and '''Kentucky''' (a Worcestershire-and-vinegar "black dip" for mutton) round out the list.
+
+=== Building a tomato barbecue sauce ===
+* Base: ketchup or tomato paste plus water. Sweet: brown sugar, molasses, honey. Sour: cider vinegar. Savoury: Worcestershire, onion, garlic, mustard, salt. Heat: chilli powder, cayenne, chipotle. Smoke: smoked paprika or a drop of liquid smoke.
+* Simmer 15–30 minutes to blend and thicken. Because most of the base is already acidic (ketchup, vinegar), a well-made tomato barbecue sauce keeps '''2–4 weeks refrigerated'''. Bottling it for the shelf is a different matter; see [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]].
+
+== Glazes and finishing sauces ==
+* '''Why they go on last:''' sucrose begins to caramelize at about '''160 °C (320 °F)''' and burns soon after, while grill grates run 230–290 °C. A sugary sauce applied at the start blackens and turns bitter before the food is done. Brush on in the '''last 10–15 minutes''' of grilling, or during the last 30 minutes of smoking, in two or three thin coats, letting each one set ("tack up") before the next.
+* '''Reduction glazes:''' reduce a sweet-sour liquid until it coats a spoon: teriyaki, balsamic, pomegranate molasses, cider and maple, Chinese '''char siu''' glaze (hoisin, honey, five-spice, fermented bean curd).
+* '''Fruit and preserve glazes:''' apricot or orange marmalade thinned with mustard and vinegar for ham and pork. Ham is traditionally scored in a diamond pattern so the glaze settles into the cuts.
+* '''Honey and maple glazes''' brown fastest of all (fructose browns at lower temperatures than sucrose). Watch them closely.
+* '''Tare''' (Japanese yakitori sauce): soy, mirin, sake and sugar reduced, with grilled chicken bones or skin simmered in it. Skewers are dipped repeatedly near the end of cooking.
+* '''Butter finishes:''' compound butters and a brush of melted butter with garlic or herbs, applied off the heat. See [[Emulsified Sauces Mayonnaise Aioli Vinaigrettes and Beurre Blanc]].
+* For glossy pan-made versions, see [[Pan Sauces Reductions and Gravies]]; for cooked sugar itself, see [[Caramel Toffee Brittle Fudge and Fondant]].
+
+== Safety ==
+* '''Marinate in the refrigerator''' (at or below 4 °C / 40 °F), never on the counter. USDA guidance is that poultry can be marinated up to 2 days and beef, pork, veal and lamb roasts, chops and steaks up to 5 days.
+* '''Raw-meat marinade is contaminated.''' Don't serve it as a sauce or brush it on in the final minutes unless it has been brought to a full boil first. Better: set aside a clean portion before the raw food goes in.
+* Use '''separate brushes and tongs''' for raw and cooked food, and a clean plate for cooked meat.
+* '''Glass, food-grade plastic or stainless''' containers only. Acid marinades react with aluminium and unlined copper.
+* '''Marinades reduce grilling carcinogens.''' Heterocyclic amines (HCAs) form when muscle meat is cooked at high heat. Marinating chicken before grilling cut HCA formation by over 90% in one study (Salmon et al., 1997), and marinades rich in rosemary and other herbs reduced HCAs in grilled steak (Smith et al., 2008). Trimming fat to limit flare-ups and avoiding charring also help.
+* For general handling and safe internal temperatures, see [[Food Safety]].
+
+== Infused marinades and sauces ==
+A sauce brushed on during cooking is a poor way to deliver a measured dose of any active ingredient: much of it drips off, some burns, and heat-sensitive compounds are lost. If an infused oil, butter or tincture is used, put it in a '''finishing sauce or a dipping sauce served by measured volume''', not a mop or a marinade. See [[Infused Sauces and Dressings Even Dosing per Serving]] and [[Tinctures Glycerites Syrups and Infused Oils and Butters]].
+
+== See also ==
+* [[Sauces]]
+* [[Hot Sauces and Fermented Sauces]]
+* [[Salsas Pestos and Chutneys]]
+* [[Pan Sauces Reductions and Gravies]]
+* [[Regional Sauces of the World]]
+* [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Caramel Toffee Brittle Fudge and Fondant]]
+* [[Baking]]
+* [[Culinary Recipes]]
+* [[Food Safety]]
+
+== Sources ==
+* McGee, H. ''On Food and Cooking: The Science and Lore of the Kitchen'', rev. ed. Scribner, 2004. Chapter 3 (meat), on marinades, brining, salt penetration and enzymes.
+* López-Alt, J. K. ''The Food Lab: Better Home Cooking Through Science''. W. W. Norton, 2015. Marinade penetration, brining and dry-brining.
+* Peterson, J. ''Sauces: Classical and Contemporary Sauce Making'', 4th ed. Wiley, 2017. Marinades, glazes and barbecue sauces.
+* Reed, J. and Reed, D. S. ''Holy Smoke: The Big Book of North Carolina Barbecue''. University of North Carolina Press, 2008. Eastern and Lexington sauces.
+* Moss, R. F. ''Barbecue: The History of an American Institution''. University of Alabama Press, 2010. Regional sauce history.
+* Salmon, C. P., Knize, M. G. and Felton, J. S. "Effects of marinating on heterocyclic amine carcinogen formation in grilled chicken." ''Food and Chemical Toxicology'' 35(5):433–441, 1997.
+* Smith, J. S., Ameri, F. and Gadgil, P. "Effect of marinades on the formation of heterocyclic amines in grilled beef steaks." ''Journal of Food Science'' 73(6):T100–T105, 2008.
+* USDA Food Safety and Inspection Service. "Marinating Meat" and "Safe Food Handling" consumer guidance.
+
+== Coverage ==
+How marinades work (surface action, salt penetration and brine and dry-brine strengths, acid and enzyme limits with times, dairy marinades, oil and sugar); marinade formulas by family (soy, citrus, yogurt, paste); dry rubs and bark; American regional barbecue sauces (Eastern and Lexington North Carolina, South Carolina mustard, Kansas City, Memphis, Texas mops, Alabama white, Kentucky black dip) and how to build a tomato sauce; glazes and finishing sauces and why sugar goes on last (caramelization versus grill temperature), reduction, fruit, honey and tare glazes; safety (refrigerated marinating times, boiling used marinade, cross-contamination, reactive pans, marinades and heterocyclic amines); why infused actives belong in a measured finishing or dipping sauce.

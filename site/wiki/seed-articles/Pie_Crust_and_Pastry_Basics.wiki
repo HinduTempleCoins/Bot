@@ -1,0 +1,82 @@
+'''Pie Crust and Pastry Basics''' covers the doughs of the [[Baking]] hub that are mostly '''flour and fat''': flaky pie crust, short and sweet tart pastry, laminated doughs (puff and rough puff), choux paste, phyllo, and hot-water crust, plus blind baking, fillings and thickeners. The single idea behind all of them is '''how the fat meets the flour'''. Fat left in '''flat, cold pieces''' melts in the oven, its water turns to steam and leaves layers: '''flaky'''. Fat rubbed '''thoroughly''' into the flour coats the proteins so little gluten forms: '''short''' (crumbly, tender, like shortbread). Water is the third variable: just enough to hold the dough, because every extra drop develops gluten and makes the crust tough and shrinking.
+
+For flour protein, gluten and the behaviour of butter, lard and shortening, see [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]].
+
+== Flaky pie crust ==
+* '''The 3-2-1 ratio''' (Ruhlman, ''Ratio''): 3 parts flour, 2 parts fat, 1 part ice water by weight, plus about 1–2% salt on the flour weight. For a double-crust 23 cm (9 in) pie: about 300 g flour, 200–225 g cold butter, 75–100 g ice water, 5 g salt.
+* '''Flour:''' all-purpose (about 10–11.7% protein). Pastry flour (8–9%) gives a more tender crust; bread flour makes it tough.
+* '''Fat choice:''' '''butter''' (about 80–82% fat, 15–18% water) gives the best flavour and good flakes but softens quickly (it melts at about 32–35 °C). '''Lard''' gives the flakiest crust and a savoury flavour. '''Vegetable shortening''' (100% fat, melts higher) is easiest to handle and very tender but tastes of nothing. A common compromise is about two-thirds butter and one-third shortening or lard.
+* '''Method:''' cut the cold fat (cubed or grated frozen) into the flour until there is a mix of pea-sized pieces and some flattened flakes. Sprinkle the ice water over, a tablespoon at a time, tossing with a fork, until the dough holds together when squeezed. Press into a disc, wrap, and '''chill at least 1 hour''' (or overnight), so the water spreads evenly and the gluten relaxes.
+* '''Fraisage:''' smearing the dough once across the counter with the heel of the hand flattens the butter into long sheets, giving very flaky, layered pastry (classic French technique).
+* '''Vodka pie dough:''' replacing part of the water with 80-proof vodka (Cook's Illustrated, 2007, developed by J. Kenji López-Alt) adds moisture that is about 40% ethanol. Gluten does not form in ethanol, so the dough can be wetter and easier to roll without becoming tough; the alcohol evaporates in baking.
+* '''Rolling:''' roll from the centre outward on a lightly floured surface, rotating a quarter turn often, to about 3 mm thick and about 5 cm wider than the pan. If the dough cracks it is too cold; if it sticks or goes greasy it is too warm, so chill it 10 minutes.
+* '''Into the pan:''' ease the dough in without stretching it (stretched dough shrinks back in the oven). Trim to a 1–2 cm overhang, fold under, crimp, and '''chill or freeze the shaped crust 30 minutes''' before baking.
+
+== Short, sweet and sablée tart pastry ==
+* '''Pâte brisée''': French short crust, butter rubbed in more thoroughly than in American pie dough, sometimes with an egg yolk. Savoury tarts and quiche.
+* '''Pâte sucrée''': sweet crust, butter creamed with sugar, then egg and flour. Firmer and cookie-like; it holds a clean edge for fruit and custard tarts.
+* '''Pâte sablée''': more butter and sugar, very short and sandy (''sablé'' means "sandy"), like shortbread. Fragile; pressed rather than rolled. See [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]].
+* '''Press-in crusts''': crumb crusts (graham cracker or cookie crumbs with about 25–30% melted butter by weight, pressed and baked at 175 °C for 8–10 minutes) and nut crusts. No rolling, very forgiving.
+
+== Blind baking ==
+Custard, cream and quiche fillings make an unbaked base soggy. Bake the crust first:
+* Line the chilled crust with parchment or foil and fill it to the rim with '''pie weights''', dried beans, rice or sugar; the weights stop the base puffing and the sides slumping.
+* Bake at about '''200–220 °C (400–425 °F) for 15–20 minutes''' until the edges are set and lightly coloured, remove the weights, prick the base and bake another 5–15 minutes: until '''pale golden''' (partly baked, if the filling will be baked) or '''deep golden''' (fully baked, for an unbaked cream or fresh-fruit filling).
+* '''Sealing:''' brushing the hot base with beaten egg white (or melted chocolate for a cream pie) and returning it to the oven for a minute seals it against moisture.
+* '''Bake on the lowest rack''' or on a preheated baking steel or stone, so the base gets the most direct heat. Glass and dull metal pans brown the bottom better than shiny aluminium ([[Oven Temperature Heat Transfer and High-Altitude Baking]]).
+
+== Fillings and thickeners ==
+* '''Fruit pies''' need a starch thickener for the juice. Approximate amounts per kilogram of fruit: '''cornstarch''' 30–45 g (opaque, must reach a full boil to thicken, and acid weakens it); '''tapioca''' (quick-cooking or tapioca starch) 30–45 g (clear, freezes well); '''flour''' 45–60 g (cloudy, a little pasty); '''ClearJel''' (a modified cornstarch) 30–40 g (clear, stable, and the starch the U.S. National Center for Home Food Preservation recommends for canned pie fillings).
+* '''Bake until the filling bubbles thickly through the vents''', in the centre as well as at the edge. Starch only sets once it boils; a fruit pie taken out when only the edges bubble will be runny. Cool at least 2–4 hours before cutting so the gel can set.
+* '''Custard pies''' (pumpkin, sweet potato, custard, pecan): bake until the edge is set and the centre still jiggles slightly, about '''79–82 °C (175–180 °F)''' in the centre. Above about 85 °C the egg proteins tighten, the filling weeps and cracks.
+* '''Cream pies''' (pastry cream, chocolate, coconut, banana cream): the filling is cooked on the stove until it boils for one minute (to set the starch and inactivate an egg-yolk enzyme, amylase, that otherwise thins it again overnight), then poured into a fully baked crust.
+
+== Laminated dough: puff and rough puff ==
+* '''Puff pastry''' (pâte feuilletée): a lean dough (''détrempe'') wraps a slab of butter (''beurrage''), roughly equal weights of each, and is rolled and folded repeatedly. Six '''single (letter) folds''' give 3⁶ = 729 butter layers; the steam from each layer lifts the pastry 6–8 times its height.
+* Keep the butter and dough at the '''same firmness''', about 13–16 °C, chilling 20–30 minutes between folds. Butter that is too cold shatters; too warm and it merges into the dough.
+* '''Rough puff''' (blitz puff): cubes of butter mixed with flour and water and given 4–6 folds. About 80% of the rise in 30 minutes of work.
+* Bake puff pastry hot, '''200–220 °C''', so steam forms fast; cut edges with a sharp blade (dull blades seal the layers).
+* '''Croissant and Danish''' doughs are laminated '''yeasted''' doughs, combining these folds with yeast fermentation.
+
+== Choux, phyllo and hot-water crust ==
+* '''Choux paste''' (pâte à choux): water or milk and butter brought to a boil, flour stirred in and cooked 1–2 minutes until a film forms on the pan, then eggs beaten in one at a time until the paste falls from the spoon in a "V". Typical ratio 2 parts liquid, 1 part butter, 1 part flour, 2 parts egg by weight (Ruhlman). Piped and baked at 200–220 °C, then lower, until '''deep golden and dry'''; the steam hollows it out. Pale choux collapses as it cools. Éclairs, cream puffs (profiteroles), gougères, churros.
+* '''Phyllo (filo)''': paper-thin unleavened sheets, brushed with melted or clarified butter and stacked (baklava, spanakopita, börek). Keep unused sheets covered with a damp towel; they dry and crack within minutes.
+* '''Hot-water crust''': lard and water boiled and mixed into flour while hot, giving a firm, mouldable dough for raised meat pies (British pork pies).
+
+== Troubleshooting ==
+* '''Tough crust:''' too much water, over-mixing, or bread flour. '''Shrinking:''' stretched dough, too much water, or no chilling before baking.
+* '''Soggy bottom:''' no blind bake, a cool oven, a shiny pan, or the pie baked on a high rack.
+* '''Not flaky:''' the fat was too warm or cut too small.
+* '''Runny fruit filling:''' not enough thickener, or taken out before the centre boiled.
+
+== Storage and safety ==
+* Raw dough keeps 2–3 days refrigerated and about 3 months frozen.
+* Fruit pies: room temperature for up to 2 days, then refrigerate. '''Custard, cream, pumpkin, chiffon and meringue-topped pies must be refrigerated''' within 2 hours of baking and eaten within 3–4 days ([[Food Safety]]).
+* Don't taste raw pie dough or other raw flour doughs: '''raw flour''' has caused U.S. outbreaks of Shiga-toxin-producing ''E. coli'' (Crowe et al., ''NEJM'', 2017).
+
+== See also ==
+* [[Baking]]
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]
+* [[Oven Temperature Heat Transfer and High-Altitude Baking]]
+* [[Muffins Quick Breads and Scones]]
+* [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]
+* [[Brownies Blondies and Bars]]
+* [[Frosting Icing and Glazes]]
+* [[Regional Baked Goods of the World]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Food Safety]]
+* [[Sauces]]
+
+== Sources ==
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Pastry doughs, fat types and lamination.
+* Corriher, S. O. ''BakeWise''. Scribner, 2008. Flaky and tender crusts, fat choice, blind baking and choux.
+* Ruhlman, M. ''Ratio''. Scribner, 2009. The 3-2-1 pie dough and choux ratios.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Pastry and laminated doughs (Ch. 10); starch thickeners and egg custards (Ch. 2, 11).
+* López-Alt, J. K. "Foolproof Pie Dough." ''Cook's Illustrated'', November/December 2007; and ''The Food Lab''. W. W. Norton, 2015.
+* King Arthur Baking. "Pie Crust" and "Pie Baking Guide." [https://www.kingarthurbaking.com/learn/guides/pie-crust King Arthur Baking: Pie Crust]; [https://www.kingarthurbaking.com/learn/guides/pie King Arthur Baking: Pie]
+* National Center for Home Food Preservation (University of Georgia). Guidance on ClearJel for pie fillings. [https://nchfp.uga.edu/ NCHFP]
+* Crowe, S. J. et al. "Shiga toxin–producing ''E. coli'' infections associated with flour." ''New England Journal of Medicine'' 377:2036–2043, 2017.
+
+== Coverage ==
+Flaky versus short pastry and why; the 3-2-1 pie dough with flour and fat choices, cutting in, fraisage and vodka dough; rolling and panning; pâte brisée, sucrée, sablée and press-in crumb crusts; blind baking and sealing; fruit-pie thickeners and amounts, custard-pie and cream-pie doneness; puff and rough-puff lamination; choux, phyllo and hot-water crust; troubleshooting; storage, refrigeration rules and the raw-flour risk.

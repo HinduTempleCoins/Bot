@@ -1,0 +1,83 @@
+'''Cakes and Cupcakes''' covers the butter cakes, sponges, chiffon and angel food cakes, oil cakes and cupcakes of the [[Baking]] hub: how each one is mixed, what holds it up, the ratios that make it work, and how to tell when it is done. A cake is a '''foam set by heat''': air is beaten or chemically generated into a batter of flour, sugar, fat, eggs and liquid, and the oven sets the egg and starch around those bubbles before they collapse. Almost every cake failure (a dense layer, a domed and cracked top, a sunken centre, a dry crumb) comes from the balance between the ingredients that '''build''' structure (flour, eggs) and the ones that '''tenderize''' it (sugar, fat), or from how the air got in.
+
+For the underlying chemistry of each ingredient, see [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]. For oven behaviour and altitude adjustments, see [[Oven Temperature Heat Transfer and High-Altitude Baking]]. For dosing a cake with an active ingredient, see [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]].
+
+== The two families ==
+* '''Shortened (butter and oil) cakes''' contain a significant amount of fat. Air comes from creaming butter with sugar, plus chemical leavening (baking powder or soda). Pound cake, yellow and white layer cakes, devil's food, carrot cake, most cupcakes.
+* '''Foam (unshortened or low-fat) cakes''' get most of their lift from '''beaten eggs''' and steam. Genoise, sponge (biscuit), angel food, chiffon (a hybrid with oil and baking powder), roulades, ladyfingers.
+* Figoni's classification (''How Baking Works'') adds the high-ratio cake: a shortened cake with '''more sugar than flour by weight''' (often 110–140% of flour weight), made possible by chlorinated cake flour and emulsified shortening.
+
+== Ratios that balance ==
+Professional bakers check a cake formula by '''baker's percentages''' (each ingredient as a percentage of the flour weight, flour = 100%). The classic balancing rules, given by Figoni and by Corriher in ''BakeWise'':
+* '''Sugar ≥ flour''' by weight in a tender layer cake (100–140%). Less sugar gives a firmer, breadier crumb.
+* '''Eggs ≥ fat''' by weight. Eggs supply protein and water to carry the fat; if fat outweighs eggs the cake is greasy and may fall.
+* '''Liquid (milk + eggs) ≥ sugar''' by weight, so the sugar can dissolve. Too little liquid gives a coarse, crusty, sugary cake.
+* '''Pound cake''': equal weights of flour, sugar, butter and eggs (the 1:1:1:1 "quatre-quarts"). Ruhlman's ''Ratio'' gives it as 1:1:1:1 by weight.
+* '''Sponge (genoise)''': about 1 part flour, 1 part sugar, 2 parts whole egg by weight (Ruhlman 1:1:2), optionally with up to 0.25–0.5 part melted butter folded in at the end.
+* '''Angel food''': egg whites about 1.3–1.5 times the sugar by weight, and flour about one-third of the sugar. No yolks or fat, because fat collapses an egg-white foam.
+* '''Chiffon''': oil about 40–50% of flour weight, yolks in the batter, whipped whites folded in, plus baking powder.
+
+== Mixing methods ==
+* '''Creaming method''' (most butter cakes): beat softened butter (about 18–21 °C; it should dent but not be greasy) with sugar for 3–5 minutes until pale and fluffy. Sugar crystals cut tiny air cells into the fat; the leavener only enlarges cells that already exist, so a short creaming gives a dense cake. Add eggs one at a time, then alternate dry ingredients and liquid (dry, wet, dry, wet, dry), mixing only until combined.
+* '''Reverse creaming / two-stage / paste method''' (Beranbaum, ''The Cake Bible''): mix all the dry ingredients, beat in the soft butter and a little liquid until the flour is coated in fat, then add the remaining liquid and eggs in stages. Coating the flour with fat limits gluten, giving a very fine, velvety, level crumb. Good for layer cakes that will be stacked.
+* '''Foaming / sponge method''': whole eggs and sugar are warmed to about 40–45 °C over a water bath (sugar dissolves and the foam becomes more stable), then whipped to the '''ribbon stage''' (a ribbon of batter sits on the surface for a few seconds), which takes 5–10 minutes. Flour is sifted over and '''folded''' in gently; melted butter goes in last.
+* '''Separated-egg method''': yolks and sugar beaten, whites whipped separately to soft or firm peaks, then combined. Chiffon and many sponges.
+* '''Angel food''': whites with cream of tartar (about 1/8 tsp per white) whipped to soft peaks, sugar added gradually to firm, glossy peaks, flour-sugar mix folded in. Bake in an '''ungreased''' tube pan so the batter can climb the walls, then cool '''upside down'''.
+* '''One-bowl / oil method''': oil and liquids stirred into the dry ingredients. Oil does not hold air, so all the lift comes from the leavener; oil cakes stay moist longer because liquid fat does not firm up when cold (carrot cake, chocolate oil cake).
+
+== Pans, filling and baking ==
+* '''Fill pans one-half to two-thirds full.''' A 20 cm (8 in) round holds about 1.2–1.5 L of batter; a standard cupcake cup takes about 45–55 g of batter.
+* '''Prepare pans:''' grease and line with parchment for layers; no grease for angel food and chiffon.
+* '''Typical temperatures:''' butter layer cakes 175–180 °C (350 °F); pound cake and large loaf or Bundt cakes 160–165 °C (325 °F), because a large mass needs time for heat to reach the centre before the outside overbakes; sponges 175–190 °C; cupcakes 175–180 °C for 18–22 minutes.
+* '''Baking strips''' (wet fabric or silicone strips around the pan) keep the edge cooler so the cake rises evenly instead of doming and cracking.
+* '''Doneness:''' the centre springs back when pressed, the cake pulls slightly from the pan, a tester comes out with a few moist crumbs, and the internal temperature is about '''95–99 °C (203–210 °F)''' for most butter cakes (King Arthur's cake guide uses the same range). Cheesecakes are the exception (see below).
+* '''Don't open the oven''' in the first two-thirds of baking. A sudden temperature drop can collapse a foam that has not yet set.
+
+== Cupcakes ==
+* Most layer-cake batters make cupcakes. A recipe for two 20 cm layers makes about 24 standard cupcakes.
+* '''Even size matters''' for frosting, baking time and, where it applies, dose. Use a portion scoop (a #20 scoop holds about 3 tablespoons, about 45 mL) or weigh each cup on a scale.
+* '''Domed versus flat tops:''' a hotter oven (190 °C) and a fuller cup give a dome; 165–175 °C and two-thirds full gives a flatter top for frosting.
+* '''Paper liners pulling away''' usually means the cupcakes steamed in a closed container while warm. Cool them on a rack, uncovered.
+
+== Cheesecake and custard cakes ==
+* Cheesecake is a '''custard''' (eggs set in cream cheese), not a cake. Bake low (150–165 °C), often in a water bath, to about '''65–70 °C (150–160 °F) in the centre''', when the middle still wobbles. Over-baking above about 80 °C makes the egg proteins tighten and crack the surface.
+* Cool slowly (oven off, door ajar) and refrigerate at least 4 hours. Cheesecake is a perishable dairy-and-egg product: keep it refrigerated and eat it within about 5–7 days ([[Food Safety]]).
+
+== Troubleshooting ==
+* '''Dense, tight, or rubbery:''' under-creamed butter, over-mixed batter after the flour went in, too much flour (spooning versus scooping changes a cup of flour by 20–30%; weigh it), or old baking powder.
+* '''Sunken centre:''' too much leavener or sugar, under-baking, an oven that is too cool, or a door opened early. At altitude, see the altitude page.
+* '''Domed and cracked:''' oven too hot, too much flour, or a pan that is too small.
+* '''Coarse, open, tunnelled crumb:''' too much leavener, or over-mixing a muffin-method batter.
+* '''Dry:''' over-baked, too little fat or sugar, or too much flour.
+* '''Greasy or heavy bottom layer:''' butter too warm when creamed, or the emulsion broke when cold eggs were added. Use room-temperature eggs (about 20 °C).
+
+== Storage ==
+* Unfrosted layers keep 2–3 days wrapped at room temperature and 2–3 months frozen. Freezing before frosting also makes layers easier to level and stack.
+* Cakes with cream cheese, whipped cream, custard, or fresh fruit fillings must be refrigerated. Butter-based buttercream cakes are usually fine at cool room temperature for a day.
+* Refrigeration '''stales''' plain cake faster (starch retrogradation is fastest at about 0–5 °C), so wrap tightly and bring to room temperature before serving.
+
+== See also ==
+* [[Baking]]
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]
+* [[Oven Temperature Heat Transfer and High-Altitude Baking]]
+* [[Frosting Icing and Glazes]]
+* [[Muffins Quick Breads and Scones]]
+* [[Brownies Blondies and Bars]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Regional Baked Goods of the World]]
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Food Safety]]
+* [[Culinary Recipes]]
+
+== Sources ==
+* Figoni, P. ''How Baking Works: Exploring the Fundamentals of Baking Science'', 3rd ed. Wiley, 2011. Cake classification, balancing formulas, mixing methods and high-ratio cakes.
+* Corriher, S. O. ''BakeWise: The Hows and Whys of Successful Baking''. Scribner, 2008. Cake formula balance, creaming, baking strips and troubleshooting.
+* Beranbaum, R. L. ''The Cake Bible''. William Morrow, 1988. The two-stage (reverse creaming) method and cake formula balance.
+* Ruhlman, M. ''Ratio: The Simple Codes Behind the Craft of Everyday Cooking''. Scribner, 2009. Pound cake and sponge ratios.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Chapter 10, "Breads, Cakes, Pastry, Cookies"; egg foams in Chapter 2.
+* King Arthur Baking. "Cake Guide." [https://www.kingarthurbaking.com/learn/guides/cake King Arthur Baking]
+* Zhou, W. and Hui, Y. H. (eds.) ''Bakery Products Science and Technology'', 2nd ed. Wiley-Blackwell, 2014. Chapters on cake manufacture and staling.
+
+== Coverage ==
+Shortened versus foam cakes and high-ratio cakes; the balancing rules (sugar versus flour, eggs versus fat, liquid versus sugar) and named ratios for pound cake, genoise, angel food and chiffon; creaming, reverse-creaming, foaming, separated-egg, angel food and one-bowl oil methods; pan filling, temperatures, baking strips and doneness temperatures; cupcake portioning and tops; cheesecake as a custard; troubleshooting dense, sunken, domed, coarse, dry and greasy cakes; storage and staling.

@@ -1,0 +1,76 @@
+'''Baking Science: Flour, Gluten, Fats, Sugars, Eggs and Leaveners''' is the ingredient-function page of the [[Baking]] hub. Every batter and dough is a balance between two groups of ingredients. '''Tougheners''' build structure: flour proteins, egg whites and the starch that sets as it bakes. '''Tenderizers''' interrupt it: fat, sugar, egg yolks and the leavening gases. Most recipe changes, and most recipe failures, come down to shifting that balance. Once you know what each ingredient does, you can read a recipe, predict the texture and fix it.
+
+Weigh ingredients wherever you can. A "cup" of all-purpose flour weighs anywhere from about 120 g (spooned and levelled) to 150 g or more (scooped and packed). That 25% swing is enough to turn a chewy cookie cakey or a moist cake dry. King Arthur Baking's published standard is 120 g per cup of all-purpose flour, 198 g per cup of granulated sugar and 227 g per cup (2 sticks) of butter. See [[Measuring Tools Scales Syringes and Volumetric Dosing]] and [[Scratch Cooking and Culinary Ratios]].
+
+== Flour and gluten ==
+* '''Wheat flour''' is about 68–75% starch, 7–15% protein and 11–14% water, plus small amounts of lipid, fibre and ash. The protein content sets its behaviour.
+* '''Gluten''' forms when two wheat protein groups, '''glutenins''' (which give elasticity and strength) and '''gliadins''' (which give extensibility and stretch), are hydrated and worked. They bond into a stretchy network that traps gas. More water and more mixing develop more gluten. Fat, sugar, acid and bran all limit it.
+* '''Typical U.S. protein levels:''' cake flour about 7–9% (often chlorinated, which helps it hold sugar and fat in high-ratio cakes); pastry flour about 8–9%; all-purpose flour about 10–12% (King Arthur's is 11.7%); bread flour about 12–14%; whole wheat about 13–14%, though the bran cuts gluten development. A substitute for cake flour is 1 cup all-purpose with 2 tablespoons removed and replaced by cornstarch, sifted together.
+* '''Starch does the setting.''' Wheat starch gelatinizes (absorbs water, swells and thickens) from about 55–65 °C and largely finishes by 85–95 °C if there is enough water. That gelatinized starch, not the gluten, sets the crumb of most cakes. Sugar delays gelatinization, which is why high-sugar batters set later.
+* '''Mixing control:''' muffins and quick breads are stirred only until the flour disappears, to keep gluten low (overmixing causes tunnels and toughness). Bread dough is kneaded to build it. Cookies and pie crust sit in between.
+* '''Resting''' (autolyse, or chilling cookie dough overnight) lets flour hydrate fully. Hydrated dough browns more, spreads less and tastes deeper.
+* '''Gluten-free baking''' replaces the gluten network with starches (rice, tapioca, potato) plus binders such as xanthan gum (about 1/4–1/2 teaspoon per cup of flour blend for cookies and cakes, more for bread) or psyllium husk.
+
+== Fats ==
+* Fat '''coats flour proteins''' and keeps them from bonding ("shortening" the gluten strands, hence the name), so it tenderizes. It also carries flavour, traps air when creamed and, in layered pastry, separates the layers.
+* '''Butter''' is about 80–82% fat, 16–18% water and 1–2% milk solids (European-style is 82–86% fat). Its water turns to steam in the oven (lift and flakiness), and its milk solids brown. It melts at about 32–35 °C, close to body temperature, so it softens quickly in warm hands.
+* '''Creaming:''' beating butter at about 18–21 °C (65–70 °F, cool but bendable) with sugar for 3–5 minutes forces sugar crystals through the fat and traps tiny air cells. Chemical leaveners only enlarge cells that are already there, so creaming sets the crumb of butter cakes and many cookies. Butter that is too warm will not hold the air.
+* '''Shortening''' is 100% fat with no water and melts at about 47 °C. Cookies made with it spread less and stay taller, and pie crusts made with it are tender and flaky but taste of nothing. Most modern shortenings contain no trans fat.
+* '''Oil''' is liquid at room temperature. It coats flour very efficiently, so oil cakes and oil brownies are moist and tender and stay soft when cold, but oil cannot be creamed, so it adds no air.
+* '''Brown butter''' (butter cooked until the milk solids turn hazelnut brown at about 120–130 °C) adds nutty flavour but loses about 15–20% of its weight as water. Weigh it after browning, and add back water if a recipe depends on the moisture.
+
+== Sugars ==
+* Sugar '''tenderizes''' (it is hygroscopic, competes for water and delays gluten formation, starch gelatinization and egg-protein setting), '''sweetens''', '''browns''' (caramelization and the Maillard reaction; see [[Sugar Stages and the Science of Candy]]), '''holds moisture''' (keeps baked goods fresh longer), and '''aerates''' when creamed.
+* '''Granulated sugar''' (sucrose) crisps cookies and helps them spread. '''Brown sugar''' is sucrose plus about 3.5% (light) or 6.5% (dark) molasses. It holds more water, so it gives chewier, moister results, and it is slightly acidic, so it reacts with baking soda.
+* '''Powdered (icing) sugar''' contains about 3% cornstarch. It gives a fine, sandy, melt-in-the-mouth texture in shortbread and does not spread as much.
+* '''Liquid sugars''' (honey, maple, corn syrup, golden syrup, molasses) add water and browning. Honey and invert syrup are fructose-rich, so they brown faster and keep things soft. When swapping honey for sugar, a common rule is to use about 3/4 as much, reduce the recipe's liquid by about 1/4 cup per cup of honey, add 1/4 teaspoon baking soda per cup to neutralize its acidity, and lower the oven by about 14 °C (25 °F).
+* '''Cutting sugar''' does more than make things less sweet. It makes cakes drier and tougher, cookies cakier and paler, and stales products faster. Reductions of about 25% usually work; beyond that, expect texture changes.
+
+== Eggs ==
+* A U.S. large egg weighs about 50 g out of the shell: about 33 g white and 17 g yolk. The white is about 88% water and 10–11% protein. The yolk is about 50% water, 30–33% fat and 16% protein, plus the emulsifier lecithin.
+* '''Whites''' toughen and dry; they set at about 62–65 °C and are the foaming workhorse of meringue and sponge cake (see [[Macarons Meringues and Biscotti]]). '''Yolks''' tenderize, enrich, emulsify fat and water, and add colour. Adding an extra yolk makes cookies and brownies fudgier and richer; an extra white makes them drier and puffier.
+* Eggs supply most of the '''water''' in many cookie and brownie recipes, so changing the number of eggs changes hydration as well as structure.
+* Bring eggs to room temperature (about 20 °C) for creamed batters. Cold eggs firm up the butter and break the emulsion, which looks curdled and gives a denser crumb.
+* '''Replacing eggs:''' 1 tablespoon ground flax or chia mixed with 3 tablespoons water (rested 5–10 minutes) per egg binds but does not foam. 3 tablespoons aquafaba (chickpea cooking liquid) can replace one egg white and whips like one.
+
+== Leaveners ==
+* '''Steam''' leavens everything that contains water. It is the main lift in puff pastry, choux, popovers and pie crust.
+* '''Air''', trapped by creaming or whipping, gives the cells that the other leaveners expand.
+* '''Baking soda''' (sodium bicarbonate) is a base. It needs an '''acid''' in the recipe (buttermilk, yogurt, brown sugar, honey, molasses, natural cocoa, chocolate, lemon juice) to release CO₂. It reacts as soon as it is wet, so bake soda-only batters promptly. Soda also '''raises pH''', which speeds browning and spread and weakens gluten. Too much leaves a soapy or metallic taste and an orange-brown, coarse crumb. A common amount is '''1/4 teaspoon (about 1.3 g) per cup of flour''', or about 1/2 teaspoon per cup of buttermilk.
+* '''Baking powder''' is soda plus a dry acid plus cornstarch. U.S. '''double-acting''' powder reacts a little when wet (fast acid, monocalcium phosphate) and mostly when heated (slow acid, usually sodium aluminium sulphate or sodium acid pyrophosphate). The usual amount is '''1 to 1 1/4 teaspoons (about 4–5 g) per cup of flour'''. Corriher (''BakeWise'') argues that many recipes use too much; excess powder makes cells grow too big, merge and collapse, giving a coarse, sunken cake.
+* '''Using both:''' recipes with an acidic ingredient often use enough soda to neutralize the acid, plus powder for the remaining lift.
+* '''Testing freshness:''' baking powder should fizz vigorously in hot water, and soda in vinegar. Opened powder loses strength over 6–12 months.
+* '''Substitutes:''' 1 teaspoon baking powder ≈ 1/4 teaspoon baking soda + 1/2 teaspoon cream of tartar. Baking soda is about three to four times stronger than powder, so the reverse swap needs acid as well.
+* '''Yeast''' produces CO₂ and alcohol by fermentation. It is used in bread, enriched doughs and some crackers and is covered under [[Regional Baked Goods of the World]] and bread pages elsewhere in the Library.
+* '''Ammonium bicarbonate''' (baker's ammonia, hartshorn) leaves no residue in very thin, dry cookies and crackers. Its ammonia smell bakes out completely only in thin goods.
+
+== Salt, liquids and flavourings ==
+* '''Salt''' (about 1–2% of flour weight in bread and 0.5–1.5% in cookies) strengthens gluten, controls yeast and sharpens flavour. Diamond Crystal kosher salt is about half as dense as Morton kosher or table salt, so measure salt by weight.
+* '''Milk''' adds protein and lactose (which browns). '''Buttermilk, yogurt and sour cream''' add acid (for soda) and tenderness.
+* '''Natural cocoa''' is acidic (about pH 5–6) and pairs with soda. '''Dutch-process cocoa''' is alkalized (about pH 7–8) and pairs with powder. Swapping one for the other without adjusting the leavener changes rise, colour and flavour.
+
+== See also ==
+* [[Baking]]
+* [[Oven Temperature Heat Transfer and High-Altitude Baking]]
+* [[Brownies Blondies and Bars]]
+* [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]
+* [[Macarons Meringues and Biscotti]]
+* [[Cakes and Cupcakes]]
+* [[Muffins Quick Breads and Scones]]
+* [[Pie Crust and Pastry Basics]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Scratch Cooking and Culinary Ratios]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Sauces]]
+
+== Sources ==
+* Figoni, P. ''How Baking Works: Exploring the Fundamentals of Baking Science'', 3rd ed. Wiley, 2011. Chapters on wheat flour, sweeteners, fats, eggs, leaveners, tougheners and tenderizers.
+* Corriher, S. O. ''BakeWise: The Hows and Whys of Successful Baking''. Scribner, 2008. Leavener amounts, creaming and egg functions.
+* McGee, H. ''On Food and Cooking: The Science and Lore of the Kitchen'', rev. ed. Scribner, 2004. Chapters 2 ("Eggs") and 10 ("Breads, Cakes, Pastries").
+* King Arthur Baking. "Ingredient weight chart." [https://www.kingarthurbaking.com/learn/ingredient-weight-chart King Arthur Baking]
+* Delcour, J. A. and Hoseney, R. C. ''Principles of Cereal Science and Technology'', 3rd ed. AACC International, 2010. Flour composition, gluten proteins and starch gelatinization.
+* Pareyt, B. and Delcour, J. A. "The role of wheat flour constituents, sugar, and fat in low moisture cereal based products: a review on sugar-snap cookies." ''Critical Reviews in Food Science and Nutrition'' 48(9):824–839, 2008.
+
+== Coverage ==
+How each baking ingredient works, framed as tougheners versus tenderizers: weighing versus cups; flour types and protein levels, glutenin and gliadin, starch gelatinization, mixing and resting, gluten-free binders; butter composition, creaming temperature, shortening, oil and brown butter; the functions of granulated, brown, powdered and liquid sugars and honey substitution; egg composition and the roles of whites and yolks, egg replacers; steam, air, baking soda, baking powder (double-acting, amounts, freshness, substitutions), yeast and baker's ammonia; salt, dairy acids and natural versus Dutch-process cocoa.

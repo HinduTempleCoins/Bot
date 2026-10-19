@@ -1,0 +1,78 @@
+'''Oven Temperature, Heat Transfer and High-Altitude Baking''' is the [[Baking]] hub's page on the oven itself, and on how the same recipe behaves at different elevations. Every baked good goes through a race between '''expansion''' (gases and steam inflating the batter) and '''setting''' (starch gelatinizing and proteins coagulating until the shape is fixed). Oven temperature, pan material and air pressure all change who wins that race. They explain most domed, sunken, spread, pale or burnt results that the ingredient list does not.
+
+== What happens in the oven, in order ==
+* '''Gas expansion''' starts first. Trapped air and CO₂ expand as they warm, and baking powder's heat-activated acid releases more gas (mostly between about 50 and 80 °C).
+* '''Fat melts.''' Butter melts at about 32–35 °C. In cookies, the fat melting before the structure sets is what makes the dough spread. In pastry, solid fat pieces melt and leave gaps that steam inflates into flaky layers.
+* '''Water vaporizes.''' Near 100 °C at sea level, water turns to steam, a powerful leavener (water expands about 1,600 times in volume as it becomes steam).
+* '''Structure sets.''' Egg proteins coagulate from about 62–80 °C, and wheat starch gelatinizes from about 55–95 °C, depending on sugar and water. Sugar raises both temperatures, so very sweet batters set later and spread or rise longer.
+* '''Surface browning''' begins once the surface dries out and passes about 120–150 °C: the Maillard reaction (sugars with proteins) and caramelization (sugars alone; sucrose from about 160 °C). The interior of a cake or bread never gets much above 100 °C while it still contains water, which is why the inside stays pale.
+* '''Doneness:''' cakes and quick breads are usually done when the centre reaches about 93–99 °C (200–210 °F), bread about 88–99 °C depending on type, and brownies (which are intentionally underbaked by cake standards) at about 80–90 °C for fudgy results.
+
+== The three kinds of heat transfer ==
+* '''Radiation''' from the hot walls and elements browns surfaces facing them. A pan near the bottom element or the top broiler browns that side first.
+* '''Convection''' (moving hot air) carries heat to the food. A convection (fan) oven moves air faster, which strips the cool boundary layer off the food and roughly behaves like a conventional oven about 14 °C (25 °F) hotter. The standard adjustment is '''lower the set temperature by 14 °C (25 °F)''', or keep the temperature and shorten the time by about 25%. Fans can blow delicate batters lopsided and dry the surface of custards and cheesecakes.
+* '''Conduction''' through the pan heats the bottom and sides. Pan material and colour change it a lot:
+* '''Dark or non-stick metal''' absorbs more radiant heat and browns bottoms faster. Many manufacturers recommend lowering the oven by about 14 °C (25 °F).
+* '''Light, shiny aluminium''' reflects heat and gives the most even, lightest browning. It is the reference pan for most tested recipes.
+* '''Glass and ceramic''' heat slowly but hold heat, so the edges overbake before the centre is done. Lower the oven by about 14 °C (25 °F) and expect longer baking.
+* '''Insulated (air-cushion) sheets''' prevent dark bottoms but slow cookies down.
+* '''Silicone''' conducts poorly, gives pale bottoms and needs a metal sheet underneath for support.
+* '''Pan size''' matters as much as material. A batter baked in a pan with twice the area is half as deep, and bakes in much less time with drier edges. Doubling a 20 × 20 cm (8 × 8 in) recipe for a 23 × 33 cm (9 × 13 in) pan is close, because the area is 1.86 times larger. For dosing, depth also changes how evenly each square cooks (see [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]).
+
+== Getting the oven right ==
+* '''Most home ovens are off.''' Thermostats commonly drift by 10–20 °C, and ovens cycle on and off, swinging 10–15 °C above and below the set point. An independent '''oven thermometer''' (placed in the middle of the centre rack) is the cheapest fix in baking.
+* '''Preheat fully.''' Many ovens announce "ready" when the air reaches temperature but the walls are still cool. Wait another 10–20 minutes for a stable oven, especially for cookies, pastry and bread.
+* '''Rack position:''' the middle rack is the default. The top rack browns tops and the bottom rack browns bottoms. Rotate pans front to back and top to bottom halfway through when baking more than one sheet.
+* '''Baking stone or steel''' placed on the lowest rack evens out temperature swings and gives strong bottom heat for bread, pizza and crackers.
+* '''Opening the door''' drops the air temperature by about 14–28 °C within seconds. Don't open it during the first two-thirds of baking for cakes, soufflés, choux and meringues.
+* '''Carry-over baking:''' cookies, brownies and bars keep cooking on the hot pan for several minutes after leaving the oven. Pull them when the centre still looks a little underdone.
+
+== Temperature and texture ==
+* '''Lower temperatures (150–165 °C, 300–325 °F)''' give flatter cakes with fewer cracks, even colour and moist interiors. They suit cheesecakes, large or dense cakes, chewier and paler cookies, and long-baking fruitcakes.
+* '''Moderate (175–190 °C, 350–375 °F)''' is the default for cookies, brownies, cakes and muffins.
+* '''High (200–230 °C, 400–450 °F)''' gives fast oven spring and browning: scones, biscuits, puff pastry, pie crusts (at least to start), popovers, crusty bread. A muffin batter started at 220 °C (425 °F) for 5 minutes and finished at 175 °C (350 °F) domes higher.
+* '''Heat-sensitive ingredients''' degrade faster at the surface, which can reach 150 °C or more, than in the interior, which stays near or below 100 °C. See [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]].
+
+== High-altitude baking ==
+=== Why altitude changes things ===
+* Air pressure falls as elevation rises. At about 1,500 m (5,000 ft) it is about 17% lower than at sea level, and at about 2,100 m (7,000 ft) about 23% lower.
+* '''Water boils at a lower temperature''': about 1 °C lower for every 300 m (roughly 1 °F per 500 ft). At 1,600 m (Denver) water boils at about 95 °C. Moisture evaporates faster, batters dry out, and the interior of a baked good reaches a lower maximum temperature.
+* '''Gases expand more and faster.''' Leavening that is right at sea level over-inflates the cells, which stretch, break and collapse before the structure sets. The result is a coarse crumb, sinking in the middle, or cookies that spread and flatten.
+* '''Sugar is effectively more concentrated''' because more water evaporates, which weakens structure further.
+* Adjustments usually start being needed at about 900–1,100 m (3,000–3,500 ft).
+
+=== The standard corrections ===
+King Arthur Baking's published guide, based on Colorado State University Extension research, gives these starting points for above about 3,000–3,500 ft:
+* '''Raise the oven''' by 8–14 °C (15–25 °F) so that the structure sets before it over-expands. Use the lower end for chocolate and delicate cakes. Shorten the baking time by about 5–8 minutes per 30 minutes.
+* '''Reduce leavener.''' For each teaspoon of baking powder or soda: about 7/8 teaspoon at 3,000–5,000 ft, 1/2 teaspoon at 5,000–6,500 ft, and 1/4 teaspoon at 6,500–8,000 ft. Larger amounts are reduced proportionally.
+* '''Reduce sugar''' by about 1 tablespoon per cup.
+* '''Increase liquid''' by 1–2 tablespoons at 3,000 ft, plus about 1 1/2 teaspoons for each additional 1,000 ft. An extra egg (or egg white) both adds liquid and strengthens the structure.
+* '''Increase flour''' by about 1 tablespoon at 3,500 ft, plus 1 tablespoon for each additional 1,500 ft.
+* '''Cookies:''' raise the oven 15–25 °F, cut sugar by about 1 tablespoon per cup, shorten baking by 1–2 minutes per 10, and '''chill the dough''' for 30 minutes to 2 hours to limit spread.
+* '''Egg-foam cakes''' (angel food, chiffon): beat whites only to soft peaks, since stiff peaks over-expand and collapse.
+* '''Yeast breads:''' use about 25% less yeast, use cooler water, and watch the dough rather than the clock, since it rises faster.
+* '''Make one change at a time''' and keep notes. These are starting points; Colorado State University Extension notes that local conditions vary.
+
+== See also ==
+* [[Baking]]
+* [[Baking Science Flour Gluten Fats Sugars Eggs and Leaveners]]
+* [[Brownies Blondies and Bars]]
+* [[Cookies Drop Rolled Cut-Out Icebox Sandwich and Shortbread]]
+* [[Macarons Meringues and Biscotti]]
+* [[Cakes and Cupcakes]]
+* [[Muffins Quick Breads and Scones]]
+* [[Pie Crust and Pastry Basics]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Food Safety]]
+
+== Sources ==
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Chapter 4, "Heat Transfer", and the stages of baking.
+* McGee, H. ''On Food and Cooking'', rev. ed. Scribner, 2004. Heat transfer and the oven; boiling point and altitude.
+* Corriher, S. O. ''BakeWise''. Scribner, 2008. Pan choice, oven temperature and setting versus expansion.
+* King Arthur Baking. "High-altitude baking." [https://www.kingarthurbaking.com/learn/resources/high-altitude-baking King Arthur Baking]
+* Colorado State University Extension. "Baking at elevation" (Live Smart, C. Farrand, 2024). [https://extension.colostate.edu/resource/baking-at-elevation CSU Extension]; and CSU Extension fact sheet P41, ''High Altitude Food Preparation''.
+* Purdy, S. G. ''Pie in the Sky: Successful Baking at High Altitudes''. William Morrow, 2005. Recipes tested at sea level, 3,000, 5,000, 7,000 and 10,000 ft.
+
+== Coverage ==
+The oven page of the baking hub: the order of events during baking (gas expansion, fat melting, steam, protein and starch setting, browning) with temperatures and internal doneness targets; radiation, convection and conduction, convection-oven conversion, pan material and colour, and pan size; oven thermometers, preheating, rack position, stones, door opening and carry-over; how temperature changes texture; why altitude changes boiling point and gas expansion; standard high-altitude corrections for oven temperature, leavener (by altitude band), sugar, liquid, flour, cookies, foam cakes and yeast breads.

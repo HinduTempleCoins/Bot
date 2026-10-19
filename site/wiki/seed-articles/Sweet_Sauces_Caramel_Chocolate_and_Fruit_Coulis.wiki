@@ -1,0 +1,78 @@
+'''Sweet Sauces: Caramel, Chocolate and Fruit Coulis''' covers the dessert sauces: '''caramel and butterscotch''', '''custard sauces''' (crème anglaise, sabayon), '''chocolate sauces''', '''fruit sauces''' (coulis, compote, syrups) and the dairy reductions (dulce de leche, cajeta). It belongs to the [[Sauces]] hub and borrows most of its science from the [[Candy Making]] pages. Each sweet sauce is a confection '''stopped short''': a caramel with enough cream to stay pourable, a ganache thin enough to pour, a jam not cooked far enough to set.
+
+== Caramel sauce ==
+* '''What caramel is:''' sucrose heated until it breaks down into hundreds of new compounds (diacetyl for butteriness, furans for nuttiness, maltol, and bitter, brown polymers). Sucrose begins to caramelize around '''160–170 °C (320–338 °F)'''; amber is about 170–180 °C; past about 190 °C it turns bitter and then burnt. See [[Sugar Stages and the Science of Candy]].
+* '''Dry method:''' sugar alone in a heavy pan over medium heat, stirred gently as it melts. Faster and darker, but it scorches easily at the edges.
+* '''Wet method:''' sugar with about a quarter to a third of its weight in water, boiled without stirring (swirl the pan instead) until the water is gone and the colour develops. Slower and more even, but prone to '''crystallizing''' if sugar crystals on the pan wall fall back in. A tablespoon of corn syrup or a squeeze of lemon (acid inverts some sucrose) prevents it; washing the walls with a wet pastry brush helps.
+* '''Making it a sauce:''' at the colour you want, take the pan off the heat and add '''warm cream''' (cold cream makes the caramel seize into lumps and spatter more). It foams violently and the steam is scalding: add it in two or three parts, standing back, with a long whisk. Then stir in butter and salt.
+* '''Proportions:''' for a pourable sauce, roughly '''200 g sugar, 180–240 mL cream, 30–60 g butter'''. More cream gives a thinner sauce; less gives one that sets firm when cold (and becomes chewy caramel candy at about 115–120 °C if cooked further; see [[Caramel Toffee Brittle Fudge and Fondant]]).
+* '''Salted caramel:''' about '''1–2% of the finished weight''' in flaky or fine sea salt, added at the end.
+* '''Butterscotch:''' brown sugar cooked with butter (rather than caramelizing white sugar), then cream; often finished with vanilla and a splash of whisky or lemon.
+* '''Caramel safety:''' molten sugar sticks to skin and is far hotter than boiling water. Use a pot 3–4 times the volume of the sugar; keep children away; have a bowl of cold water ready for a burn.
+
+== Custard sauces ==
+* '''Crème anglaise:''' milk (or milk and cream) with egg yolks and sugar, gently cooked until it thickens. A classic proportion is '''1 litre milk, 8–10 yolks and 150–250 g sugar''', flavoured with vanilla. Heat to '''about 82–84 °C (180–183 °F)''': the sauce '''coats the back of a spoon''' (''nappe''), and a finger drawn across leaves a clean line. Above about 85 °C the yolk proteins over-coagulate and it '''curdles'''. Strain it into a cold bowl at once to stop the cooking. A curdled anglaise can sometimes be rescued with an immersion blender.
+* '''Sabayon / zabaglione:''' yolks, sugar and wine (Marsala for zabaglione, Champagne or sweet wine for sabayon) whisked over simmering water until tripled in volume and thick, around 70–75 °C. Serve at once.
+* '''Pastry cream''' is the starch-thickened, spoonable relative used as a filling; see [[Baking]].
+* Crème anglaise is the base of '''ice cream''' (churned) and of '''crème brûlée''' and '''pots de crème''' (baked).
+
+== Chocolate sauces ==
+* '''Ganache sauce:''' chopped chocolate and hot cream. Equal weights (1:1) give a sauce that pours warm and thickens when cold; '''1:2 chocolate to cream''' stays pourable from the fridge. See [[Chocolate Tempering Ganache Truffles and Bonbons]].
+* '''Hot fudge:''' chocolate, cream, sugar, butter and corn syrup simmered briefly. The corn syrup keeps it glossy and stops it crystallizing; it firms on cold ice cream.
+* '''Cocoa syrup:''' cocoa powder, sugar and water boiled 1–2 minutes (cocoa needs heat to hydrate and lose its raw taste), then vanilla and a pinch of salt. Fat-free, keeps for weeks refrigerated, and doesn't set firm.
+* '''Magic shell:''' melted chocolate with '''coconut oil''' (about 2:1 chocolate to oil by weight). Coconut oil melts at about 24 °C, so the coating hardens within seconds on ice cream.
+* '''Chocolate seizes''' if a small amount of water gets into melted chocolate. Seized chocolate can be rescued for a sauce, not for tempering, by adding more liquid (at least about 1 tablespoon of hot water or cream per 50–60 g of chocolate) and whisking smooth.
+
+== Fruit sauces ==
+* '''Coulis:''' raw or briefly cooked fruit purée, sweetened and '''strained''' (raspberries, strawberries, mango, passion fruit, blackcurrant). Sugar is usually '''10–25% of the fruit weight''', adjusted to the fruit's acidity; a little lemon juice brightens it. Simple syrup blends in more smoothly than granulated sugar. Raw coulis keeps about 3–5 days refrigerated; cooked, about a week; it freezes well.
+* '''Compote:''' whole or chunky fruit poached in syrup until just tender. Uses fruit that holds its shape (apples, pears, stone fruit, rhubarb, berries added at the end).
+* '''Fruit syrups:''' fruit juice or purée cooked with sugar to about 50–65% sugar (Brix), which keeps them from spoiling quickly; refrigerate after opening.
+* '''Thickening a fruit sauce:''' cornstarch for a clear, glossy sauce that thins if overcooked or frozen; arrowroot or tapioca for a clearer sauce that tolerates acid and freezing better; fruit pectin for a jam-like set. See [[Sauce Thickeners Roux Slurries Liaisons and Gums]].
+* '''Gastrique:''' caramelized sugar deglazed with vinegar and often fruit, used with duck, pork and game. It is where sweet and savoury sauces meet; see [[Pan Sauces Reductions and Gravies]].
+* '''Colour:''' acid keeps red and purple berry pigments (anthocyanins) bright; alkaline additions or reactive metal pans turn them bluish or grey.
+
+== Dairy reductions ==
+* '''Dulce de leche''' (Argentina, Uruguay): milk and sugar, often with a pinch of baking soda, cooked slowly for 2–3 hours to a thick, brown, caramel-flavoured paste. The colour and flavour come from the '''Maillard reaction''' between milk proteins and lactose, not from caramelizing sucrose; the baking soda speeds browning by raising the pH.
+* '''Cajeta''' (Mexico): the same method with goat's milk, named after the small boxes it was sold in.
+* '''The sealed-can method''' (simmering an unopened can of sweetened condensed milk) is common but carries a real risk: a can that boils dry or is opened hot can burst and spray scalding contents. If used, keep the can covered with water throughout and let it cool fully before opening. An open dish in the oven or a pressure cooker method is safer.
+* '''Condensed-milk sauces''' (brigadeiro sauce, tres leches syrup): sweetened condensed milk is already about 45% sugar and thick, so it needs only flavour and a little cooking.
+
+== Other dessert sauces ==
+* '''Hard sauce''' (Britain): butter beaten with icing sugar and brandy or rum; firm when cold, melting on hot Christmas pudding.
+* '''Toffee sauce''' for sticky toffee pudding: butter, dark muscovado sugar and cream boiled briefly.
+* '''Maple, honey and molasses''' syrups; '''crème caramel''' syrup (a thin wet caramel poured into the mould before the custard).
+* '''Rum and brandy butter''', '''bourbon sauce''' for bread pudding, and '''lemon sauce''' (cornstarch-thickened lemon syrup) round out the classic list.
+
+== Storage and safety ==
+* '''Dairy and egg sauces are perishable.''' Refrigerate crème anglaise, caramel with cream, ganache sauces and dulce de leche promptly; keep crème anglaise 2–3 days, cream-based caramel and ganache sauce about 1–2 weeks. Reheat gently; don't leave them out more than 2 hours.
+* '''Raw-egg sauces''' (some sabayons, mousses, uncooked buttercream bases) carry a small ''Salmonella'' risk; cooking yolks to 71 °C (160 °F), as in crème anglaise and cooked sabayon, or using pasteurized eggs, removes it.
+* '''Alcohol does not all cook off.''' A sauce flambéed or simmered briefly keeps much of its alcohol; this matters for children, people avoiding alcohol and anyone in recovery.
+* See [[Sauce Food Safety Acidification pH Garlic in Oil and Refrigeration]] and [[Food Safety]].
+
+== Infused sweet sauces ==
+Fat-based sweet sauces (caramel with butter and cream, ganache, hot fudge) readily carry fat-soluble actives, for example by replacing some of the butter with an infused butter; water-based ones (coulis, cocoa syrup) need a water-soluble form or an emulsifier. Because sweet sauces are poured by eye onto dessert and taste like ordinary food, dose them '''per measured spoonful''' (by volume or weight), add actives '''after the hot cooking''' (caramel reaches 170 °C or more), stir before every serving, label the jar and keep it locked away from children. See [[Infused Sauces and Dressings Even Dosing per Serving]], [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]] and [[Tinctures Glycerites Syrups and Infused Oils and Butters]].
+
+== See also ==
+* [[Sauces]]
+* [[Candy Making]]
+* [[Caramel Toffee Brittle Fudge and Fondant]]
+* [[Chocolate Tempering Ganache Truffles and Bonbons]]
+* [[Sugar Stages and the Science of Candy]]
+* [[Sauce Thickeners Roux Slurries Liaisons and Gums]]
+* [[Pan Sauces Reductions and Gravies]]
+* [[Regional Sauces of the World]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Baking]]
+* [[Food Safety]]
+
+== Sources ==
+* McGee, H. ''On Food and Cooking: The Science and Lore of the Kitchen'', rev. ed. Scribner, 2004. Chapter 2 (milk and dairy, dulce de leche and Maillard browning), chapter 3 (eggs and custard coagulation), chapter 12 (sugars, caramelization and chocolate).
+* Peterson, J. ''Sauces: Classical and Contemporary Sauce Making'', 4th ed. Wiley, 2017. Dessert sauces, crème anglaise, sabayon and coulis.
+* Friberg, B. ''The Professional Pastry Chef'', 4th ed. Wiley, 2002. Dessert sauce formulas.
+* Figoni, P. ''How Baking Works'', 3rd ed. Wiley, 2011. Custard thickening temperatures and starch thickeners.
+* Greweling, P. P. ''Chocolates and Confections'', 2nd ed. CIA/Wiley, 2013. Caramel, ganache ratios and seizing.
+* Kroh, L. W. "Caramelisation in food and beverages." ''Food Chemistry'' 51(4):373–379, 1994.
+* USDA Food Safety and Inspection Service. "Shell Eggs from Farm to Table" (cook egg dishes to 160 °F).
+
+== Coverage ==
+Caramel sauce (caramelization temperatures and chemistry, dry and wet methods and crystallization control, adding warm cream safely, proportions, salted caramel, butterscotch, burns); custard sauces (crème anglaise proportions, nappe and curdling temperatures, rescue, sabayon and zabaglione, related custards); chocolate sauces (ganache ratios, hot fudge, cocoa syrup, coconut-oil shell, rescuing seized chocolate); fruit sauces (coulis sugar levels and storage, compote, syrups, starch and pectin thickening, gastrique, anthocyanin colour); dulce de leche and cajeta (Maillard browning, baking soda, the sealed-can hazard), condensed-milk sauces; hard, toffee, bourbon and lemon sauces; storage, raw egg and alcohol cautions; infused sweet sauces dosed per measured spoonful.

@@ -90,6 +90,9 @@ Errors add up. Roughly add the percentage errors of every step for a worst-case 
 * [[Testing Labelling and Safe Storage of Dosed Preparations]]
 * [[Laboratory Equipment and Extraction Engineering]]
 * [[Dilution Calculator]]
+* [[Infused Baked Goods Even Dosing in Brownies Cookies and Bars]]
+* [[Infused Sauces and Dressings Even Dosing per Serving]]
+* [[Baking]]
 
 == Sources ==
 * United States Pharmacopeia. General Chapter <41> ''Balances''; <1251> ''Weighing on an Analytical Balance''; <1101> ''Medicine Dropper''; <795> ''Pharmaceutical Compounding — Nonsterile Preparations''. [https://www.usp.org USP]
