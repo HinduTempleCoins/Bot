@@ -29,8 +29,34 @@ test('registry integrity: every static board is well-formed and in a known categ
 test('every design category is present, including Internet History', () => {
   const ids = listCategories().map((c) => c.id).sort();
   assert.deepEqual(ids,
-    ['classifieds', 'crypto', 'gaming', 'history', 'local', 'melek', 'mind', 'net', 'reviews', 'style', 'travel']);
-  assert.equal(CATEGORIES.length, 11);
+    ['classifieds', 'crypto', 'gaming', 'history', 'local', 'make', 'melek', 'mind', 'net', 'reviews', 'style', 'travel']);
+  assert.equal(CATEGORIES.length, 12);
+  assert.equal(CATEGORIES[0].id, 'make', 'Make is the first pillar');
+});
+
+test('Make pillar launch set + the new Medicine and Place boards (FORUM_BOARD_DESIGN §5)', () => {
+  const make = listBoards().filter((b) => b.categoryId === 'make').map((b) => b.id).sort();
+  assert.deepEqual(make, ['make/character', 'make/engines', 'make/images', 'make/type']);
+  assert.equal(resolveBoard('make/images').title, 'Image Generation Craft');
+  assert.equal(resolveBoard('pharmacology').categoryId, 'mind');
+  assert.equal(resolveBoard('case-reports').categoryId, 'mind');
+  assert.equal(resolveBoard('local-history').categoryId, 'local');
+  // not opened, by design decision
+  assert.equal(resolveBoard('civic'), null);
+  assert.equal(resolveBoard('make/critique'), null);
+  for (const id of ['make/images', 'make/character', 'make/engines', 'make/type', 'pharmacology', 'case-reports', 'local-history']) {
+    assert.ok(FLAGSHIP_BOARDS.includes(id), `${id} is a flagship board`);
+    assert.ok(boardSitemapEntries().some((e) => e.path === `/b/${id}`), `${id} is in the board sitemap`);
+  }
+});
+
+test('boards carry belongs / elsewhere routing lines (design §3a)', () => {
+  for (const id of ['make/images', 'studio', 'herb', 'nootropics', 'witchy', 'neighborhoods', 'pharmacology', 'case-reports']) {
+    const b = resolveBoard(id);
+    assert.ok(b.belongs, `${id} has belongs`);
+    assert.ok(b.elsewhere, `${id} has elsewhere`);
+  }
+  assert.equal(resolveBoard('economy').belongs, '');
 });
 
 test('Internet History boards are wired and lost-media is a Q&A', () => {

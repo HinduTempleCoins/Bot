@@ -41,7 +41,7 @@ test('/b/<board> renders the board with its threads and a New thread button', as
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /Economy &amp; Tokens/);
   assert.match(res.body, /New thread/);
-  assert.match(res.body, /How FORUM merit differs from stake/); // seeded thread
+  assert.match(res.body, /FORUM merit: standing you earn, never buy/); // seeded thread
 });
 
 test('/b/<unknown> redirects home', async () => {
@@ -98,7 +98,7 @@ test('/search with a query returns matching threads', async () => {
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /Search/);
   // seeded economy thread body/title mentions merit
-  assert.match(res.body, /How FORUM merit differs from stake|No threads matched/);
+  assert.match(res.body, /FORUM merit: standing you earn, never buy/);
 });
 
 test('/search escapes a hostile query', async () => {
@@ -171,7 +171,7 @@ test('production (NODE_ENV=production): no demo accounts, no ALPHA/TESTNET label
     env: (() => { const e = { ...process.env, NODE_ENV: 'production' }; delete e.FORUM_DEMO_SEED; delete e.FORUM_LOCKED; return e; })(), encoding: 'utf8' });
   assert.equal(r.status, 0, r.stderr);
   const { html } = JSON.parse(r.stdout);
-  assert.doesNotMatch(html, /satoshi|austin_local|crafter|wanderer/);
+  assert.doesNotMatch(html, /@(satoshi|austin_local|crafter|wanderer|kalivankush|sponsor)\b/);
   assert.doesNotMatch(html, /TESTNET|testnet|Alpha \/ testnet/);
   assert.match(html, /Welcome to the MELEK Forum/);
   assert.doesNotMatch(html, /not open yet/);

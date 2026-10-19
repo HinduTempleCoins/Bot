@@ -6,6 +6,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { handler, categoryPage, boardPage, threadPage, forum, seed } from './server.mjs';
+import { SEED_THREADS } from './seed-threads.mjs';
+
+const escHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const seededTitle = (board) => { const t = SEED_THREADS.find((x) => x.board === board); assert.ok(t, `a seed thread on ${board}`); return escHtml(t.title); };
 
 function mockRes() {
   return {
@@ -40,7 +44,7 @@ test('flagship static crypto board renders seeded threads + DiscussionForumPosti
   const res = await req('/b/crypto/bitcoin');
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /Bitcoin/);
-  assert.match(res.body, /Self-custody basics/);  // a seeded thread title
+  assert.ok(res.body.includes(seededTitle('crypto/bitcoin')));  // a seeded thread title
   assert.match(res.body, /"CollectionPage"/);
   assert.match(res.body, /"BreadcrumbList"/);
   assert.match(res.body, /New thread/);
@@ -52,7 +56,7 @@ test('programmatic city board resolves + renders seeded threads (non-thin, slug 
   const res = await req('/b/city/austin-tx');
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /Austin Tx/);              // humanised slug in the title
-  assert.match(res.body, /Moving to Austin/);       // seeded thread
+  assert.ok(res.body.includes(seededTitle('city/austin-tx')));  // seeded thread
   assert.match(res.body, /rel="canonical" href="[^"]*\/b\/city\/austin-tx"/);
 });
 
@@ -60,7 +64,7 @@ test('programmatic game board (wiki-linkout) renders + carries safeHref external
   const res = await req('/b/game/minecraft');
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /Minecraft/);
-  assert.match(res.body, /villager trading/);       // seeded thread
+  assert.ok(res.body.includes(seededTitle('game/minecraft')));  // seeded thread
   assert.match(res.body, /gamefaqs\.gamespot\.com/); // curated link-out
 });
 
@@ -113,7 +117,7 @@ test('sharded sitemap: /sitemap-index.xml is an index referencing board + thread
   assert.match(res.headers['content-type'], /xml/);
   assert.match(res.body, /<sitemapindex/);
   assert.match(res.body, /sitemap-boards\.xml/);
-  assert.match(res.body, /sitemap-threads-0\.xml/);
+  assert.match(res.body, /sitemap-threads-1\.xml/);   // shards are numbered from 1
 });
 
 test('/sitemap-boards.xml lists boards + categories + seeded programmatic boards', async () => {
@@ -125,11 +129,15 @@ test('/sitemap-boards.xml lists boards + categories + seeded programmatic boards
   assert.match(res.body, /\/b\/city\/austin-tx/);   // a seeded programmatic board
 });
 
-test('/sitemap-threads-0.xml lists thread URLs; out-of-range shard is an empty urlset', async () => {
-  const res = await req('/sitemap-threads-0.xml');
+test('/sitemap-threads-1.xml lists every thread; shard 0 is an alias; out-of-range shard is an empty urlset', async () => {
+  const res = await req('/sitemap-threads-1.xml');
   assert.equal(res.statusCode, 200);
   assert.match(res.body, /<urlset/);
-  assert.match(res.body, /\/t\//);
+  const n = (res.body.match(/<loc>[^<]*\/t\//g) || []).length;
+  assert.equal(n, (await forum.recentThreads(1e9)).length, 'every thread is listed');
+  assert.ok(n >= SEED_THREADS.length, 'at least every seed thread');
+  const zero = await req('/sitemap-threads-0.xml');
+  assert.equal(zero.body, res.body);
   const far = await req('/sitemap-threads-99.xml');
   assert.equal(far.statusCode, 200);
   assert.match(far.body, /<urlset/);
