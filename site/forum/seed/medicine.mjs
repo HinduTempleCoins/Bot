@@ -417,7 +417,9 @@ Detail: https://wiki.soapbox.community/wiki/Creatine`,
 
 ## The core: a constant-current source
 Skin/electrode resistance drifts (sweat, electrode drying, movement). If you set current with a fixed resistor off a 9 V battery, the current wanders as resistance changes — which is exactly what you must not allow near the head. Use an active constant-current source:
-- An LM334 (a dedicated current-source IC) or an LM317 wired in its constant-current configuration sets a fixed current regardless of load (within its compliance voltage). The set resistor chooses the current: for the LM317, I = 1.25 V / R, so ~1 mA needs ~1.25 kOhm; for the LM334, I set by its sense resistor per the datasheet.
+- Use the LM334 (a dedicated adjustable current-source IC, rated roughly 1 uA to 10 mA). Its set resistor chooses the current: I is about 67.7 mV / R at room temperature, so 1 mA needs about 68 Ohm and 2 mA about 34 Ohm. Check the formula and temperature coefficient against the datasheet for your part.
+- The LM317 in its constant-current configuration (I = 1.25 V / R) is often suggested, but its datasheet minimum load current is several milliamps (about 3.5 mA typical, up to 10 mA), so at 1-2 mA it is outside its regulated range. Do not use it for tDCS currents.
+- Compliance voltage: the source can only hold its current while the battery has headroom. At 2 mA through a head-and-electrode load of a few kOhm you already need several volts, plus the regulator's own overhead. If the load resistance rises past what the supply can drive, the current falls; it never rises. That failure direction is the reason to use a current source.
 - Target current: 1-2 mA. This is the researched range; do not exceed it.
 - Supply: a 9 V battery. Battery only — never mains-powered anything on the head.
 
@@ -429,7 +431,7 @@ Skin/electrode resistance drifts (sweat, electrode drying, movement). If you set
 ## Verify BEFORE it touches skin
 Put a load resistor (e.g. ~5 kOhm, standing in for the head) across the output and measure the current with a multimeter in series. Confirm it holds your set current as you swap the load resistor for a different value — that is the test that your source is actually constant-current and not just a resistor divider. Only after it passes that does it go near a person.
 
-TENS (for muscle/nerve, pulsed AC, different device) shares the "battery only, verify first, ramp, electrode area" discipline. The electronics behind both: https://wiki.soapbox.community/wiki/Electrical_Engineering`,
+TENS (for muscle/nerve, pulsed AC, different device) shares the "battery only, verify first, ramp, electrode area" discipline. Circuit basics (current, voltage, resistance): https://wiki.soapbox.community/wiki/Electricity_and_Photovoltaics`,
   },
   {
     slug: '40hz-gamma-entrainment-what-it-is',
