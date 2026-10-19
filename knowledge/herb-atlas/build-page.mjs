@@ -23,7 +23,8 @@ const sim = load('similarity_groups.json');
 const oils = load('oils_butters.json');
 const plants = load('plants.json');
 const chem = load('chemicals.json');
-const inter = load('interactions.json');
+const apps = load('applications.json');
+const inter = load('interactions.json') || apps?.f_interaction_awareness_library || null;
 
 const byQuery = new Map(pubchem.map((p) => [p._query, p]));
 const chemBy = new Map((chem?.compounds || chem || []).map?.((c) => [c.id || c.name, c]) || []);
@@ -203,19 +204,28 @@ w(`See [[Enzyme Inhibition Kinetics and Molecular Transporters]] and [[Kava Pote
 w();
 if (inter?.interactions?.length) {
   w(`=== The documented list ===`);
-  w(`${inter.interactions.length} of them, each with its mechanism rather than a yes or no.`);
-  w();
+  // Each record is a researched interaction with its mechanism, direction, evidence grade and PMIDs.
+  // The page prints a one-line form of each; the full record is in knowledge/herb-atlas/applications.json.
+  const all = inter.interactions;
+  const name = (i) => (Array.isArray(i.agents) ? i.agents.join(' + ') : (i.agents || i.pair));
+  const trim = (s, n) => { const t = String(s || '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n).replace(/[,;:\s]+\S*$/, '') + '…' : t; };
+  const pmids = (i) => (i.sources || []).map((s) => s.pmid).filter(Boolean).slice(0, 2);
   const sev = (s) => String(s || '').toLowerCase();
-  const major = inter.interactions.filter((i) => /major|severe|contraindicat/.test(sev(i.significance)));
-  const rest = inter.interactions.filter((i) => !major.includes(i));
-  if (major.length) {
-    w(`'''Major:'''`);
-    for (const i of major) w(line(i.agents || i.pair, [i.mechanism, i.direction, i.significance]));
+  const rank = { major: 0, moderate: 1, minor: 2 };
+  const bucket = (i) => (/major|severe|contraindicat/.test(sev(i.significance)) ? 'major'
+    : /moderate/.test(sev(i.significance)) ? 'moderate' : 'minor');
+  w(`${all.length} of them, each with its mechanism rather than a yes or no. The full records — evidence grade and the PubMed id for every claim — are in <code>knowledge/herb-atlas/applications.json</code>.`);
+  w();
+  for (const [b, head] of [['major', 'Major'], ['moderate', 'Moderate'], ['minor', 'Minor']]) {
+    const list = all.filter((i) => bucket(i) === b).sort((a, c) => rank[bucket(a)] - rank[bucket(c)]);
+    if (!list.length) continue;
+    w(`=== ${head} ===`);
+    for (const i of list) {
+      const ids = pmids(i);
+      w(`* '''${name(i)}''' — ${trim(i.mechanism, 190)} ${trim(i.direction, 150)}${ids.length ? ` (PMID ${ids.join(', ')})` : ''}`);
+    }
     w();
   }
-  w(`'''The rest:'''`);
-  for (const i of rest) w(line(i.agents || i.pair, [i.mechanism, i.direction]));
-  w();
 }
 
 w(`== See also ==`);
