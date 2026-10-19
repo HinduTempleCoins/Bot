@@ -54,7 +54,13 @@ w(`The colour key is the one from the chart the operator has used since 2018, pu
 w();
 w(`[[Figure:plant-constituents|What is in each plant: the major constituents of each essential oil, as a share of the whole. Bars are the midpoint of the published range.]]`);
 w();
-w(`Read that chart with one thing in mind: '''it is the composition of the oil, not of the plant.''' Piperine is 5–9% of black pepper but almost none of its distilled oil; curcumin is the colour and the pharmacology of turmeric and is not volatile at all; the grapefruit furanocoumarins that cause the famous drug interaction are in the juice, not the peel oil. A plant and its essential oil are not interchangeable, and most bad advice in this subject comes from treating them as if they were.`);
+w(`[[Figure:all-plants|Every plant in the atlas that has a measured oil, grouped by what it is used for.]]`);
+w();
+w(`[[Figure:enzyme-matrix|Which plants inhibit or induce which drug-metabolising enzyme. Inhibiting one raises the level of every drug it clears.]]`);
+w();
+w(`[[Figure:dye-plants|The dye plants: the colour, the compound that makes it, and the mordant that fixes it to the fibre.]]`);
+w();
+w(`Read these with one thing in mind: '''they are the composition of the oil, not of the plant.''' Piperine is 5–9% of black pepper but almost none of its distilled oil; curcumin is the colour and the pharmacology of turmeric and is not volatile at all; the grapefruit furanocoumarins that cause the famous drug interaction are in the juice, not the peel oil. A plant and its essential oil are not interchangeable, and most bad advice in this subject comes from treating them as if they were.`);
 w();
 
 // ── Shulgin ──────────────────────────────────────────────────────────────────────────────────────
