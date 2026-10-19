@@ -129,24 +129,44 @@ if (oils?.oils?.length) {
 
 // ── plants ───────────────────────────────────────────────────────────────────────────────────────
 if (plants?.plants?.length) {
+  const list = plants.plants;
   w(`== The plants ==`);
-  w(`${plants.plants.length} of them. Each line gives what is in it, what it is for in a kitchen, and anything that should stop you — then links out.`);
+  w(`${list.length} of them. Each line gives the major constituents, why a kitchen uses it, what it dyes, and what should stop you. The full record — chemotypes, enzyme targets, traditional and evidence-based medical use, interactions, regulatory status and sources — is in <code>knowledge/herb-atlas/plants.json</code>.`);
   w();
+  w(`A warning that applies to every percentage on this page: '''these are indicative ranges, not assay values.''' Chemotype, cultivar, ploidy, growing conditions and distillation all move them, sometimes by an order of magnitude. Calamus makes the point: the usual rule of thumb is that the North American diploid carries little or no β-asarone while Asian material carries a great deal, but measured Himalayan ''diploid'' populations have come in at 7.4% and 11.7%, and a twenty-accession study found no relationship to ploidy at all. '''Treat unanalysed material as the hazardous type.'''`);
+  w();
+  // Top constituents, flattened across whatever chemotypes the record carries.
+  const tops = (p) => {
+    const eo = p.constituents?.essential_oil;
+    const comps = [];
+    for (const ct of (eo?.chemotypes || [])) for (const c of (ct.components || [])) comps.push(c);
+    for (const c of (eo?.components || [])) comps.push(c);
+    const seen = new Set();
+    return comps.filter((c) => c?.compound && !seen.has(c.compound) && seen.add(c.compound))
+      .slice(0, 3).map((c) => `${c.compound}${c.pct ? ` ${String(c.pct).replace(/\s*\(.*$/, '')}` : ''}`);
+  };
+  const trim = (s, n) => { const t = String(s || '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n).replace(/[,;:\s]+\S*$/, '') + '…' : t; };
+  const caution = (p) => {
+    const c = p.cautions || {};
+    const di = Array.isArray(c.drug_interactions) ? c.drug_interactions.filter(Boolean) : [];
+    const first = di[0] && (typeof di[0] === 'string' ? di[0] : di[0].with || di[0].drug);
+    return [c.toxicity, first && `interacts with ${first}`].filter(Boolean).join('; ');
+  };
+  // Group by the first category on each record, biggest groups first.
   const groups = {};
-  for (const p of plants.plants) (groups[p.group || p.category || 'Other'] ||= []).push(p);
-  for (const [g, list] of Object.entries(groups)) {
-    w(`=== ${g} ===`);
-    for (const p of list) {
-      const main = (p.constituents?.essential_oil || p.constituents?.volatile || [])
-        .slice(0, 3).map((c) => `${c.name}${c.pct ? ` ${c.pct}` : ''}`).join(', ');
-      const bits = [
+  for (const p of list) (groups[(p.categories || [])[0] || 'other'] ||= []).push(p);
+  const label = (g) => String(g).replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
+  for (const [g, items] of Object.entries(groups).sort((a, b) => b[1].length - a[1].length)) {
+    w(`=== ${label(g)} ===`);
+    for (const p of items.sort((a, b) => String(a.common).localeCompare(String(b.common)))) {
+      const t = tops(p);
+      w(line(p.common || p.id, [
         p.latin && `''${p.latin}''`,
-        main && `mainly ${main}`,
-        p.culinary?.summary || p.culinary,
-        p.dye?.colour && `dyes ${p.dye.colour}`,
-        p.cautions?.summary || (Array.isArray(p.cautions) ? p.cautions[0] : p.cautions),
-      ];
-      w(line(p.common || p.name, bits, p.wiki_link));
+        t.length && `mainly ${t.join(', ')}`,
+        trim(p.culinary?.why, 150),
+        p.dye?.colour && `dyes ${trim(p.dye.colour, 70)}`,
+        trim(caution(p), 120),
+      ]));
     }
     w();
   }
