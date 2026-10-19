@@ -961,3 +961,25 @@ test('hathor.live is a front door to Hathor Metatron and Hathor Sandalphon (link
     assert.equal(loc, `https://pentecaust.com${p}`);
   }
 });
+
+test('feeds: /feed.xml is @hathor, /melek/feed.xml is @melek, both declare the WebSub hub; unknown accounts get no feed', async () => {
+  const { __setFetch: setFeedFetch } = await import('../../integrations/chain-feed.mjs');
+  const asked = [];
+  setFeedFetch(async (_url, init) => {
+    const tag = JSON.parse(init.body).params[0].tag; asked.push(tag);
+    return { ok: true, json: async () => ({ result: [{ author: tag, permlink: 'p1', title: `post by ${tag}`, body: 'hi', created: '2026-10-19T00:00:00', json_metadata: '{}' }] }) };
+  });
+  try {
+    let { res, o } = cap(); await handler(req('/feed.xml'), res);
+    assert.equal(o.code, 200); assert.match(o.type, /rss/);
+    assert.ok(o.body.includes('post by hathor')); assert.ok(o.body.includes('rel="hub"'));
+    ({ res, o } = cap()); await handler(req('/melek/feed.xml'), res);
+    assert.equal(o.code, 200); assert.ok(o.body.includes('post by melek'));
+    assert.ok(o.body.includes('https://hathor.live/melek/feed.xml'));
+    ({ res, o } = cap()); await handler(req('/melek/feed.atom'), res);
+    assert.match(o.type, /atom/);
+    ({ res, o } = cap()); await handler(req('/someone/feed.xml'), res);
+    assert.ok(!o.body.includes('post by'));
+    assert.deepEqual(asked, ['hathor', 'melek', 'melek']);
+  } finally { setFeedFetch(null); }
+});

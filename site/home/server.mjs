@@ -63,6 +63,7 @@ const nlOnConfirm = async ({ email }) => {
 };
 
 const SITE_NAME = 'SoapBox Community';
+const DISCORD_INVITE = process.env.DISCORD_INVITE || 'https://discord.gg/Ghz672dW7Z';
 const ECOSYSTEM = 'MELEK · PRANA · KULA';
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -455,7 +456,7 @@ ${STYLE}${NAV_STYLE}${impactUtt()}</head><body>
 <header class=topbar><span class=brand>SoapBox<small>${esc(ECOSYSTEM)}</small></span></header>
 <main class=wrap>${body}</main>
 <footer><b>${esc(SITE_NAME)}</b> · the MELEK / PRANA / KULA ecosystem map — MELEK mainnet and PRANA mainnet.
-  <div style="margin-top:8px"><a href="#mainnet">MainNet</a> · <a href="#platform">Platform</a></div></footer>
+  <div style="margin-top:8px"><a href="#mainnet">MainNet</a> · <a href="#platform">Platform</a> · <a href="${esc(DISCORD_INVITE)}">Discord</a></div></footer>
 ${SKIMLINKS_JS ? `<script type="text/javascript" src="${esc(SKIMLINKS_JS)}"></script>` : ''}
 ${NAV_DRAWER_JS}</body></html>`;
 }

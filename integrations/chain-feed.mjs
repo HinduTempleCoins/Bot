@@ -136,7 +136,7 @@ export function postsToItems(posts, { baseUrl = '', includeReplies = false, summ
 /** Assemble the feed object the renderers take. */
 export function buildFeed({
   title = 'Feed', description = '', siteUrl = '', feedUrl = '',
-  author = '', language = 'en', posts = [], items = null, ...opts
+  author = '', language = 'en', posts = [], items = null, hub = '', ...opts
 } = {}) {
   const list = Array.isArray(items) ? items : postsToItems(posts, { baseUrl: siteUrl, ...opts });
   const newest = list.length ? list[0].date : rfc3339(new Date());
@@ -144,6 +144,8 @@ export function buildFeed({
     title: String(title), description: String(description),
     siteUrl: String(siteUrl).replace(/\/$/, ''), feedUrl: String(feedUrl),
     author: String(author), language: String(language),
+    // Optional WebSub hub, declared in the feed so a ping to the hub reaches subscribers.
+    hub: String(hub || ''),
     updated: newest, items: list,
   };
 }
@@ -170,7 +172,7 @@ ${(i.tags || []).map((t) => `      <category>${xmlEsc(t)}</category>`).join('\n'
     <language>${xmlEsc(f.language || 'en')}</language>
     <lastBuildDate>${xmlEsc(rfc822(f.updated))}</lastBuildDate>
     <atom:link href="${xmlEsc(f.feedUrl)}" rel="self" type="application/rss+xml"/>
-${items}
+${f.hub ? `    <atom:link href="${xmlEsc(f.hub)}" rel="hub"/>\n` : ''}${items}
   </channel>
 </rss>
 `;
@@ -192,7 +194,7 @@ ${(i.tags || []).map((t) => `    <category term="${xmlEsc(t)}"/>`).join('\n')}
   <title>${xmlEsc(f.title)}</title>
   <link href="${xmlEsc(f.siteUrl)}"/>
   <link href="${xmlEsc(f.feedUrl)}" rel="self"/>
-  <id>${xmlEsc(f.siteUrl)}/</id>
+${f.hub ? `  <link href="${xmlEsc(f.hub)}" rel="hub"/>\n` : ''}  <id>${xmlEsc(f.siteUrl)}/</id>
   <updated>${xmlEsc(f.updated)}</updated>
   <subtitle>${xmlEsc(f.description)}</subtitle>
 ${entries}
@@ -206,6 +208,7 @@ export function renderJsonFeed(feed) {
     version: 'https://jsonfeed.org/version/1.1',
     title: f.title, home_page_url: f.siteUrl, feed_url: f.feedUrl,
     description: f.description, language: f.language,
+    ...(f.hub ? { hubs: [{ type: 'WebSub', url: f.hub }] } : {}),
     items: (f.items || []).map((i) => ({
       id: i.id, url: i.url, title: i.title,
       date_published: i.date, summary: i.summary,

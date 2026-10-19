@@ -56,4 +56,4 @@ Flags: `HATHOR_FLEETQ=1`, `HATHOR_FLEETQ_URL`, `HATHOR_FLEETQ_TOKEN`, `HATHOR_FL
 | `HELPERBOT_FAUCET_LIVE` | off | `1` lets the bot call the PRANA testnet `/api/drip` |
 | `HELPERBOT_FAUCET_*` | 24h / 24h / 7d / 0 / 50 | user cooldown, address cooldown, min account age, min karma, daily drips |
 | `HELPERBOT_DATA_DIR` | `.helperbot-data` | state file (links, quotas, receipts, guide sessions). Public data only |
-| `HELPERBOT_DISCORD_INVITE` | `discord.gg/6pyjAv2Qu` | **expires 2026-11-14**. Replace with a permanent invite |
+| `HELPERBOT_DISCORD_INVITE` | `discord.gg/Ghz672dW7Z` | permanent invite (no expiry), #welcome |

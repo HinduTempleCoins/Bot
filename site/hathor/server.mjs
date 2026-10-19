@@ -98,7 +98,7 @@ const MELEK_SALON = (process.env.MELEK_SALON_SITE || 'https://melek.salon').repl
 const HATHOR_LIVE = process.env.HATHOR_LIVE || 'https://hathor.live';
 const ALMANACK = process.env.ALMANACK_URL || 'https://hathor.live/almanack';
 const REPO = process.env.REPO_URL || 'https://github.com/HinduTempleCoins/Bot';
-const DISCORD = process.env.DISCORD_INVITE || 'https://discord.gg/5QAF9JuBF';
+const DISCORD = process.env.DISCORD_INVITE || 'https://discord.gg/Ghz672dW7Z';
 // human-facing labels for the effect categories (operator's words)
 const EFFECT_CAT_LABELS = { hathor: 'Appear with Hathor', creature: 'Animals & Creatures', holiday: 'Holidays', horror: 'Horror & Halloween Movies', film: 'Movie Themes', power: 'Superpowers & Space', era: 'Eras & Uniforms', art: 'Art Styles', lifestyle: 'Mafia, Cartel & Lifestyle', figures: 'Famous Figures — as or with them', memes: 'Meme Characters', scenes: 'Group Scenes & Squads', 'myth-greek': 'Greek Mythology', 'myth-egyptian': 'Egyptian Mythology', 'myth-norse': 'Norse Mythology', 'myth-hindu': 'Hindu Mythology' };
 const DATA_DIR = process.env.DATA_DIR || join(process.cwd(), '.data', 'hathor');

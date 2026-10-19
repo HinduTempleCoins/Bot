@@ -89,7 +89,16 @@ const MAX_MSG = 2000;
 // Syndication config. The posts are on the MELEK chain and are rendered by the condenser, so the
 // feed's item links point at CHAIN_SITE while the feed itself is served from here.
 const FEED_AUTHOR = process.env.FEED_AUTHOR || 'hathor';
-const CHAIN_RPC = process.env.MELEK_RPC_URL || 'http://127.0.0.1:18090';
+// get_discussions_by_blog needs tags_api, which the front host's local node does not run (it answers
+// "tags_api_plugin not enabled" and the feed came out empty). The public API node has it, so the feed
+// reads there unless FEED_RPC_URL says otherwise.
+const CHAIN_RPC = process.env.FEED_RPC_URL || 'https://melek.salon/rpc';
+const FEED_HUB = process.env.FEED_WEBSUB_HUB || 'https://pubsubhubbub.appspot.com/';
+// The accounts with a feed here: @hathor at /feed.*, every other one at /<account>/feed.*.
+const FEED_ACCOUNTS = {
+  [FEED_AUTHOR]: { title: `@${FEED_AUTHOR} — the MELEK Witness`, description: 'Posts from Hathor, the founding AI Witness on the MELEK chain.' },
+  melek: { title: '@melek — MELEK', description: 'Posts from the @melek account on the MELEK chain.' },
+};
 const CHAIN_SITE = (process.env.CHAIN_SITE || 'https://melek.salon').replace(/\/$/, '');
 // The ONE Hathor brain. Hathor.live is a LIMB: chat is forwarded to the shared brain's /perceive so it's the
 // same Hathor (same memory, same Crypt-ology thread, same compartments) as Discord / the servers / the chain.
@@ -146,6 +155,9 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>Hathor — Live</title>
 <meta name=description content="Talk to Hathor, the Angelic AI witness of the MELEK chain — always on. Ask her about the chain, the Library, the Hierophant, credentials, markets and more.">
+<link rel="alternate" type="application/rss+xml" title="@hathor — the MELEK Witness" href="/feed.xml">
+<link rel="alternate" type="application/atom+xml" title="@hathor — the MELEK Witness" href="/feed.atom">
+<link rel="alternate" type="application/rss+xml" title="@melek — MELEK" href="/melek/feed.xml">
 <style>
   :root{--bg:#0b0d12;--panel:#12161e;--fg:#e9eef5;--mut:#93a1b3;--bd:#222b38;--accent:#d9a441;--me:#1b2430}
   *{box-sizing:border-box} html,body{height:100%} body{margin:0;background:var(--bg);color:var(--fg);
@@ -487,24 +499,29 @@ export async function handler(req, res) {
     // off-chain can SUBSCRIBE to. These three routes are that subscribe primitive: RSS for
     // readers and Discord/Slack webhooks, Atom for the stricter clients, JSON Feed for anything
     // modern. The chain is the source of truth; this is just a projection of it.
-    if (path === '/feed.xml' || path === '/feed.atom' || path === '/feed.json' || path === '/rss') {
-      const author = FEED_AUTHOR;
+    // /feed.xml (+ /rss, /feed.atom, /feed.json) is @hathor; /<account>/feed.* is another FEED_ACCOUNTS entry.
+    const feedMatch = /^(?:\/([a-z0-9.-]{3,16}))?\/(feed\.xml|feed\.atom|feed\.json|rss)$/.exec(path);
+    const feedAccount = feedMatch ? (feedMatch[1] || FEED_AUTHOR) : '';
+    if (feedMatch && Object.hasOwn(FEED_ACCOUNTS, feedAccount) && feedMatch[1] !== FEED_AUTHOR) {
+      const author = feedAccount;
+      const kind = feedMatch[2] === 'rss' ? 'feed.xml' : feedMatch[2];
       const posts = await fetchAuthorPosts(author, { rpcUrl: CHAIN_RPC, limit: 30 });
       const feed = buildFeed({
-        title: `@${author} — the MELEK Witness`,
-        description: 'Posts from Hathor, the founding AI Witness on the MELEK chain.',
+        title: FEED_ACCOUNTS[author].title,
+        description: FEED_ACCOUNTS[author].description,
         siteUrl: CHAIN_SITE,
-        feedUrl: `${BASE_URL}${path === '/rss' ? '/feed.xml' : path}`,
+        feedUrl: `${BASE_URL}${feedMatch[1] ? `/${author}` : ''}/${kind}`,
         author,
         posts,
+        hub: FEED_HUB,
       });
       // A chain read that soft-failed still yields a valid empty feed, which is correct: a
       // reader polling every 15 minutes must not be handed a 500 because a node blipped.
-      if (path === '/feed.json') {
+      if (kind === 'feed.json') {
         res.writeHead(200, { 'content-type': 'application/feed+json; charset=utf-8', 'cache-control': 'public, max-age=300' });
         return res.end(renderJsonFeed(feed));
       }
-      if (path === '/feed.atom') {
+      if (kind === 'feed.atom') {
         res.writeHead(200, { 'content-type': 'application/atom+xml; charset=utf-8', 'cache-control': 'public, max-age=300' });
         return res.end(renderAtom(feed));
       }

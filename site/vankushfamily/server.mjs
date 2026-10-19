@@ -101,7 +101,7 @@ export const PROPERTIES = [
   ] },
   { group: 'Community', items: [
     { name: 'SoapBox Community', url: 'https://soapbox.community', desc: 'The ecosystem hub.' },
-    { name: 'Discord', url: 'https://discord.gg/5QAF9JuBF', desc: 'Chat with the family and with Hathor herself \u2014 come say hi.' },
+    { name: 'Discord', url: 'https://discord.gg/Ghz672dW7Z', desc: 'Chat with the family and with Hathor herself \u2014 come say hi.' },
     { name: 'Pentecaust', url: 'https://pentecaust.com', desc: 'MELEK messaging \u2014 direct and group chat over the chain.' },
     { name: 'Pact', url: 'https://pact.pentecaust.com', desc: 'Groups and clubs built on Pentecaust.' },
     { name: 'Karma', url: 'https://karma.melek.salon', desc: 'Standing that rises when you lift someone \u2014 it cannot be bought or sent.' },
