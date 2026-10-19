@@ -64,6 +64,7 @@ Emulsifiers have a water-loving end and an oil-loving end. They sit at the dropl
 * '''Lab-test samples''' from the start, middle and end of a batch. See [[Testing Labelling and Safe Storage of Dosed Preparations]].
 
 == See also ==
+* [[Making Colloidal Silver A Step-by-Step Guide]]
 * [[Dosing in Liquids]]
 * [[Concentration Arithmetic and Serial Dilution]]
 * [[Tinctures Glycerites Syrups and Infused Oils and Butters]]

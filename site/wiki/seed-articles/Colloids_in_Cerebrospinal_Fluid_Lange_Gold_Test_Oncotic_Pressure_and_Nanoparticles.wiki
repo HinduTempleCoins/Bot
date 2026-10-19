@@ -1,0 +1,94 @@
+'''Colloids in Cerebrospinal Fluid: Lange Gold Test, Oncotic Pressure and Nanoparticles''' covers three places where colloids and the spinal fluid meet. The first is the '''Lange colloidal gold test''' (1912), in which a gold sol was used to read the proteins of cerebrospinal fluid (CSF) and diagnose neurosyphilis and, later, multiple sclerosis, together with its relatives, the mastic and benzoin tests. The second is the '''colloid (oncotic) osmotic pressure''' of CSF compared with plasma. The third is modern research on whether gold and silver '''nanoparticles''' cross the blood–brain barrier and reach the brain and CSF, separating what is established from what is experimental. Making colloids is covered in [[Making Colloidal Silver A Step-by-Step Guide]], and their chemistry in [[Colloidal Metals, Electrochemistry, and Nanoparticles]].
+
+== The Lange colloidal gold test ==
+=== Origin ===
+Carl Lange, a German physician, introduced the reaction in 1912 and published it in full in 1913 ("Die Ausflockung kolloidalen Goldes durch Zerebrospinalflüssigkeit bei luetischen Affektionen des Zentralnervensystems", ''Zeitschrift für Chemotherapie''). For about sixty years it was a standard CSF test, run alongside the cell count, total protein and the Wassermann reaction.
+
+=== The principle ===
+A gold sol is a colloid of negatively charged gold particles, ruby red from the gold plasmon band near 520 nm. Salt makes it flocculate. As the particles clump, the colour shifts from red through purple and blue and finally disappears as the gold settles out. Proteins change how easily this happens:
+* '''Albumin''' acts as a '''protective colloid'''. It coats the particles and stabilises the sol.
+* '''Globulins''', especially the gamma-globulins (immunoglobulins), '''promote flocculation''' at particular dilutions.
+Normal CSF has very little protein (about 15–45 mg/dL, against 6–8 g/dL in plasma) and does not disturb the sol. Diseases that make the nervous system produce its own immunoglobulin, chiefly neurosyphilis and multiple sclerosis, change the albumin-to-globulin balance. That change shows up as a characteristic pattern of colour change across a dilution series. In modern terms, the test was an indirect, semi-quantitative readout of the '''γ-globulin to albumin ratio'''. It could not measure either protein directly.
+
+=== How it was run ===
+# Ten small test tubes. CSF was diluted in 0.4% sodium chloride in a doubling series: '''1:10, 1:20, 1:40 … 1:5120'''.
+# A fixed volume of standardised gold sol was added to each tube, classically 5 mL to 1 mL of diluted CSF.
+# The tubes were left to stand, usually read after 12–24 hours.
+# Each tube was graded '''0 to 5''': 0 = red (unchanged), 1 = red-blue, 2 = lilac or purple, 3 = blue, 4 = pale blue, 5 = colourless (complete precipitation). The ten grades were written as a ten-digit "curve".
+Batches of gold sol varied, so the test was hard to reproduce between laboratories. Lange and Harris (1944) addressed this with a '''citrate-reduced gold sol''' of controlled pH and particle size, in effect an early standardised version of the citrate method later formalised by Turkevich (1951).
+
+=== Reading the curves ===
+* '''Paretic or "first-zone" curve''' (for example 5555443210): strongest flocculation in the low dilutions on the left. This was classically seen in '''general paresis''', the parenchymatous neurosyphilis of the brain. It was also found in a proportion of '''multiple sclerosis''' patients, an early observation reported by Hinton (1922).
+* '''Luetic, tabetic or "mid-zone" curve''' (for example 0123321000): the peak falls in the middle dilutions. This was associated with tabes dorsalis and meningovascular syphilis.
+* '''Meningitic or "end-zone" curve''' (for example 0001233210): change in the high dilutions on the right. This was associated with bacterial or tuberculous meningitis, where blood proteins leak into the CSF. Miller and Levy (1914) already found it of little diagnostic value for these conditions.
+* '''Normal''': 0000000000, or a trace in one tube.
+Clinicians treated the curve as '''supportive, not diagnostic'''. Early series found it did not always match the Wassermann reaction or the cell count. Kabat and colleagues (1948) showed its sensitivity and specificity for MS were low and varied between laboratories.
+
+=== The mastic and benzoin tests ===
+The same idea was tried with other colloids:
+* '''Colloidal mastic reaction''' (Emanuel, 1915): a sol of mastic resin, from ''Pistacia lentiscus'', in place of gold. It was cheaper and easier to make, and gave curves broadly parallel to Lange's.
+* '''Colloidal benzoin reaction''' (Guillain, Laroche and Léchelle, 1920): a sol of gum benzoin, from ''Styrax'' species. It was widely used in France for neurosyphilis.
+Neither proved more specific than gold, and both disappeared with it.
+
+=== Why it was replaced ===
+* '''1942''': Kabat and colleagues used electrophoresis and immunochemistry to measure CSF gamma-globulin directly and showed intrathecal IgG elevation in multiple sclerosis.
+* '''1950s–1960s''': agar and agarose gel electrophoresis resolved CSF IgG into discrete '''oligoclonal bands'''. Karcher and colleagues reported the observation in 1959 and found the bands in MS by 1960.
+* '''1970s''': the quantitative '''IgG index''' (Link and Tibbling, 1977) and '''isoelectric focusing''' for oligoclonal bands gave a measured, reproducible answer to the question the gold curve had only approximated.
+* '''Neurosyphilis''' diagnosis moved to the CSF-VDRL, CSF cell count and protein, and treponemal antibody tests.
+* By the late 1970s the colloidal gold test had become obsolete. Today '''CSF-specific oligoclonal bands''' are part of the McDonald criteria for MS (2017 revision).
+The gold test is thus a direct ancestor of modern CSF immunology. Its "first-zone curve" was a colloid-chemistry readout of the same intrathecal IgG that oligoclonal bands measure.
+
+== Colloid (oncotic) osmotic pressure: CSF vs plasma ==
+* '''Plasma''' contains about 60–80 g/L of protein, mostly albumin. Its '''colloid osmotic (oncotic) pressure''' is about '''25 mmHg'''. In ordinary capillaries this pull holds water in the blood against hydrostatic pressure, the Starling balance.
+* '''CSF''' contains only about 0.15–0.45 g/L of protein, roughly '''1/200 of plasma''' (the CSF/serum albumin quotient is normally about 0.005–0.008). Its oncotic pressure is therefore '''well under 1 mmHg'''. CSF is essentially a protein-free filtrate and secretion, made mostly by the choroid plexus.
+* '''Consequence at the brain:''' the blood–brain barrier has tight junctions that block not only proteins but also small ions. Water movement between blood and brain is therefore driven mainly by '''total osmolality''' (crystalloids) rather than by colloid oncotic pressure, as it is in muscle or skin capillaries. This is why osmotherapy for brain swelling uses mannitol or hypertonic saline. Adding colloid such as albumin does little to brain water while the barrier is intact.
+* '''A raised CSF protein''' (an elevated albumin quotient) is a sign of a '''damaged barrier''': meningitis, Guillain–Barré syndrome, a tumour or a spinal block. That rise is what the Lange "meningitic curve" was detecting.
+
+== Nanoparticles and the blood–brain barrier ==
+=== What is established ===
+* '''Small gold nanoparticles reach the brain in animals.''' After intravenous injection in rats, '''10 nm''' gold was found in the brain while 50–250 nm particles largely were not (De Jong et al., 2008). In mice, '''15 nm''' gold reached the brain and 200 nm gold barely did (Sonavane et al., 2008). Brain levels are small fractions of the dose. Liver and spleen take most of it.
+* '''Silver reaches the brain after oral and injected exposure in rats''', and stays there. Silver from both nanoparticles and silver salts was distributed to the brain and was '''slow to clear''' from brain and testis after 28-day oral exposure (van der Zande et al., 2012; Loeschner et al., 2011). The pattern suggested that much of the transport occurs as dissolved silver. Subcutaneous silver nanoparticles crossed the blood–brain barrier in rats (Tang et al., 2009).
+* '''Humans:''' heavy chronic silver ingestion has been followed by neurological illness, including myoclonic status epilepticus after colloidal silver (Mirsattari et al., 2004). Silver deposits have been documented in many tissues in argyria. No routine clinical measurement of silver in CSF exists, and data on human CSF silver are very limited.
+
+=== What is experimental ===
+* '''Drug delivery across the barrier''': gold nanoparticles coated with peptides, antibodies against transferrin or insulin receptors, or polymers have been designed to cross the blood–brain barrier. This work is extensive in animals and cells (review: Saraiva et al., 2016). '''No gold-nanoparticle brain drug is approved.'''
+* '''Spherical nucleic acid gold nanoparticles (NU-0129)''' for glioblastoma: in a first-in-human phase 0 trial, intravenous gold-cored particles reached tumour tissue in patients (Kumthekar et al., 2021). This is early and experimental.
+* '''Oral catalytic gold nanocrystals (CNM-Au8)''' were tested in phase 2 trials for ALS and multiple sclerosis. In the HEALEY ALS platform trial the regimen did not meet its primary endpoint (2023). It is not approved. '''(Later trial results: check current registries.)'''
+* '''Claims that drinking colloidal silver or gold "crosses into the spinal fluid to fight infection"''' have no clinical evidence behind them. The animal data show that what does reach the brain '''accumulates and clears slowly''', which counts as a hazard, not a benefit.
+
+== See also ==
+* [[Making Colloidal Silver A Step-by-Step Guide]]
+* [[Colloidal Metals, Electrochemistry, and Nanoparticles]]
+* [[Colloidal Silver in Law and Medicine]]
+* [[Rasa Shastra and Ancient Indian Nanochemistry]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Concentration Arithmetic and Serial Dilution]]
+
+== Sources ==
+* Lange, C. "Die Ausflockung kolloidalen Goldes durch Zerebrospinalflüssigkeit bei luetischen Affektionen des Zentralnervensystems." ''Zeitschrift für Chemotherapie'' 1:44–78, 1913.
+* Miller, J. W. and Levy, M. Study of the colloidal gold reaction in paresis, 1914 (as summarised in contemporary reviews; original journal not verified for this page).
+* "Colloid metals in the clinical laboratory." ''The Hospital'' (London) 56(1459):292, 1914. [https://pmc.ncbi.nlm.nih.gov/articles/PMC5274502/ PMC5274502]
+* Hinton, W. A. "Studies in the cerebrospinal fluid in multiple sclerosis." In Ayer, J. B. and Foster, H. E. (eds.) ''Multiple Sclerosis''. Paul B. Hoeber, 1922, pp. 113–121.
+* Green, F. ''The Colloidal Gold Reaction of the Cerebrospinal Fluid'', 1925.
+* Lange, C. and Harris, A. H. "A citrate gold of optimal and reproducible sensitivity for use in the colloidal gold reaction." ''American Journal of Public Health'' 34:1087–1092, 1944.
+* Kabat, E. A., Glusman, M. and Knaub, V. "Quantitative estimation of the albumin and gamma globulin in normal and pathologic cerebrospinal fluid by immunochemical methods." ''American Journal of Medicine'' 4:653–662, 1948.
+* Emanuel, G. "Eine neue Reaktion zur Untersuchung des Liquor cerebrospinalis (Mastixreaktion)." ''Berliner klinische Wochenschrift'', 1915.
+* Guillain, G., Laroche, G. and Léchelle, P. "Réaction du benjoin colloïdal." ''Comptes rendus de la Société de Biologie'', 1920.
+* "The discovery of oligoclonal bands: a 50-year anniversary." ''European Neurology'' 62(5):311–315, 2009. [https://karger.com/ene/article/62/5/311/124201/The-Discovery-of-Oligoclonal-Bands-A-50-Year Karger]
+* Link, H. and Tibbling, G. "Principles of albumin and IgG analyses in neurological disorders. III. Evaluation of IgG synthesis within the central nervous system in multiple sclerosis." ''Scandinavian Journal of Clinical and Laboratory Investigation'' 37(5):397–401, 1977.
+* Thompson, A. J. et al. "Diagnosis of multiple sclerosis: 2017 revisions of the McDonald criteria." ''Lancet Neurology'' 17(2):162–173, 2018.
+* Reiber, H. "Cerebrospinal fluid: physiology, analysis and interpretation of protein patterns for diagnosis of neurological diseases." ''Multiple Sclerosis'' 4(3):99–107, 1998.
+* Fishman, R. A. ''Cerebrospinal Fluid in Diseases of the Nervous System'', 2nd ed. Saunders, 1992.
+* Hall, J. E. and Hall, M. E. ''Guyton and Hall Textbook of Medical Physiology'', 14th ed. Elsevier, 2020. Plasma colloid osmotic pressure, Starling forces, the blood–brain barrier.
+* Workowski, K. A. et al. "Sexually transmitted infections treatment guidelines, 2021" (neurosyphilis: CSF-VDRL). ''MMWR Recommendations and Reports'' 70(4), 2021.
+* De Jong, W. H. et al. "Particle size-dependent organ distribution of gold nanoparticles after intravenous administration." ''Biomaterials'' 29(12):1912–1919, 2008.
+* Sonavane, G., Tomoda, K. and Makino, K. "Biodistribution of colloidal gold nanoparticles after intravenous administration: effect of particle size." ''Colloids and Surfaces B'' 66(2):274–280, 2008.
+* van der Zande, M. et al. "Distribution, elimination, and toxicity of silver nanoparticles and silver salts in rats after 28-day oral exposure." ''ACS Nano'' 6(8):7427–7442, 2012.
+* Loeschner, K. et al. "Distribution of silver in rats following 28 days of repeated oral exposure to silver nanoparticles or silver acetate." ''Particle and Fibre Toxicology'' 8:18, 2011.
+* Tang, J. et al. "Distribution, translocation and accumulation of silver nanoparticles in rats." ''Journal of Nanoscience and Nanotechnology'' 9(8):4924–4932, 2009.
+* Mirsattari, S. M. et al. "Myoclonic status epilepticus following repeated oral ingestion of colloidal silver." ''Neurology'' 62(8):1408–1410, 2004.
+* Saraiva, C. et al. "Nanoparticle-mediated brain drug delivery: overcoming blood–brain barrier to treat neurodegenerative diseases." ''Journal of Controlled Release'' 235:34–47, 2016.
+* Kumthekar, P. et al. "A first-in-human phase 0 clinical study of RNA interference–based spherical nucleic acids in patients with recurrent glioblastoma." ''Science Translational Medicine'' 13(584):eabb3945, 2021.
+
+== Coverage ==
+Colloids and the spinal fluid. Lange's 1912 colloidal gold reaction: principle (protective albumin vs flocculating globulin), the ten-tube 1:10 to 1:5120 dilution protocol, the 0–5 colour grading, and the paretic / first-zone, luetic / mid-zone and meningitic / end-zone curves with their diseases (neurosyphilis, MS, meningitis) and limits. The mastic (Emanuel 1915) and benzoin (Guillain 1920) tests. Replacement by electrophoresis, the IgG index and oligoclonal bands. Colloid oncotic pressure in CSF vs plasma and why crystalloid osmolality governs brain water. What is established about gold and silver nanoparticles reaching the brain (rodent biodistribution, slow clearance, human neurotoxicity case) and what is experimental (targeted delivery, NU-0129, CNM-Au8).

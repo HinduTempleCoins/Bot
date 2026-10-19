@@ -34,6 +34,7 @@ Where a preparation is risky, this library gives the hazard together with the me
 * '''Folklore, or true only sometimes:''' "a dropperful is 1 mL" (droppers deliver anything from about 0.5 to 1+ mL depending on the bulb and the liquid); "20 drops = 1 mL" (true only for water from a standard dropper; alcohol tinctures and oils give smaller drops, often 30–60 per mL); "it's all mixed in once it looks mixed" (oils and fine powders can look uniform and still separate within minutes); "the recipe says it's 10 mg each, so it is" (label accuracy studies say otherwise; see the testing page).
 
 == See also ==
+* [[Making Colloidal Silver A Step-by-Step Guide]]
 * [[Candy Making]]
 * [[Infused Confections Even Dosing in Gummies Chocolate and Hard Candy]]
 * [[Dilution Calculator]]

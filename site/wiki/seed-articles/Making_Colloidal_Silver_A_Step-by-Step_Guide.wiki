@@ -1,0 +1,247 @@
+'''Making Colloidal Silver: A Step-by-Step Guide''' walks through making electrolytic colloidal silver at home: the materials, building a constant-current generator, running a batch, working out the strength with Faraday's law, checking and storing the result, and the honest numbers on dose and exposure. It is the practical companion to [[Colloidal Metals, Electrochemistry, and Nanoparticles]], which covers the chemistry (anode oxidation, nucleation, why constant current matters, contamination, the Tyndall effect, argyria), and to [[Rasa Shastra and Ancient Indian Nanochemistry]], the much older Indian tradition of preparing metals (Rajata Bhasma for silver) for internal use. The law, the recorded argyria cases and the regulatory history are on [[Colloidal Silver in Law and Medicine]].
+
+Like the other preparation pages in this library, this one gives the method and the hazards together. Someone who is going to make colloidal silver anyway is safer knowing how to control the current, calculate the strength and keep their total silver intake below the levels that cause argyria than guessing with batteries and a coin.
+
+== What colloidal silver is, in one paragraph ==
+Pass a small direct current between two pure silver electrodes in pure water. At the positive electrode (anode) silver metal gives up electrons and goes into the water as silver ions (Ag⁺). Some of those ions are reduced back to metal atoms in the water and gather into particles a few to a few tens of nanometres across: the '''colloid'''. The rest stay dissolved as ions, and some plate out as metal on the negative electrode (cathode). A home batch is therefore always a '''mixture of ionic and particulate silver'''. For dose and argyria, what matters is the '''total silver''', ionic and particulate together.
+
+== What you need ==
+=== Electrodes: fine silver only ===
+* Two pieces of '''.999 or .9999 fine silver''' wire or rod. 12–14 gauge (about 1.6–2 mm) is the usual size. Each piece should be long enough for 8–12 cm to sit in the water with a few centimetres sticking out for the clips.
+* Buy from a bullion or jewellery-supply dealer who states the fineness. Fine silver is soft. You can bend it with your fingers, and sterling cannot be bent as easily.
+* '''Not sterling (.925), not coins, not jewellery, not "silver-plated".''' Sterling is 7.5% copper. US "junk silver" coins (pre-1965 dimes, quarters and halves) are 90% silver and 10% copper. Modern bullion coins are fine silver, but they are awkward shapes, and some are struck from alloys or have coatings. Under current, the copper, nickel or zinc in an alloy dissolves into the water along with the silver, and you then drink those metals as well (see [[Colloidal Metals, Electrochemistry, and Nanoparticles]]).
+
+=== Water: distilled or deionised only ===
+* Use '''steam-distilled or deionised water''' with a conductivity under about 5 µS/cm (a TDS meter reading of 0–2 ppm). Check every new jug with the meter before you use it.
+* '''Not tap, spring or mineral water, and no salt or baking soda.''' Tap water carries chloride, carbonate, calcium and magnesium. Chloride reacts instantly with silver ions to form '''silver chloride''', an insoluble white solid (solubility product about 1.8 × 10⁻¹⁰). A milky white cloud during a run means chloride is present: throw the batch out. Salt "to speed it up" makes the same silver chloride. It also lowers the water's resistance so far that the current runs away and the particles come out coarse and grey.
+
+=== Vessel and the rest ===
+* A '''glass''' vessel, borosilicate (lab beaker, Pyrex jug) or a clean jar, holding 250–500 mL. Wash it, then rinse it three times with distilled water. No metal pots, and no plastics that have held anything oily.
+* A non-metal lid or bar to hold the electrodes parallel, '''2–3 cm apart''', for example a plastic or wooden strip with two holes, or a jar lid drilled for them.
+* A '''digital multimeter''' that reads milliamps (mA), used in series to measure the current.
+* A '''TDS/conductivity meter''' (cheap pen type), used to check the water and to track the run.
+* A '''0.001 g scale''' if you want to cross-check the silver loss by weighing (see [[Measuring Tools Scales Syringes and Volumetric Dosing]]).
+* A glass stirring rod, or a magnetic stirrer with a PTFE-coated bar.
+* Amber or cobalt-blue glass bottles with plastic or glass-lined caps for storage.
+* A class 2 (under 1 mW) red or green laser pointer for the Tyndall check.
+
+== Building a constant-current generator ==
+Constant current is the key to a reproducible batch. The water's resistance falls steadily as silver goes into it. With a fixed voltage source (three 9 V batteries in series, for example), the current therefore climbs all through the run, and the particles grow large and drop out as grey sludge. A '''current-regulated''' source holds the current at the set value, 1–2 mA, however the resistance changes. It also lets you calculate the silver mass, because Faraday's law needs a known current.
+
+=== Option A: LM334 current-source circuit (recommended for 1–3 mA) ===
+The '''LM334''' (also sold as LM234 and LM134) is a three-terminal adjustable current source made for exactly this range. It is rated from about 1 µA to 10 mA and up to 40 V.
+* '''Set current:''' I ≈ 67.7 mV ÷ R_set at 25 °C. This comes from the datasheet's 227 µV/K × absolute temperature. For '''1.0 mA use 68 Ω''' (0.996 mA). For '''1.5 mA use 47 Ω''' (about 1.44 mA). For 2 mA use 33 Ω (about 2.05 mA). Use a 1% metal-film resistor.
+* '''Temperature drift:''' the set current rises about 0.33% per °C. Keep the chip at room temperature, out of the warm water's steam.
+* '''Wiring, in series:''' battery pack or adapter (+) → '''fuse''' → '''diode''' → LM334 V+ pin. R_set goes between the R pin and the V− pin. LM334 V− → multimeter (mA range) → polarity-reversal switch → silver electrodes → back to supply (−).
+* '''Supply:''' 24–30 V DC. Three 9 V alkaline batteries in series (27 V) is the classic choice. Batteries are naturally isolated from the mains. A wall adapter is also fine (see the safety section). Stay below the LM334's 40 V maximum.
+* '''Reverse-polarity diode:''' a 1N4148 or 1N4007 in series stops the chip being damaged by a battery clipped on backwards. The LM334 tolerates only about 20 V reversed.
+* '''Polarity reversal:''' a DPDT toggle switch placed '''after''' the LM334, so it swaps which electrode is the anode without ever reversing the regulator itself. Reverse every 5–10 minutes. This wears both electrodes evenly and stops one electrode collecting all the cathode deposit.
+* '''Optional LED''' in series as an "on" indicator. It draws no extra current, because the series current is fixed, but it takes about 2 V of headroom.
+* '''Headroom:''' the LM334 needs about 1 V across itself to regulate. At the start, in very pure water, the cell's resistance can be so high that even 27 V cannot push the set current through. The meter will read under 1 mA for the first 5–20 minutes and then rise to the set value and stay there. This is normal. Log it (see "Running a batch").
+
+=== Why not an LM317? ===
+The LM317 current-source circuit (I = 1.25 V ÷ R) is the common internet suggestion. The LM317 needs its own operating current of a few milliamps to regulate (datasheet minimum load current: typically 3.5 mA, up to 10 mA worst case). Below that it does not hold a set current of 1–2 mA reliably. It is a good current source at 10 mA and above, which is far too high for this job. Use the LM334 or a bench supply.
+
+=== Option B: a lab bench supply in constant-current (CC) mode ===
+* Set the voltage limit to 24–30 V and the current limit to 1–2 mA. The supply then runs in CC mode once the water conducts.
+* Check what your supply can actually hold. Many cheap bench supplies are specified only to ±(0.5% + a few digits) with 1 mA resolution, so their low-end current may be off by 30–100%. Put the multimeter in series and trust the multimeter.
+
+=== Safety engineering (part of the build) ===
+* '''Low voltage only.''' Keep the whole circuit at or below about 30 V DC, inside the extra-low-voltage band (IEC 61140 SELV: under 60 V DC in dry conditions). Wet hands and water make lower voltages matter more, so treat the cell as live while it runs.
+* '''Isolation from the mains.''' Use batteries, or a certified isolated adapter (UL/CSA "Class 2", or CE-marked SELV) whose output is not connected to mains earth or neutral. '''Never''' build a transformerless (capacitor-dropper) supply, and never rectify the mains directly. If you cannot read the adapter's isolation marking, use batteries.
+* '''Fuse:''' a 100–250 mA fast-blow fuse in the positive lead, right at the supply. Even if the electrodes short together, the current source caps the current. The fuse protects against a wiring fault upstream of the regulator.
+* '''No metal contact with the body.''' This is a water-electrolysis cell, not a device to put on skin. Never hold the electrodes, and never use the generator for "silver iontophoresis" on yourself. Switch off before touching or moving the electrodes.
+* '''Clips above the water.''' Alligator clips are nickel-plated steel or brass. If they touch the water they dissolve into it, so keep them 2 cm or more above the surface.
+* '''Ventilation:''' the cathode gives off hydrogen. At these currents the amount is tiny: about 0.26 mL of gas for a 250 mL, 10 ppm batch, from 2.24 C ÷ (2 × 96,485 C/mol) × 22.4 L/mol. Still, run the cell in an open room, away from flames, with the lid not sealed airtight.
+* '''Electrodes must not touch''' each other in the water. Keep them parallel and fixed.
+
+== Running a batch ==
+# '''Prepare.''' Wash the vessel and electrodes and rinse them with distilled water. Measure exactly the volume of distilled water you want, for example '''250 mL''', with a graduated cylinder. Record the TDS meter reading of the water as your baseline.
+# '''Optional warming.''' Water at about 40–50 °C conducts better, so the current reaches its set value sooner. Do not boil, and keep the circuit away from the heat.
+# '''Set up.''' Mount the electrodes 2–3 cm apart with 8–12 cm submerged and the clips dry. Connect the supply.
+# '''Run at 1–2 mA.''' Read the current every 5 minutes and write it down with the time. You need this log for the Faraday calculation, because the early minutes run below the set current.
+# '''Stir.''' Use gentle magnetic stirring or a glass-rod stir every few minutes. Ions pile up next to the anode in still water. Stirring spreads them, which favours smaller particles and keeps the current steady.
+# '''Reverse polarity every 5–10 minutes''' with the switch.
+# '''Watch the liquid.'''
+## Clear to the faintest straw-yellow is what a 5–20 ppm electrolytic batch looks like.
+## Pale yellow to amber means more particles, from a longer run or a higher concentration.
+## Grey or black wisps or a grey haze mean the current is too high, or the run has gone on too long and the particles are agglomerating. Lower the current or stop.
+## A milky white cloud means chloride contamination (silver chloride). Discard the batch and replace the water source.
+# '''Wipe the cathode''' if a dark fuzzy deposit builds up on it. This is plated silver. Switch off first.
+# '''Stop''' when the logged charge reaches your target (next section).
+
+== Working out the strength with Faraday's law ==
+Faraday's first law of electrolysis gives the mass of metal oxidised at the anode from the charge passed:
+: <code>m = (I × t × M) ÷ (n × F)</code>
+* '''m''': mass of silver in grams
+* '''I''': current in amperes (1.5 mA = 0.0015 A)
+* '''t''': time in seconds
+* '''M''': molar mass of silver, 107.87 g/mol
+* '''n''': electrons per ion, 1 for Ag⁺
+* '''F''': the Faraday constant, 96,485 C/mol
+Silver handy number: '''1 coulomb releases 1.118 mg of silver''' (107.87 ÷ 96,485 × 1000). The charge in coulombs is mA × minutes × 0.06.
+
+=== Worked example 1: forward (how strong is my batch?) ===
+''250 mL of distilled water, run at 1.5 mA for 30 minutes after it reached the set current.''
+# Charge Q = 0.0015 A × 1800 s = '''2.70 C'''.
+# Silver released m = 2.70 × 1.118 mg = '''3.02 mg'''.
+# Concentration = 3.02 mg ÷ 0.250 L = '''12.1 mg/L ≈ 12 ppm''' (for dilute solutions in water, mg/L ≈ ppm; see [[Concentration Arithmetic and Serial Dilution]]).
+If your log shows the first 15 minutes averaged 0.6 mA, add that charge too: 0.0006 × 900 = 0.54 C, giving 0.60 mg more, so 3.62 mg ÷ 0.25 L ≈ '''14.5 ppm'''. '''Sum every logged interval''' (current × time), not just the steady part.
+
+=== Worked example 2: reverse (how long for a target strength?) ===
+''Target: 10 ppm in 500 mL.''
+# Silver needed = 10 mg/L × 0.5 L = '''5.0 mg'''.
+# Charge needed = 5.0 ÷ 1.118 = '''4.47 C'''.
+# At 2.0 mA: t = 4.47 ÷ 0.002 = 2236 s ≈ '''37 minutes''' of steady current, plus however much charge accumulated while the current was ramping up.
+
+=== Why the Faraday figure is an upper bound ===
+The calculation gives the silver that left the anode. It does not tell you how much of that silver is suspended as particles in the liquid:
+* '''Some plates out on the cathode''' as dark fuzz or dendrites, and some falls to the bottom as flakes. That silver is not in the liquid you pour off.
+* '''Some stays ionic''' (Ag⁺, or silver oxide/hydroxide in solution) rather than forming particles. So the ''colloidal'' fraction is lower still.
+* '''Current efficiency is below 100%''' if some charge goes into side reactions, such as oxygen evolution at a passivated anode.
+For '''dose''', use the Faraday figure as it stands: it is the total silver, ionic and particulate, and argyria comes from total silver. Treat it as a conservative ceiling, and label the bottle "≤ 12 ppm (calculated)".
+
+=== Cross-check by weighing ===
+For a larger batch (20 mg or more of silver), weigh both electrodes on a 0.001 g scale before and after. ''Silver in the liquid ≈ anode mass lost − cathode mass gained.'' On a small 3 mg batch a ±2 mg scale cannot resolve this. That is the same minimum-weighable-quantity problem covered in [[Measuring Tools Scales Syringes and Volumetric Dosing]].
+
+== Checking the batch ==
+=== Tyndall (laser) test ===
+* In a dim room, shine the laser pointer sideways through the bottle. A '''visible beam path''' inside the liquid means the light is being scattered by suspended particles. Shine the same laser through a bottle of the plain distilled water as a control: it should show little or no beam.
+* '''What it tells you:''' particles are present. '''What it does not tell you:''' how big they are, how many there are, or how much ionic silver is present. Dust and microbubbles scatter light too, so a beam does not prove a good colloid. A purely ionic solution shows no beam at any strength.
+* '''Never''' look into the beam or along it, and do not use lasers above 1 mW (class 3R or higher) for this.
+
+=== TDS meter: it reads the ions, not the particles ===
+A TDS pen actually measures '''electrical conductivity''' and multiplies it by a fixed factor (commonly 0.5 for its "NaCl" scale or about 0.7 for its "442" scale) to display "ppm". Only dissolved ions conduct. Metal nanoparticles add almost nothing. So:
+* The reading rises during a run as the '''ionic''' fraction rises. It is useful for comparing your own batches made the same way.
+* It '''cannot''' give total silver, and it reads ''nothing'' of the particulate fraction.
+* Even for the ionic part, the factor depends on which counter-ion is present. Ag⁺ has a limiting molar conductivity of about 62 S·cm²/mol. Paired with hydroxide (about 198) it gives roughly 2.4 µS/cm per mg/L of Ag⁺, which a 0.5-factor meter shows as about 1.2 ppm. Paired with bicarbonate from dissolved CO₂ (about 44) it gives roughly 1 µS/cm per mg/L, shown as about 0.5 ppm. Depending on the water, the same silver can read anywhere from about half to slightly more than its true ionic ppm.
+* '''Subtract the baseline''' reading of your distilled water, and use the Faraday figure, not the TDS figure, for dosing.
+
+=== Proper characterisation (for reference) ===
+Laboratories measure total silver by ICP-MS or atomic absorption after acid digestion. They size particles with dynamic light scattering, UV–visible spectroscopy (the silver plasmon peak near 400 nm) or electron microscopy, and separate ionic from particulate silver by ultrafiltration. A US EPA study of 22 commercial products sold as colloidal silver found total silver from 0.54 to 960 mg/L and wide variation in the ionic-to-particle ratio (Rogers et al., 2018). Labels and home measurements alike are rough.
+
+== Filtering ==
+After a few hours, pour or siphon the liquid off any sediment. Then pass it through laboratory filter paper or an unbleached paper coffee filter to remove flakes and fuzz from the cathode. Nanoparticles pass through any ordinary filter, including 0.2 µm membranes, so filtering removes only the coarse silver, which you do not want anyway.
+
+== Storage ==
+* '''Dark glass''' (amber or cobalt), filled close to the top, with plastic or glass-lined caps. '''No metal''' caps, spoons or containers.
+* '''Room temperature, out of light.''' Light drives silver photochemistry and aggregation, the same chemistry as photographic film.
+* '''Do not freeze.''' Freezing concentrates the particles between ice crystals and makes them agglomerate. Electrolytic colloids carry no stabilising coating. Many makers advise not refrigerating them either, but the evidence for that is mostly anecdotal. Refrigeration is simply unnecessary.
+* '''Shelf life:''' an uncapped electrolytic colloid slowly agglomerates over weeks to months. Discard it if it turns grey or black or forms sediment. Commercial products with a polymer or protein coating last longer, but they are a different preparation.
+* '''Label every bottle''' with the calculated strength ("≤ 12 ppm silver, calculated"), the date, the batch, and the dose you have worked out. Keep it away from children (see [[Testing Labelling and Safe Storage of Dosed Preparations]]).
+
+== Cleaning the electrodes ==
+* After each run, wipe the black or grey deposit off both electrodes with a paper towel or a '''non-metallic''' scouring pad, such as a melamine sponge or a nylon pad. Rinse with distilled water and dry.
+* '''No steel wool''' (it leaves iron), '''no silver polish or silver dip''' (dips contain thiourea and acid, and polishes leave residues), and no tap-water rinse as the last step.
+* The electrodes slowly thin. A 10 cm length of 14-gauge wire weighs about 2 g, which is several hundred 250 mL batches at 10 ppm. Replace them when they are pitted or thin.
+
+== Dose and exposure ==
+=== The EPA oral reference dose ===
+* The US EPA's IRIS programme set an '''oral reference dose (RfD) for silver of 5 µg/kg/day''' (0.005 mg/kg/day) in 1991. This is an estimate of a daily oral exposure over a lifetime that is likely to be without appreciable risk. The critical effect is '''argyria'''. Confidence in the value is rated low.
+* How it was derived: the lowest cumulative dose associated with argyria in the 1930s intravenous silver arsphenamine series (Gaul and Staud, 1935) was about 1 g. Assuming about 4% of oral silver is retained (Furchner et al., 1968), that is equivalent to about 25 g taken by mouth. Spread over 70 years at 70 kg, that comes to 0.014 mg/kg/day, the lowest-observed-adverse-effect level. Dividing by an uncertainty factor of 3 gives 0.005 mg/kg/day.
+* WHO's drinking-water review treats a '''total lifetime oral intake of about 10 g''' of silver as a human no-observed-adverse-effect level. EPA's secondary (cosmetic) drinking-water standard for silver is 0.1 mg/L.
+
+=== Converting the RfD into millilitres ===
+Because '''1 ppm = 1 µg/mL''':
+: <code>mL per day at the RfD = (5 µg/kg × body weight in kg) ÷ ppm</code>
+* '''70 kg adult, 10 ppm:''' 5 × 70 = 350 µg/day, and 350 ÷ 10 = '''35 mL/day''' (about 7 teaspoons).
+* '''70 kg adult, 20 ppm:''' 350 ÷ 20 = '''17.5 mL/day'''.
+* '''60 kg adult, 15 ppm:''' 300 ÷ 15 = '''20 mL/day'''.
+* '''20 kg child, 10 ppm:''' 100 ÷ 10 = '''10 mL/day'''.
+* '''Lifetime check:''' 35 mL/day of 10 ppm for 10 years is 350 µg × 3650 days ≈ '''1.3 g''' of silver. That is well under WHO's 10 g lifetime figure, which is why the RfD is set where it is. A person drinking '''a cup (240 mL) a day of 20 ppm''' takes in 4.8 mg/day, about 14× the RfD, and reaches about 1.75 g a year. That is the pattern seen in argyria case reports: years of daily use, often of strong or salted home brews.
+* The RfD covers '''all''' silver sources. Food and water already supply some, typically tens of micrograms a day (WHO), so the amount left for a supplement is somewhat less than the totals above.
+* Use an oral syringe for these volumes, not a spoon (see [[Dosing in Liquids]]).
+
+=== Argyria: what the record shows ===
+* Argyria is a permanent blue-grey discolouration of skin, nails and gums. It is worst on sun-exposed areas, where light reduces deposited silver to metal. There is no reliable treatment. Q-switched and picosecond laser treatment has lightened some cases.
+* Published colloidal-silver cases report '''years''' of daily oral use, commonly 2–10 years or more (for example Kim et al., 2009, five years; Chang et al., 2006). Most give no measured dose. In the best-known cases, people drank large volumes of strong or salted home brews. See [[Colloidal Silver in Law and Medicine]] for Stan Jones, Rosemary Jacobs and Paul Karason.
+* Rarer reported harms include '''neurological''' effects: myoclonic status epilepticus after months of heavy colloidal silver use (Mirsattari et al., 2004). NCCIH also notes possible '''kidney, liver and nervous-system''' effects.
+* Silver nasal sprays and eye drops can cause '''localised''' argyria (argyrosis) of the nasal lining or the conjunctiva. Rosemary Jacobs's argyria came from childhood nose drops.
+
+=== Interactions ===
+* NCCIH states that colloidal silver may reduce the absorption of '''certain antibiotics''' and of '''thyroxine'''. Drug-interaction references (MedlinePlus / Natural Medicines) list '''quinolone''' antibiotics (ciprofloxacin, levofloxacin and others), '''tetracyclines''' (doxycycline, minocycline), '''levothyroxine''' and '''penicillamine'''.
+* Mechanism: metal cations bind these drugs in the gut. This is the same reason quinolones and tetracyclines are separated from iron, zinc, calcium and antacids. The silver-specific evidence is pharmacological reasoning plus the general metal-cation rule, not controlled trials.
+* Practical spacing, following the standard advice for metal cations: take a quinolone '''at least 2 hours before or 6 hours after''' silver, and levothyroxine at least 4 hours apart from it. If someone is on penicillamine, or on a thyroid dose that is being titrated, tell the prescriber.
+* Silver itself has '''no known essential function''' in the body (NCCIH).
+
+=== Evidence status ===
+* '''Established:''' silver ions are antimicrobial on contact. Silver is used in wound dressings and in silver sulfadiazine burn cream, and EPA registers silver compounds as surface disinfectants and water-treatment agents. Argyria from chronic oral use is well documented. The RfD is a regulatory number with low confidence.
+* '''Not established:''' any benefit from '''drinking''' colloidal silver. FDA's 1999 rule found no adequate evidence that oral or topical OTC colloidal silver is safe and effective for any disease. Small human studies of commercial products (Munger et al., 2014: 10 and 32 ppm, 15 mL/day for 14 days) looked for toxicity, found no clinically important changes over that short window, and did not test benefit. Even for topical silver in wounds, a Cochrane review found insufficient evidence that it prevents infection (Storm-Versloot et al., 2010).
+* '''Topical vs oral:''' skin application absorbs far less silver than drinking it, but long-term or broken-skin use and nasal or eye use can still deposit silver locally. Oral use is where systemic argyria comes from.
+
+=== What regulators say ===
+* '''FDA:''' 21 CFR 310.548 (final rule, 1999). Over-the-counter drug products containing colloidal silver or silver salts are not generally recognised as safe and effective and are misbranded. Since then FDA has issued warning letters to sellers making disease claims, including COVID-19 claims in 2020.
+* '''FTC:''' consent orders against colloidal silver marketers making cure claims (2001–2002), and joint FDA–FTC warning letters in 2020.
+* '''NCCIH (NIH):''' colloidal silver is not safe or effective for treating any disease or condition. It can cause argyria and may interfere with some drugs.
+* '''EPA:''' oral RfD 5 µg/kg/day. Surface-disinfectant silver products must be registered as pesticides under FIFRA.
+* Details, cases and citations: [[Colloidal Silver in Law and Medicine]].
+
+== Other colloidal metals ==
+=== Gold ===
+* Gold does not dissolve readily at the anode in pure water. It forms a surface oxide and evolves oxygen instead, unless chloride is present. Electrolytic "colloidal gold" made at home in pure water therefore contains very little gold. Laboratory colloidal gold is made chemically, by reducing chloroauric acid (HAuCl₄) with sodium citrate in boiling water: the Turkevich method (1951) and its size-tuned version by Frens (1973). The result is ruby red, from the gold plasmon peak near 520 nm. Lange and Harris (1944) standardised a citrate gold sol of this type for the spinal-fluid test described in [[Colloids in Cerebrospinal Fluid Lange Gold Test Oncotic Pressure and Nanoparticles]].
+* Toxicity: metallic gold particles are much more inert than silver, and there is no EPA RfD for gold. '''Gold salts''' are another matter. Aurothiomalate and auranofin, once used for rheumatoid arthritis, cause dermatitis, mouth ulcers, kidney damage (proteinuria) and blood disorders, and long courses can cause '''chrysiasis''', a permanent blue-grey skin pigmentation like argyria.
+* Faraday figure, if gold does dissolve (as Au³⁺): 0.68 mg per coulomb.
+
+=== Copper ===
+* A copper anode in water gives '''Cu²⁺ ions''' and blue-green copper hydroxide or oxide, not a stable metallic colloid. A home "colloidal copper" is essentially '''ionic copper'''. Faraday figure: 0.329 mg per coulomb (n = 2).
+* Copper is essential: the adult RDA is 0.9 mg/day. But '''acute gastrointestinal toxicity''' (nausea, vomiting) appears at '''a few milligrams in a drink''': about 4 mg/L in water in a controlled trial (Araya et al., 2001). WHO's drinking-water guideline is 2 mg/L and the EPA action level 1.3 mg/L. The adult tolerable upper intake level is '''10 mg/day''' (Institute of Medicine, 2001). People with Wilson disease must avoid supplemental copper. In practice: at 20 ppm, '''one 240 mL cup carries about 4.8 mg''' of copper, already at the point where nausea starts. Copper's margin between a useful amount and a nauseating one is narrow.
+
+=== Zinc ===
+* A zinc anode in water gives Zn²⁺ and white zinc hydroxide or oxide, again ionic or oxide, not metallic. Faraday figure: 0.339 mg per coulomb (n = 2).
+* Zinc is essential: the adult RDA is 8–11 mg/day and the '''upper level 40 mg/day''' (Institute of Medicine, 2001). Large single doses cause nausea and vomiting. Chronic intakes above the upper level cause '''copper deficiency''' (anaemia, low white-cell counts, and nerve damage that can be permanent; Fosmire, 1990). '''Intranasal zinc''' gels and sprays have caused permanent loss of smell, and FDA warned against Zicam nasal products in 2009. Do not put zinc solutions in the nose.
+
+=== Platinum and others ===
+"Colloidal platinum" and similar products are sold, but there is no meaningful home electrolytic method and little human safety data. Platinum salts are potent sensitisers and, as chemotherapy drugs (cisplatin), toxic to the kidneys and nerves.
+
+== Established practice and folklore ==
+* '''Established:''' fine silver electrodes and distilled water. Constant current at 1–2 mA. Faraday's law for the silver released, as an upper bound. Tyndall scattering showing particles are present. TDS meters reading only ions. Argyria from chronic oral use. The EPA RfD as a dose ceiling.
+* '''Folklore:''' "add a pinch of salt to speed it up" (it makes silver chloride). "Silver coins work" (alloys, with copper). "TDS ppm = silver ppm" (it reads ions only, with a variable factor). "Golden colour means the strength is right" (colour depends on particle size and number, not total silver). "You can't overdose on colloidal silver" (argyria is cumulative and permanent). "Colloidal silver cannot cause argyria, only ionic silver can" (both forms deposit silver in tissue: Loeschner et al., 2011, and van der Zande et al., 2012, found similar tissue distribution in rats given silver nanoparticles or silver salts by mouth).
+
+== See also ==
+* [[Colloidal Metals, Electrochemistry, and Nanoparticles]]
+* [[Rasa Shastra and Ancient Indian Nanochemistry]]
+* [[Colloidal Silver in Law and Medicine]]
+* [[Colloids in Cerebrospinal Fluid Lange Gold Test Oncotic Pressure and Nanoparticles]]
+* [[Dosing in Liquids]]
+* [[Concentration Arithmetic and Serial Dilution]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Keeping Liquids Evenly Mixed Solubility Emulsions and Suspensions]]
+* [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Chelated Minerals]]
+* [[Laboratory Equipment and Extraction Engineering]]
+
+== Sources ==
+* Faraday, M. "Experimental researches in electricity, seventh series." ''Philosophical Transactions of the Royal Society of London'' 124:77–122, 1834.
+* Bard, A. J. and Faulkner, L. R. ''Electrochemical Methods: Fundamentals and Applications'', 2nd ed. Wiley, 2001. Faraday's law, current efficiency, mass transport.
+* Haynes, W. M. (ed.) ''CRC Handbook of Chemistry and Physics''. CRC Press. Limiting ionic conductivities (Ag⁺, OH⁻, HCO₃⁻); solubility product of AgCl.
+* Rodríguez-Sánchez, L., Blanco, M. C. and López-Quintela, M. A. "Electrochemical synthesis of silver nanoparticles." ''Journal of Physical Chemistry B'' 104(41):9683–9688, 2000.
+* Khaydarov, R. A. et al. "Electrochemical method for the synthesis of silver nanoparticles." ''Journal of Nanoparticle Research'' 11:1193–1200, 2009.
+* Rogers, K. R. et al. "Characterization of engineered nanoparticles in commercially available spray disinfectant products advertised to contain colloidal silver." ''Science of the Total Environment'' 619–620:1375–1384, 2018. [https://pmc.ncbi.nlm.nih.gov/articles/PMC5939576/ PMC5939576]
+* Texas Instruments. ''LM134/LM234/LM334 3-Terminal Adjustable Current Sources'' datasheet. [https://www.ti.com/lit/ds/symlink/lm334.pdf TI]
+* Texas Instruments. ''LM317 3-Terminal Adjustable Regulator'' datasheet (minimum load current). [https://www.ti.com/lit/ds/symlink/lm317.pdf TI]
+* Tyndall, J. "On the blue colour of the sky, the polarization of skylight, and on the polarization of light by cloudy matter generally." ''Proceedings of the Royal Society of London'' 17:223–233, 1869.
+* Kreibig, U. and Vollmer, M. ''Optical Properties of Metal Clusters''. Springer, 1995. Silver and gold plasmon resonances.
+* American Public Health Association. ''Standard Methods for the Examination of Water and Wastewater'', Method 2510 (Conductivity) and 2540 C (Total Dissolved Solids).
+* US EPA, Integrated Risk Information System. ''Silver (CASRN 7440-22-4)'', oral RfD 5 × 10⁻³ mg/kg-day, critical effect argyria, last revised 1991. [https://iris.epa.gov/ChemicalLanding/&substance_nmbr=99 IRIS]
+* Gaul, L. E. and Staud, A. H. "Clinical spectroscopy: seventy cases of generalized argyrosis following organic and colloidal silver medication." ''JAMA'' 104:1387–1390, 1935.
+* World Health Organization. ''Silver in Drinking-water: Background document for development of WHO Guidelines for Drinking-water Quality''. WHO/SDE/WSH/03.04/14.
+* ATSDR. ''Toxicological Profile for Silver''. US Agency for Toxic Substances and Disease Registry, 1990.
+* National Center for Complementary and Integrative Health. "Colloidal Silver: What You Need To Know." [https://www.nccih.nih.gov/health/colloidal-silver NCCIH]
+* US FDA. "Over-the-counter drug products containing colloidal silver ingredients or silver salts; final rule." ''Federal Register'' 64:44653, August 17, 1999; 21 CFR 310.548. [https://www.ecfr.gov/current/title-21/chapter-I/subchapter-D/part-310/subpart-E/section-310.548 eCFR]
+* Fung, M. C. and Bowen, D. L. "Silver products for medical indications: risk-benefit assessment." ''Journal of Toxicology: Clinical Toxicology'' 34(1):119–126, 1996.
+* Munger, M. A. et al. "In vivo human time-exposure study of orally dosed commercial silver nanoparticles." ''Nanomedicine: NBM'' 10(1):1–9, 2014. [https://pubmed.ncbi.nlm.nih.gov/23811290/ PubMed]
+* Kim, Y. et al. "A case of generalized argyria after ingestion of colloidal silver solution." ''Annals of Dermatology'' 21(2):151–153, 2009. [https://pmc.ncbi.nlm.nih.gov/articles/PMC2861249/ PMC2861249]
+* Chang, A. L., Khosravi, V. and Egbert, B. "A case of argyria after colloidal silver ingestion." ''Journal of Cutaneous Pathology'' 33(12):809–811, 2006.
+* Mirsattari, S. M. et al. "Myoclonic status epilepticus following repeated oral ingestion of colloidal silver." ''Neurology'' 62(8):1408–1410, 2004.
+* Loeschner, K. et al. "Distribution of silver in rats following 28 days of repeated oral exposure to silver nanoparticles or silver acetate." ''Particle and Fibre Toxicology'' 8:18, 2011.
+* van der Zande, M. et al. "Distribution, elimination, and toxicity of silver nanoparticles and silver salts in rats after 28-day oral exposure." ''ACS Nano'' 6(8):7427–7442, 2012.
+* Storm-Versloot, M. N. et al. "Topical silver for preventing wound infection." ''Cochrane Database of Systematic Reviews'' 2010(3):CD006478.
+* Turkevich, J., Stevenson, P. C. and Hillier, J. "A study of the nucleation and growth processes in the synthesis of colloidal gold." ''Discussions of the Faraday Society'' 11:55–75, 1951.
+* Frens, G. "Controlled nucleation for the regulation of the particle size in monodisperse gold suspensions." ''Nature Physical Science'' 241:20–22, 1973.
+* Araya, M. et al. "Determination of an acute no-observed-adverse-effect level (NOAEL) for copper in water." ''Regulatory Toxicology and Pharmacology'' 34(2):137–145, 2001.
+* Institute of Medicine. ''Dietary Reference Intakes for Vitamin A, Vitamin K, Arsenic, Boron, Chromium, Copper, Iodine, Iron, Manganese, Molybdenum, Nickel, Silicon, Vanadium, and Zinc''. National Academies Press, 2001.
+* Fosmire, G. J. "Zinc toxicity." ''American Journal of Clinical Nutrition'' 51(2):225–227, 1990.
+* US FDA. Warning to consumers about Zicam intranasal zinc products (loss of sense of smell), June 16, 2009.
+
+== Coverage ==
+A step-by-step how-to for electrolytic colloidal silver: fine-silver electrodes and distilled water and why not alloys, tap water or salt. A constant-current generator built on the LM334, or a bench supply in CC mode, and why the LM317 does not suit 1–2 mA. Full safety engineering: SELV, mains isolation, fusing, no body contact, clips dry, hydrogen. Running, stirring and polarity reversal, reading the colour. Faraday's-law strength calculation worked forward and backward, and why it is an upper bound. Tyndall and TDS checks and their limits. Filtering, storage and electrode cleaning. The EPA oral RfD converted to mL/day for real body weights, argyria and neurological case evidence, drug interactions, evidence status, topical vs oral, and regulators. Brief notes on gold (Turkevich), copper and zinc and their narrower margins.
