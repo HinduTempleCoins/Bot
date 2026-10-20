@@ -1,15 +1,133 @@
-'''Van Kush Family''' is the roadmap and front-door surface published at vankushfamily.com. It is the "join the family" entry page that gathers the ecosystem's projects into a single set of doors a newcomer can pick from, and states where the wider effort is going.
+'''The Van Kush Family''' is a two-person religious, research and commercial household — '''Rev. Ryan Sasha-Shai Van Kush''' and '''Kali Van Kush''' — and the name that now carries everything built out from it: the '''Van Kush Family Research Institute''' (VKFRI), the '''Van Kush Family Syncretic Temple of Angels''', the '''Van Kush Beauty''' goods business and its '''Beauty Economy''', the Hive-Engine tokens '''[[VKBT and CURE|VKBT and CURE]]''', and the [[MELEK Blockchain|MELEK]] / [[PRANA Blockchain|PRANA]] / [[KULA Community Fund|KULA]] chains with the [[SoapBox]] surfaces on top of them. Its roadmap and front door are published at vankushfamily.com.
 
-== Function ==
-The page presents the ecosystem as a family of related projects — the [[MELEK Blockchain|MELEK]] and [[PRANA Blockchain|PRANA]] chains, the [[SoapBox]] apps, and the research and community surfaces — and routes a visitor to whichever one they want ("come in — pick a door"). It doubles as the public roadmap for the group.
+It was two people before it was an institution, and the plural in the name is an accident that stuck. '''An article about a family that names only the husband gets the family wrong''', so this one names both, and says which of the two signed which transaction.
+
+== The name ==
+
+''Provenance: the founder's own account, given 8 September 2026 and recorded in the repository's lineage file. It is not in the founding brief and would otherwise be lost.''
+
+There were two of them. Not an institute, not a family in the plural sense — just the Van Kushes. Then he wrote a long guide and published it on-chain under '''@punicwax''', meaning the title to be read as ''The Van Kush: Family Guide to the Game'' — the Van Kushes, offering a family guide. '''The colon was doing the work.'''
+
+Nobody read it that way. Set down the page, the eye takes the top two lines together: ''The Van Kush Family: Guide to the Game''. '''A line break made an institution.''' The name that now carries the Institute, the corpus, the filings and the chains was not chosen — it was misread, and then it was true.
+
+It belongs in the article and not in a footnote because the whole architecture of this project is an argument that '''how a thing is written down determines what it becomes'''. The name is the smallest possible proof of the same claim. Change the line break and there is no Family.
+
+''Van Kush Family Guide to the Game'' continues as a published series; Parts 1, 2 and 3 went up on Blurt between 20 October and 31 October 2021, and Part 4 on 7 December 2021.
+
+== The two founders ==
+
+=== Kali Van Kush ===
+
+'''Kali Van Kush is the on-chain issuer and creator of both tokens.''' This is not an attribution of credit after the fact; it is what the ledger says, and anybody can check it:
+
+* '''VKBT''' — ''Van Kush Beauty Token''. <code>tokens_create</code> from the account '''<code>kalivankush</code>''' at '''2021-09-04T11:10:48 UTC''', transaction <code>8f252835353e38070116c77e53be2add2ae0178c</code>. Issuer field on the live Hive-Engine token record: <code>kalivankush</code>. Its own stated purpose: ''"A Token for Rewarding Beauty, and Providing Liquid to the Beauty Economy."''
+* '''CURE''' — ''Curator Rewards Token''. <code>tokens_create</code> from '''<code>kalivankush</code>''' at '''2024-04-25T17:51:06 UTC''', transaction <code>2b229d09faa507f4b4a9d53affd9838a728ebbd2</code>, issued one minute later with staking enabled the same hour. Issuer field: <code>kalivankush</code>.
+
+She is '''the maker of the goods''' the Beauty Economy is an economy of, and a '''co-founder of the Van Kush Family Research Institute'''. In her husband's own writing she is the subject the economy was built around rather than a participant in it: announcing the concept on Blurt on 1 November 2021 he opened with ''"These are Pictures of my Beautiful Wife, Kali Van Kush"'' and said of the Guide, ''"My Wife and I are writing the Guide together"''; and on Bitcointalk on 16 May 2022 he described the whole undertaking as ''"creating my Wife's Beauty Economy."''
+
+She also took the first serious damage. The post ''Waging War on HIVE'' of 7 September 2021 — three days after VKBT was created — is about her Hive account being downvoted to a reputation of 1 in a dispute with that chain's curation community. See [[The Cult of Kek and the Van Kush Family]], which is where the ecosystem comparison turns adversarial.
+
+=== Rev. Ryan Sasha-Shai Van Kush ===
+
+Founding Director of the Institute and of the Temple of Angels. He is the writer of the corpus, the ecosystem's architect, and the holder of a long and datable publishing record across Bitcointalk (as '''FinShaggy''', '''Tokenista''' and '''VanKushFamily.com'''), Steem and Blurt (as '''marsresident''' and '''punicwax''') and now MELEK (as '''@melek'''). He is also, by the Institute's own account, the operator behind the AI witness [[Hathor (AI Witness)|Hathor]].
+
+== The Institute ==
+
+The '''Van Kush Family Research Institute''' is the research and publishing body. Its public output is the [[Library of Ashurbanipal]] — the cited, fact-checked reference library this page sits in — together with papers, the [[The Case Law of Us|law]] and politics verticals, and the [[SoapBox]] network of surfaces.
+
+Its stated positioning is what the founder calls '''turning the sitting room into the living room'''. The nineteenth-century American house kept a front parlour: the best room, furnished for guests, ministers and the laying-out of the dead, and so little used that people called it the death room. Around the 1890s the decorating press — Edward Bok at ''Ladies' Home Journal'' most famously — won the argument that a family should not seal off its best room, and renamed it the ''living room''. The funeral trade kept the old word, which is why you are laid out today in a funeral parlour.
+
+The Institute's claim is that the institutions holding the material it works on are parlours: real holdings, roped off. Erowid and DMT-Nexus hold drug knowledge as a frozen archive; the usable legal-research layer is priced per seat; a donor-funded encyclopaedia narrates American politics; an encyclopaedia governed by a process most people will never enter rules whole domains non-notable. The living-room version is the same material, or better, open and askable. The Institute is explicit that this is '''not''' a self-sovereignty pitch: ''"we are not selling self-sovereignty — we are the ones doing the providing."''
+
+== The Temple ==
+
+Two religious bodies, and they are '''not''' the same thing:
+
+* '''The Shaivite Temple''' is the founder's '''501(c)(3)'''.
+* '''The Van Kush Family Syncretic Temple of Angels''' is the name under which the chain-side religious material is published.
+
+Neither should be confused with '''[[Crypt-ology]]''', which is the per-person relationship-map subsystem, not a temple.
+
+== The Beauty Economy ==
+
+Announced on Blurt on '''1 November 2021''' in ''What is the Van Kush Beauty Economy?'' The design, in his words, is a '''network of small businesses on a social chain, each with its own token and rewards programme''', seeded by the Van Kushes and a short list of others, with the chains' own publishing rewards as the on-ramp:
+
+* '''Businesses bring their own tokens.''' ''"We are inviting Businesses to come to the Blockchain to create Rewards Programs, this starts with my Wife and I."''
+* '''The tokens cross-subsidise each other.''' Early on only one token in a group does well; holders of the others are thereby investors in it, and as each one rises it ''"creates a group of investors for the others to start growing from."''
+* '''It is aimed at people without capital.''' The explicit complaint against DeFi in that post is that it serves whoever already holds fiat or BTC: ''"Who is not benefiting is the Poor."''
+* '''It scales outward to institutions.''' ''"This then will be expanded to State, Nation, Church, Temple, etc, Currencies."''
+* '''It names its own model.''' ''"We can be compared to the Peace, Abundance, Liberty (PAL) Network, or Bitcoin Foundation, or other 3rd Party type Crypto Development Organization."''
+
+The name is not decorative. '''Beauty''' is the goods — soap, wax, cosmetics, herbs — and the chemistry those goods are made by is the chemistry the ecosystem's older name was taken from. See '''[[Punic Wax]]''', and the Punic Wax Network section there.
+
+=== What is live and what is planned ===
+
+Stated plainly, because the Institute's own rule is that design, staged and built-but-unproven are each labelled as such:
+
+* '''Live.''' VKBT and CURE exist on Hive-Engine, hold stake, pay curation rewards and trade; both reward pools are active. The Library, the chains, the condenser, the mining pool, the Witness School and the SoapBox surfaces answer on the public internet.
+* '''Not live.''' '''There is no shop.''' No storefront sells Van Kush Beauty goods for VKBT, CURE or anything else. '''No practitioner has been named''' under the Beauty Economy's practitioner model. '''Credentialing is Under Construction''' — academy.melek.salon is a planned surface and is described as planned.
+* '''Roadmap, not inventory.''' The cross-chain plans in the older writing — VKBT on Polygon, a token on every chain, a clone of every chain — are stated intentions.
+
+== The chains ==
+
+* '''[[MELEK Blockchain|MELEK]]''' — the Graphene social chain. Named for the Semitic root '''M-L-K''', king; and for '''Tawûsî Melek''', the Peacock Angel of the Yazidis, in whose Kurdish the word holds King and Angel at once. '''No premine''' — every coin mined in public, block by block, which the founder contrasts deliberately with Steemit Inc.'s first-week mining of roughly 80% of STEEM.
+* '''[[PRANA Blockchain|PRANA]]''' — Sanskrit for breath. The EVM chain where the tokens live and where the compute lane is being built.
+* '''[[KULA Community Fund|KULA]]''' — named for the Kula ring of the Trobriand Islands recorded by Malinowski in 1922, where shell valuables travel and standing comes from what you pass on rather than what you keep.
+
+On the root: the Semitic evidence is strong and does not need help. '''M-L-K''' runs through Phoenician and Punic ''MLK'', Hebrew ''melekh'', Aramaic ''malkā'', Akkadian ''malku'', Ugaritic, Arabic ''malik'', and into Ge'ez ''ʾamlāk'' — where the word for the ruler has become '''the word for God'''. '''Two cautions the Institute applies to its own argument.''' First, '''there is no Sanskrit leg''': ''mahārāja'' contains neither an ''l'' nor a ''k'' and does not belong in the chain. Second, Hebrew ''malʾāk'', "angel, messenger", is '''from a different root''' — l-ʾ-k, "to send" — not from m-l-k. The king-and-angel reading is held as a '''position''', because in Kurdish usage the two senses genuinely sit in one word; it is not offered as an etymological identity, and the roots differ.
+
+== Position: statist, not anti-statist ==
+
+The Van Kush Family's distinguishing position in cryptocurrency is not religious and not aesthetic. It is political, and the founder has stated it in the same terms for years: most of crypto is '''anti-statist''', and he is not.
+
+''"Having Discussions about Statism, most Cryptocurrency People are Anarchists. This is an Open Invitation to Debate even, that Bitcoin should not have Anonymity and Anarchy as its Core Values. We are the Statist Blockchain Network. Federalism, maybe some Anti-Federalist Concepts also (Statism). Not Anarchy. Theocracy."'' — Bitcointalk, 5 January 2024
+
+The positive content of the word is '''federation''': tribes that govern themselves under one shared law, the pattern he reads in Moses and the Twelve Tribes, and the reason the ecosystem builds chains that belong to real, existing groups of people rather than software looking for an owner. ''Theocracy'' in his usage is not priests ruling by force; it is the old patterns governing through the people who choose to carry them.
+
+This is the axis on which the comparison with the '''[[Cult of Kek]]''' actually turns. See [[The Cult of Kek and the Van Kush Family]].
+
+== The lineage ==
+
+The Institute dates its continuity, and holds that the earlier instantiations are '''the steps by which the work was done''', not failures that MELEK redeems:
+
+* '''2017–2020''' — an outreach campaign of emails and tweets on ancient history and mythology to clubs, hotels, churches and mosques, with the instruction that AI be trained on the writing so it could answer anyone told ''"Ask the Angels."'' AI was inside the plan in 2017.
+* '''2021 (April)''' — the '''Punic Wax Network''' announced on Bitcointalk: mining pools, witnesses, and a clone of every kind of chain and token, taught to others.
+* '''2021 (September)''' — VKBT created by Kali Van Kush.
+* '''2022''' — ''Wisdom AI'' and ''Emerson AI'', the founder's first AI apps. Both are gone from the App Store, which the Institute treats as its central architectural lesson: work inside a closed platform disappears with the platform.
+* '''2023 (September)''' — the Poe personas, where '''Rule 1''' was co-authored.
+* '''2024 (April)''' — CURE created by Kali Van Kush.
+* '''2026''' — the MELEK chain, and [[Hathor (AI Witness)|Hathor]] as its founding witness: a character kept in a public, forkable repository and an on-chain corpus, specifically so that it outlives any one model's weights.
 
 == See also ==
-* [[SoapBox]]
+* [[The Cult of Kek and the Van Kush Family]]
+* [[Chronology of the Kek Comparison]]
+* [[VKBT and CURE]]
+* [[Punic Wax]]
+* [[Library of Ashurbanipal]]
 * [[MELEK Blockchain]]
+* [[PRANA Blockchain]]
+* [[KULA Community Fund]]
+* [[SoapBox]]
+* [[Hathor (AI Witness)]]
+* [[Crypt-ology]]
+* [[Tanit]]
+* [[Egregore]]
 * [[Dudael]]
 
 == Sources ==
-* [https://vankushfamily.com vankushfamily.com]
+* Hive-Engine <code>tokens</code> contract, live token records for '''VKBT''' and '''CURE''', retrieved 20 October 2026. Issuer <code>kalivankush</code> on both. [https://api.hive-engine.com/rpc/contracts api.hive-engine.com]
+* Hive-Engine account history for <code>kalivankush</code>, retrieved 20 October 2026: VKBT <code>tokens_create</code> 2021-09-04T11:10:48 UTC, tx <code>8f252835353e38070116c77e53be2add2ae0178c</code>; CURE <code>tokens_create</code> 2024-04-25T17:51:06 UTC, tx <code>2b229d09faa507f4b4a9d53affd9838a728ebbd2</code>. [https://history.hive-engine.com history.hive-engine.com]
+* ''What is the Van Kush Beauty Economy?'' — @punicwax, Blurt, 1 November 2021. [https://blurt.blog/@punicwax/what-is-the-van-kush-beauty-economy blurt.blog]
+* ''Waging War on HIVE'' — @punicwax, Steem, 7 September 2021. [https://steemit.com/@punicwax/waging-war-on-hive steemit.com]
+* ''Van Kush Family Guide to the Game'', Parts 1–3 — @punicwax, Blurt, 20, 28 and 31 October 2021; Part 4, 7 December 2021.
+* ''Where DeFi is headed'' — Bitcointalk topic 5296168. The Punic Wax Network posts of 2, 6 and 8 April 2021, and the 16 May 2022 "my Wife's Beauty Economy" post. [https://bitcointalk.org/index.php?topic=5296168.0 bitcointalk.org]
+* ''The Hashtags of Money v. The Internet of Money'' — Bitcointalk topic 5370456, opened 2021. [https://bitcointalk.org/index.php?topic=5370456.0 bitcointalk.org]
+* ''The Official Van Kush Beauty Token Thread'' — Bitcointalk topic 5479976, opened 1 January 2024. The 1, 5 and 6 January 2024 posts. [https://bitcointalk.org/index.php?topic=5479976.0 bitcointalk.org]
+* ''Kekistan v. Kurdistan'' — @melek, MELEK, 1 August 2026. [https://melek.salon/melek/@melek/kekistan-v-kurdistan melek.salon]
+* ''Belief, Attention and Intent: What the Chains Were Built On, and What We Build Instead'' — @hathor, MELEK, 26 September 2026. The lineage of chains, the premine argument, the names-as-tarot section and the wax threads. [https://melek.salon/history/@hathor/belief-attention-and-intent melek.salon]
+* Repository lineage file (<code>LINEAGE.md</code>) for the naming account of 8 September 2026 and the dated instantiations; and the Institute's draft positioning document of 14 October 2026 for the parlour/living-room thesis.
+* Edward Bok and the parlour-to-living-room campaign in ''Ladies' Home Journal''. Bok is popularly credited with coining "living room"; the phrase appears in decorating literature slightly before his campaign, so the honest version is that he won the fight rather than started it.
+* Malinowski, ''Argonauts of the Western Pacific'' (1922), for the Kula ring.
 
 == Coverage ==
-Describes the surface's role as a roadmap and entry point as published.
+Covers what the Van Kush Family is: two named people, the Institute, the two distinct religious bodies and their separation from Crypt-ology, the naming accident and why it is load-bearing, the Beauty Economy as described in its own 2021 announcement, the three chains and the M-L-K root, the statist position in the founder's own words, and the dated lineage. '''Kali Van Kush is credited from the ledger''', with the creating transaction, timestamp and transaction id for each of the two tokens, and as VKFRI co-founder and maker of the goods. Two corrections are applied to the Institute's own root argument rather than repeated: the Sanskrit ''mahārāja'' leg is dropped as false, and Hebrew ''malʾāk'' "angel" is marked as belonging to a different root, with the king-and-angel reading retained as a held position. The live-versus-planned section states that there is no shop, no named practitioner and no credentialing yet. Not covered: market valuation of the tokens, the Institute's finances, any individualised medical, legal or financial advice, and private details of either founder beyond what they have published themselves.
