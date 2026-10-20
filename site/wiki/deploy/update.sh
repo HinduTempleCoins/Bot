@@ -21,21 +21,38 @@ git fetch origin "$BRANCH"
 before=$(ls site/wiki/seed-articles/*.wiki site/wiki/articles/*.wiki 2>/dev/null | wc -l)
 echo "→ before: $before article files in the repo"
 
-echo "→ updating the wiki paths and the figure generators it imports"
-# KEEP IN SYNC with what site/wiki/*.mjs imports from ../../integrations. If a new wiki figure
-# imports a new integration module and it is not listed here, the service will start, fail with
-# ERR_MODULE_NOT_FOUND and be left dead — which is exactly what happened on 2026-10-20 when
-# herb-atlas.mjs / herb-charts.mjs landed. To re-derive the list:
-#   grep -rhoE "from '\.\./\.\./[^']+'" site/wiki/*.mjs | sed "s/from '//;s/'//" | sort -u
-git checkout "origin/$BRANCH" -- \
-  site/wiki \
-  integrations/plant-deficiency-chart.mjs \
-  integrations/aroma-wheel.mjs \
-  integrations/chain-compare.mjs \
-  integrations/token-specs.mjs \
-  integrations/herb-atlas.mjs \
-  integrations/herb-charts.mjs \
-  integrations/soapbox/crawlers.mjs
+echo "→ updating the wiki paths"
+git checkout "origin/$BRANCH" -- site/wiki
+
+# The wiki's figure generators live in integrations/ and are imported by site/wiki/*.mjs. A hand-kept
+# list of them went stale twice — herb-atlas.mjs / herb-charts.mjs on 2026-10-20, and mlk-wheel.mjs
+# right behind it — and each time the service started, failed ERR_MODULE_NOT_FOUND and was left dead.
+# So the list is no longer kept by hand: it is read out of the import statements themselves, from the
+# branch being deployed, and anything a wiki module imports comes with it.
+echo "→ deriving the integration modules the wiki imports"
+mapfile -t IMPORTS < <(
+  git grep -hoE "from '\.\./\.\./[A-Za-z0-9_./-]+'" "origin/$BRANCH" -- 'site/wiki/*.mjs' \
+    | sed "s|from '\.\./\.\./||;s|'$||" | sort -u
+)
+if [ "${#IMPORTS[@]}" -eq 0 ]; then
+  echo "✗ REFUSING: derived no integration imports at all — the grep is wrong, not the repo." >&2
+  echo "  The service is untouched and still running the old code." >&2
+  exit 1
+fi
+printf '   %s\n' "${IMPORTS[@]}"
+git checkout "origin/$BRANCH" -- "${IMPORTS[@]}"
+
+# and fail loudly here rather than at service start if one of them still will not resolve
+for m in "${IMPORTS[@]}"; do
+  [ -f "$m" ] || { echo "✗ REFUSING: $m is imported by the wiki but missing after checkout" >&2; exit 1; }
+done
+
+# Data some of those modules READ at runtime rather than import. herb-charts.mjs loads the atlas
+# JSON with existsSync + a null fallback, so a missing directory does not kill the service — it just
+# serves empty charts, silently, which is worse. Imports cannot be derived from a readFileSync path,
+# so these stay listed by hand; keep them in step with the DATA constants in integrations/.
+echo "→ updating the datasets those modules read at runtime"
+git checkout "origin/$BRANCH" -- knowledge/herb-atlas
 
 after=$(ls site/wiki/seed-articles/*.wiki site/wiki/articles/*.wiki 2>/dev/null | wc -l)
 echo "→ after:  $after article files in the repo"
@@ -47,7 +64,8 @@ fi
 
 echo "→ syntax-checking"
 for f in site/wiki/server.mjs site/wiki/render.mjs site/wiki/figures.mjs \
-         site/wiki/categories.mjs site/wiki/safety-notices.mjs site/wiki/geo.mjs; do
+         site/wiki/categories.mjs site/wiki/safety-notices.mjs site/wiki/geo.mjs \
+         "${IMPORTS[@]}"; do
   node --check "$f"
 done
 
