@@ -17,6 +17,8 @@
 import { allylbenzeneMapSvg, plantConstituentsSvg } from '../../integrations/herb-atlas.mjs';
 import { CHARTS as HERB_CHARTS } from '../../integrations/herb-charts.mjs';
 import { mlkWheelSvg } from '../../integrations/mlk-wheel.mjs';
+import { septuagintChainSvg } from '../../integrations/septuagint-chain.mjs';
+import { hebrewGreekAlphabetSvg } from '../../integrations/hebrew-greek-alphabet.mjs';
 import { chartSvg } from '../../integrations/plant-deficiency-chart.mjs';
 import { wheelSvg, wheelNames } from '../../integrations/aroma-wheel.mjs';
 import { table, GRAPHENE_MATRIX } from '../../integrations/chain-compare.mjs';
@@ -324,6 +326,8 @@ export const FIGURES = {
   'enzyme-matrix': { fn: HERB_CHARTS['enzyme-matrix'], alt: 'Which plants inhibit or induce which drug-metabolising enzyme' },
   'dye-plants': { fn: HERB_CHARTS['dye-plants'], alt: 'Dye plants, the compound that makes each colour, and the mordant that fixes it' },
   'mlk-wheel': { fn: mlkWheelSvg, alt: 'The consonantal root m-l-k at the centre and every reading it carries, in Hebrew' },
+  'mlk-greek': { fn: septuagintChainSvg, alt: 'The m-l-k root carried into Greek letters, translated into Greek words, and identified with a Greek god on one bilingual stone' },
+  'hebrew-greek-alphabet': { fn: hebrewGreekAlphabetSvg, alt: 'The Phoenician, Hebrew and Greek alphabets side by side: the same shapes, the same order, the same names and the same numbers' },
   'token-specs': { fn: tokenSpecsMatrix, alt: 'VKBT and CURE compared with other Hive-Engine tokens on supply, holders, concentration and emission' },
   'graphene-matrix': { fn: grapheneMatrix, alt: 'STEEM, HIVE, BLURT, MELEK, PRANA, VKBT and CURE compared side by side' },
   // one figure per aroma wheel: [[Figure:wheel-wine]], [[Figure:wheel-cannabis]] and so on
@@ -357,9 +361,12 @@ export const PAGE_FIGURES = {
   'MELEK_Blockchain': ['graphene-matrix'],
   // The root diagram belongs wherever m-l-k is the subject: the god whose name is mlk-qrt, the
   // consort he is named beside, and the chain named from the same three letters.
-  'Melqart': ['mlk-wheel'],
+  'Melqart': ['mlk-wheel', 'mlk-greek'],
   'Tanit': ['mlk-wheel'],
   'MELEK': ['mlk-wheel'],
+  // The Greek crossing and the alphabet belong wherever the scripts themselves are the subject.
+  'Punic_Wax': ['hebrew-greek-alphabet'],
+  'The_Punic_Diaspora': ['hebrew-greek-alphabet'],
 };
 
 /** the figures for an article slug, already rendered — '' when there are none */

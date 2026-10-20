@@ -10,9 +10,11 @@
 //     the same three letters whichever word is meant. The centre shows them bare.
 //   • The Masoretes chose, genuinely, from a field that was really open, and passed that choice on.
 //     The unchosen readings were live, not wrong. Nothing here calls their work a mistake.
-//   • מלאך carries an ALEPH and is from l-'-k, "to send" — a different root. It is drawn on the outer
-//     ring in its own colour and labelled as such, because the argument is stronger when the letters
-//     are reported honestly than when they are made to agree.
+//   • מלאך carries an ALEPH. It is drawn in its own colour and labelled for what it is — the messenger
+//     words — rather than ruled out, because the shared sense a reader would have taken is the point:
+//     the king, the kingdom, the offering and the messenger all stand in one field. And in Greek the
+//     aleph is not written at all, so Μαλαχίας and Μελχισέδεκ come out as the same three signs. That
+//     crossing is its own figure now: see septuagint-chain.mjs and hebrew-greek-alphabet.mjs.
 //
 // Pure: data in, SVG out. No network, no randomness.
 
@@ -22,8 +24,8 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
 const f = (n) => Math.round(n * 100) / 100;
 
 // A stack with Hebrew coverage; the renderer picks the first it has.
-const HEB = '"Noto Sans Hebrew","Noto Serif Hebrew","SBL Hebrew","Times New Roman",serif';
-const SANS = 'system-ui,-apple-system,"Segoe UI",sans-serif';
+const HEB = "'Noto Sans Hebrew','Noto Serif Hebrew','SBL Hebrew','Times New Roman','DejaVu Sans','FreeSerif',serif";
+const SANS = "system-ui,-apple-system,'Segoe UI',sans-serif";
 
 const INK = '#141210', BONE = '#f0e9db', GOLD = '#c8a24a', DIM = '#968d7c';
 const SAME = '#c8a24a';   // the same consonantal root, m-l-k
@@ -54,7 +56,7 @@ export const READINGS = [
 const COLOUR = { same: SAME, punic: PUNIC, other: OTHER };
 
 const text = (x, y, s, { size = 14, weight = 400, anchor = 'middle', fill = BONE, font = SANS, ls = 0, rtl = false } = {}) =>
-  `<text x="${f(x)}" y="${f(y)}" text-anchor="${anchor}" font-family="${font}" font-size="${size}"`
+  `<text x="${f(x)}" y="${f(y)}" text-anchor="${anchor}" font-family="${esc(font)}" font-size="${size}"`
   + ` font-weight="${weight}" fill="${fill}"${ls ? ` letter-spacing="${ls}"` : ''}`
   + `${rtl ? ' direction="rtl" unicode-bidi="bidi-override"' : ''}>${esc(s)}</text>`;
 
@@ -67,7 +69,7 @@ function wrap(s, n) {
 }
 
 export function mlkWheelSvg() {
-  const w = 1100, h = 1100, cx = w / 2, cy = h / 2 + 10;
+  const w = 1240, h = 1120, cx = w / 2, cy = h / 2 + 10;
   const n = READINGS.length;
   const rSpoke = 250, rCard = 395;
   let body = '';
@@ -100,11 +102,11 @@ export function mlkWheelSvg() {
   body += `<circle cx="${f(cx)}" cy="${f(cy)}" r="92" fill="${INK}" stroke="${GOLD}" stroke-width="2"/>`;
   body += text(cx, cy + 16, 'מלך', { size: 70, font: HEB, fill: BONE, weight: 700, rtl: true });
   body += text(cx, cy + 48, 'm · l · k', { size: 14, fill: GOLD, ls: 3 });
-  body += text(cx, cy - 56, 'three letters, no vowels', { size: 12.5, fill: DIM });
+  body += text(cx, cy - 118, 'three letters, no vowels', { size: 12.5, fill: DIM });
 
   // key
-  const ky = h - 96;
-  const keys = [[SAME, 'written מלך — the same three letters'], [PUNIC, 'Punic: Melqart, and the offering on the tophet stones'], [OTHER, "carries an aleph — from l-ʾ-k, 'to send'"]];
+  const ky = h - 142;
+  const keys = [[SAME, 'written מלך — the same three letters'], [PUNIC, 'Punic: Melqart, and the offering on the tophet stones'], [OTHER, 'written with an aleph — the messenger words, the same field of sense']];
   keys.forEach(([c, t], i) => {
     const x = 70, y = ky + i * 22;
     body += `<circle cx="${f(x)}" cy="${f(y - 4)}" r="6" fill="${c}"/>`;
