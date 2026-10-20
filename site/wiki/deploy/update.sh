@@ -22,12 +22,19 @@ before=$(ls site/wiki/seed-articles/*.wiki site/wiki/articles/*.wiki 2>/dev/null
 echo "→ before: $before article files in the repo"
 
 echo "→ updating the wiki paths and the figure generators it imports"
+# KEEP IN SYNC with what site/wiki/*.mjs imports from ../../integrations. If a new wiki figure
+# imports a new integration module and it is not listed here, the service will start, fail with
+# ERR_MODULE_NOT_FOUND and be left dead — which is exactly what happened on 2026-10-20 when
+# herb-atlas.mjs / herb-charts.mjs landed. To re-derive the list:
+#   grep -rhoE "from '\.\./\.\./[^']+'" site/wiki/*.mjs | sed "s/from '//;s/'//" | sort -u
 git checkout "origin/$BRANCH" -- \
   site/wiki \
   integrations/plant-deficiency-chart.mjs \
   integrations/aroma-wheel.mjs \
   integrations/chain-compare.mjs \
   integrations/token-specs.mjs \
+  integrations/herb-atlas.mjs \
+  integrations/herb-charts.mjs \
   integrations/soapbox/crawlers.mjs
 
 after=$(ls site/wiki/seed-articles/*.wiki site/wiki/articles/*.wiki 2>/dev/null | wc -l)
@@ -51,7 +58,14 @@ sleep 2
 echo "→ health check"
 PORT="$(systemctl show melek-wiki.service -p Environment --value | tr ' ' '\n' | sed -n 's/^PORT=//p')"
 PORT="${PORT:-8091}"
-curl -fsS "http://127.0.0.1:${PORT}/health" >/dev/null && echo "  ✓ wiki healthy on :${PORT}"
+if ! curl -fsS "http://127.0.0.1:${PORT}/health" >/dev/null; then
+  echo "✗ the wiki is NOT serving on :${PORT} after the restart. Last 20 log lines:" >&2
+  journalctl -u melek-wiki.service -n 20 --no-pager >&2 || true
+  echo "  A common cause is a NEW integrations/ module imported by site/wiki/figures.mjs that is" >&2
+  echo "  not in the git-checkout list above (ERR_MODULE_NOT_FOUND). Add it and re-run." >&2
+  exit 1
+fi
+echo "  ✓ wiki healthy on :${PORT}"
 n=$(curl -fsS "http://127.0.0.1:${PORT}/" | grep -o '[0-9]\+ articles' | head -1)
 echo "  live index reports: ${n:-unknown}"
 echo "done."
