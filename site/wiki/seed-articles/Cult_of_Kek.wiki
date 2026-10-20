@@ -1,0 +1,312 @@
+'''The Cult of Kek''' is an internet religion that formed on 4chan and Reddit in 2016 around '''Kek''', a minor ancient Egyptian deity, and '''[[Pepe the Frog]]''', a cartoon character created in 2005. Its practice is "'''meme magic'''" — the claim that mass posting acts causally on the world — and its confirmation is numerological, read off the repeating digits of 4chan post numbers. It produced a prayer, three self-published booklets, a flag, and a fictional homeland, '''[[Kekistan]]'''.
+
+It is also one of the most consistently misreported subjects on the internet, in both directions. The errors are not small: the sentence "Kek is the ancient Egyptian frog god of chaos" contains three mistakes and is repeated by sympathisers, by journalists, by an advocacy organisation and by a peer-reviewed article. This page gives the documented chronology, keeps the three distinct populations of participant apart, and corrects the popular account with a source for each correction. It is written for a reader who may be sympathetic to Kek; the corrections are only worth anything if they are right.
+
+'''The honest summary of what the deity is.''' Kek is real, Egyptian, minor and almost unstudied. He is one of eight personifications of the state before creation, and his content is '''darkness''' — the word is literally the Egyptian word for darkness. There is no Egyptian material linking him to laughter, to communication, to memes, or to chaos. That a genuine but obscure god, with no modern monograph written about him, became the name of an internet movement with a flag at the United States Capitol '''is''' the story. It does not need to be improved.
+
+== 1. The Egyptian Kek ==
+
+=== Name ===
+
+The name is written '''kk''' or '''kkwy''', formed from '''kkw''', the ordinary Egyptian word for '''darkness'''. Transliterations in print include Kek, Kuk, Keku and Kekui; his female counterpart appears as Kauket, Keket and Kekuit. There is no correct English spelling, because Egyptian did not write vowels. '''The coincidence by which "Kek" the god and "kek" the gamer slang look identical is a coincidence of modern Egyptological convention''', not of anything the Egyptians wrote — a point worth making precisely because the movement sometimes treats the match as meaningful.
+
+=== The Ogdoad ===
+
+Kek is one of eight. The '''Ogdoad''' (Greek ''ogdoas'', "the Eightfold"; Egyptian ''ḫmnyw'') is four male–female pairs, each pair sharing a name distinguished only by the feminine ending. See [[The Ogdoad]] for the fuller treatment.
+
+* '''Nu / Naunet''' — the primordial waters.
+* '''Heh / Hauhet''' — endlessness, of time or of the space between heaven and earth.
+* '''Kek / Kauket''' — primordial darkness; Wikipedia compares the Greek '''Erebus'''.
+* '''Amun / Amunet''' — concealment, hiddenness, hidden potential in the waters.
+
+Two precisions that most accounts drop. First, '''the four functions cannot be cleanly assigned to the four pairs''' — the tidy "water / infinity / darkness / hiddenness" scheme is a modern tidying of something that was not tidy, and Budge long ago recorded that the Egyptians "had no very clear idea" of such functions. Second, '''the membership was edited''': as Amun rose at Thebes the Amun/Amunet pair was sometimes substituted out, with Tenem/Tenemet, Qerh/Qerhet and Niau/Niaut attested in their place. The Ogdoad was a theological scheme, not a fixed pantheon.
+
+Their cult city is '''Khemenu''' (''Ḫmnw''), "Eight-Town" — Coptic ''Shmun'', modern '''el-Ashmunein''', Greek '''Hermopolis Magna''' — which was also the main cult centre of '''Thoth'''. There was a second Ogdoad centre at '''Djeme''' near Medinet Habu, "the place where they were said to be buried".
+
+=== Cosmology: what Kek actually is ===
+
+The Ogdoad '''is''' the pre-creation state. In the Penn Museum Egyptologist Jennifer Houser Wegner's words they represented "the dark, watery, unknown, and eternal state of the cosmos prior to creation", and "existed within the watery chaos of pre-creation". They are not gods in the world; they are the condition the world came out of. The Global Egyptian Museum adds that they were "parents of the sun god, who appeared at creation on an island that rose from the primeval state".
+
+'''Kek's role inside that is minimal.''' He is the darkness of the pre-creation waters. In some aspects Kek and Kauket carry the titles "raiser up of the light" and "raiser up of the night" — and these should be handled with care, because the reference base for them is '''Budge 1904''', a work Egyptology superseded long ago, and this library could not confirm them from any modern Egyptological source. It is from that 1904-derived lineage that the "Kek, bringer-in of the light" formula reaches the movement: the blogger Manon Welles' 2016 occult reading of Pepe/Kek uses exactly that phrase.
+
+Read in the Hermopolitan scheme those epithets denote '''pre-dawn''' darkness, the state out of which light is raised. Kek names the condition before the sun. He is not a light-bringer, and he is not a sun.
+
+=== Iconography: the frog head is not his ===
+
+The pattern is well attested and consistent across sources: '''the four male members of the Ogdoad are shown with frog heads; their four female counterparts with serpent heads.''' Fully human depictions occur, with the male figures usually blue-skinned, and occasional depictions as baboons greeting the morning sun. For Kek specifically, the oldest representations give him a frog's or a '''cat's''' head, and it is in the '''Greco-Roman''' period that he settles into a frog-headed man with Kauket as a serpent-headed woman.
+
+The Egyptologist consulted by Palau and Roozenbeek states the correction exactly: Kek "is not in fact a frog god per se, but rather one of four male Egyptian gods who are usually depicted with frog's heads". '''The frog head is the Ogdoad's group convention for marking its male members.''' It is a notation, not a personal attribute, and it carries none of the meaning the meme assigns it.
+
+Egypt did have a frog deity, and she is older than the Ogdoad: '''[[Heqet]]''', ''ḥqt'', goddess of fertility, the inundation, the germination of grain and the final stages of childbirth; consort of Khnum; "She who hastens the birth"; attested from the Early Dynastic Period and named in the Pyramid Texts.
+
+=== Dating: do not over-date the Ogdoad ===
+
+This is where popular accounts collapse, and where getting it right matters most.
+
+* '''Khmun''', "City of the Eight", is an '''Old Kingdom''' name for the later Hermopolis — so a group of eight was associated with the place that early.
+* The Global Egyptian Museum's considered line: "The Ogdoad tradition mainly dates from the '''Graeco-Roman Period''', but the gods were already known in the '''Old Kingdom'''."
+* Citing Zivie-Coche 2016, Wikipedia records that "the earliest certain reference to the Ogdoad is a dedicatory inscription by '''Hatshepsut at Speos Artemidos'''" — '''Eighteenth Dynasty''', c. 1479–1458 BCE.
+* Individual members are earlier: Nu and Amun are in the '''Pyramid Texts''' (Fifth Dynasty). This library '''could not''' verify a Pyramid Text or Coffin Text passage naming '''Kek''' specifically; several popular pages assert Coffin Texts spell 76 and that assertion is not confirmed here.
+* The frog-and-serpent iconography is '''late''' — Late Period texts, Ptolemaic reliefs, surviving illustrations at Dendera and Deir el-Medina. At Hermopolis itself only the temple portico survives from the pharaonic building; the Ptolemies rebuilt on a far greater scale.
+
+'''The defensible formulation:''' eight primordial powers were associated with Khmun from the Old Kingdom; the Ogdoad as a named, enumerated set is first certainly attested under Hatshepsut; and the elaborated theology, frogs and serpents included, is substantially Graeco-Roman — the last phase of Egyptian civilisation, not the first. Christiane Zivie-Coche's 2016 study is titled "''L'Ogdoade d'Hermopolis à Thèbes et ailleurs ou l'invention d'un mythe''" — "or the invention of a myth". This library has the citation but has not read the article and does not state its argument.
+
+=== How little has been written ===
+
+There is, as far as this library could reach, '''no modern monograph and no modern journal article on Kek specifically'''. The one twentieth-century Egyptological item cited for him anywhere is Erik Hornung's 1965 "Licht und Finsternis in der Vorstellungswelt Altägyptens", which could not be obtained. Most popular Kek material traces, through two or three hops, to '''Budge 1904'''. That is the state of the literature, and this page is not going to imply otherwise.
+
+== 2. "Kek" the word, before it meant anything ==
+
+Two layers, with very different evidential strength.
+
+'''The Korean layer — the received account, not a fact.''' "Kek" is said to come from the Korean onomatopoeia '''ㅋㅋㅋ''', a raspy or stifled laugh, which Korean StarCraft players typed as "kekeke" because the game did not originally support Korean input. '''Know Your Meme asserts this with no citation at all.''' ''The Conversation'' repeats it and the Southern Poverty Law Center gestures at "cryptic Korean-based text". Two reputable secondary sources, no primary evidence. Treat it as the received account.
+
+'''The World of Warcraft layer — well documented.''' ''World of Warcraft'' released '''23 November 2004'''. Opposing factions cannot read each other: cross-faction chat is run through an in-game scrambler, and '''a Horde player typing "LOL" is read by an Alliance player as "KEK"'''. The dated trail for this being understood as the meaning of "kek" is clean:
+
+* '''22 March 2005''' — Urban Dictionary entry: kek = "'lol' in Orcish".
+* '''19 June 2007''' — Yahoo Answers exchange on cross-faction chat.
+* '''4 April 2008''' — GameSpot forum thread on faction translations.
+* '''24 June 2009''' — ''WoW Insider'' article on talking to the enemy faction.
+* '''16 February 2010''' — Wowhead forum: "is this the new lol?"
+* '''2 September 2011''' — Internet Slang entry: "LOL in WOW".
+
+Egil Asprem's peer-reviewed account gives the same mechanism and the same route: "kek" arose in ''WoW'' "as a substitute for 'lol' … due to an algorithm that scrambled the chatter of opposing teams into gibberish", and entered 4chan's /pol/ board through the heavy overlap between /pol/ and gamer culture.
+
+'''For between six and eleven years, "kek" meant "lol" and nothing else.''' It still does, for very large numbers of people who have never heard of any of the rest of this.
+
+== 3. The frog had a different origin ==
+
+[[Pepe the Frog]] has nothing to do with Egypt. He is a character in '''Matt Furie's''' comic ''Boy's Club'', created in '''2005''' and first posted as MySpace blog entries. The ADL's own entry agrees he "did not originally have racist or antisemitic connotations". A ''Boy's Club'' page was scanned to 4chan's /b/ in 2008; "Feels Good Man" was posted on '''4 February 2008'''; "Rare Pepes" were traded as collectible images on /r9k/ from '''October 2014'''.
+
+In 2016 a group of /pol/ users, in Asprem's description, "attempted to hijack Pepe by systematically producing memes that associated the frog with extreme-right views (e.g., depicting him with a swastika armband, as a concentration camp guard, making racist slurs, and so forth), and plastering these memes all over the internet". The campaign "reached a breakthrough in September 2016" with the ADL listing, and "/pol/ users had largely succeeded in filling this empty signifier with very particular political connotations". That is a hostile takeover of another artist's character, described in a peer-reviewed journal. The full account is on the [[Pepe the Frog]] page.
+
+== 4. The collision: how "kek" met Kek ==
+
+The order matters, so it is given in order. Asprem's three stages:
+
+# '''Gamer slang.''' "Kek" is already embedded in Pepe posts and in shitposting, by the ''WoW'' mechanism and the /pol/–gamer overlap.
+# '''The discovery.''' /pol/ users find that Kek is also the name of one of the eight gods of Hermopolitan Ogdoad theology — and that he is depicted with the head of a frog. '''The frog is the hinge:''' /pol/ already had a frog.
+# '''The numerology.''' Which is what turned a coincidence into a theology. See §5.
+
+''(A caution on the source. Asprem writes "Egyptian '''Old Kingdom''' Ogdoad theology." That dating is looser than the Egyptological position in §1 — the set is first certainly attested in the Eighteenth Dynasty and its developed form is Graeco-Roman. Asprem is a historian of religion writing about imageboards, not an Egyptologist; the slip is minor in his argument and would be fatal in a page about the deity. It is flagged, not reproduced.)''
+
+The dated artefacts of the discovery:
+
+* '''27 November 2015''' — a 4chan user posts about the Egyptian deity on '''/his/''' (History), with a frog-headed depiction.
+* '''11 March 2016''' — the Redditor ''river_of_karma'' posts an image macro to r/pepethefrog tying Pepe, Trump and "memetic magic" to the deity. '''Its title is "Kek, god of chaos."''' This is the earliest dated artefact of that formula anywhere, and it is the source of it. See §9.
+* '''4 June 2016''' — "Kek worship general" thread on /trash/.
+* '''25 June 2016''' — /r9k/: have you accepted "lord Kek" into your life.
+* '''5 August 2016''' — YouTube: "Who is Kek? – The Dark God Rising".
+* '''12 September 2016''' — a /pol/ thread associating the Church of Kek with black magic.
+* '''14 September 2016''' — an r/todayilearned post about Kek reaches roughly 1,200 votes in 48 hours: the moment it leaves the imageboards.
+* '''15 September 2016''' — the Cult of KEK Facebook page launches.
+
+Palau and Roozenbeek compress the resulting structure into the formula the movement itself used: '''"The frog-headed Kek became the father, Pepe the holy spirit, and Trump the son."'''
+
+== 5. Meme magic ==
+
+A distinct idea with its own earlier history, which the Cult of Kek absorbed rather than invented. Asprem's account of its mechanism is the useful one: "'''Hyperactive pattern recognition in the context of high-speed posting''' was the basic building block of the phenomenon, giving rise to synchronistic meanings connecting memes posted on the imageboards to events in the external world." He finds it "appears to have first developed on 4chan and 8chan without any explicit input from existing occultist currents".
+
+Dated origin, with two sources agreeing on the same event:
+
+* '''Germanwings Flight 9525''', deliberately crashed by its co-pilot on '''24 March 2015''', killing all 150 aboard. Users noticed a resemblance to the opening of ''The Dark Knight Rises'' (2012), in which the villain brings down a plane from inside. A /pol/ post on '''26 March 2015''' suggested the crash had been caused by the unintentional use of "meme magic". That post is Know Your Meme's earliest archived instance of the phrase.
+* Earlier candidates: a gallery post dated '''26 June 2014''' reading "meme magic happened"; the September 2014 Ebola hoax and Ebola-chan; the 2014 Slender Man stabbing.
+* '''10 May 2015''' — 8chan creates the boards '''/bmw/''' ("Bureau of Memetic Warfare") and '''/magick/'''.
+* '''28 December 2015''' — a /mu/ thread about Lemmy Kilmister's health; his death is announced hours later; jokes follow that the post caused it.
+
+=== The numerology: dubs, trips, quads and GETs ===
+
+4chan posts receive consecutive nine-digit ID numbers, at a volume — over a million a day by 2018 — that makes the final digits unpredictable. Repeating digits are '''dubs''', '''trips''' and '''quads'''; landing a round or patterned post number on purpose is a '''GET'''. Themes or users that repeatedly GET are "considered special, allowing for hidden patterns and connections to emerge in the minds of users".
+
+During the 2016 primaries a perception formed on /pol/ that Trump and Pepe posts were doing exactly this, and on '''19 June 2016''' a post reading "'''Trump will win'''" landed the GET '''77777777'''. ''(Asprem places this on "/p/" and Know Your Meme on /pol/; the board attribution in Asprem looks like a typo and this library does not resolve it.)''
+
+Asprem's summary of the result: "A web of significance was gradually spun, in the usual post-ironic way, in which Trump was divinely selected, the god selecting him was Kek, and the Pepe meme was one of the god's many manifestations."
+
+=== The egregore reading ===
+
+Two theologies were proposed by adherents and the second is the one that stuck.
+
+* '''Esoteric Kekism.''' "Lawrence Murray" (a pen name), writing at ''The Right Stuff'' on '''14 August 2016''', proposed "Kek as a Bodhisattva of Racial Enlightenment" — an explicitly white-nationalist reworking of Savitri Devi's esoteric Hitlerism into Buddhist vocabulary, with Kek as bodhisattva and Pepe and Trump as his incarnations. Asprem's verdict: it "does not seem to have caught on".
+* '''The egregore.''' The blogger '''Manon Welles''', writing at ''Aristocrats of the Soul'' on '''19 October 2016''', read mass Pepe-posting as chaos-magic '''sigilization''' — statement of intent, sigil, charging in a state of "gnosis", then forgetting. Quoted by Asprem: "all the energy focused on the memes is '''creating an egregore, defined either as a kind of collective mind or as an actual entity'''. As more Pepe/Kek memes are shared … the more powerful he will be. '''Even if Pepe isn't an avatar of a more ancient god, it doesn't matter since he's being created as a new thought form on his own.'''"
+
+That last sentence is a direct internal concession that '''the Egyptian continuity claim is dispensable''' — the movement's clearest theorist says the ancient god is not needed. Welles also conceded that "the vast majority of Pepe posters were likely to be oblivious about chaos magic and sigilization techniques".
+
+On the term itself — ''egrēgoros'', "wakeful", the Watchers of 1 Enoch, the French ''égrégore'', the twentieth-century sense of a group-made entity — see [[Egregore]], which gives the philology this library holds and states its own position as a position.
+
+== 6. The artefacts ==
+
+What the movement actually produced, with dates:
+
+* '''2016''' — short "holy texts" and meme-magic instruction manuals appear on Amazon under the pseudonym '''"Saint Obamas Momjeans"''': ''Intermediate Meme Magic'', ''Advanced Meme Magic: For The Knights Keklar of Sacellum K'', five of them later collected as ''The One True Bible of Kek'' (2017).
+* Two virtual organisations, the '''Sacellum Kekellum''' and the '''Knights Keklars'''. Asprem reads this wing as "heavily inspired by the playful and anti-authoritarian American religion, '''Discordianism'''", and notes that one of the Kek texts carries a meme reading "ERIS DISCORDIA REVEALED TO BE YET ANOTHER INCARNATION OF THE DIVINE KEK".
+* One of the Sacellum Kekellum's five "Kekmandments": "'''The Kekian must study and practice Meme Magic, for it is how we speak to the world through Kek.'''"
+* '''16 January 2017''' — the domain '''thecultofkek.com''' is registered through a Panama-registered privacy service. The site, plus Facebook pages and blogs, follow.
+* The '''Kekian prayer''', a parody of the Lord's Prayer, which Asprem quotes in full as giving "a whiff of the movement's atmosphere": "Our Kek who art in memetics / Hallowed by thy memes / Thy Trumpdom come / Thy will be done / In real life as it is on /pol/ / Give us this day our daily dubs …", ending "Praise KEK".
+* '''"Shadilay"''', the anthem — a real 1986 Italo-disco single by the Italian band '''P.E.P.E.''' on the Magic Sound label, its sleeve showing '''a green frog holding a magic wand'''. /pol/ found it in September 2016. This is a genuine coincidence, and adherents cite it as evidence; it is also exactly the kind of coincidence that becomes available when a very large number of people search very hard for one. See [[Kekistan]].
+
+''A sourcing note.'' The Momjeans booklets, the Murray essay and the Welles post have '''not''' been examined directly by this library. Every quotation from them here is '''at second hand from Asprem''', who gives page and note numbers. Attribute them that way.
+
+== 7. Kekistan ==
+
+A fictional country, invented on 4chan, that became a street-level political prop: a flag file named "kekistan.jpg" submitted to /int/ in '''December 2015''', the name coined as an ethnicity in '''January 2017''', a flag that is a point-for-point parody of the Nazi-era German war ensign, an anthem that is a 1986 disco record, and a presence at Berkeley in April 2017, Charlottesville in August 2017, and the '''United States Capitol on 6 January 2021'''. The full paper trail is at [[Kekistan]].
+
+[[File:kekistan-flag-mayday-2017.jpg|The Kekistan flag held open at the May Day demonstrations, Foley Square, New York, 1 May 2017. The flag is a parody of the Nazi-era German war ensign, with green in place of red, the 4chan logo in place of the Iron Cross, and a KEK device in place of the swastika. Photo: Alec Perkins, CC BY 2.0, via Wikimedia Commons.]]
+
+=== The green costume ===
+
+One image is worth describing because it is widely circulated and widely misremembered. At a Patriot Prayer rally in Tom McCall Waterfront Park, '''Portland, Oregon, on 4 August 2018''', a man was photographed in a bright-green bandana tied across the eyes, a long green gauntlet and gloves, dark teal trousers with a loose green overskirt, a black mesh vest, and a '''round green shield painted with the KEK logo''' carried low at his side. The internet named him the "Green Kek Warrior"; the photographs circulated as mockery, and one of the most-shared edits placed him beside a cartoon character in a similar green mask, captioned "Worst. White supremacist rally. Ever."
+
+Three points of accuracy. It is '''one man, not a group''' — the images that look like several people are different crops and different dunk-edits of the same two or three frames. '''He has never been publicly identified''', and nothing is asserted here beyond that he was photographed in costume at that rally. And '''the photographs cannot be reproduced''': every one is an uncredited phone photograph circulated on Twitter with no licence and no identifiable rights-holder, so this page describes the figure in prose and links to the archive instead. A separate, earlier green-clad figure — a man in a green robe discussing the Kekistan flag — was filmed at the "Mother of All Rallies" on the National Mall in Washington DC on '''16 September 2017'''.
+
+== 8. The three populations ==
+
+'''Keeping these apart is the most important thing on this page''', for accuracy and because a page that blurs them will be — correctly — dismissed as a smear.
+
+'''(a) People treating it as a joke. The large majority.''' The ADL says so in its own designation of Pepe: "The majority of uses of Pepe the Frog have been, and continue to be, '''non-bigoted'''", and "the mere fact of posting a Pepe meme does not mean that someone is racist or white supremacist". Welles, from inside, says most Pepe posters knew nothing of the occult framework. Asprem goes further and questions whether the Cult of Kek exists as a social body at all: "'''its very existence outside of a strand of memes is debatable, and the intent of the anonymous posters who invented it is ambiguous at best'''". And "kek" as a word remains, for millions of people, the ''World of Warcraft'' way to type "lol".
+
+'''(b) People treating it as sincere occultism. A small, identifiable group with real occult literacy.''' The Momjeans manuals, the Kekmandments, thecultofkek.com and its prayer, Welles' sigil theory drawing on Austin Osman Spare, Aleister Crowley and Phil Hine's ''Condensed Chaos''. Asprem's point about '''occulture''' is why this small group matters: "a small group of occult-inclined activists are able to reach a disproportionately large audience who, although predominantly unaware of the esoteric frameworks of the culture creators, may discover magical meanings right under the surface of mainstream culture should they stumble upon the right keys."
+
+'''(c) Political recruitment. Explicit, in the participants' own words.''' "Lawrence Murray", writing in August 2016, described the "goal of meme warfare" as "to control the normies", to gain "imperium" over them, and wrote: "For those of us involved in White nationalism and the Alt-Right, the value and importance of the war of ideas, metapolitical warfare, is paramount. It is necessary to teach people our truths … with the goal of converting people to our cause. … From Twitter, to comments sections, to naive reporters, to printers and fax machines, we turn no vehicle of communication away." On the Momjeans manuals Asprem finds that beneath the supernatural veneer "'''the tactics are textbook information warfare'''" — bot amplification, fake accounts, advice to steal real women's photographs and tweets to build credible-looking profiles ("Don't be lazy. Make them look legit. It's important."), and the deliberate engineering of webs of negative affect, "especially contempt and disgust".
+
+'''Asprem's refusal to separate (b) from (c) is itself a finding''', and it is the fairest statement available: "it is nearly impossible to separate a spiritual ambition from metapolitical strategy, 'genuine' religionism from religion as an instrument of power."
+
+[[File:no-kek-no-kkk-boston-2017.jpg|The reception. A hand-lettered placard at a Boston Common rally, 18 November 2017. Photo: Marc Nozell, CC BY 2.0, via Wikimedia Commons.]]
+
+== 9. The 2016 election ==
+
+'''This page does not claim that Kek got Trump elected.''' It gives the documented record and the arithmetic, and leaves the inference to the reader — because the record is remarkable enough without being improved, and because a causal claim here is the single easiest thing in the subject to tear down.
+
+=== The record ===
+
+* '''13 October 2015''' — Donald Trump retweets to his own account an illustration of himself as Pepe.
+* '''9 September 2016''' — Hillary Clinton's "basket of deplorables" remark.
+* '''10 September 2016''' — '''Donald Trump Jr.''' posts a photoshopped ''Expendables'' poster, "The Deplorables", to Instagram. Pepe is standing in it, behind Trump.
+* '''11 September 2016''' — NBC News calls Pepe a "popular white nationalist symbol", citing the SPLC.
+* '''13 September 2016''' — '''Hillary Clinton's campaign publishes a formal explainer about the Pepe meme''' on its own website, under the headline "Donald Trump, Pepe the frog, and white supremacists: an explainer" and the standfirst "That cartoon frog is more sinister than you might realize." It is written as a mock Q&A — "Why is there a frog standing directly behind Trump? / That's Pepe. He's a symbol associated with white supremacy." — and ends "What can I do? / Vote." ''(The post carries the date 13 September; Know Your Meme dates it 11 September.)'' A presidential campaign publishing an explainer about a cartoon frog is the moment the meme became a national subject. Palau and Roozenbeek call the response "a grave misunderstanding of online counterculture".
+* '''27 September 2016''' — the '''ADL adds Pepe the Frog''' to its "Hate on Display" database, citing images "variously portrayed with a Hitler-like moustache, wearing a yarmulke or a Klan hood" that "have proliferated in recent weeks in hateful messages aimed at Jewish and other users on Twitter". ADL CEO Jonathan A. Greenblatt: "Once again, racists and haters have taken a popular Internet meme and twisted it." '''The designation is of Pepe, and it carries explicit caveats''' — see §10, item 4.
+* '''8 November 2016''' — the election.
+* '''6 January 2021''' — the '''Kek flag is carried into the United States Capitol''' during the attack. A photograph of it inside the building opens Matt Sheedy's essay for the Smithsonian-partnered ''Uncivil Religion'' project.
+
+=== The arithmetic ===
+
+Trump's Electoral College victory rested on three states. The certified margins:
+
+* '''Michigan''' — 10,704 votes (2,279,543 to 2,268,839)
+* '''Pennsylvania''' — 44,292 votes (2,970,733 to 2,926,441)
+* '''Wisconsin''' — 22,748 votes (1,405,284 to 1,382,536)
+
+'''Total: 77,744 votes''' — out of '''136,669,276''' cast nationally. That is '''0.0569% of the national vote''': about '''one vote in every 1,757'''. And because a vote switched from one candidate to the other closes the gap twice over, roughly '''38,873 switchers''' — half the combined margin, spread across those three states — would have reversed the presidency. He also '''lost the national popular vote''': Clinton 65,853,514 to Trump 62,984,828, a margin of '''2,868,686''' — about 2.87 million.
+
+''(The three state margins and the two popular-vote totals are each confirmed against the state-by-state results. The national total of 136,669,276 is the commonly cited figure for ballots cast for president in 2016; it is consistent with the candidate totals summed, and it is the one number here this library has not traced to an official return.)''
+
+=== The honest formulation ===
+
+In an election decided by that margin, '''many individual factors were each large enough to have been decisive''', and the Kek/Pepe mobilisation was one of them. So were a dozen other things. That is the whole of what the evidence supports: not that the frog was the cause, and not that it was irrelevant. Anyone who tells you either is selling you something.
+
+== 10. Where the popular account is wrong ==
+
+In rough order of how damaging each error is. '''Every one of them appears in material sympathetic to Kek, and several appear in material hostile to it.'''
+
+# '''"The Egyptians worshipped a frog god of memes."''' No. The frog head is the Ogdoad's group convention for its male members, not Kek's personal attribute — "not in fact a frog god per se", in the words of the Egyptologist consulted by Palau and Roozenbeek. '''There is no Egyptian concept of a meme, and no Egyptian material associating Kek with laughter, humour, communication or trickery.''' The Egyptian god of writing and communication is '''Thoth''' — a different god, in the same city.
+# '''The frog statuette circulated as "Kek" is inscribed "Heqet".''' Palau and Roozenbeek, reporting an Egyptologist: "The hieroglyphs on the frog statuette above actually spell 'Heqet', the real name of the Egyptian frog goddess often associated with fertility and procreation." On the best reading available, '''the movement's central devotional image is a goddess of childbirth'''. This is the most specific correction available and it is also the least confirmed — one journalistic report, an unnamed Egyptologist, no second source. Its exact status is set out at [[Heqet]]. Cite it as credible and unconfirmed, never as settled.
+# '''"Kek is the Egyptian god of chaos." This is the meme's own gloss, and it can be dated.''' Egyptologically Kek is '''darkness''' — ''kkw'' — and the museum sources gloss the pair as "the primeval darkness". Chaos in Egyptian thought is '''isfet''', and its embodiment is '''Apep/Apophis''', "Lord of Chaos", the giant serpent enemy of Ra and of '''Ma'at''', ritually destroyed again and again in wax and in drawings. '''Kek is unformedness, which is not disorder''': unformedness is the state before order, chaos is the active enemy of order. The "god of chaos" formula enters through a '''Reddit image macro of 11 March 2016 titled "Kek, god of chaos"''' — and has since leaked outward into secondary literature, including the SPLC ("a bringer of chaos and darkness") and Asprem's own peer-reviewed article ("associated with primordial chaos and darkness"). Both are repeating the meme's framing back at it. '''That the error is now in the scholarship is the reason to correct it, not a reason to defer to it.'''
+# '''The ADL never designated Kek or Kekistan.''' It designated '''Pepe''', on 27 September 2016. This library searched adl.org and '''could not locate any ADL hate-symbol or glossary entry for "Kek" or for the Kekistan flag'''. The organisation that treated Kek and Kekistan directly is the '''SPLC'''. Two errors to avoid, and they are mirror images: writing that the ADL called Kek a hate symbol is '''false'''; quoting the Pepe listing without its caveats is the version Kek sympathisers use to claim bad faith, and it is unnecessary, because the caveats are in the listing — "The majority of uses of Pepe the Frog have been, and continue to be, non-bigoted"; "it is important to examine use of the meme only in context"; "The mere fact of posting a Pepe meme does not mean that someone is racist or white supremacist."
+# '''"Kekistan has an ancient basis."''' It is a 4chan invention with a documented paper trail from December 2015, a self-declared fictional history of conquering two countries named as insults, a 1986 Italian disco record for an anthem, and a flag copied from the Nazi-era war ensign. See [[Kekistan]].
+# '''"Kek was a major Egyptian deity."''' He is minor, and the state of the literature is the marker: no modern monograph, no modern journal article, Hornung 1965 the sole twentieth-century Egyptological citation, and the popular account's distinctive details tracing to Budge 1904. This library also could not confirm any Pyramid Text or Coffin Text passage naming Kek by name.
+# '''Over-dating the Ogdoad.''' Earliest certain reference to the named set: Eighteenth Dynasty. Developed tradition: mainly Graeco-Roman. Frog-and-serpent iconography: Late Period and Ptolemaic. '''The error is ambient enough to appear in an otherwise excellent peer-reviewed source''' — Asprem's "Egyptian Old Kingdom Ogdoad theology" — which is a useful illustration of how far it has travelled.
+# '''Treating every Pepe-poster, or everyone who types "kek", as an adherent.''' The ADL says most uses are non-bigoted; Welles, from inside, says most posters knew nothing of the framework; Asprem doubts the cult exists as a social body. A page that collapses this is guilty of exactly the imprecision it is complaining about.
+# '''Attributing to Matt Furie a position he did not take.''' He does '''not''' use the phrase "alt-right" in his ''TIME'' op-ed; he writes "racists", "anti-Semites", "fringe, racist groups", and attributes the hate-symbol stamp to "politicians, hate groups, institutions". His position is reclamation: "I, the creator, say that Pepe is love." See [[Pepe the Frog]].
+
+== 11. The scholarship ==
+
+=== Asprem, Nova Religio ===
+
+The one peer-reviewed centre of gravity is '''Egil Asprem''' (Professor of the History of Religions, Stockholm University), "'''The Magical Theory of Politics: Memes, Magic, and the Enchantment of Social Forces in the American Magic War'''", ''Nova Religio: The Journal of Alternative and Emergent Religions'' '''23(4) (May 2020): 15–42''', DOI 10.1525/nr.2020.23.4.15. Its listed keywords include "Cult of Kek" and "egregores"; an earlier working title was "Meme Magic, the Cult of Kek, and How to Topple an Egregore".
+
+Asprem frames the Cult of Kek as one of three belligerents in a post-2016 "magic war", alongside the anti-Trump '''Magic Resistance''' and a Trump-supporting '''Magic Reaction''', and describes it as "best described as the place where occultism intersected with online imageboard culture and the alt-right". His central characterisation:
+
+''"The result was the birth of an online religion, situated somewhere between '''parody, make-believe, metapolitical strategy, genuine messianic expectations, and magic'''. The leading Cult of Kek website referred to itself as '''post-ironic''', which seems an apt description for much of what has been going on in this corner of the internet. The tone of irony and satire was central to the movement's activities, '''but its very persistence, aggression, and focused cultivation of negative affect betrayed underlying moods and motivations that were anything but playful'''."''
+
+His analytic frame is '''Weberian charisma''' plus '''Durkheimian collective effervescence''', with the magic functioning to produce "affect networks" that mobilise mostly aversive emotions — and he notes this of '''all three''' camps, not only the Kek one. He situates the movement in a longer far-right-esotericism lineage: Evolian Traditionalism, the "esoteric Hitlerism" of Savitri Devi and Miguel Serrano, the publishing front Arktos Media, and the far right's appropriation of Gramscian "metapolitics".
+
+=== Sheedy, Uncivil Religion (Smithsonian / University of Alabama) ===
+
+'''Matt Sheedy''' (University of Bonn), "'''Kek Smoke Show'''", in '''Uncivil Religion''' — a collaboration of the University of Alabama Department of Religious Studies and the '''Smithsonian National Museum of American History''', with an introduction by Michael J. Altman and Jerome Copulsky — created '''19 November 2021'''. The essay opens on a photograph of the Kek flag inside the Capitol on 6 January 2021.
+
+Sheedy adopts the journalist David Neiwert's term '''"ironic religion"'''. He inventories what Kek has — common prayers, books, a mythology of ancient origin — against what it lacks: tax-exempt status, defined principles, ordination, local chapters, community philanthropy; and contrasts it with The Satanic Temple, which obtained IRS recognition as a church in February 2019. His argument is about the audience rather than the believers:
+
+* "it is societies — their norms, institutions, and vulnerabilities — that give symbols their power."
+* "it is outsiders' reactions that give it life beyond the darker corners of the web."
+* "Kek calls our attention to how societies like the United States define religion and its boundaries."
+
+=== Others ===
+
+* '''Viveca S. Greene''' (Hampshire College), "'Deplorable' Satire: Alt-Right Memes, White Genocide Tweets, and Redpilling Normies", ''Studies in American Humor'' 5(1) (2019): 31–69 — on irony as a recruitment mechanism. '''This library has the citation and the abstract only'''; the full text was behind an automated-access block and is not quoted here.
+* '''Angela Nagle''', ''Kill All Normies'' (Zero Books, 2017) — the monograph Asprem cites for the /pol/–gamer-culture overlap. '''Not read here'''; it is also contested in the field, and its specifics are not relied on.
+* '''SPLC Hatewatch''' — David Neiwert, "What the Kek: Explaining the Alt-Right 'Deity' Behind Their 'Meme Magic'", 9 May 2017, and "Flags and Other Symbols Used By Far-Right Groups in Charlottesville", 12 August 2017. Useful on the flag and on the sociology; '''and the source of the "bringer of chaos and darkness" gloss this page corrects in §10'''. The SPLC also makes a sharp observation this page accepts: reference to Kek works as a tribal marker '''precisely because''' its meaning is obscure and unavailable to ordinary people — so the obscurity functions as access control, not only as theology.
+* '''Dale Beran''', "4chan: The Skeleton Key to the Rise of Trump" (Medium, 2017), and '''David Lawrence''', "HNH Explains … the Cult of Kek" (Hope Not Hate, 15 November 2017) — both widely cited, '''both unreachable''' at the time of writing and therefore not quoted.
+
+== 12. Kek in cryptocurrency ==
+
+Kek has a specific standing in crypto, and it is easy to overstate. The defensible claims and the indefensible ones are both worth setting out, since this library sits on a blockchain and the comparison is unavoidable.
+
+'''What is documented.''' Pepe was a crypto asset before he was a national political subject. From '''2014''', 4chan users posted images watermarked "Rare Pepe – Do Not Steal", creating a pseudo-economy on '''/biz/'''. In '''September 2016''' the '''Rare Pepe Blockchain Project''' went live, the first cards issued in '''Bitcoin block 428,919''' via '''Counterparty''' — reported at 1,774 official cards across 36 series by 300-plus artists, curated by self-styled "Rare Pepe Scientists" and traded in '''PepeCash'''. It is one of the origin points of NFTs as such. '''The Kek theology was archived inside that canon''', not left behind: the project's own reference material explains the repeating-digit practice, and of the '''LORDKEK''' card the creators concluded that "there were such strong memetic forces at play when the card was being created … that it must have been Kek himself responsible for the creation of the LORDKEK card." The '''$PEPE''' token stealth-launched on Ethereum on '''14 April 2023''' as "a tribute to the Pepe the Frog internet meme", explicitly with no roadmap and no utility; as of 20 October 2026 CoinGecko gave it a market capitalisation of about '''$1.75 billion'''. At the end of December 2024 '''Elon Musk''' briefly renamed his X account "'''Kekius Maximus'''" with a Pepe-in-Roman-attire avatar and gave no explanation; the namesake memecoin rose over 600% in 24 hours and gave the gains back when he dropped the avatar. Adherents cite events of this kind as '''"memetic synchronicity"'''.
+
+'''The defensible claim.''' Kek is the only crypto-adjacent culture of mass reach that has '''theological form''' — a named god, a cosmology, a divination practice, a scripture, and a claim that the posting acts on the world. Nobody else in that space is doing religion at scale, and the sincere attempts are tiny: Islamic Coin, the most institutionally serious of them, with a sitting Shariah board and an on-chain halal oracle, traded on 20 October 2026 at a market capitalisation of about $598,000 on roughly $3,600 of daily volume.
+
+'''The claims that do not survive.''' "Kek is the only culture in crypto" is false: the '''anarcho-capitalist cypherpunk''' line — Tim May's ''Crypto Anarchist Manifesto'' (1988), the Bitcoin whitepaper, "orange-pilling", and a 2026 ''Socio-Economic Review'' article analysing it as a techno-libertarian religion — is larger on political footprint than Kek has ever been; and '''Doge''' passes every element of the same test, having hijacked a photograph of a real dog out of imageboard culture, named its followers, reached ''Saturday Night Live'', and put its name on a United States federal office. The difference that survives is narrower and more interesting: '''Doge is a joke, the cypherpunk line is an ideology, and Kek is a religion''' — and, in Sheedy's and Neiwert's term, an ironic one, where the irony is constitutive rather than incidental.
+
+== 13. What is not established ==
+
+Collected so that nothing above is mistaken for settled:
+
+* Any '''Pyramid Text or Coffin Text passage naming Kek''' specifically. Popular pages cite "Coffin Texts spell 76"; unconfirmed here. The places to check are Mark Smith, ''On the Primaeval Ocean'' (2002) and Harco Willems, ''The Coffin of Heqata'' (1996).
+* The epithets '''"raiser up of the light" / "bringer-in of the light"''', beyond Budge 1904 and sites derived from it.
+* '''Hornung 1965''' and '''Zivie-Coche 2016''' — citations verified, contents not read. The Zivie-Coche title is suggestive; its thesis is not stated here.
+* The '''Korean ㅋㅋㅋ''' origin of "kek" — asserted by Know Your Meme without citation, repeated by two reputable secondary sources, no primary evidence.
+* The '''board attribution''' for the 77777777 "Trump will win" GET.
+* '''"Sargon of Akkad"''' as coiner of "Kekistani" — dated to 30 January 2017 by Know Your Meme, not independently confirmed.
+* Any '''ADL entry for Kek or Kekistan''' — searched for, not found.
+* Whether the Cult of Kek has, or ever had, '''any membership as a social body'''. Asprem explicitly leaves this open.
+* The '''Momjeans booklets, the Murray essay and the Welles post''' — not examined directly; all quotations are at second hand from Asprem.
+* '''Elon Musk's intent''' in the "Kekius Maximus" episode. The event is verified; no claim about intent is made.
+* The '''Rare Pepe and $PEPE figures''' in §12 come from a mixture of fetched and search-result-level sources and should be treated as approximate.
+* The '''national vote total''' of 136,669,276 in §9 — see the note there. The state margins and candidate totals are confirmed; this one figure is not traced to an official return.
+
+Named individuals appear on this page only because sources name them, and pen names are marked as pen names.
+
+== See also ==
+* [[Heqet]]
+* [[Kekistan]]
+* [[Pepe the Frog]]
+* [[The Ogdoad]]
+* [[Egregore]]
+* [[Crypt-ology]]
+* [[Van Kush Family]]
+* [[Toads Frogs and the Myths Harm Reduction and Wildlife Protection]]
+* [[Western Magical Systems]]
+* [[Mythology as Genealogy]]
+
+== Sources ==
+* Egil Asprem, "The Magical Theory of Politics: Memes, Magic, and the Enchantment of Social Forces in the American Magic War", ''Nova Religio'' 23(4) (May 2020): 15–42. DOI 10.1525/nr.2020.23.4.15. Pre-print full text: [https://www.diva-portal.org/smash/get/diva2:1428899/FULLTEXT01.pdf diva-portal.org]
+* Matt Sheedy, "Kek Smoke Show", ''Uncivil Religion'' (University of Alabama Department of Religious Studies and the Smithsonian National Museum of American History), 19 November 2021. [https://uncivilreligion.org/home/the-religion-of-kek-in-the-shadow-of-january-6th uncivilreligion.org]
+* Adria Salvador Palau and Jon Roozenbeek, "How an ancient Egyptian god spurred the rise of Trump", ''The Conversation'', 7 March 2017. [https://theconversation.com/how-an-ancient-egyptian-god-spurred-the-rise-of-trump-72598 theconversation.com]
+* David Neiwert, "What the Kek: Explaining the Alt-Right 'Deity' Behind Their 'Meme Magic'", SPLC Hatewatch, 9 May 2017. [https://www.splcenter.org/resources/hatewatch/what-kek-explaining-alt-right-deity-behind-their-meme-magic/ splcenter.org]
+* Hatewatch Staff, "Flags and Other Symbols Used By Far-Right Groups in Charlottesville", SPLC, 12 August 2017. [https://www.splcenter.org/resources/hatewatch/flags-and-other-symbols-used-far-right-groups-charlottesville/ splcenter.org]
+* Anti-Defamation League, "Pepe the Frog", Hate on Display database. The caveats quoted in §8 and §10. [https://www.adl.org/resources/hate-symbol/pepe-frog adl.org]
+* Anti-Defamation League, "ADL Adds 'Pepe the Frog' Meme, Used by Anti-Semites and Racists, to Online Hate Symbols Database", press release, 27 September 2016. Greenblatt's statement; the Hitler-moustache, yarmulke and Klan-hood images.
+* Elizabeth Chan, "Donald Trump, Pepe the frog, and white supremacists: an explainer", Hillary for America campaign blog, 13 September 2016.
+* Jennifer Houser Wegner (Penn Museum), "Ancient Egyptian Creation Myths: From Watery Chaos to Cosmic Egg", ''Glencairn Museum News'' no. 5, 13 July 2021. [https://www.glencairnmuseum.org/newsletter/2021/7/13/ancient-egyptian-creation-myths-from-watery-chaos-to-cosmic-egg glencairnmuseum.org]
+* Global Egyptian Museum (CIPEG), glossary entry "Ogdoad". [https://www.globalegyptianmuseum.org/glossary.aspx?id=279 globalegyptianmuseum.org]
+* Wikipedia, "Kek (mythology)", "Ogdoad (Egyptian)", "Hermopolis", "Heqet", "Apep", "Kekistan", "Pepe the Frog", "Reichskriegsflagge". Tertiary; used for orientation and for the Hatshepsut and iconography datings, whose own references are given in those articles.
+* Know Your Meme, entries "Cult of Kek", "Kek", "Kekistan", "Pepe the Frog", "Meme Magic", "Shadilay", "Green Kek Warrior". Community-edited; the dated chronology above is theirs and is cited as such. [https://knowyourmeme.com/memes/cult-of-kek knowyourmeme.com/memes/cult-of-kek]
+* Katie Shepherd, "Police Crackdown Sends a Woman to the Hospital, But Portland Avoids Unhinged Violence in Protester Showdown", ''Willamette Week'', 4 August 2018. The Portland rally of §7. [https://www.wweek.com/news/2018/08/04/police-crackdown-sends-a-woman-to-the-hospital-but-portland-avoids-unhinged-violence-in-protester-showdown/ wweek.com]
+* Baynard Woods, "Where the hell is Kekistan?", ''Democracy in Crisis'' / ''Isthmus'', 25 September 2017. The green-robe figure at the Washington rally.
+* Wikipedia, "2016 United States presidential election" and the state articles for Michigan, Pennsylvania and Wisconsin. The certified state margins and the national popular-vote totals in §9. [https://en.wikipedia.org/wiki/2016_United_States_presidential_election en.wikipedia.org/wiki/2016_United_States_presidential_election]
+* Timothy Ahn, "Fix the money, fix the world: bitcoin as techno-libertarian religion", ''Socio-Economic Review'', advance article 21 February 2026. DOI 10.1093/ser/mwag009. Cited in §12 for the cypherpunk comparison.
+* Wikipedia, "Rare Pepe"; ''Right Click Save'', "A Brief History of Rare Pepe"; the pepe.wtf reference wiki (LORDKEK); CoinGecko asset pages for PEPE and ISLM, retrieved 20 October 2026. The §12 crypto figures; search-result-level verification, treated as approximate.
+* Erik Hornung, "Licht und Finsternis in der Vorstellungswelt Altägyptens", ''Studium Generale'' 8 (1965): 72–83, and Christiane Zivie-Coche, "L'Ogdoade d'Hermopolis à Thèbes et ailleurs ou l'invention d'un mythe", ''Egitto e Vicino Oriente'' 39 (2016): 57–90. Citations only; contents not read.
+* E. A. Wallis Budge, ''The Gods of the Egyptians'' (Methuen, 1904). Named here as the ultimate source of most popular Kek material, and as superseded.
+
+== Coverage ==
+The Egyptian deity: the name ''kk''/''kkwy'' from ''kkw'' "darkness", the spelling variants and why they vary, the Ogdoad's four pairs with the caveats that the four functions cannot be cleanly assigned and that the membership was edited, Khemenu/Hermopolis and Djeme, the Ogdoad as the pre-creation state, Kek as pre-dawn darkness, the "raiser up of the light" epithets traced to Budge 1904 and marked unverified, the frog head as the Ogdoad's group convention for its male members rather than Kek's attribute, Heqet as the actual frog deity, and the dating — Old Kingdom toponym, Eighteenth-Dynasty first certain reference to the set, mainly Graeco-Roman developed tradition, Late Period and Ptolemaic iconography — plus the thinness of the literature. The meme: the Korean ㅋㅋㅋ claim given as the received account and the ''World of Warcraft'' Orcish mechanic given with its dated trail; Pepe's separate 2005 origin and the documented 2016 hijack campaign; the three-stage collision with its dated artefacts from 27 November 2015 to 15 September 2016; meme magic from the 26 March 2015 Germanwings post, the 8chan /bmw/ and /magick/ boards, the dubs/trips/quads and GET practice, the 19 June 2016 77777777 GET, and both proposed theologies with the egregore reading as the one that stuck. The artefacts: the Momjeans booklets, the Sacellum Kekellum and Knights Keklars, the Discordian reading, the Kekmandment, thecultofkek.com, the Kekian prayer, and "Shadilay" as a 1986 P.E.P.E. record — all second-hand quotations attributed as second-hand. Kekistan in summary with the Green Kek Warrior described in prose and not reproduced. The three populations kept separate with a source for each. The 2016 election as record plus arithmetic — 77,744 votes across Michigan, Pennsylvania and Wisconsin, 0.0569% of 136,669,276 cast, one in 1,757, about 38,873 switchers to reverse it, and a popular-vote loss of about 2.87 million — with no causal claim made in either direction. Nine named corrections to the popular account, each sourced, including that the ADL designated Pepe and not Kek and that "god of chaos" is traceable to a March 2016 Reddit macro and has since leaked into the SPLC and into Asprem's own article. The scholarship: Asprem in ''Nova Religio'', Sheedy for the Smithsonian-partnered ''Uncivil Religion'', Greene at abstract level only, Nagle not read, SPLC, and two sources that could not be fetched. Kek in crypto with the defensible and indefensible claims separated. A closing list of what is not established.
