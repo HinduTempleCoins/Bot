@@ -34,6 +34,7 @@ const HISTORY_PAGES = [
       'Ancient Historians and Comparative Religion',
       'Mystery Schools',
       'The Ogdoad',
+      'Heqet',
       'Egyptian Wax Headcones',
       'Apotropaic Magic Bes and Syrian Rue',
       'Rasa Shastra and Ancient Indian Nanochemistry',
@@ -389,6 +390,9 @@ export const CATEGORIES = [
             'Human Origins and the Fossil Record', 'Routes for Backpacking Pilgrimages',
             'Mysticism and Eastern Philosophy in Science', 'Khepri', 'Ancient Historians and Comparative Religion',
             'Egregore', 'Melqart', 'Neith', 'Solar Theory and Euhemerism', 'Tanit', 'Western Magical Systems',
+            // the Kek set (2026-10-20): the Egyptian frog goddess, the internet religion built on a
+            // misread of her frog, its fictional homeland, and the character it captured.
+            'Heqet', 'Cult of Kek', 'Kekistan', 'Pepe the Frog',
             'Religious Sacraments, RFRA, and the Temple of True Inner Light',
             'Psychotropics Convention and the UDV Precedent',
             'Rasa Shastra and Ancient Indian Nanochemistry',
@@ -468,6 +472,7 @@ export const CATEGORIES = [
     id: 'philosophy', name: 'Political philosophy and movements', blurb: 'The history of political ideas and the movements that carried them — described neutrally, each in its own terms and with its criticisms.',
     pages: ['SoapBox Philosophy', 'The Ideological Spectrum', 'Self-Determination', 'The Black Panther Party',
             'Punk and Skinhead Subcultures', 'Political Maxims', 'Wirearchy',
+            'Cult of Kek', 'Kekistan', 'Pepe the Frog',
             'Humanity, Deep Time and the Human Story', 'Humanity  Deep Time and the Human Story',
             'Human Origins and the Fossil Record', 'Biological Immortality',
             'The Church of Neuroscience and Biohacking',
@@ -841,6 +846,12 @@ export const PILLARS = [
       'Old World vs. New World Visionary Botanicals: Toxicity, Titration, and the Shulgin Method',
       'Old World vs New World Magic Herbs',
       'Egregore',
+      // the Kek set (2026-10-20) — sits next to Egregore because the Cult of Kek's own best
+      // self-theorisation is an egregore claim, and the contrast is inside the concept.
+      'Heqet',
+      'Cult of Kek',
+      'Kekistan',
+      'Pepe the Frog',
       'Melqart',
       'Neith',
       'Solar Theory and Euhemerism',

@@ -1,0 +1,137 @@
+'''Pepe the Frog''' is a cartoon character created by the American artist '''Matt Furie''' in '''2005''' for his comic ''Boy's Club''. He was taken up as an internet meme, then systematically appropriated in 2016 by a political campaign on 4chan's /pol/ board, listed by the Anti-Defamation League as a hate symbol on '''27 September 2016''' — with explicit caveats that most uses are not bigoted — publicly reclaimed by his creator, and in '''August 2019''' adopted independently by Hong Kong pro-democracy protesters, which Furie welcomed.
+
+He is also the frog in the '''[[Cult of Kek]]''' — the character the cult identified with the Egyptian deity Kek on the strength of a frog head. '''Pepe has no Egyptian content whatsoever.''' He is a stoner frog from a 2005 indie comic, and the whole of his association with Egypt dates from late 2015.
+
+This page is here because the Pepe story is the clearest documented case of a symbol being captured, defended, declared dead, and then recaptured by somebody else entirely — which is a question this library has an interest in.
+
+== Origin: Boy's Club, 2005 ==
+
+Furie created Pepe in '''2005''' as one of four characters in ''Boy's Club'', a comic about a group of anthropomorphic animal housemates. The strips were '''first posted as MySpace blog entries''', which Furie took down when the printed edition appeared in '''2006'''. The ADL's own entry records the same origin and adds that Pepe "did not originally have racist or antisemitic connotations".
+
+The panel that made him was a toilet gag: Pepe pulling his trousers down to his ankles to urinate, and saying '''"Feels good man."'''
+
+== Becoming a meme ==
+
+* '''2008''' — a ''Boy's Club'' page is scanned to 4chan's '''/b/''', which becomes the meme's permanent home. The Something Awful contributor Jon Hendren posts the "Feels Good Man" panel on '''4 February 2008'''.
+* '''2009''' — edited '''"Feels bad man"''' versions begin circulating.
+* '''2012''' — the '''"sad frog"''' and '''"Smug Pepe"''' variants appear. These are the two faces most people know.
+* '''October 2014 – March 2015''' — '''"Rare Pepes"''': images watermarked as collectibles and traded on /r9k/ as a joke economy. r/pepethefrog launches on '''25 October 2014'''; a gallery of more than 1,200 images is posted on '''31 March 2015'''.
+* '''22 July 2015''' — the Malaysian artist Maldraw posts a Smug Pepe of Donald Trump to /pol/.
+* '''13 October 2015''' — '''Donald Trump retweets''' an illustration of himself as Pepe.
+* '''9 January 2016''' — the Russian Embassy in the United Kingdom tweets a Smug Pepe.
+* '''26 May 2016''' — ''The Daily Beast'' publishes "How Pepe the Frog Became a Nazi Trump Supporter and Alt-Right Symbol".
+
+== The capture ==
+
+What happened in 2016 was not drift. It was a campaign, and it is described as one in a peer-reviewed journal. Egil Asprem, writing in ''Nova Religio'':
+
+''"a group of /pol/ users attempted to hijack Pepe by systematically producing memes that associated the frog with extreme-right views (e.g., depicting him with a swastika armband, as a concentration camp guard, making racist slurs, and so forth), and plastering these memes all over the internet."''
+
+The campaign "reached a breakthrough in September 2016" with the ADL listing, after which "'''/pol/ users had largely succeeded in filling this empty signifier with very particular political connotations'''".
+
+One of the participants said the same thing to ''The Daily Beast'' at the time, in a quotation the Clinton campaign then reprinted: "'''We basically mixed Pepe in with Nazi propaganda, etc. We built that association.'''"
+
+'''That is the shape of the thing: an empty signifier, deliberately filled, by people who said in public that they were filling it.''' Nothing about it was organic, and the artist was not consulted.
+
+=== September 2016, day by day ===
+
+* '''9 September''' — Hillary Clinton's "basket of deplorables" remark.
+* '''10 September''' — '''Donald Trump Jr.''' posts "The Deplorables", a photoshopped ''Expendables'' poster, to Instagram. '''Pepe is standing in it''', behind Trump, among Trump's family, advisers and allies.
+* '''11 September''' — NBC News calls Pepe a "popular white nationalist symbol", citing the SPLC.
+* '''13 September''' — '''the Clinton campaign publishes a formal explainer''' on its own website: "Donald Trump, Pepe the frog, and white supremacists: an explainer", standfirst "That cartoon frog is more sinister than you might realize", written as a mock Q&A. "Why is there a frog standing directly behind Trump? / That's Pepe. He's a symbol associated with white supremacy." It closes: "What can I do? / Vote." ''(The post carries the date 13 September; Know Your Meme dates it 11 September.)'' Adria Salvador Palau and Jon Roozenbeek, writing later in ''The Conversation'', call the campaign's response "a grave misunderstanding of online counterculture".
+* '''12 September''' — a post mocking the NBC article reaches the front page of r/KotakuInAction.
+* '''27 September''' — '''the ADL listing.'''
+
+=== The ADL listing, and its caveats ===
+
+The ADL added Pepe to its "'''Hate on Display'''" database on '''27 September 2016''', alongside the (((echo))), the swastika and the blood-drop cross. Its press release cites images of the frog "variously portrayed with a Hitler-like moustache, wearing a yarmulke or a Klan hood" which "have proliferated in recent weeks in hateful messages aimed at Jewish and other users on Twitter". ADL CEO '''Jonathan A. Greenblatt''': "Once again, racists and haters have taken a popular Internet meme and twisted it for their own purposes of spreading bigotry and harassing users."
+
+'''The listing is routinely misreported in both directions, and the entry itself settles the question.''' Verbatim, from the live ADL entry:
+
+* "'''The majority of uses of Pepe the Frog have been, and continue to be, non-bigoted.'''"
+* "However, because so many Pepe the Frog memes are not bigoted in nature, '''it is important to examine use of the meme only in context'''."
+* "'''The mere fact of posting a Pepe meme does not mean that someone is racist or white supremacist.'''"
+
+Two errors follow from dropping those lines. Quoting the designation without the caveats is the version Kek sympathisers point to in order to allege bad faith — and it is unnecessary, because the caveats are the ADL's own. And writing that '''the ADL designated Kek or Kekistan''' is simply false: this library searched adl.org and found no hate-symbol or glossary entry for either. The organisation that treated Kek and Kekistan directly was the SPLC. See [[Cult of Kek]] and [[Kekistan]].
+
+== Furie's own position ==
+
+Use his words. Matt Furie, "Pepe the Frog's Creator: I'm Reclaiming Him. He Was Never About Hate", ''TIME'', '''13 October 2016''':
+
+* "'''It's completely insane that Pepe has been labeled a symbol of hate, and that racists and anti-Semites are using a once peaceful frog-dude from my comic book as an icon of hate.'''"
+* "It's a nightmare, and the only thing I can do is see this as an opportunity to speak out against hate."
+* "'''I, the creator, say that Pepe is love.'''"
+
+'''An accuracy note that matters.''' Furie does '''not''' use the term "alt-right" in the op-ed. He writes "racists", "anti-Semites" and "fringe, racist groups", and he attributes the hate-symbol stamp to "politicians, hate groups, institutions". He calls Pepe "a chill frog-dude named Pepe who I created a decade ago". His position is '''reclamation''', not condemnation of his own character — a distinction that is frequently flattened in both directions.
+
+=== What he did ===
+
+* '''29 September 2016''' — criticises the appropriation in a CBC Radio interview.
+* '''7 October 2016''' — his publisher Fantagraphics issues a statement on his behalf rejecting the association.
+* '''13 October 2016''' — the ''TIME'' op-ed.
+* '''14 October 2016''' — '''the ADL joins his #SavePepe campaign.''' The organisation that had listed the character two weeks earlier publicly allied with its creator to take it back.
+* '''17 October 2016''' — ''The Nib'' publishes his drawing of Pepe melting into Trump.
+* '''6 May 2017''' — on Free Comic Book Day, Fantagraphics releases a strip showing '''Pepe in a casket'''; outlets report that Furie has killed the character. He later tells CBC that Pepe will "rise from the ashes like a phoenix".
+* '''26 June 2017''' — a "Save Pepe" crowdfunding campaign to resurrect him exceeds its goal.
+* '''August 2017''' — a settlement over the children's book ''The Adventures of Pepe and Pede'': the book is withdrawn and its profits donated to the '''Council on American-Islamic Relations'''.
+* '''2018''' — Pepe images are removed from The Daily Stormer.
+* '''5 March 2018 → 10 June 2019''' — a copyright suit against '''Infowars''', settled.
+* '''2020''' — the documentary '''Feels Good Man''' is released.
+
+'''Note what the legal strategy actually was.''' Furie did not sue people for holding opinions; he asserted '''copyright''' in a character he owns, against commercial users of it, and directed the proceeds of one settlement to a Muslim civil-rights organisation. That is a narrow, specific and effective instrument, and it is the only one that was available to him.
+
+== The recapture: Hong Kong, 2019 ==
+
+In '''August 2019''', pro-democracy protesters in Hong Kong adopted Pepe as a resistance symbol — reportedly without knowledge of the American political history, having encountered the character simply as a widely available sad-and-sympathetic cartoon frog. Furie's response: '''"This is great news! Pepe for the people!"'''
+
+[[File:pepe-masks-hongkong-2019.jpg|Pepe masks at a pro-democracy march in Hong Kong, 8 December 2019 — a use of the character with the opposite political valence to the American one, adopted independently and welcomed by Furie. Photo: Studio Incendo, CC BY 2.0, via Wikimedia Commons.]]
+
+'''This is the most useful fact on the page.''' A symbol captured by one movement is not thereby owned by it in perpetuity. Pepe was appropriated in 2016 by people who announced that they were appropriating him, designated as a hate symbol with caveats, declared dead by his author, and then taken up three years later by protesters on the other side of the world for the opposite purpose — and the author, who had every reason to be finished with him, said it was great news.
+
+== In cryptocurrency ==
+
+Pepe is also, by a wide margin, the most capitalised character in the memecoin economy, and the Kek theology travelled on-chain with him rather than being left behind.
+
+* '''2014''' — images watermarked "'''Rare Pepe – Do Not Steal'''" create a pseudo-economy on 4chan's /biz/ board. ''Bitcoin Magazine'': "The currency was fake, but the symbolic value was real."
+* '''September 2016''' — the '''Rare Pepe Blockchain Project''' goes live; the first cards are issued in '''Bitcoin block 428,919''' via '''Counterparty'''. Reported final scale: '''1,774 official cards across 36 series by more than 300 artists''', curated by self-styled "Rare Pepe Scientists", filtered by a "Rare Pepe Foundation", and traded in '''PepeCash''' through Joe Looney's Rare Pepe Wallet. It is one of the origin points of NFTs as a form.
+* The '''LORDKEK''' card carries the theology explicitly: the creators concluded that "there were such strong memetic forces at play when the card was being created … that it must have been '''Kek himself''' responsible for the creation of the LORDKEK card". The project's reference material also explains the repeating-digit practice — dubs, trips, quads.
+* '''2020 or 2021''' — '''Fake Rares''' (Rare Scrilla) revives Counterparty-native Pepe issuance. '''Sources conflict on the year''' and this library does not resolve it.
+* '''14 April 2023''' — '''$PEPE''' stealth-launches on Ethereum as "a tribute to the Pepe the Frog internet meme", explicitly with no roadmap, no utility and no expectation of return. As of 20 October 2026 CoinGecko gave it a market capitalisation of about '''$1.75 billion''' on roughly $237 million of daily volume.
+* Frogs also spread past their god: Daniele Sestagalli's "'''Frog Nation'''" (Wonderland, Abracadabra/SPELL, Popsicle) ran frog, wizard and "Magic Internet Money" iconography through 2021–22 DeFi '''with no Kek content at all'''.
+
+''These crypto figures come from a mixture of fetched and search-result-level sources and should be treated as approximate.''
+
+== What is not established ==
+
+* The exact year of the '''Fake Rares''' revival; sources conflict.
+* The precise date of the Clinton campaign explainer: the post is dated 13 September 2016 and Know Your Meme dates it 11 September.
+* The '''circumstances''' in which Hong Kong protesters first encountered the character. The adoption and Furie's response are documented; the account that they were unaware of the American history is widely reported and is not independently verified here.
+* Whether '''any particular''' use of Pepe is bigoted. The ADL's own instruction is that the meme must be examined in context, and this page does not substitute for that.
+
+Named individuals appear here only because sources name them.
+
+== See also ==
+* [[Cult of Kek]]
+* [[Kekistan]]
+* [[Heqet]]
+* [[The Ogdoad]]
+* [[Toads Frogs and the Myths Harm Reduction and Wildlife Protection]]
+* [[Egregore]]
+* [[Crypto Glossary]]
+
+== Sources ==
+* Matt Furie, "Pepe the Frog's Creator: I'm Reclaiming Him. He Was Never About Hate", ''TIME'', 13 October 2016. All Furie quotations. [https://time.com/4530128/pepe-the-frog-creator-hate-symbol/ time.com]
+* Anti-Defamation League, "Pepe the Frog", Hate on Display database. The three caveats quoted verbatim, and the 2005 ''Boy's Club'' origin. [https://www.adl.org/resources/hate-symbol/pepe-frog adl.org]
+* Anti-Defamation League, "ADL Adds 'Pepe the Frog' Meme, Used by Anti-Semites and Racists, to Online Hate Symbols Database", press release, 27 September 2016. Greenblatt's statement; the Hitler-moustache, yarmulke and Klan-hood images; the (((echo))) precedent.
+* Sarah Begley, "Pepe the Frog Declared Hate Symbol by Anti-Defamation League", ''TIME'', 27 September 2016. Fixes the listing date. [https://time.com/4510849/pepe-the-frog-adl-hate-symbol/ time.com]
+* Elizabeth Chan, "Donald Trump, Pepe the frog, and white supremacists: an explainer", Hillary for America campaign blog, 13 September 2016. The explainer and the ''Daily Beast'' quotation it reprints.
+* Egil Asprem, "The Magical Theory of Politics: Memes, Magic, and the Enchantment of Social Forces in the American Magic War", ''Nova Religio'' 23(4) (May 2020): 15–42. The description of the hijack campaign. [https://www.diva-portal.org/smash/get/diva2:1428899/FULLTEXT01.pdf diva-portal.org]
+* Adria Salvador Palau and Jon Roozenbeek, "How an ancient Egyptian god spurred the rise of Trump", ''The Conversation'', 7 March 2017. [https://theconversation.com/how-an-ancient-egyptian-god-spurred-the-rise-of-trump-72598 theconversation.com]
+* Wikipedia, "Pepe the Frog". The MySpace origin and 2006 print edition; the 2008 /b/ scan; the 2012 variants; the ADL listing and caveat; the #SavePepe campaign; the casket strip and the "phoenix" remark; the ''Pepe and Pede'' settlement and the CAIR donation; the Daily Stormer removal; the Infowars suit; the Hong Kong adoption and Furie's response; ''Feels Good Man''. [https://en.wikipedia.org/wiki/Pepe_the_Frog en.wikipedia.org/wiki/Pepe_the_Frog]
+* Know Your Meme, "Pepe the Frog". The dated chronology from the 4 February 2008 Something Awful post to the September 2016 sequence. Community-edited and cited as such. [https://knowyourmeme.com/memes/pepe-the-frog knowyourmeme.com]
+* CBC, "'Pepe is not hate symbol,' says internet-famous frog creator", 29 September 2016. [https://www.cbc.ca/lite/story/1.3784744 cbc.ca]
+* Wikipedia, "Rare Pepe"; ''Right Click Save'', "A Brief History of Rare Pepe"; ''Bitcoin Magazine'', "Pepe"; the pepe.wtf reference wiki (LORDKEK and the repeating-digit material); CoinGecko asset page for PEPE, retrieved 20 October 2026. The crypto section; search-result-level verification, treated as approximate.
+* Image credit. Hong Kong photograph: Studio Incendo, CC BY 2.0, via Wikimedia Commons.
+
+== Coverage ==
+Furie's creation of Pepe in 2005 for ''Boy's Club'', first posted as MySpace entries and withdrawn when the 2006 print edition appeared, and the "Feels good man" panel. The meme chronology: the 2008 /b/ scan and Something Awful post, the 2009 "Feels bad man" edits, the 2012 sad and smug variants, the 2014–15 Rare Pepes, the July 2015 Trump Smug Pepe, Trump's own 13 October 2015 retweet, and the May 2016 ''Daily Beast'' piece. The 2016 capture described as a campaign in Asprem's words and in a participant's own words, with the September 2016 sequence day by day — the "deplorables" remark, Donald Trump Jr.'s poster, the NBC report, the Clinton campaign's 13 September explainer quoted directly, and the 27 September ADL listing with its three caveats quoted verbatim, plus the two mirror-image errors that follow from dropping them and the fact that no ADL entry for Kek or Kekistan exists. Furie's ''TIME'' op-ed quoted directly, with the note that he does not use the term "alt-right", and his dated actions through the CBC interview, the Fantagraphics statement, the ADL's #SavePepe alliance, the casket strip, the crowdfunder, the ''Pepe and Pede'' settlement and CAIR donation, the Daily Stormer removal, the Infowars suit and the ''Feels Good Man'' documentary — with the copyright basis of the legal strategy made explicit. The August 2019 Hong Kong recapture and Furie's welcome, with a CC BY photograph of Pepe masks captioned to its real context. The crypto history from the 2014 /biz/ pseudo-economy through the September 2016 Rare Pepe Blockchain Project in Bitcoin block 428,919, the LORDKEK card carrying the Kek theology on-chain, Fake Rares with its date conflict noted, and the April 2023 $PEPE launch — with the figures marked approximate. A closing list of what is not established.

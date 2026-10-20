@@ -1,0 +1,67 @@
+'''Heqet''' (Egyptian '''ḥqt''', also written '''Heket''' and '''Heqat''') is the ancient Egyptian '''frog goddess'''. Her domain is fertility, the germination of grain, the inundation of the Nile, and — specifically — the final stages of childbirth. She is the consort of '''Khnum''', the potter who shapes human bodies on his wheel, and she carries the title '''"She who hastens the birth"'''. She is attested from at least the '''Early Dynastic Period''', which makes her one of the older named deities in the Egyptian record.
+
+This page exists for two reasons. The first is that Heqet is a real and under-written figure and this library tries to carry those. The second is narrower and is the reason the page is a keystone: '''the frog statuette that circulates online as the image of "Kek" is, on the best reading available, inscribed with Heqet's name.''' That finding is set out, with its evidential status, in the last section. The rest of the page stands on its own and does not depend on it.
+
+== The name ==
+
+'''ḥqt''' is written without vowels, as Egyptian normally is, so the English spellings — Heqet, Heket, Heqat — are all modern Egyptological conventions for the same consonantal skeleton. The same is true of the Egyptian word ''ḥqt'', "ruler" or "sceptre", with which the name is sometimes connected; the association is proposed rather than demonstrated and this page does not assert it.
+
+Her name occurs in '''Second Dynasty personal names''' at Helwan, on the '''stela of Wepemnofret''', and in the '''Pyramid Texts'''. That spread — personal names, a private funerary stela, and the royal mortuary corpus — is what dates her cult to the Early Dynastic Period rather than to a later theological tidying.
+
+== Domain ==
+
+* '''Childbirth.''' Her title '''"She who hastens the birth"''' places her at the end of labour, not at conception. She is the goddess invoked at delivery.
+* '''Fertility and germination.''' She is associated with the sprouting of grain and with the Nile inundation that makes it possible. Frogs appear in enormous numbers after the flood; the connection is observational before it is theological.
+* '''Consort of Khnum.''' Khnum forms the body of the child on a potter's wheel; Heqet brings it into the world. The pairing is a division of labour between '''making''' and '''delivering''', and it is one of the clearest statements in Egyptian religion that birth is a craft performed by named agents.
+
+Frogs in the Egyptian material are a sign of life and multiplication rather than of filth or chaos, which is the opposite of their valence in several later traditions. '''Early Egyptian frog statuettes and frog amulets are generally taken to depict Heqet.'''
+
+== Iconography ==
+
+She is shown as a frog, as a frog-headed woman, or as a frog resting on a standard. There is no systematic modern study of her iconography that this library could locate; the identification of a given frog figurine as Heqet rather than as an unnamed votive object is usually made on context and on inscription where one survives.
+
+'''A distinction worth holding.''' Heqet is a frog deity: the frog is her own attribute and her own body. That is a different thing from the '''frog head worn by the four male members of the [[The Ogdoad|Ogdoad]]''' — Nu, Heh, Kek and Amun — where the frog head is a '''group convention marking them as male members of that set''', paired against the serpent heads of their female counterparts. The Ogdoad's frog heads are a notation. Heqet's frog is a goddess. Conflating the two is the root of nearly everything wrong in the popular account of Kek.
+
+== Heqet and the Ogdoad are not the same material ==
+
+The two bodies of evidence sit at opposite ends of Egyptian history and should not be blended:
+
+* '''Heqet''' is attested from the Early Dynastic Period and the Pyramid Texts — the oldest layer of the written record.
+* The '''Ogdoad''' as a named, enumerated set of eight is first certainly attested in a dedicatory inscription of '''Hatshepsut at Speos Artemidos''', Eighteenth Dynasty. The developed Ogdoad tradition, with its cosmic egg, its lotus and its frog-and-serpent imagery, is mainly '''Graeco-Roman'''. Eight primordial powers were associated with the town of Khmun ("Eight-Town", later Hermopolis) from the Old Kingdom, and individual members such as Nu and Amun appear in the Pyramid Texts; the '''set''' is later than its parts.
+
+So the frog in Egypt is old and the frog-headed Ogdoad is late. A page that says "the Egyptians had a frog god" is telling the truth about Heqet and saying nothing at all about Kek.
+
+== The frog statuette circulated as "Kek" ==
+
+In March 2017 '''Adria Salvador Palau and Jon Roozenbeek''' (University of Cambridge) published an account of the Kek phenomenon in ''The Conversation''. They consulted an Egyptologist — unnamed in the piece — about the frog statuette then circulating online as a photograph of the god Kek. Their report:
+
+* Kek "is not in fact a frog god per se, but rather one of four male Egyptian gods who are usually depicted with frog's heads", their "female counterparts … depicted with serpentine heads".
+* '''"The hieroglyphs on the frog statuette above actually spell 'Heqet', the real name of the Egyptian frog goddess often associated with fertility and procreation."'''
+
+'''The evidential status of that second claim, stated plainly.''' It is a reading of one object in one photograph, reported at second hand in a general-audience article, attributed to an Egyptologist who is not named, and it has not — as far as this library could establish — been restated in a peer-reviewed or museum-authored source. It is therefore '''credible and unconfirmed''': credible because the identification of early frog statuettes with Heqet is the standard one and because two Cambridge researchers put their names to the report; unconfirmed because no second source has been located and because "the frog statuette" names a class of object rather than a catalogued artefact. '''Do not cite it as settled.'''
+
+What it does not depend on is the harder general point, which is independently sourced: '''the frog does not belong to Kek.''' Kek wears a frog head because the Ogdoad's male members wear frog heads. The Egyptian deity whose own body is a frog, whose cult is two thousand years older, and whose business is bringing living things into the world, is Heqet.
+
+If the reading is right, then the devotional image of an internet movement that calls itself a cult of darkness and chaos is '''a goddess of childbirth''' — and the movement would have no way of knowing, because the popular material it drew on does not read hieroglyphs. That is the finding. It is offered as a correction, not as a joke: the people who built that movement were working from the sources available to them, and the sources were bad.
+
+== Why the scholarship is thin ==
+
+Heqet has no modern monograph. The standard references for her are general works — T. A. H. Wilkinson's ''Early Dynastic Egypt'' (1999) and R. H. Wilkinson's ''The Complete Gods and Goddesses of Ancient Egypt'' (2003) — each giving her a page or less. Minor Egyptian deities are badly served by the literature in general, and goddesses of childbirth are badly served within that. This page is short because the evidence is short, and says so rather than padding.
+
+== See also ==
+* [[The Ogdoad]]
+* [[Cult of Kek]]
+* [[Kekistan]]
+* [[Pepe the Frog]]
+* [[Toads Frogs and the Myths Harm Reduction and Wildlife Protection]]
+* [[Mythology as Genealogy]]
+
+== Sources ==
+* Wikipedia, "Heqet". ''ḥqt''; fertility, grain germination and the final stages of childbirth; consort of Khnum; "She who hastens the birth"; Second Dynasty personal names at Helwan, the stela of Wepemnofret, and the Pyramid Texts; early frog statuettes read as Heqet. Cites T. A. H. Wilkinson, ''Early Dynastic Egypt'' (1999) p. 286 and R. H. Wilkinson, ''The Complete Gods and Goddesses of Ancient Egypt'' (2003) p. 229. [https://en.wikipedia.org/wiki/Heqet en.wikipedia.org/wiki/Heqet]
+* Adria Salvador Palau and Jon Roozenbeek, "How an ancient Egyptian god spurred the rise of Trump", ''The Conversation'', 7 March 2017. The Egyptologist's correction on the frog head, and the reading of the statuette's hieroglyphs as "Heqet". [https://theconversation.com/how-an-ancient-egyptian-god-spurred-the-rise-of-trump-72598 theconversation.com]
+* Jennifer Houser Wegner (Penn Museum), "Ancient Egyptian Creation Myths: From Watery Chaos to Cosmic Egg", ''Glencairn Museum News'' no. 5, 13 July 2021. The Ogdoad as "four frog-headed male gods and their serpent-headed female counterparts"; the pre-creation state. [https://www.glencairnmuseum.org/newsletter/2021/7/13/ancient-egyptian-creation-myths-from-watery-chaos-to-cosmic-egg glencairnmuseum.org]
+* Global Egyptian Museum (CIPEG), glossary entry "Ogdoad". "The Ogdoad tradition mainly dates from the Graeco-Roman Period, but the gods were already known in the Old Kingdom"; Khmun as "City of the Eight". [https://www.globalegyptianmuseum.org/glossary.aspx?id=279 globalegyptianmuseum.org]
+* Wikipedia, "Ogdoad (Egyptian)". "The earliest certain reference to the Ogdoad is a dedicatory inscription by Hatshepsut at Speos Artemidos"; the four pairs cannot be cleanly assigned four functions. Cites Zivie-Coche 2016. [https://en.wikipedia.org/wiki/Ogdoad_(Egyptian) en.wikipedia.org/wiki/Ogdoad_(Egyptian)]
+
+== Coverage ==
+The name ''ḥqt'' and its spellings; attestation in Second Dynasty personal names at Helwan, the stela of Wepemnofret and the Pyramid Texts; the domains of childbirth ("She who hastens the birth"), grain germination and the inundation; the pairing with Khnum as making-and-delivering; frog statuettes and amulets read as Heqet; the distinction between Heqet's own frog body and the Ogdoad's frog head as a group convention for its male members; the chronological gap between Early Dynastic Heqet and the Eighteenth-Dynasty-to-Graeco-Roman Ogdoad; the Palau and Roozenbeek report that the statuette circulated as "Kek" is inscribed "Heqet", given with its evidential status as credible and unconfirmed; and the state of the literature. No claim is made that the statuette reading is settled, and no epithet or cult detail is asserted beyond the cited references.
