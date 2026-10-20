@@ -1,0 +1,134 @@
+'''Chronology of the Kek Comparison''' records '''when the founder of the [[Van Kush Family]] first said each thing''', with the platform, the handle, the date and the words.
+
+It exists for one reason. A religious and commercial project that compares itself to the [[Cult of Kek]] invites the obvious charge: that it noticed a successful internet religion and dressed itself up to match. '''The only answer to that charge is a timestamp''', and the timestamps are all public. This page is the index of them.
+
+'''What this page is not.''' It is not the argument — that is in [[The Cult of Kek and the Van Kush Family]]. It is not a complete bibliography; the founder's record is larger than what is listed here. Every entry below was '''retrieved and read directly''' for this article, from the platform's own API or from the thread itself, between 19 and 20 October 2026. Items known only at second hand are listed separately at the end and marked as such.
+
+== How to verify any entry ==
+
+Nothing here requires trusting this library:
+
+* '''Steem''' — <code>condenser_api.get_content</code> against <code>api.steemit.com</code> with the author and permlink returns the post body and its <code>created</code> timestamp.
+* '''Blurt''' — the same call against a Blurt RPC node.
+* '''Bitcointalk''' — each post carries its own message id and timestamp; <code>action=printpage;topic=NNNN.0</code> returns the whole thread with every post's author and date.
+* '''MELEK''' — <code>condenser_api.get_content</code> against <code>https://melek.salon/rpc</code>.
+* '''Hive-Engine''' — the <code>tokens</code> and <code>comments</code> contracts return the issuer, the creation transaction and the live reward tags.
+
+== 1. The identification ==
+
+'''16 June 2017, 20:59 UTC — Steem, as @marsresident''', in ''Knowledge in Ancient Egypt''.
+
+''"The Statue of Liberty is Heget frog Goddess of the Flood water."''
+
+''"You may also remember Pepe the frog from the 2016 Election Cycle, Pepe is actually Kek, and the modern cult of Kek are the ones who spread the Pepe Meme."''
+
+'''This is the anchor date.''' Seven months after the 2016 United States election, three months after ''The Conversation'' published its Kek explainer, and years before Kek became a routine reference in cryptocurrency writing. The frog goddess — this library's '''[[Heqet]]''' — and the Pepe identification appear on the same page, which matters because the Cult of Kek's own central image is a statuette inscribed with Heqet's name.
+
+'''2016 — Steem, as @marsresident''', in ''The Ogdoad''. '''[[The Ogdoad]]''' — the Egyptian grouping Kek belongs to — was already a subject of the corpus, written up as astronomy-as-religion with no reference to internet culture at all. The founder was writing about Kek's own cosmology '''before and independently of''' the comparison.
+
+== 2. The frame: the Punic Wax Network ==
+
+'''14 November 2020, 08:47 UTC — Bitcointalk, as Tokenista''', in ''Where DeFi is headed'' (topic 5296168): ''"The 1st Punic Currency in 2,000 Years!!!"'' — the launch of '''Punic Copper and Punic Tin''', with the Hannibal, Liber-and-Libera and Ceres material that still underlies the Carthaginian framing. ''"Ceres is also the namesake of Wax, which is Cera in Ancient Languages. Beeswax was the first Wax, and the Priestesses used to be called Bees."''
+
+'''6 April 2021, 04:54 UTC — same thread''': ''"'''The Punic Wax Network is what I am creating.''' It is going to be Mining Pools, Witnesses, as well as Mining for our own Clone of each and every type of Blockchain and Token. Then we will teach others also."''
+
+'''8 April 2021, 01:25 UTC — same thread''': ''"That is why I am starting the Punic Wax network, to teach other people to do it for them themselves and others, with a kind of Help Desk community different from those provide by the Bitcoin Foundation."''
+
+Both of these '''predate VKBT''' by five months, and predate the name "Van Kush Family" as an institution. See [[Punic Wax]].
+
+== 3. 2021: adversary, model and analogy in eleven weeks ==
+
+'''4 September 2021, 11:10:48 UTC — Hive-Engine.''' <code>tokens_create</code> for '''VKBT''' from the account <code>kalivankush</code>, transaction <code>8f252835353e38070116c77e53be2add2ae0178c</code>. '''Kali Van Kush''' is the creator and issuer of record.
+
+'''7 September 2021, 10:53 UTC — Steem, as @punicwax''', in ''Waging War on HIVE'', three days later: ''"'''We are Striking at the Cult of Kek''' and I want Steemians to start to learn."'' The occasion is a downvote fight in which Kali Van Kush's Hive account was reduced to a reputation of 1. '''The adversarial use.'''
+
+'''1 November 2021, 06:39 UTC — Blurt, as @punicwax''', in ''What is the Van Kush Beauty Economy?'': ''"These are Pictures of my Beautiful Wife, Kali Van Kush."'' … ''"We can be compared to the Peace, Abundance, Liberty (PAL) Network, or Bitcoin Foundation, or other 3rd Party type Crypto Development Organization."''
+
+'''12 November 2021, 05:38 UTC — Bitcointalk, as Tokenista''', topic 5370456: ''"We can also then see this as more like the Peace, Abundance, Liberty (PAL) Network, and the Cult of Kek, but '''we are against them like an Anti-Masonic Movement''', but more showing everyone the Mysteries."'' '''The structural analogy''' — his own later gloss is that the Anti-Masons ''"basically did Everything the Masons did, but with Christian Symbols"''; same machinery, different content.
+
+'''28 November 2021, 15:05 UTC — same thread''': ''"And like R2Cornell, '''the Cult of Kek''', PAL Network, etc, '''you can create a Conglomerate outside of these''' that is Popular on Minds and BLURT and Discord."'' '''Kek as a model to copy''', sixteen days after the analogy and eleven weeks after "striking at".
+
+'''1 December 2021, 12:30 UTC — same thread''': ''"But then '''the Anarchists''' took over."'' Said of Steemit. '''The statist/anti-statist axis is in place in 2021''', before it was ever framed as a Kek argument.
+
+== 4. 2022 ==
+
+'''16 May 2022, 14:17 UTC — Bitcointalk, as Tokenista''', topic 5296168: ''"the current Cryptocurrency world is Male Chauvanists, and '''I am creating my Wife's Beauty Economy''', And made a World Wide Network in the Van Kush Family. '''You're either with me or the Cult of Kek''', if you are against me you are Pepe the Frog, that's that."'' The sharpest line in the record, and the one that credits the Beauty Economy to Kali Van Kush in the same breath.
+
+== 5. 2024: the titled essay ==
+
+'''1 January 2024, 07:50 UTC — Bitcointalk, as VanKushFamily.com''', opening topic 5479976: ''"It is much like a FreeMason Lodge is maybe what People might compare us to Today, a Mystery School, a True Literati. We Teach about Egregore, and Egregori, Grigori, Angels and Demons, Gods, Djinn, Giants, Watchers, Titans, and Humans."''
+
+'''3 January 2024, 03:35 UTC''': ''"'''Competitive with the Cult of Kek''', or the Peace, Abundance, Liberty (PAL) Network. But also like a Branch of a Religion, comparable to the Vatican, or the Ethiopian Orthodox Church."''
+
+'''5 January 2024, 04:15 UTC''': ''"most Cryptocurrency People are Anarchists. This is an Open Invitation to Debate even, that Bitcoin should not have Anonymity and Anarchy as its Core Values. '''We are the Statist Blockchain Network.''' Federalism, maybe some Anti-Federalist Concepts also (Statism). Not Anarchy. Theocracy."''
+
+'''6 January 2024, 18:00 UTC — the post titled "The Cult of Kek v. The Van Kush Family".''' ''"'''The Van Kush Family is an Alternative.'''"'' … ''"the Cult of Kek was Forming and Fighting with us. '''They were always Anarchists and we were Always Statists. This was from the Beginning.'''"'' The essay this comparison is named after, and the first time he gave the comparison a title of its own.
+
+'''11 March 2024, 09:22 UTC — Bitcointalk, topic 5488400, "Angels > Monkeys + Frogs".''' ''"they are not State-ists, '''the Van Kush Family are State-ists'''."'' … ''"'''We are the Other Option.'''"'' … ''"And we Really just want '''Everyone to Copy us'''."''
+
+'''13 March 2024, 15:00 UTC — same thread''': the claim that his own press-release teaching drove the STEEM, BLURT and HIVE price runs, ''"and then the Anarchists came and it has Never Recovered."''
+
+'''25 April 2024, 17:51:06 UTC — Hive-Engine.''' <code>tokens_create</code> for '''CURE''' from <code>kalivankush</code>, transaction <code>2b229d09faa507f4b4a9d53affd9838a728ebbd2</code>. Again '''Kali Van Kush''' as creator of record.
+
+'''2 May 2024 — Hive-Engine.''' CURE's reward pool created, with <code>pepe</code> among its five tags. '''Still active.'''
+
+'''6–7 April 2024 — Bitcointalk, topic 5479976''': the bestiary. The dogs, the frogs (''"The Cult of Kek was Founded on Chaos Magic… Pepe being a Servator or a Tulpa, or an Egregore"''), the monkeys, and the concession that matters: ''"the Van Kush Family is a Different Community, than the Dogs and the Frogs and the Monkeys. '''It's a whole Thing to itself like all of those.'''"''
+
+== 6. 2026: the chain posts ==
+
+'''1 August 2026, 23:43 UTC — MELEK, as @melek''', ''Kekistan v. Kurdistan''. Published by the Van Kush Family Research Institute and the Syncretic Temple of Angels. ''"This is not an accusation of theft. Nobody stole anything from Us. '''This is an entry'''."'' … ''"We are not claiming Kek is a corruption of Melek. '''We are announcing a rival.'''"'' '''@melek's, not Hathor's.'''
+
+'''26 September 2026, 17:42 UTC — MELEK, as @hathor''', ''Belief, Attention and Intent: What the Chains Were Built On, and What We Build Instead''. The definitional work — culture as an operating script, dominance as mindshare — and the concession: ''"the history is not clean, and I won't pretend it is… The frog himself is innocent; a symbol is not responsible for who picks it up."''
+
+'''20 October 2026 — the Kek set published here.''' [[Cult of Kek]], [[Heqet]], [[Kekistan]] and [[Pepe the Frog]], written to correct the popular account on both sides, followed by this page and [[The Cult of Kek and the Van Kush Family]].
+
+== 7. What the timestamps actually settle ==
+
+* '''The comparison predates the market.''' The 2017 identification is six years before the '''$PEPE''' token launched on Ethereum on 14 April 2023, and eight years before the 2024–25 memecoin cycle. The frog was not a trade when he first wrote about it.
+* '''The frame predates the brand.''' The Punic Wax Network of April 2021 predates VKBT by five months and the "Van Kush Family" name as an institution altogether. The wax, the Carthage material and the Beauty Economy's chemistry were in place before there was anything to market.
+* '''The Egyptian material predates the use made of it.''' The Ogdoad essay is 2016 and the Heqet identification is 2017; the Cult of Kek articles in this library were written in 2026. The cosmology was not reverse-engineered from the meme.
+* '''The axis predates the framing.''' "The Anarchists took over" is December 2021, said of Steemit. "They were always Anarchists and we were Always Statists" is January 2024. The political position is older than the Kek comparison it later got attached to.
+* '''What they do not settle.''' A timestamp proves priority, not correctness. Nothing on this page establishes that the comparison is apt, that the Van Kush Family's position is right, or that any of it moved a market or an election. It establishes only that it is '''not retrofitted''', which is a narrower claim and the only one a chronology can make.
+
+== 8. Reported but not retrieved ==
+
+Listed so the gap is visible rather than hidden:
+
+* A '''12 November 2021 03:41:56''' Bitcointalk post, reported to carry the same Anti-Masonic sentence as the 05:38 one. Only the 05:38 post was located.
+* A '''12 February 2022''' line, ''"it's not Anti-Masonic, it's just the Future, we are teaching the Lodges"'', and a '''10 May 2024''' restatement. '''Not retrieved.''' An earlier internal draft framed these as a withdrawal and a reversal; the founder has stated that reading is wrong, since the analogy was always structural and there was no hostility to withdraw. On his account the three statements are '''one position stated three times'''. Since the two later items could not be read directly, they are listed here rather than quoted.
+* A '''7 May 2026''' Bitcointalk formulation, reported as ''"Where Pepe says 'we are trolling the system,' the angel says 'we are witnessing the system'"'' and ''"The comparison is Pepe versus Franklin. Bored Ape versus the Junto."'' '''Not retrieved.'''
+* '''Masonic and Order of the Eastern Star lodge correspondence.''' The founder states that he regularly emails lodges research papers. This is relevant to the "teaching the Lodges" line and against any reading of the project as anti-fraternal, but '''no document was available to this article''' and it is recorded only as his statement.
+* '''Economics 101''' (2018) and ''In Response to Peter Schiff'' on Bitcointalk, and the ''Bitcoin Town'' thread of 2013 — cited at second hand in the 2026 Hathor post and not retrieved here.
+* The founder's own account describes '''31 or more datable items across five platforms and six handles'''. This page carries the '''fifteen''' it read directly. The difference is unexamined, not disputed.
+
+== See also ==
+* [[The Cult of Kek and the Van Kush Family]]
+* [[Van Kush Family]]
+* [[Cult of Kek]]
+* [[Kekistan]]
+* [[Pepe the Frog]]
+* [[Heqet]]
+* [[The Ogdoad]]
+* [[Egregore]]
+* [[Punic Wax]]
+* [[VKBT and CURE]]
+* [[Tanit]]
+* [[Crypt-ology]]
+
+== Sources ==
+* ''Knowledge in Ancient Egypt'' — @marsresident, Steem, 2017-06-16T20:59:21. [https://steemit.com/religion/@marsresident/knowledge-in-ancient-egypt steemit.com]
+* ''The Ogdoad'' — @marsresident, Steem, 2016. See [[The Ogdoad]].
+* ''Waging War on HIVE'' — @punicwax, Steem, 2021-09-07T10:53:09. [https://steemit.com/@punicwax/waging-war-on-hive steemit.com]
+* ''What is the Van Kush Beauty Economy?'' — @punicwax, Blurt, 2021-11-01T06:39:42. [https://blurt.blog/@punicwax/what-is-the-van-kush-beauty-economy blurt.blog]
+* Bitcointalk topic 5296168, ''Where DeFi is headed'' — posts of 2020-11-14, 2020-12-03, 2021-04-06, 2021-04-08, 2021-04-11 and 2022-05-16. [https://bitcointalk.org/index.php?topic=5296168.0 bitcointalk.org]
+* Bitcointalk topic 5370456, ''The Hashtags of Money v. The Internet of Money'' — posts of 2021-11-12, 2021-11-28 and 2021-12-01. [https://bitcointalk.org/index.php?topic=5370456.0 bitcointalk.org]
+* Bitcointalk topic 5479976, ''The Official Van Kush Beauty Token Thread'' — posts of 2024-01-01, 2024-01-03, 2024-01-05, 2024-01-06, 2024-02-16 and 2024-04-07. [https://bitcointalk.org/index.php?topic=5479976.0 bitcointalk.org]
+* Bitcointalk topic 5488400, ''Angels > Monkeys + Frogs'' — posts of 2024-03-11 and 2024-03-13. [https://bitcointalk.org/index.php?topic=5488400.0 bitcointalk.org]
+* ''Kekistan v. Kurdistan'' — @melek, MELEK, 2026-08-01T23:43:24. [https://melek.salon/melek/@melek/kekistan-v-kurdistan melek.salon]
+* ''Belief, Attention and Intent'' — @hathor, MELEK, 2026-09-26T17:42:00. [https://melek.salon/history/@hathor/belief-attention-and-intent melek.salon]
+* Hive-Engine, retrieved 20 October 2026: <code>tokens</code> and <code>comments</code> contracts and <code>kalivankush</code> account history, for the VKBT and CURE creation transactions, the reward-pool creation dates and the live reward tags. [https://api.hive-engine.com/rpc/contracts api.hive-engine.com]
+* $PEPE's launch date of 14 April 2023 — see [[Pepe the Frog]] and [[Cult of Kek]] §12.
+* Statements of position by the founder recorded 20 October 2026, used only where marked as such.
+
+== Coverage ==
+A dated index of when the founder first said each element of the Kek comparison, from 16 June 2017 to 26 September 2026, with platform, handle, timestamp and quotation for '''fifteen items retrieved and read directly''' from the chains, the forum and Hive-Engine, plus the method for re-verifying any of them. Includes the three on-chain facts that carry dates of their own: VKBT's and CURE's creation transactions by <code>kalivankush</code>, and CURE's reward pool with <code>pepe</code> among its tags. The closing section states precisely what the chronology does and does not establish — priority, not correctness — and refuses to let a timestamp stand in for an argument. '''A second section lists everything reported but not retrieved''', including the 2022 and 2024 Anti-Masonic restatements, the 2026 Bitcointalk formulation, the lodge correspondence, and the difference between the thirty-one-plus items the founder describes and the fifteen read here. The earlier internal framing of the 2022 line as a withdrawal and the 2024 line as a reversal is noted and withdrawn on the founder's own correction, rather than quietly dropped. Not covered: the argument itself, which is in [[The Cult of Kek and the Van Kush Family]]; and any claim about market or electoral effect.

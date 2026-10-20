@@ -35,6 +35,10 @@ const HISTORY_PAGES = [
       'Mystery Schools',
       'The Ogdoad',
       'Heqet',
+      // the Van Kush side of the Kek comparison (2026-10-20), and the dated record of it
+      'The Cult of Kek and the Van Kush Family',
+      'Chronology of the Kek Comparison',
+      'Punic Wax',
       'Egyptian Wax Headcones',
       'Apotropaic Magic Bes and Syrian Rue',
       'Rasa Shastra and Ancient Indian Nanochemistry',
@@ -94,7 +98,9 @@ export const CATEGORIES = [
     id: 'start', name: 'Start here', blurb: 'What this whole thing is, in the order it makes sense to read it.',
     pages: ['Getting Started On-Ramp',
             'The Convergence',
-            'Start Here', 'SoapBox', 'The Surfaces', 'Van Kush Family', 'MELEK', 'Hathor', 'Hathor (AI Witness)', 'Crypt-ology', 'Crypto Glossary', 'Glossaries', 'Autodidacts and Credentials'],
+            'Start Here', 'SoapBox', 'The Surfaces', 'Van Kush Family',
+            'The Cult of Kek and the Van Kush Family', 'Chronology of the Kek Comparison',
+            'MELEK', 'Hathor', 'Hathor (AI Witness)', 'Crypt-ology', 'Crypto Glossary', 'Glossaries', 'Autodidacts and Credentials'],
   },
   {
     id: 'posting-help', name: 'Posting help', blurb: 'How to write, format, publish and earn from posts on melek.salon.',
@@ -393,6 +399,8 @@ export const CATEGORIES = [
             // the Kek set (2026-10-20): the Egyptian frog goddess, the internet religion built on a
             // misread of her frog, its fictional homeland, and the character it captured.
             'Heqet', 'Cult of Kek', 'Kekistan', 'Pepe the Frog',
+            // and the Van Kush side of the same comparison, with its dated record
+            'The Cult of Kek and the Van Kush Family', 'Chronology of the Kek Comparison',
             'Religious Sacraments, RFRA, and the Temple of True Inner Light',
             'Psychotropics Convention and the UDV Precedent',
             'Rasa Shastra and Ancient Indian Nanochemistry',
@@ -473,6 +481,8 @@ export const CATEGORIES = [
     pages: ['SoapBox Philosophy', 'The Ideological Spectrum', 'Self-Determination', 'The Black Panther Party',
             'Punk and Skinhead Subcultures', 'Political Maxims', 'Wirearchy',
             'Cult of Kek', 'Kekistan', 'Pepe the Frog',
+            // the statist/anti-statist contrast the Kek comparison actually turns on
+            'The Cult of Kek and the Van Kush Family', 'Chronology of the Kek Comparison',
             'Humanity, Deep Time and the Human Story', 'Humanity  Deep Time and the Human Story',
             'Human Origins and the Fossil Record', 'Biological Immortality',
             'The Church of Neuroscience and Biohacking',
@@ -852,6 +862,8 @@ export const PILLARS = [
       'Cult of Kek',
       'Kekistan',
       'Pepe the Frog',
+      'The Cult of Kek and the Van Kush Family',
+      'Chronology of the Kek Comparison',
       'Melqart',
       'Neith',
       'Solar Theory and Euhemerism',

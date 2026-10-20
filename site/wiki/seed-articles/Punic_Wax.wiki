@@ -12,7 +12,7 @@ Beeswax is not a fat but a mixture of long-chain esters, free fatty acids and hy
 Because saponified beeswax contains both hydrophobic hydrocarbon tails and ionic carboxylate soap heads, it acts as a powerful amphiphilic emulsifier.
 * '''Lipid-Aqueous Micro-Emulsions:''' In ancient pharmacology and cosmetics, Punic wax served as the foundational matrix for complex unguents, ointments, and medicinal pomades. It could stably bind polar botanical extracts, gums, and wines alongside non-polar plant resins ([[Kyphi]], frankincense, myrrh, pine rosin) and essential oils.
 * '''Trans-Follicular Delivery:''' In [[Head Cone|Egyptian Head Cones]], Punic wax formulations allowed slow, temperature-dependent liquefaction ($37\text{–}40^\circ\text{C}$). The presence of saponified fatty acid soaps facilitated trans-follicular and transdermal penetration across the human scalp, delivering psychoactive alkaloids and aromatic terpenes directly into the cranial micro-vasculature while completely avoiding hepatic first-pass degradation.
-* '''Convergence with African Saponin Systems:''' This Mediterranean saponification technology shares direct pharmacological parallels with the southern African [[Ubulawu, African Oneirogens, and Saponin Pharmacokinetics|Ubulawu]] and [[Ukuphahla]] traditions. Where Punic wax creates amphiphilic lipid carriers through alkaline saponification of beeswax, Ubulawu utilizes high-potency plant saponins (*Helinus integrifolius*, *Silene undulata*) to generate aqueous micro-foams that lower mucosal surface tension, inhibit oral $\alpha$-amylase, and enhance sublingual permeability for ritual and ancestral dream communication.
+* '''Convergence with African Saponin Systems:''' This Mediterranean saponification technology shares direct pharmacological parallels with the southern African [[Ubulawu and African Oneirogens|Ubulawu]] and [[Ukuphahla]] traditions. Where Punic wax creates amphiphilic lipid carriers through alkaline saponification of beeswax, Ubulawu utilizes high-potency plant saponins (*Helinus integrifolius*, *Silene undulata*) to generate aqueous micro-foams that lower mucosal surface tension, inhibit oral $\alpha$-amylase, and enhance sublingual permeability for ritual and ancestral dream communication.
 
 == The traditional recipe ==
 
@@ -63,8 +63,59 @@ That is the point at which Punic wax stops being a craft revival and becomes a s
 
 '''Encaustic''' is painting with heated wax as the binding medium — the technique of the Fayum mummy portraits, whose colours have survived two thousand years. Ordinary beeswax encaustic must be kept molten. '''Punic wax, being partly water-soluble, can be worked cold and thinned with water''', which is what makes it practical rather than merely historical.
 
+== The Punic Wax Network, and why the Beauty Economy is named for the same reaction ==
+
+'''Punic wax is the origin point of soap technology''' — saponification arrived at first on beeswax rather than on fat — and the ecosystem now called the [[Van Kush Family]] was originally named for it.
+
+'''The name came before the brand.''' Posting on Bitcointalk as '''Tokenista''' on '''6 April 2021''', five months before [[VKBT and CURE|VKBT]] existed and before "Van Kush Family" was an institution:
+
+''"'''The Punic Wax Network is what I am creating.''' It is going to be Mining Pools, Witnesses, as well as Mining for our own Clone of each and every type of Blockchain and Token. Then we will teach others also, and all of this will be on PunicWax.com."''
+
+And two days later, on '''8 April 2021''':
+
+''"That is why I am starting the Punic Wax network, to teach other people to do it for them themselves and others, with a kind of Help Desk community different from those provide by the Bitcoin Foundation."''
+
+The chain handle '''@punicwax''' is the one the ''Van Kush Family Guide to the Game'' was published under — the guide whose title, misread across a line break, gave the Family its name. The earlier tokens were named the same way: '''Punic Copper''' and '''Punic Tin''', announced on Bitcointalk on '''14 November 2020''' as ''"The 1st Punic Currency in 2,000 Years"'', and meant for trading the materials of a religious life. The founder's rule for them, quoted in the 2026 chain post ''Belief, Attention and Intent'': ''"You must Ground your Currency, like with Electric Current, by Exchanging it for Plants, Metals and Gemstones."''
+
+'''The reaction is the link, and it is not a metaphor.''' The '''Van Kush Beauty Economy''' — announced on Blurt on 1 November 2021 — is an economy of soap, wax, cosmetics and herbs, which is to say an economy of '''saponified goods'''. Punic wax is the oldest documented instance of that same alkaline hydrolysis, performed on wax instead of tallow, and it is the technique the operator published an open-source claim on under the @punicwax name in 2019 precisely so that others would copy it. '''The network was named for the chemistry of the goods''', and the goods and the network are the same claim made twice: that an old, specific, repeatable procedure is worth more in public than held back.
+
+In the same 2026 post the wax is treated as a carrier of transmission generally — the Egyptian Magic cream recipe passed across a diner table in 1986, the [[Head Cone|head cones]] confirmed as real objects at Amarna, [[Kyphi]] carved on the walls at Philae and Edfu, and Punic wax found again and shared on the chains for years.
+
 == Carthaginian context ==
 
 The Punics were the people of Carthage, originally a Phoenician colony in what is now Tunisia and Libya. The Institute's reading connects this to the Tyre line: '''2 Samuel 5:11''' records Hiram king of Tyre sending cedar and stonemasons to David, and the same Tyre founded Carthage. Blavatsky's line is quoted in the source material — ''"Not only were Moors well versed in it, they were the originators of [Mystery Schools]."'' That framing is the Institute's, not established history.
 
-See also: [[Recipes]] · [[Kyphi]] · [[Head Cone]] · [[Stack Substances]] · [[SoapBox]]
+'''And Carthage lost.''' Any argument that leans on Carthage has to concede the outcome first: Rome destroyed the city in 146 BCE, and the claim a Punic framing makes is about '''position''' — the older equipment, the farming colonies, the libraries, the wax — not about who won.
+
+Two corrections worth carrying, because this library's own interest is in the places where popular accounts have lost their citations:
+
+* '''Rome did not sow Carthage with salt.''' '''No ancient source says so.''' R. T. Ridley set the problem out in ''"To Be Taken with a Pinch of Salt: The Destruction of Carthage"'', ''Classical Philology'' 81 (1986), 140–146, and found the earliest reference he could locate to be modern; the detail appears to have been conflated with the genuine salting of Shechem at Judges 9:45. The earliest printed appearance so far identified is '''1858''', in the ''New American Cyclopaedia''; its persistence is usually traced to B. L. Hallward's chapter in the ''Cambridge Ancient History'' vol. 8 (1930), which states it without a reference. Ancient writers describe the city reduced to dust or ploughed over — never salted.
+* '''The real loss was a book, and it is better evidence.''' Pliny (''Natural History'' 18.22–23), Varro (''Res Rusticae'' 1.1.10) and Columella (1.1.13) record that '''Mago's''' agricultural treatise ran to '''28 volumes''', that the Roman Senate had it '''translated by decree''' — Pliny's ''unius eius'', that one man's work alone — while the other Carthaginian libraries were given away rather than burned; and that '''all three later versions are themselves now lost'''. A conqueror who translates one book by senatorial decree and then loses the translation is a sharper story than a field of salt that nobody sowed.
+
+== See also ==
+* [[Van Kush Family]]
+* [[The Cult of Kek and the Van Kush Family]]
+* [[Chronology of the Kek Comparison]]
+* [[VKBT and CURE]]
+* [[Tanit]]
+* [[The Punic Diaspora]]
+* [[Kyphi]]
+* [[Head Cone]]
+* [[Recipes]]
+* [[Stack Substances]]
+* [[SoapBox]]
+* [[Soap Calculator]]
+
+== Sources ==
+* Fritz Faiss with Dr Hans Schmid, on raising beeswax's melting point from 60 °C to 100 °C by boiling three times in sea water and soda; two German patents on wax preparation for encaustic.
+* Cuní, Cuni, Eisen, Savizky and Bové (2012), ATR-FTIR and GC-MS analysis of eight Roman wall paintings from Spain and a Roman-Egyptian mummy portrait, identifying beeswax and soap as the binding medium.
+* Patents: Kreidezeit method; French FR2559778A1 (desert-grass wax); German DE202006013438U1 ("Punic milk").
+* ''Punic Wax'' open-source technique claim — @punicwax, Steemit, 2019.
+* ''Where DeFi is headed'' — Bitcointalk topic 5296168, as Tokenista: the Punic Copper / Punic Tin announcement of 14 November 2020 and the Punic Wax Network posts of 6 and 8 April 2021. [https://bitcointalk.org/index.php?topic=5296168.0 bitcointalk.org]
+* ''What is the Van Kush Beauty Economy?'' — @punicwax, Blurt, 1 November 2021. [https://blurt.blog/@punicwax/what-is-the-van-kush-beauty-economy blurt.blog]
+* ''Belief, Attention and Intent'' — @hathor, MELEK, 26 September 2026, for the "ground your currency" quotation and the wax-as-transmission material. [https://melek.salon/history/@hathor/belief-attention-and-intent melek.salon]
+* R. T. Ridley, "To Be Taken with a Pinch of Salt: The Destruction of Carthage", ''Classical Philology'' 81 (1986), 140–146; the 1858 ''New American Cyclopaedia'' appearance; B. L. Hallward in ''Cambridge Ancient History'' vol. 8 (1930); Judges 9:45 for Shechem.
+* Mago's treatise: Pliny, ''Natural History'' 18.22–23; Varro, ''Res Rusticae'' 1.1.10; Columella, ''De Re Rustica'' 1.1.13.
+
+== Coverage ==
+Covers the chemistry of saponified beeswax, the traditional recipe and the seven boiling procedures with their safety requirements, the patent literature, the 2012 analysis that turned the technique from a craft revival into a solved archaeological problem, and encaustic. '''Adds the Punic Wax Network''' — the ecosystem's original name, dated to April 2021 from the founder's own Bitcointalk posts, five months before VKBT — the Punic Copper and Punic Tin tokens of November 2020, and the reason the Beauty Economy carries the name of the same reaction: both are economies of saponified goods, and both were published open so that others would copy them. The Carthaginian framing is kept as the Institute's reading and marked as such, with Carthage's defeat conceded before the frame is used, the salting of Carthage identified as a modern myth with its printing history, and Mago's translated-then-lost treatise given as the better-sourced loss. Not covered: commercial supply of any of these materials, and the Blavatsky Mystery-School claim beyond noting it is the Institute's framing rather than established history.
