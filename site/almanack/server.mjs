@@ -161,7 +161,6 @@ function page(title, body, opts = {}) {
   const canonical = opts.canonical || `${BASE_URL}/`;
   const seo = seoHeadTags({
     title, description: desc, canonical, siteName: 'MELEK Almanack',
-    analyticsBeacon: process.env.ANALYTICS_BEACON_URL || '',
     site: { url: BASE_URL, name: 'MELEK Almanack' },
     jsonld: Array.isArray(opts.breadcrumb) && opts.breadcrumb.length ? breadcrumbJsonLd(opts.breadcrumb) : null,
   });

@@ -10,13 +10,11 @@ import http from 'node:http';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { ensureBeacon, ensureSocialMeta, ensureJsonLd, cardForHost } from '../../integrations/soapbox/page-meta.mjs';
+import { ensureSocialMeta, ensureJsonLd, cardForHost } from '../../integrations/soapbox/page-meta.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = path.resolve(__dirname, '..'); // .../site
-// First-party, cookieless analytics on EVERY surface — injected here so no per-surface opt-in is needed.
-const BEACON_URL = process.env.ANALYTICS_BEACON_URL || 'https://analytics.soapbox.community/px';
-// Hosts that get no beacon / share tags: the private collector itself.
+// Hosts that get no share tags.
 const NO_FINISH = /^analytics\./i;
 
 // A single misbehaving surface (async throw after it loads, a rejected timer, etc.)
@@ -94,12 +92,10 @@ export function publicOrigin(req, res, internal) {
     const str = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : typeof chunk === 'string' ? chunk : null;
     if (str == null) return chunk;
     let out = str.includes(internal) ? str.split(internal).join(pub) : str;
-    // Every HTML page whose whole <head> is in this chunk: the analytics beacon (deduped by collector URL,
-    // so surfaces that self-emit aren't doubled) and link-preview tags built from the page's own title,
-    // description and canonical, with the share card when it has no image of its own.
+    // Every HTML page whose whole <head> is in this chunk: link-preview tags built from the page's own
+    // title, description and canonical, with the share card when it has no image of its own.
     if (/text\/html/i.test(ct) && !NO_FINISH.test(host) && /<head[\s>]/i.test(out) && out.includes('</head>')) {
       out = ensureJsonLd(ensureSocialMeta(out, { card: cardForHost(host) }));
-      if (BEACON_URL) out = ensureBeacon(out, BEACON_URL);
     }
     if (out === str) return chunk;
     if (!res.headersSent) res.removeHeader('content-length');

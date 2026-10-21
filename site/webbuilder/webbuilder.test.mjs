@@ -135,18 +135,6 @@ test('a published page ESCAPES hostile content and neutralizes javascript: URLs'
   assert.ok(!markup.includes('"><img src=x'), 'the tagline breakout is escaped, not a live tag');
 });
 
-test('published page carries the analytics beacon hook when ANALYTICS_BEACON_URL is set', async () => {
-  __reset();
-  const prev = process.env.ANALYTICS_BEACON_URL;
-  process.env.ANALYTICS_BEACON_URL = 'https://build.test/px';
-  try {
-    await post('/api/publish', { ren: 'beacon', template: 'business', doc: { title: 'Beacon', category: 'business', sections: [] } });
-    const body = (await get('/p/beacon')).body;
-    assert.match(body, /sendBeacon/);                 // the first-party beacon hook (via headTags)
-    assert.match(body, /build\.test\/px/);
-  } finally { if (prev == null) delete process.env.ANALYTICS_BEACON_URL; else process.env.ANALYTICS_BEACON_URL = prev; }
-});
-
 test('opt-in publishes into the network + shows a disclosed related-sites block', async () => {
   __reset();
   // publish two relevant, opted-in sites so each can surface the other
