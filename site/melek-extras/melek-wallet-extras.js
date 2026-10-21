@@ -207,7 +207,6 @@
       if (p === lastPv) return;
       var r = lastPv ? '' : (d.referrer || '');
       lastPv = p;
-      new Image(1, 1).src = 'https://analytics.soapbox.community/px.gif?p=' + encodeURIComponent(p) + '&r=' + encodeURIComponent(r);
     } catch (e) { /* never break the wallet */ }
   }
 

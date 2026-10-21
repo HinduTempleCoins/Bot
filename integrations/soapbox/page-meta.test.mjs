@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ensureBeacon, ensureSocialMeta, finishPage, cardForHost, SHARE_CARDS, DEFAULT_BEACON_URL } from './page-meta.mjs';
+import { ensureSocialMeta, finishPage, cardForHost, SHARE_CARDS } from './page-meta.mjs';
 
 const BARE = '<!doctype html><html><head><meta charset=utf-8><title>KULA Community Fund — MELEK</title>'
   + '<meta name=description content="A community-funded pool on MELEK.">'
@@ -43,17 +43,8 @@ test('cards per host', () => {
   assert.equal(cardForHost('wiki.soapbox.community'), SHARE_CARDS.melek);
 });
 
-test('ensureBeacon adds the first-party beacon once, never soapy.blog', () => {
-  const out = ensureBeacon(BARE);
-  assert.ok(out.includes(DEFAULT_BEACON_URL));
-  assert.ok(!out.includes('soapy.blog'));
-  assert.equal(ensureBeacon(out), out);
-  assert.equal(finishPage(finishPage(BARE)), finishPage(BARE));
-});
-
 test('fragments and non-strings pass through untouched', () => {
   assert.equal(ensureSocialMeta('<p>no head</p>'), '<p>no head</p>');
-  assert.equal(ensureBeacon('<p>no head</p>'), '<p>no head</p>');
   assert.equal(ensureSocialMeta(null), null);
 });
 
@@ -76,8 +67,9 @@ test('finishHtmlResponses rewrites a single-shot HTML response and fixes content
   res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'content-length': Buffer.byteLength(BARE) });
   res.end(BARE);
   assert.equal(sent.code, 200);
-  assert.ok(sent.body.includes(DEFAULT_BEACON_URL));
   assert.ok(sent.body.includes('kula-card.png'));
+  // The analytics beacon was removed network-wide on 2026-10-21; no page may call a collector again.
+  assert.ok(!/analytics\.soapbox\.community|sendBeacon/.test(sent.body), 'a pageview beacon came back');
   assert.equal(sent.headers['content-length'], Buffer.byteLength(sent.body));
   // JSON is untouched
   const res2 = { ...res, _h: {} }; const s2 = {};

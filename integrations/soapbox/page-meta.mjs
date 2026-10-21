@@ -3,8 +3,6 @@
 // Two post-processors over a complete HTML string, used by the web dispatcher, the condenser/wallet
 // proxies and the static page builders:
 //
-//   ensureBeacon(html)       — adds the first-party, cookieless pageview beacon (seo.mjs analyticsBeaconTag,
-//                              posting to analytics.soapbox.community/px) when the page does not carry it.
 //   ensureSocialMeta(html)   — fills in the link-preview tags Facebook / X / LinkedIn read, using ONLY what the
 //                              page already says: og:title from <title>, og:description from the meta
 //                              description, og:url from the canonical link, and a 1200x630 share card for
@@ -15,10 +13,7 @@
 // Both are idempotent, soft-fail (anything unexpected returns the input unchanged) and act only when the
 // whole <head> is present in the string they are given.
 
-import { analyticsBeaconTag } from './seo.mjs';
 
-export const DEFAULT_BEACON_URL = 'https://analytics.soapbox.community/px';
-const beaconUrl = () => (typeof process !== 'undefined' && process.env && process.env.ANALYTICS_BEACON_URL) || DEFAULT_BEACON_URL;
 
 // Share cards: existing logos centred on a 1200x630 canvas (site/melek-og/), served at melek.salon/og/.
 const OG = 'https://melek.salon/og/';
@@ -56,16 +51,6 @@ function metaContent(head, key) {
   if (!m) return null;
   const c = /\bcontent\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i.exec(m[0]);
   return c ? (c[1] ?? c[2] ?? c[3] ?? '') : '';
-}
-
-/** Add the analytics beacon before </head> unless the page already posts to the collector. */
-export function ensureBeacon(html, url = beaconUrl()) {
-  try {
-    if (typeof html !== 'string' || !url) return html;
-    const h = headOf(html);
-    if (!h || html.includes(url)) return html;
-    return html.slice(0, h.end) + analyticsBeaconTag(url) + html.slice(h.end);
-  } catch { return html; }
 }
 
 /**
@@ -167,9 +152,9 @@ export function ensureJsonLd(html, opts = {}) {
   } catch { return html; }
 }
 
-/** All three, in one call: what every public page should get. */
+/** Both, in one call: what every public page should get. */
 export function finishPage(html, opts = {}) {
-  return ensureBeacon(ensureJsonLd(ensureSocialMeta(html, opts), opts), opts.beaconUrl || beaconUrl());
+  return ensureJsonLd(ensureSocialMeta(html, opts), opts);
 }
 
 /**
