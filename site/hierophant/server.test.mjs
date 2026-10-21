@@ -10,7 +10,7 @@ import { test, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  handler, __setAsk, esc,
+  handler, __setAsk, __setShelves, esc,
   homePage, textsIndexView, textDetailView, godsIndexView, entityDetailView, traditionView, askView,
 } from './server.mjs';
 
@@ -302,4 +302,84 @@ test('Blue-Letter-Bible style: figures carry a 🎨 link to the Studio visualize
   assert.match(h, /hathor\.soapbox\.community\/visualize/);
   const god = await drive({ url: '/gods/athena', method: 'GET', headers: {}, on() { return this; } });
   assert.match(god.body, /\/visualize\?entity=zeus/);        // Zeus is linked in Athena's description, with a 🎨
+});
+
+// ── the sacred-text shelves (injected — no index on disk needed) ───────────────────────────────────
+const PSG = {
+  id: 'tlg1463.tlg001:6.1', ref: '1 Enoch (Greek) 6:1', work: '1 Enoch (Greek)', shelf: 'greek', lang: 'grc',
+  text: 'καὶ ἐπεθύμησαν αὐτὰς οἱ ἐγρήγοροι <script>x</script>', translation: 'And the Watchers lusted after them', translation_lang: 'en',
+  translation_label: 'English: R. H. Charles (1917)', url: 'https://scaife.perseus.org/reader/x/', urn: 'urn:cts:greekLit:tlg1463.tlg001.1st1K-grc1:6.1',
+  source: { key: 'first1k', name: 'First1KGreek', license: 'CC BY-SA 4.0', license_url: 'https://creativecommons.org/licenses/by-sa/4.0/', home: 'https://github.com/OpenGreekAndLatin/First1KGreek' },
+  translation_source: { key: 'charles', name: 'R. H. Charles (1917)', license: 'Public domain', license_url: '', home: '' }, index: 5,
+};
+const EGY = { ...PSG, id: 'tla.ee18.7', ref: 'TLA Earlier Egyptian #7', work: 'TLA', lang: 'egy', text: 'wꜣḏ.t', translation: 'Wadjet', translation_lang: 'de',
+  translation_label: 'German (TLA translation)', index: 9 };
+const fakeShelves = {
+  stats: () => ({ ok: true, N: 2, shelves: { greek: 1, egyptian: 1 }, langs: { grc: 1, egy: 1 }, sources: { first1k: PSG.source } }),
+  searchShelves: (q) => (/egregoroi|watchers/i.test(q) ? [PSG] : /wadjet/i.test(q) ? [EGY] : []),
+  getPassage: (ref) => (/^(1 Enoch 6:1|tlg1463\.tlg001:6\.1)$/.test(ref) ? { passage: PSG, alternates: [] } : null),
+  passageAt: (i) => (i === 4 ? { ...PSG, id: 'prev', ref: '1 Enoch (Greek) 5:9' } : null),
+};
+function withShelves(fn) { return async () => { __setShelves(fakeShelves); try { await fn(); } finally { __setShelves(null); } }; }
+
+test('/shelves renders the shelf index with licences, and search results with original + translation', withShelves(async () => {
+  const idx = await drive(getReq('/shelves'));
+  assert.equal(idx.statusCode, 200);
+  assert.match(idx.body, /The Shelves/);
+  assert.match(idx.body, /CC BY-SA 4.0/);
+  const r = await drive(getReq('/shelves?q=egregoroi'));
+  assert.equal(r.statusCode, 200);
+  assert.match(r.body, /1 Enoch \(Greek\) 6:1/);
+  assert.match(r.body, /ἐγρήγοροι/);
+  assert.match(r.body, /And the Watchers lusted after them/);
+  assert.match(r.body, /R\. H\. Charles/);
+  assert.ok(!r.body.includes('<script>x</script>'), 'passage text is escaped');
+  const de = await drive(getReq('/shelves?q=Wadjet'));
+  assert.match(de.body, /German/);
+}));
+
+test('/shelves/p/:id shows one passage with prev link; unknown → 404', withShelves(async () => {
+  const r = await drive(getReq('/shelves/p/' + encodeURIComponent('tlg1463.tlg001:6.1')));
+  assert.equal(r.statusCode, 200);
+  assert.match(r.body, /Cite as/);
+  assert.match(r.body, /5:9/);
+  const miss = await drive(getReq('/shelves/p/nope'));
+  assert.equal(miss.statusCode, 404);
+}));
+
+test('/shelves/ref and /texts/:citation redirect to the passage', withShelves(async () => {
+  const r = await drive(getReq('/shelves/ref?ref=' + encodeURIComponent('1 Enoch 6:1')));
+  assert.equal(r.statusCode, 302);
+  assert.equal(r.headers.location, '/shelves/p/' + encodeURIComponent('tlg1463.tlg001:6.1'));
+  const t = await drive(getReq('/texts/' + encodeURIComponent('1 Enoch 6:1')));
+  assert.equal(t.statusCode, 302);
+  const bad = await drive(getReq('/shelves/ref?ref=nowhere'));
+  assert.equal(bad.statusCode, 404);
+}));
+
+test('/shelves/api/* returns JSON', withShelves(async () => {
+  const s = await drive(getReq('/shelves/api/search?q=egregoroi'));
+  assert.equal(JSON.parse(s.body).results[0].ref, '1 Enoch (Greek) 6:1');
+  const p = await drive(getReq('/shelves/api/passage?ref=' + encodeURIComponent('1 Enoch 6:1')));
+  assert.equal(JSON.parse(p.body).passage.id, 'tlg1463.tlg001:6.1');
+}));
+
+test('/ask carries a Sources block from the shelves, alongside the corpus answer', withShelves(async () => {
+  __setAsk(async () => ({ answer: 'x', grounded: false, sources: [] }));
+  const r = await drive(postReq('/ask', 'what does 1 Enoch say about the Watchers'));
+  assert.equal(r.statusCode, 200);
+  assert.match(r.body, /Sources — from the sacred-text shelves/);
+  assert.match(r.body, /1 Enoch \(Greek\) 6:1/);
+  assert.match(r.body, /CC BY-SA 4.0/);
+}));
+
+test('/shelves soft-fails when no index is loaded', async () => {
+  __setShelves({ stats: () => ({ ok: false, N: 0 }), searchShelves: () => [], getPassage: () => null, passageAt: () => null });
+  try {
+    const r = await drive(getReq('/shelves?q=anything'));
+    assert.equal(r.statusCode, 200);
+    assert.match(r.body, /not loaded/);
+    const h = await drive(getReq('/health'));
+    assert.equal(JSON.parse(h.body).shelves.ok, false);
+  } finally { __setShelves(null); }
 });
