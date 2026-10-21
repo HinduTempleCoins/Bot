@@ -107,6 +107,7 @@ export const TABS = [
   { id: 'ranked', label: 'Members', href: `${SITE}/members` },
   { id: 'move', label: 'MELEK Move', href: 'https://move.melek.salon/' },
   { id: 'news', label: 'News', href: 'https://herald.soapbox.community/newsroom' },   // Newsroom + Press Wire
+  { id: 'forum', label: 'Forum', href: 'https://forum.soapbox.community/' },
 ];
 
 const PAGES = {

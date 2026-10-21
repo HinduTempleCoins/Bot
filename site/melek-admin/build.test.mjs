@@ -55,8 +55,14 @@ test('fetchWitnessAccounts keeps block producers, always includes hathor, soft-f
   assert.deepEqual(await fetchWitnessAccounts({ fetch: async () => { throw new Error('down'); } }), ['hathor']);
 });
 
-test('tab order: All Posts far left, then Groups, the Updates, Members, Move, News', () => {
-  assert.deepEqual(TABS.map((t) => t.label), ['All Posts', 'Groups', 'Admin Updates', 'Witness Updates', 'Members', 'MELEK Move', 'News']);
+test('tab order: All Posts far left, then Groups, the Updates, Members, Move, News, Forum', () => {
+  assert.deepEqual(TABS.map((t) => t.label), ['All Posts', 'Groups', 'Admin Updates', 'Witness Updates', 'Members', 'MELEK Move', 'News', 'Forum']);
+});
+
+test('Forum sits immediately after News and points at the live forum', () => {
+  const labels = TABS.map((t) => t.label);
+  assert.equal(labels.indexOf('Forum'), labels.indexOf('News') + 1, 'operator asked for Forum directly after News');
+  assert.match(TABS.find((t) => t.id === 'forum').href, /^https:\/\/forum\.soapbox\.community\//);
 });
 
 test('ranks: only the ladder ranks count, highest first; bad file soft-fails to none', () => {

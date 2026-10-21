@@ -268,6 +268,7 @@
     { id: 'ranked', label: 'Members', href: '/members' },
     { id: 'move', label: 'MELEK Move', href: 'https://move.melek.salon/' },
     { id: 'news', label: 'News', href: 'https://herald.soapbox.community/newsroom' },   // Newsroom + Press Wire
+    { id: 'forum', label: 'Forum', href: 'https://forum.soapbox.community/' },
   ];
   var SORTS = [['hot', 'Hot'], ['trending', 'Trending'], ['created', 'New']];
   function feedRoute() {   // /hot, /trending/<tag>, /created … → { sort, tag }
@@ -341,11 +342,18 @@
   // ── 8. required Category on the post editor ─────────────────────────────────────────────────────
   // Every post picks one category, forum/Reddit-style. The choice becomes the post's FIRST tag, which the
   // chain stores as its category; free tags follow it. Post is blocked until a category is chosen.
+  // Existing slugs are NEVER renamed — a slug is the post's on-chain category, so changing one orphans
+  // every post already filed under it. New entries are added; nothing is edited or removed.
   var CATEGORIES = [
-    ['melek', 'MELEK & Witnesses'], ['photography', 'Photos'], ['nature', 'Nature & Plants'], ['art', 'Art & Design'],
-    ['crypto', 'Crypto & Web3'], ['ai', 'AI & Tech'], ['history', 'History & Mysticism'], ['life', 'Life & Blogs'],
-    ['music', 'Music & Video'], ['games', 'Games'], ['food', 'Food & Cooking'], ['travel', 'Travel & Places'],
-    ['writing', 'Writing'], ['introduceyourself', 'Introductions'], ['nsfw', 'NSFW (adults only)'],
+    ['melek', 'MELEK & Witnesses'], ['mining', 'Mining & Nodes'], ['crypto', 'Crypto & Web3'],
+    ['business', 'Business & Money'], ['ai', 'AI & Tech'], ['science', 'Science'], ['diy', 'DIY & Making'],
+    ['health', 'Health & Medicine'], ['herbs', 'Herbs & Plant Medicine'], ['food', 'Food & Cooking'],
+    ['beauty', 'Beauty & Style'], ['nature', 'Nature & Plants'], ['photography', 'Photos'],
+    ['art', 'Art & Design'], ['music', 'Music & Video'], ['writing', 'Writing'], ['games', 'Games'],
+    ['sports', 'Sports'], ['history', 'History & Mysticism'], ['religion', 'Religion & Spirituality'],
+    ['law', 'Law & Rights'], ['politics', 'Politics'], ['news', 'News & Current Events'],
+    ['education', 'Learning & Education'], ['travel', 'Travel & Places'], ['life', 'Life & Blogs'],
+    ['memes', 'Memes & Humor'], ['introduceyourself', 'Introductions'], ['nsfw', 'NSFW (adults only)'],
   ];
   var CAT_SLUGS = CATEGORIES.map(function (c) { return c[0]; });
   function setReactValue(input, v) {
