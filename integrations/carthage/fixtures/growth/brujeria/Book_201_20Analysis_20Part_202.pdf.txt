@@ -1,0 +1,94 @@
+BOOK 1 COMPLETE INSTRUCTIONAL
+ANALYSIS
+The Book of Tanit, Or the Book of the Sun and Moon
+Comprehensive Guide for Future Claude Instances
+
+(FIXTURE — a shortened stand-in for the operator's real Part 2 reading guide. The section
+headings, the two list formats and the per-item note on #23 are reproduced exactly as they appear
+in the real document, because that is what parse.mjs has to cope with.)
+
+TYPE E BULLETPOINTS: THE EXPANSION SYSTEM
+What They Are
+
+Brainstorm placeholders - Author's notes of what should go there
+
+Not section headers - Even when they look like headers
+
+Require major expansion - Usually 3-12 paragraphs each
+
+Source material in emails - Search email archive using keywords
+
+Complete Inventory (60+ Identified)
+
+From early sections:
+
+   1.​ Book of Tobit Jesus Fish
+   2.​ Aristotle Metaphysics
+   3.​ Book of the Dead Quotes
+   4.​ Sun Dial
+   5.​ Job Verses
+   6.​ Pharaoh's Epithets
+   7.​ The Puny Punic
+   8.​ Livy and Polybius on Ceres and the Plebians
+   9.​ Old Testament Timeline from Adam
+   10.​Charisms in the Church Vatican Doc
+   11.​Plato on Atlantis
+   12.​the Atlas Mountains
+   13.​The Nile and the Ganges The Tigris and the Euphrates
+   14.​Nut and Geb
+   15.​Apollo's Birth and Helios before him
+   16.​Attis
+   17.​Surya
+   18.​Ra
+   19.​Suit of Diamonds and Chalices, as well as the Holy Grail
+   20.​Diana's Birth and Luna before her
+   21.​Soma Sieve Quote
+   22.​Quote about the creation of the word Psychedelic, Mind Manifesting
+   23.​Sacred Tales (author specifically said: "looks like Header, but I need my own Words
+       between the Quotes")
+   24.​Dream Work
+   25.​Native American Visions
+   26.​Vision Serpent
+   27.​Pashupati
+   28.​Lord of the Animals
+   29.​Potnia Theron
+
+From middle sections (Pythia onward): 30. Pythia 31. Soma is Hindu God of Moon and
+Moisture, Shu and Tefnut 32. Egyptian Moon 33. Crete 34. Socrates and the Apology, Republic
+with Allegory of the Cave 35. The Eclipse and Seasons 36. Nabta Playa 37. Kadesh, Neith and
+Libera, Persephonie 38. Ogdoad, The Calendar is our Religion exerpts 39. Days of the Week
+40. Baphomet 41. Dogma et Rituel de la Haute Magie 42. Madame Blavatsky Pentagon Quote
+43. Moon Calendar 44. Artemis
+
+From final sections: 45. King Scorpion 46. Thoth, Mercury 47. Scotland and Ireland Tribal
+Constitutions 48. Cancer Quotes 49. Noah verse 50. Bible Verses on Slavery (How to Treat
+Slaves, Breeding/"Kinds") 51. Ashera Tree Goddess 52. Groves, Gallfruit and Galltrees, Dyes,
+Purple/Blue/Red Dyes 53. Wand, Club, Mace Culture 54. Bird Cults 55. Throwing sticks
+(300,000 years - Smithsonian article) 56. Jason and the Argonauts quote (People getting mad at
+King) 57. Splendor Solis images (Describe each image) 58. The Saturn Dragon 59. Ihy and
+Horus the Child 60. Benjamin Franklin Alchemy Quotes 61. Tarot of Chalices 62. The Dragon of
+Fire and Art from Africa 63. Myrmidon
+
+Plus many embedded verse references, shorter quotes
+Expansion Protocol
+
+   1.​ Identify - Verify it's Type E (not actual header)
+   2.​ Search emails - Use keywords from bulletpoint
+   3.​ Compile excerpts - Chronologically (author's understanding developed over time)
+   4.​ Estimate scope - Usually 3-12 paragraphs
+   5.​ Draft in author's voice - NOT academic tone
+   6.​ Integrate smoothly - With surrounding prose
+   7.​ Cross-reference - Note which other Books connect
+   8.​ Quality check - Does it reveal hidden teaching or just explain?
+
+EXPANSION ESTIMATES
+Type E Bulletpoints
+
+60+ identified in Book 1
+
+Average: 5-7 paragraphs each
+
+Some need: 10-12 paragraphs (Job, Sacred Tales, Lord of Animals, Suit of Diamonds/Grail,
+Sasha Shulgin spice cabinet analysis, Splendor Solis images)
+
+Conservative estimate: 400-500 paragraphs total expansion
