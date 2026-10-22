@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildPost, buildVideoPost, collectVideos, collectSongs, buildSongPost, TESTING, __setFetch } from './shilpa-poster.mjs';
+import { buildPost, buildVideoPost, collectVideos, collectSongs, buildSongPost, buildDadaPost, DADA_SCENES, TESTING, __setFetch } from './shilpa-poster.mjs';
 
 test('remake sets now carry the testing statement', () => {
   const p = buildPost([{ key: 'k', title: 'Scene', group: 'Egypt', credit: 'c', looks: { '1_real': { egyptian: 'a.jpg' } } }], 3);
@@ -52,4 +52,57 @@ test('songs become their own blog post set, read from the live music catalogue',
   assert.match(p.body, /original words and original music, never a copy/);
   assert.match(p.body, /\/music\/t\/lamp-upon-the-water/);
   assert.match(p.body, /the music library/);
+});
+
+test('dada sets: titles name the scenes, never a bare set number, and never say testing', () => {
+  const batch = DADA_SCENES.slice(0, 6);
+  const p = buildDadaPost(batch, 1);
+
+  assert.equal(p.permlink, 'shilpa-shastra-dada-set-1');
+  assert.deepEqual(p.tags, ['shilpashastra', 'dada', 'art', 'melek', 'history']);
+
+  // the operator's standing complaint: every title read "Set N ... (testing)" with only an integer changing
+  assert.doesNotMatch(p.title, /set \d/i, 'the title must not be a set number');
+  assert.doesNotMatch(p.title, /testing/i, 'dada titles never say testing');
+  for (const s of batch) assert.ok(p.title.includes(s.name), `title names ${s.name}`);
+  assert.ok(p.title.length <= 250);
+
+  // every scene carries its still, its one ground photograph and its cut-out figures
+  for (const s of batch) {
+    assert.ok(p.body.includes(`![${s.title}](https://melek.salon/img/${s.img}.jpg)`), `${s.key} still`);
+    assert.ok(p.body.includes(s.ground), `${s.key} ground credit`);
+    assert.ok(p.body.includes(s.figures), `${s.key} figures`);
+  }
+  assert.match(p.body, /public domain, taken from Wikimedia Commons/);
+  assert.match(p.body, /Real cutouts from real public-domain photographs, never generated imagery/);
+});
+
+test('dada scene table: unique keys, unique image hashes, batches of 6 cover all 18 scenes', () => {
+  assert.equal(DADA_SCENES.length, 18);
+  assert.equal(new Set(DADA_SCENES.map((s) => s.key)).size, 18, 'keys unique — state dedupe depends on it');
+  assert.equal(new Set(DADA_SCENES.map((s) => s.img)).size, 18, 'image hashes unique');
+  for (const s of DADA_SCENES) assert.match(s.img, /^[0-9a-f]{40}$/, `${s.key} is a sha256-40 hash name`);
+
+  // walk the lane's own slicing: three sets, nothing posted twice, nothing left behind
+  const seen = new Set();
+  let sets = 0;
+  while (seen.size < DADA_SCENES.length) {
+    const todo = DADA_SCENES.filter((s) => !seen.has(s.key));
+    const batch = todo.slice(0, 6);
+    assert.ok(batch.length >= 1 && batch.length <= 6);
+    const p = buildDadaPost(batch, ++sets);
+    assert.equal(p.permlink, `shilpa-shastra-dada-set-${sets}`);
+    for (const s of batch) seen.add(s.key);
+  }
+  assert.equal(sets, 3);
+});
+
+test('dada words appear only where the scene actually carries them', () => {
+  const byKey = Object.fromEntries(DADA_SCENES.map((s) => [s.key, s]));
+  assert.match(buildDadaPost([byKey['dada:guerrilla-action']], 1).body, /WE ARE LOOKING FOR PEOPLE \/ WHO LIKE TO DRAW/);
+  assert.match(buildDadaPost([byKey['dada:panthers']], 1).body, /UP AGAINST THE WALL/);
+  assert.match(buildDadaPost([byKey['dada:acid-test']], 1).body, /CAN YOU PASS THE ACID TEST\?/);
+  assert.match(buildDadaPost([byKey['dada:acid-test']], 1).body, /FURTHUR/);
+  // a scene with no words in it gets no words line
+  assert.doesNotMatch(buildDadaPost([byKey['dada:bank']], 1).body, /Words in the scene/);
 });
