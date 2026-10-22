@@ -18,7 +18,15 @@ import json, math, os, random, subprocess, sys
 import cv2
 import numpy as np
 
-W, H, FPS = 960, 540, 24
+# W,H are the DESIGN space every scene is laid out in (ground lines, figure heights, map coordinates are all
+# tuned to it, so it must not move). OUT_W/OUT_H are what we actually encode: scenes are drawn at SS x the
+# design space — 1920x1080 already — so delivering 720p is a downsample of work we were throwing away before.
+W, H = 960, 540
+OUT_W = int(os.environ.get("ANIM_W", "1280"))
+OUT_H = int(os.environ.get("ANIM_H", "720"))
+FPS = int(os.environ.get("ANIM_FPS", "24"))
+X264_PRESET = os.environ.get("ANIM_X264_PRESET", "slow")
+X264_CRF = os.environ.get("ANIM_X264_CRF", "19")
 SS = 2  # supersampling
 FONT = os.environ.get("FLASH_FONT", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
 
@@ -162,22 +170,25 @@ def caption(frame, text, sub=""):
     from PIL import Image, ImageDraw, ImageFont
     im = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
     d = ImageDraw.Draw(im)
+    k = im.height / float(H)
     if text:
-        f = ImageFont.truetype(FONT, 24)
+        f = ImageFont.truetype(FONT, max(10, int(24 * k)))
         tw = d.textlength(text, font=f)
-        d.rectangle([0, H - 50, W, H], fill=(0, 0, 0))
-        d.text(((W - tw) / 2, H - 40), text, font=f, fill=(245, 220, 150))
+        d.rectangle([0, im.height - 50 * k, im.width, im.height], fill=(0, 0, 0))
+        d.text(((im.width - tw) / 2, im.height - 40 * k), text, font=f, fill=(245, 220, 150))
     if sub:
-        f2 = ImageFont.truetype(FONT, 15)
-        d.text((12, 10), sub, font=f2, fill=(255, 255, 255), stroke_width=2, stroke_fill=(0, 0, 0))
+        f2 = ImageFont.truetype(FONT, max(9, int(15 * k)))
+        d.text((12 * k, 10 * k), sub, font=f2, fill=(255, 255, 255),
+               stroke_width=max(1, int(2 * k)), stroke_fill=(0, 0, 0))
     return cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
 
 
 def finish(img, shake=(0, 0)):
-    f = cv2.resize(img, (W, H), interpolation=cv2.INTER_AREA)
+    f = cv2.resize(img, (OUT_W, OUT_H), interpolation=cv2.INTER_AREA)
     if shake != (0, 0):
-        M = np.float32([[1, 0, shake[0]], [0, 1, shake[1]]])
-        f = cv2.warpAffine(f, M, (W, H), borderMode=cv2.BORDER_REPLICATE)
+        k = OUT_H / float(H)
+        M = np.float32([[1, 0, shake[0] * k], [0, 1, shake[1] * k]])
+        f = cv2.warpAffine(f, M, (OUT_W, OUT_H), borderMode=cv2.BORDER_REPLICATE)
     return f
 
 
@@ -445,8 +456,9 @@ BUILTINS = {
 
 
 def write_mp4(frames, out):
-    p = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}", "-r", str(FPS),
-                          "-i", "-", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-pix_fmt", "yuv420p",
+    p = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{OUT_W}x{OUT_H}", "-r", str(FPS),
+                          "-i", "-", "-c:v", "libx264", "-preset", X264_PRESET, "-crf", X264_CRF,
+                          "-tune", "animation", "-profile:v", "high", "-pix_fmt", "yuv420p",
                           "-movflags", "+faststart", out], stdin=subprocess.PIPE)
     poster = None
     for k, f in enumerate(frames):
