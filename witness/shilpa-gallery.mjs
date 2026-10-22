@@ -1510,11 +1510,11 @@ export const HERBAL_CARDS = [
   "latin": "Zingiber officinale",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "31f33e0d95f1c70c1a132c4b0f4f57b238126e6d"
    },
    {
-    "style": "pinterest",
+    "style": "line watercolor",
     "img": "16aeefe27ccc7ca2bde4d64a61be7bd784dc0145"
    }
   ],
@@ -1563,11 +1563,11 @@ export const HERBAL_CARDS = [
   "latin": "Mentha x piperita",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "47526ef6e949b86c5d869bd0da1305f5ed4cf7e5"
    },
    {
-    "style": "pinterest",
+    "style": "herbarium plate",
     "img": "3f9da79b2f08e9c4d8778790bd82159cb4f720d2"
    }
   ],
@@ -1616,11 +1616,11 @@ export const HERBAL_CARDS = [
   "latin": "Matricaria chamomilla (syn. M. recutita)",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "e8fb3ba9bacf926a0f7e1ce8ca4a4f24b9ce2805"
    },
    {
-    "style": "pinterest",
+    "style": "herbarium plate",
     "img": "4efdd379ce2315f4655b4a2cd33ffc895ea558be"
    }
   ],
@@ -1667,11 +1667,11 @@ export const HERBAL_CARDS = [
   "latin": "Allium sativum",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "beb7a61c37b1dae06274703ceca09516c144fc46"
    },
    {
-    "style": "pinterest",
+    "style": "herbarium plate",
     "img": "5b83ff8be09259eb78398e34d3a375dd3bea98b4"
    }
   ],
@@ -1721,11 +1721,11 @@ export const HERBAL_CARDS = [
   "latin": "Curcuma longa",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "fcc799822eedda73220fae01bdd2a444bceac656"
    },
    {
-    "style": "pinterest",
+    "style": "line watercolor",
     "img": "cb44b4e05bd4ef018b21408ef222b52c4779d601"
    }
   ],
@@ -1774,11 +1774,11 @@ export const HERBAL_CARDS = [
   "latin": "Mel (from Apis mellifera); medical-grade Manuka from Leptospermum scoparium nectar",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "3b2da457cb3746fee347168541e666e2335df443"
    },
    {
-    "style": "pinterest",
+    "style": "line watercolor",
     "img": "1240b18fb01f4d080904d5a4d0cba3bef39f296d"
    }
   ],
@@ -1827,11 +1827,11 @@ export const HERBAL_CARDS = [
   "latin": "Sambucus nigra",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "5e60ceedfef1fb5910a17b53209fd82ab3aff824"
    },
    {
-    "style": "pinterest",
+    "style": "herbarium plate",
     "img": "04ccd45222f00fe308a3e3a37c371963c340c37a"
    }
   ],
@@ -1874,11 +1874,11 @@ export const HERBAL_CARDS = [
   "latin": "Echinacea purpurea (also E. angustifolia, E. pallida)",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "a3b55cfb0d65babb23a46f369cbfe982d59aff65"
    },
    {
-    "style": "pinterest",
+    "style": "line watercolor",
     "img": "ec4c7866c64151dde36c4218a1a9055adae171ad"
    }
   ],
@@ -1922,11 +1922,11 @@ export const HERBAL_CARDS = [
   "latin": "Salix alba (also S. purpurea, S. fragilis)",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "65ded1c9de1c23655d8ce6b108d9daee0dbbe766"
    },
    {
-    "style": "pinterest",
+    "style": "herbarium plate",
     "img": "2c8a7b47de59fcc76b625fb54f43fba305be8890"
    }
   ],
@@ -1975,11 +1975,11 @@ export const HERBAL_CARDS = [
   "latin": "Tanacetum parthenium",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "9354f5fe0e4fbeb59ea63c47ae7631666d21faa0"
    },
    {
-    "style": "pinterest",
+    "style": "line watercolor",
     "img": "9a1a272aec9bb1cc33e541a984fd94588a78afb9"
    }
   ],
@@ -2024,11 +2024,11 @@ export const HERBAL_CARDS = [
   "latin": "Valeriana officinalis",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "c9183144774eb834def7665054fbd6d81b64dc56"
    },
    {
-    "style": "pinterest",
+    "style": "line watercolor",
     "img": "db9ce9432fd650f31395a75cdc96d0378f904550"
    }
   ],
@@ -2075,11 +2075,11 @@ export const HERBAL_CARDS = [
   "latin": "Lavandula angustifolia",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "d0a792cbdce6eca2d21799e700e73a0680954d21"
    },
    {
-    "style": "pinterest",
+    "style": "herbarium plate",
     "img": "6c469a5133f19146baff70452dfec67b9476f797"
    }
   ],
@@ -2126,11 +2126,11 @@ export const HERBAL_CARDS = [
   "latin": "Hypericum perforatum",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "d6868df15791f95ab5fc78584d076684c86e7594"
    },
    {
-    "style": "pinterest",
+    "style": "line watercolor",
     "img": "998f62e60479af360514045dfe416491c49b6d7f"
    }
   ],
@@ -2176,7 +2176,7 @@ export const HERBAL_CARDS = [
   "latin": "Vaccinium macrocarpon",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau botanical",
     "img": "15c7b354fc5f627eb17b03ab686d5503dd20a3a4"
    }
   ],
@@ -2220,11 +2220,11 @@ export const HERBAL_CARDS = [
   "latin": "",
   "imgs": [
    {
-    "style": "ours",
+    "style": "art nouveau",
     "img": "d8374c31c060feb54981e2a13c6ab3f399f596d8"
    },
    {
-    "style": "pinterest",
+    "style": "celestial chart",
     "img": "2f9443c312ecd94fe220342663b41db91f560951"
    }
   ],
