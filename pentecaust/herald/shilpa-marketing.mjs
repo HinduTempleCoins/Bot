@@ -34,7 +34,6 @@ const END = process.env.MKTG_END || '';
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = typeof fn === 'function' ? fn : ((...a) => globalThis.fetch(...a)); }
 
-export const TESTING = `*This is **test marketing** — Hathor's Herald ad engine making sample creatives natively on our own servers (our ad templates over heroes drawn by our own CPU image worker, no outside AI service). We are developing and measuring these, not running a finished campaign. Tell us which ones land: every post takes 👍/👎 and comments.*`;
 
 /** Load the ad manifest written by the generator. Soft-fail → { creatives: [] }. */
 export function loadManifest(path = MANIFEST) {
@@ -60,7 +59,7 @@ const PRODUCT_NAMES = {
 /** Build the chain post for one set of creatives. Pure — no I/O. */
 export function buildMarketingPost(items, setNo) {
   const products = [...new Set(items.map((c) => PRODUCT_NAMES[c.product] || c.product).filter(Boolean))];
-  const title = `Test Marketing, Set ${setNo}: Herald ad creatives for ${products.slice(0, 3).join(', ')}${products.length > 3 ? ' & more' : ''} (testing)`.slice(0, 250);
+  const title = `Herald ad creatives for ${products.slice(0, 4).join(', ')}${products.length > 4 ? ' and more' : ''}`.slice(0, 250);
   const block = (c) => {
     const bits = [PRODUCT_NAMES[c.product] || c.product, c.format, c.theme].filter(Boolean).join(' · ');
     const line = [`**${bits}**`];
@@ -73,14 +72,13 @@ export function buildMarketingPost(items, setNo) {
     'Hathor runs the ecosystem\'s own marketing engine — Herald. It lays out ads in dozens of real formats '
     + '(social posts, stories, display banners, posters, cards) over heroes in the VanKushFamily aesthetic, all '
     + 'made on our own servers. This set is a cross-section of what it produces for the MELEK products.',
-    TESTING,
     '---',
     ...items.map(block),
     '---',
     'Join MELEK — free: [melek.salon](https://melek.salon) · meet the AI witness: [hathor.live](https://hathor.live) · '
     + 'own your words: [soapbox.community](https://soapbox.community)',
   ].join('\n\n');
-  return { title, body, permlink: `shilpa-shastra-test-marketing-set-${setNo}`, tags: ['shilpashastra', 'marketing', 'melek', 'herald', 'ai', 'test'] };
+  return { title, body, permlink: `shilpa-shastra-test-marketing-set-${setNo}`, tags: ['shilpashastra', 'marketing', 'melek', 'herald', 'ai', 'advertising'] };
 }
 
 const loadState = () => { try { return { posted: [], sets: 0, ...JSON.parse(readFileSync(STATE, 'utf8')) }; } catch { return { posted: [], sets: 0 }; } };
