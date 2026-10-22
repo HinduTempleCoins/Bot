@@ -2,10 +2,9 @@
 // Reads the public gallery manifest, posts the next BATCH unposted scenes (every image of each, with its source
 // credit and a link to that scene in the gallery), opens with a researched Śilpa Śāstra intro + fact card
 // (.local/hathor/shilpa/SHILPA_SHASTRA_RESEARCH.md), and signs through MELEK-Signer with a comment/vote-only
-// token (no key on this box). Run by a timer 4x/day; once everything is posted it only picks up new renders.
+// token (no key on this box). Run by a timer 3x/day; once everything is posted it only picks up new renders.
 // Also posts a "Moving pictures" set of Hathor's new videos — animations, documentaries, animated maps — as they are made
-// (each run: the next remake set, then the next video set). Every post says plainly that these are features we are
-// testing and developing.
+// (each run: the next remake set, then the next video set).
 // Also posts the Dada scenes — the magazine-clipping series (one public-domain photograph as the ground, real
 // cutouts pasted on it) — a few at a time, each with the source photograph it was built on.
 // Six further lanes publish the finished stills that had no lane at all, from the tables in ./shilpa-gallery.mjs:
