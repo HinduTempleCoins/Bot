@@ -16,7 +16,12 @@ import argparse, json, math, os, random, subprocess, sys
 import cv2
 import numpy as np
 
-W, H, FPS = 960, 540, 24
+W = int(os.environ.get("ANIM_W", "1280"))
+H = int(os.environ.get("ANIM_H", "720"))
+FPS = int(os.environ.get("ANIM_FPS", "24"))
+X264_PRESET = os.environ.get("ANIM_X264_PRESET", "slow")
+X264_CRF = os.environ.get("ANIM_X264_CRF", "19")
+LAST_ERROR = ""  # why the last render() gave up, so the caller never falls back silently
 GESTURES = ("wave", "talk", "nod_turn", "raise", "step", "idle")
 
 
@@ -120,21 +125,43 @@ def compose(M2, M1):
     return (b @ a)[:2]
 
 
-def fit(im):
-    h, w = im.shape[:2]
-    s = min(W / w, H / h)
-    return s
+def _fail(why):
+    global LAST_ERROR
+    LAST_ERROR = str(why)[:300]
+    return None
 
 
-def render(png, out, secs=6.0, seed=1, amp=1.0):
+MAX_CROP = float(os.environ.get("ANIM_MAX_CROP", "0.34"))
+
+
+def frame_fit(w, h, cw, ch, max_crop=None):
+    """(scale, crop?) for putting a w×h picture on a cw×ch canvas.
+
+    Prefer filling the frame. Pillarboxing a portrait into 16:9 spent 25-70% of every frame on a blurred,
+    darkened copy of the same picture — the single biggest thing wrong with how these clips looked. Only fall
+    back to that when a fill would throw away more than `max_crop` of the picture.
+    """
+    mc = MAX_CROP if max_crop is None else max_crop
+    s_fill = max(cw / w, ch / h)
+    loss = 1.0 - (cw * ch) / max(1e-6, (w * s_fill) * (h * s_fill))
+    if loss <= mc:
+        return s_fill, True
+    return min(cw / w, ch / h), False
+
+
+def render(png, out, secs=6.0, seed=1, amp=1.0, size=None):
+    global LAST_ERROR
+    LAST_ERROR = ""
+    w_out, h_out = size or (W, H)
     src = cv2.imread(png)
     if src is None:
-        return None
-    s = min(1.0, 1400 / max(src.shape[:2]))  # work at ≤1400 px
+        return _fail(f"unreadable image {os.path.basename(png)}")
+    work = max(1400, int(1.15 * max(w_out, h_out)))  # never work below the canvas: that is where sharpness goes
+    s = min(1.0, work / max(src.shape[:2]))
     img = cv2.resize(src, None, fx=s, fy=s, interpolation=cv2.INTER_AREA) if s < 1 else src.copy()
     people = load_people(png, s)
     if not people:
-        return None
+        return _fail("no people in .annot.json (or no .annot.json beside the image)")
     rng = random.Random(seed)
     rigs = []
     for pts in people:
@@ -143,7 +170,7 @@ def render(png, out, secs=6.0, seed=1, amp=1.0):
             rigs.append({"parts": parts, "g": rng.choice(GESTURES[:5]) if rng.random() < 0.97 else "idle",
                          "ph": rng.uniform(0, 6.28), "amp": amp * rng.uniform(0.7, 1.1), "delay": rng.uniform(0, 1.2)})
     if not rigs:
-        return None
+        return _fail(f"{len(people)} person(s) found but no riggable limbs (missing shoulder/hip keypoints)")
     # background plate: inpaint wherever a moving part used to be (dilated so edges don't ghost)
     hole = np.zeros(img.shape[:2], np.uint8)
     for rg in rigs:
@@ -158,12 +185,13 @@ def render(png, out, secs=6.0, seed=1, amp=1.0):
             p["rgb"] = img.astype(np.float32)
             p["a"] = a
     h, w = img.shape[:2]
-    fs = min(W / w, H / h)
-    bg = cv2.GaussianBlur(cv2.resize(img, (W, H)), (0, 0), 18) * 0.45
+    fs, crop = frame_fit(w, h, w_out, h_out)
+    bg = cv2.GaussianBlur(cv2.resize(img, (w_out, h_out)), (0, 0), 18) * 0.45
     n = int(secs * FPS)
-    proc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}", "-r", str(FPS),
-                             "-i", "-", "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-pix_fmt", "yuv420p",
-                             "-movflags", "+faststart", out], stdin=subprocess.PIPE)
+    proc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24",
+                             "-s", f"{w_out}x{h_out}", "-r", str(FPS), "-i", "-", "-c:v", "libx264",
+                             "-preset", X264_PRESET, "-crf", X264_CRF, "-tune", "film", "-pix_fmt", "yuv420p",
+                             "-profile:v", "high", "-movflags", "+faststart", out], stdin=subprocess.PIPE)
     order = ("l_thigh", "l_shin", "r_thigh", "r_shin", "l_uarm", "l_farm", "head", "r_uarm", "r_farm")
     poster = None
     for i in range(n):
@@ -195,16 +223,21 @@ def render(png, out, secs=6.0, seed=1, amp=1.0):
                 rgb = cv2.warpAffine(p["rgb"], Mi, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
                 a = cv2.warpAffine(p["a"], Mi, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)[..., None]
                 frame = frame * (1 - a) + rgb * a
-        fg = cv2.resize(frame.astype(np.uint8), (int(w * fs), int(h * fs)), interpolation=cv2.INTER_AREA)
-        canvas = bg.astype(np.uint8).copy()
-        y0, x0 = (H - fg.shape[0]) // 2, (W - fg.shape[1]) // 2
-        canvas[y0:y0 + fg.shape[0], x0:x0 + fg.shape[1]] = fg
+        fg = cv2.resize(frame.astype(np.uint8), (max(1, int(w * fs)), max(1, int(h * fs))),
+                        interpolation=cv2.INTER_AREA if fs < 1 else cv2.INTER_CUBIC)
+        if crop:  # the figure fills the frame — no blurred pillars
+            y0, x0 = (fg.shape[0] - h_out) // 2, (fg.shape[1] - w_out) // 2
+            canvas = fg[max(0, y0):max(0, y0) + h_out, max(0, x0):max(0, x0) + w_out].copy()
+        else:
+            canvas = bg.astype(np.uint8).copy()
+            y0, x0 = (h_out - fg.shape[0]) // 2, (w_out - fg.shape[1]) // 2
+            canvas[y0:y0 + fg.shape[0], x0:x0 + fg.shape[1]] = fg
         proc.stdin.write(canvas.tobytes())
         if i == int(2.5 * FPS):
             poster = canvas
     proc.stdin.close()
     if proc.wait() != 0:
-        return None
+        return _fail("ffmpeg returned non-zero")
     if poster is not None:
         cv2.imwrite(os.path.splitext(out)[0] + ".jpg", poster, [cv2.IMWRITE_JPEG_QUALITY, 85])
     return out
