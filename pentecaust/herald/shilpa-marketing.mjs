@@ -49,9 +49,12 @@ export function selectBatch(creatives, posted, batch = BATCH) {
 }
 
 const PRODUCT_NAMES = {
+  // The live set, from ad-templates.mjs PRODUCTS (operator's self-advertising list).
+  vkbt: 'VKBT (Van Kush Beauty Token)', pool: 'SoapBox Mining Pool', hathor: 'Hathor (AI Witness)',
+  // Retired ids, kept so older manifests still render a readable title.
   writing: 'Writing & Blogging', music: 'Music', streaming: 'Streaming', wiki: 'The Library', games: 'Games & Arcade',
-  dex: 'KulaSwap (DEX)', mining: 'Solar Mining', hathor: 'Hathor (AI Witness)', chain: 'The MELEK Chain',
-  onboard: 'Onboarding / School', temple: 'The Temple', social: 'Social / The Feed',
+  dex: 'KulaSwap (DEX)', mining: 'Solar Mining', chain: 'The MELEK Chain',
+  onboard: 'Onboarding / School', social: 'Social / The Feed',
 };
 
 /** Build the chain post for one set of creatives. Pure — no I/O. */
