@@ -38,6 +38,20 @@
   .drytag { font-size:11px; color:var(--gold); }
   .hold { color:var(--muted); font-style:italic; }
   footer { max-width:1100px; margin:0 auto; padding:0 20px 40px; color:var(--muted); font-size:12px; }
+  #run { margin-top:28px; } #run h2 { font-size:20px; margin:0 0 6px; }
+  .runcard { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:12px 0; }
+  .row { display:flex; gap:12px; flex-wrap:wrap; } .row > label { flex:1; min-width:150px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:6px 0 2px; }
+  input, select { width:100%; padding:8px; border-radius:7px; border:1px solid var(--line); background:#0f1320; color:var(--ink); font-size:14px; }
+  input[type=checkbox] { width:auto; }
+  .risk { border-left:3px solid var(--warnline); background:#1f1722; padding:10px 14px; border-radius:0 8px 8px 0; font-size:13px; color:#ffd9c9; }
+  .fee { border-left:3px solid var(--gold); background:#1d1b12; padding:8px 14px; border-radius:0 8px 8px 0; font-size:13px; }
+  .op { border:1px solid var(--line); border-radius:8px; padding:8px 10px; margin:6px 0; }
+  .op pre { white-space:pre-wrap; word-break:break-all; font-size:11px; color:var(--muted); margin:6px 0 0; max-height:140px; overflow:auto; }
+  .blocked { color:var(--sell); font-size:13px; }
+  .ok { color:var(--buy); } .bad { color:var(--sell); }
+  .btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .btns a { color:var(--ink); background:#2a3350; border:1px solid var(--line); border-radius:8px; padding:9px 12px; font-size:14px; text-decoration:none; }
 </style>
 </head>
 <body>
@@ -48,13 +62,43 @@
 
 <div class="banner" role="alert">
   SIMULATION ONLY — no real orders, no keys.
-  <small>Every order below is a dry-run intention. Nothing is broadcast, nothing is signed, and this page never touches a private key. Execution is a separate, gated, MELEK-Signer-only concern.</small>
+  <small>Every order on the cards is a dry-run intention against a sample market. Nothing is broadcast, nothing is signed, and this page never touches a private key. To run a bot on your own account, use the <a href="#run" style="color:#ffd9c9">Run it on your account</a> panel below, where your own wallet signs each order.</small>
 </div>
 
 <main>
   <div class="grid" id="grid"><p class="sub">Loading bots…</p></div>
 </main>
 
+<main id="run">
+  <h2>Run it on your account</h2>
+  <p class="sub">Pick a bot, a market and your limits. Each tick the server reads the live market, runs the same strategy code you tried above, and hands back the <b>unsigned</b> order. <b>Your own wallet signs it</b>: Hive Keychain or HiveSigner on Hive-Engine, your EVM wallet (MetaMask or compatible) on KulaSwap. We never see, ask for, or store a key.</p>
+  <div class="risk"><b>Risk.</b> These are real orders on real markets once you switch off Simulate and sign. Bots can lose money: prices move against you, thin books fill badly, pegs can stay broken longer than your budget lasts. The caps (inventory cap for peg-arb, total budget for DCA, per-order cap) limit how much a bot can put to work, but not what the market does to it. Start in Simulate, then run with a small budget. Nothing here is financial advice. VKBT and CURE sells below 1 HIVE are refused by these bots, and wVKBT/wCURE bots on KulaSwap are buy-only.</div>
+  <div class="runcard">
+    <div class="row">
+      <label>Bot<select id="rBot"></select></label>
+      <label>Venue<select id="rVenue"></select></label>
+      <label id="rMarketWrap">Market<select id="rMarket"></select><input id="rSymbol" list="heSyms" placeholder="e.g. VKBT or SWAP.BTC" style="display:none"><datalist id="heSyms"></datalist></label>
+    </div>
+    <p class="sub" id="rAbout" style="margin:8px 0"></p>
+    <div class="row" id="rParams"></div>
+    <div class="row">
+      <label id="rAcctWrap">Your Hive account<input id="rAccount" placeholder="yourname" autocomplete="off"></label>
+      <label id="rEvmWrap" style="display:none">Your EVM wallet<button type="button" id="rConnect">Connect wallet</button> <span class="mono" id="rAddr"></span></label>
+    </div>
+    <div class="fee" id="rFee"></div>
+    <div class="btns">
+      <label style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="rLive"> Live — I have read the risk note and will sign orders with my own wallet</label>
+    </div>
+    <div class="btns">
+      <button type="button" id="rOnce">Run once</button>
+      <label style="margin:0;display:flex;gap:6px;align-items:center">every <input id="rEvery" type="number" min="30" value="60" style="width:80px"> s</label>
+      <button type="button" id="rAuto">Start auto-run (keep this tab open)</button>
+      <button type="button" id="rReset">Reset this bot's budget</button>
+    </div>
+    <div id="rOut" class="out show"></div>
+    <p class="sub" style="font-size:12px;margin-top:10px">MELEK-Signer: its grant covers posting-level Hive operations today, and Hive-Engine market orders need Active authority, so use Keychain or HiveSigner for these bots for now. Auto-run keeps going only while this tab is open; with Keychain you can allow it to sign ssc-mainnet-hive for this site without a prompt each time.</p>
+  </div>
+</main>
 <footer>
   Powered by the <span class="mono">trade-strategies.mjs</span> registry. Orders are frozen <span class="mono">dryRun:true / signer:null</span> by construction.
 </footer>
@@ -136,6 +180,153 @@
     } catch (e) {
       grid.innerHTML = '<p class="sub">Could not load bots. Is the picker server running?</p>';
     }
+  })();
+</script>
+<script type="module">
+  // "Run it on your account" — calls /api/trade/plan; the USER's wallet signs. No key ever reaches us.
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const BASE = (window.BOT_PICKER_BASE || '').replace(/\/$/, '');
+  const $ = (id) => document.getElementById(id);
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private window */ } },
+  };
+  let CFG = null, evmAddr = '', timer = null;
+
+  const venueLabel = { 'hive-engine': 'Hive-Engine (order book, HIVE)', kulaswap: 'KulaSwap on PRANA (AMM)' };
+  const market = () => ($('rVenue').value === 'kulaswap' ? $('rMarket').value : $('rSymbol').value.trim().toUpperCase());
+  const stateKey = () => `tb:${$('rBot').value}:${$('rVenue').value}:${market()}:${$('rVenue').value === 'kulaswap' ? evmAddr : $('rAccount').value.trim().toLowerCase()}`;
+
+  function fillBots() {
+    $('rBot').innerHTML = Object.entries(CFG.bots).map(([k, b]) => `<option value="${esc(k)}">${esc(b.label)}</option>`).join('');
+    $('heSyms').innerHTML = [...CFG.heMarkets.ours, ...CFG.heMarkets.pegged].map((s) => `<option value="${esc(s)}">`).join('');
+    $('rMarket').innerHTML = CFG.kulaMarkets.map((m) => `<option>${esc(m)}</option>`).join('');
+    onBot();
+  }
+  function onBot() {
+    const b = CFG.bots[$('rBot').value];
+    $('rVenue').innerHTML = b.venues.map((v) => `<option value="${esc(v)}">${esc(venueLabel[v] || v)}</option>`).join('');
+    $('rAbout').textContent = b.about;
+    $('rParams').innerHTML = Object.entries(b.params).map(([k, v]) =>
+      `<label>${esc(k)}<input data-p="${esc(k)}" type="number" step="any" min="0" value="${esc(v)}"></label>`).join('');
+    onVenue();
+  }
+  function onVenue() {
+    const kula = $('rVenue').value === 'kulaswap';
+    $('rMarket').style.display = kula ? '' : 'none';
+    $('rSymbol').style.display = kula ? 'none' : '';
+    if (!kula && !$('rSymbol').value) $('rSymbol').value = $('rBot').value === 'peg-arb' ? 'SWAP.BTC' : 'VKBT';
+    if (kula && $('rBot').value === 'peg-arb') $('rMarket').value = 'wVKBT/wCURE';
+    $('rAcctWrap').style.display = kula ? 'none' : '';
+    $('rEvmWrap').style.display = kula ? '' : 'none';
+    $('rFee').textContent = 'Fee: ' + (kula ? CFG.fee.kulaswap : CFG.fee.hiveEngine);
+  }
+  function params() {
+    const p = {};
+    for (const el of $('rParams').querySelectorAll('input[data-p]')) p[el.dataset.p] = Number(el.value);
+    return p;
+  }
+
+  async function connect() {
+    if (!window.ethereum) { $('rAddr').textContent = 'No EVM wallet found in this browser.'; return; }
+    const accts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    evmAddr = accts && accts[0] ? accts[0] : '';
+    $('rAddr').textContent = evmAddr;
+  }
+  async function ensureChain() {
+    const k = CFG.kula;
+    try { await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: k.chainIdHex }] }); }
+    catch {
+      await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: k.chainIdHex, chainName: k.name,
+        nativeCurrency: { name: 'PRANA', symbol: 'PRANA', decimals: 18 }, rpcUrls: [k.rpc], blockExplorerUrls: [k.explorer] }] });
+    }
+  }
+
+  function recordFill(o) {
+    const st = store.get(stateKey()) || { spentHive: 0, fills: [] };
+    if (o.side === 'buy') { st.spentHive = (st.spentHive || 0) + Number(o.qtyHive || 0); st.lastBuyTs = Date.now(); }
+    st.fills = [...(st.fills || []).slice(-49), { t: Date.now(), side: o.side, qtyToken: o.qtyToken, price: o.price, qtyHive: o.qtyHive }];
+    store.set(stateKey(), st);
+  }
+
+  function signHive(op, acct, note) {
+    return new Promise((resolve) => {
+      if (!window.hive_keychain) return resolve({ success: false, message: 'Hive Keychain not found — use the HiveSigner link' });
+      window.hive_keychain.requestCustomJson(acct, op.customJson.id, 'Active', JSON.stringify(op.customJson.json), note, resolve);
+    });
+  }
+  async function sendEvm(op) {
+    await ensureChain();
+    const hashes = [];
+    for (const tx of op.txs) {
+      const h = await window.ethereum.request({ method: 'eth_sendTransaction', params: [{ from: tx.from, to: tx.to, data: tx.data, value: tx.value }] });
+      hashes.push(h);
+    }
+    return hashes;
+  }
+
+  function opHtml(op, i, live) {
+    const o = op.order;
+    const unit = $('rVenue').value === 'kulaswap' ? (op.kind === 'evm-txs' ? 'quote' : '') : 'HIVE';
+    const head = `<b class="side ${esc(o.side)}">${esc(o.side.toUpperCase())}</b> <span class="mono">${esc(o.qtyToken)} ${esc(o.symbol)} @ ${esc(o.price)} (${esc(o.qtyHive)} ${esc(unit)})</span><br><span class="sub">${esc(o.reason)}</span>`;
+    let actions = '';
+    if (live && op.kind === 'hive-custom-json') {
+      actions = `<div class="btns"><button type="button" data-kc="${i}">Sign with Keychain</button>${op.hivesigner ? `<a href="${esc(op.hivesigner)}" target="_blank" rel="noopener">Sign with HiveSigner</a>` : ''}</div>`;
+    } else if (live && op.kind === 'evm-txs') {
+      actions = op.txs.length ? `<div class="btns"><button type="button" data-evm="${i}">Send ${op.txs.length} tx with my wallet</button></div>` : '<p class="blocked">Connect your wallet first.</p>';
+    }
+    const payload = op.kind === 'hive-custom-json' ? op.customJson.json : op.txs.map((t) => ({ label: t.label, to: t.to }));
+    return `<div class="op">${head}${op.customJson && op.customJson.fee ? `<div class="sub">includes fee ${esc(op.customJson.fee)} SWAP.HIVE</div>` : ''}${actions}<pre>${esc(JSON.stringify(payload, null, 1))}</pre><div data-res="${i}"></div></div>`;
+  }
+
+  async function tick(auto = false) {
+    const live = $('rLive').checked;
+    const kula = $('rVenue').value === 'kulaswap';
+    const st = store.get(stateKey()) || {};
+    const body = { bot: $('rBot').value, venue: $('rVenue').value, params: params(),
+      state: { spentHive: st.spentHive || 0, lastBuyTs: st.lastBuyTs || undefined },
+      mode: live ? 'live' : 'simulate',
+      ...(kula ? { market: $('rMarket').value, address: evmAddr } : { symbol: market(), account: $('rAccount').value.trim().toLowerCase() }) };
+    if (body.state.lastBuyTs === undefined) delete body.state.lastBuyTs;
+    $('rOut').innerHTML = '<p class="sub">Reading the market…</p>';
+    let r;
+    try { r = await (await fetch(BASE + '/api/trade/plan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })).json(); }
+    catch { r = { ok: false, error: 'Could not reach the planner.' }; }
+    if (!r || !r.ok) { $('rOut').innerHTML = `<p class="bad">${esc((r && r.error) || 'failed')}</p>`; return; }
+    const s = r.snapshot || {};
+    const px = kula ? `price ${esc(s.hePrice)} ${esc(s.quote)}/${esc(s.symbol)}${s.implied ? ` · implied via KULA ${esc(s.implied)}` : ''}` : `bid ${esc(s.bid)} · ask ${esc(s.ask)} · last ${esc(s.last)} HIVE${s.realUsd ? ` · real $${esc(s.realUsd)} · HIVE $${esc(s.hiveUsd)}` : ''}`;
+    const bal = s.balances ? ` · your balance ${esc(s.balances.token)} ${esc(s.symbol)} / ${esc(s.balances.hive)} ${esc(kula ? s.quote : 'SWAP.HIVE')}` : '';
+    const spent = st.spentHive ? ` · this bot has spent ${esc(st.spentHive)}` : '';
+    let html = `<p class="reason"><b>${esc(r.mode.toUpperCase())}</b> · ${px}${bal}${spent}</p><p class="reason">${esc(r.reason)}</p>`;
+    html += r.ops.length ? r.ops.map((op, i) => opHtml(op, i, live)).join('') : '<p class="hold">No order this tick — the bot holds.</p>';
+    html += (r.blocked || []).map((b) => `<p class="blocked">Refused: ${esc(b.side)} ${esc(b.qtyToken)} ${esc(b.symbol)} @ ${esc(b.price)} — ${esc(b.why)}</p>`).join('');
+    $('rOut').innerHTML = html;
+    for (const btn of $('rOut').querySelectorAll('[data-kc]')) btn.onclick = async () => {
+      const op = r.ops[+btn.dataset.kc]; const res = await signHive(op, body.account, `Trade bot: ${op.order.side} ${op.order.symbol}`);
+      $('rOut').querySelector(`[data-res="${btn.dataset.kc}"]`).innerHTML = res && res.success ? `<span class="ok">Signed · tx ${esc(res.result && res.result.id)}</span>` : `<span class="bad">${esc((res && res.message) || 'not signed')}</span>`;
+      if (res && res.success) recordFill(op.order);
+    };
+    for (const btn of $('rOut').querySelectorAll('[data-evm]')) btn.onclick = async () => {
+      const op = r.ops[+btn.dataset.evm]; const el = $('rOut').querySelector(`[data-res="${btn.dataset.evm}"]`);
+      try { const h = await sendEvm(op); el.innerHTML = `<span class="ok">Sent · ${h.map((x) => `<a href="${esc(CFG.kula.explorer)}/tx/${esc(x)}" target="_blank" rel="noopener">${esc(String(x).slice(0, 12))}…</a>`).join(' ')}</span>`; recordFill(op.order); }
+      catch (e) { el.innerHTML = `<span class="bad">${esc(e && e.message ? e.message : 'not sent')}</span>`; }
+    };
+    // Auto-run in live mode: open the signer for the first order right away (Keychain can be set to not prompt).
+    if (auto && live && r.ops.length) { const b = $('rOut').querySelector('[data-kc="0"],[data-evm="0"]'); if (b) b.click(); }
+  }
+
+  $('rBot').onchange = onBot; $('rVenue').onchange = onVenue; $('rConnect').onclick = connect;
+  $('rOnce').onclick = () => tick(false);
+  $('rReset').onclick = () => { store.set(stateKey(), null); $('rOut').innerHTML = '<p class="sub">Budget and fill log cleared for this bot.</p>'; };
+  $('rAuto').onclick = () => {
+    if (timer) { clearInterval(timer); timer = null; $('rAuto').textContent = 'Start auto-run (keep this tab open)'; return; }
+    const every = Math.max(30, Number($('rEvery').value) || 60) * 1000;
+    tick(true); timer = setInterval(() => tick(true), every); $('rAuto').textContent = 'Stop auto-run';
+  };
+  (async () => {
+    try { CFG = await (await fetch(BASE + '/api/trade/config')).json(); fillBots(); }
+    catch { $('rOut').innerHTML = '<p class="bad">Trade-bot config unavailable.</p>'; }
   })();
 </script>
 </body>

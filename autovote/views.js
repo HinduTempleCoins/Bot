@@ -48,7 +48,7 @@ const STYLE = `<style>
   .warn{border-left-color:var(--warn)}
 </style>`;
 
-const NAV = `<div class=nav><a href="/">Dashboard</a><a href="/teach">Setup guides</a><a href="/about">Other chains &amp; signers</a></div>`;
+const NAV = `<div class=nav><a href="/">Dashboard</a><a href="/teach">Setup guides</a><a href="/about">Other chains &amp; signers</a><a href="/bots">Trade bots</a></div>`;
 
 // ── LOGIN ────────────────────────────────────────────────────────────────────
 export function loginPage() {
