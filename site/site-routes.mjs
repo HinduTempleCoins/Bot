@@ -103,6 +103,13 @@ export const ROUTES = [
     description: 'Reference wiki for the MELEK ecosystem and corpus.',
   },
   {
+    path: '/knowledgebase',
+    title: 'Knowledge Base',
+    module: './knowledgebase/server.mjs',
+    public: true,
+    description: 'SteemCenter/Hive-style newcomer + developer wiki about MELEK (accounts, keys, earning, witnesses, apps).',
+  },
+  {
     path: '/directory',
     title: 'Directory',
     module: './directory/server.mjs',
