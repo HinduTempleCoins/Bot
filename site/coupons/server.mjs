@@ -218,9 +218,14 @@ export async function storeView(store, { category, coupons: injected, fetch } = 
   const shopUrl = `https://www.google.com/search?q=${encodeURIComponent(`${storeName} official site`)}`;
   const shop = affiliate.trackedLink('skimlinks', shopUrl, { subId: slugify(storeName) });
 
+  // Empty state tells the truth about WHICH kind of empty this is. "No deals for this store" and
+  // "we are not connected to a deal source at all" are very different facts, and conflating them is
+  // how this vertical sat structurally empty without anyone noticing. Never fabricate a coupon.
   const couponRows = ranked.length
     ? ranked.map(renderCouponRow).join('')
-    : '<li class="coupon-empty">No coupon codes are listed for this store right now — we never fabricate one. Try a cashback portal below, or check back later.</li>';
+    : `<li class="coupon-empty">No coupon codes are listed for this store right now — we never fabricate one. Try a cashback portal below, or check back later.${
+        coupons.impactConfigured() ? '' : ' <span class=meta>(Our merchant deal feed is not connected yet — codes appear here once it is.)</span>'
+      }</li>`;
 
   // cashback portals via the coupons module (each already affiliate-tagged + disclosed in that module).
   const cashback = coupons.cashbackCompare(storeName);
