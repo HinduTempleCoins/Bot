@@ -214,14 +214,15 @@ test('availableProviders: keyless pollinations is always true, even with no keys
   });
 });
 
-test('no keys at all: keyless pollinations still answers (the unblock)', async () => {
+test('no keys at all: a keyless rung still answers (the unblock) — now the LOCAL one', async () => {
   const orig = global.fetch;
-  // Every keyed rung is skipped (no key); pollinations is the only one tried.
+  // Every keyed rung is skipped (no key). Ollama is tried before pollinations, so the box's own
+  // model is what answers — the whole point of adding it after the Sept-2026 blackout.
   global.fetch = scriptedFetch([{ status: 200, body: openaiBody('keyless article body') }]);
   try {
     await withEnv({}, async () => {
       const res = await complete('write an article', { task: 'quality' });
-      assert.equal(res.provider, 'pollinations');
+      assert.equal(res.provider, 'ollama');
       assert.equal(res.text, 'keyless article body');
       // every keyed provider was skipped for want of a key
       const skipped = res.attempts.filter((x) => x.skipped === 'no-key').map((x) => x.provider).sort();
@@ -390,4 +391,69 @@ test('looksLikeProviderError: notices yes, real prose no', () => {
   assert.ok(!looksLikeProviderError('The backlog has 989 open items and the scanners flagged 69 files.'));
   // A long answer that merely mentions billing is not an error notice.
   assert.ok(!looksLikeProviderError('Billing for the Gemini project should be capped. '.repeat(30)));
+});
+
+// ── the local backstop ──────────────────────────────────────────────────────────────────────────
+// Added after the Sept-2026 blackout: every keyed rung was unkeyed and Pollinations began returning
+// HTTP 200 with a billing notice as the completion body, so the ladder resolved to nothing on every
+// call and the brain silently distilled zero MoM files for weeks.
+test('ollama is keyless, so it is available with no key present', async () => {
+  await withEnv({}, async () => {
+    assert.equal(availableProviders().ollama, true, 'a local model needs no key to be usable');
+  });
+});
+
+test('ollama answers when every keyed provider is absent', async () => {
+  const orig = global.fetch;
+  global.fetch = scriptedFetch([{ status: 200, body: openaiBody('local answer') }]);
+  try {
+    await withEnv({}, async () => {
+      const res = await complete('hi');
+      assert.equal(res.provider, 'ollama', 'the box\'s own model answers before the shared endpoint');
+      assert.equal(res.text, 'local answer');
+    });
+  } finally { global.fetch = orig; }
+});
+
+test('ollama sits ahead of pollinations in the resolved order', async () => {
+  // Drive it through the real ladder rather than reading the table: with no keys anywhere, the
+  // first rung that answers IS the order, and it must be the local one.
+  const orig = global.fetch;
+  const seen = [];
+  global.fetch = async (url) => { seen.push(String(url)); return { ok: true, status: 200, text: async () => openaiBody('x') }; };
+  try {
+    await withEnv({}, async () => { await complete('hi'); });
+    assert.ok(seen.length >= 1, 'something was called');
+    assert.match(seen[0], /11434/, 'the local daemon is tried first when no key exists');
+    assert.ok(!seen[0].includes('pollinations.ai'), 'the shared endpoint is not the first choice');
+  } finally { global.fetch = orig; }
+});
+
+test('ollama endpoint honours OLLAMA_URL and strips a trailing slash', () => {
+  const p = PROVIDERS.find((x) => x.name === 'ollama');
+  const saved = process.env.OLLAMA_URL;
+  try {
+    process.env.OLLAMA_URL = 'http://10.0.0.5:11434/';
+    assert.equal(p.endpoint(), 'http://10.0.0.5:11434/v1/chat/completions');
+    delete process.env.OLLAMA_URL;
+    assert.equal(p.endpoint(), 'http://127.0.0.1:11434/v1/chat/completions', 'defaults to the local daemon');
+  } finally { if (saved === undefined) delete process.env.OLLAMA_URL; else process.env.OLLAMA_URL = saved; }
+});
+
+test('pollinations still answers when the local daemon is not running', async () => {
+  const orig = global.fetch;
+  // No Ollama on this host: the connection is refused, and the ladder falls through to the shared
+  // keyless endpoint exactly as it did before. Adding a local rung must not remove that safety net.
+  let call = 0;
+  global.fetch = async () => {
+    if (call++ === 0) throw Object.assign(new Error('connect ECONNREFUSED 127.0.0.1:11434'), { code: 'ECONNREFUSED' });
+    return { ok: true, status: 200, text: async () => openaiBody('shared answer') };
+  };
+  try {
+    await withEnv({}, async () => {
+      const res = await complete('hi', { task: 'quality' });
+      assert.equal(res.provider, 'pollinations', 'a refused local daemon must not break the ladder');
+      assert.equal(res.text, 'shared answer');
+    });
+  } finally { global.fetch = orig; }
 });
