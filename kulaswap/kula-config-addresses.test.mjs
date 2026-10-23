@@ -5,6 +5,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ADDR, MAINNET_ADDR, altiMarketLive, cdpMarketLive, veLive, addrFor } from './kula-config-addresses.mjs';
+import { CHAINS, isDenied, denyReason, safeTokens } from './kula-config.mjs';
 
 const isAddr = (a) => /^0x[0-9a-fA-F]{40}$/.test(a);
 const Z = '0x0000000000000000000000000000000000000000';
@@ -177,4 +178,47 @@ test('the guards are the zero-address gate the UI relies on', () => {
   assert.equal(liveIf(Z), false);
   assert.equal(liveIf(MAINNET_ADDR.cdpVault), true);
   assert.equal(liveIf(MAINNET_ADDR.veKULA), true);
+});
+
+// ---------------------------------------------------------------------------
+// DENYLIST — the duplicate KULA on PRANA mainnet.
+//
+// Two ERC-20s on 712217 both report symbol "KULA". Canonical: 0x32255D01…, supply 100,000, from
+// DeployKulaMainnet 2026-08-30 07:04. Superseded: 0xdCA53de8…, supply 1,000,000, whose pair the
+// Factory's PairCreated events place at block 2,333 — 820 blocks BEFORE the canonical KULA/WPRANA
+// pair at 3,153. It holds real liquidity (10,000 wMELEK / 1,000,000) in a pool nothing should route
+// through. A contract cannot be removed from a chain, so this is where "removed" is enforced.
+// ---------------------------------------------------------------------------
+test('the superseded KULA and wMELEK are denied, the canonical KULA is not', () => {
+  const FAKE_KULA = '0xdCA53de829db177ed16e51CC4c9abBf856bEBAC8';
+  const FAKE_WMELEK = '0x5A826b93f2465e9AcfE65cCa0E2562f1e1678bb2';
+  const REAL_KULA = CHAINS['prana-mainnet'].kula;
+
+  assert.equal(isDenied('prana-mainnet', FAKE_KULA), true);
+  assert.equal(isDenied('prana-mainnet', FAKE_WMELEK), true);
+  assert.equal(isDenied('prana-mainnet', REAL_KULA), false, 'the real KULA must remain tradeable');
+  // case-insensitivity matters: these arrive from chain reads in mixed case
+  assert.equal(isDenied('prana-mainnet', FAKE_KULA.toLowerCase()), true);
+  assert.equal(isDenied('prana-mainnet', FAKE_KULA.toUpperCase().replace('0X', '0x')), true);
+  assert.ok(denyReason('prana-mainnet', FAKE_KULA).includes('0x32255D01'),
+    'the reason must name the canonical address so the fix is obvious');
+});
+
+test('isDenied / denyReason never throw on junk', () => {
+  for (const junk of [null, undefined, '', 0, {}, []]) {
+    assert.equal(isDenied('prana-mainnet', junk), false);
+    assert.equal(denyReason('prana-mainnet', junk), null);
+  }
+  assert.equal(isDenied('no-such-chain', '0xdCA53de829db177ed16e51CC4c9abBf856bEBAC8'), false);
+});
+
+test('safeTokens keeps every real token and would drop a denied one', () => {
+  const chain = CHAINS['prana-mainnet'];
+  const symbols = safeTokens(chain).map((t) => t.symbol);
+  assert.deepEqual(symbols, ['KULA', 'WPRANA', 'wVKBT', 'wCURE'], 'no real token may be lost');
+  // prove the filter actually filters, rather than passing everything through
+  const poisoned = { ...chain, tokens: [...chain.tokens,
+    { symbol: 'KULA', address: '0xdCA53de829db177ed16e51CC4c9abBf856bEBAC8', decimals: 18 }] };
+  assert.equal(poisoned.tokens.length, 5);
+  assert.equal(safeTokens(poisoned).length, 4, 'the impostor must be stripped');
 });
