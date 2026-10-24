@@ -2,6 +2,51 @@ The '''Common European Framework of Reference for Languages''' ('''CEFR''') is t
 
 Its value is that it replaces unmeasurable self-report — "conversational", "fluent", "a bit rusty" — with a shared scale anyone in the field recognises.
 
+== Where it came from ==
+
+The framework was drawn up under the auspices of the '''Council of Europe''' and published in '''2001''', the European Year of Languages. It grew out of decades of earlier work on defining language objectives in functional terms rather than grammatical ones — the ''Threshold Level'' specifications of the 1970s are its direct ancestor, and the name survives as the informal label for B1.
+
+A '''companion volume''' was issued in '''2018''', extending and revising the descriptors. It added or substantially developed scales for mediation, plurilingual and pluricultural competence, online interaction and sign languages, and it is the current reference for anyone writing to the framework.
+
+The design decision that makes the whole thing work is that descriptors are '''can-do statements''' — what a learner is able to accomplish — rather than lists of grammar covered. That is what makes a level portable between languages: A2 in Spanish and A2 in Japanese describe the same communicative capability, not the same syllabus.
+
+== Who accepts it ==
+
+There is '''no single global CEFR certifying authority''', and this is the most important practical fact about the framework. The Council of Europe publishes the scale; it does not run examinations and issues no certificates. Everything else is an institution ''mapping itself'' onto the scale.
+
+What that means in practice:
+
+* '''The Council of Europe and the European Union''' use it as the reference standard. The '''Europass''' CV asks you to state language ability in CEFR terms, which is why the scale appears on millions of European résumés.
+* '''National education systems''' build it into curricula and school-leaving qualifications. France and Germany are the most thoroughly integrated.
+* '''Universities''' across Europe and increasingly elsewhere state entry requirements in CEFR terms — typically B2 for undergraduate study in the local language, C1 for postgraduate or for degrees taught in that language.
+* '''Immigration and citizenship regimes''' attach legal consequences to specific levels. Several European states require a demonstrated level for residence permits, family reunification or naturalisation, commonly A1 or A2 for an initial permit and B1 for citizenship. These requirements change with the politics of the day and must be checked against current rules in the specific country.
+* '''Employers''' use it as shorthand, with wildly varying rigour — from a formal requirement backed by a test to a line on a job advertisement nobody verifies.
+
+The limit is real: '''outside Europe, recognition is partial'''. North American institutions more often ask for TOEFL or IELTS scores directly rather than a CEFR band, and major Asian language examinations run their own scales — '''HSK''' for Chinese and '''JLPT''' for Japanese are mapped to CEFR only approximately and unofficially.
+
+== How a level is actually certified ==
+
+An exam board writes an examination, aligns it to the framework, and certifies candidates at a level. The certificate is worth what that board's reputation is worth, which varies enormously.
+
+The boards with genuine standing are '''old, national, or both''':
+
+* '''English''' — Cambridge English Qualifications, each targeting one level, with a documented history going back to 1913. See the level pages below.
+* '''Spanish''' — '''DELE''', issued by the '''Instituto Cervantes''', which has had responsibility for the examinations since 2002; the diplomas are issued on behalf of the Spanish Ministry of Education. Salamanca ran its own certifications until 1991. Originally three levels, now six.
+* '''French''' — '''DELF''' (A1–B2) and '''DALF''' (C1–C2), awarded in the name of the '''French Ministry of Education'''. These are lifetime diplomas with no expiry.
+* '''German''' — the '''Goethe-Zertifikat''' series from the '''Goethe-Institut''', offered at every level from A1 to C2; the C2 is the ''Großes Deutsches Sprachdiplom''.
+* '''Italian''' — '''CILS''' (Università per Stranieri di Siena), '''CELI''' (Università per Stranieri di Perugia) and '''PLIDA''' (Società Dante Alighieri).
+
+A rule of thumb that holds up: '''prefer the certificate issued by, or on behalf of, the country whose language it is.''' A diploma from a national ministry or a state language institute outlives the company that sold you a course.
+
+== The six levels, one page each ==
+
+* '''[[CEFR Level A1]]''' — Breakthrough. The beginning, and not a thing to be embarrassed about.
+* '''[[CEFR Level A2]]''' — Waystage. Routine matters, simple transactions, your own background.
+* '''[[CEFR Level B1]]''' — Threshold. The independence line, and the level most citizenship regimes ask for.
+* '''[[CEFR Level B2]]''' — Vantage. The university and workplace line.
+* '''[[CEFR Level C1]]''' — Effective Operational Proficiency. Flexible, effective, academic and professional.
+* '''[[CEFR Level C2]]''' — Mastery. Precision and shades of meaning. Not "native speaker".
+
 == The three bands and six levels ==
 
 The Council of Europe groups the six levels into three broad bands:

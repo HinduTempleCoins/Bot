@@ -34,7 +34,8 @@ That is also why the articles name institutions that have nothing to do with thi
 
 === Language ===
 * [[Teaching English Abroad TEFL and TESOL]] — what the two certificates are, and what they get you.
-* [[CEFR The Common European Framework of Reference for Languages]] — the A1–C2 scale, and how to state your own level honestly.
+* [[CEFR The Common European Framework of Reference for Languages]] — where the scale came from, who actually accepts it, and the exam boards that certify against it.
+* The six levels, one page each: [[CEFR Level A1|A1]] · [[CEFR Level A2|A2]] · [[CEFR Level B1|B1]] · [[CEFR Level B2|B2]] · [[CEFR Level C1|C1]] · [[CEFR Level C2|C2]] — each with the long-established certificates at that level.
 * [[Language Registers Business Religious and Trade Language]] — business, religious and trade language, and why general courses do not reach them.
 
 === Health, fitness and support work ===

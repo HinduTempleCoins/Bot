@@ -1,0 +1,31 @@
+'''A2''' is the second level of the [[CEFR The Common European Framework of Reference for Languages|Common European Framework]] and the upper '''Basic User''' level. Its informal name is '''Waystage'''.
+
+== What A2 actually means ==
+
+An A2 speaker can understand sentences and frequently used expressions related to areas of most immediate relevance — personal and family information, shopping, local geography, employment. They can '''communicate in simple and routine tasks''' requiring a direct exchange of information on familiar matters, and describe in simple terms their background, immediate environment and matters of immediate need.
+
+The practical shift from [[CEFR Level A1|A1]] is that an A2 speaker can '''give an account of themselves''' — where they are from, what they do, what happened today — rather than only respond to prompts.
+
+== What it is worth in practice ==
+
+* '''Immigration.''' A2 is a common requirement for '''residence permits''' and for permanent-residence applications in several European states, and in some systems it is the level required for long-term settlement short of citizenship.
+* '''Work.''' Genuinely employable in service, hospitality, care, construction and warehouse work where instructions are routine and vocabulary is bounded. This is the level at which a worker stops needing a translator for the ordinary parts of a job — which matters most for '''safety instruction'''.
+* '''Study.''' Still not sufficient for academic study in the language.
+
+== Certificates at A2 with staying power ==
+
+* '''English''' — '''A2 Key''' (originally the Key English Test, '''introduced in 1994'''), from Cambridge. The entry point of the main Cambridge suite, and the oldest continuously run A2-targeted English examination.
+* '''Spanish''' — '''DELE A2''', Instituto Cervantes. Note that '''DELE A2''' is the examination tied to Spanish nationality applications under the relevant procedure, alongside a separate constitutional and sociocultural knowledge test.
+* '''French''' — '''DELF A2''', French Ministry of Education. Lifetime diploma.
+* '''German''' — '''Goethe-Zertifikat A2''', Goethe-Institut, with a ''Fit in Deutsch 2'' variant for younger candidates.
+* '''Italian''' — '''CILS A2''', '''CELI Impatto''' (Università per Stranieri di Perugia), '''PLIDA A2'''.
+
+== How long it takes ==
+
+Commonly cited estimates put '''A1 to A2''' at a further '''100 to 200 guided hours''', with the usual caveats about language distance and study conditions.
+
+== Where to go next ==
+
+[[CEFR Level B1]], which is the line that matters most — the point at which the framework stops calling you a Basic User.
+
+See also: [[CEFR The Common European Framework of Reference for Languages]] · [[CEFR Level A1]] · [[Language Registers Business Religious and Trade Language]]

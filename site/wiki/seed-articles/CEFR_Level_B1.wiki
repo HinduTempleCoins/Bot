@@ -1,0 +1,36 @@
+'''B1''' is the third level of the [[CEFR The Common European Framework of Reference for Languages|Common European Framework]] and the lower '''Independent User''' level. Its informal name is '''Threshold''' — the oldest label in the framework, inherited from the Council of Europe's ''Threshold Level'' specification of the 1970s, which is the document the whole scale grew out of.
+
+== Why B1 is the line that matters ==
+
+B1 is where the framework stops calling you a Basic User. The descriptors say a B1 speaker can:
+
+* understand the main points of clear standard input on familiar matters regularly encountered in work, school and leisure;
+* '''deal with most situations likely to arise while travelling''' in an area where the language is spoken;
+* produce simple connected text on familiar or personally interesting topics;
+* describe experiences and events, dreams, hopes and ambitions, and '''briefly give reasons and explanations''' for opinions and plans.
+
+The operative word is '''independent'''. Below B1 you need the other party to accommodate you. At B1 you can generally cope with ordinary speech at ordinary speed in familiar territory, and you can give reasons — which is the point at which a person can argue, negotiate and explain rather than only report.
+
+== What it is worth in practice ==
+
+* '''Citizenship.''' B1 is the most common level attached to '''naturalisation''' requirements in Europe. Where a country sets a language test for citizenship, B1 is the usual bar.
+* '''Work.''' The level at which a person becomes employable in roles involving customers, colleagues and judgement rather than only routine tasks.
+* '''Study.''' Sufficient for some vocational training and foundation courses; generally '''not''' sufficient for a full degree taught in the language, which usually wants [[CEFR Level B2|B2]].
+
+== Certificates at B1 with staying power ==
+
+* '''English''' — '''B1 Preliminary''' (the Preliminary English Test). Cambridge's own history dates it to '''1980''', with a revised version documented in '''1995'''. One of the longest-running B1-targeted examinations anywhere.
+* '''Spanish''' — '''DELE B1''', Instituto Cervantes, on behalf of the Spanish Ministry of Education.
+* '''French''' — '''DELF B1''', French Ministry of Education. Lifetime diploma, no expiry.
+* '''German''' — '''Goethe-Zertifikat B1''', Goethe-Institut, developed jointly with the Swiss and Austrian partners in the ''telc'' / ÖSD arrangement for this level.
+* '''Italian''' — '''CILS Uno B1''', '''CELI 2''', '''PLIDA B1'''.
+
+== How long it takes ==
+
+Published estimates commonly put total guided hours to B1 at '''350 to 400''' for a closely related language. The gap from A2 to B1 is the one learners most often underestimate, because it is where vocabulary stops being a list and starts being a range.
+
+== Where to go next ==
+
+[[CEFR Level B2]] — the university and professional line, and the level at which most doors stop being conditional.
+
+See also: [[CEFR The Common European Framework of Reference for Languages]] · [[CEFR Level A2]] · [[CEFR Level B2]] · [[Getting Paid to Teach Abroad]]

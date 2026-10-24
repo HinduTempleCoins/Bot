@@ -1,0 +1,39 @@
+'''A1''' is the first level of the [[CEFR The Common European Framework of Reference for Languages|Common European Framework]] and the lower of the two '''Basic User''' levels. Its informal name is '''Breakthrough'''.
+
+== What A1 actually means ==
+
+An A1 speaker can understand and use familiar everyday expressions and very basic phrases aimed at satisfying needs of a concrete type. They can introduce themselves and others, ask and answer questions about personal details — where they live, people they know, things they have — and '''interact in a simple way provided the other person talks slowly and clearly and is prepared to help'''.
+
+That last clause is the whole level. A1 communication is '''cooperative''': it works when the other party is patient, and breaks down when they are not.
+
+== What it is not ==
+
+A1 is not nothing, and treating it as nothing is the most common error learners make about themselves. A person at A1 has crossed from zero to functional in a defined set of situations. They can arrive in a country and not be helpless.
+
+It is also not conversation. A1 is survival and courtesy — greeting, ordering, asking directions, filling in a form with name and nationality and address.
+
+== What it is worth in practice ==
+
+* '''Immigration.''' Several European states require '''A1''' for an initial residence permit or for spousal and family reunification visas. Where that is the rule, an A1 certificate is not a nicety — it is the document that decides whether a family is allowed to live together. This is the single most consequential use of the level, and the requirements change with the politics of the moment.
+* '''Work.''' Rarely sufficient on its own, but genuinely useful in trades and service work where a specific, limited vocabulary covers most of the job. See [[Language Registers Business Religious and Trade Language]].
+* '''Study.''' Not sufficient for any course taught in the language.
+
+== Certificates at A1 with staying power ==
+
+Prefer examinations issued by, or on behalf of, the country whose language it is. Those outlast the companies that sell courses.
+
+* '''Spanish''' — '''DELE A1''', Instituto Cervantes, issued on behalf of the Spanish Ministry of Education. No expiry.
+* '''French''' — '''DELF A1''', awarded in the name of the French Ministry of Education. A lifetime diploma.
+* '''German''' — '''Goethe-Zertifikat A1: Start Deutsch 1''', Goethe-Institut. There is also a ''Fit in Deutsch 1'' version for younger candidates.
+* '''Italian''' — '''CILS A1''' (Università per Stranieri di Siena) and the corresponding '''PLIDA A1''' (Società Dante Alighieri).
+* '''English''' — Cambridge's suite begins its main series at A2, with '''Pre A1 Starters''' existing in the Young Learners range. For adults at A1 the practical route is to prepare for [[CEFR Level A2|A2 Key]] rather than to certify at A1.
+
+== How long it takes ==
+
+Published guided-learning-hours estimates for reaching A1 cluster around '''80 to 100 hours''' for a European language from a European starting point. Treat those figures as indicative only: they assume a related language, regular study and a teacher. A language distant from your own takes substantially longer, and immersion changes the arithmetic entirely.
+
+== Where to go next ==
+
+Straight to [[CEFR Level A2]], which is where the level starts to pay — it is the point at which a person can describe their own background and manage routine transactions without assistance.
+
+See also: [[CEFR The Common European Framework of Reference for Languages]] · [[Teaching English Abroad TEFL and TESOL]] · [[Making Money Certificate Pathways]]
