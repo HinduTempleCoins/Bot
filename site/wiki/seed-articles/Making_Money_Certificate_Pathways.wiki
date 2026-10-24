@@ -1,0 +1,39 @@
+'''Making Money: Certificate Pathways''' is the Library's hub for ''credentials you can actually finish'' — the short, cheap, accredited certificates that open paid work, and the honest account of what each one is and is not worth. It exists because the gap between "I know how to do this" and "someone will pay me to do this" is usually a piece of paper, and that paper is frequently far cheaper and faster to get than people assume.
+
+The companion directory, which lists live programs industry by industry, is at [https://credentials.soapbox.community credentials.soapbox.community].
+
+== The position this hub takes ==
+
+'''Keep the job.''' Nobody should leave paid work on the theory that a cryptocurrency, a side business, or a credential will replace it on a schedule. The reverse is the working order: a job funds the courses, the exam fees, and the equipment, and it funds participation in whatever community or market a person wants to be part of. Income first, then leverage.
+
+'''Never stop at one.''' A single certificate is a door. Two or three that cross fields are a ''position'' — a childcare credential plus a food-handler card plus a first-aid certification is a different proposition to an employer than any one of them alone. The plan for certificate one should include buying the course for certificate two.
+
+'''Know which paper is which.''' Some certificates are issued against a published national standard by an accredited body. Some are issued by a company that wrote its own test. Both can get work; only one survives a procurement officer reading your file. [[Accreditation Bodies IACET ANSI and CHEA|Which body stands behind a credential]] is the single most useful thing to check before paying for it.
+
+== The pathways ==
+
+=== Children and education ===
+* [[The Child Development Associate Credential]] — the national early-childhood credential: 120 hours of training, 480 hours of experience, a portfolio, an observation and an exam.
+* [[Starting a Home Childcare in Texas]] — licensing, the subsidy system, and the low-overhead route through a house you already have.
+* [[Child Development Theory Piaget Vygotsky and Multiple Intelligences]] — the theory the coursework rests on.
+* [[Montessori Froebel and the Invention of Childhood]] — where the modern classroom came from.
+
+=== Language ===
+* [[Teaching English Abroad TEFL and TESOL]] — what the two certificates are, and what they get you.
+* [[CEFR The Common European Framework of Reference for Languages]] — the A1–C2 scale, and how to state your own level honestly.
+
+=== Health, fitness and support work ===
+* [[Personal Training and Coaching Certifications]] — NASM, AFAA, ISSA and the accreditation question.
+* [[Behaviour Technician and Allied Health Entry Credentials]] — RBT, ECA and the routes into licensed practice.
+
+=== Office and administration ===
+* [[Payroll Certifications FPC and CPP]] — the entry certificate and the one that needs experience.
+
+=== Strategy ===
+* [[Stacking Credentials and the Bilateral Career Path]] — how project management, or any second discipline, doubles the value of the first.
+
+== How to use this ==
+
+Read the article for the credential you want. It tells you the issuing body, the real requirements, the approximate cost, the renewal cycle, and — where it exists — the published standard the credential is written against. Then go to [https://credentials.soapbox.community credentials.soapbox.community] for current providers and prices, because those change and this Library does not pretend to track them in real time.
+
+See also: [[SoapBox Credentials]] · [[Autodidacts and Credentials]] · [[The Library of Ashurbanipal]] · [https://credentials.soapbox.community credentials.soapbox.community]

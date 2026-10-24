@@ -1,0 +1,41 @@
+The classroom is a recent invention, and so, on one widely held reading, is childhood itself. This article covers where the modern early-years classroom came from, and the two figures whose methods still structure it.
+
+== The claim that childhood was invented ==
+
+A line of historical scholarship — associated above all with Philippe Ariès — argues that '''childhood as a distinct protected category''' is a development of roughly the last two centuries, and that earlier societies treated children largely as small adults: dressed like adults, working like adults, depicted in art like adults at reduced scale.
+
+The thesis is '''contested'''. Critics point to evidence of distinct treatment of children, and of recognisable grief at child death, long before the modern period. What is less disputed is the narrower institutional claim: mass schooling, child labour law, paediatrics and the purpose-built nursery are modern, and they created the ''institutions'' of childhood whether or not they created the idea.
+
+The philosophical companion to the thesis is Locke's image of the child as a '''blank slate''' — a being with no inherent nature, formed entirely by experience. That picture fed directly into behaviourism and runs against the developmental tradition covered at [[Child Development Theory Piaget Vygotsky and Multiple Intelligences]]. It also displaced an older frame in which a child's path was read as '''destiny''' — through birth, omen, dream interpretation or consultation at a holy site — which is a genuinely different model of what a child is, not merely an unscientific one.
+
+== Friedrich Froebel and the Kindergarten ==
+
+Froebel invented the '''Kindergarten''' — literally the "garden of children" — as a place children could go to learn while their parents worked, instead of running the streets or sitting in the workplace.
+
+His method was '''structured'''. He designed a sequence of objects, the '''Froebel Gifts''' — spheres, cubes, cylinders, tablets, sticks, rings — to be given in a determined order, each isolating a geometric or relational idea. Children handled abstraction before they had words for it.
+
+The influence is traceable well beyond nursery education. A striking number of figures in modern architecture and design — Frank Lloyd Wright being the most cited — described Froebel Gifts as formative, and the modern educational-toy industry descends directly from the idea that an object can be designed to teach.
+
+== Maria Montessori ==
+
+Montessori opened her first school in Rome, for much the same reason Froebel had: children of working parents with nowhere to be. Her method inverted his emphasis.
+
+Her premise is that '''the child contains their own teacher''' — that given a prepared environment and freedom to choose within it, a child will seek out what they are ready to learn. The adult's role is '''observation and preparation''' rather than instruction: watch what the child reaches for, provide the material that meets it, and otherwise do not interrupt.
+
+The contrast is worth stating precisely, because both methods are often described loosely as "child-centred":
+* '''Froebel''' — a designed sequence, delivered in order, through objects built for the purpose.
+* '''Montessori''' — a prepared environment, self-selected by the child, with the adult coaching rather than leading.
+
+Montessori has since extended far past the nursery; Montessori-method provision now runs through elementary and in some places to secondary level, and the broader home-schooling and micro-school movements draw on both traditions.
+
+== Where it is going ==
+
+The current movement in early-years practice is '''outdoors''' — forest schools, outdoor classrooms, and the extension of outdoor learning up through the age range rather than confining it to the youngest. It is a return to something both Froebel and Montessori assumed: that a prepared environment need not be a room.
+
+== Why this is on a credentials page ==
+
+Because a person entering this field will be asked, in interviews and on examinations, which tradition a setting follows and why — and because anyone starting their own provision is choosing between these models whether or not they know the names. See [[Starting a Home Childcare in Texas]] and [[The Child Development Associate Credential]].
+
+Early-childhood and teaching programmes are at [https://credentials.soapbox.community/industry/education-teaching credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[Child Development Theory Piaget Vygotsky and Multiple Intelligences]] · [[Autodidacts and Credentials]]

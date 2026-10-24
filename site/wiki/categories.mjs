@@ -61,12 +61,35 @@ const DOSING_CANDY_PAGES = [
       'Regional Candies of the World',
 ];
 
+
+// The Making Money / certificate-pathways shelf — one hub plus the focused articles, shared by
+// the Work & credentials category and the pillar that already carries Autodidacts and Credentials.
+const CREDENTIAL_PAGES = [
+      'Making Money Certificate Pathways',
+      'The Child Development Associate Credential',
+      'Accreditation Bodies IACET ANSI and CHEA',
+      'Stacking Credentials and the Bilateral Career Path',
+      'Starting a Home Childcare in Texas',
+      'Child Development Theory Piaget Vygotsky and Multiple Intelligences',
+      'Montessori Froebel and the Invention of Childhood',
+      'Teaching English Abroad TEFL and TESOL',
+      'CEFR The Common European Framework of Reference for Languages',
+      'Personal Training and Coaching Certifications',
+      'Payroll Certifications FPC and CPP',
+      'Behaviour Technician and Allied Health Entry Credentials',
+];
+
 export const CATEGORIES = [
   {
     id: 'start', name: 'Start here', blurb: 'What this whole thing is, in the order it makes sense to read it.',
     pages: ['Getting Started On-Ramp',
             'The Convergence',
             'Start Here', 'SoapBox', 'The Surfaces', 'Van Kush Family', 'MELEK', 'Hathor', 'Hathor (AI Witness)', 'Crypt-ology', 'Crypto Glossary', 'Glossaries', 'Autodidacts and Credentials'],
+  },
+  {
+    id: 'work-credentials', name: 'Work & credentials',
+    blurb: 'Short, accredited certificates that open paid work \u2014 what each one is, what it costs, and who stands behind it.',
+    pages: [...CREDENTIAL_PAGES, 'Autodidacts and Credentials', 'SoapBox Credentials'],
   },
   {
     id: 'posting-help', name: 'Posting help', blurb: 'How to write, format, publish and earn from posts on melek.salon.',
@@ -974,6 +997,7 @@ export const PILLARS = [
       'Hathor Studio',
       'Remakes',
       'Autodidacts and Credentials',
+      ...CREDENTIAL_PAGES,
       'The Surfaces',
       'Routes for Backpacking Pilgrimages',
       'Bacteriophages Endolysins and Biological Inhibitors',
