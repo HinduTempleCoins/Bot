@@ -108,6 +108,13 @@ const CREDENTIAL_PAGES = [
       'CEFR The Common European Framework of Reference for Languages',
       'Personal Training and Coaching Certifications',
       'Payroll Certifications FPC and CPP',
+      'Visas for Working Across Borders',
+      'The R-1 Religious Worker Visa',
+      'The O-1 Visa Extraordinary Ability',
+      'Teaching and Exchange Visas J-1 and Coming to Teach in America',
+      'Getting Paid to Teach Abroad',
+      'Language Registers Business Religious and Trade Language',
+      'CLEP Modern States and Testing Into College',
       'Behaviour Technician and Allied Health Entry Credentials',
 ];
 

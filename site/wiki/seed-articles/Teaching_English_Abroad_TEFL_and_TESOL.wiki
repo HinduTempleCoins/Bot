@@ -9,9 +9,64 @@
 
 The "OL" in TESOL stands for '''Other Languages''', not "online". Online teaching is a delivery mode available under any of these certificates; it is not what the acronym refers to.
 
+== The thing nobody tells people: they pay you to come ==
+
+The central fact about this market is that '''other countries actively recruit English speakers and pay to bring them in'''. A standard full-time contract abroad commonly includes '''airfare''', '''housing provided or subsidised''', health insurance, paid holidays and visa sponsorship, on top of salary.
+
+Read that as what it is. For someone who needs somewhere to live — who is trying to move out of a parent's house, leave a situation, or start over somewhere with no deposit and no first month's rent — '''this is a route to a paid job, a flight and a roof, arranged before you arrive.''' It is one of very few legitimate ways to relocate internationally without capital. That is not a side benefit of teaching abroad; for a great many people it is the entire reason to do it.
+
+== The named qualifications, ranked by what they are worth ==
+
+Below the generic "TEFL certificate" sold by hundreds of providers sit a small number of qualifications with names employers recognise on sight.
+
+* '''CELTA''' — the Cambridge ''Certificate in Teaching English to Speakers of Other Languages''. The best-known entry qualification, delivered by approved centres worldwide, with '''assessed teaching practice with real learners''' as a core component. Expensive and intensive.
+* '''Trinity CertTESOL''' — Trinity College London's certificate, '''130 course hours''', the closest equivalent to CELTA. Trinity's own comparison describes the two as similar in content, delivery and assessment while differing in specific components and in moderation, with Trinity weighting '''reflective journal writing, professional development and self-evaluation''' more heavily. Trade-press reporting has noted the CertTESOL as the TESOL certificate appearing on England's Register of Recognised Qualifications.
+* '''DELTA''' and '''Trinity DipTESOL''' — '''diploma''' level, a tier above the certificates, for practising teachers with experience. These move a person into senior teaching, teacher training and academic management.
+* '''Generic online TEFL''' — the large unregulated market. A 120-hour online certificate with no teaching practice opens plenty of doors in plenty of countries. It will not compete with a CELTA for a selective post.
+
+== Online and in person ==
+
+{| class="wikitable"
+! !! Fully online !! In person / blended
+|-
+| '''Cost''' || Low, sometimes under $100 || Substantially higher
+|-
+| '''Teaching practice''' || Usually none, or peer practice only || '''Assessed practice with real learners'''
+|-
+| '''Time''' || Self-paced, weeks to months || Typically four weeks full-time, or part-time over months
+|-
+| '''Employer weight''' || Accepted widely, discounted by selective employers || Accepted everywhere; required by some
+|-
+| '''Best for''' || Starting now, teaching online, lighter-requirement destinations || Career entry, competitive markets, a route to diploma level
+|}
+
+The sequence that works for most people is to '''start online and upgrade later''': take an affordable 120-hour certificate, teach online to accumulate documented hours and references, then take a CELTA or CertTESOL once teaching has proved to be something you actually want. The certificate is cheap; four weeks of your life is not.
+
+== Teaching is not tutoring, and online blurs them ==
+
+Online work opens a second market that is '''not the same job''': '''tutoring'''. A class is delivered to a group against a syllabus; tutoring is one-to-one, shaped around one person's specific gaps, and often paid directly rather than through a school.
+
+The distinction matters because tutoring has '''different economics''' — you can set your own rate, keep the whole fee, and build a roster that follows you between platforms — and '''different demands'''. A tutor needs diagnostic skill more than classroom management: the work is finding out what this person actually cannot do yet, and fixing that. Many people who dislike teaching are good at tutoring, and the reverse.
+
+Online teaching is the usual entry to both, which is why it is worth starting even if the destination is a classroom abroad.
+
+== Your students are not children, and often not beginners ==
+
+The common picture of this work — a room of small children repeating words — describes one segment of it and misleads about the rest.
+
+A great many learners are '''adults''', and '''a great many already speak English''', sometimes well. They are studying to move from competent to precise: to pass an examination, to present at work, to negotiate, to study abroad, to stop being the person in the meeting whose English makes them sound less capable than they are. Teaching a B2 or C1 adult is a different professional activity from teaching beginners, and it is better paid.
+
+That is precisely what the '''[[CEFR The Common European Framework of Reference for Languages|CEFR scale]]''' exists to describe — A1 and A2 for basic users, B1 and B2 for independent users, C1 and C2 for proficient users. Schools advertise classes in exactly these terms, and a teacher who understands the scale knows what a class at each level actually needs. It is also the vocabulary in which you describe your '''own''' languages honestly.
+
+And what those higher-level learners usually want is not more general English. It is a '''register''' — business, legal, medical, religious, technical. See [[Language Registers Business Religious and Trade Language]].
+
 == Do you need to speak another language? ==
 
-'''No.''' The dominant teaching method in this market is monolingual — the classroom is conducted in English, and many employers actively prefer that the teacher does not fall back on the students' language. A great many people teach abroad for years with only tourist competence in the local language.
+'''Usually not, and sometimes yes.''' The dominant method in this market is monolingual — the classroom is conducted in English, and many employers actively prefer that the teacher does not fall back on the students' language. A great many people teach abroad for years with only tourist competence in the local language.
+
+But it varies, and it varies by segment rather than by country. Young-learner and beginner classes in some systems expect the teacher to manage a room in the local language. Some private and corporate contracts want a teacher who can explain a point of grammar in the student's own language. Some immigration regimes attach language conditions of their own. Check the specific employer's expectation rather than the country's reputation.
+
+What is true everywhere is that having studied '''any''' second language makes you a better teacher of a first one, because you have met the grammar from the outside.
 
 That said, having studied ''any'' second language makes you a better teacher of a first one, because you have met the grammar from the outside. Pairing a TEFL with coursework in grammar, composition or technical writing is a real upgrade to the file — and knowing where you sit on the [[CEFR The Common European Framework of Reference for Languages|CEFR scale]] in any language is a concrete thing to put on it.
 

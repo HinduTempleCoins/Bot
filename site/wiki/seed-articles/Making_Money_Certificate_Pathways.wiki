@@ -10,6 +10,20 @@ The companion directory, which lists live programs industry by industry, is at [
 
 '''Know which paper is which.''' Some certificates are issued against a published national standard by an accredited body. Some are issued by a company that wrote its own test. Both can get work; only one survives a procurement officer reading your file. [[Accreditation Bodies IACET ANSI and CHEA|Which body stands behind a credential]] is the single most useful thing to check before paying for it.
 
+== Why a blockchain project is publishing a careers shelf ==
+
+The obvious question, answered directly: this is not a traffic exercise and it is not charity.
+
+The usual pitch from a token project is ''post here and cash out'' — come for the payout, extract it, leave. That model consumes the people it recruits and it consumes the project. It selects for whoever is fastest to sell, it pays them out of everyone else's position, and when the payouts thin the participants go somewhere else and the thing collapses behind them.
+
+The position here is the other one: '''come make money with us, and invest here when you can.'''
+
+The difference is in where the money originates. A person with a job, a credential and an income has something to invest, can afford to be patient, and is not forced to sell. A person with no income but an account balance has to sell, and will. Every healthy market is made of the first kind of participant, and no amount of tokenomics substitutes for them.
+
+So this shelf exists to help people '''earn in the actual world''' — a certificate that gets a job, a visa that gets paid work abroad, an examination that removes a year of tuition. What they do with that income afterwards is their business. Some of them will put part of it here, and those people will be investing surplus rather than rent money, which is the only basis on which anyone should be here at all.
+
+That is also why the articles name institutions that have nothing to do with this project — the Council for Professional Recognition, IACET, the College Board, Modern States, Cambridge, the Council of Europe — and send readers to them. The point is that the reader ends up better off. If that happens, the rest takes care of itself.
+
 == The pathways ==
 
 === Children and education ===
@@ -21,6 +35,7 @@ The companion directory, which lists live programs industry by industry, is at [
 === Language ===
 * [[Teaching English Abroad TEFL and TESOL]] — what the two certificates are, and what they get you.
 * [[CEFR The Common European Framework of Reference for Languages]] — the A1–C2 scale, and how to state your own level honestly.
+* [[Language Registers Business Religious and Trade Language]] — business, religious and trade language, and why general courses do not reach them.
 
 === Health, fitness and support work ===
 * [[Personal Training and Coaching Certifications]] — NASM, AFAA, ISSA and the accreditation question.
@@ -28,6 +43,16 @@ The companion directory, which lists live programs industry by industry, is at [
 
 === Office and administration ===
 * [[Payroll Certifications FPC and CPP]] — the entry certificate and the one that needs experience.
+
+=== Testing into college ===
+* [[CLEP Modern States and Testing Into College]] — free courses, a paid-for exam fee, and credit at more than 2,900 institutions.
+
+=== Working across borders ===
+* [[Visas for Working Across Borders]] — the hub: who can come here, and how an American gets paid abroad.
+* [[Getting Paid to Teach Abroad]] — they pay the airfare and provide the housing.
+* [[The R-1 Religious Worker Visa]] — ministers and religious workers, and the 1892 case the whole exception descends from.
+* [[The O-1 Visa Extraordinary Ability]] — the eight criteria, and why a working record often already meets three.
+* [[Teaching and Exchange Visas J-1 and Coming to Teach in America]] — the inbound route.
 
 === Strategy ===
 * [[Stacking Credentials and the Bilateral Career Path]] — how project management, or any second discipline, doubles the value of the first.

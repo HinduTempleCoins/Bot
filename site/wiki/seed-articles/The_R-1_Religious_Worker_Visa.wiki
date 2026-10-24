@@ -1,0 +1,61 @@
+The '''R-1''' is the United States nonimmigrant classification for '''temporary religious workers'''. It is the visa category that matters most to any congregation, temple, mission or religious institute that wants to bring in clergy, ministers or religious practitioners from abroad — and it is one of the few categories where a small organisation, rather than a corporation, is the sponsor.
+
+''This article is general information about a published classification, not legal advice. Immigration rules change, and the January 2026 rule described below is an example of how quickly. Verify against USCIS before acting.''
+
+== Who it is for ==
+
+R-1 covers a person coming to the United States temporarily to work '''at least part time — an average of at least 20 hours per week''' — as a '''minister''', or in a '''religious vocation or occupation''', for a qualifying religious organisation.
+
+The limiting word is ''religious''. Positions that are '''primarily administrative or fundraising''' in nature do not qualify, however necessary they are to the organisation. A liturgical, pastoral, instructional or ritual function is what the classification is written around.
+
+== Who may petition ==
+
+'''The worker cannot self-petition.''' A United States employer files '''Form I-129''' on the worker's behalf, and that employer must establish that it is either:
+* a '''bona fide non-profit religious organization''' in the United States, or
+* a '''bona fide organization affiliated with a religious denomination''' in the United States.
+
+This is the structural point for anyone building an institution: the ''organisation'' is the gatekeeper. A congregation that is properly constituted can sponsor; an individual, however devout, cannot sponsor himself.
+
+== What the worker must show ==
+
+* '''Membership in the denomination''' for at least the '''two years immediately preceding''' the petition.
+* That the position offered is a religious one within the meaning above.
+* That the work will average at least 20 hours per week.
+
+== Duration ==
+
+* Initial admission or change of status: '''up to 30 months'''.
+* '''One extension''' of up to 30 months.
+* '''Statutory maximum of five years''' (60 months) in the classification.
+
+'''The January 2026 change.''' Historically, a worker who exhausted the five years had to spend a full year outside the United States before becoming eligible for a fresh R-1 period. On '''16 January 2026 USCIS published an interim final rule''', effective on publication, that '''removes that one-year-abroad requirement'''. The practical effect is that the five-year ceiling no longer forces a year of exile to reset. The rule does not assist nationals of countries subject to a full travel ban.
+
+== Compliance, and why it is stricter than it looks ==
+
+R-1 is one of the most heavily verified nonimmigrant categories. USCIS conducts a '''pre-approval compliance review''' of religious-worker petitioners, and that review may include an '''unannounced on-site inspection''' of the premises where the worker will serve. Investigators look for the organisation to be what it says it is: a real congregation, at a real address, with real activity.
+
+For a genuine organisation this is an administrative burden rather than a threat. For anyone considering the category as a convenience it is a serious misjudgement — the fraud history in this classification is exactly why the inspections exist.
+
+== Where the exemption came from: Church of the Holy Trinity v. United States ==
+
+The idea that a religious worker is a different case from an imported labourer is not a modern administrative convenience. It is the holding of a Supreme Court decision from 1892, and the R-1 classification is its descendant.
+
+'''The facts.''' The '''Alien Contract Labor Act of 1885''' made it unlawful to prepay the transportation of, or otherwise assist or encourage the importation of, any alien under contract to perform '''"labor or service of any kind"''' in the United States. The Church of the Holy Trinity in New York contracted with '''E. Walpole Warren''', an English clergyman, to move to New York and enter its service '''as rector and pastor'''. The United States sued the church for the statutory penalty, and the circuit court held the church liable.
+
+'''The holding.''' In ''Church of the Holy Trinity v. United States'', 143 U.S. 457, decided '''29 February 1892''', the Supreme Court '''reversed''', unanimously, in an opinion by '''Justice Brewer'''. The statute's words plainly covered the contract — "labor or service of any kind" is about as broad as language gets. The Court held that Congress had aimed at the importation of manual labourers in gangs, and that a minister was not within the mischief the Act addressed.
+
+'''The sentence it is remembered for''' states the interpretive move directly: ''a thing may be within the letter of the statute and yet not within the statute, because not within its spirit nor within the intention of its makers.'' That passage has been quoted in more than a hundred later decisions and is the standing citation for purposive statutory interpretation in American law.
+
+'''The criticism, which belongs here too.''' ''Holy Trinity'' is also the standard example used ''against'' purposivism. Textualists — Justice Scalia the most prominent among them — have treated it as the paradigm case of a court setting aside the enacted words in favour of what judges supposed the legislature must have meant. The opinion contains, in addition, an extended passage describing the United States as a Christian nation, which is cited approvingly and disapprovingly to this day and which no modern court would write.
+
+'''Why it matters to this article.''' Congress did not leave the question to the courts for long: the contract-labour statute was amended to '''expressly except ministers''', along with other professional categories, from its prohibition. Every subsequent religious-worker provision — including the R and special-immigrant classifications described above — descends from that statutory exception rather than from the judicial reasoning that prompted it. The practical lesson for an organisation using R-1 today is the one the 1892 Court drew and Congress then wrote down: '''the law treats ministry as something other than labour''', and the classification is built around proving that the work is genuinely of that character. Which is also why the "primarily administrative or fundraising" exclusion above exists, and why the site inspections do.
+
+== The permanent counterpart ==
+
+The immigrant (permanent residence) counterpart is the '''special immigrant religious worker''' classification, commonly reached through '''Form I-360'''. It distinguishes '''ministers''' from '''non-minister religious workers''' in religious vocations and occupations, and the non-minister category has historically been subject to '''congressional sunset and renewal''' — meaning its availability has lapsed and been restored more than once. Anyone planning around it should check its current statutory status rather than assume it is open.
+
+== Why this is in this Library ==
+
+Because the [[Van Kush Family|institutions documented here]] include a constituted religious organisation, and because the question "can we bring someone in, and can someone come to us" has a specific statutory answer rather than a vague one. The same classification that lets an American congregation bring in a teacher from abroad lets a practitioner abroad come here lawfully and be paid.
+
+See also: [[The O-1 Visa Extraordinary Ability]] · [[Visas for Working Across Borders]] · [[Making Money Certificate Pathways]]
