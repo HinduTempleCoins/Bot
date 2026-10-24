@@ -1,0 +1,58 @@
+The '''O-1''' is the United States nonimmigrant classification for a person of '''extraordinary ability or achievement'''. It is the category that fits people whose record is unusual rather than whose job title is unusual — researchers, artists, founders, athletes, performers — and it has no annual cap, which separates it sharply from the lottery-constrained H-1B.
+
+''General information about a published classification, not legal advice. Verify against USCIS and 8 CFR 214.2(o) before acting.''
+
+== The two tracks ==
+
+* '''O-1A''' — extraordinary ability in the '''sciences, education, business or athletics'''. The standard is sustained national or international acclaim.
+* '''O-1B''' — extraordinary ability in the '''arts''', or extraordinary achievement in the '''motion picture or television industry'''. The arts standard is distinction: a degree of skill and recognition '''substantially above that ordinarily encountered'''.
+
+Two supporting classifications travel with it: '''O-2''' for essential support personnel accompanying an O-1, and '''O-3''' for spouses and children.
+
+== How eligibility is actually assessed ==
+
+The analysis runs in '''two steps''', and conflating them is the most common way a petition is misjudged.
+
+'''Step one — the criteria.''' For O-1A the regulations list '''eight criteria''' at 8 CFR 214.2(o)(3)(iii), of which the petition must satisfy at least '''three''' (absent a single qualifying major international award). They include:
+* receipt of nationally or internationally recognised prizes or awards for excellence;
+* membership in associations requiring outstanding achievement, judged by recognised experts;
+* published material about the person in professional or major trade publications or major media;
+* participation as a '''judge of the work of others''' in the field;
+* original scientific, scholarly or business-related contributions of major significance;
+* authorship of scholarly articles in the field;
+* employment in a critical or essential capacity for organisations with a distinguished reputation;
+* command of a high salary or other remuneration.
+
+For '''O-1B''' the arts track uses a shorter list — six criteria — with three generally required.
+
+'''Step two — the final merits determination.''' Meeting three criteria does not end the matter. USCIS then weighs the evidence as a whole to decide whether the record genuinely demonstrates the required acclaim or distinction. A petition can tick three boxes and still fail here, and understanding that is the difference between assembling evidence and assembling a case.
+
+== The consultation requirement ==
+
+An O-1 petition ordinarily requires a '''written advisory opinion''' — a consultation — from a '''peer group''', a '''labor organization''', or a '''management organization''' in the field, under 8 CFR 214.2(o)(5). It is a letter stating, in substance, that the person and the work are what the petition claims.
+
+Two refinements worth knowing:
+* '''If no appropriate peer group exists''', USCIS decides without one. A novel or interdisciplinary field does not become ineligible for lack of a body to ask.
+* A '''new consultation is not required''' where the beneficiary re-enters in O-1 within two years of a previous peer-group consultation.
+
+== Duration ==
+
+The initial period is granted for the time necessary for the event or activity, '''up to three years''', with extensions available in increments of up to one year to continue or complete the same event or activity. This is the one figure in this article drawn from the regulation rather than from a source verified in the drafting of it; confirm it at 8 CFR 214.2(o)(6) and the USCIS Policy Manual.
+
+== Who petitions ==
+
+Like R-1, '''O-1 is not self-petitioned'''. A United States employer or an '''agent''' files on the beneficiary's behalf. The agent route matters for people with multiple short engagements — performers, consultants, contract researchers — because it allows one petition to cover an itinerary of work for several entities rather than requiring a single employer.
+
+== How it differs from the permanent categories ==
+
+O-1 is temporary status, not residence. The permanent analogues are:
+* '''EB-1A''' — extraordinary ability, which '''may be self-petitioned''' and requires no employer and no job offer.
+* '''EB-2 National Interest Waiver''' — which also may be self-petitioned, on the argument that the person's work is in the national interest.
+
+The evidentiary record built for an O-1 is substantially the record those categories want, which is why the sequence O-1 then EB-1A is a common path rather than a coincidence.
+
+== Why it is in this Library ==
+
+Because the people documented around these projects — researchers, authors, builders, practitioners with a publication record — are describing exactly the evidence these criteria ask for, and most of them do not know the criteria exist. Judging others' work, authored articles, published coverage and a critical role in a distinguished organisation are not exotic achievements. They are ordinary artefacts of a serious working life, and this classification is the one that counts them.
+
+See also: [[The R-1 Religious Worker Visa]] · [[Visas for Working Across Borders]] · [[Autodidacts and Credentials]] · [[Making Money Certificate Pathways]]

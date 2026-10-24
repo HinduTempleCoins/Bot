@@ -1,0 +1,45 @@
+'''CLEP''' is the mechanism by which a person can earn college credit by '''passing an examination''' instead of sitting a course — and through '''Modern States''', do it for free. For anyone who already knows a subject, or is willing to learn it on their own, it is the single largest cost reduction available in American higher education, and it is dramatically underused.
+
+== CLEP ==
+
+The '''College Level Examination Program''' is administered by the '''College Board'''. Each exam covers the material of an introductory college course; passing it earns credit at institutions that accept it.
+
+* Scores are accepted for credit at '''more than 2,900 colleges and universities'''.
+* '''Each institution sets its own policy''' — which exams it accepts, what score it requires, how many credits it awards, and how many CLEP credits may count toward a degree. That policy is the thing to read before studying for anything.
+* The exams are taken at test centres, with a '''test fee plus a scheduling fee''' payable to the centre.
+
+The institutional-policy point cannot be overstated. CLEP credit is worth exactly what your target institution says it is worth, and that varies from "a full year of general education" to "we accept three exams." Ask the registrar, in writing, before you begin.
+
+== Modern States ==
+
+'''Modern States''' is a charitable organisation that runs a programme called '''Freshman Year for Free'''. It offers '''tuition-free online courses taught by college professors''', each built to prepare a student for a specific CLEP examination, and it '''pays the examination fee''' through a voucher issued once the coursework and practice questions are complete.
+
+* Roughly '''33 freshman-level courses''' are offered in current materials, covering the common first-year subjects.
+* The programme's name refers to its design target: a student who passes around '''eight exams''' has earned roughly a freshman year of credit.
+* Voucher issuance and fee coverage have changed since launch, and published fee figures differ between sources. Treat the current Modern States site as authoritative on both.
+
+The combination is the point. Modern States removes the tuition; the voucher removes the exam fee; the credit is awarded by the institution. For a self-directed learner this is a complete, costless path to the first year of a degree.
+
+== Saylor Academy ==
+
+'''Saylor Academy''' is a non-profit offering '''free, self-paced online courses''' with proctored final examinations. Several of its courses carry '''credit recommendations''' and it maintains '''partner arrangements''' with institutions that accept them. The mechanism differs from CLEP — the credit flows through the course and its examination rather than through a College Board test — but the effect for the learner is the same: assessed learning, recognised for credit, at no tuition cost.
+
+As with CLEP, '''the receiving institution decides'''. Confirm acceptance with the specific college before building a plan on it.
+
+== DSST and the other exam routes ==
+
+'''DSST''' is a second examination series, originally developed for the military and now open generally, covering subjects CLEP does not. Some institutions accept DSST where they accept CLEP, some accept one and not the other, and some accept departmental challenge examinations of their own. Any serious plan to test into a degree should check all three against the target institution rather than assuming CLEP is the only option.
+
+== How this fits the rest of the shelf ==
+
+Examination credit is the '''academic''' counterpart of what this shelf does for '''vocational''' credentials. The logic is identical: you likely already know more than your paperwork says, and the cost of proving it is far lower than the cost of being taught it again.
+
+The practical sequence for someone with no degree and no money:
+# '''Test out of the first year''' through Modern States and CLEP, at no cost.
+# Take a '''short vocational credential''' that pays — see [[Making Money Certificate Pathways]].
+# Work on that credential while continuing to test, so the degree accrues without debt and without leaving employment.
+# '''Stack''' — see [[Stacking Credentials and the Bilateral Career Path]].
+
+The free paths are listed first, deliberately, at [https://credentials.soapbox.community credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[Autodidacts and Credentials]] · [[Accreditation Bodies IACET ANSI and CHEA]] · [[SoapBox Credentials]]
