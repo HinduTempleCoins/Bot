@@ -107,7 +107,11 @@ def i2v(img, out, prompt="make this image come alive, natural motion, cinematic"
     tried = []
     for space, ep, kind in SPACES:
         try:
-            c = Client(space, hf_token=tok, verbose=False) if tok else Client(space, verbose=False)
+            # gradio_client renamed this argument: 2.x takes `token`, not `hf_token`.
+            # With the old name every Space raised TypeError the moment a token was set,
+            # which the caller reported as "quota / space down" — so a token has never
+            # actually worked and every run was capped at the anonymous ZeroGPU allowance.
+            c = Client(space, token=tok, verbose=False) if tok else Client(space, verbose=False)
             if kind == "wan22":
                 r = c.predict(input_image=handle_file(img), prompt=prompt, negative_prompt=NEG, duration_seconds=secs, api_name=ep)
             elif kind == "wan21":
