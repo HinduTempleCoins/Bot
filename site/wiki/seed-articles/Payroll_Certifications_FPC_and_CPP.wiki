@@ -1,0 +1,28 @@
+Payroll is one of the few office functions with a '''clean, published, two-stage credential ladder''' and persistent demand. The certifications are administered by '''PayrollOrg''', the professional body formerly known as the American Payroll Association.
+
+== The two certifications ==
+
+* '''FPC — Fundamental Payroll Certification.''' The entry credential. It is open to anyone; '''no payroll experience is required''', which is precisely what makes it useful. It is designed for people entering the field, for staff in adjacent roles — accounting clerks, human-resources assistants, benefits administrators — and for sales and systems people who support payroll products.
+* '''CPP — Certified Payroll Professional.''' The senior credential, and the one that moves salary. Eligibility is '''restricted''': the issuing body publishes several qualifying routes, built around a minimum period of practice in the field and/or completion of its own course track. Candidates should read the current criteria from PayrollOrg directly, because the routes are revised periodically.
+
+Both require '''recertification''' through continuing education, which is where [[Accreditation Bodies IACET ANSI and CHEA|CEUs]] become relevant.
+
+== Why this is a good target ==
+
+The work is procedural, learnable, and judged on accuracy rather than charisma. It is steady — every organisation with employees runs payroll every cycle regardless of economic conditions — and it is portable across industries, because the rules are set by tax and labour law rather than by the employer's sector.
+
+It is also '''compatible with other work'''. The skills — scheduled data entry, reconciliation, deadline discipline, confidentiality — transfer directly from teaching (grading and records), from bookkeeping, and from any administrative role. A teacher adding an FPC has a genuine second track available during summers or as a career change, without starting from zero.
+
+== The two-stage plan ==
+
+The sequence that works is to '''take the FPC to get in the door''', work the required period, and '''take the CPP once eligible'''. The FPC is affordable and self-study is viable; the CPP is the one that justifies a real study investment because it changes what employers will pay.
+
+== What to pair it with ==
+
+* '''Spreadsheet and payroll-system proficiency''' — the practical skill employers test for, often more closely than the certificate.
+* '''Bookkeeping coursework''' — widens the role to small-business accounting, where one person frequently does both.
+* '''Human-resources certification''' — payroll and HR sit adjacent, and the pairing supports an operations role in a small organisation.
+
+Related certificate paths are listed at [https://credentials.soapbox.community/industry/business-finance credentials.soapbox.community] and [https://credentials.soapbox.community/industry/human-resources credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[Stacking Credentials and the Bilateral Career Path]] · [[Accreditation Bodies IACET ANSI and CHEA]]

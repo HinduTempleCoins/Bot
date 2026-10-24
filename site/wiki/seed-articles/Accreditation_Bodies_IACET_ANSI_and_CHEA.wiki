@@ -1,0 +1,38 @@
+'''Accreditation''' is the mechanism by which a credential means something to a person who has never heard of the organisation that issued it. This article explains the three bodies that matter most when assessing a certificate in the United States — '''IACET''', '''ANSI''' and '''CHEA''' — and how to check a provider before paying it.
+
+== The problem accreditation solves ==
+
+Anyone may print a certificate. The question an employer, a licensing board or a government procurement officer is really asking is: ''was this issued against a published standard, by an organisation that submits to outside audit?'' Accreditation is the answer, and it is why the same forty hours of instruction can be worth a job in one case and nothing in another.
+
+== IACET ==
+
+The '''International Accreditors for Continuing Education and Training''' grew out of a United States Department of Education task force and is today an '''ANSI-accredited standards developer'''. It publishes the standard that governs continuing education and training — currently '''ANSI/IACET 2018-1''', succeeding the 2013-1 edition.
+
+IACET also defines the unit the whole field counts in. One '''CEU''' is ''ten contact hours of participation in an organised continuing education experience, under responsible sponsorship, capable direction and qualified instruction.'' When a course advertises "2.4 CEUs," that is twenty-four contact hours measured against this definition.
+
+An organisation that has demonstrated conformity with the standard becomes an '''Accredited Provider''' and may issue IACET CEUs. The register of accredited providers is public, and reading it is the fastest way to judge an unfamiliar training company: if a provider claims IACET accreditation, it is either on that list or it is not.
+
+Individuals may also affiliate with IACET directly, and an organisation that trains people in a field with no existing accreditation can apply to become an accredited provider itself. That route is open — it is how a trade, a discipline, or for that matter a religious or technical community, builds a credential others will honour.
+
+== ANSI and ANAB ==
+
+The '''American National Standards Institute''' does not write most standards; it accredits the bodies that do, and it coordinates the United States' position in international standards work. Its affiliate the '''ANSI National Accreditation Board''' accredits '''personnel certification''' schemes — that is, certifications of ''people'' rather than of ''training programmes'' — against international standards.
+
+The practical consequence: IACET accreditation speaks to the quality of the ''instruction''; personnel-certification accreditation speaks to the rigour of the ''examination''. They answer different questions and a serious credential often carries one or the other, occasionally both.
+
+ANSI's public directory of accredited certification programmes is searchable, and it is the right place to settle an argument about whether a certification is accredited.
+
+== CHEA ==
+
+The '''Council for Higher Education Accreditation''' is the body to consult for ''academic'' awards rather than certificates. It maintains directories of recognised United States accreditors and of international quality-assurance agencies. If the question is whether a college's degree will be accepted elsewhere, the answer runs through CHEA's lists and through the Department of Education's own database — not through the college's prospectus.
+
+== How to check a credential in four minutes ==
+
+# Identify the '''issuing body''', not the reseller. Who signs the certificate?
+# Search that body in the '''IACET accredited-provider register''', the '''ANSI''' directory, or '''CHEA''' for an academic award.
+# If it appears in none of them, ask what standard the credential is written against. A straight answer naming a published standard is a good sign; "we are industry recognised" is not an answer.
+# Decide whether it matters. For some work it genuinely does not — the employer wants demonstrated skill. For anything touching government contracting, licensure or regulated care, it decides the question.
+
+Live programmes, sorted by industry and by whether they are accredited, are at [https://credentials.soapbox.community credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[The Child Development Associate Credential]] · [[Autodidacts and Credentials]] · [[SoapBox Credentials]]

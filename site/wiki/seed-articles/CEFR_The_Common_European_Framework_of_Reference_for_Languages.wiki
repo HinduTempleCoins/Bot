@@ -1,0 +1,43 @@
+The '''Common European Framework of Reference for Languages''' ('''CEFR''') is the six-level scale — A1 to C2 — used across Europe and increasingly worldwide to describe what a person can actually ''do'' in a language. It was drawn up under the auspices of the '''Council of Europe''' and published in 2001, with a companion volume issued in 2018 that extended and revised the descriptors.
+
+Its value is that it replaces unmeasurable self-report — "conversational", "fluent", "a bit rusty" — with a shared scale anyone in the field recognises.
+
+== The three bands and six levels ==
+
+The Council of Europe groups the six levels into three broad bands:
+
+{| class="wikitable"
+! Band !! Level !! What it describes
+|-
+| rowspan="2" | '''Basic User''' || '''A1''' || Can handle very simple, concrete exchanges: introductions, basic needs, familiar everyday expressions, with a patient interlocutor.
+|-
+| '''A2''' || Can describe routine matters — their background, immediate environment, what they did today — and manage simple transactions at work and in shops.
+|-
+| rowspan="2" | '''Independent User''' || '''B1''' || Can deal with most situations likely to arise while travelling, produce connected text on familiar topics, and describe experiences, hopes and reasons.
+|-
+| '''B2''' || Can interact with fluency and spontaneity enough for regular interaction with native speakers without strain on either side, and argue a viewpoint on a topical issue.
+|-
+| rowspan="2" | '''Proficient User''' || '''C1''' || Can use language flexibly and effectively for social, academic and professional purposes, and produce clear, well-structured text on complex subjects.
+|-
+| '''C2''' || Can understand with ease virtually everything heard or read, and express themselves precisely and spontaneously, differentiating finer shades of meaning.
+|}
+
+The framework is deliberately built as a flexible tree: institutions subdivide where they need to, so A1.1 and A1.2, or B2+, are common and legitimate local refinements.
+
+The informal names often attached to the levels — ''Breakthrough'', ''Waystage'', ''Threshold'', ''Vantage'', ''Effective Operational Proficiency'' and ''Mastery'' — circulate widely on commercial language sites. They are conventional rather than official; the Council of Europe's own published descriptions use the band names above.
+
+== What the scale is for, and what it is not ==
+
+The descriptors are written as '''can-do statements''' — what a learner is able to accomplish, not what grammar they have covered. That is the design decision that makes the scale portable between languages: A2 in Spanish and A2 in Japanese describe the same communicative capability, not the same syllabus.
+
+There is '''no single global CEFR certifying authority'''. Exam boards — Cambridge, Goethe-Institut, DELE, DELF/DALF, and many national systems — map their own examinations onto the scale and certify against it. France and Germany use it in their school systems. This means a CEFR level on a résumé is only as good as the examination behind it, and it also means you do not need anyone's permission to state your level honestly if you are not claiming a certificate.
+
+== Using it honestly ==
+
+Stating "B1 Spanish" on an application is more informative and more credible than "conversational Spanish", and it is checkable in thirty seconds by anyone who cares. The lower levels are nothing to be embarrassed about — A1 is, correctly described, the level of someone who has read some of a book and can produce a few phrases, and almost every competent speaker of a second language passed through it.
+
+For teaching work, the scale matters twice: once for your own languages, and once because schools describe their classes and their students in exactly these terms. See [[Teaching English Abroad TEFL and TESOL]].
+
+Language programmes and tests are listed at [https://credentials.soapbox.community/industry/languages credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[Teaching English Abroad TEFL and TESOL]]

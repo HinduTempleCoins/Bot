@@ -1,0 +1,47 @@
+Texas operates one of the largest '''publicly subsidised child-care systems''' in the United States, and it is actively placing children with providers. That makes home-based child care one of the few businesses a household can start from assets it already owns. This article covers the regulatory route and the low-overhead model.
+
+== Why the demand exists ==
+
+Child-care subsidy in Texas is administered through the '''Texas Workforce Commission''' and its local workforce boards, which pay providers on behalf of eligible families. Licensing and regulation sit with '''Texas Health and Human Services''' under its Child Care Regulation division. The practical consequence for a provider is that a meaningful share of the market is publicly funded and routed through a referral system, rather than depending entirely on walk-in private custom.
+
+Because the subsidy flows to families and follows the child, a provider's problem is rarely demand. It is capacity, compliance and overhead.
+
+== The regulatory route ==
+
+Texas distinguishes between categories of home and centre care, with different ratios, training requirements and inspection regimes. The general shape of the process:
+
+# Decide the '''category''' — care in your own home for a small number of children, a registered or licensed home with higher capacity, or a centre-based operation.
+# Complete the '''required pre-licensing training''' — Texas requires a set number of hours of orientation and operator training before an application proceeds.
+# '''Background checks''' for the operator and every adult in the household or on staff.
+# '''Inspection''' of the premises against health and safety standards.
+# Ongoing '''annual training hours''', record-keeping and unannounced inspection.
+
+Requirements and thresholds change. The governing text is HHS Child Care Regulation's own published minimum standards, and that is what to read rather than any summary — including this one.
+
+== The low-overhead model ==
+
+The usual failure is renting retail space. A storefront needs occupancy, build-out, insurance, utilities and staff before a single child arrives, and the enrolment required to carry that is far above what a new provider can fill.
+
+The alternative is to start from what a household already has. A family with a yard, a play structure and two generations' worth of toys in the garage has most of the physical plant already. Adding one or two children to a household that is already running is a marginal cost, not a capital project. From there, capacity grows out of demonstrated results rather than out of debt.
+
+Three things make this work:
+* '''Location against employment.''' Proximity to a large employer, or to the neighbourhoods its staff live in, is worth more than frontage. A parent who can drop a child next to their workplace, or two streets from home, has a reason to choose you that no amount of advertising substitutes for.
+* '''The waiting list is the opening.''' Where a nearby centre has a waiting list, the families on it are already looking and have already been told no.
+* '''Employer-side conversations.''' Companies with many employees of child-rearing age have a retention problem that child care solves, and some will support or sponsor provision.
+
+== Credentials that support it ==
+
+* The '''state director's or operator's certificate''' — the credential that permits you to run or administer a facility rather than only work in one.
+* '''[[The Child Development Associate Credential|The CDA]]''' — the national early-childhood credential, and the one that lets you supervise and sign off others' training.
+* '''Food handling, paediatric first aid and CPR''' — required or effectively required, and cheap.
+* '''Nutrition coursework''' — supports participation in food programmes and is a genuine differentiator with parents.
+
+A credential holder can also '''administer another person's operation''', which is how one qualified person supports several households entering the field.
+
+== Beyond the business ==
+
+The aim worth holding is not only to enrol children but to make the families succeed — a parent who can take a job because child care exists, or start a business because child care exists, is a durable customer and a stronger community than a waiting list is. Churches, community centres and employers all have rooms that sit empty most of the week, and many will host provision if asked.
+
+Programmes, licensing paths and subsidy routes are listed at [https://credentials.soapbox.community/industry/childcare credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[The Child Development Associate Credential]] · [[Child Development Theory Piaget Vygotsky and Multiple Intelligences]]

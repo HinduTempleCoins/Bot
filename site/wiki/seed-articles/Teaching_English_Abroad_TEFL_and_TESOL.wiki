@@ -1,0 +1,38 @@
+'''TEFL''' and '''TESOL''' are the two certificates that open paid English-teaching work, abroad and online. They are among the cheapest credentials with a genuine international labour market behind them, and the most common misconceptions about them are worth clearing up first.
+
+== What the letters mean ==
+
+* '''TEFL''' — ''Teaching English as a Foreign Language.'' Teaching English in a country where English is not the community language: a school in Vietnam, Spain or Korea.
+* '''TESOL''' — ''Teaching English to Speakers of Other Languages.'' The broader term, covering both the above and teaching English to non-native speakers ''within'' an English-speaking country.
+* '''TESL''' — ''Teaching English as a Second Language.'' Largely subsumed by TESOL in current usage.
+* '''CELTA''' — the Cambridge-administered certificate, the most rigorous and most expensive of the common options, and the one most reliably accepted by selective employers.
+
+The "OL" in TESOL stands for '''Other Languages''', not "online". Online teaching is a delivery mode available under any of these certificates; it is not what the acronym refers to.
+
+== Do you need to speak another language? ==
+
+'''No.''' The dominant teaching method in this market is monolingual — the classroom is conducted in English, and many employers actively prefer that the teacher does not fall back on the students' language. A great many people teach abroad for years with only tourist competence in the local language.
+
+That said, having studied ''any'' second language makes you a better teacher of a first one, because you have met the grammar from the outside. Pairing a TEFL with coursework in grammar, composition or technical writing is a real upgrade to the file — and knowing where you sit on the [[CEFR The Common European Framework of Reference for Languages|CEFR scale]] in any language is a concrete thing to put on it.
+
+== What the work looks like ==
+
+Typical overseas packages for a certificated native speaker include some combination of salary, provided or subsidised housing, airfare reimbursement on contract completion, paid holidays and visa sponsorship. Hiring standards vary enormously by country and by employer: some require a bachelor's degree in any subject because immigration rules demand it, some require only the certificate.
+
+Online teaching has a lower barrier and lower pay, works from anywhere, and suits someone building hours and references before going abroad.
+
+== Choosing a course ==
+
+The market is unregulated and prices range from under a hundred dollars to several thousand. Three things separate a certificate that gets interviews from one that does not:
+
+* '''Hours.''' 120 hours is the market's informal floor. Shorter courses are widely discounted by employers.
+* '''Observed teaching practice.''' A course including real teaching practice with real learners is materially stronger than one that is entirely self-paced coursework. CELTA includes it; most cheap online TEFLs do not.
+* '''External accreditation.''' Ask which body accredits the course and verify it independently rather than trusting a badge on the sales page. See [[Accreditation Bodies IACET ANSI and CHEA]].
+
+== What to pair it with ==
+
+A TEFL stacks unusually well. With a [[The Child Development Associate Credential|childcare credential]] it qualifies you for young-learner programmes, which are a large share of the market. With [[Personal Training and Coaching Certifications|coaching certification]] it supports tutoring and private instruction. With first aid and a background check it makes you employable in summer camps and international schools.
+
+Current providers are listed at [https://credentials.soapbox.community/industry/teaching-english credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[CEFR The Common European Framework of Reference for Languages]] · [[Stacking Credentials and the Bilateral Career Path]]
