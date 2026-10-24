@@ -1,0 +1,35 @@
+'''B2''' is the fourth level of the [[CEFR The Common European Framework of Reference for Languages|Common European Framework]] and the upper '''Independent User''' level. Its informal name is '''Vantage'''.
+
+For most practical purposes B2 is '''the destination''' — the level at which a language stops being a project and becomes a tool.
+
+== What B2 actually means ==
+
+A B2 speaker can understand the main ideas of complex text on both concrete and abstract topics, including technical discussion in their own field of specialisation. They can '''interact with a degree of fluency and spontaneity that makes regular interaction with native speakers quite possible without strain for either party''', and can produce clear, detailed text on a wide range of subjects and '''explain a viewpoint on a topical issue''', giving the advantages and disadvantages of various options.
+
+The phrase worth reading twice is ''without strain for either party''. Below B2 the native speaker is doing work. At B2 they are not.
+
+== What it is worth in practice ==
+
+* '''University.''' B2 is the standard entry requirement for '''undergraduate study''' in the language, across European institutions and many others.
+* '''Work.''' The level at which a person can hold a professional role conducted in the language — meetings, reports, clients, disagreement.
+* '''Teaching.''' The realistic floor for an '''adult learner you will be teaching''' to be working at. See the note on learner level in [[Teaching English Abroad TEFL and TESOL]]: much of the paid teaching market is B2 learners pushing toward [[CEFR Level C1|C1]], not beginners.
+
+== Certificates at B2 with staying power ==
+
+* '''English''' — '''B2 First''' (the First Certificate in English), '''first introduced in 1939''' as the Lower Certificate in English. It is the most widely taken examination in the Cambridge suite and one of the oldest continuously administered language examinations in the world. If a single certificate deserves the phrase ''staying power'', this is it.
+* '''Spanish''' — '''DELE B2''', Instituto Cervantes.
+* '''French''' — '''DELF B2''', French Ministry of Education. The highest of the DELF diplomas; above this the series becomes DALF.
+* '''German''' — '''Goethe-Zertifikat B2''', Goethe-Institut. '''TestDaF''' also operates in this region and is the usual route for university admission in Germany.
+* '''Italian''' — '''CILS Due B2''', '''CELI 3''', '''PLIDA B2'''.
+
+Note also '''IELTS''' and '''TOEFL''' for English, which report band scores rather than CEFR levels; institutions publish their own equivalence tables, and those tables differ. Where an institution asks for a specific score, meet that score rather than reasoning from a CEFR mapping.
+
+== How long it takes ==
+
+Estimates commonly cited run to '''500 to 600 guided hours''' for a closely related language. B1 to B2 is a long stretch in which progress is less visible than earlier, because the gains are in range and precision rather than in new capability.
+
+== Where to go next ==
+
+[[CEFR Level C1]], which is where academic and senior professional work lives.
+
+See also: [[CEFR The Common European Framework of Reference for Languages]] · [[CEFR Level B1]] · [[CEFR Level C1]] · [[Language Registers Business Religious and Trade Language]]

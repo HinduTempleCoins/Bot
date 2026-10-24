@@ -115,6 +115,12 @@ const CREDENTIAL_PAGES = [
       'Getting Paid to Teach Abroad',
       'Language Registers Business Religious and Trade Language',
       'CLEP Modern States and Testing Into College',
+      'CEFR Level A1',
+      'CEFR Level A2',
+      'CEFR Level B1',
+      'CEFR Level B2',
+      'CEFR Level C1',
+      'CEFR Level C2',
       'Behaviour Technician and Allied Health Entry Credentials',
 ];
 
