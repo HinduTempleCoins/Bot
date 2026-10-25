@@ -105,7 +105,8 @@ a{color:var(--gold)}
       <li><b>Forever-lock your WMELEK</b> with the builder below (action <i>Forever-lock</i>). This is permanent: the WMELEK never comes back.
         You get the same amount of <b>APIS-Hash</b>, your mining power.
         <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine#step-2-forever-lock-it" target="_blank" rel="noopener" title="Help: forever-lock">?</a></li>
-      <li><b>APIS mines for you.</b> 1,000 APIS a day is shared among everyone's APIS-Hash. Check yours under <i>Mining</i> below.
+      <li><b>APIS mines for you.</b> 1,000 APIS a day is shared among everyone's APIS-Hash, pro rata &mdash; so your
+        share falls as other people lock. The daily rate also <b>decays 10% a year</b>. Check yours under <i>Mining</i> below.
         <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine#step-3-let-it-mine" target="_blank" rel="noopener" title="Help: mining">?</a></li>
       <li><b>Claim it</b> with the builder below (action <i>Claim mined APIS</i>). Claimed APIS lands in your engine wallet.
         <a class="q" href="https://wiki.soapbox.community/wiki/Getting_APIS_on_MELEK-Engine#step-4-claim-it" target="_blank" rel="noopener" title="Help: claiming">?</a></li>
