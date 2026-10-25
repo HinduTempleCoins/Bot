@@ -1,0 +1,91 @@
+Every page in this library that tells you to '''build a certified chain, one generation at a time''' raises the same practical question: where are the records? For most of the world, for most of the last two centuries, the answer is a '''granite tunnel in Utah''' — and the reason it exists is theological.
+
+The Church of Jesus Christ of Latter-day Saints runs, through '''FamilySearch''' and its predecessor the '''Genealogical Society of Utah''' (founded '''1894'''), the largest genealogical record-gathering operation in human history. It is free, it is open to anybody of any religion or none, and it is the single most useful resource for a [[Citizenship by Descent|citizenship-by-descent]] claim that exists.
+
+''General information about a public archive and the doctrine behind it, described in its own terms. Not legal advice, and not a statement of religious belief by this library.''
+
+== Why the Church gathers records ==
+
+This is not a hobby that grew large. It is '''ordinance work''', and understanding that explains the scale, the geography and the completeness of the collection.
+
+Latter-day Saint doctrine holds that saving ordinances — baptism, and the '''sealing''' of spouses and of children to parents — are necessary, and that the dead who did not receive them in life may receive them '''by proxy''', performed by a living person in a temple. The scriptural hook is '''1 Corinthians 15:29''' ("else what shall they do which are baptized for the dead"), and the governing idea is that a family is to be '''sealed together across all its generations'''.
+
+That doctrine has one unavoidable operational consequence: '''you must first identify the dead, by name, generation by generation, back as far as the records go.''' Not statistically, not approximately — '''individually'''. Proxy ordinance work for a named ancestor requires knowing the ancestor's name, dates and parentage.
+
+So the Church went and got the records. All of them, everywhere, for everyone, in every religion and none — because you cannot know which of them is somebody's ancestor until you have read them.
+
+== The microfilming programme ==
+
+Systematic microfilming began in '''1938'''. Camera operators were sent to parish churches, civil registries, town halls, courthouses, cemeteries and national archives on every continent, and the offer was consistent and generous: '''we will film your records at our expense, you keep the originals, you get a free copy, and we keep a copy.'''
+
+For a European parish holding four hundred years of baptisms in a damp vestry, or a national archive with no preservation budget, that was an unarguable deal. It is why the Church's collection includes material no national government ever got round to copying — and why, in a number of cases where the originals were later lost to fire, flood or war, '''the Utah microfilm is the only surviving copy on earth.'''
+
+Microfilm circulation to local centres ended in '''2017''', and physical film copying at the main library ended in '''2023'''. The programme itself continues as '''digital camera work''', with teams operating in over a hundred countries.
+
+== The Granite Mountain Records Vault ==
+
+The master copies live in '''Little Cottonwood Canyon''', outside Salt Lake City, in tunnels driven roughly '''200 metres''' into a granite mountainside behind doors built to survive a nuclear detonation, at constant temperature and humidity. The microfilm collection was moved in around '''1963'''; the vault was operational by '''1965''' and dedicated in '''June 1966'''. It holds on the order of '''2.4 million rolls''' of microfilm and microfiche — billions of individual images.
+
+It is a working facility, not a monument. It is '''not open to the public''', and no amount of asking changes that.
+
+'''The digitisation is done.''' FamilySearch states that by '''2021''' every microfilm held in the vault had been digitised; microfiche conversion continues. "Digitised" is not the same as "published", though — see the access section below.
+
+== The Family History Library and the centres ==
+
+The '''Family History Library''' in Salt Lake City is the largest genealogical library in the world and is free to walk into. Beyond it sits a network of several thousand '''FamilySearch centres''' and '''affiliate libraries''' worldwide — typically a room in a local meetinghouse or a partner public library, staffed by volunteers, where images restricted from home viewing can be opened.
+
+Nobody will proselytise at you. The volunteer at the desk will find your great-grandmother's parish and then ask whether you want the film number written down.
+
+== What is actually in it, and what it is good for ==
+
+For a descent claim, the collection's useful holdings are precisely the ones the statutes care about:
+
+* '''Parish registers''' — Catholic, Lutheran, Orthodox and others, frequently running back to the 1500s and covering the period '''before''' civil registration existed. For Italy, Poland, Greece, Croatia and most of Catholic Europe this is the only record of an ancestor's birth.
+* '''Civil registration''' — ''stato civile'', ''standesamt'', ''acte de naissance'', the full European apparatus from roughly 1800–1900 onward, which is exactly what a consulate asks for.
+* '''Census, emigration, naturalisation and military records''' — the documents that prove the '''negative''' a descent claim usually needs: that the ancestor '''did not naturalise''' before the next birth in the line.
+* '''Pre-1940 registers of the Baltic states''', the Hungarian and Habsburg civil and church records covering the '''pre-1920 territories''', Greek municipal rolls, Irish parish and civil records. Read that list against the [[Citizenship by Descent]] page and the overlap is nearly total.
+* '''Dawes and other Native American rolls''', with the enrollment cards and applications — see [[US Tribal Nations and Tribal Citizenship]].
+
+== How to use it for a claim, correctly ==
+
+This is the part that most guides get wrong, and getting it wrong wastes months.
+
+'''A FamilySearch image is a finding aid, not evidence.'''
+
+No ministry, consulate or tribal enrollment office will accept a screenshot from a genealogy website, a user-submitted Family Tree profile, or a printed page from the '''International Genealogical Index'''. Those are '''indexes''' — many of them transcribed by volunteers, some of them wrong, all of them secondary.
+
+What the archive does, better than anything else in the world, is tell you '''exactly which register, which volume, which year and which page''' your ancestor is on. You then order the '''certified extract''' from the office that holds the original — the ''comune'', the ''urząd stanu cywilnego'', the General Register Office, the parish — and '''that''' certified document, apostilled and translated, is what goes in the file.
+
+The practical sequence:
+
+# '''Search the catalog by place, not by name.''' The catalogue is organised geographically, because registers are. Find the locality, then the record set, then the years.
+# '''Read the image''' to confirm the entry exists and to capture the exact register reference and the exact spelling used.
+# '''Order the certified copy''' from the holding office, citing that reference. A clerk given a volume and page number responds very differently from one given a family story.
+# '''Repeat for every generation''', including the marriages — marriage records carry the parents' names and are often the only bridge between two generations.
+# '''Treat the user-submitted Family Tree as a lead file.''' It is collaborative and anyone can edit it. It is superb for finding where to look and worthless as proof.
+
+== Indexing, partnerships and cost ==
+
+The transcription is done by '''volunteers''' — hundreds of thousands of them, of every faith — through FamilySearch indexing, which is why the search layer over the images exists at all.
+
+Access to FamilySearch is '''free''' and requires a registered account. The organisation also partners with the commercial genealogy companies (Ancestry, Findmypast, MyHeritage), which is why the same image sometimes sits behind a paywall elsewhere and is free here — and why a free account often gets you a record the commercial site wanted money for.
+
+'''Restrictions are real and are contractual.''' Where a record owner limited redistribution, an image may be viewable only at the Family History Library or a FamilySearch centre, or only to a signed-in user. That is an obligation to the archive that supplied it, not an upsell.
+
+== The controversies, stated plainly ==
+
+A library that recommends this archive should say what has been objected to about it.
+
+* '''Posthumous proxy baptism of people outside the faith''' — most sharply, '''Holocaust victims'''. After sustained objection from Jewish organisations, a '''1995 agreement''' committed the Church to removing Holocaust victims' names from the ordinance index and limiting submissions to a person's own ancestors; the agreement has been '''reaffirmed''' since (including in 2010) following further incidents. Critics hold that the practice continues at the margins; the Church's stated policy restricts members to their own family lines.
+* '''Privacy and the records of the living.''' A global name index raises obvious questions, and policy keeps recent records closed, with the usual gap between policy and every downstream copy of a dataset.
+* '''Indigenous records.''' Gathering the genealogical records of peoples who have their own law about who may hold and recite genealogy is a live question — particularly where '''whakapapa''' or clan genealogy is itself restricted knowledge. See [[Indigenous Nations and Belonging Beyond the State]].
+
+None of these is a reason to avoid the catalogue. They are reasons to know what you are using.
+
+== Why it is in the Library ==
+
+Because this library's whole position on ancestry is that '''a claim of descent is a documentary claim''' — that the spit test is not the instrument and the certified register entry is — and that position is useless without telling people where the registers are.
+
+It is also, frankly, one of the great examples of the thing this corpus keeps pointing at: a '''religious''' motive producing a '''scientific-grade''' public infrastructure that outlives its own occasion. The Church went looking for ancestors in order to perform ordinances for them. What it built, in the process, is the apparatus by which a person in Texas can find a great-grandmother in a Lithuanian parish book, order the certified copy, and hold a European passport two years later — whatever that person believes.
+
+See also: [[Citizenship by Descent]] · [[US Tribal Nations and Tribal Citizenship]] · [[Indigenous Nations and Belonging Beyond the State]] · [[Adoption and Citizenship by Descent]] · [[Marriage and Citizenship]]

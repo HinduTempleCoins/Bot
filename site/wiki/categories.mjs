@@ -14,6 +14,11 @@
 // The Ancient History, Ancestry & Genetics section — one list shared by the Contents category and the home pillar.
 const HISTORY_PAGES = [
       'Citizenship by Descent',
+      'US Tribal Nations and Tribal Citizenship',
+      'Indigenous Nations and Belonging Beyond the State',
+      'Adoption and Citizenship by Descent',
+      'Marriage and Citizenship',
+      'Mormon Genealogy and the FamilySearch Archive',
       'Ancestral Temple Elites Royal Inbreeding and Sacred Marriage',
       'Bog Bodies and Ritual Killing in Ancestral Temple Cultures',
       'Denisovans Ancestry Sea Crossings and the Fossil Record',
@@ -124,6 +129,11 @@ const CREDENTIAL_PAGES = [
       'CEFR Level C2',
       'Behaviour Technician and Allied Health Entry Credentials',
       'Citizenship by Descent',
+      'US Tribal Nations and Tribal Citizenship',
+      'Indigenous Nations and Belonging Beyond the State',
+      'Adoption and Citizenship by Descent',
+      'Marriage and Citizenship',
+      'Mormon Genealogy and the FamilySearch Archive',
 ];
 
 export const CATEGORIES = [
@@ -421,6 +431,7 @@ export const CATEGORIES = [
     id: 'religion', name: 'Religion and practice', blurb: 'Living traditions, their working materials, and their histories.',
     pages: ['The Phoenix Protocol',
             'The Zar Thread System',
+            'Mormon Genealogy and the FamilySearch Archive',
             'Pashupata Shaivism', 'Mystery Schools and Religious Movements Catalogue Ancient to Today', 'Mountains of the Gods Religion Hermon Olympus and the Watchers Myth', 'Hyperborean Maidens of Delos Religion Myth and Offerings', 'Sacred Numbers and Ancestral Confederations Twelve Tribes Leagues and Divine Councils', 'Bog Bodies and Ritual Killing in Ancestral Temple Cultures', 'Ancestral Temple Elites Royal Inbreeding and Sacred Marriage', 'Sais Egypt Temple Medical School House of Life and Peseshet', 'Hathor Sandalphon the Angel of Song Spirit and Guidance in Religious and Popular Music',
             'Swedenborg Hidden Influence Johnny Appleseed Helen Keller and Ideas Everyone Uses', 'Swami Vivekananda', 'Ukuphahla', 'Egyptian Five Souls', 'Head Cone',
             'Egyptian Wax Headcones', 'The Ogdoad', 'Mystery Schools',

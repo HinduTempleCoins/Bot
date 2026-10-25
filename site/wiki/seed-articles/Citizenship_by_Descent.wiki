@@ -102,10 +102,32 @@ The practical lesson: '''check the deadline before you build the file''', and if
 * '''Legitimacy rules.''' Older laws distinguished between children born in and out of marriage, and that distinction still governs whether a claim exists.
 * '''A missing record.''' Civil registration in much of Europe begins around 1900; before that the record is a church register, which the ministry may or may not accept.
 
+== Nations that are not states ==
+
+Everything above is about '''states'''. A second, older layer of descent-based belonging runs underneath it, and in several respects it is stricter.
+
+'''[[US Tribal Nations and Tribal Citizenship|Tribal citizenship in the United States]]''' is the most rigorous descent system in the world. There are 574 federally recognised nations, each a separate sovereign setting its own rule, and the rules are of two kinds: '''lineal descent''' from an ancestor on a historic '''base roll''' (the Cherokee Nation, from the Dawes Rolls of 1898–1914), or a minimum '''blood quantum''' (the Navajo Nation, one quarter). No nation accepts a commercial DNA test. The treaty-based '''Freedmen''' claims — Cherokee settled by ''Nash'' (2017), Muscogee (Creek) ordered by its own Supreme Court in 2025 and still unenforced in 2026 — are a documented descent claim being fought over right now.
+
+'''[[Indigenous Nations and Belonging Beyond the State|Outside the United States]]''' the same question gets four different answers: Canada's '''second-generation cut-off''' (a generational counter rather than a fraction, and before Parliament in Bill S-2 as of 2026); New Zealand's statutory definition of Māori, which '''abolished blood quantum in 1974''' and requires descent with no minimum; Australia's '''three-part test''' of descent, self-identification and '''community recognition'''; and the Sámi Parliaments' electoral rolls, where the objective limb is '''language spoken in the house''' within four generations rather than ancestry at all.
+
+== Adoption, and marriage ==
+
+Two routes cross every rule on this page, and each has its own article.
+
+'''[[Adoption and Citizenship by Descent|Adoption]]''' works in both directions. A statute saying "a child adopted by a national becomes a national" answers one question; whether an adopted child steps into the adoptive line for a '''grandparent''' or '''restoration''' claim is a different one, and often answered differently. Meanwhile an adoptee who '''is''' biologically eligible may be unable to prove it, because the original birth certificate is sealed and the amended one names the wrong parents. That is an administrative door, and it can usually be opened.
+
+'''[[Marriage and Citizenship|Marriage]]''' is accelerated naturalisation, not descent — Spain at one year, Italy at two with B1 Italian, Portugal and Ireland at three, and Israel's Law of Return §4A reaching the spouse of a Jew's child or grandchild. It is examined rather than documented, and it is slower than a descent claim wherever a descent claim exists. Marriage matters to a descent claim for a different reason: '''marriage certificates name both parties' parents''', which makes them the usual bridge across a generation where a birth record is lost, and historic rules that stripped a woman's nationality on marriage are the source of most of the remedial provisions now written into modern statutes.
+
+== Where the records actually are ==
+
+A documentary claim is only as good as access to the documents, and for most of the world the answer is the same archive: the '''[[Mormon Genealogy and the FamilySearch Archive|FamilySearch collection]]''', gathered since 1938 by the Church of Jesus Christ of Latter-day Saints for doctrinal reasons and free to everyone. Parish registers back to the 1500s, European civil registration, pre-1940 Baltic records, Habsburg and Hungarian records covering the pre-1920 territories, naturalisation files, and the Dawes enrollment cards — the overlap with the statutes on this page is close to total, and in some cases the Utah microfilm is the only surviving copy of a register that burned.
+
+One rule, though: '''a FamilySearch image is a finding aid, not evidence.''' It tells you the register, volume and page. You then order the '''certified extract''' from the office holding the original, and that is what goes in the file.
+
 == Why this is in the Library ==
 
 Because this sits where two parts of the work meet. It belongs to the '''bloodline and religious-ethnicity''' material — the honest, documentary version of it, where a claim of descent means a register entry rather than a percentage on a chart. And it belongs to the '''work and credentials''' lane: a second citizenship is the most durable version of the thing those pages are about, which is the right to be '''paid somewhere''' other than where you happen to be standing. An EU passport is a work permit in twenty-seven countries that nobody can revoke for you.
 
 It is also the clearest case against the thing people reach for first. A spit test feels like proof and costs a hundred dollars. The certified record of one great-grandparent's birth costs less and is the only one of the two a ministry will read.
 
-See also: [[Visas for Working Across Borders]] · [[The O-1 Visa Extraordinary Ability]] · [[The R-1 Religious Worker Visa]] · [[Teaching and Exchange Visas J-1 and Coming to Teach in America]] · [[Getting Paid to Teach Abroad]] · [[Making Money Certificate Pathways]] · [[SoapBox Credentials]]
+See also: [[US Tribal Nations and Tribal Citizenship]] · [[Indigenous Nations and Belonging Beyond the State]] · [[Adoption and Citizenship by Descent]] · [[Marriage and Citizenship]] · [[Mormon Genealogy and the FamilySearch Archive]] · [[Visas for Working Across Borders]] · [[The O-1 Visa Extraordinary Ability]] · [[The R-1 Religious Worker Visa]] · [[Teaching and Exchange Visas J-1 and Coming to Teach in America]] · [[Getting Paid to Teach Abroad]] · [[Making Money Certificate Pathways]] · [[SoapBox Credentials]]
