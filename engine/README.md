@@ -26,8 +26,17 @@ MELEK L1 ──custom_json(id=mse-…)──▶ streamer ──▶ Engine (deter
 
 | Symbol  | Role (HE analogue) | Supply | Cap |
 |---------|--------------------|--------|-----|
-| **APIS**  | fee/utility token (BEE) — burned to create tokens & pay resource fees; powers the engine's APIs | soft, lottery-emitted | ceiling = `MAX_SAFE_INTEGER` |
-| **DRONE** | miner/governance token (WORKERBEE) — staked for mining odds + witness weight | 1,000,000 | **immutable** |
+| **APIS**  | fee/utility token (BEE) — burned to create tokens & pay resource fees; powers the engine's APIs | soft, mined | ceiling = `MAX_SAFE_INTEGER` |
+| **WMELEK** *(mainnet)* / **DRONE** *(testnet)* | miner/governance token (WORKERBEE) — forever-locked for APIS-Hash, the mining power | wMELEK: 1:1 with MELEK bridged in · DRONE: 1,000,000 | DRONE **immutable** |
+
+**The mainnet stake token is `WMELEK`, not `DRONE`** — `config.mjs` picks
+`preset.wrappedSymbol` on mainnet and `DRONE` only on testnet. Check `/status`
+(`minerToken`) rather than assuming; an earlier revision of this table said DRONE
+for both and was wrong about the live chain.
+
+APIS is **mined, not bought**: bridge MELEK → WMELEK, forever-lock the WMELEK for
+APIS-Hash, and the emission (1,000 APIS/day, shared pro rata across all APIS-Hash,
+decaying 10%/year) accrues until you `workerbee.claim` it.
 
 Naming: MELEK's mythos is angelic/temple, so the tokens are the temple-economy
 bees — *Apis* (the sacred bee; also "APIs") and *Drone* (continuity/governance).
