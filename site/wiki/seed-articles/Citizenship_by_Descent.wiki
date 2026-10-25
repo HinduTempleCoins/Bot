@@ -1,0 +1,111 @@
+'''Citizenship by descent''' — ''jus sanguinis'', the right of blood — is the rule that a country's nationality passes from a parent or a more distant ancestor to a person born somewhere else entirely. It is the quietest of the routes to a second passport: no investment, no purchase, and in most cases no requirement ever to have lived in the country. What it asks for instead is a '''statute''', an '''ancestor''', and a '''paper chain''' between the two.
+
+[[File:citizenship-by-descent.png|Citizenship by descent — which countries let an ancestor make you a citizen, and how far back the line may reach]]
+
+''General information about published nationality laws, current as of October 2026. Not legal advice. Nationality law changes by decree and by deadline; verify against the consulate or ministry that will actually decide your file before acting.''
+
+== The core rule: documents, not DNA ==
+
+The single most useful fact in this subject, and the one most often got wrong:
+
+'''A commercial DNA, ancestry-percentage or haplogroup test — 23andMe, AncestryDNA or any of the others — is accepted for a citizenship claim in effectively no country on earth.'''
+
+That is not a quirk of one jurisdiction. It is the near-universal position, and the exceptions prove the rule:
+
+* '''Israel''' — the Interior Ministry's position is explicit: DNA is '''not strong evidence'''. A test may show descent; it cannot show Jewish status, which is what the Law of Return turns on.
+* '''Armenia''' — Decree 97-N lists '''five''' accepted methods of proving Armenian origin. DNA is not among them.
+* '''Canada, South Africa, Namibia, the United Kingdom''' — a government may '''order''' an accredited-laboratory test, but only to settle '''one disputed parent-child link''' where a civil record is missing. It proves a single link in a chain. It never establishes a lineage, and a consumer kit is not accepted for it.
+* '''Ghana''' — the diaspora citizenship-by-registration programme '''did''' require DNA proof of Ghanaian descent. It is the clearest DNA-required route ever created, and it is '''suspended'''.
+
+A heritage test tells you who you are. It is real evidence of identity and sincerity, and in a religious or cultural context it carries weight. It is not a citizenship instrument. Every actual claim is won with '''certified civil records, one per generation''', read against the target country's descent statute.
+
+== How far back the line reaches ==
+
+Countries sort into a small number of tiers, and the tier — not the strength of your feeling about the ancestry — decides whether you have a claim.
+
+=== Deep ancestral reach ===
+
+These are the '''restoration''' and '''historic register''' laws. They do not count generations; they ask whether a named ancestor appears in a particular record, and then whether you can connect yourself to that person.
+
+* '''Lithuania''' — anyone who held Lithuanian citizenship '''before 15 June 1940''' and '''their descendants''' hold an indefinite right to reinstate, with '''no residency requirement'''. It is the longest unbroken reach in Europe. Dual nationality is generally restricted, with exceptions for restoration cases.
+* '''Latvia''' and '''Estonia''' — the same restored-state doctrine: a descendant of a pre-1940 citizen claims by right of blood rather than by naturalisation. Latvia's original 1992 registration deadline lapsed, and the procedure for descendants abroad must be checked against current practice.
+* '''Germany''' — '''Article 116(2)''' of the Basic Law treats citizenship stripped between 1933 and 1945 on political, racial or religious grounds as '''never lost''', and extends to descendants. The '''Fourth Act amending the Nationality Act (2021, §15 StAG)''' added the people who '''would have been''' German but for Nazi persecution, including lines previously excluded by rules on legitimacy and maternal descent. No fee, no means test, no residency, no generational cap within the persecuted line.
+* '''Hungary''' — ''egyszerűsített honosítás'', simplified naturalisation, for anyone who can prove descent from a Hungarian citizen — '''including the pre-1920 territories''' now in Serbia, Romania, Slovakia and Ukraine. No residency. It is the one major route with a '''language requirement''': conversational Hungarian, tested at interview.
+* '''Greece''' — descent from a Greek whose '''municipal registration''' (''dimotologio'' or the Male Registry) can be established. More distant lines fall back to naturalisation-abroad under Article 10 of the Citizenship Code.
+* '''Poland''' — confirmation of citizenship for an unbroken line descending from a Polish citizen, generally traced to the 1920 nationality law.
+* '''Armenia''' — citizenship by origin, proven by the five methods set out in Decree 97-N.
+* '''Lebanon''' — the one true diaspora-descent law of the Phoenician lands. '''Law 41/2015''' let descendants claim where their own name '''or a male ancestor's''' appeared in the '''1921–24 Residents and Emigrants censuses''' or the '''1932 Emigrants census'''. See the closed-windows section below.
+
+=== Grandparent depth ===
+
+The common ceiling. One qualifying grandparent, and no further.
+
+* '''Ireland''' — one '''Irish-born grandparent''' entitles you to enter the '''Foreign Births Register'''. No residency, no language test, dual nationality freely permitted, and registration before your own children are born extends the line one more generation. It is the cleanest grandparent route in the world and the reason so many American and Australian families hold an Irish passport.
+* '''Israel''' — the '''Law of Return''' reaches '''one Jewish grandparent''', or the spouse of such a person. It grants a right of immigration rather than a bare nationality confirmation.
+* '''Italy''' — formerly unlimited in generations, '''restricted to parent or grandparent''' by Law 74/2025. See below.
+* '''Malta''' — descent registration, but the statute passes only through a parent '''born in Malta''' to a parent '''also born in Malta''', which is grandparent depth in practice. Birth, marriage '''and death''' certificates are required for the direct Malta-born line.
+* '''Croatia''' — the privileged emigrant route for emigrants and their descendants, with no language test, no residency and no requirement to release a prior citizenship. Ancestors who left for other ex-Yugoslav states after 8 October 1991 are excluded.
+* '''Cyprus''' — descent from a Cypriot parent, with a historic male-line category (forms M.71 and M.72) for people born before 1960.
+* '''Nigeria''' — registration for a person with a '''Nigerian grandparent''' under section 26 of the Constitution. There is no transatlantic-diaspora programme; a 2024 advocacy proposal for one was not adopted.
+* '''United Kingdom''' — British citizenship by descent normally runs '''one generation only'''. The grandparent routes are narrow exceptions keyed to exact dates: a pre-1 January 1949 marriage with a UK-born paternal grandfather, births between 1949 and 1983 through protectorates or Crown service, and the statutory fixes for historic discrimination against maternal lines. Separately, the '''UK Ancestry visa''' lets a Commonwealth citizen with a UK-born grandparent work in Britain and settle — a work visa, not citizenship by descent.
+
+=== Parent only ===
+
+One generation. A grandparent gives you nothing. This is the largest group and includes almost every country people assume reaches further than it does.
+
+* '''The Nordic five''' — Sweden, Norway, Denmark, Finland and Iceland transmit to the '''child''' of a citizen and no further. There is no Nordic grandparent or ancestry route of any kind. Finland's "returnee" provision is a '''residence-permit''' basis, not citizenship. The only intra-Nordic mechanism is a declaration available between the five states to their own citizens.
+* '''North Africa''' — '''Morocco''' is the cleanest: either parent, unlimited in time, no residency, dual nationality expressly recognised since 1958. '''Egypt''' (2004 reform) and '''Algeria''' (fully equalised) are comparable. '''Tunisia''' equalised in 2010, strongest for in-country births. '''Libya''' and '''Mauritania''' are the most conditional. No North African state offers an Amazigh-descent or "return" route; Amazigh people are indigenous to these states rather than a diaspora, and the recognition won there has been linguistic and cultural — Tamazight as an official language — not a nationality route.
+* '''Syria''' — the child of a Syrian '''father''', born anywhere, automatically. Maternal transmission only where paternity is not established.
+* '''Spain''' and '''Portugal''' — ordinary jus sanguinis through a parent. Both of their famous ancestral windows have closed.
+* '''The Americas''' — '''Mexico''' (Art. 30: child of a Mexican-by-birth parent, born anywhere), '''Brazil''' (consular registration), '''Canada'''.
+* '''Asia''' — '''Japan''' and '''China''' transmit by parent but do not permit dual nationality; China strips it automatically on voluntary foreign naturalisation. '''The Philippines''' allows former natural-born citizens to '''reacquire''' by oath under RA 9225, with minor children derivative.
+
+=== Diaspora return programmes ===
+
+A distinct category, and the one most likely to consider ancestral DNA, precisely because enslavement left the lines it serves without civil records.
+
+* '''Benin''' — the September 2024 law for people of African descent aged 18 or over who are not already a citizen of an African country and who can '''prove actual descent'''. The evidentiary standard appears documentary; DNA acceptance is unconfirmed.
+* '''Sierra Leone''' — the African Diaspora Accession Programme, on proof of ancestral ties.
+* '''Ghana''' — citizenship by registration for the diaspora, requiring DNA proof of Ghanaian descent. '''Suspended.'''
+
+=== Status that is not citizenship ===
+
+* '''India — OCI'''. Overseas Citizenship of India is a '''lifelong visa and status''', not citizenship. It carries no passport and no vote, because the Constitution bars dual citizenship. People of Pakistani or Bangladeshi origin are excluded. It is the most commonly misdescribed status in this entire subject.
+* '''UK Ancestry visa''' — a five-year work visa leading to settlement, for Commonwealth citizens with a UK-born grandparent. A route to a British passport eventually, but by residence, not by descent.
+
+== Windows that have closed ==
+
+Ancestral citizenship is '''deadline-driven'''. Four of the best-known routes have shut or narrowed inside two years, and published guides are full of claims that were true when written.
+
+* '''Italy''' — Law 74/2025 restricted automatic jus sanguinis to '''parent or grandparent'''. The Constitutional Court '''upheld''' it in judgment 63/2026. A referral to the Court of Justice of the European Union was filed on 23 July 2026, with no ruling expected before 2027–28. The great-grandparent and further lines that made Italy famous for this are, for now, '''closed'''. Narrowed, not abolished.
+* '''Portugal — Sephardic''' — abolished for new applicants by '''Lei Orgânica 1/2026''', in force '''19 May 2026'''. Applications filed before that date are still being assessed. The same law doubled the ordinary naturalisation residency requirement from five years to ten and created a new great-grandchild route requiring five years' residence.
+* '''Spain''' — the '''Sephardic''' law (12/2015) ended in 2019 with processing extended to about 2021. The '''Democratic Memory''' "grandchildren" law, for the children and grandchildren of those who fled the Civil War and Franco, closed in '''2025''' after roughly 900,000 applications. Late filing survives only where a consular appointment was requested in time.
+* '''Lebanon''' — the Law 41/2015 reacquisition window '''expired 25 November 2025'''. A permanence bill stalled in a Parliament that was not convening; the Maronite Foundation, the official processor, has asked consulates not to reject applications outright. Ordinary paternal descent under the 1925 decree carries no deadline and is unaffected.
+
+The practical lesson: '''check the deadline before you build the file''', and if a route is open, file into it rather than waiting until the paperwork is perfect.
+
+== How a claim is actually built ==
+
+'''1. Find the statute, not the story.''' Every real claim is made under one named law. "My family came from there" is not a claim; the Foreign Births Register, the Law of Return, Article 116(2), Lithuania's reinstatement law — those are claims. The statute decides how far back the line may reach, and nothing else does.
+
+'''2. Build the chain, one generation at a time.''' A '''certified''' birth, marriage and death certificate for every link between you and the ancestor. Not a family tree, not a genealogy website printout — certified records from the civil registrar that issued them. One missing certificate ends the claim until it is found or judicially replaced.
+
+'''3. Prove the ancestor held it, and never gave it up.''' The old passport, the municipal register entry, the census line, the pre-1940 record. Then prove there was no break: naturalising in a new country '''before''' the next birth in the line usually severs transmission, and proving the absence of a naturalisation is its own exercise — in the United States, a no-record certification from USCIS.
+
+'''4. Apostille, translate, file where the law says.''' Each foreign document needs an '''apostille''' under the Hague Convention and a '''sworn translation'''. Files go to a consulate, a ministry or the ancestor's home municipality depending on the route. Most descent routes require '''no residency at all'''; Hungary's language interview is the exception worth planning for.
+
+== What breaks a chain ==
+
+* '''Naturalisation of the ancestor before the next birth.''' The commonest killer.
+* '''A date on the wrong side of a reform.''' Most of these statutes have a cut-off year, and many of them discriminated against maternal lines until a fix with its own cut-off.
+* '''Names that do not match.''' Transliteration and immigration-era spelling changes are normal and are resolved with an affidavit or a judicial name-identity order, not by hoping nobody notices.
+* '''Legitimacy rules.''' Older laws distinguished between children born in and out of marriage, and that distinction still governs whether a claim exists.
+* '''A missing record.''' Civil registration in much of Europe begins around 1900; before that the record is a church register, which the ministry may or may not accept.
+
+== Why this is in the Library ==
+
+Because this sits where two parts of the work meet. It belongs to the '''bloodline and religious-ethnicity''' material — the honest, documentary version of it, where a claim of descent means a register entry rather than a percentage on a chart. And it belongs to the '''work and credentials''' lane: a second citizenship is the most durable version of the thing those pages are about, which is the right to be '''paid somewhere''' other than where you happen to be standing. An EU passport is a work permit in twenty-seven countries that nobody can revoke for you.
+
+It is also the clearest case against the thing people reach for first. A spit test feels like proof and costs a hundred dollars. The certified record of one great-grandparent's birth costs less and is the only one of the two a ministry will read.
+
+See also: [[Visas for Working Across Borders]] · [[The O-1 Visa Extraordinary Ability]] · [[The R-1 Religious Worker Visa]] · [[Teaching and Exchange Visas J-1 and Coming to Teach in America]] · [[Getting Paid to Teach Abroad]] · [[Making Money Certificate Pathways]] · [[SoapBox Credentials]]
