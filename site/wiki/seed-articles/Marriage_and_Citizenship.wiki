@@ -1,0 +1,61 @@
+Marriage is the '''other''' non-economic route to a second nationality, and it behaves very differently from [[Citizenship by Descent|descent]]. A descent claim is a statement about the past that is either true or not. A marriage claim is a '''relationship the state will examine''', usually over years, and it can be refused on grounds that have nothing to do with documents.
+
+''General information about published nationality statutes, current as of October 2026. Not legal advice. Residence periods and language thresholds change often and the figures below come substantially from secondary guides; verify each one against the ministry that will decide the file.''
+
+== Three different things people call "citizenship by marriage" ==
+
+# '''Automatic acquisition on marriage.''' Historically common, now rare — and where it survives it is usually a vestige of rules that gave a wife her husband's nationality. Most states abolished it precisely because it was both sexist and an obvious fraud vector.
+# '''Accelerated naturalisation.''' The modern norm. The spouse naturalises on the ordinary terms but with a '''shortened residence period''', and usually still faces the language test, the civics test and the good-character check.
+# '''Derivative immigration status.''' Not citizenship at all: a residence permit or a right of entry derived from the spouse, which may '''lead''' to naturalisation years later. Most "citizenship by marriage" marketing is really this.
+
+== The accelerated-naturalisation table ==
+
+Figures are the headline requirements. Nearly all of them carry additional conditions — registration of the marriage, cohabitation, continuity of residence, clean record.
+
+* '''Spain — 1 year.''' One year of legal residence in Spain while married to a Spanish citizen. Still requires the '''A2''' Spanish examination and the '''CCSE''' civics test, and the marriage must be registered in the Spanish Civil Registry. The shortest route in Western Europe.
+* '''Italy — 2 years resident, 3 years abroad.''' Halved where there are children of the marriage. '''B1 Italian''' has been required since late 2018, and it is a genuine test, not a formality.
+* '''Portugal — 3 years of marriage''', with no minimum residence in Portugal for the spousal route; ties to the Portuguese community must be shown, and an '''A2''' certificate is in practice the usual way to show them. Note that the ordinary (non-spousal) residence route was '''doubled from 5 to 10 years''' by Lei Orgânica 1/2026, which makes the spousal route proportionally much more valuable than it was.
+* '''Ireland — 3 years''' of marriage or civil partnership, with the couple living together and '''three of the preceding five years''' resident on the island of Ireland. No language test.
+* '''Israel''' — not naturalisation at all. The '''Law of Return §4A''' extends the rights of a Jew to a '''spouse''', and to the '''spouse of a child or grandchild''' of a Jew. A non-Jewish spouse of the grandchild of a Jew has a route; the only express exclusion is a person who was a Jew and voluntarily changed religion. The qualifying relative need not be alive and need not have immigrated.
+
+The pattern worth extracting: '''the better the descent law, the less the marriage law matters''' — and vice versa. Ireland's marriage route is slow because its descent route is the most generous in Europe. Spain's is fast because its ancestral windows have closed.
+
+== What the state actually examines ==
+
+Unlike a descent file, a spousal file is an '''adjudication of a relationship'''. Expect:
+
+* '''Genuineness.''' Interviews, sometimes separately; evidence of cohabitation, joint finances, correspondence, photographs over time. Marriage-of-convenience enforcement is vigorous across the EU and in the US, and the penalties are criminal.
+* '''Subsistence of the marriage at every relevant date.''' Separation or divorce part-way through usually ends the claim, and in several systems a divorce '''after''' grant but within a short window can trigger review.
+* '''The spouse's own status.''' An accelerated route generally requires the citizen spouse to have been a citizen throughout the qualifying period.
+* '''Language and civics''' at the ordinary standard, in nearly every case. Marriage shortens the clock; it rarely removes the examination.
+
+== The recognition problem ==
+
+A marriage valid where celebrated is '''usually''' recognised elsewhere, but not always, and the exceptions matter:
+
+* '''Same-sex marriage''' is not recognised in a substantial number of states, which means a spousal route may simply not exist there regardless of where the marriage was performed. Within the EU, free-movement law requires recognition of a spouse for '''residence''' purposes even where the member state does not permit such marriages domestically (''Coman'', CJEU 2018) — which is a residence right, not a nationality right.
+* '''Religious marriages not civilly registered''' are a common and avoidable failure: the ceremony happened, the registration did not, and the clock never started.
+* '''Polygamous marriages''' are generally not recognised for these purposes.
+* '''Common-law and de facto partnerships''' are recognised for immigration in some systems (Canada, Australia, New Zealand) and for nationality in very few.
+
+== Marriage and the descent chain ==
+
+Three ways marriage interacts with an '''ancestral''' claim, all of which catch people out:
+
+* '''Marriage records are the bridge between generations.''' A marriage certificate names '''both''' parties' parents. Where a birth record is lost, the marriage record is frequently the only document proving the link to the generation above — which is why a complete file contains the marriages, not only the births.
+* '''Name changes break paper trails.''' A woman's surname changing on marriage, repeated across four generations and two languages, is the ordinary reason a chain looks broken when it is not. The fix is the certificate, not a theory.
+* '''Historic marriage rules stripped nationality.''' Until the mid-twentieth century many states removed a woman's nationality on marriage to a foreigner, and transmitted only through the father. Those rules are the source of most of the gender-discrimination fixes now written into modern statutes — the UK's pre-1949 provisions, Germany's §15 StAG, Canada's Bills C-31, C-3 and S-3. If a claim runs through a '''female''' ancestor and appears to fail, check for the remedial provision before concluding there is nothing there. There very often is.
+
+== Tribal nations and indigenous belonging ==
+
+'''Marriage does not confer tribal citizenship''' in the ordinary case in any federally recognised nation in the United States. There is no spousal naturalisation. Marriage affects residency on tribal land, some benefits, and — decisively — the eligibility of the '''children'''.
+
+Under a '''blood-quantum''' constitution this is the whole mechanism of attrition: each marriage outside the nation halves the quantum of the next generation, and a fixed minimum therefore sets a date after which the nation has no citizens. Under '''lineal descent''' it has no effect at all, because there is no fraction to dilute. Canada's '''second-generation cut-off''' does the same work by counting generations rather than fractions, and '''Bill S-2''' — amended in the Senate to a one-parent rule and before the House committee as of 2026 — is the live attempt to end it. See [[US Tribal Nations and Tribal Citizenship]] and [[Indigenous Nations and Belonging Beyond the State]].
+
+== Honest summary ==
+
+Marriage is a real route and it is not a shortcut. It is slower than a descent claim where a descent claim exists, it is examined rather than documented, and it is entangled with a relationship that has to be real and to last. Where it is genuinely the best option — a one-year Spanish file, a Law of Return spousal claim, a Portuguese route that is now three years against an ordinary ten — it is worth knowing precisely, which is what this page is for.
+
+And before pursuing it: '''check the ancestral line first.''' A grandparent nobody thought about is frequently faster, cheaper and entirely within the applicant's own control.
+
+See also: [[Citizenship by Descent]] · [[Adoption and Citizenship by Descent]] · [[US Tribal Nations and Tribal Citizenship]] · [[Indigenous Nations and Belonging Beyond the State]] · [[Mormon Genealogy and the FamilySearch Archive]]

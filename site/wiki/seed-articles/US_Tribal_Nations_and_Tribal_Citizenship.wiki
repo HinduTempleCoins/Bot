@@ -1,0 +1,92 @@
+'''Tribal citizenship''' in the United States is the clearest working example of the rule that governs [[Citizenship by Descent|citizenship by descent]] everywhere else: '''descent is proved with documents, and a DNA test proves nothing at all.''' It is also the case most often misunderstood, because people arrive at it thinking it is about race. It is not. It is about '''membership in a nation'''.
+
+''General information about published tribal constitutions, federal statutes and case law, current as of October 2026. Not legal advice. Each nation sets and changes its own rules; the only authority on whether you are eligible is the enrollment office of the nation itself.''
+
+== The first thing to get right: it is political, not racial ==
+
+There are '''574''' federally recognised tribes in the United States, plus state-recognised tribes and unrecognised nations. Each is a '''separate sovereign''' with the power to decide who its citizens are. There is no federal registry of "Native Americans" and no federal rule of eligibility, because that determination is not the federal government's to make.
+
+The Supreme Court settled the legal character of this in '''''Morton v. Mancari''''' (1974): a preference for tribal members is '''political, not racial''', because it turns on membership in a sovereign government rather than on ancestry as such. That distinction is why tribal citizenship survives equal-protection scrutiny that an explicitly racial classification would not — and why, in '''''Rice v. Cayetano''''' (2000), a Hawaii voting rule limited to people of Native Hawaiian '''descent''' was struck down under the Fifteenth Amendment: Native Hawaiians were not, at that time, an organised tribal polity, so the classification read as racial.
+
+Tribal citizens are simultaneously '''United States citizens''' — conclusively since the '''Indian Citizenship Act of 1924''' — and citizens of their own nation, and in most cases citizens of a state as well. It is ordinary, uncontroversial multiple citizenship, and it has existed for a century.
+
+== The two models: blood quantum and lineal descent ==
+
+Almost every enrollment rule in the country is one of these two, or a blend.
+
+=== Lineal descent ===
+
+You must document an '''unbroken line''' from yourself to a named ancestor on a '''base roll''' — a specific historic census taken at a specific moment. There is '''no minimum fraction'''. A descendant six generations down with one qualifying ancestor is eligible on the same footing as a descendant one generation down.
+
+The '''Cherokee Nation''' is the best-known example. Its requirement is a documented direct line to an ancestor listed on the '''Dawes Rolls''' (the final rolls of the Five Civilized Tribes, compiled '''1898–1914'''). There is no blood-quantum minimum for citizenship.
+
+=== Blood quantum ===
+
+You must document a '''minimum fraction''' of ancestry from that nation — commonly '''1/4''', sometimes 1/8 or 1/2 — calculated from the degree recorded for ancestors on the base roll. The '''Navajo Nation''' requires '''one-quarter''' Navajo blood.
+
+Blood quantum is not an indigenous concept. It entered tribal law through federal allotment policy and the '''Indian Reorganization Act of 1934''' model constitutions, and its arithmetic is '''demographically terminal''': because the fraction halves with each out-marriage, a fixed minimum guarantees that a nation's citizen population eventually goes to zero. This is the central internal argument in Indian country today, and several nations have moved from quantum to lineal descent precisely to stop that clock.
+
+=== Blends ===
+
+Many nations combine the two. The '''Omaha Tribe''' requires 1/4 blood '''and''' descent from a registered ancestor. The '''Choctaw Nation''' enrolls by lineal descent but requires at least one-quarter blood to stand for tribal council. Residency, parental-enrollment and birth-registration requirements appear in various constitutions as well.
+
+== Base rolls: the document everything hangs on ==
+
+A base roll is the fixed historical list the whole claim is measured against. If your ancestor is not on it, in most nations there is no claim, however true the family history is.
+
+* '''The Dawes Rolls''' (1898–1914) — Cherokee, Choctaw, Chickasaw, Muscogee (Creek) and Seminole. Each enrollment card records a roll number, the relationships on the card, a '''blood degree''', and the parents' enrollment. Registrars sorted applicants into '''"Indians by Blood"''', '''"Freedmen"''' and '''"Intermarried Whites"''' — categories assigned by a federal clerk in Oklahoma, which a hundred years later still determine who is a citizen of what.
+* '''The Baker Roll''' (1924, 1931) — Eastern Band of Cherokee Indians.
+* '''The Guion Miller Roll''' (1909) — an Eastern Cherokee payment roll, frequently mistaken for an enrollment base roll. It generally is not one.
+* '''Allotment, annuity and agency censuses''' of various dates for other nations.
+
+The rolls were compiled by outsiders under pressure, with people refusing to enroll, people missed, people recorded under the wrong category and blood degrees estimated by eye. Every unfairness in them is now load-bearing.
+
+== DNA does not work here either ==
+
+'''No federally recognised tribe accepts a commercial DNA test as proof of eligibility for enrollment.'''
+
+The reason is structural rather than political. A consumer test reports a '''percentage of "Native American" ancestry''' inferred from reference populations. It cannot name a '''nation''', and it certainly cannot name a '''person on a base roll''' — and the person on the roll is the entire claim. There is also no reference panel that could do it: tribes have overwhelmingly declined to contribute genetic data for exactly this reason, and the National Congress of American Indians has been explicit that enrollment determinations belong to tribal governments, not to laboratories.
+
+Where DNA does appear, it is the same narrow role it plays in Canadian or British nationality files: an '''accredited parentage test''' to establish a single disputed parent-child link where a record is missing. It confirms one step in a chain. It never substitutes for the chain.
+
+A '''CDIB''' — Certificate of Degree of Indian Blood, issued by the Bureau of Indian Affairs — is likewise documentary. It is computed from the rolls, not from biology, and it is '''not''' tribal citizenship; some nations require it, some ignore it, and holding one enrolls you in nothing.
+
+== The Freedmen: treaty citizenship, still being litigated ==
+
+The hardest and most live question in this field. The '''Treaties of 1866''' required the Five Tribes, which had held enslaved people and allied with the Confederacy, to grant citizenship to the people they had enslaved and their descendants. The Dawes registrars then listed those families on '''separate "Freedmen" rolls, without a blood degree''' — and a century later, constitutions requiring "Indian blood" excluded them.
+
+* '''Cherokee Nation''' — ''Cherokee Nation v. Nash'' (D.D.C. 2017) held that the 1866 Treaty gives Freedmen descendants citizenship rights '''coextensive''' with those of native Cherokees. The Nation did not appeal; its Attorney General said he did not intend to. In '''2021''' the Cherokee Nation Supreme Court held ''Nash'' binding and struck the "by blood" language, and the Secretary of the Interior approved the amended constitution. Freedmen descendants are enrolled citizens.
+* '''Seminole Nation''' — Freedmen descendants are eligible for citizenship.
+* '''Muscogee (Creek) Nation''' — in '''July 2025''' the Nation's Supreme Court held that the 1866 Treaty guarantees Freedmen descendants citizenship and that the constitution's "by blood" language is void, directing the Citizenship Board to enroll Freedmen applicants. '''Implementation stalled.''' As of November 2025 no Freedmen descendant had been enrolled; the Principal Chief paused issuance of citizenship cards pending review; in April 2026 the National Council moved a no-confidence resolution against the five justices; and as of October 2026 the Nation is asking a federal court in Oklahoma to dismiss a Freedmen suit, arguing the question requires a constitutional amendment. '''Unresolved.'''
+* '''Chickasaw''' and '''Choctaw Nations''' — Freedmen descendants are '''not''' eligible for citizenship.
+
+This is worth stating plainly because it is the real shape of the subject: a documented, treaty-based descent claim, with the base roll in hand, that is still being fought over in 2026.
+
+== Adoption ==
+
+Adoption into a family is '''not''' adoption into a nation. Most tribal constitutions key eligibility to '''biological''' descent from a base-roll ancestor, so an adopted child of an enrolled citizen is generally not eligible on that basis — while an adopted-out child who '''is''' a biological descendant usually remains eligible, if the records can be produced.
+
+That last clause is where the real difficulty sits. Sealed adoption records and amended birth certificates sever exactly the documentary chain an enrollment office needs, which is why access to the '''original birth certificate''' is a tribal-citizenship question and not only a personal one. See [[Adoption and Citizenship by Descent]].
+
+A few nations do provide for '''ceremonial or naturalised''' adoption of individuals, and historically this was widespread; it is a decision of the nation, not a right, and it does not usually carry the same citizenship consequences. The '''Indian Child Welfare Act (ICWA)''' — upheld in ''Haaland v. Brackeen'' (2023) — operates upstream of all this, giving a child's nation a role in placement precisely so that the connection is not severed in the first place.
+
+== Marriage ==
+
+Marrying a tribal citizen '''does not''' confer tribal citizenship, in any federally recognised nation, in the ordinary case. There is no tribal analogue to Spain's one-year spousal naturalisation. Marriage can matter to residency on tribal land, to benefits and to the eligibility of '''children''', and under a blood-quantum constitution it is the mechanism by which a line is eventually extinguished — but it is not itself a route in. See [[Marriage and Citizenship]].
+
+== Building the claim ==
+
+1. '''Identify the nation, not the ethnicity.''' "Cherokee" names three separate federally recognised nations with three different rule sets. Start with which one.
+2. '''Find the ancestor on the base roll.''' The Dawes enrollment cards and applications are public and indexed; the Oklahoma Historical Society and the National Archives both hold them.
+3. '''Document every generation between.''' Certified birth, marriage and death certificates, exactly as for a foreign nationality claim. Census records and family bibles are leads, not evidence.
+4. '''Apply to the nation's enrollment office.''' Not to the Bureau of Indian Affairs, not to a genealogy service, and not to a laboratory.
+
+== What this is not ==
+
+It is not a benefits scheme, and approaching it as one is both the commonest and the least welcome way to arrive. It is not established by a percentage on a chart. It is not conferred by the states or by Washington. And it is not available to be self-declared: a great many people hold a sincere and accurate family story about a Native ancestor and still have no claim, because the ancestor refused the roll, was missed by it, or belonged to a nation the United States has never recognised. That is a real loss, and it is not the same thing as a claim.
+
+== Why it is in the Library ==
+
+Because this is the most rigorous descent-citizenship system in the world and it sits inside the United States, where most readers of this library already are. Everything the [[Citizenship by Descent]] page says about European restoration laws — find the statute, find the ancestor in the register, document every link, and do not bother with the spit test — is true here in a stricter form, and the stakes are a political identity rather than a travel document.
+
+See also: [[Citizenship by Descent]] · [[Indigenous Nations and Belonging Beyond the State]] · [[Adoption and Citizenship by Descent]] · [[Marriage and Citizenship]]

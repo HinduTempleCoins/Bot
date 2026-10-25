@@ -1,0 +1,71 @@
+Adoption cuts across every descent rule in this library, and it does so '''in two directions at once'''. An adoption can '''create''' a claim a person has no biological basis for, and it can '''sever''' a claim a person biologically has — sometimes both at the same time, to the same person.
+
+This page covers how adoption interacts with [[Citizenship by Descent|citizenship by descent]], [[US Tribal Nations and Tribal Citizenship|tribal citizenship]] and [[Indigenous Nations and Belonging Beyond the State|indigenous belonging]].
+
+''General information about published nationality statutes, current as of October 2026. Not legal advice. Adoption rules are among the most jurisdiction-specific and most frequently amended provisions in nationality law, and inter-country adoption adds a second legal system; take advice on a real file.''
+
+== The two questions, kept apart ==
+
+Almost every mistake in this subject comes from running these together:
+
+# '''Does the adoption give the child the adoptive parents' nationality?''' — usually yes, often automatically, and this is well provided for.
+# '''Does the adoption give the child the adoptive family's ''ancestral'' claim — the grandparent, the pre-1940 ancestor, the base-roll ancestor?''' — '''frequently not''', and this is where files fail.
+
+A statute that says "a child adopted by a national becomes a national" is answering the first question. It is not promising that the child steps into the adoptive line for the purposes of a '''restoration''' or '''register''' claim that runs through a '''grandparent'''.
+
+== Adoption that creates a claim ==
+
+* '''Ireland''' — a child who is not already an Irish citizen generally '''becomes''' an Irish citizen on adoption by an Irish citizen, or by a couple of whom at least one spouse is an Irish citizen, under the Irish Nationality and Citizenship Act 1956 as amended. An adoption effected abroad must be entered in the '''Register of Intercountry Adoptions''' to have effect. The separate question — whether an adopted child can claim through an '''Irish-born grandparent''' on the '''Foreign Births Register''' — is the hard one, and is assessed individually; adoption, surrogacy and assisted reproduction are all treated as raising distinct evidential questions.
+* '''Italy''' — an adopted minor acquires Italian citizenship. Note that Law 74/2025 restricted descent generally, and its exception for a parent '''or adopter''' who has lived in Italy for two continuous years after acquiring citizenship and before the child's birth is drafted to cover adopters expressly. Verify against the official text; the drafting matters here more than a summary can carry.
+* '''Israel''' — the Law of Return's §4A extends the rights of a Jew to a '''child and grandchild''', to a spouse, and to the spouse of a child or grandchild. Practitioner guidance treats '''adopted''' children of Jewish parents as qualifying irrespective of the child's own religious status. The Jewish-status question and the descent question are separate and both have to be satisfied.
+* '''The general European pattern''' — adoption by a national confers nationality on a minor, usually automatically where the adoption is a '''full''' adoption recognised in that state. '''Simple''' or '''partial''' adoptions, which do not fully sever the original legal parentage, frequently do '''not''' confer it.
+
+The distinction between '''full''' and '''simple''' adoption is the single most load-bearing technicality on this page, and it is invisible unless you look for it.
+
+== Adoption that severs a claim ==
+
+Here is the part nobody warns adoptees about.
+
+A descent claim is '''documentary'''. It needs a certified birth record naming the parents, then theirs, then theirs. An adoption in most common-law jurisdictions produces an '''amended birth certificate''' naming the adoptive parents as the parents of birth, and '''seals the original'''. The biological chain still exists in law for many purposes — but the applicant cannot prove it, because the document that would prove it is in a sealed file.
+
+So an adoptee may be '''biologically eligible''' for an Italian, Lithuanian or Cherokee claim and '''evidentially unable''' to make it. That is not a theoretical problem; it is the ordinary situation.
+
+What addresses it:
+
+* '''Original birth certificate (OBC) access.''' A majority of US states have now restored some form of adult-adoptee access to the original certificate, with the rules varying from unrestricted to contact-preference systems to court order only. This is the first thing to establish, because everything else depends on it.
+* '''Court order to unseal''', where access is not automatic — usually requiring a stated ground, and "I am building a foreign nationality claim" is a real and increasingly accepted one.
+* '''The adoption file itself''', which often contains more than the certificate: the relinquishment, the agency record, sometimes the biological grandparents' names.
+* '''Accredited DNA — in its one legitimate role.''' Where a civil record is missing or disputed, several governments (Canada, South Africa, the United Kingdom among them) will order an '''accredited-laboratory parentage test''' to establish '''one''' parent-child link. For an adoptee who has identified and can test a biological parent or sibling, this is the situation that mechanism exists for. It still proves one link, not a lineage, and a '''consumer ancestry kit is not it''' — see [[Citizenship by Descent]].
+
+== Tribal nations: adoption into a family is not adoption into a nation ==
+
+In the United States, most tribal constitutions key eligibility to '''biological''' descent from an ancestor on the '''base roll'''. The consequences are the mirror image of the European case:
+
+* An '''adopted-in''' child of an enrolled citizen is generally '''not''' eligible on that basis. Adoption does not create base-roll descent.
+* An '''adopted-out''' child who '''is''' a biological descendant generally '''remains''' eligible — if the records can be produced. Which returns the whole question to sealed files and amended certificates.
+
+This is precisely the harm the '''Indian Child Welfare Act (ICWA)''' was enacted to stop. ICWA gives a child's nation notice and a role in placement, with placement preferences favouring the extended family, other members of the child's nation, and then other Indian families — because the pre-1978 pattern of removing Native children into non-Native homes was severing citizenship, not only family. ICWA was '''upheld''' in ''Haaland v. Brackeen'' (2023).
+
+Some nations do provide for '''ceremonial''' or '''naturalised''' adoption of individuals, and historically this was widespread practice. It is a sovereign decision of the nation rather than a right, and it does not necessarily carry the same consequences as enrollment by descent.
+
+The most interesting case in this whole area sits in Australia: the ''Montgomery'' litigation concerned a man with '''no biological Aboriginal descent''' who had been '''culturally adopted''' by a person holding traditional authority among the Mununjali people — testing whether the '''community-recognition''' limb of the tripartite test can do work that the '''descent''' limb cannot. The Commonwealth withdrew its challenge, leaving ''Love v Commonwealth'' standing and the question open. See [[Indigenous Nations and Belonging Beyond the State]].
+
+== Step-parent adoption, and the quiet trap ==
+
+A step-parent adoption — common, routine, usually done for good reasons — '''replaces''' the legal parentage of the other biological parent. If the ancestral claim ran through '''that''' parent, the adoption may have extinguished the documentary basis for it, decades before anybody thought to look.
+
+Where a family holds a potential claim, this is worth knowing '''before''' the adoption rather than after. It is not a reason not to do it. It is a reason to keep certified copies of the original records first.
+
+== Practical order of work for an adoptee ==
+
+# '''Establish what you can obtain''' — OBC access rules in the state or country of the adoption, before anything else.
+# '''Get the original birth certificate''', or the court order for it.
+# '''Work the biological line''' from there, using the record catalogues (see [[Mormon Genealogy and the FamilySearch Archive]] — the FamilySearch catalogue is organised by place, which is the right way in when you have a name and little else).
+# '''Ask the deciding authority how it treats adoption''', in writing, early. Consulates differ in practice, and a written answer is worth more than a forum consensus.
+# '''If a record is genuinely unobtainable''', ask whether an accredited parentage test is accepted for that specific link. Sometimes it is.
+
+== Why it is in the Library ==
+
+Because the people most likely to be told "you can't prove it" are adoptees, and that is usually '''false''' — what is true is that the proof is behind an administrative door that most people do not know can be opened. The door, the ground for opening it, and the one legitimate use of a laboratory are all knowable, and this page exists so that they are.
+
+See also: [[Citizenship by Descent]] · [[US Tribal Nations and Tribal Citizenship]] · [[Indigenous Nations and Belonging Beyond the State]] · [[Marriage and Citizenship]] · [[Mormon Genealogy and the FamilySearch Archive]]
