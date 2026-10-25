@@ -13,6 +13,7 @@
 
 // The Ancient History, Ancestry & Genetics section — one list shared by the Contents category and the home pillar.
 const HISTORY_PAGES = [
+      'Citizenship by Descent',
       'Ancestral Temple Elites Royal Inbreeding and Sacred Marriage',
       'Bog Bodies and Ritual Killing in Ancestral Temple Cultures',
       'Denisovans Ancestry Sea Crossings and the Fossil Record',
@@ -122,6 +123,7 @@ const CREDENTIAL_PAGES = [
       'CEFR Level C1',
       'CEFR Level C2',
       'Behaviour Technician and Allied Health Entry Credentials',
+      'Citizenship by Descent',
 ];
 
 export const CATEGORIES = [
