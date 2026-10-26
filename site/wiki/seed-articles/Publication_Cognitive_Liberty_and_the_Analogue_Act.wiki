@@ -1,0 +1,117 @@
+'''Publication, Cognitive Liberty, and the Analogue Act''' covers the legal and ethical layer of Alexander Shulgin's work: why he put dose, duration, route and preparation into print rather than into a drawer, what the law did to the compounds as he was describing them, how he reported scheduling and enforcement, and what he actually said about the right to examine one's own mind. The material is taken from the '''EXTENSIONS AND COMMENTARY''' sections of ''PIHKAL'' (1991) and ''TIHKAL'' (1997) and from quoted passages of the ''PIHKAL'' narrative half. The aim is to state his position as he stated it, with sources, and not to argue it either way.
+
+== The stated position ==
+
+Shulgin's position on cognitive liberty appears in the ''PIHKAL'' story section as a single sentence:
+
+: "Our generation is the first, ever, to have made the search for self-awareness a crime, if that search takes place through the use of tools denied by law."
+
+It is a claim about criminalisation, not an argument that the compounds are harmless; the Epilogue's instruction is correspondingly conditional: "Use them with care, and use them with respect as to the potential they have for serious change in the chemistry of your mind, and how that chemistry might affect others. These are truly blessed tools for exploring the depths of the human psyche." The premise underneath both is in the Introduction: "I am completely convinced that there is a wealth of information built into us… Something akin to a library containing uncountable reference volumes, but encyclopedias whose indexes and tables of contents are still far from being compiled."
+
+== Why he published, and the policy he reversed ==
+
+The earliest policy in the corpus is the ordinary one of a working chemist: publish what is interesting. '''AEM''' (#1), on an inactive series: "This family was never published; why publish presumably inactive and thus uninteresting material?"
+
+The books reverse that. They carry the dead ends in full — '''PEA''' (#142) and '''DMPEA''' (#60) are entries for compounds with no activity at all, and '''DMPEA''' gives the reason: "these are totally fascinating compounds just because they have no activity!" The negative chemistry goes in for the same reason: dozens of entries record how far a synthesis got and where it stalled.
+
+Shulgin also states what the qualitative half of the record was for, against a literature that wanted only a number. From '''3-T-TRIS''' (#178): "the major question that is asked by most academic researchers… is, 'How much does it take,' rather than 'What does it do.'… But they are, I believe, of great worth. That is exactly what this book is all about."
+
+== Publishing strategically: the DOET passage ==
+
+The most important document in the corpus on publication ethics is the '''DOET''' entry (#66), because in it Shulgin describes withholding data from the journals on purpose — and says why:
+
+: "The original publications of the action of DOM clearly documented the compound as being a psychedelic and one with a sizeable measure of potential abuse. And, it is not a surprise that it was quickly shuffled into a legal classification that effectively precluded any further study of it. So, when this immediate homologue of DOM was studied and discussed in the literature, all reported dosages were those that were at the lowest levels, and no disturbing hints of abusability were mentioned. And this particular homologue has so far escaped the attention and restrictive action of the drug enforcement agencies, although the specific wording of the Controlled Substance Analogue Enforcement Act of 1986 might make this point moot…"
+
+He continues: at modest doses DOET "has the reputation of being a cognitive enhancer and is largely free of those sensory distortions that would catch the attention of the authorities who cannot tolerate drugs that distort the senses. The higher levels mentioned here have never been put into the published literature."
+
+Three things are said at once. Scheduling followed publication and ended the research. The literature on DOET was shaped — low doses reported, abuse liability omitted — to keep the compound legal and therefore studiable. And the higher-dose data, withheld from the journals for twenty years, is being published here for the first time: the books are where the withheld material went.
+
+== Scheduling, quotas, and the gaps in the schedules ==
+
+The corpus reports drug law as an observable system with odd behaviour, usually without editorial.
+
+* '''Production quotas.''' '''2,5-DMA''' (#54): in Schedule I "there are usually listed amounts such as a gram of this, and a few grams of that… But there is a staggering quantity of 2,5-DMA requested, regularly. Quantities in the many tens of millions of grams, quantities that vie with medical mainstays such as codeine and morphine.
+* '''Potent and unscheduled.''' '''DOI''' (#67): a research-chemical supplier had begun selling DOI as a catalogue item, and Shulgin notes what the catalogue implied — "I doubt that they are completely innocent of the fact that DOI is an extremely potent psychedelic and that it is still unrecognized by the Federal drug laws since, in their most recent catalog, the price had almost doubled and a note had been added to the effect that telephone orders cannot be accepted for this compound."
+* '''The approval path for legitimate work.''' '''TIHKAL #6 (DMT)''': DMT "is the only psychedelic tryptamine that has recently been taken through the Kafkaesque processes for approval for human studies (via the FDA, the DEA, and the other Health agencies of the Government)."
+* '''Research blocked outright.''' '''2C-B''' (#20), on the MDMA-then-2C-B sequence used by therapists: it "should be the basis of careful research when these materials become legal."
+
+'''A dating note, as a matter of accuracy:''' every statement above about what was or was not controlled describes the law as of 1991 or 1997, and several compounds Shulgin describes as unscheduled were scheduled afterwards. Read these passages as his record of the regime he worked under, not as current law.
+
+== The Analogue Act ==
+
+The statute Shulgin names in this corpus is the '''Controlled Substance Analogue Enforcement Act of 1986''' ('''DOET''', #66). Its relevance to his project is the one he states there: a compound need not be listed to be prosecutable, so the strategy of working in the unscheduled gaps between listed molecules stops working, "at least as far as human trials are concerned."
+
+His extended critique of the Act — that an isomer is a chemical fact while an analogue is a legal judgement with an adjustable threshold, illustrated by the salt-shaker comparison — is in the ''TIHKAL'' entry for alpha-methyltryptamine. '''That entry is not part of the corpus indexed here''', so it is not quoted; see '''[[Isomers, the Analogue Act, and Forensic Chemistry]]'''. Likewise the Schedule I analytical research licence Shulgin held is '''not documented anywhere in these commentary sections''' — see '''[[Alexander Shulgin, Alchemy, Isotopes, and Soul Chemistry]]''' — and is '''not established in this source'''.
+
+== The consequence case: DOM on the street as STP ==
+
+The strongest argument in the corpus for publishing identities and doses is not an argument at all. It is Shulgin's account, in '''DOM''' (#68), of what happened when a compound of his reached people who did not know what it was: "This compound, unbeknownst to me, was scattered widely and plentifully in the heyday of the Haight-Ashbury in San Francisco, in mid-1967. It was distributed under the name STP…" He itemises two failures:
+
+: "One, there was no equation made between STP and DOM. No one knew what this drug was which had been distributed in a cavalier way throughout the city. There could be no educated guess as to the best treatment of overdose emergencies. And secondly, the initial tablets that had been distributed apparently contained 20 milligrams of DOM per tablet; later, it was dropped to 10 milligrams. Either of these, in retrospect, is now known to be a thoroughly whopping dose."
+
+Then the kinetics problem that turned a strong dose into a multiple one. DOM alerts at about thirty minutes and does not reach full effect for two hours, while LSD users expected depth at thirty minutes: "They… assumed, when there was little if any activity noted at the half-hour point, that the potency was less than expected. They took one or even two additional dosage units. Thus, some of the overdose victims of that period may well have taken as much as 30 mg of DOM."
+
+Every element of that casualty chain is an information failure: an unpublished identity, an unpublished dose, an unpublished time-course, and an assumed cross-compound equivalence that was wrong.
+
+'''DOB''' (#62) records the same pattern with a death attached. A young woman died after snorting DOB, with "over nine milligrams of the drug" recovered post-mortem: "she and her companion had thought that the drug they were using was MDA and, taking a dosage appropriate for this, effectively overdosed themselves." Shulgin's closing observation is the identification problem again: "in most overdose cases ascribed to DOB, the identity of the drug has remained unestablished."
+
+== Harm-reduction instruction, printed as such ==
+
+The entries carry operational guidance, not only characterisation. '''2C-B''' (#20) publishes two overdose narratives in the subjects' own words — a 64 mg redose by a physician, and a 100 mg dose taken from the wrong vial by a psychologist — under a challenge-minded framing: "There have been reports of several overdoses that prove the intrinsic safety of this compound. Prove is used here in the classic British sense; i.e., to challenge." It then states the hazard and what to do about it: "There is a steep dose response curve. Over the 12 to 24 milligram range, every 2 milligrams can make a profound increase or change of response. Initially, one should go lightly, and increase the dosage in subsequent trials by small increments." '''2C-P''' (#36) gives the same instruction for a compound with little margin: "The need for individual titration would be most important with this compound."
+
+== Who the compounds were shared with ==
+
+The corpus documents a wide, mostly professional distribution, and labels the provenance of each class of report.
+
+{| class="wikitable"
+! Channel !! What the corpus records
+|-
+| The research group || Named as a standing unit; see '''[[The Shulgin Method, Dose Escalation, and the Research Group]]'''
+|-
+| Psychotherapists || MDMA sessions with 1.5-hour supplements (#109); 2C-T-2 and 2C-T-7 "frequently used in therapy as follow-ups to MDMA" (#40, #43); 2C-D in therapeutic research in Germany as LE-25 (#22)
+|-
+| Clinical researchers || DPT in alcoholics, 15–30 mg i.m. as a psychotherapy adjunct, ~100 mg for peak experiences, 75–125 mg i.m. with dying patients (TIHKAL #9)
+|-
+| Foreign literature || Leminger's Czech work on escaline, proscaline, AL, MEPEA and MAPEA (#2, #123); South American reports on DON and TMA-4 (#70, #160)
+|-
+| Forensic and enforcement literature || Capsule seizures (#54, #123); a DON note from "a bulletin that is restricted to forensic scientists serving law enforcement agencies" (#70)
+|}
+
+He is careful about what the enforcement literature is worth as data. On the DON bulletin's prediction that the compound's stimulant action "seems to reduce the incidence of insightful, and therefore potentially unpleasant experiences," he comments only: "I must admit that I have tried, and I am still not able, to interpret this quotation." 
+
+=== The MDMA story, as this corpus tells it ===
+
+The MDMA narrative usually attached to Shulgin — the rediscovery, Leo Zeff, the therapist network — is in the books' narrative halves and in secondary sources, '''not in these commentaries'''. What the '''MDMA''' entry (#109) records is a practice: in psychotherapeutic sessions, "of which there were many in the early years of MDMA study, it became a common procedure to provide a supplemental dosage of the drug at about the one and a half hour point." '''METHYL-MA''' (#130) calls MDMA "a one-of-a-kind thing which simply defies all the rules." For the historical account see '''[[PIHKAL and TIHKAL]]'''.
+
+== Religion, and a congregation the government left alone ==
+
+'''TIHKAL #9 (DPT)''' records a working instance of sacramental use, and Shulgin's reaction to its being tolerated: "There is a rather remarkable religious group known as the Temple of the True Inner Light, in New York City, which has embraced as its Eucharist DPT which they refer to as a powerful Angel of the Host. Their communion is confirmed by either the smoking or the drinking of the sacrament, and they have been totally unbothered by any agency of the Federal Government, as far as I know. It is not as if they were unknown." He adds: "I wish the True Inner Light congregation Godspeed… My impressions of them from our correspondence have left me totally convinced of their integrity and dedication." See '''[[Religious Sacraments, RFRA, and the Temple of True Inner Light]]''' for the legal history of that case.
+
+== The ethical counter-case: research without consent ==
+
+Shulgin's own practice — himself first, graded doses, informed volunteers, published results — is set in the corpus against the state research of the same era, and this is the one place where his editorial is unrestrained. From '''3,4-DMA''' (#55):
+
+: "[These comments] are written descriptions by the observers who had given 3,4-DMA to psychiatric patients. This is one of the most outrageous chapters in the books on military medicine. The chemical warfare group within the U.S. Army explored many potential psychedelics by administering them to innocent patients with not even a thought of obtaining informed consent. These experiments took place at the New York State Psychiatric Institute (amongst other places) in the early 1960's. The Edgewood Arsenal code name for 3,4-DMA was EA-1316."
+
+The programme reaches further than that one entry: '''MDPEA''' (#115) was "one of the seven compounds evaluated as to toxicity and animal behavior at the University of Michigan under contract from the Army Chemical Center. Its Edgewood Arsenal code number was EA-1297. The number for MDA itself was EA-1298." See '''[[Edgewood Arsenal]]'''.
+
+== What the published record is and is not evidence of ==
+
+One epistemic note, stated once. The legal and historical claims here are Shulgin's — a participant's account from his own notes and correspondence, with no independent verification in the text and, in places, with the provenance of a quotation openly reconstructed rather than transcribed (#60, #70). The human data behind them is unblinded self-report from a small, self-selected group. That establishes what he did, what he published, what he chose not to publish and why, and what the schedules looked like from inside his laboratory; it is not a substitute for the regulatory record.
+
+His position is best left in his own two sentences — the Epilogue's "Use them with care, and use them with respect," and the story section's claim about a generation that criminalised the search. The corpus argues for the second by documenting the first.
+
+== See also ==
+* [[The Shulgin Method, Dose Escalation, and the Research Group]]
+* [[Naming the Compounds, Codes, Greek Names, and Shulgin Nomenclature]]
+* [[Shulgin Rating Scale]]
+* [[PIHKAL and TIHKAL]]
+* [[Isomers, the Analogue Act, and Forensic Chemistry]]
+* [[Religious Sacraments, RFRA, and the Temple of True Inner Light]]
+* [[Edgewood Arsenal]]
+* [[Alexander Shulgin, Alchemy, Isotopes, and Soul Chemistry]]
+* [[The Legal Supply Chain Coca Leaf Poppy Straw DEA Quotas and the Federal Patients]]
+* [[Psychotropics Convention and the UDV Precedent]]
+* [[Ecstasy Pill Forensics and Historical Adulteration Trends]]
+* [[The Church of Neuroscience and Biohacking]]
+* [[The Library of Ashurbanipal]]

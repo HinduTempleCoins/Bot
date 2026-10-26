@@ -1,0 +1,180 @@
+'''A mushroom is a regioselective catalyst that you feed.''' Shulgin's observation, repeated often enough to have become folklore, is that a ''Psilocybe'' mycelium given a tryptamine will hand back the '''4-hydroxylated''' version of whatever it was given — give it DMT and it makes 4-OH-DMT; give it something else entirely and it makes the 4-OH version of that. The enzyme does not care very much what the rest of the molecule is. It cares about the ring.
+
+That is the whole idea of this article, generalised. '''Living systems contain enzymes with defined regiochemistry and loose substrate specificity''', and the two properties together make them usable as reagents. The method has a name — '''precursor-directed biosynthesis''', and its engineered cousin '''mutasynthesis''' — and it is how a yeast was taught to make opioids from sugar, how another was taught to make cannabinoids with side chains no plant produces, and how the same logic could be aimed at compounds nobody has made yet.
+
+The aim here is '''understanding and novel chemistry''', not precursors and not controlled substances. The legal and practical reasons that distinction is load-bearing are set out at the end, because "novel" and "legal" are not the same word and people lose years assuming they are.
+
+== The mushroom pathway, enzyme by enzyme ==
+
+The psilocybin route in ''Psilocybe'' was fully characterised by '''Fricke, Blei and Hoffmeister (2017)''', who reconstituted it ''in vitro''. Four enzymes, in a specific order:
+
+<code>
+   L-TRYPTOPHAN
+        │
+        ▼  PsiD — tryptophan decarboxylase
+   TRYPTAMINE
+        │
+        ▼  PsiH — CYTOCHROME P450 MONOOXYGENASE
+        │          ◄── THE 4-HYDROXYLATION. This is the step
+        │              that does not care what it is given.
+   4-HYDROXYTRYPTAMINE
+        │
+        ▼  PsiK — kinase (ATP)
+   NORBAEOCYSTIN  (4-phosphoryloxy)
+        │
+        ▼  PsiM — SAM-dependent N-methyltransferase (×2)
+   BAEOCYSTIN ──► PSILOCYBIN
+</code>
+
+Two details in that diagram matter more than they look:
+
+* '''The phosphate is a protecting group.''' A free 4-hydroxyindole oxidises readily — it is why psilocin bruises mushrooms blue. '''PsiK''' phosphorylates it, which stabilises the molecule for storage in the fruiting body; the organism's own alkaline phosphatase, or yours, removes it again. '''Psilocybin is the prodrug and psilocin is the drug''', and the biology built the prodrug for its own reasons.
+* '''The order is decarboxylate → hydroxylate → phosphorylate → methylate.''' Feed the pathway at a later point and you skip the earlier enzymes. This is the lever.
+
+'''Where "4-OH-Mickey Mouse" comes from.''' Feeding experiments with ''Psilocybe'' cultures — Gartz's work from the late 1980s onward, and the modern enzymology that followed — showed that supplying '''substituted tryptamines''' yields the corresponding '''4-hydroxy''' products. Give the culture N,N-diethyltryptamine and you recover 4-HO-DET. The P450 is doing position-4 ring hydroxylation on an indole and is comparatively indifferent to the amine substituents.
+
+'''The limits, which are the interesting part.''' Promiscuity is never total:
+
+* '''PsiM''' is fussier than PsiH. It methylates small amines well and bulky ones poorly, so N,N-dialkyl products often accumulate at the 4-hydroxy or 4-phosphoryloxy stage rather than going on.
+* '''PsiD''' will decarboxylate various tryptophans but not everything.
+* Substrates that do not resemble an indole do not enter the pathway at all. The "Mickey Mouse" line is a joke about '''indifference to the periphery''', not about universal acceptance.
+
+'''And the mushroom does more than one thing.''' Blei and colleagues (2020) showed that ''Psilocybe'' species also produce '''β-carbolines''' — monoamine oxidase inhibitors — alongside psilocybin. The organism makes its own MAOI and its own tryptamine in the same tissue, which is the ayahuasca principle arrived at independently inside one fungus. See [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] and [[The Tryptamine Family and Endogenous Neurochemistry]].
+
+== The cactus pathway, and the everyday cacti ==
+
+Cacti run the same kind of assembly line on the '''phenethylamine''' skeleton, from tyrosine rather than tryptophan.
+
+<code>
+   L-TYROSINE
+        │  TyDC — tyrosine decarboxylase
+        ▼
+   TYRAMINE ──── N-methyltransferase ──► N-METHYLTYRAMINE ──► HORDENINE
+        │                                                    (N,N-dimethyltyramine)
+        │  hydroxylation
+        ▼
+   DOPAMINE  ◄══ THE BRANCH POINT. Present across the family.
+        │
+        ├── O-methyltransferases ──► 3-methoxytyramine ──► ... ──► MESCALINE
+        │                                                  (3,4,5-trimethoxy-PEA)
+        │                                                       │
+        │                                              N-methylation
+        │                                                       ▼
+        │                                          N-methylmescaline,
+        │                                          TRICHOCEREINE (N,N-dimethyl)
+        │
+        └── PICTET-SPENGLER with an aldehyde or keto acid
+                   ▼
+            TETRAHYDROISOQUINOLINES
+            anhalonidine, pellotine, anhalamine, carnegine
+</code>
+
+'''The chemistry worth noticing''' is that mescaline is not a separate invention. It is '''dopamine with three O-methylations''', and every cactus with dopamine has the substrate — what differs between species is which '''methyltransferases''' and '''hydroxylases''' are expressed, and how much.
+
+'''The everyday cacti.''' This is the "plethora" the operator remembers, and it is real: the simple phenethylamines are ordinary across the family, including in plants sold in every garden centre.
+
+{| class="wikitable"
+! Genus !! Typical alkaloids !! Where you find it
+|-
+| '''''Opuntia''''' (prickly pear) || Tyramine, N-methyltyramine, '''hordenine''', 3-methoxytyramine, dopamine || Supermarkets — nopales and tunas are food crops
+|-
+| '''''Ariocarpus''''' || Hordenine, N-methyltyramine || Ornamental; the "false peyote" group
+|-
+| '''''Turbinicarpus'', ''Epithelantha''''' || Hordenine || Common collector plants
+|-
+| '''''Cereus'', ''Stetsonia''''' || Tyramine and relatives || Landscaping columns
+|-
+| '''''Carnegiea'' (saguaro), ''Pachycereus''''' || '''Tetrahydroisoquinolines''' — carnegine, gigantine, salsolidine || Emetic and toxic, not psychedelic
+|-
+| '''''Pelecyphora''''' || Pellotine, hordenine || Sedative THIQ profile
+|-
+| '''''Lophophora'', ''Echinopsis'' (''Trichocereus'')''' || '''Mescaline''' and congeners || Treated in full in [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]]
+|}
+
+'''The point of charting them this way''' is not that the garden-centre cactus is a drug — it is emphatically not. It is that '''the family is a living library of tyrosine-pathway enzymes''', expressed in different combinations, and those enzymes are the interesting object. A plant that makes hordenine has the N-methyltransferases. A plant that makes anhalonidine runs Pictet-Spengler condensations. Those are tools.
+
+''(A note on sourcing: the standalone cactus and mushroom essays from Shulgin's books are not in this library's corpus — only the per-compound "Extensions and Commentary" sections are. The species chemistry above is reconstructed from the phytochemical literature, as the operator proposed, not quoted from PIHKAL or TIHKAL.)''
+
+== Mutasynthesis: the general method ==
+
+'''Precursor-directed biosynthesis''' feeds an organism an unnatural starting material and collects what its enzymes do to it. '''Mutasynthesis''' goes one step further: knock out the gene that makes the natural precursor, so the organism has no choice but to use what you supply, and the unnatural product is not contaminated with the natural one.
+
+<code>
+  CLASSICAL SYNTHESIS          PRECURSOR-DIRECTED BIOSYNTHESIS
+  ───────────────────          ───────────────────────────────
+  Protect the groups you       Feed the analogue to the organism
+  don't want touched           
+  Run the reaction             The enzyme finds the position
+  Deprotect                    No protection, no deprotection
+  Separate the regioisomers    One regioisomer — enzymes do not
+                               produce the other one
+  ↑ 6-10 steps, heavy          ↑ one fermentation, water, 25 °C
+    solvent use
+</code>
+
+'''The reason to care is selectivity.''' Putting a hydroxyl specifically at position 4 of an indole, and nowhere else, is genuinely hard chemistry. '''PsiH does it at room temperature in water, every time.''' The same is true of most enzymatic hydroxylations, glycosylations and C-methylations — the steps where synthetic chemists spend their protecting-group budget are exactly the ones enzymes do for free.
+
+== What engineered microbes have actually done ==
+
+This is where the operator's intuition is strongest, and it deserves exact citations because it is routinely overstated.
+
+* '''Opioids in yeast.''' '''Galanie, Thodey, Trenchard, Filsinger Interrante and Smolke (2015, ''Science'')''' assembled a pathway of more than twenty enzymes — from plants, mammals and bacteria — into ''Saccharomyces cerevisiae'' to produce '''thebaine''' and '''hydrocodone''' from sugar. Yields were tiny and the point was never production; the point was that a complete plant alkaloid pathway could be reconstructed in a microbe.
+* '''Fentanyl, to correct the record, is not made this way.''' It is a '''fully synthetic 4-anilidopiperidine''' with no natural biosynthetic route and no plant precursor. It is made by ordinary organic chemistry, which is precisely why it is cheap and why the supply problem is intractable. The yeast work is about '''poppy''' alkaloids.
+* '''Cannabinoids in yeast''' — '''Luo and colleagues (2019, ''Nature'')''', from the Keasling lab — complete biosynthesis of '''CBGA, THCA and CBDA''' from galactose. '''And the part that matters here:''' by feeding '''different fatty acid precursors''', they obtained cannabinoids with '''side chains that do not occur in the plant'''. That is precursor-directed biosynthesis producing novel analogues in one step — and it is the exact biological counterpart of the chain-length chemistry in [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]] and [[Modified Cannabinoids Matrix]].
+* '''Psilocybin in bacteria and yeast''' — Adams and colleagues (2019) expressed the ''psi'' cluster in ''E. coli''; later work pushed titres into grams per litre, and the same constructs accept analogue precursors.
+* '''Tropane alkaloids in yeast''' — hyoscyamine and scopolamine, reconstructed from ''Atropa'' and other sources.
+* '''Artemisinic acid in yeast''' (Ro and colleagues, 2006) — the commercial proof of the whole approach, and still the best one.
+* '''Vanillin''' — fermentation-derived vanillin from ferulic acid or glucose is an ordinary industrial product sitting in supermarket food right now.
+
+'''The honest summary:''' microbial platforms are real, they are hard, they take teams and years, and their killer application is '''molecules that are difficult to synthesise and easy for an enzyme''' — not molecules that are easy to synthesise chemically.
+
+== Your body runs the same reactions ==
+
+The [[Oilahuasca]] line is the ''in vivo'' version of this article: you are a vessel of enzymes with their own regiochemistry, and what you eat changes which ones are running. Two examples where the cactus chemistry above appears in an ordinary human.
+
+'''Pictet-Spengler, from a drink.''' The condensation that makes cactus tetrahydroisoquinolines — an amine plus an aldehyde, closing a ring — happens in people:
+
+* Ethanol → '''acetaldehyde''' (alcohol dehydrogenase) → acetate (ALDH2).
+* Acetaldehyde that is not cleared fast enough condenses with '''dopamine''' to give '''salsolinol''' — a tetrahydroisoquinoline, the same structural class as carnegine and pellotine, formed by the same reaction.
+* People carrying the '''ALDH2*2''' variant clear acetaldehyde slowly — the East Asian flushing phenotype — and carry a much higher acetaldehyde burden, with a correspondingly raised oesophageal cancer risk. The adduct chemistry is not hypothetical.
+
+'''Glutathione and the Michael acceptors in the glass.''' This is the operator's cinnamon-and-vanilla point, and it is sound chemistry:
+
+* '''Cinnamaldehyde''' is an '''α,β-unsaturated aldehyde''' — a textbook '''Michael acceptor'''. It conjugates directly with '''glutathione''', and it modifies reactive cysteines on '''Keap1''', releasing '''Nrf2''' to induce the phase II battery: glutathione-S-transferases, NQO1, glutamate-cysteine ligase.
+* The result is '''dose- and time-dependent in opposite directions''': an acute load '''consumes''' glutathione, while repeated modest exposure '''induces the machinery that makes more of it'''. That is the same fast-inhibition / slow-induction asymmetry as the P450 story in [[Oilahuasca as Clinical Research Enzyme Induction Cooking and Spiced Beverages]].
+* '''Vanillin''' is a plain aldehyde and an ALDH substrate — it joins the same queue as acetaldehyde for the same enzyme.
+* '''Which is why the drink matters.''' Bourbon takes vanillin from charred oak; cinnamon whiskies add cinnamaldehyde directly. A cinnamon-flavoured spirit delivers '''ethanol, an aldehyde load and a Michael acceptor at once''', into a glutathione pool the ethanol is already drawing down. Nothing exotic is needed to explain why those drinks are disproportionately unpleasant the next day.
+* '''N-acetylcysteine''' is the glutathione precursor with real evidence behind it, and it is the standard antidote for the one common hepatotoxin that kills by exactly this route — paracetamol's NAPQI.
+
+== Making new things: what is actually open ==
+
+This is the practical half, and it has to include the law, because the single most common failure here is building something clever that is already illegal.
+
+'''The Federal Analogue Act (21 U.S.C. § 813)''' treats a substance as Schedule I if its '''structure is substantially similar''' to a Schedule I or II substance '''and''' it has a substantially similar or greater effect, or is represented as having one, '''and''' it is intended for human consumption. In practice:
+
+* '''A new molecule is not a legal molecule.''' 4-OH-anything built on a tryptamine is squarely in analogue territory. So is most of the phenethylamine space.
+* '''"Not for human consumption" labelling is not a defence''' and has not worked in court.
+* '''Novelty makes the analogue question harder to litigate, not easier to survive.'''
+* Other jurisdictions go further: the UK Psychoactive Substances Act 2016 and comparable blanket laws in Ireland, Australia and elsewhere prohibit by '''effect''' rather than by structure, which closes the structural-novelty route entirely.
+
+'''Where the same toolkit is wide open, and genuinely valuable:'''
+
+* '''Non-CNS targets.''' Antibiotics, antifungals, enzyme inhibitors, immunomodulators — enzymatic late-stage hydroxylation and methylation are exactly what medicinal chemistry struggles with. See [[Olive Oil Oleocanthal and Machine Discovered Natural Products]].
+* '''Flavour, fragrance and pigment.''' Fermentation-derived vanillin, saffron compounds, carotenoids, natural blues. Large markets, no scheduling, and the regiochemistry problem is the same one.
+* '''Cannabinoid analogues with novel side chains''', which the yeast work already demonstrated, in a legal landscape that varies by jurisdiction but is not blanket-prohibitionist.
+* '''Making known hard molecules cheaply''' — the artemisinin precedent. Supply, not novelty.
+* '''Enzyme discovery itself.''' Charting which cactus, which fungus and which bacterium carries which hydroxylase and which methyltransferase is the actual deliverable. '''The enzymes are the asset''', and they are not controlled substances.
+* '''Licensed research''' on scheduled targets, under a Schedule I registration, which is a real and achievable path for an institute.
+
+'''So the charting project the operator describes is the right project''' — a map of organisms against the reactions they perform: position, cofactor, substrate tolerance, and what has actually been fed to them. Built that way it is a '''catalyst catalogue''', it is lawful, and it is useful for every one of the open applications above. Pointed at Schedule I analogues it is none of those things.
+
+== See also ==
+
+* [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]] — the species and the mescaline reference table
+* [[Oilahuasca as Clinical Research Enzyme Induction Cooking and Spiced Beverages]] · [[Oilahuasca]] · [[69Ron and Oilahuasca Chemistry]]
+* [[Enzyme Chemistry]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]] · [[Cytochrome P450 System Inhibition and Induction]]
+* [[Isomers the Analogue Act and Forensic Chemistry]] — the law on structural novelty
+* [[Modified Cannabinoids Matrix]] · [[Cannabinoid and Tryptamine Prodrugs]] · [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]]
+* [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]]
+* [[Farming  Fowl  Reptiles  Insects and Fungi]] — the cultivation side
+* [[Olive Oil Oleocanthal and Machine Discovered Natural Products]] — finding the targets to aim this at

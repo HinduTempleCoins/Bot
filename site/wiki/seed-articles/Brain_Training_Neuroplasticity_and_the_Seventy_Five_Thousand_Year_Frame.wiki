@@ -1,0 +1,107 @@
+'''Brain training''' is the best-documented case in modern consumer neuroscience of a real mechanism being sold as a product it cannot deliver. '''Neuroplasticity''' is genuine, well-characterised, and one of the most important findings of twentieth-century neuroscience. '''That daily sessions of smartphone games produce it in any transferable form is a claim that has been tested, repeatedly, and that lost in front of a federal regulator.'''
+
+This article covers what happened, what the evidence actually shows about transfer, what does change brains, and then the position the '''Van Kush Family Research Institute''' takes on the question underneath it — which is the same position it takes on [[Autodidacts and Credentials|autodidacts and credentials]], applied to a different market. '''Capacity is inherited on a timescale of tens of thousands of years. Content is learned in a lifetime. Both the brain-training industry and the credential industry sell the second while charging for the first.'''
+
+== The case everyone remembers: Lumosity ==
+
+'''Lumos Labs''' built Lumosity into the category's defining brand on an explicit neuroplasticity pitch: a daily programme of games, personalised, that would exercise your brain the way a gym exercises a body.
+
+On '''5 January 2016''' the '''Federal Trade Commission''' settled deception charges against the company. The order recorded a '''$50 million''' judgment, '''suspended to $2 million''' on ability to pay. The advertised claims at issue were that the programme would:
+
+* improve performance at '''work and school''';
+* '''delay age-related cognitive decline''' and memory loss;
+* '''reduce or protect against''' impairment from Alzheimer's disease, dementia, stroke, traumatic brain injury, PTSD, ADHD and chemotherapy-related cognitive impairment.
+
+The FTC's finding was that the company '''"preyed on consumers' fears about age-related cognitive decline"''' without the science to back the claims. A second count concerned consumer testimonials solicited through contests offering prizes, without disclosing the incentive.
+
+'''It was not the only one.''' The FTC also brought actions against '''LearningRx''' (2016) over claims that its training treated ADHD, autism and dementia, and against the marketers of '''Procera AVH''' and '''Brain Research Labs''' over memory-supplement claims. Lumosity is the one people remember because it was the biggest and because the pitch was the purest statement of the premise.
+
+'''What the case did not establish.''' The FTC acted on '''advertising substantiation''' — whether the company had the evidence for what it said. That is not a finding that cognitive training does nothing. The scientific question was argued separately, and less cleanly.
+
+== What the evidence shows: near transfer, and almost no far transfer ==
+
+<code>
+   PRACTISE A TASK
+         │
+         ├──► YOU GET BETTER AT THAT TASK ............... "practice effect"
+         │     robust, large, uninteresting
+         │
+         ├──► YOU GET BETTER AT VERY SIMILAR TASKS ...... "NEAR transfer"
+         │     real but narrow; usually shares the stimulus or the rule
+         │
+         └──► YOU GET BETTER AT UNRELATED THINGS ........ "FAR transfer"
+               — fluid intelligence, work performance, daily function —
+               THIS IS WHAT IS SOLD, AND IT IS WHAT FAILS TO REPLICATE
+</code>
+
+* '''Owen and colleagues (2010, ''Nature'')''' ran the largest test of the premise: '''11,430 participants''' trained online for six weeks via BBC Lab UK. Participants '''improved on every trained task'''. There was '''no evidence of transfer''' to untrained tasks, even closely related ones.
+* '''The n-back line.''' Jaeggi and colleagues (2008) reported that dual n-back working-memory training improved '''fluid intelligence''' — the single most exciting claim in the field. Subsequent well-powered replications, notably '''Redick and colleagues (2013)''', and the meta-analyses of '''Melby-Lervåg and Hulme''', found '''no reliable far transfer'''. Where effects appear, they track the use of non-active control groups and unblinded outcome measures — that is, '''expectancy'''.
+* '''Two consensus letters, 2014.''' Around 70 scientists, convened by the '''Stanford Center on Longevity''' and the '''Max Planck Institute for Human Development''', signed a statement that the industry's claims outran the evidence. A counter-statement, signed by a comparable number, held that the evidence base was real and being understated. '''Both letters are in good faith and both are still worth reading''' — the disagreement is about how much weight to put on near transfer and on specific trials, not about whether far transfer has been demonstrated.
+* '''The strongest pro-training datapoint''' is the '''ACTIVE''' trial — 2,832 older adults, randomised to memory, reasoning or speed-of-processing training, followed for ten years. A secondary analysis (Edwards and colleagues, 2017) reported a '''reduction in dementia risk''' in the speed-of-processing arm. It deserves to be taken seriously and it deserves the caveats: '''secondary''' analysis, one arm of three, and a result that has not been independently replicated.
+
+'''Honest summary:''' you reliably get better at the game. Whether anything else improves is, after twenty years, still unestablished — and the burden is on the seller.
+
+== What demonstrably does change brain structure ==
+
+The irony of the industry is that neuroplasticity research contains some of the most striking findings in neuroscience, and none of them involve an app.
+
+* '''Michael Merzenich''''s cortical remapping work in owl monkeys established that adult sensory cortex reorganises according to use. This is the foundational finding the whole field rests on, and Merzenich went on to found Posit Science (BrainHQ) — so the person with the strongest claim to having discovered adult plasticity is also a commercial party in the dispute.
+* '''London taxi drivers''' — Maguire and colleagues (2000, 2006). Drivers who completed '''"the Knowledge"''' — two to four years of learning 25,000 streets — had enlarged '''posterior hippocampi''' relative to controls and to bus drivers. The longitudinal follow-up showed the change appearing in those who '''qualified''', not in those who dropped out.
+* '''Juggling''' — Draganski and colleagues (2004, ''Nature''). Three months of learning a three-ball cascade produced measurable grey-matter change in motion-processing areas — which '''partially reversed''' when practice stopped.
+* '''Musicians, Braille readers, bilinguals''' — consistent structural differences tied to years of practice.
+* '''Aerobic exercise.''' Erickson and colleagues (2011) found that a year of moderate aerobic exercise '''increased hippocampal volume''' in older adults and improved spatial memory. If you want an evidence-based intervention for cognitive ageing, this is the leading candidate, and it is free.
+
+'''The common factor:''' sustained, effortful, '''real-world''' skill acquisition over months to years, with genuine difficulty and genuine stakes. Fifteen minutes of a reaction-time game does not resemble this. '''The Knowledge is not a Lumosity session; it is an apprenticeship.'''
+
+== "Psychoneuroplasticity" ==
+
+The term appears in the literature and in popular writing to mean '''psychological interventions producing measurable neural change''' — psychotherapy, meditation, and more recently psychedelic-assisted therapy. It is '''not a standard technical term''', has no agreed definition, and is best treated as a pointer to a real idea rather than as a field.
+
+The real idea behind it is well supported and is the important one: a '''plastic window''' is not a benefit by itself. What is learned inside the window determines the outcome. This is why the plasticity literature increasingly puts '''practice, environment and psychotherapy back at the centre''' rather than treating the drug or the exercise as the active ingredient on its own — see [[Ampakines Ketamine and Rapid Synaptogenesis]], where a single dose opens a window of elevated synaptogenesis and the pairing determines what gets built. PTSD, chronic pain and addiction are also plasticity. '''The brain's capacity for change is morally neutral.'''
+
+And the claims in this area arrive with pictures. How much those pictures can carry is the subject of [[Brains Lighting Up What Neuroimaging Can and Cannot Show]].
+
+== The 75,000-year frame ==
+
+''The following is the Van Kush Family Research Institute's interpretive position, presented as position, with the evidence it rests on separated from the inference it draws — the same convention used in [[Autodidacts and Credentials]].''
+
+=== The timescale the hardware was built on ===
+
+The cognitive architecture being "trained" is not a product of a lifetime. The archaeological markers of '''behavioural modernity''' — symbolic representation, personal ornament, composite technology — cluster around a horizon roughly '''75,000 years''' before the present:
+
+* '''Blombos Cave''', South Africa: '''engraved ochre''' with deliberate cross-hatched designs, dated to approximately '''73,000–77,000 years ago''', and perforated '''''Nassarius'' shell beads''' of similar age — the earliest widely accepted evidence of symbolic behaviour and ornament.
+* The '''Still Bay''' and '''Howiesons Poort''' industries, with pressure-flaked points and hafted composite tools.
+* '''Toba''' erupted around 74,000 years ago. The '''bottleneck hypothesis''' (Ambrose, 1998) proposed that it crashed the human population to a few thousand and forced a cognitive-genetic transition. ''That hypothesis is now substantially contested'' — Lake Malawi sediment cores (Lane and colleagues, 2013) and later work show no corresponding ecological collapse in East Africa. It is named here because it is widely repeated, and it should be repeated with the correction attached.
+
+=== What mtDNA contributes ===
+
+'''Mitochondrial DNA''' is the right instrument for this timescale: 16,569 base pairs, '''37 genes''', '''13''' of them encoding subunits of the oxidative-phosphorylation machinery; '''maternally inherited'''; '''no recombination''', so it records a clean matriline; and a relatively steady mutation clock.
+
+* Haplogroup '''L3''' — dated to roughly 60,000–70,000 years ago — is the branch from which the non-African macro-haplogroups '''M''' and '''N''' descend. Everyone outside Africa sits downstream of it. The genetic horizon and the Blombos horizon are the same window.
+* '''Mitochondria are the reason this is not merely genealogy.''' Synaptic transmission and maintenance are among the most ATP-expensive processes in the body; mitochondria are actively transported along axons to active synapses; and plasticity is metabolically costly. '''Mitochondrial function is a direct constraint on how much synaptic change a brain can afford.'''
+* That constraint is '''demonstrated, not theoretical''': the primary mitochondrial diseases — '''MELAS, MERRF, LHON, Leigh syndrome''' — are dominated by neurological and visual phenotypes, precisely because neurons and retina have the least metabolic headroom.
+* '''Heteroplasmy''' — the mix of mtDNA variants within one person — passes through a '''germline bottleneck''' that can shift the ratio dramatically in a single generation, which is why mitochondrial inheritance is not simply maternal copying.
+
+'''A limit that has to be stated plainly.''' Reported associations between mtDNA '''haplogroup''' and cognitive performance or cognitive ageing are '''weak, inconsistent, and frequently confounded by population structure'''. Nothing here supports ranking populations, and nothing here is a basis for inferring anything about an individual. The defensible claim is about '''mitochondrial function''' as a constraint, not about haplogroup as a trait.
+
+=== The position ===
+
+'''Capacity is deep-time inheritance. Content is a lifetime's work. The two are being deliberately confused in both of the markets this library watches.'''
+
+* The '''brain-training industry''' sells '''content drills''' — reaction time, span, specific rules — and prices them as '''capacity change'''. The transfer evidence says they are content. That is the whole finding.
+* The '''credential industry''' sells a '''certificate''' and prices it as '''demonstrated capacity'''. The autodidact is the standing counter-example: identical content, no certificate. See [[Autodidacts and Credentials]] and [[Stacking Credentials and the Bilateral Career Path]].
+* '''Both errors have the same shape''': mistaking the measurable proxy for the thing. A Lumosity score and a diploma are both '''real measurements of something narrow''' being sold as a measure of something general.
+* What '''does''' move the needle is in neither catalogue, and the evidence above agrees: sustained difficulty over years, real stakes, physical health, sleep, and the removal of actual deficits. '''The Knowledge, the three-ball cascade, the instrument, the language.'''
+
+''(Editorial note, as in the companion article: the archaeology, the mtDNA phylogeny and the mitochondrial bioenergetics above are established and sourced. The inference that inherited capacity and learned content should be read as two separate economies — and that both industries trade on blurring them — is the Institute's interpretive position, offered as a lens and not as a demonstrated mechanism.)''
+
+== See also ==
+
+* [[Autodidacts and Credentials]] — the same argument in the education market
+* [[Brains Lighting Up What Neuroimaging Can and Cannot Show]] — how these claims are illustrated
+* [[Synaptogenesis Neuroplasticity and Brain Rewiring]] · [[Neurogenesis Neuroprotectants and Synaptogenesis]] · [[Building Brains]]
+* [[Ampakines Ketamine and Rapid Synaptogenesis]] — pharmacological plasticity windows
+* [[Haplogroups and Genetic Heritage]] · [[Human Origins and the Fossil Record]] — the deep-time record
+* [[Child Development Theory Piaget Vygotsky and Multiple Intelligences]] — the developmental version of the capacity question
+* [[Nootropics]] — the supplement market making the same promise
+* [[The Church of Neuroscience and Biohacking]] · [[VR and Neurorehabilitation]]

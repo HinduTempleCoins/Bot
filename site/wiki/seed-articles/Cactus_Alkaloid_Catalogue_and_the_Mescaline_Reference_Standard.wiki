@@ -1,0 +1,180 @@
+'''Mescaline is the ruler the rest of the field is measured with.''' Alexander Shulgin reported potency in '''mescaline units''' — how many times stronger than mescaline a compound is — because mescaline was the first phenethylamine psychedelic isolated (Heffter, 1897), the first synthesised (Späth, 1919), and the one whose dose everybody already knew. Every structural change in the phenethylamine family can be read as a departure from a fixed origin, and the departures are not random: they follow rules.
+
+This article is two things joined. First, '''the cactus catalogue''' — which species make which alkaloids, because "cactus" is not a chemical category and several of the lookalikes make something else entirely. Second, '''the reference table''' — each major analogue placed by its distance from mescaline, which exposes the rule the operator calls the '''"bushy end"''': the alkyl substituents at the far end of the molecule govern '''duration''' far more than they govern potency. That rule generalises, and the place it matters commercially right now is '''THCP and THC-JD'''.
+
+== Part one: the cactus catalogue ==
+
+Cacti produce three distinct alkaloid chemistries, and the split is largely '''chemotaxonomic''' — it follows the genus, not the look of the plant.
+
+<code>
+                        [ CACTACEAE ALKALOIDS ]
+                                 │
+    ┌────────────────────────────┼────────────────────────────┐
+    ▼                            ▼                            ▼
+[ PHENETHYLAMINES,          [ SIMPLE                  [ TETRAHYDRO-
+  METHOXYLATED ]              PHENETHYLAMINES ]         ISOQUINOLINES ]
+ mescaline and kin           tyramine, hordenine,      carnegine, gigantine,
+                             N-methyltyramine          pellotine, anhalonidine
+ Lophophora williamsii       Opuntia, Ariocarpus,      Carnegiea (saguaro),
+ Echinopsis (Trichocereus)   Coryphantha, Cereus,      Pachycereus, and
+ — San Pedro group           Pelecyphora               Lophophora's minor set
+                                                        ↑ sedative / emetic /
+ PSYCHEDELIC                 NOT PSYCHEDELIC             toxic, NOT psychedelic
+</code>
+
+=== The mescaline-bearing species ===
+
+{| class="wikitable"
+! Species !! Common name !! Principal alkaloids !! Note
+|-
+| ''Lophophora williamsii'' || Peyote || '''Mescaline''' (roughly 1–6% of dry weight in the crown), pellotine, anhalonidine, anhalamine, anhalinine, lophophorine, hordenine, N-methylmescaline || The classic. '''CITES Appendix II'''; wild populations in decline
+|-
+| ''Lophophora diffusa'' || False peyote || '''Pellotine-dominant'''; mescaline only in traces || Looks like peyote. Is not pharmacologically peyote — pellotine is '''sedative'''
+|-
+| ''Echinopsis pachanoi'' (''Trichocereus pachanoi'') || San Pedro, huachuma || Mescaline (highly variable, commonly ~0.05–2% dry), 3,4-dimethoxyphenethylamine, 3-methoxytyramine, tyramine, hordenine || The Andean ceremonial column
+|-
+| ''Echinopsis peruviana'' || Peruvian torch || Mescaline, often reported higher than ''pachanoi'' and far more variable || Taxonomy is a mess; "peruviana" in trade covers several things
+|-
+| ''Echinopsis lageniformis'' (''T. bridgesii'') || Bolivian torch || Mescaline, 3,4-dimethoxyphenethylamine || —
+|-
+| ''Echinopsis terscheckii'' || Cardón grande || Mescaline at lower levels, '''trichocereine''' (N,N-dimethylmescaline) || Trichocereine is far less active than mescaline
+|-
+| ''Echinopsis scopulicola'', ''E. macrogona'', ''E. cuzcoensis'' || — || Mescaline, variable || —
+|}
+
+=== The species that are not what they look like ===
+
+* '''''Ariocarpus'' spp.''' (living rock, "false peyote") — '''hordenine''' and '''N-methyltyramine'''. '''No mescaline.''' Used ceremonially in some traditions, and sold as peyote by people who cannot tell them apart.
+* '''''Pelecyphora aselliformis''''' (peyotillo) — '''pellotine''', hordenine. Sedative, not psychedelic.
+* '''''Carnegiea gigantea''''' (saguaro) and '''''Pachycereus pringlei''''' (cardón) — '''carnegine, gigantine, salsolidine, pringleine''': tetrahydroisoquinolines. These are '''emetic and toxic''', not psychedelic, and the big columnar North American cacti are a recurring source of poisonings among people who assumed "big column = San Pedro".
+* '''''Coryphantha macromeris''''' — '''macromerine''', a phenethylamine with weak activity at best.
+* '''''Opuntia'''''  (prickly pear) — tyramine, N-methyltyramine, hordenine. Claims of mescaline in ''O. cylindrica'' and others have not held up on replication.
+* '''''Epithelantha'', ''Turbinicarpus'', ''Stetsonia''''' — hordenine and tyramine.
+
+=== Three facts that matter before anyone touches a cactus ===
+
+# '''Alkaloid content varies by one to two orders of magnitude''' within a single species — by clone, age, season, hydration, and which part of the plant. The alkaloids concentrate in the '''green chlorophyll-bearing layer''' just under the skin, not in the white core. Dosing by length of cutting is guesswork; dosing by assay is not.
+# '''Hordenine, tyramine and N-methyltyramine are indirect sympathomimetics and MAO substrates.''' Cactus material combined with an '''MAOI''' — including syrian rue, which is sometimes deliberately added — is a '''hypertensive crisis''' risk. This is the single most dangerous combination in this part of the inventory. See [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+# '''The nausea is not the mescaline.''' The vomiting characteristic of whole-cactus preparations comes largely from the accompanying alkaloids and from the mucilage. This is why traditional preparations reduce, strain and concentrate rather than eating the plant, and it is treated in [[Old World vs New World Magic Herbs]].
+
+'''Legal and conservation note.''' ''Lophophora williamsii'' is listed on '''CITES Appendix II''' and is declining in the wild through land conversion and over-harvest, including harvest that cuts below the crown and kills the plant. In the United States, peyote is Schedule I with an exemption at '''21 CFR § 1307.31''' for ''bona fide'' religious use by the Native American Church, supplied through licensed distributors in south Texas. ''Echinopsis'' species are widely and lawfully grown as ornamentals in most jurisdictions; what is regulated is the extraction. See [[Religious Sacraments RFRA and the Temple of True Inner Light]].
+
+== Part two: the mescaline reference standard ==
+
+'''Mescaline''' is '''3,4,5-trimethoxyphenethylamine'''. Shulgin's reported active range is roughly '''178–356 mg''', with a duration of '''10–12 hours'''. That is the unit. Everything below is the same skeleton with something moved, swapped or extended.
+
+<code>
+                      MESCALINE — the origin
+                   MeO ──┐
+                   MeO ──┤  ring  ├── CH2 ── CH2 ── NH2
+                   MeO ──┘          └─────┬──────┘
+                     ▲                    ▼
+            RING SUBSTITUTION        THE "BUSHY END"
+            (positions 2,3,4,5)      alpha-carbon and
+            → sets POTENCY and       N-substituents
+              character              → sets DURATION and
+                                       metabolic fate
+</code>
+
+{| class="wikitable"
+! Compound !! Change from mescaline !! Reported active dose !! Duration !! ≈ × mescaline
+|-
+| '''Mescaline''' || — (3,4,5-trimethoxy) || 178–356 mg || 10–12 h || '''1'''
+|-
+| '''TMA''' || '''α-methyl''' added || 100–250 mg || 6–8 h || ~2
+|-
+| '''AEM''' || '''α-ethyl''' added || activity '''lowered''', not doubled || — || < 1
+|-
+| '''TMA-2''' || Methoxys moved to '''2,4,5''' || 20–40 mg || 8–12 h || ~10
+|-
+| '''Escaline''' || 3-methoxy → '''3-ethoxy''' || 40–60 mg || 8–12 h || ~5
+|-
+| '''Proscaline''' || 3-methoxy → '''3-propoxy''' || 30–60 mg || 8–12 h || ~6
+|-
+| '''Allylescaline''' || 3-methoxy → '''3-allyloxy''' || 20–35 mg || 8–12 h || ~10
+|-
+| '''2C-B''' || 2,5-dimethoxy, '''4-bromo''' || 12–24 mg || 4–8 h || ~20
+|-
+| '''2C-E''' || 2,5-dimethoxy, '''4-ethyl''' || 10–25 mg || 8–12 h || ~20
+|-
+| '''2C-T-2''' || 2,5-dimethoxy, '''4-ethylthio''' || 12–25 mg || 6–8 h || ~20
+|-
+| '''2C-T-7''' || 2,5-dimethoxy, '''4-propylthio''' || 10–30 mg || 8–15 h || ~20
+|-
+| '''DOM''' || 2,5-dimethoxy, 4-methyl, '''+ α-methyl''' || 3–10 mg || '''14–20 h''' || ~50
+|-
+| '''DOB''' || 2,5-dimethoxy, 4-bromo, '''+ α-methyl''' || 1–3 mg || '''18–30 h''' || ~150
+|}
+
+''(Ranges as reported by Shulgin from unblinded self-experiment and a small research group — the epistemic standing of that data is discussed in the companion articles. They are not clinical pharmacokinetics.)''
+
+=== What the table actually shows ===
+
+Read down the '''duration''' column rather than the dose column, and the pattern separates cleanly:
+
+* '''Moving or swapping ring substituents''' — 3,4,5 to 2,4,5; methoxy to bromo; methoxy to ethylthio — buys '''potency''', sometimes 10- to 100-fold, while duration stays in the same 8–12 hour band.
+* '''Adding bulk at the alpha position''' — the α-methyl of TMA, DOM and DOB — '''extends duration''', in DOB's case to over a day. The α-methyl group blocks '''monoamine oxidase''' from deaminating the side chain, so the molecule survives much longer in circulation.
+* '''Extending that alkyl chain further''' — the α-ethyl of '''AEM''' — '''loses activity altogether'''. Shulgin set out the fantasy explicitly, that each added carbon might double potency until "a single molecule" would intoxicate, and recorded the result: "''this added two-carbon side-chain with lowered activity was already enough to disprove the doubling pattern''" (PIHKAL entry 1, AEM).
+
+'''That is the lesson.''' The bushy end does not scale. There is an optimum, the optimum is a '''fit''' in a receptor pocket plus a '''metabolic''' consequence, and past it the curve turns over. The deeper structure-activity treatment lives in '''[[Chain Length the Bushy End and the Duration of Action]]'''; the ring-substitution rules are in '''[[Shulgin Structure Activity Relationships Ring Substitution and Potency]]'''.
+
+== The warning Shulgin attached to all of it ==
+
+Everything above is a '''pattern''', and Shulgin went out of his way to say that patterns in this field are not inferences. Under '''MDPH''' (3,4-methylenedioxyphentermine) he set out the question directly — "''What is the train of thought that leads from the structure of a known compound (which is active) to the structure of an unknown one (which may or may not be active)?''" — and answered it by formally testing his own reasoning against Aristotelian syllogistic.
+
+Of the 256 possible combinations of quantifiers and copulas, only '''24 moods are valid'''. He wrote out the MDPH reasoning as one:
+
+* ''Some'' stimulants, given a methylenedioxy ring, are MDMA-like.
+* ''Some'' ring-unsubstituted 1,1-dimethylphenylethylamines are stimulants.
+* Therefore ''some'' ring-unsubstituted 1,1-dimethylphenylethylamines, given a methylenedioxy ring, are MDMA-like.
+
+"''Some m is a, and Some b is m, then Some b is a — and this is not one of the 24 valid moods.''" He identified the one valid form that could follow (Disamis), found that it required a second premise — that every stimulant is a phentermine — which is simply false, and closed with: '''"So much for applying syllogistics to pharmacology."'''
+
+The passage is the honest frame for this entire article. The table above is a '''record of results''', not a generator of them. The structural logic that says "escaline is more potent than mescaline, therefore proscaline will be more potent than escaline, therefore butescaline more again" is the same logic that produced '''AEM''' and the heptacontyl fantasy, and it is the logic the cannabinoid market is running on with '''THC-JD'''. The extrapolations, in Shulgin's own words, "''involve many what-if's and maybe's''" and call for "''faith, insight, and intuition''" — and then they have to be '''tested''', because nothing about the series guarantees the next member.
+
+== Part three: the same rule, in cannabinoids ==
+
+The classical cannabinoids carry an alkyl chain at the C3 position of the resorcinol ring, and that chain does exactly what the alpha substituent does in the phenethylamines.
+
+{| class="wikitable"
+! Cannabinoid !! C3 side chain !! What happens
+|-
+| '''THCV''' || propyl (C3) || '''CB1 antagonist at low dose, agonist at high.''' Chain length flips the ''function'', not merely the strength
+|-
+| '''THCB''' || butyl (C4) || Active, lower affinity than THC
+|-
+| '''THC''' || '''pentyl (C5)''' || The reference. CB1 Ki ≈ 40 nM
+|-
+| '''THCP''' || '''heptyl (C7)''' || Citti and colleagues, 2019 — isolated from the FM2 cultivar; CB1 affinity reported roughly '''30-fold''' that of THC ''in vitro''
+|-
+| '''THC-JD''' || octyl (C8) || Marketed on the assumption that longer is stronger. The published evidence is thin to absent
+|-
+| '''HU-210''' || 1,1-dimethylheptyl || The classic potent synthetic — branching at the chain's base, not just length
+|}
+
+'''The optimum in this series sits around seven to eight carbons''', and '''branching''' at the first carbon matters as much as raw length — which is why dimethylheptyl analogues are far more potent than straight-chain ones of the same length. Beyond the optimum, affinity falls away again.
+
+So '''THC-JD is the cannabinoid market's AEM''': a compound sold on a doubling assumption that the phenethylamine series disproved sixty years ago. The pattern is not "more carbons, more drug." It is a hump, and both the phenethylamines and the cannabinoids sit on it.
+
+'''The practical harm-reduction consequence''' is concrete and current. Products containing THCP are frequently '''dosed by weight as though they were THC'''. If the CB1 affinity is tens of times higher, a milligram-equivalent serving is not an equivalent dose — and a longer chain also raises lipophilicity, which '''slows onset and extends duration''' in an edible, the two conditions under which people re-dose and get hurt. Chain length is a duration variable before it is a potency variable, in both families. See [[Modified Cannabinoids Matrix]] and [[Cannabis Harm Reduction]].
+
+== Reading the family as a set of enzymes ==
+
+The catalogue above sorts cacti by what they contain. There is a second way to read it that is more useful if the object is to '''make something new''': sort them by the '''reactions their enzymes perform'''.
+
+Mescaline is not a separate invention from the hordenine in a prickly pear. It is '''dopamine with three O-methylations''', and dopamine is the branch point present across the family. What differs between species is which '''methyltransferases, hydroxylases and Pictet-Spengler condensations''' are expressed, and how strongly. On that reading, an ordinary garden-centre ''Opuntia'' is not a disappointing peyote — it is a plant carrying the tyrosine decarboxylase and the N-methyltransferases, which are the tools.
+
+That map, the parallel one for ''Psilocybe'', and what has been done with both in engineered yeast and ''E. coli'' are in '''[[Precursor Directed Biosynthesis Making New Molecules in Mushrooms Cacti and Yeast]]''' — including why the same Pictet-Spengler reaction that builds cactus tetrahydroisoquinolines also runs in a person who has been drinking.
+
+== See also ==
+
+* [[Precursor Directed Biosynthesis Making New Molecules in Mushrooms Cacti and Yeast]] — the family read as a catalyst catalogue
+* [[Chain Length the Bushy End and the Duration of Action]] — the structure-activity rule in full
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] — the ring half of the same problem
+* [[PIHKAL and TIHKAL]] · [[Shulgin Rating Scale]] · [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]]
+* [[Old World vs New World Magic Herbs]] — the cacti in the wider plant inventory
+* [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] — the hordenine and tyramine hazard
+* [[Modified Cannabinoids Matrix]] · [[Cannabinoid Isomerization]] · [[Cannabis Harm Reduction]]
+* [[Isomers the Analogue Act and Forensic Chemistry]] — how these series are treated in law
+* [[Hidden Layers How AI Learns What Nobody Taught It]] — pattern extrapolation and its limits, one domain over
+* [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]]

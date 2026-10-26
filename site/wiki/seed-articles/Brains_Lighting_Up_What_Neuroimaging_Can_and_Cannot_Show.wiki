@@ -1,0 +1,111 @@
+'''"The brain lights up"''' is the most load-bearing phrase in popular neuroscience, and it describes something that does not happen. Nothing lights up. A statistical contrast between two conditions exceeds a threshold, and a colour is painted on a greyscale anatomical image to show where. Everything that goes wrong downstream — in journalism, in marketing, in court, and in the brain-training industry — follows from reading the picture as a photograph of thought.
+
+This article sets out what '''fMRI''' and its relatives actually measure, the four well-documented ways the field got it wrong, what imaging is genuinely good for, and how to read a study that comes with a picture of a glowing brain.
+
+== What BOLD actually measures ==
+
+Functional MRI almost always means '''BOLD''' — blood-oxygen-level-dependent contrast. The physics is indirect at every step:
+
+<code>
+   NEURONS FIRE / RECEIVE INPUT
+            │   (milliseconds)
+            ▼
+   LOCAL METABOLIC DEMAND RISES
+            │
+            ▼
+   NEUROVASCULAR COUPLING → local blood flow INCREASES
+            │   (over-supplies: more oxygenated blood than is consumed)
+            ▼
+   RATIO of oxyhaemoglobin to DEOXYhaemoglobin rises
+            │   deoxyhaemoglobin is PARAMAGNETIC — it distorts the field
+            ▼
+   T2* SIGNAL CHANGES  ───────► measured: ~1–3% change
+            │
+            ▼
+   HAEMODYNAMIC RESPONSE PEAKS 4–6 SECONDS LATER
+</code>
+
+Three consequences follow immediately, and they are not technicalities:
+
+* '''It is a blood measurement, not an electrical one.''' The signal lags neural events by seconds and is smeared over them.
+* '''The resolution is a voxel''' — typically 2–3 mm cubed, containing on the order of '''hundreds of thousands to millions of neurons''', many with opposing functions. Excitation and inhibition both cost energy and both raise BOLD, so the signal cannot distinguish a region being switched on from a region being suppressed.
+* '''Logothetis (2001)''' showed by simultaneous recording that BOLD correlates best with '''local field potentials''' — the input and local processing of a region — rather than with the spiking output. The picture shows where a region is being ''driven'', not what it is ''sending''.
+
+'''And "lights up" is always a subtraction.''' The brain uses roughly the same large share of the body's energy budget whatever you are doing. An activation map is the difference between two conditions, thresholded. Change the control condition and the map changes. There is no "off".
+
+== The four failures, and what each taught ==
+
+=== 1. Reverse inference ===
+
+'''Russell Poldrack (2006)''' named the central logical error. A study shows that a task activates the insula. A later paper observes insula activity and concludes the subject felt disgust. That inference is only valid if the insula is '''selective''' for disgust — and it is not. The insula is active during interoception, pain, empathy, risk, craving, humour and taste. The amygdala is not "the fear centre"; it responds to salience of all kinds, including reward.
+
+Formally: P(activation | process) is not P(process | activation), and the second requires knowing the '''base rate''' of that region's activation across all tasks. Most popular neuroscience — and essentially all neuromarketing — runs the inference backwards.
+
+=== 2. Non-independent analysis — the "voodoo correlations" affair ===
+
+'''Vul, Harris, Winkielman and Pashler (2009)''', in a paper originally circulated as ''Voodoo Correlations in Social Neuroscience'', examined a body of studies reporting correlations between brain activity and personality or emotion measures of '''r = 0.8 and above''' — higher than the reliability of either measure, which is arithmetically impossible if the measures are what they claim.
+
+The cause was '''circularity''': selecting voxels ''because'' they correlated with the behavioural measure, then reporting the correlation in those selected voxels as if it were an independent finding. Select on the dependent variable, and noise does the rest. The field now calls this the '''double-dipping''' problem, and corrected practice requires independent selection and test sets.
+
+=== 3. The dead salmon ===
+
+'''Bennett and colleagues (2009)''' placed '''one dead Atlantic salmon''' in a scanner, showed it photographs of humans in social situations, and asked it to determine what emotion each person was experiencing. Analysed '''without correction for multiple comparisons''', the salmon's brain showed a significant cluster of activation.
+
+The point was not humour. A standard scan contains tens of thousands of voxels, each individually tested; at p < 0.05, thousands of false positives are guaranteed. The poster quantified how many published papers at the time were reporting uncorrected results. It won an Ig Nobel Prize and changed reporting standards.
+
+=== 4. The cluster-inference bug ===
+
+'''Eklund, Nichols and Knutsson (2016, ''PNAS'')''' tested the standard cluster-wise inference used by the three dominant analysis packages — '''SPM, FSL and AFNI''' — against '''resting-state data from 499 healthy subjects''', analysed as if they were task data. With no real effect to find, nominal 5% false-positive rates came out as high as '''70%''' for some settings, because the parametric assumption about spatial autocorrelation does not hold in real data. They also found a straightforward '''bug''' in AFNI's 3dClustSim.
+
+''(In fairness: the paper's original framing implied up to 40,000 affected studies, which the authors themselves subsequently corrected. The finding stands; the headline number did not.)''
+
+=== And the one underneath all four: power ===
+
+'''Button and colleagues (2013)''' showed median statistical power across neuroscience to be around '''20%''' — meaning most studies cannot detect the effects they look for, and most "significant" results in a low-powered literature are false. '''Marek and colleagues (2022, ''Nature'')''' delivered the specific version for imaging: reproducible '''brain-wide association''' effects between imaging measures and behaviour or psychiatric traits require samples in the '''thousands''', not the 25 participants typical of the field's first two decades. Most published brain–behaviour correlations are too large to be real, for the same reason the voodoo correlations were.
+
+== What imaging is genuinely good for ==
+
+The failures above are failures of '''inference from small-sample group contrasts to individual mental states'''. Within its actual competence, the technology is excellent:
+
+* '''Presurgical mapping.''' Locating eloquent cortex — motor, language — before resection. Within-subject, large effects, immediate clinical validation.
+* '''Within-subject experimental designs''', where each participant is their own control and the question is about a process rather than a place.
+* '''Multivariate pattern analysis (MVPA) and decoding''', which ask whether information is present in a pattern rather than whether a blob is brighter — a genuinely stronger question.
+* '''Large consortium datasets''' — UK Biobank, ABCD, HCP — where sample sizes finally match the effect sizes.
+* '''Structural and diffusion imaging''' for anatomy, lesions and white-matter tracts, which is a measurement rather than an inference.
+* '''Covert awareness in disorders of consciousness''' — Adrian Owen's work showing that some behaviourally unresponsive patients can perform imagery tasks to command. A rare case where the imaging ''is'' the finding and the stakes are enormous.
+
+== Where it is being oversold right now ==
+
+* '''Neuromarketing.''' Reverse inference as a business model. The claim that a scan reveals what consumers "really" want is not supported; where predictive validity has been tested, cheap behavioural measures do about as well.
+* '''fMRI lie detection.''' Marketed in the 2000s by firms including No Lie MRI and Cephos. '''Courts have excluded it''' — ''United States v. Semrau'' (2010) is the standard reference, where the evidence failed Daubert and Rule 403. The underlying problem is that the method was validated on volunteers told to lie, which is not what lying is.
+* '''SPECT-based psychiatric diagnosis''' — commercial clinics offering scans to diagnose ADHD, depression or "brain types". The American Psychiatric Association's position has been consistent: there is '''no validated neuroimaging diagnostic test''' for these conditions. This is the imaging equivalent of the story told in [[Urine Testing and the Long Search for a Psychiatric Biomarker]], one technology later, and it is being sold at considerably higher prices.
+* '''Brain-training marketing.''' Dealt with in full in [[Brain Training Neuroplasticity and the Seventy Five Thousand Year Frame]] — the FTC case against Lumosity turned on exactly this kind of claim.
+* '''Psychedelic and meditation imaging.''' Genuinely interesting work — default mode network suppression, entropy measures — reported with brain pictures far beyond what small-sample BOLD contrasts can carry. The plasticity evidence in [[Ampakines Ketamine and Rapid Synaptogenesis]] is much stronger at the '''cellular''' level than at the imaging level, which is the reverse of how it is usually presented.
+
+== Why the picture persuades ==
+
+'''McCabe and Castel (2008)''' found that adding a brain image to an article increased readers' rated credibility of the reasoning, including when the reasoning was bad. '''Weisberg and colleagues (2008)''' found that irrelevant neuroscience language made weak explanations more satisfying to non-experts.
+
+''(Both effects have had a mixed replication record — Michael and colleagues (2013) found the brain-image effect small or absent across ten experiments. The honest statement is that the phenomenon is weaker than it was first reported to be, and that the reporting of the phenomenon is itself a nice example of the phenomenon.)''
+
+The deeper driver is '''neuro-essentialism''': a brain picture feels like a cause, where a behavioural result feels like a description. "Depressed people score differently on this questionnaire" and "depressed people show differential activation here" are frequently the same observation, and only the second gets treated as an explanation.
+
+== Reading a study with a picture in it ==
+
+# '''How many participants?''' Under 30 for a between-subjects brain–behaviour correlation: treat as a pilot.
+# '''Was the comparison condition reported, and is it fair?''' The map ''is'' the subtraction.
+# '''Correction for multiple comparisons''' — stated explicitly, and preferably permutation-based rather than parametric cluster inference.
+# '''Were the reported voxels selected independently''' of the correlation being reported?
+# '''Is a reverse inference being made?''' Look for "this region is associated with X, therefore the subjects experienced X".
+# '''Preregistered?''' Analysis pipelines have thousands of defensible configurations. The '''NARPS''' study (Botvinik-Nezer and colleagues, 2020) gave 70 independent teams the same dataset and the same nine hypotheses, and got materially different answers on most of them. That is not fraud; it is researcher degrees of freedom, and preregistration is the only thing that constrains it.
+# '''Does the conclusion need the brain data at all?''' If the behavioural result alone supports it, the scan is illustration, not evidence.
+
+== See also ==
+
+* [[Brain Training Neuroplasticity and the Seventy Five Thousand Year Frame]] — the industry this reporting style built
+* [[Urine Testing and the Long Search for a Psychiatric Biomarker]] — the previous generation's biomarker hunt
+* [[Ampakines Ketamine and Rapid Synaptogenesis]] — where the cellular evidence outruns the imaging
+* [[Synaptogenesis Neuroplasticity and Brain Rewiring]] · [[Building Brains]]
+* [[The Medical Applications of Light]] · [[VR and Neurorehabilitation]]
+* [[Hidden Layers How AI Learns What Nobody Taught It]] — pattern-finding in high-dimensional noise, next door
+* [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]] — the same overclaiming in neurochemistry

@@ -1,0 +1,116 @@
+'''Smell is a drug route.''' Not a metaphor for one — an actual pharmacokinetic path by which small lipophilic molecules reach the brain, by two mechanisms that are usually confused with each other and with a third thing that is neither.
+
+This article separates them: '''(1)''' odorant binding at olfactory receptors, which is signal, not drug action; '''(2)''' '''absorption''' of volatiles across nasal and pulmonary membranes into blood, which is ordinary pharmacology by an unusual door; and '''(3)''' learned and cultural association, which is real, powerful, and not pharmacology at all. Most claims made for aromatherapy fail because they attribute a type-3 effect to a type-2 mechanism.
+
+The jasmine group is the worked example, because its chemistry — '''indole''' at the centre of it — connects directly to the tryptamine and iboga alkaloids treated elsewhere in this library.
+
+== Three different things called "the effect of a smell" ==
+
+<code>
+  [ VOLATILE MOLECULE IN AIR ]
+            │
+   ┌────────┼─────────────────────────┬──────────────────────────┐
+   ▼        ▼                         ▼                          ▼
+[1] OLFACTORY RECEPTOR        [2] ABSORPTION            [3] ASSOCIATION
+  ~400 human ORs, GPCRs        Nasal mucosa + LUNG        Learned pairing,
+  → olfactory bulb             → systemic circulation      memory, expectation,
+  → PIRIFORM CORTEX,           → blood-brain barrier       ritual, placebo
+    AMYGDALA, entorhinal       → receptor targets
+  (no obligatory thalamic      e.g. linalool at GABA-A    Mediated by cortex,
+   relay — the anatomical       1,8-cineole, camphor       not by the molecule's
+   basis of the memory link)    at TRP channels            pharmacology
+            │                         │                          │
+      SIGNAL, not drug          GENUINE DRUG ACTION         GENUINELY EFFECTIVE,
+      (nanogram quantities)     (needs real dose)            wrong mechanism
+</code>
+
+'''Why the anatomy matters.''' Olfaction is the one sensory modality whose primary projections reach the '''piriform cortex and amygdala''' without first passing an obligatory thalamic relay. That is the structural reason smell retrieves autobiographical memory faster and more emotionally than sight or sound — the '''Proust effect''' — and it is a real, well-characterised anatomical fact. It is also routinely misused: proximity to the amygdala explains why smells '''cue''' emotion; it does not mean an odorant is '''dosing''' the amygdala.
+
+'''The dose question is the whole question.''' Olfactory transduction works at picogram-to-nanogram quantities — that is detection. Changing GABA-A receptor function requires micromolar concentrations at the receptor, which requires milligrams absorbed. The gap between the two is six to nine orders of magnitude. A room diffuser can plausibly deliver the first. Whether it delivers the second depends entirely on the compound's volatility, the enclosure, and the exposure time — and for most claims, nobody has measured it.
+
+== What genuinely absorbs, and what it does ==
+
+These are compounds with '''documented receptor pharmacology''' and enough volatility to be inhaled in pharmacologically meaningful amounts under the right conditions:
+
+* '''Linalool''' (lavender, coriander, many flowers) — the best-evidenced case. Inhaled linalool produces anxiolytic and sedative effects in rodents that are '''blocked by flumazenil''', implicating the '''GABA-A benzodiazepine site'''. In humans, the oral lavender preparation '''silexan''' has randomised trial evidence in generalised anxiety at 80 mg/day — but that is a '''swallowed capsule''', not a diffuser, and the distinction is the entire point.
+* '''1,8-cineole (eucalyptol)''' — TRPM8 agonist, which is the cold sensation; genuine mucolytic and bronchodilatory activity; CYP enzyme interactions at exposure levels reached occupationally.
+* '''Menthol''' — TRPM8; the cooling is receptor-mediated, not thermal. Analgesic topically at real concentrations.
+* '''Camphor, thymol, carvacrol''' — TRPV and TRPA1 agonists. Camphor is '''neurotoxic and pro-convulsant''' in overdose, and paediatric poisonings from camphorated rubs are a recurring emergency-department presentation.
+* '''Methyl salicylate (wintergreen)''' — the one in this list that most often kills. It is salicylate, it absorbs transdermally and across mucosa, and '''a teaspoon of the oil is equivalent to roughly 7 grams of aspirin'''. Fatal paediatric ingestions are documented.
+* '''Nitrous oxide, diethyl ether, chloroform, the volatile anaesthetics''' — the proof of concept that inhaled small molecules reach the brain fast and completely. Nobody disputes the route; the dispute is only ever about dose.
+
+'''Essential oils are drugs by weight.''' A millilitre of a concentrated oil contains a pharmacologically serious quantity of its constituents, which is why ingestion of essential oils — as opposed to inhalation — accounts for most of the serious poisonings. See [[Terpene Extraction]] and [[A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them]].
+
+== Indole, and the jasmine group ==
+
+'''Indole''' is a benzene ring fused to a pyrrole. It is the core of tryptophan, serotonin, melatonin, DMT, psilocin, ibogaine, reserpine and the ergot alkaloids — and it is also one of the signature volatiles of white flowers.
+
+<code>
+                        [ INDOLE ]
+                            │
+      ┌─────────────────────┼─────────────────────┐
+      ▼                     ▼                     ▼
+ FLORAL VOLATILE      NEUROTRANSMITTER      ALKALOID CORE
+ jasmine, tuberose,    serotonin,            ibogaine, reserpine,
+ orange blossom,       melatonin,            vinblastine, LSD,
+ gardenia              tryptophan            DMT, psilocin
+      │
+      └─ Also: bacterial tryptophanase product — the faecal note.
+         Repulsive at concentration, narcotic-floral at dilution.
+</code>
+
+'''The jasmine volatile profile''' — in ''Jasminum'' (Oleaceae), and in the unrelated '''''Trachelospermum jasminoides''''', Confederate or star jasmine (Apocynaceae) — is built from:
+
+* '''Indole''' — the heavy, animal, "narcotic" quality.
+* '''Methyl anthranilate''' — grape-like; also the active in bird repellents.
+* '''Benzyl acetate''' and '''benzyl benzoate''' — the sweet body.
+* '''''cis''-jasmone''' and '''methyl jasmonate''' — the jasmonates.
+* '''Linalool''' — the anxiolytic candidate above.
+
+'''What is actually shown.''' Hossain and colleagues reported that '''methyl jasmonate and ''cis''-jasmone act as positive modulators at GABA-A receptors''' in vitro, and inhaled jasmine fragrance produced sedative effects in mice. That is a real mechanism with a real receptor. '''What has not been shown''' is that ambient flower scent delivers a modulating concentration to a human brain. The in-vitro concentration and the garden concentration are not the same number, and nobody has bridged them.
+
+'''Methyl jasmonate's actual biological job''' is more interesting than the sedation claim: it is a '''plant stress hormone''', the airborne signal by which a damaged plant induces defence gene expression in its own undamaged tissue and in neighbours. The molecule evolved as plant-to-plant signalling that animals happen to smell.
+
+'''A caution that recurs in this library:''' ''Trachelospermum jasminoides'' is an '''Apocynaceae''', a cousin of ''Tabernanthe iboga'' — and contains '''no ibogaine and no iboga alkaloids'''. Family relationship is not chemistry. See [[Ibogaine Iboga and the Apocynaceae]], where the same family also supplies oleander.
+
+== Transgenerational odour learning ==
+
+The strongest claim in this area is also the most contested, and it belongs here because it bears directly on the inheritance question treated in [[Autodidacts and Credentials]] and [[Brain Training Neuroplasticity and the Seventy Five Thousand Year Frame]].
+
+'''Dias and Ressler (2014)''' conditioned mice to fear '''acetophenone''' — a cherry-almond odorant — and reported that the '''F1 and F2 generations''', never exposed and never conditioned, showed heightened startle to that specific odour, together with changes in the '''Olfr151''' olfactory receptor gene's methylation and an enlarged corresponding glomerulus. The effect was reported to carry through '''IVF''' and cross-fostering, which rules out social transmission.
+
+'''The honest status:''' it is a striking, well-designed experiment that has been '''difficult to replicate''', and the proposed mechanism — how a receptor-specific methylation mark survives germline reprogramming — remains unexplained. It is cited here as an open question, not as a result to build on. If it holds, it is one of the few concrete demonstrations that a ''specific'' sensory association can be inherited.
+
+== What aromatherapy can honestly claim ==
+
+Separating the defensible from the marketing:
+
+{| class="wikitable"
+! Claim !! Status
+|-
+| Scent reliably triggers memory and emotion || '''Established.''' Anatomy supports it; effects are robust
+|-
+| Pleasant scent reduces subjective anxiety in clinical settings || '''Supported''', in dental, preoperative and palliative contexts — effect sizes modest, blinding essentially impossible
+|-
+| Lavender preparations reduce anxiety || '''Supported for oral silexan''' at 80 mg. Inhaled evidence is weaker and the mechanism may be partly type-3
+|-
+| Peppermint improves alertness, eucalyptus eases congestion || '''Plausible and partly supported''' — TRP-mediated, real receptor action
+|-
+| Scent "balances hormones", "detoxifies", "raises frequency" || '''No mechanism, no evidence'''
+|-
+| Oils treat infection, cancer or autoimmune disease || '''No.''' Some have in-vitro antimicrobial activity at concentrations unreachable in a person
+|-
+| Ingesting essential oils is safe because they are natural || '''Dangerous.''' Wintergreen, camphor, pennyroyal, eucalyptus and tea tree all have documented serious and fatal poisonings
+|}
+
+'''The honest summary:''' the olfactory route into the brain is real and anatomically privileged; a handful of volatiles have genuine receptor pharmacology; and the gap between a diffuser and a dose is where nearly every exaggerated claim lives. The association effect is not a lesser thing for being type-3 — ritual, memory and expectation are how incense has worked for five thousand years, and they work whether or not a molecule crosses the blood-brain barrier.
+
+== See also ==
+
+* [[A Field Guide to Smell Molecules Classes Key Odorants and the Reactions That Make Them]] — the molecule-by-molecule reference
+* [[Aroma Wheels Euphoric Odours and the Science of Aromatherapy]] — the classification system and the euphoric-odour literature
+* [[Functional Groups Polarity and Separation Indoles Phenols Rose Ketones and How Aroma Chemistry Works]] — why indoles and phenols behave as they do
+* [[Ibogaine Iboga and the Apocynaceae]] — indole alkaloids, and the Confederate jasmine relationship
+* [[Terpene Extraction]] · [[Hops Cannabis and the Chemistry of Dank Terpenes and Volatile Sulfur Compounds]]
+* [[The Tryptamine Family and Endogenous Neurochemistry]] — indole as neurotransmitter core
+* [[Brains Lighting Up What Neuroimaging Can and Cannot Show]] — how scent studies get overread

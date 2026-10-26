@@ -1,0 +1,103 @@
+'''Oleocanthal''' is the compound responsible for the peppery sting at the back of the throat from a good extra-virgin olive oil, and it is a '''non-steroidal anti-inflammatory drug''' — not metaphorically, but by the same mechanism as ibuprofen. The discovery is one of the cleanest examples in the literature of a food turning out to contain a real drug, and of '''how''' such things get found.
+
+This article covers the oleocanthal story, the evidence for and against the Alzheimer's claims attached to it, the rest of the olive phenolic family, and then the broader question the operator raises: '''what machine learning has actually contributed to finding drugs in natural products''' — which is substantial, and which is not what found oleocanthal.
+
+== The throat sting ==
+
+In 1999 '''Gary Beauchamp''', a sensory scientist at the Monell Chemical Senses Center, was at a conference in Sicily and noticed that freshly pressed olive oil produced a '''stinging sensation at the back of the throat''' — sharply localised to the throat, not the tongue — that he recognised. He had felt it before, in liquid '''ibuprofen''' preparations he had been studying.
+
+That was the hypothesis: the same sensation implies the same receptor mechanism, which might imply a related pharmacology. It took six years to test.
+
+'''Beauchamp and colleagues (2005, ''Nature'')''' reported that the responsible compound — which they named '''oleocanthal''' (''oleo-'' olive, ''-canth-'' sting, ''-al'' aldehyde) — is a '''dose-dependent inhibitor of COX-1 and COX-2''', structurally unrelated to ibuprofen but pharmacologically parallel. Chemically it is a '''secoiridoid''': the dialdehydic form of deacetoxy-ligstroside aglycone.
+
+'''The dose arithmetic, which is the honest part of the story:''' roughly '''50 g of a good extra-virgin olive oil per day''' delivers oleocanthal equivalent to about '''10% of the standard adult analgesic dose of ibuprofen'''. That is not a painkiller. It is a low, chronic, lifelong anti-inflammatory exposure — which is the correct way to think about a dietary effect, and which is plausibly how the Mediterranean-diet cardiovascular literature works at all.
+
+'''Why the sting is diagnostic.''' Both oleocanthal and ibuprofen activate '''TRPA1''' on throat afferents specifically. The sensation is a genuine chemical signal — '''a sting at the back of the throat is the consumer-level assay for phenolic content''', and it is why bitter, peppery oils are the ones worth buying. This is the same receptor pharmacology treated in [[Scent as a Drug Route Volatile Indoles Jasmine and the Olfactory Path]].
+
+== The olive phenolic family ==
+
+{| class="wikitable"
+! Compound !! Note
+|-
+| '''Oleocanthal''' || COX inhibition; the throat sting; the Alzheimer's and cancer work below
+|-
+| '''Oleacein''' || The hydroxytyrosol analogue of oleocanthal; strong antioxidant activity
+|-
+| '''Hydroxytyrosol''' || The most-studied olive phenol; the EU health claim compound
+|-
+| '''Tyrosol''', '''oleuropein''', '''oleuropein aglycone''' || Oleuropein is the bitter principle of the raw fruit — the reason olives must be cured before eating
+|-
+| '''Squalene, α-tocopherol''' || Minor but relevant lipid fraction
+|}
+
+'''Refining destroys all of it.''' The phenolics live in the aqueous fraction and are lost in chemical refining and deodorising. '''"Olive oil", "light olive oil" and "pomace oil" are not pharmacologically the same product as extra-virgin''' — they are a fat with a similar fatty-acid profile and essentially none of the active chemistry.
+
+The '''European Union''' recognised this in Regulation 432/2012 with a conditional health claim for the protection of blood lipids from oxidative stress, requiring at least '''5 mg of hydroxytyrosol and its derivatives per 20 g''' of oil. Phenolic content also falls with heat, light and age — which is why the sting fades in an opened bottle.
+
+== The Alzheimer's claims, sorted ==
+
+This is where the subject attracts overstatement, so the tiers matter:
+
+'''Mechanistically supported, in cells and animals:'''
+* '''Amyloid clearance.''' Abuznait, Kaddoumi and colleagues (2013) reported that oleocanthal '''upregulates P-glycoprotein and LRP1''' at the blood-brain barrier — the two efflux transporters that carry amyloid-β out of the brain — and increased Aβ clearance in mice. This is a plausible and specific mechanism rather than a general antioxidant hand-wave.
+* '''Tau.''' Li and colleagues (2009) reported that oleocanthal binds tau and '''inhibits its fibrillisation'''.
+* '''Oleuropein aglycone''' reduced amyloid pathology and improved behaviour in transgenic mouse models (Casamenti, Stefani and colleagues).
+
+'''Weakly supported in humans:'''
+* A small trial in people with mild cognitive impairment reported improved '''blood-brain barrier integrity''' on imaging after daily EVOO. Small, short, and a surrogate endpoint — a reason to run a bigger trial, not a result.
+* '''PREDIMED''' — the large Spanish trial of a Mediterranean diet supplemented with EVOO or nuts — is the strongest dietary evidence, and it comes with a necessary caveat: the original 2013 ''NEJM'' paper was '''retracted and republished in 2018''' after irregularities in randomisation at some sites were discovered. On reanalysis the cardiovascular benefit held. The cognitive sub-studies are weaker than the cardiovascular result.
+
+'''Not supported:'''
+* That olive oil prevents, treats or reverses Alzheimer's disease in humans. No trial has shown this.
+
+'''The gap that runs through all of it''' is the one named in the dose arithmetic above: the concentrations that produce these effects in a dish are generally far above what dietary intake achieves in a brain. See [[Alzheimers and Parkinsons What Treatment Actually Exists]] for what is actually established in that disease, and [[Cannabinoids in the Hospital Cancer Bone Oedema and What Is Actually Proven]] for the same tiering applied elsewhere.
+
+'''The cancer work''' — Lisanti, Breslin and colleagues reported that oleocanthal kills cancer cells selectively by '''permeabilising lysosomal membranes''', sparing non-cancerous cells. Striking, '''preclinical''', and routinely reported as though it were a treatment. It is not.
+
+== What machine learning actually found ==
+
+It is worth being exact about this, because the inference is usually run the wrong way round.
+
+'''Oleocanthal was not found by a computer.''' It was found because a sensory scientist swallowed olive oil in Sicily and recognised a sensation. The chemistry took six years of ordinary bench work to pin down. '''The single most productive discovery instrument in natural-product pharmacology remains a human being noticing something.'''
+
+'''Where machine learning has genuinely delivered:'''
+
+* '''Halicin''' (Stokes and colleagues, 2020, ''Cell''). A deep neural network trained on ~2,335 molecules for growth inhibition of ''E. coli'' was used to screen the Drug Repurposing Hub. It flagged a compound structurally unlike any existing antibiotic — a failed diabetes drug — which proved broadly bactericidal, including against ''Acinetobacter baumannii'' and ''Mycobacterium tuberculosis''. '''The model found it because it was structurally unlike known antibiotics''', which is precisely what a human medicinal chemist's priors would have filtered out.
+* '''Abaucin''' (2023) — the same group, a narrow-spectrum compound against ''A. baumannii''.
+* '''Mining the global microbiome.''' Machine-learning searches of metagenomic and proteomic data for '''antimicrobial peptides''' have surfaced thousands of candidates from environmental and even extinct-organism sequence data — a genuinely new source of natural products.
+* '''AlphaFold2''' (2021) changed the structural half of the problem: predicted structures for essentially the entire known proteome, which is upstream of nearly all target-based discovery.
+* '''Food-compound mining.''' Veselkov and colleagues (2019) applied network-based machine learning to map food molecules onto cancer-relevant biological networks, identifying dietary compounds with drug-like activity profiles. This is the closest thing to "AI found the drug in the food", and what it actually produces is a '''ranked list of hypotheses'''.
+
+'''The honest division of labour:'''
+
+{| class="wikitable"
+! Step !! Who is better
+|-
+| Noticing an anomalous effect in the real world || '''Humans''', by a wide margin
+|-
+| Searching 10⁸ structures against a trained activity model || '''Machines''', by a wider one
+|-
+| Predicting protein structure and docking || '''Machines'''
+|-
+| Deciding what is worth testing, and designing the test || '''Humans'''
+|-
+| Establishing that it works in a person || '''Neither — only a trial'''
+|}
+
+Every machine-learning hit above was '''confirmed at the bench and in animals''' before anyone called it a discovery. A model output is a '''hypothesis with a ranking''', and the failure mode in this field is identical to the one in [[Brains Lighting Up What Neuroimaging Can and Cannot Show]]: a high-dimensional pattern-finder will always return something, and the question is whether anyone tested it.
+
+== Why this belongs with the oilahuasca line ==
+
+The olive is the worked example for a claim this library makes generally: '''common foods contain real pharmacology at real, if low, doses''', and the interesting effects are usually '''chronic and small''' rather than acute and large. Oleocanthal at 10% of an ibuprofen dose, taken daily for fifty years, is a different kind of intervention from a tablet, and the tools for studying it are different too.
+
+That is the same premise as the '''enzyme induction and inhibition''' work — where a food constituent changes how much of ''something else'' reaches the blood, and the food itself does nothing you can feel. See '''[[Oilahuasca as Clinical Research Enzyme Induction Cooking and Spiced Beverages]]''' for that half, and [[Bioavailability Metabolic Inhibition and Synergy]] for the mechanism.
+
+== See also ==
+
+* [[Oilahuasca as Clinical Research Enzyme Induction Cooking and Spiced Beverages]] · [[Oilahuasca]] · [[Cannabinoid Oilahuasca]]
+* [[Alzheimers and Parkinsons What Treatment Actually Exists]] — the disease, and what is actually licensed
+* [[Cytochrome P450 System Inhibition and Induction]] · [[Bioavailability Metabolic Inhibition and Synergy]]
+* [[Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw]] — food chemistry with real consequences
+* [[Antioxidants and Cannabinoid Stability]] · [[Shulgin Ten Essential Oils]]
+* [[Hidden Layers How AI Learns What Nobody Taught It]] — what these models are doing
+* [[Nootropics]] · [[Brains Lighting Up What Neuroimaging Can and Cannot Show]]

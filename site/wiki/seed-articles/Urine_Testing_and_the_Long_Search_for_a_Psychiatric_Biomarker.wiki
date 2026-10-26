@@ -1,0 +1,123 @@
+'''For most of a century, psychiatry has been looking in urine.''' The logic was never foolish: urine is free, non-invasive, and it concentrates the end-products of metabolism. If a mental illness were a metabolic disorder, its signature should be there — and '''once, spectacularly, it was'''.
+
+That one success produced sixty years of failures built in its image, several of which are still being sold. This article tracks what was found, what was not, what the real urine tests are, and why '''urinary "neurotransmitter testing"''' — a live consumer market — cannot do what it claims. It is the evidentiary companion to [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]]: if the chemical imbalance were literally true, this is the matrix in which it should have shown up.
+
+== The success that started it: phenylketonuria ==
+
+In 1934 the Norwegian physician '''Asbjørn Følling''' was brought two intellectually disabled siblings whose mother said their urine had a peculiar smell. He added '''ferric chloride''' to a sample. It turned '''green'''.
+
+The compound was '''phenylpyruvic acid'''. The cause was a deficiency of '''phenylalanine hydroxylase''', an autosomal recessive defect that lets phenylalanine accumulate and damage the developing brain. Within a generation this produced:
+
+* a '''cause''' — one enzyme, one gene;
+* a '''test''' — later the Guthrie blood spot, and newborn screening worldwide;
+* a '''treatment''' — a phenylalanine-restricted diet, started early, which prevents the disability entirely.
+
+'''PKU is the template everything else was measured against''', and it is worth being precise about why it worked: it is a '''single-gene, large-effect, metabolic''' disease in which one molecule accumulates to extraordinary levels. Essentially no psychiatric diagnosis has that structure. The search that followed assumed otherwise.
+
+== The pink spot, and the transmethylation era ==
+
+'''The hypothesis.''' In 1952 '''Osmond and Smythies''' observed that mescaline is a methylated derivative of dopamine, and proposed that schizophrenia might arise from '''aberrant methylation''' producing an endogenous hallucinogen. It was a genuinely good idea — chemically specific, and testable.
+
+'''The finding.''' In 1962 '''Friedhoff and Van Winkle''' reported a compound in the urine of people with schizophrenia that was largely absent in controls: it appeared as a '''pink spot''' on a paper chromatogram, and was identified as '''3,4-dimethoxyphenylethylamine (DMPEA)''' — a close structural relative of mescaline. The press coverage was enormous. A test for schizophrenia appeared to exist.
+
+'''The collapse.''' Replication divided along a line that should have been checked first. The spot tracked '''diet''' and '''institutional food''', and it tracked '''phenothiazine medication''' — the patients being tested were, almost without exception, medicated and hospitalised, and the controls were not. By the early 1970s the finding was no longer defensible. A parallel claim for urinary '''bufotenin''' failed the same way.
+
+'''What survived.''' Endogenous '''DMT''' is real: humans have the methyltransferase '''INMT''', and DMT has been detected in human body fluids and, more recently, in rat brain tissue. What remains unresolved is whether it is ever present at concentrations that matter functionally. The honest position is that this is an open question with a long history of people getting ahead of it. See [[The Tryptamine Family and Endogenous Neurochemistry]].
+
+=== Shulgin's own account, and the experiment that killed the mauve spot ===
+
+Alexander Shulgin worked on this problem directly, and the '''DMPEA''' entry in ''PIHKAL'' is the best first-hand account of the era in print. He describes the literature as it actually behaved:
+
+''"Researcher A confirmed that the pink spot was found with schizophrenics, and not with normal controls. Researcher B found the pink spot in all urines, regardless of pathology. Researcher C found it in no urines at all. Researcher D argued that it was a factor from the hospital diet. Researcher E found that the pink spot reflected the time of day that the urine sample was collected. Researcher F drew a conclusion about where truth might lie by tallying the number of papers that supported argument A, B, C, D, or E."''
+
+The only durable fact, he writes, was that the spot was DMPEA — and DMPEA, given to people, did nothing.
+
+'''The mauve spot, and the self-experiment that ended it.''' A second colour was reported from Canada at around the same time: a '''mauve spot''' in the urine of patients with schizophrenia, promoted so confidently that '''the positive test was given a disease name — "Malvaria"'''. Shulgin and a colleague at a psychiatric institute tried to replicate it. They assayed ten consecutive acute admissions: no mauve. They wrote to Canada, were told the reagents went in in the wrong order and the heating should have been thirty minutes rather than ten, repeated it on the next ten admissions — still no mauve. The Canadian group reported "''a 100% positive correlation between mauve spots and schizophrenics, and 0% with healthy controls''".
+
+Then the insight, in his words:
+
+''"Aha! What if, just what if, they had been seeing something given to their schizophrenics? Chlorpromazine was the popular treatment of the day. We took a whopping dose of chlorpromazine, and over the next couple of days did manage (barely) to collect our urine samples. Both of us were positive Malvarians! And three days later, we were again negative."''
+
+A final call to Canada asked whether the patients had been medicated before the urine analysis. ''"Of course (came the answer)—it would not be ethical to leave them untreated."''
+
+'''That is the confound, demonstrated by two chemists on themselves.''' The marker was a '''chlorpromazine metabolite'''. Every positive was a treated patient and every negative was an untreated control, and the correlation was perfect precisely because it was measuring the treatment.
+
+'''And the mauve factor did not die.''' It was renamed and resold. The "mauve factor" of Hoffer and Osmond's orthomolecular psychiatry became '''kryptopyrrole''', then '''hydroxyhemopyrrolin-2-one''', and is marketed today as '''"pyroluria"''' — discussed below. A marker disproved by self-experiment in the 1960s is still being tested for commercially.
+
+'''The methodological lesson''' is the one that keeps recurring:  '''medicated, institutionalised, differently-fed patients versus healthy outpatient controls''' will differ in hundreds of urinary analytes, and almost none of those differences are the disease.
+
+== MHPG and the attempt to subtype depression ==
+
+In the 1970s, with the catecholamine hypothesis ascendant, the target was '''MHPG''' — 3-methoxy-4-hydroxyphenylglycol, a noradrenaline metabolite. The proposal was elegant and clinically useful if true:
+
+* '''Low urinary MHPG''' → a noradrenergic depression → should respond to '''imipramine or desipramine'''.
+* '''Normal or high MHPG''' → a serotonergic depression → should respond to '''amitriptyline'''.
+
+A biochemical test that chose the drug. It did not replicate reliably. Only a minority of urinary MHPG originates in the brain — most is peripheral — and the group separations were small, overlapping and inconsistent between centres. By the late 1980s it was gone from practice.
+
+'''The one adjacent finding that held''' was not urinary. '''Åsberg and colleagues (1976)''' reported that low '''CSF''' 5-HIAA — the serotonin metabolite, measured in cerebrospinal fluid — was associated with impulsive aggression and with violent suicide attempts. That association has replicated reasonably well across decades. It is a marker of '''impulsivity''', not of depression, and it required a '''lumbar puncture'''. Urine could not substitute, because '''urinary 5-HIAA is dominated by gut serotonin''' and carries almost no information about the brain.
+
+== The urine tests that are real ==
+
+Urinary metabolite testing is not a failed field. It is a successful field with a narrow and well-defined domain — '''peripheral''' disorders of catecholamine and serotonin production:
+
+{| class="wikitable"
+! Test !! What it detects !! Note
+|-
+| Urinary '''5-HIAA''' (24 h) || Carcinoid / neuroendocrine tumour || Real clinical test. '''Diet causes false positives''' — bananas, pineapple, kiwi, plantain, avocado, walnuts, pecans. Patients are told to avoid these for 48 h
+|-
+| Urinary '''metanephrines''' and '''VMA''' || Phaeochromocytoma, paraganglioma || Real. Plasma free metanephrines now often preferred
+|-
+| Urinary '''organic acids''' || Inborn errors of metabolism in newborns || Real, and the direct descendant of Følling
+|-
+| Urinary '''porphobilinogen''' || Acute porphyria — which presents with psychiatric symptoms || Real, and one of the genuinely treatable causes of acute psychosis
+|-
+| '''Urinary "neurotransmitter levels"''' for mood, anxiety or ADHD || '''Nothing usable''' || Discussed below
+|}
+
+The pattern is clean: urine tells you about '''peripheral''' production, and about '''metabolic diseases with large effect sizes'''. It does not tell you about synapses.
+
+== Why urinary neurotransmitter testing cannot work ==
+
+This is sold today, often by integrative and functional-medicine practices, as a measure of your serotonin, dopamine, GABA and noradrenaline "levels", with a supplement protocol attached. The objections are not subtle:
+
+# '''Serotonin and catecholamines do not cross the blood-brain barrier.''' Nothing in the brain's monoamine pools reaches urine as the parent molecule. This alone ends the argument.
+# '''Roughly 90% of body serotonin is enterochromaffin — gut.''' A urinary serotonin figure is substantially a measurement of the intestine and of diet.
+# '''Urinary catecholamines are mostly made in the kidney itself''', which has its own AADC and decarboxylates circulating DOPA locally.
+# '''Concentration varies enormously''' with hydration; without creatinine normalisation the number is close to meaningless, and normalisation does not rescue points 1 to 3.
+# '''No validated reference ranges''' exist relating these values to any psychiatric diagnosis or treatment response.
+
+'''"Pyroluria"''' is the mauve spot above, under a later name. It descends from the '''"mauve factor"''' of '''Hoffer and Osmond''',' later identified as '''hydroxyhemopyrrolin-2-one (HPL)''', and is marketed as a zinc-and-B6-depleting condition detectable in urine. It is not a recognised disorder; the analyte is notoriously '''unstable in light and at room temperature''', which makes the commercial assay unreliable in both directions; and the treatment — high-dose B6 — '''causes peripheral neuropathy''' at sustained high intake. That is a real harm attached to an unreal diagnosis.
+
+== The other urine testing: drug screens, and their false positives ==
+
+The place urine actually decides outcomes today is forensic and occupational, and the failure mode there is '''immunoassay cross-reactivity'''.
+
+Point-of-care and initial laboratory screens are '''antibody-based''', cheap and deliberately over-sensitive. They are '''presumptive''', and a positive is supposed to be confirmed by '''GC-MS or LC-MS/MS''' before anyone acts on it. Known cross-reactants include:
+
+* '''Poppy seeds''' → opiates (the reason the federal cutoff was raised to 2,000 ng/mL)
+* '''Bupropion''' → amphetamine · '''Pseudoephedrine, labetalol, selegiline, trazodone''' → amphetamine
+* '''Sertraline, oxaprozin, efavirenz''' → benzodiazepines
+* '''Efavirenz''' → cannabinoids · '''Dextromethorphan, diphenhydramine, venlafaxine''' → PCP
+* '''Quinolone antibiotics''' → opiates · '''Ranitidine''' → methamphetamine
+
+'''The harm is not theoretical.''' Unconfirmed presumptive positives have removed newborns from parents, revoked probation, and ended employment — most often affecting people least able to fund a confirmatory test or a lawyer. '''Insist on confirmatory mass spectrometry, in writing, before any consequence attaches.''' A laboratory that declines to confirm is telling you the result will not survive it.
+
+See [[Colorimetric Reagents and Presumptive Chemical Testing]] for the same presumptive-versus-confirmatory problem in field drug identification.
+
+== What the century of looking actually established ==
+
+* '''Urine is excellent''' for single-gene metabolic disease with large accumulations, and for peripheral tumours that secrete monoamines.
+* '''Urine is useless''' as a window on synaptic neurotransmission, for reasons of anatomy that no assay improvement can fix.
+* '''Every "discovered" psychiatric urine marker''' so far has dissolved on controlled replication, and the usual culprits are '''diet, medication and institutional setting''' — the three things hospitalised patients differ in from healthy controls.
+* '''The honest modern position''' is that no laboratory test diagnoses depression, schizophrenia, bipolar disorder or ADHD. Diagnosis is clinical. Anyone selling a test for these is selling the 1962 pink spot with a new logo.
+* '''Where biomarkers are finally arriving''' is neurodegeneration, not psychiatry — '''plasma p-tau217''' for Alzheimer's pathology is a genuine, validated, recent advance. The contrast is instructive: it works because there is a '''specific protein pathology''' to measure. Depression has no equivalent, which is a statement about the disorder, not about the technology. See [[Alzheimers and Parkinsons What Treatment Actually Exists]].
+
+== See also ==
+
+* [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]] — the theory this search was trying to confirm
+* [[Psychotomimetics Sedation and the Evolution of Psychiatry]] — the transmethylation hypothesis in its own era
+* [[Colorimetric Reagents and Presumptive Chemical Testing]] — presumptive versus confirmatory, in the field
+* [[L-Methylfolate]] · [[B-Vitamins]] — the deficiencies that ''are'' measurable and worth correcting
+* [[Brains Lighting Up What Neuroimaging Can and Cannot Show]] — the same overclaiming, one technology later
+* [[Enzyme Chemistry]] · [[Catecholamines Transporters and Monoamine Reuptake]]
