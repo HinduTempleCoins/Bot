@@ -582,6 +582,7 @@
     addProfilePicture();
     addHeadingAnchors();
     addRewardsBubble();
+    highlightClaimbox();
   }
 
 
@@ -671,13 +672,55 @@
       txt.appendChild(el('div', { style: 'font-size:20px;font-weight:700;margin-top:3px;word-break:break-word' },
         parts.join('  ·  ')));
 
-      var btn = el('a', { href: '/@' + me + '/transfers', id: 'melek-rewards-claim',
+      var btn = el('a', { href: '/@' + me + '/transfers#claim', id: 'melek-rewards-claim',
         style: 'flex:0 0 auto;background:#f5c518;color:#1a1a1a;font-weight:700;border-radius:9px;' +
                'padding:11px 22px;text-decoration:none;font-size:15px;white-space:nowrap' }, 'Claim');
 
       box.appendChild(badge); box.appendChild(txt); box.appendChild(btn);
       wall.insertBefore(box, wall.firstChild);
     }).catch(function () { /* soft-fail: never break the notifications page over this */ });
+  }
+
+
+  // ── 9b. claim hand-off ───────────────────────────────────────────────────────────────────────────
+  // The bubble's button cannot sign: the condenser exposes no store and no chain library on window,
+  // and this script must never touch a posting key. So it hands off to the claimbox in UserWallet.jsx,
+  // which signs with the app's own session. The hand-off used to be a bare link, which read as "Claim"
+  // but only navigated - press it and nothing is claimed, with nothing on screen saying so. That is
+  // exactly how 97.296 MELEK stayed unclaimed after someone believed they had claimed it.
+  // Now: scroll the real control into view, flash it, and if it is absent SAY so rather than fail quietly.
+  function highlightClaimbox() {
+    if (w.location.hash !== '#claim') return;
+    if (!/^\/@[a-z0-9.-]+\/transfers/i.test(w.location.pathname)) return;
+    if (w.__melekClaimHandoff) return;
+    w.__melekClaimHandoff = true;
+
+    var tries = 0;
+    var timer = setInterval(function () {
+      var box = d.querySelector('.UserWallet__claimbox');
+      if (box) {
+        clearInterval(timer);
+        try { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { box.scrollIntoView(); }
+        box.style.transition = 'box-shadow .4s ease';
+        box.style.boxShadow = '0 0 0 4px #f5c518';
+        setTimeout(function () { box.style.boxShadow = ''; }, 2600);
+        return;
+      }
+      if (++tries > 20) {                       // ~5s: the wallet has rendered and there is no claimbox
+        clearInterval(timer);
+        var host = d.querySelector('.UserWallet');
+        if (!host || d.getElementById('melek-claim-missing')) return;
+        var note = el('div', { id: 'melek-claim-missing', role: 'alert',
+          style: 'margin:0 0 16px;padding:14px 16px;border-radius:10px;background:#fdf3d3;' +
+                 'border:1px solid #e3c766;color:#5a4a12;font-size:14px;line-height:1.45' });
+        note.appendChild(el('div', { style: 'font-weight:700;margin-bottom:4px' },
+          'The claim control did not load.'));
+        note.appendChild(el('div', {},
+          'Your rewards are safe on the chain and nothing has been lost — but this page is not showing ' +
+          'the button that claims them. Try reloading; if it still does not appear, report it so it can be fixed.'));
+        host.insertBefore(note, host.firstChild);
+      }
+    }, 250);
   }
 
   // ── 7. the home page IS Admin Updates ─────────────────────────────────────────────────────────────
