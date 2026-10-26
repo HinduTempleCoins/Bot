@@ -581,6 +581,103 @@
     fixRewardsLinks();
     addProfilePicture();
     addHeadingAnchors();
+    addRewardsBubble();
+  }
+
+
+  // ── 9. unclaimed-rewards bubble on the Notifications page ────────────────────────────────────────
+  // Post rewards land in the account's REWARD BALANCE and sit there until the owner runs
+  // claim_reward_balance. Nothing outside the owner's own wallet page ever said so, so people watched
+  // hundreds of MELEK accumulate somewhere they could not see and reasonably concluded rewards had
+  // stopped. This puts the figure where they already look — above the notifications wall — as a
+  // phone-style badge, and sends them one click to the wallet claim box that does the signing.
+  //
+  // It reads the username out of `autopost2` (hex of "username\tpassword\t…") and DELIBERATELY keeps
+  // only field 0. The credential in that blob is never read, copied or transmitted, and no key ever
+  // passes through this script.
+  var RPC_URL = 'https://melek.salon/rpc';
+  function rpc(method, params) {
+    return fetch(RPC_URL, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: method, params: params })
+    }).then(function (r) { return r.json(); }).then(function (j) { return j && j.result; });
+  }
+
+  function loggedInUser() {
+    var raw = store('autopost2');
+    if (!raw) return null;
+    try {
+      var out = '';
+      for (var i = 0; i + 1 < raw.length; i += 2) out += String.fromCharCode(parseInt(raw.substr(i, 2), 16));
+      var name = out.split('\t')[0];          // field 0 only — the rest is credential, left untouched
+      return /^[a-z0-9][a-z0-9.-]{1,15}$/.test(name) ? name : null;
+    } catch (e) { return null; }
+  }
+
+  // "1868013 @@000000037" (nai + raw amount) or "1.868 MELEK" — both shapes appear across the APIs.
+  function amount(v, precision) {
+    if (v == null) return 0;
+    if (typeof v === 'string') return parseFloat(v.split(' ')[0]) || 0;
+    if (typeof v === 'object' && v.amount != null) {
+      var p = v.precision != null ? v.precision : (precision || 3);
+      return Number(v.amount) / Math.pow(10, p);
+    }
+    return 0;
+  }
+  function fmt(n, dp) { 
+    return n.toFixed(dp == null ? 3 : dp).replace(/\B(?=(\d{3})+(?!\d))/g, ','); 
+  }
+
+  function addRewardsBubble() {
+    var wall = d.querySelector('.UserProfile__tab_content.notifications');
+    if (!wall || d.getElementById('melek-rewards-bubble')) return;
+
+    // only the account owner, on their own notifications page
+    var me = loggedInUser();
+    if (!me) return;
+    var m = w.location.pathname.match(/^\/@([a-z0-9.-]+)\/notifications/i);
+    if (!m || m[1].toLowerCase() !== me) return;
+
+    rpc('database_api.find_accounts', { accounts: [me] }).then(function (res) {
+      var a = res && res.accounts && res.accounts[0];
+      if (!a || d.getElementById('melek-rewards-bubble')) return;
+
+      var melek = amount(a.reward_steem_balance, 3);
+      var mbd = amount(a.reward_sbd_balance, 3);
+      var mp = amount(a.reward_vesting_steem, 3);   // the MELEK POWER the reward vests are worth
+      if (melek <= 0 && mbd <= 0 && mp <= 0) return;
+
+      var parts = [];
+      if (melek > 0) parts.push(fmt(melek) + ' MELEK');
+      if (mp > 0) parts.push(fmt(mp) + ' MP');
+      if (mbd > 0) parts.push(fmt(mbd) + ' MBD');
+
+      var box = el('div', { id: 'melek-rewards-bubble', role: 'status',
+        style: 'position:relative;display:flex;align-items:center;gap:14px;flex-wrap:wrap;' +
+               'margin:0 0 18px;padding:16px 18px;border-radius:14px;' +
+               'background:linear-gradient(135deg,#1f2a44 0%,#243354 100%);color:#fff;' +
+               'box-shadow:0 6px 18px rgba(0,0,0,.22);font-size:15px;line-height:1.35' });
+
+      // the phone-homescreen badge
+      var badge = el('span', { 'aria-hidden': 'true',
+        style: 'position:absolute;top:-9px;left:-9px;min-width:22px;height:22px;padding:0 6px;' +
+               'border-radius:11px;background:#e0245e;color:#fff;font-size:13px;font-weight:700;' +
+               'display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.3)' },
+        String(parts.length));
+
+      var txt = el('div', { style: 'flex:1 1 240px;min-width:0' });
+      txt.appendChild(el('div', { style: 'opacity:.85;font-size:13px;letter-spacing:.3px' },
+        'Rewards waiting to be claimed'));
+      txt.appendChild(el('div', { style: 'font-size:20px;font-weight:700;margin-top:3px;word-break:break-word' },
+        parts.join('  ·  ')));
+
+      var btn = el('a', { href: '/@' + me + '/transfers', id: 'melek-rewards-claim',
+        style: 'flex:0 0 auto;background:#f5c518;color:#1a1a1a;font-weight:700;border-radius:9px;' +
+               'padding:11px 22px;text-decoration:none;font-size:15px;white-space:nowrap' }, 'Claim');
+
+      box.appendChild(badge); box.appendChild(txt); box.appendChild(btn);
+      wall.insertBefore(box, wall.firstChild);
+    }).catch(function () { /* soft-fail: never break the notifications page over this */ });
   }
 
   // ── 7. the home page IS Admin Updates ─────────────────────────────────────────────────────────────
