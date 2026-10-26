@@ -1,0 +1,104 @@
+'''Ampakines''' and '''ketamine''' arrive at the same place from opposite directions. One group potentiates the AMPA receptor directly; the other blocks NMDA receptors and produces an AMPA surge as a consequence. Both converge on '''BDNF release, TrkB activation, mTORC1 signalling and the growth of new dendritic spines''' — and that convergence is the clearest mechanistic story in modern neuropsychiatry for how a drug given once can change behaviour for weeks.
+
+This article covers the mechanism, the compounds, what the human evidence actually supports, and the harms — including the one that is permanent. It is the glutamatergic branch of [[Nootropics]] and the pharmacological half of [[Synaptogenesis Neuroplasticity and Brain Rewiring]].
+
+== AMPA, NMDA, and why potentiating one means blocking the other ==
+
+Fast excitatory transmission in the brain is '''glutamate onto AMPA receptors'''. The '''NMDA''' receptor sits alongside, blocked by magnesium at rest and opening only when the cell is already depolarised — which makes it a coincidence detector, and makes '''long-term potentiation''' possible. LTP is, physically, the trafficking of more AMPA receptors into the synaptic membrane.
+
+<code>
+ [ AMPAKINE ROUTE ]                    [ KETAMINE ROUTE ]
+
+ Positive allosteric                   NMDA antagonism, but PREFERENTIALLY
+ modulator binds AMPAR                 on GABAergic interneurons (fast-spiking
+        │                              parvalbumin cells fire most, so their
+ Slows deactivation /                  NMDARs are most often open to block)
+ desensitisation                                │
+        │                              DISINHIBITION of pyramidal cells
+ Larger, longer AMPA current                    │
+        │                              GLUTAMATE BURST in mPFC
+        └──────────────┬─────────────────────────┘
+                       ▼
+            AMPA RECEPTOR ACTIVATION
+                       │
+                 BDNF release
+                       │
+                 TrkB receptor
+                       │
+                  mTORC1 signalling
+                       │
+         Synthesis of PSD-95, GluA1, synapsin
+                       │
+          NEW DENDRITIC SPINES (hours), persisting weeks
+</code>
+
+'''The experiment that ties the two together:''' pre-treating with '''NBQX''', an AMPA receptor antagonist, abolishes ketamine's antidepressant effect in rodents. Blocking NMDA is the trigger; '''AMPA throughput is the actual effector'''. That single result is why ampakine pharmacology and ketamine pharmacology belong on one page.
+
+== Ampakines ==
+
+The class came out of '''Gary Lynch''' and '''Gary Rogers''' at UC Irvine, developing on two prototypes: '''aniracetam''' (the racetam that is a genuine AMPA modulator — see [[Racetams]]) and '''cyclothiazide'''.
+
+'''Two mechanistic subtypes, and the distinction is a safety distinction:'''
+
+* '''High-impact ampakines''' (CX-546, cyclothiazide-like) markedly slow receptor '''deactivation''' and raise peak current. They produce the largest effects and carry '''seizure and excitotoxicity risk''' — too much calcium through too many channels for too long.
+* '''Low-impact ampakines''' (CX-516, CX-717, CX-1739) chiefly slow '''desensitisation''' without greatly increasing peak current. Weaker, and much better tolerated.
+
+'''Where they actually got to:'''
+
+* '''CX-516 (Ampalex)''' — tested in Alzheimer's disease, schizophrenia and mild cognitive impairment. Results were weak to null; its potency was probably too low to test the hypothesis properly.
+* '''CX-717''' — studied for sleep-deprivation performance under DARPA funding, and for '''opioid-induced respiratory depression'''. This second use is the most interesting thing the class has produced: ampakines stimulate the '''preBötzinger complex''' in the brainstem and '''restore respiratory drive without reversing analgesia''' — unlike naloxone, which takes the pain relief away with the overdose. Work by Greer, Funk and colleagues; developed by RespireRx.
+* '''Farampator (Org 24448)''' — improved short-term memory in healthy volunteers while impairing episodic memory, with headache and nausea. A useful reminder that "enhancement" is rarely uniform.
+* '''Nothing in this class is an approved medicine.''' Compounds sold online as ampakines are unassayed research chemicals, and the high-impact/low-impact distinction above is precisely what a vendor cannot tell you.
+
+'''The honest verdict:''' a well-founded mechanism, a genuine respiratory-pharmacology application, and forty years without a licensed cognitive drug.
+
+== Ketamine ==
+
+'''The finding.''' Berman and colleagues (2000) and Zarate and colleagues (2006) showed that a single sub-anaesthetic infusion — '''0.5 mg/kg over 40 minutes''' — produced antidepressant effects in treatment-resistant depression '''within hours''', including reduction of suicidal ideation. Before this, every antidepressant took weeks. It reset the field's assumptions about what was possible and about what depression is.
+
+'''The mechanism''' is the right-hand column of the diagram above: preferential NMDA blockade on fast-spiking interneurons, disinhibition, a glutamate burst in medial prefrontal cortex, AMPA activation, BDNF–TrkB–mTORC1, and new spines on apical dendrites within 24 hours (Li and colleagues, 2010). The behavioural effect tracks the spines, and it fades as they are pruned — which is why the effect is '''real and temporary'''.
+
+'''(2R,6R)-hydroxynorketamine''' — Zanos and colleagues (2016) reported that this metabolite carries the antidepressant action in mice '''without''' NMDA antagonism and without dissociation, AMPA-dependently. It raised the possibility of the benefit without the trip. '''Replication has been mixed''', and the question is open.
+
+'''Clinical status.'''
+* '''Esketamine (Spravato)''', the S-enantiomer, intranasal, was approved by the FDA in March 2019 for treatment-resistant depression and later for MDD with acute suicidal ideation. It is dispensed under a '''REMS''' programme: administered in a certified setting with '''at least two hours of monitoring''', because of dissociation, sedation and blood-pressure rise.
+* '''Racemic IV ketamine''' is used off-label and is, in several analyses, at least as effective and far cheaper. The approval went to the patentable enantiomer and the device, which is a fact about drug law rather than about pharmacology.
+* '''Arketamine''' (R-enantiomer) is in trials on the hypothesis of longer action with less dissociation.
+
+== The harms, including the permanent one ==
+
+* '''Ketamine-induced ulcerative cystitis.''' This is the one that does not get said often enough. Frequent, heavy, long-term use causes a destructive cystitis — urinary frequency, urgency, pain, haematuria, and progressive '''contraction of bladder capacity'''. In advanced cases it is '''irreversible''' and has required augmentation cystoplasty or cystectomy in people in their twenties. It is dose- and frequency-dependent, it is not a feature of supervised episodic clinical dosing, and it is common in daily recreational use. '''Urinary symptoms in a regular ketamine user are a stop sign, not a side effect to tolerate.'''
+* '''Cognitive effects''' with heavy chronic use — episodic memory impairment, documented in longitudinal cohorts of frequent users.
+* '''Dependence.''' Ketamine is reinforcing, tolerance builds quickly, and the pattern of use that causes cystitis is the pattern dependence produces.
+* '''Haemodynamic''' — transient rise in blood pressure and heart rate; relevant in uncontrolled hypertension, aneurysm, raised intracranial pressure.
+* '''Dissociation and emergence phenomena''' — the reason for the two-hour observation window.
+* '''Hepatobiliary''' — biliary dilatation and abnormal liver enzymes in heavy users.
+* '''The clinic problem.''' Infusion clinics have expanded far ahead of the evidence base, frequently treating conditions with no trial support, often without psychiatric follow-up. The drug works on the strength of a protocol; sold without one, it is a dissociative with a bladder liability.
+
+== Psychedelics as psychoplastogens ==
+
+The same signalling pathway is reached by a third route, and this is where the field has moved.
+
+* '''Ly and colleagues (2018)''' showed that serotonergic psychedelics — LSD, DMT, DOI — promote structural and functional plasticity in cortical neurons through '''TrkB, mTOR and AMPA''', the same cascade as ketamine. '''David Olson''' coined '''''psychoplastogen''''' for compounds that produce rapid, sustained plasticity after a single exposure.
+* '''Shao and colleagues (2021)''' imaged '''dendritic spine growth in mouse medial frontal cortex within 24 hours of a single dose of psilocybin''', persisting for about a month.
+* '''Tabernanthalog (TBG)''' — Cameron and colleagues (2021) — is an '''iboga-derived''' analogue engineered to be non-hallucinogenic and non-cardiotoxic, which retained anti-addictive and plasticity-promoting activity in rodents. It is the direct descendant of the chemistry in [[Ibogaine Iboga and the Apocynaceae]] and the clearest test of whether the subjective experience is necessary.
+* '''Vargas and colleagues (2023)''' reported that the plasticity effect requires '''intracellular''' 5-HT2A receptors, which serotonin itself cannot reach because it does not cross the membrane — an elegant explanation for why endogenous serotonin is not a psychoplastogen while lipophilic tryptamines are.
+
+'''The open question''' is whether the subjective experience is '''mechanism or epiphenomenon'''. If TBG-type compounds reproduce the clinical benefit, it is epiphenomenon. If they do not, the experience is doing work no receptor assay can see. Neither answer is in yet, and the honest position is that this is '''mouse spine-counting''' being read across to human mood disorder — a translation that has failed many times before.
+
+== Reading this literature without being had ==
+
+* '''"Increases neuroplasticity" is not a benefit by itself.''' Plasticity is capacity for change, not direction of change. Epilepsy, chronic pain and PTSD are also plasticity. The clinical question is always ''plasticity toward what, and paired with what''.
+* '''Spine counts in mouse prefrontal cortex are not a mood.''' They are the most-measured proxy because they are measurable.
+* '''Single-dose, hours-to-weeks effects''' are the real novelty here, and they are also why maintenance becomes the hard problem — the effect decays with the spines.
+* '''The pairing matters.''' The strongest reading of the whole literature is that these compounds open a window of elevated plasticity, and what gets learned in the window determines the outcome. That puts psychotherapy, environment and practice back at the centre rather than at the margin — see [[Brain Training Neuroplasticity and the Seventy Five Thousand Year Frame]].
+* '''Beware the image.''' This literature is reported with pictures of glowing brains; what those images can and cannot support is treated in [[Brains Lighting Up What Neuroimaging Can and Cannot Show]].
+
+== See also ==
+
+* [[Synaptogenesis Neuroplasticity and Brain Rewiring]] · [[Neurogenesis Neuroprotectants and Synaptogenesis]] · [[Building Brains]]
+* [[Nootropics]] · [[Racetams]] — aniracetam as the bridge compound
+* [[Ibogaine Iboga and the Apocynaceae]] — GDNF, 18-MC and tabernanthalog
+* [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]] — the monoamine account this literature displaced
+* [[Psychotomimetics Sedation and the Evolution of Psychiatry]] — how the field got here
+* [[The Expanded Endocannabinoid System and FAAH Science]] — the other retrograde plasticity system

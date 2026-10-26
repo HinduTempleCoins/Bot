@@ -1,0 +1,119 @@
+'''Ibogaine''' is the principal indole alkaloid of '''''Tabernanthe iboga''''', the root bark at the centre of the Bwiti initiatory religion of Gabon. It is the only substance for which a credible claim exists that '''a single dose interrupts opioid withdrawal and resets tolerance''' — and it is also, by a wide margin, the most '''cardiotoxic''' compound in this library's scope. Those two facts are the article.
+
+The plant belongs to the '''Apocynaceae''', a family that also contains the vinca alkaloids, reserpine, oleander and '''Confederate jasmine'''. That family relationship is botanically real and pharmacologically treacherous: it groups one of the great medicinal lineages with one of the great poisonous ones, and the two are not told apart by smell, habit or leaf.
+
+== The plant and the tradition ==
+
+''Tabernanthe iboga'' is an understorey shrub of the Gabonese and Cameroonian rainforest. The '''root bark''' carries the alkaloids; the yellow fruit does not matter pharmacologically.
+
+'''Bwiti''' is a syncretic initiatory religion of the Fang, Mitsogo and Apindji peoples, incorporating ancestral practice and, in some branches, Christian elements. The initiate takes a very large quantity of scraped root bark over many hours, under the supervision of a ''nganga'', and is held through a one-to-three-day visionary and ataxic state understood as meeting the ancestors. Gabon recognises iboga as a national cultural patrimony and restricts its export.
+
+Two things follow that get lost in the clinical literature. '''The traditional dose is enormous''' — far above what Western clinics give. And '''it is supervised continuously by people who have seen the state before''', in a setting whose entire structure is built to hold someone through 36 hours of immobility and vomiting. The deaths in the Western literature occur almost exclusively where that second feature is absent.
+
+== Alkaloids and sourcing ==
+
+<code>
+   Tabernanthe iboga (root bark)          Voacanga africana (seed/bark)
+      • ibogaine      (major)                 • voacangine  (major)
+      • ibogamine                                   │
+      • tabernanthine                               │ semisynthesis
+      • ibogaline                                   ▼
+                                            [ IBOGAINE HCl ]
+                                       most commercial material
+</code>
+
+Most ibogaine in circulation is '''not''' extracted from ''T. iboga''. It is semisynthesised from '''voacangine''', taken from ''Voacanga africana'', which is more abundant and not subject to Gabon's restrictions. This matters for conservation — wild iboga is under harvest pressure — and for quality, because "total alkaloid extract" (TA) and "purified ibogaine HCl" are different products with different alkaloid profiles and different dosing.
+
+== Pharmacology ==
+
+Ibogaine is '''promiscuous'''. It has no single clean mechanism, which is part of why it has been so hard to develop:
+
+* '''NMDA receptor antagonist''' (moderate affinity) — implicated in interrupting tolerance.
+* '''κ-opioid receptor agonist''' — contributes to the oneiric state; the shared mechanism with salvinorin A.
+* '''Sigma-2 receptor''' — high affinity; role unclear, possibly in neurotoxicity.
+* '''Nicotinic acetylcholine receptor antagonist''', α3β4 in particular — the mechanism Stanley Glick's group pursued for anti-addictive action.
+* '''Serotonin transporter''' — weak reuptake inhibition.
+* '''Upregulates GDNF''' in the ventral tegmental area in rodents — glial cell line-derived neurotrophic factor, a plausible route to a durable change in reward circuitry rather than a transient one. This connects the compound to [[Neurogenesis Neuroprotectants and Synaptogenesis]] and [[Ampakines Ketamine and Rapid Synaptogenesis]].
+
+'''Noribogaine''' is the O-demethylated metabolite, produced by '''CYP2D6'''. It is itself active — κ-agonist and serotonin reuptake inhibitor — and it has a '''much longer half-life''' than the parent, which is why the afterglow and the mood effects persist for days to weeks after the acute state has ended. See [[Cytochrome P450 System Inhibition and Induction]].
+
+'''The CYP2D6 problem.''' Roughly 5–10% of people of European descent are '''poor metabolisers''' of CYP2D6. They clear ibogaine slowly, reach higher parent-drug concentrations, and sit at the top of the cardiac risk curve. Many SSRIs — '''paroxetine and fluoxetine especially''' — are potent CYP2D6 inhibitors and convert a normal metaboliser into a functional poor one.
+
+== The cardiac risk, stated plainly ==
+
+'''Ibogaine blocks the hERG potassium channel (IKr).''' That delays ventricular repolarisation, prolongs the '''QT interval''', and can precipitate '''torsades de pointes''' — a polymorphic ventricular tachycardia that degenerates into ventricular fibrillation. This is the mechanism behind the documented deaths, and the QT effect '''outlasts the subjective experience by days''', tracking noribogaine rather than ibogaine.
+
+Published case series (Alper and colleagues; Stajić and others) record fatalities clustering on identifiable risk factors:
+
+* '''Pre-existing QT prolongation''' or structural heart disease, often undiagnosed.
+* '''Electrolyte derangement''' — low potassium or magnesium, which is routine in someone who has been vomiting, in withdrawal, or malnourished. This is the commonest contributing factor and the easiest to correct.
+* '''Concurrent QT-prolonging drugs''' — and '''methadone is the worst case''': it prolongs QT by itself and has a half-life measured in days, so it is still present when the ibogaine arrives.
+* '''CYP2D6 poor metaboliser status''', or a CYP2D6-inhibiting drug taken with it.
+* '''Opioids taken during or after the session''' — respiratory depression against reset tolerance.
+
+'''What risk reduction actually requires,''' and none of it is optional:
+
+# '''12-lead ECG with a measured QTc''' before dosing, and a cardiology opinion on anything borderline.
+# '''Serum potassium and magnesium''' corrected to mid-range first.
+# '''Continuous cardiac monitoring''' through the acute phase and for '''at least 24–72 hours''' after, because the QT nadir is late.
+# '''A full medication and supplement reconciliation''' for QT-prolonging and CYP2D6-active agents — including ondansetron, which is the drug most likely to be given for the vomiting and is itself QT-prolonging.
+# '''Transition off methadone''' to a short-acting opioid well in advance, with a clearance interval.
+# '''Resuscitation capability on site''' — defibrillator, IV magnesium, and someone who can use both.
+# '''No concurrent opioids''', and clear planning for the reset-tolerance period, when a previously ordinary dose is a fatal one.
+
+'''There is no safe way to do this alone, and no safe way to do it at home.''' That is not a legal hedge. It is the specific consequence of a late-peaking, long-lasting arrhythmia risk in a person who cannot stand up.
+
+== The opioid-interruption claim ==
+
+The claim is unusual in that it is both '''widely reported''' and '''poorly evidenced''' — not because studies contradict it, but because almost none have been run.
+
+* Observational work — Brown and Alper's Mexico clinic series, Noller's New Zealand cohort — reports marked reduction in withdrawal signs and sustained reductions in use at 12 months in a subset. Open-label, self-selected, no control arm.
+* Mechanistically the GDNF, α3β4 and NMDA findings give a plausible account of a durable change rather than a substitution.
+* '''18-MC (18-methoxycoronaridine)''' is the serious follow-up: a synthetic congener developed by Glick's group that retains the α3β4 antagonism '''without''' the hERG liability, taken forward in clinical development as MM-110. If the anti-addictive effect survives the removal of the cardiotoxicity, that resolves the central question.
+* There remains '''no adequately powered randomised controlled trial''' of ibogaine for opioid use disorder. Anyone who tells you the effect is proven, or that it is disproven, is ahead of the evidence.
+
+'''Legal status.''' Schedule I in the United States. Unscheduled or clinically regulated in Mexico, New Zealand (prescription), Brazil, South Africa and Canada (unapproved special access). Gabon treats the plant as national patrimony. Much of the treatment industry operates in Mexican and Caribbean clinics with no licensing standard, and their safety practices range from full cardiac monitoring to none.
+
+== The family: Apocynaceae ==
+
+The dogbane family runs to some 5,000 species, and it concentrates two chemistries that have nothing to do with each other.
+
+{| class="wikitable"
+! Genus / species !! Chemistry !! What it is
+|-
+| ''Tabernanthe iboga'' || Iboga-type indole alkaloids || The subject of this article
+|-
+| ''Voacanga africana'' || Voacangine, voacamine || Industrial precursor
+|-
+| ''Catharanthus roseus'' (Madagascar periwinkle) || Vinblastine, vincristine || Front-line chemotherapy; a genuine plant-to-pharmacy success
+|-
+| ''Rauvolfia serpentina'' || Reserpine || The first effective antihypertensive and antipsychotic; see [[Psychotomimetics Sedation and the Evolution of Psychiatry]]
+|-
+| '''''Nerium oleander''''' || '''Cardiac glycosides (oleandrin)''' || '''Lethal.''' Ingestion of leaves, use of the wood as a skewer, or drinking an infusion has killed. No psychoactive use at any dose
+|-
+| '''''Strophanthus''''' spp. || '''Ouabain, strophanthidin''' || '''Arrow poison.''' The source of the original African hunting toxin
+|-
+| ''Asclepias'' (milkweeds) || Cardenolides || Now placed in Apocynaceae; toxic to livestock
+|-
+| ''Trachelospermum jasminoides'' || Fragrant volatiles; no significant alkaloid || '''Confederate jasmine / star jasmine''' — a scent plant, treated below
+|}
+
+'''The practical warning the family carries:''' Apocynaceae contains both the indole-alkaloid lineage ''and'' the '''cardiac-glycoside''' lineage, and the second kills by the same organ as ibogaine's own risk — the heart, through a different mechanism. Oleander in particular is a common ornamental across the American South, the Mediterranean and South Asia, and poisonings recur because people assume a garden shrub is inert. Family membership tells you about evolutionary relationship. '''It tells you nothing about whether a plant is safe to take.'''
+
+== Confederate jasmine, and where the smell question starts ==
+
+'''''Trachelospermum jasminoides''''' — star jasmine, Confederate jasmine — is an Apocynaceae vine, and so a distant relative of iboga. It is '''not psychoactive, contains no ibogaine, and has no iboga-type alkaloids'''. It is also not a true jasmine (''Jasminum'' is Oleaceae); the name is a garden name, applied for the scent.
+
+What it does have is one of the most '''penetrating floral volatiles''' in cultivation, and that is the genuinely interesting link. The ''Jasminum'' and ''Trachelospermum'' scent profiles are built on '''indole''' — the same heterocycle at the core of ibogaine, serotonin and DMT — together with methyl anthranilate, benzyl acetate, linalool and '''methyl jasmonate'''. Indole is faecal and nauseating in concentration and floral and narcotic at dilution, which is why these flowers read as heavy and animal at close range.
+
+Whether those molecules have central effects on a person smelling them, and by what route, is a separate subject with its own real pharmacology and its own large body of overclaiming. That is handled in '''[[Scent as a Drug Route Volatile Indoles Jasmine and the Olfactory Path]]'''.
+
+== See also ==
+
+* [[Scent as a Drug Route Volatile Indoles Jasmine and the Olfactory Path]] — indole chemistry, the olfactory route, and what aromatherapy can and cannot claim
+* [[Old World vs New World Magic Herbs]] — iboga in the wider inventory, and the foxglove warning that rhymes with the oleander one
+* [[Cytochrome P450 System Inhibition and Induction]] — the CYP2D6 problem in detail
+* [[Ampakines Ketamine and Rapid Synaptogenesis]] · [[Neurogenesis Neuroprotectants and Synaptogenesis]] — the GDNF and plasticity angle
+* [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] — the other alkaloid interaction class
+* [[The Legal Supply Chain Coca Leaf Poppy Straw DEA Quotas and the Federal Patients]] — how restricted plant material is lawfully moved
+* [[Carl Ruck the Entheogen Hypothesis and the Sacred Mushroom Argument]] — Bwiti as a living case against reconstructed ancient ones

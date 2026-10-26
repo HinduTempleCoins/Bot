@@ -40,8 +40,73 @@ The published profile is unusually clean: no known drug interactions, no reports
 
 '''The one real caution: assess B12 before starting.''' Folate can mask the anaemia of B12 deficiency while the neurological damage of that deficiency continues unchecked. This is the standard folate caution and it applies here in full.
 
+== Schizophrenia: the same molecule, a different rationale ==
+
+L-methylfolate is also studied as an adjunct in '''schizophrenia''', and it is important to see that it is '''not''' the depression argument transplanted. The depression case rests on BH4 and monoamine synthesis. The schizophrenia case rests on '''one-carbon metabolism, homocysteine and methylation''', and it reaches a different receptor system entirely.
+
+'''The evidence, honestly tiered:'''
+
+* '''Roffman and colleagues (2013, ''JAMA Psychiatry'')''' — 16 weeks of folic acid 2 mg plus vitamin B12 400 µg in 140 outpatients with schizophrenia. Improvement in '''negative symptoms''' overall was modest, and became significant when '''genotype was taken into account''': carriers of the favourable '''FOLH1''' variant (the gene for glutamate carboxypeptidase II, which governs intestinal folate absorption) responded, and others did not.
+* '''Roffman and colleagues (2018)''' — 12 weeks of L-methylfolate 15 mg as adjunct. The primary negative-symptom endpoint was '''not''' met, though secondary measures and imaging showed changes. A mixed result that the field has not resolved.
+* '''MTHFR C677T''' is associated with schizophrenia risk in meta-analyses at an odds ratio of roughly '''1.2–1.3''' — real, replicated, and far too small to be diagnostic or to explain an individual case.
+* '''Hyperhomocysteinaemia''' is reported in a substantial minority of patients, and is the mechanistically interesting part.
+
+'''Why homocysteine matters here and not in depression.''' When the methylfolate cycle is impaired, homocysteine accumulates. '''Homocysteine and its metabolite homocysteic acid act at the glycine co-agonist site of the NMDA receptor''', and elevated homocysteine also promotes oxidative stress and endothelial dysfunction. That lands directly on the '''NMDA hypofunction''' hypothesis of schizophrenia — the model built on the observation that '''ketamine and PCP''' reproduce positive, negative and cognitive features of the illness in healthy volunteers, which no dopamine agonist does. See [[Ampakines Ketamine and Rapid Synaptogenesis]].
+
+So the folate rationale in schizophrenia runs: '''impaired methylation → raised homocysteine → NMDA and methylation-dependent gene regulation''' — not "low serotonin, add precursor". '''One molecule, two mechanisms, two literatures.'''
+
+== Why the "chemical imbalance" frame fails here, and fails differently ==
+
+The frame fails for schizophrenia, but '''not for the reasons it fails for depression''', and collapsing the two does a disservice to both.
+
+{| class="wikitable"
+! !! Depression !! Schizophrenia
+|-
+| The classic claim || Low serotonin || Excess dopamine
+|-
+| Evidence for it || '''Weak.''' No consistent abnormality in serotonin, 5-HIAA, receptors or transporters — see [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]] || '''Substantially stronger.''' Every effective antipsychotic acts at D2; antipsychotic potency correlates with D2 affinity (Seeman and Lee, 1975; Creese and colleagues, 1976); amphetamine produces a psychosis clinically mistakable for it
+|-
+| What imaging shows || No reliable deficit || '''Elevated presynaptic striatal dopamine synthesis capacity''' — the most replicated biological finding in the field
+|-
+| Where the claim still breaks || There was never an established deficit to correct || The abnormality is '''presynaptic synthesis and release regulation''', not receptor numbers; it is a '''final common pathway''' downstream of many different causes, not the cause
+|}
+
+'''The honest position on schizophrenia''' is the "'''version III'''" formulation of the dopamine hypothesis (Howes and Kapur): dopamine dysregulation is the '''final common pathway''' to psychosis, arrived at from genetic, obstetric, inflammatory, substance-related and social routes. That is a '''mechanism of the symptom''', not an aetiology of the disease, and it is a far more disciplined claim than "a chemical imbalance".
+
+Three consequences worth stating plainly:
+
+* '''Dopamine blockade treats psychosis across causes''' — in schizophrenia, in stimulant psychosis, in delirium. A drug that works across aetiologies is not evidence of a shared deficiency.
+* '''It explains the positive symptoms and not the rest.''' Negative and cognitive symptoms respond poorly to D2 blockade, which is precisely the gap the folate and NMDA work is aimed at.
+* '''There is still no laboratory test.''' Neither MTHFR genotype nor homocysteine diagnoses anything. See [[Urine Testing and the Long Search for a Psychiatric Biomarker]].
+
+== Hair loss: what is and is not established ==
+
+L-methylfolate appears in hair, skin and nail formulations, and the claim circulates that it is an anti-hair-loss agent. Sorting it:
+
+* '''Established:''' '''folate deficiency can cause diffuse hair shedding''' ('''telogen effluvium'''), along with iron, zinc, vitamin D, thyroid and protein deficiency. Correct a genuine deficiency and the shedding generally resolves over months. This is real, and it is the only solid part.
+* '''The inverse argument, which is informative:''' '''methotrexate''' — an antifolate — causes hair loss as a recognised effect. Blocking the pathway damages the follicle, so the pathway matters to the follicle. That does not establish that supplementing above repletion helps anyone.
+* '''Mechanistically plausible but unproven:''' the hair follicle matrix is among the fastest-proliferating tissue in the body and is therefore unusually dependent on one-carbon metabolism for thymidine synthesis. Plausibility is not evidence.
+* '''Weak and inconsistent:''' associations between '''MTHFR''' polymorphisms and '''alopecia areata''' or premature greying. Small studies, inconsistent direction.
+* '''Not established:''' any effect on '''androgenetic alopecia''' — male- or female-pattern hair loss. That is a '''dihydrotestosterone and follicular-sensitivity''' problem, and no folate mechanism addresses it. The treatments with evidence there are minoxidil, finasteride and dutasteride.
+
+'''The practical rule:''' test ferritin, B12, folate, vitamin D, zinc and thyroid before buying a hair supplement. If something is low, correcting it may help. If nothing is low, L-methylfolate is not a hair treatment, and the mechanism that would make it one has not been demonstrated.
+
+== Folic acid, L-methylfolate, and what to actually take ==
+
+* '''Folic acid''' is synthetic and not a natural folate; it requires reduction by dihydrofolate reductase, which in humans is '''slow and saturable'''. Intakes above roughly 400 µg produce '''unmetabolised folic acid (UMFA)''' in circulation, whose long-term significance is debated and unresolved.
+* '''L-methylfolate bypasses the entire reduction sequence''', including the MTHFR step, which is the point.
+* '''In the United States, 7.5 mg and 15 mg L-methylfolate are regulated as a "medical food"''' (Deplin and generics) rather than as an approved drug — a category requiring a physician's supervision but not FDA efficacy approval. Worth knowing when weighing the evidence base.
+* '''The B12 rule stands above all of this''' and is restated because it is the one that causes harm: '''check B12 first'''. Folate corrects the anaemia of B12 deficiency while the neurological degeneration continues silently.
+
 == The Amplification Framework ==
 
 The paper situates L-methylfolate in a three-part model — '''substrate provider''', '''cofactor amplifier''', '''degradation inhibitor''' — arrived at by noticing that it occupies the same structural position for monoamines that [[Racetams|piracetam]] occupies in the established cholinergic stack. See [[The Amplification Framework]].
 
-See also: [[The Amplification Framework]] · [[Racetams]] · [[Choline Donors]] · [[Stack Substances]]
+== See also ==
+
+* [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]] — why the deficiency frame fails for depression
+* [[Urine Testing and the Long Search for a Psychiatric Biomarker]] — the hunt for the test that would have settled it
+* [[Ampakines Ketamine and Rapid Synaptogenesis]] — the NMDA model this article's schizophrenia section depends on
+* [[The Amplification Framework]] · [[Racetams]] · [[Choline Donors]] · [[Stack Substances]] · [[B-Vitamins]]
+* [[Nootropics]] — where this sits in the wider stack
+* [[Psychotomimetics Sedation and the Evolution of Psychiatry]] — the history of antipsychotics

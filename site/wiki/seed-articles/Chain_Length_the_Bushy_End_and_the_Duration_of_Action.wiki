@@ -1,0 +1,151 @@
+'''Chain Length, the "Bushy End," and the Duration of Action''' is the side-chain half of Alexander Shulgin's structure-activity work in ''PIHKAL'' (1991): what happens when you make the alkyl groups hanging off a phenethylamine bigger. The short answer, repeated across forty-odd entries, is that '''the size and branching of the alkyl substituents regulate duration far more reliably than they regulate potency''' — and that the potency curve is a hump, not a ladder. It starts with the failure that established this, at the very first entry of the book: '''AEM''', alpha-ethyl-mescaline. The ring-position rules are in [[Shulgin Structure Activity Relationships Ring Substitution and Potency]].
+
+== The epistemic status of this data ==
+
+Stated once. These are '''unblinded self-reports''', typically n = 1 to n = 20, from Shulgin and a small circle, hand-escalated from sub-threshold doses. Durations are wall-clock estimates by intoxicated observers, not pharmacokinetic half-lives, and several of the longest below were terminated with a sedative rather than observed to baseline. The '''mechanistic''' claim that an alpha-methyl group protects a phenethylamine from monoamine-oxidase deamination is textbook pharmacology — but Shulgin rejected it as a complete explanation, and that argument is set out at the end rather than assumed.
+
+== Entry 1: AEM and the potency-doubling hypothesis ==
+
+Mescaline is 3,4,5-trimethoxyphenethylamine, a two-carbon side chain. TMA is the same ring with an alpha-methyl — a three-carbon chain, roughly twice mescaline's potency. The inference was obvious, and wrong:
+
+:"''The extension of the two-carbon chain of mescaline by alpha-methylation to the three carbon chain of TMA approximately doubled the potency of the compound. And it was felt to be a completely logical possibility that, by extending it one more carbon atom, to the four carbon chain of alpha-ethyl-mescaline, it might double again. And following that logical progression, the doubling of potency with each additional carbon atom, the factor would be 2 to the 7th power by the alpha-octyl (or 256x that of mescaline, or a milligram as active dose) and with a side chain of a 70-carbon alkyl group (alpha-heptacontylmescaline) it would take just a single molecule to be intoxicating.''" (entry 1, AEM)
+
+Shulgin runs the reductio to its end — "''And how long a chain on the alpha-position might be sufficient that, by merely writing down the structure on a piece of paper, you would get high? Maybe just conceiving the structure in your mind would do it. That is, after all, the way of homeopathy''" — and labels it: "''This was rich fantasy stuff.''" The result: "''Maybe it was just as well that this added two-carbon side-chain with lowered activity was already enough to disprove the doubling pattern.''"
+
+What makes the entry important is the ''timing'' of the disproof. The series had been built out before anybody tasted the first member — "''by the time this non-activity had been learned, the alpha series had already been pushed out quite aways''" — and then dropped untasted. Shulgin's own table for the entry lists them, and the falling melting points of the nitrostyrene precursors are a clean lipophilicity signature:
+
+{| class="wikitable"
+! Code !! alpha-alkyl !! Nitrostyrene m.p. (°C) !! Status
+|-
+| '''AEM''' || ethyl || — || Tasted; '''not active'''
+|-
+| '''APM''' || propyl || 82–83 || Made, never tasted
+|-
+| '''ABM''' || butyl || 73–74 || Made, never tasted
+|-
+| '''AAM''' || amyl || 54–55 || Made, never tasted
+|-
+| '''AHM''' / '''ASM''' / '''AOM''' || hexyl, heptyl ("''S is for septyl, to distinguish heptyl from hexyl''"), octyl || 51–52 / 43–44 / — || Made, never tasted
+|}
+
+Shulgin later refuted that style of inference formally — see the anti-syllogism section of [[Shulgin Structure Activity Relationships Ring Substitution and Potency]].
+
+== The 2C / 3C bridge: one carbon, and the prototype problem ==
+
+Shulgin's naming convention encodes chain length: a compound first made as an amphetamine lends its letter to the two-carbon version ("''DOI becomes 2C-I, DON becomes 2C-N, and DOET becomes 2C-E''"), while one first made as a phenethylamine gets '''3C-''' for the lengthened version, escaline (E) → 3C-E (entry 72).
+
+The potency effect of that one carbon is large but '''not constant''', and the inconstancy is the finding. DOM is active "''at maybe 3 milligrams''" and 2C-D "''only one tenth as active''" — "''probably the most dramatic example of the loss of potency''" (entry 22). But 2C-G and GANESHA converge: "''one is hard put to distinguish, from the recorded notes, any major differences either in potency, in duration, or in the nature of activity''" (entry 27). With 2C-G-3 against G-3, "''the nod is to the shorter chain, for the first time ever''" (entry 82).
+
+A ''fourth'' carbon on the alpha chain does not extend the trend — it changes the drug class: "''lengthening it by the addition of a carbon atom eliminated all psychedelic effects and gave materials with reduced action. The action present was that of an antidepressant''" (entry 25, 3C-E). Those four-carbon compounds are the '''ARIADNE''' series, 1-phenyl-2-aminobutanes pursued as antidepressants (entry 8). The clinching datum is the butyl homologue of DOI, one of the two most potent compounds in the book: "''This butyl homolog of DOI has been assayed at up to four milligrams, and is without any central effects whatsoever. An experiment with 12.4 microcuries of 131I labelled material with the whole body scanner showed most of it accumulating in the gut and liver, with almost none to the brain''" (entry 67). The alpha-ethyl group did not weaken the compound at the receptor so much as stop it reaching the brain.
+
+== N-alkyl homologation: potency down, class shifted ==
+
+Alkylating the ''nitrogen'' gives a rule consistent enough that Shulgin states it as one: "''With N-methylation, the potency of the psychedelics is decreased, but the potency of the stimulants appears to be pretty much maintained''" (entry 126). Elsewhere: "''the stimulant component might be maintained, but the "psychedelic" contribution is generally much reduced. MDMA is, of course, an exception, but then, that particular compound is a one-of-a-kind thing which simply defies all the rules anyway''" (entry 130).
+
+The quantified case is '''BEATRICE''', N-methyl-DOM: "''Three milligrams of DOM is a winner, but even ten times this, thirty milligrams of N-methyl-DOM, is somewhat fuzzy. In the rabbit hyperthermia studies, this compound was some 25 times less active than DOM''" (entry 11). The N-methyl and N,N-dimethyl homologues of 2C-D were likewise "''some ten times less effective''" in a rat conditioned-response assay (entry 22).
+
+On the MDA scaffold the ladder terminates sharply at two carbons. MDA (N-H) and MDMA (N-methyl) are both active; MDE (N-ethyl) has "''very similar chronology but requires a slightly larger dose''" (entry 106); MDIP (N-isopropyl) is dead — "''with that slight additional weight, the activity has disappeared''" (entry 108) — and for the rest, "''Straight chain homologues on the nitrogen atom of MDA longer than two carbons are probably not active''" (entry 102). MDPR and MDAL, inactive themselves, turned out to act as a "''primer''" taken before LSD or 2C-B, opening what Shulgin called a "body window" (entry 118) — an inactive homologue is not necessarily a useless one.
+
+== Bulk at the 4-position: the hump, and the branching penalty ==
+
+<code>
+   4-POSITION ALKYL ON 2,5-DIMETHOXYAMPHETAMINE  (the DOx ladder)
+
+   potency
+      ^
+      |            DOET ·  · DOPR
+      |         ·                ·
+      |      DOM                    ·  DOBU
+      |   ·                              ·  DOAM
+      +----------------------------------------------> chain length
+         C1      C2      C3        C4        C5
+
+   branching penalty at C4:  n-butyl > iso > sec > tert (DOTB = nil)
+</code>
+
+:"''The whole series of methyl-ethyl-propyl-butyl-amyl compounds was appealing to me, in that the potency seemed to increase initially as the chain got longer, and then it abruptly dropped off.''" (entry 61, DOAM)
+
+Shulgin had this checked independently — a pharmacologist measuring serotonin-agonist action on discarded sheep umbilical artery strips — and "''lo and behold, the serotonin activity also went through a maximum in the middle of this series''".
+
+Branching, at constant carbon count, is a second and steeper axis. All four butyl isomers were made (entry 63, DOBU):
+
+{| class="wikitable"
+! Isomer !! Code !! Rat assay vs DOM !! Human active level
+|-
+| n-butyl || '''DOBU''' || — || no range assignable; "''slow of onset, and very long lived''"
+|-
+| isobutyl || '''DOIB''' || one third as active || 10–15 mg
+|-
+| sec-butyl || '''DOSB''' || one twelfth as active || 25–30 mg, with "''real and long-lasting sleep disturbance''"
+|-
+| tert-butyl || '''DOTB''' || "''no activity at all''" || "''doses of up to 25 milligrams were totally without effect''"
+|}
+
+:"''In animal studies, and in preliminary human studies, the activity of these compounds drops as the butyl group gets more and more scrunched.''" (entry 63)
+
+== Duration is the variable alkyl bulk actually controls ==
+
+=== The Tweetios: the cleanest dissociation in the book ===
+
+The '''Tweetio''' compounds are 2C-x derivatives with the 2- or 5-methoxy lengthened to ethoxy — the smallest change at a position already known not to be the window. The general rule (entry 22, from a study Shulgin credits to Darrell Lemaire):
+
+:"''In general, the 2-EtO- compounds have a shorter duration and a lower potency, the 5-EtO- compounds have a relatively unchanged potency and a longer time duration; the 2,5-di-EtO- homologues are very weak, if active at all.''"
+
+The individual records are striking because the '''dose''' barely moves and the '''clock''' moves enormously:
+
+{| class="wikitable"
+! Tweetio !! Dose reported !! Duration reported !! Note
+|-
+| '''2CE-5ETO''' || 10–15 mg (comparable to 2C-E) || sedated at the '''16 h''' point; effects still present next day || "''gentle, forgiving, and extremely long lived''"; nicknamed '''"Eternity"'''; "''the duration is 2 to 3 times longer''" (entry 24)
+|-
+| '''2CT2-5ETO''' || 20 mg || sedative needed at '''16 h'''; intoxication still noted on day two || nicknamed '''"forever yours"'''; "''There may indeed be insight, but 24 hours' worth is an awful lot of insight''" (entry 40)
+|-
+| '''2CT-5ETO''' || 30 mg || "''perhaps 15 hours and Halcion was needed to allow sleep''" || "''quiet, peaceful, contemplative, and insightful''" (entry 39)
+|-
+| '''2CD-5ETO''' || 40–50 mg || '''12 h''' || full effects at about 2 h (entry 22)
+|-
+| '''2CT-2ETO''' || 50 mg could not exceed +1 || 4 h || the 2-ethoxy direction: weaker ''and'' shorter (entry 39)
+|}
+
+Three entries record the same phenomenon, the most practically important finding in this article: '''above a ceiling, extra dose buys time, not intensity.'''
+
+* '''2CB-2ETO''': "''one gets about as much effect as can be had, with a dosage of about 15 milligrams, and increases above this, to 30 and to 50 milligrams merely prolong the activity (from about 3 hours to perhaps 6 hours)''" (entry 20).
+* '''2CI-2ETO''': threshold at 5 mg, and "''larger doses, of up to 50 milligrams orally, seem to produce no more intense an effect, but simply to stretch out this threshold for an additional couple of hours''" (entry 33).
+* '''2CT2-2,5DIETO''': "''Levels that were evaluated from 10 to 50 milligrams were not particularly different in intensity, but were progressively longer in duration''" (entry 40).
+
+Anyone re-dosing a compound of this type because "it isn't strong enough" is buying hours of a plateau they have already reached.
+
+=== Bulk at the 4-position buys hours ===
+
+Shulgin introduces the right metric under 2C-G-5, which carries a fused norbornyl system across the 3,4-positions: "''there must be some consideration of not only the dosage needed, but the duration of effects. The area under the curve, so to speak. By these measures, this phenethylamine is a record breaker, in that it is not only amongst the most potent, but it goes on and on and on''" (entry 30). With a whole naphtho ring there (2C-G-N), bulk had passed the optimum on both axes at once: "''by the time the ring got put into place, the activity was already on the wane, and the action was too long''" (entry 31).
+
+Within one family, a two- versus three-carbon thioether is the whole difference: "''With 2C-T-2, there is more of a tendency to have physical disturbances such as nausea and diarrhea. And the experience is distinctly shorter. With 2C-T-7, physical disturbances are less common, but you are into the effects for almost twice as long''" (entry 40). At the other extreme, 2C-B — a monovalent halogen, the smallest 4-substituent that still works — is "''one of the shortest of any major psychedelic drug''", while its alpha-methyl counterparts DOB, DOI and DOC are "''all pretty much of the same potency. And all of them very long lived''" (entries 20, 64).
+
+=== The harm-reduction consequence: slow onset plus long duration ===
+
+This is the one place where a duration finding has a documented body count attached, and Shulgin reports it as a mechanism:
+
+:"''The overdose situation was aggravated by the slow onset of DOM... many of the recipients of the free handouts of DOM were familiar with LSD which can show its alert in 15 to 20 minutes... They, quite reasonably, expected this familiar activity pattern with STP and assumed, when there was little if any activity noted at the half-hour point, that the potency was less than expected. They took one or even two additional dosage units. Thus, some of the overdose victims of that period may well have taken as much as 30 mg of DOM. The slow onset of action, coupled with the remarkably long duration, caught many innocent users unprepared.''" (entry 68, DOM/STP)
+
+Tablets had contained 20 mg, later 10 mg, and "''Either of these, in retrospect, is now known to be a thoroughly whopping dose.''" Related hazards: '''DOBU''' and '''DOAM''', whose long tail reads as stimulation and sleep disruption (entry 63); '''2C-P''', where "''there may not be too much latitude in dosage between that which would be modest, or adequate, and that which would be excessive''", one 16 mg trial being "''a physical disaster, not to be repeated''" (entry 36); and DOM's fast tolerance, five volunteers at 6 mg daily for three days going from "''extremely intense''" to, for one, "''felt absolutely nothing''" (entry 68).
+
+== Why the alpha-methyl group matters: MAO, and Shulgin's dissent ==
+
+The standard account is metabolic: primary phenethylamines are monoamine-oxidase substrates and are deaminated before reaching the brain; an alpha-methyl blocks the enzyme. Shulgin gives the argument accurately and refuses it:
+
+:"''That is the pitch given in the textbooks. Phenethylamines are subject to easy enzymatic oxidation, hence they are not active. The presence of an alpha-methyl group (the corresponding amphetamines) blocks the compound from easy access to the enzyme, and since that protects them from oxidative destruction, they are active... Sorry, I can't buy it. This entire book is peppered with phenethylamines that are active at the few-milligram area. Why aren't they also destroyed as well? The textbooks simply are not right.''" (entry 115, MDPEA)
+
+Both sides of the evidence are in the corpus. '''For''': phenethylamine itself is inactive and "''is rapidly and completely destroyed in the human body''" (entry 142); 2C-H is presumed inactive as "''an excellent substrate for the amino oxidase systems in man''" (entry 32); and Shulgin used the protection deliberately on the indole side, making a potent compound by "''putting an O-ether on the indolic phenol (to hide its polarity) and an alpha-methyl group next to the primary amine (to protect it from metabolic deaminase)''" (entry 15, BOH).
+
+'''Against''': the many 2C compounds active at 10–25 mg, and the collapse of the matching generalisation in ''TIHKAL''. A 2-methyl group on the indole made DMT, DET and 5-MeO-DMT all orally active, "''as if that bit of bulk got in the way of the destructive amine oxidases''". Adding it to alpha-methyltryptamine, already orally active and MAO-resistant, should have been neutral: "''And what happens? The potency goes down, not up, and by a factor of 10 times... So much for generalities. I suspect that I do not understand the universe nearly as well as I thought I did''" (''TIHKAL'' entry 7, 2,alpha-DMT).
+
+'''The honest synthesis''' is that metabolic protection explains why the simplest phenethylamines are inert, and why alpha-methylation lengthens duration — the alpha-methyl pairs are consistently the long ones in Shulgin's own records — but it does not explain potency. Duration is where the metabolic story is strongest, and duration, not potency, is what the bushy end of the molecule reliably sets.
+
+== See also ==
+
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] — the ring half, and the anti-syllogism argument
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]] — the 4-position substituent catalogue
+* [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]] · [[PIHKAL and TIHKAL]] · [[Shulgin Rating Scale]]
+* [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] · [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]]
+* [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]]
+* [[Psychedelic and Psychopharmacology Glossary]] · [[Testing Labelling and Safe Storage of Dosed Preparations]]

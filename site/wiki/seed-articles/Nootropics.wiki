@@ -1,0 +1,116 @@
+'''Nootropics''' are compounds taken with the intention of improving memory, learning, attention or resistance to cognitive injury. The word is not a pharmacological class — it is a claim about purpose, and the compounds grouped under it range from a licensed antiepileptic to a cup of tea. This article separates the four things that get mixed together under the label: '''the original definition''', '''what the evidence actually supports''', '''the mechanisms the stacks are built on''', and '''the interactions that hurt people'''.
+
+The cholinergic half of this subject is treated in full in [[Cholinergic Neurotransmission and Cholinesterase Inhibition]]; this page is the map that the enzyme article hangs from.
+
+== Giurgea's definition, and why it still matters ==
+
+'''Corneliu Giurgea''' synthesised piracetam at UCB in 1964 and coined ''nootropic'' in 1972, from Greek ''noos'' (mind) and ''tropein'' (to turn). He set five criteria, and they were deliberately strict:
+
+# Enhancement of learning and memory.
+# Resistance to impairment of learned behaviours by agents that normally disrupt them (hypoxia, electroconvulsive shock, scopolamine).
+# Protection of the brain against physical and chemical injury.
+# Increase in the efficacy of tonic cortical and subcortical control mechanisms.
+# '''Absence of the usual pharmacology of psychotropic drugs''' — no sedation, no motor stimulation, very low toxicity.
+
+Criterion 5 is the one the modern market ignores. A stimulant that makes you work longer is not a nootropic under Giurgea's definition; it is a stimulant. The distinction is worth keeping because it predicts the failure mode: stimulants produce a performance debt that is repaid later, and the compounds that meet criterion 5 mostly produce effects too small to feel on any given day.
+
+<code>
+                      [ SOLD AS "NOOTROPIC" ]
+                               │
+       ┌───────────────┬───────┴────────┬────────────────┐
+       ▼               ▼                ▼                ▼
+[ Giurgea class ]  [ Stimulants ]  [ Precursors &   ]  [ Botanicals ]
+ • Racetams         • Caffeine      [ cofactors     ]   • Bacopa
+ • Noopept          • Modafinil      • Choline        • Lion's mane
+ • Citicoline       • Amphetamine    • L-Methylfolate • Ginkgo
+ • Meets crit. 5    • Fails crit. 5  • Creatine       • Rhodiola
+                                     • Fixes a         • Mixed quality,
+                                       deficit only      real pharmacology
+</code>
+
+== The racetams ==
+
+See [[Racetams]] for the per-compound detail. In outline:
+
+* '''Piracetam''' — the parent. Licensed in much of Europe for '''cortical myoclonus''' and as an adjunct in sickle-cell vaso-occlusive crisis; not approved by the FDA, and not lawfully sold as a dietary supplement in the United States. Membrane-fluidity and ''platelet anti-aggregant'' effects are better established than the memory claim. Cochrane reviews of piracetam in dementia and cognitive impairment have repeatedly concluded the evidence is '''insufficient''' to support clinical use.
+* '''Aniracetam''' — fat-soluble, short half-life, and a genuine '''positive allosteric modulator of the AMPA receptor'''. That mechanism is the historical bridge to the ampakines, treated in [[Ampakines Ketamine and Rapid Synaptogenesis]].
+* '''Oxiracetam, pramiracetam''' — more potent in animal models; human data thin.
+* '''Phenylpiracetam''' — phenyl ring added; stimulant-like, and '''banned by WADA'''. It fails criterion 5.
+* '''Levetiracetam''' — the racetam that became a real drug. It binds '''SV2A''', a synaptic vesicle protein, and is a first-line antiepileptic. Nobody calls it a nootropic, which tells you how little the label tracks pharmacology.
+
+'''The choline pairing.''' The folk rule that racetams must be taken with a choline source rests on the idea that they increase acetylcholine turnover and can outrun supply — the rate-limiting step being presynaptic choline uptake through CHT1 ([[Cholinergic Neurotransmission and Cholinesterase Inhibition]]). The headache attributed to going without is widely reported and poorly documented. The mechanism is plausible; the causal claim is anecdotal. Treat it as a reason to try, not a fact.
+
+== The cholinergic stack, and its ceiling ==
+
+* '''Choline donors''' — citicoline (CDP-choline) and alpha-GPC cross the blood–brain barrier; choline bitartrate largely does not and mostly feeds gut bacteria that convert it to '''TMA''', oxidised in the liver to '''TMAO'''. See [[Choline Donors]].
+* '''Acetylcholinesterase inhibitors''' — huperzine A, galantamine, rivastigmine, donepezil. These do not add acetylcholine; they stop its destruction.
+* '''The ceiling.''' Inhibiting AChE harder does not keep producing more benefit. Past a point you get the '''peripheral''' cholinergic picture — nausea, salivation, cramping, bradycardia, vivid and unpleasant dreams — because the enzyme is not brain-specific. The clinical AChE inhibitors are dose-limited by exactly this.
+
+'''The interaction that actually sends people to hospital:''' stacking '''two or more''' cholinesterase inhibitors — for example huperzine A with galantamine, or either with a prescribed donepezil or rivastigmine. The effects are additive on the same enzyme and the dose–response for toxicity is steep. People also reach this point unintentionally by combining a nootropic stack with an organophosphate exposure (agricultural work, some flea treatments).
+
+== What the evidence actually supports ==
+
+Ranked by how well it holds up, not by how it sells:
+
+* '''Caffeine with L-theanine (roughly 50–100 mg : 100–200 mg).''' The best-replicated consumer-level result in the field — attention and task-switching improve, and theanine blunts the jitter and blood-pressure rise. This is also the cheapest.
+* '''Creatine monohydrate.''' Clear cognitive benefit where brain phosphocreatine is low — '''sleep deprivation''' and '''vegetarian/vegan''' subjects. In rested omnivores, close to nothing. See [[Creatine]].
+* '''Treating a deficiency.''' B12, iron, folate, vitamin D, thyroid, sleep apnoea. Correcting one of these produces larger cognitive gains than any supplement in this article, and nothing on this list substitutes for it. [[B-Vitamins]], [[L-Methylfolate]].
+* '''Bacopa monnieri.''' Several randomised trials at 300 mg/day of standardised extract show improved delayed recall — but only after '''8–12 weeks'''. Nothing happens acutely. It is itself a weak AChE inhibitor, so it belongs in the interaction arithmetic above. GI upset is the common reason people stop.
+* '''Modafinil.''' Real wakefulness-promoting effect; benefit on well-rested, non-sleep-deprived cognition is modest and task-specific. See [[Eugeroics Wakefulness and Sleep Pharmacology]].
+* '''Lion's mane (''Hericium erinaceus'').''' Hericenones and erinacines stimulate NGF synthesis ''in vitro''. One small Japanese trial in adults with mild cognitive impairment showed improvement that reversed on discontinuation. Genuinely interesting, genuinely preliminary.
+* '''Ginkgo biloba.''' The large GEM and GuidAge prevention trials were '''negative''' for preventing dementia. It remains a platelet-function concern with anticoagulants.
+* '''Piracetam, noopept, and most of the racetam shelf.''' Mechanistically interesting, clinically unproven in healthy adults.
+
+== Mechanism families worth understanding ==
+
+This is the useful way to read a stack: what is it trying to do?
+
+{| class="wikitable"
+! Target !! What it changes !! Where it is covered
+|-
+| Cholinergic tone || More acetylcholine in the cleft, or more choline to make it || [[Cholinergic Neurotransmission and Cholinesterase Inhibition]]
+|-
+| Glutamatergic plasticity || AMPA throughput, LTP threshold, BDNF-driven spine growth || [[Ampakines Ketamine and Rapid Synaptogenesis]], [[Synaptogenesis Neuroplasticity and Brain Rewiring]]
+|-
+| Monoamine precursors || Raw material for serotonin, dopamine, noradrenaline || [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]]
+|-
+| One-carbon metabolism || Methylation capacity for monoamine synthesis || [[L-Methylfolate]], [[B-Vitamins]]
+|-
+| Endocannabinoid tone || Retrograde signalling, synaptic gain control, neurodevelopment || [[The Expanded Endocannabinoid System and FAAH Science]], [[Building Brains]]
+|-
+| Mitochondrial / bioenergetic || ATP buffering, oxygen utilisation || [[Creatine]]
+|-
+| Neuroinflammation and clearance || Microglial state, amyloid handling || [[Olive Oil Oleocanthal and Machine Discovered Natural Products]]
+|-
+| Pharmacokinetic || Changing how much of something else arrives || [[Cytochrome P450 System Inhibition and Induction]], [[Oilahuasca as Clinical Research Enzyme Induction Cooking and Spiced Beverages]]
+|}
+
+The last row is the one most stacks get wrong. A compound that does nothing on its own can double the exposure of another by inhibiting the enzyme that clears it — the principle the whole [[Oilahuasca]] line is built on, and the reason a "harmless" addition can turn a tolerated dose into an overdose.
+
+== Interactions that matter ==
+
+* '''Two cholinesterase inhibitors''' — additive, and the toxicity curve is steep. The single most common serious error in this space.
+* '''5-HTP or tryptophan with an MAOI, SSRI, SNRI, tramadol, triptans or St John's wort''' — serotonin syndrome. See [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]] and [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+* '''Ginkgo, high-dose fish oil, vitamin E, or piracetam with warfarin, DOACs or antiplatelets''' — bleeding risk.
+* '''Anything CYP3A4- or CYP2D6-active''' — grapefruit, high-dose quercetin, piperine, berberine, St John's wort (an ''inducer'', and so the opposite failure: it empties the tank). See [[Cytochrome P450 System Inhibition and Induction]].
+* '''Yohimbine, synephrine and high-dose stimulant blends with MAOIs''' — hypertensive crisis.
+* '''Huperzine A with beta-blockers''' — additive bradycardia.
+
+== Reading a product label ==
+
+* '''"Proprietary blend"''' means the doses are not disclosed, which means they cannot be compared to the trial doses that produced the evidence. Treat the blend as unknown.
+* '''Standardisation''' is the number that matters for a botanical — ''Bacopa'' standardised to 50% bacosides, ''Ginkgo'' to 24% flavone glycosides / 6% terpene lactones. Without it, the plant material's potency varies by an order of magnitude.
+* '''Racetams are not dietary supplements in the United States.''' Products containing them are sold in a grey channel, and third-party assay results — not the label — are the only basis for knowing what is in the capsule.
+* '''Third-party testing''' (USP, NSF, Informed Choice, or a published COA with a batch number) is the single most useful quality signal, and the one most often absent.
+
+== See also ==
+
+* [[Cholinergic Neurotransmission and Cholinesterase Inhibition]] — the enzyme, the gorge, and the inhibitor families in full
+* [[Racetams]] · [[Choline Donors]] · [[Galantamine]] · [[Creatine]] · [[B-Vitamins]]
+* [[Ampakines Ketamine and Rapid Synaptogenesis]] — the glutamatergic branch
+* [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]] — the monoamine branch, and what the theory does and does not claim
+* [[L-Methylfolate]] — the methylation branch
+* [[Building Brains]] · [[Neurogenesis Neuroprotectants and Synaptogenesis]] · [[Synaptogenesis Neuroplasticity and Brain Rewiring]]
+* [[Olive Oil Oleocanthal and Machine Discovered Natural Products]] — the food-as-pharmacology branch
+* [[Alzheimers and Parkinsons What Treatment Actually Exists]] — where these mechanisms meet actual disease
+* [[The Church of Neuroscience and Biohacking]] — the practice this library serves

@@ -1,0 +1,115 @@
+'''Naming the Compounds: Codes, Greek Names, and Shulgin Nomenclature''' is a reading guide to the code names Alexander Shulgin gave the molecules of ''PIHKAL'' (1991) and ''TIHKAL'' (1997). The names are not arbitrary, and they are not consistent either: several systems run in parallel — a structural code, a chain-length prefix, a historical serial number, a Hebrew-letter scheme for states of mind, a Greek letter for positional isomers, a roster of mythological women, and a layer of pure lab slang. Shulgin explains each scheme himself, usually in the '''EXTENSIONS AND COMMENTARY''' of whichever entry first needed it. This article collects those explanations with the entry numbers that carry them.
+
+== Why three letters ==
+
+Shulgin gives his own account in '''BOD''' (#14): "I have heard that the initializing of pharmaceuticals started with the first of the modern psychiatric drugs, chlorpromazine, which was given the name Thorazine by its makers… Free advertisement forever. It is now the rule rather than the exception to see a drug identified with its three initials. PCP, LSD, DMT, STP, THC, GHB, MDA; they are all instantly recognized." The same passage jokes about the competition for the namespace — "Maybe there is an unknown body, the United Amalgamation of Government Acronym Swipers, known only by its acronym, UAGAS."
+
+The namespace is finite, and he counts it. In '''TIHKAL #2 (DBT)''', naming ever-longer dialkyltryptamines, he runs out: dioctyltryptamine would have to be DOT, and DOT was already spent on ALEPH. "They simply cannot be named. After all, there are only 26 to the third power combinations of the letters of the alphabet, around 17,000 possible three letter codes."
+
+== The chain-length prefixes: 2C- and 3C- ==
+
+The most load-bearing convention in the corpus is explained in '''ESCALINE''' (#72). It encodes '''direction of derivation''', not structure:
+
+* '''2C-X''' — first named as an '''amphetamine''' (three-carbon chain), then shortened to the two-carbon '''phenethylamine'''. DOB → 2C-B; DOI → 2C-I; DON → 2C-N; DOET → 2C-E. Mostly 2,4,5-substituted.
+* '''3C-X''' — first named as a '''phenethylamine''', then lengthened to the three-carbon '''amphetamine'''. Escaline (E) → 3C-E; P → 3C-P; CPM → 3C-CPM. Mostly 3,4,5-substituted.
+
+In Shulgin's words: "2C- implies that a known amphetamine drug has been shortened to a phenethylamine, and 3C- implies that a known phenethylamine has been lengthened to an amphetamine."
+
+The trap this creates is named in '''B''' (#10): "The drug 2C-B is so named in that it is the two-carbon chain analogue of the three-carbon chain compound DOB. The drug 3C-B is so named because it is the three-carbon chain analogue of the two-carbon chain compound Buscaline, or more simply, B. There is no logical connection whatsoever, either structural or pharmacological, between 2C-B and 3C-B."
+
+== The DO- series, and how the letters drifted ==
+
+'''DESOXY''' (#52) unpacks the DO- stem — '''des-oxy''', the removal of an oxygen, with the trailing letter naming what replaced it — and the collision at its heart: the obvious abbreviation for desoxymescaline was DOM, but "a long, long time ago, in a universe far, far away, a compound was synthesized that had a methoxy group replaced by a methyl, and it was already named DOM… One M stands for Mescaline, and the other M stands for Methyl."
+
+Then the four-letter patch, from '''DOET''' (#66): DOE was the logical name for the ethyl homologue, but "DOE was a classic abbreviation for desoxyephedrine, a synonym for methamphetamine… DOA became DOAM, DOE became DOET, but DOM was already too firmly set in popular usage. And, anyway, DOME really looked strange." '''DOC''' (#64) finishes the roster — DOA for the 4-amino compound, DOAA for the acetamido, DOAM for the amyl — and enjoys it: "DOA, in the coroner's vocabulary, means Dead-On-Arrival."
+
+== Numbers mean chronology, not structure ==
+
+The serial numbers in the ALEPH and 2C-T families are the most misread part of the system. '''2C-T''' (#39) states the rule:
+
+: "they… are assigned numbers as they are thought up. There is no structural significance in the number but they have been, like the houses on the streets in residential Tokyo, assigned numbers in strict historical order, documenting the sequence of construction rather than the relative position down the side of the street."
+
+A number is therefore evidence of an intention, not of a molecule. '''2C-T-9''' (#45) names three compounds into existence on the strength of three disulfides sitting on the shelf: the reaction "worked so well, that three additional disulfides that were at hand were immediately thrown into the chemical program, with the quick assignment of the names 2C-T-10, 2C-T-11, and 2C-T-12" — two were abandoned mid-synthesis and the third "produced virtually no product at all." '''ALEPH-2''' (#4) records the same compound numbered twice because the first attempt had been forgotten. '''2C-G-3''' (#28) reserves a name for chemistry that did not work — "in the meantime, at least the names have been assigned" — and '''2C-T-21''' (#49) invents a fractional slot for an unmade compound: "Let's be weird, and call it 2C-T-21.5."
+
+{| class="wikitable"
+! System !! Encodes !! Example !! Explained in
+|-
+| 2C- / 3C- prefix || Direction of chain derivation || 2C-B from DOB || ESCALINE (#72)
+|-
+| DO- stem + letter(s) || Des-oxy, plus the replacing group || DOM, DOET, DOAM || DESOXY (#52), DOET (#66)
+|-
+| BO- stem + letter || Beta-methoxy, plus the 4-substituent || BOD, BOB, BOH, BOM || BOD (#14)
+|-
+| n-T- prefix || Position of a sulfur atom ("thio") || 3-TME, 4-TIM, 2-TOM || 3-TME (#163)
+|-
+| ORTHO-/META-/PARA- || Position of the key substituent || PARA-DOT = ALEPH || ORTHO-DOT (#139)
+|-
+| psi- (ψ) || 2,4,6- isomer of a 2,4,5- compound || psi-DOM, psi-2C-T-4 || psi-DOM (#69)
+|-
+| Serial number || Order of conception, nothing else || 2C-T-21, ALEPH-7 || 2C-T (#39)
+|-
+| Mythological name || One of the ten DOM homologues || ARIADNE, HECATE, IRIS || GANESHA (#85), IRIS (#93)
+|}
+
+== The Hebrew letters: naming states, not structures ==
+
+'''ALEPH''' (#3) explains why a family of sulfur-bearing amphetamines took the first letter of the Hebrew alphabet: the name "was given this group on the basis that they might have extraordinary properties in common."
+
+The scheme was meant to become a vocabulary for the ''components'' of a drug experience rather than for molecules. '''ALEPH-7''' (#7) introduces the second letter: "This drug was the first definition of the term, Beth state… It is a state of uncaring, of anhedonia, and of emotionlessness." His reasoning compares a drug experience to a played note — the events over time are the melody, but what identifies the instrument is the mixture of harmonics inside each note, and "in psychopharmacology… There is no psychic oscilloscope." Hence:
+
+: "If a sufficient alphabet of effects (I am using the Alephs, Beths, Gimels, and Daleths of the Hebrew as token starters only) were to be accumulated and defined, the actions of new materials might someday be more exactly documented."
+
+Only Aleph and Beth were ever defined. '''Gimel and Daleth are named as placeholders in this passage and nowhere assigned''' — the alphabet of effects is a stated programme, not a delivered system.
+
+== Psi, and the names that came from motor oil ==
+
+'''psi-2C-T-4''' (#42) explains the prefix by correcting the literary sense of the word: "Pseudo- as a prefix in the literary world generally stands for 'false.'… But in chemistry… If something has a common name, and there is a second form… that is possible and it doesn't have a common name, it can be given the name of the first form with a pseudo- attached." The illustration is ephedrine and pseudoephedrine; applied here, '''psi-''' marks the 2,4,6-trisubstituted counterpart of a 2,4,5-trisubstituted compound. '''psi-DOM''' (#69) supplies the typography: "The nickname 'pseudo' is really the Greek letter 'psi' which looks like a candelabrum standing on the table holding up three candles… to indicate that the 2,4,5-ness has become a 2,4,6-ness."
+
+Those compounds already had names, from motor-oil additives. STP, the street name under which DOM was distributed in 1967, "was taken from the initials of a motor additive which was completely unrelated chemically" (#68); the UCSF chemistry group then named positional isomers '''F-310''' (a Chevron product) and '''F-320''', and later '''Z-7''' (Pennzoil) and '''Z-7.1''' (#69). The collision this creates is flagged: the F in '''F-2''' and '''F-22''' (#79, #80) has nothing to do with oil additives — "These latter are F's because they are furans, not motor oil additives."
+
+== The Classic Ladies ==
+
+A set of ten mythological and literary names was assigned to the ten possible homologues of DOM. The concept is introduced under '''ARIADNE''' (#8); '''GANESHA''' (#85) gives the clearest statement — "the seventh of the ten possible Classic Ladies… the teutonic replacement of each of the distinguishable hydrogen atoms of DOM with a methyl group" — and '''IRIS''' (#93) confirms the set as "the ten possible homologues of DOM."
+
+Names the corpus attaches to compounds: '''ARIADNE''' (the alpha-ethyl homologue of DOM, #8, and the stem of an "Ariadne" family described as antidepressants, #42); '''BEATRICE''' (N-methyl-DOM, #11); '''GANESHA''' (#85); '''HECATE''' (#66 — "This is, after all, one of the Classic Ladies, namely HECATE"); '''IRIS''' (#93); and '''DAPHNE''' and '''ELVIRA''', the two beta-methyl stereoisomers of DOM, named but unmade (#58). The register is mixed and the corpus does not pretend otherwise: Ganesha is neither classic nor a lady. The set is a naming convenience for a structural family, not a thematic scheme.
+
+== Lab nicknames ==
+
+Shulgin notes the habit in '''2C-T-17''' (#48): "An interesting, and quite logical, habit that seems to always pop up when a lot of talk and energy become directed at a specific compound, is the habit of using a nickname for it."
+
+* '''SESQUI''' — 2C-T-15, from ''sesquiterpene'', "from the Latin prefix for one and a half" (#47). '''NIMITZ''' — 2C-T-17, after the Oakland–San Jose freeway "also called State Highway 17" (#48).
+* '''The Tweetios''' — the ethoxy homologues of the 2C-X compounds, named from a game of pronouncing licence plates on long drives: the first carried a 2-ethoxy group, "or 2-EtO, or Tweetio, and the rest is history" (#22).
+* '''"Eternity"''' (2CE-5ETO, #24), '''"forever yours"''' (2CT2-5ETO, #40) and '''"tenderness"''' (2CT4-2ETO, #41) — subjects' names for very long-acting homologues. On the second: "There may indeed be insight, but 24 hours' worth is an awful lot of insight."
+* '''"Museum level"''' — a dose descriptor rather than a compound name, defined in '''2C-B''' (#20) as "a slightly-over-threshold level which allows public activities… to be entered into without attracting attention." '''"to tomso"''' — a verb, from TOMSO (#173), for the rekindling of an apparently inactive drug state by a modest amount of alcohol. '''Muni-Metro''' — the lettered benzodioxole series '''H, J, K, L''' (#115, #128).
+
+== Collisions, and the warnings that go with them ==
+
+Because three letters are scarce, the corpus repeatedly warns the reader off a wrong identification. '''2C-T-2''' is not T-2, which "has also been used for T-2 Toxin, a mycotoxin of the Tricothecene group" (#40). '''2C-T-4''' is not T-4, which is both the explosive RDX and thyroxine — "The drug 2C-T-4 is neither an explosive nor an amino acid, I am happy to say" (#41). '''MDE''' denotes two different compounds across time: originally methylenedioxy-beta-ethanolamine, but "since 1975, used exclusively for 3,4-methylenedioxy-N-ethylamphetamine" (#57), with the standing warning to "beware of the use of the code name MDE in the very old literature" (#115).
+
+Codes were also optimised for the mouth rather than the molecule. '''IDNNA''' (#90): "if it were given a code name based upon its substituents arranged in their proper alphabetical order, [it] would have to be called something like DNDIA, which is quite unpronounceable. But by a rearrangement of these terms, one can achieve IDNNA (Iodo-Dimethoxy-N,N-dimethyl-Amphetamine) which has a nice lilt to it."
+
+== Borrowed conventions and empty slots ==
+
+Codes were taken wherever a slot was free. '''TMPEA''' (#168): by the 2C- convention the compound should have been 2C-TMA-2, "But since the first of the trimethoxyphenethylamines already had a trivial name, mescaline, the code TMPEA was unassigned." '''MADAM-6''' (#98): "MDMA has been called ADAM, and with a methyl group in the 6-position, MADAM-6 is quite understandable." '''PEA''' (#142): "It is the P in PIHKAL. It is without activity in man!" '''TIHKAL #1 (AL-LAD)''' traces ''nor-'' to "the German phrase 'N-ohne-Radical' meaning N (the nitrogen) without the radical." And a compound could be deliberately ''not'' named — '''BOD''' (#14): "I came so close to giving one of these materials an extremely inflammatory name… The temptation was real, but the better angels of my nature prevailed."
+
+== A word on "psychedelic" itself ==
+
+The corpus also records the naming of the category, in '''TIHKAL #3 (DET)''': in 1956 Humphry Osmond proposed softening the prefix "from psychoto- or psycho-… to a misspelled but softer alternative, psyche-… His suggestion was 'psychedelic,' it was aped in many trials with such creations as 'psychephoric' (mind-moving), 'psychehormic' (mind-rousing), 'psycheplastic' (mind-molding)… But, psychedelic (mind-manifesting) has weathered all storms." The ''PIHKAL'' glossary files '''HALLUCINOGENS''' as "a misleading and inaccurate synonym for psychedelic drugs."
+
+== Reading the names without over-reading them ==
+
+One caution follows from all of the above, and it is epistemic rather than stylistic: in this corpus a '''code name is not evidence that a compound exists, was ever purified, or was ever taken by anyone'''. ALEPH-3, ALEPH-5, ALEPH-20, ALEPH-21, 2C-T-5, 2C-T-6, 2C-T-10, 2C-T-11, 2C-T-12, 2C-T-14, 2C-T-18, 2C-T-19, 2C-T-22, 2C-T-23, 2C-G-2, 2C-G-4, G-4, 2C-EF, DAPHNE and ELVIRA all appear as names in the commentary while the entries record the synthesis as unfinished, abandoned, or never begun — and the human data behind many named-and-made compounds is a single trial by a single unblinded person. Later literature has sometimes carried these codes forward as though each denoted a characterised drug. The entries are explicit about which is which; the names are not.
+
+== See also ==
+* [[The Shulgin Method, Dose Escalation, and the Research Group]]
+* [[Publication, Cognitive Liberty, and the Analogue Act]]
+* [[Shulgin Rating Scale]]
+* [[PIHKAL and TIHKAL]]
+* [[Alexander Shulgin, Alchemy, Isotopes, and Soul Chemistry]]
+* [[The 2C Series and Extended Phenethylamines]]
+* [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]
+* [[Isomers, the Analogue Act, and Forensic Chemistry]]
+* [[Structure Activity Relationships in Psychopharmacology]]
+* [[Psychedelic and Psychopharmacology Glossary]]
+* [[The Tryptamine Family and Endogenous Neurochemistry]]
+* [[Glossaries]]

@@ -1,0 +1,109 @@
+'''Carl A. P. Ruck''' is a classicist at Boston University who, with R. Gordon Wasson and Albert Hofmann, proposed that the central rite of the Eleusinian Mysteries turned on an ergot-infused drink, and who coined the word '''entheogen'''. His name now stands for a whole argument: that psychoactive plants and fungi sat at the centre of ancient religion and were deliberately written out of the record.
+
+That argument has a strong form and a weak form, and almost all the public confusion comes from treating them as one thing. This article separates them, and places '''John Marco Allegro's ''The Sacred Mushroom and the Cross'' (1970)''' where it actually belongs in the sequence — not as Ruck's source, and not as a discredited book Ruck can be dismissed with, but as the earlier, far more extreme case whose collapse set the terms Ruck has worked under ever since.
+
+== The sequence ==
+
+<code>
+ 1955  Wasson and Richardson take psilocybin mushrooms at Huautla de Jiménez
+       with María Sabina — the first documented outsiders at a velada
+ 1957  "Seeking the Magic Mushroom", Life magazine, 13 May — the event that
+       carried psilocybin into the West, and that wrecked Sabina's village
+ 1958  Hofmann isolates psilocybin and psilocin at Sandoz
+ 1968  Wasson, "Soma: Divine Mushroom of Immortality" — Amanita muscaria as Soma
+ 1970  ALLEGRO, "The Sacred Mushroom and the Cross" — the Semitic etymological
+       argument; immediate and total professional repudiation
+ 1978  WASSON, HOFMANN & RUCK, "The Road to Eleusis" — the ergot hypothesis
+ 1979  Ruck, Bigwood, Staples, Ott, Wasson coin "ENTHEOGEN"
+ 1986  "Persephone's Quest" — the programme extended
+ 2001→ Ruck, "The Apples of Apollo", "Mushrooms, Myth and Mithras", and after
+</code>
+
+== The Road to Eleusis and the ergot hypothesis ==
+
+The '''Eleusinian Mysteries''' ran for roughly two thousand years, drew initiates from across the Greek world including Plato and Cicero, and were protected by a death-penalty secrecy that held. Initiates described a single overwhelming night in the Telesterion. Something was drunk first: the '''kykeon''', a barley preparation.
+
+The 1978 thesis:
+
+* Barley in the Rarian plain would have carried '''''Claviceps purpurea''''' — ergot.
+* Ergot produces a family of alkaloids sharing the lysergic acid nucleus. Most are inaccessible or toxic, but '''ergonovine''' and '''ergine (lysergic acid amide)''' are water-soluble, while the dangerous peptide alkaloids largely are not.
+* '''Hofmann's contribution was the chemistry''': a water extraction of ergotised barley could plausibly separate a psychoactive fraction from the vasoconstrictive one. He had the standing to say so — he made LSD-25 from ergot in 1938, and he later identified the ergine-bearing morning glory seeds (''Rivea corymbosa'', ''Ipomoea violacea'') used in Mesoamerica, which is a documented case of exactly this chemistry being used ritually.
+* '''Ruck's contribution was the philology''': the Homeric ''Hymn to Demeter'', the imagery of grain and the ''ergot-blighted'' ear, and the vocabulary of the rite.
+
+'''What supports it.''' The chemistry is sound in principle. The Mesoamerican ergine case proves a culture ''did'' build a sacrament on this alkaloid family. The secrecy explains the absence of description. Ergot was demonstrably present wherever rye and barley grew — the medieval '''St Anthony's fire''' epidemics are the same organism.
+
+'''What does not.''' There is '''no residue evidence from Eleusis itself'''. No vessel from the Telesterion has been assayed, the site was destroyed in 396 CE, and the hypothesis rests on inference from what was possible. A real controlled preparation would also have to be reproducible across two thousand years of annual rites — ergot contamination is variable by season and field, which is a serious practical objection that the thesis handles by assuming a priestly technique no source records.
+
+'''The nearest thing to physical support''' comes from outside Greece: '''Mas Castellar de Pontós''', an Iberian site with Greek contact, where Jordi Juan-Tresserras reported ergot alkaloids in vessel residue and human dental calculus from a ritual context (2002). It is a single analysis, not widely replicated, and it is evidence that ergot was consumed somewhere in the Greek cultural orbit — not that it was the kykeon.
+
+== "Entheogen" ==
+
+Coined in 1979 by Ruck, Jeremy Bigwood, Danny Staples, Jonathan Ott and Wasson, from ''entheos'' ("god within", used of inspired states) plus ''-gen'' ("becoming"). The explicit purpose was to replace two words the authors considered unusable:
+
+* '''"Hallucinogen"''' — asserts that what is perceived is false, which is a conclusion, not a description.
+* '''"Psychedelic"''' (Osmond, 1957) — by 1979 inseparable from a particular decade and subculture.
+
+The word did what it was built to do: it gave ethnobotany a term for ritual use that carried no verdict. Its weakness is the mirror image — it presumes religious intent, so it is no more neutral than the words it replaced, only biased in the other direction. See [[Psychotomimetics Sedation and the Evolution of Psychiatry]] for how the earlier terminology was fought over inside medicine, and [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]] for the parallel vocabulary problem in the chemistry.
+
+== Allegro, and what actually happened to him ==
+
+'''John Marco Allegro''' (1923–1988) was not a fringe figure before 1970. He was a Semitic philologist at Manchester, one of the original international team appointed to edit the '''Dead Sea Scrolls''', and — this is the part usually left out — '''the only member of that team to publish his assigned material promptly''', as ''Discoveries in the Judaean Desert'' V in 1968, while colleagues sat on theirs for decades. He had already made enemies by saying in public that the Scrolls showed Christian ideas with pre-Christian precedents.
+
+''The Sacred Mushroom and the Cross'' (1970) argued:
+
+* That the religions of the ancient Near East descend from a fertility cult centred on '''''Amanita muscaria'''''.
+* That Christianity is that cult's late and misunderstood survival, its gospel narratives a cover story.
+* That the names and terms of the New Testament can be decomposed into '''Sumerian''' roots encoding mushroom and fertility meanings.
+
+'''The reception.''' Fourteen British scholars — including Allegro's own colleagues — signed a letter to ''The Times'' dissociating themselves from the book. His publisher, Hodder & Stoughton, effectively apologised for issuing it. His university position became untenable and he left academia. It is one of the most complete professional destructions in modern scholarship.
+
+'''Why the method fails.''' The core problem is not the mushroom. It is the '''etymology'''. Allegro derived Greek, Aramaic and Hebrew forms from '''Sumerian''' — a language isolate, unrelated to Semitic or Indo-European, separated from the New Testament by two to three thousand years and by no demonstrated channel of transmission. Any sufficiently permissive sound-matching across unrelated languages will generate unlimited results; the technique cannot fail, which is exactly what is wrong with it. Semitists rejected the derivations individually and the method entirely, and that judgement has not softened.
+
+'''Why the book still matters.''' Three things in it survived the verdict on the etymologies: that fertility and ecstatic cult were central and not marginal in Near Eastern religion; that canonical texts are edited artefacts with interests; and that a scholar who publishes an unwelcome thesis about sacred material can be removed from the field for it. Allegro was right about the Scrolls monopoly, and he was proved right when the full corpus was finally released in 1991. None of that rehabilitates the Sumerian argument.
+
+== Reading Ruck in the light of Allegro ==
+
+The two are often collapsed. They should not be.
+
+{| class="wikitable"
+! !! Allegro (1970) !! Ruck (1978 →)
+|-
+| Evidence base || Etymological reconstruction || Texts, iconography, and a chemical mechanism
+|-
+| Claim scope || Christianity ''is'' a mushroom cult || A specific rite used a specific preparation
+|-
+| Falsifiable? || Barely — the method generates matches at will || Partly — residue analysis could support or kill it
+|-
+| Professional outcome || Career ended, thesis abandoned by the field || Marginal but intact; the Eleusis thesis is still argued
+|-
+| Where it goes wrong || The linguistics || Pattern-matching imagery across unrelated traditions
+|}
+
+Ruck's later programme — ''The Apples of Apollo'', ''Mushrooms, Myth and Mithras'', ''Sacred Mushrooms of the Goddess'' — widens the claim from Eleusis to Mithraism, the Grail, the Garden of Eden and Christian art, and as it widens it inherits Allegro's structural weakness in a new form: '''an interpretive key that can decode anything decodes nothing'''. Red-and-white iconography is read as ''Amanita'', trees as mushrooms, veils as universal veils. There is no test that could come out against it.
+
+'''The standing counter-example is the Plaincourault fresco''': a 12th-century French church painting of the Fall, routinely reproduced as proof that medieval Christians knew ''Amanita muscaria''. Art historians — '''Erwin Panofsky''' most pointedly — identified it as a conventional stylised tree of a type found throughout Romanesque painting, with no mycological content whatever. Wasson himself accepted that correction. It is the cleanest illustration of the failure mode: the pattern is in the reader.
+
+== What the physical evidence actually shows ==
+
+The hypothesis does not need the weak cases, because the strong ones have arrived since — from residue chemistry rather than iconography:
+
+* '''Tel Arad, Judah (8th c. BCE).''' Residue analysis of the smaller altar in the Judahite shrine identified '''cannabis''' with burnt animal dung as a fuel, alongside frankincense on the second altar (Arie, Rosen and Namdar, ''Tel Aviv'', 2020). This is a controlled analytical result from an excavated cult context, and it is the best single piece of evidence that psychoactive burning had a place in an Israelite sanctuary.
+* '''Ergine-bearing morning glory seeds''' in Mesoamerica — documented ritual use of the same alkaloid family the Eleusis hypothesis depends on.
+* '''Ephedra, opium and ''Peganum harmala''''' residues across Central Asian and Near Eastern ritual sites, which bear on the Soma question without settling it.
+* '''Chavín de Huántar''' and the Andean snuff apparatus — unambiguous paraphernalia for tryptamine-bearing snuffs.
+
+The pattern that holds up is weaker and more interesting than the strong thesis: psychoactive plants were '''present and used''' in ancient ritual far more often than the textual record admits, and were '''not''' the single hidden key to any one religion.
+
+== Where this sits in the library ==
+
+The defensible core — that the chemistry of ritual plants is a legitimate object of historical study, and that the texts systematically under-report it — is the premise this whole corpus operates on. The failure mode is equally instructive: an unfalsifiable reading method produces endless confirmation and no knowledge. Allegro paid for his method with his career; Ruck has spent forty years in the margin for a thesis that may yet be settled by a residue assay nobody has run.
+
+== See also ==
+
+* [[Mystery Schools and Religious Movements Catalogue Ancient to Today]] — Eleusis in its institutional context
+* [[Old World vs New World Magic Herbs]] — what grew where, and what was actually used
+* [[Psychotomimetics Sedation and the Evolution of Psychiatry]] — the parallel fight over what to call these states
+* [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]] · [[PIHKAL and TIHKAL]]
+* [[Apotropaic Magic Bes and Syrian Rue]] — ''Peganum harmala'' in ritual use
+* [[Ancient Historians and Comparative Religion]] — the source-criticism problem in general
+* [[Ibogaine Iboga and the Apocynaceae]] — a living initiatory tradition with a documented pharmacology

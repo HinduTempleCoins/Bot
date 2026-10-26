@@ -1,0 +1,169 @@
+'''The 2C and DOx Families: Halogens, Sulfur, and What Each Substituent Does''' is a substituent-by-substituent reading of Alexander Shulgin's 4-position work in ''PIHKAL'' (1991). The 2,5-dimethoxyphenethylamine scaffold has one tunable site, and over roughly thirty years Shulgin put a halogen, a nitro group, a cyano group, an alkyl chain, an alkoxy chain, a thioether, a selenoether, a fused ring and an N-hydroxy group onto it, and recorded what each did. Collected here: those results, the sub-series naming systems, the prodrug and metabolic reasoning behind the sulfur work, and the hazards Shulgin himself flagged.
+
+The ring-position rules are in [[Shulgin Structure Activity Relationships Ring Substitution and Potency]]; chain length and duration are in [[Chain Length the Bushy End and the Duration of Action]].
+
+== The epistemic status of this data ==
+
+Once, plainly: the potency figures below are '''unblinded self-experiment''' by Shulgin and a small circle, n = 1 to about n = 20, hand-escalated from sub-threshold doses, with no blinding or placebo arm. Several compounds in the tables were never tasted at all and carry only Shulgin's prediction, labelled as such. What ''is'' independently established is the serotonin-receptor mechanism, DOI's status as a standard high-affinity 5-HT<sub>2</sub> radioligand — which Shulgin recorded himself (entry 67) — and the radiolabelling distribution results, which were instrument measurements rather than self-reports.
+
+== The scaffold and the naming systems ==
+
+<code>
+        THE 2,5-DIMETHOXYPHENETHYLAMINE SCAFFOLD
+
+                  OCH3  (2-position)
+                ---|
+        R ------| ring |---- CH2CH2NH2        <- 2C-x
+     (4-position)  |         CH2CH(CH3)NH2    <- DOx / ALEPH
+                ---|
+                  OCH3  (5-position)
+
+   R = Br -> 2C-B / DOB     SCH3  -> 2C-T  / ALEPH     NO2 -> 2C-N / DON
+       I  -> 2C-I / DOI     SC2H5 -> 2C-T-2 / ALEPH-2  CH3 -> 2C-D / DOM
+       Cl -> 2C-C / DOC     S-nPr -> 2C-T-7 / ALEPH-7  H   -> 2C-H (launch pad)
+       F  -> 2C-F / DOF     SeCH3 -> 2C-SE          fused ring -> 2C-G-n
+</code>
+
+* '''2C- / 3C-''' encodes chain length: a compound first made as an amphetamine lends its letter to the two-carbon version (DOB → 2C-B, DOI → 2C-I, DOET → 2C-E), and one first made as a phenethylamine gets 3C- for the lengthened version (entry 72).
+* '''The T numbers are historical, not structural.''' "''They have been, like the houses on the streets in residential Tokyo, assigned numbers in strict historical order, documenting the sequence of construction rather than the relative position down the side of the street''" (entry 39). 2C-T-7 is not "more" of anything than 2C-T-2.
+* '''ALEPH is the amphetamine of 2C-T''', its original code being '''DOT''' — "''the desoxy- and a thiomethyl group at the 4-position''" (entry 39). The 2C-O compounds mirror the 2C-T numbers with oxygen in place of sulfur (entry 35).
+
+The scaffold works because of where the chemistry is easy. 2C-H itself is presumed inactive — "''being an excellent substrate for the amino oxidase systems in man, will be completely destroyed by the body as soon as it gets into it''" — but "''It is, however, one of the most magnificent launching pads... In the lingo of the chemist, it is amenable to "electrophilic attack at the 4-position." And, in the lingo of the psychopharmacologist, the "4-position is where the action is."''" (entry 32)
+
+== Halogens: monovalent, potent, and a dead end ==
+
+:"''The halogens represent a small group of atoms that are unique for a couple of reasons. They are all located in a single column of the periodic table, being monovalent and negative. That means that they can be reasonably stable things when attached to an aromatic nucleus. But, being monovalent, they cannot be modified or extended in any way. Thus, they are kind of a dead end, at least as far as the 2C-X series is considered.''" (entry 23, 2C-C)
+
+The potency order he gives is '''I ≈ Br > Cl > F''', with each element's handling difficulty explaining how much work went into it: "''Perhaps because chlorine is a gas and troublesome to handle (bromine is a liquid, and iodine is a solid). The fluorine analogue is yet harder to make, and requires procedures that are indirect''".
+
+{| class="wikitable"
+! Halogen !! 2C-x !! DOx !! What Shulgin records
+|-
+| '''Fluorine''' || '''2C-F''' || '''DOF''' || 2C-F: "''at no dose that was tried was there any convincing indication of believable central effects''", even above 100 mg. DOF was made; animal comparison to DOB/DOI "''imply that the human activity will be some four to six times less''"; never tried in man (entry 26)
+|-
+| '''Chlorine''' || '''2C-C''' || '''DOC''' || Less potent than Br and I, "''and much less explored''". One intravenous 20 mg trial "''peaked at about 5 minutes and lasted for perhaps 15 minutes''" (entry 23). DOC: "''a long-lasting, dyed-in-the-wool psychedelic''" (entry 64)
+|-
+| '''Bromine''' || '''2C-B''' || '''DOB''' || "''by far the most broadly explored of all the halides''". 2C-B: steep curve over 12–24 mg, shortest of the major psychedelics (entry 20). DOB: about 2 mg in an 80 kg person, slow onset, long-lived (entry 62)
+|-
+| '''Iodine''' || '''2C-I''' || '''DOI''' || "''These are the most potent''" (entry 23). DOI "''vies with DOB as probably the most potent of the phenethylamine psychedelics''" (entry 67)
+|}
+
+The structural frustration is the point:
+
+:"''what is particularly maddening to the synthetic diddler, is that they cannot be lengthened, or shortened, or squooshed around in any way. You can't make a longer and narrower version of a bromine atom, as you can do with, say, a butyl group. You've got what you've got, like it or not. No subtle variations.''" (entry 33, 2C-I)
+
+=== The compensation: a heavy atom is a radiolabel ===
+
+"''you have a heavy atom here, and this atom is intrinsic to the central activity of the compound. So, these materials are naturals for radio-labelling experiments''" (entry 33). This produced the book's one piece of hard human distribution data, and it points at a '''prodrug''':
+
+:"''Studies with DOB labelled with either 82Br or 77Br have been used in human subjects to follow the distribution of the drug... A fascinating finding is that DOB goes first and foremost to the human lung where it accumulates for a couple of hours. It is only afterwards that the brain level builds up. There is a strong implication that some metabolic conversion occurs in the lung, and it is only after this that the truly active metabolite is available for central action. This is consistent with the relatively slow onset of effect, and the very long duration of action.''" (entry 62, DOB)
+
+The same technique killed the alpha-ethyl homologue of DOI: radio-iodinated, it accumulated "''in the gut and liver, with almost none to the brain''" (entry 67). Instrument measurements decided two structure-activity questions that self-report could not.
+
+=== The beta-fluoroethyl trick ===
+
+Needing a fluorine for positron emission tomography without changing the drug, Shulgin exploited an equivalence: "''if a halogen, such as a bromine or an iodine atom, is replaced by a beta-fluoroethyl group, the electronic and polar properties of the drug can be pretty much the same. So, what psychedelics have a bromo or an iodo group? Obviously, DOB and DOI. Thus, DOEF is a natural candidate for fluorine-18 positron emission tomography... And, voila, it is an active material''" (entry 65, DOEF). Fluorine-18's half-life of "''just under 2 hours''" is what makes it useful (entry 49).
+
+The same trick solved an impossible synthesis in the sulfur series: "''the cute (and chemically impossible) idea of putting a bromo atom on the sulfur of the 2C-T family is nicely satisfied by using the beta-fluoroethyl group instead''" — giving '''2C-T-21''', "''about as potent a phenethylamine as they come''" (entry 49). On the same logic he named and predicted two compounds he never made, 2C-T-21.5 and 2C-EF, guessing the latter active "''in the 20-30 milligram area''" (entry 65).
+
+=== The other monovalent dead ends ===
+
+'''2C-N''' (4-nitro) is the cleanest statement of why a dead-end substituent is a problem even when it works: "''the 4-nitro group, like the 4-bromo group of 2C-B, is a dead-end. It cannot be stretched or compressed or lengthened or shortened... With 2C-B, the end product was a total winner; there was no wish to modify it. With 2C-N the end product is something a little less, and there is no way to modify it''" (entry 34). Its salt is yellow rather than white, so "''the solutions that are to be consumed are by definition also yellow colored''". '''2C-CN''', '''2C-COOH''', '''DOA''' (4-amino) and '''DOAA''' (4-acetamido) were all made and never evaluated in man (entries 23, 64).
+
+== Sulfur: what it does depends entirely on where it goes ==
+
+The sulfur work opens with the most cautious bioassay in the book. ALEPH was "''probably the first sulfur-containing phenethylamine to have been evaluated as a potentially active CNS stimulant or psychedelic. It was a complete, total, absolute unknown. The first trials were made at the sub-microgram level, specifically at 0.25 micrograms, at 11:30 AM on September 3, 1975''" — and "''it took a total of 18 trials to work the experimental dosage up to as much as a single milligram. In retrospect, overly cautious. But retrospection, as they say, is cheap''" (entry 3). Active levels turned out to be 5 mg for a peak experience that could not be duplicated, 7 mg "''an uneventful +1''", 10 mg a full +3 — with a colleague at 10 mg reporting "''only mild effects which he found relatively uninteresting''".
+
+=== The positional rule ===
+
+Sulfur-for-oxygen is '''not''' one effect. It is three, depending on position:
+
+{| class="wikitable"
+! Where the S goes !! Compound !! Effect on potency
+|-
+| 4-position of a '''3,4,5''' backbone (mescaline's central oxygen) || '''TM''' (thiomescaline) || "''The substitution of a sulfur atom for an oxygen atom increased the power of the drug some ten-fold, without any apparent decrease in complexity of action''" (entry 156)
+|-
+| 4-position of a '''2,5-dimethoxy''' backbone || '''2C-T''' / '''ALEPH''' || Active, and the gateway to the richest family in the book — though 2C-T's own "''relatively low potency... was a bit discouraging''" (entry 39)
+|-
+| '''2-position''' of DOM || '''2-TOM''' || "''DOM is fully active at the 5 or so milligram area, whereas 2-TOM is active at maybe the 80 milligram area, a loss of potency by a factor of x15 or so. And the duration is quite a bit shorter''" (entry 171)
+|-
+| '''5-position''' of DOM || '''5-TOM''' || Potency down about 10×; "''a pretty heavy-duty experience, with more negative reports than positive ones''", including one catatonic response (entries 12, 172)
+|-
+| '''Both''' 2- and 5- || '''BIS-TOM''' || Predicted ~150× loss (~750 mg); abandoned at 160 mg with "''hints of neurological disturbance''" (entry 12)
+|-
+| 4-position of a '''2,3-dimethoxy''' backbone || '''4-TIM''' || Inactive: "''Here is a methylthio group at this position, and it is an inactive compound. I was just a little bit surprised''" (entry 154)
+|}
+
+4-TIM matters because it falsifies the lazy version of the rule: a methylthio group ''at the 4-position'' is not sufficient; the rest of the ring has to be right. And the interpolation rule Shulgin tried to build from the positional data failed its first real test. Under 4T-MMDA-2 he reasoned that "''In a comparison of 4-oxy with 4-thio- and with 4-alkyl (as, for example, TMA-2, PARA-DOT and DOM) the analogue with the sulfur atom lies intermediate in potency between the oxygen atom and the carbon atom''", predicted a gain, and recorded: "''the absence of effects therefore declares that line of reasoning invalid''" (entry 167).
+
+=== The 2C-T sub-series, finished and unfinished ===
+
+{| class="wikitable"
+! Code !! 4-substituent !! Status in ''PIHKAL''
+|-
+| '''2C-T''' || methylthio || Active, low potency; the parent (entry 39)
+|-
+| '''2C-T-2''' || ethylthio || "''excellent tools for introspection''"; more nausea and diarrhoea, distinctly shorter than 2C-T-7 (entry 40)
+|-
+| '''2C-T-4''' || isopropylthio || "''from an estimated 4 or so milligrams for full effects, to something over 20 milligrams without any loss of control''" — "''an unusually wide latitude''" (entry 41)
+|-
+| '''2C-T-7''' || n-propylthio || "''right up there near the top, along with 2C-T-2, 2C-B, mescaline and 2C-E''"; 10 mg adequate for many; roughly twice 2C-T-2's duration (entry 43)
+|-
+| '''2C-T-15''' || cyclopropylthio || Nicknamed SESQUI; thresholds from 6 to 30 mg, no definite activity; isosteric with 2C-T-4 yet far weaker (entry 47)
+|-
+| '''2C-T-17''' || s-butylthio || Nicknamed NIMITZ; chiral at the ''far'' end of the molecule — the "south end" receptor probe (entry 48)
+|-
+| '''2C-T-21''' || 2-fluoroethylthio || "''about as potent a phenethylamine as they come''" (entry 49)
+|-
+| colspan="3" | '''Started and never finished:''' 2C-T-5, -6, -10, -11, -12, -14, -16, -18, -19, -22 and -23 — cyclohexyl-, phenyl-, pyridyl-, bromophenyl-, morpholino-, methylthioethyl-, allyl-, cyclobutyl-, n-butyl-, trifluoroethyl- and cyclopentylthio, each abandoned at the sulfide, aldehyde or nitrostyrene stage
+|}
+
+Two lessons sit in that unfinished list. '''An aromatic ring on the sulfur was the great hope and it failed''': ALEPH-6 (phenylthio) would have been a platform for electronic fine-tuning — "''this fine-tuning could have been extremely rewarding. But this material had the earmarks of one of those forever threshold things''" (entry 6). And '''sulfur–nitrogen bonds could not be made to work at all''': 2C-T-12 gave nothing, and a diethylaminothio target "''proved totally refractory to all efforts at reduction''" (entry 45).
+
+Swapping the thioether for a plain ether gives the dull '''2C-O''' series: "''with the probable low eventual potency of 2C-O-4, I feel that the 2C-O series will not be an exciting one''" (entry 35), a verdict the amphetamine side confirms — "''The 4-propoxy homologue of TMA-2 and MEM is clearly less active''" (entry 138).
+
+=== Selenium, and the bottom of the column ===
+
+'''2C-SE''' (4-methylseleno) is, Shulgin believed, plausibly the first centrally active compound in man containing selenium: "''The potency appears to be in the same ball park, whether there is a sulfur atom or a selenium atom there''" (entry 38) — needing 100 mg or more, with a caution attached first: "''I remember some early biochemical work where selenium replaced sulfur in some amino acid chemistry, and things got pretty toxic.''" Below selenium the column stops being useful; polonium is an alpha emitter whose site of action "''would be thoroughly and completely cooked by alpha-particle emission''".
+
+== N-hydroxy: the HOT series and the prodrug question ==
+
+The '''HOT''' compounds are 2C-T compounds with a hydroxyl on the nitrogen — "''If you put a hydroxy (HO) group on a thio material (T), you have a HOT compound''" (entry 88). The empirical result Shulgin states in capitals, as a working hypothesis:
+
+:"''AN N-HYDROXY AMINE HAS APPROXIMATELY THE SAME POTENCY AND THE SAME ACTION AS ITS N-HYDROGEN COUNTERPART.''" (entry 88, HOT-7)
+
+HOT-2 at 10–18 mg sits against 2C-T-2 at 12–25 mg — "''very similar''" (entry 87) — and "''How does HOT-7 compare with 2C-T-7? They are almost identical.''"
+
+The hypothesis came from an accident: the first attempted synthesis of MDOH (N-hydroxy-MDA) actually produced MDA, and when MDOH was genuinely made the second time its dose-finding run landed in almost the same place (entry 114). That leaves the direction of conversion open, and Shulgin lays out both — "''Maybe the N-hydroxy compound reduces to the N-H material in the body... Maybe the N-H material oxidizes to the N-hydroxy material in the body... Either direction is reasonable, and there is precedent for each''" (entry 88) — then bets on oxidation, because "''oxidative changes are much more common in the body than reductive changes''" and N-hydroxyamphetamine is a known cytochrome P-450 substrate: "''Human metabolic studies are needed, and they have not yet been done''" (entry 114). The general prodrug reasoning is set out under BOH, where the term itself gets a gloss: "''I feel the term should have been pre-drug, but pro-drug was the word that caught on''" (entry 15).
+
+The sulfur series produced one genuine metabolic experiment, which failed informatively. '''TOMSO''' is the sulfoxide of 5-TOM, made to test whether one unusually sensitive subject was generating an active sulfoxide in his liver. Shulgin first swallowed 60 mg of an inert model compound, 4-tert-butyl thioanisole, intending to track its sulfoxide and sulfone in urine: "''There was not a detectable trace of anything, neither parent compound nor either of the potential metabolites, to be found in my urine.''" TOMSO itself "''appeared to be without activity''". The by-product was an observation worth recording as a hazard: alcohol taken after an apparently inactive compound could '''rekindle''' activity rather than sedate — "''the promotion of an inactive situation into an active one, with the catalysis of alcohol''" — for which he coined the verb '''to tomso''' (entry 173).
+
+== Hazards Shulgin recorded in these families ==
+
+Reported here because he reported them, as pharmacology.
+
+* '''Erratic dose-response is the ALEPH family's signature.''' "''there is no predictability of the dose/response relationship. One person had expressed his psychic isolation by taking and maintaining a fetal position in relative hibernation for several hours and with substantial amnesia; this at a four milligram dose. Yet another person, at fully twice this amount, was aware of a slight light-headedness''" (entry 4, ALEPH-2). The same scatter appears in 2C-T-4 and in 3C-BZ (25–200 mg across ten subjects). A published "active range" for an erratic compound is not a dosing instruction.
+* '''ALEPH-4''': "''There is an underlying suggestion of body toxicity. I know of no experiment that exceeded 12 milligrams and I would not be able to predict what might come forth at higher dosages. I personally choose not to try them''" (entry 5). '''5-TOM''': "''Some cramping, some nausea, and a generalized discomfort. And that one case of a catatonic response''" (entry 172).
+* '''Steep curves and narrow margins.''' 2C-B: "''Over the 12 to 24 milligram range, every 2 milligrams can make a profound increase or change of response''" (entry 20). 2C-P: one 16 mg trial was "''a physical disaster, not to be repeated''", and "''The need for individual titration would be most important with this compound''" (entry 36).
+* '''2C-B overdoses.''' Two are quoted verbatim in the book — 64 mg, taken by a physician who found 20 mg mild and swallowed the remaining 44 ("''Everything that was alive was completely fearsome''"), and an accidental 100 mg from the wrong vial. Both recovered. Shulgin is careful about the word: "''There have been reports of several overdoses that prove the intrinsic safety of this compound. Prove is used here in the classic British sense; i.e., to challenge.''"
+* '''DOB can kill.''' A woman died after snorting a dose so large that "''there was the actual recovery of over nine milligrams of the drug from her body tissues in the post-mortem examination''", having believed she had MDA and dosed accordingly; her companion survived convulsions and "''an extended period (several weeks) of being in a comatose state''". Shulgin adds: "''Tragic examples have been reported that involve arterial vascular spasm''" (entry 62). This is the canonical misidentification fatality in the family — a milligram-scale compound dosed as a hundred-milligram one.
+* '''Not in this corpus.''' ''PIHKAL'' (1991) records no monoamine-oxidase-inhibitor interaction for 2C-T-7 and no fatality for it. The 2C-T-7 deaths and the MAOI-interaction concern that attached to the compound date from around 2000–2001, after the book was written, and are therefore outside this source — noted so the absence is not read as an all-clear. The general principle that an MAOI plus a serotonergic phenethylamine is a serious combination is covered in [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+
+== What the 4-position catalogue actually taught ==
+
+# '''A monovalent substituent that works is a terminal result.''' 2C-B and 2C-I are among the best compounds in the book and cannot be improved by degrees, because there is nothing to lengthen. 2C-N is the same situation with a worse compound.
+# '''A divalent heteroatom is a handle.''' Sulfur gave twenty-plus numbered derivatives from one scaffold, because anything can be hung on it — which is why the 2C-T series, not the halogens, became "''a treasure house''" (entry 39).
+# '''Position dominates identity.''' The same methylthio group raises potency tenfold at one ring position, costs 15-fold at another, and does nothing at all on a 2,3-dimethoxy ring.
+# '''The series never licenses the next member.''' BIS-TOM, 4T-MMDA-2, 2C-T-15 and 4-TIM were each predicted from a sound-looking pattern and each came out wrong. Shulgin's closing position was to keep making compounds precisely because they would wreck whatever mechanism was fashionable (entry 69).
+
+== See also ==
+
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] — ring positions, the psi series, and the anti-syllogism argument
+* [[Chain Length the Bushy End and the Duration of Action]] — alpha- and N-alkyl homologation, and the duration rules
+* [[Thiols and Oxygen Congeners in Medicinal Chemistry]] — oxygen versus sulfur as congeners, in general
+* [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]] · [[PIHKAL and TIHKAL]] · [[Shulgin Rating Scale]]
+* [[The 2C Series and Extended Phenethylamines]] · [[Structure Activity Relationships in Psychopharmacology]]
+* [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]] — the radiotracer and isotope work
+* [[Colorimetric Reagents and Presumptive Chemical Testing]] · [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]]
+* [[Psychedelic and Psychopharmacology Glossary]] · [[Isomers the Analogue Act and Forensic Chemistry]]

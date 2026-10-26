@@ -1,0 +1,92 @@
+'''5-HTP''' (5-hydroxytryptophan) is the immediate precursor to serotonin, sold over the counter and taken by a very large number of people on the strength of a sentence most of them were told by a television advertisement: that depression is caused by a '''chemical imbalance''' — a serotonin deficiency — which a precursor or a reuptake inhibitor corrects.
+
+The pharmacology of 5-HTP is real and has specific hazards. The chemical imbalance story is a '''historical artefact''' that the research field abandoned decades before the public heard it. Neither of those statements means antidepressants do not work. Holding all three at once is the whole skill, and this article is about how.
+
+== The pathway, and where the precursors enter ==
+
+<code>
+   DIET: L-TRYPTOPHAN
+        │  competes with other large neutral amino acids
+        │  (leucine, valine, phenylalanine, tyrosine) for the
+        │  LAT1 transporter at the blood-brain barrier
+        ▼
+   TRYPTOPHAN HYDROXYLASE  (TPH1 peripheral / TPH2 neuronal)
+        │  ◄── RATE-LIMITING STEP. Needs iron and BH4.
+        │      Only ~1–2% of dietary tryptophan goes this way;
+        │      the bulk is consumed by the kynurenine pathway,
+        │      which inflammation accelerates.
+        ▼
+   5-HTP  ◄══ supplement enters HERE, bypassing the bottleneck
+        │
+        ▼
+   AROMATIC L-AMINO ACID DECARBOXYLASE (AADC)
+        │  ◄── PRESENT THROUGHOUT THE PERIPHERY: gut, liver,
+        │      kidney, blood vessels. NOT brain-specific.
+        ▼
+   SEROTONIN (5-HT)   ─── ~90% of body serotonin is in the GUT
+        │                  and does not cross back into the brain
+        ▼
+   MAO-A → 5-HIAA → urine     (see: the biomarker search, below)
+</code>
+
+'''The design flaw in taking 5-HTP orally.''' Bypassing the rate-limiting enzyme is the clever part. The problem is the '''next''' enzyme: AADC is everywhere, so most of an oral dose is decarboxylated to serotonin in the gut wall, liver and bloodstream — '''before''' it reaches the brain. You get peripheral serotonin, which is where the nausea, cramping and diarrhoea come from, and comparatively little central delivery.
+
+Research protocols solve this with a '''peripheral AADC inhibitor''' — '''carbidopa''' — exactly as it is used with L-DOPA in Parkinson's disease, to force the conversion to happen centrally. Over-the-counter 5-HTP is sold without one, which means the product is pharmacologically mismatched to its own purpose.
+
+== The specific hazards ==
+
+* '''Serotonin syndrome.''' 5-HTP with an '''MAOI, SSRI, SNRI, tramadol, triptans, linezolid, St John's wort, or dextromethorphan''' can produce agitation, clonus, hyperreflexia, hyperthermia and death. This is the single most important interaction in the supplement aisle, and it is made more likely by the fact that 5-HTP is sold next to things it must not be combined with. See [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+* '''Cardiac valvulopathy — the serious chronic risk.''' Sustained elevation of '''peripheral''' serotonin stimulates '''5-HT2B''' receptors on heart valve fibroblasts, producing fibrotic thickening. This is the established mechanism behind '''fenfluramine/phentermine''' valve disease, behind pergolide and cabergoline withdrawal, and behind carcinoid heart disease. Peripheral serotonin is precisely what unprotected oral 5-HTP produces. There is '''no long-term safety data''' on daily high-dose 5-HTP, and this is the gap that matters.
+* '''Eosinophilia-myalgia syndrome (EMS).''' In 1989 a contaminated batch of '''L-tryptophan''' from a single Japanese manufacturer caused over 1,500 cases of EMS and at least 37 deaths — a devastating fasciitis-like illness. The FDA banned tryptophan supplements until 2005. The implicated contaminant was a trace dimer, and the whole episode is the standard case study for why '''supplement manufacturing is the risk, not the molecule'''. A related contaminant, '''"Peak X"''', has been detected in some commercial 5-HTP. Third-party assay is not optional here.
+* '''Do not use in pregnancy, in carcinoid syndrome, or with Down syndrome''' (historical trials reported seizures).
+
+'''What the evidence supports.''' The Cochrane review of 5-HTP and tryptophan for depression (Shaw, Turner and Del Mar) screened 108 trials and found '''two''' of adequate quality, totalling 64 participants. The conclusion was that evidence is insufficient to recommend use. For sleep onset latency the data are slightly better but still thin. This is not a case of a disproven supplement; it is a case of a supplement that has essentially never been tested properly, forty years on.
+
+== Where "chemical imbalance" came from ==
+
+The idea has a precise origin, and the reasoning in it was '''backwards from the start'''.
+
+* '''1950s — two accidents.''' '''Iproniazid''', a tuberculosis drug, made patients euphoric; it turned out to inhibit monoamine oxidase. '''Imipramine''', developed as an antipsychotic, failed at that and lifted mood; it blocked monoamine reuptake. Meanwhile '''reserpine''' — from ''Rauvolfia'', see [[Ibogaine Iboga and the Apocynaceae]] — depleted monoamines and was associated with depressed mood in some patients.
+* '''1965 — Joseph Schildkraut''' published the '''catecholamine hypothesis''' of affective disorders. '''Alec Coppen''' (1967) proposed the serotonin version.
+* '''The logical error''' is what pharmacologists call '''''ex juvantibus'' reasoning''' — inferring a cause from what helps. Aspirin relieves headache; headaches are not an aspirin deficiency. That a drug raising synaptic serotonin improves mood does not establish that low serotonin caused the low mood, any more than alcohol relieving social anxiety establishes an ethanol deficit.
+* '''Schildkraut said so himself.''' The original paper described the hypothesis as, at best, a reductionist simplification. The field treated it as a research programme and had largely moved past it by the 1990s, because the timing never fitted: SSRIs raise synaptic serotonin within hours, and mood responds over weeks. Whatever the mechanism is, it is '''downstream''' of the serotonin change.
+
+'''So who told the public?''' Largely '''direct-to-consumer pharmaceutical advertising''' in the United States, where it is legal. Lacasse and Leo (2005, ''PLoS Medicine'') documented the gap directly: advertisements asserted a serotonin deficit as established fact while the scientific literature of the same period did not support it. The phrase was effective because it was simple, destigmatising, and it moved depression from character to chemistry. Those were genuine goods, which is part of why nobody with an interest in correcting it hurried.
+
+== The 2022 umbrella review, and the fight about it ==
+
+'''Moncrieff and colleagues (2022, ''Molecular Psychiatry'')''' published a systematic umbrella review of the serotonin theory, pooling evidence across serotonin and 5-HIAA levels, receptor and transporter imaging, tryptophan depletion, and SERT gene studies. The conclusion: '''no consistent evidence of an association between serotonin and depression''', and no support for the hypothesis that depression is caused by lowered serotonin activity.
+
+It was reported worldwide as "antidepressants don't work". '''That is not what the paper said, and it is not what follows.'''
+
+The responses — Jauhar, Cowen, Nutt and others — made three fair points:
+
+# The serotonin ''deficiency'' hypothesis had been '''abandoned in academic psychiatry decades earlier'''; refuting it refutes a position the field no longer held.
+# '''Efficacy is established independently of mechanism.''' Cipriani and colleagues (2018, ''The Lancet'') pooled 522 trials and 116,477 participants and found all 21 antidepressants studied more efficacious than placebo. The effect size is '''modest and contested''' — that is a real argument — but it does not rest on the serotonin story.
+# Umbrella reviews of heterogeneous proxy measures have real methodological limits of their own.
+
+'''What is simultaneously true:'''
+
+* Depression is '''not''' a demonstrated serotonin deficiency, and there is no blood, urine or scan test for it.
+* SSRIs '''do''' separate from placebo in trials, by a margin most clinicians regard as clinically meaningful in moderate-to-severe illness and that critics regard as marginal in mild illness.
+* '''Tryptophan depletion''' studies are the most informative single line: depleting tryptophan lowers mood in people '''already in remission from depression or with a family history''', and generally '''not''' in healthy controls. That points to a '''vulnerability''' in the serotonin system, not a deficit as the cause.
+* The mechanism most favoured now is '''downstream plasticity''' — BDNF, synaptogenesis, network reconfiguration — which is the territory of [[Ampakines Ketamine and Rapid Synaptogenesis]], and which explains the weeks-long delay that the serotonin account never could.
+
+'''Withdrawal is the part that was genuinely underplayed.''' Davies and Read (2019) and subsequent work established that antidepressant discontinuation symptoms are '''common, often severe, and sometimes prolonged''' — not the brief, mild, self-limiting event guidelines had described. The Royal College of Psychiatrists revised its position in 2019 and NICE updated its guidance accordingly. '''Hyperbolic tapering''' — proportional rather than linear dose reduction, following receptor occupancy rather than milligrams (Horowitz and Taylor, 2019) — is the practical consequence. '''Nobody should stop an SSRI abruptly''', and the reason is pharmacological, not psychological.
+
+== What this means for someone deciding what to take ==
+
+* '''Correct the things that are actually measurable first''' — B12, folate, ferritin, vitamin D, thyroid, sleep apnoea, alcohol. These have tests, and a deficiency here is the one case where the "imbalance" framing is literally true. See [[L-Methylfolate]] and [[B-Vitamins]].
+* '''5-HTP is not a substitute for treatment''' and is the wrong tool if you are already taking a serotonergic drug — in that situation it is a hazard with no demonstrated benefit.
+* '''If you take 5-HTP anyway''': low dose, short courses rather than indefinite daily use (the valve concern is a chronic-exposure concern), a third-party-assayed product, and '''never''' alongside an SSRI, SNRI, MAOI, tramadol, triptan or St John's wort.
+* '''Judge a claim by what would falsify it.''' "Balances your neurotransmitters" names no measurement and predicts nothing. The useful questions are always: what is being changed, by how much, measured how, and what else changes with it.
+
+== See also ==
+
+* [[Urine Testing and the Long Search for a Psychiatric Biomarker]] — what a century of looking for the imbalance in body fluids actually found
+* [[Ampakines Ketamine and Rapid Synaptogenesis]] — the plasticity account that replaced the deficit account
+* [[L-Methylfolate]] — the one adjunct with a defensible deficiency rationale
+* [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] · [[Catecholamines Transporters and Monoamine Reuptake]]
+* [[Do the Math Tryptophan Turkey Phenibut and Hair of the Dog]] — the tryptophan transport arithmetic
+* [[Psychotomimetics Sedation and the Evolution of Psychiatry]] — the history of the drugs themselves
+* [[The Tryptamine Family and Endogenous Neurochemistry]] · [[Nootropics]]
