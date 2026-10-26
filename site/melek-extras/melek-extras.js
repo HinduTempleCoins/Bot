@@ -672,11 +672,25 @@
       txt.appendChild(el('div', { style: 'font-size:20px;font-weight:700;margin-top:3px;word-break:break-word' },
         parts.join('  ·  ')));
 
-      var btn = el('a', { href: '/@' + me + '/transfers#claim', id: 'melek-rewards-claim',
-        style: 'flex:0 0 auto;background:#f5c518;color:#1a1a1a;font-weight:700;border-radius:9px;' +
-               'padding:11px 22px;text-decoration:none;font-size:15px;white-space:nowrap' }, 'Claim');
+      var btn = el('button', { type: 'button', id: 'melek-rewards-claim',
+        style: 'flex:0 0 auto;background:#f5c518;color:#1a1a1a;font-weight:700;border:0;border-radius:9px;' +
+               'padding:11px 22px;font-size:15px;white-space:nowrap;cursor:pointer' }, 'Claim');
+      var msg = el('div', { id: 'melek-rewards-msg',
+        style: 'flex:1 0 100%;font-size:13.5px;opacity:.9;display:none' });
+      function say(t, bad) {
+        msg.textContent = t;
+        msg.style.display = 'block';
+        msg.style.color = bad ? '#ffb4b4' : '#bfe3c0';
+      }
+      btn.onclick = function () {
+        btn.disabled = true; btn.style.opacity = '.6'; btn.textContent = 'Claiming\u2026';
+        doClaim(me, function (t, bad) {
+          say(t, bad);
+          if (bad) { btn.disabled = false; btn.style.opacity = '1'; btn.textContent = 'Claim'; }
+        });
+      };
 
-      box.appendChild(badge); box.appendChild(txt); box.appendChild(btn);
+      box.appendChild(badge); box.appendChild(txt); box.appendChild(btn); box.appendChild(msg);
       wall.insertBefore(box, wall.firstChild);
     }).catch(function () { /* soft-fail: never break the notifications page over this */ });
   }
@@ -721,6 +735,79 @@
         host.insertBefore(note, host.firstChild);
       }
     }, 250);
+  }
+
+
+  // ── 9c. the Claim button actually claims ─────────────────────────────────────────────────────────
+  // The wallet's own claimbox does not render on this deployment, so handing off to it was handing
+  // off to nothing. This broadcasts claim_reward_balance directly.
+  //
+  // It uses /melek-chain.js - the fork-patched blurtjs bundled from the condenser's own node_modules.
+  // The published blurtjs browser build predates the MELEK patches and serialises this op one asset
+  // short, which a Steem-fork node rejects; the patched lib carries all three (reward_steem,
+  // reward_sbd, reward_vests), matching the ops the chain has already accepted.
+  //
+  // The posting key comes from localStorage `autopost2`, the same place and the same key the
+  // condenser already uses to sign every vote and comment you make. It stays in this page, is passed
+  // only to the signer, and is never sent anywhere by this script. Nothing is written to storage.
+  var CHAIN_ID = '907959e559e253f0db275e467363425cc2cf4f20f7721699914d248a5547ad8b';
+
+  function loginFields() {
+    var raw = store('autopost2');
+    if (!raw) return null;
+    try {
+      var out = '';
+      for (var i = 0; i + 1 < raw.length; i += 2) out += String.fromCharCode(parseInt(raw.substr(i, 2), 16));
+      var f = out.split('\t');
+      return (f[0] && f[1]) ? { name: f[0], wif: f[1] } : null;
+    } catch (e) { return null; }
+  }
+
+  function loadChainLib(cb) {
+    if (w.MelekChain) return cb(w.MelekChain);
+    var s = d.createElement('script');
+    s.src = '/melek-chain.js';
+    s.onload = function () { cb(w.MelekChain || null); };
+    s.onerror = function () { cb(null); };
+    d.head.appendChild(s);
+  }
+
+  function doClaim(acct, say) {
+    var who = loginFields();
+    if (!who || who.name !== acct) { say('Sign in again, then press Claim.', true); return; }
+    say('Claiming…');
+    loadChainLib(function (lib) {
+      if (!lib || !lib.broadcast || !lib.api) { say('Could not load the signer. Reload and try again.', true); return; }
+      try {
+        lib.config.set('address_prefix', 'MELEK');
+        lib.config.set('chain_id', CHAIN_ID);
+        lib.api.setOptions({ url: w.location.origin + '/rpc', useAppbaseApi: true });
+      } catch (e) { /* defaults may already be right */ }
+
+      rpc('condenser_api.get_accounts', [[acct]]).then(function (rows) {
+        var a = rows && rows[0];
+        if (!a) { say('Could not read your account. Try again.', true); return; }
+        var vests = a.reward_vesting_balance;
+        if (!vests || parseFloat(vests) <= 0) { say('Nothing left to claim.'); return; }
+        // blurtjs still declares this op with BLURT's 2-asset param list, so the positional
+        // helper silently drops reward_steem and the chain rejects the transaction. The object
+        // form bypasses that mapping - it is what the condenser itself uses, and it is the shape
+        // the chain has already accepted (proved on hathor, tx 8338f3d5).
+        lib.broadcast.send(
+          { extensions: [], operations: [['claim_reward_balance', {
+              account: acct,
+              reward_steem: a.reward_steem_balance,
+              reward_sbd: a.reward_sbd_balance,
+              reward_vests: vests }]] },
+          { posting: who.wif },
+          function (err, res) {
+            if (err) { say('Claim failed: ' + String((err && err.message) || err).slice(0, 160), true); return; }
+            say('Claimed. It is in your MELEK POWER now.');
+            setTimeout(function () { w.location.reload(); }, 2200);
+          }
+        );
+      }).catch(function () { say('Could not read your account. Try again.', true); });
+    });
   }
 
   // ── 7. the home page IS Admin Updates ─────────────────────────────────────────────────────────────
