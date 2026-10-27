@@ -55,6 +55,8 @@ import { check as entitled, guardSend, capabilitiesFor } from './herald/entitlem
 import { gateSend, ledgerFor, recordSend } from './herald/send-gate.mjs';
 import { handler as mediaHandler } from './media.mjs';
 import { handler as earnHandler } from './bounties/pool-server.mjs';
+import { handler as callsHandler } from './calls/server.mjs';
+import { presignPut, objectKey, storageConfig } from '../integrations/harddrive.mjs';
 import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage, tree as inviteTree} from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 import { metatronPage } from './metatron.mjs';
@@ -66,6 +68,11 @@ import { sandalphonPage } from './sandalphon.mjs';
 import { beatsPage } from './beats.mjs';
 
 const PORT = +(process.env.PORT || 8157);
+// Live video is deployed dark until this is set — see the mount below.
+const CALLS_ENABLED = /^(1|true|yes|on)$/i.test(String(process.env.CALLS_ENABLED || ''));
+// BiFrost: the messenger's object storage. Recordings are PUT straight from the browser with a
+// presigned URL, so media never passes through this process.
+const BIFROST = { presignPut, objectKey, storageConfig };
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://pentecaust.com').replace(/\/$/, '');
 const _norm = (s) => String(s || '').trim().replace(/\/$/, '');
@@ -207,6 +214,18 @@ export async function handler(req, res) {
     if (path === '/media' || path.startsWith('/media/')) return mediaHandler(req, res);
     // Bounty Pools — sponsors fund a pot, contributors do tasks and earn (pentecaust/bounties/).
     if (path === '/earn' || path.startsWith('/earn/')) return earnHandler(req, res, { who: whoami(req) });
+    // Live video — 1:1 and small-group calls, rooms and roulette (pentecaust/calls/).
+    //
+    // ⭐ OFF BY DEFAULT. The code ships and the service runs with it mounted at nothing until
+    // CALLS_ENABLED is set, so this can be deployed and exercised on the box without being launched
+    // to the public. Flip the env var and restart to open it; unset it to close it again. With the
+    // flag off the path 404s exactly as if the feature were absent.
+    //
+    // Recordings go to BIFROST — the messenger's own storage. A second surface would mount this
+    // same handler with a DIFFERENT drive; see the storage note in calls/server.mjs.
+    if (CALLS_ENABLED && (path === '/live' || path.startsWith('/live/'))) {
+      return callsHandler(req, res, { whoami, mount: '/live', drive: BIFROST, surface: 'bifrost' });
+    }
     // The mark: a tongue of fire (Acts 2:3). Inline SVG so there is no binary asset to deploy and no
     // second request that can 404 on a fresh box.
     if (path === '/icon.svg' && method === 'GET') {
