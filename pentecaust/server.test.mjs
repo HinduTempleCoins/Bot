@@ -848,3 +848,23 @@ test('/translate.js carries the Google Translate page link and parses', async ()
   assert.ok(o.body.includes('.translate.goog'));
   assert.doesNotThrow(() => new Function(o.body));
 });
+
+// ── live video mount (pentecaust/calls) ─────────────────────────────────────────────────────────
+// It ships DARK: deployed and runnable, but 404 until CALLS_ENABLED is set. These tests pin that,
+// because "ready but not launched" is only true if the flag actually gates the route.
+
+test('live video is OFF by default — the route does not exist', async () => {
+  const { handler: h } = await import('./server.mjs');
+  const res = { code: 0, body: '', writeHead(c) { this.code = c; }, end(b) { this.body = b || ''; } };
+  const req = { method: 'GET', url: '/live', headers: {} };
+  await h(req, res);
+  assert.notEqual(res.code, 200, 'with the flag unset, /live must not serve the app');
+});
+
+test('the calls handler it mounts is the real one and refuses anonymous callers', async () => {
+  const { handler: calls } = await import('./calls/server.mjs');
+  const res = { code: 0, body: '', writeHead(c) { this.code = c; }, end(b) { this.body = b || ''; } };
+  const req = { method: 'GET', url: '/live/poll', headers: {} };
+  await calls(req, res, { whoami: () => null, mount: '/live' });
+  assert.equal(res.code, 401);
+});
