@@ -1,0 +1,186 @@
+'''Shulgin's Synthetic Method: Nitrostyrenes, Scrudge, and the Reduction Problem''' treats bench chemistry as a subject in its own right, using the '''EXTENSIONS AND COMMENTARY''' sections of ''PIHKAL'' (1991) as the source. Those commentaries are where Alexander Shulgin put the chemistry that did not fit in a formal recipe: the reactions that failed, the by-products nobody names in a paper, the reagent that worked once and never again, and the yields he was embarrassed by. Read together they describe a single workflow — '''arene → benzaldehyde → nitroalkene → amine''' — plus the handful of manoeuvres he used when that workflow broke. This article assumes organic chemistry; reagents, conditions, melting points and yields are reported exactly as he gives them, with the entry number attached.
+
+For what the resulting compounds ''did'', see [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] and [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]].
+
+== The backbone route ==
+
+Nearly every phenethylamine and amphetamine in ''PIHKAL'' comes off one pathway. The chain length is chosen at a single step — the nitroalkane used in the condensation.
+
+<code>
+   SUBSTITUTED ARENE
+        |
+        |  Vilsmeier (POCl3 / N-methylformanilide)
+        |  or ArLi (butyllithium) + N-methylformanilide
+        v
+   BENZALDEHYDE  Ar-CHO
+        |
+        |  nitromethane  + NH4OAc, steam bath   -> beta-nitrostyrene   (2-carbon -> PHENETHYLAMINE)
+        |  nitroethane   + NH4OAc, steam bath   -> 2-nitropropene      (3-carbon -> AMPHETAMINE)
+        v
+   NITROALKENE  Ar-CH=C(R)-NO2        <-- the fork in the road
+        |                                     \
+        |  LAH / ether                         \  Fe(0), AcOH
+        |  (or AlH3; or LAH + anh. AlCl3)       \     v
+        v                                        ->  Ar-CH2-CO-CH3  (phenylacetone)
+   PRIMARY AMINE  ->  HCl salt                        |  R2NH + NaBH3CN
+                                                      v
+                                                 N-ALKYL AMINE
+</code>
+
+Shulgin states the chain-length rule plainly for a compound he never made. From '''3-TM''' (#155): the corresponding amphetamine "''should be an active compound. Its synthesis should be straightforward from the benzaldehyde described above, employing nitroethane rather than nitromethane.''"
+
+== Step 1: getting the benzaldehyde ==
+
+=== Vilsmeier formylation ===
+
+The default, and the reagent is named consistently as phosphorus oxychloride with N-methylformanilide — not DMF. From '''2C-T-13''' (#46), on the 2C-T-14 intermediate: the sulfide "''underwent a normal Vilsmeier reaction (phosphorous oxychloride and N-methylformanilide) to give 2,5-dimethoxy-4-(2-methylthioethylthio)benzaldehyde with a melting point of 64-64.5 °C from MeOH.''" The same pair appears for 2C-T-18 (mp 108-109.5 °C), 2C-T-19 (mp 78-79 °C), 2C-T-22 and 2C-T-23, and for the toluene substrates of the F-310 / Z-7 series (#69), where 3,5-dimethoxytoluene gave 2,4-dimethoxy-6-methylbenzaldehyde, mp 64-65 °C — "''completely distinct from the isomer used above''", 2,6-dimethoxy-4-methylbenzaldehyde, mp 92-93 °C. With two methoxyls on a toluene, regiochemistry is the whole problem and melting point is the discriminator.
+
+=== Directed lithiation ===
+
+Where the Vilsmeier cannot pick the position, he metalates. From '''Z-7.2''' (#69): 2,3,5-trimethoxytoluene (bp 59-62 °C at 0.1 mm/Hg) "''formed the anion between the meta-methoxy groups with butyllithium, and N-methylformanilide gave the new compound 2,3,6-trimethoxy-4-methylbenzaldehyde, also an oil (bp 130-140 °C at 0.7 mm/Hg)…''" Same electrophile; only the activation changed. That trimethoxytoluene came in turn from peracid oxidation of an aldehyde: "''Oxidation of the above 2,4-dimethoxy-6-methylbenzaldehyde with metachloroperoxybenzoic acid gave 2,4-dimethoxy-6-methylphenol which smoothly methylated (KOH, CH3I)''".
+
+=== Friedel-Crafts, then strip the oxygen ===
+
+To put an alkyl group on the ring he acylates and removes the carbonyl. '''DOBU''' (#63), on DOIB: "''the Friedel-Crafts reaction of isobutyryl chloride with p-dimethoxybenzene, followed by reduction of the ketone to an alcohol, dehydration to a dimethylstyrene, and final hydrogenation to a hydrocarbon.''" DOSB came by a Grignard variant — 2,5-dimethoxyacetophenone plus ethylmagnesium bromide, dehydration to isomeric dimethylstyrenes, then "''hydrogenation, benzaldehyde synthesis, nitrostyrene, and lithium aluminum hydride reduction''".
+
+The acylation is what misbehaves. '''DOAM''' (#61): n-caproic acid with polyphosphoric acid on p-dimethoxybenzene (aimed at DOHE) was dropped, and benzoyl chloride with anhydrous aluminium chloride "''went well''" but delivered "''a goodly amount of the phenol (2-hydroxy-5-methoxybenzophenone)''" — demethylation competing with acylation. For DOCPM only the first step was done, "''and even it went badly. The desired ketone … was most difficult to separate from the recovered starting ether''" (#63). When a substrate is commercial he says so, because it skips the sequence: DOTB started from "''the commercially available tert-butyl hydroquinone''".
+
+=== The hard case: methylation and formylation together ===
+
+'''2C-G-4''' (#29) is where both front-end steps fail at once: "''The simple act of methylating an aromatic hydroxyl group provided mixtures that could only be resolved into components by some pretty intricate maneuvers. And when that product was indeed gotten, the conversion of it into a simple aromatic aldehyde resisted the classic procedures completely, either giving complex messes, or nothing.''" The adjacent fused-ring homologue was the opposite — '''2C-G-5''' (#30): "''the miserable phenol-to-ether-to-aldehyde series of steps, so maddeningly unsatisfactory in the 2C-G-4 process, was completely comfortable here. The reactions rolled, and the yields were most satisfactory.''"
+
+== Step 2: the nitroalkene condensation, and scrudge ==
+
+Conditions are nearly invariant: the aldehyde, excess nitroalkane as solvent, a catalytic weight of ammonium acetate, steam bath, hours to overnight. '''2C-T-8''' (#44) gives a worked set of quantities: "''The above benzaldehyde (2.2 g) was cooked overnight on the steam bath in nitroethane (20 mL) containing ammonium acetate (0.4 g) and when the solvent was removed, the residue was converted to orange crystals by the addition of a little MeOH.''" '''2C-T-13''' (#46), nitromethane version: "''heated on the steam bath for 10 hours and worked up to give an excellent yield of … beta-nitrostyrene as garish orange-red 'Las Vegas' colored crystals from acetonitrile, with a melting point of 126-127 °C.''"
+
+Nitroalkenes are strongly coloured and crystallise well, which is why he uses melting point and colour as the identity check throughout. But the reaction does not stop at the nitroalkene, and the entry for '''3-TSB''' (#176) is the only place in either book where the by-product class is defined. It is quoted here in full, because the TLC practice attached to it is the method:
+
+: "''I have used the term 'scrudge' in this and other recipes, without defining it. With this aldehyde, as with most aldehydes in this nitrostyrene synthesis reaction where there is no ortho-substituent on the benzaldehyde, the reaction progress should be carefully followed by thin-layer chromatography. As the aldehyde disappears from the reaction mixture, the nitrostyrene appears, but there is usually the development of one or more slower moving components as seen by TLC. Such a wrong-product is called scrudge. The reaction should be continuously titrated, and stopped when there is a favorable balance between the aldehyde being mostly gone, the nitrostyrene being mostly made, and the slower-moving scrudge components being not yet too plentiful. Methylene chloride is an excellent solvent to try first, with silica gel plates and UV detection. The nitrostyrene is always the fastest moving component of the reaction mixture and often fluoresces a dull purple. The starting aldehyde is the second spot and usually fluoresces white or pale yellow. The scrudge spots then occur in a cascade from the aldehyde to the origin. A maddening property is that they are yellow or brown colored, and in the probe mass spectrograph they can crack to give rise to what appears to be the right nitrostyrene. Usually, they are high melting.''"
+
+Four operational facts are packed into that passage.
+
+* '''A structural predictor.''' Scrudge is the normal outcome "''where there is no ortho-substituent on the benzaldehyde''" — the 3,4,5-trisubstituted mescaline-type series, not the 2,4,5-type with its ortho-methoxyl.
+* '''The reaction is titrated, not timed.''' There is no endpoint at which the mixture is clean; the chemist stops at the best available ratio.
+* '''The TLC signature.''' CH<sub>2</sub>Cl<sub>2</sub> / silica / UV; nitroalkene fastest, dull purple fluorescence; aldehyde second, white to pale yellow; scrudge in a descending cascade to the origin, yellow-brown, high melting.
+* '''The analytical trap.''' Probe MS on scrudge "''can crack to give rise to what appears to be the right nitrostyrene.''" A parent ion is not identification. The same trap bites in '''2C-T-21''' (#49) with the 2C-T-22 aldehyde, which "''showed three major spots by both TLC and GCMS. The largest GC peak was the correct product with a parent peak of 280 m/e, and cracking fragments at 154 and 234 m/e''" — and he still writes, of a hexane crop melting 78-79 °C, "''I am not sure that even it is particularly pure.''" The downstream consequence is immediate: "''Not surprisingly, the reaction of this crude benzaldehyde with nitromethane and ammonium acetate gave a nitrostyrene product that was a complex mixture.''"
+
+'''Scrudge is what killed the polyethylated series.''' From '''3-TSB''' (#176): "''In this preparation, there was not one but several scrudges, and little if any nitrostyrene. The same was true for the other of the diethyl compounds such as 3-TASB, 5-TASB and 3-T-TRIS.''"
+
+=== The Wittig as the workaround ===
+
+The conclusion of that same entry is the fix: "''Thus, it is preferable to circumvent this usual synthetic step by using the Wittig reaction instead, as described here.''" The Wittig olefination builds the two-carbon side chain from the aldehyde without going through a nitroaldol at all, and so has no condensation by-product cascade to titrate against. It is the only general alternative to the nitroalkene step named in the book, and it is adopted specifically for the 3,4,5-substituted substrates where scrudge is structural rather than accidental.
+
+== Step 3: the reduction, and its selectivity problems ==
+
+{| class="wikitable"
+! Reductant !! Substrate !! Product !! Entry
+|-
+| LAH in ether || nitroalkene || primary amine || passim; DOF #26, DMMDA-2 #59, F-310 #69
+|-
+| LAH + anhydrous AlCl<sub>3</sub>, ether || nitrostyrene || phenethylamine (2C-5-TOM, mp 257-258 °C) || 5-TOM #172
+|-
+| Aluminium hydride || nitrostyrene (proposed, 3C-AL) || amphetamine || AL #2
+|-
+| LAH, low temperature, '''equimolar only''' || 2-bromo nitropropene || ORTHO-DOB, minimising debromination || META-DOB #124
+|-
+| Lithium aluminium deuteride || 3,4,5-trimethoxyphenylacetonitrile (proposed) || alpha-D mescaline || 4-D #50
+|-
+| Fe(0) in acetic acid || nitroalkene || phenylacetone || 2,4-DMA #53, 2,5-DMA #54, 3,4-DMA #55
+|-
+| NaBH<sub>3</sub>CN + amine, MeOH || phenylacetone || N-alkyl / N,N-dialkyl amine || 2,4-DMA #53, MDBZ #103, METHYL-K #129
+|-
+| NaBH<sub>4</sub>, warm MeOH || aryl ketone || secondary alcohol (hydroxy-DOPR) || DOPR #71
+|-
+| H<sub>2</sub> / Pd-C || 4-nitro amphetamine || 4-amino (DOA, mp 248-250 °C) || DOC #64
+|-
+| Zn dust || oxime || amine, with "''sufficient uncertainties''" to shelve the project || DMMDA #58
+|-
+| Zn (on a nitroalkane) || — || unexpectedly gave the beta-ethanolamine BOHD || BOHD #16
+|-
+| Hydrazine hydrate / EtOH, reflux || phthalimide || free amine (deprotection) || DOI #67, DOPR #71, 2C-C #23
+|}
+
+Three points carry beyond the table.
+
+'''Chemoselectivity against aryl halide.''' '''META-DOB''' (#124): "''Reduction to the amphetamine had to be conducted at a low temperature and using only an equimolar amount of lithium aluminum hydride, to minimize reductive removal of the bromo group.''" Hydride stoichiometry, not temperature alone, is the control.
+
+'''The Lewis acid is not cosmetic.''' The LAH/AlCl<sub>3</sub> combination in '''5-TOM''' (#172) generates the more electrophilic alane ''in situ''; it is the same reagent Shulgin names outright as "aluminum hydride" in the proposed 3C-AL route (#2).
+
+'''Amides resist everything.''' '''2C-T-9''' (#45): 2,5-dimethoxy-N,N-diethylbenzenesulfonamide (bp 155 °C at 0.13 mm/Hg; mp 41-42 °C from 4:1 cyclohexane/benzene; "''an excellent proton NMR''") "''proved totally refractory to all efforts at reduction, so the target compound … has not been made. It has not even been given a 2C-T-X number.''"
+
+=== Protecting-group practice ===
+
+The amine is masked as a phthalimide whenever the ring must be attacked afterwards. '''DOI''' (#67): the free base of 1-(2,5-dimethoxyphenyl)-2-aminobutane was '''fused''' with phthalic anhydride (mp 76-77 °C), iodinated with iodine monochloride in acetic acid — the product "''chromatographically distinct from the uniodinated starting material (silica gel, CH<sub>2</sub>Cl<sub>2</sub>), but … did not crystallize''" — then cleaved with hydrazine hydrate in ethanol, mp 217-218.5 °C. '''2C-C''' (#23) runs the same phthalimide through a copper(I) displacement: cuprous cyanide in place of cuprous chloride gave 2C-CN, and hot strong base hydrolysed that to 2C-COOH. For an oxidative endgame he uses t-BOC instead — '''Z-7.2''' (#69): t-BOC, quinone with ceric ammonium nitrate, hydroquinone with dithionite, HCl deprotection, product "''an extremely light-sensitive solid''".
+
+== Installing sulfur ==
+
+Three distinct methods, with different failure modes.
+
+'''(a) Thiophenol plus an alkyl halide.''' The workhorse. 2,5-Dimethoxythiophenol with KOH in hot MeOH and the halide gives the aryl alkyl sulfide, which is then formylated. 2C-T-14 used 2-methylthioethyl chloride (sulfide bp 140-160 °C at 0.3 mm/Hg, #46); 2C-T-19 n-butyl bromide; 2C-T-22 2,2,2-trifluoroethyl iodide (#49). A DMSO/anhydrous K<sub>2</sub>CO<sub>3</sub>, room-temperature variant handles secondary halides: cyclobutyl bromide gave the sulfide bp 135-140 °C at 0.3 mm/Hg, cyclopentyl bromide bp 135-145 °C at 0.3 mm/Hg (#47). The thiophenol itself comes from reduction of 2,5-dimethoxybenzenesulfonyl chloride (#45).
+
+'''(b) Aryllithium plus a disulfide.''' The route that opened the upper 2C-T numbers. '''2C-T-9''' (#45): "''This nifty reaction with di-(t)-butyl disulfide worked so well, that three additional disulfides that were at hand were immediately thrown into the chemical program…''" The lithiated dimethoxybenzene plus 2,2-dipyridyl disulfide gave 2,5-dimethoxyphenyl 2-pyridyl sulfide, bp 135-150 °C at 0.4 mm/Hg, mp 66-67.5 °C from cyclohexane with 2% EtOH, Anal. (C<sub>13</sub>H<sub>13</sub>NO<sub>2</sub>S) C,H. Di-(4-bromophenyl) disulfide gave the 4-bromophenyl sulfide, bp 150-170 °C at 0.5 mm/Hg, mp 72-73 °C from MeOH, Anal. (C<sub>14</sub>H<sub>13</sub>BrO<sub>2</sub>S) C,H. N,N-dimorpholinyl disulfide "''produced virtually no product at all''" — the S–N bond was not accessible this way.
+
+'''(c) Chirality transfer at sulfur's carbon.''' '''2C-T-17''' (#48) needed enantiopure sec-butyl on sulfur, so the alkylation had to run with clean inversion: the "S" 2-butanol in petroleum ether was converted to its lithium salt with butyllithium and treated with tosyl chloride ("''freshly crystallized from naphtha, hexane washed, used in toluene solution''"); adding 2,5-dimethoxythiophenol, anhydrous potassium carbonate and DMF then gave the sulfide. Shulgin states the constraint explicitly: "''this first step must go by inversion, and it cannot be allowed any racemization''". Note the inversion bookkeeping — "''The synthesis of 2C-T-17 "R" required starting with the "S" isomer of secondary butanol.''"
+
+Two sulfur routes simply did not work. Trifluoromethyl iodide with 2,5-dimethoxythiophenol "''should have produced 2,5-dimethoxyphenyl trifluoromethyl sulfide, but it didn't produce anything''"; and attempting to carry a bare 4-thio group through as the disulfide gave, on Vilsmeier formylation, "''black oils and tars''" (#49).
+
+== Building the ring onto the ring: Diels-Alder ==
+
+The 2C-G series fuses an alicyclic ring across the 3,4-positions, and the oxygens of the eventual 2,5-dimethoxy pattern come from the dienophile. '''2C-G-5''' (#30): "''The dihydroxybenzonorbornane compound that was the starting point of all this was certainly the adduct of cyclopentadiene and benzoquinone, with the double bond reduced.''"
+
+<code>
+     cyclopentadiene  +  benzoquinone
+              \            /     (Diels-Alder; dienophile supplies BOTH oxygens)
+               v          v
+        bicyclic adduct --[H2]--> dihydroxybenzonorbornane
+               |
+               |  O-methylation -> formylation -> nitroalkene -> reduction
+               v
+          2C-G-5   (racemic: the norbornane bridge is chiral)
+</code>
+
+Shulgin's generalisation is a standing synthetic programme: "''there are potentially several other Diels Alder dienes that might serve with benzoquinone as the dieneophile. There are aliphatic things such as hexa-2,4-diene and 2,3-dimethylbutadiene. The textbooks are filled with dozens of diene candidates, and benzoquinone will always provide the two oxygens needed for the eventual 2,5-dimethoxy groups of the phenethylamine.''"
+
+The one bridge he could ''not'' build is the two-carbon one. '''2C-G-3''' (#28): 2C-G-2 and G-2 "''call upon a common intermediate which is a benzocyclobutene, OK in principle but not yet OK in practice. The right benzyne reaction will be there someday''".
+
+== Non-nitroalkene entries into the skeleton ==
+
+* '''From an essential oil, by nitration.''' '''DMMDA-2''' (#59): dillapiole from fractionated Oil of Dill, "''Isomerization to isodillapiole, nitration with tetra-nitromethane to give 1-(2,3-dimethoxy-4,5-methylenedioxyphenyl)-2-nitropropene, and its reduction with LAH in ether''". The propenylbenzene supplies the skeleton; tetranitromethane installs the nitro group on the alkene. See [[Shulgin Ten Essential Oils]].
+* '''From a cyanohydrin''' — '''BOHD''' (#16): "''The usual method of making beta-ethanolamine such as this is through the reduction of the cyanohydrin of the corresponding benzaldehyde''". '''From a nitrile''' — proposed for alpha-deuterated mescaline, '''4-D''' (#50): "''easily made by the reduction of 3,4,5-trimethoxyphenylacetonitrile with lithium aluminum deuteride.''"
+* '''Alpha-methylation of a ketone, then oxime.''' '''DMMDA''' (#58): the nitrostyrene reduced to the ketone, "''followed by methylation with fresh sodium isopropoxide and methyl iodide''", giving two oximes (mp 120 °C and 146 °C); sodium ethoxide on the 120 °C oxime gave the threo amine (mp 247-249 °C), the 146 °C oxime the erythro (mp 188-189 °C). The parallel MDA series was abandoned over "''possible dimethylation, only one oxime isolated, the need of strong reducing conditions''"
+* '''Oxidation at sulfur, deliberately.''' '''TOMSO''' (#173), on 4-tert-butyl thioanisole: H<sub>2</sub>O<sub>2</sub> in methanol, extracts distilled 100-115 °C at 0.2 mm/Hg, gave the sulfoxide, mp 76-77 °C from hexane; H<sub>2</sub>O<sub>2</sub> in acetic acid on the steam bath gave the sulfone, mp 94-95 °C, confirmed by "''a negative Fries-Vogt test''". All three separated by GC and were extractable from urine.
+
+== Yields, workups, and the things he admits ==
+
+Quantities are reported rarely, and when they are, the conversion is the point. '''2,5-DMA''' (#54): "''22.3 g 1-(2,5-dimethoxyphenyl)-2-nitropropene in 100 mL acetic acid was added to a suspension of elemental iron in acetic acid (45 g in 250 mL)''", giving after distillation at 92-106 °C at 0.35 mm/Hg 13.8 g of the phenylacetone — about 83%. The reductive amination he scores honestly: "''4.6 g ketone gave 1.38 g of salt''".
+
+Bad yields are stated as such: '''4-TME''' (#164), "''an atrociously small yield''"; '''MDCPM''' (#104), "''the yield could only be improved with a careful resynthesis''"; '''META-DOB''' (#124), on brominating 3,4-DMA, "''apparently very bad''". So are unorthodox workups — '''DOAM''' (#61): "''The process described above is just a bit bizarre (a sulfate salt extracting into methylene chloride) but it was the actual thing that was done.''" A hydrochloride sometimes refuses to solidify (Z-7.2, #69), and the picrate serves as an isolation handle before the final salt: '''MEDA''' (#120) records MTDA "''as the hydrochloride (mp 160-161 C) again isolated first as the picrate.''"
+
+== Hazards Shulgin reports at the bench ==
+
+Reported because he reports them, in the places he reports them.
+
+* '''Elemental halogens.''' '''2C-C''' (#23): chlorine "''is a gas and troublesome to handle''"; fluorine "''is not only a gas, but is dangerous to handle and does not react in the usual halogen way''", forcing indirect routes.
+* '''Unknown potency at isolation.''' '''ALEPH''' (#3), on the first sulfur-containing phenethylamine: "''I was jumpy and unable to stay in the lab for more than a few minutes at a time. Maybe dust in the air? Maybe some skin contact with the free base? … the possibility of extraordinary potency was real, and I did indeed wash everything down anyway.''" His first human trial was 0.25 micrograms; it took 18 trials to reach one milligram.
+* '''Light-sensitive products.''' The Z-7.2 hydroquinone, above (#69).
+* '''Animal lethality, measured.''' '''DOB''' (#62): mouse ip doses of 50, 100, 125 and 150 mg/Kg, the last two fatal — "''the LD/50 was somewhere between 100 and 125 mg/Kg for the mouse''" — with his own verdict attached: "''I feel that two mice were killed without anything of value having been received in return.''"
+* '''Compounds that can never be handled.''' '''2C-SE''' (#38) rules out the polonium congener: no non-radioactive isotopes exist, the available one (mass 210, "''also called Radium F''") is an alpha emitter, and anywhere it localised "''would be thoroughly and completely cooked by alpha-particle emission''" — "''in no way could it ever go into anyone.''"
+
+== What the method actually is ==
+
+Stripped to its procedural core, the ''PIHKAL'' commentary describes a method with four rules: '''choose the chain at the nitroalkane'''; '''titrate the condensation by TLC rather than running it to completion'''; '''never trust a mass spectrum over a melting point and a microanalysis''', because scrudge cracks to the right parent ion; and '''record the step where it stopped''', so the next chemist starts from the shelf rather than from the beginning. That last rule is why roughly thirty compounds in the book exist as labelled, characterised intermediates with no final reduction — the subject of [[Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage]].
+
+== See also ==
+
+* [[Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage]]
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]]
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]]
+* [[Chain Length the Bushy End and the Duration of Action]]
+* [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]]
+* [[Shulgin Ten Essential Oils]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]
+* [[Thiols and Oxygen Congeners in Medicinal Chemistry]]
+* [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]]
+* [[Laboratory Equipment and Extraction Engineering]]
+* [[Colorimetric Reagents and Presumptive Chemical Testing]]
+* [[The Shulgin Method Dose Escalation and the Research Group]]
+* [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]]

@@ -1,0 +1,115 @@
+'''Idiosyncratic Responders, Inter-Individual Variance and the Street Market''' takes two problems in ''PIHKAL'' (Alexander Shulgin, 1991) that are usually treated separately and shows them to be one problem. The first is that the same quantity of the same compound does markedly different things to different people — a 60 mg dose that one subject does not feel at all, and a 15 mg dose by another route that another subject feels within minutes. The second is what happens when that fact meets a market in which nothing is labelled: the case of '''4-MA''', sold on the street as "Chicken Power" and "Chicken Yellow", promoted as MDA, with deaths that "''probably followed overdose''". The entries used here are METHYL-DMA (126), 2-TOET (169), HOT-17 (89) and 4-MA (97).
+
+== The epistemic standing of this record ==
+
+Stated once. Every figure below is '''unblinded self-report''', hand-escalated, with no placebo arm and no blinding — and in this article several of the reports are not even Shulgin's own, but accounts relayed to him by correspondents whose protocols he did not see. That is a weakness for almost every claim in the corpus except this one. Variance is the ''one'' thing a scattered, uncontrolled, multi-source record documents well, because the scatter is the finding. When six reports of the same compound disagree by a factor of four, the disagreement is information even if no single report is reliable.
+
+== Part one: the same dose, different people ==
+
+=== METHYL-DMA (entry 126) ===
+
+The clearest case in the book of a compound nobody can place. Shulgin's own framing: "''This is a difficult compound to pin down in the anthology of drugs. For some reason it has intrigued several independent, quiet researchers, and I have accumulated a number of interesting reports over the years.''" What follows is the raw spread, and it should be read exactly as written:
+
+:"''One person told me that he had felt nothing at up to 60 milligrams. Another had found a threshold at 50 milligrams, and had complete and thorough experiences at both 150 and 200 milligrams. Yet another person described two incidents involving separate individuals, with intravenous administrations of 0.2 mg/Kg, which would be maybe 15 or 20 milligrams. Both claimed a real awareness in a matter of minutes, one with a tingling in the genitalia and the other with a strange presence in the spine. Both subjects reported increases in body temperature and in blood pressure. Apparently the effects were felt to persist for many hours.''"
+
+{| class="wikitable"
+! Report !! Route !! Dose !! Outcome
+|-
+| Subject A || oral || up to 60 mg || Nothing felt
+|-
+| Subject B || oral || 50 mg || Threshold
+|-
+| Subject B || oral || 150 mg and 200 mg || "''Complete and thorough experiences''"
+|-
+| Two further individuals, third-hand || '''intravenous''' || 0.2 mg/kg (≈15–20 mg) || Awareness within minutes; genital tingling / "''strange presence in the spine''"; '''raised body temperature and blood pressure'''; effects persisting many hours
+|}
+
+Two distinct things are tangled in that table and they need separating.
+
+'''Variance between people.''' Subject A felt nothing at 60 mg; Subject B had a threshold at 50 mg. Those two reports are not compatible with a single population dose–response, and both were taken seriously enough to print.
+
+'''Variance from route.''' The intravenous reports describe clear activity at '''roughly a tenth''' of Subject B's full oral dose. That is not idiosyncrasy; that is first-pass metabolism and absorption being bypassed. The practical consequence is the part worth internalising: an oral figure tells you almost nothing about an injected one, and the error runs in the dangerous direction. The IV reports are also the only ones in the set that carry a measured-sounding physiological sign — '''increases in body temperature and in blood pressure''' — in two separate individuals, which is the signature of a sympathomimetic, not a classical psychedelic.
+
+Shulgin's structural note explains why that is unsurprising. METHYL-DMA is one methyl group away from the principal metabolite of a marketed asthma drug: methoxyphenamine (Orthoxine, Upjohn), 2-methoxy-N-methylamphetamine, a bronchodilator given at perhaps 100 milligrams several times a day, with no changes in blood pressure and only slight cardiac stimulation, whose major metabolite is 5-hydroxy-2-methoxy-N-methylamphetamine. His comment:
+
+:"''It is always intriguing when drugs which show distinctly different actions can, in principle, intersect metabolically at a single structure. One wonders just what the pharmacology of that common intermediate might be.''"
+
+And the general rule he draws from the whole N-methyl series, which is the key to reading this family: "''With N-methylation, the potency of the psychedelics is decreased, but the potency of the stimulants appears to be pretty much maintained.''" N-methylation is a selective filter. It strips the psychedelic component and leaves the cardiovascular one standing — which is precisely the configuration in which someone chasing a mental effect by raising the dose will arrive at a pressor effect first.
+
+=== 2-TOET (entry 169): discomfort as a stop signal ===
+
+The 2-TOET entry is short and is almost entirely about a decision not to continue. The compound is less potent than its 5-isomer — "''It seems as if the sulfur in the 2-position makes things less interesting, and less potent, than when it is in the 5-position. 2-TOM required twice the dosage of 5-TOM, and here it appears that it could well take a dosage of twice that required for 5-TOET, to get 2-TOET off the ground.''" So the obvious move is to double the dose. He does not:
+
+:"''There is an understandable reluctance to push on upwards in dosage with a new and unknown compound, when there are feelings of physical discomfort that outweigh the mental effects.''"
+
+What the corpus records at the '''50 mg''' level is a cluster of autonomic signs and no mental content: inability to effect erection, light-headedness, disinterest in food, interpreted as involvement of the sympathetic nervous system, with subtle effects persisting into the next day. His verdicts: "''There is nothing tangible here''" and "''Instinct said to leave it alone. So I left it alone.''"
+
+This is the rule the corpus states most often and least formally: '''physical load arriving before mental effect is a reason to stop, not a reason to take more.''' The structure–activity logic says the dose is simply too low. The body says something else is happening. Shulgin sided with the body, and the entry exists to record that he did.
+
+=== HOT-17 (entry 89): the "quicky", and why brevity is not safety ===
+
+HOT-17's commentary is the corpus's one sustained argument against short-acting compounds, and it opens on demand rather than chemistry:
+
+:"''Two virtues sought by some users of psychedelic drugs are high intensity and brief action. They want a quicky. Something that is really effective for a short period of time, then lets you quickly return to baseline, and presumably back to the real world out there.''"
+
+He treats the demand as a cultural symptom — "''a trade off between learning and entertainment. Or between the achieving of something and the appearance of achieving something. Or, in the concepts of the classics, between substance and image''"; people who "''truly believe that they cannot afford the time or energy required for a deep search into themselves''"; "''The world is too much with us.''"
+
+The pharmacological objection underneath the sermon is the part that belongs in a harm-reduction library. Intensity and duration are coupled: the more you take, the more you get, and longer duration often comes as an added property. You cannot reliably buy intensity without buying time. And HOT-17 itself is not a quicky — it is by no means particularly potent, active in the hundred-milligram area, and certainly not short lived. Which produces the line worth quoting on its own:
+
+:"''The hundred milligram area actually has been the kiss of death to several materials.''"
+
+Compounds whose active dose is in the hundreds of milligrams tend to bring physical problems at those levels. Low milligram potency is a safety property. The entry's final observation adds one more source of scatter — the material may not be one substance at all. HOT-17 carries an asymmetric carbon in its ''sec''-butyl side chain, so every sample is a mixture: "''The activity of the racemic mixture often is an amalgamation of both sets of properties, and the separate assay of each component can often result in a fascinating and unexpected fractionation of these properties.''" Two people given "the same compound" may be responding to different halves of it.
+
+== Part two: variance meets an unlabelled market ==
+
+=== 4-MA (entry 97) ===
+
+4-Methoxyamphetamine is one of Shulgin's ten essential amphetamines, because the 4-methoxy ring pattern appears in two major essential-oil constituents: '''estragole''' (the allylbenzene) and '''anethole''' (the propenyl isomer). "''This is another of the essential amphetamines, because of the appearance of the 4-methoxy group in two most important essential oils.''" See [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]].
+
+Its clinical history begins as a test of a hypothesis about amphetamine psychosis. The major metabolite of amphetamine is 4-hydroxyamphetamine; chronic users develop tolerance and escalate past 200 mg daily, and at high doses become psychotic. The question asked was whether the user's own body methylates 4-hydroxyamphetamine into 4-MA, and whether ''that'' is the psychotogen. So 4-MA was given to normal subjects. The result, in Shulgin's summary:
+
+:"''It produced excitation and other central effects, it produced adrenergic pressor effects, and it consistently produced measurable quantities of 4-MA in the urine, but it produced no amphetamine-like crazies.''"
+
+Maximum dose '''75 mg'''; no psychosis; 4-MA detectable in urine even at 10 mg. The reverse experiment closed it: 600 mg of amphetamine produced no detectable 4-MA in urine. The theory of psychotomimesis did not hold.
+
+Then the street. The sequence, with every element Shulgin states:
+
+:"''On the tragic side, a few years later, 4-MA became widely distributed... It had been sold under the names of Chicken Power and Chicken Yellow, and was promoted as being MDA... The several deaths that occurred probably followed overdose.''"
+
+The corpus records that it was distributed in the United States as the sulfate salt and in Canada as the hydrochloride; that the commercial inspiration came from '''rat studies reporting it second only to LSD in hallucinogen potency'''; that 4-MA was isolated from urine and tissue at post mortem; and that the dosages implied hundreds of milligrams ingested.
+
+=== Anatomy of the failure ===
+
+Four independent errors stack, and each one is separately avoidable.
+
+# '''An animal potency ranking was treated as a human potency ranking.''' "Second only to LSD" in a rodent assay set the expectation. In humans, 75 mg under medical observation produced excitation and pressor effects and no hallucinogenesis. The general case against this inference is [[Animal Assays and the Limits of Predicting Human Activity]].
+# '''The compound was sold under the name of a different compound.''' Anyone dosing "MDA" dosed on MDA's schedule. The substance in the capsule had a different potency, a different effect profile and — critically — a different margin.
+# '''The drug's actual pharmacology was adrenergic.''' Pressor effects were the documented human finding at sub-fatal doses. Scaling up a drug whose dominant action is cardiovascular, in search of a psychedelic effect it does not have, is the exact shape of the overdose.
+# '''Inter-individual variance did the rest.''' Part one of this article is why a quantity that leaves one person merely wired can be a fatal quantity for the next, and nothing in a street supply tells anyone which they are.
+
+The corpus's two neighbouring positional isomers make the narrowness of the window visible. '''3-MA''' was tried at 50 mg, given as two 25 mg portions three hours apart, with no central effects noted. '''2-MA''' has no reported human trial — but its N-methyl homologue is methoxyphenamine, the commercial bronchodilator, given at up to 200 mg with only slight central stimulation. One methoxy group moved around a ring separates a pharmacy product from a compound that killed people. And the pattern repeated: '''4-EA''' appeared on Canadian streets with no reported dosage, and was promptly illegalized — a response that does nothing about labelling, which was the actual failure.
+
+== What this is for ==
+
+The two halves of this article produce one list, and every item on it is drawn from the entries above rather than from general advice.
+
+* '''A street name is not a chemical identity.''' "Chicken Power" and "Chicken Yellow" were sold as MDA and were not MDA. Identity has to be established by testing, not by what the supply is called — see [[Colorimetric Reagents and Presumptive Chemical Testing]] and [[Ecstasy Pill Forensics and Historical Adulteration Trends]].
+* '''A published dose may be one person.''' METHYL-DMA's "complete and thorough experiences at both 150 and 200 milligrams" is ''one'' subject, and another subject felt nothing at 60 mg. The spread is the real datum, and the bottom of the spread is where to start.
+* '''Route is not a detail.''' Oral 150–200 mg and intravenous 15–20 mg describe the same molecule. Any figure carried across a route boundary is wrong by roughly an order of magnitude, in the direction that kills.
+* '''Physical signs before mental signs mean stop.''' 2-TOET: light-headedness, anorexia and autonomic effects with "''nothing tangible''" mentally is the profile of a sympathomimetic, not an under-dosed psychedelic. The structure–activity argument for doubling the dose was available, and was declined.
+* '''Brevity is not a safety property, and neither is a big dose.''' "''The hundred milligram area actually has been the kiss of death to several materials.''"
+* '''A racemate is two drugs.''' Where there is an asymmetric centre, "the same compound" is not the same thing in every sample or every body.
+
+Shulgin's own method is the counter-example to all of these failures, and it is worth stating that the contrast is the argument: careful escalation from a quantity known to be inert, one compound at a time, in a group that knew what it had taken and wrote down what happened. See [[The Shulgin Method Dose Escalation and the Research Group]] and [[Measuring Tools Scales Syringes and Volumetric Dosing]]. The 4-MA deaths did not happen because the information was dangerous. They happened because the people taking it did not have it.
+
+== See also ==
+
+* [[Animal Assays and the Limits of Predicting Human Activity]] — the rodent ranking that launched 4-MA
+* [[Colorimetric Reagents and Presumptive Chemical Testing]] · [[Ecstasy Pill Forensics and Historical Adulteration Trends]] — identifying what is actually in hand
+* [[The Shulgin Method Dose Escalation and the Research Group]] — escalation from inert, and why it works
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]] · [[Concentration Arithmetic and Serial Dilution]]
+* [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]] — estragole, anethole and the 4-methoxy ring
+* [[Shulgin Rating Scale]] — the scale these scattered reports are being rated on
+* [[The Vocabulary of Subjective Effect in PIHKAL]] · [[Inactive Compounds and the Publishing of Negative Results]]
+* [[The Muni Metro Benzodioxole Ladder]] — METHYL-J's unusually tight dose range, for contrast
+* [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Testing Labelling and Safe Storage of Dosed Preparations]]

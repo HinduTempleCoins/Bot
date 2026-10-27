@@ -1,0 +1,114 @@
+'''Against Mechanism-Hunting: the Hydroquinone Hypothesis and After''' traces a single episode in Alexander Shulgin's working life — being pressed, in the mid-1970s, to synthesise a compound whose only purpose was to rescue somebody else's theory — and the research policy he adopted afterwards, stated in the entry for psi-DOM in ''PIHKAL'' (1991): to go on making new and unexpected compounds precisely because active ones would wreck whatever mechanism was currently fashionable. The episode is small. The position it produced governs the rest of the book, and explains why ''PIHKAL'' contains almost no theory and an enormous amount of data.
+
+== The epistemic standing of this record ==
+
+Stated once. The human activity claims underneath every argument below are '''unblinded self-report''' from Shulgin and a small research group, hand-escalated from sub-threshold doses, with no blinding and no placebo arm. That cuts both ways here: it is the weakness of the data that makes a mechanism hard to build on it, and it is also the reason a single unexpected active compound could embarrass a mechanism so easily. The chemistry — melting points, yields, routes — is as firm as any in the corpus.
+
+== What the hydroquinone hypothesis claimed ==
+
+By the early 1970s the phenethylamine psychedelics had a template: the 2,4,5-trisubstitution pattern of TMA-2, DOM, DOB, DOI and the 2C-x series. A group at the Pharmaceutical Chemistry Department at UC San Francisco set out to explain why that pattern works, and to connect it to the other half of the field — the indoles, LSD and serotonin.
+
+The chemistry offered a tempting hook, and the psi-DOM entry (entry 69) lays it out:
+
+:"''The convenience of having two methoxy groups para to one another was a clear invitation to speculate upon the formation of a benzoquinone intermediate of some kind, and this would require the loss of the methyl groups which were already known to be metabolically labile. This "quinone-like" intermediate was the cornerstone of a "hydroquinone hypothesis," as it allowed further condensation within the molecule itself involving the primary amine group, to form something called an indolene which, with some arcane electron pushing and removal, could eventually become an indole. There. We now have a tie-in to the tryptamine world, and to serotonin, and that entire neurotransmitter magic.''"
+
+<code>
+  2,5-dimethoxy (para pair)  →  O-demethylation  →  hydroquinone / quinone
+                                                          │
+                              intramolecular condensation │  with the side-chain amine
+                                                          ▼
+                                indolene  →  [electron pushing]  →  INDOLE  →  serotonin world
+
+  requires: two oxygens PARA to each other.   2,4,5 has them.   2,4,6 does not.
+</code>
+
+The hypothesis was elegant, it unified two drug families, and it had one fatal requirement: the two oxygens must be para. Which is where the 2,4,6-compounds come in.
+
+== The compounds that did not fit, and the two ways of handling them ==
+
+:"''There was only one small fly in the ointment. No matter how the 2,4,5-things were explained, none of the proposed mechanisms could allow for the 2,4,6-things to also be active.''" (entry 69)
+
+They are active. TMA-6 (2,4,6-trimethoxyamphetamine) is fully as potent as TMA-2, active in the 40–50 mg range; psi-DOM — the 2,4,6-counterpart of DOM, nicknamed Z-7 — is weaker than DOM but unmistakably active. Shulgin knew this from direct experience, and so did others who, as he puts it, "''chose not to identify themselves too publicly''".
+
+The first response was denial, and he names the device used to perform it:
+
+:"''How can one accommodate such blasphemy? The first and obvious approach was the simplest. Denial. The 2,4,6-things aren't really active at all. Placebo stuff. There is a commonly used phrase, "bad science" which is an in-famous term used to belittle findings that do not fit with one's theories or purposes.''" (entry 69)
+
+That is a precise observation about how a field disposes of inconvenient data: not by refutation, but by reclassifying the observer. It is also, in this instance, a charge that cannot be settled by the data — the 2,4,6-reports came from unblinded self-experiment outside institutional research, which is exactly the kind of evidence "bad science" is used to dismiss. What makes the dismissal wrong is not the quality of any one report but that the compounds kept being active for everyone who tried them.
+
+The second response was to make the theory survive by extending it. If Z-7 is active, and the hypothesis requires a para relationship, then Z-7 must be hydroxylated in the 3-position by the body first, generating the needed pattern as a metabolite:
+
+:"''So, since approach number one didn't work, try approach number two. Make the shoe fit the wearer, without respect to the size of his foot. One single size shoe fits all. One single mechanistic hypothesis explains all.''" (entry 69)
+
+A hypothesis that can grow an extra metabolic step whenever it meets a counterexample has stopped making predictions. The specific extra step here needed someone to go and make the hypothetical metabolite.
+
+== Conscripted to rescue the theory ==
+
+:"''And guess who was actually euchred into embarking onto the synthesis of this hypothetical metabolic Lucy [that's the anthropological-type, not the LSD-type Lucy]? Moi!''" (entry 69)
+
+The work is written up in full. 2,4-Dimethoxy-6-methylbenzaldehyde was oxidised to the phenol with metachloroperoxybenzoic acid, methylated to 2,3,5-trimethoxytoluene, lithiated and formylated to 2,3,6-trimethoxy-4-methylbenzaldehyde, condensed with nitroethane to a yellow nitrostyrene (mp 67–68.5 °C), and reduced with lithium aluminium hydride to '''Z-7.2''', 4-methyl-2,3,6-trimethoxyamphetamine — a new trimethoxyamphetamine and the obvious thing to put into a human being.
+
+It was not allowed to be the endpoint:
+
+:"''This was certainly MY target compound, but it was not THEIR target compound. The upper echelons who were running the show were serious about this hydroquinone thing.''" (entry 69)
+
+So Z-7.2 was carried onward: the amine blocked with a t-BOC group, oxidised to the quinone with ceric ammonium nitrate, reduced to the hydroquinone with dithionite, deprotected with hydrochloric acid. The product — 2,5-dihydroxy-6-methoxy-4-methylamphetamine hydrochloride — was "''an extremely light-sensitive solid''", examined by NMR and by cyclic voltammetry (which Shulgin describes as "''destructive and uninformative''"), and then stopped, because it was useless: a free catechol-type phenol has no plausible route into the brain. His verdict on the compound the whole exercise existed to produce: it "''would have been totally worthless to have tasted.''"
+
+Meanwhile the compound that '''was''' worth tasting never got tasted:
+
+:"''Z-7.2 might have been an interesting compound to taste. But the academic climate was not appropriate at that time (early 1977) for such honesty.''" (entry 69)
+
+That is the actual cost of the episode, and it is a cost in data rather than in dignity. A mechanistic programme consumed a synthesis, produced a compound no one could evaluate, and suppressed the evaluation of the one compound that would have added a real data point — on the grounds that saying out loud that you had taken your own new amphetamine was not something an academic laboratory could be associated with in 1977. The publication politics of that decision are the subject of [[Publication Cognitive Liberty and the Analogue Act]].
+
+== The programme that replaced it ==
+
+The hydroquinone hypothesis did not survive: "''The "hydro-quinone hypothesis" is now not much more than a minor bit of history.''" What Shulgin took from the episode is stated as policy in the entry's last sentences, and it is the most-quoted passage in this part of the corpus:
+
+:"''I quickly lost interest in the pursuit of other people's hypotheses that didn't seem to lead anywhere. Maybe, someday, some single earth-shaking mechanism will emerge to explain everything. But in the meantime, the best contribution I can make to this "grand unified theory of psychedelic activity" is to continue to make new and unexpected things which, if they are active, will effectively destroy any hypothesis that just happens to be popular at the moment. It is a lot more exciting, too.''" (entry 69)
+
+Read carefully, this is not anti-theory. It is '''adversarial''' theory-testing by someone who happens to control the supply of new compounds. He is not arguing that mechanism is unknowable; he is saying that the way to be useful, given that any current mechanism is probably wrong, is to keep generating the observations most likely to break it. A hypothesis that survives a decade of that is worth something. One that has never been shot at is worth nothing.
+
+The constructive half followed immediately. If the 2,4,6 pattern is active, it is not a curiosity but a second template of the same size as the first. From the same entry:
+
+:"''Fully half of the drugs described in this Book II are of the classical 2,4,5-trisubstitution pattern, and it is becoming evident that every one of them will have a 2,4,6-trisubstituted counterpart that bids fair to be an active psychedelic. Diligence could thus easily double the number of known psychedelics.''"
+
+The family was named rather than theorised: the Greek letter '''psi''' ("''which looks like a candelabrum standing on the table holding up three candles''") prefixed to any 2,4,5-compound gives its 2,4,6-counterpart, so psi-DOM, psi-DOB, psi-DOET, psi-2C-T-4. TMA-6's entry (entry 162) sets the parallel out explicitly, and psi-2C-T-4 was synthesised and under evaluation when the book went to press. The lasting result of the hydroquinone affair is not a refutation; it is a naming convention and a hundred unmade compounds.
+
+== Other people's mechanisms, and how they fared ==
+
+The psi-DOM episode is the loudest case, but the corpus is full of smaller ones, and they fail in characteristic ways.
+
+'''Reasoning from a transmitter's geometry.''' 3,4-DMA carries the oxygen pattern of dopamine, noradrenaline and adrenaline, which made it the privileged candidate for the life scientists. It is weakly active, around 160 mg. Shulgin's dissection of the argument — that a match with a neurotransmitter is taken to explain activity, and a mismatch is taken to explain it equally well — is quoted in [[Shulgin Structure Activity Relationships Ring Substitution and Potency]], along with his formal demolition of structural syllogism under MDPH. The one-line version from entry 55: "''Nothing has made much sense so far!''"
+
+'''Reasoning from the textbook.''' The standard monoamine-oxidase explanation of why phenethylamines are inactive and amphetamines active is rejected from inside his own data set — "''The textbooks simply are not right''" (entry 115, MDPEA), discussed in [[Inactive Compounds and the Publishing of Negative Results]].
+
+'''Reasoning in a circle.''' The receptor literature gets a sharper treatment than the chemistry does. DOI's entry (entry 67) describes the proliferation of serotonin receptor subtypes — "''there were serotonin "1" receptors, and then there were "1" and "2" receptors, and then "1a" and "1b" and "2a" and "2b" receptors, and on and on''" — and identifies what defines them: each subdivision is "''defined by the particular compound that interacts most tightly with it''". A classification whose categories are named after the ligands that select them explains ligand selectivity by construction. He adds a note on the vocabulary: these are called 5-HT receptors "''since the chemical name for serotonin is 5-hydroxytryptamine, and the scientist would never want to let the layman know just what he is talking about.''" None of this denies that the 5-HT<sub>2</sub> family is where these drugs act: DOI's own high-affinity binding is reported in the same entry, and it became the standard radioligand for that work.
+
+'''Reasoning from another drug class.''' DMCPA (entry 56) was built as the DOM-patterned analogue of tranylcypromine, a proven antidepressant and MAO inhibitor; the hope was that a known clinical mechanism would carry over. It is active at 15–20 mg, with "''some muscular tremor, especially in the earliest part of the experience''", and the MAO-inhibitory property was never actually looked for — "''it is certainly possible that some of this pharmacological property might be found in DMCPA if it were to be looked for. The hints of physical toxicity at the higher doses assayed might suggest some such activity.''" This one matters as a '''hazard''' rather than as an epistemic point: an untested possibility of MAO inhibition in a compound of this class is a real interaction risk, and Shulgin flags it rather than assuming it away.
+
+'''Reasoning toward a metabolite.''' TOMSO (entry 173) exists because one subject reacted extraordinarily to 5-TOM and the obvious hypothesis was an unusual sulfoxide metabolite. A model compound built to test that subject's sulfur metabolism vanished without trace — "''There was not a detectable trace of anything, neither parent compound nor either of the potential metabolites, to be found in my urine''" — and the proposed metabolite, once made, was inactive. The hypothesis died twice. Hypothesis-driven synthesis in this corpus has a poor record even when Shulgin holds the hypothesis himself.
+
+== The alternative: enumerate, and see ==
+
+If you do not trust mechanism to tell you what to make, the remaining strategy is coverage. The 2T-MMDA-3a entry (entry 166) shows it running away with itself: six TMA isomers imply sixteen thio-analogues — "''Let's go for it, said I to myself... That is where the action's at''" — and then eighteen more once the MMDA isomers are counted in. "''Sure, let's make them all!''"
+
+MDMEO (entry 111) supplies the minimal justification: "''The ultimate reason for making MDMEO was, of course, that it could be made. That reason is totally sufficient all by itself.''" And 2C-T-8 (entry 44) supplies the honest report of what enumeration mostly returns — a cyclopropylmethyl group that was "''quite something''" on a mescaline oxygen is a disappointment on a 2C-T sulfur: "''That's the way it is, and who could have guessed!''"
+
+The method's cost is that it gives you no warning. Without a working mechanism there is no extrapolation of '''safety''' either, only of structure, and the corpus is explicit about where that bites:
+
+* '''META-DOB''' (entry 124) — DOB's bromine relocated onto a 2,6-ring. Psychedelic effects were "''blurred by the more obvious toxic actions of the drug''", with anxiety, paranoid fantasies, flushing, palpitations, nausea, vomiting and diarrhoea at 60–90 mg; the conclusion reported to him was that "''the drug appears toxic in the 50 to 60 milligram range''".
+* '''DOPR''' (entry 71) — a potent, long compound with "''a nagging suggestion of the out-of-body, out-of-center character that is the hallmark of the anesthetic and delusional drugs such as scopolamine or ketamine''", and an explicit forward warning: "''If DOPR shows this with it's three carbon alkyl group, there is every reason to pay close attention as the chain becomes longer.''"
+* '''2C-SE''' (entry 38) — a novel element with no precedent in a CNS drug and a projected active dose above 100 mg, where he wanted toxicology first: "''It might be appropriate to get some general animal toxicity data before exploring those dosages that might get to a +++.''"
+* '''4-TASB''' (entry 147) — the generic result of enumeration without theory: "''another drug with more physical problems than psychic virtue, but with no obvious structural feature to hang it all onto. Some day this will all make sense!''"
+
+Each is a real hazard reported by the person who met it, and none was predicted by any mechanism available at the time. That is the honest summary of the position: refusing to be governed by a popular hypothesis buys discovery and costs forecasting, including the forecasting of harm. Shulgin took the trade knowingly, and the protocol in [[The Shulgin Method Dose Escalation and the Research Group]] — start far below threshold, climb slowly, stop on body load — is its procedural half. The method is what is left when the theory cannot tell you where the edge is.
+
+== See also ==
+
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] — the anti-syllogism passage, the dopamine-geometry argument, and the table of predictions that failed
+* [[Inactive Compounds and the Publishing of Negative Results]] · [[Animal Assays and the Limits of Predicting Human Activity]]
+* [[The Shulgin Method Dose Escalation and the Research Group]] — the protocol that stands in for prediction
+* [[Radiopharmacology and the Brain Imaging Programme]] · [[Publication Cognitive Liberty and the Analogue Act]]
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]] · [[Chain Length the Bushy End and the Duration of Action]]
+* [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]] — where the psi- prefix comes from
+* [[David E Nichols Entactogen Pharmacology and Receptor Mapping]] · [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]]

@@ -201,6 +201,22 @@ export const CATEGORIES = [
   {
     id: 'substances', name: 'Substances and pharmacology', blurb: 'One page per thing in the stacks — established, preclinical and hypothesis kept apart.',
     pages: [
+            'Radiopharmacology and the Brain Imaging Programme',
+            'Animal Assays and the Limits of Predicting Human Activity',
+            'Inactive Compounds and the Publishing of Negative Results',
+            'Against Mechanism Hunting the Hydroquinone Hypothesis and After',
+            'Edgewood Arsenal Compound Numbers and the New York State Psychiatric Institute',
+            'The Quota the Catalogue and the Feedstock',
+            'Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage',
+            'Combination Practice Sequencing and Tolerance in the Shulgin Corpus',
+            'The Vocabulary of Subjective Effect in PIHKAL',
+            'Therapeutic Use as Shulgin Reports It',
+            'The Informants and the Lost Literature',
+            'The BOX Series and Adrenolytic Cardiovascular Toxicity',
+            'The Thio-Mescalines and the Euphoriant Psychedelic Split',
+            'The Muni Metro Benzodioxole Ladder',
+            'Idiosyncratic Responders Inter-Individual Variance and the Street Market',
+            'Essential Oil Provenance of the Remaining Amphetamines',
             'Nootropics',
             'Ibogaine Iboga and the Apocynaceae',
             'Scent as a Drug Route Volatile Indoles Jasmine and the Olfactory Path',
@@ -313,6 +329,13 @@ export const CATEGORIES = [
   {
     id: 'chemistry', name: 'Organic chemistry and synthesis', blurb: 'Reaction mechanisms, isomerizations, prodrugs, photochemistry, and purification protocols.',
     pages: [
+            'Radiopharmacology and the Brain Imaging Programme',
+            'Against Mechanism Hunting the Hydroquinone Hypothesis and After',
+            'Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem',
+            'Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage',
+            'The BOX Series and Adrenolytic Cardiovascular Toxicity',
+            'The Thio-Mescalines and the Euphoriant Psychedelic Split',
+            'The Muni Metro Benzodioxole Ladder',
             'Dye Chemistry',
             'Enzyme Chemistry',
             'Enzyme Powders Color and Dye Sensitized Solar Cells',
@@ -415,6 +438,7 @@ export const CATEGORIES = [
   {
     id: 'plants', name: 'Plants and preparation', blurb: 'The botanical inventory, and the procedures that go with it.',
     pages: [
+            'Essential Oil Provenance of the Remaining Amphetamines',
             'Ibogaine Iboga and the Apocynaceae',
             'Olive Oil Oleocanthal and Machine Discovered Natural Products',
             'Oilahuasca as Clinical Research Enzyme Induction Cooking and Spiced Beverages',
@@ -504,6 +528,8 @@ export const CATEGORIES = [
   {
     id: 'people', name: 'People and ideas', blurb: 'Figures whose work this corpus builds on, with the folklore separated out.',
     pages: [
+            'The Vocabulary of Subjective Effect in PIHKAL',
+            'The Informants and the Lost Literature',
             'CNN',
             'Fox News',
             'The Young Turks',
@@ -574,6 +600,8 @@ export const CATEGORIES = [
   {
     id: 'law', name: 'Law and your rights', blurb: 'The public legal record and the plain-English guides to how U.S. law actually works — facts, not verdicts.',
     pages: [
+            'Edgewood Arsenal Compound Numbers and the New York State Psychiatric Institute',
+            'The Quota the Catalogue and the Feedstock',
             'Publication Cognitive Liberty and the Analogue Act','The Legal Supply Chain Coca Leaf Poppy Straw DEA Quotas and the Federal Patients',
             'SoapBox Law', 'Privacy Law', 'Rights That Hold Up in Court', 'Foundational Law', 'Treaties',
             'Legal Maxims', 'Congress.ink', 'Benefit Societies', 'Appeals and Writs',
@@ -669,6 +697,11 @@ export const PILLARS = [
     icon: '🔬',
     blurb: 'Reaction mechanisms, isomerizations, prodrug architectures, photochemistry, and purification protocols.',
     pages: [
+      'Against Mechanism Hunting the Hydroquinone Hypothesis and After',
+      'Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem',
+      'Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage',
+      'The Thio-Mescalines and the Euphoriant Psychedelic Split',
+      'The Muni Metro Benzodioxole Ladder',
       'Scent as a Drug Route Volatile Indoles Jasmine and the Olfactory Path',
       'Precursor Directed Biosynthesis Making New Molecules in Mushrooms Cacti and Yeast',
       'Shulgin Structure Activity Relationships Ring Substitution and Potency',
@@ -758,6 +791,17 @@ export const PILLARS = [
     icon: '🧠',
     blurb: 'The expanded endocannabinoidome, enzyme kinetics, cholinergics, MAOIs, and structure-activity relationships.',
     pages: [
+      'Radiopharmacology and the Brain Imaging Programme',
+      'Animal Assays and the Limits of Predicting Human Activity',
+      'Inactive Compounds and the Publishing of Negative Results',
+      'Edgewood Arsenal Compound Numbers and the New York State Psychiatric Institute',
+      'The Quota the Catalogue and the Feedstock',
+      'Combination Practice Sequencing and Tolerance in the Shulgin Corpus',
+      'The Vocabulary of Subjective Effect in PIHKAL',
+      'Therapeutic Use as Shulgin Reports It',
+      'The Informants and the Lost Literature',
+      'The BOX Series and Adrenolytic Cardiovascular Toxicity',
+      'Idiosyncratic Responders Inter-Individual Variance and the Street Market',
       'Nootropics',
       'Ampakines Ketamine and Rapid Synaptogenesis',
       '5-HTP Serotonin Precursors and the Chemical Imbalance Theory',
@@ -852,6 +896,7 @@ export const PILLARS = [
     icon: '🌿',
     blurb: 'Plant monographs, traditional preparations, extraction chemistry, nutrients, and harm reduction.',
     pages: [
+      'Essential Oil Provenance of the Remaining Amphetamines',
       'Ibogaine Iboga and the Apocynaceae',
       'Olive Oil Oleocanthal and Machine Discovered Natural Products',
       'Cactus Alkaloid Catalogue and the Mescaline Reference Standard',

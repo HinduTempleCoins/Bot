@@ -1,0 +1,109 @@
+'''Radiopharmacology and the Brain-Imaging Programme''' describes the one part of Alexander Shulgin's phenethylamine work aimed squarely at clinical medicine rather than at the mind: the use of psychedelic molecules as carriers for radioactive atoms, so that a gamma camera or a positron camera could watch where in a living human body the molecule goes. The material is scattered through the "EXTENSIONS AND COMMENTARY" sections of ''PIHKAL'' (1991) — principally the entries for DOB, DOI, DOEF, 2C-T-21, IDNNA, MDDM, 2,4-DMA, 2,5-DMA and 3,4-DMA — and it contains the most surprising pharmacokinetic observation in the book (DOB reaches the lung before the brain), a chemical workaround for a halogen that cannot be attached, an entire family of compounds engineered '''not''' to be psychedelic, and Shulgin's flat statement of why he walked away from all of it.
+
+== The epistemic standing of this record ==
+
+Stated once, as it must be in every article drawn from this corpus. Shulgin's human potency figures are '''unblinded self-report''' from himself and a small research group, hand-escalated from sub-threshold doses, with no placebo arm and no blinding. The imaging material is partly firmer in kind — scanner data, isotope-incorporation yields and melting points are instrument readings, not impressions — but the claim that a given analogue is "not psychedelic" still rests on a handful of unblinded oral trials, and in the central case below on a single-digit milligram ceiling. Where a dose ceiling is quoted, it is the highest dose anyone actually took, not a demonstration of safety at any dose.
+
+== Why a psychedelic makes a good imaging molecule ==
+
+The logic is stated most compactly under MDDM (entry 105). Nuclear medicine needs a molecule to carry an unstable, positron-emitting atom into the brain, and the psychedelics are a ready-made library of molecules already known to get there — "''The world of the psychedelic drugs is tailor-made to provide compounds that go to the brain.''" What the physician does '''not''' want is the rest of the package: "''The last thing that the physician wants, with the diagnostic use of such tools, would be to have the patient bouncing around in some turned-on altered state of consciousness.''"
+
+So the programme has an inverted shape — keep the distribution, delete the pharmacology:
+
+<code>
+   psychedelic scaffold          what imaging keeps        what imaging deletes
+   ────────────────────          ──────────────────        ────────────────────
+   2,5-dimethoxyamphetamine  →   crosses into brain    +   5-HT2 agonism
+   + heavy atom (Br, I)      →   carries the isotope   +   high potency
+   + N,N-dialkylation        →   (uptake preserved)    −   psychedelic activity
+</code>
+
+The isotope of choice is named in the same entry: "''One of the very best unstable atoms for the formation of positrons is iodine, where there is an isotope of mass 122 which is perfect for these needs.''" Iodine-122 also disposes of a problem that recurs below — a radio-iodination needs only microgram quantities of carrier, never milligrams.
+
+== Reading DOB with a whole-body scanner: the lung comes first ==
+
+The most consequential finding in this line of work is a distribution result. DOB carries a bromine atom, and bromine has usable radioisotopes.
+
+:"''As with DOI, the presence of a heavy atom, the bromine atom, in DOB makes the radioactive isotope labelled material a powerful research tool. Studies with DOB labelled with either 82Br or 77Br have been used in human subjects to follow the distribution of the drug. The use of a whole body scanner permits the imaging of the intact body, with the travelings of the radioactivity easily followed from outside.''" (entry 62, DOB)
+
+And then the result:
+
+:"''A fascinating finding is that DOB goes first and foremost to the human lung where it accumulates for a couple of hours. It is only afterwards that the brain level builds up. There is a strong implication that some metabolic conversion occurs in the lung, and it is only after this that the truly active metabolite is available for central action. This is consistent with the relatively slow onset of effect, and the very long duration of action.''" (entry 62)
+
+This is a '''prodrug argument made from an image'''. DOB's clinical signature — a famously slow onset and a duration that can run past a full day — had been explained by hand-waving about receptor residence. The scan says something concrete: the drug parks in pulmonary tissue, is worked on there, and only the product of that work reaches the central compartment. It is the one place in ''PIHKAL'' where an instrument, rather than a subject, explains a time course.
+
+The hazard recorded in the same entry belongs here, because it is why distribution and potency matter clinically: Shulgin reports a fatal DOB overdose with "''the actual recovery of over nine milligrams of the drug from her body tissues in the post-mortem examination''", the drug having been taken as though it were MDA, and notes that "''Tragic examples have been reported that involve arterial vascular spasm''". A compound active near 2 mg, mistaken for one active near 100 mg, is a fifty-fold overdose by arithmetic alone.
+
+== Radio-iodinated DOI, and the homologue that never reached the brain ==
+
+DOI is the iodinated counterpart and the better radiochemical handle, iodine offering a wider choice of isotopes.
+
+:"''DOI has been synthesized with a variety of radioactive iodine isotopes in it, and these tools have been of considerable value in mapping out its brain distribution. And by extrapolation, the possible localization of other psychedelic compounds that cannot be so easily labelled.''" (entry 67, DOI)
+
+The entry also holds the cleanest negative control in the programme. The four-carbon (butyl) homologue of DOI was made and tried both ways. In man: "''This butyl homolog of DOI has been assayed at up to four milligrams, and is without any central effects whatsoever.''" On the scanner: "''An experiment with 12.4 microcuries of 131I labelled material with the whole body scanner showed most of it accumulating in the gut and liver, with almost none to the brain.''" Inactivity and non-penetration, observed in the same compound by two independent methods — as close as the corpus comes to a mechanistic confirmation, and a pairing that is notably rare in it.
+
+== The beta-fluoroethyl trick: a halogen where a halogen cannot go ==
+
+Positron emission tomography wants fluorine-18. Phenethylamine psychedelics do not want fluorine; 2C-F was inactive even above 100 mg. Shulgin sets the problem up under DOEF (entry 65) as a student's question — why put a fluorine on the end of DOET's 4-ethyl group? — and answers it:
+
+:"''Assume that I would like to put a fluorine atom into a drug that does not normally have one. Why would I want to? Because I want to have the molecule carry a radioactive fluorine atom into some inner recess of the brain. Why? Because by using a positron-emitting fluorine I could possibly visualize the area of the brain that the drug went to. And if it went there in some abnormal way, the exact measure of that abnormality might give some clue as to potential brain misfunctioning.''"
+
+The obstacle: "''But, if you put a fluorine atom on a drug, it becomes a totally new drug and, quite reasonably, a pharmacologically different drug.''" The workaround is a '''bioisostere''' — "''if a halogen, such as a bromine or an iodine atom, is replaced by a beta-fluoroethyl group, the electronic and polar properties of the drug can be pretty much the same. So, what psychedelics have a bromo or an iodo group? Obviously, DOB and DOI. Thus, DOEF is a natural candidate for fluorine-18 positron emission tomography, and also a natural candidate for clinical trials. And, voila, it is an active material.''"
+
+2C-T-21 (entry 49) restates it with the isotope's constraint — "''the mass-18 isotope of fluorine, with a half-life of just under 2 hours, is ideal for many biological studies''" — and with the best statement of what the trick buys: "''In a sense, the cute (and chemically impossible) idea of putting a bromo atom on the sulfur of the 2C-T family is nicely satisfied by using the beta-fluoroethyl group instead (which is chemically completely possible).''" You cannot hang a bromine off the sulfur of a 2C-T; you can hang a two-carbon chain ending in fluorine, and to a first approximation the molecule does not notice. 2C-T-21 is, per the same entry, "''about as potent a phenethylamine as they come''" — the bioisostere preserved more than electronics.
+
+{| class="wikitable"
+! Label strategy !! Vehicle !! Isotope !! Status in the corpus
+|-
+| Heavy atom already present || DOB || <sup>82</sup>Br, <sup>77</sup>Br || Human whole-body scans run; lung-first distribution found (entry 62)
+|-
+| Heavy atom already present || DOI || various radio-iodines || Brain distribution mapped, extrapolated to unlabelable analogues (entry 67)
+|-
+| Halogen replaced by beta-fluoroethyl || DOEF, 2C-T-21 || <sup>18</sup>F (t½ just under 2 h) || Chemistry proven, both compounds active in man (entries 65, 49)
+|-
+| Direct radioiodination of an N,N-dialkyl ring || 2,5-DNNA → IDNNA || <sup>122</sup>I || 40% incorporation with labelled ICl, against 2% for <sup>18</sup>F acetyl hypofluorite (entry 54)
+|}
+
+== IDNNA: a family engineered to be inactive ==
+
+IDNNA is the centre of the programme and the strangest object in ''PIHKAL'': a close analogue of one of the most potent psychedelics known, built so that it would do nothing.
+
+The design brief, as entry 90 lays it out, has four requirements. The molecule must carry a positron-emitting fluorine or iodine that attaches quickly and stays attached; it must enter the brain rapidly and extensively but '''diffusely''', going where the blood goes rather than concentrating at any site; it must stay long enough to be imaged rather than washing out; and it must have no pharmacological action. Shulgin's framing: "''One of the major goals of research in nuclear medicine is a drug that can be used to demonstrate the brain blood flow pattern.''"
+
+The structural move comes from MDDM (entry 105), where N,N-dimethylation of an MDA-type amine had flattened activity without obviously impairing brain entry — "''The reduced potency of MDDM has been exploited in an unexpected way.''" Apply it to DOI: keep the iodine, keep the scaffold, put two methyls on the nitrogen. The product went in quickly, extensively and diffusely, and stayed a long time. It is, as DOI's own entry puts it, "''a very important, centrally pivotal, and completely paradoxical compound''".
+
+Proving the inactivity is the hard part, and the entry is honest about why:
+
+:"''It is widely admitted that animal assays are of no use in trying to determine this specific pharmacological property.''" — "''So, a quiet human assay was called for.''" (entry 90)
+
+That assay reached 2.6 mg orally, showing nothing at levels where DOI would be plainly active — which supports only the relative claim that IDNNA is less active than DOI in man. Shulgin then writes the conclusion the way the field would write it, and lets the reader watch him do it: "''Let's wave our hands a bit, and make our statement with aggressive confidence''", followed by "''IDNNA has shown no activity in the human CNS at any level that has been evaluated''", followed by the self-aware instruction "''Just don't go too far up there, and don't look too carefully.''" The claim is true as stated and much weaker than it sounds — and he is the one pointing that out. The practical defence is dosimetric rather than pharmacological: a <sup>122</sup>I tracer dose is micrograms, so what IDNNA might do at 20 mg never arises in a clinical scan.
+
+Fifteen close analogues followed — N-methyl, N-isopropyl, N-cyclopropylmethyl, N-hexyl, N-dodecyl, N-benzyl, N-cyanomethyl and N-(3-dimethylaminopropyl), plus diethyl, isopropyl-methyl and benzyl-methyl on the di-substituted side. None beat IDNNA in the rat model, and none were tasted. A measure of how far these have travelled from their psychedelic parents closes the entry: the beta-hydroxy derivative of the diethyl analogue DEDMA is reported in the literature as an '''antitussive''' with about the potency of codeine. Same scaffold, different universe.
+
+== Which ring patterns will take a radio-label ==
+
+Radio-iodination and radio-fluorination are electrophilic reactions run fast, at tracer scale, against a decaying clock, so the chemistry reduces to which rings are activated toward electrophilic attack.
+
+The '''meta'''-oriented dimethoxy patterns are the good substrates. Under 2,4-DMA (entry 53): "''The meta-orientation of the two methoxyl groups does, however, greatly increase the susceptibility of the aromatic ring to electrophilic attack. This is one of the three possible meta-dimethoxy substituted amphetamines, and it is the best studied one in the pursuit of potential radio-halogen substituted brain blood-flow agents.''" The other two are handled under 3,4-DMA (entry 55): the 2,6- and 3,5-isomers were carried to their N,N-dimethyl perchlorates (2,6-DNNA, mp 109–110 °C; 3,5-DNNA, mp 100–101 °C), and both "''readily fluorinated with 18F acetylhypofluorite and iodinated with chloramine-T-oxidized 122I iodide ion''". One detail worth keeping: after conventional halogenation, the resulting 3-bromo- and 3-iodo- products "''did not react with radioactive acetyl hypofluorite''" — the first halogen deactivates the ring against the second.
+
+2,4-DMA's own human record is a blank: "''What can one say as to the active dosage of 2,4-DMA? Nothing.''" The highest dose he knows of is 60 mg; vascular-strip work was unimpressive against related psychedelics and suggests norepinephrine release rather than serotonin agonism, from which he draws a hazard rather than a potency estimate — "''It is a reasonable guess that there would be cardio-vascular activity at higher levels.''" Of the whole 2,5-series extension (entry 54) he adds the line that governs this literature: "''All of these latter materials remain unevaluated in man.''"
+
+Not every useful label is radioactive. The same programme produced '''stable'''-isotope analogues, where the point is not to be seen but to slow an enzyme down: 4-D is mescaline carrying a trideuteromethyl group on the 4-position oxygen, and it behaves like mescaline — "''The effects of 4-D and beta-D are similar to one-another, both as to dosage and effect''" (entry 50). The one isomer he expected '''not''' to be silent is alpha-D, where the deuteriums sit exactly where the principal metabolic attack lands: "''To the extent that they are harder to remove (come off more slowly or to a lesser degree), to that extent the molecule will be more potent in man, and the dosage required for effects will be less''" (entry 51). It was never made.
+
+== "Something vaguely counterproductive" ==
+
+The programme's epitaph is the last paragraph of the 2,4-DMA entry, and it is why this line of work stops where it stops:
+
+:"''There is something vaguely counterproductive, in my evaluation of things, when the goal of a research project is to avoid activity rather than to create it. Although this chemistry was completely fascinating and could have produced the world's best positron-emitting, brain-scanning diagnostic compound, I feel it quite unlikely that it would have produced the world's best insight-revealing, empathy-enhancing psychedelic, so this research direction never totally caught my fancy. I went on to other things.''" (entry 53)
+
+Two things are worth separating out of that. The first is a statement of values: he is a chemist whose output is measured in effects, and a project whose success criterion is the absence of an effect reads to him as inverted. The second is an accurate prediction about selection pressure — a programme optimising for diffuse, non-specific, pharmacologically silent brain uptake will converge on molecules that are, by construction, of no interest to anyone studying the mind. Both goals are legitimate; they cannot be pursued in the same compound, and he chose.
+
+== See also ==
+
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] — the ring-position map these labelled compounds were built on
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]] · [[Chain Length the Bushy End and the Duration of Action]]
+* [[The Shulgin Method Dose Escalation and the Research Group]] — how a "no activity at 2.6 mg" claim is actually generated
+* [[Brains Lighting Up What Neuroimaging Can and Cannot Show]] — what a brain image does and does not establish
+* [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]] · [[PIHKAL and TIHKAL]]
+* [[Urine Testing and the Long Search for a Psychiatric Biomarker]] · [[David E Nichols Entactogen Pharmacology and Receptor Mapping]]
+* [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]] · [[Psychedelic and Psychopharmacology Glossary]]

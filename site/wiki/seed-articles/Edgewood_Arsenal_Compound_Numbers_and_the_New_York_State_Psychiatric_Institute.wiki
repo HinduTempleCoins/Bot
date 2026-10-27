@@ -1,0 +1,116 @@
+'''Edgewood Arsenal Compound Numbers and the New York State Psychiatric Institute''' documents the military and non-consensual research thread that runs through Alexander Shulgin's ''PIHKAL'' (1991) commentaries: the U.S. Army Chemical Corps code numbers he attaches to three ordinary phenethylamines, the contract animal work that preceded their use, and his statement that the compounds were given to psychiatric patients without informed consent. It is a history article. The chemistry of these compounds is covered in [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]; the general Edgewood programme is covered in [[Edgewood Arsenal]]. What is set out here is narrower and more specific: which molecules carried which EA numbers, who ran the work, what Shulgin wrote about it, and what the record does and does not establish.
+
+== The passage ==
+
+The whole of Shulgin's statement on the subject sits in the commentary for '''3,4-DMA''' (3,4-dimethoxyamphetamine, entry #55). It opens by explaining why that entry's "Qualitative Comments" read oddly — they are not what subjects said, because the subjects were not asked:
+
+: "''These "Qualitative Comments" are not explicit quotations from people who had taken 3,4-DMA. They are written descriptions by the observers who had given 3,4-DMA to psychiatric patients. This is one of the most outrageous chapters in the books on military medicine. The chemical warfare group within the U.S. Army explored many potential psychedelics by administering them to innocent patients with not even a thought of obtaining informed consent. These experiments took place at the New York State Psychiatric Institute (amongst other places) in the early 1960's. The Edgewood Arsenal code name for 3,4-DMA was EA-1316.''"
+
+That is the sentence the rest of this article hangs on: '''"This is one of the most outrageous chapters in the books on military medicine."''' It is the strongest moral judgement in either book, and Shulgin — who elsewhere declines to editorialise about scheduling, prosecution or the drug war — applies it to this and nothing else.
+
+The entry then returns, without transition, to pharmacology: "''A few non-military studies have indicated that 3,4-DMA is orally active at 160 milligrams, and so probably its potency by this more conventional route would fall midway between that of mescaline and of MDA.''" The structure of the paragraph is itself informative. The military data existed, was unusable as a human-potency estimate, and had to be replaced by civilian work.
+
+== The compound numbers ==
+
+Three EA numbers appear in the corpus. Two of them are in the commentary for '''MDPEA''' (3,4-methylenedioxyphenethylamine, entry #115):
+
+: "''MDPEA was one of the seven compounds evaluated as to toxicity and animal behavior at the University of Michigan under contract from the Army Chemical Center. Its Edgewood Arsenal code number was EA-1297. The number for MDA itself was EA-1298.''"
+
+{| class="wikitable"
+! EA number !! Compound !! Structure !! Where stated !! What the corpus says about its testing
+|-
+| '''EA-1297''' || MDPEA, homopiperonylamine || 3,4-methylenedioxyphenethylamine || #115 (MDPEA) || One of "seven compounds evaluated as to toxicity and animal behavior at the University of Michigan under contract from the Army Chemical Center"
+|-
+| '''EA-1298''' || MDA || 3,4-methylenedioxyamphetamine || #115 (MDPEA) || Number stated; no testing detail given in the corpus
+|-
+| '''EA-1316''' || 3,4-DMA || 3,4-dimethoxyamphetamine || #55 (3,4-DMA) || Administered to psychiatric patients without informed consent, New York State Psychiatric Institute "amongst other places", early 1960s
+|}
+
+Several things follow from the numbers themselves.
+
+* '''EA-1297 and EA-1298 are adjacent.''' MDPEA and MDA differ by a single alpha-methyl group; they were catalogued back to back, which is what a systematic screening programme looks like from the outside. The two-carbon compound is inactive in man and the three-carbon one is not — the exact comparison Shulgin spends the rest of entry #115 arguing about, against the monoamine-oxidase explanation in the textbooks ("''Sorry, I can't buy it.''").
+* '''EA-1316 is eighteen numbers later''' and is a different ring pattern entirely (dimethoxy rather than methylenedioxy). The programme was walking across substitution patterns, not following one lead.
+* '''The numbers are a military inventory, not a chemical nomenclature.''' Unlike Shulgin's own codes — see [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]] — an EA number encodes nothing about structure. It is an accession number in an arsenal's catalogue, which is precisely why a compound can carry one and a civilian name and never be connected.
+
+== The division of labour: Michigan, then the Institute ==
+
+The MDPEA passage names a two-stage pipeline, and it is worth separating the stages because they involve different institutions and different ethics.
+
+'''Stage one: contract animal work.''' "''toxicity and animal behavior''" on seven compounds, at the University of Michigan, "''under contract from the Army Chemical Center''". This is conventional contract toxicology; the Chemical Center is the sponsor, the university the performer.
+
+'''Stage two: administration to patients.''' The 3,4-DMA passage places this at the New York State Psychiatric Institute "''amongst other places''", in the early 1960s, on "''innocent patients''" — Shulgin's word, meaning people who were in the hospital for treatment and had no part in the research question. The phrase "''not even a thought of obtaining informed consent''" is a claim about intent, not merely about paperwork.
+
+The qualifier "''amongst other places''" is the only thing in the corpus indicating that the Institute was one site among several. Shulgin does not name the others.
+
+== What the record preserves: observers, not subjects ==
+
+The documentary consequence of a programme run this way is that the surviving human data is written in the wrong voice, and Shulgin flags it rather than quietly using it. In the ''PIHKAL'' format, the "Qualitative Comments" block is normally first-person testimony from a named-by-dose research-group member. For 3,4-DMA it is third-person clinical description by the people administering the drug.
+
+This is not the only entry where he marks the provenance of a quotation instead of passing it off. '''DON''' (#70): "''These qualitative comments are not true quotations, but have been reconstructed from the published summaries of the human trials reported by several South American researchers. I have personally never tasted DON and have only these fragments from which to create a portrait of activity.''" He then quotes, in full, a sentence from "''a note published by these researchers in a bulletin that is restricted to forensic scientists serving law enforcement agencies''" — a second kind of closed literature — and admits he cannot interpret it: "''I must admit that I have tried, and I am still not able, to interpret this quotation.''" '''DMPEA''' (#60) and '''PEA''' (#142) go further and state that the quotations are his own reconstruction of reports of no effect.
+
+Taken together these four entries establish a practice: where the human record is secondhand, closed, military, or reconstructed, the entry says so in the entry. That is the methodological difference between this material and the self-experiment data described in [[The Shulgin Method Dose Escalation and the Research Group]], where the subject and the author are the same person and consent is not in question.
+
+== The death of Harold Blauer ==
+
+'''Sourcing note, stated plainly: the corpus does not contain this.''' Neither ''PIHKAL'' nor ''TIHKAL'' names Harold Blauer, and nothing below is quoted from Shulgin. What the corpus supplies is the identification — '''EA-1298 = MDA''' (#115) — and the location and practice (#55). The case itself is from the public record, and is given here because it is the documented outcome of the programme those two entries describe.
+
+In January 1953, '''Harold Blauer''', a professional tennis player who had admitted himself to the New York State Psychiatric Institute for depression following a divorce, died after receiving the last of a series of intravenous injections administered as part of research conducted at the Institute under contract to the U.S. Army Chemical Corps. The injections were of mescaline-derived compounds supplied by the Army under EA numbers, the final and fatal one being a derivative in the methylenedioxyamphetamine family. Blauer had been admitted for psychiatric treatment; the injections were not treatment for his condition, and he was not told what he was being given or why.
+
+Three features of the case bear directly on Shulgin's sentence.
+
+* '''The patient population was the subject population.''' Blauer was a voluntary psychiatric inpatient. Shulgin's "''innocent patients''" is literal: the people dosed were in the building for care.
+* '''The cause of death was concealed.''' The circumstances were not disclosed to the family at the time; the Army's role and the identity of the agent were withheld for decades. Liability was litigated in federal court in the 1980s (''Barrett v. United States''), which found that government officials had concealed the facts of the death.
+* '''It is the same catalogue.''' The compounds in this case and the compounds in entries #55 and #115 are drawn from the same EA series, run through the same contract structure, at the same institution.
+
+Because the Blauer case is outside the corpus, readers should treat the paragraph above as background from the general historical record, and the quoted passages elsewhere in this article as the primary material. See [[Edgewood Arsenal]] for the wider programme and the oversight lesson, and the Nuremberg Code and institutional-review framework discussed there.
+
+== An adjacent case: consent, confound, and the mauve spot ==
+
+Shulgin's own brush with the same institution appears in '''DMPEA''' (#60), and it is worth setting beside the EA-1316 passage because nobody was dosed with anything and the ethical problem is of a completely different kind. The episode itself — the pink spot, the Canadian "mauve spot", the disease name "''Malvaria''", and the chlorpromazine self-experiment that destroyed the marker — is told in full in '''[[Urine Testing and the Long Search for a Psychiatric Biomarker]]''' and is not repeated here.
+
+What belongs in ''this'' article is two sentences from that account. Shulgin's own position in the hospital: "''I was working closely with a researcher at the psychiatric institute… We assayed the urines of the next 10 patients being admitted as acute schizophrenics.''" And the Canadian laboratory's answer when finally asked the obvious question:
+
+: "''One last call to Canada with the ultimate question — had you given any medication to your schizophrenics before your urine analysis? Of course (came the answer) — it would not be ethical to leave them untreated.''"
+
+Two laboratories, two ethical postures, one decade and one patient population. One treated inpatients as an untapped supply of experimental subjects and, on Shulgin's account, did not raise consent at all. The other invoked clinical ethics correctly and, by doing so, silently destroyed its own result. Shulgin's route to the answer was to dose himself rather than a patient — and he adds, characteristically, "''I cannot say I like the chlorpromazine trip.''"
+
+His closing verdict on what was nearly built from that literature is explicitly political: "''There are so many cultural, political, and social factors that come to bear on the assignment of a diagnosis of mental illness, that I would have been forever skeptical of a neat biochemical marker.''"
+
+== A note on military chemical attribution ==
+
+One further military item appears in the corpus, unrelated to the EA series but relevant to how confidently chemical warfare claims were once made. From '''2C-T-2''' (#40), on a naming collision:
+
+: "''2C-T-2 has occasionally been called, simply, T-2. This abbreviated nickname has also been used for T-2 Toxin, a mycotoxin of the Tricothecene group, formed mainly by the Fusarium spp. This is the infamous "warfare agent" in Southeast Asia, which was finally identified as bee feces rather than a Soviet military adventure. T-2 and 2C-T-2 are radically different compounds.''"
+
+The note is there for nomenclature reasons — see [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]] — but it records a government chemical-warfare attribution that turned out, on analysis, to be wrong.
+
+== What this corpus establishes, and what it does not ==
+
+'''Established by the corpus, in Shulgin's own words:'''
+* Three phenethylamines in common research use carried Edgewood Arsenal code numbers: MDPEA = EA-1297, MDA = EA-1298, 3,4-DMA = EA-1316.
+* Seven compounds including MDPEA underwent toxicity and animal-behaviour evaluation at the University of Michigan under Army Chemical Center contract.
+* 3,4-DMA was administered to psychiatric patients at the New York State Psychiatric Institute and elsewhere in the early 1960s, in Shulgin's account without informed consent.
+* The human "data" that survives from that programme is observer description, not subject testimony, and Shulgin labelled it as such rather than using it as if it were testimony.
+* Shulgin's assessment: "''This is one of the most outrageous chapters in the books on military medicine.''"
+
+'''Not established by the corpus:'''
+* Any individual's name, including Blauer's. No fatality is described in these entries.
+* The identity of the "''other places''", the number of patients, the doses given, or the dates beyond "the early 1960's".
+* Which of the seven Michigan compounds were the other five.
+* Any statement about how Shulgin learned these code numbers, or whether he had access to the underlying reports.
+
+Shulgin was a participant-historian with no citations in this format, writing in 1991 about events of thirty years earlier. The EA-number identifications are checkable against the declassified record and the broader programme is independently documented; the attribution of intent ("''not even a thought of obtaining informed consent''") is his characterisation. Both halves should be read for what they are.
+
+== See also ==
+
+* [[Edgewood Arsenal]]
+* [[Urine Testing and the Long Search for a Psychiatric Biomarker]]
+* [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]
+* [[The Shulgin Method Dose Escalation and the Research Group]]
+* [[Publication Cognitive Liberty and the Analogue Act]]
+* [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]]
+* [[PIHKAL and TIHKAL]]
+* [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]]
+* [[The Quota the Catalogue and the Feedstock]]
+* [[Isomers the Analogue Act and Forensic Chemistry]]
+* [[The Library of Ashurbanipal]]

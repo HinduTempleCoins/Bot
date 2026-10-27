@@ -1,0 +1,165 @@
+'''Shulgin's Open Problems: Compounds Left at the Aldehyde and Nitrostyrene Stage''' is an inventory of the unfinished work in ''PIHKAL'' (1991) — compounds Alexander Shulgin named, started, characterised and then stopped, plus ones he never started but published a specific prediction about. Many sit as fully analysed, melting-point-and-microanalysis intermediates one reduction short of a finished amine, with a written forecast of what the amine will do. Several are published, falsifiable claims that, as far as the open literature goes, nobody has closed.
+
+For each item: '''what exists''', '''what he predicted''' — always labelled as a prediction — and '''what would close it'''. Source is the '''EXTENSIONS AND COMMENTARY''' sections, quoted verbatim with entry numbers. The reactions involved are described in [[Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem]].
+
+'''One caution, stated once.''' Every prediction here is Shulgin's unverified forecast from structure-activity reasoning, and his own corpus is full of cases where that reasoning failed — 2C-T-15, 4-TIM and 4-T-TRIS were each predicted from a sound-looking pattern and each came out wrong. Human potencies he cites are unblinded self-report from a small group; see [[The Shulgin Method Dose Escalation and the Research Group]].
+
+== Tier 1: one reduction from a finished compound ==
+
+{| class="wikitable"
+! Target !! What exists !! Prediction (as a prediction) !! To close
+|-
+| '''2C-T-14'''<br/>4-(2-methylthioethylthio) || Nitrostyrene in "''an excellent yield''", "''garish orange-red 'Las Vegas' colored crystals from acetonitrile, with a melting point of 126-127 °C''" (#46) || "''Will it be active? I rather suspect that it will be, and I'll bet it will be longer-lived than the oxygen model, 2C-T-13.''" || Reduce; compare duration directly against 2C-T-13
+|-
+| '''2C-G-4''' and '''G-4'''<br/>3,4-(tetramethylene) || Both nitroalkenes, after two "''nearly insurmountable barriers''" in the aldehyde synthesis. 2C-G-4 "''lies just one synthetic step (the LAH reduction) away from completion''" (#29) || "''They will both be active compounds.''" For G-4, the last step is "''simply a matter of technique''" (#83) || LAH reduction of each. His own words: "''let's get into the lab and finish up this challenge''"
+|-
+| '''2C-T-18'''<br/>4-cyclobutylthio || Nitrostyrene, "''lustrous orange crystals from boiling acetonitrile, melting point 160-161 °C. Anal. (C<sub>14</sub>H<sub>17</sub>NO<sub>4</sub>S) C,H''" (#47) || None stated; "''This will some day be reduced''" || Reduction. Fills the C4 slot between cyclopropyl (2C-T-15) and cyclohexyl
+|-
+| '''2C-T-19'''<br/>4-(n)-butylthio || Nitrostyrene mp 133-134 °C "''from either IPA or acetonitrile''"; aldehyde mp 78-79 °C from MeOH (#49) || None stated || Reduction. Completes the n-alkylthio length series with 2C-T-2 / -7 / -9
+|-
+| '''2C-T-16'''<br/>4-allylthio || "''The nitrostyrene was made but has not yet been reduced to the final amine''" (#4) || None stated || Reduction
+|-
+| '''ALEPH-5'''<br/>4-cyclohexylthio amphetamine || Nitroalkene prepared; it "''sits there on the shelf to be reduced to ALEPH-5 some inspired day''" (#4) || The 2-carbon version "''will someday be called 2C-T-5 (if it is ever made)''" || Reduction
+|-
+| '''ALEPH-21'''<br/>4-(2-fluoroethylthio) amphetamine || Nitropropene, "''yellow-orange crystals from MeOH with a melting point of 102-104 °C''". "''It has not yet been reduced to the amine.''" (#49) || "''should be … a very potent and interesting material in its own rights''" || Reduction. The parent 2C-T-21 is "''about as potent a phenethylamine as they come''"
+|-
+| '''ALEPH-8'''<br/>4-cyclopropylmethylthio || Orange crystals from 2.2 g aldehyde / 20 mL nitroethane / 0.4 g NH<sub>4</sub>OAc, overnight steam bath; "''not pursued further''" (#44) || Negative — "''even less enthusiasm to put it into an ALEPH''" || Reduction, if anyone wants to disconfirm the lack of enthusiasm
+|-
+| '''psi-ARIADNE'''<br/>1-phenyl-2-aminobutane of psi-2C-T-4 || "''prepared as far as the nitrostyrene. It has not yet been reduced''" (#42) || "''a most remarkable psychopharmacological probe''"; of the class, "''I will bet that they too will be antidepressants''" || Reduction, then an antidepressant assay rather than a psychedelic one
+|}
+
+== Tier 2: the resolved enantiomers of 2C-T-17 ==
+
+The most theoretically loaded unfinished item in the book, because the question it asks cannot be asked any other way.
+
+'''What exists''' (#48). Both enantiomeric series, carried independently to the nitrostyrene: "''R''"-2,5-dimethoxy-4-(s-butylthio)benzaldehyde, mp '''78-79 °C''' against '''86-87 °C''' racemic; "''S''"-nitrostyrene mp '''70-71 °C''' against '''68-69 °C''' racemic. The "R" target required starting from "''S''" 2-butanol, because the alkylation runs by inversion (lithium salt with butyllithium, tosyl chloride, then thiophenol / K<sub>2</sub>CO<sub>3</sub> / DMF) under the constraint that "''this first step must go by inversion, and it cannot be allowed any racemization.''" Then: "''it is at these nitrostyrene stages that this project stands at the moment.''"
+
+'''Why it matters.''' Every psychedelic phenethylamine resolved to that point carried its stereocentre at the alpha-carbon, and in every case the "R" isomer was the active one — DOB, DOM, DOI, MDA (#67). 2C-T-17 puts a stereocentre on the far side of the ring: "''very little is known of the receptor's "south" end… this center of asymmetry is clear across the benzene ring from the nitrogen, and should certainly be in some entirely new part of the receptor site.''"
+
+'''The prediction, which forks three ways:'''
+
+: "''It would be fascinating if one of the two optically active 2C-T-17's carried all of the central activity, and the other, none of it. What is more likely is that the spectrum of effects will be teased apart, with one isomer responsible for some of them and the other isomer responsible for the others. Then, again, maybe the south end of the receptor site in the brain is totally symmetric, and the two optical antipodes will be indistinguishable.''"
+
+'''To close.''' Reduce both nitrostyrenes; confirm enantiomeric purity (he reports no ''ee'', only the inversion requirement and melting-point differences); a binding or drug-discrimination comparison separates outcome 3 from 1 and 2 without a human trial. Outcome 1 versus 2 — all-or-nothing versus a split spectrum of subjective effect — is the part binding data cannot answer.
+
+Two companion stereochemical questions: '''2C-G-5''' (#30) is a racemate whose chirality sits in the norbornane bridge, offering "''for the first time a pair of isomers that were asymmetric in the 3,4-aliphatic part of the molecule''" — "''Some day I might try to resolve this drug… But I suspect that it might be quite difficult.''" '''DMCPA''' (#56): the trans racemate "''has been resolved into the two optical isomers, but they have not been compared in man. The cis-mixture is unknown.''"
+
+== Tier 3: named, predicted, never started ==
+
+{| class="wikitable"
+! Target !! Route he specifies !! Prediction (as a prediction) !! Entry
+|-
+| '''2C-EF''' || "''easily made from 2C-B by the same reaction scheme that was used above for DOEF''" || "''I am sure enough about this prediction that I am willing to name the stuff 2C-EF… And I will even guess that its activity level will be in the 20-30 milligram area.''" || #65
+|-
+| '''2C-T-21.5'''<br/>4-(2,2-difluoroethylthio) || 2,2-difluoroethyl iodide ("''commercially available and not prohibitively expensive''") with 2,5-dimethoxythiophenol, "''and following the obvious steps to the aldehyde, the nitrostyrene, and the final amine''" || "''It lies exactly half way between the highly potent 2C-T-21… and the yet to be finished 2C-T-22… I will wager mucho that it will be very potent.''" || #49
+|-
+| '''2C-G-6'''<br/>3,4-(1,4-cyclohexylene) || Diels-Alder of 1,3-cyclohexadiene with benzoquinone in place of cyclopentadiene, then hydrogenation || "''It should be easily made, and it is certain to be very potent.''" Non-chiral, unlike 2C-G-5 || #30
+|-
+| '''2C-G-2 / G-2''' || Needs a benzocyclobutene: "''OK in principle but not yet OK in practice. The right benzyne reaction will be there someday''" || None on activity; names pre-assigned || #28
+|-
+| '''3C-AL''' || "''from syringaldehyde in reaction with allyl iodide, followed by the formation of a nitrostyrene with nitroethane, followed by reduction with aluminum hydride''" || "''a good guess that [3C-AL] would be an interesting compound to explore''"; "''both unsynthesized and unexplored''" || #2
+|-
+| '''3C-CPM''' || "''easily made from the alkylation of syringaldehyde with cyclopropyl chloride, followed by conventional reaction… with nitroethane, and finally a reduction step''" || "''no reason to believe that the resulting compound … would be any shorter acting than CPM''" || #37
+|-
+| '''3C-TM''' and '''3C-TB''' || "''4-thiosyringaldehyde, with S-alkylation and then the conventional nitroethane coupling followed with LAH reduction''" || "''The most appealing target as a potential psychedelic would be the methylthio homologue … or, as a potential euphoriant, the butylthio''" — tempered by "''I am not sure that these… would justify the labor''" || #174
+|-
+| '''3-T-TMA''' || "''straightforward from the benzaldehyde described above, employing nitroethane rather than nitromethane''" || "''should be an active compound… It is apparently an unknown compound.''" || #155
+|-
+| '''alpha-D mescaline''' || "''easily made by the reduction of 3,4,5-trimethoxyphenylacetonitrile with lithium aluminum deuteride''" || Directional: deuteriums at the site of principal metabolic attack, so "''To the extent that they are harder to remove… to that extent the molecule will be more potent in man''". The two alpha-mono-deutero enantiomers "''will be quite a challenge''" || #50
+|-
+| '''2C-T-6''' || Not described || None — "''has never even been synthesized, let alone assayed''"; parent ALEPH-6 was "''one of those forever threshold things''" || #6
+|}
+
+Two of these carry a number, which makes them the most testable claims in the book: '''2C-EF at 20-30 mg''', and the isotope claim at #50 that "''4-D, 3,5-D and beta-D all have properties indistinguishable from one-another, at least in healthy subjects.''"
+
+== Tier 4: synthesised and characterised, never tasted ==
+
+Closure needs no chemistry.
+
+{| class="wikitable"
+! Compound !! Characterisation !! Shulgin's note !! Entry
+|-
+| '''DOF''' || nitropropene mp 128-129 °C (EtOH); HCl salt mp 166-167 °C || Animal comparison implies "''human activity will be some four to six times less''" than DOI and DOB; "''no human trials of DOF have been made''" — ''a quantitative prediction on a finished compound'' || #26
+|-
+| '''DOA''' / '''DOAA''' || mp 248-250 °C / 249-250 °C || "''Neither compound has been tasted, but someday this omission will be corrected.''" || #64
+|-
+| '''2C-CN''' / '''2C-COOH''' || from the 2C-B phthalimide with CuCN, then base || "''No evaluation of either of these compounds has been made in the human animal, as far as I know.''" || #23
+|-
+| '''2C-5-TOM''' || HCl salt mp 257-258 °C || "''not yet been entered into the screening program so it is pharmacologically still a mystery''" || #172
+|-
+| '''hydroxy-DOPR''' || mp 148-150 °C (IPA) || Built to test whether DOPR's metabolite is the active species. "''no effects at all at trials, orally, of up to 200 micrograms''" — sub-threshold for the parent; the escalation has barely started || #71
+|-
+| '''K''' || mp 202-203 °C || "''its human assaying had never even been initiated''" || #129
+|-
+| '''Z-7.2''' || analytically excellent; HCl salt an oil || Diverted away from a human trial for somebody else's hypothesis: "''might have been an interesting compound to taste. But the academic climate was not appropriate at that time (early 1977) for such honesty.''" || #69
+|-
+| '''3,5-dimethoxy-4-bromoamphetamine''' || — || "''a most effective serotonin agonist, and it is a possibility that it could be a most potent phenethylamine. But… it has never been assayed in man.''" || #52
+|-
+| '''ORTHO-DOB''' || HCl mp 214-215.5 °C || "''I do not think that the compound has ever gone into man.''" || #124
+|-
+| '''3-methoxy-4-hydroxyamphetamine''' || from vanillin || "''already been synthesized, but it is still unexplored in man''" || #123
+|-
+| '''2C-T-10''' / '''2C-T-11''' sulfides || mp 66-67.5 °C, Anal. C<sub>13</sub>H<sub>13</sub>NO<sub>2</sub>S / mp 72-73 °C, Anal. C<sub>14</sub>H<sub>13</sub>BrO<sub>2</sub>S || "''never pursued''" / "''abandoned''" three steps short of the amine || #45
+|-
+| '''2,4-DMA / IDNNA imaging series''' || a dozen N- and O-alkyl homologues || several radio-iodinated and assayed in rats; "''several of them appear quite promising. But none of them have been assayed in man, yet.''" || #53
+|-
+| '''3,5-dideoxy-''' and '''3,4,5-trideoxymescaline''' || cat studies only || "''extraordinary pharmacological profiles''"; the trimethyl compound gave "''intense mental turmoil, accompanied by a startling rise in body temperature''". "''they might prove upon trial in man to be most revealing. They would have to be performed with exceptional care.''" '''His hazard flag; carry it with the compound.''' || #52
+|-
+| '''2,3-DMA, 2,6-DMA, 3,5-DMA''', '''3-Br-2,6-DMA''' and its iodo analogue || animal work only || "''None of these positional isomers has ever been put into man.''" || #55, #124
+|}
+
+== Tier 5: the unmade isomer sets ==
+
+'''The DMMDA family''' (#59). Six isomers possible; two made. "''The unknown ones will certainly be called DMMDA-3, -4, -5 and -6, but the assignments of code to structure haven't even been thought out yet… The remaining four possible DMMDA's have been left to that famous time, a future Rrainy day.''" Closing this requires fixing the code-to-structure mapping first, on the TMA convention in [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]].
+
+Both compounds that ''were'' made are unresolved. '''DMMDA''' (#58): "''I have put the value of 10 mescaline units (M.U.) into the literature and this would imply that maybe 30 milligrams was an active dose. This is probably too low, and some day I would like to run an experiment with the entire research group with this compound to see just what it really does.''" '''DMMDA-2''' (#59) is worse — he was not the taster, the synthesis notes are lost, and one threshold report at 28 mg became a literature constant: "''both its initials and the value of 5x the potency of mescaline were permanently enshrined in the published literature. What is it really like? I don't know… it might be quite a winner if the dosage and the duration were known.''" '''A published potency figure its own author disowns.'''
+
+'''The thio-trisubstituted programme''' (#166) is the largest unfinished set: "''There are six TMA's and if one were to systematically make every possible thio-analogue of each of these, there would be a total of sixteen thio-analogues of the TMA… Each and every MMDA isomer has, by definition, three possible thio analogues, so there are eighteen more possible thio compounds just with them.''" Thirty-four targets; the book holds a handful.
+
+'''The beta-methyl pairs''' (#58). Threo and erythro beta-methyl DMMDA exist (hydrochlorides mp 247-249 °C and 188-189 °C, via oximes of mp 120 °C and 146 °C), but the comparison is eight-fold lopsided: threo showed "''a possible threshold effect at 80 milligrams''", erythro "''no effects, but it had been taken up only to 10 milligrams.''" The MDA equivalent was shelved for synthetic reasons ("''possible dimethylation, only one oxime isolated, the need of strong reducing conditions''"); the DOM equivalents, '''DAPHNE''' and '''ELVIRA''', "''are for some time in the future.''"
+
+'''The BOX family''' (#13) gets the book's most direct appeal to someone else: sulfur for the beta-oxygen, an alpha-methyl, both, and the threo/erythro and D/L sets — "''All this is terra incognita, and must someday be looked into. It is chemically simple, and pharmacologically provocative. Someone, somewhere, someday, answer these questions!''"
+
+'''The psi- (2,4,6-) counterparts''' (#42, #69) are the biggest programme and the one he was most confident about: "''Will the other 2,4,5-things spawn 2,4,6-things that are active? Without a shadow of a doubt… every one of them has a (potentially active) 2,4,6-pseudo-counterpart''", and "''Diligence could thus easily double the number of known psychedelics.''" The obstacle is synthetic: "''The 2,6-dimethoxy orientation pushes for 3-substitution, and the 4-position is completely unnatural. Tricks are needed, but tricks have now been found.''"
+
+== Tier 6: active dose simply unknown ==
+
+* '''2,4-DMA''' (#53) — the frankest statement of ignorance in the book: "''What can one say as to the active dosage of 2,4-DMA? Nothing… It might be fully speedy. It might be fully psychedelic. It might give a cardiovascular push that would be scary.''" Vascular-strip data "''were not impressive''" for serotonin action, so "''it seems as if its action might involve norepinephrine release. It is a reasonable guess that there would be cardio-vascular activity at higher levels''" — a hazard prediction, not a potency one. Closure: "''it will only be with human trials, someday…''"
+* '''2C-T-15''' (#47) — "''The active level… is not known. The highest level yet tried was 30 milligrams orally, and there had been threshold reports pretty regularly all the way up from 6 milligrams.''" The anomaly worth closing: it is isosteric with 2C-T-4, where "''Just over 20 milligrams… was overwhelmingly psychedelic.''"
+* '''DOBU''' (#63) — "''It is not possible to give a dosage range for DOBU.''" '''TMA-4''' and '''TMA-5''' (#161) — "''only been superficially explored''", two reports that "''no more than hint at the possibility that it might be active in the several tens of milligrams.''" '''METHYL-MMDA-2''' (#131) — highest 70 mg; "''no way of estimating what might be an active level…''" '''MIPM, MBM, MAM''' (#138) — "''either shown to be even less active, or simply were not assayed at all.''"
+* '''2-TOET''' (#169) — likely twice the 5-TOET dose; stopped by "''an understandable reluctance to push on upwards in dosage with a new and unknown compound, when there are feelings of physical discomfort that outweigh the mental effects.''" '''ALEPH-4''' (#5) is a flat refusal: "''I know of no experiment that exceeded 12 milligrams… I personally choose not to try them.''" '''2-BR-4,5-MDA''' (#19), one literature report: "''Someday, perhaps. But at that high level, perhaps not.''"
+* '''ETHYL-J''' (#77) — by analogy down the J/K series, "''an interesting intoxicant, but probably not until you got up into the area at or above a 200 milligram dose. And that is a lot of chemical for the body to have to handle.''" '''MDCPM''' (#104), assayed only to 10 mg: "''might someday warrant reinvestigation. It is a certainty that the yield could only be improved with a careful resynthesis.''" '''MAPEA''' (#123), never made by Shulgin, reported by Leminger at 100-300 mg: "''I feel that it too might be a gentle mood elevator similar to the ethoxy.''"
+
+== Tier 7: chemistry that defeated him ==
+
+Listed so nobody repeats it blind; reagents and conditions in [[Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem]].
+
+* '''Purification, not chemistry.''' '''2C-T-22''' (#49): the trifluoroethyl aldehyde could not be purified ("''three major spots by both TLC and GCMS''"), so the nitrostyrene "''was a complex mixture. And there that project also rests.''" '''ALEPH-3 / 2C-T-3 / 2C-T-20''' (#4): aldehyde "''a mess''" first time, obtained years later and still not pursued — by which point a duplicate number had been issued. '''2C-T-23''' (#47) stalled at the aldehyde.
+* '''Reactions that gave nothing.''' CF<sub>3</sub>I with 2,5-dimethoxythiophenol "''didn't produce anything''"; the bare 4-thiol, carried as the disulfide through a Vilsmeier, gave "''black oils and tars''" (#49). '''2C-T-12''' and the S–N targets (#45): dimorpholinyl disulfide "''produced virtually no product at all''", and the diethylsulfonamide was "''totally refractory to all efforts at reduction''" — the target "''has not even been given a 2C-T-X number.''" '''DOHE, DOBZ''' (#61) and '''DOCPM''' (#63) all died at the Friedel-Crafts first stage.
+* '''Abandoned for lack of incentive.''' '''TRIS homologues''' (#175) and the '''higher 2C-T amphetamines''' (#45) — "''presently unknown compounds, and there is small incentive to make them.''" '''The TIM amphetamines''' (#152) — "''It seems almost certain that none of the compounds would be pharmacologically active, so the incentive would be the challenge of the chemistry. Some day, maybe.''"
+* '''An open metabolic question needing no psychoactive compound.''' '''4-tert-butyl thioanisole''' (#173): a 60 mg oral dose produced no detectable parent, sulfoxide or sulfone in urine. "''It would be fun, someday, to methodically trace the fate of this compound.''" Answerable with modern LC-MS.
+
+== The shortlist ==
+
+# '''2C-G-4 / G-4''' (#29, #83) — one LAH reduction each, hard chemistry already done, flat prediction of activity attached.
+# '''The 2C-T-17 enantiomers''' (#48) — one reduction each, and the result answers a receptor-geometry question nothing else in the corpus can reach.
+# '''2C-T-14''' (#46) — one reduction, against a specific duration prediction relative to 2C-T-13.
+# '''DOF''' (#26) — nothing to synthesise; a quantitative potency prediction on a fully characterised compound.
+# '''DMMDA-2''' (#59) — a review-literature potency figure its own author disowns, on a compound he thinks "''might be quite a winner''".
+
+What these have in common is Shulgin's documentary habit: he published the melting point, the recrystallisation solvent, the microanalysis and the exact step at which he stopped. That is why the problems are open rather than lost.
+
+== See also ==
+
+* [[Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem]]
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]]
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]]
+* [[Chain Length the Bushy End and the Duration of Action]] · [[The 2C Series and Extended Phenethylamines]]
+* [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]]
+* [[The Shulgin Method Dose Escalation and the Research Group]] · [[Shulgin Rating Scale]]
+* [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]] · [[Thiols and Oxygen Congeners in Medicinal Chemistry]]
+* [[Structure Activity Relationships in Psychopharmacology]]
+* [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]]
+* [[Shulgin Ten Essential Oils]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]
+* [[The Quota the Catalogue and the Feedstock]] · [[Publication Cognitive Liberty and the Analogue Act]]
+* [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]]

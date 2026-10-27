@@ -1,0 +1,109 @@
+'''The Informants and the Lost Literature''' is an account, assembled from the '''EXTENSIONS AND COMMENTARY''' of ''PIHKAL'' (Alexander and Ann Shulgin, 1991) and ''TIHKAL'' (1997), of how chemical knowledge in this field got lost and occasionally got recovered. Its subjects are the people who supplied Shulgin with facts he could not have generated himself: '''Otakar Leminger''', a retired Czech industrial chemist whose one paper described compounds Shulgin would otherwise have believed unknown; '''Gordon Alles''', who independently made and named MMDA and died before the two could meet; '''Darrell Lemaire''', the anonymous author of the Tweetio study, named publicly only in 2015; and the flyers, seizure reports and clandestine samples that served as a literature of last resort. It also covers the opposite case — notes mislaid inside Shulgin's own laboratory, and thin data enshrined in review articles anyway.
+
+Standing, stated once: almost every item below is a single uncorroborated source — one paper, one phone call, one flyer, one seizure, one unblinded self-report. That is the condition the article is about.
+
+== Otakar Leminger ==
+
+The story is told in '''MEPEA''' (#123), and begins with a cold call:
+
+: "I got a call out of absolutely nowhere, from a Stanislov Wistupkin, that he had discovered a number of new psychedelic drugs which he would like to share with me. Two of them were simple phenethylamines, one with an ethoxy group at the 4-position, and one with an allyloxy group there. Both, he said, were mood elevators active between 100 and 300 milligrams… When I did meet him in person, he gave me a most remarkable publication which had been authored some ten years earlier, by a person named Leminger, now dead. It was all in Czech, but quite unmistakably, right there on the third page, were the structures of MEPEA and MAPEA, and the statement that they were active at between 100 and 300 milligrams."
+
+So the discovery was a rediscovery, and the proof was a decade-old paper in a language Shulgin could not read, handed over by the man who had just claimed the compounds as his own. The paper contained more than the two compounds it was produced to account for:
+
+: "In the Czechoslovakian publication that presented MEPEA and MAPEA, there were descriptions of escaline (E), proscaline (P), and the allyloxy analogue (AL). These are all active in man… This is the only published material dealing with psychedelic drugs I have ever been able to find, from the laboratory of Otakar Leminger. What sort of man was this chemist? He worked for years in industry, and only at the time of his retirement did he publish this little gem. He lived at Usti, directly north of Praha, on the Labe river (which is called by the better known name, the Elbe, as soon as it enters Germany). Might there be other treasures that he had discovered, and never published? Was young Wistupkin a student of his? Are there unrecognized notes of Otakar Leminger sitting in some farm house attic in Northern Czechoslovakia? I extend my heartfelt salute to an almost unknown explorer in the psychedelic drug area."
+
+The question it ends on — '''are there unrecognized notes of Otakar Leminger sitting in some farm house attic in Northern Czechoslovakia?''' — is left open in the book, and has not been closed since.
+
+=== What the one paper contained ===
+
+Several ''PIHKAL'' entries cite the paper for human data, and in one case it supplies the most potent compound of its class. '''AL''' (#2), 4-allyloxy-3,5-dimethoxyphenethylamine, "was first explored in Prague by Leminger. He provided only the synthetic details and the statement that it was the most active compound that he had studied, with activity at 20 milligrams, with perceptual changes, color enhancement, and difficult dreams during sleep that night. Some effects persisted for more than 12 hours. Dosages above 35 milligrams remain unexplored." '''P''' (#140), proscaline, rests on "a very early report… tucked away in the Czechoslovakian literature that describes experiments at up to 80 milligrams. At these dosages, there were reported some difficulty with dreams, and the residual effects were still apparent even after 12 hours." '''MEPEA''' and MAPEA are both given as "active at between 100 and 300 milligrams," and escaline comes from the same publication.
+
+The AL figures are worth noting for what they are: '''20 mg''', a duration over twelve hours, and an unexplored ceiling above 35 mg — all from one retired industrial chemist's single paper, with no second source anywhere. '''AL''' (#2) then builds a prediction on it: the corresponding amphetamine, 3C-AL, "would be an interesting compound to explore," noted as "both unsynthesized and unexplored."
+
+== Gordon Alles ==
+
+The Alles passage in '''MMDA''' (#132) is two sentences long and is the corpus's sharpest statement of how easily this work is lost:
+
+: "This is the compound that I had first completed in 1962, and had named it MMDA, and had begun the exploring of it when I heard that Dr. Gordon A. Alles, a professor of pharmacology at U. C. L. A. who had his own private laboratory in Los Angeles, had also synthesized it in 1962, had also named it MMDA, and had also begun exploring it. We made a date to meet and share ideas, and then he died, at the age of 62, in 1963."
+
+Two investigators, independently, in the same year, made the same compound, arrived at the same three-letter code, and began the same kind of human exploration. The convergence tells you the structure was findable; the ending tells you the record was not. Whatever was in the private Los Angeles laboratory appears nowhere in ''PIHKAL'' except as this absence. The entry does preserve what those early trials left as shared vocabulary: "The phrase that had been used by several of the subjects in the early trials with MMDA, again and again, was 'brain movies.'"
+
+== Darrell Lemaire and the Tweetios ==
+
+The Tweetio work is a case of an informant recovered — long after the book, and not by Shulgin. The study appears in '''2C-D''' (#22) credited to nobody:
+
+: "I have learned of an extensive study of ethoxy homologues of a number of the phenethylamines in the 2C-X series; they have been collectively called the 'Tweetios.' This Sylvester and Tweety-bird allusion came directly from the compulsive habit of trying to alleviate the boredom of driving long distances (not under the influence of anything) by the attempt to pronounce the license plates of cars as they passed. The first of this series of compounds had a name that indicated that there was an ethoxy group at the 2-position, or 2-EtO, or Tweetio."
+
+The attribution came thirty years later, carried in the online edition as an editorial insertion, not Shulgin's own text:
+
+: "[ Erowid Addition: Darrell Lemaire's Contribution: In January, 2015, chemist and psychonaut Darrell Lemaire announced that he had decided to come out publicly as the author 'Lazar' who conducted the 'extensive study' referenced in the following paragraph. For many years, Mr. Lemaire had preferred to remain anonymous, but the Shulgin Team is helping add credit for his work back into the literature.]"
+
+The phrase to notice is "add credit for his work '''back''' into the literature." The work had always been there; only the name had been removed, and by the author's own choice.
+
+The study's general rule is stated in the same entry: "the 2-EtO- compounds have a shorter duration and a lower potency, the 5-EtO- compounds have a relatively unchanged potency and a longer time duration; the 2,5-di-EtO- homologues are very weak, if active at all."
+
+{| class="wikitable"
+! Tweetio !! Parent !! Reported human data
+|-
+| 2CD-2ETO || 2C-D (#22) || "At levels of 60 milligrams, there was the feeling of closeness between couples, without an appreciable state of intoxication. The duration was about 4 hours."
+|-
+| 2CD-5ETO || 2C-D (#22) || 40–50 mg; full effects at about 2 hours; duration 12 hours
+|-
+| 2CB-2ETO || 2C-B (#20) || ~15 mg is as much effect as can be had; 30 and 50 mg "merely prolong the activity"
+|-
+| 2CI-2ETO || 2C-I (#33) || Threshold at 5 mg; up to 50 mg produces "no more intense an effect, but simply to stretch out this threshold"
+|-
+| 2CT2-5ETO || 2C-T-2 (#40) || 20 mg; full effect at the third or fourth hour; sedative needed at 16 hours; "forever yours"
+|-
+| 2CE-5ETO || 2C-E (#24) || 10–15 mg; 3–4 hours to plateau; "given the nickname 'Eternity' by one subject"
+|}
+
+That is a coherent structure–duration finding across six scaffolds, generated outside any institution, published under a pseudonym, and correctly attributed a quarter-century later — the best case in the corpus of lost knowledge recovered.
+
+== Anonymous sources, flyers, and clandestine samples ==
+
+Where no informant existed, Shulgin used what was circulating, and labelled it. '''ESCALINE''' (#72) records a street document and how it could mislead: "An anonymous flyer appeared in the California drug community in 1984 stating an effective range to be 50 to 100 milligrams, but it described the drug as the sulfate. The above data all pertain to the hydrochloride salt." The flyer's numbers are not wrong so much as unanchored: a dose given for one salt is not the dose for another.
+
+'''MDDM''' (#105) is a clandestine sample used as evidence, caveat attached: "I cannot attest for the actual drug that had been used in the two larger-dose reports above. These are from an anonymous source associated with clandestine syntheses… It seems unlikely that much effort would be directed towards the synthesis of a completely inactive compound." That last sentence infers activity from clandestine effort — the illicit laboratories read as a bioassay. It is weak, and stated as weak.
+
+'''METHYL-MMDA-2''' (#131) states Shulgin's view of those laboratories outright: "There is a surprisingly large number of inconspicuous chemical explorers out there all over the world, doing their synthetic thing in their private laboratories. They are truly the astronauts of inner space."
+
+=== The forensic literature as a source, and as a casualty ===
+
+Seizure reports function as a second anonymous literature. '''MEPEA''' (#123): "a report appeared in the forensic literature of Italy, of the seizure of a small semitransparent capsule containing 141 milligrams of a white powder that was stated to be a new hallucinogenic drug. This was shown to contain an analogue of DOM, 3-methoxy-4-methylamphetamine, or MMA. The Italian authorities made no mention of the net weight contained in each dosage unit, but it has been found that the active level of MMA in man is in the area of 40-60 milligrams." A single capsule in an evidence locker, weighed but not characterised, is a data point; the active range had to come from elsewhere.
+
+The same channel carries the harms, and they are harms of misidentification, not of pharmacology. '''4-MA''' (#97): "On the tragic side, a few years later, 4-MA became widely distributed… The several deaths that occurred probably followed overdose… It had been sold under the names of Chicken Power and Chicken Yellow, and was promoted as being MDA." '''DOB''' (#62) reports a death where the drug was taken as if it were MDA, with "over nine milligrams of the drug" recovered post-mortem. '''DOM''' (#68) attributes the Haight-Ashbury STP casualties to the same gap: "No one knew what this drug was which had been distributed in a cavalier way throughout the city. There could be no educated guess as to the best treatment of overdose emergencies."
+
+Those three cases are the strongest argument in the corpus for publishing identification and dose information rather than withholding it: in each, the fatal variable is that nobody knew which compound was in the material.
+
+== Notes lost inside the laboratory ==
+
+The losses are not all other people's. '''DMMDA-2''' (#59) is the one entry in ''PIHKAL'' without a synthesis, and the reason is mislaid paperwork: "First, the synthesis was done by someone else and, as I have not been able to find where the notes are, this will be the one recipe in the footnote without explicit directions incorporated."
+
+The pharmacology is no better documented, and the consequence is what matters:
+
+: "I was not the taster, and can only quote what I had been given. This same observer found a threshold at 28 milligrams… the activity level was called for in a large review article, and on the basis of the above, both its initials and the value of 5x the potency of mescaline were permanently enshrined in the published literature. What is it really like? I don't know."
+
+One observer, one threshold, one request from a review article, and a potency figure becomes permanent. '''TMA-5''' (#161) shows the same mechanism from the other end: the published claim is a psychedelic at roughly ten times mescaline, 30–50 mg, on two reports which "together no more than hint at the possibility that it might be active in the several tens of milligrams." '''TA''' (#145) states the hazard: "This is pretty thin stuff from which to go out into a world that is populated by pharmacological sharks and stake out claims as to psychedelic potency."
+
+== Compounds that were never tasted, and names kept against the day ==
+
+A quieter loss is work completed and then simply left. '''ARIADNE''' (#8), listing the Ten Classic Ladies, records of JUNO, the tenth, that it sat on the shelf fourteen years untasted. '''2C-T-13''' (#46) leaves its successor at the last step: the nitrostyrene for 2C-T-14 was made in excellent yield, and "as of the moment, this is sitting on the shelf waiting to be reduced to the target compound… Will it be active? I rather suspect that it will be." '''2C-G-3''' (#28) keeps names for compounds that cannot yet be made at all: "at least the names have been assigned." And '''DBT''' (''TIHKAL'' #2) works out that the longer N,N-dialkyltryptamines cannot be coded at all: "They simply cannot be named. After all, there are only 26 to the third power combinations of the letters of the alphabet, around 17,000 possible three letter codes." A compound that cannot be cited is lost in a different way. See [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]].
+
+== What the chapter adds up to ==
+
+Three mechanisms of loss recur, each with a counter-case in the same corpus. '''Publication in the wrong place or language''': Leminger published once, in Czech, at retirement, in a journal nobody in the field read, and his compounds were independently "discovered" a decade later by someone holding his paper — yet the paper existed, and was good enough that four ''PIHKAL'' entries rest on it. '''Death and discontinuity''': Alles and Shulgin converged on the same compound, code and method, and one meeting would have merged two records; instead one ends in 1963 — but the convergence says the structure was findable twice, so it is findable again. '''Anonymity under legal pressure''': the Tweetio study circulated for decades as the work of "Lazar" — and Lemaire was named in 2015, the credit restored to work that had never stopped being used.
+
+The archival claim implicit in all of it is Shulgin's own, in '''IM''' (#91), on a fifty-year-old clinical observation nobody followed up: "The promised further studies have never appeared, so all may be forgotten. But maybe these findings are valid." The remedy he proposes is not a better archive but more readers — the argument of '''METHYL-MMDA-2''' (#131) for the inconspicuous chemical explorers, and of '''DIPT''' (''TIHKAL'' #4) in five words: "If you don't look, you won't find."
+
+== See also ==
+
+* [[PIHKAL and TIHKAL]]
+* [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]]
+* [[Publication Cognitive Liberty and the Analogue Act]]
+* [[The Shulgin Method Dose Escalation and the Research Group]]
+* [[The Vocabulary of Subjective Effect in PIHKAL]]
+* [[Combination Practice Sequencing and Tolerance in the Shulgin Corpus]]
+* [[Therapeutic Use as Shulgin Reports It]]
+* [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]]
+* [[The Library of Ashurbanipal]]

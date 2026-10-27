@@ -1,0 +1,174 @@
+'''The Quota, the Catalogue, and the Feedstock''' is about the markets that surrounded Alexander Shulgin's chemistry rather than the chemistry itself: the federal production-quota system and the unexplained industrial demand for 2,5-DMA, the research-chemical supply trade that sold DOI openly by catalogue, the compounds that slipped through the schedules, the reagent and starting-material prices that decided which molecules got made at all, and the grant money that pulled a psychedelic chemist into deliberately building ''inactive'' compounds. Source is the '''EXTENSIONS AND COMMENTARY''' sections of ''PIHKAL'' (1991), quoted verbatim with entry numbers.
+
+Shulgin's ''position'' on drug law — why he published, what he thought of the Controlled Substance Analogue Enforcement Act of 1986, and the DOET publication strategy — is a separate subject and is covered in '''[[Publication Cognitive Liberty and the Analogue Act]]'''. This article does not restate it. What follows is about prices, quotas, catalogues, seizures and feedstocks: the economics underneath.
+
+== The 2,5-DMA quota ==
+
+The single most peculiar document in the corpus is a paragraph about a government filing. From '''2,5-DMA''' (2,5-dimethoxyamphetamine, entry #54):
+
+: "''There is a mystery, at least to me, concerning the commercial production of 2,5-DMA. At regular intervals, there is a public announcement of the production quotas that are requested or allowed by the Drug Enforcement Administration, for drugs that have been placed in Schedules I or II. In the Schedule I category there are usually listed amounts such as a gram of this, and a few grams of that. These are probably for analytical purposes, since there are no medical uses, by definition, for drugs in this Schedule. But there is a staggering quantity of 2,5-DMA requested, regularly. Quantities in the many tens of millions of grams, quantities that vie with medical mainstays such as codeine and morphine. I have heard that this material is used in the photographic industry, but I have no facts. Somewhere I am sure that there is someone who has to keep a lot of very careful books!''"
+
+Unpack the arithmetic, because the sentence is easy to read past. "Many tens of millions of grams" is '''tens of metric tonnes'''. The comparison class Shulgin names — codeine and morphine — are Schedule II medicines manufactured at industrial scale for a nationwide pharmacy supply. He is reporting that a Schedule I ring-substituted amphetamine with no medical use, whose entire human literature he summarises in the same entry as "''very sparse''", was being quota-requested at pharmaceutical tonnage.
+
+Three observations the entry itself supports.
+
+* '''The quota system is a published signal.''' Aggregate production quotas for Schedule I and II substances are announced publicly at intervals, which means the quota filings are an open data source on what is legally being made and in what volume. Shulgin treats them exactly that way — as a series he reads.
+* '''Schedule I quotas are normally analytical.''' "''a gram of this, and a few grams of that''" is reference-standard quantity: enough for forensic laboratories to calibrate against. One line in the table was four to seven orders of magnitude out of family.
+* '''He states the industrial explanation as hearsay and labels it.''' "''I have heard that this material is used in the photographic industry, but I have no facts.''" The claim is not asserted. The mystery is left open, and the closing line is about bookkeeping: a Schedule I registrant producing tonnage has to account for every gram of it.
+
+=== Why 2,5-DMA specifically ===
+
+The same entry explains, without connecting it to the quota, exactly what 2,5-DMA is good for:
+
+: "''In the area of psychedelic drugs, the value of 2,5-DMA is mainly in its role as a precursor to the preparation of materials that can come from a direct electrophilic attack on the activated 4-position. These uses can be found under things such as DOB and DOI and DON.''"
+
+<code>
+                    2,5-DMA
+       (2,5-dimethoxyamphetamine; 4-position activated,
+        para to one methoxyl, ortho to the other)
+                       |
+      +----------------+----------------+----------------+
+      | Br2            | ICl            | HNO3           | radiohalogen
+      v                v                v                v
+    DOB              DOI              DON          IDNNA / FDNNA
+ (4-bromo)         (4-iodo)        (4-nitro)     (imaging agents)
+</code>
+
+So the molecule on the anomalous quota line is the common precursor to the most potent and longest-lived members of the entire family, reachable in a single electrophilic substitution. '''META-DOB''' (#124) states the preference outright: "''The bromination of 2,5-DMA is, of course, the preferred procedure for the synthesis of 4-Br-2,5-DMA, or DOB.''" Shulgin does not draw the inference, and neither should a reader: he reports the quota, reports the chemistry, and says the industrial use is hearsay.
+
+=== The street side of the same compound ===
+
+The 2,5-DMA entry also contains the only price-free market datum in the corpus for that molecule — a seizure: "''A seizure of capsules reported by the drug law enforcement authorities some 20 years ago found that each contained some 200 milligrams of the hydrobromide salt. This is equivalent to 170 milligrams of the hydrochloride salt, and suggests that level may be an effective dosage.''"
+
+This is worth noting as method. With almost no human data, Shulgin uses a '''law-enforcement seizure as a dose estimate''', on the reasoning that whoever filled those capsules had a working dose in mind. He adjusts for the counter-ion before using the number, which is the kind of correction a forensic chemist makes and a journalist does not.
+
+== The catalogue: DOI as a commercial item ==
+
+The second market in the corpus is the research-chemical trade, and the evidence is a price change. From '''DOI''' (#67):
+
+: "''A small neurochemical research company on the East Coast picked up on these properties of DOI, and offered it as a commercial item for research experiments. But I doubt that they are completely innocent of the fact that DOI is an extremely potent psychedelic and that it is still unrecognized by the Federal drug laws since, in their most recent catalog, the price had almost doubled and a note had been added to the effect that telephone orders cannot be accepted for this compound.''"
+
+Everything in that sentence is a market observation.
+
+* '''The demand driver was legitimate.''' DOI's scientific value is as a high-affinity 5-HT<sub>2</sub> ligand; the same entry describes it being "''synthesized with a variety of radioactive iodine isotopes''" for brain-distribution mapping. A supplier stocking it for neurochemistry laboratories is doing normal business.
+* '''The compound was unscheduled.''' "''still unrecognized by the Federal drug laws''" — as of 1991. DOI is, by Shulgin's own ranking in the same entry, among the most potent and longest-lived phenethylamines known: it "''vies with DOB as probably the most potent of the phenethylamine psychedelics as of the moment''". Potency and legal status were completely decoupled.
+* '''Two catalogue changes, read as one signal.''' The price "''had almost doubled''" ''and'' telephone orders were refused. A doubled price can mean a dozen things. A doubled price plus a requirement that orders arrive in writing — on letterhead, traceable, from an institution — means the seller had noticed who else was calling. Shulgin's inference is that this was demand management against non-research buyers, and that the supplier therefore knew what it was selling: "''I doubt that they are completely innocent.''"
+
+This is the earliest form of a pattern the later research-chemical market would repeat continuously: a legal, catalogued, scientifically useful compound whose non-scientific demand is visible only in the supplier's ordering terms.
+
+== Compounds in the gaps ==
+
+Scheduling in this corpus is reported as a patchy, lagging system with large holes, and several entries are about what lives in the holes.
+
+* '''DOET''' (#66) is the explicit case — a DOM homologue that "''has so far escaped the attention and restrictive action of the drug enforcement agencies''". The publication strategy behind that, and the Analogue Act's effect on it, are in [[Publication Cognitive Liberty and the Analogue Act]].
+* '''DOF''' (#26): synthesised, characterised (nitropropene mp 128-129 °C from ethanol; hydrochloride mp 166-167 °C), predicted from animal comparison with DOI and DOB to be "''some four to six times less''" potent than those two — and "''As of the present time, no human trials of DOF have been made.''" A fully described, never-tasted halogen analogue.
+* '''DOC''' (#64): described as "''a long-lasting, dyed-in-the-wool psychedelic''" of roughly DOB/DOI potency, made by a route followed in Canada, with two characterised intermediates (DOA, mp 248-250 °C; DOAA, mp 249-250 °C) neither of which had been tasted.
+* '''psi-2C-T-4''' (#42) states the scale of the unlisted space as a programme: "''Well over half of all the psychedelic drugs mentioned in Book II are 2,4,5-trisubstituted compounds, and every one of them has a (potentially active) 2,4,6-pseudo-counterpart.''" And in '''psi-DOM''' (#69): "''Diligence could thus easily double the number of known psychedelics.''"
+
+'''Dating note.''' Every statement above about what was or was not controlled describes U.S. law as of 1991. Compounds Shulgin describes as unscheduled — DOI among them — were scheduled later. Read these as a record of the regime he worked under, not as current law.
+
+== The clandestine market, read from the forensic literature ==
+
+Shulgin had no access to clandestine production figures, so he read the forensic journals and inferred.
+
+The clearest instance is '''MDDM''' (#105), where he uses the existence of illicit synthesis as evidence about pharmacology:
+
+: "''I cannot attest for the actual drug that had been used in the two larger-dose reports above. These are from an anonymous source associated with clandestine syntheses. If this material does eventually prove to be active, it is going to require a pretty hefty dose. But it may well have some activity, as there have been reports in the forensic literature of its preparation, or at least its intended preparation, in illicit laboratories. It seems unlikely that much effort would be directed towards the synthesis of a completely inactive compound.''"
+
+That is a market-revealed-preference argument: clandestine chemists are cost-sensitive and would not repeatedly make an inert molecule, so repeated appearance in seizure reports is weak evidence of activity.
+
+Two seizure records are used the same way.
+
+* '''MEPEA''' (#123): "''a report appeared in the forensic literature of Italy, of the seizure of a small semitransparent capsule containing 141 milligrams of a white powder that was stated to be a new hallucinogenic drug''" — identified as MMA, 3-methoxy-4-methylamphetamine. Shulgin notes the authorities "''made no mention of the net weight contained in each dosage unit''", and supplies the active range himself: 40-60 mg, "''quite dysphoric, and long lived.''"
+* '''DON''' (#70): a quotation from a bulletin circulated only to forensic scientists serving law-enforcement agencies, predicting that DON "''seems likely … to appear on the market as an illicit recreational drug''" on the grounds that its stimulant action "''seems to reduce the incidence of insightful, and therefore potentially unpleasant experiences''". Shulgin reproduces it and declines to interpret it.
+
+For the downstream consequences of an unidentified product reaching users — misidentification, wrong-dose fatalities, no treatment guidance — see [[Ecstasy Pill Forensics and Historical Adulteration Trends]] and the DOM/STP and DOB accounts in [[Publication Cognitive Liberty and the Analogue Act]].
+
+== Feedstock economics: what the catalogue price decided ==
+
+The most consistent economic force in the corpus is mundane: what was on the shelf, and what it cost. Several compounds exist because a starting material was cheap, and several do not exist because it was not.
+
+{| class="wikitable"
+! Feedstock !! How obtained !! What it enabled !! Entry
+|-
+| Apiole || "''careful fractionation of Oil of Parsley''" || DMMDA || #58, #59
+|-
+| Dillapiole || "''careful fractionation of Oil of Dill''" || DMMDA-2 || #59
+|-
+| Estragole / anethole || spice-trade essential oils || 4-MA || #97
+|-
+| Syringaldehyde || commercial || AL, CPM, the proposed 3C-AL and 3C-CPM || #2, #37
+|-
+| 4-Thiosyringaldehyde || proposed starting point || the unmade 3C-TM and 3C-TB || #174
+|-
+| ''tert''-Butyl hydroquinone || "''the commercially available''" one || DOTB, "''a much more obvious starting material''" || #63
+|-
+| 2,5-Dimethylbenzaldehyde || "''commercially available''" || 2,5-DMNNA || #54
+|-
+| Piperonal || commercial || "''about twenty different synthetic routes''" to MDA || #100
+|-
+| 2,2-Difluoroethyl iodide || "''commercially available and not prohibitively expensive''" || the proposed 2C-T-21.5 || #49
+|}
+
+The last row is the clearest case of a price deciding a research programme. From '''2C-T-21''' (#49):
+
+: "''And it has just occurred to me that there is yet another effort that is certainly worth making, inspired by the observation that 2,2-difluoroethyl iodide is commercially available and not prohibitively expensive.''"
+
+A compound was conceived, named ('''2C-T-21.5'''), and predicted active — "''I will wager mucho that it will be very potent''" — because a reagent was in a catalogue at an acceptable price. The ''chemical'' logic for it (interpolating between the highly potent monofluoro 2C-T-21 and the unfinished trifluoro 2C-T-22) was available all along; what triggered it was the price.
+
+The essential-oil rows are an economy of their own: the spice and flavour trade produced apiole and dillapiole as fractionation products, which means a chemist in the 1960s could buy a complex tetra-oxygenated aromatic skeleton, already assembled, from the food industry. See [[Shulgin Ten Essential Oils]] and [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]].
+
+== Assay economics ==
+
+Testing cost shaped the record as much as synthesis cost, and Shulgin notices when an assay is cheap.
+
+From '''DOAM''' (#61), on finding someone to run a serotonin-agonist series: "''I learned of a curious young researcher in Washington who had an elegant procedure for measuring serotonin agonist action using the (otherwise) discarded sheep umbilical artery strips. These become available each year at lambing time, do not cost the life of anything, and require very little compound.''" Three cost advantages in one sentence — free waste tissue, seasonal but renewable, no animal killed, and milligram-scale sample requirement — and it bought the whole methyl-ethyl-propyl-butyl-amyl series a dose-response curve. Shulgin adds the publication motive plainly: the resulting short paper "''served as a excellent vehicle to get the cogent human data into the scientific literature.''"
+
+At the other end, '''DOB''' (#62) records the cost of the expensive kind of assay: four mice at escalating intraperitoneal doses, two of them dead, to bracket an LD50 between 100 and 125 mg/Kg — followed by "''I feel that two mice were killed without anything of value having been received in return.''"
+
+Animal screens that ''were'' used as cheap proxies are named throughout: rabbit and rectal hyperthermia assays ('''META-DOT''' #125, where the three DOT isomers were ranked against DOM, with mescaline "''down from DOM by a factor of more than 1000x''" and LSD "''some 33x more potent than DOM''"), rat drug-discrimination (DOIB "''only a third as active as DOM''", #63), and the Sidman Avoidance Schedule (DOTB, apparently inactive, #63).
+
+== The money that paid for inactivity ==
+
+The most economically revealing entry in the corpus is '''2,4-DMA''' (#53), and it is about grant-funded medical imaging.
+
+Positron-emission and single-photon brain-blood-flow imaging needs a molecule that will carry a radiohalogen into the brain and be '''pharmacologically inert'''. Ring-dialkoxy amphetamines are excellent carriers; a meta-dimethoxy ring is, as Shulgin notes, far more susceptible to electrophilic attack and therefore easy to label. So a programme grew up around making them ''not work''. The 2,4-DMA entry catalogues it: the common precursor 2,4-dimethoxyphenylacetone (from the nitrostyrene with elemental iron in acetic acid; bp 125-145 °C at 0.5 mm/Hg); reductive amination with dimethylamine and sodium cyanoborohydride to 2,4-DNNA (perchlorate mp 98-98.5 °C); then N-methyl, N-ethyl, N-propyl, N-isopropyl and N-hexyl homologues, an N,N-diethyl that "''could not be converted into a crystalline hydrochloride salt''", and five O-alkyl variants with the nitrogen held constant — including a 2-(n)-decyloxy compound. "''I believe that most of these have been iodinated and assayed in rats, and several of them appear quite promising. But none of them have been assayed in man, yet.''"
+
+Then the verdict:
+
+: "''There is something vaguely counterproductive, in my evaluation of things, when the goal of a research project is to avoid activity rather than to create it. Although this chemistry was completely fascinating and could have produced the world's best positron-emitting, brain-scanning diagnostic compound, I feel it quite unlikely that it would have produced the world's best insight-revealing, empathy-enhancing psychedelic, so this research direction never totally caught my fancy. I went on to other things.''"
+
+The funding asymmetry is the whole story. Diagnostic imaging was fundable, publishable and legal; the compounds it wanted were the inactive members of the family. The related labelling yields are reported in '''2,5-DMA''' (#54) — radioiodination of 2,5-DNNA with labelled iodine monochloride and perchloric acid gave "''a 40% incorporation of isotope''", while labelled acetyl hypofluorite "''gave only a 2% incorporation''" — and the isotope constraint in '''2C-T-21''' (#49): fluorine-18, "''with a half-life of just under 2 hours, is ideal for many biological studies''", which is why a beta-fluoroethyl group was being used as a bromine or iodine surrogate at all. The radiotracer work that ''did'' produce real pharmacology is in '''DOB''' (#62), where <sup>82</sup>Br- and <sup>77</sup>Br-labelled drug on a whole-body scanner showed accumulation in the lung for a couple of hours before brain levels built — "''a strong implication that some metabolic conversion occurs in the lung''". See [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]].
+
+== What the market record shows ==
+
+Set side by side, the four markets in this corpus behave differently and none of them tracks pharmacology.
+
+{| class="wikitable"
+! Market !! Signal in the corpus !! What it tracked
+|-
+| Federal quota system || tens of millions of grams of 2,5-DMA, "''regularly''" (#54) || An undisclosed industrial use; not medicine, not research
+|-
+| Research-chemical catalogue || DOI price "''almost doubled''", telephone orders refused (#67) || Scientific demand plus a visible non-scientific demand the seller was managing
+|-
+| Clandestine supply || repeat appearance of MDDM in forensic reports (#105); seized capsules (#54, #123) || Chemists' beliefs about activity — used by Shulgin as evidence
+|-
+| Research funding || the 2,4-DMA / IDNNA imaging programme (#53, #54, #90) || Compounds selected ''for'' inactivity
+|}
+
+The quota line and the catalogue note are the two hardest facts, and together they make one point: in the period the books describe, the legal volume of a Schedule I amphetamine precursor ran to tonnes while the most potent compound in the family could be ordered by post. Scheduling and potency were, in Shulgin's record, independent variables.
+
+== See also ==
+
+* [[Publication Cognitive Liberty and the Analogue Act]]
+* [[The Legal Supply Chain Coca Leaf Poppy Straw DEA Quotas and the Federal Patients]]
+* [[Isomers the Analogue Act and Forensic Chemistry]]
+* [[Ecstasy Pill Forensics and Historical Adulteration Trends]]
+* [[Shulgin Ten Essential Oils]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]
+* [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]]
+* [[Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem]]
+* [[Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage]]
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]]
+* [[Edgewood Arsenal Compound Numbers and the New York State Psychiatric Institute]]
+* [[Colorimetric Reagents and Presumptive Chemical Testing]] · [[Testing Labelling and Safe Storage of Dosed Preparations]]
+* [[PIHKAL and TIHKAL]]

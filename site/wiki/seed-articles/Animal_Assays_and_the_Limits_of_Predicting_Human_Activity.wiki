@@ -1,0 +1,104 @@
+'''Animal Assays and the Limits of Predicting Human Activity''' collects what Alexander Shulgin's "EXTENSIONS AND COMMENTARY" sections in ''PIHKAL'' (1991) say about the laboratory animal models used to screen psychedelic phenethylamines — rabbit rectal hyperthermia, rat drug discrimination, the Sidman avoidance schedule, sheep umbilical artery strips, cat behavioural profiles, and the mouse LD<sub>50</sub> — together with his increasingly blunt opinion of them. The entries contain both halves of the argument: cases where an animal number predicted the human dose well, cases where it predicted nothing at all, and two passages in which he states plainly that animals were killed for data he did not need and would not have acted on.
+
+== The epistemic standing of this record ==
+
+Stated once. The human side of every comparison below is '''unblinded self-report''' from Shulgin and a small research group, hand-escalated from sub-threshold doses, typically a handful of subjects, with no placebo arm and no blinding. The animal side is instrumented and often published, but reported here second-hand and usually without the original n. A "the assay predicted the human dose" claim in this corpus is therefore one soft measurement agreeing with one hard-but-thin one, not a validation study. Doses are what was administered, not demonstrated-safe amounts.
+
+== The founding problem: a condition that does not exist in animals ==
+
+The difficulty is structural, and Shulgin states it at the head of the ARIADNE entry (entry 8):
+
+:"''How does one discover a new drug for a malady that does not exist in experimental animals?''"
+
+Anxiety, psychosis, paranoia and depression, as diagnosed and as suffered, are human states. The conventional escape is calibration: take a drug known to work, find an animal response it produces, then screen structural relatives against that response. But the response you calibrate against is chosen for being measurable, not for being the thing you care about. Shulgin's companion remark, from the same entry, is about the limits of that substitution even in humans: "''It is really difficult to pick up the clues as to what will be a good anti-depressant if you are not depressed.''"
+
+== What each assay measures ==
+
+{| class="wikitable"
+! Assay !! What is actually measured !! What it is taken to predict !! Corpus note
+|-
+| '''Rabbit rectal hyperthermia''' || Rise in core body temperature in a restrained rabbit, against a known psychedelic || Relative potency, scaled to DOM or mescaline || The main potency screen of the era; ranked the three DOT isomers correctly (entry 125)
+|-
+| '''Rat drug discrimination''' || Trained lever choice: is this drug like the training drug (DOM or LSD) or like saline? || Qualitative similarity ''and'' potency ratio || Ranked the butyl isomers in the same order as human trials (entry 63)
+|-
+| '''Sidman avoidance schedule''' || Rate of lever-pressing to postpone a scheduled shock || Gross behavioural activity; a zero result reads as inactivity || Said DOTB was inactive; humans at 25 mg agreed (entry 63)
+|-
+| '''Sheep umbilical artery strip''' || Contraction of an isolated vessel to a serotonin agonist || Serotonin-agonist potency, not behaviour || Reproduced the rise-then-fall of the DOM alkyl series (entry 61)
+|-
+| '''Cat behavioural profile''' || Pilomotor response, mydriasis, growling, hissing, aggression, withdrawal, salivation, tail erection || Presence or absence of psychedelic-type action || Occasionally right, spectacularly wrong for mescaline (entries 52, 175, 119)
+|-
+| '''Mouse / rat LD<sub>50</sub>''' || Dose killing half the animals || Margin of safety for a human trial || "''this toxicity appears not to be related to potency in man''" (entry 122)
+|}
+
+== Where the assays worked ==
+
+Three clean hits are on record, and they are worth stating precisely because the critique that follows is not a claim that animal data is noise.
+
+'''The DOT isomers.''' META-DOT's entry (entry 125) describes the method and the result together — "''In the rectal hyperthermia assay (which calculates the psychedelic potential of compounds by seeing how they influence the body temperature of experimental animals in comparison to known psychedelics) the three DOT's were compared with DOM. And the results fell into line in keeping with the activities (or loss of activities) found in man.''" PARA-DOT came out about half as active as DOM; ORTHO-DOT and META-DOT were down by factors of 50 and 30 respectively, matching the human ordering. It also placed the reference drugs sensibly: "''mescaline was down from DOM by a factor of more than 1000x, and LSD was some 33x more potent than DOM.''"
+
+'''The butyl isomers of DOM.''' The four ways of arranging four carbons give DOBU (n-butyl), DOIB (iso), DOSB (sec) and DOTB (tert), and both species agree on the trend: "''In animal studies, and in preliminary human studies, the activity of these compounds drops as the butyl group gets more and more scrunched''" (entry 63). Rat drug discrimination put DOIB at a third of DOM's potency and DOSB at a twelfth; human active doses came in at 10–15 mg and 25–30 mg. For the most scrunched isomer the two methods agreed on zero: "''Rats trained in a process called the Sidman Avoidance Schedule gave behavior that suggested that DOTB had no activity at all, and in human trials, doses of up to 25 milligrams were totally without effect.''"
+
+== Where they did not ==
+
+'''Cats and mescaline.''' The sharpest single demonstration that a cat profile does not track human activity is in the DESOXY entry (entry 52). Mescaline analogues with the oxygens stripped out were run in cats: "''The trimethyl compound showed behavior that was interpreted as being intense mental turmoil, accompanied by a startling rise in body temperature. The significance is hard to determine, in that LSD gave similar responses in the cat, but mescaline was without effects at all.''" An assay in which LSD scores and mescaline scores zero is not measuring psychedelic activity in any sense a human would recognise. He draws the only safe conclusion — "''No human studies have been made on these compounds, just animal studies. But they might prove upon trial in man to be most revealing. They would have to be performed with exceptional care''" — and adds, about the same series, that 3,4,5-trimethylamphetamine "''is known to be very hard on experimental cats''".
+
+The cat work also carried a cost that no human trial would have been allowed to carry. ASB (entry 9) was injected into a 3.75 kg cat at 200 mg — about 53 mg/kg, roughly twice the dose used in the same laboratory's metaescaline work: "''Within 5 minutes there were indications of catatonia, and within a half hour the animal was unable to walk. This condition persisted for two days, at which time the animal died.''" What that bought, by Shulgin's own careful reckoning, was an inference and not a measurement — "''Although this dose was many times that used in man, perhaps hints of the physical unease and long action are there to be gleaned.''" The human verdict on ASB came from humans: "''The consensus from over a half dozen experiments is that there is not enough value to be had to offset the body load experienced.''"
+
+The behavioural checklist is explicit under TRIS (entry 175), where a negative cat result is recorded in full: "''Studies done years ago in the cat at a dosage of 25 mg/Kg (i.m.) gave none of the expected, and looked for, signs of behavioral changes (pilomotor activity, pupillary dilation, growling, hissing, aggressive behavior, withdrawal, or salivation) that are often seen with the less bulky substituents. It was without action.''" The cat assay does have one good hit on record: under metaescaline (entry 119), "''In cats, in studies of over 50 years ago, the two compounds produced similar effects at similar dosages. In man, ME also appears to be similar to mescaline in potency.''"
+
+'''Toxicity against potency.''' The general result is in the MEM entry (entry 122), and it dismantles the main practical justification for screening: "''Only a few have been explored in animals in the pursuit of an LD-50 level. Most of them are similar to one-another, in that they are, in mice, of relatively low toxicity and, in rat, of relatively high toxicity. But this toxicity appears not to be related to potency in man.''" Two rodent species disagree with each other by an order of magnitude, and neither correlates with the number you actually need. What survives is a heuristic he labels as such: if risk is roughly constant across the family, "''the lower the dosage, the greater the safety. Maybe. In the absence of anything factual, it makes a reasonable operating hypothesis.''"
+
+'''The ceiling mismatch.''' F-2 (entry 79) shows the structural reason animal screening so often cannot settle a question: "''Doses of 100 mg/Kg were without effects in mice following i.p. injections, although half again this amount proved to be lethal. In rats trained to discriminate LSD from saline, F-2 proved to be about 40 times less potent than the reference compound DOM, requiring some 5 mg/Kg for positive responses. But the human trials were only up to about 0.2 mg/Kg.''" The rats responded at twenty-five times the highest dose any human took. The human "inactive" verdict and the rat "active at 5 mg/kg" result are not in conflict; they are not even measuring the same region of the dose axis.
+
+'''Compounds the assays cannot see at all.''' Two flat statements close the question for whole classes — from IDNNA (entry 90), "''It is widely admitted that animal assays are of no use in trying to determine this specific pharmacological property''"; and from 3-TASB (entry 146), "''Sadly, the potencies are by and large so low, that the human animal can't be used, and any sub-human experimental animal would not enable the psychedelic part of the equation to be acknowledged.''" Where the question is whether there is a sensory effect, there is no animal that can be asked.
+
+== The thermocouple, and a jaundiced view ==
+
+Having reported the hyperthermia assay's successes, Shulgin says what he thinks of it, in the same META-DOT entry (entry 125):
+
+:"''I have a somewhat jaundiced view of this rabbit rectal hyperthermia business.''"
+:"''The concept of pushing thermocouples into the rear ends of restrained rabbits somehow does not appeal to me.''"
+:"''I would rather determine both of these parameters from human studies.''"
+
+The objection is not only aesthetic. A hyperthermia ratio converts into a predicted human dose, and the prediction is then supposed to be acted on. BEATRICE — N-methyl-DOM — is the test case (entry 11): the compound came out some 25 times less active than DOM in rabbit hyperthermia, "''This particular measure suggests that the active level in man might be 75 milligrams. Well, maybe, but I am not at all comfortable in trying it at that level.''" He declines, closes the file — "''I do not intend to explore this any further whatsoever, unless there is a compelling reason, and I see no such reason''" — and hands it on with a line that doubles as a comment on the whole method: "''let us leave this one to others, who might be more adventurous but less discriminating.''" An animal-derived dose prediction is a number, not a warrant.
+
+== The LD<sub>50</sub> that taught nothing ==
+
+Two entries record animal deaths, and both end in the same verdict.
+
+'''DOB''' (entry 62) is the later and more clinical of the two. A mouse at 50 mg/kg i.p. showed twitching and irritability; one at 100 mg/kg developed shaking at 20 minutes and hours of hyperactivity; one at 125 mg/kg lost its righting reflex within 15 minutes, convulsed at 50 minutes and died half an hour later; one at 150 mg/kg convulsed within 10 minutes and died at 22 minutes. The arithmetic: an LD<sub>50</sub> between 100 and 125 mg/kg, against a human active dose near 2 mg — about 25 µg/kg — for a therapeutic index "''well over a thousand''". Then:
+
+:"''I feel that two mice were killed without anything of value having been received in return.''" (entry 62)
+
+The number was not merely unhelpful, it was misleading, and he says so immediately: "''Actually, it is very likely that the damaging, if not lethal, level of DOB in man is a lot lower than this ratio would imply''" — followed by the overdose fatality and the vascular-spasm cases reported for this compound. A thousand-fold index computed from mouse lethality is the wrong model of how DOB actually hurts people.
+
+'''MME''' (entry 136) is the earlier episode and the fuller reckoning. It opens with the motive: "''This is one of the very few compounds with which I actually risked (and took) the lives of experimental animals. I was still impressed by the scientific myth that pharmacological research wasn't really acceptable without animal support data. And I had access to an experimental mouse colony at the University.''" The entry runs the series down: 300 mg/kg i.p., dead in five minutes; 175 mg/kg, dead in six; 107 mg/kg, dead in five; 75 mg/kg, sick and shaking, then apparently recovered; then five animals at 100 mg/kg, of which four died within twenty minutes. Of the survivor: "''I took in my hands the sole survivor, and I went outside the laboratory and let him loose on the hillside. He scampered away and I never saw him again.''" In the middle of it, with no softening: "''Fired with the lust for killing, I grabbed another mouse.''"
+
+The yield was an approximate murine LD<sub>50</sub>, and the entry's accounting of it is the most quoted sentence in this part of the corpus:
+
+:"''And what did I learn, at the cost of seven precious lives which I can never replace? Not a damned thing.''"
+
+He notes that it would have made no difference if the figure had come out ten times higher or lower — the human trial dose was going to be the same either way — which is the real indictment: the experiment could not have changed the decision it was supposedly informing. The resolution is stated, then corrected for honesty (he admits to trapping field mice in his own kitchen), before landing on the principle: "''But never again for the simple and stupid reasons of being able to say that "This compound has an LD-50 in the mouse of 70 mg/Kg." Who cares? Why kill?''"
+
+== Assays that cost no lives, and animals as chemical reactors ==
+
+What he kept were preparations rather than subjects. The sheep umbilical artery strips are the model case (entry 61): "''These become available each year at lambing time, do not cost the life of anything, and require very little compound.''" The published correlation from that work was useful in two directions at once — it got the human data into the literature attached to a respectable in vitro number — and Shulgin is candid that he has no idea why it should work:
+
+:"''I have never understood the reasons that there might be connection between the twitching of a umbilical artery in a sheep and the appearance of an insight in the mind of man. And, I have never personally met this pharmacologist. Some day, I hope to do both.''" (entry 61)
+
+A second non-behavioural use of animals runs through the corpus: the animal as a metabolic reactor. MMDA's entry (entry 132) reports that "''the passage of this oil through the liver of a rabbit will generate MMDA in that animal''" — the rabbit performs a transformation, it does not express an experience. TMA-2 (entry 158) describes <sup>14</sup>C-labelled material given to rats to trace the label, the 4-methoxyl carbon turning up in expired CO<sub>2</sub>; rabbit work on the optical isomers found the R isomer much more potent, consistent with every human comparison in the book. Distribution, metabolism and stereochemistry are questions animals can answer. "What is it like" is not.
+
+== A failure mode the assays add: data attached to the wrong compound ==
+
+One hazard belongs to animal data specifically: the behavioural result gets published, the chemistry does not, and nobody can check which molecule was in the syringe. The DOPR entry (entry 71) records exactly this. A visitor left the project with a supply of DOPR and "''promptly published in an obscure journal some animal behavioral responses which he ascribed to the isopropyl analogue, DOIP. But what he had studied could only have been DOPR since DOIP, at that time, had not yet been synthesized either by me, or by either of the other two active synthesists of that moment. It was not yet a known material.''"
+
+When DOIP was finally made, rabbit hyperthermia put it one to two orders of magnitude below DOPR and 4 mg was inert in man — but a behaviour paper on a compound that did not yet exist had sat in the literature in the meantime.
+
+== See also ==
+
+* [[The Shulgin Method Dose Escalation and the Research Group]] — the human protocol these assays were meant to inform
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] · [[Chain Length the Bushy End and the Duration of Action]]
+* [[Radiopharmacology and the Brain Imaging Programme]] — where "animal assays are of no use" is stated as a design constraint
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]] · [[Shulgin Rating Scale]]
+* [[David E Nichols Entactogen Pharmacology and Receptor Mapping]] · [[Structure Activity Relationships in Psychopharmacology]]
+* [[PIHKAL and TIHKAL]] · [[Edgewood Arsenal]] · [[Psychedelic and Psychopharmacology Glossary]]

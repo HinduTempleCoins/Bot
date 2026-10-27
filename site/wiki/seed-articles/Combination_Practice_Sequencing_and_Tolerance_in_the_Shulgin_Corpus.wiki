@@ -1,0 +1,143 @@
+'''Combination Practice Sequencing and Tolerance in the Shulgin Corpus''' is the drug-interaction technique recorded in the '''EXTENSIONS AND COMMENTARY''' of ''PIHKAL'' (Alexander and Ann Shulgin, 1991) and codified in that book's Appendix B glossary: four named operations — the '''supplement''', the '''primer''', the '''piggyback''' and '''potentiation''' — the tolerance and cross-tolerance findings that set the intervals between them, and one oddity, the verb '''to tomso''', in which alcohol rekindles a compound that appeared to be inactive. Shulgin gives timings and doses for most of these, and those numbers are the substance of this article.
+
+One standing caveat applies to everything below and is stated once: this is an unblinded, expectation-laden self-report record from a small circle of experienced subjects, with no placebo arm. It can establish an ordering and a chronology; it cannot establish incidence, cannot separate compound from expectation for any subjective quality, and does not generalise to a population. For the escalation protocol underneath it, see [[The Shulgin Method Dose Escalation and the Research Group]].
+
+== The four named operations ==
+
+{| class="wikitable"
+! Term !! ''PIHKAL'' Appendix B definition !! What it is for
+|-
+| '''SUPPLEMENT''' || "The administration of a second dose of an active drug, during the drop-off phase of the activity of an initial dosage. The usual consequence is a prolongation of effect, with a concomitant increase in signs of toxicity." || Extending a session
+|-
+| '''PRIMER''' || "The inactive, 'primer,' drug is administered and, while it is still in the system, the second, 'primed,' drug is given. Any activity observed which is different from that expected from the primed drug alone will be a measure of potentiation." || Measuring an inactive compound
+|-
+| '''PIGGYBACKING''' || "A study of the interaction of two different drugs, the second being administered in place of a supplement to the first." || Characterising the second drug
+|-
+| '''POTENTIATION''' || "The influence of an inactive drug on the effects realized from an active drug." || The phenomenon the primer measures
+|-
+| '''SYNERGISM''' || "The interaction of two drugs… which produces a response that is not simply additive. The summed responses may be exaggerated (positive synergy), or attenuated (inhibition)." || Two actives together
+|}
+
+'''MDE''' (#106) sorts the last two: in a synergism two active materials interact and the consequence differs from the expected sum; in a potentiation one drug is active and a second, inactive one enhances it. MDE's own work falls in the first category.
+
+<code>
+  SUPPLEMENT    [ drug A ]----drop-off----[ + more A ]----longer A
+  PIGGYBACK     [ drug A ]----drop-off----[ + drug B ]----B read against expected A
+  PRIMER        [ inactive X ]--still present--[ + drug B ]----B changed? = potentiation
+  SEQUENCE      [ drug A ]----to baseline----[ drug B ]----B on a prepared psyche
+</code>
+
+== Supplemental dosing: the stated timings ==
+
+The supplement is the most routine of the four, and the MDMA session specifies it most exactly. '''MDMA''' (#109): "In clinical use, largely in psychotherapeutic sessions of which there were many in the early years of MDMA study, it became a common procedure to provide a supplemental dosage of the drug at about the one and a half hour point of the session."
+
+The numbers attached to that practice in the MDMA entry: a '''120 mg''' initial dose with a '''40 mg''' supplement at the '''1.5-hour''' point, extending effects by about one additional hour, at the cost of a modest exacerbation of teeth clenching and eye twitching; a second supplement (40 mg at 2.5 hours) is recorded as rarely warranted; and tiredness and lethargy the following day, flagged as a session-planning factor.
+
+The same manoeuvre recurs across the series:
+
+{| class="wikitable"
+! Compound !! Supplement dose !! Timing !! Reported consequence
+|-
+| '''MDE''' (#106) || 50–75 mg || usually the 2 h point || "occasional report of teeth clenching, especially following the use of supplemental dosages intended to extend the effects of the drug"
+|-
+| '''METHYL-J''' (#128) || "70 milligrams or less" || "just before the two hour point" || chronology like MDMA, "about two thirds the potency"
+|-
+| '''J''' (#94) || "in an imitation of the common MDMA procedure" || drop-off || "achieved an additional period of effect, but also tended to drop to baseline afterwards more rapidly"
+|}
+
+The J observation is the one worth keeping: a supplement buys time at the plateau and can then shorten the tail rather than lengthen it.
+
+== Sequencing: MDMA first, then the psychedelic ==
+
+Separate from supplementing is the deliberate two-drug sequence. '''2C-B''' (#20):
+
+: "The most successful reports have followed a program in which the two drugs are not used at the same time, nor even too closely spaced. It appears that the optimum time for the 2C-B is at, or just before, the final baseline recovery of the MDMA. It is as if the mental and emotional discoveries can be mobilized, and something done about them. This combination has several enthusiastic advocates in the psychotherapy world, and should be the basis of careful research when these materials become legal, and accepted by the medical community."
+
+The timing rule is explicit and is the opposite of simultaneous dosing: the second compound goes in '''at or just before the MDMA's own return to baseline''', not on top of its peak. The stated rationale is sequential — the first drug surfaces material, the second works on it.
+
+The same pattern is reported with the sulfur phenethylamines. '''2C-T-2''' (#40): "Both have been frequently used in therapy as follow-ups to MDMA," of 2C-T-2 and 2C-T-7 together. '''MEM''' (#122) gives the reasoning as the group understood it:
+
+: "There has developed a concept, embraced by a number of researchers, that the ease and quietness usually seen with the development of the MDMA experience can mitigate some of the physically disturbing symptoms sometimes seen with other psychedelics. This may be partly due to a familiar entry into an altered place, and partly due to a lessening of dosage usually required for full effects. MEM seems to have had more trials using this combination than many of the other psychedelic drugs."
+
+Two different claims are being made there — that the sequence softens the second compound's physical rough edge, and that it lowers the dose it needs — and neither is tested. '''MDE''' (#106) records where the method started: piggyback studies were "first discovered and explored with MDE" and "subsequently extended most successfully with MDMA," the procedure being to assay modest quantities of active materials at the drop-off period, exploiting the open and benign state present, with "only fraction of standard dosage necessary for full experience."
+
+== 2C-D: the pharmacological tofu ==
+
+One compound in the book exists in practice mainly as a carrier. '''2C-D''' (#22) opens:
+
+: "Wow! This particular compound is what I call a pharmacological tofu. It doesn't seem to do too much by itself, always teasing, until you get to heroic levels. But a goodly number of experimental therapists have said that it is excellent in extending the action of some other materials. It seems to boost the waning action of another drug, without adding its own color to the experience. Yet, the comment above, on the high level of 150 milligrams, is a direct quote from the use of this compound in Germany (where it is called LE-25) in therapeutic research."
+
+Two separate facts sit in that paragraph. The extender role is the tofu claim: it carries flavour without adding its own. The '''150 milligram''' figure is something else — the dose from German therapeutic research under the name LE-25, and the "heroic level" at which 2C-D stops being bland. The same entry notes that 2C-D is "probably the most dramatic example of the loss of potency from an amphetamine (DOM, active at maybe 3 milligrams) to a phenethylamine (only one tenth as active)."
+
+== Primers: inactive compounds used as probes ==
+
+The primer experiment asks what a compound that does nothing is nevertheless doing. '''MDIP''' (#108): "Why not take advantage of the fact that an 'inactive' compound might well be sitting in some receptor site in the brain without doing anything?" The results were inconsistent.
+
+* '''MDPR''' (#118) — 180 mg, inactive alone, is "a rather fantastic enhancer of LSD action" (quoted in MDAL). Most of this two-year programme used LSD "in the 60-100 microgram range which is fundamentally a modest level."
+* '''MDAL''' (#101) — the same 180 mg of a compound differing from MDPR by two hydrogen atoms: "the same weight of this compound not only does not enhance, but actually seems to somewhat antagonize the action of LSD." Shulgin's comment: "All this difference from just a couple of hydrogen atoms."
+* '''MDMEO''' (#111) — "In one experiment, wherein a 60 microgram dosage of LSD was used an hour and a half after a 180 milligram load of MDMEO, there was no augmentation of effects. Thus, it would appear not to be a primer."
+* '''MDIP''' (#108) as primer — 120 mg MDIP (inactive), then 80 mg MDMA at five hours, then a second 80 mg MDMA supplement. The effects were explained entirely by the MDMA: "It was obvious that the two drugs did not see one-another."
+* '''MDIP''' as piggyback — 140 mg MDE (a light +1 of about two hours), then 200 mg MDIP at five hours. This "rekindled" the +1 and a pleasant MDE-type intoxication, but "invested with tremor and eye-popping feelings," and "It was almost as if the physical toxic effects outweighed the mental virtues." The entry's image is an iceberg: "The response to a little bit of an otherwise inactive MDIP was to refloat a bit of the otherwise unseeable MDE."
+
+The one trial that went strongly the other way is in '''MDPR''' (#118), and it is a hazard as much as a finding:
+
+: "An illustration of this is a trial in which the primer was MDMA followed at 5 hours (this is at a time of almost no effect) with a larger dose of LSD (250 micrograms). The LSD overwhelmed the residual numbing of the MDMA, and the generated state was overwhelmingly erotic and out of body."
+
+250 µg is two to four times the 60–100 µg the rest of that programme used. The same entry names the other agents put on top of an MD-series "body window" — "2C-B, 2C-T-2 and 2C-T-7 have all been used with fine success as well" — and then refuses to generalise: "There can be no way of analytically organizing such a gemisch of drug-drug interactions with any logic that would allow a definitive interpretation."
+
+== Tolerance, cross-tolerance and the clean interval ==
+
+The reason combinations have to be spaced is that these compounds blunt each other. '''METHYL-DOB''' (#127) gives the mechanism in Shulgin's own register:
+
+: "The usual pattern that is seen when two psychedelic drugs are taken too closely together is that the second experience is less effective than would have been expected. This is the property that is called tolerance… It is as if the spirit of the receptor site had become a little tired and needed a while to rest up and recuperate… It is one of the built-in protections, in the area of psychedelics that, after one experience, you must wait for a period of time to lose the refractoriness that has set in."
+
+Two dosed studies are reported. '''DOM''' (#68): "Five volunteers were given 6 milligrams daily for three days… all found extremely intense effects on the first day, and all but one found it unpleasant. By the third exposure on the third day, all had diminished responses, ranging from only 'moderately strong' to 'felt absolutely nothing.' One actually slept during the experience on the third day."
+
+And '''MDMA''' (#109), a six-day series with a cross-tolerance probe:
+
+{| class="wikitable"
+! Day !! Dose !! Result
+|-
+| 1 || 120 mg at 9 AM || normal response
+|-
+| 2–6 || 160 mg each day at 9 AM || by day 5, no effects except mydriasis; by day 6, even the mydriasis is lost
+|-
+| 7 || 120 mg MDA || "substantially normal response" — proper chronology, teeth clench, slight decrease in mental change
+|-
+| after 6 drug-free days || 120 mg MDMA || "substantially full expected effects"
+|}
+
+The conclusion drawn in '''METHYL-DOB''' (#127): "The drugs are not cross-tolerant and the body recognizes them as distinct individuals." Cross-tolerance is treated there as an assay in its own right — a "measure of degree of tolerance shared between different drugs," usable as "an estimate of similarities of mechanisms of action." If a normally effective dose of A makes the next day's dose of B weaker, the body is treating them as one thing; if it does not, they are acting at different sites.
+
+The practical interval is in the glossary, under '''CLEAN''': for people continuously experimenting, "worried about the masking of effects due to tolerance or refractoriness, it is more likely to mean a period of four or five days."
+
+== The tomso effect: alcohol on an inactive compound ==
+
+'''TOMSO''' (#173) is the compound and also the verb. TOMSO proved inactive, and the finding came out of that failure:
+
+: "But the fallout of this study was the uncovering of an unusual property that alcohol can occasionally have when it follows the ingestion of certain inactive drugs. Or if it is used at the tail end of an experience with an active drug… But if there is a rekindling of the effect, rather than the sedation expected, then the verb 'to tomso' can be used in the notes. It represents the promotion of an inactive situation into an active one, with the catalysis of alcohol. But the effect is not that of alcohol."
+
+The practical content is small and real: the customary nightcap at the end of a session day is itself a drug interaction, and it can go the wrong way. Shulgin extends it into a hypothesis about alcoholism, flagged as speculation: "Might the extreme sensitivity of some alcoholics to even a small amount of alcohol be due to some endogenous 'inactive' factor that is promoted in this way into some centrally florid toxicity?… Maybe they are nothing more than psychedelics that are thought to be inactive, but which might be ignited with a glass of wine."
+
+'''METHYL-DOB''' (#127) collects three potentiation events of this shape and notes a pattern across them: METHYL-DOB sensitising a subject to a light 5 mg dose of psilocybin after 10 mg of METHYL-DOB; the inactive dextro-isomer of DOM followed by a severe reaction to "poor" hashish; and the TOMSO-plus-alcohol case. In each, a phenethylamine is interacting with a non-phenethylamine — an indole, a terpene, an alcohol.
+
+== Hazards the corpus reports ==
+
+Reported, not inferred: increased teeth clenching and eye twitching with supplements ('''MDMA''' #109, '''MDE''' #106); tremor and "eye-popping feelings" on the MDE→MDIP piggyback, where "the physical toxic effects outweighed the mental virtues" ('''MDIP''' #108); overwhelm when a large second dose lands on a residue ('''MDPR''' #118); next-day lethargy after MDMA sessions ('''MDMA''' #109); and unintended rekindling from end-of-day alcohol ('''TOMSO''' #173).
+
+The worst outcome in the book is not a combination at all but a substitution. '''DOB''' (#62) reports a death following snorting, with "over nine milligrams of the drug" recovered post-mortem, where "she and her companion had thought that the drug they were using was MDA and, taking a dosage appropriate for this, effectively overdosed themselves."
+
+== See also ==
+
+* [[The Shulgin Method Dose Escalation and the Research Group]]
+* [[Shulgin Rating Scale]]
+* [[PIHKAL and TIHKAL]]
+* [[Inert Alone Active Together Why Combinations Work]]
+* [[Bioavailability Metabolic Inhibition and Synergy]]
+* [[The Amplification Framework]]
+* [[Stack Substances]]
+* [[Molar Stoichiometry Powder Density and Tolerance Kinetics]]
+* [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]]
+* [[The 2C Series and Extended Phenethylamines]]
+* [[Psychedelic and Psychopharmacology Glossary]]
+* [[The Library of Ashurbanipal]]

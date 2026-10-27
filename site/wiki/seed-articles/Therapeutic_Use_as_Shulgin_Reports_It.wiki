@@ -1,0 +1,136 @@
+'''Therapeutic Use as Shulgin Reports It''' collects the clinical and therapeutic applications recorded in the '''EXTENSIONS AND COMMENTARY''' of ''PIHKAL'' (1991) and ''TIHKAL'' (1997) by Alexander and Ann Shulgin: DPT with alcoholic and with dying patients at stated intramuscular doses, 2C-D used as LE-25 in German therapeutic research, DOET in menstrual cramp at one milligram, the MDMA session and its sequencing, MDA's brief life as a pharmaceutical, and a short list of claims made once and never followed up. Doses and routes are given exactly as the corpus gives them.
+
+The epistemic standing is stated once. With the exception of the DPT work — clinical trials run by other investigators and reported here second-hand — these are '''reports, not trials''': unblinded, uncontrolled, mostly uncounted, drawn from self-selected subjects, and in several cases a single person observed twice. Nothing below establishes efficacy, and the corpus usually says so. What the record does establish is that these applications were tried, at these doses, by these routes, and what the people involved said.
+
+== DPT: alcoholic patients and dying patients ==
+
+The fullest therapeutic record in either book is '''DPT''' (N,N-dipropyltryptamine, ''TIHKAL'' #9) — the only place in the corpus where intramuscular dose ranges are given for named clinical populations.
+
+: "The earliest reports of human activity, at 1 mg/Kg, are mentioned under DMT. The clinical trials from which the 80 mg comment above was entered, were conducted on a population of physically sound alcoholics.
+:
+: "Studies using lower dosages of DPT (15-30 mg intramuscularly) have been explored as adjuncts to psychotherapy with alcoholic patients. The enhancement of recall of memories and experiences, the greater emotional expressivenes and self-exploration, coupled with a consistently short duration, made the drug very attractive. Higher doses, up in the 100 milligram range, have been explored in psychotherapy, in the quest for peak experiences. Yet another study, in exploring the interaction of therapy counseling and DPT-induced peak experiences with patients who are dying, the i.m. dosage range was between 75 and 125 milligrams."
+
+{| class="wikitable"
+! Population !! Dose and route
+|-
+| Physically sound alcoholics (trial population) || 80 mg; 1 mg/kg in earliest reports
+|-
+| Alcoholic patients in psychotherapy || '''15–30 mg intramuscularly'''
+|-
+| Psychotherapy, peak experiences || '''~100 mg'''
+|-
+| Dying patients, with therapy counselling || '''75–125 mg intramuscularly'''
+|}
+
+Two design features are worth separating. The '''dose-by-intent''' structure is explicit: 15–30 mg is an adjunct to talking, 75–125 mg is an attempt to induce a peak experience — two protocols, not two points on one curve. And the '''route is intramuscular throughout'''.
+
+The same entry records the religious use of DPT: "There is a rather remarkable religious group known as the Temple of the True Inner Light, in New York City, which has embraced as its Eucharist DPT which they refer to as a powerful Angel of the Host… I wish the True Inner Light congregation Godspeed, if you will excuse the expression." See [[Religious Sacraments RFRA and the Temple of True Inner Light]].
+
+=== A route caution from the neighbouring entry ===
+
+'''DET''' (''TIHKAL'' #3) is the reason not to read "all the published studies used route X" as "route X is the only one that works": "I have to bear the responsibility for much of the mythology that maintains that DET is only active by some parenteral route. All of the published human studies that explicitly mentioned dose and dosage, involved intramuscular administrations… I had assumed that it was inactive orally, and ha said so in a number of reviews that I had published over the years. As they say in Latin, mea culpa."
+
+The literature recorded what the clinics did, the clinics used one route, and a review-level generalisation about the molecule was built on that artefact.
+
+== 2C-D as LE-25: German therapeutic research ==
+
+'''2C-D''' (#22) is the one compound in ''PIHKAL'' with a European clinical name attached:
+
+: "Wow! This particular compound is what I call a pharmacological tofu… But a goodly number of experimental therapists have said that it is excellent in extending the action of some other materials. It seems to boost the waning action of another drug, without adding its own color to the experience. Yet, the comment above, on the high level of 150 milligrams, is a direct quote from the use of this compound in Germany (where it is called LE-25) in therapeutic research."
+
+Two distinct uses are described. At ordinary doses 2C-D is an '''extender''', carrying another compound's waning action without contributing a character of its own. At '''150 milligrams''' it is a therapeutic agent in its own right, and that figure comes directly from the German work under the designation LE-25. The entry does not name the clinic, the indication, the number of patients, or the outcome.
+
+== DOET in menstrual cramp: one milligram, two subjects ==
+
+'''DOET''' (#66) contains the corpus's most specific therapeutic observation, reported complete with its failure:
+
+: "The young experimental subject who had the dramatic relief from menstrual cramps at the one milligram dose tried the compound again the following month, and again had complete relief. But another volunteer, also plagued with severe cramping at that particular time of month, found no relief at all. A 50% success rate. No one else has, to my knowledge, explored this particular property."
+
+The entire evidence base is three administrations across two women: complete relief at '''1 mg''' twice in one subject, none in the other. "A 50% success rate" is Shulgin's joke at the expense of an n of 2; the last sentence is the real finding.
+
+The same entry gives DOET's other reputation and the legal reason it is thinly documented: "At modest levels, DOET has the reputation of being a cognitive enhancer and is largely free of those sensory distortions that would catch the attention of the authorities who cannot tolerate drugs that distort the senses. The higher levels mentioned here have never been put into the published literature." Once DOM was "quickly shuffled into a legal classification that effectively precluded any further study of it," reports on its homologue were kept to the lowest doses. The published literature on DOET is thin by design. See [[Publication Cognitive Liberty and the Analogue Act]].
+
+He also flags the variability that would wreck a fixed therapeutic dose: "there is a considerable variation of individual responses to this material. The effective dose range stated is quite broad."
+
+== The MDMA session ==
+
+'''MDMA''' (#109) records the session structure as a ''practice'' rather than a protocol — something that became customary rather than something designed and tested: "In clinical use, largely in psychotherapeutic sessions of which there were many in the early years of MDMA study, it became a common procedure to provide a supplemental dosage of the drug at about the one and a half hour point of the session."
+
+The numbers attached to that practice: a '''120 mg''' initial dose with a '''40 mg''' supplement at the '''1.5-hour''' point, extending effects by about an hour; a second supplement (40 mg at 2.5 hours) is rarely warranted; the costs are more teeth clenching and eye twitching, and next-day tiredness and lethargy, to be taken into account in planning a session.
+
+'''MDE''' (#106) gives the practice its history. The piggyback method — a ''different'' compound in place of the supplement — was "first discovered and explored with MDE" and "subsequently extended most successfully with MDMA." The design is to assay a modest quantity of an active material at the drop-off, exploiting "the open and benign state present," with the consequence that "only fraction of standard dosage necessary for full experience." In psychotherapy that becomes MDMA followed by a second material "to modify and expand opening." MDE's own supplements are '''50–75 mg''', usually at two hours.
+
+=== The second compound, and when it goes in ===
+
+'''2C-B''' (#20) states the timing rule that distinguishes this from simultaneous dosing:
+
+: "It appears that the optimum time for the 2C-B is at, or just before, the final baseline recovery of the MDMA. It is as if the mental and emotional discoveries can be mobilized, and something done about them. This combination has several enthusiastic advocates in the psychotherapy world, and should be the basis of careful research when these materials become legal, and accepted by the medical community."
+
+The last clause is the honest assessment of its own status: enthusiastic advocates, and no research. '''2C-T-2''' (#40) records the same arrangement with the sulfur compounds — "Both have been frequently used in therapy as follow-ups to MDMA" — distinguishing them physically: 2C-T-2 has "more of a tendency to have physical disturbances such as nausea and diarrhea" and a shorter course, while with 2C-T-7 "physical disturbances are less common, but you are into the effects for almost twice as long."
+
+'''MEM''' (#122) gives the belief that motivated the sequence: "the ease and quietness usually seen with the development of the MDMA experience can mitigate some of the physically disturbing symptoms sometimes seen with other psychedelics… partly due to a familiar entry into an altered place, and partly due to a lessening of dosage usually required for full effects." That is a hypothesis held by "a number of researchers," not a result.
+
+=== Compounds assessed against MDMA for the same work ===
+
+Several entries assess whether a near-neighbour could do MDMA's job, on therapeutic rather than chemical criteria.
+
+* '''METHYL-J''' (#128) — "although most subjects commented favorably in their comparisons of METHYL-J with MDMA, there was lacking some of the spontaneity, the warmth, and the clear intimacy of the latter drug… The typical supplement used, if any, was 70 milligrams or less, just before the two hour point."
+* '''FLEA''' (#81) — almost identical in dose and duration, "not quite as enabling for closeness with others," more introspective: "Were MDMA unknown, this material would have played its role completely."
+* '''MDE''' (#106) — the failure case: the "particular magic and affective transference" is not there, instead a "stoning intoxication like MDA."
+
+All three measure the same narrow thing: whether two people can talk to each other.
+
+== MDA as a pharmaceutical ==
+
+'''MDA''' (#100) records one compound in this family that reached a drug company's pipeline: trade name '''Amphedoxamine''' (SKF-5), pursued as an anorexic agent and held to show promise in psychoneurotic depression, with the entry pointing to Claudio Naranjo's ''The Healing Journey''. '''ARIADNE''' (#8), the alpha-ethyl homologue of DOM, is the other — developed commercially as '''Dimoxamine''' (the entry notes "Ariadnamine" was rejected), with patent coverage on the R isomer for restoring motivation in senile geriatric patients. The supporting animal work was a cat test showing it was not hallucinogenic (no tail erection, unlike DOM) and a monkey test in which old maze-running monkeys "changed their minds." It did not reach the market.
+
+== Claims made once and never followed up ==
+
+These were reported, not pursued, and are recorded here precisely because the record is that thin.
+
+{| class="wikitable"
+! Entry !! Claim !! What the evidence actually is
+|-
+| '''DOET''' (#66) || Relief of menstrual cramp at 1 mg || 2 subjects, 3 administrations, one responder; never re-examined
+|-
+| '''4-BR-3,5-DMA''' (#18) || Analgesia || "two independent reports of analgesia, yet a thorough screen in experimental animals… failed to confirm any of it"
+|-
+| '''MMDA-3a''' (#134) || Possible antidepressant || Inferred from a flat dose-response: "The fact that there can be such a modest change of effect over a three-fold range of dosage suggests that this compound might have some merit as an anti-depressant."
+|-
+| '''DMCPA''' (#56) || Possible MAO-inhibitor action || "This material is intimately related to tranylcypromine, a clinically proven antidepressant… it is certainly possible that some of this pharmacological property might be found in DMCPA if it were to be looked for."
+|-
+| '''IM''' (#91) || Differential action in schizophrenia || A fifty-year-old claim that 2,3,4-trimethoxyphenethylamine "has little action in healthy individuals, being almost without intoxicating properties, but it is very potent in the schizophrenic." Shulgin: "The promised further studies have never appeared, so all may be forgotten."
+|-
+| '''DIPT''' (''TIHKAL'' #4) || Research tool, not therapy || Proposed as a probe for the brain's pitch centre via carbon-11 labelling and PET: "Will we highlight the auditory cortex?… If you don't look, you won't find."
+|}
+
+The '''4-BR-3,5-DMA''' case is the most instructive, because the same entry supplies the methodological reason the human reports could mislead: "A ++ report does not necessarily reflect a psychedelic effect, since this quantitative measure of the level of activity represents the extent of impairment of function, regardless of the nature of the drug producing it… Perhaps 4-BR-3,5-DMA showed its ++ as a narcotic. But then, the rats had said no." The '''IM''' entry names what stopped its own follow-up, and it is not scientific: "What must be addressed are the present regulatory restrictions and the Federal law structure. And these are formidable obstacles."
+
+== Harms reported in these settings ==
+
+Reported in the corpus:
+
+* '''MMDA-3a''' (#134) — "One subject had a spontaneous peak experience five days after the experiment, and another made a symbolic suicide attempt." Both are delayed, after the session had ended.
+* '''2C-B''' (#20) — two overdoses are printed in full. At 64 mg, taken by a physician who found 20 mg mild and took the remaining 44: "I was propelled into something not of my choosing. Everything that was alive was completely fearsome." At 100 mg, taken accidentally — "I had weighed correctly. I had simply picked up the wrong vial" — the subject believed for two hours that he was dying.
+* '''5-TOM''' (#172) — "more negative reports than positive ones… And that one case of a catatonic response."
+* '''MDMA''' (#109) — next-day tiredness and lethargy.
+
+Setting is part of the protocol, not decoration. '''2C-G-3''' (#28): "There is an ease of communication, but only within surroundings that are well-known and friendly. This might be a truly frightening experience if it were in an unfamiliar or unstructured environment."
+
+== What the therapeutic record amounts to ==
+
+One genuinely clinical programme reported second-hand (DPT, at stated intramuscular doses); one foreign clinical designation with a single dose and no outcome data (2C-D as LE-25 at 150 mg); one well-attested community practice with a chronology and no trial behind it (the MDMA session); two compounds that entered pharmaceutical development and left it; and a half-dozen single observations never repeated.
+
+Shulgin's position on that last category is in the '''IM''' entry, about a claim he had every reason to doubt: "This is a pretty rich offering, and one that the present medical community has no qualms about discarding… But maybe these findings are valid." The value of the record is that it preserves the questions in a form specific enough to test — a dose, a route, a population.
+
+== See also ==
+
+* [[Combination Practice Sequencing and Tolerance in the Shulgin Corpus]]
+* [[The Vocabulary of Subjective Effect in PIHKAL]]
+* [[The Shulgin Method Dose Escalation and the Research Group]]
+* [[PIHKAL and TIHKAL]]
+* [[Religious Sacraments RFRA and the Temple of True Inner Light]]
+* [[Publication Cognitive Liberty and the Analogue Act]]
+* [[The Tryptamine Family and Endogenous Neurochemistry]]
+* [[Psychedelic and Psychopharmacology Glossary]]
+* [[The Library of Ashurbanipal]]
