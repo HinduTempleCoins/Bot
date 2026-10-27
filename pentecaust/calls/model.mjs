@@ -22,6 +22,8 @@
 //
 // House style: ESM, pure where it can be, injectable clock + store for tests, soft-fail-never-throw.
 
+import { createHmac } from 'node:crypto';
+
 const str = (s) => String(s == null ? '' : s).trim();
 const now = (opts) => (opts && typeof opts.now === 'function' ? opts.now() : Date.now());
 
@@ -225,19 +227,53 @@ export function pair(opts = {}) {
  * What the browser needs to traverse NAT.
  *
  * STUN alone gets most consumer connections through. It does NOT get through symmetric NAT or
- * restrictive corporate firewalls — in practice a double-digit percentage of pairs — and those need
- * a TURN relay, which carries the media and therefore costs real bandwidth. Without TURN configured
- * this returns STUN only and `relay:false`, so the UI can say "some connections will fail" honestly
- * instead of the call simply never connecting.
+ * restrictive corporate firewalls, and those need a TURN relay, which carries the media and
+ * therefore costs real bandwidth. Without TURN configured this returns STUN only and `relay:false`,
+ * so the UI can say "some connections will fail" honestly instead of the call never connecting.
+ *
+ * ⭐ TWO WAYS TO AUTHENTICATE TO TURN, and the second is the one to use.
+ *
+ *   STATIC   PENTECAUST_TURN_USER + PENTECAUST_TURN_PASS. One username and password, handed to
+ *            every browser that loads the page. Anyone who opens devtools has your relay for as
+ *            long as you leave it unchanged, and there is no way to revoke one user.
+ *
+ *   EPHEMERAL  PENTECAUST_TURN_SECRET, matching coturn's `use-auth-secret` (the TURN REST API,
+ *            RFC 7635 in spirit). The username is `<unix-expiry>:<account>` and the credential is
+ *            base64(HMAC-SHA1(secret, username)). Credentials are per-account, expire by default
+ *            after an hour, and the shared secret never leaves the server. This is what coturn is
+ *            configured for on the host.
+ *
+ * Ephemeral wins when both are present.
  */
-export function iceConfig(env = process.env) {
+export function iceConfig(env = process.env, account = '', opts = {}) {
   const stun = String(env.PENTECAUST_STUN || 'stun:stun.l.google.com:19302')
     .split(',').map((s) => s.trim()).filter(Boolean);
   const servers = stun.map((urls) => ({ urls }));
-  const turnUrl = String(env.PENTECAUST_TURN_URL || '').trim();
-  const turnUser = String(env.PENTECAUST_TURN_USER || '').trim();
-  const turnPass = String(env.PENTECAUST_TURN_PASS || '').trim();
-  const relay = !!(turnUrl && turnUser && turnPass);
-  if (relay) servers.push({ urls: turnUrl.split(',').map((s) => s.trim()).filter(Boolean), username: turnUser, credential: turnPass });
-  return { iceServers: servers, relay, note: relay ? 'TURN relay configured' : 'STUN only — connections behind symmetric NAT will fail until TURN is configured' };
+
+  const turnUrls = String(env.PENTECAUST_TURN_URL || '').split(',').map((s) => s.trim()).filter(Boolean);
+  const secret = String(env.PENTECAUST_TURN_SECRET || '').trim();
+  const user = String(env.PENTECAUST_TURN_USER || '').trim();
+  const pass = String(env.PENTECAUST_TURN_PASS || '').trim();
+
+  if (turnUrls.length && secret) {
+    const ttl = Math.max(60, Number(env.PENTECAUST_TURN_TTL || 3600) || 3600);
+    const cred = turnCredentials(secret, account || 'guest', ttl, opts);
+    servers.push({ urls: turnUrls, username: cred.username, credential: cred.credential });
+    return { iceServers: servers, relay: true, mode: 'ephemeral', expiresAt: cred.expiresAt, note: 'TURN relay with time-limited credentials' };
+  }
+  if (turnUrls.length && user && pass) {
+    return { iceServers: [...servers, { urls: turnUrls, username: user, credential: pass }], relay: true, mode: 'static', note: 'TURN relay with a static credential — prefer PENTECAUST_TURN_SECRET' };
+  }
+  return { iceServers: servers, relay: false, mode: 'none', note: 'STUN only — connections behind symmetric NAT will fail until TURN is configured' };
+}
+
+/**
+ * coturn's shared-secret scheme: username is `<expiry>:<account>`, password is the base64 HMAC-SHA1
+ * of that username under the shared secret. Pure apart from the clock, which is injectable.
+ */
+export function turnCredentials(secret, account, ttlSeconds = 3600, opts = {}) {
+  const expiresAt = Math.floor(now(opts) / 1000) + Math.max(60, Number(ttlSeconds) || 3600);
+  const username = `${expiresAt}:${String(account || 'guest').replace(/:/g, '_')}`;
+  const credential = createHmac('sha1', String(secret)).update(username).digest('base64');
+  return { username, credential, expiresAt };
 }

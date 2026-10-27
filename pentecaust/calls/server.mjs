@@ -92,10 +92,11 @@ export async function handler(req, res, deps = {}) {
   try {
     if (req.method === 'GET' && (p === '/' || p === '/calls')) {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
-      return res.end(page(me, iceConfig(), { surface: String(deps.surface || 'unconfigured'), meshLimit: MESH_SOFT_LIMIT, mount }));
+      return res.end(page(me, iceConfig(process.env, me || '', opts), { surface: String(deps.surface || 'unconfigured'), meshLimit: MESH_SOFT_LIMIT, mount }));
     }
 
-    if (p === '/ice' && req.method === 'GET') return json(res, 200, { ok: true, ...iceConfig() });
+    // Credentials are minted per account and expire, so this is deliberately not cached.
+    if (p === '/ice' && req.method === 'GET') return json(res, 200, { ok: true, ...iceConfig(process.env, me || '', opts) });
 
     if (p === '/whoami' && req.method === 'GET') return json(res, 200, { ok: true, account: me || null });
 

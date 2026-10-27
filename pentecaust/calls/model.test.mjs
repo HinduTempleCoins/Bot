@@ -8,7 +8,7 @@ import {
   block, unblock, blocked, blocklist, report, reports,
   createRoom, joinRoom, leaveRoom, getRoom, roomsFor, MESH_SOFT_LIMIT,
   joinQueue, leaveQueue, queueLength, pair,
-  iceConfig, PRESENCE_TTL_MS, MAIL_TTL_MS,
+  iceConfig, turnCredentials, PRESENCE_TTL_MS, MAIL_TTL_MS,
 } from './model.mjs';
 
 const clock = (start = 1_000_000) => { let t = start; return { now: () => t, tick: (ms) => { t += ms; } }; };
@@ -164,14 +164,53 @@ test('leaving the queue and going offline both remove you', () => {
 test('ICE config is honest about whether a relay exists', () => {
   const noTurn = iceConfig({});
   assert.equal(noTurn.relay, false);
+  assert.equal(noTurn.mode, 'none');
   assert.match(noTurn.note, /STUN only/);
   assert.ok(noTurn.iceServers.length >= 1);
 
-  const withTurn = iceConfig({ PENTECAUST_TURN_URL: 'turn:t.example:3478', PENTECAUST_TURN_USER: 'u', PENTECAUST_TURN_PASS: 'p' });
-  assert.equal(withTurn.relay, true);
-  const relayEntry = withTurn.iceServers.find((s) => s.username === 'u');
-  assert.ok(relayEntry, 'credentials are passed through for the relay');
-
   const partial = iceConfig({ PENTECAUST_TURN_URL: 'turn:t.example:3478' });
   assert.equal(partial.relay, false, 'a half-configured TURN must not claim a relay');
+});
+
+test('a static TURN credential works but says it is the lesser option', () => {
+  const c = iceConfig({ PENTECAUST_TURN_URL: 'turn:t.example:3478', PENTECAUST_TURN_USER: 'u', PENTECAUST_TURN_PASS: 'p' });
+  assert.equal(c.relay, true);
+  assert.equal(c.mode, 'static');
+  assert.match(c.note, /prefer PENTECAUST_TURN_SECRET/);
+  assert.ok(c.iceServers.find((s) => s.username === 'u'));
+});
+
+test('EPHEMERAL credentials: per-account, time-limited, and the secret never ships', () => {
+  const c = clock(1_700_000_000_000);
+  const env = { PENTECAUST_TURN_URL: 'turn:t.example:3478', PENTECAUST_TURN_SECRET: 'sh4red', PENTECAUST_TURN_TTL: 3600 };
+  const alice = iceConfig(env, 'alice', c);
+  assert.equal(alice.relay, true);
+  assert.equal(alice.mode, 'ephemeral');
+  const entry = alice.iceServers.find((s) => s.username);
+  assert.match(entry.username, /^\d+:alice$/, 'username is <expiry>:<account>');
+  assert.equal(entry.username.split(':')[0], String(1_700_000_000 + 3600));
+  assert.ok(entry.credential && entry.credential.length > 10);
+  assert.ok(!JSON.stringify(alice).includes('sh4red'), 'the shared secret must never reach the browser');
+
+  const bob = iceConfig(env, 'bob', c);
+  assert.notEqual(bob.iceServers.find((s) => s.username).credential, entry.credential, 'credentials are per-account');
+});
+
+test('ephemeral beats static when both are configured', () => {
+  const c = iceConfig({
+    PENTECAUST_TURN_URL: 'turn:t.example:3478',
+    PENTECAUST_TURN_SECRET: 's', PENTECAUST_TURN_USER: 'u', PENTECAUST_TURN_PASS: 'p',
+  }, 'alice');
+  assert.equal(c.mode, 'ephemeral');
+});
+
+test('turnCredentials matches coturn: base64 HMAC-SHA1 of the username under the secret', async () => {
+  const { createHmac } = await import('node:crypto');
+  const c = clock(1_700_000_000_000);
+  const got = turnCredentials('sh4red', 'alice', 600, c);
+  assert.equal(got.username, `${1_700_000_000 + 600}:alice`);
+  const want = createHmac('sha1', 'sh4red').update(got.username).digest('base64');
+  assert.equal(got.credential, want);
+  assert.equal(turnCredentials('s', 'a:b', 600, c).username.split(':').length, 2, 'a colon in an account cannot forge the expiry field');
+  assert.ok(turnCredentials('s', 'a', 1, c).expiresAt >= Math.floor(c.now() / 1000) + 60, 'a silly TTL is floored, not honoured');
 });
