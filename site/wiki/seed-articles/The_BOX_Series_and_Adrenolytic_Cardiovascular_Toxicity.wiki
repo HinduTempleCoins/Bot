@@ -1,0 +1,133 @@
+'''The BOX Series and Adrenolytic Cardiovascular Toxicity''' covers the beta-oxygen phenethylamines of ''PIHKAL'' (Alexander Shulgin, 1991) — BOD, BOB, BOH, BOM and their four-letter relatives BOHD, BOAD, BOED and BOHH, together with the plain beta-ethanolamine DME. It is the one family in the book whose characteristic problem is not a bad head but a bad body: Shulgin reports a '''potent cardiovascular effect''' for BOHD, names '''adrenolytic toxicity''' as the likely reason, calls BOAD a '''hypotensive''', and writes of the whole series that there are "''overtones of physical concern, and of some worry as to the integrity of the body''". The structural argument he gives for why — that a beta-ethanolamine is the same molecular shape as a clinical beta-blocker — is the most specific hazard reasoning anywhere in the corpus, and it is worth reading closely rather than summarising.
+
+== The epistemic standing of this record ==
+
+Stated once, as it must be for every article drawn from this corpus. Everything below comes from '''unblinded self-report''' by Shulgin and a small research group, escalating by hand from sub-threshold doses, with no placebo arm and no blinding. For the BOX series this cuts in a particular direction: the cardiovascular observations are ''uninstrumented''. No blood-pressure traces, no ECG, no cuff readings are reported. "Potent cardiovascular effect" and "hypotensive" are a chemist's description of what a body did, written by a man who knew exactly what class of drug he had made — more credible as a structural inference than as a measurement, and silent on the size of the effect.
+
+== What BOX means ==
+
+The family name is a pun on its own structure. From the BOD entry (entry 14), the first member made:
+
+:"''This family is called the BOX series, a code that is derived from the unique Beta-methOXy group which is their common feature. The letters B-O-X define an unchanging structural feature, and one needs only add a suffix letter to indicate a specific member of this family. That letter is directly related to the 4-position substituent.''"
+
+So the three-letter codes read as ''beta-oxygen'' plus a parent:
+
+* '''BOD''' — "''The letter 'D' is related to desoxy or methyl, as in DOM''"
+* '''BOB''' — "''The term BOB comes from the bromine''"
+* '''BOH''' — "''BOH from the 2-hydroxy (beta-methoxy-2C-H)''"
+* '''BOM''' — "''BOM from the methoxy''"; BOM's entry (17) adds that the name comes from the family prefix "''(from benzyl + oxy), plus the ⟨M⟩ of mescaline (which has provided the ring substitution pattern)''"
+
+The four-letter extension is set out in the BOHD entry (16), and it is where the family's chemistry actually lives:
+
+:"''(1) to use ⟨BO⟩ as the alert to there being an oxygen on the benzyl carbon of a phenethylamine (it is a benzyl alcohol); (2) if there is just one more letter (a third and last letter) it will identify the 2C-X parent from which it has been derived [⟨B⟩ comes from 2C-B, ⟨D⟩ comes from 2C-D, ⟨H⟩ comes from homopiperonylamine (MDPEA) rather than from 2C-H, ⟨M⟩ comes from mescaline, and in every case the beta-substituent is a methoxy group]; and (3) if there are four letters, then the fourth letter is as above, and the third letter (the next to last letter) is the substituent on that benzylic oxygen.''" (entry 16)
+
+In the corpus text the single quoted letters in that passage carry stray marker characters from the digitisation; the letters in angle brackets above are those quoted letters, normalised. Nothing else in the sentence is changed.
+
+With three letters the beta-substituent is a '''methyl ether'''. With four letters, the third letter says what is hanging on the beta-oxygen: '''H''' for a free hydroxyl, '''A''' for an acetyl, '''E''' for an ethyl. BOHD is therefore the free beta-alcohol of the BOD ring pattern; BOAD is its acetate; BOED is the beta-ethyl ether of BOD; BOHH is the free beta-alcohol on the homopiperonylamine ring. Shulgin compares the scheme, with evident pleasure, to Du Pont's refrigerant codes — "''A similar sort of cryptographic music was composed by Du Pont in their three-number codes for the Freons''" — and defends both: "''Complex, yes. But both systems are completely straightforward, and flexible for future creations.''" The wider naming logic is in [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]].
+
+== What the beta-oxygen does to the molecule ==
+
+<code>
+      ring                  chain
+   ┌─────────┐        β-carbon   α-carbon
+   │  2-OMe  │────────── C ───────── C ────── NH2
+   └─────────┘           │
+                         O─R      R = Me  (three-letter code, e.g. BOD)
+                         ⋮            H   (BOHD — free alcohol)
+                         ⋮            Ac  (BOAD — acetate)
+                         ⋮            Et  (BOED)
+                         ⋮
+            H-bond to the ring 2-methoxy oxygen
+            closing a six-membered ring
+</code>
+
+The dotted line is the whole argument. From entry 16:
+
+:"''Another point involves the proximity of the beta-hydroxy group and the methoxyl oxygen atom in the 2-position of the ring. There is going to be a strong hydrogen-bonding with this orientation, with the formation of a stable six-membered ring. This might help obscure the hydrophilic nature of the free hydroxyl group and allow the compound to pass into the brain easily.''"
+
+A free hydroxyl is normally a brain-entry veto. The ''PIHKAL'' statement of the rule is in MDHOET (entry 107): "''Most compounds with bare, exposed polar groups like hydroxyls are not centrally active, as they simply do not have any way of getting into the brain.''" The BOX geometry is the exception — the hydroxyl is not exposed, because it is folded back and tied to the ring's own 2-oxygen. The same reasoning runs in reverse for the acetate: mask the hydroxyl with an easily hydrolysed ester and it still gets in, which is why BOAD behaves like BOHD.
+
+== The cardiovascular problem, in Shulgin's own terms ==
+
+The key passage, entry 16, opens with the question rather than the answer:
+
+:"''Why the potent cardiovascular effect seen by this compound? There are a couple of points that might argue for some adrenolytic toxicity. This material is a beta-ethanolamine and, with maybe one or two exceptions, clinically used beta-receptor blockers are beta-ethanolamines. In fact, a few of these so-called beta-blockers actually have two methoxy groups on the aromatic rings, also a property of BOHD. The antidiabetic drug Butaxamine (BW 64-9 in the code of Burroughs Wellcome) is identical to BOHD except that the 4-methyl group is on the alpha-carbon instead, and there is a tertiary butyl group on the nitrogen atom.''"
+
+Three structural facts are being stacked:
+
+# A '''beta-ethanolamine''' — an aryl group, a CH(OH), a CH<sub>2</sub>, an amine — is the generic skeleton of the clinical beta-adrenergic blockers. That is not an analogy; it is the same pharmacophore.
+# '''Two aromatic methoxy groups''' appear on some of those marketed beta-blockers, and BOHD carries two as well.
+# '''Butaxamine''' (BW 64-9), an antidiabetic beta-antagonist, differs from BOHD by moving one methyl from the ring 4-position to the alpha-carbon and adding a ''t''-butyl on the nitrogen. Two small edits away from a drug sold to block beta receptors.
+
+And the acetate inherits it: "''If this group is masked by an easily removed group such as an acetate ester, one gets the compound beta-acetoxy-3,4-dimethoxy-4-methylphenethylamine (BOAD) which is similar to BOHD as a hypotensive.''"
+
+'''Read practically:''' this is not a rough body load or an uncomfortable come-up. It is a report that a compound made as a candidate psychedelic acted on the cardiovascular system the way a cardiac drug does, with '''hypotension''' the named effect. The corpus states no dose for BOHD, no duration, no magnitude of blood-pressure change and no countermeasure, and none should be inferred. What it does state is a mechanism class — adrenolytic — and a direction: pressure down. Anything in this family with a free or esterified beta-hydroxyl is, on Shulgin's own reading, closer to a cardiovascular drug than to a psychedelic.
+
+== DME, norepinephrine, and imitating a transmitter too well ==
+
+DME (entry 57) is the plain case: 3,4-dimethoxyphenyl-beta-ethanolamine, the same skeleton with the oxygens in the catecholamine positions.
+
+:"''The rationale for exploring the beta-hydroxylated phenethylamines, especially those with oxygens at the biologically important 3- and 4-positions, has already been presented. Norepinephrine is a beta-hydroxylated phenethylamine with oxygens at these two ring positions. With DME, these are masked as two methyl ethers.''"
+
+The methylenedioxy version, BOHH, is the direct analogue of norepinephrine, and it does nothing: "''BOHH, or 3,4-methylenedioxy-beta-hydroxyphenethylamine, or 3,4-methylenedioxy-beta-ethanolamine, has also be assayed in man at up to 100 milligrams without any effects, and must be considered, as of now, to be inactive centrally.''" The DME entry closes by pointing back at the hazard: "''The possible toxic roles of beta-ethanolamines as potential adrenolytic agents, have been discussed in the BOHD recipe.''"
+
+BOH (entry 15) draws the theoretical moral — "''Maybe there is something to the concept that when you imitate a neurotransmitter too closely, you get a hybrid gemisch of activity''" — and offers the prodrug reading: "''BOH may well act in the body as a pro-drug to norepinephrine, but with the temporary blocking of the polar functions with ether groups, it can gain access to the brain. And once there, it can be stripped of these shields and play a direct neurological role.''" The tryptamine parallel he draws — alpha,O-dimethylserotonin, with an O-ether to hide the phenol's polarity and an alpha-methyl to block deaminase — is "''an uncanny analogy''".
+
+The BOD entry walks the underlying biochemistry explicitly: tyrosine decarboxylates to tyramine, tyramine ''para''-hydroxylates to dopamine, dopamine ''beta''-hydroxylates to norepinephrine; drop the ''para''-hydroxyl and the parallel ladder runs phenylalanine → phenethylamine → phenylethanolamine → octopamine, the last "''first found in nature, not in the human, but in the salivary glands of the octopus''". See [[Catecholamines Transporters and Monoamine Reuptake]].
+
+== What the members actually did ==
+
+{| class="wikitable"
+! Code !! Entry !! Beta-substituent !! Reported in the corpus
+|-
+| '''BOD''' || 14 || methoxy || First member made; the reference compound of the series
+|-
+| '''BOED''' || 14 (comments) || ethoxy || "''At levels between 70 and 75 milligrams, there was a consistent experience of about 10 hours duration, distinctly less intense than BOD itself. Higher levels have not been explored.''"
+|-
+| '''BOB''' || 13 || methoxy || "''the most potent of the BOX series''"; "''overtones of physical concern, and of some worry as to the integrity of the body''"
+|-
+| '''BOH''' || 15 || methoxy || "''a nice, mild mood enhancement in the 20-40 milligram dosage area''"; at higher levels "''a strange mix of some sort of an altered state along with bodily discomfort''"
+|-
+| '''BOM''' || 17 || methoxy || "''indicators of central activity with assays involving both the 120 milligram and the 180 milligram levels, but nothing that can be rated as over a plus one''"; extrapolated active range 200–400 mg, "''at the moment, it remains unknown''"
+|-
+| '''BOHD''' || 16 || free hydroxyl || "''potent cardiovascular effect''"; adrenolytic toxicity proposed; no dose stated in the corpus
+|-
+| '''BOAD''' || 16 (comments) || acetate || "''similar to BOHD as a hypotensive''"
+|-
+| '''BOHH''' || 57 || free hydroxyl || assayed "''up to 100 milligrams without any effects''"; "''inactive centrally''"
+|-
+| '''DME''' || 57 || free hydroxyl || the 3,4-dimethoxy beta-ethanolamine; the norepinephrine mask
+|}
+
+One number in that table governs the rest. BOM's entry reasons that the beta-methoxy buys a factor of about one to two over the compound without it — "''the potency is about equal to, or a little more (up to a factor of maybe x2), than the analogue without the methoxyl group on the aliphatic chain''". The beta-oxygen is, in short, roughly '''potency-neutral''': whatever the group costs in body load, it is not paying back in milligrams.
+
+== Chirality, and the one piece of advice he gives ==
+
+The beta-carbon is asymmetric, so every BOX compound made by these routes is a racemate: "''the synthetic material will always be the 50/50 mixture known as the racemate''" (entry 14). BOB's entry adds the ''threo''/''erythro'' layer and calls the whole question "''terra incognita''". Which produces the only piece of plain caution in the family, in BOH:
+
+:"''Somehow the quiet voice deep inside me says, don't use too much, too quickly. Maybe one of the optical isomers is the body thing, and the other isomer is the mind thing. So far, only the racemic mixture has been tasted, to the best of my knowledge.''"
+
+That is a testable hypothesis dressed as an intuition, and it has a harm-reduction edge: if the cardiovascular liability and the psychoactivity live on different enantiomers, every reported dose of a BOX compound has delivered a full share of the bad one. Nobody has separated them.
+
+== A code collision worth knowing ==
+
+Shulgin's own warning, entry 57: "''beware of the use of the code name MDE in the very old literature. It might be this BOHH compound.''" He had originally called BOHH ''methylenedioxyethanolamine'' — MDE — "''but that code has been, since 1975, used exclusively for 3,4-methylenedioxy-N-ethylamphetamine''". Two entirely different molecules, one three-letter code, split by a date: in pre-1975 literature '''MDE''' may mean the inactive beta-ethanolamine rather than the N-ethyl entactogen.
+
+== The verdict he filed ==
+
+BOHD's entry closes the family off: "''A few additional examples of similar beta-ethanolamines are scattered throughout Book II and they have, in general, proved to be uninteresting, at least as potential psychedelic compounds.''" BOB's closes it with a request:
+
+:"''There may well be a separation of activity with the two optical isomers, but there is not a tremendous push to explore this particular family much further. They can't all be winners, I guess... All this is terra incognita, and must someday be looked into. It is chemically simple, and pharmacologically provocative. Someone, somewhere, someday, answer these questions!''"
+
+The pairing is the useful part of the record. The BOX series is a '''negative result with a mechanism attached''' — not "this did nothing", but "this did the wrong thing, here is the receptor class it probably did it at, and here is the marketed drug it looks like". That is a far more useful null than silence, and it is why the family is published at full length despite being, on Shulgin's own assessment, a dead end.
+
+== See also ==
+
+* [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]] — the three- and four-letter code systems in full
+* [[Inactive Compounds and the Publishing of Negative Results]] — why a dead family gets written up anyway
+* [[Catecholamines Transporters and Monoamine Reuptake]] — norepinephrine, octopamine and the beta-hydroxylation step
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]] — the 2C-B, 2C-D and mescaline parents the BOX codes point back to
+* [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]] — racemates, enantiomers and split activity
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] · [[Chain Length the Bushy End and the Duration of Action]]
+* [[The Shulgin Method Dose Escalation and the Research Group]] · [[Shulgin Rating Scale]] · [[Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem]]
+* [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Structure Activity Relationships in Psychopharmacology]]

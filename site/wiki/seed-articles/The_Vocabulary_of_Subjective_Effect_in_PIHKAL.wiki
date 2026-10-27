@@ -1,0 +1,127 @@
+'''The Vocabulary of Subjective Effect in PIHKAL''' is the working language the Shulgin research group built so that reports from different people about different compounds could be laid side by side. It is set out in Appendix B of ''PIHKAL'' (Alexander and Ann Shulgin, 1991), a glossary of eighty-nine terms, and extended in the '''EXTENSIONS AND COMMENTARY''' of the compound entries, where several of the words were coined. This article covers the chronology, body, level and person words, and two pieces of theory the vocabulary exists to serve — the '''Beth state''' and the Fourier model of a drug's action, both from '''ALEPH-7''' (#7). The numeric intensity scale is a separate instrument, covered at [[Shulgin Rating Scale]] and not restated here.
+
+The glossary describes itself as "a dictionary of terms that have commonly been used in and about the area of psychedelic drug experimentation. Many of these are common words, but in immediate application to this particular area of inquiry, they can carry different meanings than usual." Stated once: every term below describes unblinded self-report from a small circle of experienced subjects. The vocabulary makes those reports commensurable; it does not make them controlled data.
+
+== The chronology ==
+
+The glossary fixes a six-stage time-course under '''DEVELOPING''': "The temporal sequence terminology is: taking the drug, alerting, developing, plateauing, declining, and reestablishment of (or being at) baseline."
+
+<code>
+  TAKING → ALERT → DEVELOPING → PLATEAU → DECLINE → BASELINE
+  (launching)      (transition)  (max)    (drop-off) (experiment ends)
+</code>
+
+* '''TAKING''' — the ingestion, often ritualised: "a toasting and clinking of glasses, the recital of an favorite prayer, or a touching of hands and brief silence."
+* '''PLATEAU''' — "The period of time spent at the level of maximum effect of whatever drug has been ingested, at the particular dosage given… As a verb, 'to plateau' means to reach that level of drug effect."
+* '''DECLINE''' — the loss of effect and return of baseline; "from person to person, this is the most variable of the time periods in a drug experiment."
+* '''BASELINE''' — the pre-experiment state "which, once regained, marks the end of that experiment."
+
+'''2C-E''' (#24), on its 5-ethoxy homologue: "Some 3 to 4 hours were needed to achieve plateau, and on occasion experiments were interrupted with Valium or Halcion at the 16 hour point."
+
+=== ALERT ===
+
+'''ALERT''' is the most carefully defined word in the glossary, and the definition contains an argument:
+
+: "The first clue that a drug will show activity. Each researcher, with experience, comes to recognize his own personal alert. It may be a tinge of lightheadedness, a chill, or a brief raising of the hair on his neck, and simply serves as a reminder that he took something half an hour (or a couple of hours) ago… Each person's alert tends to be experienced consistently, regardless of the nature of the drug being researched."
+
+The alert is a property of the observer, not of the compound. It carries one bit of information — ''something is happening'' — and never says what. '''DOM''' (#68) shows the cost of reading it as a potency report: DOM's full impact comes at about two hours, while LSD "can show its alert in 15 to 20 minutes." Users familiar with LSD "assumed, when there was little if any activity noted at the half-hour point, that the potency was less than expected. They took one or even two additional dosage units. Thus, some of the overdose victims of that period may well have taken as much as 30 mg of DOM."
+
+== Body words ==
+
+'''BODY LOAD''' is tracked as a separate axis from intensity, and in the corpus it is the usual reason a run-up stops:
+
+: "Any sense of unease in the physical body, such as nausea, aching, heaviness, or the feeling of being 'wired,' or over-stimulated. For some people, diarrhea is considered a form of body load, while for others it is an expected part of most psychedelic experiments, and is regarded as a welcome cleaning out of the system."
+
+Applied verdicts read that way. '''ASB''' (#9), asymbescaline: "The consensus from over a half dozen experiments is that there is not enough value to be had to offset the body load experienced." '''2-TOET''' (#169): "There is an understandable reluctance to push on upwards in dosage with a new and unknown compound, when there are feelings of physical discomfort that outweigh the mental effects… Instinct said to leave it alone. So I left it alone."
+
+{| class="wikitable"
+! Term !! Glossary definition, abridged
+|-
+| '''PARESTHESIA''' || "tingling, pins-and-needles, or hair standing on end"; may take the form of a chill
+|-
+| '''ENERGY TREMOR''' || heightened responsiveness, felt as a fine body tremor or as excitement
+|-
+| '''WIRED''' || "a condition of intense neurological alertness"
+|-
+| '''DARTING''' || a sudden muscular contraction, often on falling asleep at a plus two
+|-
+| '''MYDRIASIS''' || pupil enlargement — the last sign to vanish under tolerance
+|}
+
+== Perceptual words, and the distinction the book insists on ==
+
+''PIHKAL'' is firm that these compounds do not, as a rule, hallucinate. '''HALLUCINOGENS''' is "a misleading and inaccurate synonym for psychedelic drugs." What they do instead splits three ways: '''IMAGERY''' is eyes-closed and "disappears upon the opening of the eyes"; '''VISUALS''' are eyes-open and "not hallucinations, since they are known by the subject to be apparent and not objectively real"; '''FANTASY''' is the one that can be mistaken for reality, "the eyes-closed construction of an interior world which can become believable to the point where the subject confuses it with objective reality."
+
+'''FUGUE STATE''' is explicitly the Shulgins' own usage and not the clinical one: "As used in this book, a transient disorientation that separates the cognitive part of oneself from the sensory part. There is a loss of understanding of the symbolic interpretations of words and things, with only the literal and tangible meanings left for personal use. This is our definition of the word, not that of the medical profession." The compound entries treat it as a standard category — '''TMA-5''' (#161): "there is little logic in the argument that animals can experience, let alone reveal, altered states of consciousness or fantasy fugues or colored imagery."
+
+== Level words: museum, forever, and the quicky ==
+
+Three informal terms describe the ''shape'' of a dose rather than its size. '''Museum level''' is defined in '''2C-B''' (#20): "A commonly used term for a level that produces a just perceptible effect is 'museum level.' This is a slightly-over-threshold level which allows public activities (such as viewing paintings in a museum or scenery watching as a passenger in a car) to be entered into without attracting attention. There can be considerable discomfort associated with being in the public eye, with higher doses." The arithmetic that makes the level reachable is in the same entry: 2C-B has "a steep dose response curve. Over the 12 to 24 milligram range, every 2 milligrams can make a profound increase or change of response."
+
+The '''forever threshold''' is the opposite problem — a compound that never leaves the threshold however far it is pushed. '''ALEPH-6''' (#6): "But this material had the earmarks of one of those forever threshold things. The 40 milligram experiment was hopelessly compromised, and nothing higher was ever scheduled or tried." The same ceiling appears without the phrase in '''2C-I''' (#33), of its 2-ethoxy homologue: "larger doses, of up to 50 milligrams orally, seem to produce no more intense an effect, but simply to stretch out this threshold."
+
+"Forever" also attaches to duration, as a nickname: "the nickname of 'forever yours' had been applied. There may indeed be insight, but 24 hours' worth is an awful lot of insight" ('''2C-T-2''' #40); "it was given the nickname 'Eternity' by one subject" ('''2C-E''' #24).
+
+Against both stands the '''quicky''', named in '''HOT-17''' (#89): "Two virtues sought by some users of psychedelic drugs are high intensity and brief action. They want a quicky."
+
+== Contact high and hitchhiking ==
+
+'''CONTACT HIGH''': "A common occurrence in a group experiment with a psychedelic drug is that a drug-free observer becomes aware that he is experiencing some effects of the material being used by the others. The altered state has become contagious. Animals in the household are especially prone to this kind of unintentional participation, usually appearing to enjoy it immensely. There is no known scientific explanation for this phenomenon." '''2C-I''' (#33) prints a report of one — "an experiment with zero milligrams being taken."
+
+'''HITCHHIKING''' is the unpleasant version, and carries the book's one piece of etiquette: "The responsible psychedelic researcher does not go out in public when under the influence."
+
+== Stoned, turned on, and the aftermath ==
+
+'''STONED''' and '''TURNED-ON''' are distinguished where most users collapse them: "A stoning effect is one in which there is awareness of a strongly altered state of consciousness… characterized, usually, by a general inability and disinclination to deal with concepts or to employ insight… being turned on is simply to be aware of a change in one's mind and/or body in the direction of an increased sense of physical and mental energy." The distinction does work: '''MDE''' (#106) is marked down against MDMA precisely for a "stoning intoxication like MDA."
+
+'''AFTERGLOW''' is the tail state: "A state of total peace and contentedness that can follow on the heels of a psychedelic experience… a drifting, a de-stressed period of inattention and reflection, calmness and placidity… It is the smile on the face of the Buddha." Its opposite is recorded just as often: "a feeling of being drained for the following day or two" ('''2C-T-2''' #40), "an uncomfortable headache… an after-effect of the compound" ('''2C-T-7''' #43), "the following day is often seen as one of tiredness and low energy" ('''ESCALINE''' #72).
+
+== The Beth state and the oboe: ALEPH-7 ==
+
+The most ambitious piece of vocabulary-building in the book is '''ALEPH-7''' (#7), which opens: "This drug was the first definition of the term, Beth state."
+
+: "There is something of the Fournier Transform in any and all drug experiments. A psychedelic drug experience is a complex combination of many signals going all at the same time. Something like the sound of an oboe playing the notes of the A-major scale. There are events that occur in sequence, such as the initial A, followed by B, followed by C-sharp and on and on. That is the chronology of the experience.
+:
+: "But within each of these single events, during the sounding of the note 'A,' for example, there is a complex combination of harmonics being produced at the same time, including all components from the fundamental oscillation on up through all harmonics into the inaudible. This mixture defines the played instrument as being an oboe. Each component may be shared by many instruments, but the particular combination is the unique signature of the oboe."
+
+The analogy is then made exact: "Each drug has a chronology of effect, like the notes of the A-major scale. But there are many components of a drug's action, like the harmonics from the fundamental to the inaudible which, taken in concert, defines the drug." And then the limitation: "But in psychopharmacology? There is no psychic oscilloscope. There are no easily defined and measured harmonics or phase angles."
+
+<code>
+  CHRONOLOGY = the notes in sequence    A → B → C# → ...  (alert, plateau, decline)
+  HARMONICS  = components sounding at once within one note (what makes it that drug)
+  Beth state = one such component: "uncaring, anhedonia, emotionlessness"
+</code>
+
+The Beth state is the first harmonic he claims to have isolated: "And one of them is this Beth state. It is a state of uncaring, of anhedonia, and of emotionlessness. Many drugs have a touch of this Beth state, ALEPH-7 more than most." The naming scheme is a placeholder and he says so: "If a sufficient alphabet of effects (I am using the Alephs, Beths, Gimels, and Daleths of the Hebrew as token starters only) were to be accumulated and defined, the actions of new materials might someday be more exactly documented."
+
+'''TB''' (#149) supplies the companion principle — that each harmonic scales with dose independently: "When there is a complex action produced by a drug, then each of the components of this mixture of effects should be expected to become more intense following a bigger dose of the drug."
+
+== Euphoria: the etymological argument ==
+
+The glossary's longest piece of reasoning is under '''EUPHORIA''', and it is an argument about the baseline rather than about drugs:
+
+: "'Eu-' is a prefix that means 'normal.' Euphoria is from the Greek, euphoria, literally a 'bearing well,' from eu, meaning well, and pherein, to bear. The original meaning is a normal state of feeling, as opposed to dysphoria, which means an abnormal state of feeling… The fact that the word euphoria has come to mean a state of feeling better — or much, much better — than usual, should give us pause. The implication is that our customary state is one of dysphoria, and that what has come to be considered the proper and normal way to feel in our everyday life is, in actuality, a state of depression."
+
+The entry closes against a specific confusion: "This term must not be confused with U-4-E-uh, a name given to the drug 4-methylaminorex."
+
+In the compound entries the word is usually the last thing left when the psychedelic action has gone. '''TE''' (#151), on the thio-mescaline series: "The butyl homolog never made it off the ground at all as a psychedelic, but the physical difficulties seem less as well. All that was left to come through was the euphoria." '''TP''' (#174) proposes the butylthio amphetamine as "a potential euphoriant."
+
+== Words for people ==
+
+An '''EXPERIENCED TRAVELER''' is "a person who can remember to feed the cats while under the influence of a psychedelic drug." A '''HARDHEAD''' "requires 200 milligrams of MDMA, or 300 micrograms of LSD, just to get some beginnings of effect"; '''5-TOET''' (#170) records the mirror image, a subject "perhaps twice as sensitive to 5-TOET than any of the other subjects." '''MACHO''' is "a person of either sex who pushes his limits too much… which is essentially self-destructive," and '''IDIOT''' "a person of either sex who drives a car, motorcycle, or even a bicycle, for that matter, on a public road while under the influence." '''HAND IN THE AIR''' is a group protocol: "a phrase that is unquestioned as being a prelude to a not-game comment… intended to cut right through any fantasy or game. This particular agreement, or rule, is never violated."
+
+== Two words from the bench ==
+
+Not every glossary entry is phenomenological. '''SCRUDGE''' is a synthesis word the glossary refers out to the compound entries, and '''3-TSB''' (#176) defines it: "Such a wrong-product is called scrudge… A maddening property is that they are yellow or brown colored, and in the probe mass spectrograph they can crack to give rise to what appears to be the right nitrostyrene." The entry opens on the verdict the word carries: "The elephant labored and brought forth a mouse. A lot of work for a material without activity."
+
+'''TOMSO''' is the other, both a noun and a verb — the verb meaning "to instigate or promote an altered state of consciousness during exposure to an ineffective dosage of a psychedelic drug, by the absorption of a modest amount of alcohol." It is treated at [[Combination Practice Sequencing and Tolerance in the Shulgin Corpus]].
+
+== See also ==
+
+* [[Shulgin Rating Scale]]
+* [[Combination Practice Sequencing and Tolerance in the Shulgin Corpus]]
+* [[The Shulgin Method Dose Escalation and the Research Group]]
+* [[PIHKAL and TIHKAL]]
+* [[Psychedelic and Psychopharmacology Glossary]]
+* [[The 2C Series and Extended Phenethylamines]]
+* [[The Library of Ashurbanipal]]

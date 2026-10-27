@@ -1,0 +1,122 @@
+'''The Thio-Mescalines and the Euphoriant Psychedelic Split''' traces one of the cleanest structure–activity stories in ''PIHKAL'' (Alexander Shulgin, 1991): the 4-thioalkyl mescaline series TM, TE, TP and TB, in which a single oxygen-for-sulfur swap multiplies mescaline's potency roughly tenfold, and then — as the alkyl chain on that sulfur grows from methyl to ethyl to propyl to butyl — the potency holds while the psychedelic character drains out of the compound and the physical toxicity rises and falls. At the end of the ladder what is left is not a weak psychedelic. In Shulgin's words, "''All that was left to come through was the euphoria.''" The side branches 3-TM, 2-TIM and 4-TME fill in the rest of the map.
+
+== The epistemic standing of this record ==
+
+Stated once. Every potency figure, every description of "physical difficulties", and every judgement about what a compound felt like comes from '''unblinded self-report''' by Shulgin and a small research group escalating doses by hand from sub-threshold, with no placebo arm, no blinding and no toxicological instrumentation. "Toxicity" in these entries means ''what the body did that the group disliked'' — not organ damage measured in a laboratory. The structure–activity pattern below is real in the sense that it is what the group consistently reported; it is not a dose–response curve, and the series was never run in anyone else's hands.
+
+== What "thio" means, in Shulgin's own teaching ==
+
+The TM entry (156) contains the book's definition, written for a non-chemist:
+
+:"''The definition of the term 'thio' is quite simple — it means a sulfur-in-place-of-an-oxygen, with everything else left alone.''"
+
+The justification is the periodic table, which he calls "''one of the most exciting bits of architecture in science''". Sulfur sits directly below oxygen: the same bonding complexity, roughly twice the mass, a bigger and softer and far less polar atom occupying the same slot in the molecule. Hence the remark that gives the whole programme its scope: "''It is a little awe-inspiring to think that every oxy anything can have a thio something as a spatially similar analogue.''"
+
+Mescaline is eleven carbons, three oxygens, one nitrogen and seventeen hydrogens, with the three oxygens in the 3-, 4- and 5-positions. The 4-oxygen holds the central position; the other two are indistinguishable reflections of each other. Pluck out that central oxygen and drop in a sulfur and you have '''TM''', thiomescaline. The general shelf for this move is [[Thiols and Oxygen Congeners in Medicinal Chemistry]].
+
+<code>
+         MeO                            MeO
+            \                              \
+   TM:   S───(ring)───CH2CH2NH2     mescaline:  O───(ring)───CH2CH2NH2
+         /   4-position                 /   4-position
+      Me                             Me
+            └── swap this one atom ──┘
+                 10x the potency
+</code>
+
+:"''The substitution of a sulfur atom for an oxygen atom increased the power of the drug some ten-fold, without any apparent decrease in complexity of action.''" (entry 156)
+
+That second clause is the point. A tenfold potency gain that cost nothing qualitatively is the strongest single argument in the corpus for the 4-position as the potency lever, and the parallel 2,5-dimethoxy case is covered in [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]].
+
+== TM: what it actually did ==
+
+The TM entry is unusually specific about physical signs, and they are the ones that matter for anyone reading this as a hazard record:
+
+:"''The dosage range has been broadened to include the 20 milligram level, in that several subjects found that even with that small amount there was difficulty in walking and in keeping one's equilibrium. Walking was described as a floating procedure, and one could tilt to one side or the other if care was not taken. Anorexia was occasionally noted, and most people commented on some degree of anesthesia to touch.''"
+
+Three observations, at the '''20 mg''' level, in several subjects: a gait and balance disturbance, loss of appetite, and a measurable blunting of touch sensation. Shulgin's overall verdict on the compound is "''a mixed bag of responses''". The balance effect is the one with practical consequences — it is reported at the bottom of the useful range, not at the top, and it is reported as something that happened to people who were not expecting it.
+
+== The ladder: four chains, four different drugs ==
+
+{| class="wikitable"
+! Code !! Trivial name !! 4-S-alkyl !! What the corpus reports
+|-
+| '''TM''' (156) || Thiomescaline || methyl || Ten times mescaline's potency, full complexity retained; at 20 mg, gait and balance difficulty, anorexia, anaesthesia to touch
+|-
+| '''TE''' (151) || Thioescaline || ethyl || "''That small change already produces hints and indicators of some physical toxicity''"
+|-
+| '''TP''' (174) || — || propyl || "''There is a high potency here, but clearly there are signs of increased toxicity as well even over the ethyl homologue, TE''"
+|-
+| '''TB''' (149) || Thiobuscaline || butyl || "''The butyl homolog never made it off the ground at all as a psychedelic, but the physical difficulties seem less as well. All that was left to come through was the euphoria''"
+|}
+
+(The corpus's chemical-name field for TP is internally inconsistent with the rest of the series and is not reproduced here; the entry's own text identifies it only as "''the propyl compound''" and "''the ethyl homologue''"'s next step up.)
+
+The summary passage is in TE, and it is worth having whole:
+
+:"''Although the ethyl group (of the ethylthio on the 4-position) is just one carbon atom longer than the methyl group (of TM) that small change already produces hints and indicators of some physical toxicity. The propyl compound (see TP) is still of similar potency, but appears to be yet more difficult, physically. The butyl homolog never made it off the ground at all as a psychedelic, but the physical difficulties seem less as well. All that was left to come through was the euphoria. If this 4-position sulfur analogue series of mescaline is ever to be more carefully explored, it must almost certainly be with the shortest possible chain (TM, as a psychedelic) or with long, long chains (the four-carbon chain of the butyl group in TB), as a feel-good compound.''" (entry 151)
+
+Two curves are being described at once, and they do not have the same shape.
+
+<code>
+   potency      ████████████████████████████   roughly flat, TM → TB
+   psychedelic  ████████████████░░░░░░░░░░░░   falls away with chain length
+   body load    ████░░████████████████░░░░██   peaks in the MIDDLE (TE, TP)
+                 TM      TE      TP      TB
+</code>
+
+'''Potency holds.''' TP is "''still of similar potency''" to TE, which is in TM's neighbourhood. Nothing like the collapse seen when the sulfur is moved to another ring position (see below). '''The psychedelic component does not hold.''' It is present in full at TM, hinted at by TP, and gone at TB. '''And the toxicity does not track either of them.''' It is worst in the middle of the series, at the ethyl and propyl compounds, and eases again at butyl — which is why Shulgin's recommendation is to work at the two ''ends'' of the ladder and skip what is between them.
+
+That is an unusual recommendation, and it is the harm-reduction content of the article. The intuitive reading of a homologous series — each step changes everything a little — is wrong here. The two properties anyone might want sit at opposite ends, and the one nobody wants sits in the middle.
+
+== TB and the euphoria that is not dose-dependent ==
+
+The TB entry (149) is written as a short essay on dose-dependence, because TB breaks it.
+
+:"''There is a term 'dose-dependent' in pharmacology. When there is a complex action produced by a drug, then each of the components of this mixture of effects should be expected to become more intense following a bigger dose of the drug. This is certainly true with most of the actions of psychoactive drugs.''"
+
+The entry then itemises what ''is'' dose-dependent in the psychedelics: eyes-open effects (edge-ripples, colours, retinal games), eyes-closed imagery of a kind he describes as "''images of the elaborately decorated doors of the mosque, or of an orchestra floating suspended by its music''", tactile enhancement, an anaesthetic component, depth of insight, and the fantasy of moving beyond the confines of the body. All of it scales with dose, up to toxicity. So does the stimulant axis: the wired, sleepless state in which a person lies unwilling to yield guard, with a pounding heart and an interpretive psyche demanding attention.
+
+Euphoria does not. That is the finding:
+
+:"''It is truly a catalytic on or off. You are or you are not.''"
+
+TB presents as a perpetual series of thresholds — a continuing threshold that, in the entry's words, "''makes you aware, fluffs the senses, but never takes over or commands the ship''" — rather than as a psychedelic or a stimulant that grows with the amount taken. Shulgin's summary phrase is "''always the simple and ephemeral catalyst of euphoria without substance and without body''", and his taxonomic verdict is that TB "''is a compound that can never be pinned and labeled in the butterfly collection since it defies an accepted classification''".
+
+He has a precedent for the shape, and a commercial moral: the same action was seen first with ARIADNE, which proved commercially interesting once it was called an anti-depressant, and it is "''fully possible''" that TB "''would be of value to certain depressed people in exactly the same way''". A binary, non-escalating mood lift with no psychedelic ceiling to climb is, from a clinical angle, a more tractable object than anything else on this ladder. The therapeutic thread is picked up in [[Therapeutic Use as Shulgin Reports It]]; for the vocabulary problem — what "euphoria" is actually doing as a word in these entries — see [[The Vocabulary of Subjective Effect in PIHKAL]].
+
+== Moving the sulfur: 3-TM, 2-TIM and the position penalty ==
+
+The series above keeps the sulfur at the 4-position and grows the chain. The other axis is to keep the chain at methyl and move the sulfur around the ring, and it is far less forgiving.
+
+* '''3-TM''' (entry 155), 3-thiomescaline — sulfur at the 3-position, methoxyls at 4 and 5. Shulgin's interest in the entry is entirely prospective: the corresponding amphetamine, 3,4-dimethoxy-5-methylthioamphetamine, "''would be 3-T-TMA and should be an active compound. Its synthesis should be straightforward from the benzaldehyde described above, employing nitroethane rather than nitromethane. It is apparently an unknown compound.''"
+* '''2-TIM''' (entry 152), 2-methylthio-3,4-dimethoxyphenethylamine — one of the three TIM positional isomers on the TMA-3 ring pattern. The entry is a naming and synthesis puzzle rather than a pharmacology report. The three corresponding amphetamines could be called 3C-2-TIM, 3C-3-TIM and 3C-4-TIM under the carbon-count convention, or 2-T-TMA-3, 3-T-TMA-3 and 4-T-TMA-3 under the thio convention, "''the number before the T is the position of the sulfur atom''". His expectation is flat: "''It seems almost certain that none of the compounds would be pharmacologically active, so the incentive would be the challenge of the chemistry. Some day, maybe.''"
+* '''4-TME''' (entry 164), 4-thio-metaescaline — the 4-methylthio compound carrying a beta-ethoxy group on the chain, i.e. a thio-mescaline crossed with the beta-oxygen idea of [[The BOX Series and Adrenolytic Cardiovascular Toxicity]]. The verdict is short and is a hazard report: "''The reports with 4-TME were more to the toxic than to the joyous side''" — and, in a line that reads as relief rather than regret, this happened with "''a compound that could only be obtained in an atrociously small yield''". Shulgin's own gloss: "''Sometimes things work well in their mysterious ways.''"
+
+The position penalty is quantified elsewhere in the sulfur entries. In 2-TOM (entry 171), moving the sulfur to the 2-position of the DOM pattern costs "''a loss of potency by a factor of x15 or so''". Chain length changes what a thio compound ''is''; ring position changes whether it is anything at all.
+
+== What was never made ==
+
+The thio-mescaline programme stops at the two-carbon phenethylamines. The amphetamine homologues — alpha-methyl versions, which on the general rule of [[Chain Length the Bushy End and the Duration of Action]] would be expected to gain potency and duration — were never synthesised. TP's entry lays out both the route and the two targets worth having:
+
+:"''The three-carbon amphetamine homologues are completely unexplored. The most reasonable starting material for these would be 4-thiosyringaldehyde, with S-alkylation and then the conventional nitroethane coupling followed with LAH reduction. The most appealing target as a potential psychedelic would be the methylthio homologue (3,5-dimethoxy-4-methylthioamphetamine, 3C-TM) or, as a potential euphoriant, the butylthio homologue (3,5-dimethoxy-4-(n)-butylthioamphetamine, 3C-TB). I am not sure that these alkylthio analogues would justify the labor needed to make them.''"
+
+Note that the two proposed targets are the two ''ends'' of the ladder again — 3C-TM for the psychedelic, 3C-TB for the euphoriant — and that the entry for the alpha-methyl 3-TM analogue (3-T-TMA) likewise says it "''should be an active compound''" and is "''apparently an unknown compound''". Three named, routed, unmade molecules sit at the end of this family. They belong on the list in [[Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage]].
+
+== What the series is good for ==
+
+Read as a piece of pharmacology rather than as a catalogue, the 4-thioalkyl mescalines demonstrate something the oxygen series cannot: that '''potency, psychedelic character and body load are three separable variables'''. They can be moved independently by a change as small as adding one carbon to an alkyl chain hanging off a single sulfur atom. The compound at the far end, TB, keeps the potency and the mood effect while losing both the visionary content and most of the physical cost — and in losing the visionary content it also loses dose-dependence, which is the last thing an intuition about "a weaker psychedelic" would predict.
+
+The other half of the lesson is where the danger sits. It is not at the potent end and not at the inactive end; it is in the two middle compounds, TE and TP, which are the ones a systematic explorer would reach for next after a successful TM. Shulgin's instruction — work at the ends, skip the middle — is the operationally useful sentence in the whole family.
+
+== See also ==
+
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]] — the 2,5-dimethoxy sulfur compounds and the 4-position generally
+* [[Thiols and Oxygen Congeners in Medicinal Chemistry]] — the oxygen-to-sulfur swap as a general medicinal-chemistry move
+* [[Chain Length the Bushy End and the Duration of Action]] — why the unmade alpha-methyl homologues were expected to work
+* [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]] — the parent compound and the potency baseline
+* [[The Vocabulary of Subjective Effect in PIHKAL]] · [[Therapeutic Use as Shulgin Reports It]] · [[Shulgin Rating Scale]]
+* [[Inactive Compounds and the Publishing of Negative Results]] — the polyethylated thio-mescalines that went nowhere
+* [[Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage]] · [[Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem]]
+* [[The BOX Series and Adrenolytic Cardiovascular Toxicity]] — the beta-oxygen family 4-TME crosses into
+* [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Structure Activity Relationships in Psychopharmacology]]
