@@ -1,0 +1,242 @@
+'''The DMCA and takedown law as it actually operates in adult media''' is narrower and stranger than the phrase "filing a DMCA" suggests. '''17 U.S.C. § 512''' creates no right to have anything removed. It creates ''defences'' for service providers, conditioned on acts most platforms neglect, and channels private requests through a formal notice whose defects are fatal. The adult industry produced a disproportionate share of the governing case law — ''Perfect 10'' alone generated four Ninth Circuit opinions — and most of the real rules are not the assumed ones. The sharpest fact: the person most motivated to get an image removed, the performer, usually holds no copyright in it and so cannot send a notice at all.
+
+''This is legal exposition, not legal advice. Anyone with an actual dispute needs a lawyer admitted in the relevant jurisdiction.''
+
+Companion drafts cover adjacent ground: [[Actress or Prostitute: People v. Freeman and the Pandering Question]] and [[The Federal Age Floor and Trafficking Law]]. Section 2257 record-keeping belongs to the latter except where it bears on a § 512 defence.
+
+== The architecture of § 512 ==
+
+Four limitations, one per function: '''§ 512(a)''' transitory communications (the conduit harbour — ISPs); '''§ 512(b)''' caching; '''§ 512(c)''' '''storage at the direction of a user''' (the hosting harbour, where tube sites, cam platforms and clip stores live); '''§ 512(d)''' information location tools.
+
+Two conditions sit ''above'' all four, in '''§ 512(i)(1)''': adopt, reasonably implement and inform subscribers of a policy for terminating repeat infringers "in appropriate circumstances," and accommodate standard technical measures. Fail § 512(i) and there is no harbour under ''any'' subsection.
+
+Section 512(c) adds three: no actual knowledge and no awareness of facts from which infringement is apparent (or expeditious removal on obtaining either); no financial benefit directly attributable to infringing activity the provider has the right and ability to control; expeditious removal on a compliant notice.
+
+'''§ 512(m)''' is the counterweight: nothing conditions the harbours on monitoring or affirmatively seeking facts indicating infringement. There is no duty to look.
+
+== The condition that quietly destroys sites: the designated agent ==
+
+Section 512(c)(2) makes the hosting harbour available "only if" the provider has designated an agent, published the agent's details publicly on the site, ''and'' filed them with the Copyright Office. The regulation is '''37 C.F.R. § 201.38'''; filing runs exclusively through the Office's online DMCA Designated Agent Directory, the paper system having been retired.
+
+* '''The fee is $6.''' Per the Copyright Office: "The current fee is $6 per designation, amendment, or resubmission." There is no separate renewal fee — a $6 amendment or resubmission restarts the clock.
+* '''It expires after three years.''' Per the Office: "A service provider's designation will expire and become invalid three years after it is registered with the Office." Reminders go out at 90, 60 and 30 days and one week before expiry — to whatever address was given, often a dead mailbox once the founding employee has left.
+
+A lapsed designation is no designation, the § 512(c)(2) condition is unmet, and there is '''no hosting safe harbour for the period of the lapse'''. Six dollars and a calendar entry stand between a platform and exposure to statutory damages for user uploads. Settled law, and the cheapest risk in the stack to eliminate.
+
+== The repeat-infringer policy ==
+
+''Perfect 10, Inc. v. CCBill LLC'', 488 F.3d 1102, 1109 (9th Cir. 2007), supplies the test: a provider "implements" a policy if it has a working notification system, a procedure for handling DMCA-compliant notifications, and does not actively prevent copyright owners from collecting the information needed to issue them. Implementation is "reasonable" if, in appropriate circumstances, it terminates users who repeatedly or blatantly infringe.
+
+Favouring a provider: a DMCA log; blocking a terminated subscriber's name and email from uploads; a banned list; preventing re-registration. Against: changing the takedown address without notice; participating in infringement; letting terminated users rejoin; refusing to terminate known repeat infringers.
+
+== The knowledge standards ==
+
+''Viacom International, Inc. v. YouTube, Inc.'', 676 F.3d 19 (2d Cir. 2012), made the hosting harbour workable at scale:
+
+* Both the actual-knowledge and red-flag provisions of § 512(c)(1)(A) refer to '''knowledge of specific and identifiable infringements'''. Generalised awareness that a service is used to infringe does not disqualify a provider.
+* The difference between the clauses is '''subjective versus objective''', not general versus specific: actual knowledge asks whether the provider subjectively knew of specific infringement; red-flag awareness asks whether it was subjectively aware of facts making that specific infringement objectively obvious to a reasonable person.
+* '''Willful blindness survives.''' On an issue of first impression the court held the common-law doctrine may be applied to show knowledge under § 512(c); § 512(m) "limits — but does not abrogate" it. A provider that deliberately avoids confirming what it suspects about specific material cannot hide behind the absence of a monitoring duty.
+* "Right and ability to control" under § 512(c)(1)(B) "requires something more than the ability to remove or block access" — otherwise the capacity to comply with a takedown would itself forfeit the harbour.
+
+== The two cases that set the real boundary ==
+
+=== BMG Rights Management (US) LLC v. Cox Communications, Inc., 881 F.3d 293 (4th Cir. 2018) ===
+
+Decided 1 February 2018. Cox, a conduit ISP, '''lost the § 512(a) harbour entirely''' for failing § 512(i) (analysis at 301–305): it ran a graduated-response scheme on paper while declining in practice to terminate paying subscribers and reinstating those it did cut off. A policy adopted but not carried out is not "reasonably implemented," and the failure is fatal at the threshold. Affirmed in part, reversed in part, vacated in part and remanded, the remand turning on an error in the contributory-infringement jury instruction.
+
+=== Ventura Content, Ltd. v. Motherless, Inc., 885 F.3d 597 (9th Cir. 2018) ===
+
+Decided six weeks after ''Cox'', on facts that look far worse. Motherless was an adult tube site run by one man with a few contractors. The Ninth Circuit (Kleinfeld, J.; Rawlinson, J., dissenting in part) held it '''kept''' the § 512(c) harbour:
+
+* '''An undocumented policy satisfies § 512(i).''' The site published a statement that it was its "firm policy" to terminate repeat infringers "when appropriate"; the details were unwritten. The statute does not require the details be written, only that subscribers be informed of a policy. A firm with many staff "might need a written policy to tell its employees or independent contractors what to do"; a one-man operation where the person who sets the policy also executes it need not. Failure to publicise internal criteria was likewise not fatal.
+* '''No logbook is required.''' "Congress did not require that, to be eligible for safe harbor, a provider must maintain a logbook of infringers which it consults whenever it receives a DMCA notice." A log is good ''evidence'', not an element.
+* '''Reasonable is not perfect.''' Motherless had terminated between '''1,320 and 1,980''' users; '''nine''' alleged repeat infringers slipped through, six pre-suit, only four the subject of more than one notice — fewer than one per 100,000 active users. Congress used "reasonable" to modify "implemented," so the phrase "cannot be construed to require perfect implementation."
+* '''Screening out illegal material does not forfeit "at the direction of a user."''' Ventura argued that pre-screening uploads (for child sexual abuse material and bestiality) meant the operator directed what was posted. Rejected on § 512(m)(2), which provides the harbours are not conditioned on "gaining access to, removing, or disabling access to material in cases in which such conduct is prohibited by law." The court found it "counterintuitive, to put it mildly" to read Congress as penalising a site for screening out child pornography rather than displaying it. The line is ''legality screening'' (protected) versus ''editorial curation'': the site's rule was "anything legal stays," unlike moderators who select material as "new and exciting."
+
+'''What distinguishes ''Motherless'' from ''Cox''.''' Not formality, documentation, scale or record-keeping — ''Motherless'' had less of all four. The distinction is '''outcome''': whether known repeat infringers in fact kept their accounts. Cox had a documented programme and did not terminate; Motherless had almost nothing in writing and terminated over a thousand accounts. Section 512(i) asks what a provider did with the infringers it knew about, not how good its paperwork is. A beautiful policy with an empty termination log is ''Cox''; one sentence plus a thousand terminations is ''Motherless''.
+
+=== Cox Communications, Inc. v. Sony Music Entertainment (2026): what losing the harbour now costs ===
+
+On 25 March 2026 the Supreme Court decided ''Cox Communications, Inc. v. Sony Music Entertainment'', No. 24–171, 607 U.S. ___ (2026) (Thomas, J., for seven Justices; Sotomayor, J., concurring in the judgment, joined by Jackson, J.), reversing 93 F.4th 222 (4th Cir. 2024). Cox had no § 512 defence for the period — ''BMG'' had foreclosed it — and a jury had awarded '''$1 billion'''.
+
+Held: a provider is contributorily liable only if it '''intended the service to be used for infringement''', shown by affirmative inducement or by providing a service "tailored" to infringement, meaning one not capable of substantial or commercially significant non-infringing uses. Continuing to serve known-infringing subscribers is not enough; "contributory liability cannot rest only on a provider's knowledge of infringement and insufficient action to prevent it."
+
+The Court rejected the argument that this hollows out the harbour, relying on '''§ 512(l)''': failure to qualify "shall not bear adversely upon ... a defense by the service provider that the service provider's conduct is not infringing." The DMCA creates defences, not liability. So losing the harbour is no longer near-automatic liability — a provider outside § 512 must still be shown to be a direct, contributory or vicarious infringer, and the contributory route is now much narrower. Very new law; its application to hosting platforms rather than conduit ISPs is unworked below.
+
+== The Perfect 10 line ==
+
+=== Perfect 10, Inc. v. CCBill LLC, 488 F.3d 1102 (9th Cir. 2007) ===
+
+The central adult DMCA case, against a payment processor and a web host:
+
+* '''A defective notice confers no knowledge.''' Perfect 10's communications did not substantially comply with § 512(c)(3), so "knowledge of infringement may not be imputed to CCBill or CWIE based on Perfect 10's communications." Nor can such a notice create red-flag awareness: "Notice that fails to substantially comply with § 512(c)(3) ... cannot be deemed to impart such awareness."
+* '''Substantial compliance means all of it.''' "[S]ubstantial compliance means substantial compliance with ''all'' of § 512(c)(3)'s clauses, not just some of them." The notices variously lacked the good-faith-belief statement and the sworn statement of authority.
+* '''What to do with a non-compliant notice.''' Under § 512(c)(3)(B)(ii), a notice substantially complying with clauses (ii), (iii) and (iv) but not all of subparagraph (A) is disregarded for knowledge purposes only if the provider promptly attempts to contact the sender or takes other reasonable steps to assist in receipt of a compliant notice. Ignore a near-compliant notice and you may be charged with its contents; reply explaining what is missing and you are not.
+* '''No duty to adjudicate legality from context.''' Sites named "illegal.net" and "stolencelebritypics.com" were not red flags — such labels may be marketing — and "[w]e do not place the burden of determining whether photographs are actually illegal on a service provider."
+* '''Burden allocation.''' "The DMCA notification procedures place the burden of policing copyright infringement — identifying the potentially infringing material and adequately documenting infringement — squarely on the owners of the copyright."
+
+'''A correction.''' It is often said ''CCBill'' held that a site's § 2257 non-compliance does not forfeit the safe harbour. The published opinion does not appear to address § 2257 at all. That argument actually appears in ''Motherless'', where the record-keeping failure was pleaded as the predicate for a California Business and Professions Code § 17200 "unlawful prong" claim; the Ninth Circuit affirmed the refusal to exercise supplemental jurisdiction on the district court's ground that the "failure to keep records has little, if anything, to do with the copyrighted material that appears on their system." That is a holding about a common nucleus of operative fact, not about § 512 — but the upshot is the same, and no decision has been located holding that § 2257 non-compliance forfeits a copyright safe harbour.
+
+=== The rest of the line ===
+
+* '''''Perfect 10 v. Amazon.com, Inc.'', 508 F.3d 1146 (9th Cir. 2007)''' (3 December 2007). The '''server test''': a site directly infringes the display right only by storing and serving the image itself, so in-line linking or framing material hosted elsewhere is not a display. Google's '''thumbnails''' were highly transformative and likely fair use; injunction vacated. Still Ninth Circuit law, in tension with district decisions elsewhere on embedding — '''contested'''.
+* '''''Perfect 10 v. Visa Int'l Serv. Ass'n'', 494 F.3d 788 (9th Cir. 2007)''' (3 July 2007). '''Payment processors are not secondarily liable''': processing payment does not help anyone locate, access, copy or distribute infringing images. Kozinski, J., dissenting. This is why the chokepoint pressure that later reshaped the adult industry came through card-network ''policy'' and acquiring-bank risk rules, not copyright.
+* '''''Perfect 10 v. Giganews, Inc.'', 847 F.3d 657 (9th Cir. 2017)''' (23 January 2017). '''Volitional conduct''' — causation — is an element of direct infringement, and automated operation of a Usenet service in response to user commands is not the operator's volitional conduct. No contributory liability absent simple measures not taken; no vicarious liability. The cautionary note: the court '''affirmed an award against Perfect 10 of $5,213,117.06 in attorney's fees and $424,235.47 in non-taxable costs'''. Section 505 runs both ways, and ''Fogerty''/''Kirtsaeng'' discretion includes the objective unreasonableness of the loser's arguments. An aggressive notice-and-sue programme built on defective notices is not a low-risk business model. (Contrast ''Motherless'', where denial of fees to the ''winning'' defendant was affirmed because the claims were neither frivolous nor objectively unreasonable.)
+
+=== Infrastructure: the ALS Scan line ===
+
+''ALS Scan, Inc.'', an adult photography producer, litigated in the Central District of California against a hosting provider (''Steadfast Networks'') and a CDN/reverse proxy (''Cloudflare''). The decisions are cited for the distinction that a '''CDN''' does not materially contribute — withdrawing it would not make the images unavailable, since the files remain at the origin — whereas a '''host''' that stores the files and can delete them is materially different and can face contributory exposure if it does not act on knowledge. ''These are unreported district-court decisions and the appellate disposition is unpublished; the specific citations could not be verified from primary sources for this article and should be pulled before being relied on.'' The direction of the distinction — control over the copy versus speed of delivery — is independently supported by ''Visa'' and ''Giganews''.
+
+== Procedure, done properly ==
+
+=== The six elements of a valid notification: § 512(c)(3)(A) ===
+
+A communication missing any of these is not a notification, triggers no obligation, and confers no knowledge.
+
+<code>
+(i)   Physical or electronic signature of a person authorized to act
+      for the owner of an exclusive right allegedly infringed.
+(ii)  Identification of the copyrighted work infringed (or, for many
+      works at one site, a representative list).
+(iii) Identification of the infringing material, with information
+      reasonably sufficient to let the provider locate it.
+(iv)  Information reasonably sufficient to let the provider contact
+      the complaining party (address, telephone, email).
+(v)   Statement of a good faith belief that the use is not authorized
+      by the owner, its agent, or the law.
+(vi)  Statement that the information is accurate, and UNDER PENALTY
+      OF PERJURY that the sender is authorized to act for the owner.
+</code>
+
+Elements (v) and (vi) are the ones omitted in practice, and the ones that sank ''Perfect 10''. Note that (vi)'s perjury statement attaches to '''authority to act''', not to the accuracy of the infringement claim.
+
+=== Counter-notification: § 512(g) ===
+
+A provider that removes material on a notice is immune to its own user for the removal (§ 512(g)(1)) if it takes reasonable steps to notify them. A counter notice must contain the subscriber's signature, identification of the removed material and its former location, a statement under penalty of perjury of a good-faith belief that removal resulted from mistake or misidentification, contact details, and '''a statement consenting to the jurisdiction of the federal district court''' for the district of the subscriber's address (or, if outside the United States, any district where the provider may be found) and agreeing to accept service of process.
+
+The provider must promptly forward it and restore the material '''not less than 10, nor more than 14, business days''' after receipt, unless it first receives notice that the complainant has filed an action seeking a court order.
+
+The consent-to-jurisdiction element is what makes counter-notifying risky, and the risk is asymmetric: the sender hands the complainant a verified address and pre-consents to suit in a forum they may have no connection to, over a work whose statutory damages reach $150,000 for willful infringement. For a pseudonymous performer, the address disclosure alone can be the greater harm.
+
+=== Misrepresentation: § 512(f) and Lenz ===
+
+Section 512(f) makes '''any person who knowingly materially misrepresents''' that material is infringing (or was removed by mistake) liable for damages, costs and attorney's fees to the alleged infringer, the owner or licensee, or the provider, where injury resulted from reliance.
+
+''Lenz v. Universal Music Corp.'', 815 F.3d 1145 (9th Cir. 2016) (amended opinion superseding the 2015 opinion), holds that '''a sender must consider fair use before sending'''. Because § 107 makes fair use authorised by law, the good-faith belief required by § 512(c)(3)(A)(v) cannot be formed without considering it. But the standard is '''subjective''': a sender who actually forms the belief, however unreasonably, does not violate § 512(f). Nominal damages suffice. The duty is real in form and weak in enforcement — one of the honestly '''contested''' features of the regime.
+
+== Who owns the copyright: the performer problem ==
+
+This is the point that matters most, is most often got wrong, and is the reason the DMCA is frequently useless to the person it is assumed to protect.
+
+Copyright vests initially in the '''author''' (§ 201(a)). It does not vest in the subject of a photograph, and United States law gives performers no neighbouring right in their own performance — the federal anti-bootlegging provision, § 1101, reaches unauthorised fixation of ''live musical'' performances only.
+
+* '''Work made for hire — § 101.''' A work is made for hire if (1) prepared by an '''employee''' within the scope of employment, or (2) '''specially ordered or commissioned''' for one of nine enumerated categories ''and'' the parties expressly agree in a written instrument signed by both that it is a work made for hire. "A contribution to a ... motion picture or other audiovisual work" is one of the nine. Where § 101 applies, the producer "is considered the author" (§ 201(b)): the performer was never an author and has nothing to assign back. Employee status under prong (1) turns on the common-law agency factors of ''Community for Creative Non-Violence v. Reid'', 490 U.S. 730 (1989); most adult performers are engaged as independent contractors, which pushes the analysis onto prong (2) and makes the '''signed writing''' decisive.
+* '''Assignment — § 204(a).''' A transfer of ownership is invalid unless in a writing signed by the owner. Professional model-release and performance agreements routinely include a present assignment of all rights, often alongside a work-for-hire clause precisely because prong (2) can fail. After an effective assignment the performer is a former owner with no standing to sue or to send a § 512 notice.
+* '''Bare licence.''' If the agreement grants only a licence, ownership stays with the performer or photographer. A '''non-exclusive''' licensee has no standing to sue; an '''exclusive''' licensee holds an exclusive right and does. Which was created is a question of the text — and the text is usually the producer's.
+* '''Self-shot content.''' The author is whoever fixed the work: in practice whoever pressed record. A performer who shoots and sells their own clips ordinarily '''owns the copyright''' (subject to whatever the platform's terms take, usually a broad licence rather than a transfer) and is fully equipped to notify and to sue. This is the structural reason the creator-platform era changed enforcement — it moved ownership to the person with the motive to enforce.
+* '''Joint authorship.''' Co-authors each hold an undivided interest and may independently license and sue subject to accounting, but ''Aalmuhammed v. Lee'', 202 F.3d 1227 (9th Cir. 2000), requires superintendence or control and objective manifestations of shared intent. Appearing in a work does not make a person its co-author.
+* '''Registration.''' A § 512 notice requires none. A '''lawsuit''' does: under § 411(a) as construed in ''Fourth Estate Public Benefit Corp. v. Wall-Street.com, LLC'', 139 S. Ct. 881 (2019), an action may be instituted only once the Register has acted on the application.
+
+'''What this means for a platform.''' The inbound queue holds two kinds of message that look identical and are legally opposite: notices from rights holders, which engage § 512 and must be processed on statutory terms; and pleas from performers who appear in the material, do not own it, cannot swear element (vi), and whose complaint — however urgent and sympathetic — is '''not a DMCA notice at all'''. Treating the second as the first manufactures § 512(f) exposure for the sender and wastes the channel for the complainant. A platform routing both through one copyright form will systematically fail the people with the strongest moral claim, because their claim is not a copyright claim. It needs a second, separate intake — which the law now requires anyway.
+
+== The regime that does not require owning the copyright ==
+
+=== The TAKE IT DOWN Act ===
+
+'''Pub. L. 119-12''', approved '''19 May 2025'''.
+
+* '''Section 2 — criminal.''' Amends 47 U.S.C. § 223, redesignating the former subsection (h) as (i) and inserting a new subsection (h), "Intentional Disclosure of Nonconsensual Intimate Visual Depictions." It reaches knowing publication through an interactive computer service of authentic intimate visual depictions and of '''"digital forgeries"''' — AI-generated or manipulated depictions — of identifiable individuals without consent, on specified conditions. Up to two years' imprisonment where the victim is an adult, three where a minor, plus forfeiture and restitution.
+* '''Section 3 — notice and removal.''' "Not later than 1 year after the date of enactment," a covered platform must establish a process by which an identifiable individual or authorised representative may request removal; on a valid request it must act "as soon as possible, but not later than '''48 hours''' after receiving such request" to remove the depiction and make reasonable efforts to identify and remove known identical copies.
+
+'''Covered platform''': a website, online service, online application or mobile application serving the public that either primarily provides a forum for user-generated content or regularly publishes, curates, hosts or makes available non-consensual intimate visual depictions. Excluded: broadband internet access service, email, and services whose content is primarily pre-selected with only incidental interactive features.
+
+'''Enforcement.''' Non-compliance "shall be treated as a violation of a rule defining an unfair or a deceptive act or practice under section 18(a)(1)(B) of the Federal Trade Commission Act (15 U.S.C. 57a(a)(1)(B))," giving the FTC civil penalty authority with no prior rulemaking. '''Status:''' the compliance deadline fell on '''19 May 2026''', and the FTC announced that day that it had begun enforcing Section 3, having written beforehand to more than a dozen technology companies. The regime is live. (A per-violation penalty in the low $50,000s appears in practitioner commentary; the exact inflation-adjusted figure was not verified against the FTC's own schedule.)
+
+This requires no copyright, no registration and no sworn authority to act for a rights holder — only that the requester is the depicted individual or their representative.
+
+=== 15 U.S.C. § 6851 — the federal civil action ===
+
+Enacted in the Violence Against Women Act Reauthorization Act of 2022. Elements: an intimate visual depiction of an identifiable individual was '''disclosed''' (transferred, published, distributed or made accessible); in or affecting interstate or foreign commerce; without '''consent''' — "affirmative, conscious, and voluntary authorization," free of force, fraud, misrepresentation or coercion; and the defendant "knows that, or recklessly disregards whether, the individual has not consented." Consent to ''creation'' is not consent to distribution, and disclosure to one person is not consent to further disclosure.
+
+Remedies: '''actual damages or liquidated damages of $150,000''', costs including reasonable attorney's fees, and equitable relief including a TRO or injunction to cease display or disclosure, with relief available to preserve the confidentiality of a plaintiff proceeding under a pseudonym.
+
+'''The exclusion that matters here.''' No action lies in respect of '''commercial pornographic content''' — defined by reference to material subject to the § 2257 record-keeping requirements — '''unless''' produced through force, fraud, misrepresentation or coercion of the depicted individual. Other exceptions cover good-faith disclosures to law enforcement, legal process, medical education or treatment, reporting or investigating unlawful conduct, matters of legitimate public concern, and disclosures intended to assist the individual. ''The limitations period was not confirmed from primary text and should be checked in § 6851 before filing.''
+
+So: a performer whose studio-produced scene is pirated often has neither a copyright claim (they do not own it) nor a § 6851 claim (lawfully produced commercial content). Their leverage is the studio's copyright, exercised by the studio. A performer whose '''private''' material is leaked, or whose likeness is used in a '''digital forgery''', is in a far stronger position: § 6851 and the TAKE IT DOWN Act both reach it with no copyright at all.
+
+=== State NCII statutes ===
+
+Nearly every state criminalises non-consensual distribution of intimate images; many add a civil remedy and several now reach synthetic depictions. Elements differ on the points that decide cases — whether intent to harass is required, whether identifiability must appear from the image itself, and whether consent to creation counts as consent to disclosure. ''The state count and the content of any particular statute were not verified here; this law changes frequently.'' First Amendment challenges have had mixed results — '''contested'''.
+
+=== DMCA versus NCII takedown ===
+
+{| class="wikitable"
+! !! DMCA § 512 !! NCII (TAKE IT DOWN Act / § 6851)
+|-
+| '''Who may act''' || Copyright owner or exclusive licensee, or an authorised agent || The depicted individual or a representative; no ownership needed
+|-
+| '''What must be shown''' || Ownership of an exclusive right, identification of work and copy, good-faith belief the use is unauthorised, sworn authority to act || That the material is an intimate visual depiction of the requester, disclosed without consent
+|-
+| '''Defences''' || Fair use must be considered before sending (''Lenz''); the use may be licensed || Statutory exceptions (law enforcement, legal process, medical, public concern); § 6851 excludes commercial pornographic content absent force, fraud, misrepresentation or coercion
+|-
+| '''Speed''' || "Expeditiously" — undefined; no deadline binds the provider || '''48 hours''' from a valid request, plus known identical copies
+|-
+| '''Counter-process''' || Counter-notice under § 512(g); restoration in 10–14 business days absent suit || None in the § 3 removal duty
+|-
+| '''If ignored''' || Nothing direct: the platform loses the harbour, and after ''Cox v. Sony Music'' that loss is not itself liability (§ 512(l)) || FTC enforcement as an unfair or deceptive practice under 15 U.S.C. § 57a(a)(1)(B), with civil penalties
+|-
+| '''Private remedy''' || Infringement suit; up to $150,000 per work for willful infringement; registration required to sue (§ 411(a)) || Actual or '''$150,000''' liquidated damages, fees, injunction, pseudonymity; criminal exposure for the discloser under 47 U.S.C. § 223(h)
+|-
+| '''Abusive requests''' || § 512(f) liability (subjective standard, weakly enforced) || No direct analogue; the platform carries the verification problem
+|}
+
+== Operating reality ==
+
+'''Why the scale differs.''' Structural, not cultural: an enormous catalogue fragmented across thousands of small producers with no collective licensing body; low unit value per clip against high aggregate traffic value; consumers unusually reluctant to create accounts or leave payment records, pushing demand toward free ad-funded aggregators; and content trivially re-encoded, re-titled and re-uploaded. The rights holders most affected are small enough that litigation economics never work — and, as ''Giganews'' showed at a cost over $5.6 million, can work violently against them.
+
+'''What commercial takedown services do.''' Monitor tube sites, search results, cyberlockers and social platforms for a client's catalogue by fingerprint, watermark or title; generate § 512-compliant notices at volume; submit them through designated agents and search-removal forms; report. Reputable operators pre-screen for '''authority to act''' — a vendor noticing material the client does not own manufactures § 512(f) exposure in the client's name. The honest limit: the model manages a '''rate''', not a state. A popular title is re-uploaded faster than it is removed, so the service buys suppression of top search results and the largest aggregators, not disappearance. What actually moves large platforms is hash-matching on upload so that removal persists — and copyright law does not compel that.
+
+'''What a platform must build.''' Minimum to make the § 512(c) defence available and survivable:
+
+<code>
+1. REGISTER the designated agent with the Copyright Office ($6).
+   Diary the THREE-YEAR expiry at 30 months. Use a role mailbox.
+2. PUBLISH the agent's details publicly, and the repeat-infringer
+   policy, to subscribers and in the terms of service.
+3. RECEIVE notices on a monitored channel; validate the six elements.
+   On a near-compliant notice REPLY saying what is missing - do not
+   simply ignore it (512(c)(3)(B)(ii)).
+4. REMOVE expeditiously; notify the uploader; handle counter-notices
+   (forward, wait 10-14 business days, restore absent notice of suit).
+5. COUNT strikes per account and ACTUALLY TERMINATE; block the
+   terminated identifiers from re-registration. Cox lost on the
+   absence of terminations.
+6. LOG notice, date, material, action, uploader, strike count,
+   termination decision and reason. Motherless shows a log is not an
+   element - it is how you prove the element.
+7. BUILD A SEPARATE NCII INTAKE, conspicuously signposted, not routed
+   through the copyright form, with a 48-HOUR clock and an
+   identical-copy sweep.
+8. DO NOT adopt a monitoring programme you will not run. 512(m) means
+   you need not look; willful blindness means you may not deliberately
+   avoid confirming what you suspect about specific items.
+</code>
+
+== Where EU law diverges ==
+
+The US harbour is a notice-driven immunity with no monitoring duty; European law went the other way, and a platform serving EU users cannot plan around § 512 alone.
+
+* '''Article 17 of the DSM Directive''' (Directive (EU) 2019/790): an online content-sharing service provider itself performs an '''act of communication to the public''' when it gives access to user-uploaded protected works — the opposite starting point from § 512(c). Liability is avoided only by showing '''best efforts''' to obtain authorisation, best efforts to make specific works unavailable where rights holders supplied the necessary and relevant information, and expeditious removal '''plus''' best efforts to prevent future uploads ("stay-down," not merely take-down), subject to proportionality and user-rights safeguards.
+* '''The Digital Services Act''' (Regulation (EU) 2022/2065): a harmonised '''notice-and-action''' mechanism, a duty to give the affected user a statement of reasons, internal complaint handling, out-of-court dispute settlement, trusted-flagger priority, and risk-assessment duties on very large platforms. Its hosting shield resembles § 512 in conditioning protection on expeditious action upon actual knowledge, but the surrounding procedural duties have no US analogue.
+
+EU compliance is '''process''' compliance — documented, auditable, owed to users as well as rights holders. US safe-harbour compliance is '''outcome''' compliance: register the agent, and terminate the repeat infringers.
+
+== Settled and contested ==
+
+'''Settled:''' the § 512(c)(2) agent condition and its three-year expiry; that § 512(i) is a threshold for every harbour; that a notice must substantially comply with all six elements and that a defective notice confers neither actual nor red-flag knowledge (''CCBill''); that knowledge is item-specific and that willful blindness applies, limited but not abrogated by § 512(m) (''Viacom''); that reasonable implementation requires neither perfection, a written procedure, nor a logbook, and that screening for unlawful material does not forfeit "storage at the direction of a user" (''Motherless''; § 512(m)(2)); that payment processors are not secondarily liable on these facts (''Visa''); that volitional conduct is required for direct infringement and that fees run against copyright plaintiffs (''Giganews''); that a sender must consider fair use on a subjective standard (''Lenz''); that losing the harbour is not itself liability (§ 512(l); ''Cox v. Sony Music'').
+
+'''Contested or unsettled:''' the reach of the server test outside the Ninth Circuit, especially for embedding; how far ''Cox v. Sony Music'' narrows contributory liability for '''hosting''' platforms rather than conduit ISPs; what § 512(f) deters given the subjective standard; where between ''Cox'' and ''Motherless'' a mid-sized platform's termination practice must fall; the constitutionality of particular state NCII provisions as applied to synthetic imagery; and how the 48-hour duty will be administered against a platform facing a request it cannot verify — the obvious pressure point, with no statutory counter-notice valve.
+
+''Not legal advice. Citations were verified against primary sources except where expressly flagged as unverified.''
+
+See also: [[Actress or Prostitute: People v. Freeman and the Pandering Question]] · [[The Federal Age Floor and Trafficking Law]] · [[SoapBox Law]]
