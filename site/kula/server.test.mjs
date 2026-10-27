@@ -1,7 +1,7 @@
 // site/kula/server.test.mjs — OFFLINE. Fund accounting, join validation, the single op, the signer round-trip.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { membersFrom, parseJoin, joinOp, vestsPerMelek, authorizeUrl, completeJoin, __pending, __setFetch, renderFund } from './server.mjs';
+import { membersFrom, parseJoin, joinOp, vestsPerMelek, authorizeUrl, completeJoin, __pending, __setFetch, renderFund, fetchMemberHistory, memberHistory, __clearHistoryCache } from './server.mjs';
 
 const row = (op) => [0, { op }];
 
@@ -65,4 +65,61 @@ test('fund page renders with the chain unreachable', async () => {
   assert.match(html, /KULA Community Fund/);
   assert.match(html, /No members yet/);
   __setFetch(null);
+});
+
+// ── the producer_reward flood ───────────────────────────────────────────────────────────────────────────
+// @kula is a witness, so ~99.9% of its history is producer_reward and one page of 1000 reaches back only a
+// few hours. A member's delegation must still be found after it has fallen out of that first page.
+
+const pr = (i) => [i, { op: ['producer_reward', { producer: 'kula', vesting_shares: '0.000000 VESTS' }] }];
+const del = (i, who, v) => [i, { op: ['delegate_vesting_shares', { delegator: who, delegatee: 'kula', vesting_shares: `${v} VESTS` }] }];
+
+/** A fake chain: `total` ops, with the named delegations planted at given indexes. Pages like the real node. */
+function fakeChain(total, planted) {
+  return async (method, params) => {
+    if (method !== 'condenser_api.get_account_history') return null;
+    const [, start, limit] = params;
+    const newest = start === -1 ? total - 1 : start;
+    const oldest = Math.max(0, newest - limit + 1);
+    const out = [];
+    for (let i = oldest; i <= newest; i += 1) out.push(planted[i] ? del(i, planted[i][0], planted[i][1]) : pr(i));
+    return out;
+  };
+}
+
+test('member history pages past the producer_reward flood and finds a buried delegation', async () => {
+  __clearHistoryCache();
+  // 25,405 ops like the real account; the only delegation sits 20k entries deep — far outside one page.
+  const call = fakeChain(25405, { 5000: ['udabeu', '0.028176'] });
+  const rows = await fetchMemberHistory(call, 'kula');
+  assert.equal(rows.length, 1, 'the single delegation survives the walk');
+  const m = membersFrom(rows, 'kula');
+  assert.deepEqual(m.map((x) => x.account), ['udabeu']);
+});
+
+test('a single page would have missed it — this is the regression being guarded', async () => {
+  const call = fakeChain(25405, { 5000: ['udabeu', '0.028176'] });
+  const onePage = await call('condenser_api.get_account_history', ['kula', -1, 1000]);
+  assert.equal(membersFrom(onePage, 'kula').length, 0, 'one page sees no members, which was the bug');
+});
+
+test('member history keeps chronological order so the last delegation wins', async () => {
+  __clearHistoryCache();
+  const call = fakeChain(4000, { 100: ['alice', '1000.000000'], 3900: ['alice', '0.000000'] });
+  const rows = await fetchMemberHistory(call, 'kula');
+  assert.deepEqual(rows.map((r) => r[0]), [100, 3900], 'oldest first');
+  assert.equal(membersFrom(rows, 'kula').length, 0, 'the later zero withdraws alice');
+});
+
+test('member history is cached, and soft-fails to empty rather than throwing', async () => {
+  __clearHistoryCache();
+  let calls = 0;
+  const call = async (...a) => { calls += 1; return fakeChain(2000, { 50: ['bob', '7.000000'] })(...a); };
+  await memberHistory(call, 'kula');
+  const after = calls;
+  await memberHistory(call, 'kula');
+  assert.equal(calls, after, 'second read is served from cache');
+  __clearHistoryCache();
+  const dead = async () => null;
+  assert.deepEqual(await fetchMemberHistory(dead, 'kula'), [], 'a dead node yields no members, no throw');
 });
