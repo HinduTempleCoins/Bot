@@ -1,0 +1,188 @@
+'''Actress or Prostitute: The Legal Line Between a Production and a Commercial Sex Act''' is the question of what changes the legal character of a transaction when money is paid to a person who then performs a sexual or nude act. The same physical facts — a payment, a room, consenting adults — can be a lawful performance contract or a felony. American law draws the line on four things: '''what the payment was for''', '''whether an expressive work is genuinely being made''', '''how the performer's agreement was obtained''', and '''whether that agreement and her identity were documented before filming'''.
+
+''This is legal exposition, not legal advice. It describes statutes and decided cases; it does not substitute for a licensed attorney in the relevant jurisdiction.''
+
+== The short answer ==
+
+In '''California''', paying adults to perform sexual conduct for a non-obscene film is not pandering, because the state supreme court read the prostitution definition to require that the money be paid '''for the purpose of sexual arousal or gratification''' — and a producer pays for footage. That is ''People v. Freeman'' (1988), and it is why the American adult film industry sits in Los Angeles.
+
+In '''most other states there is no'' Freeman'''''. It binds California and is persuasive at best elsewhere; many prostitution statutes contain no gratification element at all, and under those a camera does not obviously change the analysis.
+
+Everywhere, '''federal law supplies the outer boundary''': obtaining participation by force, fraud or coercion is sex trafficking under 18 U.S.C. § 1591 however professional the production looks, and failing to keep the records required by 18 U.S.C. § 2257 is a separate crime however consensual the performance was.
+
+== The elements that do the work ==
+
+<code>
+PROMOTION / PANDERING (generic form)
+  1. actor is not the person performing the sexual act;  AND
+  2. actor knowingly procures / recruits / induces another
+     to engage in "PROSTITUTION", or receives its proceeds
+     by agreement;  AND
+  3. mens rea: knowingly
+
+"PROSTITUTION" -- two drafting families
+  FAMILY A (California, as construed in Freeman):
+     a lewd act for money or other consideration, the
+     consideration paid FOR THE PURPOSE OF SEXUAL AROUSAL
+     OR GRATIFICATION          <-- Freeman's construed element
+  FAMILY B (New York and many others):
+     engaging, agreeing or offering to engage in sexual
+     conduct with another person IN RETURN FOR A FEE
+                               <-- no gratification element
+</code>
+
+Under '''Family A''' the purpose of the payment is an element the state must prove, and a production company's purpose is footage. Under '''Family B''' purpose is irrelevant on the face of the statute, and a defendant must reach for the First Amendment instead of the text.
+
+== People v. Freeman (1988) — the decisive case ==
+
+'''''People v. Freeman''''', 46 Cal.3d 419, 758 P.2d 1128, 250 Cal.Rptr. 598 (1988). Harold Freeman produced and directed adult films and paid the performers acting fees. He was charged with five counts of pandering under Cal. Penal Code § 266i — one per performer. Critically, '''he was not charged with any obscenity offence''': the opinion records that "Defendant was not charged with any violation of the obscenity laws" and that "there was no determination the film was obscene." Section 266i reached "[a]ny person who: (a) procures another person for the purpose of prostitution"; prostitution was defined by § 647(b), quoted as "'[P]rostitution' includes any lewd act between persons for money or other consideration."
+
+The court reversed on '''two independent grounds'''.
+
+'''Ground one — statutory construction:''' "[I]t is clear that in order to constitute prostitution, the money or other consideration must be paid for the purpose of sexual arousal or gratification." There was no evidence Freeman paid the fees for arousal or gratification, his own or the performers', so he had neither the requisite conduct nor the requisite purpose. The court held "the Legislature did not intend the antipandering law to apply to the payment of acting fees for performance in a nonobscene motion picture," and at footnote 6 disapproved the contrary California line, including '''''People v. Fixler''''', 56 Cal.App.3d 321 (1976).
+
+'''Ground two — the First Amendment:''' "To include the hiring and paying of actors for acting in such a film within the definition of pandering would therefore unconstitutionally infringe on First Amendment liberties." A non-obscene film is protected expression, so prosecuting the hiring of its performers prosecutes the means of producing protected expression. The '''absence of an obscenity charge is load-bearing''' — ''Freeman'' does not protect obscene material, unprotected under ''Miller v. California'', 413 U.S. 15 (1973).
+
+'''The Supreme Court's response:''' in '''''California v. Freeman''''', 488 U.S. 1311 (1989) — the caption is ''California v. Freeman'', not ''Freeman v. California'' — '''Justice O'Connor, as Circuit Justice in chambers, denied California's stay application''' on 1 February 1989: "Interpretations of state law by a State's highest court are, of course, binding upon this Court." Because the judgment "rests on an adequate and independent state ground," review was unlikely. Certiorari was later denied; ''that reporter citation could not be verified and is omitted.''
+
+== Why Freeman does not travel ==
+
+''Freeman'' is '''a California decision construing a California statute'''. It binds California courts only, and the Supreme Court has never adopted its reasoning — the one federal document is an in-chambers stay denial explaining that the case was ''not'' a good federal vehicle.
+
+The structural reason is text. '''New York Penal Law § 230.00''': "A person is guilty of prostitution when such person engages or agrees or offers to engage in sexual conduct with another person in return for a fee." There is no arousal-or-gratification element to construe, so ''Freeman''{{'}}s statutory route is unavailable, leaving only another state's alternative constitutional dictum. Prosecutions on the contrary theory have been brought: '''''People v. Kovner''''', 96 Misc.2d 414 (N.Y. Sup. Ct. 1978), is the decision usually cited for the proposition that producing a pornographic film can be promoting prostitution under New York law. ''(The citation resolves to a real reported decision; the summary of its holding rests on secondary criminological literature, as the opinion text could not be retrieved.)''
+
+'''Settled:''' ''Freeman'' is the law in California. '''Contested and largely untested:''' whether the same result follows under a Family B statute. Any claim that "filming makes it legal," stated as a national rule, is wrong.
+
+== Documentation is what separates a production from a crime ==
+
+If lawfulness depends on a production genuinely existing, the evidence that it exists is not paperwork around the element — it ''is'' the element.
+
+'''18 U.S.C. § 2257''' applies to producers of matter containing visual depictions of '''actual sexually explicit conduct''' made after 1 November 1990 and produced with materials shipped in interstate or foreign commerce. The producer must '''(a)''' "create and maintain individually identifiable records pertaining to every performer"; '''(b)(1)''' "ascertain, by examination of an identification document containing such information," each performer's name and date of birth; '''(b)(2)''' ascertain every other name the performer has ever used, including stage names; '''(c)''' keep the records at the business premises, open to inspection; '''(e)(1)''' affix to every copy a statement of where the records are located — for a website, on every page where covered matter appears; and '''(e)(2)''', if an organisation, name the individual '''custodian of records''' with title and business address. Subsection (f) criminalises failing to create or maintain the records, a knowingly false entry, omitting the (e) statement, selling matter lacking it, or refusing inspection; '''(i)''': up to five years for a first offence, two to ten after a prior conviction. '''(h)(2)''' defines "produces" broadly — filming, digitising or assembling for commercial distribution, managing explicit content on a website — while excluding mere processing, printing, distribution and most hosting. Regulations: 28 C.F.R. Part 75. Long litigated — '''''Free Speech Coalition, Inc. v. Attorney General''''', 825 F.3d 149 (3d Cir. 2016) — but never struck down.
+
+'''§ 2257A''' imposes parallel duties for '''simulated''' explicit conduct, with a (h)(1) certification exemption for certain commercial enterprises and FCC-regulated entities that keep performer records in the ordinary course; under (h)(2) that exemption never covers child pornography or actual conduct under § 2256(2)(A)(i)–(iv).
+
+=== Exactly where the line falls: § 2256(2) ===
+
+Section 2256(2)(A) defines "sexually explicit conduct" as '''actual or simulated''':
+
+<code>
+  (i)   sexual intercourse (genital-genital, oral-genital,
+        anal-genital, oral-anal), same or opposite sex;
+  (ii)  bestiality;
+  (iii) masturbation;
+  (iv)  sadistic or masochistic abuse; or
+  (v)   lascivious exhibition of the anus, genitals, or
+        pubic area of any person.
+</code>
+
+'''Nudity alone is not on the list.''' An unclothed adult is not, without more, "sexually explicit conduct"; it is covered only as a '''lascivious exhibition''' under clause (v). But "lascivious" is '''a fact question, not a bright line''' — assessed from focal point, pose, setting, suggestion of sexual coyness and intent to elicit a sexual response, under multi-factor tests. '''This is the greatest uncertainty for an artistic-nude positioning''', and it cannot be dissolved by labelling the work art. (A statutory note excluded clause (v)-only depictions made before 27 July 2006 from § 2257, which is why pre- and post-2006 archives differ.)
+
+'''Practical consequence:''' a genuinely non-explicit production — artistically nude, no clause (i)–(iv) conduct, no lascivious exhibition — sits outside § 2257. But '''the cost of being wrong is a federal felony''', and industry practice is to keep § 2257-grade records (government photo ID, date of birth, all names used, signed release, named custodian) for '''any''' adult-nudity production, because the clause (v) call is made after the fact by someone else.
+
+== Depicted coercion versus actual coercion ==
+
+The sharpest version of the question is the scripted-coercion genre — staged "pawn shop," "landlord" and "casting" scenarios whose fiction depicts pressure or an unequal bargain. Two questions separate cleanly. '''What the footage depicts''' is a question of expression: scripted fiction performed by consenting adults is protected unless obscene under ''Miller'' or depicting a minor, and depicted coercion is no more criminal than depicted murder. '''How participation was obtained''' is a question of criminal law, and the footage cannot answer it: consent obtained by '''deception''' is not consent, and that is a federal crime however polished the production and however signed the release.
+
+=== The GirlsDoPorn prosecution ===
+
+The best modern illustration, because the videos looked like ordinary consensual content and the operators went to prison anyway. Six defendants were charged in San Diego federal court (S.D. Cal.) with sex trafficking by force, fraud and coercion, and conspiracy. The government's theory was about '''recruitment, not content''': women answered advertisements for modelling work that did not mention nudity, pornography or the site's name; paid "reference models" telephoned hesitant recruits and assured them the videos would not go online; online distribution was always intended; and women who tried to withdraw were threatened with lawsuits, cancelled return flights, or release of footage already shot. Dispositions as reported: '''Ruben Andre Garcia''' pleaded guilty in December 2020 and received 20 years; '''Matthew Wolfe''' 14 years; '''Theodore Gyi''' 4 years; '''Valorie Moser''' 2 years; '''Alexander Foster''' a year and a day on conspiracy to commit stalking; and '''Michael James Pratt''', the site's creator, who fled in 2019, reached the FBI Ten Most Wanted list, was arrested in Madrid in December 2022, pleaded guilty in June 2025 and was sentenced to '''27 years''', with restitution ordered in February 2026.
+
+'''Civil case''': ''Doe v. GirlsDoPorn'', San Diego Superior Court No. 37-2016-00019027-CU-FR-CTL, tried before Judge Kevin Enright in 2019; judgment 2 January 2020 of about '''$12.775 million''' ($9.475M compensatory, $3.3M punitive). The statement of decision called the release form "purposefully long and vague, written with an intent to obscure the true nature and character of the video's distribution," and the contracts never named the site.
+
+'''The lesson, precisely:''' the defendants '''had''' signed releases. The releases did not save them, because the releases were instruments of the deception. '''A signature obtained by a lie is evidence of the lie, not of consent.''' What a production must prove is not that a form was signed but that the performer knew what she was agreeing to — specifically '''where the material would be distributed and to whom'''.
+
+== Trafficking law as the outer boundary ==
+
+The TVPRA (18 U.S.C. §§ 1589–1595) sets the limit no state-law analysis and no First Amendment argument gets past.
+
+* '''§ 1589''' — forced labour obtained by force, threats, serious harm, abuse of legal process, or a scheme causing belief that serious harm would follow non-performance.
+* '''§ 1591(a)''' — knowingly recruiting, enticing, harbouring, transporting, providing, obtaining, advertising, patronising or soliciting a person, in or affecting interstate commerce, knowing that '''force, threats of force, fraud, or coercion''' will be used to cause a '''commercial sex act''' — or that the person is under 18. Subsection (a)(2) reaches anyone who '''knowingly benefits financially''' from such a venture.
+* '''§ 1591(e)''' — "commercial sex act" means "any sex act, on account of which anything of value is given to or received by any person"; "coercion" includes threats of serious harm or physical restraint, any "scheme, plan, or pattern" intended to cause that belief, and "the abuse or threatened abuse of law or the legal process"; "serious harm" expressly includes "psychological, financial, or reputational harm."
+* '''§ 1591(b)''' — 15 years to life where force, fraud or coercion is involved or the victim is under 14; 10 years to life for a victim aged 14–17 absent those means.
+* '''§ 1595''' — civil remedy against the perpetrator '''or''' "whoever knowingly benefits … from participation in a venture which that person knew or should have known has engaged in" a violation; 10-year limitation.
+
+Three consequences: '''"fraud" sits alongside force''', so no violence is required; '''"anything of value"''' makes the payment element trivial, so the fight is always over how participation was obtained; and § 1595's '''beneficiary liability''' on a "knew or should have known" standard reaches distributors, platforms and financiers, not only producers.
+
+'''FOSTA-SESTA''', Pub. L. 115–164 (11 April 2018), created '''18 U.S.C. § 2421A''' — operating an interactive computer service with intent to promote or facilitate another's prostitution, up to 10 years; aggravated under (b) for five or more persons or "reckless disregard of the fact that such conduct contributed to sex trafficking, in violation of 1591(a)," up to 25 years, with civil recovery in (c) and restitution in (d) — and added '''47 U.S.C. § 230(e)(5)''', stripping Section 230 immunity for § 1595 claims resting on § 1591 conduct and for state charges tracking § 1591 or § 2421A. Platforms therefore carry their own exposure, which is why distribution agreements now sit inside a production's legal perimeter.
+
+== The state-law layer: Texas ==
+
+Texas has no ''Freeman'' and a broadly drafted promotion statute. ''(Checked against current statutory text.)''
+
+* '''§ 43.03 (Promotion of Prostitution).''' An offence if, "acting other than as a prostitute receiving compensation for personally rendered prostitution services," the actor knowingly (1) "receives money or other property pursuant to an agreement to participate in the proceeds of prostitution," or (2) "solicits another to engage in sexual conduct with another person for compensation." Third-degree felony; second degree on a prior conviction; '''first degree''' where a person younger than 18 is involved, regardless of knowledge of age (last amended 2023). Note the drafting: '''no arousal-or-gratification element, and no exception for performance, production or expression''' — ''Freeman''{{'}}s statutory route is unavailable here.
+* '''§ 43.05 (Compelling Prostitution).''' Knowingly causing another "by force, threat, coercion, or fraud to commit prostitution"; or by any means a child under 18, regardless of knowledge of age; or a disabled individual. '''First-degree felony.''' Subsection (d) defines coercion to include withholding or confiscating (or threatening to) a person's government or identifying documents; causing intoxication without consent so as to impair the ability to appraise or resist; and withholding alcohol or a controlled substance from a chemically dependent person. Subsection (c) allows prosecution under this section, another, or both. '''This is the state mirror of § 1591''' — fraud is an enumerated means, document-withholding enumerated coercion.
+* '''§ 21.18 (Sexual Coercion).''' Intentionally threatening, including by coercion or extortion, to commit certain offences in order to obtain '''intimate visual material''', a sexual act, or a monetary benefit. "Intimate visual material" takes its meaning from § 21.16, "sexual conduct" from § 43.25; it applies however communicated, including electronically. State jail felony; third degree on a prior conviction.
+* '''''Garrett v. State''''', 566 S.W.2d 605 — '''partially verified.''' The citation resolves to a real reported Texas decision captioned ''Garrett v. State'', but '''the opinion text could not be retrieved''', so its holding, its year, and its asserted relationship to § 43.03 and to former arts. 519 (pandering) and 525 (procuring) are '''not verified here'''.
+* '''''Combs v. Texas Entertainment Association, Inc.''''', 347 S.W.3d 277 (Tex. 2011). The Texas Supreme Court upheld the $5-per-customer fee on businesses offering nude entertainment with alcohol: it was "clearly directed, not at expression in nude dancing, but at the secondary effects of nude dancing when alcohol is being consumed" — content-neutral, and avoidable by not serving alcohol. '''Regulation by taxation of expressive adult businesses routinely survives''' when pitched at secondary effects.
+
+== Nevada ==
+
+Nevada is the only US state with lawful licensed brothels, and the limits are '''county-by-county, not statewide'''. Under '''NRS 244.345''', a county licence board in a county of population 700,000 or more — Clark County, containing Las Vegas — may not license a house of prostitution. Counties below that threshold '''may''' license brothels but need not, and where no ordinance exists prostitution remains illegal by default; roughly seven counties currently have licensed houses. '''Prostitution outside a licensed house is a crime everywhere in Nevada, including Las Vegas and Reno.''' A brothel licence is a '''commercial sex''' licence, not a film production licence, and resolves no § 2257 or § 1591 question.
+
+== Consent, publication, and the photograph itself ==
+
+Civil law reaches § 2257's conclusion by another route: '''the publisher who does not verify consent bears the loss.'''
+
+* '''''Wood v. Hustler Magazine, Inc.''''', 736 F.2d 1084 (5th Cir. 1984). A nude photograph of LaJuan Wood was '''stolen''' from the Woods' home and sent to the magazine with a '''forged consent form'''. The Fifth Circuit held that "states are permitted, consistent with the First and Fourteenth Amendments, to impose liability for actual damages on publishers who negligently place private figures in an offensive false light," finding that "Hustler carelessly administered a slipshod procedure that allowed LaJuan to be placed in a false light in the pages of Hustler Magazine." Her $150,000 judgment was affirmed; her husband's $25,000 award was reversed. '''This is the civil mirror of § 2257''': an unverified release is worth nothing.
+* '''''Boyles v. Kerr''''', 806 S.W.2d 255 (Tex. App. 1991), rev'd 855 S.W.2d 593 (Tex. 1993). A young man secretly recorded a sexual encounter and showed it to others. On rehearing the Texas Supreme Court held that '''Texas recognises no general duty not to negligently inflict emotional distress''' — mental anguish is recoverable only on breach of some '''other''' legal duty — and reversed. The operative point: a Texas plaintiff must plead an '''independent duty''' (invasion of privacy, breach of contract, statute), which is how recorded-image cases are brought. ''(Both citations are verified. The further claim that the 1991 opinion discusses Hustler's liability for a stolen nude photograph could not be verified; the verified authority is'' Wood v. Hustler.'')''
+* '''15 U.S.C. § 6851''' — federal civil action for non-consensual disclosure of intimate images, created by the 2022 VAWA reauthorisation: actual or liquidated damages plus injunctive relief. Secondary sources report a '''$150,000''' figure but describe it variously as liquidated or statutory, so '''read the characterisation off the statute'''. Whether it reaches AI-generated or altered depictions is '''not settled'''.
+* '''The TAKE IT DOWN Act (2025)''' — separate federal statute criminalising non-consensual publication of intimate images including digital forgeries, with a platform notice-and-removal duty; criminal provisions effective on enactment, platform compliance date '''May 2026'''. ''Its enforcement record could not be verified and is not described here.''
+
+'''Through-line:''' § 2257 is the criminal duty to document consent and age; ''Wood'' is the civil penalty for publishing without verifying it; § 6851 and TAKE IT DOWN are the remedies when material goes out against the subject's will.
+
+== Where nude art sits ==
+
+'''''Miller v. California''''', 413 U.S. 15 (1973), supplies the obscenity test. The "basic guidelines for the trier of fact" are (a) "whether 'the average person, applying contemporary community standards' would find that the work, taken as a whole, appeals to the prurient interest"; (b) "whether the work depicts or describes, in a patently offensive way, sexual conduct specifically defined by the applicable state law"; and (c) "whether the work, taken as a whole, lacks serious literary, artistic, political, or scientific value." '''All three must be met''', so artistic nude work generally fails the first and third from the prosecution's side and is protected.
+
+'''''Reno v. ACLU''''', 521 U.S. 844 (1997), struck down the CDA's indecency provisions partly because they swept in "artistic images that include nude subjects" and would "cover large amounts of nonpornographic material with serious educational or other value" — the Court instanced a museum posting "nudes by Edward Weston and Robert Mapplethorpe" — holding "the CDA lacks the precision that the First Amendment requires when a statute regulates the content of speech." '''Adults have a constitutional right to receive non-obscene sexual and nude material.''' ''Combs'' is the counterweight: expressive adult businesses remain subject to '''secondary-effects regulation''' — zoning, licensing, targeted taxation.
+
+'''Settled:''' non-obscene artistic nude work is protected expression. '''Also settled:''' that protection is not protection from § 2257, from zoning and licensing, or from trafficking law.
+
+== Comparative law, briefly ==
+
+* '''Nordic / "equality" model''' — selling is not criminal, '''buying''' is, and third-party profit stays criminal: Sweden (Sex Purchase Act 1999), Norway and Iceland (2009), France (2016), Ireland (2017), Canada (PCEPA 2014).
+* '''Decriminalisation''' — treated as work, removed from criminal law and regulated through ordinary occupational health, safety and employment law: New Zealand (Prostitution Reform Act 2003).
+* '''Legalisation / regulation''' — lawful but licensed, registered, taxed and zoned, criminal law reserved for unlicensed operation, coercion and trafficking: Germany (Prostitution Act 2002; Prostitute Protection Act 2017), Netherlands (general brothel ban lifted 2000).
+* '''Partial prohibition (the US default)''' — both sides criminal, narrow local exceptions, production carved out only where a ''Freeman''-style construction exists: 49 states, plus Nevada by county licence.
+
+Under '''all four''' models coercion, fraud and trafficking remain crimes, and record-keeping and age-verification duties are independent of the prostitution rule. '''No jurisdiction treats the existence of a camera as a defence to coercion.'''
+
+== Summary ==
+
+{| class="wikitable"
+! Proposition !! Status
+|-
+| Paying adults to perform sexual conduct for a non-obscene film is not pandering in California || '''Settled''' — ''People v. Freeman''; stay denied, ''California v. Freeman''
+|-
+| The same is lawful nationwide || '''False''' — ''Freeman'' binds California only
+|-
+| Non-obscene artistic nude work is protected expression || '''Settled''' — ''Miller''; ''Reno v. ACLU''
+|-
+| Nudity alone triggers § 2257 || '''No''' — only via "lascivious exhibition," § 2256(2)(A)(v), a fact question
+|-
+| Depicting a coercive scenario is itself a crime || '''No''' — scripted fiction by consenting adults is protected
+|-
+| Obtaining participation by deception is a crime || '''Settled''' — 18 U.S.C. § 1591; the GirlsDoPorn prosecutions
+|-
+| A signed release establishes consent || '''No''' — a release obtained by misrepresentation is evidence of the fraud
+|-
+| Platforms are insulated by Section 230 || '''No longer''' — 47 U.S.C. § 230(e)(5); 18 U.S.C. § 2421A
+|}
+
+'''The sharpest single statement of the line:''' ''the payment is lawful when it buys a performance in a work that is actually being made and distributed, and the performer knew — on the record, before filming — what she was agreeing to and where it would go; it is a crime when the payment buys the sex act itself, or when her agreement was obtained by force, threat or a lie.'' The camera is evidence of the first proposition and never a substitute for it. '''What makes her an actress is not what the room looks like. It is what the payment was for, whether a production genuinely exists, and whether her informed consent and identity were documented before anything was recorded.'''
+
+== The operator's own framing: "Van Kush Family Guide to the Game" ==
+
+The BLURT series '''''Van Kush Family Guide to the Game''''' by @punicwax — Parts 1–3 (20, 28, 31 October 2021) and Part 4, "The Best 501(c)(3) Guide on the Internet" (7 December 2021) — states the same distinction in vernacular, and states it '''correctly''':
+
+: "It is not Illegal to pay a Woman or Man to be an Actress, to do nude Photos, or a Documentary … that is still acting pay. … So it's not like a Loophole, the Woman needs to be wanting to be an Actress and paid for that."
+
+: "This then gets to Landlord Rape and like the Pawn Shop stuff, all that is considered Pornographic, it's not Illegal for a Girl to be an Actress. … But these things aren't legal, when you are basically making a Girl a Prostitute, it's called 'Turning Hos out', and it's Human Trafficking and Rape."
+
+It also marks the revenge-porn boundary — material released "without her being an Actress, when she just wanted to have sex or was drugged … and you release a video to shame her" — and the contract point: "you can Contract with someone to be an Escort, or a Porn Star … these are in fact jobs."
+
+Where it is '''right''': the operative distinction is the performer's '''own intention to be a performer''', paid as one, not the content of the scene; and depicted coercion in a staged scenario does not make the scene criminal. That is ''Freeman'' plus § 1591 in plain language. Where it '''understates the law''': it states the rule as if it were national, and '''it is not''' — it is Californian, and Texas has no equivalent construction and no gratification element; it treats intention as sufficient, when '''intention is necessary but not sufficient''', because without documentation made before filming there is no admissible proof of it, and the GirlsDoPorn defendants had signatures and went to prison anyway; and it does not distinguish obscenity, where ''Freeman'' protects '''non-obscene''' work only.
+
+== See also ==
+
+[[The Library of Ashurbanipal]] · [[Autodidacts and Credentials]] · [[Glossaries]]
