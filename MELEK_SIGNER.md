@@ -201,3 +201,45 @@ The watcher I just shipped (Phase 1 of operator-facing security) is step 0 — a
 ---
 
 *Brief authored 2026-05-27. Will be updated as decisions §7 land and as the MELEK-Signer repo materializes.*
+
+---
+
+## 4. PRANA / EVM — MELEK-Signer is NOT Graphene-only (added 2026-10-28)
+
+**This file previously described only Graphene signing, and that was read — wrongly — as meaning the
+signer cannot sign for PRANA.** It can, and does, on the live instance. Documented here so the
+omission stops misleading people.
+
+The live signer (`/opt/melek-signer/src`, `melek-signer.service`) custodies **a PRANA (EVM) key per
+account** alongside the Graphene keys (`account-keystore` role `evm`) and serves:
+
+| Route | Body | Returns |
+|---|---|---|
+| `POST /v1/evm/address` | `{}` | `{ok, address}` — the bearer's own PRANA address |
+| `POST /v1/evm/sign` | `{message}` | `{ok, signature}` — personal-sign for a login challenge / off-chain proof |
+| `POST /v1/evm` | `{tx}` | `{ok, result:{hash}}` — signs **and sends** a PRANA transaction |
+
+Same token model as `/v1/broadcast`: the bearer resolves to one account and the signer acts **only**
+for that account — `evmSigner.getAddress(grant.account)`. The key is touched only inside `evmSigner`
+and is never returned. Verified live: all three answer `401 {"error":"invalid or revoked token"}`
+without a token, while an unknown path answers `404`, so the routes are real and EVM signing is
+configured (an unconfigured signer would answer `501 PRANA/EVM signing not configured`).
+
+### What this means for the cross-chain design
+
+- **One identity covers both chains.** "Login with MELEK" is enough for MELEK *and* PRANA. A user
+  needs no MetaMask, no seed phrase and no address to paste.
+- **There is no bind step**, which is what the NutBox model needed ("bind your TRON address" for
+  PNUT). The PRANA address for a MELEK account is simply the one the signer custodies for it. See
+  `kulaswap/prana-address-registry.mjs`, which learns it at login via `/v1/evm/address`.
+- **Each account's EVM key is its own**, from the keystore (`unwrapKey(account)`) — *not* derived
+  from one shared seed. So addresses cannot be computed off-chain, and a token only ever reveals its
+  own. Any service needing a mapping must be told at login; it cannot enumerate.
+- Through **Pentecaust**, Google / Facebook / one-time logins all attach to the same MELEK account
+  (`pentecaust/auth.mjs`, `social-auth.mjs`, `social-broker.mjs`) — "the MELEK account is the FIXED
+  POINT. Socials attach to it." So a social login reaches PRANA too, by the same route.
+
+**Do not reintroduce an EVM wallet-connect or an address-paste field as the primary path.**
+An external wallet stays possible for someone who insists on holding their own key; it is not the
+path and must not be assumed. `kulaswap/soapbox-staking.mjs` carried that wrong assumption in its
+header until 2026-10-28.

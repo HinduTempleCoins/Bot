@@ -21,6 +21,8 @@
 //
 // House style: ESM .mjs, BigInt, injectable fetch (__setFetch), soft-fail, CLI guarded by argv[1].
 
+import { allAddresses } from './prana-address-registry.mjs';
+
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
 // THE ACCOUNT SPLIT (operator, 2026-10-28). Two bots, two jobs:
@@ -124,8 +126,9 @@ export async function listInboundDelegations(target = TARGET(), opts = {}) {
  * `issued`   : Map<melekAccount, dMP wei already held>
  * `wallets`  : Map<melekAccount, 0x address>          — who receives the dMP
  *
- * An account with a delegation but no linked wallet is reported in `unlinked`, never dropped
- * silently: that is someone owed ALTI who cannot be paid until they link a wallet.
+ * An account with a delegation but no known PRANA address is reported in `unlinked`, never dropped
+ * silently: that is someone owed ALTI whose address the signer has not been asked for yet (they have
+ * not logged in since delegating). There is nothing for them to bind — only to log in.
  *
  * @returns {{mints:Array,burns:Array,unchanged:number,unlinked:string[],totalDelegatedWei:string}}
  */
@@ -147,11 +150,20 @@ export function dmpIntents({ inbound = new Map(), issued = new Map(), wallets = 
   return { mints, burns, unchanged, unlinked, totalDelegatedWei: total.toString() };
 }
 
-/** One pass: read the chain, diff, and return the intents. Never throws. */
-export async function plan({ target = TARGET(), issued = new Map(), wallets = new Map(), ...opts } = {}) {
+/**
+ * One pass: read the chain, diff, and return the intents. Never throws.
+ *
+ * `wallets` defaults to the PRANA address registry, which MELEK-Signer fills in at login
+ * (prana-address-registry.mjs). THERE IS NO BIND STEP: a delegator's PRANA address is the one the
+ * signer already custodies for their MELEK account, so the two chains are joined by the single
+ * identity rather than by anything a user types or pastes. Pass `wallets` explicitly only in tests.
+ */
+export async function plan({ target = TARGET(), issued = new Map(), wallets = null, ...opts } = {}) {
   let inbound = new Map();
   try { inbound = await listInboundDelegations(target, opts); } catch { inbound = new Map(); }
-  return { ok: true, target, delegators: inbound.size, ...dmpIntents({ inbound, issued, wallets }) };
+  let w = wallets;
+  if (!w) { try { w = allAddresses(opts.registry || {}); } catch { w = new Map(); } }
+  return { ok: true, target, delegators: inbound.size, ...dmpIntents({ inbound, issued, wallets: w }) };
 }
 
 // ── CLI (guarded) — read-only; prints what WOULD be minted ────────────────────────────────────────
