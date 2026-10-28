@@ -744,6 +744,15 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  <h2>✉️ Email</h2>
  <p class=mut>Your MELEK email address:</p>
  <div class=row style="max-width:340px"><input id=mailAddr readonly value="—"></div>
+ <!-- ⛔ WHEN THE INBOX GOES LIVE, DO NOT RENDER RAW HTML EMAIL HERE.
+      Nothing a sender inserts anywhere in Pentecaust may navigate a reader off-site: that is why
+      integrations/maker-embeds.mjs renderText() only linkifies our own hosts and leaves every other
+      URL as inert text. Inbound mail is the WORST case for this — it comes from total strangers who
+      never had to log in. Render mail bodies as TEXT through renderText() with externalLinks left
+      false (the default), never as the sender's own HTML, and never with innerHTML of a mail body.
+      A real external link in mail is the one deliberate exception the operator named (2026-10-28);
+      if it is ever wanted, it must be an explicit, visible "leaving Pentecaust" step, not a bare
+      clickable href. -->
  <div id=mailBox class=feed style="margin-top:10px"><div class=empty>Your inbox is being set up. When it's live, mail to your <b>@pentecaust.com</b> address lands here.</div></div>
  <p class=hint>Your email is part of your one MELEK account — the same name as your chat and your <b>.melek</b> identity.</p>
 </div>
