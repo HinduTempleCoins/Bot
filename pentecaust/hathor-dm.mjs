@@ -12,6 +12,12 @@
 //   import { hathorDM } from './hathor-dm.mjs'
 //   node pentecaust/hathor-dm.mjs vankushfamily "the KULA bridge guide is up"   # --dry to preview
 //
+// ⛔ NOTHING CALLS THIS AUTOMATICALLY, AND THAT IS DELIBERATE (operator, 2026-10-28).
+// There is no welcome IM on signup and no triggered messaging of any kind right now — that belongs
+// to the TUTORIAL work, not here. Do not wire this into signup, the welcomer, a cron, a webhook or
+// any other trigger on your own initiative. It is a hand-run sender until the operator says what
+// should fire and to whom.
+//
 // House style: ESM, injectable store opts, soft-fail-never-throw, CLI guarded by argv[1].
 
 import { postDM } from './messaging.mjs';
