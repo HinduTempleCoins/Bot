@@ -50,6 +50,14 @@ export function encodeGetAmountsOut(amountIn, path) {
 export function encodeSwap(amountIn, amountOutMin, path, to, deadline) {
   return `0x38ed1739${word(amountIn)}${word(amountOutMin)}${word(0xa0)}${addr(to)}${word(deadline)}${word(path.length)}${path.map(addr).join('')}`;
 }
+/** addLiquidity(address,address,uint,uint,uint,uint,address,uint) — the only way to seed a pool. */
+export function encodeAddLiquidity(tokenA, tokenB, amtADesired, amtBDesired, amtAMin, amtBMin, to, deadline) {
+  return `0xe8e33700${addr(tokenA)}${addr(tokenB)}${word(amtADesired)}${word(amtBDesired)}`
+       + `${word(amtAMin)}${word(amtBMin)}${addr(to)}${word(deadline)}`;
+}
+/** getReserves() on a pair, as [reserve0, reserve1]. */
+export const encodeGetReserves = () => '0x0902f1ac';
+
 /** Decode a uint256[] return value. */
 export function decodeUintArray(hex) {
   const h = String(hex || '').replace(/^0x/, '');
@@ -152,6 +160,64 @@ export async function runDca({ token, from, to, amount, dry = false }) {
   return { ok: s.ok, traded: s.ok, ...view, approveTx: approve, swapTx: s.hash };
 }
 
+// ── add liquidity ───────────────────────────────────────────────────────────────────────────────────────
+// A pool with no depth is not a market: every trade moves it, so nobody trades, so it stays empty. This
+// is the mode that breaks that loop. The RATIO is never invented here — for a pool that already has
+// reserves the existing price is used (re-pricing it would hand the difference to an arbitrageur); for an
+// empty pool the caller must pass both amounts, because seeding an empty pool IS setting the price and
+// that decision belongs upstream in kulaswap/liquidity-ratios.mjs, not in a trading bot.
+
+/** Work out the matching B amount for a given A, from the pool's own reserves. Returns null if empty. */
+export function matchAmount({ reserveA, reserveB, amountA }) {
+  const ra = BigInt(reserveA || 0); const rb = BigInt(reserveB || 0); const a = BigInt(amountA || 0);
+  if (ra <= 0n || rb <= 0n || a <= 0n) return null;
+  return (a * rb) / ra;
+}
+
+export async function runAddLiquidity({ token, a, b, amountA, amountB = null, slippageBps = 100, pair = null, dry = false }) {
+  const A = TOKENS[a]; const B = TOKENS[b];
+  if (!A || !B) throw new Error(`unknown token ${!A ? a : b}`);
+  const { address: owner } = await signer('/v1/evm/address', {}, token);
+  const amtA = units(amountA, A.decimals);
+
+  let amtB = amountB != null ? units(amountB, B.decimals) : null;
+  let priced = 'caller';
+  if (amtB == null) {
+    if (!pair) throw new Error('an empty pool needs an explicit amountB — the ratio sets the price');
+    const raw = await ethCall(pair, encodeGetReserves());
+    const h = String(raw).replace(/^0x/, '');
+    const r0 = BigInt('0x' + h.slice(0, 64)); const r1 = BigInt('0x' + h.slice(64, 128));
+    // reserves are ordered by token address, not by our argument order
+    const aFirst = A.address.toLowerCase() < B.address.toLowerCase();
+    const m = matchAmount({ reserveA: aFirst ? r0 : r1, reserveB: aFirst ? r1 : r0, amountA: amtA });
+    if (m == null) throw new Error('pool is empty — pass amountB explicitly to set the opening price');
+    amtB = m; priced = 'pool reserves';
+  }
+
+  const balA = BigInt(await ethCall(A.address, encodeBalanceOf(owner)));
+  const balB = BigInt(await ethCall(B.address, encodeBalanceOf(owner)));
+  if (balA < amtA || balB < amtB) {
+    return { ok: false, reason: `insufficient balance: have ${fromUnits(balA, A.decimals)} ${a} / `
+      + `${fromUnits(balB, B.decimals)} ${b}, need ${fromUnits(amtA, A.decimals)} / ${fromUnits(amtB, B.decimals)}`,
+      owner, priced };
+  }
+  const minA = amtA - (amtA * BigInt(slippageBps)) / 10000n;
+  const minB = amtB - (amtB * BigInt(slippageBps)) / 10000n;
+  const plan = { owner, a, b, amountA: fromUnits(amtA, A.decimals), amountB: fromUnits(amtB, B.decimals), priced };
+  if (dry) return { ok: true, dry: true, ...plan };
+
+  const approvals = [];
+  for (const [sym, amt] of [[a, amtA], [b, amtB]]) {
+    const h = await ensureAllowance(token, owner, sym, amt);
+    if (h) approvals.push(h);
+  }
+  const deadline = Math.floor(Date.now() / 1000) + 600;
+  const hash = await sendTx(token, { to: ROUTER,
+    data: encodeAddLiquidity(A.address, B.address, amtA, amtB, minA, minB, owner, deadline) });
+  const rc = await receipt(hash);
+  return { ok: !!rc && rc.status === '0x1', ...plan, approvals, hash };
+}
+
 // ── rebalance: keep two tokens at a target split by value ───────────────────────────────────────────────
 /**
  * Decide a rebalance. Pure. `price` = value of 1 A in B. Returns the swap that brings A's share of total
@@ -232,7 +298,11 @@ if (process.argv[1] && process.argv[1].endsWith('kulaswap-executor.mjs')) {
   const token = process.env.KULABOT_TOKEN, dry = a.includes('--dry');
   try {
     if (!token) throw new Error('KULABOT_TOKEN not set');
-    const r = a[0] === 'dca'
+    const r = a[0] === 'addliq'
+      ? await runAddLiquidity({ token, a: get('--a', 'KULA'), b: get('--b', 'WPRANA'),
+          amountA: get('--amount-a', '10'), amountB: get('--amount-b', null),
+          pair: get('--pair', null), slippageBps: +get('--slippage-bps', 100), dry })
+      : a[0] === 'dca'
       ? await runDca({ token, from: get('--from', 'KULA'), to: get('--to', 'WPRANA'), amount: get('--amount', '10'), dry })
       : a[0] === 'rebalance'
         ? await runRebalance({ token, a: get('--a', 'KULA'), b: get('--b', 'WPRANA'), target: +get('--target', 0.5), band: +get('--band', 0.05), dry })
