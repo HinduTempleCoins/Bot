@@ -1,0 +1,35 @@
+'''Amino acid complexes''' are blended free-form amino acid supplements. In the Institute's stack the entry is a twelve-amino-acid complex, and its role is '''substrate supply to the BH4-dependent hydroxylases''' rather than protein nutrition.
+
+== Why these particular amino acids matter ==
+
+Three of the four largest components in the blend sit directly on pathways the rest of the stack is built around.
+
+* '''L-Phenylalanine''' → tyrosine, via '''phenylalanine hydroxylase''' — a BH4-dependent enzyme.
+* '''L-Tyrosine''' → L-DOPA, via '''tyrosine hydroxylase''' — BH4-dependent, and the rate-limiting step of catecholamine synthesis. L-DOPA then becomes dopamine, noradrenaline and adrenaline.
+* '''L-Tryptophan''' (where present) → 5-HTP, via '''tryptophan hydroxylase''' — BH4-dependent, and the rate-limiting step for serotonin.
+
+All three hydroxylases draw on the same cofactor, which is what [[L-Methylfolate|L-methylfolate]] exists in the stack to regenerate. '''A cofactor with no substrate does nothing, and substrate with no cofactor does nothing.''' That symmetry is the whole reason an amino acid complex is in a folate-centred stack.
+
+* '''L-Leucine''' is the branched-chain amino acid that signals '''mTORC1''' and initiates muscle protein synthesis.
+* '''L-Lysine''' is essential, is required for carnitine synthesis, and is the residue that '''lysyl hydroxylase''' and '''lysyl oxidase''' act on to cross-link collagen — which ties it to [[Silicon and Collagen|silicon]].
+
+== An honest note on the doses ==
+
+The amounts in a typical complex are small — tens of milligrams each. '''That is below the threshold at which leucine triggers muscle protein synthesis''', which the literature puts nearer '''2.5–3&nbsp;g in a single feeding'''. A complex of this kind should be read as supplying '''variety and pathway substrate''', not as a dose of any one amino acid.
+
+Anyone taking it for the leucine signal specifically is taking roughly a thirtieth of what the trials used. Anyone taking it as hydroxylase substrate alongside a cofactor is using it as intended.
+
+== Free-form versus protein ==
+
+Free amino acids are absorbed faster than intact protein and do not require digestion, which is the argument for them. The counter-argument is that ordinary dietary protein supplies all of these in gram quantities at lower cost. The case for a complex is narrow and specific: it targets particular pathway substrates, on an empty stomach, without the competing bulk of a full protein meal — and '''large neutral amino acids compete for the same blood–brain barrier transporter''', so a protein meal and a targeted tyrosine dose are genuinely not the same intervention.
+
+== Cautions ==
+
+* '''Phenylketonuria (PKU)''' — phenylalanine is '''contraindicated'''. This is absolute, not a caution.
+* '''MAO inhibitors''' — tyrosine and phenylalanine are catecholamine precursors; combination carries hypertensive risk.
+* '''Thyroid''' — tyrosine is a thyroid hormone precursor; relevant in hyperthyroidism and with thyroid medication.
+* '''Melanoma''' — tyrosine and phenylalanine restriction has been studied in melanoma; supplementation is the opposite direction.
+* '''Renal impairment''' — nitrogen load.
+* '''Arginine and lysine''' oppose each other in herpes simplex; see [[L-Arginine]].
+
+See also: [[The Amplification Framework]] · [[L-Methylfolate]] · [[L-Arginine]] · [[B-Vitamins]] · [[Stack Substances]]

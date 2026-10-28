@@ -1,0 +1,35 @@
+'''Lutein''' is a '''xanthophyll carotenoid''' — an oxygenated carotenoid that plants synthesise for '''photoprotection''', and that the human eye concentrates in the macula for what appears to be the same purpose. It is the most literal borrowing in the Institute's stack: a plant's own light-damage defence, eaten.
+
+== Macular pigment ==
+
+The human macula concentrates three carotenoids — '''lutein, zeaxanthin and meso-zeaxanthin''' — into the '''macular pigment''', at the point of sharpest vision. Two mechanisms are proposed and both are plausible:
+
+* '''Blue-light filtration.''' Macular pigment absorbs strongly in the 400–500&nbsp;nm range, in front of the photoreceptors. Short-wavelength light is the most energetic part of the visible spectrum and the most damaging to the retina.
+* '''Antioxidant action.''' The retina has the highest oxygen consumption per gram of any tissue and is dense in polyunsaturated fatty acids — a combination that makes it unusually exposed to lipid peroxidation.
+
+Humans cannot synthesise carotenoids. '''All macular pigment is dietary''', principally from dark leafy greens and egg yolk.
+
+== The AREDS2 result, and why it matters ==
+
+'''AREDS''' tested an antioxidant formula against progression of age-related macular degeneration and included '''beta-carotene'''. That turned out to be a problem: the '''CARET''' and '''ATBC''' trials had found beta-carotene '''increased lung cancer incidence in smokers''' — one of the clearest harms ever produced by a supplement trial.
+
+'''AREDS2''' replaced beta-carotene with '''lutein 10&nbsp;mg and zeaxanthin 2&nbsp;mg'''. The substitution was at least as effective for AMD progression and removed the smoker risk. Those two figures are where the standard supplement dose comes from, and they are the only carotenoid doses in this stack with a large randomised trial behind them.
+
+The honest limit: AREDS2 studied '''progression in people who already had intermediate AMD'''. It is not evidence that lutein prevents AMD in healthy eyes, and the general-population and "screen fatigue" claims are far weaker than the AMD-progression claim.
+
+== Role in the stack ==
+
+Lutein sits in the '''degradation inhibitor''' row of [[The Amplification Framework]] alongside [[L-Carnosine]] and [[Liposomal Vitamin C|vitamin C]] — the antioxidant layer that protects the cofactors rather than supplying them. Within the plant-feeding frame the parallel is exact rather than decorative: carotenoids exist in the leaf to dissipate excess light energy before it damages the photosystem.
+
+== Absorption ==
+
+Lutein is '''fat-soluble''' and absorption is poor from a low-fat meal. Taking it with dietary fat materially increases uptake. Formulation matters as usual — free lutein and lutein esters differ in bioavailability, and marigold (''Tagetes'') oleoresin is the usual commercial source.
+
+== Cautions ==
+
+* '''Smokers should avoid beta-carotene''', which still appears in older eye formulas. This is the relevant hazard in this product category and it is not lutein's.
+* '''Carotenodermia''' — harmless yellow-orange skin discolouration at sustained high intake.
+* '''Cystic fibrosis''' and other fat-malabsorption states reduce uptake substantially.
+* No established toxicity at dietary or AREDS2 doses.
+
+See also: [[L-Carnosine]] · [[Liposomal Vitamin C]] · [[The Amplification Framework]] · [[Stack Substances]]
