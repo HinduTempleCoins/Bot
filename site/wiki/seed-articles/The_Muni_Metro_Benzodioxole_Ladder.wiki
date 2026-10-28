@@ -1,0 +1,121 @@
+'''The Muni Metro Benzodioxole Ladder''' is the family of MDMA-adjacent compounds in ''PIHKAL'' (Alexander Shulgin, 1991) built on the 1,3-benzodioxole ring — METHYL-J, METHYL-K, ETHYL-J, ETHYL-K and the unexplored L-series — together with the N-substituted branch that grows off the same skeleton: MDPL, MDMP, MDBZ, MDCPM, MDHOET and METHYL-MMDA-2. The family is named after a streetcar system. It is organised along two axes — how long the carbon chain at the alpha-position is, and what is hung on the nitrogen — and both axes run out. Shulgin's own verdict on the first, at the pentane step, is "''The well appears to be running dry.''"
+
+== The epistemic standing of this record ==
+
+Stated once. Everything below is '''unblinded self-report''' from Shulgin and a small research group, hand-escalated from sub-threshold doses, with no placebo arm and no blinding. In this family the problem has a particular shape, because the effects being judged are social and affective — warmth, intimacy, spontaneity — and the comparison standard is MDMA, a drug everyone in the room already knew well. A rating of "''lacking some of the spontaneity''" relative to a known drug, given by people who knew what they had taken, is a genuine observation and a weak measurement at the same time. Read it as testimony, not as data.
+
+== Why "Muni Metro" ==
+
+The naming scheme is explained in the METHYL-J entry (128). The '''Muni Metro''' is the San Francisco Municipal Railway's underground streetcar network, whose lines connect out to the surface bus system, and whose lines are lettered: '''J''' Church, '''K''' Ingleside, '''L''' Taraval, '''M''' Ocean, '''N''' Judah. Shulgin borrowed the letters to index the length of the carbon chain hanging at the alpha-position of a 3,4-methylenedioxyphenyl compound.
+
+* '''H''' — no alpha-substituent at all: the plain phenethylamine, MDPEA, whose trivial name ''homopiperonylamine'' supplies the letter.
+* '''I''' — one carbon at the alpha-position: the amphetamines, already so thoroughly named that the letter is never used. MDA, MDMA and MDE are I, METHYL-I and ETHYL-I.
+* '''J''' — an alpha-ethyl group, two carbons. The corpus glosses the letter as deriving from "Jacobamine", after a chemist of that name.
+* '''K''' — three carbons, the propyl chain.
+* '''L''' — four carbons, the butyl chain; the end of the Taraval line.
+
+N-substitution is marked with a prefix: '''METHYL-''' and '''ETHYL-'''. So METHYL-J is the N-methyl compound with a two-carbon alpha chain — the molecule more usually written MBDB — and ETHYL-K is the N-ethyl compound with a three-carbon alpha chain.
+
+Shulgin's justification for slotting the amphetamines in as "I" is characteristically literal: "''It is quite obvious, that with one carbon atom lying on that alpha-position, you are precisely half-way between no carbons and two carbons''" — and I is half-way between H and J. For the wider naming system see [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]].
+
+<code>
+                   N-H          N-methyl        N-ethyl
+   H  (no α-C)   MDPEA         METHYL-H        —
+   I  (1 C)      MDA           MDMA            MDE
+   J  (2 C)      J  (BDB)      METHYL-J        ETHYL-J
+   K  (3 C)      K             METHYL-K        ETHYL-K
+   L  (4 C)      L             METHYL-L        ETHYL-L   ← none assayed
+</code>
+
+== Walking up the alpha chain ==
+
+=== METHYL-J (entry 128) ===
+
+The one compound in the ladder with a real body of human data, and the one everything else is measured against.
+
+:"''An observer who was familiar with the outwardly apparent effects with groups experimenting with MDMA felt that, although most subjects commented favorably in their comparisons of METHYL-J with MDMA, there was lacking some of the spontaneity, the warmth, and the clear intimacy of the latter drug. The dosage range explored is remarkably tight, attesting to a consistency of response. The typical supplement used, if any, was 70 milligrams or less, just before the two hour point. This indicates a chronology similar to that of MDMA, and about two thirds the potency.''"
+
+Four separate facts are in that paragraph, and they are the most useful ones in the family:
+
+* '''Potency''': about two thirds that of MDMA — so a given effect takes about half again as much material.
+* '''Chronology''': similar to MDMA, inferred from where the supplement lands. A supplement taken "''just before the two hour point''" is a statement about when the plateau starts to fall away.
+* '''Supplement size''': "''70 milligrams or less''".
+* '''Variance''': low. "''The dosage range explored is remarkably tight, attesting to a consistency of response''" — which, in a corpus where inter-individual variance is usually the headline problem (see [[Idiosyncratic Responders Inter-Individual Variance and the Street Market]]), is itself a finding.
+
+What it does not have is MDMA's particular social signature. Adding one carbon at the alpha-position keeps the chronology, costs a third of the potency, and removes some of the "''spontaneity, the warmth, and the clear intimacy''". That is the exchange rate for the whole ladder.
+
+=== ETHYL-J (entry 77) ===
+
+The N-ethyl version of the same two-carbon chain, and the top of the explored range: "''And nothing higher has ever been looked at.''" The extrapolation is explicit and self-limiting:
+
+:"''If the analogy with the amphetamine counterparts (J with MDA, METHYL-J with MDMA, and this, with MDE) were to hold up (a drop of about a third in potency with the lengthening of the chain by a carbon atom), one might guess that this compound would be an interesting intoxicant, but probably not until you got up into the area at or above a 200 milligram dose. And that is a lot of chemical for the body to have to handle. Some day, maybe.''"
+
+'''A drop of about a third per carbon''' is the rule of thumb the family runs on, and the 200 mg figure is a prediction, never an observation. The clause that follows it is the one worth keeping: a predicted active dose that high is itself a reason not to go there, independent of what the compound might do. Milligram potency is a safety property, not just a convenience — the lower the active dose, the smaller the mass of unknown material a body has to clear.
+
+=== METHYL-K (entry 129) ===
+
+One more carbon, and the signal stops:
+
+:"''The well appears to be running dry, with a pentane chain as a basic skeleton. METHYL-J, at this level, was already showing a number of hints and clues, largely physical such as coldness in the feet and a slight mastoidal pressure, that activity was right around the corner. But METHYL-K gave no such hints.''"
+
+The method on display here is more interesting than the result. What Shulgin is tracking at sub-threshold doses is not mental effect but '''physical prodrome''' — coldness in the feet, pressure behind the ears — the small bodily signs that, in his experience, arrive one or two escalation steps before anything psychological does. Their ''absence'' is what closes the K line. The unmethylated homologue K (2-amino-1-(3,4-methylenedioxyphenyl)pentane) was made as a white crystalline solid, mp 202–203 °C, and reported "''in the comments only, as its human assaying had never even been initiated''". On the escalation protocol itself see [[The Shulgin Method Dose Escalation and the Research Group]].
+
+=== ETHYL-K (entry 78) and the L-series ===
+
+ETHYL-K's commentary is two sentences long: "''And that is as high a dose as has apparently ever been tried with ETHYL-K.''" The hexane-chain L compounds were synthesised and characterised — L at mp 157–158 °C, METHYL-L at mp 139–141 °C, ETHYL-L prepared the same way with ethylamine — and then stopped: "''None of this series has yet been explored either as psychedelic or entactogenic materials.''" Three finished compounds, fully characterised, never tasted. They belong with the other stalled work in [[Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage]].
+
+== The other axis: what goes on the nitrogen ==
+
+Changing the N-substituent on the MDA skeleton is cheaper synthetically than extending the alpha chain, and ''PIHKAL'' contains a long run of these. Almost all of them fail, and they fail for reasons that generalise.
+
+{| class="wikitable"
+! Compound !! N-substituent !! What the corpus reports
+|-
+| '''MDPL''' (117) || propargyl (prop-2-ynyl) || Listed at >150 mg; the entry describes no effects at all and is given over entirely to nomenclature
+|-
+| '''MDBZ''' (103) || benzyl || "''Here too, there appears to be little if any activity in the N-benzyl analogue of MDA''"
+|-
+| '''MDCPM''' (104) || cyclopropylmethyl || "''The highest level tried was 10 milligrams, which showed no hint of activity''"
+|-
+| '''MDHOET''' (107) || 2-hydroxyethyl || "''Certainly not very active, if it is active at all''"; at several hundred mg, altered colour and depth perception, no euphoria, "''said to resemble a mild dose of ketamine''"
+|-
+| '''MDMP''' (113) || N-methyl, with a ''gem''-dimethyl alpha (phentermine pattern) || "''Clearly not psychedelic at these modest levels''"; inactive as a serotonin releaser ''in vitro''; "''one of several candidates for clinical use as a substitute for MDMA''"
+|-
+| '''METHYL-MMDA-2''' (131) || N-methyl, on the MMDA-2 ring || Parent active at 25–50 mg; "''The highest dose yet reported was 70 milligrams''", with no estimate of an active level
+|}
+
+'''MDBZ''' supplies the structural rule the rest of the table obeys. A benzylamine is not a phenethylamine, and the difference of one carbon is not a small one:
+
+:"''With most centrally active alkaloids, there is a two-carbon separation between the weak base that is called the aromatic ring, and the strong base that is called the nitrogen... If one carbon is removed, one has a benzylamine, and it is usually identified with an entirely different pharmacology, or is most often simply not active.''"
+
+His external evidence is fentanyl, where "''The replacement of the phenethyl group, attached to the nitrogen atom with a benzyl group, virtually eliminates its analgesic potency''". And his verdict on the synthetic chemist's favourite protecting group: "''The benzyl group is a good ally in the synthetic world of the organic chemist... In pharmacology, however, it is often a disappointment.''"
+
+'''MDHOET''' supplies the other rule — the one that explains why a free hydroxyl anywhere exposed is usually fatal to activity: "''Most compounds with bare, exposed polar groups like hydroxyls are not centrally active, as they simply do not have any way of getting into the brain.''" What survives at very high doses is interesting precisely because it is not entactogenic: altered colour and depth perception with '''no euphoria''', resembling "''a mild dose of ketamine''" — and MDHOET is, per the entry, "''among the most effective of all the N-substituted MDA derivatives assayed in several animal analgesia models''". An analgesic signature, not an empathogenic one.
+
+'''MDCPM''' is the honest null in the set, and Shulgin labels it as such: "''The record of the tasting assay of this compound is pretty embarrassing.''" Ten milligrams is nowhere near a verdict, and because other cyclopropylmethyl compounds (CPM, 2C-T-8) are active, he flags it for reinvestigation rather than filing it as inactive. The distinction between ''tested and inactive'' and ''barely tested'' runs throughout [[Inactive Compounds and the Publishing of Negative Results]].
+
+'''MDMP''' is the only one in the table presented as a forward prospect, and the reasoning is clinical rather than recreational: a non-psychedelic, non-serotonin-releasing MDMA-shaped molecule is exactly what a therapist would want if the serotonergic load is the part they are trying to avoid. "''There will have to be a much broader study of its qualitative action in man.''" The naming note attached is a small lesson in collision avoidance: "''MDM should not be used as it has found some currency as an abbreviation for MDMA... MDMP fits neatly with Methylene-Dioxy-Me-Phentermine.''"
+
+'''MDPL''' is the family's oddity: an entry about a compound that contains no pharmacology whatsoever, only a long and genuinely funny argument about whether the three-carbon radical with a triple bond should be called propargyl or propynyl ("''Wait. I'm not done yet!''"). The code is a compromise between the two: "''MDPL takes the first and last letter of the two of them, both propargyl and propynyl.''"
+
+== What the ladder actually teaches ==
+
+Three findings survive the whole family.
+
+# '''Extending the alpha chain costs about a third of the potency per carbon and erodes the social quality first.''' METHYL-J keeps MDMA's chronology and loses some of its warmth; by METHYL-K there is nothing left to lose.
+# '''Substituting the nitrogen is cheap and almost always destructive.''' Benzyl kills it by breaking the two-carbon rule, hydroxyethyl kills it by exposing a polar group, propargyl and cyclopropylmethyl produce nothing at the doses tried. The surviving variations — N-methyl, N-ethyl, N-hydroxy — are small ones.
+# '''The series ends in a stack of characterised, untasted solids.''' K, L, METHYL-L, ETHYL-L: melting points recorded, human data zero.
+
+METHYL-MMDA-2's entry closes with the line that explains why Shulgin published all of it anyway, dead ends included: "''There is a surprisingly large number of inconspicuous chemical explorers out there all over the world, doing their synthetic thing in their private laboratories. They are truly the astronauts of inner space.''" The ladder is published so that the next person climbing it knows which rungs are missing — and knows that the top ones were sawn off deliberately, at 200 milligrams, because "''that is a lot of chemical for the body to have to handle''".
+
+== See also ==
+
+* [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]] — the lettering system and its neighbours
+* [[Idiosyncratic Responders Inter-Individual Variance and the Street Market]] — why METHYL-J's tight dose range is unusual
+* [[David E Nichols Entactogen Pharmacology and Receptor Mapping]] — the entactogen category these compounds define
+* [[Chain Length the Bushy End and the Duration of Action]] — the alpha-chain rule in the wider corpus
+* [[Inactive Compounds and the Publishing of Negative Results]] · [[Shulgins Open Problems Compounds Left at the Aldehyde and Nitrostyrene Stage]]
+* [[The Shulgin Method Dose Escalation and the Research Group]] — physical prodrome and sub-threshold escalation
+* [[Therapeutic Use as Shulgin Reports It]] — the clinical-substitute argument behind MDMP
+* [[Shulgin Synthetic Method Nitrostyrenes Scrudge and the Reduction Problem]] — the reductive aminations that built this family
+* [[PIHKAL and TIHKAL]] · [[Psychedelic and Psychopharmacology Glossary]] · [[Shulgin Rating Scale]]

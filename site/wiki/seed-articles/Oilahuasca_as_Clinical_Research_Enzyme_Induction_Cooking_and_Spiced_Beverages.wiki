@@ -1,0 +1,125 @@
+'''Oilahuasca''' is usually described by what it was built to do — produce psychoactive effects from culinary allylbenzenes by manipulating cytochrome P450 enzymes, as set out in [[Oilahuasca]] and [[69Ron and Oilahuasca Chemistry]]. That is the demonstration, not the point. '''The point is the method''': deliberately changing how much of a compound reaches the blood, and for how long, by giving something that modulates the enzymes and transporters handling it.
+
+Medicine already does this on purpose, in drugs that millions of people take. It also does it by accident, which is how people die of grapefruit. This article treats oilahuasca as what the operator calls it — '''a novel experimental approach and an area of research''' — and sets it beside the established clinical practice of enzyme manipulation, the kitchen chemistry that does the same thing unlabelled, and the study design that would turn the hypothesis into data.
+
+== The principle, stated generally ==
+
+<code>
+   DOSE TAKEN
+        │
+        ▼
+   ABSORPTION ──────── gut wall CYP3A4, UGT, P-glycoprotein efflux
+        │              ◄── FIRST-PASS. For many drugs most of the dose
+        ▼                   never survives this step at all.
+   PORTAL VEIN
+        │
+        ▼
+   LIVER ───────────── CYP1A2, 2C9, 2C19, 2D6, 3A4 (phase I)
+        │              UGT, SULT, NAT, GST       (phase II)
+        ▼
+   SYSTEMIC CIRCULATION  ── what the person actually receives
+        │
+        ▼
+   TISSUE ENTRY ────── transporters: P-gp, OATP, BCRP, LAT1 at the BBB
+        │
+        ▼
+   ELIMINATION ─────── renal OAT/OCT, biliary
+
+   INHIBIT any step  → MORE drug, LONGER         (acute, minutes-hours)
+   INDUCE  any step  → LESS drug, SHORTER        (slow, days-weeks)
+</code>
+
+Two asymmetries make this dangerous and useful in different ways. '''Inhibition is fast''' — a single grapefruit affects the next dose. '''Induction is slow''' — it takes days to weeks to build, because it requires new protein synthesis, and just as long to wear off. And '''inhibition announces itself''' as an exaggerated effect, where '''induction fails silently''': the drug simply stops working, and nobody connects it to the tea.
+
+== Medicine already does this deliberately ==
+
+This is the part that reframes oilahuasca from fringe to ordinary. Pharmacology has a name for a drug given purely to disable the enzyme clearing another drug: a '''pharmacokinetic booster'''.
+
+{| class="wikitable"
+! Pairing !! Enzyme or target blocked !! Why
+|-
+| '''Ritonavir''' + protease inhibitors; '''ritonavir + nirmatrelvir''' (Paxlovid) || '''CYP3A4''' || The whole point of the ritonavir in Paxlovid. It has no antiviral role at that dose — it exists to stop the liver destroying the drug that does
+|-
+| '''Cobicistat''' + HIV antivirals || CYP3A4 || A booster with the antiviral activity engineered ''out'' — a pure enzyme inhibitor as a licensed medicine
+|-
+| '''Carbidopa''' or '''benserazide''' + levodopa || Peripheral '''AADC''' || Forces decarboxylation to happen in the brain rather than the gut. The identical logic to the 5-HTP problem in [[5-HTP Serotonin Precursors and the Chemical Imbalance Theory]]
+|-
+| '''Clavulanic acid''' + amoxicillin || β-lactamase || Protects the antibiotic from bacterial, not human, enzymes
+|-
+| '''Cilastatin''' + imipenem || Renal dehydropeptidase-I || Stops the kidney destroying the antibiotic
+|-
+| '''Probenecid''' + penicillin || Renal organic anion transporter || Used in WWII to stretch scarce penicillin; still used for gonorrhoea and neurosyphilis regimens
+|-
+| '''Allopurinol''' + azathioprine / 6-MP || Xanthine oxidase || A real and dangerous one: the thiopurine dose must be cut by '''about 75%''' or the patient is poisoned
+|-
+| '''Disulfiram''' + alcohol || ALDH || Deliberate induction of toxicity as deterrent
+|}
+
+'''So the oilahuasca thesis is not exotic.''' Its distinctive claims are that the modulators can be '''culinary''', that the targets can be '''phase I and phase II in sequence''', and that the consequences are large enough to be felt. The first two are uncontroversially true. The third is the research question.
+
+== The kitchen does it without telling you ==
+
+'''Inhibitors''' (effect within hours, lasts hours to days):
+
+* '''Grapefruit''' — '''furanocoumarins''' (bergamottin, 6',7'-dihydroxybergamottin) are '''mechanism-based inactivators''' of intestinal CYP3A4: they destroy the enzyme rather than competing with it, so the effect persists for '''24–72 hours''' until new enzyme is made, and '''timing the dose away from the juice does not help'''. Clinically serious with simvastatin and atorvastatin (rhabdomyolysis), felodipine, tacrolimus, amiodarone, and several others. Seville orange, pomelo and limes share the chemistry; sweet orange does not. Grapefruit separately '''inhibits OATP1B1''', which has the opposite effect on drugs needing that uptake transporter — fexofenadine levels fall.
+* '''Piperine''' (black pepper) — inhibits CYP3A4 and glucuronidation. The classic result: piperine raises '''curcumin''' bioavailability by roughly '''2,000%''' (Shoba and colleagues, 1998). This is why every turmeric supplement contains black pepper, and it is a genuine and large pharmacokinetic effect.
+* '''Goldenseal''' (berberine, hydrastine) — among the most potent botanical CYP3A4 and CYP2D6 inhibitors measured in humans.
+* '''Cannabidiol''' — inhibits CYP2C19 and CYP3A4. On the Epidiolex label because of the '''clobazam''' interaction, where CBD raises the active metabolite substantially.
+* '''Quercetin, naringin, garlic, milk thistle, chamomile''' — real but generally smaller effects.
+
+'''Inducers''' (slow, silent, and the ones that cause treatment failure):
+
+* '''St John's wort''' — a '''PXR agonist''' that induces CYP3A4 and P-glycoprotein. The canonical disaster: '''transplant rejection''' from tacrolimus failure, '''contraceptive failure''', and loss of HIV viral suppression. The most important herb–drug interaction known.
+* '''Charcoal-grilled meat and cruciferous vegetables''' — polycyclic aromatic hydrocarbons and indole-3-carbinol induce '''CYP1A2''', which clears caffeine, theophylline and '''clozapine'''.
+* '''Tobacco smoke''' — same enzyme, and the clinical event is '''stopping''': a patient stabilised on clozapine who quits smoking loses the induction and can reach toxic levels within days. Hospital admissions, where smoking stops abruptly, are when this happens.
+
+== Cooking and spiced beverages ==
+
+Read a traditional recipe as a formulation and the structure appears immediately.
+
+* '''Masala chai''' — black pepper (piperine, CYP3A4/UGT inhibitor), ginger, cardamom, clove (eugenol), cinnamon (cinnamaldehyde), brewed in '''milk'''. Fat for the lipophiles, an inhibitor for first-pass metabolism, and tannin-binding protein. Whether anyone designed it that way is unanswerable; it is what it does.
+* '''Golden milk / haldi doodh''' — turmeric, black pepper, fat. This is '''pharmacologically correct''': curcumin is poorly absorbed, needs lipid for solubilisation and bile-micelle uptake, and is glucuronidated rapidly — which piperine inhibits. Three independent problems, three ingredients.
+* '''Bitters, amari, vermouth, absinthe''' — gentian, wormwood, cinchona, citrus peel. Aperitif bitters genuinely stimulate gastric secretion; '''thujone''' in wormwood is a GABA-A antagonist and is the compound absinthe was banned over, though the historical "absinthism" was mostly alcohol and adulterants rather than thujone.
+* '''Mulled wine''' — alcohol as the extraction solvent for spice terpenoids, which is a better one than water.
+* '''Eggnog and nutmeg''' — '''myristicin''' and '''elemicin''', the allylbenzenes oilahuasca is built on. At one to three whole nutmegs they produce a genuinely unpleasant 24–48 hour delirium with tachycardia and anticholinergic-like features. This is not a recreational dose range; it is a poisoning that people regret, and it is a recurring adolescent emergency-department presentation.
+* '''Root beer and sassafras''' — '''safrole''' was banned as a food additive by the FDA in 1960. It is a '''hepatocarcinogen''' via bioactivation: 1'-hydroxylation then '''sulfation by SULT1A1''' to an electrophile that forms DNA adducts. Commercial root beer uses safrole-free extract.
+
+'''That last entry is the warning the whole field turns on.''' Allylbenzenes are not inert substrates being gated into activity — '''the same phase I/phase II machinery that produces the interesting metabolite also produces the genotoxic one''', and which pathway dominates depends on exactly the enzyme balance being manipulated. Estragole and methyleugenol carry the same liability. This is set out in [[69Ron and Oilahuasca Chemistry]] and [[Allylbenzene Metabolism]], and anyone treating oilahuasca as a safe culinary curiosity has not read it.
+
+== What would make this a research programme ==
+
+The honest criticism of oilahuasca is not that enzyme manipulation is implausible — it manifestly works, as the booster drugs above show. It is that '''the specific claims have never been measured'''. Nothing about the theory is untestable. The tools are standard, and this is what using them would look like:
+
+# '''Phenotype, don't assume.''' A '''probe cocktail''' — the Cooperstown design uses caffeine (CYP1A2), losartan or tolbutamide (2C9), omeprazole (2C19), dextromethorphan (2D6) and midazolam (3A4) — measures each enzyme's actual activity in a person, before and after the intervention. This converts "spice X inhibits CYP3A4" from a cell-culture claim into a human number.
+# '''Separate genotype from phenotype.''' CYP2D6 copy number predicts baseline; it does not predict activity under inhibition. Both are needed.
+# '''Measure induction properly.''' Plasma '''4β-hydroxycholesterol''' is an established endogenous biomarker of CYP3A4 induction and avoids repeated probe dosing.
+# '''Do real pharmacokinetics''' — serial sampling, AUC, Cmax, half-life — on the compound of interest, with and without the modulator. A reported subjective difference is not a pharmacokinetic result.
+# '''Assay the material.''' Essential-oil composition varies by chemotype, origin and season by large factors. Without GC-MS on the actual batch, nothing is reproducible.
+# '''Run the genotoxicity arm in parallel.''' For allylbenzenes specifically, urinary mercapturate and DNA-adduct measures exist. A programme that measures the desired effect and not the adducts is not a research programme.
+# '''Place the controls where they matter''' — the fat, the heat, the brewing time and the expectancy all change outcomes.
+
+'''Where the medically important applications are.''' Framed this way, the valuable targets are not psychoactive at all:
+
+* Reducing the '''cost and dose''' of expensive drugs with heavy first-pass loss — the ritonavir trick, generalised. This is a public-health-scale economic argument.
+* '''Food–drug interaction safety''' for the very large number of people taking narrow-therapeutic-index drugs alongside supplements nobody asked about.
+* '''Bioavailability of poorly absorbed nutraceuticals''' — curcumin, resveratrol, quercetin, cannabinoids — where the compound is uncontroversial and the delivery is the entire problem. See [[Bioavailability Metabolic Inhibition and Synergy]].
+* '''Chemoprevention''', where phase II induction (glutathione-S-transferase, NQO1 via Nrf2 — the sulforaphane pathway) is the desired direction rather than something to avoid.
+
+== Hard rules, before anyone experiments ==
+
+* '''Never add an inhibitor to a narrow-therapeutic-index drug.''' Warfarin, tacrolimus, ciclosporin, digoxin, lithium, phenytoin, theophylline, methotrexate, statins, most antiarrhythmics. "Just a spice" is how these become bleeds, rejections and rhabdomyolysis.
+* '''Inhibition boosts toxicity along with effect.''' There is no enzyme that selectively spares the metabolite you dislike.
+* '''Induction fails silently.''' If a medicine stops working, ask what was added two weeks ago.
+* '''Grapefruit cannot be timed around.''' The enzyme is destroyed, not occupied.
+* '''Allylbenzene preparations carry a genotoxic pathway''', not a theoretical one. Dose and frequency are the variables that matter, and the hazard is cumulative rather than acute.
+* '''Tell your prescriber what you take.''' Most serious interactions in this article reached the literature because someone did not.
+
+== See also ==
+
+* [[Oilahuasca]] · [[69Ron and Oilahuasca Chemistry]] · [[Cannabinoid Oilahuasca]] · [[Oilahuasca as Oils Mapping the Space Paste Herbs to Their Volatile Fractions]]
+* [[Allylbenzene Metabolism]] — the safrole/SULT1A1 pathway in detail
+* [[Cytochrome P450 System Inhibition and Induction]] · [[Bioavailability Metabolic Inhibition and Synergy]] · [[Enzyme Inhibition Kinetics and Molecular Transporters]]
+* [[Inert Alone Active Together Why Combinations Work]] · [[Enzyme Chemistry]]
+* [[Olive Oil Oleocanthal and Machine Discovered Natural Products]] — the other half of food-as-pharmacology
+* [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] — the original ayahuasca version of the principle
+* [[Kitchen Cabinet Chemistry Vanillin Almonds and Why Pistachios Have to Be Raw]] · [[Cooking Methods]] · [[Culinary Arts]]

@@ -1,0 +1,1742 @@
+'''Classical Erotology: Corpus Catalogue, Rights Status, and Bridge Map'''
+
+'''Status: PRIVATE / NOT PUBLISHED.''' Nothing in this file is live. No wiki article, nav
+entry, category or sitemap was created or touched by the work that produced it. It is a
+planning document in `.local/` for a surface that does not yet exist.
+
+'''Date:''' 2026-10-27
+'''Scope of this document:''' bibliography, history of the book, rights clearance, and the
+map from this corpus to the existing Library shelves. It is a catalogue of ''texts''. It
+contains no erotic or explicit content, describes no acts, and reproduces no passages
+beyond bibliographic identification.
+
+---
+
+== Why this is the right foundation ==
+
+The operator's framing is correct and worth stating as the governing editorial principle,
+because it is also the ''legal'' and ''tonal'' principle:
+
+# '''The classical erotological literature is scholarly, not pornographic.''' It is
+   didactic, taxonomic and frequently medical. Vatsyayana writes in ''sutra'' form; the
+   Arabic tradition writes in the register of the ''adab'' and the medical compendium; the
+   Chinese material sits inside a dietetic-and-longevity literature. Treating it as
+   bibliography is not a dodge — it is what the material actually is.
+# '''Most of the underlying texts are ancient and unencumbered.''' The risk is not in the
+   texts. It is in the '''translations''', and that is the entire point of Part 1's rights
+   column.
+# '''It connects outward.''' Roughly a third of this corpus by volume is '''formulary
+   material''' — unguents, perfumes, oils, medicated foods. That is the seam with the
+   Library's existing oils, preparation and chemistry shelves, mapped in Part 2.
+
+== The rule that governs the whole catalogue ==
+
+'''An ancient text being out of copyright does not make a modern translation of it free.'''
+A translation is an original literary work in its own right and carries its own term. The
+tests used throughout this document:
+
+* '''United States:''' anything '''published before 1930''' is in the public domain
+  (as of 2026 — the window advances one year each 1 January). Works published
+  '''1930–1963''' entered the public domain unless the copyright was '''renewed'''; this must
+  be checked case by case, and where it has not been checked this document says so.
+  Works published 1964–1977 with notice: 95 years from publication. Works from 1978
+  onward: life of the author + 70 years.
+* '''United Kingdom / EU:''' '''life of the translator + 70 years''', regardless of
+  publication date. This frequently differs from the US answer, and for the Victorian
+  translators — Burton died 1890, Arbuthnot 1901, Smithers 1907 — everything clears in
+  both jurisdictions.
+* '''Scans and transcriptions:''' in the US, a '''faithful reproduction of a public-domain
+  work generates no new copyright''' (''Bridgeman v. Corel''). A scan of an 1883 book on
+  Internet Archive is therefore free in the US even where the hosting site asserts terms.
+  The UK position on "sweat of the brow" in scans has historically been less settled, and
+  some European institutions still assert rights over digitisations.
+* '''Editorial apparatus is separate.''' A modern introduction, notes, index or critical
+  edition of a public-domain translation is itself in copyright. The 1883 text is free;
+  the 2003 scholar's footnotes on it are not.
+
+Where this document could not settle a rights question, it says '''UNSETTLED''' rather than
+assuming the answer is "free."
+
+---
+
+'''PART 1 — THE CORPUS, WITH RIGHTS STATUS'''
+
+== 1.1 Sanskrit — the ''kāmaśāstra'' tradition ==
+
+Three systemic cautions apply to this whole shelf before any individual entry:
+
+# '''Internet Archive uploader licence tags are unreliable.''' Alex Comfort's 1964 Allen &
+   Unwin ''Koka Shastra'' is tagged '''CC0 1.0''' on IA and is plainly still in copyright.
+   Several 1950s–70s Indian editions carry uploader-applied CC0 with nothing behind it.
+   '''Use the underlying publication date as the rights test, never the IA licence field.'''
+# '''GRETIL is CC BY-NC-SA 4.0''' — the '''non-commercial clause bites''' if the host is
+   commercial. GRETIL also carries a standing "will be removed pending any credible
+   copyright claim" disclaimer, and at least one of its files (''Smaradīpikā'') is keyed to a
+   1967 edition still in copyright.
+# '''URAA restoration is the dominant rule for Indian imprints.''' A 1931–1977 Indian
+   publication still protected in India on 1 Jan 1996 had its US copyright '''restored''' —
+   so US renewal records are usually moot and the answer is usually "in copyright."
+
+=== The Kama Sutra of Vātsyāyana (''Kāmasūtra'') ===
+
+'''The text.''' Sūtra genre, prose with ''anuṣṭubh'' verse, '''seven ''adhikaraṇas'' in 36
+chapters'''. Attributed to '''Vātsyāyana Mallanāga'''; nothing biographical about him is
+secure. '''The date is unsettled''' — proposals run from 400 BCE to 300 CE; Keay says 2nd c.
+CE; Doniger argues the second half of the '''3rd c. CE''', on the grounds that the text names
+the Ābhīras and Āndhras and does not know the Guptas. The ''terminus ante quem'' is firm:
+it is cited in Varāhamihira's ''Bṛhatsaṃhitā'', so it is pre-5th century.
+
+'''The Jayamaṅgalā commentary of Yaśodhara.''' 11th–13th c., usually narrowed to the
+'''11th–12th'''; the outer bound comes from a manuscript colophon naming the library of the
+Chaulukya king Vīsaladeva of Gujarat (r. 1244–62). The author is '''Yaśodhara Indrapāda''';
+nothing else is known of him. ⚠️ '''Disambiguation warning: at least four unrelated works
+are also called ''Jayamaṅgalā''''' — commentaries on the Sāṃkhyakārikā, the Bhaṭṭikāvya, the
+Arthaśāstra and Kāmandaka's Nītisāra. They will contaminate any title search.
+
+==== The 1883 Burton/Arbuthnot translation — the authorship question, settled ====
+
+'''Burton did not translate the Kama Sutra.''' The translation was made by '''Bhagvanlal
+Indraji''' (1839 – 16 March 1888) with his student '''Shivaram Parashuram Bhide''', under
+'''F. F. Arbuthnot's''' direction. '''Burton edited and revised.'''
+
+Indraji was not an assistant — he was a serious scholar: Royal Asiatic Society Bombay, a
+pioneer of Aśokan studies, and the first Indian to hold an honorary doctorate from a
+foreign university (Leiden, 1884).
+
+The evidence:
+* '''Doniger''' holds it should properly be called "the Indrajit–Bhide–Arbuthnot–Burton
+  translation," and that Burton's real contribution was '''the nerve to publish'''.
+* '''Burton himself''' called it "Arbuthnot's Vatsyayana."
+* '''Thomas Wright (1906):''' "the precise share that Burton had in them will never be
+  known."
+* '''The 1883 book's own introduction names no European translator.''' It records that the
+  pandits obtained a defective Bombay manuscript, wrote to libraries at '''Benares,
+  Calcutta and Jeypoor''', compared four copies, corrected Parts I–V against the
+  '''Jayamaṅgalā''', and that the English was made from that revised copy. This can be read
+  directly at <https://gutenberg.org/files/27827/27827-h/27827-h.htm>.
+* In 1885 '''Arbuthnot claimed the translating was done entirely by Indian pandits''' —
+  Doniger calls this a half-truth he likely knew to be false.
+
+'''The "Kama Shastra Society of London and Benares" was a fictitious imprint, not an
+organisation.''' Burton's own words: Arbuthnot "founded a society consisting of himself and
+myself." Wright adds a third nominal member, '''Lord Houghton'''. Its purpose was to place
+the book in '''private circulation among "members" and subscribers''' as a device around the
+'''Obscene Publications Act 1857''', which made the sale of obscene matter a statutory
+offence with seizure and destruction on a magistrate's information — and which, after the
+1868 ''Hicklin'' test ("tendency to deprave and corrupt"), let any single passage condemn a
+whole book. The imprints used — "Cosmopoli," "Benares," "London" — are all false.
+
+'''The 1883 first edition.''' Seven parts in one volume, 8vo, title in red and black.
+Imprint: *"Cosmopoli: MDCCCLXXXIII: for the Kama Shastra Society of London and Benares,
+and for private circulation only."* Parts carry "Printed for the Hindoo Kama Shastra
+Society"; Part I impressed "London," the rest "Benares"; two printers were used.
+'''Total issue: 250 copies''' (Christie's, citing Penzer p. 163; Penzer 1923 independently
+gives "The total issue was 250"). Penzer notes the parts edition "was soon exhausted, and
+is now practically unobtainable."
+
+'''First legal open publication: 1962.''' Doniger states flatly that it was '''not legally
+published in England or the United States until 1962'''. The supporting imprints are
+'''E. P. Dutton, New York, 1962''' and '''George Allen & Unwin, London, 1963''' (the UK trade
+edition associated with W. G. Archer). ⚠️ '''The 1962/1963 US–UK split is not reconciled in
+any source read; Doniger says 1962 for both.''' The enabling context: the 1857 Act was
+repealed for England and Wales by the '''Obscene Publications Act 1959''', and the US
+obscenity bar fell after ''Roth'' (1957) and the Grove Press cases. Between 1883 and 1962 it
+was "one of the most pirated books in the English language."
+
+'''Rights: the 1883 translation is PD worldwide.''' Published 1883; Burton d. 1890,
+Arbuthnot d. 1901, Indraji d. 1888.
+
+'''Where the 1883 text lives:'''
+* '''Project Gutenberg #27827''' — <https://www.gutenberg.org/ebooks/27827> — credits all
+  three (Bhide, Burton, Indrajit). PG states "Public domain in the USA." Full text at the
+  URL above.
+* '''Internet Archive `kamasutraofvatsy00vatsuoft`''' — University of Toronto / Robarts
+  scan, 236 images, in the "bannedbooks" collection. No rights field; underlying text PD.
+* '''English Wikisource''' — <https://en.wikisource.org/wiki/Kama_Sutra_(Burton)> —
+  transcribed from the above; marked '''PD worldwide''', page wrapper CC BY-SA 4.0. ⚠️ The
+  source file is flagged as needing repair and '''pp. 161–163 are missing'''.
+* '''Internet Archive `kamasutra_of_vatsyayama-1925`''' — IA licence '''Public Domain Mark
+  1.0'''. Title page read directly: "Benares—New York… Printed for the Society of the
+  Friends of India… 1883-1925… For Private Circulation Only." '''This is a pirate reprint
+  of Burton, not a separate translation.'''
+* '''sacred-texts.com''' — <https://sacred-texts.com/sex/kama/index.htm>. ⚠️ Site 403s
+  automated fetches; URL located, page not read.
+* '''Sanskrit (mūla):''' <https://sa.wikisource.org/wiki/कामसूत्रम्> — complete, seven
+  adhikaraṇas, '''CC BY-SA 4.0'''. Mūla only, no commentary.
+* '''Sanskrit with the full Jayamaṅgalā, 1929''' —
+  <https://archive.org/details/kamasutra-with-jayamangala-damodara-sastri-1929-chaukhamba>
+  — Benares, Chaukhamba, 1929, OCR'd. '''PD in US.''' The best open full-text Sanskrit
+  witness for the commentary.
+* '''Sanskrit ''editio princeps'':''' Durgāprasāda Dvivedī, Nirṇayasāgara Press, Bombay,
+  '''1891''' — the text Schmidt worked from. PD.
+
+==== ★ The single most valuable item in this catalogue: Richard Schmidt's German ====
+
+'''Richard Schmidt (1866–1939), *Das Kāmasūtram des Vātsyāyana… nebst dem vollständigen
+Kommentare (Jayamaṅgalā) des Yaśodhara*.''' 1st ed. '''Leipzig: Wilhelm Friedrich, 1897''';
+then Berlin: Hermann Barsdorf for the 3rd (1907), 5th rev. (1915), 6th (1920) and 7th
+(1922); an unchanged reprint of the 5th by Decker, 1957.
+
+'''Why it matters: it is a complete translation of both the Kāmasūtra and the full
+Jayamaṅgalā — the only complete Western-language Jayamaṅgalā in existence — and it is
+public domain everywhere.''' PD in the US (every edition through 1930; even on the URAA
+path the 1922 expired 31 Dec 2017), and PD in Germany/EU/UK since 1 Jan 2010.
+
+'''⚠️ And it carries the Latin veil.''' Schmidt rendered the most explicit passages into
+'''Latin prose rather than German''', unannounced in his prefaces — the same convention
+documented for the Bohn Martial and the early Loebs (§1.4). The evidence is twofold:
+OCR of the 1915 edition shows running Latin sentence grammar (ablative absolutes,
+"si autem…", "per eosdem autem…") with marker counts of ''coitus'' 152, ''atque'' 59,
+''quae'' 55, ''autem'' 46; and the K10plus MARC record for the 1920 sixth edition codes
+field '''041 = "ger lat"'''. Anyone using Schmidt as a free Jayamaṅgalā source needs to know
+that a fraction of it is in Latin.
+
+* Free scan: <https://archive.org/details/in.ernet.dli.2015.134716> (1915 5th ed.; DLI
+  metadata `dc.rights: Out_of_copyright`; ⚠️ the language field is wrongly set to "eng").
+  Duplicate: `in.ernet.dli.2015.142229`.
+* Index of all Schmidt scans:
+  <https://onlinebooks.library.upenn.edu/webbin/who/Schmidt%2c%20Richard%2c%201866%2d1939>
+
+==== The later Kama Sutra translations ====
+
+{| class="wikitable"
+! Translation !! Year / publisher !! Rights
+|-
+| '''E. Lamairesse''' (French), ''Le Kama soutra'' || Paris: G. Carré, '''1891''' || '''PD''' in US and France
+|-
+| '''K. Rangaswami Iyengar''' (English), ''The Kāma-sūtra (or The Science of Love) of Sri Vātsyāyana'' || Lahore: '''Punjab Sanskrit Book Depot, 1921''' || '''PD in US.''' ★ '''An independent English translation, not a Burton reprint''' — the answer to "is there any other pre-1930 English?" ⚠️ '''No free scan located anywhere. The highest-value digitisation target in this corpus.'''
+|-
+| ''A Hindu Book of Love'', Little Blue Book No. 175 || Haldeman-Julius, Girard KS, '''1926''' || '''PD in US''' (`hindubookoflovet175vats`) — but a 64-page popular abridgement, almost certainly condensed from Burton. Derivative
+|-
+| '''S. C. Upadhyaya''', ''Kama Sutra of Vatsyayana: The Hindu Art of Love'' || Bombay: Taraporevala, '''1961'''; Watkins 2004 || ⚠️ '''Treat as IN COPYRIGHT.''' US renewal could not be checked, but renewal is moot: Indian publication, India life+60, protected on 1 Jan 1996 → '''URAA restoration → 95 years from 1961 = 31 Dec 2056.''' Upadhyaya's death year not found
+|-
+| '''Devadatta Śāstrī''', Hindi ''Jaya'' commentary || Varanasi: Chowkhamba, '''1964''', Kashi Sanskrit Series 29 || '''In copyright''' (→ ~2059). "Jaya" is the commentary's title, not a publisher. This is the Hindi commentary excerpted by '''both''' Daniélou and Doniger/Kakar
+|-
+| '''Indra Sinha''', ''The Love Teachings of Kama Sutra'' || London: Hamlyn, '''1980'''; US Crescent Books 1981; Marlowe 1997 || '''Firmly in copyright.''' Sinha b. 1950, living → US 2075, UK 2095+. ⚠️ '''The early-1990s online circulation of its positions chapter was unlicensed'''
+|-
+| '''Alain Daniélou''', ''The Complete Kāma Sūtra'' (with Kenneth Hurry) || Rochester VT: Park Street Press, '''©1994''' (French ''Kâmâ Sûtra'', Rocher, 1992) || '''In copyright.''' Daniélou 1907 – Jan 1994 → EU/UK 2065; US to 2089 if work-for-hire. ⚠️ Date wobble 1993 vs 1994. '''Confirmed to contain the full Jayamaṅgalā plus Devadatta Shastri excerpts — the closest thing to an English Jayamaṅgalā'''
+|-
+| '''Wendy Doniger & Sudhir Kakar''' || Oxford World's Classics, '''2002''' || '''In copyright.''' Doniger b. 1940 (living), Kakar 1938–2024 → not before ~2111. Contains '''selected''' Jayamaṅgalā and ''Jaya'' excerpts in notes and boxed inserts
+|-
+| '''A. N. D. Haksar''', ill. Malika Favre || Penguin Classics Deluxe, '''2011 or 2012''' || '''In copyright''' (translation and artwork separately). ⚠️ Year unsettled: catalogues say 2012, the literature cites 2011
+|-
+| '''Lars Martin Fosse''', facing-page Sanskrit/English || YogaVidya.com, '''2012''' || In copyright
+|-
+| "Radhakrishna Shastri" || — || ⚠️ '''Zero catalogue records. Do not catalogue on our authority.'''
+|}
+
+=== Ananga Ranga of Kalyāṇamalla ===
+
+'''The text.''' ''Anaṅgaraṅga'' ("Stage of the Bodiless One"), also ''Kamaledhiplava''.
+'''15th–16th c.''' Author '''Kalyāṇamalla''', writing for '''Lād Khān''', son of Ahmed Khān Lodī
+of the Delhi Lodī line (1451–1526). (The variant "Ladakhana" is not supported.)
+
+'''The 1873 suppressed printing — settled, from Penzer's 1923 bibliography read directly.'''
+* The 1873 title page read: '''''Kama-Shastra, or The Hindoo Art of Love (Ars Amoris
+  Indica). Translated from the Sanskrit, and Annotated by A. F. F. and B. F. R.''''' —
+  Burton's and Arbuthnot's initials, deliberately garbled.
+* '''Only four or six copies were printed.'''
+* '''Why it stopped:''' Penzer quotes Burton's own ''Index Librorum Prohibitorum'' — the
+  printer "became alarmed at the nature of the book, and refused to print off the
+  edition." '''Penzer does not say copies were destroyed.'''
+* The rough proofs surfaced at auction in '''March 1902''', selling for '''£3'''.
+* Source, PD and full text: <https://archive.org/details/32882019070484-anannotatedbibl>
+  — N. M. Penzer, ''An Annotated Bibliography of Sir Richard Francis Burton'' (1923), Kama
+  Shastra Society section, pp. ~162–173.
+
+'''The 1885 edition.''' Reissued under the new title, imprint *"Cosmopoli: MDCCCLXXXV: for
+the Kama Shastra Society of London and Benares, and for private circulation only."* The
+first 1885 printing sold out and two further reprints followed. '''No print-run figure is
+recorded for 1885''' — the only run Penzer states is the 1873 four-or-six. Separately:
+'''Isabel Burton burned the manuscript of the translation and notes after Burton's death in
+1890.''' Of seven erotic works the Society planned, '''only two appeared''' — the *Kama
+Sutra* and the ''Ananga Ranga''.
+
+'''Rights: PD worldwide.'''
+
+'''Where it lives:'''
+* ★ '''Internet Archive `0327725.nlm.nih.gov`''' —
+  <https://archive.org/details/0327725.nlm.nih.gov> — '''the 1885 first edition itself''',
+  publisher field verbatim "Cosmopoli [England?]: For the Kama Shastra Society of London
+  and Benares, and for private circulation only," xvi+144 pp, US National Library of
+  Medicine / Open Knowledge Commons, digitised 2017. '''Full text, PDF and EPUB all
+  available. Best source.'''
+* '''English Wikisource index''' — <https://en.wikisource.org/wiki/Index:Ananga-Ranga.djvu>
+  — the 1885 Cosmopoli scan. ⚠️ '''Not proofread, not transcluded — no readable mainspace
+  text yet.''' (A worthwhile contribution target.)
+* '''sacred-texts.com''' — <https://sacred-texts.com/sex/ar/index.htm>. ⚠️ 403s to automated
+  fetch; URL located, page not read.
+* '''Sanskrit:''' `in.ernet.dli.2015.369655` (Lahore, 1927). ⚠️ DLI `dc.rights` reads
+  '''"IN_COPYRIGHT"''' on this item — probably over-cautious for a 1927 imprint, but flagged
+  as the record states it. '''Not on GRETIL; not on sa.wikisource.'''
+* ⚠️ `dli.venugopal.724` is catalogued '''1880''', which is almost certainly a DLI metadata
+  error — no 1880 edition is known. Unverified.
+
+=== Ratirahasya / Koka Shastra of Kokkoka ===
+
+'''The text.''' ''Ratirahasya'' ("Secret of Love"), popularly the ''Koka Śāstra'' after its
+author. 15 chapters. ⚠️ '''Date unsettled''' — Internet Archive cataloguing says 8th c.,
+Wikipedia's kāmaśāstra survey says 11th–12th (and 13th elsewhere in the same article).
+
+'''The translation.''' '''Alex Comfort''' (translation and introduction), preface by '''W. G.
+Archer''' — *The Koka Shastra, Being the Ratirahasya of Kokkoka, and Other Medieval Indian
+Writings on Love*, '''London: George Allen & Unwin, 1964'''; US Stein and Day, 1965.
+⚠️ '''Correction to a common statement: Comfort wrote the Introduction and Archer wrote the
+Preface''', not the other way round.
+
+'''Rights: IN COPYRIGHT.''' The copyright page reads verbatim: *"FIRST PUBLISHED IN 1964 …
+This translation © Alex Comfort 1964. Preface © George Allen and Unwin Ltd, 1964."*
+US: 1964 → renewal automatic → '''2060'''. UK: Comfort 1920–2000 → life+70 → '''2071'''.
+
+⚠️ '''This is the catalogue's main legal exposure.''' A full, freely downloadable OCR scan
+exists at `hnqa_the-koka-shastra-and-other-medieval-indian-writings-on-love-trans-by-alex-comfor`
+'''tagged CC0 1.0 on Internet Archive'''. The uploader (Sarayu Foundation Trust / UP State
+Museum Lucknow, under an IKS–MoE grant) '''has no authority to dedicate Allen & Unwin's or
+Comfort's estate's rights.''' Do not rely on that tag. The correctly restricted
+borrow-only copies are `kokashastrabeing00kokk` and `kokashastra0000unse`.
+
+'''Is there a PD translation? No.''' No pre-1931 English ''Ratirahasya'' exists in Open
+Library, Internet Archive, Wellcome or GRETIL. '''The nearest free route is again Richard
+Schmidt's German''' — ''Beiträge zur indischen Erotik: das Liebesleben des Sanskritvolkes''
+(Berlin: Barsdorf, '''1922'''; first Lotus-Verlag, Leipzig, 1902), which is '''Comfort's own
+source''' for the later texts. '''PD in US (1922) and EU/UK (since 2010).''' Scans:
+`beitrgezurindi00schm`, `in.ernet.dli.2015.134694`, `in.ernet.dli.2015.142227`.
+
+'''Comfort 1964's exact scope, documented from the book's own OCR''' — it is the pivot
+volume for five texts and it is worth knowing precisely what it does and does not contain:
+full ''Ratirahasya'' (15 chapters); '''full ''Ratimañjarī''''' (pp. 88–95); '''exordium plus
+synopsis only''' for ''Pañcasāyaka'' (81–83), ''Kandarpacūḍāmaṇi'' (83–84), ''Smaradīpikā''
+(84–86), ''Anaṅgaraṅga'' (86–88) and ''Dīnālāpanikā Śukasaptati'' (95–98); and descriptive
+treatment of ''Nāgarasarvasva'' and ''Ratiratnapradīpikā'' (98–103). Comfort states he
+'''never obtained the ''Ratiratnapradīpikā'' text at all.'''
+
+=== Nāgarasarvasva (attributed to Padmaśrī) ===
+
+''Nāgarasarvasva'' / ''Nāgarakasarvasva'' ("Everything for the Man-About-Town"), 18
+''paricchedas''. ⚠️ '''Date unsettled''' — commonly c. 10th–12th c.; no defensible date was
+found in any source reached.
+
+'''The author, Padmaśrī''' (colophons: ''Padmaśrījñāna''), is '''confirmed Buddhist''' — Comfort
+notes it is the only erotic work in the corpus Mahāyāna in orientation, '''invoking
+Mañjuśrī and Tārā rather than the Hindu patron deities.''' That makes it the most
+interesting outlier on this shelf. Nothing biographical is known.
+
+'''English translation: none documented, full or standalone.''' Comfort 1964 gives scattered
+passages in footnotes plus a descriptive page (p. 98). The scholarship is:
+'''Siegfried Lienhard, "Observations concerning a Buddhist text on erotics: the
+Nāgarasarvasva of Padmaśrī," ''Central Asiatic Journal'' 23 (1979), 96–103'''
+(<https://indianmedicine.eldoc.ub.rug.nl/25065/>); and '''Daud Ali, "Padmaśrī's
+Nāgarasarvasva and the World of Medieval Kāmaśāstra," ''Journal of Indian Philosophy''
+39/1 (2011), 41–62''', DOI 10.1007/s10781-010-9116-6 (paywalled). ⚠️ Ali has described his
+work as "an extensive study and translation" — '''no published translation was located;
+status unresolved.'''
+
+'''Sanskrit editions, PD in US:''' 1921 (ed. Tanasukharāma Śarmā, Bombay — no scan found);
+'''1929 Calcutta''' — <https://archive.org/details/Nagarasarvasva-of-Padmasri> (PDF,
+Devanagari OCR); 1929 Hindi (Śrīveṅkaṭeśvara). The undated Rāmsāgar Tripāṭhī edition:
+rights unsettled. A palm-leaf manuscript in Newari script (NAK 1/248, reel B 14/30) is
+catalogued at Hamburg. '''Not on GRETIL.'''
+
+=== Pañcasāyaka of Jyotirīśvara ===
+
+''Pañcasāyaka'' ("The Five Arrows," after Kāmadeva's arrows), in five ''sāyakas''.
+⚠️ '''Date disputed, 11th–14th c.''' — Schmidt says 11th; Comfort says the first half of the
+'''14th''' ("next in age after the Koka Shastra"); Wellcome says 14th.
+
+'''Author: Jyotirīśvara Kaviśekhara''', Maithili court poet — the same author as the
+''Varṇaratnākara'' (Maithili prose) and the ''Dhūrtasamāgama'', confirmed by the Leipzig KOHD
+colophon and GRETIL's author field. The text's own exordium names its sources: Vātsyāyana,
+Goṇiputraka, Mūladeva, Bābhravya, Nandīśvara, Rantideva and Kṣemendra.
+
+'''English translation: none complete.''' ⚠️ The Comfort claim must be stated precisely:
+Comfort 1964 pp. '''81–83''' gives a translated '''exordium of about 200 words''' plus a
+chapter-by-chapter synopsis — '''not the text'''. Comfort states the longer manuscripts
+"have never been published," and that his own Pañcasāyaka material is '''second-hand from
+Richard Schmidt'''. Substantial excerpts exist in '''German''' in Schmidt's ''Beiträge'' (1922,
+PD).
+
+'''Sanskrit:''' ★ '''1905, ed. Jādavji Trikamji Ācārya — PD in US, free scan at
+<https://archive.org/details/pacasyaka00jyot>''' (Robarts/Toronto, Sanskrit only). Also
+1925 (Wellcome) and 1928 Hindi, both PD US; the 1995 Kṛṣṇadāsa Akādamī edition is in
+copyright. '''GRETIL e-text:''' `sa_jyotirIzvarakavizekhara-paJcasAyaka.xml`, input Dhaval
+Patel — ⚠️ the TEI header says '''"(source unknown)"'''; CC BY-NC-SA 4.0.
+
+=== Other texts in the genre ===
+
+'''Kuṭṭanīmata of Dāmodaragupta.''' A ''nidarśanakāvya'' of ~1,058 verses — frame-narrative
+satire. '''Late 8th c. CE, and among the most securely dated works in classical Sanskrit''':
+Dāmodaragupta was minister to '''Jayāpīḍa''' of Kashmir (Kārkoṭa, r. c. 776–807), known from
+Kalhaṇa's ''Rājataraṅgiṇī''.
+* ★ '''PD English: E. Powys Mathers, ''Eastern Love'' Vol. I, "The Lessons of a Bawd,"'''
+  London: John Rodker, '''1927'''. PD in US (1927) and UK/EU (Mathers 1892–1939, PD since
+  2010). Scan: <https://archive.org/details/dli.venugopal.500>
+* '''Csaba Dezső & Dominic Goodall, ''The Bawd's Counsel''''' (Groningen Oriental Studies 23,
+  Egbert Forsten, '''2012''') — critical edition plus facing English translation from a
+  previously unconsulted 13th-c. Nepalese palm-leaf manuscript. '''Fully in copyright.'''
+* ★ '''GRETIL carries the Dezső–Goodall constituted Sanskrit text, contributed by the
+  editors themselves''', under CC BY-NC-SA 4.0:
+  `sa_dAmodaragupta-kuTTanImata.xml` (filed under Kāvya, not Kāmaśāstra). The best
+  machine-readable witness and legitimately reusable non-commercially.
+* Also PD: J. J. Meyer's German, Lotus-Verlag, Leipzig, '''1903'''; the 1924 Sanskrit ed.
+* ⚠️ '''Verified negative: there is no Clay Sanskrit Library Kuṭṭanīmata.''' CSL's *Three
+  Satires* is Nīlakaṇṭha Dīkṣita, Kṣemendra and Bhallaṭa.
+
+'''Samayamātṛkā of Kṣemendra.''' Eight ''samayas''; satire. '''11th c. CE, after 1037.'''
+Kṣemendra (Vyāsadāsa) was a Kashmiri polymath and a '''pupil of Abhinavagupta''' — which
+links this shelf directly to the Trika material in §1.5.
+* ★ '''PD English: E. Powys Mathers, ''Eastern Love'' Vol. II, "The Harlot's Breviary,"'''
+  Rodker 1927. PD US and UK/EU. Standalone upload with IA rights field '''Public Domain
+  Mark 1.0''': <https://archive.org/details/SamayaMatrika>
+* '''A. N. D. Haksar, ''The Courtesan's Keeper''''' (Rupa, 2008) — in copyright. ⚠️ A Penguin
+  2011 reissue is cited by Wikipedia but unconfirmed.
+* Sanskrit: Kāvyamālā No. 10, Nirṇaya Sāgar Press, 1925 reprint of the 1888 first —
+  `in.ernet.dli.2015.283726`, IA rights "in Public Domain". '''Not on GRETIL.'''
+* ⚠️ '''Verified negative: no CSL Samayamātṛkā''' (CSL's Kṣemendra satire is the
+  ''Narmamālā'').
+
+'''Ratimañjarī (attributed to Jayadeva).''' 125 ślokas. ⚠️ '''No secure date''' — Comfort calls
+it "a lateish work," probably 15th–17th c. '''Attribution clarified from Comfort's own
+text:''' *"it is not by 'the' Jayadeva, author of the Gīta Govinda, but more probably by one
+Jayadeva the Encyclopaedist; or by some other Jayadeva, nobody can now say."*
+'''Comfort 1964 pp. 88–95 is the first and apparently only complete English translation''' —
+and therefore in copyright to 2060/2071. An earlier '''Italian''' version exists: S.
+Pavolini, ''Giornale della Società Asiatica Italiana'' 17 (1904), p. 517 — PD, but ⚠️ '''no
+scan URL located.'''
+
+'''Smaradīpikā.''' ⚠️ '''More than one work bears this name''' — Comfort: "these poems, for
+there appear to be more than one of the same name." '''Date unsettled'''; later than the
+''Ratirahasya''. ⚠️ '''Authorship is unreconciled across four sources:''' the exordium names
+'''Rudra'''; Comfort records "Kadra or Rudra or Garga"; GRETIL attributes it to
+'''Mīnanātha'''; the 2004 Chowkhamba Hindi edition to '''Macchaghnapāda''' (a by-name of the
+Nātha siddha Mīnanātha). Not resolved anywhere.
+'''No complete English translation is documented''' (Comfort gives exordium and synopsis
+only). ⚠️ '''No public-domain printed edition of the Smaradīpikā could be located at all''' —
+the editions are 1967 and 2004 Chowkhamba, both in copyright. GRETIL's
+`sa_mInanAtha-smaradIpikA.xml` is the only reliable digital text, and ⚠️ '''its source is
+the in-copyright 1967 Chowkhamba edition''', hosted under GRETIL's remove-on-claim
+disclaimer. Flag the tension.
+
+'''Kandarpacūḍāmaṇi of Vīrabhadradeva.''' '''Early 16th c.''', credited to '''Vīrabhadra(deva),
+King of Rewa''' (Vāghelā). ⚠️ One IA record dates it 1626 — unreconciled, likely a Vikrama
+Saṃvat date (= 1569 CE) or a copying date. '''Comfort's judgement from the exordium is that
+Vīrabhadra was the patron, not the author''': "It looks like the work of a court poet, who
+must have been a ghost commissioned by 'godlike King Virabhadra'."
+Genre matters here: it is a technically skilful, '''very close verse recasting of
+Vātsyāyana's prose Kāmasūtra into Āryā metre''' (Comfort's analogy: the Scottish Metrical
+Psalter). Because of that, '''any Kāmasūtra translation is a close content proxy''', which
+makes the absence of an English translation much less costly than it looks.
+Sanskrit editions PD in US: 1924 (ed. Jādavjī Trikamjī Ācārya, Bombay) and 1926 (ed.
+Rāmacandra Śāstrī, Lahore), both on Internet Archive. '''Not on GRETIL.'''
+
+'''The Jayamaṅgalā in English.''' '''No standalone English translation exists.''' It has only
+ever appeared '''embedded in''' Kāmasūtra translations: Burton 1883 (absorbed silently, not
+presented as a translated text); '''Daniélou 1994 — full and interleaved''', the closest
+thing to an English Jayamaṅgalā, and in copyright; Doniger & Kakar 2002 — '''selected'''
+passages in notes. '''The one complete Western-language Jayamaṅgalā is Schmidt's German,
+and it is public domain everywhere.'''
+
+'''Rasamañjarī of Bhānudatta''' (rasa and ''nāyikā'' typology — adjacent, not erotology
+proper). English: '''Sheldon Pollock, ''"Bouquet of Rasa" & "River of Rasa"'', Clay Sanskrit
+Library, NYU Press, 2009 — in copyright.''' PD Sanskrit editions: 1904, 1929.
+
+'''Ratiratnapradīpikā of Prauḍha Devarāja''' (15th c.). ⚠️ '''Nothing located''' — no Open
+Library record, no scan, no translation. Comfort admits he never obtained the text.
+'''Unsettled.'''
+
+'''Named but with no English translation found for any:''' ''Kuchumāra Tantra'',
+''Manasollāsa / Abhilaṣitārthacintāmaṇi'' (Someśvara III), ''Janavaśya'' (Kallarasa),
+''Dattakasūtra'', ''Ratikallolinī'' (Dīkṣita Samarāja), ''Śṛṅgāradīpikā'' (Harihara),
+''Śṛṅgārarasaprabandhadīpikā'' (Kumāra Harihara), ''Smarapradīpikā'' (Guṇākara),
+''Kāmasamūha'' of Ananta (15th c.) — plus the '''lost early authorities''' the tradition
+itself cites: Nandi/Nandikeśvara, Bābhravya, Cārāyaṇa, Gonikāputra, Dattaka, Suvarṇanābha,
+Ghoṭakamukha, Gonardīya, and Kṣemendra's lost ''Vātsyāyanasūtrasāra''.
+
+=== ★ The E. Powys Mathers "Eastern Love" set — the one PD English route into this corpus ===
+'''Twelve volumes, London: John Rodker, "for subscribers," 1927–1930'''; a US three-volume
+edition from Horace Liveright, New York, 1930. '''Every volume is now PD in both the US and
+the UK''' — vols. I–XI (1927–29) and vol. XII (1930 → US PD since 1 Jan 2026); Mathers
+1892–1939 → UK/EU PD since 2010. Vol. I is the ''Kuṭṭanīmata'', Vol. II the ''Samayamātṛkā''.
+
+⚠️ '''Scholarly caveat, and it is a real one:''' Mathers's works "are not scholarly works,
+and are in some cases based on intermediate versions in European languages." Treat these
+as '''free literary renderings, in places made via French — not translations from
+Sanskrit.''' They are usable precisely because they are free, and they must be labelled
+for what they are.
+
+---
+
+@@PLACEHOLDER_ARABIC_EASTASIAN@@
+
+---
+
+== 1.4 Greek and Roman ==
+
+The Greco-Roman amatory corpus is the '''best-cleared''' shelf in this catalogue. Nearly
+everything of importance has a public-domain English translation, several have more than
+one, and Project Gutenberg, Perseus and Internet Archive hold open full texts. The
+Victorian privately-printed translations — Burton, Smithers and their circle — are all
+clear in both the US and the UK, because Burton died in 1890 and Smithers in 1907.
+
+The characteristic rights trap on this shelf is not the translation but the '''revision''':
+Loeb volumes are routinely reissued with a modern reviser's name added, and the revision
+is a new copyrighted work. Mozley's 1929 Ovid is free; Goold's 1979 revision of it is
+not. Ker's 1919–20 Martial is free; Shackleton Bailey's 1993 revision is not.
+
+=== Ovid — ''Ars Amatoria'' and ''Remedia Amoris'' ===
+Latin, elegiac couplets. ''Ars amatoria'' in three books, c. 1 BCE – 2 CE; ''Remedia amoris'',
+one book, c. 2 CE. Publius Ovidius Naso, 43 BCE – 17/18 CE.
+
+'''The exile.''' Ovid was relegated to Tomis in '''8 CE''' — ''relegatio'', not ''exilium'': he kept
+property and citizenship and there was no senatorial decree. At ''Tristia'' 2.207 he names
+two causes, ''"carmen et error"'' — a poem and a mistake. The '''carmen''' is near-universally
+identified as the ''Ars Amatoria'', written some seven years earlier and out of step with
+the Augustan moral legislation (the ''lex Iulia'' programme of c. 18 BCE). The '''error''' is
+never specified and has never been identified; the Julia-scandal theory is speculation.
+Philip Hardie's reading — that the ''error'' supplied the '''pretext''' in 8 CE for a late
+retaliatory blow against the poem — is the sober one. Rome's city council passed a
+symbolic motion revoking the banishment in December 2017.
+
+{| class="wikitable"
+! Translation !! Date !! Where !! Rights
+|-
+| '''Henry T. Riley''', literal prose with notes, Bohn's Classical Library || 1885 (orig. 1848/52) || Gutenberg '''#47677''' (''Ars''), '''#47678''' (''Remedia''), '''#47676''' (''Amores'') || '''PD''' — PG states public domain in the USA
+|-
+| '''J. H. Mozley''', Loeb vol. 232 || '''1929''' || archive.org `ovidartofloveoth0000unse` (borrow-only lending scan) || '''PD in US.''' UK UNSETTLED (Mozley's death date unverified). ⚠️ The '''Goold revision, 2nd ed. 1979''', is a separate in-copyright work
+|-
+| '''J. Lewis May''', ''The Love Books of Ovid'', ill. Jean de Bosschère || '''1930''' || sacred-texts.com/cla/ovid/lboo/index.htm || '''PD in US as of 1 Jan 2026.''' UK: May d. 1947 → PD 2018. ⚠️ De Bosschère's '''illustrations are a separate rights object'''; d. 1953 → EU/UK PD from 1 Jan 2024
+|-
+| '''Christopher Marlowe''', ''Ovid's Elegies'' (the ''Amores'', verse) || 1590s || Gutenberg '''#21262''' (''Works of Christopher Marlowe'' vol. 3, ed. Bullen) — no standalone PG edition || '''PD worldwide'''
+|}
+
+'''Perseus''' carries the ''Ars'' in Latin (Ehwald, `urn:cts:latinLit:phi0959.phi004.perseus-lat1`)
+and in English as the '''Dryden/Congreve''' version of the 1709 Garth circle
+(`...opp-eng1`, `...perseus-eng1`) — '''not''' Riley or Mozley. All PD.
+
+'''Not free:''' Peter Green (Penguin, 1982); Rolfe Humphries (Indiana UP, 1957);
+A. D. Melville (Oxford, 1990); Goold's 1979 Loeb revision.
+
+=== The ''Priapeia'' ===
+Eighty short anonymous Latin poems, 1st or early 2nd c. CE.
+
+'''Authorship.''' The traditional view is an anthology by many hands. Since '''Vinzenz
+Buchheit's 1962 study''' the single-author view has gained ground: the metres fall into
+five groups of fourteen, consecutive poems are linked by repeated words, the sequence
+forms a quasi-biography of the god, and the second dedicatory poem has the poet claim to
+have ''written'' rather than ''collected'' them. Four anonymous Priapic poems from the
+''Appendix Vergiliana'' appear as nos. 84, 86, 87 and 88 in the English edition.
+
+'''The 1890 English translation.''' ''Priapeia, sive diversorum poetarum in Priapum lusus'',
+"Cosmopoli, 1890," printed for the '''Erotika Biblion Society''' of London for private
+subscribers; 95 poems. The title page is pseudonymous — verse by "Outidanos," notes and
+excursus by "Neaniskos." The standard attribution is '''Richard Burton''' (verse) and
+'''Leonard C. Smithers''' (prose and notes); sacred-texts' own editorial note holds that
+Burton's authorship of the notes can be established despite the introduction's disclaimer.
+⚠️ The Outidanos/Neaniskos identifications rest on '''trade bibliography''' (antiquarian
+booksellers), not on independently verified scholarship — treat as probable, not settled.
+
+* '''Full text:''' <https://sacred-texts.com/cla/priap/index.htm>. ⚠️ '''Important caveat the
+  site states itself:''' the file is a '''merge''' — the Smithers–Burton copies available
+  lacked the Latin, so a Latin text from elsewhere was merged in. It is '''not''' a faithful
+  transcription of a single 1890 copy.
+* ⚠️ sacred-texts.com returns HTTP 403 to automated fetches; the URL is correct in a
+  browser.
+* No open Internet Archive scan of the 1890 edition itself was located. The Latin
+  tradition is abundantly scanned and PD (Noël's 1798 ''Erotopaegnion'' is '''Gutenberg
+  #53944'''; Mooney's 1916 ''Minor Poems of Vergil'' carries the Appendix Vergiliana Priapea
+  in English).
+* '''Rights:''' the 1890 translation is '''PD in the US and UK'''.
+* '''Not free:''' W. H. Parker (1988); Richard W. Hooper (1999); Kytzler (1978, German).
+
+=== Martial — ''Epigrammata'' ===
+Over 1,500 Latin epigrams in twelve books plus the ''Liber spectaculorum'', ''Xenia'' and
+''Apophoreta'', published 86–103 CE. Marcus Valerius Martialis, c. 38/41 – c. 102/104 CE.
+
+'''The bowdlerising quirk, which is a genuinely interesting bibliographic fact.''' In
+'''Bohn's Classical Library (1897, George Bell & Sons; translator anonymous)''', the
+translator left the obscene epigrams '''untranslated in the Latin and printed an existing
+Italian translation alongside them'''. This is the Victorian form of a convention the Loeb
+series then inherited: '''Greek judged too ribald was rendered into Latin, and Latin judged
+too ribald into Italian''' — the obscenity preserved intact, but behind a language barrier
+the schoolroom reader could not cross. Over 400 of Martial's epigrams were held unfit for
+school use. Ker's Loeb is euphemistic rather than non-translating; the restored
+unexpurgated text is '''Shackleton Bailey's 1993 Loeb, fully in copyright'''.
+
+* '''Project Gutenberg has essentially nothing.''' There is '''no PG edition of Martial's
+  Epigrams''' — a real gap in the free web corpus, worth noting.
+* '''tertullian.org''' (Roger Pearse, 2008, rev. 2010), Bohn-based and modernised:
+  <https://tertullian.org/fathers/martial_epigrams_00eintro.htm> — the page states
+  explicitly '''"This file and all material on this page is in the public domain - copy
+  freely."''' Expurgated as described.
+* '''Internet Archive, Bohn (open, PD):''' `epigramsmartial00bohngoog` (1897),
+  `epigramsmartial01bohngoog` (1877), `epigrams00mart` (1860).
+* '''Internet Archive, Ker's Loeb (open, PD):''' `epigramswithengl02martuoft` (1920),
+  `epigrams00kergoog` (1919), `martialepigrams01martiala`/`02martiala` (1919).
+  '''PD in US (1919–20); UK PD since 2000 (Ker d. 1929).''' Clean on both sides.
+* '''UNSETTLED / in copyright:''' 1925, 1961 and 1968 printings; Shackleton Bailey 1993.
+
+=== The Greek Anthology — Books V and XII ===
+Greek epigrams spanning the 7th c. BCE to the 10th c. CE. Meleager of Gadara's ''Garland''
+(c. 60 BCE) → Philippus → Agathias → '''Constantine Cephalas's 10th-c. recension in
+fifteen books''', surviving in a single manuscript, the '''Codex Palatinus''' (Heidelberg).
+'''Maximus Planudes''' (c. 1301–1320) made a shortened seven-book recension and
+'''bowdlerised''' much of what he thought too explicit; the Planudean was the only version
+known in the West until '''1606''', when Salmasius copied the Palatine. Brunck printed the
+Palatine in 1776. The manuscript was split after the 1623 sack of Heidelberg, reached
+Paris in 1797 and returned incomplete in 1816.
+
+* '''Book V''' = the amatory epigrams. '''Book XII''' = '''Strato of Sardis's ''Musa Puerilis''''',
+  the homoerotic book.
+
+'''⚠️ A correction worth recording.''' It is often said that '''W. R. Paton rendered Book XII
+into Latin''' rather than English in his Loeb. '''This was checked against the text and it
+is false.''' Paton's Book XII appears in '''English throughout, 12.1 to 12.258'''. Paton
+translated the ''Musa Puerilis'' into English, which is itself historically notable and is
+why the Loeb was for decades the only accessible complete English Book XII. The
+Latin-veil practice is real and well attested — but the documented cases are '''Edmonds's
+Loeb Longus''', '''Heseltine's 1913 Loeb Petronius''' (whose preface admits leaving whole
+pages "in the decent obscurity of a learned language"), and '''the Bohn Martial'''
+(Latin → Italian). Some early Loebs also '''reversed the gender of the beloved'''. Attribute
+the practice to those, not to Paton.
+
+'''Paton's Loeb.''' ''The Greek Anthology'', 5 vols, Heinemann/Putnam, '''1916–1918''' (Loeb
+67, 68, 84, 85, 86). Vol. I = Books 1–6 (incl. '''Book V'''); '''Vol. IV = Books 10–12'''
+(incl. '''Book XII'''). Paton d. 1921 → '''PD in US; UK PD since 1992.'''
+* Open Internet Archive scans: `in.ernet.dli.2015.103642` (vol. 4, 1916 — the Book XII
+  volume; archive.org metadata reads "NOT_IN_COPYRIGHT"); `in.ernet.dli.2015.529388`
+  (vol. 1, Book V); `greekanthology03pato`; `greekanthologyin0005wrtr`.
+* '''Free full text online:''' <https://topostext.org/work/535> (Books 10–12, Paton 1916).
+* ⚠️ Borrow-only / UNSETTLED: the 1939, 1948 and 1969 printings.
+
+'''Earlier and other PD versions.''' '''George Burges''', Bohn's Classical Library, '''1854'''
+(the title — ''as selected for the use of Westminster, Eton, and other public schools'' —
+declares its expurgatory purpose); open scans `greekanthology0000geor`,
+`greekanthologya04burggoog`. Paton's '''separate''' pre-Loeb *Anthologiae Graecae Erotica:
+The Love Epigrams, or Book V of the Palatine Anthology* (Nutt, '''1898''') is a distinct
+Book-V-only edition, PD. '''Gutenberg's only substantial holding is #2378''', J. W. Mackail,
+''Select Epigrams from the Greek Anthology'' (1890, rev. 1906) — PD in US; UK PD since 2016.
+'''No Gutenberg edition of the complete Anthology exists.'''
+
+'''Not free:''' Peter Jay (Penguin, 1973/81); '''Daryl Hine, ''Puerilities''''' (Princeton, 2001 —
+the standard modern Book XII); the 2014–16 Loeb revisions.
+
+=== The rest of the Greek and Roman shelf ===
+
+'''Catullus''' (''Carmina'', c. 84–54 BCE). '''Burton and Smithers, 1894''', privately printed —
+verse by Burton, prose and notes by Smithers. '''Gutenberg #20732'''; Internet Archive
+`carminaofcaiusva00catu`; Perseus carries Smithers's English at
+`Perseus:text:1999.02.0006`. '''PD in US and UK.''' Also PD: '''Francis Warre Cornish''',
+Cambridge UP 1904 (`poemsofcaiusvale00catuuoft`) and the Cornish/Postgate/Mackail '''Loeb
+1912/13''' (Cornish d. 1916). The 1939/1962/1966 Postgate–Goold revisions: UNSETTLED.
+
+'''Petronius''' (''Satyricon'', fragmentary, late 1st c. CE). '''W. C. Firebaugh, 1922''' —
+'''Gutenberg #5225''' — PD in US; Firebaugh d. 1945 → UK PD 2016. ⚠️ '''The Norman Lindsay
+plates are a separate rights object''': Lindsay d. 1969 → in copyright in UK/EU/Australia
+until 2040. '''William Burnaby, 1694''' — '''Gutenberg #5611''', PD worldwide. '''Alfred R.
+Allinson, 1930''' — sacred-texts.com/cla/petro/satyr/index.htm — '''PD in US as of
+1 Jan 2026'''. '''Heseltine's Loeb, 1913''' — PD in US, UK UNSETTLED; the 1969 Warmington
+revision is in copyright.
+
+'''Apuleius''' (''Metamorphoses'' / ''The Golden Ass'', c. 160s–170s CE). '''William Adlington,
+1566''' — '''Gutenberg #1666''', also sacred-texts `/cla/ga/` — '''PD worldwide'''. The
+'''Adlington–Gaselee Loeb, 1915''' (`in.ernet.dli.2015.103698`) — PD in US; Gaselee d. 1943
+→ UK PD 2014. Also PD: H. E. Butler, Oxford 1910. '''Not free:''' Robert Graves (1950),
+E. J. Kenney (Penguin).
+
+'''Longus''' (''Daphnis and Chloe'', Greek, c. 2nd c. CE). '''George Thornley, 1657''' — text PD
+worldwide; the convenient scan is the 1920 reissue `daphnischloetran00longuoft` with a
+Saintsbury introduction (Saintsbury d. 1933 → UK PD 2004). '''No standalone Thornley on
+Gutenberg.''' The '''Thornley–Edmonds Loeb, 1916''' is PD in the US but ⚠️ '''Edmonds d. 1958
+→ UK/EU in copyright until 2029''' — and this is the volume documented as the Loeb case of
+rendering explicit Greek into Latin. The 1896 "Athenian Society" privately printed version:
+'''no scan located anywhere''' — presumptively PD but do not cite a URL.
+
+'''The Greek novels generally.''' The one-stop PD source is '''Rowland Smith''', *The Greek
+Romances of Heliodorus, Longus and Achilles Tatius*, Bohn 1855 — '''Gutenberg #55406''',
+PD US and UK. '''Heliodorus''': Underdowne 1569/1587, Whibley's 1895 Tudor Translations
+edition (`anthiopianhisto00whibgoog`). '''Xenophon of Ephesus''': the only PD English is
+'''Rooke, 1727'''. '''Chariton''': the only confirmed PD English is the anonymous '''1764'''
+''Loves of Chaereas and Callirrhoe''. '''⚠️ The standard modern collection — B. P. Reardon
+(ed.), ''Collected Ancient Greek Novels'' (California, 1989; 2nd ed. 2008) — is fully in
+copyright. Cite only.'''
+
+'''Lucian of Samosata''' (Greek, 2nd c. CE). '''H. W. and F. G. Fowler''', Clarendon Press
+1905, 4 vols — '''Gutenberg #6327, #6585, #6829, #47242''' — PD in US; UK PD since 2004.
+A verified detail with bibliographic interest: the Fowlers' own preface states that
+italicised items in their list of omissions are pieces judged '''spurious''', and that
+'''"the other omissions are mainly by way of expurgation."''' They '''did''' translate the
+''Dialogues of the Courtesans'' (vol. IV) but '''suppressed three of them (v, vi, x)''', while
+''Amores'' and ''Lucius sive Asinus'' were dropped entirely under the cover of spuriousness.
+'''Harmon's Loeb''' vols I–IV (1913–1925) are PD in US; Harmon d. 1950 → UK PD 2021. ⚠️ The
+'''complete''' ''Dialogues of the Courtesans'' in Loeb is in '''vol. VII (Macleod, 1961) — in
+copyright''', as are vols VI and VIII. ⚠️ The composite Internet Archive upload presenting
+itself as the complete eight-volume set necessarily includes those — treat as infringing.
+
+'''Aristophanes, ''Lysistrata''''' (411 BCE). ⚠️ '''The trap on this item:''' the most-circulated
+free text, '''Gutenberg #7700''', is the '''Jack Lindsay''' translation (Fanfrolico Press 1925,
+Norman Lindsay plates) — '''PD in the US only. Lindsay died in 1990, so it is protected in
+the UK, EU and Australia until 2061''', the plates until 2040. '''Perseus's English Lysistrata
+(`Perseus:text:1999.01.0242`) is the same Lindsay text with the same problem.''' The clean
+choice is '''Benjamin Bickley Rogers''' (1828–1919): ''The Revolt of the Women'' (1878) and
+the '''Loeb, 1924''' — '''PD in US and UK'''. Also PD in the US: '''#8688''', the anonymous
+"Athenian Society" ''Eleven Comedies'' (1912) — and note that the widely repeated
+'''"presumed Oscar Wilde" attribution for that edition is unsubstantiated folklore.'''
+
+'''Sappho''' (Aeolic Greek, c. 630–570 BCE, fragmentary). The clean choice is '''Henry
+Thornton Wharton''', ''Sappho: Memoir, Text, Selected Renderings, and a Literal Translation''
+(London, 1885) — '''Gutenberg #57390'''; Internet Archive `sapphomemoirtext00sappiala`.
+'''PD in US and UK, no complications.''' '''Edwin Marion Cox''' (1924/25) is PD in the US and
+free at sacred-texts `/cla/sappho/`, but UK UNSETTLED (Cox's death date unverified).
+'''Edmonds's ''Lyra Graeca'' Loeb''' (1922–27) is PD in the US but ⚠️ '''UK/EU in copyright to
+2029'''. The modern scholarly standard (Lobel–Page, Voigt, Campbell's Loeb 1982–93) is in
+copyright.
+
+=== Burton's "Terminal Essay" and the "Sotadic Zone" — a document in the history of the scholarship ===
+In '''Volume 10''', the final volume of Burton's ''Book of the Thousand Nights and a Night'',
+"Benares: Kamashastra Society, for private subscribers only," '''1885–86''' (the Benares
+imprint is fictitious; it was printed in Stoke Newington). The "Sotadic Zone" is in the
+Terminal Essay's '''Section IV, Part D'''. Burton posited a geographic-climatic belt — the
+Mediterranean, North Africa, the Levant, much of the Middle East and Asia, and the whole
+of the Americas — in which he claimed pederasty was endemic; the name derives from
+'''Sotades''', 3rd-c. BCE Greek poet.
+
+* '''Gutenberg #3444''' (vol. 10) — <https://www.gutenberg.org/ebooks/3444> — PD in the USA;
+  a second independent PG transcription is '''#58360'''. Internet Archive
+  `in.ernet.dli.2015.499370` (open). '''PD worldwide''' (Burton d. 1890).
+* ⚠️ '''burtoniana.org, which is widely cited as hosting it, returned HTTP 403 and was not
+  verified. Do not publish that URL untested.'''
+* ⚠️ Internet Archive items `bookofthousandni10burtuoft` and `...11burtuoft` belong to the
+  '''1894 Nichols/Smithers twelve-volume "Library Edition"''', where volume numbering
+  differs — check the title page before citing a volume number.
+
+'''Its present standing, stated honestly, because the catalogue has to.''' The Terminal Essay
+is '''historically important and thoroughly discredited'''. It is read in two literatures:
+the history of sexology, as the first extended English ethnographic treatment of male
+homosexuality, alongside Symonds's ''A Problem in Greek Ethics'' (privately printed 1883;
+PD, sacred-texts `/lgbt/pge/`) and Ellis–Symonds's ''Sexual Inversion'' (1897); and
+Orientalism critique — Said's ''Orientalism'' (1978), Rana Kabbani's *Europe's Myths of
+Orient* (1986), and '''Joseph Allen Boone's ''The Homoerotics of Orientalism''''' (Columbia,
+2014), which reads the Sotadic Zone as projecting European sexual anxiety onto a mapped
+elsewhere. The climatic determinism is rejected outright and the ethnography is anecdotal
+and second-hand. It is cited today as a '''primary source about Victorian sexual-imperial
+thought''', essentially never as evidence about the societies it describes. Any use of
+Burton in this corpus — and he is unavoidable, since he is also the Kama Sutra, the
+Ananga Ranga and the Perfumed Garden — should carry that framing.
+
+---
+
+== 1.5 Tantra — the distinction, stated accurately ==
+
+This section matters more than its length suggests. The operator's own ecosystem is
+'''Shaivite''', and the single most common error in this subject area is to present the
+modern Western sexual-practice synthesis as though it were the Shaiva and Shakta
+scriptural tradition. They are different things with different histories, and the
+catalogue says which is which.
+
+=== (i) The actual textual tradition ===
+The Sanskrit tantric/āgamic corpus is a '''revealed scriptural literature of initiatory
+ritual''', overwhelmingly Śaiva and Śākta on the Hindu side, with parallel Vaiṣṇava
+Pāñcarātra and Buddhist Vajrayāna corpora. Composed roughly '''5th–13th c. CE''', with
+exegesis continuing later. The principal streams:
+
+* '''Śaiva Siddhānta''' — the dualist, ritually normative mainstream. Its canon is
+  traditionally held to contain twenty-eight scriptures, '''but the lists vary''', and
+  several doctrinally central texts (the ''Mṛgendra'', for instance) are not on them. A
+  Sanskrit scriptural layer plus a Tamil devotional and philosophical layer (''Tirumurai'',
+  the Meykaṇḍa śāstras). Exegetes: Sadyojyoti (c. 7th c.), Bhoja (''Tattvaprakāśa'',
+  c. 1018), Somaśambhu, Aghoraśiva.
+* '''Kashmirian non-dual Śaivism — Trika and Pratyabhijñā''' — Vasugupta, Somānanda,
+  Utpaladeva, '''Abhinavagupta (c. 950–1016)''' and his pupil Kṣemarāja; the
+  ''Mālinīvijayottara'' as the Trika's root scripture; the '''Tantrāloka''' as its summa.
+* '''Kaula and Kāpālika streams''' — the transgressive, cremation-ground strata from which
+  the kaula lineages (Matsyendranātha, the Yoginī-kaula) emerge. The '''Nātha''' tradition
+  is continuous with this. This connects directly to
+  `Pashupata_Shaivism.wiki`, which already takes the correct line that the later Trika and
+  Nātha orders ''domesticate'' what the earlier ascetic orders did.
+
+=== The proportion question, answered as precisely as the sources allow ===
+'''Sexual ritual is a small minority of the tantric scriptural corpus by volume, and is
+restricted within it.''' The overwhelming bulk is initiation (''dīkṣā''), daily and occasional
+ritual, mantra-śāstra, mandala construction, iconography, temple and image installation,
+yoga and subtle-body physiology, cosmology and the ''tattva'' ontology, apotropaic magic,
+and funerary and expiatory procedure.
+
+The qualitative support is strong: '''Teun Goudriaan's''' practice inventory (mantras,
+mandalas, gestures, meditation, ritual worship, initiation) does not emphasise sex;
+'''Georg Feuerstein's''' topic list has "sacred sexuality" as one item among many;
+'''Gavin Flood's''' focus is the body in philosophy, ritual and art; '''Richard Payne''' states
+flatly that Tantra "has been commonly but incorrectly associated with sex."
+
+The best '''checkable''' illustration is structural. The '''Mahānirvāṇa Tantra''''s fourteen
+chapters cover: questions on liberation; worship of Brahman; worship of Prakṛti; mantra
+formation, jar-placing and elemental purification; śrī-pātra, homa and cakra; stotra and
+kavaca '''and the kula-tattva (ch. 7)'''; caste and āśrama dharma; the ten saṃskāras;
+śrāddha and funerary rites; expiatory rites; eternal dharma; installation of the devatā;
+consecration of the śiva-liṅga; the four classes of avadhūtas. '''One chapter of fourteen
+touches the pañcatattva. The rest is ritual, mantra, dharma and life-cycle rite.'''
+
+⚠️ '''No scholar states an explicit percentage, and this document does not invent one.''' The
+claim is well-supported qualitatively by Padoux, Payne, Goudriaan and Flood; it is '''not
+reducible to a number.'''
+
+=== The scholarly disagreement, represented rather than flattened ===
+'''David Gordon White''', ''Kiss of the Yogini: "Tantric Sex" in its South Asian Contexts''
+(Chicago, 2003), argues the opposite emphasis: that '''sexualised ritual is historically
+primary in the earliest kaula strata''', not a late accretion, and that the "high"
+philosophical Tantra of Abhinavagupta is a later semanticisation of an originally
+concrete, fluid-based practice. White also argues that Tantra, not Bhakti or Vedānta, was
+the South Asian mainstream from the 7th century to the modern period — and separately
+insists that '''"tantrism" is "a 19th-century European invention not present in any Asian
+language."'''
+
+'''Gerald James Larson''', reviewing in the ''Journal of the American Oriental Society''
+(2008), praises the book but rejects the mainstream thesis — White escapes the "Bhakti was
+mainstream" trap only to fall into a new one — and holds that tantric sexuality was
+'''largely allegorical and initiate-restricted'''. '''André Padoux''' and '''Christopher
+Wallis''' represent the other pole: the corpus read whole is a ritual-philosophical system
+in which sexual rite is one restricted element. Padoux: Tantrism is '''"a Western term and
+notion, not a category that is used by Tantrikas themselves"''' — a formulation echoed by
+C. Mackenzie Brown ("an apologetic label of Westerners") and David Gray ("a neologism of
+western scholars").
+
+'''The correct framing:''' the disagreement is about '''the earliest kaula strata and about
+centrality''', not about whether the bulk of the ''surviving corpus by volume'' is ritual,
+mantra and yoga — on that, White does not dissent. '''Both poles agree that modern
+neo-Tantra misdescribes the tradition.'''
+
+*(⚠️ Note on a common miscitation: James Mallinson's "The Yogīs' Latest Trick" (2013)
+targets White's* Sinister Yogis*, not* Kiss of the Yogini.)
+
+=== (ii) The neo-Tantra genealogy ===
+This is a '''modern Western synthesis with a traceable lineage''', not a transmission.
+
+{| class="wikitable"
+! Figure / work !! Dates !! What is actually established
+|-
+| '''Sir John Woodroffe / "Arthur Avalon"''' || 1865–1936 || Calcutta High Court judge; translated and edited some twenty Sanskrit texts. Kathleen Taylor (2001) links the "Avalon" pseudonym to Burne-Jones's ''Arthur's Sleep in Avalon'' and notes that '''Theosophists would have read such a name as signalling occult interests'''. He depended on a circle of Bengali pandit mentors, '''especially A. B. Ghose'''. The load-bearing point: he '''simultaneously made the texts available in English and framed them apologetically''' — presenting Tantra as respectable, Vedanta-compatible religion against colonial and missionary contempt. The Avalon corpus is both the foundation of Western textual access '''and''' the origin of a distorting lens. ⚠️ The extent of Ghose's authorship is a live scholarly question — use Taylor 2001 directly, do not state it flatly.
+|-
+| '''Kathleen Taylor''', ''Sir John Woodroffe, Tantra and Bengal'' || 2001, Routledge || The standard study. In copyright.
+|-
+| '''Pierre Arnold Bernard, "The Omnipotent Oom"''' || 1875–1955 || Founded the '''Tantrik Order of America in 1905 or 1906'''; ran "tantric clinics" in Cleveland, Philadelphia, Chicago and New York; given the 72-acre Braeburn estate at Nyack NY in '''1918''', which became the '''Clarkstown Country Club'''. Studied under Sylvais Hamati. Scholarship: '''Robert Love, ''The Great Oom'' (2010)'''; '''Hugh Urban, "The Omnipotent Oom" (2001)'''.
+|-
+| '''Theos Casimir Bernard''' || 1908 – declared dead 1947 || '''Pierre's nephew''', not the same man. ⚠️ '''Wikipedia's "Neotantra" article conflates the two — do not reproduce that error.''' Toured India 1936–37; ''Hatha Yoga: The Report of a Personal Experience'' (1943) from his Columbia doctoral work. Norman Sjoman rates it as nearly the only documentation of a living hatha tradition of its period; '''Paul Hackett's biography argues much of the travel narrative was exaggerated or fabricated.'''
+|-
+| '''Omar V. Garrison, ''Tantra: The Yoga of Sex''''' || '''1964, Julian Press, New York''' || '''Fully in copyright.''' The book that fixed "tantra = sexual technique" in the American popular mind.
+|-
+| '''Rajneesh / Osho''' || 1931–1990 || '''''The Book of Secrets'' — 112 discourses on the Vijñāna Bhairava Tantra''': the single most consequential vector by which the VBT entered Western practice culture. Also ''Tantra, The Supreme Understanding'' (on Tilopa). '''In copyright''', and the Osho International Foundation is litigious about the corpus.
+|-
+| '''Margot Anand, ''The Art of Sexual Ecstasy''''' || 1989, J. P. Tarcher || In copyright
+|-
+| '''Charles and Caroline Muir''', ''Tantra: The Art of Conscious Loving'' || 1989 || In copyright
+|-
+| '''Nik Douglas and Penny Slinger, ''Sexual Secrets''''' || 1979 || In copyright
+|}
+
+'''How neo-Tantra actually differs.''' It draws on Hindu and Buddhist tantras but
+'''emphasises their sexual elements''', uses "tantra" as a catch-all for sacred sexuality,
+admits unorthodox practices, and '''omits central parts of Indian tantric practice — in
+particular the reliance on a guru.'''
+
+'''And one nuance worth keeping, because flat debunking is its own inaccuracy.'''
+'''Hugh Urban's''' own position is not simple dismissal: he reports the standard scholarly
+criticism of "California Tantra" as "based on a profound misunderstanding of the Tantric
+path," but calls it himself '''"simply a different interpretation for a specific historical
+situation"''' — a legitimate object of study in the history of religions rather than merely
+an error. '''Feuerstein''' is the harsher voice; '''Geoffrey Samuel''' argues modern Western
+Tantra deserves more than dismissal.
+
+'''The scholarship (all in copyright — cite, never reproduce):''' Hugh B. Urban, *Tantra:
+Sex, Secrecy, Politics, and Power* (California, 2003) and ''Magia Sexualis'' (2006);
+David Gordon White, ''Kiss of the Yogini'' (Chicago, 2003), ''The Alchemical Body'' (1996),
+''Tantra in Practice'' (Princeton, 2000); Christopher D. Wallis, ''Tantra Illuminated''
+(2012/2013); André Padoux, ''The Hindu Tantric World'' (Chicago, 2017) and ''Vāc'' (SUNY,
+1990); '''Alexis Sanderson, "The Śaiva Age"''' in Einoo (ed.), *Genesis and Development of
+Tantrism* (Tokyo, 2009) — the single most important survey of the historical spread of
+Śaivism (⚠️ widely available as a free PDF, but '''both alexissanderson.com and the
+University of Tokyo repository failed during verification — do not publish a URL
+untested'''); Agehananda Bharati, ''The Tantric Tradition'' (1965), the earlier-generation
+insider-scholar account.
+
+=== (iii) The actual Tantric texts, with rights ===
+
+'''Vijñāna Bhairava Tantra.''' Sanskrit, '''163 anuṣṭubh verses''', a dialogue between
+Bhairava and Bhairavī; a Kaula-Trika Śaiva tantra, dated by Jaideva Singh tentatively to
+the '''7th–8th c. CE'''. Abhinavagupta calls it the ''Śiva-jñāna-upaniṣad''. Commentaries by
+'''Kṣemarāja''' (partial) and '''Śivopādhyāya''' (''Vivṛti''), published in the '''Kashmir Series
+of Texts and Studies, 1918'''.
+* '''PD Sanskrit:''' Internet Archive `in.ernet.dli.2015.242331` — the 1918 KSTS edition.
+  '''PD.'''
+* '''⚠️ KEY FINDING: there is NO public-domain English translation of the Vijñāna
+  Bhairava.''' The earliest English rendering of any kind is '''Paul Reps, 1957'''
+  ("Centering," a partial poetic version of the 112 dhāraṇās in ''Zen Flesh, Zen Bones'') —
+  '''UNSETTLED, presumed in copyright'''; the 1957 US publication is renewal-dependent, the
+  renewal database could not be reached, and Tuttle/Penguin keep it in print with a
+  "© 1957, 1985" notice consistent with renewal. '''Treat as in copyright.''' Everything
+  else is later: '''Lilian Silburn''''s French (1961, in copyright to 2064); '''Jaideva
+  Singh''' (Motilal Banarsidass, 1979 — the standard scholarly English, in copyright);
+  Lakshman Joo (2002); Satyasangananda Saraswati (2003); Semenov (2010); Lorin Roche's
+  ''Radiance Sutras'' (2014, a free rendering); Osho (1998/2010); Wallis (2018).
+* ⚠️ A full-text Jaideva Singh upload exists on Internet Archive. '''It is an infringing
+  copy. Do not treat it as a rights source.'''
+* '''Practical conclusion: for the VBT you can host the 1918 Sanskrit freely and nothing
+  else. Any English must be licensed, or newly made from the PD Sanskrit.'''
+
+'''Kaulajñānanirṇaya''' (of Matsyendranātha). The foundational Yoginī-Kaula scripture,
+surviving in Nepalese manuscripts, conventionally '''9th–11th c. CE'''.
+* '''P. C. Bagchi's edition''', *Kaulajñāna-nirṇaya and Some Minor Texts of the School of
+  Matsyendranātha*, Calcutta Sanskrit Series No. 3, '''1934''' — Sanskrit plus English
+  introduction and summaries. Open Internet Archive scans:
+  `in.ernet.dli.2015.487474`, `in.ernet.dli.2015.280214`, `dli.ministry.15875`.
+* '''⚠️ RIGHTS UNSETTLED, and probably NOT free in the US.''' The Sanskrit is ancient and PD.
+  '''Bagchi's editorial apparatus and English summaries are a separate copyrightable
+  layer.''' Bagchi d. '''1956'''; India's term is life+60 → PD in India from 2017 — but it was
+  '''still protected in India on the URAA date of 1 Jan 1996''', which would have '''restored'''
+  US copyright, giving 95 years from 1934 → '''PD in the US on 1 Jan 2030'''. The DLI scans
+  being freely online does not settle this; Internet Archive India hosting is not a rights
+  determination. '''The Sanskrit is safe; Bagchi's own English is not, until 2030 in the
+  US.''' *(This reasoning is derived from verified dates, not a cited rights opinion — have
+  it checked before republishing.)*
+* '''English translation: Michael Magee''' (initiatory name Lokanāth Mahārāj — the '''same
+  person''', so cite him as Magee). Prachya Prakashan, Varanasi; '''BnF gives 1986''', Exotic
+  India lists a 2007 reissue; ⚠️ '''the first-edition year could not be settled.'''
+* '''⚠️ Magee's site, shivashakti.com, is a superb finding aid and a terrible rights
+  source.''' Its footer reads "© 1975-2022. All rights reserved... Translations are
+  © Mike Magee 1975-2022." It hosts dozens of tantras (Kulārṇava, Mālinīvijayottara,
+  Rudrayāmala, Yoginī Hṛdaya, Śiva Sūtras, the VBT and more) — '''all copyright Magee. Do
+  not copy anything from it.'''
+
+'''Kulārṇava Tantra.''' A late Kaula scripture in 17 ''ullāsas'', conventionally c. 11th–15th
+c. CE.
+* '''The PD edition:''' Tantrik Texts series Vol. V, Sanskrit text ed. '''Tārānātha
+  Vidyāratna''', introduction by '''Arthur Avalon''', Āgamānusandhāna Samiti / Luzac & Co.,
+  London, '''1917'''. Open Internet Archive:
+  `kularnava-tatra-tantrik-texts-vol-5-luzac-and-co-1917-arthur-avalon`.
+  '''PD in US (1917); UK PD since 2007 (Woodroffe d. 1936).''' '''This is the free, citable
+  Kulārṇava.'''
+* ⚠️ '''M. P. Pandit's 1965 version is not a translation.''' The volume describes its own
+  "readings" as *"free translations — with annotations where necessary — omitting
+  technical details but preserving the spirit and essential import of the original."*
+  Pandit d. 1993 → in copyright everywhere. The Internet Archive uploads of it are uploads
+  of in-copyright material.
+
+'''Mahānirvāṇa Tantra.''' ⚠️ '''Important for accuracy: this is a very late text''' — most
+scholars place it in '''late-18th-century Bengal''', likely with reformist sympathies, which
+is why it carries so much dharma-śāstric and social-reform content. '''It is not an early
+or representative tantra''', and Woodroffe's choice of it as his flagship translation is
+itself a key fact in the apologetic-framing story above.
+* '''Arthur Avalon (Woodroffe), ''Tantra of the Great Liberation'', Luzac, 1913.'''
+  '''Free full text: <https://sacred-texts.com/tantra/maha/index.htm>.'''
+  '''PD in the US (1913); PD in the UK/EU since 2007. Clean worldwide.'''
+
+'''Tantrāloka''' (Abhinavagupta, c. 950–1016). Sanskrit, '''37 āhnikas''', the summa of the
+Kashmirian Trika, with '''Jayaratha's ''Viveka''''' commentary (13th c.). The KSTS edition
+(12 vols, 1918–1938): '''volumes published 1930 and earlier are PD in the US; the 1931–1938
+volumes are UNSETTLED.'''
+* Complete Italian: '''Raniero Gnoli''', ''Luce dei Tantra'' (UTET 1972; Adelphi 1999). In
+  copyright.
+* '''⚠️ CORRECTION TO A COMMON CLAIM: a complete English translation now exists.'''
+  '''Mark S. G. Dyczkowski''', *The Tantrāloka of Abhinavagupta, with the commentary of
+  Jayaratha*, '''11 volumes covering all 37 chapters, 2023''' (Indica / DK Printworld), the
+  product of some 45 years' work. '''Fully in copyright.''' Statements that "no complete
+  English translation exists" are pre-2023 and out of date. ⚠️ A claimed six-volume English
+  translation attributed to Gautam Chatterjee is unconfirmed and conflicts with the
+  Dyczkowski account — do not cite it.
+* Partial English: '''John R. Dupuche''', *Abhinavagupta: The Kula Ritual as Elaborated in
+  Chapter 29 of the Tantrāloka* (Motilal Banarsidass, 2003) — the scholarly treatment of
+  the chapter that actually concerns the kaula sexual rite. In copyright.
+
+'''Śākta Pramoda.''' A 19th-c. Sanskrit compendium of ten Mahāvidyā tantras compiled under
+Rājā Devanandana Siṃha, Śrī Veṅkaṭeśvara Press tradition. ⚠️ '''RIGHTS UNSETTLED''' — the
+underlying Sanskrit is PD but the first-edition date could not be confirmed and the only
+scans located are of a '''1984''' printing. '''No English translation located.'''
+
+=== Woodroffe's corpus — which volumes are free ===
+He died '''1936''' → '''PD in the UK/EU since 1 Jan 2007''' for everything. In the US,
+everything published '''1930 or earlier is PD''', and all his significant works predate 1930.
+
+{| class="wikitable"
+! Work !! Year !! Status
+|-
+| ''Introduction to the Tantra Śāstra'' || 1913 || '''PD'''
+|-
+| '''''Tantra of the Great Liberation (Mahānirvāṇa Tantra)''''' || 1913 || '''PD''' — sacred-texts `/tantra/maha/`
+|-
+| '''''Hymns to the Goddess''''' || 1913 || '''PD''' — sacred-texts `/tantra/htg/`
+|-
+| ''Principles of Tantra'' (2 vols) || 1914, 1916 || '''PD'''
+|-
+| '''''Shakti and Shākta''''' || 1918 (3rd ed. 1927) || '''PD''' — sacred-texts `/tantra/sas/`
+|-
+| '''''The Serpent Power''''' || 1918/1919 || '''PD''' — `TheSerpentPowerByArthurAvalon`. The single most influential volume on Western kuṇḍalinī literature
+|-
+| '''''The Garland of Letters'' (Varṇamālā)''' || 1922 || '''PD'''
+|-
+| '''''Hymn to Kālī: Karpūrādi-Stotra''''' || 1922 || '''PD''' — sacred-texts `/tantra/htk/`
+|-
+| ''The World as Power''; ''Kāmakalāvilāsa'' || 1922 || '''PD'''
+|-
+| '''Tantrik Texts series''' (ed. Avalon, from 1913) || 1913–1930s || '''Volumes to 1930 PD''' (incl. vol. 5 ''Kulārṇava'', 1917). '''The 1933 ''Śāradātilaka'' vol. 2 and other 1931+ volumes: UNSETTLED'''
+|}
+
+=== Free Sanskrit e-text infrastructure ===
+* '''Muktabodha Indological Research Institute''' — over 3,000 texts preserved, 570+
+  searchable e-texts across Śaiva, Vīraśaiva, Pāñcarātra, Śrīvidyā, Śākta and Nātha
+  corpora, plus '''2,000+ IFP Pondichéry paper transcripts''' (mostly Śaiva Siddhānta). The
+  site says the texts are "made freely available." <https://muktabodha-digital-library.org>
+  and the legacy <https://muktalib7.com/DL_CATALOG_ROOT/digital_library.htm>.
+  ⚠️ A terms page exists and was '''not read''' — check before any bulk reuse.
+* '''GRETIL''' (Göttingen Register of Electronic Texts in Indian Languages),
+  <http://gretil.sub.uni-goettingen.de/gretil.html> — contributed machine-readable
+  Sanskrit, much of it free as TEI XML / HTML / plain text. ⚠️ '''No formal licence
+  statement on the page.''' Its visible Śaiva section includes the ''Devīkālottara'',
+  ''Mṛgendrāgama'', ''Kubjikāmata'', ''Svacchanda'', ''Toḍala'', ''Vīṇāśikha'', ''Śiva-upaniṣad'',
+  ''Gorakṣaśataka''.
+* '''sacred-texts.com's entire tantra shelf is five items''' — Mahānirvāṇa, *Shakti and
+  Shākta*, ''Hymns to the Goddess'', ''Hymn to Kālī'', and Rishi Singh Gherwal's *Kundalini:
+  The Mother of the Universe* ('''1930 — PD in the US as of 1 Jan 2026''') at `/hin/kmu/`.
+  All Woodroffe except the last.
+
+---
+
+'''PART 2 — THE BRIDGE MAP'''
+
+The classical erotological corpus is not a free-standing shelf. Almost every one of these
+texts spends a substantial fraction of its length on '''materials''': unguents, perfumes,
+powders, oils, pastes, medicated wines, foods. Vatsyayana's Book VII (''Aupanishadika''),
+the ''Ananga Ranga'''s final chapters, the ''Perfumed Garden'''s recipe sections and the
+Chinese bedchamber literature's dietetics are all, read flatly, '''formulary literature'''.
+That is the actual seam with the Library — not the sexual content, the '''pharmacy'''.
+
+This map names the article each bridge lands on, states what the classical text claims,
+states what modern chemistry or physiology says, and separates the places where the two
+genuinely meet from the places where the connection is only rhetorical. The three-tier
+separation (established / preclinical / hypothesis-and-tradition) is house style and is
+followed here.
+
+---
+
+== 2.1 The oils and aromatics shelf ==
+
+=== Bridge A — Anointing oils and transdermal penetration enhancement ===
+'''Lands on:''' `Balm_of_Gilead_and_Uziza.wiki` §3 "The Pharmacological Bridge: Resins,
+Pungency, and Transdermal Driving"; `Punic_Wax.wiki` §"Amphiphilic Emulsification and
+Transdermal Delivery"; `Head_Cone.wiki`; `Kyphi.wiki`.
+
+'''What the classical texts claim.''' The Sanskrit, Arabic and Greco-Roman erotological
+texts all prescribe compounded '''anointing preparations''' — a resin or fat base carrying
+aromatics and pungent spices — applied to skin, and they attribute effects to the
+application that go beyond scent and lubrication. The ''Perfumed Garden'''s recipe
+sections and ''Kama Sutra'' VII are the densest examples; Ovid's *Medicamina Faciei
+Femineae* is the Roman parallel for the cosmetic side of the same practice.
+
+'''What the modern science says.''' This is the '''strongest''' bridge in the whole map,
+because the mechanism the ancient formularies implicitly exploit is real and the Library
+already documents it. The stratum corneum is a ceramide/cholesterol/free-fatty-acid
+lamellar barrier. Monoterpenes and sesquiterpenes (β-caryophyllene, the pinenes,
+1,8-cineole, d-limonene) and ''Piperaceae'' alkylamides (piperine, guineensine)
+'''fluidise that lipid matrix''' and function as penetration accelerators — this is
+established pharmaceutics, not folklore, and it is why terpenes appear in modern
+transdermal patch formulations. A resin-plus-pungent-spice unguent is, in mechanism, a
+penetration-enhanced topical.
+
+'''Where they genuinely meet:''' the ''structure'' of the preparations. A heavy
+non-volatile base (wax, fat, resin) plus a volatile penetration-enhancing fraction is the
+same architecture as a modern transdermal vehicle. The ancient formularies arrived at it
+empirically.
+
+'''Where it is only rhetorical:''' the ''claimed endpoint''. Enhanced penetration of an
+anti-inflammatory resin is established. Enhanced penetration producing a specific
+sexual-pharmacological effect is '''not''' demonstrated for any of these preparations, and
+no classical formula has been tested as such. The mechanism is real; the advertised
+outcome is unvalidated.
+
+=== Bridge B — Perfumery as one of the sixty-four arts ===
+'''Lands on:''' `Aroma_Wheels_Euphoric_Odours_and_the_Science_of_Aromatherapy.wiki`;
+`Standardized_Extracts_Enhanced_Leaf_and_the_Perfumery_of_Botanical_Aroma.wiki`;
+`Hydrosols_Absolutes_and_Botanical_Extraction_Modalities.wiki`.
+
+'''What the classical text claims.''' Vatsyayana's ''chatuḥṣaṣṭi kalā'' — the sixty-four
+arts a cultivated person was expected to hold — include '''perfume compounding'''
+(''gandhayukti''), garland-making, cosmetics, cooking, and the preparation of scented
+waters. Erotology in the Sanskrit tradition is explicitly presented as a branch of
+''civility'', and perfumery is one of its named technical skills. The Arabic tradition is
+named for the practice: ''al-Rawd al-'Atir'' is "the perfumed/scented garden."
+
+'''What the modern science says.''' The Library's aroma shelf is the direct modern
+continuation of this craft, and it already does the honest work of separating the three
+things that get called "the effect of a smell." The relevant finding from
+`Scent_as_a_Drug_Route...` is the '''six-to-nine orders of magnitude''' gap between
+olfactory detection (picogram–nanogram) and receptor-level pharmacology (needs
+milligrams absorbed).
+
+'''Where they genuinely meet:''' the classical texts treat scent as a '''social and
+affective technology''', not as a drug — and on the Library's own three-way split, that is
+mechanism (3), learned and cultural association, which is ''real and powerful'' and simply
+not pharmacology. The ancient authors are, on this point, more accurate than modern
+aromatherapy marketing.
+
+'''Where it is only rhetorical:''' any reading that upgrades a classical perfume recipe to
+a pharmacological aphrodisiac. The Library's own dose argument forbids it.
+
+=== Bridge C — Jasmine, indole, and the specific euphoric-odour claim ===
+'''Lands on:''' `Scent_as_a_Drug_Route_Volatile_Indoles_Jasmine_and_the_Olfactory_Path.wiki`;
+`A_Field_Guide_to_Smell_Molecules...wiki` §4 and §7.
+
+Jasmine, sandalwood, musk, saffron, costus and aloeswood are the recurring aromatics
+across the Sanskrit, Arabic and Persian texts. The Library's existing treatment is the
+right one to hang this on: the '''GABA-A potentiation''' finding (Aoshima & Hamamoto 1999)
+for benzyl acetate and related floral esters is documented ''in vitro''; the inhaled-linalool
+anxiolytic result (Linck et al. 2010) with the anosmic-mouse control (Kashiwadani et al.
+2018) is the strongest mechanistic result in the field — and it establishes that the
+effect runs '''through the nose as a smell''', not by blood absorption. Classical texts
+calling jasmine relaxing are describing something real with the wrong causal story.
+
+=== Bridge D — The citrus furanocoumarins: one molecule family, two different harms ===
+'''Lands on:''' `Cytochrome_P450_System_Inhibition_and_Induction.wiki` (bergamottin,
+6',7'-dihydroxybergamottin, mechanism-based inactivation, 48–72 h recovery);
+`Bioavailability_Metabolic_Inhibition_and_Synergy.wiki` §3; `A_Field_Guide_to_Smell_
+Molecules...wiki` §14 (bergapten/5-MOP phototoxicity, FCF bergamot);
+`Cold_Pressing_Expelling_and_Heat_Why_the_Same_Seed_Gives_Different_Oils.wiki`
+(why ''expressed'' citrus oils carry furocoumarins and distilled ones do not).
+
+This is the '''most load-bearing safety bridge''' and it belongs to Part 3 as much as Part 2.
+The Library already carries the oral story: grapefruit furanocoumarins irreversibly
+inactivate enterocyte CYP3A4. The adult-surface material needs the ''dermal'' story, which
+is a '''different mechanism with the same molecule class''': bergapten (5-methoxypsoralen)
+is a psoralen; under UVA it intercalates DNA and forms interstrand crosslinks, producing
+phytophotodermatitis — a real chemical burn, not an irritation. Two harms, two
+mechanisms, one compound family. Conflating them would be exactly the error the Library's
+house style exists to prevent. See §3.5.
+
+=== Bridge E — Extraction method determines the hazard ===
+'''Lands on:''' `Terpene_Extraction.wiki`; `Cold_Pressing_Expelling_and_Heat...wiki`;
+`Hydrosols_Absolutes_and_Botanical_Extraction_Modalities.wiki`.
+
+Practical, and under-appreciated: '''cold-expressed''' citrus peel oil carries
+furanocoumarins; '''steam-distilled''' citrus does not, because the furanocoumarins are
+non-volatile and stay behind. The same plant yields a phototoxic and a non-phototoxic
+oil depending only on the method. The Library already states this; the adult surface
+needs it stated again at the point of use, because "lime oil" on a label means nothing
+without the method.
+
+---
+
+== 2.2 The preparation shelves ==
+
+=== Bridge F — Book VII and the aphrodisiac formularies ===
+'''Lands on:''' `Oilahuasca.wiki`; `Cooking_with_Herbs_and_Spices.wiki`;
+`Tinctures_Glycerites_Syrups_and_Infused_Oils_and_Butters.wiki`;
+`Spiced_Wine_Bitters_and_the_Colas.wiki`.
+
+'''What the classical texts claim.''' Vatsyayana VII, the ''Ananga Ranga'''s closing
+chapters, and the ''Perfumed Garden'' all carry '''aphrodisiac and "subjugation" recipes''' —
+medicated ghees, honeys, milks, spiced wines, powders. Many are frankly magical
+(sympathetic-magic ingredients, incantations); many are ordinary kitchen pharmacy: long
+pepper, black pepper, ginger, cinnamon, cloves, nutmeg, saffron, sesame, ghee, honey,
+milk, asparagus (''shatavari''), ''Mucuna''.
+
+'''What the modern science says.''' The Library's framework handles this cleanly and
+should be the lens:
+* '''Mechanistically real and already documented here:''' piperine as a CYP and UGT
+  inhibitor and bioavailability enhancer; nutmeg and cinnamon as allylbenzene sources
+  within the Oilahuasca/Oswald-pathway material; ''Mucuna pruriens'' as a genuine L-DOPA
+  source (this is the one unambiguously pharmacologically active aphrodisiac-adjacent
+  botanical in the Sanskrit lists, and it is dopaminergic, which is a real mechanism for
+  libido).
+* '''Preclinical at best:''' ''Tribulus'', ''shatavari'', most of the "rasayana" claims.
+* '''Tradition only:''' the sympathetic-magic recipes, which the texts themselves often
+  frame as such.
+
+'''Where they genuinely meet:''' the formularies are a '''historical ethnobotanical record'''
+of which plants were believed to do this, and several of those plants turn out to have
+real pharmacology — just usually ''not'' the pharmacology claimed. Nutmeg is psychoactive;
+it is not an aphrodisiac. Long pepper is a potentiator; it is not a libido drug.
+
+'''Where it is only rhetorical:''' treating Book VII as a working formulary. It is not. The
+honest frame is: *these are the plants the tradition named, here is what each one
+actually does, and the overlap with the claim is small.* Several of the named materials
+are '''outright dangerous''' at the doses implied (nutmeg's anticholinergic delirium;
+datura and ''Strychnos'' appear in some Indic and Arabic recipe traditions) and that
+belongs on the page at the point the plant is named.
+
+=== Bridge G — Oils, fats and waxes as a preparation technology ===
+'''Lands on:''' `Edible_Waxes_Hive_Foods_and_Aromatic_Resins.wiki`;
+`Punic_Wax.wiki`; `Encaustic.wiki`; `Kyphi.wiki`; `Cera_non_Panis.wiki`;
+`Balm_of_Gilead_and_Uziza.wiki`.
+
+The Library already holds an unusually deep wax shelf — saponified beeswax with a
+documented melting-point shift from ~60 °C to ~100 °C, the seven boiling procedures,
+encaustic's damar/mastic hardeners and their melting-point effects, the Egyptian head-cone
+material. '''That shelf is the technical parent of Part 3.''' Anyone writing wax safety for
+the adult surface should be building on `Punic_Wax.wiki` and `Encaustic.wiki` rather than
+starting over, because those two pages already establish the controlling idea: *the
+additive determines the melting point, and the melting point determines the behaviour.*
+
+---
+
+== 2.3 The body and neuro shelves ==
+
+=== Bridge H — Breath, retention and autonomic control ===
+'''Lands on:''' `The_Church_of_Neuroscience_and_Biohacking.wiki`;
+`Synaptogenesis_Neuroplasticity_and_Brain_Rewiring.wiki`.
+
+'''What the classical texts claim.''' The Chinese bedchamber literature and the Indic
+tantric-yogic material both describe '''breath control and retention''' practices with
+claimed effects on vitality, longevity and consciousness.
+
+'''What the modern science says.''' Slow paced breathing around 6 breaths/min
+(~0.1 Hz) maximises respiratory sinus arrhythmia and heart-rate variability and shifts
+autonomic balance — this is '''established''' and well measured. Everything beyond that —
+the longevity claims, the "energy" claims, the neuroplasticity claims — is not.
+
+'''Where they genuinely meet:''' paced breathing changes measurable autonomic state. That is
+a genuine, small, real finding and it is the honest floor for the whole "ancient breath
+technology" literature.
+
+'''Where it is only rhetorical:''' mapping ''qi'', ''jing'', ''kundalini'' or ''bindu'' onto
+neurotransmitters, BDNF or mTOR. `Synaptogenesis_Neuroplasticity_and_Brain_Rewiring.wiki`
+documents genuine TrkB–BDNF–mTORC1 plasticity cascades for psilocybin and ketamine;
+there is '''no''' comparable evidence for any practice in the erotological corpus, and
+borrowing that article's molecular vocabulary for tantric practice would be the exact
+category error the Library's three-tier style is designed to catch. State it as
+tradition.
+
+=== Bridge I — Entrainment and ritual rhythm ===
+'''Lands on:''' `Gamma_Entrainment.wiki`; `Auditory_Steady_State_Response`;
+`Display_Refresh_and_Flicker_Delivery`.
+
+Rhythmic drumming, chant and repeated mantra in ritual contexts are, physically, periodic
+sensory drive. `Gamma_Entrainment.wiki` is the Library's rigorous treatment of what
+periodic sensory drive does and does not do, and it carries the field's single most
+important practical fact — the '''frequency-safety inversion''': Fisher et al. (''Epilepsia''
+2005) put the most provocative photosensitive band at '''15–25 Hz''', inside a 1–65 Hz
+range. Any adult-surface material that pairs ritual rhythm with light or sound must carry
+that article's contraindication list verbatim rather than inventing a new one. The
+connection between tantric ritual rhythm and GENUS-style entrainment is '''rhetorical, not
+mechanistic''' — but the ''safety'' material transfers completely and should.
+
+=== Bridge J — A stale restriction line to flag, not to act on ===
+`The_Church_of_Neuroscience_and_Biohacking.wiki` currently carries scope language
+("device instructions out of scope", "a step-by-step 'apply this current to your head'
+recipe is out of scope", "dose / timing protocols... not reproduced here"). Per
+`CLAUDE.md`, that class of Claude-authored restriction was '''retired by the operator on
+2026-09-04''' and neurostim build detail is in scope. This bridge map does not act on
+that line and adds no guard; it is flagged here only so the operator knows that page is
+out of step with the settled scope and may want it revised.
+
+---
+
+== 2.4 Religion and practice ==
+
+=== Bridge K — Shaivite accuracy ===
+'''Lands on:''' `Pashupata_Shaivism.wiki`; `Mystery_Schools.wiki`;
+`Mystery_Schools_and_Religious_Movements_Catalogue_Ancient_to_Today.wiki`;
+`Religious_Sacraments_RFRA_and_the_Temple_of_True_Inner_Light.wiki`.
+
+`Pashupata_Shaivism.wiki` is the Library's anchor for the earliest sectarian Shaiva
+order, and it already takes the correct line — that the later Trika and Nath traditions
+''domesticate'' what the Pashupatas did. That is exactly the frame the tantra entry in
+Part 1 needs, and the two should cross-reference. The operator's ecosystem being Shaivite
+makes this the bridge where getting it wrong costs the most: the adult surface must not
+import the neo-tantra synthesis as though it were the Shaiva textual tradition. See
+Part 1 §6.
+
+=== Bridge L — The sacred-prostitution question, already handled correctly ===
+'''Lands on:''' `Mountains_of_the_Gods_Religion_Hermon_Olympus_and_the_Watchers_Myth.wiki`
+(§ on whether institutional "sacred prostitution" existed; cites '''Budin, *The Myth of
+Sacred Prostitution in Antiquity*, 2008''', and Herodotus 1.199);
+`Ancestral_Temple_Elites_Royal_Inbreeding_and_Sacred_Marriage.wiki`.
+
+The Library has already taken the scholarly position here and labelled it '''Debated'''.
+Any adult-surface page touching temple sexuality must inherit that labelling rather than
+repeating the popular version. This is the single easiest place for the new surface to
+embarrass itself, and the Library has already done the work.
+
+---
+
+'''PART 3 — WAX, OILS AND THE SAFETY MATERIAL'''
+
+Written the way the Library writes harm reduction. The practical detail '''is''' the
+material: a person who is going to do this and is told only "be careful" has been given
+nothing, and withholding the numbers is the harm the library exists to prevent. The
+numbers below are given with their sources and with their uncertainty stated.
+
+This section builds on the Library's existing wax shelf rather than restarting it —
+`Punic_Wax.wiki`, `Encaustic.wiki` and `Edible_Waxes_Hive_Foods_and_Aromatic_Resins.wiki`
+already establish the controlling principle: '''the additive sets the melting point, and
+the melting point sets the behaviour.'''
+
+---
+
+== 3.1 Melting points, and why temperature — not "candle" — is the only variable ==
+
+The word "candle" tells you nothing. Two candles of the same size can differ by '''25 °C'''
+in the temperature of their melt pool. The only variable that matters is '''the temperature
+of the wax when it reaches skin''', and that is set by the wax's formulation.
+
+=== The melting-point table ===
+
+{| class="wikitable"
+! Wax !! Melting point °C !! °F !! Notes
+|-
+| Coconut wax || ~38–43 || ~100–110 || Lowest of the common waxes; usually sold in blends
+|-
+| Soy container wax (e.g. GW 464) || '''45–48''' || '''113–119''' || Congealing point of generic soy container wax is quoted lower still, ~34–42 °C (ASTM D938)
+|-
+| Purpose-made massage-candle blends (soy/coconut + butters + oils) || ~40–50 || ~104–122 || Oils and butters are added specifically to depress the melt point
+|-
+| Paraffin, container grade || '''≤54''' || '''≤130''' || The industry cutoff for "low-melt / container" wax
+|-
+| Paraffin, votive / pillar grade || '''54–62''' || '''130–145''' || A nominal 62 °C (143 °F) grade is used where free-standing rigidity is needed
+|-
+| Paraffin, general range across all grades || 46–71 || 115–160 || Varies with grade and oil content
+|-
+| '''Beeswax''' || '''62–64''' || '''144–147''' || "Natural" does not mean cooler. Beeswax is '''near the top''' of the usable range
+|-
+| Carnauba || ~82–86 || ~180–187 || Hardener. Not a skin wax
+|-
+| Damar-hardened encaustic medium || ~80–93 || ~180–200 || 10–25% damar lifts beeswax this far. Not a skin wax
+|-
+| '''Punic wax (saponified beeswax)''' || '''~100''' || '''~212''' || The Library's own page documents the 60→100 °C shift. '''Never on skin.''' It is also alkaline.
+|}
+
+Sources: the soy and paraffin figures are supplier technical data and candle-industry
+grade conventions (AAK GW 464 retail TDS; chemical-supply slab grades; the 54 °C
+container / 54–62 °C pillar convention appears consistently across suppliers but '''is not
+a formal standard''' — confirm against the data sheet for the specific wax). The beeswax,
+damar and carnauba figures are the Library's own, from `Encaustic.wiki`. The Punic figure
+is from `Punic_Wax.wiki` (Fritz Faiss).
+
+'''The practical reading of that table:''' soy and coconut blends sit in a usable band.
+Paraffin container wax is at the edge. Paraffin pillar wax, beeswax and everything below
+it in the table are '''above the threshold at which skin blisters in under a minute'''.
+
+=== Why those numbers matter: the thermal-injury thresholds ===
+
+The relevant physiology is '''Henriques & Moritz 1947''' (''American Journal of Pathology''
+23(4):530–549 and 23(5):695–720), still the reference work. Their findings, as reported
+in the later review literature:
+
+* '''44 °C''' held for '''5 hours''' → mild hyperaemia only. Held for '''6 hours''' → complete
+  epidermal necrosis. 44 °C is the floor at which damage accumulates at all.
+* '''53 °C''' for '''30 seconds''' → '''blister threshold'''.
+* Between those points the relationship is '''exponential''', not linear: a small rise in
+  temperature produces a large fall in the tolerable time. As a working heuristic, each
+  degree above about 45 °C roughly halves the time to injury.
+* '''43 °C''' is the "infinite contact" touch-temperature limit used in the standards
+  (ISO 13732-1 / IEC Guide 117): below it, contact of any duration is predicted not to
+  burn.
+
+'''The conductivity caveat, which is the part usually got wrong.''' ISO 13732-1's burn
+thresholds are '''material-dependent'''. Metal at 60 °C burns in a fraction of the time
+that a low-conductivity material at 60 °C does, because metal delivers heat into the skin
+far faster. Wax is a poor conductor, and this is the genuine physical reason wax at
+temperatures that would be instantly injurious from a metal surface is survivable. That
+is the real mechanism — not "wax is gentle."
+
+'''But there is a second half to it that is usually omitted, and it cuts the other way.'''
+Wax does not merely cool from its pour temperature to body temperature; it '''freezes on
+the skin''', and freezing releases the '''latent heat of fusion'''. For paraffin that is
+commonly quoted at '''190–210 kJ/kg''' (reported values across grades and methods range far
+more widely, roughly 100–250 kJ/kg — use the grade's own data), against a specific heat
+of roughly '''2–3 kJ/kg·K'''.
+
+Work it through for 1 g of paraffin landing at 60 °C and ending at skin temperature:
+* sensible heat, 60 °C → 37 °C: ≈ 2.3 kJ/kg·K × 23 K ≈ '''53 J'''
+* latent heat of solidification: ≈ '''200 J'''
+* total ≈ '''253 J'''
+
+1 g of '''water''' at 60 °C cooling to 37 °C delivers 4.18 × 23 ≈ '''96 J''' and does not
+freeze. So gram for gram, at the same temperature, '''wax delivers roughly two and a half
+times the thermal energy of water''' — the majority of it as latent heat, released at the
+moment of solidification. Low conductivity spreads that delivery out in time; it does not
+reduce the total. Both facts are true and only one of them is usually stated.
+
+'''Clinical benchmark for comparison:''' therapeutic paraffin baths used in physiotherapy
+run around '''51–54 °C (125–130 °F)''' for immersion of hands and feet — thick-skinned,
+well-perfused sites, under supervision, with a known wax. This is a commonly cited figure
+rather than one verified here against a device standard; treat it as an order-of-magnitude
+anchor and check the specific unit's specification. It is a useful upper reference point
+and it is '''well above''' what is appropriate for thin skin.
+
+=== How to actually control it ===
+
+Height, drip rate and "about eighteen inches" are folklore controls. They are better than
+nothing, and the physics behind them is real — a droplet loses heat in flight, and small
+droplets lose it fast because of their surface-to-volume ratio — but the loss depends on
+droplet size, ambient temperature, air movement and the wax, so the same height gives
+different results on different nights.
+
+'''The reliable control is measurement.''' A cheap infrared or probe thermometer reading
+the melt pool, plus a test drop on '''your own''' inner forearm before anything else, gives
+a number instead of a guess. That is the single highest-value piece of equipment in this
+whole section, and it costs less than the candle.
+
+---
+
+== 3.2 Dyes, scents and additives: two different harms, told apart ==
+
+The common claim is "additives make it burn hotter." That is '''half right, and the other
+half is a different injury entirely'''. Both belong on the page, labelled.
+
+'''(a) Thermal — genuinely raises the temperature'''
+* '''Stearic acid''' is added to paraffin specifically to harden it and '''raise the melting
+  point'''. It does exactly what it is there to do.
+* '''Pillar, votive and taper formulations''' are higher-melting ''by design'', because they
+  must stand up without a container. Buying "a candle" without checking the type is how
+  people end up with a 60 °C pool.
+* '''Hardening resins''' (damar, mastic, copal) lift beeswax from ~62 °C to 80–93 °C — the
+  Library documents this on `Encaustic.wiki`. Anything containing them is a painting
+  medium, not a skin material.
+* '''Glass containers and large pools''' store heat and keep the pool hot near the wick. The
+  wax immediately around the wick is the hottest wax in the vessel.
+
+'''(b) Chemical — does not raise the temperature, and is the harm people actually get'''
+* '''Candle dyes are not cosmetic-grade.''' They are not screened for dermal contact, several
+  are known contact sensitisers, and the pigmented grades deposit particulate that
+  complicates removal and can be ground into skin.
+* '''Candle fragrance oils are loaded at 6–10%.''' AAK's own recommended scent load for
+  GW 464 is '''7–9%'''. The maximum dermal dilution for a leave-on body product is '''1–3%'''
+  (§3.5). A scented candle therefore puts fragrance on skin at '''three to nine times''' the
+  dermal limit — and candle fragrance oils are formulated for ''cold and hot throw'', not
+  for dermal safety, so they are not screened for sensitisers or for phototoxicity and
+  routinely contain cinnamic aldehyde, eugenol, isoeugenol and oakmoss-type materials at
+  levels no dermal product would carry.
+* '''Wick residue.''' Carbon from the wick ends up in the pool.
+
+'''So the honest statement is:''' a standard scented household candle is the wrong tool for
+two separate reasons — it is probably the wrong ''grade'' of wax (thermal), and it is
+certainly the wrong ''formulation'' (chemical). Fixing only one of those does not fix it.
+A purpose-made unscented, undyed low-melt soy or coconut blend fixes both.
+
+---
+
+== 3.3 Distance, site and the contraindications ==
+
+'''Skin-site sensitivity''' tracks stratum-corneum thickness, blood supply and nerve
+density. Roughly, from most tolerant to least:
+
+* '''More tolerant:''' upper back, shoulders, buttocks, outer thighs, outer arms.
+* '''Less tolerant:''' chest, abdomen, flanks, inner arms, inner thighs.
+* '''Thin skin — treat as a different category:''' throat and neck, inner wrist, antecubital
+  fossa, breast and nipple, genitals, perineum. Thin skin reaches a given depth of injury
+  at a markedly lower thermal dose.
+* '''Never:''' the face and anywhere near the eyes; any mucous membrane; inside the ear; any
+  cavity or depression where wax '''pools and cannot be lifted off''' — the navel is the
+  classic one, and a pooled-wax burn is deeper than a drip burn because the contact time
+  is far longer.
+
+'''Hair.''' Body hair traps wax at the follicle, holds heat against the skin, and makes
+removal an epilation. Shaving beforehand reduces that, but freshly shaved skin is
+micro-abraded and more reactive, so it is a real trade-off rather than a free fix. Clip
+rather than shave, or do it a day ahead.
+
+'''Hard contraindications — do not, at any temperature:'''
+* '''Peripheral neuropathy of any cause (diabetes above all).''' This is the most
+  under-stated item on the list. The protective withdrawal reflex is the entire safety
+  system, and neuropathy removes it. The injury is discovered afterwards.
+* Impaired circulation, Raynaud's, lymphoedema, or any area with compromised perfusion.
+* Over broken, sunburned, infected, irradiated or recently tattooed skin; over varicose
+  veins; over a recent graft or scar.
+* Anyone '''intoxicated''' — alcohol and most recreational drugs blunt both the withdrawal
+  reflex and the ability to report. Anyone asleep or unable to communicate.
+* Anyone who has taken a '''phototoxic essential oil''' topically in the last 12–18 hours
+  and will be near UV (§3.5) — unrelated mechanism, same session.
+
+'''Fire.''' Wax is a fuel and the source is an open flame. Keep alcohol, aerosols, hair
+spray, solvents and loose hair away from it; keep bedding and synthetic fabrics clear; have
+'''water and a damp towel within reach''' before lighting anything; never leave it burning.
+
+'''Removal.''' Let the wax set and lift it off in sheets. Do not pull it through hair, do not
+scrape, never use a blade. A plain carrier oil loosens residue — '''but read §3.4 first,
+because that oil then destroys latex.'''
+
+---
+
+== 3.4 Aftercare for a thermal burn, and when it needs a clinician ==
+
+Taken from NHS guidance, which is the cleanest public statement of the steps.
+
+'''Do, immediately:'''
+# '''Cool the burn under cool running water for 20 minutes.''' Start as soon as possible —
+   and it is '''still worth doing up to 3 hours''' after the injury. If running water is not
+   available, use cool bottled water or a wet towel.
+# Remove clothing and jewellery near the area — '''but do not remove anything stuck to it.'''
+# Once cooled, '''lay cling film over it. Do not wrap cling film around it''' (circumferential
+   wrapping constricts as the area swells).
+# Simple analgesia — paracetamol or ibuprofen.
+
+'''Do not:'''
+* '''No ice, no iced water.''' Ice causes further injury by vasoconstriction and cold damage.
+* '''No creams, oils, butter, toothpaste or ointments on a fresh burn.''' This matters
+  specially here, because the oil is right there on the table.
+* '''Do not burst blisters.''' The blister roof is a sterile dressing.
+* No plasters or sticky dressings directly on the burn.
+
+'''Go to A&E / call emergency services if the burn:'''
+* is '''very large or deep''';
+* is on the '''face, genitals or bottom''';
+* was caused by '''acid, another chemical, or electricity'''.
+
+(That is the NHS list, which deliberately gives '''no numeric threshold'''.) The size and
+site criteria used in burn-service referral guidance, which are a useful supplement, add:
+burns larger than the patient's '''palm (~1% body surface)'''; '''full-thickness''' burns —
+white, brown, charred, or leathery and '''painless''', because painlessness means the nerve
+endings are gone and is a sign of a ''worse'' burn, not a better one; '''circumferential'''
+burns; burns to '''hands, feet or major joints'''; any burn in a '''young child'''; and any
+burn later showing '''spreading redness, increasing pain, pus or fever''' (infection).
+
+For wax specifically: a drip burn from a correctly chosen low-melt wax is usually
+superficial. A '''pooled''' wax burn, or one under a strap, cuff or waistband where the wax
+was held against skin, can be partial-thickness or deeper despite a modest temperature,
+because the contact time was long. Judge by the wound, not by the wax.
+
+---
+
+== 3.5 Massage and carrier oils ==
+
+=== Comedogenic ratings — and the honest caveat about the scale ===
+
+The 0–5 comedogenic scale is in universal use and is '''weak evidence'''. It derives from
+the '''rabbit-ear assay''' (Kligman and colleagues; later Fulton's tables). The criticism is
+not fringe:
+
+* '''Kligman himself''', reappraising in 1996, concluded that neither the rabbit nor the
+  human assay is entirely satisfactory, that petrolatum showed no comedogenic potential in
+  acne patients, and that '''greasiness cannot be equated with comedogenicity'''.
+* '''Frank (1982)''' found the model had many performance problems and '''lacked correlation
+  with human experience'''.
+* '''Mirshahpanah & Maibach (2007)''', as quoted in secondary literature, held that the model
+  cannot accurately reflect acnegenic potential and is useful mainly for identifying
+  '''absolute negatives'''.
+* Rabbits lack human facial sebaceous-follicle biology and do not develop acne vulgaris, so
+  the assay plausibly measures '''irritation''' more than comedogenesis.
+
+So: use the chart as a '''weak prior''', and let a '''patch test''' overrule it. Published
+figures also disagree between sources. With that stated:
+
+{| class="wikitable"
+! Oil / butter !! Commonly cited rating !! Oxidative stability
+|-
+| Argan || 0 || good (high oleic)
+|-
+| Hemp seed || 0 || '''poor''' — high linoleic
+|-
+| Safflower (high-oleic) || 0–1 || good
+|-
+| Grapeseed || 1 || '''poor''' — high linoleic
+|-
+| Castor || 1 || good, but very viscous
+|-
+| Sunflower || 0–2 (cultivar-dependent) || poor unless high-oleic
+|-
+| Shea butter || 0–2 || good
+|-
+| '''Jojoba''' || 2 || '''excellent — see below'''
+|-
+| Sweet almond || 2 || moderate
+|-
+| Olive || 2 || good
+|-
+| Apricot kernel || 2 || moderate
+|-
+| Avocado || 3 || good
+|-
+| Cocoa butter || 4 || excellent
+|-
+| '''Coconut (virgin)''' || '''4''' || excellent
+|-
+| Fractionated coconut (MCT) || low (differs from virgin) || excellent
+|-
+| Wheat germ || 5 || poor
+|}
+
+=== Oxidation and rancidity — the part that actually causes reactions ===
+
+This matters more than the comedogenic number, and it is mostly ignored.
+
+* '''Polyunsaturated (high-linoleic) oils oxidise fast''': grapeseed, sunflower, hemp,
+  rosehip, wheat germ. Practical shelf life once opened is roughly '''3–6 months'''.
+* '''Monounsaturated (high-oleic) oils''' — olive, sweet almond, apricot kernel, avocado,
+  high-oleic sunflower — keep roughly '''a year'''.
+* '''Jojoba is not a triglyceride at all.''' It is a '''liquid wax ester''', chemically much
+  closer to the wax shelf than to the seed oils, and it is essentially non-rancidifying:
+  '''2–5 years'''. For this application it is the obvious default. Fractionated coconut
+  (MCT) is the other stable choice.
+* '''Why it matters:''' rancid oil is not merely unpleasant. Lipid peroxidation produces
+  '''hydroperoxides and reactive aldehydes''', and those are '''skin irritants and contact
+  sensitisers'''. A great many "I reacted to that oil" reports are reactions to an oxidised
+  oil, not to the oil.
+* '''Controls:''' buy small, store cool, dark and airtight, decant rather than dip, add
+  '''tocopherol (vitamin E) at ~0.5–1%''' as an antioxidant. '''Smell it''' — oxidised oil
+  smells of crayons, putty or stale nuts.
+* '''Nut allergy is real.''' Sweet almond is a tree-nut oil. Highly refined oils carry very
+  little protein; '''cold-pressed oils carry more'''. Ask before using one on someone else.
+
+=== Oils and latex — the genuine failure mode ===
+
+This is the single most important interaction in the section, and it is well documented.
+
+'''Voeller et al., ''Contraception'' (1989)''' — the reference study — found that '''as little
+as 60 seconds' exposure of commercial latex condoms to mineral oil caused approximately a
+90% decrease in condom strength''', measured as burst volume in the standard '''ISO air
+burst test'''. Burst pressures also fell, less dramatically. The products tested included
+ordinary consumer goods: Vaseline Intensive Care and Johnson's Baby Oil. By contrast,
+'''five minutes' exposure to glycerol produced no significant effect'''.
+<https://pubmed.ncbi.nlm.nih.gov/2535978/>
+
+A later ''Southern Medical Journal'' study found baby oil cut mean burst time from near a
+minute to '''about 11 seconds''' after a 5-minute exposure. (One secondary page circulates a
+"70% in 60 seconds" figure; the PubMed abstract's '''90%''' is the one to use.)
+
+'''What this means in practice:'''
+
+{| class="wikitable"
+! Material !! Oil-compatible?
+|-
+| '''Natural rubber latex''' (condoms, gloves, diaphragms, cervical caps, dams) || '''No''' — destroyed in ~60 s
+|-
+| '''Polyisoprene''' (synthetic "natural rubber" condoms) || '''No''' — same rubber chemistry, same failure
+|-
+| '''Polyurethane''' condoms || Yes
+|-
+| '''Nitrile''' condoms, gloves and dams || Yes
+|-
+| '''Silicone''' lubricant || Latex-safe — but degrades '''silicone toys'''
+|-
+| '''Water-based''' lubricant || Safe with everything
+|}
+
+The failure mode that catches people is not the obvious one. It is '''residue''': oil on
+hands, on skin, on sheets, hours after the massage, then a latex condom. The sixty-second
+figure means there is no safe interval and no "I wiped it off." If latex is going to be
+used in a session, the oils belong '''before, elsewhere, or not at all''', and hands get
+washed with soap — not wiped.
+
+'''Related, and worth stating plainly:''' intravaginal use of oils is a different question
+from topical massage. Oils are not cleared readily from the vaginal environment, and
+petroleum jelly in particular has been associated with bacterial vaginosis in
+observational work (Brown et al., ''Obstetrics & Gynecology'', 2013 — association, not
+established causation). Cited as '''associational''', because that is what it is.
+
+---
+
+== 3.6 Essential oils on skin: dilution, sensitisers and phototoxicity ==
+
+Essential oils are '''not''' carrier oils. They are concentrated volatile fractions, often
+100–1000× the concentration of the same compounds in the plant, and the dermal rules are
+specific.
+
+=== Dilution ===
+
+Drop counts assume roughly '''20 drops per mL''', which varies with viscosity and dropper
+— weigh if it matters.
+
+{| class="wikitable"
+! Dilution !! Drops per 30 mL (1 fl oz) carrier !! Use
+|-
+| '''0.5–1%''' || 3–6 || Face, sensitive or compromised skin, elderly, children, pregnancy, and '''any first use'''
+|-
+| '''2%''' || 12 || Standard for general body massage and daily leave-on products
+|-
+| '''3%''' || 18 || Localised, short-term
+|-
+| '''5%''' || 30 || Spot application only, short course
+|}
+
+'''Never apply essential oils neat.''' Undiluted application is the main driver of the
+sensitisation case literature, and sensitisation is '''permanent''' — once someone is
+sensitised to linalool or limonene hydroperoxides, they react to that compound everywhere,
+in every product, for life. The downside is not a rash; it is a lifelong allergy.
+
+'''Never''' on mucous membranes, never intravaginally or rectally, never near the eyes. This
+is not squeamishness — it is where the injuries are.
+
+=== Phototoxicity: the furanocoumarins, and the direct line to the Library's CYP material ===
+
+'''Maximum dermal use levels for leave-on products''' (Tisserand & Young, *Essential Oil
+Safety*, 2nd ed. 2014, and the corresponding IFRA standard; figures below are from
+secondary sources that cite them — '''verify against the book or the current IFRA standard
+before publishing'''):
+
+{| class="wikitable"
+! Oil !! Max dermal %
+|-
+| Mandarin leaf || '''0.17%'''
+|-
+| '''Bergamot (expressed)''' || '''0.4%'''
+|-
+| Cumin || 0.4%
+|-
+| '''Lime (expressed/cold-pressed)''' || '''0.7%'''
+|-
+| Angelica root || 0.8%
+|-
+| Bitter orange (expressed) || 1.25%
+|-
+| '''Lemon (expressed)''' || '''2.0%'''
+|-
+| Grapefruit (expressed) || 4.0%
+|}
+
+Note that bergamot's limit is '''five times stricter than a routine 2% massage dilution'''.
+
+Three facts that do the real work:
+
+# '''Method decides it.''' '''Steam-distilled''' citrus oils are '''not''' phototoxic — the
+   furanocoumarins are non-volatile and stay in the still. '''Cold-expressed''' oils carry
+   them. '''Bergapten-free / FCF''' bergamot has had them stripped and is not phototoxic.
+   The Library already makes this point on
+   `Cold_Pressing_Expelling_and_Heat_Why_the_Same_Seed_Gives_Different_Oils.wiki`.
+# '''Combinations add.''' The IFRA rule is that the sum of all furocoumarin-containing
+   phototoxic ingredients, each expressed as a percentage of its own permitted level,
+   '''must not exceed 100'''. Two oils each at half their limit is a full dose.
+# '''Avoid UVA for 12–18 hours''' after application — sun or tanning bed. Rinse-off
+   products (soap, shampoo) are not treated as a phototoxic risk.
+
+'''The mechanism, and why this is a bridge and not a conflation.''' The Library already
+documents '''bergamottin''' and '''6',7'-dihydroxybergamottin''' as the grapefruit
+furanocoumarins that '''irreversibly inactivate intestinal CYP3A4''', with a 48–72 hour
+recovery while the enterocytes synthesise new enzyme
+(`Cytochrome_P450_System_Inhibition_and_Induction.wiki`;
+`Bioavailability_Metabolic_Inhibition_and_Synergy.wiki`). '''Bergapten (5-MOP)''' is from
+the same chemical family and is the principal ''dermal'' offender — but its harm runs by a
+'''completely different mechanism''': it is a '''psoralen''', it intercalates DNA, and '''UVA
+drives it to form interstrand crosslinks''', producing phytophotodermatitis — a genuine
+chemical burn with blistering and long-lasting hyperpigmentation.
+
+'''Same molecular family, two unrelated injuries, two different organs.''' Oral: enzyme
+inactivation and drug-level multiplication. Dermal: UVA-activated DNA damage. Saying "it's
+the grapefruit effect" about a bergamot burn would be wrong, and getting that distinction
+right is exactly the standard the Library already holds itself to.
+
+=== Dermal sensitisers and irritants ===
+
+'''Strong sensitisers — keep well below standard dilution or avoid:'''
+* '''Cinnamon bark and cassia''' (cinnamaldehyde) — among the strongest; Tisserand's limit is
+  on the order of '''0.07%''', i.e. essentially a trace.
+* '''Clove bud''' (eugenol), '''ylang-ylang''' and basil types (isoeugenol, methyl eugenol).
+* '''Lemongrass and may chang''' (citral).
+* '''Peru balsam''' — a classic contact allergen and a standard patch-test antigen.
+
+'''Irritants (a different thing — dose-dependent, not immune-mediated):'''
+* '''Oregano, thyme, savory''' (carvacrol, thymol) — strong mucous-membrane and skin
+  irritants.
+* '''Mustard, wintergreen''' — wintergreen is methyl salicylate and is systemically
+  dangerous; the Library's `Scent_as_a_Drug_Route...` article notes a teaspoon is roughly
+  '''7 g of aspirin'''-equivalent.
+
+'''And the one that matters most, because it is about storage rather than identity:'''
+'''oxidation'''. The autoxidation products of '''d-limonene''', '''linalool''' and
+'''α-pinene''' — their '''hydroperoxides''' — are among the most frequently positive fragrance
+allergens in the European baseline patch-test series. '''Tea tree''' oxidises to
+'''ascaridole''', which is the sensitiser there. A fresh bottle of lavender or tea tree is
+low-risk; the same bottle, opened, warm and half-empty for two years, is a different
+substance. '''An old essential oil is more dangerous than a strong one.''' Buy small, keep
+cold and dark, date the bottle.
+
+=== Patch testing ===
+
+Before a first use on anyone: mix at '''twice''' the intended use concentration, apply a
+small amount to the '''inner forearm''', cover, and '''read at 48 hours'''. A reaction at 2%
+means do not use at 1%. This takes two days and prevents the one outcome that cannot be
+undone — permanent sensitisation.

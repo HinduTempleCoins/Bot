@@ -1,0 +1,104 @@
+'''Blurring, click-to-reveal, and what each surface actually triggers''' answers a practical question: if an image is blurred until the viewer clicks it, what has that bought you? The short answer is that it buys something real on three fronts and nothing at all on the one most people assume.
+
+''This is legal exposition, not legal advice. It describes statutes and decided cases; it does not substitute for a licensed attorney in the relevant jurisdiction.''
+
+''Sourcing note: this article was assembled from the verified findings of the research pass behind the other articles on this shelf. Where a point rests on a source that could not be independently confirmed, it says so rather than asserting it.''
+
+== Four tests that get confused with each other ==
+
+Almost every wrong answer in this area comes from applying one test's standard to another test's question. They are separate, they bite at different stages, and a defence to one is not a defence to another.
+
+{| class="wikitable"
+! Test !! What it decides !! Who bears it !! When it bites !! Where artistic value helps
+|-
+| '''Obscenity''' — ''Miller v. California'', 413 U.S. 15 (1973) || Whether material may be banned outright || Publisher / distributor || Distribution || '''Yes''' — the third prong is "lacks serious literary, artistic, political, or scientific value"
+|-
+| '''§ 2257 record-keeping''' — 18 U.S.C. § 2257, 28 C.F.R. Part 75 || Whether you must collect and hold producer records || Producer (primary and secondary) || '''Production''' || '''No.''' There is no artistic exemption
+|-
+| '''"Lascivious exhibition"''' — § 2256(2)(A)(v), the ''Dost'' factors || Whether the material is "sexually explicit conduct" at all || Producer || Production || Indirectly — see below
+|-
+| '''"Harmful to minors"''' — the ''Ginsberg'' variable-obscenity standard || Whether you must age-verify viewers || Site operator || Access || Partly — the statutes carry a value prong
+|}
+
+'''The practical consequence.''' A gallery can be entirely lawful to publish (not obscene), and still either carry or not carry a § 2257 duty, and separately either trigger or not trigger a state age-verification duty. Three different answers, three different analyses.
+
+== Where the real line sits: lascivious, not nude ==
+
+§ 2257 attaches to '''actual sexually explicit conduct''', which § 2256(2)(A) defines in five clauses: sexual intercourse, bestiality, masturbation, sadistic or masochistic abuse, and '''"lascivious exhibition of the anus, genitals, or pubic area."'''
+
+'''Nudity is not on that list.''' Clause (v) is the only one that can reach a still image of a single person, and it requires the exhibition to be ''lascivious'' — assessed on the six ''Dost'' factors (''United States v. Dost'', 636 F. Supp. 828 (S.D. Cal. 1986)), of which nudity is only one.
+
+This is why the common shorthand — "it isn't hardcore, so § 2257 doesn't apply" — is the wrong argument for the right conclusion. The correct argument is that a classical or academic nude '''fails the element''': it is not a lascivious exhibition, so it is not sexually explicit conduct, so the record-keeping duty never attaches. An exemption is not needed because the trigger was never met.
+
+Two cautions that follow directly:
+
+* '''The test runs on the material, not on the positioning.''' Calling a shelf "fine art" does nothing. What controls is a written ingest standard applied by a human reviewer, image by image.
+* '''''Dost'' is not uniform.''' The Seventh Circuit has held that full nudity is not required for clause (v) (''Donoho'', 2023), and the factors themselves are contested — the D.C. Circuit and the Tennessee Supreme Court have declined to adopt them, while the Fifth Circuit applies them. Where you are sued or charged changes the analysis.
+
+''Unverified and flagged: the current Department of Justice inspection posture under § 2257 could not be established from any source. Do not plan on the assumption that it is unenforced.''
+
+== What click-to-reveal actually is ==
+
+A blurred thumbnail that the viewer clicks to unblur is a '''consent-to-view interstitial'''. It is not an age gate, and the distinction is the whole point.
+
+=== Where it genuinely helps ===
+
+* '''Unsolicited display.''' A great deal of platform policy, and several statutes, turn on material being '''shown to''' someone rather than '''accessed by''' them. An affirmative click converts the former into the latter. This is the strongest thing blurring does.
+* '''Advertising inventory.''' A clothed or obscured creative that leads to an age-gated interior is the one configuration adult networks permit on cheaper tiers. This is the commercial payoff and it is real.
+* '''Moderation evidence.''' A demonstrable reveal gate is evidence of a moderation system, which matters to platform relationships and to good-faith moderation arguments.
+
+=== Where it does nothing ===
+
+* '''§ 2257.''' The duty attached at production, long before anyone blurred anything. Obscuring the published image does not unwind a producer's obligation.
+* '''Age verification.''' Under the state age-verification statutes, a click, a checkbox or an "I am 18" interstitial is '''expressly insufficient'''. Those statutes require commercially reasonable methods. The Supreme Court upheld Texas's scheme in ''Free Speech Coalition v. Paxton'', 606 U.S. 461 (2025), so this regime is settled law, not a pending question.
+* '''Obscenity.''' Miller judges the work as a whole. A blur is not a change to the work.
+
+=== Where it can actively hurt ===
+
+'''Blurring everything characterises your own material.''' Several state statutes trigger on a threshold proportion of a site's content being harmful to minors. A site that blurs by default has, in effect, labelled its own inventory — which is evidence that cuts against an argument that the material is not predominantly adult. Blur what needs it; blurring reflexively is a statement.
+
+== The implementation detail that decides whether any of this applies ==
+
+'''A CSS blur over the full-resolution original is cosmetic.''' The image is already in the page source and in the network tab, so nothing has been gated — the viewer has not been prevented from seeing anything, they have merely been inconvenienced.
+
+A real gate serves a '''genuinely degraded derivative''' and fetches the original only after the gate passes. Only that version supports any of the analysis above.
+
+<code>
+  COSMETIC                         GATED
+  ────────                         ─────
+  <img src="full.jpg"              <img src="preview-blur.jpg">
+       style="filter:blur(20px)">    ↓ gate passes
+  original already delivered        fetch full.jpg
+  → gates nothing                   → original withheld until then
+</code>
+
+This distinction is enforced in code: the ecosystem's age-gate module reports a preview as ''cosmetic'' unless the caller declares both a server-side derivative and a withheld original.
+
+== Per-surface verdict ==
+
+{| class="wikitable"
+! Surface !! § 2257 posture !! Age verification !! Click-to-reveal verdict
+|-
+| '''Wiki / editorial / anatomical''' || Not triggered — fails the lascivious element || Not triggered on this material alone || '''Unnecessary.''' Blurring anatomical teaching material argues against its own purpose
+|-
+| '''Galleries (licensed or produced stills)''' || Secondary producer; 28 C.F.R. § 75.7(b) lets the photographer certify — put it in the licence template from the first contract || Depends on the material and the state threshold || '''Helps''' as a listing-page treatment that gates inward
+|-
+| '''User-uploaded video''' || Uploader is a producer; the platform must collect identity, not merely attest || Triggered || '''Helps for thumbnails; irrelevant to the asset itself'''
+|-
+| '''Live cams''' || No fixed depiction until recorded; records attach to recordings and to the performer relationship || Triggered || '''Largely irrelevant''' — there is no still to blur
+|-
+| '''Teaser / preview''' || Not triggered if the derivative itself is not explicit || This is the gate, so it must be real || '''This is where it earns its keep'''
+|}
+
+== What blurring is not a substitute for ==
+
+* '''Identity records for anyone who publishes or is paid.''' That is the § 2257 side and it is about producers, not viewers.
+* '''A real age-assurance step''' at the door of any surface the state statutes reach.
+* '''A takedown process.''' See [[DMCA and Takedown in Adult Media]] — and note that the person most motivated to have an image removed often does not own its copyright, which is why the TAKE IT DOWN Act's 48-hour duty (Pub. L. 119-12, compliance deadline passed 19 May 2026) matters more than the DMCA for that class of request.
+
+== See also ==
+
+* [[The Federal Age Floor for Filming]] — the eighteen-year floor, which no framing, blur or jurisdiction changes
+* [[Actress or Prostitute The Legal Line]] — ''California v. Freeman'' and the pandering question
+* [[DMCA and Takedown in Adult Media]] — safe harbour, and who may actually send a notice
+* [[Fine Art Nude Sources and Rights]] — open-access sources and what their licences permit

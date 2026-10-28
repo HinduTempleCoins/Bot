@@ -1,0 +1,41 @@
+The '''J-1 exchange visitor''' classification is the main lawful route by which a foreign teacher, scholar, trainee, camp counsellor or au pair comes to work in the United States. It is the inbound mirror of [[Getting Paid to Teach Abroad|teaching abroad]], and it is the category most relevant to any American organisation that wants to host someone from overseas.
+
+''General information about published programmes, not legal advice. Verify with the United States Department of State and USCIS.''
+
+== How J-1 differs from a work visa ==
+
+J-1 is an '''exchange''' classification administered by the '''Department of State''', not an employment classification administered by USCIS. The consequence is structural: the sponsor is not simply an employer but a '''designated program sponsor''' — an organisation authorised by the State Department to run an exchange programme in a specific category. The sponsor issues '''Form DS-2019''', and without a designated sponsor there is no J-1, however willing the employer.
+
+The practical effect for a small organisation is that the usual route is to work '''through''' an existing designated sponsor rather than to become one.
+
+== The categories that matter here ==
+
+The programme covers many categories; the ones relevant to this shelf are:
+* '''Teacher''' — teaching at an accredited primary or secondary school. This category carries its own eligibility conditions, including teaching qualifications and experience in the home country.
+* '''Professor''' and '''Research Scholar''' — teaching, lecturing or research at a United States institution.
+* '''Short-term Scholar'''.
+* '''Camp Counselor''' — seasonal, and the route by which a great many young people first work in the United States.
+* '''Au Pair''' — childcare in a host family, with an educational component.
+* '''Intern''' and '''Trainee''' — structured programmes tied to a field of study or occupation.
+
+== The two-year home residence requirement ==
+
+Some J-1 participants become subject to '''INA section 212(e)''' — the '''two-year home-country physical presence requirement''' — which obliges them to return to their home country for two years before becoming eligible for certain other statuses, including permanent residence and H-1B. Whether it applies depends on the category, on government funding, and on whether the field appears on the '''Exchange Visitor Skills List''' for the person's country. Waivers exist and are their own process.
+
+This is the single most consequential detail in the classification, because it determines whether J-1 is a stepping stone or a round trip. Anyone considering it should establish whether 212(e) applies '''before''' accepting a placement, not after.
+
+== Why an American organisation should know this exists ==
+
+Three reasons specific to what is built around this Library:
+
+'''Hosting.''' An institute, a school or a congregation that wants a scholar, teacher or practitioner from abroad has a defined and heavily used route — through a designated sponsor — rather than an impossible one.
+
+'''It is not the only route.''' For religious work the better fit is usually [[The R-1 Religious Worker Visa|R-1]]; for a person with a genuinely distinguished record it is usually [[The O-1 Visa Extraordinary Ability|O-1]], which carries no cap and no 212(e) problem. Choosing the wrong classification is the expensive mistake, and the categories are not interchangeable.
+
+'''Reciprocity is real.''' The same structure that sends an American to Japan on the JET Programme brings a Japanese teacher here on J-1. For anyone building teaching infrastructure, language programmes or an academy, knowing both directions is what makes exchange possible rather than aspirational.
+
+== What a candidate needs ==
+
+In every category the file looks similar: '''credentials''' in the field, '''documented experience''', '''English proficiency''' sufficient for the placement — see [[CEFR The Common European Framework of Reference for Languages]] — a '''clean record''', and '''proof of funds or a funded placement'''. Which is, again, the same file the [[Making Money Certificate Pathways|credential shelf]] exists to help a person build.
+
+See also: [[Visas for Working Across Borders]] · [[The R-1 Religious Worker Visa]] · [[The O-1 Visa Extraordinary Ability]] · [[Getting Paid to Teach Abroad]]

@@ -48,6 +48,47 @@ export function vestsPerMelek(props) {
 }
 
 /**
+ * Walk @kula's whole account history, oldest-first, keeping only the ops that can make someone a member.
+ *
+ * WHY THIS PAGINATES. @kula is a registered witness, so its history is ~99.9% `producer_reward` — around
+ * 1,000 of them every 7-8 hours. A single `get_account_history [FUND, -1, 1000]` therefore only reaches
+ * back a few hours, and a member's `delegate_vesting_shares` silently falls out of the window and
+ * disappears from the members table. That is not hypothetical: the fund's first member was ~6 hours from
+ * vanishing when this was found. This chain's `account_history_api` ignores `operation_filter_low`, so the
+ * only correct read is to page all the way back and filter client-side.
+ *
+ * Returns rows in CHRONOLOGICAL order, because membersFrom() is last-write-wins per delegator.
+ */
+export async function fetchMemberHistory(call, fund = FUND, { pageSize = 1000, maxPages = 80 } = {}) {
+  const kept = [];
+  let start = -1;
+  for (let page = 0; page < maxPages; page += 1) {
+    const rows = await call('condenser_api.get_account_history', [fund, start, pageSize]);
+    if (!Array.isArray(rows) || rows.length === 0) break;
+    for (const r of rows) {
+      const op = r && r[1] && r[1].op;
+      if (Array.isArray(op) && (op[0] === 'delegate_vesting_shares' || op[0] === 'transfer')) kept.push(r);
+    }
+    const oldest = rows[0] && rows[0][0];
+    if (!Number.isFinite(oldest) || oldest <= 0) break;
+    start = oldest - 1;
+    if (start < 0) break;
+  }
+  return kept.sort((a, b) => (a[0] || 0) - (b[0] || 0));
+}
+
+/** Cached wrapper — the full walk is ~26 RPC calls on this account, so don't do it per request. */
+let _histCache = { at: 0, rows: null };
+export function __clearHistoryCache() { _histCache = { at: 0, rows: null }; }
+export async function memberHistory(call, fund = FUND, ttlMs = 120000) {
+  const now = Date.now();
+  if (_histCache.rows && now - _histCache.at < ttlMs) return _histCache.rows;
+  const rows = await fetchMemberHistory(call, fund);
+  if (rows && rows.length >= 0) _histCache = { at: now, rows };
+  return rows;
+}
+
+/**
  * Members from @kula's account history: the latest delegation per delegator (a delegation op sets the total,
  * so the last one wins; 0 means withdrawn) and the sum of MELEK deposited per account. Pure.
  */
@@ -153,7 +194,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:6px 4px;b
 export async function renderFund() {
   const [accts, props, hist] = await Promise.all([
     rpc('condenser_api.get_accounts', [[FUND]]), rpc('condenser_api.get_dynamic_global_properties', []),
-    rpc('condenser_api.get_account_history', [FUND, -1, 1000]),
+    memberHistory(rpc, FUND),
   ]);
   const a = accts && accts[0];
   const vpm = vestsPerMelek(props);

@@ -1,0 +1,138 @@
+'''Shulgin's Structure-Activity Relationships: Ring Substitution and Potency''' reads the 179 "EXTENSIONS AND COMMENTARY" sections of ''PIHKAL'' (Alexander Shulgin, 1991) for one question: what does a substituent at a given position on the phenethylamine aromatic ring do to potency and to the character of the effect? The answer is not a formula but a map of positions — one of them a "magic leverage point", several dead ground, and one (the 2-position) a tripwire that destroys activity if you lengthen it. Covered here: the mescaline unit as the measuring stick, the 3,4,5 → 2,4,5 relocation that started everything, the 2,4,6 "psi" counter-series that broke the field's favourite mechanism, and — as its own section — Shulgin's formal demolition of structural syllogism under the entry for MDPH.
+
+== The epistemic status of this data ==
+
+Stated once, because everything below depends on it. Shulgin's potency figures come from '''unblinded self-experiment''' and from a small research group, typically n = 1 to n = 20, dose-escalated by hand from sub-threshold amounts: no placebo arm, no blinding, no independent replication for most compounds. He flagged it himself — of a compound published at "4 mescaline units", "''the material must be re-synthesized, and re-evaluated with the now-accepted protocol''" (entry 160, TMA-4); of an inactive one, "''There is no way of saying that it is or is not inactive''" (entry 159, TMA-3).
+
+What is '''established pharmacology''', from later independent work, is narrower: these compounds are serotonin-receptor agonists, the 5-HT<sub>2</sub> family is central, and DOI is a standard high-affinity 5-HT<sub>2</sub> radioligand — which Shulgin recorded himself (entry 67). The potency ladder below is his bioassay record, not receptor pharmacology.
+
+== Mescaline as the reference standard: the mescaline unit ==
+
+Every number in ''PIHKAL'' is a ratio against one molecule: "''Mescaline has always been the central standard against which all other compounds are viewed''" (entry 96, M).
+
+The formal device, defined in the book's last entry, is the '''mescaline unit (M.U.)''': "''By dividing the dose needed of mescaline (to produce central effects) by the dose needed of another drug, one would generate a number that represented just how many times more potent this new drug was than mescaline''" (entry 178, 3-T-TRIS). Shulgin disowns it in the same paragraph as the thing that corrupted the field: "''Sadly, the major question that is asked by most academic researchers in their evaluation of the psychedelic materials is, "How much does it take," rather than "What does it do."''" Hence, under mescaline, "''there is only one line given to "dosage," but a full page given to "qualitative comments"''".
+
+The unit also hides a trap: '''"less than" is not "inactive"'''. TMA-3, tried by three people at 100 mg with no effect, is published as under 2 M.U. only because "''a bottom threshold for mescaline would be perhaps 200 milligrams''" — and of that notation, "''However you phrase it, someone will misinterpret it''" (entry 144, SB).
+
+The deeper question is '''why mescaline needs so much at all'''. Shulgin took beta-<sup>14</sup>C-labelled mescaline at 350 mg, 4 mg and about 60 micrograms, holding the radioactivity constant, and measured urinary unchanged drug against the inactive metabolite 3,4,5-trimethoxyphenylacetic acid:
+
+:"''The smaller the dosage, the proportionately larger amount of mescaline was oxidized to the inactive acetic acid... It seemed to me that there might be a finite capacity of the body to oxidatively deaminate mescaline, and at larger and larger dosages, this capacity became increasingly depleted. Perhaps this is why mescaline requires such a large dosage to be effective in man.''" (entry 51, beta-D)
+
+That is a saturable-clearance argument for potency, and the most quantitative metabolic reasoning in the book. A mescaline-referenced dose and duration table is in [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]].
+
+== The ring positions, and what each one does ==
+
+<code>
+             3                            2
+          MeO ─┐                       MeO ─┐
+          MeO ─┤──CH2CH2NH2    →            ├──CH2CH2NH2
+          MeO ─┘                       MeO ─┘   ▲
+             5                            5     │
+      3,4,5 (mescaline, TMA)        2,4,5 (TMA-2, DOM, 2C-x)
+
+    2-position  │ lengthen it and activity collapses
+    3-position  │ tolerant (metaescaline-type changes)
+    4-position  │ THE WINDOW — potency and character
+    5-position  │ lengthen it: small potency loss, LARGE duration gain
+    6-position  │ the "psi" / 2,4,6 counter-series
+    beta-carbon │ BOX series; chiral; potency x1–2
+</code>
+
+=== 1. Relocation beats elaboration: 3,4,5 → 2,4,5 ===
+
+The most consequential result in the book is a rearrangement, not an addition. TMA is mescaline plus an alpha-methyl (3,4,5-trimethoxyamphetamine); TMA-2 is the same three methoxyls moved to 2,4,5.
+
+:"''There was absolutely no reason to suspect that the simple rearrangement of the methoxy groups of TMA from the classic 3,4,5-positions to this new, 2,4,5-orientation, would dramatically increase potency like this.''" (entry 158)
+
+It was not deducible — "''There could not have been any logical preparation for the activity of TMA-2''" — and the follow-through set the program: "''The unexpected ten-fold increase of effectiveness uncovered by the simple relocation of a single methoxy group gave the further juggling of methoxy groups a very high priority.''" Of the six trimethoxyamphetamines, only TMA-2 (2,4,5) and TMA-6 (2,4,6) combined reliability with potency, both active near 40–50 mg; TMA-3 (2,3,4) was inactive at 100 mg.
+
+Permission to stop elaborating came from a failure. Having found MMDA active, Shulgin enlarged its methylenedioxy ring to six- and seven-membered versions (MEDA, MTMA): "''And it was here that I got the divine message! No activity!!... The message was: "Don't change the groups. Leave them as they are, but relocate them instead." And that led directly to TMA-2 and its story''" (entry 120).
+
+=== 2. The 4-position is the window; the 2-position is the tripwire ===
+
+With TMA-2 in hand there were three distinguishable methoxyls to lengthen. Shulgin made all of them — named M (methoxy) or E (ethoxy) read around the ring from 2 to 4 to 5 — plus the diethoxy and triethoxy sets, 33 compounds in 23 days (entry 73, EEE).
+
+{| class="wikitable"
+! Compound !! Ethoxy at !! Result
+|-
+| '''EMM''' || 2-position || Inactive at 25 mg, a level at which TMA-2 is "''very active''" (entry 76)
+|-
+| '''MEM''' || '''4-position''' || "''right up there in drama and in potency''" — equipotent with TMA-2 (entry 122)
+|-
+| '''MME''' || 5-position || "''almost as potent''" (entry 121)
+|-
+| '''MEE''' || 4- and 5- || Never assayed past 4.6 mg; predicted the most promising diethoxy (entry 121)
+|-
+| '''EEM / EME / EEE''' || includes the 2- || Never assayed; "''way down in potency''" expected (entries 73–75)
+|}
+
+The inference is positional and asymmetric: "''in the comparison of the 2- and the 5-positions, the lengthening of the 5-position gives modest loss of activity, and the lengthening of the whatever in the 2-position is the most disruptive''" (entry 121). And the conclusion that redirected twenty years of work: "''With the discovery that the 4-position was the magic leverage point, and that the homologues at positions 2- and 5- were clearly less interesting, all emphasis was directed at this target''" (entry 122).
+
+The chemistry cooperates. 2,5-Dimethoxyphenethylamine (2C-H) is itself presumed inactive, but: "''In the lingo of the chemist, it is amenable to "electrophilic attack at the 4-position." And, in the lingo of the psychopharmacologist, the "4-position is where the action is."''" (entry 32)
+
+=== 3. Oxygen is required; which oxygen can go ===
+
+:"''No oxygen atom, no psychedelic effect. Without them, one has stimulants or, more frequently, no effects at all.''" (entry 52, DESOXY)
+
+Removing one of several oxygens, though, "''can radically change the nature of the effects seen''", and Shulgin's interest in it is metabolic: at the 4-position, "''A methoxy group there would allow easy removal of the methyl group from the oxygen by some demethylation process, but a bare methyl group there cannot be removed by any simple process.''" Demethylation cuts both ways — "''With mescaline, it is believed that the loss of a methoxyl group is a step towards the inactivation of the compound, whereas with DOM this loss may be associated with the formation of an active metabolite''" (entry 68).
+
+=== 4. The 2,4,6 "psi" series, and the hypothesis it killed ===
+
+A graduate group at UC San Francisco had a mechanism for the 2,4,5 compounds: para-methoxyls demethylated to a hydroquinone, oxidised to a quinone, cyclised onto the amine to an indolene and thence to an indole — tying the amphetamine psychedelics to serotonin. Shulgin's own compounds broke it:
+
+:"''There was only one small fly in the ointment. No matter how the 2,4,5-things were explained, none of the proposed mechanisms could allow for the 2,4,6-things to also be active.''" (entry 69, psi-DOM)
+
+TMA-6 (2,4,6) is as potent as TMA-2, and Z-7 (psi-DOM) is weaker than DOM but unambiguously active — so, Shulgin projected, "''every one of them has a (potentially active) 2,4,6-pseudo-counterpart''" (entry 42). His resulting methodological position is the single most important sentence in the book for an SAR reader:
+
+:"''the best contribution I can make to this "grand unified theory of psychedelic activity" is to continue to make new and unexpected things which, if they are active, will effectively destroy any hypothesis that just happens to be popular at the moment.''"
+
+== The anti-syllogism: Shulgin tests his own reasoning and fails it ==
+
+The most important epistemological passage in ''PIHKAL'' sits under '''MDPH''' (3,4-methylenedioxyphentermine, entry 116). Shulgin opens by naming the real question of the whole enterprise:
+
+:"''What is the train of thought that leads from the structure of a known compound (which is active) to the structure of an unknown one (which may or may not be active)? Certainly the extrapolations involve many what-if's and maybe's. The path can be humorous, it certainly can be tortuous, and it often calls for special things such as faith, insight, and intuition. But can one say that it is logical?''"
+
+He answers formally. He lays out Aristotelian syllogistic — two premises and a conclusion, a form called a mood — and works a valid example: "''Every man is a lover. Every chemist is a man. Therefore, every chemist is a lover''", reducing to "''Every m is a, Every b is m. Therefore, every b is a - and it is a valid mood called Barbara.''" Of the 256 possible combinations, "''only 24 moods are valid''".
+
+Then he writes out his own MDPH reasoning in that notation:
+
+:"''The reasoning here with MDPH goes: Some stimulants when given a methylenedioxy ring are MDMA-like. Some ring-unsubstituted 1,1-dimethylphenylethylamines are stimulants. Therefore, some ring-unsubstituted 1,1-dimethylphenylethylamines when given a methylenedioxy ring are MDMA-like. In symbolic form this is: Some m is a, and Some b is m, then Some b is a - and this is not one of the 24 valid moods.''"
+
+He does not stop at "invalid". He finds the one valid form that could have carried the conclusion, and shows it fails on a premise of fact:
+
+:"''Given the first premise as some m is a, there is only one valid syllogism form that can follow, and this is known as Disamis. The conclusion is the same. But the second premise is false so the entire reasoning is illogical. What is the false second premise? It is not a fact that every stimulant is a phentermine. There are lots of stimulants that are not phentermines. So much for applying syllogistics to pharmacology.''"
+
+'''The point to carry out of this governs every table in this article.''' An SAR series is a '''record of results''', not a generator of them. Membership in a series does not license the next member; the next member has to be made and tested.
+
+Shulgin caught the identical error in the act at the book's very first entry — '''AEM''', alpha-ethyl-mescaline. Alpha-methylation had roughly doubled mescaline's potency, so another carbon should double it again, and "''the factor would be 2 to the 7th power by the alpha-octyl''", ending in the reductio that a long enough chain would mean "''by merely writing down the structure on a piece of paper, you would get high... That is, after all, the way of homeopathy''" (entry 1). The four-carbon compound was simply less active — and by then "''the alpha series had already been pushed out quite aways''": a whole homologous family built and characterised before anyone tasted the first member. See [[Chain Length the Bushy End and the Duration of Action]].
+
+He names the generic version of the error under '''3-TE''': "''A relates to B in this way, and A relates to C in that way, and since D incorporates both this and that of each, it will probably be such-and-such. The Roman square''" — and then, "''nothing can ever substitute for the simple art of tasting something new''" (entry 150).
+
+== Failed predictions, and what each one cost ==
+
+The book's dead ends are its most load-bearing data, because each one eliminates a hypothesis.
+
+{| class="wikitable"
+! Compound !! The prediction !! What happened
+|-
+| '''CPM''' || Cyclopropylmethyl converts opioid agonists to antagonists (oxycodone → naltrexone), so CPM might ''block'' mescaline || "''Interesting concept. But it turned out to be entirely wrong''" (entry 37) — it was active
+|-
+| '''3,4-DMA''' || The 3,4 pattern matches dopamine and noradrenaline, so it should be privileged || Active only near 160 mg. On the reasoning: "''If a possible psychedelic has just the exact oxygen positioning of a neurotransmitter, then, voila, that's why it is active. And if a possible psychedelic has some positioning of these oxygen atoms that is different than that of a neurotransmitter? Then voila again''" (entry 55)
+|-
+| '''BIS-TOM''' || Two sulfur-for-oxygen swaps should multiply their separate losses (≈150×), predicting ~750 mg || Abandoned at 160 mg with "''hints of neurological disturbance''" (entry 12)
+|-
+| '''4T-MMDA-2''' || Sulfur should interpolate between oxygen and alkyl at the 4-position || No effects: "''the absence of effects therefore declares that line of reasoning invalid''" (entry 167)
+|-
+| '''META-DOB''' || Move DOB's bromine onto a 2,6-dimethoxy ring and keep the activity || Kept the toxicity instead — "''anxiety and paranoid fantasies, and distinct toxic signs such as flushing, palpitations, and occasional nausea, vomiting and diarrhea''" at 60–90 mg, "''appears toxic in the 50 to 60 milligram range''" (entry 124)
+|}
+
+The quietest failure is '''3C-BZ''', where the structural idea was sound and the synthesis worked: what killed it was '''inter-individual variance''', a dose scatter of 25–200 mg across ten subjects (entry 21). That is also the defining property of the ALEPH family, and a real hazard rather than an academic one — see [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]].
+
+== See also ==
+
+* [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]] · [[Chain Length the Bushy End and the Duration of Action]]
+* [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]] — the 4-position substituent catalogue
+* [[PIHKAL and TIHKAL]] · [[Shulgin Rating Scale]] · [[Psychedelic and Psychopharmacology Glossary]]
+* [[Alexander Shulgin Alchemy Isotopes and Soul Chemistry]] · [[Shulgin Ten Essential Amphetamines and Metabolic Chemistry]]
+* [[Structure Activity Relationships in Psychopharmacology]] · [[The 2C Series and Extended Phenethylamines]]
+* [[Stereochemistry in Cannabinoid and Psychedelic Synthesis]] · [[David E Nichols Entactogen Pharmacology and Receptor Mapping]]

@@ -1,0 +1,109 @@
+'''The Shulgin Method: Dose Escalation and the Research Group''' is the working protocol by which Alexander "Sasha" Shulgin established what an unknown molecule does in a human being. It is documented not as a methods section but scattered through the '''EXTENSIONS AND COMMENTARY''' of the compound entries of ''PIHKAL'' (1991) and ''TIHKAL'' (1997), and codified in the ''PIHKAL'' Appendix B glossary. This article reconstructs it from those sources: the starting dose, the step-up ratio, the clean interval, the recording vocabulary, who took part, and what such a design can and cannot prove. For the intensity scale the method reports into, see '''[[Shulgin Rating Scale]]'''.
+
+== The problem the method was built for ==
+
+A newly synthesised compound of this family arrives with no useful prior. Shulgin states the situation in '''MEM''' (#122), explaining why potency mattered so much to him: "There are no guides as to what the toxic levels of any of these many compounds might really be in man. There is simply no way of determining this… then the lower the dosage, the greater the safety. Maybe. In the absence of anything factual, it makes a reasonable operating hypothesis."
+
+That is the whole epistemic position: no toxicology, no model, an explicit "maybe." The method is what he built to get a first fact out of it. In '''G-N''' (#86) he calls the resulting moment "a magical interaction of a virgin compound with a virgin psyche," adding: "There can be no more exciting area of research than this, anywhere in the sentient world."
+
+== Running up: the titration protocol ==
+
+The ''PIHKAL'' glossary defines the core procedure under '''RUNNING UP''':
+
+: "The process of searching for activity in a new drug by a strategy of taking incrementally larger and larger doses, at time intervals which are calculated to minimize the development of tolerance. A usual pattern is an increase of either 60% or 100% of the previous dosage, following a clean period of several days, until activity is detected."
+
+The lab's synonyms were '''nibbling''', '''assaying''' and '''tasting'''.
+
+{| class="wikitable"
+! Element !! Protocol as documented
+|-
+| Starting dose || Far below any predicted threshold; set by analogy and by caution about novelty
+|-
+| Step-up ratio || +60% or +100% of the previous dose
+|-
+| Interval || A '''clean''' period of several days between trials
+|-
+| Stop rule || Stop when activity is detected — or when body load says stop
+|-
+| Subject order || Shulgin first, then a second taster, then the group
+|}
+
+The starting dose could be extraordinarily small. '''ALEPH''' (#3) is the clearest worked example, and the only place in the corpus where a first trial is given to the minute: "The first trials were made at the sub-microgram level, specifically at 0.25 micrograms, at 11:30 AM on September 3, 1975. Part of this extreme precaution was due to the uniqueness of a new heteroatom in a phenethylamine system… In fact, it took a total of 18 trials to work the experimental dosage up to as much as a single milligram. In retrospect, overly cautious. But retrospection, as they say, is cheap."
+
+Eighteen separated trials to reach one milligram; the run then found an uneventful +1 at 7 mg and a full +3 at about 10 mg. The novelty of the sulfur atom is the stated reason for the sub-microgram floor, and it is the general rule: the less a compound resembles anything already mapped, the lower the start.
+
+=== The clean interval ===
+
+The interval exists because these compounds blunt each other. The glossary defines '''CLEAN''' as the drug-free state, noting that for continuous experimenters "worried about the masking of effects due to tolerance or refractoriness, it is more likely to mean a period of four or five days." '''METHYL-DOB''' (#127) describes the mechanism in Shulgin's own register — "It is as if the spirit of the receptor site had become a little tired and needed a while to rest up and recuperate" — and calls the refractory period "one of the built-in protections."
+
+'''DOM''' (#68) supplies the hard data: five volunteers given 6 mg daily for three days, and "by the third exposure on the third day, all had diminished responses, ranging from only 'moderately strong' to 'felt absolutely nothing.'" A run-up on consecutive days would have manufactured a false negative.
+
+== The recording grid ==
+
+The method's second half is a fixed vocabulary for the time-course, so reports from different compounds and different people could be laid side by side. The glossary's entry for '''DEVELOPING''' gives the sequence:
+
+<code>
+  taking  →  alerting  →  developing  →  plateauing  →  declining  →  baseline
+            (the alert)  (transition)  (max effect)   (drop-off)   (experiment ends)
+</code>
+
+* '''ALERT''' — "the first clue that a drug will show activity," with a wrinkle: "Each researcher, with experience, comes to recognize his own personal alert… Each person's alert tends to be experienced consistently, regardless of the nature of the drug being researched." The alert is a property of the observer, not the compound — it says ''something is happening'', never ''what''.
+* '''BASELINE''' — the pre-experiment state "which, once regained, marks the end of that experiment."
+* '''BODY LOAD''' — the physical-unease axis, tracked separately from intensity, and the driver of most stopping decisions in the corpus. '''DECLINE''' is flagged as "the most variable of the time periods in a drug experiment" from person to person.
+
+== What the plus-numbers were actually measuring ==
+
+Two refinements go beyond the scale's bare definitions. First, the ratings are a '''function-impairment''' measure, not a drug-class measure — '''4-BR-3,5-DMA''' (#18): "A ++ report does not necessarily reflect a psychedelic effect, since this quantitative measure of the level of activity represents the extent of impairment of function, regardless of the nature of the drug producing it… this would be a ++ whether your performance was being limited by a psychedelic, a stimulant, a hypnotic or a narcotic." He then applies it: nothing in the reports mentioned sensory change, so "perhaps 4-BR-3,5-DMA showed its ++ as a narcotic."
+
+Second, a '''plus/minus is settled retroactively''': "If a higher dosage produces a greater response, then the plus/minus (±) was valid. If a higher dosage produces nothing, then this was a false positive." A threshold report is a hypothesis the next rung confirms or kills. Where two readings conflict, '''4-TSB''' (#177) gives the tie-breaker: "Always tend to trust the absence of an effect in preference to the presence of an effect, if one of the two observations is presumed to be in error."
+
+== The research group ==
+
+Shulgin was the first subject, but the characterisations are group products. '''DMMDA''' (#58) refers to "the entire research group" as a standing unit; '''3C-BZ''' (#21) reports n and spread together — "A total of ten subjects have explored this compound, and the very broad range given above, 25 to 200 milligrams, reflects the degree of variation" — and '''2C-B''' (#20) draws its four quotations "arbitrarily from literally hundreds that have worked their ways into the files." Recurring features:
+
+* '''Independent replication.''' The first evidence that the ALEPH family was erratic came from outside Shulgin's own report — "an independent assay by a colleague of mine, one who was very familiar with such states of consciousness… At 10 milligrams he told me that he had had only mild effects which he found relatively uninteresting" (#3).
+* '''Individual titration.''' Where a subject had shown unusual sensitivity, that subject ran his own ladder: on '''5-TOET''' (#170), "that individual ran his own personal titration," proving "perhaps twice as sensitive… than any of the other subjects."
+* '''Sober observers.''' '''2C-I''' (#33) includes a quotation from an observer of a group experiment "with zero milligrams being taken," offered as an instance of a contact high.
+* '''A formalised protocol existed by the end.''' '''TMA-4''' (#160), whose published potency rested on one trial: "The material must be re-synthesized, and re-evaluated with the now-accepted protocol." Outside reports — from therapists in Germany ('''2C-D''' as LE-25, #22), from Czech and South American literature, from anonymous sources — are labelled by provenance rather than blended into his own data.
+
+=== Ann Shulgin's role ===
+
+''PIHKAL'' and ''TIHKAL'' are co-authored by Ann Shulgin, and the rating scale is usually credited to the two of them jointly. '''The Book II commentary corpus indexed here does not describe her role''' — it names no participant other than Shulgin and unnamed "subjects," "observers" and "colleagues." Any account of her specific contribution to the protocol belongs to Part One and is '''not established in this source'''.
+
+== Blinding, placebo, and what Shulgin admitted about his data ==
+
+There was no blinding and no placebo arm: subjects knew they had taken something, knew roughly what it was structurally, and usually knew what the chemist expected. Shulgin was not quiet about the consequences.
+
+In '''ALEPH''' (#3) he narrates his own placebo response and names it as such: while isolating the product he was "jumpy and unable to stay in the lab for more than a few minutes at a time… Although it was certainly all placebo response… Now, I know there was nothing." In '''DMPEA''' (#60) he discloses that some quoted comments are reconstructions: "I actually made up most of the quotations. I am not sure that the subjects actually said, 'Nothing,' but they did report that there were no effects." '''DON''' (#70) carries the same disclosure — its comments "are not true quotations, but have been reconstructed from the published summaries" of South American reports. Cross-person comparability is flagged too: on '''MMDA-3b''' (#135) the effects "are difficult to compare accurately as they were reported by different people," and '''MDMC''' (#110) shows the design failing outright — "there never was a dosage that was a minus… But with different people, different responses. There is no way of guessing what an active level might be."
+
+== Protocol extensions ==
+
+Three named manoeuvres extend the ladder. A '''SUPPLEMENT''' is a second dose during the drop-off, with its cost stated in the glossary — "a prolongation of effect, with a concomitant increase in signs of toxicity"; '''MDMA''' (#109) records it as routine in therapy, "at about the one and a half hour point of the session." A '''PRIMER''' is an inactive compound given first with an active one on top, to measure potentiation; after two years of such work '''MDPR''' (#118) delivers the verdict: "There can be no way of analytically organizing such a gemisch of drug-drug interactions with any logic that would allow a definitive interpretation." '''PIGGYBACKING''' puts a second drug in place of a supplement, so that deviation from the expected response characterises the second drug.
+
+== Stopping rules, and the animal data ==
+
+The corpus is full of deliberate halts, and the stated reason is almost always body load against poor expected return rather than theory or law. '''ALEPH-4''' (#5): "I know of no experiment that exceeded 12 milligrams and I would not be able to predict what might come forth at higher dosages. I personally choose not to try them." '''BIS-TOM''' (#12), with neurological hints at 160 mg and a predicted active dose near 750 mg: "The rewards would simply not be worth the risks."
+
+Animal toxicology is exactly what the method lacked, and Shulgin came to regard most of it as uninformative. '''DOB''' (#62) reports a mouse series in full — twitching at 50 mg/kg i.p., death at 125 and 150 mg/kg — and concludes that the LD/50 lay "somewhere between 100 and 125 mg/Kg for the mouse… I feel that two mice were killed without anything of value having been received in return." '''MME''' (#136) carries the retrospect: "I was still impressed by the scientific myth that pharmacological research wasn't really acceptable without animal support data." What he kept were assays that cost no lives — '''DOAM''' (#61) uses discarded sheep umbilical artery strips, which "do not cost the life of anything, and require very little compound" — while remaining candid about not knowing why it worked: "I have never understood the reasons that there might be connection between the twitching of a umbilical artery in a sheep and the appearance of an insight in the mind of man."
+
+== What this design can and cannot establish ==
+
+Stated plainly, and without prejudice to the value of the record: an unblinded, expectation-laden series running from n=1 to roughly n=10–20 self-selected experienced subjects can establish an '''ordering''' — this dose is above threshold and that one is not, this compound needs ten times the dose of that one, the onset is slow and the duration long — and '''presence or absence at a ceiling dose actually tried'''. It cannot establish the incidence of rare harm, separate compound from expectation for any subjective quality, or deliver a number that generalises to a population.
+
+Shulgin's own entries draw those lines. '''SB''' (#144) is the most explicit about the reporting hazard: "One cannot say that it is inactive, for there might well be something at 400 or 800 or 1200 milligrams. But since it has been tried only up to 240 milligrams, I have used the phrase that the activity is greater than 240 milligrams… However you phrase it, someone will misinterpret it."
+
+In '''3-T-TRIS''' (#178) he states what he thought the method was ''for'', against an academic audience that wanted one number: "the major question that is asked by most academic researchers… is, 'How much does it take,' rather than 'What does it do.' The marvelous nuances of action… are dismissed as being hopelessly subjective and thus without scientific worth. But they are, I believe, of great worth. That is exactly what this book is all about."
+
+== See also ==
+* [[Shulgin Rating Scale]]
+* [[PIHKAL and TIHKAL]]
+* [[Naming the Compounds, Codes, Greek Names, and Shulgin Nomenclature]]
+* [[Publication, Cognitive Liberty, and the Analogue Act]]
+* [[Alexander Shulgin, Alchemy, Isotopes, and Soul Chemistry]]
+* [[Psychedelic and Psychopharmacology Glossary]]
+* [[Measuring Tools Scales Syringes and Volumetric Dosing]]
+* [[Concentration Arithmetic and Serial Dilution]]
+* [[Structure Activity Relationships in Psychopharmacology]]
+* [[The 2C Series and Extended Phenethylamines]]
+* [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]]
+* [[The Library of Ashurbanipal]]

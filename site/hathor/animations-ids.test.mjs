@@ -14,12 +14,13 @@ function fakeRes() {
 
 test('named series ids and hex ids are served; path tricks are not', () => {
   const dir = mkdtempSync(join(tmpdir(), 'anims-'));
-  for (const id of ['dna-ep1', 'abcdef012345']) { mkdirSync(join(dir, id)); writeFileSync(join(dir, id, 'clip.mp4'), 'DATA'); }
+  for (const id of ['dna-ep1', 'abcdef012345', '3d-delos-terrace-of-lions']) { mkdirSync(join(dir, id)); writeFileSync(join(dir, id, 'clip.mp4'), 'DATA'); writeFileSync(join(dir, id, 'poster.jpg'), 'IMG'); }
   writeFileSync(join(dir, 'manifest.json'), '{}');
-  for (const ok of ['dna-ep1/clip.mp4', 'abcdef012345/clip.mp4']) {
+  // every 3D scene render is `3d-<scene>`; a leading digit must be served, not 404'd
+  for (const ok of ['dna-ep1/clip.mp4', 'abcdef012345/clip.mp4', '3d-delos-terrace-of-lions/clip.mp4', '3d-delos-terrace-of-lions/poster.jpg']) {
     const res = fakeRes(); serveAnimMedia({ headers: {} }, res, ok, dir); assert.equal(res.code, 200, ok);
   }
-  for (const bad of ['../manifest.json', 'dna-ep1/../manifest.json', 'DNA-EP1/clip.mp4', '.hidden/clip.mp4', 'dna-ep1/recipe.json', '-x/clip.mp4', 'ab/clip.mp4']) {
+  for (const bad of ['../manifest.json', 'dna-ep1/../manifest.json', 'DNA-EP1/clip.mp4', '.hidden/clip.mp4', 'dna-ep1/recipe.json', '-x/clip.mp4', 'ab/clip.mp4', '3d/clip.mp4']) {
     const res = fakeRes(); serveAnimMedia({ headers: {} }, res, bad, dir); assert.equal(res.code, 404, bad);
   }
 });

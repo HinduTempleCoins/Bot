@@ -96,6 +96,11 @@ Monographs detailing enzymatic kinetics, metabolic cascades, synaptic clearance,
 * '''[[Liposomal Vitamin C]]''' — the SVCT1 absorption ceiling, what encapsulation actually buys, and why splitting the dose beats most of it
 * '''[[Silicon and Collagen]]''' — orthosilicic acid, not quartz
 * '''[[B-Vitamins]]''' — picamilon, "read your urine", and the B6 neuropathy nobody mentions
+* '''[[L-Arginine]]''' — the NOS substrate; why citrulline raises plasma arginine better, and why uncoupled NOS makes superoxide instead of nitric oxide
+* '''[[Amino Acid Complexes]]''' — phenylalanine, tyrosine and tryptophan as the BH4-dependent hydroxylase substrates, and why the leucine in a complex is a thirtieth of a dose
+* '''[[L-Carnosine]]''' — anti-glycation and carbonyl scavenging; and why serum carnosinase means β-alanine is the supplement that actually works
+* '''[[Lutein]]''' — macular pigment, the AREDS2 substitution, and the beta-carotene harm it replaced
+* '''[[Astragalus and Cycloastragenol]]''' — telomerase activation, and the gap between a purified aglycone and a root capsule
 
 == Nootropics ==
 

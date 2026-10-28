@@ -1,0 +1,115 @@
+'''Inactive Compounds and the Publishing of Negative Results''' is about the strangest editorial decision in ''PIHKAL'' (Alexander Shulgin, 1991): roughly a quarter of its 179 phenethylamine entries describe compounds that do nothing at all in a human being, and they are written up at the same length, with the same synthetic detail, as the ones that work. Phenethylamine itself — the parent molecule the whole book is named for — is inactive. So are DMPEA, MDPEA, TRIS, lophophine, the three TIMs, most of the polyethylated thio-mescalines, MEDA, and a long list of N-substituted MDA derivatives. Shulgin's stated reason is not completeness or diligence. It is that an inactive compound is sometimes the more interesting object.
+
+== The epistemic standing of this record ==
+
+Stated once. Every activity claim in this corpus — positive or negative — comes from '''unblinded self-report''' by Shulgin and a small research group, hand-escalated from sub-threshold doses, with no placebo arm and no blinding. For negative results this matters in a specific way: "inactive" in ''PIHKAL'' almost always means ''nothing was felt at the highest dose anyone was willing to take'', which is a statement about a ceiling, not about a molecule. Shulgin is more explicit about that limit than most of his readers, and much of this article is about how he handles it.
+
+== "Fascinating just because they have no activity" ==
+
+The thesis statement is in the DMPEA entry (entry 60), about a molecule — 3,4-dimethoxyphenethylamine — that had absorbed a decade of psychiatric research and produces no effects whatsoever:
+
+:"''Why all the interest? Why keep pursuing a compound that is so obviously without activity? Or a metabolite that is also without activity? The answer is that these are totally fascinating compounds just because they have no activity!''"
+
+The claim only makes sense if you hold a theory. DMPEA is dopamine with both hydroxyls methylated — a potential prodrug to the most important transmitter in the striatum, structurally adjacent to mescaline, and for several years the leading candidate biochemical cause of schizophrenia. The prediction attached to it was enormous, and it does nothing. A negative result is informative in exact proportion to how strongly something was expected: that is the principle running through this whole class of entries.
+
+MDPEA, the methylenedioxy version, makes the same point harder (entry 115): "''Even more than DMPEA, this cyclic analogue MDPEA is a potential prodrug to dopamine, and would be a prime candidate for central activity. So why is this drug not active?''" The textbook answer is monoamine oxidase — unprotected phenethylamines are oxidised before they reach anything, and the alpha-methyl of an amphetamine blocks that. Shulgin refuses it on the evidence of his own book:
+
+:"''Sorry, I can't buy it. This entire book is peppered with phenethylamines that are active at the few-milligram area. Why aren't they also destroyed as well? The textbooks simply are not right.''" (entry 115)
+
+That is a negative result being used as a weapon against an explanation, rather than being quietly dropped. The usual fate of an inactive compound is the file drawer; publishing it instead is what lets a null go to work on a textbook.
+
+== The invented quotations ==
+
+The most disarming admission in ''PIHKAL'' sits in the same DMPEA entry, two sentences after the thesis. Each compound in the book carries a "QUALITATIVE COMMENTS" section of dosed subjects' own words; for the inactive compounds there is, by definition, nothing to report, and the section is filled anyway:
+
+:"''By the way, in this instance, I actually made up most of the quotations. I am not sure that the subjects actually said, "Nothing," but they did report that there were no effects. In my own experiments, my notes record the phrase, "No effects whatsoever."''" (entry 60)
+
+The same confession appears under phenethylamine itself (entry 142), the compound the book's title is built on and which "''is without activity in man''" at some fairly heroic doses in the older literature: "''Actually, I truly doubt that all of the experimenters used exactly that phrase, "No effects," but it is patently obvious that no effects were found. It happened to be the phrase I had used in my own notes.''"
+
+This is worth reading precisely rather than dramatically. He did not invent findings; he invented the '''wording''' of a null finding, and he says so in the text, at the first opportunity, unprompted. A null report has no variety to preserve — there is nothing to distinguish one subject's nothing from another's — and he chose a uniform placeholder and then flagged it. The practice is still a flaw in the record, and the flag is why anyone knows about it — and it sets the standard for reading the rest of the qualitative material, which is edited and retyped reporting, not transcript.
+
+== What the pink spot bought ==
+
+DMPEA's fame came from the '''"Pink Spot of Schizophrenia"''' — a chromatographic spot reported in the urine of psychiatric patients and largely absent from controls, which would have been the first objective diagnostic test for a psychiatric illness. The replication literature collapsed into mutual contradiction, and Shulgin's account of that collapse, along with the Canadian '''mauve spot''' and the chlorpromazine self-experiment that explained it away, is told in [[Urine Testing and the Long Search for a Psychiatric Biomarker]] and is not repeated here.
+
+What belongs here is what the negative result delivered. One durable fact survived the controversy: the spot was DMPEA. The question then reduced to a single human experiment — would DMPEA produce schizophrenia in a normal subject? "''No.''" The N-acetyl metabolite was no better: "''human trials with it, as with the principal metabolite 3,4-dimethoxyphenylacetic acid, showed nothing at all in man''" (entry 60).
+
+And Shulgin's reaction to having closed the door is not disappointment:
+
+:"''And in a way I am comforted that that did not evolve into a simple litmus test for a schizophrenic diagnosis. There are so many cultural, political, and social factors that come to bear on the assignment of a diagnosis of mental illness, that I would have been forever skeptical of a neat biochemical marker.''" (entry 60)
+
+The entry's summary of the whole era — "''Another color down the drain, and still no objective measure for mental illness''" — is a negative result reported as a finished piece of work rather than as a failure.
+
+== Grades of inactivity ==
+
+Not all nulls are equal, and the corpus sorts them. The distinction is whether a prediction died with the compound.
+
+{| class="wikitable"
+! Compound !! What was predicted !! What the null bought
+|-
+| '''DMPEA''' (60) || A dopamine prodrug; the biochemical cause of schizophrenia || Closed the pink-spot hypothesis; "''fascinating... just because they have no activity''"
+|-
+| '''MDPEA''' (115) || Same, more strongly || Used against the MAO textbook story: "''The textbooks simply are not right''"
+|-
+| '''LOPHOPHINE''' (95) || Should be active by every structural argument available || "''There is an excellent argument as to why it really should be, and the fact that it is not active is completely unexpected''"
+|-
+| '''MEDA''' (120) || Enlarging MMDA's methylenedioxy ring should work || Redirected the whole programme: "''I got the divine message! No activity!!''"
+|-
+| '''4-TIM''' (154) || The 4-position is where the action is; this one carries a methylthio there || "''Here is a methylthio group at this position, and it is an inactive compound. I was just a little bit surprised''"
+|-
+| '''MDMEO''' (111) || Weak-base MD-series amines (cf. MDOH) keep their activity || "''base strength is not a sole predictor of activity''"
+|-
+| '''TOMSO''' (173) || The metabolite explaining one subject's extreme 5-TOM sensitivity || Killed the hypothesis; produced a usable verb instead
+|}
+
+The uninformative case is worth dwelling on, because it is rare for anyone to admit to one. MDMEOET is the oxygen analogue of MDBU — same shape, one methylene replaced by an oxygen, a textbook polarity experiment. Both compounds turned out inactive, and Shulgin writes it down as a dead loss: "''No activity turned up with either compound, so nothing can be learned from this particular example of change of polarity''" (entry 112). A null against a null measures nothing.
+
+At the other end sits '''LOPHOPHINE''' (entry 95), where theory and result will not reconcile: "''It looks as if this compound is not active. There is an excellent argument as to why it really should be, and the fact that it is not active is completely unexpected.''" He does not resolve it; he predicts instead that the compound is neither known to occur in peyote nor known to be active in man, and "''I am confident that both statuses will change in the future.''" And MDMEO contributes the one motive beyond argument (entry 111): "''The ultimate reason for making MDMEO was, of course, that it could be made. That reason is totally sufficient all by itself.''"
+== "Trust the absence of an effect" ==
+
+The corpus contains an explicit rule for reading contradictory reports, and it is stated in the entry for an inactive compound, 4-TSB (entry 177), where a low dose produced something and higher doses produced nothing:
+
+:"''Here is an excellent presentation of a report that shows false positives or maybe false negatives. Something at low levels. Nothing at higher levels. Always tend to trust the absence of an effect in preference to the presence of an effect, if one of the two observations is presumed to be in error.''"
+
+It is an asymmetry rule, and it cuts against how enthusiasm normally works: a felt effect at a threshold dose can be expectancy, set, suggestion or the day, while an absence of effect at a higher dose is much harder to manufacture. In an unblinded protocol run by people who hope compounds work, the null is the more trustworthy observation — a quietly devastating thing to write about one's own method.
+
+The limit of the rule is stated just as plainly elsewhere: a null is bounded by its ceiling. Under 3-TIM (entry 153), "''Isomescaline itself is not active, but there is no way of knowing just how "non-active" it really is''" — if activity began just above the doses assayed, a sulfur swap could have carried it into range. What rescues the conclusion is convergence rather than any single trial: "''The absence of any activity from this TIM, and the other two TIMs, might well suggest that isomescaline is really very "non-active," if that makes sense!''" Three independent nulls around one scaffold say more than any one of them.
+
+== Diminishing returns, written down as a result ==
+
+The sulfur-and-ethyl shelves — the TIM, TSB, TASB and TRIS families — are where ''PIHKAL'' publishes negative results in bulk, and they read as a map of an exhausted region.
+
+The boundary condition comes from mescaline's own ethyl homologues: each added ethyl costs potency, so by the time all three oxygens carry ethyls the compound is dead. TRIS (entry 175): "''With the progressive diminution of human potency with increased ethylation of the mescaline molecule, there is no surprise in finding that this base is devoid of activity''" — and the conclusion is drawn as a research decision, "''there is small incentive to make them.''" Adding a sulfur does not rescue it: 4-T-TRIS (entry 179) reports that "''the phenethylamine with three ethyl groups hanging out from it is not active in man. It doesn't matter where the sulfur is, since the 3-T-TRIS isomer is also without action.''"
+
+The verdicts get shorter as the region empties out. 5-TASB (entry 148): "''There is a ponderousness about adding a couple of ethyl groups and a sulfur that seems to say, "no fun"''", and "''No surprises. Keep the chain lengths down.''" 4-TASB (entry 147), of a compound with physical load and no reward: "''Again, another drug with more physical problems than psychic virtue, but with no obvious structural feature to hang it all onto. Some day this will all make sense!''" 5-TME (entry 165): "''This, along with most of the di- and triethylated thiomescaline analogues, represents a lot of synthetic effort without useful qualitative data.''" And METHYL-K (entry 129), as the benzodioxole chain runs out: "''The well appears to be running dry.''"
+
+3-TSB (entry 176) supplies the epitaph for the whole shelf, as a proverb attached to a synthesis that went badly and produced nothing worth having: "''The elephant labored and brought forth a mouse. A lot of work for a material without activity.''" The same entry is also one of the most useful in the book for anyone doing the chemistry, because the failure is written up in full — the definition of '''"scrudge"''' (the slower-moving wrong products that accumulate as a nitrostyrene forms), how to follow the reaction by TLC, the warning that scrudge can crack in the mass spectrograph to look like the right product, and the recommendation to bypass the step with a Wittig reaction. A negative pharmacological result, published with the method that produced it, is still a usable laboratory document.
+
+== What an inactive compound is good for ==
+
+Two entries show inactive compounds earning their place by other means.
+
+'''2C-H''' (entry 32) has never knowingly been taken by anyone and is assumed to be destroyed on arrival — "''an excellent substrate for the amino oxidase systems in man''" — yet it is "''one of the most magnificent launching pads for a number of rather unusual and, in a couple of cases, extraordinary drugs''", since its open 4-position is where 2C-B, 2C-I, 2C-C and 2C-N come from. Inactivity plus the right reactivity is a precursor.
+
+'''TOMSO''' (entry 173) is an inactive compound that produced a concept. It was made to test a hypothesis — that one subject's extraordinary sensitivity to 5-TOM came from an unusual sulfoxide metabolite — and the hypothesis failed, because TOMSO itself did nothing. What came out of the wreckage was an observation about inactive compounds in general: taken with alcohol, some of them stop being inactive. Shulgin coins a verb for it, "''to tomso''" — "''the promotion of an inactive situation into an active one, with the catalysis of alcohol''" — and speculates about why a small drink floors some alcoholics: "''Maybe they are nothing more than psychedelics that are thought to be inactive, but which might be ignited with a glass of wine.''" That is a practical hazard note disguised as a joke: a compound shelved as inert was tested at that dose '''alone'''.
+
+== Why publish them at all ==
+
+Four reasons are visible in the entries, and none of them is completeness for its own sake.
+
+* '''A null kills a hypothesis, and only a published null kills it in public.''' DMPEA closed the pink spot; MDPEA was turned against the textbook MAO story; MEDA's inactivity redirected the whole programme from elaborating substituents to relocating them (see [[Shulgin Structure Activity Relationships Ring Substitution and Potency]]).
+* '''A null marks the edge of a region, which is what saves the next person's labour.''' "''There is small incentive to make them''" (TRIS); "''Keep the chain lengths down''" (5-TASB); "''The well appears to be running dry''" (METHYL-K).
+* '''A null is the more reliable observation in an unblinded protocol''' — the 4-TSB rule — so the negative entries are, paradoxically, the most evidentially secure part of the book.
+* '''A null still carries its chemistry.''' The synthesis, melting points, failure modes and workarounds are published whether or not the product did anything.
+
+What the inactive entries do not do is pretend. They do not promote a threshold into an effect, and where the data is bad Shulgin says so — of 2-BR-4,5-MDA, "''Both the synthetic and the pharmacological details for this compound are sparse''" (entry 19). A library that records only what worked is a catalogue of survivors, and tells you nothing about the shape of the space.
+
+== See also ==
+
+* [[Urine Testing and the Long Search for a Psychiatric Biomarker]] — the pink spot, the mauve spot and the chlorpromazine self-experiment in full
+* [[Shulgin Structure Activity Relationships Ring Substitution and Potency]] — the position map these nulls define the edges of
+* [[The Shulgin Method Dose Escalation and the Research Group]] — how "inactive at 100 mg" is actually produced
+* [[Animal Assays and the Limits of Predicting Human Activity]] · [[Radiopharmacology and the Brain Imaging Programme]]
+* [[Chain Length the Bushy End and the Duration of Action]] · [[The 2C and DOx Families Halogens Sulfur and What Each Substituent Does]]
+* [[PIHKAL and TIHKAL]] · [[Shulgin Rating Scale]] · [[Naming the Compounds Codes Greek Names and Shulgin Nomenclature]]
+* [[Psychedelic and Psychopharmacology Glossary]] · [[Psychotomimetics Sedation and the Evolution of Psychiatry]]

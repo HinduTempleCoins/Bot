@@ -1,381 +1,1996 @@
 {
-  "_note": "Political Philosophy & Movements corpus for site/philosophy (Politics.SoapBox / hathor civic-education surface). History-of-ideas, strict descriptive neutrality: each ideology and movement is presented AS ITS ADHERENTS UNDERSTAND IT and WITH its major criticisms — no advocacy, no editorializing, no manifesto. Dates/thinkers/programs web-verified 2026-09-22 (see site/philosophy/README-not-committed sources in the build report). Complements knowledge/maxims/maxims.json (legal maxims + a handful of political axioms there); the maxims here are political/philosophical and chosen NOT to duplicate that set. This file is data only; the server esc()s every field on render.",
-  "updated": "2026-09-22",
-
-  "spectrumNote": "The left–right axis dates to seating in the 1789 French National Assembly (supporters of the king to the president's right, revolutionaries to the left). It is a rough map, not a law of nature: a single axis compresses distinct questions (economic vs. social, liberty vs. authority, change vs. continuity), which is why two-axis and multi-axis models are also used. The families below are presented in their own terms and with their standard criticisms; placement on any axis is contested and descriptive.",
-
-  "ideologies": [
+ "_note": "Political Philosophy & Movements corpus for site/philosophy (Politics.SoapBox / hathor civic-education surface). History-of-ideas, strict descriptive neutrality: each ideology and movement is presented AS ITS ADHERENTS UNDERSTAND IT and WITH its major criticisms — no advocacy, no editorializing, no manifesto. Dates/thinkers/programs web-verified 2026-09-22 (see site/philosophy/README-not-committed sources in the build report). Complements knowledge/maxims/maxims.json (legal maxims + a handful of political axioms there); the maxims here are political/philosophical and chosen NOT to duplicate that set. This file is data only; the server esc()s every field on render.",
+ "updated": "2026-10-28",
+ "spectrumNote": "The left–right axis dates to seating in the 1789 French National Assembly (supporters of the king to the president's right, revolutionaries to the left). It is a rough map, not a law of nature: a single axis compresses distinct questions (economic vs. social, liberty vs. authority, change vs. continuity), which is why two-axis and multi-axis models are also used. The families below are presented in their own terms and with their standard criticisms; placement on any axis is contested and descriptive.",
+ "ideologies": [
+  {
+   "id": "liberalism",
+   "name": "Liberalism (classical)",
+   "family": "center / liberal",
+   "summary": "A tradition built on the primacy of individual liberty, equality before the law, constitutional and limited government, consent of the governed, and — in the classical form — free markets and private property. Rooted in the Enlightenment.",
+   "tenets": [
+    "Individual rights and civil liberties (speech, conscience, association) as prior to the state",
+    "Rule of law and equality before the law",
+    "Government by consent; constitutional limits on power",
+    "Private property and (classically) free exchange",
+    "Toleration and pluralism"
+   ],
+   "thinkers": [
     {
-      "id": "liberalism",
-      "name": "Liberalism (classical)",
-      "family": "center / liberal",
-      "summary": "A tradition built on the primacy of individual liberty, equality before the law, constitutional and limited government, consent of the governed, and — in the classical form — free markets and private property. Rooted in the Enlightenment.",
-      "tenets": [
-        "Individual rights and civil liberties (speech, conscience, association) as prior to the state",
-        "Rule of law and equality before the law",
-        "Government by consent; constitutional limits on power",
-        "Private property and (classically) free exchange",
-        "Toleration and pluralism"
-      ],
-      "thinkers": [
-        { "name": "John Locke", "dates": "1632–1704", "note": "Natural rights, government by consent, right of revolution (Two Treatises of Government, 1689)." },
-        { "name": "John Stuart Mill", "dates": "1806–1873", "note": "The harm principle and liberty of thought (On Liberty, 1859)." },
-        { "name": "Adam Smith", "dates": "1723–1790", "note": "Market exchange and the division of labor (The Wealth of Nations, 1776)." },
-        { "name": "John Rawls", "dates": "1921–2002", "note": "20th-c. egalitarian liberalism: justice as fairness (A Theory of Justice, 1971)." }
-      ],
-      "arc": "Emerges from 17th–18th-c. Enlightenment thought and the English, American, and French revolutions. In the 20th c. it splits: 'classical' liberalism keeps the small-state, free-market emphasis, while 'modern' or 'social' liberalism (Rawls, the welfare state) accepts an active state to secure the fair value of liberty. In American usage 'liberal' now usually means the latter.",
-      "criticisms": [
-        "The left argues formal equality before the law leaves large material inequalities untouched, so liberty is unequal in practice.",
-        "Conservatives argue it can corrode tradition, community, and shared moral order.",
-        "Communitarians argue its individualism understates how selves are formed by community and belonging."
-      ],
-      "related": ["neoliberalism", "libertarianism", "progressivism", "conservatism"]
+     "name": "John Locke",
+     "dates": "1632–1704",
+     "note": "Natural rights, government by consent, right of revolution (Two Treatises of Government, 1689)."
     },
     {
-      "id": "neoliberalism",
-      "name": "Neoliberalism",
-      "family": "right on economics / market-liberal",
-      "summary": "A 20th-c. revival of market liberalism emphasizing free markets, free trade, deregulation, privatization, low inflation, and a state that secures property and competition rather than directing the economy.",
-      "tenets": [
-        "Markets as the most efficient allocator; prices over planning",
-        "Deregulation, privatization of state enterprises, free trade",
-        "Fiscal discipline and control of inflation (often via monetary rules)",
-        "A limited but strong state that protects property, contract, and competition"
-      ],
-      "thinkers": [
-        { "name": "Friedrich Hayek", "dates": "1899–1992", "note": "Convened the founding meeting of the Mont Pèlerin Society (1947); knowledge problem of central planning (The Road to Serfdom, 1944)." },
-        { "name": "Milton Friedman", "dates": "1912–2006", "note": "Monetarism and market solutions (Capitalism and Freedom, 1962); Chicago School." },
-        { "name": "Ludwig von Mises", "dates": "1881–1973", "note": "Austrian economics; the socialist-calculation critique of planning." }
-      ],
-      "arc": "The Mont Pèlerin Society, founded by Hayek in 1947 with 39 invitees (Friedman among the early members), organized the intellectual revival of market liberalism against mid-century Keynesianism and planning. By the late 1970s–1980s its ideas reached policy under Thatcher and Reagan and shaped the 'Washington Consensus' promoted by the IMF and World Bank. 'Neoliberalism' is used far more by critics than by self-described adherents, who more often call themselves classical liberals or free-market advocates.",
-      "criticisms": [
-        "Critics tie it to rising inequality, financial instability, and the erosion of public goods.",
-        "Critics argue deregulation privatizes gains and socializes losses (e.g., 2008).",
-        "Some conservatives argue market logic dissolves the very traditions and communities they wish to conserve."
-      ],
-      "related": ["liberalism", "libertarianism", "conservatism"]
+     "name": "John Stuart Mill",
+     "dates": "1806–1873",
+     "note": "The harm principle and liberty of thought (On Liberty, 1859)."
     },
     {
-      "id": "progressivism",
-      "name": "Progressivism",
-      "family": "center-left",
-      "summary": "A reform tradition holding that social progress is possible and that active, expert, democratic government should curb concentrated private power and expand economic security and civil rights.",
-      "tenets": [
-        "Confidence that reform can improve social conditions",
-        "Regulation of concentrated economic power (antitrust, labor, consumer, environmental)",
-        "Expansion of democratic participation and anti-corruption measures",
-        "Use of expertise and government capacity to address social problems",
-        "Expansion of civil and social rights over time"
-      ],
-      "thinkers": [
-        { "name": "John Dewey", "dates": "1859–1952", "note": "Democracy as a way of life; progressive education." },
-        { "name": "Jane Addams", "dates": "1860–1935", "note": "Settlement-house movement; social reform (Hull House)." },
-        { "name": "Theodore Roosevelt", "dates": "1858–1919", "note": "Progressive-Era 'Square Deal'; trust-busting and conservation." }
-      ],
-      "arc": "The American Progressive Era (roughly the 1890s–1920s) responded to industrialization, urban poverty, and machine politics with antitrust law, labor and food-safety regulation, women's suffrage, and civil-service and electoral reforms. The label was later reclaimed in the late 20th and 21st c. by the left wing of the Democratic coalition, distinguishing an activist-government, social-justice orientation from centrist liberalism.",
-      "criticisms": [
-        "Libertarians and conservatives argue expert-led government overreaches and displaces markets and local control.",
-        "Historians note some Progressive-Era reformers embraced eugenics and racial segregation — a documented dark side of the movement.",
-        "The left sometimes argues modern progressivism reforms capitalism rather than transforming it."
-      ],
-      "related": ["liberalism", "new-left", "socialism"]
+     "name": "Adam Smith",
+     "dates": "1723–1790",
+     "note": "Market exchange and the division of labor (The Wealth of Nations, 1776)."
     },
     {
-      "id": "new-left",
-      "name": "The New Left",
-      "family": "left",
-      "summary": "A 1960s movement, especially among students, that broke from the 'Old Left's' focus on labor unions and party organization to stress participatory democracy, civil rights, anti-war and anti-imperial politics, and critiques of bureaucracy and alienation.",
-      "tenets": [
-        "Participatory democracy — people sharing in decisions that shape their lives",
-        "Opposition to militarism and imperialism (esp. the Vietnam War)",
-        "Solidarity with civil-rights and liberation movements",
-        "Critique of bureaucracy, technocracy, and alienation, alongside economics",
-        "Cultural as well as political change"
-      ],
-      "thinkers": [
-        { "name": "C. Wright Mills", "dates": "1916–1962", "note": "The Power Elite (1956) and 'Letter to the New Left'; a key influence on SDS." },
-        { "name": "Herbert Marcuse", "dates": "1898–1979", "note": "Frankfurt School; One-Dimensional Man (1964)." },
-        { "name": "Tom Hayden", "dates": "1939–2016", "note": "Principal drafter of the Port Huron Statement." }
-      ],
-      "arc": "Students for a Democratic Society (SDS) issued the Port Huron Statement in 1962, the era's most widely distributed left manifesto, calling for a 'New Left' of participatory democracy. The movement grew through the free-speech, civil-rights, and anti-war struggles of the 1960s and fragmented by the early 1970s; its cultural and identity-politics currents outlasted its organizations.",
-      "criticisms": [
-        "The Old/Marxist left argued it neglected the working class and organized labor.",
-        "Critics point to its fragmentation and, in a few groups, a drift toward violence (e.g., the Weather Underground).",
-        "Conservatives blamed it for social disorder and the excesses they associate with the 1960s."
-      ],
-      "related": ["progressivism", "socialism", "anarchism"]
-    },
-    {
-      "id": "conservatism",
-      "name": "Conservatism",
-      "family": "right",
-      "summary": "A disposition and tradition that values continuity, established institutions, and inherited moral and social order; it prefers gradual, tested reform to abstract or revolutionary change, and is skeptical that reason alone can redesign society.",
-      "tenets": [
-        "Respect for tradition, custom, and 'the wisdom of the ages'",
-        "Skepticism of radical or utopian schemes; prudence and gradualism",
-        "The importance of mediating institutions (family, church, community, nation)",
-        "Order and stability as preconditions of liberty",
-        "Human nature as fixed and imperfect, not perfectible by design"
-      ],
-      "thinkers": [
-        { "name": "Edmund Burke", "dates": "1729–1797", "note": "Often called the father of modern conservatism (Reflections on the Revolution in France, 1790)." },
-        { "name": "Michael Oakeshott", "dates": "1901–1990", "note": "Conservatism as a disposition; skepticism of 'rationalism in politics'." },
-        { "name": "Russell Kirk", "dates": "1918–1994", "note": "Codified American conservatism (The Conservative Mind, 1953)." }
-      ],
-      "arc": "Modern conservatism is usually traced to Burke's critique of the French Revolution (1790). It is a family, not a single doctrine: traditionalist, religious, national, and (fused in the postwar U.S. 'fusionism') free-market strands coexist and sometimes conflict. What unites them is a preference for continuity and tested institutions over abstract redesign.",
-      "criticisms": [
-        "Critics argue it can defend unjust status quos and slow needed reform.",
-        "It is charged with internal tension: free-market dynamism can itself dissolve the traditions conservatives wish to conserve.",
-        "Progressives argue 'gradualism' too often means indefinite delay of justice."
-      ],
-      "related": ["liberalism", "neoconservatism", "libertarianism", "alt-right"]
-    },
-    {
-      "id": "neoconservatism",
-      "name": "Neoconservatism",
-      "family": "right",
-      "summary": "A movement, largely American, of thinkers (many former liberals or leftists) who combined domestic skepticism of Great Society social engineering with an assertive, values-driven foreign policy that promotes democracy and American power abroad.",
-      "tenets": [
-        "An assertive foreign policy promoting democracy and confronting hostile regimes",
-        "Belief that American power can and should be used for moral ends abroad",
-        "Skepticism that large social programs achieve their aims (domestic side)",
-        "Defense of 'bourgeois' virtues and cultural traditionalism"
-      ],
-      "thinkers": [
-        { "name": "Irving Kristol", "dates": "1920–2009", "note": "Called the 'godfather of neoconservatism'; a former Trotskyist who co-founded The Public Interest (1965)." },
-        { "name": "Norman Podhoretz", "dates": "b. 1930", "note": "Editor of Commentary; hawkish foreign-policy voice." },
-        { "name": "Leo Strauss", "dates": "1899–1973", "note": "Political philosopher whose students influenced the movement (an intellectual influence, not an activist)." }
-      ],
-      "arc": "The label was coined disparagingly by socialist Michael Harrington in 1973 for former liberals/leftists moving rightward. Many founders had been anti-Stalinist leftists (Kristol was in the Trotskyist Young People's Socialist League as a student). The movement gained foreign-policy prominence in the Reagan years and again around the 2003 Iraq War, which became its most contested episode.",
-      "criticisms": [
-        "Critics blame its foreign-policy interventionism for costly wars, above all Iraq (2003).",
-        "Traditional conservatives (paleoconservatives) reject its interventionism and its origins on the left.",
-        "Critics argue democracy-promotion by force is naive about local conditions."
-      ],
-      "related": ["conservatism", "liberalism", "alt-right"]
-    },
-    {
-      "id": "alt-right",
-      "name": "The alt-right",
-      "family": "far right",
-      "summary": "A loose, largely online far-right movement centered on 'white identity' and the preservation of what it calls 'Western civilization.' It is descriptively covered here as a historical phenomenon; it is designated a white-supremacist/hate movement by monitoring organizations such as the SPLC and ADL.",
-      "tenets": [
-        "'White identity' and opposition to multiculturalism and immigration (as the movement frames itself)",
-        "Rejection of mainstream conservatism as ineffective ('cuckservative' rhetoric)",
-        "Nativism and, in much of the movement, explicit white nationalism",
-        "Internet-native, meme- and provocation-driven style"
-      ],
-      "thinkers": [
-        { "name": "Richard B. Spencer", "dates": "b. 1978", "note": "Coined 'Alternative Right' (2008) and launched the Alternative Right blog (2010)." },
-        { "name": "Paul Gottfried", "dates": "b. 1941", "note": "Paleoconservative academic who used 'alternative right' in a 2008 speech; some credit him with the term." }
-      ],
-      "arc": "The term dates to 2008 and the blog to 2010; the movement gained mainstream attention around 2015–2017 and the 2017 'Unite the Right' rally in Charlottesville, after which it fragmented amid legal and platform crackdowns. It is documented here neutrally as history; its core claims are widely classified as white supremacist by civil-rights monitors, and that classification is itself part of the factual record.",
-      "criticisms": [
-        "Civil-rights organizations (SPLC, ADL) classify it as a white-supremacist hate movement.",
-        "Mainstream conservatives have disavowed it as racist and outside the conservative tradition.",
-        "Critics note its online provocation often masks explicit racism and antisemitism."
-      ],
-      "related": ["conservatism", "neoconservatism"]
-    },
-    {
-      "id": "libertarianism",
-      "name": "Libertarianism",
-      "family": "liberty axis (economic right / social liberty)",
-      "summary": "A tradition organized around self-ownership and individual liberty, holding that the legitimate use of force is sharply limited and that most human affairs should be arranged by voluntary exchange and consent rather than state command.",
-      "tenets": [
-        "Self-ownership and individual rights",
-        "The non-aggression principle: initiating force against persons or property is illegitimate",
-        "Free markets and strong private-property rights",
-        "A minimal state (minarchism) or none at all (anarcho-capitalism)",
-        "Personal and civil liberty in social matters"
-      ],
-      "thinkers": [
-        { "name": "Robert Nozick", "dates": "1938–2002", "note": "Minarchist 'night-watchman state' (Anarchy, State, and Utopia, 1974)." },
-        { "name": "Murray Rothbard", "dates": "1926–1995", "note": "Anarcho-capitalism; natural-rights libertarianism (For a New Liberty, 1973)." },
-        { "name": "Ayn Rand", "dates": "1905–1982", "note": "Objectivism and rational self-interest (Atlas Shrugged, 1957) — an influence on, but explicitly distinct from, libertarianism." }
-      ],
-      "arc": "Drawing on classical liberalism, Lockean natural rights, and Austrian economics, libertarianism took shape as an organized movement in the 20th-c. United States. It ranges from minarchists (Nozick) who accept a minimal state to anarcho-capitalists (Rothbard) who reject the state entirely; Rand's Objectivism is a related but separate philosophy. The U.S. Libertarian Party was founded in 1971.",
-      "criticisms": [
-        "Critics argue minimal states leave the poor and powerless without protection.",
-        "Left critics argue 'voluntary' market exchange can mask coercion born of inequality.",
-        "Critics question whether pure markets can supply public goods, or whether an anarcho-capitalist order is stable."
-      ],
-      "related": ["liberalism", "neoliberalism", "anarchism", "conservatism"]
-    },
-    {
-      "id": "socialism",
-      "name": "Socialism & social democracy",
-      "family": "left",
-      "summary": "A family holding that the economy should serve collective well-being, with social ownership or strong social control of major productive resources. Revolutionary socialism seeks to replace capitalism; social democracy seeks to regulate and reform it through democratic, parliamentary means and a robust welfare state.",
-      "tenets": [
-        "Production organized for social need, not solely private profit",
-        "Social or collective ownership/control of major means of production (revolutionary strand)",
-        "A strong welfare state, labor rights, and redistribution (social-democratic strand)",
-        "Economic as well as political equality",
-        "Solidarity and the value of collective action"
-      ],
-      "thinkers": [
-        { "name": "Karl Marx", "dates": "1818–1883", "note": "Class analysis and critique of capitalism (Das Kapital, 1867)." },
-        { "name": "Eduard Bernstein", "dates": "1850–1932", "note": "Founder of 'revisionist'/evolutionary socialism — a gradual, parliamentary road (The Preconditions of Socialism, 1899)." },
-        { "name": "Rosa Luxemburg", "dates": "1871–1919", "note": "Revolutionary who debated Bernstein's reformism ('Reform or Revolution', 1900)." }
-      ],
-      "arc": "Socialism arose with 19th-c. industrialization. A defining split came around 1899, when Bernstein's revisionism argued for reform through democracy rather than revolution — the origin of modern social democracy, later embodied in the Nordic model and postwar European welfare states. The revolutionary strand ran through Marxism–Leninism and 20th-c. communist states; democratic socialists and social democrats define themselves against that authoritarian outcome.",
-      "criticisms": [
-        "Critics point to the authoritarianism and economic failure of 20th-c. state-socialist regimes.",
-        "Free-market economists argue central planning cannot process dispersed information (the calculation problem).",
-        "Critics argue heavy taxation and regulation can blunt growth and innovation (a charge social democrats contest with the Nordic record)."
-      ],
-      "related": ["progressivism", "new-left", "anarchism", "liberalism"]
-    },
-    {
-      "id": "anarchism",
-      "name": "Anarchism",
-      "family": "left / anti-authoritarian (and some individualist strands)",
-      "summary": "A tradition holding that rulership and the coercive state are unnecessary and harmful, and that society can be organized through voluntary, cooperative, self-governing institutions without hierarchical domination.",
-      "tenets": [
-        "Rejection of the state and of unjustified hierarchy and domination",
-        "Voluntary association and federation from the bottom up",
-        "Mutual aid and cooperation as organizing principles",
-        "Direct action and self-management",
-        "Many strands: mutualist, collectivist, anarcho-communist, and individualist"
-      ],
-      "thinkers": [
-        { "name": "Pierre-Joseph Proudhon", "dates": "1809–1865", "note": "First to call himself an anarchist; mutualism; 'Property is theft!' (What Is Property?, 1840)." },
-        { "name": "Mikhail Bakunin", "dates": "1814–1876", "note": "Collectivist anarchism; clashed with Marx in the First International." },
-        { "name": "Peter Kropotkin", "dates": "1842–1921", "note": "Anarcho-communism; cooperation in evolution (Mutual Aid, 1902)." },
-        { "name": "Emma Goldman", "dates": "1869–1940", "note": "Anarchism, feminism, and free expression." }
-      ],
-      "arc": "As a named political philosophy anarchism begins with Proudhon (1840) and develops through Bakunin and Kropotkin, who framed it partly against Marx's state-centered socialism. It was a major force in 19th- and early-20th-c. labor movements (anarcho-syndicalism) and the Spanish Civil War, and it persists in contemporary movements emphasizing direct democracy, mutual aid, and horizontal organization.",
-      "criticisms": [
-        "Critics doubt a complex modern society can be coordinated without a state.",
-        "Marxists argue abolishing the state without first transforming economic power leaves domination intact.",
-        "Critics question defense against external aggression and the stability of stateless order."
-      ],
-      "related": ["socialism", "libertarianism", "new-left"]
+     "name": "John Rawls",
+     "dates": "1921–2002",
+     "note": "20th-c. egalitarian liberalism: justice as fairness (A Theory of Justice, 1971)."
     }
-  ],
-
-  "selfDetermination": {
-    "id": "self-determination",
-    "summary": "The principle that a 'people' has the right to freely determine its political status and freely pursue its economic, social, and cultural development. It runs through political theory and international law, and is claimed at national, indigenous, and individual scales.",
-    "dimensions": [
-      { "name": "National / collective", "note": "The claim of a nation or people to govern itself — the basis of the nation-state ideal and of anti-colonial independence movements." },
-      { "name": "Indigenous", "note": "The claim of indigenous peoples to self-government, land, and cultural survival within or across existing states — recognized in the UN Declaration on the Rights of Indigenous Peoples (UNDRIP, 2007)." },
-      { "name": "Individual", "note": "In political theory, personal self-determination / autonomy: the capacity of a person to author their own life. It grounds much of liberal rights theory and connects the concept back to individual liberty." }
-    ],
-    "theory": "Self-determination joins two old ideas — popular sovereignty (legitimate authority flows from the governed) and nationalism (a 'people' or nation as the natural unit of self-rule). A recurring hard problem is defining the 'self': who counts as the 'people' with the right, and how that maps onto existing borders. International law manages this by distinguishing 'internal' self-determination (a people's right to govern itself within a state) from 'external' self-determination (secession or independence), which law permits only narrowly.",
-    "internationalLaw": [
-      { "instrument": "Wilson's Fourteen Points", "year": "1918", "note": "Woodrow Wilson popularized national self-determination in the WWI settlement; it shaped the interwar order though it was applied selectively." },
-      { "instrument": "UN Charter, Article 1(2)", "year": "1945", "note": "Names 'respect for the principle of equal rights and self-determination of peoples' as a purpose of the United Nations." },
-      { "instrument": "UNGA Resolution 1514 — Declaration on the Granting of Independence to Colonial Countries and Peoples", "year": "1960", "note": "Adopted 14 Dec 1960; the political-legal foundation of UN decolonization policy." },
-      { "instrument": "Common Article 1, ICCPR & ICESCR", "year": "1966", "note": "Both binding human-rights covenants open with: 'All peoples have the right of self-determination.' As binding treaties (ICCPR 175 parties, ICESCR 173 as of Dec 2025) this made it one of the most widely accepted rights in international law." },
-      { "instrument": "UNGA Resolution 2625 — Friendly Relations Declaration", "year": "1970", "note": "Elaborated self-determination while affirming the territorial integrity of states — the tension the doctrine has to manage." },
-      { "instrument": "UN Declaration on the Rights of Indigenous Peoples (UNDRIP)", "year": "2007", "note": "Affirms indigenous peoples' right of self-determination, understood primarily as self-government (internal), not a general right to secede." }
-    ],
-    "tensions": [
-      "Self-determination vs. territorial integrity: international law protects existing borders, so it favors 'internal' self-determination and permits secession only narrowly (chiefly the colonial 'salt-water' context and extreme oppression).",
-      "Defining the 'self': competing groups may each claim to be the 'people' with the right, with no neutral way to draw the line.",
-      "Selective application: powerful states have invoked or denied the principle inconsistently, from the interwar period to the present."
-    ],
-    "crossref": "See the future World Law surface for the treaty framework, and the movements below for self-determination and autonomy claims in practice."
+   ],
+   "arc": "Emerges from 17th–18th-c. Enlightenment thought and the English, American, and French revolutions. In the 20th c. it splits: 'classical' liberalism keeps the small-state, free-market emphasis, while 'modern' or 'social' liberalism (Rawls, the welfare state) accepts an active state to secure the fair value of liberty. In American usage 'liberal' now usually means the latter.",
+   "criticisms": [
+    "The left argues formal equality before the law leaves large material inequalities untouched, so liberty is unequal in practice.",
+    "Conservatives argue it can corrode tradition, community, and shared moral order.",
+    "Communitarians argue its individualism understates how selves are formed by community and belonging."
+   ],
+   "related": [
+    "neoliberalism",
+    "libertarianism",
+    "progressivism",
+    "conservatism"
+   ]
   },
-
-  "movements": [
+  {
+   "id": "neoliberalism",
+   "name": "Neoliberalism",
+   "family": "right on economics / market-liberal",
+   "summary": "A 20th-c. revival of market liberalism emphasizing free markets, free trade, deregulation, privatization, low inflation, and a state that secures property and competition rather than directing the economy.",
+   "tenets": [
+    "Markets as the most efficient allocator; prices over planning",
+    "Deregulation, privatization of state enterprises, free trade",
+    "Fiscal discipline and control of inflation (often via monetary rules)",
+    "A limited but strong state that protects property, contract, and competition"
+   ],
+   "thinkers": [
     {
-      "id": "black-panther-party",
-      "name": "The Black Panther Party",
-      "kind": "political organization / social movement",
-      "period": "1966–1982 (founded Oct 1966, Oakland, CA)",
-      "summary": "A Black revolutionary organization founded in Oakland, California, in October 1966 by Huey P. Newton and Bobby Seale (originally the Black Panther Party for Self-Defense). It combined armed self-defense against police brutality, a socialist political program, and extensive community 'survival programs.' Presented here as factual history.",
-      "keyFacts": [
-        "Founded October 1966 in Oakland by Huey P. Newton and Bobby Seale.",
-        "Its Ten-Point Program (15 Oct 1966), 'What We Want / What We Believe', demanded freedom, full employment, decent housing, education, an end to police brutality, and self-determination for the Black community — the cofounders described it as a 'combination of a Bill of Rights and a Declaration of Independence.'",
-        "Practiced armed 'copwatching' (open-carry patrols monitoring police), then legal in California.",
-        "Ran more than 60 community 'survival programs' (renamed 'Survival Programs' in 1971, under the slogan 'survival pending revolution')."
-      ],
-      "tenPointProgramNote": "The Ten-Point Program had two columns — 'What We Want Now!' (ten demands) and 'What We Believe' (the reasoning). Point 10 summed up the aim: 'land, bread, housing, education, clothing, justice, peace, and ... community control of modern technology' and self-determination.",
-      "survivalPrograms": [
-        { "name": "Free Breakfast for Children", "note": "Began January 1969 at St. Augustine's Episcopal Church in West Oakland; grew to feed thousands of children daily and is widely cited as a model that influenced federal school-breakfast programs." },
-        { "name": "People's Free Medical Clinics", "note": "Free health clinics, including sickle-cell anemia testing and screening." },
-        { "name": "Liberation schools, free clothing, and other programs", "note": "Among 60+ community programs providing food, education, transport to prisons, and legal aid." }
-      ],
-      "cointelpro": "The FBI's Counterintelligence Program (COINTELPRO, 1956–1971) targeted the Party. Director J. Edgar Hoover called it 'the greatest threat to the internal security of the country.' Documented tactics included infiltration by informants, forged letters to provoke splits, surveillance, and coordination with police; the 1969 police killing of Chicago Panther Fred Hampton is among the most cited episodes. The Party declined through the 1970s amid this pressure, internal splits, and legal cases, and dissolved by 1982.",
-      "criticisms": [
-        "Critics and some former members cite internal authoritarianism, violence, and criminal conduct by some leaders.",
-        "Contemporary opponents and the FBI framed the armed posture as a public-safety threat.",
-        "Historians debate how much of the violence associated with the Party was provoked or manufactured by COINTELPRO informants vs. originating within it."
-      ],
-      "sources": "BlackPast.org; Britannica; Smithsonian NMAAHC; Wikipedia (Ten-Point Program; Free Breakfast for Children; COINTELPRO)."
+     "name": "Friedrich Hayek",
+     "dates": "1899–1992",
+     "note": "Convened the founding meeting of the Mont Pèlerin Society (1947); knowledge problem of central planning (The Road to Serfdom, 1944)."
     },
     {
-      "id": "punk-subculture",
-      "name": "Punk subculture",
-      "kind": "youth subculture / music movement",
-      "period": "mid-1970s onward",
-      "summary": "A youth subculture born in the mid-1970s around a raw, stripped-down rock sound and a do-it-yourself (DIY) ethic. It spans music, fashion, art, and politics, and is broadly characterized by anti-establishment views, individual freedom, and DIY self-production.",
-      "keyFacts": [
-        "Foundational bands emerged in New York City (the Ramones, whose self-titled debut album appeared in 1976) and London (the Sex Pistols, formed 1975).",
-        "The DIY ethic — make your own records, zines, shows, and clothes — is central and distinguishes it from mainstream commercial music.",
-        "Politically diverse: strands run from left/anarchist (much of hardcore and anarcho-punk) to explicitly apolitical to, in a small minority, far-right — which is why the skinhead split below matters."
-      ],
-      "criticisms": [
-        "Critics dismissed early punk as musically crude or nihilistic.",
-        "Commercialization ('selling out') is a recurring internal tension.",
-        "The subculture has repeatedly had to contend with a small far-right fringe attempting to claim it."
-      ],
-      "sources": "Wikipedia (Punk subculture; Sex Pistols; Ramones); EBSCO Research Starters."
+     "name": "Milton Friedman",
+     "dates": "1912–2006",
+     "note": "Monetarism and market solutions (Capitalism and Freedom, 1962); Chicago School."
     },
     {
-      "id": "skinhead-subculture",
-      "name": "Skinhead subculture & the SHARP / racist split",
-      "kind": "youth subculture",
-      "period": "late 1960s onward",
-      "summary": "A working-class youth subculture that began in late-1960s Britain as a multicultural, largely apolitical scene, was partly co-opted by racist factions in the late 1970s–1980s, and was then contested by explicitly anti-racist skinheads. Getting this split right and neutral matters: 'skinhead' is not a synonym for 'racist,' and the movement itself is divided on the point.",
-      "origins": "The skinhead subculture developed in the late 1960s in the United Kingdom as a working-class youth movement drawing on British mod culture and Jamaican rude-boy culture, with a strong affinity for ska, rocksteady, reggae, and soul. 'Trojan skinheads' (named for Trojan Records) refers to skinheads who identify with this original, music-centered, multicultural scene.",
-      "theSplit": [
-        { "faction": "Traditional / 'Trojan' skinheads", "note": "Identify with the original late-1960s scene: working-class style and Jamaican-influenced music, without racial politics." },
-        { "faction": "Racist / white-power skinheads", "note": "In the late 1970s–1980s some skinheads were recruited by far-right groups (e.g., in Britain the National Front) and a white-power music scene ('Rock Against Communism'); this faction is a co-optation of, not the origin of, the subculture." },
-        { "faction": "SHARP — Skinheads Against Racial Prejudice", "note": "Founded in New York City in 1987 (some sources say 1986) by Marcus Pacheco, to reclaim the subculture's original multicultural, non-racist identity and to publicly separate skinhead style from white-power politics. Related anti-racist currents include Anti-Racist Action (ARA)." }
-      ],
-      "neutralityNote": "This entry describes the factions as they define themselves and as documented by historians; it does not endorse any of them. The load-bearing factual point is that the subculture originated as multicultural and music-centered, that a racist faction later co-opted the style, and that SHARP and similar groups formed specifically to contest that co-optation.",
-      "criticisms": [
-        "Public perception often conflates 'skinhead' with racism, which traditional and SHARP skinheads reject as historically inaccurate.",
-        "Sources disagree on some details (e.g., SHARP's exact founding year, 1986 vs. 1987)."
-      ],
-      "sources": "Wikipedia (Skinheads Against Racial Prejudice; skinhead subculture); ScholarWorks (CSU) thesis on anti-racist skinheads; interview archives on Anti-Racist Action."
-    },
-    {
-      "id": "self-determination-movements",
-      "name": "Self-determination & autonomy movements",
-      "kind": "family of movements",
-      "period": "19th c. onward",
-      "summary": "Movements that seek collective self-government — ranging from full independence (secession/decolonization) to autonomy within an existing state. They are the practical face of the self-determination principle above.",
-      "forms": [
-        { "form": "Decolonization / independence", "note": "20th-c. anti-colonial movements across Africa, Asia, and the Caribbean that invoked self-determination to achieve statehood; the paradigm case the UN framework was built for." },
-        { "form": "Indigenous self-government", "note": "Movements for indigenous sovereignty, land rights, and cultural survival, often seeking autonomy and treaty enforcement within existing states rather than secession (framework: UNDRIP, 2007)." },
-        { "form": "Regional autonomy / self-rule", "note": "Movements seeking devolved or autonomous self-government (e.g., linguistic or regional autonomy) short of independence." }
-      ],
-      "note": "These movements connect directly to the self-determination section above and to the future World Law surface: whether a given claim is recognized as lawful self-determination or resisted as unlawful secession is exactly the 'internal vs. external' tension in international law.",
-      "criticisms": [
-        "States often resist such claims as threats to territorial integrity.",
-        "Defining the 'people' who hold the right is contested and can itself spark conflict.",
-        "Outcomes have been uneven, reflecting geopolitics as much as principle."
-      ],
-      "sources": "See self-determination international-law citations above."
+     "name": "Ludwig von Mises",
+     "dates": "1881–1973",
+     "note": "Austrian economics; the socialist-calculation critique of planning."
     }
+   ],
+   "arc": "The Mont Pèlerin Society, founded by Hayek in 1947 with 39 invitees (Friedman among the early members), organized the intellectual revival of market liberalism against mid-century Keynesianism and planning. By the late 1970s–1980s its ideas reached policy under Thatcher and Reagan and shaped the 'Washington Consensus' promoted by the IMF and World Bank. 'Neoliberalism' is used far more by critics than by self-described adherents, who more often call themselves classical liberals or free-market advocates.",
+   "criticisms": [
+    "Critics tie it to rising inequality, financial instability, and the erosion of public goods.",
+    "Critics argue deregulation privatizes gains and socializes losses (e.g., 2008).",
+    "Some conservatives argue market logic dissolves the very traditions and communities they wish to conserve."
+   ],
+   "related": [
+    "liberalism",
+    "libertarianism",
+    "conservatism"
+   ]
+  },
+  {
+   "id": "progressivism",
+   "name": "Progressivism",
+   "family": "center-left",
+   "summary": "A reform tradition holding that social progress is possible and that active, expert, democratic government should curb concentrated private power and expand economic security and civil rights.",
+   "tenets": [
+    "Confidence that reform can improve social conditions",
+    "Regulation of concentrated economic power (antitrust, labor, consumer, environmental)",
+    "Expansion of democratic participation and anti-corruption measures",
+    "Use of expertise and government capacity to address social problems",
+    "Expansion of civil and social rights over time"
+   ],
+   "thinkers": [
+    {
+     "name": "John Dewey",
+     "dates": "1859–1952",
+     "note": "Democracy as a way of life; progressive education."
+    },
+    {
+     "name": "Jane Addams",
+     "dates": "1860–1935",
+     "note": "Settlement-house movement; social reform (Hull House)."
+    },
+    {
+     "name": "Theodore Roosevelt",
+     "dates": "1858–1919",
+     "note": "Progressive-Era 'Square Deal'; trust-busting and conservation."
+    }
+   ],
+   "arc": "The American Progressive Era (roughly the 1890s–1920s) responded to industrialization, urban poverty, and machine politics with antitrust law, labor and food-safety regulation, women's suffrage, and civil-service and electoral reforms. The label was later reclaimed in the late 20th and 21st c. by the left wing of the Democratic coalition, distinguishing an activist-government, social-justice orientation from centrist liberalism.",
+   "criticisms": [
+    "Libertarians and conservatives argue expert-led government overreaches and displaces markets and local control.",
+    "Historians note some Progressive-Era reformers embraced eugenics and racial segregation — a documented dark side of the movement.",
+    "The left sometimes argues modern progressivism reforms capitalism rather than transforming it."
+   ],
+   "related": [
+    "liberalism",
+    "new-left",
+    "socialism"
+   ]
+  },
+  {
+   "id": "new-left",
+   "name": "The New Left",
+   "family": "left",
+   "summary": "A 1960s movement, especially among students, that broke from the 'Old Left's' focus on labor unions and party organization to stress participatory democracy, civil rights, anti-war and anti-imperial politics, and critiques of bureaucracy and alienation.",
+   "tenets": [
+    "Participatory democracy — people sharing in decisions that shape their lives",
+    "Opposition to militarism and imperialism (esp. the Vietnam War)",
+    "Solidarity with civil-rights and liberation movements",
+    "Critique of bureaucracy, technocracy, and alienation, alongside economics",
+    "Cultural as well as political change"
+   ],
+   "thinkers": [
+    {
+     "name": "C. Wright Mills",
+     "dates": "1916–1962",
+     "note": "The Power Elite (1956) and 'Letter to the New Left'; a key influence on SDS."
+    },
+    {
+     "name": "Herbert Marcuse",
+     "dates": "1898–1979",
+     "note": "Frankfurt School; One-Dimensional Man (1964)."
+    },
+    {
+     "name": "Tom Hayden",
+     "dates": "1939–2016",
+     "note": "Principal drafter of the Port Huron Statement."
+    }
+   ],
+   "arc": "Students for a Democratic Society (SDS) issued the Port Huron Statement in 1962, the era's most widely distributed left manifesto, calling for a 'New Left' of participatory democracy. The movement grew through the free-speech, civil-rights, and anti-war struggles of the 1960s and fragmented by the early 1970s; its cultural and identity-politics currents outlasted its organizations.",
+   "criticisms": [
+    "The Old/Marxist left argued it neglected the working class and organized labor.",
+    "Critics point to its fragmentation and, in a few groups, a drift toward violence (e.g., the Weather Underground).",
+    "Conservatives blamed it for social disorder and the excesses they associate with the 1960s."
+   ],
+   "related": [
+    "progressivism",
+    "socialism",
+    "anarchism"
+   ]
+  },
+  {
+   "id": "conservatism",
+   "name": "Conservatism",
+   "family": "right",
+   "summary": "A disposition and tradition that values continuity, established institutions, and inherited moral and social order; it prefers gradual, tested reform to abstract or revolutionary change, and is skeptical that reason alone can redesign society.",
+   "tenets": [
+    "Respect for tradition, custom, and 'the wisdom of the ages'",
+    "Skepticism of radical or utopian schemes; prudence and gradualism",
+    "The importance of mediating institutions (family, church, community, nation)",
+    "Order and stability as preconditions of liberty",
+    "Human nature as fixed and imperfect, not perfectible by design"
+   ],
+   "thinkers": [
+    {
+     "name": "Edmund Burke",
+     "dates": "1729–1797",
+     "note": "Often called the father of modern conservatism (Reflections on the Revolution in France, 1790)."
+    },
+    {
+     "name": "Michael Oakeshott",
+     "dates": "1901–1990",
+     "note": "Conservatism as a disposition; skepticism of 'rationalism in politics'."
+    },
+    {
+     "name": "Russell Kirk",
+     "dates": "1918–1994",
+     "note": "Codified American conservatism (The Conservative Mind, 1953)."
+    }
+   ],
+   "arc": "Modern conservatism is usually traced to Burke's critique of the French Revolution (1790). It is a family, not a single doctrine: traditionalist, religious, national, and (fused in the postwar U.S. 'fusionism') free-market strands coexist and sometimes conflict. What unites them is a preference for continuity and tested institutions over abstract redesign.",
+   "criticisms": [
+    "Critics argue it can defend unjust status quos and slow needed reform.",
+    "It is charged with internal tension: free-market dynamism can itself dissolve the traditions conservatives wish to conserve.",
+    "Progressives argue 'gradualism' too often means indefinite delay of justice."
+   ],
+   "related": [
+    "liberalism",
+    "neoconservatism",
+    "libertarianism",
+    "alt-right"
+   ]
+  },
+  {
+   "id": "neoconservatism",
+   "name": "Neoconservatism",
+   "family": "right",
+   "summary": "A movement, largely American, of thinkers (many former liberals or leftists) who combined domestic skepticism of Great Society social engineering with an assertive, values-driven foreign policy that promotes democracy and American power abroad.",
+   "tenets": [
+    "An assertive foreign policy promoting democracy and confronting hostile regimes",
+    "Belief that American power can and should be used for moral ends abroad",
+    "Skepticism that large social programs achieve their aims (domestic side)",
+    "Defense of 'bourgeois' virtues and cultural traditionalism"
+   ],
+   "thinkers": [
+    {
+     "name": "Irving Kristol",
+     "dates": "1920–2009",
+     "note": "Called the 'godfather of neoconservatism'; a former Trotskyist who co-founded The Public Interest (1965)."
+    },
+    {
+     "name": "Norman Podhoretz",
+     "dates": "b. 1930",
+     "note": "Editor of Commentary; hawkish foreign-policy voice."
+    },
+    {
+     "name": "Leo Strauss",
+     "dates": "1899–1973",
+     "note": "Political philosopher whose students influenced the movement (an intellectual influence, not an activist)."
+    }
+   ],
+   "arc": "The label was coined disparagingly by socialist Michael Harrington in 1973 for former liberals/leftists moving rightward. Many founders had been anti-Stalinist leftists (Kristol was in the Trotskyist Young People's Socialist League as a student). The movement gained foreign-policy prominence in the Reagan years and again around the 2003 Iraq War, which became its most contested episode.",
+   "criticisms": [
+    "Critics blame its foreign-policy interventionism for costly wars, above all Iraq (2003).",
+    "Traditional conservatives (paleoconservatives) reject its interventionism and its origins on the left.",
+    "Critics argue democracy-promotion by force is naive about local conditions."
+   ],
+   "related": [
+    "conservatism",
+    "liberalism",
+    "alt-right"
+   ]
+  },
+  {
+   "id": "alt-right",
+   "name": "The alt-right",
+   "family": "far right",
+   "summary": "A loose, largely online far-right movement centered on 'white identity' and the preservation of what it calls 'Western civilization.' It is descriptively covered here as a historical phenomenon; it is designated a white-supremacist/hate movement by monitoring organizations such as the SPLC and ADL.",
+   "tenets": [
+    "'White identity' and opposition to multiculturalism and immigration (as the movement frames itself)",
+    "Rejection of mainstream conservatism as ineffective ('cuckservative' rhetoric)",
+    "Nativism and, in much of the movement, explicit white nationalism",
+    "Internet-native, meme- and provocation-driven style"
+   ],
+   "thinkers": [
+    {
+     "name": "Richard B. Spencer",
+     "dates": "b. 1978",
+     "note": "Coined 'Alternative Right' (2008) and launched the Alternative Right blog (2010)."
+    },
+    {
+     "name": "Paul Gottfried",
+     "dates": "b. 1941",
+     "note": "Paleoconservative academic who used 'alternative right' in a 2008 speech; some credit him with the term."
+    }
+   ],
+   "arc": "The term dates to 2008 and the blog to 2010; the movement gained mainstream attention around 2015–2017 and the 2017 'Unite the Right' rally in Charlottesville, after which it fragmented amid legal and platform crackdowns. It is documented here neutrally as history; its core claims are widely classified as white supremacist by civil-rights monitors, and that classification is itself part of the factual record.",
+   "criticisms": [
+    "Civil-rights organizations (SPLC, ADL) classify it as a white-supremacist hate movement.",
+    "Mainstream conservatives have disavowed it as racist and outside the conservative tradition.",
+    "Critics note its online provocation often masks explicit racism and antisemitism."
+   ],
+   "related": [
+    "conservatism",
+    "neoconservatism"
+   ]
+  },
+  {
+   "id": "libertarianism",
+   "name": "Libertarianism",
+   "family": "liberty axis (economic right / social liberty)",
+   "summary": "A tradition organized around self-ownership and individual liberty, holding that the legitimate use of force is sharply limited and that most human affairs should be arranged by voluntary exchange and consent rather than state command.",
+   "tenets": [
+    "Self-ownership and individual rights",
+    "The non-aggression principle: initiating force against persons or property is illegitimate",
+    "Free markets and strong private-property rights",
+    "A minimal state (minarchism) or none at all (anarcho-capitalism)",
+    "Personal and civil liberty in social matters"
+   ],
+   "thinkers": [
+    {
+     "name": "Robert Nozick",
+     "dates": "1938–2002",
+     "note": "Minarchist 'night-watchman state' (Anarchy, State, and Utopia, 1974)."
+    },
+    {
+     "name": "Murray Rothbard",
+     "dates": "1926–1995",
+     "note": "Anarcho-capitalism; natural-rights libertarianism (For a New Liberty, 1973)."
+    },
+    {
+     "name": "Ayn Rand",
+     "dates": "1905–1982",
+     "note": "Objectivism and rational self-interest (Atlas Shrugged, 1957) — an influence on, but explicitly distinct from, libertarianism."
+    }
+   ],
+   "arc": "Drawing on classical liberalism, Lockean natural rights, and Austrian economics, libertarianism took shape as an organized movement in the 20th-c. United States. It ranges from minarchists (Nozick) who accept a minimal state to anarcho-capitalists (Rothbard) who reject the state entirely; Rand's Objectivism is a related but separate philosophy. The U.S. Libertarian Party was founded in 1971.",
+   "criticisms": [
+    "Critics argue minimal states leave the poor and powerless without protection.",
+    "Left critics argue 'voluntary' market exchange can mask coercion born of inequality.",
+    "Critics question whether pure markets can supply public goods, or whether an anarcho-capitalist order is stable."
+   ],
+   "related": [
+    "liberalism",
+    "neoliberalism",
+    "anarchism",
+    "conservatism"
+   ]
+  },
+  {
+   "id": "socialism",
+   "name": "Socialism & social democracy",
+   "family": "left",
+   "summary": "A family holding that the economy should serve collective well-being, with social ownership or strong social control of major productive resources. Revolutionary socialism seeks to replace capitalism; social democracy seeks to regulate and reform it through democratic, parliamentary means and a robust welfare state.",
+   "tenets": [
+    "Production organized for social need, not solely private profit",
+    "Social or collective ownership/control of major means of production (revolutionary strand)",
+    "A strong welfare state, labor rights, and redistribution (social-democratic strand)",
+    "Economic as well as political equality",
+    "Solidarity and the value of collective action"
+   ],
+   "thinkers": [
+    {
+     "name": "Karl Marx",
+     "dates": "1818–1883",
+     "note": "Class analysis and critique of capitalism (Das Kapital, 1867)."
+    },
+    {
+     "name": "Eduard Bernstein",
+     "dates": "1850–1932",
+     "note": "Founder of 'revisionist'/evolutionary socialism — a gradual, parliamentary road (The Preconditions of Socialism, 1899)."
+    },
+    {
+     "name": "Rosa Luxemburg",
+     "dates": "1871–1919",
+     "note": "Revolutionary who debated Bernstein's reformism ('Reform or Revolution', 1900)."
+    }
+   ],
+   "arc": "Socialism arose with 19th-c. industrialization. A defining split came around 1899, when Bernstein's revisionism argued for reform through democracy rather than revolution — the origin of modern social democracy, later embodied in the Nordic model and postwar European welfare states. The revolutionary strand ran through Marxism–Leninism and 20th-c. communist states; democratic socialists and social democrats define themselves against that authoritarian outcome.",
+   "criticisms": [
+    "Critics point to the authoritarianism and economic failure of 20th-c. state-socialist regimes.",
+    "Free-market economists argue central planning cannot process dispersed information (the calculation problem).",
+    "Critics argue heavy taxation and regulation can blunt growth and innovation (a charge social democrats contest with the Nordic record)."
+   ],
+   "related": [
+    "progressivism",
+    "new-left",
+    "anarchism",
+    "liberalism"
+   ]
+  },
+  {
+   "id": "anarchism",
+   "name": "Anarchism",
+   "family": "left / anti-authoritarian (and some individualist strands)",
+   "summary": "A tradition holding that rulership and the coercive state are unnecessary and harmful, and that society can be organized through voluntary, cooperative, self-governing institutions without hierarchical domination.",
+   "tenets": [
+    "Rejection of the state and of unjustified hierarchy and domination",
+    "Voluntary association and federation from the bottom up",
+    "Mutual aid and cooperation as organizing principles",
+    "Direct action and self-management",
+    "Many strands: mutualist, collectivist, anarcho-communist, and individualist"
+   ],
+   "thinkers": [
+    {
+     "name": "Pierre-Joseph Proudhon",
+     "dates": "1809–1865",
+     "note": "First to call himself an anarchist; mutualism; 'Property is theft!' (What Is Property?, 1840)."
+    },
+    {
+     "name": "Mikhail Bakunin",
+     "dates": "1814–1876",
+     "note": "Collectivist anarchism; clashed with Marx in the First International."
+    },
+    {
+     "name": "Peter Kropotkin",
+     "dates": "1842–1921",
+     "note": "Anarcho-communism; cooperation in evolution (Mutual Aid, 1902)."
+    },
+    {
+     "name": "Emma Goldman",
+     "dates": "1869–1940",
+     "note": "Anarchism, feminism, and free expression."
+    }
+   ],
+   "arc": "As a named political philosophy anarchism begins with Proudhon (1840) and develops through Bakunin and Kropotkin, who framed it partly against Marx's state-centered socialism. It was a major force in 19th- and early-20th-c. labor movements (anarcho-syndicalism) and the Spanish Civil War, and it persists in contemporary movements emphasizing direct democracy, mutual aid, and horizontal organization.",
+   "criticisms": [
+    "Critics doubt a complex modern society can be coordinated without a state.",
+    "Marxists argue abolishing the state without first transforming economic power leaves domination intact.",
+    "Critics question defense against external aggression and the stability of stateless order."
+   ],
+   "related": [
+    "socialism",
+    "libertarianism",
+    "new-left"
+   ]
+  },
+  {
+   "id": "fascism",
+   "name": "Fascism",
+   "family": "far right / authoritarian ultranationalist",
+   "summary": "An ultranationalist, authoritarian ideology organised around a mythic national rebirth, a single mass party fused with the state, a cult of the leader, and the glorification of violence and struggle as purifying.",
+   "tenets": [
+    "Palingenetic ultranationalism — the nation reborn from decadence through struggle",
+    "The leader principle: authority flows down from a single figure embodying the national will",
+    "Rejection of liberal parliamentarism, individual rights and Marxist class politics alike",
+    "Corporatist organisation of the economy under state direction; private property retained but subordinated",
+    "Militarism, and violence treated as regenerative rather than regrettable"
+   ],
+   "thinkers": [
+    {
+     "name": "Giovanni Gentile",
+     "dates": "1875–1944",
+     "note": "The regime's principal philosopher; ghost-wrote much of 'The Doctrine of Fascism' (1932) with Mussolini."
+    },
+    {
+     "name": "Benito Mussolini",
+     "dates": "1883–1945",
+     "note": "Founded the Fasci di Combattimento (1919); 'everything within the state, nothing outside the state, nothing against the state.'"
+    },
+    {
+     "name": "Carl Schmitt",
+     "dates": "1888–1985",
+     "note": "Jurist of the friend/enemy distinction and the state of exception; joined the Nazi party in 1933."
+    },
+    {
+     "name": "Julius Evola",
+     "dates": "1898–1974",
+     "note": "Esoteric traditionalist; influential on later radical-right currents."
+    }
+   ],
+   "arc": "Emerged in Italy after the First World War out of revolutionary syndicalism and radical nationalism, taking power with the March on Rome in 1922. German National Socialism added a biological racial doctrine and an exterminationist antisemitism that Italian Fascism did not originally carry. Defeated militarily in 1945. Scholars (Roger Griffin, Robert Paxton, Stanley Payne) continue to debate a 'fascist minimum'; the term is also widely used polemically, which is a reason to state the historical definition precisely.",
+   "criticisms": [
+    "It produced the most destructive war in history and, in the German case, industrialised genocide.",
+    "Its economics were incoherent as doctrine and in practice amounted to state direction serving rearmament.",
+    "Critics note it defines itself mainly by what it opposes, leaving little positive content beyond the nation and the leader.",
+    "Loose contemporary use of the word as an insult obscures what the historical movements actually were."
+   ],
+   "related": [
+    "alt-right",
+    "nationalism",
+    "conservatism",
+    "marxism-leninism"
+   ]
+  },
+  {
+   "id": "marxism-leninism",
+   "name": "Marxism–Leninism",
+   "family": "far left / authoritarian socialist",
+   "summary": "The state doctrine of the Soviet Union and the parties modelled on it: Marx's analysis of capitalism combined with Lenin's theory of a disciplined vanguard party seizing and holding state power.",
+   "tenets": [
+    "A vanguard party of professional revolutionaries leads the working class",
+    "Democratic centralism — free debate before a decision, binding unity after it",
+    "Dictatorship of the proletariat as a transitional state form",
+    "State ownership of the means of production and central planning",
+    "Imperialism analysed as the highest stage of capitalism"
+   ],
+   "thinkers": [
+    {
+     "name": "Vladimir Lenin",
+     "dates": "1870–1924",
+     "note": "'What Is to Be Done?' (1902); 'Imperialism, the Highest Stage of Capitalism' (1916); 'The State and Revolution' (1917)."
+    },
+    {
+     "name": "Joseph Stalin",
+     "dates": "1878–1953",
+     "note": "'Socialism in One Country'; codified the doctrine as official ideology."
+    },
+    {
+     "name": "Rosa Luxemburg",
+     "dates": "1871–1919",
+     "note": "A Marxist critic from the left: warned that substituting the party for the class ends in dictatorship over the proletariat."
+    }
+   ],
+   "arc": "Formed in the Russian revolutions of 1917 and consolidated under Stalin, it became the official ideology of the USSR and, after 1945, of states across Eastern Europe and Asia. The 1956 secret speech, 1968 in Czechoslovakia and the collapse of 1989–91 fractured its authority. It survives in a small number of ruling parties and in minority currents elsewhere.",
+   "criticisms": [
+    "The record of the twentieth-century states — famine, purges, forced labour and mass death — is the central charge.",
+    "Luxemburg's objection proved prescient: the vanguard substituted itself for the class it claimed to represent.",
+    "Central planning struggled with the calculation problem Mises and Hayek identified.",
+    "Defenders distinguish the theory from particular regimes; critics argue the regimes followed from the theory's concentration of power."
+   ],
+   "related": [
+    "socialism",
+    "maoism",
+    "anarchism",
+    "new-left"
+   ]
+  },
+  {
+   "id": "maoism",
+   "name": "Maoism",
+   "family": "far left / peasant-based revolutionary socialism",
+   "summary": "Mao Zedong's adaptation of Marxism–Leninism to an agrarian society, placing the peasantry rather than the industrial proletariat at the centre of revolution and insisting that class struggle continues under socialism.",
+   "tenets": [
+    "The peasantry as the principal revolutionary force",
+    "Protracted people's war — encircle the cities from the countryside",
+    "The mass line: 'from the masses, to the masses'",
+    "Continuous revolution, including against the party bureaucracy itself",
+    "Contradiction as the motor of development ('On Contradiction', 1937)"
+   ],
+   "thinkers": [
+    {
+     "name": "Mao Zedong",
+     "dates": "1893–1976",
+     "note": "'On Contradiction' and 'On Practice' (1937); 'On the Correct Handling of Contradictions Among the People' (1957)."
+    },
+    {
+     "name": "Lin Biao",
+     "dates": "1907–1971",
+     "note": "'Long Live the Victory of People's War' (1965), which exported the doctrine."
+    },
+    {
+     "name": "Abimael Guzmán",
+     "dates": "1934–2021",
+     "note": "Founded Shining Path in Peru on a Maoist reading."
+    }
+   ],
+   "arc": "Developed during the Chinese Communist Party's rural base-area period and the war against Japan, and became state doctrine after 1949. The Great Leap Forward (1958–62) and the Cultural Revolution (1966–76) were its most radical applications. After Mao's death the CPC moved decisively away from it economically. It continued to shape insurgencies in Peru, Nepal, India and the Philippines.",
+   "criticisms": [
+    "The Great Leap Forward produced one of the deadliest famines on record; scholarly estimates run into the tens of millions.",
+    "The Cultural Revolution destroyed institutions, careers and lives on an enormous scale.",
+    "Critics argue 'continuous revolution' functioned chiefly as a tool against rivals within the party.",
+    "Later Maoist insurgencies have been widely criticised for violence against the rural populations they claimed to represent."
+   ],
+   "related": [
+    "marxism-leninism",
+    "socialism",
+    "new-left"
+   ]
+  },
+  {
+   "id": "nationalism",
+   "name": "Nationalism",
+   "family": "cross-cutting (left and right variants)",
+   "summary": "The principle that humanity divides into nations, that the nation is the proper unit of political loyalty, and that nations are entitled to govern themselves.",
+   "tenets": [
+    "The nation as the primary political community",
+    "Congruence of nation and state as the political ideal",
+    "National self-determination",
+    "Cultivation of a shared language, history and culture",
+    "Varies sharply between civic forms (membership by citizenship and shared institutions) and ethnic forms (membership by descent)"
+   ],
+   "thinkers": [
+    {
+     "name": "Johann Gottfried Herder",
+     "dates": "1744–1803",
+     "note": "Each people has its own Volksgeist expressed in language and folk culture."
+    },
+    {
+     "name": "Giuseppe Mazzini",
+     "dates": "1805–1872",
+     "note": "Liberal nationalism: free nations as the basis of a peaceful Europe."
+    },
+    {
+     "name": "Ernest Renan",
+     "dates": "1823–1892",
+     "note": "'What Is a Nation?' (1882) — the nation as a daily plebiscite, built on shared memory and shared forgetting."
+    },
+    {
+     "name": "Benedict Anderson",
+     "dates": "1936–2015",
+     "note": "'Imagined Communities' (1983): nations as imagined political communities enabled by print capitalism."
+    },
+    {
+     "name": "Ernest Gellner",
+     "dates": "1925–1995",
+     "note": "Nationalism as a product of industrial society's need for a standardised culture."
+    }
+   ],
+   "arc": "Crystallised in the late eighteenth century with the American and French revolutions, drove European state-formation and the 1848 revolutions, supplied the language of twentieth-century anti-colonial independence movements, and remains a central axis of politics after the Cold War.",
+   "criticisms": [
+    "Ethnic variants have supplied the justification for expulsion, partition and genocide.",
+    "Modernists argue the 'ancient' nation is largely a nineteenth-century construction projected backwards.",
+    "It can suppress minorities within the borders it draws.",
+    "Defenders reply that civic nationalism underwrites solidarity, redistribution and democratic accountability, which abstract universalism has struggled to supply."
+   ],
+   "related": [
+    "fascism",
+    "conservatism",
+    "pan-africanism",
+    "zionism",
+    "indigenous-sovereignty"
+   ]
+  },
+  {
+   "id": "populism",
+   "name": "Populism",
+   "family": "cross-cutting style (left and right variants)",
+   "summary": "A political logic that divides society into a pure people and a corrupt elite, and claims that politics should express the general will of the people directly.",
+   "tenets": [
+    "A moral antagonism between 'the people' and 'the elite'",
+    "Claim to represent the authentic popular will",
+    "Suspicion of intermediary institutions — parties, courts, press, expert bodies",
+    "Preference for direct expressions of the popular will such as referendums",
+    "Attaches to a host ideology: left-populism to redistribution, right-populism to nativism"
+   ],
+   "thinkers": [
+    {
+     "name": "Ernesto Laclau",
+     "dates": "1935–2014",
+     "note": "'On Populist Reason' (2005): populism as the logic by which a people is constructed, not a deviation."
+    },
+    {
+     "name": "Cas Mudde",
+     "dates": "b. 1967",
+     "note": "The widely used 'thin-centred ideology' definition."
+    },
+    {
+     "name": "Jan-Werner Müller",
+     "dates": "b. 1970",
+     "note": "'What Is Populism?' (2016): the defining move is the claim to exclusive moral representation of the people."
+    }
+   ],
+   "arc": "Named for the Russian narodniki and the US People's Party of the 1890s, recurring in Latin American politics through the twentieth century, and prominent again across Europe and the Americas from the 2010s on both left and right.",
+   "criticisms": [
+    "Müller's objection: the claim to be the only legitimate representative of the people makes opposition illegitimate by definition.",
+    "Hostility to courts, press and expert bodies erodes the checks that make elections meaningful.",
+    "The term is used so loosely that it often means little more than 'politics I dislike'.",
+    "Defenders argue it registers real democratic grievances that established parties stopped hearing."
+   ],
+   "related": [
+    "nationalism",
+    "progressivism",
+    "conservatism",
+    "socialism"
+   ]
+  },
+  {
+   "id": "feminism",
+   "name": "Feminism",
+   "family": "cross-cutting / left-leaning in most strands",
+   "summary": "A family of movements and theories holding that women have been systematically subordinated and that political, economic and social arrangements should be reorganised to end that subordination.",
+   "tenets": [
+    "Equal political and legal standing",
+    "Analysis of gender as a social structure, not only individual prejudice",
+    "Attention to unpaid domestic and care work as economically real",
+    "Bodily autonomy",
+    "Internal disagreement over whether the goal is equal access to existing institutions or their transformation"
+   ],
+   "thinkers": [
+    {
+     "name": "Mary Wollstonecraft",
+     "dates": "1759–1797",
+     "note": "'A Vindication of the Rights of Woman' (1792)."
+    },
+    {
+     "name": "Simone de Beauvoir",
+     "dates": "1908–1986",
+     "note": "'The Second Sex' (1949) — one is not born, but rather becomes, a woman."
+    },
+    {
+     "name": "bell hooks",
+     "dates": "1952–2021",
+     "note": "'Ain't I a Woman' (1981); feminism as the struggle to end sexist oppression, inseparable from race and class."
+    },
+    {
+     "name": "Kimberlé Crenshaw",
+     "dates": "b. 1959",
+     "note": "Named intersectionality (1989) in analysing how overlapping categories compound disadvantage."
+    },
+    {
+     "name": "Judith Butler",
+     "dates": "b. 1956",
+     "note": "'Gender Trouble' (1990) — gender as performatively constituted."
+    }
+   ],
+   "arc": "Conventionally periodised in waves: suffrage and legal personhood; the 1960s–70s expansion into work, family, sexuality and reproduction; the 1990s turn to intersectionality and difference; and a contemporary phase shaped by digital organising. The periodisation is contested and flattens non-Western movements with their own chronologies.",
+   "criticisms": [
+    "Critics on the right argue some strands treat differences in outcome as proof of discrimination.",
+    "Critics within feminism argue mainstream currents have centred the concerns of affluent Western women.",
+    "Sharp internal disagreement over sex work, pornography and the definition of the category 'woman'.",
+    "Materialist critics argue legal equality without economic restructuring leaves most women's conditions unchanged."
+   ],
+   "related": [
+    "progressivism",
+    "new-left",
+    "liberalism",
+    "socialism"
+   ]
+  },
+  {
+   "id": "green-politics",
+   "name": "Green politics and ecologism",
+   "family": "left-leaning, though with conservative and deep-ecology variants",
+   "summary": "A politics organised around ecological limits, holding that economic and political institutions must be restructured to remain within what the biosphere can sustain.",
+   "tenets": [
+    "Ecological sustainability as a hard constraint rather than one goal among many",
+    "Intergenerational responsibility",
+    "Decentralisation and locality in many strands",
+    "Non-violence and grassroots democracy as founding Green party pillars",
+    "A division between 'shallow' reform environmentalism and 'deep' ecology that rejects human-centredness"
+   ],
+   "thinkers": [
+    {
+     "name": "Arne Næss",
+     "dates": "1912–2009",
+     "note": "Distinguished shallow from deep ecology (1973)."
+    },
+    {
+     "name": "Rachel Carson",
+     "dates": "1907–1964",
+     "note": "'Silent Spring' (1962) — the book that made ecological damage a mass political issue."
+    },
+    {
+     "name": "Murray Bookchin",
+     "dates": "1921–2006",
+     "note": "Social ecology: ecological crisis as a consequence of social hierarchy; later developed into communalism."
+    },
+    {
+     "name": "E. F. Schumacher",
+     "dates": "1911–1977",
+     "note": "'Small Is Beautiful' (1973)."
+    }
+   ],
+   "arc": "Grew from nineteenth-century conservation and the 1960s–70s environmental movement into organised Green parties — Die Grünen founded in 1980 — and then into the climate politics of the Earth Summit, Kyoto and Paris. Its 'four pillars' (ecology, social justice, grassroots democracy, non-violence) remain the common Green-party formulation.",
+   "criticisms": [
+    "Critics argue degrowth prescriptions fall hardest on the poorest countries.",
+    "Deep ecology's anti-humanism has been criticised from both left and right.",
+    "Green parties in government have repeatedly faced the charge of abandoning core positions.",
+    "Technologists argue decoupling and innovation can resolve limits that Greens treat as fixed."
+   ],
+   "related": [
+    "socialism",
+    "anarchism",
+    "progressivism",
+    "indigenous-sovereignty"
+   ]
+  },
+  {
+   "id": "syndicalism",
+   "name": "Syndicalism and anarcho-syndicalism",
+   "family": "left / anti-authoritarian labour",
+   "summary": "A labour-centred revolutionary strategy holding that unions, not parties, are the vehicle of change, and that the general strike can transfer the economy to the workers who run it.",
+   "tenets": [
+    "The union as both the instrument of struggle and the unit of the future economy",
+    "Direct action rather than parliamentary representation",
+    "The general strike as the decisive weapon",
+    "Workers' self-management of industry",
+    "Federation of workplace syndicates from below"
+   ],
+   "thinkers": [
+    {
+     "name": "Georges Sorel",
+     "dates": "1847–1922",
+     "note": "'Reflections on Violence' (1908) and the general strike as a mobilising myth."
+    },
+    {
+     "name": "Rudolf Rocker",
+     "dates": "1873–1958",
+     "note": "'Anarcho-Syndicalism' (1938)."
+    },
+    {
+     "name": "Big Bill Haywood",
+     "dates": "1869–1928",
+     "note": "A founder of the Industrial Workers of the World (1905)."
+    }
+   ],
+   "arc": "Dominant in French, Spanish and Italian labour before 1914, carried into the United States by the IWW, and most fully realised in the Spanish CNT's collectivisations during the Civil War (1936–39). It declined under the combined pressure of fascism, Soviet-aligned communism and post-war labour settlements.",
+   "criticisms": [
+    "Critics question whether a general strike can actually transfer state power rather than merely interrupt production.",
+    "Sorel's myth of violence was later drawn on by figures on the radical right.",
+    "Industry-based federation struggles with the coordination of a complex economy.",
+    "Its decline tracked the decline of mass industrial workplaces."
+   ],
+   "related": [
+    "anarchism",
+    "socialism",
+    "marxism-leninism"
+   ]
+  },
+  {
+   "id": "georgism",
+   "name": "Georgism",
+   "family": "heterodox — market economy with socialised land rent",
+   "summary": "The position that people should own what they create but that the value of land, which nobody created, belongs to the community — collected through a land value tax replacing other taxes.",
+   "tenets": [
+    "Land value arises from the community, not the owner",
+    "A land value tax captures that value without deterring production",
+    "Abolition or sharp reduction of taxes on labour and capital",
+    "Free trade",
+    "Private enterprise retained — this is not socialism of the means of production"
+   ],
+   "thinkers": [
+    {
+     "name": "Henry George",
+     "dates": "1839–1897",
+     "note": "'Progress and Poverty' (1879), among the best-selling books of its century."
+    },
+    {
+     "name": "Mason Gaffney",
+     "dates": "1923–2020",
+     "note": "Argued the marginalisation of land as a factor was itself partly ideological."
+    }
+   ],
+   "arc": "An enormous popular movement in the 1880s–90s United States, Britain and Australia; George narrowly lost the 1886 New York mayoral race. It left partial marks in Danish and Australian land taxation and in Pennsylvania's split-rate rating, and recurs in contemporary housing debate.",
+   "criticisms": [
+    "Assessing land value separately from improvements is administratively hard.",
+    "Single-tax revenue is unlikely to fund a modern state.",
+    "Transition imposes a one-off loss on current landowners, including ordinary homeowners.",
+    "Supporters note most economists accept the efficiency argument even while doubting the single-tax claim."
+   ],
+   "related": [
+    "liberalism",
+    "libertarianism",
+    "socialism"
+   ]
+  },
+  {
+   "id": "distributism",
+   "name": "Distributism",
+   "family": "heterodox right / Catholic social thought",
+   "summary": "A position that property should be as widely distributed as possible, rejecting both the concentration of capital and its concentration in the state.",
+   "tenets": [
+    "Widespread ownership of productive property",
+    "Subsidiarity — decisions at the smallest competent level",
+    "Preference for family enterprise, craft and cooperative forms",
+    "Hostility to monopoly and to large-scale centralisation of any kind",
+    "Rooted in Catholic social teaching, especially Rerum Novarum (1891)"
+   ],
+   "thinkers": [
+    {
+     "name": "G. K. Chesterton",
+     "dates": "1874–1936",
+     "note": "'The Outline of Sanity' (1926)."
+    },
+    {
+     "name": "Hilaire Belloc",
+     "dates": "1870–1953",
+     "note": "'The Servile State' (1912)."
+    },
+    {
+     "name": "Pope Leo XIII",
+     "dates": "1810–1903",
+     "note": "Rerum Novarum (1891), the founding encyclical of modern Catholic social thought."
+    }
+   ],
+   "arc": "Developed in early twentieth-century England as a self-consciously third position between capitalism and socialism. It influenced Catholic social movements, is cited as an inspiration for the Mondragon cooperatives, and recurs in contemporary localist and anti-monopoly argument.",
+   "criticisms": [
+    "Critics call it nostalgic for a pre-industrial economy that cannot be restored.",
+    "It has never been implemented at national scale.",
+    "Maintaining wide distribution against market concentration may require continuous state intervention, which sits awkwardly with its premises.",
+    "Its Catholic grounding limits its reach as a general political argument."
+   ],
+   "related": [
+    "conservatism",
+    "socialism",
+    "georgism",
+    "christian-democracy"
+   ]
+  },
+  {
+   "id": "christian-democracy",
+   "name": "Christian democracy",
+   "family": "centre / centre-right",
+   "summary": "A centrist tradition applying Christian social teaching to democratic politics: a market economy tempered by social protection, with the family and intermediate associations as the basic units of society.",
+   "tenets": [
+    "The social market economy — markets with a substantial welfare floor",
+    "Subsidiarity",
+    "Personalism: the human person as the ground of rights, against both collectivism and atomised individualism",
+    "Social partnership between employers and unions",
+    "Commitment to parliamentary democracy and, in Europe, to integration"
+   ],
+   "thinkers": [
+    {
+     "name": "Jacques Maritain",
+     "dates": "1882–1973",
+     "note": "Christian personalism; contributed to the drafting context of the Universal Declaration of Human Rights."
+    },
+    {
+     "name": "Konrad Adenauer",
+     "dates": "1876–1967",
+     "note": "First Chancellor of West Germany."
+    },
+    {
+     "name": "Alcide De Gasperi",
+     "dates": "1881–1954",
+     "note": "Italian Christian Democracy and European integration."
+    },
+    {
+     "name": "Wilhelm Röpke",
+     "dates": "1899–1966",
+     "note": "An intellectual architect of the social market economy."
+    }
+   ],
+   "arc": "Formed from Catholic political movements in the nineteenth century and dominant in post-war Western Europe, where it anchored reconstruction, the welfare settlement and European integration. It has lost ground since the 1990s to secularisation and to populist parties.",
+   "criticisms": [
+    "Secular critics object to grounding public policy in religious teaching.",
+    "In practice it has often functioned as pragmatic centrism without distinctive content.",
+    "It has been criticised for conservative positions on family and gender.",
+    "Its decline tracks the decline of church attendance that supplied its base."
+   ],
+   "related": [
+    "conservatism",
+    "liberalism",
+    "distributism",
+    "socialism"
+   ]
+  },
+  {
+   "id": "civic-republicanism",
+   "name": "Civic republicanism",
+   "family": "older tradition, cross-cutting in modern terms",
+   "summary": "A tradition defining freedom as non-domination — not merely the absence of interference, but the absence of arbitrary power over you — sustained by civic virtue, the rule of law and active participation.",
+   "tenets": [
+    "Liberty as non-domination rather than non-interference",
+    "Mixed constitution and the separation of powers",
+    "Civic virtue and participation as conditions of freedom",
+    "Corruption, understood as the decay of public spirit, as the central political danger",
+    "The rule of law binding rulers as well as ruled"
+   ],
+   "thinkers": [
+    {
+     "name": "Niccolò Machiavelli",
+     "dates": "1469–1527",
+     "note": "The 'Discourses on Livy' — the republican Machiavelli, as distinct from 'The Prince'."
+    },
+    {
+     "name": "James Harrington",
+     "dates": "1611–1677",
+     "note": "'Oceana' (1656): an empire of laws and not of men."
+    },
+    {
+     "name": "Montesquieu",
+     "dates": "1689–1755",
+     "note": "'The Spirit of the Laws' (1748)."
+    },
+    {
+     "name": "Philip Pettit",
+     "dates": "b. 1945",
+     "note": "'Republicanism' (1997), the modern restatement around non-domination."
+    }
+   ],
+   "arc": "Runs from the Roman republic through the Italian city-states and the English commonwealth to the American founding, was partly displaced by liberalism in the nineteenth century, and was revived as a distinct position by Pocock, Skinner and Pettit from the 1970s.",
+   "criticisms": [
+    "Historic republics combined civic liberty with slavery and the exclusion of women.",
+    "Its demand for participation may be unrealistic in large modern states.",
+    "Critics argue the distinction from liberalism is thinner than its advocates claim.",
+    "Appeals to civic virtue can shade into coercive conformity."
+   ],
+   "related": [
+    "liberalism",
+    "conservatism",
+    "progressivism"
+   ]
+  },
+  {
+   "id": "anarcho-capitalism",
+   "name": "Anarcho-capitalism",
+   "family": "liberty axis / market absolutist",
+   "summary": "The position that all functions of the state, including police, courts and defence, can and should be supplied by competing private firms on a free market.",
+   "tenets": [
+    "Self-ownership and absolute private property rights",
+    "The non-aggression principle",
+    "Private, competing provision of law, adjudication and protection",
+    "Taxation characterised as coercive extraction",
+    "Rejection of the state as such, not merely of large government"
+   ],
+   "thinkers": [
+    {
+     "name": "Murray Rothbard",
+     "dates": "1926–1995",
+     "note": "'For a New Liberty' (1973); 'The Ethics of Liberty' (1982)."
+    },
+    {
+     "name": "David Friedman",
+     "dates": "b. 1945",
+     "note": "'The Machinery of Freedom' (1973), arguing the case on consequentialist rather than natural-rights grounds."
+    },
+    {
+     "name": "Hans-Hermann Hoppe",
+     "dates": "b. 1949",
+     "note": "Argumentation ethics; a controversial figure within the tradition."
+    }
+   ],
+   "arc": "Emerged from the Austrian school and the American libertarian movement in the 1960s–70s, remained a minority position within libertarianism, and found new audiences through cryptocurrency and crypto-adjacent politics from the 2010s.",
+   "criticisms": [
+    "Competing protection agencies look to critics like warlordism rather than law.",
+    "Public goods and natural monopolies are difficult to supply through market provision alone.",
+    "It has never existed at scale; the medieval Icelandic and Irish cases cited are contested.",
+    "Left critics argue abolishing the state leaves private concentrations of power unchecked."
+   ],
+   "related": [
+    "libertarianism",
+    "anarchism",
+    "neoliberalism"
+   ]
+  },
+  {
+   "id": "monarchism",
+   "name": "Monarchism",
+   "family": "right / traditionalist",
+   "summary": "Support for monarchy as a form of government, ranging from ceremonial constitutional monarchy to the claim that hereditary sovereign rule is the best regime.",
+   "tenets": [
+    "Sovereignty vested in a single hereditary head of state",
+    "Continuity and legitimacy drawn from succession rather than election",
+    "In constitutional forms, a head of state standing above party politics",
+    "In absolutist forms, historically justified by divine right",
+    "Critique of electoral politics as short-termist"
+   ],
+   "thinkers": [
+    {
+     "name": "Robert Filmer",
+     "dates": "c. 1588–1653",
+     "note": "'Patriarcha' — the divine-right argument Locke wrote against."
+    },
+    {
+     "name": "Joseph de Maistre",
+     "dates": "1753–1821",
+     "note": "Counter-Enlightenment defence of throne and altar."
+    },
+    {
+     "name": "Walter Bagehot",
+     "dates": "1826–1877",
+     "note": "'The English Constitution' (1867): the dignified and efficient parts of the constitution."
+    },
+    {
+     "name": "Hans-Hermann Hoppe",
+     "dates": "b. 1949",
+     "note": "'Democracy: The God That Failed' (2001) — a libertarian argument that monarchy has lower time preference than democracy."
+    }
+   ],
+   "arc": "The dominant form of government for most of recorded history, broken as a general system by the American, French and Russian revolutions and the First World War. Constitutional monarchy persists in a number of stable democracies; absolute monarchy persists in a few states.",
+   "criticisms": [
+    "Hereditary office is incompatible with equal citizenship.",
+    "Competence is not inheritable.",
+    "Even ceremonial monarchy entrenches aristocracy and unaccountable wealth.",
+    "Defenders point to the stability and low politicisation of surviving constitutional monarchies."
+   ],
+   "related": [
+    "conservatism",
+    "civic-republicanism",
+    "nationalism"
+   ]
+  },
+  {
+   "id": "technocracy",
+   "name": "Technocracy",
+   "family": "cross-cutting / managerial",
+   "summary": "The position that political decisions should be made by those with relevant technical expertise, on the grounds that governing is largely a problem of applied knowledge.",
+   "tenets": [
+    "Rule by expertise rather than by popular mandate or party",
+    "Policy as an engineering and optimisation problem",
+    "Measurement, data and evidence as the basis of legitimacy",
+    "Scepticism toward the competence of mass electorates",
+    "Independent expert institutions insulated from electoral pressure"
+   ],
+   "thinkers": [
+    {
+     "name": "Henri de Saint-Simon",
+     "dates": "1760–1825",
+     "note": "Industrial society administered by scientists and producers."
+    },
+    {
+     "name": "Thorstein Veblen",
+     "dates": "1857–1929",
+     "note": "'The Engineers and the Price System' (1921)."
+    },
+    {
+     "name": "James Burnham",
+     "dates": "1905–1987",
+     "note": "'The Managerial Revolution' (1941)."
+    }
+   ],
+   "arc": "Rooted in Saint-Simon and positivism, organised briefly as a mass movement in Depression-era North America, and institutionalised after 1945 in central banks, regulatory agencies and supranational bodies. It recurred sharply in the eurozone crisis and again during the COVID-19 pandemic.",
+   "criticisms": [
+    "Expertise can establish what is the case but not what ought to be valued; the central questions are not technical.",
+    "Insulating decisions from electorates removes the means of correcting them.",
+    "Experts have their own interests and blind spots and have been badly wrong at scale.",
+    "Defenders argue some domains genuinely require insulation, central bank independence being the standard example."
+   ],
+   "related": [
+    "neoliberalism",
+    "progressivism",
+    "liberalism"
+   ]
+  },
+  {
+   "id": "islamism",
+   "name": "Islamism (political Islam)",
+   "family": "cross-cutting religious politics; spans electoral to militant",
+   "summary": "A family of modern movements holding that Islam provides principles for public and political life, not only private devotion. It spans parties contesting elections, social-service networks, revolutionary states and armed groups whose aims and methods differ sharply.",
+   "tenets": [
+    "Islam as a comprehensive system covering law, economy and governance",
+    "Sharia as a source of legislation — with wide disagreement on what that requires in practice",
+    "Opposition to colonial-era and secular-nationalist settlements",
+    "Across most of the field, emphasis on education, charity and social provision",
+    "Deep internal division between electoral participation, quietism and armed struggle"
+   ],
+   "thinkers": [
+    {
+     "name": "Hasan al-Banna",
+     "dates": "1906–1949",
+     "note": "Founded the Muslim Brotherhood in Egypt, 1928."
+    },
+    {
+     "name": "Sayyid Qutb",
+     "dates": "1906–1966",
+     "note": "'Milestones' (1964); his doctrine of jahiliyya was later drawn on by militant groups."
+    },
+    {
+     "name": "Abul A'la Maududi",
+     "dates": "1903–1979",
+     "note": "Founded Jamaat-e-Islami in 1941; the formulation of divine sovereignty."
+    },
+    {
+     "name": "Ruhollah Khomeini",
+     "dates": "1902–1989",
+     "note": "Velayat-e faqih — guardianship of the jurist — the doctrine of the Iranian republic."
+    }
+   ],
+   "arc": "Arose in the late colonial period as a response to European domination and the abolition of the caliphate in 1924. The 1979 Iranian revolution produced the first state founded on the doctrine. Later currents diverged widely — electoral parties in Turkey, Tunisia and Morocco; armed transnational movements; and quietist currents rejecting political action entirely. Treating these as one object is the commonest analytical error made about them.",
+   "criticisms": [
+    "Secular and liberal critics argue religiously grounded law is incompatible with equal citizenship for women and minorities.",
+    "Militant currents have carried out mass atrocities, which other Islamists condemn.",
+    "Scholars contest whether the diverse movements share enough to form a single category.",
+    "Muslim critics argue the political reading is itself a modern innovation rather than a recovery of tradition."
+   ],
+   "related": [
+    "nationalism",
+    "conservatism",
+    "populism"
+   ]
+  },
+  {
+   "id": "pan-africanism",
+   "name": "Pan-Africanism",
+   "family": "anti-colonial / liberation politics",
+   "summary": "The position that African peoples on the continent and in the diaspora share a common history and interest, and should organise together for liberation, dignity and, in its strongest form, political unity.",
+   "tenets": [
+    "Solidarity between continental Africans and the diaspora",
+    "Opposition to colonialism, racial subordination and neocolonial economic dependence",
+    "Continental unity as a long-term political goal",
+    "Reclamation of African history and scholarship against colonial accounts",
+    "Varies between cultural, economic and explicitly state-building strands"
+   ],
+   "thinkers": [
+    {
+     "name": "W. E. B. Du Bois",
+     "dates": "1868–1963",
+     "note": "Organised the Pan-African Congresses; 'The Souls of Black Folk' (1903)."
+    },
+    {
+     "name": "Marcus Garvey",
+     "dates": "1887–1940",
+     "note": "UNIA, founded 1914; mass organisation, self-reliance and return."
+    },
+    {
+     "name": "Kwame Nkrumah",
+     "dates": "1909–1972",
+     "note": "First president of Ghana; 'Neo-Colonialism' (1965) and continental union government."
+    },
+    {
+     "name": "Frantz Fanon",
+     "dates": "1925–1961",
+     "note": "'The Wretched of the Earth' (1961) — colonialism's psychology and the politics of decolonisation."
+    },
+    {
+     "name": "Cheikh Anta Diop",
+     "dates": "1923–1986",
+     "note": "Argued for ancient Egypt's place in African history and for a unified African cultural account."
+    }
+   ],
+   "arc": "Formed in the late nineteenth-century diaspora, organised through the Pan-African Congresses from 1900, and supplied much of the intellectual framework for African independence after 1945. Institutionalised in the Organisation of African Unity (1963) and its successor the African Union (2002), while remaining a live current in diaspora politics.",
+   "criticisms": [
+    "Continental political union has repeatedly failed against the entrenched interests of post-colonial states.",
+    "Critics argue it flattens enormous linguistic, religious and national diversity.",
+    "Some historical claims, particularly in the Diop tradition, are contested by other scholars.",
+    "Defenders reply that the economic case for African integration has strengthened rather than weakened."
+   ],
+   "related": [
+    "nationalism",
+    "black-nationalism",
+    "socialism",
+    "indigenous-sovereignty"
+   ]
+  },
+  {
+   "id": "black-nationalism",
+   "name": "Black nationalism",
+   "family": "liberation politics / nationalist",
+   "summary": "The position that Black people constitute a distinct nation or people entitled to self-determination, with emphasis on institutional self-reliance, cultural autonomy and political independence from white-dominated institutions.",
+   "tenets": [
+    "Self-determination for Black people as a people",
+    "Economic self-reliance and ownership of community institutions",
+    "Cultural reclamation and self-definition",
+    "Community control of policing, schooling and local institutions",
+    "Division between separatist, territorial and institution-building strands"
+   ],
+   "thinkers": [
+    {
+     "name": "Martin Delany",
+     "dates": "1812–1885",
+     "note": "An early formulation of Black nationhood and emigration."
+    },
+    {
+     "name": "Marcus Garvey",
+     "dates": "1887–1940",
+     "note": "Mass organisation, the Black Star Line, and racial self-reliance."
+    },
+    {
+     "name": "Malcolm X",
+     "dates": "1925–1965",
+     "note": "Self-defence, self-determination, and after 1964 a broader internationalist frame."
+    },
+    {
+     "name": "Huey P. Newton",
+     "dates": "1942–1989",
+     "note": "Black Panther Party; community survival programmes; later 'intercommunalism'."
+    }
+   ],
+   "arc": "Running from nineteenth-century emigrationism through Garvey's mass movement of the 1920s, the Nation of Islam, and the Black Power period of the late 1960s, it has shaped community institution-building and cultural politics well beyond the organisations that carried its name.",
+   "criticisms": [
+    "Integrationist critics argue separation concedes the segregationist premise.",
+    "Class critics argue Black capitalism leaves most Black workers where they were.",
+    "Some organisational expressions have been criticised for authoritarianism and for antisemitism.",
+    "Defenders point to the durable institutions, schools and survival programmes it produced."
+   ],
+   "related": [
+    "pan-africanism",
+    "nationalism",
+    "new-left",
+    "socialism"
+   ]
+  },
+  {
+   "id": "zionism",
+   "name": "Zionism",
+   "family": "nationalist (with liberal, labour, revisionist and religious strands)",
+   "summary": "The movement for Jewish national self-determination in the land of Israel. It is one of the most contested subjects in modern politics; what follows states the movement's own account and the major criticisms made of it, without adjudicating between them.",
+   "tenets": [
+    "Jews constitute a people entitled to national self-determination",
+    "A sovereign Jewish state as the guarantee of safety after persecution and the Holocaust",
+    "Ingathering of exiles and revival of Hebrew as a spoken language",
+    "Sharply divergent strands: labour, revisionist, cultural, religious and binational"
+   ],
+   "thinkers": [
+    {
+     "name": "Theodor Herzl",
+     "dates": "1860–1904",
+     "note": "'Der Judenstaat' (1896); convened the First Zionist Congress at Basel, 1897."
+    },
+    {
+     "name": "Ahad Ha'am",
+     "dates": "1856–1927",
+     "note": "Cultural Zionism — a spiritual centre rather than primarily a state."
+    },
+    {
+     "name": "Ze'ev Jabotinsky",
+     "dates": "1880–1940",
+     "note": "Revisionist Zionism; 'The Iron Wall' (1923)."
+    },
+    {
+     "name": "Martin Buber",
+     "dates": "1878–1965",
+     "note": "Advocated a binational arrangement with the Arab population."
+    }
+   ],
+   "arc": "Organised politically from 1897 against a background of European antisemitism, advanced by the Balfour Declaration (1917) and the British Mandate, and realised in the establishment of Israel in 1948 — the same events Palestinians term the Nakba. It has remained inseparable from the Israeli–Palestinian conflict since.",
+   "criticisms": [
+    "Palestinian and anti-Zionist critics characterise it as a settler-colonial movement that displaced an existing population; the 1948 displacement is the central charge.",
+    "Some religious Jewish currents, Haredi and others, opposed it as a human pre-emption of divine redemption.",
+    "Universalist critics argue any ethnically defined state cannot deliver equal citizenship.",
+    "Its defenders argue it is the national liberation movement of a people subjected to centuries of persecution, and that singling it out among nationalisms requires justification."
+   ],
+   "related": [
+    "nationalism",
+    "self-determination-movements",
+    "islamism"
+   ]
+  },
+  {
+   "id": "indigenous-sovereignty",
+   "name": "Indigenous political thought and sovereignty",
+   "family": "self-determination / anti-colonial",
+   "summary": "Traditions holding that Indigenous peoples are nations with prior and continuing sovereignty, whose political authority was never lawfully extinguished by settler states.",
+   "tenets": [
+    "Inherent sovereignty predating and surviving colonisation",
+    "Treaties as binding international agreements rather than domestic concessions",
+    "Land as relationship and responsibility, not merely property",
+    "Governance rooted in specific legal orders — Haudenosaunee, Anishinaabe, Māori and many others, each distinct",
+    "Resurgence: rebuilding Indigenous institutions rather than seeking recognition from the settler state"
+   ],
+   "thinkers": [
+    {
+     "name": "Vine Deloria Jr.",
+     "dates": "1933–2005",
+     "note": "'Custer Died for Your Sins' (1969); 'God Is Red' (1973)."
+    },
+    {
+     "name": "Taiaiake Alfred",
+     "dates": "b. 1964",
+     "note": "'Peace, Power, Righteousness' (1999) — an Indigenous manifesto grounded in Kanien'kehá:ka thought."
+    },
+    {
+     "name": "Glen Coulthard",
+     "dates": "b. 1974",
+     "note": "'Red Skin, White Masks' (2014) — against the politics of recognition."
+    },
+    {
+     "name": "Moana Jackson",
+     "dates": "1945–2022",
+     "note": "Māori constitutional thought and legal scholarship."
+    }
+   ],
+   "arc": "Rooted in pre-colonial legal orders and carried through treaty relations, it re-entered settler-state politics through the activism of the 1960s–70s, the long negotiation of the UN Declaration on the Rights of Indigenous Peoples (adopted 2007), and land-back and resurgence movements since.",
+   "criticisms": [
+    "Settler-state critics argue overlapping sovereignties are legally unworkable.",
+    "Practical disputes over membership, jurisdiction and resource rights are genuinely difficult.",
+    "Internal critics divide over whether engaging state recognition processes strengthens or co-opts the claim.",
+    "Defenders reply that the treaties are binding instruments and the burden lies with the states that broke them."
+   ],
+   "related": [
+    "nationalism",
+    "pan-africanism",
+    "green-politics",
+    "self-determination-movements"
+   ]
+  },
+  {
+   "id": "confucian-legalist",
+   "name": "Confucianism and Legalism",
+   "family": "classical Chinese political thought",
+   "summary": "Two opposed classical Chinese accounts of order: Confucian rule through ritual, virtue and the cultivated example of superiors, and Legalist rule through codified law, systematic reward and punishment, and administrative technique.",
+   "tenets": [
+    "Confucian: government by virtue; the ruler as moral exemplar",
+    "Confucian: ritual propriety (li) and reciprocal obligation in the five relationships",
+    "Confucian: the Mandate of Heaven — legitimacy forfeited by misrule, which licenses its withdrawal",
+    "Legalist: human nature as self-interested; order from clear law and certain enforcement, not virtue",
+    "Legalist: administrative method (shu) and positional power (shi), with no exemption for rank"
+   ],
+   "thinkers": [
+    {
+     "name": "Confucius",
+     "dates": "551–479 BCE",
+     "note": "The Analects."
+    },
+    {
+     "name": "Mencius",
+     "dates": "372–289 BCE",
+     "note": "Human nature as good; the people as the most important element of the state."
+    },
+    {
+     "name": "Xunzi",
+     "dates": "c. 310–235 BCE",
+     "note": "Human nature as bad and corrected by ritual and learning; taught two major Legalists."
+    },
+    {
+     "name": "Han Feizi",
+     "dates": "c. 280–233 BCE",
+     "note": "The synthesis of Legalist doctrine."
+    },
+    {
+     "name": "Shang Yang",
+     "dates": "d. 338 BCE",
+     "note": "The Qin reforms that built the state which unified China."
+    }
+   ],
+   "arc": "Both crystallised in the Warring States period. Legalism supplied the machinery of the Qin unification in 221 BCE and was discredited by its collapse; Confucianism became state orthodoxy under the Han and shaped East Asian governance for two millennia through the examination system. Imperial practice was generally a blend of the two, and both are live again in contemporary Chinese political argument.",
+   "criticisms": [
+    "Confucianism has been criticised for entrenching hierarchy, patriarchy and deference.",
+    "Legalism is criticised for treating people purely as instruments of state power.",
+    "Both were formulated for an imperial order, raising the question of their fit with democratic politics.",
+    "Defenders of political Confucianism argue meritocratic and relational traditions address real defects in liberal theory."
+   ],
+   "related": [
+    "conservatism",
+    "technocracy",
+    "monarchism",
+    "arthashastra"
+   ]
+  },
+  {
+   "id": "arthashastra",
+   "name": "Classical Indian statecraft — Arthaśāstra and Dharmaśāstra",
+   "family": "classical South Asian political thought",
+   "summary": "The classical Indian literature on rule: the Arthaśāstra's systematic and frankly pragmatic science of statecraft, set against the Dharmaśāstra tradition in which the king is bound by dharma and is not its author.",
+   "tenets": [
+    "The king bound by dharma rather than above it; sovereignty as a trust",
+    "Danda — the rod of punishment — as what sustains social order",
+    "Saptanga: the seven limbs of the state (king, ministers, territory, fort, treasury, army, allies)",
+    "Mandala theory: the circle of states, in which the neighbour is the rival and the neighbour's neighbour the natural ally",
+    "Matsya-nyaya, the law of the fish — without governance the strong devour the weak"
+   ],
+   "thinkers": [
+    {
+     "name": "Kautilya (Chanakya)",
+     "dates": "c. 4th c. BCE, text compiled to c. 2nd c. CE",
+     "note": "The Arthaśāstra: administration, taxation, espionage, diplomacy and war, set out as a technical science."
+    },
+    {
+     "name": "Manu",
+     "dates": "text c. 2nd c. BCE–3rd c. CE",
+     "note": "Manusmṛti — the most cited and most criticised of the dharma texts."
+    },
+    {
+     "name": "Bhishma",
+     "dates": "epic",
+     "note": "The Shanti Parva of the Mahabharata — the duties of the king as didactic literature."
+    },
+    {
+     "name": "B. R. Ambedkar",
+     "dates": "1891–1956",
+     "note": "The principal modern critic of the varna order the dharma texts encode, and chief architect of India's constitution."
+    }
+   ],
+   "arc": "Composed across the classical period and recovered to modern scholarship when the Arthaśāstra manuscript was published in 1909. It shaped the political vocabulary of the subcontinent for centuries and now sits in contested relation to modern Indian politics — invoked for a realist strategic tradition, and criticised for the social hierarchy the dharma literature records.",
+   "criticisms": [
+    "The dharma texts encode caste and gender hierarchy; Ambedkar's critique is the central modern response.",
+    "The Arthaśāstra's treatment of espionage, assassination and manipulation is amoral by design.",
+    "Scholars dispute the date, authorship and whether the Arthaśāstra describes practice or prescribes an ideal.",
+    "Defenders note its account of famine relief, welfare and administrative duty is unusually developed for its period."
+   ],
+   "related": [
+    "confucian-legalist",
+    "monarchism",
+    "nationalism",
+    "civic-republicanism"
+   ]
+  }
+ ],
+ "selfDetermination": {
+  "id": "self-determination",
+  "summary": "The principle that a 'people' has the right to freely determine its political status and freely pursue its economic, social, and cultural development. It runs through political theory and international law, and is claimed at national, indigenous, and individual scales.",
+  "dimensions": [
+   {
+    "name": "National / collective",
+    "note": "The claim of a nation or people to govern itself — the basis of the nation-state ideal and of anti-colonial independence movements."
+   },
+   {
+    "name": "Indigenous",
+    "note": "The claim of indigenous peoples to self-government, land, and cultural survival within or across existing states — recognized in the UN Declaration on the Rights of Indigenous Peoples (UNDRIP, 2007)."
+   },
+   {
+    "name": "Individual",
+    "note": "In political theory, personal self-determination / autonomy: the capacity of a person to author their own life. It grounds much of liberal rights theory and connects the concept back to individual liberty."
+   }
   ],
-
-  "maxims": [
-    { "term": "Man is born free, and everywhere he is in chains", "attribution": "Jean-Jacques Rousseau, The Social Contract (1762)", "gloss": "Opening line framing the problem of legitimate authority: how can the freedom people are born with be reconciled with the constraints society imposes?" },
-    { "term": "Property is theft!", "attribution": "Pierre-Joseph Proudhon, What Is Property? (1840)", "gloss": "A provocation, not a call to abolish all possession: Proudhon attacked property-as-domination (rent, interest, exploitation of others' labor), while defending personal possession." },
-    { "term": "The philosophers have only interpreted the world, in various ways; the point is to change it", "attribution": "Karl Marx, Theses on Feuerbach (1845; pub. 1888)", "gloss": "The rallying line of praxis: theory is judged by whether it transforms conditions, not merely explains them." },
-    { "term": "From each according to his ability, to each according to his needs", "attribution": "Popularized by Karl Marx, Critique of the Gotha Programme (1875); phrase used earlier by Louis Blanc", "gloss": "A distributive ideal of higher-stage communism: contribution by capacity, distribution by need." },
-    { "term": "That government is best which governs least", "attribution": "Motto quoted by Henry David Thoreau, 'Civil Disobedience' (1849)", "gloss": "A touchstone of limited-government and libertarian thought (Thoreau attributes it as a saying, then pushes it further)." },
-    { "term": "The personal is political", "attribution": "Second-wave feminism; associated with Carol Hanisch's 1969 essay (title added by editors)", "gloss": "Private-seeming matters (housework, sexuality, family) reflect and reproduce public power relations, and are therefore political." },
-    { "term": "War is the continuation of politics by other means", "attribution": "Carl von Clausewitz, On War (1832, posthumous)", "gloss": "War is not a breakdown of policy but an instrument of it — an extension of political aims by force." },
-    { "term": "The end justifies the means", "attribution": "A summary often (loosely) attributed to Machiavelli's The Prince (1532)", "gloss": "The consequentialist claim that outcomes can validate the methods used — frequently invoked in, and criticized within, political ethics; Machiavelli's actual text is subtler." },
-    { "term": "Liberté, égalité, fraternité", "attribution": "Motto of the French Revolution / French Republic", "gloss": "'Liberty, equality, fraternity' — three ideals whose tensions (liberty vs. equality especially) organize much of modern political debate." },
-    { "term": "Who says organization, says oligarchy", "attribution": "Robert Michels, 'iron law of oligarchy', Political Parties (1911)", "gloss": "Michels argued that even democratic organizations tend to develop a ruling few — a standing challenge to theories of mass democracy." },
-    { "term": "The tyranny of the majority", "attribution": "Alexis de Tocqueville, Democracy in America (1835/1840); developed by J. S. Mill", "gloss": "Democracy can oppress minorities and dissenters through sheer numbers and social conformity, not only through government — hence constitutional limits on majority power." }
-  ]
+  "theory": "Self-determination joins two old ideas — popular sovereignty (legitimate authority flows from the governed) and nationalism (a 'people' or nation as the natural unit of self-rule). A recurring hard problem is defining the 'self': who counts as the 'people' with the right, and how that maps onto existing borders. International law manages this by distinguishing 'internal' self-determination (a people's right to govern itself within a state) from 'external' self-determination (secession or independence), which law permits only narrowly.",
+  "internationalLaw": [
+   {
+    "instrument": "Wilson's Fourteen Points",
+    "year": "1918",
+    "note": "Woodrow Wilson popularized national self-determination in the WWI settlement; it shaped the interwar order though it was applied selectively."
+   },
+   {
+    "instrument": "UN Charter, Article 1(2)",
+    "year": "1945",
+    "note": "Names 'respect for the principle of equal rights and self-determination of peoples' as a purpose of the United Nations."
+   },
+   {
+    "instrument": "UNGA Resolution 1514 — Declaration on the Granting of Independence to Colonial Countries and Peoples",
+    "year": "1960",
+    "note": "Adopted 14 Dec 1960; the political-legal foundation of UN decolonization policy."
+   },
+   {
+    "instrument": "Common Article 1, ICCPR & ICESCR",
+    "year": "1966",
+    "note": "Both binding human-rights covenants open with: 'All peoples have the right of self-determination.' As binding treaties (ICCPR 175 parties, ICESCR 173 as of Dec 2025) this made it one of the most widely accepted rights in international law."
+   },
+   {
+    "instrument": "UNGA Resolution 2625 — Friendly Relations Declaration",
+    "year": "1970",
+    "note": "Elaborated self-determination while affirming the territorial integrity of states — the tension the doctrine has to manage."
+   },
+   {
+    "instrument": "UN Declaration on the Rights of Indigenous Peoples (UNDRIP)",
+    "year": "2007",
+    "note": "Affirms indigenous peoples' right of self-determination, understood primarily as self-government (internal), not a general right to secede."
+   }
+  ],
+  "tensions": [
+   "Self-determination vs. territorial integrity: international law protects existing borders, so it favors 'internal' self-determination and permits secession only narrowly (chiefly the colonial 'salt-water' context and extreme oppression).",
+   "Defining the 'self': competing groups may each claim to be the 'people' with the right, with no neutral way to draw the line.",
+   "Selective application: powerful states have invoked or denied the principle inconsistently, from the interwar period to the present."
+  ],
+  "crossref": "See the future World Law surface for the treaty framework, and the movements below for self-determination and autonomy claims in practice."
+ },
+ "movements": [
+  {
+   "id": "black-panther-party",
+   "name": "The Black Panther Party",
+   "kind": "political organization / social movement",
+   "period": "1966–1982 (founded Oct 1966, Oakland, CA)",
+   "summary": "A Black revolutionary organization founded in Oakland, California, in October 1966 by Huey P. Newton and Bobby Seale (originally the Black Panther Party for Self-Defense). It combined armed self-defense against police brutality, a socialist political program, and extensive community 'survival programs.' Presented here as factual history.",
+   "keyFacts": [
+    "Founded October 1966 in Oakland by Huey P. Newton and Bobby Seale.",
+    "Its Ten-Point Program (15 Oct 1966), 'What We Want / What We Believe', demanded freedom, full employment, decent housing, education, an end to police brutality, and self-determination for the Black community — the cofounders described it as a 'combination of a Bill of Rights and a Declaration of Independence.'",
+    "Practiced armed 'copwatching' (open-carry patrols monitoring police), then legal in California.",
+    "Ran more than 60 community 'survival programs' (renamed 'Survival Programs' in 1971, under the slogan 'survival pending revolution')."
+   ],
+   "tenPointProgramNote": "The Ten-Point Program had two columns — 'What We Want Now!' (ten demands) and 'What We Believe' (the reasoning). Point 10 summed up the aim: 'land, bread, housing, education, clothing, justice, peace, and ... community control of modern technology' and self-determination.",
+   "survivalPrograms": [
+    {
+     "name": "Free Breakfast for Children",
+     "note": "Began January 1969 at St. Augustine's Episcopal Church in West Oakland; grew to feed thousands of children daily and is widely cited as a model that influenced federal school-breakfast programs."
+    },
+    {
+     "name": "People's Free Medical Clinics",
+     "note": "Free health clinics, including sickle-cell anemia testing and screening."
+    },
+    {
+     "name": "Liberation schools, free clothing, and other programs",
+     "note": "Among 60+ community programs providing food, education, transport to prisons, and legal aid."
+    }
+   ],
+   "cointelpro": "The FBI's Counterintelligence Program (COINTELPRO, 1956–1971) targeted the Party. Director J. Edgar Hoover called it 'the greatest threat to the internal security of the country.' Documented tactics included infiltration by informants, forged letters to provoke splits, surveillance, and coordination with police; the 1969 police killing of Chicago Panther Fred Hampton is among the most cited episodes. The Party declined through the 1970s amid this pressure, internal splits, and legal cases, and dissolved by 1982.",
+   "criticisms": [
+    "Critics and some former members cite internal authoritarianism, violence, and criminal conduct by some leaders.",
+    "Contemporary opponents and the FBI framed the armed posture as a public-safety threat.",
+    "Historians debate how much of the violence associated with the Party was provoked or manufactured by COINTELPRO informants vs. originating within it."
+   ],
+   "sources": "BlackPast.org; Britannica; Smithsonian NMAAHC; Wikipedia (Ten-Point Program; Free Breakfast for Children; COINTELPRO)."
+  },
+  {
+   "id": "punk-subculture",
+   "name": "Punk subculture",
+   "kind": "youth subculture / music movement",
+   "period": "mid-1970s onward",
+   "summary": "A youth subculture born in the mid-1970s around a raw, stripped-down rock sound and a do-it-yourself (DIY) ethic. It spans music, fashion, art, and politics, and is broadly characterized by anti-establishment views, individual freedom, and DIY self-production.",
+   "keyFacts": [
+    "Foundational bands emerged in New York City (the Ramones, whose self-titled debut album appeared in 1976) and London (the Sex Pistols, formed 1975).",
+    "The DIY ethic — make your own records, zines, shows, and clothes — is central and distinguishes it from mainstream commercial music.",
+    "Politically diverse: strands run from left/anarchist (much of hardcore and anarcho-punk) to explicitly apolitical to, in a small minority, far-right — which is why the skinhead split below matters."
+   ],
+   "criticisms": [
+    "Critics dismissed early punk as musically crude or nihilistic.",
+    "Commercialization ('selling out') is a recurring internal tension.",
+    "The subculture has repeatedly had to contend with a small far-right fringe attempting to claim it."
+   ],
+   "sources": "Wikipedia (Punk subculture; Sex Pistols; Ramones); EBSCO Research Starters."
+  },
+  {
+   "id": "skinhead-subculture",
+   "name": "Skinhead subculture & the SHARP / racist split",
+   "kind": "youth subculture",
+   "period": "late 1960s onward",
+   "summary": "A working-class youth subculture that began in late-1960s Britain as a multicultural, largely apolitical scene, was partly co-opted by racist factions in the late 1970s–1980s, and was then contested by explicitly anti-racist skinheads. Getting this split right and neutral matters: 'skinhead' is not a synonym for 'racist,' and the movement itself is divided on the point.",
+   "origins": "The skinhead subculture developed in the late 1960s in the United Kingdom as a working-class youth movement drawing on British mod culture and Jamaican rude-boy culture, with a strong affinity for ska, rocksteady, reggae, and soul. 'Trojan skinheads' (named for Trojan Records) refers to skinheads who identify with this original, music-centered, multicultural scene.",
+   "theSplit": [
+    {
+     "faction": "Traditional / 'Trojan' skinheads",
+     "note": "Identify with the original late-1960s scene: working-class style and Jamaican-influenced music, without racial politics."
+    },
+    {
+     "faction": "Racist / white-power skinheads",
+     "note": "In the late 1970s–1980s some skinheads were recruited by far-right groups (e.g., in Britain the National Front) and a white-power music scene ('Rock Against Communism'); this faction is a co-optation of, not the origin of, the subculture."
+    },
+    {
+     "faction": "SHARP — Skinheads Against Racial Prejudice",
+     "note": "Founded in New York City in 1987 (some sources say 1986) by Marcus Pacheco, to reclaim the subculture's original multicultural, non-racist identity and to publicly separate skinhead style from white-power politics. Related anti-racist currents include Anti-Racist Action (ARA)."
+    }
+   ],
+   "neutralityNote": "This entry describes the factions as they define themselves and as documented by historians; it does not endorse any of them. The load-bearing factual point is that the subculture originated as multicultural and music-centered, that a racist faction later co-opted the style, and that SHARP and similar groups formed specifically to contest that co-optation.",
+   "criticisms": [
+    "Public perception often conflates 'skinhead' with racism, which traditional and SHARP skinheads reject as historically inaccurate.",
+    "Sources disagree on some details (e.g., SHARP's exact founding year, 1986 vs. 1987)."
+   ],
+   "sources": "Wikipedia (Skinheads Against Racial Prejudice; skinhead subculture); ScholarWorks (CSU) thesis on anti-racist skinheads; interview archives on Anti-Racist Action."
+  },
+  {
+   "id": "self-determination-movements",
+   "name": "Self-determination & autonomy movements",
+   "kind": "family of movements",
+   "period": "19th c. onward",
+   "summary": "Movements that seek collective self-government — ranging from full independence (secession/decolonization) to autonomy within an existing state. They are the practical face of the self-determination principle above.",
+   "forms": [
+    {
+     "form": "Decolonization / independence",
+     "note": "20th-c. anti-colonial movements across Africa, Asia, and the Caribbean that invoked self-determination to achieve statehood; the paradigm case the UN framework was built for."
+    },
+    {
+     "form": "Indigenous self-government",
+     "note": "Movements for indigenous sovereignty, land rights, and cultural survival, often seeking autonomy and treaty enforcement within existing states rather than secession (framework: UNDRIP, 2007)."
+    },
+    {
+     "form": "Regional autonomy / self-rule",
+     "note": "Movements seeking devolved or autonomous self-government (e.g., linguistic or regional autonomy) short of independence."
+    }
+   ],
+   "note": "These movements connect directly to the self-determination section above and to the future World Law surface: whether a given claim is recognized as lawful self-determination or resisted as unlawful secession is exactly the 'internal vs. external' tension in international law.",
+   "criticisms": [
+    "States often resist such claims as threats to territorial integrity.",
+    "Defining the 'people' who hold the right is contested and can itself spark conflict.",
+    "Outcomes have been uneven, reflecting geopolitics as much as principle."
+   ],
+   "sources": "See self-determination international-law citations above."
+  },
+  {
+   "id": "civil-rights-movement",
+   "name": "The American Civil Rights Movement",
+   "kind": "mass civil-rights movement",
+   "period": "c. 1954–1968 (with long antecedents)",
+   "summary": "A mass movement to dismantle legal racial segregation and secure voting rights in the United States, built on litigation, disciplined non-violent direct action, mass mobilisation and federal legislative pressure.",
+   "keyFacts": [
+    "Brown v. Board of Education (1954) held segregated public schooling unconstitutional, overturning Plessy v. Ferguson (1896).",
+    "The Montgomery bus boycott ran from December 1955 for 381 days after Rosa Parks's arrest.",
+    "The Southern Christian Leadership Conference was founded in 1957; the Student Nonviolent Coordinating Committee in 1960 after the Greensboro sit-ins.",
+    "The March on Washington for Jobs and Freedom drew some 250,000 people in August 1963.",
+    "The Civil Rights Act (1964) and the Voting Rights Act (1965) were the central legislative achievements; the 1965 Selma to Montgomery marches preceded the latter.",
+    "Non-violent discipline was a strategic doctrine, trained for explicitly, drawing on Gandhian satyagraha."
+   ],
+   "criticisms": [
+    "Critics within the movement, including Malcolm X and later SNCC, argued non-violence relied on the goodwill of the oppressor and left self-defence unaddressed.",
+    "The legislative victories addressed legal segregation but not the economic conditions King turned to in the Poor People's Campaign.",
+    "Women did the organising and were largely excluded from the platform — Pauli Murray and Dorothy Height both said so at the time.",
+    "The FBI's COINTELPRO surveilled and attempted to discredit movement leaders."
+   ],
+   "sources": "Library of Congress; National Archives; Britannica; King Institute at Stanford."
+  },
+  {
+   "id": "yippies",
+   "name": "The Yippies and the politics of the prank",
+   "kind": "countercultural political movement",
+   "period": "1967–1970s",
+   "summary": "The Youth International Party, founded on New Year's Eve 1967, fused the counterculture with anti-war politics and made the theatrical prank its primary political instrument — treating mass media attention as the resource to be captured.",
+   "keyFacts": [
+    "Founders included Abbie Hoffman, Jerry Rubin, Paul Krassner and Nancy Kurshan; Krassner is credited with the name.",
+    "In August 1967 Hoffman and others threw dollar bills onto the floor of the New York Stock Exchange, halting trading and producing the intended images.",
+    "At the October 1967 March on the Pentagon they announced they would levitate the building and exorcise it — the stunt the operator has written about on @vankushfamily.",
+    "At the 1968 Democratic National Convention in Chicago they nominated a pig, Pigasus, for president; the police response became the subject of the Walker Report, which called it a police riot.",
+    "The Chicago Seven conspiracy trial (1969–70) was turned by the defendants into political theatre; the convictions were overturned on appeal in 1972.",
+    "Hoffman's 'Steal This Book' (1971) was a practical manual, and was widely stolen."
+   ],
+   "criticisms": [
+    "Critics on the organised left argued spectacle substituted for building durable political power.",
+    "The press coverage it courted frequently reduced the politics to the prank.",
+    "Participants later divided sharply, Rubin moving into business and Hoffman remaining an activist.",
+    "Defenders argue it understood the media environment decades ahead of its critics."
+   ],
+   "sources": "Walker Report (1968); Britannica; Smithsonian; Hoffman, 'Revolution for the Hell of It' (1968)."
+  },
+  {
+   "id": "iww-labour",
+   "name": "The IWW and the industrial union movement",
+   "kind": "labour movement",
+   "period": "1905 onward",
+   "summary": "The Industrial Workers of the World — the Wobblies — organised all workers in an industry into one union regardless of craft, race, sex or nationality, at a time when the dominant American unions did the opposite.",
+   "keyFacts": [
+    "Founded in Chicago in 1905; the preamble opens 'The working class and the employing class have nothing in common.'",
+    "It organised migrant, unskilled, Black and immigrant workers that the American Federation of Labor largely excluded.",
+    "The Lawrence textile strike of 1912 — the 'Bread and Roses' strike — involved some 20,000 workers and won wage increases.",
+    "Its free-speech fights deliberately filled municipal jails to overwhelm ordinances against street speaking.",
+    "Membership was crushed by the 1917 Espionage Act prosecutions, the 1920 Palmer Raids and the first Red Scare.",
+    "Joe Hill, executed in 1915, became its most durable symbol; its songbook was a genuine organising tool."
+   ],
+   "criticisms": [
+    "Its rejection of long-term contracts and political parties limited the durability of its gains.",
+    "Internal splits over political action and sabotage weakened it early.",
+    "Critics argue its revolutionary aims invited state repression that more pragmatic unions avoided.",
+    "Defenders note it organised the workers everyone else had written off, and set precedents later unions used."
+   ],
+   "sources": "IWW founding preamble (1905); Library of Congress; Britannica."
+  },
+  {
+   "id": "suffrage-movement",
+   "name": "The women's suffrage movement",
+   "kind": "civil-rights movement",
+   "period": "c. 1848–1928 (varying by country)",
+   "summary": "The campaign for women's right to vote, pursued through petition, litigation, mass demonstration and, in Britain, militant direct action.",
+   "keyFacts": [
+    "The Seneca Falls Convention of 1848 produced the Declaration of Sentiments.",
+    "New Zealand granted women the parliamentary vote in 1893, the first self-governing country to do so.",
+    "The British movement split between the constitutional NUWSS and the militant WSPU, founded 1903.",
+    "Imprisoned British suffragettes hunger-struck and were force-fed; the 1913 Cat and Mouse Act allowed temporary release and re-arrest.",
+    "Emily Wilding Davison died after stepping in front of the King's horse at the 1913 Derby.",
+    "The Nineteenth Amendment was ratified in the United States in 1920; British women achieved equal franchise in 1928."
+   ],
+   "criticisms": [
+    "The mainstream American movement made explicit accommodations with racial segregation, and Black suffragists were marginalised within it.",
+    "Many Black and Indigenous women remained effectively disenfranchised long after 1920, until the Voting Rights Act of 1965.",
+    "Militancy's effectiveness is disputed by historians, some arguing it hardened opposition.",
+    "Early campaigns in several countries sought the vote on property qualifications rather than universally."
+   ],
+   "sources": "Declaration of Sentiments (1848); UK Parliament archives; Library of Congress; Britannica."
+  },
+  {
+   "id": "anti-apartheid",
+   "name": "The anti-apartheid movement",
+   "kind": "anti-colonial / civil-rights movement",
+   "period": "1948–1994",
+   "summary": "The domestic and international campaign against South Africa's system of legislated racial separation, combining mass defiance, armed struggle, labour action and a global sanctions and boycott campaign.",
+   "keyFacts": [
+    "Apartheid was enacted as law from 1948 by the National Party; the Population Registration and Group Areas Acts of 1950 were foundational.",
+    "The Defiance Campaign of 1952 was deliberate mass non-compliance; the Congress of the People adopted the Freedom Charter in 1955.",
+    "The Sharpeville massacre of 21 March 1960 — 69 killed — was followed by the banning of the ANC and PAC and the turn to armed struggle via Umkhonto we Sizwe.",
+    "Mandela was imprisoned from 1962 to 1990; the Rivonia Trial speech is the movement's best-known text.",
+    "The Soweto uprising of 16 June 1976 began over Afrikaans-medium instruction and was met with lethal force.",
+    "The UN arms embargo became mandatory in 1977; divestment, sport boycotts and sanctions built through the 1980s. The first non-racial elections were held in April 1994."
+   ],
+   "criticisms": [
+    "Armed struggle produced civilian casualties, which the later Truth and Reconciliation Commission examined alongside state crimes.",
+    "The negotiated settlement left economic ownership largely untouched, a criticism now central in South African politics.",
+    "Some Western governments resisted sanctions and classified the ANC as terrorist well into the 1980s.",
+    "The TRC's amnesty-for-truth model is still debated as between justice and reconciliation."
+   ],
+   "sources": "South African History Online; UN Security Council Resolution 418 (1977); TRC Report (1998)."
+  },
+  {
+   "id": "zapatistas",
+   "name": "The Zapatistas (EZLN)",
+   "kind": "indigenous autonomy movement",
+   "period": "1994 onward",
+   "summary": "An Indigenous-led movement in Chiapas, Mexico, which rose in arms on the day NAFTA took effect and then built self-governing autonomous municipalities rather than seeking to take the Mexican state.",
+   "keyFacts": [
+    "The uprising began 1 January 1994, the day NAFTA entered force; the First Declaration of the Lacandon Jungle set out the demands.",
+    "The San Andrés Accords on Indigenous rights were signed in 1996 and never implemented as agreed by the Mexican state.",
+    "From 2003 the movement organised Juntas de Buen Gobierno — councils of good government — running autonomous health, education and justice systems.",
+    "Its stated aim is not to seize state power: 'a world in which many worlds fit.'",
+    "Rotating, recallable delegates and the principle of mandar obedeciendo — to govern by obeying — are central to its practice.",
+    "Subcomandante Marcos, later renamed Galeano, was its best-known spokesman; the mask was itself an argument about representation."
+   ],
+   "criticisms": [
+    "Autonomy has been sustained under constant pressure from paramilitaries, the army and organised crime.",
+    "Critics argue refusing state power limited its reach to a small territory.",
+    "Material conditions in the autonomous municipalities remain poor.",
+    "Admirers abroad have been accused of romanticising it; the movement has said so itself."
+   ],
+   "sources": "First Declaration of the Lacandon Jungle (1994); San Andrés Accords (1996); Mexican government and EZLN communiqués."
+  },
+  {
+   "id": "rojava",
+   "name": "Rojava and democratic confederalism",
+   "kind": "autonomy / revolutionary project",
+   "period": "2012 onward",
+   "summary": "The autonomous administration in north-east Syria, organised on Abdullah Öcalan's democratic confederalism — stateless self-government through federated councils, with gender parity and ecology as founding commitments.",
+   "keyFacts": [
+    "Autonomous administration was established from 2012 as the Syrian state withdrew from the north-east.",
+    "Its theory derives from Öcalan's reworking of Murray Bookchin's communalism into democratic confederalism.",
+    "Co-chair rule requires every office to be held jointly by a woman and a man, and there is a 40% gender quota.",
+    "The YPJ, an all-woman armed force, became internationally known during the siege of Kobanî (2014–15).",
+    "The social contract is explicitly multi-ethnic — Kurdish, Arab, Assyrian, Armenian, Turkmen and Yazidi.",
+    "The SDF was the principal ground force in the campaign against the Islamic State; Turkish incursions from 2018 and 2019 removed territory from the administration."
+   ],
+   "criticisms": [
+    "Human-rights organisations have documented conscription, detention practices and the suppression of rival Kurdish parties.",
+    "Critics argue the PYD's dominance is inconsistent with the council model's claims.",
+    "Its survival has depended on external military partnerships that constrain its autonomy.",
+    "Supporters argue it is the most substantial attempt at stateless democratic government in the region's modern history."
+   ],
+   "sources": "Charter of the Social Contract (2014); Öcalan, 'Democratic Confederalism' (2011); Human Rights Watch reporting."
+  },
+  {
+   "id": "occupy",
+   "name": "Occupy Wall Street",
+   "kind": "protest movement",
+   "period": "2011–2012",
+   "summary": "An encampment-based protest against economic inequality and the political power of finance, organised without formal leadership or a list of demands, which put the distributional question into mainstream political language.",
+   "keyFacts": [
+    "The occupation of Zuccotti Park in New York began on 17 September 2011 following a call from Adbusters.",
+    "'We are the 99%' became its organising slogan, drawing on research into top-1% income concentration.",
+    "It used general assemblies and consensus process, and declined to issue demands — a deliberate choice that was also its most criticised one.",
+    "It spread to hundreds of cities worldwide in autumn 2011.",
+    "Zuccotti Park was cleared on 15 November 2011.",
+    "Offshoots included Occupy Sandy's disaster relief and the Rolling Jubilee debt-buying project."
+   ],
+   "criticisms": [
+    "The refusal to formulate demands is widely argued to have prevented any legislative outcome.",
+    "Consensus process proved slow and vulnerable to disruption at scale.",
+    "Encampments faced real problems of safety and sanitation.",
+    "Defenders argue it permanently changed the vocabulary of inequality in American politics, which no bill had managed."
+   ],
+   "sources": "Contemporary reporting; Adbusters call (July 2011); academic retrospectives."
+  },
+  {
+   "id": "american-indian-movement",
+   "name": "The American Indian Movement",
+   "kind": "indigenous rights movement",
+   "period": "1968 onward",
+   "summary": "An Indigenous rights organisation founded in Minneapolis in 1968, which combined urban community patrols and services with high-visibility occupations asserting treaty rights and sovereignty.",
+   "keyFacts": [
+    "Founded in 1968, initially around police accountability and services for Native people in Minneapolis.",
+    "The occupation of Alcatraz (1969–71), by Indians of All Tribes, cited an 1868 treaty provision on surplus federal land.",
+    "The Trail of Broken Treaties march in 1972 ended in the occupation of the Bureau of Indian Affairs building in Washington.",
+    "The occupation of Wounded Knee in 1973 lasted 71 days and involved sustained exchanges of fire with federal forces.",
+    "Leonard Peltier was convicted over the 1975 deaths of two FBI agents at Pine Ridge; the case has been contested ever since.",
+    "It contributed to the Indian Self-Determination and Education Assistance Act (1975) and the American Indian Religious Freedom Act (1978)."
+   ],
+   "criticisms": [
+    "Internal violence and the unresolved killing of Anna Mae Aquash in 1975 remain a serious charge against it.",
+    "Some tribal governments viewed it as urban activists speaking over elected leadership.",
+    "Confrontation drew heavy federal surveillance and prosecution that fractured the organisation.",
+    "Defenders point to the legislation and the lasting shift in how treaty rights are argued."
+   ],
+   "sources": "National Archives; Britannica; contemporary reporting; Indian Self-Determination Act (1975)."
+  },
+  {
+   "id": "rastafari",
+   "name": "Rastafari as political movement",
+   "kind": "religious and political movement",
+   "period": "1930s onward",
+   "summary": "A movement originating among the Jamaican poor in the 1930s which fused Ethiopianism, Garveyite self-reliance and biblical interpretation into a critique of colonial society — 'Babylon' — and a politics of repatriation and African dignity.",
+   "keyFacts": [
+    "It emerged after the 1930 coronation of Haile Selassie I in Ethiopia, read by early adherents as prophetic fulfilment.",
+    "Marcus Garvey's teaching of African pride and self-reliance is its central political antecedent.",
+    "'Babylon' names the colonial and commercial order; livity and ital practice are its everyday discipline.",
+    "The Coral Gardens incident of 1963 in Jamaica involved serious state violence against adherents.",
+    "Haile Selassie's 1966 visit to Jamaica drew enormous crowds; a 1955 Ethiopian land grant at Shashamane supported repatriation.",
+    "Reggae — Bob Marley above all — carried its political vocabulary worldwide from the 1970s."
+   ],
+   "criticisms": [
+    "Adherents were criminalised and institutionalised in Jamaica for decades.",
+    "Patriarchal norms around the role of women have been criticised within and outside the movement.",
+    "Haile Selassie's own record as a ruler is at odds with his status in the movement.",
+    "Commercial reggae is argued to have detached the symbols from the politics."
+   ],
+   "sources": "Jamaican national archives; Coral Gardens apology (2017); academic literature on Rastafari."
+  },
+  {
+   "id": "arab-spring",
+   "name": "The Arab uprisings",
+   "kind": "wave of popular uprisings",
+   "period": "2010–2012, with long aftermath",
+   "summary": "A wave of mass protests across North Africa and the Middle East demanding dignity, employment and the end of entrenched authoritarian rule, with sharply divergent outcomes by country.",
+   "keyFacts": [
+    "Mohamed Bouazizi's self-immolation in Sidi Bouzid on 17 December 2010 triggered the Tunisian uprising.",
+    "Ben Ali left Tunisia in January 2011; Mubarak resigned in February 2011 after the occupation of Tahrir Square.",
+    "'Bread, freedom, social justice' was the central Egyptian slogan — economic as much as political.",
+    "Tunisia produced a new constitution in 2014 and the National Dialogue Quartet received the 2015 Nobel Peace Prize; the democratic settlement was substantially reversed from 2021.",
+    "Libya, Syria and Yemen descended into civil wars with foreign intervention; Egypt returned to military rule in 2013.",
+    "Bahrain's protests were suppressed with Gulf Cooperation Council military assistance."
+   ],
+   "criticisms": [
+    "Absence of organised parties and programmes left movements unable to hold power once regimes fell.",
+    "Western intervention in Libya is widely argued to have produced state collapse.",
+    "The outcomes have been used to argue that uprisings without institutions make matters worse.",
+    "Defenders note the underlying grievances were real, remain unaddressed, and have produced further waves since."
+   ],
+   "sources": "Contemporary reporting; Nobel Peace Prize 2015 citation; academic retrospectives."
+  }
+ ],
+ "maxims": [
+  {
+   "term": "Man is born free, and everywhere he is in chains",
+   "attribution": "Jean-Jacques Rousseau, The Social Contract (1762)",
+   "gloss": "Opening line framing the problem of legitimate authority: how can the freedom people are born with be reconciled with the constraints society imposes?"
+  },
+  {
+   "term": "Property is theft!",
+   "attribution": "Pierre-Joseph Proudhon, What Is Property? (1840)",
+   "gloss": "A provocation, not a call to abolish all possession: Proudhon attacked property-as-domination (rent, interest, exploitation of others' labor), while defending personal possession."
+  },
+  {
+   "term": "The philosophers have only interpreted the world, in various ways; the point is to change it",
+   "attribution": "Karl Marx, Theses on Feuerbach (1845; pub. 1888)",
+   "gloss": "The rallying line of praxis: theory is judged by whether it transforms conditions, not merely explains them."
+  },
+  {
+   "term": "From each according to his ability, to each according to his needs",
+   "attribution": "Popularized by Karl Marx, Critique of the Gotha Programme (1875); phrase used earlier by Louis Blanc",
+   "gloss": "A distributive ideal of higher-stage communism: contribution by capacity, distribution by need."
+  },
+  {
+   "term": "That government is best which governs least",
+   "attribution": "Motto quoted by Henry David Thoreau, 'Civil Disobedience' (1849)",
+   "gloss": "A touchstone of limited-government and libertarian thought (Thoreau attributes it as a saying, then pushes it further)."
+  },
+  {
+   "term": "The personal is political",
+   "attribution": "Second-wave feminism; associated with Carol Hanisch's 1969 essay (title added by editors)",
+   "gloss": "Private-seeming matters (housework, sexuality, family) reflect and reproduce public power relations, and are therefore political."
+  },
+  {
+   "term": "War is the continuation of politics by other means",
+   "attribution": "Carl von Clausewitz, On War (1832, posthumous)",
+   "gloss": "War is not a breakdown of policy but an instrument of it — an extension of political aims by force."
+  },
+  {
+   "term": "The end justifies the means",
+   "attribution": "A summary often (loosely) attributed to Machiavelli's The Prince (1532)",
+   "gloss": "The consequentialist claim that outcomes can validate the methods used — frequently invoked in, and criticized within, political ethics; Machiavelli's actual text is subtler."
+  },
+  {
+   "term": "Liberté, égalité, fraternité",
+   "attribution": "Motto of the French Revolution / French Republic",
+   "gloss": "'Liberty, equality, fraternity' — three ideals whose tensions (liberty vs. equality especially) organize much of modern political debate."
+  },
+  {
+   "term": "Who says organization, says oligarchy",
+   "attribution": "Robert Michels, 'iron law of oligarchy', Political Parties (1911)",
+   "gloss": "Michels argued that even democratic organizations tend to develop a ruling few — a standing challenge to theories of mass democracy."
+  },
+  {
+   "term": "The tyranny of the majority",
+   "attribution": "Alexis de Tocqueville, Democracy in America (1835/1840); developed by J. S. Mill",
+   "gloss": "Democracy can oppress minorities and dissenters through sheer numbers and social conformity, not only through government — hence constitutional limits on majority power."
+  },
+  {
+   "term": "The price of liberty is eternal vigilance",
+   "attribution": "Commonly attributed to Jefferson; no such sentence appears in his writings",
+   "gloss": "The nearest documented source is John Philpot Curran (1790) on the condition of liberty. A maxim whose attribution is itself a lesson in citation."
+  },
+  {
+   "term": "Man is by nature a political animal",
+   "attribution": "Aristotle, Politics I.2",
+   "gloss": "Zōon politikon — a creature of the polis. The claim is that political life completes human nature rather than constraining it."
+  },
+  {
+   "term": "The life of man, solitary, poore, nasty, brutish, and short",
+   "attribution": "Thomas Hobbes, Leviathan, 1651",
+   "gloss": "Describes the state of nature without a common power, and so grounds the argument for sovereignty."
+  },
+  {
+   "term": "Government of the people, by the people, for the people",
+   "attribution": "Abraham Lincoln, Gettysburg Address, 1863",
+   "gloss": "The formulation echoes Wycliffe's Bible preface and Daniel Webster; Lincoln made it the standard definition of democratic legitimacy."
+  },
+  {
+   "term": "All animals are equal, but some animals are more equal than others",
+   "attribution": "George Orwell, Animal Farm, 1945",
+   "gloss": "The commandment as finally revised — a compressed account of how revolutionary equality is undone from within."
+  },
+  {
+   "term": "The best test of truth is the power of the thought to get itself accepted in the competition of the market",
+   "attribution": "Oliver Wendell Holmes Jr., dissenting in Abrams v. United States, 1919",
+   "gloss": "The origin of the 'marketplace of ideas'. Holmes had voted the other way in Schenck the same year, which is part of the story."
+  },
+  {
+   "term": "Sunlight is said to be the best of disinfectants",
+   "attribution": "Louis Brandeis, Other People's Money, 1914",
+   "gloss": "The founding sentence of disclosure-based regulation; usually paraphrased as 'sunlight is the best disinfectant.'"
+  },
+  {
+   "term": "Taxation is the price we pay for a civilized society",
+   "attribution": "Oliver Wendell Holmes Jr., paraphrased from Compañía General de Tabacos v. Collector, 1927",
+   "gloss": "The actual words were 'Taxes are what we pay for civilized society.'"
+  },
+  {
+   "term": "A rising tide lifts all boats",
+   "attribution": "New England Council slogan, popularised by John F. Kennedy",
+   "gloss": "The standard shorthand for growth-first economics, and the standard target of distributional critiques of it."
+  },
+  {
+   "term": "Those who would give up essential Liberty, to purchase a little temporary Safety, deserve neither",
+   "attribution": "Benjamin Franklin, Pennsylvania Assembly reply to the Governor, 1755",
+   "gloss": "Written about a tax dispute with the Penn family, not about national security — the context is almost always dropped."
+  },
+  {
+   "term": "The state is the great fiction by which everybody seeks to live at the expense of everybody else",
+   "attribution": "Frédéric Bastiat, The State, 1848",
+   "gloss": "The classical-liberal account of public spending as mutual plunder."
+  },
+  {
+   "term": "The arc of the moral universe is long, but it bends toward justice",
+   "attribution": "Martin Luther King Jr., paraphrasing Theodore Parker (1853)",
+   "gloss": "Parker's original is longer and more cautious: he could not finish the curve by sight, and divined it by conscience."
+  },
+  {
+   "term": "Freedom is never voluntarily given by the oppressor; it must be demanded by the oppressed",
+   "attribution": "Martin Luther King Jr., Letter from Birmingham Jail, 1963",
+   "gloss": "The letter's answer to clergymen who urged patience — the fullest statement of the case for direct action."
+  },
+  {
+   "term": "Ubuntu — I am because we are",
+   "attribution": "Southern African philosophical tradition; 'umuntu ngumuntu ngabantu'",
+   "gloss": "A person is a person through other persons. Invoked in South Africa's transition as the ground of restorative rather than retributive justice."
+  },
+  {
+   "term": "The Mandate of Heaven",
+   "attribution": "Classical Chinese political doctrine (Zhou dynasty onward)",
+   "gloss": "Tianming: rule is held on condition of virtue and can be withdrawn — which makes rebellion against a failed ruler legitimate rather than treasonous."
+  },
+  {
+   "term": "Matsya-nyaya — the law of the fish",
+   "attribution": "Classical Indian political literature, including the Arthaśāstra and the Mahabharata",
+   "gloss": "Without governance the big fish eat the small. The classical Indian justification for the state, parallel in function to Hobbes's state of nature."
+  },
+  {
+   "term": "Who guards the guardians?",
+   "attribution": "Quis custodiet ipsos custodes? — Juvenal, Satires VI",
+   "gloss": "Written about guarding a wife, borrowed by political theory as the problem of accountability at the top of any hierarchy."
+  }
+ ]
 }

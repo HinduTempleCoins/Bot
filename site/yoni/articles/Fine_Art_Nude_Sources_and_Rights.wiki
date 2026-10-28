@@ -1,0 +1,1561 @@
+'''Fine-Art Nude Property — Image Sources, Licences, and the "Mr. Skin" Question'''
+
+'''Status:''' research memo. Nothing in here is published, staged, or live. No wiki article, no
+`site/` surface, no nav entry, no sitemap. This file is `.local/` (gitignored) by instruction.
+
+'''Date:''' 2026-10-27
+'''Prepared for:''' operator, MELEK/SoapBox
+
+> '''This is not legal advice.''' It is a sourcing and rights-clearance research memo written by an
+> engineer, from primary licence texts and case reports, for the purpose of deciding what to build.
+> Several of the questions below (the right-of-publicity exposure in Part 2, and the §2257 analysis
+> in Part 3) are the kind that a US media/IP attorney should sign off on before anything ships with
+> money attached. Where I could not verify something, it says so rather than guessing.
+
+---
+
+== 0. The shape of the answer, before the detail ==
+
+There are two completely different businesses in the brief, and they have opposite risk profiles.
+
+# '''A fine-art nude gallery built on open-access museum collections''' is a ''solved'' rights problem.
+   Several of the largest art museums on earth have put their public-domain holdings under CC0 — the
+   most permissive instrument that exists — with explicit commercial permission, bulk downloads and
+   public APIs. You can launch on this with effectively zero copyright risk, today, at zero
+   licensing cost. The residual risks are not copyright at all (see §1.3 and §1.8).
+
+# '''A Mr. Skin-style index of nude scenes in mainstream films''' is a ''live'' rights problem, and the
+   risk is not where the operator's question assumes it is. The ''metadata layer'' — "film X, performer
+   Y, timestamp 01:14:22" — is about as defensible as copyright law gets in the US (Part 2.2). The
+   ''screenshots and clips'' are not (Part 2.4), and the ''performers'' are the real exposure (Part 2.5).
+   Every convenient data source that would let you skip building the index yourself contractually
+   forbids exactly this use (Part 2.6).
+
+---
+
+'''PART 1 — WHAT IS USABLE IMMEDIATELY'''
+
+== 1.1 Open-access collections: the licence table ==
+
+"Relevant material" below means the nude/figure-study/académie end of each collection, estimated —
+none of these institutions publishes a subject-count, so treat volume figures as orders of magnitude
+derived from collection size, not as audited numbers.
+
+{| class="wikitable"
+! Institution !! Instrument !! Commercial? !! Attribution? !! API / bulk !! Volume
+|-
+| '''Metropolitan Museum of Art''' || '''CC0 1.0''' (explicit waiver) || '''Yes''' || '''Requested, not required''' || `collectionapi.metmuseum.org/public/collection/v1/`; CSV dump at `github.com/metmuseum/openaccess` || 470,000+ objects in the dataset; ~400,000+ CC0 images
+|-
+| '''Art Institute of Chicago''' || Metadata '''CC0''', except `description` = '''CC BY 4.0'''. '''Image licence unverified''' — §1.2a || Metadata yes; '''images unconfirmed''' || For `description`, yes || `api.artic.edu/api/v1/`, no key, 60 req/min || '''62,119''' `is_public_domain` works (live count)
+|-
+| '''Rijksmuseum''' || '''CC0''' for PD reproductions; '''CC BY 4.0''' where the museum holds rights || '''Yes''' || Only under the CC BY items; requested otherwise || `data.rijksmuseum.nl`, API key || 700,000+ images
+|-
+| '''Getty (Open Content)''' || '''CC0 — verified from Getty's own page''' || '''Yes, explicit: "commercial and noncommercial"''' || Not required || Download from object pages || '''160,000+''' images (86,000+ Museum incl. 19th-c. photography, 78,000+ GRI)
+|-
+| '''National Gallery of Art''' || '''CC0''' || '''Yes, explicitly "commercial or non-commercial"''' || Asked, not required; '''do not use the NGA logo''' || `github.com/NationalGalleryOfArt/opendata` (CSV, daily) || 60,000+ images; 130,000+ artwork records
+|-
+| '''Smithsonian''' || '''CC0 1.0''' || '''Yes''' || Not required || `api.si.edu`; bulk on AWS Open Data (`registry.opendata.aws/smithsonian-open-access/`) || 11M+ metadata records, ~5M images
+|-
+| '''Cleveland Museum of Art''' || '''CC0''' — "unrestricted commercial and noncommercial use" || '''Yes''' || Not required || `openaccess-api.clevelandart.org/api/` || 64,000+ records; 37,000+ CC0 images
+|-
+| '''Wikimedia Commons''' || Per-file; '''every accepted licence must permit commercial use and derivatives''' || '''Yes, by policy''' || '''Usually yes''' (CC BY / CC BY-SA files) || MediaWiki API, Commons dumps || Largest single pool
+|-
+| '''Europeana''' || '''Per-item''', exactly '''14''' statements in live use || '''Mixed — must filter''' || Mixed || `api.europeana.eu` Search/Record v2, IIIF, SPARQL || '''62.8M''' records (live)
+|-
+| '''Yale (YUAG / YCBA)''' || '''No named licence''' — "no further application, authorization, or fees"; '''silent on commercial''' || '''Probably, but unstated''' || Requested || IIIF (~154,000 IIIF-compliant works) || "thousands" downloadable
+|-
+| '''Harvard Art Museums''' || API '''non-commercial only'''; site images '''personal non-commercial only''' || '''NO''' || Courtesy credit || API key, 2,500/day, 2-week cache cap || —
+|-
+| '''Paris Musées''' || '''CC0''' Open Content || '''Yes''' || Not required || `apicollections.parismusees.paris.fr` || '''420,243''' PD images / 413,339 works
+|-
+| '''SMK (Denmark)''' || '''Public Domain Mark 1.0''' || '''Yes''' || Not required || `api.smk.dk/api/v1/art/search/` || '''153,227''' of 203,745 records PD
+|-
+| '''Nationalmuseum (Sweden)''' || PD images free "however you like"; photographer-copyright ones '''CC BY-SA''' || '''Yes (both)''' || Requested on PD; '''required''' on CC BY-SA || Also mirrored to Wikimedia Commons || —
+|-
+| '''Finnish National Gallery''' || '''CC0''' || '''Yes''' || Not required || `kansallisgalleria.fi/kuvapalvelu/` || '''36,000+''' images
+|-
+| '''British Museum''' || '''CC BY-NC-SA 4.0''' || '''NO''' || n/a || — || ~1.9M images
+|-
+| '''Louvre''' || Not open content; PD-work images free only for private/museographic/educational || '''NO — paid via RMN-GP''' || Mandatory credit + permalink || Metadata is '''Etalab''' (commercial OK) || —
+|}
+
+=== The three I would build on first ===
+
+'''Metropolitan Museum, National Gallery of Art, Cleveland Museum of Art.''' All three are CC0, all
+three state commercial use plainly, none requires attribution, and all three ship a machine-readable
+dataset you can ingest in an afternoon. The Met's CC0 statement on the dataset is unambiguous — "To
+the extent possible under law, The Metropolitan Museum of Art has waived all copyright" — and the
+dataset page says the data may be used "in any media without permission or fee," including
+commercially; attribution is requested, not required; the one hard prohibition is '''trademark'''
+("You must not use The Metropolitan Museum of Art's trademarks"), which means: use the pictures,
+do not use the Met's name or marks in a way that implies endorsement. Cleveland's API page is the
+clearest of the three on commerce — "unrestricted commercial and noncommercial use" — and its
+`share_license_status` field (`CC0` / `Copyrighted` / `Other`) gives you a machine filter, which
+matters because the ''dataset'' is CC0 even where the ''image'' is not. '''Filter on
+`share_license_status == "CC0"` and never on anything else.'''
+
+The Met equivalent is the `isPublicDomain` boolean on the object endpoint. Same rule: the metadata
+being CC0 does not make the image CC0. Honour the per-object flag.
+
+* Met dataset + CC0 terms: https://github.com/metmuseum/openaccess
+* Met Open Access hub: https://www.metmuseum.org/en/hubs/open-access
+* NGA policy: https://www.nga.gov/notices/open-access-policy.html · dataset: https://github.com/NationalGalleryOfArt/opendata
+* Cleveland API + terms: https://openaccess-api.clevelandart.org/
+* Smithsonian terms: https://www.si.edu/openaccess · bulk: https://registry.opendata.aws/smithsonian-open-access/
+* Rijksmuseum policy: https://data.rijksmuseum.nl/policy
+
+'''Getty — verified, and it belongs in the first tier too.''' From Getty's own Open Content Program
+page (https://www.getty.edu/projects/open-content-program/): *"Digital images of Getty-owned artworks
+in the public domain marked with the CC0-public domain icon are available for download under CC0.
+Such images are not protected by copyright and may be used without restriction or fees for
+commercial and noncommercial purposes."* '''160,000+ images''' since 2013 — 86,000+ from the Museum,
+including '''19th-century photography''', which is precisely the shelf that matters for Part 1.6, plus
+78,000+ from the Getty Research Institute.
+
+== 1.2 The quiet "no"s — where open access is not open ==
+
+This is the part people get wrong. "Open access" and "the artwork is in the public domain" are not
+the same claim as "you may use this image commercially."
+
+* '''British Museum''' — images are offered under '''CC BY-NC-SA 4.0'''. The '''NC''' makes them
+  '''unusable for a commercial property''', full stop. This is the single biggest trap in the field,
+  because the BM has an enormous and heavily-digitised classical collection and it looks open.
+* '''`NoC-NC` ("No Copyright – Non-Commercial Use Only")''', http://rightsstatements.org/vocab/NoC-NC/1.0/
+  — used for public-domain works digitised under public-private partnerships where the partners
+  contractually restricted commercial reuse of ''the digital file''. The underlying work is free; the
+  scan is not. Appears across Europeana.
+* '''`NoC-OKLR` ("Other Known Legal Restrictions")''', http://rightsstatements.org/vocab/NoC-OKLR/1.0/
+  — no copyright, but cultural-heritage or traditional-cultural-expression law blocks free reuse.
+  '''This is the statement that catches Italian holdings''' (see von Gloeden, §1.6).
+* '''`CNE` ("Copyright Not Evaluated")''' and '''`UND` ("Copyright Undetermined")''' — these are the
+  institution saying ''we don't know''. They are not a grant of anything. Treat as in-copyright.
+* '''Flickr Commons "no known copyright restrictions"''' — https://www.flickr.com/commons/usage/ —
+  explicitly '''not a warranty'''. Flickr's own page says participating institutions "often aren't the
+  rights holders," give "no express or implied warranty," and tells users to "conduct an independent
+  analysis of applicable law." Useful as a ''lead'', never as a ''clearance''.
+* '''Harvard Art Museums''' — the API requires a key and the terms live behind a separate page; the
+  data licence and the ''image'' licence are not the same thing (see §1.2a).
+* '''Library of Congress''' — the largest pool of early American photography, and the most commonly
+  misread. LoC states plainly that it "generally do[es] not own the rights to materials in our
+  collections," that the researcher must determine and satisfy any restrictions, and that it
+  '''does not grant or deny permission to publish''' and will not sign permission forms. Its catalogue
+  note '''"No known restrictions on publication"''' means only that *the Library is unaware of any
+  restriction* — LoC's own guidance states explicitly that '''it does not mean the image is in the
+  public domain.''' The other notes are "Publication may be restricted," "May be restricted…", and
+  "Rights status not evaluated." LoC asks users to do their own term analysis and to '''document the
+  search as evidence of due diligence'''. Rate limit: no more than 10 requests/minute, honour
+  robots.txt. https://www.loc.gov/legal/ · https://guides.loc.gov/p-and-p-rights-and-restrictions/risk-assessment
+  '''Use LoC as a finding aid and then clear the item yourself on the §1.4 rules.''' That documented
+  search is the thing that converts an LoC item from a lead into a usable asset.
+* The full rightsstatements.org vocabulary (12 statements, 3 categories) is at
+  https://rightsstatements.org/page/1.0/?language=en
+
+'''Operational rule:''' maintain an allow-list of rights values, not a block-list. Only ingest items
+whose rights field is exactly one of: `CC0`, `Public Domain Mark`, `NoC-US`, `CC BY`, `CC BY-SA`.
+Everything else — including every `NC`, every `ND`, every `InC-*`, `CNE`, `UND`, `NoC-NC`,
+`NoC-OKLR` — is rejected at ingest and logged. Record the source URL, the rights value and the
+fetch date against every single image in your own database. If a claim is ever made, the provenance
+record is the whole defence, and reconstructing it later is impossible.
+
+== 1.2a Institutional detail — AIC, Yale, Harvard, Europeana ==
+
+=== Art Institute of Chicago — metadata is clean, images are '''unverified''' ===
+
+`www.artic.edu` sits behind a Cloudflare challenge that refuses automated fetching on every path,
+including the IIIF `info.json`. `api.artic.edu` is open, and the API is authoritative on the data
+side. The live `info.license_text` field (v1.16) reads: *"The `description` field in this response is
+licensed under a Creative Commons Attribution 4.0 Generic License (CC-By) and the Terms and
+Conditions of artic.edu. All other data in this response is licensed under a Creative Commons Zero
+(CC0) 1.0 designation…"* — '''metadata CC0, except `description`, which is CC BY 4.0.''' That is a
+real trap: bulk-ingest the descriptions and republish them uncredited and you are in breach.
+
+'''The images are expressly carved out.''' The docs say: *"For information about copyright, please see
+the Image Licensing and Terms pages on our website. We defer to those resources in all legal
+respects,"* and the `api-data` README repeats that the licence notices *"do not apply to images and
+media which may have different licensing terms."* `is_public_domain` is AIC's belief about the
+'''artwork''', not a licence on the file; AIC's own advice is to *"only using images from artworks
+that are tagged as public domain"* and that *"it is up to you to determine whether or not you are
+allowed to use these images."* Live count: '''62,119''' of 132,747 artworks flagged
+`is_public_domain: true`. The IIIF manifest carries '''no `license` field''' and asks for the credit
+line ''"Digital image courtesy of the Art Institute of Chicago."''
+
+'''Secondary sources say AIC releases 50,000+ PD images under CC0. That could not be confirmed, and
+the evidence actually reachable points the other way.''' API terms: no auth, '''60 requests/minute per
+IP''', HTTPS, courtesy `AIC-User-Agent` header, and IIIF scraping guidance of one image at a time
+with a ~1s delay. '''Treat AIC as unverified for commercial image use until someone opens
+https://www.artic.edu/open-access/public-domain and https://www.artic.edu/image-licensing in a
+browser.'''
+
+=== Yale (YUAG and YCBA) — almost certainly fine, but they never say the word ===
+
+Yale uses '''no named licence'''. Its formula (https://artgallery.yale.edu/terms-and-conditions,
+https://artgallery.yale.edu/using-images) is that it *"provides free and open access to images of
+works in its collection that are believed to be in the public domain,"* and that use is *"permitted
+without further application, authorization, or fees due to the YUAG."* The 2011 Yale-wide
+announcement was broader still: *"no license will be required… and no limitations will be imposed on
+their use."*
+
+'''Commercial use is not addressed either way.''' "No authorization, no fees, no limitations" reads as
+permission, and I would be comfortable with it for most purposes — but Yale has not said the word,
+and there is no CC tool to point at. Attribution is requested, not licence-conditioned
+(''"attribute works and/or their images, without suggestion of endorsement"''). No warranty: YUAG
+''"makes no warranties"'' on rights status. '''~154,000 works are IIIF-compliant'''; the downloadable set
+is smaller. The '''Yale Center for British Art''' (https://britishart.yale.edu/terms-use) uses the
+identical formula over ~70,000 PD images and is equally silent. '''If commercial use is load-bearing,
+get it from Yale in writing. Do not build the business on an inference.'''
+
+=== Harvard Art Museums — a clear NO, twice over ===
+
+This is the one that surprises people, and it rules Harvard out of this project entirely.
+
+'''The API''' (https://github.com/harvardartmuseums/api-docs) states, verbatim: '''"The API is for
+non-commercial use only."''' Also: API key required; *"limiting the number of API calls to 2500 per
+day"*; '''"You will not cache or store any content returned by the Harvard Art Museums API for more
+than two weeks"''' without written permission; and '''"If you display images in your website or
+application you must use the image URL returned by our API rather than create a copy on your local
+web server"''' — hot-link only. Plus: link back, no HAM logo, no "harvard"/"ham" in your hostname,
+free access to your app for them.
+
+'''And there is a content clause pointed straight at this subject matter:''' *"You must not use the
+API or Harvard Art Museums content in any context that is obscene, indecent, pornographic, illegal
+or defamatory of any nature, or otherwise inappropriate."* That is subjective, unilateral, and HAM
+reserves the right to cut access without notice.
+
+'''The website images''' (https://harvardartmuseums.org/licensing) are *"available to download for
+personal, noncommercial use."* Anything else goes through a request form and a bespoke licence:
+non-exclusive, non-transferable, '''one use, one project''', publish within 2 years or it lapses,
+'''materials destroyed after publication''', no cropping or alteration. '''There is no public-domain
+carve-out on the page at all.'''
+
+'''Net: Harvard is data-restricted, image-restricted, and carries a decency clause. Do not build on
+it.''' The same caution applies to any institution with a morals clause in its API terms — read for
+one before ingesting.
+
+=== Europeana — the aggregator, and why you must filter per item ===
+
+Europeana is '''not a rights holder and does not warrant anything''': the rights statement is set
+per-item by the contributing institution. Querying Europeana's own Search API `RIGHTS` facet gives
+the live picture across '''62,801,801 records''' — 65 distinct rights URIs collapsing to '''exactly 14
+statement types''' (8 Creative Commons tools + 6 of rightsstatements.org's 12).
+
+'''Commercially reusable:''' CC0 ('''8.03M'''), Public Domain Mark ('''11.0M'''), CC BY (7.6M at 4.0 plus
+1.8M at 3.0 and ports), CC BY-SA (3.1M at 4.0 plus 1.55M at 3.0 and ports).
+
+'''Not commercially reusable:''' CC BY-NC (1.12M+), CC BY-NC-SA (3.03M+), CC BY-NC-ND (3.72M+),
+CC BY-ND (0.31M — derivatives barred; verbatim commercial use is technically permitted but it is a
+poor instrument to rely on), '''InC — In Copyright (11.65M, the single largest bucket)''', InC-EDU
+(1.72M), InC-OW-EU (1,146), '''NoC-NC (2.79M)''', '''NoC-OKLR (3.34M)''', CNE (0.36M).
+
+Europeana does '''not''' use the other six rightsstatements.org statements (InC-NC, InC-RUU, NoC-CR,
+NoC-US, UND, NKC). '''NoC-NC and NoC-OKLR are the dangerous pair''' — both say the ''work'' is out of
+copyright while still barring or conditioning your commercial use. That is the scan-level assertion
+pattern (§1.7) expressed as metadata. Access: Search API and Record API v2 at `api.europeana.eu`
+(free key), plus IIIF and SPARQL endpoints.
+
+== 1.2b Other European collections worth knowing ==
+
+'''Clean and commercially usable:'''
+
+* '''Paris Musées''' — '''CC0 Open Content''', credit lines read "CC0 Paris Musées / …". Live:
+  '''413,339 works online, 420,243 PD images.''' API at `apicollections.parismusees.paris.fr`. This is
+  the strongest French open-content source and the direct counterexample to the Louvre/RMN model.
+  https://www.parismuseescollections.paris.fr/
+* '''Nationalmuseum, Sweden''' — out-of-copyright works marked ''''PD'''': *"These digital images are
+  public domain… you are free to use them however you like."* Crediting requested, following the
+  Europeana Public Domain Usage Guidelines. Where the ''photographer's'' copyright still subsists the
+  image is '''CC BY-SA''' — ''"for any purpose, even commercially"'', with attribution and share-alike.
+  They route users to Wikimedia Commons first.
+  https://www.nationalmuseum.se/en/explore-art-and-design/images/rights-and-reproductions
+* '''SMK, Denmark''' — '''Public Domain Mark''', not CC0. Live via their API: '''203,745 records, of
+  which 153,227 are `public_domain: true`''', carrying
+  `"rights": "https://creativecommons.org/publicdomain/mark/1.0/"`. `https://api.smk.dk/api/v1/art/search/`
+  PDM is functionally equivalent to CC0 for reuse, but it is a ''statement of fact'' rather than a
+  waiver, and some downstream platforms treat the two differently. Record which one you relied on.
+* '''Finnish National Gallery''' — '''CC0 on 36,000+ images'''; out-of-copyright images tagged
+  ''tekijänoikeusvapaa'', in-copyright ones tagged ''tekijänoikeudet voimassa'' and sold through the
+  paid image service. https://kansallisgalleria.fi/kuvapalvelu/
+
+'''Not usable without paying:'''
+
+* '''British Museum — CC BY-NC-SA 4.0. Confirmed.''' ~1.9M images released April 2020 under NC-SA;
+  commercial licensing runs through '''bmimages.com''', which is live and paid. '''The NC bars this
+  project and the SA bites even on non-commercial use.'''
+* '''Musée du Louvre''' — verified from their own CGU (https://collections.louvre.fr/en/page/cgu).
+  Art. 4.1.1.2(a): free reuse of medium-format photographs of out-of-copyright works only *"for any
+  non-collective use within a strictly private context"* and an exhaustive list of museographic,
+  scientific and educational purposes, with print publication '''capped at 1,500 copies''', mandatory
+  credits and a permalink. Art. 4.1.1.2(b): *"any commercial use… must be the subject of a written
+  request… to Rmn-GP via photo.rmn.fr"*, '''granted against payment'''. The '''text and metadata''' are
+  separate and far more open — '''Etalab Open Licence''', worldwide, perpetual, royalty-free,
+  ''"whether for commercial or other purposes."'' ADAGP-managed works additionally carry an '''express
+  prohibition on text and data mining for AI training'''.
+* '''Musée d'Orsay''' and '''BnF/Gallica''' — both refused automated fetching; '''terms unverified this
+  session.''' The established position, to be re-checked by hand: Orsay licenses commercially via
+  '''RMN-Grand Palais'''; '''Gallica''' permits non-commercial reuse free with the credit *"Source
+  gallica.bnf.fr / Bibliothèque nationale de France"* but '''requires a paid licence for commercial
+  reuse''', with "commercial" defined broadly. '''This is the biggest practical trap in the French
+  material''' — the underlying photographs are unambiguously public domain and the fee is charged on
+  the ''file''.
+
+== 1.3 The CC0 trap: CC0 does not clear the person in the picture ==
+
+This is the most important paragraph in Part 1 and it is the one most likely to be skipped.
+
+'''CC0 waives the copyright. It does not clear personality rights, and it says so.''' CC0 1.0
+Section 4(c): *"Affirmer disclaims responsibility for clearing rights of other persons that may
+apply to the Work or any use thereof."* Section 1 lists *"publicity and privacy rights pertaining to
+a person's image or likeness depicted in a Work"* among the rights in scope — but the Affirmer can
+only waive rights '''it holds''', and a museum does not hold the publicity rights of the person who
+sat for a 1925 photograph. Section 4(a): *"No trademark or patent rights held by Affirmer are
+waived."* Section 4(b): the work is offered as-is, no warranties of any kind.
+(https://creativecommons.org/publicdomain/zero/1.0/legalcode.en)
+
+For a property of this kind, what that means concretely:
+
+* A CC0 painting of a mythological figure: no residual problem. There is no identifiable living or
+  recently-dead person.
+* A CC0 '''photograph''' from an institutional collection where the sitter is identifiable and died
+  recently enough for a post-mortem publicity right to run (Indiana and Oklahoma: 100 years;
+  California: 70 years; Tennessee: potentially indefinite while use continues): '''the copyright is
+  clear and the publicity right may not be.''' For pre-1931 photography this is mostly academic, but
+  it is not zero, and it is the reason the gallery should favour 19th-century and early-20th-century
+  material over anything mid-century.
+* The same point kills the lazy assumption that a CC0 image is "cleared." It is cleared *of
+  copyright*. Nothing else.
+
+== 1.4 US public domain: where the line actually falls ==
+
+Authority: Peter B. Hirtle, ''Copyright Term and the Public Domain in the United States'', Cornell
+University Library — https://guides.library.cornell.edu/copyright/publicdomain — which is the chart
+every US rights desk actually uses. As of '''2026''':
+
+'''Published in the US'''
+* '''Published 1930 or earlier → public domain.''' The 95-year term on a 1930 publication expired
+  31 Dec 2025. '''1931 publications enter the public domain on 1 January 2027''' — roughly two months
+  from the date of this memo, which is worth noting for launch timing.
+* '''Published 1931–1977 without a copyright notice → public domain''' (failure of formality). This is
+  a much bigger door than people expect for photography: a great deal of commercial and studio
+  photographic output of that era circulated without a conforming notice.
+* '''Published 1931–1963 with notice but not renewed → public domain.''' Renewal rates were low. The
+  renewal records are searchable (Copyright Office registers; the NYPL/Stanford renewal datasets).
+  This is the single most productive lane for photography, and it is also the most labour-intensive,
+  because you must prove the ''absence'' of a renewal.
+* '''Published 1931–1963 with notice and renewed → 95 years from publication.'''
+* '''Published 1964–1977 with notice → 95 years from publication''' (renewal became automatic).
+* '''Published 1978 – 1 Mar 1989 without notice and not registered within 5 years → public domain.'''
+
+'''Unpublished works''' — this is where a lot of photographic archive material sits, and the rule is
+different:
+* '''Life of the author + 70.''' Unpublished works by authors who '''died before 1956''' are in the
+  public domain as of 2026.
+* '''Anonymous, pseudonymous, or work-for-hire, unpublished: 120 years from creation.''' Unpublished
+  works '''created before 1906''' are public domain as of 2026.
+* '''The §303 floor.''' 17 U.S.C. §303(a) gives unpublished works created before 1978 the life+70
+  term but provides that it shall '''in no case expire before 31 December 2002''', and that if the
+  work ''was'' published on or before that date, not before '''31 December 2047'''. That floor has now
+  passed for the never-published case, which is why the "died before 1956" rule is the operative
+  one today — but the 2047 floor still catches anything first published between 1978 and 2002.
+* '''This resolves the hardest question in 19th-century photography in your favour.''' A great deal of
+  académie and private figure-study material was never "published" in the copyright sense — it was
+  studio prints supplied to painters and academies, or private-circulation albums. For any
+  photographer who '''died before 1956''', both roads (published pre-1931, or never published at all)
+  land on public domain, so the usually-intractable "was this ever published?" question becomes
+  moot. For the French and Italian photographers in §1.6 — all of whom died before 1932 — that is
+  the single most useful line in a clearance file.
+* The practical trap: "unpublished" in US copyright has a term of art meaning. A photograph printed
+  and distributed is published; a negative sitting in a studio archive, or a print shown only in an
+  exhibition, generally is not. An uncatalogued archive photograph from 1925 by a known photographer
+  who died in 1960 is '''still in copyright until 2031''' even though a published 1925 photograph is
+  free. Archive provenance matters more than date.
+
+'''First published outside the US'''
+* '''Before 1931 → public domain in the US.'''
+* '''1931–1977, published abroad without US formalities → public domain in the US only if it was
+  already public domain in its source country on 1 January 1996''' (the URAA restoration date).
+  Otherwise, 95 years from publication. '''URAA restoration is the thing that catches European
+  photography''': a German or French photograph from 1935 that was still protected at home in 1996
+  had its US copyright ''restored'' and is not free here, even though it fails the US formalities.
+* '''The URAA line has moved, and most reference material is now stale.''' Per US Copyright Office
+  Circular 38B (https://www.copyright.gov/circs/circ38b.pdf), a restored work gets *"the remainder
+  of the term of copyright that the work would have enjoyed if the work had never entered the public
+  domain"* — for pre-1978 publication, '''95 years from first publication'''. A restored term on a
+  '''1930''' foreign publication therefore expired '''31 December 2025'''. '''As of 2026, pre-1931 first
+  publication abroad is US public domain even with URAA restoration; the URAA bite now begins at
+  1931 and rolls forward a year each year.''' Cornell's footnote still warns about "foreign works
+  published after 1928," and several Wikimedia Commons URAA warning templates are correspondingly
+  two years out of date. '''Do not let a stale template talk you out of a clear 1929 or 1930 work.'''
+
+== 1.5 Non-US regimes, and why the term differs per photographer ==
+
+* '''EU / UK: life of the author + 70 years''', harmonised by Directive 2006/116/EC. The term attaches
+  to the '''photographer's death date''', not the picture's date — which is why there is no single
+  "European cut-off" and why each photographer has to be assessed individually. A photographer who
+  made a picture in 1890 and died in 1950 is in copyright in the EU until '''1 January 2021'''; a
+  photographer who made a picture in 1920 and died in 1925 was free in '''1996'''.
+* '''Germany''' additionally distinguishes ''Lichtbildwerke'' (photographic works, life+70) from
+  ''Lichtbilder'' (simple photographs, 50 years from publication) — a genuinely useful distinction for
+  mass-produced studio and postcard material of the 1900s–1920s.
+* '''The rule of the shorter term''' applies in most of the EU to non-EU works but '''not in the US''',
+  which is why a work can be free in France and protected in the United States. If the property
+  serves a global audience, the governing analysis is the '''most restrictive''' jurisdiction you
+  intend to serve, not the US.
+* '''Italy''' is a special case that matters directly here — see von Gloeden, §1.6.
+
+== 1.6 Early art-nude photography: what is actually free ==
+
+This is the shelf the operator actually wants, and it sorts cleanly into three groups. Works below
+are figure studies / académies / nude studies in the art-historical sense; the question here is
+purely one of copyright term and sourcing.
+
+=== 1.6.1 The clean shelf — US public domain, solid ===
+
+'''Eadweard Muybridge, ''Animal Locomotion'' (1887).''' Life 1830–1904. Photographed 1884–86 at the
+University of Pennsylvania, published 1887 by J.B. Lippincott, Philadelphia — '''781 collotype plates
+in 11 volumes''', human figure studies in Volumes I–IV. US publication, 95-year term expired 1982, no
+URAA question, uncontested. The printed "Copyright, 1887, by Eadweard Muybridge" notice on the
+plates has no current force. '''Best source: Wellcome Collection, which applies an explicit Public
+Domain Mark''' — the cleanest rights statement of any Muybridge digitisation
+(e.g. https://wellcomecollection.org/works/fc73mpfv). Also: Boston Public Library's 290-file set on
+Commons (incomplete — missing plates 281, 321, 345–348, 431, 529, 551;
+https://commons.wikimedia.org/wiki/Category:Photographs_by_Muybridge_in_the_Boston_Public_Library),
+Smithsonian American Art Museum (15 files), PAFA, USC/Calisphere, DPLA, and the Commons hub at
+https://commons.wikimedia.org/wiki/Category:Animal_Locomotion. Penn's plate catalogue (subject,
+model, movement type, camera angles, intervals) is at
+https://archives.upenn.edu/digitized-resources/docs-pubs/muybridge/catalogue — '''but carries no
+item-level rights statement, only a site-wide "© 2026" footer'''; boilerplate rather than a claim,
+but ambiguous. Prefer Wellcome.
+
+'''The French académies — Moulin, Marconi, Igout, Durieu. All US PD, solid.''' All four died before
+1886; work dates 1850s–1880s; PD on both the published and unpublished tracks (§1.4); nothing was
+still protected in France on 1 Jan 1996, so no URAA issue. '''The clearance risk in this group is not
+the term — it is the institutional terms-of-use on the digital file, and the near-absence of CC0 at
+French public institutions.'''
+* '''Félix-Jacques Moulin''' (1802 – 1875; '''death date genuinely contested''' — some records say
+  "after 1869", so do not state 1875 flatly). Paris studio from 1849; prosecuted 1851; 1856–58
+  government-funded Algeria commission. Held: '''Getty Research Institute, 21 albumen photographs,
+  accession 2022.R.2''' (https://oac.cdlib.org/findaid/ark:/13030/c8x92jr7/) — and Getty is CC0,
+  which makes this the best-positioned of the group. Also National Galleries of Scotland; Commons
+  https://commons.wikimedia.org/wiki/Category:Félix-Jacques_Moulin (35 members).
+* '''Gaudenzio Marconi''' (1841–1885). Académies sold to artists and academies; Brussels from the
+  1870s; best known for the 1877 study of Auguste Neyt, Rodin's model for ''L'Âge d'airain''. '''No
+  main Commons category'''; ~98 file hits under "Photographs of nude males by Gaudenzio Marconi",
+  sourced from '''Cleveland''' (e.g. 1996.357), ENSBA Paris, Europeana, Getty and auction houses.
+* '''Louis Jean-Baptiste Igout''' (1837 – ''ca.'' 1881). The '''Album d'Études–Poses''', c.1880, albumen
+  prints, issued by A. Calavas, Paris. '''Best rights position in the group: the Met, accession
+  1993.270, returns `isPublicDomain: true`''' — https://www.metmuseum.org/art/collection/search/266917
+  Also Rijksmuseum RP-F-2001-4-34 (download offered but '''no explicit licence on the record''' —
+  verify), MFA Boston, MFAH. Commons: 26 files, '''no category-level PD tag'''.
+* '''Eugène Durieu''' (1800–1874; dates confirmed precisely). Took up photography 1849; the relevant
+  studies date '''1853–1856''', including the 1853 series made '''with Eugène Delacroix''', who painted
+  from several of Durieu's models. In 1857 Durieu gave the set to the '''Société française de
+  photographie''', describing them as ''"portraits et études d'après nature"'' — the key primary
+  holding, though no SFP catalogue URL could be reached. Also Getty, the Met, Musée d'Orsay, SFMOMA,
+  NGA. Commons: https://commons.wikimedia.org/wiki/Category:Jean_Louis_Marie_Eugène_Durieu (the
+  shorter "Eugène Durieu" category is an empty redirect).
+
+''Why so much of this survives, catalogued and datable:'' French '''dépôt légal''' was extended to
+photography in '''1851''', exactly when the académie trade industrialised. Deposit was how you
+established property in an image and sued copyists, so the studios had a direct commercial motive to
+deposit. Deposit copies were accessioned as administrative records rather than as art — which is why
+a semi-clandestine, frequently prosecuted genre survives in attributed, dated form. '''A deposited
+académie carries a registration date, which is unusually good provenance evidence.''' (The 1851
+extension itself is well attested; the finer claims about which department received them, and the
+anti-copying motive, are the standard account in the photo-history literature but were not verified
+to a primary source.)
+
+'''Wilhelm von Gloeden (1856–1931) and Wilhelm von Plüschow (commonly 1852–1930, life dates
+unverified).''' Gloeden worked in Taormina from the late 1870s; relevant work c.1890–1920s. '''US PD
+is solid as of 2026, and that is recent''' — Commons still carries URAA warnings on his category
+because the Italian term ran to end-2001 and so he was not PD at source on 1 Jan 1996. '''That
+warning is now spent:''' the restored term is 95 years from publication, which has run for anything
+published 1930 or earlier, and unpublished material cleared §303 on 1 Jan 2003. Italy and Germany:
+PD since 1 Jan 2002. '''Residual edge case: a plate ''first'' published 1931 or later is still in a
+95-year US term — document the publication date per image.''' Plüschow follows the same reasoning.
+* ''Two sourcing notes.'' The Met's artist record misprints Gloeden's birth year as '''1886''' (should be
+  1856). And the Met marks its Gloeden prints `isPublicDomain: false` with no image, for works dated
+  '''1902 and 1903''' (acc. 2015.400.626, 2015.400.635) — on the Met's own arithmetic those are US PD.
+  That is the Met declining to open-license its ''file'', not asserting copyright, but the practical
+  effect is the same: '''no Open Access route.''' Better routes: the
+  '''Magnus-Hirschfeld-Gesellschaft via museum-digital, which applies the Public Domain Mark'''
+  (https://term.museum-digital.de/md-de/persinst/268045), ICP, and Commons
+  (https://commons.wikimedia.org/wiki/Category:Wilhelm_von_Gloeden, 37 subcategories). The Royal
+  Academy routes commercial use through its Picture Library.
+* ''Plüschow has no main Commons category and the spelling splits'' — searching only "Plüschow" misses
+  roughly half the files, which are filed under "Plueschow". Search both.
+* '''The widely-repeated claim that Alinari holds a large body of Gloeden plates could not be
+  confirmed''' and should not be relied on. What ''is'' confirmed is that Alinari asserts blanket
+  rights over its holdings under L. 633/41.
+
+'''F. Holland Day (1864–1933) — solid on both tracks, and one of the safest names on the list.''' All
+published work predates 1931, and he died in 1933 (before 1956), so unpublished material cleared
+life+70 in 2003. EU PD since 1 Jan 2004. '''Library of Congress Prints & Photographs holds the
+largest collection''' (~690 prints from his estate, much of it in the Louise Imogen Guiney
+Collection), with the rights advisory '''"No known restrictions on publication"''' — e.g.
+https://www.loc.gov/item/2004666555/ (fetch the `?fo=json` form; the HTML page blocks bots). Also
+MoMA and Cleveland. Commons: https://commons.wikimedia.org/wiki/Category:Fred_Holland_Day (251 files
+in the "Photographs by" subcategory).
+
+'''Clarence H. White (1871–1925) — solid on both tracks.''' Everything predates 1931; died 1925, so
+unpublished cleared 1995. EU PD since 1996. '''Cleanest usable source: Cleveland Museum of Art, 81
+works, all `share_license_status: CC0`''' (e.g. https://clevelandart.org/art/1980.129,
+/1989.405, /1980.159). Princeton holds '''The Clarence H. White Collection''' (bequest 1983, accession
+series `x1983-…`, artist → son → museum) — '''but Princeton's object API exposes no rights field at
+all and no published image-rights policy could be found. Unknown; ask them.'''
+
+'''Alfred Stieglitz (1864–1946) and ''Camera Work'' (1903–1917).''' ''Camera Work'' was published in New
+York 1903–1917, so '''every issue predates 1931 and the entire run — every photogravure, every
+contributor — is US public domain''': Brigman, White, Day, Käsebier, Steichen, Coburn, de Meyer,
+Annan, Demachy, all of them ''as published in Camera Work''. Stieglitz's own work is likewise solid,
+'''including the late work''': he died 1946, before 1956, so the unpublished output (''Equivalents'', the
+extended O'Keeffe portrait, the 1930s–40s New York pictures) cleared life+70 in 2016. '''The
+rightsholder-side institution agrees''' — the Georgia O'Keeffe Museum states that works by Stieglitz
+'''have entered the public domain''' (https://www.okeeffemuseum.org/about-the-museum/rights-and-reproductions/).
+* '''EU is not uniform.''' The journal is not the unit of term in Europe; each plate runs on its own
+  photographer's life+70. Stieglitz → PD 2017, but '''Coburn (d. 1966) → 2037 and Steichen (d. 1973)
+  → 2044.''' A plate that is PD in the US may not be PD in the EU. Flag if any surface is EU-facing.
+* '''Two corrections to a common assumption.''' (1) '''The Met does ''not'' have a complete open-access
+  ''Camera Work''.''' It catalogues the run, serves '''no images''', marks every issue checked
+  `isPublicDomain: false`, and attaches an '''ARS © line''' to at least No. 29. It is not a sourcing
+  route. (2) The '''Modernist Journals Project''' edition (https://modjourn.org/journal/camera-work/,
+  scanned from Princeton copies) is the complete ''run'' but '''six images were torn out of the source
+  volumes before scanning''' — Käsebier's ''Portrait (Miss N)'' and ''Red Man''; Dugmore's *Study in
+  Natural History*; Steichen's ''Solitude'', ''Poster Lady'', and *The Photographer's Best Model: G.
+  Bernard Shaw*. MJP also claims no copyright and then '''requires prior permission for republication
+  or any commercial use''' — a terms-of-use overclaim on PD content (§1.7).
+* '''Best sources:''' '''Cleveland''' (bound volume acc. 1995.199, CC0) and its '''Internet Archive'''
+  mirror (147 "Camera Work" records, CC0 on the Cleveland-sourced items).
+* '''One separate hook:''' the O'Keeffe Museum holds '''trademarks''' in the names "Alfred Stieglitz" and
+  "Georgia O'Keeffe". Copyright has lapsed; '''the trademark can still bite on titling, branding or
+  endorsement-style commercial use.''' Use the pictures, not the names as marks. (Same principle as
+  the Met's trademark carve-out in §1.1.)
+
+'''Anne Brigman (1869–1950) — solid, with one dated band to avoid.''' Her ''Camera Work'' plates (CW 25,
+1909; CW 38, 1912) are PD outright; other pre-1931 published work is PD; and unpublished material
+cleared life+70 in 2020. EU PD since 1 Jan 2021. '''The exception is 1931–1950 ''published'' work''' —
+''Songs of a Pagan'' (1949) and 1930s–40s periodical appearances — which turns on notice and renewal
+and needs a Catalog of Copyright Entries search before clearing (1949 + 95 = 2044 if renewed).
+Cleveland holds 16 Brigman works.
+* '''The claim that the Nevada Museum of Art holds a Brigman archive does not check out.''' NMA
+  ''organised'' the 2018 retrospective, and '''its own page says the works came from the Wilson Centre
+  for Photography, London''', plus other museums and private collections; Brigman is not among NMA's
+  listed focus collections. NMA also asserts broadly over its own imagery — site images *"owned by
+  the Nevada Museum of Art"*, personal non-commercial or fair use only, '''no public-domain
+  carve-out''' (https://www.nevadaart.org/image-and-data-usage/). Not a source.
+
+'''Albert Arthur Allen (1886–1962) — solid for the published portfolios only.''' Oakland studio 1916;
+'''''The Female Figure'' Series I''' and the '''''Alo Studies'', 1919''', published by Allen Art Studios as
+portfolios — genuine publication, all before 1931, and his productive period essentially ends with
+the late-1920s bankruptcy, so most of the output sits inside the safe window. '''But anything
+unpublished is in copyright until 1 January 2033''' (died 1962), and this matters more than it looks:
+Allen was indicted for sending obscene material through the mail and spent years in litigation,
+which means '''some work was deliberately not distributed''' and sits squarely in the unpublished
+bucket. '''Be precise about which portfolio a given image comes from.''' '''EU: not PD until 2033.'''
+'''Holdings could not be verified at all''' — no LC items, no Commons category, the Met's API returned
+# The authority-control links on his Wikipedia page are artist identifiers, '''not evidence of
+holdings''' — a common trap. Daile Kaplan's ''Premiere Nudes'' (Twin Palms, 2001) is the standard
+published reference and the realistic way to date an image to a portfolio.
+
+'''German Lichtbild / Freikörperkultur publications, 1900s–1920s.''' General rule: German works first
+published '''1930 or earlier are now US public domain''', including under URAA; works first published
+'''1931 or later''' were restored on 1 Jan 1996 for 95 years, so the 1930s shelf does not clear until
+'''2027–2035'''. The EU side runs separately on each identified photographer's life+70, '''which is why
+several of these are PD in the US and still in copyright in Germany.'''
+* '''''Die Schönheit''''' (monthly, 1903–1931, Dresden; founded/edited by Karl Vanselow, then Richard A.
+  Giesecke) — the first nudist publication to carry photographic figure studies. '''US: PD for
+  1903–1930 issues; 1931 issues restored to 1 Jan 2027.''' EU: per-contributor, many pseudonymous
+  (→ 70 years from publication, long expired). '''No complete open digitisation located.'''
+* '''''Der Eigene''''' (1896–1932, Berlin, Adolf Brand) — contributors included '''Gloeden''' and Fidus.
+  '''US: PD through 1930; the 1931–32 issues clear 2027–2028.''' EU: mostly PD (Gloeden d. 1931 → 2002;
+  Fidus d. 1948 → 2019; Brand d. 1945 → 2016). Digitised at Humboldt
+  (https://www.digi-hub.de/viewer/toc/BV042579260/1/LOG_0000/) — '''but the Humboldt scan pixelates
+  the pages carrying photographs and artwork''', a library editorial decision, not a rights one. It
+  is usable for the text and '''useless for the figure studies.'''
+* '''Hans Surén, ''Der Mensch und die Sonne'' (1924)''' — 61 editions in two years, ~250,000 copies by
+## '''US: the 1924 German edition and its 1920s reprints are PD.''' The '''1936 revision'''
+  (''Mensch und Sonne – Arisch-olympischer Geist'') runs to 1 Jan 2032 '''and adds explicit National
+  Socialist racial content quoting ''Mein Kampf'' at length''' — leave it alone entirely. '''EU/Germany:
+  NOT PD — Surén died 1972, so his text is in copyright in Germany until 1 January 2043.''' This is
+  the sharpest US/EU split in the set. The photographs in the book are by various hands on their own
+  clocks.
+* '''Gerhard Riebicke (1878–1957)''' — Berlin press photographer, sport and ''Freikörperkultur''; stills
+  from the 1925 UFA film ''Wege zu Kraft und Schönheit''. '''US: PD for anything published pre-1931''';
+  1930s publications restored (1932 → 2028, 1936 → 2032). '''Unpublished: NOT PD — he died 1957,
+  ''after'' 1956, so life+70 runs to 1 January 2028.''' '''EU/Germany: in copyright until 2028''', and
+  Commons tags his category `NoUploads until 2028`. '''German-market Riebicke images are commonly
+  credited to a "Nachlass Gerhard Riebicke" — a credited Nachlass implies an active claimant on the
+  1930s material. No contact was verified. Resolve before any use.'''
+* '''Kurt Reichert — no term can be stated.''' Identity and life dates could not be established and the
+  name collides with other German figures of the period. '''Do not clear anything under this name on
+  the assumption that it patterns with Riebicke.'''
+
+=== 1.6.2 The dated-source shelf — free only with a citable publication and year ===
+
+For these, the law is clear and the difficulty is '''evidentiary'''. Dating the image to a specific
+magazine or portfolio, issue and year ''is'' the clearance. '''Do not put any of these on a public
+surface without that citation in the record.'''
+
+* '''Alfred Cheney Johnston (1885–1971).''' Ziegfeld affiliation c.1917–1932; LC catalogues the studio
+  work as ca. 1918–1939. Published pre-1931: PD. '''Unpublished: in copyright to 1 January 2042''' —
+  and most of the figure studies were studio work, i.e. probably unpublished. Published 1931–1963 is
+  renewal-dependent. '''The one genuinely favourable finding: Johnston donated 245 prints to the
+  Library of Congress in 1960 (240 remain, LOT 8782), and LC's advisory on that lot reads "No known
+  restrictions on publication for Alfred Cheney Johnston photographs in this LOT"''' —
+  https://www.loc.gov/item/2005684587/ (items: /89712376/, /2008678879/; 61 items at
+  https://www.loc.gov/photos/?q=Alfred+Cheney+Johnston). '''A lot-specific advisory attached to a
+  deliberate gift by the photographer himself is the strongest clearance signal available here, and
+  it is the route I would use.''' Commons reaches the same conclusion independently (493 files;
+  `PD-old` not until 2042; `PD-US-expired` only pre-1931; warns most pictures cannot be reliably
+  dated). After his death a cache of figure studies and glass plates was dispersed at auction to
+  private collectors — note that '''owning a print or a plate is not owning the copyright''', though
+  auction buyers do assert. No organised estate was found, which lowers practical risk without
+  changing the term.
+* '''Yva (Else Ernestine Neuländer-Simon, 1900–1942, German).''' Berlin studio from 1925; forced to
+  close 1938; deported June 1942; declared dead 31 Dec 1944. '''EU/Germany: PD since 1 January 2013.'''
+  '''US: URAA restoration genuinely bites.''' First published in Germany (''Die Dame'', ''Uhu'', *Berliner
+  Illustrirte Zeitung*, ''Das Magazin'', c.1925–1938), never with US notice, never renewed — all four
+  Circular 38B conditions met, so restored 1 Jan 1996 for 95 years from first publication:
+
+{| class="wikitable"
+! First published !! US expiry !! Status 2026
+|-
+| 1925 || 31 Dec 2020 || '''PD'''
+|-
+| 1928 || 31 Dec 2023 || '''PD'''
+|-
+| '''1930''' || '''31 Dec 2025''' || '''PD — only just'''
+|-
+| 1931 || 31 Dec 2026 || in copyright until 1 Jan 2027
+|-
+| 1935 || 31 Dec 2030 || in copyright
+|-
+| 1938 || 31 Dec 2033 || in copyright
+|}
+
+  '''Plus: unpublished Yva material cleared life+70 in 2013 and is US PD outright.''' Held at the
+  Berlinische Galerie and Deutsche Fotothek. Her negatives are largely lost — 34 crates impounded at
+  Hamburg in 1942, 21 destroyed in a bombing, 13 auctioned off — so the surviving corpus is mostly
+  magazine tearsheets, which is conveniently also the evidence needed for dating. '''Get the
+  tearsheet.''' No organised estate asserting rights was found.
+* '''Biederer studio / Ostra-Studio (Paris, 1920s–30s).''' Jacques Biederer (b. 1887) founded the
+  studio 1908; brother Charles (b. 1892) joined 1913; Éditions Ostra set up late 1930s. Czech-born,
+  Jewish; '''both deported to Auschwitz-Birkenau and died in 1942.''' '''US: published 1930 or earlier →
+  PD now; unpublished → PD (both died before 1956). 1931 onward is URAA-restored''' (1931 → 2027,
+  1935 → 2031, 1939 → 2035). '''France/EU: nominally PD from 1 January 2013, with two real
+  complications''' — (a) the French '''wartime extensions''' (''prorogations de guerre'', CPI L123-8/9),
+  which the Cour de cassation has held are generally absorbed into the harmonised life+70 term
+  '''except''' where a work already benefited under the prior regime; and (b) '''authorship and
+  anonymity''' — much of the output was issued anonymously or under studio imprints, and an anonymous
+  work runs 70 years from publication, '''but reverts to life+70 if the author is later identified,
+  and the Biederers ''are'' identified in the literature.''' Both are questions for French counsel, and
+  both must be resolved image by image on the specific imprint. '''There is essentially no archive,
+  and that is the finding''' — the business did not survive the Occupation and the negatives were
+  largely destroyed. What exists: Commons `Category:Biederer Studio` (59 files, '''no category-level
+  PD rationale and no dates''', which is precisely the problem), private collections and the auction
+  trade. The BnF's ''Enfer'' collection is the likeliest institutional home but a holding was not
+  verified.
+* Also in this band: '''Brigman 1931–1949''', '''Riebicke's 1930s work''', and '''Allen's undated studio
+  material''', per §1.6.1.
+
+=== 1.6.3 The no-go shelf — do not use without a licence ===
+
+* '''Imogen Cunningham (1883–1976) — the Trust actively asserts, and it reaches further back than
+  people assume.''' Cleveland records carry '''"© The Imogen Cunningham Trust"''' and
+  `share_license_status: Copyrighted` on work from the '''1920s''' (e.g. ''Magnolia Blossom'', 1925,
+  https://clevelandart.org/art/2019.23; ''Agave'', 1920, https://clevelandart.org/art/2024.167). The
+  actual US position: died 1976, so '''unpublished runs to 1 January 2047'''; 1931–63 published is
+  renewal-dependent and the Trust is exactly the organised successor that renewed. '''The only PD
+  route is a work first ''published'' before 1931 — and publication means distribution of copies, not
+  exhibition.''' Her earliest nude studies (c.1910) caused a scandal and she did not return to the
+  subject for some fifty-five years. '''An exhibition is not a publication.''' You would be running a
+  formalities defence image by image against a live, funded, actively-licensing rightsholder
+  recognised by major museums. '''Do not put a Cunningham image on a public surface without a licence
+  or a documented first-publication citation.'''
+* '''Edward Weston (1886–1958) — the CCP ''owns'' the copyright. This is a genuine copyright claim, not
+  a scan claim.''' The Center for Creative Photography, University of Arizona, lists '''Edward Weston
+  by name under "Copyrights Owned by the Center for Creative Photography"'''
+  (https://ccp.arizona.edu/copyright/copyright-permissions/), and the claim is doubled with ARS —
+  Cleveland records carry *"© Center for Creative Photography, Arizona Board of Regents / Artists
+  Rights Society (ARS), New York"* on work from '''1924''' onward. US position: died 1 Jan 1958, so
+  '''unpublished runs to 1 January 2029''', and that is the controlling rule for most of the output.
+  '''The chronology runs against you''': Mather/Modotti studies 1920–26, Bertha Wardell 1927,
+  Noskowiak 1933, the Charis Wilson and Oceano Dunes series 1934–36. His pre-1931 ''publication''
+  history is thin and mostly not the figure work, and '''his exhibitions are not publication.''' So
+  the famous figure studies are almost all post-1930 and almost all unpublished pre-1931. '''US PD:
+  no. EU: in copyright to 2029. The economics favour licensing.'''
+* '''John Everard (British; real name Edward Ralph Forward) — the term is uncomputable, so treat as in
+  copyright.''' Active 1923–1963 (one source to 1966); '''both birth and death years are missing from
+  the standard reference records.''' UK/EU term is life+70, so '''with no death date there is no
+  computable expiry''' — if he died as late as his last recorded activity, UK copyright runs to at
+  least 31 December 2036. The UK unknown-authorship route is not available: "John Everard" is a known
+  pseudonym of an identified person. '''US: all the books are post-1930 British first publications, so
+  URAA restoration applies on a 95-year clock''' (1935 → 2031; 1963 → 2059). '''US PD: no.''' A failed
+  US renewal on a US edition would be the only way out, and that is a research commission.
+  '''Do not let anyone guess a death date to make this work.'''
+
+=== 1.6.4 EU-facing caution — public domain in the US, not in the EU ===
+
+If any surface serves Europe, these are in copyright there even where the US is clear: '''Surén's
+text''' (to 2043), '''Albert Arthur Allen''' (to 2033), '''Weston''' (to 2029), '''Riebicke''' (to 2028),
+and the '''Steichen (2044)''' and '''Coburn (2037)''' plates within ''Camera Work''.
+
+=== 1.6.5 The Italian cultural-heritage complication — and how to frame it correctly ===
+
+This gets described as "Italy claims copyright in public-domain works." '''That framing is wrong and
+will mislead a reviewer.''' It is '''not copyright and not a term question''': it is an '''administrative
+concession-and-fee regime''' under D.Lgs. 42/2004 (the ''Codice dei beni culturali''), arts. 106–108,
+attaching to '''Italian State-held cultural property''' — a separate public-law permission layer with
+contested extraterritorial reach.
+
+It has been litigated and enforced: ''Ministero della Cultura v. Cave Michelangelo'' (Firenze, 11 Apr
+2022, €500/day penalty); ''Gallerie dell'Accademia di Venezia v. Ravensburger'' (24 Oct 2022,
+''Vitruvian Man'' puzzles, €1,500/day); ''Uffizi/Accademia v. GQ'' (Trib. Firenze, Apr–May 2023, '''€20,000
+concession fee plus €30,000 for distortion''' over a ''David'' cover, grounding a "right to the image of
+cultural property" in arts. 107–108 plus Art. 9 of the Constitution). '''Ministerial Decree 161 of 11
+April 2023''' sets minimum fees, is mandatory for State museums, and '''removes their discretion to
+release images openly under CC'''. Italy then inserted '''art. 32-quater''' into Law 633/1941 (D.Lgs.
+177, Nov 2023) implementing DSM art. 14 '''while expressly preserving the Codice's reproduction
+rules''' — i.e. Italy legislated the carve-out. '''Whether that survives art. 14 is unresolved''' and
+has not been referred to the CJEU.
+
+'''Practical read: this reaches you only if you source the image ''from'' an Italian State
+institution's holding, or reproduce an Italian State-held object.''' Gloeden and Plüschow prints held
+at the Met, Getty, ICP, Wellcome or privately are outside it. '''Sourcing matters more than subject
+matter.''' This is also where Europeana's `NoC-OKLR` statement (§1.2a) mostly lives.
+
+=== 1.6.6 Best actual sourcing routes for this shelf ===
+
+# '''Cleveland Museum of Art's CC0 API''' — ''Camera Work'' plates and Clarence White. (Ignore its
+   erroneous `Copyrighted` flags on pre-1931 items; see §1.7.)
+# '''Library of Congress''' — F. Holland Day (Guiney Collection) and Johnston (LOT 8782). No rights
+   claimed, no fees — but do your own term analysis and keep the record (§1.2).
+# '''Getty Open Content''' — CC0, commercial explicit, strong in 19th-century photography; holds
+   Moulin and Marconi material.
+# '''The Met's `isPublicDomain: true` objects''', per accession number (e.g. Igout 1993.270).
+# '''Wellcome Collection''' (Public Domain Mark) — Muybridge.
+# '''Paris Musées, SMK, Nationalmuseum Sweden, Finnish National Gallery''' — European open content.
+# '''Modernist Journals Project''' — a complete ''reading'' copy of ''Camera Work'', but ask before
+   redistributing per their terms, and note the six missing images.
+
+== 1.7 Bridgeman: the museum's photograph of a public-domain painting ==
+
+'''Bridgeman Art Library, Ltd. v. Corel Corp.''' — note there are '''two''' opinions, and citing only
+the 1999 one is standard but incomplete:
+* '''25 F. Supp. 2d 421 (S.D.N.Y., 13 November 1998)''' (also 49 U.S.P.Q.2d 1091) — summary judgment
+  for Corel, decided partly on UK law;
+* '''36 F. Supp. 2d 191 (S.D.N.Y., 2 March 1999)''' (also 1999 WL 85513) — '''on reargument''', the same
+  result reached under US law. Judge '''Lewis A. Kaplan'''.
+
+Held: an exact photographic reproduction of a public-domain two-dimensional artwork lacks the
+originality ''Feist'' requires, and so attracts no new copyright. Skill, labour and expense in
+achieving an accurate copy are sweat of the brow; what is needed is an independent creative spark,
+and a slavish copy by definition has none. The court adopted Nimmer's formulation that copyright is
+denied where a photograph "amounts to nothing more than slavish copying," noting that "the point of
+the exercise was to reproduce the underlying works with absolute fidelity." *(The full opinion text
+could not be retrieved this session — Justia and OpenJurist refused automated fetching and
+CourtListener's opinion endpoint requires auth. The holding above is accurate and uncontroversial,
+but pull any verbatim quotation from the reporter before putting it in a document that matters.)*
+
+Four things to hold about it:
+
+# '''It is a district court decision.''' It binds nobody outside S.D.N.Y. It is widely followed and
+   was cited approvingly by the Tenth Circuit in *Meshwerks, Inc. v. Toyota Motor Sales U.S.A.,
+   Inc.*, 528 F.3d 1258 (10th Cir. 2008), but it has never been affirmed by the Supreme Court and
+   there is contrary district authority (''Schiffer Publishing v. Chronicle Books'', 350 F. Supp. 2d
+   613 (E.D. Pa. 2004), usually distinguished on the ground that those photographs were visibly
+   ''inaccurate'' and therefore original).
+# '''It only reaches 2D works.''' A photograph of a ''sculpture'' involves lighting, angle and framing
+   choices and is an original work in its own right. Half of the classical nude material in these
+   collections is sculpture. '''Do not assume Bridgeman clears a photograph of a statue.''' Rely on
+   the institution's own CC0 grant for those, not on Bridgeman.
+# '''It does not defeat contract.''' This is the point that actually matters, and it is the one most
+   often missed. An institution's terms of use, a click-through, or a licence you accepted in order
+   to obtain the file '''binds you as contract even where there is no copyright at all.''' That is the
+   real mechanism behind nearly every scan-level assertion catalogued in this memo — the Met
+   withholding Open Access files on PD objects, the Modernist Journals Project's permission
+   requirement, Gallica's commercial fee, the Louvre's RMN route, the Nevada Museum of Art's claim.
+   '''Bridgeman kills the copyright claim and leaves the contract claim standing.'''
+# '''The UK has caught up, and the EU has legislated.''' In the UK, ''THJ Systems v. Sheridan'' [2023]
+   EWCA Civ 1354 (Arnold LJ) confirms no new copyright arises from a photographic reproduction of a
+   2D public-domain artwork; the UK IPO's guidance says the same. In the EU, '''Article 14 of the DSM
+   Directive (Directive (EU) 2019/790)''' provides, verbatim:
+
+   > Member States shall provide that, when the term of protection of a work of visual art has
+   > expired, any material resulting from an act of reproduction of that work is not subject to
+   > copyright or related rights, unless the material resulting from that act of reproduction is
+   > original in the sense that it is the author's own intellectual creation.
+
+   https://eur-lex.europa.eu/eli/dir/2019/790/oj (CELEX 32019L0790; OJ L 130, 17.5.2019, pp. 92–125)
+
+   Article 14 bars new copyright '''and related rights''', which is what closes the German
+   ''Lichtbild'' route (§72 UrhG — the basis of the Reiss-Engelhorn-Museen litigation) and is the part
+   that actually mattered. '''But read the last sentence of Recital 53:''' *"All of that should not
+   prevent cultural heritage institutions from selling reproductions, such as postcards."* That is
+   the loophole everyone uses. Article 14 improved the ''legal'' position without much changing the
+   ''practical'' one — the practice simply migrated from copyright to contract, access control, and in
+   Italy to public-law concession (§1.6.5).
+
+'''Practical consequence, stated carefully:''' for a 2D painting, drawing or photographic print in the
+public domain, the museum's scan carries no new copyright in either the US or the EU, *regardless of
+what the museum's website says*. '''But the remaining exposure on both sides of the Atlantic is
+contractual and administrative, not copyright''' — and a terms-of-use breach is a cheaper and easier
+claim for an institution to bring than an infringement suit. So '''do not build on Bridgeman.'''
+Relying on it means relying on an unaffirmed district court case against a well-resourced
+institution with a contrary written policy you probably clicked through. There are several hundred
+thousand CC0 images available where the institution has already conceded the point. Use those, and
+keep Bridgeman as a defence rather than a sourcing strategy.
+
+== 1.8 Contemporary work under Creative Commons ==
+
+=== What CC BY 4.0 actually obliges a commercial site to do ===
+
+CC BY 4.0 permits commercial use — the licence grant is "worldwide, royalty-free, non-exclusive,
+irrevocable" and contains no non-commercial restriction. In exchange, '''Section 3(a)(1)''' requires,
+every time you share the material:
+
+# identify the '''creator''' (and anyone else the licensor designates), by pseudonym if designated;
+# retain any '''copyright notice''' supplied;
+# retain a reference to the '''licence''';
+# retain a reference to the '''warranty disclaimer''';
+# include a '''URI or hyperlink to the material''', where reasonably practicable;
+# '''state whether you modified it''', and retain any prior modification notices;
+# state that the material is licensed under CC BY 4.0, with its text or a link.
+
+Section 3(a)(2) lets you satisfy all of that "in any reasonable manner based on the medium, means,
+and context" — in practice a per-image credit line and a credits page, not seven lines under every
+picture. (https://creativecommons.org/licenses/by/4.0/legalcode.en)
+
+'''The teeth: Section 6(a) terminates your rights automatically on any failure to comply.''' Not on
+notice — automatically. Section 6(b) reinstates them if you cure within 30 days of ''discovering'' the
+violation, but reinstatement does not extinguish the licensor's claim for the period of breach. A
+commercial gallery that drops the credit line on 400 CC BY images has, technically, 400 unlicensed
+reproductions. '''This is a build requirement, not a content requirement:''' the credit must be
+generated from the database record, mechanically, and must be impossible to publish without.
+
+'''CC BY-SA 4.0''' adds ShareAlike: adaptations must be released under the same licence. For a gallery
+that ''displays'' images unmodified, SA is largely inert — mere collection in a gallery is not an
+adaptation. It bites the moment you crop, recolour, composite, or build derived works, at which
+point the derivative must itself go out under BY-SA. '''That is usually incompatible with a paid
+property''', because it means your derived asset must be freely redistributable by your subscribers.
+Rule: BY-SA images get displayed as-is or not at all.
+
+'''CC licences are irrevocable''' once granted — a licensor can stop distributing under the licence,
+but copies already out stay licensed. That cuts in your favour, provided you can prove the licence
+that applied on the day you took it. Snapshot the licence state at ingest.
+
+=== CC BY-NC: unusable. Say it plainly. ===
+
+'''Any `NC` variant — CC BY-NC, CC BY-NC-SA, CC BY-NC-ND — is unusable for a commercial property.'''
+Not "risky," not "grey": the licence does not grant the right you need. A subscription site, an
+ad-supported site, or a free site that exists to funnel traffic to a paid product is commercial use.
+There is no safe-harbour reading. If you want an NC-licensed image, you negotiate a separate licence
+with the rightsholder, which is exactly what the NC term exists to make you do.
+
+Same for '''`ND` (NoDerivatives)''': no cropping, no colour correction, no thumbnails that alter the
+image, no compositing. For a gallery that does any layout work at all, ND is more trouble than it is
+worth. Exclude it at ingest alongside NC.
+
+=== Where contemporary CC BY / CC BY-SA work actually lives ===
+
+* '''Wikimedia Commons''' — policy requires every accepted file to be under a licence permitting
+  '''republication, derivative works and commercial use''', perpetual and irrevocable. NC and ND are
+  '''forbidden''' unless the file also carries an acceptable free licence. That makes Commons the
+  single most reliable pool, but note: the obligation to attribute is per-file, and the file
+  description page's claim is only as good as the uploader. Verify the upstream source on anything
+  load-bearing. https://commons.wikimedia.org/wiki/Commons:Licensing
+''' Commons also accepts '''faithful reproductions of 2D public-domain artworks as public domain
+    regardless of source country''' (the PD-Art position), which is Bridgeman applied as policy.
+* '''Flickr''' CC-licensed uploads — filter strictly to BY and BY-SA; the API exposes the licence id.
+  Treat the uploader's licence claim as unverified: Flickr has a large volume of
+  licence-laundered material. For a nude-art property this matters more than usual, because
+  misattributed images of identifiable people are the specific failure mode that generates
+  complaints.
+* '''Europeana''' — per-item, must be filtered (§1.2).
+
+---
+
+'''PART 2 — THE "MR. SKIN" QUESTION'''
+
+== 2.1 What that business actually is ==
+
+Mr. Skin launched '''10 August 1999''', founded by '''Jim McBride''', a former Chicago radio
+personality; the corporate parent is '''SK Intertainment, Inc.''' (Chicago, est. 1999), which also
+operates a male-nudity sibling site launched in 2013 and acquired another adult-adjacent property in
+February 2014. Traffic was reported at 7M monthly visitors (2007), 10M+ (2014), 9M+ (2017).
+Registration is optional for previews — i.e. a '''freemium/subscription model with a free metadata
+tier'''. (https://en.wikipedia.org/wiki/Mr._Skin)
+
+The structure is the thing to understand, because it is two products stacked:
+
+* '''Layer 1 — the index.''' Title, year, performer, scene, timestamp, a short factual descriptor, and
+  a rating. This is a factual compilation. It is the part that is genuinely hard to replicate and
+  it is the part that is cheapest to defend.
+* '''Layer 2 — the media.''' Hosted screenshots and clips taken from the films. This is the part that
+  converts subscriptions, and it is the part with no clean legal theory under it.
+
+'''How it has justified the media:''' by '''asserting fair use''' — McBride's public position is that the
+site is "a compilation of reviews, references and other critical commentary on actresses and the
+films in which they have appeared" — and by pointing to studio cooperation, claiming that "about
+75-percent of movie companies and movie distributors send us screeners of their films." '''Both are
+the company's own statements.''' I found '''no public evidence of any formal licence agreement with
+any studio or distributor''', and '''no court has ever ruled on the fair-use claim.''' Sending a
+screener for review is not a licence and does not estop anyone.
+
+'''Litigation — one confirmed case, disposition unknown.''' *Creative Photographers, Inc. and
+Lickerish Ltd. v. SK Intertainment*, filed in federal court in California in '''mid-January 2019''': a
+'''copyright''' action by two photo agencies alleging unauthorised use of '''photographs''' to drive
+subscriptions and ad sales. The docket and outcome could not be retrieved. Note what the claim was
+''not'' about: not the clips, not the scene index — '''the still photographs it reproduced.''' That is
+the shape of the risk in miniature.
+
+I found '''no reliable sourcing for any right-of-publicity suit''' against the company. That is an
+absence of evidence from a budget-limited search, not a finding that none exists, and given §2.5 it
+would be unwise to read it as a clean bill of health. A PACER name search is the proper check.
+
+'''Read the 26-year survival correctly.''' It is not evidence that the model is lawful. It is evidence
+that the model has been ''tolerated'' — by studios who benefit from the publicity, and by performers
+for whom suing is worse than being listed. Tolerance is not a licence, and the thing that changes
+tolerance is a change in the law. Part 2.7 is that change.
+
+== 2.2 Facts are not copyrightable — and a timestamp is a fact ==
+
+'''Feist Publications, Inc. v. Rural Telephone Service Co., 499 U.S. 340 (1991)''' is the controlling
+authority and it is about as favourable as a case can be.
+
+* ''"The sine qua non of copyright is originality."''
+* ''"[N]o author may copyright his ideas or the facts he narrates"'' — which the Court calls '''"the
+  most fundamental axiom of copyright law."'''
+* The Court expressly held that '''"originality, not 'sweat of the brow,' is the touchstone of
+  copyright protection in directories and other fact-based works."''' Rural had compiled its white
+  pages at real expense; that expense bought it nothing.
+* *"A factual compilation is eligible for copyright if it features an original selection or
+  arrangement of facts"* — but ''"the copyright in a factual compilation is thin."''
+* And the operative sentence for this business: despite a valid compilation copyright, '''"a
+  subsequent compiler remains free to use the facts contained in another's publication"''' to prepare
+  a competing work.
+
+https://www.law.cornell.edu/supremecourt/text/499/340
+
+'''Applied:''' the proposition "film ''X'' (1994) contains a scene involving performer ''Y'' at 01:14:22"
+is a '''fact about the world'''. It is not authored, it is observed. Recording it, and recording
+100,000 more like it, creates a factual compilation in which the facts themselves are free for
+anyone — including you, and including anyone who later copies you. Independently observing those
+facts and publishing them is '''not copyright infringement of the film''', and it is '''not
+infringement of an existing index that records the same facts.'''
+
+Note the second half of that: Feist cuts both ways. Your index will also be, as to its facts,
+uncopyrightable. You cannot build a moat out of it.
+
+== 2.3 The limits: selection and arrangement, and the EU database right ==
+
+=== Limit 1 — original selection and arrangement ''is'' protected ===
+
+Feist protects the ''compilation'' where the selection, coordination or arrangement is original, even
+though every underlying fact is free. In practice that means: '''do not copy someone else's index.'''
+Copy their ''facts'' — permitted — but not their taxonomy, their rating scheme, their categories,
+their editorial descriptions, their ordering, or their choice of what to include and omit. The
+descriptive prose attached to each entry is plainly original expression and is fully protected.
+Wholesale scraping of an existing index and reskinning it is the way this goes wrong, and it goes
+wrong on ''selection and arrangement'' plus ''the text'', not on the timestamps.
+
+The safe construction: '''independently observed facts, your own taxonomy, your own words.'''
+
+=== Limit 2 — the EU sui generis database right, which has no US analogue ===
+
+'''Directive 96/9/EC on the legal protection of databases''' creates a second, separate right that does
+not exist in American law. Two tiers:
+
+* '''Article 3(1)''' — copyright, for databases which "by reason of the selection or arrangement of
+  their contents, constitute the author's own intellectual creation." This is roughly Feist.
+* '''Article 7''' — the '''''sui generis''''' right. It gives the maker of a database the right to prevent
+  extraction and/or re-utilisation of all or a substantial part of the contents, where there has
+  been '''"a substantial investment in either the obtaining, verification or presentation of the
+  contents."''' It applies '''whether or not''' the database or its contents are protected by
+  copyright, and it also bars '''repeated and systematic extraction of insubstantial parts''' where
+  that conflicts with normal exploitation or unreasonably prejudices the maker's legitimate
+  interests.
+* '''Article 10''' — term: '''15 years''' from 1 January of the year following completion (or following
+  first public availability, if later). A substantial new investment restarts the clock — in a
+  continuously updated database, the term is effectively perpetual.
+* '''Article 11''' — beneficiaries: nationals or habitual residents of a Member State, and companies
+  formed under Member State law with registered office, central administration or principal place of
+  business in the Community. Extension to third-country databases requires a Council agreement.
+
+https://eur-lex.europa.eu/eli/dir/1996/9/oj · https://www.legislation.gov.uk/eudr/1996/9/article/7
+
+'''This is exactly the "sweat of the brow" doctrine that the US rejected in Feist, re-enacted as
+statute in Europe.''' A US-only analysis gets this wrong in both directions:
+
+# '''Downside.''' If you systematically extract substantial parts of an EU-maker's database, you can
+   be liable in the EU even though the identical act is lawful in the US. Scraping a European film
+   database is a different legal act from scraping an American one.
+# '''Upside, and this is the part worth noticing.''' The CJEU's '''British Horseracing Board v.
+   William Hill (C-203/02, 2004)''' draws the critical line: investment in '''creating''' the data does
+   not count — only investment in '''obtaining, verifying or presenting''' pre-existing data. A
+   database of facts you generated yourself is, on BHB, outside the sui generis right. An index built
+   by '''watching films and recording observations''' is arguably ''creating'' data, not ''obtaining'' it,
+   which means '''your own database might not attract the sui generis right at all''' even if you are
+   EU-established. Conversely, ''CV-Online Latvia (C-762/19, 2021)'' requires a claimant to show that
+   the extraction actually damaged its investment. Net: the EU right is a real constraint on what you
+   may take, and a weak shield for what you build.
+* '''Article 11 also means''' a US-incorporated maker gets no sui generis right in the EU at all. If
+  this property is a US entity, it is exposed to the right and cannot invoke it.
+* '''UK post-Brexit:''' the Copyright and Rights in Databases Regulations 1997 survive. Database rights
+  arising on or after 1 January 2021 are protected only within the jurisdiction of their creation —
+  UK rights in the UK, EEA rights in the EEA — with reciprocal recognition preserved only for rights
+  that existed before that date.
+* '''The United States has no database right at all.''' Repeated bills to create one have failed.
+
+== 2.4 Stills and clips: a different question, and a worse answer ==
+
+The two cases everyone cites are both Ninth Circuit and both about '''search engines'''.
+
+'''Kelly v. Arriba Soft Corp., 336 F.3d 811 (9th Cir. 2003)''' (amending 280 F.3d 934 (9th Cir. 2002)).
+A photographer sued an image search engine that displayed '''thumbnails''' of his pictures. Held: the
+thumbnails were '''prima facie infringing but fair use''' — the use was transformative, serving an
+indexing function rather than an aesthetic one, and the low-resolution thumbnails did not substitute
+for the originals. Critically, the 2003 amended opinion '''withdrew''' the 2002 holding on the
+'''full-size inline-linked/framed images''' and remanded it: the court declined to decide that the
+display of full-size images was infringing or fair.
+
+'''Perfect 10, Inc. v. Amazon.com, Inc., 508 F.3d 1146 (9th Cir. 2007)''' (amending 487 F.3d 701).
+Held: Google's thumbnails in image search were '''highly transformative''' — a "new and socially
+beneficial function" improving access to information — and that transformative character outweighed
+the commercial nature of the use; Perfect 10 failed to show significant market harm. Separately held
+that '''in-line linking and framing a full-size image hosted elsewhere is neither a "display" nor a
+"distribution"''' by the linking site (the "server test").
+
+'''Here is the honest reading, and it is not the one the operator is hoping for.'''
+
+Both cases turn on a '''search engine indexing the open web''': an automated, comprehensive, neutral
+pointer whose entire social value is ''sending the user to the original''. Neither case authorises a
+'''curated library of screenshots offered as the product itself'''. Walk the four factors for a
+subscription site whose screenshots ''are'' what people pay for:
+
+* '''Purpose and character.''' A thumbnail in a search index is transformative because its function
+  differs from the original's. A screenshot of a scene, presented to a user who came specifically to
+  see that scene, performs '''the same function the film performs'''. That is the opposite of
+  transformative, and the commercial character is direct and substantial.
+* '''Nature of the work.''' Feature films are core creative expression. Factor against.
+* '''Amount and substantiality.''' Small in the quantitative sense — but ''Harper & Row'' makes
+  qualitative substantiality decisive, and a curated index selects precisely the scenes with the
+  highest draw. Taking the "heart" of the thing you took is the worst version of this factor.
+* '''Market effect.''' The commentary-and-criticism argument is genuinely available here and should not
+  be dismissed — written criticism of a film, quoting a frame to illustrate a point, is textbook
+  fair use. But the argument degrades sharply with volume and with resolution, and it collapses
+  entirely when the media is behind a paywall and the text around it is pretextual.
+
+'''Where I think the line falls:'''
+
+{| class="wikitable"
+!  !! Assessment
+|-
+| Metadata index, no media — title / performer / timestamp / your own factual descriptor || '''Defensible.''' Feist. Not a reproduction of anything.
+|-
+| Linking out to a licensed source (studio page, JustWatch, a streaming deep-link) || '''Defensible.''' No copy is made.
+|-
+| Official promotional stills and press-kit images used within their press terms || '''Defensible, within the terms.''' Press kits grant editorial use; a paywalled gallery usually exceeds it. Read each one.
+|-
+| A frame or two illustrating genuine written criticism, free side, low-res || '''Arguable fair use''', strongest where the text is real and substantial. Not a product.
+|-
+| A curated, paywalled library of screenshots as the primary draw || '''Not defensible.''' No case supports it. Kelly and Perfect 10 do not reach it.
+|-
+| Hosted video clips || '''Not defensible.''' This is straightforward reproduction and public performance of audiovisual work.
+|}
+
+The incumbent has run the bottom two rows for 26 years on an untested theory and an unenforced
+tolerance. That is a fact about enforcement appetite, not about the law.
+
+== 2.5 Right of publicity — the exposure the question did not ask about ==
+
+This is '''separate from copyright''', it is '''state law''', it survives the copyright analysis
+entirely, and in this specific business it is the one that actually bites.
+
+* There is '''no federal right of publicity'''. Roughly 30 states plus DC recognise one, about 19 by
+  statute, the rest at common law; all 50 have ''something'' under the privacy label. Every one of them
+  is different.
+* '''California Civil Code §3344(a)''': liability for knowingly using another's "name, voice,
+  signature, photograph, or likeness" for purposes of advertising or selling without prior consent.
+  The Celebrities Rights Act (1985, now §3344.1) gives a '''70-year post-mortem''' right.
+* '''New York Civil Rights Law §§50–51''' (consent required for use for advertising or trade), plus
+  '''§50-f''' (added 2020, see below) and '''§52-c'''.
+* '''Indiana and Oklahoma: 100 years post-mortem.''' Indiana's statute reaches signature, photograph,
+  gestures, distinctive appearance and mannerisms. '''Tennessee's right does not expire while use is
+  continuous.''' These are the forum-shopping states.
+* The only Supreme Court decision is '''Zacchini v. Scripps-Howard Broadcasting Co., 433 U.S. 562
+  (1977)''': the First Amendment did '''not''' shield a broadcaster who aired a performer's entire act
+  without consent. That is a narrow holding, but it is the one on point for "we reproduced the
+  performance itself."
+* '''Defences:''' newsworthiness and matters of public concern; the transformative-use test (*Comedy
+  III Productions v. Gary Saderup*, 25 Cal. 4th 387 (2001)); artistic relevance (*ETW Corp. v. Jireh
+  Publishing*, 332 F.3d 915 (6th Cir. 2003); ''Brown v. Electronic Arts'', 724 F.3d 1235 (9th Cir.
+  2013)). Courts have often treated editorial publication as non-commercial for these purposes.
+* '''Copyright preemption (17 U.S.C. §301)''' is the live doctrinal fight and it cuts for you on the
+  media and against you on the marketing. ''Laws v. Sony Music Entertainment'', 448 F.3d 1134 (9th Cir.
+  2006): a publicity claim that is in substance about the reproduction of a '''copyrighted recording
+  of a performance''' is preempted. ''Toney v. L'Oréal USA'', 406 F.3d 905 (7th Cir. 2005): a claim about
+  the '''identity/persona''' itself is '''not''' preempted, because identity is not fixed in a tangible
+  medium. Translating: a performer complaining that you reproduced ''the film'' is likely preempted;
+  a performer complaining that you used ''her name and face to sell subscriptions'' is not.
+
+'''The specific problem.''' A site of this kind necessarily does two things simultaneously: it
+publishes factual/editorial information about performers (protected), and it uses those performers'
+names and images to market a paid product (the thing §3344 and §§50–51 were written for). The
+performer index page, the search-engine-facing performer name, the thumbnail on the signup funnel —
+those are where a publicity claim lands, and preemption does not save them. '''The editorial framing
+is not cosmetic. It is the defence, and it has to be real.'''
+
+'''Outside the US''', there is no general UK image right, but the UK gets there via passing off and
+UK GDPR; '''France''' protects image under Article 9 of the Civil Code with a strong independent
+''droit à l'image''; '''Germany''' protects image under KUG §§22ff and the general personality right
+(Art. 1/2 GG, §823(1) BGB); '''GDPR''' treats a photograph of an identifiable person as personal data
+in its own right, which supplies an erasure route (Art. 17) that has nothing to do with copyright or
+publicity rights and that a European performer will find far easier to use than a lawsuit.
+
+== 2.6 Where the film data could legitimately come from ==
+
+{| class="wikitable"
+! Source !! Verdict for a commercial product
+|-
+| '''TMDb''' || '''No, without a negotiated agreement.'''
+|-
+| '''IMDb (free)''' || '''No.'''
+|-
+| '''IMDb (paid)''' || '''Yes — and it is the closest licensed analogue that exists.'''
+|-
+| '''Wikidata''' || '''Yes, cleanly.'''
+|-
+| '''Wikipedia prose''' || '''Facts yes, sentences no.'''
+|-
+| '''OpenSubtitles''' || '''No. Worst input in the design.'''
+|-
+| '''First-party observation''' || '''Yes. The only way to get the actual signal.'''
+|}
+
+'''TMDb''' — https://www.themoviedb.org/api-terms-of-use (last updated 20 Oct 2023). The licence is
+'''non-commercial by default''': §2.A states that the grant "does not permit any commercial use of
+TMDB, the TMDB APIs, or TMDB Content," and that commercial use "is only permitted under a separate
+written agreement," which "may be subject to, among other things, payment of fees." §2.A expressly
+names "providing archived or cached data sets containing TMDB Content to another person or entity"
+as commercial use. §1.C independently prohibits caching "for longer than 6 months," making
+"derivatives of the TMDB APIs or TMDB Content," and use "in connection with, including for training,
+a machine learning (ML) or artificial intelligence (AI) based Application." §3 makes attribution
+mandatory and two-part: the TMDB logo, "less prominent than" your own marks, plus the notice that
+the app "uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB."
+And §1.C bars use with applications that, "in TMDB's sole discretion," involve "obscene,
+pornographic, abusive, or otherwise offensive content" — a unilateral off-switch pointed directly at
+this product. On termination (§1.D) you must purge all cached content. The `adult` boolean and
+`include_adult` parameter flag ''adult productions'', '''not''' mainstream films containing nude scenes —
+it is not the signal this product needs.
+
+'''IMDb''' — https://www.imdb.com/conditions. "You may not use data mining, robots, screen scraping, or
+similar data gathering and extraction tools on this site." The site licence is expressly "personal
+and non-commercial," and the Services "may not be reproduced, duplicated, copied, sold, resold,
+visited, or otherwise exploited for any commercial purpose" without express written consent.
+'''Scraping IMDb is out.''' The free datasets at https://datasets.imdbws.com/ (per
+https://data.imdb.com/non-commercial-datasets/) are "available to customers for personal and
+non-commercial use" — '''confirmed non-commercial, cannot be used here''' — and in any case contain no
+scene-level or timecode data. '''The commercial route is real and is the interesting finding:''' IMDb
+licenses ''IMDb Essential Metadata'', ''IMDb Ratings'', ''Box Office Mojo'', and add-on datasets including
+'''Parents Guide — "severity ratings and scene descriptions of adult/potentially-harmful on-screen
+content and themes."''' That is the closest thing to a licensed version of the target signal that
+exists anywhere. Distribution is via '''AWS Data Exchange'''; a GraphQL API is available exclusively
+through it. '''No public pricing — contact sales.''' (https://data.imdb.com/)
+
+'''Wikidata''' — https://www.wikidata.org/wiki/Wikidata:Licensing. Structured data in the main,
+Property, Lexeme and EntitySchema namespaces is '''released into the public domain under CC0 1.0'''.
+Film and cast statements (P161 cast member, P57 director, etc.) are therefore '''commercially
+reusable with no legal attribution obligation'''. CC0 is a waiver, not a conditioned licence: no
+share-alike, no notice duty. SPARQL at `https://query.wikidata.org/sparql`; dumps at
+`dumps.wikimedia.org`; Action API, Wikibase REST/GraphQL, and EventStreams also available. Observe
+the Wikimedia User-Agent policy, honour `429`/`Retry-After`, send `Accept-Encoding: gzip,deflate`.
+'''This is the clean spine for the film/cast graph.'''
+
+'''Wikipedia prose''' — https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use §7. Text is
+dual-licensed '''CC BY-SA 4.0 and GFDL'''. §7.7 requires attribution by hyperlink/URL to the reused
+page, or to a stable free copy, or by listing all authors; §7.8 requires modified/added content to
+go out under CC BY-SA 4.0 or later with a licensing notice. '''Copying Wikipedia sentences drags a
+viral share-alike obligation into your database. Extract facts, write your own prose.'''
+
+'''OpenSubtitles''' — I could not verify the current terms: opensubtitles.com and .org returned HTTP
+403 to every automated fetch. More importantly, '''the copyright question is already decided against
+reuse in at least one EU jurisdiction.''' Subtitles are a transcription/translation of the dialogue —
+a '''derivative work of the screenplay''' — and in '''Stichting Laat Ondertitels Vrij v. BREIN'''
+(Rechtbank Amsterdam, ~20 April 2017) the court rejected every claim by the fansubbing foundation
+and held that subtitles may be created and distributed '''only with the rightsholders' permission''',
+so unauthorised fan subtitles — including freely given ones — infringe. It is a Dutch first-instance
+judgment, binding on the parties, but it is the leading authority in Europe and persuasive. '''Using
+community subtitle files for timecode alignment imports a judicially-established infringement risk
+into the core of the product.''' Do not.
+
+== 2.7 Synthetic/deepfake law — the thing that changes the tolerance ==
+
+A property in this space will be targeted with synthetic imagery whether or not it wants it, and the
+law landed in 2025.
+
+'''ENACTED, federal — TAKE IT DOWN Act, S.146, Pub. L. 119-12, signed 19 May 2025.'''
+(https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm)
+* Amends 47 U.S.C. §223 to criminalise knowingly publishing an intimate visual depiction of an
+  identifiable adult, without consent and causing harm, via an interactive computer service; a
+  parallel offence covers minors. Threats to publish are also covered.
+* '''Digital forgeries are covered on the same terms''' — defined as an intimate visual depiction
+  created through software or machine learning that a reasonable person would take to be authentic.
+* Penalties: up to '''2 years''' (adult victim), up to '''3 years''' (minor victim), plus fines.
+* '''§3 platform duty:''' covered platforms must operate a reporting process and remove a reported
+  depiction '''"as soon as possible, but not later than 48 hours,"''' plus make reasonable efforts to
+  remove known identical copies. Good-faith removals are shielded.
+* '''"Covered platform" (§4)''' is the clause to read twice: a public-facing site/service/app that
+  either primarily hosts user-generated content '''or regularly publishes or makes available
+  non-consensual intimate depictions as part of its business.''' The second limb is not limited to
+  UGC sites.
+* '''Enforcement is by the FTC''', as an unfair or deceptive act or practice. '''No private right of
+  action.'''
+* '''Compliance deadline was ~19 May 2026 — already passed.''' Any covered platform is inside the
+  enforcement window now, not later.
+
+'''PENDING, federal (not law as of this memo):'''
+* '''DEFIANCE Act''' — civil remedy for victims of non-consensual sexually explicit digital forgeries.
+  Passed the '''Senate by unanimous consent 13 January 2026'''; House companion '''H.R. 3562''' still in
+  House Judiciary as of mid-July 2026. '''Not enacted.'''
+* '''NO FAKES Act''' (federal digital-replica right in voice and likeness) — '''S.4591 / H.R.8915''',
+  reintroduced 20 May 2026, out of Senate Judiciary unanimously 18 June 2026, '''stalled on the Senate
+  floor''' since a 7 October 2026 objection on First Amendment grounds. Includes a DMCA-style
+  counter-notification process. '''Not enacted.'''
+
+'''ENACTED, states (the ones that matter here):'''
+* '''New York CRL §50-f and §52-c''' (S5959-D, signed 30 Nov 2020, Ch. 304). §50-f: 40-year
+  post-mortem right for deceased performers/personalities, expressly covering '''digital replicas'''.
+  §52-c: private right of action for a "depicted individual" against unconsented dissemination of
+  sexually explicit material, with consent required in a '''signed, plain-language agreement'''
+  rescindable within three business days; "digitization" is defined to cover realistically depicting
+  another person's nude body parts as the depicted individual's. Remedies include punitive damages
+  and fees. Exemptions for legal proceedings, matters of legitimate public concern and newsworthy
+  works. Limitation: later of 3 years from dissemination or 1 year from discovery.
+* '''New York GOL §5-302''' (S7676-B, signed 13 Dec 2024, eff. 1 Jan 2025) — voids digital-replica
+  contract clauses absent a reasonably specific description of use '''and''' counsel or union
+  representation.
+* '''New York S.8420''' (signed 11 Dec 2025, eff. ~June 2026) — advertisers with actual knowledge that
+  an ad features a '''"synthetic performer"''' must conspicuously disclose it; $1,000 first violation,
+  $5,000 thereafter. '''S.8882''' extends the deceased-personality right to digital replicas.
+* '''California Civil Code §1708.86''' (AB 602, 2019, Ch. 491) — civil action for creating and
+  disclosing, or knowingly disclosing, sexually explicit material without consent, expressly
+  reaching digitally altered content; carve-outs for legitimate public concern and protected
+  commentary; statutory and punitive damages plus fees.
+* '''California AB 1831''' (2024, Ch. 926) — extends CSAM prohibitions to AI-generated material.
+* '''Tennessee ELVIS Act''' (signed 21 Mar 2024, eff. 1 July 2024) — adds voice to the protected
+  attributes, and notably attaches liability to '''distributing a tool whose primary purpose is
+  producing a particular identifiable individual's likeness''' where unauthorised use is known. Civil
+  remedies plus Class A misdemeanour.
+
+'''Build consequence, not a nicety:''' if the property has '''any''' user-contributed surface — comments
+with images, submissions, avatars, a tip line — it should be designed from day one with a TAKE IT
+DOWN-compliant intake and '''48-hour removal''' path, identical-copy detection, and a logged
+takedown ledger. Retrofitting it after a complaint is how an FTC matter starts.
+
+---
+
+'''PART 3 — THE BOTTOM LINE'''
+
+== 3.1 Launch immediately, zero rights risk, zero cost ==
+
+A fine-art nude gallery sourced from '''CC0 museum open access'''. The three to build on first are the
+'''Metropolitan Museum''', the '''Getty''', and the '''Cleveland Museum of Art''' — all three CC0, all
+three stating commercial use in their own words, none requiring attribution, all three reachable
+without negotiation. Getty's page is the most explicit of any institution surveyed (*"may be used
+without restriction or fees for commercial and noncommercial purposes"*), and its 86,000+ Museum
+images include the '''19th-century photography''' that is the heart of §1.6. Cleveland's API is the
+cleanest machine interface (`share_license_status == "CC0"`). The Met has the largest CC0 set and a
+CSV dump.
+
+Add immediately after, all verified and all commercially clear: '''National Gallery of Art''' (CC0,
+explicitly "commercial or non-commercial"), '''Smithsonian''' (CC0), '''Rijksmuseum''' (CC0 on PD
+reproductions), '''Paris Musées''' (CC0, 420,243 PD images), '''SMK Denmark''' (Public Domain Mark,
+153,227 PD records), '''Nationalmuseum Sweden''', and the '''Finnish National Gallery''' (CC0, 36,000+).
+Together that is a very large body of painting, drawing, print, sculpture and early photography in
+the academic-nude and classical-figure tradition, available this week, with no licence to negotiate
+and no fee to pay.
+
+'''Do not include in the first build:''' Art Institute of Chicago (image licence unverified), Yale
+(commercial use unstated), Harvard (non-commercial plus a decency clause), British Museum (NC),
+Louvre and Gallica (commercial use is paid), and anything sourced from an Italian State institution
+(§1.6.5).
+
+Five engineering requirements that are not optional:
+# '''Allow-list the rights value at ingest''' (`CC0` / `PDM` / `NoC-US` / `CC BY` / `CC BY-SA` only),
+   and reject everything else — every `NC`, every `ND`, every `InC-*`, `CNE`, `UND`, `NoC-NC`,
+   `NoC-OKLR`.
+# '''Honour the per-object flag, not the institutional policy.''' `isPublicDomain` at the Met,
+   `share_license_status` at Cleveland, `is_public_domain` at AIC, `public_domain` at SMK. A general
+   CC0 policy does not make every image in a collection CC0.
+# '''Store provenance per image''' — source URL, institution, rights value ''as it read on the day'',
+   object/accession ID, fetch date. This is the entire defence if a claim is ever made, and it
+   cannot be reconstructed later.
+# '''Mechanically generate attribution''' for any CC BY / CC BY-SA item, from the database record, so
+   that it is impossible to publish one without its credit (CC BY §6(a) terminates automatically on
+   any failure to comply).
+# '''Watch for the metadata defect.''' Cleveland flags Brigman's 1909–12 ''Camera Work'' gravures and
+   an 1895 F. Holland Day print as `Copyrighted` while flagging the same bound volume and the
+   Clarence White plates `CC0`. The `Copyrighted` flags are wrong as a matter of law. '''Respect the
+   flag anyway at ingest''' — an automated filter should never second-guess a source — but log the
+   rejects for human review rather than losing them, and raise the inconsistency with Cleveland.
+
+== 3.2 Needs licensing ==
+
+* '''Contemporary photography.''' There is no free route. Either commission it under a work-for-hire
+  agreement with model releases, or licence it. Commissioning is cheaper than it looks and is the
+  only path that gives you clean title ''and'' releases ''and'' 2257-compliant paperwork in one
+  transaction.
+* '''Any NC-licensed collection you actually want''' (the British Museum's is the obvious one) —
+  negotiate directly.
+* '''Mid-century photography (1931–1977).''' Often free via non-renewal, but each item requires a
+  renewal search to prove it. That is a research cost, not a licence cost, and it is real.
+* '''Film data at scale''', if the Part 2 idea proceeds: an '''IMDb commercial licence via AWS Data
+  Exchange''', where the ''Parents Guide'' add-on is the closest licensed analogue to the target signal.
+
+== 3.3 Not worth attempting ==
+
+* '''Anything NC or ND.''' Not a grey area; the licence does not grant the right.
+* '''Scraping IMDb.''' Expressly prohibited, trivially detected, and there is a paid route.
+* '''Building on TMDb.''' Non-commercial by default, 6-month cache cap, no-derivatives, no-AI, and a
+  sole-discretion content clause aimed at exactly this. Even a negotiated agreement leaves them an
+  off-switch.
+* '''Subtitle files as a timing signal.''' Judicially established infringement risk (BREIN, 2017) at
+  the core of the product.
+* '''A hosted library of film screenshots or clips.''' See §3.4.
+* '''Copying an existing index's taxonomy, ratings or descriptions.''' Take the facts (Feist permits
+  it); do not take the selection, arrangement or expression.
+
+== 3.4 The single biggest legal exposure in the Mr. Skin-style idea ==
+
+'''It is not copyright in the films. It is the performers.'''
+
+The copyright exposure is real but bounded and avoidable: drop the hosted stills and clips, keep the
+index, and Feist does most of the work. The exposure that does not go away by deleting media is
+'''right of publicity''' — a state-by-state, non-preempted claim (''Toney'') that attaches precisely
+where this business makes its money: using identifiable performers' names and faces to sell
+subscriptions. There is no federal safe harbour, no DMCA-style notice-and-takedown shield, no
+registration to rely on, and the post-mortem terms run 70 years in California, 100 in Indiana and
+Oklahoma, and potentially forever in Tennessee. A single plaintiff in a favourable forum, with a
+statutory-damages hook and fee-shifting, is a materially worse problem than a studio takedown — and
+the legislative direction of travel in 2024–2026 (NY §50-f/§52-c, TN ELVIS, NO FAKES if it clears
+the floor) is unanimously toward strengthening exactly that claim.
+
+The incumbent's 26 years of survival is tolerance, not precedent. '''If this is built at all, build
+the metadata layer only, write your own editorial prose, link out rather than host, and operate a
+no-questions-asked per-performer opt-out from day one.''' The opt-out is not a courtesy; it is the
+cheapest available mitigation of the one claim you cannot structurally defend.
+
+== 3.5 Why "fine art, non-explicit" changes the compliance picture — 18 U.S.C. §2257 ==
+
+This is the operator's whole premise and it is worth being exact, because the statute is narrower
+than its reputation.
+
+'''§2257 is triggered by "actual sexually explicit conduct," not by nudity.''' §2257(a)(1) applies to
+material containing visual depictions "of actual sexually explicit conduct" made after 1 Nov 1990;
+§2257(h)(1) defines that as '''"actual but not simulated conduct as defined in clauses (i) through
+(v) of section 2256(2)(A)."'''
+
+'''18 U.S.C. §2256(2)(A)''' defines "sexually explicit conduct" as actual or simulated —
+> (i) sexual intercourse, including genital-genital, oral-genital, anal-genital, or oral-anal,
+>     whether between persons of the same or opposite sex;
+> (ii) bestiality;
+> (iii) masturbation;
+> (iv) sadistic or masochistic abuse; or
+> (v) '''lascivious exhibition of the anus, genitals, or pubic area of any person.'''
+
+(https://www.law.cornell.edu/uscode/text/18/2256 · https://www.law.cornell.edu/uscode/text/18/2257)
+
+'''Mere nudity is not on that list.''' Clauses (i)–(iv) are acts; clause '''(v)''' is the only one that
+could reach a still image of an unclothed person, and it requires '''"lascivious exhibition"''' — not
+exhibition, ''lascivious'' exhibition.
+
+The federal courts assess lasciviousness under the '''''Dost'' factors''' (''United States v. Dost'', 636
+F. Supp. 828 (S.D. Cal. 1986)): (1) whether the focal point of the depiction is the genitals or
+pubic area; (2) whether the setting is sexually suggestive, i.e. a place or pose generally
+associated with sexual activity; (3) unnatural pose or inappropriate attire; (4) full or partial
+nudity; (5) whether the depiction suggests sexual coyness or willingness to engage in sexual
+activity; (6) whether it is intended or designed to elicit a sexual response in the viewer. Two
+caveats on ''Dost'': it arose in a child-exploitation prosecution and is phrased in those terms, so
+courts adapt it when applying §2256(2)(A)(v) to adults; and the factors are '''"neither comprehensive
+nor necessarily applicable in every situation"''' (''United States v. Amirault''), with no requirement
+that all six be met.
+
+'''Nudity is a single factor among six, and factor (4) alone does not get there.''' A classical or
+academic nude — the whole figure, a studio or landscape setting, conventional art-historical
+framing, no focal emphasis on the genitals, no suggestion of sexual activity or coyness — fails
+factors (1), (2), (3), (5) and (6), and is '''not''' a lascivious exhibition under any ordinary
+application of the test.
+
+'''So the compliance delta is large:'''
+
+{| class="wikitable"
+!  !! Explicit content property !! Fine-art nude property
+|-
+| §2257 producer records (name, DOB, all aliases, from an ID document, held at business premises, available for inspection) || '''Required''' || '''Not triggered''' by non-lascivious nudity
+|-
+| §2257(e) label on every copy stating where records are kept || '''Required''' || '''Not triggered'''
+|-
+| §2257A (simulated conduct) || May apply || Not triggered
+|-
+| 28 C.F.R. Part 75 regime, primary/secondary producer duties || Applies || Does not apply
+|-
+| Payment processors / card-scheme adult rules || Adult-flagged, high-risk MIDs, reserves || Ordinary processing, '''if''' positioning holds
+|-
+| App-store, ad-network and platform policy || Largely closed || Largely open
+|}
+
+Two cautions, because the gap between "not triggered" and "safe" is where people get hurt:
+
+# '''The statute's threshold is judged on the material, not on your positioning.''' Calling the
+   property fine art does not change the §2256(2)(A)(v) analysis; the images do. '''If the editorial
+   line ever drifts — close-cropped genital focus, sexually suggestive staging, "artistic" as a
+   label over material that is doing something else — the statute attaches, retroactively, to
+   material already published, and the records that would satisfy it do not exist.''' The correct
+   control is an '''ingest policy with a written standard and a human reviewer''', not a disclaimer.
+# '''For historic public-domain material §2257 is irrelevant in any event''' (the statute reaches
+   depictions made after 1 Nov 1990), but '''the commissioned contemporary work in §3.2 is not
+   historic.''' Anything you commission should come with model releases, age verification and ID
+   records '''regardless''' of whether §2257 is triggered — because it is near-free to do at the point
+   of commission, impossible to do afterwards, and it is also the evidence that defeats a
+   right-of-publicity or consent claim. Treat it as standard production hygiene, not as a §2257
+   admission.
+
+'''Constitutional status of §2257''', since it comes up: the Third Circuit in *Free Speech Coalition v.
+Attorney General*, 825 F.3d 149 (3d Cir. 2016) (en banc) upheld the record-keeping requirements
+against First Amendment challenge but held that '''warrantless inspection of records at any time
+violates the Fourth Amendment.''' The Sixth Circuit upheld the statute en banc in 2009 and certiorari
+was denied. '''The record-keeping regime is good law.''' Do not plan around it falling.
+
+---
+
+== Appendix — what I could not verify ==
+
+These are open items, flagged rather than guessed:
+
+'''Institutional pages that could not be read and must be checked by hand.''' These sites refuse
+automated fetching (Cloudflare or equivalent): `artic.edu`, `nga.gov`, `si.edu/openaccess`,
+`britishmuseum.org`, `pro.europeana.eu`, `musee-orsay.fr`, `gallica.bnf.fr`,
+`digi.ub.uni-heidelberg.de`, `imogencunningham.com`, `eur-lex.europa.eu`. Where a working route to
+the same institution's own data existed (the AIC, Europeana, SMK and Met APIs; the EU Publications
+Office CELLAR endpoint; Getty's project page) it was used and is cited as such.
+
+# '''Art Institute of Chicago — the one real gap in Part 1.''' Metadata terms are verified from the
+   live API; the '''image''' licence is not. Someone must open
+   https://www.artic.edu/open-access/public-domain and https://www.artic.edu/image-licensing in a
+   browser. Do not assume CC0 on images.
+# '''National Gallery of Art.''' The CC0 policy and the "commercial or non-commercial" language in
+   §1.1 come from search results quoting NGA's own pages, not from the pages themselves — every
+   `nga.gov` path returned 403. The GitHub dataset's CC0 licence is directly verified. '''Confirm the
+   image policy in a browser''', and note that NGA's rights position on the Stieglitz Key Set
+   specifically could not be established at all.
+# '''The Met's dedicated image-terms page''' (`metmuseum.org/information/terms-and-conditions/image-resources`)
+   returned HTTP 429 on every attempt. The CC0 waiver and commercial permission quoted in §1.1 come
+   from the Met's own Open Access dataset repository, which is primary, but read the image page once
+   before ingest.
+# '''Smithsonian.''' CC0 is verified from the Smithsonian's own (now archived) GitHub repository and
+   the AWS Open Data registry; `si.edu/openaccess` itself returned 403. Whether the SAAM Muybridge
+   plates specifically carry Open Access CC0 is unconfirmed.
+# '''Yale's position on commercial use''' — unstated, needs to be obtained in writing.
+# '''Orsay / RMN-GP and the live Gallica conditions page''' — terms unverified; the positions in
+   §1.2b are the established understanding, not a reading of the current pages.
+# '''Rijksmuseum's licence on RP-F-2001-4-34''' (the Igout album) — the record offers a download but
+   states no licence.
+# '''Princeton University Art Museum's image-rights policy''' — the object API exposes no rights
+   field and no policy page could be found. Unknown; must be asked.
+# '''Boston Public Library / Digital Commonwealth's Muybridge rights statement''', and '''Heidelberg's
+   licence on the ''Camera Work'' scans''' (the TEI transcription dataset is CC BY-SA 4.0; the scan
+   licence is not stated).
+# '''Two renewal searches would materially change answers and are worth commissioning:''' Alfred
+    Cheney Johnston's 1931–1963 published work, and any '''US''' editions of John Everard's titles — a
+    failed renewal would move a title out of the URAA bucket into the public domain. 1931–77
+    renewals are in the Catalog of Copyright Entries, scanned at
+    https://onlinebooks.library.upenn.edu/cce/.
+# '''Factual gaps in §1.6:''' whether Alinari actually holds Gloeden material; whether the Nevada
+    Museum of Art holds a Brigman archive (their own page points to the Wilson Centre for
+    Photography, London); who administers the Gerhard Riebicke ''Nachlass'' (a credited ''Nachlass''
+    implies an active claimant on the 1930s work); '''John Everard's death date''' — the single fact
+    the UK term depends on; Kurt Reichert's identity and dates; Wilhelm von Plüschow's life dates
+    from a primary source; any institutional holding at all for Albert Arthur Allen.
+# '''Questions for counsel:''' the French ''prorogations de guerre'' as applied to the Biederer
+    material; the French anonymous/pseudonymous rule applied image by image to the Ostra imprints;
+    and whether the Italian ''Codice'' regime survives DSM Article 14.
+# '''OpenSubtitles' current terms''' — all four primary URLs returned HTTP 403. Everything said about
+   their terms is secondary and partly dated; the ''copyright'' analysis (BREIN 2017) does not depend
+   on it.
+# '''Creative Photographers, Inc. v. SK Intertainment''' — filing confirmed (C.D. Cal., Jan 2019) from
+   trade press only. '''Disposition unknown.''' PACER/CourtListener would settle it.
+# '''Any right-of-publicity litigation against Mr. Skin''' — none found. That is absence of evidence
+   from a rate-limited search, not a finding of none. A PACER name search is the proper check.
+# '''Mr. Skin's current ownership''' beyond SK Intertainment, Inc. — unverified.
+# '''California AB 621 (2025-26)''' — would extend Civ. Code §1708.86 to minors at creation and to
+   knowing facilitators. '''Enactment status unconfirmed.''' Check leginfo.legislature.ca.gov.
+# '''Directive 96/9/EC Articles 3, 7, 10, 11''' — EUR-Lex would not render for automated fetch; the
+   Article 7 "substantial investment in either the obtaining, verification or presentation of the
+   contents" language is verbatim, the rest is close paraphrase from legislation.gov.uk's rendering
+   of the same articles. Confirm against EUR-Lex before relying on the exact wording.
+# '''Subject-level volume estimates''' in the §1.1 table. No institution publishes a count of
+   nude/figure works; those figures are collection-size orders of magnitude, not audited counts.
+# '''Image-level rights for any specific object.''' Every claim in this memo is about an
+    institution's ''general policy''. The per-object rights field always governs and must be honoured
+    at ingest. A general CC0 policy does not make every image in the collection CC0.
+
+---
+
+== Primary sources ==
+
+'''Licences and rights vocabularies'''
+* CC0 1.0 legal code — https://creativecommons.org/publicdomain/zero/1.0/legalcode.en
+* CC BY 4.0 legal code — https://creativecommons.org/licenses/by/4.0/legalcode.en
+* rightsstatements.org vocabulary — https://rightsstatements.org/page/1.0/?language=en
+* Flickr Commons usage — https://www.flickr.com/commons/usage/
+* Wikimedia Commons licensing policy — https://commons.wikimedia.org/wiki/Commons:Licensing
+
+'''Institutions'''
+* Met Open Access dataset + CC0 terms — https://github.com/metmuseum/openaccess
+* Met Open Access hub — https://www.metmuseum.org/en/hubs/open-access
+* NGA open access policy — https://www.nga.gov/notices/open-access-policy.html
+* NGA open data — https://github.com/NationalGalleryOfArt/opendata
+* Cleveland Museum of Art Open Access API — https://openaccess-api.clevelandart.org/
+* Smithsonian Open Access — https://www.si.edu/openaccess · https://registry.opendata.aws/smithsonian-open-access/
+* Rijksmuseum data policy — https://data.rijksmuseum.nl/policy
+* Getty Open Content Program — https://www.getty.edu/projects/open-content-program/
+* Art Institute of Chicago API — https://api.artic.edu/docs/
+* Yale University Art Gallery — https://artgallery.yale.edu/terms-and-conditions · https://artgallery.yale.edu/using-images · YCBA https://britishart.yale.edu/terms-use
+* Harvard Art Museums — https://github.com/harvardartmuseums/api-docs · https://harvardartmuseums.org/licensing
+* Europeana — https://pro.europeana.eu/page/available-rights-statements · API `api.europeana.eu`
+* Paris Musées — https://www.parismuseescollections.paris.fr/ · `apicollections.parismusees.paris.fr`
+* SMK Denmark — `https://api.smk.dk/api/v1/art/search/`
+* Nationalmuseum Sweden — https://www.nationalmuseum.se/en/explore-art-and-design/images/rights-and-reproductions
+* Finnish National Gallery — https://kansallisgalleria.fi/kuvapalvelu/
+* Louvre conditions of use — https://collections.louvre.fr/en/page/cgu
+* Library of Congress — https://www.loc.gov/legal/ · https://guides.loc.gov/p-and-p-rights-and-restrictions/risk-assessment
+* Wellcome Collection (Muybridge, PDM) — https://wellcomecollection.org/works/fc73mpfv
+* Center for Creative Photography (Weston copyright) — https://ccp.arizona.edu/copyright/copyright-permissions/
+* Georgia O'Keeffe Museum (Stieglitz is PD) — https://www.okeeffemuseum.org/about-the-museum/rights-and-reproductions/
+* LC rights advisory, Johnston LOT 8782 — https://www.loc.gov/item/2005684587/ · F. Holland Day — https://www.loc.gov/item/2004666555/
+* Catalog of Copyright Entries (renewal searches) — https://onlinebooks.library.upenn.edu/cce/
+* US Copyright Office Circular 38B (URAA restoration) — https://www.copyright.gov/circs/circ38b.pdf
+
+'''Copyright term'''
+* Hirtle, ''Copyright Term and the Public Domain in the United States'' (Cornell) —
+  https://guides.library.cornell.edu/copyright/publicdomain
+
+'''Cases and statutes'''
+* ''Feist Publications v. Rural Telephone'', 499 U.S. 340 (1991) — https://www.law.cornell.edu/supremecourt/text/499/340
+* ''Bridgeman Art Library v. Corel Corp.'', 36 F. Supp. 2d 191 (S.D.N.Y. 1999)
+* ''Kelly v. Arriba Soft Corp.'', 336 F.3d 811 (9th Cir. 2003)
+* ''Perfect 10, Inc. v. Amazon.com, Inc.'', 508 F.3d 1146 (9th Cir. 2007)
+* ''Zacchini v. Scripps-Howard Broadcasting'', 433 U.S. 562 (1977)
+* ''Laws v. Sony Music Entertainment'', 448 F.3d 1134 (9th Cir. 2006); ''Toney v. L'Oréal USA'', 406 F.3d 905 (7th Cir. 2005)
+* ''Free Speech Coalition v. Attorney General'', 825 F.3d 149 (3d Cir. 2016) (en banc)
+* Directive 96/9/EC (databases) — https://eur-lex.europa.eu/eli/dir/1996/9/oj · https://www.legislation.gov.uk/eudr/1996/9/article/7
+* Directive (EU) 2019/790 (DSM), Art. 14 — https://eur-lex.europa.eu/eli/dir/2019/790/oj
+* 18 U.S.C. §2256 — https://www.law.cornell.edu/uscode/text/18/2256
+* 18 U.S.C. §2257 — https://www.law.cornell.edu/uscode/text/18/2257 · §2257A — https://www.law.cornell.edu/uscode/text/18/2257A
+* TAKE IT DOWN Act, Pub. L. 119-12 — https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm
+
+'''Film data terms'''
+* TMDb API terms — https://www.themoviedb.org/api-terms-of-use
+* IMDb Conditions of Use — https://www.imdb.com/conditions
+* IMDb non-commercial datasets — https://data.imdb.com/non-commercial-datasets/ · commercial — https://data.imdb.com/
+* Wikidata licensing — https://www.wikidata.org/wiki/Wikidata:Licensing
+* Wikimedia Terms of Use §7 — https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use

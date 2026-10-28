@@ -29,7 +29,19 @@ import argparse, glob, hashlib, json, math, os, random, re, subprocess, sys, tem
 import cv2
 import numpy as np
 
-W, H, FPS = 960, 540, 24
+# Canvas. 960x540 was below every platform's floor; 1280x720 is the baseline, and the canvas is chosen per
+# clip from the source's own shape so a portrait is not pillarboxed into widescreen (see pick_canvas).
+W = int(os.environ.get("ANIM_W", "1280"))
+H = int(os.environ.get("ANIM_H", "720"))
+FPS = int(os.environ.get("ANIM_FPS", "24"))
+X264_PRESET = os.environ.get("ANIM_X264_PRESET", "slow")
+X264_CRF = os.environ.get("ANIM_X264_CRF", "19")
+ADAPT_CANVAS = os.environ.get("ANIM_ADAPT_CANVAS", "1") != "0"
+# 16:9, 4:5 and 9:16 — the three shapes feeds actually show. Each is a multiple of 16 on both axes.
+CANVASES = [(1280, 720), (1024, 1280), (720, 1280)]
+MAX_CROP = float(os.environ.get("ANIM_MAX_CROP", "0.34"))
+# Hard ceiling on how far the puppet warp may move any one keypoint, as a fraction of frame height.
+MAX_WARP = float(os.environ.get("ANIM_MAX_WARP", "0.035"))
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 LOOK_ORDER = ["1_real", "2_half", "3_full"]
 
@@ -121,9 +133,23 @@ def arm_stats(out, feedback):
     return stats
 
 
+# Pseudo-counts that seed Thompson sampling before any human has voted. Judged by looking at the rendered
+# frames: `alive` (a real image-to-video model) and `cutout` (the remake's own people cut along their pose
+# bones) carry the picture; `flash` is stick figures on a wobbly beige blob and reads as cheap next to the
+# painted remakes it sits beside in a post. Real votes outweigh these within a few dozen clips.
+PRIOR = {
+    "kind": {"alive": (6, 0), "cutout": (5, 0), "puppet": (2, 0), "scene": (2, 0), "parallax": (2, 0),
+             "flash": (0, 5)},
+}
+
+
 def pick(stats, p, rng):
-    """Thompson sampling: highest draw from Beta(1+up, 1+down)."""
-    return max(ARMS[p], key=lambda v: rng.betavariate(1 + stats[p][v][0], 1 + stats[p][v][1]))
+    """Thompson sampling: highest draw from Beta(1+up, 1+down), over a prior that favours what looks best."""
+    pri = PRIOR.get(p, {})
+    def draw(v):
+        pu, pd = pri.get(v, (0, 0))
+        return rng.betavariate(1 + pu + stats[p][v][0], 1 + pd + stats[p][v][1])
+    return max(ARMS[p], key=draw)
 
 
 def match_char(scene, chars, rng):
@@ -138,21 +164,26 @@ def plan(scenes, chars, stats, n, rng):
     recipes = []
     for _ in range(n):
         r = {p: pick(stats, p, rng) for p in ARMS}
+
+        def downgrade(to, why):
+            r.setdefault("engine_log", []).append(f"planned {r['kind']} -> {to}: {why}")
+            r["fell_back_from"], r["kind"] = r["kind"], to
+
         if r["kind"] == "puppet" and not chars:
-            r["kind"] = "kenburns"
+            downgrade("parallax", "no posed characters in the library")  # still real motion, not a pan
         sc = rng.choice(scenes)
         look = rng.choice([l for l in LOOK_ORDER if l in sc["looks"]])
         people = rng.choice(sorted(sc["looks"][look]))
         if r["kind"] == "peoples" and len(sc["looks"][look]) < 2:
-            r["kind"] = "kenburns"
+            downgrade("parallax", "scene has only one people-variant")
         if r["kind"] == "looks" and sum(people in sc["looks"].get(l, {}) for l in LOOK_ORDER) < 2:
-            r["kind"] = "kenburns"
+            downgrade("parallax", "scene has only one look")
         if r["kind"] == "cutout" and not load_pose(sc["looks"][look][people]):
             posed = [(l, p) for l in sc["looks"] for p in sc["looks"][l] if load_pose(sc["looks"][l][p])]
             if posed:
                 look, people = rng.choice(posed)
             else:
-                r["kind"] = "parallax"
+                downgrade("parallax", "no posed image anywhere in this scene")
         if r["kind"] == "flash":
             import flash_anim
             r["flash"] = rng.choice(sorted(flash_anim.BUILTINS))
@@ -163,8 +194,11 @@ def plan(scenes, chars, stats, n, rng):
             if r["kind"] == "puppet" and load_pose(own) and rng.random() < 0.5:
                 r["puppet_src"], r["puppet_title"] = own, sc["title"]
             else:
-                c = match_char(sc, chars, rng) if r["kind"] == "scene" else rng.choice(chars)
-                r["puppet_src"], r["puppet_title"] = c["file"], c["title"]
+                c = match_char(sc, chars, rng) if r["kind"] == "scene" else (rng.choice(chars) if chars else None)
+                if c is None:  # an empty character library used to crash the whole batch here
+                    downgrade("parallax", "no posed character to bring into the scene")
+                else:
+                    r["puppet_src"], r["puppet_title"] = c["file"], c["title"]
         r["id"] = hashlib.sha1(json.dumps(r, sort_keys=True).encode() + str(time.time_ns()).encode()).hexdigest()[:12]
         recipes.append(r)
     return recipes
@@ -178,33 +212,68 @@ def read(f):
     return im
 
 
-def fit_canvas(im):
-    """image fitted into W×H over a blurred, darkened copy of itself (portrait sources stay whole)."""
+def pick_canvas(files):
+    """The canvas whose aspect is closest to the median source aspect.
+
+    The old pipeline put everything on one 16:9 frame, so a portrait remake spent 50-70% of every pixel on a
+    blurred, darkened copy of itself. Choosing the frame to match the picture is free and is the single biggest
+    visible change in these clips.
+    """
+    if not ADAPT_CANVAS:
+        return W, H
+    ars = []
+    for f in files:
+        im = cv2.imread(f, cv2.IMREAD_REDUCED_COLOR_8)
+        if im is not None and im.shape[0] > 0:
+            ars.append(im.shape[1] / float(im.shape[0]))
+    if not ars:
+        return W, H
+    a = sorted(ars)[len(ars) // 2]
+    return min(CANVASES, key=lambda c: abs(math.log((c[0] / float(c[1])) / a)))
+
+
+def fit_canvas(im, canvas=None, anchor=0.5):
+    """Image placed on the canvas: filled edge to edge when the crop is small, letterboxed over a blurred copy
+    of itself only when filling would throw away more than MAX_CROP of the picture.
+
+    `anchor` is the vertical point of the source kept centred (0.38 for figures, so heads survive a wide crop).
+    Returns (frame, (scale, x_offset, y_offset)).
+    """
+    cw, ch = canvas or (W, H)
     h, w = im.shape[:2]
-    s = min(W / w, H / h)
+    s_fill = max(cw / w, ch / h)
+    loss = 1.0 - (cw * ch) / max(1e-6, (w * s_fill) * (h * s_fill))
+    if loss <= MAX_CROP:
+        fg = cv2.resize(im, (max(cw, int(w * s_fill + 0.5)), max(ch, int(h * s_fill + 0.5))),
+                        interpolation=cv2.INTER_AREA if s_fill < 1 else cv2.INTER_CUBIC)
+        x = max(0, min(fg.shape[1] - cw, (fg.shape[1] - cw) // 2))
+        y = max(0, min(fg.shape[0] - ch, int((fg.shape[0] - ch) * anchor)))
+        return fg[y:y + ch, x:x + cw].copy(), (s_fill, -x, -y)
+    s = min(cw / w, ch / h)
     fg = cv2.resize(im, (max(2, int(w * s)), max(2, int(h * s))), interpolation=cv2.INTER_AREA)
-    sb = max(W / w, H / h)
+    sb = max(cw / w, ch / h)
     bg = cv2.resize(im, (int(w * sb) + 2, int(h * sb) + 2))
-    y0, x0 = (bg.shape[0] - H) // 2, (bg.shape[1] - W) // 2
-    bg = cv2.GaussianBlur(bg[y0:y0 + H, x0:x0 + W], (0, 0), 18) * 0.45
+    y0, x0 = (bg.shape[0] - ch) // 2, (bg.shape[1] - cw) // 2
+    bg = cv2.GaussianBlur(bg[y0:y0 + ch, x0:x0 + cw], (0, 0), 18) * 0.45
     out = bg.astype(np.uint8)
-    y, x = (H - fg.shape[0]) // 2, (W - fg.shape[1]) // 2
+    y, x = (ch - fg.shape[0]) // 2, (cw - fg.shape[1]) // 2
     out[y:y + fg.shape[0], x:x + fg.shape[1]] = fg
     return out, (s, x, y)
 
 
 def camera(frame, t, cam, amp):
-    """Ken Burns on an already-fitted W×H frame; t in [0,1]."""
+    """Ken Burns on an already-fitted frame (any canvas); t in [0,1]."""
+    h, w = frame.shape[:2]
     e = 0.5 - 0.5 * math.cos(math.pi * t)  # ease in-out
     z0, z1, dx, dy = 1.0, 1.0, 0.0, 0.0
     k = 0.10 * amp
     if cam == "push_in": z0, z1 = 1.0, 1.0 + k
     elif cam == "pull_out": z0, z1 = 1.0 + k, 1.0
-    elif cam == "pan_left": z0 = z1 = 1.0 + k; dx = k * W * 0.45 * (1 - 2 * e)
-    elif cam == "pan_right": z0 = z1 = 1.0 + k; dx = -k * W * 0.45 * (1 - 2 * e)
+    elif cam == "pan_left": z0 = z1 = 1.0 + k; dx = k * w * 0.45 * (1 - 2 * e)
+    elif cam == "pan_right": z0 = z1 = 1.0 + k; dx = -k * w * 0.45 * (1 - 2 * e)
     z = z0 + (z1 - z0) * e
-    M = np.float32([[z, 0, (1 - z) * W / 2 + dx], [0, z, (1 - z) * H / 2 + dy]])
-    return cv2.warpAffine(frame, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    M = np.float32([[z, 0, (1 - z) * w / 2 + dx], [0, z, (1 - z) * h / 2 + dy]])
+    return cv2.warpAffine(frame, M, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
 
 def tps_map(src_pts, dst_pts, shape, step=8):
@@ -244,6 +313,7 @@ def pose_frame(im, pose, t_sec, motion, amp):
     neck = np.array(pose["neck"])
     hip_y = np.mean([pose[k][1] for k in ("r_hip", "l_hip") if k in pose] or [neck[1] + 200 * scale])
     ph = 2 * math.pi * t_sec
+    maxd = MAX_WARP * h
     mot = set(ARMS["motion"][:4]) if motion == "all" else {motion}
     for k, (x, y) in pose.items():
         p = np.array([x, y], float)
@@ -257,9 +327,14 @@ def pose_frame(im, pose, t_sec, motion, amp):
             v = p - neck
             d += np.array([v[0] * math.cos(a) - v[1] * math.sin(a), v[0] * math.sin(a) + v[1] * math.cos(a)]) - v
         if "arm_raise" in mot and k in ("r_elbow", "r_wrist") and "r_shoulder" in pose:
-            a = -math.radians(28.0 * amp) * (0.5 - 0.5 * math.cos(ph / 3.0))
+            a = -math.radians(18.0 * amp) * (0.5 - 0.5 * math.cos(ph / 3.0))
             v = p - np.array(pose["r_shoulder"])
             d += np.array([v[0] * math.cos(a) - v[1] * math.sin(a), v[0] * math.sin(a) + v[1] * math.cos(a)]) - v
+        # A thin-plate spline fitted on ~18 control points turns one big displacement into a global shear:
+        # swinging a wrist 45 degrees liquefied the whole dress. Nothing may move further than this.
+        n_ = float(np.hypot(d[0], d[1]))
+        if n_ > maxd:
+            d *= maxd / n_
         src.append(p); dst.append(p + d)
     # pin the border and a ring around the body so only the figure moves
     for gx in np.linspace(0, w - 1, 6):
@@ -268,9 +343,14 @@ def pose_frame(im, pose, t_sec, motion, amp):
     for gy in np.linspace(0, h - 1, 6)[1:-1]:
         for gx in (0, w - 1):
             src.append((gx, gy)); dst.append((gx, gy))
-    for k in ("r_ankle", "l_ankle", "r_hip", "l_hip"):
+    # pin the whole lower body, not just the feet: a figure that sways from the knees reads as melting
+    for k in ("r_ankle", "l_ankle", "r_knee", "l_knee", "r_hip", "l_hip"):
         if k in pose:
             i = list(pose).index(k); dst[i] = src[i]
+    # and pin a band just under the hips across the full width, so nothing below the waist can be dragged
+    for gx in np.linspace(0, w - 1, 7):
+        gy = min(h - 1, hip_y + 0.04 * h)
+        src.append((gx, gy)); dst.append((gx, gy))
     mx, my = tps_map(src, dst, (h, w))
     return cv2.remap(im, mx, my, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
@@ -282,26 +362,35 @@ def caption(frame, text):
         from PIL import Image, ImageDraw, ImageFont
         im = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         d = ImageDraw.Draw(im)
-        f = ImageFont.truetype(FONT, 26)
+        cw, ch = im.size
+        k = max(0.8, min(cw, ch) / 540.0)  # scale by the short side: a tall canvas must not grow a huge bar
+        # shrink, then elide: on a 720-wide portrait canvas a fixed 26px title ran off both edges mid-word
+        size, pad = int(26 * k), int(16 * k)
+        f = ImageFont.truetype(FONT, size)
+        while d.textlength(text, font=f) > cw - 2 * pad and size > int(13 * k):
+            size -= 1
+            f = ImageFont.truetype(FONT, size)
+        while len(text) > 4 and d.textlength(text, font=f) > cw - 2 * pad:
+            text = text[:-2] + "\u2026"
         tw = d.textlength(text, font=f)
-        d.rectangle([0, H - 58, W, H], fill=(0, 0, 0))
-        d.text(((W - tw) / 2, H - 46), text, font=f, fill=(245, 220, 150))
+        d.rectangle([0, ch - 58 * k, cw, ch], fill=(0, 0, 0))
+        d.text(((cw - tw) / 2, ch - 46 * k), text, font=f, fill=(245, 220, 150))
         return cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
     except Exception:
         return frame
 
 
 # ── shots (generators of frames) ───────────────────────────────────────────────────────────────────
-def shot_kenburns(f, secs, r, cap=""):
-    base, _ = fit_canvas(read(f))
+def shot_kenburns(f, secs, r, cap="", canvas=None):
+    base, _ = fit_canvas(read(f), canvas)
     n = int(secs * FPS)
     for i in range(n):
         yield caption(camera(base, i / max(1, n - 1), r["camera"], AMP[r["amplitude"]]), cap)
 
 
-def shot_sequence(files, secs_each, r, cap=""):
+def shot_sequence(files, secs_each, r, cap="", canvas=None):
     """crossfade through several images, camera moving across the whole shot"""
-    bases = [fit_canvas(read(f))[0] for f in files]
+    bases = [fit_canvas(read(f), canvas)[0] for f in files]
     per = int(secs_each * FPS)
     xf = int(0.8 * FPS)
     n = per * len(bases)
@@ -315,14 +404,19 @@ def shot_sequence(files, secs_each, r, cap=""):
         yield caption(camera(fr.astype(np.uint8), i / max(1, n - 1), r["camera"], AMP[r["amplitude"]]), cap)
 
 
-def shot_puppet(f, secs, r, cap=""):
+def shot_puppet(f, secs, r, cap="", canvas=None):
     im = read(f)
     pose = load_pose(f)
     n = int(secs * FPS)
     amp = AMP[r["amplitude"]]
+    # keep the head in frame when a tall source is cropped to a wide canvas
+    anchor = 0.38
+    if pose:
+        ys = [p[1] for p in pose.values()]
+        anchor = max(0.0, min(1.0, (min(ys) / max(1.0, im.shape[0])) * 1.6))
     for i in range(n):
         warped = pose_frame(im, pose, i / FPS, r["motion"], amp) if pose else im
-        base, _ = fit_canvas(warped)
+        base, _ = fit_canvas(warped, canvas, anchor)
         cam = r["camera"] if r["camera"] in ("push_in", "pull_out", "still") else "push_in"
         yield caption(camera(base, i / max(1, n - 1), cam, amp * 0.5), cap)
 
@@ -376,30 +470,89 @@ def narration(r):
 PROMPTS = {"default": "the people move naturally, cloth and hair stir, light flickers, subtle camera drift, cinematic"}
 
 
-def motion_clip(r, img, out):
+CAMS = {"push_in": "dolly_in", "pull_out": "dolly_in", "pan_left": "orbit_left", "pan_right": "orbit_right",
+        "still": "crane_up"}
+
+
+def _note(r, why):
+    """Record why an engine gave up. A fallback that nobody can see is a bug that nobody fixes — a third of the
+    back catalogue is Ken Burns because `parallax` raised on every single call and said nothing."""
+    r.setdefault("engine_log", []).append(why)
+    print(f"  ! {why}", flush=True)
+
+
+def _try_engine(kind, r, img, out, canvas):
+    """One engine attempt → out path or None, with the reason logged into the recipe."""
     here = os.path.dirname(os.path.abspath(__file__))
     if here not in sys.path:
         sys.path.insert(0, here)
+    cw, ch = canvas
     try:
-        if r["kind"] == "cutout":
+        if kind == "cutout":
             import cutout_anim
-            return cutout_anim.render(img, out, 6 * PACE[r["pace"]], seed=int(r["id"][:6], 16), amp=max(1.2, 1.4 * AMP[r["amplitude"]]))  # motion must read as motion
-        if r["kind"] == "flash":
+            p = cutout_anim.render(img, out, 6 * PACE[r["pace"]], seed=int(r["id"][:6], 16),
+                                   amp=max(1.2, 1.4 * AMP[r["amplitude"]]), size=(cw, ch))  # motion must read as motion
+            if not p:
+                _note(r, f"cutout: {cutout_anim.LAST_ERROR or 'returned None'}")
+            return p
+        if kind == "flash":
             import flash_anim
             desc = dict(flash_anim.BUILTINS[r["flash"]])
             r["title"] = desc.get("title", r["title"])
-            return out if flash_anim.render(desc, out) else None
+            if flash_anim.render(desc, out):
+                return out
+            _note(r, "flash: render returned false")
+            return None
         import hathor_motion
-        if r["kind"] == "alive":
-            p = hathor_motion.i2v(img, out, PROMPTS["default"], 3.5)
+        if kind == "alive":
+            raw = os.path.splitext(out)[0] + ".i2v.mp4"
+            p = hathor_motion.i2v(img, raw, PROMPTS["default"], 3.5)
+            if not p:
+                _note(r, f"alive: {hathor_motion.LAST_ERROR or 'returned None'}")
+                return None
+            # the Spaces hand back their own size and frame rate; put it on our canvas so `alive` clips sit in
+            # the same catalogue as everything else instead of looking like a different show
+            n = hathor_motion.normalize_video(p, out, cw, ch, FPS)
+            try:
+                os.remove(raw)
+            except OSError:
+                pass
+            if not n:
+                _note(r, "alive: could not normalise the model's mp4 to our canvas")
+            return n
+        if kind == "parallax":
+            p = hathor_motion.parallax(img, out, 6 * PACE[r["pace"]], CAMS.get(r["camera"], "dolly_in"),
+                                       AMP[r["amplitude"]], size=(cw, ch))
             if p:
-                return p
-            r["kind"] = "parallax"  # quota spent / Space down: still real depth motion, on our CPU
-        cams = {"push_in": "dolly_in", "pull_out": "dolly_in", "pan_left": "orbit_left", "pan_right": "orbit_right", "still": "crane_up"}
-        return hathor_motion.parallax(img, out, 6 * PACE[r["pace"]], cams.get(r["camera"], "dolly_in"), AMP[r["amplitude"]])
+                r["depth"] = hathor_motion.LAST_DEPTH
+            else:
+                _note(r, f"parallax: {hathor_motion.LAST_ERROR or 'returned None'}")
+            return p
     except Exception as e:
-        print(f"motion engine {r['kind']} failed: {e}", flush=True)
+        _note(r, f"{kind}: {type(e).__name__}: {e}")
         return None
+    return None
+
+
+def motion_clip(r, img, out, canvas):
+    """The requested engine, then the next-best real-motion engine, and only then nothing.
+
+    The old code went straight from a failed engine to Ken Burns — a slow pan over a still, which is not
+    animation. Every rung of this ladder that lands is a clip with actual movement in it.
+    """
+    want = r["kind"]
+    chain_ = [want]
+    if want != "parallax":
+        chain_.append("parallax")          # real depth motion on our own CPU, always available
+    if load_pose(img) and "cutout" not in chain_:
+        chain_.append("cutout")            # the image has people with bones: move them
+    for kind in chain_:
+        p = _try_engine(kind, r, img, out, canvas)
+        if p:
+            if kind != want:
+                r["fell_back_from"], r["kind"] = want, kind
+            return p
+    return None
 
 
 # ── render one recipe ──────────────────────────────────────────────────────────────────────────────
@@ -412,29 +565,38 @@ def render(r, scenes_by_key, outdir, voice):
     d = os.path.join(outdir, r["id"])
     os.makedirs(d, exist_ok=True)
     silent = os.path.join(d, "silent.mp4")
+    # the frame follows the picture, not the other way round
+    # `puppet` is one picture, so the frame follows it. `scene` opens on the remake, so the remake sets the
+    # frame and the character shot letterboxes if it has to.
+    canvas = pick_canvas([r.get("puppet_src") or main] if r["kind"] == "puppet" else [main])
+    cw, ch = canvas
+    r["canvas"] = f"{cw}x{ch}"
     made = None
     if r["kind"] in ("cutout", "flash", "alive", "parallax"):
-        made = motion_clip(r, main, silent)
+        if r["kind"] == "flash":
+            cw, ch = canvas = (W, H)       # flash scenes are laid out for a wide frame
+            r["canvas"] = f"{cw}x{ch}"
+        made = motion_clip(r, main, silent, canvas)
         if not made:
-            r["fell_back_from"] = r["kind"]
+            r["fell_back_from"] = r.get("fell_back_from") or r["kind"]
             r["kind"] = "kenburns"
     if made:
         shots = None
     elif r["kind"] == "kenburns":
-        shots = [shot_kenburns(main, 6 * pace, r, cap)]
+        shots = [shot_kenburns(main, 6 * pace, r, cap, canvas)]
     elif r["kind"] == "looks":
         files = [sc["looks"][l][people] for l in LOOK_ORDER if people in sc["looks"].get(l, {})]
-        shots = [shot_sequence(files or [main], 2.6 * pace, r, cap)]
+        shots = [shot_sequence(files or [main], 2.6 * pace, r, cap, canvas)]
     elif r["kind"] == "peoples":
         files = [sc["looks"][look][p] for p in sorted(sc["looks"][look])]
-        shots = [shot_sequence(files, 2.2 * pace, r, cap)]
+        shots = [shot_sequence(files, 2.2 * pace, r, cap, canvas)]
     elif r["kind"] == "puppet":
-        shots = [shot_puppet(r["puppet_src"], 6 * pace, r, cap)]
+        shots = [shot_puppet(r["puppet_src"], 6 * pace, r, cap, canvas)]
     else:  # scene
         files = [sc["looks"][l][people] for l in LOOK_ORDER if people in sc["looks"].get(l, {})]
-        shots = [shot_kenburns(main, 3.5 * pace, r, r["title"]),
-                 shot_puppet(r["puppet_src"], 4.5 * pace, r, r.get("puppet_title", "")),
-                 shot_sequence(files or [main], 2.0 * pace, r, "")]
+        shots = [shot_kenburns(main, 3.5 * pace, r, r["title"], canvas),
+                 shot_puppet(r["puppet_src"], 4.5 * pace, r, r.get("puppet_title", ""), canvas),
+                 shot_sequence(files or [main], 2.0 * pace, r, "", canvas)]
     nframes, poster = 0, None
     if made:
         cap_ = cv2.VideoCapture(silent)
@@ -445,9 +607,11 @@ def render(r, scenes_by_key, outdir, voice):
         cap_.release()
         nframes = int(nframes * FPS / fps_)
     else:
-      ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",
-                           "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
-                           "-pix_fmt", "yuv420p", "-movflags", "+faststart", silent], stdin=subprocess.PIPE)
+      ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24",
+                           "-s", f"{cw}x{ch}", "-r", str(FPS), "-i", "-", "-c:v", "libx264",
+                           "-preset", X264_PRESET, "-crf", X264_CRF, "-tune", "film",
+                           "-pix_fmt", "yuv420p", "-profile:v", "high", "-movflags", "+faststart", silent],
+                          stdin=subprocess.PIPE)
       for fr in chain(shots):
         ff.stdin.write(fr.tobytes())
         nframes += 1
@@ -488,16 +652,28 @@ def cmd_make(a):
     stats = arm_stats(a.out, fb)
     os.makedirs(a.out, exist_ok=True)
     by_key = {s["key"]: s for s in scenes}
-    ok = 0
+    ok, kinds, fell, secs = 0, {}, 0, 0.0
     for r in plan(scenes, chars, stats, a.n, rng):
         t0 = time.time()
         try:
             render(r, by_key, a.out, a.voice)
             ok += 1
-            print(f"{r['id']} {r['kind']:8} {r['motion']:9} {r['amplitude']:6} {r['camera']:9} {r['seconds']}s  {time.time() - t0:.0f}s  {r['title'][:50]}", flush=True)
+            dt = time.time() - t0
+            secs += dt
+            kinds[r["kind"]] = kinds.get(r["kind"], 0) + 1
+            fell += bool(r.get("fell_back_from"))
+            back = f"  <- {r['fell_back_from']}" if r.get("fell_back_from") else ""
+            print(f"{r['id']} {r['kind']:8} {r.get('canvas', ''):9} {r['motion']:9} {r['amplitude']:6} "
+                  f"{r['camera']:9} {r['seconds']}s  {dt:.0f}s cpu  {r['title'][:40]}{back}", flush=True)
         except Exception as e:
             print(f"FAILED {r['kind']} {r['scene']}: {e}", flush=True)
+    kb = kinds.get("kenburns", 0)
     print(f"made {ok}/{a.n} clips  ({len(scenes)} scenes, {len(chars)} posed characters available)")
+    print("kinds: " + "  ".join(f"{k}={v}" for k, v in sorted(kinds.items(), key=lambda x: -x[1])))
+    if ok:
+        # the number to watch: Ken Burns is a pan over a still, not animation
+        print(f"fallback: {fell}/{ok} clips changed engine, kenburns {kb}/{ok} = {100.0 * kb / ok:.1f}%")
+        print(f"cpu: {secs / ok:.1f}s per clip ({secs / 60:.1f} min for {ok})")
 
 
 def cmd_publish(a):
@@ -516,7 +692,8 @@ def cmd_publish(a):
             if os.path.exists(f"{d}/{f}"):
                 shutil.copy2(f"{d}/{f}", f"{od}/{f}")
         pub = {k: r.get(k) for k in ("id", "kind", "motion", "amplitude", "camera", "pace", "narrate", "scene", "title",
-                                      "group", "look", "people", "puppet_title", "narration_text", "seconds", "made")}
+                                      "group", "look", "people", "puppet_title", "narration_text", "seconds", "made",
+                                      "canvas", "fell_back_from", "depth")}
         clips.append(pub)
     clips.sort(key=lambda c: -(c.get("made") or 0))
     json.dump({"updated": int(time.time()), "arms": ARMS, "clips": clips}, open(os.path.join(a.bundle, "manifest.json"), "w"))

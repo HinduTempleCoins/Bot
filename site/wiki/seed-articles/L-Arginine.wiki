@@ -1,0 +1,32 @@
+'''L-Arginine''' is the substrate from which '''nitric oxide''' is made, and the clearest case in the Institute's stack of a supplement whose '''oral form is the wrong form'''.
+
+== What it does ==
+
+Arginine is a semi-essential amino acid and the sole nitrogen donor for '''nitric oxide synthase''' (NOS), which converts it to '''nitric oxide and citrulline'''. Nitric oxide is the endothelium's vasodilator signal; declining endothelial NO output is one of the better-characterised features of vascular ageing. Arginine is also a precursor for creatine, urea, ornithine, polyamines and proline, which puts it upstream of collagen as well.
+
+== The first-pass problem ==
+
+Oral arginine is '''extensively degraded before it reaches circulation'''. Intestinal and hepatic '''arginase''' consumes much of a dose on the way through, so plasma arginine rises far less than the label implies and the effect is dose-limited by gastrointestinal upset before it is limited by anything useful.
+
+'''[[Citrulline]] raises plasma arginine more reliably than arginine does.''' Citrulline escapes first-pass arginase entirely and is converted to arginine in the kidney. This is the same lesson as folate versus [[L-Methylfolate|L-methylfolate]] and iron sulphate versus [[Chelated Minerals|chelate]]: the molecule on the label is not the molecule that arrives. The Institute's 2021 post used an '''arginine/citrulline blend''' for this reason before the pharmacology was written up.
+
+== The BH4 coupling — why it sits beside the folate ==
+
+NOS is a '''BH4-dependent''' enzyme, and this is the point of taking arginine in this stack rather than on its own.
+
+When BH4 is scarce relative to substrate, NOS '''uncouples''': instead of producing nitric oxide it produces '''superoxide''', becoming a source of the oxidative stress it is supposed to oppose. Supplying more arginine to an uncoupled enzyme does not produce more NO. It produces more radical.
+
+So arginine and [[L-Methylfolate|L-methylfolate]] are not two independent entries in a list. '''The folate keeps the cofactor regenerated so that the substrate has somewhere to go.''' This is [[The Amplification Framework]] in its plainest form — substrate, cofactor, and the protection of the cofactor — and it is why [[Liposomal Vitamin C|vitamin C]] and [[L-Carnosine|carnosine]] belong in the same stack.
+
+'''ADMA''' (asymmetric dimethylarginine), an endogenous NOS inhibitor that accumulates in renal and cardiovascular disease, competes at the same site and is the reason arginine's clinical results are inconsistent across populations.
+
+== Cautions ==
+
+* '''After myocardial infarction''' — the '''VINTAGE MI''' trial found higher mortality in the arginine arm among post-infarct patients. This is the single most important warning on the molecule and it is not a theoretical one.
+* '''Herpes simplex''' — arginine supports viral replication and '''lysine''' opposes it. People with frequent HSV recurrences often react badly to arginine loading.
+* '''Hypotension''' — additive with antihypertensives, nitrates and PDE5 inhibitors.
+* '''Asthma''' — arginine metabolism is altered in asthmatic airways; evidence is mixed and caution is reasonable.
+* '''Renal and hepatic impairment''' — arginine is handled by both organs.
+* Gastrointestinal upset and osmotic diarrhoea are the usual practical dose limit.
+
+See also: [[The Amplification Framework]] · [[L-Methylfolate]] · [[Amino Acid Complexes]] · [[Chelated Minerals]] · [[Stack Substances]]

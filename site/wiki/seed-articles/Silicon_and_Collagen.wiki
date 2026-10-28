@@ -13,6 +13,7 @@ This is the mainstream nutritional position, presented as physiology rather than
 * '''Horsetail''' (''Equisetum arvense'') — the traditional silica-rich plant, and the one the essay names.
 * '''Beer''' — genuinely one of the largest dietary sources in Western diets, because barley silicon is soluble.
 * Whole grains, bananas, green beans, and drinking water in some regions.
+* '''Bamboo extract''' — the highest-silica botanical on the shelf, and the one to be most careful with. ''Bambusa'' extracts are sold at '''70% silica''', but that figure is '''total silica, overwhelmingly polymerised''', not orthosilicic acid. '''Bioavailability is very low.''' A large number on the label and a small amount absorbed are not in tension — they are the same fact stated from two ends. Bamboo is what the Institute's current stack actually contains; it is not what this page recommends.
 * '''Choline-stabilised orthosilicic acid (ch-OSA / BioSil)''' — the supplement form with the human trial data; the choline stabilisation exists to keep the silicic acid from polymerising in the bottle.
 
 == Evidence ==
@@ -25,5 +26,11 @@ This is the mainstream nutritional position, presented as physiology rather than
 * '''Horsetail contains thiaminase''', which degrades vitamin B1. Prolonged use has caused thiamine deficiency in grazing livestock; supplement products are usually treated to inactivate it, and unprocessed herb should not be taken long-term without B1.
 * Horsetail is a '''diuretic''' and some species accumulate nicotine and heavy metals; ''Equisetum arvense'' must be distinguished from ''E. palustre'', which is toxic.
 * '''Do not inhale silica powder''' — silicosis is real and irreversible. The essay's title is a metaphor.
+
+== Which form to use ==
+
+The 2021 essay went after '''orthosilicic acid''' and used '''horsetail''', a plant that carries the silica together with the enzymes that handle it. That was the right target and it remains the right target.
+
+'''The older choice is the better one.''' Choline-stabilised orthosilicic acid (ch-OSA / BioSil) is the form with human trial data, and the choline stabilisation exists precisely to stop the silicic acid polymerising in the bottle. Horsetail is the botanical version of the same idea. Both aim at the species that is absorbed rather than at the percentage on the front of the label — which is the general rule this library keeps arriving at: '''the form is the intervention, and the label is not the form.'''
 
 See also: [[Chelated Minerals]] · [[Vitamin K2]] · [[Stack Substances]]

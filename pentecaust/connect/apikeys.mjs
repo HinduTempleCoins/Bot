@@ -34,6 +34,11 @@ export const PROVIDERS = [
   { id: 'openrouter', label: 'OpenRouter', part: 'metatron', host: 'openrouter.ai', what: 'many writing models through one key', hint: 'sk-or-…' },
   { id: 'elevenlabs', label: 'ElevenLabs', part: 'sandalphon', host: 'api.elevenlabs.io', what: 'voices and sound', hint: 'sk_…' },
   { id: 'suno', label: 'Suno', part: 'sandalphon', host: 'studio-api.suno.ai', what: 'songs', hint: 'your API token' },
+  // Hugging Face is the image-to-video lane. Our own servers make the still frames natively on CPU
+  // (SDXL), but we have no GPU, so the frame is brought to life on a ZeroGPU Space — someone else's
+  // hardware. Anonymous that is ~3-4 clips a day for everyone sharing it; a user's own free HF account
+  // gets their own quota. Their key, their quota, their clips.
+  { id: 'huggingface', label: 'Hugging Face', part: 'metatron', host: 'huggingface.co', what: 'image-to-video (Wan 2.2) and hosted model Spaces', hint: 'hf_…' },
 ];
 export const providerById = (id) => PROVIDERS.find((p) => p.id === String(id || '').toLowerCase()) || null;
 

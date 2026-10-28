@@ -1,0 +1,139 @@
+'''Fermentation is usually taught as preservation.''' Acid and alcohol push out the organisms that would spoil food, and the jar keeps. That is true and it is the smaller half. The larger half is that '''fermentation is enzymatic modification of molecules''' — a culture takes what you put in and hands back something chemically different, at room temperature, in water, with a selectivity synthetic chemists would pay for.
+
+Read that way, a kombucha vessel and a tray of koji are the same kind of object as the ''Psilocybe'' mycelium in [[Precursor Directed Biosynthesis Making New Molecules in Mushrooms Cacti and Yeast]]: '''a set of enzymes with defined regiochemistry and loose substrate tolerance, which you feed'''. This article is that reading — the industrial precedents that prove it, what the common cultures actually do, the biotransformations that change a compound's pharmacology, the ones that hurt people, and the genuinely open directions.
+
+== The two experiments that settled it ==
+
+Before anything speculative, two pieces of ordinary industrial history. Both are cases where chemistry could not do a step and a microorganism could.
+
+* '''The Reichstein process (1933), and ''Gluconobacter oxydans''.''' Industrial vitamin C synthesis runs D-sorbitol to '''L-sorbose''' — a single, '''stereoselective''' oxidation. Chemical routes to it were poor. A bacterium does it essentially quantitatively, and has done so in every ascorbic acid plant in the world for ninety years. '''The vitamin C in your cupboard passed through a bacterium because the chemistry was too hard.'''
+* '''Upjohn, 1952 — Peterson and Murray's ''Rhizopus'' hydroxylation.''' Cortisone synthesis from bile acids ran to over thirty steps and cost hundreds of dollars per gram, the bottleneck being installation of an oxygen at '''C-11''' of the steroid skeleton. Peterson and Murray found that ''Rhizopus arrhizus'' performs '''11α-hydroxylation''' of progesterone in one fermentation step. The price of cortisone collapsed, and microbial steroid transformation became an industry.
+
+'''That second one is the mushroom story exactly.''' A fungus, given a substrate it never evolved to see, puts a hydroxyl at one specific position and nowhere else — the same thing '''PsiH''' does at position 4 of an indole. The difference is that steroid hydroxylation is a legal, licensed, eighty-billion-dollar industry and has been since the Eisenhower administration.
+
+* '''And a third, which is a drug by accident:''' '''red yeast rice''' — rice fermented with ''Monascus purpureus'' — produces '''monacolin K''', which is '''chemically identical to lovastatin'''. A traditional food ferment makes a statin. ''(It therefore carries statin interactions and statin side effects, with none of the dose control, and ''Monascus'' can co-produce the nephrotoxin '''citrinin'''. Products vary by more than tenfold in monacolin content. This is a real drug sold as a food.)''
+
+== Kombucha, read as chemistry ==
+
+A SCOBY is not one organism. It is a '''consortium''': osmotolerant yeasts (''Brettanomyces'', ''Zygosaccharomyces'', ''Saccharomyces'') plus '''acetic acid bacteria''' (''Komagataeibacter'', formerly ''Gluconacetobacter''; ''Acetobacter''; ''Gluconobacter'' — the same genus as the vitamin C step above).
+
+<code>
+   SUCROSE
+      │  yeast INVERTASE
+      ▼
+   GLUCOSE + FRUCTOSE
+      │  yeast glycolysis
+      ▼
+   ETHANOL + CO2
+      │  acetic acid bacteria: alcohol dehydrogenase,
+      │  then aldehyde dehydrogenase
+      ▼
+   ACETALDEHYDE ──► ACETIC ACID          ← the sourness
+
+   GLUCOSE ──(AAB membrane-bound dehydrogenases)──► GLUCONIC ACID
+                                                    glucuronic acid
+   GLUCOSE ──(Komagataeibacter)──► BACTERIAL CELLULOSE  ← the pellicle
+   TEA POLYPHENOLS ──(oxidation, hydrolysis)──► smaller phenolics
+</code>
+
+'''The most under-used product of the most common home ferment is the pellicle.''' Bacterial cellulose is not plant cellulose: it is '''nanofibrillar, highly crystalline, free of lignin and hemicellulose, and about 99% water'''. It is eaten as '''nata de coco''', used in '''wound dressings''' (it holds moisture and conforms to the wound bed), dried into the material marketed as '''kombucha leather''', used in high-end '''acoustic diaphragms''' for its stiffness-to-weight, and studied as a scaffold for conductive and composite materials. Most home brewers compost it.
+
+'''Three honest corrections,''' because kombucha attracts claims:
+
+* '''The glucuronic acid "detox" story is wrong.''' Glucuronidation is a '''phase II''' conjugation your liver performs using '''UDP-glucuronic acid''', an activated cofactor made in the cell. Drinking glucuronic acid does not deliver it to that enzyme. The mechanism being described does exist — it is in [[Oilahuasca as Clinical Research Enzyme Induction Cooking and Spiced Beverages]] — and the drink does not drive it.
+* '''It contains alcohol.''' Finished kombucha commonly runs '''0.5–2% ABV''', and more if fermentation continues in a sealed bottle. This matters for pregnancy, for people in recovery, and for anyone taking '''metronidazole''' or '''disulfiram'''.
+* '''The documented harms are real but specific:''' acid erosion of tooth enamel, and '''lead poisoning from brewing in lead-glazed ceramic''' — the acid leaches the glaze. Brew in glass or food-grade stainless. Unpasteurised products carry the usual immunocompromised caveat.
+
+== Koji: a tray of enzymes ==
+
+'''''Aspergillus oryzae''''' is a domesticated organism — the sake, miso and soy-sauce fungus, derived from ''A. flavus'' but lacking a functional aflatoxin pathway. Industrially it is '''an enzyme source''': proteases, amylases and lipases, secreted in bulk onto a solid substrate.
+
+What it does is '''pre-digestion'''. Amylases cut starch to fermentable sugars; proteases cut protein to peptides and free '''glutamate''', which is where the savour comes from.
+
+'''The novel-ferment frontier is mostly here''', and it is active, legal and food-safe:
+
+* '''Koji on substrates it never traditionally saw''' — barley, bread, legumes, nuts. "Peaso" and other non-soy misos are now ordinary.
+* '''Koji-cured meat and fish''', where the proteases do in days what dry-ageing does in weeks.
+* '''Garum from any protein''' — the Nordic Food Lab and Noma fermentation work rebuilt Roman fish sauce as a general method, applied to insects, beef, yeast and pollen.
+* '''Rapid ageing''' of charcuterie and cheese analogues by supplying the enzymes directly rather than waiting for them.
+
+'''The one safety line that matters:''' use a '''known culture from a culture supplier'''. ''A. oryzae'' is safe because it is a domesticated strain with the aflatoxin genes broken. A wild ''Aspergillus'' off a windowsill is not that organism, and the distinction is not visible.
+
+== Fermentation that changes pharmacology ==
+
+This is the part that connects directly to the oilahuasca line. Many plant compounds arrive as '''glycosides''' — sugar-attached, poorly absorbed — and depend on '''your gut bacteria''' to cut the sugar off before anything can cross the gut wall. That is a lottery, because gut flora differ. '''Fermentation does that step outside the body, in a jar, reproducibly.'''
+
+{| class="wikitable"
+! Transformation !! Enzyme / organism !! Why it matters
+|-
+| '''Ginsenoside Rb1 → compound K''' || β-glucosidase; ''Lactobacillus'', ''Aspergillus'' || Compound K is the form actually absorbed. Many people lack the flora to make it. The clearest case of fermentation as pre-digestion
+|-
+| '''Daidzein → equol''' || Specific gut bacteria || Only an estimated 25–50% of people are "equol producers". Fermenting does it for everyone
+|-
+| '''Rutin → quercetin; hesperidin → hesperetin''' || β-glucosidase / rhamnosidase || Aglycones absorb far better than glycosides
+|-
+| '''Phytate degradation''' || Phytase; sourdough, tempeh || Frees iron, zinc, calcium from an antinutrient
+|-
+| '''Cyanogenic glycosides in cassava''' || Linamarase, via soaking and fermentation || '''Life-saving.''' Skipping it causes konzo, an irreversible paralysis
+|-
+| '''Gluten peptide proteolysis''' || Sourdough LAB proteases || Reduces, does not eliminate — not safe in coeliac disease
+|-
+| '''Menaquinone-7 (vitamin K2)''' || ''Bacillus subtilis'' natto || The highest dietary source; see [[Vitamin K2]]
+|-
+| '''Glutamate → GABA''' || '''Glutamate decarboxylase''', ''Lactobacillus brevis'' || GABA-enriched ferments. Note the enzyme class: an '''amino acid decarboxylase''', the same step as PsiD in the mushroom and TyDC in the cactus
+|}
+
+'''That last row is the whole thesis in one line.''' The first committed step of the psilocybin pathway, the first committed step of the mescaline pathway, and the production of GABA in kimchi are '''the same reaction type''' performed by different organisms on different amino acids.
+
+== The same chemistry, when it hurts people ==
+
+Amino acid decarboxylases are not selective about which amino acid, and that produces the '''biogenic amines''' — the genuine hazard of fermented food.
+
+* '''Tyrosine → tyramine. Histidine → histamine. Lysine → cadaverine. Ornithine → putrescine.'''
+* '''Tyramine plus a monoamine oxidase inhibitor is a hypertensive crisis''' — the "cheese effect". Aged cheese, soy sauce, miso, fermented sausage, sauerkraut, tap and cask beer, and broad beans are the classic list, and this killed people before it was understood. It is the same hazard as the cactus '''hordenine and tyramine''' warning in [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]], arriving through dinner instead. See [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]].
+* '''Histamine''' accumulation causes '''scombroid poisoning''' — and cooking does not destroy it, because the amine is heat-stable even though the bacteria are not.
+* '''Amine content rises with time, temperature and protein content''', which is exactly what long warm protein ferments are. Short, cold, and with a known starter culture is the low-amine configuration.
+
+== What this points to that is actually new ==
+
+Sorting the genuinely open directions from the ones that only sound open:
+
+=== Precursor feeding, in a brewery ===
+Yeast '''alcohol acetyltransferases (ATF1, ATF2)''' esterify whatever alcohol is present with acetyl-CoA. Supply a different alcohol and you get a different ester, with a different aroma. '''This is precursor-directed biosynthesis, food-grade and entirely legal''', and it is how the fruit esters in beer and wine arise. Deliberately steering it — through substrate, temperature and strain — is an open and under-worked area for anyone with a fermentation vessel and a nose. See [[Yeast Terpenes and Biosynthesis]] for the terpene half of the same idea.
+
+=== Co-culture by enzyme, not by tradition ===
+Traditional ferments pair organisms that happened to co-occur. '''Designing''' a pairing — one organism for the acid environment, another chosen specifically for its '''β-glucosidase''' — targets a transformation rather than a flavour. The ginsenoside and isoflavone rows above are the proof of concept.
+
+=== Solid-state fermentation of botanicals ===
+Applying the koji method to '''turmeric, ginseng, green tea or citrus peel''' to pre-convert glycosides to aglycones before anyone swallows them. This tackles the bioavailability problem from the opposite end to the piperine approach in [[Bioavailability Metabolic Inhibition and Synergy]] — '''change the molecule rather than inhibit the enzyme that clears it''' — and it carries none of the drug-interaction risk that enzyme inhibition does. Of everything in this article, this is the direction with the best ratio of promise to hazard.
+
+=== The pellicle as a material ===
+Bacterial cellulose from a vessel you already own. Materials, not food.
+
+=== Precision fermentation, which is the industrial version ===
+Engineered microbes making a specific food molecule: '''soy leghemoglobin''' from ''Pichia'' (the Impossible burger's heme), '''β-lactoglobulin''' from fungi (animal-free dairy protein), '''Reb M''' steviol glycosides, '''human milk oligosaccharides''' for infant formula, and fermentation-derived vanillin. All approved, all on shelves, all the same principle.
+
+=== And what does not work ===
+'''You cannot ferment your way around the Analogue Act.''' A culture that produces a controlled substance or its analogue is producing a controlled substance; the vessel is not a loophole, and red yeast rice is the standing demonstration that a ferment can be a drug whether or not anyone intended it. The open ground is the list above.
+
+== If it is an experiment, measure it ==
+
+The difference between a novel ferment and a jar of guesses is records:
+
+* '''pH''' — the safety variable. Below 4.6 for anything stored; below 4.2 is comfortable.
+* '''Titratable acidity''' separately from pH — they are not the same measurement, and TA tracks taste better.
+* '''°Brix or specific gravity''' in and out, so you know how much substrate was consumed.
+* '''Temperature logged''', because it drives both rate and amine formation.
+* '''A named starter culture''', not a wild catch, if the result is to be repeatable.
+* '''A control jar.''' Without one you cannot attribute anything, which is the same complaint this library makes of the probe-cocktail gap in the oilahuasca work.
+
+== See also ==
+
+* [[Precursor Directed Biosynthesis Making New Molecules in Mushrooms Cacti and Yeast]] — the general method
+* [[Fermentation]] — the practical vegetable ferments with weights and troubleshooting
+* [[Preservation Fermentation and Spice]] · [[Yeast Terpenes and Biosynthesis]]
+* [[Oilahuasca as Clinical Research Enzyme Induction Cooking and Spiced Beverages]] — the in-body version
+* [[Bioavailability Metabolic Inhibition and Synergy]] · [[Cytochrome P450 System Inhibition and Induction]] · [[Enzyme Chemistry]]
+* [[Monoamine Oxidase Inhibitors and Neurotransmitter Systems]] — the tyramine hazard
+* [[Cactus Alkaloid Catalogue and the Mescaline Reference Standard]] — the same decarboxylase step in a plant
+* [[Vitamin K2]] · [[Cooking Methods]] · [[Culinary Arts]] · [[Farming  Fowl  Reptiles  Insects and Fungi]]

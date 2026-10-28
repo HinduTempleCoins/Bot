@@ -1,0 +1,47 @@
+A '''register''' is the variety of a language used in a particular setting — the difference between how you speak to a friend, to a client, to a court and to a congregation. It is the thing most language courses do not teach, and it is what most '''paying''' learners actually want.
+
+== The problem with general language courses ==
+
+A standard course teaches the language of daily life: greetings, directions, shopping, food, the weather, what you did at the weekend. That is the correct place to start and it is where nearly every course stops.
+
+It is also not what the learner needed. The person who can order lunch confidently and then cannot write a professional email, follow a contract, take instruction in a kitchen or participate in a service has not failed to learn the language. They have learned '''one register''' of it and been given no notice that the others exist.
+
+== The registers that pay ==
+
+'''Business.''' Meetings, negotiation, correspondence, presentations, reporting, the vocabulary of a specific industry, and above all the '''conventions of politeness and indirection''' — which differ sharply between languages and cause more professional damage than grammar errors ever do. A speaker whose English is grammatically fine but whose directness reads as rude will be judged less competent than they are.
+
+'''Religious.''' The language of scripture, liturgy, prayer, preaching and pastoral conversation — frequently '''archaic or formal''', with its own lexicon, cadence and set phrases, and often with a second language layered underneath: Latin behind Catholic practice, Hebrew and Aramaic behind Jewish, Classical Arabic behind Islamic, Sanskrit and Pali behind Hindu and Buddhist, Church Slavonic behind Orthodox. A person entirely fluent in conversational Spanish may be unable to follow a Mass, and a person who can follow the Mass may be unable to haggle at a market.
+
+This register has a direct practical consequence for anyone working across borders in a religious capacity — see [[The R-1 Religious Worker Visa]] — because ministry is conducted in it.
+
+'''Trade and workplace.''' The language of the actual job. Kitchen Spanish is the best-known example: the imperative-heavy, fast, noun-dense vocabulary of a working kitchen, which bears little resemblance to classroom Spanish and which an enormous number of people need in order to work safely and be paid properly. The same is true of construction, agriculture, warehousing, care work, haulage and cleaning. Safety instruction lives in this register, which makes it the one with physical consequences.
+
+'''Legal and medical.''' Highly specialised, high-stakes, and the two fields where '''certified interpretation''' is a licensed profession rather than a favour. Worth naming so people know not to improvise in them.
+
+'''Academic.''' The register of lectures, papers, citation and argument. This is what a learner preparing to study abroad needs, and what examinations are built around.
+
+== Why this is a teaching opportunity ==
+
+For a teacher this is the most direct route out of commodity work. General conversational English is taught by everyone and priced accordingly. '''English for a specific purpose''' — for nurses, for pilots, for hospitality staff, for clergy, for engineers — is scarcer, better paid, and far easier to market, because the learner can name exactly what they need and knows when they have got it.
+
+The requirement is not a second degree. It is '''credible familiarity with the setting'''. Someone who has worked in a kitchen can teach kitchen language. Someone who has worked in ministry can teach the language of ministry. Trade experience that felt like a dead end becomes the differentiator — which is the [[Stacking Credentials and the Bilateral Career Path|stacking]] argument applied to language work.
+
+== Conversational classes, and classes for the language ==
+
+Two kinds of class are worth distinguishing, because learners often choose the wrong one:
+
+* A '''conversational class''' builds fluency through use — speaking, listening, reacting, in a general register. It is what most people need most of the time and what most courses provide.
+* A '''class for a purpose''' teaches the language ''of'' something — the service, the trade, the profession — and may be taught partly in the learner's own language, because the point is competence in the setting rather than immersion.
+
+A religious-language class sits in the second category and frequently covers material a native speaker also studies: liturgical vocabulary, the text itself, the formulae. These are classes '''for''' the language, not merely '''in''' it, and they serve native speakers and learners together.
+
+== Where to start in this Library ==
+
+* [[Spanish Glossary]] — the bilingual vocabulary reference already here, covering the general-register ground: numbers, time, colours, food and drink, occupations, places, common objects, question words and pronunciation. It is the foundation the registers above are built on top of.
+* [[CEFR The Common European Framework of Reference for Languages]] — how to describe a level honestly. Register sits '''across''' the CEFR scale rather than on it: a C1 speaker can be a beginner in a register they have never worked in.
+* [[Teaching English Abroad TEFL and TESOL]] — the teaching qualifications, and why higher-level learners are the better-paid market.
+* [[Getting Paid to Teach Abroad]] — how the work and the visa fit together.
+
+Language programmes are listed at [https://credentials.soapbox.community/industry/languages credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[Visas for Working Across Borders]] · [[Stacking Credentials and the Bilateral Career Path]]

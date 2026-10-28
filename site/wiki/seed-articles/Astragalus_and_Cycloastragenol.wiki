@@ -1,0 +1,36 @@
+'''Astragalus''' (''Astragalus membranaceus'', '''huang qi''') is a Chinese tonic root, and '''cycloastragenol''' is the molecule extracted from it that made it a life-extension supplement. The two are not interchangeable, and the gap between them is the most important thing on this page.
+
+== The telomerase claim ==
+
+Telomeres shorten with each cell division; when they become critically short the cell enters senescence. '''Telomerase''' (hTERT) extends them, and is largely switched off in adult somatic cells.
+
+'''Cycloastragenol''' — the aglycone of astragaloside IV — is the best-characterised small-molecule '''telomerase activator''', and it is the active principle behind '''TA-65'''. In cell and animal work it increases telomerase activity and improves telomere-length biomarkers.
+
+'''What it has not done is extend a human lifespan.''' The Institute's own paper states this plainly about its own supplement: cycloastragenol *"has been shown to improve health at the DNA level through telomerase activation. It is not yet demonstrated to extend lifespan (nobody has taken it long enough to confirm), but it improves telomere-length biomarkers."* A biomarker improving is not a life extending, and the honest position is to hold those apart.
+
+== Whole root is not cycloastragenol ==
+
+This is the [[Stack Substances|fenugreek problem]] again, and it applies to the Institute's own shelf.
+
+A '''full-spectrum astragalus root''' capsule is ground root. It is standardised to nothing in particular, and cycloastragenol is present in the plant in '''very small quantities''' — it is a minor aglycone, typically produced by hydrolysing astragaloside IV rather than extracted directly. The trials and the biomarker data were run on '''purified cycloastragenol or TA-65''', not on root powder.
+
+So the root is a reasonable immune and adaptogenic tonic with a long traditional record. '''It is not a telomerase intervention at the doses a root capsule supplies''', and reading the cycloastragenol literature onto a root capsule is exactly the error the Institute warns about elsewhere.
+
+== What the root itself has evidence for ==
+
+Polysaccharides and saponins in astragalus have '''immunomodulatory''' and anti-inflammatory activity in preclinical work, with a traditional reputation as a qi tonic used for fatigue and immune support. Clinical evidence in humans is modest and mostly in adjunctive settings.
+
+== Role in the stack ==
+
+In [[The Amplification Framework]] astragalus does not occupy a substrate or cofactor slot. It belongs to the '''older thread''' — the 2016 "Building Brains" research on neurogenesis and life extension, which predates the 2021 Plant Medicine series — alongside [[L-Carnosine]].
+
+== Cautions ==
+
+* '''Telomerase activation and cancer''' — the theoretical concern is real and unresolved. Most cancers reactivate telomerase; a compound that activates it in healthy cells may do so in transformed ones. No human trial has been long or large enough to settle this.
+* '''Autoimmune disease''' — astragalus is an immune stimulant. Caution in lupus, rheumatoid arthritis, multiple sclerosis.
+* '''Immunosuppressants''' — direct pharmacodynamic opposition. Relevant after transplant and on biologics.
+* '''Anticoagulants''' and antiplatelet drugs — possible additive effect.
+* '''Lithium''' — possible diuretic-type interaction affecting clearance.
+* '''Pregnancy''' — insufficient data; avoid.
+
+See also: [[L-Carnosine]] · [[The Amplification Framework]] · [[Stack Substances]]

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildMarketingPost, selectBatch, loadManifest, TESTING } from './shilpa-marketing.mjs';
+import { buildMarketingPost, selectBatch, loadManifest } from './shilpa-marketing.mjs';
 
 const sample = [
   { id: 's000-writing-ig-square-vaporwave', product: 'writing', format: 'ig-square', theme: 'vaporwave', slogan: 'Earn for Blogging.', surface: 'write.soapbox.community', url: 'https://hathor.soapbox.community/remakes/img/mktg/s000-writing-ig-square-vaporwave.jpg' },
@@ -20,19 +20,20 @@ test('selectBatch drops items missing id or url', () => {
   assert.equal(b.length, 3);
 });
 
-test('buildMarketingPost embeds every image, labels it test marketing, links products', () => {
+test('buildMarketingPost embeds every image, names the products, links them', () => {
   const p = buildMarketingPost(sample, 7);
   assert.equal(p.permlink, 'shilpa-shastra-test-marketing-set-7');
-  assert.ok(p.title.includes('Set 7'));
-  assert.ok(p.title.toLowerCase().includes('test'));
   assert.deepEqual(p.tags[0], 'shilpashastra');
   assert.ok(p.tags.includes('marketing'));
+  assert.ok(!p.tags.includes('test'), 'our own advertising is not tagged as test content');
   // one markdown image per creative
   assert.equal((p.body.match(/!\[/g) || []).length, sample.length);
   for (const c of sample) assert.ok(p.body.includes(c.url), `body has ${c.url}`);
-  // the test-marketing disclaimer is present
-  assert.ok(p.body.includes(TESTING));
-  assert.ok(p.body.includes('test marketing'));
+  // the title names what is in the post; no set number, no "(testing)", no alpha disclaimer
+  assert.doesNotMatch(p.title, /set \d/i);
+  assert.doesNotMatch(p.title, /testing/i);
+  assert.doesNotMatch(p.body, /not running a finished campaign/i);
+  assert.ok(p.title.includes('Writing & Blogging'));
 });
 
 test('buildMarketingPost title never exceeds the chain limit', () => {

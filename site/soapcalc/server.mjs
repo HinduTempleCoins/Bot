@@ -18,6 +18,7 @@
 
 import { createServer } from 'node:http';
 import { calculate, OILS, PROFILE_RANGES, FATTY_ACIDS, SAFETY_NOTE } from './soapcalc.mjs';
+import { lotion, bodyButter, solidPerfume, balm, infusion, requiredHlb, EMULSIFIERS, PRESERVATIVES, ANTIOXIDANTS, REQUIRED_HLB, PRESERVATIVE_RULE } from './formulate.mjs';
 import { robotsTxt, sitemapXml, publicSitemapIndexXml, llmsTxt } from '../../integrations/soapbox/crawlers.mjs';
 import { headTags } from '../../integrations/soapbox/seo.mjs';
 
@@ -33,7 +34,7 @@ const bp = (p) => BASE_PATH + p;
 const TOOLS_HUB_URL = (process.env.TOOLS_HUB_URL || '/').replace(/\/+$/, '');
 const hub = (p) => TOOLS_HUB_URL + p;
 const TOOLS_NAV = `<a class=hublink href="${hub('/')}">◧ SoapBox Tools</a>`
-  + `<a href="${hub('/converter')}">Converter</a><a href="${hub('/calculator')}">Calculator</a>`;
+  + `<a href="${hub('/converter')}">Converter</a><a href="${hub('/calculator')}">Calculator</a>` + `<a href="${hub('/lotions')}">Lotions</a><a href="${hub('/butters')}">Body butters</a><a href="${hub('/perfume')}">Solid perfume</a><a href="${hub('/balms')}">Balms</a>`;
 
 // ── house-style helpers ──────────────────────────────────────────────────────────────────────────────
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -318,7 +319,7 @@ function sendHtml(res, html, code = 200) {
   res.end(html);
 }
 
-export const SITEMAP_PATHS = ['/'];
+export const SITEMAP_PATHS = ['/', '/lotions', '/butters', '/perfume', '/balms', '/infusions'];
 
 async function readBody(req) {
   return new Promise((resolve) => {
@@ -366,6 +367,32 @@ export async function handler(req, res) {
     // A small oils reference endpoint (public reference data) — handy for building the picker elsewhere.
     if (path === '/api/oils') return sendJson(res, { oils: OILS, fattyAcids: FATTY_ACIDS });
 
+    // ── formulation engine: emulsions and anhydrous blends ───────────────────────────────────────
+    if (path === '/api/formulate') {
+      let body;
+      if ((req.method || 'GET').toUpperCase() === 'POST') {
+        const raw = await readBody(req);
+        try { body = JSON.parse(raw || '{}'); } catch { return sendJson(res, { ok: false, error: 'invalid JSON body' }, 400); }
+      } else {
+        body = Object.fromEntries(url.searchParams.entries());
+        body.kind = body.kind || 'lotion';
+      }
+      const kind = String(body.kind || 'lotion').toLowerCase();
+      const fns = { lotion, cream: lotion, bodybutter: bodyButter, butter: bodyButter, perfume: solidPerfume, solidperfume: solidPerfume, balm, salve: balm, lipbalm: balm, lotionbar: balm, infusion };
+      const fn = fns[kind];
+      if (!fn) return sendJson(res, { ok: false, error: `unknown kind "${kind}"`, kinds: Object.keys(fns) }, 400);
+      if (kind === 'lipbalm' || kind === 'salve' || kind === 'lotionbar') body.kind = kind;
+      return sendJson(res, { kind, ...fn(body), preservativeRule: PRESERVATIVE_RULE });
+    }
+
+    if (path === '/api/formulate/reference') {
+      return sendJson(res, { emulsifiers: EMULSIFIERS, preservatives: PRESERVATIVES, antioxidants: ANTIOXIDANTS, requiredHlb: REQUIRED_HLB, rule: PRESERVATIVE_RULE });
+    }
+
+    if (path === '/lotions' || path === '/butters' || path === '/perfume' || path === '/balms' || path === '/infusions') {
+      return sendHtml(res, formulatePage(path.slice(1)));
+    }
+
     if (path === '/' || path === '') return sendHtml(res, calculatorPage());
 
     res.writeHead(404, { 'content-type': 'text/html; charset=utf-8' });
@@ -378,4 +405,114 @@ export async function handler(req, res) {
 
 if (process.argv[1] && /server\.mjs$/.test(process.argv[1]) && /site\/soapcalc\//.test(process.argv[1])) {
   createServer(handler).listen(PORT, HOST, () => console.log(`${SITE_NAME} on ${BASE_URL} (bound ${HOST}:${PORT})`));
+}
+
+// ── formulation pages (emulsions and anhydrous blends) ────────────────────────────────────────────
+// Each page is a plain form that posts to /api/formulate and renders the result. No build step,
+// no framework, no network at render time — the server only emits HTML.
+const FORMS = {
+  lotions: {
+    title: 'Lotion & cream calculator',
+    kind: 'lotion',
+    blurb: 'A lotion is not a lye calculation. Lye is stoichiometry — one right answer from the oil weights. An emulsion depends on the emulsifier and its usage rate, on HLB matching, on heat-and-hold, and on a preservative that actually works in water. That is why no SoapCalc equivalent exists for lotions. What this does enforce: the phases sum to 100%, each emulsifier and preservative sits in its real range, the required HLB is computed, and a water-containing formula without a preservative is refused outright.',
+    fields: [
+      ['batchGrams', 'Batch size (g)', 200], ['waterPct', 'Water phase %', 70], ['oilPct', 'Oil phase %', 20],
+      ['emulsifierPct', 'Emulsifier %', 5], ['preservativePct', 'Preservative %', 1],
+      ['humectantPct', 'Humectant (glycerin) %', 3], ['thickenerPct', 'Thickener %', 1], ['extrasPct', 'Extras %', 0],
+    ],
+    selects: [['emulsifier', 'Emulsifier', 'EMULSIFIERS'], ['preservative', 'Preservative', 'PRESERVATIVES']],
+  },
+  butters: {
+    title: 'Whipped body butter calculator',
+    kind: 'bodybutter',
+    blurb: 'Anhydrous: no water, so no preservative is needed — but keep water out of the jar, and use an antioxidant to slow rancidity. An antioxidant is not a preservative.',
+    fields: [
+      ['batchGrams', 'Batch size (g)', 250], ['buttersPct', 'Solid butters %', 60], ['liquidOilPct', 'Liquid oils %', 30],
+      ['waxPct', 'Wax %', 5], ['powderPct', 'Arrowroot / tapioca %', 5], ['extrasPct', 'Extras %', 0],
+    ],
+    selects: [],
+  },
+  perfume: {
+    title: 'Solid perfume calculator',
+    kind: 'perfume',
+    blurb: 'A 1:3 to 1:4 wax-to-carrier ratio by weight is the usual working range for a tin. Add fragrance off the heat, just above set point, so the top notes survive.',
+    fields: [
+      ['batchGrams', 'Batch size (g)', 30], ['waxPct', 'Wax %', 25], ['carrierPct', 'Carrier oil %', 70], ['fragrancePct', 'Fragrance %', 5],
+    ],
+    selects: [],
+  },
+  balms: {
+    title: 'Balm, salve & lotion-bar calculator',
+    kind: 'lipbalm',
+    blurb: 'Equal parts wax, butter and liquid oil by weight is the classic lotion-bar and hard-salve starting point. Expected wax bands differ by product, so pick the kind.',
+    fields: [
+      ['batchGrams', 'Batch size (g)', 100], ['waxPct', 'Wax %', 25], ['butterPct', 'Butter %', 35], ['oilPct', 'Liquid oil %', 40], ['extrasPct', 'Extras %', 0],
+    ],
+    selects: [['kind', 'Product', 'KINDS']],
+  },
+  infusions: {
+    title: 'Botanical infusion calculator',
+    kind: 'infusion',
+    blurb: 'Herb weight as a fraction of oil weight. Dry the botanical thoroughly first — water in an infused oil is what makes it spoil.',
+    fields: [['oilGrams', 'Carrier oil (g)', 500], ['herbRatio', 'Herb : oil (as a decimal, 0.2 = 1:5)', 0.2]],
+    selects: [],
+  },
+};
+
+const SELECT_DATA = { EMULSIFIERS, PRESERVATIVES, KINDS: { lipbalm: { name: 'Lip balm' }, salve: { name: 'Salve' }, lotionbar: { name: 'Lotion bar' }, stick: { name: 'Lotion stick' } } };
+
+function formulatePage(which) {
+  const f = FORMS[which] || FORMS.lotions;
+  const tabs = Object.keys(FORMS).map((k) =>
+    `<a href="${esc(bp('/' + k))}"${k === which ? ' style="font-weight:700;text-decoration:underline"' : ''}>${esc(FORMS[k].title.split(' ')[0])}</a>`).join(' · ');
+
+  const inputs = f.fields.map(([id, label, dflt]) =>
+    `<label>${esc(label)}<input id="${esc(id)}" type="number" step="any" value="${esc(String(dflt))}"></label>`).join('');
+
+  const selects = f.selects.map(([id, label, table]) => {
+    const opts = Object.entries(SELECT_DATA[table] || {})
+      .map(([k, v]) => `<option value="${esc(k)}">${esc(v.name)}${v.min != null ? ` (${v.min}–${v.max}%)` : ''}</option>`).join('');
+    return `<label>${esc(label)}<select id="${esc(id)}">${opts}</select></label>`;
+  }).join('');
+
+  const body = `
+<h1>${esc(f.title)}</h1>
+<p class="tabs">${tabs}</p>
+<p class="blurb">${esc(f.blurb)}</p>
+<form id="frm" onsubmit="return false">
+  <div class="grid">${inputs}${selects}</div>
+  <button id="go" type="button">Calculate</button>
+</form>
+<div id="out" aria-live="polite"></div>
+<p class="rule"><b>Preservatives:</b> ${esc(PRESERVATIVE_RULE)}</p>
+<script>
+(function(){
+  var KIND = ${JSON.stringify(f.kind)};
+  var IDS = ${JSON.stringify(f.fields.map((x) => x[0]).concat(f.selects.map((x) => x[0])))};
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function go(){
+    var body = { kind: KIND };
+    IDS.forEach(function(id){ var el=document.getElementById(id); if(el) body[id]=el.value; });
+    if (body.kind === 'lipbalm' && body.kind !== undefined && document.getElementById('kind')) body.kind = document.getElementById('kind').value;
+    fetch(${JSON.stringify(bp('/api/formulate'))}, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body) })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var h = '';
+        if (d.errors && d.errors.length) h += '<div class="err"><b>Will not work:</b><ul>' + d.errors.map(function(e){return '<li>'+esc(e)+'</li>';}).join('') + '</ul></div>';
+        if (d.warnings && d.warnings.length) h += '<div class="warn"><b>Check:</b><ul>' + d.warnings.map(function(e){return '<li>'+esc(e)+'</li>';}).join('') + '</ul></div>';
+        if (d.grams) { h += '<table><tbody>'; Object.keys(d.grams).forEach(function(k){ h += '<tr><th>'+esc(k)+'</th><td>'+esc(d.grams[k])+' g</td></tr>'; }); h += '</tbody></table>'; }
+        if (d.herbGrams != null) h += '<table><tbody><tr><th>herb</th><td>'+esc(d.herbGrams)+' g</td></tr><tr><th>oil</th><td>'+esc(d.oilGrams)+' g</td></tr><tr><th>ratio</th><td>'+esc(d.ratio)+'</td></tr></tbody></table>';
+        if (d.requiredHlb != null) h += '<p>Required HLB of the oil phase: <b>'+esc(d.requiredHlb)+'</b></p>';
+        if (d.carrierToWaxRatio != null) h += '<p>Carrier : wax ratio <b>'+esc(d.carrierToWaxRatio)+' : 1</b></p>';
+        if (d.method) h += '<ol class="method">' + d.method.map(function(m){return '<li>'+esc(m)+'</li>';}).join('') + '</ol>';
+        if (d.antioxidantNote) h += '<p class="rule">'+esc(d.antioxidantNote)+'</p>';
+        document.getElementById('out').innerHTML = h;
+      })
+      .catch(function(){ document.getElementById('out').textContent = 'Calculation failed.'; });
+  }
+  document.getElementById('go').addEventListener('click', go);
+  go();
+})();
+</script>`;
+  return page(f.title + ' — ' + SITE_NAME, body, { description: f.blurb.slice(0, 300) });
 }

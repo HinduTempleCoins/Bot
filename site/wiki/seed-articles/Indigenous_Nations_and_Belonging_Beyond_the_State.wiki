@@ -1,0 +1,84 @@
+Outside the United States, descent-based belonging to an '''indigenous nation''' is organised very differently from country to country — and the differences are instructive, because they are a controlled experiment in what happens when a state picks '''blood''', '''descent''', '''language''' or '''community recognition''' as the test.
+
+This page covers the non-US systems. For the American one, see [[US Tribal Nations and Tribal Citizenship]]; for ordinary national citizenship by ancestry, see [[Citizenship by Descent]].
+
+''General information about published statutes, registers and case law, current as of October 2026. Not legal advice. Several of these systems are under active legislative change; verify before relying on any of it.''
+
+== Canada — the statutory cut-off ==
+
+Canada is the one system where the arithmetic of exclusion is written directly into federal law and openly described as such.
+
+'''Indian status''' under the '''Indian Act''' is registration with the federal government — separate from band membership, which a First Nation may control itself. Status carries the '''second-generation cut-off''': after '''two consecutive generations''' of parenting with a person not entitled to registration, the '''third generation loses entitlement'''. It is Canada's functional equivalent of blood quantum, expressed as a counter rather than a fraction, and it runs to the same destination.
+
+The sex-based inequities came off in stages: '''Bill C-31''' (1985) ended the rule stripping status from women who married out, '''Bill C-3''' (2011) extended it to grandchildren, and '''Bill S-3''' (fully in force 2019) removed the '''1951 cut-off''' and aligned maternal and paternal lines back to '''1869'''. None of them touched the second-generation cut-off, and the government acknowledges that residual inequities persist — the cut-off itself, plus scrip and enfranchisement.
+
+'''Live as of October 2026:''' '''Bill S-2''' (''An Act to amend the Indian Act (new registration entitlements)''). As introduced it did not remove the cut-off; the '''Senate amended it to a "one-parent rule"''', which would eliminate the cut-off and let entitlement continue into future generations. It passed second reading in the House on '''27 February 2026''' and is before the Standing Committee on Indigenous and Northern Affairs. '''It is not law.''' A parallel federal engagement process closed its call-out in January 2026, with implementation work slated for summer 2026.
+
+'''Métis''' belonging runs on different machinery again: the '''Powley test''' (''R. v. Powley'', 2003) requires self-identification, an '''ancestral connection''' to a historic Métis community, and '''acceptance by the modern community''' — the same three-limb shape Australia uses. ''Daniels v. Canada'' (2016) held that Métis and non-status Indians are "Indians" under s. 91(24) of the Constitution Act, which settled federal jurisdiction without settling membership.
+
+'''Inuit''' enrolment runs through the land-claim agreements — Nunavut, Inuvialuit, Nunavik, Nunatsiavut — each with its own enrolment committee and criteria, typically descent plus community acceptance rather than any fraction.
+
+== New Zealand — descent, and no fraction at all ==
+
+New Zealand abolished blood quantum in '''1974'''. The '''Māori Affairs Amendment Act 1974''' replaced the old "half-blood or more" definition, and '''Te Ture Whenua Māori Act 1993''' now defines Māori as ''"a person of the Māori race of New Zealand; and includes a descendant of any such person."''
+
+Descent, with '''no minimum'''. One Māori ancestor, however far back, satisfies the statutory definition. That is the opposite end of the spectrum from a 1/4-blood tribal constitution in the United States, and it is a deliberate choice rather than an oversight.
+
+Practical belonging is not the statute, though — it is '''whakapapa''', the recited genealogy that connects a person to a '''hapū''' and an '''iwi'''. Iwi maintain their own registers (which matter for Treaty settlement distributions and for voting in iwi elections) and set their own registration requirements, which commonly means naming the tipuna — the ancestor — you descend from and having that line recognised. Māori Land Court records are the main documentary base. Separately, a person of Māori descent may choose the '''Māori electoral roll''' for parliamentary elections, on a self-declared descent basis.
+
+The gap worth noticing: the '''statutory''' definition is generous and self-declared; '''iwi''' registration is genealogical and recognised by the iwi. Those are not the same thing, and conflating them is the commonest error here.
+
+== Australia — the three-part test ==
+
+Australia has no register and no fraction. The working definition, originating in Brennan J's formulation in the Tasmanian Dam Case and carried into ''Mabo (No. 2)'', has '''three limbs''':
+
+# '''Descent''' from an Aboriginal or Torres Strait Islander person;
+# '''Self-identification''' as such; and
+# '''Recognition''' by the Aboriginal or Torres Strait Islander community in which the person lives or has lived.
+
+All three are required. The third limb is what makes the test genuinely communal rather than genealogical, and it is why a documents-only claim does not work in Australia the way it does in Ireland or Lithuania.
+
+In '''''Love v Commonwealth''''' (2020) the High Court held '''4–3''' that Aboriginal Australians, as identified by the tripartite test, are '''not "aliens"''' within s. 51(xix) of the Constitution and so cannot be deported — a constitutional status that is neither citizenship nor its absence. The Commonwealth later sought to have ''Love'' reopened and overturned in ''Montgomery''; the challenge was '''withdrawn''', and ''Love'' stands. The ''Montgomery'' facts are the sharpest version of the question in this whole subject: a man with '''no biological Aboriginal descent''' who had been '''culturally adopted''' by a person holding traditional authority among the Mununjali people.
+
+== Sápmi — belonging by language ==
+
+The Sámi Parliaments of '''Norway''', '''Sweden''' and '''Finland''' maintain electoral rolls, and entry to a roll is the nearest thing to a formal membership determination. The criteria are a '''subjective''' limb plus an '''objective''' one, and the objective limb is '''language, not blood''':
+
+* '''Norway''' — the person must declare that they regard themselves as Sámi, '''and''' either they, a '''parent, grandparent or great-grandparent''' used Sámi as a home language, or a parent is or was a registered voter. Sámi from Sweden, Finland or Russia must additionally have been registered in Norway for three years.
+* '''Finland''' — self-identification plus the same '''four-generation language''' test (first language learned by the person, a parent, a grandparent or a great-grandparent), or a parent registered for the 2027 election or later. The long-contested '''"Lapp clause"''' — which admitted descendants of people listed in historic mountain, forest and fishing Lapp registers, often over the Sámi Parliament's objection — was '''removed''' by the 2023 reform of the Sámi Parliament Act, after criticism from the '''UN Human Rights Committee'''. Finland's criteria now align with Norway's and Sweden's.
+
+A language-descent test is a genuinely different instrument from either blood quantum or civil-record lineage. It asks what was '''spoken in the house''' within living memory, which selects for continuity of culture rather than continuity of genealogy, and it can include a person with little documented ancestry while excluding one with a great deal.
+
+== Hawaiʻi — descent without a polity ==
+
+'''Native Hawaiians''' are not a federally recognised tribe, and that single fact drives everything else.
+
+''Rice v. Cayetano'' (2000) struck down the rule limiting voting for '''Office of Hawaiian Affairs''' trustees to persons of Native Hawaiian descent, holding it a race-based voting qualification under the '''Fifteenth Amendment'''. The Court pointedly did not decide whether Native Hawaiians constitute a political community entitled to self-governance — the question that would have made ''Morton v. Mancari'' apply instead. Without an organised polity, a descent rule reads as racial; with one, it reads as political. That is the whole of the difference, and it is why federal-recognition efforts (including the Department of the Interior's 2016 rule at '''43 CFR Part 50''', which created a pathway but no government to use it) have mattered so much.
+
+Descent-based '''benefit''' programmes continue: '''Hawaiian Home Lands''' under the Hawaiian Homes Commission Act 1920 uses a '''50 per cent''' blood-quantum rule, and the Kamehameha Schools operate a preference. The blood-quantum figure here is a 1920 congressional artefact, imposed from outside, exactly as in the Indian Reorganization Act constitutions.
+
+== Greenland and the Nordic north ==
+
+'''Greenland''' is the case where the indigenous nation '''is''' the state-in-waiting: Greenlanders are Danish citizens, Greenland has self-government under the '''2009 Self-Government Act''' which recognises Greenlanders as '''a people under international law''' with a right to independence, and belonging is ordinary Danish nationality plus residence rather than a descent register. There is no Greenlandic blood quantum.
+
+== Nations that issue documents but not descent ==
+
+Two sovereign entities are routinely confused with this subject because they issue passports, and neither has anything to do with ancestry:
+
+* '''The Sovereign Military Order of Malta''' — a sovereign subject of international law with diplomatic relations with over 100 states. It issues a small number of diplomatic passports to its leadership. There is no citizenry, and no descent route.
+* '''Vatican City''' — citizenship is held '''by office''', for the duration of the office, and lapses when the office ends. It is the only citizenship in the world that is '''functional rather than hereditary''', and it is expressly not transmitted to children.
+
+Micronations, "native sovereign" document schemes and sold "tribal ID" cards are a different matter again: they have no standing anywhere, and the ones sold for money are frauds. A nation that recognises you will not invoice you for it.
+
+== What the comparison shows ==
+
+Four tests, four results:
+
+* '''Blood quantum''' (US constitutions, Hawaiian Home Lands) — arithmetically terminal, imposed from outside, and now being abandoned by many of the nations that inherited it.
+* '''Generational counter''' (Canada's second-generation cut-off) — the same terminus, reached by counting rather than by fraction, and currently before Parliament.
+* '''Pure descent''' (New Zealand's statutory definition, US lineal-descent constitutions) — unbounded in time, which makes the '''base roll''' or the '''whakapapa line''' the whole of the claim.
+* '''Community recognition''' (Australia, Powley in Canada, iwi registration in practice) — the only one of the four that can admit a person the records would exclude, and the only one no paper chain can be built for.
+
+And in all four, across every jurisdiction surveyed here, a commercial DNA test is '''not''' the instrument. Where it appears at all, it settles one disputed parent-child link. It never establishes belonging.
+
+See also: [[Citizenship by Descent]] · [[US Tribal Nations and Tribal Citizenship]] · [[Adoption and Citizenship by Descent]] · [[Marriage and Citizenship]]

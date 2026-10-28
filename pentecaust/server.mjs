@@ -55,6 +55,8 @@ import { check as entitled, guardSend, capabilitiesFor } from './herald/entitlem
 import { gateSend, ledgerFor, recordSend } from './herald/send-gate.mjs';
 import { handler as mediaHandler } from './media.mjs';
 import { handler as earnHandler } from './bounties/pool-server.mjs';
+import { handler as callsHandler } from './calls/server.mjs';
+import { presignPut, objectKey, storageConfig } from '../integrations/harddrive.mjs';
 import { issueInvite, redeemInvite, requireInvite, invitesFor, lineage as inviteLineage, tree as inviteTree} from '../signup/invites.mjs';
 import { honorDevTrust, assertStartupSafe } from '../signup/dev-trust-guard.mjs';
 import { metatronPage } from './metatron.mjs';
@@ -64,8 +66,17 @@ import { metatronPage } from './metatron.mjs';
 import { CHALLENGE as NOV_CHALLENGE, PREP as NOV_WATCH, HISTORY as NOV_HISTORY, pageHtml as novPage } from '../site/writing/server.mjs';
 import { sandalphonPage } from './sandalphon.mjs';
 import { beatsPage } from './beats.mjs';
+// Notifications — the ✉ letter icon in the nav bar and the page behind it. Derived from the chat
+// store's own read markers, so there is no second message store and nothing to forge.
+import { notificationsFor, markRead, markAllRead, unreadCountFor } from './notifications.mjs';
+import { notificationsPage } from './notifications-page.mjs';
 
 const PORT = +(process.env.PORT || 8157);
+// Live video is deployed dark until this is set — see the mount below.
+const CALLS_ENABLED = /^(1|true|yes|on)$/i.test(String(process.env.CALLS_ENABLED || ''));
+// BiFrost: the messenger's object storage. Recordings are PUT straight from the browser with a
+// presigned URL, so media never passes through this process.
+const BIFROST = { presignPut, objectKey, storageConfig };
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://pentecaust.com').replace(/\/$/, '');
 const _norm = (s) => String(s || '').trim().replace(/\/$/, '');
@@ -207,6 +218,18 @@ export async function handler(req, res) {
     if (path === '/media' || path.startsWith('/media/')) return mediaHandler(req, res);
     // Bounty Pools — sponsors fund a pot, contributors do tasks and earn (pentecaust/bounties/).
     if (path === '/earn' || path.startsWith('/earn/')) return earnHandler(req, res, { who: whoami(req) });
+    // Live video — 1:1 and small-group calls, rooms and roulette (pentecaust/calls/).
+    //
+    // ⭐ OFF BY DEFAULT. The code ships and the service runs with it mounted at nothing until
+    // CALLS_ENABLED is set, so this can be deployed and exercised on the box without being launched
+    // to the public. Flip the env var and restart to open it; unset it to close it again. With the
+    // flag off the path 404s exactly as if the feature were absent.
+    //
+    // Recordings go to BIFROST — the messenger's own storage. A second surface would mount this
+    // same handler with a DIFFERENT drive; see the storage note in calls/server.mjs.
+    if (CALLS_ENABLED && (path === '/live' || path.startsWith('/live/'))) {
+      return callsHandler(req, res, { whoami, mount: '/live', drive: BIFROST, surface: 'bifrost' });
+    }
     // The mark: a tongue of fire (Acts 2:3). Inline SVG so there is no binary asset to deploy and no
     // second request that can 404 on a fresh box.
     if (path === '/icon.svg' && method === 'GET') {
@@ -216,6 +239,7 @@ export async function handler(req, res) {
     if ((path === '/sandalphon/beats' || path === '/beats') && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(beatsPage()); }
     if (path === '/sandalphon' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(sandalphonPage()); }
     if (path === '/metatron' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(metatronPage()); }
+    if (path === '/notifications' && method === 'GET') { res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(notificationsPage()); }
     // Metatron's November wing. /watch and /history are the October viewing and the graded record.
     if (method === 'GET' && (path === '/metatron/november' || path === '/metatron/watch' || path === '/metatron/history')) {
       const [title, body] = path.endsWith('/watch')
@@ -262,6 +286,16 @@ export async function handler(req, res) {
     if (method === 'GET' && path === '/inbox') {
       const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
       return json(res, 200, { ok: true, account: me, threads: inboxFor(me) }, origin);
+    }
+    // Notifications feed + badge count. PRIVATE: always the authenticated account, never a named
+    // one, so nobody can read someone else's unread messages by guessing a name (IDOR guard).
+    if (method === 'GET' && path === '/notifications/feed') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, notificationsFor(me, { limit: Number(q.get('limit')) || undefined }), origin);
+    }
+    if (method === 'GET' && path === '/notifications/count') {
+      const me = whoami(req, q.get('account')); if (!me) return unauth(res, origin);
+      return json(res, 200, { ok: true, account: me, unread: unreadCountFor(me) }, origin);
     }
     // Herald: what THIS account may actually do. The UI reads this so it never offers a Send button it
     // is about to be refused for — the refusal still stands server-side either way.
@@ -375,6 +409,16 @@ export async function handler(req, res) {
         return json(res, r.ok ? 200 : 200, r, origin);
       }
       if (path === '/teams') { const me = who(b.owner); if (!me) return unauth(res, origin); return json(res, 200, createTeam({ ...b, owner: me }), origin); }
+      // Clearing notifications only ever moves YOUR OWN read marker forward — it cannot create a
+      // notification, change a message, or touch another account's markers.
+      if (path === '/notifications/read') {
+        const me = who(q.get('account')); if (!me) return unauth(res, origin);
+        return json(res, 200, markRead(me, b.channel, b.seq), origin);
+      }
+      if (path === '/notifications/read-all') {
+        const me = who(q.get('account')); if (!me) return unauth(res, origin);
+        return json(res, 200, markAllRead(me), origin);
+      }
       // PMs are open to every logged-in account (operator, 2026-09-08). Login is the floor and the
       // sender is the VERIFIED account — a body naming a different `from` is discarded, never honored,
       // which is the existing anti-hijacking behaviour the auth tests pin. `claimedAccount` is
@@ -638,6 +682,12 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
  .nav{display:flex;gap:4px;margin:10px 0 14px;border-bottom:1px solid var(--bd)}
  .nav button{padding:9px 16px;border:0;border-bottom:2px solid transparent;background:none;color:var(--mut);font:inherit;font-weight:700;cursor:pointer}
  .nav button.on{color:var(--gold);border-bottom-color:var(--gold)}
+ /* Line-drawn letter, not a filled colour glyph — matches the condenser's pencil/magnifying-glass
+    treatment (stroke-only, inherits the tab's own colour). ✉️ Email keeps its emoji. */
+ .ico{width:15px;height:15px;vertical-align:-2px;margin-right:6px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+ /* unread-count ping on the Notifications tab */
+ .badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;margin-left:6px;border-radius:999px;background:var(--ember);color:#fff;font-size:11px;font-weight:800;line-height:1;vertical-align:middle}
+ .badge[hidden]{display:none}
  .card{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:14px}
  input,select{padding:9px 11px;border:1px solid var(--bd);border-radius:9px;background:#0e131b;color:var(--fg);font:inherit;width:100%}
  .btn{padding:9px 12px;border-radius:9px;border:1px solid var(--bd);background:#0e131b;color:var(--fg);font:inherit;font-weight:700;cursor:pointer;white-space:nowrap}
@@ -664,6 +714,7 @@ const PAGE = `<!doctype html><html lang=en><head><meta charset=utf-8>
 </header>
 <div class=nav>
  <button id=nMsg class=on>💬 Messages</button>
+ <button id=nNotif onclick="location.href='/notifications'" title="Unread messages"><svg class=ico viewBox="0 0 24 24" aria-hidden=true><path d="M2.5 6.5h19v11h-19z"/><path d="M3.2 7.2 12 13.8 20.8 7.2"/></svg>Notifications<span id=notifBadge class=badge hidden>0</span></button>
  <button id=nMail>✉️ Email</button>
  <button id=nChan>🎮 Channels</button>
  <button id=nInt>🔌 Integrations</button>
@@ -752,6 +803,17 @@ const _hintMe=_urlMe||localStorage.getItem('melek_me')||'';
 if(_urlMe)localStorage.setItem('melek_me',_urlMe);
 const me=()=>$('me').value.trim().toLowerCase();
 function syncMail(){$('mailAddr').value=me()?(me()+'@pentecaust.com'):'—';}
+// Unread-message ping on the 📩 Notifications tab. Count only — the feed itself is only read on
+// /notifications. Soft-fails to a hidden badge so a flaky poll never shows a wrong number.
+async function syncNotif(){
+ const b=$('notifBadge'); if(!b)return;
+ if(!me()){b.hidden=true;return;}
+ try{
+  const r=await fetch('/notifications/count?account='+encodeURIComponent(me()),{headers:{accept:'application/json'}});
+  const d=await r.json(); const n=Number(d&&d.unread||0);
+  b.textContent=n>99?'99+':String(n); b.hidden=!n;
+ }catch(e){ b.hidden=true; }
+}
 // deep-link: a Condenser "Send a PM" link is pentecaust.com/?dm=<account> — auto-open that thread.
 let pendingDm=(new URLSearchParams(location.search).get('dm')||'').toLowerCase().replace(/^@/,'');
 function tryPending(){if(pendingDm&&me()){setTab('msg');openDM(pendingDm);pendingDm='';return true;}return false;}
@@ -901,7 +963,16 @@ async function loadFriends(){if(!me())return;const fl=$('flist');const seen=new 
  const fr=await api('/followers?account='+encodeURIComponent(me()));const followers=((fr&&fr.followers)||[]).filter(w=>!seen.has(w));
  if(followers.length){label('Followers');for(const w of followers)item(w,'',false);}
  fl.innerHTML='';if(frag.childNodes.length)fl.appendChild(frag);else fl.innerHTML='<div class=mut style="margin-top:8px">Add a friend by their @name to start a direct message.</div>';}
-function openDM(who){dmWith=who;dmCursor=0;$('threadTitle').textContent='@'+who;$('dmText').disabled=false;$('dmSend').disabled=false;$('feed').innerHTML='';loadFriends();pollDM();if(dmTimer)clearInterval(dmTimer);dmTimer=setInterval(pollDM,3000);}
+function openDM(who){dmWith=who;dmCursor=0;$('threadTitle').textContent='@'+who;$('dmText').disabled=false;$('dmSend').disabled=false;$('feed').innerHTML='';loadFriends();pollDM();if(dmTimer)clearInterval(dmTimer);dmTimer=setInterval(pollDM,3000);markThreadRead(who);}
+// Reading a thread is what clears its ping — the same marker the Notifications page moves.
+async function markThreadRead(who){
+ if(!me()||!who)return;
+ try{
+  await fetch('/notifications/read?account='+encodeURIComponent(me()),{method:'POST',
+   headers:{'content-type':'application/json'},body:JSON.stringify({channel:'dm:'+[me(),String(who).toLowerCase()].sort().join('__')})});
+ }catch(e){}
+ syncNotif();
+}
 async function pollDM(){if(!me()||!dmWith)return;const j=await api('/dm?me='+encodeURIComponent(me())+'&with='+encodeURIComponent(dmWith)+(dmCursor?('&since='+dmCursor):''));if(!j.ok)return;
  const f=$('feed');if(dmCursor===0&&j.messages.length)f.innerHTML='';for(const m of j.messages){const d=document.createElement('div');d.className='msg'+(m.from===me()?' mine':'');
   d.innerHTML='<span class=who>'+E(m.from===me()?'you':('@'+m.from))+'</span>'+(m.game?(' <span class=src>['+E(m.game)+']</span>'):'')+': '+(m.html||E(m.text));f.appendChild(d);}
@@ -947,7 +1018,7 @@ async function initAuth(){const bar=$('authbar');
    if(j&&j.ok)location.href='/';else alert((j&&j.reason)||'could not start a messenger session');};
   return;}
  const s=await api('/auth/me');
- if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();
+ if(s&&s.ok){_signedIn=true;$('me').value=s.account;$('me').readOnly=true;localStorage.setItem('melek_me',s.account);syncMail();syncNotif();
   // Arrived here from a sibling site's /auth/login that found no session. Now there is one — continue
   // the handoff instead of stranding them on a page they did not ask for.
   const _ssoBack=_params.get('sso');
@@ -1019,6 +1090,7 @@ async function maybeRedeemInvite(){
 
 // ---- init ----
 syncMail();if(me())loadFriends();initAuth();
+syncNotif();setInterval(syncNotif,20000);
 // deep-link back from a mailbox connect (Herald): land on Integrations + confirm
 (function(){const p=new URLSearchParams(location.search);
  if(p.get('tab')==='int')setTimeout(()=>setTab('int'),50);

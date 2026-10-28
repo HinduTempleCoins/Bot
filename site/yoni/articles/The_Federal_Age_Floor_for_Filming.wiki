@@ -1,0 +1,219 @@
+'''The federal age floor for filming''' is eighteen, everywhere in the United States, and it does not move when you cross a state line. The age at which a person may lawfully consent to sexual contact is a state question and varies — roughly sixteen to eighteen. The age at which a person may lawfully be the subject of a sexually explicit visual depiction is a '''federal''' question, and the answer is eighteen in every state, every territory, and — for US persons — abroad. Two questions, two answers. '''The lower number never licenses the camera.'''
+
+''This article is informational and is not legal advice. Confirm anything load-bearing with counsel.''
+
+== The two questions ==
+
+* '''Question A — contact.''' At what age may a person lawfully consent to sexual contact? A '''state''' question. States set their own age and the figure differs; there is no federal age of consent for private contact inside a state.
+* '''Question B — depiction.''' At what age may a person lawfully be the subject of a visual depiction of sexually explicit conduct? A '''federal''' question, answered by Chapter 110 of Title 18. The answer is eighteen; it does not vary and no state can lower it.
+
+The operator's formulation, which is legally correct: you cannot travel to a state with a lower age of consent and start filming sixteen-year-olds because they can lawfully have sex there. The state statute answers Question A; the camera asks Question B, and federal law has already answered it. '''The state age of consent is not a defence to a federal production charge, and the federal statute does not borrow it.'''
+
+== The definition that governs: 18 U.S.C. § 2256(1) ==
+
+<code>(1) "minor" means any person under the age of eighteen years;</code>
+
+That is the entire provision — no state-law cross-reference, no carve-out, no proviso. Every offence in Chapter 110 is built on it, so a seventeen-year-old who may lawfully consent to contact in a given state, or who is lawfully married there, is a '''minor''' for every purpose under the chapter. Lawful contact and lawful filming are not the same permission, and the second never follows from the first.
+
+== What "sexually explicit conduct" covers ==
+
+§ 2256(2)(A):
+
+<code>Except as provided in subparagraph (B), "sexually explicit conduct" means actual or simulated—</code>
+<code>(i) sexual intercourse, including genital-genital, oral-genital, anal-genital, or oral-anal, whether between persons of the same or opposite sex;</code>
+<code>(ii) bestiality;</code>
+<code>(iii) masturbation;</code>
+<code>(iv) sadistic or masochistic abuse; or</code>
+<code>(v) lascivious exhibition of the anus, genitals, or pubic area of any person;</code>
+
+'''"Actual or simulated"''' — clauses (i)–(iv) are met by simulation; nothing need have happened. '''Clause (v) needs no act and no second person''' — one subject, alone, can be the whole offence. And '''"lascivious exhibition" is not the same test as "nude"''': mere nudity is not lascivious, but "non-explicit" in ordinary speech and "not a lascivious exhibition" in the statute are different standards.
+
+Courts assess lasciviousness under the six ''Dost'' factors (''United States v. Dost'', 636 F. Supp. 828 (S.D. Cal. 1986)): (1) whether the focal point is the genitals or pubic area; (2) whether the setting is sexually suggestive; (3) unnatural pose or attire inappropriate to the subject's age; (4) full or partial nudity; (5) suggestion of sexual coyness or willingness; (6) whether it is designed to elicit a sexual response in the viewer. No factor is dispositive and not all six need be met — they are "neither comprehensive nor necessarily applicable in every situation" (''United States v. Amirault'', 1st Cir. 1999). Full nudity is '''not''' required (''United States v. Donoho'', 7th Cir. 2023); nudity alone is '''not''' sufficient. There is a circuit split on whether ''Dost'' is the right framework at all — the D.C. Circuit and Tennessee Supreme Court reject it, the Fifth Circuit applies it. So "we filmed no sex act, so we are outside the statute" is a misreading: clause (v) is the clause that catches people.
+
+== Production: 18 U.S.C. § 2251 ==
+
+* '''(a)''' — using, persuading, inducing, enticing or coercing a minor to engage in sexually explicit conduct to produce a visual depiction or transmit a live one; assisting another; transporting a minor across state or national lines with that intent.
+* '''(b)''' — a parent, guardian or custodian who knowingly permits a minor in their care to be so used.
+* '''(c)''' — the same conduct '''outside''' the US where the person intends to bring the depiction in, or does.
+* '''(d)''' — making or publishing a notice or advertisement seeking or offering such material.
+
+{| class="wikitable"
+! § 2251(e) !! Term of imprisonment
+|-
+| First offence || "not less than 15 years nor more than 30 years"
+|-
+| One qualifying prior || "not less than 25 years nor more than 50 years"
+|-
+| Two or more priors || "not less than 35 years nor more than life"
+|}
+
+The fifteen years is a '''mandatory minimum''' on a first offence — there is no probationary outcome. Attempt and conspiracy are punished as the completed offence.
+
+== Distribution, receipt, possession: §§ 2252 and 2252A ==
+
+§ 2252 covers visual depictions of a minor engaging in sexually explicit conduct; § 2252A covers "child pornography" as defined in § 2256(8).
+
+{| class="wikitable"
+! Conduct !! Statute !! First offence !! With prior
+|-
+| Transport, ship, receive, distribute, reproduce for distribution, sell || § 2252(a)(1)–(3); § 2252A(a)(1)–(4), (6) || 5 to 20 years || 15 to 40 years
+|-
+| Possess, or knowingly access with intent to view || § 2252(a)(4); § 2252A(a)(5) || up to 10 years (20 if a prepubescent minor or minor under 12) || 10 to 20 years
+|}
+
+'''Receipt carries a five-year mandatory minimum; bare possession does not.''' A downloaded file is both, and charging discretion decides which. § 2252A(a)(7) separately reaches adapting or modifying material to depict an identifiable minor.
+
+== The enforcement mechanism: §§ 2257 and 2257A ==
+
+The floor is not enforced only after the fact. It is enforced prospectively, on every lawful production, by the federal record-keeping statute. '''This is the mechanism a production actually lives inside.'''
+
+* '''§ 2257(a)''' attaches to whoever '''produces''' matter containing visual depictions of '''actual''' sexually explicit conduct made after 1 Nov 1990; § 2257(h)(1) defines that as "actual but not simulated conduct as defined in clauses (i) through (v) of section 2256(2)(A)" — clause (v) included.
+* '''§ 2257(b)''' requires the producer to "ascertain, by examination of an identification document containing such information, the performer's name and date of birth," and record every other name used (maiden name, alias, stage name). '''Government ID, examined before production — statutory text, not industry custom.'''
+* '''§ 2257(c)''' — records kept at the business premises, available for inspection.
+* '''§ 2257(e)''' — a statement on every copy saying where records are; for an organisation, the name, title and business address of the responsible individual — the '''custodian of records'''. For websites, read as every page carrying covered material.
+* '''§ 2257(f)''' — unlawful to fail to create or maintain records, to enter false information knowingly, or to transfer covered matter without the statement.
+* '''§ 2257(i)''' — not more than 5 years for a first offence; '''not less than 2 nor more than 10 years''' thereafter.
+* '''§ 2257A''' covers '''simulated''' conduct, with a certification-based exemption for producers already keeping ID records in the ordinary course of business.
+
+'''28 C.F.R. Part 75''' splits "producer" into '''primary''' (who shoots) and '''secondary''' (who publishes, reissues, or manages a site's sexually explicit content); a site that curates and publishes is a secondary producer, one that only links out is not, and under '''§ 75.7(b)''' a primary may certify compliance to a secondary who may rely on it. ''Free Speech Coalition v. Attorney General'', 825 F.3d 149 (3d Cir. 2016) (en banc) '''upheld''' the record-keeping and labelling duties against First Amendment challenge while striking the warrantless-inspection regime under the Fourth Amendment; '''the record-keeping regime is good law'''.
+
+§ 2257 is how the eighteen floor becomes a daily operational fact: check a government ID before the camera runs, keep the record, name a custodian. A production that does not cannot prove the floor was met — and "she told me she was eighteen" is not a defence to § 2251.
+
+== Why there is no state workaround ==
+
+'''1. The federal statute defines its own term.''' § 2256(1) says "any person under the age of eighteen years," not "under the age of consent in the state of production." Congress could have written the latter and did not.
+
+'''2. The Commerce Clause hook is met in essentially every case.''' § 2251(a) reaches production using materials mailed, shipped or transported in interstate or foreign commerce, or where the depiction is itself transported or transmitted in such commerce. A camera, phone, memory card or drive made out of state satisfies this, as does any upload — so "we filmed entirely inside one state" removes nothing from federal reach.
+
+'''3. Federal law does not defer to a more permissive state rule.''' States may be '''more''' restrictive, and state and federal prosecutions can both proceed; a state cannot be less restrictive in a way that creates a federal safe harbour, because the federal offence has no state-law element to satisfy.
+
+Concretely: in a state where a seventeen-year-old may lawfully consent to contact, filming that seventeen-year-old in sexually explicit conduct is a federal offence carrying a fifteen-year mandatory minimum, while the underlying contact may have been lawful. Both are true at once. The state answer never travels to the federal question.
+
+== The constitutional backdrop ==
+
+* '''''New York v. Ferber'', 458 U.S. 747 (1982).''' Child sexual abuse material is a '''category of speech outside First Amendment protection''', without needing to satisfy the ''Miller'' obscenity test — the rationale being the state's interest in the wellbeing of real children and in destroying the market driving their abuse.
+* '''''Osborne v. Ohio'', 495 U.S. 103 (1990).''' Private '''possession''' may be criminalised, distinguishing ''Stanley v. Georgia'' because the harm is the market for the underlying abuse, not offence at the content.
+* '''''Ashcroft v. Free Speech Coalition'', 535 U.S. 234 (2002).''' Routinely overstated in both directions, so state it precisely. The Court struck down provisions of the Child Pornography Prevention Act of 1996 reaching material that "appears to be" a minor and material "pandered as" such, holding that '''entirely virtual imagery made without any real minor cannot be banned on the ''Ferber'' rationale''' — that rationale depends on a real child having been harmed in production. It did '''not''' hold such material immune from regulation generally: obscenity law remained available, and material made with a real minor was untouched.
+* '''''United States v. Williams'', 553 U.S. 285 (2008).''' Decided 19 May 2008, 7–2, Scalia J. The Court '''upheld''' § 2252A(a)(3)(B), the pandering-and-solicitation provision added by the PROTECT Act of 2003, against overbreadth and vagueness challenges: offers to provide and requests to obtain unlawful material are themselves unprotected, so '''offering''' material as child pornography is an offence even if the material does not exist or is not what it was offered as — distinguished from ''Free Speech Coalition'' because the provision regulates the offer, not possession.
+
+'''What changed after ''Ashcroft''.''' '''§ 2256(8)(B)''' now reaches a digital or computer-generated image '''"indistinguishable from"''' that of a minor engaging in sexually explicit conduct; § 2256(11) defines that as "virtually indistinguishable" to an ordinary viewer, expressly excluding "drawings, cartoons, sculptures, or paintings." '''18 U.S.C. § 1466A''' criminalises obscene depictions of a minor engaging in sexually explicit conduct '''whether or not the minor depicted actually exists''' (§ 1466A(c)) — the obscenity route ''Free Speech Coalition'' left open. The '''TAKE IT DOWN Act''' (Pub. L. 119-12, 19 May 2025) amended 47 U.S.C. § 223 to criminalise knowingly publishing a non-consensual intimate visual depiction of an identifiable person via an interactive computer service, with '''digital forgeries covered on the same terms''' (up to 2 years, adult victim; 3 years, minor victim), and requires covered platforms to remove a reported depiction "as soon as possible, but not later than 48 hours"; FTC enforcement, no private right of action, compliance deadline 19 May 2026 now passed. A large majority of states have also enacted AI/CSAM statutes, most in 2024–2025, though '''tracker counts conflict''' (see below).
+
+Net position: the ''Ashcroft'' carve-out for purely synthetic imagery is real but narrow, and has been substantially closed from both the federal obscenity side and the state side. It is not a business model.
+
+== The industry cautionary case: GirlsDoPorn ==
+
+Every performer was an adult. The prosecution still ended in sex-trafficking convictions — the clearest demonstration that '''age is the floor, not the ceiling''', because what was prosecuted was the quality of the consent. S.D. Cal., before Judge Janis Sammartino.
+
+{| class="wikitable"
+! Defendant !! Disposition !! Sentence
+|-
+| Michael Pratt (owner) || Guilty plea 5 June 2025 — conspiracy to commit sex trafficking, and sex trafficking || 27 years, 8 Sept 2025, + 10 yrs supervised release
+|-
+| Matthew Wolfe (partner, cameraman) || Guilty plea 26 July 2022 — conspiracy, by force, fraud and coercion || 14 years, 19 March 2024
+|-
+| Ruben Andre Garcia (recruiter, performer) || Guilty plea Dec 2020 — sex trafficking by force, fraud and coercion || 20 years, 14 June 2021
+|-
+| Theodore Gyi (cameraman) || Guilty plea Jan 2021 — conspiracy || 4 years, 9 Nov 2022
+|-
+| Valorie Moser (bookkeeper) || Guilty plea Apr 2021 — conspiracy || 2 years, 12 Dec 2025
+|}
+
+A parallel civil action by 22 plaintiffs in San Diego Superior Court before Judge Kevin Enright returned a '''$12.775 million''' judgment on 2 January 2020 ($9.475m compensatory, $3.3m punitive).
+
+'''The mechanics, because they are the lesson.''' Fake modelling ads placed under college towns; recruiters who said the footage would sell only as DVDs to private buyers overseas and never appear online or in the US; paid "reference models" who corroborated that lie to women who hesitated; flights and hotels booked before commitment; dense contracts produced at the hotel under time pressure, sometimes described as tax paperwork, never naming the company, and not given to the performer; shoots running many hours against a stated thirty minutes; and, when women asked to stop, being told it was too late, with threats of cancelled return flights or demands to repay travel costs. The videos were then posted online and promoted on free tube sites.
+
+'''Why it matters more than any other case here.''' The footage looks consensual. Signed paperwork existed. Every performer was over eighteen. None of it was a defence, because '''consent obtained by fraud is not consent''' under § 1591 — and the statute reaches anyone who knowingly benefits financially from the venture, which is how a bookkeeper and a cameraman drew custodial sentences.
+
+See the companion article ''ADULT_WIKI_ACTRESS_V_PROSTITUTE'' for the actress/prostitute distinction and the ''California v. Freeman'' pandering line; not duplicated here.
+
+== Sex trafficking: what the law actually says ==
+
+Chapter 77 of Title 18, built out by the Trafficking Victims Protection Act and its reauthorisations (the TVPRA): '''§ 1589''' forced labor; '''§ 1590''' trafficking with respect to peonage, slavery, involuntary servitude, or forced labor; '''§ 1591''' sex trafficking of children or by force, fraud, or coercion; '''§ 1592''' unlawful conduct with respect to documents in furtherance of trafficking; '''§ 1593''' mandatory restitution; '''§ 1593A''' benefitting financially; '''§ 1594''' general provisions (attempt, conspiracy, forfeiture); '''§ 1595''' civil remedy.
+
+=== The elements, plainly ===
+
+'''§ 1591(a)''' reaches anyone who knowingly recruits, entices, harbours, transports, provides, obtains, advertises, maintains, patronises or solicits a person — or '''knowingly benefits, financially or by receiving anything of value, from participation in a venture''' that does so — knowing or in reckless disregard that '''force, threats of force, fraud, or coercion''' will be used to cause the person to engage in a commercial sex act, '''or''' that the person '''has not attained the age of 18''' and will be caused to engage in one.
+
+'''The disjunctive is the whole point.''' Force, fraud '''or''' coercion — any one suffices, and physical force need not be shown at all. '''Fraud alone is enough.''' Where the person is under eighteen, '''none of the three need be shown''': age replaces the coercion element entirely. '''§ 1591(c)''' goes further — under § 1591(a)(1), where the defendant had a reasonable opportunity to observe the person, the government '''need not prove the defendant knew or recklessly disregarded''' that the person was under eighteen. The "she said she was nineteen" defence is statutorily unavailable to anyone who was in the room.
+
+'''§ 1591(e)''' defines "coercion" to include threats of serious harm or physical restraint, any scheme intended to make a person believe that failure to perform would bring serious harm, and '''abuse or threatened abuse of law or the legal process'''. "Commercial sex act" means any sex act for which anything of value is given to or received by '''any''' person — the value need not reach the victim.
+
+'''§ 1591(b):''' where force, fraud or coercion was used, or the victim was under 14 — "any term of years not less than 15 or for life." Victim 14 or over but under 18 — "not less than 10 years or for life." '''§ 1595''' gives victims a civil action, including against those who knowingly benefited from the venture — the provision under which processors, platforms and advertisers have been sued. '''§ 1593''' makes restitution mandatory; Pratt was ordered in Feb 2026 to pay $75,568,283.47.
+
+=== Recruitment by deception, as it actually appears ===
+
+From the GirlsDoPorn record and comparable prosecutions. Not hypotheticals.
+
+* '''The work described is not the work''' — an ad for "modelling," "promotional," "lingerie," "art nude" or "fitness" that becomes something else after arrival.
+* '''Distribution lies''' — "only offline," "only overseas," "only private collectors," "never online." A genuine restriction appears in the contract in plain language, in a copy the performer keeps.
+* '''Manufactured social proof''' — "references," previous performers vouching for the experience, paid per head converted.
+* '''Sunk cost engineered in advance''' — flights and hotels booked before commitment so withdrawal carries a debt, then threats to cancel the return flight or bill back costs.
+* '''Paperwork as pressure, not record''' — dense contracts produced on location, signed under pressure, misdescribed ("just for tax"), not naming the real company, not given to the performer.
+* '''Isolation''' — hotel rooms or private residences out of the performer's home city, no companion permitted.
+* '''Intoxicants supplied by production''' to loosen reluctance — directly relevant to whether consent was voluntary.
+* '''No exit''' — "too late to stop," shoots many times the stated duration, re-shoots for insufficient enthusiasm, blocked doors.
+* '''Pay altered after the fact''' on a pretext — a marker of a venture that never intended the deal it described.
+* '''Identity documents held''' — taking a passport or ID "for the paperwork" and not returning it is a separate offence under § 1592.
+
+=== What a lawful production's paperwork looks like ===
+
+* A '''government photo ID''' for every performer, examined '''before''' production, name and date of birth recorded, plus every other name used (§ 2257(b)).
+* A '''named custodian of records''' with title and business address, and the § 2257(e) statement on every page carrying covered material.
+* A '''written release and performance agreement''' naming the real producing entity, stating distribution scope and fee in plain language, of which '''the performer keeps a signed copy'''.
+* A '''documented scene negotiation''' — acts agreed, acts excluded — recorded before filming.
+* An '''unconditional right to stop''', in the contract and honoured on set, with no financial penalty.
+* '''Travel and accommodation that are not leverage''' — no repayment demand attached to withdrawal.
+* '''Payment as agreed''', not renegotiated afterwards; '''records retained''' seven years, and five years after the business ceases.
+
+Each item is both a compliance artefact and the evidence that defeats a later claim of consent procured by fraud — cheap at production, impossible to create afterwards.
+
+=== Where to report ===
+
+* '''National Human Trafficking Hotline''' — '''1-888-373-7888'''; text '''233733'''. 24/7, confidential, interpretation available.
+* '''NCMEC CyberTipline''' — '''1-800-843-5678''' (1-800-THE-LOST) or report.cybertip.org. The national clearinghouse for child sexual exploitation reports; US electronic service providers are under a federal duty to report apparent CSAM to it.
+* '''FBI''' — tips.fbi.gov or 1-800-CALL-FBI. '''Emergency''' — 911.
+
+Reporting is not conditional on certainty — the hotlines exist to assess reports, and nobody is expected to have established the elements of an offence before calling.
+
+== "Go somewhere else" does not work ==
+
+Age-of-consent variation exists internationally as well as between states, which raises whether the floor can be escaped by leaving the country. For US persons, it cannot.
+
+* '''§ 2251(c)''' — production of a depiction of a minor '''outside''' the US where the person intends to bring it in, or does.
+* '''§ 2423(a)''' — transporting a person under 18 across state or international lines intending they engage in prostitution or criminal sexual activity: '''not less than 10 years, or life'''.
+* '''§ 2423(b)''' — travelling in interstate commerce, into the US, or (citizens and LPRs) in foreign commerce '''with intent''' to engage in illicit sexual conduct: up to 30 years.
+* '''§ 2423(c)''' — a citizen or LPR who travels in foreign commerce '''or resides, temporarily or permanently, in a foreign country''' and engages in illicit sexual conduct: up to 30 years, and '''intent at the time of travel is not required'''.
+* '''§ 2423(e)''' — arranging, inducing, procuring or facilitating such travel for commercial advantage or private financial gain: up to 30 years. Reaches fixers, agencies and bookers.
+* '''§ 2423(f)''' — attempt and conspiracy punished as the completed offence.
+* '''§ 2423(g)''' defines "illicit sexual conduct" as a sexual act with a person under 18 that would violate Chapter 109A in federal jurisdiction, '''any commercial sex act with a person under 18''', or '''production of child pornography as defined in § 2256(8)'''.
+* '''§ 1596''' supplies extraterritorial jurisdiction for trafficking offences over US nationals and LPRs, and over offenders present in the US regardless of nationality.
+
+A lower age of consent abroad is as irrelevant as a lower one in another state, for the same reason: the federal statute defines its own term, and it follows US persons across the border. '''Jurisdiction shopping is not available on this question in either direction.'''
+
+== Items this article could not verify ==
+
+* '''The number of states with AI/CSAM statutes.''' Trackers conflict: one widely cited count gives 45 states as of Aug 2025 (excepting Alaska, Colorado, Massachusetts, Ohio, Vermont and DC); a Jan 2026 source describes a state as lacking such a law that the first count includes; a third gives 43 states for sexual deepfakes and 28 for AI-generated CSAM. Check the current statute directly.
+* '''The ''Amirault'' reporter citation''' (1st Cir. 1999) — quoted language attributed in secondary sources; volume and page not independently confirmed.
+* '''Subsequent history of ''Dost''''' — commonly cited as affirmed on other grounds by the Ninth Circuit; not confirmed here.
+* '''Current DOJ enforcement posture on § 2257 inspections.''' No source found states whether DOJ actively inspects today. '''Do not assume non-enforcement.'''
+* '''The federal GirlsDoPorn docket number''' — not confirmed. The Superior Court civil matter number reported is 37-2016-00019027-CU-FR-CTL.
+
+== See also ==
+
+* ''ADULT_WIKI_ACTRESS_V_PROSTITUTE'' — actress/prostitute distinction, ''California v. Freeman'', pandering. Companion article.
+* ''Free Speech Coalition, Inc. v. Paxton'', 606 U.S. 461 (2025) — state age-verification statutes. A different question again: that line governs who may '''view''', not who may be '''filmed'''.
+
+== Sources ==
+
+* 18 U.S.C. §§ 2251, 2252, 2252A, 2256, 2257, 2257A, 1466A, 1591, 2423 — https://www.law.cornell.edu/uscode/text/18/2251 (and /2252, /2252A, /2256, /2257, /2257A, /1466A, /1591, /2423)
+* 18 U.S.C. ch. 77 (TVPRA) — https://www.law.cornell.edu/uscode/text/18/part-I/chapter-77
+* 28 C.F.R. Part 75 — https://www.ecfr.gov/current/title-28/chapter-I/part-75
+* ''United States v. Williams'' syllabus — https://www.law.cornell.edu/supct/html/06-694.ZS.html
+* ''United States v. Dost'', 636 F. Supp. 828 — https://law.justia.com/cases/federal/district-courts/FSupp/636/828/1757784/
+* TAKE IT DOWN Act, Pub. L. 119-12 — https://www.govinfo.gov/content/pkg/PLAW-119publ12/html/PLAW-119publ12.htm
+* DOJ, S.D. Cal. — https://www.justice.gov/usao-sdca/pr/girlsdoporn-owner-michael-pratt-sentenced-27-years-sex-trafficking-hundreds-women
+* National Human Trafficking Hotline — https://humantraffickinghotline.org · NCMEC CyberTipline — https://report.cybertip.org
+
+== Coverage ==
+
+Current as of 27 October 2026. Chapter 110 penalty figures have been amended repeatedly and should be re-checked against the current United States Code. The state AI/CSAM count is the least stable item here.

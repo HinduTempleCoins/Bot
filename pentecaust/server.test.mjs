@@ -8,6 +8,7 @@ process.env.TEAMS_CHAT_DATA = `/tmp/teams-srv-chat-${process.pid}.json`;
 process.env.CRM_DATA = `/tmp/crm-srv-${process.pid}.json`;
 process.env.MAILBOX_DATA = `/tmp/mailbox-srv-${process.pid}.json`;
 process.env.HERALD_LEDGER_DATA = `/tmp/herald-ledger-srv-${process.pid}.json`;
+process.env.PENTECAUST_NOTIFY_DATA = `/tmp/pentecaust-notify-srv-${process.pid}.json`;
 process.env.TEAMS_RL_BURST = '400';    // the suite is one 'client'; the limiter is exercised on its own elsewhere
 process.env.PENTECAUST_DEV_TRUST = '1';
 process.env.PENTECAUST_SESSION_SECRET = 'test-secret-deterministic';   // stable HMAC so makeSession↔server agree
@@ -847,4 +848,102 @@ test('/translate.js carries the Google Translate page link and parses', async ()
   await handler(req('/translate.js'), res);
   assert.ok(o.body.includes('.translate.goog'));
   assert.doesNotThrow(() => new Function(o.body));
+});
+
+// ── live video mount (pentecaust/calls) ─────────────────────────────────────────────────────────
+// It ships DARK: deployed and runnable, but 404 until CALLS_ENABLED is set. These tests pin that,
+// because "ready but not launched" is only true if the flag actually gates the route.
+
+test('live video is OFF by default — the route does not exist', async () => {
+  const { handler: h } = await import('./server.mjs');
+  const res = { code: 0, body: '', writeHead(c) { this.code = c; }, end(b) { this.body = b || ''; } };
+  const req = { method: 'GET', url: '/live', headers: {} };
+  await h(req, res);
+  assert.notEqual(res.code, 200, 'with the flag unset, /live must not serve the app');
+});
+
+test('the calls handler it mounts is the real one and refuses anonymous callers', async () => {
+  const { handler: calls } = await import('./calls/server.mjs');
+  const res = { code: 0, body: '', writeHead(c) { this.code = c; }, end(b) { this.body = b || ''; } };
+  const req = { method: 'GET', url: '/live/poll', headers: {} };
+  await calls(req, res, { whoami: () => null, mount: '/live' });
+  assert.equal(res.code, 401);
+});
+
+// ── Notifications: the ✉ letter icon's feed, count and read markers ─────────────────────────────
+test('GET /notifications serves the Notifications page', async () => {
+  const { res, o } = cap(); await handler(req('/notifications'), res);
+  assert.equal(o.code, 200);
+  assert.match(o.type, /text\/html/);
+  assert.match(o.body, /Pentecaust<\/b> Notifications/);
+  assert.match(o.body, /\/notifications\/feed/);
+});
+
+test('the nav bar carries the letter icon with an unread badge', async () => {
+  const { res, o } = cap(); await handler(req('/'), res);
+  assert.match(o.body, /id=nNotif/);
+  assert.match(o.body, /notifBadge/);
+  assert.match(o.body, /location\.href='\/notifications'/);
+});
+
+test('notifications feed and count require an identity', async () => {
+  for (const p of ['/notifications/feed', '/notifications/count']) {
+    const { res, o } = cap(); await handler(req(p), res);
+    assert.equal(o.code, 401, `${p} should refuse an anonymous read`);
+  }
+});
+
+test('an incoming DM shows in the feed and on the count, then clears when read', async () => {
+  // hathor DMs @notifme
+  const a = cap(); await handler(req('/dm', 'POST', { from: 'hathor', to: 'notifme', text: 'bridge guide is up' }), a.res);
+  assert.equal(j(a.o).ok, true);
+
+  const b = cap(); await handler(req('/notifications/feed?account=notifme'), b.res);
+  const feed = j(b.o);
+  assert.equal(feed.ok, true);
+  assert.equal(feed.unread, 1);
+  assert.equal(feed.items[0].with, 'hathor');
+  assert.equal(feed.items[0].url, '/?dm=hathor');
+
+  const c = cap(); await handler(req('/notifications/count?account=notifme'), c.res);
+  assert.equal(j(c.o).unread, 1);
+
+  const d = cap(); await handler(req('/notifications/read?account=notifme', 'POST', { channel: feed.items[0].channel }), d.res);
+  assert.equal(j(d.o).ok, true);
+
+  const e = cap(); await handler(req('/notifications/count?account=notifme'), e.res);
+  assert.equal(j(e.o).unread, 0, 'badge cleared');
+});
+
+test('your own sent messages never ping you', async () => {
+  const a = cap(); await handler(req('/dm', 'POST', { from: 'selfping', to: 'hathor', text: 'hello' }), a.res);
+  assert.equal(j(a.o).ok, true);
+  const b = cap(); await handler(req('/notifications/count?account=selfping'), b.res);
+  assert.equal(j(b.o).unread, 0);
+});
+
+test('read-all clears every thread', async () => {
+  for (const who of ['hathor', 'steve']) {
+    const s = cap(); await handler(req('/dm', 'POST', { from: who, to: 'clearall', text: 'ping from ' + who }), s.res);
+  }
+  const a = cap(); await handler(req('/notifications/count?account=clearall'), a.res);
+  assert.ok(j(a.o).unread >= 2);
+
+  const b = cap(); await handler(req('/notifications/read-all?account=clearall', 'POST', {}), b.res);
+  assert.equal(j(b.o).ok, true);
+
+  const c = cap(); await handler(req('/notifications/count?account=clearall'), c.res);
+  assert.equal(j(c.o).unread, 0);
+});
+
+test('IDOR closed: a session reads ITS OWN notifications, not a named account\'s', async () => {
+  const s = cap(); await handler(req('/dm', 'POST', { from: 'hathor', to: 'victimacct', text: 'private line' }), s.res);
+  assert.equal(j(s.o).ok, true);
+
+  // alice is signed in but asks for victimacct's feed — the session wins, so she sees her own.
+  const a = cap();
+  await handler(req('/notifications/feed?account=victimacct', 'GET', undefined, cookie('aliceacct')), a.res);
+  const feed = j(a.o);
+  assert.equal(feed.account, 'aliceacct');
+  assert.equal(feed.unread, 0, 'did not leak the other account\'s unread messages');
 });

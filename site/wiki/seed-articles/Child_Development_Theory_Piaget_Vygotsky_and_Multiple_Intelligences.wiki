@@ -1,0 +1,41 @@
+The 120 hours of coursework behind [[The Child Development Associate Credential|the CDA]] and every early-childhood qualification rests on a body of developmental theory. This article covers the theorists the coursework actually examines on, and the long argument underneath all of them.
+
+== Nature and nurture ==
+
+The oldest question in the field is how much of what a person becomes is inherited and how much is supplied by the environment. Two lines of evidence frame it.
+
+'''Extreme deprivation.''' The cases of children raised with almost no human contact — the two girls found in Bengal in the 1920s and named Amala and Kamala being the most cited, though the case record is disputed by later scholars — were read at the time as evidence that language and social behaviour must be acquired within a developmental window or not at all. The older child recovered more social capacity than the younger. The cases are ethically unrepeatable and evidentially weak, and they are best treated as suggestive rather than probative.
+
+'''Epigenetics.''' The modern finding is that gene ''expression'' changes in response to environment across a lifetime, so that siblings — and even the same person at different ages — present different expression profiles from the same underlying genome. This dissolves the original question rather than answering it: inheritance supplies capacity, environment determines which capacities are expressed, and the two are not separable into percentages.
+
+== Jean Piaget ==
+
+Piaget founded what he called '''genetic epistemology''' — the study of how knowledge itself develops. His central claim is that the child is not a passive recipient but an active constructor: knowledge is built through '''interaction with the environment''', and the character of that interaction changes in '''stages'''.
+
+The practical consequence for a carer or teacher is the one the coursework tests: a child at one stage cannot be taught as though they were at another, and the right response to a child who "cannot grasp" something is usually to ask what the material demands of them that they are not yet equipped to supply.
+
+== Lev Vygotsky ==
+
+Vygotsky's '''cultural-historical''' theory adds what Piaget's underweights: development is '''social''' before it is individual. Children acquire the tools of thought — above all language — from the people around them, and those tools are cultural artefacts with histories.
+
+His most used contribution is the '''More Knowledgeable Other''' (MKO) and the related '''zone of proximal development''': the gap between what a learner can do alone and what they can do with help from someone who already knows. Learning happens in that gap. The idea is almost banal when stated plainly — someone who can tie knots and build a fire can teach you to tie knots and build a fire — and it is nonetheless the single most actionable concept in the field, because it tells an instructor exactly where to aim: not at what the learner can already do, and not at what is far beyond them.
+
+== Multiple intelligences ==
+
+Howard Gardner's theory of '''multiple intelligences''' proposes that human ability is not one general capacity but several relatively independent ones — commonly listed as linguistic, logical-mathematical, musical, spatial, bodily-kinaesthetic, interpersonal, intrapersonal and naturalistic.
+
+It is '''widely taught in early-childhood training and widely contested in cognitive psychology''', where critics hold that the proposed intelligences are better described as talents or aptitudes and that the evidence for their independence is weak. Both facts belong in an honest account. Its practical effect on teaching has been real and largely benign: it pushed classrooms toward offering a subject through several channels at once rather than one.
+
+== Conditioning, and its limits ==
+
+Pavlov's demonstration that a dog can be brought to salivate at a bell alone — because the bell has reliably preceded food — established '''classical conditioning''' as a real and measurable mechanism. It applies to humans. It explains a great deal about cue, craving and anticipation, including in contexts far from the laboratory.
+
+What it does not do is explain development. Conditioning describes how an association is formed; it does not describe how a child comes to hold a concept, use a grammar or form an intention. The behaviourist programme that tried to extend it to the whole of learning — and the '''blank slate''' model of the child it implied — is where the coursework draws the line, and where Piaget and Vygotsky come in.
+
+== Why the theory matters to the credential ==
+
+These four strands are what the examined subject areas are built from. A candidate who understands them can answer questions the coursework has not specifically covered, which is the actual test. See [[The Child Development Associate Credential]] and [[Montessori Froebel and the Invention of Childhood]].
+
+Early-childhood programmes are listed at [https://credentials.soapbox.community/industry/childcare credentials.soapbox.community].
+
+See also: [[Making Money Certificate Pathways]] · [[Montessori Froebel and the Invention of Childhood]] · [[Autodidacts and Credentials]]

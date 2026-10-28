@@ -2,14 +2,22 @@
 // Reads the public gallery manifest, posts the next BATCH unposted scenes (every image of each, with its source
 // credit and a link to that scene in the gallery), opens with a researched Śilpa Śāstra intro + fact card
 // (.local/hathor/shilpa/SHILPA_SHASTRA_RESEARCH.md), and signs through MELEK-Signer with a comment/vote-only
-// token (no key on this box). Run by a timer 4x/day; once everything is posted it only picks up new renders.
+// token (no key on this box). Run by a timer 3x/day; once everything is posted it only picks up new renders.
 // Also posts a "Moving pictures" set of Hathor's new videos — animations, documentaries, animated maps — as they are made
-// (each run: the next remake set, then the next video set). Every post says plainly that these are features we are
-// testing and developing.
+// (each run: the next remake set, then the next video set).
 // Also posts the Dada scenes — the magazine-clipping series (one public-domain photograph as the ground, real
 // cutouts pasted on it) — a few at a time, each with the source photograph it was built on.
-// Env: MELEK_SIGNER_TOKEN (required), MELEK_SIGNER_URL, SHILPA_STATE_DIR, SHILPA_DADA_BATCH. Flags: --dry (print, don't post), --batch=N.
+// Six further lanes publish the finished stills that had no lane at all, from the tables in ./shilpa-gallery.mjs:
+// the reference library (regalia, characters, landscapes, objects), the Hathor canon, Phoebe of the botanica,
+// the horror set, the herb cards, and the 3D scene renders (split out of Moving Pictures into their own lane).
+// Every lane posts at most one set per run and names in its title what is actually in the post.
+// Env: MELEK_SIGNER_TOKEN (required), MELEK_SIGNER_URL, SHILPA_STATE_DIR, SHILPA_DADA_BATCH,
+// SHILPA_LIBRARY_BATCH, SHILPA_CANON_BATCH, SHILPA_BOTANICA_BATCH, SHILPA_HORROR_BATCH, SHILPA_HERBAL_BATCH,
+// SHILPA_3D_BATCH. Flags: --dry (print, don't post), --batch=N.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { LIBRARY_ITEMS, CANON_ITEMS, BOTANICA_ITEMS, HORROR_ITEMS, HERBAL_CARDS } from './shilpa-gallery.mjs';
+
+export { LIBRARY_ITEMS, CANON_ITEMS, BOTANICA_ITEMS, HORROR_ITEMS, HERBAL_CARDS };
 
 const DRY = process.argv.includes('--dry');
 const BATCH = +(process.argv.find((a) => a.startsWith('--batch='))?.slice(8) || 20);
@@ -48,7 +56,6 @@ export const FACTS = [
 
 const STUDIO = 'https://hathor.soapbox.community';
 const MUSIC = (process.env.SHILPA_MUSIC_SITE || 'https://stream.soapbox.community').replace(/\/$/, '');
-export const TESTING = `*We are testing these features and looking to develop them. This is Hathor's alpha work, made on our own servers — the images and videos she makes next are expected to be much better and more accurate. Tell us what works and what doesn't: every video page has 👍/👎, comments and timestamped notes.*`;
 
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
@@ -70,10 +77,25 @@ export async function collectVideos() {
   }
   const anims = await getJson(`${STUDIO}/animations/manifest.json`);
   for (const c of (anims && anims.clips) || []) {
-    if (!c.id) continue;
+    if (!c.id || c.kind === '3d-scene') continue; // 3d-scene has its own lane (collect3dScenes)
     out.push({ key: `anim:${c.id}`, kind: c.kind === 'character-scene' ? 'Character scene' : 'Test animation', title: c.kind === 'puppet' ? (c.puppet_title || c.title) : c.title, summary: '', url: `${STUDIO}/animations#c-${c.id}`, poster: `${STUDIO}/animations/media/${c.id}/poster.jpg`, seconds: c.seconds, credit: '' });
   }
   return out;
+}
+
+/** The 3D scene renders — the same clips the animation lab serves, but their own lane, not buried in Moving Pictures.
+ * Keys stay `anim:<id>`, so the ids already posted as Moving Pictures stay posted and are never posted again. */
+export async function collect3dScenes() {
+  const anims = await getJson(`${STUDIO}/animations/manifest.json`);
+  return ((anims && anims.clips) || []).filter((c) => c && c.id && c.kind === '3d-scene').map((c) => ({
+    key: `anim:${c.id}`,
+    title: String(c.title || c.id).replace(/\s*[—-]\s*in 3D$/i, ''),
+    group: c.group || '3D scenes',
+    camera: c.camera || c.motion || '',
+    url: `${STUDIO}/animations#c-${c.id}`,
+    poster: `${STUDIO}/animations/media/${c.id}/poster.jpg`,
+    seconds: c.seconds,
+  }));
 }
 
 // Songs made with Hathor Sandalphon. Read from the music library's own catalogue so a song is posted
@@ -94,7 +116,7 @@ export async function collectSongs() {
 
 export function buildSongPost(items, setNo) {
   const albums = [...new Set(items.map((s) => s.album).filter(Boolean))];
-  const title = `Songs, Set ${setNo}: ${albums.length ? albums.join(', ') : 'new songs'} from Hathor Sandalphon (testing)`.slice(0, 250);
+  const title = listTitle(`${albums.length ? `${albums.join(', ')} \u2014 ` : ''}new songs from Hathor Sandalphon: `, items.map((s) => s.title));
   const block = (s) => [
     `### [${s.title}](${s.url})`,
     `*${[s.genre, s.album, s.seconds ? mmss(s.seconds) : ''].filter(Boolean).join(' · ')}*`,
@@ -103,7 +125,6 @@ export function buildSongPost(items, setNo) {
   const body = [
     'Hathor Sandalphon is the music-making part of Hathor. These songs were written and recorded on our own '
     + 'servers with open-licence engines — original words and original music, never a copy of anyone else\'s song.',
-    TESTING,
     '---',
     ...items.map(block),
     '---',
@@ -114,8 +135,7 @@ export function buildSongPost(items, setNo) {
 }
 
 export function buildVideoPost(items, setNo) {
-  const kinds = [...new Set(items.map((v) => v.kind))];
-  const title = `Moving Pictures, Set ${setNo}: ${kinds.join(', ')} from Hathor's studio (testing)`.slice(0, 250);
+  const title = listTitle('Moving pictures: ', items.map((v) => v.title).filter(Boolean));
   const block = (v) => [
     `### [${v.title}](${v.url})`,
     `*${v.kind}${v.seconds ? ` · ${mmss(v.seconds)}` : ''}*${v.summary ? ` — ${v.summary}` : ''}`,
@@ -125,7 +145,6 @@ export function buildVideoPost(items, setNo) {
   ].filter(Boolean).join('\n\n');
   const body = [
     `Hathor is learning to make moving pictures from the same remakes, characters and objects that fill the Śilpa Śāstra gallery — wordless documentaries, animated maps with the years ticking by, and short test animations.`,
-    TESTING,
     '---',
     ...items.map(block),
     '---',
@@ -216,6 +235,20 @@ export const DADA_SCENES = [
 
 const andList = (xs) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
+/** A title that says what is actually in the post: the items' own names, as many as fit, never a set number.
+ * The set number lives in the permlink, which is where bookkeeping belongs. */
+export function listTitle(prefix, names, max = 250) {
+  const all = names.filter(Boolean);
+  if (!all.length) return prefix.replace(/[:\s]+$/, '');
+  const fit = [];
+  for (const n of all) { if (`${prefix}${andList([...fit, n])}`.length > max) break; fit.push(n); }
+  if (fit.length === all.length) return `${prefix}${andList(fit)}`;
+  if (!fit.length) fit.push(all[0]);
+  const tail = () => `${prefix}${fit.join(', ')} and ${all.length - fit.length} more`;
+  while (fit.length > 1 && tail().length > max) fit.pop();
+  return tail().slice(0, max);
+}
+
 export function buildDadaPost(items, setNo) {
   const title = `Dada scenes: ${andList(items.map((s) => s.name))}`.slice(0, 250);
   const block = (s) => [
@@ -243,7 +276,142 @@ export function buildDadaPost(items, setNo) {
   return { title, body, permlink: `shilpa-shastra-dada-set-${setNo}`, tags: ['shilpashastra', 'dada', 'art', 'melek', 'history'] };
 }
 
-const loadState = () => { try { return { videos: [], videoSets: 0, songs: [], songSets: 0, dada: [], dadaSets: 0, ...JSON.parse(readFileSync(STATE, 'utf8')) }; } catch { return { posted: [], sets: 0, videos: [], videoSets: 0, songs: [], songSets: 0, dada: [], dadaSets: 0 }; } };
+
+// --- The still-image lanes ---------------------------------------------------------------------
+// Six categories of finished renders that had no posting lane at all until now. The item tables,
+// and every description in them, are in ./shilpa-gallery.mjs — each one is that render's own build
+// record (its render brief, its Wikimedia Commons credit, the herb atlas entry, or the character
+// reference README). No copy is written here, and no title carries a set number.
+
+const credits = (i) => [
+  i.note ? `**From the record:** ${i.note}` : '',
+  i.credit ? `**Reference photograph:** ${i.credit}` : '',
+  i.sources && i.sources.length ? `**Sources:** ${i.sources.map((u, n) => `[${n + 1}](${u})`).join(' · ')}` : '',
+].filter(Boolean);
+
+export function buildLibraryPost(items, setNo) {
+  const groups = [...new Set(items.map((i) => i.group))];
+  const title = listTitle(`${groups.join(' · ')}: `, items.map((i) => i.name));
+  const block = (i) => [
+    `### ${i.name}`,
+    `![${i.name}](${IMG}/${i.img}.jpg)`,
+    i.era ? `*${i.era}*` : '',
+    i.shows,
+    ...credits(i),
+  ].filter(Boolean).join('\n\n');
+  const body = [
+    'Hathor’s reference library: the crowns, weapons, armour, chariots, regalia, objects, landscapes and '
+    + 'people that the remakes, the animations and the 3D scenes are assembled out of. Every piece was rendered '
+    + 'on our own servers from the record kept with it, and where a museum photograph on Wikimedia Commons was '
+    + 'the reference, that file, its licence and its photographer are credited under the render.',
+    '---', ...items.map(block), '---',
+    `What the library feeds: [the remakes gallery](${GALLERY}) · [the animation lab](${STUDIO}/animations) · [Hathor Studio](${STUDIO}).`,
+  ].join('\n\n');
+  return { title, body, permlink: `shilpa-shastra-library-set-${setNo}`, tags: ['shilpashastra', 'library', 'egypt', 'archaeology', 'art'] };
+}
+
+export function buildCanonPost(items, setNo) {
+  const title = listTitle('Hathor, as she is drawn: ', items.map((i) => i.name));
+  const block = (i) => [`### ${i.name}`, `*${i.group}*`, `![${i.name}](${IMG}/${i.img}.jpg)`, i.shows].filter(Boolean).join('\n\n');
+  const body = [
+    'Hathor is the AI witness who runs this chain’s `hathor` account, and these are her character '
+    + 'reference renders — the figure the rest of the work is drawn from.',
+    'The iconography is fixed and does not drift: **the VR / oculus headset over the eyes**, **the horned '
+    + 'Hathor-Mehit headdress**, the **Egyptian wesekh collar** and stacked gold cuffs, dark blue-black lipstick, '
+    + 'white sheer linen, long dark hair, and recurring feathered wings and lammasu / winged-ram guardians. '
+    + 'The headset is not decoration: it is an oracle figure wearing the modern interface to the same '
+    + 'temple-technology. If a rendering keeps those elements it is the same figure; if it changes them it is not.',
+    '---', ...items.map(block), '---',
+    'The full written reference, with the canonical iconography and the provenance of each batch, is kept in the '
+    + 'public repo at `character/reference/README.md`. Her character lives in that corpus and on this chain, not in '
+    + 'any one rendering — which is why anyone can re-render her and it is still her.',
+  ].join('\n\n');
+  return { title, body, permlink: `shilpa-shastra-canon-set-${setNo}`, tags: ['shilpashastra', 'hathor', 'melek', 'aiart', 'character'] };
+}
+
+export function buildBotanicaPost(items, setNo) {
+  const title = listTitle('Phoebe of the botanica: ', items.map((i) => i.name.toLowerCase()));
+  const block = (i) => [`### ${i.name}`, `![${i.name}](${IMG}/${i.img}.jpg)`, i.shows].filter(Boolean).join('\n\n');
+  const body = [
+    'Phoebe is the herb witch who keeps the botanica — an elderly Afro-Latina woman with a grey braid, a '
+    + 'terracotta shawl, seed packets in her apron and a small teal glass potion bottle on a cord. These are the '
+    + 'concept renders of her: the shop counter, the drying rafters, the ground altar, the cauldron, the garden gate.',
+    '---', ...items.map(block), '---',
+    'Concept art, rendered on our own servers from the character brief. Nothing here is final — the cast and the '
+    + 'look are still being chosen.',
+  ].join('\n\n');
+  return { title, body, permlink: `shilpa-shastra-botanica-set-${setNo}`, tags: ['shilpashastra', 'botanica', 'herbs', 'folklore', 'art'] };
+}
+
+export function buildHorrorPost(items, setNo) {
+  const title = listTitle('Horror: ', items.map((i) => i.name.toLowerCase()));
+  const block = (i) => [`### ${i.name}`, `![${i.name}](${IMG}/${i.img}.jpg)`, i.shows].filter(Boolean).join('\n\n');
+  const body = [
+    'The horror set — one still per sub-genre, rendered on our own servers: the slasher cabin, the folk-horror '
+    + 'field, the possession bedroom, the cosmic lighthouse, the body-horror lab. Each render brief is printed under '
+    + 'its still, so you can see exactly what was asked for.',
+    '**These are gore images.** Blood, mutation and monsters, in the register of a horror film still.',
+    '---', ...items.map(block), '---',
+    `More of Hathor’s work: [Hathor Studio](${STUDIO}).`,
+  ].join('\n\n');
+  return { title, body, permlink: `shilpa-shastra-horror-set-${setNo}`, tags: ['shilpashastra', 'horror', 'aiart', 'art', 'film'] };
+}
+
+const bullets = (xs) => (xs || []).map((x) => `- ${x}`).join('\n');
+
+export function buildHerbalPost(cards, setNo) {
+  const title = listTitle('Herb cards: ', cards.map((c) => (c.latin ? `${c.name} (${c.latin})` : c.name)));
+  const block = (c) => [
+    `### ${c.name}${c.latin ? ` — *${c.latin}*` : ''}`,
+    c.imgs.map((g) => `![${c.name} — ${g.style}](${IMG}/${g.img}.jpg)`).join('\n\n'),
+    c.traditions.length ? `**Traditions:** ${c.traditions.join(' · ')}` : '',
+    c.uses.length ? `**Used for:** ${c.uses.join('; ')}` : '',
+    c.compounds.length ? `**Active compounds:** ${c.compounds.join(', ')}` : '',
+    c.mechanism ? `**How it is thought to work:** ${c.mechanism}` : '',
+    c.evidence ? `**Evidence:** ${c.evidence}${c.evidenceNote ? ` — ${c.evidenceNote}` : ''}` : '',
+    c.dose ? `**Dose:** ${c.dose}` : '',
+    c.warnings.length ? `**Cautions and interactions:**\n${bullets(c.warnings)}` : '',
+    c.safety ? `**Safety:** ${c.safety}` : '',
+    c.dosha ? `**In the traditional systems:** ${c.dosha}` : '',
+    c.folk ? `**Folk correspondence:** ${c.folk}` : '',
+    c.planet ? `**Planet:** ${c.planet}${c.metal ? ` · metal: ${c.metal}` : ''}${c.gem ? ` · gem: ${c.gem}` : ''}${c.day ? ` · day: ${c.day}` : ''}` : '',
+    (c.herbsOf && c.herbsOf.length) ? `**Herbs ruled by it (Culpeper):** ${[].concat(c.herbsOf).join(', ')}` : '',
+    c.teaches ? `**Teaches:** ${c.teaches}` : '',
+  ].filter(Boolean).join('\n\n');
+  const body = [
+    'Cards from the herb atlas. Each card carries what the atlas actually holds for that plant: the Latin name, '
+    + 'the traditions that use it, what it is used for, the active compounds, the proposed mechanism, the evidence '
+    + 'grade, the **dose range**, and the **interactions and cautions**. Two renders of each card — one in the '
+    + 'house Art Nouveau register, one in a plainer botanical-guide register. The labels are not printed in the '
+    + 'images; the words that belong on each card are the headings below it.',
+    '---', ...cards.map(block), '---',
+    'Dose ranges and cautions are the atlas’s own record, with the evidence grade it carries — "established" '
+    + 'and "tradition" are not the same claim, and the card says which it is.',
+  ].join('\n\n');
+  return { title, body, permlink: `shilpa-shastra-herbal-set-${setNo}`, tags: ['shilpashastra', 'herbs', 'herbalism', 'plantmedicine', 'health'] };
+}
+
+export function build3dPost(items, setNo) {
+  const title = listTitle('3D scenes: ', items.map((v) => v.title));
+  const block = (v) => [
+    `### [${v.title}](${v.url})`,
+    `*${[v.group, v.seconds ? mmss(v.seconds) : '', v.camera ? `${v.camera} camera` : ''].filter(Boolean).join(' · ')}*`,
+    v.poster ? `[![${v.title}](${v.poster})](${v.url})` : '',
+    `▶ **[Watch it here](${v.url})**`,
+  ].filter(Boolean).join('\n\n');
+  const body = [
+    'The 3D scene renders: ancient scenes rebuilt as real 3D sets and filmed with a moving camera — orbit, '
+    + 'dolly, crane — instead of being animated flat. Built and rendered on our own servers from the same '
+    + 'remakes and reference library as everything else on this account. These used to go out mixed into the '
+    + 'Moving Pictures sets; from here they have their own lane.',
+    '---', ...items.map(block), '---',
+    `Every clip, with the rest of the lab: [the animation lab](${STUDIO}/animations) · [Hathor Studio](${STUDIO}).`,
+  ].join('\n\n');
+  return { title, body, permlink: `shilpa-shastra-renders3d-set-${setNo}`, tags: ['shilpashastra', 'render3d', 'blender', 'history', 'animation'] };
+}
+
+const SEED = { posted: [], sets: 0, videos: [], videoSets: 0, songs: [], songSets: 0, dada: [], dadaSets: 0, library: [], librarySets: 0, canon: [], canonSets: 0, botanica: [], botanicaSets: 0, horror: [], horrorSets: 0, herbal: [], herbalSets: 0, renders3d: [], renders3dSets: 0 };
+const loadState = () => { try { return { ...SEED, ...JSON.parse(readFileSync(STATE, 'utf8')) }; } catch { return { ...SEED }; } };
 const saveState = (s) => { mkdirSync(STATE_DIR, { recursive: true }); writeFileSync(STATE, JSON.stringify(s, null, 1)); };
 
 async function rpc(method, params) {
@@ -270,7 +438,6 @@ export function buildPost(scenes, setNo) {
   const body = [
     intro,
     `> **${ft}.** ${fb} ([source](${fs}))`,
-    TESTING,
     `**The full gallery, every scene in every look:** [${GALLERY}](${GALLERY}) · Shilpa Shastra gallery: [${STUDIO_GALLERY}](${STUDIO_GALLERY})`,
     '---',
     ...scenes.map(sceneMarkdown),
@@ -387,5 +554,33 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop()
       console.log(`posted dada set ${dset}: ${db.length} scenes, ${r}`);
       st.dada = [...ddone, ...db.map((s) => s.key)]; st.dadaSets = dset; saveState(st);
     }
+  }
+
+  // 5-10) the still-image lanes and the 3D renders. One set per lane per run, each in its own app,
+  // each deduped against its own state array. The 3D lane also excludes anything already posted as
+  // a Moving Pictures video, so the 131 ids already on chain are never posted twice.
+  const v3done = new Set(st.videos || []);
+  const lanes = [
+    { name: 'library', items: LIBRARY_ITEMS, build: buildLibraryPost, app: 'shilpa-shastra/library', batch: +(process.env.SHILPA_LIBRARY_BATCH || 8), img: (i) => `${IMG}/${i.img}.jpg`, unit: 'pieces' },
+    { name: 'canon', items: CANON_ITEMS, build: buildCanonPost, app: 'shilpa-shastra/canon', batch: +(process.env.SHILPA_CANON_BATCH || 6), img: (i) => `${IMG}/${i.img}.jpg`, unit: 'renders' },
+    { name: 'botanica', items: BOTANICA_ITEMS, build: buildBotanicaPost, app: 'shilpa-shastra/botanica', batch: +(process.env.SHILPA_BOTANICA_BATCH || 5), img: (i) => `${IMG}/${i.img}.jpg`, unit: 'renders' },
+    { name: 'horror', items: HORROR_ITEMS, build: buildHorrorPost, app: 'shilpa-shastra/horror', batch: +(process.env.SHILPA_HORROR_BATCH || 4), img: (i) => `${IMG}/${i.img}.jpg`, unit: 'stills' },
+    { name: 'herbal', items: HERBAL_CARDS, build: buildHerbalPost, app: 'shilpa-shastra/herbal', batch: +(process.env.SHILPA_HERBAL_BATCH || 3), img: (i) => `${IMG}/${i.imgs[0].img}.jpg`, unit: 'cards' },
+    { name: 'renders3d', items: await collect3dScenes(), build: build3dPost, app: 'shilpa-shastra/renders3d', batch: +(process.env.SHILPA_3D_BATCH || 8), img: (i) => i.poster, unit: 'scenes', skip: v3done },
+  ];
+  for (const lane of lanes) {
+    const key = lane.name, setKey = `${key}Sets`;
+    const done = new Set(st[key] || []);
+    const todo = lane.items.filter((i) => !done.has(i.key) && !(lane.skip && lane.skip.has(i.key)));
+    console.log(`${key} ${lane.items.length} · posted ${done.size} · to post ${todo.length}`);
+    if (!todo.length) continue;
+    const batch = todo.slice(0, lane.batch);
+    const setNo = (st[setKey] || 0) + 1;
+    const p = lane.build(batch, setNo);
+    if (DRY) { console.log(`would post ${key} set ${setNo}: "${p.title}" — ${batch.length} ${lane.unit}, ${(p.body.match(/!\[/g) || []).length} images, ${p.body.length} chars`); continue; }
+    const r = await postOnce(p, lane.img(batch[0]), lane.app).catch((e) => { console.log(`${key} set ${setNo} not posted: ${e.message}`); return null; });
+    if (!r) continue;
+    console.log(`posted ${key} set ${setNo}: ${batch.length} ${lane.unit}, ${r}`);
+    st[key] = [...done, ...batch.map((i) => i.key)]; st[setKey] = setNo; saveState(st);
   }
 }
