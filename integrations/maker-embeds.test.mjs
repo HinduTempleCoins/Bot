@@ -20,7 +20,7 @@ test('pictures, videos, recordings and beats each get the right card', () => {
   assert.equal(parseEmbed('https://pact.pentecaust.com/groups/lyre-club').kind, 'group');
 });
 
-test('⛔ a link off our hosts is never embedded and never framed', () => {
+test('⛔ a link off our hosts is never embedded, never framed, and NOT EVEN CLICKABLE', () => {
   assert.equal(parseEmbed('https://evil.example/x.png'), null);
   assert.equal(parseEmbed('javascript:alert(1)'), null);
   assert.equal(parseEmbed('data:text/html,<script>'), null);
@@ -29,7 +29,45 @@ test('⛔ a link off our hosts is never embedded and never framed', () => {
   const html = renderText('see https://evil.example/x.png');
   assert.equal(html.includes('<iframe'), false);
   assert.equal(html.includes('<img'), false);
-  assert.match(html, /<a href="https:\/\/evil\.example\/x\.png"/);     // a plain link, nothing more
+  // Anyone can write anything into a message, so an off-host URL must not be able to carry a
+  // reader anywhere. It stays inert escaped text — readable and copyable, never navigable.
+  assert.equal(html.includes('<a'), false, 'off-host URL must not become a link');
+  assert.equal(html.includes('href'), false);
+  assert.match(html, /see evil\.example\/x\.png/);
+});
+
+test('⛔ nothing a sender inserts can navigate: schemes, auth tricks and lookalike hosts', () => {
+  for (const bad of [
+    'javascript:alert(1)',
+    'data:text/html,<script>alert(1)</script>',
+    'vbscript:msgbox(1)',
+    'https://melek.salon.evil.example/claim',      // lookalike: our host as a prefix label
+    'https://evil.example/?x=melek.salon',         // our host only in the query
+    'https://evil.example#melek.salon',            // our host only in the fragment
+    'https://user:pw@evil.example/melek.salon',    // userinfo trick
+    'http://127.0.0.1:8087/admin',
+    'https://melek.salon.co/claim',                // different TLD
+  ]) {
+    const html = renderText(`look ${bad}`);
+    assert.equal(html.includes('<a'), false, `must not linkify: ${bad}`);
+    assert.equal(html.includes('<iframe'), false, `must not frame: ${bad}`);
+    assert.equal(html.includes('<script'), false, `must not script: ${bad}`);
+  }
+});
+
+test('our own hosts DO stay clickable, so real links still work', () => {
+  const ok = renderText('see https://melek.salon/@hathor');
+  assert.match(ok, /<a href="https:\/\/melek\.salon\/@hathor"/);
+  assert.match(ok, /rel="noopener noreferrer"/);
+  const sub = renderText('see https://pact.pentecaust.com/groups/lyre-club');
+  assert.match(sub, /<a href="https:\/\/pact\.pentecaust\.com\/groups\/lyre-club"/);
+});
+
+test('externalLinks:true is opt-in only, for text WE wrote', () => {
+  const html = renderText('see https://evil.example/x', { externalLinks: true });
+  assert.match(html, /<a href="https:\/\/evil\.example\/x"/);
+  // and the default is still locked down
+  assert.equal(renderText('see https://evil.example/x').includes('<a'), false);
 });
 
 test('an email never gets a frame, a video or a script — a picture and a link', () => {

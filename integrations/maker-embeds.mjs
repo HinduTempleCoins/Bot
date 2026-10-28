@@ -130,9 +130,17 @@ export const EMOJI_RE = /:([a-z0-9_+-]{2,32}):/gi;
  * a card for each embeddable link. `emoji` is a { name: imageUrl } map; an unknown name stays as typed,
  * and an emoji URL must be on one of our hosts or it is left as text.
  */
-export function renderText(text, { emoji = {}, for: where = 'web', limit = 3 } = {}) {
+export function renderText(text, { emoji = {}, for: where = 'web', limit = 3, externalLinks = false } = {}) {
   let html = esc(text);
-  html = html.replace(/(https?:\/\/[^\s<>"')]+)/g, (u) => `<a href="${u}" target=_blank rel="noopener noreferrer">${u.replace(/^https?:\/\//, '')}</a>`);
+  // Only OUR hosts become clickable. A stranger can write anything into a message, so an
+  // arbitrary URL stays inert escaped text — it is readable, selectable and copyable, but it
+  // cannot navigate anyone anywhere. Nothing a sender inserts can carry a reader off-site.
+  // `externalLinks: true` restores the old behaviour and must only ever be passed for text
+  // written by us, never for text written by a user.
+  html = html.replace(/(https?:\/\/[^\s<>"')]+)/g, (u) => {
+    if (!externalLinks && !ourUrl(u)) return u.replace(/^https?:\/\//, '');
+    return `<a href="${u}" target=_blank rel="noopener noreferrer">${u.replace(/^https?:\/\//, '')}</a>`;
+  });
   html = html.replace(EMOJI_RE, (whole, name) => {
     const src = emoji[String(name).toLowerCase()];
     const ok = src && ourUrl(src);
