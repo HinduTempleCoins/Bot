@@ -19,6 +19,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { validAccountName } from '../signup/welcome-grant.mjs';
 import { isMember as modelIsMember } from './model.mjs';
+import { maskCurses } from './word-filter.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 export const CHAT_FILE = () => env('TEAMS_CHAT_DATA', join(process.cwd(), 'data', 'teams-chat.json'));
@@ -97,16 +98,22 @@ export function postDM(m = {}, opts = {}) {
   if (!validAccountName(from)) return { ok: false, reason: 'from must be a valid MELEK account name' };
   if (!validAccountName(to)) return { ok: false, reason: 'to must be a valid MELEK account name' };
   if (from === to) return { ok: false, reason: 'cannot DM yourself' };
-  const text = String(m.text == null ? '' : m.text).trim();
-  if (!text) return { ok: false, reason: 'empty message' };
+  const raw = String(m.text == null ? '' : m.text).trim();
+  if (!raw) return { ok: false, reason: 'empty message' };
+  // PMs only: mask the plain curse words before anything is stored, so the word never persists.
+  // Whole-word and exact-spelling by design — a misspelling gets through on purpose
+  // (operator, 2026-10-28). See word-filter.mjs. Group chat is NOT filtered.
+  const filtered = maskCurses(raw);
+  const text = filtered.text;
   const { fs, file } = ctx(opts);
   const store = loadStore(fs, file);
   const channel = dmChannelId(from, to);
   const msg = makeMessage(store, channel, from, text, m);
   msg.to = to;
+  if (filtered.masked) msg.masked = filtered.masked;
   append(store, channel, msg);
   saveStore(fs, file, store);
-  return { ok: true, message: msg, channel };
+  return { ok: true, message: msg, channel, masked: filtered.masked };
 }
 
 // ── read ──────────────────────────────────────────────────────────────────────────────────────────

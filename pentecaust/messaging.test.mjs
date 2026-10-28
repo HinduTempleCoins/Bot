@@ -114,3 +114,51 @@ test('unknown channel reads empty, never throws', () => {
   assert.deepEqual(r.messages, []);
   o.cleanup();
 });
+
+// ── PM curse filter (word-filter.mjs) — PMs only, group chat untouched ──────────────────────────
+test('a PM has plain curse words masked before it is stored', () => {
+  const o = chat();
+  const r = postDM({ from: 'steve', to: 'alex', text: 'what the fuck is this shit' }, o);
+  assert.equal(r.ok, true);
+  assert.equal(r.message.text, 'what the **** is this ****');
+  assert.equal(r.masked, 2);
+  assert.equal(r.message.masked, 2);
+  // and the stored thread has the masked form, not the original
+  const thread = readDM('steve', 'alex', {}, o);
+  assert.equal(thread.messages[0].text.includes('fuck'), false);
+  o.cleanup();
+});
+
+test('a PM with no curse words is untouched and carries no masked flag', () => {
+  const o = chat();
+  const r = postDM({ from: 'steve', to: 'alex', text: 'meet at the portal?' }, o);
+  assert.equal(r.message.text, 'meet at the portal?');
+  assert.equal(r.masked, 0);
+  assert.equal(r.message.masked, undefined);
+  o.cleanup();
+});
+
+test('a misspelling in a PM goes through — deliberate, per the operator', () => {
+  const o = chat();
+  const r = postDM({ from: 'steve', to: 'alex', text: 'what the f*ck' }, o);
+  assert.equal(r.message.text, 'what the f*ck');
+  assert.equal(r.masked, 0);
+  o.cleanup();
+});
+
+test('GROUP CHAT is not filtered — the operator asked for PMs only', () => {
+  const o = chat();
+  const opt = { ...o, ...members('steve') };
+  const r = postTeamMessage({ teamId: 'raiders', from: 'steve', text: 'this shit is hard' }, opt);
+  assert.equal(r.ok, true);
+  assert.equal(r.message.text, 'this shit is hard', 'group chat passes through unfiltered');
+  o.cleanup();
+});
+
+test('masking never turns a real message into an empty one', () => {
+  const o = chat();
+  const r = postDM({ from: 'steve', to: 'alex', text: 'fuck' }, o);
+  assert.equal(r.ok, true, 'still sends');
+  assert.equal(r.message.text, '****');
+  o.cleanup();
+});
