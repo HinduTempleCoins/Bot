@@ -23,6 +23,14 @@
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
+// THE ACCOUNT SPLIT (operator, 2026-10-28). Two bots, two jobs:
+//   @soapbox — THIS system. Delegation-mining (NutBox): delegate MELEK Power, earn ALTI, spend it
+//              in the Shop for a vote. Also where the autovote / Tomoyan-style curation side hangs.
+//   @kula    — other things. The weekly Silver & Gold spot-update bot the operator proposed, and
+//              the pooled community fund of .local/KULA_COMMUNITY_FUND_RESEARCH.md §3.
+// @soapbox did not exist when this was written (the name is free; 102 accounts on chain, none
+// called soapbox). Until it is created this defaults to `kula`, which already has 2 real
+// delegators — so flipping the system over is one env var, not a code change.
 /** The MELEK account delegations are pointed at. Operator decision — kept in env, not hardcoded. */
 export const TARGET = () => String(env('SOAPBOX_DELEGATION_ACCOUNT', 'kula')).toLowerCase();
 export const MELEK_RPC = () => env('MELEK_RPC_URL', 'https://melek.salon/rpc');
