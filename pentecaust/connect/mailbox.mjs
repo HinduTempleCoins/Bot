@@ -12,6 +12,12 @@
 // Yahoo note: Yahoo has no public OAuth "send" API anymore — Yahoo sending is SMTP + an app password, a
 // separate path (smtp.mail.yahoo.com). This module implements the Gmail OAuth-send path; SMTP is a follow-up.
 //
+// SEND-ONLY, ON PURPOSE. There is no inbound-mail reading here and no mail-body rendering anywhere in
+// Pentecaust today, which is why nothing in the product can currently navigate a reader off-site except
+// our own allowlisted hosts. If RECEIVING is added: mail bodies must be rendered as TEXT through
+// integrations/maker-embeds.mjs renderText() with `externalLinks` left false, never as the sender's own
+// HTML. Inbound mail is attacker-controlled by definition — stricter than DMs, not looser.
+//
 //   import { connectMailbox, getMailbox, disconnectMailbox, sendViaMailbox } from './mailbox.mjs'
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
