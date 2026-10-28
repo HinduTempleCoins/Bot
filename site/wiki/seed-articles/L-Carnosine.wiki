@@ -1,0 +1,37 @@
+'''L-Carnosine''' is the dipeptide '''β-alanyl-L-histidine''', concentrated in skeletal muscle and brain, and taken in the Institute's stack as an '''anti-glycation and antioxidant''' agent — specifically to protect '''BH4''' from oxidative destruction.
+
+== What it does ==
+
+Carnosine has four reasonably well-established activities:
+
+* '''Anti-glycation''' — it reacts with reactive carbonyls and blocks the formation of '''advanced glycation end-products (AGEs)''', the irreversible sugar–protein cross-links that accumulate over a lifetime and stiffen tissue.
+* '''Carbonyl scavenging''' — it quenches reactive aldehydes such as 4-HNE and malondialdehyde.
+* '''Metal chelation''' — it binds copper and zinc, limiting metal-catalysed radical formation.
+* '''pH buffering''' — in muscle it buffers the protons generated during high-intensity work, which is the basis of the sports-nutrition use.
+
+== Why it is in a folate stack ==
+
+[[L-Methylfolate|L-methylfolate]] exists in the stack to regenerate '''BH4'''. But BH4 is lost to '''oxidation''' as fast as it is lost to use, and oxidised BH4 does not merely fail to work — it causes the [[L-Arginine|NOS]] enzyme to uncouple and produce superoxide.
+
+So the stack does not only supply the cofactor, it '''defends''' it. Carnosine occupies the '''degradation inhibitor''' row of [[The Amplification Framework]] — the same functional slot that [[Liposomal Vitamin C|vitamin C]] fills on the monoamine side and that galantamine fills in the cholinergic stack. It is the item that stops the amplifier draining.
+
+== The bioavailability problem ==
+
+'''Oral carnosine is largely destroyed before it reaches muscle.''' Serum '''carnosinase (CN1)''' hydrolyses it rapidly into β-alanine and histidine, and carnosinase activity varies substantially between individuals by genotype.
+
+The practical consequence is well established in sports nutrition: '''β-alanine, not carnosine, is the supplement that reliably raises muscle carnosine''', because β-alanine is the rate-limiting precursor and survives to be re-synthesised into carnosine inside the cell. A gram of oral carnosine is, for muscle purposes, an inefficient way of taking β-alanine.
+
+This does not void the systemic argument — intact carnosine in plasma does scavenge carbonyls during its short residence, and the brain synthesises its own — but it is the same recurring lesson: '''the form is the intervention.'''
+
+== Life extension ==
+
+Carnosine extended median lifespan in '''senescence-accelerated mice''', and the effect reported in combination with '''vitamin E''' is the result the Institute's paper cites. These are animal results in a strain selected for accelerated ageing. There is no human lifespan data.
+
+== Cautions ==
+
+* '''β-alanine paraesthesia''' — the harmless but genuinely unpleasant skin tingling that follows β-alanine, and that oral carnosine can produce once hydrolysed.
+* '''Zinc and copper''' — carnosine chelates both; relevant at sustained high doses.
+* '''Hypotension''' — mild lowering reported.
+* '''Pregnancy''' — insufficient data.
+
+See also: [[The Amplification Framework]] · [[L-Methylfolate]] · [[L-Arginine]] · [[Lutein]] · [[Astragalus and Cycloastragenol]] · [[Stack Substances]]
