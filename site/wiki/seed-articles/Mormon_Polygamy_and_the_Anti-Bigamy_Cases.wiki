@@ -1,0 +1,63 @@
+'''The anti-bigamy cases''' are the line of American decisions, running from 1878 to the present, in which Latter-day Saints and their successors challenged laws against plural marriage. The first of them produced the rule that still governs religious-liberty law: '''the First Amendment protects belief absolutely and conduct only conditionally.'''
+
+== The statutes came first ==
+
+* '''Morrill Anti-Bigamy Act (1862)''' — made bigamy in the territories a federal crime and capped church property holdings at $50,000.
+* '''Poland Act (1874)''' — stripped Utah's territorial probate courts of jurisdiction, moving polygamy cases to federal judges and juries.
+* '''Edmunds Act (1882)''' — created the offence of '''unlawful cohabitation''', which needed no proof of a marriage ceremony, and disenfranchised polygamists.
+* '''Edmunds–Tucker Act (1887)''' — dissolved the Church as a corporation, escheated its property, abolished women's suffrage in Utah, and required an anti-polygamy oath to vote, serve on juries or hold office.
+
+The procedural shift matters as much as the substance. Proving a second marriage was hard; proving cohabitation was easy. The 1882 Act is the point at which prosecutions became practical.
+
+== Reynolds v. United States (1878) ==
+
+'''''Reynolds v. United States'', 98 U.S. 145 (1878)''' is the foundational case. George Reynolds, secretary to Brigham Young, was prosecuted as an agreed test case under the Morrill Act.
+
+The Court's holding, in Chief Justice Waite's words, draws the line the doctrine still runs on: '''Congress "was deprived of all legislative power over mere opinion, but was left free to reach actions which were in violation of social duties or subversive of good order."''' Laws, it said, "are made for the government of actions, and while they cannot interfere with mere religious belief and opinions, they may with practices."
+
+Two features of the opinion are worth stating plainly because they are usually left out:
+
+* The Court reasoned from '''the hypothetical of human sacrifice''' — if religious duty were a defence, it asked, would a professed duty to sacrifice a widow be one too? The argument is a slippery slope, and it carried.
+* The Court treated monogamy as the basis of Western social order, describing polygamy as "almost exclusively a feature of the life of Asiatic and of African people" — reasoning that is openly civilisational rather than legal, and which later courts have quietly stopped citing.
+
+'''''Miles v. United States'', 103 U.S. 304 (1880)''' followed on proof: the first wife could not testify to establish the first marriage, which made convictions turn on documentary and circumstantial evidence.
+
+== The disenfranchisement and dissolution cases ==
+
+* '''''Murphy v. Ramsey'', 114 U.S. 15 (1885)''' — upheld stripping polygamists of the vote. The opinion describes monogamy as the "sure foundation" of the state.
+* '''''Cannon v. United States'', 116 U.S. 55 (1885)''' — unlawful cohabitation requires no sexual proof; living in the relationship suffices. This is the case that made the Edmunds Act work.
+* '''''Davis v. Beason'', 133 U.S. 333 (1890)''' — upheld an Idaho oath disenfranchising anyone who merely '''belonged to an organisation advocating''' polygamy. Not conduct — membership and advocacy. It is the high-water mark of the line, and the Supreme Court repudiated its reasoning a century later in '''''Romer v. Evans'', 517 U.S. 620 (1996)'''.
+* '''''Late Corporation of the Church of Jesus Christ of Latter-day Saints v. United States'', 136 U.S. 1 (1890)''' — upheld dissolving the Church corporation and seizing its property, on a theory of charitable trusts gone to an unlawful purpose.
+
+The combination worked as intended. The '''1890 Woodruff Manifesto''' advised members to submit to the law; the '''1904 Second Manifesto''' made it enforceable internally with excommunication. Utah entered the Union in 1896 under a constitution containing an '''irrevocable ordinance''' forever prohibiting plural marriage — a condition of statehood, not a choice. The '''Reed Smoot hearings (1904–1907)''' then tested, over three years of Senate testimony, whether the abandonment was real.
+
+== The modern cases ==
+
+Enforcement moved to the states and to the fundamentalist groups that continued the practice.
+
+* '''''State v. Barlow'' (Utah 1944)''' and the '''Short Creek raid (1953)''' — the Arizona raid on the community now called Hildale–Colorado City removed children from 263 families and produced a public backlash that made mass raids politically costly for decades.
+* '''''Potter v. Murray City'', 760 F.2d 1065 (10th Cir. 1985)''' — a police officer was dismissed for practising plural marriage. The Tenth Circuit upheld it, finding monogamy a sufficiently important state interest even under the pre-''Smith'' balancing test.
+* '''''Employment Division v. Smith'', 494 U.S. 872 (1990)''' changed the terrain: a neutral, generally applicable law needs no religious exemption. '''RFRA (1993)''' restored strict scrutiny federally, but '''''City of Boerne v. Flores'', 521 U.S. 507 (1997)''' held RFRA cannot be applied to the states — so '''state''' bigamy statutes are measured against ''Smith'', not RFRA.
+* '''''State v. Green'' (Utah 2004)''' — Tom Green's bigamy convictions were upheld, with the first marriage established by '''common-law marriage''' rather than a licence.
+* '''''State v. Holm'', 2006 UT 31''' — Rodney Holm was convicted for a religious "marriage" to a 16-year-old. The Utah Supreme Court read '''"marry" in the bigamy statute to include unlicensed religious unions'''. Chief Justice Durham's partial dissent is the most important judicial statement on the other side: she argued the statute should not reach a purely religious cohabitation with no claim of legal marital status.
+* '''''Bronson v. Swensen'', 500 F.3d 1099 (10th Cir. 2007)''' — dismissed on standing.
+
+== Brown v. Buhman — and why it is not the precedent people think ==
+
+The '''''Sister Wives''''' family, Kody Brown and his wives, sued after a Lehi police investigation. In '''2013''' Judge Clark Waddoups of the District of Utah struck down the '''cohabitation prong''' of Utah's bigamy statute on free-exercise and due-process grounds, leaving only the licence prong.
+
+That ruling '''no longer stands'''. In '''''Brown v. Buhman'', 822 F.3d 1151 (10th Cir. 2016)''' (No. 14-4117, decided 11 April 2016) the Tenth Circuit reversed on '''mootness''' and remanded with instructions to '''vacate the judgment and dismiss'''. The reasons were that the Utah County Attorney had adopted a policy of prosecuting bigamy only where a partner was induced by misrepresentation or a collateral crime such as fraud or abuse was suspected, and that the Browns had moved to Nevada — so no credible threat of prosecution remained. '''The court never reached the constitutional merits.'''
+
+This is a common error in popular accounts: the district court's reasoning is widely quoted as though it were law. It was vacated.
+
+Utah then moved twice, in opposite directions. '''HB 99 (2017)''' broadened the statute in response to the litigation. '''SB 102 (2020)''', sponsored by then-Senator Deidre Henderson, reduced '''bigamy between consenting adults to an infraction''' — the lowest offence class in Utah — while keeping felony liability where the union is induced by fraud, threats or coercion, or is tied to another crime such as abuse or underage marriage. The change remains contested: anti-abuse advocates argue it emboldens offenders, and Henderson has argued the opposite, that decriminalisation brought people into contact with help.
+
+== The dissents that keep the question open ==
+
+Plural marriage is now mostly argued in the margins of other cases. Justice Scalia's dissent in '''''Lawrence v. Texas'', 539 U.S. 558 (2003)''' warned that the majority's reasoning left state bigamy laws without a principle to stand on; the majority answered in a limiting passage that the case did not involve relationships the state must formally recognise. Chief Justice Roberts made the parallel argument in dissent in '''''Obergefell v. Hodges'', 576 U.S. 644 (2015)''', asking why the majority's logic stopped at two. Neither is a holding. Both are why the subject has not closed.
+
+== See also ==
+
+* [[Plural Marriage as a Business Contracts Instead of Licenses|Plural Marriage as a Business — Contracts Instead of Licenses]] — how the second through sixth unions are actually structured
+* [[Polygamy in International and Personal Law]] — where it is lawful, and India's personal-law system
+* [[Polygamy and Large-Family Reality Television]] — ''Sister Wives'', ''Big Love'' and the rest

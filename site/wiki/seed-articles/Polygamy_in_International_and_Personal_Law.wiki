@@ -1,0 +1,85 @@
+'''Polygamy is lawful in a substantial minority of the world's legal systems''' and rare almost everywhere, including where it is lawful. Roughly '''2% of the world's population lives in a polygamous household''', and in the large majority of countries the figure is '''under 0.5%'''. The practice is concentrated, not distributed.
+
+== Where it is actually common ==
+
+Prevalence follows a belt across '''West and Central Africa''' rather than tracking Islam globally — Indonesia, the world's largest Muslim-majority country, has very low prevalence.
+
+{| class="wikitable"
+! Country !! Share of people in polygamous households
+|-
+| '''Burkina Faso''' || '''36%'''
+|-
+| '''Mali''' || '''34%'''
+|-
+| '''Nigeria''' || '''28%'''
+|-
+| World || '''about 2%'''
+|}
+
+Within a country, religion matters more than the country's own average. In Nigeria the arrangement reaches '''40% among Muslims''' and '''29% among adherents of folk religions''', but only '''8% among Christians'''. Other countries in the belt include Senegal, Gambia, Guinea, Niger, Chad, Cameroon, Togo and Benin.
+
+Two points follow. '''It is a regional and customary pattern at least as much as a religious one''' — the folk-religion figure is nearly as high as the Muslim one. And '''legality and prevalence are different questions''': many states permit it where almost nobody practises it.
+
+== Personal-law systems: India ==
+
+'''India is the clearest example of a state that applies different marriage law to different citizens by religion.''' There is no uniform civil code; Article 44 of the Constitution directs the state to work toward one, but it is a '''Directive Principle''' and not judicially enforceable.
+
+The result is a set of parallel regimes:
+
+* '''Hindu Marriage Act, 1955''' — '''monogamy is compulsory'''. A second marriage during a subsisting first is '''void''', and bigamy is a criminal offence. The Act applies to Hindus, Buddhists, Jains and Sikhs.
+* '''Muslim Personal Law (Shariat) Application Act, 1937''' — Muslim personal law governs marriage for Muslims, under which '''a Muslim man may have up to four wives'''. No court permission or first-wife consent is required, unlike several Muslim-majority jurisdictions.
+* '''Indian Christian Marriage Act, 1872''' and '''Parsi Marriage and Divorce Act, 1936''' — monogamous.
+* '''Special Marriage Act, 1954''' — a secular civil option available to anyone, and '''monogamous'''. Marrying under it displaces the personal-law regime.
+* '''Goa''' retains a Portuguese-derived civil code and is the historical exception to the personal-law pattern.
+* '''Uttarakhand''' enacted a '''Uniform Civil Code''' in 2024, in force from January 2025 — the first Indian state to do so — which '''prohibits polygamy''' for all residents it covers.
+
+=== The conversion cases ===
+
+The pressure point in Indian law has not been polygamy itself but '''conversion used to obtain it''': a Hindu man converting to Islam in order to take a second wife without dissolving the first marriage.
+
+* '''''Sarla Mudgal v. Union of India'' (1995)''' — the Supreme Court held that conversion to Islam '''does not dissolve''' a marriage solemnised under Hindu law. The second marriage is void and the man is liable for bigamy. The Court also used the judgment to press for a uniform civil code.
+* '''''Lily Thomas v. Union of India'' (2000)''' — reaffirmed ''Sarla Mudgal'' and rejected the argument that it offended religious freedom.
+* '''''Khursheed Ahmad Khan v. State of Uttar Pradesh'' (2015)''' — upheld the dismissal of a government servant for taking a second wife, holding that '''polygamy is not an essential religious practice''' of Islam and so attracts no constitutional protection from neutral service rules.
+
+Petitions challenging polygamy and ''nikah halala'' as unconstitutional have been pending before the Supreme Court since the triple-talaq judgment, '''''Shayara Bano v. Union of India'' (2017)''', which struck down instant divorce. The direction of travel in Indian jurisprudence has been to narrow personal-law exceptions without abolishing the system.
+
+Measured prevalence in India is low — national family-health survey data put polygyny among married women at roughly '''1–2%''', highest among Muslims and tribal populations but small in absolute terms. '''The legal asymmetry is much larger than the behavioural difference.'''
+
+== Regimes that permit it with conditions ==
+
+Permission is rarely unconditional outside South Asia:
+
+* '''Tunisia''' — '''banned''' outright by the Code of Personal Status (1956), the earliest such ban in the Arab world, with criminal penalties.
+* '''Turkey''' — '''banned''' since the 1926 Civil Code, as part of the Kemalist adoption of Swiss civil law.
+* '''Iran''' — requires '''court permission''', and in practice the first wife's consent.
+* '''Malaysia''' and '''Indonesia''' — require '''Sharia court approval''' on stated grounds, with the applicant showing capacity to provide equitably. Indonesian civil servants face further restrictions.
+* '''Morocco''' — the 2004 ''Moudawana'' reform left polygamy lawful but subject to judicial authorisation and notice to the first wife, making it rare in practice.
+* '''Egypt''' — lawful; the first wife must be notified and may seek divorce on that ground.
+* '''Israel''' — prohibited by criminal law, though some unions lawfully contracted elsewhere have historically been recognised for limited purposes.
+
+== Customary-law recognition in Africa ==
+
+Several African states register plural marriages through '''customary''' rather than religious law:
+
+* '''South Africa''' — the '''Recognition of Customary Marriages Act, 1998''' gives full legal recognition to polygynous customary marriages, requiring a court-approved written contract regulating the matrimonial property consequences before a further marriage. Muslim marriages reached recognition later and separately, through litigation culminating in the Constitutional Court in '''2022'''.
+* '''Kenya''' — the '''Marriage Act, 2014''' codified recognition of polygynous customary and Islamic marriages while making Christian and civil marriages monogamous.
+* '''Nigeria''' — a three-track system: statutory monogamous marriage, Islamic marriage in the northern states, and customary marriage, with polygyny lawful under the latter two.
+
+South Africa is the most instructive comparison for the American material: it solves the problem the US leaves to private contract by '''requiring a property contract as the precondition of the second marriage'''. The contract is not a workaround there; it is the statutory mechanism.
+
+== Jurisdictions that prohibit it ==
+
+* '''United States''' — prohibited in every state; see [[Mormon Polygamy and the Anti-Bigamy Cases]]. Federal immigration law bars polygamists from admission as immigrants.
+* '''Canada''' — s. 293 of the Criminal Code. In '''''Reference re: Section 293'' (BCSC 2011)''' the British Columbia Supreme Court upheld the prohibition after an extensive evidentiary hearing centred on the Bountiful community, finding demonstrated harms to women and children sufficient to justify the limit on religious freedom. Winston Blackmore was convicted in '''2017'''.
+* '''United Kingdom''' — polygamous marriages cannot be contracted; those validly contracted abroad are not recognised for immigration sponsorship, though limited recognition has existed for some benefit and succession purposes.
+* '''Most of Europe, Latin America and East Asia''' — prohibited.
+
+== The recognition problem ==
+
+The hardest questions arise when a union lawful where contracted meets a jurisdiction that prohibits it — migration, succession, pensions, child legitimacy. States answer inconsistently: a marriage may be void for immigration yet recognised for inheritance, or recognised for a survivor's pension yet not for spousal residence. '''There is no coherent international rule''', and the inconsistency falls hardest on second and later wives, who may hold a status that is real in one forum and nonexistent in the next.
+
+== See also ==
+
+* [[Mormon Polygamy and the Anti-Bigamy Cases]]
+* [[Plural Marriage as a Business Contracts Instead of Licenses|Plural Marriage as a Business — Contracts Instead of Licenses]]
+* [[Polygamy and Large-Family Reality Television]]

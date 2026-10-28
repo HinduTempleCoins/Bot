@@ -1,0 +1,87 @@
+'''Plural marriage in the United States is structured as a business, not as a marriage''' — because it has to be. Only the first union can be licensed. Every union after it is held together by contract, trust and entity law, and the practical skill involved is not matrimonial law but '''small-business and estate planning.'''
+
+== Why there is only ever one licence ==
+
+Every US state prohibits marrying while already married. The offence in most statutes is not "living together" but '''purporting to enter a marriage''' — so the licence itself is the exposure. A second application to a county clerk is the single most self-incriminating act available.
+
+The practical consequence is that plural families '''do not seek licences past the first'''. Subsequent unions are solemnised religiously — in Latter-day Saint usage, a '''sealing''' or "spiritual marriage" — and have '''no legal existence whatever'''. The second through sixth spouse are, in the eyes of every government office, '''legally single strangers''' to the household head.
+
+Two further traps sit behind this:
+
+* '''Common-law marriage.''' In the handful of states that still recognise it, holding yourselves out as married can '''create''' a legal marriage you did not apply for — and therefore the predicate for a bigamy charge. ''State v. Green'' (Utah 2004) turned on exactly this: the first marriage was established at common law, not by licence.
+* '''Holding out.''' Utah's statute was read in ''State v. Holm'' (2006) to cover unlicensed religious unions. Describing someone as your wife, in public or on a form, is evidence.
+
+Some families therefore '''deliberately avoid the word "marriage"''' in every document they sign. This is not coyness; it is the difference between a contract and a confession.
+
+== What replaces the marriage licence ==
+
+Everything a marriage would have supplied by default has to be built by hand:
+
+{| class="wikitable"
+! What marriage gives automatically !! What a plural household must execute instead
+|-
+| Property rights on dissolution || '''Cohabitation agreement''' — contribution, ownership shares, what happens on exit
+|-
+| Intestate inheritance || '''Will''' and '''revocable living trust''' naming each partner expressly
+|-
+| Next-of-kin medical authority || '''Health-care power of attorney''' and '''HIPAA release''' per partner
+|-
+| Financial authority on incapacity || '''Durable power of attorney'''
+|-
+| Presumption of parentage || '''Voluntary acknowledgment of paternity''', or adjudication; '''guardianship designations'''
+|-
+| Shared ownership of the home || '''Joint tenancy''', '''tenancy in common''' with stated shares, or title held in an '''LLC''' or trust
+|-
+| A household economic unit || '''LLC''' or partnership for the family business, with an operating agreement
+|-
+| Survivor benefits || '''Beneficiary designations''' on each policy and retirement account
+|}
+
+The result is a household whose internal law is '''private contract''' and whose external form is '''a set of unrelated adults who happen to co-own assets through an entity'''. That is a business structure, and it is read as one by banks, title companies and courts.
+
+== What cannot be replicated ==
+
+Contract gets you most of the way, and then stops hard. No private document can create:
+
+* '''Spousal Social Security and survivor benefits''' — one spouse at most.
+* '''The unlimited marital deduction''' for estate and gift tax. Transfers to a non-spouse partner are taxable gifts.
+* '''Tax filing status.''' One couple may file jointly; the remaining adults file as single or head of household.
+* '''Spousal testimonial privilege''' — which matters acutely in a household facing prosecution.
+* '''Immigration sponsorship.''' US immigration law bars polygamists from admission as immigrants.
+* '''Employer spousal health coverage''' beyond one spouse.
+* '''Automatic hospital visitation and decision-making''' absent the paperwork above.
+
+The asymmetry is itself an incentive: the legal wife holds a bundle of rights the others cannot obtain at any price, which is a structural source of inequality inside the household regardless of anyone's intentions.
+
+== The United Effort Plan Trust — polygamy as an actual corporation ==
+
+The clearest case of a plural community organised as an enterprise is the '''United Effort Plan (UEP) Trust''', the communal property trust of the Fundamentalist Church of Jesus Christ of Latter-Day Saints, holding most of the land and housing in '''Hildale, Utah and Colorado City, Arizona'''.
+
+Members consecrated property to the Trust and occupied homes at the leadership's discretion. Because title sat with the Trust rather than with families, '''housing was an instrument of ecclesiastical authority''': reassignment of a house followed reassignment of a family.
+
+In '''2005''' Utah courts, finding the trustees had abandoned their fiduciary duties while under indictment, '''took the Trust into receivership and reformed it''', appointing an outside special fiduciary to administer it on secular, needs-based terms. It was one of the largest judicial interventions into a religious property arrangement in American history, and it followed from the Trust's '''form''' — a charitable trust with enforceable duties — not from anyone's beliefs.
+
+The lesson generalises: the moment a plural community organises its economics through recognised legal entities, it becomes subject to the law governing those entities. Trust law, not family law, is where the leverage turned out to be.
+
+== Welfare, allegations, and why the accounting is contested ==
+
+Because plural wives are legally single mothers, they are '''facially eligible''' for means-tested benefits as single parents. Critics of the FLDS alleged a deliberate strategy — the phrase used inside and outside the community was "'''bleeding the beast'''" — of drawing public assistance to fund the community.
+
+Two things should be held apart. '''Eligibility follows automatically from the legal structure''': a woman with no recognised marriage and no recorded spousal income is a single mother on every form, whatever her household actually looks like. Whether that eligibility was '''organised''' as policy is a separate, contested factual question, and has been litigated in food-stamp fraud prosecutions in the Short Creek community. The structural point stands on its own: '''the law's refusal to recognise the marriage is what produces the benefit eligibility it then objects to.'''
+
+== Why some plural families prefer the contract ==
+
+Not every household treats non-recognition purely as a loss. Stated advantages include:
+
+* '''No divorce.''' Dissolution is a contract matter, not a court-supervised marital proceeding with alimony and equitable distribution.
+* '''Asset partitioning.''' Each adult's property can be kept genuinely separate, which a marital estate tends to merge.
+* '''Clarity.''' A cohabitation agreement states in writing what marriage leaves to default rules and judicial discretion.
+* '''Prosecution risk.''' No licence, no ceremony described as marriage, no documentary admission.
+
+This is the same reasoning that leads unmarried monogamous couples to cohabitation agreements and property-holding LLCs. The plural household is doing ordinary planning under an unusual constraint.
+
+== See also ==
+
+* [[Mormon Polygamy and the Anti-Bigamy Cases]] — the case law that produced the constraint
+* [[Polygamy in International and Personal Law]] — systems that register plural marriages outright
+* [[Polygamy and Large-Family Reality Television]]
