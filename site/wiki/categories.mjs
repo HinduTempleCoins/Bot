@@ -605,6 +605,8 @@ export const CATEGORIES = [
             'The Quota the Catalogue and the Feedstock',
             'Publication Cognitive Liberty and the Analogue Act','The Legal Supply Chain Coca Leaf Poppy Straw DEA Quotas and the Federal Patients',
             'SoapBox Law', 'Privacy Law', 'Rights That Hold Up in Court', 'Foundational Law', 'Treaties',
+            'Mormon Polygamy and the Anti-Bigamy Cases', 'Plural Marriage as a Business Contracts Instead of Licenses',
+            'Polygamy in International and Personal Law', 'Polygamy and Large-Family Reality Television',
             'Legal Maxims', 'Congress.ink', 'Benefit Societies', 'Appeals and Writs',
             'Legal Lexicon', 'Sources of Legal Authority', 'World Law', 'The Spirit of the Laws',
             'Free Speech and Sedition', 'Legal Doctrines', 'The Case Law of Us',
