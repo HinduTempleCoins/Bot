@@ -38,6 +38,27 @@ export const SAFE_WINDOW_BLOCKS = 200;
  *  only opens once this much time has passed since the last one landed. */
 export const DRAW_INTERVAL_MS = Number(env('LOTTO_DRAW_INTERVAL_MS', String(3.5 * 24 * 60 * 60 * 1000)));
 
+/** The command that yields the DRAW_ROLE key. NOT a default that is assumed to work: `--check` below
+ *  verifies it actually resolves, because the keeper's tests inject a fake contract and never touch
+ *  this path — so a green suite says nothing about whether the live run can sign. */
+export const KEY_CMD = () => env('LOTTO_KEY_CMD', 'node /opt/melek-bot/vault.mjs get prana-mainnet-deployer');
+
+/**
+ * Does the configured key source actually produce a key? Returns a verdict ONLY — never the key,
+ * never a fragment of it, never its length beyond a boolean.
+ */
+export function keySourceCheck({ exec } = {}) {
+  const cmd = KEY_CMD();
+  if (!exec) return { ok: false, cmd, reason: 'no executor supplied' };
+  let raw = '';
+  try { raw = String(exec(cmd) || ''); }
+  catch (e) { return { ok: false, cmd, reason: `key source failed: ${String(e.message || e).slice(0, 120)}` }; }
+  const found = /0x[0-9a-fA-F]{64}/.test(raw) || /"privateKey"\s*:\s*"/.test(raw);
+  return found
+    ? { ok: true, cmd, reason: 'key source resolved' }
+    : { ok: false, cmd, reason: 'key source ran but produced no private key — check the entry name exists' };
+}
+
 export const ABI = [
   'function commitDraw(bytes32 saltHash)',
   'function revealDraw(bytes32 salt) returns (address)',
@@ -185,6 +206,16 @@ if (process.argv[1] && /lotto-keeper\.mjs$/.test(process.argv[1])) {
   const provider = new ethers.JsonRpcProvider(rpc);
   const addr = LOTTO_ADDRESS();
 
+  if (process.argv.includes('--check')) {
+    const { execSync } = await import('node:child_process');
+    const r = keySourceCheck({ exec: (c) => execSync(c, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }) });
+    console.log(`key source : ${r.cmd}`);
+    console.log(`resolves   : ${r.ok ? 'YES' : 'NO'} — ${r.reason}`);
+    if (!r.ok) console.log('\nThe keeper will exit 1 on every live run until this resolves.\n'
+      + 'Set LOTTO_KEY_CMD to a command that prints the DRAW_ROLE key.');
+    process.exit(r.ok ? 0 : 1);
+  }
+
   if (DRY) {
     const ro = new ethers.Contract(addr, ABI, provider);
     const [dc, dep, pot, n, bn] = await Promise.all([
@@ -210,11 +241,11 @@ if (process.argv[1] && /lotto-keeper\.mjs$/.test(process.argv[1])) {
   const { execSync } = await import('node:child_process');
   let pk = null;
   try {
-    const raw = execSync(env('LOTTO_KEY_CMD', 'node /opt/melek-bot/vault.mjs get prana-mainnet-deployer'), { encoding: 'utf8' });
+    const raw = execSync(KEY_CMD(), { encoding: 'utf8' });
     const m = raw.match(/0x[0-9a-fA-F]{64}/) || raw.match(/"privateKey"\s*:\s*"([^"]+)"/);
     pk = m ? (m[1] || m[0]) : null;
-  } catch (e) { console.log('vault read failed:', String(e.message).slice(0, 100)); process.exit(1); }
-  if (!pk) { console.log('no DRAW_ROLE private key found'); process.exit(1); }
+  } catch (e) { console.log(`key source failed (${KEY_CMD()}):`, String(e.message).slice(0, 100)); process.exit(1); }
+  if (!pk) { console.log(`no DRAW_ROLE private key from: ${KEY_CMD()}\nRun with --check to verify the key source before installing a timer.`); process.exit(1); }
 
   const contract = new ethers.Contract(addr, ABI, new ethers.Wallet(pk, provider));
   const r = await tick({ contract, provider });

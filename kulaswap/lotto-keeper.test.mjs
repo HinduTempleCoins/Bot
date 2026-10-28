@@ -170,3 +170,38 @@ test('⚠ clearing the secret salt must NOT wipe the cadence record', () => {
   assert.equal(loadState(o), null, 'salt gone');
   assert.equal(loadMarks(o).lastDrawAt, 12345, 'cadence survives — else it would redraw at once');
 });
+
+// ── the key source: the path the other tests never touch ──────────────────────────────────────────
+import { keySourceCheck, KEY_CMD } from './lotto-keeper.mjs';
+
+test('⚠ a key source that resolves nothing is reported, not assumed to work', () => {
+  // the live failure: LOTTO_KEY_CMD defaulted to a vault entry that does not exist, and every other
+  // test in this file injects a fake contract, so the suite was green over a keeper that could not sign
+  const r = keySourceCheck({ exec: () => 'ERROR: no such item\n' });
+  assert.equal(r.ok, false);
+  assert.match(r.reason, /produced no private key/);
+});
+
+test('a key source that throws is caught, and the key never appears in the verdict', () => {
+  const r = keySourceCheck({ exec: () => { throw new Error('vault locked'); } });
+  assert.equal(r.ok, false);
+  assert.match(r.reason, /vault locked/);
+});
+
+test('a working key source verifies WITHOUT echoing the key', () => {
+  const secret = '0x' + 'ab'.repeat(32);
+  const r = keySourceCheck({ exec: () => `privateKey ${secret}\n` });
+  assert.equal(r.ok, true);
+  const blob = JSON.stringify(r);
+  assert.doesNotMatch(blob, /abababab/, 'the key must not leak into the verdict');
+  assert.ok(!blob.includes(secret));
+});
+
+test('no executor is a refusal rather than a crash', () => {
+  assert.equal(keySourceCheck({}).ok, false);
+  assert.equal(keySourceCheck().ok, false);
+});
+
+test('the key command is one named thing, overridable by env', () => {
+  assert.match(KEY_CMD(), /vault|LOTTO|key/i);
+});
