@@ -7,8 +7,11 @@
 // nothing here can disagree with what the messenger shows, and there is no way to inject a
 // notification that is not a real message someone actually sent.
 //
-// Scope is DMs, deliberately: a notification's whole job is to deep-link into the thread, and the
-// messenger's deep link is `pentecaust.com/?dm=<account>`. Team channels have no such link yet.
+// Covers both live surfaces: IM (1:1 DMs) and game group chat (the team/alliance/clan channels).
+// Email is not covered because the inbox does not exist yet — see the note in connect/mailbox.mjs.
+// Each item deep-links into the surface it came from: `?dm=<account>` for a DM, `?chan=<teamId>`
+// for a channel. Team channels are only ever scanned for teams the account is actually a member of
+// (teamsForAccount), so membership is the gate here exactly as it is on the post side.
 //
 // Same persistence discipline as messaging.mjs / model.mjs: one JSON file, injectable fs,
 // soft-fail-never-throw, offline-testable, no keys, no chain writes.
@@ -18,7 +21,8 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { validAccountName } from '../signup/welcome-grant.mjs';
-import { inboxFor, readChannel, dmChannelId } from './messaging.mjs';
+import { inboxFor, readChannel, dmChannelId, teamChannelId } from './messaging.mjs';
+import { teamsForAccount } from './model.mjs';
 
 const env = (k, d) => (typeof process !== 'undefined' && process.env && process.env[k]) || d;
 
@@ -49,6 +53,7 @@ const ctx = (opts = {}) => ({
   fs: opts.fs || realFs,
   file: opts.file || NOTIFY_FILE(),
   chat: opts.chat || {},
+  teams: opts.teams || {},
 });
 
 const norm = (a) => String(a == null ? '' : a).toLowerCase();
@@ -70,27 +75,40 @@ export function lastSeen(account, channel, opts = {}) {
 export function notificationsFor(account, { limit = MAX_ITEMS } = {}, opts = {}) {
   const who = norm(account);
   if (!validAccountName(who)) return { ok: false, reason: 'invalid account name', account: who, unread: 0, threads: 0, items: [] };
-  const { chat } = ctx(opts);
+  const { chat, teams } = ctx(opts);
 
-  let threads = [];
-  try { threads = inboxFor(who, chat) || []; } catch { threads = []; }
+  // Every channel this account should be pinged for: its DM threads, plus the group chats of the
+  // teams it actually belongs to.
+  const sources = [];
+  try {
+    for (const t of inboxFor(who, chat) || []) {
+      if (t && t.channel) sources.push({ kind: 'dm', channel: t.channel, with: t.with, title: `@${t.with}` });
+    }
+  } catch { /* no DM threads */ }
+  try {
+    for (const t of teamsForAccount(who, teams) || []) {
+      if (t && t.id) sources.push({ kind: 'team', channel: teamChannelId(t.id), team: t.id, title: t.name || t.id, tag: t.tag || null });
+    }
+  } catch { /* no teams */ }
 
   const items = [];
   let unread = 0;
-  for (const t of threads) {
-    const channel = t && t.channel;
-    if (!channel) continue;
-    const since = lastSeen(who, channel, opts);
+  for (const s of sources) {
+    const since = lastSeen(who, s.channel, opts);
     let messages = [];
-    try { messages = (readChannel(channel, { since, limit: SCAN_LIMIT }, chat) || {}).messages || []; } catch { messages = []; }
-    // Only the other side's lines are notifications — your own sent messages never ping you.
+    try { messages = (readChannel(s.channel, { since, limit: SCAN_LIMIT }, chat) || {}).messages || []; } catch { messages = []; }
+    // Only other people's lines are notifications — your own sent messages never ping you.
     const incoming = messages.filter((m) => m && norm(m.from) !== who);
     if (!incoming.length) continue;
     const last = incoming[incoming.length - 1];
     unread += incoming.length;
     items.push({
-      channel,
-      with: t.with,
+      kind: s.kind,
+      channel: s.channel,
+      with: s.kind === 'dm' ? s.with : null,
+      team: s.kind === 'team' ? s.team : null,
+      tag: s.tag || null,
+      title: s.title,
       count: incoming.length,
       from: last.from,
       text: last.text,
@@ -98,8 +116,10 @@ export function notificationsFor(account, { limit = MAX_ITEMS } = {}, opts = {})
       ts: last.ts,
       game: last.game || null,
       surface: last.surface || null,
-      // Deep link the messenger already understands (server.mjs line ~774: `?dm=<account>`).
-      url: `/?dm=${encodeURIComponent(t.with)}`,
+      // Deep links the client understands: ?dm=<account> (existing) and ?chan=<teamId>.
+      url: s.kind === 'dm'
+        ? `/?dm=${encodeURIComponent(s.with)}`
+        : `/?chan=${encodeURIComponent(s.team)}`,
     });
   }
 

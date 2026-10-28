@@ -191,3 +191,98 @@ test('threads are ordered newest first', () => {
   assert.deepEqual(items.map((i) => i.with), ['hathor', 'steve', 'alex']);
   e.cleanup();
 });
+
+// ── game group chat (team channels) — the other live surface ─────────────────────────────────────
+import { postTeamMessage } from './messaging.mjs';
+import { createTeam, joinTeam } from './model.mjs';
+
+/** chat store + read markers + a real team roster, all temp files. */
+function envTeams() {
+  const chatFile = join(tmpdir(), `pent-nt-chat-${process.pid}-${_n++}.json`);
+  const seenFile = join(tmpdir(), `pent-nt-seen-${process.pid}-${_n++}.json`);
+  const teamFile = join(tmpdir(), `pent-nt-team-${process.pid}-${_n++}.json`);
+  const teams = { file: teamFile };
+  const chat = { file: chatFile, now: 5000 };
+  // posting to a team checks membership in the team store
+  const post = { file: chatFile, now: 5000, teamOpts: teams };
+  return {
+    chat, teams, post,
+    opts: { file: seenFile, chat, teams },
+    cleanup: () => { for (const f of [chatFile, seenFile, teamFile]) { try { unlinkSync(f); } catch {} } },
+  };
+}
+
+test('group-chat messages ping the members of that team', () => {
+  const e = envTeams();
+  const team = createTeam({ name: 'Van Kush Family', owner: 'ryan', kind: 'alliance', tag: 'VKF' }, e.teams).team;
+  joinTeam(team.id, 'steve', e.teams);
+
+  assert.equal(postTeamMessage({ teamId: team.id, from: 'steve', text: 'raid at 8', game: 'minecraft' }, e.post).ok, true);
+
+  const r = notificationsFor('ryan', {}, e.opts);
+  assert.equal(r.unread, 1);
+  assert.equal(r.items[0].kind, 'team');
+  assert.equal(r.items[0].team, team.id);
+  assert.equal(r.items[0].title, 'Van Kush Family');
+  assert.equal(r.items[0].tag, 'VKF');
+  assert.equal(r.items[0].from, 'steve');
+  assert.equal(r.items[0].url, `/?chan=${encodeURIComponent(team.id)}`);
+  // the sender is not pinged by their own line
+  assert.equal(unreadCountFor('steve', e.opts), 0);
+  e.cleanup();
+});
+
+test('a non-member of the team is never pinged by its group chat', () => {
+  const e = envTeams();
+  const team = createTeam({ name: 'Raiders', owner: 'ryan', kind: 'clan' }, e.teams).team;
+  joinTeam(team.id, 'steve', e.teams);
+  postTeamMessage({ teamId: team.id, from: 'steve', text: 'secret plan' }, e.post);
+
+  assert.equal(unreadCountFor('ryan', e.opts), 1, 'a member is pinged');
+  assert.equal(unreadCountFor('outsider', e.opts), 0, 'a non-member sees nothing');
+  e.cleanup();
+});
+
+test('DMs and group chat appear together, newest first, and clear independently', () => {
+  const e = envTeams();
+  const team = createTeam({ name: 'Raiders', owner: 'ryan', kind: 'clan' }, e.teams).team;
+  joinTeam(team.id, 'steve', e.teams);
+
+  postDM({ from: 'hathor', to: 'ryan', text: 'bridge guide is up' }, e.chat);
+  postTeamMessage({ teamId: team.id, from: 'steve', text: 'raid at 8' }, e.post);
+
+  let r = notificationsFor('ryan', {}, e.opts);
+  assert.equal(r.unread, 2);
+  assert.deepEqual(r.items.map((i) => i.kind), ['team', 'dm'], 'newest first');
+
+  // open the channel only
+  assert.equal(markRead('ryan', r.items[0].channel, null, e.opts).ok, true);
+  r = notificationsFor('ryan', {}, e.opts);
+  assert.equal(r.unread, 1);
+  assert.equal(r.items[0].kind, 'dm', 'the DM ping survives');
+  e.cleanup();
+});
+
+test('markAllRead clears group chat as well as DMs', () => {
+  const e = envTeams();
+  const team = createTeam({ name: 'Raiders', owner: 'ryan', kind: 'clan' }, e.teams).team;
+  joinTeam(team.id, 'steve', e.teams);
+  postDM({ from: 'hathor', to: 'ryan', text: 'a' }, e.chat);
+  postTeamMessage({ teamId: team.id, from: 'steve', text: 'b' }, e.post);
+  assert.equal(notificationsFor('ryan', {}, e.opts).unread, 2);
+
+  assert.equal(markAllRead('ryan', e.opts).cleared, 2);
+  assert.equal(unreadCountFor('ryan', e.opts), 0);
+  e.cleanup();
+});
+
+test('a team id with odd characters is URL-encoded in the channel link', () => {
+  const e = envTeams();
+  const team = createTeam({ name: 'Van Kush / Family!', owner: 'ryan', kind: 'clan' }, e.teams).team;
+  joinTeam(team.id, 'steve', e.teams);
+  postTeamMessage({ teamId: team.id, from: 'steve', text: 'hi' }, e.post);
+  const it = notificationsFor('ryan', {}, e.opts).items[0];
+  assert.equal(it.url, `/?chan=${encodeURIComponent(team.id)}`);
+  assert.equal(it.url.includes(' '), false);
+  e.cleanup();
+});

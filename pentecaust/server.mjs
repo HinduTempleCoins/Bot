@@ -825,7 +825,13 @@ async function syncNotif(){
 }
 // deep-link: a Condenser "Send a PM" link is pentecaust.com/?dm=<account> — auto-open that thread.
 let pendingDm=(new URLSearchParams(location.search).get('dm')||'').toLowerCase().replace(/^@/,'');
-function tryPending(){if(pendingDm&&me()){setTab('msg');openDM(pendingDm);pendingDm='';return true;}return false;}
+// ?chan=<teamId> is the same idea for game group chat, so a channel notification can open the channel.
+// Narrowed to the id charset the team store uses — nothing else is ever acted on.
+let pendingChan=(new URLSearchParams(location.search).get('chan')||'').toLowerCase().replace(/[^a-z0-9._-]/g,'');
+function tryPending(){
+ if(pendingDm&&me()){setTab('msg');openDM(pendingDm);pendingDm='';return true;}
+ if(pendingChan&&me()){setTab('chan');openChan(pendingChan);pendingChan='';return true;}
+ return false;}
 // (#me is read-only: it reflects the session, it does not set it.)
 
 // ---- tabs ----
@@ -993,7 +999,16 @@ $('dmText').addEventListener('keydown',e=>{if(e.key==='Enter')$('dmSend').click(
 
 // ---- Channels (advanced) ----
 let chId='',chCursor=0,chTimer=null;
-function openChan(id){chId=id;chCursor=0;$('teamId').value=id;$('cText').disabled=false;$('cSend').disabled=false;$('cfeed').innerHTML='';pollChan();if(chTimer)clearInterval(chTimer);chTimer=setInterval(pollChan,3000);}
+function openChan(id){chId=id;chCursor=0;$('teamId').value=id;$('cText').disabled=false;$('cSend').disabled=false;$('cfeed').innerHTML='';pollChan();if(chTimer)clearInterval(chTimer);chTimer=setInterval(pollChan,3000);markChanRead(id);}
+// Opening a channel clears its ping, the same way opening a DM does.
+async function markChanRead(id){
+ if(!me()||!id)return;
+ try{
+  await fetch('/notifications/read?account='+encodeURIComponent(me()),{method:'POST',
+   headers:{'content-type':'application/json'},body:JSON.stringify({channel:'team:'+String(id)})});
+ }catch(e){}
+ syncNotif();
+}
 async function pollChan(){if(!me()||!chId)return;const j=await api('/teams/'+encodeURIComponent(chId)+'/chat?account='+encodeURIComponent(me())+(chCursor?('&since='+chCursor):''));
  if(!j.ok){if(j.reason)$('teamMeta').textContent=j.reason;return;}
  if(j.team)$('teamMeta').textContent=j.team.kind+' “'+j.team.name+'” · '+j.team.memberCount+' members'+(j.team.motd?(' · '+j.team.motd):'');

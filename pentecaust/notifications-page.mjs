@@ -34,6 +34,7 @@ export function notificationsPage() {
  li.n{display:flex;gap:11px;align-items:flex-start;padding:12px;border:1px solid var(--bd);border-radius:12px;background:#0e131b;margin-bottom:9px;cursor:pointer}
  li.n:hover{border-color:var(--gold)}
  .av{flex:0 0 36px;width:36px;height:36px;border-radius:50%;background:var(--ash);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;text-transform:uppercase}
+ .av--team{background:#1d3a5c;border-radius:9px}
  .body{flex:1 1 auto;min-width:0}
  .who{font-weight:800;color:var(--gold)}
  .txt{color:var(--fg);overflow-wrap:anywhere;margin-top:2px}
@@ -81,8 +82,12 @@ async function open_(it){
   await fetch('/notifications/read'+qs(),{method:'POST',headers:{'content-type':'application/json'},
     body:JSON.stringify({channel:it.channel,seq:it.seq})});
  }catch(e){}
- // Only ever a messenger deep link built from the account name, never a URL from the message body.
- location.href='/?dm='+encodeURIComponent(it['with']);
+ // Always a same-origin Pentecaust path, rebuilt HERE from the account name or team id rather than
+ // following any url string — so nothing a sender inserts can send a reader anywhere else.
+ const dest=it.kind==='team'
+  ? '/?chan='+encodeURIComponent(String(it.team||''))
+  : '/?dm='+encodeURIComponent(String(it['with']||''));
+ location.href=dest;
 }
 
 function render(d){
@@ -96,14 +101,19 @@ function render(d){
  const frag=document.createDocumentFragment();
  for(const it of items){
   const li=document.createElement('li'); li.className='n';
-  const who=String(it['with']||it.from||'');
+  const team=it.kind==='team';
+  const title=String(it.title||(team?(it.team||''):('@'+(it['with']||''))));
+  const avatar=team?'#':String(it['with']||it.from||'?').slice(0,1);
   const bits=[];
+  if(team)bits.push('group chat'+(it.tag?(' ['+E(it.tag)+']'):''));
   if(it.game)bits.push('from '+E(it.game));
   if(it.surface)bits.push(E(it.surface));
   bits.push(ago(it.ts));
-  li.innerHTML='<div class=av>'+E(who.slice(0,1))+'</div>'+
-   '<div class=body><div class=who>@'+E(who)+'</div>'+
-   '<div class=txt>'+E(it.text)+'</div>'+
+  // In a group chat the sender is not the thread, so show who spoke as well as where.
+  const line=team?('<b>@'+E(it.from)+'</b>: '+E(it.text)):E(it.text);
+  li.innerHTML='<div class="av'+(team?' av--team':'')+'">'+E(avatar)+'</div>'+
+   '<div class=body><div class=who>'+E(title)+'</div>'+
+   '<div class=txt>'+line+'</div>'+
    '<div class=meta>'+bits.join(' · ')+'</div></div>'+
    '<div class=side><span class=pill>'+E(it.count)+'</span></div>';
   li.onclick=()=>open_(it);
