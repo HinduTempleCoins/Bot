@@ -24,8 +24,8 @@ export const PRESERVATIVE_RULE =
   'including wet fingers in the jar.';
 
 export const EMULSIFIERS = {
-  ewax_nf:  { name: 'Emulsifying Wax NF',        min: 3, max: 6,  hlb: 15.5, rule: 'commonly used at about 25% of the oil-phase weight', ionic: 'non-ionic' },
-  polawax:  { name: 'Polawax',                   min: 3, max: 6,  hlb: 15.5, rule: 'use at about 25% of the oil-phase weight', ionic: 'non-ionic' },
+  ewax_nf:  { name: 'Emulsifying Wax NF',        min: 3, max: 10, hlb: 15.5, oilPhaseLo: 0.20, oilPhaseHi: 0.25, rule: '20–25% of the oil-phase weight; 3–5% of the batch for a lotion, 5–10% for a cream. 25% is the TOP of the band — at that level many formulators find the result waxy and draggy', ionic: 'non-ionic' },
+  polawax:  { name: 'Polawax',                   min: 3, max: 10, hlb: 15.5, oilPhaseLo: 0.20, oilPhaseHi: 0.25, rule: '20–25% of the oil-phase weight; 3–5% of the batch for a lotion, 5–10% for a cream', ionic: 'non-ionic' },
   btms50:   { name: 'BTMS-50',                   min: 2, max: 5,  hlb: null, rule: 'cationic — conditioning; favoured in hair and body creams', ionic: 'cationic' },
   olivem1000:{ name: 'Olivem 1000',              min: 3, max: 8,  hlb: 9.5,  rule: 'liquid-crystal emulsifier; gives a lighter skin feel', ionic: 'non-ionic' },
   glyceryl_stearate_peg100: { name: 'Glyceryl Stearate / PEG-100 Stearate', min: 3, max: 7, hlb: 11.2, rule: 'workhorse pair for lotions and creams', ionic: 'non-ionic' },
@@ -98,10 +98,12 @@ export function lotion(input = {}) {
   if (water > 0 && prPct <= 0) errors.push('water-containing formula with no preservative — this will grow mould. ' + PRESERVATIVE_RULE);
   if (prPct > 0 && (prPct < pr.min || prPct > pr.max)) warnings.push(`${pr.name} is normally used at ${pr.min}–${pr.max}%; you have ${prPct}%`);
   if (emPct > 0 && (emPct < em.min || emPct > em.max)) warnings.push(`${em.name} is normally used at ${em.min}–${em.max}%; you have ${emPct}%`);
-  if (oil > 0 && emPct > 0 && (emKey === 'ewax_nf' || emKey === 'polawax')) {
-    const want = round(oil * 0.25, 2);
-    if (Math.abs(emPct - want) > Math.max(0.5, want * 0.4)) {
-      warnings.push(`${em.name} ${em.rule} — for a ${oil}% oil phase that is about ${want}%`);
+  if (oil > 0 && emPct > 0 && em.oilPhaseLo) {
+    const lo = round(oil * em.oilPhaseLo, 2), hi = round(oil * em.oilPhaseHi, 2);
+    if (emPct < lo || emPct > hi) {
+      warnings.push(`${em.name}: ${em.rule} — for a ${oil}% oil phase that is ${lo}–${hi}% of the batch, and you have ${emPct}%`);
+    } else if (emPct === hi) {
+      warnings.push(`${emPct}% is the top of the band for ${em.name}; drop toward ${lo}% if the result feels waxy or draggy`);
     }
   }
   if (water > 0 && water < 50) warnings.push('water phase under 50% makes a heavy cream rather than a lotion — intended?');
@@ -148,12 +150,13 @@ export function bodyButter(input = {}) {
   const errors = [], warnings = [];
 
   if (Math.abs(total - 100) > 0.05) errors.push(`components total ${total}% — must sum to 100%`);
-  if (butters < 40) warnings.push('under about 40% solid butter the blend usually will not hold a whip');
+  if (butters < 40) warnings.push('under about 40% solid butter the blend usually will not hold a whip — formulators who start at 25% solids report it stays too soft to whip at all');
   if (butters > 80) warnings.push('over about 80% butter whips stiff and can feel waxy');
   if (oils > 45) warnings.push('over about 45% liquid oil tends to weep or stay soft');
   if (wax > 10) warnings.push('wax above about 10% stops it being a whipped butter and makes it a balm');
   if (powder > 12) warnings.push('arrowroot or tapioca above about 12% goes chalky');
   if (powder === 0 && oils > 25) warnings.push('5–10% arrowroot or tapioca starch cuts the greasy feel of a high-oil butter');
+  if (Math.abs(butters - 75) > 15 && wax <= 10) warnings.push('75% solid butter to 25% liquid oil is the common starting point; too much liquid oil lowers the melt point and the jar goes soft in a warm room');
 
   const g = (p) => round((p / 100) * batch, 2);
   return {
@@ -167,6 +170,7 @@ export function bodyButter(input = {}) {
       'Anhydrous: no preservative needed. Keep water out — water in the jar means spoilage.',
     ],
     antioxidantNote: 'Vitamin E 0.1–1%, or rosemary oleoresin 0.02–0.1%, to slow rancidity. Neither is a preservative.',
+    ambientNote: 'The right solid-to-liquid ratio depends on the room it will live in. Published shea-to-liquid figures run about 30:70 at 16–17 °C, 35:65 at 19 °C and 40:60 at 23 °C — a butter balanced for a cold house weeps in a warm one. Fragrance in a whipped butter is commonly about 2%.',
   };
 }
 
@@ -245,3 +249,24 @@ export function infusion(input = {}) {
     ],
   };
 }
+
+// ── WHERE THE NUMBERS COME FROM ───────────────────────────────────────────────────────────────────
+// These are published formulation figures, not invented ones. Where sources disagree the engine
+// uses the conservative end and says so in the warning text.
+//   Emulsifying Wax NF / Polawax — 20–25% of the oil phase; 3–5% of batch for a lotion, 5–10% for
+//     a cream. humblebeeandme.com/project/emulsifying-wax-nf/ ·
+//     theskinsciencecompany.com.au/blogs/ingredient-library/understanding-emulsifiers-how-to-make-stable-lotions-creams
+//   Whipped body butter — 75:25 solid-to-liquid as the common start; too much liquid oil lowers the
+//     melt point. wholesalesuppliesplus.com/blogs/help-how-tos/learn-to-make-whipped-body-butter ·
+//     temperature-dependent shea ratios: humblebeeandme.com/perfectly-pillowy-whipped-shea-butter/ ·
+//     barakasheabutter.com/blogs/baraka-blogs/how-to-make-body-butter-beginner-friendly-guide
+//   Beeswax in cold process — see the note on OILS.beeswax in soapcalc.mjs.
+//   Preservative rates are per supplier specification and are NOT interchangeable between products.
+export const SOURCES = [
+  { topic: 'Emulsifying Wax NF usage', url: 'https://www.humblebeeandme.com/project/emulsifying-wax-nf/' },
+  { topic: 'Emulsifier selection and stability', url: 'https://theskinsciencecompany.com.au/blogs/ingredient-library/understanding-emulsifiers-how-to-make-stable-lotions-creams' },
+  { topic: 'Whipped body butter ratios', url: 'https://www.wholesalesuppliesplus.com/blogs/help-how-tos/learn-to-make-whipped-body-butter' },
+  { topic: 'Shea-to-liquid ratio by ambient temperature', url: 'https://www.humblebeeandme.com/perfectly-pillowy-whipped-shea-butter/' },
+  { topic: 'Beeswax in cold-process soap', url: 'https://thenerdyfarmwife.com/beeswax-in-cp-soap/' },
+  { topic: 'Beeswax SAP value and lye-calculator inclusion', url: 'http://www.soap-making-resource.com/beeswax.html' },
+];

@@ -104,8 +104,42 @@ test('beeswax is in the lye engine, saponifies, and is credited no lather', () =
   assert.equal(OILS.beeswax.sap, 0.069);
   assert.equal(OILS.beeswax.wax, true);
   for (const v of Object.values(OILS.beeswax.fa)) assert.equal(v, 0);
-  assert.match(OILS.beeswax.note, /1–8%/);
+  assert.match(OILS.beeswax.note, /1–3% of the oil weight/);
+  assert.match(OILS.beeswax.note, /0.067–0.069/);
   const r = calculate({ oils: [{ id: 'olive', weight: 900 }, { id: 'beeswax', weight: 100 }], lyeType: 'NaOH', superfat: 5, waterRatio: 2 });
   assert.equal(r.ok, true);
   assert.ok(r.lye > 0, 'beeswax blend must still produce a lye figure');
+});
+
+test('e-wax is checked against a 20–25% band of the oil phase, not a single point', async () => {
+  const { EMULSIFIERS: E } = await import('./formulate.mjs');
+  assert.equal(E.ewax_nf.oilPhaseLo, 0.20);
+  assert.equal(E.ewax_nf.oilPhaseHi, 0.25);
+  assert.equal(E.ewax_nf.max, 10, 'creams need up to 10%');
+  // 20% of a 20% oil phase = 4% — inside the band, no oil-phase warning
+  const inside = lotion({ waterPct: 71, oilPct: 20, emulsifierPct: 4, preservativePct: 1, humectantPct: 3, thickenerPct: 1 });
+  assert.ok(!inside.warnings.join(' ').includes('of the batch, and you have'), 'in-band must not warn');
+  // 2% of a 20% oil phase is below the band
+  const below = lotion({ waterPct: 73, oilPct: 20, emulsifierPct: 2, preservativePct: 1, humectantPct: 3, thickenerPct: 1 });
+  assert.match(below.warnings.join(' '), /4–5%/);
+});
+
+test('the top of the band is flagged as draggy rather than silently accepted', () => {
+  const top = lotion({ waterPct: 70, oilPct: 20, emulsifierPct: 5, preservativePct: 1, humectantPct: 3, thickenerPct: 1 });
+  assert.match(top.warnings.join(' '), /top of the band|waxy or draggy/);
+});
+
+test('body butter far from 75:25 is flagged, and the ambient-temperature note is present', () => {
+  const r = bodyButter({ buttersPct: 50, liquidOilPct: 45, waxPct: 0, powderPct: 5 });
+  assert.match(r.warnings.join(' '), /75% solid butter to 25% liquid oil/);
+  assert.match(r.ambientNote, /30:70 at 16–17/);
+});
+
+test('every figure in the engine is traceable to a published source', async () => {
+  const { SOURCES } = await import('./formulate.mjs');
+  assert.ok(Array.isArray(SOURCES) && SOURCES.length >= 5);
+  for (const s of SOURCES) {
+    assert.ok(s.topic, 'each source needs a topic');
+    assert.match(s.url, /^https?:\/\//, 'each source needs a URL');
+  }
 });
