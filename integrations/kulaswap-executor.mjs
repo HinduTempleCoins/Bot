@@ -27,6 +27,7 @@ export const TOKENS = {
   WPRANA: { address: '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34', decimals: 18 },
   wVKBT: { address: '0xD915E757662c4234137aff167Bf93d588145f75e', decimals: 8 },
   wCURE: { address: '0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff', decimals: 8 },
+  wMELEK: { address: '0xf6d9BE2859191b45820Df3A3B3b321b1b2589AB9', decimals: 18 },
 };
 export const ARB_ROUTES = [['wVKBT', 'KULA', 'wCURE', 'wVKBT'], ['wVKBT', 'wCURE', 'KULA', 'wVKBT']];
 
