@@ -1,0 +1,34 @@
+'''MWALI''' (<code>0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9</code>) is the [[Proof of Liquidity|proof-of-liquidity]] token on [[PRANA Blockchain|PRANA]]. It exists to reward and measure the liquidity that backs [[KulaSwap|KULA]]. KULA is the reward token; MWALI is the liquidity token. They are deliberately not the same thing.
+
+== How it is meant to be minted ==
+
+MWALI has exactly one minting role, and it is held by a contract, not a person: the KULA/WPRANA liquidity gauge at <code>0x46d92Ae6F5D55Eb5f12F222e44F0CDAC74E38e45</code>. Liquidity providers to the KULA/WPRANA pair — the Kula-Ring — stake their position in the gauge, and the gauge mints MWALI to them in proportion to the liquidity they supplied and how long they supplied it.
+
+The deployer holds no minting role and has renounced its administrative role. Administration belongs to the DAO timelock, which imposes a two-day delay on changes. The consequence is that '''no human can print MWALI'''.
+
+== Why it is separate from KULA ==
+
+Separating the two lets a liquidity position be counted and governed in its own right rather than existing as a side effect of a reward programme. MWALI can be paired back into KULA, used as governance weight, or wired into further gauges without touching KULA's capped emission schedule. See [[Proof of Liquidity]] for the full argument.
+
+== Current state ==
+
+'''MWALI has never been minted.''' Its total supply is zero.
+
+The cause is a configuration mismatch rather than a flaw in the token: the gauge that holds MWALI's minting role is configured to pay out '''KULA''' instead. Liquidity providers to KULA/WPRANA are therefore receiving the reward token, and the proof-of-liquidity layer is inert. The pool itself is real and supplied — the KULA/WPRANA pair holds meaningful liquidity and is fully staked — so the only missing piece is the gauge's reward-token setting.
+
+Correcting it means repointing the gauge, which is an administrative action behind the two-day timelock.
+
+Until that happens, any description of MWALI as a circulating token would be wrong, and any balance of it would be zero.
+
+== See also ==
+* [[Proof of Liquidity]]
+* [[KulaSwap]]
+* [[KULA Lottery]]
+* [[Tokens Are Not Money]]
+
+== Sources ==
+* <code>KULA_PAPER.md</code> §3
+* On-chain reads of <code>rewardToken()</code> on the gauge and <code>totalSupply()</code> on MWALI, PRANA mainnet, 28 October 2026
+
+== Coverage ==
+Describes the token's intended role and its actual zero-supply state as at 28 October 2026.

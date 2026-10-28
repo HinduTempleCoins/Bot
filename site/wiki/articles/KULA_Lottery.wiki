@@ -1,0 +1,43 @@
+The '''KULA Lottery''' is a no-loss prize pool on [[PRANA Blockchain|PRANA]], contract <code>NoLossLotto</code> at <code>0xfE5CC3c2919c893a33690bf6b36d58Ae5A989dB3</code>. It follows the PoolTogether model: '''your deposit is not at risk'''. Only the yield on the pool is given away.
+
+== How it works ==
+
+Depositors put [[KulaSwap|KULA]] into the pool. The principal stays theirs and can be withdrawn. The prize is funded from the yield on the pooled deposits plus the 10% KULA lottery emission slice and a cut of protocol fees. At a draw, one depositor wins the '''entire''' prize pool, and the pool resets to zero.
+
+The chance of winning is weighted by deposit size: a depositor with twice the stake has twice the chance. This is the trade that makes the product honest — nobody can lose their stake, so the cost of playing is the foregone yield, not the capital.
+
+== The draw: commit and reveal ==
+
+A draw is two transactions, not one, and the gap between them is the whole security design:
+
+# <code>commitDraw(saltHash)</code> — the drawer publishes the hash of a secret salt. This binds the draw to the current block.
+# <code>revealDraw(salt)</code> — at least 2 and at most 256 blocks later, the drawer reveals the salt. The winner is computed from it, and the prize is paid.
+
+The reason for the delay is that the winner is derived partly from a future block hash, which the drawer cannot know when committing. The reason the salt is secret until the reveal is that it stops the drawer from grinding salts until a favoured address wins. Neither party can choose the outcome alone.
+
+The 256-block ceiling is not arbitrary: the chain can only look back 256 blocks for a block hash, so a commit older than that can never be revealed. If that happens, <code>clearExpiredDraw()</code> discards the stale commit and a new draw begins. '''No prize is lost''' when this happens, because the prize pool is only zeroed inside a successful reveal.
+
+== The schedule ==
+
+The contract has no timer of its own. It pays a prize only when somebody calls those two functions — which means that without a scheduler, deposits sit and nobody can win, however well the contract works.
+
+That scheduler is <code>kulaswap/lotto-keeper.mjs</code>. It runs on a timer, decides what the current state calls for (commit, reveal, wait, clear, or nothing to draw), and holds no key of its own — an injected signer does the signing, with the drawing key fetched just-in-time and never written to disk. The secret salt is persisted between the two transactions, with file permissions 0600, and deleted the moment the reveal lands; if the process dies in between, the next run reads it and reveals.
+
+The cadence is '''twice a week'''. The draw history is kept in a separate file from the salt, so that clearing a stale salt cannot wipe the cadence record and trigger an immediate redraw.
+
+== Status ==
+
+The contract is deployed on PRANA mainnet and the keeper is built and tested. As of this writing the keeper has '''not''' been installed as a live timer, so draws are not yet running on their schedule, and the drawing role still sits on the deployer account. Those are the two steps between the current state and a lottery that pays on a cadence.
+
+== See also ==
+* [[KULA Community Fund]]
+* [[KulaSwap]]
+* [[MWALI]]
+* [[Tokens Are Not Money]]
+
+== Sources ==
+* <code>KULA_PAPER.md</code> §7, Sinks
+* <code>kulaswap/lotto-keeper.mjs</code> and its test suite
+
+== Coverage ==
+Describes the contract's mechanism and the keeper that schedules it, and states plainly which parts are live.

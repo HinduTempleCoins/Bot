@@ -1,0 +1,49 @@
+'''Silverware''' — sterling and silver-plated flatware and hollowware — was once a major end use for silver and is now a minor one. It is a useful case study in how a demand story can be true and misleading at the same time.
+
+== The claim, and what the data actually shows ==
+
+The common claim is that silverware demand has collapsed because people no longer set a silver table. For the '''West''' this is correct and then some. For the '''world''' it is wrong, and the global number hides it.
+
+[[Figure:silverware-global|Global silverware demand by year. Not a glide path.]]
+
+Global silverware demand did not glide downward over the last decade. It swung between roughly 31 and 74 million ounces, collapsing in 2020 and spiking in 2022. The swings are not a Western taste trend at all.
+
+== Silverware is an Indian market ==
+
+[[Figure:silverware-countries|Silverware demand by country. India is about two-thirds of the world.]]
+
+Broken out by country the picture is unambiguous:
+
+* '''India''' bought about 1,167 tons in 2023 — roughly '''68% of world demand'''. Indian silverware buying tracks the wedding and festival calendar and the silver price, which is what produces the swings in the global line.
+* '''Nepal''' adds about 8%, much of it in the same cultural pattern.
+* '''China''' fell from 188 tons to 65 tons over the decade, a decline of about 65%.
+* '''The United States''' bought about 43 tons — '''2.5% of the world''' — and has sat inside a five-ton band for ten straight years.
+
+So the American silver table did not die recently. It was already gone before this data series begins, and what remains is a flat, small, residual trade. The volatility everyone points at belongs to India.
+
+== What replaced it ==
+
+Stainless steel. Commercial stainless flatware spread from the 1920s and displaced silver and silver plate in ordinary households through the middle of the century, helped by the fact that it does not tarnish and survives a dishwasher. Silver plate had already displaced solid silver for the same reason of cost a generation earlier. By the time silverware demand is measured in the modern surveys, the substitution in the West is essentially complete.
+
+== Where the silver went instead ==
+
+Into industry. Silverware is now under 4% of world silver demand, while industrial fabrication is about 58% — solar cells, electrical contacts, brazing alloys and vehicle electronics. The metal that left the dining room went into the switchgear and the solar panel. See [[Precious Metals]].
+
+That is the accurate version of the popular claim: '''silverware did not die, it emigrated, and silver itself changed jobs.'''
+
+== A note on the numbers ==
+
+The series here is drawn from the ''World Silver Survey'' demand tables for 2013–2023 and Appendix 10 of the 2024 edition for the country split, with the latest reported annual figure shown separately. The 2024 figure is deliberately not plotted: the forecast and the eventual outturn disagree, and plotting a forecast beside actuals would put a number on the chart that nothing confirms.
+
+As an independent check, the country table is given in metric tons and the demand table in million ounces; converting the former reproduces the latter to within a rounding error, which is why both are trusted here.
+
+== See also ==
+* [[Precious Metals]]
+* [[The Gold-Silver Ratio]]
+
+== Sources ==
+* Metals Focus / The Silver Institute, ''World Silver Survey'' 2022 and 2024, demand tables and Appendix 10
+* <code>integrations/metals-market.mjs</code>
+
+== Coverage ==
+Covers silverware demand 2013–2023 by country and the substitution history in outline. Pre-2013 figures are not included: a century-scale numeric series was not available from the sources consulted.

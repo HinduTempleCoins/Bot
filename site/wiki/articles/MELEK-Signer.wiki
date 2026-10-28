@@ -1,0 +1,56 @@
+'''MELEK-Signer''' is the signing service that holds keys so that nothing else has to. Applications across the ecosystem — [[Posting on MELEK|the condenser]], [[SoapBox]], [[Pentecaust]], [[KulaSwap]] — ask MELEK-Signer to sign and broadcast on a user's behalf, and never handle a private key themselves.
+
+== Why it exists ==
+
+The alternative designs are each worse. Putting a private key in an application's environment means every deploy, every log line and every dependency is a place the key can leak. Asking users to paste a key into a web page trains them to do the single most dangerous thing in this ecosystem. MELEK-Signer centralises the risk in one small, auditable service with a policy engine in front of it, and leaves every other component with nothing worth stealing.
+
+The [[Hathor (AI Witness)|Bot]] repository is public and holds '''no''' private key material by construction. It calls MELEK-Signer with a scoped bearer token instead.
+
+== It is not Graphene-only ==
+
+A common misunderstanding is that the signer only handles the MELEK Graphene chain. It does not. It signs for both chains:
+
+{| class="wikitable"
+! Route !! Purpose
+|-
+| <code>POST /v1/broadcast</code> || Sign and broadcast a Graphene operation on [[MELEK Blockchain|MELEK]]
+|-
+| <code>POST /v1/evm/address</code> || Return the bearer's own [[PRANA Blockchain|PRANA]] address
+|-
+| <code>POST /v1/evm/sign</code> || Personal-sign a message, for a login challenge or off-chain proof
+|-
+| <code>POST /v1/evm</code> || Sign '''and send''' a PRANA transaction
+|}
+
+Every route uses the same token model: the bearer token resolves to exactly one account, and the signer will act only for that account. A token cannot be aimed at somebody else.
+
+== What this makes possible ==
+
+Because one identity reaches both chains, there is '''no bind step'''. A user's PRANA address is simply the one the signer already custodies for their MELEK account. Nothing has to be pasted, linked or confirmed across chains, and there is no wallet-connect flow to phish. Systems that need to know a user's PRANA address learn it at login — see <code>kulaswap/prana-address-registry.mjs</code>, which records only the address the signer itself returned for that token.
+
+This is the mechanism behind joining [[SoapBox]] and PRANA in one step, and it is why [[SoapBox Delegation Mining]] does not ask anyone to bind an address.
+
+== Key custody ==
+
+The custody boundary is strict and is stated in the project's security rules:
+
+* '''Owner key''' — offline, never in any repository or environment.
+* '''Active key''' — used only for the Witness's own operations. On the live host it is fetched just-in-time per run and never written to disk.
+* '''Posting key''' — for <code>comment</code> and <code>vote</code>.
+* '''User private keys''' — generated in the user's own browser at signup and never transmitted. The Witness never sees, requests or stores them.
+
+== Status ==
+
+Designed and specified; the live signer runs from a separate private repository, which is deliberate — the public Bot repository never holds signer code and never broadcasts by signing locally.
+
+== See also ==
+* [[Signing In to Post on MELEK]]
+* [[PRANA Blockchain]]
+* [[SoapBox Delegation Mining]]
+* [[Pentecaust]]
+
+== Sources ==
+* <code>MELEK_SIGNER.md</code> in the Bot repo, sections 3 and 4
+
+== Coverage ==
+Describes the signer's purpose, routes and custody model. Operational details of the live deployment are intentionally omitted.
