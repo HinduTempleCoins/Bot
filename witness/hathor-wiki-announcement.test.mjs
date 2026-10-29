@@ -78,8 +78,10 @@ test('⭐ the stated article count never overstates what is in the library', () 
     `the post claims more than ${ARTICLE_FLOOR} articles but the library holds ${liveSlugs.size}`);
   assert.ok(ARTICLE_FLOOR >= 250, 'the floor has fallen far behind the library — raise it');
   assert.ok(BODY.includes(`more than ${ARTICLE_FLOOR} articles`), 'the body must state the floor it exports');
-  assert.match(BODY, /13 subject\s*\n?\s*categories/);
-  assert.equal(CATEGORY_LINKS.length, 13);
+  // Derived, not hardcoded: a category added to the wiki used to leave this at a stale 13 while the
+  // library had 15, so the post undercounted itself and the announce-everything test failed instead.
+  assert.equal(CATEGORY_LINKS.length, CATEGORIES.length, 'every live category must be announced');
+  assert.match(BODY, new RegExp(`${CATEGORIES.length} subject\\s*\\n?\\s*categories`));
 });
 
 test('it asks for other writers and states the sourcing standard', () => {

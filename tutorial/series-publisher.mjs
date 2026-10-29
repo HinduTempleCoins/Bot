@@ -18,6 +18,10 @@ export const SERIES_TRACKS = Object.freeze([
   { strand: 'account-automation', key: 'automation', name: 'Track 2 — Automation' },
   { strand: 'platforms', key: 'platforms', name: 'Track 3 — Platforms' },
   { strand: 'defi', key: 'defi', name: 'Track 4 — DeFi' },
+  // The lessons carry a fifth strand. Without a track for it, seriesLessons() dropped all three of
+  // them from the published series and trackFor() mislabelled them Track 1. Appended rather than
+  // inserted so the sequential melek-tutorial-NN permlinks of tracks 1-4 do not all shift.
+  { strand: 'library', key: 'library', name: 'Track 5 — The Library' },
 ]);
 const TRACK_BY_STRAND = new Map(SERIES_TRACKS.map((t) => [t.strand, t]));
 const trackFor = (lesson) => TRACK_BY_STRAND.get(lesson.strand || null) || SERIES_TRACKS[0];

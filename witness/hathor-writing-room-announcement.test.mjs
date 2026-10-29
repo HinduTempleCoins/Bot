@@ -89,7 +89,10 @@ test('well-formed: title, permlink, balanced links, no placeholders', () => {
 test('⭐ the child-safety position is stated before the timeline and is not even-handed', () => {
   assert.match(BODY, /not going to be even-handed about/);
   assert.match(BODY, /against this without qualification/);
-  assert.match(BODY, /should outrank every other consideration/);
+  // The live copy says "a report about a child outranks every other consideration" — declarative,
+  // which is stronger than the "should outrank" this once asserted. Match either form so a tightening
+  // of the wording cannot fail a test whose job is to check the stance is there.
+  assert.match(BODY, /outranks? every other consideration/);
   assert.ok(BODY.indexOf('even-handed') < BODY.indexOf('Chris Baty'), 'position comes before the timeline');
 });
 

@@ -6,7 +6,7 @@ import {
 } from './series-publisher.mjs';
 import { LESSONS } from './lessons/index.mjs';
 
-test('series orders all lessons by track (core -> automation -> platforms -> defi)', () => {
+test('series orders all lessons by track (core -> automation -> platforms -> defi -> library)', () => {
   const ordered = seriesLessons();
   assert.equal(ordered.length, LESSONS.length);
   const strands = ordered.map((l) => l.strand || null);
@@ -18,9 +18,10 @@ test('series orders all lessons by track (core -> automation -> platforms -> def
     assert.ok(idx >= lastIdx - 0, 'strands appear in track order');
     lastIdx = Math.max(lastIdx, idx);
   }
-  // first is a core lesson, last is a defi lesson
+  // first is a core lesson, last is in the final track — derived, so adding a track cannot silently
+  // start dropping lessons again without this failing
   assert.equal(ordered[0].strand || null, null);
-  assert.equal(ordered[ordered.length - 1].strand, 'defi');
+  assert.equal(ordered[ordered.length - 1].strand, SERIES_TRACKS[SERIES_TRACKS.length - 1].strand);
 });
 
 test('permlinks are unique, lowercase, hyphenated, and numbered', () => {
