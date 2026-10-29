@@ -507,6 +507,100 @@ export function silverwareGlobalSvg() {
   return frame(W, H, 'Global Silverware Demand', '2013–2023 actual; 2025 is the latest reported figure. 2024 omitted — forecast and outturn disagree', b);
 }
 
+
+// ── DATA: 150 years ────────────────────────────────────────────────────────────────────────────────
+// MeasuringWorth: New York market gold price and the gold/silver ratio, annual, 1876-2025. Silver is
+// DERIVED as gold / ratio — MeasuringWorth publishes the ratio rather than a silver price, and that is
+// exactly how a silver price is recovered from it.
+//
+// WHY A SECOND SOURCE AT ALL. The World Bank series above starts in 1960, so it cannot show the gold
+// standard, and the whole point of a 150-year view is the part before the metal floated. The two
+// sources overlap for 66 years and agree: 2025 gold 3,450 here against 3,441.51 at the World Bank,
+// 2024 derived silver 28.48 against 28.27. Independent agreement on the overlap is the reason the
+// pre-1960 half is trusted at all.
+export const Y150 = [1876, 1877, 1878, 1879, 1880, 1881, 1882, 1883, 1884, 1885, 1886, 1887, 1888, 1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896, 1897, 1898, 1899, 1900, 1901, 1902, 1903, 1904, 1905, 1906, 1907, 1908, 1909, 1910, 1911, 1912, 1913, 1914, 1915, 1916, 1917, 1918, 1919, 1920, 1921, 1922, 1923, 1924, 1925, 1926, 1927, 1928, 1929, 1930, 1931, 1932, 1933, 1934, 1935, 1936, 1937, 1938, 1939, 1940, 1941, 1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+export const GOLD150 = [23.05, 21.66, 20.84, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 20.67, 24.44, 34.94, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 35.0, 39.26, 41.51, 36.41, 41.25, 58.6, 97.81, 159.74, 161.49, 125.32, 148.31, 193.55, 307.5, 612.56, 459.64, 375.91, 424.0, 360.66, 317.66, 368.24, 447.95, 438.31, 382.58, 384.93, 363.29, 344.97, 360.91, 385.42, 385.5, 389.09, 332.39, 295.24, 279.91, 280.1, 272.22, 311.33, 364.8, 410.52, 446.0, 606.0, 699.0, 874.0, 975.0, 1227.0, 1572.0, 1700.0, 1415.0, 1269.0, 1163.0, 1252.0, 1260.0, 1270.0, 1390.0, 1770.0, 1800.0, 1800.0, 1940.0, 2410.0, 3450.0];
+export const RATIO150 = [17.75, 17.2, 17.92, 18.39, 18.05, 18.25, 18.2, 18.64, 18.61, 19.41, 20.78, 21.1, 22.0, 22.1, 19.75, 20.92, 23.72, 26.49, 32.56, 31.6, 30.59, 34.2, 35.03, 34.36, 33.33, 34.68, 39.15, 38.1, 35.7, 33.87, 30.54, 31.24, 38.64, 39.74, 38.22, 38.33, 33.62, 34.19, 37.37, 40.48, 30.78, 24.61, 21.0, 18.44, 20.28, 32.76, 30.43, 31.69, 30.8, 29.78, 33.11, 36.47, 35.34, 38.78, 53.74, 71.25, 73.29, 69.83, 72.36, 54.19, 77.09, 77.44, 80.39, 88.84, 99.76, 99.73, 90.57, 77.67, 77.67, 67.4, 43.67, 48.73, 47.07, 48.61, 47.14, 39.12, 41.16, 41.04, 41.01, 39.24, 38.5, 38.5, 39.27, 38.34, 38.27, 37.82, 32.22, 27.34, 27.04, 27.04, 27.04, 22.56, 18.29, 23.16, 20.54, 26.66, 34.75, 38.21, 33.9, 36.51, 28.76, 32.05, 35.8, 27.69, 29.66, 43.65, 47.24, 37.03, 44.26, 51.68, 67.25, 63.84, 66.95, 69.49, 79.78, 89.83, 87.47, 83.85, 72.79, 74.78, 74.89, 67.91, 53.24, 53.26, 55.96, 61.95, 67.32, 74.22, 61.3, 60.7, 52.2, 51.91, 58.17, 66.27, 60.64, 44.75, 53.58, 59.31, 66.38, 73.98, 72.96, 73.76, 80.77, 85.97, 86.3, 71.58, 82.93, 80.25, 84.62, 85.95];
+export const SILVER150 = [1.2986, 1.2593, 1.1629, 1.124, 1.1452, 1.1326, 1.1357, 1.1089, 1.1107, 1.0649, 0.9947, 0.9796, 0.9395, 0.9353, 1.0466, 0.988, 0.8714, 0.7803, 0.6348, 0.6541, 0.6757, 0.6044, 0.5901, 0.6016, 0.6202, 0.596, 0.528, 0.5425, 0.579, 0.6103, 0.6768, 0.6617, 0.5349, 0.5201, 0.5408, 0.5393, 0.6148, 0.6046, 0.5531, 0.5106, 0.6715, 0.8399, 0.9843, 1.1209, 1.0192, 0.631, 0.6793, 0.6523, 0.6711, 0.6941, 0.6243, 0.5668, 0.5849, 0.533, 0.3846, 0.2901, 0.282, 0.35, 0.4829, 0.6459, 0.454, 0.452, 0.4354, 0.394, 0.3508, 0.3509, 0.3864, 0.4506, 0.4506, 0.5193, 0.8015, 0.7182, 0.7436, 0.72, 0.7425, 0.8947, 0.8503, 0.8528, 0.8535, 0.8919, 0.9091, 0.9091, 0.8913, 0.9129, 0.9146, 0.9254, 1.0863, 1.2802, 1.2944, 1.2944, 1.2944, 1.5514, 2.1465, 1.7923, 1.7726, 1.5473, 1.6863, 2.5598, 4.7121, 4.4232, 4.3574, 4.6275, 5.4064, 11.1051, 20.6527, 10.5301, 7.9575, 11.4502, 8.1487, 6.1467, 5.4757, 7.0168, 6.5468, 5.5055, 4.8249, 4.0442, 3.9439, 4.3042, 5.295, 5.1551, 5.1955, 4.8946, 5.5455, 5.2555, 5.0054, 4.3942, 4.6246, 4.9151, 6.6969, 7.3476, 11.6092, 13.4656, 15.0249, 14.7125, 20.2342, 35.1285, 31.7283, 23.8577, 19.1172, 15.7205, 17.1601, 17.0824, 15.7237, 16.1684, 20.5098, 25.1467, 21.7051, 24.1745, 28.4803, 40.1396];
+
+/** The monetary eras the chart annotates. Gold was a PRICE FIXED BY LAW for most of this span. */
+export const ERAS = [
+  { from: 1876, to: 1932, label: 'classical gold standard', note: '$20.67 fixed' },
+  { from: 1934, to: 1967, label: 'Bretton Woods', note: '$35 fixed' },
+  { from: 1971, to: 2025, label: 'floating', note: 'Nixon closes the gold window' },
+];
+
+// ── PANEL 10: 150 years ────────────────────────────────────────────────────────────────────────────
+/**
+ * The long view, and the only one that shows what a FIXED price looks like. Two flat shelves —
+ * $20.67 and $35 — are not a quiet market; they are a legal price. Everything after 1971 is a market.
+ */
+export function history150Svg() {
+  const W = 940, H = 500, L = 68, R = 150, T = 96, B = 62;
+  const y0 = Y150[0], y1 = 2026;
+  const sp = { gold: SPOT.gold.price, silver: SPOT.silver.price };
+  const all = [...GOLD150, ...SILVER150, sp.gold, sp.silver].filter((v) => v > 0);
+  const lo = Math.log10(Math.min(...all)), hi = Math.log10(Math.max(...all) * 1.3);
+  const X = (y) => L + (y - y0) / (y1 - y0) * (W - L - R);
+  const Y = (v) => H - B - (Math.log10(Math.max(v, 1e-6)) - lo) / (hi - lo) * (H - T - B);
+  let b = '';
+  for (let p = Math.floor(lo); p <= Math.ceil(hi); p += 1) {
+    const v = Math.pow(10, p); const y = Y(v);
+    if (y < T - 2 || y > H - B + 2) continue;
+    b += `<line x1="${L}" y1="${f(y)}" x2="${W - R}" y2="${f(y)}" stroke="${LINE}" stroke-dasharray="2 4"/>`;
+    b += text(L - 8, f(y) + 4, v >= 1 ? `$${money(v, 0)}` : `$${v}`, { anchor: 'end', size: 10, fill: MUT, font: MONO });
+  }
+  // era bands, because a fixed price is not a market and the chart must say so
+  ERAS.forEach((e, i) => {
+    const x0 = X(e.from), x1 = X(Math.min(e.to, 2025));
+    if (i < 2) b += `<rect x="${f(x0)}" y="${T}" width="${f(x1 - x0)}" height="${H - T - B}" fill="${INK}" opacity="0.035"/>`;
+    b += text((x0 + x1) / 2, T - 24, e.label, { size: 10.5, weight: 700, fill: MUT });
+    b += text((x0 + x1) / 2, T - 11, e.note, { size: 9.5, fill: MUT, op: 0.9 });
+    if (i) b += `<line x1="${f(x0)}" y1="${T - 6}" x2="${f(x0)}" y2="${H - B}" stroke="${INK}" stroke-width="1" opacity="0.28" stroke-dasharray="3 3"/>`;
+  });
+  for (let y = 1880; y <= 2020; y += 20) {
+    b += text(X(y), H - B + 18, String(y), { size: 10.5, fill: MUT, font: MONO });
+  }
+  b += text(X(2026), H - B + 18, '2026', { size: 10.5, fill: MUT, font: MONO });
+  b += `<line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" stroke="${INK}" opacity="0.4"/>`;
+  [['gold', GOLD150], ['silver', SILVER150]].forEach(([m, series]) => {
+    const d = series.map((v, i) => `${i ? 'L' : 'M'}${f(X(Y150[i]))} ${f(Y(v))}`).join(' ');
+    b += `<path d="${d}" fill="none" stroke="${METAL_COLOUR[m]}" stroke-width="2.2" stroke-linejoin="round"/>`;
+    const last = series[series.length - 1];
+    b += `<path d="M${f(X(2025))} ${f(Y(last))} L${f(X(2026))} ${f(Y(sp[m]))}" fill="none" stroke="${METAL_COLOUR[m]}" stroke-width="2" stroke-dasharray="4 3" opacity="0.8"/>`;
+    b += `<circle cx="${f(X(2026))}" cy="${f(Y(sp[m]))}" r="4.5" fill="${METAL_COLOUR[m]}" stroke="${PAPER}" stroke-width="1.5"/>`;
+    b += text(W - R + 12, f(Y(sp[m])) + 4, `${METAL_NAME[m]}  $${money(sp[m], 0)}`, { anchor: 'start', size: 11.5, weight: 700, fill: METAL_COLOUR[m], font: MONO });
+  });
+  b += text(W / 2, H - 14, 'Gold: New York market price. Silver: derived from the published gold/silver ratio. Logarithmic.', { size: 10, fill: MUT });
+  return frame(W, H, 'One Hundred and Fifty Years', `${y0}\u20132026 \u2014 two flat shelves are a price fixed by law, not a quiet market`, b);
+}
+
+/** The ratio across the same span: 17.75 in 1876, 85.95 in 2025. That is a demonetisation. */
+export function ratio150Svg() {
+  const W = 940, H = 360, L = 60, R = 40, T = 84, B = 58;
+  const y0 = Y150[0], y1 = 2026;
+  const vmax = Math.max(...RATIO150, RATIO.now) * 1.12;
+  const X = (y) => L + (y - y0) / (y1 - y0) * (W - L - R);
+  const Y = (v) => H - B - (v / vmax) * (H - T - B);
+  let b = '';
+  for (let g = 0; g <= 100; g += 20) {
+    b += `<line x1="${L}" y1="${f(Y(g))}" x2="${W - R}" y2="${f(Y(g))}" stroke="${LINE}" stroke-dasharray="2 4"/>`;
+    b += text(L - 8, f(Y(g)) + 4, String(g), { anchor: 'end', size: 10, fill: MUT, font: MONO });
+  }
+  const d = RATIO150.map((v, i) => `${i ? 'L' : 'M'}${f(X(Y150[i]))} ${f(Y(v))}`).join(' ');
+  b += `<path d="${d}" fill="none" stroke="${METAL_COLOUR.silver}" stroke-width="2.2" stroke-linejoin="round"/>`;
+  b += `<path d="M${f(X(2025))} ${f(Y(RATIO150[RATIO150.length - 1]))} L${f(X(2026))} ${f(Y(RATIO.now))}" fill="none" stroke="${METAL_COLOUR.silver}" stroke-width="2" stroke-dasharray="4 3"/>`;
+  b += `<circle cx="${f(X(2026))}" cy="${f(Y(RATIO.now))}" r="4.5" fill="${METAL_COLOUR.silver}"/>`;
+  // the bimetallic anchor: ~15:1 was written into coinage law
+  b += `<line x1="${L}" y1="${f(Y(15))}" x2="${W - R}" y2="${f(Y(15))}" stroke="${METAL_COLOUR.gold}" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+  b += text(W - R - 6, f(Y(15)) - 7, '15:1 \u2014 the old bimetallic coinage ratio', { anchor: 'end', size: 10, fill: METAL_COLOUR.gold });
+  for (let y = 1880; y <= 2020; y += 20) b += text(X(y), H - B + 18, String(y), { size: 10.5, fill: MUT, font: MONO });
+  b += text(X(2026), H - B + 18, '2026', { size: 10.5, fill: MUT, font: MONO });
+  b += text(L, T - 18, 'ounces of silver per ounce of gold', { anchor: 'start', size: 10, fill: MUT });
+  b += text(W / 2, H - 16, 'Silver left the monetary system and never came back. The ratio is the record of it.', { size: 11, weight: 600 });
+  return frame(W, H, 'The Ratio, 1876\u20132026', 'from 17.75 to 85.95 \u2014 silver demonetised', b);
+}
+
 // ── the registry + the assembled page ───────────────────────────────────────────────────────────────
 export const CHARTS = {
   'metals-board': () => spotBoardSvg(),
@@ -518,6 +612,8 @@ export const CHARTS = {
   'metals-decades': () => decadeTableSvg(),
   'silverware-countries': () => silverwareByCountrySvg(),
   'silverware-global': () => silverwareGlobalSvg(),
+  'metals-150y': () => history150Svg(),
+  'ratio-150y': () => ratio150Svg(),
 };
 export const hasChart = (n) => Object.prototype.hasOwnProperty.call(CHARTS, String(n || '').toLowerCase());
 export function chartSvg(name) {
@@ -527,7 +623,7 @@ export function chartSvg(name) {
 
 /** Every panel, in broker reading order, as one HTML fragment. */
 export function marketPageHtml({ asof = ASOF } = {}) {
-  const order = ['metals-board', 'gold-silver-ratio', 'metals-drawdown', 'silver-demand', 'silver-demand-change', 'silverware-global', 'silverware-countries', 'metals-history', 'metals-decades'];
+  const order = ['metals-board', 'gold-silver-ratio', 'metals-drawdown', 'silver-demand', 'silver-demand-change', 'silverware-global', 'silverware-countries', 'metals-history', 'metals-150y', 'ratio-150y', 'metals-decades'];
   return `<div class="metals-market" data-asof="${esc(asof)}">`
     + order.map((n) => `<figure class="metals-panel">${chartSvg(n)}</figure>`).join('')
     + '</div>';
