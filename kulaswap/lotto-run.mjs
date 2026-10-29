@@ -67,6 +67,21 @@ if (DRY) {
   process.exit(0);
 }
 if (!TOKEN) { console.log('no MELEK_SIGNER_TOKEN'); process.exit(1); }
-const r = await tick({ contract, provider });
+
+// COMPLETE THE WHOLE DRAW IN ONE RUN. The reveal is legal ~3 blocks after the commit, which at ~10s
+// blocks is about half a minute — so a single invocation can commit, wait, and reveal. The earlier
+// design relied on a 10-MINUTE TIMER to carry those two steps across separate runs, which meant 1,008
+// wake-ups a week to perform two draws. That was a frequent timer compensating for a keeper that
+// could not finish its own job. It finishes it here instead, and the timer only has to decide WHEN a
+// draw happens, not nurse one along.
+const DEADLINE_MS = 8 * 60 * 1000;          // generous: the reveal window is ~43 min at 10s blocks
+const started = Date.now();
+let r = await tick({ contract, provider });
 console.log(JSON.stringify(r));
+while (r.ok && (r.action === 'commit' || r.action === 'wait') && Date.now() - started < DEADLINE_MS) {
+  await new Promise((s) => setTimeout(s, 15000));
+  r = await tick({ contract, provider });
+  console.log(JSON.stringify(r));
+  if (r.action === 'reveal' || r.action === 'clear') break;
+}
 process.exit(r.ok ? 0 : 1);
