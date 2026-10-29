@@ -49,8 +49,16 @@ fi
 # with no trailing character) is still caught — a plain [^alnum] boundary
 # misses end-of-line because grep matches line content sans newline.
 # SECURITY.md / OPERATOR.md document this pattern; allow it there.
+#
+# site/melek-extras/melek-chain.js is also allowed, and ONLY that one path. It is a vendored
+# webpack UMD build (window.MelekChain, 685KB minified across 29 lines) emitted by the
+# webpack.config.js beside it. The single match inside it is the base58 codec's own self-test,
+# which pairs a published test WIF with a BLT8... public key to check encode/decode round-trips —
+# library test data, not an operator key, and not editable without rebuilding the bundle. Verified
+# by reading the match in context before allowing it. This exclusion is a filename match, so a real
+# key committed anywhere else — including elsewhere in site/melek-extras/ — still fails the build.
 
-wif_hits=$(git ls-files | xargs grep -lE "(^|[^[:alnum:]])5[HJK][1-9A-HJ-NP-Za-km-z]{49}([^[:alnum:]]|$)" 2>/dev/null | grep -v '^SECURITY\.md$' | grep -v '^OPERATOR\.md$' || true)
+wif_hits=$(git ls-files | xargs grep -lE "(^|[^[:alnum:]])5[HJK][1-9A-HJ-NP-Za-km-z]{49}([^[:alnum:]]|$)" 2>/dev/null | grep -v '^SECURITY\.md$' | grep -v '^OPERATOR\.md$' | grep -v '^site/melek-extras/melek-chain\.js$' || true)
 if [[ -n "$wif_hits" ]]; then
   errfail "possible WIF private key pattern found in tracked file(s):"
   echo "$wif_hits" >&2
