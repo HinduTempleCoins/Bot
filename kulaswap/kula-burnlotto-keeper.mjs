@@ -15,7 +15,11 @@ import { ethers } from 'ethers';
 const RPC = 'https://rpc.prana.melek.salon';
 const SIGNER = (process.env.MELEK_SIGNER_URL || 'https://signer.melek.salon').replace(/\/+$/, '');
 const TOKEN = process.env.MELEK_SIGNER_TOKEN;
-const LOTTO = process.env.KULA_BURNLOTTO || '0x01e6a59A305c48D614C97c1033c9d191948Fc07a';
+// The LIVE BurnLotto. 0x01e6a59A… is an earlier one, paired with an earlier MWALI
+// (0x4ABC82E9…), still holding its own 10,000 KULA and 4 unredeemed tickets. Keeping that address
+// here meant a deploy from this repo would repoint the keeper at the dead pair and leave the live
+// lottery with no keeper at all — the box had already been corrected by hand.
+const LOTTO = process.env.KULA_BURNLOTTO || '0x85E69FA632E1a56f47eAD5B6cc977561B7eb18aD';
 const STATE = process.env.BURNLOTTO_STATE || '/var/lib/melek-bot/burnlotto.json';
 const INTERVAL_MS = Number(process.env.BURNLOTTO_INTERVAL_MS || 3.5 * 24 * 3600 * 1000);  // 2x/week
 const DRY = process.argv.includes('--dry');

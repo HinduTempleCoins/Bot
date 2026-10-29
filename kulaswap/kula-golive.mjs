@@ -7,6 +7,20 @@ const SIGNER = (process.env.MELEK_SIGNER_URL || 'https://signer.melek.salon').re
 const TOKEN = process.env.MELEK_SIGNER_TOKEN;
 const DRY = process.argv.includes('--dry');
 
+// SUPERSEDED — this is the one-shot that brought the FIRST gauge/lotto pair up, and both of its
+// targets are dead ends now. 0x704751bc… is the single-pair gauge, replaced by the five-pool
+// MwaliMultiGauge at 0x98d0AF33…, whose stake() takes a pool id this script does not pass. 0x01e6a59A…
+// is the earlier BurnLotto, still holding its own 10,000 KULA against an earlier MWALI. Running this
+// today would approve and stake LP into a contract nothing reads and seed a pot nobody draws, so it
+// refuses unless you really mean it. Live staking is stake(pid, amount) on the multi-gauge.
+if (!process.env.I_MEAN_IT) {
+  console.log('kula-golive.mjs is superseded and its gauge/lotto addresses are dead.');
+  console.log('The live gauge is 0x98d0AF33C78133Ae7791330B7a28034ce85AbB59 — stake(pid, amount).');
+  console.log('The live lottery is 0x85E69FA632E1a56f47eAD5B6cc977561B7eb18aD.');
+  console.log('Set I_MEAN_IT=1 only if you are deliberately touching the retired pair.');
+  process.exit(0);
+}
+
 const LP = '0x3fC307dEa06667f5a7a640Ec0aBb950EacC4B8C2';
 const KULA = '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631';
 const GAUGE = '0x704751bc51f694a59A514aeF267bD6898ec986B4';
