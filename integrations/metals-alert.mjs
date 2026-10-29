@@ -102,12 +102,38 @@ export function assess({ gold = [], silver = [], threshold = THRESHOLD_PCT, disa
   return hit || out[0] || { alert: false, reason: 'no quotes' };
 }
 
-/** One alert per metal per direction per day — a watcher that repeats itself gets muted by readers. */
-export function alreadyPosted(state, metal, changePct, { now = Date.now() } = {}) {
+/**
+ * ONE POST PER EPISODE, not per interval.
+ *
+ * ⚠ A plain time-based mute is the wrong shape here and it took being asked to see it. If silver drops
+ * 8% and the mute lasts 20 hours, then 20 hours later the rolling 24h window may STILL read −8% — the
+ * same unchanged event — and it posts again. The reader hears about one move twice, which is exactly
+ * the thing a frequent checker is accused of.
+ *
+ * So the suppression LATCHES on the episode. Once a metal has alerted in a direction it stays silent
+ * until the move RESOLVES — the 24h change comes back inside the threshold — and only then may a fresh
+ * move alert again. That decouples the two settings completely: check as often as you like, because
+ * the number of posts depends on how many distinct moves happen, not on how often you looked.
+ */
+export function alreadyPosted(state, metal, changePct, { now = Date.now(), threshold = THRESHOLD_PCT } = {}) {
   const k = `${metal}:${changePct >= 0 ? 'up' : 'down'}`;
-  const last = state && state[k];
-  if (!last) return false;
-  return (now - Number(last)) < 20 * 3600 * 1000;
+  const e = state && state[k];
+  if (!e) return false;
+  if (typeof e === 'number') return (now - e) < 20 * 3600 * 1000;   // legacy state, still honoured
+  return !!e.latched;
+}
+
+/** Clear the latch for any metal whose move has come back inside the threshold. Returns a new state. */
+export function releaseLatches(state = {}, readings = [], { threshold = THRESHOLD_PCT } = {}) {
+  const out = { ...state };
+  for (const { metal, changePct } of readings) {
+    if (!Number.isFinite(changePct)) continue;
+    if (Math.abs(changePct) < threshold) {
+      delete out[`${metal}:up`];
+      delete out[`${metal}:down`];
+    }
+  }
+  return out;
 }
 
 const esc = (s) => String(s == null ? '' : s);
@@ -137,16 +163,25 @@ export async function tick({ post = null, now = Date.now(), ...opts } = {}) {
   const q = await fetchQuotes(opts);
   if (!q) return { ok: false, reason: 'no quotes — refusing to guess' };
   const verdict = assess({ ...q, ...opts });
+
+  // Every pass, release the latch on anything that has calmed down — this is what lets a LATER move
+  // alert again, and it has to run even on a quiet tick or the latch would never clear.
+  const readings = [
+    ...(q.gold.length ? [{ metal: 'gold', changePct: q.gold.reduce((t, x) => t + x.changePct, 0) / q.gold.length }] : []),
+    ...(q.silver.length ? [{ metal: 'silver', changePct: q.silver[0].changePct }] : []),
+  ];
+  let state = releaseLatches(loadState(opts), readings, opts);
+  saveState(state, opts);
+
   if (!verdict.alert) return { ok: true, posted: false, ...verdict };
-  const state = loadState(opts);
   if (alreadyPosted(state, verdict.metal, verdict.changePct, { now })) {
-    return { ok: true, posted: false, ...verdict, reason: 'already posted this move today' };
+    return { ok: true, posted: false, ...verdict, reason: 'already posted this move — silent until it resolves' };
   }
   const draft = composePost(verdict);
   if (!post) return { ok: true, posted: false, ...verdict, draft, reason: 'no publisher supplied (dry)' };
   try {
     const res = await post(draft);
-    state[`${verdict.metal}:${verdict.changePct >= 0 ? 'up' : 'down'}`] = now;
+    state[`${verdict.metal}:${verdict.changePct >= 0 ? 'up' : 'down'}`] = { latched: true, at: now, pct: verdict.changePct };
     saveState(state, opts);
     return { ok: true, posted: true, ...verdict, result: res };
   } catch (e) {

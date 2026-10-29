@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
 import { assess, composePost, alreadyPosted, fetchQuotes, tick, __setFetch,
-         THRESHOLD_PCT, loadState, saveState } from './metals-alert.mjs';
+         THRESHOLD_PCT, loadState, saveState, releaseLatches } from './metals-alert.mjs';
 
 const memFs = () => { const f = {}; return { files: f, fs: { read: (p) => (p in f ? f[p] : null), write: (p, s) => { f[p] = s; return true; } } }; };
 const quotes = (g, s) => ({ gold: g.map((c, i) => ({ price: 4000 + i, changePct: c })), silver: s.map((c) => ({ price: 54, changePct: c })) });
@@ -71,13 +71,38 @@ test('exactly at the threshold counts as a move', () => {
   assert.equal(assess(quotes([4.99, 4.99], [0])).alert, false);
 });
 
-test('the same move is not posted twice in a day', () => {
+test('a latched move stays silent, and the other direction is a different event', () => {
+  const st = { 'gold:up': { latched: true, at: 1 } };
+  assert.equal(alreadyPosted(st, 'gold', 6), true);
+  assert.equal(alreadyPosted(st, 'gold', -6), false, 'a reversal is a new event');
+  assert.equal(alreadyPosted(st, 'silver', 6), false);
+});
+
+test('⚠ a latch does NOT expire on a clock — an ongoing move never re-posts', () => {
+  const st = { 'gold:up': { latched: true, at: 1_700_000_000_000 } };
+  // a week later, still latched, because nothing says the move has resolved
+  assert.equal(alreadyPosted(st, 'gold', 6, { now: 1_700_000_000_000 + 7 * 24 * 3600_000 }), true);
+});
+
+test('legacy numeric state is still honoured and still expires', () => {
   const now = 1_700_000_000_000;
-  const st = { 'gold:up': now - 3600_000 };
-  assert.equal(alreadyPosted(st, 'gold', 6, { now }), true);
-  assert.equal(alreadyPosted(st, 'gold', -6, { now }), false, 'the other direction is a different event');
-  assert.equal(alreadyPosted(st, 'silver', 6, { now }), false);
-  assert.equal(alreadyPosted(st, 'gold', 6, { now: now + 21 * 3600_000 }), false, 'a day later it may post again');
+  assert.equal(alreadyPosted({ 'gold:up': now - 3600_000 }, 'gold', 6, { now }), true);
+  assert.equal(alreadyPosted({ 'gold:up': now - 21 * 3600_000 }, 'gold', 6, { now }), false);
+});
+
+test('⚠ the latch releases once the move comes back inside the threshold', () => {
+  const st = { 'gold:up': { latched: true, at: 1 }, 'silver:down': { latched: true, at: 1 } };
+  // gold has calmed to +0.4%, silver is still -9%
+  const out = releaseLatches(st, [{ metal: 'gold', changePct: 0.4 }, { metal: 'silver', changePct: -9 }]);
+  assert.equal(out['gold:up'], undefined, 'gold may alert again on a NEW move');
+  assert.ok(out['silver:down'], 'silver is still moving, so it stays silent');
+});
+
+test('releaseLatches ignores junk rather than clearing everything', () => {
+  const st = { 'gold:up': { latched: true, at: 1 } };
+  assert.ok(releaseLatches(st, [{ metal: 'gold', changePct: NaN }])['gold:up'], 'a bad reading clears nothing');
+  assert.ok(releaseLatches(st, [])['gold:up']);
+  assert.deepEqual(releaseLatches(), {});
 });
 
 test('the post states the move and refuses to explain it', () => {
@@ -143,6 +168,27 @@ test('tick publishes once and records it', async () => {
   const r2 = await tick({ post, fs: m.fs, file: 'st' });
   assert.equal(r2.posted, false, 'the second pass does not repeat it');
   assert.equal(sent.length, 1);
+
+  // ⚠ the move CONTINUES for many more checks — still exactly one post
+  for (let i = 0; i < 40; i += 1) await tick({ post, fs: m.fs, file: 'st' });
+  assert.equal(sent.length, 1, '40 further checks on an ongoing move produced no further posts');
+
+  // now it calms down, which releases the latch
+  __setFetch(async () => ({ json: async () => ({
+    'pax-gold': { usd: 4100, usd_24h_change: 0.3 },
+    'tether-gold': { usd: 4098, usd_24h_change: 0.35 },
+  }) }));
+  await tick({ post, fs: m.fs, file: 'st' });
+  assert.equal(sent.length, 1, 'a quiet tick posts nothing');
+
+  // and a FRESH move alerts again
+  __setFetch(async () => ({ json: async () => ({
+    'pax-gold': { usd: 4500, usd_24h_change: 7.1 },
+    'tether-gold': { usd: 4495, usd_24h_change: 7.0 },
+  }) }));
+  const r3 = await tick({ post, fs: m.fs, file: 'st' });
+  assert.equal(r3.posted, true, 'a new episode is reported');
+  assert.equal(sent.length, 2);
   __setFetch(null);
 });
 
