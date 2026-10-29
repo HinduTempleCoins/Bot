@@ -63,10 +63,14 @@ test('submitPrice stores a submission and returns a record-only rewardIntent', a
   assert.equal(r.rewardIntent.submissionId, r.id);
   assert.ok(r.rewardIntent.amount > 0);
   // no key material anywhere in the returned object
-  const blob = JSON.stringify(r).toLowerCase();
-  assert.ok(!blob.includes('wif'));
-  assert.ok(!blob.includes('privatekey'));
-  assert.ok(!blob.includes('5j')); // common WIF prefix
+  const blob = JSON.stringify(r);
+  assert.ok(!/wif/i.test(blob));
+  assert.ok(!/privatekey/i.test(blob));
+  // A WIF is 51 base58 chars beginning 5H/5J/5K — match that SHAPE, not the two characters "5j".
+  // The old check was `blob.toLowerCase().includes('5j')`, which also matched a random submission id
+  // that happened to contain those two characters: measured at 0.5% of submissions, so the suite
+  // failed about 1 run in 200 on nothing at all. It took down a CI run on 2026-10-29.
+  assert.doesNotMatch(blob, /5[HJK][1-9A-HJ-NP-Za-km-z]{48,}/);
 });
 
 test('submitPrice rejects absurd and negative/zero prices', async () => {
