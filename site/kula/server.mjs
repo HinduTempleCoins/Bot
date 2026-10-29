@@ -15,6 +15,7 @@ import { createServer } from 'node:http';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { finishPage } from '../../integrations/soapbox/page-meta.mjs';
+import { voteEntitlement } from '../../integrations/delegation-program.mjs';
 
 let _fetch = (...a) => globalThis.fetch(...a);
 export function __setFetch(fn) { _fetch = fn || ((...a) => globalThis.fetch(...a)); }
@@ -27,6 +28,9 @@ const PATH_PREFIX = (process.env.PATH_PREFIX || '').replace(/\/+$/, '');
 const BASE_URL = (process.env.BASE_URL || 'https://melek.salon/kula').replace(/\/+$/, '');
 const WIKI = 'https://wiki.soapbox.community/wiki/';
 const RC_GIFTERS = new Set((process.env.KULA_RC_GIFTERS || 'onboarder').split(',').map((x) => x.trim()).filter(Boolean));
+// House accounts: their delegation funds the pool and must not claim the members' share of the vote
+// budget. @hathor deposits and lends weight as the operator, not as a member competing for votes.
+const HOUSE = (process.env.KULA_HOUSE_ACCOUNTS || `${FUND},hathor`).split(',').map((x) => x.trim().toLowerCase()).filter(Boolean);
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const q = (page, what) => `<a class=q href="${WIKI}${page}" target=_blank rel=noopener title="Help: ${esc(what)}" aria-label="Help: ${esc(what)}">?</a>`;
@@ -185,10 +189,30 @@ button{font:inherit;font-weight:700;padding:9px 16px;border-radius:8px;border:0;
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}td.n,th.n{text-align:right}
 .q{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#1a1d24;color:#fff!important;font:700 12px/1 system-ui,sans-serif;text-decoration:none;vertical-align:middle;margin-left:4px}
 .ok{color:#15803d}.bad{color:#b42318}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
+.tabs a{padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:inherit;text-decoration:none;font-size:14px;font-weight:600}
+.tabs a[aria-current=page]{background:var(--gold);color:#171f24;border-color:var(--gold)}
 @media(max-width:600px){table{display:block;overflow-x:auto}}
 </style></head><body>
 <header><a class=brand href="https://melek.salon/explore">MELEK</a><a href="https://melek.salon/trending">All Posts</a><a href="https://engine.melek.salon/">Trade</a><a href="https://wallet.melek.salon/~witnesses">Vote</a><a href="https://kula.money/">KulaSwap</a></header>
 <main>${body}</main><script src="https://pentecaust.com/translate.js" defer></script></body></html>`;
+}
+
+
+/** The earn loop as one tab strip. Delegating, curating, trading, the lottery and mining were each
+ *  reachable but linked from nowhere shared, so they read as five projects instead of one system. */
+function tabs(current) {
+  const items = [
+    ['fund', 'The Fund', BASE_URL],
+    ['trail', 'Curation trail', 'https://vote.melek.salon'],
+    ['mining', 'Delegation mining', `${WIKI}SoapBox_Delegation_Mining`],
+    ['swap', 'KulaSwap', 'https://kula.money/'],
+    ['lotto', 'Lottery', 'https://kula.money/lotto.html'],
+    ['pool', 'Mining pool', 'https://pool.soapbox.community/'],
+  ];
+  return `<nav class=tabs aria-label="KULA">${items.map(([k, label, url]) => (k === current
+    ? `<a href="${esc(url)}" aria-current=page>${esc(label)}</a>`
+    : `<a href="${esc(url)}">${esc(label)}</a>`)).join('')}</nav>`;
 }
 
 export async function renderFund() {
@@ -200,9 +224,20 @@ export async function renderFund() {
   const vpm = vestsPerMelek(props);
   const mp = (v) => (vpm ? (v / vpm) : 0).toLocaleString('en-US', { maximumFractionDigits: 3 });
   const members = membersFrom(hist || []);
+  // What each delegation is worth in curation weight. Pure math over the same chain-read members,
+  // so the column below is recomputable by anyone from public ops.
+  const ent = voteEntitlement({ delegations: members }, { exclude: HOUSE });
+  const entBy = new Map(ent.rows.map((r) => [r.account, r]));
   const ownMp = a ? mp(num(a.vesting_shares)) : '—', recvMp = a ? mp(num(a.received_vesting_shares)) : '—';
-  const rows = members.map((m) => `<tr><td><a href="https://melek.salon/@${esc(m.account)}">@${esc(m.account)}</a></td><td class=n>${esc(m.deposited.toFixed(3))}</td><td class=n>${esc(mp(m.vests))}</td></tr>`).join('');
+  const rows = members.map((m) => {
+    const e = entBy.get(String(m.account).toLowerCase());
+    const isHouse = HOUSE.includes(String(m.account).toLowerCase());
+    const vote = e ? `${esc(e.weightPct.toFixed(2))}% &times; ${esc(String(e.postsPerWeek))}/wk`
+      : `<span class=mut>${isHouse ? 'house &mdash; funds the pool' : 'delegate to earn'}</span>`;
+    return `<tr><td><a href="https://melek.salon/@${esc(m.account)}">@${esc(m.account)}</a></td><td class=n>${esc(m.deposited.toFixed(3))}</td><td class=n>${esc(mp(m.vests))}</td><td class=n>${vote}</td></tr>`;
+  }).join('');
   return layout('KULA Community Fund — MELEK', `
+${tabs('fund')}
 <h1>KULA Community Fund ${q('KULA_Community_Fund', 'the KULA fund')}</h1>
 <p class=mut>A community-funded pool on MELEK, run by the account <a href="https://melek.salon/@${esc(FUND)}">@${esc(FUND)}</a>. Members pay MELEK in and delegate MELEK Power on top. The pooled power curates for the fund, and members are paid back mostly in KULA-program tokens and airdrops, plus a small MELEK reward. Every deposit and delegation below is read straight from the MELEK chain.</p>
 <div class="card stats">
@@ -220,8 +255,14 @@ export async function renderFund() {
     <span class=mut>Sends MELEK into the fund's balance. ${q('KULA_Community_Fund#depositing', 'depositing')}</span></form>
 </div>
 <div class=card>
+  <h2>What your delegation earns</h2>
+  <p class=mut>Two things, and the second one is new. You earn <b>SOULAVA</b> for lending weight &mdash; the delegation-mining reward, paid on PRANA, pro-rata and continuous. And the pooled power <b>votes on your own posts</b>: the fund can sustain about ${esc(String(ent.votesPerDay))} full votes a day, which is its weekly budget, and your slice of that is your share of the delegated power.</p>
+  <p class=mut>Your slice is spread across <b>${esc(String(ent.postsPerWeek))} posts a week</b> at the weight in the table below &mdash; a steady cadence at an honest weight, rather than a fraction of a vote you cannot spend. A full vote is the ceiling, so past roughly a few percent of the pool the weight stops rising and the cadence is the thing you are buying. Delegation is not a payment: you keep the MELEK Power, you can take it back whenever, and delegating again just sets a new total.</p>
+  <p class=mut>The trail that casts these votes is at <a href="https://vote.melek.salon">vote.melek.salon</a>, and the delegation-mining side is <a href="${WIKI}SoapBox_Delegation_Mining">SoapBox Delegation Mining</a>. Same system, different tabs.</p>
+</div>
+<div class=card>
   <h2>Members ${q('KULA_Community_Fund#members', 'members')}</h2>
-  ${members.length ? `<table><thead><tr><th>Member</th><th class=n>MELEK deposited</th><th class=n>MELEK Power delegated</th></tr></thead><tbody>${rows}</tbody></table>` : '<p class=mut>No members yet. Be the first.</p>'}
+  ${members.length ? `<table><thead><tr><th>Member</th><th class=n>MELEK deposited</th><th class=n>MELEK Power delegated</th><th class=n>Curation vote</th></tr></thead><tbody>${rows}</tbody></table>` : '<p class=mut>No members yet. Be the first.</p>'}
 </div>
 <div class=card>
   <h2>Learn</h2>

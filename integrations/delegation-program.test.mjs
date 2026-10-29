@@ -1,7 +1,8 @@
 // delegation-program.test.mjs — offline. `node --test`. Deterministic reward math.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { accrue, ledger, joinLink, inviteMessage, upsertDelegation, distributeRewards, PROGRAM } from './delegation-program.mjs';
+import { accrue, ledger, joinLink, inviteMessage, upsertDelegation, distributeRewards, PROGRAM,
+  voteEntitlement, voteEntitlementFor, MAX_VOTE_WEIGHT } from './delegation-program.mjs';
 // The Nutbox invariant: a membership change SETTLES accrual first (upsertDelegation calls accrue), so the
 // time-weighted math stays exact across changes. Tests exercise that path, not a single accrue over a change.
 
@@ -107,4 +108,53 @@ test('upsertDelegation adds then updates a delegator', () => {
   assert.equal(s.delegations.length, 1);
   assert.equal(s.delegations[0].vests, 500);
   assert.equal(s.delegations[0].since, T0);   // original join time preserved
+});
+
+// ── the curation vote a delegation earns ────────────────────────────────────────────────────────
+
+test('vote entitlement is pro-rata, capped at a full vote, and floored so a small stake still votes', () => {
+  const st = { delegations: [{ account: 'Alice', vests: 9000 }, { account: 'bob', vests: 1000 }, { account: 'tiny', vests: 1 }] };
+  const e = voteEntitlement(st, { votesPerDay: 10, postsPerWeek: 3 });
+  assert.equal(e.totalVests, 10001);
+  assert.equal(e.weeklyCapacityBps, 10 * 7 * MAX_VOTE_WEIGHT);
+  // sorted by weight lent, biggest first, and accounts normalised
+  assert.deepEqual(e.rows.map((r) => r.account), ['alice', 'bob', 'tiny']);
+  // a share big enough to exceed a full vote is clamped to one, never above
+  for (const r of e.rows) assert.ok(r.weightBps <= MAX_VOTE_WEIGHT, `${r.account} over a full vote`);
+  // the smallest delegator gets a visible vote rather than a rounding error
+  const tiny = e.rows.find((r) => r.account === 'tiny');
+  assert.equal(tiny.weightBps, 100);
+  assert.ok(tiny.fullVotesPerWeek > 0);
+});
+
+test('vote entitlement scales with the pool: the same stake is worth less as others join', () => {
+  const alone = voteEntitlementFor({ delegations: [{ account: 'me', vests: 100 }] }, 'me', { votesPerDay: 1, postsPerWeek: 10 });
+  const shared = voteEntitlementFor({ delegations: [{ account: 'me', vests: 100 }, { account: 'other', vests: 900 }] }, 'me', { votesPerDay: 1, postsPerWeek: 10 });
+  assert.ok(shared.weightBps < alone.weightBps, 'dilution must show up in the weight');
+  assert.equal(shared.sharePct, 10);
+});
+
+test('vote entitlement soft-fails: no delegations, junk vests and unknown accounts return nothing', () => {
+  assert.deepEqual(voteEntitlement(null).rows, []);
+  assert.deepEqual(voteEntitlement({}).rows, []);
+  assert.deepEqual(voteEntitlement({ delegations: [{ account: 'a', vests: 'abc' }, { account: 'b', vests: -5 }] }).rows, []);
+  assert.equal(voteEntitlementFor({ delegations: [{ account: 'a', vests: 1 }] }, 'nobody'), null);
+});
+
+test('vote entitlement is deterministic for the same input', () => {
+  const st = { delegations: [{ account: 'a', vests: 7 }, { account: 'b', vests: 13 }] };
+  assert.deepEqual(voteEntitlement(st), voteEntitlement(st));
+});
+
+test('house delegation funds the pool without eating the members\' votes', () => {
+  // Hathor lending 78,000 MP must not drop a real member from a full vote to nothing.
+  const st = { delegations: [{ account: 'hathor', vests: 78000 }, { account: 'udabeu', vests: 11 }] };
+  const withHouse = voteEntitlementFor(st, 'udabeu', { exclude: ['kula', 'hathor'] });
+  assert.equal(withHouse.sharePct, 100, 'the only non-house member holds the whole member share');
+  assert.equal(withHouse.weightBps, MAX_VOTE_WEIGHT);
+  // and the house gets no row of its own
+  assert.equal(voteEntitlementFor(st, 'hathor', { exclude: ['kula', 'hathor'] }), null);
+  // without the exclusion the member is diluted to the floor — the behaviour this guards against
+  const diluted = voteEntitlementFor(st, 'udabeu', { exclude: [] });
+  assert.ok(diluted.weightBps < MAX_VOTE_WEIGHT, 'unexcluded house weight dilutes the member');
 });
