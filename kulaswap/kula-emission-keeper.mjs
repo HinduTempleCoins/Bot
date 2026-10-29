@@ -17,7 +17,11 @@ const call = (to, d, from) => rpc('eth_call', [from ? { from, to, data: d } : { 
 const f = (x) => (Number(x) / 1e18).toFixed(4);
 
 const recipient = '0x' + String(await call(E, SEL.recipient)).slice(-40);
-const due = BigInt(await call(E, SEL.mintDue, recipient));
+// mintDue() REVERTS when nothing has accrued rather than returning zero, so eth_call hands back
+// undefined and BigInt(undefined) throws. An hourly crank hits that on every run between epochs —
+// the normal case, not an error. Treat an unreadable result as "nothing due" and exit clean.
+const dueRaw = await call(E, SEL.mintDue, recipient);
+const due = dueRaw && dueRaw !== '0x' ? BigInt(dueRaw) : 0n;
 const minted = BigInt(await call(E, SEL.totalMinted));
 console.log(`recipient  : ${recipient}`);
 console.log(`epoch      : ${BigInt(await call(E, SEL.currentEpoch))} (last minted ${BigInt(await call(E, SEL.lastEpoch))})`);
