@@ -71,7 +71,9 @@ export const ADDR = Object.freeze({
   Timelock: '0x574DeEaa82BcA4ACF6C5669D8dbe084C28EE0da4',
   GrapheneDepositBridge: '0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505',
   EmissionScheduler: '0x611Ad02Ebe7F3FfE2050449Def20d6775E875323',
-  PRANA: '0xE92E94C4929ea9D6EF7BFB8B3e192D66951Ab661',
+  // An ERC-20 named Prana that was never minted (supply 0). PRANA itself is the native coin and has
+  // no contract; WPRANA above is the ERC-20 the pairs actually trade.
+  PRANA_unminted: '0xE92E94C4929ea9D6EF7BFB8B3e192D66951Ab661',
 });
 
 // the address table rows (label, key, role) — order is the reading order
@@ -95,7 +97,7 @@ export const ADDR_ROWS = [
   ['DAO Timelock', 'Timelock', '2-day admin timelock'],
   ['GrapheneDepositBridge', 'GrapheneDepositBridge', 'MELEK ↔ PRANA bridge'],
   ['EmissionScheduler', 'EmissionScheduler', 'sole KULA minter'],
-  ['PRANA (compute)', 'PRANA', 'compute-stack settlement token'],
+  ['WPRANA', 'WPRANA', 'wrapped native PRANA — the ERC-20 the pairs trade'],
 ];
 
 // the KULA emission split (bps→%): 45 miners / 35 LPs / 10 lotto / 10 stakers

@@ -9,7 +9,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   handler, esc, safeHref, PINNED, DESIGN_INTENT, COMPUTE_PARAMS, LANES, REF,
-  CHAIN_ID, PRANA_TOKEN, sitemapXml, robotsTxt,
+  CHAIN_ID, PRANA_TOKEN_UNMINTED, WPRANA_TOKEN, sitemapXml, robotsTxt,
 } from './server.mjs';
 
 // Prove no request-time network: any fetch attempt throws.
@@ -83,7 +83,11 @@ test('every REF value renders on the page', async () => {
 
 test('exported constants are the grounded values', () => {
   assert.equal(CHAIN_ID, 712217);
-  assert.match(PRANA_TOKEN, /^0x[0-9a-fA-F]{40}$/);
+  // PRANA is the native coin and has no contract. The address once exported as PRANA_TOKEN is an
+  // ERC-20 named Prana that was never minted, so the paper now publishes WPRANA instead.
+  assert.match(WPRANA_TOKEN, /^0x[0-9a-fA-F]{40}$/);
+  assert.match(PRANA_TOKEN_UNMINTED, /^0x[0-9a-fA-F]{40}$/);
+  assert.notEqual(WPRANA_TOKEN, PRANA_TOKEN_UNMINTED);
   assert.ok(PINNED.length >= 5);
   assert.ok(DESIGN_INTENT.length >= 2);
   assert.ok(COMPUTE_PARAMS.length >= 4);
