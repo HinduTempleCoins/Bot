@@ -60,7 +60,9 @@ export const ADDR = Object.freeze({
   LiquidityGauge_KULA_WPRANA: '0x46d92Ae6F5D55Eb5f12F222e44F0CDAC74E38e45',
   DividendDistributor_Stakers: '0xd9B52f758Aaab68BdEde7F84bE9bF6b2353E479A',
   DividendDistributor_Miners: '0x52a32920d4635AE0ab7F77b54679e9359D6Fa778',
-  NoLossLotto: '0xfE5CC3c2919c893a33690bf6b36d58Ae5A989dB3',
+  BurnLotto: '0x85E69FA632E1a56f47eAD5B6cc977561B7eb18aD',
+  MwaliToken: '0x864E262818C773D3EEC272c2A6A2C8195af1D977',
+  MwaliGauge_AllPairs: '0x98d0AF33C78133Ae7791330B7a28034ce85AbB59',
   SimplePriceOracle: '0x905B3505037E49771B35F9f3944D8EC2B9eF3AFD',
   MelekBorrowNote: '0x8c4B882D7379D35413E2a9202f63B53f893D1A9D',
   CDPVault: '0x9cdAe72de19F93947cE3B4d5329FA81A5ef53ba2',
@@ -83,7 +85,9 @@ export const ADDR_ROWS = [
   ['LiquidityGauge (KULA/WPRANA)', 'LiquidityGauge_KULA_WPRANA', 'mints MWALI to LPs'],
   ['DividendDistributor (stakers)', 'DividendDistributor_Stakers', 'staker real-yield'],
   ['DividendDistributor (miners)', 'DividendDistributor_Miners', 'miner dividend'],
-  ['NoLossLotto', 'NoLossLotto', 'no-loss prize pot'],
+  ['BurnLotto', 'BurnLotto', 'burn MWALI for tickets, prize in KULA — no roles at all'],
+  ['MWALI', 'MwaliToken', 'proof-of-liquidity token; cap in the token, 0 admins'],
+  ['MwaliGauge (5 pairs)', 'MwaliGauge_AllPairs', 'mints MWALI to LP stakers, weights immutable'],
   ['SimplePriceOracle', 'SimplePriceOracle', 'CDP collateral price'],
   ['MelekBorrowNote (mMELEK)', 'MelekBorrowNote', 'CDP borrow synthetic'],
   ['CDPVault', 'CDPVault', 'lock KULA → borrow'],
@@ -97,7 +101,7 @@ export const ADDR_ROWS = [
 export const SPLIT = [
   ['Miners', 45, 'useful-work providers (the see-saw of §1) — the biggest slice on purpose'],
   ['LPs', 35, 'streamed by the LiquidityGauge to KULA/WPRANA liquidity providers'],
-  ['Lottery', 10, 'seeds the NoLossLotto prize pot'],
+  ['Lottery', 10, 'seeds the BurnLotto prize pot, paid in KULA'],
   ['Stakers', 10, 'real-yield to KULA stakers via DividendDistributor'],
 ];
 
@@ -314,8 +318,13 @@ ${splitBarHtml()}
 <h2 id=sinks>7 · Sinks — lottery, burn-mine, dividends</h2>
 <p>Every emission is paired with a sink so the faucet can run indefinitely:</p>
 <ul>
-  <li><b>No-loss lottery</b> (<code>NoLossLotto</code>) — PoolTogether model: principal stays safe, yield
-    plus the 10% KULA slice and a cut of fees funds prizes. Upside without risking capital.</li>
+  <li><b>Burn lottery</b> (<code>BurnLotto</code>) — earn MWALI by providing liquidity, <b>burn</b> MWALI
+    for tickets, prize paid in KULA. The burned MWALI is destroyed; there is no withdraw function. This
+    replaced an earlier no-loss pool, which was the wrong shape for a sink: a lottery that returns every
+    token it touches removes nothing from supply. Two tokens on purpose — burning the token you pay out
+    would destroy and re-issue the same supply and net to nothing. Proven on mainnet: 10 MWALI burned,
+    one draw run, 10,000 KULA paid by the contract. It holds no roles, so funding the pot and running a
+    draw are both permissionless.</li>
   <li><b>BurnMine</b> — burn proof-of-liquidity into KULA at a fixed ratio, plus a burn-to-enter raffle
     variant; a curated <code>BurnMineHub</code> hosts many burn contracts, each minting a curated output;
     the hub itself never mints.</li>
