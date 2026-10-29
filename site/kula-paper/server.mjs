@@ -50,54 +50,61 @@ export function safeHref(u) {
 export const CHAIN_ID = 712217;
 export const ADDR = Object.freeze({
   KULA: '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631',
-  MWALI: '0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9',
+  MWALI: '0x864E262818C773D3EEC272c2A6A2C8195af1D977',
+  // The first MWALI, never minted, supply still zero. Named only so an old reference resolves.
+  MWALI_abandoned: '0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9',
   WPRANA: '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34',
   Router: '0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5',
   Factory: '0xFb5B83ed7F54e5fa45ED528dbe2167bB0b93b1E6',
   PairKulaWprana: '0x3fC307dEa06667f5a7a640Ec0aBb950EacC4B8C2',
   VoteEscrow: '0x2a9da080BB38C9cfc4B9c8D7cFd4699fF57a5438',
   GaugeController: '0x3858Bcd8CEE92FBDB0ECBC3946C67C112416A63C',
-  LiquidityGauge_KULA_WPRANA: '0x46d92Ae6F5D55Eb5f12F222e44F0CDAC74E38e45',
+  // Superseded by MwaliGauge_AllPairs below. Kept out of the table so nobody stakes into it.
+  LiquidityGauge_KULA_WPRANA_retired: '0x46d92Ae6F5D55Eb5f12F222e44F0CDAC74E38e45',
   DividendDistributor_Stakers: '0xd9B52f758Aaab68BdEde7F84bE9bF6b2353E479A',
   DividendDistributor_Miners: '0x52a32920d4635AE0ab7F77b54679e9359D6Fa778',
-  NoLossLotto: '0xfE5CC3c2919c893a33690bf6b36d58Ae5A989dB3',
+  BurnLotto: '0x85E69FA632E1a56f47eAD5B6cc977561B7eb18aD',
+  MwaliGauge_AllPairs: '0x98d0AF33C78133Ae7791330B7a28034ce85AbB59',
   SimplePriceOracle: '0x905B3505037E49771B35F9f3944D8EC2B9eF3AFD',
   MelekBorrowNote: '0x8c4B882D7379D35413E2a9202f63B53f893D1A9D',
   CDPVault: '0x9cdAe72de19F93947cE3B4d5329FA81A5ef53ba2',
   Timelock: '0x574DeEaa82BcA4ACF6C5669D8dbe084C28EE0da4',
   GrapheneDepositBridge: '0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505',
   EmissionScheduler: '0x611Ad02Ebe7F3FfE2050449Def20d6775E875323',
-  PRANA: '0xE92E94C4929ea9D6EF7BFB8B3e192D66951Ab661',
+  // An ERC-20 named Prana that was never minted (supply 0). PRANA itself is the native coin and has
+  // no contract; WPRANA above is the ERC-20 the pairs actually trade.
+  PRANA_unminted: '0xE92E94C4929ea9D6EF7BFB8B3e192D66951Ab661',
 });
 
 // the address table rows (label, key, role) — order is the reading order
 export const ADDR_ROWS = [
   ['KULA', 'KULA', 'reward / DeFi token — emission-only, cap 11M'],
-  ['MWALI', 'MWALI', 'proof-of-liquidity token'],
+  ['MWALI', 'MWALI', 'proof-of-liquidity token; cap in the token, 0 admins'],
   ['WPRANA', 'WPRANA', 'wrapped native PRANA'],
   ['Router', 'Router', 'KulaSwap (Uniswap-V2) router'],
   ['Factory', 'Factory', 'KulaSwap pair factory'],
   ['Pair KULA/WPRANA', 'PairKulaWprana', 'the Kula-Ring liquidity pair'],
   ['VoteEscrow (veKULA)', 'VoteEscrow', 'lock KULA → boost + votes'],
   ['GaugeController', 'GaugeController', 'directs KULA emission across pools'],
-  ['LiquidityGauge (KULA/WPRANA)', 'LiquidityGauge_KULA_WPRANA', 'mints MWALI to LPs'],
+
   ['DividendDistributor (stakers)', 'DividendDistributor_Stakers', 'staker real-yield'],
   ['DividendDistributor (miners)', 'DividendDistributor_Miners', 'miner dividend'],
-  ['NoLossLotto', 'NoLossLotto', 'no-loss prize pot'],
+  ['BurnLotto', 'BurnLotto', 'burn MWALI for tickets, prize in KULA — no roles at all'],
+  ['MwaliGauge (5 pairs)', 'MwaliGauge_AllPairs', 'mints MWALI to LP stakers, weights immutable'],
   ['SimplePriceOracle', 'SimplePriceOracle', 'CDP collateral price'],
   ['MelekBorrowNote (mMELEK)', 'MelekBorrowNote', 'CDP borrow synthetic'],
   ['CDPVault', 'CDPVault', 'lock KULA → borrow'],
   ['DAO Timelock', 'Timelock', '2-day admin timelock'],
   ['GrapheneDepositBridge', 'GrapheneDepositBridge', 'MELEK ↔ PRANA bridge'],
   ['EmissionScheduler', 'EmissionScheduler', 'sole KULA minter'],
-  ['PRANA (compute)', 'PRANA', 'compute-stack settlement token'],
+  ['WPRANA', 'WPRANA', 'wrapped native PRANA — the ERC-20 the pairs trade'],
 ];
 
 // the KULA emission split (bps→%): 45 miners / 35 LPs / 10 lotto / 10 stakers
 export const SPLIT = [
   ['Miners', 45, 'useful-work providers (the see-saw of §1) — the biggest slice on purpose'],
   ['LPs', 35, 'streamed by the LiquidityGauge to KULA/WPRANA liquidity providers'],
-  ['Lottery', 10, 'seeds the NoLossLotto prize pot'],
+  ['Lottery', 10, 'seeds the BurnLotto prize pot, paid in KULA'],
   ['Stakers', 10, 'real-yield to KULA stakers via DividendDistributor'],
 ];
 
@@ -273,11 +280,16 @@ ${splitBarHtml()}
 <p><b>MWALI</b> (<a href="${esc(ex(ADDR.MWALI) || '#')}"><code>${esc(ADDR.MWALI)}</code></a>) is the
   <b>liquidity</b> token — KULA is not. It rewards and measures the liquidity that backs KULA.</p>
 <ul>
-  <li><b>Minted only by the gauge.</b> MWALI's sole <code>MINTER_ROLE</code> holder is the
-    <code>LiquidityGauge_KULA_WPRANA</code>, which mints MWALI to liquidity providers of the KULA/WPRANA
-    pair — the <b>Kula-Ring</b> pairing that ties MWALI issuance to real, on-chain liquidity depth.</li>
-  <li><b>Emission-only, no human minter.</b> The deployer holds no <code>MINTER_ROLE</code>; admin is the
-    DAO Timelock; the deployer renounced admin. MWALI cannot be printed by a person.</li>
+  <li><b>Minted only by the gauge, across five pairs.</b> MWALI's sole <code>MINTER_ROLE</code> holder is
+    <code>MwaliGauge_AllPairs</code>. It mints to LP stakers of KULA/WPRANA (weight 50), KULA/wVKBT (20),
+    wCURE/KULA (20), wCURE/wVKBT (5) and KULA/wMELEK (5) — split by weight, then pro-rata by stake inside
+    each pair, so a smaller pool still earns. The pair list and weights are fixed at construction and
+    immutable. An earlier single-pair gauge is retired.</li>
+  <li><b>No human minter, and no admin at all.</b> <code>getRoleMemberCount(MINTER_ROLE)</code> is 1 and it
+    is the gauge; <code>getRoleMemberCount(DEFAULT_ADMIN_ROLE)</code> is <b>0</b> — not the operator, not the
+    deployer, not a timelock. A wiring contract deployed token, gauge and lottery together and renounced its
+    own admin in the same transaction, so a second minter can never be added. Supply is capped in the token
+    at 3,468,960, with a 3,153,600 lifetime emission decaying 10%/yr.</li>
   <li><b>Why a separate token.</b> Proof-of-Liquidity (Berachain's idea, adapted) separates the reward for
     <i>providing liquidity</i> (MWALI) from the reward token itself (KULA), so liquidity is a first-class,
     measurable, governance-relevant position rather than a side effect.</li>
@@ -314,8 +326,13 @@ ${splitBarHtml()}
 <h2 id=sinks>7 · Sinks — lottery, burn-mine, dividends</h2>
 <p>Every emission is paired with a sink so the faucet can run indefinitely:</p>
 <ul>
-  <li><b>No-loss lottery</b> (<code>NoLossLotto</code>) — PoolTogether model: principal stays safe, yield
-    plus the 10% KULA slice and a cut of fees funds prizes. Upside without risking capital.</li>
+  <li><b>Burn lottery</b> (<code>BurnLotto</code>) — earn MWALI by providing liquidity, <b>burn</b> MWALI
+    for tickets, prize paid in KULA. The burned MWALI is destroyed; there is no withdraw function. This
+    replaced an earlier no-loss pool, which was the wrong shape for a sink: a lottery that returns every
+    token it touches removes nothing from supply. Two tokens on purpose — burning the token you pay out
+    would destroy and re-issue the same supply and net to nothing. Proven on mainnet: 10 MWALI burned,
+    one draw run, 10,000 KULA paid by the contract. It holds no roles, so funding the pot and running a
+    draw are both permissionless.</li>
   <li><b>BurnMine</b> — burn proof-of-liquidity into KULA at a fixed ratio, plus a burn-to-enter raffle
     variant; a curated <code>BurnMineHub</code> hosts many burn contracts, each minting a curated output;
     the hub itself never mints.</li>

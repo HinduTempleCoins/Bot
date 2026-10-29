@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KULA Bots — four strategies you run yourself</title>
+<meta name="description" content="Four trading strategies for KulaSwap — triangle arbitrage, DCA, rebalancing and a grid. They compute a signal from live pool reserves; you decide and you sign. Nothing runs on your behalf.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root{--bg:#0a0a14;--card:rgba(23,24,50,.66);--ink:#eceefb;--dim:#9aa0c4;--faint:#6f74a0;
+    --gold:#e0b552;--gold2:#f6d488;--gold-dim:rgba(224,181,82,.14);--teal:#54d9d4;--teal-dim:rgba(84,217,212,.12);
+    --line:rgba(140,150,210,.13);--line2:rgba(140,150,210,.24);--field:#0e0f22;
+    --ok:#3fd08a;--warn:#e6b74e;--err:#ef7169;--link:#93b4ff;--shadow:0 30px 70px -28px rgba(0,0,0,.78);--r:20px;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:1.1rem 1rem 3.5rem;
+    background-image:radial-gradient(72rem 46rem at 50% -18%, rgba(155,140,255,.16), transparent 60%),
+      radial-gradient(60rem 40rem at 90% 10%, rgba(84,217,212,.07), transparent 60%);}
+  .wrap{width:100%;max-width:1000px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  h1{font-size:1.35rem;letter-spacing:-.02em}
+  .sub{color:var(--dim);font-size:.85rem}
+  .spacer{flex:1}
+  a{color:var(--link)}
+  button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line2);background:var(--field);color:var(--ink);padding:.55rem .95rem;transition:.15s}
+  button:hover:not(:disabled){border-color:var(--teal);background:var(--teal-dim)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.go{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a2008;border:0;font-weight:700}
+  .phase{display:flex;gap:10px;align-items:flex-start;background:var(--gold-dim);border:1px solid rgba(224,181,82,.3);
+    border-radius:14px;padding:.7rem .9rem;margin-bottom:18px;font-size:.86rem;color:var(--gold2)}
+  .tag{background:var(--gold);color:#2a2008;border-radius:7px;padding:.05rem .45rem;font-weight:800;font-size:.72rem;flex:none}
+  .bots{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px}
+  .bot{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.15rem;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .bot h2{font-size:1.02rem;display:flex;align-items:center;gap:.5rem}
+  .pill{font-size:.68rem;font-weight:800;border-radius:999px;padding:.1rem .5rem;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(84,217,212,.3)}
+  .lede{color:var(--dim);font-size:.87rem;margin:.45rem 0 .8rem}
+  table{width:100%;border-collapse:collapse;font-size:.85rem}
+  td{padding:.36rem 0;border-bottom:1px solid var(--line)}
+  td:last-child{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .sig{margin-top:.8rem;border-radius:12px;padding:.55rem .75rem;font-size:.85rem;background:rgba(140,150,210,.07);border:1px solid var(--line)}
+  .sig.go{background:rgba(63,208,138,.1);border-color:rgba(63,208,138,.35);color:var(--ok)}
+  .sig.hold{color:var(--dim)}
+  .row{display:flex;gap:8px;align-items:center;margin-top:.7rem;flex-wrap:wrap}
+  input{font:inherit;font-family:var(--mono);background:var(--field);color:var(--ink);border:1px solid var(--line2);
+    border-radius:11px;padding:.5rem .7rem;width:100%;min-width:0;flex:1}
+  .mini{color:var(--faint);font-size:.77rem;margin-top:.55rem}
+  .note{border-radius:12px;padding:.6rem .8rem;margin-top:1rem;font-size:.86rem;display:none}
+  .note.show{display:block}
+  .note.ok{background:rgba(63,208,138,.1);border:1px solid rgba(63,208,138,.35);color:var(--ok)}
+  .note.err{background:rgba(239,113,105,.1);border:1px solid rgba(239,113,105,.35);color:var(--err)}
+  .note.warn{background:rgba(230,183,78,.1);border:1px solid rgba(230,183,78,.35);color:var(--warn)}
+  .foot{margin-top:1.4rem;color:var(--faint);font-size:.82rem;line-height:1.65}
+</style>
+</head><body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>KULA Bots</h1>
+      <div class="sub">four strategies · they tell you, you decide, you sign</div>
+    </div>
+    <span class="spacer"></span>
+    <a href="/" style="align-self:center;margin-right:10px;text-decoration:none;font-weight:700">← KulaSwap</a>
+    <a href="lotto.html" style="align-self:center;margin-right:10px;text-decoration:none;font-weight:700;color:var(--gold)">Lotto</a>
+    <button id="connect"><span id="connect-lbl">Connect Wallet</span></button>
+  </header>
+
+  <div class="phase">
+    <span class="tag">Read first</span>
+    <span><b>Nothing here trades on your behalf.</b> Each bot reads the live pools and tells you what its rule says right now. You choose whether to act and your wallet signs it. No key is held, no approval is standing, and closing this page stops everything. These are tools, not a managed fund — you can lose money using them.</span>
+  </div>
+
+  <div class="bots">
+
+    <div class="bot">
+      <h2>Triangle arbitrage <span class="pill">A</span></h2>
+      <p class="lede">Walks a loop of three pools — wVKBT → wCURE → KULA → wVKBT — and checks whether you end with more than you started. Only worth doing when the loop pays more than the three trading fees it costs.</p>
+      <table>
+        <tr><td>Loop</td><td id="a-route">wVKBT→wCURE→KULA</td></tr>
+        <tr><td>Test size</td><td id="a-size">50 wVKBT</td></tr>
+        <tr><td>Comes back as</td><td id="a-back">—</td></tr>
+        <tr><td>Profit</td><td id="a-profit">—</td></tr>
+      </table>
+      <div class="sig hold" id="a-sig">reading pools…</div>
+      <div class="row"><input id="a-amt" value="50" inputmode="decimal"><button id="a-go" class="go" disabled>Run loop</button></div>
+      <div class="mini">Needs ≥ 100 bps after fees to be worth signing. Three hops cost about 0.90%.</div>
+    </div>
+
+    <div class="bot">
+      <h2>Steady buying <span class="pill">B</span></h2>
+      <p class="lede">Buys a fixed amount on a schedule instead of guessing a bottom — dollar-cost averaging. The bot does not pick the moment; that is the entire point of it.</p>
+      <table>
+        <tr><td>Route</td><td>KULA → WPRANA</td></tr>
+        <tr><td>Current rate</td><td id="b-rate">—</td></tr>
+        <tr><td>Your KULA</td><td id="b-bal">—</td></tr>
+        <tr><td>You would get</td><td id="b-out">—</td></tr>
+      </table>
+      <div class="sig hold" id="b-sig">connect to size a buy</div>
+      <div class="row"><input id="b-amt" value="10" inputmode="decimal"><button id="b-go" class="go" disabled>Buy once</button></div>
+      <div class="mini">Run it on your own cadence. Daily and weekly both work; consistency is what does the work.</div>
+    </div>
+
+    <div class="bot">
+      <h2>50/50 rebalance <span class="pill">C</span></h2>
+      <p class="lede">Keeps a pair at an even split by value. When one side runs up it sells a little of the winner into the loser — which is selling strength and buying weakness, mechanically, without an opinion.</p>
+      <table>
+        <tr><td>Pair</td><td>KULA / WPRANA</td></tr>
+        <tr><td>Your KULA</td><td id="c-a">—</td></tr>
+        <tr><td>Your WPRANA</td><td id="c-b">—</td></tr>
+        <tr><td>KULA share of value</td><td id="c-share">—</td></tr>
+      </table>
+      <div class="sig hold" id="c-sig">connect to read your balances</div>
+      <div class="row"><button id="c-go" class="go" disabled>Rebalance</button></div>
+      <div class="mini">Band is ±5%. Inside it, the correct move is to do nothing.</div>
+    </div>
+
+    <div class="bot">
+      <h2>Grid <span class="pill">D</span></h2>
+      <p class="lede">Buys a step down, sells a step up, and records each level. It harvests a sideways market and will underperform a straight run in either direction — know which one you think you are in.</p>
+      <table>
+        <tr><td>Pair</td><td>KULA / wVKBT</td></tr>
+        <tr><td>Price now</td><td id="d-price">—</td></tr>
+        <tr><td>Your last level</td><td id="d-last">—</td></tr>
+        <tr><td>Move</td><td id="d-move">—</td></tr>
+      </table>
+      <div class="sig hold" id="d-sig">reading price…</div>
+      <div class="row"><input id="d-step" value="3" inputmode="decimal"><button id="d-set">Set level</button><button id="d-go" class="go" disabled>Trade step</button></div>
+      <div class="mini">Step in %. Your level is kept in this browser only — nothing is stored on a server.</div>
+    </div>
+
+  </div>
+
+  <div id="note" class="note"></div>
+
+  <div class="foot">
+    These four mirror the strategies we run against our own pools, with the same rules and thresholds. The difference is that these read <i>your</i> balances and ask <i>you</i> to sign — there is no custody and no standing permission.<br>
+    A bot is a rule, not a forecast. Each one is only as good as whether its assumption matches the market you are actually in, and every one of them can lose money. Start small enough that being wrong is cheap.
+  </div>
+</div>
+
+<script type="module">
+const RPC='https://rpc.prana.melek.salon', CHAIN=712217;
+const ROUTER='0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5';
+const T={ KULA:{a:'0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631',d:18},
+          WPRANA:{a:'0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34',d:18},
+          wVKBT:{a:'0xD915E757662c4234137aff167Bf93d588145f75e',d:8},
+          wCURE:{a:'0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff',d:8} };
+const ERC=['function balanceOf(address) view returns (uint256)','function allowance(address,address) view returns (uint256)','function approve(address,uint256)'];
+const RT=['function getAmountsOut(uint256,address[]) view returns (uint256[])','function swapExactTokensForTokens(uint256,uint256,address[],address,uint256) returns (uint256[])'];
+const $=id=>document.getElementById(id);
+let ethers, ro, provider, signer, account;
+const note=(k,m)=>{const n=$('note');n.className=`note show ${k}`;n.textContent=m;};
+const sig=(id,go,msg)=>{const e=$(id);e.className=`sig ${go?'go':'hold'}`;e.textContent=msg;};
+const num=(v,d)=>Number(ethers.formatUnits(v,d));
+const fm=(n,d=4)=>Number(n).toLocaleString('en-US',{maximumFractionDigits:d});
+
+// ── the same pure rules the server bots use ──────────────────────────────────────────────
+const planRebalance=({balA,balB,price,target=0.5,band=0.05})=>{
+  const valA=balA*price, total=valA+balB;
+  if(!(total>0)||!(price>0)) return {trade:false,share:0,reason:'nothing to rebalance'};
+  const share=valA/total;
+  if(Math.abs(share-target)<=band) return {trade:false,share,reason:`KULA is ${(share*100).toFixed(1)}% of value — inside the band, do nothing`};
+  const wantA=(total*target)/price;
+  return share>target ? {trade:true,share,side:'sellA',amount:balA-wantA,reason:'KULA above target — sell some'}
+                      : {trade:true,share,side:'sellB',amount:(wantA-balA)*price,reason:'KULA below target — buy some'};
+};
+const planGrid=({price,last,stepBps=300})=>{
+  if(!(price>0)) return {trade:false,reason:'no price'};
+  if(!(last>0)) return {trade:false,reason:'no level set yet — press “Set level” to start the grid'};
+  const move=(price-last)/last, step=stepBps/10000;
+  if(move>=step)  return {trade:true,side:'sell',move,reason:`price up ${(move*100).toFixed(2)}% from your level — sell a step`};
+  if(move<=-step) return {trade:true,side:'buy', move,reason:`price down ${(-move*100).toFixed(2)}% from your level — buy a step`};
+  return {trade:false,move,reason:`price ${(move*100).toFixed(2)}% from your level — inside the step`};
+};
+
+const getE=async()=>{ if(!ethers) ethers=await import('https://cdn.jsdelivr.net/npm/ethers@6.13.4/+esm'); return ethers; };
+const router=(p)=>new ethers.Contract(ROUTER,RT,p);
+const path=(...syms)=>syms.map(s=>T[s].a);
+// varargs: quote(amt,'KULA','WPRANA'). An earlier version took an ARRAY and was called with
+// varargs, so path(...syms) spread a STRING into characters and every quote silently failed.
+async function quote(amountIn,...syms){ try{ const o=await router(ro).getAmountsOut(amountIn,path(...syms)); return o[o.length-1]; }catch{ return null; } }
+
+async function refresh(){
+  await getE(); if(!ro) ro=new ethers.JsonRpcProvider(RPC);
+  // A — triangle
+  const aAmt=parseFloat($('a-amt').value||'0');
+  if(aAmt>0){
+    const inAmt=ethers.parseUnits(String(aAmt),T.wVKBT.d);
+    const back=await quote(inAmt,'wVKBT','wCURE','KULA','wVKBT');
+    if(back!=null){
+      const bps=Number((back-inAmt)*10000n/inAmt);
+      $('a-back').textContent=fm(num(back,T.wVKBT.d))+' wVKBT';
+      $('a-profit').textContent=(bps>=0?'+':'')+bps+' bps';
+      sig('a-sig',bps>=100, bps>=100?`loop pays ${bps} bps after fees — worth running`:`${bps} bps — under the 100 bps minimum, do not run`);
+      $('a-go').disabled = !(account && bps>=100);
+    } else { sig('a-sig',false,'no route — a pool in the loop is empty'); }
+  }
+  $('a-size').textContent=fm(aAmt)+' wVKBT';
+  // B — DCA rate
+  const one=await quote(ethers.parseUnits('1',T.KULA.d),'KULA','WPRANA');
+  if(one!=null) $('b-rate').textContent='1 KULA = '+fm(num(one,T.WPRANA.d),6)+' WPRANA';
+  const bAmt=parseFloat($('b-amt').value||'0');
+  if(bAmt>0){ const o=await quote(ethers.parseUnits(String(bAmt),T.KULA.d),'KULA','WPRANA');
+    if(o!=null) $('b-out').textContent=fm(num(o,T.WPRANA.d),6)+' WPRANA'; }
+  // D — grid price
+  const dOne=await quote(ethers.parseUnits('1',T.KULA.d),'KULA','wVKBT');
+  if(dOne!=null){
+    const price=num(dOne,T.wVKBT.d);
+    $('d-price').textContent=fm(price,6)+' wVKBT';
+    const last=parseFloat(localStorage.getItem('kula-grid-level')||'0');
+    $('d-last').textContent=last>0?fm(last,6):'not set';
+    const g=planGrid({price,last,stepBps:Math.round(parseFloat($('d-step').value||'3')*100)});
+    $('d-move').textContent=g.move!=null?((g.move*100).toFixed(2)+'%'):'—';
+    sig('d-sig',!!g.trade,g.reason);
+    $('d-go').disabled=!(account&&g.trade);
+  }
+  if(account) await refreshUser();
+}
+
+async function refreshUser(){
+  const bal=async s=>await new ethers.Contract(T[s].a,ERC,ro).balanceOf(account);
+  const [k,w]=await Promise.all([bal('KULA'),bal('WPRANA')]);
+  $('b-bal').textContent=fm(num(k,18))+' KULA';
+  $('c-a').textContent=fm(num(k,18));
+  $('c-b').textContent=fm(num(w,18));
+  const one=await quote(ethers.parseUnits('1',T.KULA.d),'KULA','WPRANA');
+  const price=one!=null?num(one,T.WPRANA.d):0;
+  const r=planRebalance({balA:num(k,18),balB:num(w,18),price});
+  $('c-share').textContent=(r.share*100).toFixed(1)+'%';
+  sig('c-sig',!!r.trade,r.reason);
+  $('c-go').disabled=!r.trade;
+  $('b-go').disabled=false;
+  window.__rebal=r; window.__price=price;
+}
+
+async function connect(){
+  try{
+    if(!window.ethereum){ note('err','No EVM wallet found. Install MetaMask or any injected wallet, then reload.'); return; }
+    await getE();
+    provider=new ethers.BrowserProvider(window.ethereum);
+    await provider.send('eth_requestAccounts',[]);
+    const net=await provider.getNetwork();
+    if(Number(net.chainId)!==CHAIN){
+      try{ await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x'+CHAIN.toString(16)}]}); }
+      catch{ note('warn',`Switch your wallet to PRANA (chain id ${CHAIN}) and reload.`); return; }
+    }
+    signer=await provider.getSigner(); account=await signer.getAddress();
+    $('connect-lbl').textContent=account.slice(0,6)+'…'+account.slice(-4);
+    await refresh(); note('ok','Connected. Every trade below still needs your signature.');
+  }catch(e){ note('err','Could not connect: '+(e.shortMessage||e.message)); }
+}
+$('connect').addEventListener('click',connect);
+
+async function swap(label,amountIn,syms,slipBps=100){
+  try{
+    note('warn',label+' — approving if needed…');
+    const tin=syms[0];
+    const c=new ethers.Contract(T[tin].a,ERC,signer);
+    if(await c.allowance(account,ROUTER)<amountIn) await (await c.approve(ROUTER,ethers.MaxUint256)).wait();
+    const out=await quote(amountIn,...syms);
+    const min=out-(out*BigInt(slipBps))/10000n;
+    note('warn',label+' — confirm in your wallet…');
+    const t=await router(signer).swapExactTokensForTokens(amountIn,min,path(...syms),account,Math.floor(Date.now()/1000)+600);
+    note('warn',label+' — waiting for the chain…'); await t.wait();
+    note('ok',label+' confirmed.'); await refresh();
+  }catch(e){ note('err',label+' failed: '+(e.shortMessage||e.reason||e.message)); }
+}
+
+$('a-go').addEventListener('click',()=>swap('Arbitrage loop',ethers.parseUnits($('a-amt').value||'0',T.wVKBT.d),['wVKBT','wCURE','KULA','wVKBT']));
+$('b-go').addEventListener('click',()=>swap('Buy',ethers.parseUnits($('b-amt').value||'0',T.KULA.d),['KULA','WPRANA']));
+$('c-go').addEventListener('click',()=>{
+  const r=window.__rebal; if(!r||!r.trade) return;
+  if(r.side==='sellA') swap('Rebalance (sell KULA)',ethers.parseUnits(r.amount.toFixed(6),T.KULA.d),['KULA','WPRANA']);
+  else swap('Rebalance (buy KULA)',ethers.parseUnits(r.amount.toFixed(6),T.WPRANA.d),['WPRANA','KULA']);
+});
+$('d-set').addEventListener('click',async()=>{
+  const dOne=await quote(ethers.parseUnits('1',T.KULA.d),'KULA','wVKBT');
+  if(dOne!=null){ localStorage.setItem('kula-grid-level',String(num(dOne,T.wVKBT.d))); note('ok','Grid level set at the current price.'); refresh(); }
+});
+$('d-go').addEventListener('click',async()=>{
+  const dOne=await quote(ethers.parseUnits('1',T.KULA.d),'KULA','wVKBT');
+  const price=num(dOne,T.wVKBT.d);
+  const last=parseFloat(localStorage.getItem('kula-grid-level')||'0');
+  const g=planGrid({price,last,stepBps:Math.round(parseFloat($('d-step').value||'3')*100)});
+  if(!g.trade) return;
+  localStorage.setItem('kula-grid-level',String(price));
+  if(g.side==='sell') await swap('Grid sell',ethers.parseUnits('20',T.KULA.d),['KULA','wVKBT']);
+  else await swap('Grid buy',ethers.parseUnits('20',T.KULA.d),['wVKBT','KULA']);
+});
+for(const id of ['a-amt','b-amt','d-step']) $(id).addEventListener('input',()=>refresh().catch(()=>{}));
+
+refresh().catch(e=>note('err','Could not read the pools: '+e.message));
+setInterval(()=>refresh().catch(()=>{}),20000);
+</script>
+</body></html>

@@ -187,6 +187,15 @@ export function dashboardPage(chain, username) {
     <div id=tokentrails></div>
 
     <h2>Curation trails <span class=muted style="font-size:12px">— follow another account's upvotes</span></h2>
+    <div class=card style="border-color:#d9a441">
+      <b>The SoapBox Curation Trail</b>
+      <div class=muted style="font-size:12px;margin:3px 0 7px">
+        @soapbox votes are backed by delegated MELEK Power. Follow the trail and your vote goes in
+        behind each one. <b>You pick your own weight</b> — @soapbox's own weight is set by the vote it
+        is casting, never by you, and it can never spend more mana than it has.
+      </div>
+      <button onclick="soapboxTrail()">Follow the SoapBox trail →</button>
+    </div>
     <div class=card>
       <div class=row>
         <div><label>Leader account</label><input id=t_target placeholder="account to follow"></div>
@@ -261,6 +270,10 @@ async function load(){
   $('#history').innerHTML = d.votes.length? '<table><tr><th>when</th><th>post</th><th>w</th><th>rule</th><th>tx</th></tr>'+d.votes.map(v=>'<tr><td>'+new Date(v.at).toLocaleTimeString()+'</td><td>@'+esc(v.author)+'/'+esc(v.permlink).slice(0,28)+'</td><td>'+v.weight+'</td><td>'+esc(v.rule)+'</td><td>'+(v.ok?'<code>'+esc((v.txId||'').slice(0,10))+'</code>':'<span class="pill err">'+esc((v.error||'fail').slice(0,30))+'</span>')+'</td></tr>').join('')+'</table>' : '<span class=muted>no votes yet</span>';
 }
 async function addTrail(){await api('/api/trail','POST',{target:$('#t_target').value,weight:$('#t_weight').value,delaySec:$('#t_delay').value,dailyCap:$('#t_cap').value,category:$('#t_category').value});$('#t_target').value='';load();}
+// The SoapBox trail preset: fill in the leader so nobody has to know the account name, then hand the
+// weight back to the person. It deliberately does NOT submit — the weight is theirs to choose, and a
+// one-click 100% trail is how people accidentally drain their own voting power.
+function soapboxTrail(){$('#t_target').value='soapbox';$('#t_category').value='';$('#t_weight').focus();$('#t_weight').select();}
 async function addFanbase(){await api('/api/fanbase','POST',{authors:$('#f_authors').value,weight:$('#f_weight').value,delaySec:$('#f_delay').value,maxPerDay:$('#f_max').value});$('#f_authors').value='';load();}
 async function addSchedule(){await api('/api/schedule','POST',{author:$('#s_author').value,permlink:$('#s_perm').value,weight:$('#s_weight').value,voteAt:$('#s_when').value||null});$('#s_author').value='';$('#s_perm').value='';load();}
 async function togglePause(kind,id,paused){await api('/api/pause','POST',{kind,id,paused});load();}

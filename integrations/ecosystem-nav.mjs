@@ -63,6 +63,15 @@ export const ECOSYSTEM_LINKS = [
   { label: 'Pentecaust', url: env('PENTECAUST_SITE', 'https://pentecaust.com'), group: 'Chains', live: true, key: 'pentecaust' },
   // PRANA links to where a person contributes: the copy-paste mining guide (see support-hathor.mjs).
   { label: 'PRANA', url: env('PRANA_SITE', 'https://witness.melek.salon/mine'), group: 'Chains', live: true, key: 'prana' },
+
+  // The EARN group — one system, different tabs. These five were live and reachable but linked from
+  // nowhere shared, so delegating, curating, trading and mining each looked like a separate project.
+  // A person who lends weight to @kula should be able to walk the whole loop from any surface.
+  { label: 'KULA fund — delegate & earn', url: env('KULA_FUND_SITE', 'https://melek.salon/kula'), group: 'Earn', live: true, key: 'kula' },
+  { label: 'Curation trail', url: env('TRAIL_SITE', 'https://vote.melek.salon'), group: 'Earn', live: true, key: 'trail' },
+  { label: 'KulaSwap — trade KULA', url: env('KULASWAP_SITE', 'https://kula.money'), group: 'Earn', live: true, key: 'kulaswap' },
+  { label: 'Burn lottery', url: env('LOTTO_SITE', 'https://kula.money/lotto.html'), group: 'Earn', live: true, key: 'lotto' },
+  { label: 'Mining pool', url: env('POOL_SITE', 'https://pool.soapbox.community'), group: 'Earn', live: true, key: 'pool' },
 ];
 
 export function links({ group } = {}) {

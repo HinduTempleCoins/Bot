@@ -57,8 +57,12 @@ export function safeHref(u) {
 // ── canonical chain facts (PRANA mainnet, chainId 712217) ──────────────────────────────────────────
 export const CHAIN_ID = 712217;
 export const CHAIN_ID_HEX = '0xADE19';
-// The native PRANA settlement token (public; same value published in KULA_PAPER.md).
-export const PRANA_TOKEN = '0xE92E94C4929ea9D6EF7BFB8B3e192D66951Ab661';
+// PRANA itself is the chain's NATIVE coin — it has no ERC-20 contract, the way ETH has none. The
+// address below is an ERC-20 named "Prana" that was deployed and never minted: its totalSupply is 0
+// and nobody holds any. It was published here as "the native PRANA token", which sent readers to an
+// empty contract. The ERC-20 that actually exists and that the AMM pairs trade against is WPRANA.
+export const PRANA_TOKEN_UNMINTED = '0xE92E94C4929ea9D6EF7BFB8B3e192D66951Ab661';
+export const WPRANA_TOKEN = '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34';
 
 // Pinned genesis / consensus parameters — [label, value, source/note]. Changing any is a hard fork.
 export const PINNED = [
@@ -100,7 +104,7 @@ export const REF = [
   ['Public RPC', RPC_URL, true],
   ['Block explorer (Blockscout)', EXPLORER, true],
   ['Deployed contracts + ABIs', CONTRACTS_URL, true],
-  ['Native PRANA token', PRANA_TOKEN, 'addr'],
+  ['WPRANA (the ERC-20; PRANA itself is the native coin)', WPRANA_TOKEN, 'addr'],
 ];
 
 const STYLE = `<style>

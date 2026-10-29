@@ -11,8 +11,12 @@ import { test } from 'node:test';
 import assert from 'node:assert';
 import { PROVIDERS, WIKI_LANGS, search, searchMultilingual, searchAll, normalizeUrl, cleanSnippet, __setFetch } from './scraper.mjs';
 
-const LIVE = !process.env.SKIP_LIVE;
-const live = (name, fn) => test(name, { skip: LIVE ? false : 'SKIP_LIVE set' }, fn);
+// These hit real public search engines, so they are OPT-IN. CLAUDE.md: `npm test` is the full OFFLINE
+// suite — no network. Defaulting them to run made the suite depend on Wikipedia being reachable and on
+// whichever engines answer a given IP, which is exactly how CI started failing on es/ja Wikipedia while
+// passing on a laptop. Run them deliberately with LIVE_SEARCH=1.
+const LIVE = process.env.LIVE_SEARCH === '1' && !process.env.SKIP_LIVE;
+const live = (name, fn) => test(name, { skip: LIVE ? false : 'live search test — set LIVE_SEARCH=1 to run' }, fn);
 
 // ── structure tests (no network) ──
 test('foreign-language Wikipedia providers are registered in PROVIDERS', () => {

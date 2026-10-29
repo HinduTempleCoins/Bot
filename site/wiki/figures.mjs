@@ -23,6 +23,7 @@ import { chartSvg } from '../../integrations/plant-deficiency-chart.mjs';
 import { wheelSvg, wheelNames } from '../../integrations/aroma-wheel.mjs';
 import { table, GRAPHENE_MATRIX } from '../../integrations/chain-compare.mjs';
 import { specsTable, SPEC_DIMENSIONS, CAPTURE } from '../../integrations/token-specs.mjs';
+import { CHARTS as METALS_CHARTS } from '../../integrations/metals-market.mjs';
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -330,6 +331,16 @@ export const FIGURES = {
   'hebrew-greek-alphabet': { fn: hebrewGreekAlphabetSvg, alt: 'The Phoenician, Hebrew and Greek alphabets side by side: the same shapes, the same order, the same names and the same numbers' },
   'token-specs': { fn: tokenSpecsMatrix, alt: 'VKBT and CURE compared with other Hive-Engine tokens on supply, holders, concentration and emission' },
   'graphene-matrix': { fn: grapheneMatrix, alt: 'STEEM, HIVE, BLURT, MELEK, PRANA, VKBT and CURE compared side by side' },
+  // the metals board — see integrations/metals-market.mjs
+  'metals-board': { fn: METALS_CHARTS['metals-board'], alt: 'The metals board: gold, silver, platinum, palladium and copper spot prices with the day\u2019s move, year to date, and where each sits in its yearly range' },
+  'gold-silver-ratio': { fn: METALS_CHARTS['gold-silver-ratio'], alt: 'The gold/silver ratio as a gauge: how many ounces of silver one ounce of gold buys, and where it started the year' },
+  'metals-drawdown': { fn: METALS_CHARTS['metals-drawdown'], alt: 'How far gold and silver sit below their own 2026 peaks' },
+  'silver-demand': { fn: METALS_CHARTS['silver-demand'], alt: 'Where silver actually goes: industrial fabrication, investment, jewellery, silverware and the annual supply deficit' },
+  'silver-demand-change': { fn: METALS_CHARTS['silver-demand-change'], alt: 'What grew and what collapsed in silver demand, by end use, year on year' },
+  'silverware-global': { fn: METALS_CHARTS['silverware-global'], alt: 'Global silverware demand by year \u2014 volatile and India-led, not a smooth decline' },
+  'silverware-countries': { fn: METALS_CHARTS['silverware-countries'], alt: 'Who buys silverware: demand by country, showing India at two-thirds of the world and the United States flat for a decade' },
+  'metals-history': { fn: METALS_CHARTS['metals-history'], alt: 'Sixty-six years of gold, silver and platinum on a logarithmic axis' },
+  'metals-decades': { fn: METALS_CHARTS['metals-decades'], alt: 'Gold, silver, platinum and copper returns decade by decade' },
   // one figure per aroma wheel: [[Figure:wheel-wine]], [[Figure:wheel-cannabis]] and so on
   ...Object.fromEntries(wheelNames().map((n) => [
     `wheel-${n.toLowerCase()}`,

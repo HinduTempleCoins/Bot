@@ -1,0 +1,66 @@
+'''Precious metals''' — gold, silver, platinum, palladium and copper — are tracked on MELEK by the [[KULA Community Fund|KULA]] account, which publishes a recurring market board. This article is the reference behind that board: what the numbers are, where they come from, and how to read them.
+
+The board is drawn, not fetched as a picture. Every panel is generated from data constants in <code>integrations/metals-market.mjs</code> and emitted as plain SVG, so it is identical on every load and legible in print. No image model touches a number.
+
+== The board ==
+
+[[Figure:metals-board|Spot prices, the day's move, year to date, and where each metal sits inside its own yearly range.]]
+
+Gold and silver are quoted to the cent from a bullion dealer's daily report and cross-checked against tokenised metal. Platinum, palladium and copper are consensus readings across several dealers, and the board labels them as such rather than inventing a daily tick for them. An approximate number labelled approximate is honest; an approximate number dressed up as a quote is not.
+
+== 2026: a top, and a break ==
+
+Both monetary metals made a high in 2026 and then fell hard. This is the single most important fact about the current market and the board leads with it.
+
+[[Figure:metals-drawdown|How far gold and silver sit below their own 2026 peaks.]]
+
+Gold peaked at $5,598.58 and trades about 27.7% below it. Silver peaked at $121.67 and trades about 55.7% below it — silver made the larger top and took the larger fall, which is what silver characteristically does. Silver's higher volatility is not a defect of the metal; it follows from a much smaller market in which industrial and speculative demand sit on top of the monetary bid.
+
+== The ratio ==
+
+[[Figure:gold-silver-ratio|The gold/silver ratio: how many ounces of silver one ounce of gold buys.]]
+
+See [[The Gold-Silver Ratio]].
+
+== Where silver goes ==
+
+[[Figure:silver-demand|Silver demand by end use, 2026 forecast, and the annual supply deficit.]]
+
+Silver is unusual among the precious metals in that most of it is *consumed*. Industrial fabrication is about 58% of demand — solar cells, electrical contacts, brazing alloys, vehicle electronics and data-centre hardware. Gold, by contrast, is overwhelmingly hoarded: almost every ounce ever mined still exists.
+
+[[Figure:silver-demand-change|What grew and what collapsed in silver demand, by end use.]]
+
+The market has run an annual supply deficit for six consecutive years. A deficit is drawn down from above-ground stocks rather than from the mine, so it can persist for years without forcing the price — which is why a deficit is a condition, not a signal.
+
+== The long view ==
+
+[[Figure:metals-history|Sixty-six years of gold, silver and platinum, on a logarithmic axis.]]
+
+The axis is logarithmic deliberately. Gold went from about $35 to over $4,000, a range of more than a hundred times; on a linear axis the first thirty years are crushed into a flat line and the chart misrepresents them. On a log axis equal vertical distance is equal *percentage* change, which is what a holder actually experiences, so the 1970s and the 2020s can be compared honestly.
+
+[[Figure:metals-decades|Returns by decade, as a total and as the same change expressed per year.]]
+
+The decade table is computed from the series rather than typed in, so it cannot drift away from the chart above it.
+
+== Reading the board honestly ==
+
+Three habits the board is built to enforce:
+
+* '''A price is a reading, not a forecast.''' The board shows what the metal costs and what it has done. It does not tell anyone what to buy. That is out of scope — see the note on individualised financial advice in the project's scope rules.
+* '''Label precision.''' Numbers verified to the cent are shown to the cent; consensus readings are marked as consensus.
+* '''Show the shape, not the story you want.''' Where the data is volatile rather than trending, the chart says so. See [[Silverware]] for the clearest case.
+
+== See also ==
+* [[The Gold-Silver Ratio]]
+* [[Silverware]]
+* [[KULA Community Fund]]
+* [[Tokens Are Not Money]]
+
+== Sources ==
+* World Bank Commodity Markets "Pink Sheet", monthly nominal prices 1960–2025, averaged per calendar year
+* Metals Focus / The Silver Institute, ''World Silver Survey''
+* USAGOLD daily precious metals market report
+* <code>integrations/metals-market.mjs</code> in the Bot repo
+
+== Coverage ==
+Describes the metals board as built and the data behind it. Spot figures are as at 28 October 2026 and are a snapshot, not a live feed.

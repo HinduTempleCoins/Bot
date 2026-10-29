@@ -147,3 +147,71 @@ export function upsertDelegation(state, { account, vests, source = 'melek-vests'
   else dels.push({ account: a, vests: num(vests), source, since: now, earned: 0, lastAccrued: now });
   return { ...settled, delegations: dels };
 }
+
+// ── the curation vote a delegation earns ────────────────────────────────────────────────────────
+// Operator, 2026-10-29: "People can get a Vote like Tomoyan somewhere on the KULA Page ... like the
+// Tomoyan System, or HIVE Curation Trail Pages."
+//
+// SOULAVA pays you for lending weight. This pays you BACK IN WEIGHT: the pool's voting power is a
+// finite weekly budget, and a delegator is entitled to a pro-rata slice of it on their own posts.
+//
+// THE MODEL — fixed cadence, proportional weight. A Graphene account can sustain about `votesPerDay`
+// full-weight votes before its power drains, so the pool's weekly capacity is
+// `votesPerDay * 7 * MAX_WEIGHT` in basis points. A delegator's slice of that is their share of the
+// pool's vests. Spread across `postsPerWeek` posts, that gives the weight of each vote, floored at
+// `minWeight` so a small delegator still gets a vote that is visible rather than a rounding error.
+//
+// Why not proportional cadence instead: giving a small delegator "0.3 votes a week" is unspendable.
+// A predictable cadence at an honest weight is what a person can actually plan around.
+//
+// This is ACCOUNTING ONLY. It signs nothing and votes nothing — the plan it returns is what the
+// key-gated trail consumes (voting_rules/daily-vote-budget.mjs does the per-post selection).
+export const MAX_VOTE_WEIGHT = 10000;
+
+/**
+ * What each delegation earns in curation weight.
+ * @returns {{totalVests:number, votesPerDay:number, postsPerWeek:number, weeklyCapacityBps:number,
+ *            rows:Array<{account:string,vests:number,sharePct:number,weightBps:number,
+ *                        weightPct:number,postsPerWeek:number,fullVotesPerWeek:number}>}}
+ */
+export function voteEntitlement(state, {
+  votesPerDay = num(process.env.KULA_VOTES_PER_DAY) || 10,
+  postsPerWeek = num(process.env.KULA_POSTS_PER_WEEK) || 3,
+  minWeight = 100,
+  maxWeight = MAX_VOTE_WEIGHT,
+  // Operator/house delegation FUNDS the pool; it must not also claim the members' share of the vote
+  // budget. Without this, Hathor delegating her weight in would take almost all of it and drop a real
+  // member from a full vote to a rounding error — the opposite of what the pool is for. Excluded
+  // accounts get no row and are left out of the total the rest divide.
+  exclude = [PROGRAM.pool],
+} = {}) {
+  const skip = new Set((Array.isArray(exclude) ? exclude : [exclude]).map(lc).filter(Boolean));
+  const dels = (state && Array.isArray(state.delegations) ? state.delegations : [])
+    .filter((d) => num(d.vests) > 0 && !skip.has(lc(d.account)));
+  const totalVests = dels.reduce((s, d) => s + num(d.vests), 0);
+  const perWeek = Math.max(1, Math.floor(postsPerWeek));
+  const weeklyCapacityBps = Math.max(0, votesPerDay) * 7 * maxWeight;
+  const rows = dels.map((d) => {
+    const share = totalVests > 0 ? num(d.vests) / totalVests : 0;
+    const theirBps = share * weeklyCapacityBps;
+    const weightBps = totalVests > 0
+      ? Math.min(maxWeight, Math.max(minWeight, Math.round(theirBps / perWeek)))
+      : 0;
+    return {
+      account: lc(d.account),
+      vests: num(d.vests),
+      sharePct: round6(share * 100),
+      weightBps,
+      weightPct: round6(weightBps / 100),
+      postsPerWeek: perWeek,
+      fullVotesPerWeek: round6(theirBps / maxWeight),
+    };
+  }).sort((a, b) => b.vests - a.vests);
+  return { totalVests: round6(totalVests), votesPerDay, postsPerWeek: perWeek, weeklyCapacityBps, rows };
+}
+
+/** One delegator's entitlement, or null when they are not in the pool. */
+export function voteEntitlementFor(state, account, opts = {}) {
+  const want = lc(account);
+  return voteEntitlement(state, opts).rows.find((r) => r.account === want) || null;
+}

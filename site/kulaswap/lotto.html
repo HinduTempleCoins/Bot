@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KULA Lotto — burn MWALI, win KULA</title>
+<meta name="description" content="Provide liquidity, earn MWALI, burn it for tickets and win the KULA pot. No admin, no custody — the contract holds the prize and pays it out itself.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root{
+    --bg:#0a0a14; --bg2:#121327; --card:rgba(23,24,50,.66); --card-solid:#171834;
+    --ink:#eceefb; --dim:#9aa0c4; --faint:#6f74a0;
+    --gold:#e0b552; --gold2:#f6d488; --gold-dim:rgba(224,181,82,.14);
+    --teal:#54d9d4; --teal-dim:rgba(84,217,212,.12); --violet:#9b8cff;
+    --line:rgba(140,150,210,.13); --line2:rgba(140,150,210,.24);
+    --field:#0e0f22; --ok:#3fd08a; --warn:#e6b74e; --err:#ef7169; --link:#93b4ff;
+    --burn:#ff8a5c;
+    --shadow:0 30px 70px -28px rgba(0,0,0,.78); --r:20px;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+    padding:1.1rem 1rem 3.5rem;
+    background-image:radial-gradient(72rem 46rem at 50% -18%, rgba(155,140,255,.16), transparent 60%),
+      radial-gradient(60rem 40rem at 90% 10%, rgba(84,217,212,.07), transparent 60%);}
+  .wrap{width:100%;max-width:980px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  h1{font-size:1.35rem;letter-spacing:-.02em}
+  .sub{color:var(--dim);font-size:.85rem}
+  .spacer{flex:1}
+  a{color:var(--link)}
+  button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line2);
+    background:var(--field);color:var(--ink);padding:.6rem 1rem;transition:.15s}
+  button:hover:not(:disabled){border-color:var(--teal);background:var(--teal-dim)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a2008;border:0;font-weight:700}
+  button.burn{background:linear-gradient(180deg,#ffb08c,var(--burn));color:#3a1708;border:0;font-weight:700}
+  .phase{display:flex;gap:10px;align-items:flex-start;background:var(--gold-dim);border:1px solid rgba(224,181,82,.3);
+    border-radius:14px;padding:.7rem .9rem;margin-bottom:18px;font-size:.86rem;color:var(--gold2)}
+  .tag{background:var(--gold);color:#2a2008;border-radius:7px;padding:.05rem .45rem;font-weight:800;font-size:.72rem;flex:none}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.8rem .9rem}
+  .k{color:var(--faint);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em}
+  .v{font-family:var(--mono);font-size:1.18rem;font-variant-numeric:tabular-nums;margin-top:.2rem}
+  .v.big{font-size:1.75rem;color:var(--gold2)}
+  .v.burn{color:var(--burn)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1.2rem;
+    box-shadow:var(--shadow);margin-bottom:16px}
+  .card h2{font-size:1.02rem;margin-bottom:.3rem}
+  .card p.lede{color:var(--dim);font-size:.88rem;margin-bottom:1rem}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:.8rem}
+  input{font:inherit;font-family:var(--mono);background:var(--field);color:var(--ink);
+    border:1px solid var(--line2);border-radius:12px;padding:.6rem .8rem;flex:1;min-width:120px}
+  .mini{color:var(--faint);font-size:.78rem;margin-top:.5rem}
+  .note{border-radius:12px;padding:.6rem .8rem;margin-top:.8rem;font-size:.86rem;display:none}
+  .note.show{display:block}
+  .note.ok{background:rgba(63,208,138,.1);border:1px solid rgba(63,208,138,.35);color:var(--ok)}
+  .note.err{background:rgba(239,113,105,.1);border:1px solid rgba(239,113,105,.35);color:var(--err)}
+  .note.warn{background:rgba(230,183,78,.1);border:1px solid rgba(230,183,78,.35);color:var(--warn)}
+  table{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:.6rem}
+  td{padding:.42rem 0;border-bottom:1px solid var(--line)}
+  td:last-child{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  code{font-family:var(--mono);font-size:.78rem;color:var(--dim);word-break:break-all}
+  .seal{display:inline-flex;gap:6px;align-items:center;background:rgba(63,208,138,.1);
+    border:1px solid rgba(63,208,138,.35);color:var(--ok);border-radius:999px;padding:.15rem .6rem;font-size:.76rem;font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+</style>
+</head><body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>KULA Lotto <span class="seal" id="seal">checking…</span></h1>
+      <div class="sub">every pair earns MWALI · burn it for tickets · win KULA · nobody holds the keys</div>
+    </div>
+    <span class="spacer"></span>
+    <a href="/" style="align-self:center;margin-right:10px;text-decoration:none;font-weight:700">← KulaSwap</a>
+    <button id="connect"><span id="connect-lbl">Connect Wallet</span></button>
+  </header>
+
+  <div class="phase">
+    <span class="tag">Mainnet</span>
+    <span>On PRANA mainnet, non-custodial. <b>Burning is permanent</b> — MWALI spent on tickets is destroyed and cannot be withdrawn or refunded. On-chain values are the source of truth.</span>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Prize pool</div><div class="v big" id="s-pot">—</div></div>
+    <div class="stat"><div class="k">Tickets in round</div><div class="v" id="s-tickets">—</div></div>
+    <div class="stat"><div class="k">Players</div><div class="v" id="s-players">—</div></div>
+    <div class="stat"><div class="k">MWALI burned, all time</div><div class="v burn" id="s-burned">—</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>1 · Earn MWALI</h2>
+      <p class="lede">Stake the LP token of <b>any</b> pair below. MWALI is minted to you every second — the emission splits across pairs by weight, then pro-rata by stake inside each. Withdraw whenever; the gauge never locks you in.</p>
+      <div class="row" style="margin-top:0">
+        <select id="pair" style="font:inherit;font-family:var(--mono);background:var(--field);color:var(--ink);border:1px solid var(--line2);border-radius:12px;padding:.6rem .8rem;flex:1"></select>
+      </div>
+      <table>
+        <tr><td>Your LP balance</td><td id="u-lp">—</td></tr>
+        <tr><td>Your stake</td><td id="u-staked">—</td></tr>
+        <tr><td>Unclaimed MWALI</td><td id="u-earned">—</td></tr>
+        <tr><td>Staked in this pair</td><td id="s-staked">—</td></tr>
+        <tr><td>This pair's rate</td><td id="s-rate">—</td></tr>
+        <tr><td>All pairs combined</td><td id="s-allrate">—</td></tr>
+      </table>
+      <div class="row">
+        <input id="stake-amt" placeholder="LP amount" inputmode="decimal">
+        <button id="btn-stake" class="primary" disabled>Stake</button>
+      </div>
+      <div class="row">
+        <button id="btn-claim" disabled>Claim all pairs</button>
+        <button id="btn-exit" disabled>Unstake this pair</button>
+      </div>
+      <div class="mini">All five KULA pairs earn. Emission decays 10% a year; lifetime total is capped at <span id="s-life">—</span> MWALI.</div>
+    </div>
+
+    <div class="card">
+      <h2>2 · Burn MWALI for tickets</h2>
+      <p class="lede">Each ticket costs <span id="s-price">—</span> MWALI, and that MWALI is <b>burned</b> — it leaves the supply permanently. Locking veKULA makes the same burn buy more tickets.</p>
+      <table>
+        <tr><td>Your MWALI</td><td id="u-mwali">—</td></tr>
+        <tr><td>Your veKULA</td><td id="u-ve">—</td></tr>
+        <tr><td>Your boost</td><td id="u-boost">—</td></tr>
+        <tr><td>Your tickets this round</td><td id="u-tickets">—</td></tr>
+      </table>
+      <div class="row">
+        <input id="ticket-n" placeholder="tickets" inputmode="numeric" value="1">
+        <button id="btn-enter" class="burn" disabled>Burn &amp; enter</button>
+      </div>
+      <div class="mini" id="cost-hint">—</div>
+      <div class="note warn show" style="margin-top:.9rem">
+        There is no withdraw function. Once burned, the MWALI is gone whether you win or not.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>How the draw works</h2>
+    <p class="lede">A draw is two transactions by design. Someone commits the hash of a secret salt, which binds the draw to a block nobody has mined yet; at least two blocks later they reveal the salt and the winner is computed from it. Neither the drawer nor a player can choose the outcome alone. Anyone may run a draw — there is no operator role.</p>
+    <table>
+      <tr><td>Round</td><td id="s-round">—</td></tr>
+      <tr><td>Open commit</td><td id="s-commit">—</td></tr>
+      <tr><td>MWALI total supply</td><td id="s-supply">—</td></tr>
+      <tr><td>MWALI hard cap</td><td id="s-cap">—</td></tr>
+    </table>
+    <div class="mini" style="margin-top:.9rem">
+      MWALI <code id="a-mwali"></code><br>Gauge <code id="a-gauge"></code><br>Lotto <code id="a-lotto"></code>
+    </div>
+  </div>
+
+  <div id="note" class="note"></div>
+</div>
+
+<script type="module">
+const RPC   = 'https://rpc.prana.melek.salon';
+const CHAIN = 712217;
+const PAIRS = [
+  { pid:0, name:'KULA/WPRANA',  lp:'0x3fC307dEa06667f5a7a640Ec0aBb950EacC4B8C2', w:50 },
+  { pid:1, name:'KULA/wVKBT',   lp:'0xe3e01d327bc2bee7a5754c1e7ff23158e017688e', w:20 },
+  { pid:2, name:'wCURE/KULA',   lp:'0x521786d5ede921c7e8f248796aca10e5370149a3', w:20 },
+  { pid:3, name:'wCURE/wVKBT',  lp:'0xa1a6143cedd0d0cddcad16c7b0fa034c3982351c', w:5  },
+  { pid:4, name:'KULA/wMELEK',  lp:'0xa88cb17efeeeaf68b2eb970dcabd26a60b3feb3b', w:5  },
+];
+let PID = 0;
+const curPair = () => PAIRS[PID];
+const KULA  = '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631';
+const VE    = '0x2a9da080BB38C9cfc4B9c8D7cFd4699fF57a5438';
+const MWALI = '0x864E262818C773D3EEC272c2A6A2C8195af1D977';
+const GAUGE = '0x98d0AF33C78133Ae7791330B7a28034ce85AbB59';
+const LOTTO = '0x85E69FA632E1a56f47eAD5B6cc977561B7eb18aD';
+
+const ERC20 = ['function balanceOf(address) view returns (uint256)','function allowance(address,address) view returns (uint256)','function approve(address,uint256) returns (bool)','function totalSupply() view returns (uint256)'];
+const MW    = [...ERC20,'function cap() view returns (uint256)','function DEFAULT_ADMIN_ROLE() view returns (bytes32)','function getRoleMemberCount(bytes32) view returns (uint256)'];
+const GA    = ['function stakedOf(uint256,address) view returns (uint256)','function earned(uint256,address) view returns (uint256)','function poolRate(uint256) view returns (uint256)','function pools(uint256) view returns (address,uint256,uint256,uint256,uint256)','function poolCount() view returns (uint256)','function currentRate() view returns (uint256)','function lifetimeEmission() view returns (uint256)','function stake(uint256,uint256)','function claim(uint256)','function claimAll()','function exit(uint256)'];
+const LO    = ['function prizePool() view returns (uint256)','function ticketCount() view returns (uint256)','function playerCount() view returns (uint256)','function roundId() view returns (uint256)','function totalBurned() view returns (uint256)','function mwaliPerTicket() view returns (uint256)','function ticketsOf(address) view returns (uint256)','function boostBpsOf(address) view returns (uint256)','function drawCommit() view returns (uint256,bytes32)','function enter(uint256)'];
+
+const $ = (id) => document.getElementById(id);
+let ethers, ro, provider, signer, account;
+const fmt = (v, d = 4) => { const n = Number(ethers.formatEther(v)); return n.toLocaleString('en-US',{maximumFractionDigits:d}); };
+const note = (kind, msg) => { const n = $('note'); n.className = `note show ${kind}`; n.innerHTML = msg; };
+
+async function getEthers(){ if(!ethers) ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.13.4/+esm'); return ethers; }
+
+async function loadPublic(){
+  await getEthers();
+  ro = new ethers.JsonRpcProvider(RPC);
+  const g = new ethers.Contract(GAUGE, GA, ro), l = new ethers.Contract(LOTTO, LO, ro), m = new ethers.Contract(MWALI, MW, ro);
+  $('a-mwali').textContent = MWALI; $('a-gauge').textContent = GAUGE; $('a-lotto').textContent = LOTTO;
+  const [pot,tickets,players,burned,round,price,pool,rate,allrate,life,supply,cap,admins,commit] = await Promise.all([
+    l.prizePool(), l.ticketCount(), l.playerCount(), l.totalBurned(), l.roundId(), l.mwaliPerTicket(),
+    g.pools(PID), g.poolRate(PID), g.currentRate(), g.lifetimeEmission(), m.totalSupply(), m.cap(),
+    m.DEFAULT_ADMIN_ROLE().then(r=>m.getRoleMemberCount(r)), l.drawCommit() ]);
+  const staked = pool[2];
+  $('s-pot').textContent     = fmt(pot,2)+' KULA';
+  $('s-tickets').textContent = tickets.toString();
+  $('s-players').textContent = players.toString();
+  $('s-burned').textContent  = fmt(burned,2);
+  $('s-round').textContent   = round.toString();
+  $('s-staked').textContent  = fmt(staked,2)+' LP';
+  $('s-rate').textContent    = fmt(rate,5)+' MWALI/sec';
+  $('s-allrate').textContent = fmt(allrate,4)+' MWALI/sec';
+  $('s-life').textContent    = fmt(life,0);
+  $('s-supply').textContent  = fmt(supply,2);
+  $('s-cap').textContent     = fmt(cap,0);
+  $('s-price').textContent   = fmt(price,0);
+  $('s-commit').textContent  = commit[0] === 0n ? 'none — a draw can be run' : `block ${commit[0]}`;
+  $('seal').textContent = admins === 0n ? '✓ no admin' : `⚠ ${admins} admin`;
+  $('seal').style.cssText = admins === 0n ? '' : 'background:rgba(239,113,105,.1);border-color:rgba(239,113,105,.35);color:var(--err)';
+  updateCost();
+}
+
+async function loadUser(){
+  if(!account) return;
+  const g = new ethers.Contract(GAUGE, GA, ro), l = new ethers.Contract(LOTTO, LO, ro);
+  const [lp, staked, earned, mw, ve, boost, tix] = await Promise.all([
+    new ethers.Contract(curPair().lp, ERC20, ro).balanceOf(account),
+    g.stakedOf(PID, account), g.earned(PID, account),
+    new ethers.Contract(MWALI, ERC20, ro).balanceOf(account),
+    new ethers.Contract(VE, ERC20, ro).balanceOf(account).catch(()=>0n),
+    l.boostBpsOf(account).catch(()=>10000n), l.ticketsOf(account) ]);
+  $('u-lp').textContent     = fmt(lp,4);
+  $('u-staked').textContent = fmt(staked,4);
+  $('u-earned').textContent = fmt(earned,6);
+  $('u-mwali').textContent  = fmt(mw,4);
+  $('u-ve').textContent     = fmt(ve,2);
+  $('u-boost').textContent  = (Number(boost)/10000).toFixed(2)+'×';
+  $('u-tickets').textContent= tix.toString();
+  for(const b of ['btn-stake','btn-claim','btn-exit','btn-enter']) $(b).disabled = false;
+  updateCost();
+}
+
+function updateCost(){
+  const n = parseInt($('ticket-n').value || '0', 10);
+  const price = $('s-price').textContent.replace(/,/g,'');
+  if(!(n>0) || !price || price==='—'){ $('cost-hint').textContent='—'; return; }
+  const boost = parseFloat(($('u-boost').textContent||'1').replace('×','')) || 1;
+  $('cost-hint').innerHTML = `Burns <b>${(n*Number(price)).toLocaleString()} MWALI</b> → <b>${Math.floor(n*boost)} tickets</b> at your ${boost.toFixed(2)}× boost.`;
+}
+$('ticket-n').addEventListener('input', updateCost);
+
+async function connect(){
+  try{
+    if(!window.ethereum){ note('err','No EVM wallet found. Install MetaMask or any injected wallet, then reload.'); return; }
+    await getEthers();
+    provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send('eth_requestAccounts', []);
+    const net = await provider.getNetwork();
+    if(Number(net.chainId) !== CHAIN){
+      try{ await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x'+CHAIN.toString(16)}]}); }
+      catch{ note('warn', `Switch your wallet to PRANA (chain id ${CHAIN}) and reload.`); return; }
+    }
+    signer = await provider.getSigner();
+    account = await signer.getAddress();
+    $('connect-lbl').textContent = account.slice(0,6)+'…'+account.slice(-4);
+    await loadUser();
+    note('ok','Connected.');
+  }catch(e){ note('err', 'Could not connect: '+(e.shortMessage||e.message)); }
+}
+$('connect').addEventListener('click', connect);
+
+async function tx(label, fn){
+  try{
+    note('warn', label+' — confirm in your wallet…');
+    const t = await fn(); note('warn', label+' — waiting for the chain…');
+    await t.wait();
+    note('ok', label+' confirmed.');
+    await loadPublic(); await loadUser();
+  }catch(e){ note('err', label+' failed: '+(e.shortMessage||e.reason||e.message)); }
+}
+const ensure = async (token, spender, amount) => {
+  const c = new ethers.Contract(token, ERC20, signer);
+  if(await c.allowance(account, spender) < amount)
+    await (await c.approve(spender, ethers.MaxUint256)).wait();
+};
+
+$('btn-stake').addEventListener('click', ()=> tx('Stake', async ()=>{
+  const a = ethers.parseEther($('stake-amt').value||'0');
+  if(a<=0n) throw new Error('enter an amount');
+  await ensure(curPair().lp, GAUGE, a);
+  return new ethers.Contract(GAUGE, GA, signer).stake(PID, a);
+}));
+$('btn-claim').addEventListener('click', ()=> tx('Claim all pairs', ()=> new ethers.Contract(GAUGE, GA, signer).claimAll()));
+$('btn-exit').addEventListener('click',  ()=> tx('Unstake this pair', ()=> new ethers.Contract(GAUGE, GA, signer).exit(PID)));
+$('btn-enter').addEventListener('click', ()=> tx('Burn & enter', async ()=>{
+  const n = BigInt(parseInt($('ticket-n').value||'0',10));
+  if(n<=0n) throw new Error('enter a ticket count');
+  const price = await new ethers.Contract(LOTTO, LO, ro).mwaliPerTicket();
+  await ensure(MWALI, LOTTO, n*price);
+  return new ethers.Contract(LOTTO, LO, signer).enter(n);
+}));
+
+const sel = $('pair');
+PAIRS.forEach(p => { const o=document.createElement('option'); o.value=p.pid; o.textContent=`${p.name} — weight ${p.w}`; sel.appendChild(o); });
+sel.addEventListener('change', async () => { PID = Number(sel.value); await loadPublic(); await loadUser(); });
+loadPublic().catch(e=>note('err','Could not read the chain: '+e.message));
+setInterval(()=>{ loadPublic().catch(()=>{}); if(account) loadUser().catch(()=>{}); }, 15000);
+</script>
+</body></html>

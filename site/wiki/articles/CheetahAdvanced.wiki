@@ -1,0 +1,41 @@
+'''CheetahAdvanced''' is the attribution and discovery bot for the MELEK social chain, and a sibling to [[Hathor (AI Witness)|Hathor]]. Where Hathor is the conversational and resolution layer, Cheetah is the quick factual librarian. Both write to the same data store so that Hathor can read across everything Cheetah has found.
+
+== An inversion of the original ==
+
+The original Cheetah bot on Steem, from around 2017, was a punitive tripwire. It pattern-matched a post's text against prior posts, labelled matches "plagiarism", and relied on a human maintaining a flat whitelist and blacklist by hand. It had no context and no appeal.
+
+Its central flaw was a conflation: ''these words appear elsewhere'' and ''this person stole these words'' are different statements, and only the first one is checkable by a matching engine. CheetahAdvanced is built to keep them apart.
+
+== Two jobs, one engine ==
+
+The same underlying capability — "what else out there resembles this?" — is pointed at two goals:
+
+* '''Discovery.''' Surfacing related content, biased toward other MELEK creators, to connect people and send attention to their work. This is the job Cheetah should do most often and most warmly.
+* '''Attribution.''' When a post's text or image also appears elsewhere, surfacing the match with a link to the source — framed as crediting, not accusing.
+
+Enforcement, for genuine repeat theft, is rare and comes only after a real process.
+
+== Design principles ==
+
+* '''State facts, do not accuse.''' Cheetah says "this also appears here", with a link — a true, checkable statement. It does not say "this is plagiarised", which is a legal-flavoured accusation a matching engine cannot substantiate. Whether a match means theft, coincidence, self-quotation or licensed use is a question of intent, and intent is resolved by Hathor and the person involved, not by the detector.
+* '''Credit first, escalate last.''' First contact on any match is a friendly note that introduces who Cheetah is and links the source.
+* '''Always link the source.''' Whether crediting an outside source or surfacing similar MELEK content, the link is the entire point.
+* '''An appeals path exists.''' Escalation happens only after the friendly process has run and been ignored.
+
+== What is built ==
+
+The <code>cheetah/</code> directory contains a working implementation: a detector registry, text and image matching, image-theft and impersonation detection, response composition, a live loop and a policing run, each with tests. Results from live alpha testing are published at the project's alpha surface.
+
+Note that the original design brief in the repository still describes the project as "design brief, no implementation yet". That line is stale and predates the build.
+
+== See also ==
+* [[Hathor (AI Witness)]]
+* [[Posting on MELEK]]
+* [[Images and Video in Posts]]
+
+== Sources ==
+* <code>CHEETAH_ADVANCED.md</code> in the Bot repo
+* The <code>cheetah/</code> module directory
+
+== Coverage ==
+Describes Cheetah's purpose, principles and implementation status.

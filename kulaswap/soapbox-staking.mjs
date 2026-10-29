@@ -8,8 +8,14 @@
 //   pendingReward(user) = pending + amount × accRewardPerShare/ACC − rewardDebt
 //   accRewardPerShare advances by (blocksElapsed × emissionPerBlock × ACC) / totalDelegated each pool touch.
 //
-// WHAT THIS MODULE IS: the PURE off-chain mirror of that math + UNSIGNED EVM tx descriptors (the wallet —
-// Akasha or MetaMask — signs), a live state reader over an injected fetch, and a UI fragment / handler.
+// WHAT THIS MODULE IS: the PURE off-chain mirror of that math + UNSIGNED EVM tx descriptors, a live
+// state reader over an injected fetch, and a UI fragment / handler.
+//
+// WHO SIGNS (corrected 2026-10-28): MELEK-Signer. It custodies a PRANA (EVM) key per account and
+// exposes POST /v1/evm (send), /v1/evm/sign and /v1/evm/address — the bearer resolves to the account
+// and the key is never returned. So a delegator needs NO MetaMask and no address to paste: one
+// "Login with MELEK" covers both chains. An external wallet (Akasha / MetaMask) remains possible for
+// someone who wants to hold their own key, but it is not the path and must not be assumed.
 // House style: ESM .mjs, BigInt (no float in the reward math), soft-fail-never-throw, injectable fetch
 // (__setFetch), esc() all HTML, handler(req,res), CLI-guarded. Offline node:test alongside.
 

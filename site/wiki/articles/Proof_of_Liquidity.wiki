@@ -1,0 +1,50 @@
+'''Proof of liquidity''' (PoL) is a design that pays people for '''providing liquidity''' rather than for holding a token, and measures that liquidity with a token of its own. The idea is adapted from Berachain. On [[PRANA Blockchain|PRANA]] the proof-of-liquidity token is [[MWALI]].
+
+== The problem it solves ==
+
+A reward token with no liquidity is a number on a screen. Someone holding it cannot sell it, price it, or borrow against it, because there is no pool deep enough to trade into. Most token designs treat liquidity as something that will show up by itself, or rent it temporarily with emissions aimed at whoever is passing.
+
+Proof of liquidity makes the opposite assumption: liquidity is the scarce thing, so it should be the thing that is measured and rewarded.
+
+== The separation ==
+
+The key move is to split two rewards that are usually the same token:
+
+* '''The reward token''' — on PRANA, [[KulaSwap|KULA]]. Emission-only, capped, and paid for a variety of activity.
+* '''The proof-of-liquidity token''' — [[MWALI]]. Minted only by a gauge, only to people who have actually supplied liquidity to one of the designated pairs.
+
+Keeping them separate means a liquidity position becomes a first-class, measurable, governance-relevant thing. It can be counted, voted with, paired back, or wired into further gauges, without diluting the reward token's own emission schedule.
+
+== Gauges ==
+
+A '''gauge''' is the contract that meters this. Liquidity providers stake their pool position in the gauge, and the gauge mints the proof-of-liquidity token to them over time. A '''gauge controller''' sits above the gauges and directs how much emission each pool receives, which is what makes the question "which pools should this economy pay for?" into a governance decision rather than a fixed constant.
+
+On PRANA the designated pair is KULA/WPRANA — the "Kula-Ring" — which ties issuance to the depth of the pool that actually backs the reward token.
+
+== Why no human can print it ==
+
+By design, the proof-of-liquidity token has no human minter. The gauge holds the only minting role; the deployer holds none and has renounced its administrative role, leaving administration with the DAO timelock. The token therefore cannot be printed by a person — only emitted by the mechanism, to people who supplied liquidity.
+
+== Status on PRANA ==
+
+Proof of liquidity '''is''' emitting. The gauge at <code>0x98d0AF33C78133Ae7791330B7a28034ce85AbB59</code> mints [[MWALI]] per second to LP stakers across '''five''' pairs, split by weight — KULA/WPRANA 50, KULA/wVKBT 20, wCURE/KULA 20, wCURE/wVKBT 5, KULA/wMELEK 5 — and then pro-rata by stake inside each pair, so a smaller pool still earns. The pair list and the weights are fixed at construction and cannot be changed by anyone.
+
+The gauge holds MWALI's only minting role, and MWALI has '''no admin at all''' (<code>getRoleMemberCount(DEFAULT_ADMIN_ROLE)</code> returns 0), so no second minter can ever be added. Supply is capped in the token at 3,468,960, with a lifetime emission of 3,153,600 decaying 10% a year.
+
+An earlier revision of this page reported that proof of liquidity was not emitting, that the KULA/WPRANA gauge paid KULA instead of MWALI, that MWALI's supply was zero, and that fixing it needed a two-day timelock action. All of that described the superseded single-pair gauge and the abandoned MWALI token at <code>0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9</code>, whose supply is indeed still zero. The live token is <code>0x864E262818C773D3EEC272c2A6A2C8195af1D977</code>.
+
+The layer is also what makes the [[KULA Lottery|lottery]] a genuine sink: MWALI is earned by supplying liquidity and '''burned''' for tickets, while the prize is paid in KULA, so supply actually leaves rather than circling.
+
+This is recorded here rather than glossed over, because the difference between a design and a running system is the entire point of writing any of this down.
+
+== See also ==
+* [[MWALI]]
+* [[KulaSwap]]
+* [[KULA Community Fund]]
+
+== Sources ==
+* <code>KULA_PAPER.md</code> §3 and §11
+* On-chain reads of the gauge and token contracts on PRANA mainnet, 28 October 2026
+
+== Coverage ==
+Explains the mechanism and states its live status accurately as at 28 October 2026.

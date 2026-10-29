@@ -1,0 +1,49 @@
+'''SoapBox delegation mining''' lets a MELEK account earn a token by '''delegating [[MELEK Blockchain|MELEK]] Power''' rather than by selling votes. It is the ecosystem's version of the NutBox model, in which delegated stake on a Graphene chain is mirrored as an ERC-20 on an EVM chain and used to mine a reward token.
+
+== The chain of events ==
+
+<pre>
+MELEK (Graphene)                   relayer                 PRANA (EVM)
+delegate_vesting_shares  ──▶  inbound delegation  ──▶  mint dMP  ──▶  DelegationMint ──▶ ALTI
+</pre>
+
+# A user delegates MELEK Power to the SoapBox delegation account using the standard Graphene <code>delegate_vesting_shares</code> operation. No custom operation is involved and no key leaves the user.
+# A relayer reads every delegation on the MELEK chain, keeps those pointing at the SoapBox account, and compares them with the stake token already issued.
+# The difference is minted or burned as '''dMP''', an ERC-20 on [[PRANA Blockchain|PRANA]] that mirrors the delegation.
+# Holding dMP mines '''ALTI''', paid pro rata by the <code>DelegationMint</code> contract.
+# ALTI is spent in the Shop for a MELEK upvote.
+
+Undelegating reverses it: the relayer sees the delegation shrink and burns the corresponding dMP, so mining stops.
+
+== Why there is no bind step ==
+
+Users never paste or link an address. Their PRANA address is the one [[MELEK-Signer]] already custodies for their MELEK account, learned at login. The two chains are joined by a single identity rather than by anything the user types, which removes the usual cross-chain phishing surface entirely.
+
+A delegator whose PRANA address is not yet known is reported as ''unlinked'' rather than dropped. That is somebody owed ALTI who has not logged in since delegating — there is nothing for them to bind, only to log in.
+
+== Why a relayer, and what it is not ==
+
+The relayer is a '''reader and differ'''. It enumerates delegations, diffs them against issued dMP, and emits mint and burn intents. It holds no key and broadcasts nothing; minting requires a privileged role on PRANA, and a separate key-gated signer consumes the intents. That split is what lets the delegation logic live in the public repository without any key material in it.
+
+All arithmetic is done in integers. Delegated stake carries six decimals on the MELEK chain and dMP is an eighteen-decimal ERC-20, so the conversion is an exact power-of-ten scaling — no floating point touches a balance.
+
+== Relationship to the curation trail ==
+
+Delegation mining and the [[Curation Trails and Auto-Voting|SoapBox Curation Trail]] are different things and are often confused. Delegating lends voting power to the account and earns ALTI. Joining the trail means an account follows the resulting vote. A user can do either, both, or neither.
+
+== Status ==
+
+The relayer is built and tested. The reward contracts are '''not yet deployed to PRANA mainnet''', and at the time of writing no MELEK Power is delegated to the SoapBox account — so the path exists and is unused. Nobody is currently earning ALTI by this route, and any statement that they are would be false.
+
+== See also ==
+* [[SoapBox]]
+* [[MELEK-Signer]]
+* [[Curation Trails and Auto-Voting]]
+* [[KULA Community Fund]]
+
+== Sources ==
+* <code>kulaswap/soapbox-delegation-relayer.mjs</code> and its tests
+* <code>kulaswap/prana-address-registry.mjs</code>
+
+== Coverage ==
+Describes the mechanism as designed and built, and states which components are live.

@@ -1,0 +1,41 @@
+'''Pentecaust notifications''' tell a MELEK user that somebody has messaged them in [[Pentecaust]], without requiring them to go and look. A letter icon in the MELEK navigation bar carries an unread count; clicking it opens a notifications page, and clicking an item opens that conversation in the Pentecaust messenger.
+
+== Why it was needed ==
+
+Pentecaust messaging worked, but nothing told anyone a message had arrived. A messenger that only works if you remember to check it is a messenger most people stop checking. The notification is the piece that makes the rest of it usable.
+
+== How unread is determined ==
+
+The notification system does not keep its own copy of anyone's messages. It derives everything from the existing chat store, and stores exactly one thing of its own: a '''per-account read marker''' recording how far that account has read in each conversation. Anything after the marker is unread.
+
+This matters for two reasons. It means there is no second database of private messages to secure or to drift out of sync, and it means marking something read is a tiny write rather than a mutation of message history.
+
+Both kinds of conversation are covered — direct messages and team channels — and each notification carries the kind of conversation it came from and the link that opens it.
+
+== Security ==
+
+Adding a notification does not widen the attack surface in the way one might expect, because the notification carries no message content of its own and grants no new access: it is a pointer into a conversation the account could already open.
+
+The one real risk in a feature like this is '''navigation''': a notification is attacker-influenced content, since anyone can send a message, and a link rendered from it could point anywhere. The rendering is therefore locked down so that nothing inserted by a sender can navigate a user off-site. Text that looks like a URL is rendered as inert text rather than as a working link unless it points somewhere the system itself serves.
+
+A related protection on the messaging side is a word filter that masks a list of exact-spelled profanities. It is deliberately narrow: it matches whole words with exact spelling and '''does not''' chase misspellings. That is a requirement rather than an oversight — a filter aggressive enough to catch every variant also mangles ordinary writing, and the goal here is to keep casual profanity out of a default view, not to build censorship that cannot be worked around.
+
+== The icon ==
+
+The MELEK navigation icon is a plain grey outline of a letter, drawn to match the existing pencil and magnifying-glass icons rather than a filled, coloured, cartoon envelope. It sits beside them and carries a numeric badge with the unread count.
+
+== Status ==
+
+Built and tested. At the time of writing the change is still in an unmerged pull request, so the notifications page is not yet live and the link returns a 404 until that is merged.
+
+== See also ==
+* [[Pentecaust]]
+* [[Hathor (AI Witness)]]
+* [[Comments and Replies on MELEK]]
+
+== Sources ==
+* <code>pentecaust/notifications.mjs</code>, <code>pentecaust/notifications-page.mjs</code> and their tests
+* <code>pentecaust/word-filter.mjs</code>
+
+== Coverage ==
+Describes the notification mechanism, its security posture and its merge status.

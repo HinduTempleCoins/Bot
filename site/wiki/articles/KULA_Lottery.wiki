@@ -1,0 +1,57 @@
+The '''KULA Lottery''' is a '''burn sink''' on [[PRANA Blockchain|PRANA]], contract <code>BurnLotto</code> at <code>0x85E69FA632E1a56f47eAD5B6cc977561B7eb18aD</code>. You earn [[MWALI]] by providing liquidity, you '''burn''' MWALI to get tickets, and the prize is paid in [[KulaSwap|KULA]]. The burned MWALI is destroyed. There is no withdraw function in the contract, by design.
+
+== It was a no-loss pool, and that was wrong ==
+
+An earlier design was a no-loss prize pool on the PoolTogether model, where the deposit was never at risk and only the yield was given away. It was deployed, it was drained, and it was replaced, because a lottery that returns every token it touches removes nothing from supply — pairing it against an emission and calling it a sink is bad arithmetic. The old <code>NoLossLotto</code> contract is dead: its pot and deposits are zero and no KULA remains in it.
+
+== How it works ==
+
+Two different tokens on purpose. Burning the same token you pay out would destroy and re-issue the same supply and net to nothing; burning the ''reward'' token while paying from a separate pot is what actually removes supply. Every round, MWALI supply falls and KULA only changes hands.
+
+A ticket costs '''10 MWALI'''. Locking veKULA boosts how many tickets the same burn buys, up to three times, on a curve with diminishing returns — so the boost rewards locking without letting a large holder buy the outcome outright.
+
+== Nobody holds the keys ==
+
+<code>BurnLotto</code> has '''no roles at all'''. Funding the pot is permissionless: anyone, or any contract, can push KULA in. Running a draw is permissionless too — a stranger can commit and reveal, and the ticket holder still wins. The contract holds the pot and pays it out itself, so there is no account to trust and none that has to be holding the prize beforehand.
+
+MWALI's own minting is just as closed: a single wiring contract deployed the token, the gauge and the lottery together, granted the gauge MWALI's only <code>MINTER_ROLE</code>, and renounced its own admin before that transaction ended. <code>getRoleMemberCount(DEFAULT_ADMIN_ROLE)</code> on MWALI returns '''0''', so a second minter can never be added.
+
+== The draw: commit and reveal ==
+
+A draw is two transactions, not one, and the gap between them is the whole security design:
+
+# <code>commitDraw(saltHash)</code> — the drawer publishes the hash of a secret salt. This binds the draw to the current block.
+# <code>revealDraw(salt)</code> — at least 2 and at most 256 blocks later, the drawer reveals the salt. The winner is computed from it, and the prize is paid.
+
+The delay exists because the winner is derived partly from a future block hash, which the drawer cannot know when committing. The salt stays secret until the reveal so the drawer cannot grind salts until a favoured address wins. Neither party can choose the outcome alone.
+
+The 256-block ceiling is not arbitrary: the chain can only look back 256 blocks for a block hash, so a commit older than that can never be revealed. <code>clearExpiredDraw()</code> then discards the stale commit and a new draw begins. No prize is lost, because the prize pool is only zeroed inside a successful reveal.
+
+== The schedule ==
+
+The contract has no timer of its own; it pays only when somebody calls those two functions. The keeper that does so runs '''twice a week''' and completes a whole draw in a single run — commit, wait out the reveal delay, reveal — rather than needing several wake-ups to get through one draw.
+
+== Status ==
+
+Live on PRANA mainnet and '''proven end to end''', on these contracts, not an earlier version of them:
+
+* 10 MWALI burned for a ticket — <code>totalBurned</code> went 0 → 10
+* the draw ran, <code>roundId</code> 0 → 1
+* <code>totalPrizesPaid</code> 0 → 10,000 KULA, paid by the contract to the ticket holder
+* the pot was refunded to 10,000 KULA afterwards, so it stands funded
+
+MWALI is earned across '''five''' pairs, not one — see [[Proof of Liquidity]] for the weights.
+
+== See also ==
+* [[KULA Community Fund]]
+* [[KulaSwap]]
+* [[MWALI]]
+* [[Proof of Liquidity]]
+* [[Tokens Are Not Money]]
+
+== Sources ==
+* <code>kulaswap/contracts/src/BurnLotto.sol</code>, <code>MwaliToken.sol</code>, <code>KulaLottoWiring.sol</code>
+* Read off PRANA mainnet (chain id 712217) rather than from the paper
+
+== Coverage ==
+Describes the burn sink as deployed, names the superseded no-loss design and why it was wrong, and states the on-chain evidence that the draw pays.

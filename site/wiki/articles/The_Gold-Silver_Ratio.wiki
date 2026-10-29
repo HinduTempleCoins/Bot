@@ -1,0 +1,36 @@
+The '''gold-silver ratio''' is the number of ounces of silver that one ounce of gold will buy. It is the oldest relative-value gauge in the metals trade, and it is computed, not quoted: divide the gold price by the silver price.
+
+[[Figure:gold-silver-ratio|The ratio as a gauge, with the level at the start of the year marked.]]
+
+== What it does and does not say ==
+
+A high ratio means silver is cheap '''against gold'''. It does not mean silver is cheap. Both metals can fall together and the ratio will still rise if silver falls faster — which is precisely what happened through 2026, when the ratio went from roughly 60 in January to about 75, while gold itself was also down on the year.
+
+This is the single most common error made with the ratio. It is a measure of one metal priced in the other, and it carries no information about the dollar price of either.
+
+== Why it moves ==
+
+Silver is the more volatile leg, so the ratio is mostly a statement about silver. Silver's price carries an industrial and speculative component on top of the monetary bid that gold has almost alone. When risk appetite contracts, the industrial and speculative premium is stripped out of silver faster than the monetary premium is discounted out of gold, and the ratio rises.
+
+The reverse happens in a silver mania: the ratio can collapse very quickly, because the silver market is small enough that a modest flow moves it a long way.
+
+== Historical range ==
+
+The ratio has spent most of the modern floating-price era somewhere between about 30 and 110. The gauge above is scaled to that band for exactly that reason — a dial scaled to an impossible range flatters whatever the needle is doing.
+
+Two historical anchors are worth knowing. A ratio near 15:1 was written into bimetallic coinage law in several countries in the eighteenth and nineteenth centuries, reflecting roughly the relative abundance of the two metals as then mined; that is a legal artefact, not a natural constant, and it has no bearing on the modern number. At the other extreme, the ratio exceeded 100 briefly in 2020.
+
+== Using it ==
+
+Traders use the ratio as a switching heuristic — exchanging metal for metal at extremes rather than buying or selling for currency. Whether that works is a question about mean reversion in the ratio, and the long record is genuinely mixed: the ratio has trended higher across the twentieth century as silver was demonetised, so "it always comes back" is an assumption about a series that has also had a trend.
+
+== See also ==
+* [[Precious Metals]]
+* [[Silverware]]
+
+== Sources ==
+* Computed from the spot prices on the [[Precious Metals|metals board]]
+* <code>integrations/metals-market.mjs</code>, <code>ratioDialSvg</code>
+
+== Coverage ==
+Defines the ratio, its range, and the most common misreading of it. The level shown is a snapshot as at 28 October 2026.

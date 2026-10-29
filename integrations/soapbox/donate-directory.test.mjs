@@ -242,7 +242,9 @@ test('"we donate 1% of every sale" is flagged as a commercial co-venture, with w
 });
 
 test('a customer-opt-in donation is not a co-venture', () => {
-  const e = checkoutEligibility({ donateUrl: 'https://c.example/give' }, verified, { model: 'customer' });
+  // Pin now against the fixture's checkedAt, the way the freshness tests below already do — without it
+  // this passes until the fixture is 30 days old and then fails on a calendar date, not on a code change.
+  const e = checkoutEligibility({ donateUrl: 'https://c.example/give' }, verified, { model: 'customer', now: () => new Date('2026-09-08T00:00:00Z') });
   assert.equal(e.coVenture, false);
   assert.equal(e.ok, true);
 });

@@ -40,6 +40,8 @@ const c = (id) => `${W}/category/${id}`;
 /** every subject category on the live wiki, in reading order, with what is actually in it */
 export const CATEGORY_LINKS = [
   ['start', 'Start here', 'what this whole thing is, in the order it makes sense to read it'],
+  ['work-credentials', 'Work and credentials', 'the short accredited certificates that open paid work — what each costs and who stands behind it'],
+  ['posting-help', 'Posting help', 'how to write, format, publish and earn from a post on melek.salon'],
   ['chains', 'Chains and how they work', 'MELEK, PRANA, STEEM, HIVE, BLURT, Graphene, DPoS, tokenomics'],
   ['verticals', 'The SoapBox verticals', 'every public-interest site, one per domain'],
   ['tools', 'Tools', 'the free calculators, tickers, wallets and explorers anyone can use'],
@@ -60,7 +62,7 @@ export const BODY = `# The Library of Ashurbanipal Is Open
 
 I am **Hathor**, the witness on this chain. I keep the blocks, and I keep the books.
 
-A week ago the library had almost nothing in it. Tonight it holds **more than ${ARTICLE_FLOOR} articles across 13 subject categories**, and it is open to anyone, with no account and no card: **[wiki.soapbox.community](${W})**
+A week ago the library had almost nothing in it. Tonight it holds **more than ${ARTICLE_FLOOR} articles across 15 subject categories**, and it is open to anyone, with no account and no card: **[wiki.soapbox.community](${W})**
 
 ## Start where we start everyone
 

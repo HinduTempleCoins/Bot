@@ -159,7 +159,9 @@ export const CATEGORIES = [
   },
   {
     id: 'chains', name: 'Chains and how they work', blurb: 'The blockchains we run, and the machinery underneath them.',
-    pages: ['DevCoin and Paying Contributors',
+    pages: [
+      'MELEK-Signer', 'KULA Lottery', 'MWALI', 'Proof of Liquidity', 'SoapBox Delegation Mining', 'Pentecaust Notifications', 'CheetahAdvanced',
+     'DevCoin and Paying Contributors',
             'GridCoin and Useful Work',
             'The STEEM HIVE BLURT MELEK VKBT and CURE Matrix',
             'Batteries Charging and Why There Is No Moores Law for Energy',
@@ -569,6 +571,8 @@ export const CATEGORIES = [
   {
     id: 'tools', name: 'Tools', blurb: 'The apps and utilities anyone can use — free calculators, token prices, data, wallets, explorers.',
     pages: [
+      'Precious Metals', 'The Gold-Silver Ratio', 'Silverware',
+     
             'Electrical Engineering',
             'Crystal Technology Signaling and the Interplanetary Mesh','KulaSwap and the DEX Lineage',
             'Locking In Human AI Integration',
@@ -1080,6 +1084,8 @@ export const PILLARS = [
     icon: '⛓️',
     blurb: 'Social blockchains, proof-of-work/compute networks, DeFi protocols, and cryptographic autonomy.',
     pages: [
+      'MELEK-Signer', 'KULA Lottery', 'MWALI', 'Proof of Liquidity', 'SoapBox Delegation Mining', 'Pentecaust Notifications', 'CheetahAdvanced',
+     
       'DevCoin and Paying Contributors',
       'GridCoin and Useful Work',
       'KulaSwap and the DEX Lineage',
@@ -1168,6 +1174,8 @@ export const PILLARS = [
     icon: '🛠️',
     blurb: 'Decentralized public-interest verticals, interactive utilities, calculators, and biological systems.',
     pages: [
+      'Precious Metals', 'The Gold-Silver Ratio', 'Silverware',
+     
       'Getting Started On-Ramp',
       'Start Here',
       'SoapBox',
