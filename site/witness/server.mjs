@@ -127,7 +127,7 @@ const PRANA_ABIS = JSON.parse(readFileSync(new URL('./prana-abis.json', import.m
 const PRANA_CONTRACTS = [
   { group: 'Core tokens', items: [
     ['KULA', '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631', 'ERC20Base', 'DeFi collateral coin (name() = "KulaSwap"). Emission-only — deployer holds no MINTER_ROLE.'],
-    ['MWALI', '0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9', 'ERC20Base', 'Ecosystem token. Emission-only; MINTER_ROLE not held by the deployer, DEFAULT_ADMIN renounced to the Timelock.'],
+    ['MWALI', '0x864E262818C773D3EEC272c2A6A2C8195af1D977', 'MwaliToken', 'Proof-of-liquidity token, earned by staking LP in the gauge and burned for lottery tickets. Hard cap 3,468,960 enforced in the token itself. DEFAULT_ADMIN holders: 0 — nobody can add a second minter. MINTER_ROLE: the gauge alone.'],
     ['WPRANA', '0xCAbCaAeBBF7a7312b91A92Faa635d7a32Af42a34', 'WrappedNative', 'Wrapped native PRANA (the WETH-equivalent) — deposit()/withdraw(); the router\'s base asset.'],
   ] },
   { group: 'KulaSwap DEX (Uniswap-V2)', items: [
@@ -146,8 +146,8 @@ const PRANA_CONTRACTS = [
   ] },
   { group: 'Governance & gauges', items: [
     ['GaugeController', '0x3858Bcd8CEE92FBDB0ECBC3946C67C112416A63C', 'GaugeController', 'Directs emissions across gauges — addGauge(), gaugeWeight().'],
-    ['LiquidityGauge (KULA/WPRANA)', '0x46d92Ae6F5D55Eb5f12F222e44F0CDAC74E38e45', 'LiquidityGauge', 'Stake the KULA/WPRANA LP to earn — stake()/getReward()/earned().'],
-    ['DAO Timelock', '0x574DeEaa82BcA4ACF6C5669D8dbe084C28EE0da4', 'DAOTimelock', 'OpenZeppelin TimelockController — PROPOSER/EXECUTOR/CANCELLER roles; admin of the emission-only tokens.'],
+    ['MwaliGauge (all five KULA pairs)', '0x98d0AF33C78133Ae7791330B7a28034ce85AbB59', 'MwaliMultiGauge', 'Mints MWALI to LP stakers across five pairs, weighted 50/20/20/5/5 then pro-rata by stake — stake(pid,amt)/claim(pid)/earned(pid,who). Pair list and weights immutable.'],
+    ['DAO Timelock', '0x574DeEaa82BcA4ACF6C5669D8dbe084C28EE0da4', 'DAOTimelock', 'OpenZeppelin TimelockController — PROPOSER/EXECUTOR/CANCELLER roles; holds DEFAULT_ADMIN on KULA (and no MINTER_ROLE). MWALI has no admin at all.'],
   ] },
   { group: 'KulaSwap LP pairs (UniswapV2Pair)', items: [
     ['wVKBT / KULA', '0xE3e01d327bC2bee7a5754c1E7Ff23158E017688E', 'UniswapV2Pair', 'token0 = KULA, token1 = wVKBT (verified on-chain).'],
