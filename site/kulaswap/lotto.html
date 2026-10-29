@@ -72,7 +72,7 @@
   <header>
     <div>
       <h1>KULA Lotto <span class="seal" id="seal">checking…</span></h1>
-      <div class="sub">burn MWALI · win KULA · nobody holds the keys</div>
+      <div class="sub">every pair earns MWALI · burn it for tickets · win KULA · nobody holds the keys</div>
     </div>
     <span class="spacer"></span>
     <a href="/" style="align-self:center;margin-right:10px;text-decoration:none;font-weight:700">← KulaSwap</a>
@@ -94,23 +94,27 @@
   <div class="grid2">
     <div class="card">
       <h2>1 · Earn MWALI</h2>
-      <p class="lede">Stake your KULA/WPRANA LP token. MWALI is minted to you every second, shared across everyone staked. Withdraw whenever — the gauge never locks you in.</p>
+      <p class="lede">Stake the LP token of <b>any</b> pair below. MWALI is minted to you every second — the emission splits across pairs by weight, then pro-rata by stake inside each. Withdraw whenever; the gauge never locks you in.</p>
+      <div class="row" style="margin-top:0">
+        <select id="pair" style="font:inherit;font-family:var(--mono);background:var(--field);color:var(--ink);border:1px solid var(--line2);border-radius:12px;padding:.6rem .8rem;flex:1"></select>
+      </div>
       <table>
         <tr><td>Your LP balance</td><td id="u-lp">—</td></tr>
         <tr><td>Your stake</td><td id="u-staked">—</td></tr>
         <tr><td>Unclaimed MWALI</td><td id="u-earned">—</td></tr>
-        <tr><td>Total staked</td><td id="s-staked">—</td></tr>
-        <tr><td>Emission rate</td><td id="s-rate">—</td></tr>
+        <tr><td>Staked in this pair</td><td id="s-staked">—</td></tr>
+        <tr><td>This pair's rate</td><td id="s-rate">—</td></tr>
+        <tr><td>All pairs combined</td><td id="s-allrate">—</td></tr>
       </table>
       <div class="row">
         <input id="stake-amt" placeholder="LP amount" inputmode="decimal">
         <button id="btn-stake" class="primary" disabled>Stake</button>
       </div>
       <div class="row">
-        <button id="btn-claim" disabled>Claim MWALI</button>
-        <button id="btn-exit" disabled>Unstake all</button>
+        <button id="btn-claim" disabled>Claim all pairs</button>
+        <button id="btn-exit" disabled>Unstake this pair</button>
       </div>
-      <div class="mini">Emission decays 10% a year. Lifetime total is capped at <span id="s-life">—</span> MWALI.</div>
+      <div class="mini">All five KULA pairs earn. Emission decays 10% a year; lifetime total is capped at <span id="s-life">—</span> MWALI.</div>
     </div>
 
     <div class="card">
@@ -153,16 +157,24 @@
 <script type="module">
 const RPC   = 'https://rpc.prana.melek.salon';
 const CHAIN = 712217;
-const LP    = '0x3fC307dEa06667f5a7a640Ec0aBb950EacC4B8C2';
+const PAIRS = [
+  { pid:0, name:'KULA/WPRANA',  lp:'0x3fC307dEa06667f5a7a640Ec0aBb950EacC4B8C2', w:50 },
+  { pid:1, name:'KULA/wVKBT',   lp:'0xe3e01d327bc2bee7a5754c1e7ff23158e017688e', w:20 },
+  { pid:2, name:'wCURE/KULA',   lp:'0x521786d5ede921c7e8f248796aca10e5370149a3', w:20 },
+  { pid:3, name:'wCURE/wVKBT',  lp:'0xa1a6143cedd0d0cddcad16c7b0fa034c3982351c', w:5  },
+  { pid:4, name:'KULA/wMELEK',  lp:'0xa88cb17efeeeaf68b2eb970dcabd26a60b3feb3b', w:5  },
+];
+let PID = 0;
+const curPair = () => PAIRS[PID];
 const KULA  = '0x32255D0138f5D645894FA89b5D5B5a68cF9Aa631';
 const VE    = '0x2a9da080BB38C9cfc4B9c8D7cFd4699fF57a5438';
-const MWALI = '0x4ABC82E906D2D3a23098fc921f15c03c8bf7bb21';
-const GAUGE = '0x704751bc51f694a59A514aeF267bD6898ec986B4';
-const LOTTO = '0x01e6a59A305c48D614C97c1033c9d191948Fc07a';
+const MWALI = '0x864E262818C773D3EEC272c2A6A2C8195af1D977';
+const GAUGE = '0x98d0AF33C78133Ae7791330B7a28034ce85AbB59';
+const LOTTO = '0x85E69FA632E1a56f47eAD5B6cc977561B7eb18aD';
 
 const ERC20 = ['function balanceOf(address) view returns (uint256)','function allowance(address,address) view returns (uint256)','function approve(address,uint256) returns (bool)','function totalSupply() view returns (uint256)'];
 const MW    = [...ERC20,'function cap() view returns (uint256)','function DEFAULT_ADMIN_ROLE() view returns (bytes32)','function getRoleMemberCount(bytes32) view returns (uint256)'];
-const GA    = ['function stakedOf(address) view returns (uint256)','function earned(address) view returns (uint256)','function totalStaked() view returns (uint256)','function currentRate() view returns (uint256)','function lifetimeEmission() view returns (uint256)','function stake(uint256)','function claim()','function exit()'];
+const GA    = ['function stakedOf(uint256,address) view returns (uint256)','function earned(uint256,address) view returns (uint256)','function poolRate(uint256) view returns (uint256)','function pools(uint256) view returns (address,uint256,uint256,uint256,uint256)','function poolCount() view returns (uint256)','function currentRate() view returns (uint256)','function lifetimeEmission() view returns (uint256)','function stake(uint256,uint256)','function claim(uint256)','function claimAll()','function exit(uint256)'];
 const LO    = ['function prizePool() view returns (uint256)','function ticketCount() view returns (uint256)','function playerCount() view returns (uint256)','function roundId() view returns (uint256)','function totalBurned() view returns (uint256)','function mwaliPerTicket() view returns (uint256)','function ticketsOf(address) view returns (uint256)','function boostBpsOf(address) view returns (uint256)','function drawCommit() view returns (uint256,bytes32)','function enter(uint256)'];
 
 const $ = (id) => document.getElementById(id);
@@ -177,17 +189,19 @@ async function loadPublic(){
   ro = new ethers.JsonRpcProvider(RPC);
   const g = new ethers.Contract(GAUGE, GA, ro), l = new ethers.Contract(LOTTO, LO, ro), m = new ethers.Contract(MWALI, MW, ro);
   $('a-mwali').textContent = MWALI; $('a-gauge').textContent = GAUGE; $('a-lotto').textContent = LOTTO;
-  const [pot,tickets,players,burned,round,price,staked,rate,life,supply,cap,admins,commit] = await Promise.all([
+  const [pot,tickets,players,burned,round,price,pool,rate,allrate,life,supply,cap,admins,commit] = await Promise.all([
     l.prizePool(), l.ticketCount(), l.playerCount(), l.totalBurned(), l.roundId(), l.mwaliPerTicket(),
-    g.totalStaked(), g.currentRate(), g.lifetimeEmission(), m.totalSupply(), m.cap(),
+    g.pools(PID), g.poolRate(PID), g.currentRate(), g.lifetimeEmission(), m.totalSupply(), m.cap(),
     m.DEFAULT_ADMIN_ROLE().then(r=>m.getRoleMemberCount(r)), l.drawCommit() ]);
+  const staked = pool[2];
   $('s-pot').textContent     = fmt(pot,2)+' KULA';
   $('s-tickets').textContent = tickets.toString();
   $('s-players').textContent = players.toString();
   $('s-burned').textContent  = fmt(burned,2);
   $('s-round').textContent   = round.toString();
   $('s-staked').textContent  = fmt(staked,2)+' LP';
-  $('s-rate').textContent    = fmt(rate,4)+' MWALI/sec';
+  $('s-rate').textContent    = fmt(rate,5)+' MWALI/sec';
+  $('s-allrate').textContent = fmt(allrate,4)+' MWALI/sec';
   $('s-life').textContent    = fmt(life,0);
   $('s-supply').textContent  = fmt(supply,2);
   $('s-cap').textContent     = fmt(cap,0);
@@ -202,8 +216,8 @@ async function loadUser(){
   if(!account) return;
   const g = new ethers.Contract(GAUGE, GA, ro), l = new ethers.Contract(LOTTO, LO, ro);
   const [lp, staked, earned, mw, ve, boost, tix] = await Promise.all([
-    new ethers.Contract(LP, ERC20, ro).balanceOf(account),
-    g.stakedOf(account), g.earned(account),
+    new ethers.Contract(curPair().lp, ERC20, ro).balanceOf(account),
+    g.stakedOf(PID, account), g.earned(PID, account),
     new ethers.Contract(MWALI, ERC20, ro).balanceOf(account),
     new ethers.Contract(VE, ERC20, ro).balanceOf(account).catch(()=>0n),
     l.boostBpsOf(account).catch(()=>10000n), l.ticketsOf(account) ]);
@@ -265,11 +279,11 @@ const ensure = async (token, spender, amount) => {
 $('btn-stake').addEventListener('click', ()=> tx('Stake', async ()=>{
   const a = ethers.parseEther($('stake-amt').value||'0');
   if(a<=0n) throw new Error('enter an amount');
-  await ensure(LP, GAUGE, a);
-  return new ethers.Contract(GAUGE, GA, signer).stake(a);
+  await ensure(curPair().lp, GAUGE, a);
+  return new ethers.Contract(GAUGE, GA, signer).stake(PID, a);
 }));
-$('btn-claim').addEventListener('click', ()=> tx('Claim', ()=> new ethers.Contract(GAUGE, GA, signer).claim()));
-$('btn-exit').addEventListener('click',  ()=> tx('Unstake', ()=> new ethers.Contract(GAUGE, GA, signer).exit()));
+$('btn-claim').addEventListener('click', ()=> tx('Claim all pairs', ()=> new ethers.Contract(GAUGE, GA, signer).claimAll()));
+$('btn-exit').addEventListener('click',  ()=> tx('Unstake this pair', ()=> new ethers.Contract(GAUGE, GA, signer).exit(PID)));
 $('btn-enter').addEventListener('click', ()=> tx('Burn & enter', async ()=>{
   const n = BigInt(parseInt($('ticket-n').value||'0',10));
   if(n<=0n) throw new Error('enter a ticket count');
@@ -278,6 +292,9 @@ $('btn-enter').addEventListener('click', ()=> tx('Burn & enter', async ()=>{
   return new ethers.Contract(LOTTO, LO, signer).enter(n);
 }));
 
+const sel = $('pair');
+PAIRS.forEach(p => { const o=document.createElement('option'); o.value=p.pid; o.textContent=`${p.name} — weight ${p.w}`; sel.appendChild(o); });
+sel.addEventListener('change', async () => { PID = Number(sel.value); await loadPublic(); await loadUser(); });
 loadPublic().catch(e=>note('err','Could not read the chain: '+e.message));
 setInterval(()=>{ loadPublic().catch(()=>{}); if(account) loadUser().catch(()=>{}); }, 15000);
 </script>
