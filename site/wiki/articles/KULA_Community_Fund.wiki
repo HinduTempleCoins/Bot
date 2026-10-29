@@ -1,9 +1,9 @@
-The '''KULA Community Fund''' is a community-funded pool on the [[MELEK Blockchain]], run by the account <code>@kula</code> and open at [https://melek.salon/kula melek.salon/kula]. Members pay MELEK into it and delegate MELEK Power on top. The pooled power curates for the fund, and members are paid back mostly in KULA-program tokens and airdrops, plus a small MELEK reward. It is built on the delegation-mining model that Nutbox made popular on Steem, but it is a shared fund that its members grow together, closer to a credit union than to a vote-selling service.
+The '''KULA Community Fund''' is a community-funded pool on the [[MELEK Blockchain]], run by the account <code>@kula</code> and open at [https://melek.salon/kula melek.salon/kula]. Members pay MELEK into it and delegate MELEK Power on top. The pooled power curates for the fund, and a delegator earns a share of its voting weight on their own posts. Token payouts &mdash; KULA-program tokens, airdrops and a small MELEK reward &mdash; are designed but '''have not started''' (see Status). It is built on the delegation-mining model that Nutbox made popular on Steem, but it is a shared fund that its members grow together, closer to a credit union than to a vote-selling service.
 
 == How it differs from a curation service ==
 Services such as Tomoyan or UPVU take delegations, vote for the delegators, keep a fee and return most of the rewards. The KULA fund is different in two ways:
 * '''Members put MELEK in.''' Deposits raise the fund's own balance and power, so the fund grows with its members rather than being one well-funded account.
-* '''Rewards are mostly other tokens.''' Members are paid in KULA-program tokens (starting with SOULAVA), airdrops, and a small MELEK reward, with more rewards to be added.
+* '''Rewards are mostly other tokens''' &mdash; by design. The intended payout is KULA-program tokens (starting with SOULAVA), airdrops, and a small MELEK reward. None of that is flowing yet; what a delegation actually earns today is curation weight on the delegator's own posts.
 
 == Joining ==
 Open [https://melek.salon/kula melek.salon/kula] and choose '''Delegate''' or '''Deposit'''. Each button sends you to MELEK-Signer, which asks for your MELEK password and approves only that one action. The fund's page never sees your password or keys, and the permission is withdrawn as soon as the action is done.
@@ -16,6 +16,12 @@ A deposit sends MELEK into the fund's balance. Deposits are how members build th
 
 == Members ==
 The members table on the fund's page is read straight from the MELEK chain: every deposit and delegation to <code>@kula</code> is a public operation, so anyone can check the fund's books against a block explorer.
+
+== Status ==
+
+What is live: the fund takes deposits and delegations, both readable on chain, and the pooled power votes. A delegator's slice of the weekly vote budget is shown on the fund page and is computed pro-rata from the delegated vests, with house delegation excluded so it does not dilute members.
+
+What is not live: '''no member has been paid anything yet'''. <code>@kula</code> has made no outgoing transfer and holds no MELEK-Engine balance, and SOULAVA's reward contracts are not deployed to PRANA mainnet. Any statement that members are currently earning tokens would be false.
 
 == See also ==
 * [[Voting and Curation on MELEK]]

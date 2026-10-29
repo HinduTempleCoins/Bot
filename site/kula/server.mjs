@@ -1,8 +1,9 @@
 // site/kula/server.mjs — the KULA community fund at melek.salon/kula.
 //
 // @kula is a community-funded, Nutbox-style pool: members pay MELEK into it and delegate MELEK Power on top;
-// the pooled power curates for the fund, and members are paid back in KULA-program tokens, airdrops and a
-// small MELEK reward. This page shows the fund straight from the chain (every deposit and delegation is a
+// the pooled power curates for the fund. Members are MEANT to be paid back in KULA-program tokens,
+// airdrops and a small MELEK reward — that distribution has not started: @kula has made no outgoing
+// transfer and holds no engine balance. What a delegation earns TODAY is the curation vote below. This page shows the fund straight from the chain (every deposit and delegation is a
 // public MELEK operation) and lets anyone join in one step.
 //
 // Joining never touches a key here. The member is sent to MELEK-Signer's own approval page with a scope for
@@ -172,7 +173,7 @@ export async function completeJoin({ code, state }) {
 function layout(title, body) {
   return `<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><link rel=canonical href="${esc(BASE_URL)}">
-<meta name=description content="A community-funded pool on MELEK, run by the account @${esc(FUND)}. Members pay MELEK in and delegate MELEK Power on top. The pooled power curates for the fund, and members are paid back mostly in KULA-program tokens and airdrops, plus a small MELEK reward.">
+<meta name=description content="A community-funded pool on MELEK, run by the account @${esc(FUND)}. Members pay MELEK in and delegate MELEK Power on top, and the pooled power votes on their posts. Token payouts are designed but have not started.">
 <style>
 :root{--bg:#f7f8fa;--fg:#1a1d24;--mut:#6b7280;--card:#fff;--line:#e5e7eb;--gold:#eab308}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1218;--fg:#e5e7eb;--mut:#9ca3af;--card:#161a22;--line:#2a2f3a}}
@@ -239,7 +240,8 @@ export async function renderFund() {
   return layout('KULA Community Fund — MELEK', `
 ${tabs('fund')}
 <h1>KULA Community Fund ${q('KULA_Community_Fund', 'the KULA fund')}</h1>
-<p class=mut>A community-funded pool on MELEK, run by the account <a href="https://melek.salon/@${esc(FUND)}">@${esc(FUND)}</a>. Members pay MELEK in and delegate MELEK Power on top. The pooled power curates for the fund, and members are paid back mostly in KULA-program tokens and airdrops, plus a small MELEK reward. Every deposit and delegation below is read straight from the MELEK chain.</p>
+<p class=mut>A community-funded pool on MELEK, run by the account <a href="https://melek.salon/@${esc(FUND)}">@${esc(FUND)}</a>. Members pay MELEK in and delegate MELEK Power on top, and the pooled power curates. Every deposit and delegation below is read straight from the MELEK chain.</p>
+<p class=mut><b>What a delegation earns today is the curation vote</b> in the table below. The token side &mdash; KULA-program tokens, airdrops and a small MELEK reward &mdash; is the design, and <b>it has not started</b>: @${esc(FUND)} has made no outgoing transfer and holds no engine balance, so nobody has been paid yet and we would rather say so than let the page imply otherwise.</p>
 <div class="card stats">
   <div class=stat><span class=mut>MELEK in the fund</span><b>${a ? esc(num(a.balance).toFixed(3)) : '—'}</b></div>
   <div class=stat><span class=mut>Fund's own MELEK Power</span><b>${esc(ownMp)}</b></div>
