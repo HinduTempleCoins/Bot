@@ -3,7 +3,7 @@ pragma solidity 0.8.24;
 
 import {MwaliToken} from "./MwaliToken.sol";
 import {BurnLotto} from "./BurnLotto.sol";
-import {MwaliGauge, IMintableMwali} from "./MwaliGauge.sol";
+import {MwaliMultiGauge, IMintableMwali} from "./MwaliMultiGauge.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /// @title KulaLottoWiring — deploys the whole loop and leaves nobody holding it
@@ -17,12 +17,13 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 ///         admin "for now" is a setup where a human holds admin.
 contract KulaLottoWiring {
     MwaliToken public immutable mwali;
-    MwaliGauge public immutable gauge;
+    MwaliMultiGauge public immutable gauge;
     BurnLotto public immutable lotto;
 
     event Wired(address mwali, address lotto, address gauge);
 
-    /// @param lpToken      the KULA/WPRANA LP staked in the gauge
+    /// @param lpTokens     every LP token that earns MWALI
+    /// @param weights      each pair's share of the emission
     /// @param ratePerSecond first-year MWALI per second across all stakers (decays 10%/yr)
     /// @param mwaliCap      hard ceiling on MWALI ever minted
     /// @param kula         the prize token
@@ -31,14 +32,14 @@ contract KulaLottoWiring {
     /// @param maxBoostBps  30000 = 3x cap
     /// @param boostK       veKULA half-way point
     constructor(
-        IERC20 lpToken, uint256 ratePerSecond, uint256 mwaliCap,
+        IERC20[] memory lpTokens, uint256[] memory weights, uint256 ratePerSecond, uint256 mwaliCap,
         IERC20 kula, IERC20 veKula, uint256 perTicket, uint256 maxBoostBps, uint256 boostK
     ) {
-        require(address(lpToken) != address(0), "lp=0");
+        require(lpTokens.length > 0, "no pools");
 
         // admin only for the length of this constructor, and renounced before it ends
         MwaliToken m = new MwaliToken(address(this), mwaliCap);
-        MwaliGauge g = new MwaliGauge(lpToken, IMintableMwali(address(m)), ratePerSecond);
+        MwaliMultiGauge g = new MwaliMultiGauge(IMintableMwali(address(m)), ratePerSecond, lpTokens, weights);
         m.grantRole(m.MINTER_ROLE(), address(g));
         m.renounceRole(m.DEFAULT_ADMIN_ROLE(), address(this));
 
