@@ -256,7 +256,8 @@ ${tabs('fund')}
 </div>
 <div class=card>
   <h2>What your delegation earns</h2>
-  <p class=mut>Two things, and the second one is new. You earn <b>SOULAVA</b> for lending weight &mdash; the delegation-mining reward, paid on PRANA, pro-rata and continuous. And the pooled power <b>votes on your own posts</b>: the fund can sustain about ${esc(String(ent.votesPerDay))} full votes a day, which is its weekly budget, and your slice of that is your share of the delegated power.</p>
+  <p class=mut>What is live today: the pooled power <b>votes on your own posts</b>. The fund can sustain about ${esc(String(ent.votesPerDay))} full votes a day &mdash; that is its weekly budget &mdash; and your slice of it is your share of the delegated power.</p>
+  <p class=mut>What is <b>not</b> live yet: <b>SOULAVA</b>, the delegation-mining reward. Its accounting is built and tested and its reward contracts are <b>not deployed to PRANA mainnet</b>, so nobody is earning it by this route and we are not going to imply otherwise. When it ships, lending weight will pay in SOULAVA on top of the vote. Until then the vote is the whole of it.</p>
   <p class=mut>Your slice is spread across <b>${esc(String(ent.postsPerWeek))} posts a week</b> at the weight in the table below &mdash; a steady cadence at an honest weight, rather than a fraction of a vote you cannot spend. A full vote is the ceiling, so past roughly a few percent of the pool the weight stops rising and the cadence is the thing you are buying. Delegation is not a payment: you keep the MELEK Power, you can take it back whenever, and delegating again just sets a new total.</p>
   <p class=mut>The trail that casts these votes is at <a href="https://vote.melek.salon">vote.melek.salon</a>, and the delegation-mining side is <a href="${WIKI}SoapBox_Delegation_Mining">SoapBox Delegation Mining</a>. Same system, different tabs.</p>
 </div>
