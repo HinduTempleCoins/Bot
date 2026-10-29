@@ -1,34 +1,67 @@
-'''MWALI''' (<code>0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9</code>) is the [[Proof of Liquidity|proof-of-liquidity]] token on [[PRANA Blockchain|PRANA]]. It exists to reward and measure the liquidity that backs [[KulaSwap|KULA]]. KULA is the reward token; MWALI is the liquidity token. They are deliberately not the same thing.
+'''MWALI''' (<code>0x864E262818C773D3EEC272c2A6A2C8195af1D977</code>) is the [[Proof of Liquidity|proof-of-liquidity]] token on [[PRANA Blockchain|PRANA]]. It exists to reward and measure the liquidity that backs [[KulaSwap|KULA]]. KULA is the reward token; MWALI is the liquidity token. They are deliberately not the same thing.
 
-== How it is meant to be minted ==
+An earlier MWALI was deployed at <code>0x36C6921e2CECe9DEc7a5AAC42bC6738011F2a1c9</code>. '''That one was never minted and its supply is still zero'''; it is abandoned, and a balance lookup against it will mislead you. The live token is the address above.
 
-MWALI has exactly one minting role, and it is held by a contract, not a person: the KULA/WPRANA liquidity gauge at <code>0x46d92Ae6F5D55Eb5f12F222e44F0CDAC74E38e45</code>. Liquidity providers to the KULA/WPRANA pair — the Kula-Ring — stake their position in the gauge, and the gauge mints MWALI to them in proportion to the liquidity they supplied and how long they supplied it.
+== Who can mint it ==
 
-The deployer holds no minting role and has renounced its administrative role. Administration belongs to the DAO timelock, which imposes a two-day delay on changes. The consequence is that '''no human can print MWALI'''.
+MWALI has exactly one minting role and it is held by a contract, not a person: the MWALI gauge at <code>0x98d0AF33C78133Ae7791330B7a28034ce85AbB59</code>. <code>getRoleMemberCount(MINTER_ROLE)</code> returns '''1''' and <code>getRoleMember(MINTER_ROLE, 0)</code> is that gauge.
+
+Administration belongs to '''nobody'''. <code>getRoleMemberCount(DEFAULT_ADMIN_ROLE)</code> returns '''0''' — not the operator, not the deployer, not a timelock. A single wiring contract deployed the token, the gauge and the [[KULA Lottery|lottery]] together, granted the gauge the only minting role, and renounced its own admin before that transaction ended. Because no admin exists, '''a second minter can never be added'''. An earlier revision of this page said administration sat behind a two-day DAO timelock; that was true of the superseded token, not this one.
+
+== Five pairs earn it, not one ==
+
+Liquidity providers stake their LP position in the gauge and MWALI is minted to them per second. The emission splits across every live KULA pair by weight, then pro-rata by stake inside each pair, so a smaller pool still earns:
+
+{| class="wikitable"
+! Pair !! Weight !! MWALI/sec
+|-
+| KULA / WPRANA || 50 || 0.005
+|-
+| KULA / wVKBT || 20 || 0.002
+|-
+| wCURE / KULA || 20 || 0.002
+|-
+| wCURE / wVKBT || 5 || 0.0005
+|-
+| KULA / wMELEK || 5 || 0.0005
+|}
+
+The pair list and the weights are '''fixed at construction and immutable'''. Nobody can add a pair, change a weight or redirect the emission. An earlier revision of this page said MWALI was minted only by the KULA/WPRANA gauge; that was the single-pair design, which has been replaced.
+
+== Supply is bounded ==
+
+{| class="wikitable"
+| Rate || 0.01 MWALI/sec across all pairs
+|-
+| Year one || 315,360 MWALI
+|-
+| Decay || −10% per year
+|-
+| Lifetime emission || 3,153,600
+|-
+| Hard cap || 3,468,960
+|}
+
+The cap is enforced '''in the token''', not in the gauge — a cap that lives only in the emitter is not a cap, because swapping the emitter removes the ceiling. Burned supply is not re-mintable either: the cap counts everything ever minted, so the lottery burning MWALI does not quietly re-authorise minting it again.
 
 == Why it is separate from KULA ==
 
-Separating the two lets a liquidity position be counted and governed in its own right rather than existing as a side effect of a reward programme. MWALI can be paired back into KULA, used as governance weight, or wired into further gauges without touching KULA's capped emission schedule. See [[Proof of Liquidity]] for the full argument.
+Separating the two lets a liquidity position be counted and governed in its own right rather than existing as a side effect of a reward programme. MWALI can be paired back into KULA, used as governance weight, or wired into further gauges without touching KULA's capped emission schedule. It is also what makes the lottery a real sink: MWALI is burned for tickets while the prize is paid in KULA, so supply actually leaves. See [[Proof of Liquidity]] for the full argument.
 
 == Current state ==
 
-'''MWALI has never been minted.''' Its total supply is zero.
-
-The cause is a configuration mismatch rather than a flaw in the token: the gauge that holds MWALI's minting role is configured to pay out '''KULA''' instead. Liquidity providers to KULA/WPRANA are therefore receiving the reward token, and the proof-of-liquidity layer is inert. The pool itself is real and supplied — the KULA/WPRANA pair holds meaningful liquidity and is fully staked — so the only missing piece is the gauge's reward-token setting.
-
-Correcting it means repointing the gauge, which is an administrative action behind the two-day timelock.
-
-Until that happens, any description of MWALI as a circulating token would be wrong, and any balance of it would be zero.
+MWALI '''is''' minting. All five pools are staked and accruing, and the token trades against KULA in a pool of its own. A previous revision of this page reported zero supply and blamed a gauge misconfigured to pay KULA — that described the old gauge and the old token, both superseded.
 
 == See also ==
 * [[Proof of Liquidity]]
 * [[KulaSwap]]
 * [[KULA Lottery]]
+* [[KULA Community Fund]]
 * [[Tokens Are Not Money]]
 
 == Sources ==
-* <code>KULA_PAPER.md</code> §3
-* On-chain reads of <code>rewardToken()</code> on the gauge and <code>totalSupply()</code> on MWALI, PRANA mainnet, 28 October 2026
+* <code>kulaswap/contracts/src/MwaliToken.sol</code>, <code>MwaliMultiGauge.sol</code>, <code>KulaLottoWiring.sol</code>
+* On-chain reads of <code>cap()</code>, <code>totalMinted()</code>, <code>getRoleMemberCount()</code>, <code>poolCount()</code> and <code>poolRate()</code>, PRANA mainnet chain id 712217
 
 == Coverage ==
-Describes the token's intended role and its actual zero-supply state as at 28 October 2026.
+Describes the live token: its single minting contract, its absent admin, the five pairs that earn it and its hard cap, and names the superseded address and single-pair design so an old reference does not mislead.
