@@ -43,12 +43,9 @@ test('sendBeacon is tried BEFORE fetch — it is the one that survives page unlo
   assert.ok(BEACON_JS.indexOf('sendBeacon') < BEACON_JS.indexOf('fetch('), 'sendBeacon first');
 });
 
-test('the collector serves exactly the script this module defines — they cannot drift', () => {
-  const server = readFileSync(new URL('../../site/analytics/server.mjs', import.meta.url), 'utf8');
-  assert.match(server, /from '\.\.\/\.\.\/integrations\/soapbox\/beacon\.mjs'/);
-  assert.match(server, /path === '\/b\.js'/);
-  assert.match(server, /res\.end\(BEACON_JS\)/);
-});
+// The collector that served this script is gone — removed entirely in 33fb215c, because the operator
+// said analytics.soapbox.community "should not exist". There is no server left to drift against, so the
+// drift test that read site/analytics/server.mjs went with it rather than being pointed somewhere else.
 
 test('the beacon is only on private pages, and where present it is the canonical tag', () => {
   // If someone hand-edits a page's tag, this catches it — 99 copies of a string is exactly the kind of
