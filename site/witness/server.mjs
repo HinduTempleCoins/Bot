@@ -2528,7 +2528,7 @@ export function devMatrixPage() {
   // Part 1 — Graphene social chains. Facts grounded in knowledge/cryptocurrency + BRIEF/CLAUDE.md.
   const graphene = [
     ['HIVE', 'DPoS', '3s', 'Yes', 'Resource Credits (no coin fee)', '50 / 50', 'Hive-Engine (+ SMT never shipped)'],
-    ['STEEM', 'DPoS', '3s', 'Yes', 'Resource Credits (no coin fee)', '50 / 50', 'Steem-Engine / SMT'],
+    ['STEEM', 'DPoS', '3s', 'Yes', 'Resource Credits (no coin fee)', '50 / 50', 'none (Steem-Engine closed 2023; SMT never shipped)'],
     ['BLURT', 'DPoS', '3s', 'No', 'Per-transaction coin fee', '100 / 0 (no curation)', 'none'],
     ['MELEK', 'DPoS', '~4s', 'No', 'No per-op fee, no downvotes', '75 / 25', 'MELEK-Engine (our Hive-Engine)'],
   ];

@@ -1,0 +1,93 @@
+'''The crypto market''' is a thing that did not exist, and then did. Stocks, bonds, foreign exchange, gold and silver all had their own markets with their own populations of professional participants long before Bitcoin. What Bitcoin produced was '''a new asset class with its own population''' — people whose working capital is held in crypto, who are looking, constantly and publicly, for the next place to put it. This page is part of the series under [[How Cryptocurrencies Gain Value]], and it is about where the money that buys a new coin actually comes from.
+
+== 1. A new asset class makes a new kind of buyer ==
+
+The important consequence of Bitcoin is not Bitcoin's price. It is that a large number of people now hold a '''trade instrument''' — see [[Economics 101 and 102]] — that is liquid, global, and already in profit for many of them.
+
+That population behaves differently from someone funding a purchase out of wages. They are not deciding whether to enter crypto; they are already in it, and their decision is '''which crypto'''. They sit in public on X, Telegram and Discord, openly asking to be pitched. The "shill me a coin" culture that looks absurd from outside is a rational search behaviour by people whose capital is idle and whose alternative is sitting in an asset they think has paused.
+
+For a new chain this is the single most important fact about demand: '''you are not asking people to spend money they do not have.''' You are asking holders of an appreciated asset to rotate some of it. That is a much easier ask — and a much less loyal source of money.
+
+== 2. The rotation, and where you sit in it ==
+
+The pattern the trading literature describes is a sequence, not a flood. Capital enters Bitcoin first; '''Bitcoin dominance''' — BTC's share of total crypto market cap — rises during that phase. Traders then take profits and move outward: into Ethereum, then large-cap alts, then mid and small caps, with dominance falling the whole way.<ref>https://datapigtechnologies.com/blog/bitcoin-dominance-cycles-and-when-altcoins-outperform</ref><ref>https://tradersagency.com/blog/btc-dominance-vs-altcoins-altcoin-season</ref>
+
+Small chains are '''at the end of that queue'''. Money reaches them late in a cycle if it reaches them at all, and the main risk for anyone holding a small token is a rotation that '''stalls or reverses before it gets that far'''.<ref>https://www.bit.com/insights/knowledge-hub/alt-season</ref>
+
+The return leg matters just as much and is discussed less. Profits rotate '''back''' into Bitcoin when it looks strong, and traders exit alts to do it. There is also a failure mode that looks identical on a dominance chart and is the opposite in substance: dominance can fall because money is '''fleeing into stablecoins''', not because it is buying alts — and that kind of bounce tends to fail.<ref>https://www.simianx.ai/stories/bitcoin-dominance-cycles-when-altseason-starts-2017-2026</ref> One source makes the useful check explicit: falling dominance only means rotation if '''total market cap is rising with it'''.<ref>https://www.bit.com/insights/knowledge-hub/alt-season</ref>
+
+Thresholds quoted for "alt season" conflict across sources — 75% of the top 50 beating BTC over 90 days, dominance under 50%, a 55–57% zone — and should be read as heuristics rather than rules.<ref>https://www.coinjar.com/en-eu/learn/bitcoin-dominance-alt-season</ref><ref>https://www.kucoin.com/blog/ua-bitcoin-dominance-vs-altseason-what-happens-once-btc-stabilizes-at-around-60k</ref>
+
+== 3. Day trading versus taking a position ==
+
+These are different activities with different effects on a coin, and conflating them is why people misread a chart.
+
+'''Day trading''' is in and out inside a session, taking small moves repeatedly. The day trader does not care what the coin does; they care that it '''moves''' and that they can get out. They need liquidity above all, so they avoid thin books — which is exactly why a small coin struggles to attract them, and why the volume they would bring is the volume it does not have. Day trading adds '''volume''' and, through market-making, can add '''depth'''; it does not add conviction, and it leaves instantly.
+
+'''Taking a position''' — the investment-style purchase, over weeks or months — is the opposite. The buyer accepts a worse average price and illiquidity in exchange for size, and intends to hold through the moves. This is the money that '''stays''', and it is the money that a utility argument ([[Utilities and Sinks]]) can actually persuade, because it is making a judgement about what the thing will be worth later rather than in ten minutes.
+
+=== What actually happens to day traders ===
+
+Because this page explains who supplies volume, it has an obligation to say what the research says about the people who supply it. The finding is consistent across decades and markets, and it is not close.
+
+* Barber, Lee, Liu and Odean, using the complete record of the Taiwan Stock Exchange, found that '''under 1% of day traders''' predictably earned more than transaction costs.<ref>https://faculty.haas.berkeley.edu/odean/papers/Day%20Traders/Day%20Trading%20and%20Learning%20110217.pdf</ref>
+* In Brazilian equity futures, among those who persisted '''more than 300 days''', '''97% lost money'''.<ref>https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3423101</ref>
+* A study of roughly '''25,000''' retail accounts found '''65% won more than half of their trades''' and '''82% still lost money overall''' — because the losses were bigger than the wins. Being right more often than not is not the same as making money.
+
+Two honest notes. The widely-quoted "95% of traders lose" has no single study behind it, and the crypto-specific figures circulating — one survey of 1,005 people claiming 84% lose in their first year — are survey-grade, not peer-reviewed. The '''equity''' research is the solid ground, and the mechanism it identifies (fees and spreads plus asymmetric loss sizes) applies with more force in crypto, where spreads are wider and the market never closes.
+
+None of that is a reason to look down on day traders — the ecosystem needs the liquidity they provide. It is a reason not to '''become''' one casually, and a reason this wiki will never frame trading our tokens as a way to make a living.
+
+A new chain wants both, in order: positions first, because they are the floor; trading second, because it is the liquidity.
+
+== 4. How large buyers avoid the order book entirely ==
+
+A beginner assumes a whale buys on the exchange like everyone else. They mostly do not, and understanding why explains a lot of otherwise strange price behaviour.
+
+A large market order '''walks the book''' — eating level after level, each fill worse than the last, as described in [[Volume, Liquidity, and Depth]]. So size goes '''over the counter''' instead. An '''OTC desk''' quotes a firm two-way price, usually through an RFQ (request for quote), valid for a short window, for the '''entire amount''' — one negotiated price for the whole block, settled privately, with '''no order-book footprint'''.<ref>https://www.liquidmercury.com/resources/otc-trading-crypto</ref><ref>https://crypto.news/what-is-otc-trading-crypto-whales-explained/</ref>
+
+Two honest caveats, because most writing on this is published by OTC desks selling the service:
+
+* It does not remove price risk — it '''moves''' it. The desk must hedge, and the spread it quotes is the price of that.<ref>https://mhcdigitalgroup.com/resources/how-otc-desks-facilitate-private-crypto-trades</ref>
+* The market impact is '''delayed, not avoided''': it shows up later as the desk rebalances inventory and the coins move on-chain.<ref>https://alt.co/blog/sell-large-crypto-position-without-moving-the-market</ref>
+
+The practical lesson for a small chain: '''a very large buyer has no way in.''' There is no OTC desk for a token with a thin pool, and the book cannot absorb them. Until there is depth, the only accessible buyer is a small one — which loops straight back to [[Holders, Rarity, and Distribution]] and the arithmetic of many people bringing a little.
+
+== 5. What this means for what we are building ==
+
+Reading the above honestly produces a strategy rather than a hope:
+
+# '''Build for the small buyer first''', because they are the only one who can physically transact at this size.
+# '''Give the coin something to do''', so the money that arrives has a reason to stay when the rotation turns. See [[Utilities and Sinks]].
+# '''Make depth before asking for volume''' — the day traders who supply volume will not come to a book they cannot exit.
+# '''Do not time a cycle.''' Rotation reaching a small chain is outside anyone's control; sinks, distribution and utility are not.
+# '''Say what is true about the stage you are at.''' A thin market described as a thin market keeps the people who arrive. A thin market described as a bull run loses them once, permanently.
+
+== 6. Read next ==
+
+* [[How Cryptocurrencies Gain Value]] — the spine of the series.
+* [[Volume, Liquidity, and Depth]] — the mechanics underneath everything on this page.
+* [[Holders, Rarity, and Distribution]] — the arithmetic of small buyers.
+* [[Utilities and Sinks]] — what makes rotation money stay.
+* [[Economics 101 and 102]] — trade instruments, whales, bulls and bears, buy and sell walls.
+
+== Not investment advice ==
+
+This page describes market participants and structure. It is '''not''' a trading strategy, '''not''' a prediction of any cycle or price, and '''not''' a suggestion to buy or sell. The dominance thresholds quoted come from trading blogs, conflict with each other, and are heuristics only. Several OTC sources cited are service providers describing their own product.
+
+== Sources ==
+<ref>https://faculty.haas.berkeley.edu/odean/papers/Day%20Traders/Day%20Trading%20and%20Learning%20110217.pdf</ref>
+<ref>https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3423101</ref>
+<ref>https://datapigtechnologies.com/blog/bitcoin-dominance-cycles-and-when-altcoins-outperform</ref>
+<ref>https://tradersagency.com/blog/btc-dominance-vs-altcoins-altcoin-season</ref>
+<ref>https://www.bit.com/insights/knowledge-hub/alt-season</ref>
+<ref>https://www.simianx.ai/stories/bitcoin-dominance-cycles-when-altseason-starts-2017-2026</ref>
+<ref>https://www.coinjar.com/en-eu/learn/bitcoin-dominance-alt-season</ref>
+<ref>https://www.kucoin.com/blog/ua-bitcoin-dominance-vs-altseason-what-happens-once-btc-stabilizes-at-around-60k</ref>
+<ref>https://www.liquidmercury.com/resources/otc-trading-crypto</ref>
+<ref>https://crypto.news/what-is-otc-trading-crypto-whales-explained/</ref>
+<ref>https://mhcdigitalgroup.com/resources/how-otc-desks-facilitate-private-crypto-trades</ref>
+<ref>https://alt.co/blog/sell-large-crypto-position-without-moving-the-market</ref>
+
+== Coverage ==
+Covers the emergence of crypto as an asset class with its own searching population, the BTC-to-alt rotation and its return leg including the stablecoin false signal, day trading versus position-taking and what each contributes, OTC/RFQ block trading with its promotional caveats, and the resulting strategy for a small chain. Dominance thresholds are flagged as conflicting heuristics. Adds the retail day-trading loss research (Taiwan, Brazil, the 25,000-account study) and flags the popular "95%" figure and crypto-specific survey numbers as unsourced or survey-grade. Gives no trading strategy and predicts no cycle.

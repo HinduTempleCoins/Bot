@@ -1,0 +1,101 @@
+'''Holders, rarity and distribution''' is the part of tokenomics that supply figures hide. A million coins is a million coins — but a million coins split twenty ways and a million coins split ten thousand ways are '''not the same asset''', and they will not behave the same in any market. This page is part of the series under [[How Cryptocurrencies Gain Value]].
+
+== 1. The same supply, four different assets ==
+
+Take exactly 1,000,000 coins and change nothing except how many people hold them.
+
+* '''20 holders''' — 50,000 each. Each person owns '''5% of everything'''. Any one of them can end the market on a bad morning.
+* '''500 holders''' — 2,000 each. Each owns '''0.2%'''.
+* '''10,000 holders''' — 100 each. Each owns '''0.01%'''.
+* '''100,000,000 holders''' — 0.01 each. Nobody owns enough to matter, and the coin is now dust in most wallets.
+
+The supply number is identical in all four. What changed is '''how rare a coin is from any one person's point of view''', and that is the thing that actually sets behaviour. At twenty holders a coin is common — the person next to you has fifty thousand. At ten thousand holders the same coin is rare: getting a hundred means finding someone willing to give up a hundred, and most of them are not.
+
+This is the sense in which '''wide distribution manufactures scarcity without changing supply.''' You have not burned anything. You have made each unit harder to get hold of.
+
+== 2. Why concentration is a price problem, not just a fairness problem ==
+
+A concentrated holder base creates '''overhang''': a known quantity of coins that could hit the market, which every informed buyer prices in before bidding. The thinner the book (see [[Volume, Liquidity, and Depth]]), the worse this gets, because the overhang is enormous relative to the depth.
+
+Research bears out that this is the normal state rather than the exception. One 2026 study found that ERC-20 Gini coefficients '''remain uniformly close to 1''' throughout the observation period — near-total inequality.<ref>https://arxiv.org/pdf/2609.24176</ref> Governance tokens can be worse: in one analysis of Compound, '''8 delegates''' could carry any governance action between them.<ref>https://arxiv.org/pdf/2204.01176</ref>
+
+Two metrics are worth knowing:
+
+* '''Gini coefficient''' — relative inequality, 0 (perfectly even) to 1 (one holder has everything).
+* '''Nakamoto coefficient''' — the absolute '''count''' of entities needed to reach a control threshold. It answers "how many people would have to agree", which Gini cannot.<ref>https://bitquery.io/blog/wealth-distribution-in-token-economy</ref>
+
+They can disagree, and that is informative: a high Gini with a high Nakamoto coefficient means wealth is uneven overall but '''the top is itself broad'''. Both need care — a liquidity pool, a burn address or a staking contract will show up as a giant "holder" and must be excluded before the numbers mean anything.<ref>https://bitquery.io/blog/wealth-distribution-in-token-economy</ref>
+
+== 3. The arithmetic that actually funds a chain ==
+
+Here is the part that changes what you build. Suppose each participant brings in '''$10''' of outside money — a genuinely small amount, the price of lunch.
+
+* 20 people × $10 = '''$200'''
+* 500 people × $10 = '''$5,000'''
+* 10,000 people × $10 = '''$100,000'''
+* 100,000 people × $10 = '''$1,000,000'''
+
+Twenty people cannot fund a market by being generous. They can only fund it by being '''rich''', and money from twenty rich people is a different instrument: it arrives with expectations, it leaves in one decision, and while it is there it owns you.
+
+Ten thousand people at ten dollars is the same hundred thousand dollars with '''none of those properties'''. No single exit matters. The bid is broad. And critically, those ten thousand people are not only capital — they are the holders in §1, the depth in [[Volume, Liquidity, and Depth]], and the users who create demand for whatever the coin is actually '''for''' ([[Utilities and Sinks]]).
+
+This is why the growth strategy and the tokenomics are '''the same strategy'''. More holders is not a vanity metric; it is simultaneously more scarcity per person, more incoming value, more book depth and more utility demand.
+
+=== Does the research support it? Metcalfe's law, and its honest exponent ===
+
+The claim that more holders is worth more money is not just our argument — it is the most-tested quantitative claim in the field, and it comes out partly confirmed and partly cut down.
+
+'''Metcalfe's law''' says a network's value grows with the '''square''' of its users, because value lives in the connections between them and n users have n(n-1)/2 possible pairs. Applied to crypto: Alabi found Bitcoin and Ethereum value moved in proportion to the square of unique daily users,<ref>https://www.sciencedirect.com/science/article/abs/pii/S0191886917301344</ref> and Peterson reported that '''over 70% of the variance''' in Bitcoin's value was explained by a Metcalfe-style model of network size.<ref>https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3078248</ref>
+
+Then the cuts, which matter more than the confirmation:
+
+* '''The exponent is not 2.''' Wheatley and co-authors fitting the relationship generally found an exponent of about '''1.69''', not 2 — still strongly super-linear, but materially weaker than the square — and used that fit to argue Bitcoin was significantly overvalued at the time.<ref>https://arxiv.org/abs/1803.05663</ref> A Goldman Sachs estimate landed near 1.9. The useful reading: value grows '''faster than linearly''' with participants. The exact power is unsettled and anyone quoting n² as a law is overselling it.
+* '''Correlation is not causation.''' Users and price rise together in a bull market. The models cannot separate "more users made the price" from "a rising price attracted users".
+* '''Full connectivity is a fiction.''' Metcalfe assumes everyone can transact with everyone and values all of it; in real networks each participant meaningfully connects to far fewer — on the order of n^(2/3) others. That is one reason the fitted exponent lands below 2.
+* '''Active addresses are a bad proxy for people.''' One person runs several wallets, exchanges hold millions of users behind a handful of addresses, dormant wallets inflate holder counts, and layer-two activity never touches the base chain at all.
+
+So the arithmetic in §3 stands — but it stands as '''super-linear growth with a contested exponent and a causation problem''', not as a formula that converts a holder count into a price. Combined with §4 below, the defensible version is narrow and still useful: '''participants who actually transact raise the value of a network faster than their number suggests, and dormant dust does not count.'''
+
+== 4. Dust is not a community ==
+
+The honest counterweight, and this wiki publishes it rather than hiding it: a holder count is easy to inflate with an airdrop, and most airdrop recipients hold '''less than one whole token''' and never return.
+
+Our own numbers say so plainly. Of '''25,038''' VKBT holders, '''19,663 hold under one token'''; of '''14,965''' CURE holders, '''13,628 do'''. The figures that carry information are the ones further up the curve — VKBT has '''2,975''' holders of 10+ and '''1,074''' of 100+; CURE has '''430''' of 10+ and '''62''' of 100+. Full detail in [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]].
+
+So the goal is not "holders" as a scoreboard. It is '''holders who hold enough to care''', acquired by doing something rather than by receiving dust. That is the difference between an airdrop and an earn.
+
+== 5. Float: the supply that is actually for sale ==
+
+Supply is not the same as the amount that can be bought. The '''float''' is what is liquid and unlocked right now, and it is usually far smaller.
+
+On CURE, '''71% of supply is staked''', leaving a liquid float of roughly '''20,700 units''' against a 70,974 supply. VKBT is 42% staked. Staked coins are not on the market, so the float — not the supply — is what a buyer is competing for, and it is what a seller can actually dump.
+
+A small float cuts both ways with total honesty: it means less overhang, and it means '''more violent price moves in both directions''', because any order is large relative to what is available. Anyone reading a small-float chart should know that the volatility is structural, not a signal.
+
+== 6. Read next ==
+
+* [[How Cryptocurrencies Gain Value]] — the spine of the series.
+* [[Volume, Liquidity, and Depth]] — what a distributed holder base does to a book.
+* [[The Crypto Market: Rotation, Day Trading, and Large Buyers]] — where outside money comes from.
+* [[Utilities and Sinks]] — what the holders are meant to do with the coin.
+* [[The Matrix: Supply, Holders, and Market Cap]] — the live holder and supply figures.
+
+== Not investment advice ==
+
+This page explains distribution mechanics. It is '''not''' a claim that any token is undervalued, '''not''' a prediction, and '''not''' a suggestion to buy or sell. Small-float assets are structurally volatile; that is a description, not a recommendation.
+
+== Sources ==
+<ref>https://www.sciencedirect.com/science/article/abs/pii/S0191886917301344</ref>
+<ref>https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3078248</ref>
+<ref>https://arxiv.org/abs/1803.05663</ref>
+<ref>https://arxiv.org/pdf/2609.24176</ref>
+<ref>https://arxiv.org/pdf/2204.01176</ref>
+<ref>https://bitquery.io/blog/wealth-distribution-in-token-economy</ref>
+<ref>https://www.sciencedirect.com/science/article/pii/S2405959524000079</ref>
+<ref>[[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix]]</ref>
+<ref>[[The Matrix: Supply, Holders, and Market Cap]]</ref>
+
+== Coverage ==
+Covers how identical supply behaves differently across holder counts, concentration as an overhang and price problem, the Gini and Nakamoto metrics with their caveats, the arithmetic of many small contributions versus few large ones, the airdrop-dust correction, and float versus supply. Holder and stake figures are carried from the Matrix pages; treat them as of their capture dates. Gives no valuation verdicts.
+
+The Metcalfe's-law subsection reviews the quantitative research on network value (Alabi 2017, Peterson 2018, Wheatley et al. 2018) and states its limits: a fitted exponent near 1.69 rather than 2, unresolved causation, the full-connectivity assumption, and active addresses as a poor proxy for people.

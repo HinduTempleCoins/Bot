@@ -1,0 +1,109 @@
+'''The Hive-Engine tribes''' are the test of whether the token layer described in [[Hive-Engine and Smart Media Tokens]] can carry a real economy. Hundreds of tokens were minted on it. '''A handful work.''' This page is about which ones, what they each did that the failures did not, and which of them is actually comparable to what we are building.
+
+The honest summary up front: of everything on that layer, '''Splinterlands is the only one that built a genuinely large economy''', and '''PIZZA is the one whose model most resembles ours'''. LEO is the serious publishing tribe. Everything else is mostly a reward pool with a logo.
+
+== 1. Splinterlands — the one that actually worked ==
+
+Splinterlands is a trading-card game, built by '''Jesse Reich (@aggroed)''' and Matt Rosen — the same Aggroed who built Steem-Engine and then Hive-Engine. That is not a coincidence: the person who built the token layer also built the only application that fully exercised it.
+
+What makes it different from a tribe token:
+
+* '''The assets are the product.''' Cards and '''booster packs''' are the thing people want, and they are tokenised — packs can be moved to external wallets including Hive-Engine and WAX, where they '''cannot be opened but can be listed and traded on outside markets'''.<ref>https://docs.splinterlands.com/cards/booster-packs/tokenizing-booster-packs</ref> A sealed pack is a tradeable object with an unopened option inside it. That is a real financial instrument, and it exists because somebody wants to play the game.
+* '''Separated roles.''' '''DEC''' is the in-game currency; '''SPS''' is the governance token, where staking gives holders votes on future development.<ref>https://www.publish0x.com/play-to-earn2/splinterlands-assets-explained-coins-and-tokens-sps-dec-cred-xvyjnrw</ref> Keeping the spending unit and the governance unit apart avoids the trap where the thing you must spend is also the thing you must hold.
+* '''Many tokens, deliberately.''' The asset set runs to '''19+ distinct tokens''', each with a job.<ref>https://ecency.com/hive-167922/@magnacarta/the-19-tokens-of-splinterlands</ref>
+* '''A sink that is the game itself.''' Proponents describe a flywheel in which demand for DEC drives '''burning SPS to mint DEC'''.<ref>https://hive.blog/hive-13323/@seattlea/why-i-m-excited-about</ref> Treat the flywheel as a proponent's theory rather than a demonstrated outcome — but the structural point stands: '''the sink is playing''', not an announcement.
+
+=== It came from Steemit, and for a while you could play on both ===
+
+Splinterlands did not start on Hive. It launched on '''Steem''', under the name '''Steem Monsters''', and it is the clearest case of an application outliving the chain politics underneath it.
+
+When Steem was taken over and the community forked to Hive in March 2020, the game '''did not move immediately'''. It kept running on Steem while Hive existed alongside it, and for roughly three months you could '''play on both'''. The team announced the switch only in late May 2020, citing an unexpected Steem hard fork, and targeted '''Monday, 1 June 2020''' for the move to Hive<ref>https://ecency.com/splinterlands/@splinterlands/splinterlands-plans-for-the-upcoming-hive-fork</ref><ref>https://egamers.io/splinterlands-moves-to-hive-blockchain-in-june-1st/</ref>. Steem was then dropped from the marketplace in favour of DEC.
+
+Two things follow that matter more than the trivia:
+
+* '''The application was portable and the chain was not.''' The cards, the players and the economy were the asset; the chain underneath was infrastructure that could be swapped. That is the opposite of how most tokens relate to their chain, and it is why Splinterlands survived an event that damaged almost everything else in the ecosystem.
+* '''Its choice was a verdict.''' The largest application on the chain picking Hive, three months late and after deliberation, was a stronger signal about the fork than any amount of social-media argument. See [[Forking]].
+
+=== It is largely an Asian operation ===
+
+This is the part that is missing from almost every English-language write-up, and it is the most important thing about Splinterlands' scale: '''the player base is largely Asian''', Korean among others, while Hive's social side remains heavily English-speaking.
+
+A sourcing note, because this wiki does not launder assertions into facts: the public analytics report '''size''' and never '''geography'''. Splinterlands was the most-played blockchain game at its peak, averaging over '''350,000 daily users''' and roughly '''380,000 daily active players''' in early 2022<ref>https://cryptopotato.com/splinterlands-now-the-most-frequently-played-blockchain-game/</ref><ref>https://www.splintertalk.io/@behiver/splinterlands-january-2022-monthly-stats-show-steady-growth</ref>, and recent company material refers only to a "global player base" with no regional split. So the Asian-majority claim here is '''the operator's direct knowledge of the ecosystem, not a cited statistic''' — recorded because it is load-bearing for the lesson below, and flagged because the published analytics do not carry it. The route to verifying it is '''not''' a demographics report, which nobody publishes: it is '''to look at what languages the community is actually speaking''' — the game's own Discord and regional channels, and the languages of the posts and guild chatter around it. Anyone extending this page should do that and cite what they find.
+
+'''Why it matters more than it sounds.''' Three things follow from it, and they are the reason this section exists rather than being a demographic footnote:
+
+* '''A game needs no shared language.''' A tribe token is a '''writing''' product — to earn LEO you must write English that English speakers upvote, which caps the addressable population at people who write well in one language. A card game is played with cards. That single difference is most of why one scaled past 350,000 daily users and the others did not.
+* '''Play-to-earn economics land differently by region.''' The same daily earnings are a rounding error in one economy and meaningful income in another. The demand for the token was therefore '''real and non-speculative''' for a large part of the player base — they were not holding it to flip it, they were earning it to live on. That is the strongest possible form of the §4 ladder's top rung.
+* '''It is a distribution lesson, not a marketing one.''' This is [[Holders, Rarity, and Distribution]] in practice: many thousands of people each bringing a little, rather than a few bringing a lot. The reach was a consequence of the product being playable by anyone, not of the campaign being loud.
+
+The uncomfortable implication for anything English-and-writing-shaped, including most of Hive and parts of what we build: '''the ceiling is the language.''' A product that requires fluent English prose has an addressable market orders of magnitude smaller than one that does not, and no amount of tokenomics fixes that.
+
+The lesson we take: '''Splinterlands is not a social token that found a use. It is a product that needed a currency.''' That ordering is the whole difference.
+
+== 2. PIZZA — the closest thing to our model ==
+
+PIZZA is a Hive-Engine '''tipping token''', and it is the tribe whose shape most resembles what we are building, which is why it gets its own treatment.
+
+Its primary mechanism is a '''tip bot gated by stake''': hold enough staked PIZZA and you may invoke `!PIZZA` in a comment to send a small tip, with higher stake tiers unlocking more tips per day. Reported figures vary by source and era — one guide says staking 20 PIZZA allows tipping 0.1 PIZZA ten times a day, others list a Level 2 at 200 PIZZA for ten times a day.<ref>https://tribaldex.blog/hive-185582/@how-to-hive/beginners-guide-to-pizza-token</ref><ref>https://www.vybrainium.com/hive-167922/@nane-qts/pizza-token-use-cases</ref> Take the exact numbers as illustrative, not current.
+
+Around that sit the familiar extras: a daily random payout to a holder of '''up to 5% of their holdings''', staking advertised at '''12% APR''', diesel-pool liquidity rewards, and partnerships where '''Hive games accept PIZZA as payment'''.<ref>https://www.vybrainium.com/hive-167922/@nane-qts/pizza-token-use-cases</ref>
+
+What PIZZA got right, and it is the thing worth copying: '''the stake is the utility.''' You do not hold PIZZA to speculate on PIZZA; you hold it because holding it is what lets you do the thing — tip people. That is a '''velocity sink''' in the sense of [[How Cryptocurrencies Gain Value]], built from social behaviour rather than financial engineering.
+
+What it did not solve is the ceiling: a tipping token's demand is bounded by how much tipping happens, and tipping is not a growing industry. It is a working model at a fixed size.
+
+This matters to us directly — the operator proposed a pizza-shop coupon token on Bitcointalk in November 2020, months before PIZZA was created in March 2021, and the specific thing he described (a token you spend '''to buy actual pizza''') is the thing PIZZA never became. See [[Economics 101 and 102]] for the trade-instrument framing.
+
+== 3. LEO — the publishing tribe ==
+
+LeoFinance is the finance-and-crypto writing tribe, now fronted as INLEO. The mechanism is the standard Scotbot arrangement done properly: front ends like peakd and hive.blog pay out in HIVE/HBD, while posting through '''leofinance generates LEO tokens''' on top.<ref>https://inleo.io/@ksam/10-tipping-mining-tokens-that</ref>
+<ref>https://ecency.com/splinterlands/@splinterlands/splinterlands-plans-for-the-upcoming-hive-fork</ref>
+<ref>https://egamers.io/splinterlands-moves-to-hive-blockchain-in-june-1st/</ref>
+<ref>https://cryptopotato.com/splinterlands-now-the-most-frequently-played-blockchain-game/</ref>
+<ref>https://www.splintertalk.io/@behiver/splinterlands-january-2022-monthly-stats-show-steady-growth</ref>
+
+LEO is the strongest demonstration of the '''tribe''' pattern specifically — a niche audience, a front-end that is genuinely better for that niche, and a token that rewards contribution to it. Its weakness is the weakness of every reward-pool token: the token's demand comes mostly from people who want to earn more of it, which is a loop that needs an outside buyer to close.
+
+Our search for this page found no usable material on INLEO's current tokenomics, so this section is deliberately short rather than padded.
+
+== 4. The pattern across the three ==
+
+Lining them up gives a ladder, and it is the most useful thing on this page:
+
+* '''A reward pool only''' — the token is earned by posting and held by people who want to earn more. Demand is circular. This is most Hive-Engine tokens, and most of them went to zero.
+* '''A reward pool plus a social utility''' — '''PIZZA'''. Holding the stake buys you the ability to do something to other people. Demand is real but bounded.
+* '''A product that requires the currency''' — '''Splinterlands'''. Demand is bounded only by how many people want the product.
+
+Each rung adds an '''outside''' reason to want the token, and that is the only thing that ever converts a reward pool into an economy.
+
+== 5. Where we sit ==
+
+Measured against that ladder honestly:
+
+* MELEK's social layer with [[MWALI|engine tokens]] is on rung one, with the distinguishing feature that [[The Matrix: Supply, Holders, and Market Cap|supply is small and holders are many]] rather than the reverse.
+* The '''[[KULA Community Fund]]''' curation vote is a rung-two mechanic in PIZZA's sense — stake, and the pooled weight does something for you.
+* '''PRANA''' is the attempt at rung three: the compute lane is a product that needs a currency, in the way a card game is. Whether it gets there is an open question and this wiki will not pretend otherwise.
+
+The honest gap: Splinterlands had '''a game people wanted to play''' before it had a token economy worth discussing. Nothing on our side has yet proven that kind of outside pull, and every sink in [[Utilities and Sinks]] is a bet that the compute lane becomes it.
+
+== 6. Read next ==
+
+* [[Hive-Engine and Smart Media Tokens]] — the layer all of this runs on, and why SMTs are not it.
+* [[Token Buybacks, Market Fees, and the UIA Lineage]] — the token-management mechanics from BitShares forward.
+* [[How Cryptocurrencies Gain Value]] · [[Utilities and Sinks]] · [[Holders, Rarity, and Distribution]]
+
+== Not investment advice ==
+
+This page describes other people's projects for comparison. It is '''not''' a recommendation to buy any of them, '''not''' a prediction about any of them, and '''not''' a claim that our approach will outperform theirs. Figures quoted from community posts are illustrative and mostly years old.
+
+== Sources ==
+<ref>https://docs.splinterlands.com/cards/booster-packs/tokenizing-booster-packs</ref>
+<ref>https://www.publish0x.com/play-to-earn2/splinterlands-assets-explained-coins-and-tokens-sps-dec-cred-xvyjnrw</ref>
+<ref>https://ecency.com/hive-167922/@magnacarta/the-19-tokens-of-splinterlands</ref>
+<ref>https://hive.blog/hive-13323/@seattlea/why-i-m-excited-about</ref>
+<ref>https://tribaldex.blog/hive-185582/@how-to-hive/beginners-guide-to-pizza-token</ref>
+<ref>https://www.vybrainium.com/hive-167922/@nane-qts/pizza-token-use-cases</ref>
+<ref>https://inleo.io/@ksam/10-tipping-mining-tokens-that</ref>
+
+== Coverage ==
+Covers Splinterlands' origin on Steem as Steem Monsters and the roughly three-month window after the March 2020 fork when it ran on both chains before moving to Hive on 1 June 2020, its standing as the only large economy on the layer (tokenised packs, DEC/SPS role separation, the burn flywheel as proponent theory), PIZZA as the closest model to ours (stake-gated tipping as a velocity sink, and its bounded ceiling), LEO as the publishing tribe, the three-rung ladder from circular to outside demand, and an honest placement of our own work on it. Covers the largely Asian player base and the three consequences that follow — a game needs no shared language, play-to-earn earnings land differently by region, and reach followed playability rather than marketing — with the regional claim explicitly marked as the operator's knowledge rather than a cited statistic, because public analytics report size and never geography. Community figures are years old and flagged as illustrative.
