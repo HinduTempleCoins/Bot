@@ -1,0 +1,98 @@
+'''The bridge toll''' is what it costs to get your coins ''out'' — not a fee in coin, but a wait. On a Graphene social chain, staked coin cannot be sold at all until you '''power down''', and a power-down pays out in equal '''weekly''' instalments over a fixed number of weeks. That queue is the toll, and this page argues it is one of the most underrated reasons STEEM had value in the first place. It is part of the series under [[How Cryptocurrencies Gain Value]].
+
+Every number below was read from each chain's own `get_config` on '''30 October 2026''' and then '''confirmed against live accounts actually mid-power-down''', because a constant in a config file is not proof that the constant is in force.
+
+== 1. What the toll actually is ==
+
+On these chains the native coin exists in two states:
+
+* '''Liquid''' — transferable, sellable, on an exchange in a minute.
+* '''Vesting''' (Steem Power, Hive Power, MELEK Power) — staked. It gives you [[Resource Credits|Resource Credits]], vote weight and curation income, and it '''cannot be sold'''.
+
+To move coin from the second state to the first you broadcast `withdraw_vesting`. From then on the chain pays you '''one equal slice per week''', automatically, for a fixed number of weeks. You cannot have it faster. There is no fee to pay to skip the queue — '''the toll is denominated in time''', and it is the same for a whale and a minnow.
+
+So the real cost is not a charge, it is '''exposure'''. You decide to sell today and you are committed to selling in instalments at prices nobody knows yet. If the price falls in week three you are still in the queue. '''That is the toll: you pay it in price risk, and the price of the toll is set by the market, not by the chain.'''
+
+== 2. The four chains, measured ==
+
+{| class="wikitable"
+! Chain !! Power-down length !! Weekly instalments !! In force? (live proof)
+|-
+| '''MELEK''' || '''13 weeks''' || 13 || `initminer`, `maat`, `seshat`, `thoth`, `udabeu` — all showing exactly '''13.00''' intervals remaining-to-rate
+|-
+| '''HIVE''' || '''13 weeks''' || 13 || `ocdb` — '''13.00''' intervals
+|-
+| '''STEEM''' || '''4 weeks''' || 4 || `steemchiller` — '''4.00''' intervals
+|-
+| '''BLURT''' || '''4 weeks''' || 4 || `beblurt`, `blurtlatam` — '''4.00''' intervals
+|}
+
+The method, so it can be repeated: for any account mid-power-down, `to_withdraw ÷ vesting_withdraw_rate` gives the number of instalments in that power-down. On all four chains `VESTING_WITHDRAW_INTERVAL_SECONDS` is '''604,800''' — exactly one week — so instalments and weeks are the same number.
+
+'''MELEK and HIVE charge the highest bridge toll of the four. STEEM and BLURT charge the lowest.''' Stated the other way, which is the honest way for us: '''it is more than three times harder to exit MELEK than to exit STEEM''', and anyone deciding whether to buy MELEK should know that before they buy rather than after.
+
+== 3. The history of STEEM's toll — 104 → 13 → 4 ==
+
+This is the part that shows the toll is a '''policy lever''', not a law of nature, and STEEM's own config still carries the fossils of every change:
+
+* '''Launch (2016): 104 weeks.''' Two years. The constant `STEEM_VESTING_WITHDRAW_INTERVALS_PRE_HF_16 = 104` is still in the config of all four chains, because they all inherit the same codebase. A two-year exit queue is an extraordinary commitment to demand of anyone, and it is the single most aggressive float lock any major chain has run.
+* '''Hardfork 16 (late 2016): cut to 13 weeks.''' The default `VESTING_WITHDRAW_INTERVALS = 13` dates from here. One quarter instead of two years — an '''eightfold''' reduction in the toll.
+* '''Hardfork 23 (2020): cut to 4 weeks.''' `STEEM_VESTING_WITHDRAW_INTERVALS_HF_23 = 4`, and STEEM reports `last_hardfork = 23`, so this is the value in force — which `steemchiller`'s live power-down confirms at exactly 4.00.
+
+'''HIVE''' forked away before that last change and kept '''13''', which `ocdb` confirms; HIVE is on `last_hardfork = 28` and its config contains '''no''' HF23 override at all.
+
+'''BLURT''' started from 13 and made the same move STEEM did, under its own numbering: `BLURT_VESTING_WITHDRAW_INTERVALS_HF5 = 4`, with BLURT on `last_hardfork = 9`, so 4 is in force — confirmed by `beblurt` and `blurtlatam`.
+
+'''MELEK''' is on `last_hardfork = 25` and its config contains '''no''' 4-week override, so the inherited 13 stands — confirmed by five live power-downs. (MELEK's hardfork numbers are '''not''' Steem's: on this fork HF 0.23 was the SMT hardfork, not the one that shortened power-down. Same numbers, different events — do not read across.)
+
+The direction of that history is the finding worth keeping: '''every chain that ever changed this number made the toll cheaper. Not one lengthened it.''' A long exit queue is a deterrent to new money, and under competition for users the toll gets bid down.
+
+== 4. Why this is a value mechanism and not just a rule ==
+
+The connection to [[Holders, Rarity, and Distribution|float]] is direct and mechanical.
+
+'''Vesting coin is not for sale at any price.''' The only supply that can hit a market this week is liquid coin plus one week's worth of everybody's power-downs. So the toll does not merely slow selling — it puts a '''hard ceiling on how fast supply can arrive''', and that ceiling is set in the chain code rather than by sentiment. On a 13-week chain, a holder who decides to exit can deliver at most '''1/13th''' of their stake to the order book per week. On a 4-week chain, '''1/4''' — more than three times the weekly supply pressure from the same decision.
+
+This is also why '''market cap is especially misleading on these chains'''. Most of the supply is vesting; a cap computed over total supply describes coins that are structurally months away from being sellable. See [[Volume, Liquidity, and Depth]].
+
+And it is the strongest form of the '''velocity sink''' in §3 of [[How Cryptocurrencies Gain Value]]. Staking is normally a voluntary sink — you leave if you like. Vesting is a sink with an '''exit queue''', which is a materially different object: the coin is committed on a timetable rather than at will.
+
+'''The honest limit, and it is a big one.''' A long toll '''constrains supply; it does not create demand.''' It cannot make anyone want the coin. It is a brake on the sell side only, and brakes do not make a car go. It also has a real cost in the other direction: it '''deters entry''', because a buyer is agreeing to the exit terms at the moment they stake, and it '''traps''' people who guessed wrong about their own timeline. There is a defensible case that STEEM's and BLURT's cuts were correct — a 104-week queue is an argument for never starting. Which number is right is a genuine judgement call, and this page does not pretend otherwise.
+
+== 5. The other tolls on the same bridge ==
+
+Power-down is the big one; it is not the only wait.
+
+* '''Delegation return: 5 days.''' You can hand your vesting weight to someone else without selling anything, and when you take it back it is unavailable for '''432,000 seconds''' before it returns to you. All four chains agree: `DELEGATION_RETURN_PERIOD_HF20 = 432000`, up from '''604,800''' (7 days) at HF0. This is the '''way around''' the toll — delegation moves the ''use'' of stake without the exit queue, which is why the [[KULA Community Fund]] is built on delegation rather than on transfers.
+* '''Savings: 3 days.''' Coins placed in savings take '''259,200,000,000''' microseconds — 3 days — to withdraw. MELEK, HIVE and STEEM all agree. This is a security feature rather than an economic lock: a thief with your keys cannot drain savings instantly.
+* '''Resource Credits regenerate over 5 days''' on HIVE (`RC_REGEN_TIME = 432000`) — the same figure in a different role, and the mechanism that makes stake into usable capacity rather than just a claim. See §5 of [[How Cryptocurrencies Gain Value]].
+* '''Withdraw routes: 10.''' A power-down can be split to up to 10 destinations, which is how an account can route its unstaking to other accounts or straight back into vesting.
+
+== 6. What MELEK should do about it ==
+
+Published as an open question, because it is one and governance can change this number:
+
+MELEK sits at '''13 weeks''' — the tightest float lock of the four, and the most demanding thing we ask of anyone who stakes. The argument for keeping it is everything in §4: it is the hardest supply ceiling available, it makes stake mean something, and we are trying to build a holder base that does something rather than one that rotates through. The argument against it is §3's whole history: every chain that faced competition for users cut this number, and '''a new chain has the least right to demand the longest commitment.'''
+
+What is '''not''' a good argument is the one a project is tempted to make — that a long power-down supports the price. It restrains supply, which is not the same thing, and saying otherwise would be the sort of claim this series exists to take apart.
+
+== 7. Read next ==
+
+* [[How Cryptocurrencies Gain Value]] — the spine; §3 on velocity sinks and §5 on Resource Credits.
+* [[Holders, Rarity, and Distribution]] — §5 on float, which is what the toll controls.
+* [[Volume, Liquidity, and Depth]] — why a cap over vesting supply is fiction.
+* [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix]] — the four chains side by side on everything else.
+* [[Proof of Work, Proof of Stake, and DPoS]] · [[KULA Community Fund]] · [[Economics 101 and 102]]
+
+== Not investment advice ==
+
+This page reports protocol parameters and what they do. It is '''not''' a claim that any power-down length supports any price, '''not''' a prediction, and '''not''' a suggestion to buy, sell, stake or power down. Every figure here is a governance-changeable parameter, and the figures were read on 30 October 2026 — re-read them before relying on them.
+
+== Sources ==
+* '''Live reads, 30 October 2026''' — `database_api.get_config` and `database_api.get_hardfork_properties` on `melek.salon/rpc` (MELEK, `last_hardfork` 25), `api.hive.blog` (HIVE, 28), `api.steemit.com` (STEEM, 23) and `rpc.beblurt.com` (BLURT, 9).
+* '''Live empirical confirmation, 30 October 2026''' — `condenser_api.get_accounts`, computing `to_withdraw ÷ vesting_withdraw_rate` for accounts mid-power-down: MELEK `initminer`/`maat`/`seshat`/`thoth`/`udabeu` = 13.00; HIVE `ocdb` = 13.00; STEEM `steemchiller` = 4.00; BLURT `beblurt`/`blurtlatam` = 4.00.
+* Config constants cited: `VESTING_WITHDRAW_INTERVALS` (13), `..._PRE_HF_16` (104), `STEEM_..._HF_23` (4), `BLURT_..._HF5` (4), `VESTING_WITHDRAW_INTERVAL_SECONDS` (604800), `DELEGATION_RETURN_PERIOD_HF0`/`_HF20` (604800 / 432000), `SAVINGS_WITHDRAW_TIME` (259200000000), `MAX_WITHDRAW_ROUTES` (10), `HIVE_RC_REGEN_TIME` (432000).
+* Note: `rpc.blurt.world` no longer resolves; BLURT was reached via `rpc.beblurt.com`.
+
+== Coverage ==
+Defines the bridge toll as the cost of exit paid in time rather than coin, measures power-down length on all four Graphene chains with live on-chain confirmation rather than config constants alone (MELEK 13, HIVE 13, STEEM 4, BLURT 4 weeks), traces STEEM's 104 → 13 → 4 history through the fossil constants still in every config, explains the mechanism as a hard ceiling on weekly supply arrival and the strongest form of velocity sink, states plainly that it constrains supply without creating demand and deters entry, covers the secondary tolls (5-day delegation return, 3-day savings, RC regeneration, 10 withdraw routes), and leaves MELEK's own 13 weeks as an open governance question. Warns that MELEK's hardfork numbering does not correspond to Steem's.
