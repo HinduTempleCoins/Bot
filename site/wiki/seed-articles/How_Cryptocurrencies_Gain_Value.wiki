@@ -147,23 +147,35 @@ Spot ratios from the exact reserves:
 
 === And it gives a market cap ===
 
-Supply × price, with supplies read live:
+Two different derivations, and it matters which is which.
+
+'''VKBT and CURE are capitalised on Hive-Engine itself''' — no bridge, no pool, no PRANA. Supply × the last traded price, denominated in '''HIVE''', then converted at the median feed:
 
 {| class="wikitable"
-! Asset !! Supply !! Market cap (wVKBT route) !! Market cap (wCURE route)
+! Token !! Supply !! Cap in HIVE !! Cap in USD
+|-
+| '''VKBT''' || 2,352,205 || '''0.964404 HIVE''' (× 0.00000041) || '''$0.046291'''
+|-
+| '''CURE''' || 72,440 || '''1.608168 HIVE''' (× 0.00002220) || '''$0.077192'''
+|-
+| CURE at the top bid || 72,440 || 1.702340 HIVE (× 0.00002350) || $0.081712
+|}
+
+'''MELEK, KULA and WPRANA are capitalised through the pools''', because they have no direct listing — supply × the theoretical price derived above:
+
+{| class="wikitable"
+! Asset !! Supply !! Cap (wVKBT route) !! Cap (wCURE route)
 |-
 | '''MELEK''' || 2,527,236.964 || '''$0.1011''' || '''$0.1335'''
 |-
 | '''KULA''' || 267,009.132 || '''$0.0920''' || '''$0.1214'''
 |-
 | '''WPRANA''' || 13,001.000 (the wrapped portion only) || '''$0.0070''' || —
-|-
-| '''VKBT''' || 2,352,205 || '''$0.0463''' (observed) || —
-|-
-| '''CURE''' || 72,440 || '''$0.0772''' (observed) || —
 |}
 
-The two routes run through different pools and different anchor assets and land within '''32%''' of each other, which is the check that makes them usable. A further cross-check: pool 3 prices wCURE at '''40.36 wVKBT''' against the engine market's '''54.15''', so the wrapped pools sit at about '''75%''' of the market ratio.
+The two pool routes run through different pools and different anchor assets and land within '''32%''' of each other, which is the check that makes them usable. A further cross-check: pool 3 prices wCURE at '''40.36 wVKBT''' against the engine market's '''54.15''', so the wrapped pools sit at about '''75%''' of the market ratio.
+
+'''A caution that applies to every row above''', and it is the point of [[Volume, Liquidity, and Depth]]: a market cap is supply × a price, and the price is the last marginal trade. These caps describe what the supply '''would''' be worth if all of it could clear at that price, which it cannot — the next section shows a single unit losing half its value to slippage.
 
 === What one MELEK actually realises ===
 
