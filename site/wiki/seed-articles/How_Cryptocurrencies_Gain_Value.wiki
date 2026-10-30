@@ -110,7 +110,75 @@ So the four things a young chain actually controls:
 # '''Places to spend it''' — the utilities in [[Utilities and Sinks]], built before the demand they are meant to serve.
 # '''Depth in the two-sided market''' — a bid and an ask have to exist before a price does, and then the book has to get deep enough that the second trade is worth making. That is what [[KulaSwap and the DEX Lineage|KulaSwap]] and the gauge are for.
 
-None of that '''sets''' a price — no builder can. It builds the '''conditions under which a price can form and survive''', which is the part a builder does control, and it is the part that is already on-chain.
+=== The current prices, named ===
+
+Read from the live markets on '''30 October 2026'''. HIVE's median feed is '''$0.048''' per HIVE, which anchors the engine side in USD.
+
+'''Observed prices''' — an actual trade happened at these:
+
+{| class="wikitable"
+! Asset !! Price !! Derivation
+|-
+| '''VKBT''' || '''$0.0000000197''' || last trade 0.00000041 HIVE × $0.048
+|-
+| '''CURE''' || '''$0.0000010656''' || last trade 0.00002220 HIVE × $0.048
+|}
+
+Market cap at those prices: '''VKBT $0.0463''' and '''CURE $0.0772'''. CURE's book shows a '''highest bid of 0.00002350 HIVE''', above its last trade.
+
+'''Theoretical prices''' — no exchange listing is required for these. The wrapped tokens on [[KulaSwap and the DEX Lineage|KulaSwap]] connect KULA, WPRANA and wMELEK to the two assets that do have a USD print, and on an AMM '''the reserve ratio is the price''' by the constant-product formula. So the chain of ratios gives a USD figure by arithmetic:
+
+{| class="wikitable"
+! Asset !! Theoretical USD !! Route
+|-
+| '''KULA''' || '''$3.4450 × 10⁻¹⁷''' || pool 1 (KULA/wVKBT): 1 wVKBT = 571,266,456.17 KULA, × VKBT at $0.0000000197
+|-
+| '''KULA''' || '''$4.5466 × 10⁻¹⁷''' || pool 2 (wCURE/KULA): 1 wCURE = 23,437,223,438.46 KULA, × CURE at $0.0000010656
+|-
+| '''wMELEK''' || '''$4.0000 × 10⁻¹⁸''' || 0.11611111 KULA (pool 4) × KULA via the wVKBT route
+|-
+| '''wMELEK''' || '''$5.2791 × 10⁻¹⁸''' || 0.11611111 KULA × KULA via the wCURE route
+|-
+| '''WPRANA''' || '''$5.3721 × 10⁻¹⁷''' || KULA ÷ 0.64126761 WPRANA (pool 0)
+|}
+
+'''The two independent routes agree to within about 30%''', which is the check that makes them usable: they run through different pools and different anchor assets and land in the same order of magnitude. A further cross-check — pool 3 prices wCURE at '''40.36 wVKBT''' while the Hive-Engine market prices the pair at '''54.15''', so the wrapped pools sit at about '''75% of the market ratio'''. These are '''theoretical''' because the wrapped side of pools 1, 2 and 3 holds very little, and because `wMELEK` is priced in a pool holding '''0.1045 KULA against 0.9000 wMELEK''' — the quote is exact, the depth is not.
+
+For completeness on the chain's own feed: MELEK's `current_median_history` reads '''0.000 MELEK''' and '''no witness has ever published a price feed''' — all eight top witnesses, including `hathor`, report `last_sbd_exchange_update` of `1970-01-01T00:00:00`. A published feed would give MELEK a '''quoted''' price alongside the calculated one above.
+
+=== Why early chains reprice by orders of magnitude ===
+
+This is arithmetic, not optimism, and it follows directly from §1: price is made at the margin.
+
+On a constant-product AMM, buying against a reserve moves the price '''quadratically'''. If `Rx` is the reserve of the asset you are spending and you spend `Δx`:
+
+  '''new price = old price × (1 + Δx / Rx)²'''
+
+{| class="wikitable"
+! Buy size (× the quote reserve) !! Price multiple
+|-
+| 0.5× || '''2.25×'''
+|-
+| 1× || '''4×'''
+|-
+| 2× || '''9×'''
+|-
+| 10× || '''121×'''
+|-
+| 100× || '''10,201×'''
+|}
+
+Applied to the deepest pool we have — pool 0, quote reserve '''10,661.9964 WPRANA''':
+
+* '''10,662 WPRANA''' of buying → KULA price '''× 4'''
+* '''106,620 WPRANA''' → '''× 121'''
+* '''1,066,200 WPRANA''' → '''× 10,201'''
+
+And on the engine side the same effect runs through the float rather than a pool. CURE's liquid float is roughly '''20,800 units''', which at $0.0000010656 is '''$0.0222 in total'''. '''$1,000 of buying is about 45,117× the entire liquid float.''' There is no amount of supply to absorb it at anything like the current price.
+
+This is the mechanism behind the price history in [[Economics 101 and 102]] and in §6 of [[Mining Hardware, ASICs, and the Cost of Production]]: Bitcoin went '''$5 → $30 → $100''', then to a thousand, then to ten thousand, through the era when the whole network was small and the float was held by a few thousand forum readers. Each of those steps looked impossible from the step below it — the operator's own account records Bitcointalk regulars arguing it would never reach $1,000, then never $10,000. '''The repricing was not sentiment outrunning arithmetic; it was arithmetic.''' A small float plus a quadratic price-impact curve means new capital arriving produces multiples, not percentages.
+
+The same formula is symmetric, and that is the whole reason [[Volume, Liquidity, and Depth]] exists: the multiple that takes a price up on the way in is the multiple that takes it down on the way out, and '''depth decides which direction you can actually transact in'''. The figures above are what a thin market looks like in both directions at once.
 
 == 7. Read next ==
 
