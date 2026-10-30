@@ -25,6 +25,10 @@ Useful rules of thumb from the trading literature, which are heuristics and not 
 
 Reported volume is a favourite thing to inflate, because it is the number that gets a coin listed and ranked. '''Wash trading''' — the same party on both sides — manufactures it cheaply.
 
+This is not a suspicion, it is a measured finding. Cong, Li, Tang and Yang examined 29 centralised exchanges and found that on the '''unregulated''' ones, fake volume averaged '''over 70% of reported volume'''.<ref>https://www.nber.org/system/files/working_papers/w30783/w30783.pdf</ref> The method is statistical rather than accusatory: regulated exchanges show the trade-size and first-significant-digit distributions you see throughout finance and nature, while unregulated ones show '''abnormal''' ones. The same authors report that exchanges listed on CoinMarketCap contained '''over 99%''' fake volume on the sample examined.
+
+Two honest limits. The technique '''infers''' wash trading from statistical regularities and cannot prove any particular trade was fake or name who controlled the accounts; the stronger evidence comes from work using leaked internal exchange records. And the figures are from a specific sample and period — the finding to carry forward is the '''order of magnitude and the regulated/unregulated split''', not a precise percentage for any venue today.
+
 The check is consistency: volume and depth should be of a sane relative size. A venue reporting '''$2B of daily volume with only $200k of depth within 2%''' is reporting something incoherent.<ref>https://coinbureau.com/guides/low-liquidity-crypto-indicators</ref> Liquidity is also '''fragmented''' across venues and pairs, so an aggregate figure can look healthy while the one book you are actually trading on is thin.<ref>https://www.chiliz.com/understanding-crypto-liquidity-market-depth-slippage-and-volatility-explained/</ref>
 
 And depth is not a promise. In a fast market the displayed orders '''leave''' — which is exactly when a stop-loss turns into a market order and takes the worst fill of its life.<ref>https://tadable.com/7-ways-to-reduce-slippage-when-trading-thin-crypto-markets/</ref>
@@ -69,6 +73,8 @@ This page explains market structure. It is '''not''' a trading strategy, '''not'
 <ref>https://coinbureau.com/guides/low-liquidity-crypto-indicators</ref>
 <ref>https://www.chiliz.com/understanding-crypto-liquidity-market-depth-slippage-and-volatility-explained/</ref>
 <ref>https://crypto.news/what-is-otc-trading-crypto-whales-explained/</ref>
+<ref>https://www.nber.org/system/files/working_papers/w30783/w30783.pdf</ref>
+<ref>Cong, Li, Tang & Yang, "Crypto Wash Trading", Management Science (2023), DOI 10.1287/mnsc.2021.02709</ref>
 <ref>[[The Matrix: Supply, Holders, and Market Cap]]</ref>
 
 == Coverage ==

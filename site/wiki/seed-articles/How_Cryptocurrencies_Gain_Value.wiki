@@ -15,6 +15,7 @@ There are only a few honest sources of sustained demand, and it is worth naming 
 * '''Utility''' — somebody needs the coin to do a thing they want to do. Pay a fee, mint a token, enter a draw, post with it, borrow against it. This is the only source that does not depend on anyone else's opinion. See [[Utilities and Sinks]].
 * '''Scarcity relative to the people who want it''' — not raw supply, but supply against the number of holders and the size of the float. A million coins held by twenty people and a million held by ten thousand are '''different assets'''. See [[Holders, Rarity, and Distribution]].
 * '''Speculation and rotation''' — capital that already made money elsewhere looking for the next move. This is real demand and it pays real prices, but it is '''borrowed''': it leaves as readily as it came. See [[The Crypto Market: Rotation, Day Trading, and Large Buyers]].
+* '''Flight from somebody else's fees''' — demand that arrives because a different chain got too expensive to use. This one is rarely listed and it is the most reliable of the lot, because it is driven by arithmetic rather than opinion. See §5.
 * '''Belief carried in public''' — the narrative layer. It is the weakest of the four on its own and the strongest when it sits on top of the other three.
 
 A chain that has only the third and fourth gets a price and loses it. A chain that has the first two can survive the absence of the others, which is the whole design argument for building sinks before building hype.
@@ -37,10 +38,57 @@ The common tools are '''buyback''' (protocol revenue purchases the token on the 
 * '''Burns are not automatically bullish.''' Delphi Digital found no discernible correlation between burns and price movement for BNB and OKB, and suggested treasury-funded buybacks can neutralise the buying pressure that would otherwise have shown up in the market.<ref>https://members.delphidigital.io/reports/more-than-just-governance-unpacking-value-accrual-mechanisms</ref>
 * Manufacturing scarcity for a token with no underlying utility is explicitly called out as a failure mode, not a strategy.<ref>https://chainscorelabs.com/blog/history-of-money-and-the-crypto-thesis/monetary-evolution-and-scarcity/why-tokenomics-often-gets-scarcity-wrong</ref>
 * A 2026 control-theory paper finds supply reduction can support price stabilisation but can also '''amplify''' later volatility around large unlock events.<ref>https://arxiv.org/pdf/2601.09961</ref>
+<ref>https://www.binance.com/en/research/analysis/low-float-high-fdv-how-did-we-get-here</ref>
+<ref>https://keyrock.com/insights/airdrops-are-they-worth-it/</ref>
+<ref>https://www.gate.com/learn/articles/low-float-high-fdv-is-it-really-the-culprit/</ref>
+<ref>This project's "Economics 101" Bitcointalk thread (immakingacoin, 2018) — the toll-booth/immigration-line framing of the Bitcoin fee bottleneck, the BitPay $100 floor, and the monopoly-chokepoint argument</ref>
 
 The rule that follows, and the one this ecosystem actually encodes in its contracts as `MintSinkGuard`: '''every emission is paired with a sink.''' A burn financed by real usage is a different object from a burn announced to move a price. Ours are the former by construction — the [[KULA Lottery|lottery]] burns [[MWALI]] that was earned by supplying liquidity, so the burn is a by-product of the thing being used.
 
-== 5. What this means for a chain with no market yet ==
+=== Low float, high FDV, and the unlock cliff ===
+
+The most documented way a token is destroyed is not a hack — it is its own supply schedule, and it is worth understanding before judging anybody's launch including ours.
+
+The pattern: launch with a '''tiny circulating float''' against a large total supply. The small float makes the first price easy to push up, and multiplying that price by the full supply produces an enormous '''fully diluted valuation'''. Then the locked supply unlocks on a schedule, and every unlock is new sell-side pressure arriving on a book that never grew to match. Binance Research described exactly this in May 2024 — low initial circulating supply inflating the launch price, with steady unlocks creating structural downward pressure afterwards.<ref>https://www.binance.com/en/research/analysis/low-float-high-fdv-how-did-we-get-here</ref>
+
+The outcome data is bleak. Keyrock found that '''88% of tokens launched with airdrops declined in value''', most of them crashing '''within 15 days''', and attributed much of it to thin liquidity rather than to the airdrop itself; lower-FDV launches eroded far less.<ref>https://keyrock.com/insights/airdrops-are-they-worth-it/</ref> A separate analysis of 16,000-plus unlock events reportedly found negative pressure beginning around '''30 days before''' the unlock date, as the market front-ran it.
+
+The counterpoint, which belongs here because a one-sided version of this would be propaganda: an analysis by Gate found that float size at launch did '''not''' meaningfully predict appreciation one year out, and that only about a third of tokens retained value since their first airdrop — suggesting float is one variable among several rather than the cause.<ref>https://www.gate.com/learn/articles/low-float-high-fdv-is-it-really-the-culprit/</ref>
+
+Why it is on this page: it is the exact inverse of the design argument in [[Holders, Rarity, and Distribution]]. A low float with a big unlock queue is '''scarcity that expires'''. A float that is small because coins are '''staked, locked or burned by people using the system''' is scarcity that has to be undone one decision at a time by thousands of separate people. Those two charts look identical on day one and diverge completely afterwards, and the thing to check in any project is simply: '''is the supply off the market because somebody chose to use it, or because a contract has not released it yet?'''
+
+== 5. Fees, bottlenecks, and the demand that lands on other coins ==
+
+This is the demand source nobody puts on their tokenomics slide, and it is the one that built most of the altcoin market.
+
+=== The toll booth ===
+
+A blockchain fits a limited number of transactions in a block. When more people want in than there is room, a queue forms, and the fee becomes '''the priority lane''' — the toll booth and the immigration checkpoint described in [[Economics 101 and 102]] §7. Pay more and you are waved through; pay too little and you wait or get returned.
+
+'''The miners run the booth.''' They choose which transactions go in, and they choose by fee, because '''they want more money''' — which is not a conspiracy, it is the incentive the system was built with. A block space auction run by people paid from the auction has exactly one direction under congestion.
+
+What that looked like on Bitcoin at peak congestion: '''$5 or more''' to send anything, more for speed, low-fee transactions rejected and returned, and '''BitPay refusing payments under $100''' because the fee ate the value of the payment.
+
+=== The economic consequence: the fee becomes a price floor on usefulness ===
+
+A transaction fee is a '''minimum viable transaction size'''. At a $5 fee, no sane person sends $3. Every use case below the fee is not made expensive — it is '''abolished'''. Tipping, micropayments, posting, voting, small in-game actions, paying a creator a dime: all of it stops existing on that chain, at that price, no matter how much anyone believes in it.
+
+And the demand does not evaporate. '''It moves.''' People who need to do small things with money go and find a chain where small things are affordable. That is not speculation and it is not loyalty — it is someone with a job to do, choosing a cheaper tool, which makes it the stickiest demand in crypto. It also means a congested chain's fee market is '''a continuous subsidy to its competitors'''.
+
+=== Why this is the structural argument for the chains we run ===
+
+Usability is '''throughput plus fees''', and the Graphene design answers both: '''four-second blocks''' and '''no per-transaction fee at all'''. Instead of auctioning block space to the highest bidder, bandwidth is rationed by '''Resource Credits''' that regenerate against your staked coin. See [[MELEK Blockchain]] and [[Graphene Blockchain Framework]].
+
+Read that as a pricing mechanism rather than as a feature and the significance is clearer. On a fee-market chain you '''rent''' access, repeatedly, from miners, at a price that rises exactly when the network is most useful. On a Resource-Credit chain you '''hold''' access: stake the coin once and the capacity is yours, permanently, regenerating. That converts the fee from an operating expense paid to miners into '''a reason to acquire and hold the coin''' — which is a utility in the §2 sense, and the cleanest one there is.
+
+The honest limits, because this cuts both ways:
+
+* '''Feeless is not free''' — it is '''prepaid''', by staking. The cost moved; it did not vanish. Someone with no stake has very little capacity.
+* '''No fee market means no fee revenue''', so block producers are paid by inflation instead. That is a real trade and it is why emissions and sinks matter so much here ([[Utilities and Sinks]]).
+* '''Spam is handled by RC exhaustion rather than by price''', which works until someone with a large stake decides to be hostile.
+* Congestion has not been tested at scale on our own chain, because '''we do not yet have the traffic to congest it'''. Saying otherwise would be the kind of claim this series exists to avoid.
+
+== 6. What this means for a chain with no market yet ==
 
 A new chain starts with none of the four demand sources except belief. That is the honest starting position, and pretending otherwise is the single most common lie in this industry.
 
@@ -53,7 +101,7 @@ What can be built before a market exists:
 
 None of that produces a price. It produces the '''conditions under which a price can form and survive''' — which is the only part a builder controls.
 
-== 6. Read next ==
+== 7. Read next ==
 
 * [[Volume, Liquidity, and Depth]] — why a thin book makes a quoted price fictional, and how volume actually arrives.
 * [[Holders, Rarity, and Distribution]] — the twenty-wallet problem, and why ten thousand people at $5 beats twenty people at $2,500.
@@ -76,4 +124,4 @@ This page explains mechanism. It is '''not''' a claim that any token here is und
 <ref>[[The Matrix: Supply, Holders, and Market Cap]]</ref>
 
 == Coverage ==
-Covers the four sources of demand, price formation at the margin, the velocity problem and velocity sinks, value-accrual mechanisms with the sceptical literature on burns and buybacks, and what a pre-market chain can actually build. Live supply figure captured 30 October 2026; treat it as of that date. Gives no valuation verdicts and predicts no prices.
+Covers the five sources of demand including fee-driven flight from congested chains, price formation at the margin, the velocity problem and velocity sinks, value-accrual mechanisms with the sceptical literature on burns and buybacks, the low-float/high-FDV unlock failure mode with its counterpoint, the fee-bottleneck argument for Resource Credits with its honest limits, and what a pre-market chain can actually build. Live supply figure captured 30 October 2026; treat it as of that date. Gives no valuation verdicts and predicts no prices.

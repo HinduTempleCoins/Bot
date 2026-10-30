@@ -41,6 +41,21 @@ Ten thousand people at ten dollars is the same hundred thousand dollars with '''
 
 This is why the growth strategy and the tokenomics are '''the same strategy'''. More holders is not a vanity metric; it is simultaneously more scarcity per person, more incoming value, more book depth and more utility demand.
 
+=== Does the research support it? Metcalfe's law, and its honest exponent ===
+
+The claim that more holders is worth more money is not just our argument — it is the most-tested quantitative claim in the field, and it comes out partly confirmed and partly cut down.
+
+'''Metcalfe's law''' says a network's value grows with the '''square''' of its users, because value lives in the connections between them and n users have n(n-1)/2 possible pairs. Applied to crypto: Alabi found Bitcoin and Ethereum value moved in proportion to the square of unique daily users,<ref>https://www.sciencedirect.com/science/article/abs/pii/S0191886917301344</ref> and Peterson reported that '''over 70% of the variance''' in Bitcoin's value was explained by a Metcalfe-style model of network size.<ref>https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3078248</ref>
+
+Then the cuts, which matter more than the confirmation:
+
+* '''The exponent is not 2.''' Wheatley and co-authors fitting the relationship generally found an exponent of about '''1.69''', not 2 — still strongly super-linear, but materially weaker than the square — and used that fit to argue Bitcoin was significantly overvalued at the time.<ref>https://arxiv.org/abs/1803.05663</ref> A Goldman Sachs estimate landed near 1.9. The useful reading: value grows '''faster than linearly''' with participants. The exact power is unsettled and anyone quoting n² as a law is overselling it.
+* '''Correlation is not causation.''' Users and price rise together in a bull market. The models cannot separate "more users made the price" from "a rising price attracted users".
+* '''Full connectivity is a fiction.''' Metcalfe assumes everyone can transact with everyone and values all of it; in real networks each participant meaningfully connects to far fewer — on the order of n^(2/3) others. That is one reason the fitted exponent lands below 2.
+* '''Active addresses are a bad proxy for people.''' One person runs several wallets, exchanges hold millions of users behind a handful of addresses, dormant wallets inflate holder counts, and layer-two activity never touches the base chain at all.
+
+So the arithmetic in §3 stands — but it stands as '''super-linear growth with a contested exponent and a causation problem''', not as a formula that converts a holder count into a price. Combined with §4 below, the defensible version is narrow and still useful: '''participants who actually transact raise the value of a network faster than their number suggests, and dormant dust does not count.'''
+
 == 4. Dust is not a community ==
 
 The honest counterweight, and this wiki publishes it rather than hiding it: a holder count is easy to inflate with an airdrop, and most airdrop recipients hold '''less than one whole token''' and never return.
@@ -70,6 +85,9 @@ A small float cuts both ways with total honesty: it means less overhang, and it 
 This page explains distribution mechanics. It is '''not''' a claim that any token is undervalued, '''not''' a prediction, and '''not''' a suggestion to buy or sell. Small-float assets are structurally volatile; that is a description, not a recommendation.
 
 == Sources ==
+<ref>https://www.sciencedirect.com/science/article/abs/pii/S0191886917301344</ref>
+<ref>https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3078248</ref>
+<ref>https://arxiv.org/abs/1803.05663</ref>
 <ref>https://arxiv.org/pdf/2609.24176</ref>
 <ref>https://arxiv.org/pdf/2204.01176</ref>
 <ref>https://bitquery.io/blog/wealth-distribution-in-token-economy</ref>
@@ -79,3 +97,5 @@ This page explains distribution mechanics. It is '''not''' a claim that any toke
 
 == Coverage ==
 Covers how identical supply behaves differently across holder counts, concentration as an overhang and price problem, the Gini and Nakamoto metrics with their caveats, the arithmetic of many small contributions versus few large ones, the airdrop-dust correction, and float versus supply. Holder and stake figures are carried from the Matrix pages; treat them as of their capture dates. Gives no valuation verdicts.
+
+The Metcalfe's-law subsection reviews the quantitative research on network value (Alabi 2017, Peterson 2018, Wheatley et al. 2018) and states its limits: a fitted exponent near 1.69 rather than 2, unresolved causation, the full-connectivity assumption, and active addresses as a poor proxy for people.

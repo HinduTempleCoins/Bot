@@ -1,0 +1,76 @@
+'''Mining hardware''' is where the abstract question of what a coin is worth meets a power bill, a purchase order and a shipping date. This page is part of the series under [[How Cryptocurrencies Gain Value]], and it covers the arc from laptop CPUs to the ASIC industry, the '''Butterfly Labs''' era that opened it, why every attempt to build an ASIC-proof coin has eventually failed, and the one piece of real economics underneath all of it — '''cost of production'''.
+
+The reason it belongs in a series about value: proof-of-work is the only part of crypto where somebody must '''spend''' a known amount of real money to produce a coin. That gives a price something nothing else in this field has — a floor made of electricity.
+
+== 1. The four phases ==
+
+The project's own 2016 analysis of CryptoNight mining — the marsresident Steemit post that this wiki draws on — lays the hardware history out in phases, and the phases are the story.
+
+* '''CPU (2009–2010).''' Regular laptop processors. '''Anyone could mine.''' This is the only period in Bitcoin's history where the distribution problem described in [[Holders, Rarity, and Distribution]] solved itself, because the means of production was a thing people already owned.
+* '''GPU (2010–2012).''' Graphics cards, which beat CPUs because hashing is massively parallel and a GPU is a parallel machine. Still consumer hardware, still buyable at a shop, but now you had to '''choose''' to buy it.
+* '''ASIC (2013 onward).''' Application-Specific Integrated Circuits — chips that do exactly one thing and do nothing else. Our corpus names the early players: '''Butterfly Labs''' and the '''Block Erupter''' USB sticks. The result it records is blunt: '''CPUs became completely pointless''', because the electricity cost exceeded the returns. The barrier became "must have ASICs, and a lot of them."
+* '''The industry.''' What began with Butterfly Labs' first ASICs became, as the Convergence paper puts it, '''an ecosystem of 100-plus mining-rig companies'''. The same observation that paper makes about VR and about cannabis extraction applies here exactly: '''the vision preceded the hardware''', sometimes by decades, and the hardware is what converted the vision into an industry.
+
+== 2. The Butterfly Labs era, and what it actually changed ==
+
+Butterfly Labs matters less for the company than for the transition it marks, which happened in under three years and has never reversed.
+
+Before ASICs, the cost of mining was '''the cost of a computer you already had.''' After ASICs, it was '''a capital purchase of single-purpose hardware''' — ordered in advance, manufactured on somebody else's schedule, delivered into a difficulty level that had risen while it was in transit, and worthless for anything else on arrival. That last property is the whole shift. A GPU that stops being profitable gets sold to a gamer. An ASIC that stops being profitable is '''scrap''', and that asymmetry is what turned mining from a hobby into an industry with inventory risk, pre-orders, delivery disputes and balance sheets.
+
+Three consequences that outlived the hardware:
+
+# '''Mining became a business, so it became concentrated.''' Capital, cheap power and wholesale chip access are advantages that compound, and nothing in proof-of-work prevents them from compounding.
+# '''The miners became a chokepoint.''' Once production is concentrated, so is the power to decide which transactions enter a block — which is the toll-booth problem in §5 of [[How Cryptocurrencies Gain Value]] and §7 of [[Economics 101 and 102]]. The fee market and the ASIC market are '''the same story at two different layers'''.
+# '''Difficulty eats every efficiency gain.''' The protocol adjusts difficulty to hold the block interval, so faster hardware across the network does not produce more coins — it produces '''the same coins for more electricity'''. Individually rational, collectively a treadmill.
+
+== 3. Every ASIC-resistant coin has lost, so far ==
+
+This is the part a project is tempted to skip, and our own corpus does not skip it.
+
+* '''Litecoin and Feathercoin''' adopted '''scrypt''' on the promise that it resisted Bitcoin's ASICs. The corpus records the outcome plainly: '''scrypt ASICs were developed, and the same centralisation occurred.'''
+* '''Dogecoin''' arrived late enough that, as the corpus puts it, '''farms already existed''' by launch. The pattern repeated with no transition period at all.
+* '''CryptoNight''' — named after '''kryptonite''', the algorithm being the ASIC's weakness — was the most serious attempt: deliberately memory-hard so that CPUs stayed competitive. Monero was the flagship. The corpus's own retrospective marks it as a '''partial failure''': "Monero eventually faced ASIC pressure, had to fork."
+* The community correction recorded alongside that post is the honest footnote: what matters for CryptoNight is '''CPU cache, at least 2MB per core''', not RAM, and many mainstream CPUs did not have it. The conclusion in our own file: '''"more accessible than Bitcoin, but not truly everyman's coin."'''
+
+The general lesson is uncomfortable and worth stating: '''if a hash function is valuable enough to specialise for, somebody will specialise for it.''' ASIC resistance buys years, not permanence.
+
+== 4. Which is why these chains do not mine for consensus ==
+
+The corpus draws the conclusion itself, in 2016, about STEEM: because it is '''Delegated Proof-of-Stake''', there is '''no advantage to ASICs''' — block frequency is identical regardless of hardware. The hardware arms race is not won, it is '''declined'''. [[MELEK Blockchain|MELEK]] inherits exactly that, and it is why MELEK has no mining at all: see [[Proof of Work, Proof of Stake, and DPoS]].
+
+[[PRANA]] does mine, with '''Etchash''', and the distinction is deliberate: PRANA's work is the chain's product rather than only its clock. See [[Proof of Work Mining]] for the algorithms and PRANA's TASK lane. The browser miner on the pool is the same argument as CryptoNight's in a new form — '''put the means of production back on hardware people already own''' — and it carries the same honest caveat: a browser tab cannot compete with a farm, and saying otherwise would be a lie.
+
+== 5. Cost of production — the only floor in crypto ==
+
+Here is the piece that earns this page its place in a series about value.
+
+For a mined coin you can compute what it '''cost''' to make: hash rate, hardware efficiency, electricity price. That figure behaves like a soft floor, for a mechanical reason — when price falls below the cost of production, miners who cannot cover power switch off, hash rate falls, difficulty adjusts down, and supply issuance gets cheaper to produce. Sellers who were selling to pay bills stop existing.
+
+Four honest limits:
+
+* It is a '''soft''' floor. Miners with sunk hardware, subsidised power or a strategic reason will mine at a loss for a long time, and price has traded below estimated production cost in real cycles.
+* The floor '''moves''', because difficulty and energy prices move.
+* It says nothing about the '''ceiling'''. Cost of production never explains a bull market.
+* '''It does not exist for staked chains at all.''' MELEK has no production cost in this sense — its issuance is near-free — so nothing underneath its price comes from physics. That is the trade for being feeless and fast, and it means everything in [[Utilities and Sinks]] has to do the work that electricity does for Bitcoin.
+
+That last bullet is the most useful sentence on this page for anyone holding our coins, which is why it is stated rather than buried.
+
+== 6. Read next ==
+
+* [[How Cryptocurrencies Gain Value]] — the spine of the series; §5 is the fee market this page's chokepoint produces.
+* [[Proof of Work Mining]] · [[Proof of Work, Proof of Stake, and DPoS]] · [[Mining]] · [[Solar Mining]]
+* [[Holders, Rarity, and Distribution]] — why the CPU era's distribution mattered.
+* [[Economics 101 and 102]] — the toll booth, the fee bottleneck and the monopoly framing.
+* [[Utilities and Sinks]] — what substitutes for a production floor on a feeless chain.
+
+== Not investment advice ==
+
+This page is hardware history and cost mechanics. It is '''not''' a valuation of any coin, '''not''' a claim that any price has a floor, and '''not''' a suggestion to buy, sell or start mining. Mining is a capital purchase with electricity costs and can lose money.
+
+== Sources ==
+* `knowledge/cryptocurrency/cryptonight_cpu_mining.json` — the project's own corpus entry drawn from the marsresident Steemit post, "CryptoNight Coins — Mining with Regular Computers" (2016, STEEM era): the four hardware phases, Butterfly Labs and Block Erupter as early ASIC players, the scrypt/Litecoin/Feathercoin and Dogecoin outcomes, CryptoNight's kryptonite naming and cache requirement, the Monero ASIC-fork retrospective, and the DPoS comparison.
+* `knowledge/scripture/the_convergence.md` — Butterfly Labs' first ASICs to an ecosystem of 100+ mining-rig companies, and the vision-precedes-hardware argument.
+* This project's "Economics 101" Bitcointalk thread (immakingacoin, 2018) — the miner chokepoint and fee-bottleneck framing.
+
+== Coverage ==
+Covers the CPU/GPU/ASIC/industry phases of mining hardware, the Butterfly Labs transition and its three lasting consequences (concentration, the miner chokepoint, the difficulty treadmill), the repeated failure of ASIC resistance across scrypt and CryptoNight, why DPoS declines the arms race while PRANA mines deliberately, and cost of production as a soft price floor that staked chains do not have. '''Sourced from this project's own corpus rather than from external histories''' — the detailed Butterfly Labs company chronology (pre-order and delivery history, the FTC action) is deliberately not asserted here, because the session transcripts covering it were lost before they were archived. Add that detail from the operator's account before treating this page as complete on Butterfly Labs itself.

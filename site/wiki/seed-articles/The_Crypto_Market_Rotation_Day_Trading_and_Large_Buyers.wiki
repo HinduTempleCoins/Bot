@@ -26,6 +26,18 @@ These are different activities with different effects on a coin, and conflating 
 
 '''Taking a position''' — the investment-style purchase, over weeks or months — is the opposite. The buyer accepts a worse average price and illiquidity in exchange for size, and intends to hold through the moves. This is the money that '''stays''', and it is the money that a utility argument ([[Utilities and Sinks]]) can actually persuade, because it is making a judgement about what the thing will be worth later rather than in ten minutes.
 
+=== What actually happens to day traders ===
+
+Because this page explains who supplies volume, it has an obligation to say what the research says about the people who supply it. The finding is consistent across decades and markets, and it is not close.
+
+* Barber, Lee, Liu and Odean, using the complete record of the Taiwan Stock Exchange, found that '''under 1% of day traders''' predictably earned more than transaction costs.<ref>https://faculty.haas.berkeley.edu/odean/papers/Day%20Traders/Day%20Trading%20and%20Learning%20110217.pdf</ref>
+* In Brazilian equity futures, among those who persisted '''more than 300 days''', '''97% lost money'''.<ref>https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3423101</ref>
+* A study of roughly '''25,000''' retail accounts found '''65% won more than half of their trades''' and '''82% still lost money overall''' — because the losses were bigger than the wins. Being right more often than not is not the same as making money.
+
+Two honest notes. The widely-quoted "95% of traders lose" has no single study behind it, and the crypto-specific figures circulating — one survey of 1,005 people claiming 84% lose in their first year — are survey-grade, not peer-reviewed. The '''equity''' research is the solid ground, and the mechanism it identifies (fees and spreads plus asymmetric loss sizes) applies with more force in crypto, where spreads are wider and the market never closes.
+
+None of that is a reason to look down on day traders — the ecosystem needs the liquidity they provide. It is a reason not to '''become''' one casually, and a reason this wiki will never frame trading our tokens as a way to make a living.
+
 A new chain wants both, in order: positions first, because they are the floor; trading second, because it is the liquidity.
 
 == 4. How large buyers avoid the order book entirely ==
@@ -64,6 +76,8 @@ Reading the above honestly produces a strategy rather than a hope:
 This page describes market participants and structure. It is '''not''' a trading strategy, '''not''' a prediction of any cycle or price, and '''not''' a suggestion to buy or sell. The dominance thresholds quoted come from trading blogs, conflict with each other, and are heuristics only. Several OTC sources cited are service providers describing their own product.
 
 == Sources ==
+<ref>https://faculty.haas.berkeley.edu/odean/papers/Day%20Traders/Day%20Trading%20and%20Learning%20110217.pdf</ref>
+<ref>https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3423101</ref>
 <ref>https://datapigtechnologies.com/blog/bitcoin-dominance-cycles-and-when-altcoins-outperform</ref>
 <ref>https://tradersagency.com/blog/btc-dominance-vs-altcoins-altcoin-season</ref>
 <ref>https://www.bit.com/insights/knowledge-hub/alt-season</ref>
@@ -76,4 +90,4 @@ This page describes market participants and structure. It is '''not''' a trading
 <ref>https://alt.co/blog/sell-large-crypto-position-without-moving-the-market</ref>
 
 == Coverage ==
-Covers the emergence of crypto as an asset class with its own searching population, the BTC-to-alt rotation and its return leg including the stablecoin false signal, day trading versus position-taking and what each contributes, OTC/RFQ block trading with its promotional caveats, and the resulting strategy for a small chain. Dominance thresholds are flagged as conflicting heuristics. Gives no trading strategy and predicts no cycle.
+Covers the emergence of crypto as an asset class with its own searching population, the BTC-to-alt rotation and its return leg including the stablecoin false signal, day trading versus position-taking and what each contributes, OTC/RFQ block trading with its promotional caveats, and the resulting strategy for a small chain. Dominance thresholds are flagged as conflicting heuristics. Adds the retail day-trading loss research (Taiwan, Brazil, the 25,000-account study) and flags the popular "95%" figure and crypto-specific survey numbers as unsourced or survey-grade. Gives no trading strategy and predicts no cycle.
