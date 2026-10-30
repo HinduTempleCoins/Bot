@@ -58,7 +58,7 @@ const VKFRI = 'VKFRI vkbt_cure_knowledge dataset (Jan 2026)';
 // ⭐ LIVE CAPTURE. Read from Hive-Engine on this date through integrations/he-client.mjs +
 // integrations/holders.mjs. `npm run token-specs:refresh` (integrations/token-specs-refresh.mjs) reprints
 // this block from the chain, so a stale number is a decision not to run it rather than an accident.
-export const CAPTURE = { date: '2026-10-04', hivePriceUsd: 0.0560, source: 'Hive-Engine (api.hive-engine.com) + HIVE median feed', note: 'supply moves between reads — these tokens are still being issued' };
+export const CAPTURE = { date: '2026-10-30', hivePriceUsd: 0.048, source: 'Hive-Engine (api.hive-engine.com) + HIVE median feed', note: 'supply moves between reads — these tokens are still being issued' };
 const HE = `Hive-Engine live read, ${CAPTURE.date}`;
 
 export const SPEC_DIMENSIONS = [
@@ -82,28 +82,28 @@ export const SPEC_DIMENSIONS = [
 export const TOKEN_SPECS = {
   vkbt: {
     id: 'vkbt', name: 'VKBT', full: 'Van Kush Beauty Token', layer: 'Hive-Engine side token',
-    supply: '2,315,564', holders: '25,038', realHolders: '5,375', staked: '42% (973,568)',
-    concentration: '970,224 (41.9%)',
+    supply: '2,352,205', holders: '25,096', realHolders: '5,402', staked: '41.9% (985,238)',
+    concentration: '987,063 (42%)',
     acquired: 'Purchased at market',
     distribution: 'Given away through curation programs',
     emission: 'Reward pool: 1 VKBT/min (1,440/day), fixed, no reduction; cap 500,000,000',
     venue: 'TribalDEX vs HIVE / SWAP.HIVE',
-    activity: 'Near-zero — 0.018 HIVE traded in 24h; ask is 5x the bid',
-    capAtParity: '$129,672',
-    note: 'Very widely held — 25,272 accounts hold something — but 19,663 of those hold LESS THAN ONE token, so the honest headline is 5,375 holders of a whole token or more. The VKF position was bought at market and is being distributed through curation, not accumulated.',
+    activity: 'Near-zero — 0.00000123 HIVE traded in 24h; last 4.1e-7 HIVE; ask is 175,585x the bid',
+    capAtParity: '$112,906',
+    note: 'Widely held: 26,141 balance rows, 25,096 holding something. 19,694 hold under one whole token and 5,402 hold one or more; further up, 2,992 hold 10+, 1,069 hold 100+ and 207 hold 1,000+. Both ends are published because they answer different questions — how many people a price move reaches, and how many hold size. 41.9% of supply is STAKED (985,238), summed from the stake field across every balance row, so the liquid float is far below supply. The VKF position was bought at market and is being distributed through curation, not accumulated.',
     source: HE,
   },
   cure: {
     id: 'cure', name: 'CURE', full: 'Curator Rewards Token', layer: 'Hive-Engine side token',
-    supply: '70,974', holders: '14,965', realHolders: '1,337', staked: '71% (50,245)',
-    concentration: '37,477 (52.8%)',
+    supply: '72,440', holders: '15,039', realHolders: '1,356', staked: '71.2% (51,594)',
+    concentration: '37,938 (52.4%)',
     acquired: 'Purchased at market',
     distribution: 'Given away through curation programs',
     emission: 'Reward pool: 2.4 CURE/hour (57.6/day), fixed, no reduction; cap 20,000,000',
     venue: 'TribalDEX vs HIVE / SWAP.HIVE',
-    activity: 'Effectively none — 0.000003 HIVE in 24h; ask is 2,203x the bid',
-    capAtParity: '$3,975',
-    note: 'Genuinely scarce at 70,974 units, and 71% of it is STAKED, so the liquid float is small. 14,965 accounts hold something but 13,628 hold less than one token; 1,337 hold a whole token or more and only 430 hold 10+ and 62 hold 100+.',
+    activity: 'Effectively none — 4.1e-7 HIVE in 24h; last 0.0000222 HIVE; ask is 1,780x the bid',
+    capAtParity: '$3,477',
+    note: 'Genuinely scarce at 72,440 units — the SMALLEST total supply in the Hive-Engine peer group measured on 2026-10-30 — and 71.2% of it is STAKED (51,594, summed from the stake field across all 15,776 balance rows), so the liquid float is roughly 20,800. 15,039 accounts hold something: 13,683 hold under one token, 1,356 hold one or more, 438 hold 10+, 64 hold 100+ and 3 hold 1,000+.',
     source: HE,
   },
   blurt: {

@@ -86,7 +86,123 @@ Measured against that ladder honestly:
 
 The honest gap: Splinterlands had '''a game people wanted to play''' before it had a token economy worth discussing. Nothing on our side has yet proven that kind of outside pull, and every sink in [[Utilities and Sinks]] is a bet that the compute lane becomes it.
 
-== 6. Read next ==
+== 6. Where VKBT and CURE actually rank against this peer group ==
+
+This whole series is an expansion of [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]], and the Matrix's second table — '''the Specs''' — exists to compare VKBT and CURE against the right peer group: '''other engine tokens''', never coins with their own chains. This section does the comparison with live numbers.
+
+Every figure below was read from '''Hive-Engine's own `tokens` contract table on 30 October 2026'''. Anyone can re-run it.
+
+=== Supply scale — the strongest measurable result ===
+
+{| class="wikitable"
+! Token !! Total supply !! Max supply !! % of max minted
+|-
+| SPORTS || 106,672,613,527 || 10,000,000,000,000 || 1.07%
+|-
+| DEC || 32,533,907,083 || 9,000,000,000,000 || 0.36%
+|-
+| STARBITS || 22,432,685,297 || 1,000,000,000,000 || 2.24%
+|-
+| '''LEO''' || 1,000,000,000 || 1,000,000,000 || '''100%'''
+|-
+| '''LIST''' || 500,000,000 || 500,000,000 || '''100%'''
+|-
+| PAL || 131,000,769 || 1,000,000,000,000 || 0.01%
+|-
+| NEOXAG || 122,192,916 || 42,000,000,000 || 0.29%
+|-
+| BBH || 102,382,700 || 2.1 × 10¹⁵ || ~0%
+|-
+| CTP || 16,711,862 || 3,000,000,000 || 0.56%
+|-
+| POB || 12,658,829 || 21,000,000 || 60.3%
+|-
+| WAIV || 12,096,060 || 1,000,000,000 || 1.21%
+|-
+| PIZZA || 4,337,500 || 100,000,000 || 4.34%
+|-
+| '''VKBT''' || '''2,352,200''' || 500,000,000 || 0.47%
+|-
+| ARCHON || 1,164,382 || 420,000,000 || 0.28%
+|-
+| VIBES || 1,123,461 || 21,000,000 || 5.35%
+|-
+| INDEX || 350,304 || 20,000,000 || 1.75%
+|-
+| '''CURE''' || '''72,440''' || 20,000,000 || 0.36%
+|}
+
+'''CURE has the smallest total supply of any token in this group''', by a wide margin — it is roughly '''1.5 million times smaller than SPORTS''' and about '''450,000 times smaller''' than DEC. VKBT, at 2.35 million, is the fourth smallest of the seventeen. When a page elsewhere says CURE's supply is "deliberately tiny", this is the measurement behind it, and the peer group is what makes it legible: a four-figure market cap on a five-figure supply is a different object from a four-figure market cap on a hundred-billion supply.
+
+=== Where the peer group is better than us, stated first ===
+
+The Matrix's own rule is that a table which flatters you everywhere is guessing somewhere. Two tokens in that list beat us outright on a dimension that matters:
+
+'''LEO and LIST are 100% minted.''' Their supply equals their max supply, so '''no further issuance is possible at all'''. That is the hardest possible guarantee against dilution, and it is stronger than anything VKBT or CURE can currently claim: we sit at '''0.47%''' and '''0.36%''' of ceilings of 500,000,000 and 20,000,000. POB, at 60.3% minted, is also far closer to done than we are.
+
+Our emission is also live and unreduced. Per the Matrix, new VKBT and CURE come from each token's Hive-Engine comments reward pool at a '''fixed number of tokens per unit time''' — VKBT 1 per minute, CURE 2.4 per hour — with '''no reduction schedule'''. Because the rate is a token count rather than a percentage, the '''annual rate falls as supply grows''' — but at today's supply it is high in absolute terms, roughly '''22%''' a year for VKBT and '''29%''' for CURE. A fixed-count emission is a better structure than a percentage-of-supply emission, and it is still a long way from LEO's zero.
+
+And on '''liquidity''' we are last, not first. CURE has shown an ask/bid spread of '''2,203×''' and VKBT traded '''0.018 HIVE''' in a 24-hour window. LEO, PIZZA, DEC and SPS have real books and products generating real demand. That is the honest ranking and §1–§5 above are about why.
+
+=== Where VKBT and CURE genuinely lead ===
+
+What is left after those concessions is narrower than a slogan and more durable than one, because '''it is the part that cannot be retrofitted''':
+
+# '''How the position was acquired.''' The issuer's large holding was '''purchased at market''' — not a founder allocation, not a pre-mine, not minted to ourselves. Across the tribe-token layer the normal pattern is the opposite: a launch allocation to the founding account. A position bought at the going price is a '''historical fact that can never be changed'''; a pre-mine is equally permanent in the other direction.
+# '''Which direction the supply is moving.''' The holding is being '''given away through curation''', which means it is float for a reward system rather than a bag held for exit. The Matrix makes the sharp point here: a large holding being distributed and a large holding being held for exit '''look identical on a holdings chart and are opposites'''.
+# '''Supply scale.''' The table above. Scarcity relative to holders is the §2 argument of [[Holders, Rarity, and Distribution]], and CURE is the extreme case of it in this peer group.
+# '''Emission structure.''' A fixed token count per unit time is self-decaying in percentage terms. A percentage-of-supply emission compounds. Most tribe pools are specified the second way.
+
+'''The defensible claim, then, is not "better tokenomics than every other engine token" flat.''' It is sharper than that and it survives checking: '''on the dimensions that describe the integrity of issuance — how the position was acquired, which way the supply is flowing, and how small the supply is — VKBT and CURE rank at or near the top of this peer group. On the dimensions that describe liquidity and a working demand sink, they rank at the bottom.''' The first set is history and cannot be acquired later. The second set is engineering and is what [[Utilities and Sinks]] is for.
+
+=== The staking figure, resolved — and the artefact was mine ===
+
+An earlier revision of this section flagged the Matrix's staking percentages as an unresolved discrepancy. '''It has been resolved, and the wrong number was the one this page derived, not the Matrix's.'''
+
+The mistake: Hive-Engine's `tokens` table exposes `supply` and `circulatingSupply`, and I treated the difference between them as stake. It is not. Taking that difference implied VKBT was '''0.7%''' staked and CURE '''0.1%''' — figures that collapse the moment you notice that ordinary holders are sitting on tens of CURE each.
+
+'''The authoritative method is to sum the `stake` field across every balance row''', paged by `_id` cursor so nothing is silently truncated — which is exactly what `integrations/token-specs-refresh.mjs` already does, and it refuses to print anything from an incomplete read. Run on '''30 October 2026''' it gives:
+
+* '''VKBT — 985,238 staked, 41.9% of supply''', from 26,141 balance rows.
+* '''CURE — 51,594 staked, 71.2% of supply''', from 15,776 balance rows, leaving a liquid float of roughly '''20,800'''.
+
+'''The Matrix was right all along.''' And this is §2.1 of the Matrix landing on the page that cited §2.1: '''a number can be sourced and still be an artefact.''' `circulatingSupply` is a real field returned by the real chain; using it as stake made it wrong. The failure mode was not a bad source, it was a bad reading — the same shape as the two wrong holder counts §2.1 records, and the correction is the same one: '''re-derive, do not re-cite.'''
+
+=== The current figures, re-derived ===
+
+Since the refresher was run, these supersede the 4 October capture:
+
+{| class="wikitable"
+! !! VKBT !! CURE
+|-
+| Total supply || 2,352,205 || '''72,440'''
+|-
+| Staked || 985,238 ('''41.9%''') || 51,594 ('''71.2%''')
+|-
+| Holding anything || 25,096 || 15,039
+|-
+| Holding ≥1 token || 5,402 || 1,356
+|-
+| Holding ≥10 || 2,992 || '''438'''
+|-
+| Holding ≥100 || 1,069 || '''64'''
+|-
+| Holding ≥1,000 || 207 || 3
+|-
+| Issuer position || 987,063 (42%) || 37,938 (52.4%)
+|-
+| Ask/bid spread || '''175,585×''' || 1,780×
+|-
+| 24h volume || 0.00000123 HIVE || 0.00000041 HIVE
+|}
+
+Two things in that table deserve to be read rather than skimmed.
+
+'''The stake ratios are a genuine strength and they are now verified.''' At '''71.2%''' staked, nearly three quarters of all CURE is off the market, which is why the float is about 20,800 units rather than 72,440. That is a far tighter float than the raw supply suggests, and it is the mechanism described in §5 of [[Holders, Rarity, and Distribution]]. '''No cross-token staking comparison is offered''', because measuring the peer group the same way means a full cursor-paged balance read per token and that has not been done — so this wiki will not claim our staking ratio beats theirs until it has been measured.
+
+'''And the spread got dramatically worse, which belongs here precisely because it is unflattering.''' VKBT's ask/bid spread was recorded at '''5×''' on 4 October and reads '''175,585×''' on 30 October. A spread that wide is not a price at all; it is the complete absence of a two-sided market, and it is the clearest possible illustration of the liquidity concession made above. Nothing in the integrity-of-issuance column fixes it — only the engineering in [[Utilities and Sinks]] does.
+
+== 7. Read next ==
 
 * [[Hive-Engine and Smart Media Tokens]] — the layer all of this runs on, and why SMTs are not it.
 * [[Token Buybacks, Market Fees, and the UIA Lineage]] — the token-management mechanics from BitShares forward.
