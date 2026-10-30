@@ -78,7 +78,21 @@ Keeping the part of the old paragraph that was actually defensible, and dropping
 * '''A holder count does not tell you how much capital is behind a token.''' You cannot read a market cap, a floor or a dollar figure off a holder count. That is the one true caution, and it is a caution about '''arithmetic''', not about whether those holders matter.
 * '''The counts further up the curve answer a different question''' — who holds '''size'''. VKBT has '''2,992''' holders of 10+, '''1,069''' of 100+ and '''207''' of 1,000+; CURE has '''438''' of 10+, '''64''' of 100+ and '''3''' of 1,000+. That is the number to look at for depth of commitment.
 * '''Both are real information about different things.''' Breadth tells you how many people a move reaches. Size tells you who can move it. Neither makes the other irrelevant, and this wiki will quote both.
-* '''How a base was acquired still matters for conviction''' — but that is a statement about acquisition, not a licence to discount anybody. Ours was '''purchased at market and given away through curation''' — earned by posting rather than sprayed at wallets. See the Matrix.
+* '''How a holder earned their tokens is irrelevant.''' Airdrop, curation reward, purchase, tip — '''none of it changes what the token does in their hands.''' A balance is a balance: it can be traded, bridged and sold on the same terms whatever its history, and it reprices with the market either way. Judging a holder by their acquisition route is not a tokenomics observation, it is a guess about their state of mind, and this page does not make it. (What '''does''' matter is how the '''issuer''' acquired its position — purchased at market rather than pre-mined — because that is a fact about supply, not about anybody's motives. See the Matrix.)
+
+== 4a. Where the demand for these tokens comes from ==
+
+The demand for VKBT and CURE does not have to originate with VKBT and CURE. '''It runs backwards through the bridge.'''
+
+Someone who wants '''MELEK''' and does not have it has a route: buy '''VKBT or CURE on Hive-Engine''' with HIVE, bridge to `wVKBT`/`wCURE`, swap through [[KulaSwap and the DEX Lineage|KulaSwap]] into KULA and then `wMELEK`, and unwrap. The engine tokens are '''an on-ramp to MELEK''', which means demand for MELEK becomes '''bid''' for VKBT and CURE. That is the same path priced in §6 of [[How Cryptocurrencies Gain Value]], run in the other direction — and it is why the two engine tokens are the assets that give the whole set a USD figure at all.
+
+On top of that, '''VKBT has a use of its own.''' Its registered on-chain description is "A Token for Rewarding Beauty, and Providing Liquid to the Beauty Economy" — it is intended to '''buy beauty supplies'''. A token that purchases a physical good has a demand source that does not depend on anybody's opinion about crypto, which is the first and strongest of the four sources in §2 of [[How Cryptocurrencies Gain Value]].
+
+So there are three distinct bids on these tokens, and only one of them is speculative:
+
+# '''People who want MELEK''' and are buying the on-ramp.
+# '''People who want what VKBT buys''' — the beauty economy it was issued for.
+# '''People who expect the price to rise''' — the speculative bid, which is real and is the least durable of the three.
 
 == 5. Float: the supply that is actually for sale ==
 

@@ -114,37 +114,67 @@ So the four things a young chain actually controls:
 
 Read from the live markets on '''30 October 2026'''. HIVE's median feed is '''$0.048''' per HIVE, which anchors the engine side in USD.
 
+'''A correction to an earlier revision of this section.''' It published KULA at $3.4450 × 10⁻¹⁷ and wMELEK at $4.0000 × 10⁻¹⁸. '''Those were wrong by a factor of 10¹⁰.''' `wVKBT` and `wCURE` are '''8-decimal''' tokens while KULA, WPRANA and wMELEK are 18-decimal, and the first pass divided every raw reserve by 10¹⁸. The figures below use each token's own `decimals()`.
+
 '''Observed prices''' — an actual trade happened at these:
 
 {| class="wikitable"
-! Asset !! Price !! Derivation
+! Asset !! Last trade !! USD !! Top bid
 |-
-| '''VKBT''' || '''$0.0000000197''' || last trade 0.00000041 HIVE × $0.048
+| '''VKBT''' || 0.00000041 HIVE || '''$0.0000000197''' || 0.00000041 HIVE for '''3,220,171 VKBT'''
 |-
-| '''CURE''' || '''$0.0000010656''' || last trade 0.00002220 HIVE × $0.048
+| '''CURE''' || 0.00002220 HIVE || '''$0.0000010656''' || 0.00002350 HIVE for 444 CURE, then 0.00002342 for 5,000
 |}
 
-Market cap at those prices: '''VKBT $0.0463''' and '''CURE $0.0772'''. CURE's book shows a '''highest bid of 0.00002350 HIVE''', above its last trade.
+'''Theoretical prices''' — no exchange listing required. `wVKBT` and `wCURE` can be bridged back and sold on Hive-Engine, so the KulaSwap reserve ratios convert KULA, WPRANA and wMELEK into USD by arithmetic. On an AMM '''the reserve ratio is the price'''.
 
-'''Theoretical prices''' — no exchange listing is required for these. The wrapped tokens on [[KulaSwap and the DEX Lineage|KulaSwap]] connect KULA, WPRANA and wMELEK to the two assets that do have a USD print, and on an AMM '''the reserve ratio is the price''' by the constant-product formula. So the chain of ratios gives a USD figure by arithmetic:
+Spot ratios from the exact reserves:
+
+* '''1 KULA = 17.504966 wVKBT''' — pool 1 holds 1,089.731509 KULA : 19,075.713213 wVKBT
+* '''1 KULA = 0.426672 wCURE''' — pool 2 holds 483.434399 wCURE : 1,133.036004 KULA
+* '''1 wMELEK = 0.11614441 KULA''' — pool 4 holds 0.10452997 KULA : 0.90000000 wMELEK
+* '''1 KULA = 0.64126762 WPRANA''' — pool 0 holds 16,626.438270 KULA : 10,661.996445 WPRANA
 
 {| class="wikitable"
-! Asset !! Theoretical USD !! Route
+! Asset !! via the wVKBT route !! via the wCURE route
 |-
-| '''KULA''' || '''$3.4450 × 10⁻¹⁷''' || pool 1 (KULA/wVKBT): 1 wVKBT = 571,266,456.17 KULA, × VKBT at $0.0000000197
+| '''KULA''' || '''$3.444977 × 10⁻⁷''' || '''$4.546614 × 10⁻⁷'''
 |-
-| '''KULA''' || '''$4.5466 × 10⁻¹⁷''' || pool 2 (wCURE/KULA): 1 wCURE = 23,437,223,438.46 KULA, × CURE at $0.0000010656
+| '''wMELEK''' || '''$4.001149 × 10⁻⁸''' || '''$5.280638 × 10⁻⁸'''
 |-
-| '''wMELEK''' || '''$4.0000 × 10⁻¹⁸''' || 0.11611111 KULA (pool 4) × KULA via the wVKBT route
-|-
-| '''wMELEK''' || '''$5.2791 × 10⁻¹⁸''' || 0.11611111 KULA × KULA via the wCURE route
-|-
-| '''WPRANA''' || '''$5.3721 × 10⁻¹⁷''' || KULA ÷ 0.64126761 WPRANA (pool 0)
+| '''WPRANA''' || '''$5.372137 × 10⁻⁷''' || —
 |}
 
-'''The two independent routes agree to within about 30%''', which is the check that makes them usable: they run through different pools and different anchor assets and land in the same order of magnitude. A further cross-check — pool 3 prices wCURE at '''40.36 wVKBT''' while the Hive-Engine market prices the pair at '''54.15''', so the wrapped pools sit at about '''75% of the market ratio'''. These are '''theoretical''' because the wrapped side of pools 1, 2 and 3 holds very little, and because `wMELEK` is priced in a pool holding '''0.1045 KULA against 0.9000 wMELEK''' — the quote is exact, the depth is not.
+=== And it gives a market cap ===
 
-For completeness on the chain's own feed: MELEK's `current_median_history` reads '''0.000 MELEK''' and '''no witness has ever published a price feed''' — all eight top witnesses, including `hathor`, report `last_sbd_exchange_update` of `1970-01-01T00:00:00`. A published feed would give MELEK a '''quoted''' price alongside the calculated one above.
+Supply × price, with supplies read live:
+
+{| class="wikitable"
+! Asset !! Supply !! Market cap (wVKBT route) !! Market cap (wCURE route)
+|-
+| '''MELEK''' || 2,527,236.964 || '''$0.1011''' || '''$0.1335'''
+|-
+| '''KULA''' || 267,009.132 || '''$0.0920''' || '''$0.1214'''
+|-
+| '''WPRANA''' || 13,001.000 (the wrapped portion only) || '''$0.0070''' || —
+|-
+| '''VKBT''' || 2,352,205 || '''$0.0463''' (observed) || —
+|-
+| '''CURE''' || 72,440 || '''$0.0772''' (observed) || —
+|}
+
+The two routes run through different pools and different anchor assets and land within '''32%''' of each other, which is the check that makes them usable. A further cross-check: pool 3 prices wCURE at '''40.36 wVKBT''' against the engine market's '''54.15''', so the wrapped pools sit at about '''75%''' of the market ratio.
+
+=== What one MELEK actually realises ===
+
+The spot ratios above are quotes. '''This is the executed number''', using the Uniswap-V2 constant-product formula with its 0.3% fee and the exact reserves:
+
+# '''1 wMELEK → 0.054937471 KULA''' in pool 4. Note why the loss is so large: pool 4 holds '''0.90000000 wMELEK''', and `wMELEK`'s '''entire total supply is 0.90000000''' — all of it is in that pool. A single unit entering is more than the whole reserve, so it moves the price the full quadratic amount described below.
+# Then either:
+#* '''→ 0.9587454 wVKBT''' in pool 1. Sold at the 0.00000041 HIVE bid (which has depth for 3,220,171 VKBT): '''0.0000003931 HIVE = $0.0000000189'''.
+#* '''→ 0.02336881 wCURE''' in pool 2. Sold at the 0.00002350 HIVE bid (depth 444 CURE): '''0.0000005492 HIVE = $0.0000000264'''.
+
+So '''one MELEK, bridged, swapped and sold, realises about $0.0000000264 on the better of the two routes.''' Spot said '''$0.0000000528''' — the realised figure is '''49.9% of spot''', and the '''50.1%''' difference is slippage in pool 4, entirely because the swap is larger than the reserve it hits. The sell side on Hive-Engine is not the constraint; the bids absorb these sizes with room to spare.
 
 === Why early chains reprice by orders of magnitude ===
 
