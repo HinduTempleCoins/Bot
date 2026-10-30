@@ -60,12 +60,12 @@ So the arithmetic in §3 stands — but it stands as '''super-linear growth with
 
 An earlier revision of this page called holders of less than one token '''"dust"''' and said they "never return" and do not count. '''That was wrong''', and the reason it was wrong is the most useful thing on this page — because it is the same mechanism as [[Volume, Liquidity, and Depth]], read in the other direction.
 
-Start with the raw numbers, which are real: of '''25,038''' VKBT holders, '''19,663 hold under one whole token'''; of '''14,965''' CURE holders, '''13,628''' do. Full detail in [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]].
+Start with the raw numbers, which are real: of '''25,096''' VKBT holders, '''19,694 hold under one whole token'''; of '''15,039''' CURE holders, '''13,683''' do. Full detail in [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]].
 
 Now the four reasons the dismissive reading of those numbers does not hold:
 
 # '''A thin market is a responsive market.''' It takes very little capital to move the price of a token this size — that is precisely what the depth figures say, including the CURE bid and ask that have stood '''2,700×''' apart. Thinness is usually discussed as a weakness, and on the exit side it is. On the '''entry''' side the same property means a modest bid produces a '''large percentage move'''.
-# '''Every holder sees it.''' An engine wallet shows a balance and what that balance is worth. A large percentage move is therefore '''visible in all 25,038 wallets at once''', at no cost to anybody. The holder base is not an inert ledger entry — it is a '''distribution list for a price signal''', and the signal reaches everyone on it simultaneously.
+# '''Every holder sees it.''' An engine wallet shows a balance and what that balance is worth. A large percentage move is therefore '''visible in all 25,096 wallets at once''', at no cost to anybody. The holder base is not an inert ledger entry — it is a '''distribution list for a price signal''', and the signal reaches everyone on it simultaneously.
 # '''A visible move produces the one thing a thin token lacks.''' A holder who sees their balance move does one of two things: '''buys more, or sells some.''' Both are '''volume'''. Both are the second trade that §4 of [[Volume, Liquidity, and Depth]] identifies as the thing a shallow book needs in order to deepen. Somebody who can be activated by a price move is an '''economically live participant''', whatever their balance is today.
 # '''Cheapness multiplies reach.''' The lower the price and the thinner the book, the '''more holders a given amount of buying can reach and activate'''. A large holder count and a small average balance is not a contradiction of §3's argument — it is §3's argument with the unit price moved.
 
@@ -76,7 +76,7 @@ So the correct reading is the opposite of the old one: '''a large holder base on
 Keeping the part of the old paragraph that was actually defensible, and dropping the part that was not:
 
 * '''A holder count does not tell you how much capital is behind a token.''' You cannot read a market cap, a floor or a dollar figure off a holder count. That is the one true caution, and it is a caution about '''arithmetic''', not about whether those holders matter.
-* '''The counts further up the curve answer a different question''' — who holds '''size'''. VKBT has '''2,975''' holders of 10+ and '''1,074''' of 100+; CURE has '''430''' of 10+ and '''62''' of 100+. That is the number to look at for depth of commitment.
+* '''The counts further up the curve answer a different question''' — who holds '''size'''. VKBT has '''2,992''' holders of 10+, '''1,069''' of 100+ and '''207''' of 1,000+; CURE has '''438''' of 10+, '''64''' of 100+ and '''3''' of 1,000+. That is the number to look at for depth of commitment.
 * '''Both are real information about different things.''' Breadth tells you how many people a move reaches. Size tells you who can move it. Neither makes the other irrelevant, and this wiki will quote both.
 * '''How a base was acquired still matters for conviction''' — but that is a statement about acquisition, not a licence to discount anybody. Ours was '''purchased at market and given away through curation''' — earned by posting rather than sprayed at wallets. See the Matrix.
 
@@ -84,7 +84,7 @@ Keeping the part of the old paragraph that was actually defensible, and dropping
 
 Supply is not the same as the amount that can be bought. The '''float''' is what is liquid and unlocked right now, and it is usually far smaller.
 
-On CURE, '''71% of supply is staked''', leaving a liquid float of roughly '''20,700 units''' against a 70,974 supply. VKBT is 42% staked. Staked coins are not on the market, so the float — not the supply — is what a buyer is competing for, and it is what a seller can actually dump.
+On CURE, '''71.2% of supply is staked''' — 51,594 of 72,440, summed from the `stake` field across all 15,776 balance rows — leaving a liquid float of roughly '''20,800 units'''. VKBT is '''41.9%''' staked (985,238 of 2,352,205). Re-derived 30 October 2026; note that `supply` minus `circulatingSupply` is '''not''' stake on Hive-Engine and gives an answer wrong by orders of magnitude. Staked coins are not on the market, so the float — not the supply — is what a buyer is competing for, and it is what a seller can actually dump.
 
 A small float cuts both ways with total honesty: it means less overhang, and it means '''more violent price moves in both directions''', because any order is large relative to what is available. Anyone reading a small-float chart should know that the volatility is structural, not a signal.
 

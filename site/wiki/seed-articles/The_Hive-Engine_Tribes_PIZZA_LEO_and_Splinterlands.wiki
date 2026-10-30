@@ -155,13 +155,52 @@ What is left after those concessions is narrower than a slogan and more durable 
 
 '''The defensible claim, then, is not "better tokenomics than every other engine token" flat.''' It is sharper than that and it survives checking: '''on the dimensions that describe the integrity of issuance — how the position was acquired, which way the supply is flowing, and how small the supply is — VKBT and CURE rank at or near the top of this peer group. On the dimensions that describe liquidity and a working demand sink, they rank at the bottom.''' The first set is history and cannot be acquired later. The second set is engineering and is what [[Utilities and Sinks]] is for.
 
-=== An open discrepancy, recorded rather than resolved ===
+=== The staking figure, resolved — and the artefact was mine ===
 
-In the spirit of §2.1 of the Matrix — '''a number can be sourced and still be an artefact''' — one figure does not reconcile and should not be cited by anyone until it does.
+An earlier revision of this section flagged the Matrix's staking percentages as an unresolved discrepancy. '''It has been resolved, and the wrong number was the one this page derived, not the Matrix's.'''
 
-Hive-Engine's `tokens` table gives `supply` and `circulatingSupply`. Taking the difference as stake implies '''VKBT 0.7%''' and '''CURE 0.1%''' staked. The Matrix, from a balances read captured 4 October 2026, reports '''VKBT 42%''' and '''CURE 71%''' staked. Those cannot both describe the same thing. Relatedly, the issuer account's own live balance record shows '''11,416 liquid and 16,484 staked VKBT''' — about 27,900 in total — against the Matrix's stated VKF position of '''970,224 VKBT'''; that gap is far too large to be drift, so the position is presumably spread across several accounts rather than one.
+The mistake: Hive-Engine's `tokens` table exposes `supply` and `circulatingSupply`, and I treated the difference between them as stake. It is not. Taking that difference implied VKBT was '''0.7%''' staked and CURE '''0.1%''' — figures that collapse the moment you notice that ordinary holders are sitting on tens of CURE each.
 
-'''Until a cursor-paged sum of the `stake` field across all holders settles it, this wiki should quote no staking percentage for VKBT or CURE''', and the stake-derived float figures elsewhere in the series should be read as provisional. Flagging it is the whole lesson of §2.1: the failure mode is a confident number, and the fix is to re-derive rather than re-cite.
+'''The authoritative method is to sum the `stake` field across every balance row''', paged by `_id` cursor so nothing is silently truncated — which is exactly what `integrations/token-specs-refresh.mjs` already does, and it refuses to print anything from an incomplete read. Run on '''30 October 2026''' it gives:
+
+* '''VKBT — 985,238 staked, 41.9% of supply''', from 26,141 balance rows.
+* '''CURE — 51,594 staked, 71.2% of supply''', from 15,776 balance rows, leaving a liquid float of roughly '''20,800'''.
+
+'''The Matrix was right all along.''' And this is §2.1 of the Matrix landing on the page that cited §2.1: '''a number can be sourced and still be an artefact.''' `circulatingSupply` is a real field returned by the real chain; using it as stake made it wrong. The failure mode was not a bad source, it was a bad reading — the same shape as the two wrong holder counts §2.1 records, and the correction is the same one: '''re-derive, do not re-cite.'''
+
+=== The current figures, re-derived ===
+
+Since the refresher was run, these supersede the 4 October capture:
+
+{| class="wikitable"
+! !! VKBT !! CURE
+|-
+| Total supply || 2,352,205 || '''72,440'''
+|-
+| Staked || 985,238 ('''41.9%''') || 51,594 ('''71.2%''')
+|-
+| Holding anything || 25,096 || 15,039
+|-
+| Holding ≥1 token || 5,402 || 1,356
+|-
+| Holding ≥10 || 2,992 || '''438'''
+|-
+| Holding ≥100 || 1,069 || '''64'''
+|-
+| Holding ≥1,000 || 207 || 3
+|-
+| Issuer position || 987,063 (42%) || 37,938 (52.4%)
+|-
+| Ask/bid spread || '''175,585×''' || 1,780×
+|-
+| 24h volume || 0.00000123 HIVE || 0.00000041 HIVE
+|}
+
+Two things in that table deserve to be read rather than skimmed.
+
+'''The stake ratios are a genuine strength and they are now verified.''' At '''71.2%''' staked, nearly three quarters of all CURE is off the market, which is why the float is about 20,800 units rather than 72,440. That is a far tighter float than the raw supply suggests, and it is the mechanism described in §5 of [[Holders, Rarity, and Distribution]]. '''No cross-token staking comparison is offered''', because measuring the peer group the same way means a full cursor-paged balance read per token and that has not been done — so this wiki will not claim our staking ratio beats theirs until it has been measured.
+
+'''And the spread got dramatically worse, which belongs here precisely because it is unflattering.''' VKBT's ask/bid spread was recorded at '''5×''' on 4 October and reads '''175,585×''' on 30 October. A spread that wide is not a price at all; it is the complete absence of a two-sided market, and it is the clearest possible illustration of the liquidity concession made above. Nothing in the integrity-of-issuance column fixes it — only the engineering in [[Utilities and Sinks]] does.
 
 == 7. Read next ==
 

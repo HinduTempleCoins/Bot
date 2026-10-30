@@ -88,18 +88,29 @@ The honest limits, because this cuts both ways:
 * '''Spam is handled by RC exhaustion rather than by price''', which works until someone with a large stake decides to be hostile.
 * Congestion has not been tested at scale on our own chain, because '''we do not yet have the traffic to congest it'''. Saying otherwise would be the kind of claim this series exists to avoid.
 
-== 6. What this means for a chain with no market yet ==
+== 6. What is already running, and what is being built on top of it ==
 
-A new chain starts with none of the four demand sources except belief. That is the honest starting position, and pretending otherwise is the single most common lie in this industry.
+The markets here are '''young and thin''' — that is a measurement, and §1 through §5 are mostly about reading it correctly. It is '''not''' the same thing as having no market, and the difference matters because the machinery below is live, on-chain and checkable right now.
 
-What can be built before a market exists:
+'''Running today, with addresses and counters anyone can read:'''
+
+* '''Two tokens trading''' on TribalDEX with '''25,096''' VKBT holders and '''15,039''' CURE holders between them — '''41.9%''' and '''71.2%''' of those supplies staked, so the float is a fraction of the supply. See [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]].
+* '''A two-sided market on five pairs''' — the [[KulaSwap and the DEX Lineage|KulaSwap]] pools, where reserves ''are'' the depth and the gauge pays liquidity providers to keep them there.
+* '''A sink proven end to end''' — '''10 MWALI burned, one draw completed, 10,000 KULA paid out by the contract.''' Not a design: a transaction. See [[KULA Lottery]].
+* '''Stake locked by choice''' — veKULA escrow holding KULA, and a CDP vault holding collateral against minted mMELEK.
+* '''A mining chain''' — [[PRANA]] on Etchash, paying every miner by share each 20 blocks with a consensus-enforced 2% to a governed treasury.
+* '''A feeless social chain''' — MELEK, '''2,527,236.964 MELEK''' in supply at block 1,932,147, '''all of it issued by the chain''' rather than allocated to founders.
+
+'''What is still being built''' is the demand side, and [[Utilities and Sinks]] lists it with the status of each item marked, including the parts that are specified and not deployed.
+
+So the four things a young chain actually controls:
 
 # '''Scarcity that is real rather than claimed''' — no pre-mine, supply that is earned. MELEK's live supply at the time of writing is '''2,527,236.964 MELEK''' at block 1,932,147, all of it issued by the chain rather than allocated to founders.
 # '''Distribution''' — more holders, each holding less. The reason is arithmetic and it is in [[Holders, Rarity, and Distribution]].
 # '''Places to spend it''' — the utilities in [[Utilities and Sinks]], built before the demand they are meant to serve.
-# '''A two-sided market''' — somebody has to post both a bid and an ask, or there is no price at all. That is what [[KulaSwap and the DEX Lineage|KulaSwap]] is for.
+# '''Depth in the two-sided market''' — a bid and an ask have to exist before a price does, and then the book has to get deep enough that the second trade is worth making. That is what [[KulaSwap and the DEX Lineage|KulaSwap]] and the gauge are for.
 
-None of that produces a price. It produces the '''conditions under which a price can form and survive''' — which is the only part a builder controls.
+None of that '''sets''' a price — no builder can. It builds the '''conditions under which a price can form and survive''', which is the part a builder does control, and it is the part that is already on-chain.
 
 == 7. Read next ==
 
