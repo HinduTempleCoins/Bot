@@ -1,0 +1,75 @@
+'''Volume, liquidity and depth''' are three different things that beginners read as one. Getting them apart is the difference between believing a price and being able to '''get''' that price. This page is part of the series under [[How Cryptocurrencies Gain Value]], and it is the practical answer to why a token can show a large market cap and still be untradeable.
+
+== 1. The three measurements, and why volume is the weakest ==
+
+* '''Spread''' — the gap between the best bid (highest anyone will pay) and the best ask (lowest anyone will sell for). A tight spread means the two sides nearly agree.
+* '''Depth''' — how much is actually resting in the book within some distance of the middle. This is the one that decides whether your order fills.
+* '''Slippage''' — the difference between the price you expected and the price you got. It is the consequence of the other two.
+
+'''Trading volume is none of these.''' Volume is a count of what already happened; depth is a measure of what can happen next. A coin can report high volume and still move hard against a modest order if the book is thin at your size.<ref>https://coincraddle.com/market-cap-vs-volume-vs-liquidity-what-actually-matters</ref> All three of spread, depth and slippage can be computed from public order-book data, which means '''anyone can check them''' and nobody has to take a project's word for it.
+
+== 2. What a thin book does to a quoted price ==
+
+In a deep market your order is a drop in a bucket. In a thin one it ''is'' the bucket.
+
+A large order walks the book: it fills against the best ask, then the next, then the next, each worse than the last, until it is filled.<ref>https://crypto.news/what-is-otc-trading-crypto-whales-explained/</ref> So the "price" you saw was the price of the '''last small trade''', not the price of your trade.
+
+The Matrix page already shows this at our own scale, and it is worth repeating because it is the most honest number on this wiki: CURE has shown a best bid and best ask separated by roughly '''2,700×'''. A market cap computed from the last price there describes '''a transaction that cannot occur'''. That is not a criticism of the token — it is the gap a real market is built to close.
+
+Useful rules of thumb from the trading literature, which are heuristics and not standards:
+
+* An order under '''1%''' of the depth within about 1% of mid tends to fill at or near the quote; an order approaching '''100%''' of that depth consumes the visible book.<ref>https://www.ekx.io/blog/how-to-evaluate-crypto-exchange-liquidity-depth</ref>
+* An order above roughly '''5%''' of nearby available volume should be expected to cause meaningful slippage.<ref>https://tadable.com/7-ways-to-reduce-slippage-when-trading-thin-crypto-markets/</ref>
+
+== 3. Volume can be faked; depth is harder to fake ==
+
+Reported volume is a favourite thing to inflate, because it is the number that gets a coin listed and ranked. '''Wash trading''' — the same party on both sides — manufactures it cheaply.
+
+The check is consistency: volume and depth should be of a sane relative size. A venue reporting '''$2B of daily volume with only $200k of depth within 2%''' is reporting something incoherent.<ref>https://coinbureau.com/guides/low-liquidity-crypto-indicators</ref> Liquidity is also '''fragmented''' across venues and pairs, so an aggregate figure can look healthy while the one book you are actually trading on is thin.<ref>https://www.chiliz.com/understanding-crypto-liquidity-market-depth-slippage-and-volatility-explained/</ref>
+
+And depth is not a promise. In a fast market the displayed orders '''leave''' — which is exactly when a stop-loss turns into a market order and takes the worst fill of its life.<ref>https://tadable.com/7-ways-to-reduce-slippage-when-trading-thin-crypto-markets/</ref>
+
+== 4. How volume actually arrives ==
+
+Volume is not summoned by announcements. It arrives in a fairly predictable order, and each step is a thing somebody has to build or do.
+
+# '''A market has to exist at all.''' Two-sided, with a bid and an ask. On an automated market maker like [[KulaSwap and the DEX Lineage|KulaSwap]] this means somebody has to supply both sides of a pair as liquidity. Until then there is no price — only an opinion.
+# '''Depth has to be deep enough to be worth crossing.''' With a shallow pool, the first buyer moves the price so far that the second buyer is paying a silly number and stays away. Depth is what makes the second trade attractive.
+# '''A reason to trade has to exist.''' Someone needs the coin for something, or believes somebody else soon will. See [[Utilities and Sinks]].
+# '''Then volume compounds.''' Trades make the price look real, a real-looking price attracts more orders, more orders deepen the book, a deeper book permits larger trades. This is the flywheel, and it only spins after the first three.
+
+This is why an AMM pool is seeded before anyone is asking for it, and why liquidity provision is rewarded: it is paying for step 2 so step 4 becomes possible. Under an AMM the mechanics are precise — the reserves ''are'' the depth, and a swap's slippage is a function of its size against those reserves.
+
+== 5. Reading a thin market honestly ==
+
+If you are looking at a small token anywhere, including ours:
+
+* Look at '''depth near the mid''', not the headline cap.
+* Compare the '''best bid''' to the '''best ask''' — if they are orders of magnitude apart, there is no market, there are two opinions.
+* Check whether volume and depth are '''consistent''' with each other.
+* Ask what the token is '''for''', because in a thin market utility is the only thing that brings a second buyer.
+
+A thin book is a normal, expected stage for a young asset. The error is not the thinness — it is quoting a market cap off it as though the whole supply could clear at that price.
+
+== 6. Read next ==
+
+* [[How Cryptocurrencies Gain Value]] — the spine of the series.
+* [[Holders, Rarity, and Distribution]] — why who holds the float decides how deep a book can get.
+* [[The Crypto Market: Rotation, Day Trading, and Large Buyers]] — who supplies the volume, and why large buyers avoid the book entirely.
+* [[The Matrix: Supply, Holders, and Market Cap]] — the live figures for our own tokens.
+
+== Not investment advice ==
+
+This page explains market structure. It is '''not''' a trading strategy, '''not''' a prediction, and '''not''' a suggestion to buy or sell. The percentage rules of thumb quoted are from trading-education sources and are heuristics, not standards.
+
+== Sources ==
+<ref>https://coincraddle.com/market-cap-vs-volume-vs-liquidity-what-actually-matters</ref>
+<ref>https://www.ekx.io/blog/how-to-evaluate-crypto-exchange-liquidity-depth</ref>
+<ref>https://tadable.com/7-ways-to-reduce-slippage-when-trading-thin-crypto-markets/</ref>
+<ref>https://coinbureau.com/guides/low-liquidity-crypto-indicators</ref>
+<ref>https://www.chiliz.com/understanding-crypto-liquidity-market-depth-slippage-and-volatility-explained/</ref>
+<ref>https://crypto.news/what-is-otc-trading-crypto-whales-explained/</ref>
+<ref>[[The Matrix: Supply, Holders, and Market Cap]]</ref>
+
+== Coverage ==
+Covers the spread/depth/slippage distinction, why volume is the weakest of the three and how it is faked, order-size heuristics against book depth, the four-step sequence by which volume actually arrives, and how to read a thin market honestly. Cites the CURE spread from the Matrix page as the worked local example. Gives no trading strategy and predicts no prices.

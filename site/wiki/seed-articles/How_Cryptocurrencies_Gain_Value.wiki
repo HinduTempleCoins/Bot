@@ -1,0 +1,79 @@
+'''How a cryptocurrency gains value''' is a mechanical question, not a mystical one. This page is the spine of a short series that expands [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]] from ''what these chains are'' into ''how any of them comes to be worth something''. It is written for someone who has never traded, and it gives no price predictions.
+
+The short version: '''a coin has no value because it exists.''' It gains value when somebody wants it more than they want what they are holding, and the only place that preference becomes a number is a market. Everything below is about where that wanting comes from, and what turns it into a price that holds.
+
+== 1. Price is made at the edge, not across the supply ==
+
+The first thing to unlearn is the headline figure. '''Market cap is supply × last price''', and the last price is whatever one person most recently paid for possibly one coin. It is not a pile of money that exists somewhere. [[The Matrix: Supply, Holders, and Market Cap|The Matrix page]] shows what that does at our own scale, and [[Market Cap vs Fully-Diluted Valuation]] takes the measurement apart.
+
+Price is set '''at the margin''': by the best bid and the best ask sitting in the order book right now, and by whoever crosses the spread. A coin with a half-billion supply and a coin with seventy thousand can print the same last price while describing completely different objects. The number that tells you whether a price is real is not the cap — it is the '''depth''', covered in [[Volume, Liquidity, and Depth]].
+
+== 2. Where demand actually comes from ==
+
+There are only a few honest sources of sustained demand, and it is worth naming them separately because they behave differently.
+
+* '''Utility''' — somebody needs the coin to do a thing they want to do. Pay a fee, mint a token, enter a draw, post with it, borrow against it. This is the only source that does not depend on anyone else's opinion. See [[Utilities and Sinks]].
+* '''Scarcity relative to the people who want it''' — not raw supply, but supply against the number of holders and the size of the float. A million coins held by twenty people and a million held by ten thousand are '''different assets'''. See [[Holders, Rarity, and Distribution]].
+* '''Speculation and rotation''' — capital that already made money elsewhere looking for the next move. This is real demand and it pays real prices, but it is '''borrowed''': it leaves as readily as it came. See [[The Crypto Market: Rotation, Day Trading, and Large Buyers]].
+* '''Belief carried in public''' — the narrative layer. It is the weakest of the four on its own and the strongest when it sits on top of the other three.
+
+A chain that has only the third and fourth gets a price and loses it. A chain that has the first two can survive the absence of the others, which is the whole design argument for building sinks before building hype.
+
+== 3. The velocity problem — why "lots of people using it" is not enough ==
+
+This one is counter-intuitive and it defeats a lot of well-meaning token designs.
+
+If a coin is used purely as a '''medium of exchange''' — you receive it, you immediately spend or sell it — then the same coin can service an enormous amount of activity while almost nobody ever ''holds'' it. High velocity behaves like a larger effective supply, and value per unit falls even as usage climbs. A token can be genuinely busy and genuinely worthless at the same time.<ref>https://www.freecodecamp.org/news/single-biggest-problem-with-token-models-part-2-52c0eca2115c</ref>
+
+The fix is a reason to '''stop moving''' — a "velocity sink": staking, locking, collateral, a fee that consumes the token, a game that takes it out of your hands for a while.<ref>https://superex.medium.com/superex-educational-series-understanding-velocity-sink-9445ead6dceb</ref> Every design on this chain that looks like friction — [[MWALI|staking LP to earn MWALI]], veKULA locking, the burn in [[KULA Lottery|the lottery]] — is a velocity sink wearing a different hat.
+
+== 4. Value accrual, and the honest limits of burning ==
+
+"Value accrual" is the question of whether activity on the system reaches the token at all. A protocol can be enormously used and its token capture none of it.
+
+The common tools are '''buyback''' (protocol revenue purchases the token on the market) and '''burn''' (supply is destroyed). The serious literature is more sceptical of these than crypto marketing is, and the caveats matter:
+
+* Emissions without matching sinks destroy value regardless of narrative — the standard cited failure is Axie Infinity's SLP.<ref>https://23stud.io/blog/how-to-design-token-economics-that-work</ref>
+* '''Burns are not automatically bullish.''' Delphi Digital found no discernible correlation between burns and price movement for BNB and OKB, and suggested treasury-funded buybacks can neutralise the buying pressure that would otherwise have shown up in the market.<ref>https://members.delphidigital.io/reports/more-than-just-governance-unpacking-value-accrual-mechanisms</ref>
+* Manufacturing scarcity for a token with no underlying utility is explicitly called out as a failure mode, not a strategy.<ref>https://chainscorelabs.com/blog/history-of-money-and-the-crypto-thesis/monetary-evolution-and-scarcity/why-tokenomics-often-gets-scarcity-wrong</ref>
+* A 2026 control-theory paper finds supply reduction can support price stabilisation but can also '''amplify''' later volatility around large unlock events.<ref>https://arxiv.org/pdf/2601.09961</ref>
+
+The rule that follows, and the one this ecosystem actually encodes in its contracts as `MintSinkGuard`: '''every emission is paired with a sink.''' A burn financed by real usage is a different object from a burn announced to move a price. Ours are the former by construction — the [[KULA Lottery|lottery]] burns [[MWALI]] that was earned by supplying liquidity, so the burn is a by-product of the thing being used.
+
+== 5. What this means for a chain with no market yet ==
+
+A new chain starts with none of the four demand sources except belief. That is the honest starting position, and pretending otherwise is the single most common lie in this industry.
+
+What can be built before a market exists:
+
+# '''Scarcity that is real rather than claimed''' — no pre-mine, supply that is earned. MELEK's live supply at the time of writing is '''2,527,236.964 MELEK''' at block 1,932,147, all of it issued by the chain rather than allocated to founders.
+# '''Distribution''' — more holders, each holding less. The reason is arithmetic and it is in [[Holders, Rarity, and Distribution]].
+# '''Places to spend it''' — the utilities in [[Utilities and Sinks]], built before the demand they are meant to serve.
+# '''A two-sided market''' — somebody has to post both a bid and an ask, or there is no price at all. That is what [[KulaSwap and the DEX Lineage|KulaSwap]] is for.
+
+None of that produces a price. It produces the '''conditions under which a price can form and survive''' — which is the only part a builder controls.
+
+== 6. Read next ==
+
+* [[Volume, Liquidity, and Depth]] — why a thin book makes a quoted price fictional, and how volume actually arrives.
+* [[Holders, Rarity, and Distribution]] — the twenty-wallet problem, and why ten thousand people at $5 beats twenty people at $2,500.
+* [[The Crypto Market: Rotation, Day Trading, and Large Buyers]] — where the money that buys new coins comes from, and how it behaves.
+* [[Utilities and Sinks]] — every place a coin in this ecosystem can be spent, burned, locked or staked.
+* [[Economics 101 and 102]] — the general-markets grounding underneath all of it.
+
+== Not investment advice ==
+
+This page explains mechanism. It is '''not''' a claim that any token here is undervalued, '''not''' a prediction of any price, and '''not''' a suggestion to buy or sell anything. Education and mechanics are in scope; individualised financial advice is not.
+
+== Sources ==
+<ref>https://www.freecodecamp.org/news/single-biggest-problem-with-token-models-part-2-52c0eca2115c</ref>
+<ref>https://members.delphidigital.io/reports/more-than-just-governance-unpacking-value-accrual-mechanisms</ref>
+<ref>https://23stud.io/blog/how-to-design-token-economics-that-work</ref>
+<ref>https://chainscorelabs.com/blog/history-of-money-and-the-crypto-thesis/monetary-evolution-and-scarcity/why-tokenomics-often-gets-scarcity-wrong</ref>
+<ref>https://superex.medium.com/superex-educational-series-understanding-velocity-sink-9445ead6dceb</ref>
+<ref>https://arxiv.org/pdf/2601.09961</ref>
+<ref>Live chain read: melek.salon/rpc `get_dynamic_global_properties`, block 1,932,147, 30 October 2026</ref>
+<ref>[[The Matrix: Supply, Holders, and Market Cap]]</ref>
+
+== Coverage ==
+Covers the four sources of demand, price formation at the margin, the velocity problem and velocity sinks, value-accrual mechanisms with the sceptical literature on burns and buybacks, and what a pre-market chain can actually build. Live supply figure captured 30 October 2026; treat it as of that date. Gives no valuation verdicts and predicts no prices.
