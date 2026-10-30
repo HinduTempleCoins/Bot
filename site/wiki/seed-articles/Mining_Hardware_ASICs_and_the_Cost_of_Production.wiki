@@ -4,30 +4,54 @@ The reason it belongs in a series about value: proof-of-work is the only part of
 
 == 1. The four phases ==
 
-The project's own 2016 analysis of CryptoNight mining — the marsresident Steemit post that this wiki draws on — lays the hardware history out in phases, and the phases are the story.
+The operator of this chain was reading Bitcointalk while this happened, and wrote it down at the time. The account below is his, from the 2020 Steemit post ''Steemit: Under New Management'' and from the project's 2016 CryptoNight analysis; the phrasing in quotes is his.
 
-* '''CPU (2009–2010).''' Regular laptop processors. '''Anyone could mine.''' This is the only period in Bitcoin's history where the distribution problem described in [[Holders, Rarity, and Distribution]] solved itself, because the means of production was a thing people already owned.
-* '''GPU (2010–2012).''' Graphics cards, which beat CPUs because hashing is massively parallel and a GPU is a parallel machine. Still consumer hardware, still buyable at a shop, but now you had to '''choose''' to buy it.
-* '''ASIC (2013 onward).''' Application-Specific Integrated Circuits — chips that do exactly one thing and do nothing else. Our corpus names the early players: '''Butterfly Labs''' and the '''Block Erupter''' USB sticks. The result it records is blunt: '''CPUs became completely pointless''', because the electricity cost exceeded the returns. The barrier became "must have ASICs, and a lot of them."
+* '''CPU (2009–2010).''' Ordinary laptops. '''"When it started, you could mine Bitcoin on your laptop, CPU mining, the more Processors your computer had, the better, so you wanted a Quad Core or more. People got thousands of Bitcoin that way."''' This is the only period in Bitcoin's history where the distribution problem described in [[Holders, Rarity, and Distribution]] solved itself, because the means of production was a thing people already owned.
+* '''GPU (2010–2012).''' '''"Then some people made Mining software for Gaming Graphics Cards, GPUs."''' Still consumer hardware, bought at a shop, but now you had to '''choose''' to buy it.
+* '''ASIC (2013 onward).''' Application-Specific Integrated Circuits, defined plainly: '''"ASICs, which is a whole box of processors running 1 app."''' That is the clearest one-line definition of an ASIC on this wiki. '''"Butterfly Labs was first, then Antminer and others, then it just got crazy with mining farms with warehouses full."'''
 * '''The industry.''' What began with Butterfly Labs' first ASICs became, as the Convergence paper puts it, '''an ecosystem of 100-plus mining-rig companies'''. The same observation that paper makes about VR and about cannabis extraction applies here exactly: '''the vision preceded the hardware''', sometimes by decades, and the hardware is what converted the vision into an industry.
 
-== 2. The Butterfly Labs era, and what it actually changed ==
+== 2. Butterfly Labs, from somebody who was there ==
 
-Butterfly Labs matters less for the company than for the transition it marks, which happened in under three years and has never reversed.
+The firsthand version is two sentences long and contains the whole transition:
 
-Before ASICs, the cost of mining was '''the cost of a computer you already had.''' After ASICs, it was '''a capital purchase of single-purpose hardware''' — ordered in advance, manufactured on somebody else's schedule, delivered into a difficulty level that had risen while it was in transit, and worthless for anything else on arrival. That last property is the whole shift. A GPU that stops being profitable gets sold to a gamer. An ASIC that stops being profitable is '''scrap''', and that asymmetry is what turned mining from a hobby into an industry with inventory risk, pre-orders, delivery disputes and balance sheets.
+> '''"Then there was Butterfly labs, and the mining farms. It no longer became feasible to mine with a laptop or number of laptops, and the Graphics cards that had been being used for mining were also being overtaken by the ASICs."'''
 
-Three consequences that outlived the hardware:
+Note what it says: Butterfly Labs did not merely beat laptops, it beat '''the GPUs that had already beaten the laptops'''. Two generations of consumer hardware were retired by one product category, inside about a year.
+
+=== The context it landed in ===
+
+It matters what the community was like when that happened, because the ASIC did not just change the economics — it changed who the project was for. By his account, he arrived via a news story about the Silk Road, saw a '''฿''' symbol being used where a dollar sign should be, pasted it into a search engine and landed on '''Bitcointalk.org''':
+
+* The stated goal then was '''"that everyone would use Cryptocurrency"''' — a decentralised currency not issued as fiat by a government. Early advocacy was door-to-door in the literal sense: '''"We would create email lists of companies and everyone, to tell them about the price rise, and ask them to start accepting Bitcoin for their products."'''
+* '''"When I first got there, Bitcoins were $5.00 each. Soon after they were $30.00, then $100.00. Some people said it was a Bubble and it would 'be affordable again.'"''' Everyone traded on '''MtGox''' — an acronym for '''"Magic the Gathering Online Exchange"''' — and '''"you had to use a Money order to buy them."'''
+* People were already working out that whole coins would become too valuable to transact in, so the smaller pieces '''"were dubbed 'Satoshis'."'''
+
+That is the world Butterfly Labs shipped into: a forum of people trying to get shops to accept a $5 currency bought by money order. The ASIC arrived and the question stopped being ''how do we get everyone to use this'' and became ''who can afford the hardware''.
+
+=== What the ASIC actually changed ===
+
+Before ASICs, the cost of mining was '''the cost of a computer you already had.''' After, it was a '''capital purchase of single-purpose hardware''' — ordered in advance, manufactured on somebody else's schedule, delivered into a difficulty level that had risen while it was in transit, and worthless for anything else on arrival. That last property is the whole shift. A GPU that stops being profitable gets sold to a gamer. An ASIC that stops being profitable is '''scrap''', and that asymmetry is what turned mining from a hobby into an industry with inventory risk, pre-orders, delivery disputes and balance sheets.
+
+The centralisation that followed was not subtle, and his summary of it is the one to remember: '''"This simply served to make it harder to mine, as more people come in the people with the most power get the most, but it was easier when Laptops were just competing."'''
+
+Three consequences outlived the hardware:
 
 # '''Mining became a business, so it became concentrated.''' Capital, cheap power and wholesale chip access are advantages that compound, and nothing in proof-of-work prevents them from compounding.
 # '''The miners became a chokepoint.''' Once production is concentrated, so is the power to decide which transactions enter a block — which is the toll-booth problem in §5 of [[How Cryptocurrencies Gain Value]] and §7 of [[Economics 101 and 102]]. The fee market and the ASIC market are '''the same story at two different layers'''.
 # '''Difficulty eats every efficiency gain.''' The protocol adjusts difficulty to hold the block interval, so faster hardware across the network does not produce more coins — it produces '''the same coins for more electricity'''. Individually rational, collectively a treadmill.
 
+=== And the halving pushes the same way ===
+
+Running underneath all of it is the emission schedule, which he states compactly: '''"Blockchain started with 50 Coins per Block that were released, and it halves every few years, so was 25, then 12.5 and may be or is coming up on 6.25. That makes them harder to get and the fees mean more as it gets lower, and they become more rare."'''
+
+That is the link most explanations miss. The halving does two things at once: it makes the coin scarcer, '''and''' it shifts miner income from the block subsidy toward '''fees'''. A chain whose producers are paid less by issuance over time is a chain whose producers care more about the fee auction over time — so the toll booth in §5 of the value page is not a phase, it is the '''designed destination''' of a halving schedule.
+
 == 3. Every ASIC-resistant coin has lost, so far ==
 
 This is the part a project is tempted to skip, and our own corpus does not skip it.
 
-* '''Litecoin and Feathercoin''' adopted '''scrypt''' on the promise that it resisted Bitcoin's ASICs. The corpus records the outcome plainly: '''scrypt ASICs were developed, and the same centralisation occurred.'''
+* '''Litecoin''' was built for exactly this reason, and his notes state the motive without decoration: '''"So Litecoin was made, to allow Laptops again, then Feather Coin because Litecoin got ASICs."''' Litecoin and Feathercoin adopted '''scrypt''' on the promise that it resisted Bitcoin's ASICs. The corpus records the outcome plainly: '''scrypt ASICs were developed, and the same centralisation occurred.'''
 * '''Dogecoin''' arrived late enough that, as the corpus puts it, '''farms already existed''' by launch. The pattern repeated with no transition period at all.
 * '''CryptoNight''' — named after '''kryptonite''', the algorithm being the ASIC's weakness — was the most serious attempt: deliberately memory-hard so that CPUs stayed competitive. Monero was the flagship. The corpus's own retrospective marks it as a '''partial failure''': "Monero eventually faced ASIC pressure, had to fork."
 * The community correction recorded alongside that post is the honest footnote: what matters for CryptoNight is '''CPU cache, at least 2MB per core''', not RAM, and many mainstream CPUs did not have it. The conclusion in our own file: '''"more accessible than Bitcoin, but not truly everyman's coin."'''
@@ -70,7 +94,9 @@ This page is hardware history and cost mechanics. It is '''not''' a valuation of
 == Sources ==
 * `knowledge/cryptocurrency/cryptonight_cpu_mining.json` — the project's own corpus entry drawn from the marsresident Steemit post, "CryptoNight Coins — Mining with Regular Computers" (2016, STEEM era): the four hardware phases, Butterfly Labs and Block Erupter as early ASIC players, the scrypt/Litecoin/Feathercoin and Dogecoin outcomes, CryptoNight's kryptonite naming and cache requirement, the Monero ASIC-fork retrospective, and the DPoS comparison.
 * `knowledge/scripture/the_convergence.md` — Butterfly Labs' first ASICs to an ecosystem of 100+ mining-rig companies, and the vision-precedes-hardware argument.
+* '''@marsresident, "Steemit: Under New Management" (Steemit, 27 September 2020)''' — the operator's firsthand account: the Silk Road and ฿ symbol route to Bitcointalk, the $5/$30/$100 arc and the "affordable again" bubble talk, MtGox and money orders, the coining of "Satoshis", and the Butterfly-Labs-and-the-mining-farms passage quoted in §2.
+* '''The project's "Hashtags of Money" teaching notes''' — the halving schedule and its effect on fees and rarity, "a whole box of processors running 1 app", "Butterfly Labs was first, then Antminer and others", the Litecoin/Feathercoin/CryptoNight sequence, and Bitshares Assets versus Ethereum Tokens.
 * This project's "Economics 101" Bitcointalk thread (immakingacoin, 2018) — the miner chokepoint and fee-bottleneck framing.
 
 == Coverage ==
-Covers the CPU/GPU/ASIC/industry phases of mining hardware, the Butterfly Labs transition and its three lasting consequences (concentration, the miner chokepoint, the difficulty treadmill), the repeated failure of ASIC resistance across scrypt and CryptoNight, why DPoS declines the arms race while PRANA mines deliberately, and cost of production as a soft price floor that staked chains do not have. '''Sourced from this project's own corpus rather than from external histories''' — the detailed Butterfly Labs company chronology (pre-order and delivery history, the FTC action) is deliberately not asserted here, because the session transcripts covering it were lost before they were archived. Add that detail from the operator's account before treating this page as complete on Butterfly Labs itself.
+Covers the CPU/GPU/ASIC/industry phases of mining hardware, the Butterfly Labs transition and its three lasting consequences (concentration, the miner chokepoint, the difficulty treadmill), the repeated failure of ASIC resistance across scrypt and CryptoNight, why DPoS declines the arms race while PRANA mines deliberately, and cost of production as a soft price floor that staked chains do not have. '''Sourced from this project's own corpus and the operator's firsthand account rather than from external histories.''' The Butterfly Labs section quotes his 2020 Steemit post ''Steemit: Under New Management'' and his teaching notes directly. Company-level chronology that he did not record — Butterfly Labs' pre-order and delivery disputes and the FTC action against it — is deliberately '''not''' asserted here, because this page's sourcing is the project's own writing.

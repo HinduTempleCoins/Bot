@@ -8,6 +8,19 @@ Steem, Hive, Blurt and [[MELEK Blockchain|MELEK]] are Graphene chains. Graphene 
 
 The consequence is unavoidable. A community that wanted its own token — a reward unit for a niche, a game currency, a tipping coin — '''had nowhere to put it.''' The chain that was excellent at social operations could not express "my token, my rules". Every token on this side of the ecosystem exists to fill that hole.
 
+=== Where the two token models came from, and where the witnesses came from ===
+
+The operator was reading both forums while this split formed, and his 2020 account of it is compact and worth quoting because it names the distinction that still organises this wiki: '''"Bitshares had Assets and Ethereum had Tokens."'''
+
+On the Bitshares side, an Asset was '''"not mined but created and owned by the creator, to then be distributed like stocks, or coupons, or tickets"''' — issued rather than earned, and then traded on OpenLedger like any other market. That is the User-Issued Asset, and it is the direct ancestor of every engine token described on this page; see [[Token Buybacks, Market Fees, and the UIA Lineage]].
+
+Two further details from the same account matter for understanding why this ecosystem is shaped the way it is:
+
+* '''The ICO era incubated on the Bitshares forum, and so did Steem's governance.''' '''"Bitsharestalk.org is similar to Bitcointalk.org and is kind of where the ICO trend incubated, and was where the Steemit Witnesses came from."''' The witness set was not assembled from nowhere — it arrived from the chain that had already been running issued assets.
+* '''Graphene was the vehicle.''' '''"Bitshares was created by Dan and Ned, on what they named the Graphene Blockchain... And they used Graphene to create Steemit."''' His conclusion then is effectively the thesis MELEK is built on: '''"Steemit is a Graphene Blockchain, which can and should be copied into any website model. Any Forum or City or Charity, etc, could launch a Graphene Blockchain to run their website, have Witnesses and Nodes, a Currency, and Voting."'''
+
+And the consequence, when Steemit Inc. changed hands: the witnesses functioned as a board of directors that the buyer had not accounted for. '''"When Ned sold Steemit INC it started a War with the Witnesses and eventually they forked Steemit... This Platform and Currency are called HIVE. So now there are basically 2 Steemits."''' That fork is why the token layer this page describes ended up on Hive rather than Steem, and why §3 below ends the way it does.
+
 == 2. Smart Media Tokens — the protocol answer that arrived too late ==
 
 Steemit Inc.'s answer was to put tokens '''into the protocol'''. Smart Media Tokens were announced in 2017 with a whitepaper and sustained promotion: each community would get its own token with its own reward pool, running natively on Steem.
@@ -58,6 +71,7 @@ And one correction to carry forward: '''VKBT and CURE are engine tokens, not SMT
 This page is history and architecture. It is '''not''' a claim about any token's value, '''not''' a prediction, and '''not''' a suggestion to buy or sell anything.
 
 == Sources ==
+<ref>@marsresident, "Steemit: Under New Management" (Steemit, 27 September 2020) — the operator's firsthand account of Bitshares Assets versus Ethereum Tokens, Bitsharestalk as the ICO and witness source, Graphene, and the Justin Sun sale and Hive fork</ref>
 <ref>https://steemit.com/steem/@steemitblog/smts-release-dates</ref>
 <ref>https://www.prnewswire.com/news-releases/steemit-releases-smart-media-tokens-300967989.html</ref>
 <ref>https://hive.blog/steemengine/@aggroed/introducing-steem-engine-com</ref>
@@ -67,4 +81,4 @@ This page is history and architecture. It is '''not''' a claim about any token's
 <ref>http://hiveblog.c0ff33a.uk/hive-engine/@aggroed/hive-engine-weekly-developers-meetings-aggressive-target-live-diesel-pools-by-friday</ref>
 
 == Coverage ==
-Corrects an earlier revision that conflated SMTs with Hive-Engine tokens and called CURE an SMT. Covers why a Graphene chain's fixed op set forces a separate token layer, the SMT announcement-and-delay history, Steem-Engine's launch and its 2023 closure, Hive-Engine's architecture (sidechain reads, WORKERBEE witnesses, BEE fees, SCOT tribes, diesel pools), and the UIA-to-MELEK-Engine lineage. Hive-Engine parameters are sourced from 2021-era community posts and flagged as possibly stale.
+Corrects an earlier revision that conflated SMTs with Hive-Engine tokens and called CURE an SMT. Covers why a Graphene chain's fixed op set forces a separate token layer, the SMT announcement-and-delay history, Steem-Engine's launch and its 2023 closure, Hive-Engine's architecture (sidechain reads, WORKERBEE witnesses, BEE fees, SCOT tribes, diesel pools), the Bitshares-Assets-versus-Ethereum-Tokens distinction and the Graphene/witness lineage in the operator's own 2020 words, and the UIA-to-MELEK-Engine lineage. Hive-Engine parameters are sourced from 2021-era community posts and flagged as possibly stale.
