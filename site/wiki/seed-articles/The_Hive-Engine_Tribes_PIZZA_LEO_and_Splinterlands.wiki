@@ -13,11 +13,22 @@ What makes it different from a tribe token:
 * '''Many tokens, deliberately.''' The asset set runs to '''19+ distinct tokens''', each with a job.<ref>https://ecency.com/hive-167922/@magnacarta/the-19-tokens-of-splinterlands</ref>
 * '''A sink that is the game itself.''' Proponents describe a flywheel in which demand for DEC drives '''burning SPS to mint DEC'''.<ref>https://hive.blog/hive-13323/@seattlea/why-i-m-excited-about</ref> Treat the flywheel as a proponent's theory rather than a demonstrated outcome — but the structural point stands: '''the sink is playing''', not an announcement.
 
+=== It came from Steemit, and for a while you could play on both ===
+
+Splinterlands did not start on Hive. It launched on '''Steem''', under the name '''Steem Monsters''', and it is the clearest case of an application outliving the chain politics underneath it.
+
+When Steem was taken over and the community forked to Hive in March 2020, the game '''did not move immediately'''. It kept running on Steem while Hive existed alongside it, and for roughly three months you could '''play on both'''. The team announced the switch only in late May 2020, citing an unexpected Steem hard fork, and targeted '''Monday, 1 June 2020''' for the move to Hive<ref>https://ecency.com/splinterlands/@splinterlands/splinterlands-plans-for-the-upcoming-hive-fork</ref><ref>https://egamers.io/splinterlands-moves-to-hive-blockchain-in-june-1st/</ref>. Steem was then dropped from the marketplace in favour of DEC.
+
+Two things follow that matter more than the trivia:
+
+* '''The application was portable and the chain was not.''' The cards, the players and the economy were the asset; the chain underneath was infrastructure that could be swapped. That is the opposite of how most tokens relate to their chain, and it is why Splinterlands survived an event that damaged almost everything else in the ecosystem.
+* '''Its choice was a verdict.''' The largest application on the chain picking Hive, three months late and after deliberation, was a stronger signal about the fork than any amount of social-media argument. See [[Forking]].
+
 === It is largely an Asian operation ===
 
 This is the part that is missing from almost every English-language write-up, and it is the most important thing about Splinterlands' scale: '''the player base is largely Asian''', Korean among others, while Hive's social side remains heavily English-speaking.
 
-A sourcing note, because this wiki does not launder assertions into facts: the public analytics report '''size''' and never '''geography'''. Splinterlands was the most-played blockchain game at its peak, averaging over '''350,000 daily users''' and roughly '''380,000 daily active players''' in early 2022<ref>https://cryptopotato.com/splinterlands-now-the-most-frequently-played-blockchain-game/</ref><ref>https://www.splintertalk.io/@behiver/splinterlands-january-2022-monthly-stats-show-steady-growth</ref>, and recent company material refers only to a "global player base" with no regional split. So the Asian-majority claim here is '''the operator's direct knowledge of the ecosystem, not a cited statistic''' — recorded because it is load-bearing for the lesson below, and flagged because we could not source it.
+A sourcing note, because this wiki does not launder assertions into facts: the public analytics report '''size''' and never '''geography'''. Splinterlands was the most-played blockchain game at its peak, averaging over '''350,000 daily users''' and roughly '''380,000 daily active players''' in early 2022<ref>https://cryptopotato.com/splinterlands-now-the-most-frequently-played-blockchain-game/</ref><ref>https://www.splintertalk.io/@behiver/splinterlands-january-2022-monthly-stats-show-steady-growth</ref>, and recent company material refers only to a "global player base" with no regional split. So the Asian-majority claim here is '''the operator's direct knowledge of the ecosystem, not a cited statistic''' — recorded because it is load-bearing for the lesson below, and flagged because the published analytics do not carry it. The route to verifying it is '''not''' a demographics report, which nobody publishes: it is '''to look at what languages the community is actually speaking''' — the game's own Discord and regional channels, and the languages of the posts and guild chatter around it. Anyone extending this page should do that and cite what they find.
 
 '''Why it matters more than it sounds.''' Three things follow from it, and they are the reason this section exists rather than being a demographic footnote:
 
@@ -46,6 +57,10 @@ This matters to us directly — the operator proposed a pizza-shop coupon token 
 == 3. LEO — the publishing tribe ==
 
 LeoFinance is the finance-and-crypto writing tribe, now fronted as INLEO. The mechanism is the standard Scotbot arrangement done properly: front ends like peakd and hive.blog pay out in HIVE/HBD, while posting through '''leofinance generates LEO tokens''' on top.<ref>https://inleo.io/@ksam/10-tipping-mining-tokens-that</ref>
+<ref>https://ecency.com/splinterlands/@splinterlands/splinterlands-plans-for-the-upcoming-hive-fork</ref>
+<ref>https://egamers.io/splinterlands-moves-to-hive-blockchain-in-june-1st/</ref>
+<ref>https://cryptopotato.com/splinterlands-now-the-most-frequently-played-blockchain-game/</ref>
+<ref>https://www.splintertalk.io/@behiver/splinterlands-january-2022-monthly-stats-show-steady-growth</ref>
 
 LEO is the strongest demonstration of the '''tribe''' pattern specifically — a niche audience, a front-end that is genuinely better for that niche, and a token that rewards contribution to it. Its weakness is the weakness of every reward-pool token: the token's demand comes mostly from people who want to earn more of it, which is a loop that needs an outside buyer to close.
 
@@ -91,4 +106,4 @@ This page describes other people's projects for comparison. It is '''not''' a re
 <ref>https://inleo.io/@ksam/10-tipping-mining-tokens-that</ref>
 
 == Coverage ==
-Covers Splinterlands as the only large economy on the layer (tokenised packs, DEC/SPS role separation, the burn flywheel as proponent theory), PIZZA as the closest model to ours (stake-gated tipping as a velocity sink, and its bounded ceiling), LEO as the publishing tribe, the three-rung ladder from circular to outside demand, and an honest placement of our own work on it. Covers the largely Asian player base and the three consequences that follow — a game needs no shared language, play-to-earn earnings land differently by region, and reach followed playability rather than marketing — with the regional claim explicitly marked as the operator's knowledge rather than a cited statistic, because public analytics report size and never geography. Community figures are years old and flagged as illustrative.
+Covers Splinterlands' origin on Steem as Steem Monsters and the roughly three-month window after the March 2020 fork when it ran on both chains before moving to Hive on 1 June 2020, its standing as the only large economy on the layer (tokenised packs, DEC/SPS role separation, the burn flywheel as proponent theory), PIZZA as the closest model to ours (stake-gated tipping as a velocity sink, and its bounded ceiling), LEO as the publishing tribe, the three-rung ladder from circular to outside demand, and an honest placement of our own work on it. Covers the largely Asian player base and the three consequences that follow — a game needs no shared language, play-to-earn earnings land differently by region, and reach followed playability rather than marketing — with the regional claim explicitly marked as the operator's knowledge rather than a cited statistic, because public analytics report size and never geography. Community figures are years old and flagged as illustrative.
