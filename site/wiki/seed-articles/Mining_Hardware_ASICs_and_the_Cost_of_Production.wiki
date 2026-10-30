@@ -79,10 +79,49 @@ Four honest limits:
 
 That last bullet is the most useful sentence on this page for anyone holding our coins, which is why it is stated rather than buried.
 
-== 6. Read next ==
+== 6. Where the energy comes from, and "pollution mining" ==
+
+§5 treated cost of production as a single number. It is not — and the correction is the most useful thing on this page for understanding both the pollution argument and why distributed mining is not a fantasy.
+
+=== The floor is a curve, not a number ===
+
+Every miner has a '''different''' cost per coin, because every miner pays a different price for electricity. So there is no single production cost; there is a '''cost curve''', and the floor is set by the '''marginal''' miner — the highest-cost one still running. When price falls, the expensive miners switch off first, hash rate drops, difficulty adjusts down, and the remaining miners get cheaper coins. The floor does not hold the price up so much as it '''sorts the miners'''.
+
+That is why the energy question is an economic question and not only a moral one. '''Where your power comes from decides where you sit on that curve''', and therefore whether a drawdown kills you or hands you your competitors' share. A miner whose panels are paid off has a marginal cost near '''zero''' and keeps mining through prices that shut a grid-powered farm down. See [[Solar Mining]].
+
+=== What the pollution objection actually says ===
+
+"Mining wastes electricity and pollutes" is the most common criticism of proof-of-work, and it deserves a straight answer rather than a deflection.
+
+The objection is really about '''fossil-fired grid power''', and in that form it lands: miners chase the cheapest electricity on earth, and in some regions the cheapest electricity is coal. Where that is true, the critique is simply correct — the cost of production is partly paid by people downwind who never bought a coin. That is an '''externality''', and calling it one is more honest than arguing about it.
+
+The counter-argument is narrower than miners usually claim but it is real: a miner is an '''interruptible load that can go where the energy already is and would otherwise be thrown away''' — curtailed solar and wind at peak generation, stranded hydro, flared gas. Converting energy that was going to be wasted is a genuinely different act from burning new coal for it.
+
+And the honest limit, which [[Solar Mining]] states and this page repeats: solar mining '''removes the fossil-waste objection; it does not claim a magic zero.''' Panels and batteries carry an embodied manufacturing footprint, and off-grid batteries are a real recurring materials cost. The defensible claim is the strong true one, not the bigger false one.
+
+=== The town that outmines the farm — the hashrate version of §2 ===
+
+The operator's answer to ASIC centralisation was written in 2018, in ''Cryptocurrency Towns, Part 1'', and it is worth quoting because it is the same argument as the distribution arithmetic in [[Holders, Rarity, and Distribution]] with hash rate substituted for money:
+
+> '''"Once we have established our Town Based Currencies, we will begin setting up Solar Powered Mining Machines. Which will allow for people to generate Income for Free. If there is a town where every house uses the Sun and Alternators/Generators Powered by Solar Panels, then just as an example, 25,000 people living in a Town with Alternators and Generators and Solar Panels, could probably outmine every existing Bitcoin/Litecoin/Ethereum Farm."'''
+
+Look at the shape of it. '''Twenty thousand households at one roof each beats a few warehouses''' — the identical structure to ten thousand people at ten dollars beating twenty rich people. And it answers the §2 centralisation problem from a completely different direction than every failed ASIC-resistant algorithm did: it does not try to make specialised hardware useless, it changes '''who owns the power bill'''. The farm's floor is a monthly invoice. The town's floor is sunlight.
+
+That is a thesis, not a measurement, and the arithmetic in it is an explicit "just as an example" rather than a calculation anyone has verified. What makes it serious rather than decorative is that it identifies the correct variable: in proof-of-work, '''decentralisation follows energy ownership''', and nothing else has ever reversed the trend that Butterfly Labs started.
+
+=== Where this ecosystem actually stands on it ===
+
+Status, labelled, because the charter on this project forbids the alternative:
+
+* '''[[PRANA]] mines''' — Etchash, live, with consensus paying every miner by share each 20 blocks. The '''browser miner''' is the "hardware people already own" idea in current form, and carries the same honest caveat: a browser tab cannot compete with a farm.
+* '''Proof-of-Solar is written and tested, and not deployed.''' `ProofOfSolarOracleMint` exists as a contract with tests and a generated ABI — a mint that issues against attested kWh, with no pre-mine and no founder allocation — but it does '''not''' appear in the PRANA mainnet deployment record, and '''nobody is earning tokens from verified sunlight today'''. It is a design, and should be read as one until it has an address.
+* '''The solar-mining knowledge is the part that is actually delivered''' — [[Solar Mining]], [[Electricity and Photovoltaics]] and the dye-cell pages are live and free to anyone, which is the half of "provide the means" that does not require a contract.
+
+== 7. Read next ==
 
 * [[How Cryptocurrencies Gain Value]] — the spine of the series; §5 is the fee market this page's chokepoint produces.
-* [[Proof of Work Mining]] · [[Proof of Work, Proof of Stake, and DPoS]] · [[Mining]] · [[Solar Mining]]
+* [[Solar Mining]] — the panels, the economics after payback, and the pollution question in full.
+* [[Proof of Work Mining]] · [[Proof of Work, Proof of Stake, and DPoS]] · [[Mining]] · [[Electricity and Photovoltaics]]
 * [[Holders, Rarity, and Distribution]] — why the CPU era's distribution mattered.
 * [[Economics 101 and 102]] — the toll booth, the fee bottleneck and the monopoly framing.
 * [[Utilities and Sinks]] — what substitutes for a production floor on a feeless chain.
@@ -97,6 +136,8 @@ This page is hardware history and cost mechanics. It is '''not''' a valuation of
 * '''@marsresident, "Steemit: Under New Management" (Steemit, 27 September 2020)''' — the operator's firsthand account: the Silk Road and ฿ symbol route to Bitcointalk, the $5/$30/$100 arc and the "affordable again" bubble talk, MtGox and money orders, the coining of "Satoshis", and the Butterfly-Labs-and-the-mining-farms passage quoted in §2.
 * '''The project's "Hashtags of Money" teaching notes''' — the halving schedule and its effect on fees and rarity, "a whole box of processors running 1 app", "Butterfly Labs was first, then Antminer and others", the Litecoin/Feathercoin/CryptoNight sequence, and Bitshares Assets versus Ethereum Tokens.
 * This project's "Economics 101" Bitcointalk thread (immakingacoin, 2018) — the miner chokepoint and fee-bottleneck framing.
+* '''@marsresident, "Cryptocurrency Towns, Part 1: Getting Started" (Steemit, 11 July 2018)''' — the solar-powered town thesis and the 25,000-household example quoted in §6.
+* `.local/publish-live/src/prana-contracts/` — `ProofOfSolarOracleMint.sol`, its test and ABI; and `deployments.json` (prana_mainnet, chainId 712217), which contains '''no''' solar entry. Basis for the not-deployed status in §6.
 
 == Coverage ==
-Covers the CPU/GPU/ASIC/industry phases of mining hardware, the Butterfly Labs transition and its three lasting consequences (concentration, the miner chokepoint, the difficulty treadmill), the repeated failure of ASIC resistance across scrypt and CryptoNight, why DPoS declines the arms race while PRANA mines deliberately, and cost of production as a soft price floor that staked chains do not have. '''Sourced from this project's own corpus and the operator's firsthand account rather than from external histories.''' The Butterfly Labs section quotes his 2020 Steemit post ''Steemit: Under New Management'' and his teaching notes directly. Company-level chronology that he did not record — Butterfly Labs' pre-order and delivery disputes and the FTC action against it — is deliberately '''not''' asserted here, because this page's sourcing is the project's own writing.
+Covers the CPU/GPU/ASIC/industry phases of mining hardware, the Butterfly Labs transition and its three lasting consequences (concentration, the miner chokepoint, the difficulty treadmill), the repeated failure of ASIC resistance across scrypt and CryptoNight, why DPoS declines the arms race while PRANA mines deliberately, cost of production as a soft price floor that staked chains do not have, and the energy question — the cost curve set by the marginal miner, the fossil-power externality stated as one, curtailed/stranded energy as the real counter-argument, and the 2018 solar-town thesis as the hashrate form of the distribution argument. Proof-of-Solar is labelled written-and-tested-but-not-deployed against the mainnet deployment record. '''Sourced from this project's own corpus and the operator's firsthand account rather than from external histories.''' The Butterfly Labs section quotes his 2020 Steemit post ''Steemit: Under New Management'' and his teaching notes directly. Company-level chronology that he did not record — Butterfly Labs' pre-order and delivery disputes and the FTC action against it — is deliberately '''not''' asserted here, because this page's sourcing is the project's own writing.

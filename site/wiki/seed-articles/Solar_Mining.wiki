@@ -38,7 +38,7 @@ The common criticism is that proof-of-work mining "wastes electricity" and "poll
 
 This is where the idea becomes infrastructure in this ecosystem:
 * '''PRANA''' is designed as a '''compute-and-energy''' chain — the layer that turns energy and computation into on-chain value.
-* A '''Proof-of-Solar oracle mint''' (the `ProofOfSolarOracleMint` contract) issues tokens '''against verified solar generation''': an attestor confirms real kWh produced, and the mint releases tokens for it — with '''no pre-mine and no founder allocation''', so the supply is earned from real sunlight, not pre-allocated. It is designed as an improvement on earlier "SolarCoin"-style ideas.
+* A '''Proof-of-Solar oracle mint''' is '''designed and written, and is not deployed.''' The `ProofOfSolarOracleMint` contract exists with tests and a generated ABI: an attestor confirms real kWh produced and the mint releases tokens for it, with '''no pre-mine and no founder allocation''', so supply would be earned from real sunlight rather than pre-allocated — an improvement on earlier "SolarCoin"-style ideas. '''But it does not appear in the PRANA mainnet deployment record, and nobody is earning tokens from verified solar generation today.''' Read it as a specification until it has a verifiable address. See §6 of [[Mining Hardware, ASICs, and the Cost of Production]].
 * The framing is '''Divine Providence''' — the project '''provides''' the means for ordinary people to earn from the sun: the knowledge (this Library), the mint (Proof-of-Solar), and the chain (MELEK/PRANA). We make it and give it; the sun does the rest.
 
 == 7. The Physics Underneath ==
