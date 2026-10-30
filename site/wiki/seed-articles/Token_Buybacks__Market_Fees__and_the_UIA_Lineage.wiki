@@ -63,6 +63,29 @@ BitShares' advanced tier is the **Market-Pegged Asset (MPA)**, also called a **S
 
 **Why these features structurally require an on-chain market:** the feed, the margin calls, and the force- and global-settlement all **execute against the internal order book** — margin calls sell collateral into live bids, force-settlement matches against margin positions, and the peg only holds because arbitrageurs trade the gap on-chain. Without an internal market there is **no execution venue**, so an MPA is structurally impossible on a market-less token layer<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>. This is the sharpest illustration of the architecture split: the moment a token feature needs live trades, it needs a market.
 
+== What the Ethereum era proved ==
+
+BitShares showed what an issuer *can* do. The Ethereum token era, with vastly more projects and more failures, showed which of it **actually holds up** — and the answer is narrower than most tokenomics pages admit.
+
+**What works: a sink the protocol enforces, funded by usage.**
+
+The clearest example is **EIP-1559**, where Ethereum's base fee is **burned** rather than paid to a miner or validator. Nobody announces it, no treasury funds it, and no team can stop it. The burn is a mechanical by-product of people using the chain, and it scales with usage because it *is* usage. That is the template: **the sink is downstream of demand, and it is in the protocol rather than in a promise.**
+
+The second pattern that holds is the **fee switch** — protocol revenue routed to the token, by buying it back or by paying it out. The reason it works is the same reason: the money is real, it is earned, and the mechanism runs without a discretionary decision each quarter. One practitioner framing puts it bluntly — a fee switch to buyback is **more credible than a promised burn**.
+
+The third is **locking**, the veToken pattern popularised by Curve: holders lock for a duration in exchange for boosted rewards and governance weight. It does not destroy supply, it **immobilises** it, which is the velocity-sink argument in [[How Cryptocurrencies Gain Value]].
+
+**What does not work, repeatedly.**
+
+* **Treasury-funded buybacks.** Delphi Digital found no discernible correlation between burns and price movement for BNB and OKB, and suggested that buying with treasury funds can **neutralise the very buying pressure** that a market purchase would have created<ref>https://members.delphidigital.io/reports/more-than-just-governance-unpacking-value-accrual-mechanisms</ref>. The protocol pays itself and calls it demand.
+* **Burning to manufacture scarcity for a token with nothing to do.** Named explicitly as a failure mode rather than a strategy<ref>https://chainscorelabs.com/blog/history-of-money-and-the-crypto-thesis/monetary-evolution-and-scarcity/why-tokenomics-often-gets-scarcity-wrong</ref>.
+* **Emission without a matching sink.** The standard cited case is Axie Infinity's SLP, where rewards outran everything that consumed them<ref>https://23stud.io/blog/how-to-design-token-economics-that-work</ref>.
+* **Governance rights as the whole value proposition.** Voting on parameters is described in the literature as a feeble accrual mechanism on its own.
+
+And a caution that applies to all of it: supply reduction can support price stability but can also **amplify volatility later**, particularly around large unlock events<ref>https://arxiv.org/pdf/2601.09961</ref>.
+
+**The one-line test**, which works on any project including this one: *does somebody using the product cause the sink to fire, without anyone deciding to?* If yes, it is an economy. If a person has to announce it, it is marketing.
+
 == How it maps to MELEK ==
 
 MELEK follows the same boundary BitShares drew. The **MELEK-Engine** — a Hive-Engine-style side-token layer — is the UIA descendant: it mints (`tokens.create` / `tokens.issue`), reduces supply (`tokens.burn`, the `asset_reserve` analogue), configures social rewards (SCOT), and supports an **immutable supply cap** that combines the `lock_max_supply` and `disable_new_supply` guarantees. By design it has **no order book** — price discovery and the AMM are not on the engine<ref>.local/RESEARCH_BUYBACKS_UIA_MELEK_FRONTEND.md</ref>.
