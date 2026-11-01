@@ -214,3 +214,25 @@ test('⭐ the national-month claim is backed by the actual calendar', async () =
   assert.match(b, /NaNoGenMo/);
   assert.match(b, /nothing that can go bankrupt/);
 });
+
+// The default start date is computed in the browser script, so pull the real shipped expression out
+// of the served page and evaluate it for every month. November used to roll forward a whole year on
+// November 1st itself ("the challenge starts 2027-11-01 — 365 days to go") because November is
+// month 10 and the guard was >=10. Only December may look ahead.
+test('⭐ the default challenge start is this November during November, next November only in December', async () => {
+  const r = res();
+  await handler({ url: '/', method: 'GET', headers: {} }, r);
+  await r.done;
+  const m = r.body().match(/st\.start=\(n\.getMonth\(\)([^?]*)\?\s*n\.getFullYear\(\)\+1\s*:\s*n\.getFullYear\(\)\)\+'-11-01'/);
+  assert.ok(m, 'the start-date expression is still in the page');
+  const startYear = (month, year) => {
+    const n = { getMonth: () => month, getFullYear: () => year };
+    return (eval(`n.getMonth()${m[1]}`) ? n.getFullYear() + 1 : n.getFullYear()) + '-11-01';
+  };
+  for (let month = 0; month <= 10; month++) {
+    assert.equal(startYear(month, 2026), '2026-11-01', `month ${month} aims at this year's November`);
+  }
+  assert.equal(startYear(11, 2026), '2027-11-01', 'December aims at next November');
+  // The bug, pinned: on November 1 the page must not say the challenge is a year away.
+  assert.equal(startYear(10, 2026), '2026-11-01');
+});
