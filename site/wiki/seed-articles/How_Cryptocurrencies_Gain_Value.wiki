@@ -88,18 +88,139 @@ The honest limits, because this cuts both ways:
 * '''Spam is handled by RC exhaustion rather than by price''', which works until someone with a large stake decides to be hostile.
 * Congestion has not been tested at scale on our own chain, because '''we do not yet have the traffic to congest it'''. Saying otherwise would be the kind of claim this series exists to avoid.
 
-== 6. What this means for a chain with no market yet ==
+== 6. What is already running, and what is being built on top of it ==
 
-A new chain starts with none of the four demand sources except belief. That is the honest starting position, and pretending otherwise is the single most common lie in this industry.
+The markets here are '''young and thin''' — that is a measurement, and §1 through §5 are mostly about reading it correctly. It is '''not''' the same thing as having no market, and the difference matters because the machinery below is live, on-chain and checkable right now.
 
-What can be built before a market exists:
+'''Running today, with addresses and counters anyone can read:'''
+
+* '''Two tokens trading''' on TribalDEX with '''25,096''' VKBT holders and '''15,039''' CURE holders between them — '''41.9%''' and '''71.2%''' of those supplies staked, so the float is a fraction of the supply. See [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]].
+* '''A two-sided market on five pairs''' — the [[KulaSwap and the DEX Lineage|KulaSwap]] pools, where reserves ''are'' the depth and the gauge pays liquidity providers to keep them there.
+* '''A sink proven end to end''' — '''10 MWALI burned, one draw completed, 10,000 KULA paid out by the contract.''' Not a design: a transaction. See [[KULA Lottery]].
+* '''Stake locked by choice''' — veKULA escrow holding KULA, and a CDP vault holding collateral against minted mMELEK.
+* '''A mining chain''' — [[PRANA]] on Etchash, paying every miner by share each 20 blocks with a consensus-enforced 2% to a governed treasury.
+* '''A feeless social chain''' — MELEK, '''2,527,236.964 MELEK''' in supply at block 1,932,147, '''all of it issued by the chain''' rather than allocated to founders.
+
+'''What is still being built''' is the demand side, and [[Utilities and Sinks]] lists it with the status of each item marked, including the parts that are specified and not deployed.
+
+So the four things a young chain actually controls:
 
 # '''Scarcity that is real rather than claimed''' — no pre-mine, supply that is earned. MELEK's live supply at the time of writing is '''2,527,236.964 MELEK''' at block 1,932,147, all of it issued by the chain rather than allocated to founders.
 # '''Distribution''' — more holders, each holding less. The reason is arithmetic and it is in [[Holders, Rarity, and Distribution]].
 # '''Places to spend it''' — the utilities in [[Utilities and Sinks]], built before the demand they are meant to serve.
-# '''A two-sided market''' — somebody has to post both a bid and an ask, or there is no price at all. That is what [[KulaSwap and the DEX Lineage|KulaSwap]] is for.
+# '''Depth in the two-sided market''' — a bid and an ask have to exist before a price does, and then the book has to get deep enough that the second trade is worth making. That is what [[KulaSwap and the DEX Lineage|KulaSwap]] and the gauge are for.
 
-None of that produces a price. It produces the '''conditions under which a price can form and survive''' — which is the only part a builder controls.
+=== The current prices, named ===
+
+Read from the live markets on '''30 October 2026'''. HIVE's median feed is '''$0.048''' per HIVE, which anchors the engine side in USD.
+
+'''A correction to an earlier revision of this section.''' It published KULA at $3.4450 × 10⁻¹⁷ and wMELEK at $4.0000 × 10⁻¹⁸. '''Those were wrong by a factor of 10¹⁰.''' `wVKBT` and `wCURE` are '''8-decimal''' tokens while KULA, WPRANA and wMELEK are 18-decimal, and the first pass divided every raw reserve by 10¹⁸. The figures below use each token's own `decimals()`.
+
+'''Observed prices''' — an actual trade happened at these:
+
+{| class="wikitable"
+! Asset !! Last trade !! USD !! Top bid
+|-
+| '''VKBT''' || 0.00000041 HIVE || '''$0.0000000197''' || 0.00000041 HIVE for '''3,220,171 VKBT'''
+|-
+| '''CURE''' || 0.00002220 HIVE || '''$0.0000010656''' || 0.00002350 HIVE for 444 CURE, then 0.00002342 for 5,000
+|}
+
+'''Theoretical prices''' — no exchange listing required. `wVKBT` and `wCURE` can be bridged back and sold on Hive-Engine, so the KulaSwap reserve ratios convert KULA, WPRANA and wMELEK into USD by arithmetic. On an AMM '''the reserve ratio is the price'''.
+
+Spot ratios from the exact reserves:
+
+* '''1 KULA = 17.504966 wVKBT''' — pool 1 holds 1,089.731509 KULA : 19,075.713213 wVKBT
+* '''1 KULA = 0.426672 wCURE''' — pool 2 holds 483.434399 wCURE : 1,133.036004 KULA
+* '''1 wMELEK = 0.11614441 KULA''' — pool 4 holds 0.10452997 KULA : 0.90000000 wMELEK
+* '''1 KULA = 0.64126762 WPRANA''' — pool 0 holds 16,626.438270 KULA : 10,661.996445 WPRANA
+
+{| class="wikitable"
+! Asset !! via the wVKBT route !! via the wCURE route
+|-
+| '''KULA''' || '''$3.444977 × 10⁻⁷''' || '''$4.546614 × 10⁻⁷'''
+|-
+| '''wMELEK''' || '''$4.001149 × 10⁻⁸''' || '''$5.280638 × 10⁻⁸'''
+|-
+| '''WPRANA''' || '''$5.372137 × 10⁻⁷''' || —
+|}
+
+=== And it gives a market cap ===
+
+Two different derivations, and it matters which is which.
+
+'''VKBT and CURE are capitalised on Hive-Engine itself''' — no bridge, no pool, no PRANA. Supply × the last traded price, denominated in '''HIVE''', then converted at the median feed:
+
+{| class="wikitable"
+! Token !! Supply !! Cap in HIVE !! Cap in USD
+|-
+| '''VKBT''' || 2,352,205 || '''0.964404 HIVE''' (× 0.00000041) || '''$0.046291'''
+|-
+| '''CURE''' || 72,440 || '''1.608168 HIVE''' (× 0.00002220) || '''$0.077192'''
+|-
+| CURE at the top bid || 72,440 || 1.702340 HIVE (× 0.00002350) || $0.081712
+|}
+
+'''MELEK, KULA and WPRANA are capitalised through the pools''', because they have no direct listing — supply × the theoretical price derived above:
+
+{| class="wikitable"
+! Asset !! Supply !! Cap (wVKBT route) !! Cap (wCURE route)
+|-
+| '''MELEK''' || 2,527,236.964 || '''$0.1011''' || '''$0.1335'''
+|-
+| '''KULA''' || 267,009.132 || '''$0.0920''' || '''$0.1214'''
+|-
+| '''WPRANA''' || 13,001.000 (the wrapped portion only) || '''$0.0070''' || —
+|}
+
+The two pool routes run through different pools and different anchor assets and land within '''32%''' of each other, which is the check that makes them usable. A further cross-check: pool 3 prices wCURE at '''40.36 wVKBT''' against the engine market's '''54.15''', so the wrapped pools sit at about '''75%''' of the market ratio.
+
+'''A caution that applies to every row above''', and it is the point of [[Volume, Liquidity, and Depth]]: a market cap is supply × a price, and the price is the last marginal trade. These caps describe what the supply '''would''' be worth if all of it could clear at that price, which it cannot — the next section shows a single unit losing half its value to slippage.
+
+=== What one MELEK actually realises ===
+
+The spot ratios above are quotes. '''This is the executed number''', using the Uniswap-V2 constant-product formula with its 0.3% fee and the exact reserves:
+
+# '''1 wMELEK → 0.054937471 KULA''' in pool 4. Note why the loss is so large: pool 4 holds '''0.90000000 wMELEK''', and `wMELEK`'s '''entire total supply is 0.90000000''' — all of it is in that pool. A single unit entering is more than the whole reserve, so it moves the price the full quadratic amount described below.
+# Then either:
+#* '''→ 0.9587454 wVKBT''' in pool 1. Sold at the 0.00000041 HIVE bid (which has depth for 3,220,171 VKBT): '''0.0000003931 HIVE = $0.0000000189'''.
+#* '''→ 0.02336881 wCURE''' in pool 2. Sold at the 0.00002350 HIVE bid (depth 444 CURE): '''0.0000005492 HIVE = $0.0000000264'''.
+
+So '''one MELEK, bridged, swapped and sold, realises about $0.0000000264 on the better of the two routes.''' Spot said '''$0.0000000528''' — the realised figure is '''49.9% of spot''', and the '''50.1%''' difference is slippage in pool 4, entirely because the swap is larger than the reserve it hits. The sell side on Hive-Engine is not the constraint; the bids absorb these sizes with room to spare.
+
+=== Why early chains reprice by orders of magnitude ===
+
+This is arithmetic, not optimism, and it follows directly from §1: price is made at the margin.
+
+On a constant-product AMM, buying against a reserve moves the price '''quadratically'''. If `Rx` is the reserve of the asset you are spending and you spend `Δx`:
+
+  '''new price = old price × (1 + Δx / Rx)²'''
+
+{| class="wikitable"
+! Buy size (× the quote reserve) !! Price multiple
+|-
+| 0.5× || '''2.25×'''
+|-
+| 1× || '''4×'''
+|-
+| 2× || '''9×'''
+|-
+| 10× || '''121×'''
+|-
+| 100× || '''10,201×'''
+|}
+
+Applied to the deepest pool we have — pool 0, quote reserve '''10,661.9964 WPRANA''':
+
+* '''10,662 WPRANA''' of buying → KULA price '''× 4'''
+* '''106,620 WPRANA''' → '''× 121'''
+* '''1,066,200 WPRANA''' → '''× 10,201'''
+
+And on the engine side the same effect runs through the float rather than a pool. CURE's liquid float is roughly '''20,800 units''', which at $0.0000010656 is '''$0.0222 in total'''. '''$1,000 of buying is about 45,117× the entire liquid float.''' There is no amount of supply to absorb it at anything like the current price.
+
+This is the mechanism behind the price history in [[Economics 101 and 102]] and in §6 of [[Mining Hardware, ASICs, and the Cost of Production]]: Bitcoin went '''$5 → $30 → $100''', then to a thousand, then to ten thousand, through the era when the whole network was small and the float was held by a few thousand forum readers. Each of those steps looked impossible from the step below it — the operator's own account records Bitcointalk regulars arguing it would never reach $1,000, then never $10,000. '''The repricing was not sentiment outrunning arithmetic; it was arithmetic.''' A small float plus a quadratic price-impact curve means new capital arriving produces multiples, not percentages.
+
+The same formula is symmetric, and that is the whole reason [[Volume, Liquidity, and Depth]] exists: the multiple that takes a price up on the way in is the multiple that takes it down on the way out, and '''depth decides which direction you can actually transact in'''. The figures above are what a thin market looks like in both directions at once.
 
 == 7. Read next ==
 

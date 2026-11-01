@@ -9,16 +9,16 @@ test('the specs are the tokenomics dimensions, not chain dimensions', () => {
 });
 
 test("the operator's recorded numbers are carried exactly", () => {
-  assert.equal(TOKEN_SPECS.vkbt.supply, '2,315,564');
-  assert.equal(TOKEN_SPECS.vkbt.holders, '25,038');
-  assert.equal(TOKEN_SPECS.vkbt.realHolders, '5,375');
-  assert.match(TOKEN_SPECS.vkbt.concentration, /41\.9%/);
-  assert.equal(TOKEN_SPECS.cure.supply, '70,974');
-  assert.equal(TOKEN_SPECS.cure.holders, '14,965');
-  assert.equal(TOKEN_SPECS.cure.realHolders, '1,337');
-  assert.match(TOKEN_SPECS.cure.concentration, /52\.8%/);
-  assert.equal(TOKEN_SPECS.vkbt.capAtParity, '$129,672');
-  assert.equal(TOKEN_SPECS.cure.capAtParity, '$3,975');
+  assert.equal(TOKEN_SPECS.vkbt.supply, '2,352,205');
+  assert.equal(TOKEN_SPECS.vkbt.holders, '25,096');
+  assert.equal(TOKEN_SPECS.vkbt.realHolders, '5,402');
+  assert.match(TOKEN_SPECS.vkbt.concentration, /42%/);
+  assert.equal(TOKEN_SPECS.cure.supply, '72,440');
+  assert.equal(TOKEN_SPECS.cure.holders, '15,039');
+  assert.equal(TOKEN_SPECS.cure.realHolders, '1,356');
+  assert.match(TOKEN_SPECS.cure.concentration, /52\.4%/);
+  assert.equal(TOKEN_SPECS.vkbt.capAtParity, '$112,906');
+  assert.equal(TOKEN_SPECS.cure.capAtParity, '$3,477');
 });
 
 test('⭐ every recorded figure cites a source — an unsourced spec is never invented', () => {

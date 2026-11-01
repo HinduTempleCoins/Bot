@@ -1,0 +1,83 @@
+'''The Ponzi test''' is one question, and it is simpler than the warnings people are usually given: '''is there outside revenue?''' Everything else — the structure, the hierarchy, the recruitment, the enthusiasm — is secondary to where the money paid out actually came from. This page is part of the series under [[How Cryptocurrencies Gain Value]], and it exists because the useful skill is not avoiding anything that looks like a scheme; it is being able to '''tell which is which'''.
+
+== 1. The definition ==
+
+'''A Ponzi asks you to buy in and uses your buy-in to pay somebody who bought in earlier.''' No outside revenue enters at any point. The money going out is the money coming in, wearing a different name, and the arrangement survives only while new deposits exceed withdrawals.
+
+'''It can have a nice office.''' It can have audited-looking statements, a conference, a charismatic founder, a glossy deck and a real legal entity. '''None of those are revenue.''' The test is not how legitimate a thing looks — appearance is the cheapest part of the whole operation.
+
+Three questions settle it, and all three are checkable from outside before any money moves:
+
+# '''Are the returns smooth and promised, rather than variable and earned?''' Real revenue is lumpy. A fixed percentage paid like clockwork is a statement that the payout is not coming from trading or sales.
+# '''Does the payout require recruitment?''' If your return depends on the next person arriving rather than on something being sold or produced, the next person '''is''' the return.
+# '''Is there any answer to "where does the yield come from?"''' other than more buyers arriving? If the answer is a diagram rather than a customer, there is no answer.
+
+== 2. A pyramid is not automatically a Ponzi — the revenue is the product ==
+
+This is the part people are rarely told honestly, and leaving it out is why the warnings get ignored: '''a down line can genuinely work.'''
+
+'''Mary Kay. Juice Plus. Herbalife. Cutco knives. The Tupperware party.''' Somebody sells actual Tupperware to actual neighbours. The host takes a cut of real sales. The commissions flowing up the line come out of '''sales revenue''' — which is ordinary business, structurally identical to any sales organisation with a hierarchy and a commission schedule. A manager earning a percentage of their team's sales is not a scheme; it is how most of the sales profession has always worked.
+
+What collapses a pyramid is '''the product going nominal'''. When the inventory exists mainly to justify the structure, when distributors are the real customers, and when the actual income is '''recruitment fees and mandatory purchases''', then it is the Ponzi machine with extra steps and a catalogue. The same test applies and gives a clean answer: '''outside revenue, or not.'''
+
+So the honest guidance is not "avoid anything with a down line." It is: '''find the customer.''' If you can point at someone outside the structure who bought something because they wanted it, the money has a source. If the only buyers are participants, it does not.
+
+== 3. What DeFi was missing, and what fixed it ==
+
+The same test explains the whole first wave of decentralised finance, and this project wrote the diagnosis down at the time. From '''[https://bitcointalk.org/index.php?topic=5296168.0 Where DeFi is headed]''' (Bitcointalk, December 2020):
+
+> '''"Currently DeFi is for ETH Miners, Maker DAI users, Bitshares groupies, and Bitcoin foundation types. So, really nobody."'''
+
+A yield layer with no users and no revenue has exactly one place for the yield to come from, which is §1 of this page. That is not a claim that every DeFi protocol was a Ponzi — it is the observation that '''the question had no good answer yet.'''
+
+What changed the shape of it was an income source:
+
+> '''"So now DeFi has a Source of Income, as Steemit is one of the only places a Cryptocurrency is rewarded for real world effort, and is how most normal people understand 'earning'. So there is now a layer of Finance that wasn't there before. DeFi now does Social Media."'''
+
+'''Rewards for real-world effort are outside revenue''' in the sense that matters: the payout is tied to something produced rather than to the next deposit. And the point of it was access — '''"we will start seeing regular people, and even people in 3rd World Poverty, able to reach into DeFi"''' — which is why the cost of entry mattered so much in that post: a '''BitShares Asset ran about 1 BTC''' to create, Steem-Engine wanted KeyChain and ENG, '''ERC20 was never free''', and '''TRC10 was'''. A financial layer only the already-wealthy can enter has a very small set of possible customers. See also '''[https://bitcointalk.org/index.php?topic=5363857.0 Expanding DeFi]'''.
+
+== 4. Run the test on this ecosystem ==
+
+Published as a checklist against ourselves, because a page like this is worthless if it only points outward.
+
+* '''VKBT buys beauty supplies.''' Its registered on-chain description is "A Token for Rewarding Beauty, and Providing Liquid to the Beauty Economy". '''Soap and beauty product sold to customers is revenue from outside the token entirely''' — the Tupperware-party half of the structure. Which makes this, structurally, '''a beauty-products economy with a token as the ledger''': the product is the revenue, and the token is the reward and commission layer sitting on top of it.
+* '''Posting and curating pay for real-world effort''' — the Source of Income in §3.
+* '''The PRANA protocol fee''' takes '''2% of every block reward''' to a governed treasury, consensus-enforced and undodgeable. That is '''disclosed revenue''', which is the honest category for it — not a burn, and not hidden.
+* '''The credentials portal''' ([https://credentials.soapbox.community credentials.soapbox.community], and [[Making Money: Certificate Pathways]]) points people at '''paid work in other fields''' — income that does not come from this ecosystem at all.
+* '''Emissions come from a fixed, disclosed, on-chain rate''', not from anyone's deposit. See [[Utilities and Sinks]].
+* '''The lottery burn destroys [[MWALI]] that somebody earned by supplying liquidity''', so the burn is a '''by-product of use''' rather than a transfer from a newer buyer to an older one. See [[KULA Lottery]].
+* '''The not-deployed list is published.''' [[Utilities and Sinks]] marks SOULAVA's reward contracts, the fund's token payouts and BurnMine as built-but-not-running. '''A project that hides that list is failing the same test''' — if you cannot find out which mechanisms are live, you cannot trace where a payout comes from.
+
+== 5. Why this is the economics and not a disclaimer ==
+
+The reason this page sits in a series about value rather than in a safety notice: '''the Ponzi test is the same arithmetic as the float.'''
+
+'''Everyone cannot cash out.''' A market where every participant's plan is to extract has nothing to pay the extraction with — and as [[Volume, Liquidity, and Depth]] shows, a thin market is destroyed by '''forced sellers'''. A forced seller is somebody who needs the money this month.
+
+So the design runs on '''two tracks at once''': become '''some other kind of professional''' through the credentials route, '''while''' earning and participating here. Not instead of. '''Income first, then leverage''' — a job funds the courses, the exam fees and the equipment, and funds participation in whatever market a person wants to be in, which is the standing position of [[Making Money: Certificate Pathways]].
+
+The consequence is structural rather than moral: '''somebody with outside income is not a forced seller.''' They can hold through a drawdown, stake, lock, supply liquidity, and sell when they choose rather than when rent is due. A holder base like that is what makes a small float an '''asset''' instead of an overhang — see §4 and §5 of [[Holders, Rarity, and Distribution]] — and it is the only version of "make money with us" that does not require the next person to lose.
+
+'''What this wiki will never tell anyone''' is that trading these tokens is a living. The research in §3 of [[The Crypto Market: Rotation, Day Trading, and Large Buyers]] is unambiguous: under 1% of day traders predictably beat their costs, and in one study 82% lost money overall despite winning most of their individual trades. The liquidity traders provide is wanted and the odds they face are stated.
+
+== 6. Read next ==
+
+* [[How Cryptocurrencies Gain Value]] — the spine of the series.
+* [[Making Money: Certificate Pathways]] — the credentials route and the "keep the job" position.
+* [[Utilities and Sinks]] — every mechanism here with its status marked.
+* [[The Crypto Market: Rotation, Day Trading, and Large Buyers]] — what actually happens to traders.
+* [[Holders, Rarity, and Distribution]] · [[Volume, Liquidity, and Depth]] · [[Economics 101 and 102]] · [[Money, Currencies, and the Debt System]]
+
+== Not investment advice ==
+
+This page explains how to classify a structure and where to look for revenue. It is '''not''' a recommendation of any company named, '''not''' an accusation against any company named, '''not''' investment advice, and '''not''' a claim that this ecosystem will make anyone money. The companies in §2 are cited as '''examples of the direct-sales structure''', not as endorsements or as allegations.
+
+== Sources ==
+* '''[https://bitcointalk.org/index.php?topic=5296168.0 Where DeFi is headed]''' — this project's Bitcointalk thread (Tokenista, 3 December 2020): the "really nobody" diagnosis, the Source of Income argument, the access argument, and the entry-cost comparison across BitShares Assets, Steem-Engine, ERC20 and TRC10.
+* '''[https://bitcointalk.org/index.php?topic=5363857.0 Expanding DeFi]''' — the companion thread.
+* This project's "Hashtags of Money" teaching notes — the DeFi reading list and the Van Kush Beauty Economy framing.
+* VKBT's registered Hive-Engine token description.
+* Live protocol parameters for the PRANA fee split and the lottery burn, per [[Utilities and Sinks]].
+
+== Coverage ==
+Defines the Ponzi test as the single question of outside revenue, states the machine plainly (your buy-in pays an earlier participant) and notes that offices and paperwork are not revenue, gives three externally checkable questions, and then makes the distinction most warnings omit — that a pyramid or down line '''can''' work when the revenue is a real product sold to real customers, with Mary Kay, Juice Plus, Herbalife, Cutco and the Tupperware party as structural examples and the collapse condition named. Carries this project's own 2020 Bitcointalk diagnosis of DeFi's missing income source and its access argument. Runs the test against this ecosystem item by item, including the published not-deployed list. Closes with the float economics: everyone cannot cash out, forced sellers destroy thin markets, and outside income is what prevents forced selling. Names companies as structural examples only, with no endorsement or allegation.

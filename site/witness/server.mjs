@@ -808,6 +808,249 @@ export function learnPage() {
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────────────────────────
+// ── Keychain delegation link ──────────────────────────────────────────────────────────────────
+// A one-click HP delegation driven ENTIRELY by the Hive Keychain browser extension. No HiveSigner,
+// no redirect, no key ever leaves the extension: the page calls window.hive_keychain.requestDelegation
+// and Keychain itself raises its own confirm dialog. Query params let the operator keep one bookmark:
+//   /delegate?from=kalivankush&to=melek-hathor&hp=300
+// NOTE a Hive delegation amount REPLACES any existing delegation to that same delegatee — it is a
+// total, not an increment. The page says so, because getting it wrong silently reduces a delegation.
+function delegatePage(q) {
+  const from = String(q.get('from') || 'kalivankush').replace(/[^a-z0-9.-]/g, '');
+  const to = String(q.get('to') || 'melek-hathor').replace(/[^a-z0-9.-]/g, '');
+  const hp = String(q.get('hp') || '300').replace(/[^0-9.]/g, '') || '300';
+  const body = `
+  <h1>Delegate Hive Power</h1>
+  <p class=muted>From <b>@${esc(from)}</b> to <b>@${esc(to)}</b>, signed by the <b>Hive Keychain</b> browser extension. Nothing is sent anywhere else and no key leaves the extension — Keychain raises its own confirmation.</p>
+  <div id=ks style="padding:10px 12px;border-radius:8px;margin:14px 0;background:#2a2a2a">Checking for Keychain…</div>
+  <p style="margin:14px 0 6px"><b>Amount</b></p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <button class=cta data-hp="100">100 HP</button>
+    <button class=cta data-hp="300">300 HP</button>
+    <button class=cta data-hp="500">500 HP</button>
+    <input id=custom type=number min="0" step="1" value="${esc(hp)}" style="width:120px;padding:9px;border-radius:7px;border:1px solid #555;background:#1c1c1c;color:#eee">
+    <button class=cta id=go>Delegate that amount</button>
+  </div>
+  <p class=muted style="margin-top:12px"><b>This replaces</b> any delegation @${esc(from)} already has to @${esc(to)} — a Hive delegation is a total, not an addition. Delegating <b>0</b> removes it. Returned HP is unavailable for 5 days.</p>
+  <div id=out style="margin-top:16px"></div>
+  <script>
+  (function(){
+    var FROM=${JSON.stringify(from)}, TO=${JSON.stringify(to)};
+    var ks=document.getElementById('ks'), out=document.getElementById('out');
+    function ready(){ return !!(window.hive_keychain && window.hive_keychain.requestDelegation); }
+    function check(){
+      if(ready()){ ks.style.background='#17361f'; ks.innerHTML='<b>Keychain detected.</b> Pick an amount and approve in the popup.'; return true; }
+      ks.style.background='#3a1f1f';
+      ks.innerHTML='<b>Hive Keychain not found.</b> Install the browser extension from <a href="https://hive-keychain.com" target="_blank" rel="noopener">hive-keychain.com</a>, unlock it, then reload this page. This page deliberately does not fall back to any web signer.';
+      return false;
+    }
+    function send(amount){
+      if(!check()) return;
+      var amt=Number(amount); if(!isFinite(amt)||amt<0){ out.innerHTML='<p style="color:#f99">Enter a valid amount.</p>'; return; }
+      out.innerHTML='<p class=muted>Waiting for Keychain…</p>';
+      window.hive_keychain.requestDelegation(FROM, TO, amt.toFixed(3), 'HP', function(r){
+        if(r && r.success){
+          var id=(r.result&&(r.result.id||r.result.tx_id))||'';
+          out.innerHTML='<p style="color:#8f8"><b>Delegated '+amt.toFixed(3)+' HP</b> from @'+FROM+' to @'+TO+'.'+(id?' tx <code>'+id+'</code>':'')+'</p>';
+        } else {
+          out.innerHTML='<p style="color:#f99"><b>Not delegated.</b> '+((r&&(r.message||r.error))||'Cancelled or failed in Keychain.')+'</p>';
+        }
+      });
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('button[data-hp]'),function(b){
+      b.addEventListener('click',function(){ send(b.getAttribute('data-hp')); });
+    });
+    document.getElementById('go').addEventListener('click',function(){ send(document.getElementById('custom').value); });
+    check(); setTimeout(check,600); setTimeout(check,1800);
+  })();
+  </script>`;
+  return page(`Delegate HP to @${to} — Witness School`, body, { canonical: `${BASE_URL}/delegate` });
+}
+
+// ── Bridge deposit links (Keychain only) ──────────────────────────────────────────────────────
+// Hive-Engine token transfers to the bridge custody account, signed by the Keychain extension via
+// requestCustomJson on the `ssc-mainnet-hive` sidechain with ACTIVE authority. No HiveSigner.
+// The MEMO carries Hathor's PRANA address, which is what the relayer credits the wrapped token to —
+// the same convention that backs wVKBT/wCURE 1:1. Amounts are editable; defaults are the full
+// balances found on @kalivankush on 2026-10-30 (SWAP.HIVE 103.21022870, SWAP.BLURT 1252.612519).
+function bridgeDepositPage(q) {
+  const custody = String(q.get('custody') || 'kula-bridge').replace(/[^a-z0-9.-]/g, '');
+  const memo = String(q.get('memo') || '0x026d69cB54B82a805b6aaE60718C4877124D8d11').replace(/[^0-9a-zA-Zx]/g, '');
+  const swapFrom = String(q.get('swapfrom') || 'kalivankush').replace(/[^a-z0-9.-]/g, '');
+  // balances read live on 2026-10-30; SWAP.HIVE on kalivankush shown net of the 20 swapped in step 1
+  const rows = [
+    { acct: 'angelicalist', sym: 'SWAP.HIVE',  amt: '153.40533939', wrapped: 'wHIVE',  addr: '0xE87080cee4d57fBe71cE3b902Ae271b7b1d10983', dp: 8 },
+    { acct: 'kalivankush',  sym: 'SWAP.HIVE',  amt: '83.21022870',  wrapped: 'wHIVE',  addr: '0xE87080cee4d57fBe71cE3b902Ae271b7b1d10983', dp: 8 },
+    { acct: 'kalivankush',  sym: 'SWAP.BLURT', amt: '1252.612519',  wrapped: 'wBLURT', addr: '0x82a1Bb49652DB421F6262BC06793F5C141b7c2ba', dp: 6 },
+    { acct: 'kalivankush',  sym: 'SWAP.STEEM', amt: '19.49788328',  wrapped: 'wSTEEM', addr: '0x972646339417B695Bcf781324E08C6811E9a9796', dp: 8 },
+  ];
+  const body = `
+  <h1>Bridge deposits → PRANA</h1>
+  <p class=muted>Sends Hive-Engine tokens to the custody account <b>@${esc(custody)}</b>, signed by the <b>Hive Keychain</b> extension with <b>active</b> authority. The memo is the PRANA address credited with the wrapped token. Each deposit is backed <b>1:1</b> — custody holds the real token, the bridge mints exactly that much. No key leaves the extension and this page has no web-signer fallback.</p>
+  <div id=ks style="padding:10px 12px;border-radius:8px;margin:14px 0;background:#2a2a2a">Checking for Keychain…</div>
+  <p class=muted><b>Memo (PRANA recipient):</b> <code>${esc(memo)}</code></p>
+
+  <h2>Step 0 — native STEEM → SWAP.STEEM (only if sending real STEEM)</h2>
+  <p class=muted><b>Native STEEM cannot be sent to @${esc(custody)}</b> — that is a Hive account holding Hive-Engine tokens, and <code>kula-bridge</code> does not exist on the Steem chain. Real STEEM has to be wrapped first by the issuer, <b>@graphene-swap</b> (holding 170,025.503 STEEM on Steem).</p>
+  <p class=muted>From a Steem wallet or Steem Keychain, send STEEM to <b>@graphene-swap</b> with the memo:</p>
+  <p><code style="display:inline-block;padding:8px 12px;background:#1c1c1c;border:1px solid #555;border-radius:6px">SWAP.STEEM kalivankush</code></p>
+  <p class=muted>That memo format is confirmed from live deposits (<code>SWAP.STEEM &lt;hive-username&gt;</code>) — the Hive account named in the memo receives the SWAP.STEEM. Once it lands, use the SWAP.STEEM row in Step 2. <b>This step is not signed by this page</b>: it is a Steem-chain transfer, and Hive Keychain does not cover Steem.</p>
+
+  <h2>Step 1 — or buy SWAP.STEEM with SWAP.HIVE instead</h2>
+  <p class=muted>Swaps <b>SWAP.HIVE → SWAP.STEEM</b> through the Hive-Engine diesel pool, which is far deeper than the order book: the pool holds <b>53,449.81 SWAP.HIVE : 52,284.20 SWAP.STEEM</b> (~1.0258 in), where the book's best ask is 1.126 with only 1.0 available per order. Signed from <b>@${esc(swapFrom)}</b>.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0">
+    <label class=muted>SWAP.HIVE in</label>
+    <input id=swapin value="20" style="width:110px;padding:8px;border-radius:6px;border:1px solid #555;background:#1c1c1c;color:#eee">
+    <button class=cta id=doswap>Swap to SWAP.STEEM</button>
+    <span class=muted id=swapest></span>
+  </div>
+
+  <h2>Step 2 — deposit to the bridge</h2>
+  <table class=t style="margin:14px 0"><thead><tr><th>From</th><th>Token</th><th>Amount</th><th>Mints</th><th></th></tr></thead><tbody>
+  ${rows.map((r, i) => `<tr>
+    <td><b>@${esc(r.acct)}</b></td>
+    <td>${esc(r.sym)}</td>
+    <td><input id="amt${i}" value="${esc(r.amt)}" style="width:140px;padding:7px;border-radius:6px;border:1px solid #555;background:#1c1c1c;color:#eee"></td>
+    <td><b>${esc(r.wrapped)}</b> <span class=muted>(${r.dp}dp)</span></td>
+    <td><button class=cta data-i="${i}" data-sym="${esc(r.sym)}" data-acct="${esc(r.acct)}">Send</button></td>
+  </tr>`).join('')}
+  </tbody></table>
+  <p class=muted>Totals once bridged: <b>~236.6 wHIVE</b> ($11.36), <b>19.5 wSTEEM</b> ($0.95), <b>1,252.6 wBLURT</b> ($0.98). The pools are then seeded on <b>USD parity</b> — HIVE-side assets against each other carry ~$0.39–$0.57 a side; anything paired against KULA is capped at ~$0.017 because all our KULA is worth $0.057.</p>
+  <div id=out style="margin-top:16px"></div>
+  <script>
+  (function(){
+    var TO=${JSON.stringify(custody)}, MEMO=${JSON.stringify(memo)}, SWAPFROM=${JSON.stringify(swapFrom)};
+    var SSC='ssc-mainnet-hive';
+    var ks=document.getElementById('ks'), out=document.getElementById('out');
+    function ready(){ return !!(window.hive_keychain && window.hive_keychain.requestCustomJson); }
+    function check(){
+      if(ready()){ ks.style.background='#17361f'; ks.innerHTML='<b>Keychain detected.</b> Each button raises its own Keychain confirmation.'; return true; }
+      ks.style.background='#3a1f1f';
+      ks.innerHTML='<b>Hive Keychain not found.</b> Install it from <a href="https://hive-keychain.com" target="_blank" rel="noopener">hive-keychain.com</a>, unlock it, then reload. This page deliberately does not fall back to any web signer.';
+      return false;
+    }
+    var PB=53449.80547412, PQ=52284.19540780;
+    function quote(a){ return (a*0.997*PQ)/(PB+a*0.997); }
+    function reest(){ var a=Number(document.getElementById('swapin').value||0);
+      document.getElementById('swapest').textContent = a>0 ? ('≈ '+quote(a).toFixed(8)+' SWAP.STEEM') : ''; }
+    document.getElementById('swapin').addEventListener('input',reest); reest();
+    document.getElementById('doswap').addEventListener('click',function(){
+      if(!check()) return;
+      var a=Number(document.getElementById('swapin').value||0);
+      if(!(a>0)){ out.innerHTML='<p style="color:#f99">Enter a SWAP.HIVE amount.</p>'; return; }
+      var minOut=(quote(a)*0.99).toFixed(8);
+      var json={ contractName:'marketpools', contractAction:'swapTokens', contractPayload:{
+        tokenPair:'SWAP.HIVE:SWAP.STEEM', tokenSymbol:'SWAP.HIVE', tokenAmount:String(a),
+        tradeType:'exactInput', minAmountOut:minOut } };
+      out.innerHTML='<p class=muted>Waiting for Keychain — swapping '+a+' SWAP.HIVE…</p>';
+      window.hive_keychain.requestCustomJson(SWAPFROM, SSC, 'Active', JSON.stringify(json), 'Swap '+a+' SWAP.HIVE for SWAP.STEEM', function(r){
+        out.innerHTML = (r && r.success)
+          ? '<p style="color:#8f8"><b>Swap sent</b> — '+a+' SWAP.HIVE for at least '+minOut+' SWAP.STEEM. Put the received amount in the SWAP.STEEM row and Send.</p>'
+          : '<p style="color:#f99"><b>Not swapped.</b> '+((r&&(r.message||r.error))||'Cancelled or failed in Keychain.')+'</p>';
+      });
+    });
+    function send(i, sym, acct){
+      if(!check()) return;
+      var amt=String(document.getElementById('amt'+i).value||'').trim();
+      if(!amt || Number(amt)<=0){ out.innerHTML='<p style="color:#f99">Enter an amount above zero.</p>'; return; }
+      var json={ contractName:'tokens', contractAction:'transfer', contractPayload:{ symbol:sym, to:TO, quantity:amt, memo:MEMO } };
+      out.innerHTML='<p class=muted>Waiting for Keychain — '+acct+' sending '+amt+' '+sym+'…</p>';
+      window.hive_keychain.requestCustomJson(acct, SSC, 'Active', JSON.stringify(json), 'Bridge '+amt+' '+sym+' to @'+TO, function(r){
+        if(r && r.success){
+          var id=(r.result&&(r.result.id||r.result.tx_id))||'';
+          out.innerHTML='<p style="color:#8f8"><b>@'+acct+' sent '+amt+' '+sym+'</b> to @'+TO+'.'+(id?' tx <code>'+id+'</code>':'')+' Wrapped token mints once attested.</p>';
+        } else {
+          out.innerHTML='<p style="color:#f99"><b>Not sent.</b> '+((r&&(r.message||r.error))||'Cancelled or failed in Keychain.')+'</p>';
+        }
+      });
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('button[data-i]'),function(b){
+      b.addEventListener('click',function(){ send(b.getAttribute('data-i'), b.getAttribute('data-sym'), b.getAttribute('data-acct')); });
+    });
+    check(); setTimeout(check,600); setTimeout(check,1800);
+  })();
+  </script>`;
+  return page('Bridge deposits — Witness School', body, { canonical: `${BASE_URL}/bridge-deposit` });
+}
+
+// ── Bridge withdrawal (PRANA -> Graphene) ─────────────────────────────────────────────────────
+// The return leg, so the bridge runs both ways. GrapheneDepositBridge.withdraw(tokenId, amount,
+// destinationRef) pulls the wrapper from the caller, burns it (the wrappers are ERC20Burnable) and
+// emits GrapheneWithdrawal, which the off-chain releaser watches to send the real token out of
+// custody. Two transactions: approve the bridge, then withdraw. EVM page (PRANA chainId 712217),
+// so it uses the injected wallet — Keychain does not sign EVM.
+function bridgeWithdrawPage() {
+  const BR = '0xf8245a4c9A8af47760C45D8393A74Ea8EEF1E505';
+  const WITHDRAW_SEL = '0x8998231f'; // withdraw(bytes32,uint256,bytes32)
+  const toks = [
+    ['wHIVE',  '0xE87080cee4d57fBe71cE3b902Ae271b7b1d10983', 8,  'HIVE',  '0xa1402812dbbf087b7c64ad1e4afcef71932de091c727a04163d5913bb8579063'],
+    ['wSTEEM', '0x972646339417B695Bcf781324E08C6811E9a9796', 8,  'STEEM', '0xdeb95b279ac5005cd8712fc3764f87cb890a9c183abd0bd85a1b68fefa5eb106'],
+    ['wBLURT', '0x82a1Bb49652DB421F6262BC06793F5C141b7c2ba', 6,  'BLURT', '0xfbbaee652a9ed2e9259790b19d772a1e2e413cbbc2b56e78ee6b5c209e9f8a2b'],
+    ['wVKBT',  '0xD915E757662c4234137aff167Bf93d588145f75e', 8,  'VKBT',  '0x91fa13cd301e5251cef8fafce427a7c636781556d24baf384cef525ea2bc20f8'],
+    ['wCURE',  '0x03d613BDaAd82ecd6cf36B0fEf88Fb6AF9d977Ff', 8,  'CURE',  '0xec8d057b4fbd683692c47f9c66238dece9cfabb509f948e52ea693ed0a5cb3b8'],
+    ['wMELEK', '0xf6d9BE2859191b45820Df3A3B3b321b1b2589AB9', 18, 'MELEK', '0x5a212ca60cafcdb5cfc9e9346ad12c4cccef6de33ea38bffbac8e3fd9091aa24'],
+  ];
+  const body = `
+  <h1>Bridge withdrawal — PRANA back to Graphene</h1>
+  <p class=muted>Burns a wrapped token on PRANA and releases the real one from custody, so the bridge runs <b>both ways</b>. The bridge pulls your wrapper, burns it, and emits <code>GrapheneWithdrawal</code>; the releaser then sends the original token to the account you name. Bridge <code>${esc(BR)}</code>.</p>
+  <div id=w style="padding:10px 12px;border-radius:8px;margin:14px 0;background:#2a2a2a">Checking for a PRANA wallet…</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0">
+    <select id=tok style="padding:9px;border-radius:7px;border:1px solid #555;background:#1c1c1c;color:#eee">
+      ${toks.map(([w2, a, d, base, id]) => `<option value="${esc(a)}" data-dp="${d}" data-base="${esc(base)}" data-id="${esc(id)}">${esc(w2)} → ${esc(base)}</option>`).join('')}
+    </select>
+    <input id=amt placeholder="amount" style="width:150px;padding:9px;border-radius:7px;border:1px solid #555;background:#1c1c1c;color:#eee">
+    <input id=dest placeholder="destination account" style="width:240px;padding:9px;border-radius:7px;border:1px solid #555;background:#1c1c1c;color:#eee">
+    <button class=cta id=go>Approve + Withdraw</button>
+  </div>
+  <p class=muted>The destination is the Graphene-side account that receives the real token. It is written into <code>destinationRef</code> on-chain as UTF-8 (max 32 bytes), so the releaser can read it. <b>Nothing is custodial about this page</b> — it only builds the two calls your wallet signs.</p>
+  <div id=out style="margin-top:16px"></div>
+  <script>
+  (function(){
+    var BR=${JSON.stringify(BR)}, SEL=${JSON.stringify(WITHDRAW_SEL)}, CHAIN_HEX='0x'+(712217).toString(16);
+    var w=document.getElementById('w'), out=document.getElementById('out');
+    function check(){
+      if(window.ethereum){ w.style.background='#17361f'; w.innerHTML='<b>Wallet detected.</b> It must be on PRANA (chainId 712217 / '+CHAIN_HEX+').'; return true; }
+      w.style.background='#3a1f1f'; w.innerHTML='<b>No EVM wallet found.</b> This page needs an injected wallet on PRANA (chainId 712217).'; return false;
+    }
+    function pad(h){ h=String(h).replace(/^0x/,''); return '0'.repeat(Math.max(0,64-h.length))+h; }
+    function uintArg(v){ return pad(BigInt(v).toString(16)); }
+    function addrArg(a){ return pad(a.toLowerCase().replace(/^0x/,'')); }
+    function b32Text(t){
+      var b=new TextEncoder().encode(t);
+      if(b.length>32) throw new Error('destination must be 32 bytes or fewer');
+      var h=''; for(var i=0;i<b.length;i++) h+=b[i].toString(16).padStart(2,'0');
+      return h.padEnd(64,'0');
+    }
+    async function send(tx){
+      var from=(await window.ethereum.request({method:'eth_requestAccounts'}))[0];
+      return window.ethereum.request({method:'eth_sendTransaction',params:[Object.assign({from:from},tx)]});
+    }
+    document.getElementById('go').addEventListener('click',async function(){
+      if(!check()) return;
+      try{
+        var sel=document.getElementById('tok'), opt=sel.options[sel.selectedIndex];
+        var token=sel.value, dp=Number(opt.getAttribute('data-dp'));
+        var base=opt.getAttribute('data-base'), tid=opt.getAttribute('data-id');
+        var amtStr=String(document.getElementById('amt').value||'').trim();
+        var dest=String(document.getElementById('dest').value||'').trim();
+        if(!amtStr||!(Number(amtStr)>0)) throw new Error('Enter an amount above zero.');
+        if(!dest) throw new Error('Enter a destination account.');
+        var parts=amtStr.split('.');
+        var frac=(parts[1]||'').padEnd(dp,'0').slice(0,dp);
+        var raw=BigInt(parts[0]||'0')*(10n**BigInt(dp))+BigInt(frac||'0');
+        out.innerHTML='<p class=muted>1 of 2 — approving the bridge…</p>';
+        await send({to:token, data:'0x095ea7b3'+addrArg(BR)+uintArg(raw)});
+        out.innerHTML='<p class=muted>2 of 2 — confirm the withdrawal…</p>';
+        var h=await send({to:BR, data:SEL+pad(tid)+uintArg(raw)+b32Text(dest)});
+        out.innerHTML='<p style="color:#8f8"><b>Withdrawal submitted.</b> tx <code>'+h+'</code> — once it confirms, the releaser sends '+amtStr+' '+base+' to @'+dest+'.</p>';
+      }catch(e){ out.innerHTML='<p style="color:#f99"><b>Failed.</b> '+((e&&e.message)||e)+'</p>'; }
+    });
+    check();
+  })();
+  </script>`;
+  return page('Bridge withdrawal — Witness School', body, { canonical: `${BASE_URL}/bridge-withdraw` });
+}
+
 function sendHtml(res, html, code = 200) {
   res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=120' });
   res.end(html);
@@ -2868,6 +3111,9 @@ export async function handler(req, res) {
       });
       return res.end(JSON.stringify(abi, null, 2));
     }
+    if (path === '/delegate') return sendHtml(res, delegatePage(url.searchParams));
+    if (path === '/bridge-deposit') return sendHtml(res, bridgeDepositPage(url.searchParams));
+    if (path === '/bridge-withdraw') return sendHtml(res, bridgeWithdrawPage());
     if (path === '/learn') return sendHtml(res, learnPage());
     if (path === '/academy') return sendHtml(res, academyPage());
     if (path === '/build') return sendHtml(res, buildPage());

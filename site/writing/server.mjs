@@ -164,7 +164,9 @@ export const CHALLENGE = `<h1>50,000 words. 30 days. Nobody watching.</h1>
   function load(){try{return JSON.parse(localStorage.getItem(K)||'')||{}}catch(e){return{}}}
   function save(s){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
   var st=load(); st.log=st.log||{}; st.goal=st.goal||50000; st.days=st.days||30;
-  if(!st.start){var n=new Date(); st.start=(n.getMonth()>=10? n.getFullYear()+1 : n.getFullYear())+'-11-01';}
+  // November is month 10, so >=10 rolled the default to NEXT November on November 1st itself and
+  // told everyone the challenge was 365 days away. Only December (11) looks ahead to next year.
+  if(!st.start){var n=new Date(); st.start=(n.getMonth()>10? n.getFullYear()+1 : n.getFullYear())+'-11-01';}
   var $=function(i){return document.getElementById(i)};
   function today(){var n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}
   function dayNo(){var a=new Date(st.start+'T00:00:00'),b=new Date(today()+'T00:00:00');

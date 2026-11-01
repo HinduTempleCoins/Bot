@@ -7,7 +7,7 @@ Take exactly 1,000,000 coins and change nothing except how many people hold them
 * '''20 holders''' — 50,000 each. Each person owns '''5% of everything'''. Any one of them can end the market on a bad morning.
 * '''500 holders''' — 2,000 each. Each owns '''0.2%'''.
 * '''10,000 holders''' — 100 each. Each owns '''0.01%'''.
-* '''100,000,000 holders''' — 0.01 each. Nobody owns enough to matter, and the coin is now dust in most wallets.
+* '''100,000,000 holders''' — 0.01 each. No individual position is large — and the number of people a single price move now reaches is enormous. Which of those two facts dominates is the subject of §4.
 
 The supply number is identical in all four. What changed is '''how rare a coin is from any one person's point of view''', and that is the thing that actually sets behaviour. At twenty holders a coin is common — the person next to you has fifty thousand. At ten thousand holders the same coin is rare: getting a hundred means finding someone willing to give up a hundred, and most of them are not.
 
@@ -54,21 +54,51 @@ Then the cuts, which matter more than the confirmation:
 * '''Full connectivity is a fiction.''' Metcalfe assumes everyone can transact with everyone and values all of it; in real networks each participant meaningfully connects to far fewer — on the order of n^(2/3) others. That is one reason the fitted exponent lands below 2.
 * '''Active addresses are a bad proxy for people.''' One person runs several wallets, exchanges hold millions of users behind a handful of addresses, dormant wallets inflate holder counts, and layer-two activity never touches the base chain at all.
 
-So the arithmetic in §3 stands — but it stands as '''super-linear growth with a contested exponent and a causation problem''', not as a formula that converts a holder count into a price. Combined with §4 below, the defensible version is narrow and still useful: '''participants who actually transact raise the value of a network faster than their number suggests, and dormant dust does not count.'''
+So the arithmetic in §3 stands — but it stands as '''super-linear growth with a contested exponent and a causation problem''', not as a formula that converts a holder count into a price. Combined with §4 below, the defensible version is narrow and still useful: '''participants who can be reached and activated raise the value of a network faster than their number suggests''' — and on a thin, responsive market, a small balance is no bar to being reached.
 
-== 4. Dust is not a community ==
+== 4. On a thin market, a small holder is not dust ==
 
-The honest counterweight, and this wiki publishes it rather than hiding it: a holder count is easy to inflate with an airdrop, and most airdrop recipients hold '''less than one whole token''' and never return.
+An earlier revision of this page called holders of less than one token '''"dust"''' and said they "never return" and do not count. '''That was wrong''', and the reason it was wrong is the most useful thing on this page — because it is the same mechanism as [[Volume, Liquidity, and Depth]], read in the other direction.
 
-Our own numbers say so plainly. Of '''25,038''' VKBT holders, '''19,663 hold under one token'''; of '''14,965''' CURE holders, '''13,628 do'''. The figures that carry information are the ones further up the curve — VKBT has '''2,975''' holders of 10+ and '''1,074''' of 100+; CURE has '''430''' of 10+ and '''62''' of 100+. Full detail in [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]].
+Start with the raw numbers, which are real: of '''25,096''' VKBT holders, '''19,694 hold under one whole token'''; of '''15,039''' CURE holders, '''13,683''' do. Full detail in [[The STEEM HIVE BLURT MELEK VKBT and CURE Matrix|the Matrix]].
 
-So the goal is not "holders" as a scoreboard. It is '''holders who hold enough to care''', acquired by doing something rather than by receiving dust. That is the difference between an airdrop and an earn.
+Now the four reasons the dismissive reading of those numbers does not hold:
+
+# '''A thin market is a responsive market.''' It takes very little capital to move the price of a token this size — that is precisely what the depth figures say, including the CURE bid and ask that have stood '''2,700×''' apart. Thinness is usually discussed as a weakness, and on the exit side it is. On the '''entry''' side the same property means a modest bid produces a '''large percentage move'''.
+# '''Every holder sees it.''' An engine wallet shows a balance and what that balance is worth. A large percentage move is therefore '''visible in all 25,096 wallets at once''', at no cost to anybody. The holder base is not an inert ledger entry — it is a '''distribution list for a price signal''', and the signal reaches everyone on it simultaneously.
+# '''A visible move produces the one thing a thin token lacks.''' A holder who sees their balance move does one of two things: '''buys more, or sells some.''' Both are '''volume'''. Both are the second trade that §4 of [[Volume, Liquidity, and Depth]] identifies as the thing a shallow book needs in order to deepen. Somebody who can be activated by a price move is an '''economically live participant''', whatever their balance is today.
+# '''Cheapness multiplies reach.''' The lower the price and the thinner the book, the '''more holders a given amount of buying can reach and activate'''. A large holder count and a small average balance is not a contradiction of §3's argument — it is §3's argument with the unit price moved.
+
+So the correct reading is the opposite of the old one: '''a large holder base on a highly responsive market is an asset''', and the smallness of the individual balances does not cancel it. Nothing about holding 0.4 of a token prevents someone from noticing a 10× and acting on it.
+
+=== What the numbers do and do not tell you ===
+
+Keeping the part of the old paragraph that was actually defensible, and dropping the part that was not:
+
+* '''A holder count does not tell you how much capital is behind a token.''' You cannot read a market cap, a floor or a dollar figure off a holder count. That is the one true caution, and it is a caution about '''arithmetic''', not about whether those holders matter.
+* '''The counts further up the curve answer a different question''' — who holds '''size'''. VKBT has '''2,992''' holders of 10+, '''1,069''' of 100+ and '''207''' of 1,000+; CURE has '''438''' of 10+, '''64''' of 100+ and '''3''' of 1,000+. That is the number to look at for depth of commitment.
+* '''Both are real information about different things.''' Breadth tells you how many people a move reaches. Size tells you who can move it. Neither makes the other irrelevant, and this wiki will quote both.
+* '''How a holder earned their tokens is irrelevant.''' Airdrop, curation reward, purchase, tip — '''none of it changes what the token does in their hands.''' A balance is a balance: it can be traded, bridged and sold on the same terms whatever its history, and it reprices with the market either way. Judging a holder by their acquisition route is not a tokenomics observation, it is a guess about their state of mind, and this page does not make it. (What '''does''' matter is how the '''issuer''' acquired its position — purchased at market rather than pre-mined — because that is a fact about supply, not about anybody's motives. See the Matrix.)
+
+== 4a. Where the demand for these tokens comes from ==
+
+The demand for VKBT and CURE does not have to originate with VKBT and CURE. '''It runs backwards through the bridge.'''
+
+Someone who wants '''MELEK''' and does not have it has a route: buy '''VKBT or CURE on Hive-Engine''' with HIVE, bridge to `wVKBT`/`wCURE`, swap through [[KulaSwap and the DEX Lineage|KulaSwap]] into KULA and then `wMELEK`, and unwrap. The engine tokens are '''an on-ramp to MELEK''', which means demand for MELEK becomes '''bid''' for VKBT and CURE. That is the same path priced in §6 of [[How Cryptocurrencies Gain Value]], run in the other direction — and it is why the two engine tokens are the assets that give the whole set a USD figure at all.
+
+On top of that, '''VKBT has a use of its own.''' Its registered on-chain description is "A Token for Rewarding Beauty, and Providing Liquid to the Beauty Economy" — it is intended to '''buy beauty supplies'''. A token that purchases a physical good has a demand source that does not depend on anybody's opinion about crypto, which is the first and strongest of the four sources in §2 of [[How Cryptocurrencies Gain Value]].
+
+So there are three distinct bids on these tokens, and only one of them is speculative:
+
+# '''People who want MELEK''' and are buying the on-ramp.
+# '''People who want what VKBT buys''' — the beauty economy it was issued for.
+# '''People who expect the price to rise''' — the speculative bid, which is real and is the least durable of the three.
 
 == 5. Float: the supply that is actually for sale ==
 
 Supply is not the same as the amount that can be bought. The '''float''' is what is liquid and unlocked right now, and it is usually far smaller.
 
-On CURE, '''71% of supply is staked''', leaving a liquid float of roughly '''20,700 units''' against a 70,974 supply. VKBT is 42% staked. Staked coins are not on the market, so the float — not the supply — is what a buyer is competing for, and it is what a seller can actually dump.
+On CURE, '''71.2% of supply is staked''' — 51,594 of 72,440, summed from the `stake` field across all 15,776 balance rows — leaving a liquid float of roughly '''20,800 units'''. VKBT is '''41.9%''' staked (985,238 of 2,352,205). Re-derived 30 October 2026; note that `supply` minus `circulatingSupply` is '''not''' stake on Hive-Engine and gives an answer wrong by orders of magnitude. Staked coins are not on the market, so the float — not the supply — is what a buyer is competing for, and it is what a seller can actually dump.
 
 A small float cuts both ways with total honesty: it means less overhang, and it means '''more violent price moves in both directions''', because any order is large relative to what is available. Anyone reading a small-float chart should know that the volatility is structural, not a signal.
 
@@ -96,6 +126,6 @@ This page explains distribution mechanics. It is '''not''' a claim that any toke
 <ref>[[The Matrix: Supply, Holders, and Market Cap]]</ref>
 
 == Coverage ==
-Covers how identical supply behaves differently across holder counts, concentration as an overhang and price problem, the Gini and Nakamoto metrics with their caveats, the arithmetic of many small contributions versus few large ones, the airdrop-dust correction, and float versus supply. Holder and stake figures are carried from the Matrix pages; treat them as of their capture dates. Gives no valuation verdicts.
+Covers how identical supply behaves differently across holder counts, concentration as an overhang and price problem, the Gini and Nakamoto metrics with their caveats, the arithmetic of many small contributions versus few large ones, the correction of an earlier revision that dismissed sub-one-token holders as "dust" (a thin market is a responsive market, a move is visible in every wallet, and an activated holder supplies the volume the book needs), the distinction between breadth and size as separate information, and float versus supply. Holder and stake figures are carried from the Matrix pages; treat them as of their capture dates. Gives no valuation verdicts.
 
 The Metcalfe's-law subsection reviews the quantitative research on network value (Alabi 2017, Peterson 2018, Wheatley et al. 2018) and states its limits: a fitted exponent near 1.69 rather than 2, unresolved causation, the full-connectivity assumption, and active addresses as a poor proxy for people.
