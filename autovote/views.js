@@ -349,9 +349,11 @@ export function teachPage(topic, opts = {}) {
     return teachShell('Posting-key login (least-preferred)', `
     <div class="note warn">This stores your posting key on our server so we can vote on a schedule. Prefer
       <a href="/teach/hivesigner">HiveSigner</a> or <a href="/teach/whalevault">WhaleVault</a> — they never give us a
-      key. Use posting-key login <b>only</b> with a throwaway/testnet account, never one that controls value.</div>
+      key. Use posting-key login <b>only</b> with a throwaway/testnet account, never one that controls value.
+      <b>It is not available on MELEK at all</b> — MELEK uses <a href="/login">MELEK-Signer</a>, which holds the key
+      itself and hands us only a revocable token.</div>
     <h2>When it's OK</h2>
-    <ul><li>MELEK testnet experiments with disposable keys.</li>
+    <ul><li>HIVE / STEEM / BLURT experiments with disposable keys.</li>
       <li>You understand the key is stored server-side and accept that.</li></ul>
     <h2>How</h2>
     <ol><li>Login page → your chain → <b>Posting key</b> tab.</li>
@@ -364,13 +366,18 @@ export function teachPage(topic, opts = {}) {
   return teachShell('Setup guides', `
     <p class=muted>Set up everything here — your signer, your account, and your auto-voting — so you never need the real
       hive.vote and never trust us with your keys.</p>
-    <div class=card><h3><a href="/teach/whalevault">① Install &amp; connect WhaleVault</a></h3>
+    <div class=card><h3><a href="/login">① Log in on MELEK with MELEK-Signer</a></h3>
+      <p class=muted><b>Live, and the only MELEK login — there is no posting-key storage on MELEK.</b> You enter your
+        password on MELEK-Signer itself; this site never sees it. The signer returns a revocable token and votes for you
+        while you are offline.</p></div>
+    <div class=card><h3><a href="/teach/whalevault">② Install &amp; connect WhaleVault</a></h3>
       <p class=muted>Browser-extension signing (Hive / Steem / Blurt). Keyless. Signs while your tab is open.</p></div>
-    <div class=card><h3><a href="/teach/hivesigner">② Authorize with HiveSigner</a></h3>
+    <div class=card><h3><a href="/teach/hivesigner">③ Authorize with HiveSigner</a></h3>
       <p class=muted>OAuth token for Hive. Keyless and offline-capable — best for scheduled votes.
         ${opts.configured === false ? '<span class="pill beta">app registration pending</span>' : ''}</p></div>
-    <div class=card><h3><a href="/teach/postingkey">③ Posting-key login (least-preferred)</a></h3>
-      <p class=muted>Server-side key storage. Throwaway / testnet only. MELEK default until MELEK-Signer ships.</p></div>
+    <div class=card><h3><a href="/teach/postingkey">④ Posting-key login (least-preferred)</a></h3>
+      <p class=muted>Server-side key storage, for HIVE / STEEM / BLURT only. Throwaway keys only — never a key that
+        controls value. Not offered on MELEK.</p></div>
     <div class=card><h3><a href="/about">Other chains &amp; signers — what exists, and where we fit</a></h3></div>`);
 }
 
