@@ -1,0 +1,93 @@
+# Backpacking Routes
+
+**Backpacking Routes** is a set of three long-distance overland travel circuits first published in **October 2016**, built so that **every stop is reachable from the one before** — the point being that a traveller with little money can set out and keep going without getting stranded<ref>https://steemit.com/@marsresident/routes-for-backpacking-pilgrimages</ref>. Where land travel genuinely stops — an ocean, a closed border — the document names the one boat or flight that bridges the gap and where the road picks up again. Each stop carries the entry allowance that applied in 2016 and a list of the goods, crafts, materials, seeds and plants the region is known for.
+
+It is **not a hajj and not a pilgrimage circuit**. It is route planning: a chain of places you can actually get between on the ground.
+
+This is a neutral, educational reference. Entry rules, border crossings and the legality of carrying seeds, plants or any regulated material change constantly and vary by country — see § Borders, customs and quarantine.
+
+== The idea ==
+
+Long-distance overland travel fails at the joins. Someone can afford to reach a city and then find the next leg needs a flight they cannot buy, a visa they cannot get at the border, or a crossing that has closed. The routes below were drawn to remove those failures: each leg was chosen because it is reachable from the previous one by road, rail or short sea crossing, within the entry allowance the previous country gives.
+
+The second idea is that a route is more useful the more people walk it. A chain of stops that many travellers use becomes something else — a corridor with known crossings, known costs, people who have been there before, and goods that move along it. That is what the **Silk Road** was: not an engineering project but a route that enough people used often enough that it became infrastructure.
+
+== The three routes ==
+
+=== Route 1 — the Americas to the Indian subcontinent ===
+
+'''Colombia''' (Medellín, Cali, Sincelejo, Cartagena; 90 days, 180 with extension) → '''Venezuela''' (Maturín; 90 days) → '''Brazil''' (Manaus; 90 per visit, 180 per year) → '''Peru''' (Cusco; 183 days) → ''fly Cusco–Los Angeles–Delhi'' → '''India''' (Delhi, Manali, Pushkar, Palolem, Palakkad and Parambikulam, Varanasi; 180 days) → '''Nepal''' (Kathmandu; 15/30/90 days, 150 per year) → '''Tibet''' (Lhasa, visa obtained in Kathmandu) → '''China''' (Chengdu; 72-hour visa-free transit, or 90 days) → '''Guam''' (US territory, no visa).
+
+=== Route 2 — Western Europe, the Maghreb and the Levant ===
+
+'''Ireland''' (Cork, Waterford) → '''England''' (Swansea, Portsmouth, Norwich) → '''Netherlands''' (Amsterdam, Maastricht) → '''Germany''' (Koblenz) → '''France''' (Nancy, Marseille) → '''Spain''' (Tarragona, Málaga) — the Schengen countries sharing one 90-days-in-180 allowance → ''boat to'' '''Morocco''' (Tangier, Al Hoceima, Berkane) → '''Algeria''' (Oran, Algiers, Constantine, Annaba) → '''Tunisia''' (Bizerte, Tunis) → ''boat to'' '''Italy''' (Trapani, Agrigento, Brindisi) → '''Albania''' (Durrës) → '''Macedonia''' (Debar, Tetovo, Kumanovo) → '''Bulgaria''' (Pernik, Plovdiv) → '''Turkey''' (Edirne, Istanbul, Eskişehir, Konya, Mersin) → ''boat Taşucu to Tripoli'' → '''Lebanon''' (Tyre) → ''fly Beirut to Larnaca'' → '''Cyprus''' → ''fly to Tel Aviv'' → '''Israel''' (Rishon LeZion, Be'er Sheva, Mitzpe Ramon) → '''Egypt''' (Taba, Dahab, Sharm El Sheikh, Cairo, Alexandria, Luxor, Aswan).
+
+=== Route 3 — Southern and Eastern Africa to Egypt ===
+
+'''South Africa''' (Johannesburg, Durban) → '''Eswatini''' (Manzini) → back through '''South Africa''' (Durban, Johannesburg, Pretoria, Musina) → '''Zimbabwe''' (Bulawayo, Harare by train, Mutare) → '''Mozambique''' (Chimoio, Tete) → '''Malawi''' (Blantyre, Liwonde, Mangochi, Monkey Bay, Lilongwe) → '''Zambia''' (Chipata, Mfuwe) → back through '''Malawi''' (Lilongwe, Mzuzu, Nkhata Bay) → '''Tanzania''' (Mbeya, Dar es Salaam, Dodoma, Arusha) → '''Kenya''' (Nairobi, Marsabit) → '''Ethiopia''' (Moyale, Awassa, Addis Ababa — Sudan visa obtained here) → ''fly to'' '''Sudan''' (Khartoum, Wadi Halfa) → '''Egypt''' (Aswan, Luxor, Cairo).
+
+'''The four breaks in the chain.''' Cusco–Los Angeles–Delhi; Spain–Morocco and Tunisia–Sicily by boat; Turkey–Lebanon by boat and Beirut–Larnaca–Tel Aviv by plane; Addis Ababa–Khartoum by plane. Everything else is land.
+
+== Regional goods, by stop ==
+
+The 2016 document listed, for each stop, what the region is known for. Reproduced below with the goods each place is in fact a significant or sole source of.
+
+=== Route 1 ===
+* '''Colombia''' — gold; Muzo and Chivor emeralds; coffee; cacao; coca seed; cupuaçu; marijuana seed; pipes; spices; fruit seed; craft supplies. Also Mompox silver filigree, the ''sombrero vueltiao'' of the Zenú, Wayuu mochilas, tagua nut, Barniz de Pasto mopa-mopa lacquer, annatto, copaiba balsam, and the Putumayo ''yagé'' (''Banisteriopsis caapi'') and chagropanga tradition.
+* '''Venezuela''' — gold; gems; chemicals; acyclic alcohols; yopo and chacruna seed; marijuana seed; pipes; spices. Also Chuao and Ocumare cacao, among the finest in the world; Gran Sabana gold and Guayana diamond; ''Anadenanthera peregrina'' and the Piaroa and Yanomami snuff tradition; tonka bean; Warao palm-fibre work and ''chinchorro'' hammocks.
+* '''Brazil''' — coffee; acyclic alcohols; yopo and chacruna; ayahuasca seed and cuttings; cupuaçu; pipes; spices; fruit seed. Also ''Psychotria viridis'' and ''B. caapi'' live stock; jurema preta root bark; rapé and ''kuripe''/''tepi''; guaraná, açaí, camu-camu, Brazil nut; andiroba and copaíba oil; Marajoara pottery; the Manaus rubber trade.
+* '''Peru''' — coffee; San Pedro and Peruvian Torch cuttings and seed; copper; coca seed; cupuaçu; spices; pipes. Also ''Echinopsis pachanoi'' and ''E. peruviana'' of the Chavín lineage; cat's claw; maca; alpaca and vicuña fibre; Chinchero weaving; Ayacucho retablos; palo santo; coca ''k'intu'' for despacho.
+* '''India''' — parad; shaligram; rudraksha; chillums; statuary; gems; metals; pharmaceuticals; silk; textiles; jewellery; marijuana seed; spices; incense; religious ornament. By stop: Banarasi brocade, ''attar'' of Kannauj and licensed ''bhang'' at '''Varanasi'''; Kullu shawls, apricot kernel and Parvati ''charas'' at '''Manali'''; rose attar and gulkand, block print and lac at '''Pushkar'''; cashew ''feni'' and kokum at '''Palolem'''; pepper, cardamom, clove, nutmeg, coir, Aranmula mirrors and ayurvedic preparations at '''Palakkad'''.
+* '''Nepal''' — knotted rugs; chillums; textiles; coffee; spices; marijuana seed; jewellery; incense. Also shaligram ammonites from the Kali Gandaki — the source; pashmina and ''dhaka'' weave; lokta paper; khukuri; Patan lost-wax bronzes and singing bowls; thangka; ''yarsagumba''.
+* '''Tibet''' — jewellery; religious ornament; rugs; fabric; knives; incense; spices. Also dzi beads; turquoise, coral and amber in Tibetan silver; ''dorje'' and ''phurba''; yak-wool ''nambu''; juniper ''sang''; tea bricks; the ''Sowa Rigpa'' herb trade.
+* '''China (Chengdu)''' — lacquerware; bamboo; jewellery; leather; electronics; textiles; flavoured alcohols; spices. Also Sichuan pepper and pixian doubanjiang; Shu brocade and embroidery; Jiajiang bamboo paper; Mengding tea and the Ya'an border-tea bricks that supplied the Tea-Horse Road into Tibet; the Hehuachi herb market.
+* '''Guam''' — jewellery; watches; spices; fruit seed. Also Chamorro latte-stone and coconut craft; black pearl; donne' sali pepper; betel with pepper leaf and lime.
+
+=== Route 2 ===
+* '''Ireland''' — scented mixtures; pipes; spices. Also Waterford crystal; Aran and Donegal wool; Irish linen; Claddagh silver; carrageen and dulse.
+* '''England''' — gems; precious metals; pipes; spices. Also assay-hallmarked silver; Welsh gold from Dolgellau; briar and meerschaum pipes; Norwich worsted; tweed; Cornish tin and serpentine; Sheffield steel.
+* '''Netherlands''' — tree cuttings; chemicals; marijuana seed; mushroom spores; pipes. Also tulip and ornamental bulbs, the world's clearing house; the Aalsmeer flower trade; cannabis seed banks; ''Psilocybe'' spore prints and sclerotia; Trichocereus nursery stock; Delftware; laboratory glass; Amsterdam diamond cutting.
+* '''Germany''' — chemicals; pipes; spices. Also Idar-Oberstein lapidary, the German gem-cutting trade; Solingen steel; Jena and Schott borosilicate glass; Erzgebirge woodwork.
+* '''France''' — perfume components; wine; cheese; grape seed; spices. Also Grasse absolutes — jasmine, tuberose, rose de Mai, orange blossom; savon de Marseille; Provençal lavender and immortelle; Camargue salt; Saint-Claude briar; Baccarat and Daum crystal.
+* '''Spain''' — clothing; pipes; spices. Also La Mancha saffron; pimentón de la Vera; olive oil; Toledo damascene; Manises and Talavera ceramic; esparto; sherry and Málaga wine; Córdoba tooled leather.
+* '''Morocco''' — chemicals; clothing; regalia; pipes; spices. Also argan oil; Rif ''kif'' and the ''sebsi''; ras el hanout; Taliouine saffron; Dades rose water; Fez zellige and blue pottery; Berber silver and amber; thuya burl; henna, ghassoul and black soap.
+* '''Algeria''' — chemicals; regalia; pipes; spices. Also Kabyle silver-coral-enamel; M'zab weaving; Deglet Nour dates from Biskra and Tolga; Aurès burnous; Tlemcen embroidery.
+* '''Tunisia''' — clothing; pipes; spices. Also Nabeul pottery and orange-blossom distillate; Kairouan carpets; chechia felt caps; harissa; olive oil; sea sponges.
+* '''Italy''' — lighting; clothing; gems; precious metals; spices. Also Murano glass and Venetian lampwork beads; Vicenza and Arezzo gold chain; Trapani sea salt; bergamot and Calabrian citrus essence; Carrara marble; Deruta and Caltagirone majolica; Torre del Greco coral.
+* '''Albania''' — clothing; pipes; spices. Also Shkodër filigree; Korçë wool; mountain tea (''Sideritis''); sage, the national export; chestnut honey.
+* '''Macedonia''' — chemicals; clothing; pipes; spices. Also Ohrid freshwater pearl; Debar alabaster and Mijak woodcarving; ajvar; Tikveš wine; the pharmaceutical herb trade.
+* '''Bulgaria''' — copper; clothing; pipes; spices. Also rose otto and concrete from the Kazanlak valley, the world's principal source; lavender oil; ''L. bulgaricus'' cultures; Chiprovtsi kilims; Panagyurishte copper.
+* '''Turkey''' — gems; precious metals; clothing; religious ornament; jewellery; pipes; spices. Also '''Eskişehir meerschaum''', the world's only commercial source and the reason the pipe trade is here; Hereke and Konya carpets; Iznik and Kütahya tile; Grand Bazaar gold; Antep pistachio, Urfa and Aleppo pepper, sumac; Isparta rose oil; angora mohair; Bursa silk; ebru marbling supplies.
+* '''Lebanon''' — precious metals; gems; jewellery; religious ornament; spices. Also '''Tyrian purple''' — the murex dye of this exact city; cedar woodwork; Byblos and Sidon glassblowing, the Phoenician craft; za'atar and sumac; arak and Bekaa wine; damask linen; Rachaya silver.
+* '''Cyprus''' — cheese; spices. Also halloumi; Lefkara lace and filigree; Commandaria, the oldest named wine still made; Cypriot copper, the metal named for the island; carob; umber and terra verde pigment.
+* '''Israel''' — gems; religious ornament; spices. Also Ramat Gan diamond cutting; Dead Sea minerals; Yemenite and Bezalel silver; frankincense and myrrh on the Nabataean incense route that Mitzpe Ramon sits on; Medjool dates of the Arava; olive wood.
+* '''Egypt''' — clothing; perfume components; chemicals; gems; cacao; precious metals; religious ornament; plant cuttings; spices; dyes. Also extra-long-staple cotton; jasmine and geranium absolutes, Egypt being a principal world supplier of perfumery jasmine; ''kyphi'' resins, frankincense, myrrh, labdanum; Aswan granite and Luxor alabaster; Nubian basketry and indigo; papyrus; Khan el-Khalili brass and mother-of-pearl inlay; henna, kohl, natron; hibiscus, fenugreek, nigella; blue lotus (''Nymphaea caerulea'').
+
+=== Route 3 ===
+* '''South Africa''' — precious metals; gems; alcohol; marijuana seed; spices. Also Witwatersrand gold and the Rand refinery; platinum-group metals, the world's largest source; rooibos and honeybush; buchu; ''Sceletium tortuosum'' (kanna); African dream root (''Silene undulata''); Zulu beadwork and ''isichumo'' basketry; Ndebele painting; shweshwe cloth; marula.
+* '''Eswatini''' — marijuana seed; pipes; spices. Also Swazi Gold landrace; Ngwenya glass; sisal weaving; mohair handweaving; marula oil and ''buganu''; Ngwenya iron, among the oldest mines on earth.
+* '''Zimbabwe''' — tobacco; gems; precious metals; coffee; marijuana seed; spices. Also flue-cured Virginia tobacco; Shona serpentine and verdite sculpture of the Tengenenge school; Chiadzwa diamonds; Great Dyke chrome and platinum; Vumba coffee; baobab.
+* '''Mozambique''' — aluminium; marijuana seed; spices. Also piri-piri; cashew; Montepuez rubies, now a world source; Alto Ligonha tourmaline, aquamarine and garnet; Makonde ''mpingo'' blackwood carving; copra.
+* '''Malawi''' — tobacco; chemicals; marijuana seed; spices. Also burley tobacco, the dominant export; Malawi Gold landrace; Thyolo and Mulanje tea and macadamia; Mulanje cedar; Lake Malawi cichlids; chitenje cloth; Dedza pottery; Mua woodcarving.
+* '''Zambia''' — copper; gems; precious metals; tobacco; chemicals; marijuana seed; spices. Also Copperbelt copper and cobalt; '''Kagem''', the largest emerald mine in the world; Mapatizya amethyst; miombo honey; Lozi and Tonga basketry.
+* '''Tanzania''' — precious metals; pearls; tobacco; marijuana seed; spices. Also '''tanzanite''', found only at Merelani near Arusha; Umba and Tunduru sapphire and spinel; Zanzibar clove, nutmeg, cinnamon and pepper — the Spice Islands trade; Makonde ebony; Tingatinga painting; sisal; kanga and kitenge; copal resin.
+* '''Kenya''' — coffee; tea; chemicals; precious metals; marijuana seed; spices. Also Kenya AA arabica and Kericho tea; ''miraa''/khat from Meru along the Marsabit road; tsavorite and Taita garnet; Maasai beadwork and ''shuka''; kiondo sisal baskets; Kisii soapstone; pyrethrum; gum arabic and myrrh from the north.
+* '''Ethiopia''' — coffee; gems; precious metals; clothing; marijuana seed; spices. Also coffee arabica at its genetic origin — Yirgacheffe, Sidamo, Harar and the Kaffa forest landraces; Welo opal; ''Boswellia papyrifera'' frankincense and myrrh; ''korarima'', berbere, niter kibbeh; teff; khat from Harar; Orthodox hand and processional crosses; ''shamma'' and ''netela'' weaving; Afar salt bars from Danakil.
+* '''Sudan''' — insect resins; marijuana seed; spices. Also '''gum arabic''' (''Acacia senegal''), of which Sudan supplies most of the world's supply, and which is the resin the original entry points at; lac and shellac; frankincense and myrrh; sesame; Red Sea Hills gold; hibiscus; Nubian pottery and palm-fibre matting; camel leather; dom palm nut.
+
+== What the routes pass through ==
+
+Several stops are not merely known for a good but are its origin or sole commercial source: meerschaum at Eskişehir, murex purple at Tyre, tanzanite at Merelani, emerald at Kagem, shaligram in the Kali Gandaki, arabica in the Ethiopian forests, gum arabic in Sudan. Read as a line rather than a list, the routes trace the same corridors that carried these goods historically — the Tea-Horse Road out of Ya'an, the Nabataean incense road through the Negev, the Nile and Red Sea routes into Egypt.
+
+== Borders, customs and quarantine ==
+
+The entry allowances, transit rules and crossings recorded in the 2016 source '''are out of date and must be independently verified'''. Country names have changed (Swaziland is now Eswatini), sea routes have altered, and visa policy moves constantly.
+
+Separately and importantly: '''moving seeds, cuttings, live plants, animal products or any regulated material across a border is heavily regulated and in many cases prohibited'''. Agricultural quarantine and customs law applies to ordinary seed independently of anything else, and a number of the plants listed above are controlled in one or more of the countries on these routes. This article records what each region is known for; it is not advice to carry any of it anywhere, and travellers are responsible for checking current customs, quarantine and controlled-substance law in every country they enter.
+
+== Sources ==
+<ref>https://steemit.com/@marsresident/routes-for-backpacking-pilgrimages</ref>
+<ref>https://en.wikipedia.org/wiki/Silk_Road</ref>
+
+== Coverage ==
+Overland travel planning · regional goods and materials · trade geography
