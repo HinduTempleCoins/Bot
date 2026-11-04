@@ -901,8 +901,9 @@ test('kulaSwapPage prices a two-sided pair from reserves and flags a one-sided o
 
 test('kulaSwapPairs soft-fails to null when the RPC is unreachable', async () => {
   const mod = await import('./server.mjs');
+  mod.__resetKulaMemo();
   mod.__setChainFetch(async () => { throw new Error("offline"); });
   try {
     assert.equal(await mod.kulaSwapPairs(), null);
-  } finally { mod.__setChainFetch(undefined); }
+  } finally { mod.__setChainFetch(undefined); mod.__resetKulaMemo(); }
 });

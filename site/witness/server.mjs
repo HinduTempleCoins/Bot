@@ -383,8 +383,17 @@ export async function pranaPotStatus() {
 const KULA_FACTORY = process.env.KULA_FACTORY || '0xFb5B83ed7F54e5fa45ED528dbe2167bB0b93b1E6';
 const KULA_ROUTER = process.env.KULA_ROUTER || '0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5';
 
-export async function kulaSwapPairs(maxPairs = 24) {
+// 60s memo: the pool set changes on trades, not on page views, and reading it is ~40 RPC round trips.
+// A cold read is several seconds; every visitor inside the window gets it free. Stale is better than slow
+// here — the page says the figures are pool ratios, not a live quote you can execute against.
+let _kulaMemo = { at: 0, pairs: null };
+export function __resetKulaMemo() { _kulaMemo = { at: 0, pairs: null }; }
+
+export async function kulaSwapPairs(maxPairs = 12, budgetMs = 6000, ttlMs = 60000) {
+  if (_kulaMemo.pairs && Date.now() - _kulaMemo.at < ttlMs) return _kulaMemo.pairs;
+  const deadline = Date.now() + budgetMs;
   const call = async (to, data) => {
+    if (Date.now() > deadline) return null;
     const r = await _chainFetch(PRANA_RPC_URL, { method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_call', params: [{ to, data }, 'latest'] }) });
     const j = await r.json();
@@ -398,22 +407,38 @@ export async function kulaSwapPairs(maxPairs = 24) {
       return Buffer.from(h.slice(130, 130 + n * 2), 'hex').toString('utf8').replace(/\0+$/, '') || null;
     } catch { return null; }
   };
+  const symCache = new Map();
+  const symbolOf = async (a) => {
+    if (!a) return null;
+    if (symCache.has(a)) return symCache.get(a);
+    const v = strOf(await call(a, '0x95d89b41'));
+    symCache.set(a, v);
+    return v;
+  };
   try {
-    const lenHex = await call(KULA_FACTORY, '0x574f2ba3'); // allPairsLength()
-    const len = Math.min(parseInt(lenHex, 16) || 0, maxPairs);
-    const out = [];
-    for (let i = 0; i < len; i++) {
-      const pair = addrOf(await call(KULA_FACTORY, `0x1e3dd18b${i.toString(16).padStart(64, '0')}`)); // allPairs(i)
-      if (!pair) continue;
+    const len = Math.min(parseInt(await call(KULA_FACTORY, '0x574f2ba3'), 16) || 0, maxPairs); // allPairsLength()
+    if (!len) return null;
+    // allPairs(i) for every index at once, then each pair's token0/token1/getReserves at once.
+    const addrs = (await Promise.all(
+      Array.from({ length: len }, (_, i) => call(KULA_FACTORY, `0x1e3dd18b${i.toString(16).padStart(64, '0')}`)),
+    )).map(addrOf).filter(Boolean);
+    const raw = await Promise.all(addrs.map(async (pair) => {
       const [t0, t1, res] = await Promise.all([
-        call(pair, '0x0dfe1681'), call(pair, '0xd21220a7'), call(pair, '0x0902f1ac'), // token0 token1 getReserves
+        call(pair, '0x0dfe1681'), call(pair, '0xd21220a7'), call(pair, '0x0902f1ac'),
       ]);
-      const a0 = addrOf(t0); const a1 = addrOf(t1);
-      const [s0, s1] = await Promise.all([a0 ? call(a0, '0x95d89b41') : null, a1 ? call(a1, '0x95d89b41') : null]);
-      const r0 = res ? BigInt(`0x${res.slice(2, 66)}`) : 0n;
-      const r1 = res ? BigInt(`0x${res.slice(66, 130)}`) : 0n;
-      out.push({ pair, sym0: strOf(s0) || '?', sym1: strOf(s1) || '?', r0, r1 });
+      return { pair, a0: addrOf(t0), a1: addrOf(t1), res };
+    }));
+    const out = [];
+    for (const { pair, a0, a1, res } of raw) {
+      const [sym0, sym1] = await Promise.all([symbolOf(a0), symbolOf(a1)]);
+      out.push({
+        pair, sym0: sym0 || '?', sym1: sym1 || '?',
+        r0: res ? BigInt(`0x${res.slice(2, 66)}`) : 0n,
+        r1: res ? BigInt(`0x${res.slice(66, 130)}`) : 0n,
+      });
     }
+    if (!out.length) return null;
+    _kulaMemo = { at: Date.now(), pairs: out };
     return out;
   } catch { return null; }
 }
