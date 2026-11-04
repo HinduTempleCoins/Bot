@@ -888,14 +888,18 @@ test('kulaSwapPage renders the mechanics without live data (soft-fail)', async (
   assert.ok(!/undefined|NaN/.test(html), 'no undefined/NaN leaks when the chain is down');
 });
 
-test('kulaSwapPage prices a two-sided pair from reserves and flags a one-sided one', async () => {
+test('kulaSwapPage prices from reserves using each token\'s own decimals', async () => {
   const { kulaSwapPage } = await import('./server.mjs');
   const html = kulaSwapPage([
-    { pair: '0xaaa', sym0: 'KULA', sym1: 'WPRANA', r0: 2000n * 10n ** 18n, r1: 1000n * 10n ** 18n },
-    { pair: '0xbbb', sym0: 'wCURE', sym1: 'KULA', r0: 0n, r1: 500n * 10n ** 18n },
+    { pair: '0xaaa', sym0: 'KULA', sym1: 'WPRANA', d0: 18, d1: 18, r0: 2000n * 10n ** 18n, r1: 1000n * 10n ** 18n },
+    // wVKBT is 8dp: 19,075.713213 held as 1907571321282. Scaling by 1e18 would render it 0.0000
+    // and make a funded pair look empty — the bug this guards.
+    { pair: '0xbbb', sym0: 'KULA', sym1: 'wVKBT', d0: 18, d1: 8, r0: 1000n * 10n ** 18n, r1: 1907571321282n },
+    { pair: '0xccc', sym0: 'wCURE', sym1: 'KULA', d0: 8, d1: 18, r0: 0n, r1: 500n * 10n ** 18n },
   ]);
-  assert.match(html, /1 KULA = <b>0\.5 WPRANA<\/b>/, 'computes the pool ratio rather than describing it');
-  assert.match(html, /one-sided — nothing to trade against yet/, 'names an unfunded pair as having no market');
+  assert.match(html, /1 KULA = <b>0\.5 WPRANA<\/b>/, 'computes the pool ratio');
+  assert.match(html, /19,075\.71/, 'renders an 8-decimal reserve at its real size, not as zero');
+  assert.match(html, /no reserve on one side/, 'names a genuinely empty side');
   assert.ok(!/NaN|Infinity/.test(html), 'a zero reserve does not produce NaN or Infinity');
 });
 
@@ -919,7 +923,7 @@ test('enginePage teaches the mechanics when the sidechain is unreachable', async
   assert.ok(!/undefined|NaN/.test(html), 'no undefined/NaN when the sidechain is down');
 });
 
-test('enginePage states the real token set, including that the field is empty', async () => {
+test('enginePage states the real token set', async () => {
   const { enginePage } = await import('./server.mjs');
   const html = enginePage({
     sidechainId: 'mse-mainnet-melek', chainId: '907959e559e253f0db', lastBlock: 2028262,
@@ -927,9 +931,9 @@ test('enginePage states the real token set, including that the field is empty', 
     tokens: [{ symbol: 'APIS', name: 'Apis', issuer: 'hathor', supply: '35483.066', precision: 3 }],
   });
   assert.match(html, /mse-mainnet-melek/);
-  assert.match(html, /Nobody has minted their own token here yet/);
+  assert.match(html, /No other account has issued a token/);
   assert.match(html, /APIS/);
-  assert.match(html, /burns/i, 'says the fee token is burned, not paid to anyone');
+  assert.match(html, /burns the fee token/i, 'states that creation burns the fee token');
 });
 
 test('engineStatus soft-fails to null when the sidechain is unreachable', async () => {

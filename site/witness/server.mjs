@@ -416,6 +416,18 @@ export async function kulaSwapPairs(maxPairs = 12, budgetMs = 6000, ttlMs = 6000
     symCache.set(a, v);
     return v;
   };
+  // decimals() per token. wVKBT and wCURE are 8dp and wBLURT 6dp — assuming 18 makes a funded
+  // reserve render as 0.0000 and a live pair look one-sided.
+  const decCache = new Map();
+  const decimalsOf = async (a) => {
+    if (!a) return 18;
+    if (decCache.has(a)) return decCache.get(a);
+    const h = await call(a, '0x313ce567');
+    const d = h && h !== '0x' ? parseInt(h, 16) : 18;
+    const v = Number.isFinite(d) && d >= 0 && d <= 36 ? d : 18;
+    decCache.set(a, v);
+    return v;
+  };
   try {
     const len = Math.min(parseInt(await call(KULA_FACTORY, '0x574f2ba3'), 16) || 0, maxPairs); // allPairsLength()
     if (!len) return null;
@@ -431,9 +443,9 @@ export async function kulaSwapPairs(maxPairs = 12, budgetMs = 6000, ttlMs = 6000
     }));
     const out = [];
     for (const { pair, a0, a1, res } of raw) {
-      const [sym0, sym1] = await Promise.all([symbolOf(a0), symbolOf(a1)]);
+      const [sym0, sym1, d0, d1] = await Promise.all([symbolOf(a0), symbolOf(a1), decimalsOf(a0), decimalsOf(a1)]);
       out.push({
-        pair, sym0: sym0 || '?', sym1: sym1 || '?',
+        pair, sym0: sym0 || '?', sym1: sym1 || '?', d0, d1,
         r0: res ? BigInt(`0x${res.slice(2, 66)}`) : 0n,
         r1: res ? BigInt(`0x${res.slice(66, 130)}`) : 0n,
       });
@@ -444,15 +456,20 @@ export async function kulaSwapPairs(maxPairs = 12, budgetMs = 6000, ttlMs = 6000
   } catch { return null; }
 }
 
-const unit = (v) => Number(v / 10n ** 14n) / 1e4;
+// Scale a raw reserve by its token's own decimals. Never assume 18.
+const unit = (v, dec = 18) => {
+  const d = Number.isFinite(dec) ? dec : 18;
+  const scale = 10n ** BigInt(Math.max(d - 6, 0));
+  return Number(v / scale) / 10 ** Math.min(d, 6);
+};
 
 export function kulaSwapPage(pairs) {
   const rows = (pairs || []).map((p) => {
-    const a = unit(p.r0); const b = unit(p.r1);
+    const a = unit(p.r0, p.d0); const b = unit(p.r1, p.d1);
     const both = a > 0 && b > 0;
     const price = both
       ? `1 ${esc(p.sym0)} = <b>${(b / a).toLocaleString('en-US', { maximumFractionDigits: 6 })} ${esc(p.sym1)}</b>`
-      : '<span class=muted>one-sided — nothing to trade against yet</span>';
+      : '<span class=muted>no reserve on one side</span>';
     return `<tr><td><b>${esc(p.sym0)} / ${esc(p.sym1)}</b></td>
       <td>${a.toLocaleString('en-US', { maximumFractionDigits: 4 })} ${esc(p.sym0)}</td>
       <td>${b.toLocaleString('en-US', { maximumFractionDigits: 4 })} ${esc(p.sym1)}</td>
@@ -463,8 +480,7 @@ export function kulaSwapPage(pairs) {
     ? `<table><thead><tr><th>Pair</th><th>Reserve 0</th><th>Reserve 1</th><th>Price implied by the reserves</th><th>Pair contract</th></tr></thead><tbody>${rows}</tbody></table>
        <p class=muted style="font-size:13px">Read live from the factory just now. A price here is the
        <b>pool ratio</b>, which is what you would get on an infinitely small trade — your actual fill is worse by
-       the slippage your size causes plus the 0.30% fee. A one-sided row means somebody created the pair and
-       never funded both halves: there is no market there, only an empty pool.</p>`
+       the slippage your size causes plus the 0.30% fee. Reserves are scaled by each token's own <code>decimals()</code> — they are not uniformly 18 on this chain.</p>`
     : '<p class=muted>The chain did not answer just now, so no live pairs are shown. The mechanics below are unaffected.</p>';
 
   const body = `<h1>KulaSwap <span class=muted style="font-size:14px">· swapping and liquidity on PRANA</span></h1>
@@ -475,14 +491,14 @@ export function kulaSwapPage(pairs) {
   <div class=card><h2>The one formula</h2>
     <p>A V2 pool keeps <code>x · y = k</code>. <code>x</code> and <code>y</code> are the two reserves;
       <code>k</code> must not fall. Put some of token A in and the pool gives you however much of token B keeps
-      the product the same. That is the whole pricing mechanism.</p>
+      the product the same. That is the pricing mechanism.</p>
     <p>Two consequences worth understanding before you trade:</p>
     <ul>
       <li><b>Price is the ratio of the reserves.</b> A pool holding 16,000 of one and 10,000 of the other prices
         them at 1.6 to 1 — not because anyone decided that, but because that is what the reserves are.</li>
       <li><b>Your own trade moves the price.</b> The bigger your trade relative to the pool, the worse your fill.
-        That is <b>slippage</b>, and it is not a fee — it is the curve. On a small pool a modest trade can move
-        the price a long way, which is why pool depth matters more than any advertised rate.</li>
+        That is <b>slippage</b>. It is a property of the curve, not a fee. The smaller the pool, the further a
+        given trade moves the price.</li>
     </ul>
     <p class=muted style="font-size:14px">Every swap also pays <b>0.30%</b> to the liquidity providers of that
       pool. That is the entire fee; KulaSwap takes no cut on top.</p>
@@ -511,13 +527,13 @@ export function kulaSwapPage(pairs) {
     <p>Adding liquidity means depositing <b>both</b> tokens in the pool's current ratio. You receive <b>LP tokens</b>
       representing your share, and you earn your share of the 0.30% fee on every trade through that pool. You can
       withdraw by burning the LP tokens.</p>
-    <p><b>The part most explanations skip: impermanent loss.</b> If the two tokens change in relative price while
+    <p><b>Impermanent loss.</b> If the two tokens change in relative price while
       you are in the pool, the pool rebalances against you — it sells you out of the one that is rising and into
       the one that is falling. Withdraw at that point and you hold less value than if you had simply kept both
       tokens in your wallet. The fees you earned may or may not cover it. It is called impermanent because it
       reverses if the ratio returns, and it becomes permanent the moment you withdraw.</p>
-    <p class=muted style="font-size:14px">Which means: supplying liquidity is a real position with a real risk,
-      not a savings account. Supply to pools you would be content holding both sides of.</p>
+    <p class=muted style="font-size:14px">Supplying liquidity is therefore a position in both tokens, not a
+      deposit paying a yield.</p>
   </div>
 
   <div class=card><h2>Creating a market for your own token</h2>
@@ -526,8 +542,7 @@ export function kulaSwapPage(pairs) {
       (<code>${esc(KULA_FACTORY)}</code>) and then funding <b>both</b> sides.</p>
     <p><b>The first deposit sets the price.</b> There is nothing to arbitrage against, so whatever ratio you
       deposit becomes the opening price. Deposit 1,000 of your token against 1 PRANA and you have declared your
-      token worth a thousandth of a PRANA. Several pairs in the table above were created and never funded on both
-      sides; those have no market at all, which is the normal outcome of creating a pair and stopping there.</p>
+      token worth a thousandth of a PRANA. A pair with no reserve on one side cannot be traded against until both sides hold a balance.</p>
   </div>
 
   <div class=card><h2>Contracts</h2>
@@ -587,10 +602,8 @@ export function enginePage(st) {
       ${rows ? `<h3 style="margin:14px 0 6px">Every token on the sidechain right now</h3>
         <table><thead><tr><th>Symbol</th><th>Name</th><th>Issuer</th><th>Supply</th><th>Decimals</th></tr></thead><tbody>${rows}</tbody></table>` : ''}
       <p class=muted style="font-size:13px">Read live from <code>${esc(ENGINE_MAINNET_URL)}/status</code> just now.
-        <b>The honest state of it:</b> the sidechain is running and anchored, and so far the only tokens on it are
-        the two the chain itself needs — the fee token and the wrapped-MELEK miner token, both issued by the
-        founding witness. <b>Nobody has minted their own token here yet.</b> That is an opening, not a warning:
-        the machinery works and the field is empty.</p>`
+        The only tokens on the sidechain are the fee token and the wrapped-MELEK miner token, both
+        issued by the founding witness. No other account has issued a token.</p>`
     : `<p class=muted>The sidechain did not answer just now, so no live figures are shown. The mechanics below are unaffected.</p>`;
 
   const body = `<h1>MELEK-Engine <span class=muted style="font-size:14px">· side tokens on MELEK, without a contract</span></h1>
@@ -616,17 +629,13 @@ export function enginePage(st) {
 
   <div class=card><h2>Make a token</h2>
     <ol>
-      <li><b>Get some ${esc((st && st.feeToken) || 'APIS')}.</b> Creating a token <b>burns</b> the fee token — it is
-        not a payment to anyone, the supply simply goes down. That is the spam gate.</li>
-      <li><b><code>tokens.create</code></b> — symbol, name, precision, max supply. Decide the precision now; it
-        cannot be changed later.</li>
-      <li><b><code>tokens.issue</code></b> — mint into circulation. You are the issuer, so this is your call and
-        your reputation.</li>
-      <li><b>Optional: turn on SCOT with <code>rewards.setReward</code></b> — pick a tag, a daily emission and an
-        author/curator split. From then on, posts on MELEK under that tag earn <i>your</i> token alongside MELEK.
-        This is the part people underestimate: it gives a community its own economy without a new chain.</li>
-      <li><b>Give it somewhere to trade.</b> A token with no market has no price. Wrap it to PRANA and open a pool
-        on <a href="/kulaswap">KulaSwap</a>, where the first deposit sets the opening price.</li>
+      <li><b>Get some ${esc((st && st.feeToken) || 'APIS')}.</b> Creating a token burns the fee token: the supply decreases and no account receives it.</li>
+      <li><b><code>tokens.create</code></b> — symbol, name, precision, max supply. Precision cannot be changed after creation.</li>
+      <li><b><code>tokens.issue</code></b> — mint into circulation. The issuer account controls issuance.</li>
+      <li><b>Optional: turn on SCOT with <code>rewards.setReward</code></b> — set a tag, a daily emission and an
+        author/curator split. Posts on MELEK under that tag then earn your token alongside MELEK.</li>
+      <li><b>To trade it</b>, wrap it to PRANA and open a pool on <a href="/kulaswap">KulaSwap</a>. The first
+        deposit into a new pool sets its opening price.</li>
     </ol>
     <p class=muted style="font-size:14px">The step-by-step with the exact payloads is on
       <a href="/academy">Make a token</a>; the token portal is linked from there.</p>
@@ -641,8 +650,8 @@ export function enginePage(st) {
       <tr><td>Trades on KulaSwap</td><td>After wrapping to PRANA</td><td>Directly</td></tr>
       <tr><td>Good for</td><td>A community token tied to posting</td><td>Anything that needs rules</td></tr>
     </tbody></table>
-    <p class=muted style="font-size:14px">They are not rivals. A community token usually wants both: minted on
-      Engine so posts earn it, wrapped to PRANA so it can trade.</p>
+    <p class=muted style="font-size:14px">The two can be combined: a token minted on Engine, so posts under its
+      tag earn it, and wrapped to PRANA so it can trade.</p>
   </div>
 
   <div class=card><h2>The theory behind this page</h2>
