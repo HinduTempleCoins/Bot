@@ -390,7 +390,7 @@ const KULA_ROUTER = process.env.KULA_ROUTER || '0x24e53792B7f6609c85Bd3a3179A906
 let _kulaMemo = { at: 0, pairs: null };
 export function __resetKulaMemo() { _kulaMemo = { at: 0, pairs: null }; }
 
-export async function kulaSwapPairs(maxPairs = 12, budgetMs = 6000, ttlMs = 60000) {
+export async function kulaSwapPairs(maxPairs = 12, budgetMs = 15000, ttlMs = 300000) {
   if (_kulaMemo.pairs && Date.now() - _kulaMemo.at < ttlMs) return _kulaMemo.pairs;
   const deadline = Date.now() + budgetMs;
   const call = async (to, data) => {
@@ -408,26 +408,6 @@ export async function kulaSwapPairs(maxPairs = 12, budgetMs = 6000, ttlMs = 6000
       return Buffer.from(h.slice(130, 130 + n * 2), 'hex').toString('utf8').replace(/\0+$/, '') || null;
     } catch { return null; }
   };
-  const symCache = new Map();
-  const symbolOf = async (a) => {
-    if (!a) return null;
-    if (symCache.has(a)) return symCache.get(a);
-    const v = strOf(await call(a, '0x95d89b41'));
-    symCache.set(a, v);
-    return v;
-  };
-  // decimals() per token. wVKBT and wCURE are 8dp and wBLURT 6dp — assuming 18 makes a funded
-  // reserve render as 0.0000 and a live pair look one-sided.
-  const decCache = new Map();
-  const decimalsOf = async (a) => {
-    if (!a) return 18;
-    if (decCache.has(a)) return decCache.get(a);
-    const h = await call(a, '0x313ce567');
-    const d = h && h !== '0x' ? parseInt(h, 16) : 18;
-    const v = Number.isFinite(d) && d >= 0 && d <= 36 ? d : 18;
-    decCache.set(a, v);
-    return v;
-  };
   try {
     const len = Math.min(parseInt(await call(KULA_FACTORY, '0x574f2ba3'), 16) || 0, maxPairs); // allPairsLength()
     if (!len) return null;
@@ -441,11 +421,23 @@ export async function kulaSwapPairs(maxPairs = 12, budgetMs = 6000, ttlMs = 6000
       ]);
       return { pair, a0: addrOf(t0), a1: addrOf(t1), res };
     }));
+    // Resolve symbol() and decimals() for every distinct token in ONE parallel batch. Doing this
+    // per-pair in a loop ran past the time budget, and a timed-out decimals() silently fell back to
+    // 18 — which renders an 8dp reserve as 0.0000 and labels a funded pair empty.
+    const uniq = [...new Set(raw.flatMap((r) => [r.a0, r.a1]).filter(Boolean))];
+    const meta = new Map();
+    await Promise.all(uniq.map(async (a) => {
+      const [sy, de] = await Promise.all([call(a, '0x95d89b41'), call(a, '0x313ce567')]);
+      const d = de && de !== '0x' ? parseInt(de, 16) : NaN;
+      meta.set(a, { sym: strOf(sy), dec: Number.isFinite(d) && d >= 0 && d <= 36 ? d : null });
+    }));
     const out = [];
     for (const { pair, a0, a1, res } of raw) {
-      const [sym0, sym1, d0, d1] = await Promise.all([symbolOf(a0), symbolOf(a1), decimalsOf(a0), decimalsOf(a1)]);
+      const m0 = meta.get(a0) || {}; const m1 = meta.get(a1) || {};
+      // If decimals could not be read, omit the pair rather than render it at the wrong scale.
+      if (m0.dec == null || m1.dec == null) continue;
       out.push({
-        pair, sym0: sym0 || '?', sym1: sym1 || '?', d0, d1,
+        pair, sym0: m0.sym || '?', sym1: m1.sym || '?', d0: m0.dec, d1: m1.dec,
         r0: res ? BigInt(`0x${res.slice(2, 66)}`) : 0n,
         r1: res ? BigInt(`0x${res.slice(66, 130)}`) : 0n,
       });
