@@ -907,3 +907,33 @@ test('kulaSwapPairs soft-fails to null when the RPC is unreachable', async () =>
     assert.equal(await mod.kulaSwapPairs(), null);
   } finally { mod.__setChainFetch(undefined); mod.__resetKulaMemo(); }
 });
+
+// ── MELEK-Engine lesson ──────────────────────────────────────────────────────
+test('enginePage teaches the mechanics when the sidechain is unreachable', async () => {
+  const { enginePage } = await import('./server.mjs');
+  const html = enginePage(null);
+  assert.match(html, /side-token layer/i);
+  assert.match(html, /tokens\.create/);
+  assert.match(html, /rewards\.setReward/);
+  assert.match(html, /did not answer just now/);
+  assert.ok(!/undefined|NaN/.test(html), 'no undefined/NaN when the sidechain is down');
+});
+
+test('enginePage states the real token set, including that the field is empty', async () => {
+  const { enginePage } = await import('./server.mjs');
+  const html = enginePage({
+    sidechainId: 'mse-mainnet-melek', chainId: '907959e559e253f0db', lastBlock: 2028262,
+    feeToken: 'APIS', minerToken: 'WMELEK', tokenCount: 2,
+    tokens: [{ symbol: 'APIS', name: 'Apis', issuer: 'hathor', supply: '35483.066', precision: 3 }],
+  });
+  assert.match(html, /mse-mainnet-melek/);
+  assert.match(html, /Nobody has minted their own token here yet/);
+  assert.match(html, /APIS/);
+  assert.match(html, /burns/i, 'says the fee token is burned, not paid to anyone');
+});
+
+test('engineStatus soft-fails to null when the sidechain is unreachable', async () => {
+  const mod = await import('./server.mjs');
+  mod.__setChainFetch(async () => { throw new Error('offline'); });
+  try { assert.equal(await mod.engineStatus(), null); } finally { mod.__setChainFetch(undefined); }
+});

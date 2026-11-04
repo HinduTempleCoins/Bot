@@ -281,6 +281,7 @@ export function homePage() {
     ['/family', 'The Graphene family', 'Where MELEK comes from — Steem and its clones/forks (Hive, Blurt, MELEK), the 2020 Steem→Hive fork and why forkability matters, and a DPoS-vs-PoW-vs-PoS consensus comparison.'],
     ['/servers', 'Rent a server', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
     ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap; connect wallet ↔ pool ↔ chains.'],
+    ['/engine', 'MELEK-Engine — a token with no contract', 'The Hive-Engine-style side layer on MELEK: mint a token with no Solidity, turn on SCOT so posts under your tag earn it, then wrap it to PRANA to trade. Live sidechain state and every token on it.', libArticle('Hive_Engine_and_Smart_Media_Tokens', 'Hive-Engine & SMTs')],
     ['/kulaswap', 'KulaSwap — swap & provide liquidity', 'The Uniswap-V2 AMM on PRANA: the x·y=k pool, why your own trade moves the price, the 0.30% fee, how to approve and swap, what impermanent loss actually costs you, and how to open a market for your own token. Live pairs read from the factory.', libArticle('KulaSwap_and_the_DEX_Lineage', 'KulaSwap & the DEX lineage')],
     ['/dev/prana', 'PRANA, end to end', 'The EVM side: add the network, the chain id and RPC, the deployed contract set with ABIs, and Foundry / Hardhat / viem / ethers against PRANA.', libArticle('PRANA_Compute_Chain', 'PRANA compute chain')],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool.'],
@@ -550,6 +551,109 @@ export function kulaSwapPage(pairs) {
   return page('KulaSwap — swapping and liquidity on PRANA · Witness School', body, {
     description: 'How KulaSwap works on PRANA: the x·y=k pool, slippage, the 0.30% fee, how to swap, how to provide liquidity and what impermanent loss costs you, and how to open a market for your own token. Live pairs read from the factory.',
     canonical: `${BASE_URL}/kulaswap`,
+  });
+}
+
+// ── MELEK-Engine (Hive-Engine-style side-token layer on MELEK) ───────────────
+// Reads the live sidechain so the lesson states the real token set rather than an aspirational one.
+// Soft-fails to null; the page then teaches the mechanics without numbers.
+export async function engineStatus() {
+  try {
+    const [st, tk] = await Promise.all([
+      _chainFetch(`${ENGINE_MAINNET_URL}/status`).then((r) => r.json()),
+      _chainFetch(`${ENGINE_MAINNET_URL}/api/tokens`).then((r) => r.json()).catch(() => null),
+    ]);
+    if (!st || !st.sidechainId) return null;
+    return { ...st, tokens: Array.isArray(tk) ? tk : null };
+  } catch { return null; }
+}
+
+export function enginePage(st) {
+  const tokens = (st && st.tokens) || [];
+  const rows = tokens.map((t) => `<tr>
+      <td><b>${esc(t.symbol || '?')}</b></td><td>${esc(t.name || '')}</td>
+      <td>@${esc(t.issuer || '?')}</td>
+      <td>${esc(String(t.supply ?? '—'))}</td>
+      <td class=muted>${esc(String(t.precision ?? ''))}</td></tr>`).join('');
+  const live = st
+    ? `<table><tbody>
+        <tr><td>Sidechain id</td><td><code>${esc(st.sidechainId)}</code></td></tr>
+        <tr><td>Anchored to</td><td><code>${esc(String(st.chainId || '').slice(0, 16))}…</code> — the MELEK mainnet chain id</td></tr>
+        <tr><td>Last sidechain block</td><td>${esc(num(st.lastBlock || 0))}</td></tr>
+        <tr><td>Fee token</td><td><b>${esc(st.feeToken || '?')}</b> — creating a token burns this</td></tr>
+        <tr><td>Miner token</td><td><b>${esc(st.minerToken || '?')}</b></td></tr>
+        <tr><td>Tokens issued</td><td><b>${esc(String(st.tokenCount ?? tokens.length))}</b></td></tr>
+      </tbody></table>
+      ${rows ? `<h3 style="margin:14px 0 6px">Every token on the sidechain right now</h3>
+        <table><thead><tr><th>Symbol</th><th>Name</th><th>Issuer</th><th>Supply</th><th>Decimals</th></tr></thead><tbody>${rows}</tbody></table>` : ''}
+      <p class=muted style="font-size:13px">Read live from <code>${esc(ENGINE_MAINNET_URL)}/status</code> just now.
+        <b>The honest state of it:</b> the sidechain is running and anchored, and so far the only tokens on it are
+        the two the chain itself needs — the fee token and the wrapped-MELEK miner token, both issued by the
+        founding witness. <b>Nobody has minted their own token here yet.</b> That is an opening, not a warning:
+        the machinery works and the field is empty.</p>`
+    : `<p class=muted>The sidechain did not answer just now, so no live figures are shown. The mechanics below are unaffected.</p>`;
+
+  const body = `<h1>MELEK-Engine <span class=muted style="font-size:14px">· side tokens on MELEK, without a contract</span></h1>
+  <p class=lead>MELEK-Engine is a <b>side-token layer</b> on the MELEK chain — the same idea as Hive-Engine on Hive.
+    You get your own token with a name, a supply and a reward pool, and you never write or deploy a line of Solidity.
+    It is the no-code half of making a token here; the <a href="/tokens">PRC-20</a> route on PRANA is the contract half.</p>
+
+  <div class=card><h2>What it actually is</h2>
+    <p>A <b>sidechain</b> that reads MELEK. Every Engine operation is posted as a <code>custom_json</code> on the
+      MELEK chain, and Engine nodes replay those operations in order to compute the token state. MELEK provides the
+      ordering and the permanence; Engine provides the token logic on top.</p>
+    <p>Two consequences:</p>
+    <ul>
+      <li><b>Your token inherits MELEK's finality.</b> There is no separate consensus to trust — the operations are
+        already in MELEK blocks.</li>
+      <li><b>It is not an EVM.</b> There are no smart contracts here, no arbitrary code. You get the operations the
+        Engine defines — issue, transfer, stake, reward — and nothing else. That is the trade: no flexibility,
+        no deployment, no gas, no audit.</li>
+    </ul>
+  </div>
+
+  <div class=card><h2>The sidechain, live</h2>${live}</div>
+
+  <div class=card><h2>Make a token</h2>
+    <ol>
+      <li><b>Get some ${esc((st && st.feeToken) || 'APIS')}.</b> Creating a token <b>burns</b> the fee token — it is
+        not a payment to anyone, the supply simply goes down. That is the spam gate.</li>
+      <li><b><code>tokens.create</code></b> — symbol, name, precision, max supply. Decide the precision now; it
+        cannot be changed later.</li>
+      <li><b><code>tokens.issue</code></b> — mint into circulation. You are the issuer, so this is your call and
+        your reputation.</li>
+      <li><b>Optional: turn on SCOT with <code>rewards.setReward</code></b> — pick a tag, a daily emission and an
+        author/curator split. From then on, posts on MELEK under that tag earn <i>your</i> token alongside MELEK.
+        This is the part people underestimate: it gives a community its own economy without a new chain.</li>
+      <li><b>Give it somewhere to trade.</b> A token with no market has no price. Wrap it to PRANA and open a pool
+        on <a href="/kulaswap">KulaSwap</a>, where the first deposit sets the opening price.</li>
+    </ol>
+    <p class=muted style="font-size:14px">The step-by-step with the exact payloads is on
+      <a href="/academy">Make a token</a>; the token portal is linked from there.</p>
+  </div>
+
+  <div class=card><h2>Engine or PRC-20 — which one</h2>
+    <table><thead><tr><th></th><th>MELEK-Engine</th><th>PRC-20 on PRANA</th></tr></thead><tbody>
+      <tr><td>You write code</td><td>No</td><td>Yes — Solidity</td></tr>
+      <tr><td>Costs to create</td><td>Burns ${esc((st && st.feeToken) || 'APIS')}</td><td>Gas in PRANA</td></tr>
+      <tr><td>Post rewards (SCOT)</td><td><b>Yes</b> — tag-based emission</td><td>No</td></tr>
+      <tr><td>Arbitrary logic</td><td>No</td><td><b>Yes</b></td></tr>
+      <tr><td>Trades on KulaSwap</td><td>After wrapping to PRANA</td><td>Directly</td></tr>
+      <tr><td>Good for</td><td>A community token tied to posting</td><td>Anything that needs rules</td></tr>
+    </tbody></table>
+    <p class=muted style="font-size:14px">They are not rivals. A community token usually wants both: minted on
+      Engine so posts earn it, wrapped to PRANA so it can trade.</p>
+  </div>
+
+  <div class=card><h2>The theory behind this page</h2>
+    <p class=muted style="font-size:14px">
+      ${libArticle('Hive_Engine_and_Smart_Media_Tokens', 'Hive-Engine and Smart Media Tokens')} ·
+      ${libArticle('The_Two_Token_Economy', 'the two-token economy')} ·
+      ${libArticle('KulaSwap_and_the_DEX_Lineage', 'KulaSwap and the DEX lineage')}</p>
+  </div>`;
+  return page('MELEK-Engine — side tokens on MELEK · Witness School', body, {
+    description: 'MELEK-Engine is a Hive-Engine-style side-token layer on MELEK: mint a token with no contract, turn on SCOT so posts under your tag earn it, then wrap it to PRANA to trade. Live sidechain state and the full token list.',
+    canonical: `${BASE_URL}/engine`,
   });
 }
 
@@ -3285,7 +3389,7 @@ pause`;
   });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/pool', '/mine', '/kulaswap', '/fees', '/servers', '/wallet', '/hathor', '/dev', '/dev/melek', '/dev/prana', '/dev/contracts', '/dev/token', '/dev/scot', '/dev/frontend', '/dev/services', '/dev/tools', '/dev/get', '/dev/matrix', '/dev/bots'];
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/pool', '/mine', '/kulaswap', '/engine', '/fees', '/servers', '/wallet', '/hathor', '/dev', '/dev/melek', '/dev/prana', '/dev/contracts', '/dev/token', '/dev/scot', '/dev/frontend', '/dev/services', '/dev/tools', '/dev/get', '/dev/matrix', '/dev/bots'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -3373,6 +3477,7 @@ export async function handler(req, res) {
     if (path === '/build') return sendHtml(res, buildPage());
     if (path === '/tokens' || path === '/prc20') return sendHtml(res, tokenStandardsPage());
     if (path === '/kulaswap' || path === '/swap') return sendHtml(res, kulaSwapPage(await kulaSwapPairs()));
+    if (path === '/engine') return sendHtml(res, enginePage(await engineStatus()));
     if (path === '/family' || path === '/clones') return sendHtml(res, grapheneFamilyPage());
     if (path === '/whitepaper' || path === '/whitepaper.html') return sendHtml(res, await whitepaperPage());
     if (path === '/run') return sendHtml(res, runPage());
