@@ -931,6 +931,25 @@ export function learnPage() {
     share — so <b>curating well is itself rewarded</b>.</p>
   </div>
 
+  <div class=card><h2>⚡ The other half: PRANA</h2>
+    <p class=muted style="font-size:14px">MELEK is the social chain — posts, votes, witnesses, no fees. <b>PRANA</b>
+    is the EVM chain beside it: smart contracts, mined blocks, and the place tokens actually trade. Two chains,
+    two jobs, one ecosystem — that split is the thing to understand first.</p>
+    <ul class=muted style="font-size:14px">
+      <li><b><a href="/mine">Mine PRANA</a></b> — proof of work, and the pool that pays out.
+        ${libArticle('PRANA_Pool_Payouts', 'how pool payouts are calculated')}.</li>
+      <li><b><a href="/tokens">Make a PRC-20</a></b> — the same standard as ERC-20, deployed on PRANA.</li>
+      <li><b><a href="/kulaswap">Trade it on KulaSwap</a></b> — the Uniswap-V2 AMM. A token has no price until
+        somebody funds a pool, and the first deposit sets that price.
+        ${libArticle('KulaSwap_and_the_DEX_Lineage', 'the DEX lineage')}.</li>
+      <li><b><a href="/dev/prana">Build on PRANA</a></b> — RPC, chain id, the deployed contract set, Foundry and
+        Hardhat. ${libArticle('PRANA_Compute_Chain', 'what the compute chain is for')}.</li>
+      <li><b>Moving between the two</b> — wrapping and the cost of leaving.
+        ${libArticle('The_Bridge_Toll', 'the bridge toll')} ·
+        ${libArticle('The_Two_Token_Economy', 'why there are two tokens at all')}.</li>
+    </ul>
+  </div>
+
   <div class=card><h2>🔗 Curation Trails</h2>
     <p class=muted style="font-size:14px">A <b>trail</b> lets your account automatically follow another
     account's votes — when a curator you trust upvotes something, your account upvotes it too, at a weight you
