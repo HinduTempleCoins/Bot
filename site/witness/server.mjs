@@ -60,6 +60,12 @@ const LIB_ALIASES = {
   Smart_Contracts: 'PRANA_Blockchain',
   Hive_Engine_and_Smart_Media_Tokens: 'Running_Tokens_on_MELEK-Engine',
   KulaSwap_and_PRANA_DeFi: 'KulaSwap',
+  KulaSwap_and_the_DEX_Lineage: 'KulaSwap_and_the_DEX_Lineage',
+  PRANA_Compute_Chain: 'PRANA_Compute_Chain',
+  PRANA_Pool_Payouts: 'PRANA_Pool_Payouts',
+  The_Two_Token_Economy: 'The_Two-Token_Economy__MELEK_and_PRANA',
+  Solar_Mining: 'Solar_Mining',
+  The_Bridge_Toll: 'The_Bridge_Toll_Power_Down_and_the_Cost_of_Exit',
   Proof_of_Work_Mining: 'Mining',
   Running_a_Graphene_Witness_Node: 'Witness_School',
   The_Steem_Hive_Fork_of_2020: 'HIVE_Blockchain',
@@ -275,6 +281,8 @@ export function homePage() {
     ['/family', 'The Graphene family', 'Where MELEK comes from — Steem and its clones/forks (Hive, Blurt, MELEK), the 2020 Steem→Hive fork and why forkability matters, and a DPoS-vs-PoW-vs-PoS consensus comparison.'],
     ['/servers', 'Rent a server', 'What a witness or mining node actually needs, and honest pointers for renting hardware. No upsells.'],
     ['/wallet', 'Akasha wallet', 'The ecosystem wallet — MetaMask / TronLink style. Add the PRANA network in one tap; connect wallet ↔ pool ↔ chains.'],
+    ['/kulaswap', 'KulaSwap — swap & provide liquidity', 'The Uniswap-V2 AMM on PRANA: the x·y=k pool, why your own trade moves the price, the 0.30% fee, how to approve and swap, what impermanent loss actually costs you, and how to open a market for your own token. Live pairs read from the factory.', libArticle('KulaSwap_and_the_DEX_Lineage', 'KulaSwap & the DEX lineage')],
+    ['/dev/prana', 'PRANA, end to end', 'The EVM side: add the network, the chain id and RPC, the deployed contract set with ABIs, and Foundry / Hardhat / viem / ethers against PRANA.', libArticle('PRANA_Compute_Chain', 'PRANA compute chain')],
     ['/fees', 'The fee model', 'Transparent and plain: a small pool fee goes to Hathor, the founding AI Witness — not to PRANA, because PRANA is the pool.'],
     ['/hathor', 'Hathor, live', 'The founding AI Witness measured in real time — head block, confirmations, missed blocks — the working example.'],
     [LIBRARY, 'Library of Ashurbanipal', 'The reference wiki behind every module — cited articles on witnessing, DPoS, Graphene, and each chain. The theory home; modules link into it.'],
@@ -367,6 +375,157 @@ export async function pranaPotStatus() {
     ]);
     return { head: parseInt(head, 16), potPrana: Number(BigInt(bal) / 10n ** 14n) / 1e4, roundsPaid: parseInt(round, 16) };
   } catch { return null; }
+}
+
+// ── KulaSwap (UniswapV2 on PRANA) ────────────────────────────────────────────
+// Reads the factory's live pair set so the lesson never quotes a stale market. Soft-fails to null;
+// the page then teaches the mechanics without numbers rather than printing numbers it cannot verify.
+const KULA_FACTORY = process.env.KULA_FACTORY || '0xFb5B83ed7F54e5fa45ED528dbe2167bB0b93b1E6';
+const KULA_ROUTER = process.env.KULA_ROUTER || '0x24e53792B7f6609c85Bd3a3179A90638c9Dbc8B5';
+
+export async function kulaSwapPairs(maxPairs = 24) {
+  const call = async (to, data) => {
+    const r = await _chainFetch(PRANA_RPC_URL, { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_call', params: [{ to, data }, 'latest'] }) });
+    const j = await r.json();
+    return j && typeof j.result === 'string' ? j.result : null;
+  };
+  const addrOf = (h) => (h && h.length >= 42 ? `0x${h.slice(-40)}` : null);
+  const strOf = (h) => {
+    if (!h || h.length < 130) return null;
+    try {
+      const n = parseInt(h.slice(66, 130), 16);
+      return Buffer.from(h.slice(130, 130 + n * 2), 'hex').toString('utf8').replace(/\0+$/, '') || null;
+    } catch { return null; }
+  };
+  try {
+    const lenHex = await call(KULA_FACTORY, '0x574f2ba3'); // allPairsLength()
+    const len = Math.min(parseInt(lenHex, 16) || 0, maxPairs);
+    const out = [];
+    for (let i = 0; i < len; i++) {
+      const pair = addrOf(await call(KULA_FACTORY, `0x1e3dd18b${i.toString(16).padStart(64, '0')}`)); // allPairs(i)
+      if (!pair) continue;
+      const [t0, t1, res] = await Promise.all([
+        call(pair, '0x0dfe1681'), call(pair, '0xd21220a7'), call(pair, '0x0902f1ac'), // token0 token1 getReserves
+      ]);
+      const a0 = addrOf(t0); const a1 = addrOf(t1);
+      const [s0, s1] = await Promise.all([a0 ? call(a0, '0x95d89b41') : null, a1 ? call(a1, '0x95d89b41') : null]);
+      const r0 = res ? BigInt(`0x${res.slice(2, 66)}`) : 0n;
+      const r1 = res ? BigInt(`0x${res.slice(66, 130)}`) : 0n;
+      out.push({ pair, sym0: strOf(s0) || '?', sym1: strOf(s1) || '?', r0, r1 });
+    }
+    return out;
+  } catch { return null; }
+}
+
+const unit = (v) => Number(v / 10n ** 14n) / 1e4;
+
+export function kulaSwapPage(pairs) {
+  const rows = (pairs || []).map((p) => {
+    const a = unit(p.r0); const b = unit(p.r1);
+    const both = a > 0 && b > 0;
+    const price = both
+      ? `1 ${esc(p.sym0)} = <b>${(b / a).toLocaleString('en-US', { maximumFractionDigits: 6 })} ${esc(p.sym1)}</b>`
+      : '<span class=muted>one-sided — nothing to trade against yet</span>';
+    return `<tr><td><b>${esc(p.sym0)} / ${esc(p.sym1)}</b></td>
+      <td>${a.toLocaleString('en-US', { maximumFractionDigits: 4 })} ${esc(p.sym0)}</td>
+      <td>${b.toLocaleString('en-US', { maximumFractionDigits: 4 })} ${esc(p.sym1)}</td>
+      <td>${price}</td>
+      <td class=muted style="font-size:12px"><code>${esc(p.pair)}</code></td></tr>`;
+  }).join('');
+  const live = rows
+    ? `<table><thead><tr><th>Pair</th><th>Reserve 0</th><th>Reserve 1</th><th>Price implied by the reserves</th><th>Pair contract</th></tr></thead><tbody>${rows}</tbody></table>
+       <p class=muted style="font-size:13px">Read live from the factory just now. A price here is the
+       <b>pool ratio</b>, which is what you would get on an infinitely small trade — your actual fill is worse by
+       the slippage your size causes plus the 0.30% fee. A one-sided row means somebody created the pair and
+       never funded both halves: there is no market there, only an empty pool.</p>`
+    : '<p class=muted>The chain did not answer just now, so no live pairs are shown. The mechanics below are unaffected.</p>';
+
+  const body = `<h1>KulaSwap <span class=muted style="font-size:14px">· swapping and liquidity on PRANA</span></h1>
+  <p class=lead>KulaSwap is a <b>Uniswap-V2-style automated market maker</b> on PRANA. There is no order book and
+    no counterparty waiting to take your trade. Every market is a <b>pool</b> holding two tokens, and the pool
+    quotes a price purely from how much of each it holds. You are always trading against the pool itself.</p>
+
+  <div class=card><h2>The one formula</h2>
+    <p>A V2 pool keeps <code>x · y = k</code>. <code>x</code> and <code>y</code> are the two reserves;
+      <code>k</code> must not fall. Put some of token A in and the pool gives you however much of token B keeps
+      the product the same. That is the whole pricing mechanism.</p>
+    <p>Two consequences worth understanding before you trade:</p>
+    <ul>
+      <li><b>Price is the ratio of the reserves.</b> A pool holding 16,000 of one and 10,000 of the other prices
+        them at 1.6 to 1 — not because anyone decided that, but because that is what the reserves are.</li>
+      <li><b>Your own trade moves the price.</b> The bigger your trade relative to the pool, the worse your fill.
+        That is <b>slippage</b>, and it is not a fee — it is the curve. On a small pool a modest trade can move
+        the price a long way, which is why pool depth matters more than any advertised rate.</li>
+    </ul>
+    <p class=muted style="font-size:14px">Every swap also pays <b>0.30%</b> to the liquidity providers of that
+      pool. That is the entire fee; KulaSwap takes no cut on top.</p>
+  </div>
+
+  <div class=card><h2>Live pairs on KulaSwap</h2>${live}</div>
+
+  <div class=card><h2>How to swap</h2>
+    <ol>
+      <li><b>Add PRANA to your wallet.</b> RPC <code>${esc(PRANA_RPC_URL)}</code>, chain id
+        <code>${esc(String(PRANA_MAINNET_CHAIN_ID_DEC))}</code>. One tap on the <a href="/wallet">Akasha wallet</a> page.</li>
+      <li><b>Hold some PRANA for gas.</b> Every swap is a transaction; gas is paid in the native coin, not in the
+        token you are swapping.</li>
+      <li><b>Approve the router once per token.</b> ERC-20 requires you to authorise the router
+        (<code>${esc(KULA_ROUTER)}</code>) to move a token before it can. The approval is a transaction of its own
+        and only has to be done once per token. Approve the amount you intend to trade rather than an unlimited
+        allowance.</li>
+      <li><b>Check the pool you are actually routing through.</b> Use the table above. If a pair is one-sided
+        there is no market; if it is small, your trade will move it.</li>
+      <li><b>Set a slippage tolerance you chose deliberately</b> and a deadline. Slippage tolerance is the worst
+        price you will accept — set it too high on a thin pool and you can be filled far from the quote.</li>
+    </ol>
+  </div>
+
+  <div class=card><h2>How to provide liquidity — and what it costs you</h2>
+    <p>Adding liquidity means depositing <b>both</b> tokens in the pool's current ratio. You receive <b>LP tokens</b>
+      representing your share, and you earn your share of the 0.30% fee on every trade through that pool. You can
+      withdraw by burning the LP tokens.</p>
+    <p><b>The part most explanations skip: impermanent loss.</b> If the two tokens change in relative price while
+      you are in the pool, the pool rebalances against you — it sells you out of the one that is rising and into
+      the one that is falling. Withdraw at that point and you hold less value than if you had simply kept both
+      tokens in your wallet. The fees you earned may or may not cover it. It is called impermanent because it
+      reverses if the ratio returns, and it becomes permanent the moment you withdraw.</p>
+    <p class=muted style="font-size:14px">Which means: supplying liquidity is a real position with a real risk,
+      not a savings account. Supply to pools you would be content holding both sides of.</p>
+  </div>
+
+  <div class=card><h2>Creating a market for your own token</h2>
+    <p>If you have minted a token — see <a href="/tokens">PRC-20</a> and <a href="/academy">Make a token</a> — it
+      has no price until a pool exists. You create one by calling the factory
+      (<code>${esc(KULA_FACTORY)}</code>) and then funding <b>both</b> sides.</p>
+    <p><b>The first deposit sets the price.</b> There is nothing to arbitrage against, so whatever ratio you
+      deposit becomes the opening price. Deposit 1,000 of your token against 1 PRANA and you have declared your
+      token worth a thousandth of a PRANA. Several pairs in the table above were created and never funded on both
+      sides; those have no market at all, which is the normal outcome of creating a pair and stopping there.</p>
+  </div>
+
+  <div class=card><h2>Contracts</h2>
+    <table><tbody>
+      <tr><td>Router</td><td><code>${esc(KULA_ROUTER)}</code></td><td class=muted>UniswapV2-style; swaps and liquidity go through here</td></tr>
+      <tr><td>Factory</td><td><code>${esc(KULA_FACTORY)}</code></td><td class=muted>creates and indexes pairs</td></tr>
+    </tbody></table>
+    <p class=muted style="font-size:13px">Verified from the chain: the router's <code>factory()</code> returns the
+      factory address above, and the factory reports the pair count shown in the table. ABIs and the full contract
+      set are on <a href="/dev/prana">PRANA contract dev</a>.</p>
+  </div>
+
+  <div class=card><h2>The theory behind this page</h2>
+    <p class=muted style="font-size:14px">
+      ${libArticle('KulaSwap_and_the_DEX_Lineage', 'KulaSwap and the DEX lineage')} ·
+      ${libArticle('PRANA_Compute_Chain', 'PRANA compute chain')} ·
+      ${libArticle('The_Two_Token_Economy', 'The two-token economy — MELEK and PRANA')} ·
+      ${libArticle('PRANA_Pool_Payouts', 'PRANA pool payouts')} ·
+      ${libArticle('The_Bridge_Toll', 'The bridge toll — power-down and the cost of exit')}</p>
+  </div>`;
+  return page('KulaSwap — swapping and liquidity on PRANA · Witness School', body, {
+    description: 'How KulaSwap works on PRANA: the x·y=k pool, slippage, the 0.30% fee, how to swap, how to provide liquidity and what impermanent loss costs you, and how to open a market for your own token. Live pairs read from the factory.',
+    canonical: `${BASE_URL}/kulaswap`,
+  });
 }
 
 function pranaCard(st) {
@@ -905,7 +1064,23 @@ function bridgeDepositPage(q) {
     <span class=muted id=swapest></span>
   </div>
 
-  <h2>Step 2 — deposit to the bridge</h2>
+  <h2>Step 1b — or un-peg SWAP.HIVE to real HIVE first (preferred for wHIVE)</h2>
+  <p class=muted><b>wHIVE is "Wrapped HIVE", so native HIVE is its most honest backing.</b> This un-pegs SWAP.HIVE back to real HIVE in the Hive wallet via the <code>hivepegged</code> contract, then sends that HIVE to the custody account. Confirmed from live payouts, the un-peg fee is <b>0.75%</b> (a 50.000 withdrawal paid 49.625 to the user and 0.375 to hive-engine).</p>
+  <table class=t style="margin:10px 0"><thead><tr><th>Account</th><th>SWAP.HIVE</th><th>→ HIVE after fee</th><th></th><th></th></tr></thead><tbody>
+    <tr><td><b>@angelicalist</b></td>
+      <td><input id=unpeg0 value="153.40533939" style="width:140px;padding:7px;border-radius:6px;border:1px solid #555;background:#1c1c1c;color:#eee"></td>
+      <td class=muted id=net0>152.25424</td>
+      <td><button class=cta data-unpeg="0" data-acct="angelicalist">1. Un-peg</button></td>
+      <td><button class=cta data-sendhive="0" data-acct="angelicalist">2. Send HIVE</button></td></tr>
+    <tr><td><b>@kalivankush</b></td>
+      <td><input id=unpeg1 value="103.21022870" style="width:140px;padding:7px;border-radius:6px;border:1px solid #555;background:#1c1c1c;color:#eee"></td>
+      <td class=muted id=net1>102.43615</td>
+      <td><button class=cta data-unpeg="1" data-acct="kalivankush">1. Un-peg</button></td>
+      <td><button class=cta data-sendhive="1" data-acct="kalivankush">2. Send HIVE</button></td></tr>
+  </tbody></table>
+  <p class=muted>Un-peg first and wait for the HIVE to arrive, then Send. <b>Send HIVE</b> transfers native HIVE to @${esc(custody)} with the PRANA memo — it sends the <i>after-fee</i> figure shown, so adjust it if the actual arrival differs.</p>
+
+  <h2>Step 2 — or deposit the Hive-Engine token directly</h2>
   <table class=t style="margin:14px 0"><thead><tr><th>From</th><th>Token</th><th>Amount</th><th>Mints</th><th></th></tr></thead><tbody>
   ${rows.map((r, i) => `<tr>
     <td><b>@${esc(r.acct)}</b></td>
@@ -947,6 +1122,41 @@ function bridgeDepositPage(q) {
         out.innerHTML = (r && r.success)
           ? '<p style="color:#8f8"><b>Swap sent</b> — '+a+' SWAP.HIVE for at least '+minOut+' SWAP.STEEM. Put the received amount in the SWAP.STEEM row and Send.</p>'
           : '<p style="color:#f99"><b>Not swapped.</b> '+((r&&(r.message||r.error))||'Cancelled or failed in Keychain.')+'</p>';
+      });
+    });
+    function netOf(v){ return (Number(v||0)*0.9925); }
+    [0,1].forEach(function(i){
+      var inp=document.getElementById('unpeg'+i), lab=document.getElementById('net'+i);
+      if(!inp) return;
+      inp.addEventListener('input',function(){ lab.textContent=netOf(inp.value).toFixed(5); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('button[data-unpeg]'),function(b){
+      b.addEventListener('click',function(){
+        if(!check()) return;
+        var i=b.getAttribute('data-unpeg'), acct=b.getAttribute('data-acct');
+        var amt=String(document.getElementById('unpeg'+i).value||'').trim();
+        if(!amt||!(Number(amt)>0)){ out.innerHTML='<p style="color:#f99">Enter a SWAP.HIVE amount.</p>'; return; }
+        var json={ contractName:'hivepegged', contractAction:'withdraw', contractPayload:{ quantity:amt } };
+        out.innerHTML='<p class=muted>Waiting for Keychain — un-pegging '+amt+' SWAP.HIVE…</p>';
+        window.hive_keychain.requestCustomJson(acct, SSC, 'Active', JSON.stringify(json), 'Un-peg '+amt+' SWAP.HIVE to HIVE', function(r){
+          out.innerHTML = (r&&r.success)
+            ? '<p style="color:#8f8"><b>Un-peg sent</b> — '+amt+' SWAP.HIVE from @'+acct+'. About '+netOf(amt).toFixed(5)+' HIVE arrives after the 0.75% fee. Then press <b>Send HIVE</b>.</p>'
+            : '<p style="color:#f99"><b>Not un-pegged.</b> '+((r&&(r.message||r.error))||'Cancelled or failed in Keychain.')+'</p>';
+        });
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('button[data-sendhive]'),function(b){
+      b.addEventListener('click',function(){
+        if(!check() || !window.hive_keychain.requestTransfer){ out.innerHTML='<p style="color:#f99">Keychain requestTransfer unavailable.</p>'; return; }
+        var i=b.getAttribute('data-sendhive'), acct=b.getAttribute('data-acct');
+        var amt=netOf(document.getElementById('unpeg'+i).value).toFixed(3);
+        if(!(Number(amt)>0)){ out.innerHTML='<p style="color:#f99">Nothing to send.</p>'; return; }
+        out.innerHTML='<p class=muted>Waiting for Keychain — sending '+amt+' HIVE…</p>';
+        window.hive_keychain.requestTransfer(acct, TO, amt, MEMO, 'HIVE', function(r){
+          out.innerHTML = (r&&r.success)
+            ? '<p style="color:#8f8"><b>@'+acct+' sent '+amt+' HIVE</b> to @'+TO+' with the PRANA memo. wHIVE mints once attested.</p>'
+            : '<p style="color:#f99"><b>Not sent.</b> '+((r&&(r.message||r.error))||'Cancelled or failed in Keychain.')+'</p>';
+        }, true);
       });
     });
     function send(i, sym, acct){
@@ -3031,7 +3241,7 @@ pause`;
   });
 }
 
-const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/pool', '/mine', '/fees', '/servers', '/wallet', '/hathor', '/dev', '/dev/melek', '/dev/prana', '/dev/contracts', '/dev/token', '/dev/scot', '/dev/frontend', '/dev/services', '/dev/tools', '/dev/get', '/dev/matrix', '/dev/bots'];
+const SITEMAP_PATHS = ['/', '/learn', '/academy', '/build', '/tokens', '/family', '/whitepaper', '/run', '/pool', '/mine', '/kulaswap', '/fees', '/servers', '/wallet', '/hathor', '/dev', '/dev/melek', '/dev/prana', '/dev/contracts', '/dev/token', '/dev/scot', '/dev/frontend', '/dev/services', '/dev/tools', '/dev/get', '/dev/matrix', '/dev/bots'];
 
 // The request handler — exported so offline tests drive routes through a mock req/res (no port bound).
 export async function handler(req, res) {
@@ -3118,6 +3328,7 @@ export async function handler(req, res) {
     if (path === '/academy') return sendHtml(res, academyPage());
     if (path === '/build') return sendHtml(res, buildPage());
     if (path === '/tokens' || path === '/prc20') return sendHtml(res, tokenStandardsPage());
+    if (path === '/kulaswap' || path === '/swap') return sendHtml(res, kulaSwapPage(await kulaSwapPairs()));
     if (path === '/family' || path === '/clones') return sendHtml(res, grapheneFamilyPage());
     if (path === '/whitepaper' || path === '/whitepaper.html') return sendHtml(res, await whitepaperPage());
     if (path === '/run') return sendHtml(res, runPage());

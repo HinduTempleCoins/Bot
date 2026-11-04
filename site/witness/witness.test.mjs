@@ -876,3 +876,33 @@ test('/dev/bots renders 200 and is in the sitemap + hub', async () => {
   const sm = await route('/sitemap.xml');
   assert.ok(sm.body.includes('/dev/bots'), 'sitemap has /dev/bots');
 });
+
+// ── KulaSwap lesson ──────────────────────────────────────────────────────────
+test('kulaSwapPage renders the mechanics without live data (soft-fail)', async () => {
+  const { kulaSwapPage } = await import('./server.mjs');
+  const html = kulaSwapPage(null);
+  assert.match(html, /x · y = k|x&nbsp;·&nbsp;y|x · y/, 'states the constant-product rule');
+  assert.match(html, /0\.30%/, 'states the fee');
+  assert.match(html, /impermanent loss/i, 'warns about impermanent loss');
+  assert.match(html, /did not answer just now/, 'says plainly that no live pairs were read');
+  assert.ok(!/undefined|NaN/.test(html), 'no undefined/NaN leaks when the chain is down');
+});
+
+test('kulaSwapPage prices a two-sided pair from reserves and flags a one-sided one', async () => {
+  const { kulaSwapPage } = await import('./server.mjs');
+  const html = kulaSwapPage([
+    { pair: '0xaaa', sym0: 'KULA', sym1: 'WPRANA', r0: 2000n * 10n ** 18n, r1: 1000n * 10n ** 18n },
+    { pair: '0xbbb', sym0: 'wCURE', sym1: 'KULA', r0: 0n, r1: 500n * 10n ** 18n },
+  ]);
+  assert.match(html, /1 KULA = <b>0\.5 WPRANA<\/b>/, 'computes the pool ratio rather than describing it');
+  assert.match(html, /one-sided — nothing to trade against yet/, 'names an unfunded pair as having no market');
+  assert.ok(!/NaN|Infinity/.test(html), 'a zero reserve does not produce NaN or Infinity');
+});
+
+test('kulaSwapPairs soft-fails to null when the RPC is unreachable', async () => {
+  const mod = await import('./server.mjs');
+  mod.__setChainFetch(async () => { throw new Error("offline"); });
+  try {
+    assert.equal(await mod.kulaSwapPairs(), null);
+  } finally { mod.__setChainFetch(undefined); }
+});
