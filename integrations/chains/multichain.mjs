@@ -25,15 +25,19 @@ export const PRANA_CHAIN_ID_ENV = 'PRANA_CHAIN_ID';
 const PRANA_CHAIN_ID_PLACEHOLDER = '712217'; // PRANA MAINNET (0xADE19). Testnet/alpha is 108369. Env-overridable via PRANA_CHAIN_ID
 // Resolved per-access (a getter, not frozen at import) so setting PRANA_RPC_URL after this module
 // loads — or in an offline test — lights the chain up automatically with no code change.
-// PRANA mainnet's own public RPC. Defaulting to it rather than to [] is the point: with no default,
-// any process without PRANA_RPC_URL set recorded our OWN chain as the one chain with no data — the
-// 12-minute collector did exactly that for five months, because its unit has no EnvironmentFile.
-// Verified 2026-11-07: eth_chainId returns 0xade19 (712217), which is mainnet. Per CLAUDE.md this is
-// deliberately the MAINNET endpoint — never the alpha one.
+// PRANA mainnet's own public RPC, verified 2026-11-07: eth_chainId returns 0xade19 (712217). Per
+// CLAUDE.md this is deliberately the MAINNET endpoint, never the alpha one.
+//
+// It is NOT the default for pranaRpc(). An earlier pass made it one, which fixed the real bug — the
+// collector reported our own chain as the only chain with no data — but broke the contract three test
+// suites encode and that CLAUDE.md requires: with the env unset a reader stays dormant and NEVER
+// touches the network, so the suite runs offline. A shared accessor that reaches for a live endpoint
+// by default cannot honour that. The default belongs at the call site that wants it, which is
+// collect-all.mjs; everything else keeps soft-failing to {error} on [].
 export const PRANA_MAINNET_RPC = 'https://rpc.prana.melek.salon';
 export function pranaRpc() {
   const raw = process.env[PRANA_RPC_ENV];
-  return raw ? raw.split(',').map((s) => s.trim()).filter(Boolean) : [PRANA_MAINNET_RPC];
+  return raw ? raw.split(',').map((s) => s.trim()).filter(Boolean) : [];
 }
 export function pranaChainId() {
   return process.env[PRANA_CHAIN_ID_ENV] || PRANA_CHAIN_ID_PLACEHOLDER;
