@@ -250,8 +250,11 @@ test('an attestation opens apply and still cannot open gallery, video or live', 
   assert.match((await callWith('/apply', cookie)).body, /Apply to produce/);
   for (const s of ['gallery', 'video', 'live']) {
     const r = await callWith(`/${s}`, cookie);
-    assert.match(r.body, /Not available yet/, `${s} opened on a click`);
-    assert.match(r.body, /has not contracted a provider/);
+    // the surface itself must NOT render — a click buys `attested`, and these need `verified`
+    assert.match(r.body, /<h1>Age check<\/h1>/, `${s} should offer the check`);
+    assert.doesNotMatch(r.body, new RegExp(`<h1>${s[0].toUpperCase()}${s.slice(1)}</h1>`, 'i'),
+      `${s} rendered its own page on a mere attestation`);
+    assert.doesNotMatch(r.body, /Particular to this surface/, `${s} leaked surface content`);
   }
 });
 
@@ -286,4 +289,43 @@ test('GET on the attest endpoint is refused', async () => {
   const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.code = c; this.headers = h || {}; }, end(b) { this.body = b || ''; } };
   await handler({ method: 'GET', url: '/gate/attest', headers: {} }, res);
   assert.equal(res.code, 405);
+});
+
+// ── the verified gate now offers a real check instead of a dead end ─────────────────────────────
+
+test('a verified surface offers the age check rather than "not available"', async () => {
+  for (const s of ['gallery', 'video', 'live']) {
+    const r = await call(`/${s}`);
+    assert.equal(r.code, 200, s);
+    assert.match(r.body, /Age check/, `${s} should offer the check`);
+    assert.match(r.body, /The photograph is not kept/, `${s} must say the image is discarded`);
+    assert.doesNotMatch(r.body, /has not contracted a provider/, `${s} is no longer a dead end`);
+  }
+});
+
+test('the check page states the margin honestly and does not blame the visitor', async () => {
+  const r = await call('/gate/verify');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /above eighteen by a margin/);
+  assert.match(r.body, /that is the margin doing its job, not a judgement about you/);
+});
+
+test('an id-level surface still gets the no-provider wall, not the selfie check', async () => {
+  const r = await call('/payout');
+  // payout has no page; the shelf 404s rather than offering a check it cannot satisfy
+  assert.equal(r.code, 404);
+});
+
+test('GET /gate/verify renders, POST without a body is refused as JSON', async () => {
+  const handlers = {};
+  const req = { method: 'POST', url: '/gate/verify?next=/gallery', headers: {}, on(ev, fn) { handlers[ev] = fn; return this; }, destroy() {} };
+  const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.code = c; this.headers = h || {}; }, end(b) { this.body = b || ''; } };
+  const done = handler(req, res).then(() => res);
+  if (handlers.data) handlers.data(Buffer.alloc(0));
+  if (handlers.end) handlers.end();
+  const out = await done;
+  assert.equal(out.code, 200);
+  const j = JSON.parse(out.body);
+  assert.equal(j.ok, false);
+  assert.match(j.reason, /no image|not a JPEG/);
 });

@@ -34,8 +34,11 @@ import { policyFor, check as gateCheck, reveal, previewMode, SURFACE_POLICY, LEV
 import { surfacePage, compliancePage, surfaceNames, SURFACES, CARD_CONTROLS, INTAKE, producerAllowed }
   from './surfaces.mjs';
 import { ACKS, appendApplication } from './applications-store.mjs';
-import { satisfies, subjectFor, attest, setCookies, clickCanSatisfy, setCookies as _sc }
+import { satisfies, subjectFor, attest, setCookies, clickCanSatisfy }
   from './gate-web.mjs';
+import { checkSelfie, readRawBody, MAX_BYTES } from './verify-web.mjs';
+import { faceAgeProvider } from '../../integrations/agegate/face-age.mjs';
+import { record as recordCheck, mintToken } from '../../integrations/agegate/model.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const PORT = +(process.env.PORT || 8161);
@@ -323,6 +326,45 @@ export function safeNext(v) {
   return s.slice(0, 200);
 }
 
+function verifyPage(next, { error = '' } = {}) {
+  return shell('Age check — YoniShrine', `
+<h1>Age check</h1>
+<p>This surface needs <code>verified</code> — a commercially reasonable check rather than a declaration.
+We run ours ourselves: a photograph of your face, estimated on our own machine, against a threshold set
+above eighteen by a margin.</p>
+${error ? `<div class=card><b>Not cleared.</b> <span class=mut>${esc(error)}</span></div>` : ''}
+<div class=card><b>The photograph is not kept.</b> <span class=mut>It exists on our disk for the seconds
+the estimator needs it, under a random name, and is deleted whether the check passes, fails or crashes.
+No image, no face and no estimated age is written to your record &mdash; the record says only that a check
+of this kind passed, and when it expires.</span></div>
+<p><label>A photograph of your face<br>
+<input type=file id=sel accept="image/jpeg,image/png,image/webp"></label></p>
+<p><button id=go type=button>Run the check</button></p>
+<p class=mut id=stat></p>
+<p class=mut>One person in the frame, facing the camera. If the estimate lands under the threshold the
+check cannot clear you &mdash; that is the margin doing its job, not a judgement about you, and a stronger
+method is the route in.</p>
+<p class=mut><a href="/surfaces">what each surface requires</a> &middot;
+<a href="/compliance">what this property has to run</a> &middot; <a href="/">the shelf</a></p>
+<script>
+(function(){
+  var f=document.getElementById('sel'), b=document.getElementById('go'), s=document.getElementById('stat');
+  b.addEventListener('click', function(){
+    var file=f.files && f.files[0];
+    if(!file){ s.textContent='Choose a photograph first.'; return; }
+    if(file.size > ${MAX_BYTES}){ s.textContent='That file is too large.'; return; }
+    b.disabled=true; s.textContent='Checking\u2026';
+    fetch('/gate/verify?next='+encodeURIComponent(${JSON.stringify(next)}), {
+      method:'POST', headers:{'content-type': file.type || 'application/octet-stream'}, body:file
+    }).then(function(r){ return r.json(); }).then(function(j){
+      if(j && j.ok){ s.textContent='Cleared. Taking you through\u2026'; location.href=j.next || '/'; }
+      else { b.disabled=false; s.textContent=(j && j.reason) || 'The check did not clear.'; }
+    }).catch(function(){ b.disabled=false; s.textContent='The check could not be run.'; });
+  });
+})();
+</script>`, 'Our own age check: a selfie, estimated on our own machine, and never kept.');
+}
+
 function readBody(req, limit = 64 * 1024) {
   return new Promise((resolve) => {
     let n = 0; const chunks = [];
@@ -355,7 +397,10 @@ export async function handler(req, res) {
   const gated = (surface) => {
     const st = satisfies(req, surface);
     if (st.ok) return false;
-    html(200, clickCanSatisfy(surface) ? attestPage(surface, p) : noProviderPage(surface));
+    if (clickCanSatisfy(surface)) { html(200, attestPage(surface, p)); return true; }
+    // `verified` is now something we can actually do, so offer the check rather than a closed door.
+    if (st.need === 'verified') { html(200, verifyPage(p)); return true; }
+    html(200, noProviderPage(surface));
     return true;
   };
 
@@ -384,6 +429,35 @@ export async function handler(req, res) {
   if (p === '/upload') return html(200, uploadPage(who.subject));
 
   if (p === '/compliance') return html(200, compliancePage({ shell }));
+
+  if (p === '/gate/verify') {
+    const next = safeNext(url.searchParams.get('next'));
+    if (String(req.method || 'GET').toUpperCase() !== 'POST') return html(200, verifyPage(next));
+    const json = (code, body, extra = []) => {
+      const h = { 'content-type': 'application/json; charset=utf-8' };
+      const all = [...cookies, ...extra];
+      if (all.length) h['set-cookie'] = all;
+      res.writeHead(code, h); res.end(JSON.stringify(body));
+    };
+    const buf = await readRawBody(req, MAX_BYTES);
+    if (buf === null) return json(413, { ok: false, reason: 'that image is too large' });
+    const verdict = await checkSelfie(buf, { provider: faceAgeProvider });
+    if (!verdict || !verdict.ok) {
+      return json(200, { ok: false, reason: (verdict && verdict.reason) || 'the check did not clear' });
+    }
+    // checkSelfie already ran the provider; this only files the RESULT under the subject. It carries a
+    // provider reference and nothing else — no age, no image, no face.
+    const filed = recordCheck(who.subject, 'verified', {
+      provider: faceAgeProvider.id, providerRef: verdict.providerRef || 'face-age',
+    });
+    if (!filed || !filed.ok) return json(200, { ok: false, reason: filed && filed.reason ? filed.reason : 'could not file the result' });
+    const secret = String(process.env.YONI_GATE_SECRET || '').trim();
+    if (!secret) return json(200, { ok: false, reason: 'no signing secret configured' });
+    const minted = mintToken(who.subject, 'verified', secret, { audience: 'yonishrine' });
+    if (!minted || !minted.ok) return json(200, { ok: false, reason: 'could not issue the token' });
+    const maxAgeSec = Math.max(1, Math.floor(((minted.expiresAt || Date.now()) - Date.now()) / 1000));
+    return json(200, { ok: true, next }, setCookies({ token: minted.token, maxAgeSec, secure: SECURE_COOKIES }));
+  }
 
   if (p === '/gate/attest') {
     if (String(req.method || 'GET').toUpperCase() !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); }
