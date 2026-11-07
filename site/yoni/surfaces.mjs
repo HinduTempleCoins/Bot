@@ -36,6 +36,35 @@ export const CARD_CONTROLS = Object.freeze([
   'Written agreements with every content provider. Solo creators are not exempt.',
 ]);
 
+// ⭐ INTAKE IS OPERATOR-ONLY, AND THAT IS A COMPLIANCE POSITION, NOT A PHASE.
+// Decided 2026-11-07: this property takes no third-party uploads. One producer, who is also the named
+// custodian of records. That is the licensed/own-production branch of the fork in
+// .local/ADULT_CAM_MARKET_RESEARCH.md §5.6, and it is what it buys:
+//   · § 2257 records are his own and bounded — no per-uploader duty with no counterparty to certify.
+//   · § 9.4.1's "written agreements with every content provider" is satisfied by a provider set of one.
+//   · No pre-publication review of strangers' submissions, no continuous moderation queue.
+//   · Provenance is documented for everything, so the NCII-removal exposure that makes Google demote
+//     an entire site does not arise.
+// Flipping this to 'public' is not a config tweak — it re-acquires every obligation above, which is
+// why the mode is a named constant with a test on it rather than an env var someone can set quietly.
+export const INTAKE = Object.freeze({
+  mode: 'operator-only',
+  decidedOn: '2026-11-07',
+  whoMayPublish: 'the operator, as sole producer and named custodian of records',
+});
+
+/** Who may put material on this property. An empty allowlist means nobody, which is the safe start. */
+export function producerAllowed(subject, { producers = producersFromEnv() } = {}) {
+  const s = String(subject == null ? '' : subject).trim().toLowerCase();
+  if (!s) return false;
+  if (INTAKE.mode !== 'operator-only') return false; // no other mode is implemented on purpose
+  return producers.includes(s);
+}
+
+export function producersFromEnv(env = process.env) {
+  return String(env.YONI_PRODUCERS || '').split(',').map((x) => x.trim().toLowerCase()).filter(Boolean);
+}
+
 /** What is particular to each surface, beyond the shared controls. */
 export const SURFACES = Object.freeze({
   preview: {
@@ -52,14 +81,15 @@ export const SURFACES = Object.freeze({
     notes: [
       'Licensed or commissioned work with documented provenance for every image, which keeps the § 2257 record set bounded and contractual.',
       'As a secondary producer under 28 C.F.R. part 75 the operator may rely on the photographer’s § 75.7(b) certification — there is a counterparty to certify, which is the whole advantage over user uploads.',
+      'With intake operator-only, the \u00a7 9.4.1 requirement of a written agreement with every content provider is satisfied by a provider set of one.',
     ],
   },
   video: {
     title: 'Video',
     blurb: 'Moving image, whether licensed or uploaded.',
     notes: [
-      'Taking user uploads makes the operator a secondary producer with no counterparty to certify: the duty lands here, per uploader, permanently.',
-      'Google demotes every page on a site with significant volumes of non-consensual-imagery removals, so the risk is not confined to the offending file.',
+      'Own production and licensed work only. This property takes no third-party uploads.',
+      'That is why: taking user uploads would make the operator a secondary producer with no counterparty to certify, per uploader, permanently \u2014 and Google demotes every page on a site with significant volumes of non-consensual-imagery removals, so the exposure would not stay confined to one file.',
     ],
   },
   live: {

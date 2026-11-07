@@ -106,12 +106,20 @@ test('/surfaces is ordered by level, lowest first', async () => {
   assert.deepEqual(ranks, [...ranks].sort((a, b) => a - b), `not ordered: ${levels.join(',')}`);
 });
 
-test('the upload door requires id and fails closed for an unknown subject', async () => {
+test('the upload door is closed to anyone not on the producer list', async () => {
   assert.equal(policyFor('upload').level, 'id');
   const r = await call('/upload?subject=nobody-has-verified-this');
   assert.equal(r.code, 200);
-  assert.match(r.body, /Not cleared/);
-  assert.doesNotMatch(r.body, />Cleared\./);
+  assert.match(r.body, /<b>Closed\.<\/b>/);
+  assert.match(r.body, /no third-party uploads/i);
+  assert.doesNotMatch(r.body, /Cleared to publish/);
+});
+
+test('the upload door states the intake decision and what it buys', async () => {
+  const r = await call('/upload');
+  assert.match(r.body, /Intake is operator-only/);
+  assert.match(r.body, /provider set\s*\n?\s*of one|provider set of one/);
+  assert.match(r.body, /still requires a government ID examined for every/i);
 });
 
 test('the upload door states the 2257 subsections rather than paraphrasing them', async () => {

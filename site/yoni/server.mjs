@@ -31,7 +31,8 @@ import { createServer } from 'node:http';
 import { renderWiki, slugify, titleize } from '../wiki/render.mjs';
 import { policyFor, check as gateCheck, reveal, previewMode, SURFACE_POLICY, LEVELS, rank }
   from '../../integrations/agegate/model.mjs';
-import { surfacePage, compliancePage, surfaceNames, SURFACES, CARD_CONTROLS } from './surfaces.mjs';
+import { surfacePage, compliancePage, surfaceNames, SURFACES, CARD_CONTROLS, INTAKE, producerAllowed }
+  from './surfaces.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const PORT = +(process.env.PORT || 8161);
@@ -147,14 +148,35 @@ top of the scale because a self-declaration is not sufficient under the state st
 function uploadPage(subject) {
   const pol = policyFor('upload');
   const state = gateCheck(subject, 'upload');
-  const cleared = !!(state && state.allowed);
-  const badge = cleared
-    ? '<b>Cleared.</b> <span class=mut>This subject holds a current <code>id</code> record.</span>'
-    : `<b>Not cleared.</b> <span class=mut>This door needs <code>${esc(pol.level)}</code>. Nothing can be submitted until that check is done.</span>`;
+  const idCleared = !!(state && state.allowed);
+  const isProducer = producerAllowed(subject);
+  // Two independent conditions, reported separately: being on the producer list is not an age check,
+  // and holding an id record does not make someone a producer here.
+  const badge = isProducer && idCleared
+    ? '<b>Cleared to publish.</b> <span class=mut>On the producer list and holding a current <code>id</code> record.</span>'
+    : (isProducer
+      ? `<b>On the producer list, not yet checked.</b> <span class=mut>This door also needs <code>${esc(pol.level)}</code>.</span>`
+      : '<b>Closed.</b> <span class=mut>This property takes no third-party uploads.</span>');
   return shell('Upload — YoniShrine', `
 <h1>Publishing here</h1>
 <div class=card>${badge}</div>
-<p class=mut>${esc(pol.reason)}.</p>
+<div class=card><b>Intake is ${esc(INTAKE.mode)}.</b> <span class=mut>Decided
+${esc(INTAKE.decidedOn)}. The only person who may publish is ${esc(INTAKE.whoMayPublish)}. There is no
+submission route for anyone else, and that is a compliance position rather than a launch phase.</span></div>
+
+<h2>What operator-only intake buys</h2>
+<ul>
+<li>&sect; 2257 records are the operator&rsquo;s own and bounded &mdash; there is no per-uploader duty
+with no counterparty to certify.</li>
+<li>&sect; 9.4.1&rsquo;s written agreement with every content provider is satisfied by a provider set
+of one.</li>
+<li>No pre-publication review of strangers&rsquo; submissions and no continuous moderation queue.</li>
+<li>Provenance is documented for everything, so the non-consensual-imagery exposure that makes Google
+demote a whole site does not arise.</li>
+</ul>
+<p class=mut>${esc(pol.reason)}. Note that this door still sits at <code>${esc(pol.level)}</code>:
+the producer is identified too, and &sect; 2257(b) still requires a government ID examined for every
+performer before production.</p>
 
 <h2>What the statute requires of a producer</h2>
 <p>These are requirements on whoever <b>produces</b> the material, not on the viewer. They come from
@@ -201,8 +223,9 @@ page carrying covered material.</li>
 <li>A government photo ID examined for every performer before production, with the record held by the
 custodian.</li>
 </ul>
-<div class=card><b>Not open yet.</b> <span class=mut>This door is built and gated. No intake is accepted
-until the custodian of records is named and the § 2257(e) statement is in place.</span></div>
+<div class=card><b>Still needed before anything is published.</b> <span class=mut>The custodian of
+records named with a title and business address, the § 2257(e) statement on every page carrying covered
+material, and the MCC 5967 registration completed by the acquirer before the first transaction.</span></div>
 <p class=mut><a href="/surfaces">&larr; all surfaces</a> &middot; <a href="/">the shelf</a></p>`,
     'What publishing here requires: § 2257, the custodian of records, and the two files.');
 }
