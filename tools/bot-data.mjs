@@ -7,7 +7,7 @@
 //   import { emitBotData } from './bot-data.mjs'
 //   await emitBotData('wall-bot', { summary: 'placed VKBT buy wall', data: {...} })
 
-import { writeFileSync, mkdirSync, existsSync, readFileSync, readdirSync } from 'node:fs';
+import { writeFileSync, appendFileSync, mkdirSync, existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const SHARED = '.local/shared';
@@ -24,10 +24,13 @@ export function emitBotData(bot, { summary = '', data = {}, at } = {}) {
   mkdirSync(SHARED, { recursive: true });
   mkdirSync(LOGDIR, { recursive: true });
 
-  // (1) append-only log — the raw data trail for this bot
+  // (1) append-only log — the raw data trail for this bot.
+  // appendFileSync, NOT read-then-rewrite. These logs reach tens of MB (multichain.jsonl hit 40MB),
+  // and rewriting the whole file to add one line is O(n^2) in the number of runs: every 12 minutes
+  // the collector was reading and rewriting ~74MB across eight logs to append eight lines, on a host
+  // with 5.8GB of disk free. Appending is O(1) and is what "append-only log" meant in the first place.
   const logPath = join(LOGDIR, `${name}.jsonl`);
-  const prior = existsSync(logPath) ? readFileSync(logPath, 'utf8') : '';
-  writeFileSync(logPath, prior + JSON.stringify({ at: stamp, summary, data }) + '\n');
+  appendFileSync(logPath, JSON.stringify({ at: stamp, summary, data }) + '\n');
 
   // (2) latest-run markdown for the annal/brief AIs (publish-feed delivers .local/shared/*)
   const mdPath = join(SHARED, `bot-${name}.md`);
