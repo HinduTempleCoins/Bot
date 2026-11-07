@@ -130,6 +130,28 @@ async function swap(token, owner, symbols, amountIn, amountOutMin) {
   return { hash, ok: !!rc && rc.status === '0x1', gasUsed: rc && parseInt(rc.gasUsed, 16) };
 }
 
+/**
+ * Refuse to spend what we do not hold. A UniV2 swap short of balance does NOT fail cheaply: the
+ * router's transferFrom reverts on-chain, so the signer broadcasts a doomed transaction and the gas
+ * is spent for nothing. Unattended on a timer that is a daily bill for no trades, which is exactly
+ * what kulabot-b started doing when its KULA ran out. Every mode that swaps calls this first.
+ *
+ * Returns null when the balance covers amountIn, else a refusal object to hand straight back.
+ */
+export async function checkBalance(owner, sym, amountIn) {
+  const t = TOKENS[sym];
+  if (!t) throw new Error(`unknown token ${sym}`);
+  const bal = BigInt(await ethCall(t.address, encodeBalanceOf(owner)));
+  if (bal >= BigInt(amountIn)) return null;
+  return {
+    ok: false,
+    traded: false,
+    reason: `insufficient ${sym}: have ${fromUnits(bal, t.decimals)}, need ${fromUnits(amountIn, t.decimals)}`,
+    have: fromUnits(bal, t.decimals),
+    need: fromUnits(amountIn, t.decimals),
+  };
+}
+
 /** One arb pass: quote both loop routes for `amount` of the start token; trade the better one if it clears. */
 export async function runArb({ token, amount, minProfitBps = 100, dry = false }) {
   const owner = (await signer('/v1/evm/address', {}, token)).address;
@@ -141,6 +163,8 @@ export async function runArb({ token, amount, minProfitBps = 100, dry = false })
   const plan = planArb({ amountIn, quotedOut: best.out, minProfitBps });
   const view = { owner, route: best.route.join('→'), spend: amount, quotedBack: fromUnits(best.out, dec), profitBps: plan.profitBps, reason: plan.reason };
   if (!plan.trade || dry) return { ok: true, traded: false, ...view };
+  const shortArb = await checkBalance(owner, start, amountIn);
+  if (shortArb) return { ...view, ...shortArb };
   const before = BigInt(await ethCall(TOKENS[start].address, encodeBalanceOf(owner)));
   const approve = await ensureAllowance(token, owner, start, amountIn);
   const s = await swap(token, owner, best.route, amountIn, plan.amountOutMin);
@@ -156,6 +180,8 @@ export async function runDca({ token, from, to, amount, dry = false }) {
   const out = q[q.length - 1];
   const view = { owner, route: `${from}→${to}`, spend: amount, quotedOut: fromUnits(out, TOKENS[to].decimals) };
   if (dry) return { ok: true, traded: false, ...view };
+  const shortDca = await checkBalance(owner, from, amountIn);
+  if (shortDca) return { ...view, ...shortDca };
   const approve = await ensureAllowance(token, owner, from, amountIn);
   const s = await swap(token, owner, [from, to], amountIn, out - out / 100n);
   return { ok: s.ok, traded: s.ok, ...view, approveTx: approve, swapTx: s.hash };
@@ -247,6 +273,8 @@ export async function runRebalance({ token, a, b, target = 0.5, band = 0.05, dry
   if (!plan.trade || dry) return { ok: true, traded: false, ...view, plan: plan.trade ? `${plan.side} ${plan.amount}` : undefined };
   const [from, to, dec] = plan.side === 'sellA' ? [a, b, da] : [b, a, db];
   const amountIn = units(plan.amount.toFixed(Math.min(dec, 6)), dec);
+  const shortReb = await checkBalance(owner, from, amountIn);
+  if (shortReb) return { ...view, ...shortReb };
   const q = await quote(amountIn, [from, to]);
   const out = q[q.length - 1];
   const approve = await ensureAllowance(token, owner, from, amountIn);
@@ -286,6 +314,10 @@ export async function runGrid({ token, base, quoteSym, chunk, stepBps = 300, sta
   // sell = base -> quote ; buy = spend `chunk` base-worth of quote -> base
   const [from, to, dec, amt] = plan.side === 'sell' ? [base, quoteSym, dbs, Number(chunk)] : [quoteSym, base, dq, Number(chunk) * price];
   const amountIn = units(amt.toFixed(Math.min(dec, 6)), dec);
+  // A grid BUY spends chunk*price of the quote token, so the amount is derived from the price and can
+  // outrun the balance even when `chunk` looks small. This is the mode most likely to be short.
+  const shortGrid = await checkBalance(owner, from, amountIn);
+  if (shortGrid) return { ...view, ...shortGrid, side: plan.side };
   const q = await quote(amountIn, [from, to]);
   const out = q[q.length - 1];
   const approve = await ensureAllowance(token, owner, from, amountIn);
