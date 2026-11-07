@@ -12,7 +12,7 @@ function call(url) {
   return handler(req, res).then(() => ({ code: res.code, body: res.body, headers: res.headers }));
 }
 
-test('the shelf lists its own articles', () => {
+test('Eidola lists its own articles', () => {
   const arts = listArticles();
   assert.ok(arts.length >= 5, `expected the converted set, found ${arts.length}`);
   const slugs = arts.map((a) => a.slug);
@@ -28,11 +28,21 @@ test('IT MUST NOT SERVE THE PUBLIC LIBRARY — the two shelves stay separate', (
   assert.equal(readArticle('Nootropics'), null, 'a Library slug must not resolve on this surface');
 });
 
-test('the index renders every article as a link', async () => {
+test('/archive renders every article as a link', async () => {
+  const r = await call('/archive');
+  assert.equal(r.code, 200);
+  for (const a of listArticles()) assert.ok(r.body.includes(`/a/${a.slug}`), `${a.slug} missing from Eidola`);
+  assert.match(r.body, /Not legal advice/);
+  assert.match(r.body, /Democritus and Epicurus/, 'the name is explained where it is used');
+});
+
+test('the root is a hub that reaches every surface, and is not the article list', async () => {
   const r = await call('/');
   assert.equal(r.code, 200);
-  for (const a of listArticles()) assert.ok(r.body.includes(`/a/${a.slug}`), `${a.slug} missing from the index`);
-  assert.match(r.body, /Not legal advice/);
+  for (const href of ['/archive', '/surfaces', '/gallery', '/video', '/live', '/upload', '/apply', '/compliance']) {
+    assert.ok(r.body.includes(`href="${href}"`), `the hub does not link ${href}`);
+  }
+  assert.doesNotMatch(r.body, /\/a\/Classical_Erotology/, 'the hub should not be the article index');
 });
 
 test('an article renders through the wiki renderer', async () => {
