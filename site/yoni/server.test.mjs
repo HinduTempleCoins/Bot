@@ -142,3 +142,76 @@ test('the upload door keeps the two stores apart and promises no document storag
 test('an unknown surface fails closed at id', () => {
   assert.equal(policyFor('whatever-this-is').level, 'id');
 });
+
+// ── the application route ───────────────────────────────────────────────────────────────────────
+
+import { __setIO, ACKS } from './applications-store.mjs';
+
+function postCall(url, fields) {
+  const body = new URLSearchParams(fields).toString();
+  const handlers = {};
+  const req = {
+    method: 'POST', url, headers: {},
+    on(ev, fn) { handlers[ev] = fn; return this; },
+  };
+  const res = { code: 0, headers: {}, body: '',
+    writeHead(c, h) { this.code = c; this.headers = h || {}; },
+    end(b) { this.body = b || ''; } };
+  const done = handler(req, res).then(() => ({ code: res.code, body: res.body }));
+  // drive the stream the handler just subscribed to
+  if (handlers.data) handlers.data(Buffer.from(body, 'utf8'));
+  if (handlers.end) handlers.end();
+  return done;
+}
+
+const fullForm = (extra = {}) => ({
+  contact: 'applicant@example.com', what: 'my own studio work',
+  ...Object.fromEntries(Object.keys(ACKS).map((k) => [k, 'on'])), ...extra,
+});
+
+test('GET /apply serves the form with every acknowledgement', async () => {
+  const r = await call('/apply');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Apply to produce/);
+  assert.equal((r.body.match(/type=checkbox/g) || []).length, Object.keys(ACKS).length);
+  assert.match(r.body, /Do not attach identity documents/i);
+  assert.match(r.body, /grants no publishing rights/i);
+});
+
+test('POST /apply with a complete form is accepted', async () => {
+  __setIO({ read: () => '', append: () => true });
+  const r = await postCall('/apply', fullForm());
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Application received/);
+  assert.match(r.body, /no rights are granted/i);
+});
+
+test('POST /apply re-renders the form with the reason when incomplete', async () => {
+  __setIO({ read: () => '', append: () => true });
+  const r = await postCall('/apply', fullForm({ contact: '' }));
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Not submitted/);
+  assert.match(r.body, /contact/);
+  assert.doesNotMatch(r.body, /Application received/);
+});
+
+test('POST /apply refuses a form carrying an identity document', async () => {
+  __setIO({ read: () => '', append: () => true });
+  const r = await postCall('/apply', fullForm({ dob: '1990-01-01' }));
+  assert.match(r.body, /Not submitted/);
+  assert.match(r.body, /refusing to store/);
+});
+
+test('an unticked acknowledgement is not submitted', async () => {
+  __setIO({ read: () => '', append: () => true });
+  const form = fullForm(); delete form.over18;   // an unchecked box posts nothing at all
+  const r = await postCall('/apply', form);
+  assert.match(r.body, /Not submitted/);
+  assert.match(r.body, /18 or over/);
+});
+
+test('the upload door points a stranger at the application', async () => {
+  const r = await call('/upload?subject=stranger');
+  assert.match(r.body, /<b>Closed\.<\/b>/);
+  assert.match(r.body, /href="\/apply"/);
+});

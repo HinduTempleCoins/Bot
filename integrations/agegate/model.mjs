@@ -44,6 +44,7 @@ export const SURFACE_POLICY = Object.freeze({
   gallery:   { level: 'verified', reason: 'produced or licensed stills' },
   video:     { level: 'verified', reason: 'user-uploaded video' },
   live:      { level: 'verified', reason: 'live cams' },
+  apply:     { level: 'attested', reason: 'an application to produce — costs nothing to gate, and an applicant who will not say they are 18 is not one' },
   upload:    { level: 'id',       reason: 'anyone PUBLISHING must be identified — this is the 2257 side, not the viewer side' },
   payout:    { level: 'id',       reason: 'anyone being PAID must be identified' },
 });

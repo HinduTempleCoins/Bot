@@ -33,6 +33,7 @@ import { policyFor, check as gateCheck, reveal, previewMode, SURFACE_POLICY, LEV
   from '../../integrations/agegate/model.mjs';
 import { surfacePage, compliancePage, surfaceNames, SURFACES, CARD_CONTROLS, INTAKE, producerAllowed }
   from './surfaces.mjs';
+import { ACKS, appendApplication } from './applications-store.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const PORT = +(process.env.PORT || 8161);
@@ -69,6 +70,10 @@ header{border-bottom:1px solid var(--line);padding:14px 20px;display:flex;gap:14
 header a{color:var(--acc);text-decoration:none;font-weight:bold}
 header span{color:var(--mut);font-size:14px}
 main{max-width:860px;margin:0 auto;padding:22px 20px 60px}
+input,textarea{width:100%;max-width:100%;box-sizing:border-box;padding:8px;background:#0e0a10;color:var(--ink);border:1px solid var(--line);border-radius:5px;font:inherit}
+button{font:inherit;padding:10px 16px;border-radius:6px;border:1px solid var(--acc);background:var(--acc);color:#140f16;font-weight:bold;cursor:pointer}
+ul.acks{list-style:none;padding:0}ul.acks li{margin:10px 0}ul.acks input{width:auto}
+label{display:block}
 h1{font-size:30px;line-height:1.25;margin:.2em 0 .5em}
 h2{font-size:22px;border-bottom:1px solid var(--line);padding-bottom:4px;margin-top:1.6em}
 h3{font-size:18px;margin-top:1.3em}
@@ -108,6 +113,7 @@ surfaces on this property declare their own level.</p>
 <ul class=idx>${rows || '<li class=mut>No articles yet.</li>'}</ul>
 <p class=mut><a href="/surfaces">surfaces and what each requires &rarr;</a> &middot;
 <a href="/upload">publishing here &rarr;</a> &middot;
+<a href="/apply">apply to produce &rarr;</a> &middot;
 <a href="/compliance">what this property has to run &rarr;</a></p>
 <div class=card><b>Not legal advice.</b> <span class=mut>These pages describe statutes and decided
 cases. They do not substitute for a lawyer admitted in the relevant jurisdiction.</span></div>`,
@@ -156,7 +162,7 @@ function uploadPage(subject) {
     ? '<b>Cleared to publish.</b> <span class=mut>On the producer list and holding a current <code>id</code> record.</span>'
     : (isProducer
       ? `<b>On the producer list, not yet checked.</b> <span class=mut>This door also needs <code>${esc(pol.level)}</code>.</span>`
-      : '<b>Closed.</b> <span class=mut>This property takes no third-party uploads.</span>');
+      : '<b>Closed.</b> <span class=mut>This property takes no third-party uploads. You can <a href="/apply">apply to produce</a>.</span>');
   return shell('Upload — YoniShrine', `
 <h1>Publishing here</h1>
 <div class=card>${badge}</div>
@@ -230,6 +236,64 @@ material, and the MCC 5967 registration completed by the acquirer before the fir
     'What publishing here requires: § 2257, the custodian of records, and the two files.');
 }
 
+function applyPage({ error = '', done = false, values = {} } = {}) {
+  const pol = policyFor('apply');
+  if (done) {
+    return shell('Application received — YoniShrine', `
+<h1>Application received</h1>
+<div class=card><b>Logged.</b> <span class=mut>Nothing is published and no rights are granted by this.
+The operator reads the log and approves out of band; if you are approved you will be contacted at the
+address you gave.</span></div>
+<p class=mut><a href="/">the shelf</a> &middot; <a href="/compliance">what this property has to run</a></p>`,
+      'Application received.');
+  }
+  const v = (k) => esc(values[k] || '');
+  const acks = Object.entries(ACKS).map(([k, label]) => `<li><label>
+    <input type=checkbox name="${esc(k)}" value=on> ${esc(label)}</label></li>`).join('');
+  return shell('Apply — YoniShrine', `
+<h1>Apply to produce</h1>
+<p class=mut>Intake is ${esc(INTAKE.mode)}: nobody uploads anything to this property. This form is an
+application to become a producer. It grants no publishing rights, and submitting it does not put
+anything on the site. The gate level for applying is <code>${esc(pol.level)}</code>.</p>
+${error ? `<div class=card><b>Not submitted.</b> <span class=mut>${esc(error)}</span></div>` : ''}
+<form method=post action="/apply">
+<p><label>Contact &mdash; an address or handle that reaches you<br>
+<input name=contact value="${v('contact')}" required></label></p>
+<p><label>Name or working name <span class=mut>(optional)</span><br>
+<input name=name value="${v('name')}"></label></p>
+<p><label>What you would produce<br>
+<textarea name=what rows=4 required>${v('what')}</textarea></label></p>
+<p><label>Where you are <span class=mut>(optional &mdash; jurisdiction matters for the paperwork)</span><br>
+<input name=where value="${v('where')}"></label></p>
+<p><label>Links to existing work <span class=mut>(optional)</span><br>
+<input name=links value="${v('links')}"></label></p>
+<p><label>Anything else <span class=mut>(optional)</span><br>
+<textarea name=notes rows=3>${v('notes')}</textarea></label></p>
+<ul class=acks>${acks}</ul>
+<p><button type=submit>Submit application</button></p>
+</form>
+<div class=card><b>Do not attach identity documents.</b> <span class=mut>No date of birth, no ID
+number, no photograph of a document. This form refuses them. The &sect; 2257 examination happens later,
+in person, against the person, by the custodian of records &mdash; not through a web form and not into
+a log file.</span></div>
+<p class=mut><a href="/upload">what publishing here requires</a> &middot;
+<a href="/compliance">what this property has to run</a> &middot; <a href="/">the shelf</a></p>`,
+    'Apply to produce. An application only — it grants no publishing rights.');
+}
+
+function readBody(req, limit = 64 * 1024) {
+  return new Promise((resolve) => {
+    let n = 0; const chunks = [];
+    req.on('data', (c) => {
+      n += c.length;
+      if (n > limit) { chunks.length = 0; req.destroy(); return resolve(''); }
+      chunks.push(c);
+    });
+    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    req.on('error', () => resolve(''));
+  });
+}
+
 export async function handler(req, res) {
   let url;
   try { url = new URL(req.url || '/', 'http://x'); } catch {
@@ -263,6 +327,15 @@ export async function handler(req, res) {
   if (p === '/upload') return html(200, uploadPage(url.searchParams.get('subject') || ''));
 
   if (p === '/compliance') return html(200, compliancePage({ shell }));
+
+  if (p === '/apply') {
+    if (String(req.method || 'GET').toUpperCase() !== 'POST') return html(200, applyPage());
+    const raw = await readBody(req);
+    const form = Object.fromEntries(new URLSearchParams(raw));
+    const out = appendApplication(form);
+    if (!out.ok) return html(200, applyPage({ error: out.reason, values: form }));
+    return html(200, applyPage({ done: true }));
+  }
 
   if (surfaceNames().includes(p.slice(1))) {
     const page = surfacePage(p.slice(1), { shell, subject: url.searchParams.get('subject') || '' });
