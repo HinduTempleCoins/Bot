@@ -2,7 +2,7 @@
 // Library, that traversal is refused, and that the age gate is per surface rather than per site.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handler, listArticles, readArticle, esc, policyFor } from './server.mjs';
+import { handler, listArticles, readArticle, esc, policyFor, safeNext } from './server.mjs';
 
 function call(url) {
   const req = { method: 'GET', url };
@@ -146,12 +146,31 @@ test('an unknown surface fails closed at id', () => {
 // ── the application route ───────────────────────────────────────────────────────────────────────
 
 import { __setIO, ACKS } from './applications-store.mjs';
+import { attest, GATE_COOKIE } from './gate-web.mjs';
 
-function postCall(url, fields) {
+// /apply sits at `attested`, so these tests pass the gate first — which is itself the assertion that
+// the gate is real. A secret must exist or nothing mints.
+process.env.YONI_GATE_SECRET = process.env.YONI_GATE_SECRET || 'test-secret-for-the-suite';
+
+async function gateCookie() {
+  const out = await attest('suite-subject');
+  assert.equal(out.ok, true, out.reason);
+  return `${GATE_COOKIE}=${encodeURIComponent(out.token)}`;
+}
+
+function callWith(url, cookie) {
+  const req = { method: 'GET', url, headers: { cookie } };
+  const res = { code: 0, headers: {}, body: '',
+    writeHead(c, h) { this.code = c; this.headers = h || {}; },
+    end(b) { this.body = b || ''; } };
+  return handler(req, res).then(() => ({ code: res.code, body: res.body }));
+}
+
+function postCall(url, fields, cookie) {
   const body = new URLSearchParams(fields).toString();
   const handlers = {};
   const req = {
-    method: 'POST', url, headers: {},
+    method: 'POST', url, headers: cookie ? { cookie } : {},
     on(ev, fn) { handlers[ev] = fn; return this; },
   };
   const res = { code: 0, headers: {}, body: '',
@@ -169,8 +188,16 @@ const fullForm = (extra = {}) => ({
   ...Object.fromEntries(Object.keys(ACKS).map((k) => [k, 'on'])), ...extra,
 });
 
-test('GET /apply serves the form with every acknowledgement', async () => {
+test('GET /apply is gated: an anonymous visitor gets the attestation first', async () => {
   const r = await call('/apply');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /Before you go in/);
+  assert.match(r.body, /18 years of age or over/);
+  assert.doesNotMatch(r.body, /Apply to produce/);
+});
+
+test('GET /apply serves the form with every acknowledgement', async () => {
+  const r = await callWith('/apply', await gateCookie());
   assert.equal(r.code, 200);
   assert.match(r.body, /Apply to produce/);
   assert.equal((r.body.match(/type=checkbox/g) || []).length, Object.keys(ACKS).length);
@@ -180,7 +207,7 @@ test('GET /apply serves the form with every acknowledgement', async () => {
 
 test('POST /apply with a complete form is accepted', async () => {
   __setIO({ read: () => '', append: () => true });
-  const r = await postCall('/apply', fullForm());
+  const r = await postCall('/apply', fullForm(), await gateCookie());
   assert.equal(r.code, 200);
   assert.match(r.body, /Application received/);
   assert.match(r.body, /no rights are granted/i);
@@ -188,7 +215,7 @@ test('POST /apply with a complete form is accepted', async () => {
 
 test('POST /apply re-renders the form with the reason when incomplete', async () => {
   __setIO({ read: () => '', append: () => true });
-  const r = await postCall('/apply', fullForm({ contact: '' }));
+  const r = await postCall('/apply', fullForm({ contact: '' }), await gateCookie());
   assert.equal(r.code, 200);
   assert.match(r.body, /Not submitted/);
   assert.match(r.body, /contact/);
@@ -197,7 +224,7 @@ test('POST /apply re-renders the form with the reason when incomplete', async ()
 
 test('POST /apply refuses a form carrying an identity document', async () => {
   __setIO({ read: () => '', append: () => true });
-  const r = await postCall('/apply', fullForm({ dob: '1990-01-01' }));
+  const r = await postCall('/apply', fullForm({ dob: '1990-01-01' }), await gateCookie());
   assert.match(r.body, /Not submitted/);
   assert.match(r.body, /refusing to store/);
 });
@@ -205,7 +232,7 @@ test('POST /apply refuses a form carrying an identity document', async () => {
 test('an unticked acknowledgement is not submitted', async () => {
   __setIO({ read: () => '', append: () => true });
   const form = fullForm(); delete form.over18;   // an unchecked box posts nothing at all
-  const r = await postCall('/apply', form);
+  const r = await postCall('/apply', form, await gateCookie());
   assert.match(r.body, /Not submitted/);
   assert.match(r.body, /18 or over/);
 });
@@ -214,4 +241,49 @@ test('the upload door points a stranger at the application', async () => {
   const r = await call('/upload?subject=stranger');
   assert.match(r.body, /<b>Closed\.<\/b>/);
   assert.match(r.body, /href="\/apply"/);
+});
+
+// ── the gate actually gates ─────────────────────────────────────────────────────────────────────
+
+test('an attestation opens apply and still cannot open gallery, video or live', async () => {
+  const cookie = await gateCookie();
+  assert.match((await callWith('/apply', cookie)).body, /Apply to produce/);
+  for (const s of ['gallery', 'video', 'live']) {
+    const r = await callWith(`/${s}`, cookie);
+    assert.match(r.body, /Not available yet/, `${s} opened on a click`);
+    assert.match(r.body, /has not contracted a provider/);
+  }
+});
+
+test('the open surfaces need no gate at all', async () => {
+  for (const s of ['/', '/preview', '/surfaces', '/compliance']) {
+    const r = await call(s);
+    assert.equal(r.code, 200, s);
+    assert.doesNotMatch(r.body, /Before you go in/, `${s} should not be gated`);
+  }
+});
+
+test('a subject cookie is set on a first visit and is httpOnly', async () => {
+  const req = { method: 'GET', url: '/', headers: {} };
+  const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.code = c; this.headers = h || {}; }, end(b) { this.body = b || ''; } };
+  await handler(req, res);
+  const set = [].concat(res.headers['set-cookie'] || []);
+  const sub = set.find((c) => c.startsWith('ys_s='));
+  assert.ok(sub, 'subject cookie set');
+  assert.match(sub, /HttpOnly/);
+  assert.match(sub, /^ys_s=[a-f0-9]{32};/, 'opaque hex, nothing derived from the request');
+});
+
+test('safeNext refuses anything that is not an internal path', () => {
+  for (const bad of ['//evil.com', 'http://evil.com', 'https://evil.com', '/x\r\nX: 1', '\\\\evil', '', null]) {
+    assert.equal(safeNext(bad), '/', `rejected: ${JSON.stringify(bad)}`);
+  }
+  assert.equal(safeNext('/apply'), '/apply');
+  assert.equal(safeNext('/a/Some_Article'), '/a/Some_Article');
+});
+
+test('GET on the attest endpoint is refused', async () => {
+  const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.code = c; this.headers = h || {}; }, end(b) { this.body = b || ''; } };
+  await handler({ method: 'GET', url: '/gate/attest', headers: {} }, res);
+  assert.equal(res.code, 405);
 });
