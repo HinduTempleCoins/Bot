@@ -12,7 +12,7 @@ import { market } from './hive-engine-market.mjs';
 import { detectWalls } from './wall-bot.mjs';
 import { holders } from './holders.mjs';
 import { sellRisk } from './sell-risk.mjs';
-import { CHAINS, chainStatus, chainsTvl, nativePrices, missingPriceIds } from './chains/multichain.mjs';
+import { CHAINS, chainStatus, chainsTvl, nativePrices, missingPriceIds, PRANA_MAINNET_RPC, PRANA_RPC_ENV } from './chains/multichain.mjs';
 import { crossChainSpread } from './chains/crosschain-arb.mjs';
 
 const HE_TOKENS = (process.env.COLLECT_HE_TOKENS || 'VKBT,CURE,SWAP.GIFU').split(',').map((s) => s.trim());
@@ -55,6 +55,11 @@ export async function collectHive() {
 
 // --- 20-chain bots ---------------------------------------------------------
 export async function collectChains() {
+  // THIS collector wants our own chain read even with no EnvironmentFile on its unit — which is
+  // exactly the state melek-collect.service is in, and why `prana` was the one chain of 23 that
+  // reported nothing for five months. The default lives here rather than in pranaRpc() so that
+  // every other reader keeps its dormant-when-unset contract and the test suite stays offline.
+  if (!process.env[PRANA_RPC_ENV]) process.env[PRANA_RPC_ENV] = PRANA_MAINNET_RPC;
   const names = Object.keys(CHAINS);
   const [tvl, prices, statuses] = await Promise.all([
     chainsTvl().catch(() => ({})), nativePrices().catch(() => ({})), Promise.all(names.map((n) => chainStatus(n).catch(() => null))),

@@ -3,9 +3,11 @@
 // runOnce releases ONLY finalized native withdrawals, once per nonce, soft-failing on a broadcast throw.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import fsmod from 'node:fs';
 import {
   decodeWithdrawalLog, decodeDestination, scaleDownToNative, buildReleaseOp,
   loadConfig, fetchWithdrawals, runOnce, makeRunner, WITHDRAWAL_TOPIC0, __setFetch,
+  ReleasedNonceStore, MemoryNonceStore,
 } from './bridge-withdrawal-runner.mjs';
 
 const TOKEN_ID = '0x' + 'ab'.repeat(32);             // stand-in wMELEK tokenId
@@ -118,7 +120,10 @@ test('a non-native tokenId is skipped (engine-side wrapper)', async () => {
 test('idempotent: a second tick does not re-release the same nonce', async () => {
   installFakeChain([log({ nonce: 7, block: 10 })], 100);
   const calls = [];
-  const runner = makeRunner((op) => { calls.push(op); return 1; }, cfg());
+  // Explicit MemoryNonceStore: makeRunner now PERSISTS by default, and a test must not touch
+  // /var/lib. Passing the store also separates per-process idempotency from the across-restart
+  // idempotency the next test covers.
+  const runner = makeRunner((op) => { calls.push(op); return 1; }, cfg(), new MemoryNonceStore());
   const r1 = await runner.tick();
   const r2 = await runner.tick();
   assert.equal(r1.released.length, 1);
@@ -156,3 +161,64 @@ test('fetchWithdrawals soft-fails with no rpc configured', async () => {
 });
 
 test('cleanup', () => { __setFetch(); });
+
+
+// ── restart idempotency: the defect this module shipped with ───────────────────────────────────────
+// The released set was a per-process `new Set()` with no cursor and a 5,000-block rescan, so a
+// restart re-released every withdrawal in the window as real MELEK out of custody. Graphene
+// transfers carry no duplicate protection, so nothing downstream would have caught it.
+test('ACROSS RESTART: a new runner over the same store does not re-release', async () => {
+  installFakeChain([log({ nonce: 7, block: 10 }), log({ nonce: 8, block: 11 })], 100);
+  const calls = [];
+  const bc = (op) => { calls.push(op); return 1; };
+  const store = new MemoryNonceStore();
+
+  const first = await makeRunner(bc, cfg(), store).tick();
+  assert.equal(first.released.length, 2, 'both go out on the first run');
+  assert.equal(calls.length, 2);
+
+  // a fresh runner is a fresh process: same chain state, same store
+  const second = await makeRunner(bc, cfg(), store).tick();
+  assert.equal(second.released.length, 0, 'NOTHING may go out twice');
+  assert.equal(calls.length, 2, 'no second broadcast — this is the money assertion');
+  assert.ok(second.skipped.every((x) => x.reason === 'nonce-already-released'));
+});
+
+test('FAILS CLOSED: unreadable state refuses the whole tick rather than repaying', async () => {
+  installFakeChain([log({ nonce: 7, block: 10 })], 100);
+  const calls = [];
+  const corrupt = { read: () => null, write: () => true };
+  const r = await makeRunner((op) => { calls.push(op); return 1; }, cfg(), corrupt).tick();
+  assert.equal(r.ok, false);
+  assert.equal(r.reason, 'untrusted-state');
+  assert.equal(calls.length, 0, 'a store we cannot read must release NOTHING');
+});
+
+test('FAILS CLOSED: a failed persist halts the tick after the release it could not record', async () => {
+  installFakeChain([log({ nonce: 7, block: 10 }), log({ nonce: 8, block: 11 })], 100);
+  const calls = [];
+  const unwritable = { read: () => [], write: () => false };
+  const r = await makeRunner((op) => { calls.push(op); return 1; }, cfg(), unwritable).tick();
+  assert.equal(calls.length, 1, 'stops after the first release rather than continuing blind');
+  assert.ok(r.failed.some((f) => /could-not-persist/.test(f.reason)));
+});
+
+test('ReleasedNonceStore: clean start on a missing file, round-trip, UNTRUSTED on corrupt', () => {
+  const path = `${process.cwd()}/.tmp-wd-store-${process.pid}.json`;
+  try {
+    const st = new ReleasedNonceStore(path);
+    assert.deepEqual(st.read(), [], 'no file yet is a clean first run, not a failure');
+    assert.equal(st.write(new Set(['7', '8'])), true);
+    assert.deepEqual(new ReleasedNonceStore(path).read(), ['7', '8'], 'round-trips');
+    fsmod.writeFileSync(path, '{not json');
+    assert.equal(new ReleasedNonceStore(path).read(), null, 'corrupt is UNTRUSTED, never a clean start');
+    fsmod.writeFileSync(path, '{"released":"not-an-array"}');
+    assert.equal(new ReleasedNonceStore(path).read(), null, 'wrong shape is untrusted too');
+  } finally { try { fsmod.unlinkSync(path); } catch { /* ignore */ } }
+});
+
+test('persistence is ON by default — makeRunner with no store argument gets a real one', () => {
+  const r = makeRunner(() => 1, cfg());
+  assert.ok(r.ctx.store instanceof ReleasedNonceStore, 'the safe default must not be in-memory');
+  assert.ok(loadConfig({}).stateFile, 'and a path is always configured');
+});

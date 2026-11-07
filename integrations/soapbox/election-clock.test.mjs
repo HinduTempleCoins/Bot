@@ -56,7 +56,14 @@ test('nextGeneralElection finds the next election on/after a date, with presiden
 test('nextGeneralElection uses injectable nowMs and returns null on bad input', () => {
   const r = nextGeneralElection({ nowMs: Date.UTC(2026, 0, 1) });
   assert.equal(r.date, '2026-11-03');
-  assert.equal(nextGeneralElection({ fromDate: 'not-a-date' }) && nextGeneralElection({ fromDate: 'not-a-date' }).date, '2026-11-03'); // bad fromDate falls back to nowMs
+  // The fallback is to nowMs, so nowMs MUST be injected here too or the assertion rots: with the real
+  // clock this read '2026-11-03' until 2026-11-03 and has returned 2028-11-07 ever since. The function
+  // was right and the test was wall-clock dependent.
+  const bad = nextGeneralElection({ fromDate: 'not-a-date', nowMs: Date.UTC(2026, 0, 1) });
+  assert.equal(bad && bad.date, '2026-11-03', 'a bad fromDate falls back to the injected nowMs');
+  // and the fallback really is nowMs, not a constant — a later nowMs gives the next even year
+  const later = nextGeneralElection({ fromDate: 'not-a-date', nowMs: Date.UTC(2026, 10, 7) });
+  assert.equal(later && later.date, '2028-11-07', 'past the 2026 election it advances two years');
 });
 
 test('registrationOffsetDays reads the config stub; same-day states are 0; default fallback', () => {
