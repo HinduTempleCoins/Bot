@@ -1,0 +1,213 @@
+'''Dancing, travel and the line at contact''' is the strip-club companion to [[Paid for Her Time Fee Agreement and Transport]]. It sets out four things American law actually draws, each of which popular discussion gets wrong in a different way. '''Erotic dancing is protected expression''' — barely, and the "barely" matters. '''The criminal line in a club is contact, not nudity''', and the statute that draws it is not the one most people name. '''A private booking is not an offence because it is private''' — it is outside the public-nudity frame for a reason that can be stated precisely, and the real exposure lies elsewhere. And '''travelling to dance is not within the federal transport statute at all''', because dancing is not prostitution.
+
+The through-line, which is the operator's framing and is also the law's: '''the fee buys the performance. Whether she has sex with anyone is her own decision, separately made, and not demanded.''' That last clause is not a moral gloss. It is the element that keeps the arrangement lawful, and the article shows where it is doing the work.
+
+''Legal education, not legal advice. Statutes quoted from mirrors current as of 1 January 2026; Texas is used as the worked example because it is the operator's jurisdiction, and the rules differ sharply by state and by city. Anyone with real exposure needs a lawyer admitted where they are.''
+
+== 1. Dancing is protected expression, and the Court said how much ==
+
+Three Supreme Court cases, in order, quoted from the Caselaw Access Project.
+
+'''''Schad v. Borough of Mount Ephraim''''', 452 U.S. 61 (1981) — a zoning ordinance permitted no live entertainment anywhere in the borough. The Court struck it down. The state court below had itself recognised <code>live nude dancing is protected by the First Amendment</code> while treating the case as "solely a zoning ordinance"; the Supreme Court did not accept that a total exclusion of live entertainment escapes First Amendment review.
+
+'''''Barnes v. Glen Theatre, Inc.''''', 501 U.S. 560 (1991) — Rehnquist, C.J., announcing the judgment. The holding on protection, and the qualifier:
+
+<code>nude dancing of the kind sought to be performed here is expressive conduct within the outer perimeters of the First Amendment, though we view it as only marginally so</code>
+
+And immediately after: <code>This, of course, does not end our inquiry.</code> Indiana's public-indecency statute was upheld. Note what the Court said Indiana had done: it <code>has not banned nude dancing as such, but has proscribed public nudity across the board.</code>
+
+'''''City of Erie v. Pap's A.M.''''', 529 U.S. 277 (2000) — the Pennsylvania Supreme Court had found Erie's public-nudity ordinance content-based, reasoning that bound up with the stated secondary-effects purpose was <code>an unmentioned purpose ... to impact negatively on the erotic message of the dance</code>. The Supreme Court reversed:
+
+<code>We hold that Erie's ordinance is a content-neutral regulation that satisfies the four-part test of United States v. O'Brien, 391 U. S. 367 (1968).</code>
+
+'''The practical upshot, stated without inflation.''' Erotic dance '''is''' expression, so a jurisdiction cannot simply forbid it the way it could forbid a sex-for-money transaction. But the protection is thin, it is held to be "only marginally so", and the regulation that survives is substantial. '''Anyone arguing that the First Amendment makes a club unregulable is not reading these cases.''' What they establish is that regulation must be aimed at effects rather than at the message — a test the cities keep winning.
+
+== 2. What is actually regulated — and the Texas age rule, which is current ==
+
+The framework is ''City of Renton v. Playtime Theatres'', 475 U.S. 41 (1986): a law that '''bans''' adult businesses is one thing; a law that regulates '''time, place and manner''' to combat secondary effects gets '''intermediate scrutiny''' and is upheld if it serves a substantial governmental interest and leaves reasonable alternative avenues of communication.
+
+'''The live Texas case is recent and it should be known by anyone working in or around a club.'''
+
+'''''Association of Club Executives of Texas, Inc. v. Paxton''''', No. 24-50434 (5th Cir. '''14 July 2025'''), Stewart, Circuit Judge, with Dennis and Haynes, JJ. '''Affirmed''' — the statute stands. The opening frames it exactly:
+
+<code>In this case, our duty is to assess whether a statute's restriction on speech withstands constitutional scrutiny—not to second guess the wisdom of state legislative policy.</code>
+
+'''What the law does.''' '''Texas S.B. 315''' (87th Leg. R.S., '''2021''' — not 2023, and the bill is frequently misdated) raised the working age at a sexually oriented business from eighteen to '''twenty-one''', on a stated rationale of preventing sex trafficking and sexual exploitation and the <code>harmful secondary effects of sexually oriented businesses</code>. It operates in two places the opinion names:
+
+* '''Tex. Labor Code § 51.016(b)''' — <code>[a] sexually oriented business may not employ or enter into a contract . . . for the performance of work or the provision of a service with an individual younger than 21 [18] years of age.</code> Violation is a '''Class A misdemeanor''', up to a year, plus administrative penalties and injunctive relief.
+* '''Tex. Civ. Prac. & Rem. Code § 125.0015(a)''' — doing so is a '''common nuisance'''.
+
+'''Two consequences that are easy to miss and expensive to miss.'''
+
+# '''"Or enter into a contract" means the independent-contractor dodge does not work here.''' The usual club arrangement — dancers as contractors rather than employees — does not take a twenty-year-old outside § 51.016(b), because the section reaches contracting for the performance of work or provision of a service, not just employment.
+# '''In Texas the floor for this work is 21, not 18.''' That is higher than the federal filming floor of 18 (see [[The Federal Age Floor for Filming]]). A dancer who is of age for a film shoot may be under age for a club.
+
+The court applied ''Renton'': it asked whether the law bans or merely regulates, held the latter, and then <code>[1] 'is designed to serve a substantial governmental interest and [2] allows for reasonable alternative avenues of communication.'</code> Both satisfied. The related decision the panel relied on is ''Ass'n of Club Execs of Dallas, Inc. v. City of Dallas'', 83 F.4th 958 (5th Cir. 2023), cert. denied, 144 S. Ct. 1064 (2024).
+
+The definition that decides whether a premises is caught at all is '''Tex. Loc. Gov't Code § 243.002''': <code>a sex parlor, nude studio, modeling studio, love parlor, adult bookstore, adult movie theater, adult video arcade, adult movie arcade, adult video store, adult motel, or other commercial enterprise the primary business of which is the offering of a service or the selling, renting, or exhibiting of devices or any other items intended to provide sexual stimulation or sexual gratification to the customer.</code> Note '''"nude studio, modeling studio"''' — the category is broader than "strip club", and a photography or modelling operation can fall inside it.
+
+== 3. The criminal line is contact, not nudity ==
+
+This is the section that matters most in practice, and almost everyone names the wrong statute. In Texas, two provisions do the work and they do different jobs.
+
+'''Public lewdness — Tex. Penal Code § 21.07(a).''' A person offends by knowingly engaging in certain acts <code>in a public place or, if not in a public place, the person is reckless about whether another is present</code> <code>who will be offended or alarmed by the person's</code> act of sexual intercourse, deviate sexual intercourse, '''or act of sexual contact'''. '''Class A misdemeanor''' (third-degree felony for an actor civilly committed as a sexually violent predator).
+
+'''And "sexual contact" is defined for the whole of Chapter 21, at § 21.01(2):'''
+
+<code>"Sexual contact" means, except as provided by Section 21.11 or 21.12, any touching of the anus, breast, or any part of the genitals of another person with intent to arouse or gratify the sexual desire of any person.</code>
+
+'''Read that list again. "Breast" is in it.''' So:
+
+* '''Dancing is not an enumerated act.''' Nude dancing, however explicit, is not intercourse, deviate sexual intercourse, or by itself a touching. '''§ 21.07 does not reach dancing.'''
+* '''Contact is.''' A lap dance involving a touching of the breast, anus or genitals, with intent to arouse or gratify '''anyone''', in a '''public place''', is within § 21.07 on the face of the statute. '''This is the actual legal reason clubs have no-touch rules''' — not squeamishness, and not the liquor licence. It is a Class A misdemeanor element, and it is the performer and the customer who are exposed to it, not only the club.
+
+'''Indecent exposure — § 21.08(a)''' does a different job, and the difference is worth stating precisely:
+
+<code>A person commits an offense if he exposes his anus or any part of his genitals with intent to arouse or gratify the sexual desire of any person, and he is reckless about whether another is present who will be offended or alarmed by his act.</code>
+
+'''Class B misdemeanor''', rising to Class A with one prior and a state jail felony with two or more.
+
+'''Two features of § 21.08 that are almost always reported wrongly.'''
+
+# '''It contains no public-place element at all.''' The words "public place" do not appear. It can be committed anywhere, and the limiting element is the recklessness clause instead.
+# '''"Breast" is not in it.''' § 21.08 lists <code>anus or any part of his genitals</code>. '''Topless-only performance is therefore outside § 21.08 on its text''', whatever else may regulate it. Full nudity is inside it only if the recklessness element is met.
+
+'''So the structure, which is nothing like the folk version:''' nudity is governed mainly by '''licensing, zoning and ordinances''' — the ''Barnes''/''Pap's'' public-nudity layer and the SOB regime — while the '''criminal''' exposure in the room is about '''contact''' and about '''who else is present'''.
+
+== 4. A private booking: why it is different, stated precisely ==
+
+The operator's example is a dancer performing at someone's house. The law treats that differently, and the reason is specific rather than a general "private is fine".
+
+'''"Public place" is an access test, not a property test. Tex. Penal Code § 1.07(a)(40):'''
+
+<code>"Public place" means any place to which the public or a substantial group of the public has access</code> <code>and includes, but is not limited to, streets, highways, and the common areas of schools, hospitals, apartment houses, office buildings, transport facilities, and shops.</code>
+
+'''What that text does and does not settle.'''
+
+* The test is '''access''' — whether the public or a substantial group of it has access — not ownership, and not what kind of building it is.
+* The list is '''"includes, but is not limited to"''', so it is not exhaustive.
+* It names <code>the common areas of ... apartment houses</code> — '''common areas, not the individual units'''. That is the closest the definition comes to the question and it points away from a dwelling.
+* '''The text does not say whether a private residence is a public place.''' It leaves it to turn on access. ''This article does not resolve it'' — and note the practical corollary: '''a "private" party that anyone can walk into starts to look like a place the public has access to.''' Invitation and control of the door are doing real work.
+
+'''Now apply § 21.08's recklessness element, which is the sharper point.''' The offence requires that the actor be <code>reckless about whether another is present who will be offended or alarmed</code>. '''The person who booked the performance is not that person.''' He hired her to do it; he is not someone who "will be offended or alarmed by" it. So as to the audience that engaged her, '''the element is simply absent''' — which is the real reason a booked private performance is not an indecent-exposure case, and it is a far better reason than "nobody will know."
+
+'''Where the exposure actually is''', then — and these are the things worth being careful about rather than the nudity itself:
+
+* '''A third party who did not consent.''' Someone present who did not book it and does not want it supplies exactly the person the recklessness clause is about.
+* '''A minor present.''' This changes the analysis completely and moves into other chapters entirely. There is no version of this that is survivable.
+* '''Visibility outward''' — an open window, a balcony, a yard. That can convert the setting.
+* '''Contact''', per section 3, with its own analysis and its own non-public branch.
+* '''Local licensing.''' This is the genuine grey area and it is municipal. Cities license "escorts", "entertainers" and SOBs separately and inconsistently, and an operation that '''dispatches''' performers can be regulated as a business even where each individual performance is lawful. ''This article does not state the rule for any particular city, because there is no general rule to state — it has to be read ordinance by ordinance.''
+* '''And the § 43.02 line''' from the companion article: the fee must be for the '''performance'''. A booking that prices or promises a sex act is a different transaction with a different statute.
+
+== 5. Travelling to dance is not within the federal transport statute ==
+
+This is the cleanest point in the article, and it is cleaner than the escort case in [[Paid for Her Time Fee Agreement and Transport]].
+
+'''18 U.S.C. § 2421(a)''' reaches whoever knowingly transports an individual in interstate commerce <code>with intent that such individual engage in prostitution, or in any sexual activity for which any person can be charged with a criminal offense</code>.
+
+'''Dancing is neither.''' It is not prostitution, and it is not "sexual activity for which any person can be charged with a criminal offense" — it is expressive conduct the Supreme Court has placed within the First Amendment's outer perimeters. '''So transporting a dancer, or a dancer travelling to dance, does not engage § 2421's object at all.''' The statute's element is missing at the threshold; one does not even reach the question of purpose. The same goes for § 2422's enticement-to-travel offence.
+
+And where purpose '''is''' litigated, the rule is demanding. '''''Mortensen v. United States''''', 322 U.S. 369 (1944):
+
+<code>An intention that the women or girls shall engage in the conduct outlawed by § 2 must be found to exist before the conclusion of the interstate journey and must be the dominant motive of such interstate movement.</code>
+
+<code>Without that necessary intention and motivation, immoral conduct during or following the journey is insufficient to subject the transporter to the penalties of the Act.</code>
+
+The defendants there actually operated a brothel and actually travelled with women they employed as prostitutes, '''and they still won''', because the trip's purpose was a holiday. '''A woman travelling to take a dancing booking — like a woman travelling to model or to act in a video — is travelling for a lawful purpose, and the statute reaches the mover's purpose.'''
+
+''The caution from the companion article applies unchanged and is repeated because it is the part that hurts people:'' ''Mortensen'' construes the Mann Act's purpose element. '''It is not a safe harbour for 18 U.S.C. § 1591''', where force, fraud or coercion — or a person under 18, for whom no force, fraud or coercion need be shown — makes every distinction in this article irrelevant.
+
+== 6. "It is not demanded" is the load-bearing clause ==
+
+The operator's formulation is that she can decide whether she wants to have sex with someone, '''and that it is not demanded'''. That second half is not softening. '''It is the element, and it is where the lawful arrangement and the felony are separated.'''
+
+'''Why her retained right to decline is doing legal work in three statutes at once:'''
+
+* '''§ 43.02 / § 43.021 — the agreement.''' If sex was not bargained for, the fee is not consideration for sexual conduct and the element fails. '''A genuine right to decline is the best available proof that it was not part of the deal.''' If declining were not really available, then it was part of the deal, and the label on the booking will not save it.
+* '''§ 43.03 — promotion.''' A club, agency or booker that '''requires''' or pressures sex is soliciting another to engage in sexual conduct for compensation, or taking a share of its proceeds. That is a '''third-degree felony''' and it is the operator's exposure, not hers.
+* '''§ 1591 — trafficking.''' Pressure that becomes '''force, fraud or coercion''' is this statute, with no transport element needed and penalties in a different universe. "She can say no, but she will lose her shifts" is the fact pattern prosecutors build coercion cases out of.
+
+'''Stated plainly: the right to decline is not a courtesy extended to her. It is the thing that makes the arrangement lawful, and removing it is what creates the crime.''' A house rule that quietly requires more than the performance converts a licensed business into a promotion case and possibly a trafficking case, and it does so for the house, not for the dancer. '''Any club or booker reading this should understand that the dancer's freedom to refuse is their own legal protection, and the first thing a prosecutor will test.'''
+
+== 7. The money: in the Fifth Circuit a dancer is an employee ==
+
+This is the part of the subject with the largest and most recoverable amount of money in it, and it is routinely not told to dancers.
+
+'''''Reich v. Circle C Investments, Inc.''''', 998 F.2d 324 (5th Cir. 1993), Reavley, Circuit Judge. The Secretary of Labor sued over minimum wage, overtime and record-keeping under the FLSA. The clubs argued the dancers were not covered. The court's answer, verbatim:
+
+<code>The defendants suffered judgment and contend on appeal that the topless dancers at the nightclubs owned by Circle C are not "employees" covered by the FLSA. We hold that they are.</code>
+
+'''And the court described, and rejected, the argument the industry still runs.''' The dancers were paid <code>solely from tips they receive from customers</code> and had to pay the club a nightly <code>"tip-out"</code> — $20 at the time of trial — <code>regardless of how much they make in tips</code>. The clubs characterised that as '''stage rental''' and said the dancers were <code>merely "tenants"</code>: <code>neither employees nor independent contractors, but are businesswomen renting space, stages, music, dressing rooms, and lights</code>.
+
+The test the court applied:
+
+<code>our focal inquiry in determining employee status is whether the individual is, as a matter of economic reality, in business for herself</code>
+
+and the five factors: <code>(1) the degree of control exercised by the alleged employer; (2) the extent of the relative investments of the worker and alleged employer; (3) the degree to which the worker's opportunity for profit and loss is determined by the alleged employer; (4) the skill and initiative required in performing the job; and (5) the permanency of the relationship.</code> No single factor is determinative; findings reviewed for clear error, the ultimate status determination '''de novo'''.
+
+'''What this means concretely, in Texas and the rest of the Fifth Circuit.''' A dancer classified as a contractor, paid only in tips, charged a mandatory nightly house fee, is '''very likely an employee as a matter of law''' — which means entitlement to minimum wage and overtime, and the club's obligation to keep records. '''The "she rents the stage" theory was presented to the Fifth Circuit and lost.'''
+
+''Graded, because the picture outside this holding is less uniform:'' the economic-realities test is applied circuit by circuit and outcomes vary with the facts; the Fourth Circuit has held that '''the FLSA bars a club from using the dancers' tips or fees to offset the minimum wage it owed''', while leaving open whether a mandatory performance fee is a tip or a separate "service charge"; and large recoveries and settlements are on the record in several districts. ''Those points come from secondary reporting of the cases rather than from opinions quoted here, and should be checked before being relied on.''
+
+== 8. Where the evidence stops ==
+
+* '''Whether a private residence is a "public place"''' — § 1.07(a)(40) is an access test and does not answer it. '''Not resolved here.'''
+* '''Municipal licensing of private-booking and escort/entertainer businesses''' — real, decisive, and entirely local. '''No general rule is stated''' because there is none.
+* '''Whether § 21.07's "knowingly" attaches to both branches''' — the text does not say, and this article does not resolve it.
+* '''FLSA outcomes outside ''Circle C''''' — the tip-offset rule and the settlement figures are from secondary sources, flagged in section 7.
+* '''Later history of ''ACE of Texas v. Paxton''''' — read from the opinion PDF as issued 14 July 2025. '''Any rehearing or certiorari after that date was not checked''', so confirm before relying on it.
+* '''Texas statutory text''' — from mirrors stamped current as of 1 January 2026, verified May 2025 on one mirror. Texas legislates in odd years; '''confirm against the session laws.'''
+
+== 9. The ledger ==
+
+{| class="wikitable"
+|+ Claims in this article, graded
+! Claim !! Grade !! Rests on
+|-
+| Nude dancing is expressive conduct, but "only marginally so" || '''Supreme Court''' || ''Barnes'', 501 U.S. 560, quoted
+|-
+| A total ban on live entertainment fails First Amendment review || '''Supreme Court''' || ''Schad'', 452 U.S. 61
+|-
+| A content-neutral public-nudity ordinance survives under ''O'Brien'' || '''Supreme Court''' || ''Pap's A.M.'', 529 U.S. 277, quoted
+|-
+| SOB regulation gets intermediate scrutiny under the ''Renton'' two-step || '''Established''' || ''Renton'', 475 U.S. 41; applied in ''ACE of Texas''
+|-
+| Texas requires workers at an SOB to be 21 || '''Statute + 5th Cir.''' || Tex. Labor Code § 51.016(b); S.B. 315 (2021); ''ACE of Texas v. Paxton'' (5th Cir. 14 Jul 2025), affirmed
+|-
+| That age rule reaches contractors, not just employees || '''Statutory text''' || "employ or enter into a contract … for the performance of work"
+|-
+| S.B. 315 is 2021, not 2023 || '''Established''' || Opinion cites Tex. S.B. 315, 87th Leg. R.S. (2021)
+|-
+| § 21.07 does not reach dancing as such || '''Statutory text''' || Enumerated acts are intercourse, deviate intercourse, sexual contact
+|-
+| Breast contact with intent to arouse IS "sexual contact" || '''Statutory text''' || § 21.01(2), quoted; applies chapter-wide
+|-
+| § 21.08 has no public-place element || '''Statutory text''' || The words do not appear in § 21.08(a)
+|-
+| Topless-only is outside § 21.08 || '''Statutory text''' || § 21.08 lists anus and genitals, not breast
+|-
+| "Public place" is an access test that does not resolve residences || '''Statutory text''' || § 1.07(a)(40), quoted; names only common areas of apartment houses
+|-
+| The booking client is not a person "offended or alarmed" || '''Argument on the text''' || § 21.08 recklessness element applied to a consenting audience
+|-
+| Dancing is not within § 2421's object || '''Argument on the text''' || § 2421(a) requires prostitution or chargeable sexual activity
+|-
+| Transport liability needs the mover's dominant motive || '''Supreme Court''' || ''Mortensen'', 322 U.S. 369, quoted
+|-
+| Requiring or pressuring sex moves the house into § 43.03 and possibly § 1591 || '''Statutory structure''' || § 43.03(a); § 1591
+|-
+| Topless dancers are FLSA employees in the Fifth Circuit || '''Circuit holding''' || ''Reich v. Circle C'', 998 F.2d 324 — "We hold that they are"
+|-
+| The "dancers are tenants renting the stage" theory was rejected || '''Circuit holding''' || ''Circle C'', quoted
+|-
+| Tips cannot offset the minimum wage owed || ''Secondary reporting'' || 4th Cir.; not quoted from the opinion here
+|-
+| Municipal licensing of private bookings || ''Not stated — local'' || No general rule exists
+|}
+
+== See also ==
+
+* [[Paid for Her Time Fee Agreement and Transport]] — the fee/agreement analysis, the escort-versus-brothel line, and ''Mortensen'' in full
+* [[Actress or Prostitute The Legal Line]] — the production side: ''People v. Freeman'' and what makes a payment an acting fee
+* [[The Federal Age Floor for Filming]] — the federal 18 floor and § 2257 records, against which the Texas 21 rule should be read

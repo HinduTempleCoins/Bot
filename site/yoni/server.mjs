@@ -128,6 +128,8 @@ const ARTICLE_NOTES = {
     ['law', 'what makes a payment an acting fee instead of a sex-work offence — People v. Freeman, and why it does not travel'],
   Paid_for_Her_Time_Fee_Agreement_and_Transport:
     ['law', 'fee-for-time versus fee-for-an-act, why an escort service is not a brothel, and the Mann Act\u2019s dominant-motive rule'],
+  Dancing_Travel_and_the_Line_at_Contact:
+    ['law', 'erotic dance as protected expression, why the criminal line in a club is contact and not nudity, and Texas\u2019s 21 rule'],
   The_Federal_Age_Floor_for_Filming:
     ['law', '18 U.S.C. \u00a7 2257 and \u00a7 2257A — the records every producer owes, and exactly where "sexually explicit" begins'],
   DMCA_and_Takedown_in_Adult_Media:
