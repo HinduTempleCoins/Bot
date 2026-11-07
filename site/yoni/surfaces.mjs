@@ -109,7 +109,7 @@ export const surfaceNames = () => Object.keys(SURFACES);
  * Render one gated surface. `shell` is the caller's page wrapper so this module owns no styling.
  * Fails closed: an unknown surface gets the model's own fail-closed policy (id).
  */
-export function surfacePage(name, { shell, subject = '' } = {}) {
+export function surfacePage(name, { shell, subject = '', items = null } = {}) {
   const key = String(name || '');
   const spec = SURFACES[key];
   if (!spec || typeof shell !== 'function') return null;
@@ -123,6 +123,21 @@ export function surfacePage(name, { shell, subject = '' } = {}) {
       : `<b>Not cleared.</b> <span class=mut>This surface needs <code>${esc(pol.level)}</code> and nothing is served until that check is done.</span>`);
 
   const notes = spec.notes.map((n) => `<li>${esc(n)}</li>`).join('');
+
+  // Only a cleared viewer sees anything. `items` arrives already filtered by the caller; this renders it.
+  let shelf = '';
+  if (cleared && Array.isArray(items)) {
+    shelf = items.length
+      ? `<h2>On this surface</h2><div class=grid>${items.map((it) => {
+        const cap = esc(it.caption || '');
+        const by = esc(it.handle || '');
+        const media = key === 'video'
+          ? `<video controls preload=metadata src="${esc(it.url)}"></video>`
+          : `<img loading=lazy alt="${cap}" src="${esc(it.url)}">`;
+        return `<figure>${media}<figcaption>${cap}${by ? ` <span class=mut>&mdash; ${by}</span>` : ''}</figcaption></figure>`;
+      }).join('')}</div>`
+      : '<h2>On this surface</h2><p class=mut>Nothing published here yet.</p>';
+  }
   const controls = pol.level === 'none' ? '' : `
 <h2>What a monetised surface carries</h2>
 <p class=mut>These are Mastercard Rules &sect; 9.4.1, keyed to merchant category code 5967 rather than
@@ -144,7 +159,8 @@ acquirer, and the complaint and appeals processes are running.</span></div>`;
 <div class=card>${gate}</div>
 <p>${esc(spec.blurb)}</p>
 <h2>Particular to this surface</h2>
-<ul>${notes}</ul>${controls}
+<ul>${notes}</ul>
+${shelf}${controls}
 ${closing}
 <p class=mut><a href="/surfaces">&larr; all surfaces</a> &middot;
 <a href="/compliance">what this property has to run</a> &middot; <a href="/">the shelf</a></p>`,

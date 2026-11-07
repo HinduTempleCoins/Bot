@@ -329,3 +329,107 @@ test('GET /gate/verify renders, POST without a body is refused as JSON', async (
   assert.equal(j.ok, false);
   assert.match(j.reason, /no image|not a JPEG/);
 });
+
+// ── the producer pipeline: approve → claim → slot → commit → it appears ────────────────────────
+
+import { approve as approveProducer, __setIO as __setProducerIO } from './producers-store.mjs';
+import { __setIO as __setMediaIO } from './media-store.mjs';
+
+// storageConfig() reads these per request; unset, slotFor correctly refuses to sign anything. Fake values
+// are enough to exercise the signer offline — nothing is ever sent to this endpoint.
+process.env.DRIVE_S3_ENDPOINT = process.env.DRIVE_S3_ENDPOINT || 'https://storage.invalid';
+process.env.DRIVE_S3_BUCKET = process.env.DRIVE_S3_BUCKET || 'test-bucket';
+process.env.DRIVE_S3_KEY = process.env.DRIVE_S3_KEY || 'AKIATEST';
+process.env.DRIVE_S3_SECRET = process.env.DRIVE_S3_SECRET || 'secret-for-tests-only';
+process.env.DRIVE_S3_REGION = process.env.DRIVE_S3_REGION || 'garage';
+
+function memStores() {
+  const p = new Map(); const m = new Map();
+  __setProducerIO({ read: (k) => p.get(k) || '', append: (k, l) => { p.set(k, (p.get(k) || '') + l); return true; } });
+  __setMediaIO({ read: (k) => m.get(k) || '', append: (k, l) => { m.set(k, (m.get(k) || '') + l); return true; } });
+  return { p, m };
+}
+
+function postJson(url, obj, cookie) {
+  const body = JSON.stringify(obj);
+  const h = {};
+  const req = { method: 'POST', url, headers: { ...(cookie ? { cookie } : {}), 'content-type': 'application/json' },
+    on(ev, fn) { h[ev] = fn; return this; }, destroy() {} };
+  const res = { code: 0, headers: {}, body: '', writeHead(c, hh) { this.code = c; this.headers = hh || {}; }, end(b) { this.body = b || ''; } };
+  const done = handler(req, res).then(() => ({ code: res.code, json: (() => { try { return JSON.parse(res.body); } catch { return null; } })() }));
+  if (h.data) h.data(Buffer.from(body));
+  if (h.end) h.end();
+  return done;
+}
+
+test('a stranger cannot ask for an upload slot', async () => {
+  memStores();
+  const r = await postJson('/upload/slot', { surface: 'gallery', filename: 'a.jpg', bytes: 10 });
+  assert.equal(r.code, 403);
+  assert.match(r.json.reason, /not on the producer list/);
+});
+
+test('/upload shows the publish form only to a producer', async () => {
+  memStores();
+  assert.doesNotMatch((await call('/upload')).body, /Publish something/);
+});
+
+test('a bad claim code is refused and grants nothing', async () => {
+  memStores();
+  const r = await call('/upload/claim?code=deadbeef');
+  assert.equal(r.code, 200);
+  assert.match(r.body, /did not work/);
+  assert.equal((await postJson('/upload/slot', { surface: 'gallery', filename: 'a.jpg', bytes: 10 })).code, 403);
+});
+
+test('approve → claim in this browser → slot → commit → it is on the surface', async () => {
+  memStores();
+  const a = approveProducer('ryan');
+  assert.equal(a.ok, true, a.reason);
+
+  // claim binds whatever subject this request carries, so reuse that cookie afterwards
+  const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.code = c; this.headers = h || {}; }, end(b) { this.body = b || ''; } };
+  await handler({ method: 'GET', url: `/upload/claim?code=${a.code}`, headers: {} }, res);
+  assert.match(res.body, /You are a producer here/);
+  assert.match(res.body, /Bound as ryan/);
+  const subjCookie = [].concat(res.headers['set-cookie'] || []).find((c) => c.startsWith('ys_s='))?.split(';')[0];
+  assert.ok(subjCookie, 'the claim response carries the subject cookie');
+
+  const slot = await postJson('/upload/slot', { surface: 'gallery', filename: 'shot.jpg', bytes: 1234 }, subjCookie);
+  assert.equal(slot.code, 200);
+  assert.equal(slot.json.ok, true, slot.json.reason);
+  assert.match(slot.json.putUrl, /X-Amz-Signature=/);
+
+  const done = await postJson('/upload/commit',
+    { key: slot.json.key, surface: 'gallery', caption: 'a test shot', bytes: 1234 }, subjCookie);
+  assert.equal(done.json.ok, true, done.json.reason);
+  assert.equal(done.json.item.handle, 'ryan', 'attributed to the approved handle, not to whatever was posted');
+
+  // and /upload now offers the form to that browser
+  assert.match((await callWith('/upload', subjCookie)).body, /Publish something/);
+  assert.match((await callWith('/upload', subjCookie)).body, /Cleared to publish as ryan/);
+});
+
+test('a producer cannot commit a key outside their own surface prefix', async () => {
+  memStores();
+  const a = approveProducer('ryan');
+  const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.headers = h || {}; }, end() {} };
+  await handler({ method: 'GET', url: `/upload/claim?code=${a.code}`, headers: {} }, res);
+  const c = [].concat(res.headers['set-cookie'] || []).find((x) => x.startsWith('ys_s='))?.split(';')[0];
+  const r = await postJson('/upload/commit', { key: '../../etc/passwd', surface: 'gallery' }, c);
+  assert.equal(r.json.ok, false);
+});
+
+test('an uncleared viewer sees no items even when some are published', async () => {
+  memStores();
+  const a = approveProducer('ryan');
+  const res = { code: 0, headers: {}, body: '', writeHead(c, h) { this.headers = h || {}; }, end() {} };
+  await handler({ method: 'GET', url: `/upload/claim?code=${a.code}`, headers: {} }, res);
+  const c = [].concat(res.headers['set-cookie'] || []).find((x) => x.startsWith('ys_s='))?.split(';')[0];
+  const slot = await postJson('/upload/slot', { surface: 'gallery', filename: 'a.jpg', bytes: 10 }, c);
+  await postJson('/upload/commit', { key: slot.json.key, surface: 'gallery', caption: 'secret', bytes: 10 }, c);
+
+  const anon = await call('/gallery');
+  assert.match(anon.body, /Age check/, 'an unverified viewer is sent to the check');
+  assert.doesNotMatch(anon.body, /secret/, 'a published caption must not leak to an unverified viewer');
+});

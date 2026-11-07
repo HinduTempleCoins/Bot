@@ -31,9 +31,12 @@ import { createServer } from 'node:http';
 import { renderWiki, slugify, titleize } from '../wiki/render.mjs';
 import { policyFor, check as gateCheck, reveal, previewMode, SURFACE_POLICY, LEVELS, rank }
   from '../../integrations/agegate/model.mjs';
-import { surfacePage, compliancePage, surfaceNames, SURFACES, CARD_CONTROLS, INTAKE, producerAllowed }
+import { surfacePage, compliancePage, surfaceNames, SURFACES, CARD_CONTROLS, INTAKE }
   from './surfaces.mjs';
 import { ACKS, appendApplication } from './applications-store.mjs';
+import { isProducer, claim as claimProducer, handleFor } from './producers-store.mjs';
+import { slotFor, commit as commitMedia, listMedia, viewUrlFor, SURFACES as MEDIA_SURFACES }
+  from './media-store.mjs';
 import { satisfies, subjectFor, attest, setCookies, clickCanSatisfy }
   from './gate-web.mjs';
 import { checkSelfie, readRawBody, MAX_BYTES } from './verify-web.mjs';
@@ -81,6 +84,11 @@ input,textarea{width:100%;max-width:100%;box-sizing:border-box;padding:8px;backg
 button{font:inherit;padding:10px 16px;border-radius:6px;border:1px solid var(--acc);background:var(--acc);color:#140f16;font-weight:bold;cursor:pointer}
 ul.acks{list-style:none;padding:0}ul.acks li{margin:10px 0}ul.acks input{width:auto}
 label{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.grid figure{margin:0}
+.grid img,.grid video{width:100%;height:auto;border-radius:6px;border:1px solid var(--line);display:block}
+.grid figcaption{font-size:14px;color:var(--ink);padding-top:6px}
+select{width:100%;padding:8px;background:#0e0a10;color:var(--ink);border:1px solid var(--line);border-radius:5px;font:inherit}
 h1{font-size:30px;line-height:1.25;margin:.2em 0 .5em}
 h2{font-size:22px;border-bottom:1px solid var(--line);padding-bottom:4px;margin-top:1.6em}
 h3{font-size:18px;margin-top:1.3em}
@@ -162,14 +170,14 @@ function uploadPage(subject) {
   const pol = policyFor('upload');
   const state = gateCheck(subject, 'upload');
   const idCleared = !!(state && state.allowed);
-  const isProducer = producerAllowed(subject);
+  const amProducer = isProducer(subject);
   // Two independent conditions, reported separately: being on the producer list is not an age check,
   // and holding an id record does not make someone a producer here.
-  const badge = isProducer && idCleared
-    ? '<b>Cleared to publish.</b> <span class=mut>On the producer list and holding a current <code>id</code> record.</span>'
-    : (isProducer
-      ? `<b>On the producer list, not yet checked.</b> <span class=mut>This door also needs <code>${esc(pol.level)}</code>.</span>`
-      : '<b>Closed.</b> <span class=mut>This property takes no third-party uploads. You can <a href="/apply">apply to produce</a>.</span>');
+  const who = amProducer ? handleFor(subject) : null;
+  const badge = amProducer
+    ? `<b>Cleared to publish${who ? ` as ${esc(who)}` : ''}.</b> <span class=mut>On the producer list.</span>`
+    : '<b>Closed.</b> <span class=mut>This property takes no third-party uploads. You can <a href="/apply">apply to produce</a>.</span>';
+  const form = amProducer ? uploadForm() : '';
   return shell('Upload — YoniShrine', `
 <h1>Publishing here</h1>
 <div class=card>${badge}</div>
@@ -177,6 +185,7 @@ function uploadPage(subject) {
 ${esc(INTAKE.decidedOn)}. The only person who may publish is ${esc(INTAKE.whoMayPublish)}. There is no
 submission route for anyone else, and that is a compliance position rather than a launch phase.</span></div>
 
+${form}
 <h2>What operator-only intake buys</h2>
 <ul>
 <li>&sect; 2257 records are the operator&rsquo;s own and bounded &mdash; there is no per-uploader duty
@@ -326,6 +335,58 @@ export function safeNext(v) {
   return s.slice(0, 200);
 }
 
+function uploadForm() {
+  const opts = Object.entries(MEDIA_SURFACES)
+    .map(([k, v]) => `<option value="${esc(k)}">${esc(k)} &mdash; ${esc(v.kinds.join(', '))}, up to ${Math.round(v.maxBytes / 1024 / 1024)}MB</option>`).join('');
+  return `
+<h2>Publish something</h2>
+<p class=mut>The file goes from your browser straight to storage &mdash; it does not pass through this
+server. Nothing appears on a surface until the commit step finishes.</p>
+<p><label>Surface<br><select id=usurf>${opts}</select></label></p>
+<p><label>File<br><input type=file id=ufile></label></p>
+<p><label>Caption <span class=mut>(optional)</span><br><input id=ucap></label></p>
+<p><button id=ugo type=button>Upload and publish</button></p>
+<p class=mut id=ustat></p>
+<script>
+(function(){
+  var f=document.getElementById('ufile'), b=document.getElementById('ugo'),
+      s=document.getElementById('ustat'), sel=document.getElementById('usurf'), cap=document.getElementById('ucap');
+  b.addEventListener('click', async function(){
+    var file=f.files && f.files[0];
+    if(!file){ s.textContent='Choose a file first.'; return; }
+    b.disabled=true; s.textContent='Asking for a slot\u2026';
+    try{
+      var r=await fetch('/upload/slot',{method:'POST',headers:{'content-type':'application/json'},
+        body:JSON.stringify({surface:sel.value,filename:file.name,bytes:file.size})});
+      var j=await r.json();
+      if(!j.ok){ s.textContent=j.reason||'No slot.'; b.disabled=false; return; }
+      s.textContent='Uploading\u2026';
+      var put=await fetch(j.putUrl,{method:'PUT',body:file});
+      if(!put.ok){ s.textContent='Storage refused the upload ('+put.status+').'; b.disabled=false; return; }
+      s.textContent='Publishing\u2026';
+      var c=await fetch('/upload/commit',{method:'POST',headers:{'content-type':'application/json'},
+        body:JSON.stringify({key:j.key,surface:sel.value,caption:cap.value,bytes:file.size})});
+      var cj=await c.json();
+      s.textContent = cj.ok ? 'Published to /'+sel.value+'.' : (cj.reason||'Commit failed.');
+    }catch(e){ s.textContent='Upload failed.'; }
+    b.disabled=false;
+  });
+})();
+</script>`;
+}
+
+function claimPage({ ok, handle = '', reason = '' }) {
+  return shell(ok ? 'Claimed — YoniShrine' : 'Not claimed — YoniShrine', ok
+    ? `<h1>You are a producer here</h1>
+<div class=card><b>Bound as ${esc(handle)}.</b> <span class=mut>This browser can now publish. The code is
+spent &mdash; ask the operator for another to add a second device.</span></div>
+<p class=mut><a href="/upload">the upload door</a> &middot; <a href="/">the shelf</a></p>`
+    : `<h1>That code did not work</h1>
+<div class=card><span class=mut>${esc(reason)}</span></div>
+<p class=mut><a href="/apply">apply to produce</a> &middot; <a href="/">the shelf</a></p>`,
+    ok ? 'Producer claim accepted.' : 'Producer claim refused.');
+}
+
 function verifyPage(next, { error = '' } = {}) {
   return shell('Age check — YoniShrine', `
 <h1>Age check</h1>
@@ -430,6 +491,27 @@ export async function handler(req, res) {
 
   if (p === '/compliance') return html(200, compliancePage({ shell }));
 
+  if (p === '/upload/claim') {
+    const r = claimProducer(url.searchParams.get('code') || '', who.subject);
+    return html(200, claimPage({ ok: !!r.ok, handle: r.handle || '', reason: r.reason || '' }));
+  }
+
+  if (p === '/upload/slot' || p === '/upload/commit') {
+    const json = (code, body) => {
+      res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'set-cookie': cookies });
+      res.end(JSON.stringify(body));
+    };
+    if (String(req.method || 'GET').toUpperCase() !== 'POST') return json(405, { ok: false, reason: 'POST only' });
+    if (!isProducer(who.subject)) return json(403, { ok: false, reason: 'not on the producer list' });
+    const handle = handleFor(who.subject) || 'operator';
+    let body = {};
+    try { body = JSON.parse(await readBody(req) || '{}'); } catch { return json(400, { ok: false, reason: 'bad json' }); }
+    if (p === '/upload/slot') {
+      return json(200, slotFor({ handle, surface: body.surface, filename: body.filename, bytes: body.bytes }));
+    }
+    return json(200, commitMedia({ key: body.key, handle, surface: body.surface, caption: body.caption, bytes: body.bytes }));
+  }
+
   if (p === '/gate/verify') {
     const next = safeNext(url.searchParams.get('next'));
     if (String(req.method || 'GET').toUpperCase() !== 'POST') return html(200, verifyPage(next));
@@ -484,7 +566,10 @@ export async function handler(req, res) {
   if (surfaceNames().includes(p.slice(1))) {
     const name = p.slice(1);
     if (gated(name)) return undefined;
-    const page = surfacePage(name, { shell, subject: who.subject });
+    const items = MEDIA_SURFACES[name]
+      ? listMedia({ surface: name }).map((it) => ({ ...it, url: viewUrlFor(it.key) })).filter((it) => it.url)
+      : null;
+    const page = surfacePage(name, { shell, subject: who.subject, items });
     if (page) return html(200, page);
   }
 
