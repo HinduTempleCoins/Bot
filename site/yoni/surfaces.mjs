@@ -163,7 +163,7 @@ acquirer, and the complaint and appeals processes are running.</span></div>`;
 ${shelf}${controls}
 ${closing}
 <p class=mut><a href="/surfaces">&larr; all surfaces</a> &middot;
-<a href="/compliance">what this property has to run</a> &middot; <a href="/">the shelf</a></p>`,
+<a href="/compliance">what this property has to run</a> &middot; <a href="/archive">Eidola</a></p>`,
     `${spec.title}: ${spec.blurb}`);
 }
 
@@ -213,7 +213,7 @@ expires &mdash; and never the ID image, the document number or the date of birth
 enforced in code. The &sect; 2257 records are the opposite obligation and are held by the custodian,
 not by this web tier.</p>
 <p class=mut><a href="/surfaces">&larr; all surfaces</a> &middot; <a href="/upload">the upload door</a>
-&middot; <a href="/">the shelf</a></p>`,
+&middot; <a href="/archive">Eidola</a></p>`,
     'What this property has to have running before any gated surface serves anything.');
 }
 

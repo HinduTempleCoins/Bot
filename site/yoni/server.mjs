@@ -112,27 +112,49 @@ const shell = (title, body, desc = '') => `<!doctype html><html lang=en><head><m
 <meta name=rating content="adult">
 <meta name=robots content="noindex,nofollow">
 ${STYLE}</head><body>
-<header><a href="/">YoniShrine</a><span>reference shelf</span></header>
+<header><a href="/">YoniShrine</a><span><a href="/archive">Eidola</a> &middot;
+<a href="/surfaces">Surfaces</a> &middot; <a href="/upload">Publish</a></span></header>
 <main>${body}</main></body></html>`;
 
-function indexPage() {
+function hubPage() {
+  const arts = listArticles();
+  const cards = [
+    ['/archive', 'Eidola', `${arts.length} articles on law, rights and sources — open, no check`],
+    ['/surfaces', 'Surfaces', 'every surface here and the level it requires'],
+    ['/gallery', 'Gallery', 'stills — needs a check'],
+    ['/video', 'Video', 'moving image — needs a check'],
+    ['/live', 'Live', 'cams — needs a check'],
+    ['/upload', 'Publish', 'what publishing here requires'],
+    ['/apply', 'Apply', 'apply to produce'],
+    ['/compliance', 'Compliance', 'what this property has to run'],
+  ].map(([href, title, blurb]) => `<li><a href="${esc(href)}">${esc(title)}</a>
+    <div class=mut>${esc(blurb)}</div></li>`).join('');
+  return shell('YoniShrine', `
+<h1>YoniShrine</h1>
+<p class=mut>An archive and a set of surfaces. Each surface declares the level of age assurance it
+requires, and nothing is gated uniformly &mdash; the reading room is open, the media is not.</p>
+<ul class=idx>${cards}</ul>`, 'An archive and a set of surfaces, each gated at the level it actually requires.');
+}
+
+function archivePage() {
   const arts = listArticles();
   const rows = arts.map((a) => `<li><a href="/a/${esc(a.slug)}">${esc(a.title)}</a>
     <div class=mut>${(a.bytes / 1024).toFixed(0)} KB</div></li>`).join('');
-  return shell('YoniShrine — reference', `
-<h1>Reference shelf</h1>
-<p class=mut>Source material and legal reference. These pages are editorial and anatomical: they are
-served without an age gate because they do not meet the "lascivious exhibition" element that triggers
-record-keeping, and they do not on their own trigger the state age-verification statutes. Other
-surfaces on this property declare their own level.</p>
+  return shell('Eidola — YoniShrine', `
+<h1>Eidola</h1>
+<p class=mut>&epsilon;&#7988;&delta;&omega;&lambda;&omicron;&nu; &mdash; an image, a likeness, a double.
+Democritus and Epicurus used the word for their theory of sight: a thing sheds thin films of itself, the
+way a snake sheds a skin, and those travel to the eye. So the Greek word for a picture is also the word
+for the phantom that looks like you, and it already carried the idea that making an image means something
+leaves the subject and arrives in the viewer. People have believed that about photography ever since.</p>
+<p class=mut>These pages are the law and the sources: editorial and anatomical material, served without a
+gate because it does not meet the "lascivious exhibition" element that triggers record-keeping and does
+not on its own trigger the state age-verification statutes. The other surfaces declare their own level.</p>
 <ul class=idx>${rows || '<li class=mut>No articles yet.</li>'}</ul>
-<p class=mut><a href="/surfaces">surfaces and what each requires &rarr;</a> &middot;
-<a href="/upload">publishing here &rarr;</a> &middot;
-<a href="/apply">apply to produce &rarr;</a> &middot;
-<a href="/compliance">what this property has to run &rarr;</a></p>
-<div class=card><b>Not legal advice.</b> <span class=mut>These pages describe statutes and decided
-cases. They do not substitute for a lawyer admitted in the relevant jurisdiction.</span></div>`,
-    'Reference shelf: law, rights and source material.');
+<div class=card><b>Not legal advice.</b> <span class=mut>These pages describe statutes and decided cases.
+They do not substitute for a lawyer admitted in the relevant jurisdiction.</span></div>
+<p class=mut><a href="/">&larr; YoniShrine</a></p>`,
+    'Eidola: the law, the rights and the sources, open to read.');
 }
 
 function articlePage(slug) {
@@ -142,7 +164,7 @@ function articlePage(slug) {
   try { html = renderWiki(src).html; } catch { html = '<p>Could not render this page.</p>'; }
   const title = titleize(slug);
   return shell(`${title} — YoniShrine`, `<h1>${esc(title)}</h1>${html}
-<p class=mut><a href="/">← back to the shelf</a></p>`, title);
+<p class=mut><a href="/archive">← Eidola</a></p>`, title);
 }
 
 function surfacesPage() {
@@ -162,7 +184,7 @@ top of the scale because a self-declaration is not sufficient under the state st
 <div class=card><b>The last two are not about viewers.</b> <span class=mut><code>upload</code> and
 <code>payout</code> sit at <code>id</code> because they identify the person <i>publishing</i> or being
 <i>paid</i>. That is the 18 U.S.C. § 2257 side and the tax side, not the age-gate side.</span></div>
-<p class=mut><a href="/upload">the upload door &rarr;</a> &middot; <a href="/">&larr; back to the shelf</a></p>`,
+<p class=mut><a href="/upload">the upload door &rarr;</a> &middot; <a href="/archive">&larr; Eidola</a></p>`,
     'What each surface on this property requires, and why.');
 }
 
@@ -248,7 +270,7 @@ custodian.</li>
 <div class=card><b>Still needed before anything is published.</b> <span class=mut>The custodian of
 records named with a title and business address, the § 2257(e) statement on every page carrying covered
 material, and the MCC 5967 registration completed by the acquirer before the first transaction.</span></div>
-<p class=mut><a href="/surfaces">&larr; all surfaces</a> &middot; <a href="/">the shelf</a></p>`,
+<p class=mut><a href="/surfaces">&larr; all surfaces</a> &middot; <a href="/archive">Eidola</a></p>`,
     'What publishing here requires: § 2257, the custodian of records, and the two files.');
 }
 
@@ -260,7 +282,7 @@ function applyPage({ error = '', done = false, values = {} } = {}) {
 <div class=card><b>Logged.</b> <span class=mut>Nothing is published and no rights are granted by this.
 The operator reads the log and approves out of band; if you are approved you will be contacted at the
 address you gave.</span></div>
-<p class=mut><a href="/">the shelf</a> &middot; <a href="/compliance">what this property has to run</a></p>`,
+<p class=mut><a href="/archive">Eidola</a> &middot; <a href="/compliance">what this property has to run</a></p>`,
       'Application received.');
   }
   const v = (k) => esc(values[k] || '');
@@ -293,7 +315,7 @@ number, no photograph of a document. This form refuses them. The &sect; 2257 exa
 in person, against the person, by the custodian of records &mdash; not through a web form and not into
 a log file.</span></div>
 <p class=mut><a href="/upload">what publishing here requires</a> &middot;
-<a href="/compliance">what this property has to run</a> &middot; <a href="/">the shelf</a></p>`,
+<a href="/compliance">what this property has to run</a> &middot; <a href="/archive">Eidola</a></p>`,
     'Apply to produce. An application only — it grants no publishing rights.');
 }
 
@@ -311,7 +333,7 @@ function attestPage(surface, next) {
 age-verification statutes and it is never the top of this scale &mdash; which is why the surfaces that
 need a real check ask for one instead. Nothing is stored about you beyond an opaque random id and the
 result; no date of birth, no document, no name.</p>
-<p class=mut><a href="/">&larr; the shelf</a></p>`, 'Confirm you are 18 or over.');
+<p class=mut><a href="/">&larr; YoniShrine</a></p>`, 'Confirm you are 18 or over.');
 }
 
 function noProviderPage(surface) {
@@ -323,7 +345,7 @@ function noProviderPage(surface) {
 this property has not contracted a provider for either. A checkbox cannot stand in for it, so the
 surface stays closed rather than opening on something weaker than the statute requires.</p>
 <p class=mut><a href="/surfaces">what each surface requires</a> &middot;
-<a href="/compliance">what this property has to run</a> &middot; <a href="/">the shelf</a></p>`,
+<a href="/compliance">what this property has to run</a> &middot; <a href="/archive">Eidola</a></p>`,
     `This surface needs ${pol.level}, and no provider is contracted.`);
 }
 
@@ -380,10 +402,10 @@ function claimPage({ ok, handle = '', reason = '' }) {
     ? `<h1>You are a producer here</h1>
 <div class=card><b>Bound as ${esc(handle)}.</b> <span class=mut>This browser can now publish. The code is
 spent &mdash; ask the operator for another to add a second device.</span></div>
-<p class=mut><a href="/upload">the upload door</a> &middot; <a href="/">the shelf</a></p>`
+<p class=mut><a href="/upload">the upload door</a> &middot; <a href="/archive">Eidola</a></p>`
     : `<h1>That code did not work</h1>
 <div class=card><span class=mut>${esc(reason)}</span></div>
-<p class=mut><a href="/apply">apply to produce</a> &middot; <a href="/">the shelf</a></p>`,
+<p class=mut><a href="/apply">apply to produce</a> &middot; <a href="/archive">Eidola</a></p>`,
     ok ? 'Producer claim accepted.' : 'Producer claim refused.');
 }
 
@@ -406,7 +428,7 @@ of this kind passed, and when it expires.</span></div>
 check cannot clear you &mdash; that is the margin doing its job, not a judgement about you, and a stronger
 method is the route in.</p>
 <p class=mut><a href="/surfaces">what each surface requires</a> &middot;
-<a href="/compliance">what this property has to run</a> &middot; <a href="/">the shelf</a></p>
+<a href="/compliance">what this property has to run</a> &middot; <a href="/archive">Eidola</a></p>
 <script>
 (function(){
   var f=document.getElementById('sel'), b=document.getElementById('go'), s=document.getElementById('stat');
@@ -480,7 +502,9 @@ export async function handler(req, res) {
     return res.end(JSON.stringify({ ok: true, surface, policy: policyFor(surface), state: gateCheck(who, surface) }));
   }
 
-  if (p === '/') return html(200, indexPage());
+  if (p === '/') return html(200, hubPage());
+
+  if (p === '/archive') return html(200, archivePage());
 
   if (p === '/surfaces') return html(200, surfacesPage());
 
@@ -575,10 +599,10 @@ export async function handler(req, res) {
 
   if (p.startsWith('/a/')) {
     const page = articlePage(p.slice(3));
-    return page ? html(200, page) : html(404, shell('Not found — YoniShrine', '<h1>Not found</h1><p class=mut><a href="/">← back to the shelf</a></p>'));
+    return page ? html(200, page) : html(404, shell('Not found — YoniShrine', '<h1>Not found</h1><p class=mut><a href="/">← YoniShrine</a></p>'));
   }
 
-  return html(404, shell('Not found — YoniShrine', '<h1>Not found</h1><p class=mut><a href="/">← back to the shelf</a></p>'));
+  return html(404, shell('Not found — YoniShrine', '<h1>Not found</h1><p class=mut><a href="/">← YoniShrine</a></p>'));
 }
 
 export { policyFor, reveal, previewMode };
