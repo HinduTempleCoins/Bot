@@ -15,3 +15,6 @@ async function call(args) {
 export const embed = (image) => call(['embed', image]);
 export const verify = (a, b) => call(['verify', a, b]);   // {ok, score, same}
 export const mapdir = (dir) => call(['mapdir', dir]);
+// Age ESTIMATION from buffalo_l's genderage head. The margin lives in agegate/face-age.mjs, not here —
+// this returns the raw estimate and nothing decides policy at this layer.
+export const age = (image) => call(['age', image]);

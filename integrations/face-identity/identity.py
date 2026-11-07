@@ -3,6 +3,9 @@
 # Used for USER uploads (map their real face → generate new images of the same person, verify matches).
 # Hathor is identified by her whole signature (a character model), not eyes — do NOT use this on her.
 #   python3 identity.py embed <image>            -> {"ok":true,"embedding":[...512]}
+#   python3 identity.py age <image>              -> {"ok":true,"faces":[{"age":N,"score":S}]}
+#     buffalo_l already ships genderage beside the recogniser, so the age estimate is loaded whether or
+#     not anyone reads it. This exposes it. It is an ESTIMATE: the caller applies the margin, not this.
 #   python3 identity.py verify <imgA> <imgB>     -> {"ok":true,"score":0.xx,"same":bool}
 #   python3 identity.py mapdir <dir>             -> canonical vector + cohesion
 import sys, os, json, glob, warnings
@@ -23,6 +26,19 @@ def emb(path):
     if not fs: return None
     fs.sort(key=lambda x:(x.bbox[2]-x.bbox[0])*(x.bbox[3]-x.bbox[1]), reverse=True)
     return fs[0].normed_embedding
+def age(path):
+    img = cv2.imread(path)
+    if img is None:
+        return {"ok": False, "reason": "unreadable image"}
+    out = []
+    for f in app().get(img):
+        a = getattr(f, "age", None)
+        if a is None:
+            continue
+        out.append({"age": int(a), "score": float(getattr(f, "det_score", 0.0))})
+    return {"ok": True, "faces": out}
+
+
 def main():
     a=sys.argv[1:]
     if not a: print(json.dumps({"ok":False,"error":"cmd"})); return
@@ -32,6 +48,8 @@ def main():
         e1,e2=emb(a[1]),emb(a[2])
         if e1 is None or e2 is None: print(json.dumps({"ok":False,"error":"no face"})); return
         s=float(np.dot(e1,e2)); print(json.dumps({"ok":True,"score":round(s,4),"same":s>=0.35}))
+    elif a[0]=="age":
+        print(json.dumps(age(a[1])))
     elif a[0]=="mapdir":
         embs=[]; 
         for f in sorted(glob.glob(a[1]+"/*.png")+glob.glob(a[1]+"/*.jpg")+glob.glob(a[1]+"/*.webp")+glob.glob(a[1]+"/*.jpeg")):
