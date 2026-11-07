@@ -12,7 +12,7 @@ import { market } from './hive-engine-market.mjs';
 import { detectWalls } from './wall-bot.mjs';
 import { holders } from './holders.mjs';
 import { sellRisk } from './sell-risk.mjs';
-import { CHAINS, chainStatus, chainsTvl, nativePrices } from './chains/multichain.mjs';
+import { CHAINS, chainStatus, chainsTvl, nativePrices, missingPriceIds } from './chains/multichain.mjs';
 import { crossChainSpread } from './chains/crosschain-arb.mjs';
 
 const HE_TOKENS = (process.env.COLLECT_HE_TOKENS || 'VKBT,CURE,SWAP.GIFU').split(',').map((s) => s.trim());
@@ -35,11 +35,21 @@ export async function collectHive() {
         symbol: sym,
         lastPrice: +(metric?.lastPrice || 0), highestBid: +(metric?.highestBid || 0), lowestAsk: +(metric?.lowestAsk || 0), volume: +(metric?.volume || 0),
         buyWalls: detectWalls(buyBook).length, sellWalls: detectWalls(sellBook).length,
-        holders: Array.isArray(hold) ? hold.length : 0,
-        sellRisk: risk?.risk ?? risk?.score ?? null,
+        // holders() returns an OBJECT with the count at .counts.holders — it is not an array and has
+        // never had a top-level .holders. `Array.isArray(hold) ? hold.length : 0` therefore wrote 0 on
+        // every one of 56,884 rows for five months, so the holder-count series does not exist and
+        // cannot be backfilled. Accumulation starts from this commit.
+        holders: +(hold?.counts?.holders ?? 0),
+        supply: +(hold?.supply ?? 0),
+        realOutsidePct: hold?.realOutsidePct ?? null,
+        // sellRisk() returns no .risk and no .score, so `risk?.risk ?? risk?.score ?? null` was null on
+        // every row — while discarding the one field that answers "is the bid real": bidSupportUsd, the
+        // summed price*quantity of the whole buy book. Five months of depth data thrown away at write
+        // time, which is why bid-side capital is not reconstructible from the archive.
+        bidSupportUsd: risk?.bidSupportUsd ?? null,
       };
     });
-    emitBotData(`he-${sym.toLowerCase().replace(/\./g, '-')}`, { summary: `${sym} last=${data.lastPrice} bid=${data.highestBid} ask=${data.lowestAsk} walls=${data.buyWalls}/${data.sellWalls} holders=${data.holders}`, data });
+    emitBotData(`he-${sym.toLowerCase().replace(/\./g, '-')}`, { summary: `${sym} last=${data.lastPrice} bid=${data.highestBid} ask=${data.lowestAsk} walls=${data.buyWalls}/${data.sellWalls} holders=${data.holders} bidSupport=$${data.bidSupportUsd ?? '?'}`, data });
   }
 }
 
@@ -49,8 +59,20 @@ export async function collectChains() {
   const [tvl, prices, statuses] = await Promise.all([
     chainsTvl().catch(() => ({})), nativePrices().catch(() => ({})), Promise.all(names.map((n) => chainStatus(n).catch(() => null))),
   ]);
-  const rows = statuses.filter(Boolean).map((s) => ({ chain: s.chain, height: s.height, gasGwei: s.gasGwei, price: prices[CHAINS[s.chain]?.cg]?.usd ?? null, tvl: tvl[CHAINS[s.chain]?.llama] ?? null }));
-  emitBotData('multichain', { summary: `${rows.length}/${names.length} chains read; up: ${rows.filter((r) => r.height || r.chain === 'cardano').length}`, data: { chains: rows } });
+  // chainStatus() returns an `error` on failure and this mapping used to drop it, so a chain that
+  // was failing looked exactly like a chain that was quiet: height simply came out null. `sui` has
+  // been null for 64% of five months and nothing recorded why. Carry the error through.
+  const rows = statuses.filter(Boolean).map((s) => ({ chain: s.chain, height: s.height, gasGwei: s.gasGwei, price: prices[CHAINS[s.chain]?.cg]?.usd ?? null, tvl: tvl[CHAINS[s.chain]?.llama] ?? null, error: s.error ?? null }));
+  const errored = rows.filter((r) => r.error).map((r) => r.chain);
+  // A retired or mistyped CoinGecko id is INVISIBLE in the rows above: the chain just carries
+  // `price: null`, indistinguishable from a transient upstream miss. `polygon` sat on the pre-migration
+  // `matic-network` id and reported a price frozen at 0.126156 for 158 days without anyone noticing.
+  // Recording which ids we asked for and did not get turns a silent five-month failure into a visible
+  // one on the next run. See missingPriceIds() for why a chain with no `cg` is not counted.
+  const priceGaps = missingPriceIds(prices);
+  emitBotData('multichain', { summary: `${rows.length}/${names.length} chains read; up: ${rows.filter((r) => r.height != null).length}`
+    + (errored.length ? `; ERRORED: ${errored.join(', ')}` : '')
+    + (priceGaps.length ? `; NO PRICE for id(s): ${priceGaps.join(', ')}` : ''), data: { chains: rows, priceGaps, errored } });
 
   for (const token of XCHAIN_TOKENS) {
     const r = await safe(token, () => crossChainSpread(token));
