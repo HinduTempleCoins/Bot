@@ -34,12 +34,16 @@ import { policyFor, check as gateCheck, reveal, previewMode, SURFACE_POLICY, LEV
 import { surfacePage, compliancePage, surfaceNames, SURFACES, CARD_CONTROLS, INTAKE, producerAllowed }
   from './surfaces.mjs';
 import { ACKS, appendApplication } from './applications-store.mjs';
+import { satisfies, subjectFor, attest, setCookies, clickCanSatisfy, setCookies as _sc }
+  from './gate-web.mjs';
 
 const __dir = path.dirname(fileURLToPath(import.meta.url));
 const PORT = +(process.env.PORT || 8161);
 const HOST = process.env.HOST || '127.0.0.1';
 const BASE_URL = (process.env.BASE_URL || 'https://yonishrine.com').replace(/\/+$/, '');
 const ARTICLES_DIR = process.env.YONI_ARTICLES_DIR || path.join(__dir, 'articles');
+// Secure cookies always, except when explicitly checking the box over plain http.
+const SECURE_COOKIES = process.env.YONI_INSECURE_COOKIES !== '1';
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -281,6 +285,44 @@ a log file.</span></div>
     'Apply to produce. An application only — it grants no publishing rights.');
 }
 
+function attestPage(surface, next) {
+  const pol = policyFor(surface);
+  return shell('Confirm your age — YoniShrine', `
+<h1>Before you go in</h1>
+<p>This surface asks for <code>${esc(pol.level)}</code>: a statement that you are 18 or over.</p>
+<form method=post action="/gate/attest">
+<input type=hidden name=next value="${esc(next)}">
+<p><label><input type=checkbox name=attested value=on required> I am 18 years of age or over.</label></p>
+<p><button type=submit>Continue</button></p>
+</form>
+<p class=mut>This is a declaration, not a verification. It is not sufficient under the state
+age-verification statutes and it is never the top of this scale &mdash; which is why the surfaces that
+need a real check ask for one instead. Nothing is stored about you beyond an opaque random id and the
+result; no date of birth, no document, no name.</p>
+<p class=mut><a href="/">&larr; the shelf</a></p>`, 'Confirm you are 18 or over.');
+}
+
+function noProviderPage(surface) {
+  const pol = policyFor(surface);
+  return shell('Not available — YoniShrine', `
+<h1>Not available yet</h1>
+<p>This surface needs <code>${esc(pol.level)}</code> &mdash; ${esc(pol.reason)}.</p>
+<p class=mut>That is a commercially reasonable check or a government ID matched to a live selfie, and
+this property has not contracted a provider for either. A checkbox cannot stand in for it, so the
+surface stays closed rather than opening on something weaker than the statute requires.</p>
+<p class=mut><a href="/surfaces">what each surface requires</a> &middot;
+<a href="/compliance">what this property has to run</a> &middot; <a href="/">the shelf</a></p>`,
+    `This surface needs ${pol.level}, and no provider is contracted.`);
+}
+
+/** Only an internal path, so `next` can never become an open redirect. */
+export function safeNext(v) {
+  const s = String(v == null ? '' : v);
+  if (!s.startsWith('/') || s.startsWith('//')) return '/';
+  if (/[\r\n]/.test(s) || s.includes('\\')) return '/';
+  return s.slice(0, 200);
+}
+
 function readBody(req, limit = 64 * 1024) {
   return new Promise((resolve) => {
     let n = 0; const chunks = [];
@@ -300,9 +342,21 @@ export async function handler(req, res) {
     res.writeHead(400, { 'content-type': 'text/plain' }); return res.end('bad url');
   }
   const p = url.pathname.replace(/\/+$/, '') || '/';
-  const html = (code, body) => {
-    res.writeHead(code, { 'content-type': 'text/html; charset=utf-8', 'x-robots-tag': 'noindex' });
+  const who = subjectFor(req);
+  const cookies = setCookies({ subject: who.subject, minted: who.minted, secure: SECURE_COOKIES });
+  const html = (code, body, extra = []) => {
+    const h = { 'content-type': 'text/html; charset=utf-8', 'x-robots-tag': 'noindex' };
+    const all = [...cookies, ...extra];
+    if (all.length) h['set-cookie'] = all;
+    res.writeHead(code, h);
     res.end(body);
+  };
+  /** Stop here unless this request satisfies the surface. Returns true when it handled the response. */
+  const gated = (surface) => {
+    const st = satisfies(req, surface);
+    if (st.ok) return false;
+    html(200, clickCanSatisfy(surface) ? attestPage(surface, p) : noProviderPage(surface));
+    return true;
   };
 
   if (p === '/health') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
@@ -324,11 +378,27 @@ export async function handler(req, res) {
 
   if (p === '/surfaces') return html(200, surfacesPage());
 
-  if (p === '/upload') return html(200, uploadPage(url.searchParams.get('subject') || ''));
+  // /upload is NOT behind its own id gate, on purpose: the page is the statement of what publishing
+  // here requires, and walling it means no prospective producer can ever read it. The submission is
+  // what is closed — the badge says so, and producerAllowed() enforces it. Information open, door shut.
+  if (p === '/upload') return html(200, uploadPage(who.subject));
 
   if (p === '/compliance') return html(200, compliancePage({ shell }));
 
+  if (p === '/gate/attest') {
+    if (String(req.method || 'GET').toUpperCase() !== 'POST') { res.writeHead(405, { allow: 'POST' }); return res.end('POST only'); }
+    const form = Object.fromEntries(new URLSearchParams(await readBody(req)));
+    const next = safeNext(form.next);
+    if (!form.attested) return html(200, attestPage('apply', next));
+    const out = await attest(who.subject);
+    if (!out.ok) return html(200, noProviderPage('apply'));
+    const extra = setCookies({ token: out.token, maxAgeSec: out.maxAgeSec, secure: SECURE_COOKIES });
+    res.writeHead(303, { location: next, 'set-cookie': [...cookies, ...extra] });
+    return res.end('');
+  }
+
   if (p === '/apply') {
+    if (gated('apply')) return undefined;
     if (String(req.method || 'GET').toUpperCase() !== 'POST') return html(200, applyPage());
     const raw = await readBody(req);
     const form = Object.fromEntries(new URLSearchParams(raw));
@@ -338,7 +408,9 @@ export async function handler(req, res) {
   }
 
   if (surfaceNames().includes(p.slice(1))) {
-    const page = surfacePage(p.slice(1), { shell, subject: url.searchParams.get('subject') || '' });
+    const name = p.slice(1);
+    if (gated(name)) return undefined;
+    const page = surfacePage(name, { shell, subject: who.subject });
     if (page) return html(200, page);
   }
 
